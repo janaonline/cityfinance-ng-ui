@@ -1,0 +1,5041 @@
+ [{
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "629420201",
+     "municipalCorporation": "376545149",
+     "municipality": "246708381",
+     "townPanchayat": "6166671"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "635257914",
+     "municipalCorporation": "262398860",
+     "municipality": "362937817",
+     "townPanchayat": "9921237"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "8704582",
+     "municipalCorporation": "4486909",
+     "municipality": "4213904",
+     "townPanchayat": "3769"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "754806308",
+     "municipalCorporation": "315146900",
+     "municipality": "432177436",
+     "townPanchayat": "7481972"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "1279681000",
+     "municipalCorporation": "646601950",
+     "municipality": "631755279",
+     "townPanchayat": "1323771"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "50683868",
+     "municipalCorporation": "49343868",
+     "municipality": "1340000",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Assam",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "40229379",
+     "municipalCorporation": "0",
+     "municipality": "40229379",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Assam",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "9619849",
+     "municipalCorporation": "0",
+     "municipality": "9619849",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Assam",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "67887",
+     "municipalCorporation": "0",
+     "municipality": "67887",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Assam",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "15983284",
+     "municipalCorporation": "0",
+     "municipality": "15983284",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Assam",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "8925123",
+     "municipalCorporation": "0",
+     "municipality": "8925123",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Assam",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "25085874",
+     "municipalCorporation": "0",
+     "municipality": "25085874",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Chhattisgarh",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "703374919",
+     "municipalCorporation": "703374919",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Chhattisgarh",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "2379190662",
+     "municipalCorporation": "2379190662",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Chhattisgarh",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "5057087",
+     "municipalCorporation": "5057087",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Chhattisgarh",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "1358472498",
+     "municipalCorporation": "1358472498",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Chhattisgarh",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "5623394599",
+     "municipalCorporation": "5623394599",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Chhattisgarh",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "579912125",
+     "municipalCorporation": "579912125",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Gujarat",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Gujarat",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Gujarat",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Gujarat",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Gujarat",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Gujarat",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Jharkand ",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "138179628",
+     "municipalCorporation": "90650691",
+     "municipality": "936060",
+     "townPanchayat": "46592877"
+   },
+   {
+     "type": "Expense",
+     "state": "Jharkand ",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "819787573",
+     "municipalCorporation": "506975411",
+     "municipality": "6945037",
+     "townPanchayat": "305867125"
+   },
+   {
+     "type": "Expense",
+     "state": "Jharkand ",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "317069270",
+     "municipalCorporation": "88222572",
+     "municipality": "18886403",
+     "townPanchayat": "209960295"
+   },
+   {
+     "type": "Expense",
+     "state": "Jharkand ",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "408081657",
+     "municipalCorporation": "207857532",
+     "municipality": "9440194",
+     "townPanchayat": "190783931"
+   },
+   {
+     "type": "Expense",
+     "state": "Jharkand ",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "933498876",
+     "municipalCorporation": "279018943",
+     "municipality": "18924413",
+     "townPanchayat": "635555520"
+   },
+   {
+     "type": "Expense",
+     "state": "Jharkand ",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "959386637",
+     "municipalCorporation": "257299663",
+     "municipality": "9517452",
+     "townPanchayat": "692569522"
+   },
+   {
+     "type": "Expense",
+     "state": "Karnataka",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "690538580",
+     "municipalCorporation": "148407000",
+     "municipality": "197046464",
+     "townPanchayat": "345085116"
+   },
+   {
+     "type": "Expense",
+     "state": "Karnataka",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "3769781443",
+     "municipalCorporation": "943564000",
+     "municipality": "1221109599",
+     "townPanchayat": "1605107844"
+   },
+   {
+     "type": "Expense",
+     "state": "Karnataka",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "50757986",
+     "municipalCorporation": "616000",
+     "municipality": "23904510",
+     "townPanchayat": "26237476"
+   },
+   {
+     "type": "Expense",
+     "state": "Karnataka",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "8503698237",
+     "municipalCorporation": "2727424000",
+     "municipality": "2535213379",
+     "townPanchayat": "3241060858"
+   },
+   {
+     "type": "Expense",
+     "state": "Karnataka",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "8294825485",
+     "municipalCorporation": "1896137000",
+     "municipality": "2626114328",
+     "townPanchayat": "3772574157"
+   },
+   {
+     "type": "Expense",
+     "state": "Karnataka",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "289795725",
+     "municipalCorporation": "219841531",
+     "municipality": "69954194",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "1987417457",
+     "municipalCorporation": "1449896679",
+     "municipality": "537520778",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "5796420",
+     "municipalCorporation": "2614057",
+     "municipality": "3182363",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "551835629",
+     "municipalCorporation": "445005512",
+     "municipality": "106830117",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "3421304218",
+     "municipalCorporation": "2061117619",
+     "municipality": "1360186599",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "1166590",
+     "municipalCorporation": "188080",
+     "municipality": "978510",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Madhya Pradesh",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "59191148",
+     "municipalCorporation": "0",
+     "municipality": "59191148",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Madhya Pradesh",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "186836299",
+     "municipalCorporation": "0",
+     "municipality": "186836299",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Madhya Pradesh",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "45129",
+     "municipalCorporation": "0",
+     "municipality": "45129",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Madhya Pradesh",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "85518611",
+     "municipalCorporation": "0",
+     "municipality": "85518611",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Madhya Pradesh",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "135626147",
+     "municipalCorporation": "0",
+     "municipality": "135626147",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Madhya Pradesh",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "44816428",
+     "municipalCorporation": "0",
+     "municipality": "44816428",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Mizoram",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "56672233",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "56672233"
+   },
+   {
+     "type": "Expense",
+     "state": "Mizoram",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "39590292",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "39590292"
+   },
+   {
+     "type": "Expense",
+     "state": "Mizoram",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "1264",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "1264"
+   },
+   {
+     "type": "Expense",
+     "state": "Mizoram",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "34694652",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "34694652"
+   },
+   {
+     "type": "Expense",
+     "state": "Mizoram",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "1738325",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "1738325"
+   },
+   {
+     "type": "Expense",
+     "state": "Mizoram",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Odisha ",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "93035045",
+     "municipalCorporation": "93035045",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Odisha ",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "1009857295",
+     "municipalCorporation": "1009857295",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Odisha ",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "1812423",
+     "municipalCorporation": "1812423",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Odisha ",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "1194158320",
+     "municipalCorporation": "1194158320",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Odisha ",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "683614889",
+     "municipalCorporation": "683614889",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Odisha ",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Punjab",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "68690378",
+     "municipalCorporation": "62669382",
+     "municipality": "6020996",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Punjab",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "1004045118",
+     "municipalCorporation": "844310594",
+     "municipality": "159734524",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Punjab",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "40818361",
+     "municipalCorporation": "40818361",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Punjab",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "769509470",
+     "municipalCorporation": "678880765",
+     "municipality": "90628705",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Punjab",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "520623257",
+     "municipalCorporation": "449514041",
+     "municipality": "71109216",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Punjab",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "404182785",
+     "municipalCorporation": "404182785",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "2959792021",
+     "municipalCorporation": "1863748134",
+     "municipality": "1096043887",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "11565754187",
+     "municipalCorporation": "6026767525",
+     "municipality": "5538986662",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "94645987",
+     "municipalCorporation": "72878605",
+     "municipality": "21767382",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "4532574514",
+     "municipalCorporation": "1887117703",
+     "municipality": "2645456811",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "6322670518",
+     "municipalCorporation": "2165105532",
+     "municipality": "4157564986",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "490380563",
+     "municipalCorporation": "0",
+     "municipality": "490380563",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tamil Nadu",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tamil Nadu",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tamil Nadu",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tamil Nadu",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tamil Nadu",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tamil Nadu",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "356400458",
+     "municipalCorporation": "40060754",
+     "municipality": "195576300",
+     "townPanchayat": "120763404"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "695946194",
+     "municipalCorporation": "202456219",
+     "municipality": "334094946",
+     "townPanchayat": "159395029"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "211472",
+     "municipalCorporation": "14896",
+     "municipality": "147065",
+     "townPanchayat": "49511"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "819046978",
+     "municipalCorporation": "253281682",
+     "municipality": "354561145",
+     "townPanchayat": "211204151"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "1108135676",
+     "municipalCorporation": "266230839",
+     "municipality": "587742783",
+     "townPanchayat": "254162054"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "42000",
+     "municipalCorporation": "42000",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tripura",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "2891968",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "2891968"
+   },
+   {
+     "type": "Expense",
+     "state": "Tripura",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "9508642",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "9508642"
+   },
+   {
+     "type": "Expense",
+     "state": "Tripura",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "162",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "162"
+   },
+   {
+     "type": "Expense",
+     "state": "Tripura",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "1326192",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "1326192"
+   },
+   {
+     "type": "Expense",
+     "state": "Tripura",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "2463898",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "2463898"
+   },
+   {
+     "type": "Expense",
+     "state": "Tripura",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "48662281",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "48662281"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "775152684",
+     "municipalCorporation": "604383518",
+     "municipality": "170769166",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "6832922399",
+     "municipalCorporation": "6450409852",
+     "municipality": "382512547",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "9596614",
+     "municipalCorporation": "5947232",
+     "municipality": "3649382",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "6653281081",
+     "municipalCorporation": "6110440523",
+     "municipality": "542840558",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "2316143160",
+     "municipalCorporation": "1896181723",
+     "municipality": "419961437",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "233740000",
+     "municipalCorporation": "233740000",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "West Bengal",
+     "year": "2015-16",
+     "particulars": "Administrative Expenses",
+     "total": "4725888",
+     "municipalCorporation": "0",
+     "municipality": "4725888",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "West Bengal",
+     "year": "2015-16",
+     "particulars": "Establishment Expenses",
+     "total": "77548181",
+     "municipalCorporation": "0",
+     "municipality": "77548181",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "West Bengal",
+     "year": "2015-16",
+     "particulars": "Interest & Finance Charges",
+     "total": "4340",
+     "municipalCorporation": "0",
+     "municipality": "4340",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "West Bengal",
+     "year": "2015-16",
+     "particulars": "Operation & Maintenance",
+     "total": "17320967",
+     "municipalCorporation": "0",
+     "municipality": "17320967",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "West Bengal",
+     "year": "2015-16",
+     "particulars": "Other Expenses",
+     "total": "51973736",
+     "municipalCorporation": "0",
+     "municipality": "51973736",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "West Bengal",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "1136706177",
+     "municipalCorporation": "621896564",
+     "municipality": "503249153",
+     "townPanchayat": "11560460"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "140089195",
+     "municipalCorporation": "30685522",
+     "municipality": "107785487",
+     "townPanchayat": "1618186"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "128501360",
+     "municipalCorporation": "16785902",
+     "municipality": "103884615",
+     "townPanchayat": "7830843"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "1263735252",
+     "municipalCorporation": "644223728",
+     "municipality": "612128193",
+     "townPanchayat": "7383331"
+   },
+   {
+     "type": "Revenue",
+     "state": "Assam",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "36067689",
+     "municipalCorporation": "0",
+     "municipality": "36067689",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Assam",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "4380623",
+     "municipalCorporation": "0",
+     "municipality": "4380623",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Assam",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "36438363",
+     "municipalCorporation": "0",
+     "municipality": "36438363",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Assam",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "12217826",
+     "municipalCorporation": "0",
+     "municipality": "12217826",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Chhattisgarh",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "1638863321",
+     "municipalCorporation": "1638863321",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Chhattisgarh",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "814845909",
+     "municipalCorporation": "814845909",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Chhattisgarh",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "1139245683",
+     "municipalCorporation": "1139245683",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Chhattisgarh",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "2381135403",
+     "municipalCorporation": "2381135403",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Gujarat",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Gujarat",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Gujarat",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Gujarat",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Jharkand ",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "591629930",
+     "municipalCorporation": "257992517",
+     "municipality": "12754365",
+     "townPanchayat": "320883048"
+   },
+   {
+     "type": "Revenue",
+     "state": "Jharkand ",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "214105579",
+     "municipalCorporation": "163441435",
+     "municipality": "240549",
+     "townPanchayat": "50423595"
+   },
+   {
+     "type": "Revenue",
+     "state": "Jharkand ",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "1557766066",
+     "municipalCorporation": "364506768",
+     "municipality": "18264813",
+     "townPanchayat": "1174994485"
+   },
+   {
+     "type": "Revenue",
+     "state": "Jharkand ",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "3216457558",
+     "municipalCorporation": "3026796751",
+     "municipality": "3333765",
+     "townPanchayat": "186327042"
+   },
+   {
+     "type": "Revenue",
+     "state": "Karnataka",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "3779029996",
+     "municipalCorporation": "1185093000",
+     "municipality": "1199826891",
+     "townPanchayat": "1394110105"
+   },
+   {
+     "type": "Revenue",
+     "state": "Karnataka",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "574126034",
+     "municipalCorporation": "139901000",
+     "municipality": "196467431",
+     "townPanchayat": "237757603"
+   },
+   {
+     "type": "Revenue",
+     "state": "Karnataka",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "16907915941",
+     "municipalCorporation": "3522385000",
+     "municipality": "5800717733",
+     "townPanchayat": "7584813208"
+   },
+   {
+     "type": "Revenue",
+     "state": "Karnataka",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "2416821346",
+     "municipalCorporation": "1015944000",
+     "municipality": "742787996",
+     "townPanchayat": "658089350"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "569983985",
+     "municipalCorporation": "384579673",
+     "municipality": "185404312",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "42858848",
+     "municipalCorporation": "30491862",
+     "municipality": "12366986",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "4477676652",
+     "municipalCorporation": "3006422253",
+     "municipality": "1471254399",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "1823760898",
+     "municipalCorporation": "1434907797",
+     "municipality": "388853101",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Madhya Pradesh",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "208562624",
+     "municipalCorporation": "0",
+     "municipality": "208562624",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Madhya Pradesh",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "53107454",
+     "municipalCorporation": "0",
+     "municipality": "53107454",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Madhya Pradesh",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "139690716",
+     "municipalCorporation": "0",
+     "municipality": "139690716",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Madhya Pradesh",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "111562476",
+     "municipalCorporation": "0",
+     "municipality": "111562476",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Mizoram",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "7745917",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "7745917"
+   },
+   {
+     "type": "Revenue",
+     "state": "Mizoram",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "8630571",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "8630571"
+   },
+   {
+     "type": "Revenue",
+     "state": "Mizoram",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "61756000",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "61756000"
+   },
+   {
+     "type": "Revenue",
+     "state": "Mizoram",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "11505596",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "11505596"
+   },
+   {
+     "type": "Revenue",
+     "state": "Odisha ",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "1419695125",
+     "municipalCorporation": "1419695125",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Odisha ",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "223619994",
+     "municipalCorporation": "223619994",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Odisha ",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "794563202",
+     "municipalCorporation": "794563202",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Odisha ",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "439316895",
+     "municipalCorporation": "439316895",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Punjab",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "1029788846",
+     "municipalCorporation": "782966354",
+     "municipality": "246822492",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Punjab",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "48223276",
+     "municipalCorporation": "46780591",
+     "municipality": "1442685",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Punjab",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "398687235",
+     "municipalCorporation": "393425303",
+     "municipality": "5261932",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Punjab",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "1316000352",
+     "municipalCorporation": "1251150758",
+     "municipality": "64849594",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "15626476421",
+     "municipalCorporation": "7680145702",
+     "municipality": "7946330719",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "3023901086",
+     "municipalCorporation": "1957946686",
+     "municipality": "1065954400",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "2570684121",
+     "municipalCorporation": "193581770",
+     "municipality": "2377102351",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "2463763134",
+     "municipalCorporation": "1775796899",
+     "municipality": "687966235",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tamil Nadu",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tamil Nadu",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tamil Nadu",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tamil Nadu",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "1937147454",
+     "municipalCorporation": "591744051",
+     "municipality": "916878852",
+     "townPanchayat": "428524551"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "88246408",
+     "municipalCorporation": "15256479",
+     "municipality": "50840758",
+     "townPanchayat": "22149171"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "69856313",
+     "municipalCorporation": "7030036",
+     "municipality": "60851536",
+     "townPanchayat": "1974741"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "1504343684",
+     "municipalCorporation": "429924752",
+     "municipality": "676234835",
+     "townPanchayat": "398184097"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tripura",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "1401994",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "1401994"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tripura",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "947788",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "947788"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tripura",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "65149206",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "65149206"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tripura",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "936306",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "936306"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "2779324231",
+     "municipalCorporation": "2592749849",
+     "municipality": "186574382",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "638544364",
+     "municipalCorporation": "558574722",
+     "municipality": "79969642",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "10271114226",
+     "municipalCorporation": "9184630717",
+     "municipality": "1086483509",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "1965945565",
+     "municipalCorporation": "1898450992",
+     "municipality": "67494573",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "West Bengal",
+     "year": "2015-16",
+     "particulars": "Non Tax Revenue",
+     "total": "16913071",
+     "municipalCorporation": "0",
+     "municipality": "16913071",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "West Bengal",
+     "year": "2015-16",
+     "particulars": "Other Income",
+     "total": "11798872",
+     "municipalCorporation": "0",
+     "municipality": "11798872",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "West Bengal",
+     "year": "2015-16",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "153829931",
+     "municipalCorporation": "0",
+     "municipality": "153829931",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "West Bengal",
+     "year": "2015-16",
+     "particulars": "Tax Revenue",
+     "total": "14318349",
+     "municipalCorporation": "0",
+     "municipality": "14318349",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "341351226",
+     "municipalCorporation": "271310523",
+     "municipality": "68995380",
+     "townPanchayat": "1045323"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "2468395643",
+     "municipalCorporation": "2292957466",
+     "municipality": "174523356",
+     "townPanchayat": "914821"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "281822463",
+     "municipalCorporation": "280430793",
+     "municipality": "1127590",
+     "townPanchayat": "264080"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "4416255081",
+     "municipalCorporation": "4139183435",
+     "municipality": "228663861",
+     "townPanchayat": "48407785"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "3150722539",
+     "municipalCorporation": "3037656516",
+     "municipality": "101135998",
+     "townPanchayat": "11930025"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Assam",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "123202",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "123202"
+   },
+   {
+     "type": "Expense",
+     "state": "Assam",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "4916336",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "4916336"
+   },
+   {
+     "type": "Expense",
+     "state": "Assam",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Assam",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "181225",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "181225"
+   },
+   {
+     "type": "Expense",
+     "state": "Assam",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "30400",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "30400"
+   },
+   {
+     "type": "Expense",
+     "state": "Assam",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Chhattisgarh",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "600146666",
+     "municipalCorporation": "572912648",
+     "municipality": "0",
+     "townPanchayat": "27234018"
+   },
+   {
+     "type": "Expense",
+     "state": "Chhattisgarh",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "2644425700",
+     "municipalCorporation": "2479051947",
+     "municipality": "0",
+     "townPanchayat": "165373753"
+   },
+   {
+     "type": "Expense",
+     "state": "Chhattisgarh",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "7545027",
+     "municipalCorporation": "7541306",
+     "municipality": "0",
+     "townPanchayat": "3721"
+   },
+   {
+     "type": "Expense",
+     "state": "Chhattisgarh",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "1562561245",
+     "municipalCorporation": "1490565536",
+     "municipality": "0",
+     "townPanchayat": "71995709"
+   },
+   {
+     "type": "Expense",
+     "state": "Chhattisgarh",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "3460964091",
+     "municipalCorporation": "3011048111",
+     "municipality": "0",
+     "townPanchayat": "449915980"
+   },
+   {
+     "type": "Expense",
+     "state": "Chhattisgarh",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "639165789",
+     "municipalCorporation": "633483877",
+     "municipality": "0",
+     "townPanchayat": "5681912"
+   },
+   {
+     "type": "Expense",
+     "state": "Gujarat",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "4842464",
+     "municipalCorporation": "0",
+     "municipality": "4842464",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Gujarat",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "122362451",
+     "municipalCorporation": "0",
+     "municipality": "122362451",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Gujarat",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "2030174",
+     "municipalCorporation": "0",
+     "municipality": "2030174",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Gujarat",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "90072657",
+     "municipalCorporation": "0",
+     "municipality": "90072657",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Gujarat",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "42289446",
+     "municipalCorporation": "0",
+     "municipality": "42289446",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Gujarat",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "70651150",
+     "municipalCorporation": "0",
+     "municipality": "70651150",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Jharkand ",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "311500380",
+     "municipalCorporation": "226217039",
+     "municipality": "976169",
+     "townPanchayat": "84307172"
+   },
+   {
+     "type": "Expense",
+     "state": "Jharkand ",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "922716959",
+     "municipalCorporation": "561448383",
+     "municipality": "7488669",
+     "townPanchayat": "353779907"
+   },
+   {
+     "type": "Expense",
+     "state": "Jharkand ",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "289801534",
+     "municipalCorporation": "105004427",
+     "municipality": "19145330",
+     "townPanchayat": "165651777"
+   },
+   {
+     "type": "Expense",
+     "state": "Jharkand ",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "354053113",
+     "municipalCorporation": "187843846",
+     "municipality": "9667654",
+     "townPanchayat": "156541613"
+   },
+   {
+     "type": "Expense",
+     "state": "Jharkand ",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "1588821283",
+     "municipalCorporation": "686444993",
+     "municipality": "13975563",
+     "townPanchayat": "888400727"
+   },
+   {
+     "type": "Expense",
+     "state": "Jharkand ",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "1120094289",
+     "municipalCorporation": "416994330",
+     "municipality": "14130695",
+     "townPanchayat": "688969264"
+   },
+   {
+     "type": "Expense",
+     "state": "Karnataka",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "848236080",
+     "municipalCorporation": "225537000",
+     "municipality": "226778946",
+     "townPanchayat": "395920134"
+   },
+   {
+     "type": "Expense",
+     "state": "Karnataka",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "4809268220",
+     "municipalCorporation": "1809493000",
+     "municipality": "1233303105",
+     "townPanchayat": "1766472115"
+   },
+   {
+     "type": "Expense",
+     "state": "Karnataka",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "317180492",
+     "municipalCorporation": "289628000",
+     "municipality": "6268872",
+     "townPanchayat": "21283620"
+   },
+   {
+     "type": "Expense",
+     "state": "Karnataka",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "9706164206",
+     "municipalCorporation": "3493134000",
+     "municipality": "2563070749",
+     "townPanchayat": "3649959457"
+   },
+   {
+     "type": "Expense",
+     "state": "Karnataka",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "8821251087",
+     "municipalCorporation": "2451862000",
+     "municipality": "2473997216",
+     "townPanchayat": "3895391871"
+   },
+   {
+     "type": "Expense",
+     "state": "Karnataka",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "199740258",
+     "municipalCorporation": "118527512",
+     "municipality": "81212746",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "1231791577",
+     "municipalCorporation": "746327677",
+     "municipality": "485463900",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "10172137",
+     "municipalCorporation": "24295",
+     "municipality": "10147842",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "151481910",
+     "municipalCorporation": "67034914",
+     "municipality": "84446996",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "2139393573",
+     "municipalCorporation": "1027325778",
+     "municipality": "1112067795",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "5919259",
+     "municipalCorporation": "1810274",
+     "municipality": "4108985",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Madhya Pradesh",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "12407318",
+     "municipalCorporation": "0",
+     "municipality": "12407318",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Madhya Pradesh",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "96526172",
+     "municipalCorporation": "0",
+     "municipality": "96526172",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Madhya Pradesh",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "348",
+     "municipalCorporation": "0",
+     "municipality": "348",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Madhya Pradesh",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "46464291",
+     "municipalCorporation": "0",
+     "municipality": "46464291",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Madhya Pradesh",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "56458224",
+     "municipalCorporation": "0",
+     "municipality": "56458224",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Madhya Pradesh",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Mizoram",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "75638542",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "75638542"
+   },
+   {
+     "type": "Expense",
+     "state": "Mizoram",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "66389160",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "66389160"
+   },
+   {
+     "type": "Expense",
+     "state": "Mizoram",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "7209",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "7209"
+   },
+   {
+     "type": "Expense",
+     "state": "Mizoram",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "55553203",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "55553203"
+   },
+   {
+     "type": "Expense",
+     "state": "Mizoram",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "3342868",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "3342868"
+   },
+   {
+     "type": "Expense",
+     "state": "Mizoram",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Odisha ",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "106176644",
+     "municipalCorporation": "100086220",
+     "municipality": "6090424",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Odisha ",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "1252347045",
+     "municipalCorporation": "1165780500",
+     "municipality": "86566545",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Odisha ",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "30808617",
+     "municipalCorporation": "30806984",
+     "municipality": "1633",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Odisha ",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "1160969055",
+     "municipalCorporation": "1105751712",
+     "municipality": "55217343",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Odisha ",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "1584522340",
+     "municipalCorporation": "1542152210",
+     "municipality": "42370130",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Odisha ",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Punjab",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "29750483",
+     "municipalCorporation": "28115566",
+     "municipality": "1634917",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Punjab",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "1218516350",
+     "municipalCorporation": "1137427548",
+     "municipality": "81088802",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Punjab",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "156897",
+     "municipalCorporation": "6830",
+     "municipality": "150067",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Punjab",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "4878923084",
+     "municipalCorporation": "4861464482",
+     "municipality": "17458602",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Punjab",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "281005819",
+     "municipalCorporation": "275849000",
+     "municipality": "5156819",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Punjab",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "6662320",
+     "municipalCorporation": "6662320",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "2410540823",
+     "municipalCorporation": "1424994954",
+     "municipality": "985545869",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "10485228807",
+     "municipalCorporation": "4615724693",
+     "municipality": "5869504114",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "40451999",
+     "municipalCorporation": "30312742",
+     "municipality": "10139257",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "3903706636",
+     "municipalCorporation": "1445464819",
+     "municipality": "2458241817",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "6197383111",
+     "municipalCorporation": "1568732523",
+     "municipality": "4628650588",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "174763781",
+     "municipalCorporation": "0",
+     "municipality": "174763781",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tamil Nadu",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "386807",
+     "municipalCorporation": "0",
+     "municipality": "386807",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tamil Nadu",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tamil Nadu",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "173",
+     "municipalCorporation": "0",
+     "municipality": "173",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tamil Nadu",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "1282071",
+     "municipalCorporation": "0",
+     "municipality": "1282071",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tamil Nadu",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "5738004",
+     "municipalCorporation": "0",
+     "municipality": "5738004",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tamil Nadu",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "19519384",
+     "municipalCorporation": "0",
+     "municipality": "19519384",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "94459572",
+     "municipalCorporation": "0",
+     "municipality": "94459572",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "6799",
+     "municipalCorporation": "0",
+     "municipality": "6799",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "103068025",
+     "municipalCorporation": "0",
+     "municipality": "103068025",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "788763011",
+     "municipalCorporation": "0",
+     "municipality": "788763011",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tripura",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "4622963",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "4622963"
+   },
+   {
+     "type": "Expense",
+     "state": "Tripura",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "11697474",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "11697474"
+   },
+   {
+     "type": "Expense",
+     "state": "Tripura",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tripura",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "814344",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "814344"
+   },
+   {
+     "type": "Expense",
+     "state": "Tripura",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "2887992",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "2887992"
+   },
+   {
+     "type": "Expense",
+     "state": "Tripura",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "48398374",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "48398374"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "371836695",
+     "municipalCorporation": "339598583",
+     "municipality": "32238112",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "4228821335",
+     "municipalCorporation": "3668177754",
+     "municipality": "560643581",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "2363978",
+     "municipalCorporation": "2345954",
+     "municipality": "18024",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "2989273028",
+     "municipalCorporation": "2709945431",
+     "municipality": "279327597",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "658009630",
+     "municipalCorporation": "441477041",
+     "municipality": "216532589",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "41454596",
+     "municipalCorporation": "41454596",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "West Bengal",
+     "year": "2016-17",
+     "particulars": "Administrative Expenses",
+     "total": "18131392",
+     "municipalCorporation": "0",
+     "municipality": "18131392",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "West Bengal",
+     "year": "2016-17",
+     "particulars": "Establishment Expenses",
+     "total": "516195098",
+     "municipalCorporation": "0",
+     "municipality": "516195098",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "West Bengal",
+     "year": "2016-17",
+     "particulars": "Interest & Finance Charges",
+     "total": "27299858",
+     "municipalCorporation": "0",
+     "municipality": "27299858",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "West Bengal",
+     "year": "2016-17",
+     "particulars": "Operation & Maintenance",
+     "total": "256683380",
+     "municipalCorporation": "0",
+     "municipality": "256683380",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "West Bengal",
+     "year": "2016-17",
+     "particulars": "Other Expenses",
+     "total": "813989885",
+     "municipalCorporation": "0",
+     "municipality": "813989885",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "West Bengal",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "4680962341",
+     "municipalCorporation": "4338717055",
+     "municipality": "316289923",
+     "townPanchayat": "25955363"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "527784982",
+     "municipalCorporation": "483395539",
+     "municipality": "42470263",
+     "townPanchayat": "1919180"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "59598216",
+     "municipalCorporation": "32093925",
+     "municipality": "7969283",
+     "townPanchayat": "19535008"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "3454053660",
+     "municipalCorporation": "3206452692",
+     "municipality": "235469246",
+     "townPanchayat": "12131722"
+   },
+   {
+     "type": "Revenue",
+     "state": "Assam",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "1095178",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "1095178"
+   },
+   {
+     "type": "Revenue",
+     "state": "Assam",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "1822",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "1822"
+   },
+   {
+     "type": "Revenue",
+     "state": "Assam",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "6415812",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "6415812"
+   },
+   {
+     "type": "Revenue",
+     "state": "Assam",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Chhattisgarh",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "2184103664",
+     "municipalCorporation": "2084271983",
+     "municipality": "0",
+     "townPanchayat": "99831681"
+   },
+   {
+     "type": "Revenue",
+     "state": "Chhattisgarh",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "637286401",
+     "municipalCorporation": "619720690",
+     "municipality": "0",
+     "townPanchayat": "17565711"
+   },
+   {
+     "type": "Revenue",
+     "state": "Chhattisgarh",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "1074993937",
+     "municipalCorporation": "944755219",
+     "municipality": "0",
+     "townPanchayat": "130238718"
+   },
+   {
+     "type": "Revenue",
+     "state": "Chhattisgarh",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "3524938507",
+     "municipalCorporation": "3472574496",
+     "municipality": "0",
+     "townPanchayat": "52364011"
+   },
+   {
+     "type": "Revenue",
+     "state": "Gujarat",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "161987465",
+     "municipalCorporation": "0",
+     "municipality": "161987465",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Gujarat",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "7798011",
+     "municipalCorporation": "0",
+     "municipality": "7798011",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Gujarat",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "132087530",
+     "municipalCorporation": "0",
+     "municipality": "132087530",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Gujarat",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "80500000",
+     "municipalCorporation": "0",
+     "municipality": "80500000",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Jharkand ",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "1004619535",
+     "municipalCorporation": "619853245",
+     "municipality": "12095951",
+     "townPanchayat": "372670339"
+   },
+   {
+     "type": "Revenue",
+     "state": "Jharkand ",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "193386962",
+     "municipalCorporation": "122715394",
+     "municipality": "1251611",
+     "townPanchayat": "69419957"
+   },
+   {
+     "type": "Revenue",
+     "state": "Jharkand ",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "2015448922",
+     "municipalCorporation": "759280108",
+     "municipality": "23598605",
+     "townPanchayat": "1232570209"
+   },
+   {
+     "type": "Revenue",
+     "state": "Jharkand ",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "938513594",
+     "municipalCorporation": "587169814",
+     "municipality": "3333765",
+     "townPanchayat": "348010015"
+   },
+   {
+     "type": "Revenue",
+     "state": "Karnataka",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "4571093381",
+     "municipalCorporation": "1829233000",
+     "municipality": "1204138197",
+     "townPanchayat": "1537722184"
+   },
+   {
+     "type": "Revenue",
+     "state": "Karnataka",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "1152778702",
+     "municipalCorporation": "341797000",
+     "municipality": "505929079",
+     "townPanchayat": "305052623"
+   },
+   {
+     "type": "Revenue",
+     "state": "Karnataka",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "15743348265",
+     "municipalCorporation": "4510986000",
+     "municipality": "4265260799",
+     "townPanchayat": "6967101466"
+   },
+   {
+     "type": "Revenue",
+     "state": "Karnataka",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "3346977110",
+     "municipalCorporation": "1860796000",
+     "municipality": "742247843",
+     "townPanchayat": "743933267"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "454461183",
+     "municipalCorporation": "259416173",
+     "municipality": "195045010",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "24479623",
+     "municipalCorporation": "10766378",
+     "municipality": "13713245",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "2378105990",
+     "municipalCorporation": "1330711226",
+     "municipality": "1047394764",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "698512094",
+     "municipalCorporation": "434380496",
+     "municipality": "264131598",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Madhya Pradesh",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "136655569",
+     "municipalCorporation": "0",
+     "municipality": "136655569",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Madhya Pradesh",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "1408197",
+     "municipalCorporation": "0",
+     "municipality": "1408197",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Madhya Pradesh",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Madhya Pradesh",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "6176104",
+     "municipalCorporation": "0",
+     "municipality": "6176104",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Mizoram",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "17801669",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "17801669"
+   },
+   {
+     "type": "Revenue",
+     "state": "Mizoram",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "104889951",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "104889951"
+   },
+   {
+     "type": "Revenue",
+     "state": "Mizoram",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "38911601",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "38911601"
+   },
+   {
+     "type": "Revenue",
+     "state": "Mizoram",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "22002522",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "22002522"
+   },
+   {
+     "type": "Revenue",
+     "state": "Odisha ",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "1435408636",
+     "municipalCorporation": "1329973331",
+     "municipality": "105435305",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Odisha ",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "281925866",
+     "municipalCorporation": "268085744",
+     "municipality": "13840122",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Odisha ",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "631427520",
+     "municipalCorporation": "589486924",
+     "municipality": "41940596",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Odisha ",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "528347154",
+     "municipalCorporation": "504227224",
+     "municipality": "24119930",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Punjab",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "2317217716",
+     "municipalCorporation": "2225386841",
+     "municipality": "91830875",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Punjab",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "41938660",
+     "municipalCorporation": "41652988",
+     "municipality": "285672",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Punjab",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Punjab",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "5211884723",
+     "municipalCorporation": "5191399977",
+     "municipality": "20484746",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "14018649169",
+     "municipalCorporation": "6611140942",
+     "municipality": "7407508227",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "1847503800",
+     "municipalCorporation": "993410371",
+     "municipality": "854093429",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "3249646126",
+     "municipalCorporation": "110384557",
+     "municipality": "3139261569",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "2340434703",
+     "municipalCorporation": "1767612700",
+     "municipality": "572822003",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tamil Nadu",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tamil Nadu",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "99060",
+     "municipalCorporation": "0",
+     "municipality": "99060",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tamil Nadu",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tamil Nadu",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "11486172",
+     "municipalCorporation": "0",
+     "municipality": "11486172",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "390340305",
+     "municipalCorporation": "0",
+     "municipality": "390340305",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "26819893",
+     "municipalCorporation": "0",
+     "municipality": "26819893",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "6089426",
+     "municipalCorporation": "0",
+     "municipality": "6089426",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "214538671",
+     "municipalCorporation": "0",
+     "municipality": "214538671",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tripura",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "1406130",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "1406130"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tripura",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "1371809",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "1371809"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tripura",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "72110259",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "72110259"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tripura",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "185813",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "185813"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "657233504",
+     "municipalCorporation": "605159104",
+     "municipality": "52074400",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "280848265",
+     "municipalCorporation": "252285097",
+     "municipality": "28563168",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "6373727228",
+     "municipalCorporation": "5398800894",
+     "municipality": "974926334",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "2479801520",
+     "municipalCorporation": "1281025307",
+     "municipality": "1198776213",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "West Bengal",
+     "year": "2016-17",
+     "particulars": "Non Tax Revenue",
+     "total": "224338253",
+     "municipalCorporation": "0",
+     "municipality": "224338253",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "West Bengal",
+     "year": "2016-17",
+     "particulars": "Other Income",
+     "total": "130548257",
+     "municipalCorporation": "0",
+     "municipality": "130548257",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "West Bengal",
+     "year": "2016-17",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "288523378",
+     "municipalCorporation": "0",
+     "municipality": "288523378",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "West Bengal",
+     "year": "2016-17",
+     "particulars": "Tax Revenue",
+     "total": "125358597",
+     "municipalCorporation": "0",
+     "municipality": "125358597",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2017-18",
+     "particulars": "Administrative Expenses",
+     "total": "73617774.04",
+     "municipalCorporation": "41954690.04",
+     "municipality": "29750965",
+     "townPanchayat": "1912119"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2017-18",
+     "particulars": "Establishment Expenses",
+     "total": "148712954",
+     "municipalCorporation": "4334033",
+     "municipality": "143485361",
+     "townPanchayat": "893560"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2017-18",
+     "particulars": "Interest & Finance Charges",
+     "total": "1625215.9",
+     "municipalCorporation": "65708",
+     "municipality": "1556788.71",
+     "townPanchayat": "2719.19"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2017-18",
+     "particulars": "Operation & Maintenance",
+     "total": "630099484.1",
+     "municipalCorporation": "449853651.1",
+     "municipality": "145778995",
+     "townPanchayat": "34466838"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2017-18",
+     "particulars": "Other Expenses",
+     "total": "39226380.4",
+     "municipalCorporation": "14610040",
+     "municipality": "9772733.4",
+     "townPanchayat": "14843607"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2017-18",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2017-18",
+     "particulars": "Administrative Expenses",
+     "total": "407418408",
+     "municipalCorporation": "328864963",
+     "municipality": "78553445",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2017-18",
+     "particulars": "Establishment Expenses",
+     "total": "2467656046",
+     "municipalCorporation": "1910496946",
+     "municipality": "557159100",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2017-18",
+     "particulars": "Interest & Finance Charges",
+     "total": "15745764.25",
+     "municipalCorporation": "2424295",
+     "municipality": "13321469.25",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2017-18",
+     "particulars": "Operation & Maintenance",
+     "total": "590183949",
+     "municipalCorporation": "498605089",
+     "municipality": "91578860",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2017-18",
+     "particulars": "Other Expenses",
+     "total": "3144048780",
+     "municipalCorporation": "1977885738",
+     "municipality": "1166163042",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2017-18",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "4688259",
+     "municipalCorporation": "0",
+     "municipality": "4688259",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2017-18",
+     "particulars": "Administrative Expenses",
+     "total": "13205457",
+     "municipalCorporation": "0",
+     "municipality": "13205457",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2017-18",
+     "particulars": "Establishment Expenses",
+     "total": "61587807",
+     "municipalCorporation": "0",
+     "municipality": "61587807",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2017-18",
+     "particulars": "Interest & Finance Charges",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2017-18",
+     "particulars": "Operation & Maintenance",
+     "total": "24216070",
+     "municipalCorporation": "0",
+     "municipality": "24216070",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2017-18",
+     "particulars": "Other Expenses",
+     "total": "55283035",
+     "municipalCorporation": "0",
+     "municipality": "55283035",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2017-18",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "3294655",
+     "municipalCorporation": "0",
+     "municipality": "3294655",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2017-18",
+     "particulars": "Administrative Expenses",
+     "total": "10742765",
+     "municipalCorporation": "0",
+     "municipality": "10742765",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2017-18",
+     "particulars": "Establishment Expenses",
+     "total": "32338208",
+     "municipalCorporation": "0",
+     "municipality": "32338208",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2017-18",
+     "particulars": "Interest & Finance Charges",
+     "total": "19651.5",
+     "municipalCorporation": "0",
+     "municipality": "19651.5",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2017-18",
+     "particulars": "Operation & Maintenance",
+     "total": "55300640",
+     "municipalCorporation": "0",
+     "municipality": "55300640",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2017-18",
+     "particulars": "Other Expenses",
+     "total": "4381742",
+     "municipalCorporation": "0",
+     "municipality": "4381742",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2017-18",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2017-18",
+     "particulars": "Administrative Expenses",
+     "total": "28654224",
+     "municipalCorporation": "14532404",
+     "municipality": "14121820",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2017-18",
+     "particulars": "Establishment Expenses",
+     "total": "955553043",
+     "municipalCorporation": "743094752",
+     "municipality": "212458291",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2017-18",
+     "particulars": "Interest & Finance Charges",
+     "total": "59973.35",
+     "municipalCorporation": "43189.35",
+     "municipality": "16784",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2017-18",
+     "particulars": "Operation & Maintenance",
+     "total": "465418887",
+     "municipalCorporation": "386155031",
+     "municipality": "79263856",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2017-18",
+     "particulars": "Other Expenses",
+     "total": "431324763",
+     "municipalCorporation": "431324763",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2017-18",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "86868013",
+     "municipalCorporation": "86868013",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2017-18",
+     "particulars": "Administrative Expenses",
+     "total": "55403026.85",
+     "municipalCorporation": "0",
+     "municipality": "55403026.85",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2017-18",
+     "particulars": "Establishment Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2017-18",
+     "particulars": "Interest & Finance Charges",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2017-18",
+     "particulars": "Operation & Maintenance",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2017-18",
+     "particulars": "Other Expenses",
+     "total": "342168836.1",
+     "municipalCorporation": "0",
+     "municipality": "342168836.1",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2017-18",
+     "particulars": "Revenue Grants, Contributions & Subsidies (Exp)",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2017-18",
+     "particulars": "Non Tax Revenue",
+     "total": "603327693.5",
+     "municipalCorporation": "374032736.5",
+     "municipality": "199329511",
+     "townPanchayat": "29965446"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2017-18",
+     "particulars": "Other Income",
+     "total": "57328755.87",
+     "municipalCorporation": "28335155",
+     "municipality": "28326261.87",
+     "townPanchayat": "667339"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2017-18",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "5655894",
+     "municipalCorporation": "3546500",
+     "municipality": "1935194",
+     "townPanchayat": "174200"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2017-18",
+     "particulars": "Tax Revenue",
+     "total": "515833360.9",
+     "municipalCorporation": "340050260.7",
+     "municipality": "162913234.2",
+     "townPanchayat": "12869866"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2017-18",
+     "particulars": "Non Tax Revenue",
+     "total": "819047317.5",
+     "municipalCorporation": "577897922.5",
+     "municipality": "241149395",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2017-18",
+     "particulars": "Other Income",
+     "total": "101169773.7",
+     "municipalCorporation": "84625805.65",
+     "municipality": "16543968",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2017-18",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "4440603309",
+     "municipalCorporation": "2821558405",
+     "municipality": "1619044904",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2017-18",
+     "particulars": "Tax Revenue",
+     "total": "1804307946",
+     "municipalCorporation": "1404324841",
+     "municipality": "399983105",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2017-18",
+     "particulars": "Non Tax Revenue",
+     "total": "106858056",
+     "municipalCorporation": "0",
+     "municipality": "106858056",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2017-18",
+     "particulars": "Other Income",
+     "total": "10933182",
+     "municipalCorporation": "0",
+     "municipality": "10933182",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2017-18",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "19815738",
+     "municipalCorporation": "0",
+     "municipality": "19815738",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2017-18",
+     "particulars": "Tax Revenue",
+     "total": "1889479",
+     "municipalCorporation": "0",
+     "municipality": "1889479",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2017-18",
+     "particulars": "Non Tax Revenue",
+     "total": "76708522",
+     "municipalCorporation": "0",
+     "municipality": "76708522",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2017-18",
+     "particulars": "Other Income",
+     "total": "9209417",
+     "municipalCorporation": "0",
+     "municipality": "9209417",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2017-18",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2017-18",
+     "particulars": "Tax Revenue",
+     "total": "71611852",
+     "municipalCorporation": "0",
+     "municipality": "71611852",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2017-18",
+     "particulars": "Non Tax Revenue",
+     "total": "29789025",
+     "municipalCorporation": "17733803",
+     "municipality": "12055222",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2017-18",
+     "particulars": "Other Income",
+     "total": "76296401.55",
+     "municipalCorporation": "68712923.55",
+     "municipality": "7583478",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2017-18",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "1896866825",
+     "municipalCorporation": "1539661211",
+     "municipality": "357205614",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2017-18",
+     "particulars": "Tax Revenue",
+     "total": "196896741.3",
+     "municipalCorporation": "190447672.3",
+     "municipality": "6449069",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2017-18",
+     "particulars": "Non Tax Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2017-18",
+     "particulars": "Other Income",
+     "total": "372530117",
+     "municipalCorporation": "0",
+     "municipality": "372530117",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2017-18",
+     "particulars": "Revenue Grants, Contributions & Subsidies",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2017-18",
+     "particulars": "Tax Revenue",
+     "total": "25041746",
+     "municipalCorporation": "0",
+     "municipality": "25041746",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "3358553873",
+     "municipalCorporation": "1654523636",
+     "municipality": "1679132817",
+     "townPanchayat": "24897420"
+   },
+   {
+     "type": "Expense",
+     "state": "Assam",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "99911396",
+     "municipalCorporation": "0",
+     "municipality": "99911396",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Chhattisgarh",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "10649401890",
+     "municipalCorporation": "10649401890",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Gujarat",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Jharkand ",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "3576003641",
+     "municipalCorporation": "1430024812",
+     "municipality": "64649559",
+     "townPanchayat": "2081329270"
+   },
+   {
+     "type": "Expense",
+     "state": "Karnataka",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "21309601731",
+     "municipalCorporation": "5716148000",
+     "municipality": "6603388280",
+     "townPanchayat": "8990065451"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "6257316039",
+     "municipalCorporation": "4178663478",
+     "municipality": "2078652561",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Madhya Pradesh",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "512033762",
+     "municipalCorporation": "0",
+     "municipality": "512033762",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Mizoram",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "132696766",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "132696766"
+   },
+   {
+     "type": "Expense",
+     "state": "Odisha ",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "2982477972",
+     "municipalCorporation": "2982477972",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Punjab",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "2807869369",
+     "municipalCorporation": "2480375928",
+     "municipality": "327493441",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "25965817790",
+     "municipalCorporation": "12015617499",
+     "municipality": "13950200291",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tamil Nadu",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "2979782778",
+     "municipalCorporation": "762086390",
+     "municipality": "1472122239",
+     "townPanchayat": "745574149"
+   },
+   {
+     "type": "Expense",
+     "state": "Tripura",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "64853143",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "64853143"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "16820835938",
+     "municipalCorporation": "15301102848",
+     "municipality": "1519733090",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "West Bengal",
+     "year": "2015-16",
+     "particulars": "Total Expenses",
+     "total": "151573112",
+     "municipalCorporation": "0",
+     "municipality": "151573112",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "10658546952",
+     "municipalCorporation": "10021538733",
+     "municipality": "574446185",
+     "townPanchayat": "62562034"
+   },
+   {
+     "type": "Expense",
+     "state": "Assam",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "5251163",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "5251163"
+   },
+   {
+     "type": "Expense",
+     "state": "Chhattisgarh",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "8914808518",
+     "municipalCorporation": "8194603425",
+     "municipality": "0",
+     "townPanchayat": "720205093"
+   },
+   {
+     "type": "Expense",
+     "state": "Gujarat",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "332248342",
+     "municipalCorporation": "0",
+     "municipality": "332248342",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Jharkand ",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "4586987558",
+     "municipalCorporation": "2183953018",
+     "municipality": "65384080",
+     "townPanchayat": "2337650460"
+   },
+   {
+     "type": "Expense",
+     "state": "Karnataka",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "24502100085",
+     "municipalCorporation": "8269654000",
+     "municipality": "6503418888",
+     "townPanchayat": "9729027197"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "3738498714",
+     "municipalCorporation": "1961050450",
+     "municipality": "1777448264",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Madhya Pradesh",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "211856353",
+     "municipalCorporation": "0",
+     "municipality": "211856353",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Mizoram",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "200930982",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "200930982"
+   },
+   {
+     "type": "Expense",
+     "state": "Odisha ",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "4134823701",
+     "municipalCorporation": "3944577626",
+     "municipality": "190246075",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Punjab",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "6415014953",
+     "municipalCorporation": "6309525746",
+     "municipality": "105489207",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "23212075157",
+     "municipalCorporation": "9085229731",
+     "municipality": "14126845426",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tamil Nadu",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "7407055",
+     "municipalCorporation": "0",
+     "municipality": "7407055",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "1005816791",
+     "municipalCorporation": "0",
+     "municipality": "1005816791",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Tripura",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "68421147",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "68421147"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "8291759262",
+     "municipalCorporation": "7202999359",
+     "municipality": "1088759903",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "West Bengal",
+     "year": "2016-17",
+     "particulars": "Total Expenses",
+     "total": "1632299613",
+     "municipalCorporation": "0",
+     "municipality": "1632299613",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Andhra Pradesh",
+     "year": "2017-18",
+     "particulars": "Total Expenses",
+     "total": "893281808.4",
+     "municipalCorporation": "510818122.1",
+     "municipality": "330344843.1",
+     "townPanchayat": "52118843.19"
+   },
+   {
+     "type": "Expense",
+     "state": "Kerala",
+     "year": "2017-18",
+     "particulars": "Total Expenses",
+     "total": "6629741206",
+     "municipalCorporation": "4718277031",
+     "municipality": "1911464175",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Rajasthan",
+     "year": "2017-18",
+     "particulars": "Total Expenses",
+     "total": "157587024",
+     "municipalCorporation": "0",
+     "municipality": "157587024",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Telangana",
+     "year": "2017-18",
+     "particulars": "Total Expenses",
+     "total": "102783006.5",
+     "municipalCorporation": "0",
+     "municipality": "102783006.5",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttar Pradesh",
+     "year": "2017-18",
+     "particulars": "Total Expenses",
+     "total": "1967878903",
+     "municipalCorporation": "1662018152",
+     "municipality": "305860751",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Expense",
+     "state": "Uttarakhand",
+     "year": "2017-18",
+     "particulars": "Total Expenses",
+     "total": "397571863",
+     "municipalCorporation": "0",
+     "municipality": "397571863",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "2669031984",
+     "municipalCorporation": "1313591716",
+     "municipality": "1327047448",
+     "townPanchayat": "28392820"
+   },
+   {
+     "type": "Revenue",
+     "state": "Assam",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "89104501",
+     "municipalCorporation": "0",
+     "municipality": "89104501",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Chhattisgarh",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "5974090316",
+     "municipalCorporation": "5974090316",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Gujarat",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Jharkand ",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "5579959133",
+     "municipalCorporation": "3812737471",
+     "municipality": "34593492",
+     "townPanchayat": "1732628170"
+   },
+   {
+     "type": "Revenue",
+     "state": "Karnataka",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "23677893317",
+     "municipalCorporation": "5863323000",
+     "municipality": "7939800051",
+     "townPanchayat": "9874770266"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "6914280383",
+     "municipalCorporation": "4856401585",
+     "municipality": "2057878798",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Madhya Pradesh",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "512923270",
+     "municipalCorporation": "0",
+     "municipality": "512923270",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Mizoram",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "89638084",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "89638084"
+   },
+   {
+     "type": "Revenue",
+     "state": "Odisha ",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "2877195216",
+     "municipalCorporation": "2877195216",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Punjab",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "2792699709",
+     "municipalCorporation": "2474323006",
+     "municipality": "318376703",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "23684824762",
+     "municipalCorporation": "11607471057",
+     "municipality": "12077353705",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tamil Nadu",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "3599593859",
+     "municipalCorporation": "1043955318",
+     "municipality": "1704805981",
+     "townPanchayat": "850832560"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tripura",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "68435294",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "68435294"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "15654928386",
+     "municipalCorporation": "14234406280",
+     "municipality": "1420522106",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "West Bengal",
+     "year": "2015-16",
+     "particulars": "Total Revenue",
+     "total": "196860223",
+     "municipalCorporation": "0",
+     "municipality": "196860223",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "8722399199",
+     "municipalCorporation": "8060659211",
+     "municipality": "602198715",
+     "townPanchayat": "59541273"
+   },
+   {
+     "type": "Revenue",
+     "state": "Assam",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "7512812",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "7512812"
+   },
+   {
+     "type": "Revenue",
+     "state": "Chhattisgarh",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "7421322509",
+     "municipalCorporation": "7121322388",
+     "municipality": "0",
+     "townPanchayat": "300000121"
+   },
+   {
+     "type": "Revenue",
+     "state": "Gujarat",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "382373006",
+     "municipalCorporation": "0",
+     "municipality": "382373006",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Jharkand ",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "4151969013",
+     "municipalCorporation": "2089018561",
+     "municipality": "40279932",
+     "townPanchayat": "2022670520"
+   },
+   {
+     "type": "Revenue",
+     "state": "Karnataka",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "24814197458",
+     "municipalCorporation": "8542812000",
+     "municipality": "6717575918",
+     "townPanchayat": "9553809540"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "3555558890",
+     "municipalCorporation": "2035274273",
+     "municipality": "1520284617",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Madhya Pradesh",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "144239870",
+     "municipalCorporation": "0",
+     "municipality": "144239870",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Mizoram",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "183605743",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "183605743"
+   },
+   {
+     "type": "Revenue",
+     "state": "Odisha ",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "2877109176",
+     "municipalCorporation": "2691773223",
+     "municipality": "185335953",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Punjab",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "7571041099",
+     "municipalCorporation": "7458439806",
+     "municipality": "112601293",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "21456233798",
+     "municipalCorporation": "9482548570",
+     "municipality": "11973685228",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tamil Nadu",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "11585232",
+     "municipalCorporation": "0",
+     "municipality": "11585232",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "637788295",
+     "municipalCorporation": "0",
+     "municipality": "637788295",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Tripura",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "75074011",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "75074011"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "9791610517",
+     "municipalCorporation": "7537270402",
+     "municipality": "2254340115",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "0",
+     "municipalCorporation": "0",
+     "municipality": "0",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "West Bengal",
+     "year": "2016-17",
+     "particulars": "Total Revenue",
+     "total": "768768485",
+     "municipalCorporation": "0",
+     "municipality": "768768485",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Andhra Pradesh",
+     "year": "2017-18",
+     "particulars": "Total Revenue",
+     "total": "1182145704",
+     "municipalCorporation": "745964652.2",
+     "municipality": "392504201.1",
+     "townPanchayat": "43676851"
+   },
+   {
+     "type": "Revenue",
+     "state": "Kerala",
+     "year": "2017-18",
+     "particulars": "Total Revenue",
+     "total": "7165128346",
+     "municipalCorporation": "4888406974",
+     "municipality": "2276721372",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Rajasthan",
+     "year": "2017-18",
+     "particulars": "Total Revenue",
+     "total": "139496455",
+     "municipalCorporation": "0",
+     "municipality": "139496455",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Telangana",
+     "year": "2017-18",
+     "particulars": "Total Revenue",
+     "total": "157529791",
+     "municipalCorporation": "0",
+     "municipality": "157529791",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttar Pradesh",
+     "year": "2017-18",
+     "particulars": "Total Revenue",
+     "total": "2199848993",
+     "municipalCorporation": "1816555610",
+     "municipality": "383293383",
+     "townPanchayat": "0"
+   },
+   {
+     "type": "Revenue",
+     "state": "Uttarakhand",
+     "year": "2017-18",
+     "particulars": "Total Revenue",
+     "total": "397571863",
+     "municipalCorporation": "0",
+     "municipality": "397571863",
+     "townPanchayat": "0"
+   }
+ ]

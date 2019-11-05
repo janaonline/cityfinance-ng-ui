@@ -1,0 +1,39 @@
+himachal pradesh, haryana, uttarakhand, arunachal pradesh, nagaland, manipur, mizoram, telangana, gujarat, andaman and nicobar islands, andhra pradesh 
+
+telangana, andhra pradesh, jammu and kashmir, haryana, madhya pradesh, bihar, odisha, maharashtra, tamil nadu, delhi
+
+arunachal pradesh => 
+assam => sc1 sc3 sc6 
+andhra pradesh => sc2 sc3 sc6 
+andaman and nicobar islands => 
+bihar => sc1 sc2 sc3 sc4 sc5 sc6 
+chandigarh => sc1 
+chhattisgarh => sc1 sc5 sc6 
+delhi => sc1 sc2 sc6 
+daman and diu => sc1 
+goa => sc1 sc6 
+gujarat => sc6 
+haryana => sc2 sc4 sc6 
+himachal pradesh => 
+jammu and kashmir => sc1 sc2 sc5 
+jharkhand => sc1 sc5 sc6 
+karnataka => sc1 sc3 sc4 sc6 
+kerala => sc1 sc3 sc6 
+madhya pradesh => sc1 sc2 sc6 
+maharashtra => sc1 sc2 sc5 sc6 
+meghalaya => sc1 
+manipur => 
+mizoram => sc5 
+nagaland => 
+odisha => sc1 sc2 sc3 sc5 sc6 
+punjab => sc1 sc5 sc6 
+puducherry => sc1 
+rajasthan => sc1 sc3 sc5 
+sikkim => sc1 sc5 
+tamil nadu => sc1 sc2 sc4 sc6 
+telangana => sc2 
+tripura => sc1 
+uttarakhand => 
+uttar pradesh => sc1 sc6 
+west bengal => sc1 sc5 sc6 
+

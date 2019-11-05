@@ -1,0 +1,17 @@
+<!-- <p>
+   dataSet: {{barChartData | json}} chartLabels: {{barChartLabels | json }}
+</p> -->
+<div style="display: block; margin-top: 20px">
+    <canvas baseChart height="130px"
+    [datasets]="barChart.dataSet"
+    [labels]="barChart.chartLabels"
+    [options]="barChartOptions"
+    [legend]="barChartLegend"
+    [chartType]="barChartType">
+  </canvas>
+</div>
+ 
+
+  <!-- <p>
+    {{chartData | json}}
+</p> -->

@@ -1,0 +1,56 @@
+<div class="common-container">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h3>ULB Data Bulk Entry</h3>
+      </div>
+      <div class="col-md-6">
+        <button [routerLink]="['../list']" class="right btn btn-primary">Entry List</button>
+      </div>
+    </div>
+    <br />
+    <span>Note* : Current version supports bulk data entry for single year only</span>
+    <br />
+
+    <div class="row">
+      <form [formGroup]="bulkEntryForm" (ngSubmit)="upload()">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Financial Year</label>
+            <select formControlName="year" class="form-control">
+              <option *ngFor="let yr of years" [ngValue]="yr">{{ yr }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Select files to upload</label>
+            <input id="cin" name="cin" type="file" (change)="fileChangeEvent($event)" placeholder="Upload a file..."
+              multiple />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <br />
+            <button type="submit" class="btn btn-primary btn-s"> Upload</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <br/><br/>
+
+    <div class="row" *ngIf="uploadResult">
+      <table style="width: 50%">
+        <tr>
+          <th>Perticular</th>
+          <th>status</th>
+        </tr>
+        <tr *ngFor="let item of uploadResult">
+          <td>{{item.msg}}</td>
+          <td>{{item.success}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+</div>

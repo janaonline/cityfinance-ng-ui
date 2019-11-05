@@ -1,0 +1,181 @@
+<div class="common-container">
+  <div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h3>ULB Data Entry</h3>
+    </div>
+    <div class="col-md-6">
+      <button [routerLink]="['../list']" class="right btn btn-primary">Entry List</button>
+      <button [routerLink]="['../bulk']" class="right btn btn-primary">Bulk Entry</button>
+    </div>
+  </div>
+  <div class="row">
+      <form [formGroup]="ledgerForm" (ngSubmit)="onSubmit()">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Financial Year</label>
+            <select formControlName="year" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.year.errors }">
+              <option *ngFor="let yr of years" [ngValue]="yr">{{ yr }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>State</label>
+            <select formControlName="state" (change)="loadUlbs()" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.state.errors }">
+              <option *ngFor="let st of states" [ngValue]="st">{{ st.name }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>ULB</label>
+            <select formControlName="ulb" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.ulb.errors }">
+              <option *ngFor="let ul of ulbs" [ngValue]="ul">{{ ul.name }}</option>
+            </select>
+          </div>
+        </div>
+        <!-- <div class="col-md-4">
+          <div class="form-group">
+            <label># Wards</label>
+            <input type="text" formControlName="wards" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.wards.errors }" />
+            <div *ngIf="submitted && lf.wards.errors" class="invalid-feedback">
+              <div *ngIf="lf.wards.errors.required"># Wards is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Population</label>
+            <input type="text" formControlName="population" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.population.errors }" />
+            <div *ngIf="submitted && lf.population.errors" class="invalid-feedback">
+              <div *ngIf="lf.population.errors.required">Population is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Area (Sq Km)</label>
+            <input type="text" formControlName="area" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.area.errors }" />
+            <div *ngIf="submitted && lf.area.errors" class="invalid-feedback">
+              <div *ngIf="lf.area.errors.required">Area is required</div>
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="col-md-12">
+          <hr />
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label title="What are the possible audit status?">Audit Status ?</label>
+            <input type="text" formControlName="audit_status" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.audit_status.errors }" />
+            <div *ngIf="submitted && lf.audit_status.errors" class="invalid-feedback">
+              <div *ngIf="lf.audit_status.errors.required">Audit Status is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Audit Firm Name</label>
+            <input type="text" formControlName="audit_firm" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.audit_firm.errors }" />
+            <div *ngIf="submitted && lf.audit_firm.errors" class="invalid-feedback">
+              <div *ngIf="lf.audit_firm.errors.required">Audit Firm is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Partner Name</label>
+            <input type="text" formControlName="partner_name" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.partner_name.errors }" />
+            <div *ngIf="submitted && lf.partner_name.errors" class="invalid-feedback">
+              <div *ngIf="lf.partner_name.errors.required">Partner Name is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>ICAI Membership #</label>
+            <input type="text" formControlName="icai_membership_number" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.icai_membership_number.errors }" />
+            <div *ngIf="submitted && lf.icai_membership_number.errors" class="invalid-feedback">
+              <div *ngIf="lf.icai_membership_number.errors.required">ICAI Membership Number is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <hr />
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label title="is this the data entry date on this application? OR the date of data capture">Date of Entry ?</label>
+            <input type="date" formControlName="created_at" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.created_at.errors }" />
+            <div *ngIf="submitted && lf.created_at.errors" class="invalid-feedback">
+              <div *ngIf="lf.created_at.errors.required">Date of entry is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label title="is this the user who is entering data on this application? OR the person who capture this data offline">Entered
+              by ?</label>
+            <input type="text" formControlName="created_by" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.created_by.errors }" />
+            <div *ngIf="submitted && lf.created_by.errors" class="invalid-feedback">
+              <div *ngIf="lf.created_by.errors.required">Entered by user is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Date of verification</label>
+            <input type="date" formControlName="verified_at" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.verified_at.errors }" />
+            <div *ngIf="submitted && lf.verified_at.errors" class="invalid-feedback">
+              <div *ngIf="lf.verified_at.errors.required">Verified at date is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Verified by</label>
+            <input type="text" formControlName="verified_by" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.verified_by.errors }" />
+            <div *ngIf="submitted && lf.verified_by.errors" class="invalid-feedback">
+              <div *ngIf="lf.verified_by.errors.required">Verified by user is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Date of Re-verification</label>
+            <input type="date" formControlName="reverified_at" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.reverified_at.errors }" />
+            <div *ngIf="submitted && lf.reverified_at.errors" class="invalid-feedback">
+              <div *ngIf="lf.reverified_at.errors.required">Date of reverified is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Re-verified by</label>
+            <input type="text" formControlName="reverified_by" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.reverified_by.errors }" />
+            <div *ngIf="submitted && lf.reverified_by.errors" class="invalid-feedback">
+              <div *ngIf="lf.reverified_by.errors.required">Reverified by user is required</div>
+            </div>
+          </div>
+        </div> -->
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Upload Data Sheet</label>
+            <input type="file" #fileInput formControlName="file" class="form-control" [ngClass]="{ 'is-invalid': submitted && lf.file.errors }" />
+            <div *ngIf="submitted && lf.file.errors" class="invalid-feedback">
+              <div *ngIf="lf.file.errors.required">Data entry file is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <br />
+            <button class="btn btn-primary">Submit Entry</button>
+          </div>
+        </div>
+
+      </form>
+  </div>
+</div>
+</div>

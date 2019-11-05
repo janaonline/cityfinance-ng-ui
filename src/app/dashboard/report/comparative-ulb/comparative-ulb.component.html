@@ -1,0 +1,72 @@
+<!-- {{years | json}}
+<br/><br/> -->
+<!-- {{report | json}}  -->
+
+<div class="row" *ngIf="isProcessed && reportKeys.length == 0">
+  <div class="col-md-12">
+    <h4 style="text-align: center">No Information Available</h4>
+  </div>
+</div>
+
+<div class="row" *ngIf="isProcessed && reportKeys.length > 0">
+  <div class="col-md-12">
+    <table class="table-bordered">
+      <thead>
+        <tr>
+          <td class="report-header" colspan="20">
+            <img class="align-center" src="/assets/images/cityfinance-logo.png"> <br />
+            <p class="text-center">{{reportReq.type}} {{reportReq.reportGroup}}</p>
+            <!-- <div class="text-center"><small>Percentages represent percentage of Total Expenditure in the case of Expenditure line items and percentage of Total Income for all other line items</small></div> -->
+          </td>
+        </tr>
+        <tr *ngIf="reportReq.years.length > 1">
+          <th class="text-center" colspan="2" >Year(s)</th>
+          <th class="text-center" [attr.colspan]="headerGroup.yearColspan" *ngFor="let yr of reportReq.years">{{yr}}</th>
+        </tr>
+        <tr>
+          <th class="text-center" [attr.rowspan]="headerGroup.accRowspan">Account Code</th>
+          <th class="text-center" [attr.rowspan]="headerGroup.accRowspan">Major Group/Minor Group</th>
+          <th class="text-center" *ngFor="let yr of years">{{yr.state}}</th>
+          <!-- <th colspan="20" ></th> -->
+        </tr>
+        <tr>
+          <!-- <th class="text-center">Account Code</th>
+          <th class="text-center">Major Group/Minor Group</th> -->
+          <th class="text-center" *ngFor="let yr of years">{{yr.caption}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let key of reportKeys" [ngClass]="{'bold': (report[key] && report[key].isBold), 'hidden': !report[key]}">
+          <!-- <td>{{report[key] | json}}</td> -->
+          <td class="text-center">{{ report[key] ? report[key].code : '' }}</td>
+          <td>{{ report[key] ? report[key].line_item : '' }}</td>
+          <td class="text-right" *ngFor="let yr of years">
+            <span *ngIf="report[key]">
+              <!-- {{report[key] | json}} -  -->
+              <span *ngIf="report[key][yr.title]">{{ report[key][yr.title] | inrCurrency}}</span>
+              <span *ngIf="!report[key][yr.title] && report[key]['code']">0</span>
+              <span *ngIf="report[key][yr.title] && yr.isComparative">%</span>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<br />
+<div class="col-md-12">
+  <button (click)="download()" *ngIf="isProcessed && reportKeys.length > 0" class="btn btn-primary right">Download</button>
+</div>
+<div class="col-md-12" *ngIf="isProcessed && reportKeys.length > 0">
+  <p><small>Percentages represent percentage of Total Expenditure in the case of Expenditure line items and percentage of Total Income for all other line items</small></p>
+</div>
+<div class="col-md-12" *ngIf="isProcessed && reportKeys.length > 0 && reportReq.type.indexOf('Summary') > -1">
+  <p><small>
+    <b>Revenue</b> : Not Tax Revenue includes Assigned Revenue and Compensations (120), Rental Income from Municipal Properties (130), Fees and User Charges (140), and Sale and Hire Charges (150). Other income includes Income from Investments (170), Interest Earned (171), Other Income (180) and Others (100).
+  </small></p>
+  <p><small>
+    <b>Expenses</b> : Other Expenses include Programme Expenses (250), Provision & Write off (270), Miscellneous Expenses (271), Depreciation of Fixed Assets (272), Prior Period Items (280), Transfer to Reserve Funds (290) and Others (200)
+  </small></p>
+</div>

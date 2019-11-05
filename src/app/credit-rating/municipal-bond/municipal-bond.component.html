@@ -1,0 +1,398 @@
+<!-- <app-home-header></app-home-header> -->
+<div class="common-container">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-md-6">
+        <h3 class="page-title">Municipal Bond Issuances</h3>
+      </div>
+      <div class="col-md-6">
+        <a href="/assets/files/MunicipalBondIssuances.xlsx">
+          <button class="right btn btn-primary">Download</button>
+        </a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 municipal-bond">
+        <table accordion-heading>
+          <tr>
+            <th>Issuer</th>
+            <th>Indore Municipal Corporation</th>
+            <th>Greater Hyderabad Municipal Corporation</th>
+            <th>Pune Municipal Corporation</th>
+            <th>Andhra Pradesh Capital Region Development Authority</th>
+          </tr>
+        </table>
+        <accordion [closeOthers]="true" class="fixed-header">
+
+          <accordion-group class="table-responsive" [isOpen]="true">
+            <h4 accordion-heading>Details of instrument <span class="fa fa-angle-down"></span></h4>
+            <table class="table table-striped accordion-body-table">
+              <!-- <tr>
+                <td style="width: 20%">Issuer</td>
+                <td style="width: 20%">Indore Municipal Corporation</td>
+                <td style="width: 20%">Greater Hyderabad Municipal Corporation</td>
+                <td style="width: 20%">Pune Municipal Corporation</td>
+                <td style="width: 20%">Andhra Pradesh Capital Region Development Authority</td>
+              </tr> -->
+              <tr>
+                <td>Type of Instruments</td>
+                <td>Secured Non-Convertible Redeemable Bonds in the nature of Debentures</td>
+                <td>Unsecured Listed Taxable Non-Convertible Redeemable Bonds in the nature of Debentures Series- I</td>
+                <td>7.59% Pune Muni Bond 2027 Unsecured Redeemable Listed Taxable Non Convertible Debentures Series I
+                </td>
+                <td>Government Guaranteed Listed Unsecured Redeemable Non-Convertible Taxable Bonds in the nature of
+                  Debentures in the form of separately transferable Redeemable Principal parts issued at par having
+                  Series A,B,C,D,E </td>
+              </tr>
+              <tr>
+                <td>Term</td>
+                <td>10 years</td>
+                <td>10 years</td>
+                <td>10 years</td>
+                <td>10 years</td>
+              </tr>
+              <tr>
+                <td>Coupon rate</td>
+                <td>9.25%</td>
+                <td>8.90%</td>
+                <td>7.59%</td>
+                <td>10.32%</td>
+              </tr>
+              <tr>
+                <td>Interest Payment</td>
+                <td>Half Yearly</td>
+                <td>Half Yearly</td>
+                <td>Half Yearly</td>
+                <td>Quarterly</td>
+              </tr>
+              <tr>
+                <td>Tax treatment</td>
+                <td>Taxable</td>
+                <td>Taxable</td>
+                <td>Taxable</td>
+                <td>Taxable</td>
+              </tr>
+              <tr>
+                <td>Repayment</td>
+                <td>Staggered redemption in four equal annual installments of 25% of the face value starting from the
+                  end of 7th year from the date of allotment.</td>
+                <td>Bullet repayment at the end of bond term</td>
+                <td>Bullet repayment at the end of bond term</td>
+                <td>The principal will have a moratorium of 5 years, and have an equal amortising profile thereafter.
+                </td>
+              </tr>
+            </table>
+
+          </accordion-group>
+
+          <accordion-group class="table-responsive">
+            <h4 accordion-heading>Details of issue <span class="fa fa-angle-down"></span></h4>
+            <table class="table table-striped accordion-body-table">
+              <tr>
+                <td>Date of issue</td>
+                <td>5 Jul 18</td>
+                <td>22 Feb 18</td>
+                <td>20 Jun 17</td>
+                <td>27 Aug 18</td>
+              </tr>
+              <tr>
+                <td>Maturity Date</td>
+                <td>At par, in equal Staggered redemption respectively at the end of 7th, 8th, 9th& 10th year
+                  respectively from Date of allotment.</td>
+                <td>16 Feb 28</td>
+                <td>20 Jun 27</td>
+                <td>26 Aug 28</td>
+              </tr>
+              <tr>
+                <td>Platform</td>
+                <td>Debt securities platform of NSE</td>
+                <td>BSE Bond platform</td>
+                <td>BSE Bond platform</td>
+                <td>BSE Bond platform</td>
+              </tr>
+              <tr>
+                <td>Type</td>
+                <td>Private Placement</td>
+                <td>Private Placement</td>
+                <td>Private Placement</td>
+                <td>Private Placement</td>
+              </tr>
+              <tr>
+                <td>Issue Size</td>
+                <td>INR 100 crores</td>
+                <td>INR 200 crores</td>
+                <td>INR 200 crores</td>
+                <td>INR 1300 crores</td>
+              </tr>
+              <tr>
+                <td>Bids received</td>
+                <td>INR 214.90 crores</td>
+                <td>INR 455 crores</td>
+                <td>INR 1,200 crores (issue oversubcribed 6 times)</td>
+                <td>INR 2000 crores (issue oversubscribed 1.53 times)</td>
+              </tr>
+              <tr>
+                <td>Amount accepted</td>
+                <td>INR 139.90 crores</td>
+                <td>INR 200 crores</td>
+                <td>INR 200 crores</td>
+                <td>INR 2000 crores</td>
+              </tr>
+              <tr>
+                <td>Green shoe option</td>
+                <td>Yes</td>
+                <td>Not available</td>
+                <td>Not available</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td>Green shoe option amount</td>
+                <td>INR 70 crores</td>
+                <td>Not available</td>
+                <td>Not available</td>
+                <td>INR 700 crores</td>
+              </tr>
+              <tr>
+                <td>Guaranteed by State Government</td>
+                <td>No</td>
+                <td>No</td>
+                <td>No</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td>Guarantee mechanism</td>
+                <td>Structured payment mechanism to ensure timely payment of interest and principal. </td>
+                <td>Structured payment mechanism, where property tax and fee chargers are deposited in a separate
+                  no-lien escrow account</td>
+                <td>Structured escrow payment mechanism where a portion of PMC's property tax revenue has been pledged
+                  for debt servicing</td>
+                <td>- Debt Service Reserve Account to be maintained in the form of cash or fixed deposits equivalent to
+                  total debt servicing obligation of the outstanding bonds for the next 2 quarters
+                  <br />- Bond Servicing Accoung shall be funded at the start of each quarter, amount equivalent to 1.5
+                  times the amount of debt servicing requirement (interest and principal), from its own revenue sources
+                </td>
+              </tr>
+            </table>
+          </accordion-group>
+          <accordion-group class="table-responsive">
+            <h4 accordion-heading>Rating <span class="fa fa-angle-down"></span></h4>
+            <table class="table table-striped accordion-body-table">
+              <tr>
+                <td>CRISIL</td>
+                <td>Not applicable</td>
+                <td>Not applicable</td>
+                <td>Not applicable</td>
+                <td>A+</td>
+              </tr>
+              <tr>
+                <td>CARE</td>
+                <td>Not applicable</td>
+                <td>AA / Stable</td>
+                <td>AA+ / Stable</td>
+                <td>Not applicable</td>
+              </tr>
+              <tr>
+                <td>ICRA</td>
+                <td>Not applicable</td>
+                <td>Not applicable</td>
+                <td>Not applicable</td>
+                <td>Not applicable</td>
+              </tr>
+              <tr>
+                <td>Brickwork</td>
+                <td>AA (SO)</td>
+                <td>Not applicable</td>
+                <td>Not applicable</td>
+                <td>AA-</td>
+              </tr>
+              <tr>
+                <td>Auicte / SMERA</td>
+                <td>AA (SO)</td>
+                <td>Not applicable</td>
+                <td>Not applicable</td>
+                <td>AA-</td>
+              </tr>
+              <tr>
+                <td>India Ratings & Research</td>
+                <td>Not applicable</td>
+                <td>AA / Stable</td>
+                <td>AA+ / Stable</td>
+                <td>Not applicable</td>
+              </tr>
+              <tr>
+                <td>Links to reports</td>
+                <td><a href="http://www.spacapital.com/2018062513151322465_Rating_Letters_IMC.pdf">click here</a></td>
+                <td>IRR - <a
+                    href="https://www.indiaratings.co.in/PressRelease?pressReleaseID=30548&title=India-Ratings-Assigns-Greater-Hyderabad-Municipal-Corporation%E2%80%99s-Proposed-NCDs-%E2%80%98Provisional-IND-AA%E2%80%99%2FStable">click
+                    here</a>
+                  <br />CARE -
+                  <a
+                    href="http://www.careratings.com/upload/CompanyFiles/PR/Greater%20Hyderabad%20Municipal%20Corporation-01-31-2018.pdf">click
+                    here</a></td>
+                <td>IRR -
+                  <a
+                    href="https://www.indiaratings.co.in/PressRelease?pressReleaseID=27973&title=India-Ratings-Assigns-Pune-Municipal-Corp%E2%80%99s-NCDs-Final-%E2%80%98IND-AA%2B%E2%80%99%3B-Outlook-Stable">click
+                    here</a>
+                  <br />CARE -
+                  <a
+                    href="http://www.careratings.com/upload/CompanyFiles/PR/Pune%20Municipal%20Corporation-06-29-2017.pdf">click
+                    here</a></td>
+                <td>CRISIL -
+                  <a
+                    href="https://www.crisil.com/mnt/winshare/Ratings/RatingList/RatingDocs/Andhra_Pradesh_Capital_Region_Development_Authority_June_21_2018_RR.html">click
+                    here</a>
+                  <br />Brickwork -
+                  <a
+                    href="https://www.brickworkratings.com/Admin/PressRelease/Andhra-Pradesh-Capital-Region-Development-Authority-30May2018%20(1).pdf">click
+                    here</a>
+                  <br />SMERA -
+                  <a href="https://www.acuite.in/documents/ratings/revised/26437-RR-20180531.pdf">click here</a></td>
+              </tr>
+            </table>
+          </accordion-group>
+          <accordion-group class="table-responsive">
+            <h4 accordion-heading>Objective of issue <span class="fa fa-angle-down"></span></h4>
+            <table class="table table-striped accordion-body-table">
+              <tr>
+                <td>Object of Issue</td>
+                <td>- Water supply & sewerage projects for the whole city of Indore and adjoining 29 villages which are
+                  added in
+                  <br />Master Plan as well as storm water drainage, urban transport/mobility, green spaces and other
+                  projects for development of Indore under AMRUT Mission
+                  <br />- Out of the proceeds of the bonds approximately Rs. 160 crores are to be utilised towards AMRUT
+                  project and appx. Rs. 10 crores are to be utilised towards prepayment of high interest loan.</td>
+                <td>Various development activities and other works under strategic road development programme including
+                  skyways, conflict free corridors etc</td>
+                <td>24x7 Water Project
+                  <br />- Prepare capacity in the city to provide clean, safe and equitable supply of water to the
+                  entire population of Pune for the next three decades
+                  <br />- Ensure day-long supply of water on all days
+                  <br />- Improve efficiency of the water utility system by reducing the level of water losses and
+                  non-revenue water
+                  <br />- Ensure that a technologically, economically and environmentally sustainable water suppy
+                  service is provided</td>
+                <td>Planning, coordination, execution, and financing for the development of Amaravati</td>
+              </tr>
+            </table>
+          </accordion-group>
+          <accordion-group class="table-responsive">
+            <h4 accordion-heading>Subscriber <span class="fa fa-angle-down"></span></h4>
+            <table class="table table-striped accordion-body-table">
+              <tr>
+                <td>Who can invest</td>
+                <td>Private Placement - Corporate, HNI, FII, Banks, Mutual Funds, Insurance Companies</td>
+                <td>Private Placement - Insurance, pension funds, primary dealers, banks etc</td>
+                <td>Private Placement - Domestic insurers, pension funds, state owned banks.</td>
+                <td>Private placement</td>
+              </tr>
+              <tr>
+                <td>Details of Subscribers</td>
+                <td>Not available</td>
+                <td>Not available</td>
+                <td>ICICI Prudential - INR 100 crores
+                  <br />Bank of Maharashtra - INR 100 crores</td>
+                <td>Not available</td>
+              </tr>
+            </table>
+          </accordion-group>
+          <accordion-group class="table-responsive">
+            <h4 accordion-heading>Advisors <span class="fa fa-angle-down"></span></h4>
+            <table class="table table-striped accordion-body-table">
+              <tr>
+                <td>Transaction Advisors</td>
+                <td>SPA Capital Advisors</td>
+                <td>SPA Capital Advisors</td>
+                <td>Government of Maharashtra, Union Ministry of Finance, Union Ministry of Urban Development, SEBI, SBI
+                  Caps and US Department of Treasurys Office of Technical Assistance.</td>
+                <td>Not available</td>
+              </tr>
+              <tr>
+                <td>Trustee for the bond</td>
+                <td>Vistra ITCL (India) Limited</td>
+                <td>Not available</td>
+                <td>SBICAP Trustee Company Limited</td>
+                <td>Catalyst Trusteeship Limited</td>
+              </tr>
+              <tr>
+                <td>Registrar of the issue</td>
+                <td>Karvy Computershare Private Limited</td>
+                <td>Not available</td>
+                <td>Karvy Computershare Private Limited</td>
+                <td>Karvy Computershare Private Limited</td>
+              </tr>
+              <tr>
+                <td>Auditor of Issue</td>
+                <td>Residential Audit Department, Indore Municipal Corporation</td>
+                <td>Not available</td>
+                <td>Not available</td>
+                <td>Not available</td>
+              </tr>
+              <tr>
+                <td>Legal Counsel</td>
+                <td>MV Kini Law Firm</td>
+                <td>Not available</td>
+                <td>Not available</td>
+                <td>Not available</td>
+              </tr>
+              <tr>
+                <td>Escrow Banker</td>
+                <td>Kotak Mahindra Bank Limited</td>
+                <td>Not available</td>
+                <td>Bank of Maharashtra</td>
+                <td>Not available</td>
+              </tr>
+              <tr>
+                <td>Arranger</td>
+                <td>30 arranger. Details not available</td>
+                <td>SBI Capital Market </td>
+                <td>SBI Capital Market </td>
+                <td>AK Capital Services</td>
+              </tr>
+            </table>
+          </accordion-group>
+          <accordion-group class="table-responsive">
+            <h4 accordion-heading>Documents available <span class="fa fa-angle-down"></span></h4>
+            <table class="table table-striped accordion-body-table">
+              <tr>
+                <td>Draft information memorandum</td>
+                <td><a href="http://www.spacapital.com/201806251318277894_Draft_IM_IMC.pdf">click here</a></td>
+                <td>Not available</td>
+                <td>Not available</td>
+                <td>Not available</td>
+              </tr>
+              <tr>
+                <td>Notices from Platforms</td>
+                <td><a href="https://www.nse-india.com/content/press/PR_cc_05072018.pdf">click here</a></td>
+                <td><a
+                    href="https://www.bseindia.com/markets/MarketInfo/DispNoticesNCirculars.aspx?Noticeid=%7BCB94CDB2-F97E-4430-950C-1CA3435E9995%7D&noticeno=20180221-26&dt=02/21/2018&icount=26&totcount=32&flag=0">click
+                    here</a></td>
+                <td><a
+                    href="https://www.bseindia.com/markets/MarketInfo/DispNoticesNCirculars.aspx?Noticeid=%7BA0859F51-3825-48F2-BB7B-7A38AAC0F350%7D&noticeno=20170621-13&dt=06/21/2017&icount=13&totcount=26&flag=0">click
+                    here</a></td>
+                <td><a
+                    href="https://www.bseindia.com/markets/MarketInfo/DispNoticesNCirculars.aspx?Noticeid=%7BD0380EFE-0FE3-40FC-870F-3520683D684E%7D&noticeno=20180824-22&dt=08/24/2018&icount=22&totcount=53&flag=0">click
+                    here</a></td>
+              </tr>
+              <tr>
+                <td>Others</td>
+                <td>Not available</td>
+                <td>Not available</td>
+                <td><a
+                    href="https://economictimes.indiatimes.com/news/economy/policy/pune-raises-rs-200-crore-in-first-municipal-bond-issue-in-14-years/articleshow/59222069.cms">click
+                    here</a></td>
+                <td>Not available</td>
+              </tr>
+            </table>
+          </accordion-group>
+        </accordion>
+
+
+
+      </div>
+    </div>
+
+
+  </div>
+</div>

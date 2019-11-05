@@ -1,0 +1,64 @@
+<!-- <app-header></app-header>  -->
+<app-home-header></app-home-header>
+<!-- <a href="{{creditRatingReportUrl}}"><button class="credit-rating-btn">Download Credit Rating Report</button></a> -->
+<div class="common-container">
+  <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 col-xs-12 card">
+    <div class="row">
+      <div class="col-xs-12 header">
+        <div class="col-xs-6">
+          <div class="row">
+            <p class="pointer">Sign In</p>
+          </div>
+        </div>
+        <div class="col-xs-6 text-right">
+          <div class="row">
+            <p class="pointer">Forgot Password?</p>
+          </div>
+        </div>
+      </div> <!-- header -->
+      <div class="col-xs-12 card-body">
+        <div class="col-xs-12">
+          <div class="row">
+            <form [formGroup]="loginForm" (ngSubmit)="login()">
+              <div class="error-text col-xs-12" *ngIf="badCredentials">
+                <p class="text-danger">Invalid Username or Password!!</p>
+              </div>
+              <div class="error-text col-xs-12" *ngIf="formError">
+                <p class="text-danger">Username and Password is mandatory!</p>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input type="text" formControlName="username" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && lf.username.errors }" />
+                <div *ngIf="submitted && lf.username.errors" class="invalid-feedback">
+                  <div *ngIf="lf.username.errors.required">Email is required</div>
+                </div>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input type="password" formControlName="password" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && lf.password.errors }" />
+                <div *ngIf="submitted && lf.password.errors" class="invalid-feedback">
+                  <div *ngIf="lf.password.errors.required">Password is required</div>
+                </div>
+              </div>
+              <div class="input-group">
+                <button type="submit" class="btn btn-primary">Login</button>
+              </div>
+            </form>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 card-footer">
+              <div class="row">
+                <p>
+                  Don't have an Account! <a [routerLink]="['../register']" class="pointer">Sign Up Here</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- card-body -->
+    </div>
+  </div>
+</div>
+<!-- <app-footer></app-footer>  -->

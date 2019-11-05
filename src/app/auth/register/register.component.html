@@ -1,0 +1,61 @@
+<div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 col-xs-12 card">
+  <div class="row">
+    <div class="col-xs-12 header">
+      <div class="col-xs-6">
+        <div class="row">
+          <p class="pointer">Sign up</p>
+        </div>
+      </div>
+      <div class="col-xs-6 text-right">
+        <div class="row">
+          <p class="pointer">Forgot Password?</p>
+        </div>
+      </div>
+    </div> <!-- header -->
+    <div class="col-xs-12 card-body">
+      <div class="col-xs-12">
+        <div class="row">
+          <form [formGroup]="registrationForm" (ngSubmit)="signup()">
+            <div class="error-text col-xs-12" *ngIf="badCredentials">
+              <p class="text-danger">Invalid Username or Password!!</p>
+            </div>
+            <div class="error-text col-xs-12" *ngIf="formError">
+              <p class="text-danger">Username and Password is mandatory!</p>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input id="name" class="form-control" [formControl]="registrationForm.controls['name']"
+                placeholder="Full name">
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input id="mobile" class="form-control" [formControl]="registrationForm.controls['mobile']"
+                placeholder="Mobile">
+            </div><div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input id="email" class="form-control" [formControl]="registrationForm.controls['email']"
+                placeholder="Email">
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+              <input id="password" type="password" class="form-control" [formControl]="registrationForm.controls['password']"
+                placeholder="Password">
+            </div>
+            <div class="input-group">
+              <button type="submit" class="btn btn-primary">Sign up</button>
+            </div>
+          </form>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 card-footer">
+            <div class="row">
+              <p>
+                Already have an Account! <a [routerLink]="['../login']" class="pointer">Sign In Here</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- card-body -->
+  </div>
+</div>

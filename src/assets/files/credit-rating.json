@@ -1,0 +1,1794 @@
+[
+        {
+            "ulb": "Amravati (New Capital City)",
+            "state": "Andhra Pradesh",
+            "agency": "CRISIL",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "29/05/2018"
+        },
+        {
+            "ulb": "Anantapur Municipal Corporation",
+            "state": "Andhra Pradesh",
+            "agency": "CRISIL",
+            "creditrating": "BBB",
+            "status": "Withdrawn",
+            "date": "04/09/2018"
+        },
+        {
+            "ulb": "Bhimavaram Municipality",
+            "state": "Andhra Pradesh",
+            "agency": "ICRA",
+            "creditrating": "BB+",
+            "status": "Issuer not Cooperating",
+            "date": "27/07/2018"
+        },
+        {
+            "ulb": "Chittor Municipal Corporation",
+            "state": "Andhra Pradesh",
+            "agency": "CRISIL",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "22/04/2019"
+        },
+        {
+            "ulb": "Dharmavaram Municipality",
+            "state": "Andhra Pradesh",
+            "agency": "CRISIL",
+            "creditrating": "B+",
+            "status": "Withdrawn",
+            "date": "22/04/2019"
+        },
+        {
+            "ulb": "Eluru Municipal Corporation",
+            "state": "Andhra Pradesh",
+            "agency": "ICRA",
+            "creditrating": "BBB",
+            "status": "Issuer not Cooperating",
+            "date": "27/07/2018"
+        },
+        {
+            "ulb": "Greater Hyderabad Municipal Corporation",
+            "state": "Andhra Pradesh",
+            "agency": "CARE / IRR",
+            "creditrating": "AA",
+            "status": "Affirmed",
+            "date": "26/02/2019"
+        },
+        {
+            "ulb": "Greater Visakhapatnam Municipal Corporation",
+            "state": "Andhra Pradesh",
+            "agency": "CARE",
+            "creditrating": "AA",
+            "status": "Affirmed",
+            "date": "02/04/2018"
+        },
+        {
+            "ulb": "Gudivada Municipality",
+            "state": "Andhra Pradesh",
+            "agency": "ICRA",
+            "creditrating": "BB",
+            "status": "Issuer not Cooperating",
+            "date": "21/02/2019"
+        },
+        {
+            "ulb": "Guntakal Municipality",
+            "state": "Andhra Pradesh",
+            "agency": "CRISIL",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "22/04/2019"
+        },
+        {
+            "ulb": "Hindupur Municipality",
+            "state": "Andhra Pradesh",
+            "agency": "CRISIL",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "22/04/2019"
+        },
+        {
+            "ulb": "Kurnool Municipal Corporation",
+            "state": "Andhra Pradesh",
+            "agency": "CRISIL",
+            "creditrating": "BBB",
+            "status": "Withdrawn",
+            "date": "18/04/2019"
+        },
+        {
+            "ulb": "Machilipatnam Municipality",
+            "state": "Andhra Pradesh",
+            "agency": "ICRA",
+            "creditrating": "BB+",
+            "status": "Issuer not Cooperating",
+            "date": "29/01/2019"
+        },
+        {
+            "ulb": "Madanapalle Municipality",
+            "state": "Andhra Pradesh",
+            "agency": "CRISIL",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "27/09/2018"
+        },
+        {
+            "ulb": "Nandyal Municipal Corporation",
+            "state": "Andhra Pradesh",
+            "agency": "CRISIL",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "04/09/2018"
+        },
+        {
+            "ulb": "Nellore Municipal Corporation",
+            "state": "Andhra Pradesh",
+            "agency": "CRISIL",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "22/04/2019"
+        },
+        {
+            "ulb": "Ongole Municipal Corporation",
+            "state": "Andhra Pradesh",
+            "agency": "ICRA",
+            "creditrating": "BBB",
+            "status": "Issuer not Cooperating",
+            "date": "26/12/2017"
+        },
+        {
+            "ulb": "Proddatur Municipal Corporation",
+            "state": "Andhra Pradesh",
+            "agency": "CRISIL",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "04/09/2018"
+        },
+        {
+            "ulb": "Tadepalligudem Municipality",
+            "state": "Andhra Pradesh",
+            "agency": "ICRA",
+            "creditrating": "BB",
+            "status": "Issuer not Cooperating",
+            "date": "27/07/2018"
+        },
+        {
+            "ulb": "Tadipatri Municipality",
+            "state": "Andhra Pradesh",
+            "agency": "CRISIL",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "18/04/2019"
+        },
+        {
+            "ulb": "Tenali Municipality",
+            "state": "Andhra Pradesh",
+            "agency": "ICRA",
+            "creditrating": "BB+",
+            "status": "Issuer not Cooperating",
+            "date": "31/01/2019"
+        },
+        {
+            "ulb": "Tirupati Municipal Corporation",
+            "state": "Andhra Pradesh",
+            "agency": "CRISIL",
+            "creditrating": "BBB",
+            "status": "Withdrawn",
+            "date": "04/09/2018"
+        },
+        {
+            "ulb": "Vijayawada Municipal Corporation",
+            "state": "Andhra Pradesh",
+            "agency": "ICRA",
+            "creditrating": "A-",
+            "status": "Affirmed",
+            "date": "27/07/2018"
+        },
+        {
+            "ulb": "Vizianagaram Municipality",
+            "state": "Andhra Pradesh",
+            "agency": "ICRA",
+            "creditrating": "BBB",
+            "status": "Issuer not Cooperating",
+            "date": "17/12/2018"
+        },
+        {
+            "ulb": "Guwahati Municipal Corporation",
+            "state": "Assam",
+            "agency": "IRR",
+            "creditrating": "BB",
+            "status": "Not available",
+            "date": "Not available"
+        },
+        {
+            "ulb": "Chandigarh Municipal Corporation",
+            "state": "Chandigarh",
+            "agency": "ICRA",
+            "creditrating": "A+",
+            "status": "Withdrawn",
+            "date": "01/12/2015"
+        },
+        {
+            "ulb": "Ambikapur Municipal Corporation",
+            "state": "Chhattisgarh",
+            "agency": "Brickwork",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "25/03/2019"
+        },
+        {
+            "ulb": "Bhilai Municipal Corporation",
+            "state": "Chhattisgarh",
+            "agency": "ICRA",
+            "creditrating": "BBB+",
+            "status": "Withdrawn",
+            "date": "31/07/2018"
+        },
+        {
+            "ulb": "Bilaspur Municipal Corporation",
+            "state": "Chhattisgarh",
+            "agency": "ICRA",
+            "creditrating": "BBB",
+            "status": "Withdrawn",
+            "date": "31/07/2018"
+        },
+        {
+            "ulb": "Durg Municipal Corporation",
+            "state": "Chhattisgarh",
+            "agency": "ICRA",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "31/07/2018"
+        },
+        {
+            "ulb": "Jagdalpur Municipal Corporation",
+            "state": "Chhattisgarh",
+            "agency": "ICRA",
+            "creditrating": "B+",
+            "status": "Withdrawn",
+            "date": "31/07/2018"
+        },
+        {
+            "ulb": "Korba Municipal Corporation",
+            "state": "Chhattisgarh",
+            "agency": "Brickwork",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "25/03/2019"
+        },
+        {
+            "ulb": "Raigarh Municipal Corporation",
+            "state": "Chhattisgarh",
+            "agency": "Brickwork",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "25/03/2019"
+        },
+        {
+            "ulb": "Raipur Municipal Corporation",
+            "state": "Chhattisgarh",
+            "agency": "ICRA",
+            "creditrating": "BBB+",
+            "status": "Withdrawn",
+            "date": "31/07/2018"
+        },
+        {
+            "ulb": "Rajnandgaon Municipal Corporation",
+            "state": "Chhattisgarh",
+            "agency": "ICRA",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "31/07/2018"
+        },
+        {
+            "ulb": "New Delhi Municipal Council",
+            "state": "Delhi",
+            "agency": "IRR",
+            "creditrating": "AA+",
+            "status": "Withdrawn",
+            "date": "05/07/2018"
+        },
+        {
+            "ulb": "New Delhi Municipal Council",
+            "state": "Delhi",
+            "agency": "IRR",
+            "creditrating": "AA+",
+            "status": "Withdrawn",
+            "date": "05/06/2018"
+        },
+        {
+            "ulb": "South DMC Municipal Corporation",
+            "state": "Delhi",
+            "agency": "ICRA",
+            "creditrating": "AA+",
+            "status": "Withdrawn",
+            "date": "31/01/2019"
+        },
+        {
+            "ulb": "Panaji Municipal Corporation",
+            "state": "Goa",
+            "agency": "CRISIL",
+            "creditrating": "BBB",
+            "status": "Withdrawn",
+            "date": "30/06/2016"
+        },
+        {
+            "ulb": "Panaji Municipal Corporation",
+            "state": "Goa",
+            "agency": "CRISIL",
+            "creditrating": "BBB",
+            "status": "Withdrawn",
+            "date": "30/06/2016"
+        },
+        {
+            "ulb": "Ahmedabad Municipal Corporation",
+            "state": "Gujarat",
+            "agency": "CRISIL / IRR",
+            "creditrating": "AA+",
+            "status": "Affirmed",
+            "date": "23/01/2019"
+        },
+        {
+            "ulb": "Rajkot Municipal Corporation",
+            "state": "Gujarat",
+            "agency": "CRISIL",
+            "creditrating": "A-",
+            "status": "Withdrawn",
+            "date": "30/06/2016"
+        },
+        {
+            "ulb": "Surat Municipal Corporation",
+            "state": "Gujarat",
+            "agency": "CRISIL",
+            "creditrating": "AA-",
+            "status": "Withdrawn",
+            "date": "30/06/2016"
+        },
+        {
+            "ulb": "Vadodara Municipal Corporation",
+            "state": "Gujarat",
+            "agency": "CRISIL",
+            "creditrating": "A+",
+            "status": "Withdrawn",
+            "date": "30/06/2016"
+        },
+        {
+            "ulb": "Faridabad Municipal Corporation",
+            "state": "Haryana",
+            "agency": "ICRA",
+            "creditrating": "BBB-",
+            "status": "Not available",
+            "date": "Not available"
+        },
+        {
+            "ulb": "Shimla Municipal Corporation",
+            "state": "Himachal Pradesh",
+            "agency": "ICRA",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "01/12/2015"
+        },
+        {
+            "ulb": "Jammu Municipal Corporation",
+            "state": "Jammu & Kashmir",
+            "agency": "ICRA",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "01/12/2015"
+        },
+        {
+            "ulb": "Srinagar Municipal Corporation",
+            "state": "Jammu & Kashmir",
+            "agency": "ICRA",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "01/12/2015"
+        },
+        {
+            "ulb": "Adityapur Municipal Corporation",
+            "state": "Jharkhand",
+            "agency": "Brickwork",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "23/03/2019"
+        },
+        {
+            "ulb": "Chas Municipal Corporation",
+            "state": "Jharkhand",
+            "agency": "Brickwork",
+            "creditrating": "BB-",
+            "status": "Outstanding",
+            "date": "31/03/2017"
+        },
+        {
+            "ulb": "Deogarh Municipal Corporation",
+            "state": "Jharkhand",
+            "agency": "Brickwork",
+            "creditrating": "BB-",
+            "status": "Outstanding",
+            "date": "06/04/2017"
+        },
+        {
+            "ulb": "Dhanbad Municipal Corporation",
+            "state": "Jharkhand",
+            "agency": "Brickwork",
+            "creditrating": "BB",
+            "status": "Outstanding",
+            "date": "31/03/2017"
+        },
+        {
+            "ulb": "Giridih Nagar Parishad",
+            "state": "Jharkhand",
+            "agency": "Brickwork",
+            "creditrating": "BB-",
+            "status": "Outstanding",
+            "date": "31/03/2017"
+        },
+        {
+            "ulb": "Hazaribagh Municipal Corporation",
+            "state": "Jharkhand",
+            "agency": "Brickwork",
+            "creditrating": "BB-",
+            "status": "Outstanding",
+            "date": "05/05/2017"
+        },
+        {
+            "ulb": "Ranchi Municipal Corporation",
+            "state": "Jharkhand",
+            "agency": "CRISIL",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "30/06/2016"
+        },
+        {
+            "ulb": "Badami Town Municipal Council",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "16/08/2018"
+        },
+        {
+            "ulb": "Bagalkot City Municipal Council",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "16/08/2018"
+        },
+        {
+            "ulb": "BBMP Municipal Corporation",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BBB",
+            "status": "Withdrawn",
+            "date": "17/10/2018"
+        },
+        {
+            "ulb": "Bellary Municipal Corporation",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BBB",
+            "status": "Not available",
+            "date": "Not available"
+        },
+        {
+            "ulb": "Bhadravati City Municipal Council",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "16/08/2018"
+        },
+        {
+            "ulb": "Chickmagalur City Municipal Council",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "20/08/2018"
+        },
+        {
+            "ulb": "Chitradurga City Municipal Council",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "20/08/2018"
+        },
+        {
+            "ulb": "Gangawati City Municipal Council",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "28/09/2018"
+        },
+        {
+            "ulb": "Hassan City Municipal Council",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "31/08/2018"
+        },
+        {
+            "ulb": "Hospet City Municipal Council",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "28/09/2018"
+        },
+        {
+            "ulb": "Kolar City Municipal Council",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "28/09/2018"
+        },
+        {
+            "ulb": "Mandya City Municipal Council",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "03/08/2018"
+        },
+        {
+            "ulb": "Mysore Municipal Corporation",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "A",
+            "status": "Not available",
+            "date": "Not available"
+        },
+        {
+            "ulb": "Ranebennur City Municipal Council",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "16/08/2018"
+        },
+        {
+            "ulb": "Robertson Pet City Municipal Council",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "29/08/2018"
+        },
+        {
+            "ulb": "Udupi City Municipal Council",
+            "state": "Karnataka",
+            "agency": "ICRA",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "20/08/2018"
+        },
+        {
+            "ulb": "Alappuzha Municipality",
+            "state": "Kerala",
+            "agency": "ICRA",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "28/02/2019"
+        },
+        {
+            "ulb": "Kochi Municipal Corporation",
+            "state": "Kerala",
+            "agency": "Brickwork",
+            "creditrating": "BBB",
+            "status": "Withdrawn",
+            "date": "08/03/2019"
+        },
+        {
+            "ulb": "Kollam Municipal Corporation",
+            "state": "Kerala",
+            "agency": "Brickwork",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "13/11/2018"
+        },
+        {
+            "ulb": "Kozhikode Municipal Corporation",
+            "state": "Kerala",
+            "agency": "Brickwork",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "08/03/2019"
+        },
+        {
+            "ulb": "Palakkad Municipality",
+            "state": "Kerala",
+            "agency": "ICRA",
+            "creditrating": "B+",
+            "status": "Withdrawn",
+            "date": "28/02/2019"
+        },
+        {
+            "ulb": "Thrissur Municipal Corporation",
+            "state": "Kerala",
+            "agency": "Brickwork",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "13/11/2018"
+        },
+        {
+            "ulb": "Trivandrum Municipal Corporation",
+            "state": "Kerala",
+            "agency": "Brickwork",
+            "creditrating": "BBB",
+            "status": "Withdrawn",
+            "date": "13/11/2018"
+        },
+        {
+            "ulb": "Bhopal Municipal Corporation",
+            "state": "Madhya Pradesh",
+            "agency": "Acuite / Brickwork",
+            "creditrating": "AA",
+            "status": "Upgraded",
+            "date": "06/09/2018"
+        },
+        {
+            "ulb": "Indore Municipal Corporation",
+            "state": "Madhya Pradesh",
+            "agency": "CARE",
+            "creditrating": "A+",
+            "status": "Affirmed",
+            "date": "06/04/2018"
+        },
+        {
+            "ulb": "Akola Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "CRISIL",
+            "creditrating": "BBB-",
+            "status": "Upgraded",
+            "date": "03/08/2018"
+        },
+        {
+            "ulb": "Amaravati Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "CRISIL",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "29/03/2018"
+        },
+        {
+            "ulb": "Badlapur Municipal Council",
+            "state": "Maharashtra",
+            "agency": "Brickwork",
+            "creditrating": "BBB-",
+            "status": "Outstanding",
+            "date": "01/07/2017"
+        },
+        {
+            "ulb": "Barshi Municipal Council",
+            "state": "Maharashtra",
+            "agency": "IRR",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "29/03/2018"
+        },
+        {
+            "ulb": "Bhiwandi Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "Brickwork",
+            "creditrating": "BBB",
+            "status": "Outstanding",
+            "date": "01/07/2017"
+        },
+        {
+            "ulb": "Bhusawal Municipal Council",
+            "state": "Maharashtra",
+            "agency": "Brickwork",
+            "creditrating": "BB",
+            "status": "Outstanding",
+            "date": "03/05/2017"
+        },
+        {
+            "ulb": "Dhule Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "IRR",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "29/12/2018"
+        },
+        {
+            "ulb": "Hinganghat Municipal Council",
+            "state": "Maharashtra",
+            "agency": "CARE",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "02/04/2018"
+        },
+        {
+            "ulb": "Ichalkaranji Municipal Council",
+            "state": "Maharashtra",
+            "agency": "CARE",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "02/04/2018"
+        },
+        {
+            "ulb": "Jalgaon Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "Brickwork",
+            "creditrating": "BB+",
+            "status": "Outstanding",
+            "date": "14/07/2017"
+        },
+        {
+            "ulb": "Kolhapur Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "CRISIL",
+            "creditrating": "BBB+",
+            "status": "Issuer not Cooperating",
+            "date": "06/09/2018"
+        },
+        {
+            "ulb": "Latur Municipal Council",
+            "state": "Maharashtra",
+            "agency": "ICRA",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "26/10/2018"
+        },
+        {
+            "ulb": "Malegaon Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "ICRA",
+            "creditrating": "BBB",
+            "status": "Withdrawn",
+            "date": "31/08/2018"
+        },
+        {
+            "ulb": "Mira Bhayandar Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "CRISIL",
+            "creditrating": "A",
+            "status": "Affirmed",
+            "date": "29/03/2019"
+        },
+        {
+            "ulb": "Nanded Waghala City Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "CRISIL",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "29/03/2018"
+        },
+        {
+            "ulb": "Nandurbar Municipal Council",
+            "state": "Maharashtra",
+            "agency": "ICRA",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "31/08/2018"
+        },
+        {
+            "ulb": "Nashik Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "CRISIL",
+            "creditrating": "AA-",
+            "status": "Issuer not Cooperating",
+            "date": "31/01/2019"
+        },
+        {
+            "ulb": "Navi Mumbai Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "IRR",
+            "creditrating": "AA+",
+            "status": "Issuer not Cooperating",
+            "date": "15/03/2019"
+        },
+        {
+            "ulb": "Osmanabad Municipal Council",
+            "state": "Maharashtra",
+            "agency": "Brickwork",
+            "creditrating": "BB-",
+            "status": "Outstanding",
+            "date": "14/07/2017"
+        },
+        {
+            "ulb": "Pimpri-Chindwad Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "CRISIL",
+            "creditrating": "AA",
+            "status": "Affirmed",
+            "date": "31/07/2018"
+        },
+        {
+            "ulb": "Pune Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "IRR",
+            "creditrating": "AA+",
+            "status": "Affirmed",
+            "date": "22/06/2018"
+        },
+        {
+            "ulb": "Solapur Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "CRISIL / IRR",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "25/04/2018"
+        },
+        {
+            "ulb": "Thane Municipal Corporation",
+            "state": "Maharashtra",
+            "agency": "CRISIL",
+            "creditrating": "AA-",
+            "status": "Withdrawn",
+            "date": "31/01/2019"
+        },
+        {
+            "ulb": "Udgir Municipal Council",
+            "state": "Maharashtra",
+            "agency": "CRISIL",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "06/03/2017"
+        },
+        {
+            "ulb": "Yavatmal Municipal Council",
+            "state": "Maharashtra",
+            "agency": "IRR",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "29/03/2018"
+        },
+        {
+            "ulb": "Imphal Municipal Council",
+            "state": "Manipur",
+            "agency": "IRR",
+            "creditrating": "B-",
+            "status": "Withdrawn",
+            "date": "21/10/2015"
+        },
+        {
+            "ulb": "Shillong Municipal Board",
+            "state": "Meghalaya",
+            "agency": "IRR",
+            "creditrating": "B+",
+            "status": "Withdrawn",
+            "date": "09/06/2014"
+        },
+        {
+            "ulb": "Aizawal Municipal Corporation",
+            "state": "Mizoram",
+            "agency": "CRISIL",
+            "creditrating": "BB+",
+            "status": "Upgraded",
+            "date": "04/06/2018"
+        },
+        {
+            "ulb": "Aizawl Municipal Corporation",
+            "state": "Mizoram",
+            "agency": "CRISIL",
+            "creditrating": "BB+",
+            "status": "Upgraded",
+            "date": "04/06/2018"
+        },
+        {
+            "ulb": "Kohima Municipal Council",
+            "state": "Nagaland",
+            "agency": "IRR",
+            "creditrating": "B",
+            "status": "Withdrawn",
+            "date": "21/10/2015"
+        },
+        {
+            "ulb": "Baleshwar Town Municipality",
+            "state": "Odisha",
+            "agency": "Brickwork",
+            "creditrating": "B+",
+            "status": "Withdrawn",
+            "date": "14/11/2018"
+        },
+        {
+            "ulb": "Baripada Municipality",
+            "state": "Odisha",
+            "agency": "Brickwork",
+            "creditrating": "B+",
+            "status": "Withdrawn",
+            "date": "25/03/2019"
+        },
+        {
+            "ulb": "Bhadrak Municipality",
+            "state": "Odisha",
+            "agency": "Brickwork",
+            "creditrating": "B",
+            "status": "Withdrawn",
+            "date": "25/03/2019"
+        },
+        {
+            "ulb": "Bhubaneswar Municipal Corporation",
+            "state": "Odisha",
+            "agency": "ICRA",
+            "creditrating": "BBB+",
+            "status": "Withdrawn",
+            "date": "31/07/2018"
+        },
+        {
+            "ulb": "Cuttack Municipal Corporation",
+            "state": "Odisha",
+            "agency": "Brickwork / IRR",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "25/03/2019"
+        },
+        {
+            "ulb": "Puducherry Municipality",
+            "state": "Puducherry",
+            "agency": "ICRA",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "01/12/2015"
+        },
+        {
+            "ulb": "Abohar Municipal Council",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "B+",
+            "status": "Outstanding",
+            "date": "24/05/2017"
+        },
+        {
+            "ulb": "Amritsar Municipal Corporation",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "BBB",
+            "status": "Outstanding",
+            "date": "24/05/2017"
+        },
+        {
+            "ulb": "Barnala Municipal Council",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "BB-",
+            "status": "Outstanding",
+            "date": "26/05/2017"
+        },
+        {
+            "ulb": "Batala Municipal Council",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "BB-",
+            "status": "Outstanding",
+            "date": "01/05/2017"
+        },
+        {
+            "ulb": "Bathinda Municipal Corporation",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "BBB-",
+            "status": "Outstanding",
+            "date": "19/05/2017"
+        },
+        {
+            "ulb": "Firozpur Municipal Council",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "B+",
+            "status": "Outstanding",
+            "date": "26/05/2017"
+        },
+        {
+            "ulb": "Hoshiarpur Municipal Council",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "BB",
+            "status": "Outstanding",
+            "date": "31/03/2017"
+        },
+        {
+            "ulb": "Jalandhar Municipal Corporation",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "BBB",
+            "status": "Outstanding",
+            "date": "24/05/2017"
+        },
+        {
+            "ulb": "Khanna Municipal Council",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "B+",
+            "status": "Outstanding",
+            "date": "29/06/2017"
+        },
+        {
+            "ulb": "Ludhiana Municipal Corporation",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "BBB+",
+            "status": "Outstanding",
+            "date": "30/03/2017"
+        },
+        {
+            "ulb": "Malerkotla Municipal Council",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "BB-",
+            "status": "Outstanding",
+            "date": "26/05/2017"
+        },
+        {
+            "ulb": "Moga Municipal Council",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "BB",
+            "status": "Outstanding",
+            "date": "24/04/2017"
+        },
+        {
+            "ulb": "Muktsar Municipal Council",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "B+",
+            "status": "Outstanding",
+            "date": "23/05/2017"
+        },
+        {
+            "ulb": "Pathankot Municipal Council",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "BB-",
+            "status": "Outstanding",
+            "date": "24/04/2017"
+        },
+        {
+            "ulb": "Patiala Municipal Corporation",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "BB+",
+            "status": "Outstanding",
+            "date": "23/05/2017"
+        },
+        {
+            "ulb": "S.A.S. Nagar Municipal Council",
+            "state": "Punjab",
+            "agency": "Brickwork",
+            "creditrating": "BBB",
+            "status": "Outstanding",
+            "date": "19/05/2017"
+        },
+        {
+            "ulb": "Alwar Municipal Council",
+            "state": "Rajasthan",
+            "agency": "CARE",
+            "creditrating": "BBB+",
+            "status": "Withdrawn",
+            "date": "19/03/2018"
+        },
+        {
+            "ulb": "Beawar Municipal Council",
+            "state": "Rajasthan",
+            "agency": "CARE",
+            "creditrating": "BBB+",
+            "status": "Withdrawn",
+            "date": "19/03/2018"
+        },
+        {
+            "ulb": "Bharatpur Municipal Corporation",
+            "state": "Rajasthan",
+            "agency": "IRR",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "06/06/2018"
+        },
+        {
+            "ulb": "Bhiwadi Municipal Council",
+            "state": "Rajasthan",
+            "agency": "CARE",
+            "creditrating": "A-",
+            "status": "Withdrawn",
+            "date": "19/03/2018"
+        },
+        {
+            "ulb": "Bikaner Municipal Corporation",
+            "state": "Rajasthan",
+            "agency": "IRR",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "07/06/2018"
+        },
+        {
+            "ulb": "Churu Municipal Corporation",
+            "state": "Rajasthan",
+            "agency": "IRR",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "07/06/2018"
+        },
+        {
+            "ulb": "Gangapur City Municipal Corporation",
+            "state": "Rajasthan",
+            "agency": "IRR",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "07/06/2018"
+        },
+        {
+            "ulb": "Hanumangarh Municipal Corporation",
+            "state": "Rajasthan",
+            "agency": "IRR",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "07/06/2018"
+        },
+        {
+            "ulb": "Hindaun Nagar Parishad",
+            "state": "Rajasthan",
+            "agency": "IRR",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "06/06/2018"
+        },
+        {
+            "ulb": "Jhunjunu Municipal Council",
+            "state": "Rajasthan",
+            "agency": "CARE",
+            "creditrating": "A",
+            "status": "Withdrawn",
+            "date": "19/03/2018"
+        },
+        {
+            "ulb": "Jodhpur Municipal Corporation",
+            "state": "Rajasthan",
+            "agency": "CARE",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "19/03/2018"
+        },
+        {
+            "ulb": "Jodhpur Municipal Corporation",
+            "state": "Rajasthan",
+            "agency": "CARE",
+            "creditrating": "BB",
+            "status": "Affirmed",
+            "date": "19/03/2018"
+        },
+        {
+            "ulb": "Kishanganj Municipal Corporation",
+            "state": "Rajasthan",
+            "agency": "ICRA",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "31/07/2018"
+        },
+        {
+            "ulb": "Nagar Parishad Dhaulpur",
+            "state": "Rajasthan",
+            "agency": "IRR",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "07/06/2018"
+        },
+        {
+            "ulb": "Nagaur Municipal Corporation",
+            "state": "Rajasthan",
+            "agency": "CARE",
+            "creditrating": "BBB+",
+            "status": "Withdrawn",
+            "date": "19/03/2018"
+        },
+        {
+            "ulb": "Pali Municipal Council",
+            "state": "Rajasthan",
+            "agency": "CARE",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "19/03/2018"
+        },
+        {
+            "ulb": "Sawai Madhopur Municipal Council",
+            "state": "Rajasthan",
+            "agency": "IRR",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "07/06/2018"
+        },
+        {
+            "ulb": "Sikar Municipal Council",
+            "state": "Rajasthan",
+            "agency": "CARE",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "19/03/2018"
+        },
+        {
+            "ulb": "Sujangarh Municipal Council",
+            "state": "Rajasthan",
+            "agency": "IRR",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "07/06/2018"
+        },
+        {
+            "ulb": "Tonk Municipal Corporation",
+            "state": "Rajasthan",
+            "agency": "CARE",
+            "creditrating": "BBB",
+            "status": "Withdrawn",
+            "date": "19/03/2018"
+        },
+        {
+            "ulb": "Gangtok Municipal Corporation",
+            "state": "Sikkim",
+            "agency": "ICRA",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "30/04/2019"
+        },
+        {
+            "ulb": "Ambur Municipality",
+            "state": "Tamil Nadu",
+            "agency": "CARE",
+            "creditrating": "B",
+            "status": "Outstanding",
+            "date": "08/06/2017"
+        },
+        {
+            "ulb": "Avadi Municipality",
+            "state": "Tamil Nadu",
+            "agency": "CARE",
+            "creditrating": "BBB-",
+            "status": "Outstanding",
+            "date": "24/05/2017"
+        },
+        {
+            "ulb": "Coimbatore Municipal Corporation",
+            "state": "Tamil Nadu",
+            "agency": "Brickwork",
+            "creditrating": "BBB+",
+            "status": "Withdrawn",
+            "date": "26/04/2019"
+        },
+        {
+            "ulb": "Cuddalore Municipality",
+            "state": "Tamil Nadu",
+            "agency": "CARE",
+            "creditrating": "B",
+            "status": "Outstanding",
+            "date": "30/05/2017"
+        },
+        {
+            "ulb": "Dindigul Municipality",
+            "state": "Tamil Nadu",
+            "agency": "ICRA",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "31/08/2018"
+        },
+        {
+            "ulb": "Erode Municipal Corporation",
+            "state": "Tamil Nadu",
+            "agency": "Brickwork",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "26/04/2019"
+        },
+        {
+            "ulb": "Greater Chennai Corporation",
+            "state": "Tamil Nadu",
+            "agency": "Brickwork",
+            "creditrating": "A",
+            "status": "Affirmed",
+            "date": "10/01/2019"
+        },
+        {
+            "ulb": "Hosur Municipality",
+            "state": "Tamil Nadu",
+            "agency": "Brickwork",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "26/04/2019"
+        },
+        {
+            "ulb": "Kancheepuram Municipality",
+            "state": "Tamil Nadu",
+            "agency": "CARE",
+            "creditrating": "BB",
+            "status": "Outstanding",
+            "date": "30/05/2017"
+        },
+        {
+            "ulb": "Karaikkudi Municipality",
+            "state": "Tamil Nadu",
+            "agency": "ICRA",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "29/08/2018"
+        },
+        {
+            "ulb": "Kumbakonam Municipality",
+            "state": "Tamil Nadu",
+            "agency": "IRR",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "17/04/2018"
+        },
+        {
+            "ulb": "Madurai Municipal Corporation",
+            "state": "Tamil Nadu",
+            "agency": "ICRA",
+            "creditrating": "A-",
+            "status": "Withdrawn",
+            "date": "31/08/2018"
+        },
+        {
+            "ulb": "Nagapattinam Municipality",
+            "state": "Tamil Nadu",
+            "agency": "IRR",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "06/04/2018"
+        },
+        {
+            "ulb": "Nagercoil Municipality",
+            "state": "Tamil Nadu",
+            "agency": "ICRA",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "28/09/2018"
+        },
+        {
+            "ulb": "Pallavaram Municipality",
+            "state": "Tamil Nadu",
+            "agency": "CARE",
+            "creditrating": "BBB",
+            "status": "Outstanding",
+            "date": "23/05/2017"
+        },
+        {
+            "ulb": "Pudukkottai Municipality",
+            "state": "Tamil Nadu",
+            "agency": "IRR",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "13/04/2018"
+        },
+        {
+            "ulb": "Rajapalayam Municipality",
+            "state": "Tamil Nadu",
+            "agency": "ICRA",
+            "creditrating": "BB+",
+            "status": "Withdrawn",
+            "date": "31/08/2018"
+        },
+        {
+            "ulb": "Salem Municipal Corporation",
+            "state": "Tamil Nadu",
+            "agency": "Brickwork",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "26/04/2019"
+        },
+        {
+            "ulb": "Tambaram Municipality",
+            "state": "Tamil Nadu",
+            "agency": "CARE",
+            "creditrating": "BBB+",
+            "status": "Outstanding",
+            "date": "23/05/2017"
+        },
+        {
+            "ulb": "Thanjavur Municipality",
+            "state": "Tamil Nadu",
+            "agency": "IRR",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "17/04/2018"
+        },
+        {
+            "ulb": "Thoothukkudi Municipal Corporation",
+            "state": "Tamil Nadu",
+            "agency": "ICRA",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "30/11/2018"
+        },
+        {
+            "ulb": "Tiruchirappalli Municipal Corporation",
+            "state": "Tamil Nadu",
+            "agency": "ICRA",
+            "creditrating": "BBB+",
+            "status": "Withdrawn",
+            "date": "31/08/2018"
+        },
+        {
+            "ulb": "Tirunelveli Municipal Corporation",
+            "state": "Tamil Nadu",
+            "agency": "ICRA",
+            "creditrating": "BBB",
+            "status": "Withdrawn",
+            "date": "28/09/2018"
+        },
+        {
+            "ulb": "Tiruppur Municipal Corporation",
+            "state": "Tamil Nadu",
+            "agency": "Brickwork",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "26/04/2019"
+        },
+        {
+            "ulb": "Velankanni Municipality",
+            "state": "Tamil Nadu",
+            "agency": "IRR",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "13/04/2018"
+        },
+        {
+            "ulb": "Vellore Municipal Corporation",
+            "state": "Tamil Nadu",
+            "agency": "CARE",
+            "creditrating": "BB",
+            "status": "Outstanding",
+            "date": "08/06/2017"
+        },
+        {
+            "ulb": "Greater Warangal Municipal Council",
+            "state": "Telangana",
+            "agency": "CARE",
+            "creditrating": "A",
+            "status": "Downgraded",
+            "date": "13/03/2018"
+        },
+        {
+            "ulb": "Karimnagar Municipal Corporation",
+            "state": "Telangana",
+            "agency": "ICRA",
+            "creditrating": "BBB",
+            "status": "Issuer not Cooperating",
+            "date": "31/01/2019"
+        },
+        {
+            "ulb": "Miryalaguda Municipality",
+            "state": "Telangana",
+            "agency": "ICRA",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "30/01/2019"
+        },
+        {
+            "ulb": "Nizamabad Municipal Corporation",
+            "state": "Telangana",
+            "agency": "IRR",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "14/03/2018"
+        },
+        {
+            "ulb": "Ramagundam Municipality",
+            "state": "Telangana",
+            "agency": "IRR",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "14/03/2018"
+        },
+        {
+            "ulb": "Suryapet Municipality",
+            "state": "Telangana",
+            "agency": "ICRA",
+            "creditrating": "BB",
+            "status": "Issuer not Cooperating",
+            "date": "30/01/2019"
+        },
+        {
+            "ulb": "Agartala Municipal Council",
+            "state": "Tripura",
+            "agency": "IRR",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "09/06/2014"
+        },
+        {
+            "ulb": "Agra Municipal Corporation",
+            "state": "Uttar Pradesh",
+            "agency": "CARE",
+            "creditrating": "BB-",
+            "status": "Not available",
+            "date": "Not available"
+        },
+        {
+            "ulb": "Akbarpur Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "IRR",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "02/05/2018"
+        },
+        {
+            "ulb": "Allahabad Municipal Corporation",
+            "state": "Uttar Pradesh",
+            "agency": "CARE",
+            "creditrating": "B+",
+            "status": "Not available",
+            "date": "Not available"
+        },
+        {
+            "ulb": "Azamgarh Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "IRR",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "27/06/2018"
+        },
+        {
+            "ulb": "Bahraich Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "IRR",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "20/04/2018"
+        },
+        {
+            "ulb": "Ballia Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "IRR",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "24/04/2018"
+        },
+        {
+            "ulb": "Bareilly Municipal Corporation",
+            "state": "Uttar Pradesh",
+            "agency": "Brickwork",
+            "creditrating": "BB+",
+            "status": "Outstanding",
+            "date": "22/06/2017"
+        },
+        {
+            "ulb": "Basti Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "IRR",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "08/06/2018"
+        },
+        {
+            "ulb": "Chandausi Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "Brickwork",
+            "creditrating": "B+",
+            "status": "Outstanding",
+            "date": "19/04/2017"
+        },
+        {
+            "ulb": "Deoria Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "IRR",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "07/06/2018"
+        },
+        {
+            "ulb": "Faizabad Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "IRR",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "29/05/2018"
+        },
+        {
+            "ulb": "Fatehpur Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "IRR",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "07/06/2018"
+        },
+        {
+            "ulb": "Ghazipur Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "IRR",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "24/05/2018"
+        },
+        {
+            "ulb": "Gonda Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "IRR",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "08/05/2018"
+        },
+        {
+            "ulb": "Gorakhpur Municipal Corporation",
+            "state": "Uttar Pradesh",
+            "agency": "IRR",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "24/05/2018"
+        },
+        {
+            "ulb": "Jaunpur Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "IRR",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "30/05/2018"
+        },
+        {
+            "ulb": "Jhansi Municipal Corporation",
+            "state": "Uttar Pradesh",
+            "agency": "Brickwork",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "25/04/2019"
+        },
+        {
+            "ulb": "Kanpur Municipal Corporation",
+            "state": "Uttar Pradesh",
+            "agency": "Brickwork",
+            "creditrating": "BBB+",
+            "status": "Withdrawn",
+            "date": "25/04/2019"
+        },
+        {
+            "ulb": "Lakhimpur Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "Brickwork",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "25/03/2019"
+        },
+        {
+            "ulb": "Lucknow Municipal Corporation",
+            "state": "Uttar Pradesh",
+            "agency": "Brickwork",
+            "creditrating": "A-",
+            "status": "Withdrawn",
+            "date": "25/03/2019"
+        },
+        {
+            "ulb": "Mathura Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "CARE",
+            "creditrating": "B",
+            "status": "Not available",
+            "date": "Not available"
+        },
+        {
+            "ulb": "Meerut Municipal Corporation",
+            "state": "Uttar Pradesh",
+            "agency": "CARE",
+            "creditrating": "B",
+            "status": "Not available",
+            "date": "Not available"
+        },
+        {
+            "ulb": "Moradabad Municipal Corporation",
+            "state": "Uttar Pradesh",
+            "agency": "Brickwork",
+            "creditrating": "BBB-",
+            "status": "Outstanding",
+            "date": "18/05/2017"
+        },
+        {
+            "ulb": "Mughalsarai Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "IRR",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "23/04/2018"
+        },
+        {
+            "ulb": "Pilibhit Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "Brickwork",
+            "creditrating": "B+",
+            "status": "Outstanding",
+            "date": "04/05/2017"
+        },
+        {
+            "ulb": "Rampur Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "Brickwork",
+            "creditrating": "BB",
+            "status": "Outstanding",
+            "date": "15/05/2017"
+        },
+        {
+            "ulb": "Saharanpur Municipal Corporation",
+            "state": "Uttar Pradesh",
+            "agency": "CRISIL",
+            "creditrating": "BB+",
+            "status": "Outstanding",
+            "date": "01/06/2016"
+        },
+        {
+            "ulb": "Sambhal Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "Brickwork",
+            "creditrating": "B+",
+            "status": "Outstanding",
+            "date": "20/04/2017"
+        },
+        {
+            "ulb": "Shahjahanpur Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "Brickwork",
+            "creditrating": "BB-",
+            "status": "Outstanding",
+            "date": "14/07/2017"
+        },
+        {
+            "ulb": "Sultanpur Nagar Palika Parishad",
+            "state": "Uttar Pradesh",
+            "agency": "IRR",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "23/04/2018"
+        },
+        {
+            "ulb": "Varanasi Municipal Corporation",
+            "state": "Uttar Pradesh",
+            "agency": "CARE",
+            "creditrating": "B+",
+            "status": "Not available",
+            "date": "Not available"
+        },
+        {
+            "ulb": "Dehradun Municipal Corporation",
+            "state": "Uttarakhand",
+            "agency": "CRISIL",
+            "creditrating": "BBB-",
+            "status": "Withdrawn",
+            "date": "30/06/2016"
+        },
+        {
+            "ulb": "Haridwar Nagar Palika Parishad",
+            "state": "Uttarakhand",
+            "agency": "CRISIL",
+            "creditrating": "B+",
+            "status": "Withdrawn",
+            "date": "30/06/2016"
+        },
+        {
+            "ulb": "Asansol Municipal Corporation",
+            "state": "West Bengal",
+            "agency": "CRISIL",
+            "creditrating": "BB",
+            "status": "Withdrawn",
+            "date": "30/06/2016"
+        },
+        {
+            "ulb": "Haldia Municipality",
+            "state": "West Bengal",
+            "agency": "ICRA",
+            "creditrating": "BBB",
+            "status": "Withdrawn",
+            "date": "17/05/2018"
+        },
+        {
+            "ulb": "Haora Municipal Corporation",
+            "state": "West Bengal",
+            "agency": "CRISIL",
+            "creditrating": "BB-",
+            "status": "Withdrawn",
+            "date": "30/06/2016"
+        },
+        {
+            "ulb": "Kolkata Municipal Corporation",
+            "state": "West Bengal",
+            "agency": "CRISIL",
+            "creditrating": "A+",
+            "status": "Affirmed",
+            "date": "31/10/2018"
+        },
+        {
+            "ulb": "Maheshtala Municipality",
+            "state": "West Bengal",
+            "agency": "ICRA",
+            "creditrating": "BB+",
+            "status": "Outstanding",
+            "date": "12/04/2018"
+        }
+    ]

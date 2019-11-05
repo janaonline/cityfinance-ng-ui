@@ -1,0 +1,150 @@
+<app-home-header></app-home-header>
+<div class="dashboard-wrapper">
+  <div class="home-banner">
+    <div class="caption">
+      <div class="text-center logo-big"><img src="assets/images/cityfinance-logo-big.png"></div>
+      <h1>
+          An Initiative of <br><span>Ministry of Housing and Urban Affairs, Government of India</span>
+      </h1>
+      <div class="text-center">
+        <!-- <a [routerLink]="['/dashboard/report']" class="btn btn-lg btn-primary">Explore More</a> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="statistics">
+    <app-statistics></app-statistics>
+  </div>
+
+
+  <div class="about">
+    <div class="container">
+
+      <!-- <div class="row">
+        <h3>Data Facts</h3>
+        <div *ngFor="let item of statistics" [ngClass]="item.containerClass">
+          <div class="statistics-block" [ngClass]="item.chartClass">
+            <div *ngIf="item.hasChart" class="col-md-3">
+              <i class="fa fa-bar-chart"></i>
+            </div>
+            <div *ngIf="item.hasChart" class="content col-md-9" >
+              <h5 style="color: #eee;">{{item.title}}</h5>
+              <h2>{{item.caption}}</h2>
+            </div>
+            <div *ngIf="!item.hasChart" class="title">
+              -- <h5 style="color: #eee;">{{item.title}}</h5> --
+              <h2 class="text-center">{{item.caption}} <span class="fa fa-angle-double-right"></span></h2>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="row">
+        <!-- <br><br><br> -->
+        <h3>About</h3>
+        <p class="about-intro">Cityfinance.in is an initiative of Janaagraha Centre for Citizenship and Democracy (JCCD). The primary objective of this portal is to create a national database of city finances and design framework for analysing the financial and operational performance of the cities</p>
+        <div class="col-md-6">
+          <div class="about-block">
+            <i class="fa fa-inr" aria-hidden="true"></i>
+            <h4>Urban Finances</h4>
+            <div class="description">
+              <p>Financial Statements (Balance Sheet and Income & Expenditure Statement) of urban local bodies</p>
+              <div class="text-center">
+                  <a [routerLink]="['/dashboard/report']">
+                    <div class="btn btn-sm btn-primary">Explore</div>
+                  </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="about-block">
+            <i class="fa fa-gavel" aria-hidden="true"></i>
+            <h4>Municipal Finance Laws</h4>
+            <div class="description">
+              <p>Summary of key provisions of municipal acts, rules, and manuals pertaining to municipal finances</p>
+              <div class="text-center">
+                <a [routerLink]="['/credit-rating/laws']">
+                  <div class="btn btn-sm btn-primary">Explore</div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="about-block">
+            <i class="fa fa-star-half-o" aria-hidden="true"></i>
+            <h4>Credit Rating</h4>
+            <div class="description">
+              <p>Details of current and history of credit ratings of urban local bodies under various instruments.</p>
+              <div class="text-center">
+                <a [routerLink]="['/credit-rating/report']">
+                  <div class="btn btn-sm btn-primary">Explore</div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="about-block">
+            <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+            <h4>Municipal Bonds</h4>
+            <div class="description">
+              <p>Details of bond issuances by urban local bodies with details of credit rating, cost of servicing debt,
+                etc</p>
+              <div class="text-center">
+                <a [routerLink]="['/credit-rating/municipal-bond']">
+                  <div class="btn btn-sm btn-primary">Explore</div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="partners">
+    <div class="container">
+      <!-- <h3>A project by</h3> -->
+      <div class="row">
+        <div class="col-md-4">
+          <div class="text-center">
+            <div class="imp-partner">Initiative by</div><br>
+            <div><a href="http://www.janaagraha.org/" target="_new">
+              <img src="assets/images/logo-for-web1.png">
+            </a></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="text-center">
+            <div class="imp-partner">Knowledge partner</div><br>
+            <div><a href="https://www.magc.in/" target="_new">
+              <img src="assets/images/mgc-logo.png">
+            </a></div>
+          </div>
+        </div>
+        <!-- <div class="col-md-3">
+          <div class="text-center">
+            <div class="imp-partner supported-by">Supported by</div><br>
+            <div><a href="https://shaktifoundation.in/" target="_new">
+              <img style="width: 160px;" src="assets/images/shakti-logo.jpg">
+            </a></div>
+          </div>
+        </div> -->
+        <div class="col-md-4">
+          <div class="text-center">
+            <div class="imp-partner">Supported by</div><br>
+            <div><a href="https://www.omidyarnetwork.in/" target="_new">
+              <img src="assets/images/omdiyar-logo.png">
+            </a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <app-home-footer></app-home-footer> -->

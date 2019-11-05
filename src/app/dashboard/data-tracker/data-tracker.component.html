@@ -1,0 +1,21 @@
+<div class="common-container">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Urban Finance </h3> <h4>The list of files available on city finance. </h4>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <ag-grid-angular style="width: 100%; height: calc(100vh - 230px);" class="ag-theme-balham" [columnDefs]="columnDefs"
+          [rowData]="ledgerLogs" [enableColResize]="true" [enableSorting]="true" [enableFilter]="true" [pagination]="true"
+          [paginationAutoPageSize]="true" (gridReady)="onFirstDataRendered($event)">
+        </ag-grid-angular>
+      </div>
+    </div>
+
+
+  </div>
+</div>

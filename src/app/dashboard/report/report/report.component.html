@@ -1,0 +1,163 @@
+<div class="common-container">
+  <form [formGroup]="reportForm" (ngSubmit)="search()">
+    <div class="container-fluid">
+      <div class="col-md-2">
+        <div class="row">
+          <!-- <div class="col-md-12" *ngIf="isFormInvalid">
+            <i class="text-danger">All fields are mandatory</i>
+            <br><br>
+          </div> -->
+
+          <div class="col-md-12 report-tabs">
+            <a class="col-md-12" [ngClass]="{'active': activeGroup=='IE'}" (click)="toggleTab('IE')">Income &
+              Expenditure</a>
+            <a class="col-md-12" [ngClass]="{'active': activeGroup=='BS'}" (click)="toggleTab('BS')">Balance Sheet</a>
+          </div>
+
+          <div class="col-md-12">
+            <br>
+            <label for="" class="">Report Type </label>
+          </div>
+          <div class="col-md-12 form-group">
+            <label class="radio-inline">
+              <input type="radio" name="type" formControlName="type" value="Summary" checked>Summary
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="type" formControlName="type" value="Detailed">Detailed
+            </label>
+            <!-- <select formControlName="type" class="form-control" (change)="reportTypeChange()">
+              <option>Summary</option>
+              <option>Detailed</option>
+              <option>Comparative Summary</option>
+              <option>Comparative Detailed</option>
+              <option>Comparative Summary ULB</option>
+              <option>Comparative Detailed ULB</option>
+              <option>Common Size Summary</option>
+              <option>Common Size Detailed</option>
+              <option>Common Size Summary ULB</option>
+              <option>Common Size Detailed ULB</option>
+            </select> -->
+            <br>
+          </div>
+
+          <div class="col-md-12">
+            <div class="checkbox">
+              <label><input type="checkbox" name="isComparative" formControlName="isComparative"> Comparision Report
+              </label>
+            </div>
+            <br>
+          </div>
+
+          <div class="col-md-12">
+            <label for="" class="">Year <i class="text-danger">*</i></label>
+          </div>
+          <div class="col-md-12">
+            <angular2-multiselect formControlName="yearList" [data]="yearLookup" [settings]="yearsDropdownSettings">
+            </angular2-multiselect>
+            <br>
+          </div>
+
+          <div class="col-md-12">
+            <button for="" class="btn btn-warning btn-block" (click)="openUlbModal(UlbModal)">Filter State / ULB <i
+                class="text-danger">*</i></button><!--state-ulb-filter-->
+                <small class="right" *ngIf="selectedUlbs.length">{{selectedUlbs.length}} ULBs selected</small>
+            <br><br>
+          </div>
+
+
+          <div class="col-md-12">
+            <button class="btn btn-primary btn-block" (click)="submitted = true">Generate Report</button>
+          </div>
+
+          <div class="col-md-12">
+            <br /><br />
+            <a style="float: right; text-decoration: underline;" [routerLink]="['/dashboard/data-tracker']">Download
+              Source Files</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-10">
+        <router-outlet></router-outlet>
+      </div>
+
+    </div>
+
+  </form>
+</div>
+
+
+<ng-template #UlbModal>
+  <div class="modal-header">
+    <!-- <h4 class="modal-title pull-left">Add / Remove states from comparison</h4> -->
+    <div class="col-xs-4 searchUlbMobalInput form-group">
+      <input type="text" class="form-control" [(ngModel)]="ulbForm.ulbFilter" name="searchUlb" id="ulbSearch"
+        placeholder="Search ULB">
+    </div>
+    <div class="col-xs-8">
+      <!-- <a *ngFor="let alphabet of alphabets" (click)="SortUlbByLetter(alphabet)">&emsp;{{alphabet}}</a> -->
+      <a *ngFor="let alphabet of alphabets" (click)="filterUlbByLetter(alphabet)">&emsp;{{alphabet}}</a>
+    </div>
+    <button type="button" class="close1 pull-right btn btn-primary" aria-label="Close" (click)="modalRef.hide()">
+      <!-- <span aria-hidden="true">&times;</span> -->
+      <span *ngIf="selectedUlbs.length">Proceed with {{selectedUlbs.length}} ULBs</span>
+      <span *ngIf="!selectedUlbs.length">Close</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- {{ulbs | json}} -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-6"></div>
+        <div class="col-md-3">
+          <!-- <angular2-multiselect [data]="populationData"
+            [settings]="populationDropdownSettings" [(ngModel)]="ulbForm.ulbPopulationFilter" (onSelect)="filterUlbByPopulation($event)" 
+            (onDeSelect)="filterUlbByPopulation($event)" class="right">
+          </angular2-multiselect> -->
+          <angular2-multiselect [data]="populationData"
+            [settings]="populationDropdownSettings" [(ngModel)]="ulbForm.ulbPopulationFilter" (onSelect)="filterUlbs('ulbPopulationFilter')" 
+            (onDeSelect)="filterUlbs('ulbPopulationFilter')" (onDeSelectAll)="unselectAllPopulation($event)" class="right">
+          </angular2-multiselect>
+        </div>
+        <div class="col-md-3">
+          <!-- <angular2-multiselect [data]="ulbTypeLookup"
+            [settings]="ulbTypeDropdownSettings" [(ngModel)]="ulbForm.ulbTypeFilter" (onSelect)="filterUlbByType($event)" 
+            (onDeSelect)="filterUlbByType($event)" class="right">
+          </angular2-multiselect> -->
+          <angular2-multiselect [data]="ulbTypeLookup"
+            [settings]="ulbTypeDropdownSettings" [(ngModel)]="ulbForm.ulbTypeFilter" (onSelect)="filterUlbs('ulbTypeFilter')" 
+            (onDeSelect)="filterUlbs('ulbTypeFilter')" (onDeSelectAll)="unselectAllULBTypes($event)" class="right">
+          </angular2-multiselect>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <ul class="list-group level-one">
+          <li class="list-group-item level-one col-md-12" *ngFor="let state of ulbs.data | keyvalue" [ngClass]="{'hidden' : (state.value.ulbs && state.value.ulbs.length == 0)}">
+            <input type="checkbox" [(ngModel)]="state.value.isSelected" name="list_name_state"
+            value="{{state.value.state}}" (ngModelChange)="selectStateCheckbox(state)" />
+            <b>{{state.value.state}}</b>
+              
+            <div class="row">
+              <div class="col-md-12">
+                <ul class="list-group level-two row">
+                  <li style="margin: 0px" class="list-group-item level-two checkbox col-md-4" *ngFor="let ulb of state.value.ulbs | keyvalue"
+                  [ngClass]="{'hidden' : (ulbForm.ulbFilter && ulb.value.name.toLowerCase().indexOf(ulbForm.ulbFilter)== -1)}">
+                  <!-- [ngClass]="{'hidden' : isUlbFilterSuccess(ulb.value)}"> -->
+
+                    <label><input type="checkbox" [(ngModel)]="ulb.value.isSelected" name="list_name_ulb"
+                        value="{{ulb.value.name}}" (ngModelChange)="selectUlbCheckbox(ulb, state,state.value.ulbs)" />
+                      {{ulb.value.name}}</label>
+                    <!-- - {{ulb.value.name.toLowerCase().indexOf(ulbFilter)}} -->
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+  </div>
+</ng-template>

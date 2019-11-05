@@ -1,0 +1,66 @@
+<div class="container" id="stats">
+
+  <div class="row">
+    <ul class="nav nav-tabs">
+      <li [ngClass]="{'active' : activeTab == 'Revenue'}" class="col-xs-2 text-center"><a (click) = "onTabSwitch('Revenue')" >
+        <span>Revenue</span>
+      </a></li>
+      <li [ngClass]="{'active' : activeTab == 'Expense'}" class="col-xs-2 text-center"><a (click) = "onTabSwitch('Expense')" >
+        <span>Expenses</span>
+      </a></li>
+    </ul>
+  </div><!--tabs.row-->
+    
+  <div class="row">
+    <div class="col-sm-4" id="statisticsForm" *ngIf="selectedState">
+      <form [formGroup] = "statsForm">
+        <div class="form-group">
+          <label>State</label>
+          <select (change)="loadUlbsCovered()" class="form-control" formControlName="states" name="states" [ngClass]="{ 'is-invalid': submitted }">
+            <!-- <option value="null">Overall</option> -->
+            <option *ngFor="let st of statesAggArry" [ngValue]="st">{{ st.State }}</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div> <!--states.row-->
+
+  <div class="row" *ngIf="particulars">
+    <div  *ngFor="let item of particulars, let i = index" class="custom" [ngClass]="activeTab == 'Expense' ? 'col-14' : 'col-20'">
+      <div class="statistics-block" data-toggle="tooltip" title="{{item.tooltip}}" (click)="loadStats(item.title, i)" [ngClass]="selectedIndex == i ? 'active': item.chartClass"><!-- (click)="loadStats(item.title)" -->
+        <div class="vertical-middle">
+          <div class="col-sm-12">
+            <i class="fa" [ngClass]="item.icon"></i>
+          </div>
+          <div class="content col-sm-12" >
+            <p>{{item.title}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- particulars.row -->
+
+  <div class="row">
+    <div class="col-sm-8" *ngIf="chartData">
+      <app-cf-charts [chartData]="chartData"></app-cf-charts>
+    </div>
+    <div class="col-sm-offset-1 col-sm-3 text-center">
+      <table class="table table-bordered ulb-covered">
+        <tr>
+          <th colspan="2" class="active">ULBs covered</th>
+        </tr>
+        <tr >
+            <th class="text-center">Year</th>
+            <th class="text-center">ULBs</th>
+        </tr>
+        <tr *ngFor="let yr of years, let i = index">
+          <td> {{yr}} </td>
+          <td *ngIf="selectedState"> {{selectedState[yr]}} </td>
+        </tr>
+      </table>
+    </div>
+   </div><!--Charts.row -->
+
+
+</div> <!--container-->

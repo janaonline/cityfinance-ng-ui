@@ -1,0 +1,137 @@
+#statisticsForm{
+    margin-top: 30px;
+    button{
+      margin-top: 22px;
+    }
+}
+#stats{
+  margin-bottom: 30px;
+}
+.statistics-block{
+    height: 100px;
+    text-align: center;
+    display: block;
+    overflow: hidden;
+    z-index: 9;
+    bottom: 0;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    box-shadow: 4px 6px 10px 0px #ccc;
+    border-radius: 10px;
+    color: #fff;
+    transition: ease-in-out 0.2s;
+    cursor: pointer;
+
+    .vertical-middle{
+      position: absolute;
+      top: 48%;
+      transform: translateY(-50%);
+      left: 0;
+      right: 0;
+    }
+    .fa{
+      color: #eee; font-size: 40px; padding-top: 6px; padding-bottom: 6px;
+    }
+
+    .content{
+      p{
+        font-size: 15px;
+        // white-space: nowrap;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+        transition: ease-in-out 0.2s;
+      }
+    }
+
+    .title{
+      .fa{
+        opacity: 0;
+        margin-left: -10px;
+        transition: ease-in-out 0.2s;
+      }
+    }
+    
+    &:hover{
+      box-shadow: 4px 6px 10px 0px #aaa;
+    }
+    &.active{
+      background: #f2a400;  
+      background: -webkit-linear-gradient(to right, #ffc500, #f2a400);
+      background: linear-gradient(to right, #ffc500, #f2a400);
+    }
+  }
+
+  .bg-danger{
+    background: #715c94;  
+    background: -webkit-linear-gradient(to right, #a66def, #715c94);
+    background: linear-gradient(to right, #a66def, #715c94);
+  }
+
+  .bg-warning{
+    background: #f2a400;  
+    background: -webkit-linear-gradient(to right, #ffc500, #f2a400);
+    background: linear-gradient(to right, #ffc500, #f2a400);
+  }
+
+  .bg-success{
+    background: #357307;  
+    background: -webkit-linear-gradient(to right, #87b555, #357307);
+    background: linear-gradient(to right, #87b555, #357307);
+  }
+
+  .bg-primary{
+    background: #0580b5;  
+    background: -webkit-linear-gradient(to right, #85baea, #0580b5);
+    background: linear-gradient(to right, #85baea, #0580b5);
+  }
+
+  .nav-tabs{
+      margin-top: -50px;
+        li{
+          a{ 
+            font-size: 20px;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.664);
+          }
+          &.active{
+            a{
+              color: #0580b5;
+              background: #fff;
+            }
+          }
+        }
+  }
+  table{
+    margin-top: 60px;
+    
+    th.active{
+      text-align: center;
+      background: #0580b5;
+      color: #fff;
+    }
+    th{
+      background: #f1f5f7;
+    }
+  }
+  .custom{
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+    float: left;
+  }
+  .col-14{
+    width: 14%;
+    .statistics-block{
+      .fa{
+        font-size: 25px;
+        padding-bottom: 0px;
+      }
+      .content{
+        font-size: 13px;
+      }
+    }
+  }
+  .col-20{
+    width: 20%;
+  }

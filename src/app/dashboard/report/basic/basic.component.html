@@ -1,0 +1,73 @@
+
+<!-- {{years | json}}-->
+<!-- {{reportReq | json}} -->
+<!--<br />-->
+<!-- {{report | json}} -->
+<!-- 
+{{report.Revenue | json}}
+{{report.Liability | json}} -->
+<div class="row" *ngIf="isProcessed && reportKeys.length == 0">
+  <div class="col-md-12">
+    <h4 style="text-align: center">No Information Available</h4>
+  </div>
+</div>
+
+<div class="row" *ngIf="isProcessed && reportKeys.length > 0">
+  <!-- <div class="col-md-12" *ngFor="let item of report | keyvalue">{{item | json }}</div> -->
+  <div class="col-md-12">
+    <table class="table-bordered">
+      <thead>
+        <tr>
+          <td class="report-header" colspan="8">
+            <img class="align-center" src="/assets/images/cityfinance-logo.png"> <br />
+            <p class="text-center">{{reportReq.type}} {{reportReq.reportGroup}}</p>
+            <!-- <div class="text-center"><small>Percentages represent percentage of Total Expenditure in the case of Expenditure line items and percentage of Total Income for all other line items</small></div> -->
+          </td>
+        </tr>
+        <tr>
+          <th class="text-center">ULB</th>
+          <td *ngIf="!reportReq.ulbType">{{reportReq.ulbList[0].name}}</td>
+          <td *ngIf="reportReq.ulbType">All {{reportReq.ulbType}}</td>
+          <th class="text-center">State</th>
+          <td colspan="8">{{reportReq.ulbList[0].state}}</td>
+        </tr>
+        <tr>
+          <th class="text-center">Account Code</th>
+          <th class="text-center">Major Group/Minor Group</th>
+          <th class="text-center" *ngFor="let yr of years">{{yr.title}}</th>
+          <!-- <th *ngIf="'Comparative' == reportReq.type">% change</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <tr *ngFor="let key of reportKeys" [ngClass]="{'bold': !report[key]['code']}"> -->
+        <tr *ngFor="let key of reportKeys" [ngClass]="{'bold': (report[key] && report[key].isBold), 'hidden': !report[key]}">
+          <td class="text-center">{{ report[key] ? report[key].code : '' }}</td>
+          <td>{{ report[key] ? report[key].line_item : '' }}</td>
+          <td class="text-right" *ngFor="let yr of years">
+            <span *ngIf="report[key]">
+              <span *ngIf="report[key][yr.title]">{{ report[key][yr.title] | inrCurrency}}</span>
+              <span *ngIf="!report[key][yr.title] && report[key]['code']">0</span>
+              <span *ngIf="yr.isComparative">%</span>
+            </span>
+          </td>
+          
+          <!--<td *ngIf="'Comparative' == reportReq.type" class="text-right">{{ aggregate.Revenue['percentChange'] }}</td>-->
+        </tr>
+        
+        <!-- <tr *ngFor="let item of report | keyvalue">
+          <td class="text-center">{{ item.value.code }}</td>
+          <td>{{ item.value.line_item }} - {{item.value.head_of_account}}</td>
+          <td class="text-right" *ngFor="let yr of years">
+            <span *ngIf="item.value[yr.title]">{{ item.value[yr.title] | inrCurrency}}</span>
+            <span *ngIf="!item.value[yr.title]">0</span>
+            <span *ngIf="yr.isComparative">%</span>
+          </td>
+        </tr> -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<br />
+<button (click)="download()" *ngIf="isProcessed && reportKeys.length > 0" class="btn btn-primary right">Download</button>
