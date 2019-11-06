@@ -79,56 +79,18 @@ export class ReportComponent implements OnInit {
       ulbList: [this.selectedUlbs, []],
     });
 
-    // this.ulbForm = this.formBuilder.group({
-    //   ulbFilter: [''],
-    //   ulbPopulationFilter: [''],
-    //   ulbTypeFilter: [''],
-    // });
-
     this.commonService.getAllUlbs().subscribe(ulbs => {
       this.originalUlbList = ulbs;
       this.ulbs = JSON.parse(JSON.stringify(this.originalUlbList));
     });
 
-    // this.commonService.states.subscribe(res => {
-    //   const stateToHide = ['AN', 'AR', 'BR', 'CH', 'DH', 'DD', 'DL', 'GA', 'HR', 'HP', 'JK', 'LD', 'MN', 'ML', 'NL', 'PY', 'SK'];
-
-    //   this.states = [];
-    //   for (let i = 0; i < res.length; i++) {
-    //     if(stateToHide.indexOf(res[i].code) == -1){
-    //       this.states.push(res[i]);
-    //     }        
-    //   }
-    //   this.states = res;
-    //   this.reportForm.value.state = this.states[0];
-    // })
-    // this.commonService.loadStates(false);
+    
   }
 
   get lf() {
     return this.reportForm.controls;
   }
-  // setComparision(selection){
-  //   console.log('before yearComparision : ' + this.reportForm.get('yearComparision').value);
-  //   console.log('before ulbComparision : ' + this.reportForm.get('ulbComparision').value);
-  //   console.log('before bothComparision : ' + this.reportForm.get('bothComparision').value);
-  //   if(this.reportForm.value.yearComparision){
-  //     this.reportForm.value.ulbComparision = false;
-  //     this.reportForm.value.bothComparision = false;
-
-  //   } else if(this.reportForm.value.ulbComparision){
-  //     this.reportForm.value.yearComparision = false;
-  //     this.reportForm.value.bothComparision = false;
-
-  //   } else {
-  //     this.reportForm.value.yearComparision = false;
-  //     this.reportForm.value.ulbComparision = false;
-  //   }
-
-  //   console.log('after yearComparision : ' + this.reportForm.get('yearComparision').value);
-  //   console.log('after ulbComparision : ' + this.reportForm.get('ulbComparision').value);
-  //   console.log('after bothComparision : ' + this.reportForm.get('bothComparision').value);
-  // }
+  
 
   onItemSelect(item: any) {
     console.log(item);
@@ -137,25 +99,6 @@ export class ReportComponent implements OnInit {
     console.log(items);
   }
 
-  // UlbYearSelection(){
-  //   const comparision = this.reportForm.value.comparision;
-  //   if (comparision == 'ulb'){
-  //     this.stateDropdownSettings = this.reportService.getMultiSelectDropdownSetting('code', 'name');
-  //     this.ulbDropdownSettings = this.reportService.getMultiSelectDropdownSetting('code', 'name');
-  //     this.yearDropdownSettings = this.reportService.getSingleSelectDropdownSetting('code', 'name');
-
-  //   } else if(comparision == 'year'){
-  //     this.stateDropdownSettings = this.reportService.getSingleSelectDropdownSetting('code', 'name');
-  //     this.ulbDropdownSettings = this.reportService.getSingleSelectDropdownSetting('code', 'name');
-  //     this.yearDropdownSettings = this.reportService.getMultiSelectDropdownSetting('code', 'name');
-
-  //   } else if (comparision == 'both'){
-  //     this.stateDropdownSettings = this.reportService.getMultiSelectDropdownSetting('code', 'name');
-  //     this.ulbDropdownSettings = this.reportService.getMultiSelectDropdownSetting('code', 'name');
-  //     this.yearDropdownSettings = this.reportService.getMultiSelectDropdownSetting('code', 'name');
-
-  //   }
-  // }
 
   onStateSelect(selectedState: any) {
     console.log(selectedState);
@@ -177,41 +120,12 @@ export class ReportComponent implements OnInit {
     if (this.reportForm.value.state && this.reportForm.value.state.code) {
       this.commonService.getUlbByState(this.reportForm.value.state.code).subscribe(res => {
         const unsortedUlbs = res['data']['ulbs'];
-
-        // const tempUlbs = res['data']['ulbs'];
-        // let unsortedUlbs = [];
-        // for (let i = 0; i < tempUlbs.length; i++) {
-
-        //   if(this.ulbsToHide.indexOf(tempUlbs[i].code) == -1){
-        //     unsortedUlbs.push(tempUlbs[i]);
-        //   }
-        // }
-
         this.ulbs = unsortedUlbs.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
-        // this.ulbs = sortedUlbs;
-
-        // this.reportForm.value.ulb = this.ulbs[0];
       })
     }
   }
 
-  // loadUlbs2() {
-  //   if (this.reportForm.value.state2 && this.reportForm.value.state2.code) {
-  //     this.commonService.getUlbByState(this.reportForm.value.state2.code).subscribe(res => {
-  //       const tempUlbs = res['data']['ulbs'];
-  //       let unsortedUlbs = tempUlbs;
-  //       // let unsortedUlbs = [];
-  //       // for (let i = 0; i < tempUlbs.length; i++) {
-
-  //       //   if(this.ulbsToHide.indexOf(tempUlbs[i].code) == -1){
-  //       //     unsortedUlbs.push(tempUlbs[i]);
-  //       //   }
-  //       // }
-  //       this.ulbs2 = unsortedUlbs.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
-  //       // this.reportForm.value.ulb2 = this.ulbs[0];
-  //     })
-  //   }
-  // }
+  
 
   reportTypeChange() {
     if (['Comparative Detailed ULB', 'Comparative Summary ULB', 'Common Size Detailed ULB', 'Common Size Summary ULB'].indexOf(this.reportForm.value.type) > -1) {
@@ -510,69 +424,17 @@ export class ReportComponent implements OnInit {
     
   }
 
+  clearFilter(){
+    this.selectedUlbs = [];
 
-  // filterUlbByPopulation(){
-    
-  //   console.log('********populationFilterData : ', this.ulbForm.ulbPopulationFilter)
+    this.ulbForm = {
+      ulbFilter: '',
+      ulbPopulationFilter: [],
+      ulbTypeFilter: [],
+    };
 
-  //   const populationFilter = this.ulbForm.ulbPopulationFilter;
-  //   var states = Object.keys(this.originalUlbList.data);
-  //   // var states = Object.keys(this.ulbs.data);
-  //   for (let i = 0; i < states.length; i++) {
-  //     var ulbs = this.originalUlbList.data[states[i]]['ulbs'];
-  //     // var ulbs = this.ulbs.data[states[i]]['ulbs'];
-  //     if(ulbs && ulbs.length>0){
-        
-  //       let filteredUlbs = [];
-  //       for (let j = 0; j < ulbs.length; j++) {
-
-  //         for (let k = 0; k < populationFilter.length; k++) {
-            
-  //           if(ulbs[j].population > populationFilter[k]['min'] && ulbs[j].population <= populationFilter[k]['max']){
-  //             filteredUlbs.push(ulbs[j]);
-  //           }
-  //         }
-  //       }
-  //       this.ulbs.data[states[i]]['ulbs'] = filteredUlbs;
-
-  //     }
-      
-  //   }
-    
-  // }
-
-  // filterUlbByType(){
-  //   let result = {}
-  //   console.log('********populationFilterData : ', this.ulbForm.ulbTypeFilter)
-  //   const ulbTypeFilter = this.ulbForm.ulbTypeFilter;
-   
-  //   var states = Object.keys(this.originalUlbList.data);
-  //   for (let i = 0; i < states.length; i++) {
-  //     var ulbs = this.originalUlbList.data[states[i]]['ulbs'];
-  //     if(ulbs && ulbs.length>0){
-        
-  //       let filteredUlbs = [];
-  //       for (let j = 0; j < ulbs.length; j++) {
-
-  //         if(ulbTypeFilter.length == 0){
-  //           filteredUlbs.push(ulbs[j]);
-  //           continue;
-  //         }
-  //         for (let k = 0; k < ulbTypeFilter.length; k++) {
-            
-  //           if(ulbs[j].type == ulbTypeFilter[k]['id']){
-  //             filteredUlbs.push(ulbs[j]);
-  //           }
-  //         }
-  //       }
-  //       this.ulbs.data[states[i]]['ulbs'] = filteredUlbs;
-
-  //     }
-      
-  //   }
-    
-  // }
-
+    Object.assign(this.ulbs, this.originalUlbList);
+  }
   
 
 }

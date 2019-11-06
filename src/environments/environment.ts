@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   api: {
     url2: 'http://cityfinance.in/',
-    url: 'http://localhost:8080/',
-    url1: 'http://staging.cityfinance.in/'
+    url1: 'http://localhost:8080/',
+    url: 'http://staging.cityfinance.in/'
   }
 };
 

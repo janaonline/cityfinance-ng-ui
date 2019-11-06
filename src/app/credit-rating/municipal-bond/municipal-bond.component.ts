@@ -6,11 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./municipal-bond.component.scss']
 })
 export class MunicipalBondComponent implements OnInit {
-
+  
   constructor() { }
 
   ngOnInit() {
-
+    
   }
 
 }
