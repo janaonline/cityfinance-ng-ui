@@ -60,6 +60,7 @@
           <div class="col-md-12">
             <button for="" class="btn btn-warning btn-block" (click)="openUlbModal(UlbModal)">Filter State / ULB <i
                 class="text-danger">*</i></button><!--state-ulb-filter-->
+                <b><small class="text-danger pointer" (click)="clearFilter()" *ngIf="selectedUlbs.length">Clear filter</small></b>
                 <small class="right" *ngIf="selectedUlbs.length">{{selectedUlbs.length}} ULBs selected</small>
             <br><br>
           </div>
@@ -107,6 +108,11 @@
   <div class="modal-body">
     <!-- {{ulbs | json}} -->
     <div class="row">
+        <div class="col-md-12">
+          <!-- {{populationData | json}} <br>
+          {{ulbTypeLookup | json}} <br> -->
+          &nbsp;
+        </div>
       <div class="col-md-12">
         <div class="col-md-6"></div>
         <div class="col-md-3">
