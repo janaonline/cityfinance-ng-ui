@@ -209,7 +209,7 @@ export class ReportHelperService {
       { keyName: 'investments', title: 'Investments', isCalc: false },
       { keyName: 'totalInvestments', title: 'Total Investments (420 + 421)', isCalc: true, addFields: ['420', '421'] },
       { keyName: 'curALA', title: 'Current Assets, Loans and Advances', isCalc: false },
-      { keyName: 'netAmtOutstanding1', title: 'Net amount outstanding ', isCalc: true, subtractFields: ['431', '432'] },
+      { keyName: 'netAmtOutstanding1', title: 'Net amount outstanding (431 - 432) ', isCalc: true, addFields: ['431', '432'] },
       { keyName: 'netAmtOutstanding2', title: 'Net amount outstanding (ii) (430 + 431 + 432 + 440 + 450 + 460)', isCalc: true, addFields: [`430`, '431', '432', '440', '450', '460'] },
 
 
