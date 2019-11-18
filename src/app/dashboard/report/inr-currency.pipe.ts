@@ -4,11 +4,12 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: "inrCurrency"
 })
 export class InrCurrencyPipe implements PipeTransform {
-  transform(value: any, args?: any): any {
+  transform(value: number, args?: any): any {
     if (!value) {
-      return "";
+      return "Not Applicable";
     }
-    let x = value < 0 ? `(${(value * -1).toString()})` : value.toString();
+    // value = value.toFixed()
+    let x = value < 0 ? `(${(value * -1).toFixed(2)})` : value.toFixed(2);
     let decimal = "";
 
     if (x.indexOf(".") > -1) {

@@ -113,11 +113,11 @@ export class ReportHelperService {
 
       { keyName: '120-150', code: '120-150', title: 'Non-Tax Revenue', isCalc: true, addFields: ['120', '130', '140', '150'], delFields: ['120', '130', '140', '150'] },
       { keyName: '170-180', code: '170-180', title: 'Other Income', isCalc: true, addFields: ['170', '171', '180'], delFields: ['170', '171', '180'] },
-      { keyName: 'totalIncome', title: 'Total Income(A)', isCalc: true, addFields: ['110', '120-150', '160', '170-180'] },
+      { keyName: 'totalIncome', title: 'Total Income(A)', isCalc: true, addFields: ['110', '120-150', '160', '170-180', '100'] },
 
       { keyName: 'expenditure', title: 'B.Expenditure', isCalc: false },
       { keyName: '250, 270-290', code: '250, 270-290', title: 'Other Expenses', isCalc: true, addFields: ['250', '270', '271', '272', '280', '290'], delFields: ['250', '270', '271', '272', '280', '290'] },
-      { keyName: 'totalExp', title: 'Total Expenditure(B)', isCalc: true, addFields: ['210', '220', '230', '240', '260', '250, 270-290'] },
+      { keyName: 'totalExp', title: 'Total Expenditure(B)', isCalc: true, addFields: ['210', '220', '230', '240', '260', '250, 270-290', '200'] },
 
       { keyName: 'surplusDeficit', title: 'Surplus/(Deficit) (C) (A-B)', isCalc: true, addFields: ['totalIncome'], subtractFields: ['totalExp'] },
     ];
