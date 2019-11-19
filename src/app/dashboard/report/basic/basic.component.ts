@@ -119,6 +119,7 @@ export class BasicComponent implements OnInit {
 
     for (let i = 0; i < calcFields.length; i++) {
       const keyName = calcFields[i].keyName;
+      // console.log({ keyName });
       result[keyName] = { line_item: calcFields[i].title, isBold: true };
       if (calcFields[i].code) {
         result[keyName]["code"] = calcFields[i].code;
@@ -129,7 +130,7 @@ export class BasicComponent implements OnInit {
           let sum = 0;
           const addFields = calcFields[i].addFields;
           const subtractFields = calcFields[i].subtractFields;
-
+          console.log({ addFields });
           /** loop through each result line item and add values for specific year */
           if (addFields) {
             for (let k = 0; k < addFields.length; k++) {
@@ -163,6 +164,9 @@ export class BasicComponent implements OnInit {
             }
           }
 
+          // if (keyName === "Others") {
+          //   console.log(sum);
+          // }
           result[keyName][years[j]["title"]] = sum;
         }
       }

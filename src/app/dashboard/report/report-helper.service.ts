@@ -81,7 +81,7 @@ export class ReportHelperService {
       { keyName: 'income', title: 'A.Income', isCalc: false, prePushCode: 110, },
       { keyName: 'totalIncome', title: 'Total Income(A) (110 + 120 + 130 + 140 + 150 + 160 + 170 + 171 + 180 + 100)', isCalc: true, postPushCode: 180, addFields: ['110', '120', '130', '140', '150', '160', '170', '171', '180', '100'] },
       { keyName: 'expenditure', title: 'B.Expenditure', isCalc: false, prePushCode: 210, },
-      { keyName: 'totalExp', title: 'Total Expenditure(B) (210 + 220 + 230 + 240 + 250 + 260 + 270 + 271 + 272 + 200)', isCalc: true, postPushCode: 272, addFields: ['210', '220', '230', '240', '250', '260', '270', '271', '272', '200'] },
+      { keyName: 'totalExp', title: 'Total Expenditure(B) (210 + 220 + 230 + 240 + 250 + 260 + 270 + 271 + 272 + 200)', isCalc: true, postPushCode: 272, addFields: ['210', '220', '230', '240', '250', '260', '270', '271', '272', '200', '280', '290'] },
       { keyName: 'grossSurplusBefore', title: 'Gross Surplus/(Deficit) of Income over Expenditure before Prior Period Items (C) (A-B) ', isCalc: true, prePushCode: 280, addFields: ['totalIncome'], subtractFields: ['totalExp'] },
       { keyName: 'grossSurplusAfter', title: 'Gross Surplus/(Deficit) of Income over Expenditure after Prior Period Items', isCalc: true, prePushCode: 290, addFields: ['grossSurplusBefore', '280'] },
       { keyName: 'netBalance', title: 'Net Surplus/(Deficit) carried over (E) (D-290)', isCalc: true, postPushCode: 290, addFields: ['grossSurplusAfter'], subtractFields: ['290'] },
@@ -213,7 +213,7 @@ export class ReportHelperService {
       { keyName: 'netAmtOutstanding2', title: 'Net amount outstanding (ii) (430 + 431 + 432 + 440 + 450 + 460)', isCalc: true, addFields: [`430`, '431', '432', '440', '450', '460'] },
 
 
-      { keyName: 'totalCALA', title: 'Total Current Assets, Loans and Advances (III)', isCalc: true, addFields: ['netAmtOutstanding1', 'netAmtOutstanding2'] },
+      { keyName: 'totalCALA', title: 'Total Current Assets, Loans and Advances (III)', isCalc: true, addFields: [`430`, '431', '432', '440', '450', '460'] },
 
       { keyName: 'totalOtherAssets', title: 'Total Other Assets (IV) (470 + 480 + 400)', isCalc: true, addFields: ['470', '480', '400'] },
 
