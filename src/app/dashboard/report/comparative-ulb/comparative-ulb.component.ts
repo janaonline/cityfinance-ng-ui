@@ -58,7 +58,7 @@ export class ComparativeUlbComponent implements OnInit {
         // this.links = this.reportService.loadDefaultLinks();
         // this.transformResult(res['data']);
         this.transformResult(res);
-
+        // console.log(this.report);
         this.headerGroup.yearColspan =
           this.years.length / this.reportReq.years.length;
       } else {
@@ -165,7 +165,7 @@ export class ComparativeUlbComponent implements OnInit {
    */
   populateCalcFields(result, years) {
     let calcFields = [];
-    console.log(`reportReq: `, { ...this.reportReq });
+    // console.log(`reportReq: `, { ...this.reportReq });
     if (
       this.reportReq.reportGroup == "Balance Sheet" &&
       this.reportReq.type.indexOf("Summary") > -1
@@ -187,7 +187,7 @@ export class ComparativeUlbComponent implements OnInit {
       calcFields = this.reportHelper.getIECalcFields();
     }
 
-    console.log({ calcFields });
+    // console.log({ calcFields });
 
     for (let i = 0; i < calcFields.length; i++) {
       const keyName = calcFields[i].keyName;

@@ -9,7 +9,8 @@ export class InrCurrencyPipe implements PipeTransform {
       return "Not Applicable";
     }
     // value = value.toFixed()
-    let x = value < 0 ? `(${(value * -1).toFixed(2)})` : value.toFixed(2);
+    let x =
+      value < 0 ? `(${Math.round(value * -1)})` : Math.round(value).toString();
     let decimal = "";
 
     if (x.indexOf(".") > -1) {
