@@ -23,12 +23,15 @@ export class BasicComponent implements OnInit {
     private reportService: ReportService,
     private excelService: ExcelService,
     private reportHelper: ReportHelperService
-  ) {}
+  ) {
+    console.log(`instantiating basic`);
+  }
 
   ngOnInit() {
     this.reportReq = this.reportService.getReportRequest();
 
     this.reportService.reportResponse.subscribe(res => {
+      console.log(res);
       if (res && res.length > 0) {
         this.reportReq = this.reportService.getReportRequest();
         this.years = [];
@@ -130,7 +133,7 @@ export class BasicComponent implements OnInit {
           let sum = 0;
           const addFields = calcFields[i].addFields;
           const subtractFields = calcFields[i].subtractFields;
-          console.log({ addFields });
+          // console.log({ addFields });
           /** loop through each result line item and add values for specific year */
           if (addFields) {
             for (let k = 0; k < addFields.length; k++) {
