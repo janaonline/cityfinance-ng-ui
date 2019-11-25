@@ -66,15 +66,12 @@ export class ReportComponent implements OnInit {
       isComparative: false,
       yearList: []
     });
-    // this.reportForm.reset();
+    this.reportForm.reset();
     this.activeGroup = "IE";
+    // this.reportForm.s
     // this.toggleTab("IE");
 
     this.reportService.reportResponse.next(null);
-    // this.router
-    //   .navigate(["/dashboard/report/basic"])
-    //   .then(res => console.log(res))
-    //   .catch(err => console.error(err));
   }
 
   ngOnInit() {
