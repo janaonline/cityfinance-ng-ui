@@ -83,7 +83,7 @@ export class ReportHelperService {
       { keyName: 'expenditure', title: 'B.Expenditure', isCalc: false, prePushCode: 210, },
       { keyName: 'totalExp', title: 'Total Expenditure(B) (210 + 220 + 230 + 240 + 250 + 260 + 270 + 271 + 272 + 200)', isCalc: true, postPushCode: 272, addFields: ['210', '220', '230', '240', '250', '260', '270', '271', '272', '200', '280', '290'] },
       { keyName: 'grossSurplusBefore', title: 'Gross Surplus/(Deficit) of Income over Expenditure before Prior Period Items (C) (A-B) ', isCalc: true, prePushCode: 280, addFields: ['totalIncome'], subtractFields: ['totalExp'] },
-      { keyName: 'grossSurplusAfter', title: 'Gross Surplus/(Deficit) of Income over Expenditure after Prior Period Items', isCalc: true, prePushCode: 290, addFields: ['grossSurplusBefore', '280'] },
+      { keyName: 'grossSurplusAfter', title: 'Gross Surplus/(Deficit) of Income over Expenditure after Prior Period Items item(D) (C-280)', isCalc: true, prePushCode: 290, addFields: ['grossSurplusBefore', '280'] },
       { keyName: 'netBalance', title: 'Net Surplus/(Deficit) carried over (E) (D-290)', isCalc: true, postPushCode: 290, addFields: ['grossSurplusAfter'], subtractFields: ['290'] },
     ];
   }
@@ -130,6 +130,7 @@ export class ReportHelperService {
       'resSurplus',
       '310', '311', '312',
       'totalResSurplus',
+      'gcSp',
       '320',
       'total320',
       'loans',
@@ -140,6 +141,7 @@ export class ReportHelperService {
       'totalCurLibProv',
       'totalLiability',
       'assets',
+      'fixedAssets',
       '410', '411',
       'netBlock',
       '412',
@@ -153,6 +155,7 @@ export class ReportHelperService {
       '440', '450', '460', '461',
       'netAmtOutstanding2',
       'totalCALA',
+      'otherAssets',
       '470', '480', '400',
       'totalOtherAssets',
       'totalAssets'
@@ -191,29 +194,32 @@ export class ReportHelperService {
   }
 
 
-
-  getBSCalcFields() {
+    // Balance Sheet -> Detailed Report.
+    getBSCalcFields() {
     return [
       { keyName: 'liabilities', title: 'A. Liabilities', isCalc: false, },
-      { keyName: 'resSurplus', title: 'Reserves & Surplus', isCalc: false },
-      { keyName: 'totalResSurplus', title: 'Total Reserves & Surplus (301 + 311 + 312)', isCalc: true, addFields: ['310', '311', '312'] },
-      { keyName: 'total320', title: 'Total Grants , Contribution for specific purposes (320)', isCalc: true, addFields: ['320'] },
-      { keyName: 'loans', title: 'Loans', isCalc: false },
-      { keyName: 'totalLoans', title: 'Total Loans (330 + 331)', isCalc: true, addFields: ['330', '331'] },
-      { keyName: 'curLibProv', title: 'Current Liabilities and Provisions', isCalc: false },
-      { keyName: 'totalCurLibProv', title: 'Total Current Liabilities and Provisions (340 + 341 + 350 + 360 + 300)', isCalc: true, addFields: ['340', '341', '350', '360', '300'] },
+      { keyName: 'resSurplus', title: 'I. Reserves & Surplus', isCalc: false },
+      { keyName: 'totalResSurplus', title: 'Total Reserves & Surplus I (310 + 311 + 312)', isCalc: true, addFields: ['310', '311', '312'] },
+      { keyName: 'gcSp', title: 'II. Grants , Contribution for specific purposes', isCalc: false, },
+      { keyName: 'total320', title: 'Total Grants , Contribution for specific purposes (II) (320)', isCalc: true, addFields: ['320'] },
+      { keyName: 'loans', title: 'III. Loans', isCalc: false },
+      { keyName: 'totalLoans', title: 'Total Loans (III) (330 + 331)', isCalc: true, addFields: ['330', '331'] },
+      { keyName: 'curLibProv', title: 'IV. Current Liabilities and Provisions', isCalc: false },
+      { keyName: 'totalCurLibProv', title: 'Total Current Liabilities and Provisions (IV) (340 + 341 + 350 + 360 + 300)', isCalc: true, addFields: ['340', '341', '350', '360', '300'] },
       { keyName: 'totalLiability', title: 'Total Liabilities (I + II + III + IV)', isCalc: true, addFields: ['totalResSurplus', 'total320', 'totalLoans', 'totalCurLibProv'], },
       { keyName: 'assets', title: 'B. Assets', isCalc: false },
+      { keyName: 'fixedAssets', title: 'I. Fixed Assets', isCalc: false },
       { keyName: 'netBlock', title: 'Net Block (410 - 411)', isCalc: true, addFields: ['410', '411'] },
-      { keyName: 'totalFixedAssets', title: 'Total Fixed Assets (410 - 411 + 412)', isCalc: true, addFields: ['netBlock', '412'] },
-      { keyName: 'investments', title: 'Investments', isCalc: false },
-      { keyName: 'totalInvestments', title: 'Total Investments (420 + 421)', isCalc: true, addFields: ['420', '421'] },
-      { keyName: 'curALA', title: 'Current Assets, Loans and Advances', isCalc: false },
+      { keyName: 'totalFixedAssets', title: 'Total Fixed Assets (I) (410 - 411 + 412)', isCalc: true, addFields: ['netBlock', '412'] },
+      { keyName: 'investments', title: 'II. Investments', isCalc: false },
+      { keyName: 'totalInvestments', title: 'Total Investments (II) (420 + 421)', isCalc: true, addFields: ['420', '421'] },
+      { keyName: 'curALA', title: 'III. Current Assets, Loans and Advances', isCalc: false },
       { keyName: 'netAmtOutstanding1', title: 'Net amount outstanding (431 - 432) ', isCalc: true, addFields: ['431', '432'] },
-      { keyName: 'netAmtOutstanding2', title: 'Net amount outstanding (ii) (430 + 431 + 432 + 440 + 450 + 460)', isCalc: true, addFields: [`430`, '431', '432', '440', '450', '460'] },
+      { keyName: 'netAmtOutstanding2', title: 'Net amount outstanding (II) (430 + 431 + 432 + 440 + 450 + 460)', isCalc: true, addFields: [`430`, '431', '432', '440', '450', '460'] },
 
 
       { keyName: 'totalCALA', title: 'Total Current Assets, Loans and Advances (III)', isCalc: true, addFields: [`430`, '431', '432', '440', '450', '460'] },
+      { keyName: 'otherAssets', title: 'IV. Other Assets', isCalc: false },
 
       { keyName: 'totalOtherAssets', title: 'Total Other Assets (IV) (470 + 480 + 400)', isCalc: true, addFields: ['470', '480', '400'] },
 
