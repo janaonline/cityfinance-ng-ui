@@ -15,11 +15,11 @@ export class ExcelService {
 
   transformTableToExcelData(title, html, filename) {
     filename = title;
-    let excel = [];
-    let rows = document.querySelectorAll("table tr");
+    const excel = [];
+    const rows = document.querySelectorAll("table tr");
 
     for (let i = 1; i < rows.length; i++) {
-      let row = [],
+      const row = [],
         cols = rows[i].querySelectorAll("td, th");
 
       for (let j = 0; j < cols.length; j++) {
@@ -35,7 +35,7 @@ export class ExcelService {
       alert("No records to download");
     }
     const headers = [];
-    let tableTitles = rows[2].querySelectorAll("th");
+    const tableTitles = rows[2].querySelectorAll("th");
     for (let i = 0; i < tableTitles.length; i++) {
       headers.push(tableTitles[i].innerHTML);
     }
@@ -57,7 +57,7 @@ export class ExcelService {
       base64: logoFile.logoBase64,
       extension: "png"
     });
-    worksheet.addImage(logo, "B1:C2");
+    worksheet.addImage(logo, "B1:E2");
     // worksheet.mergeCells('A1:D2');
     worksheet.mergeCells("A1:" + this.getCellNameByNumber(header.length) + "2");
 
