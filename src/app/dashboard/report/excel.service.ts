@@ -9,6 +9,11 @@ const EXCEL_TYPE =
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
 const EXCEL_EXTENSION = ".xlsx";
 
+interface CustomArray<T> {
+  flat(): Array<T>;
+  flatMap(func: (x: T) => T): Array<T>;
+}
+
 @Injectable()
 export class ExcelService {
   constructor() {}
@@ -16,37 +21,94 @@ export class ExcelService {
   transformTableToExcelData(title, html, filename) {
     filename = title;
     let excel = [];
-    let rows = document.querySelectorAll("table tr");
+    const rows = document.querySelectorAll("table tr");
+    const cellsToMerge: {
+      row: { from: number; to: number };
+      column: { from: number; to: number };
+    }[] = [];
 
-    for (let i = 1; i < rows.length; i++) {
-      let row = [],
-        cols = rows[i].querySelectorAll("td, th");
+    let largestColumnInARow = -1;
+    for (let rowIndex = 1; rowIndex < rows.length; rowIndex++) {
+      let row = [];
+      const cols = rows[rowIndex].querySelectorAll("td, th");
+      largestColumnInARow =
+        largestColumnInARow < cols.length ? cols.length : largestColumnInARow;
+      let columnCounter = 0;
+      for (let columnIndex = 0; columnIndex < cols.length; columnIndex++) {
+        if (cols[columnIndex].innerHTML) {
+          const element = <HTMLElement>cols[columnIndex];
+          const rowspan = element.getAttribute("rowspan");
+          const colspan = element.getAttribute("colspan");
+          if (rowspan || colspan) {
+            const rowNumber = 3 + rowIndex;
+            cellsToMerge.push({
+              row: {
+                from: rowNumber,
+                to: rowNumber + (+rowspan ? +rowspan - 1 : 0)
+              },
+              column: {
+                from: columnCounter,
+                to: columnCounter + (+colspan ? +colspan : 0)
+              }
+            });
+            columnCounter += +colspan ? +colspan : 1;
+          }
 
-      for (let j = 0; j < cols.length; j++) {
-        if (cols[j].innerHTML) {
-          row[j] = cols[j]["innerText"];
+          row[columnIndex] = cols[columnIndex]["innerText"];
         } else {
-          row[j] = "";
+          row[columnIndex] = "";
         }
+      }
+      if (row.length < largestColumnInARow) {
+        const newArray = new Array(largestColumnInARow - row.length).fill("");
+        row = newArray.concat(row);
       }
       excel.push(row);
     }
+
+    // Here we are set column if multiple date are selected.
+    excel = excel.map((row, index) => {
+      if (row.length < largestColumnInARow) {
+        const newArray: CustomArray<string> | any = [];
+        const tableHeaders = Array.from(
+          rows[index + 1].querySelectorAll("td, th")
+        );
+        tableHeaders.forEach(header => {
+          const noOfColumnRequired = +header.getAttribute("colspan");
+          const emptyColumns = new Array(noOfColumnRequired).fill("");
+          emptyColumns[0] = header.textContent;
+          newArray.push(emptyColumns);
+        });
+        row = newArray.flat();
+        return row;
+      } else {
+        return row;
+      }
+    });
     if (excel.length == 0) {
       alert("No records to download");
     }
     const headers = [];
-    let tableTitles = rows[2].querySelectorAll("th");
+    const tableTitles = rows[2].querySelectorAll("th");
     for (let i = 0; i < tableTitles.length; i++) {
       headers.push(tableTitles[i].innerHTML);
     }
-    this.generateExcel(title, headers, excel, filename);
+
+    // excel =excel.map(row => {
+    //   row.length >= largestColumnInARow ? row :
+    // })
+    this.generateExcel(title, headers, excel, filename, cellsToMerge);
   }
 
   generateExcel(
     title: string,
     header: any[],
     data: any[],
-    excelFileName: string
+    excelFileName: string,
+    cellsToMerge: {
+      row: { from: number; to: number };
+      column: { from: number; to: number };
+    }[]
   ) {
     // Create workbook and worksheet
     const workbook = new ExcelJs.Workbook();
@@ -57,10 +119,12 @@ export class ExcelService {
       base64: logoFile.logoBase64,
       extension: "png"
     });
-    worksheet.addImage(logo, "B1:C2");
+    worksheet.addImage(logo, "B1:E2");
     // worksheet.mergeCells('A1:D2');
     worksheet.mergeCells("A1:" + this.getCellNameByNumber(header.length) + "2");
-
+    if (cellsToMerge && cellsToMerge.length) {
+      // cellsToMerge.forEach(cell => worksheet.mergeCells(cell));
+    }
     worksheet
       .getRow(1)
       .eachCell({ includeEmpty: true }, function(cell, rowNumber) {
@@ -88,6 +152,20 @@ export class ExcelService {
     // Add Rows and formatting
     for (let i = 0; i < data.length; i++) {
       const row = worksheet.addRow(data[i]);
+      const rowToMerges = cellsToMerge.filter(
+        option => option.row.from - 3 === i
+      );
+      rowToMerges.forEach(rowToMerge => {
+        const rowFrom =
+          String.fromCharCode(65 + rowToMerge.column.from) +
+          rowToMerge.row.from;
+        const rowTo =
+          String.fromCharCode(65 + rowToMerge.column.from) + rowToMerge.row.to;
+        if (rowFrom !== rowTo) {
+          worksheet.mergeCells(`${rowFrom}:${rowTo}`);
+        }
+      });
+
       if (i < 2 || !data[i][0]) {
         row.eachCell((cell, number) => {
           cell.fill = {
@@ -124,6 +202,18 @@ export class ExcelService {
           }
         });
       }
+
+      // Merge column here.
+      rowToMerges.forEach(option => {
+        if (option.column.from === option.column.to) {
+          return;
+        }
+        const columnFrom =
+          String.fromCharCode(65 + option.column.from) + option.row.from;
+        const columnTo =
+          String.fromCharCode(65 + option.column.to - 1) + option.row.from;
+        worksheet.mergeCells(`${columnFrom}:${columnTo}`);
+      });
     }
 
     worksheet.getColumn(1).width = 15;
@@ -165,7 +255,6 @@ export class ExcelService {
 
   public exportAsExcelFile(json: any[], excelFileName: string): void {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    console.log("worksheet", worksheet);
     const workbook: XLSX.WorkBook = {
       Sheets: { data: worksheet },
       SheetNames: ["data"]
