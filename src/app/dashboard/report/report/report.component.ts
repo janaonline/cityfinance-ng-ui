@@ -337,10 +337,12 @@ export class ReportComponent implements OnInit {
     }
 
     // IMPORTANT ADD BaseULBSelected here for comparision;
-    this.reportForm.value.ulbList = [
-      { ...this.baseULBSelected },
-      ...this.reportForm.value.ulbList
-    ];
+    if (this.reportForm.value.isComparative) {
+      this.reportForm.value.ulbList = [
+        { ...this.baseULBSelected },
+        ...this.reportForm.value.ulbList
+      ];
+    }
 
     this.populateReportGroup();
     if (
@@ -629,12 +631,10 @@ export class ReportComponent implements OnInit {
     );
 
     ulbSelected = ((ulbSelected as any) as CustomArray<IULB[]>).flat();
-    const ulbs = Object.values(
-      this.StateULBTypeMapping[stateCode][ulbType.type]
-    );
-    if (ulbs) {
-      this.selectedUlbs = ulbs;
-      this.reportForm.controls.ulbList.setValue(ulbs);
+
+    if (ulbSelected) {
+      this.selectedUlbs = ulbSelected;
+      this.reportForm.controls.ulbList.setValue(ulbSelected);
     } else {
       this.selectedUlbs = [];
       this.reportForm.controls.ulbList.setValue([]);
