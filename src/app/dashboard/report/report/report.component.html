@@ -74,7 +74,7 @@
             <br />
           </div>
 
-          <div class="col-md-12">
+          <!-- <div class="col-md-12">
             <label for="" class="">Year <i class="text-danger">*</i></label>
           </div>
           <div class="col-md-12">
@@ -86,7 +86,7 @@
             >
             </angular2-multiselect>
             <br />
-          </div>
+          </div> -->
 
           <div class="col-md-12">
             <button
@@ -150,6 +150,22 @@
         placeholder="Search ULB"
       />
     </div>
+
+    <div class="col-md-3">
+      <form [formGroup]="reportForm">
+        <div class="col-md-12">
+          <angular2-multiselect
+            formControlName="yearList"
+            [data]="yearLookup"
+            [settings]="yearsDropdownSettings"
+            (onClose)="onDateSelectionClose($event)"
+          >
+          </angular2-multiselect>
+          <br />
+        </div>
+      </form>
+    </div>
+
     <div class="col-md-3">
       <angular2-multiselect
         [data]="populationData"
@@ -169,10 +185,11 @@
       aria-label="Close"
       (click)="modalRef.hide()"
     >
-      <span *ngIf="selectedUlbs?.length"
+      <!-- <span *ngIf="selectedUlbs?.length"
         >Proceed with {{ selectedUlbs?.length }} ULBs</span
       >
-      <span *ngIf="!selectedUlbs?.length">Close</span>
+      <span *ngIf="!selectedUlbs?.length">Close</span> -->
+      <span>Close</span>
     </button>
   </div>
 
@@ -241,6 +258,7 @@
               value="currentStateInView.key"
               class="ng-untouched ng-pristine ng-valid"
               [disabled]="!getTotalULBSelectedBy(currentStateInView.key)"
+              (click)="removeAllSelectedULB(currentStateInView.key)"
             />
             <b _ngcontent-c4=""> {{ currentStateInView!.value!.state }} </b>
             <div _ngcontent-c4="" class="row">
