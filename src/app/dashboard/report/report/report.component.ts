@@ -34,13 +34,25 @@ export class ReportComponent implements OnInit {
       .pipe(debounce(() => interval(400)))
       .subscribe(newText => {
         const newULBS = this.filterULBByPopFilters(newText);
-        this.ulbs = newULBS;
+        this.ulbs = { ...newULBS };
+        // console.log({ ...newULBS });
         if (this.currentStateInView) {
+          const stateToShow = newULBS.data[this.currentStateInView.key]
+            ? { ...newULBS.data[this.currentStateInView.key] }
+            : null;
+          // console.log({ stateToShow });
+          if (stateToShow) {
+            stateToShow.ulbs = stateToShow.ulbs.filter(ulb =>
+              this.ulbTypeInView ? ulb.type === this.ulbTypeInView.type : true
+            );
+          }
           this.currentStateInView = {
             key: this.currentStateInView.key,
-            value: newULBS.data[this.currentStateInView.key] || {
-              state: this.currentStateInView.value.state,
-              ulbs: []
+            value: {
+              state: stateToShow
+                ? stateToShow.state
+                : this.currentStateInView.value.state,
+              ulbs: stateToShow && stateToShow.ulbs ? [...stateToShow.ulbs] : []
             }
           };
         }
@@ -116,8 +128,18 @@ export class ReportComponent implements OnInit {
     Object.keys(this.originalUlbList.data).forEach(stateKey => {
       let filteredULBS = (<IULB[]>(
         this.originalUlbList.data[stateKey].ulbs
-      )).filter(ulb => ulb.name.includes(textToSeatch));
+      )).filter(ulb =>
+        textToSeatch && textToSeatch.trim()
+          ? ulb.name.includes(textToSeatch)
+          : true
+      );
+      if (stateKey === "AS") {
+        // console.log(stateKey, [...filteredULBS]);
+      }
       filteredULBS = this.filterULBByPopulation(filteredULBS);
+      if (stateKey === "AS") {
+        // console.log(`after filter population `, [...filteredULBS]);
+      }
       if (filteredULBS.length) {
         newULBS.data[stateKey] = {
           state: this.originalUlbList.data[stateKey].state,
@@ -148,10 +170,17 @@ export class ReportComponent implements OnInit {
 
   showState(state: { key: string; value: { state: string; ulbs: IULB[] } }) {
     const stateFound = this.ulbs.data[state.key];
-    const newState = { key: state.key, value: stateFound };
-    const fitlerULB = newState.value.ulbs.filter(ulb => {
-      return ulb.type === this.ulbTypeInView.type;
-    });
+    console.log(this.ulbs.data);
+    const newState = { key: state.key, value: { ...stateFound } };
+    console.log({ newState });
+
+    const fitlerULB = newState.value.ulbs
+      ? newState.value.ulbs.filter(ulb => {
+          return ulb.type === this.ulbTypeInView.type;
+        })
+      : [];
+
+    console.log(this.ulbTypeInView.type);
     newState.value.ulbs = fitlerULB;
 
     if (this.ulbForm.ulbPopulationFilter.length) {
@@ -538,7 +567,8 @@ export class ReportComponent implements OnInit {
 
   unselectAllPopulation(event) {
     this.ulbForm.ulbPopulationFilter = [];
-    this.filterUlbs(event);
+    console.log(`unselectAllPopulation`);
+    // this.filterUlbs(event);
   }
 
   unselectAllULBTypes(event) {
@@ -556,9 +586,18 @@ export class ReportComponent implements OnInit {
         const state = {
           ...this.originalUlbList.data[this.currentStateInView.key]
         };
-        state.ulbs = state.ulbs.filter(ulb =>
-          nameToFilterBy ? ulb.name.includes(nameToFilterBy) : true
-        );
+        console.log(`before filter `, { ...state });
+        state.ulbs = state.ulbs
+          .filter(ulb =>
+            nameToFilterBy ? ulb.name.includes(nameToFilterBy) : true
+          )
+          .filter(ulb =>
+            this.ulbTypeInView!.type
+              ? this.ulbTypeInView.type === ulb.type
+              : true
+          );
+        console.log(`after filter `, { ...state });
+
         this.currentStateInView = {
           key: this.currentStateInView.key,
           value: state

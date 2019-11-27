@@ -32,9 +32,13 @@
 }
 
 .ulbTabActive,
-.ulbTypeSelected,
 .stateULBSelected {
   background: #f0ad4e;
+  color: white;
+}
+
+.ulbTypeSelected {
+  background: #484747;
   color: white;
 }
 
