@@ -148,6 +148,7 @@
         name="searchUlb"
         id="ulbSearch"
         placeholder="Search ULB"
+        style="height: 40px;"
       />
     </div>
 
@@ -181,15 +182,23 @@
 
     <button
       type="button"
+      class="close1  btn btn-primary"
+      (click)="resetPopupValues()"
+    >
+      Clear All
+    </button>
+
+    <button
+      type="button"
       class="close1 pull-right btn btn-primary"
       aria-label="Close"
       (click)="modalRef.hide()"
     >
-      <span *ngIf="selectedUlbs?.length"
+      <!-- <span *ngIf="selectedUlbs?.length"
         >Proceed with {{ selectedUlbs?.length }} ULBs</span
       >
-      <span *ngIf="!selectedUlbs?.length">Close</span>
-      <!-- <span>Close</span> -->
+      <span *ngIf="!selectedUlbs?.length">Close</span> -->
+      <span>Close</span>
     </button>
   </div>
 
@@ -284,6 +293,7 @@
                       {{ ulb.type }}
                       <span
                         *ngIf="
+                          ulbTypeSelected === 'other' &&
                           getTotalULBSelectedBy(currentStateInView.key, {
                             type: ulb.type
                           })
@@ -332,6 +342,10 @@
                             ulb.value
                           )
                         "
+                        [disabled]="
+                          baseULBSelected &&
+                          baseULBSelected.code === ulb.value.code
+                        "
                       />
 
                       <input
@@ -347,8 +361,22 @@
                         (click)="selectedBaseULB(ulb.value)"
                       />
                       {{ ulb.value.name }}
+                      <span
+                        *ngIf="
+                          baseULBSelected &&
+                          baseULBSelected.code === ulb.value.code
+                        "
+                        >(selected as base)
+                      </span>
                     </label>
                   </li>
+
+                  <h2
+                    *ngIf="!currentStateInView.value.ulbs.length"
+                    style="text-align: center;"
+                  >
+                    ULB not available
+                  </h2>
                 </ul>
               </div>
             </div>
