@@ -1,8 +1,10 @@
 import { KeyValue } from '@angular/common';
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { interval } from 'rxjs';
+import { debounce } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 import { IULB } from 'src/app/models/ulb';
 
@@ -27,7 +29,14 @@ export class ReportComponent implements OnInit {
     private modalService: BsModalService,
     private reportService: ReportService,
     private router: Router
-  ) {}
+  ) {
+    this.searchByNameControl.valueChanges
+      .pipe(debounce(() => interval(400)))
+      .subscribe(newText => {
+        console.log(this.ulbs);
+        console.log(this.originalUlbList);
+      });
+  }
 
   get lf() {
     return this.reportForm.controls;
@@ -86,6 +95,8 @@ export class ReportComponent implements OnInit {
   Object = Object;
 
   baseULBSelected: IULB;
+
+  searchByNameControl = new FormControl();
 
   valueAscOrder = (
     a: KeyValue<number, { name: string }>,
