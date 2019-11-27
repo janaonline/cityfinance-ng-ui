@@ -27,3 +27,18 @@
   border: 1px dashed black;
 }
 
+.ulbTypeSelected {
+  background: rgb(192, 192, 192);
+}
+
+.ulbTabActive,
+.ulbTypeSelected {
+  background: #f0ad4e;
+  color: white;
+}
+
+.ulbTabActive:hover,
+.ulbTypeSelected:hover {
+  background: #f0ad4e;
+  color: white;
+}

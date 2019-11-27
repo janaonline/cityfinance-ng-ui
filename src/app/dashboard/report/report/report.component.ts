@@ -7,6 +7,7 @@ import { IULB } from 'src/app/models/ulb';
 
 import { CommonService } from '../../../shared/services/common.service';
 import { ReportService } from '../report.service';
+import { ulbType, ulbTypes } from './ulbTypes';
 
 @Component({
   selector: "app-report",
@@ -14,6 +15,17 @@ import { ReportService } from '../report.service';
   styleUrls: ["./report.component.scss"]
 })
 export class ReportComponent implements OnInit {
+  constructor(
+    private formBuilder: FormBuilder,
+    private commonService: CommonService,
+    private modalService: BsModalService,
+    private reportService: ReportService,
+    private router: Router
+  ) {}
+
+  get lf() {
+    return this.reportForm.controls;
+  }
   // alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   alphabets = [];
   activeGroup = "IE";
@@ -54,25 +66,50 @@ export class ReportComponent implements OnInit {
 
   modalRef: BsModalRef;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private commonService: CommonService,
-    private modalService: BsModalService,
-    private reportService: ReportService,
-    private router: Router
-  ) {}
+  ulbTypeSelected: "base" | "other" = "other";
+
+  ULBTYPES = ulbTypes;
+
+  currentStateInView: { key: string; value: { state: string; ulbs: IULB[] } };
+  ulbTypeInView = ulbTypes[0];
+
+  StateULBTypeMapping: {
+    [stateCode: string]: { [ulbType: string]: { [ulbCode: string]: IULB } };
+  } = {};
+
+  Object = Object;
+
+  baseULBSelected: IULB;
+
+  setULBType(type: "base" | "other") {
+    this.ulbTypeSelected = type;
+  }
+
+  setULBTypeOfState(type: { type: ulbType }) {
+    this.ulbTypeInView = type;
+    this.showState(this.currentStateInView);
+  }
+
+  showState(state: { key: string; value: { state: string; ulbs: IULB[] } }) {
+    const stateFound = { ...this.originalUlbList.data[state.key] };
+    const newState = { key: state.key, value: stateFound };
+    const fitlerULB = newState.value.ulbs.filter(
+      ulb => ulb.type === this.ulbTypeInView.type
+    );
+    newState.value.ulbs = fitlerULB;
+    this.currentStateInView = newState;
+  }
 
   resetPage() {
     this.reportForm.patchValue({
       type: "Summary",
       isComparative: false,
-      yearList: []
+      yearList: [],
+      ulbList: []
     });
+    this.baseULBSelected = null;
     this.reportForm.reset();
     this.activeGroup = "IE";
-    // this.reportForm.s
-    // this.toggleTab("IE");
-
     this.reportService.reportResponse.next(null);
   }
 
@@ -115,13 +152,10 @@ export class ReportComponent implements OnInit {
       Object.values(response.data).forEach(state => {
         state.ulbs = state.ulbs.sort((a, b) => (b.name > a.name ? -1 : 0));
       });
+      console.log(Object.values(response.data)[0]);
       this.originalUlbList = response;
       this.ulbs = JSON.parse(JSON.stringify(this.originalUlbList));
     });
-  }
-
-  get lf() {
-    return this.reportForm.controls;
   }
 
   onItemSelect(item: any) {
@@ -270,6 +304,13 @@ export class ReportComponent implements OnInit {
     //   }
     // }
     this.isFormInvalid = false;
+    if (this.reportForm.controls.isComparative.value && !this.baseULBSelected) {
+      return alert(
+        "You have opted for Comparision report but not selected base ULB. Please select any base ULB to proceed further."
+      );
+    }
+
+    // IMPORTANT ADD BaseULBSelected here for comparision;
 
     this.populateReportGroup();
     if (
@@ -384,8 +425,6 @@ export class ReportComponent implements OnInit {
       ulb => ulb.state !== state.state
     );
 
-    console.log(`after unselecting `, [...this.selectedUlbs]);
-    console.log(`after unselecting `, { ...this.reportForm.value });
     this.reportForm.controls.ulbList.setValue([...this.selectedUlbs]);
     state.ulbs = state.ulbs.map(ulb => ({ ...ulb, isSelected: false }));
   }
@@ -519,6 +558,67 @@ export class ReportComponent implements OnInit {
       }
     }
     return resultData;
+  }
+
+  onULBClick(stateCode: string, ulbType: { type: string }, ulb: IULB) {
+    console.log({ stateCode, ulbType, ulb });
+    const ulbCode = ulb.code;
+    if (!this.StateULBTypeMapping[stateCode]) {
+      this.StateULBTypeMapping = {
+        ...this.StateULBTypeMapping,
+        [stateCode]: { [ulbType.type]: { [ulbCode]: ulb } }
+      };
+    } else if (!this.StateULBTypeMapping[stateCode][ulbType.type]) {
+      this.StateULBTypeMapping[stateCode][ulbType.type] = { [ulb.code]: ulb };
+    } else if (!this.StateULBTypeMapping[stateCode][ulbType.type][ulb.code]) {
+      this.StateULBTypeMapping[stateCode][ulbType.type][ulbCode] = ulb;
+    } else {
+      // At this point of time, it means the ulb was already selected and now it needs to be removed.
+      delete this.StateULBTypeMapping[stateCode][ulbType.type][ulbCode];
+    }
+
+    const ulbs = Object.values(
+      this.StateULBTypeMapping[stateCode][ulbType.type]
+    );
+    if (ulbs) {
+      this.selectedUlbs = ulbs;
+      this.reportForm.controls.ulbList.setValue(ulbs);
+    } else {
+      this.selectedUlbs = [];
+      this.reportForm.controls.ulbList.setValue([]);
+    }
+
+    console.log({ ...this.reportForm.value });
+  }
+
+  selectedBaseULB(ulbToSelect: IULB) {
+    this.baseULBSelected = ulbToSelect;
+  }
+
+  getTotalULBSelectedBy(
+    stateCodeToSearch: string,
+    ulbTypeToSearch?: { type: string }
+  ) {
+    let total = 0;
+    if (!this.StateULBTypeMapping[stateCodeToSearch]) {
+      return total;
+    }
+
+    if (!ulbTypeToSearch || !ulbTypeToSearch.type) {
+      Object.values(this.StateULBTypeMapping[stateCodeToSearch]).forEach(
+        ulbType => {
+          Object.values(ulbType).forEach(ulb => total++);
+        }
+      );
+    } else {
+      if (!this.StateULBTypeMapping[stateCodeToSearch][ulbTypeToSearch.type]) {
+        return total;
+      }
+      total = Object.values(
+        this.StateULBTypeMapping[stateCodeToSearch][ulbTypeToSearch.type]
+      ).length;
+    }
+    return total;
   }
 
   clearFilter() {
