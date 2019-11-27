@@ -74,7 +74,7 @@
             <br />
           </div>
 
-          <div class="col-md-12">
+          <!-- <div class="col-md-12">
             <label for="" class="">Year <i class="text-danger">*</i></label>
           </div>
           <div class="col-md-12">
@@ -86,7 +86,7 @@
             >
             </angular2-multiselect>
             <br />
-          </div>
+          </div> -->
 
           <div class="col-md-12">
             <button
@@ -150,6 +150,22 @@
         placeholder="Search ULB"
       />
     </div>
+
+    <div class="col-md-3">
+      <form [formGroup]="reportForm">
+        <div class="col-md-12">
+          <angular2-multiselect
+            formControlName="yearList"
+            [data]="yearLookup"
+            [settings]="yearsDropdownSettings"
+            (onClose)="onDateSelectionClose($event)"
+          >
+          </angular2-multiselect>
+          <br />
+        </div>
+      </form>
+    </div>
+
     <div class="col-md-3">
       <angular2-multiselect
         [data]="populationData"

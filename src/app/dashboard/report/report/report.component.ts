@@ -251,6 +251,7 @@ export class ReportComponent implements OnInit {
   }
 
   onDateSelectionClose(event) {
+    console.log(event);
     // We need to sort the selected year in ascending as user can select in any order.
     this.reportForm.value.yearList.sort(
       (A, B) => A.id.split("-")[0] - B.id.split("-")[0]
