@@ -122,6 +122,23 @@ export class ReportComponent implements OnInit {
     this.currentStateInView = newState;
   }
 
+  resetPopupValues() {
+    this.reportForm.patchValue({
+      yearList: [],
+      ulbList: [],
+      year: []
+    });
+    this.reportForm.controls.yearList.setValue([]);
+    this.selectedUlbs = null;
+    this.StateULBTypeMapping = {};
+    this.baseULBSelected = null;
+    this.ulbForm = {
+      ulbFilter: "",
+      ulbPopulationFilter: [],
+      ulbTypeFilter: []
+    };
+  }
+
   resetPage() {
     this.reportForm.reset();
     this.reportForm.patchValue({
@@ -337,10 +354,12 @@ export class ReportComponent implements OnInit {
     }
 
     // IMPORTANT ADD BaseULBSelected here for comparision;
-    this.reportForm.value.ulbList = [
-      { ...this.baseULBSelected },
-      ...this.reportForm.value.ulbList
-    ];
+    if (this.reportForm.value.isComparative) {
+      this.reportForm.value.ulbList = [
+        { ...this.baseULBSelected },
+        ...this.reportForm.value.ulbList
+      ];
+    }
 
     this.populateReportGroup();
     if (
@@ -425,6 +444,11 @@ export class ReportComponent implements OnInit {
   }
 
   openUlbModal(template: TemplateRef<any>) {
+    if (this.reportForm.value.isComparative) {
+      this.ulbTypeSelected = "base";
+    } else {
+      this.ulbTypeSelected = "other";
+    }
     this.modalRef = this.modalService.show(template, { class: "modal-lg" });
   }
 
@@ -487,6 +511,7 @@ export class ReportComponent implements OnInit {
   }
 
   filterUlbs(filterName) {
+    console.log({ ...this.ulbForm });
     if (
       this.ulbForm.ulbPopulationFilter.length == 0 &&
       this.ulbForm.ulbTypeFilter.length == 0
@@ -624,23 +649,33 @@ export class ReportComponent implements OnInit {
       // At this point of time, it means the ulb was already selected and now it needs to be removed.
       delete this.StateULBTypeMapping[stateCode][ulbType.type][ulbCode];
     }
-    let ulbSelected = Object.keys(this.StateULBTypeMapping).map(newStateCode =>
-      Object.values(this.StateULBTypeMapping[newStateCode][ulbType.type])
+
+    let myArray = [];
+
+    const ulbSelected = Object.keys(this.StateULBTypeMapping).map(
+      newStateCode => {
+        const tt = Object.values(
+          this.StateULBTypeMapping[newStateCode][ulbType.type]
+        );
+        console.log(tt);
+        Object.values(this.StateULBTypeMapping[newStateCode]).forEach(
+          option => {
+            myArray.push(Object.values(option));
+          }
+        );
+        return tt;
+      }
     );
 
-    ulbSelected = ((ulbSelected as any) as CustomArray<IULB[]>).flat();
-    const ulbs = Object.values(
-      this.StateULBTypeMapping[stateCode][ulbType.type]
-    );
-    if (ulbs) {
-      this.selectedUlbs = ulbs;
-      this.reportForm.controls.ulbList.setValue(ulbs);
+    myArray = ((myArray as any) as CustomArray<IULB[]>).flat();
+
+    if (ulbSelected) {
+      this.selectedUlbs = myArray;
+      this.reportForm.controls.ulbList.setValue(myArray);
     } else {
       this.selectedUlbs = [];
       this.reportForm.controls.ulbList.setValue([]);
     }
-
-    // console.log({ ...this.reportForm.value });
   }
 
   removeAllSelectedULB(stateCode: string) {
