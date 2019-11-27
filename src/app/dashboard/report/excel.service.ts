@@ -249,7 +249,8 @@ export class ExcelService {
         type:
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       });
-      FileSaver.saveAs(blob, excelFileName + EXCEL_EXTENSION);
+      const date = new Date().toLocaleDateString();
+      FileSaver.saveAs(blob, excelFileName + `_(${date})` + EXCEL_EXTENSION);
     });
   }
 
