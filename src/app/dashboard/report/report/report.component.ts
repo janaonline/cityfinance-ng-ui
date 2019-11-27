@@ -33,8 +33,17 @@ export class ReportComponent implements OnInit {
     this.searchByNameControl.valueChanges
       .pipe(debounce(() => interval(400)))
       .subscribe(newText => {
-        console.log(this.ulbs);
-        console.log(this.originalUlbList);
+        const newULBS = this.filterULBByPopFilters(newText);
+        this.ulbs = newULBS;
+        if (this.currentStateInView) {
+          this.currentStateInView = {
+            key: this.currentStateInView.key,
+            value: newULBS.data[this.currentStateInView.key] || {
+              state: this.currentStateInView.value.state,
+              ulbs: []
+            }
+          };
+        }
       });
   }
 
@@ -48,7 +57,7 @@ export class ReportComponent implements OnInit {
 
   states: any = [];
   ulbs: any = [];
-  originalUlbList: any = [];
+  originalUlbList: IULBResponse;
   selectedUlbs = [];
   reportForm: FormGroup;
   ulbForm = {
@@ -98,6 +107,29 @@ export class ReportComponent implements OnInit {
 
   searchByNameControl = new FormControl();
 
+  filterULBByPopFilters(textToSeatch: string) {
+    const newULBS: IULBResponse = {
+      data: {},
+      msg: this.originalUlbList.msg,
+      success: this.originalUlbList.success
+    };
+    Object.keys(this.originalUlbList.data).forEach(stateKey => {
+      let filteredULBS = (<IULB[]>(
+        this.originalUlbList.data[stateKey].ulbs
+      )).filter(ulb => ulb.name.includes(textToSeatch));
+      filteredULBS = this.filterULBByPopulation(filteredULBS);
+      if (filteredULBS.length) {
+        newULBS.data[stateKey] = {
+          state: this.originalUlbList.data[stateKey].state,
+          ulbs: filteredULBS
+        };
+      }
+    });
+    return newULBS;
+  }
+
+  setCurrentStateInView() {}
+
   valueAscOrder = (
     a: KeyValue<number, { name: string }>,
     b: KeyValue<number, { name: string }>
@@ -115,11 +147,11 @@ export class ReportComponent implements OnInit {
   }
 
   showState(state: { key: string; value: { state: string; ulbs: IULB[] } }) {
-    const stateFound = { ...this.originalUlbList.data[state.key] };
+    const stateFound = this.ulbs.data[state.key];
     const newState = { key: state.key, value: stateFound };
-    const fitlerULB = newState.value.ulbs.filter(
-      ulb => ulb.type === this.ulbTypeInView.type
-    );
+    const fitlerULB = newState.value.ulbs.filter(ulb => {
+      return ulb.type === this.ulbTypeInView.type;
+    });
     newState.value.ulbs = fitlerULB;
 
     if (this.ulbForm.ulbPopulationFilter.length) {
@@ -210,12 +242,8 @@ export class ReportComponent implements OnInit {
     });
   }
 
-  onItemSelect(item: any) {
-    console.log(item);
-  }
-  onSelectAll(items: any) {
-    console.log(items);
-  }
+  onItemSelect(item: any) {}
+  onSelectAll(items: any) {}
 
   onStateSelect(selectedState: any) {
     if (selectedState && selectedState.code) {
@@ -230,9 +258,7 @@ export class ReportComponent implements OnInit {
     }
   }
 
-  onStateDeselect(deselectedState: any) {
-    console.log(deselectedState);
-  }
+  onStateDeselect(deselectedState: any) {}
 
   loadUlbs() {
     if (this.reportForm.value.state && this.reportForm.value.state.code) {
@@ -279,7 +305,6 @@ export class ReportComponent implements OnInit {
   }
 
   onDateSelectionClose(event) {
-    console.log(event);
     // We need to sort the selected year in ascending as user can select in any order.
     this.reportForm.value.yearList.sort(
       (A, B) => A.id.split("-")[0] - B.id.split("-")[0]
@@ -522,7 +547,7 @@ export class ReportComponent implements OnInit {
   }
 
   filterUlbs(filterName) {
-    console.log({ ...this.ulbForm });
+    const nameToFilterBy = this.searchByNameControl.value;
     if (
       this.ulbForm.ulbPopulationFilter.length == 0 &&
       this.ulbForm.ulbTypeFilter.length == 0
@@ -531,23 +556,24 @@ export class ReportComponent implements OnInit {
         const state = {
           ...this.originalUlbList.data[this.currentStateInView.key]
         };
+        state.ulbs = state.ulbs.filter(ulb =>
+          nameToFilterBy ? ulb.name.includes(nameToFilterBy) : true
+        );
         this.currentStateInView = {
           key: this.currentStateInView.key,
           value: state
         };
       }
-      // this.ulbs.data = JSON.parse(JSON.stringify(this.originalUlbList.data));
       return;
     } else if (filterName == "ulbPopulationFilter" && this.currentStateInView) {
       const state = {
         ...this.originalUlbList.data[this.currentStateInView.key]
       };
-      state.ulbs = state.ulbs.filter(ulb => {
-        const canShowULB = this.ulbForm.ulbPopulationFilter.some(
-          option => option.min <= ulb.population && option.max >= ulb.population
-        );
-        return canShowULB;
-      });
+
+      state.ulbs = this.filterULBByPopulation(state.ulbs).filter(ulb =>
+        nameToFilterBy ? ulb.name.includes(nameToFilterBy) : true
+      );
+
       this.currentStateInView = {
         key: this.currentStateInView.key,
         value: state
@@ -556,6 +582,18 @@ export class ReportComponent implements OnInit {
       this.ulbForm.ulbPopulationFilter = [];
       this.ulbs.data = this.filterUlbByType(this.originalUlbList.data);
     }
+  }
+
+  filterULBByPopulation(ulbList: IULB[]) {
+    return ulbList.filter(ulb => {
+      if (!this.ulbForm.ulbPopulationFilter.length) {
+        return true;
+      }
+      const canShowULB = this.ulbForm.ulbPopulationFilter.some(
+        option => option.min <= ulb.population && option.max >= ulb.population
+      );
+      return canShowULB;
+    });
   }
 
   filterUlbByLetter(char) {
@@ -645,7 +683,6 @@ export class ReportComponent implements OnInit {
   }
 
   onULBClick(stateCode: string, ulbType: { type: string }, ulb: IULB) {
-    // console.log({ stateCode, ulbType, ulb });
     const ulbCode = ulb.code;
     if (!this.StateULBTypeMapping[stateCode]) {
       this.StateULBTypeMapping = {
@@ -668,7 +705,6 @@ export class ReportComponent implements OnInit {
         const tt = Object.values(
           this.StateULBTypeMapping[newStateCode][ulbType.type]
         );
-        console.log(tt);
         Object.values(this.StateULBTypeMapping[newStateCode]).forEach(
           option => {
             myArray.push(Object.values(option));
