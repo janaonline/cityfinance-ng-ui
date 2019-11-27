@@ -100,11 +100,11 @@
               ><small
                 class="text-danger pointer"
                 (click)="clearFilter()"
-                *ngIf="selectedUlbs.length"
+                *ngIf="selectedUlbs?.length"
                 >Clear filter</small
               ></b
             >
-            <small class="right" *ngIf="selectedUlbs.length"
+            <small class="right" *ngIf="selectedUlbs?.length"
               >{{ selectedUlbs.length }} ULBs selected</small
             >
             <br /><br />
@@ -169,10 +169,10 @@
       aria-label="Close"
       (click)="modalRef.hide()"
     >
-      <span *ngIf="selectedUlbs.length"
-        >Proceed with {{ selectedUlbs.length }} ULBs</span
+      <span *ngIf="selectedUlbs?.length"
+        >Proceed with {{ selectedUlbs?.length }} ULBs</span
       >
-      <span *ngIf="!selectedUlbs.length">Close</span>
+      <span *ngIf="!selectedUlbs?.length">Close</span>
     </button>
   </div>
 
@@ -211,7 +211,10 @@
 
       <div class="col-md-2">
         <ul class="list-unstyled left-nav">
-          <li *ngFor="let state of ulbs.data | keyvalue">
+          <li
+            *ngFor="let state of ulbs.data | keyvalue"
+            [ngClass]="{ stateULBSelected: getTotalULBSelectedBy(state.key) }"
+          >
             <a data-toggle="tab" class="active" (click)="showState(state)">
               {{ state.value.state }}
               <span *ngIf="getTotalULBSelectedBy(state.key)">
@@ -279,7 +282,10 @@
                 </ul>
                 <ul class="nav nav-tabs" id="myTabContent" role="tablist">
                   <li
-                    *ngFor="let ulb of currentStateInView.value.ulbs | keyvalue"
+                    *ngFor="
+                      let ulb of currentStateInView.value.ulbs
+                        | keyvalue: valueAscOrder
+                    "
                     class="list-group-item level-two checkbox col-md-4"
                     style="margin: 0px"
                   >
@@ -288,7 +294,17 @@
                         name="list_name_ulb"
                         *ngIf="ulbTypeSelected === 'other'"
                         type="checkbox"
-                        [(ngModel)]="ulb.value.isSelected"
+                        [checked]="
+                          StateULBTypeMapping[currentStateInView.key] &&
+                          StateULBTypeMapping[currentStateInView.key][
+                            ulbTypeInView.type
+                          ] &&
+                          StateULBTypeMapping[currentStateInView.key][
+                            ulbTypeInView.type
+                          ][ulb.value.code]
+                            ? true
+                            : false
+                        "
                         value="ulb.value.code"
                         class="ng-untouched ng-pristine ng-valid"
                         (click)="
