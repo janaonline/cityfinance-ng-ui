@@ -197,7 +197,12 @@ export class ExcelService {
             // }
           } else {
             // if(i==1){
-            cell.alignment = { vertical: "middle", horizontal: "center" };
+            cell.alignment = {
+              vertical: "middle",
+              horizontal: cell.value.toString().includes("Total")
+                ? "right"
+                : "center"
+            };
           }
         });
       } else {
@@ -205,7 +210,7 @@ export class ExcelService {
           if (cell.value && number == 1) {
             cell.alignment = { vertical: "middle", horizontal: "center" };
           } else if (cell.value && number >= 3) {
-            cell.alignment = { vertical: "bottom", horizontal: "right" };
+            cell.alignment = { vertical: "bottom", horizontal: "left" };
           }
         });
       }

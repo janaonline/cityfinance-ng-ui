@@ -31,10 +31,8 @@ export class BasicComponent implements OnInit {
     this.reportReq = this.reportService.getReportRequest();
 
     this.reportService.reportResponse.subscribe(res => {
-      console.log(res);
       if (res && res.length > 0) {
         this.reportReq = this.reportService.getReportRequest();
-        console.log(this.reportReq);
         this.years = [];
         this.transformYears();
         this.links = this.reportService.loadDefaultLinks();
