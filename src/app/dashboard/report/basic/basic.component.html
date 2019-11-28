@@ -53,7 +53,14 @@
           }"
         >
           <td class="text-center">{{ report[key] ? report[key].code : "" }}</td>
-          <td>{{ report[key] ? report[key].line_item : "" }}</td>
+          <td
+            [ngClass]="{
+              'text-right':
+                report[key] && report[key].line_item.includes('Total')
+            }"
+          >
+            {{ report[key] ? report[key].line_item : "" }}
+          </td>
           <td class="text-right" *ngFor="let yr of years">
             <span *ngIf="report[key]">
               <span *ngIf="report[key][yr.title]">{{
