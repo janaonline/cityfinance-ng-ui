@@ -219,8 +219,14 @@
             aria-controls="home"
             aria-selected="true"
             (click)="setULBType('base')"
-            >Base ULB</a
-          >
+            >Base ULB
+            <i
+              class="fa fa-info-circle"
+              aria-hidden="true"
+              style="margin-left: 5px"
+              title="Base ULB for Comparison"
+            ></i>
+          </a>
         </li>
         <li class="nav-item">
           <a
@@ -231,7 +237,7 @@
             aria-controls="profile"
             aria-selected="false"
             (click)="setULBType('other')"
-            >Other ULB</a
+            >ULBs for Comparison</a
           >
         </li>
       </ul>
