@@ -95,8 +95,15 @@ export class ExcelService {
     }
 
     // excel =excel.map(row => {
-    //   row.length >= largestColumnInARow ? row :
+    //   row.length >= largestColumnInARow ? row : ;
     // })
+    excel = excel.map((columns, index) => {
+      if (excel.slice(2).every(column => column[0] === "") && index) {
+        return columns.slice(1);
+      } else {
+        return columns;
+      }
+    });
     this.generateExcel(title, headers, excel, filename, cellsToMerge);
   }
 

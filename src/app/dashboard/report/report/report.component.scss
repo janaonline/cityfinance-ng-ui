@@ -31,10 +31,14 @@
   background: rgb(192, 192, 192);
 }
 
-.ulbTabActive,
-.ulbTypeSelected,
 .stateULBSelected {
   background: #f0ad4e;
+  color: white;
+}
+
+.ulbTypeSelected,
+.ulbTabActive {
+  background: #484747;
   color: white;
 }
 
@@ -44,7 +48,7 @@
 
 .ulbTabActive:hover,
 .ulbTypeSelected:hover {
-  background: #f0ad4e;
+  background: #484747;
   color: white;
 }
 
