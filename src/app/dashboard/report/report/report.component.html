@@ -272,14 +272,17 @@
             style="display: block;"
           >
             <input
+              #stateClear
               *ngIf="ulbTypeSelected === 'other'"
               _ngcontent-c4=""
               name="list_name_state"
               type="checkbox"
-              value="currentStateInView.key"
+              value="false"
               class="ng-untouched ng-pristine ng-valid"
               [disabled]="!getTotalULBSelectedBy(currentStateInView.key)"
-              (click)="removeAllSelectedULB(currentStateInView.key)"
+              (click)="
+                removeAllSelectedULB(currentStateInView.key, null, stateClear)
+              "
             />
             <b _ngcontent-c4=""> {{ currentStateInView!.value!.state }} </b>
             <div _ngcontent-c4="" class="row">
@@ -302,6 +305,26 @@
                           ulbTypeInView && ulbTypeInView.type === ulb.type
                       }"
                     >
+                      <input
+                        #ulbType
+                        *ngIf="ulbTypeSelected === 'other'"
+                        _ngcontent-c4=""
+                        name="list_name_state"
+                        type="checkbox"
+                        class="ng-untouched ng-pristine ng-valid"
+                        [disabled]="
+                          !getTotalULBSelectedBy(currentStateInView.key, {
+                            type: ulb.type
+                          })
+                        "
+                        (click)="
+                          removeAllSelectedULB(
+                            currentStateInView.key,
+                            ulb.type,
+                            ulbType
+                          )
+                        "
+                      />
                       {{ ulb.type }}
                       <span
                         *ngIf="
