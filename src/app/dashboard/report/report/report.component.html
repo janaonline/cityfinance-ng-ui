@@ -153,7 +153,7 @@
       />
     </div>
 
-    <div class="col-md-3" style="max-width: 20%">
+    <!-- <div class="col-md-3" style="max-width: 20%">
       <form [formGroup]="reportForm">
         <div class="col-md-12">
           <angular2-multiselect
@@ -166,7 +166,7 @@
           <br />
         </div>
       </form>
-    </div>
+    </div> -->
 
     <div class="col-md-3" style="max-width: 20%">
       <angular2-multiselect
@@ -240,6 +240,30 @@
             >ULBs for Comparison</a
           >
         </li>
+        <li class="nav-item">
+          <form
+            [formGroup]="reportForm"
+            [style.width.px]="
+              (reportForm?.controls)['yearList']?.value?.length
+                ? reportForm.controls['yearList'].value.length * 55 + 161
+                : 161
+            "
+            style=" min-width: 161px;"
+            class="col-md-12"
+          >
+            <div c>
+              <angular2-multiselect
+                formControlName="yearList"
+                [data]="yearLookup"
+                [settings]="yearsDropdownSettings"
+                (onClose)="onDateSelectionClose($event)"
+                (onDeSelectAll)="reportForm.controls['yearList'].setValue([])"
+              >
+              </angular2-multiselect>
+              <br />
+            </div>
+          </form>
+        </li>
       </ul>
 
       <div class="col-md-2">
@@ -298,7 +322,7 @@
                 removeAllSelectedULB(currentStateInView.key, null, stateClear)
               "
             /> -->
-            <b _ngcontent-c4=""> {{ currentStateInView!.value!.state }} </b>
+            <!-- <b _ngcontent-c4=""> {{ currentStateInView!.value!.state }} </b> -->
             <div _ngcontent-c4="" class="row">
               <div _ngcontent-c4="" class="col-md-12">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
