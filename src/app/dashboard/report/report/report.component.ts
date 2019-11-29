@@ -386,7 +386,6 @@ export class ReportComponent implements OnInit {
 
     // this.submitted = true;
     // stop here if form is invalid
-    console.log(this.submitted);
     // if (!this.submitted) {
     //   return false;
     // }
@@ -570,7 +569,6 @@ export class ReportComponent implements OnInit {
 
   unselectAllPopulation(event) {
     this.ulbForm.ulbPopulationFilter = [];
-    console.log(`unselectAllPopulation`);
     // this.filterUlbs(event);
   }
 
@@ -589,7 +587,6 @@ export class ReportComponent implements OnInit {
         const state = {
           ...this.originalUlbList.data[this.currentStateInView.key]
         };
-        console.log(`before filter `, { ...state });
         state.ulbs = state.ulbs
           .filter(ulb =>
             nameToFilterBy ? ulb.name.includes(nameToFilterBy) : true
@@ -599,7 +596,6 @@ export class ReportComponent implements OnInit {
               ? this.ulbTypeInView.type === ulb.type
               : true
           );
-        console.log(`after filter `, { ...state });
 
         this.currentStateInView = {
           key: this.currentStateInView.key,

@@ -268,7 +268,10 @@
         <ul class="list-unstyled left-nav">
           <li
             *ngFor="let state of ulbs.data | keyvalue"
-            [ngClass]="{ stateULBSelected: getTotalULBSelectedBy(state.key) }"
+            [ngClass]="{
+              stateULBSelected: getTotalULBSelectedBy(state.key),
+              activeState: currentStateInView?.key === state?.key
+            }"
           >
             <a data-toggle="tab" class="active" (click)="showState(state)">
               <input
