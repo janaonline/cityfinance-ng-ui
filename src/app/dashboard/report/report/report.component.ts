@@ -323,7 +323,7 @@ export class ReportComponent implements OnInit {
     this.activeGroup = val;
     if (!this.reportForm.invalid) {
       this.populateReportGroup();
-      this.search();
+      // this.search();
     }
   }
 
@@ -386,9 +386,10 @@ export class ReportComponent implements OnInit {
 
     // this.submitted = true;
     // stop here if form is invalid
-    if (!this.submitted) {
-      return false;
-    }
+    console.log(this.submitted);
+    // if (!this.submitted) {
+    //   return false;
+    // }
 
     if (this.reportForm.value.years.length == 0) {
       alert("select atleast one Year to continue");
