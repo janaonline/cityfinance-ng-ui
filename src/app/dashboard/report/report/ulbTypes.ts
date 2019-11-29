@@ -5,7 +5,7 @@ export enum ulbType {
 }
 
 export const ulbTypes = [
+  { type: ulbType.municipalCorporation },
   { type: ulbType.municipality },
-  { type: ulbType.townPanchayat },
-  { type: ulbType.municipalCorporation }
+  { type: ulbType.townPanchayat }
 ];
