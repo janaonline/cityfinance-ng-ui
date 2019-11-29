@@ -170,9 +170,7 @@ export class ReportComponent implements OnInit {
 
   showState(state: { key: string; value: { state: string; ulbs: IULB[] } }) {
     const stateFound = this.ulbs.data[state.key];
-    console.log(this.ulbs.data);
     const newState = { key: state.key, value: { ...stateFound } };
-    console.log({ newState });
 
     const fitlerULB = newState.value.ulbs
       ? newState.value.ulbs.filter(ulb => {
@@ -180,7 +178,6 @@ export class ReportComponent implements OnInit {
         })
       : [];
 
-    console.log(this.ulbTypeInView.type);
     newState.value.ulbs = fitlerULB;
 
     if (this.ulbForm.ulbPopulationFilter.length) {
@@ -775,8 +772,17 @@ export class ReportComponent implements OnInit {
     this.updateSelectedULBSFromMapping();
   }
 
-  selectedBaseULB(ulbToSelect: IULB) {
+  selectedBaseULB(ulbToSelect: IULB, stateCode: string) {
     this.baseULBSelected = ulbToSelect;
+    if (
+      this.StateULBTypeMapping[stateCode] &&
+      this.StateULBTypeMapping[stateCode][ulbToSelect.type] &&
+      this.StateULBTypeMapping[stateCode][ulbToSelect.type][ulbToSelect.code]
+    ) {
+      delete this.StateULBTypeMapping[stateCode][ulbToSelect.type][
+        ulbToSelect.code
+      ];
+    }
   }
 
   getTotalULBSelectedBy(

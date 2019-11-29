@@ -437,7 +437,7 @@
                           baseULBSelected.code === ulb.value.code
                         "
                         class="ng-untouched ng-pristine ng-valid"
-                        (click)="selectedBaseULB(ulb.value)"
+                        (click)="selectedBaseULB(ulb.value, currentStateInView.key)"
                       />
                       {{ ulb.value.name }}
                       <span
