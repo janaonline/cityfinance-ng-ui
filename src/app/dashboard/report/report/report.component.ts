@@ -723,7 +723,11 @@ export class ReportComponent implements OnInit {
         formULB => formULB.type === latestULB.type
       );
       if (!allULBAreSameType) {
-        alert(`You are have selected a ULB of different type.`);
+        const alreadySelectULB: IULB = this.reportForm.controls.ulbList
+          .value[0];
+        alert(
+          `You are selecting a ULB of different type. Earlier ULB selected are of ${alreadySelectULB.type} type, but now selecting from ${latestULB.type} type`
+        );
         this.isAlertForDifferentULBShown = true;
       }
     }
