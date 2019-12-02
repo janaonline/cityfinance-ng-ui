@@ -62,11 +62,7 @@
           <!-- <td>{{report[key] | json}}</td> -->
           <td class="text-center">{{ report[key] ? report[key].code : "" }}</td>
           <td>{{ report[key] ? report[key].line_item : "" }}</td>
-          <td
-            class="text-right"
-            *ngFor="let yr of years"
-           
-          >
+          <td class="text-right" *ngFor="let yr of years">
             <span *ngIf="report[key]">
               <!-- {{report[key] | json}} -  -->
               <span *ngIf="report[key][yr.title]">{{
@@ -111,7 +107,7 @@
     reportReq.type.indexOf('Summary') > -1
   "
 >
-  <p>
+  <!-- <p>
     <small>
       <b>Revenue</b> : Not Tax Revenue includes Assigned Revenue and
       Compensations (120), Rental Income from Municipal Properties (130), Fees
@@ -127,5 +123,5 @@
       Fixed Assets (272), Prior Period Items (280), Transfer to Reserve Funds
       (290) and Others (200)
     </small>
-  </p>
+  </p> -->
 </div>

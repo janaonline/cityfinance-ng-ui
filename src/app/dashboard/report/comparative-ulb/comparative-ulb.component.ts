@@ -35,18 +35,15 @@ export class ComparativeUlbComponent implements OnInit {
     this.reportReq = this.reportService.getReportRequest();
 
     this.reportService.reportResponse.subscribe(res => {
-      console.log({ ...res });
       if (res) {
         this.years = [];
         this.response = res;
         this.reportReq = this.reportService.getReportRequest();
 
-        console.log({ ...this.reportReq });
         if (this.reportReq.reportGroup == "Balance Sheet") {
           this.report = this.reportHelper.getBSReportLookup();
         } else {
           this.report = this.reportHelper.getIEReportLookup();
-          console.log({ ...this.reportHelper.getIEReportLookup() });
         }
         // this.reqUlb = this.reportReq.ulbList[0].code;
         // this.reqUlb2 = this.reportReq.ulbList[1].code;
