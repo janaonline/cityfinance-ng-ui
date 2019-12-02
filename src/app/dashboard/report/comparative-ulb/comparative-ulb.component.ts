@@ -35,23 +35,27 @@ export class ComparativeUlbComponent implements OnInit {
     this.reportReq = this.reportService.getReportRequest();
 
     this.reportService.reportResponse.subscribe(res => {
+      console.log({ ...res });
       if (res) {
+        this.years = [];
         this.response = res;
         this.reportReq = this.reportService.getReportRequest();
 
+        console.log({ ...this.reportReq });
         if (this.reportReq.reportGroup == "Balance Sheet") {
           this.report = this.reportHelper.getBSReportLookup();
         } else {
           this.report = this.reportHelper.getIEReportLookup();
+          console.log({ ...this.reportHelper.getIEReportLookup() });
         }
         // this.reqUlb = this.reportReq.ulbList[0].code;
         // this.reqUlb2 = this.reportReq.ulbList[1].code;
         this.reqYear = this.reportReq.years[0];
-        // this.years = this.reportReq.years;
-        this.years = [];
         if (this.reportReq.ulbList.length > 1) {
+          this.years = [];
           this.transformYears_UlbVSUlb();
         } else {
+          this.years = [];
           this.transformYears_YrVSYr();
           // this.headerGroup.accRowspan = 3;
         }
@@ -73,7 +77,9 @@ export class ComparativeUlbComponent implements OnInit {
     // this.years.push({title: this.reportReq.ulbList[0].code, caption: this.reportReq.ulbList[0].name, isComparative: false });
     // this.years.push({title: this.reportReq.ulbList[1].code, caption: this.reportReq.ulbList[1].name, isComparative: false });
     // this.years.push({title: 'difference', caption: '%', isComparative: true });
-
+    console.log(
+      `ulb ${this.reportReq.ulbList.length}, years: ${this.reportReq.years.length}`
+    );
     for (let i = 0; i < this.reportReq.ulbList.length; i++) {
       const ulb = this.reportReq.ulbList[i];
       // if(this.report[item.code] && item.ulb_code && item.budget.length > 0){
@@ -101,11 +107,14 @@ export class ComparativeUlbComponent implements OnInit {
           });
         }
       }
-      // }
     }
   }
 
   transformYears_UlbVSUlb() {
+    console.log(
+      `years ${this.reportReq.years.length}, ulbs: ${this.reportReq.ulbList.length}`
+    );
+    console.log([...this.reportReq.ulbList]);
     for (let i = 0; i < this.reportReq.years.length; i++) {
       const year = this.reportReq.years[i];
       for (let j = 0; j < this.reportReq.ulbList.length; j++) {
@@ -149,7 +158,12 @@ export class ComparativeUlbComponent implements OnInit {
       if (this.report[item.code] && item.ulb_code && item.budget.length > 0) {
         for (let j = 0; j < item.budget.length; j++) {
           const key = item.ulb_code + "_" + item.budget[j].year;
-          this.report[item.code][key] = item.budget[j].amount;
+          if (
+            this.report[item.code][key] === undefined ||
+            this.report[item.code][key] === null
+          ) {
+            this.report[item.code][key] = item.budget[j].amount;
+          }
         }
       }
     }
