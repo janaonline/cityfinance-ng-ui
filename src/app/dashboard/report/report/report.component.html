@@ -250,7 +250,7 @@
             role="tab"
             aria-controls="profile"
             aria-selected="false"
-            (click)="setULBType('other')"
+            (click)="setULBType('other', baseULBSelected ? true : false)"
             >ULBs
             <span *ngIf="reportForm.controls['isComparative']?.value"
               >for Comparison</span
