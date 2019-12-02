@@ -159,8 +159,10 @@ export class ReportComponent implements OnInit {
     return a.value.name > b.value.name ? 1 : -1;
   }
 
-  setULBType(type: 'base' | 'other') {
+  setULBType(type: 'base' | 'other', baseULBSelected: boolean) {
+    if (baseULBSelected) {
     this.ulbTypeSelected = type;
+    }
   }
 
   setULBTypeOfState(type: { type: ulbType }) {

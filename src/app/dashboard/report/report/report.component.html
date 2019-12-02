@@ -209,11 +209,18 @@
 
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" aria-controls="home" aria-selected="true">
+          <a
+            class="nav-link active inactive-tab"
+            aria-controls="home"
+            aria-selected="true"
+          >
             States
           </a>
         </li>
-        <li class="nav-item" *ngIf="reportForm.controls['isComparative'].value">
+        <li
+          class="nav-item"
+          *ngIf="reportForm.controls['isComparative']?.value"
+        >
           <a
             class="nav-link"
             data-toggle="tab"
@@ -221,7 +228,7 @@
             [ngClass]="{ ulbTypeSelected: ulbTypeSelected === 'base' }"
             aria-controls="home"
             aria-selected="true"
-            (click)="setULBType('base')"
+            (click)="setULBType('base', baseULBSelected ? true : false)"
             >Base ULB
             <i
               class="fa fa-info-circle"
@@ -234,13 +241,20 @@
         <li class="nav-item">
           <a
             class="nav-link active"
-            [ngClass]="{ ulbTypeSelected: ulbTypeSelected === 'other' }"
+            [ngClass]="{
+              ulbTypeSelected: ulbTypeSelected === 'other',
+              'inactive-tab':
+                reportForm.controls['isComparative']?.value && !baseULBSelected
+            }"
             data-toggle="tab"
             role="tab"
             aria-controls="profile"
             aria-selected="false"
             (click)="setULBType('other')"
-            >ULBs for Comparison</a
+            >ULBs
+            <span *ngIf="reportForm.controls['isComparative']?.value"
+              >for Comparison</span
+            ></a
           >
         </li>
         <li class="nav-item">
