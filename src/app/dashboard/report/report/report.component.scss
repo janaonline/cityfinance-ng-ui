@@ -31,7 +31,8 @@
   background: rgb(192, 192, 192);
 }
 
-.stateULBSelected {
+.stateULBSelected,
+.stateULBSelected:hover {
   background: #f0ad4e;
   color: white;
 }

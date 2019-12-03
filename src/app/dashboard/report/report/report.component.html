@@ -377,7 +377,13 @@
                       aria-selected="true"
                       [ngClass]="{
                         ulbTabActive:
-                          ulbTypeInView && ulbTypeInView.type === ulb.type
+                          ulbTypeInView && ulbTypeInView.type === ulb.type,
+                        stateULBSelected: getTotalULBSelectedBy(
+                          currentStateInView.key,
+                          {
+                            type: ulb.type
+                          }
+                        )
                       }"
                     >
                       <input
