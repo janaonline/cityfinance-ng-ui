@@ -28,27 +28,27 @@ export class BasicComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.reportReq = this.reportService.getReportRequest();
+    this.reportService.getNewReportRequest().subscribe(reportCriteria => {
+      this.reportReq = reportCriteria;
+      console.log(`got new criteria`, { ...reportCriteria });
+      this.reportService.reportResponse.subscribe(res => {
+        if (res && res.length > 0) {
+          console.log(`got new reponse`);
 
-    this.reportService.reportResponse.subscribe(res => {
-      if (res && res.length > 0) {
-        this.reportReq = this.reportService.getReportRequest();
-        this.years = [];
-        this.transformYears();
-        this.links = this.reportService.loadDefaultLinks();
-        this.transformResult(res);
-      } else if (!res) {
-        this.isProcessed = false;
-      } else {
-        this.isProcessed = true;
-        this.reportKeys = [];
-      }
+          // this.reportReq = this.reportService.getReportRequest();
+          this.years = [];
+          this.transformYears();
+          this.links = this.reportService.loadDefaultLinks();
+          this.transformResult(res);
+        } else if (!res) {
+          this.isProcessed = false;
+        } else {
+          this.isProcessed = true;
+          this.reportKeys = [];
+        }
 
-      // if(this.reportReq.reportGroup == 'Balance Sheet'){
-      //   this.reportKeys = this.reportHelper.getBSReportMasterKeys();
-      // }else {
-      //   this.reportKeys = this.reportHelper.getIEReportMasterKeys();
-      // }
+        console.log(`completed`);
+      });
     });
   }
 

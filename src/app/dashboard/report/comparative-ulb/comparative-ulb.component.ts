@@ -32,40 +32,42 @@ export class ComparativeUlbComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.reportReq = this.reportService.getReportRequest();
-
-    this.reportService.reportResponse.subscribe(res => {
-      if (res) {
-        this.years = [];
-        this.response = res;
-        this.reportReq = this.reportService.getReportRequest();
-
-        if (this.reportReq.reportGroup == "Balance Sheet") {
-          this.report = this.reportHelper.getBSReportLookup();
-        } else {
-          this.report = this.reportHelper.getIEReportLookup();
-        }
-        // this.reqUlb = this.reportReq.ulbList[0].code;
-        // this.reqUlb2 = this.reportReq.ulbList[1].code;
-        this.reqYear = this.reportReq.years[0];
-        if (this.reportReq.ulbList.length > 1) {
+    // this.reportReq = this.reportService.getReportRequest();
+    this.reportService.getNewReportRequest().subscribe(reportCriteria => {
+      this.reportReq = reportCriteria;
+      this.reportService.reportResponse.subscribe(res => {
+        if (res) {
           this.years = [];
-          this.transformYears_UlbVSUlb();
+          this.response = res;
+          // this.reportReq = this.reportService.getReportRequest();
+
+          if (this.reportReq.reportGroup == "Balance Sheet") {
+            this.report = this.reportHelper.getBSReportLookup();
+          } else {
+            this.report = this.reportHelper.getIEReportLookup();
+          }
+          // this.reqUlb = this.reportReq.ulbList[0].code;
+          // this.reqUlb2 = this.reportReq.ulbList[1].code;
+          this.reqYear = this.reportReq.years[0];
+          if (this.reportReq.ulbList.length > 1) {
+            this.years = [];
+            this.transformYears_UlbVSUlb();
+          } else {
+            this.years = [];
+            this.transformYears_YrVSYr();
+            // this.headerGroup.accRowspan = 3;
+          }
+          // this.links = this.reportService.loadDefaultLinks();
+          // this.transformResult(res['data']);
+          this.transformResult(res);
+          // console.log(this.report);
+          this.headerGroup.yearColspan =
+            this.years.length / this.reportReq.years.length;
         } else {
-          this.years = [];
-          this.transformYears_YrVSYr();
-          // this.headerGroup.accRowspan = 3;
+          this.isProcessed = true;
+          this.reportKeys = [];
         }
-        // this.links = this.reportService.loadDefaultLinks();
-        // this.transformResult(res['data']);
-        this.transformResult(res);
-        // console.log(this.report);
-        this.headerGroup.yearColspan =
-          this.years.length / this.reportReq.years.length;
-      } else {
-        this.isProcessed = true;
-        this.reportKeys = [];
-      }
+      });
     });
   }
 
