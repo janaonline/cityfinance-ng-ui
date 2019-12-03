@@ -754,7 +754,20 @@ export class ReportComponent implements OnInit {
       delete this.StateULBTypeMapping[stateCode][ulbType.type][ulbCode];
     }
     this.updateSelectedULBSFromMapping();
-    this.checkAlertForDifferentULB(ulb);
+    const allULBAreSameType = this.reportForm.controls.ulbList.value.every(
+      formULB =>
+        this.reportForm.controls.ulbList.value.length
+          ? formULB.type === this.reportForm.controls.ulbList.value[0].type
+          : true
+    );
+    if (this.isAlertForDifferentULBShown && allULBAreSameType) {
+      this.isAlertForDifferentULBShown = false;
+    }
+    this.checkAlertForDifferentULB(
+      this.reportForm.controls.ulbList.value[
+        this.reportForm.controls.ulbList.value.length - 1
+      ]
+    );
   }
 
   checkAlertForDifferentULB(latestULB: IULB) {
