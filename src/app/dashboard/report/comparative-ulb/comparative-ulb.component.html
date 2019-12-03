@@ -69,7 +69,7 @@
                 report[key][yr.title] | inrCurrency
               }}</span>
               <span *ngIf="!report[key][yr.title] && report[key]['code']"
-                >0</span
+                >Data not available</span
               >
               <span *ngIf="report[key][yr.title] && yr.isComparative">%</span>
             </span>
