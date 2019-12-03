@@ -61,7 +61,7 @@
           </div>
 
           <div class="col-md-12">
-            <div class="checkbox">
+            <!-- <div class="checkbox">
               <label
                 ><input
                   type="checkbox"
@@ -70,7 +70,7 @@
                 />
                 Comparision Report
               </label>
-            </div>
+            </div> -->
             <br />
           </div>
 
@@ -201,11 +201,38 @@
     </button>
   </div>
 
+  <form [formGroup]="reportForm" class="col-md-12 mt-1">
+    <div class="checkbox col-md-2">
+      <label
+        ><input
+          type="checkbox"
+          name="isComparative"
+          formControlName="isComparative"
+        />
+        Comparision Report
+      </label>
+    </div>
+    <angular2-multiselect
+      style="display: inline-block;margin-top: 5px; "
+      [style.width.px]="
+        (reportForm?.controls)['yearList']?.value?.length
+          ? reportForm.controls['yearList'].value.length * 55 + 161
+          : 200
+      "
+      formControlName="yearList"
+      [data]="yearLookup"
+      [settings]="yearsDropdownSettings"
+      (onClose)="onDateSelectionClose($event)"
+      (onDeSelectAll)="reportForm.controls['yearList'].setValue([])"
+    >
+    </angular2-multiselect>
+  </form>
+
   <div class="modal-body">
     <div class="row">
-      <div class="col-md-12">
+      <!-- <div class="col-md-12">
         &nbsp;
-      </div>
+      </div> -->
 
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
@@ -257,30 +284,6 @@
             ></a
           >
         </li>
-        <li class="nav-item">
-          <form
-            [formGroup]="reportForm"
-            [style.width.px]="
-              (reportForm?.controls)['yearList']?.value?.length
-                ? reportForm.controls['yearList'].value.length * 55 + 161
-                : 161
-            "
-            style=" min-width: 161px;"
-            class="col-md-12"
-          >
-            <div c>
-              <angular2-multiselect
-                formControlName="yearList"
-                [data]="yearLookup"
-                [settings]="yearsDropdownSettings"
-                (onClose)="onDateSelectionClose($event)"
-                (onDeSelectAll)="reportForm.controls['yearList'].setValue([])"
-              >
-              </angular2-multiselect>
-              <br />
-            </div>
-          </form>
-        </li>
       </ul>
 
       <div class="col-md-2">
@@ -329,20 +332,6 @@
             id="Chhattisgarh"
             style="display: block;"
           >
-            <!-- <input
-              #stateClear
-              *ngIf="ulbTypeSelected === 'other'"
-              _ngcontent-c4=""
-              name="list_name_state"
-              type="checkbox"
-              value="false"
-              class="ng-untouched ng-pristine ng-valid"
-              [disabled]="!getTotalULBSelectedBy(currentStateInView.key)"
-              (click)="
-                removeAllSelectedULB(currentStateInView.key, null, stateClear)
-              "
-            /> -->
-            <!-- <b _ngcontent-c4=""> {{ currentStateInView!.value!.state }} </b> -->
             <div _ngcontent-c4="" class="row">
               <div _ngcontent-c4="" class="col-md-12">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">

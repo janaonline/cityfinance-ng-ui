@@ -30,33 +30,7 @@ export class ReportComponent implements OnInit {
     private modalService: BsModalService,
     private reportService: ReportService,
     private router: Router
-  ) {
-    this.searchByNameControl.valueChanges
-      .pipe(debounce(() => interval(400)))
-      .subscribe(newText => {
-        const newULBS = this.filterULBByPopFilters(newText);
-        this.ulbs = { ...newULBS };
-        if (this.currentStateInView) {
-          const stateToShow = newULBS.data[this.currentStateInView.key]
-            ? { ...newULBS.data[this.currentStateInView.key] }
-            : null;
-          if (stateToShow) {
-            stateToShow.ulbs = stateToShow.ulbs.filter(ulb =>
-              this.ulbTypeInView ? ulb.type === this.ulbTypeInView.type : true
-            );
-          }
-          this.currentStateInView = {
-            key: this.currentStateInView.key,
-            value: {
-              state: stateToShow
-                ? stateToShow.state
-                : this.currentStateInView.value.state,
-              ulbs: stateToShow && stateToShow.ulbs ? [...stateToShow.ulbs] : []
-            }
-          };
-        }
-      });
-  }
+  ) {}
 
   get lf() {
     return this.reportForm.controls;
@@ -120,6 +94,56 @@ export class ReportComponent implements OnInit {
 
   isAlertForDifferentULBShown = false;
 
+  private listenToFormGroups() {
+    this.searchByNameControl.valueChanges
+      .pipe(debounce(() => interval(400)))
+      .subscribe(newText => {
+        const newULBS = this.filterULBByPopFilters(newText);
+        this.ulbs = { ...newULBS };
+        if (this.currentStateInView) {
+          const stateToShow = newULBS.data[this.currentStateInView.key]
+            ? { ...newULBS.data[this.currentStateInView.key] }
+            : null;
+          if (stateToShow) {
+            stateToShow.ulbs = stateToShow.ulbs.filter(ulb =>
+              this.ulbTypeInView ? ulb.type === this.ulbTypeInView.type : true
+            );
+          }
+          this.currentStateInView = {
+            key: this.currentStateInView.key,
+            value: {
+              state: stateToShow
+                ? stateToShow.state
+                : this.currentStateInView.value.state,
+              ulbs: stateToShow && stateToShow.ulbs ? [...stateToShow.ulbs] : []
+            }
+          };
+        }
+      });
+
+    /**
+     *  IMPORTANT Do not remove debounce from here. the valueChanges is run before the actual
+     *  value of the form is changed. So if you remove it, then the search function will be
+     * executed with the previous type nad not the lastest type.
+     */
+    this.reportForm.controls["type"].valueChanges
+      .pipe(debounce(() => interval(400)))
+      .subscribe((newType: IReportType["type"]) => {
+        if (this.reportForm.valid) {
+          this.search();
+        }
+      });
+
+    this.reportForm.controls["isComparative"].valueChanges.subscribe(
+      isComparative => {
+        this.resetPopupValues();
+        if (isComparative) {
+          this.setULBType("base", this.baseULBSelected ? true : false);
+        }
+      }
+    );
+  }
+
   filterULBByPopFilters(textToSeatch: string) {
     const newULBS: IULBResponse = {
       data: {},
@@ -159,7 +183,9 @@ export class ReportComponent implements OnInit {
   };
 
   setULBType(type: "base" | "other", baseULBSelected: boolean) {
-    if (baseULBSelected) {
+    if (type === "other" && baseULBSelected) {
+      this.ulbTypeSelected = type;
+    } else if (type === "base") {
       this.ulbTypeSelected = type;
     }
   }
@@ -262,19 +288,6 @@ export class ReportComponent implements OnInit {
       ulbList: [this.selectedUlbs, [Validators.required]]
     });
 
-    /**
-     *  IMPORTANT Do not remove debounce from here. the valueChanges is run before the actual
-     *  value of the form is changed. So if you remove it, then the search function will be
-     * executed with the previous type nad not the lastest type.
-     */
-    this.reportForm.controls["type"].valueChanges
-      .pipe(debounce(() => interval(400)))
-      .subscribe((newType: IReportType["type"]) => {
-        if (this.reportForm.valid) {
-          this.search();
-        }
-      });
-
     this.commonService.getAllUlbs().subscribe((response: IULBResponse) => {
       Object.values(response.data).forEach(state => {
         state.ulbs = state.ulbs.sort((a, b) => (b.name > a.name ? -1 : 0));
@@ -282,6 +295,8 @@ export class ReportComponent implements OnInit {
       this.originalUlbList = response;
       this.ulbs = JSON.parse(JSON.stringify(this.originalUlbList));
     });
+
+    this.listenToFormGroups();
   }
 
   onItemSelect(item: any) {}
