@@ -137,9 +137,11 @@ export class ReportComponent implements OnInit {
     this.reportForm.controls["isComparative"].valueChanges.subscribe(
       isComparative => {
         this.resetPopupValues();
-        if (isComparative) {
-          this.setULBType("base", this.baseULBSelected ? true : false);
-        }
+        this.setULBType(
+          isComparative ? "base" : "other",
+          this.baseULBSelected ? true : false,
+          this.reportForm.controls.isComparative.value
+        );
       }
     );
   }
@@ -182,9 +184,15 @@ export class ReportComponent implements OnInit {
     return a.value.name > b.value.name ? 1 : -1;
   };
 
-  setULBType(type: "base" | "other", baseULBSelected: boolean) {
-    if (type === "other" && baseULBSelected) {
-      this.ulbTypeSelected = type;
+  setULBType(
+    type: "base" | "other",
+    baseULBSelected: boolean,
+    isComparative: boolean = false
+  ) {
+    if (type === "other") {
+      if (!isComparative || (isComparative && baseULBSelected)) {
+        this.ulbTypeSelected = type;
+      }
     } else if (type === "base") {
       this.ulbTypeSelected = type;
     }

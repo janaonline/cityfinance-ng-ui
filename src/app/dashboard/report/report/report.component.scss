@@ -78,3 +78,10 @@
 .inactive-tab {
   color: gray;
 }
+
+.btn-primary:disabled,
+.btn-primary[disabled],
+button:disabled {
+  background: gray !important;
+  color: white !important;
+}
