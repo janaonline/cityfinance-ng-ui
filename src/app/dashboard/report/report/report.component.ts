@@ -626,9 +626,13 @@ export class ReportComponent implements OnInit {
         ...this.originalUlbList.data[this.currentStateInView.key]
       };
 
-      state.ulbs = this.filterULBByPopulation(state.ulbs).filter(ulb =>
-        nameToFilterBy ? ulb.name.includes(nameToFilterBy) : true
-      );
+      state.ulbs = this.filterULBByPopulation(state.ulbs)
+        .filter(ulb =>
+          nameToFilterBy ? ulb.name.includes(nameToFilterBy) : true
+        )
+        .filter(ulb =>
+          this.ulbTypeInView!.type ? this.ulbTypeInView.type === ulb.type : true
+        );
 
       this.currentStateInView = {
         key: this.currentStateInView.key,
@@ -710,7 +714,7 @@ export class ReportComponent implements OnInit {
     const resultData = {};
 
     const ulbTypeFilter = this.ulbForm.ulbTypeFilter;
-
+    console.log(ulbTypeFilter);
     const states = Object.keys(ulbList);
     for (let i = 0; i < states.length; i++) {
       const ulbs = ulbList[states[i]]["ulbs"];
