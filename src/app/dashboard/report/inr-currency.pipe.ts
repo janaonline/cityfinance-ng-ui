@@ -8,7 +8,9 @@ export class InrCurrencyPipe implements PipeTransform {
     if (!value) {
       return "Not Applicable";
     }
-    // value = value.toFixed()
+    if (value < 0) {
+      console.log(value);
+    }
     let x =
       value < 0 ? `(${Math.round(value * -1)})` : Math.round(value).toString();
     let decimal = "";
@@ -18,15 +20,21 @@ export class InrCurrencyPipe implements PipeTransform {
       x = x.substring(0, x.indexOf("."));
     }
     // x = x.substring(0, x.indexOf('.'));
-    let lastThree = x.substring(x.length - 3);
-    const otherNumbers = x.substring(0, x.length - 3);
+    let lastThree, otherNumbers;
+    if (value < 0) {
+      lastThree = x.substring(x.length - 5);
+      otherNumbers = x.substring(0, x.length - 5);
+    } else {
+      lastThree = x.substring(x.length - 3);
+      otherNumbers = x.substring(0, x.length - 3);
+    }
 
     if (otherNumbers != "") {
       lastThree = "," + lastThree;
     }
-    return (
-      otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + decimal
-    );
+    const finalNumber =
+      otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + decimal;
+    return finalNumber;
 
     // return value;
   }

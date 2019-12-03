@@ -37,8 +37,13 @@
 }
 
 .ulbTypeSelected,
-.ulbTabActive {
-  background: #484747;
+.ulbTabActive,
+.activeState {
+  background: #337ab7;
+  color: white;
+}
+
+.activeState > a {
   color: white;
 }
 
@@ -47,8 +52,9 @@
 }
 
 .ulbTabActive:hover,
-.ulbTypeSelected:hover {
-  background: #484747;
+.ulbTypeSelected:hover,
+.activeState:hover {
+  background: #337ab7;
   color: white;
 }
 
@@ -63,4 +69,19 @@
 
 ::ng-deep angular2-multiselect span {
   font-size: 1.5em;
+}
+
+::ng-deep .c-btn {
+  min-height: 32px !important;
+}
+
+.inactive-tab {
+  color: gray;
+}
+
+.btn-primary:disabled,
+.btn-primary[disabled],
+button:disabled {
+  background: gray !important;
+  color: white !important;
 }

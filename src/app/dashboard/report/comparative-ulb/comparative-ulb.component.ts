@@ -32,39 +32,42 @@ export class ComparativeUlbComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.reportReq = this.reportService.getReportRequest();
+    // this.reportReq = this.reportService.getReportRequest();
+    this.reportService.getNewReportRequest().subscribe(reportCriteria => {
+      this.reportReq = reportCriteria;
+      this.reportService.reportResponse.subscribe(res => {
+        if (res) {
+          this.years = [];
+          this.response = res;
+          // this.reportReq = this.reportService.getReportRequest();
 
-    this.reportService.reportResponse.subscribe(res => {
-      if (res) {
-        this.response = res;
-        this.reportReq = this.reportService.getReportRequest();
-
-        if (this.reportReq.reportGroup == "Balance Sheet") {
-          this.report = this.reportHelper.getBSReportLookup();
+          if (this.reportReq.reportGroup == "Balance Sheet") {
+            this.report = this.reportHelper.getBSReportLookup();
+          } else {
+            this.report = this.reportHelper.getIEReportLookup();
+          }
+          // this.reqUlb = this.reportReq.ulbList[0].code;
+          // this.reqUlb2 = this.reportReq.ulbList[1].code;
+          this.reqYear = this.reportReq.years[0];
+          if (this.reportReq.ulbList.length > 1) {
+            this.years = [];
+            this.transformYears_UlbVSUlb();
+          } else {
+            this.years = [];
+            this.transformYears_YrVSYr();
+            // this.headerGroup.accRowspan = 3;
+          }
+          // this.links = this.reportService.loadDefaultLinks();
+          // this.transformResult(res['data']);
+          this.transformResult(res);
+          // console.log(this.report);
+          this.headerGroup.yearColspan =
+            this.years.length / this.reportReq.years.length;
         } else {
-          this.report = this.reportHelper.getIEReportLookup();
+          this.isProcessed = true;
+          this.reportKeys = [];
         }
-        // this.reqUlb = this.reportReq.ulbList[0].code;
-        // this.reqUlb2 = this.reportReq.ulbList[1].code;
-        this.reqYear = this.reportReq.years[0];
-        // this.years = this.reportReq.years;
-        this.years = [];
-        if (this.reportReq.ulbList.length > 1) {
-          this.transformYears_UlbVSUlb();
-        } else {
-          this.transformYears_YrVSYr();
-          // this.headerGroup.accRowspan = 3;
-        }
-        // this.links = this.reportService.loadDefaultLinks();
-        // this.transformResult(res['data']);
-        this.transformResult(res);
-        // console.log(this.report);
-        this.headerGroup.yearColspan =
-          this.years.length / this.reportReq.years.length;
-      } else {
-        this.isProcessed = true;
-        this.reportKeys = [];
-      }
+      });
     });
   }
 
@@ -73,7 +76,9 @@ export class ComparativeUlbComponent implements OnInit {
     // this.years.push({title: this.reportReq.ulbList[0].code, caption: this.reportReq.ulbList[0].name, isComparative: false });
     // this.years.push({title: this.reportReq.ulbList[1].code, caption: this.reportReq.ulbList[1].name, isComparative: false });
     // this.years.push({title: 'difference', caption: '%', isComparative: true });
-
+    console.log(
+      `ulb ${this.reportReq.ulbList.length}, years: ${this.reportReq.years.length}`
+    );
     for (let i = 0; i < this.reportReq.ulbList.length; i++) {
       const ulb = this.reportReq.ulbList[i];
       // if(this.report[item.code] && item.ulb_code && item.budget.length > 0){
@@ -101,11 +106,14 @@ export class ComparativeUlbComponent implements OnInit {
           });
         }
       }
-      // }
     }
   }
 
   transformYears_UlbVSUlb() {
+    console.log(
+      `years ${this.reportReq.years.length}, ulbs: ${this.reportReq.ulbList.length}`
+    );
+    console.log([...this.reportReq.ulbList]);
     for (let i = 0; i < this.reportReq.years.length; i++) {
       const year = this.reportReq.years[i];
       for (let j = 0; j < this.reportReq.ulbList.length; j++) {
@@ -149,7 +157,12 @@ export class ComparativeUlbComponent implements OnInit {
       if (this.report[item.code] && item.ulb_code && item.budget.length > 0) {
         for (let j = 0; j < item.budget.length; j++) {
           const key = item.ulb_code + "_" + item.budget[j].year;
-          this.report[item.code][key] = item.budget[j].amount;
+          if (
+            this.report[item.code][key] === undefined ||
+            this.report[item.code][key] === null
+          ) {
+            this.report[item.code][key] = item.budget[j].amount;
+          }
         }
       }
     }

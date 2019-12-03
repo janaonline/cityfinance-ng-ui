@@ -6,6 +6,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { interval } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
+import { IReportType } from 'src/app/models/reportType';
 import { IULB } from 'src/app/models/ulb';
 
 import { CommonService } from '../../../shared/services/common.service';
@@ -29,42 +30,14 @@ export class ReportComponent implements OnInit {
     private modalService: BsModalService,
     private reportService: ReportService,
     private router: Router
-  ) {
-    this.searchByNameControl.valueChanges
-      .pipe(debounce(() => interval(400)))
-      .subscribe(newText => {
-        const newULBS = this.filterULBByPopFilters(newText);
-        this.ulbs = { ...newULBS };
-        // console.log({ ...newULBS });
-        if (this.currentStateInView) {
-          const stateToShow = newULBS.data[this.currentStateInView.key]
-            ? { ...newULBS.data[this.currentStateInView.key] }
-            : null;
-          // console.log({ stateToShow });
-          if (stateToShow) {
-            stateToShow.ulbs = stateToShow.ulbs.filter(ulb =>
-              this.ulbTypeInView ? ulb.type === this.ulbTypeInView.type : true
-            );
-          }
-          this.currentStateInView = {
-            key: this.currentStateInView.key,
-            value: {
-              state: stateToShow
-                ? stateToShow.state
-                : this.currentStateInView.value.state,
-              ulbs: stateToShow && stateToShow.ulbs ? [...stateToShow.ulbs] : []
-            }
-          };
-        }
-      });
-  }
+  ) {}
 
   get lf() {
     return this.reportForm.controls;
   }
   // alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   alphabets = [];
-  activeGroup = "IE";
+  activeGroup: "IE" | "BS" = "IE";
   isMultiULB = false;
 
   states: any = [];
@@ -119,6 +92,60 @@ export class ReportComponent implements OnInit {
 
   searchByNameControl = new FormControl();
 
+  isAlertForDifferentULBShown = false;
+
+  private listenToFormGroups() {
+    this.searchByNameControl.valueChanges
+      .pipe(debounce(() => interval(400)))
+      .subscribe(newText => {
+        const newULBS = this.filterULBByPopFilters(newText);
+        this.ulbs = { ...newULBS };
+        if (this.currentStateInView) {
+          const stateToShow = newULBS.data[this.currentStateInView.key]
+            ? { ...newULBS.data[this.currentStateInView.key] }
+            : null;
+          if (stateToShow) {
+            stateToShow.ulbs = stateToShow.ulbs.filter(ulb =>
+              this.ulbTypeInView ? ulb.type === this.ulbTypeInView.type : true
+            );
+          }
+          this.currentStateInView = {
+            key: this.currentStateInView.key,
+            value: {
+              state: stateToShow
+                ? stateToShow.state
+                : this.currentStateInView.value.state,
+              ulbs: stateToShow && stateToShow.ulbs ? [...stateToShow.ulbs] : []
+            }
+          };
+        }
+      });
+
+    /**
+     *  IMPORTANT Do not remove debounce from here. the valueChanges is run before the actual
+     *  value of the form is changed. So if you remove it, then the search function will be
+     * executed with the previous type nad not the lastest type.
+     */
+    this.reportForm.controls["type"].valueChanges
+      .pipe(debounce(() => interval(400)))
+      .subscribe((newType: IReportType["type"]) => {
+        if (this.reportForm.valid) {
+          this.search();
+        }
+      });
+
+    this.reportForm.controls["isComparative"].valueChanges.subscribe(
+      isComparative => {
+        this.resetPopupValues();
+        this.setULBType(
+          isComparative ? "base" : "other",
+          this.baseULBSelected ? true : false,
+          this.reportForm.controls.isComparative.value
+        );
+      }
+    );
+  }
+
   filterULBByPopFilters(textToSeatch: string) {
     const newULBS: IULBResponse = {
       data: {},
@@ -130,15 +157,13 @@ export class ReportComponent implements OnInit {
         this.originalUlbList.data[stateKey].ulbs
       )).filter(ulb =>
         textToSeatch && textToSeatch.trim()
-          ? ulb.name.includes(textToSeatch)
+          ? ulb.name.toLowerCase().includes(textToSeatch.toLowerCase())
           : true
       );
       if (stateKey === "AS") {
-        // console.log(stateKey, [...filteredULBS]);
       }
       filteredULBS = this.filterULBByPopulation(filteredULBS);
       if (stateKey === "AS") {
-        // console.log(`after filter population `, [...filteredULBS]);
       }
       if (filteredULBS.length) {
         newULBS.data[stateKey] = {
@@ -159,8 +184,18 @@ export class ReportComponent implements OnInit {
     return a.value.name > b.value.name ? 1 : -1;
   };
 
-  setULBType(type: "base" | "other") {
-    this.ulbTypeSelected = type;
+  setULBType(
+    type: "base" | "other",
+    baseULBSelected: boolean,
+    isComparative: boolean = false
+  ) {
+    if (type === "other") {
+      if (!isComparative || (isComparative && baseULBSelected)) {
+        this.ulbTypeSelected = type;
+      }
+    } else if (type === "base") {
+      this.ulbTypeSelected = type;
+    }
   }
 
   setULBTypeOfState(type: { type: ulbType }) {
@@ -170,9 +205,7 @@ export class ReportComponent implements OnInit {
 
   showState(state: { key: string; value: { state: string; ulbs: IULB[] } }) {
     const stateFound = this.ulbs.data[state.key];
-    console.log(this.ulbs.data);
     const newState = { key: state.key, value: { ...stateFound } };
-    console.log({ newState });
 
     const fitlerULB = newState.value.ulbs
       ? newState.value.ulbs.filter(ulb => {
@@ -180,7 +213,6 @@ export class ReportComponent implements OnInit {
         })
       : [];
 
-    console.log(this.ulbTypeInView.type);
     newState.value.ulbs = fitlerULB;
 
     if (this.ulbForm.ulbPopulationFilter.length) {
@@ -259,9 +291,9 @@ export class ReportComponent implements OnInit {
       isComparative: [false, []],
       type: ["Summary", Validators.required],
       years: [[]],
-      yearList: [[]],
+      yearList: [[], [Validators.required]],
       reportGroup: ["Income & Expenditure Statement", Validators.required],
-      ulbList: [this.selectedUlbs, []]
+      ulbList: [this.selectedUlbs, [Validators.required]]
     });
 
     this.commonService.getAllUlbs().subscribe((response: IULBResponse) => {
@@ -271,6 +303,8 @@ export class ReportComponent implements OnInit {
       this.originalUlbList = response;
       this.ulbs = JSON.parse(JSON.stringify(this.originalUlbList));
     });
+
+    this.listenToFormGroups();
   }
 
   onItemSelect(item: any) {}
@@ -319,11 +353,13 @@ export class ReportComponent implements OnInit {
     }
   }
 
-  toggleTab(val: string) {
+  toggleTab(val: "IE" | "BS") {
     this.activeGroup = val;
     if (!this.reportForm.invalid) {
-      this.populateReportGroup();
-      this.search();
+      // this.populateReportGroup();
+      if (this.reportForm.valid) {
+        this.search();
+      }
     }
   }
 
@@ -343,28 +379,6 @@ export class ReportComponent implements OnInit {
   }
 
   search() {
-    const res = {
-      ulbType: "",
-      state: { code: "CG", name: "Chhattisgarh" },
-      ulb: {
-        state: "Chhattisgarh",
-        code: "CG001",
-        name: "Ambagarh Chowki Nagar Panchayat",
-        natureOfUlb: "Nagar Panchayat",
-        type: "Town Panchayat",
-        wards: 43,
-        area: 0,
-        population: 121071
-      },
-      state2: "",
-      ulb2: "",
-      year2: "",
-      type: "Detailed",
-      years: ["2015-16", "2016-17"],
-      reportGroup: "Income & Expenditure Statement",
-      ulbList: []
-    };
-
     // comparision: true
     // reportGroup: "Income & Expenditure Statement"
     // type: "detailed"
@@ -386,9 +400,9 @@ export class ReportComponent implements OnInit {
 
     // this.submitted = true;
     // stop here if form is invalid
-    if (!this.submitted) {
-      return false;
-    }
+    // if (!this.submitted) {
+    //   return false;
+    // }
 
     if (this.reportForm.value.years.length == 0) {
       alert("select atleast one Year to continue");
@@ -413,7 +427,9 @@ export class ReportComponent implements OnInit {
       this.isFormInvalid = true;
       return false;
     }
+
     this.isFormInvalid = false;
+
     if (this.reportForm.controls.isComparative.value && !this.baseULBSelected) {
       return alert(
         "You have opted for Comparision report but not selected base ULB. Please select any base ULB to proceed further."
@@ -421,7 +437,10 @@ export class ReportComponent implements OnInit {
     }
 
     // IMPORTANT ADD BaseULBSelected here for comparision;
-    if (this.reportForm.value.isComparative) {
+    if (
+      this.reportForm.value.isComparative &&
+      this.reportForm.value.ulbList[0].code != this.baseULBSelected.code
+    ) {
       this.reportForm.value.ulbList = [
         { ...this.baseULBSelected },
         ...this.reportForm.value.ulbList
@@ -429,6 +448,7 @@ export class ReportComponent implements OnInit {
     }
 
     this.populateReportGroup();
+
     if (
       this.reportForm.value.ulbList[0] &&
       this.reportForm.value.ulbList[1] &&
@@ -459,8 +479,6 @@ export class ReportComponent implements OnInit {
 
       // this.reportForm.value.reportGroup = 'Income & Expenditure Statement';
       this.reportService.getAggregate(this.reportForm.value);
-
-      // return;
     } else if (this.activeGroup == "IE") {
       this.reportService.ieDetailed(this.reportForm.value);
     } else {
@@ -569,7 +587,6 @@ export class ReportComponent implements OnInit {
 
   unselectAllPopulation(event) {
     this.ulbForm.ulbPopulationFilter = [];
-    console.log(`unselectAllPopulation`);
     // this.filterUlbs(event);
   }
 
@@ -588,7 +605,6 @@ export class ReportComponent implements OnInit {
         const state = {
           ...this.originalUlbList.data[this.currentStateInView.key]
         };
-        console.log(`before filter `, { ...state });
         state.ulbs = state.ulbs
           .filter(ulb =>
             nameToFilterBy ? ulb.name.includes(nameToFilterBy) : true
@@ -598,7 +614,6 @@ export class ReportComponent implements OnInit {
               ? this.ulbTypeInView.type === ulb.type
               : true
           );
-        console.log(`after filter `, { ...state });
 
         this.currentStateInView = {
           key: this.currentStateInView.key,
@@ -739,6 +754,23 @@ export class ReportComponent implements OnInit {
       delete this.StateULBTypeMapping[stateCode][ulbType.type][ulbCode];
     }
     this.updateSelectedULBSFromMapping();
+    this.checkAlertForDifferentULB(ulb);
+  }
+
+  checkAlertForDifferentULB(latestULB: IULB) {
+    if (!this.isAlertForDifferentULBShown) {
+      const allULBAreSameType = this.reportForm.controls.ulbList.value.every(
+        formULB => formULB.type === latestULB.type
+      );
+      if (!allULBAreSameType) {
+        const alreadySelectULB: IULB = this.reportForm.controls.ulbList
+          .value[0];
+        alert(
+          `You are selecting a ULB of different type. Earlier ULB selected are of ${alreadySelectULB.type} type, but now selecting from ${latestULB.type} type`
+        );
+        this.isAlertForDifferentULBShown = true;
+      }
+    }
   }
 
   updateSelectedULBSFromMapping() {
@@ -778,8 +810,18 @@ export class ReportComponent implements OnInit {
     this.updateSelectedULBSFromMapping();
   }
 
-  selectedBaseULB(ulbToSelect: IULB) {
+  selectedBaseULB(ulbToSelect: IULB, stateCode: string) {
     this.baseULBSelected = ulbToSelect;
+    if (
+      this.StateULBTypeMapping[stateCode] &&
+      this.StateULBTypeMapping[stateCode][ulbToSelect.type] &&
+      this.StateULBTypeMapping[stateCode][ulbToSelect.type][ulbToSelect.code]
+    ) {
+      delete this.StateULBTypeMapping[stateCode][ulbToSelect.type][
+        ulbToSelect.code
+      ];
+      this.updateSelectedULBSFromMapping();
+    }
   }
 
   getTotalULBSelectedBy(
