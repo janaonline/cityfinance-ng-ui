@@ -5,11 +5,11 @@ export interface IDetailedReportResponse extends IBaseReponse {
     _id: string;
     ulb_code: string;
     line_item: string;
-    head_of_account;
+    head_of_account: string;
     groupCode: string;
     code: number;
     budget: IBudget[];
-  };
+  }[];
 }
 
 export interface IBudget {
