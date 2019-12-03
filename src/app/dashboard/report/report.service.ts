@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { IDetailedReportResponse } from 'src/app/models/detailedReport/detailedReportResponse';
+import { ISummaryReport } from 'src/app/models/summaryReport/summaryReport';
 
 import { environment } from '../../../environments/environment';
 import { IReportType } from '../../models/reportType';
@@ -9,36 +11,39 @@ import { IReportType } from '../../models/reportType';
   providedIn: "root"
 })
 export class ReportService {
-  public reportResponse: Subject<any> = new Subject<any>();
-  reportRequest: IReportType | {} = {};
+  public reportResponse: Subject<
+    | IDetailedReportResponse
+    | IDetailedReportResponse["data"]
+    | ISummaryReport["data"]
+  > = new Subject<
+    | IDetailedReportResponse
+    | IDetailedReportResponse["data"]
+    | ISummaryReport["data"]
+  >();
 
   reportRequestSubject = new Subject<IReportType>();
 
   constructor(private http: HttpClient) {}
-
-  getReportRequest() {
-    return this.reportRequest;
-  }
 
   getNewReportRequest() {
     return this.reportRequestSubject;
   }
 
   setReportRequest(criteria: IReportType) {
-    // this.reportRequest = criteria;
-    console.log(`setting new criteria`, { ...criteria });
     this.reportRequestSubject.next(criteria);
   }
 
-  ieDetailed(criteria) {
+  ieDetailed(criteria: IReportType) {
     this.setReportRequest(criteria);
 
     this.http
-      .post(environment.api.url + "ledger/getIE", criteria)
+      .post<IDetailedReportResponse>(
+        environment.api.url + "ledger/getIE",
+        criteria
+      )
       .subscribe(res => {
         if (res["success"]) {
           if (res["data2"]) {
-            // localStorage.setItem('ulbData2', JSON.stringify(res['data2']));
             this.reportResponse.next(res);
           } else {
             this.reportResponse.next(res["data"]);
@@ -49,11 +54,11 @@ export class ReportService {
       });
   }
 
-  BSDetailed(criteria) {
+  BSDetailed(criteria: IReportType) {
     this.setReportRequest(criteria);
 
     this.http
-      .post(environment.api.url + "ledger/getBS", criteria)
+      .post<ISummaryReport>(environment.api.url + "ledger/getBS", criteria)
       .subscribe(res => {
         if (res["success"]) {
           if (res["data2"]) {
@@ -66,7 +71,7 @@ export class ReportService {
       });
   }
 
-  getAggregate(criteria) {
+  getAggregate(criteria: IReportType) {
     this.setReportRequest(criteria);
 
     this.http

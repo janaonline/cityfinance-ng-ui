@@ -30,12 +30,8 @@ export class BasicComponent implements OnInit {
   ngOnInit() {
     this.reportService.getNewReportRequest().subscribe(reportCriteria => {
       this.reportReq = reportCriteria;
-      console.log(`got new criteria`, { ...reportCriteria });
       this.reportService.reportResponse.subscribe(res => {
-        if (res && res.length > 0) {
-          console.log(`got new reponse`);
-
-          // this.reportReq = this.reportService.getReportRequest();
+        if (res && (res as any[]).length > 0) {
           this.years = [];
           this.transformYears();
           this.links = this.reportService.loadDefaultLinks();
@@ -46,8 +42,6 @@ export class BasicComponent implements OnInit {
           this.isProcessed = true;
           this.reportKeys = [];
         }
-
-        console.log(`completed`);
       });
     });
   }
@@ -123,7 +117,6 @@ export class BasicComponent implements OnInit {
 
     for (let i = 0; i < calcFields.length; i++) {
       const keyName = calcFields[i].keyName;
-      // console.log({ keyName });
       result[keyName] = { line_item: calcFields[i].title, isBold: true };
       if (calcFields[i].code) {
         result[keyName]["code"] = calcFields[i].code;
@@ -134,7 +127,6 @@ export class BasicComponent implements OnInit {
           let sum = 0;
           const addFields = calcFields[i].addFields;
           const subtractFields = calcFields[i].subtractFields;
-          // console.log({ addFields });
           /** loop through each result line item and add values for specific year */
           if (addFields) {
             for (let k = 0; k < addFields.length; k++) {
