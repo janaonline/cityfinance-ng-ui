@@ -379,6 +379,7 @@ export class ReportComponent implements OnInit {
   }
 
   search() {
+    this.modalRef.hide();
     // comparision: true
     // reportGroup: "Income & Expenditure Statement"
     // type: "detailed"
@@ -596,48 +597,78 @@ export class ReportComponent implements OnInit {
   }
 
   filterUlbs(filterName) {
-    const nameToFilterBy = this.searchByNameControl.value;
-    if (
-      this.ulbForm.ulbPopulationFilter.length == 0 &&
-      this.ulbForm.ulbTypeFilter.length == 0
-    ) {
-      if (this.currentStateInView) {
-        const state = {
-          ...this.originalUlbList.data[this.currentStateInView.key]
-        };
-        state.ulbs = state.ulbs
-          .filter(ulb =>
-            nameToFilterBy ? ulb.name.includes(nameToFilterBy) : true
-          )
-          .filter(ulb =>
-            this.ulbTypeInView!.type
-              ? this.ulbTypeInView.type === ulb.type
-              : true
-          );
-
-        this.currentStateInView = {
-          key: this.currentStateInView.key,
-          value: state
-        };
+    const newULBS = this.filterULBByPopFilters("");
+    this.ulbs = { ...newULBS };
+    if (this.currentStateInView) {
+      const stateToShow = newULBS.data[this.currentStateInView.key]
+        ? { ...newULBS.data[this.currentStateInView.key] }
+        : null;
+      if (stateToShow) {
+        stateToShow.ulbs = stateToShow.ulbs.filter(ulb =>
+          this.ulbTypeInView ? ulb.type === this.ulbTypeInView.type : true
+        );
+      } else {
+        this.currentStateInView = null;
       }
-      return;
-    } else if (filterName == "ulbPopulationFilter" && this.currentStateInView) {
-      const state = {
-        ...this.originalUlbList.data[this.currentStateInView.key]
-      };
 
-      state.ulbs = this.filterULBByPopulation(state.ulbs).filter(ulb =>
-        nameToFilterBy ? ulb.name.includes(nameToFilterBy) : true
-      );
-
-      this.currentStateInView = {
-        key: this.currentStateInView.key,
-        value: state
-      };
-    } else if (filterName == "ulbTypeFilter") {
-      this.ulbForm.ulbPopulationFilter = [];
-      this.ulbs.data = this.filterUlbByType(this.originalUlbList.data);
+      // console.log({ stateToShow });
+      // this.currentStateInView = {
+      //   key: this.currentStateInView.key,
+      //   value: {
+      //     state: stateToShow
+      //       ? stateToShow.state
+      //       : this.currentStateInView.value.state,
+      //     ulbs: stateToShow && stateToShow.ulbs ? [...stateToShow.ulbs] : []
+      //   }
+      // };
     }
+
+    // const nameToFilterBy = this.searchByNameControl.value;
+    // if (
+    //   this.ulbForm.ulbPopulationFilter.length == 0 &&
+    //   this.ulbForm.ulbTypeFilter.length == 0
+    // ) {
+    //   if (this.currentStateInView) {
+    //     const state = {
+    //       ...this.originalUlbList.data[this.currentStateInView.key]
+    //     };
+    //     state.ulbs = state.ulbs
+    //       .filter(ulb =>
+    //         nameToFilterBy ? ulb.name.includes(nameToFilterBy) : true
+    //       )
+    //       .filter(ulb =>
+    //         this.ulbTypeInView!.type
+    //           ? this.ulbTypeInView.type === ulb.type
+    //           : true
+    //       );
+
+    //     this.currentStateInView = {
+    //       key: this.currentStateInView.key,
+    //       value: state
+    //     };
+    //   }
+    //   return;
+    // } else if (filterName == "ulbPopulationFilter" && this.currentStateInView) {
+    //   const state = {
+    //     ...this.originalUlbList.data[this.currentStateInView.key]
+    //   };
+
+    //   state.ulbs = this.filterULBByPopulation(state.ulbs)
+    //     .filter(ulb =>
+    //       nameToFilterBy ? ulb.name.includes(nameToFilterBy) : true
+    //     )
+    //     .filter(ulb =>
+    //       this.ulbTypeInView!.type ? this.ulbTypeInView.type === ulb.type : true
+    //     );
+
+    //   this.currentStateInView = {
+    //     key: this.currentStateInView.key,
+    //     value: state
+    //   };
+    // } else if (filterName == "ulbTypeFilter") {
+    //   this.ulbForm.ulbPopulationFilter = [];
+    //   this.ulbs.data = this.filterUlbByType(this.originalUlbList.data);
+    // }
   }
 
   filterULBByPopulation(ulbList: IULB[]) {
@@ -710,7 +741,7 @@ export class ReportComponent implements OnInit {
     const resultData = {};
 
     const ulbTypeFilter = this.ulbForm.ulbTypeFilter;
-
+    console.log(ulbTypeFilter);
     const states = Object.keys(ulbList);
     for (let i = 0; i < states.length; i++) {
       const ulbs = ulbList[states[i]]["ulbs"];
@@ -754,7 +785,20 @@ export class ReportComponent implements OnInit {
       delete this.StateULBTypeMapping[stateCode][ulbType.type][ulbCode];
     }
     this.updateSelectedULBSFromMapping();
-    this.checkAlertForDifferentULB(ulb);
+    const allULBAreSameType = this.reportForm.controls.ulbList.value.every(
+      formULB =>
+        this.reportForm.controls.ulbList.value.length
+          ? formULB.type === this.reportForm.controls.ulbList.value[0].type
+          : true
+    );
+    if (this.isAlertForDifferentULBShown && allULBAreSameType) {
+      this.isAlertForDifferentULBShown = false;
+    }
+    this.checkAlertForDifferentULB(
+      this.reportForm.controls.ulbList.value[
+        this.reportForm.controls.ulbList.value.length - 1
+      ]
+    );
   }
 
   checkAlertForDifferentULB(latestULB: IULB) {

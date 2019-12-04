@@ -197,6 +197,7 @@
       class="btn btn-primary float-right"
       style="float: right; margin-right: 2%;"
       [disabled]="reportForm.invalid"
+      (click)="search()"
     >
       Generate Report
       <span *ngIf="reportForm.controls['ulbList'].value.length">
@@ -218,7 +219,10 @@
   </div>
 
   <form [formGroup]="reportForm" class="col-md-12 mt-1">
-    <div class="checkbox col-md-2">
+    <div
+      class="checkbox"
+      style="width: fit-content; display: inline-block; margin-right: 15px;"
+    >
       <label
         ><input
           type="checkbox"
@@ -226,6 +230,12 @@
           formControlName="isComparative"
         />
         Comparision Report
+        <i
+          class="fa fa-info-circle"
+          aria-hidden="true"
+          style="margin-left: 2px"
+          title=" Placeholder"
+        ></i>
       </label>
     </div>
     <angular2-multiselect
@@ -377,7 +387,13 @@
                       aria-selected="true"
                       [ngClass]="{
                         ulbTabActive:
-                          ulbTypeInView && ulbTypeInView.type === ulb.type
+                          ulbTypeInView && ulbTypeInView.type === ulb.type,
+                        stateULBSelected: getTotalULBSelectedBy(
+                          currentStateInView.key,
+                          {
+                            type: ulb.type
+                          }
+                        )
                       }"
                     >
                       <input
