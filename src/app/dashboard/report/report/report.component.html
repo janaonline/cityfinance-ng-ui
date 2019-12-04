@@ -256,7 +256,7 @@
           name="isComparative"
           formControlName="isComparative"
         />
-        Comparision Report
+        Comparison Report
         <i
           class="fa fa-info-circle"
           aria-hidden="true"
@@ -276,7 +276,7 @@
       [data]="yearLookup"
       [settings]="yearsDropdownSettings"
       (onClose)="onDateSelectionClose($event)"
-      (onDeSelectAll)="reportForm.controls['yearList'].setValue([])"
+      (onDeSelectAll)="resetPopupValues()"
     >
     </angular2-multiselect>
   </form>
@@ -284,7 +284,7 @@
   <div class="modal-body">
     <div class="row">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
+        <li class="nav-item col-md-2 stateULBName">
           <a
             class="nav-link active inactive-tab"
             aria-controls="home"
@@ -301,8 +301,12 @@
             class="nav-link"
             data-toggle="tab"
             role="tab"
-            [ngClass]="{ ulbTypeSelected: ulbTypeSelected === 'base', 'inactive-tab': 
-            reportForm.controls['isComparative'].value && !reportForm.controls['yearList'].value.length }"
+            [ngClass]="{
+              ulbTypeSelected: ulbTypeSelected === 'base',
+              'inactive-tab':
+                reportForm.controls['isComparative'].value &&
+                !reportForm.controls['yearList'].value.length
+            }"
             aria-controls="home"
             aria-selected="true"
             (click)="
@@ -348,8 +352,8 @@
         </li>
       </ul>
 
-      <div class="col-md-2" style="max-height: 90vh; overflow: auto;">
-        <ul class="list-unstyled left-nav">
+      <div class="col-md-2" style="max-height: 54vh; overflow: auto;">
+        <ul class="list-unstyled left-nav" *ngIf="ulbTypeSelected">
           <li
             *ngFor="let state of ulbs.data | keyvalue"
             [ngClass]="{
@@ -462,7 +466,12 @@
                     </a>
                   </li>
                 </ul>
-                <ul class="nav nav-tabs" id="myTabContent" role="tablist">
+                <ul
+                  class="nav nav-tabs"
+                  id="myTabContent"
+                  role="tablist"
+                  style="max-height: 47vh; overflow: auto"
+                >
                   <li
                     *ngFor="
                       let ulb of currentStateInView.value.ulbs
