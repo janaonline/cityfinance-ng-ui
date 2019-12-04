@@ -301,7 +301,8 @@
             class="nav-link"
             data-toggle="tab"
             role="tab"
-            [ngClass]="{ ulbTypeSelected: ulbTypeSelected === 'base' }"
+            [ngClass]="{ ulbTypeSelected: ulbTypeSelected === 'base', 'inactive-tab': 
+            reportForm.controls['isComparative'].value && !reportForm.controls['yearList'].value.length }"
             aria-controls="home"
             aria-selected="true"
             (click)="
