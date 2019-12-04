@@ -6,4 +6,5 @@ export interface IULB {
   population: number;
   type: string;
   wards: number;
+  state: string;
 }
