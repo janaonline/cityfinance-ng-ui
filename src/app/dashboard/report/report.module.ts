@@ -1,24 +1,28 @@
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReportRouter } from './report.router';
-// import { IncomeExpenditureComponent } from './income-expenditure/income-expenditure.component';
-// import { IncomeExpenditureSummaryComponent } from './income-expenditure-summary/income-expenditure-summary.component';
-// import { BalanceSheetComponent } from './balance-sheet/balance-sheet.component';
-import { ReportComponent } from './report/report.component';
-import { ReportService } from './report.service';
-import { InrCurrencyPipe } from './inr-currency.pipe';
-import { ExcelService } from './excel.service';
-// import { CommonSizeComponent } from './common-size/common-size.component';
-import { ReportFooterComponent } from './report-footer/report-footer.component';
-import { BasicComponent } from './basic/basic.component';
-// import { ComparativeComponent } from './comparative/comparative.component';
-// import { CommonSizeUlbComponent } from './common-size-ulb/common-size-ulb.component';
-import { ComparativeUlbComponent } from './comparative-ulb/comparative-ulb.component';
-// import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
+import { BasicComponent } from './basic/basic.component';
+import { ComparativeUlbComponent } from './comparative-ulb/comparative-ulb.component';
+import { ExcelService } from './excel.service';
+import { InrCurrencyPipe } from './inr-currency.pipe';
+import { ReportFooterComponent } from './report-footer/report-footer.component';
+import { ReportRouter } from './report.router';
+import { ReportService } from './report.service';
+import { ReportComponent } from './report/report.component';
+
+// import { IncomeExpenditureComponent } from './income-expenditure/income-expenditure.component';
+// import { IncomeExpenditureSummaryComponent } from './income-expenditure-summary/income-expenditure-summary.component';
+// import { BalanceSheetComponent } from './balance-sheet/balance-sheet.component';
+// import { CommonSizeComponent } from './common-size/common-size.component';
+// import { ComparativeComponent } from './comparative/comparative.component';
+// import { CommonSizeUlbComponent } from './common-size-ulb/common-size-ulb.component';
+// import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
   imports: [
     FormsModule,
@@ -26,21 +30,24 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ReportRouter,
     ReactiveFormsModule,
     AngularMultiSelectModule,
-    ModalModule.forRoot(),
+    MatInputModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    ModalModule.forRoot()
   ],
   declarations: [
-    InrCurrencyPipe, 
-    // IncomeExpenditureComponent, 
+    InrCurrencyPipe,
+    // IncomeExpenditureComponent,
     // IncomeExpenditureSummaryComponent,
-    // BalanceSheetComponent, 
-    ReportComponent, 
+    // BalanceSheetComponent,
+    ReportComponent,
     // CommonSizeComponent,
-    ReportFooterComponent, 
-    BasicComponent, 
-    // ComparativeComponent, 
-    // CommonSizeUlbComponent, 
+    ReportFooterComponent,
+    BasicComponent,
+    // ComparativeComponent,
+    // CommonSizeUlbComponent,
     ComparativeUlbComponent
   ],
   providers: [ReportService, ExcelService]
 })
-export class ReportModule { }
+export class ReportModule {}

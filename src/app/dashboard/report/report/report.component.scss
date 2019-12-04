@@ -86,3 +86,27 @@ button:disabled {
   background: gray !important;
   color: white !important;
 }
+::ng-deep .modal-content {
+  overflow: auto;
+  min-height: 70vh;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 6px;
+}
+
+.stateULBName > * {
+  background: gray;
+  color: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  text-align: center;
+}
+
+.stateULBName {
+  padding: 0px;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  margin: 0px !important;
+}
