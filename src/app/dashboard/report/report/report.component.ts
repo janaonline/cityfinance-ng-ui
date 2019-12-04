@@ -103,9 +103,10 @@ export class ReportComponent implements OnInit {
       .pipe(debounce(() => interval(400)))
       .subscribe(newText => {
         this.ulbFilteredByName = [];
-        // const newULBS = this.filterULBByPopFilters(newText);
-        Object.keys(this.originalUlbList.data).forEach(stateCode => {
-          const state = this.originalUlbList.data[stateCode];
+        const newULBS = this.filterULBByPopFilters("");
+        console.log({ ...newULBS });
+        Object.keys(newULBS.data).forEach(stateCode => {
+          const state = newULBS.data[stateCode];
           const filteredULBS = state.ulbs
             .filter(ulb =>
               ulb.name.toLowerCase().includes(newText.toLowerCase())
@@ -184,7 +185,7 @@ export class ReportComponent implements OnInit {
   }) {
     this.clearPreviousSearchedULB();
     this.previousSearchedULB = options.ulb;
-    const stateToSet = this.originalUlbList.data[options.stateCode];
+    const stateToSet = this.ulbs.data[options.stateCode];
     this.currentStateInView = {
       key: options.stateCode,
       value: { ...stateToSet }
