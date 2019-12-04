@@ -77,7 +77,8 @@
 }
 
 .inactive-tab {
-  color: gray;
+  color: white;
+  background: rgb(175, 175, 175);
 }
 
 .btn-primary:disabled,
@@ -88,7 +89,7 @@ button:disabled {
 }
 ::ng-deep .modal-content {
   overflow: auto;
-  min-height: 70vh;
+  min-height: 90vh;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
@@ -96,7 +97,7 @@ button:disabled {
 }
 
 .stateULBName > * {
-  background: gray;
+  background: rgb(175, 175, 175);
   color: white;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -109,4 +110,8 @@ button:disabled {
 
 ::ng-deep .mat-form-field-wrapper {
   margin: 0px !important;
+}
+
+::ng-deep .modal .modal-header {
+  padding-bottom: 0px;
 }

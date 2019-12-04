@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { HomeHeaderComponent } from './home-header/home-header.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { CfChartsModule } from '../shared/cf-charts/cf-charts.module';
+import { GridComponent } from './home/grid/grid.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import { CfChartsModule } from '../shared/cf-charts/cf-charts.module';
     AuthService
   ],
   declarations: [LoginComponent, RegisterComponent, RegisterComponent, 
-    HomeComponent, HomeHeaderComponent, StatisticsComponent],
+    HomeComponent, HomeHeaderComponent, StatisticsComponent, GridComponent],
   exports: [
     HomeHeaderComponent
   ]
