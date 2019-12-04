@@ -86,3 +86,15 @@ button:disabled {
   background: gray !important;
   color: white !important;
 }
+::ng-deep .modal-content {
+  max-height: 98vh;
+  overflow: auto;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 6px;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  margin: 0px !important;
+}

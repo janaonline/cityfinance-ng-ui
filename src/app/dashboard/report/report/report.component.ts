@@ -94,31 +94,51 @@ export class ReportComponent implements OnInit {
 
   isAlertForDifferentULBShown = false;
 
+  ulbFilteredByName: IULB[];
+
+  previousSearchedULB: IULB;
+
   private listenToFormGroups() {
     this.searchByNameControl.valueChanges
       .pipe(debounce(() => interval(400)))
       .subscribe(newText => {
-        const newULBS = this.filterULBByPopFilters(newText);
-        this.ulbs = { ...newULBS };
-        if (this.currentStateInView) {
-          const stateToShow = newULBS.data[this.currentStateInView.key]
-            ? { ...newULBS.data[this.currentStateInView.key] }
-            : null;
-          if (stateToShow) {
-            stateToShow.ulbs = stateToShow.ulbs.filter(ulb =>
-              this.ulbTypeInView ? ulb.type === this.ulbTypeInView.type : true
+        this.ulbFilteredByName = [];
+        // const newULBS = this.filterULBByPopFilters(newText);
+        Object.keys(this.originalUlbList.data).forEach(stateCode => {
+          const state = this.originalUlbList.data[stateCode];
+          const filteredULBS = state.ulbs
+            .filter(ulb =>
+              ulb.name.toLowerCase().includes(newText.toLowerCase())
+            )
+            .map(ulb => ({ ...ulb, stateCode }));
+          if (filteredULBS.length) {
+            this.ulbFilteredByName = this.ulbFilteredByName.concat(
+              filteredULBS
             );
           }
-          this.currentStateInView = {
-            key: this.currentStateInView.key,
-            value: {
-              state: stateToShow
-                ? stateToShow.state
-                : this.currentStateInView.value.state,
-              ulbs: stateToShow && stateToShow.ulbs ? [...stateToShow.ulbs] : []
-            }
-          };
-        }
+        });
+
+        // this.filterULBSByName = { ...newULBS };
+        // console.log({ ...this.filterULBSByName });
+        // if (this.currentStateInView) {
+        //   const stateToShow = newULBS.data[this.currentStateInView.key]
+        //     ? { ...newULBS.data[this.currentStateInView.key] }
+        //     : null;
+        //   if (stateToShow) {
+        //     stateToShow.ulbs = stateToShow.ulbs.filter(ulb =>
+        //       this.ulbTypeInView ? ulb.type === this.ulbTypeInView.type : true
+        //     );
+        //   }
+        //   this.currentStateInView = {
+        //     key: this.currentStateInView.key,
+        //     value: {
+        //       state: stateToShow
+        //         ? stateToShow.state
+        //         : this.currentStateInView.value.state,
+        //       ulbs: stateToShow && stateToShow.ulbs ? [...stateToShow.ulbs] : []
+        //     }
+        //   };
+        // }
       });
 
     /**
@@ -144,6 +164,43 @@ export class ReportComponent implements OnInit {
         );
       }
     );
+  }
+
+  clearPreviousSearchedULB() {
+    if (this.previousSearchedULB) {
+      const element = document.getElementById(
+        `${this.previousSearchedULB.code}`
+      );
+      if (element) {
+        element.style.background = "white";
+      }
+    }
+  }
+
+  setCurrentStateView(options: {
+    stateCode: string;
+    ulbType?: IULB["type"];
+    ulb?: IULB;
+  }) {
+    this.clearPreviousSearchedULB();
+    this.previousSearchedULB = options.ulb;
+    const stateToSet = this.originalUlbList.data[options.stateCode];
+    this.currentStateInView = {
+      key: options.stateCode,
+      value: { ...stateToSet }
+    };
+    this.ulbTypeInView = { type: options.ulbType };
+    if (options.ulb) {
+      setTimeout(() => {
+        const element = document.getElementById(`${options.ulb.code}`);
+        if (element) {
+          element.style.background = "yellow";
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 0);
+    }
+
+    // this.setULBTypeOfState({ type: options.ulbType });
   }
 
   filterULBByPopFilters(textToSeatch: string) {
@@ -302,6 +359,7 @@ export class ReportComponent implements OnInit {
       });
       this.originalUlbList = response;
       this.ulbs = JSON.parse(JSON.stringify(this.originalUlbList));
+      // this.filterULBSByName = { ...this.originalUlbList };
     });
 
     this.listenToFormGroups();
@@ -688,10 +746,8 @@ export class ReportComponent implements OnInit {
     const ulbList = JSON.parse(JSON.stringify(this.originalUlbList.data));
 
     const states = Object.keys(ulbList);
-    // var states = Object.keys(this.ulbs.data);
     for (let i = 0; i < states.length; i++) {
       const ulbs = ulbList[states[i]]["ulbs"];
-      // var ulbs = this.ulbs.data[states[i]]['ulbs'];
       if (ulbs && ulbs.length > 0) {
         const filteredUlbs = [];
         for (let j = 0; j < ulbs.length; j++) {

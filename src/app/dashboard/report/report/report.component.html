@@ -145,7 +145,7 @@
     </button>
   </div> -->
 
-  <div class="modal-header">
+  <div class="modal-header" style="max-height: ;">
     <button
       type="button"
       class="close"
@@ -156,7 +156,7 @@
     >
       <span aria-hidden="true">&Chi; </span>
     </button>
-    <div
+    <!-- <div
       class="col-xs-3 searchUlbMobalInput form-group mt-5"
       style="max-width: 20%;"
     >
@@ -170,7 +170,34 @@
         placeholder="Search ULB"
         style="height: 34px;"
       />
-    </div>
+    </div> -->
+
+    <mat-form-field class="col-md-4" appearance="outline">
+      <input
+        type="text"
+        placeholder="Search ULB"
+        aria-label="text"
+        matInput
+        [formControl]="searchByNameControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option
+          *ngFor="let option of ulbFilteredByName"
+          [value]="option.name"
+          (click)="
+            setCurrentStateView({
+              stateCode: option.stateCode,
+              ulbType: option.type,
+              ulb: option
+            })
+          "
+          [title]="option.name.concat(' - ').concat(option.state)"
+        >
+          {{ option.name }} - {{ option.state }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
 
     <div class="col-md-3" style="max-width: 20%">
       <angular2-multiselect
@@ -256,10 +283,6 @@
 
   <div class="modal-body">
     <div class="row">
-      <!-- <div class="col-md-12">
-        &nbsp;
-      </div> -->
-
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
           <a
@@ -324,7 +347,7 @@
         </li>
       </ul>
 
-      <div class="col-md-2">
+      <div class="col-md-2" style="max-height: 90vh; overflow: auto;">
         <ul class="list-unstyled left-nav">
           <li
             *ngFor="let state of ulbs.data | keyvalue"
@@ -380,7 +403,6 @@
                   >
                     <a
                       class="nav-link active"
-                      id="home-tab"
                       data-toggle="tab"
                       role="tab"
                       aria-controls="home"
@@ -439,12 +461,7 @@
                     </a>
                   </li>
                 </ul>
-                <ul
-                  class="nav nav-tabs"
-                  id="myTabContent"
-                  role="tablist"
-                  style="max-height: 50vh; overflow: auto;"
-                >
+                <ul class="nav nav-tabs" id="myTabContent" role="tablist">
                   <li
                     *ngFor="
                       let ulb of currentStateInView.value.ulbs
@@ -452,6 +469,7 @@
                     "
                     class="list-group-item level-two checkbox col-md-4"
                     style="margin: 0px"
+                    [id]="ulb['value']['code']"
                   >
                     <label _ngcontent-c4="">
                       <input
