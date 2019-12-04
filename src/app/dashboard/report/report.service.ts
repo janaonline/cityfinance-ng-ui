@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { IDetailedReportResponse } from 'src/app/models/detailedReport/detailedReportResponse';
 import { ISummaryReport } from 'src/app/models/summaryReport/summaryReport';
 
@@ -21,7 +21,7 @@ export class ReportService {
     | ISummaryReport["data"]
   >();
 
-  reportRequestSubject = new Subject<IReportType>();
+  reportRequestSubject = new BehaviorSubject<IReportType>(null);
 
   constructor(private http: HttpClient) {}
 

@@ -29,7 +29,9 @@ export class ComparativeUlbComponent implements OnInit {
     private reportService: ReportService,
     private excelService: ExcelService,
     private reportHelper: ReportHelperService
-  ) {}
+  ) {
+    console.log(`instantiating comparitivve`);
+  }
 
   ngOnInit() {
     // this.reportReq = this.reportService.getReportRequest();
@@ -76,9 +78,7 @@ export class ComparativeUlbComponent implements OnInit {
     // this.years.push({title: this.reportReq.ulbList[0].code, caption: this.reportReq.ulbList[0].name, isComparative: false });
     // this.years.push({title: this.reportReq.ulbList[1].code, caption: this.reportReq.ulbList[1].name, isComparative: false });
     // this.years.push({title: 'difference', caption: '%', isComparative: true });
-    console.log(
-      `ulb ${this.reportReq.ulbList.length}, years: ${this.reportReq.years.length}`
-    );
+
     for (let i = 0; i < this.reportReq.ulbList.length; i++) {
       const ulb = this.reportReq.ulbList[i];
       // if(this.report[item.code] && item.ulb_code && item.budget.length > 0){
@@ -110,10 +110,6 @@ export class ComparativeUlbComponent implements OnInit {
   }
 
   transformYears_UlbVSUlb() {
-    console.log(
-      `years ${this.reportReq.years.length}, ulbs: ${this.reportReq.ulbList.length}`
-    );
-    console.log([...this.reportReq.ulbList]);
     for (let i = 0; i < this.reportReq.years.length; i++) {
       const year = this.reportReq.years[i];
       for (let j = 0; j < this.reportReq.ulbList.length; j++) {
