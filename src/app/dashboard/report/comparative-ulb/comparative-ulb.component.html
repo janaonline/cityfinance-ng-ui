@@ -1,15 +1,7 @@
-<!-- {{years | json}}
-<br/><br/> -->
-<!-- {{report | json}}  -->
-
-<div class="row" *ngIf="isProcessed && reportKeys.length == 0">
-  <!-- <div class="col-md-12">
-    <h4 style="text-align: center">No Information Available</h4>
-  </div> -->
-</div>
+<div class="row" *ngIf="isProcessed && reportKeys.length == 0"></div>
 
 <div class="row" *ngIf="isProcessed && reportKeys.length > 0">
-  <div class="col-md-12">
+  <div class="col-md-12" style="max-width: 98%; overflow: auto; padding: 0px;">
     <table class="table-bordered">
       <thead>
         <!-- City Finance logo-->
@@ -29,7 +21,13 @@
 
         <!-- Years -->
         <tr *ngIf="reportReq.years.length > 0">
-          <th class="text-center yearssss" colspan="2">Year(s)</th>
+          <th
+            class="text-center yearssss"
+            colspan="2"
+            style="position: sticky; left: 0px; background: white;"
+          >
+            Year(s)
+          </th>
           <th
             class="text-center yyy"
             [attr.colspan]="headerGroup.yearColspan"
@@ -39,16 +37,26 @@
           </th>
         </tr>
 
+        <!-- Headers-->
         <tr>
-          <th class="text-center" [attr.rowspan]="headerGroup.accRowspan">
+          <th
+            class="text-center"
+            [attr.rowspan]="headerGroup.accRowspan"
+            style="position: sticky; left: 0px; background: white;"
+          >
             Account Code
           </th>
-          <th class="text-center" [attr.rowspan]="headerGroup.accRowspan">
+          <th
+            class="text-center"
+            [attr.rowspan]="headerGroup.accRowspan"
+            style="position: sticky; left: 9.5%; background: white;"
+          >
             Major Group/Minor Group
           </th>
           <th class="text-center" *ngFor="let yr of years">{{ yr.state }}</th>
           <!-- <th colspan="20" ></th> -->
         </tr>
+
         <tr>
           <!-- <th class="text-center">Account Code</th>
           <th class="text-center">Major Group/Minor Group</th> -->
@@ -64,8 +72,15 @@
           }"
         >
           <!-- <td>{{report[key] | json}}</td> -->
-          <td class="text-center">{{ report[key] ? report[key].code : "" }}</td>
-          <td>{{ report[key] ? report[key].line_item : "" }}</td>
+          <td
+            class="text-center sticky"
+            style="position: sticky; left: 0px;background: white;"
+          >
+            {{ report[key] ? report[key].code : "" }}
+          </td>
+          <td style="position: sticky; left:9.5%; background: white;">
+            {{ report[key] ? report[key].line_item : "" }}
+          </td>
           <td class="text-right" *ngFor="let yr of years">
             <span *ngIf="report[key]">
               <!-- {{report[key] | json}} -  -->
