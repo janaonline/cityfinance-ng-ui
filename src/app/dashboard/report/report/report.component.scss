@@ -115,3 +115,7 @@ button:disabled {
 ::ng-deep .modal .modal-header {
   padding-bottom: 0px;
 }
+
+.nav-tabs > li > a:hover {
+  background: #afafaf;
+}

@@ -134,6 +134,9 @@ export class ReportComponent implements OnInit {
 
     this.reportForm.controls["isComparative"].valueChanges.subscribe(
       isComparative => {
+        if (isComparative) {
+          this.showAlertBoxForComparativeReport();
+        }
         this.resetPopupValues();
         this.setULBType(
           isComparative ? null : "other",
@@ -152,6 +155,14 @@ export class ReportComponent implements OnInit {
         this.ulbTypeSelected = "base";
       }
     });
+  }
+
+  showAlertBoxForComparativeReport() {
+    alert(`You have selected comparative report. Please follow the following procedure:
+            1. Select year/s for which you want to compare.
+            2. Select Base ULB.
+            3. Select ULB/s for comparison.
+    `);
   }
 
   clearPreviousSearchedULB() {
