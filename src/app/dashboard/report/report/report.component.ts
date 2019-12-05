@@ -268,9 +268,11 @@ export class ReportComponent implements OnInit {
     if (!state) {
       return (this.currentStateInView = null);
     }
+    if (!this.ulbTypeInView) {
+      this.ulbTypeInView = { type: this.ULBTYPES[0].type };
+    }
     const stateFound = this.ulbs.data[state.key];
     const newState = { key: state.key, value: { ...stateFound } };
-
     const fitlerULB = newState.value.ulbs
       ? newState.value.ulbs.filter(ulb => {
           return ulb.type === this.ulbTypeInView.type;
