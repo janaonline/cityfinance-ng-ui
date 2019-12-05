@@ -1,5 +1,8 @@
 <div class="wrapper app-wrapper">
   <router-outlet></router-outlet>
- 
 </div>
 <app-footer></app-footer>
+
+<div class="spinner" *ngIf="showLoader">
+  <mat-spinner></mat-spinner>
+</div>

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 
 import { ExcelService } from '../excel.service';
 import { ReportHelperService } from '../report-helper.service';
 import { ReportService } from '../report.service';
 
 @Component({
-  selector: 'app-basic',
-  templateUrl: './basic.component.html',
-  styleUrls: ['./basic.component.scss']
+  selector: "app-basic",
+  templateUrl: "./basic.component.html",
+  styleUrls: ["./basic.component.scss"]
 })
 export class BasicComponent implements OnInit {
   report: any = {};
@@ -22,26 +23,36 @@ export class BasicComponent implements OnInit {
   constructor(
     private reportService: ReportService,
     private excelService: ExcelService,
-    private reportHelper: ReportHelperService
-  ) {
-  }
+    private reportHelper: ReportHelperService,
+    private loaderService: GlobalLoaderService
+  ) {}
 
   ngOnInit() {
     this.reportService.getNewReportRequest().subscribe(reportCriteria => {
+      this.loaderService.showLoader();
+
       this.reportReq = reportCriteria;
-      this.reportService.reportResponse.subscribe(res => {
-        if (res && (res as any[]).length > 0) {
-          this.years = [];
-          this.transformYears();
-          this.links = this.reportService.loadDefaultLinks();
-          this.transformResult(res);
-        } else if (!res) {
-          this.isProcessed = false;
-        } else {
-          this.isProcessed = true;
-          this.reportKeys = [];
+      this.reportService.reportResponse.subscribe(
+        res => {
+          this.loaderService.stopLoader();
+
+          if (res && (res as any[]).length > 0) {
+            this.years = [];
+            this.transformYears();
+            this.links = this.reportService.loadDefaultLinks();
+            this.transformResult(res);
+          } else if (!res) {
+            this.isProcessed = false;
+          } else {
+            this.isProcessed = true;
+            this.reportKeys = [];
+          }
+        },
+        err => {
+          this.loaderService.stopLoader();
+          console.error(err);
         }
-      });
+      );
     });
   }
 
@@ -61,7 +72,7 @@ export class BasicComponent implements OnInit {
     this.report = {};
 
     for (let i = 0; i < result.length; i++) {
-      if (['Debt', 'Tax'].indexOf(result[i].head_of_account) > -1) {
+      if (["Debt", "Tax"].indexOf(result[i].head_of_account) > -1) {
         // ignore Debt and Tax account types
         continue;
       }
@@ -74,7 +85,7 @@ export class BasicComponent implements OnInit {
       };
 
       // converting budget array to object key value pair
-      const budgets = result[i]['budget'];
+      const budgets = result[i]["budget"];
       for (let j = 0; j < budgets.length; j++) {
         this.report[keyCode][budgets[j].year] = budgets[j].amount;
       }
@@ -93,17 +104,17 @@ export class BasicComponent implements OnInit {
     let calcFields = [];
 
     if (
-      this.reportReq.reportGroup == 'Balance Sheet' &&
-      this.reportReq.type == 'Summary'
+      this.reportReq.reportGroup == "Balance Sheet" &&
+      this.reportReq.type == "Summary"
     ) {
       // BS Summary
       this.reportKeys = this.reportHelper.getBSSummaryReportMasterKeys();
       calcFields = this.reportHelper.getBSSummaryCalcFields();
-    } else if (this.reportReq.reportGroup == 'Balance Sheet') {
+    } else if (this.reportReq.reportGroup == "Balance Sheet") {
       // BS Detailed
       this.reportKeys = this.reportHelper.getBSReportMasterKeys();
       calcFields = this.reportHelper.getBSCalcFields();
-    } else if (this.reportReq.type == 'Summary') {
+    } else if (this.reportReq.type == "Summary") {
       // IE Summary
       this.reportKeys = this.reportHelper.getIESummaryMasterKeys();
       calcFields = this.reportHelper.getIESummaryCalcFields();
@@ -118,7 +129,7 @@ export class BasicComponent implements OnInit {
       const keyName = calcFields[i].keyName;
       result[keyName] = { line_item: calcFields[i].title, isBold: true };
       if (calcFields[i].code) {
-        result[keyName]['code'] = calcFields[i].code;
+        result[keyName]["code"] = calcFields[i].code;
         result[keyName].isBold = false;
       }
       if (calcFields[i].isCalc) {
@@ -131,10 +142,10 @@ export class BasicComponent implements OnInit {
             for (let k = 0; k < addFields.length; k++) {
               if (
                 result[addFields[k]] &&
-                result[addFields[k]][years[j]['title']]
+                result[addFields[k]][years[j]["title"]]
               ) {
                 // if amount available for specified year then add them
-                sum = sum + result[addFields[k]][years[j]['title']];
+                sum = sum + result[addFields[k]][years[j]["title"]];
               }
 
               if (
@@ -152,9 +163,9 @@ export class BasicComponent implements OnInit {
               // const element = array[x];
               if (
                 result[subtractFields[x]] &&
-                result[subtractFields[x]][years[j]['title']]
+                result[subtractFields[x]][years[j]["title"]]
               ) {
-                sum = sum - result[subtractFields[x]][years[j]['title']];
+                sum = sum - result[subtractFields[x]][years[j]["title"]];
               }
             }
           }
@@ -162,7 +173,7 @@ export class BasicComponent implements OnInit {
           // if (keyName === "Others") {
           //   console.log(sum);
           // }
-          result[keyName][years[j]['title']] = sum;
+          result[keyName][years[j]["title"]] = sum;
         }
       }
     }
@@ -171,10 +182,14 @@ export class BasicComponent implements OnInit {
   }
 
   download() {
-    const reportTable = document.querySelector('table').outerHTML;
-    const title = this.reportReq.type + ' ' + this.reportReq.reportGroup;
-    this.excelService.transformTableToExcelData(title, reportTable, 'IE');
+    const reportTable = document.querySelector("table").outerHTML;
+    const title = this.reportReq.type + " " + this.reportReq.reportGroup;
+    this.excelService.transformTableToExcelData(title, reportTable, "IE");
 
-    this.reportService.addLogByToken('Income-Expenditure');
+    this.reportService.addLogByToken("Income-Expenditure");
+  }
+
+  ngOnDestroy() {
+    this.loaderService.stopLoader();
   }
 }

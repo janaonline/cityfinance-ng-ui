@@ -160,7 +160,7 @@
     <mat-form-field
       class="col-md-2"
       appearance="outline"
-      style="width: 15%; padding: 0px; padding-left: 1%;"
+      style="width: 15%; padding: 0px; padding-left: 0%;"
     >
       <input
         type="text"
@@ -188,7 +188,7 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <div class="col-md-3" style="width: 20%">
+    <div class="col-md-3" style="width: 20.3%; padding-left: 1%;">
       <angular2-multiselect
         [data]="populationData"
         [settings]="populationDropdownSettings"
@@ -199,14 +199,6 @@
       >
       </angular2-multiselect>
     </div>
-
-    <button
-      type="button"
-      class="close1  btn btn-primary"
-      (click)="resetPopupValues()"
-    >
-      Clear All
-    </button>
 
     <button
       class="btn btn-primary float-right"
@@ -235,7 +227,7 @@
   <form [formGroup]="reportForm" class="col-md-12 mt-1">
     <div
       class="checkbox"
-      style=" display: inline-block;  width: 15%;  margin-right: 15px; padding-left: 1%;"
+      style=" display: inline-block;  width: 15%;  margin-right: 11px; padding-left: 1%;"
     >
       <label
         ><input
@@ -256,8 +248,8 @@
       style="display: inline-block;margin-top: 5px;"
       [style.width.px]="
         (reportForm?.controls)['yearList']?.value?.length
-          ? reportForm.controls['yearList'].value.length * 55 + 152
-          : 203
+          ? reportForm.controls['yearList'].value.length * 55 + 153
+          : 210
       "
       formControlName="yearList"
       [data]="yearLookup"
@@ -266,6 +258,17 @@
       (onDeSelectAll)="resetPopupValues()"
     >
     </angular2-multiselect>
+    <button
+      style="float: right;margin-top: 5px;"
+      type="button"
+      class="close1  btn btn-primary"
+      (click)="
+        resetPopupValues() ||
+          reportForm.controls['isComparative'].setValue(null)
+      "
+    >
+      Clear All
+    </button>
   </form>
 
   <div class="modal-body">

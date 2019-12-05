@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { IDetailedReportResponse } from 'src/app/models/detailedReport/detailedReportResponse';
 import { ISummaryReport } from 'src/app/models/summaryReport/summaryReport';
 
@@ -11,15 +11,15 @@ import { IReportType } from '../../models/reportType';
   providedIn: "root"
 })
 export class ReportService {
-  public reportResponse: Subject<
+  public reportResponse: BehaviorSubject<
     | IDetailedReportResponse
     | IDetailedReportResponse["data"]
     | ISummaryReport["data"]
-  > = new Subject<
+  > = new BehaviorSubject<
     | IDetailedReportResponse
     | IDetailedReportResponse["data"]
     | ISummaryReport["data"]
-  >();
+  >(null);
 
   reportRequestSubject = new BehaviorSubject<IReportType>(null);
 

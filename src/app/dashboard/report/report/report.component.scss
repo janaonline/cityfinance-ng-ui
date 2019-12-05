@@ -119,3 +119,7 @@ button:disabled {
 a.inactive-tab:hover {
   background: rgb(175, 175, 175);
 }
+
+::ng-deep .selected-list {
+  border-radius: 3px;
+}
