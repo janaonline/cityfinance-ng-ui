@@ -447,19 +447,6 @@ export class ReportComponent implements OnInit {
   }
 
   search() {
-    this.modalRef.hide();
-    // comparision: true
-    // reportGroup: "Income & Expenditure Statement"
-    // type: "detailed"
-    // ulbList: Array(3)
-    // 0: {state: "Andhra Pradesh", code: "AP001", name: "Addanki Municipality", natureOfUlb: "Municipality", type: "Municipality", …}
-    // 1: {state: "Andhra Pradesh", code: "AP005", name: "Atmakur Municipality", natureOfUlb: "Municipality", type: "Municipality", …}
-    // 2: {state: "Andhra Pradesh", code: "AP018", name: "Puttur Municipality", natureOfUlb: "Municipality", type: "Municipality", …}
-    // length: 3
-    // __proto__: Array(0)
-    // yearList: Array(2)
-    // 0: {id: "2016-17", itemName: "2016-17"}
-    // 1: {id: "2015-16", itemName: "2015-16"}
 
     this.reportForm.value.years = [];
     for (let i = 0; i < this.reportForm.value.yearList.length; i++) {
@@ -467,30 +454,23 @@ export class ReportComponent implements OnInit {
       this.reportForm.value.years.push(year);
     }
 
-    // this.submitted = true;
-    // stop here if form is invalid
-    // if (!this.submitted) {
-    //   return false;
-    // }
-
-    if (this.reportForm.value.years.length == 0) {
+    if (!this.reportForm.value.years.length) {
       alert('select atleast one Year to continue');
       this.isFormInvalid = true;
       return false;
     }
 
-    if (this.reportForm.value.ulbList.length == 0) {
-      alert('select atleast one ULB to continue');
+    if (this.reportForm.controls.isComparative.value && !this.baseULBSelected) {
+      return alert(
+        'You have opted for Comparision report but not selected base ULB. Please select any base ULB to proceed further.'
+      );
+    }
+
+    if (!this.reportForm.value.ulbList.length) {
+      alert('Select atleast one ULB to continue');
       this.isFormInvalid = true;
       return false;
     }
-
-    // if(this.reportForm.value.type.indexOf("ULB") > -1){
-    //   if(!this.reportForm.value.state2 || !this.reportForm.value.ulb2 || !this.reportForm.value.year2){
-    //     this.isFormInvalid = true;
-    //     return false;
-    //   }
-    // }
 
     if (this.reportForm.invalid) {
       this.isFormInvalid = true;
@@ -499,11 +479,7 @@ export class ReportComponent implements OnInit {
 
     this.isFormInvalid = false;
 
-    if (this.reportForm.controls.isComparative.value && !this.baseULBSelected) {
-      return alert(
-        'You have opted for Comparision report but not selected base ULB. Please select any base ULB to proceed further.'
-      );
-    }
+
 
     // IMPORTANT ADD BaseULBSelected here for comparision;
     if (
@@ -553,6 +529,9 @@ export class ReportComponent implements OnInit {
     } else {
       this.reportService.BSDetailed(this.reportForm.value);
     }
+
+
+    this.modalRef.hide();
 
     if (
       this.reportForm.value.ulbList.length == 1 &&
