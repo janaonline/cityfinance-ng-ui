@@ -156,21 +156,6 @@
     >
       <span aria-hidden="true">&Chi; </span>
     </button>
-    <!-- <div
-      class="col-xs-3 searchUlbMobalInput form-group mt-5"
-      style="max-width: 20%;"
-    >
-      <input
-        [formControl]="searchByNameControl"
-        type="text"
-        class="form-control"
-        [(ngModel)]="ulbForm.ulbFilter"
-        name="searchUlb"
-        id="ulbSearch"
-        placeholder="Search ULB"
-        style="height: 34px;"
-      />
-    </div> -->
 
     <mat-form-field
       class="col-md-2"
@@ -271,7 +256,7 @@
       style="display: inline-block;margin-top: 5px;"
       [style.width.px]="
         (reportForm?.controls)['yearList']?.value?.length
-          ? reportForm.controls['yearList'].value.length * 55 + 158
+          ? reportForm.controls['yearList'].value.length * 55 + 152
           : 203
       "
       formControlName="yearList"
@@ -357,7 +342,10 @@
         </li>
       </ul>
 
-      <div class="col-md-2" style="max-height: 54vh; overflow: auto;">
+      <div
+        class="col-md-2"
+        style="max-height: 54vh; overflow: auto;padding-right: 0px;"
+      >
         <ul class="list-unstyled left-nav" *ngIf="ulbTypeSelected">
           <li
             *ngFor="let state of ulbs.data | keyvalue"
