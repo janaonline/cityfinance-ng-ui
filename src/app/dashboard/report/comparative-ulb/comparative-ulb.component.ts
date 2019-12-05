@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IReportType } from 'src/app/models/reportType';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 
 import { ExcelService } from '../excel.service';
 import { ReportHelperService } from '../report-helper.service';
@@ -29,7 +30,8 @@ export class ComparativeUlbComponent implements OnInit {
   constructor(
     private reportService: ReportService,
     private excelService: ExcelService,
-    private reportHelper: ReportHelperService
+    private reportHelper: ReportHelperService,
+    private _loaderService: GlobalLoaderService
   ) {
     console.log(`instantiating comparitivve`);
   }
@@ -37,41 +39,41 @@ export class ComparativeUlbComponent implements OnInit {
   ngOnInit() {
     // this.reportReq = this.reportService.getReportRequest();
     this.reportService.getNewReportRequest().subscribe(reportCriteria => {
+      this._loaderService.showLoader();
       this.reportReq = reportCriteria;
-      this.reportService.reportResponse.subscribe(res => {
-        if (res) {
-          this.years = [];
-          this.response = res;
-          // this.reportReq = this.reportService.getReportRequest();
+      this.reportService.reportResponse.subscribe(
+        res => {
+          this._loaderService.stopLoader();
+          if (res) {
+            this.years = [];
+            this.response = res;
+            // this.reportReq = this.reportService.getReportRequest();
 
-          if (this.reportReq.reportGroup == "Balance Sheet") {
-            this.report = this.reportHelper.getBSReportLookup();
+            if (this.reportReq.reportGroup == "Balance Sheet") {
+              this.report = this.reportHelper.getBSReportLookup();
+            } else {
+              this.report = this.reportHelper.getIEReportLookup();
+            }
+            // this.reqUlb = this.reportReq.ulbList[0].code;
+            // this.reqUlb2 = this.reportReq.ulbList[1].code;
+            this.reqYear = this.reportReq.years[0];
+            if (this.reportReq.ulbList.length > 1) {
+              this.years = [];
+              this.transformYears_UlbVSUlb();
+            } else {
+              this.years = [];
+              this.transformYears_YrVSYr();
+            }
+            this.transformResult(res);
+            this.headerGroup.yearColspan =
+              this.years.length / this.reportReq.years.length;
           } else {
-            this.report = this.reportHelper.getIEReportLookup();
+            this.isProcessed = true;
+            this.reportKeys = [];
           }
-          // this.reqUlb = this.reportReq.ulbList[0].code;
-          // this.reqUlb2 = this.reportReq.ulbList[1].code;
-          this.reqYear = this.reportReq.years[0];
-          if (this.reportReq.ulbList.length > 1) {
-            this.years = [];
-            this.transformYears_UlbVSUlb();
-          } else {
-            this.years = [];
-            this.transformYears_YrVSYr();
-            // this.headerGroup.accRowspan = 3;
-          }
-          // this.links = this.reportService.loadDefaultLinks();
-          // this.transformResult(res['data']);
-          this.transformResult(res);
-          // console.log(this.report);
-          console.log(this.years, this.reportReq.years);
-          this.headerGroup.yearColspan =
-            this.years.length / this.reportReq.years.length;
-        } else {
-          this.isProcessed = true;
-          this.reportKeys = [];
-        }
-      });
+        },
+        () => this._loaderService.stopLoader()
+      );
     });
   }
 
@@ -376,5 +378,9 @@ export class ComparativeUlbComponent implements OnInit {
     this.excelService.transformTableToExcelData(title, reportTable, "IE");
 
     this.reportService.addLogByToken("Income-Expenditure");
+  }
+
+  ngOnDestroy() {
+    this._loaderService.stopLoader();
   }
 }
