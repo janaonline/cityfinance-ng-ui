@@ -13,6 +13,11 @@
   z-index: 99999 !important;
 }
 
+.modal-dialog,
+.modal-lg {
+  min-width: 94vw !important;
+}
+
 // Scroll Bar UI Starts here
 
 /* width */
