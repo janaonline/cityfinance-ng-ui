@@ -146,7 +146,7 @@
   </div> -->
 
   <div class="modal-header" style="max-height: ;">
-    <button
+    <!-- <button
       type="button"
       class="close"
       data-dismiss="modal"
@@ -155,7 +155,7 @@
       (click)="modalRef.hide()"
     >
       <span aria-hidden="true">&Chi; </span>
-    </button>
+    </button> -->
 
     <mat-form-field
       class="col-md-2"
@@ -202,7 +202,7 @@
 
     <button
       class="btn btn-primary float-right"
-      style="float: right; margin-right: 2%;"
+      style="float: right;"
       (click)="search()"
     >
       Generate Report
@@ -279,8 +279,7 @@
             class="nav-link active inactive-tab"
             aria-controls="home"
             aria-selected="true"
-            style="margin: auto;
-            width: 86%;"
+            style="width: 98%;"
           >
             States
           </a>
@@ -510,6 +509,7 @@
 
                       <input
                         name="list_name_ulb"
+                        style="margin-left: -20px"
                         *ngIf="ulbTypeSelected === 'base'"
                         type="radio"
                         [value]="
