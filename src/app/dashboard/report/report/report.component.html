@@ -188,7 +188,7 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <div class="col-md-3" style="width: 20.3%; padding-left: 1%;">
+    <div class="col-md-3" style="width: 237px; padding-left: 1%;">
       <angular2-multiselect
         [data]="populationData"
         [settings]="populationDropdownSettings"
@@ -227,7 +227,7 @@
   <form [formGroup]="reportForm" class="col-md-12 mt-1">
     <div
       class="checkbox"
-      style=" display: inline-block;  width: 15%;  margin-right: 11px; padding-left: 1%;"
+      style=" display: inline-block;  width: 15%;  margin-right: 11px; padding-left: 1%; min-width: fit-content;"
     >
       <label
         ><input
@@ -255,7 +255,7 @@
       [data]="yearLookup"
       [settings]="yearsDropdownSettings"
       (onClose)="onDateSelectionClose($event)"
-      (onDeSelectAll)="resetPopupValues()"
+      (onDeSelectAll)="resetPopupValues() || ulbTypeSelected = 'other' "
     >
     </angular2-multiselect>
     <button
