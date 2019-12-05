@@ -78,7 +78,19 @@
           >
             {{ report[key] ? report[key].code : "" }}
           </td>
-          <td style="position: sticky; left:9.5%; background: white;">
+          <td
+            style="position: sticky; left:9.5%; background: white;"
+            [ngClass]="{
+              'text-right':
+                (report[key] && report[key].line_item.includes('Total')) ||
+                (report[key] && report[key].line_item.includes('Net')) ||
+                (report[key] && report[key].line_item.includes('Gross')) ||
+                (report[key] &&
+                  report[key].line_item.includes('Net Surplus')) ||
+                (report[key] &&
+                  report[key].line_item.includes('Surplus/(Deficit) (C) (A-B)'))
+            }"
+          >
             {{ report[key] ? report[key].line_item : "" }}
           </td>
           <td class="text-right" *ngFor="let yr of years">
