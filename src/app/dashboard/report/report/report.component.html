@@ -201,14 +201,6 @@
     </div>
 
     <button
-      type="button"
-      class="close1  btn btn-primary"
-      (click)="resetPopupValues()"
-    >
-      Clear All
-    </button>
-
-    <button
       class="btn btn-primary float-right"
       style="float: right; margin-right: 2%;"
       (click)="search()"
@@ -266,6 +258,17 @@
       (onDeSelectAll)="resetPopupValues()"
     >
     </angular2-multiselect>
+    <button
+      style="float: right;margin-top: 5px;"
+      type="button"
+      class="close1  btn btn-primary"
+      (click)="
+        resetPopupValues() ||
+          reportForm.controls['isComparative'].setValue(null)
+      "
+    >
+      Clear All
+    </button>
   </form>
 
   <div class="modal-body">
