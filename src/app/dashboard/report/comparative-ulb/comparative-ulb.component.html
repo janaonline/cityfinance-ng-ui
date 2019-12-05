@@ -3,15 +3,16 @@
 <!-- {{report | json}}  -->
 
 <div class="row" *ngIf="isProcessed && reportKeys.length == 0">
-  <div class="col-md-12">
+  <!-- <div class="col-md-12">
     <h4 style="text-align: center">No Information Available</h4>
-  </div>
+  </div> -->
 </div>
 
 <div class="row" *ngIf="isProcessed && reportKeys.length > 0">
   <div class="col-md-12">
     <table class="table-bordered">
       <thead>
+        <!-- City Finance logo-->
         <tr>
           <td class="report-header" colspan="20">
             <img
@@ -25,16 +26,19 @@
             <!-- <div class="text-center"><small>Percentages represent percentage of Total Expenditure in the case of Expenditure line items and percentage of Total Income for all other line items</small></div> -->
           </td>
         </tr>
+
+        <!-- Years -->
         <tr *ngIf="reportReq.years.length > 0">
-          <th class="text-center" colspan="2">Year(s)</th>
+          <th class="text-center yearssss" colspan="2">Year(s)</th>
           <th
-            class="text-center"
+            class="text-center yyy"
             [attr.colspan]="headerGroup.yearColspan"
             *ngFor="let yr of reportReq.years"
           >
             {{ yr }}
           </th>
         </tr>
+
         <tr>
           <th class="text-center" [attr.rowspan]="headerGroup.accRowspan">
             Account Code
@@ -90,7 +94,10 @@
     Download
   </button>
 </div>
-<div class="col-md-12" *ngIf="isProcessed && reportKeys.length > 0">
+<div
+  class="col-md-12"
+  *ngIf="isProcessed && reportKeys.length > 0 && reportReq.isComparative"
+>
   <p>
     <small
       >Percentages represent percentage of Total Expenditure in the case of

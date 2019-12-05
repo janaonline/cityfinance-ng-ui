@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IReportType } from 'src/app/models/reportType';
 
 import { ExcelService } from '../excel.service';
 import { ReportHelperService } from '../report-helper.service';
@@ -11,7 +12,7 @@ import { ReportService } from '../report.service';
 })
 export class ComparativeUlbComponent implements OnInit {
   report: any = [];
-  reportReq: any = {};
+  reportReq: IReportType;
   years: any = [];
 
   isProcessed = false;
@@ -63,6 +64,7 @@ export class ComparativeUlbComponent implements OnInit {
           // this.transformResult(res['data']);
           this.transformResult(res);
           // console.log(this.report);
+          console.log(this.years, this.reportReq.years);
           this.headerGroup.yearColspan =
             this.years.length / this.reportReq.years.length;
         } else {
