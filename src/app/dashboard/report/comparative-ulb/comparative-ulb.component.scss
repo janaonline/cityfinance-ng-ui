@@ -1,16 +1,55 @@
-.table-bordered  {
-    width: 100%;
+.table-bordered {
+  width: 100%;
 }
 .table-bordered th {
-    padding: 6px;    
+  padding: 6px;
 }
 .table-bordered td {
-    padding: 5px;
+  padding: 5px;
 }
 
 .sub-heading {
-    background-color: rgba(0,0,0,0.05);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 .aggregate-heading {
-    background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-top: 1px solid grey;
+}
+
+td,
+th {
+  margin: 0;
+  border: 1px solid grey;
+  white-space: nowrap;
+  border-top-width: 0px;
+}
+
+.headcol {
+  position: absolute;
+  width: 5em;
+  left: 0;
+  top: auto;
+  border-top-width: 1px;
+  /*only relevant for first row*/
+  margin-top: -1px;
+  /*compensate for top border*/
+}
+
+.headcol:before {
+  content: "Row ";
+}
+
+.long {
+  background: yellow;
+  letter-spacing: 1em;
+}
+
+table tbody tr > td:nth-child(1) {
+  width: 12%;
+  min-width: fit-content;
 }

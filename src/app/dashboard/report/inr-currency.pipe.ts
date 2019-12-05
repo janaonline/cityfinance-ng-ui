@@ -8,9 +8,7 @@ export class InrCurrencyPipe implements PipeTransform {
     if (!value) {
       return "Not Applicable";
     }
-    if (value < 0) {
-      console.log(value);
-    }
+
     let x =
       value < 0 ? `(${Math.round(value * -1)})` : Math.round(value).toString();
     let decimal = "";
