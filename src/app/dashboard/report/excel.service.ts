@@ -173,7 +173,7 @@ export class ExcelService {
         }
       });
 
-      if (i < 2 || !data[i][0]) {
+      if (i < 3 || !data[i][0]) {
         row.eachCell((cell, number) => {
           cell.fill = {
             type: "pattern",
