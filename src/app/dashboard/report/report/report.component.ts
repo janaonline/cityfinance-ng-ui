@@ -137,7 +137,7 @@ export class ReportComponent implements OnInit {
         if (isComparative) {
           this.showAlertBoxForComparativeReport();
         }
-        this.resetPopupValues();
+        this.clearPopupValues();
         this.setULBType(
           isComparative ? null : "other",
           this.baseULBSelected ? true : false,
@@ -265,6 +265,9 @@ export class ReportComponent implements OnInit {
   }
 
   showState(state: { key: string; value: { state: string; ulbs: IULB[] } }) {
+    if (!state) {
+      return (this.currentStateInView = null);
+    }
     const stateFound = this.ulbs.data[state.key];
     const newState = { key: state.key, value: { ...stateFound } };
 
@@ -288,6 +291,11 @@ export class ReportComponent implements OnInit {
   }
 
   resetPopupValues() {
+    this.clearPopupValues();
+    this.setPopupDefaultValues();
+  }
+
+  clearPopupValues() {
     this.reportForm.patchValue({
       yearList: [],
       ulbList: [],
@@ -304,7 +312,11 @@ export class ReportComponent implements OnInit {
     };
     this.searchByNameControl.setValue("");
     this.baseULBSelected = null;
-    // this.setULBType(null, false);
+    this.currentStateInView = null;
+    this.setULBTypeOfState(null);
+  }
+
+  setPopupDefaultValues() {
     if (
       this.originalUlbList.data &&
       Object.keys(this.originalUlbList.data).length
@@ -322,8 +334,6 @@ export class ReportComponent implements OnInit {
       this.ulbTypeSelected = null;
     }
   }
-
-  setPopupDefaultValues() {}
 
   resetPage() {
     this.resetPopupValues();
@@ -466,24 +476,39 @@ export class ReportComponent implements OnInit {
       const year = this.reportForm.value.yearList[i].id;
       this.reportForm.value.years.push(year);
     }
+    let alertMessage = null;
 
-    if (!this.reportForm.value.years.length) {
-      alert("select atleast one Year to continue");
-      this.isFormInvalid = true;
-      return false;
-    }
+    const isComparativeInvalid =
+      this.reportForm.controls.isComparative.value && !this.baseULBSelected;
+    const isULBSelected = !!this.reportForm.value.ulbList.length;
+    const isYearSelected = !!this.reportForm.value.years.length;
+    if (isComparativeInvalid || !isULBSelected || !isYearSelected) {
+      alertMessage = `Select`;
+      if (!isYearSelected) {
+        alertMessage += ` atleast 1 Year`;
+      }
+      if (isComparativeInvalid) {
+        alertMessage += `${isYearSelected ? "" : ","} a base ulb`;
+      }
+      if (!isULBSelected) {
+        alertMessage += `${
+          isComparativeInvalid || !isYearSelected ? " and" : ""
+        } atleast 1 ulb.`;
+      }
 
-    if (this.reportForm.controls.isComparative.value && !this.baseULBSelected) {
-      return alert(
-        "You have opted for Comparision report but not selected base ULB. Please select any base ULB to proceed further."
-      );
+      return alert(alertMessage);
     }
+    // if (isComparativeInvalid) {
+    //   return alert(
+    //     "You have opted for Comparision report but not selected base ULB. Please select any base ULB to proceed further."
+    //   );
+    // }
 
-    if (!this.reportForm.value.ulbList.length) {
-      alert("Select atleast one ULB to continue");
-      this.isFormInvalid = true;
-      return false;
-    }
+    // if (!isULBSelected) {
+    //   alert("Select atleast one ULB to continue");
+    //   this.isFormInvalid = true;
+    //   return false;
+    // }
 
     if (this.reportForm.invalid) {
       this.isFormInvalid = true;
