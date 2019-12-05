@@ -255,7 +255,7 @@
       [data]="yearLookup"
       [settings]="yearsDropdownSettings"
       (onClose)="onDateSelectionClose($event)"
-      (onDeSelectAll)="resetPopupValues() || ulbTypeSelected = 'other' "
+      (onDeSelectAll)="resetPopupValues() || (ulbTypeSelected = 'other')"
     >
     </angular2-multiselect>
     <button
@@ -288,7 +288,7 @@
         <li
           class="nav-item"
           *ngIf="reportForm.controls['isComparative']?.value"
-          style="width: 18%;"
+          style="width: 18%; max-width: 214px;"
         >
           <a
             class="nav-link"
@@ -318,7 +318,7 @@
             ></i>
           </a>
         </li>
-        <li class="nav-item" style="width: 18%;">
+        <li class="nav-item" style="width: 18%; max-width: 214px;">
           <a
             class="nav-link active"
             [ngClass]="{
