@@ -8,6 +8,7 @@ import { debounce } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 import { IReportType } from 'src/app/models/reportType';
 import { IULB } from 'src/app/models/ulb';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 
 import { CommonService } from '../../../shared/services/common.service';
 import { ReportService } from '../report.service';
@@ -89,14 +90,15 @@ export class ReportComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private _loaderService: GlobalLoaderService,
     private commonService: CommonService,
     private modalService: BsModalService,
     private reportService: ReportService,
     private router: Router
   ) {
-    this.commonService
-      .getULBsStatistics(null)
-      .subscribe(data => console.log(data));
+    // this.commonService
+    //   .getULBsStatistics(null)
+    //   .subscribe(data => console.log(data));
   }
 
   get lf() {
@@ -152,7 +154,7 @@ export class ReportComponent implements OnInit {
     );
 
     this.reportForm.controls["yearList"].valueChanges.subscribe(list => {
-      this.getNewULBByDate(list);
+      this.getNewULBByDate(list.map(year => year.id));
       if (
         list.length === 1 &&
         !this.ulbTypeSelected &&
@@ -170,8 +172,18 @@ export class ReportComponent implements OnInit {
     );
   }
 
-  getNewULBByDate(dates: string[]) {
-    console.log(`getting new ulb by `, dates);
+  getNewULBByDate(years: string[]) {
+    this._loaderService.showLoader();
+    this.commonService.getULBSByYears(years).subscribe(
+      response => {
+        this.originalUlbList = response;
+        const newULBS = this.filterULBByPopFilters("");
+        this.ulbs = { ...newULBS };
+        this.showState({ ...this.currentStateInView });
+        this._loaderService.stopLoader();
+      },
+      () => this._loaderService.stopLoader()
+    );
   }
 
   showAlertBoxForComparativeReport() {
@@ -310,7 +322,6 @@ export class ReportComponent implements OnInit {
   }
 
   resetPopupValues() {
-    console.log("resetting pop");
     this.clearPopupValues();
     this.setPopupDefaultValues();
   }
@@ -519,17 +530,6 @@ export class ReportComponent implements OnInit {
 
       return alert(alertMessage);
     }
-    // if (isComparativeInvalid) {
-    //   return alert(
-    //     "You have opted for Comparision report but not selected base ULB. Please select any base ULB to proceed further."
-    //   );
-    // }
-
-    // if (!isULBSelected) {
-    //   alert("Select atleast one ULB to continue");
-    //   this.isFormInvalid = true;
-    //   return false;
-    // }
 
     if (this.reportForm.invalid) {
       this.isFormInvalid = true;
@@ -725,53 +725,6 @@ export class ReportComponent implements OnInit {
       //   }
       // };
     }
-
-    // const nameToFilterBy = this.searchByNameControl.value;
-    // if (
-    //   this.ulbForm.ulbPopulationFilter.length == 0 &&
-    //   this.ulbForm.ulbTypeFilter.length == 0
-    // ) {
-    //   if (this.currentStateInView) {
-    //     const state = {
-    //       ...this.originalUlbList.data[this.currentStateInView.key]
-    //     };
-    //     state.ulbs = state.ulbs
-    //       .filter(ulb =>
-    //         nameToFilterBy ? ulb.name.includes(nameToFilterBy) : true
-    //       )
-    //       .filter(ulb =>
-    //         this.ulbTypeInView!.type
-    //           ? this.ulbTypeInView.type === ulb.type
-    //           : true
-    //       );
-
-    //     this.currentStateInView = {
-    //       key: this.currentStateInView.key,
-    //       value: state
-    //     };
-    //   }
-    //   return;
-    // } else if (filterName == "ulbPopulationFilter" && this.currentStateInView) {
-    //   const state = {
-    //     ...this.originalUlbList.data[this.currentStateInView.key]
-    //   };
-
-    //   state.ulbs = this.filterULBByPopulation(state.ulbs)
-    //     .filter(ulb =>
-    //       nameToFilterBy ? ulb.name.includes(nameToFilterBy) : true
-    //     )
-    //     .filter(ulb =>
-    //       this.ulbTypeInView!.type ? this.ulbTypeInView.type === ulb.type : true
-    //     );
-
-    //   this.currentStateInView = {
-    //     key: this.currentStateInView.key,
-    //     value: state
-    //   };
-    // } else if (filterName == "ulbTypeFilter") {
-    //   this.ulbForm.ulbPopulationFilter = [];
-    //   this.ulbs.data = this.filterUlbByType(this.originalUlbList.data);
-    // }
   }
 
   filterULBByPopulation(ulbList: IULB[]) {

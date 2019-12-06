@@ -1,4 +1,5 @@
 import { IBaseReponse } from './baseReponse';
+import { IULB } from './ulb';
 
 export interface NewULBStructureResponse extends IBaseReponse {
   data: NewULBStructure[];
@@ -11,9 +12,18 @@ export interface NewULBStructure {
     _id: string;
     state: string;
     name: string;
-    ulbType: string;
     code: string;
     amrut?: boolean;
+    area: any;
+    natureOfUlb: IULB["natureOfUlb"];
+    type: IULB["type"];
+    population: IULB["population"];
+    wards: IULB["wards"];
+  };
+
+  ulbtypes: {
+    name: IULB["type"];
+    _id: string;
   };
   state: {
     _id: string;

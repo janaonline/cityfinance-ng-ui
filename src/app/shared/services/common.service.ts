@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 import { NewULBStructure, NewULBStructureResponse } from 'src/app/models/newULBStructure';
 import { ULBsStatistics } from 'src/app/models/statistics/ulbsStatistics';
+import { IULB } from 'src/app/models/ulb';
 
 import { environment } from './../../../environments/environment';
 
@@ -14,6 +15,10 @@ import { environment } from './../../../environments/environment';
 export class CommonService {
   private stateArr = [];
   public states: Subject<any> = new Subject<any>();
+
+  private NewULBStructureResponseCache: {
+    [datesAsString: string]: IULBResponse;
+  } = {};
 
   // private states: any = [];
   constructor(private http: HttpClient) {}
@@ -40,6 +45,76 @@ export class CommonService {
     );
   }
 
+  getCachedResponse(years: string[]) {
+    if (!years.length) {
+      return this.NewULBStructureResponseCache["NoYear"];
+    }
+
+    const yearsAsString = years.reduce((a, b) => a + b);
+    return this.NewULBStructureResponseCache[yearsAsString];
+  }
+
+  getULBSByYears(years: string[] = []) {
+    const cachedResponse = this.getCachedResponse(years);
+    if (cachedResponse) {
+      return of(cachedResponse);
+    }
+
+    return this.http
+      .post<NewULBStructureResponse>(
+        `${environment.api.url}ledger/getAllLegders`,
+        { year: years }
+      )
+      .pipe(
+        map(response => {
+          const formattedResponse = this.convertULBStaticticsToIULBResponse(
+            response
+          );
+          const yearsAsString = !years.length
+            ? "NoYear"
+            : years.reduce((a, b) => a + b);
+          this.NewULBStructureResponseCache[yearsAsString] = {
+            ...formattedResponse
+          };
+          return formattedResponse;
+        })
+      );
+  }
+
+  convertULBStaticticsToIULBResponse(
+    originalResponse: NewULBStructureResponse
+  ): IULBResponse {
+    const newObj: IULBResponse = {
+      msg: originalResponse.msg,
+      success: originalResponse.success,
+      data: {}
+    };
+    originalResponse.data.forEach(ulb => {
+      if (!ulb.state.code) {
+        return;
+      }
+      if (!newObj.data[ulb.state.code]) {
+        newObj.data[ulb.state.code] = {
+          state: ulb.state.name,
+          ulbs: [
+            { ...this.convertNewULBStructureToIULB(ulb), state: ulb.state.name }
+          ]
+        };
+        return;
+      }
+
+      newObj.data[ulb.state.code].ulbs.push({
+        ...this.convertNewULBStructureToIULB(ulb),
+        state: ulb.state.name
+      });
+    });
+    return newObj;
+  }
+
+  convertNewULBStructureToIULB(ulb: NewULBStructure): IULB {
+    return { ...ulb.ulb, population: ulb.amount, type: ulb.ulbtypes.name };
+  }
+
   getULBsStatistics() {
     return this.http
       .post<NewULBStructureResponse>(
@@ -48,22 +123,6 @@ export class CommonService {
       )
       .pipe(map(response => this.getCount(response.data)));
   }
-
-  getNewULBByDate(dates: string[]) {
-    // this.getNewULBData(dates).pipe(ulbList => {
-    // });
-  }
-
-  // convertNewULBStructureToIULB(ulbList: NewULBStructure[]): IULBResponse['data'] {
-  //   let newObject: IULBResponse['data'] = {};
-  //   ulbList.forEach(ulb => {
-  //     if(!ulb.state.code) return;
-  //     newObject[ulb.state.code] = {
-  //       state: ulb.state.name;
-
-  //     }
-  //   })
-  // }
 
   getCount(ulbList: NewULBStructure[]): ULBsStatistics {
     const newObj: ULBsStatistics = {};
@@ -90,7 +149,6 @@ export class CommonService {
       }
       newObj[ulb.state._id].ulbsByYears[ulb.financialYear].push({ ...ulb });
     });
-    console.log(newObj);
     return { ...newObj };
   }
 
