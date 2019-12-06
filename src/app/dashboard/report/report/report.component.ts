@@ -191,9 +191,9 @@ export class ReportComponent implements OnInit {
 
   showAlertBoxForComparativeReport() {
     const message = `You have selected comparative report. Please follow the following procedure:<br>
-    <strong>Step 1 -</strong> Select year/s for which you want to compare.<br>
+    <strong>Step 1 -</strong> Select Year(s) for which you want to compare.<br>
     <strong>Step 2 -</strong> Select Base ULB.<br>
-    <strong>Step 3 -</strong> Select ULB/s for comparison.<br>
+    <strong>Step 3 -</strong> Select ULB(s) for comparison.<br>
 `;
     return this._dialog.open(DialogComponent, {
       width: "40vw",
@@ -527,15 +527,15 @@ export class ReportComponent implements OnInit {
     if (isComparativeInvalid || !isULBSelected || !isYearSelected) {
       alertMessage = `Select`;
       if (!isYearSelected) {
-        alertMessage += ` atleast 1 year`;
+        alertMessage += `  Years(s)`;
       }
       if (isComparativeInvalid) {
-        alertMessage += `${isYearSelected ? "" : ","} a base ulb`;
+        alertMessage += `${isYearSelected ? "" : ","} Base ULB`;
       }
       if (!isULBSelected) {
         alertMessage += `${
           isComparativeInvalid || !isYearSelected ? " and" : ""
-        } atleast 1 ulb.`;
+        } ULB(s) for Comparison.`;
       }
 
       return this._dialog.open(DialogComponent, {
