@@ -146,8 +146,19 @@
   </div> -->
 
   <div class="modal-header">
-    <form [formGroup]="reportForm" class="col-md-4">
-      <div
+    <form [formGroup]="reportForm" class="col-md-5" style="max-width: 35%;">
+      <mat-slide-toggle
+        style=" display: inline-block;  width: 15%;  margin-right: 3px; padding-left: 1%; min-width: fit-content;"
+        (change)="reportForm.controls['isComparative'].setValue($event.checked)"
+        >Comparison Report</mat-slide-toggle
+      >
+      <i
+        class="fa fa-info-circle"
+        aria-hidden="true"
+        style="margin-right: 10px; margin-left: 0px; transform: translateY(-13%);"
+        title=" Placeholder"
+      ></i>
+      <!-- <div
         class="checkbox"
         style=" display: inline-block;  width: 15%;  margin-right: 11px; padding-left: 1%; min-width: fit-content;"
       >
@@ -165,7 +176,7 @@
             title=" Placeholder"
           ></i>
         </label>
-      </div>
+      </div> -->
       <angular2-multiselect
         style="display: inline-block;"
         [style.width.px]="
@@ -182,7 +193,7 @@
       </angular2-multiselect>
     </form>
 
-    <div class="col-md-6" style="height: fit-content; margin-top: .3%;">
+    <div class="col-md-6" style="height: fit-content; padding-left: 0px;">
       <div class="col-md-3" style="width: 237px; padding-left: 1%;">
         <angular2-multiselect
           [data]="populationData"
@@ -225,19 +236,18 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-    </div>
 
-    <!-- <button
-    style="float: right;margin-top: 5px;"
-    type="button"
-    class="close1  btn btn-primary"
-    (click)="
-      resetPopupValues() ||
-        reportForm.controls['isComparative'].setValue(null)
-    "
-  >
-    Clear All
-  </button> -->
+      <button
+        type="button"
+        class="close1  btn btn-primary"
+        (click)="
+          resetPopupValues() ||
+            reportForm.controls['isComparative'].setValue(null)
+        "
+      >
+        Clear All
+      </button>
+    </div>
 
     <button
       class="btn btn-primary float-right"

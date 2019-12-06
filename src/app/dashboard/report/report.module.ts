@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatInputModule } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
@@ -34,6 +35,7 @@ import { ReportComponent } from './report/report.component';
     MatInputModule,
     MatAutocompleteModule,
     MatFormFieldModule,
+    MatSlideToggleModule,
     ModalModule.forRoot()
   ],
   declarations: [

@@ -104,6 +104,10 @@ export class ReportComponent implements OnInit {
     return this.reportForm.controls;
   }
 
+  message(event) {
+    console.log(event);
+  }
+
   private listenToFormGroups() {
     this.searchByNameControl.valueChanges
       .pipe(debounce(() => interval(400)))
