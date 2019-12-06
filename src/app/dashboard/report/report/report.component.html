@@ -145,60 +145,99 @@
     </button>
   </div> -->
 
-  <div class="modal-header" style="max-height: ;">
-    <!-- <button
-      type="button"
-      class="close"
-      data-dismiss="modal"
-      aria-label="Close"
-      style="display: block; outline: none;"
-      (click)="modalRef.hide()"
-    >
-      <span aria-hidden="true">&Chi; </span>
-    </button> -->
-
-    <mat-form-field
-      class="col-md-2"
-      appearance="outline"
-      style="width: 15%; padding: 0px; padding-left: 0%;"
-    >
-      <input
-        type="text"
-        placeholder="Search ULB"
-        aria-label="text"
-        matInput
-        [formControl]="searchByNameControl"
-        [matAutocomplete]="auto"
-      />
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option
-          *ngFor="let option of ulbFilteredByName"
-          [value]="option.name"
-          (click)="
-            setCurrentStateView({
-              stateCode: option.stateCode,
-              ulbType: option.type,
-              ulb: option
-            })
-          "
-          [title]="option.name"
-        >
-          {{ option.name }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <div class="col-md-3" style="width: 237px; padding-left: 1%;">
+  <div class="modal-header">
+    <form [formGroup]="reportForm" class="col-md-4">
+      <div
+        class="checkbox"
+        style=" display: inline-block;  width: 15%;  margin-right: 11px; padding-left: 1%; min-width: fit-content;"
+      >
+        <label
+          ><input
+            type="checkbox"
+            name="isComparative"
+            formControlName="isComparative"
+          />
+          Comparison Report
+          <i
+            class="fa fa-info-circle"
+            aria-hidden="true"
+            style="margin-left: 2px"
+            title=" Placeholder"
+          ></i>
+        </label>
+      </div>
       <angular2-multiselect
-        [data]="populationData"
-        [settings]="populationDropdownSettings"
-        [(ngModel)]="ulbForm.ulbPopulationFilter"
-        (onSelect)="filterUlbs('ulbPopulationFilter')"
-        (onDeSelect)="filterUlbs('ulbPopulationFilter')"
-        (onDeSelectAll)="unselectAllPopulation($event)"
+        style="display: inline-block;"
+        [style.width.px]="
+          (reportForm?.controls)['yearList']?.value?.length
+            ? reportForm.controls['yearList'].value.length * 55 + 153
+            : 210
+        "
+        formControlName="yearList"
+        [data]="yearLookup"
+        [settings]="yearsDropdownSettings"
+        (onClose)="onDateSelectionClose($event)"
+        (onDeSelectAll)="resetPopupValues() || (ulbTypeSelected = 'other')"
       >
       </angular2-multiselect>
+    </form>
+
+    <div class="col-md-6" style="height: fit-content; margin-top: .3%;">
+      <div class="col-md-3" style="width: 237px; padding-left: 1%;">
+        <angular2-multiselect
+          [data]="populationData"
+          [settings]="populationDropdownSettings"
+          [(ngModel)]="ulbForm.ulbPopulationFilter"
+          (onSelect)="filterUlbs('ulbPopulationFilter')"
+          (onDeSelect)="filterUlbs('ulbPopulationFilter')"
+          (onDeSelectAll)="unselectAllPopulation($event)"
+        >
+        </angular2-multiselect>
+      </div>
+
+      <mat-form-field
+        class="col-md-3"
+        appearance="outline"
+        style="width: 237px;"
+      >
+        <input
+          type="text"
+          placeholder="Search ULB"
+          aria-label="text"
+          matInput
+          [formControl]="searchByNameControl"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let option of ulbFilteredByName"
+            [value]="option.name"
+            (click)="
+              setCurrentStateView({
+                stateCode: option.stateCode,
+                ulbType: option.type,
+                ulb: option
+              })
+            "
+            [title]="option.name"
+          >
+            {{ option.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
     </div>
+
+    <!-- <button
+    style="float: right;margin-top: 5px;"
+    type="button"
+    class="close1  btn btn-primary"
+    (click)="
+      resetPopupValues() ||
+        reportForm.controls['isComparative'].setValue(null)
+    "
+  >
+    Clear All
+  </button> -->
 
     <button
       class="btn btn-primary float-right"
@@ -224,7 +263,7 @@
     </button> -->
   </div>
 
-  <form [formGroup]="reportForm" class="col-md-12 mt-1">
+  <!-- <form [formGroup]="reportForm" class="col-md-12 mt-1">
     <div
       class="checkbox"
       style=" display: inline-block;  width: 15%;  margin-right: 11px; padding-left: 1%; min-width: fit-content;"
@@ -269,7 +308,7 @@
     >
       Clear All
     </button>
-  </form>
+  </form> -->
 
   <div class="modal-body">
     <div class="row">
