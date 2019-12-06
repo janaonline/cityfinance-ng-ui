@@ -1,4 +1,68 @@
-.table > thead > tr > th{
-    background: #ddd;
-    border: 1px solid black;
+table {
+  font-size: 0.8em;
+  opacity: 0;
+  animation: show 2s forwards;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-top: 1px solid grey;
+  position: absolute;
+  margin-bottom: 0px;
+}
+
+table thead tr:nth-child(1) th {
+  background: white;
+  position: sticky;
+  top: 0px;
+}
+
+table thead tr:nth-child(2) th {
+  background: white;
+  position: sticky;
+  top: 32px;
+}
+
+table tbody tr:last-child th {
+  background: rgb(238, 238, 238);
+  position: sticky;
+  bottom: 0px;
+}
+
+.tableWrapper {
+  height: 70vh;
+  position: relative;
+  overflow-y: auto;
+  box-shadow: 3px 2px 7px 3px #c1c1c1;
+  width: 75%;
+  margin: auto;
+}
+
+.table > thead > tr > th {
+  //   background: #ddd;
+  //   border: 1px solid rgb(197, 23, 23);
+}
+
+tbody tr th {
+  text-align: right;
+  width: 70px;
+}
+
+tbody tr th:nth-child(1) {
+  text-align: left;
+  width: 90px;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+    // transform: translateX(-10%);
+  }
+  100% {
+    opacity: 1;
+    // transform: translateX(0);
+  }
+}
+
+table thead {
+  position: sticky;
+  top: 70px;
 }

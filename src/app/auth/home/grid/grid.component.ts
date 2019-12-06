@@ -13,23 +13,23 @@ export class GridComponent implements OnInit {
   years: Set<string>;
 
   totalRow: any = {
-    stateName: 'Total',
+    stateName: "Total",
     totalULBS: [],
     ulbsByYears: {
       ["2015-16"]: {
         amrut: 0,
         nonAmrut: 0,
-        total:0
+        total: 0
       },
       ["2016-17"]: {
         amrut: 0,
         nonAmrut: 0,
-        total:0
+        total: 0
       },
       ["2017-18"]: {
         amrut: 0,
         nonAmrut: 0,
-        total:0
+        total: 0
       }
     }
   };
@@ -39,22 +39,58 @@ export class GridComponent implements OnInit {
       let count = 0;
       await Object.values(ulbs).forEach(row => {
         count += row.totalULBS.length;
-        this.totalRow['ulbsByYears']['2015-16'].amrut += row.ulbsByYears['2015-16'] ? row.ulbsByYears['2015-16'].amrut : 0;
-        this.totalRow['ulbsByYears']['2015-16'].nonAmrut += row.ulbsByYears['2015-16'] ? row.ulbsByYears['2015-16'].nonAmrut : 0;
-        this.totalRow['ulbsByYears']['2015-16'].total += row.ulbsByYears['2015-16'] ? row.ulbsByYears['2015-16'].total : 0;
-        this.totalRow['ulbsByYears']['2016-17'].amrut += row.ulbsByYears['2016-17'] ? row.ulbsByYears['2016-17'].amrut : 0;
-        this.totalRow['ulbsByYears']['2016-17'].nonAmrut += row.ulbsByYears['2016-17'] ? row.ulbsByYears['2016-17'].nonAmrut : 0;
-        this.totalRow['ulbsByYears']['2016-17'].total += row.ulbsByYears['2016-17'] ? row.ulbsByYears['2016-17'].total : 0;
-        this.totalRow['ulbsByYears']['2017-18'].amrut += row.ulbsByYears['2017-18'] ? row.ulbsByYears['2017-18'].amrut : 0;
-        this.totalRow['ulbsByYears']['2017-18'].nonAmrut += row.ulbsByYears['2017-18'] ? row.ulbsByYears['2017-18'].nonAmrut : 0;
-        this.totalRow['ulbsByYears']['2017-18'].total += row.ulbsByYears['2017-18'] ? row.ulbsByYears['2017-18'].total : 0;
+        this.totalRow["ulbsByYears"]["2015-16"].amrut += row.ulbsByYears[
+          "2015-16"
+        ]
+          ? row.ulbsByYears["2015-16"].amrut
+          : 0;
+        this.totalRow["ulbsByYears"]["2015-16"].nonAmrut += row.ulbsByYears[
+          "2015-16"
+        ]
+          ? row.ulbsByYears["2015-16"].nonAmrut
+          : 0;
+        this.totalRow["ulbsByYears"]["2015-16"].total += row.ulbsByYears[
+          "2015-16"
+        ]
+          ? row.ulbsByYears["2015-16"].total
+          : 0;
+        this.totalRow["ulbsByYears"]["2016-17"].amrut += row.ulbsByYears[
+          "2016-17"
+        ]
+          ? row.ulbsByYears["2016-17"].amrut
+          : 0;
+        this.totalRow["ulbsByYears"]["2016-17"].nonAmrut += row.ulbsByYears[
+          "2016-17"
+        ]
+          ? row.ulbsByYears["2016-17"].nonAmrut
+          : 0;
+        this.totalRow["ulbsByYears"]["2016-17"].total += row.ulbsByYears[
+          "2016-17"
+        ]
+          ? row.ulbsByYears["2016-17"].total
+          : 0;
+        this.totalRow["ulbsByYears"]["2017-18"].amrut += row.ulbsByYears[
+          "2017-18"
+        ]
+          ? row.ulbsByYears["2017-18"].amrut
+          : 0;
+        this.totalRow["ulbsByYears"]["2017-18"].nonAmrut += row.ulbsByYears[
+          "2017-18"
+        ]
+          ? row.ulbsByYears["2017-18"].nonAmrut
+          : 0;
+        this.totalRow["ulbsByYears"]["2017-18"].total += row.ulbsByYears[
+          "2017-18"
+        ]
+          ? row.ulbsByYears["2017-18"].total
+          : 0;
       });
 
-      this.totalRow['totalULBS'].length = count ;
-      ulbs['total'] = await this.totalRow;
+      this.totalRow["totalULBS"].length = count;
+      ulbs["total"] = await this.totalRow;
 
       this.years = this.getUniqueYears(ulbs);
-      this.stateIds = Object.keys(ulbs);
+      this.stateIds = Object.keys(ulbs).sort();
       this.ulbs = ulbs;
     });
   }
