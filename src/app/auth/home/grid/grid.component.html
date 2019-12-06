@@ -1,25 +1,53 @@
-<p>
-  grid works!
-</p>
+<div class="row mt-5">
+  <div class="col d-flex justify-content-center">
+    <table class="table table-bordered" style="width: 80%;" *ngIf="years">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th *ngFor="let year of years" colspan="3" class="text-center">
+            {{ year }}
+          </th>
+          <th scope="col"></th>
+        </tr>
+        <tr>
+          <th scope="col">State</th>
+          <th scope="col">No of ULBs</th>
+          <th scope="col">AMRUT</th>
+          <th scope="col">NON AMRUT</th>
+          <th scope="col">Total</th>
+          <th scope="col">AMRUT</th>
+          <th scope="col">NON AMRUT</th>
+          <th scope="col">Total</th>
+          <th scope="col">AMRUT</th>
+          <th scope="col">NON AMRUT</th>
+          <th scope="col">Total</th>
+          <th scope="col">Grand Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stateId of stateIds">
+          <th>{{ulbs[stateId].stateName}}</th>
+          <th>{{ulbs[stateId]['totalULBS']?.length}}</th>
+          <th>{{ulbs[stateId]['ulbsByYears']['2015-16'] ? ulbs[stateId]['ulbsByYears']['2015-16'].amrut : 0}}</th>
+          <th>{{ulbs[stateId]['ulbsByYears']['2015-16'] ? ulbs[stateId]['ulbsByYears']['2015-16'].nonAmrut : 0}}</th>
+          <th>{{ulbs[stateId]['ulbsByYears']['2015-16'] ? ulbs[stateId]['ulbsByYears']['2015-16'].total : 0}}</th>
+          <th>{{ulbs[stateId]['ulbsByYears']['2016-17'] ? ulbs[stateId]['ulbsByYears']['2016-17'].amrut : 0}}</th>
+          <th>{{ulbs[stateId]['ulbsByYears']['2016-17'] ? ulbs[stateId]['ulbsByYears']['2016-17'].nonAmrut : 0}}</th>
+          <th>{{ulbs[stateId]['ulbsByYears']['2016-17'] ? ulbs[stateId]['ulbsByYears']['2016-17'].total : 0}}</th>
+          <th>{{ulbs[stateId]['ulbsByYears']['2017-18'] ? ulbs[stateId]['ulbsByYears']['2017-18'].amrut : 0}}</th>
+          <th>{{ulbs[stateId]['ulbsByYears']['2017-18'] ? ulbs[stateId]['ulbsByYears']['2017-18'].nonAmrut : 0}}</th>
+          <th>{{ulbs[stateId]['ulbsByYears']['2017-18'] ? ulbs[stateId]['ulbsByYears']['2017-18'].total : 0}}</th>
+          <th>
+            {{
+              (ulbs[stateId]['ulbsByYears']['2015-16'] ? ulbs[stateId]['ulbsByYears']['2015-16'].total : 0) +
+              (ulbs[stateId]['ulbsByYears']['2016-17'] ? ulbs[stateId]['ulbsByYears']['2016-17'].total : 0) + 
+              (ulbs[stateId]['ulbsByYears']['2017-18'] ? ulbs[stateId]['ulbsByYears']['2017-18'].total : 0)
+            }}
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<table class="table-bordered" style="margin: auto; width: 70vw;">
-  <thead>
-    <tr>
-      <th>&nbsp;</th>
-      <th>&nbsp;</th>
-
-      <th *ngFor="let year of years" colspan="3" class="text-center">
-        {{ year }}
-      </th>
-      <!-- <th>2016-17</th>
-      <th>2017-18</th> -->
-    </tr>
-    <tr>
-      <th>State</th>
-      <th>No of ULBs</th>
-      <th>AMRUT</th>
-      <th>NON AMRUT</th>
-      <th>Total</th>
-    </tr>
-  </thead>
-</table>

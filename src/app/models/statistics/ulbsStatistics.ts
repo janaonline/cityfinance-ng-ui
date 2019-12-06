@@ -7,7 +7,11 @@ export interface ULBsStatistics {
     _id: string;
     totalULBS: NewULBStructure[];
     ulbsByYears: {
-      [year: string]: NewULBStructure[];
+      [year: string]: {
+        total: number;
+        amrut:number;
+        nonAmrut:number;
+      };
     };
   };
 }

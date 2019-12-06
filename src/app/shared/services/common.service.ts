@@ -127,6 +127,8 @@ export class CommonService {
   getCount(ulbList: NewULBStructure[]): ULBsStatistics {
     const newObj: ULBsStatistics = {};
     ulbList.forEach(ulb => {
+      // console.log(ulb.state.name, ulb.ulb.name,ulb.ulb.amrut);
+
       if (!ulb.state._id) {
         return;
       }
@@ -137,17 +139,28 @@ export class CommonService {
           _id: ulb.state._id,
           totalULBS: [ulb],
           ulbsByYears: {
-            [ulb.financialYear]: [{ ...ulb }]
+            [ulb.financialYear]: {
+              total: 1,
+              amrut: ulb.ulb.amrut == 'Yes' ? 1 : 0,
+              nonAmrut: ulb.ulb.amrut == 'No' ? 0 : 1,
+            }
           }
         };
         return;
       }
       newObj[ulb.state._id].totalULBS.push(ulb);
       if (!newObj[ulb.state._id].ulbsByYears[ulb.financialYear]) {
-        newObj[ulb.state._id].ulbsByYears[ulb.financialYear] = [{ ...ulb }];
+        newObj[ulb.state._id].ulbsByYears[ulb.financialYear] = {
+          total: 1,
+          amrut: ulb.ulb.amrut == 'Yes' ? 1 : 0,
+          nonAmrut: ulb.ulb.amrut == 'No' ? 1 : 0
+        }
         return;
       }
-      newObj[ulb.state._id].ulbsByYears[ulb.financialYear].push({ ...ulb });
+      newObj[ulb.state._id].ulbsByYears[ulb.financialYear].total +=  1;
+      newObj[ulb.state._id].ulbsByYears[ulb.financialYear].amrut += (ulb.ulb.amrut == 'Yes' ? 1 : 0);
+      newObj[ulb.state._id].ulbsByYears[ulb.financialYear].nonAmrut += (ulb.ulb.amrut == 'No' ? 1 : 0);
+      // newObj[ulb.state._id].ulbsByYears[ulb.financialYear].push({ ...ulb });
     });
     return { ...newObj };
   }
