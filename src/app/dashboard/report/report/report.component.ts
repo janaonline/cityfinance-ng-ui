@@ -94,9 +94,9 @@ export class ReportComponent implements OnInit {
     private reportService: ReportService,
     private router: Router
   ) {
-    this.commonService
-      .getULBsStatistics(null)
-      .subscribe(data => console.log(data));
+    // this.commonService
+    //   .getULBsStatistics(null)
+    //   .subscribe(data => console.log(data));
   }
 
   get lf() {

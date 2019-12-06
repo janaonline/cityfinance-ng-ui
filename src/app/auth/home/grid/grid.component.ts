@@ -14,6 +14,7 @@ export class GridComponent implements OnInit {
 
   constructor(private _commonService: CommonService) {
     this._commonService.getULBsStatistics().subscribe(ulbs => {
+      console.log(ulbs);
       this.years = this.getUniqueYears(ulbs);
       this.stateIds = Object.keys(ulbs);
       this.ulbs = ulbs;
@@ -26,7 +27,7 @@ export class GridComponent implements OnInit {
     Object.keys(ulbs).forEach(stateId => {
       Object.keys(ulbs[stateId].ulbsByYears).forEach(year => years.add(year));
     });
-    console.log(years);
+    // console.log(years);
     return years;
   }
 

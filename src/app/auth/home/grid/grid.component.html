@@ -1,25 +1,47 @@
-<p>
-  grid works!
-</p>
+<div class="row">
+  <div class="col d-flex justify-content-center">
+    <table class="table table-bordered" style="width: 80%;">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th *ngFor="let year of years" colspan="3" class="text-center">
+            {{ year }}
+          </th>
+          <th scope="col"></th>
+        </tr>
+        <tr>
+          <th scope="col">State</th>
+          <th scope="col">No of ULBs</th>
+          <th scope="col">AMRUT</th>
+          <th scope="col">NON AMRUT</th>
+          <th scope="col">Total</th>
+          <th scope="col">AMRUT</th>
+          <th scope="col">NON AMRUT</th>
+          <th scope="col">Total</th>
+          <th scope="col">AMRUT</th>
+          <th scope="col">NON AMRUT</th>
+          <th scope="col">Total</th>
+          <th scope="col">Grand Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Test</th>
+          <th>Test</th>
+          <th>Test</th>
+          <th>Test</th>
+          <th>Test</th>
+          <th>Test</th>
+          <th>Test</th>
+          <th>Test</th>
+          <th>Test</th>
+          <th>Test</th>
+          <th>Test</th>
+          <th>Test</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<table class="table-bordered" style="margin: auto; width: 70vw;">
-  <thead>
-    <tr>
-      <th>&nbsp;</th>
-      <th>&nbsp;</th>
-
-      <th *ngFor="let year of years" colspan="3" class="text-center">
-        {{ year }}
-      </th>
-      <!-- <th>2016-17</th>
-      <th>2017-18</th> -->
-    </tr>
-    <tr>
-      <th>State</th>
-      <th>No of ULBs</th>
-      <th>AMRUT</th>
-      <th>NON AMRUT</th>
-      <th>Total</th>
-    </tr>
-  </thead>
-</table>
