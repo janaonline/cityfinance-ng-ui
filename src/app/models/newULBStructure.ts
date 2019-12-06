@@ -13,7 +13,7 @@ export interface NewULBStructure {
     name: string;
     ulbType: string;
     code: string;
-    amrut?: boolean;
+    amrut?: 'Yes'|'No';
   };
   state: {
     _id: string;

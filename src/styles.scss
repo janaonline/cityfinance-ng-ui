@@ -556,3 +556,33 @@ img.align-center {
     color: white;
   }
 }
+
+
+//bootstrap short class
+
+.d-flex{
+  display: flex !important;
+} 
+.justify-content-center{
+  justify-content: center !important;
+}
+
+.mt-1{
+  margin-top: 1rem;
+}
+
+.mt-2{
+  margin-top: 2rem;
+}
+
+.mt-3{
+  margin-top: 3rem;
+}
+
+.mt-4{
+  margin-top: 4rem;
+}
+
+.mt-5{
+  margin-top: 5rem;
+}
