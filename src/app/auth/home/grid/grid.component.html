@@ -2,21 +2,24 @@
   grid works!
 </p>
 
-<table class="table-bordered">
+<table class="table-bordered" style="margin: auto; width: 70vw;">
   <thead>
     <tr>
       <th>&nbsp;</th>
-      <th>2015-16</th>
-      <th>2016-17</th>
-      <th>2017-18</th>
+      <th>&nbsp;</th>
+
+      <th *ngFor="let year of years" colspan="3" class="text-center">
+        {{ year }}
+      </th>
+      <!-- <th>2016-17</th>
+      <th>2017-18</th> -->
     </tr>
     <tr>
       <th>State</th>
       <th>No of ULBs</th>
-      <th>AMR</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>AMRUT</th>
+      <th>NON AMRUT</th>
+      <th>Total</th>
     </tr>
   </thead>
 </table>

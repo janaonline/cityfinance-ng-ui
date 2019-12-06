@@ -24,17 +24,6 @@ interface CustomArray<T> {
   styleUrls: ["./report.component.scss"]
 })
 export class ReportComponent implements OnInit {
-  constructor(
-    private formBuilder: FormBuilder,
-    private commonService: CommonService,
-    private modalService: BsModalService,
-    private reportService: ReportService,
-    private router: Router
-  ) {}
-
-  get lf() {
-    return this.reportForm.controls;
-  }
   // alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   alphabets = [];
   activeGroup: "IE" | "BS" = "IE";
@@ -98,6 +87,22 @@ export class ReportComponent implements OnInit {
 
   previousSearchedULB: IULB;
 
+  constructor(
+    private formBuilder: FormBuilder,
+    private commonService: CommonService,
+    private modalService: BsModalService,
+    private reportService: ReportService,
+    private router: Router
+  ) {
+    this.commonService
+      .getULBsStatistics(null)
+      .subscribe(data => console.log(data));
+  }
+
+  get lf() {
+    return this.reportForm.controls;
+  }
+
   private listenToFormGroups() {
     this.searchByNameControl.valueChanges
       .pipe(debounce(() => interval(400)))
@@ -147,6 +152,7 @@ export class ReportComponent implements OnInit {
     );
 
     this.reportForm.controls["yearList"].valueChanges.subscribe(list => {
+      this.getNewULBByDate(list);
       if (
         list.length === 1 &&
         !this.ulbTypeSelected &&
@@ -158,10 +164,14 @@ export class ReportComponent implements OnInit {
 
     this.reportForm.controls["ulbList"].valueChanges.subscribe(
       (newList: IULB[]) => {
-        const ulbIds = newList.map(ulb => ulb["id"] || "");
+        const ulbIds = newList.map(ulb => ulb["_id"] || "");
         this.reportForm.controls["ulbIds"].setValue(ulbIds);
       }
     );
+  }
+
+  getNewULBByDate(dates: string[]) {
+    console.log(`getting new ulb by `, dates);
   }
 
   showAlertBoxForComparativeReport() {
@@ -300,6 +310,7 @@ export class ReportComponent implements OnInit {
   }
 
   resetPopupValues() {
+    console.log("resetting pop");
     this.clearPopupValues();
     this.setPopupDefaultValues();
   }

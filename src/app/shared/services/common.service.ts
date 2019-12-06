@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
+import { NewULBStructure, NewULBStructureResponse } from 'src/app/models/newULBStructure';
+import { ULBsStatistics } from 'src/app/models/statistics/ulbsStatistics';
 
 import { environment } from './../../../environments/environment';
 
@@ -35,6 +38,60 @@ export class CommonService {
     return this.http.get(
       environment.api.url + "lookup/states/" + stateCode + "/ulbs"
     );
+  }
+
+  getULBsStatistics() {
+    return this.http
+      .post<NewULBStructureResponse>(
+        `${environment.api.url}ledger/getAllLegders`,
+        { year: [] }
+      )
+      .pipe(map(response => this.getCount(response.data)));
+  }
+
+  getNewULBByDate(dates: string[]) {
+    // this.getNewULBData(dates).pipe(ulbList => {
+    // });
+  }
+
+  // convertNewULBStructureToIULB(ulbList: NewULBStructure[]): IULBResponse['data'] {
+  //   let newObject: IULBResponse['data'] = {};
+  //   ulbList.forEach(ulb => {
+  //     if(!ulb.state.code) return;
+  //     newObject[ulb.state.code] = {
+  //       state: ulb.state.name;
+
+  //     }
+  //   })
+  // }
+
+  getCount(ulbList: NewULBStructure[]): ULBsStatistics {
+    const newObj: ULBsStatistics = {};
+    ulbList.forEach(ulb => {
+      if (!ulb.state._id) {
+        return;
+      }
+      if (!newObj[ulb.state._id]) {
+        newObj[ulb.state._id] = {
+          stateName: ulb.state.name,
+          stateCode: ulb.state.code,
+          _id: ulb.state._id,
+          totalULBS: [ulb],
+          ulbsByYears: {
+            [ulb.financialYear]: [{ ...ulb }]
+          }
+        };
+        return;
+      }
+      newObj[ulb.state._id].totalULBS.push(ulb);
+      if (!newObj[ulb.state._id].ulbsByYears[ulb.financialYear]) {
+        newObj[ulb.state._id].ulbsByYears[ulb.financialYear] = [{ ...ulb }];
+        return;
+      }
+      newObj[ulb.state._id].ulbsByYears[ulb.financialYear].push({ ...ulb });
+    });
+    console.log(newObj);
+    return { ...newObj };
   }
 
   loadStatesAgg(): Observable<any> {
