@@ -10,11 +10,13 @@ import { AppComponent } from './app.component';
 import { AppRouter } from './app.route';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './security/auth-guard.service';
+import { DialogComponent } from './shared/components/dialog/dialog.component';
 import { AppCommonModule } from './shared/modules/app-common/app-common.module';
 import { RupeeConverterPipe } from './shared/pipes/rupee-converter.pipe';
 
 @NgModule({
-  declarations: [AppComponent, RupeeConverterPipe],
+  declarations: [AppComponent, RupeeConverterPipe, DialogComponent],
+  entryComponents: [DialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

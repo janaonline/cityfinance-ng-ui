@@ -13,7 +13,7 @@ export interface NewULBStructure {
     state: string;
     name: string;
     code: string;
-    amrut?: boolean;
+    amrut: "Yes" | "No";
     area: any;
     natureOfUlb: IULB["natureOfUlb"];
     type: IULB["type"];

@@ -1,6 +1,8 @@
 import { ulbType } from '../dashboard/report/report/ulbTypes';
 
 export interface IULB {
+  amrut: 'Yes' | 'No';
+  _id: string;
   area: number;
   code: string;
   name: string;
