@@ -1,22 +1,112 @@
-<p>
-  grid works!
-</p>
-
-<table class="table-bordered">
-  <thead>
-    <tr>
-      <th>&nbsp;</th>
-      <th>2015-16</th>
-      <th>2016-17</th>
-      <th>2017-18</th>
-    </tr>
-    <tr>
-      <th>State</th>
-      <th>No of ULBs</th>
-      <th>AMR</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-</table>
+<div class=" mt-5">
+  <div class="col d-flex justify-content-center tableWrapper">
+    <table class="table table-bordered" style="min-width: 100%;" *ngIf="years">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th *ngFor="let year of years" colspan="3" class="text-center">
+            {{ year }}
+          </th>
+          <th scope="col"></th>
+        </tr>
+        <tr>
+          <th scope="col">State</th>
+          <th scope="col">No of ULBs</th>
+          <th scope="col" style="text-align: right;">AMRUT</th>
+          <th scope="col" style="text-align: right;">NON AMRUT</th>
+          <th scope="col" style="text-align: right;">Total</th>
+          <th scope="col" style="text-align: right;">AMRUT</th>
+          <th scope="col" style="text-align: right;">NON AMRUT</th>
+          <th scope="col" style="text-align: right;">Total</th>
+          <th scope="col" style="text-align: right;">AMRUT</th>
+          <th scope="col" style="text-align: right;">NON AMRUT</th>
+          <th scope="col" style="text-align: right;">Total</th>
+          <th scope="col" style="text-align: right;">Grand Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stateId of stateIds">
+          <th>{{ ulbs[stateId].stateName }}</th>
+          <th>{{ ulbs[stateId]["totalULBS"]?.length }}</th>
+          <th>
+            {{
+              ulbs[stateId]["ulbsByYears"]["2015-16"]
+                ? ulbs[stateId]["ulbsByYears"]["2015-16"].amrut
+                : 0
+            }}
+          </th>
+          <th>
+            {{
+              ulbs[stateId]["ulbsByYears"]["2015-16"]
+                ? ulbs[stateId]["ulbsByYears"]["2015-16"].nonAmrut
+                : 0
+            }}
+          </th>
+          <th>
+            {{
+              ulbs[stateId]["ulbsByYears"]["2015-16"]
+                ? ulbs[stateId]["ulbsByYears"]["2015-16"].total
+                : 0
+            }}
+          </th>
+          <th>
+            {{
+              ulbs[stateId]["ulbsByYears"]["2016-17"]
+                ? ulbs[stateId]["ulbsByYears"]["2016-17"].amrut
+                : 0
+            }}
+          </th>
+          <th>
+            {{
+              ulbs[stateId]["ulbsByYears"]["2016-17"]
+                ? ulbs[stateId]["ulbsByYears"]["2016-17"].nonAmrut
+                : 0
+            }}
+          </th>
+          <th>
+            {{
+              ulbs[stateId]["ulbsByYears"]["2016-17"]
+                ? ulbs[stateId]["ulbsByYears"]["2016-17"].total
+                : 0
+            }}
+          </th>
+          <th>
+            {{
+              ulbs[stateId]["ulbsByYears"]["2017-18"]
+                ? ulbs[stateId]["ulbsByYears"]["2017-18"].amrut
+                : 0
+            }}
+          </th>
+          <th>
+            {{
+              ulbs[stateId]["ulbsByYears"]["2017-18"]
+                ? ulbs[stateId]["ulbsByYears"]["2017-18"].nonAmrut
+                : 0
+            }}
+          </th>
+          <th>
+            {{
+              ulbs[stateId]["ulbsByYears"]["2017-18"]
+                ? ulbs[stateId]["ulbsByYears"]["2017-18"].total
+                : 0
+            }}
+          </th>
+          <th>
+            {{
+              (ulbs[stateId]["ulbsByYears"]["2015-16"]
+                ? ulbs[stateId]["ulbsByYears"]["2015-16"].total
+                : 0) +
+                (ulbs[stateId]["ulbsByYears"]["2016-17"]
+                  ? ulbs[stateId]["ulbsByYears"]["2016-17"].total
+                  : 0) +
+                (ulbs[stateId]["ulbsByYears"]["2017-18"]
+                  ? ulbs[stateId]["ulbsByYears"]["2017-18"].total
+                  : 0)
+            }}
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

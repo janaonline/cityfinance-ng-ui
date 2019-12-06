@@ -22,19 +22,19 @@
 
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 0px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 5px;
+  box-shadow: inset 0 0 0px grey;
+  border-radius: 0px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #f0ad4e;
-  border-radius: 5px;
+  border-radius: 0px;
 }
 
 /* Handle on hover */
@@ -555,4 +555,33 @@ img.align-center {
     background-color: #009fe3;
     color: white;
   }
+}
+
+//bootstrap short class
+
+.d-flex {
+  display: flex !important;
+}
+.justify-content-center {
+  justify-content: center !important;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mt-2 {
+  margin-top: 2rem;
+}
+
+.mt-3 {
+  margin-top: 3rem;
+}
+
+.mt-4 {
+  margin-top: 4rem;
+}
+
+.mt-5 {
+  margin-top: 5rem;
 }
