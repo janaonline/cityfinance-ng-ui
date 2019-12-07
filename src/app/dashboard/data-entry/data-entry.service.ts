@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 
@@ -44,5 +46,65 @@ export class DataEntryService {
       files,
       httpOptions
     );
+  }
+
+  getS3URL(fileName: File["name"], fileType: File["type"]) {
+    const headers = new HttpHeaders({
+      "x-access-token": `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkMzA1YjBjMGVlZWVlYWMyZjQwYTlkZCIsImxvZ2luSWQiOiI1ZGViOTI5YWM5Y2UzZTBhYTNhN2I1MzAiLCJ1c2VyVHlwZSI6ImFkbWluIiwidXNlck5hbWUiOiJEaHdhbmkiLCJ1c2VyRW1haWwiOiJkaHdhbmlAbWZvcm0uY29tIiwib3JnYW5pc2F0aW9uIjpbXSwiaWF0IjoxNTc1NzE5NTc4OTI5LCJleHAiOjU3NTYyOTE5NTc4OTI0fQ.Fj_7C7PGUHCFxuSenEtowliL5a4aH2eON8QOw8YivIA`
+    });
+
+    return this.http.post(
+      `${environment.api.url}api/admin/v1/getS3Url`,
+      JSON.stringify([
+        {
+          file_name: fileName,
+          mime_type: fileType
+        }
+      ]),
+      { headers }
+    );
+
+    // return this.http.post(
+    //   "https://stgmformadminapi.dhwaniris.in/api/admin/v1/" + "getS3Url",
+    //   JSON.stringify([
+    //     {
+    //       file_name: fileName,
+    //       mime_type: fileType
+    //     }
+    //   ]),
+    //   { headers }
+    // );
+  }
+
+  uploadFileToS3(file: File, s3URL: string) {
+    return this.http.put(s3URL, file, {
+      reportProgress: true,
+      observe: "events"
+    });
+  }
+
+  /**
+   *
+   * @param alias Here fileAlias is the file_alias key that is returned from getting s3URL api call.
+   */
+  sendUploadFileForProcessing(alias: string, financialYear: string) {
+    return this.http.post(`${environment.api.url}api/admin/v1/processData`, {
+      alias,
+      financialYear
+    });
+  }
+
+  getFileProcessingStatus(
+    fileId: string
+  ): Observable<{ message: string; completed: boolean }> {
+    // IMPORTANT Comment this and uncomment below line. Some changes may be required there...
+    // return of({
+    //   status: Math.random() > 0.5,
+    //   message: "somethin sometinh"
+    // }).pipe(delay(2000));
+
+    return this.http
+      .get(`${environment.api.url}api/admin/v1/getProcessStatus/${fileId}`)
+      .pipe(map(response => ({ ...response["data"] })));
   }
 }

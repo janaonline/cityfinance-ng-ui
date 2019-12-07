@@ -69,27 +69,43 @@
               <!-- Normal Progress bar-->
               <div
                 class="progress mt-1"
-                *ngIf="fileProcessingTracker[file.name] != 'in-process'"
+                *ngIf="fileProcessingTracker[file.name]?.status != 'in-process'"
               >
                 <div
                   class="progress-bar"
                   role="progressbar"
                   [ngClass]="{
-                    uploadComplete: fileUploadTracker[file.name] === 100
+                    uploadComplete:
+                      fileUploadTracker[file.name] &&
+                      fileUploadTracker[file.name]['percentage'] === 100
                   }"
-                  [style.width.%]="fileUploadTracker[file.name] || 0"
-                  [attr.aria-valuenow]="fileUploadTracker[file.name] || 0"
+                  [style.width.%]="
+                    (fileUploadTracker[file.name] &&
+                      fileUploadTracker[file.name]['percentage']) ||
+                    0
+                  "
+                  [attr.aria-valuenow]="
+                    (fileUploadTracker[file.name] &&
+                      fileUploadTracker[file.name]['percentage']) ||
+                    0
+                  "
                   aria-valuemin="0"
                   aria-valuemax="100"
                 >
-                  {{ fileUploadTracker[file.name] || 0 }}
+                  {{
+                    (fileUploadTracker[file.name] &&
+                      fileUploadTracker[file.name]["percentage"]) ||
+                      0
+                  }}
                 </div>
               </div>
 
               <!-- Stripped progres bar for in processing-->
               <div
                 class="progress mt-1"
-                *ngIf="fileProcessingTracker[file.name] === 'in-process'"
+                *ngIf="
+                  fileProcessingTracker[file.name]?.status === 'in-process'
+                "
               >
                 <div
                   class="progress-bar progress-bar-striped active"
@@ -99,7 +115,9 @@
                   aria-valuemax="100"
                   style="width: 100%"
                 >
-                  Processing
+                  {{
+                    fileProcessingTracker[file.name].message || "Processing..."
+                  }}
                 </div>
               </div>
             </div>

@@ -1,7 +1,8 @@
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { delay, map, retryWhen } from 'rxjs/operators';
 
 import { DataEntryService } from './../data-entry.service';
 
@@ -21,9 +22,11 @@ export class BulkEntryComponent implements OnInit {
   filesToUpload: Array<File> = [];
   uploadResult: any;
 
-  fileUploadTracker: { [fileName: string]: number } = {};
+  fileUploadTracker: {
+    [fileName: string]: { alias: string; percentage: number };
+  } = {};
   fileProcessingTracker: {
-    [fileName: string]: "in-process" | "completed";
+    [fileName: string]: { status: "in-process" | "completed"; message: string };
   } = {};
 
   ngOnInit() {
@@ -59,46 +62,98 @@ export class BulkEntryComponent implements OnInit {
     //   });
   }
 
-  uploadFile(file: File) {
-    const formData: FormData = new FormData();
-    formData.append("year", this.bulkEntryForm.get("year").value);
-    formData.append("files", file, file.name);
-    console.log("uploading ", file.name);
-    this.fileUploadTracker[file.name] = 0;
+  doTemporaryS3Magic(file: File) {
     this.dataEntryService
-      .bulkEntry(formData)
+      .getS3URL(file.name, file.type)
+      .subscribe(s3Response => {
+        const fileAlias = s3Response["data"][0]["file_alias"];
+        const s3URL = s3Response["data"][0].url;
+        this.uploadFileToS3(
+          file,
+          s3URL,
+          fileAlias,
+          this.bulkEntryForm.get("year").value
+        );
+      });
+  }
+
+  private uploadFileToS3(
+    file: File,
+    s3URL: string,
+    fileAlias: string,
+    financialYear: string
+  ) {
+    this.dataEntryService
+      .uploadFileToS3(file, s3URL)
       .pipe(
-        map((response: HttpEvent<any>) => {
-          return this.logUploadProgess(response, file);
-        })
+        map((response: HttpEvent<any>) =>
+          this.logUploadProgess(response, file, fileAlias)
+        )
       )
       .subscribe(res => {
-        if (res["success"]) {
-          this.uploadResult = res["data"];
-          alert("Upload summary is available below");
+        if (res.type === HttpEventType.Response) {
+          this.dataEntryService
+            .sendUploadFileForProcessing(fileAlias, financialYear)
+            .subscribe(res =>
+              this.startFileProcessTracking(file, res["data"]["_id"])
+            );
         }
       });
   }
 
-  private logUploadProgess(event: HttpEvent<any>, file: File) {
+  uploadFile(file: File) {
+    // const formData: FormData = new FormData();
+    // formData.append("year", this.bulkEntryForm.get("year").value);
+    // formData.append("file", file, file.name);
+
+    this.doTemporaryS3Magic(file);
+  }
+
+  private logUploadProgess(
+    event: HttpEvent<any>,
+    file: File,
+    fileAlias: string
+  ) {
     if (event.type === HttpEventType.UploadProgress) {
-      console.log(event);
       const percentDone = Math.round((100 * event.loaded) / event.total);
-      if (percentDone === 100) {
-        this.startFileProcessTracking(file);
-      }
-      this.fileUploadTracker[file.name] = percentDone;
+      // if (percentDone === 100) {
+      //   this.startFileProcessTracking(file);
+      // }
+      this.fileUploadTracker[file.name] = {
+        percentage: percentDone,
+        alias: fileAlias
+      };
     }
     return event;
   }
 
-  private startFileProcessTracking(file: File) {
-    this.fileProcessingTracker[file.name] = "in-process";
+  private startFileProcessTracking(file: File, fileId: string) {
+    this.fileProcessingTracker[file.name] = {
+      status: "in-process",
+      message: "Processing"
+    };
+
+    // IMPORTANT This function will need to call the actual api. Check the service to know more.
+    this.dataEntryService
+      .getFileProcessingStatus(fileId)
+      .pipe(
+        map(response => {
+          this.fileProcessingTracker[file.name].message = response.message;
+          if (!response.completed) {
+            Observable.throw("asdas");
+          }
+          return response;
+        }),
+        retryWhen(err => err.pipe(delay(2000)))
+      )
+      .subscribe(response => {
+        this.fileProcessingTracker[file.name].message = response.message;
+        this.fileProcessingTracker[file.name].status = "completed";
+      });
   }
 
   fileChangeEvent(fileInput: Event) {
     this.filesToUpload = <Array<File>>fileInput.target["files"];
-    console.log(this.filesToUpload);
     // this.product.photo = fileInput.target.files[0]['name'];
   }
 }
