@@ -180,6 +180,7 @@ export class ReportComponent implements OnInit {
     this.commonService.getULBSByYears(years).subscribe(
       response => {
         this.originalUlbList = response;
+        console.log(response);
         const newULBS = this.filterULBByPopFilters("");
         this.ulbs = { ...newULBS };
         this.showState({ ...this.currentStateInView });
@@ -535,7 +536,9 @@ export class ReportComponent implements OnInit {
       if (!isULBSelected) {
         alertMessage += `${
           isComparativeInvalid || !isYearSelected ? " and" : ""
-        } ULB(s) for Comparison.`;
+        } ULB(s)${
+          this.reportForm.controls.isComparative.value ? " for Comparison" : ""
+        }.`;
       }
 
       return this._dialog.open(DialogComponent, {
@@ -879,7 +882,7 @@ export class ReportComponent implements OnInit {
       if (!allULBAreSameType) {
         const alreadySelectULB: IULB = this.reportForm.controls.ulbList
           .value[0];
-        const message = `You are selecting a ULB of different type. Earlier ULB selected are of ${alreadySelectULB.type} type, but now selecting from ${latestULB.type} type`;
+        const message = `You are selecting a ULB of a different type. Earlier ULB selected are of ${alreadySelectULB.type} type, but now you are selecting from ${latestULB.type} type`;
         return this._dialog.open(DialogComponent, {
           data: { message }
         });
