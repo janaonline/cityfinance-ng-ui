@@ -1,0 +1,28 @@
+.ranking{
+    padding: 40px 0;
+    background-color: white;
+    color: #000;
+
+    .ranking-intro{
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    h3 {
+        text-align: center;
+        position: relative;
+        margin: 0 0 30px;
+    
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -7px;
+          width: 50px;
+          height: 3px;
+          background: #000;
+          left: 50%;
+          margin-left: -25px;
+        }
+    }
+}

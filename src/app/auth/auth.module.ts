@@ -12,6 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { HeatMapComponent } from './home/heat-map/heat-map.component';
 
 @NgModule({
   imports: [CommonModule, AuthRouter, ReactiveFormsModule, CfChartsModule],
@@ -24,7 +25,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
     HomeHeaderComponent,
     StatisticsComponent,
     GridComponent,
-    PreLoaderComponent
+    PreLoaderComponent,
+    HeatMapComponent
   ],
   exports: [HomeHeaderComponent]
 })

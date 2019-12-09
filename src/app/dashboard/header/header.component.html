@@ -7,7 +7,13 @@
     <ul class="nav navbar-nav navbar-right">
       <li routerLinkActive="active"><a [routerLink]="['/home']">Home</a></li>
       <!-- <li routerLinkActive="active"><a [routerLink]="['/home']">About Cityfinance.in</a></li> -->
-      <li routerLinkActive="active"><a [routerLink]="['/dashboard/report']">Urban Finances</a></li>
+      <li routerLinkActive="active" class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Urban Finances &nbsp;<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li routerLinkActive="active"><a [routerLink]="['/dashboard/report']">Financial Report</a></li>
+          <li routerLinkActive="active"><a [routerLink]="['/dashboard/ranking']">Ranking</a></li>
+        </ul>
+      </li>
       <li routerLinkActive="active"><a [routerLink]="['/credit-rating/laws']">Municipal Finance Laws</a></li>
       <li routerLinkActive="active"><a [routerLink]="['/credit-rating/report']">Credit Rating</a></li>
       <li routerLinkActive="active"><a [routerLink]="['/credit-rating/municipal-bond']">Municipal Bonds</a></li>

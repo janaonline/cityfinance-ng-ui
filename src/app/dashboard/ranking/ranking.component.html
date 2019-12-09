@@ -1,0 +1,166 @@
+<div class="" style="margin-top: 5.2%">
+  <div class="col-12">
+    <div class="tab">
+        <mat-tab-group animationDuration="100ms" [mat-align-tabs]="center" dynamicHeight="true">
+            <mat-tab label="State Level Ranking">
+              <ng-template matTabContent>
+                  <div class="filters">
+                    <div class="">
+                      <div class="col-lg-8 mt-2">
+                        <div class="">
+                          <div class="col-lg-12">
+                            <div class="filters">
+                              <div class="col-lg-3">
+                                <mat-form-field>
+                                  <mat-label>Overall</mat-label>
+                                  <mat-select [formControl]="toppings" multiple>
+                                    <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-lg-3">
+                                <mat-form-field>
+                                  <mat-label>Financial Transparency</mat-label>
+                                  <mat-select>
+                                    <mat-option *ngFor="let food of foods" [value]="food.value">
+                                      {{food.viewValue}}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-lg-3">
+                                <mat-form-field>
+                                  <mat-label>All State</mat-label>
+                                  <mat-select>
+                                    <mat-option *ngFor="let food of foods" [value]="food.value">
+                                      {{food.viewValue}}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-lg-3">
+                                <button mat-raised-button>Filter</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 right-card">
+                        <div class="col-lg-12">
+                          <div class="head-pill mt-2">
+                            <div>National Average</div>
+                            <div>40</div>
+                          </div>
+                          <div class="table-right">
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th class="col-lg-9">ULB Name</th>
+                                  <th class="col-lg-1">State Rank</th>
+                                  <th class="col-lg-1">National Rank</th>
+                                  <th class="col-lg-1">Index Score</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>Aligarh</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                </tr>
+                                <tr>
+                                  <td>Aligarh</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                </tr>
+                                <tr>
+                                  <td>Aligarh</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                </tr>
+                                <tr>
+                                  <td>Aligarh</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                </tr>
+                                <tr>
+                                  <td>Aligarh</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                </tr>
+                                <tr>
+                                  <td>Aligarh</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                </tr>
+                                <tr>
+                                  <td>Aligarh</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                </tr>
+                                <tr>
+                                  <td>Aligarh</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                </tr>
+                                <tr>
+                                  <td>Aligarh</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                </tr>
+                                <tr>
+                                  <td>Aligarh</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                </tr>
+                                <tr>
+                                  <td>Aligarh</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                </tr>
+                                <tr>
+                                  <td>Aligarh</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                </tr>
+                                <tr>
+                                  <td>Aligarh</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                </tr>
+                                <tr>
+                                  <td>Aligarh</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </ng-template>
+            </mat-tab>
+            <mat-tab label="Reports">
+              <ng-template matTabContent>
+                  The Second Content
+              </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+  </div>
+</div>

@@ -5,7 +5,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CustomHttpInterceptor } from 'src/app/security/custom-http.interceptor';
-
 import { AppComponent } from './app.component';
 import { AppRouter } from './app.route';
 import { AuthService } from './auth/auth.service';

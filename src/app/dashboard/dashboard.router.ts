@@ -13,6 +13,7 @@ export const dashboardRouter: Routes = [
             { path: 'user', loadChildren: './user/user.module#UserModule', canActivate: [AuthGuard] },
             { path: 'entry', loadChildren: './data-entry/data-entry.module#DataEntryModule', canActivate: [AuthGuard] },
             { path: 'report', loadChildren: './report/report.module#ReportModule'},
+            { path: 'ranking', loadChildren: './ranking/ranking.module#RankingModule'},
             { path: 'data-tracker', component: DataTrackerComponent},
             // { path: 'test', component: TestComponent}
         ]
