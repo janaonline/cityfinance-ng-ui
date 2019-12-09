@@ -128,6 +128,9 @@ export class CommonService {
     const newObj: ULBsStatistics = {};
     ulbList.forEach(ulb => {
       // console.log(ulb.state.name, ulb.ulb.name,ulb.ulb.amrut);
+      // if(ulb.state.name == 'Andhra Pradesh' && ulb.financialYear == "2015-16"){
+      //   console.log(ulb.ulb.amrut);
+      // }
 
       if (!ulb.state._id) {
         return;
@@ -142,7 +145,7 @@ export class CommonService {
             [ulb.financialYear]: {
               total: 1,
               amrut: ulb.ulb.amrut == 'Yes' ? 1 : 0,
-              nonAmrut: ulb.ulb.amrut == 'No' ? 0 : 1,
+              nonAmrut: (ulb.ulb.amrut == 'No' || ulb.ulb.amrut == undefined) ? 1 : 0,
             }
           }
         };
@@ -153,15 +156,17 @@ export class CommonService {
         newObj[ulb.state._id].ulbsByYears[ulb.financialYear] = {
           total: 1,
           amrut: ulb.ulb.amrut == 'Yes' ? 1 : 0,
-          nonAmrut: ulb.ulb.amrut == 'No' ? 1 : 0
+          nonAmrut: (ulb.ulb.amrut == 'No' || ulb.ulb.amrut == undefined) ? 1 : 0
         }
         return;
       }
       newObj[ulb.state._id].ulbsByYears[ulb.financialYear].total +=  1;
       newObj[ulb.state._id].ulbsByYears[ulb.financialYear].amrut += (ulb.ulb.amrut == 'Yes' ? 1 : 0);
-      newObj[ulb.state._id].ulbsByYears[ulb.financialYear].nonAmrut += (ulb.ulb.amrut == 'No' ? 1 : 0);
+      newObj[ulb.state._id].ulbsByYears[ulb.financialYear].nonAmrut += ((ulb.ulb.amrut == 'No' || ulb.ulb.amrut == undefined) ? 1 : 0);
       // newObj[ulb.state._id].ulbsByYears[ulb.financialYear].push({ ...ulb });
     });
+    // console.log('newObj',newObj);
+
     return { ...newObj };
   }
 

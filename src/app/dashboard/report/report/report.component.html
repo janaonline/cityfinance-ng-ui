@@ -146,7 +146,7 @@
   </div> -->
 
   <div class="modal-header">
-    <form [formGroup]="reportForm" class="col-md-5" style="max-width: 35%;">
+    <form [formGroup]="reportForm" class="col-md-5" style="max-width: 35%;padding-left: 0;">
       <mat-slide-toggle
         style=" display: inline-block;  width: 15%;  margin-right: 3px; padding-left: 1%; min-width: fit-content;"
         (change)="reportForm.controls['isComparative'].setValue($event.checked)"
@@ -177,13 +177,13 @@
           ></i>
         </label>
       </div> -->
-      <angular2-multiselect
-        style="display: inline-block;"
-        [style.width.px]="
+      <!-- [style.width.px]="
           (reportForm?.controls)['yearList']?.value?.length
             ? reportForm.controls['yearList'].value.length * 55 + 153
             : 210
-        "
+        " -->
+      <angular2-multiselect
+        style="display: inline-block;width: 180px;"
         formControlName="yearList"
         [data]="yearLookup"
         [settings]="yearsDropdownSettings"

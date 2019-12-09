@@ -126,6 +126,7 @@ export class ReportService {
       unSelectAllText: "UnSelect All",
       enableSearchFilter: false,
       limitSelection: 4,
+      badgeShowLimit: 1,
       classes: "myclass custom-class"
     };
   }

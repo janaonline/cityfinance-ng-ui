@@ -90,3 +90,9 @@ table thead {
 ::-webkit-scrollbar-thumb:hover {
   background: #f0ad4e;
 }
+app-pre-loader {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: fit-content;
+}
