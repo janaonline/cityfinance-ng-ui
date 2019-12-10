@@ -153,7 +153,7 @@
       <form
         [formGroup]="reportForm"
         class="col-md-4"
-        style="max-width: 36%;padding: 0; display: inline-flex; align-items: center;"
+        style="max-width: fit-content;padding: 0; display: inline-flex; align-items: center; margin-right: 12px;"
       >
         <mat-slide-toggle
           style=" display: inline-block;  width: 15%;  margin-right: 3px; padding-left: 1%; min-width: fit-content;"
@@ -179,6 +179,17 @@
         >
         </angular2-multiselect>
       </form>
+
+      <angular2-multiselect
+        style="width: 18%; display: inline-block; padding-bottom: 0px;"
+        [data]="populationData"
+        [settings]="populationDropdownSettings"
+        [(ngModel)]="ulbForm.ulbPopulationFilter"
+        (onSelect)="filterUlbs('ulbPopulationFilter')"
+        (onDeSelect)="filterUlbs('ulbPopulationFilter')"
+        (onDeSelectAll)="unselectAllPopulation($event)"
+      >
+      </angular2-multiselect>
 
       <mat-form-field class="col-md-3" appearance="outline" style="width: 20%;">
         <input
@@ -206,17 +217,6 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-
-      <angular2-multiselect
-        style="width: 18%; display: inline-block; padding-bottom: 0px;"
-        [data]="populationData"
-        [settings]="populationDropdownSettings"
-        [(ngModel)]="ulbForm.ulbPopulationFilter"
-        (onSelect)="filterUlbs('ulbPopulationFilter')"
-        (onDeSelect)="filterUlbs('ulbPopulationFilter')"
-        (onDeSelectAll)="unselectAllPopulation($event)"
-      >
-      </angular2-multiselect>
 
       <button
         type="button"
@@ -318,7 +318,7 @@
 
       <div
         class="col-md-2"
-        style="max-height: 54vh; overflow: auto;padding-right: 0px;"
+        style="max-height: 54vh; overflow: auto;padding-right: 0px; max-width: 214px;"
       >
         <ul class="list-unstyled left-nav" *ngIf="ulbTypeSelected">
           <li
@@ -369,7 +369,7 @@
               <div _ngcontent-c4="" class="col-md-12">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li
-                    class="nav-item"
+                    class="nav-item aaa"
                     *ngFor="let ulb of filteredULBTypes"
                     (click)="setULBTypeOfState(ulb)"
                   >
@@ -446,7 +446,7 @@
                         | keyvalue: valueAscOrder
                     "
                     class="list-group-item level-two checkbox col-md-4"
-                    style="margin: 0px"
+                    style="margin: 0px; max-width: 300px;"
                     [id]="ulb['value']['code']"
                   >
                     <label _ngcontent-c4="">
