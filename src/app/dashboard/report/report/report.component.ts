@@ -35,7 +35,11 @@ export class ReportComponent implements OnInit {
     private reportService: ReportService,
     private router: Router,
     private _dialog: MatDialog
-  ) {}
+  ) {
+    setTimeout(() => {
+      this._loaderService.showLoader();
+    }, 500);
+  }
 
   get lf() {
     return this.reportForm.controls;
@@ -183,28 +187,23 @@ export class ReportComponent implements OnInit {
 
   getNewULBByDate(years: string[]) {
     this._loaderService.showLoader();
-    this.commonService.getULBSByYears(years).subscribe(
-      response => {
-        this.originalUlbList = response;
-        const newULBS = this.filterULBByPopFilters("");
-        this.ulbs = { ...newULBS };
-        if (!this.currentStateInView) {
-          const firstStateKey = Object.keys(
-            this.originalUlbList.data
-          ).sort()[0];
-          const firstState = this.originalUlbList.data[firstStateKey];
-          this.currentStateInView = {
-            key: firstStateKey,
-            value: { ...firstState }
-          };
-        }
+    this.commonService.getULBSByYears(years).subscribe(response => {
+      this.originalUlbList = response;
+      const newULBS = this.filterULBByPopFilters("");
+      this.ulbs = { ...newULBS };
+      if (!this.currentStateInView) {
+        const firstStateKey = Object.keys(this.originalUlbList.data).sort()[0];
+        const firstState = this.originalUlbList.data[firstStateKey];
+        this.currentStateInView = {
+          key: firstStateKey,
+          value: { ...firstState }
+        };
+      }
 
-        this.showState({ ...this.currentStateInView });
-        console.log("asddsa");
-        this._loaderService.stopLoader();
-      },
-      () => this._loaderService.stopLoader()
-    );
+      this.showState({ ...this.currentStateInView });
+      console.log("asddsa");
+      this._loaderService.stopLoader();
+    });
   }
 
   showAlertBoxForComparativeReport() {
@@ -475,7 +474,6 @@ export class ReportComponent implements OnInit {
     this._loaderService.showLoader();
     this.commonService.getULBSByYears().subscribe(
       (response: IULBResponse) => {
-        console.log("get leader");
         Object.values(response.data).forEach(state => {
           state.ulbs = state.ulbs.sort((a, b) => (b.name > a.name ? -1 : 0));
         });
@@ -484,8 +482,7 @@ export class ReportComponent implements OnInit {
         this.resetPopupValues();
         this._loaderService.stopLoader();
       },
-      () => {},
-      () => console.log(`completed`)
+      () => {}
     );
 
     this.listenToFormGroups();
