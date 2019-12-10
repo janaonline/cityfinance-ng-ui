@@ -200,6 +200,7 @@ export class ReportComponent implements OnInit {
         }
 
         this.showState({ ...this.currentStateInView });
+        console.log("asddsa");
         this._loaderService.stopLoader();
       },
       () => this._loaderService.stopLoader()
@@ -472,15 +473,20 @@ export class ReportComponent implements OnInit {
 
     // HERE
     this._loaderService.showLoader();
-    this.commonService.getULBSByYears().subscribe((response: IULBResponse) => {
-      Object.values(response.data).forEach(state => {
-        state.ulbs = state.ulbs.sort((a, b) => (b.name > a.name ? -1 : 0));
-      });
-      this.originalUlbList = response;
-      this.ulbs = JSON.parse(JSON.stringify(this.originalUlbList));
-      this.resetPopupValues();
-      this._loaderService.stopLoader();
-    });
+    this.commonService.getULBSByYears().subscribe(
+      (response: IULBResponse) => {
+        console.log("get leader");
+        Object.values(response.data).forEach(state => {
+          state.ulbs = state.ulbs.sort((a, b) => (b.name > a.name ? -1 : 0));
+        });
+        this.originalUlbList = response;
+        this.ulbs = JSON.parse(JSON.stringify(this.originalUlbList));
+        this.resetPopupValues();
+        this._loaderService.stopLoader();
+      },
+      () => {},
+      () => console.log(`completed`)
+    );
 
     this.listenToFormGroups();
   }

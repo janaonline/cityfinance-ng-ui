@@ -221,7 +221,8 @@
       <button
         type="button"
         style="margin-left: 1%;"
-        class="close1  btn btn-primary"
+        class="close1  btn"
+        style="background: #f0ad4e;"
         (click)="
           resetPopupValues() ||
             reportForm.controls['isComparative'].setValue(null)
@@ -324,7 +325,11 @@
           <li
             *ngFor="let state of ulbs.data | keyvalue"
             [ngClass]="{
-              stateULBSelected: getTotalULBSelectedBy(state.key),
+              stateULBSelected:
+                (ulbTypeSelected === 'other' &&
+                  getTotalULBSelectedBy(state.key)) ||
+                (ulbTypeSelected === 'base' &&
+                  baseULBSelected?.state === state?.value?.state),
               activeState: currentStateInView?.key === state?.key
             }"
           >
