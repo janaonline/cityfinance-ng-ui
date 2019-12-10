@@ -1,8 +1,8 @@
 <div class="" style="margin-top: 5.2%">
   <div class="col-12">
     <div class="tab">
-        <mat-tab-group animationDuration="100ms" [mat-align-tabs]="center" dynamicHeight="true">
-            <mat-tab label="State Level Ranking">
+        <mat-tab-group animationDuration="100ms" [mat-align-tabs]="center" dynamicHeight="true" (selectedTabChange)="onTabChanged($event);">
+            <mat-tab label="ULB Ranking">
               <ng-template matTabContent>
                   <div class="filters">
                     <div class="">
@@ -43,6 +43,14 @@
                               </div>
                             </div>
                           </div>
+                          <div class="col-lg-12">
+                            <div style="text-align: center;padding: 2%;">
+                              <span class="chart-head"> <div class="square"></div> &nbsp; Municipal Corporation &nbsp; <div class="circle"></div> &nbsp; Muncipality &nbsp;<div class="triangle-up"></div>&nbsp; Town Panchayat</span>
+                            </div>
+                            <div class="chart-container">
+                              <canvas id="canvas"></canvas> 
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div class="col-lg-4 right-card">
@@ -52,7 +60,7 @@
                             <div>40</div>
                           </div>
                           <div class="table-right">
-                            <table class="table">
+                            <table class="table" id="ranking-table">
                               <thead>
                                 <tr>
                                   <th class="col-lg-9">ULB Name</th>
@@ -155,9 +163,221 @@
                   </div>
               </ng-template>
             </mat-tab>
-            <mat-tab label="Reports">
+            <mat-tab label="ULB Wise Score Report">
               <ng-template matTabContent>
-                  The Second Content
+                  <div class="filters">
+                    <div class="">
+                      <!-- filters -->
+                      <div class="col-lg-12 mt-2">
+                        <div class="filters">
+                          <div class="col-lg-2">
+                            <mat-form-field>
+                              <mat-label>State</mat-label>
+                              <mat-select [formControl]="toppings" multiple>
+                                <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-lg-2">
+                            <mat-form-field>
+                              <mat-label>ULB Type</mat-label>
+                              <mat-select>
+                                <mat-option *ngFor="let food of foods" [value]="food.value">
+                                  {{food.viewValue}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-lg-2">
+                            <mat-form-field>
+                              <mat-label>ULB</mat-label>
+                              <mat-select>
+                                <mat-option *ngFor="let food of foods" [value]="food.value">
+                                  {{food.viewValue}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-lg-2">
+                            <mat-form-field>
+                              <mat-label>Year</mat-label>
+                              <mat-select [formControl]="toppings" multiple>
+                                <mat-option value="2015-16">2015-16</mat-option>
+                                <mat-option value="2016-17">2016-17</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-lg-2">
+                            <mat-form-field>
+                              <mat-label>Financial Parameter</mat-label>
+                              <mat-select>
+                                <mat-option *ngFor="let food of foods" [value]="food.value">
+                                  {{food.viewValue}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-lg-1">
+                            <button mat-raised-button style="color: black;">Filter</button>
+                          </div>
+                          <div class="col-lg-1">
+                            <button mat-raised-button style="float: right;background-color:#333333;">Download</button>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- table -->
+                      <div class="col-lg-12">
+                        <div class="tableWrapper">
+                          <table class="table table-striped" id="report-table">
+                            <thead>
+                              <tr>
+                                <th style="width: 2% ;" rowspan="2">S. NO</th>
+                                <th style="width: 8%;" rowspan="2">Ratios</th>
+                                <th style="width: 30%;" colspan="6">2016-17</th>
+                                <th style="width: 30%;" colspan="6">2017-18</th>
+                                <th style="width: 30%;" colspan="6">2018-19</th>
+                              </tr>
+                              <tr>
+                                <th>Ratio (%)</th>
+                                <th>National Avg. (%)</th>
+                                <th>Score</th>
+                                <th>National Avg.</th>
+                                <th>National Rank</th>
+                                <th>State Rank</th>
+                                <th>Ratio (%)</th>
+                                <th>National Avg. (%)</th>
+                                <th>Score</th>
+                                <th>National Avg.</th>
+                                <th>National Rank</th>
+                                <th>State Rank</th>
+                                <th>Ratio (%)</th>
+                                <th>National Avg. (%)</th>
+                                <th>Score</th>
+                                <th>National Avg.</th>
+                                <th>National Rank</th>
+                                <th>State Rank</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>1</td>
+                                <td>Ratio 1</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                              </tr>
+                              <tr>
+                                <td>2</td>
+                                <td>Ratio 2</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                              </tr>
+                              <tr>
+                                <td>3</td>
+                                <td>Ratio 3</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                              </tr>
+                              <tr>
+                                <td>4</td>
+                                <td>Ratio 4</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                              </tr>
+                              <tr>
+                                <td>5</td>
+                                <td>Ratio 5</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>25%</td>
+                                <td>14%</td>
+                                <td>4900</td>
+                                <td>5000</td>
+                                <td>14</td>
+                                <td>14</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <div class="mt-2">
+                              <button mat-raised-button style="color: black;">Calculation Logic</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
               </ng-template>
             </mat-tab>
         </mat-tab-group>

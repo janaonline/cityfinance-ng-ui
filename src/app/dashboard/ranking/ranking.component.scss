@@ -1,10 +1,5 @@
-.mat-tab-labels{
-    background: #333333;
-    justify-content: center;
-}
-
 .mat-tab-label{
-    color: white;
+    color: #333333;
     opacity: 1 !important;
     height: 35px !important;
 }
@@ -15,6 +10,9 @@
 
 .mat-tab-label-active{
     background: #ffc500;
+    color: white;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .mat-button, .mat-raised-button{
@@ -23,7 +21,7 @@
 } 
 
 .mat-form-field-flex{
-    border: 1px solid #333;
+    border: 1px solid rgb(71, 69, 69);
     padding: 3px 5px;
     border-radius: 2px;
 }
@@ -60,9 +58,10 @@
     box-shadow: -4px 0px 6px 1px #0000001c;
 }
 
-.table{
+#ranking-table{
     border-collapse:separate; 
     border-spacing:0 10px; 
+    padding: 0px 8px;
 }
 
 
@@ -72,15 +71,15 @@
     overflow-y: scroll;
 }
 
-.table>thead>tr>th{
+#ranking-table>thead>tr>th{
     border:none !important;
 }
 
-.table > tbody > tr > td{
+#ranking-table > tbody > tr > td{
     border:none !important;
 }
 
-.table > tbody > tr{
+#ranking-table > tbody > tr{
     border: none !important;
     background: #f4ffef;
     color: green;
@@ -89,10 +88,61 @@
     border-radius: 5px;
 }
 
-tr{
-    // display:block;
+#report-table > thead{
+    background: #333333;
+    border-radius: 5px !important;
+    overflow: hidden;
+    color: white;
 }
 
+#report-table{
+    border-radius: 5px !important;
+    box-shadow: 0px 1px 4px 1px #0000001c;
+    overflow: hidden;
+}
+
+#report-table>thead>tr>th{
+    border:none !important;
+    text-align: center !important;
+}
+
+#report-table > tbody > tr > td{
+    border:none !important;
+    text-align: center !important;
+    border-left: 1px solid #ddd !important;
+    border-right: 1px solid #ddd !important;
+}
+
+.chart-head{
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 6px;
+    border-radius: 5px;
+    display: inline-flex;
+    color: #797474;
+}
+
+//shapes css
+.square {
+    height: 18px;
+    width: 18px;
+    background-color: #555;
+}
+
+.triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 18px solid #555;
+}
+
+.circle {
+    height: 20px;
+    width: 20px;
+    background-color: #555;
+    border-radius: 50%;
+}
 
 // Scroll Bar UI Starts here
 
