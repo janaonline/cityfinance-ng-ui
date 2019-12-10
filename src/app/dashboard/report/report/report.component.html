@@ -145,8 +145,12 @@
     </button>
   </div> -->
 
-  <div class="modal-header">
-    <form [formGroup]="reportForm" class="col-md-5" style="max-width: 35%;padding-left: 0;">
+  <div class="modal-header col-md-12">
+    <form
+      [formGroup]="reportForm"
+      class="col-md-4"
+      style="max-width: 32%;padding-left: 0;"
+    >
       <mat-slide-toggle
         style=" display: inline-block;  width: 15%;  margin-right: 3px; padding-left: 1%; min-width: fit-content;"
         (change)="reportForm.controls['isComparative'].setValue($event.checked)"
@@ -183,7 +187,7 @@
             : 210
         " -->
       <angular2-multiselect
-        style="display: inline-block;width: 180px;"
+        style="display: inline-block;width: 180px; margin-left: 2%;"
         formControlName="yearList"
         [data]="yearLookup"
         [settings]="yearsDropdownSettings"
@@ -447,7 +451,7 @@
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li
                     class="nav-item"
-                    *ngFor="let ulb of ULBTYPES"
+                    *ngFor="let ulb of filteredULBTypes"
                     (click)="setULBTypeOfState(ulb)"
                   >
                     <a
@@ -456,6 +460,7 @@
                       role="tab"
                       aria-controls="home"
                       aria-selected="true"
+                      [id]="ulb.type"
                       [ngClass]="{
                         ulbTabActive:
                           ulbTypeInView && ulbTypeInView.type === ulb.type,
@@ -570,7 +575,7 @@
                           selectedBaseULB(ulb.value, currentStateInView.key)
                         "
                       />
-                      {{ ulb.value.name }}
+                      {{ ulb.value.name }} {{ ulb.value.code }}
                       <span
                         *ngIf="
                           baseULBSelected &&
