@@ -1,0 +1,158 @@
+[
+    {
+      "_id" : "1",
+      "name":"ULB 1",
+      "population":"500",
+      "ulbType": "1",
+      "color": "red",
+      "backColor": "#fff1f1",
+      "state":{
+        "_id":"s1",
+        "name":"Andhra Pradesh",
+        "code":"AP"
+      },
+      "financialParameters":[
+        {
+          "type": "A",
+          "nationalRank":"1",
+          "stateRank":"1",
+          "indexScore":"20"
+        },
+        {
+          "type": "B",
+          "nationalRank":"1",
+          "stateRank":"2",
+          "indexScore":"22"
+        },
+        {
+          "type": "C",
+          "nationalRank":"1",
+          "stateRank":"1",
+          "indexScore":"45"
+        },
+        {
+          "type": "Overall",
+          "nationalRank":"2",
+          "stateRank":"1",
+          "indexScore":"40"
+        }
+      ]
+    },
+    {
+      "_id" : "2",
+      "name":"ULB 2",
+      "population":"1500",
+      "ulbType": "2",
+      "color": "blue",
+      "backColor": "#e9e9ff",
+      "state":{
+        "_id":"s2",
+        "name":"Haryana",
+        "code":"HR"
+      },
+      "financialParameters":[
+        {
+          "type": "A",
+          "nationalRank":"2",
+          "stateRank":"3",
+          "indexScore":"41"
+        },
+        {
+          "type": "B",
+          "nationalRank":"3",
+          "stateRank":"2",
+          "indexScore":"11"
+        },
+        {
+          "type": "C",
+          "nationalRank":"2",
+          "stateRank":"4",
+          "indexScore":"27"
+        },
+        {
+          "type": "Overall",
+          "nationalRank":"1",
+          "stateRank":"3",
+          "indexScore":"44"
+        }
+      ]
+    },
+    {
+      "_id" : "3",
+      "name":"ULB 3",
+      "population":"2500",
+      "ulbType": "3",
+      "color": "green",
+      "backColor": "#f4ffef",
+      "state":{
+        "_id":"s3",
+        "name":"Gujarat",
+        "code":"GJ"
+      },
+      "financialParameters":[
+        {
+          "type": "A",
+          "nationalRank":"5",
+          "stateRank":"4",
+          "indexScore":"77"
+        },
+        {
+          "type": "B",
+          "nationalRank":"4",
+          "stateRank":"5",
+          "indexScore":"57"
+        },
+        {
+          "type": "C",
+          "nationalRank":"4",
+          "stateRank":"4",
+          "indexScore":"66"
+        },
+        {
+          "type": "Overall",
+          "nationalRank":"5",
+          "stateRank":"5",
+          "indexScore":"89"
+        }
+      ]
+    },
+    {
+      "_id" : "4",
+      "name":"ULB 4",
+      "population":"700",
+      "ulbType": "1",
+      "color": "red",
+      "backColor": "#fff1f1",
+      "state":{
+        "_id":"s1",
+        "name":"Goa",
+        "code":"GO"
+      },
+      "financialParameters":[
+        {
+          "type": "A",
+          "nationalRank":"1",
+          "stateRank":"1",
+          "indexScore":"20"
+        },
+        {
+          "type": "B",
+          "nationalRank":"1",
+          "stateRank":"2",
+          "indexScore":"22"
+        },
+        {
+          "type": "C",
+          "nationalRank":"1",
+          "stateRank":"1",
+          "indexScore":"45"
+        },
+        {
+          "type": "Overall",
+          "nationalRank":"2",
+          "stateRank":"1",
+          "indexScore":"60"
+        }
+      ]
+    } 
+  ]

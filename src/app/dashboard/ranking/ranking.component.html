@@ -50,6 +50,14 @@
                             <div class="chart-container">
                               <canvas id="canvas"></canvas> 
                             </div>
+                            <div class="state-pills">
+                              <div *ngFor="let state of statesPill" style="display: inline-flex;">
+                                <div class="square" [style.background-color]="state.color" [style.cursor]="'pointer'" (click)="toggleChartData(state.id)"></div> &nbsp;
+                                <div [ngStyle]="{'text-decoration': !state.status ? 'line-through' : 'none'}">
+                                  {{state.name}}
+                                </div>&nbsp;
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -70,89 +78,11 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr>
-                                  <td>Aligarh</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>1</td>
-                                </tr>
-                                <tr>
-                                  <td>Aligarh</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>1</td>
-                                </tr>
-                                <tr>
-                                  <td>Aligarh</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>1</td>
-                                </tr>
-                                <tr>
-                                  <td>Aligarh</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>1</td>
-                                </tr>
-                                <tr>
-                                  <td>Aligarh</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>1</td>
-                                </tr>
-                                <tr>
-                                  <td>Aligarh</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>1</td>
-                                </tr>
-                                <tr>
-                                  <td>Aligarh</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>1</td>
-                                </tr>
-                                <tr>
-                                  <td>Aligarh</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>1</td>
-                                </tr>
-                                <tr>
-                                  <td>Aligarh</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>1</td>
-                                </tr>
-                                <tr>
-                                  <td>Aligarh</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>1</td>
-                                </tr>
-                                <tr>
-                                  <td>Aligarh</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>1</td>
-                                </tr>
-                                <tr>
-                                  <td>Aligarh</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>1</td>
-                                </tr>
-                                <tr>
-                                  <td>Aligarh</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>1</td>
-                                </tr>
-                                <tr>
-                                  <td>Aligarh</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>1</td>
+                                <tr [style.background]="row.backColor" [style.color]="row.color" *ngFor="let row of rankTableData">
+                                  <td>{{row?.ulbName}}</td>
+                                  <td>{{row?.stateRank}}</td>
+                                  <td>{{row?.nationalRank}}</td>
+                                  <td>{{row?.indexScore}}</td>
                                 </tr>
                               </tbody>
                             </table>

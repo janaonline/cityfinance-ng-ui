@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { Chart } from 'chart.js';
+import jsonData from '../../../assets/files/data.json';
+
 export interface Food {
   value: string;
   viewValue: string;
 }
-
-declare var $:any;
 
 @Component({
   selector: 'app-ranking',
@@ -22,15 +22,38 @@ export class RankingComponent implements OnInit {
     {value: 'tacos-2', viewValue: 'Tacos'}
   ];
 
+  statesPill:any = [
+    { name: 'Andhra Pradesh', id: '1', color: 'red', status: true },
+    { name: 'Haryana', id: '2', color: 'blue', status: true },
+    { name: 'Gujarat', id: '3', color: 'green', status: true },
+    { name: 'Rajasthan', id: '4', color: 'yellow', status: true }
+  ];
+  
   toppings = new FormControl();
   toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+
+  mainData:any = jsonData;
+
+  chartDataset:any = null;
+
+  rankTableData:any = null;
+
+  filters:any = {
+    population: [
+      // { label: '1 to 1000', min: 1, max: 1000 },
+      // { label: '1001 to 2000', min: 1001, max: 2000 },
+      // { label: '2001 to 3000', min: 2001, max: 3000 },
+      { label: 'All', min: 1, max: 3000 }
+    ],
+    finance: ['Overall'],
+    state: ''
+  };
 
   constructor() { }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.plotScatterChart();
-    }, 200);
+    this.rankTableDataFormat(this.filters.finance, 'nationalRank', this.filters.state, this.filters.population);
+    this.chartDataFormat();
   }
 
   onTabChanged($event){
@@ -41,206 +64,121 @@ export class RankingComponent implements OnInit {
     }
   }
 
+  toggleChartData(id){
+    let index = this.statesPill.findIndex(item => item.id == id);
+    
+    let status = this.statesPill[index].status;
+
+    if(status){
+      this.statesPill[index].status = false;
+    }else{
+      this.statesPill[index].status = true;
+    }
+
+  }
+
+  rankTableDataFormat(financialType, sortBy, stateId, population){
+
+    let tableData = this.mainData.slice();
+
+    //sort by state filter
+    if(stateId){
+      tableData = tableData.filter(row => row.state._id == stateId);
+    }
+
+    //sort by type
+    if(financialType.length){
+      tableData = this.filterByFinancialTransparency(financialType, tableData);
+    }
+
+    if(population.length){
+      tableData = this.filterByOverall(population, tableData);
+      // console.log(tableData);
+    }
+
+    //sort by table column
+    if(sortBy){
+      tableData = tableData.sort((a,b) => (a[sortBy] > b[sortBy]) ? 1 : ((b[sortBy] > a[sortBy]) ? -1 : 0));
+    }
+
+    this.rankTableData = tableData;
+  }
+
+  chartDataFormat(stateId = ''){
+    let chartData = this.mainData.slice();
+
+    //sort by state filter
+    if(stateId){
+      chartData = chartData.filter(row => row.state._id == stateId);
+    }
+
+    chartData = this.filterByOverall(this.filters.population, chartData);
+    // console.log(result);
+
+    chartData = this.filterByFinancialTransparency([...this.filters.finance], chartData);
+
+    console.log(chartData);
+
+    let data = [];
+
+    //chart labels for shapes
+    // 1 -> Municipal Corporation
+    // 2 -> Muncipality  
+    // 3 -> Town Panchayat
+
+    ['1','2','3'].forEach(type => {
+      let filteredData = chartData.filter(item => item.ulbType == type).map(val => {
+        return { x : val.population, y : val.indexScore };
+      });
+
+      switch (type) {
+        case '1':
+          data.push({ label: 'Municipal Corporation', data: filteredData });
+          break;
+        case '2':
+          data.push({ label: 'Muncipality', data: filteredData });
+          break;
+        case '3':
+          data.push({ label: 'Town Panchayat', data: filteredData });
+          break;
+        default:
+          break;
+      }
+    });
+
+    this.chartDataset = data;
+    setTimeout(() => {
+      this.plotScatterChart();
+    }, 200);
+  }
+
   plotScatterChart(){
     let color = Chart.helpers.color;
 	  let scatterChartData = {
       datasets: [
         {
           borderColor: 'red',
+          pointStyle:'rect',
           backgroundColor: color('red').alpha(0.5).rgbString(),
-          label: 'Andhra Pradesh',
-          pointRadius: 3,
-          data: [
-          {
-            x: 1,
-            y: 3,
-          }, {
-            x: 1.26,
-            y: 10,
-          }, {
-            x: 1.58,
-            y: 100,
-          }, {
-            x: 2.0,
-            y: 20,
-          }, {
-            x: 2.51,
-            y: 99,
-          }, {
-            x: 3.16,
-            y: 20,
-          }, {
-            x: 3.98,
-            y: 13,
-          }, {
-            x: 5.01,
-            y: 40,
-          }, {
-            x: 6.31,
-            y: 90,
-          }, {
-            x: 7.94,
-            y: 22,
-          }, {
-            x: 10.00,
-            y: 56,
-          }, {
-            x: 12.6,
-            y: 78,
-          }, {
-            x: 15.8,
-            y: 40,
-          }, {
-            x: 20.0,
-            y: 20,
-          }, {
-            x: 25.1,
-            y: 27,
-          }, {
-            x: 31.6,
-            y: 3,
-          }, {
-            x: 39.8,
-            y: 17,
-          }, {
-            x: 50.1,
-            y: 41,
-          }, {
-            x: 63.1,
-            y: 37,
-          }, {
-            x: 79.4,
-            y: 33,
-          }, {
-            x: 100.00,
-            y: 100,
-          }, {
-            x: 126,
-            y: 60,
-          }, {
-            x: 158,
-            y: 67,
-          }, {
-            x: 200,
-            y: 87,
-          }, {
-            x: 251,
-            y: 99,
-          }, {
-            x: 316,
-            y: 36,
-          }, {
-            x: 398,
-            y: 48,
-          }, {
-            x: 501,
-            y: 22,
-          }, {
-            x: 631,
-            y: 69,
-          }, {
-            x: 794,
-            y: 120,
-          }]
+          label: 'Municipal Corporation',
+          pointRadius: 6,
+          data: this.chartDataset[0].data
         },
         {
           borderColor: 'green',
           backgroundColor: color('green').alpha(0.5).rgbString(),
-          pointStyle:'rect',
+          pointStyle:'circle',
           pointRadius: 6,
-          label: 'Haryana',
-          data: [
-          {
-            x: 23,
-            y: 3,
-          }, {
-            x: 234,
-            y: 10,
-          }, {
-            x: 121,
-            y: 100,
-          }, {
-            x: 21,
-            y: 20,
-          }, {
-            x: 33,
-            y: 99,
-          }, {
-            x: 11,
-            y: 20,
-          }, {
-            x: 56,
-            y: 13,
-          }, {
-            x: 89,
-            y: 40,
-          }, {
-            x: 13,
-            y: 90,
-          }, {
-            x: 81,
-            y: 22,
-          }, {
-            x: 132,
-            y: 56,
-          }, {
-            x: 77,
-            y: 78,
-          }, {
-            x: 66,
-            y: 40,
-          }, {
-            x: 77,
-            y: 20,
-          }, {
-            x: 37,
-            y: 27,
-          }, {
-            x: 70,
-            y: 3,
-          }, {
-            x: 100,
-            y: 17,
-          }, {
-            x: 23,
-            y: 41,
-          }, {
-            x: 785,
-            y: 37,
-          }, {
-            x: 794,
-            y: 33,
-          }, {
-            x: 425,
-            y: 100,
-          }, {
-            x: 785,
-            y: 60,
-          }, {
-            x: 332,
-            y: 67,
-          }, {
-            x: 85,
-            y: 87,
-          }, {
-            x: 452,
-            y: 99,
-          }, {
-            x: 132,
-            y: 36,
-          }, {
-            x: 562,
-            y: 48,
-          }, {
-            x: 881,
-            y: 22,
-          }, {
-            x: 240,
-            y: 69,
-          }, {
-            x: 330,
-            y: 120,
-          }]
+          label: 'Town Panchayat',
+          data: this.chartDataset[1].data
+        },
+        {
+          borderColor: 'blue',
+          backgroundColor: color('green').alpha(0.5).rgbString(),
+          pointStyle:'triangle',
+          pointRadius: 6,
+          label: 'Town Panchayat',
+          data: this.chartDataset[2].data
         }
       ]
     };
@@ -248,7 +186,7 @@ export class RankingComponent implements OnInit {
     var canvas:any = document.getElementById('canvas');
     var ctx = canvas.getContext("2d");
     
-		new Chart(ctx, {
+		var chartScatter = new Chart(ctx, {
       type: 'scatter',
 			data: scatterChartData,
 			options: {
@@ -257,7 +195,7 @@ export class RankingComponent implements OnInit {
 					text: 'Chart.js Scatter Chart'
         },
         legend:{
-          display: true,
+          display: false,
           position: 'bottom',
           align: 'center'
         },
@@ -289,7 +227,46 @@ export class RankingComponent implements OnInit {
 					}]
 				}
 			}
-		});
+    });
+    
+    console.log(chartScatter.data);
   }
+
+  // common functions
+
+  //check range between
+  between(x, min, max) {
+    return x >= min && x <= max;
+  }
+
+  filterByFinancialTransparency(keys:any = [], dataInput:any = []){
+    let filteredData = [];
+
+    for(let i = 0; i < keys.length; i++){
+      let values = dataInput.map(row => {
+        let data = row['financialParameters'].find(x => x.type == keys[i]);
+        return {...data, ulbName: row.name, ulbType: row.ulbType, color: row.color, backColor: row.backColor, population: row.population, _id: row._id};
+      });
+      filteredData.push(...values);
+    }
+    return filteredData;
+  }
+
+  filterByOverall(keys:any = [], dataInput:any = []){
+    let filteredData = [];
+
+    for(let i = 0; i < keys.length; i++){
+      let values = dataInput.map(row => {
+        if(this.between(row.population, keys[i].min, keys[i].max)){
+          return row;
+        }
+        return;
+      }).filter(item => item);
+      filteredData.push(...values);
+    }
+    return filteredData;
+  }
+
+
 
 }
