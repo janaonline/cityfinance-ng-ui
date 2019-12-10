@@ -145,76 +145,42 @@
     </button>
   </div> -->
 
-  <div class="modal-header col-md-12">
-    <form
-      [formGroup]="reportForm"
-      class="col-md-4"
-      style="max-width: 32%;padding-left: 0;"
+  <div>
+    <div
+      class="modal-header col-md-12"
+      style="display: inline-flex; align-items: center;"
     >
-      <mat-slide-toggle
-        style=" display: inline-block;  width: 15%;  margin-right: 3px; padding-left: 1%; min-width: fit-content;"
-        (change)="reportForm.controls['isComparative'].setValue($event.checked)"
-        >Comparison Report</mat-slide-toggle
+      <form
+        [formGroup]="reportForm"
+        class="col-md-4"
+        style="max-width: 36%;padding: 0; display: inline-flex; align-items: center;"
       >
-      <i
-        class="fa fa-info-circle"
-        aria-hidden="true"
-        style="margin-right: 10px; margin-left: 0px; transform: translateY(-13%);"
-        title=" Placeholder"
-      ></i>
-      <!-- <div
-        class="checkbox"
-        style=" display: inline-block;  width: 15%;  margin-right: 11px; padding-left: 1%; min-width: fit-content;"
-      >
-        <label
-          ><input
-            type="checkbox"
-            name="isComparative"
-            formControlName="isComparative"
-          />
-          Comparison Report
-          <i
-            class="fa fa-info-circle"
-            aria-hidden="true"
-            style="margin-left: 2px"
-            title=" Placeholder"
-          ></i>
-        </label>
-      </div> -->
-      <!-- [style.width.px]="
-          (reportForm?.controls)['yearList']?.value?.length
-            ? reportForm.controls['yearList'].value.length * 55 + 153
-            : 210
-        " -->
-      <angular2-multiselect
-        style="display: inline-block;width: 180px; margin-left: 2%;"
-        formControlName="yearList"
-        [data]="yearLookup"
-        [settings]="yearsDropdownSettings"
-        (onClose)="onDateSelectionClose($event)"
-        (onDeSelectAll)="resetPopupValues() || (ulbTypeSelected = 'other')"
-      >
-      </angular2-multiselect>
-    </form>
+        <mat-slide-toggle
+          style=" display: inline-block;  width: 15%;  margin-right: 3px; padding-left: 1%; min-width: fit-content;"
+          (change)="
+            reportForm.controls['isComparative'].setValue($event.checked)
+          "
+          >Comparison Report</mat-slide-toggle
+        >
+        <i
+          class="fa fa-info-circle"
+          aria-hidden="true"
+          style="margin-right: 10px; margin-left: 0px; transform: translateY(-13%);"
+          title=" Placeholder"
+        ></i>
 
-    <div class="col-md-6" style="height: fit-content; padding-left: 0px;">
-      <div class="col-md-3" style="width: 237px; padding-left: 1%;">
         <angular2-multiselect
-          [data]="populationData"
-          [settings]="populationDropdownSettings"
-          [(ngModel)]="ulbForm.ulbPopulationFilter"
-          (onSelect)="filterUlbs('ulbPopulationFilter')"
-          (onDeSelect)="filterUlbs('ulbPopulationFilter')"
-          (onDeSelectAll)="unselectAllPopulation($event)"
+          style="display: inline-block;width: 208px; margin-left: 2%;"
+          formControlName="yearList"
+          [data]="yearLookup"
+          [settings]="yearsDropdownSettings"
+          (onClose)="onDateSelectionClose($event)"
+          (onDeSelectAll)="resetPopupValues() || (ulbTypeSelected = 'other')"
         >
         </angular2-multiselect>
-      </div>
+      </form>
 
-      <mat-form-field
-        class="col-md-3"
-        appearance="outline"
-        style="width: 237px;"
-      >
+      <mat-form-field class="col-md-3" appearance="outline" style="width: 20%;">
         <input
           type="text"
           placeholder="Search ULB"
@@ -241,8 +207,20 @@
         </mat-autocomplete>
       </mat-form-field>
 
+      <angular2-multiselect
+        style="width: 18%; display: inline-block; padding-bottom: 0px;"
+        [data]="populationData"
+        [settings]="populationDropdownSettings"
+        [(ngModel)]="ulbForm.ulbPopulationFilter"
+        (onSelect)="filterUlbs('ulbPopulationFilter')"
+        (onDeSelect)="filterUlbs('ulbPopulationFilter')"
+        (onDeSelectAll)="unselectAllPopulation($event)"
+      >
+      </angular2-multiselect>
+
       <button
         type="button"
+        style="margin-left: 1%;"
         class="close1  btn btn-primary"
         (click)="
           resetPopupValues() ||
@@ -251,78 +229,19 @@
       >
         Clear All
       </button>
-    </div>
 
-    <button
-      class="btn btn-primary float-right"
-      style="float: right;"
-      (click)="search()"
-    >
-      Generate Report
-      <span *ngIf="reportForm.controls['ulbList'].value.length">
-        with {{ reportForm.controls["ulbList"].value.length }} ULBs
-      </span>
-    </button>
-
-    <!-- <button
-      type="button"
-      class="close1 pull-right btn btn-primary"
-      aria-label="Close"
-      (click)="modalRef.hide()"
-    >
-      <span *ngIf="selectedUlbs?.length"
-        >Proceed with {{ selectedUlbs?.length }} ULBs</span
+      <button
+        class="btn btn-primary"
+        style=" position: absolute; right: 5px;"
+        (click)="search()"
       >
-      <span *ngIf="!selectedUlbs?.length">Close</span>
-    </button> -->
-  </div>
-
-  <!-- <form [formGroup]="reportForm" class="col-md-12 mt-1">
-    <div
-      class="checkbox"
-      style=" display: inline-block;  width: 15%;  margin-right: 11px; padding-left: 1%; min-width: fit-content;"
-    >
-      <label
-        ><input
-          type="checkbox"
-          name="isComparative"
-          formControlName="isComparative"
-        />
-        Comparison Report
-        <i
-          class="fa fa-info-circle"
-          aria-hidden="true"
-          style="margin-left: 2px"
-          title=" Placeholder"
-        ></i>
-      </label>
+        Generate Report
+        <span *ngIf="reportForm.controls['ulbList'].value.length">
+          with {{ reportForm.controls["ulbList"].value.length }} ULBs
+        </span>
+      </button>
     </div>
-    <angular2-multiselect
-      style="display: inline-block;margin-top: 5px;"
-      [style.width.px]="
-        (reportForm?.controls)['yearList']?.value?.length
-          ? reportForm.controls['yearList'].value.length * 55 + 153
-          : 210
-      "
-      formControlName="yearList"
-      [data]="yearLookup"
-      [settings]="yearsDropdownSettings"
-      (onClose)="onDateSelectionClose($event)"
-      (onDeSelectAll)="resetPopupValues() || (ulbTypeSelected = 'other')"
-    >
-    </angular2-multiselect>
-    <button
-      style="float: right;margin-top: 5px;"
-      type="button"
-      class="close1  btn btn-primary"
-      (click)="
-        resetPopupValues() ||
-          reportForm.controls['isComparative'].setValue(null)
-      "
-    >
-      Clear All
-    </button>
-  </form> -->
+  </div>
 
   <div class="modal-body">
     <div class="row">

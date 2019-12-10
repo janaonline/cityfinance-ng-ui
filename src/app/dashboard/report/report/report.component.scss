@@ -147,3 +147,10 @@ a.inactive-tab:hover {
 ::-webkit-scrollbar-thumb:hover {
   background: #f0ad4e;
 }
+
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0px;
+}
+::ng-deep .modal .modal-header {
+  padding-bottom: 15px;
+}
