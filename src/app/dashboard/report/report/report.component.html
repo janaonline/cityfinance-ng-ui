@@ -339,9 +339,7 @@
                 class="ng-untouched ng-pristine ng-valid"
                 [checked]="getTotalULBSelectedBy(state.key)"
                 [disabled]="!getTotalULBSelectedBy(state?.key)"
-                (click)="
-                  removeAllSelectedULB(currentStateInView.key, null, stateClear)
-                "
+                (click)="removeAllSelectedULB(state.key, null, stateClear)"
               />
               {{ state.value.state }}
               <span
