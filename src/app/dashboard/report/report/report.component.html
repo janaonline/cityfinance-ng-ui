@@ -156,10 +156,8 @@
         style="max-width: fit-content;padding: 0; display: inline-flex; align-items: center; margin-right: 12px;"
       >
         <mat-slide-toggle
+          formControlName="isComparative"
           style=" display: inline-block;  width: 15%;  margin-right: 3px; padding-left: 1%; min-width: fit-content;"
-          (change)="
-            reportForm.controls['isComparative'].setValue($event.checked)
-          "
           >Comparison Report</mat-slide-toggle
         >
         <i
@@ -223,10 +221,7 @@
         style="margin-left: 1%;"
         class="close1  btn"
         style="background: #f0ad4e;"
-        (click)="
-          resetPopupValues() ||
-            reportForm.controls['isComparative'].setValue(null)
-        "
+        (click)="resetPopupValues()"
       >
         Clear All
       </button>

@@ -153,6 +153,18 @@ export class ReportComponent implements OnInit {
           this.showAlertBoxForComparativeReport();
         }
         this.clearPopupValues();
+        this.selectedUlbs = null;
+        this.StateULBTypeMapping = {};
+        this.baseULBSelected = null;
+        this.ulbForm = {
+          ulbFilter: "",
+          ulbPopulationFilter: [],
+          ulbTypeFilter: []
+        };
+        this.searchByNameControl.setValue("");
+        this.baseULBSelected = null;
+        this.currentStateInView = null;
+        this.setULBTypeOfState(null);
         // this.setPopupDefaultValues();
         this.setULBType(
           isComparative ? null : "other",
@@ -396,6 +408,7 @@ export class ReportComponent implements OnInit {
   }
 
   setPopupDefaultValues() {
+    this.reportForm.controls["isComparative"].setValue(false);
     if (
       this.originalUlbList.data &&
       Object.keys(this.originalUlbList.data).length
@@ -655,6 +668,7 @@ export class ReportComponent implements OnInit {
     }
 
     this.modalRef.hide();
+    this._loaderService.showLoader();
 
     if (
       this.reportForm.value.ulbList.length == 1 &&
