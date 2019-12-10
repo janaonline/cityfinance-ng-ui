@@ -320,7 +320,7 @@
         class="col-md-2"
         style="max-height: 54vh; overflow: auto;padding-right: 0px; max-width: 214px;"
       >
-        <ul class="list-unstyled left-nav" *ngIf="ulbTypeSelected">
+        <ul class="list-unstyled left-nav">
           <li
             *ngFor="let state of ulbs.data | keyvalue"
             [ngClass]="{
@@ -383,12 +383,11 @@
                       [ngClass]="{
                         ulbTabActive:
                           ulbTypeInView && ulbTypeInView.type === ulb.type,
-                        stateULBSelected: getTotalULBSelectedBy(
-                          currentStateInView.key,
-                          {
+                        stateULBSelected:
+                          ulbTypeSelected === 'other' &&
+                          getTotalULBSelectedBy(currentStateInView.key, {
                             type: ulb.type
-                          }
-                        )
+                          })
                       }"
                     >
                       <input
@@ -480,14 +479,16 @@
                         "
                       />
 
+                      <!-- *ngIf="ulbTypeSelected === 'base'" -->
+
                       <input
                         name="list_name_ulb"
                         style="margin-left: -20px"
-                        *ngIf="ulbTypeSelected === 'base'"
                         type="radio"
+                        [disabled]="!reportForm.value.yearList.length"
                         [value]="
                           baseULBSelected &&
-                          baseULBSelected.code === ulb.value.code
+                          baseULBSelected.code == ulb.value.code
                         "
                         class="ng-untouched ng-pristine ng-valid"
                         (click)="
