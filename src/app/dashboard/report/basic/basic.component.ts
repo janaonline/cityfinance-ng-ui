@@ -47,6 +47,7 @@ export class BasicComponent implements OnInit {
             this.isProcessed = true;
             this.reportKeys = [];
           }
+          this.loaderService.stopLoader();
         },
         err => {
           this.loaderService.stopLoader();

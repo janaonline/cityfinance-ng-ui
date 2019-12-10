@@ -71,6 +71,7 @@ export class ComparativeUlbComponent implements OnInit {
             this.isProcessed = true;
             this.reportKeys = [];
           }
+          this._loaderService.stopLoader();
         },
         () => this._loaderService.stopLoader()
       );
