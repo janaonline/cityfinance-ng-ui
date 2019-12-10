@@ -103,16 +103,22 @@ export class CommonService {
         return;
       }
 
-      newObj.data[ulb.state.code].ulbs.push({
-        ...this.convertNewULBStructureToIULB(ulb),
-        state: ulb.state.name
-      });
+      const convertedULB = this.convertNewULBStructureToIULB(ulb);
+      if (
+        newObj.data[ulb.state.code].ulbs.every(
+          ulb => ulb.code !== convertedULB.code
+        )
+      )
+        newObj.data[ulb.state.code].ulbs.push({
+          ...this.convertNewULBStructureToIULB(ulb),
+          state: ulb.state.name
+        });
     });
     return newObj;
   }
 
   convertNewULBStructureToIULB(ulb: NewULBStructure): IULB {
-    return { ...ulb.ulb, population: ulb.amount, type: ulb.ulbtypes.name };
+    return { ...ulb.ulb, type: ulb.ulbtypes.name };
   }
 
   getULBsStatistics() {
@@ -144,8 +150,9 @@ export class CommonService {
           ulbsByYears: {
             [ulb.financialYear]: {
               total: 1,
-              amrut: ulb.ulb.amrut == 'Yes' ? 1 : 0,
-              nonAmrut: (ulb.ulb.amrut == 'No' || ulb.ulb.amrut == undefined) ? 1 : 0,
+              amrut: ulb.ulb.amrut == "Yes" ? 1 : 0,
+              nonAmrut:
+                ulb.ulb.amrut == "No" || ulb.ulb.amrut == undefined ? 1 : 0
             }
           }
         };
@@ -155,14 +162,16 @@ export class CommonService {
       if (!newObj[ulb.state._id].ulbsByYears[ulb.financialYear]) {
         newObj[ulb.state._id].ulbsByYears[ulb.financialYear] = {
           total: 1,
-          amrut: ulb.ulb.amrut == 'Yes' ? 1 : 0,
-          nonAmrut: (ulb.ulb.amrut == 'No' || ulb.ulb.amrut == undefined) ? 1 : 0
-        }
+          amrut: ulb.ulb.amrut == "Yes" ? 1 : 0,
+          nonAmrut: ulb.ulb.amrut == "No" || ulb.ulb.amrut == undefined ? 1 : 0
+        };
         return;
       }
-      newObj[ulb.state._id].ulbsByYears[ulb.financialYear].total +=  1;
-      newObj[ulb.state._id].ulbsByYears[ulb.financialYear].amrut += (ulb.ulb.amrut == 'Yes' ? 1 : 0);
-      newObj[ulb.state._id].ulbsByYears[ulb.financialYear].nonAmrut += ((ulb.ulb.amrut == 'No' || ulb.ulb.amrut == undefined) ? 1 : 0);
+      newObj[ulb.state._id].ulbsByYears[ulb.financialYear].total += 1;
+      newObj[ulb.state._id].ulbsByYears[ulb.financialYear].amrut +=
+        ulb.ulb.amrut == "Yes" ? 1 : 0;
+      newObj[ulb.state._id].ulbsByYears[ulb.financialYear].nonAmrut +=
+        ulb.ulb.amrut == "No" || ulb.ulb.amrut == undefined ? 1 : 0;
       // newObj[ulb.state._id].ulbsByYears[ulb.financialYear].push({ ...ulb });
     });
     // console.log('newObj',newObj);

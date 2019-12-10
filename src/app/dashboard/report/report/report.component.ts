@@ -1,5 +1,5 @@
 import { KeyValue } from '@angular/common';
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
@@ -27,6 +27,19 @@ interface CustomArray<T> {
   styleUrls: ["./report.component.scss"]
 })
 export class ReportComponent implements OnInit {
+  constructor(
+    private formBuilder: FormBuilder,
+    private _loaderService: GlobalLoaderService,
+    private commonService: CommonService,
+    private modalService: BsModalService,
+    private reportService: ReportService,
+    private router: Router,
+    private _dialog: MatDialog,
+  ) {}
+
+  get lf() {
+    return this.reportForm.controls;
+  }
   // alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   alphabets = [];
   activeGroup: "IE" | "BS" = "IE";
@@ -90,19 +103,7 @@ export class ReportComponent implements OnInit {
 
   previousSearchedULB: IULB;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private _loaderService: GlobalLoaderService,
-    private commonService: CommonService,
-    private modalService: BsModalService,
-    private reportService: ReportService,
-    private router: Router,
-    private _dialog: MatDialog
-  ) {}
-
-  get lf() {
-    return this.reportForm.controls;
-  }
+  filteredULBTypes;
 
   message(event) {
     console.log(event);
@@ -180,9 +181,19 @@ export class ReportComponent implements OnInit {
     this.commonService.getULBSByYears(years).subscribe(
       response => {
         this.originalUlbList = response;
-        console.log(response);
         const newULBS = this.filterULBByPopFilters("");
         this.ulbs = { ...newULBS };
+        if (!this.currentStateInView) {
+          const firstStateKey = Object.keys(
+            this.originalUlbList.data
+          ).sort()[0];
+          const firstState = this.originalUlbList.data[firstStateKey];
+          this.currentStateInView = {
+            key: firstStateKey,
+            value: { ...firstState }
+          };
+        }
+
         this.showState({ ...this.currentStateInView });
         this._loaderService.stopLoader();
       },
@@ -308,6 +319,18 @@ export class ReportComponent implements OnInit {
     if (!this.ulbTypeInView) {
       this.ulbTypeInView = { type: this.ULBTYPES[0].type };
     }
+
+    const originalState = {
+      ...this.originalUlbList.data[state.key]
+    };
+    this.filteredULBTypes = this.filterEmptyULBForState(originalState);
+
+    this.ulbTypeInView = this.filteredULBTypes.some(
+      uType => uType.type === this.ulbTypeInView.type
+    )
+      ? this.ulbTypeInView
+      : this.filteredULBTypes[0];
+
     const stateFound = this.ulbs.data[state.key];
     const newState = { key: state.key, value: { ...stateFound } };
     const fitlerULB = newState.value.ulbs
@@ -327,6 +350,12 @@ export class ReportComponent implements OnInit {
       });
     }
     this.currentStateInView = newState;
+  }
+
+  filterEmptyULBForState(originalState: { state: string; ulbs: IULB[] }) {
+    return this.ULBTYPES.filter(ulbType =>
+      originalState.ulbs.some(ulb => ulb.type === ulbType.type)
+    );
   }
 
   resetPopupValues() {
@@ -883,11 +912,11 @@ export class ReportComponent implements OnInit {
         const alreadySelectULB: IULB = this.reportForm.controls.ulbList
           .value[0];
         const message = `You are selecting a ULB of a different type. Earlier ULB selected are of ${alreadySelectULB.type} type, but now you are selecting from ${latestULB.type} type`;
+        this.isAlertForDifferentULBShown = true;
+
         return this._dialog.open(DialogComponent, {
           data: { message }
         });
-
-        this.isAlertForDifferentULBShown = true;
       }
     }
   }
@@ -905,6 +934,12 @@ export class ReportComponent implements OnInit {
 
     if (myArray) {
       this.selectedUlbs = myArray;
+      const areAllSameULBS = this.selectedUlbs.every(
+        ulb => ulb.type === myArray[0].type
+      );
+      if (areAllSameULBS) {
+        this.isAlertForDifferentULBShown = false;
+      }
       this.reportForm.controls.ulbList.setValue(myArray);
     } else {
       this.selectedUlbs = [];
@@ -985,5 +1020,11 @@ export class ReportComponent implements OnInit {
   resetSelectedULB() {
     this.selectedUlbs = [];
     this.uncheckAllULBS();
+  }
+
+  filterULBIfExists(ulbTypeToCheck: ulbType) {
+    return this.currentStateInView.value.ulbs.some(
+      ulb => ulb.type === ulbTypeToCheck
+    );
   }
 }
