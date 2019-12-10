@@ -96,12 +96,19 @@
           <td class="text-right" *ngFor="let yr of years">
             <span *ngIf="report[key]">
               <!-- {{report[key] | json}} -  -->
-              <span *ngIf="report[key][yr.title]">{{
-                report[key][yr.title] | inrCurrency
-              }}</span>
-              <span *ngIf="!report[key][yr.title] && report[key]['code']"
-                >Data not available</span
+              <span
+                *ngIf="report[key][yr.title] || report[key][yr.title] === 0"
+                >{{ report[key][yr.title] | inrCurrency }}</span
               >
+
+              <span
+                *ngIf="
+                  (report[key][yr.title] === undefined ||
+                    report[key][yr.title] === null) &&
+                  report[key]['code']
+                "
+                >Data not available
+              </span>
               <span *ngIf="report[key][yr.title] && yr.isComparative">%</span>
             </span>
           </td>

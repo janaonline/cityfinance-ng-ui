@@ -1,5 +1,5 @@
 import { KeyValue } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
@@ -34,8 +34,12 @@ export class ReportComponent implements OnInit {
     private modalService: BsModalService,
     private reportService: ReportService,
     private router: Router,
-    private _dialog: MatDialog,
-  ) {}
+    private _dialog: MatDialog
+  ) {
+    setTimeout(() => {
+      this._loaderService.showLoader();
+    }, 500);
+  }
 
   get lf() {
     return this.reportForm.controls;
@@ -149,6 +153,7 @@ export class ReportComponent implements OnInit {
           this.showAlertBoxForComparativeReport();
         }
         this.clearPopupValues();
+        // this.setPopupDefaultValues();
         this.setULBType(
           isComparative ? null : "other",
           this.baseULBSelected ? true : false,
@@ -158,7 +163,9 @@ export class ReportComponent implements OnInit {
     );
 
     this.reportForm.controls["yearList"].valueChanges.subscribe(list => {
-      this.getNewULBByDate(list.map(year => year.id));
+      if (this.reportForm.value.isComparative) {
+        this.getNewULBByDate(list.map(year => year.id));
+      }
       if (
         list.length === 1 &&
         !this.ulbTypeSelected &&
@@ -176,29 +183,27 @@ export class ReportComponent implements OnInit {
     );
   }
 
+  setDefaultComparativeView() {}
+
   getNewULBByDate(years: string[]) {
     this._loaderService.showLoader();
-    this.commonService.getULBSByYears(years).subscribe(
-      response => {
-        this.originalUlbList = response;
-        const newULBS = this.filterULBByPopFilters("");
-        this.ulbs = { ...newULBS };
-        if (!this.currentStateInView) {
-          const firstStateKey = Object.keys(
-            this.originalUlbList.data
-          ).sort()[0];
-          const firstState = this.originalUlbList.data[firstStateKey];
-          this.currentStateInView = {
-            key: firstStateKey,
-            value: { ...firstState }
-          };
-        }
+    this.commonService.getULBSByYears(years).subscribe(response => {
+      this.originalUlbList = response;
+      const newULBS = this.filterULBByPopFilters("");
+      this.ulbs = { ...newULBS };
+      if (!this.currentStateInView) {
+        const firstStateKey = Object.keys(this.originalUlbList.data).sort()[0];
+        const firstState = this.originalUlbList.data[firstStateKey];
+        this.currentStateInView = {
+          key: firstStateKey,
+          value: { ...firstState }
+        };
+      }
 
-        this.showState({ ...this.currentStateInView });
-        this._loaderService.stopLoader();
-      },
-      () => this._loaderService.stopLoader()
-    );
+      this.showState({ ...this.currentStateInView });
+      console.log("asddsa");
+      this._loaderService.stopLoader();
+    });
   }
 
   showAlertBoxForComparativeReport() {
@@ -313,6 +318,7 @@ export class ReportComponent implements OnInit {
   }
 
   showState(state: { key: string; value: { state: string; ulbs: IULB[] } }) {
+    console.log({ state });
     if (!state) {
       return (this.currentStateInView = null);
     }
@@ -323,6 +329,11 @@ export class ReportComponent implements OnInit {
     const originalState = {
       ...this.originalUlbList.data[state.key]
     };
+    const filteredByPopulation = this.filterULBByPopulation(originalState.ulbs);
+    originalState.ulbs = filteredByPopulation;
+    // console.log({ filteredByPopulation });
+
+    // console.log({ originalState });
     this.filteredULBTypes = this.filterEmptyULBForState(originalState);
 
     this.ulbTypeInView = this.filteredULBTypes.some(
@@ -459,14 +470,20 @@ export class ReportComponent implements OnInit {
       ulbIds: []
     });
 
-    this.commonService.getAllUlbs().subscribe((response: IULBResponse) => {
-      Object.values(response.data).forEach(state => {
-        state.ulbs = state.ulbs.sort((a, b) => (b.name > a.name ? -1 : 0));
-      });
-      this.originalUlbList = response;
-      this.ulbs = JSON.parse(JSON.stringify(this.originalUlbList));
-      this.resetPopupValues();
-    });
+    // HERE
+    this._loaderService.showLoader();
+    this.commonService.getULBSByYears().subscribe(
+      (response: IULBResponse) => {
+        Object.values(response.data).forEach(state => {
+          state.ulbs = state.ulbs.sort((a, b) => (b.name > a.name ? -1 : 0));
+        });
+        this.originalUlbList = response;
+        this.ulbs = JSON.parse(JSON.stringify(this.originalUlbList));
+        this.resetPopupValues();
+        this._loaderService.stopLoader();
+      },
+      () => {}
+    );
 
     this.listenToFormGroups();
   }
@@ -760,6 +777,10 @@ export class ReportComponent implements OnInit {
         stateToShow.ulbs = stateToShow.ulbs.filter(ulb =>
           this.ulbTypeInView ? ulb.type === this.ulbTypeInView.type : true
         );
+        this.currentStateInView = {
+          key: this.currentStateInView.key,
+          value: { ...stateToShow }
+        };
       } else {
         this.currentStateInView = null;
       }

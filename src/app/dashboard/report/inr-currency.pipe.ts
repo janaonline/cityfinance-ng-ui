@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class InrCurrencyPipe implements PipeTransform {
   transform(value: number, args?: any): any {
     if (!value) {
-      return "Not Applicable";
+      return value;
     }
 
     let x =

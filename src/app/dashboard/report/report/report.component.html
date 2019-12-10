@@ -221,7 +221,8 @@
       <button
         type="button"
         style="margin-left: 1%;"
-        class="close1  btn btn-primary"
+        class="close1  btn"
+        style="background: #f0ad4e;"
         (click)="
           resetPopupValues() ||
             reportForm.controls['isComparative'].setValue(null)
@@ -320,11 +321,15 @@
         class="col-md-2"
         style="max-height: 54vh; overflow: auto;padding-right: 0px; max-width: 214px;"
       >
-        <ul class="list-unstyled left-nav" *ngIf="ulbTypeSelected">
+        <ul class="list-unstyled left-nav">
           <li
             *ngFor="let state of ulbs.data | keyvalue"
             [ngClass]="{
-              stateULBSelected: getTotalULBSelectedBy(state.key),
+              stateULBSelected:
+                (ulbTypeSelected === 'other' &&
+                  getTotalULBSelectedBy(state.key)) ||
+                (ulbTypeSelected === 'base' &&
+                  baseULBSelected?.state === state?.value?.state),
               activeState: currentStateInView?.key === state?.key
             }"
           >
@@ -383,12 +388,11 @@
                       [ngClass]="{
                         ulbTabActive:
                           ulbTypeInView && ulbTypeInView.type === ulb.type,
-                        stateULBSelected: getTotalULBSelectedBy(
-                          currentStateInView.key,
-                          {
+                        stateULBSelected:
+                          ulbTypeSelected === 'other' &&
+                          getTotalULBSelectedBy(currentStateInView.key, {
                             type: ulb.type
-                          }
-                        )
+                          })
                       }"
                     >
                       <input
@@ -480,14 +484,16 @@
                         "
                       />
 
+                      <!-- *ngIf="ulbTypeSelected === 'base'" -->
+
                       <input
                         name="list_name_ulb"
                         style="margin-left: -20px"
-                        *ngIf="ulbTypeSelected === 'base'"
                         type="radio"
+                        [disabled]="!reportForm.value.yearList.length"
                         [value]="
                           baseULBSelected &&
-                          baseULBSelected.code === ulb.value.code
+                          baseULBSelected.code == ulb.value.code
                         "
                         class="ng-untouched ng-pristine ng-valid"
                         (click)="
