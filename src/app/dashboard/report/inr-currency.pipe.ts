@@ -17,23 +17,28 @@ export class InrCurrencyPipe implements PipeTransform {
     const decimal = "";
 
     const newVAlue =
-      valueToOperatte < 0 ? Math.round(valueToOperatte * -1) : valueToOperatte;
+      valueToOperatte < 0
+        ? Math.round(valueToOperatte * -1)
+        : Math.round(valueToOperatte);
 
     // if (x.indexOf(".") > -1) {
     //   decimal = x.substring(x.indexOf("."));
     //   x = x.substring(0, x.indexOf("."));
     // }
     // x = x.substring(0, x.indexOf('.'));
-
-    let formatted = (newVAlue + "").replace(
-      /(\..*)$|(\d)(?=(\d{3})+(?!\d))/g,
-      (digit, fract) => fract || digit + ","
-    );
-    if (value < 0) {
-      formatted = `(${formatted})`;
+    let numberInString = newVAlue + "";
+    if (Math.round(newVAlue / 1000)) {
+      const newNumber = Math.round(newVAlue / 1000);
+      const stringNumber = (newNumber + "").replace(
+        /(\..*)$|(\d)(?=(\d{2})+(?!\d))/g,
+        (digit, fract) => fract || digit + ","
+      );
+      numberInString = stringNumber + "," + (newVAlue % 1000);
     }
-
-    return formatted;
+    if (valueToOperatte < 0) {
+      return `(${numberInString})`;
+    }
+    return numberInString;
 
     // if (valueToOperatte < 0) {
     //   lastThree = x.substring(x.length - 4);
