@@ -386,7 +386,7 @@
                             getTotalULBSelectedBy(currentStateInView.key, {
                               type: ulb.type
                             })) ||
-                          baseULBSelected?.type === ulb?.type
+                         ( baseULBSelected?.type === ulb?.type && ulbTypeSelected === 'base')
                       }"
                     >
                       <input
@@ -485,6 +485,10 @@
                         style="margin-left: -20px"
                         type="radio"
                         [disabled]="!reportForm.value.yearList.length"
+                        [checked]="
+                          baseULBSelected &&
+                          baseULBSelected.code == ulb.value.code
+                        "
                         [value]="
                           baseULBSelected &&
                           baseULBSelected.code == ulb.value.code
