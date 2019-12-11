@@ -32,9 +32,11 @@ export class BasicComponent implements OnInit {
       this.loaderService.showLoader();
 
       this.reportReq = reportCriteria;
+      console.log(`reportCriteria`);
       this.reportService.reportResponse.subscribe(
         res => {
-          this.loaderService.stopLoader();
+          console.log("got response");
+          this.loaderService.showLoader();
 
           if (res && (res as any[]).length > 0) {
             this.years = [];
@@ -47,12 +49,14 @@ export class BasicComponent implements OnInit {
             this.isProcessed = true;
             this.reportKeys = [];
           }
+
           this.loaderService.stopLoader();
         },
         err => {
           this.loaderService.stopLoader();
           console.error(err);
-        }
+        },
+        () => console.log("completed")
       );
     });
   }

@@ -18,6 +18,7 @@ export class AppComponent {
       .observerLoading()
       .pipe(delay(100))
       .subscribe(loadingStatus => {
+        console.log(loadingStatus);
         this.showLoader = loadingStatus;
       });
   }

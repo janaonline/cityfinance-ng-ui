@@ -95,11 +95,27 @@
           </td>
           <td class="text-right" *ngFor="let yr of years">
             <span *ngIf="report[key]">
-              <!-- {{report[key] | json}} -  -->
               <span
-                *ngIf="report[key][yr.title] || report[key][yr.title] === 0"
-                >{{ report[key][yr.title] | inrCurrency }}</span
-              >
+                *ngIf="
+                  (report[key][yr.title] || report[key][yr.title] === 0) &&
+                  report[key].line_item != 'A.Income' &&
+                  report[key].line_item != 'B.Expenditure' &&
+                  report[key].line_item != 'A. Liabilities' &&
+                  report[key].line_item != 'I. Reserves & Surplus' &&
+                  report[key].line_item !=
+                    'II. Grants , Contribution for specific purposes' &&
+                  report[key].line_item != 'III. Loans' &&
+                  report[key].line_item !=
+                    'IV. Current Liabilities and Provisions' &&
+                  report[key].line_item != 'B. Assets' &&
+                  report[key].line_item !=
+                    'III. Current Assets, Loans and Advances' &&
+                  report[key].line_item != 'IV. Other Assets' &&
+                  report[key].line_item !=
+                    'IV. Current Liabilities and Provisions'
+                "
+                >{{ report[key][yr.title] | inrCurrency }}
+              </span>
 
               <span
                 *ngIf="
