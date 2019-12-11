@@ -380,12 +380,13 @@
                       [id]="ulb.type"
                       [ngClass]="{
                         ulbTabActive:
-                          ulbTypeInView && ulbTypeInView.type === ulb.type,
+                          ulbTypeInView && ulbTypeInView?.type === ulb?.type,
                         stateULBSelected:
-                          ulbTypeSelected === 'other' &&
-                          getTotalULBSelectedBy(currentStateInView.key, {
-                            type: ulb.type
-                          })
+                          (ulbTypeSelected === 'other' &&
+                            getTotalULBSelectedBy(currentStateInView.key, {
+                              type: ulb.type
+                            })) ||
+                          baseULBSelected?.type === ulb?.type
                       }"
                     >
                       <input
