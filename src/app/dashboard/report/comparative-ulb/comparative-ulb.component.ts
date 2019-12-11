@@ -73,7 +73,9 @@ export class ComparativeUlbComponent implements OnInit {
           }
           this._loaderService.stopLoader();
         },
-        () => this._loaderService.stopLoader()
+        () => {
+          this._loaderService.stopLoader();
+        }
       );
     });
   }

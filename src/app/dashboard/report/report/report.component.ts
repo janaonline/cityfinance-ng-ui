@@ -36,9 +36,9 @@ export class ReportComponent implements OnInit {
     private router: Router,
     private _dialog: MatDialog
   ) {
-    setTimeout(() => {
-      this._loaderService.showLoader();
-    }, 500);
+    // setTimeout(() => {
+    //   this._loaderService.showLoader();
+    // }, 500);
   }
 
   get lf() {
@@ -213,7 +213,6 @@ export class ReportComponent implements OnInit {
       }
 
       this.showState({ ...this.currentStateInView });
-      console.log("asddsa");
       this._loaderService.stopLoader();
     });
   }
