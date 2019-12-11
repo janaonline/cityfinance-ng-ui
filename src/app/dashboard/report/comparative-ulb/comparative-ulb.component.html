@@ -49,7 +49,7 @@
           <th
             class="text-center"
             [attr.rowspan]="headerGroup.accRowspan"
-            style="position: sticky; left: 9.5%; background: white;"
+            style="position: sticky; left: 103px; background: white; border-right: inherit solid #868686;"
           >
             Major Group/Minor Group
           </th>
@@ -79,7 +79,7 @@
             {{ report[key] ? report[key].code : "" }}
           </td>
           <td
-            style="position: sticky; left:9.5%; background: white;"
+            style="position: sticky; left:103px;border-right: inherit solid #868686; background: white;"
             [ngClass]="{
               'text-right':
                 (report[key] && report[key].line_item.includes('Total')) ||
