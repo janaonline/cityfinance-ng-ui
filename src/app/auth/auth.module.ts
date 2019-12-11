@@ -1,31 +1,31 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { CfChartsModule } from '../shared/cf-charts/cf-charts.module';
+import { PreLoaderComponent } from '../shared/components/pre-loader/pre-loader.component';
 import { AuthRouter } from './auth.router';
 import { AuthService } from './auth.service';
-import { HomeComponent } from './home/home.component';
 import { HomeHeaderComponent } from './home-header/home-header.component';
+import { GridComponent } from './home/grid/grid.component';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 import { StatisticsComponent } from './statistics/statistics.component';
-import { CfChartsModule } from '../shared/cf-charts/cf-charts.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AuthRouter,
-    ReactiveFormsModule,
-    CfChartsModule
+  imports: [CommonModule, AuthRouter, ReactiveFormsModule, CfChartsModule],
+  providers: [AuthService],
+  declarations: [
+    LoginComponent,
+    RegisterComponent,
+    RegisterComponent,
+    HomeComponent,
+    HomeHeaderComponent,
+    StatisticsComponent,
+    GridComponent,
+    PreLoaderComponent
   ],
-  providers: [
-    AuthService
-  ],
-  declarations: [LoginComponent, RegisterComponent, RegisterComponent, 
-    HomeComponent, HomeHeaderComponent, StatisticsComponent],
-  exports: [
-    HomeHeaderComponent
-  ]
-
+  exports: [HomeHeaderComponent]
 })
-export class AuthModule { }
+export class AuthModule {}

@@ -4,6 +4,45 @@
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
 @import url("https://fonts.googleapis.com/css?family=Exo:300,400,500");
 @import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700");
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.cdk-overlay-connected-position-bounding-box,
+.cdk-overlay-pane,
+.cdk-global-overlay-wrapper,
+.cdk-overlay-container {
+  z-index: 99999 !important;
+}
+
+.modal-dialog,
+.modal-lg {
+  min-width: 94vw !important;
+}
+
+// Scroll Bar UI Starts here
+
+/* width */
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0px grey;
+  border-radius: 0px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #f0ad4e;
+  border-radius: 0px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #f0ad4e;
+}
+
+// Scroll Bar UI Ends here
 
 html,
 body {
@@ -101,15 +140,15 @@ img.align-center {
     padding: 10px 15px;
   }
 
-  li>a:focus,
-  li>a:hover,
+  li > a:focus,
+  li > a:hover,
   li.active {
     text-decoration: none;
     background-color: #ffc500 !important;
   }
 }
 
-.navbar-nav>li>a {
+.navbar-nav > li > a {
   padding-top: 22px !important;
   padding-bottom: 22px !important;
   font-size: 16px;
@@ -121,7 +160,7 @@ img.align-center {
   font-weight: 300;
 }
 
-.navbar-nav>li>.dropdown-menu {
+.navbar-nav > li > .dropdown-menu {
   background-color: #333333;
   margin-top: -1px;
   padding-bottom: 0;
@@ -131,11 +170,11 @@ img.align-center {
   border-radius: 0;
 }
 
-.dropdown .dropdown-menu>li {
+.dropdown .dropdown-menu > li {
   float: none;
 }
 
-.dropdown .dropdown-menu>li>a {
+.dropdown .dropdown-menu > li > a {
   border-bottom: 0 none;
   border-top: 1px solid #000;
   color: #fff;
@@ -150,14 +189,14 @@ img.align-center {
   // text-transform: lowercase;
 }
 
-.dropdown .dropdown-menu>li>a:hover,
-.dropdown .dropdown-menu>li.active>a,
-.dropdown .dropdown-menu>li.active>a:hover {
+.dropdown .dropdown-menu > li > a:hover,
+.dropdown .dropdown-menu > li.active > a,
+.dropdown .dropdown-menu > li.active > a:hover {
   // background-color: transparent;
 }
 
-.dropdown .dropdown-menu>li>a:hover::after,
-.dropdown .dropdown-menu>li.active>a::after {
+.dropdown .dropdown-menu > li > a:hover::after,
+.dropdown .dropdown-menu > li.active > a::after {
   // background-color: rgba(255, 255, 255, 0.8);
   bottom: auto;
   height: 100%;
@@ -165,8 +204,8 @@ img.align-center {
   width: 2px;
 }
 
-.dropdown .dropdown-menu>li.active>a::after,
-.dropdown .dropdown-menu>li.active>a:hover::after {
+.dropdown .dropdown-menu > li.active > a::after,
+.dropdown .dropdown-menu > li.active > a:hover::after {
   background-color: #ffc500 !important;
 }
 
@@ -178,7 +217,6 @@ img.align-center {
   background-color: #333 !important;
   color: #fff;
 }
-
 
 .multiselect-dropdown {
   .dropdown-list {
@@ -204,7 +242,6 @@ img.align-center {
       border-left: 3px solid transparent !important;
       border-right: 3px solid transparent !important;
     }
-
   }
 }
 
@@ -232,7 +269,6 @@ img.align-center {
   }
 }
 
-
 // .multiple-select {
 //   min-height:  150px;
 // }
@@ -251,10 +287,12 @@ img.align-center {
     position: relative;
     // background-color: #d3d3d3;
     padding: 5px 10px;
-    -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    -webkit-transition: color 0.15s ease-in-out,
+      background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
       box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-      box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+      -webkit-box-shadow 0.15s ease-in-out;
   }
 }
 
@@ -263,7 +301,7 @@ img.align-center {
   background-color: #17110e;
 }
 
-.navbar-nav>li:hover .dropdown-menu {
+.navbar-nav > li:hover .dropdown-menu {
   display: block;
   background-color: #333333;
 }
@@ -329,12 +367,12 @@ img.align-center {
   }
 }
 
-.table>tbody>tr>td,
-.table>tbody>tr>th,
-.table>tfoot>tr>td,
-.table>tfoot>tr>th,
-.table>thead>tr>td,
-.table>thead>tr>th {
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
   padding: 10px 6px;
   line-height: 1.42857143;
   vertical-align: top;
@@ -349,7 +387,6 @@ img.align-center {
   opacity: 1 !important;
 }
 
-
 .tooltip {
   .tooltip-inner {
     padding: 10px;
@@ -358,7 +395,6 @@ img.align-center {
 }
 
 .credit-rating-report {
-
   td,
   th {
     text-align: left !important;
@@ -431,8 +467,6 @@ img.align-center {
       }
     }
   }
-
-
 
   .carousel {
     // margin-top: -30px;
@@ -521,4 +555,33 @@ img.align-center {
     background-color: #009fe3;
     color: white;
   }
+}
+
+//bootstrap short class
+
+.d-flex {
+  display: flex !important;
+}
+.justify-content-center {
+  justify-content: center !important;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mt-2 {
+  margin-top: 2rem;
+}
+
+.mt-3 {
+  margin-top: 3rem;
+}
+
+.mt-4 {
+  margin-top: 4rem;
+}
+
+.mt-5 {
+  margin-top: 5rem;
 }

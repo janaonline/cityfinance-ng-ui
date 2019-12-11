@@ -1,17 +1,10 @@
-<!-- {{years | json}}
-<br/><br/> -->
-<!-- {{report | json}}  -->
-
-<div class="row" *ngIf="isProcessed && reportKeys.length == 0">
-  <div class="col-md-12">
-    <h4 style="text-align: center">No Information Available</h4>
-  </div>
-</div>
+<div class="row" *ngIf="isProcessed && reportKeys.length == 0"></div>
 
 <div class="row" *ngIf="isProcessed && reportKeys.length > 0">
-  <div class="col-md-12">
+  <div class="col-md-12" style="max-width: 98%; overflow: auto; padding: 0px;">
     <table class="table-bordered">
       <thead>
+        <!-- City Finance logo-->
         <tr>
           <td class="report-header" colspan="20">
             <img
@@ -25,26 +18,45 @@
             <!-- <div class="text-center"><small>Percentages represent percentage of Total Expenditure in the case of Expenditure line items and percentage of Total Income for all other line items</small></div> -->
           </td>
         </tr>
-        <tr *ngIf="reportReq.years.length > 1">
-          <th class="text-center" colspan="2">Year(s)</th>
+
+        <!-- Years -->
+        <tr *ngIf="reportReq.years.length > 0">
           <th
-            class="text-center"
+            class="text-center yearssss"
+            colspan="2"
+            style="position: sticky; left: 0px; background: white;"
+          >
+            Year(s)
+          </th>
+          <th
+            class="text-center yyy"
             [attr.colspan]="headerGroup.yearColspan"
             *ngFor="let yr of reportReq.years"
           >
             {{ yr }}
           </th>
         </tr>
+
+        <!-- Headers-->
         <tr>
-          <th class="text-center" [attr.rowspan]="headerGroup.accRowspan">
+          <th
+            class="text-center"
+            [attr.rowspan]="headerGroup.accRowspan"
+            style="position: sticky; left: 0px; background: white;"
+          >
             Account Code
           </th>
-          <th class="text-center" [attr.rowspan]="headerGroup.accRowspan">
+          <th
+            class="text-center"
+            [attr.rowspan]="headerGroup.accRowspan"
+            style="position: sticky; left: 9.5%; background: white;"
+          >
             Major Group/Minor Group
           </th>
           <th class="text-center" *ngFor="let yr of years">{{ yr.state }}</th>
           <!-- <th colspan="20" ></th> -->
         </tr>
+
         <tr>
           <!-- <th class="text-center">Account Code</th>
           <th class="text-center">Major Group/Minor Group</th> -->
@@ -60,21 +72,78 @@
           }"
         >
           <!-- <td>{{report[key] | json}}</td> -->
-          <td class="text-center">{{ report[key] ? report[key].code : "" }}</td>
-          <td>{{ report[key] ? report[key].line_item : "" }}</td>
           <td
-            class="text-right"
-            *ngFor="let yr of years"
-           
+            class="text-center sticky"
+            style="position: sticky; left: 0px;background: white;"
           >
+            {{ report[key] ? report[key].code : "" }}
+          </td>
+          <td
+            style="position: sticky; left:9.5%; background: white;"
+            [ngClass]="{
+              'text-right':
+                (report[key] && report[key].line_item.includes('Total')) ||
+                (report[key] && report[key].line_item.includes('Net')) ||
+                (report[key] && report[key].line_item.includes('Gross')) ||
+                (report[key] &&
+                  report[key].line_item.includes('Net Surplus')) ||
+                (report[key] &&
+                  report[key].line_item.includes('Surplus/(Deficit) (C) (A-B)'))
+            }"
+          >
+            {{ report[key] ? report[key].line_item : "" }}
+          </td>
+          <td class="text-right" *ngFor="let yr of years">
             <span *ngIf="report[key]">
-              <!-- {{report[key] | json}} -  -->
-              <span *ngIf="report[key][yr.title]">{{
-                report[key][yr.title] | inrCurrency
-              }}</span>
-              <span *ngIf="!report[key][yr.title] && report[key]['code']"
-                >0</span
+              <span
+                *ngIf="
+                  (report[key][yr.title] || report[key][yr.title] === 0) &&
+                  report[key].line_item != 'A.Income' &&
+                  report[key].line_item != 'B.Expenditure' &&
+                  report[key].line_item != 'A. Liabilities' &&
+                  report[key].line_item != 'I. Reserves & Surplus' &&
+                  report[key].line_item !=
+                    'II. Grants , Contribution for specific purposes' &&
+                  report[key].line_item != 'III. Loans' &&
+                  report[key].line_item !=
+                    'IV. Current Liabilities and Provisions' &&
+                  report[key].line_item != 'B. Assets' &&
+                  report[key].line_item !=
+                    'III. Current Assets, Loans and Advances' &&
+                  report[key].line_item != 'IV. Other Assets' &&
+                  report[key].line_item !=
+                    'IV. Current Liabilities and Provisions'
+                "
+                >{{ report[key][yr.title] | inrCurrency }}
+              </span>
+
+              <span
+                *ngIf="
+                  (report[key][yr.title] === undefined ||
+                    report[key][yr.title] === null) &&
+                  report[key]['code']
+                "
               >
+                <span
+                  *ngIf="
+                    (report[key][yr.title] === undefined ||
+                      report[key][yr.title] === null) &&
+                    report[key]['allNullYear'][yr.title]
+                  "
+                >
+                  Data not available
+                </span>
+
+                <span
+                  *ngIf="
+                    (report[key][yr.title] === undefined ||
+                      report[key][yr.title] === null) &&
+                    !report[key]['allNullYear'][yr.title]
+                  "
+                >
+                  0
+                </span>
+              </span>
               <span *ngIf="report[key][yr.title] && yr.isComparative">%</span>
             </span>
           </td>
@@ -94,7 +163,10 @@
     Download
   </button>
 </div>
-<div class="col-md-12" *ngIf="isProcessed && reportKeys.length > 0">
+<div
+  class="col-md-12"
+  *ngIf="isProcessed && reportKeys.length > 0 && reportReq.isComparative"
+>
   <p>
     <small
       >Percentages represent percentage of Total Expenditure in the case of
@@ -111,7 +183,7 @@
     reportReq.type.indexOf('Summary') > -1
   "
 >
-  <p>
+  <!-- <p>
     <small>
       <b>Revenue</b> : Not Tax Revenue includes Assigned Revenue and
       Compensations (120), Rental Income from Municipal Properties (130), Fees
@@ -127,5 +199,5 @@
       Fixed Assets (272), Prior Period Items (280), Transfer to Reserve Funds
       (290) and Others (200)
     </small>
-  </p>
+  </p> -->
 </div>

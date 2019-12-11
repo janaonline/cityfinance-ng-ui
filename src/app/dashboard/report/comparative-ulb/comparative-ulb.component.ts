@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IReportType } from 'src/app/models/reportType';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 
 import { ExcelService } from '../excel.service';
 import { ReportHelperService } from '../report-helper.service';
@@ -11,7 +13,7 @@ import { ReportService } from '../report.service';
 })
 export class ComparativeUlbComponent implements OnInit {
   report: any = [];
-  reportReq: any = {};
+  reportReq: IReportType;
   years: any = [];
 
   isProcessed = false;
@@ -28,43 +30,60 @@ export class ComparativeUlbComponent implements OnInit {
   constructor(
     private reportService: ReportService,
     private excelService: ExcelService,
-    private reportHelper: ReportHelperService
-  ) {}
+    private reportHelper: ReportHelperService,
+    private _loaderService: GlobalLoaderService
+  ) {
+    console.log(`instantiating comparitivve`);
+  }
 
   ngOnInit() {
-    this.reportReq = this.reportService.getReportRequest();
+    // this.reportReq = this.reportService.getReportRequest();
+    this.reportService.getNewReportRequest().subscribe(reportCriteria => {
+      this._loaderService.showLoader();
+      this.reportReq = reportCriteria;
+      this.reportService.reportResponse.subscribe(
+        res => {
+          console.log(res);
+          this._loaderService.stopLoader();
+          if (res) {
+            this.years = [];
+            this.response = res;
+            // this.reportReq = this.reportService.getReportRequest();
 
-    this.reportService.reportResponse.subscribe(res => {
-      if (res) {
-        this.response = res;
-        this.reportReq = this.reportService.getReportRequest();
+            if (this.reportReq.reportGroup == "Balance Sheet") {
+              this.report = this.reportHelper.getBSReportLookup();
+            } else {
+              this.report = this.reportHelper.getIEReportLookup();
+            }
+            // this.reqUlb = this.reportReq.ulbList[0].code;
+            // this.reqUlb2 = this.reportReq.ulbList[1].code;
+            this.reqYear = this.reportReq.years[0];
+            if (this.reportReq.ulbList.length > 1) {
+              this.years = [];
+              this.transformYears_UlbVSUlb();
+            } else {
+              this.years = [];
+              this.transformYears_YrVSYr();
+            }
+            this.transformResult(res);
+            this.headerGroup.yearColspan =
+              this.years.length / this.reportReq.years.length;
+          } else {
+            this.isProcessed = true;
+            this.reportKeys = [];
+          }
+          this._loaderService.stopLoader();
 
-        if (this.reportReq.reportGroup == "Balance Sheet") {
-          this.report = this.reportHelper.getBSReportLookup();
-        } else {
-          this.report = this.reportHelper.getIEReportLookup();
+          // console.log(`at the end `, { ...this.report });
+          console.log({ report: this.report });
+          console.log({ years: this.years });
+          console.log({ keys: this.reportKeys });
+          this.setDataNotAvailable();
+        },
+        () => {
+          this._loaderService.stopLoader();
         }
-        // this.reqUlb = this.reportReq.ulbList[0].code;
-        // this.reqUlb2 = this.reportReq.ulbList[1].code;
-        this.reqYear = this.reportReq.years[0];
-        // this.years = this.reportReq.years;
-        this.years = [];
-        if (this.reportReq.ulbList.length > 1) {
-          this.transformYears_UlbVSUlb();
-        } else {
-          this.transformYears_YrVSYr();
-          // this.headerGroup.accRowspan = 3;
-        }
-        // this.links = this.reportService.loadDefaultLinks();
-        // this.transformResult(res['data']);
-        this.transformResult(res);
-        // console.log(this.report);
-        this.headerGroup.yearColspan =
-          this.years.length / this.reportReq.years.length;
-      } else {
-        this.isProcessed = true;
-        this.reportKeys = [];
-      }
+      );
     });
   }
 
@@ -101,7 +120,6 @@ export class ComparativeUlbComponent implements OnInit {
           });
         }
       }
-      // }
     }
   }
 
@@ -149,7 +167,12 @@ export class ComparativeUlbComponent implements OnInit {
       if (this.report[item.code] && item.ulb_code && item.budget.length > 0) {
         for (let j = 0; j < item.budget.length; j++) {
           const key = item.ulb_code + "_" + item.budget[j].year;
-          this.report[item.code][key] = item.budget[j].amount;
+          if (
+            this.report[item.code][key] === undefined ||
+            this.report[item.code][key] === null
+          ) {
+            this.report[item.code][key] = item.budget[j].amount;
+          }
         }
       }
     }
@@ -165,7 +188,6 @@ export class ComparativeUlbComponent implements OnInit {
    */
   populateCalcFields(result, years) {
     let calcFields = [];
-    // console.log(`reportReq: `, { ...this.reportReq });
     if (
       this.reportReq.reportGroup == "Balance Sheet" &&
       this.reportReq.type.indexOf("Summary") > -1
@@ -186,8 +208,6 @@ export class ComparativeUlbComponent implements OnInit {
       this.reportKeys = this.reportHelper.getIEReportMasterKeys();
       calcFields = this.reportHelper.getIECalcFields();
     }
-
-    // console.log({ calcFields });
 
     for (let i = 0; i < calcFields.length; i++) {
       const keyName = calcFields[i].keyName;
@@ -263,6 +283,33 @@ export class ComparativeUlbComponent implements OnInit {
 
     // this.isProcessed = true;
   }
+
+  setDataNotAvailable() {
+    this.years.forEach(year => {
+      if (year.caption === "%") {
+        return;
+      }
+
+      const canSetDataNotAvaliable = this.reportKeys.every(
+        key => !this.report[key][year.title]
+      );
+      if (canSetDataNotAvaliable) {
+        console.log(`settting data not availabel for `, year.title);
+        this.reportKeys.forEach(key => {
+          const original = { ...this.report[key] };
+          original[year.title] = original[year.title];
+          if (!original["allNullYear"]) {
+            original["allNullYear"] = { [year.title]: true };
+          } else {
+            original["allNullYear"][year.title] = true;
+          }
+          this.report[key] = { ...original };
+        });
+      }
+    });
+  }
+
+  canSetDataNotAvailable(years) {}
 
   /** Comparision will be done between years of each ULB
    * Expectation:
@@ -365,5 +412,9 @@ export class ComparativeUlbComponent implements OnInit {
     this.excelService.transformTableToExcelData(title, reportTable, "IE");
 
     this.reportService.addLogByToken("Income-Expenditure");
+  }
+
+  ngOnDestroy() {
+    this._loaderService.stopLoader();
   }
 }

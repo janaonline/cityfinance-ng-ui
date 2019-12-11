@@ -31,7 +31,8 @@
   background: rgb(192, 192, 192);
 }
 
-.stateULBSelected {
+.stateULBSelected,
+.stateULBSelected:hover {
   background: #f0ad4e;
   color: white;
 }
@@ -73,4 +74,104 @@
 
 ::ng-deep .c-btn {
   min-height: 32px !important;
+}
+
+.inactive-tab {
+  color: white;
+  background: rgb(175, 175, 175);
+}
+
+.btn-primary:disabled,
+.btn-primary[disabled],
+button:disabled {
+  background: gray !important;
+  color: white !important;
+}
+::ng-deep .modal-content {
+  overflow: auto;
+  min-height: 90vh;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 6px;
+}
+
+.stateULBName > * {
+  background: rgb(175, 175, 175);
+  color: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  text-align: center;
+}
+
+.stateULBName {
+  padding-right: 0px;
+  max-width: 214px;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  margin: 0px !important;
+}
+
+::ng-deep .modal .modal-header {
+  padding-bottom: 0px;
+}
+
+a.inactive-tab:hover {
+  background: rgb(175, 175, 175);
+}
+
+::ng-deep .selected-list {
+  border-radius: 3px;
+}
+
+// Scroll Bar UI Starts here
+
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0px grey;
+  border-radius: 3px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #f0ad4e;
+  border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #f0ad4e;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0px;
+}
+::ng-deep .modal .modal-header {
+  padding-bottom: 15px;
+}
+
+.baseStateULB {
+  background: red;
+}
+
+::ng-deep md-input-container label {
+  color: red !important;
+}
+
+/* When the input is focused */
+::ng-deep .container {
+  .mat-form-field-outline,
+  .mat-form-field-empty.mat-form-field-label,
+  .mat-form-field-label,
+  .mat-form-field-underline,
+  .mat-input-element,
+  ::placeholder {
+    color: rgb(3, 3, 3) !important;
+  }
 }

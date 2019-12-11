@@ -1,14 +1,7 @@
-<!-- {{years | json}}-->
-<!-- {{reportReq | json}} -->
-<!--<br />-->
-<!-- {{report | json}} -->
-<!-- 
-{{report.Revenue | json}}
-{{report.Liability | json}} -->
 <div class="row" *ngIf="isProcessed && reportKeys.length == 0">
-  <div class="col-md-12">
+  <!-- <div class="col-md-12">
     <h4 style="text-align: center">No Information Available</h4>
-  </div>
+  </div> -->
 </div>
 
 <div class="row" *ngIf="isProcessed && reportKeys.length > 0">
@@ -29,22 +22,27 @@
             <!-- <div class="text-center"><small>Percentages represent percentage of Total Expenditure in the case of Expenditure line items and percentage of Total Income for all other line items</small></div> -->
           </td>
         </tr>
+
+        <tr>
+          <th class="text-center" colspan="2">Years</th>
+          <th class="text-center" *ngFor="let yr of years">{{ yr.title }}</th>
+        </tr>
         <tr>
           <th class="text-center">ULB</th>
           <td *ngIf="!reportReq.ulbType">{{ reportReq.ulbList[0].name }}</td>
           <td *ngIf="reportReq.ulbType">All {{ reportReq.ulbType }}</td>
-          <th class="text-center">State</th>
-          <td>{{ reportReq.ulbList[0].state }}</td>
+          <th class="text-center" *ngFor="let yr of years">State</th>
+          <!-- <td>{{ reportReq.ulbList[0].state }}</td> -->
         </tr>
         <tr>
           <th class="text-center">Account Code</th>
           <th class="text-center">Major Group/Minor Group</th>
-          <th class="text-center" *ngFor="let yr of years">{{ yr.title }}</th>
-          <!-- <th *ngIf="'Comparative' == reportReq.type">% change</th> -->
+          <th class="text-center" *ngFor="let yr of years">
+            {{ reportReq.ulbList[0].state }}
+          </th>
         </tr>
       </thead>
       <tbody>
-        <!-- <tr *ngFor="let key of reportKeys" [ngClass]="{'bold': !report[key]['code']}"> -->
         <tr
           *ngFor="let key of reportKeys"
           [ngClass]="{
@@ -56,7 +54,13 @@
           <td
             [ngClass]="{
               'text-right':
-                report[key] && report[key].line_item.includes('Total')
+                (report[key] && report[key].line_item.includes('Total')) ||
+                (report[key] && report[key].line_item.includes('Net')) ||
+                (report[key] && report[key].line_item.includes('Gross')) ||
+                (report[key] &&
+                  report[key].line_item.includes('Net Surplus')) ||
+                (report[key] &&
+                  report[key].line_item.includes('Surplus/(Deficit) (C) (A-B)'))
             }"
           >
             {{ report[key] ? report[key].line_item : "" }}
@@ -68,8 +72,8 @@
               }}</span>
               <span
                 *ngIf="
-                  (!report[key][yr.title] || report[key][yr.title] == 0) &&
-                  report[key]['code']
+                  (!report[key][yr.title] && report[key]['code']) ||
+                  report[key][yr.title] === 0
                 "
               >
                 {{ report[key][yr.title] }}
@@ -77,7 +81,9 @@
 
               <span
                 *ngIf="
-                  report[key][yr.title] === undefined && report[key]['code']
+                  !report[key].isBold &&
+                  (report[key][yr.title] === null ||
+                    report[key][yr.title] === undefined)
                 "
                 >Data not available</span
               >
