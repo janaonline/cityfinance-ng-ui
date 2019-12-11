@@ -43,6 +43,7 @@ export class ComparativeUlbComponent implements OnInit {
       this.reportReq = reportCriteria;
       this.reportService.reportResponse.subscribe(
         res => {
+          console.log(res);
           this._loaderService.stopLoader();
           if (res) {
             this.years = [];
@@ -72,6 +73,12 @@ export class ComparativeUlbComponent implements OnInit {
             this.reportKeys = [];
           }
           this._loaderService.stopLoader();
+
+          // console.log(`at the end `, { ...this.report });
+          console.log({ report: this.report });
+          console.log({ years: this.years });
+          console.log({ keys: this.reportKeys });
+          this.setDataNotAvailable();
         },
         () => {
           this._loaderService.stopLoader();
@@ -181,7 +188,6 @@ export class ComparativeUlbComponent implements OnInit {
    */
   populateCalcFields(result, years) {
     let calcFields = [];
-    // console.log(`reportReq: `, { ...this.reportReq });
     if (
       this.reportReq.reportGroup == "Balance Sheet" &&
       this.reportReq.type.indexOf("Summary") > -1
@@ -202,8 +208,6 @@ export class ComparativeUlbComponent implements OnInit {
       this.reportKeys = this.reportHelper.getIEReportMasterKeys();
       calcFields = this.reportHelper.getIECalcFields();
     }
-
-    // console.log({ calcFields });
 
     for (let i = 0; i < calcFields.length; i++) {
       const keyName = calcFields[i].keyName;
@@ -279,6 +283,28 @@ export class ComparativeUlbComponent implements OnInit {
 
     // this.isProcessed = true;
   }
+
+  setDataNotAvailable() {
+    this.years.forEach(year => {
+      if (year.caption === "%") {
+        return;
+      }
+
+      const canSetDataNotAvaliable = this.reportKeys.every(
+        key => !this.report[key][year.title]
+      );
+      if (canSetDataNotAvaliable) {
+        console.log(`settting data not availabel for `, year.title);
+        this.reportKeys.forEach(key => {
+          const original = { ...this.report[key] };
+          original[year.title] = null;
+          this.report[key] = { ...original };
+        });
+      }
+    });
+  }
+
+  canSetDataNotAvailable(years) {}
 
   /** Comparision will be done between years of each ULB
    * Expectation:
