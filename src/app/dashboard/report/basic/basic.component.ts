@@ -51,6 +51,7 @@ export class BasicComponent implements OnInit {
           }
 
           this.loaderService.stopLoader();
+          this.setDataNotAvailable();
         },
         err => {
           this.loaderService.stopLoader();
@@ -58,6 +59,22 @@ export class BasicComponent implements OnInit {
         },
         () => console.log("completed")
       );
+    });
+  }
+
+  setDataNotAvailable() {
+    this.years.forEach(year => {
+      const canSetDataNotAvaliable = this.reportKeys.every(
+        key => !this.report[key][year.title]
+      );
+      if (canSetDataNotAvaliable) {
+        console.log(`settting data not availabel for `, year.title);
+        this.reportKeys.forEach(key => {
+          const original = { ...this.report[key] };
+          original[year.title] = null;
+          this.report[key] = { ...original };
+        });
+      }
     });
   }
 

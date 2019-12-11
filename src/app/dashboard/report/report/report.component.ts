@@ -190,6 +190,9 @@ export class ReportComponent implements OnInit {
     this.reportForm.controls["ulbList"].valueChanges.subscribe(
       (newList: IULB[]) => {
         const ulbIds = newList.map(ulb => ulb["_id"] || "");
+        if (this.reportForm.controls.isComparative && this.baseULBSelected) {
+          ulbIds.push(this.baseULBSelected._id);
+        }
         this.reportForm.controls["ulbIds"].setValue(ulbIds);
       }
     );
@@ -341,9 +344,6 @@ export class ReportComponent implements OnInit {
     };
     const filteredByPopulation = this.filterULBByPopulation(originalState.ulbs);
     originalState.ulbs = filteredByPopulation;
-    // console.log({ filteredByPopulation });
-
-    // console.log({ originalState });
     this.filteredULBTypes = this.filterEmptyULBForState(originalState);
 
     this.ulbTypeInView = this.filteredULBTypes.some(
@@ -779,13 +779,19 @@ export class ReportComponent implements OnInit {
   }
 
   filterUlbs(filterName) {
-    const newULBS = this.filterULBByPopFilters("");
-    this.ulbs = { ...newULBS };
+    const states = this.filterULBByPopFilters("");
+    this.ulbs = { ...states };
     if (this.currentStateInView) {
-      const stateToShow = newULBS.data[this.currentStateInView.key]
-        ? { ...newULBS.data[this.currentStateInView.key] }
+      const stateToShow = states.data[this.currentStateInView.key]
+        ? { ...states.data[this.currentStateInView.key] }
         : null;
       if (stateToShow) {
+        this.filteredULBTypes = this.filterEmptyULBForState(stateToShow);
+        this.ulbTypeInView = this.filteredULBTypes.some(
+          uType => uType.type === this.ulbTypeInView.type
+        )
+          ? this.ulbTypeInView
+          : this.filteredULBTypes[0];
         stateToShow.ulbs = stateToShow.ulbs.filter(ulb =>
           this.ulbTypeInView ? ulb.type === this.ulbTypeInView.type : true
         );
@@ -793,19 +799,12 @@ export class ReportComponent implements OnInit {
           key: this.currentStateInView.key,
           value: { ...stateToShow }
         };
+        const originalState = {
+          ...this.originalUlbList.data[this.currentStateInView.key]
+        };
       } else {
         this.currentStateInView = null;
       }
-
-      // this.currentStateInView = {
-      //   key: this.currentStateInView.key,
-      //   value: {
-      //     state: stateToShow
-      //       ? stateToShow.state
-      //       : this.currentStateInView.value.state,
-      //     ulbs: stateToShow && stateToShow.ulbs ? [...stateToShow.ulbs] : []
-      //   }
-      // };
     }
   }
 
