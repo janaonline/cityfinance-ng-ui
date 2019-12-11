@@ -159,3 +159,19 @@ a.inactive-tab:hover {
 .baseStateULB {
   background: red;
 }
+
+::ng-deep md-input-container label {
+  color: red !important;
+}
+
+/* When the input is focused */
+::ng-deep .container {
+  .mat-form-field-outline,
+  .mat-form-field-empty.mat-form-field-label,
+  .mat-form-field-label,
+  .mat-form-field-underline,
+  .mat-input-element,
+  ::placeholder {
+    color: rgb(3, 3, 3) !important;
+  }
+}
