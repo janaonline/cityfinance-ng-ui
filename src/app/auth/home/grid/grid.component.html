@@ -39,7 +39,7 @@
       <tbody>
         <tr *ngFor="let stateId of stateIds">
           <td>{{ ulbs[stateId].stateName }}</td>
-          <td>{{ ulbs[stateId]["totalULBS"]?.length }}</td>
+          <td>{{ ulbs[stateId]["uniqueULBS"]?.length }}</td>
           <td>
             {{
               ulbs[stateId]["ulbsByYears"]["2015-16"]
