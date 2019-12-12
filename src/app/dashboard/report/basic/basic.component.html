@@ -56,7 +56,9 @@
               'text-right':
                 (report[key] && report[key].line_item.includes('Total')) ||
                 (report[key] && report[key].line_item.includes('Net')) ||
-                (report[key] && report[key].line_item.includes('Gross')) ||
+                (report[key] &&
+                  report[key].line_item.includes('Gross') &&
+                  key !== '410') ||
                 (report[key] &&
                   report[key].line_item.includes('Net Surplus')) ||
                 (report[key] &&
@@ -85,8 +87,29 @@
                   (report[key][yr.title] === null ||
                     report[key][yr.title] === undefined)
                 "
-                >Data not available</span
               >
+                <span
+                  *ngIf="
+                    ((report[key] && report[key][yr.title] === undefined) ||
+                      (report[key] && report[key][yr.title] === null)) &&
+                    report[key]['allNullYear'] &&
+                    report[key]['allNullYear'][yr.title]
+                  "
+                >
+                  Data not available
+                </span>
+
+                <span
+                  *ngIf="
+                    report[key] &&
+                    !report[key]['allNullYear'] &&
+                    (report[key][yr.title] === undefined ||
+                      report[key][yr.title] === null)
+                  "
+                >
+                  0
+                </span>
+              </span>
 
               <span *ngIf="yr.isComparative">%</span>
             </span>

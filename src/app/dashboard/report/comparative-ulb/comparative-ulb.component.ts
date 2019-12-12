@@ -32,9 +32,7 @@ export class ComparativeUlbComponent implements OnInit {
     private excelService: ExcelService,
     private reportHelper: ReportHelperService,
     private _loaderService: GlobalLoaderService
-  ) {
-    console.log(`instantiating comparitivve`);
-  }
+  ) {}
 
   ngOnInit() {
     // this.reportReq = this.reportService.getReportRequest();
@@ -43,20 +41,17 @@ export class ComparativeUlbComponent implements OnInit {
       this.reportReq = reportCriteria;
       this.reportService.reportResponse.subscribe(
         res => {
-          console.log(res);
           this._loaderService.stopLoader();
           if (res) {
             this.years = [];
             this.response = res;
-            // this.reportReq = this.reportService.getReportRequest();
 
             if (this.reportReq.reportGroup == "Balance Sheet") {
               this.report = this.reportHelper.getBSReportLookup();
             } else {
               this.report = this.reportHelper.getIEReportLookup();
             }
-            // this.reqUlb = this.reportReq.ulbList[0].code;
-            // this.reqUlb2 = this.reportReq.ulbList[1].code;
+
             this.reqYear = this.reportReq.years[0];
             if (this.reportReq.ulbList.length > 1) {
               this.years = [];
@@ -74,14 +69,7 @@ export class ComparativeUlbComponent implements OnInit {
           }
           this._loaderService.stopLoader();
 
-          // console.log(`at the end `, { ...this.report });
-          console.log({ report: this.report });
-          console.log({ years: this.years });
-          console.log({ keys: this.reportKeys });
           this.setDataNotAvailable();
-          console.log(`after set data to not available`, {
-            report: this.report
-          });
         },
         () => {
           this._loaderService.stopLoader();
