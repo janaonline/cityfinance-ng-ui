@@ -13,9 +13,19 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { HeatMapComponent } from './home/heat-map/heat-map.component';
+import { AngularMaterialModule } from '../angular-material.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 
 @NgModule({
-  imports: [CommonModule, AuthRouter, ReactiveFormsModule, CfChartsModule],
+  imports: [
+    CommonModule, 
+    AuthRouter, 
+    ReactiveFormsModule, 
+    CfChartsModule,
+    AngularMaterialModule,
+    CommonModule
+  ],
   providers: [AuthService],
   declarations: [
     LoginComponent,
@@ -28,6 +38,7 @@ import { HeatMapComponent } from './home/heat-map/heat-map.component';
     PreLoaderComponent,
     HeatMapComponent
   ],
-  exports: [HomeHeaderComponent]
+  exports: [HomeHeaderComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AuthModule {}

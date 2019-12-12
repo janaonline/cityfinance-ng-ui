@@ -121,10 +121,10 @@
       "name":"ULB 4",
       "population":"700",
       "ulbType": "1",
-      "color": "red",
-      "backColor": "#fff1f1",
+      "color": "#ff8100",
+      "backColor": "#ffefde",
       "state":{
-        "_id":"s1",
+        "_id":"s4",
         "name":"Goa",
         "code":"GO"
       },
