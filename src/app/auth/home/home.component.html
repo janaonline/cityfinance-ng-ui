@@ -20,7 +20,7 @@
     <app-statistics></app-statistics>
   </div> -->
 
-  <app-grid></app-grid>
+  <!-- <app-grid></app-grid> -->
 
   <div class="about">
     <div class="container">
@@ -50,7 +50,11 @@
           Cityfinance.in is an initiative of Janaagraha Centre for Citizenship
           and Democracy (JCCD). The primary objective of this portal is to
           create a national database of city finances and design framework for
-          analysing the financial and operational performance of the cities
+          analysing the financial and operational performance of the cities.<br />
+          <a [routerLink]="['/dashboard', 'financial-information']">
+            Please click here for availability of financial information on the
+            City Finance portal.
+          </a>
         </p>
         <div class="col-md-6">
           <div class="about-block">

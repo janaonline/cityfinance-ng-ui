@@ -11,26 +11,39 @@ table {
 }
 
 table thead tr:nth-child(1) th {
-  background: white;
+  background: #0580b5;
+  color: white;
   position: sticky;
   top: 0px;
+  border-right: 0px;
+  border-left: 0.5px solid white;
 }
 
 table thead tr:nth-child(2) th {
-  background: white;
+  // background: white;
   position: sticky;
   top: 32px;
-  background: rgb(238, 238, 238);
+  background: #f1f5f7;
 }
 
-table tbody tr:last-child th {
-  background: rgb(238, 238, 238);
+table tbody tr:last-child td {
+  background: #f1f5f7;
   position: sticky;
   bottom: 0px;
+  font-weight: 700;
+}
+
+table tbody tr > td {
+  text-align: center;
+}
+
+table tbody tr > td:nth-child(1) {
+  text-align: left;
 }
 
 .tableWrapper {
   height: 70vh;
+  max-height: 70vh;
   position: relative;
   overflow-y: auto;
   box-shadow: 3px 2px 7px 3px #c1c1c1;
@@ -48,9 +61,8 @@ tbody tr th {
   width: 70px;
 }
 
-tbody tr th:nth-child(1) {
+tbody tr td:nth-child(1) {
   text-align: left;
-  width: 90px;
 }
 
 @keyframes show {
@@ -110,13 +122,12 @@ app-pre-loader {
   transform: translateY(-15px);
 }
 
-.statistics::after,
-.statistics::before {
+.statistics::after {
   content: "";
   color: black;
   background: black;
   display: block;
   margin: auto;
-  width: 50%;
+  width: 70%;
   height: 2px;
 }
