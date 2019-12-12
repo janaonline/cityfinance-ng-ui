@@ -297,7 +297,7 @@ export class ComparativeUlbComponent implements OnInit {
         console.log(`settting data not availabel for `, year.title);
         this.reportKeys.forEach(key => {
           const original = { ...this.report[key] };
-          original[year.title] = original[year.title];
+          original[year.title] = null;
           if (!original["allNullYear"]) {
             original["allNullYear"] = { [year.title]: true };
           } else {
