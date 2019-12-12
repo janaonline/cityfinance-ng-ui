@@ -108,11 +108,12 @@ export class CommonService {
         newObj.data[ulb.state.code].ulbs.every(
           ulb => ulb.code !== convertedULB.code
         )
-      )
+      ) {
         newObj.data[ulb.state.code].ulbs.push({
           ...this.convertNewULBStructureToIULB(ulb),
           state: ulb.state.name
         });
+      }
     });
     return newObj;
   }
@@ -133,9 +134,8 @@ export class CommonService {
   getCount(ulbList: NewULBStructure[]): ULBsStatistics {
     const newObj: ULBsStatistics = {};
     ulbList.forEach(ulb => {
-      // console.log(ulb.state.name, ulb.ulb.name,ulb.ulb.amrut);
-      // if(ulb.state.name == 'Andhra Pradesh' && ulb.financialYear == "2015-16"){
-      //   console.log(ulb.ulb.amrut);
+      // if (ulb.ulb.amrut == undefined) {
+      //   console.log(ulb.ulb.name);
       // }
 
       if (!ulb.state._id) {
@@ -147,6 +147,7 @@ export class CommonService {
           stateCode: ulb.state.code,
           _id: ulb.state._id,
           totalULBS: [ulb],
+          uniqueULBS: [ulb],
           ulbsByYears: {
             [ulb.financialYear]: {
               total: 1,
@@ -159,6 +160,13 @@ export class CommonService {
         return;
       }
       newObj[ulb.state._id].totalULBS.push(ulb);
+      const doesULBAlreadyExist = newObj[ulb.state._id].uniqueULBS.find(
+        ulbToSearch => ulbToSearch.ulb.code === ulb.ulb.code
+      );
+      if (!doesULBAlreadyExist) {
+        newObj[ulb.state._id].uniqueULBS.push(ulb);
+      }
+
       if (!newObj[ulb.state._id].ulbsByYears[ulb.financialYear]) {
         newObj[ulb.state._id].ulbsByYears[ulb.financialYear] = {
           total: 1,
