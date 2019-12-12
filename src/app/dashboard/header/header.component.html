@@ -1,22 +1,66 @@
 <nav class="navbar">
   <div class="container-fluid">
     <div class="navbar-header">
-      <span [routerLink]="['/']" class="navbar-brand"><img src="/assets/images/cityfinance-logo.png"></span>
+      <span [routerLink]="['/']" class="navbar-brand"
+        ><img src="/assets/images/cityfinance-logo.png"
+      /></span>
     </div>
     <!-- Home, About Cityfinance.in, Urban Finances, Municipal Finance Laws, Credit Rating , Municipal Bonds and Login -->
     <ul class="nav navbar-nav navbar-right">
       <li routerLinkActive="active"><a [routerLink]="['/home']">Home</a></li>
       <!-- <li routerLinkActive="active"><a [routerLink]="['/home']">About Cityfinance.in</a></li> -->
-      <li routerLinkActive="active"><a [routerLink]="['/dashboard/report']">Urban Finances</a></li>
-      <li routerLinkActive="active"><a [routerLink]="['/credit-rating/laws']">Municipal Finance Laws</a></li>
-      <li routerLinkActive="active"><a [routerLink]="['/credit-rating/report']">Credit Rating</a></li>
-      <li routerLinkActive="active"><a [routerLink]="['/credit-rating/municipal-bond']">Municipal Bonds</a></li>
-      <li routerLinkActive="active" *ngIf="!isLoggedIn"><a [routerLink]="['/login']">Login</a></li>
-      <li routerLinkActive="active" class="dropdown" *ngIf="isLoggedIn">
-        <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings &nbsp;<span class="caret"></span></a>
+      <!-- <li routerLinkActive="active"><a [routerLink]="['/dashboard/report']">Urban Finances</a></li> -->
+
+      <li routerLinkActive="active" class="dropdown">
+        <a
+          class="dropdown-toggle"
+          data-toggle="dropdown"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+          >Urban Finances &nbsp;<span class="caret"></span
+        ></a>
         <ul class="dropdown-menu">
-          <li routerLinkActive="active"><a [routerLink]="['user']">Profile</a></li>
-          <li routerLinkActive="active"><a class="pointer" (click)="logout()">Logout</a></li>
+          <li routerLinkActive="active">
+            <a [routerLink]="['/dashboard', 'report']"
+              >Annual Financial Statements</a
+            >
+          </li>
+          <li routerLinkActive="active">
+            <a [routerLink]="['/dashboard', 'financial-information']"
+              >Availability of Financial Information</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li routerLinkActive="active">
+        <a [routerLink]="['/credit-rating/laws']">Municipal Finance Laws</a>
+      </li>
+      <li routerLinkActive="active">
+        <a [routerLink]="['/credit-rating/report']">Credit Rating</a>
+      </li>
+      <li routerLinkActive="active">
+        <a [routerLink]="['/credit-rating/municipal-bond']">Municipal Bonds</a>
+      </li>
+      <li routerLinkActive="active" *ngIf="!isLoggedIn">
+        <a [routerLink]="['/login']">Login</a>
+      </li>
+      <li routerLinkActive="active" class="dropdown" *ngIf="isLoggedIn">
+        <a
+          class="dropdown-toggle"
+          data-toggle="dropdown"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+          >Settings &nbsp;<span class="caret"></span
+        ></a>
+        <ul class="dropdown-menu">
+          <li routerLinkActive="active">
+            <a [routerLink]="['user']">Profile</a>
+          </li>
+          <li routerLinkActive="active">
+            <a class="pointer" (click)="logout()">Logout</a>
+          </li>
         </ul>
       </li>
 
@@ -31,7 +75,6 @@
       <li><a [routerLink]="['/dashboard/data-tracker']">Data Tracker</a></li>
       <li *ngIf="isLoggedIn"><a [routerLink]="['entry']">Data Entry</a></li>
       <li *ngIf="isLoggedIn"><a [routerLink]="['report']">Report</a></li> -->
-      
     </ul>
   </div>
 </nav>
