@@ -164,7 +164,7 @@
           class="fa fa-info-circle"
           aria-hidden="true"
           style="margin-right: 10px; margin-left: 0px; "
-          title=" Placeholder"
+          title="Comparison Report"
         ></i>
 
         <angular2-multiselect
@@ -386,7 +386,8 @@
                             getTotalULBSelectedBy(currentStateInView.key, {
                               type: ulb.type
                             })) ||
-                         ( baseULBSelected?.type === ulb?.type && ulbTypeSelected === 'base')
+                          (baseULBSelected?.type === ulb?.type &&
+                            ulbTypeSelected === 'base')
                       }"
                     >
                       <input
