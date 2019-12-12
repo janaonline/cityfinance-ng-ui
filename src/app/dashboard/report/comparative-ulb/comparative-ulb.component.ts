@@ -79,6 +79,9 @@ export class ComparativeUlbComponent implements OnInit {
           console.log({ years: this.years });
           console.log({ keys: this.reportKeys });
           this.setDataNotAvailable();
+          console.log(`after set data to not available`, {
+            report: this.report
+          });
         },
         () => {
           this._loaderService.stopLoader();
@@ -294,7 +297,6 @@ export class ComparativeUlbComponent implements OnInit {
         key => !this.report[key][year.title]
       );
       if (canSetDataNotAvaliable) {
-        console.log(`settting data not availabel for `, year.title);
         this.reportKeys.forEach(key => {
           const original = { ...this.report[key] };
           original[year.title] = null;

@@ -126,8 +126,9 @@
               >
                 <span
                   *ngIf="
-                    (report[key][yr.title] === undefined ||
-                      report[key][yr.title] === null) &&
+                    ((report[key] && report[key][yr.title] === undefined) ||
+                      (report[key] && report[key][yr.title] === null)) &&
+                    report[key]['allNullYear'] &&
                     report[key]['allNullYear'][yr.title]
                   "
                 >
@@ -136,15 +137,20 @@
 
                 <span
                   *ngIf="
+                    report[key] &&
+                    report[key]['allNullYear'] &&
+                    !report[key]['allNullYear'][yr.title] &&
                     (report[key][yr.title] === undefined ||
-                      report[key][yr.title] === null) &&
-                    !report[key]['allNullYear'][yr.title]
+                      report[key][yr.title] === null)
                   "
                 >
                   0
                 </span>
               </span>
-              <span *ngIf="report[key][yr.title] && yr.isComparative">%</span>
+              <span
+                *ngIf="report[key] && report[key][yr.title] && yr.isComparative"
+                >%</span
+              >
             </span>
           </td>
         </tr>
