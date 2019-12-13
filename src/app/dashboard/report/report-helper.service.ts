@@ -269,7 +269,7 @@ export class ReportHelperService {
         title: "Net Surplus/(Deficit) carried over (E) (D-290)",
         isCalc: true,
         postPushCode: 290,
-        addFields: ["grossSurplusAfter"],
+        addFields: ["grossSurgrossSurplusAfterplusAfter"],
         subtractFields: ["290"]
       }
     ];
@@ -603,14 +603,13 @@ export class ReportHelperService {
       },
       {
         keyName: "netAmtOutstanding1",
-        title: "Net amount outstanding (431 - 432) ",
+        title: "Net amount outstanding (430 + 431 - 432) ",
         isCalc: true,
         addFields: ["430", "431", "432"]
       },
       {
         keyName: "netAmtOutstanding2",
-        title:
-          "Net amount outstanding (II) (430 + 431 + 432 + 440 + 450 + 460)",
+        title: "Net amount outstanding (II) ( 440 + 450 + 460)",
         isCalc: true,
         addFields: ["440", "450", "460", "461"]
       },
