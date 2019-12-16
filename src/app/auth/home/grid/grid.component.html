@@ -1,4 +1,5 @@
 <div class=" mt-5">
+  <h3 class="statistics">Availability of Financial Information</h3>
   <div class="col d-flex justify-content-center tableWrapper">
     <div
       style="display: block;
@@ -22,87 +23,87 @@
         </tr>
         <tr>
           <th scope="col">State</th>
-          <th scope="col">No of ULBs</th>
-          <th scope="col" style="text-align: right;">AMRUT</th>
-          <th scope="col" style="text-align: right;">NON AMRUT</th>
-          <th scope="col" style="text-align: right;">Total</th>
-          <th scope="col" style="text-align: right;">AMRUT</th>
-          <th scope="col" style="text-align: right;">NON AMRUT</th>
-          <th scope="col" style="text-align: right;">Total</th>
-          <th scope="col" style="text-align: right;">AMRUT</th>
-          <th scope="col" style="text-align: right;">NON AMRUT</th>
-          <th scope="col" style="text-align: right;">Total</th>
-          <th scope="col" style="text-align: right;">Grand Total</th>
+          <th scope="col" style="text-align: center;">No of ULBs</th>
+          <th scope="col" style="text-align: center;">AMRUT</th>
+          <th scope="col" style="text-align: center;">NON AMRUT</th>
+          <th scope="col" style="text-align: center;">Total</th>
+          <th scope="col" style="text-align: center;">AMRUT</th>
+          <th scope="col" style="text-align: center;">NON AMRUT</th>
+          <th scope="col" style="text-align: center;">Total</th>
+          <th scope="col" style="text-align: center;">AMRUT</th>
+          <th scope="col" style="text-align: center;">NON AMRUT</th>
+          <th scope="col" style="text-align: center;">Total</th>
+          <th scope="col" style="text-align: center;">Grand Total</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let stateId of stateIds">
-          <th>{{ ulbs[stateId].stateName }}</th>
-          <th>{{ ulbs[stateId]["totalULBS"]?.length }}</th>
-          <th>
+          <td>{{ ulbs[stateId].stateName }}</td>
+          <td>{{ ulbs[stateId]["uniqueULBS"]?.length }}</td>
+          <td>
             {{
               ulbs[stateId]["ulbsByYears"]["2015-16"]
                 ? ulbs[stateId]["ulbsByYears"]["2015-16"].amrut
                 : 0
             }}
-          </th>
-          <th>
+          </td>
+          <td>
             {{
               ulbs[stateId]["ulbsByYears"]["2015-16"]
                 ? ulbs[stateId]["ulbsByYears"]["2015-16"].nonAmrut
                 : 0
             }}
-          </th>
-          <th>
+          </td>
+          <td>
             {{
               ulbs[stateId]["ulbsByYears"]["2015-16"]
                 ? ulbs[stateId]["ulbsByYears"]["2015-16"].total
                 : 0
             }}
-          </th>
-          <th>
+          </td>
+          <td>
             {{
               ulbs[stateId]["ulbsByYears"]["2016-17"]
                 ? ulbs[stateId]["ulbsByYears"]["2016-17"].amrut
                 : 0
             }}
-          </th>
-          <th>
+          </td>
+          <td>
             {{
               ulbs[stateId]["ulbsByYears"]["2016-17"]
                 ? ulbs[stateId]["ulbsByYears"]["2016-17"].nonAmrut
                 : 0
             }}
-          </th>
-          <th>
+          </td>
+          <td>
             {{
               ulbs[stateId]["ulbsByYears"]["2016-17"]
                 ? ulbs[stateId]["ulbsByYears"]["2016-17"].total
                 : 0
             }}
-          </th>
-          <th>
+          </td>
+          <td>
             {{
               ulbs[stateId]["ulbsByYears"]["2017-18"]
                 ? ulbs[stateId]["ulbsByYears"]["2017-18"].amrut
                 : 0
             }}
-          </th>
-          <th>
+          </td>
+          <td>
             {{
               ulbs[stateId]["ulbsByYears"]["2017-18"]
                 ? ulbs[stateId]["ulbsByYears"]["2017-18"].nonAmrut
                 : 0
             }}
-          </th>
-          <th>
+          </td>
+          <td>
             {{
               ulbs[stateId]["ulbsByYears"]["2017-18"]
                 ? ulbs[stateId]["ulbsByYears"]["2017-18"].total
                 : 0
             }}
-          </th>
-          <th>
+          </td>
+          <td>
             {{
               (ulbs[stateId]["ulbsByYears"]["2015-16"]
                 ? ulbs[stateId]["ulbsByYears"]["2015-16"].total
@@ -114,7 +115,7 @@
                   ? ulbs[stateId]["ulbsByYears"]["2017-18"].total
                   : 0)
             }}
-          </th>
+          </td>
         </tr>
       </tbody>
     </table>

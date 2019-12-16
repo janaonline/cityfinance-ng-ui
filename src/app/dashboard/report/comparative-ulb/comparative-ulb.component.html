@@ -49,7 +49,7 @@
           <th
             class="text-center"
             [attr.rowspan]="headerGroup.accRowspan"
-            style="position: sticky; left: 9.5%; background: white;"
+            style="position: sticky; left: 103px; background: white; border-right: inherit solid #868686;"
           >
             Major Group/Minor Group
           </th>
@@ -79,7 +79,7 @@
             {{ report[key] ? report[key].code : "" }}
           </td>
           <td
-            style="position: sticky; left:9.5%; background: white;"
+            style="position: sticky; left:103px;border-right: inherit solid #868686; background: white;"
             [ngClass]="{
               'text-right':
                 (report[key] && report[key].line_item.includes('Total')) ||
@@ -95,14 +95,62 @@
           </td>
           <td class="text-right" *ngFor="let yr of years">
             <span *ngIf="report[key]">
-              <!-- {{report[key] | json}} -  -->
-              <span *ngIf="report[key][yr.title]">{{
-                report[key][yr.title] | inrCurrency
-              }}</span>
-              <span *ngIf="!report[key][yr.title] && report[key]['code']"
-                >Data not available</span
+              <span
+                *ngIf="
+                  (report[key][yr.title] || report[key][yr.title] === 0) &&
+                  report[key].line_item != 'A.Income' &&
+                  report[key].line_item != 'B.Expenditure' &&
+                  report[key].line_item != 'A. Liabilities' &&
+                  report[key].line_item != 'I. Reserves & Surplus' &&
+                  report[key].line_item !=
+                    'II. Grants , Contribution for specific purposes' &&
+                  report[key].line_item != 'III. Loans' &&
+                  report[key].line_item !=
+                    'IV. Current Liabilities and Provisions' &&
+                  report[key].line_item != 'B. Assets' &&
+                  report[key].line_item !=
+                    'III. Current Assets, Loans and Advances' &&
+                  report[key].line_item != 'IV. Other Assets' &&
+                  report[key].line_item !=
+                    'IV. Current Liabilities and Provisions'
+                "
+                >{{ report[key][yr.title] | inrCurrency }}
+              </span>
+
+              <span
+                *ngIf="
+                  (report[key][yr.title] === undefined ||
+                    report[key][yr.title] === null) &&
+                  report[key]['code']
+                "
               >
-              <span *ngIf="report[key][yr.title] && yr.isComparative">%</span>
+                <span
+                  *ngIf="
+                    ((report[key] && report[key][yr.title] === undefined) ||
+                      (report[key] && report[key][yr.title] === null)) &&
+                    report[key]['allNullYear'] &&
+                    report[key]['allNullYear'][yr.title]
+                  "
+                >
+                  Data not available
+                </span>
+
+                <span
+                  *ngIf="
+                    report[key] &&
+                    report[key]['allNullYear'] &&
+                    !report[key]['allNullYear'][yr.title] &&
+                    (report[key][yr.title] === undefined ||
+                      report[key][yr.title] === null)
+                  "
+                >
+                  0
+                </span>
+              </span>
+              <span
+                *ngIf="report[key] && report[key][yr.title] && yr.isComparative"
+                >%</span
+              >
             </span>
           </td>
         </tr>

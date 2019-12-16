@@ -6,11 +6,12 @@ export interface ULBsStatistics {
     stateCode: string;
     _id: string;
     totalULBS: NewULBStructure[];
+    uniqueULBS?: NewULBStructure[];
     ulbsByYears: {
       [year: string]: {
         total: number;
-        amrut:number;
-        nonAmrut:number;
+        amrut: number;
+        nonAmrut: number;
       };
     };
   };

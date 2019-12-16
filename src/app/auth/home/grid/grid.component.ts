@@ -15,6 +15,7 @@ export class GridComponent implements OnInit {
   totalRow: any = {
     stateName: "Total",
     totalULBS: [],
+    uniqueULBS: [],
     ulbsByYears: {
       ["2015-16"]: {
         amrut: 0,
@@ -38,7 +39,7 @@ export class GridComponent implements OnInit {
     this._commonService.getULBsStatistics().subscribe(async ulbs => {
       let count = 0;
       await Object.values(ulbs).forEach(row => {
-        count += row.totalULBS.length;
+        count += row.uniqueULBS.length;
         this.totalRow["ulbsByYears"]["2015-16"].amrut += row.ulbsByYears[
           "2015-16"
         ]
@@ -86,7 +87,7 @@ export class GridComponent implements OnInit {
           : 0;
       });
 
-      this.totalRow["totalULBS"].length = count;
+      this.totalRow["uniqueULBS"].length = count;
       ulbs["total"] = await this.totalRow;
 
       this.years = this.getUniqueYears(ulbs);
@@ -100,7 +101,6 @@ export class GridComponent implements OnInit {
     Object.keys(ulbs).forEach(stateId => {
       Object.keys(ulbs[stateId].ulbsByYears).forEach(year => years.add(year));
     });
-    // console.log(years);
     return years;
   }
 
