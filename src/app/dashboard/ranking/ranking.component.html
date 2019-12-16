@@ -45,7 +45,14 @@
                           </div>
                           <div class="col-lg-12">
                             <div style="text-align: center;padding: 2%;" *ngIf="legends">
-                              <span class="chart-head"> <div class="square" [style.background-color]="legends[0].color" (click)="toggleChartData('1', 'legend', legends[0].ulbId)"></div> &nbsp; <span [ngStyle]="{'text-decoration': !legends[0].status ? 'line-through' : 'none'}">Municipal Corporation</span> &nbsp; <div class="circle" [style.background-color]="legends[1].color" (click)="toggleChartData('2', 'legend', legends[1].ulbId)"></div> &nbsp; <span [ngStyle]="{'text-decoration': !legends[1].status ? 'line-through' : 'none'}">Muncipality</span> &nbsp;<div class="triangle-up" [style.border-bottom]="'18px solid '+legends[2].color" (click)="toggleChartData('3', 'legend', legends[2].ulbId)"></div>&nbsp; <span [ngStyle]="{'text-decoration': !legends[2].status ? 'line-through' : 'none'}">Town Panchayat</span></span>
+                              <span class="chart-head"> 
+                                  <ng-container *ngFor="let legend of legends; let i = index;">
+                                    <div [class]="legend.class" [style.border-bottom]="legend.class == 'triangle-up' ? '18px solid '+legend.color : ''" [style.background-color]="legend.class == 'triangle-up' ? '' : legend.color" (click)="toggleChartData(i + 1, 'legend', legend.ulbId)"></div> &nbsp; <span [ngStyle]="{'text-decoration': !legend.status ? 'line-through' : 'none'}">{{legend.ulbName}}</span> &nbsp;
+                                  </ng-container>
+                                <!-- <div class="square" [style.background-color]="legends[0].color" (click)="toggleChartData('1', 'legend', legends[0].ulbId)"></div> &nbsp; <span [ngStyle]="{'text-decoration': !legends[0].status ? 'line-through' : 'none'}">Municipal Corporation</span> &nbsp; 
+                                  <div class="circle" [style.background-color]="legends[1].color" (click)="toggleChartData('2', 'legend', legends[1].ulbId)"></div> &nbsp; <span [ngStyle]="{'text-decoration': !legends[1].status ? 'line-through' : 'none'}">Muncipality</span> &nbsp;
+                                  <div class="triangle-up" [style.border-bottom]="'18px solid '+legends[2].color" (click)="toggleChartData('3', 'legend', legends[2].ulbId)"></div>&nbsp; <span [ngStyle]="{'text-decoration': !legends[2].status ? 'line-through' : 'none'}">Town Panchayat</span> -->
+                              </span>
                             </div>
                             <div class="chart-container">
                               <canvas id="canvas"></canvas> 

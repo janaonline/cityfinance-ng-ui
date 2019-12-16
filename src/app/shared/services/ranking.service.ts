@@ -13,4 +13,8 @@ export class RankingService {
     return this.http.get(environment.api.url + "api/admin/v1/report/ulb-ranking");
   }
 
+  heatMapFilter(params){
+    return this.http.post(environment.api.url + "api/admin/v1/report/ulb-ranking", params);
+  }
+
 }

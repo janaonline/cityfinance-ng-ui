@@ -639,6 +639,9 @@ img.align-center {
 .tooltip-custom {
   background: #000000bd;
   color:white;
+  padding: 0 5px;
+  border: none !important;
+  overflow-wrap: break-word !important;
 }
 
 .tooltip-custom-1{
@@ -647,4 +650,5 @@ img.align-center {
   border: none !important;
   height: 20px;
   padding: 0 5px;
+  margin-right: 2% !important;
 }

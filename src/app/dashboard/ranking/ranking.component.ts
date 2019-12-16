@@ -3,7 +3,6 @@ import {FormControl} from '@angular/forms';
 import { Chart } from 'chart.js';
 import jsonData from '../../../assets/files/data.json';
 import colorData from '../../../assets/files/colors.json';
-
 import { RankingService } from '../../shared/services/ranking.service.js';
 
 declare const $:any;
@@ -27,13 +26,14 @@ export class RankingComponent implements OnInit {
   //filters start
   overallFilter = 'Less than 50k';
   overallList = [
-    { label: 'Over 1 million', min: 1000000, max: 1000000000000 },
-    { label: 'Over 500k but less than 1 million', min: 500000, max: 999999 },
-    { label: 'Over 300k but less than 500k', min: 300000, max: 499999 },
-    { label: 'Over 100k but less than 300k', min: 100000, max: 299999 },
-    { label: 'Over 50k but less than 100k', min: 50000, max: 99999 },
-    { label: 'Less than 50k', min: 0, max: 49999 }
-  ]
+    { id: 1, label: "Overall", min: 1, max: 1000000000000 },
+    { id: 2, label: "Less than 50k", min: 0, max: 49999 },
+    { id: 3, label: "Over 50k but less than 100k", min: 50000, max: 99999 },
+    { id: 4, label: "Over 100k but less than 300k", min: 100000, max: 299999 },
+    { id: 5, label: "Over 300k but less than 500k", min: 300000, max: 499999 },
+    { id: 6,label: "Over 500k but less than 1 million", min: 500000, max: 999999 },
+    { id: 7, label: "Over 1 million", min: 1000000, max: 1000000000000 }
+  ];
 
   financialFilter = 'Overall';
   financialList = [
@@ -96,19 +96,25 @@ export class RankingComponent implements OnInit {
     state: ''
   };
 
-  constructor(private rankingService:RankingService) { 
+  constructor(private rankingService: RankingService ) { 
   }
 
-  ngOnInit() {
-    this.getAllUlbData();
+  async ngOnInit() {
+    await this.getAllUlbData();
   }
 
   async getAllUlbData(){
-    await this.rankingService.loadRankinModuleData().subscribe((res:any) => {
-        this.mainData = res.data;
-        console.log(this.mainData);
+    this.mainData = null;
+    let pop = this.overallList.find(x => x.label == this.overallFilter);
+    let obj = {
+      populationId: pop.id
+    };
+
+    await this.rankingService.heatMapFilter(obj).subscribe(async (res:any) => {
+        this.mainData = await res.data;
         this.mapColorMainData();
       });
+    // this.mainData = JSON.parse(sessionStorage.getItem('ulbJson'));
   }
     
   onTabChanged($event){
@@ -138,9 +144,11 @@ export class RankingComponent implements OnInit {
 
     this.ulbTypeList = this.distinctObjectFromArrayUlb(data);
 
+    let shapeArr = ['square', 'circle', 'triangle-up'];
+
     let values = this.ulbTypeList.slice();
-    this.legends = values.map(x => {
-      return {  ulbId: x.id, color: '#ffc500', status: true};
+    this.legends = values.map((x,index) => {
+      return {  ulbId: x.id, ulbName: x.value, color: '#ffc500', status: true, class: shapeArr[index]};
     });
   }
 
@@ -295,13 +303,19 @@ export class RankingComponent implements OnInit {
 
     
     let data = [];
+
+    let typeArr = [
+      { type: 'rect', pointRadius: 10},
+      { type: 'circle', pointRadius: 8},
+      { type: 'triangle', pointRadius: 10}
+    ];
     
     //chart labels for shapes
     // 1 -> Municipal Corporation
     // 2 -> Muncipality  
     // 3 -> Town Panchayat
     
-    this.ulbTypeList.forEach(type => {
+    this.ulbTypeList.forEach((type,index) => {
       let filteredData = chartData.filter(item => item.ulbType._id == type.id).map(val => {
         return { x : val.population, y : val.overallIndexScore.toFixed(2) };
       });
@@ -310,7 +324,7 @@ export class RankingComponent implements OnInit {
         return item.color;
       });
 
-      data.push({ label: type.value, data: filteredData, pointColor: colorPoints});
+      data.push({ label: type.value, data: filteredData, pointColor: colorPoints, type: typeArr[index].type, pointRadius: typeArr[index].pointRadius });
     });
 
     this.chartDataset = data;
@@ -343,35 +357,47 @@ export class RankingComponent implements OnInit {
     let color = Chart.helpers.color;
 	  let scatterChartData = {
       datasets: [
-        {
-          pointStyle:'rect',
-          backgroundColor: '#555',
-          label: 'Municipal Corporation',
-          pointRadius: 10,
-          pointBackgroundColor: this.chartDataset[0].pointColor,
-          borderColor: '#ddd',
-          data: this.chartDataset[0].data
-        },
-        {
-          backgroundColor: '#555',
-          pointStyle:'circle',
-          pointRadius: 8,
-          label: 'Town Panchayat',
-          pointBackgroundColor: this.chartDataset[1].pointColor,
-          borderColor: '#ddd',
-          data: this.chartDataset[1].data
-        },
-        {
-          backgroundColor: '#555',
-          pointStyle:'triangle',
-          pointRadius: 10,
-          label: 'Town Panchayat',
-          pointBackgroundColor: this.chartDataset[2].pointColor,
-          borderColor: '#ddd',
-          data: this.chartDataset[2].data
-        }
+        // {
+        //   pointStyle:'rect',
+        //   backgroundColor: '#555',
+        //   label: 'Municipal Corporation',
+        //   pointRadius: 10,
+        //   pointBackgroundColor: this.chartDataset[0].pointColor,
+        //   borderColor: '#ddd',
+        //   data: this.chartDataset[0].data
+        // },
+        // {
+        //   backgroundColor: '#555',
+        //   pointStyle:'circle',
+        //   pointRadius: 8,
+        //   label: 'Town Panchayat',
+        //   pointBackgroundColor: this.chartDataset[1].pointColor,
+        //   borderColor: '#ddd',
+        //   data: this.chartDataset[1].data
+        // },
+        // {
+        //   backgroundColor: '#555',
+        //   pointStyle:'triangle',
+        //   pointRadius: 10,
+        //   label: 'Town Panchayat',
+        //   pointBackgroundColor: this.chartDataset[2].pointColor,
+        //   borderColor: '#ddd',
+        //   data: this.chartDataset[2].data
+        // }
       ]
     };
+
+    this.chartDataset.forEach(element => {
+        scatterChartData.datasets.push({
+          pointStyle: element.type,
+          backgroundColor: '#555',
+          label: element.label,
+          pointRadius: element.pointRadius,
+          pointBackgroundColor: element.pointColor,
+          borderColor: '#ddd',
+          data: element.data
+        });
+    });
 
     var canvas:any = document.getElementById('canvas');
     var ctx = canvas.getContext("2d");
@@ -420,18 +446,26 @@ export class RankingComponent implements OnInit {
     });
   }
 
-  filterData(){
+  async filterData(){
     $("canvas#canvas").remove();
     $("div.chart-container").append('<canvas id="canvas"></canvas>');
     // this.overallFilter.setValue(this.anotherList);
-    let pop = this.overallList.find(x => x.label == this.overallFilter);
-    this.filters.population = [pop];
-    this.filters.finance = [this.financialFilter];
-    this.filters.state = this.stateFilter;
 
-    this.rankTableDataFormat(this.filters.finance, 'nationalRank', this.filters.state, this.filters.population);
-    this.chartDataFormat(this.filters.state, '', '');
-    this.pillsDataFormat(this.filters.state);
+    // this.mainData = null;
+    let pop = this.overallList.find(x => x.label == this.overallFilter);
+    let obj = {
+      populationId: pop.id
+    };
+
+    await this.rankingService.heatMapFilter(obj).subscribe(async (res:any) => {
+        this.mainData = await res.data;
+        this.filters.population = [pop];
+        this.filters.finance = [this.financialFilter];
+        this.filters.state = this.stateFilter;
+
+        this.mapColorMainData('filter');
+      });
+
   }
 
   // common functions
@@ -533,7 +567,7 @@ export class RankingComponent implements OnInit {
   }
 
 
-  mapColorMainData(){
+  mapColorMainData(via = ''){
     let totalColors = Object.keys(this.colorsData);
     let stateColorObj = {};
     let stateColors = [];
@@ -552,8 +586,15 @@ export class RankingComponent implements OnInit {
     this.rankTableDataFormat(this.filters.finance, 'nationalRanking', this.filters.state, this.filters.population);
     this.getStatesList();
     this.getUlbList();
-    this.chartDataFormat();
-    this.pillsDataFormat();
+
+    if(via){
+      this.chartDataFormat(this.filters.state, '', '');
+      this.pillsDataFormat(this.filters.state);
+    }else{
+      this.chartDataFormat();
+      this.pillsDataFormat();
+    }
+
 
   }
 

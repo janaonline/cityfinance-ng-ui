@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { CfChartsModule } from '../shared/cf-charts/cf-charts.module';
 import { PreLoaderComponent } from '../shared/components/pre-loader/pre-loader.component';
@@ -22,6 +22,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     CommonModule, 
     AuthRouter, 
     ReactiveFormsModule, 
+    FormsModule,
     CfChartsModule,
     AngularMaterialModule,
     CommonModule
