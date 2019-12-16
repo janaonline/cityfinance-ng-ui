@@ -5,8 +5,8 @@ export interface ULBsStatistics {
     stateName: string;
     stateCode: string;
     _id: string;
-    uniqueULBS?: NewULBStructure[];
     totalULBS: NewULBStructure[];
+    uniqueULBS: NewULBStructure[];
     ulbsByYears: {
       [year: string]: {
         total: number;

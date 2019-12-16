@@ -32,9 +32,7 @@ export class ComparativeUlbComponent implements OnInit {
     private excelService: ExcelService,
     private reportHelper: ReportHelperService,
     private _loaderService: GlobalLoaderService
-  ) {
-    console.log(`instantiating comparitivve`);
-  }
+  ) {}
 
   ngOnInit() {
     // this.reportReq = this.reportService.getReportRequest();
@@ -47,15 +45,13 @@ export class ComparativeUlbComponent implements OnInit {
           if (res) {
             this.years = [];
             this.response = res;
-            // this.reportReq = this.reportService.getReportRequest();
 
             if (this.reportReq.reportGroup == "Balance Sheet") {
               this.report = this.reportHelper.getBSReportLookup();
             } else {
               this.report = this.reportHelper.getIEReportLookup();
             }
-            // this.reqUlb = this.reportReq.ulbList[0].code;
-            // this.reqUlb2 = this.reportReq.ulbList[1].code;
+
             this.reqYear = this.reportReq.years[0];
             if (this.reportReq.ulbList.length > 1) {
               this.years = [];
@@ -71,8 +67,13 @@ export class ComparativeUlbComponent implements OnInit {
             this.isProcessed = true;
             this.reportKeys = [];
           }
+          this._loaderService.stopLoader();
+
+          this.setDataNotAvailable();
         },
-        () => this._loaderService.stopLoader()
+        () => {
+          this._loaderService.stopLoader();
+        }
       );
     });
   }
@@ -178,7 +179,6 @@ export class ComparativeUlbComponent implements OnInit {
    */
   populateCalcFields(result, years) {
     let calcFields = [];
-    // console.log(`reportReq: `, { ...this.reportReq });
     if (
       this.reportReq.reportGroup == "Balance Sheet" &&
       this.reportReq.type.indexOf("Summary") > -1
@@ -199,8 +199,6 @@ export class ComparativeUlbComponent implements OnInit {
       this.reportKeys = this.reportHelper.getIEReportMasterKeys();
       calcFields = this.reportHelper.getIECalcFields();
     }
-
-    // console.log({ calcFields });
 
     for (let i = 0; i < calcFields.length; i++) {
       const keyName = calcFields[i].keyName;
@@ -276,6 +274,32 @@ export class ComparativeUlbComponent implements OnInit {
 
     // this.isProcessed = true;
   }
+
+  setDataNotAvailable() {
+    this.years.forEach(year => {
+      if (year.caption === "%") {
+        return;
+      }
+
+      const canSetDataNotAvaliable = this.reportKeys.every(
+        key => !this.report[key][year.title]
+      );
+      if (canSetDataNotAvaliable) {
+        this.reportKeys.forEach(key => {
+          const original = { ...this.report[key] };
+          original[year.title] = null;
+          if (!original["allNullYear"]) {
+            original["allNullYear"] = { [year.title]: true };
+          } else {
+            original["allNullYear"][year.title] = true;
+          }
+          this.report[key] = { ...original };
+        });
+      }
+    });
+  }
+
+  canSetDataNotAvailable(years) {}
 
   /** Comparision will be done between years of each ULB
    * Expectation:

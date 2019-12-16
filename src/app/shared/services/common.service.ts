@@ -103,16 +103,23 @@ export class CommonService {
         return;
       }
 
-      newObj.data[ulb.state.code].ulbs.push({
-        ...this.convertNewULBStructureToIULB(ulb),
-        state: ulb.state.name
-      });
+      const convertedULB = this.convertNewULBStructureToIULB(ulb);
+      if (
+        newObj.data[ulb.state.code].ulbs.every(
+          ulb => ulb.code !== convertedULB.code
+        )
+      ) {
+        newObj.data[ulb.state.code].ulbs.push({
+          ...this.convertNewULBStructureToIULB(ulb),
+          state: ulb.state.name
+        });
+      }
     });
     return newObj;
   }
 
   convertNewULBStructureToIULB(ulb: NewULBStructure): IULB {
-    return { ...ulb.ulb, population: ulb.amount, type: ulb.ulbtypes.name };
+    return { ...ulb.ulb, type: ulb.ulbtypes.name };
   }
 
   getULBsStatistics() {

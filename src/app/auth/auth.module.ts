@@ -13,6 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 
+// import { GridComponent } from './home/grid/grid.component';
 @NgModule({
   imports: [
     CommonModule,

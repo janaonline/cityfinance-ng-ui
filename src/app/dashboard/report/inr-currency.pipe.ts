@@ -5,35 +5,42 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class InrCurrencyPipe implements PipeTransform {
   transform(value: number, args?: any): any {
-    if (!value) {
-      return "Not Applicable";
+    const valueToOperatte = value;
+    if (!valueToOperatte) {
+      return valueToOperatte;
     }
 
-    let x =
-      value < 0 ? `(${Math.round(value * -1)})` : Math.round(value).toString();
-    let decimal = "";
+    const absoluteValue =
+      valueToOperatte < 0
+        ? Math.round(valueToOperatte * -1)
+        : Math.round(valueToOperatte);
 
-    if (x.indexOf(".") > -1) {
-      decimal = x.substring(x.indexOf("."));
-      x = x.substring(0, x.indexOf("."));
-    }
-    // x = x.substring(0, x.indexOf('.'));
-    let lastThree, otherNumbers;
-    if (value < 0) {
-      lastThree = x.substring(x.length - 5);
-      otherNumbers = x.substring(0, x.length - 5);
-    } else {
-      lastThree = x.substring(x.length - 3);
-      otherNumbers = x.substring(0, x.length - 3);
+    let numberInString = absoluteValue + "";
+    if (Math.round(absoluteValue / 1000)) {
+      /*
+      * IMPORTANT Do not change this to Math.round. That will mess with the value.
+        Original VAlue = 123656.
+        absoluteValue = 123656.
+        newNumber(with Math.round) = Math.round(123656/1000) = 124; this is wrong.
+        newNumber(with Math.round) = parseIntd(123656/1000) = 123;  this is correct.
+
+     */
+
+      const newNumber = parseInt((absoluteValue / 1000) as any);
+      const stringNumber = (newNumber + "").replace(
+        /(\..*)$|(\d)(?=(\d{2})+(?!\d))/g,
+        (digit, fract) => fract || digit + ","
+      );
+
+      numberInString =
+        stringNumber +
+        "," +
+        numberInString.substring(numberInString.length - 3);
     }
 
-    if (otherNumbers != "") {
-      lastThree = "," + lastThree;
+    if (valueToOperatte < 0) {
+      return `(${numberInString})`;
     }
-    const finalNumber =
-      otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + decimal;
-    return finalNumber;
-
-    // return value;
+    return numberInString;
   }
 }

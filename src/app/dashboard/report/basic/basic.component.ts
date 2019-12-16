@@ -32,9 +32,12 @@ export class BasicComponent implements OnInit {
       this.loaderService.showLoader();
 
       this.reportReq = reportCriteria;
+      // console.log(`reportCriteria`);
       this.reportService.reportResponse.subscribe(
         res => {
-          this.loaderService.stopLoader();
+          // console.log("got response");
+          // console.log({ ...res });
+          this.loaderService.showLoader();
 
           if (res && (res as any[]).length > 0) {
             this.years = [];
@@ -47,12 +50,43 @@ export class BasicComponent implements OnInit {
             this.isProcessed = true;
             this.reportKeys = [];
           }
+
+          this.loaderService.stopLoader();
+          this.setDataNotAvailable();
         },
         err => {
           this.loaderService.stopLoader();
           console.error(err);
         }
       );
+    });
+  }
+
+  setDataNotAvailable() {
+    this.years.forEach(year => {
+      if (year["caption"] === "%") {
+        return;
+      }
+
+      // console.log("setDataNotAvailable");
+
+      const canSetDataNotAvaliable = this.reportKeys.every(
+        key => !this.report[key][year.title]
+      );
+      // console.log("canSetDataNotAvaliable", canSetDataNotAvaliable);
+
+      if (canSetDataNotAvaliable) {
+        this.reportKeys.forEach(key => {
+          const original = { ...this.report[key] };
+          original[year.title] = null;
+          if (!original["allNullYear"]) {
+            original["allNullYear"] = { [year.title]: true };
+          } else {
+            original["allNullYear"][year.title] = true;
+          }
+          this.report[key] = { ...original };
+        });
+      }
     });
   }
 
@@ -171,7 +205,7 @@ export class BasicComponent implements OnInit {
           }
 
           // if (keyName === "Others") {
-          //   console.log(sum);
+          //   // console.log(sum);
           // }
           result[keyName][years[j]["title"]] = sum;
         }
