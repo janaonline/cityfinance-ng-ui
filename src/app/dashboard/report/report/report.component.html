@@ -145,72 +145,51 @@
     </button>
   </div> -->
 
-  <div class="modal-header">
-    <form [formGroup]="reportForm" class="col-md-5" style="max-width: 35%;padding-left: 0;">
-      <mat-slide-toggle
-        style=" display: inline-block;  width: 15%;  margin-right: 3px; padding-left: 1%; min-width: fit-content;"
-        (change)="reportForm.controls['isComparative'].setValue($event.checked)"
-        >Comparison Report</mat-slide-toggle
+  <div>
+    <div
+      class="modal-header col-md-12"
+      style="display: inline-flex; align-items: center;"
+    >
+      <form
+        [formGroup]="reportForm"
+        class="col-md-4"
+        style="max-width: fit-content;padding: 0; display: inline-flex; align-items: center; margin-right: 12px;"
       >
-      <i
-        class="fa fa-info-circle"
-        aria-hidden="true"
-        style="margin-right: 10px; margin-left: 0px; transform: translateY(-13%);"
-        title=" Placeholder"
-      ></i>
-      <!-- <div
-        class="checkbox"
-        style=" display: inline-block;  width: 15%;  margin-right: 11px; padding-left: 1%; min-width: fit-content;"
-      >
-        <label
-          ><input
-            type="checkbox"
-            name="isComparative"
-            formControlName="isComparative"
-          />
-          Comparison Report
-          <i
-            class="fa fa-info-circle"
-            aria-hidden="true"
-            style="margin-left: 2px"
-            title=" Placeholder"
-          ></i>
-        </label>
-      </div> -->
-      <!-- [style.width.px]="
-          (reportForm?.controls)['yearList']?.value?.length
-            ? reportForm.controls['yearList'].value.length * 55 + 153
-            : 210
-        " -->
-      <angular2-multiselect
-        style="display: inline-block;width: 180px;"
-        formControlName="yearList"
-        [data]="yearLookup"
-        [settings]="yearsDropdownSettings"
-        (onClose)="onDateSelectionClose($event)"
-        (onDeSelectAll)="resetPopupValues() || (ulbTypeSelected = 'other')"
-      >
-      </angular2-multiselect>
-    </form>
+        <mat-slide-toggle
+          formControlName="isComparative"
+          style=" display: inline-block;  width: 15%;  margin-right: 3px; padding-left: 1%; min-width: fit-content;"
+          >Comparison Report</mat-slide-toggle
+        >
+        <i
+          class="fa fa-info-circle"
+          aria-hidden="true"
+          style="margin-right: 10px; margin-left: 0px; "
+          title="Comparison Report"
+        ></i>
 
-    <div class="col-md-6" style="height: fit-content; padding-left: 0px;">
-      <div class="col-md-3" style="width: 237px; padding-left: 1%;">
         <angular2-multiselect
-          [data]="populationData"
-          [settings]="populationDropdownSettings"
-          [(ngModel)]="ulbForm.ulbPopulationFilter"
-          (onSelect)="filterUlbs('ulbPopulationFilter')"
-          (onDeSelect)="filterUlbs('ulbPopulationFilter')"
-          (onDeSelectAll)="unselectAllPopulation($event)"
+          style="display: inline-block;width: 208px; margin-left: 2%;"
+          formControlName="yearList"
+          [data]="yearLookup"
+          [settings]="yearsDropdownSettings"
+          (onClose)="onDateSelectionClose($event)"
+          (onDeSelectAll)="resetPopupValues() || (ulbTypeSelected = 'other')"
         >
         </angular2-multiselect>
-      </div>
+      </form>
 
-      <mat-form-field
-        class="col-md-3"
-        appearance="outline"
-        style="width: 237px;"
+      <angular2-multiselect
+        style="width: 18%; display: inline-block; padding-bottom: 0px;"
+        [data]="populationData"
+        [settings]="populationDropdownSettings"
+        [(ngModel)]="ulbForm.ulbPopulationFilter"
+        (onSelect)="filterUlbs('ulbPopulationFilter')"
+        (onDeSelect)="filterUlbs('ulbPopulationFilter')"
+        (onDeSelectAll)="unselectAllPopulation($event)"
       >
+      </angular2-multiselect>
+
+      <mat-form-field class="col-md-3" appearance="outline" style="width: 20%;">
         <input
           type="text"
           placeholder="Search ULB"
@@ -239,86 +218,26 @@
 
       <button
         type="button"
-        class="close1  btn btn-primary"
-        (click)="
-          resetPopupValues() ||
-            reportForm.controls['isComparative'].setValue(null)
-        "
+        style="margin-left: 1%;"
+        class="close1  btn"
+        style="background: #f0ad4e; color: white;"
+        (click)="resetPopupValues()"
       >
         Clear All
       </button>
-    </div>
 
-    <button
-      class="btn btn-primary float-right"
-      style="float: right;"
-      (click)="search()"
-    >
-      Generate Report
-      <span *ngIf="reportForm.controls['ulbList'].value.length">
-        with {{ reportForm.controls["ulbList"].value.length }} ULBs
-      </span>
-    </button>
-
-    <!-- <button
-      type="button"
-      class="close1 pull-right btn btn-primary"
-      aria-label="Close"
-      (click)="modalRef.hide()"
-    >
-      <span *ngIf="selectedUlbs?.length"
-        >Proceed with {{ selectedUlbs?.length }} ULBs</span
+      <button
+        class="btn btn-primary"
+        style=" position: absolute; right: 5px;"
+        (click)="search()"
       >
-      <span *ngIf="!selectedUlbs?.length">Close</span>
-    </button> -->
-  </div>
-
-  <!-- <form [formGroup]="reportForm" class="col-md-12 mt-1">
-    <div
-      class="checkbox"
-      style=" display: inline-block;  width: 15%;  margin-right: 11px; padding-left: 1%; min-width: fit-content;"
-    >
-      <label
-        ><input
-          type="checkbox"
-          name="isComparative"
-          formControlName="isComparative"
-        />
-        Comparison Report
-        <i
-          class="fa fa-info-circle"
-          aria-hidden="true"
-          style="margin-left: 2px"
-          title=" Placeholder"
-        ></i>
-      </label>
+        Generate Report
+        <span *ngIf="reportForm.controls['ulbList'].value.length">
+          with {{ reportForm.controls["ulbList"].value.length }} ULBs
+        </span>
+      </button>
     </div>
-    <angular2-multiselect
-      style="display: inline-block;margin-top: 5px;"
-      [style.width.px]="
-        (reportForm?.controls)['yearList']?.value?.length
-          ? reportForm.controls['yearList'].value.length * 55 + 153
-          : 210
-      "
-      formControlName="yearList"
-      [data]="yearLookup"
-      [settings]="yearsDropdownSettings"
-      (onClose)="onDateSelectionClose($event)"
-      (onDeSelectAll)="resetPopupValues() || (ulbTypeSelected = 'other')"
-    >
-    </angular2-multiselect>
-    <button
-      style="float: right;margin-top: 5px;"
-      type="button"
-      class="close1  btn btn-primary"
-      (click)="
-        resetPopupValues() ||
-          reportForm.controls['isComparative'].setValue(null)
-      "
-    >
-      Clear All
-    </button>
-  </form> -->
+  </div>
 
   <div class="modal-body">
     <div class="row">
@@ -395,13 +314,17 @@
 
       <div
         class="col-md-2"
-        style="max-height: 54vh; overflow: auto;padding-right: 0px;"
+        style="max-height: 54vh; overflow: auto;padding-right: 0px; max-width: 214px;"
       >
-        <ul class="list-unstyled left-nav" *ngIf="ulbTypeSelected">
+        <ul class="list-unstyled left-nav">
           <li
             *ngFor="let state of ulbs.data | keyvalue"
             [ngClass]="{
-              stateULBSelected: getTotalULBSelectedBy(state.key),
+              stateULBSelected:
+                (ulbTypeSelected === 'other' &&
+                  getTotalULBSelectedBy(state.key)) ||
+                (ulbTypeSelected === 'base' &&
+                  baseULBSelected?.state === state?.value?.state),
               activeState: currentStateInView?.key === state?.key
             }"
           >
@@ -416,9 +339,7 @@
                 class="ng-untouched ng-pristine ng-valid"
                 [checked]="getTotalULBSelectedBy(state.key)"
                 [disabled]="!getTotalULBSelectedBy(state?.key)"
-                (click)="
-                  removeAllSelectedULB(currentStateInView.key, null, stateClear)
-                "
+                (click)="removeAllSelectedULB(state.key, null, stateClear)"
               />
               {{ state.value.state }}
               <span
@@ -446,8 +367,8 @@
               <div _ngcontent-c4="" class="col-md-12">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li
-                    class="nav-item"
-                    *ngFor="let ulb of ULBTYPES"
+                    class="nav-item aaa"
+                    *ngFor="let ulb of filteredULBTypes"
                     (click)="setULBTypeOfState(ulb)"
                   >
                     <a
@@ -456,15 +377,17 @@
                       role="tab"
                       aria-controls="home"
                       aria-selected="true"
+                      [id]="ulb.type"
                       [ngClass]="{
                         ulbTabActive:
-                          ulbTypeInView && ulbTypeInView.type === ulb.type,
-                        stateULBSelected: getTotalULBSelectedBy(
-                          currentStateInView.key,
-                          {
-                            type: ulb.type
-                          }
-                        )
+                          ulbTypeInView && ulbTypeInView?.type === ulb?.type,
+                        stateULBSelected:
+                          (ulbTypeSelected === 'other' &&
+                            getTotalULBSelectedBy(currentStateInView.key, {
+                              type: ulb.type
+                            })) ||
+                          (baseULBSelected?.type === ulb?.type &&
+                            ulbTypeSelected === 'base')
                       }"
                     >
                       <input
@@ -522,7 +445,7 @@
                         | keyvalue: valueAscOrder
                     "
                     class="list-group-item level-two checkbox col-md-4"
-                    style="margin: 0px"
+                    style="margin: 0px; max-width: 300px;"
                     [id]="ulb['value']['code']"
                   >
                     <label _ngcontent-c4="">
@@ -556,14 +479,20 @@
                         "
                       />
 
+                      <!-- *ngIf="ulbTypeSelected === 'base'" -->
+
                       <input
                         name="list_name_ulb"
                         style="margin-left: -20px"
-                        *ngIf="ulbTypeSelected === 'base'"
                         type="radio"
+                        [disabled]="!reportForm.value.yearList.length"
+                        [checked]="
+                          baseULBSelected &&
+                          baseULBSelected.code == ulb.value.code
+                        "
                         [value]="
                           baseULBSelected &&
-                          baseULBSelected.code === ulb.value.code
+                          baseULBSelected.code == ulb.value.code
                         "
                         class="ng-untouched ng-pristine ng-valid"
                         (click)="

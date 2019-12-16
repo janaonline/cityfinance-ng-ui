@@ -106,6 +106,7 @@ button:disabled {
 
 .stateULBName {
   padding-right: 0px;
+  max-width: 214px;
 }
 
 ::ng-deep .mat-form-field-wrapper {
@@ -146,4 +147,31 @@ a.inactive-tab:hover {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #f0ad4e;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0px;
+}
+::ng-deep .modal .modal-header {
+  padding-bottom: 15px;
+}
+
+.baseStateULB {
+  background: red;
+}
+
+::ng-deep md-input-container label {
+  color: red !important;
+}
+
+/* When the input is focused */
+::ng-deep .container {
+  .mat-form-field-outline,
+  .mat-form-field-empty.mat-form-field-label,
+  .mat-form-field-label,
+  .mat-form-field-underline,
+  .mat-input-element,
+  ::placeholder {
+    color: rgb(3, 3, 3) !important;
+  }
 }
