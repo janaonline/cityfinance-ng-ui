@@ -5,6 +5,7 @@
 @import url("https://fonts.googleapis.com/css?family=Exo:300,400,500");
 @import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700");
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 .cdk-overlay-connected-position-bounding-box,
 .cdk-overlay-pane,
@@ -584,4 +585,70 @@ img.align-center {
 
 .mt-5 {
   margin-top: 5rem;
+}
+
+.mx-2{
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.text-left{
+  text-align: left !important;
+}
+
+.text-right{
+  text-align: right !important;
+}
+
+.mat-button, .mat-raised-button{
+  background-color:#ffc500;
+  color: white;
+} 
+
+.mat-form-field-flex{
+  border: 1px solid rgb(71, 69, 69);
+  padding: 3px 5px;
+  border-radius: 2px;
+}
+
+.mat-form-field-infix{
+  border-top: unset !important;
+}
+
+.label{
+  margin-top: -2% !important;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-label{
+  top: 16px;
+  margin-top: 1%;
+}
+
+.mat-form-field-label-wrapper{
+  top: -14px;
+}
+
+.h-100{
+  height: 87vh;
+}
+
+#mapid > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div > a {
+  display: none;
+}
+
+.tooltip-custom {
+  background: #000000bd;
+  color:white;
+  padding: 0 5px;
+  border: none !important;
+  overflow-wrap: break-word !important;
+}
+
+.tooltip-custom-1{
+  background: #000000bd;
+  color: white;
+  border: none !important;
+  height: 20px;
+  padding: 0 5px;
+  margin-right: 2% !important;
 }

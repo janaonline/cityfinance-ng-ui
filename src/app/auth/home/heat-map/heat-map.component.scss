@@ -1,0 +1,60 @@
+.ranking{
+    padding: 40px 0;
+    background-color: white;
+    color: #000;
+
+    .ranking-intro{
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    h3 {
+        text-align: center;
+        position: relative;
+        margin: 0 0 30px;
+    
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -7px;
+          width: 50px;
+          height: 3px;
+          background: #000;
+          left: 50%;
+          margin-left: -25px;
+        }
+    }
+}
+
+.right-card{
+    box-shadow: 0px 1px 10px 2px #0000001c;
+    border: 1px solid #ddd;
+    height: auto !important;
+}
+
+.mat-form-field-flex{
+    padding: 0px 5px !important;
+}
+
+.right-card-head{
+    background: #009fe3;
+    margin: 0;
+    padding: 4%;
+    color: white;
+}
+
+.select-filter{
+    padding: 0% 5%;
+}
+
+.ulb-list{
+    padding: 0% 5%;
+}
+
+.ulb-row{
+    border: 1px solid #ddd;
+    box-shadow: 0px 1px 4px 1px #0000001c;
+    padding: 2%;
+    margin-bottom: 3%;
+}
