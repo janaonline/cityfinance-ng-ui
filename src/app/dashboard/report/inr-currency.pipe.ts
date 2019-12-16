@@ -32,10 +32,11 @@ export class InrCurrencyPipe implements PipeTransform {
         (digit, fract) => fract || digit + ","
       );
 
-      numberInString =
-        stringNumber +
-        "," +
-        numberInString.substring(numberInString.length - 3);
+      numberInString = newNumber
+        ? stringNumber +
+          "," +
+          numberInString.substring(numberInString.length - 3)
+        : numberInString.substring(numberInString.length - 3);
     }
 
     if (valueToOperatte < 0) {
