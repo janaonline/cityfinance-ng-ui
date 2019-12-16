@@ -259,21 +259,22 @@ export class ReportHelperService {
       {
         keyName: 'grossSurplusAfter',
         title:
-          'Gross Surplus/(Deficit) of Income over Expenditure after Prior Period Items item(D) (C-280)',
+          'Gross Surplus/(Deficit) of Income over Expenditure after Prior Period Items item(D) (C+280)',
         isCalc: true,
         prePushCode: 290,
         addFields: ['grossSurplusBefore', '280']
       },
       {
         keyName: 'netBalance',
-        title: 'Net Surplus/(Deficit) carried over (E) (D-290)',
+        title: 'Net Surplus/(Deficit) carried over (E) (D+290)',
         isCalc: true,
         postPushCode: 290,
-        addFields: ['grossSurplusAfter'],
-        subtractFields: ['290']
+        addFields: ['grossSurplusAfter', '290'],
       }
     ];
   }
+  
+  //  subtractFields: ['290'] For NetSurplus
 
   getIESummaryMasterKeys() {
     return [
