@@ -1,27 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { AngularMaterialModule } from '../angular-material.module';
 import { CfChartsModule } from '../shared/cf-charts/cf-charts.module';
-import { PreLoaderComponent } from '../shared/components/pre-loader/pre-loader.component';
 import { AuthRouter } from './auth.router';
 import { AuthService } from './auth.service';
 import { HomeHeaderComponent } from './home-header/home-header.component';
-import { GridComponent } from './home/grid/grid.component';
+import { HeatMapComponent } from './home/heat-map/heat-map.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { StatisticsComponent } from './statistics/statistics.component';
-import { HeatMapComponent } from './home/heat-map/heat-map.component';
-import { AngularMaterialModule } from '../angular-material.module';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
 
 @NgModule({
   imports: [
-    CommonModule, 
-    AuthRouter, 
-    ReactiveFormsModule, 
+    CommonModule,
+    AuthRouter,
+    ReactiveFormsModule,
     CfChartsModule,
     AngularMaterialModule,
     CommonModule
@@ -34,8 +30,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     HomeComponent,
     HomeHeaderComponent,
     StatisticsComponent,
-    GridComponent,
-    PreLoaderComponent,
     HeatMapComponent
   ],
   exports: [HomeHeaderComponent],

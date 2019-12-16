@@ -5,12 +5,13 @@ export interface ULBsStatistics {
     stateName: string;
     stateCode: string;
     _id: string;
+    uniqueULBS?: NewULBStructure[];
     totalULBS: NewULBStructure[];
     ulbsByYears: {
       [year: string]: {
         total: number;
-        amrut:number;
-        nonAmrut:number;
+        amrut: number;
+        nonAmrut: number;
       };
     };
   };
