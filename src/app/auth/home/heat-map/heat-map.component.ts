@@ -12,9 +12,8 @@ declare const $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class HeatMapComponent implements OnInit {
-  overallFilter = "Overall";
+  overallFilter = "Less than 50k";
   overallList = [
-    { id: 1, label: "Overall", min: 1, max: 1000000000000 },
     { id: 2, label: "Less than 50k", min: 0, max: 49999 },
     { id: 3, label: "Over 50k but less than 100k", min: 50000, max: 99999 },
     { id: 4, label: "Over 100k but less than 300k", min: 100000, max: 299999 },
@@ -244,9 +243,12 @@ export class HeatMapComponent implements OnInit {
             let text = "<p>State : <b>" +
             layer.feature.properties.ST_NM +
             "</b></p> <p> <b>";
-
-            let arr = obj.ulbName.split(",");
-            let ranks = obj.rank.split(",");
+            let arr = [obj.ulbName];
+            let ranks = [obj.rank];
+            if(obj.ulbName.toString().search(',') != -1 && obj.rank.toString().search(',') != -1){
+              arr = obj.ulbName.split(",");
+              ranks = obj.rank.split(",");
+            }
 
             for(let item in arr){
               if(item == (arr.length -1).toString()){

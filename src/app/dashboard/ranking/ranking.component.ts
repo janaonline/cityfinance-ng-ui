@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { Chart } from 'chart.js';
-import jsonData from '../../../assets/files/data.json';
 import colorData from '../../../assets/files/colors.json';
 import { RankingService } from '../../shared/services/ranking.service.js';
+import { ReplaySubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 declare const $:any;
 
@@ -19,14 +20,12 @@ export interface Food {
   encapsulation: ViewEncapsulation.None
 })
 export class RankingComponent implements OnInit {
-
   
-  years = new FormControl([""]);
+  years = new FormControl();
 
   //filters start
   overallFilter = 'Less than 50k';
   overallList = [
-    { id: 1, label: "Overall", min: 1, max: 1000000000000 },
     { id: 2, label: "Less than 50k", min: 0, max: 49999 },
     { id: 3, label: "Over 50k but less than 100k", min: 50000, max: 99999 },
     { id: 4, label: "Over 100k but less than 300k", min: 100000, max: 299999 },
@@ -43,7 +42,7 @@ export class RankingComponent implements OnInit {
     { value: 'Overall', viewValue: 'Overall' }
   ];
 
-  financialReportFilter = 'Overall';
+  financialReportFilter = '';
   financialReportList = this.financialList.slice();
 
   stateFilter = '';
@@ -53,14 +52,29 @@ export class RankingComponent implements OnInit {
   stateReportList:any = null;
 
   ulbTypeFilter = '';
+  ulbTypeReportList:any = null;
   ulbTypeList:any = null;
 
-  ulbFilter = '';
-  ulbList:any = null;
+  listData:any = [];
+
+   /** control for the selected bank for option groups */
+   public ulbFilter: FormControl = new FormControl();
+
+   /** control for the MatSelect filter keyword for option groups */
+   public ulbFilterCtrl: FormControl = new FormControl();
+ 
+   /** list of bank groups filtered by search keyword for option groups */
+   public ulbList: ReplaySubject<any> = new ReplaySubject<any>(1);
+ 
+   /** Subject that emits when the component has been destroyed. */
+   protected _onDestroy = new Subject<void>();
+    
+  //  ulbList:any = null;
 
   // anotherList: any[] = [
   //   this.overallList[3],
   // ]
+  
   //fiters end
 
   statesPill:any = null;
@@ -77,7 +91,11 @@ export class RankingComponent implements OnInit {
   }
   
 
-  mainData:any = jsonData;
+  mainData:any = null;;
+
+  scoreData:any = null;
+
+  tableData:any = null;
 
   colorsData:any = colorData;
 
@@ -101,6 +119,55 @@ export class RankingComponent implements OnInit {
 
   async ngOnInit() {
     await this.getAllUlbData();
+    await this.scoreReportData();
+  }
+
+  async scoreReportData(){
+    await this.rankingService.rankReportData().subscribe(async (res:any) => {
+        this.scoreData = await res.data;
+        console.log(this.scoreData);
+        this.stateReportList = this.distinctObjectFromArrayState(this.scoreData.slice()).map(x => {
+          return { id: x.id, name: x.name, state: x.state };
+        });
+        // this.ulbTypeReportList = this.distinctObjectFromArrayUlb(this.scoreData.slice());
+    });
+  }
+
+  protected filterULBData() {
+    if (!this.listData) {
+      return;
+    }
+    // get the search keyword
+    let search = this.ulbFilterCtrl.value;
+    const listCopy = this.filterULBGroups(this.listData);
+    if (!search) {
+      this.ulbList.next(listCopy);
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.ulbList.next(
+      listCopy.filter(listGroup => {
+        const showlistGroup = listGroup.state.toLowerCase().indexOf(search) > -1;
+        if (!showlistGroup) {
+          listGroup.ulbs = listGroup.ulbs.filter(list => list.name.toLowerCase().indexOf(search) > -1);
+        }
+        return listGroup.ulbs.length > 0;
+      })
+    );
+  }
+
+  protected filterULBGroups(data: any) {
+    const dataCopy = [];
+    data.forEach(dataX => {
+      dataCopy.push({
+        state: dataX.state,
+        ulbs: dataX.ulbs.slice()
+      });
+    });
+    // console.log(dataCopy);
+    return dataCopy;
   }
 
   async getAllUlbData(){
@@ -112,8 +179,9 @@ export class RankingComponent implements OnInit {
 
     await this.rankingService.heatMapFilter(obj).subscribe(async (res:any) => {
         this.mainData = await res.data;
+        console.log(this.mainData);
         this.mapColorMainData();
-      });
+    });
     // this.mainData = JSON.parse(sessionStorage.getItem('ulbJson'));
   }
     
@@ -130,19 +198,19 @@ export class RankingComponent implements OnInit {
   getStatesList(){
     let data = this.mainData.slice();
     this.stateList = this.distinctObjectFromArrayState(data);
-    this.stateList.push({id: '', name: 'All States'});
+    // this.stateList.push({id: '', name: 'All States'});
 
     this.stateReportList = this.stateList.slice();
   }
 
   getUlbList(){
     let data = this.mainData.slice();
-    this.ulbList = data.map(list => {
-      return { id: list._id, name: list.name};
-    });
-    this.ulbList.push({id: '', name: 'All'});
+    
+    // this.ulbList.push({id: '', name: 'All'});
 
     this.ulbTypeList = this.distinctObjectFromArrayUlb(data);
+
+    // console.log(this.ulbList);
 
     let shapeArr = ['square', 'circle', 'triangle-up'];
 
@@ -487,6 +555,7 @@ export class RankingComponent implements OnInit {
           color: array.find(s => s.state._id === id).color,
           backColor: array.find(s => s.state._id === id).backColor,
           ulbType: array.find(s => s.state._id === id).ulbType.name,
+          ulbId: array.find(s => s.state._id === id)._id,
           state: array.find(s => s.state._id === id).state
         };
       }
@@ -500,6 +569,7 @@ export class RankingComponent implements OnInit {
         return { 
           id: array.find(s => s.ulbType._id === id).ulbType._id, 
           value: array.find(s => s.ulbType._id === id).ulbType.name,
+          state: array.find(s => s.ulbType._id === id).state
         };
       }
     );
@@ -596,6 +666,66 @@ export class RankingComponent implements OnInit {
     }
 
 
+  }
+
+  //table data filter function
+
+  onStateChange(){
+    let data = this.scoreData.slice().filter(x => x.state._id == this.stateReportFilter);
+    this.ulbTypeReportList = this.distinctObjectFromArrayUlb(data.slice());
+    // console.log(data, this.ulbTypeReportList);
+    this.ulbTypeFilter = '';
+    this.ulbFilter.setValue("");
+    this.ulbList.next([]);
+  }
+
+  onUlbChange(){
+    this.ulbList.next([]);
+    let data = this.scoreData.slice().filter(x => x.state._id == this.stateReportFilter);
+
+    let ulb = data.filter(x => x.ulbType._id == this.ulbTypeFilter).map(x => {
+      return { id: x._id, name: x.name };
+    });
+
+  
+    let stateName = this.stateReportList.find(x => x.id == this.stateReportFilter);
+
+    let obj = { state: stateName ? stateName.name : '', ulbs: ulb };
+
+    this.listData.push(obj);
+     // load the initial bank list
+    this.ulbList.next(this.filterULBGroups(this.listData));
+
+    // console.log(this.ulbList);
+
+    // listen for search field value changes
+    this.ulbFilterCtrl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filterULBData();
+    });
+
+    this.ulbFilter.setValue("");
+
+  }
+
+  filterTableData(){
+    if(this.ulbFilter.value && this.years.value){
+      let obj = {
+        "ulbId": this.ulbTypeFilter,
+        "financialYear": this.years.value
+      }
+
+      this.rankingService.heatMapFilter(obj).subscribe((res:any) => {
+        console.log(res);
+      });
+    }
+  }
+
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 
 
