@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ElementRef, ViewChild } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { Chart } from 'chart.js';
 import colorData from '../../../assets/files/colors.json';
 import { RankingService } from '../../shared/services/ranking.service.js';
-import { ReplaySubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import * as XLSX from 'xlsx';
 
 declare const $:any;
 
@@ -22,6 +24,8 @@ export interface Food {
 export class RankingComponent implements OnInit {
   
   years = new FormControl();
+
+  showLoader:boolean = false;
 
   //filters start
   overallFilter = 'Less than 50k';
@@ -64,11 +68,12 @@ export class RankingComponent implements OnInit {
    public ulbFilterCtrl: FormControl = new FormControl();
  
    /** list of bank groups filtered by search keyword for option groups */
-   public ulbList: ReplaySubject<any> = new ReplaySubject<any>(1);
+   public ulbList = new Subject<any>();
  
    /** Subject that emits when the component has been destroyed. */
    protected _onDestroy = new Subject<void>();
     
+  @ViewChild('reportTable') reportTable: ElementRef;
   //  ulbList:any = null;
 
   // anotherList: any[] = [
@@ -97,6 +102,8 @@ export class RankingComponent implements OnInit {
 
   tableData:any = null;
 
+  tbleRows:any = [];
+
   colorsData:any = colorData;
 
   chartDataset:any = null;
@@ -123,12 +130,14 @@ export class RankingComponent implements OnInit {
   }
 
   async scoreReportData(){
+    // this.showLoader = true;
     await this.rankingService.rankReportData().subscribe(async (res:any) => {
         this.scoreData = await res.data;
-        console.log(this.scoreData);
+        // console.log(this.scoreData);
         this.stateReportList = this.distinctObjectFromArrayState(this.scoreData.slice()).map(x => {
           return { id: x.id, name: x.name, state: x.state };
         });
+        // this.showLoader = false;
         // this.ulbTypeReportList = this.distinctObjectFromArrayUlb(this.scoreData.slice());
     });
   }
@@ -171,15 +180,17 @@ export class RankingComponent implements OnInit {
   }
 
   async getAllUlbData(){
+    this.showLoader = true;
     this.mainData = null;
     let pop = this.overallList.find(x => x.label == this.overallFilter);
     let obj = {
       populationId: pop.id
     };
 
-    await this.rankingService.heatMapFilter(obj).subscribe(async (res:any) => {
+    this.rankingService.heatMapFilter(obj).subscribe(async (res:any) => {
         this.mainData = await res.data;
-        console.log(this.mainData);
+        this.showLoader = false;
+        // console.log(this.mainData);
         this.mapColorMainData();
     });
     // this.mainData = JSON.parse(sessionStorage.getItem('ulbJson'));
@@ -515,6 +526,8 @@ export class RankingComponent implements OnInit {
   }
 
   async filterData(){
+    this.showLoader = true;
+    this.mainData = null;
     $("canvas#canvas").remove();
     $("div.chart-container").append('<canvas id="canvas"></canvas>');
     // this.overallFilter.setValue(this.anotherList);
@@ -530,7 +543,7 @@ export class RankingComponent implements OnInit {
         this.filters.population = [pop];
         this.filters.finance = [this.financialFilter];
         this.filters.state = this.stateFilter;
-
+        this.showLoader = false;
         this.mapColorMainData('filter');
       });
 
@@ -676,11 +689,12 @@ export class RankingComponent implements OnInit {
     // console.log(data, this.ulbTypeReportList);
     this.ulbTypeFilter = '';
     this.ulbFilter.setValue("");
-    this.ulbList.next([]);
+    this.ulbList.next(null);
+    this.listData = [];
   }
 
   onUlbChange(){
-    this.ulbList.next([]);
+    this.ulbList.next(null);
     let data = this.scoreData.slice().filter(x => x.state._id == this.stateReportFilter);
 
     let ulb = data.filter(x => x.ulbType._id == this.ulbTypeFilter).map(x => {
@@ -710,18 +724,83 @@ export class RankingComponent implements OnInit {
   }
 
   filterTableData(){
-    if(this.ulbFilter.value && this.years.value){
-      let obj = {
-        "ulbId": this.ulbTypeFilter,
-        "financialYear": this.years.value
-      }
 
-      this.rankingService.heatMapFilter(obj).subscribe((res:any) => {
-        console.log(res);
+    if(this.ulbFilter.value && this.years.value){
+      this.showLoader = true;
+      
+      if(!this.financialReportFilter){
+        this.financialReportFilter = 'Overall';
+      }
+      
+      let prmsArr = [];
+
+      this.years.value.forEach(element => {
+        let obj = {
+          "ulbId": this.ulbFilter.value.id,
+          "financialYear": [element]
+        }
+        let prms = new Promise(async (resolve, reject) => {
+            this.rankingService.heatMapFilter(obj).subscribe((res:any) => {
+                resolve({data : res.data[0].financialParameters, year:element});
+            }, (error) => {
+                reject();
+                console.log(error);
+            });
+        });
+        prmsArr.push(prms);
+      });
+      Promise.all(prmsArr).then((values) => {
+        console.log(this.financialReportFilter);
+        let obj = {};
+        for(let value of values){
+          let overall = value.data.find(d=> d.type == this.financialReportFilter);
+          if(overall){
+            for(let el of overall.report){
+              if(!obj.hasOwnProperty(el.name)){
+                obj[el.name] = [Object.assign({year:value.year},el)];
+              }else{
+                obj[el.name].push(Object.assign({year:value.year},el))
+              }
+            }
+          }
+          // obj["report"] = overall ? overall.report : [];
+          // arr.push(obj);
+        }
+        let arr = [];
+        for(let k in obj){
+          arr.push({name : k, data:obj[k]});
+        }
+
+        this.tableData = arr;
+        this.showLoader = false;
+
+      }, (rejectErr) => {
+          console.log("rejectErr", rejectErr)
+      }).catch((caughtError) => {
+          console.log("caughtError", caughtError)
       });
     }
   }
 
+  downloadTableData(){
+    const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.reportTable.nativeElement);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    
+    /* save to file */
+    XLSX.writeFile(wb, 'Ulb-score-report.xlsx');
+  }
+
+  resetTableData(){
+    this.stateReportFilter = "";
+    this.ulbTypeFilter = "";
+    this.ulbTypeReportList = null;
+    this.ulbFilter.setValue("");
+    this.ulbList.next(null);
+    this.years.setValue([""]);
+    this.financialReportFilter = "";
+    this.tableData = null;
+  }
 
   ngOnDestroy() {
     this._onDestroy.next();

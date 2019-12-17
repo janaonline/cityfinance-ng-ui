@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ULBsStatistics } from 'src/app/models/statistics/ulbsStatistics';
 import { CommonService } from 'src/app/shared/services/common.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: "app-grid",
@@ -10,7 +11,9 @@ import { CommonService } from 'src/app/shared/services/common.service';
 export class GridComponent implements OnInit {
   stateIds: string[];
   ulbs: ULBsStatistics;
-  years: Set<string>;
+  years: Array<string>;
+
+  @ViewChild('financeTable') financeTable: ElementRef;
 
   totalRow: any = {
     stateName: "Total",
@@ -101,7 +104,16 @@ export class GridComponent implements OnInit {
     Object.keys(ulbs).forEach(stateId => {
       Object.keys(ulbs[stateId].ulbsByYears).forEach(year => years.add(year));
     });
-    return years;
+    return Array.from(years).sort();
+  }
+
+  downloadTableData(){
+    const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.financeTable.nativeElement);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    
+    /* save to file */
+    XLSX.writeFile(wb, 'financial-report.xlsx');
   }
 
   ngOnInit() {}
