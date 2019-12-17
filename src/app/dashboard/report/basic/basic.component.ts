@@ -68,12 +68,9 @@ export class BasicComponent implements OnInit {
         return;
       }
 
-      // console.log("setDataNotAvailable");
-
       const canSetDataNotAvaliable = this.reportKeys.every(
-        key => !this.report[key][year.title]
+        key => !this.report[key] || !this.report[key][year.title]
       );
-      // console.log("canSetDataNotAvaliable", canSetDataNotAvaliable);
 
       if (canSetDataNotAvaliable) {
         this.reportKeys.forEach(key => {
