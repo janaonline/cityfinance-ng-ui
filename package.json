@@ -43,6 +43,7 @@
     "ng2-charts": "1.6.0",
     "ng2-sticky-nav": "0.1.0",
     "ngx-bootstrap": "3.0.1",
+    "ngx-mat-select-search": "^2.1.0",
     "ngx-toggle-switch": "^2.0.5",
     "node-sass": "^4.13.0",
     "rxjs": "~6.2.0",

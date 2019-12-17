@@ -12,7 +12,7 @@
                             <div class="filters">
                               <div class="col-lg-3">
                                 <mat-form-field>
-                                  <mat-label>Overall</mat-label>
+                                  <mat-label>Population Category</mat-label>
                                   <mat-select [(ngModel)]="overallFilter">
                                     <mat-option *ngFor="let list of overallList" [value]="list.label">{{list.label}}</mat-option>
                                   </mat-select>
@@ -20,7 +20,7 @@
                               </div>
                               <div class="col-lg-3">
                                 <mat-form-field>
-                                  <mat-label>Financial Transparency</mat-label>
+                                  <mat-label>Financial Parameter</mat-label>
                                   <mat-select [(ngModel)]="financialFilter">
                                     <mat-option *ngFor="let filter of financialList" [value]="filter.value">
                                       {{filter.viewValue}}
@@ -72,7 +72,7 @@
                         <div class="col-lg-12">
                           <div class="head-pill mt-2">
                             <div>National Average</div>
-                            <div>40</div>
+                            <div *ngIf="this.mainData">{{this.mainData[0].nationalAverageOverallIndexScore.toFixed()}}</div>
                           </div>
                           <div class="table-right">
                             <table class="table" id="ranking-table">
@@ -110,7 +110,7 @@
                           <div class="col-lg-2">
                             <mat-form-field>
                               <mat-label>State</mat-label>
-                              <mat-select [(ngModel)]="stateReportFilter" required> 
+                              <mat-select [(ngModel)]="stateReportFilter" (ngModelChange)="onStateChange()" required> 
                                 <mat-option *ngFor="let state of stateReportList" [value]="state.id">{{state.name}}</mat-option>
                               </mat-select>
                             </mat-form-field>
@@ -118,21 +118,36 @@
                           <div class="col-lg-2">
                             <mat-form-field>
                               <mat-label>ULB Type</mat-label>
-                              <mat-select [(ngModel)]="ulbTypeFilter">
-                                <mat-option *ngFor="let type of ulbTypeList" [value]="type.id">
+                              <mat-select [(ngModel)]="ulbTypeFilter" (ngModelChange)="onUlbChange()">
+                                <mat-option *ngFor="let type of ulbTypeReportList" [value]="type.id">
                                   {{type.value}}
                                 </mat-option>
                               </mat-select>
                             </mat-form-field>
                           </div>
                           <div class="col-lg-2">
-                            <mat-form-field>
+                            <!-- <mat-form-field>
                               <mat-label>ULB</mat-label>
                               <mat-select [(ngModel)]="ulbFilter" required>
                                 <mat-option *ngFor="let ulb of ulbList" [value]="ulb.id">
                                   {{ulb.name}}
                                 </mat-option>
                               </mat-select>
+                            </mat-form-field> -->
+                            <mat-form-field>
+                                <mat-label>ULB</mat-label>
+                                <mat-select [formControl]="ulbFilter" placeholder="Ulb" name="ulb-filter" #singleSelect>
+                                  <ngx-mat-select-search [formControl]="ulbFilterCtrl"
+                                  placeholderLabel="Search ULB" 
+                                  noEntriesFoundLabel="'No ULB found'">
+                                    <!-- <mat-icon ngxMatSelectSearchClear>delete</mat-icon> -->
+                                  </ngx-mat-select-search>
+                                  <mat-optgroup *ngFor="let group of ulbList | async" [label]="group.state">
+                                    <mat-option *ngFor="let item of group.ulbs" [value]="item">
+                                      {{item.name}}
+                                    </mat-option>
+                                  </mat-optgroup>
+                                </mat-select>
                             </mat-form-field>
                           </div>
                           <div class="col-lg-2">
@@ -141,7 +156,7 @@
                               <mat-select [formControl]="years" multiple required>
                                 <mat-option value="2015-16">2015-16</mat-option>
                                 <mat-option value="2016-17">2016-17</mat-option>
-                                <mat-option value="">All</mat-option>
+                                <!-- <mat-option value="">All</mat-option> -->
                               </mat-select>
                             </mat-form-field>
                           </div>
@@ -156,16 +171,16 @@
                             </mat-form-field>
                           </div>
                           <div class="col-lg-2">
-                            <button mat-raised-button title="Filter" style="color: black; min-width: min-content;"><mat-icon>search</mat-icon></button>
-                            <button mat-raised-button title="Reset" style="color: black; min-width: min-content;margin-left: 3%;"><mat-icon>cached</mat-icon></button>
-                            <button mat-raised-button title="Download" style="float: right;background-color:#333333;min-width: min-content;"><mat-icon>arrow_downward</mat-icon></button>
+                            <button mat-raised-button (click)="filterTableData()" title="Filter" style="color: black; min-width: min-content;"><mat-icon>search</mat-icon></button>
+                            <button mat-raised-button (click)="resetTableData()" title="Reset" style="color: black; min-width: min-content;margin-left: 3%;"><mat-icon>cached</mat-icon></button>
+                            <button mat-raised-button (click)="downloadTableData()" title="Download" style="float: right;background-color:#333333;min-width: min-content;"><mat-icon>arrow_downward</mat-icon></button>
                           </div>
                         </div>
                       </div>
                       <!-- table -->
                       <div class="col-lg-12">
                         <div class="tableWrapper">
-                          <table class="table table-striped" id="report-table">
+                          <table class="table table-striped" id="report-table" *ngIf="tableData">
                             <thead>
                               <tr>
                                 <th style="width: 2% ;" rowspan="2">S. NO</th>

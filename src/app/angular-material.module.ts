@@ -3,13 +3,13 @@ import {
     MatTabsModule,
     MatSelectModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
 } from '@angular/material';
-
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
-    imports: [MatTabsModule, MatSelectModule, MatButtonModule, MatIconModule],
-    exports: [MatTabsModule, MatSelectModule, MatButtonModule, MatIconModule]
+    imports: [MatTabsModule, MatSelectModule, MatButtonModule, MatIconModule, NgxMatSelectSearchModule],
+    exports: [MatTabsModule, MatSelectModule, MatButtonModule, MatIconModule, NgxMatSelectSearchModule]
 })
 
-export class AngularMaterialModule { }
+export class AngularMaterialModule {}

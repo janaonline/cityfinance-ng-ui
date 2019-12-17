@@ -17,4 +17,8 @@ export class RankingService {
     return this.http.post(environment.api.url + "api/admin/v1/report/ulb-ranking", params);
   }
 
+  rankReportData(){
+    return this.http.get(environment.api.url + "api/admin/v1/ulblist");
+  }
+
 }
