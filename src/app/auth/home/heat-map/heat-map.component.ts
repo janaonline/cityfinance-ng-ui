@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import * as L from "leaflet";
 import "leaflet-extra-markers";
 import { RankingService } from "../../../shared/services/ranking.service";
+import { GlobalLoaderService } from "../../../shared/services/loaders/global-loader.service";
 
 declare const $: any;
 
@@ -47,7 +48,7 @@ export class HeatMapComponent implements OnInit {
     iconAnchor: [10, 10] // point of the icon which will correspond to marker's location
   });
 
-  constructor(private rankingService: RankingService) {
+  constructor(private rankingService: RankingService, private loaderService:GlobalLoaderService) {
     this.loadMapGeoJson();
   }
 
@@ -57,6 +58,7 @@ export class HeatMapComponent implements OnInit {
   }
 
   async getDataViaPopulationId() {
+    this.loaderService.showLoader();
     this.mainData = null;
     let pop = this.overallList.find(x => x.label == this.overallFilter);
     let obj = {
@@ -65,6 +67,7 @@ export class HeatMapComponent implements OnInit {
 
     await this.rankingService.heatMapFilter(obj).subscribe(async (res: any) => {
       this.mainData = await res.data;
+      this.loaderService.stopLoader();
       if (this.mainData) {
         await this.loadAllData();
       }

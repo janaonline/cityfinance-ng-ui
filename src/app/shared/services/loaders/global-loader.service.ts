@@ -7,7 +7,10 @@ import { BehaviorSubject } from 'rxjs';
 export class GlobalLoaderService {
   private _loading = new BehaviorSubject<boolean>(false);
 
-  constructor() {}
+  constructor() {
+    console.log('CHalado');
+    
+  }
 
   observerLoading() {
     return this._loading;
