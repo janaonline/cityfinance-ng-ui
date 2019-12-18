@@ -5,6 +5,8 @@ import colorData from '../../../assets/files/colors.json';
 import { RankingService } from '../../shared/services/ranking.service.js';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import * as ChartAnnotation from 'chartjs-plugin-annotation';
+import { ChartOptions } from 'chart.js';
 
 import * as XLSX from 'xlsx';
 
@@ -28,22 +30,22 @@ export class RankingComponent implements OnInit {
   showLoader:boolean = false;
 
   //filters start
-  overallFilter = 'Less than 50k';
+  overallFilter = 'Less than 50 Thousand';
   overallList = [
-    { id: 2, label: "Less than 50k", min: 0, max: 49999 },
-    { id: 3, label: "Over 50k but less than 100k", min: 50000, max: 99999 },
-    { id: 4, label: "Over 100k but less than 300k", min: 100000, max: 299999 },
-    { id: 5, label: "Over 300k but less than 500k", min: 300000, max: 499999 },
-    { id: 6,label: "Over 500k but less than 1 million", min: 500000, max: 999999 },
-    { id: 7, label: "Over 1 million", min: 1000000, max: 1000000000000 }
+    { id: 2, label: "Less than 50 Thousand", min: 0, max: 49999 },
+    { id: 3, label: "Over 50 Thousand but less than 1 Lakh", min: 50000, max: 99999 },
+    { id: 4, label: "Over 1 Lakh but less than 3 Lakh", min: 100000, max: 299999 },
+    { id: 5, label: "Over 3 Lakh but less than 5 Lakh", min: 300000, max: 499999 },
+    { id: 6,label: "Over 5 Lakh but less than 10 Lakh", min: 500000, max: 999999 },
+    { id: 7, label: "Over 10 Lakh", min: 1000000, max: 1000000000000 }
   ];
 
   financialFilter = 'Overall';
   financialList = [
+    { value: 'Overall', viewValue: 'Overall' },
     { value: "Financial Accountability", viewValue: "Financial Accountability" },
     { value: "Financial performance", viewValue: "Financial performance" },
-    { value: "Financial position", viewValue: "Financial position" },
-    { value: 'Overall', viewValue: 'Overall' }
+    { value: "Financial position", viewValue: "Financial position" }
   ];
 
   financialReportFilter = '';
@@ -115,7 +117,7 @@ export class RankingComponent implements OnInit {
       // { label: '1 to 1000', min: 1, max: 1000 },
       // { label: '1001 to 2000', min: 1001, max: 2000 },
       // { label: '2001 to 3000', min: 2001, max: 3000 },
-      { label: 'Less than 50k', min: 0, max: 49999 }
+      { label: 'Less than 50 Thousand', min: 0, max: 49999 }
     ],
     finance: ['Overall'],
     state: ''
@@ -209,9 +211,9 @@ export class RankingComponent implements OnInit {
   getStatesList(){
     let data = this.mainData.slice();
     this.stateList = this.distinctObjectFromArrayState(data);
-    // this.stateList.push({id: '', name: 'All States'});
+    this.stateList.unshift({id: '', name: 'All States'});
 
-    this.stateReportList = this.stateList.slice();
+    this.stateReportList = this.distinctObjectFromArrayState(data);
   }
 
   getUlbList(){
@@ -468,6 +470,7 @@ export class RankingComponent implements OnInit {
 
     this.chartDataset.forEach(element => {
         scatterChartData.datasets.push({
+          type: 'scatter',
           pointStyle: element.type,
           backgroundColor: '#555',
           label: element.label,
@@ -494,14 +497,34 @@ export class RankingComponent implements OnInit {
           position: 'top',
           align: 'center',
         },
+        tooltips:{
+          callbacks: {
+            // title: function(tooltipItem, data) {
+            //   return data['labels'][tooltipItem[0]['index']];
+            // },
+            label: function(tooltipItem, data) {
+              return '( Population : '+ tooltipItem.xLabel+' , Index Score : '+ tooltipItem.yLabel +' )' ;
+            }
+            // afterLabel: function(tooltipItem, data) {
+            //   var dataset = data['datasets'][0];
+            //   var percent = Math.round((dataset['data'][tooltipItem['index']] / dataset["_meta"][0]['total']) * 100)
+            //   return '(' + percent + '%)';
+            // }
+          }
+        },
 				scales: {
 					xAxes: [{
 						type: 'linear',
 						position: 'bottom',
 						ticks: {
-							// userCallback: function(tick) {
-							// 	return tick.toString() + 'k';
-							// }
+							userCallback: function(tick) {
+                if(tick > 999){
+                  tick = tick / 1000
+                  return tick.toString() + 'k';
+                }else{
+                  return tick.toString();
+                }
+							}
 						},
 						scaleLabel: {
 							labelString: 'Population',
@@ -520,9 +543,26 @@ export class RankingComponent implements OnInit {
 							display: true
 						}
 					}]
-				}
-			}
-    });
+        },
+        annotation: {
+          annotations: [{
+            drawTime: 'afterDraw',
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-1',
+            value: this.mainData[0].nationalAverageOverallIndexScore.toFixed(),
+            borderColor: '#4AB20D',
+            borderWidth: 4,
+            label: {
+                enabled: false,
+                content: 'National Average'
+            }
+          }]
+        }
+			}as ChartOptions,
+      plugins: [ChartAnnotation]
+    } 
+    );
   }
 
   async filterData(){
@@ -572,7 +612,11 @@ export class RankingComponent implements OnInit {
           state: array.find(s => s.state._id === id).state
         };
       }
-    );
+    ).sort((x,y) => {
+      var textA = x.name.toUpperCase();
+      var textB = y.name.toUpperCase();
+      return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+    });
     return result;
   }
 
@@ -699,6 +743,10 @@ export class RankingComponent implements OnInit {
 
     let ulb = data.filter(x => x.ulbType._id == this.ulbTypeFilter).map(x => {
       return { id: x._id, name: x.name };
+    }).sort((x,y)=>{
+      var textA = x.name.toUpperCase();
+      var textB = y.name.toUpperCase();
+      return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
     });
 
   

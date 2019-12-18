@@ -8,8 +8,6 @@ export class GlobalLoaderService {
   private _loading = new BehaviorSubject<boolean>(false);
 
   constructor() {
-    console.log('CHalado');
-    
   }
 
   observerLoading() {

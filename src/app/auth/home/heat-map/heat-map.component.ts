@@ -13,14 +13,14 @@ declare const $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class HeatMapComponent implements OnInit {
-  overallFilter = "Less than 50k";
+  overallFilter = 'Less than 50 Thousand';
   overallList = [
-    { id: 2, label: "Less than 50k", min: 0, max: 49999 },
-    { id: 3, label: "Over 50k but less than 100k", min: 50000, max: 99999 },
-    { id: 4, label: "Over 100k but less than 300k", min: 100000, max: 299999 },
-    { id: 5, label: "Over 300k but less than 500k", min: 300000, max: 499999 },
-    { id: 6,label: "Over 500k but less than 1 million", min: 500000, max: 999999 },
-    { id: 7, label: "Over 1 million", min: 1000000, max: 1000000000000 }
+    { id: 2, label: "Less than 50 Thousand", min: 0, max: 49999 },
+    { id: 3, label: "Over 50 Thousand but less than 1 Lakh", min: 50000, max: 99999 },
+    { id: 4, label: "Over 1 Lakh but less than 3 Lakh", min: 100000, max: 299999 },
+    { id: 5, label: "Over 3 Lakh but less than 5 Lakh", min: 300000, max: 499999 },
+    { id: 6,label: "Over 5 Lakh but less than 10 Lakh", min: 500000, max: 999999 },
+    { id: 7, label: "Over 10 Lakh", min: 1000000, max: 1000000000000 }
   ];
 
   ulbsData: any = null;
@@ -45,7 +45,7 @@ export class HeatMapComponent implements OnInit {
   yellowIcon = L.icon({
     iconUrl: "../../../../assets/images/map-marker.svg",
     iconSize: [20, 20], // size of the icon
-    iconAnchor: [10, 10] // point of the icon which will correspond to marker's location
+    iconAnchor: [20, 20] // point of the icon which will correspond to marker's location
   });
 
   constructor(private rankingService: RankingService, private loaderService:GlobalLoaderService) {
@@ -118,6 +118,8 @@ export class HeatMapComponent implements OnInit {
       };
     });
 
+    // console.log(this.mapData);
+
     let val = this.mapData.slice();
     let newArr = [];
 
@@ -132,7 +134,7 @@ export class HeatMapComponent implements OnInit {
       } 
     });
 
-    console.log(newArr);
+    // console.log(newArr);
 
     this.mapData = newArr;
 
@@ -193,6 +195,7 @@ export class HeatMapComponent implements OnInit {
     let coords = [];
 
     stateLayer.eachLayer((layer: any) => {
+      // console.log(layer.getBounds().getCenter());
       layer._latlngs.forEach(lay => {
         let exec = lay[0];
         let data;
@@ -206,7 +209,14 @@ export class HeatMapComponent implements OnInit {
         }
       });
 
-      let avgCord = this.averageGeolocation(coords);
+
+      coords = coords.map(x => {
+        return [ x.lat, x.lng ];
+      })
+
+      let cordi = this.getCentroid(coords);
+
+      let avgCord = { lat: cordi[0], lng: cordi[1] };
 
       // console.log(avgCord, layer.feature.properties.ST_NM);
 
@@ -309,10 +319,13 @@ export class HeatMapComponent implements OnInit {
       //   iconAnchor: [20, 40] // point of the icon which will correspond to marker's location
       // });
 
+      var point = L.point([-10, -10]);
+
       var marker = L.marker([cord.lat, cord.lng], { icon: this.yellowIcon }).bindTooltip('<p>Rank: <b>'+ tooltipText +'<b></p>',
       {
         className: 'tooltip-custom-1',
         opacity: 1,
+        offset: point,
         permanent: true,
         direction: 'top'
       }).addTo(
@@ -325,38 +338,10 @@ export class HeatMapComponent implements OnInit {
     }
   }
 
-  averageGeolocation(coords) {
-    if (coords.length === 1) {
-      return coords[0];
-    }
-
-    let x = 0.0;
-    let y = 0.0;
-    let z = 0.0;
-
-    for (let coord of coords) {
-      let latitude = (coord.lat * Math.PI) / 180;
-      let longitude = (coord.lng * Math.PI) / 180;
-
-      x += Math.cos(latitude) * Math.cos(longitude);
-      y += Math.cos(latitude) * Math.sin(longitude);
-      z += Math.sin(latitude);
-    }
-
-    let total = coords.length;
-
-    x = x / total;
-    y = y / total;
-    z = z / total;
-
-    let centralLongitude = Math.atan2(y, x);
-    let centralSquareRoot = Math.sqrt(x * x + y * y);
-    let centralLatitude = Math.atan2(z, centralSquareRoot);
-
-    return {
-      lat: (centralLatitude * 180) / Math.PI,
-      lng: (centralLongitude * 180) / Math.PI
-    };
+  getCentroid(arr) { 
+    return arr.reduce(function (x,y) {
+        return [x[0] + y[0]/arr.length, x[1] + y[1]/arr.length] 
+    }, [0,0]) 
   }
 
   // common functions

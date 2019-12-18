@@ -43,8 +43,8 @@
     border-collapse:separate; 
     border-spacing:0 10px; 
     padding: 0px 8px;
+    position: relative;
 }
-
 
 .table-right{
     height: 90vh;
@@ -53,6 +53,9 @@
 
 #ranking-table>thead>tr>th{
     border:none !important;
+    position: sticky;
+    top: 0;
+    background: white;
 }
 
 #ranking-table > tbody > tr > td{
