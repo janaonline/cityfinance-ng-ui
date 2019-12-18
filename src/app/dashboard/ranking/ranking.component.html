@@ -85,7 +85,7 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr [style.background]="row.backColor" [style.color]="row.color" *ngFor="let row of rankTableData">
+                                <tr [style.background]="row.indexScore > 3999 ? '#F4FFEF' : '#FCF3FF' " [style.color]="row.color" *ngFor="let row of rankTableData">
                                   <td>{{row?.name}}</td>
                                   <td>{{row?.stateRank}}</td>
                                   <td>{{row?.nationalRank}}</td>
@@ -224,8 +224,10 @@
             </mat-tab>
             <mat-tab label="Fiscal Ranking Methodology">
               <ng-template matTabContent>
-                  <button mat-raised-button style="float: right;background-color:#333333">Download</button>
-                  <p>Content Goes Here.......</p>
+                  <!-- <button mat-raised-button style="float: right;background-color:#333333">Download</button> -->
+                  <!-- <p>Content Goes Here.......</p> -->
+                  <iframe src="../../../assets/files/Annual-Fiscal-Ranking-of-ULBs-Concept-Note.pdf" 
+                    style="width:100vw; height:100vh;" frameborder="0"></iframe>
               </ng-template>
             </mat-tab>
         </mat-tab-group>
