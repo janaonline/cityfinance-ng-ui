@@ -29,8 +29,10 @@ export class RankingComponent implements OnInit {
 
   showLoader:boolean = false;
 
+  selectedYear:any = ["2015-16", "2016-17"];
+
   //filters start
-  overallFilter = 'Less than 50 Thousand';
+  overallFilter = 'Over 10 Lakh';
   overallList = [
     { id: 2, label: "Less than 50 Thousand", min: 0, max: 49999 },
     { id: 3, label: "Over 50 Thousand but less than 1 Lakh", min: 50000, max: 99999 },
@@ -42,10 +44,10 @@ export class RankingComponent implements OnInit {
 
   financialFilter = 'Overall';
   financialList = [
-    { value: 'Overall', viewValue: 'Overall' },
-    { value: "Financial Accountability", viewValue: "Financial Accountability" },
-    { value: "Financial performance", viewValue: "Financial performance" },
-    { value: "Financial position", viewValue: "Financial position" }
+    { id: 1, value: 'Overall', viewValue: 'Overall' },
+    { id: 2, value: "Financial Accountability", viewValue: "Financial Accountability" },
+    { id: 3, value: "Financial performance", viewValue: "Financial Performance" },
+    { id: 4, value: "Financial position", viewValue: "Financial Position" }
   ];
 
   financialReportFilter = '';
@@ -117,7 +119,7 @@ export class RankingComponent implements OnInit {
       // { label: '1 to 1000', min: 1, max: 1000 },
       // { label: '1001 to 2000', min: 1001, max: 2000 },
       // { label: '2001 to 3000', min: 2001, max: 3000 },
-      { label: 'Less than 50 Thousand', min: 0, max: 49999 }
+      { label: 'Over 10 Lakh', min: 1000000, max: 1000000000000 }
     ],
     finance: ['Overall'],
     state: ''
@@ -185,8 +187,11 @@ export class RankingComponent implements OnInit {
     this.showLoader = true;
     this.mainData = null;
     let pop = this.overallList.find(x => x.label == this.overallFilter);
+    let finance = this.financialList.find(x => x.viewValue == this.financialFilter);
+
     let obj = {
-      populationId: pop.id
+      populationId: pop.id,
+      financialParameter: finance.id
     };
 
     this.rankingService.heatMapFilter(obj).subscribe(async (res:any) => {
@@ -551,8 +556,8 @@ export class RankingComponent implements OnInit {
             mode: 'horizontal',
             scaleID: 'y-axis-1',
             value: this.mainData[0].nationalAverageOverallIndexScore.toFixed(),
-            borderColor: '#4AB20D',
-            borderWidth: 4,
+            borderColor: 'black',
+            borderWidth: 2,
             label: {
                 enabled: false,
                 content: 'National Average'
@@ -775,6 +780,7 @@ export class RankingComponent implements OnInit {
 
     if(this.ulbFilter.value && this.years.value){
       this.showLoader = true;
+      console.log(this.ulbFilter.value, this.years.value);
       
       if(!this.financialReportFilter){
         this.financialReportFilter = 'Overall';
@@ -818,6 +824,7 @@ export class RankingComponent implements OnInit {
         for(let k in obj){
           arr.push({name : k, data:obj[k]});
         }
+        this.selectedYear = this.years.value;
 
         this.tableData = arr;
         this.showLoader = false;

@@ -71,7 +71,7 @@
                       <div class="col-lg-4 right-card">
                         <div class="col-lg-12">
                           <div class="head-pill mt-2">
-                            <div>National Average</div>
+                            <div>National Average <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Index score greater than National Average and Index score lesser than National Average are shown with different background colors in table." aria-hidden="true"></i></div>
                             <div *ngIf="this.mainData">{{this.mainData[0].nationalAverageOverallIndexScore.toFixed()}}</div>
                           </div>
                           <div class="table-right">
@@ -85,7 +85,7 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr [style.background]="row.indexScore > 3999 ? '#F4FFEF' : '#FCF3FF' " [style.color]="row.color" *ngFor="let row of rankTableData">
+                                <tr [style.background]="row.indexScore > row.nationalAverageOverallIndexScore ? '#F4FFEF' : '#FCF3FF' " [style.color]="row.color" *ngFor="let row of rankTableData">
                                   <td>{{row?.name}}</td>
                                   <td>{{row?.stateRank}}</td>
                                   <td>{{row?.nationalRank}}</td>
@@ -184,11 +184,11 @@
                             <thead>
                               <tr>
                                 <th style="width: 2% ;" rowspan="2">S. NO</th>
-                                <th style="width: 8%;" rowspan="2">Ratios</th>
-                                <th style="width: 30%;" colspan="6" *ngFor="let item of this.years.value">{{item}}</th>
+                                <th style="width: 10%;" rowspan="2">Ratios</th>
+                                <th style="width: 30%;" colspan="6" *ngFor="let item of selectedYear">{{item}}</th>
                               </tr>
                               <tr>
-                                <ng-container *ngFor="let item of this.years.value">
+                                <ng-container *ngFor="let item of selectedYear">
                                   <th>Ratio (%)</th>
                                   <th>National Avg. (%)</th>
                                   <th>Score</th>
@@ -201,14 +201,14 @@
                             <tbody>
                               <tr *ngFor="let item of this.tableData; let i = index">
                                 <td>{{i+1}}</td>
-                                <td>{{item.name}}</td>
+                                <td style="text-align: left !important;">{{item.name}}</td>
                                 <ng-container *ngFor="let row of item.data">
-                                  <td>{{row.ratio.toFixed(2)}}</td>
-                                  <td>{{row.nationalAvgRatio.toFixed(2)}}</td>
+                                  <td>{{row.ratio.toFixed(2)}}%</td>
+                                  <td>{{row.nationalAvgRatio.toFixed(2)}}%</td>
                                   <td>{{row.indexScore.toFixed(2)}}</td>
                                   <td>{{row.nationalAvgIndexScore.toFixed(2)}}</td>
-                                  <td>{{row.nationalRank.toFixed(2)}}</td>
-                                  <td>{{row.stateRank.toFixed(2)}}</td>
+                                  <td>{{row.nationalRank}}</td>
+                                  <td>{{row.stateRank}}</td>
                                 </ng-container>
                               </tr>
                             </tbody>
