@@ -13,7 +13,7 @@ declare const $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class HeatMapComponent implements OnInit {
-  overallFilter = 'Less than 50 Thousand';
+  overallFilter = 'Over 10 Lakh';
   overallList = [
     { id: 2, label: "Less than 50 Thousand", min: 0, max: 49999 },
     { id: 3, label: "Over 50 Thousand but less than 1 Lakh", min: 50000, max: 99999 },
@@ -137,6 +137,9 @@ export class HeatMapComponent implements OnInit {
     // console.log(newArr);
 
     this.mapData = newArr;
+
+    console.log(this.mapData);
+
 
     this.initMap();
   }
