@@ -70,9 +70,17 @@
                       </div>
                       <div class="col-lg-4 right-card">
                         <div class="col-lg-12">
-                          <div class="head-pill mt-2">
-                            <div>National Average <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Index score greater than National Average and Index score lesser than National Average are shown with different background colors in table." aria-hidden="true"></i></div>
-                            <div *ngIf="this.mainData">{{this.mainData[0].nationalAverageOverallIndexScore.toFixed()}}</div>
+                          <div class=" head-pill-style mt-2">
+                            <div class="head-pill">
+                              <div>National Average</div>
+                              <div *ngIf="this.mainData">{{this.mainData[0].nationalAverageOverallIndexScore.toFixed()}}</div>
+                            </div>
+                            <div class="head-pill mt-2" style="justify-content: left;">
+                              <div class="square" style="background: #F4FFEF;"></div> &nbsp; <span>Index score Greater than National Average</span>
+                            </div>
+                            <div class="head-pill" style="justify-content: left;">
+                              <div class="square" style="background: #FCF3FF;"></div> &nbsp; <span>Index score Lesser than National Average</span>
+                            </div>
                           </div>
                           <div class="table-right">
                             <table class="table" id="ranking-table">
