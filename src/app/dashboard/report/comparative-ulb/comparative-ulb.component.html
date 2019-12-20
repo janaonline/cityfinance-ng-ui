@@ -63,6 +63,7 @@
           <th class="text-center" *ngFor="let yr of years">{{ yr.caption }}</th>
         </tr>
       </thead>
+
       <tbody>
         <tr
           *ngFor="let key of reportKeys"
@@ -79,7 +80,7 @@
             {{ report[key] ? report[key].code : "" }}
           </td>
           <td
-            style="position: sticky; left:103px;border-right: inherit solid #868686; background: white;"
+            style="position: sticky; left:103px;border-right: inherit solid #868686; "
             [ngClass]="{
               'text-right':
                 (report[key] && report[key].line_item.includes('Total')) ||
