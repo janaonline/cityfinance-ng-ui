@@ -13,7 +13,7 @@
                               <div class="col-lg-3">
                                 <mat-form-field>
                                   <mat-label>Population Category</mat-label>
-                                  <mat-select [(ngModel)]="overallFilter">
+                                  <mat-select [(ngModel)]="overallFilter" (ngModelChange)="stateChangeRank()">
                                     <mat-option *ngFor="let list of overallList" [value]="list.label">{{list.label}}</mat-option>
                                   </mat-select>
                                 </mat-form-field>
@@ -57,13 +57,19 @@
                             <div class="chart-container">
                               <canvas id="canvas"></canvas> 
                             </div>
-                            <div class="state-pills">
+                            <div class="state mt-1">
                               <div *ngFor="let state of statesPill" style="display: inline-flex;">
                                 <div class="square" [style.background-color]="state.color" [style.cursor]="'pointer'" *ngIf="!state.hide" (click)="toggleChartData(state.id)"></div> &nbsp;
                                 <div [ngStyle]="{'text-decoration': !state.status ? 'line-through' : 'none'}">
                                   {{state.name}}
                                 </div>&nbsp;
                               </div>
+                              <!-- <div *ngFor="let state of dummyColor" style="display: inline-flex;">
+                                <div class="square" [style.background-color]="this.colorsData[state].color" [style.cursor]="'pointer'"></div> &nbsp;
+                                <div>
+                                  {{this.colorsData[state].color}}
+                                </div>&nbsp;
+                              </div> -->
                             </div>
                           </div>
                         </div>
@@ -76,24 +82,24 @@
                               <div *ngIf="this.mainData">{{this.mainData[0].nationalAverageOverallIndexScore.toFixed()}}</div>
                             </div>
                             <div class="head-pill mt-2" style="justify-content: left;">
-                              <div class="square" style="background: #F4FFEF;"></div> &nbsp; <span>Index score Greater than National Average</span>
+                              <div class="square" style="background: #e0ffd2;"></div> &nbsp; <span>Index score Greater than National Average</span>
                             </div>
                             <div class="head-pill" style="justify-content: left;">
-                              <div class="square" style="background: #FCF3FF;"></div> &nbsp; <span>Index score Lesser than National Average</span>
+                              <div class="square" style="background: #f5d6ff;"></div> &nbsp; <span>Index score Lesser than National Average</span>
                             </div>
                           </div>
                           <div class="table-right">
                             <table class="table" id="ranking-table">
                               <thead>
                                 <tr>
-                                  <th class="col-lg-6"> <div class="table-head" (click)="sortTableData(headers[0].key, headers[0].status, 0)" [style.color]="headers[0].color">ULB Name &nbsp; <i class="fa fa-fw fa-sort"></i></div></th>
-                                  <th class="col-lg-2"> <div class="table-head" (click)="sortTableData(headers[1].key, headers[1].status, 1)" [style.color]="headers[1].color">State Rank &nbsp; <i class="fa fa-fw fa-sort"></i></div> </th>
-                                  <th class="col-lg-2"> <div class="table-head" (click)="sortTableData(headers[2].key, headers[2].status, 2)" [style.color]="headers[2].color">National Rank &nbsp; <i class="fa fa-fw fa-sort"></i></div> </th>
-                                  <th class="col-lg-2"> <div class="table-head" (click)="sortTableData(headers[3].key, headers[3].status, 3)" [style.color]="headers[3].color">Index Score &nbsp; <i class="fa fa-fw fa-sort"></i></div> </th>
+                                  <th class="col-lg-6"> <div class="table-head" (click)="sortTableData(headers[0].key, headers[0].status, 0)" [style.color]="headers[0].color">ULB Name &nbsp; <i *ngIf="headers[0].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[0].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div></th>
+                                  <th class="col-lg-2"> <div class="table-head" (click)="sortTableData(headers[1].key, headers[1].status, 1)" [style.color]="headers[1].color">State Rank &nbsp; <i *ngIf="headers[1].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[1].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div> </th>
+                                  <th class="col-lg-2"> <div class="table-head" (click)="sortTableData(headers[2].key, headers[2].status, 2)" [style.color]="headers[2].color">National Rank &nbsp; <i *ngIf="headers[2].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[2].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div> </th>
+                                  <th class="col-lg-2"> <div class="table-head" (click)="sortTableData(headers[3].key, headers[3].status, 3)" [style.color]="headers[3].color">Index Score &nbsp; <i *ngIf="headers[3].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[3].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div> </th>
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr [style.background]="row.indexScore > row.nationalAverageOverallIndexScore ? '#F4FFEF' : '#FCF3FF' " [style.color]="row.color" *ngFor="let row of rankTableData">
+                                <tr [style.background]="row.indexScore > row.nationalAverageOverallIndexScore ? '#e0ffd2' : '#f5d6ff' " [style.color]="row.color" *ngFor="let row of rankTableData">
                                   <td>{{row?.name}}</td>
                                   <td>{{row?.stateRank}}</td>
                                   <td>{{row?.nationalRank}}</td>
@@ -207,18 +213,25 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let item of this.tableData; let i = index">
-                                <td>{{i+1}}</td>
-                                <td style="text-align: left !important;">{{item.name}}</td>
-                                <ng-container *ngFor="let row of item.data">
-                                  <td>{{row.ratio.toFixed(2)}}%</td>
-                                  <td>{{row.nationalAvgRatio.toFixed(2)}}%</td>
-                                  <td>{{row.indexScore.toFixed(2)}}</td>
-                                  <td>{{row.nationalAvgIndexScore.toFixed(2)}}</td>
-                                  <td>{{row.nationalRank}}</td>
-                                  <td>{{row.stateRank}}</td>
-                                </ng-container>
-                              </tr>
+                              <ng-container *ngIf="this.tableData.length; else noData">
+                                <tr *ngFor="let item of this.tableData; let i = index">
+                                  <td>{{i+1}}</td>
+                                  <td style="text-align: left !important;">{{item.name}}</td>
+                                  <ng-container *ngFor="let row of item.data">
+                                    <td>{{row.ratio.toFixed(2)}}%</td>
+                                    <td>{{row.nationalAvgRatio.toFixed(2)}}%</td>
+                                    <td>{{row.indexScore.toFixed(2)}}</td>
+                                    <td>{{row.nationalAvgIndexScore.toFixed(2)}}</td>
+                                    <td>{{row.nationalRank}}</td>
+                                    <td>{{row.stateRank}}</td>
+                                  </ng-container>
+                                </tr>
+                              </ng-container>
+                              <ng-template #noData>
+                                <tr>
+                                  <td style="text-align: center;font-size: 16px;font-weight: bold;" colspan="100%">------------------- No Data Available! -------------------</td>
+                                </tr>
+                              </ng-template>
                             </tbody>
                           </table>
                           <!-- <div class="mt-2">

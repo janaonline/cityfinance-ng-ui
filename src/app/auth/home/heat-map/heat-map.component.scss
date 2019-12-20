@@ -58,3 +58,14 @@
     padding: 2%;
     margin-bottom: 3%;
 }
+
+// position: absolute;
+.spinner{
+    display: flex;
+    position: absolute;
+    background: #bdbdbd42;
+    justify-content: center;
+    align-items: center;
+    width: 79vw;
+    height: 93vh;
+}
