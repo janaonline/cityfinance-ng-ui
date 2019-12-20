@@ -93,10 +93,10 @@ export class RankingComponent implements OnInit {
   legends = null;
 
   headers:any = {
-    0: { key: 'name', color: '#333', status: -1 },
-    1: { key: 'stateRank', color: '#333', status: -1 },
-    2: { key: 'nationalRank', color: '#333', status: -1 },
-    3: { key: 'indexScore', color: '#333', status: -1 },
+    0: { key: 'name', color: '#333', status: 0 },
+    1: { key: 'stateRank', color: '#333', status: 0 },
+    2: { key: 'nationalRank', color: '#333', status: 0 },
+    3: { key: 'indexScore', color: '#333', status: 0 }
   }
   
 
@@ -109,6 +109,8 @@ export class RankingComponent implements OnInit {
   tbleRows:any = [];
 
   colorsData:any = colorData;
+  
+  // dummyColor:any = Object.keys(colorData);
 
   chartDataset:any = null;
 
@@ -212,7 +214,23 @@ export class RankingComponent implements OnInit {
       this.plotScatterChart();
     }
   }
-    
+  
+  async stateChangeRank(){
+    // this.mainData = null;
+    this.showLoader = true;
+    let pop = this.overallList.find(x => x.label == this.overallFilter);
+    let obj = {
+      populationId: pop.id
+    };
+
+    this.rankingService.heatMapFilter(obj).subscribe(async (res:any) => {
+        this.mainData = await res.data;
+        this.getStatesList();
+        this.stateFilter = '';
+        this.showLoader = false;
+      });
+  }
+  
   getStatesList(){
     let data = this.mainData.slice();
     this.stateList = this.distinctObjectFromArrayState(data);
@@ -226,7 +244,13 @@ export class RankingComponent implements OnInit {
     
     // this.ulbList.push({id: '', name: 'All'});
 
+    if(this.stateFilter){
+      data = data.filter(x => x.state._id == this.stateFilter);
+    }
+
     this.ulbTypeList = this.distinctObjectFromArrayUlb(data);
+
+    console.log(data);
 
     // console.log(this.ulbList);
 
@@ -400,10 +424,12 @@ export class RankingComponent implements OnInit {
     // 1 -> Municipal Corporation
     // 2 -> Muncipality  
     // 3 -> Town Panchayat
+
+    // console.log(chartData);
     
     this.ulbTypeList.forEach((type,index) => {
       let filteredData = chartData.filter(item => item.ulbType._id == type.id).map(val => {
-        return { x : val.population, y : val.overallIndexScore.toFixed(2) };
+        return { x : val.population, y : val.overallIndexScore.toFixed(2), name: val.name };
       });
 
       let colorPoints = chartData.filter(item => item.ulbType._id == type.id).map(item => {
@@ -481,7 +507,7 @@ export class RankingComponent implements OnInit {
           label: element.label,
           pointRadius: element.pointRadius,
           pointBackgroundColor: element.pointColor,
-          borderColor: '#ddd',
+          borderColor: 'black',
           data: element.data
         });
     });
@@ -504,9 +530,10 @@ export class RankingComponent implements OnInit {
         },
         tooltips:{
           callbacks: {
-            // title: function(tooltipItem, data) {
-            //   return data['labels'][tooltipItem[0]['index']];
-            // },
+            title: function(tooltipItem, data) {
+              let val = data.datasets[tooltipItem[0].datasetIndex].data.find(label => label.x == tooltipItem[0].xLabel);
+              return val.name;
+            },
             label: function(tooltipItem, data) {
               return '( Population : '+ tooltipItem.xLabel+' , Index Score : '+ tooltipItem.yLabel +' )' ;
             }
@@ -524,7 +551,11 @@ export class RankingComponent implements OnInit {
 						ticks: {
 							userCallback: function(tick) {
                 if(tick > 999){
-                  tick = tick / 1000
+                  if(tick % 1 === 0){
+                    tick = tick / 1000;
+                  }else{
+                    tick = (tick / 1000).toFixed(2);
+                  }
                   return tick.toString() + 'k';
                 }else{
                   return tick.toString();
@@ -551,7 +582,7 @@ export class RankingComponent implements OnInit {
         },
         annotation: {
           annotations: [{
-            drawTime: 'afterDraw',
+            drawTime: 'afterDatasetsDraw',
             type: 'line',
             mode: 'horizontal',
             scaleID: 'y-axis-1',
@@ -571,6 +602,10 @@ export class RankingComponent implements OnInit {
   }
 
   async filterData(){
+    Object.keys(this.headers).forEach(x => {
+      this.headers[x].color = '#333333';
+      this.headers[x].status = 0;
+    });
     this.showLoader = true;
     this.mainData = null;
     $("canvas#canvas").remove();
@@ -683,15 +718,28 @@ export class RankingComponent implements OnInit {
 
   sortTableData(key, order, index){
     //console.log(key, order, index);
-    if(order == -1){
-      this.headers[index].status = 1;
-      this.headers[index].color = '#43b8ea'
-
+    if(order == -1 || order == 0){
+      Object.keys(this.headers).forEach((x,i) =>{
+        if(i == index){
+          this.headers[i].status = 1;
+          this.headers[i].color = '#43b8ea';
+        }else{
+          this.headers[i].status = 0;
+          this.headers[i].color = '#555';
+        }
+      });
       //ascending
       this.rankTableData.sort((a,b) => (a[key] > b[key]) ? 1 : ((b[key] > a[key]) ? -1 : 0));
     }else{
-      this.headers[index].status = -1;
-      this.headers[index].color = '#555'
+      Object.keys(this.headers).forEach((x,i) =>{
+        if(i == index){
+          this.headers[i].status = -1;
+          this.headers[i].color = '#555'
+        }else{
+          this.headers[i].status = 0;
+          this.headers[i].color = '#555';
+        }
+      });
 
       //descending
       this.rankTableData.sort((a,b) => (a[key] < b[key]) ? 1 : ((b[key] < a[key]) ? -1 : 0));
@@ -744,6 +792,7 @@ export class RankingComponent implements OnInit {
 
   onUlbChange(){
     this.ulbList.next(null);
+    this.listData = [];
     let data = this.scoreData.slice().filter(x => x.state._id == this.stateReportFilter);
 
     let ulb = data.filter(x => x.ulbType._id == this.ulbTypeFilter).map(x => {
@@ -780,7 +829,7 @@ export class RankingComponent implements OnInit {
 
     if(this.ulbFilter.value && this.years.value){
       this.showLoader = true;
-      console.log(this.ulbFilter.value, this.years.value);
+      // console.log(this.ulbFilter.value, this.years.value);
       
       if(!this.financialReportFilter){
         this.financialReportFilter = 'Overall';
@@ -795,7 +844,11 @@ export class RankingComponent implements OnInit {
         }
         let prms = new Promise(async (resolve, reject) => {
             this.rankingService.heatMapFilter(obj).subscribe((res:any) => {
+              if(res.data.length){
                 resolve({data : res.data[0].financialParameters, year:element});
+              }else{
+                resolve({data : [], year:element});
+              }
             }, (error) => {
                 reject();
                 console.log(error);
@@ -827,6 +880,7 @@ export class RankingComponent implements OnInit {
         this.selectedYear = this.years.value;
 
         this.tableData = arr;
+        // console.log(this.tableData);
         this.showLoader = false;
 
       }, (rejectErr) => {

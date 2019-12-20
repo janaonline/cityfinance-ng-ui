@@ -48,6 +48,8 @@ export class HeatMapComponent implements OnInit {
     iconAnchor: [20, 20] // point of the icon which will correspond to marker's location
   });
 
+  showLoader:boolean = true;
+
   constructor(private rankingService: RankingService, private loaderService:GlobalLoaderService) {
     this.loadMapGeoJson();
   }
@@ -58,7 +60,7 @@ export class HeatMapComponent implements OnInit {
   }
 
   async getDataViaPopulationId() {
-    this.loaderService.showLoader();
+    this.showLoader = true;
     this.mainData = null;
     let pop = this.overallList.find(x => x.label == this.overallFilter);
     let obj = {
@@ -67,7 +69,7 @@ export class HeatMapComponent implements OnInit {
 
     await this.rankingService.heatMapFilter(obj).subscribe(async (res: any) => {
       this.mainData = await res.data;
-      this.loaderService.stopLoader();
+      this.showLoader = false;
       if (this.mainData) {
         await this.loadAllData();
       }
