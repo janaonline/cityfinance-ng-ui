@@ -127,6 +127,8 @@ export class RankingComponent implements OnInit {
     state: ''
   };
 
+  nationalAvg:any = null;
+
   constructor(private rankingService: RankingService ) { 
   }
 
@@ -198,6 +200,7 @@ export class RankingComponent implements OnInit {
 
     this.rankingService.heatMapFilter(obj).subscribe(async (res:any) => {
         this.mainData = await res.data;
+        this.setNationalAverage(res.data[0]);
         this.showLoader = false;
         // console.log(this.mainData);
         this.mapColorMainData();
@@ -330,7 +333,7 @@ export class RankingComponent implements OnInit {
 
     this.rankTableData = tableData;
 
-    console.log(this.rankTableData);
+    // console.log(this.rankTableData);
     // const distinct = (value, index, self) => {
     //   return self.indexOf(value) === index;
     // }
@@ -620,14 +623,35 @@ export class RankingComponent implements OnInit {
     };
 
     await this.rankingService.heatMapFilter(obj).subscribe(async (res:any) => {
-        this.mainData = await res.data;
-        this.filters.population = [pop];
-        this.filters.finance = [this.financialFilter];
-        this.filters.state = this.stateFilter;
-        this.showLoader = false;
-        this.mapColorMainData('filter');
-      });
+      this.mainData = await res.data;
+      this.setNationalAverage(res.data[0]);
 
+      this.filters.population = [pop];
+      this.filters.finance = [this.financialFilter];
+      this.filters.state = this.stateFilter;
+      this.showLoader = false;
+      this.mapColorMainData('filter');
+    });
+
+  }
+
+  setNationalAverage(avgData){
+    switch (this.financialFilter) {
+      case "Overall":
+          this.nationalAvg = avgData.nationalAverageOverallIndexScore;  
+        break;
+      case "Financial Accountability":
+          this.nationalAvg = avgData.nationalAverageFinancialAccountabilityIndexScore;
+        break;
+      case "Financial performance":
+          this.nationalAvg = avgData.nationalAverageFinancialPerformanceIndexScore;
+        break;
+      default:
+          this.nationalAvg = avgData.nationalAverageFinancialPositionIndexScore;
+        break;
+    }
+    console.log(avgData, this.nationalAvg);
+    
   }
 
   // common functions
