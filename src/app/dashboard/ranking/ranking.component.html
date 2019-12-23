@@ -99,7 +99,7 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr [style.background]="row.indexScore > row.nationalAverageOverallIndexScore ? '#e0ffd2' : '#f5d6ff' " [style.color]="row.color" *ngFor="let row of rankTableData">
+                                <tr [style.background]="row.indexScore > this.nationalAvg ? '#e0ffd2' : '#f5d6ff' " [style.color]="row.color" *ngFor="let row of rankTableData">
                                   <td>{{row?.name}}</td>
                                   <td>{{row?.stateRank}}</td>
                                   <td>{{row?.nationalRank}}</td>
