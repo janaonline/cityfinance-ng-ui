@@ -554,7 +554,7 @@ export class RankingComponent implements OnInit {
                   if(tick % 1 === 0){
                     tick = tick / 1000;
                   }else{
-                    tick = (tick / 1000).toFixed(2);
+                    tick = (tick / 1000).toFixed(3);
                   }
                   return tick.toString() + 'k';
                 }else{
