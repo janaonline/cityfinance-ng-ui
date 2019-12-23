@@ -753,13 +753,14 @@ export class RankingComponent implements OnInit {
           this.headers[i].color = '#555';
         }
       });
+      console.log(this.headers);
       //ascending
       this.rankTableData.sort((a,b) => (a[key] > b[key]) ? 1 : ((b[key] > a[key]) ? -1 : 0));
     }else{
       Object.keys(this.headers).forEach((x,i) =>{
         if(i == index){
           this.headers[i].status = -1;
-          this.headers[i].color = '#555'
+          this.headers[i].color = '#43b8ea'
         }else{
           this.headers[i].status = 0;
           this.headers[i].color = '#555';
