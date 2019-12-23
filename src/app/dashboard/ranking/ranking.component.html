@@ -79,7 +79,7 @@
                           <div class=" head-pill-style mt-2">
                             <div class="head-pill">
                               <div>National Average</div>
-                              <div *ngIf="this.mainData">{{this.mainData[0].nationalAverageOverallIndexScore.toFixed()}}</div>
+                              <div *ngIf="this.mainData">{{this.nationalAvg}}</div>
                             </div>
                             <div class="head-pill mt-2" style="justify-content: left;">
                               <div class="square" style="background: #e0ffd2;"></div> &nbsp; <span>Index score Greater than National Average</span>
@@ -213,18 +213,25 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let item of this.tableData; let i = index">
-                                <td>{{i+1}}</td>
-                                <td style="text-align: left !important;">{{item.name}}</td>
-                                <ng-container *ngFor="let row of item.data">
-                                  <td>{{row.ratio ? row.ratio.toFixed(2):row.ratio}}%</td>
-                                  <td>{{row.nationalAvgRatio ? row.nationalAvgRatio.toFixed(2):row.nationalAvgRatio}}%</td>
-                                  <td>{{row.indexScore?row.indexScore.toFixed(2):row.indexScore}}</td>
-                                  <td>{{row.nationalAvgIndexScore?row.nationalAvgIndexScore.toFixed(2):row.nationalAvgIndexScore}}</td>
-                                  <td>{{row.nationalRank}}</td>
-                                  <td>{{row.stateRank}}</td>
-                                </ng-container>
-                              </tr>
+                              <ng-container *ngIf="this.tableData.length; else noData">
+                                <tr *ngFor="let item of this.tableData; let i = index">
+                                  <td>{{i+1}}</td>
+                                  <td style="text-align: left !important;">{{item.name}}</td>
+                                  <ng-container *ngFor="let row of item.data">
+                                    <td *ngIf="row.ratio == '-'">{{row.ratio}}</td><td *ngIf="row.ratio != '-'">{{row.ratio.toFixed(2)}}%</td>
+                                    <td *ngIf="row.nationalAvgRatio == '-'">{{row.nationalAvgRatio}}</td><td *ngIf="row.nationalAvgRatio != '-'">{{row.nationalAvgRatio.toFixed(2)}}%</td>
+                                    <td *ngIf="row.nationalAvgRatio == '-'">{{row.indexScore}}</td><td *ngIf="row.nationalAvgRatio != '-'">{{row.indexScore.toFixed(2)}}</td>
+                                    <td *ngIf="row.nationalAvgIndexScore == '-'">{{row.nationalAvgIndexScore}}</td><td *ngIf="row.nationalAvgIndexScore != '-'">{{row.nationalAvgIndexScore.toFixed(2)}}</td>
+                                    <td>{{row.nationalRank}}</td>
+                                    <td>{{row.stateRank}}</td>
+                                  </ng-container>
+                                </tr>
+                              </ng-container>
+                              <ng-template #noData>
+                                <tr>
+                                  <td style="text-align: center;font-size: 16px;font-weight: bold;" colspan="100%">------------------- No Data Available! -------------------</td>
+                                </tr>
+                              </ng-template>
                             </tbody>
                           </table>
                           <!-- <div class="mt-2">

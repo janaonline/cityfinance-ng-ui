@@ -127,6 +127,8 @@ export class RankingComponent implements OnInit {
     state: ''
   };
 
+  nationalAvg:any = null;
+
   constructor(private rankingService: RankingService ) { 
   }
 
@@ -198,6 +200,7 @@ export class RankingComponent implements OnInit {
 
     this.rankingService.heatMapFilter(obj).subscribe(async (res:any) => {
         this.mainData = await res.data;
+        this.setNationalAverage(res.data[0]);
         this.showLoader = false;
         // console.log(this.mainData);
         this.mapColorMainData();
@@ -250,7 +253,7 @@ export class RankingComponent implements OnInit {
 
     this.ulbTypeList = this.distinctObjectFromArrayUlb(data);
 
-    console.log(data);
+    // console.log(data);
 
     // console.log(this.ulbList);
 
@@ -330,6 +333,7 @@ export class RankingComponent implements OnInit {
 
     this.rankTableData = tableData;
 
+    // console.log(this.rankTableData);
     // const distinct = (value, index, self) => {
     //   return self.indexOf(value) === index;
     // }
@@ -619,14 +623,35 @@ export class RankingComponent implements OnInit {
     };
 
     await this.rankingService.heatMapFilter(obj).subscribe(async (res:any) => {
-        this.mainData = await res.data;
-        this.filters.population = [pop];
-        this.filters.finance = [this.financialFilter];
-        this.filters.state = this.stateFilter;
-        this.showLoader = false;
-        this.mapColorMainData('filter');
-      });
+      this.mainData = await res.data;
+      this.setNationalAverage(res.data[0]);
 
+      this.filters.population = [pop];
+      this.filters.finance = [this.financialFilter];
+      this.filters.state = this.stateFilter;
+      this.showLoader = false;
+      this.mapColorMainData('filter');
+    });
+
+  }
+
+  setNationalAverage(avgData){
+    switch (this.financialFilter) {
+      case "Overall":
+          this.nationalAvg = avgData.nationalAverageOverallIndexScore;  
+        break;
+      case "Financial Accountability":
+          this.nationalAvg = avgData.nationalAverageFinancialAccountabilityIndexScore;
+        break;
+      case "Financial performance":
+          this.nationalAvg = avgData.nationalAverageFinancialPerformanceIndexScore;
+        break;
+      default:
+          this.nationalAvg = avgData.nationalAverageFinancialPositionIndexScore;
+        break;
+    }
+    console.log(avgData, this.nationalAvg);
+    
   }
 
   // common functions
@@ -857,7 +882,7 @@ export class RankingComponent implements OnInit {
         prmsArr.push(prms);
       });
       Promise.all(prmsArr).then((values) => {
-        console.log(this.financialReportFilter);
+        // console.log(this.financialReportFilter);
         let obj = {};
         for(let value of values){
           let overall = value.data.find(d=> d.type == this.financialReportFilter);
@@ -879,8 +904,27 @@ export class RankingComponent implements OnInit {
         }
         this.selectedYear = this.years.value;
 
+        let year;
+        let dum = arr.slice();
+        if(arr.length){
+          year = dum[0].data.map(x => { return x.year });
+        }
+
+        if(year){
+          for(let yr in this.years.value){
+            // console.log(yr,year.includes(this.years.value[yr]) );
+            if(!year.includes(yr)){
+              for(let row of arr){
+                this.pushObject(row.data, this.years.value[yr]);
+              }
+            }
+          }
+        }
+        
+
+        // console.log(arr);
+        
         this.tableData = arr;
-        // console.log(this.tableData);
         this.showLoader = false;
 
       }, (rejectErr) => {
@@ -889,6 +933,14 @@ export class RankingComponent implements OnInit {
           console.log("caughtError", caughtError)
       });
     }
+  }
+
+  pushObject(arr, year) {
+    const { length } = arr;
+    const id = length + 1;
+    const found = arr.some(el => el.year === year);
+    if (!found) arr.push({ year: year, name: '-', ratio: '-', nationalAvgRatio: '-', nationalAvgIndexScore: '-', indexScore: '-', nationalRank: '-', stateRank: '-' });
+    return arr;
   }
 
   downloadTableData(){
