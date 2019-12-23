@@ -178,7 +178,7 @@ export class GridComponent implements OnInit {
       Object.keys(this.headers).forEach((x,i) =>{
         if(i == index){
           this.headers[i].status = -1;
-          this.headers[i].color = '#555'
+          this.headers[i].color = '#43b8ea'
         }else{
           this.headers[i].status = 0;
           this.headers[i].color = '#555';
