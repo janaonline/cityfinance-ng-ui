@@ -218,10 +218,10 @@
                                   <td>{{i+1}}</td>
                                   <td style="text-align: left !important;">{{item.name}}</td>
                                   <ng-container *ngFor="let row of item.data">
-                                    <td>{{row.ratio.toFixed(2)}}%</td>
-                                    <td>{{row.nationalAvgRatio.toFixed(2)}}%</td>
-                                    <td>{{row.indexScore.toFixed(2)}}</td>
-                                    <td>{{row.nationalAvgIndexScore.toFixed(2)}}</td>
+                                    <td *ngIf="row.ratio == '-'">{{row.ratio}}%</td><td *ngIf="row.ratio != '-'">{{row.ratio.toFixed(2)}}%</td>
+                                    <td *ngIf="row.nationalAvgRatio == '-'">{{row.nationalAvgRatio}}%</td><td *ngIf="row.nationalAvgRatio != '-'">{{row.nationalAvgRatio.toFixed(2)}}%</td>
+                                    <td *ngIf="row.nationalAvgRatio == '-'">{{row.indexScore}}</td><td *ngIf="row.nationalAvgRatio != '-'">{{row.indexScore.toFixed(2)}}</td>
+                                    <td *ngIf="row.nationalAvgIndexScore == '-'">{{row.nationalAvgIndexScore}}</td><td *ngIf="row.nationalAvgIndexScore != '-'">{{row.nationalAvgIndexScore.toFixed(2)}}</td>
                                     <td>{{row.nationalRank}}</td>
                                     <td>{{row.stateRank}}</td>
                                   </ng-container>
