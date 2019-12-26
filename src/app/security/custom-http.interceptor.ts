@@ -10,7 +10,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (req.url.includes(`amazonaws.com`) && req.method === "PUT") {
+    if (req.body instanceof File && req.method === "PUT") {
       return next.handle(req);
     }
 

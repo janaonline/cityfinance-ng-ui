@@ -54,7 +54,7 @@ export class DataEntryService {
     });
 
     return this.http.post(
-      `${environment.api.url}api/admin/v1/getS3Url`,
+      `${environment.api.url}api/admin/v1/getSignedUrl`,
       JSON.stringify([
         {
           file_name: fileName,
