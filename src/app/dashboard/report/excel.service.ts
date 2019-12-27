@@ -129,8 +129,8 @@ export class ExcelService {
       base64: logoFile.logoBase64,
       extension: "png"
     });
-    worksheet.addImage(logo, "B1:C2");
-    worksheet.mergeCells("A1:D2");
+    worksheet.addImage(logo, "C1:C2");
+    worksheet.mergeCells("A1:C2");
 
     // Color for logo backgeound
     worksheet
@@ -242,13 +242,15 @@ export class ExcelService {
       });
     }
 
-    for (let i = 0; i < worksheet.actualColumnCount; i++) {
+    for (let i = 0; i <= worksheet.actualColumnCount; i++) {
       if (i === 0) {
         worksheet.getColumn(1).width = 15;
       } else if (i === 1) {
         worksheet.getColumn(2).width = 40;
       } else {
-        worksheet.getColumn(i).width = 25;
+        worksheet.getColumn(i).width = this.getColumnWidth(
+          worksheet.getColumn(i)
+        );
       }
     }
 
@@ -280,6 +282,19 @@ export class ExcelService {
       const date = new Date().toLocaleDateString();
       FileSaver.saveAs(blob, excelFileName + `_(${date})` + EXCEL_EXTENSION);
     });
+  }
+
+  getColumnWidth(column) {
+    const minColumnWidth = 25;
+    let maxNoOfCharacters = 0;
+    column.values.forEach((value: string | null | undefined) => {
+      if (!value) {
+        return;
+      }
+      maxNoOfCharacters =
+        value.length > maxNoOfCharacters ? value.length : maxNoOfCharacters;
+    });
+    return maxNoOfCharacters ? maxNoOfCharacters * 1 : minColumnWidth;
   }
 
   isAmountValue(value: string) {
