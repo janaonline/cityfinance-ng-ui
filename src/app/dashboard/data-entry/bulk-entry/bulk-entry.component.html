@@ -36,6 +36,7 @@
               type="file"
               (change)="fileChangeEvent($event)"
               placeholder="Upload a file..."
+              accept=".xls,.xlsx"
               multiple
             />
           </div>
@@ -146,18 +147,5 @@
       </div>
     </div>
     <br /><br />
-
-    <div class="row" *ngIf="uploadResult">
-      <table style="width: 50%">
-        <tr>
-          <th>Perticular</th>
-          <th>status</th>
-        </tr>
-        <tr *ngFor="let item of uploadResult">
-          <td>{{ item.msg }}</td>
-          <td>{{ item.success }}</td>
-        </tr>
-      </table>
-    </div>
   </div>
 </div>

@@ -48,7 +48,7 @@ export class DataEntryService {
     );
   }
 
-  getS3URL(fileName: File["name"], fileType: File["type"]) {
+  getURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
     const headers = new HttpHeaders({
       "x-access-token": `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkMzA1YjBjMGVlZWVlYWMyZjQwYTlkZCIsImxvZ2luSWQiOiI1ZGViOTI5YWM5Y2UzZTBhYTNhN2I1MzAiLCJ1c2VyVHlwZSI6ImFkbWluIiwidXNlck5hbWUiOiJEaHdhbmkiLCJ1c2VyRW1haWwiOiJkaHdhbmlAbWZvcm0uY29tIiwib3JnYW5pc2F0aW9uIjpbXSwiaWF0IjoxNTc1NzE5NTc4OTI5LCJleHAiOjU3NTYyOTE5NTc4OTI0fQ.Fj_7C7PGUHCFxuSenEtowliL5a4aH2eON8QOw8YivIA`
     });
