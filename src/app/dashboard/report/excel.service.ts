@@ -131,10 +131,8 @@ export class ExcelService {
     });
     worksheet.addImage(logo, "B1:C2");
     worksheet.mergeCells("A1:D2");
-    // worksheet.mergeCells('A1:' + this.getCellNameByNumber(header.length) + '2');
-    if (cellsToMerge && cellsToMerge.length) {
-      // cellsToMerge.forEach(cell => worksheet.mergeCells(cell));
-    }
+
+    // Color for logo backgeound
     worksheet
       .getRow(1)
       .eachCell({ includeEmpty: true }, function(cell, rowNumber) {
@@ -244,14 +242,16 @@ export class ExcelService {
       });
     }
 
-    worksheet.getColumn(1).width = 15;
-    worksheet.getColumn(2).width = 40;
-    worksheet.getColumn(3).width = 25;
-    worksheet.getColumn(4).width = 25;
-    worksheet.getColumn(5).width = 25;
-    worksheet.getColumn(6).width = 25;
-    worksheet.getColumn(7).width = 25;
-    worksheet.getColumn(8).width = 25;
+    for (let i = 0; i < worksheet.actualColumnCount; i++) {
+      if (i === 0) {
+        worksheet.getColumn(1).width = 15;
+      } else if (i === 1) {
+        worksheet.getColumn(2).width = 40;
+      } else {
+        worksheet.getColumn(i).width = 25;
+      }
+    }
+
     worksheet.addRow([]);
 
     // Footer Row
@@ -283,7 +283,14 @@ export class ExcelService {
   }
 
   isAmountValue(value: string) {
-    const newValue = value
+    const indexOfFirstBracket = value.indexOf("(");
+    let newValue = value;
+    if (indexOfFirstBracket >= 0) {
+      newValue = value.slice(value.indexOf("(") + 1, value.indexOf(")"));
+    } else if (value.indexOf("%") >= 0) {
+      newValue = value.slice(0, value.indexOf("%"));
+    }
+    newValue = newValue
       .split(",")
       .pop()
       .split(")")[0];
