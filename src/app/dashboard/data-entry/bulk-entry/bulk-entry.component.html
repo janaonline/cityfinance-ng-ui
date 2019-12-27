@@ -77,7 +77,11 @@
                   [ngClass]="{
                     uploadComplete:
                       fileUploadTracker[file.name] &&
-                      fileUploadTracker[file.name]['percentage'] === 100
+                      fileUploadTracker[file.name]['percentage'] === 100 &&
+                      fileProcessingTracker[file.name]?.status === 'completed',
+                    uploadFailed:
+                      fileUploadTracker[file.name] &&
+                      fileProcessingTracker[file.name]?.status === 'FAILED'
                   }"
                   [style.width.%]="
                     (fileUploadTracker[file.name] &&
@@ -92,11 +96,27 @@
                   aria-valuemin="0"
                   aria-valuemax="100"
                 >
-                  {{
-                    (fileUploadTracker[file.name] &&
-                      fileUploadTracker[file.name]["percentage"]) ||
-                      0
-                  }}%
+                  <span
+                    *ngIf="
+                      fileUploadTracker[file.name] &&
+                      fileUploadTracker[file.name]['percentage'] &&
+                      fileProcessingTracker[file.name]?.status !== 'FAILED'
+                    "
+                  >
+                    {{
+                      (fileUploadTracker[file.name] &&
+                        fileUploadTracker[file.name]["percentage"]) ||
+                        0
+                    }}%
+                  </span>
+
+                  <span
+                    *ngIf="
+                      fileProcessingTracker[file.name]?.status === 'FAILED'
+                    "
+                  >
+                    FAILED
+                  </span>
                 </div>
               </div>
 

@@ -26,7 +26,10 @@ export class BulkEntryComponent implements OnInit {
     [fileName: string]: { alias: string; percentage: number };
   } = {};
   fileProcessingTracker: {
-    [fileName: string]: { status: "in-process" | "completed"; message: string };
+    [fileName: string]: {
+      status: "in-process" | "completed" | "FAILED";
+      message: string;
+    };
   } = {};
 
   ngOnInit() {
@@ -139,7 +142,7 @@ export class BulkEntryComponent implements OnInit {
       .pipe(
         map(response => {
           this.fileProcessingTracker[file.name].message = response.message;
-          if (!response.completed) {
+          if (!response.completed && response.status !== "FAILED") {
             Observable.throw("asdas");
           }
           return response;
@@ -148,7 +151,8 @@ export class BulkEntryComponent implements OnInit {
       )
       .subscribe(response => {
         this.fileProcessingTracker[file.name].message = response.message;
-        this.fileProcessingTracker[file.name].status = "completed";
+        this.fileProcessingTracker[file.name].status =
+          response.status === "FAILED" ? "FAILED" : "completed";
       });
   }
 
