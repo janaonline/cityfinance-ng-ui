@@ -1,3 +1,9 @@
+/**
+ * IMPORTANT
+ * Do not use this class for downloading the table content other than the report tables.
+ * It is specifically made for that tabl only. For a more generic table to csv,
+ * create another class using this class as base.
+ */
 import { Injectable } from '@angular/core';
 import * as ExcelJs from 'exceljs';
 import * as FileSaver from 'file-saver';
@@ -18,7 +24,7 @@ interface CustomArray<T> {
 export class ExcelService {
   constructor() {}
 
-  transformTableToExcelData(title, html, filename) {
+  transformTableToExcelData(title: string, html, filename: string) {
     filename = title;
     let excel = [];
     const rows = document.querySelectorAll("table tr");
@@ -94,9 +100,6 @@ export class ExcelService {
       headers.push(tableTitles[i].innerHTML);
     }
 
-    // excel =excel.map(row => {
-    //   row.length >= largestColumnInARow ? row : ;
-    // })
     excel = excel.map((columns, index) => {
       if (excel.slice(2).every(column => column[0] === "") && index) {
         return columns.slice(1);
@@ -175,7 +178,6 @@ export class ExcelService {
 
       if (i < 3 || !data[i][0]) {
         row.eachCell((cell, number) => {
-          console.log(cell, number);
           cell.fill = {
             type: "pattern",
             pattern: "solid",
@@ -199,16 +201,14 @@ export class ExcelService {
               horizontal: this.canAlignRight(cell) ? "right" : "left"
             };
             cell.font = { bold: false };
-            // } else{
-            //   cell.alignment = { vertical: 'middle', horizontal: 'center' };
-            // }
           } else {
-            // if(i==1){
             cell.alignment = {
               vertical: "middle",
-              horizontal: cell.value.toString().includes("Total")
-                ? "right"
-                : "center"
+              horizontal:
+                cell.value.toString().includes("Total") ||
+                this.isAmountValue(<string>cell.value)
+                  ? "right"
+                  : "center"
             };
           }
         });
@@ -246,12 +246,12 @@ export class ExcelService {
 
     worksheet.getColumn(1).width = 15;
     worksheet.getColumn(2).width = 40;
-    worksheet.getColumn(3).width = 15;
-    worksheet.getColumn(4).width = 15;
-    worksheet.getColumn(5).width = 15;
-    worksheet.getColumn(6).width = 15;
-    worksheet.getColumn(7).width = 15;
-    worksheet.getColumn(8).width = 15;
+    worksheet.getColumn(3).width = 25;
+    worksheet.getColumn(4).width = 25;
+    worksheet.getColumn(5).width = 25;
+    worksheet.getColumn(6).width = 25;
+    worksheet.getColumn(7).width = 25;
+    worksheet.getColumn(8).width = 25;
     worksheet.addRow([]);
 
     // Footer Row
@@ -282,8 +282,17 @@ export class ExcelService {
     });
   }
 
+  isAmountValue(value: string) {
+    const newValue = value
+      .split(",")
+      .pop()
+      .split(")")[0];
+    return !isNaN(<any>newValue);
+  }
+
   canAlignRight(cell) {
     return (
+      parseInt(cell.value) !== NaN ||
       cell.value.includes("Total") ||
       cell.value.includes("Net") ||
       cell.value.includes("Gross") ||
