@@ -70,10 +70,19 @@
               <!-- Normal Progress bar-->
               <div
                 class="progress"
-                *ngIf="fileProcessingTracker[i + 1]?.status === 'FAILED'"
+                *ngIf="
+                  fileProcessingTracker[i + 1]?.status === 'FAILED' ||
+                  fileProcessingTracker[i + 1]?.status === 'completed'
+                "
               >
                 <div
-                  class="progress-bar uploadFailed"
+                  class="progress-bar"
+                  [ngClass]="{
+                    uploadComplete:
+                      fileProcessingTracker[i + 1]?.status === 'completed',
+                    uploadFailed:
+                      fileProcessingTracker[i + 1]?.status === 'FAILED'
+                  }"
                   role="progressbar"
                   style="width: 100%;"
                   [attr.aria-valuenow]="100"
@@ -81,6 +90,7 @@
                   aria-valuemax="100"
                 >
                   {{ fileProcessingTracker[i + 1]?.message }}
+                  {{ fileProcessingTracker[i + 1]?.status }}
                 </div>
               </div>
 
