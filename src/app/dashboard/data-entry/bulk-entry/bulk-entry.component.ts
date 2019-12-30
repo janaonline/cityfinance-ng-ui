@@ -17,12 +17,14 @@ export class BulkEntryComponent implements OnInit {
   bulkEntryForm: FormGroup;
   filesToUpload: Array<File> = [];
 
+  fileId = 1;
+
   fileUploadTracker: {
     [fileName: string]: { alias: string; percentage: number };
   } = {};
 
   fileProcessingTracker: {
-    [fileName: string]: {
+    [fileId: string]: {
       status: "in-process" | "completed" | "FAILED";
       message: string;
     };
@@ -85,7 +87,11 @@ export class BulkEntryComponent implements OnInit {
           this.dataEntryService
             .sendUploadFileForProcessing(fileAlias, financialYear)
             .subscribe(res =>
-              this.startFileProcessTracking(file, res["data"]["_id"])
+              this.startFileProcessTracking(
+                file,
+                res["data"]["_id"],
+                this.fileId++
+              )
             );
         }
       });
@@ -113,8 +119,12 @@ export class BulkEntryComponent implements OnInit {
    * after some interval(2s) to check their status. Tracking will be stopped when
    * the file proceesing is either completed or has FAILED.
    */
-  private startFileProcessTracking(file: File, fileId: string) {
-    this.fileProcessingTracker[file.name] = {
+  private startFileProcessTracking(
+    file: File,
+    fileId: string,
+    _fileIndex: number
+  ) {
+    this.fileProcessingTracker[_fileIndex] = {
       status: "in-process",
       message: "Processing"
     };
@@ -123,7 +133,7 @@ export class BulkEntryComponent implements OnInit {
       .getFileProcessingStatus(fileId)
       .pipe(
         map(response => {
-          this.fileProcessingTracker[file.name].message = response.message;
+          this.fileProcessingTracker[_fileIndex].message = response.message;
           if (!response.completed && response.status !== "FAILED") {
             /**
              * We are throwing error because we need to call the api again
@@ -139,13 +149,12 @@ export class BulkEntryComponent implements OnInit {
       )
       .subscribe(
         response => {
-          this.fileProcessingTracker[file.name].message = response.message;
-          this.fileProcessingTracker[file.name].status =
+          this.fileProcessingTracker[_fileIndex].message = response.message;
+          this.fileProcessingTracker[_fileIndex].status =
             response.status === "FAILED" ? "FAILED" : "completed";
         },
         err => {
-          console.log(err);
-          this.fileProcessingTracker[file.name].status = "FAILED";
+          this.fileProcessingTracker[fileId].status = "FAILED";
         }
       );
   }
@@ -156,7 +165,7 @@ export class BulkEntryComponent implements OnInit {
    */
   fileChangeEvent(fileInput: Event) {
     const filesSelected = <Array<File>>fileInput.target["files"];
-    this.filesToUpload = this.filterInvalidFilesForUpload(filesSelected);
+    this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
   }
 
   filterInvalidFilesForUpload(filesSelected: File[]) {

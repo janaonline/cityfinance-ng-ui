@@ -69,64 +69,25 @@
 
               <!-- Normal Progress bar-->
               <div
-                class="progress mt-1"
-                *ngIf="fileProcessingTracker[file.name]?.status != 'in-process'"
+                class="progress"
+                *ngIf="fileProcessingTracker[i + 1]?.status === 'FAILED'"
               >
                 <div
-                  class="progress-bar"
+                  class="progress-bar uploadFailed"
                   role="progressbar"
-                  [ngClass]="{
-                    uploadComplete:
-                      fileUploadTracker[file.name] &&
-                      fileUploadTracker[file.name]['percentage'] === 100 &&
-                      fileProcessingTracker[file.name]?.status === 'completed',
-                    uploadFailed:
-                      fileUploadTracker[file.name] &&
-                      fileProcessingTracker[file.name]?.status === 'FAILED'
-                  }"
-                  [style.width.%]="
-                    (fileUploadTracker[file.name] &&
-                      fileUploadTracker[file.name]['percentage']) ||
-                    0
-                  "
-                  [attr.aria-valuenow]="
-                    (fileUploadTracker[file.name] &&
-                      fileUploadTracker[file.name]['percentage']) ||
-                    0
-                  "
+                  style="width: 100%;"
+                  [attr.aria-valuenow]="100"
                   aria-valuemin="0"
                   aria-valuemax="100"
                 >
-                  <span
-                    *ngIf="
-                      fileUploadTracker[file.name] &&
-                      fileUploadTracker[file.name]['percentage'] &&
-                      fileProcessingTracker[file.name]?.status !== 'FAILED'
-                    "
-                  >
-                    {{
-                      (fileUploadTracker[file.name] &&
-                        fileUploadTracker[file.name]["percentage"]) ||
-                        0
-                    }}%
-                  </span>
-
-                  <span
-                    *ngIf="
-                      fileProcessingTracker[file.name]?.status === 'FAILED'
-                    "
-                  >
-                    {{ fileProcessingTracker[file.name]?.message }}
-                  </span>
+                  {{ fileProcessingTracker[i + 1]?.message }}
                 </div>
               </div>
 
               <!-- Stripped progres bar for in processing-->
               <div
-                class="progress mt-1"
-                *ngIf="
-                  fileProcessingTracker[file.name]?.status === 'in-process'
-                "
+                class="progress"
+                *ngIf="fileProcessingTracker[i + 1]?.status === 'in-process'"
               >
                 <div
                   class="progress-bar progress-bar-striped active"
@@ -136,9 +97,7 @@
                   aria-valuemax="100"
                   style="width: 100%"
                 >
-                  {{
-                    fileProcessingTracker[file.name].message || "Processing..."
-                  }}
+                  {{ fileProcessingTracker[i + 1].message || "Processing..." }}
                 </div>
               </div>
             </div>
