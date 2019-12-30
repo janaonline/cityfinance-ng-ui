@@ -129,8 +129,8 @@ export class ExcelService {
       base64: logoFile.logoBase64,
       extension: "png"
     });
-    worksheet.addImage(logo, "C1:C2");
-    worksheet.mergeCells("A1:C2");
+    worksheet.addImage(logo, "A1:B2");
+    worksheet.mergeCells("A1:B2");
 
     // Color for logo backgeound
     worksheet
@@ -200,11 +200,13 @@ export class ExcelService {
             };
             cell.font = { bold: false };
           } else {
+            // console.log(cell.value, this.isAmountValue(<string>cell.value));
             cell.alignment = {
               vertical: "middle",
               horizontal:
                 cell.value.toString().includes("Total") ||
-                this.isAmountValue(<string>cell.value)
+                this.isAmountValue(<string>cell.value) ||
+                this.canAlignRight(cell)
                   ? "right"
                   : "center"
             };
@@ -246,7 +248,7 @@ export class ExcelService {
       if (i === 0) {
         worksheet.getColumn(1).width = 15;
       } else if (i === 1) {
-        worksheet.getColumn(2).width = 40;
+        worksheet.getColumn(2).width = 32;
       } else {
         worksheet.getColumn(i).width = this.getColumnWidth(
           worksheet.getColumn(i)
@@ -294,7 +296,7 @@ export class ExcelService {
       maxNoOfCharacters =
         value.length > maxNoOfCharacters ? value.length : maxNoOfCharacters;
     });
-    return maxNoOfCharacters ? maxNoOfCharacters * 1 : minColumnWidth;
+    return maxNoOfCharacters ? maxNoOfCharacters * 0.9 : minColumnWidth;
   }
 
   isAmountValue(value: string) {
@@ -314,16 +316,13 @@ export class ExcelService {
 
   canAlignRight(cell) {
     return (
-      parseInt(cell.value) !== NaN ||
+      this.isAmountValue(cell.value) ||
       cell.value.includes("Total") ||
       cell.value.includes("Net") ||
       cell.value.includes("Gross") ||
       cell.value.includes("Net Surplus") ||
       cell.value.includes("Surplus/(Deficit) (C) (A-B)") ||
-      cell.value.includes("Surplus/(Deficit) (C) (A-B)") ||
-      cell.value.includes("Surplus/(Deficit) (C) (A-B)") ||
-      cell.value.includes("Surplus/(Deficit) (C) (A-B)") ||
-      cell.value.includes("Surplus/(Deficit) (C) (A-B)")
+      cell.value.includes("Data not available")
     );
   }
 
