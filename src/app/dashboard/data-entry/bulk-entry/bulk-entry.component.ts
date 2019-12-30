@@ -165,7 +165,7 @@ export class BulkEntryComponent implements OnInit {
    */
   fileChangeEvent(fileInput: Event) {
     const filesSelected = <Array<File>>fileInput.target["files"];
-    this.filesToUpload = this.filterInvalidFilesForUpload(filesSelected);
+    this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
   }
 
   filterInvalidFilesForUpload(filesSelected: File[]) {
