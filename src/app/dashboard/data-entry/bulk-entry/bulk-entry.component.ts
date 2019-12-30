@@ -143,7 +143,10 @@ export class BulkEntryComponent implements OnInit {
           this.fileProcessingTracker[file.name].status =
             response.status === "FAILED" ? "FAILED" : "completed";
         },
-        err => (this.fileProcessingTracker[file.name].status = "FAILED")
+        err => {
+          console.log(err);
+          this.fileProcessingTracker[file.name].status = "FAILED";
+        }
       );
   }
 
