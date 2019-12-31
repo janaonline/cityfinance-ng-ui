@@ -33,6 +33,8 @@ export class BulkEntryComponent implements OnInit {
    */
   filesAlreadyInProcess: number[] = [];
 
+  Object = Object;
+
   constructor(
     private formBuilder: FormBuilder,
     private dataEntryService: DataEntryService
@@ -57,7 +59,6 @@ export class BulkEntryComponent implements OnInit {
         continue;
       }
       this.filesAlreadyInProcess.push(i);
-      console.log("stating process of ", files[i].name);
       this.uploadFile(files[i], i);
     }
   }
@@ -176,8 +177,21 @@ export class BulkEntryComponent implements OnInit {
    * This Function will be invoked whenever user selects file for upload.
    */
   fileChangeEvent(fileInput: Event) {
+    this.resetFileTracker();
     const filesSelected = <Array<File>>fileInput.target["files"];
     this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
+  }
+
+  /**
+   * This method is executed when user has selected files for uploading.
+   */
+  resetFileTracker() {
+    this.filesToUpload = [];
+    this.filesAlreadyInProcess = [];
+    this.fileProcessingTracker = {};
+    this.submitted = false;
+    // Uncomment this when upload tracker is enabled.
+    // this.fileUploadTracker = {};
   }
 
   filterInvalidFilesForUpload(filesSelected: File[]) {
