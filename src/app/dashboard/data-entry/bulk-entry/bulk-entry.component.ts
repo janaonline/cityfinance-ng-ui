@@ -28,6 +28,11 @@ export class BulkEntryComponent implements OnInit {
     };
   } = {};
 
+  /* This is to keep track of which indexed which file is already either in data processing state
+   * or in file Upload state
+   */
+  filesAlreadyInProcess: number[] = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private dataEntryService: DataEntryService
@@ -48,6 +53,11 @@ export class BulkEntryComponent implements OnInit {
     const files: Array<File> = this.filesToUpload;
     formData.append("year", this.bulkEntryForm.get("year").value);
     for (let i = 0; i < files.length; i++) {
+      if (this.filesAlreadyInProcess.length > i) {
+        continue;
+      }
+      this.filesAlreadyInProcess.push(i);
+      console.log("stating process of ", files[i].name);
       this.uploadFile(files[i], i);
     }
   }
