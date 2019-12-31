@@ -51,10 +51,6 @@ table tbody tr > td:nth-child(1) {
   margin: auto;
 }
 
-.table > thead > tr > th {
-  //   background: #ddd;
-  //   border: 1px solid rgb(197, 23, 23);
-}
 
 tbody tr th {
   text-align: right;
@@ -130,4 +126,10 @@ app-pre-loader {
   margin: auto;
   width: 70%;
   height: 2px;
+}
+
+.table-head{
+  display: inline-flex;
+  align-items: baseline;
+  cursor: pointer;
 }

@@ -1,0 +1,46 @@
+<div class="ranking container" >
+  <!-- Heading -->
+  <div>
+    <div class="col-12">
+        <h3>Annual Fiscal Ranking 2019</h3>
+        <p class="ranking-intro">
+          Annual fiscal ranking 2019 ranks cities on three dimensions, namley, financial accountability, financial performance and fiscal performance
+          at national and state level across various population categories.
+        </p>
+    </div>
+  </div>
+
+  <!-- Map and filter container -->
+  <div style="position: relative;">
+    <div class="col-lg-8" id="ulbMap">
+      <div id="mapid" class="h-100" style="background: white;z-index: 8;"></div>
+    </div>
+    <div class="col-lg-4">
+      <div class="right-card">
+        <h4 class="right-card-head">Top 10 ULBs</h4>
+        <div class="select-filter">
+          <mat-form-field style="width: 100%;margin-top: 7%;">
+            <mat-label>Population Category</mat-label>
+            <mat-select [(ngModel)]="overallFilter" (openedChange)="openedChange($event)">
+              <mat-option *ngFor="let list of overallList" [value]="list.label">{{list.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="ulb-list">
+          <div class="container" style="width: 100%;" *ngFor="let ulb of ulbsData; let i = index">
+            <div class="ulb-row row">
+              <div class="col-lg-2" style="text-align: center">{{i + 1}}</div> 
+              <div class="col-lg-10" style="text-align: left; color: #43b8ea; padding: 0;">{{ulb.name}}</div>
+            </div>
+          </div>
+          <div class="container" style="width: 100%;padding: 0%; margin-bottom: 5%;">
+            <button mat-raised-button [routerLink]="['/dashboard/ranking']" style="color: black; width: 100%;font-size: 12px;">Click Here For Detailed National Level Ranking</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="spinner" *ngIf="showLoader" style="z-index: 999999;">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>

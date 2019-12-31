@@ -36,6 +36,7 @@
               type="file"
               (change)="fileChangeEvent($event)"
               placeholder="Upload a file..."
+              accept=".xls,.xlsx"
               multiple
             />
           </div>
@@ -68,43 +69,35 @@
 
               <!-- Normal Progress bar-->
               <div
-                class="progress mt-1"
-                *ngIf="fileProcessingTracker[file.name]?.status != 'in-process'"
+                class="progress"
+                *ngIf="
+                  fileProcessingTracker[i]?.status === 'FAILED' ||
+                  fileProcessingTracker[i]?.status === 'completed'
+                "
               >
                 <div
                   class="progress-bar"
-                  role="progressbar"
                   [ngClass]="{
                     uploadComplete:
-                      fileUploadTracker[file.name] &&
-                      fileUploadTracker[file.name]['percentage'] === 100
+                      fileProcessingTracker[i]?.status === 'completed',
+                    uploadFailed: fileProcessingTracker[i]?.status === 'FAILED'
                   }"
-                  [style.width.%]="
-                    (fileUploadTracker[file.name] &&
-                      fileUploadTracker[file.name]['percentage']) ||
-                    0
-                  "
-                  [attr.aria-valuenow]="
-                    (fileUploadTracker[file.name] &&
-                      fileUploadTracker[file.name]['percentage']) ||
-                    0
-                  "
+                  role="progressbar"
+                  style="width: 100%;"
+                  [attr.aria-valuenow]="100"
                   aria-valuemin="0"
                   aria-valuemax="100"
                 >
-                  {{
-                    (fileUploadTracker[file.name] &&
-                      fileUploadTracker[file.name]["percentage"]) ||
-                      0
-                  }}%
+                  {{ fileProcessingTracker[i]?.message }}
                 </div>
               </div>
 
               <!-- Stripped progres bar for in processing-->
               <div
-                class="progress mt-1"
+                class="progress"
                 *ngIf="
-                  fileProcessingTracker[file.name]?.status === 'in-process'
+                  fileProcessingTracker[i]?.status === 'in-process' ||
+                  (submitted && !fileProcessingTracker[i]?.status)
                 "
               >
                 <div
@@ -115,9 +108,7 @@
                   aria-valuemax="100"
                   style="width: 100%"
                 >
-                  {{
-                    fileProcessingTracker[file.name].message || "Processing..."
-                  }}
+                  {{ fileProcessingTracker[i]?.message || "Processing..." }}
                 </div>
               </div>
             </div>
@@ -126,18 +117,5 @@
       </div>
     </div>
     <br /><br />
-
-    <div class="row" *ngIf="uploadResult">
-      <table style="width: 50%">
-        <tr>
-          <th>Perticular</th>
-          <th>status</th>
-        </tr>
-        <tr *ngFor="let item of uploadResult">
-          <td>{{ item.msg }}</td>
-          <td>{{ item.success }}</td>
-        </tr>
-      </table>
-    </div>
   </div>
 </div>

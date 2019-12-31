@@ -12,25 +12,35 @@ import { DataEntryService } from './../data-entry.service';
   styleUrls: ["./bulk-entry.component.scss"]
 })
 export class BulkEntryComponent implements OnInit {
+  submitted = false;
+  years: string[] = ["2015-16", "2016-17", "2017-18"];
+  bulkEntryForm: FormGroup;
+  filesToUpload: Array<File> = [];
+
+  fileUploadTracker: {
+    [fileIndex: number]: { alias: string; percentage: number };
+  } = {};
+
+  fileProcessingTracker: {
+    [fileIndex: number]: {
+      status: "in-process" | "completed" | "FAILED";
+      message: string;
+    };
+  } = {};
+
+  /* This is to keep track of which indexed which file is already either in data processing state
+   * or in file Upload state
+   */
+  filesAlreadyInProcess: number[] = [];
+
+  Object = Object;
+
   constructor(
     private formBuilder: FormBuilder,
     private dataEntryService: DataEntryService
   ) {}
-  submitted = false;
-  years: any = [];
-  bulkEntryForm: FormGroup;
-  filesToUpload: Array<File> = [];
-  uploadResult: any;
-
-  fileUploadTracker: {
-    [fileName: string]: { alias: string; percentage: number };
-  } = {};
-  fileProcessingTracker: {
-    [fileName: string]: { status: "in-process" | "completed"; message: string };
-  } = {};
 
   ngOnInit() {
-    this.years = ["2015-16", "2016-17", "2017-18"];
     this.bulkEntryForm = this.formBuilder.group({
       year: [this.years[0], Validators.required]
     });
@@ -45,26 +55,17 @@ export class BulkEntryComponent implements OnInit {
     const files: Array<File> = this.filesToUpload;
     formData.append("year", this.bulkEntryForm.get("year").value);
     for (let i = 0; i < files.length; i++) {
-      this.uploadFile(files[i]);
+      if (this.filesAlreadyInProcess.length > i) {
+        continue;
+      }
+      this.filesAlreadyInProcess.push(i);
+      this.uploadFile(files[i], i);
     }
-    // this.dataEntryService
-    //   .bulkEntry(formData)
-    //   .pipe(
-    //     map((response: HttpEvent<any>) => {
-    //       return this.logUploadProgess(response);
-    //     })
-    //   )
-    //   .subscribe(res => {
-    //     if (res["success"]) {
-    //       this.uploadResult = res["data"];
-    //       alert("Upload summary is available below");
-    //     }
-    //   });
   }
 
-  doTemporaryS3Magic(file: File) {
+  uploadFile(file: File, fileIndex: number) {
     this.dataEntryService
-      .getS3URL(file.name, file.type)
+      .getURLForFileUpload(file.name, file.type)
       .subscribe(s3Response => {
         const fileAlias = s3Response["data"][0]["file_alias"];
         const s3URL = s3Response["data"][0].url;
@@ -72,7 +73,8 @@ export class BulkEntryComponent implements OnInit {
           file,
           s3URL,
           fileAlias,
-          this.bulkEntryForm.get("year").value
+          this.bulkEntryForm.get("year").value,
+          fileIndex
         );
       });
   }
@@ -81,45 +83,41 @@ export class BulkEntryComponent implements OnInit {
     file: File,
     s3URL: string,
     fileAlias: string,
-    financialYear: string
+    financialYear: string,
+    fileIndex: number
   ) {
     this.dataEntryService
       .uploadFileToS3(file, s3URL)
-      .pipe(
-        map((response: HttpEvent<any>) =>
-          this.logUploadProgess(response, file, fileAlias)
-        )
-      )
+      // Currently we are not tracking file upload progress. If it is need, uncomment the below code.
+      // .pipe(
+      //   map((response: HttpEvent<any>) =>
+      //     this.logUploadProgess(response, file, fileAlias, fileIndex)
+      //   )
+      // )
       .subscribe(res => {
         if (res.type === HttpEventType.Response) {
           this.dataEntryService
             .sendUploadFileForProcessing(fileAlias, financialYear)
-            .subscribe(res =>
-              this.startFileProcessTracking(file, res["data"]["_id"])
-            );
+            .subscribe(res => {
+              this.startFileProcessTracking(
+                file,
+                res["data"]["_id"],
+                fileIndex
+              );
+            });
         }
       });
-  }
-
-  uploadFile(file: File) {
-    // const formData: FormData = new FormData();
-    // formData.append("year", this.bulkEntryForm.get("year").value);
-    // formData.append("file", file, file.name);
-
-    this.doTemporaryS3Magic(file);
   }
 
   private logUploadProgess(
     event: HttpEvent<any>,
     file: File,
-    fileAlias: string
+    fileAlias: string,
+    fileIndex: number
   ) {
     if (event.type === HttpEventType.UploadProgress) {
       const percentDone = Math.round((100 * event.loaded) / event.total);
-      // if (percentDone === 100) {
-      //   this.startFileProcessTracking(file);
-      // }
-      this.fileUploadTracker[file.name] = {
+      this.fileUploadTracker[fileIndex] = {
         percentage: percentDone,
         alias: fileAlias
       };
@@ -127,33 +125,84 @@ export class BulkEntryComponent implements OnInit {
     return event;
   }
 
-  private startFileProcessTracking(file: File, fileId: string) {
-    this.fileProcessingTracker[file.name] = {
+  /**
+   * @description
+   * Once a file is uploaded to cloud, this method is executed to keep the track
+   * of progress of processing of file. The api will be called again and again
+   * after some interval(2s) to check their status. Tracking will be stopped when
+   * the file proceesing is either completed or has FAILED.
+   */
+  private startFileProcessTracking(
+    file: File,
+    fileId: string,
+    _fileIndex: number
+  ) {
+    this.fileProcessingTracker[_fileIndex] = {
       status: "in-process",
       message: "Processing"
     };
 
-    // IMPORTANT This function will need to call the actual api. Check the service to know more.
     this.dataEntryService
       .getFileProcessingStatus(fileId)
       .pipe(
         map(response => {
-          this.fileProcessingTracker[file.name].message = response.message;
-          if (!response.completed) {
-            Observable.throw("asdas");
+          this.fileProcessingTracker[_fileIndex].message = response.message;
+          if (!response.completed && response.status !== "FAILED") {
+            /**
+             * We are throwing error because we need to call the api again
+             * after some time (2s right now) to check if processing of
+             * file is completed or not. Once it is completed or FAILED, then we stop
+             * calling the api for that file.
+             */
+            Observable.throw("throw any error here");
           }
           return response;
         }),
         retryWhen(err => err.pipe(delay(2000)))
       )
-      .subscribe(response => {
-        this.fileProcessingTracker[file.name].message = response.message;
-        this.fileProcessingTracker[file.name].status = "completed";
-      });
+      .subscribe(
+        response => {
+          this.fileProcessingTracker[_fileIndex].message = response.message;
+          this.fileProcessingTracker[_fileIndex].status =
+            response.status === "FAILED" ? "FAILED" : "completed";
+        },
+        err => {
+          this.fileProcessingTracker[fileId].status = "FAILED";
+        }
+      );
   }
 
+  /**
+   *  @description
+   * This Function will be invoked whenever user selects file for upload.
+   */
   fileChangeEvent(fileInput: Event) {
-    this.filesToUpload = <Array<File>>fileInput.target["files"];
-    // this.product.photo = fileInput.target.files[0]['name'];
+    this.resetFileTracker();
+    const filesSelected = <Array<File>>fileInput.target["files"];
+    this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
+  }
+
+  /**
+   * This method is executed when user has selected files for uploading.
+   */
+  resetFileTracker() {
+    this.filesToUpload = [];
+    this.filesAlreadyInProcess = [];
+    this.fileProcessingTracker = {};
+    this.submitted = false;
+    // Uncomment this when upload tracker is enabled.
+    // this.fileUploadTracker = {};
+  }
+
+  filterInvalidFilesForUpload(filesSelected: File[]) {
+    const validFiles = [];
+    for (let i = 0; i < filesSelected.length; i++) {
+      const file = filesSelected[i];
+      const fileExtension = file.name.split(`.`).pop();
+      if (fileExtension === "xls" || fileExtension === "xlsx") {
+        validFiles.push(file);
+      }
+    }
+    return validFiles;
   }
 }

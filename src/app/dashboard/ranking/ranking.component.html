@@ -1,0 +1,263 @@
+<div class="" style="margin-top: 5.2%">
+  <div class="col-12">
+    <div class="tab">
+        <mat-tab-group animationDuration="100ms" [mat-align-tabs]="center" dynamicHeight="true" (selectedTabChange)="onTabChanged($event);">
+            <mat-tab label="ULB Ranking">
+              <ng-template matTabContent>
+                  <div class="filters">
+                    <div class="">
+                      <div class="col-lg-8 mt-2">
+                        <div class="">
+                          <div class="col-lg-12">
+                            <div class="filters">
+                              <div class="col-lg-3">
+                                <mat-form-field>
+                                  <mat-label>Population Category</mat-label>
+                                  <mat-select [(ngModel)]="overallFilter" (ngModelChange)="stateChangeRank()">
+                                    <mat-option *ngFor="let list of overallList" [value]="list.label">{{list.label}}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-lg-3">
+                                <mat-form-field>
+                                  <mat-label>Financial Parameter</mat-label>
+                                  <mat-select [(ngModel)]="financialFilter">
+                                    <mat-option *ngFor="let filter of financialList" [value]="filter.value">
+                                      {{filter.viewValue}}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-lg-3">
+                                <mat-form-field>
+                                  <mat-label>State</mat-label>
+                                  <mat-select [(ngModel)]="stateFilter">
+                                    <mat-option *ngFor="let state of stateList" [value]="state.id">
+                                      {{state.name}}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-lg-3">
+                                <button mat-raised-button (click)="filterData()" style="color: #333333;">Apply Filter</button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div style="text-align: center;padding: 2%;" *ngIf="legends">
+                              <span class="chart-head">
+                                  <ng-container *ngFor="let legend of legends; let i = index;">
+                                    <div [class]="legend.class" [style.border-bottom]="legend.class == 'triangle-up' ? '18px solid '+legend.color : ''" [style.background-color]="legend.class == 'triangle-up' ? '' : legend.color" (click)="toggleChartData(i + 1, 'legend', legend.ulbId)"></div> &nbsp; <span [ngStyle]="{'text-decoration': !legend.status ? 'line-through' : 'none'}">{{legend.ulbName}}</span> &nbsp;
+                                  </ng-container>
+                                <!-- <div class="square" [style.background-color]="legends[0].color" (click)="toggleChartData('1', 'legend', legends[0].ulbId)"></div> &nbsp; <span [ngStyle]="{'text-decoration': !legends[0].status ? 'line-through' : 'none'}">Municipal Corporation</span> &nbsp;
+                                  <div class="circle" [style.background-color]="legends[1].color" (click)="toggleChartData('2', 'legend', legends[1].ulbId)"></div> &nbsp; <span [ngStyle]="{'text-decoration': !legends[1].status ? 'line-through' : 'none'}">Muncipality</span> &nbsp;
+                                  <div class="triangle-up" [style.border-bottom]="'18px solid '+legends[2].color" (click)="toggleChartData('3', 'legend', legends[2].ulbId)"></div>&nbsp; <span [ngStyle]="{'text-decoration': !legends[2].status ? 'line-through' : 'none'}">Town Panchayat</span> -->
+                              </span>
+                            </div>
+                            <div class="chart-container">
+                              <canvas id="canvas"></canvas>
+                            </div>
+                            <div class="state mt-1">
+                              <div *ngFor="let state of statesPill" style="display: inline-flex;">
+                                <div class="square" [style.background-color]="state.color" [style.cursor]="'pointer'" *ngIf="!state.hide" (click)="toggleChartData(state.id)"></div> &nbsp;
+                                <div [ngStyle]="{'text-decoration': !state.status ? 'line-through' : 'none'}">
+                                  {{state.name}}
+                                </div>&nbsp;
+                              </div>
+                              <!-- <div *ngFor="let state of dummyColor" style="display: inline-flex;">
+                                <div class="square" [style.background-color]="this.colorsData[state].color" [style.cursor]="'pointer'"></div> &nbsp;
+                                <div>
+                                  {{this.colorsData[state].color}}
+                                </div>&nbsp;
+                              </div> -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 right-card">
+                        <div class="col-lg-12">
+                          <div class=" head-pill-style mt-2">
+                            <div class="head-pill">
+                              <div>National Average</div>
+                              <div *ngIf="this.mainData">{{this.nationalAvg}}</div>
+                            </div>
+                            <div class="head-pill mt-2" style="justify-content: left;">
+                              <div class="square" style="background: #e0ffd2;"></div> &nbsp; <span>Index score Greater than National Average</span>
+                            </div>
+                            <div class="head-pill" style="justify-content: left;">
+                              <div class="square" style="background: #f5d6ff;"></div> &nbsp; <span>Index score Lesser than National Average</span>
+                            </div>
+                          </div>
+                          <div class="table-right">
+                            <table class="table" id="ranking-table">
+                              <thead>
+                                <tr>
+                                  <th class="col-lg-6"> <div class="table-head" (click)="sortTableData(headers[0].key, headers[0].status, 0)" [style.color]="headers[0].color">ULB Name &nbsp; <i *ngIf="headers[0].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[0].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[0].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div></th>
+                                  <th class="col-lg-2"> <div class="table-head" (click)="sortTableData(headers[1].key, headers[1].status, 1)" [style.color]="headers[1].color">State Rank &nbsp; <i *ngIf="headers[1].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[1].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[1].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div> </th>
+                                  <th class="col-lg-2"> <div class="table-head" (click)="sortTableData(headers[2].key, headers[2].status, 2)" [style.color]="headers[2].color">National Rank &nbsp; <i *ngIf="headers[2].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[2].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[2].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div> </th>
+                                  <th class="col-lg-2"> <div class="table-head" (click)="sortTableData(headers[3].key, headers[3].status, 3)" [style.color]="headers[3].color">Index Score &nbsp; <i *ngIf="headers[3].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[3].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[3].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div> </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr [style.background]="row.indexScore > this.nationalAvg ? '#e0ffd2' : '#f5d6ff' " [style.color]="row.color" *ngFor="let row of rankTableData">
+                                  <td>{{row?.name}}</td>
+                                  <td>{{row?.stateRank}}</td>
+                                  <td>{{row?.nationalRank}}</td>
+                                  <td>{{row?.indexScore.toFixed(2)}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </ng-template>
+            </mat-tab>
+            <mat-tab label="ULB Wise Score Report">
+              <ng-template matTabContent>
+                  <div class="filters">
+                    <div class="">
+                      <!-- filters -->
+                      <div class="col-lg-12 mt-2">
+                        <div class="filters">
+                          <div class="col-lg-2">
+                            <mat-form-field>
+                              <mat-label>State</mat-label>
+                              <mat-select [(ngModel)]="stateReportFilter" (ngModelChange)="onStateChange()" required>
+                                <mat-option *ngFor="let state of stateReportList" [value]="state.id">{{state.name}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-lg-2">
+                            <mat-form-field>
+                              <mat-label>ULB Type</mat-label>
+                              <mat-select [(ngModel)]="ulbTypeFilter" (ngModelChange)="onUlbChange()" required>
+                                <mat-option *ngFor="let type of ulbTypeReportList" [value]="type.id">
+                                  {{type.value}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-lg-2">
+                            <!-- <mat-form-field>
+                              <mat-label>ULB</mat-label>
+                              <mat-select [(ngModel)]="ulbFilter" required>
+                                <mat-option *ngFor="let ulb of ulbList" [value]="ulb.id">
+                                  {{ulb.name}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field> -->
+                            <mat-form-field>
+                                <mat-label>ULB</mat-label>
+                                <mat-select [formControl]="ulbFilter" placeholder="Ulb" name="ulb-filter" #singleSelect required>
+                                  <ngx-mat-select-search [formControl]="ulbFilterCtrl"
+                                  placeholderLabel="Search ULB"
+                                  noEntriesFoundLabel="'No ULB found'">
+                                    <!-- <mat-icon ngxMatSelectSearchClear>delete</mat-icon> -->
+                                  </ngx-mat-select-search>
+                                  <mat-optgroup *ngFor="let group of ulbList | async" [label]="group.state">
+                                    <mat-option *ngFor="let item of group.ulbs" [value]="item">
+                                      {{item.name}}
+                                    </mat-option>
+                                  </mat-optgroup>
+                                </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-lg-2">
+                            <mat-form-field>
+                              <mat-label>Year</mat-label>
+                              <mat-select [formControl]="years" multiple required>
+                                <mat-option value="2015-16">2015-16</mat-option>
+                                <mat-option value="2016-17">2016-17</mat-option>
+                                <!-- <mat-option value="">All</mat-option> -->
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-lg-2">
+                            <mat-form-field>
+                              <mat-label>Financial Parameter</mat-label>
+                              <mat-select [(ngModel)]="financialReportFilter">
+                                <mat-option *ngFor="let list of financialReportList" [value]="list.value">
+                                  {{list.viewValue}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-lg-2">
+                            <button mat-raised-button (click)="filterTableData()" title="Filter" style="color: black; min-width: min-content;"><mat-icon>search</mat-icon></button>
+                            <button mat-raised-button (click)="resetTableData()" title="Reset" style="color: black; min-width: min-content;margin-left: 3%;"><mat-icon>cached</mat-icon></button>
+                            <button mat-raised-button (click)="downloadTableData()" title="Download" style="float: right;background-color:#333333;min-width: min-content;"><mat-icon>arrow_downward</mat-icon></button>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- table -->
+                      <div class="col-lg-12">
+                        <div class="tableWrapper">
+                          <table class="table table-striped" id="report-table" *ngIf="tableData" #reportTable>
+                            <thead>
+                              <tr>
+                                <th style="width: 2% ;" rowspan="2">S. NO</th>
+                                <th style="width: 10%;" rowspan="2">Ratios</th>
+                                <th style="width: 30%;" colspan="6" *ngFor="let item of selectedYear">{{item}}</th>
+                              </tr>
+                              <tr>
+                                <ng-container *ngFor="let item of selectedYear">
+                                  <th>Ratio (%)</th>
+                                  <th>National Avg. (%)</th>
+                                  <th>Score</th>
+                                  <th>National Avg.</th>
+                                  <th>National Rank</th>
+                                  <th>State Rank</th>
+                                </ng-container>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <ng-container *ngIf="this.tableData.length; else noData">
+                                <tr *ngFor="let item of this.tableData; let i = index">
+                                  <td>{{i+1}}</td>
+                                  <td style="text-align: left !important;">{{item.name}}</td>
+                                  <ng-container *ngFor="let row of item.data">
+                                    <td *ngIf="row.ratio == '-'">{{row.ratio}}</td><td *ngIf="row.ratio != '-'">{{row.ratio.toFixed(2)}}%</td>
+                                    <td *ngIf="row.nationalAvgRatio == '-'">{{row.nationalAvgRatio}}</td><td *ngIf="row.nationalAvgRatio != '-'">{{row.nationalAvgRatio.toFixed(2)}}%</td>
+                                    <td *ngIf="row.nationalAvgRatio == '-'">{{row.indexScore}}</td><td *ngIf="row.nationalAvgRatio != '-'">{{row.indexScore.toFixed(2)}}</td>
+                                    <td *ngIf="row.nationalAvgIndexScore == '-'">{{row.nationalAvgIndexScore}}</td><td *ngIf="row.nationalAvgIndexScore != '-'">{{row.nationalAvgIndexScore.toFixed(2)}}</td>
+                                    <td>{{row.nationalRank}}</td>
+                                    <td>{{row.stateRank}}</td>
+                                  </ng-container>
+                                </tr>
+                              </ng-container>
+                              <ng-template #noData>
+                                <tr>
+                                  <td style="text-align: center;font-size: 16px;font-weight: bold;" colspan="100%">------------------- No Data Available! -------------------</td>
+                                </tr>
+                              </ng-template>
+                            </tbody>
+                          </table>
+                          <!-- <div class="mt-2">
+                              <button mat-raised-button style="color: black;">Calculation Logic</button>
+                          </div> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </ng-template>
+            </mat-tab>
+            <mat-tab label="Fiscal Ranking Methodology">
+              <ng-template matTabContent>
+                  <!-- <button mat-raised-button style="float: right;background-color:#333333">Download</button> -->
+                  <!-- <p>Content Goes Here.......</p> -->
+                  <iframe src="../../../assets/files/Annual-Fiscal-Ranking-of-ULBs-Concept-Note.pdf"
+                    style="width:100vw; height:100vh;" frameborder="0"></iframe>
+              </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="showLoader" style="z-index: 999999;position: fixed;
+top: 0px;
+bottom: 0px;">
+  <mat-spinner></mat-spinner>
+</div>

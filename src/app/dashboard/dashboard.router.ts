@@ -28,6 +28,10 @@ export const dashboardRouter: Routes = [
         loadChildren: "./report/report.module#ReportModule"
       },
       {
+        path: "ranking",
+        loadChildren: "./ranking/ranking.module#RankingModule"
+      },
+      {
         path: "financial-information",
         loadChildren:
           "./financial-information/financial-information.module#FinancialInformationModule"

@@ -9,8 +9,6 @@
     <ul class="nav navbar-nav navbar-right">
       <li routerLinkActive="active"><a [routerLink]="['/home']">Home</a></li>
       <!-- <li routerLinkActive="active"><a [routerLink]="['/home']">About Cityfinance.in</a></li> -->
-      <!-- <li routerLinkActive="active"><a [routerLink]="['/dashboard/report']">Urban Finances</a></li> -->
-
       <li routerLinkActive="active" class="dropdown">
         <a
           class="dropdown-toggle"
@@ -22,14 +20,17 @@
         ></a>
         <ul class="dropdown-menu">
           <li routerLinkActive="active">
-            <a [routerLink]="['/dashboard', 'report']"
+            <a [routerLink]="['/dashboard/report']"
               >Annual Financial Statements</a
             >
           </li>
-          <li routerLinkActive="active">
+          <li>
             <a [routerLink]="['/dashboard', 'financial-information']"
               >Availability of Financial Information</a
             >
+          </li>
+          <li routerLinkActive="active">
+            <a [routerLink]="['/dashboard/ranking']">Annual Fiscal Ranking</a>
           </li>
         </ul>
       </li>
