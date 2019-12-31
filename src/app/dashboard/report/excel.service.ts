@@ -27,6 +27,8 @@ export class ExcelService {
   transformTableToExcelData(title: string, html, filename: string) {
     filename = title;
     let excel = [];
+
+    // Get all the row from table
     const rows = document.querySelectorAll("table tr");
     const cellsToMerge: {
       row: { from: number; to: number };
@@ -36,6 +38,8 @@ export class ExcelService {
     let largestColumnInARow = -1;
     for (let rowIndex = 1; rowIndex < rows.length; rowIndex++) {
       let row = [];
+
+      // Get all the columns for the current row.
       const cols = rows[rowIndex].querySelectorAll("td, th");
       largestColumnInARow =
         largestColumnInARow < cols.length ? cols.length : largestColumnInARow;
@@ -43,6 +47,8 @@ export class ExcelService {
       for (let columnIndex = 0; columnIndex < cols.length; columnIndex++) {
         if (cols[columnIndex].innerHTML) {
           const element = <HTMLElement>cols[columnIndex];
+
+          // If a row or column is merged, we will need to merge them in csv/xls file also.
           const rowspan = element.getAttribute("rowspan");
           const colspan = element.getAttribute("colspan");
           if (rowspan || colspan) {
@@ -72,7 +78,7 @@ export class ExcelService {
       excel.push(row);
     }
 
-    // Here we are set column if multiple date are selected.
+    // Here we are set column if multiple date/year are selected.
     excel = excel.map((row, index) => {
       if (row.length < largestColumnInARow) {
         const newArray: CustomArray<string> | any = [];
@@ -110,20 +116,7 @@ export class ExcelService {
     this.generateExcel(title, headers, excel, filename, cellsToMerge);
   }
 
-  generateExcel(
-    title: string,
-    header: any[],
-    data: any[],
-    excelFileName: string,
-    cellsToMerge: {
-      row: { from: number; to: number };
-      column: { from: number; to: number };
-    }[]
-  ) {
-    // Create workbook and worksheet
-    const workbook = new ExcelJs.Workbook();
-    const worksheet = workbook.addWorksheet("Report");
-
+  addLogoToFile(workbook: ExcelJs.Workbook, worksheet: ExcelJs.Worksheet) {
     // Add Image
     const logo = workbook.addImage({
       base64: logoFile.logoBase64,
@@ -153,8 +146,25 @@ export class ExcelService {
           bgColor: { argb: "000001" }
         };
       });
+  }
 
-    // Blank Row
+  generateExcel(
+    title: string,
+    header: any[],
+    data: any[],
+    excelFileName: string,
+    cellsToMerge: {
+      row: { from: number; to: number };
+      column: { from: number; to: number };
+    }[]
+  ) {
+    // Create workbook and worksheet
+    const workbook = new ExcelJs.Workbook();
+    const worksheet = workbook.addWorksheet("Report");
+
+    this.addLogoToFile(workbook, worksheet);
+
+    // Blank Row after  logo is placed.
     worksheet.addRow([]);
 
     // Add Rows and formatting
@@ -164,6 +174,11 @@ export class ExcelService {
         option => option.row.from - 3 === i
       );
       rowToMerges.forEach(rowToMerge => {
+        /**
+         * Merge the rows and columns given. 65 = A, 90 = Z. Since columns in excel file are
+         * in the format A1, B1, C1 and so on. We will need to merge them.
+         */
+
         const rowFrom =
           String.fromCharCode(65 + rowToMerge.column.from) +
           rowToMerge.row.from;
@@ -176,6 +191,7 @@ export class ExcelService {
 
       if (i < 3 || !data[i][0]) {
         row.eachCell((cell, number) => {
+          // Yellow color for headers / bold text.
           cell.fill = {
             type: "pattern",
             pattern: "solid",
@@ -200,7 +216,6 @@ export class ExcelService {
             };
             cell.font = { bold: false };
           } else {
-            // console.log(cell.value, this.isAmountValue(<string>cell.value));
             cell.alignment = {
               vertical: "middle",
               horizontal:
@@ -244,21 +259,24 @@ export class ExcelService {
       });
     }
 
-    for (let i = 0; i <= worksheet.actualColumnCount; i++) {
-      if (i === 0) {
-        worksheet.getColumn(1).width = 15;
-      } else if (i === 1) {
-        worksheet.getColumn(2).width = 32;
-      } else {
-        worksheet.getColumn(i).width = this.getColumnWidth(
-          worksheet.getColumn(i)
-        );
-      }
-    }
-
+    this.setColumnsWidth(worksheet);
     worksheet.addRow([]);
 
     // Footer Row
+    this.setFooter(worksheet);
+
+    // Generate Excel File with given name
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      const blob = new Blob([data], {
+        type:
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      });
+      const date = new Date().toLocaleDateString();
+      FileSaver.saveAs(blob, excelFileName + `_(${date})` + EXCEL_EXTENSION);
+    });
+  }
+
+  setFooter(worksheet: ExcelJs.Worksheet) {
     const footerRow = worksheet.addRow([
       "This is system generated excel sheet."
     ]);
@@ -275,15 +293,20 @@ export class ExcelService {
     };
     // Merge Cells
     worksheet.mergeCells(`A${footerRow.number}:F${footerRow.number}`);
-    // Generate Excel File with given name
-    workbook.xlsx.writeBuffer().then((data: any) => {
-      const blob = new Blob([data], {
-        type:
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      });
-      const date = new Date().toLocaleDateString();
-      FileSaver.saveAs(blob, excelFileName + `_(${date})` + EXCEL_EXTENSION);
-    });
+  }
+
+  setColumnsWidth(worksheet: ExcelJs.Worksheet) {
+    for (let i = 0; i <= worksheet.actualColumnCount; i++) {
+      if (i === 0) {
+        worksheet.getColumn(1).width = 15;
+      } else if (i === 1) {
+        worksheet.getColumn(2).width = 32;
+      } else {
+        worksheet.getColumn(i).width = this.getColumnWidth(
+          worksheet.getColumn(i)
+        );
+      }
+    }
   }
 
   getColumnWidth(column) {

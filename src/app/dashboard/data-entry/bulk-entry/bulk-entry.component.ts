@@ -17,14 +17,12 @@ export class BulkEntryComponent implements OnInit {
   bulkEntryForm: FormGroup;
   filesToUpload: Array<File> = [];
 
-  fileId = 1;
-
   fileUploadTracker: {
-    [fileName: string]: { alias: string; percentage: number };
+    [fileIndex: number]: { alias: string; percentage: number };
   } = {};
 
   fileProcessingTracker: {
-    [fileId: string]: {
+    [fileIndex: number]: {
       status: "in-process" | "completed" | "FAILED";
       message: string;
     };
@@ -50,11 +48,11 @@ export class BulkEntryComponent implements OnInit {
     const files: Array<File> = this.filesToUpload;
     formData.append("year", this.bulkEntryForm.get("year").value);
     for (let i = 0; i < files.length; i++) {
-      this.uploadFile(files[i]);
+      this.uploadFile(files[i], i);
     }
   }
 
-  uploadFile(file: File) {
+  uploadFile(file: File, fileIndex: number) {
     this.dataEntryService
       .getURLForFileUpload(file.name, file.type)
       .subscribe(s3Response => {
@@ -64,7 +62,8 @@ export class BulkEntryComponent implements OnInit {
           file,
           s3URL,
           fileAlias,
-          this.bulkEntryForm.get("year").value
+          this.bulkEntryForm.get("year").value,
+          fileIndex
         );
       });
   }
@@ -73,26 +72,28 @@ export class BulkEntryComponent implements OnInit {
     file: File,
     s3URL: string,
     fileAlias: string,
-    financialYear: string
+    financialYear: string,
+    fileIndex: number
   ) {
     this.dataEntryService
       .uploadFileToS3(file, s3URL)
-      .pipe(
-        map((response: HttpEvent<any>) =>
-          this.logUploadProgess(response, file, fileAlias)
-        )
-      )
+      // Currently we are not tracking file upload progress. If it is need, uncomment the below code.
+      // .pipe(
+      //   map((response: HttpEvent<any>) =>
+      //     this.logUploadProgess(response, file, fileAlias, fileIndex)
+      //   )
+      // )
       .subscribe(res => {
         if (res.type === HttpEventType.Response) {
           this.dataEntryService
             .sendUploadFileForProcessing(fileAlias, financialYear)
-            .subscribe(res =>
+            .subscribe(res => {
               this.startFileProcessTracking(
                 file,
                 res["data"]["_id"],
-                this.fileId++
-              )
-            );
+                fileIndex
+              );
+            });
         }
       });
   }
@@ -100,11 +101,12 @@ export class BulkEntryComponent implements OnInit {
   private logUploadProgess(
     event: HttpEvent<any>,
     file: File,
-    fileAlias: string
+    fileAlias: string,
+    fileIndex: number
   ) {
     if (event.type === HttpEventType.UploadProgress) {
       const percentDone = Math.round((100 * event.loaded) / event.total);
-      this.fileUploadTracker[file.name] = {
+      this.fileUploadTracker[fileIndex] = {
         percentage: percentDone,
         alias: fileAlias
       };
