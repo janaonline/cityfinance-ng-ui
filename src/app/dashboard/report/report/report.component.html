@@ -183,8 +183,8 @@
         [data]="populationData"
         [settings]="populationDropdownSettings"
         [(ngModel)]="ulbForm.ulbPopulationFilter"
-        (onSelect)="filterUlbs('ulbPopulationFilter')"
-        (onDeSelect)="filterUlbs('ulbPopulationFilter')"
+        (onSelect)="filterUlbsOnPopulationChange('ulbPopulationFilter')"
+        (onDeSelect)="filterUlbsOnPopulationChange('ulbPopulationFilter')"
         (onDeSelectAll)="unselectAllPopulation($event)"
       >
       </angular2-multiselect>
@@ -496,7 +496,7 @@
                         "
                         class="ng-untouched ng-pristine ng-valid"
                         (click)="
-                          selectedBaseULB(ulb.value, currentStateInView.key)
+                          onSelectingBaseULB(ulb.value, currentStateInView.key)
                         "
                       />
                       {{ ulb.value.name }}
