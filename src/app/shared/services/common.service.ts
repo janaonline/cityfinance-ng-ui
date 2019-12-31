@@ -28,20 +28,24 @@ export class CommonService {
     if (this.stateArr.length > 0 && !doLoadFromServer) {
       this.states.next(this.stateArr);
     }
-    this.http.get(environment.api.url + "lookup/states").subscribe(res => {
-      this.stateArr = res["data"];
-      this.states.next(this.stateArr);
-    });
+    this.http
+      .get(environment.api.url + "/api/admin/v1/lookup/states")
+      .subscribe(res => {
+        this.stateArr = res["data"];
+        this.states.next(this.stateArr);
+      });
   }
 
   getAllUlbs() {
-    return this.http.get<IULBResponse>(environment.api.url + "lookup/ulbs");
+    return this.http.get<IULBResponse>(
+      environment.api.url + "/api/admin/v1/lookup/ulbs"
+    );
   }
 
   // since ULB is based on state, query will happen on demand
   getUlbByState(stateCode) {
     return this.http.get(
-      environment.api.url + "lookup/states/" + stateCode + "/ulbs"
+      environment.api.url + "/api/admin/v1/lookup/states/" + stateCode + "/ulbs"
     );
   }
 
