@@ -18,7 +18,11 @@ export class BulkEntryComponent implements OnInit {
   filesToUpload: Array<File> = [];
 
   fileUploadTracker: {
-    [fileIndex: number]: { alias: string; percentage: number };
+    [fileIndex: number]: {
+      alias?: string;
+      percentage?: number;
+      status: "in-process" | "FAILED" | "completed";
+    };
   } = {};
 
   fileProcessingTracker: {
@@ -64,9 +68,8 @@ export class BulkEntryComponent implements OnInit {
   }
 
   uploadFile(file: File, fileIndex: number) {
-    this.dataEntryService
-      .getURLForFileUpload(file.name, file.type)
-      .subscribe(s3Response => {
+    this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+      s3Response => {
         const fileAlias = s3Response["data"][0]["file_alias"];
         const s3URL = s3Response["data"][0].url;
         this.uploadFileToS3(
@@ -76,7 +79,17 @@ export class BulkEntryComponent implements OnInit {
           this.bulkEntryForm.get("year").value,
           fileIndex
         );
-      });
+      },
+      err => {
+        if (!this.fileUploadTracker[fileIndex]) {
+          this.fileUploadTracker[fileIndex] = {
+            status: "FAILED"
+          };
+        } else {
+          this.fileUploadTracker[fileIndex].status = "FAILED";
+        }
+      }
+    );
   }
 
   private uploadFileToS3(
@@ -94,19 +107,24 @@ export class BulkEntryComponent implements OnInit {
       //     this.logUploadProgess(response, file, fileAlias, fileIndex)
       //   )
       // )
-      .subscribe(res => {
-        if (res.type === HttpEventType.Response) {
-          this.dataEntryService
-            .sendUploadFileForProcessing(fileAlias, financialYear)
-            .subscribe(res => {
-              this.startFileProcessTracking(
-                file,
-                res["data"]["_id"],
-                fileIndex
-              );
-            });
+      .subscribe(
+        res => {
+          if (res.type === HttpEventType.Response) {
+            this.dataEntryService
+              .sendUploadFileForProcessing(fileAlias, financialYear)
+              .subscribe(res => {
+                this.startFileProcessTracking(
+                  file,
+                  res["data"]["_id"],
+                  fileIndex
+                );
+              });
+          }
+        },
+        err => {
+          this.fileUploadTracker[fileIndex].status = "FAILED";
         }
-      });
+      );
   }
 
   private logUploadProgess(
@@ -119,7 +137,8 @@ export class BulkEntryComponent implements OnInit {
       const percentDone = Math.round((100 * event.loaded) / event.total);
       this.fileUploadTracker[fileIndex] = {
         percentage: percentDone,
-        alias: fileAlias
+        alias: fileAlias,
+        status: percentDone < 100 ? "in-process" : "completed"
       };
     }
     return event;
@@ -167,7 +186,11 @@ export class BulkEntryComponent implements OnInit {
             response.status === "FAILED" ? "FAILED" : "completed";
         },
         err => {
-          this.fileProcessingTracker[fileId].status = "FAILED";
+          if (!this.fileProcessingTracker[_fileIndex]) {
+            this.fileProcessingTracker[fileId].status = "FAILED";
+            this.fileProcessingTracker[fileId].message =
+              "Server failed to process data.";
+          }
         }
       );
   }
@@ -190,8 +213,7 @@ export class BulkEntryComponent implements OnInit {
     this.filesAlreadyInProcess = [];
     this.fileProcessingTracker = {};
     this.submitted = false;
-    // Uncomment this when upload tracker is enabled.
-    // this.fileUploadTracker = {};
+    this.fileUploadTracker = {};
   }
 
   filterInvalidFilesForUpload(filesSelected: File[]) {
