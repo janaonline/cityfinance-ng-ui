@@ -531,7 +531,7 @@ export class ReportHelperService {
       { keyName: "resSurplus", title: "I. Reserves & Surplus", isCalc: false },
       {
         keyName: "totalResSurplus",
-        title: "Total Reserves & Surplus I (310 + 311 + 312)",
+        title: "Total Reserves & Surplus (I) (310 + 311 + 312)",
         isCalc: true,
         addFields: ["310", "311", "312"]
       },
@@ -604,13 +604,13 @@ export class ReportHelperService {
       },
       {
         keyName: "netAmtOutstanding1",
-        title: "Net amount outstanding (430 + 431 - 432) ",
+        title: "Net amount outstanding (i) (430 + 431 - 432) ",
         isCalc: true,
         addFields: ["430", "431", "432"]
       },
       {
         keyName: "netAmtOutstanding2",
-        title: "Net amount outstanding (II) ( 440 + 450 + 460)",
+        title: "Net amount outstanding (ii) ( 440 + 450 + 460)",
         isCalc: true,
         addFields: ["440", "450", "460", "461"]
       },
