@@ -191,6 +191,8 @@ export class ExcelService {
 
       if (i < 3 || !data[i][0]) {
         row.eachCell((cell, number) => {
+         
+
           // Yellow color for headers / bold text.
           cell.fill = {
             type: "pattern",
@@ -208,6 +210,10 @@ export class ExcelService {
             vertical: "bottom",
             horizontal: this.canAlignRight(cell) ? "right" : "left"
           };
+           if (number === 2 && (cell.value === "A.Income" || cell.value === "B.Expenditure")) {
+              console.log(number, cell.value);
+              cell.alignment.horizontal = 'left';
+           }
           cell.font = { bold: true, size: 9 };
           if (i == 0 && number % 2 == 0) {
             cell.alignment = {
@@ -225,6 +231,9 @@ export class ExcelService {
                   ? "right"
                   : "center"
             };
+            if(this.isSubHeader(cell)) {
+              cell.alignment.horizontal = 'left';
+            }
           }
         });
       } else {
@@ -274,6 +283,24 @@ export class ExcelService {
       const date = new Date().toLocaleDateString();
       FileSaver.saveAs(blob, excelFileName + `_(${date})` + EXCEL_EXTENSION);
     });
+  }
+
+
+  isSubHeader(cell) {
+    return (
+      cell.value === "B.Expenditure" ||
+      cell.value === "A.Income" ||
+      cell.value === "A. Liabilities" ||
+      cell.value === "B. Assets" ||
+      cell.value === "I. Reserves & Surplus" ||
+      cell.value === "II. Grants , Contribution for specific purposes" ||
+      cell.value === "III. Loans" ||
+      cell.value === "IV. Current Liabilities and Provisions" ||
+      cell.value === "I. Fixed Assets" ||
+      cell.value === "II. Investments" ||
+      cell.value === "III. Current Assets, Loans and Advances" ||
+      cell.value === "IV. Other Assets" 
+    );
   }
 
   setFooter(worksheet: ExcelJs.Worksheet) {

@@ -6,11 +6,10 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as XLSX from 'xlsx';
 
-
-declare var require: any;
-const colorData = require('../../../assets/files/colors.json');
 import { RankingService } from '../../shared/services/ranking.service.js';
 
+declare var require: any;
+const colorData = require("../../../assets/files/colors.json");
 declare const $: any;
 
 export interface Food {
@@ -19,9 +18,9 @@ export interface Food {
 }
 
 @Component({
-  selector: 'app-ranking',
-  templateUrl: './ranking.component.html',
-  styleUrls: ['./ranking.component.scss'],
+  selector: "app-ranking",
+  templateUrl: "./ranking.component.html",
+  styleUrls: ["./ranking.component.scss"],
   encapsulation: ViewEncapsulation.None
 })
 export class RankingComponent implements OnInit {
@@ -29,65 +28,65 @@ export class RankingComponent implements OnInit {
 
   showLoader = false;
 
-  selectedYear: any = ['2015-16', '2016-17'];
+  selectedYear: any = ["2015-16", "2016-17"];
 
   // filters start
-  overallFilter = 'Over 10 Lakh';
+  overallFilter = "Over 10 Lakh";
   overallList = [
-    { id: 2, label: 'Less than 50 Thousand', min: 0, max: 49999 },
+    { id: 2, label: "Less than 50 Thousand", min: 0, max: 49999 },
     {
       id: 3,
-      label: 'Over 50 Thousand but less than 1 Lakh',
+      label: "Over 50 Thousand but less than 1 Lakh",
       min: 50000,
       max: 99999
     },
     {
       id: 4,
-      label: 'Over 1 Lakh but less than 3 Lakh',
+      label: "Over 1 Lakh but less than 3 Lakh",
       min: 100000,
       max: 299999
     },
     {
       id: 5,
-      label: 'Over 3 Lakh but less than 5 Lakh',
+      label: "Over 3 Lakh but less than 5 Lakh",
       min: 300000,
       max: 499999
     },
     {
       id: 6,
-      label: 'Over 5 Lakh but less than 10 Lakh',
+      label: "Over 5 Lakh but less than 10 Lakh",
       min: 500000,
       max: 999999
     },
-    { id: 7, label: 'Over 10 Lakh', min: 1000000, max: 1000000000000 }
+    { id: 7, label: "Over 10 Lakh", min: 1000000, max: 1000000000000 }
   ];
 
-  financialFilter = 'Overall';
+  financialFilter = "Overall";
   financialList = [
-    { id: 1, value: 'Overall', viewValue: 'Overall' },
+    { id: 1, value: "Overall", viewValue: "Overall" },
     {
       id: 2,
-      value: 'Financial Accountability',
-      viewValue: 'Financial Accountability'
+      value: "Financial Accountability",
+      viewValue: "Financial Accountability"
     },
     {
       id: 3,
-      value: 'Financial performance',
-      viewValue: 'Financial Performance'
+      value: "Financial performance",
+      viewValue: "Financial Performance"
     },
-    { id: 4, value: 'Financial position', viewValue: 'Financial Position' }
+    { id: 4, value: "Financial position", viewValue: "Financial Position" }
   ];
 
-  financialReportFilter = '';
+  financialReportFilter = "";
   financialReportList = this.financialList.slice();
 
-  stateFilter = '';
+  stateFilter = "";
   stateList: any = null;
 
-  stateReportFilter = '';
+  stateReportFilter = "";
   stateReportList: any = null;
 
-  ulbTypeFilter = '';
+  ulbTypeFilter = "";
   ulbTypeReportList: any = null;
   ulbTypeList: any = null;
 
@@ -105,7 +104,7 @@ export class RankingComponent implements OnInit {
   /** Subject that emits when the component has been destroyed. */
   protected _onDestroy = new Subject<void>();
 
-  @ViewChild('reportTable') reportTable: ElementRef;
+  @ViewChild("reportTable") reportTable: ElementRef;
   //  ulbList:any = null;
 
   // anotherList: any[] = [
@@ -121,10 +120,10 @@ export class RankingComponent implements OnInit {
   legends = null;
 
   headers: any = {
-    0: { key: 'name', color: '#333', status: 0 },
-    1: { key: 'stateRank', color: '#333', status: 0 },
-    2: { key: 'nationalRank', color: '#333', status: 0 },
-    3: { key: 'indexScore', color: '#333', status: 0 }
+    0: { key: "name", color: "#333", status: 0 },
+    1: { key: "stateRank", color: "#333", status: 0 },
+    2: { key: "nationalRank", color: "#333", status: 0 },
+    3: { key: "indexScore", color: "#333", status: 0 }
   };
 
   mainData: any = null;
@@ -148,10 +147,10 @@ export class RankingComponent implements OnInit {
       // { label: '1 to 1000', min: 1, max: 1000 },
       // { label: '1001 to 2000', min: 1001, max: 2000 },
       // { label: '2001 to 3000', min: 2001, max: 3000 },
-      { label: 'Over 10 Lakh', min: 1000000, max: 1000000000000 }
+      { label: "Over 10 Lakh", min: 1000000, max: 1000000000000 }
     ],
-    finance: ['Overall'],
-    state: ''
+    finance: ["Overall"],
+    state: ""
   };
 
   nationalAvg: any = null;
@@ -244,8 +243,8 @@ export class RankingComponent implements OnInit {
     const clickedIndex = $event.index;
 
     if (clickedIndex == 0) {
-      $('canvas#canvas').remove();
-      $('div.chart-container').append('<canvas id="canvas"></canvas>');
+      $("canvas#canvas").remove();
+      $("div.chart-container").append('<canvas id="canvas"></canvas>');
       this.plotScatterChart();
     }
   }
@@ -261,15 +260,18 @@ export class RankingComponent implements OnInit {
     this.rankingService.heatMapFilter(obj).subscribe(async (res: any) => {
       this.mainData = await res.data;
       this.getStatesList();
-      this.stateFilter = '';
+      this.stateFilter = "";
       this.showLoader = false;
     });
   }
 
   getStatesList() {
     const data = this.mainData.slice();
+    console.log(data);
     this.stateList = this.distinctObjectFromArrayState(data);
-    this.stateList.unshift({ id: '', name: 'All States' });
+    console.log(`ss`, this.stateList);
+    this.stateList.unshift({ id: "", name: "All States" });
+    console.log(`ssss`, this.stateList);
 
     this.stateReportList = this.distinctObjectFromArrayState(data);
   }
@@ -289,30 +291,30 @@ export class RankingComponent implements OnInit {
 
     // console.log(this.ulbList);
 
-    const shapeArr = ['square', 'circle', 'triangle-up'];
+    const shapeArr = ["square", "circle", "triangle-up"];
 
     const values = this.ulbTypeList.slice();
     this.legends = values.map((x, index) => {
       return {
         ulbId: x.id,
         ulbName: x.value,
-        color: '#ffc500',
+        color: "#ffc500",
         status: true,
         class: shapeArr[index]
       };
     });
   }
 
-  toggleChartData(id, via = '', ulId = '') {
-    $('canvas#canvas').remove();
-    $('div.chart-container').append('<canvas id="canvas"></canvas>');
+  toggleChartData(id, via = "", ulId = "") {
+    $("canvas#canvas").remove();
+    $("div.chart-container").append('<canvas id="canvas"></canvas>');
     if (via) {
       this.statesPill = this.statesPillClone.slice();
       // change label to active or inactive
-      if (this.legends[id - 1].color == '#ffc500') {
-        this.legends[id - 1].color = '#555';
+      if (this.legends[id - 1].color == "#ffc500") {
+        this.legends[id - 1].color = "#555";
       } else {
-        this.legends[id - 1].color = '#ffc500';
+        this.legends[id - 1].color = "#ffc500";
       }
 
       const index = this.legends.findIndex(item => item.ulbId == ulId);
@@ -326,7 +328,7 @@ export class RankingComponent implements OnInit {
       }
       // //console.log(this.legends);
 
-      this.chartDataFormat('', 'pills', id);
+      this.chartDataFormat("", "pills", id);
     } else {
       const index = this.statesPill.findIndex(item => item.id == id);
 
@@ -337,7 +339,7 @@ export class RankingComponent implements OnInit {
       } else {
         this.statesPill[index].status = true;
       }
-      this.chartDataFormat('', 'pills');
+      this.chartDataFormat("", "pills");
     }
   }
 
@@ -378,7 +380,7 @@ export class RankingComponent implements OnInit {
     // }
   }
 
-  chartDataFormat(stateId = '', via = '', ulbId = '') {
+  chartDataFormat(stateId = "", via = "", ulbId = "") {
     let chartData = this.mainData.slice();
     if (via) {
       let result = [];
@@ -408,7 +410,7 @@ export class RankingComponent implements OnInit {
         states = this.distinctObjectFromArrayStateName(states);
 
         this.statesPill = states.map(item => {
-          item['status'] = true;
+          item["status"] = true;
           return item;
         });
       } else {
@@ -459,9 +461,9 @@ export class RankingComponent implements OnInit {
     const data = [];
 
     const typeArr = [
-      { type: 'rect', pointRadius: 10 },
-      { type: 'circle', pointRadius: 8 },
-      { type: 'triangle', pointRadius: 10 }
+      { type: "rect", pointRadius: 10 },
+      { type: "circle", pointRadius: 8 },
+      { type: "triangle", pointRadius: 10 }
     ];
 
     // chart labels for shapes
@@ -503,7 +505,7 @@ export class RankingComponent implements OnInit {
     }, 200);
   }
 
-  pillsDataFormat(stateId = '') {
+  pillsDataFormat(stateId = "") {
     const pillMainData = this.mainData.slice();
     // filters by overall
     let pillData = this.filterByOverall(this.filters.population, pillMainData);
@@ -566,32 +568,32 @@ export class RankingComponent implements OnInit {
 
     this.chartDataset.forEach(element => {
       scatterChartData.datasets.push({
-        type: 'scatter',
+        type: "scatter",
         pointStyle: element.type,
-        backgroundColor: '#555',
+        backgroundColor: "#555",
         label: element.label,
         pointRadius: element.pointRadius,
         pointBackgroundColor: element.pointColor,
-        borderColor: 'black',
+        borderColor: "black",
         data: element.data
       });
     });
 
-    const canvas: any = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
+    const canvas: any = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
 
     const chartScatter = new Chart(ctx, {
-      type: 'scatter',
+      type: "scatter",
       data: scatterChartData,
       options: {
         title: {
           display: false,
-          text: 'Chart.js Scatter Chart'
+          text: "Chart.js Scatter Chart"
         },
         legend: {
           display: false,
-          position: 'top',
-          align: 'center'
+          position: "top",
+          align: "center"
         },
         tooltips: {
           callbacks: {
@@ -603,11 +605,11 @@ export class RankingComponent implements OnInit {
             },
             label: function(tooltipItem, data) {
               return (
-                '( Population : ' +
+                "( Population : " +
                 tooltipItem.xLabel +
-                ' , Index Score : ' +
+                " , Index Score : " +
                 tooltipItem.yLabel +
-                ' )'
+                " )"
               );
             }
             // afterLabel: function(tooltipItem, data) {
@@ -620,8 +622,8 @@ export class RankingComponent implements OnInit {
         scales: {
           xAxes: [
             {
-              type: 'linear',
-              position: 'bottom',
+              type: "linear",
+              position: "bottom",
               ticks: {
                 userCallback: function(tick) {
                   if (tick > 999) {
@@ -630,28 +632,28 @@ export class RankingComponent implements OnInit {
                     } else {
                       tick = (tick / 1000).toFixed(3);
                     }
-                    return tick.toString() + 'k';
+                    return tick.toString() + "k";
                   } else {
                     return tick.toString();
                   }
                 }
               },
               scaleLabel: {
-                labelString: 'Population',
+                labelString: "Population",
                 display: true
               }
             }
           ],
           yAxes: [
             {
-              type: 'linear',
+              type: "linear",
               ticks: {
                 // userCallback: function(tick) {
                 // 	return tick.toString() + 'dB';
                 // }
               },
               scaleLabel: {
-                labelString: 'Index Score',
+                labelString: "Index Score",
                 display: true
               }
             }
@@ -660,16 +662,16 @@ export class RankingComponent implements OnInit {
         annotation: {
           annotations: [
             {
-              drawTime: 'afterDatasetsDraw',
-              type: 'line',
-              mode: 'horizontal',
-              scaleID: 'y-axis-1',
+              drawTime: "afterDatasetsDraw",
+              type: "line",
+              mode: "horizontal",
+              scaleID: "y-axis-1",
               value: this.mainData[0].nationalAverageOverallIndexScore.toFixed(),
-              borderColor: 'black',
+              borderColor: "black",
               borderWidth: 2,
               label: {
                 enabled: false,
-                content: 'National Average'
+                content: "National Average"
               }
             }
           ]
@@ -681,13 +683,13 @@ export class RankingComponent implements OnInit {
 
   async filterData() {
     Object.keys(this.headers).forEach(x => {
-      this.headers[x].color = '#333333';
+      this.headers[x].color = "#333333";
       this.headers[x].status = 0;
     });
     this.showLoader = true;
     this.mainData = null;
-    $('canvas#canvas').remove();
-    $('div.chart-container').append('<canvas id="canvas"></canvas>');
+    $("canvas#canvas").remove();
+    $("div.chart-container").append('<canvas id="canvas"></canvas>');
     // this.overallFilter.setValue(this.anotherList);
 
     // this.mainData = null;
@@ -704,20 +706,20 @@ export class RankingComponent implements OnInit {
       this.filters.finance = [this.financialFilter];
       this.filters.state = this.stateFilter;
       this.showLoader = false;
-      this.mapColorMainData('filter');
+      this.mapColorMainData("filter");
     });
   }
 
   setNationalAverage(avgData) {
     switch (this.financialFilter) {
-      case 'Overall':
+      case "Overall":
         this.nationalAvg = avgData.nationalAverageOverallIndexScore;
         break;
-      case 'Financial Accountability':
+      case "Financial Accountability":
         this.nationalAvg =
           avgData.nationalAverageFinancialAccountabilityIndexScore;
         break;
-      case 'Financial performance':
+      case "Financial performance":
         this.nationalAvg =
           avgData.nationalAverageFinancialPerformanceIndexScore;
         break;
@@ -792,7 +794,7 @@ export class RankingComponent implements OnInit {
 
     for (let i = 0; i < keys.length; i++) {
       const values = dataInput.map(row => {
-        const data = row['financialParameters'].find(x => x.type == keys[i]);
+        const data = row["financialParameters"].find(x => x.type == keys[i]);
         return { ...data, ...row };
       });
       filteredData.push(...values);
@@ -823,10 +825,10 @@ export class RankingComponent implements OnInit {
       Object.keys(this.headers).forEach((x, i) => {
         if (i == index) {
           this.headers[i].status = 1;
-          this.headers[i].color = '#43b8ea';
+          this.headers[i].color = "#43b8ea";
         } else {
           this.headers[i].status = 0;
-          this.headers[i].color = '#555';
+          this.headers[i].color = "#555";
         }
       });
       console.log(this.headers);
@@ -838,10 +840,10 @@ export class RankingComponent implements OnInit {
       Object.keys(this.headers).forEach((x, i) => {
         if (i == index) {
           this.headers[i].status = -1;
-          this.headers[i].color = '#43b8ea';
+          this.headers[i].color = "#43b8ea";
         } else {
           this.headers[i].status = 0;
-          this.headers[i].color = '#555';
+          this.headers[i].color = "#555";
         }
       });
 
@@ -852,7 +854,7 @@ export class RankingComponent implements OnInit {
     }
   }
 
-  mapColorMainData(via = '') {
+  mapColorMainData(via = "") {
     const totalColors = Object.keys(this.colorsData);
     const stateColorObj = {};
     const stateColors = [];
@@ -860,7 +862,7 @@ export class RankingComponent implements OnInit {
       for (const col in stateColorObj) {
         stateColors.indexOf(stateColorObj[col].key) < 0
           ? stateColors.push(stateColorObj[col].key)
-          : '';
+          : "";
       }
       const availableColors = totalColors.filter(
         y => stateColors.indexOf(y) < 0
@@ -870,13 +872,13 @@ export class RankingComponent implements OnInit {
           ? this.colorsData[availableColors[0]]
           : this.colorsData[totalColors[0]];
       }
-      d['color'] = stateColorObj[d.state.code]['color'];
-      d['backColor'] = stateColorObj[d.state.code]['bg'];
+      d["color"] = stateColorObj[d.state.code]["color"];
+      d["backColor"] = stateColorObj[d.state.code]["bg"];
     }
 
     this.rankTableDataFormat(
       this.filters.finance,
-      'nationalRanking',
+      "nationalRanking",
       this.filters.state,
       this.filters.population
     );
@@ -884,7 +886,7 @@ export class RankingComponent implements OnInit {
     this.getUlbList();
 
     if (via) {
-      this.chartDataFormat(this.filters.state, '', '');
+      this.chartDataFormat(this.filters.state, "", "");
       this.pillsDataFormat(this.filters.state);
     } else {
       this.chartDataFormat();
@@ -900,8 +902,8 @@ export class RankingComponent implements OnInit {
       .filter(x => x.state._id == this.stateReportFilter);
     this.ulbTypeReportList = this.distinctObjectFromArrayUlb(data.slice());
     // console.log(data, this.ulbTypeReportList);
-    this.ulbTypeFilter = '';
-    this.ulbFilter.setValue('');
+    this.ulbTypeFilter = "";
+    this.ulbFilter.setValue("");
     this.ulbList.next(null);
     this.listData = [];
   }
@@ -928,7 +930,7 @@ export class RankingComponent implements OnInit {
       x => x.id == this.stateReportFilter
     );
 
-    const obj = { state: stateName ? stateName.name : '', ulbs: ulb };
+    const obj = { state: stateName ? stateName.name : "", ulbs: ulb };
 
     this.listData.push(obj);
     // load the initial bank list
@@ -943,7 +945,7 @@ export class RankingComponent implements OnInit {
         this.filterULBData();
       });
 
-    this.ulbFilter.setValue('');
+    this.ulbFilter.setValue("");
   }
 
   filterTableData() {
@@ -952,7 +954,7 @@ export class RankingComponent implements OnInit {
       // console.log(this.ulbFilter.value, this.years.value);
 
       if (!this.financialReportFilter) {
-        this.financialReportFilter = 'Overall';
+        this.financialReportFilter = "Overall";
       }
 
       const prmsArr = [];
@@ -1032,11 +1034,11 @@ export class RankingComponent implements OnInit {
             this.showLoader = false;
           },
           rejectErr => {
-            console.log('rejectErr', rejectErr);
+            console.log("rejectErr", rejectErr);
           }
         )
         .catch(caughtError => {
-          console.log('caughtError', caughtError);
+          console.log("caughtError", caughtError);
         });
     }
   }
@@ -1048,13 +1050,13 @@ export class RankingComponent implements OnInit {
     if (!found) {
       arr.push({
         year: year,
-        name: '-',
-        ratio: '-',
-        nationalAvgRatio: '-',
-        nationalAvgIndexScore: '-',
-        indexScore: '-',
-        nationalRank: '-',
-        stateRank: '-'
+        name: "-",
+        ratio: "-",
+        nationalAvgRatio: "-",
+        nationalAvgIndexScore: "-",
+        indexScore: "-",
+        nationalRank: "-",
+        stateRank: "-"
       });
     }
     return arr;
@@ -1065,20 +1067,20 @@ export class RankingComponent implements OnInit {
       this.reportTable.nativeElement
     );
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
 
     /* save to file */
-    XLSX.writeFile(wb, 'Ulb-score-report.xlsx');
+    XLSX.writeFile(wb, "Ulb-score-report.xlsx");
   }
 
   resetTableData() {
-    this.stateReportFilter = '';
-    this.ulbTypeFilter = '';
+    this.stateReportFilter = "";
+    this.ulbTypeFilter = "";
     this.ulbTypeReportList = null;
-    this.ulbFilter.setValue('');
+    this.ulbFilter.setValue("");
     this.ulbList.next(null);
-    this.years.setValue(['']);
-    this.financialReportFilter = '';
+    this.years.setValue([""]);
+    this.financialReportFilter = "";
     this.tableData = null;
   }
 
