@@ -122,7 +122,10 @@ export class ExcelService {
       base64: logoFile.logoBase64,
       extension: "png"
     });
-    worksheet.addImage(logo, "A1:B2");
+    worksheet.addImage(logo, {
+      tl: { col: 0, row: 0 },
+      ext: { width: 300, height: 40 }
+    });
     worksheet.mergeCells("A1:B2");
 
     // Color for logo backgeound
@@ -191,8 +194,6 @@ export class ExcelService {
 
       if (i < 3 || !data[i][0]) {
         row.eachCell((cell, number) => {
-         
-
           // Yellow color for headers / bold text.
           cell.fill = {
             type: "pattern",
@@ -210,10 +211,12 @@ export class ExcelService {
             vertical: "bottom",
             horizontal: this.canAlignRight(cell) ? "right" : "left"
           };
-           if (number === 2 && (cell.value === "A.Income" || cell.value === "B.Expenditure")) {
-              console.log(number, cell.value);
-              cell.alignment.horizontal = 'left';
-           }
+          if (
+            number === 2 &&
+            (cell.value === "A.Income" || cell.value === "B.Expenditure")
+          ) {
+            cell.alignment.horizontal = "left";
+          }
           cell.font = { bold: true, size: 9 };
           if (i == 0 && number % 2 == 0) {
             cell.alignment = {
@@ -231,8 +234,8 @@ export class ExcelService {
                   ? "right"
                   : "center"
             };
-            if(this.isSubHeader(cell)) {
-              cell.alignment.horizontal = 'left';
+            if (this.isSubHeader(cell)) {
+              cell.alignment.horizontal = "left";
             }
           }
         });
@@ -285,7 +288,6 @@ export class ExcelService {
     });
   }
 
-
   isSubHeader(cell) {
     return (
       cell.value === "B.Expenditure" ||
@@ -299,7 +301,7 @@ export class ExcelService {
       cell.value === "I. Fixed Assets" ||
       cell.value === "II. Investments" ||
       cell.value === "III. Current Assets, Loans and Advances" ||
-      cell.value === "IV. Other Assets" 
+      cell.value === "IV. Other Assets"
     );
   }
 
