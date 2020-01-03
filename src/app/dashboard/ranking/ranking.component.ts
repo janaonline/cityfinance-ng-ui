@@ -173,6 +173,8 @@ export class RankingComponent implements OnInit {
       ).map(x => {
         return { id: x.id, name: x.name, state: x.state };
       });
+
+      // console.log(this.stateReportList);
       // this.showLoader = false;
       // this.ulbTypeReportList = this.distinctObjectFromArrayUlb(this.scoreData.slice());
     });
