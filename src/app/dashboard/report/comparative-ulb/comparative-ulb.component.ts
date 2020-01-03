@@ -200,8 +200,6 @@ export class ComparativeUlbComponent implements OnInit {
       calcFields = this.reportHelper.getIECalcFields();
     }
 
-    console.log(this.report);
-
     for (let i = 0; i < calcFields.length; i++) {
       const keyName = calcFields[i].keyName;
       result[keyName] = { line_item: calcFields[i].title, isBold: true };
