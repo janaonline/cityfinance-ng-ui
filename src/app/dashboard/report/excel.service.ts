@@ -123,8 +123,8 @@ export class ExcelService {
       extension: "png"
     });
     worksheet.addImage(logo, {
-      tl: { col: 0, row: 0 },
-      ext: { width: 300, height: 40 }
+      tl: { col: 0.1, row: 0.1 },
+      ext: { width: 180, height: 31 }
     });
     worksheet.mergeCells("A1:B2");
 
