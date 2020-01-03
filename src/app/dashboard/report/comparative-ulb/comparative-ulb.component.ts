@@ -333,7 +333,12 @@ export class ComparativeUlbComponent implements OnInit {
 
           const ulbN1 = ulb1.code + "_" + this.reportReq.years[k];
           const ulbN2 = ulb2.code + "_" + this.reportReq.years[k];
-
+          if (item[ulbN1] === undefined) {
+            item[ulbN1] = 0;
+          }
+          if (item[ulbN2] === undefined) {
+            item[ulbN2] = 0;
+          }
           item[keyCode] = this.calculateDiff(item[ulbN1], item[ulbN2]);
         }
       }

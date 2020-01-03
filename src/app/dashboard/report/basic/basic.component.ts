@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 
 import { ExcelService } from '../excel.service';
@@ -10,7 +10,7 @@ import { ReportService } from '../report.service';
   templateUrl: "./basic.component.html",
   styleUrls: ["./basic.component.scss"]
 })
-export class BasicComponent implements OnInit {
+export class BasicComponent implements OnInit, OnDestroy {
   report: any = {};
   reportReq: any = {};
   years: { title: string; isComparative: boolean }[] = [];

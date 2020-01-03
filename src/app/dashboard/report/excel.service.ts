@@ -122,11 +122,12 @@ export class ExcelService {
       base64: logoFile.logoBase64,
       extension: "png"
     });
-    worksheet.addImage(logo, {
-      tl: { col: 0, row: 0 },
-      ext: { width: 300, height: 40 }
-    });
-    worksheet.mergeCells("A1:B2");
+    // worksheet.addImage(logo, {
+    //   tl: { col: 0.1, row: 0.1 },
+    //   ext: { width: 180, height: 31 }
+    // });
+    worksheet.addImage(logo, "A1:A2");
+    worksheet.mergeCells("A1:A2");
 
     // Color for logo backgeound
     worksheet
@@ -274,6 +275,8 @@ export class ExcelService {
     this.setColumnsWidth(worksheet);
     worksheet.addRow([]);
 
+    this.addBackgroundColorToLogoRow(worksheet);
+
     // Footer Row
     this.setFooter(worksheet);
 
@@ -286,6 +289,21 @@ export class ExcelService {
       const date = new Date().toLocaleDateString();
       FileSaver.saveAs(blob, excelFileName + `_(${date})` + EXCEL_EXTENSION);
     });
+  }
+
+  addBackgroundColorToLogoRow(worksheet: ExcelJs.Worksheet) {
+    const length = worksheet.actualColumnCount;
+    if (length < 2) {
+      return;
+    }
+    const col = String.fromCharCode(65 + length - 1);
+    worksheet.getCell(`B1`).fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "00000000" },
+      bgColor: { argb: "FFFFFFFF" }
+    };
+    worksheet.mergeCells(`B1:${col}2`);
   }
 
   isSubHeader(cell) {
@@ -327,7 +345,7 @@ export class ExcelService {
   setColumnsWidth(worksheet: ExcelJs.Worksheet) {
     for (let i = 0; i <= worksheet.actualColumnCount; i++) {
       if (i === 0) {
-        worksheet.getColumn(1).width = 15;
+        worksheet.getColumn(1).width = 25;
       } else if (i === 1) {
         worksheet.getColumn(2).width = 32;
       } else {

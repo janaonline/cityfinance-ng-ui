@@ -20,7 +20,7 @@
         ></a>
         <ul class="dropdown-menu">
           <li routerLinkActive="active">
-            <a [routerLink]="['/dashboard/report']"
+            <a [routerLink]="['/dashboard', 'report']"
               >Annual Financial Statements</a
             >
           </li>
@@ -30,7 +30,9 @@
             >
           </li>
           <li routerLinkActive="active">
-            <a [routerLink]="['/dashboard/ranking']">Annual Fiscal Ranking</a>
+            <a [routerLink]="['/dashboard', 'ranking']"
+              >Annual Fiscal Ranking header</a
+            >
           </li>
         </ul>
       </li>
