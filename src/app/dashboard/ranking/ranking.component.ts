@@ -193,7 +193,7 @@ export class RankingComponent implements OnInit {
     } else {
       search = search.toLowerCase();
     }
-    // filter the banks
+    // filter the states
     this.ulbList.next(
       listCopy.filter(listGroup => {
         const showlistGroup =
@@ -272,6 +272,8 @@ export class RankingComponent implements OnInit {
     const data = this.mainData.slice();
     this.stateList = this.distinctObjectFromArrayState(data);
     this.stateList.unshift({ id: '', name: 'All States' });
+
+    // console.log(this.stateList)
 
     this.stateReportList = this.distinctObjectFromArrayState(data);
   }
