@@ -208,6 +208,8 @@ export class ExcelService {
             bottom: { style: "thin" },
             right: { style: "thin" }
           };
+
+          // console.log(cell.value, this.canAlignRight(cell) ? "right" : "left");
           cell.alignment = {
             vertical: "bottom",
             horizontal: this.canAlignRight(cell) ? "right" : "left"
@@ -219,26 +221,30 @@ export class ExcelService {
             cell.alignment.horizontal = "left";
           }
           cell.font = { bold: true, size: 9 };
-          if (i == 0 && number % 2 == 0) {
-            cell.alignment = {
-              vertical: "bottom",
-              horizontal: this.canAlignRight(cell) ? "right" : "left"
-            };
-            cell.font = { bold: false };
-          } else {
-            cell.alignment = {
-              vertical: "middle",
-              horizontal:
-                cell.value.toString().includes("Total") ||
-                this.isAmountValue(<string>cell.value) ||
-                this.canAlignRight(cell)
-                  ? "right"
-                  : "center"
-            };
-            if (this.isSubHeader(cell)) {
-              cell.alignment.horizontal = "left";
-            }
+          cell.alignment = {
+            vertical: "middle",
+            horizontal:
+              cell.value.toString().includes("Total") ||
+              this.isAmountValue(<string>cell.value) ||
+              this.canAlignRight(cell)
+                ? "right"
+                : "center"
+          };
+          if (this.isSubHeader(cell)) {
+            cell.alignment.horizontal = "left";
           }
+          // if (i == 0 && number % 2 == 0) {
+          //   // console.log(
+          //   //   cell.value,
+          //   //   this.canAlignRight(cell) ? "right" : "left"
+          //   // );
+          //   // cell.alignment = {
+          //   //   vertical: "bottom",
+          //   //   horizontal: this.canAlignRight(cell) ? "right" : "left"
+          //   // };
+          //   // cell.font = { bold: false };
+          // } else {
+          // }
         });
       } else {
         row.eachCell((cell, number) => {
