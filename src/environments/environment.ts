@@ -4,9 +4,11 @@
 let url;
 if (window.location.hostname.includes("demo")) {
   url = "https://democityfinanceapi.dhwaniris.in/";
-} else if (window.location.hostname.includes("localhost")) {
-  // url = "http://staging.cityfinance.in/";
-  url = "https://democityfinanceapi.dhwaniris.in/";
+} else if (
+  window.location.hostname.includes("localhost") ||
+  window.location.hostname.includes("staging")
+) {
+  url = "http://staging.cityfinance.in/";
 } else {
   url = "http://cityfinance.in/";
 }
