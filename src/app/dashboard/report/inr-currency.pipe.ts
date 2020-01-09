@@ -1,30 +1,47 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'inrCurrency'
+  name: "inrCurrency"
 })
 export class InrCurrencyPipe implements PipeTransform {
-
-  transform(value: any, args?: any): any {
-    if(!value){
-      return '';
-    } 
-    let x = value.toString();
-    let decimal = ''; 
-
-    if(x.indexOf('.') > -1 ){
-      decimal = x.substring(x.indexOf('.'));
-      x = x.substring(0, x.indexOf('.'));
+  transform(value: number, args?: any): any {
+    const valueToOperatte = value;
+    if (!valueToOperatte) {
+      return valueToOperatte;
     }
-    // x = x.substring(0, x.indexOf('.'));
-    var lastThree = x.substring(x.length - 3);
-    var otherNumbers = x.substring(0, x.length - 3);
-    if (otherNumbers != '')
-      lastThree = ',' + lastThree;
-    return otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + decimal;
 
+    const absoluteValue =
+      valueToOperatte < 0
+        ? Math.round(valueToOperatte * -1)
+        : Math.round(valueToOperatte);
 
-    // return value;
+    let numberInString = absoluteValue + "";
+    if (Math.round(absoluteValue / 1000)) {
+      /*
+      * IMPORTANT Do not change this to Math.round. That will mess with the value.
+        Original VAlue = 123656.
+        absoluteValue = 123656.
+        newNumber(with Math.round) = Math.round(123656/1000) = 124; this is wrong.
+        newNumber(with Math.round) = parseIntd(123656/1000) = 123;  this is correct.
+
+     */
+
+      const newNumber = parseInt((absoluteValue / 1000) as any);
+      const stringNumber = (newNumber + "").replace(
+        /(\..*)$|(\d)(?=(\d{2})+(?!\d))/g,
+        (digit, fract) => fract || digit + ","
+      );
+
+      numberInString = newNumber
+        ? stringNumber +
+          "," +
+          numberInString.substring(numberInString.length - 3)
+        : numberInString.substring(numberInString.length - 3);
+    }
+
+    if (valueToOperatte < 0) {
+      return `(${numberInString})`;
+    }
+    return numberInString;
   }
-
 }

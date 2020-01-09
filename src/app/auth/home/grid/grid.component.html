@@ -1,0 +1,65 @@
+<div class=" mt-5">
+  <div>
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4" style="margin-bottom: 1%;">
+      <h3 class="statistics">Availability of Financial Information</h3>
+    </div>
+    <div class="col-lg-4" style="text-align: center;">
+      <button class="btn btn-primary" (click)="downloadTableData()" style="margin-left: 18%;"><i class="fa fa-file-excel-o" style="color: white" aria-hidden="true"></i></button>
+    </div>
+  </div>
+  <div class="col d-flex justify-content-center tableWrapper">
+    <div
+      style="display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;"
+      *ngIf="!years"
+    >
+      <app-pre-loader></app-pre-loader><app-pre-loader></app-pre-loader
+      ><app-pre-loader></app-pre-loader><app-pre-loader></app-pre-loader>
+    </div>
+    <table class="table table-bordered" style="min-width: 100%;" *ngIf="years" #financeTable>
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th *ngFor="let year of years" colspan="3" class="text-center">
+            {{ year }}
+          </th>
+          <th scope="col"></th>
+        </tr>
+        <tr>
+          <th scope="col"><div class="table-head" (click)="sortTableData(headers[0].key, headers[0].status, 0)" [style.color]="headers[0].color">State &nbsp; <i *ngIf="headers[0].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[0].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[0].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div></th>
+          <th scope="col" style="text-align: center;"><div class="table-head" (click)="sortTableData(headers[1].key, headers[1].status, 1)" [style.color]="headers[1].color">No of ULBs &nbsp; <i *ngIf="headers[1].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[1].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[1].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div></th>
+          <th scope="col" style="text-align: center;"><div class="table-head" (click)="sortTableData(headers[2].key, headers[2].status, 2)" [style.color]="headers[2].color">AMRUT &nbsp; <i *ngIf="headers[2].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[2].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[2].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div></th>
+          <th scope="col" style="text-align: center;"><div class="table-head" (click)="sortTableData(headers[3].key, headers[3].status, 3)" [style.color]="headers[3].color">NON AMRUT &nbsp; <i *ngIf="headers[3].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[3].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[3].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div></th>
+          <th scope="col" style="text-align: center;"><div class="table-head" (click)="sortTableData(headers[4].key, headers[4].status, 4)" [style.color]="headers[4].color">Total &nbsp; <i *ngIf="headers[4].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[4].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[4].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div></th>
+          <th scope="col" style="text-align: center;"><div class="table-head" (click)="sortTableData(headers[5].key, headers[5].status, 5)" [style.color]="headers[5].color">AMRUT &nbsp; <i *ngIf="headers[5].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[5].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[5].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div></th>
+          <th scope="col" style="text-align: center;"><div class="table-head" (click)="sortTableData(headers[6].key, headers[6].status, 6)" [style.color]="headers[6].color">NON AMRUT &nbsp; <i *ngIf="headers[6].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[6].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[6].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div></th>
+          <th scope="col" style="text-align: center;"><div class="table-head" (click)="sortTableData(headers[7].key, headers[7].status, 7)" [style.color]="headers[7].color">Total &nbsp; <i *ngIf="headers[7].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[7].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[7].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div></th>
+          <th scope="col" style="text-align: center;"><div class="table-head" (click)="sortTableData(headers[8].key, headers[8].status, 8)" [style.color]="headers[8].color">AMRUT &nbsp; <i *ngIf="headers[8].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[8].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[8].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div></th>
+          <th scope="col" style="text-align: center;"><div class="table-head" (click)="sortTableData(headers[9].key, headers[9].status, 9)" [style.color]="headers[9].color">NON AMRUT &nbsp; <i *ngIf="headers[9].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[9].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[9].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div></th>
+          <th scope="col" style="text-align: center;"><div class="table-head" (click)="sortTableData(headers[10].key, headers[10].status, 10)" [style.color]="headers[10].color">Total &nbsp; <i *ngIf="headers[10].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[10].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[10].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div></th>
+          <th scope="col" style="text-align: center;"><div class="table-head" (click)="sortTableData(headers[11].key, headers[11].status, 11)" [style.color]="headers[11].color">Grand Total &nbsp; <i *ngIf="headers[11].status == 0" class="fa fa-sort" aria-hidden="true"></i> <i *ngIf="headers[11].status == 1" class="fa fa-sort-asc" aria-hidden="true"></i><i *ngIf="headers[11].status == -1" class="fa fa-sort-desc" aria-hidden="true"></i></div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of tableData">
+          <td>{{ row.stateName }}</td>
+          <td>{{ row.noOfUlbs }}</td>
+          <td>{{row.amrut2015}}</td>
+          <td>{{row.nonAmrut2015}}</td>
+          <td>{{row.total2015}}</td>
+          <td>{{row.amrut2016}}</td>
+          <td>{{row.nonAmrut2016}}</td>
+          <td>{{row.total2016}}</td>
+          <td>{{row.amrut2017}}</td>
+          <td>{{row.nonAmrut2017}}</td>
+          <td>{{row.total2017}}</td>
+          <td>{{row.grandTotal}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

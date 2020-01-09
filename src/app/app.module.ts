@@ -1,29 +1,33 @@
-import { AppRouter } from './app.route';
-import { AuthGuard } from './security/auth-guard.service';
-import { BrowserModule } from '@angular/platform-browser';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-
-import { AppComponent } from './app.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { CustomHttpInterceptor } from 'src/app/security/custom-http.interceptor';
-import { AuthService } from './auth/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CustomHttpInterceptor } from 'src/app/security/custom-http.interceptor';
+import { AppComponent } from './app.component';
+import { AppRouter } from './app.route';
+import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './security/auth-guard.service';
+import { DialogComponent } from './shared/components/dialog/dialog.component';
 import { AppCommonModule } from './shared/modules/app-common/app-common.module';
 import { RupeeConverterPipe } from './shared/pipes/rupee-converter.pipe';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    RupeeConverterPipe,
-  ],
+  declarations: [AppComponent, RupeeConverterPipe, DialogComponent],
+  entryComponents: [DialogComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRouter,
     AppCommonModule,
+    MatProgressSpinnerModule,
+
     HttpClientModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
-  providers: [CustomHttpInterceptor,
+  providers: [
+    CustomHttpInterceptor,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CustomHttpInterceptor,
@@ -34,4 +38,4 @@ import { RupeeConverterPipe } from './shared/pipes/rupee-converter.pipe';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
