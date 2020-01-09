@@ -52,7 +52,7 @@
               >Availability of Financial Information</a
             >
           </li>
-          <li routerLinkActive="active">
+          <li routerLinkActive="active" *ngIf="!isProduction">
             <a [routerLink]="['/dashboard', 'ranking']"
               >Annual Fiscal Ranking</a
             >
