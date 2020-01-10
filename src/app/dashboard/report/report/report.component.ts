@@ -1,5 +1,5 @@
 import { KeyValue } from '@angular/common';
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
@@ -26,7 +26,7 @@ interface CustomArray<T> {
   templateUrl: "./report.component.html",
   styleUrls: ["./report.component.scss"]
 })
-export class ReportComponent implements OnInit {
+export class ReportComponent implements OnInit, OnDestroy {
   // get lf() {
   //   return this.reportForm.controls;
   // }
@@ -1106,5 +1106,11 @@ export class ReportComponent implements OnInit {
     return this.currentStateInView.value.ulbs.some(
       ulb => ulb.type === ulbTypeToCheck
     );
+  }
+
+
+
+  ngOnDestroy() {
+    this.resetPage();
   }
 }
