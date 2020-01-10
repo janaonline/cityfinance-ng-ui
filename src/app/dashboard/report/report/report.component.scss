@@ -93,7 +93,7 @@ button:disabled {
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 6px;
+  padding: 8px;
 }
 
 .stateULBName > * {
@@ -172,6 +172,15 @@ a.inactive-tab:hover {
   .mat-form-field-underline,
   .mat-input-element,
   ::placeholder {
-    color: rgb(3, 3, 3) !important;
+    color: rgb(235, 8, 8) !important;
   }
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border-radius: 0px !important;
+  border: 0px !important;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+  border-radius: 0px !important;
+  border: 0px !important;
 }
