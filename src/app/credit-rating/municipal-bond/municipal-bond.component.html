@@ -47,10 +47,6 @@
             <th *ngFor="let bondIsuuerItem of bondIssuerItemData">
               {{ bondIsuuerItem.ulb }}
             </th>
-            <!-- <th>Indore Municipal Corporation</th>
-            <th>Greater Hyderabad Municipal Corporation</th>
-            <th>Pune Municipal Corporation</th>
-            <th>Andhra Pradesh Capital Region Development Authority</th> -->
           </tr>
         </table>
 
@@ -69,84 +65,18 @@
                 <td style="width: 20%" class="text-capitalize somepadding">
                   {{ formattedNamesMapping[subRow] }}
                 </td>
-                <td *ngFor="let bondIsssuerItem of bondIssuerItemData">
-                  {{ bondIsssuerItem[subRow] }}
+                <td
+                  *ngFor="
+                    let bondIsssuerItem of bondIssuerItemData;
+                    let i = index
+                  "
+                  #i
+                >
+                  {{
+                    bondIsssuerItem[subRow] | linkConverter: "click here...":i
+                  }}
                 </td>
               </tr>
-              <!-- <tr>
-                <td style="width: 20%">Issuer</td>
-                <td style="width: 20%">Indore Municipal Corporation</td>
-                <td style="width: 20%">
-                  Greater Hyderabad Municipal Corporation
-                </td>
-                <td style="width: 20%">Pune Municipal Corporation</td>
-                <td style="width: 20%">
-                  Andhra Pradesh Capital Region Development Authority
-                </td>
-              </tr> -->
-              <!-- <tr>
-                <td>Type of Instruments</td>
-                <td>
-                  Secured Non-Convertible Redeemable Bonds in the nature of
-                  Debentures
-                </td>
-                <td>
-                  Unsecured Listed Taxable Non-Convertible Redeemable Bonds in
-                  the nature of Debentures Series- I
-                </td>
-                <td>
-                  7.59% Pune Muni Bond 2027 Unsecured Redeemable Listed Taxable
-                  Non Convertible Debentures Series I
-                </td>
-                <td>
-                  Government Guaranteed Listed Unsecured Redeemable
-                  Non-Convertible Taxable Bonds in the nature of Debentures in
-                  the form of separately transferable Redeemable Principal parts
-                  issued at par having Series A,B,C,D,E
-                </td>
-              </tr>
-              <tr>
-                <td>Term</td>
-                <td>10 years</td>
-                <td>10 years</td>
-                <td>10 years</td>
-                <td>10 years</td>
-              </tr>
-              <tr>
-                <td>Coupon rate</td>
-                <td>9.25%</td>
-                <td>8.90%</td>
-                <td>7.59%</td>
-                <td>10.32%</td>
-              </tr>
-              <tr>
-                <td>Interest Payment</td>
-                <td>Half Yearly</td>
-                <td>Half Yearly</td>
-                <td>Half Yearly</td>
-                <td>Quarterly</td>
-              </tr>
-              <tr>
-                <td>Tax treatment</td>
-                <td>Taxable</td>
-                <td>Taxable</td>
-                <td>Taxable</td>
-                <td>Taxable</td>
-              </tr>
-              <tr>
-                <td>Repayment</td>
-                <td>
-                  Staggered redemption in four equal annual installments of 25%
-                  of the face value starting from the end of 7th year from the
-                  date of allotment.
-                </td>
-                <td>Bullet repayment at the end of bond term</td>
-                <td>Bullet repayment at the end of bond term</td>
-                <td>
-                  The principal will have a moratorium of 5 years, and have an
-                  equal amortising profile thereafter.
-                </td>
-              </tr> -->
             </table>
           </accordion-group>
           <!-- 
