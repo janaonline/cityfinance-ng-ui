@@ -87,7 +87,8 @@ angular2-multiselect {
 }
 
 .filterForm {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
 }
 
 ::ng-deep .c-btn {
