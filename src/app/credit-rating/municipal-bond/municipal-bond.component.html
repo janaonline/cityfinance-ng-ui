@@ -54,7 +54,7 @@
           <accordion-group
             class="table-responsive"
             *ngFor="let row of object.keys(mainRows)"
-            [isOpen]="true"
+            [isOpen]="false"
           >
             <h4 accordion-heading class="text-capitalize">
               {{ formattedNamesMapping[row] }}
@@ -62,7 +62,7 @@
             </h4>
             <table class="table table-striped accordion-body-table">
               <tr *ngFor="let subRow of mainRows[row]">
-                <td style="width: 20%" class="text-capitalize somepadding">
+                <td style="width: 10%" class="text-capitalize somepadding">
                   {{ formattedNamesMapping[subRow] }}
                 </td>
                 <td
