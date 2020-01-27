@@ -20,12 +20,9 @@ export class MunicipalBondComponent implements OnInit {
   yearsDropdownSettings = {
     singleSelection: false,
     text: "Select Year/s",
-    selectAllText: "Select All Years",
-    unSelectAllText: "UnSelect All Years",
     enableSearchFilter: false,
-    limitSelection: 4,
     badgeShowLimit: 1,
-    classes: "myclass custom-class",
+    showCheckbox: true,
     labelKey: "name",
     primaryKey: "name"
   };
@@ -34,13 +31,12 @@ export class MunicipalBondComponent implements OnInit {
     primaryKey: "name",
     singleSelection: false,
     text: "Select ULB/s",
-    selectAllText: "Select All ULB",
-    unSelectAllText: "UnSelect All ULB",
     enableSearchFilter: true,
     badgeShowLimit: 1,
-    classes: "myclass custom-class",
     labelKey: "name",
-    noDataLabel: "No Data available"
+    showCheckbox: true,
+    noDataLabel: "No Data available",
+    classes: "ulbDropdown"
   };
 
   mainRows: IBondIssuer;

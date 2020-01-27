@@ -37,9 +37,21 @@ export class MunicipalBondsService {
       .pipe(
         map(response => {
           this.AllBondIssuerItems = response;
-          return response.data;
+          const sorted = this.getLastUpdateBondIsuueItem(3, response.data);
+          return sorted;
         })
       );
+  }
+
+  private getLastUpdateBondIsuueItem(
+    quantity: number,
+    bondIssuerList: IBondIssureItemResponse["data"]
+  ) {
+    const sorted = bondIssuerList.sort(
+      (a, b) =>
+        new Date(a.modifiedAt).getTime() - new Date(b.modifiedAt).getTime()
+    );
+    return sorted.slice(0, quantity - 1);
   }
 
   private filterBondIssueItem(searchOption?: {

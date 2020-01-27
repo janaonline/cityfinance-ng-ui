@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" style="overflow-x: auto;">
       <div class="col-md-12 municipal-bond">
         <table accordion-heading>
           <tr>
@@ -62,7 +62,7 @@
             </h4>
             <table class="table table-striped accordion-body-table">
               <tr *ngFor="let subRow of mainRows[row]">
-                <td style="width: 10%" class="text-capitalize somepadding">
+                <td class="text-capitalize somepadding">
                   {{ formattedNamesMapping[subRow] }}
                 </td>
                 <td
