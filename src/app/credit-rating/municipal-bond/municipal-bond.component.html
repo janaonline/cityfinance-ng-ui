@@ -20,6 +20,7 @@
           formControlName="ulbs"
           [data]="ulbFilteredByName"
           [settings]="ulbDropdownConfiguration"
+          (onDeSelectAll)="filterForm.patchValue({ ulbs: [] })"
         >
         </angular2-multiselect>
 
@@ -36,6 +37,7 @@
       </form>
 
       <div
+        *ngIf="bondIssuerItemData"
         class="col-md-1"
         style="float: right; position: absolute; right: 0px;"
       >
@@ -46,13 +48,37 @@
         </a>
       </div>
     </div>
-
-    <div class="row" style="overflow-x: auto;">
+    <pagination-controls
+      *ngIf="bondIssuerItemData"
+      id="foo"
+      (pageChange)="setPage($event)"
+      directionLinks="true"
+      autoHide="true"
+      previousLabel="Previous"
+      nextLabel="Next"
+      screenReaderPaginationLabel="Pagination"
+      screenReaderPageLabel="page"
+      screenReaderCurrentLabel="You're on page"
+    >
+    </pagination-controls>
+    <div class="row" style="overflow-x: auto;" *ngIf="paginatedbondIssuerItem">
       <div class="col-md-12 municipal-bond">
         <table accordion-heading id="tableHeadings">
           <thead>
             <th>Issuer</th>
-            <th *ngFor="let bondIsuuerItem of bondIssuerItemData">
+            <th
+              *ngFor="
+                let bondIsuuerItem of paginatedbondIssuerItem
+                  | paginate
+                    : {
+                        id: 'foo',
+                        itemsPerPage: ulbItemLimitPerPage,
+                        currentPage: currentPageInView,
+                        totalItems: totalCount
+                      };
+                index as i
+              "
+            >
               {{ bondIsuuerItem.ulb }}
             </th>
           </thead>
@@ -75,7 +101,7 @@
                 </td>
                 <td
                   *ngFor="
-                    let bondIsssuerItem of bondIssuerItemData;
+                    let bondIsssuerItem of paginatedbondIssuerItem;
                     let i = index
                   "
                   #i

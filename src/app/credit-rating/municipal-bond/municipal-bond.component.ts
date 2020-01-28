@@ -43,11 +43,17 @@ export class MunicipalBondComponent implements OnInit {
 
   mainRows: IBondIssuer;
   bondIssuerItemData: IBondIssuerItem[];
+  paginatedbondIssuerItem: IBondIssuerItem[];
 
   accordianHeaderFormattedName: { [originalHeader: string]: string } = {};
   object = Object;
 
   formattedNamesMapping: { [nameIdentifier: string]: string } = {};
+
+  ulbItemLimitPerPage = 4;
+  defaultPageView = 0;
+  currentPageInView = 1;
+  totalCount;
   private regexToSplitWordOnCapitalLetters = /([A-Z]+[^A-Z]*|[^A-Z]+)/;
 
   constructor(
@@ -80,10 +86,13 @@ export class MunicipalBondComponent implements OnInit {
     this.mainRows = res;
   }
 
-  private onGettingBondIssuerItemSuccess(
-    data: IBondIssureItemResponse["data"]
-  ) {
-    this.bondIssuerItemData = data;
+  private onGettingBondIssuerItemSuccess(datas: {
+    total: number;
+    data: IBondIssureItemResponse["data"];
+  }) {
+    this.bondIssuerItemData = datas.data;
+    this.paginatedbondIssuerItem = this.sliceDataForCurrentView(datas.data);
+    this.totalCount = datas.total - 1;
   }
 
   private onGettingULBResponseSuccess(response: IULBResponse) {
@@ -111,6 +120,11 @@ export class MunicipalBondComponent implements OnInit {
     this._bondService.getBondIssuerItem(params).subscribe(res => {
       this.onGettingBondIssuerItemSuccess(res);
     });
+    this.resetPagination();
+  }
+
+  private resetPagination() {
+    this.currentPageInView = this.defaultPageView;
   }
 
   onClickDownload() {
@@ -125,8 +139,26 @@ export class MunicipalBondComponent implements OnInit {
       skipStartingRows: 3,
       fontSize: 10
     };
-    console.log(finalRow);
     this._excelService.downloadJSONAs(obj);
+  }
+
+  setPage(pageNoClick: number) {
+    setTimeout(() => {
+      this.currentPageInView = pageNoClick;
+      this.paginatedbondIssuerItem = this.sliceDataForCurrentView(
+        this.bondIssuerItemData
+      );
+    }, 500);
+  }
+
+  private sliceDataForCurrentView(list: any[]) {
+    const from = (this.currentPageInView - 1) * this.ulbItemLimitPerPage;
+    const till = from + this.ulbItemLimitPerPage;
+    return list.slice(from, till);
+  }
+
+  sliceData(from: number, till: number, list: any[]) {
+    return list.slice(from, till);
   }
 
   private createCSVFileHeaders(): ICell[] {
@@ -175,20 +207,11 @@ export class MunicipalBondComponent implements OnInit {
     };
   }
 
-  onClickingULBAutoComplete(ulbClicked: any) {
-    console.log(this.filterForm.value);
-    console.log({ ulbClicked });
-  }
+  onClickingULBAutoComplete(ulbClicked: any) {}
 
-  onDateSelectionClose() {
-    console.log("date selection closed");
-    console.log(this.filterForm.value);
-  }
+  onDateSelectionClose() {}
 
-  unselectAllYears() {
-    console.log("unselect all years");
-    console.log(this.filterForm.value);
-  }
+  unselectAllYears() {}
 
   private initializeFormListeners() {
     this.filterForm.controls["ulbs"].valueChanges.subscribe(newValue => {
@@ -209,8 +232,6 @@ export class MunicipalBondComponent implements OnInit {
             this.originalULBList
           );
         }
-        console.log(yearList, this.ulbFilteredByName, this.originalULBList);
-        // console.log(this.ulbFilteredByName);
       }
     });
   }

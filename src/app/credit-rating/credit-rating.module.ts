@@ -9,6 +9,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AuthModule } from '../auth/auth.module';
 import { ExcelService } from '../dashboard/report/excel.service';
@@ -34,6 +35,7 @@ import { ScaleComponent } from './scale/scale.component';
     AngularMultiSelectModule,
     MatInputModule,
     MatAutocompleteModule,
+    NgxPaginationModule,
     MatFormFieldModule,
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
