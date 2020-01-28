@@ -1,6 +1,9 @@
 <div class="common-container">
   <div class="container">
-    <div class="row">
+    <div
+      class="row"
+      style="position: relative; display: flex; align-items: center;"
+    >
       <div class="col-md-4" style="width: fit-content;">
         <h3 class="page-title" style="width: fit-content;">
           Municipal Bond Issuances
@@ -32,22 +35,27 @@
         <input type="submit" value="Search" class=" btn btn-primary" />
       </form>
 
-      <div class="col-md-1" style="float: right;">
-        <a href="/assets/files/MunicipalBondIssuances.xlsx">
-          <button class="right btn btn-primary">Download</button>
+      <div
+        class="col-md-1"
+        style="float: right; position: absolute; right: 0px;"
+      >
+        <a>
+          <button class="right btn btn-primary" (click)="onClickDownload()">
+            Download
+          </button>
         </a>
       </div>
     </div>
 
     <div class="row" style="overflow-x: auto;">
       <div class="col-md-12 municipal-bond">
-        <table accordion-heading>
-          <tr>
+        <table accordion-heading id="tableHeadings">
+          <thead>
             <th>Issuer</th>
             <th *ngFor="let bondIsuuerItem of bondIssuerItemData">
               {{ bondIsuuerItem.ulb }}
             </th>
-          </tr>
+          </thead>
         </table>
 
         <accordion [closeOthers]="true" class="fixed-header" *ngIf="mainRows">

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { ExcelService } from '../../dashboard/report/excel.service';
+import { ICell, IIExcelInput } from '../../dashboard/report/models/excelFormat';
 import { MunicipalBondsService } from '../../shared/services/municipal/municipal-bonds.service';
 import { IBondIssuer } from './models/bondIssuerResponse';
 import { IBondIssuerItem, IBondIssureItemResponse } from './models/bondIssureItemResponse';
@@ -50,7 +52,8 @@ export class MunicipalBondComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _bondService: MunicipalBondsService
+    private _bondService: MunicipalBondsService,
+    private _excelService: ExcelService
   ) {
     this.initializeForm();
     this.initializeFormListeners();
@@ -80,7 +83,6 @@ export class MunicipalBondComponent implements OnInit {
   private onGettingBondIssuerItemSuccess(
     data: IBondIssureItemResponse["data"]
   ) {
-    console.log("bond issuer item ", data);
     this.bondIssuerItemData = data;
   }
 
@@ -93,7 +95,13 @@ export class MunicipalBondComponent implements OnInit {
   }
 
   private capitalizedName(originalName: string) {
-    return originalName.split(this.regexToSplitWordOnCapitalLetters).join(" ");
+    const formattedName = originalName
+      .split(this.regexToSplitWordOnCapitalLetters)
+      .join(" ")
+      .trim();
+
+    return formattedName[0].toUpperCase() + formattedName.substring(1);
+    // formattedName.trim();
   }
 
   ngOnInit() {}
@@ -103,6 +111,58 @@ export class MunicipalBondComponent implements OnInit {
     this._bondService.getBondIssuerItem(params).subscribe(res => {
       this.onGettingBondIssuerItemSuccess(res);
     });
+  }
+
+  onClickDownload() {
+    const firstRow = [this.createCSVFileHeaders()];
+    const subHeaders = this.createSubHeader();
+    const finalRow = firstRow.concat(subHeaders);
+    const currentDate = new Date().toLocaleDateString();
+    const obj: IIExcelInput = {
+      rows: finalRow,
+      fileName: `Municipal Bond ${currentDate}`,
+      skipStartingColumns: 1,
+      skipStartingRows: 3,
+      fontSize: 10
+    };
+    console.log(finalRow);
+    this._excelService.downloadJSONAs(obj);
+  }
+
+  private createCSVFileHeaders(): ICell[] {
+    const ulbNames = this.bondIssuerItemData.map(ulb => ({
+      text: ulb.ulb,
+      bold: true
+    }));
+    return [{ text: "Issuer", bold: true }, ...ulbNames];
+  }
+
+  private createSubHeader() {
+    let array = [];
+    Object.keys(this.mainRows).forEach(key => {
+      const config = {
+        text: this.formattedNamesMapping[key],
+        colorWholeRow: true,
+        bold: true,
+        backgroundColor: "F8CBAD"
+      };
+
+      const subHeaderRow = [config];
+
+      array.push(subHeaderRow);
+      const detailRows = this.mainRows[key].map(subRow => {
+        const detailColumns = {
+          text: this.formattedNamesMapping[subRow]
+        };
+
+        const ulbDataCoulmns = this.bondIssuerItemData.map(ulb => ({
+          text: ulb[subRow]
+        }));
+        return [detailColumns, ...ulbDataCoulmns];
+      });
+      array = array.concat(detailRows);
+    });
+    return array;
   }
 
   private createParamsForssuerItem(obj: {

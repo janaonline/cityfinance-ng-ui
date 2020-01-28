@@ -11,6 +11,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { AuthModule } from '../auth/auth.module';
+import { ExcelService } from '../dashboard/report/excel.service';
 import { LinkConverterPipe } from '../shared/pipes/linkConverter/link-converter.pipe';
 import { CreditRatingComponent } from './credit-rating.component';
 import { CreditRatingRouter } from './credit-rating.route';
@@ -46,6 +47,7 @@ import { ScaleComponent } from './scale/scale.component';
     MunicipalBondComponent,
     MunicipalLawsComponent,
     LinkConverterPipe
-  ]
+  ],
+  providers: [ExcelService]
 })
 export class CreditRatingModule {}
