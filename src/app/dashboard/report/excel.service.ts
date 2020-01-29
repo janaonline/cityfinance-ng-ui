@@ -7,9 +7,9 @@
 import { Injectable } from '@angular/core';
 import * as ExcelJs from 'exceljs';
 import * as FileSaver from 'file-saver';
-import * as XLSX from 'xlsx';
 
 import * as logoFile from './base64Logo.js';
+import { IIExcelInput } from './models/excelFormat';
 
 const EXCEL_TYPE =
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
@@ -22,6 +22,9 @@ interface CustomArray<T> {
 
 @Injectable()
 export class ExcelService {
+  private readonly DEFAULT = {
+    FONT_SIZE: 14
+  };
   constructor() {}
 
   transformTableToExcelData(title: string, html, filename: string) {
@@ -287,13 +290,25 @@ export class ExcelService {
     this.setFooter(worksheet);
 
     // Generate Excel File with given name
+    // workbook.xlsx.writeBuffer().then((data: any) => {
+    //   const blob = new Blob([data], {
+    //     type:
+    //       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    //   });
+    //   const date = new Date().toLocaleDateString();
+    //   FileSaver.saveAs(blob, excelFileName + `_(${date})` + EXCEL_EXTENSION);
+    // });
+    const date = new Date().toLocaleDateString();
+    this.downloadFile(workbook, excelFileName + `_(${date})` + EXCEL_EXTENSION);
+  }
+
+  private downloadFile(workbook: ExcelJs.Workbook, fileName: string) {
     workbook.xlsx.writeBuffer().then((data: any) => {
       const blob = new Blob([data], {
         type:
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       });
-      const date = new Date().toLocaleDateString();
-      FileSaver.saveAs(blob, excelFileName + `_(${date})` + EXCEL_EXTENSION);
+      FileSaver.saveAs(blob, fileName);
     });
   }
 
@@ -348,16 +363,20 @@ export class ExcelService {
     worksheet.mergeCells(`A${footerRow.number}:F${footerRow.number}`);
   }
 
-  setColumnsWidth(worksheet: ExcelJs.Worksheet) {
+  setColumnsWidth(
+    worksheet: ExcelJs.Worksheet,
+    minWidth?: number,
+    maxWidth?: number
+  ) {
     for (let i = 0; i <= worksheet.actualColumnCount; i++) {
       if (i === 0) {
-        worksheet.getColumn(1).width = 25;
+        worksheet.getColumn(1).width = minWidth ? minWidth : 25;
       } else if (i === 1) {
-        worksheet.getColumn(2).width = 32;
+        worksheet.getColumn(2).width = minWidth ? minWidth : 32;
       } else {
-        worksheet.getColumn(i).width = this.getColumnWidth(
-          worksheet.getColumn(i)
-        );
+        const newColumnWidth = this.getColumnWidth(worksheet.getColumn(i));
+        worksheet.getColumn(i).width =
+          maxWidth && newColumnWidth > maxWidth ? maxWidth : newColumnWidth;
       }
     }
   }
@@ -402,45 +421,57 @@ export class ExcelService {
     );
   }
 
-  public exportAsExcelFile(json: any[], excelFileName: string): void {
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    const workbook: XLSX.WorkBook = {
-      Sheets: { data: worksheet },
-      SheetNames: ["data"]
-    };
-    const excelBuffer: any = XLSX.write(workbook, {
-      bookType: "xlsx",
-      type: "array"
+  downloadJSONAs(data: IIExcelInput) {
+    const workbook = new ExcelJs.Workbook();
+    const worksheet = workbook.addWorksheet("Data", {
+      properties: { tabColor: { argb: "FFC0000" } }
     });
-    // const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
-    this.saveAsExcelFile(excelBuffer, excelFileName);
+
+    if (data.skipStartingRows) {
+      this.addEmptyRow(data.skipStartingRows, worksheet);
+    }
+
+    data.rows.forEach((columns, rowIndex) => {
+      let texts = columns.map(cell => cell.text || "");
+      if (data.skipStartingColumns) {
+        texts = new Array(data.skipStartingColumns).fill(" ").concat(texts);
+      }
+      const row = worksheet.addRow(texts);
+      row.font = {
+        size: data.fontSize ? data.fontSize : this.DEFAULT.FONT_SIZE
+      };
+      row.eachCell((cell, cellIndex) => {
+        const cellColumnConfig =
+          columns[cellIndex - 1 - (data.skipStartingColumns || 0)];
+        cell.style.font.bold = cellColumnConfig && cellColumnConfig.bold;
+        // cell.alignment = { wrapText: true };
+        if (cellColumnConfig && cellColumnConfig.backgroundColor) {
+          cell.fill = {
+            type: "pattern",
+            pattern: "solid",
+            fgColor: { argb: cellColumnConfig.backgroundColor }
+          };
+          /**
+           * In the above line, you may be wondering why are we applying bakgrund color to
+           * fbColor?. Well, we are usign solid pattern, and in solid pattern, fbColor is
+           * applied to cell's background.
+           */
+        }
+      });
+    });
+
+    this.setColumnsWidth(worksheet, 10, 30);
+    worksheet.getCell("D6").alignment = { wrapText: true };
+
+    const fileName = data.fileName.includes(EXCEL_EXTENSION)
+      ? data.fileName
+      : data.fileName + EXCEL_EXTENSION;
+    this.downloadFile(workbook, fileName);
   }
 
-  private saveAsExcelFile(buffer: any, fileName: string): void {
-    const data: Blob = new Blob([buffer], {
-      type: EXCEL_TYPE
-    });
-    FileSaver.saveAs(
-      data,
-      fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
-    );
-  }
-
-  getCellNameByNumber(num: number): string {
-    if (num == 4) {
-      return "D";
-    } else if (num == 5) {
-      return "E";
-    } else if (num == 6) {
-      return "F";
-    } else if (num == 7) {
-      return "G";
-    } else if (num == 8) {
-      return "H";
-    } else if (num == 9) {
-      return "I";
-    } else if (num == 10) {
-      return "J";
+  private addEmptyRow(rowQuantity: number, wokrsheet: ExcelJs.Worksheet) {
+    while (rowQuantity-- > 0) {
+      wokrsheet.addRow([""]);
     }
   }
 }

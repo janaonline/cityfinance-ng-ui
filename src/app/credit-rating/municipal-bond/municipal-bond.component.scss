@@ -1,66 +1,169 @@
-.heading{
-    background-color: #444;
-    color: #fff;
-    
-    td{
-        // font-weight: bold;
-    }
+.heading {
+  background-color: #444;
+  color: #fff;
+
+  td {
+    // font-weight: bold;
+  }
 }
 
-.common-container{
-    padding-bottom: 0px;
+.common-container {
+  padding-bottom: 0px;
 }
-.page-title{
-    margin-top: 0px;
-}
-
-.fixed-header{
-    height: calc(100vh - 210px);
-    overflow-x: auto;
-}
-table{
-    width: 100%;
-
-    th{
-        background-color: #009fe3;
-        color: white;
-        padding: 5px 10px;
-        font-size: 14px;
-        width: 20%;
-        font-weight: 500;
-    }
-    td{
-        padding: 3px 5px;
-        width: 20%;
-    }
+.page-title {
+  margin-top: 0px;
 }
 
-
-
-
-
+.fixed-header {
+  max-height: calc(100vh - 210px);
+  overflow: auto;
+  height: fit-content;
+}
+table {
+  min-width: 100%;
+  th {
+    background-color: #009fe3;
+    color: white;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  td {
+    padding: 3px 5px;
+  }
+}
 
 .scrolling table {
-    table-layout: inherit;
-    *margin-left: -20%;/*ie7*/
+  table-layout: inherit;
+  *margin-left: -20%; /*ie7*/
 }
-.scrolling td, th {
-    vertical-align: top;
-	padding: 10px;
-	width: 20%;
+.scrolling td,
+th {
+  vertical-align: top;
+  padding: 10px;
 }
 .scrolling th {
-	position: absolute;
-    *position: relative; /*ie7*/
-	left: 0;
-    width: 20%;
-    // height: 100%;
+  position: absolute;
+  *position: relative; /*ie7*/
+  left: 0;
+  width: 20%;
+  // height: 100%;
 }
 .outer {
-	position: relative
+  position: relative;
 }
 .inner {
-	overflow-x: auto;
-	overflow-y: visible;
-	// margin-left: 120px;
+  overflow-x: auto;
+  overflow-y: visible;
+  // margin-left: 120px;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 8px;
+}
+
+.stateULBName > * {
+  background: rgb(175, 175, 175);
+  color: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  text-align: center;
+}
+
+.stateULBName {
+  padding-right: 0px;
+  max-width: 214px;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  margin: 0px !important;
+}
+
+angular2-multiselect {
+  display: inline-block;
+}
+
+.filterForm {
+  display: inline-flex;
+  align-items: center;
+}
+
+::ng-deep .c-btn {
+  min-height: 28px !important;
+}
+
+.somepadding {
+  padding: 10px 5px;
+}
+
+th,
+td {
+  min-width: 230px;
+  max-width: 230px;
+}
+
+.municipal-bond {
+  overflow-x: auto;
+}
+
+accordion {
+  display: block;
+  min-width: 100%;
+}
+
+.municipal-bond {
+  min-width: 100%;
+  width: fit-content;
+}
+
+::ng-deep .dropdown-list {
+  min-width: 250px !important;
+}
+
+// Scroll Bar UI Starts here// Scroll Bar UI Starts here
+
+/* width */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0px grey;
+  border-radius: 0px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #f0ad4e;
+  border-radius: 0px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #f0ad4e;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0px grey;
+  border-radius: 0px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #f0ad4e;
+  border-radius: 0px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #f0ad4e;
 }
