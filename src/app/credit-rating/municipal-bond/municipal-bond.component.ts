@@ -209,10 +209,6 @@ export class MunicipalBondComponent implements OnInit {
 
   onClickingULBAutoComplete(ulbClicked: any) {}
 
-  onDateSelectionClose() {}
-
-  unselectAllYears() {}
-
   private initializeFormListeners() {
     this.filterForm.controls["ulbs"].valueChanges.subscribe(newValue => {
       const uniqueYears = this.getUniqueYearsFromULBS(newValue);
