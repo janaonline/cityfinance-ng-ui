@@ -87,3 +87,43 @@ tr > td:nth-child(2) {
 ::-webkit-scrollbar-thumb:hover {
   background: #f0ad4e;
 }
+
+::ng-deep .lazyContainer > * {
+  color: black;
+}
+::ng-deep .selected-list span {
+  fill: white !important;
+}
+
+::ng-deep angular2-multiselect span {
+  font-size: 1.2em;
+}
+
+.tooltipWrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.tooltipWrapper > .tooltipData {
+  position: absolute;
+  display: inline-block;
+  width: fit-content;
+  min-width: 90px;
+  opacity: 0;
+  transition: 0.3s all;
+  background: rgb(59, 58, 58);
+  color: white;
+  border-radius: 6%;
+  font-size: 1em;
+  text-align: center;
+  padding: 1% 0.4%;
+}
+
+.tooltipWrapper:hover .tooltipData {
+  opacity: 1;
+  transform: translateX(-108%);
+}
+
+td {
+  overflow: hidden;
+}
