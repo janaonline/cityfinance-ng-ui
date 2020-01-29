@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 
 import { ExcelService } from '../excel.service';
 import { ReportHelperService } from '../report-helper.service';
 import { ReportService } from '../report.service';
+import { currencryConversionOptions, ICurrencryConversion } from './conversionTypes';
 
 @Component({
   selector: "app-basic",
@@ -20,12 +22,37 @@ export class BasicComponent implements OnInit, OnDestroy {
 
   reportKeys: string[] = [];
 
+  currencyConversionList = currencryConversionOptions;
+
+  conversionDropdownConfig = {
+    primaryKey: "type",
+    singleSelection: true,
+    text: "Select conversion",
+    enableSearchFilter: false,
+    badgeShowLimit: 1,
+    labelKey: "name",
+    showCheckbox: true
+  };
+
+  currenyConversionForm: FormGroup;
+
+  currencyTypeInUser: ICurrencryConversion["type"];
+
   constructor(
     private reportService: ReportService,
     private excelService: ExcelService,
     private reportHelper: ReportHelperService,
-    private loaderService: GlobalLoaderService
-  ) {}
+    private loaderService: GlobalLoaderService,
+    private _formBuilder: FormBuilder
+  ) {
+    this.initializeForm();
+  }
+
+  private initializeForm() {
+    this.currenyConversionForm = this._formBuilder.group({
+      type: [[this.currencyConversionList[0]]]
+    });
+  }
 
   ngOnInit() {
     this.reportService.getNewReportRequest().subscribe(reportCriteria => {
@@ -60,6 +87,11 @@ export class BasicComponent implements OnInit, OnDestroy {
         }
       );
     });
+  }
+
+  onSelectingConversionType(type: ICurrencryConversion["type"]) {
+    this.reportService.currencryConversionInUse = type;
+    this.currencyTypeInUser = type;
   }
 
   setDataNotAvailable() {
@@ -215,7 +247,19 @@ export class BasicComponent implements OnInit, OnDestroy {
   download() {
     const reportTable = document.querySelector("table").outerHTML;
     const title = this.reportReq.type + " " + this.reportReq.reportGroup;
-    this.excelService.transformTableToExcelData(title, reportTable, "IE");
+    let currencyConversionName =
+      this.currenyConversionForm.value.type &&
+      this.currenyConversionForm.value.type[0] &&
+      this.currenyConversionForm.value.type[0].type
+        ? this.currenyConversionForm.value.type[0].name
+        : null;
+    if (currencyConversionName) {
+      currencyConversionName = document.getElementById("currencyWarning")
+        .textContent;
+    }
+    this.excelService.transformTableToExcelData(title, reportTable, "IE", {
+      currencyConversionName
+    });
 
     this.reportService.addLogByToken("Income-Expenditure");
   }
