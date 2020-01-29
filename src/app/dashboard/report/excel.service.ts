@@ -27,7 +27,12 @@ export class ExcelService {
   };
   constructor() {}
 
-  transformTableToExcelData(title: string, html, filename: string) {
+  transformTableToExcelData(
+    title: string,
+    html,
+    filename: string,
+    options?: { currencyConversionName?: string }
+  ) {
     filename = title;
     let excel = [];
 
@@ -116,7 +121,7 @@ export class ExcelService {
         return columns;
       }
     });
-    this.generateExcel(title, headers, excel, filename, cellsToMerge);
+    this.generateExcel(title, headers, excel, filename, cellsToMerge, options);
   }
 
   addLogoToFile(workbook: ExcelJs.Workbook, worksheet: ExcelJs.Worksheet) {
@@ -153,6 +158,17 @@ export class ExcelService {
           bgColor: { argb: "000001" }
         };
       });
+
+    worksheet
+      .getRow(3)
+      .eachCell({ includeEmpty: true }, function(cell, rowNumber) {
+        cell.fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "000001" },
+          bgColor: { argb: "000001" }
+        };
+      });
   }
 
   generateExcel(
@@ -163,7 +179,8 @@ export class ExcelService {
     cellsToMerge: {
       row: { from: number; to: number };
       column: { from: number; to: number };
-    }[]
+    }[],
+    options?: { currencyConversionName?: string }
   ) {
     // Create workbook and worksheet
     const workbook = new ExcelJs.Workbook();
@@ -173,6 +190,7 @@ export class ExcelService {
 
     // Blank Row after  logo is placed.
     worksheet.addRow([]);
+    // worksheet.addRow([]);
 
     // Add Rows and formatting
     for (let i = 0; i < data.length; i++) {
@@ -212,7 +230,6 @@ export class ExcelService {
             right: { style: "thin" }
           };
 
-          // console.log(cell.value, this.canAlignRight(cell) ? "right" : "left");
           cell.alignment = {
             vertical: "bottom",
             horizontal: this.canAlignRight(cell) ? "right" : "left"
@@ -236,18 +253,6 @@ export class ExcelService {
           if (this.isSubHeader(cell)) {
             cell.alignment.horizontal = "left";
           }
-          // if (i == 0 && number % 2 == 0) {
-          //   // console.log(
-          //   //   cell.value,
-          //   //   this.canAlignRight(cell) ? "right" : "left"
-          //   // );
-          //   // cell.alignment = {
-          //   //   vertical: "bottom",
-          //   //   horizontal: this.canAlignRight(cell) ? "right" : "left"
-          //   // };
-          //   // cell.font = { bold: false };
-          // } else {
-          // }
         });
       } else {
         row.eachCell((cell, number) => {
@@ -284,7 +289,7 @@ export class ExcelService {
     this.setColumnsWidth(worksheet);
     worksheet.addRow([]);
 
-    this.addBackgroundColorToLogoRow(worksheet);
+    this.addBackgroundColorToHeaders(worksheet, options);
 
     // Footer Row
     this.setFooter(worksheet);
@@ -312,7 +317,10 @@ export class ExcelService {
     });
   }
 
-  addBackgroundColorToLogoRow(worksheet: ExcelJs.Worksheet) {
+  addBackgroundColorToHeaders(
+    worksheet: ExcelJs.Worksheet,
+    options?: { currencyConversionName?: string }
+  ) {
     const length = worksheet.actualColumnCount;
     if (length < 2) {
       return;
@@ -325,6 +333,18 @@ export class ExcelService {
       bgColor: { argb: "FFFFFFFF" }
     };
     worksheet.mergeCells(`B1:${col}2`);
+
+    worksheet.getCell(`A3`).fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "FFCCFFE5" }
+    };
+    let textFor2ndRow = `File downloaded on  ${new Date().toLocaleDateString()}. `;
+    if (options && options.currencyConversionName) {
+      textFor2ndRow += options.currencyConversionName;
+    }
+    worksheet.getCell("A3").value = textFor2ndRow;
+    worksheet.mergeCells(`A3:${col}3`);
   }
 
   isSubHeader(cell) {
