@@ -51,7 +51,7 @@ export class MunicipalBondComponent implements OnInit {
   formattedNamesMapping: { [nameIdentifier: string]: string } = {};
 
   ulbItemLimitPerPage = 4;
-  defaultPageView = 0;
+  defaultPageView = 1;
   currentPageInView = 1;
   totalCount;
   private regexToSplitWordOnCapitalLetters = /([A-Z]+[^A-Z]*|[^A-Z]+)/;

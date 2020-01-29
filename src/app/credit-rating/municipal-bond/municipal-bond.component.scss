@@ -15,8 +15,9 @@
 }
 
 .fixed-header {
-  height: calc(100vh - 210px);
-  overflow-x: auto;
+  max-height: calc(100vh - 210px);
+  overflow: auto;
+  height: fit-content;
 }
 table {
   min-width: 100%;

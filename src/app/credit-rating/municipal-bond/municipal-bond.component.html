@@ -48,19 +48,7 @@
         </a>
       </div>
     </div>
-    <pagination-controls
-      *ngIf="bondIssuerItemData"
-      id="foo"
-      (pageChange)="setPage($event)"
-      directionLinks="true"
-      autoHide="true"
-      previousLabel="Previous"
-      nextLabel="Next"
-      screenReaderPaginationLabel="Pagination"
-      screenReaderPageLabel="page"
-      screenReaderCurrentLabel="You're on page"
-    >
-    </pagination-controls>
+
     <div class="row" style="overflow-x: auto;" *ngIf="paginatedbondIssuerItem">
       <div class="col-md-12 municipal-bond">
         <table accordion-heading id="tableHeadings">
@@ -115,6 +103,19 @@
           </accordion-group>
         </accordion>
       </div>
+      <pagination-controls
+        *ngIf="bondIssuerItemData"
+        id="foo"
+        (pageChange)="setPage($event)"
+        directionLinks="true"
+        autoHide="true"
+        previousLabel="Previous"
+        nextLabel="Next"
+        screenReaderPaginationLabel="Pagination"
+        screenReaderPageLabel="page"
+        screenReaderCurrentLabel="You're on page"
+      >
+      </pagination-controls>
     </div>
   </div>
 </div>

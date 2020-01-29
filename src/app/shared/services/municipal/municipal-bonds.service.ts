@@ -24,14 +24,7 @@ export class MunicipalBondsService {
 
   getBondIssuerItem(searchOption?: { ulbs: string[]; years: string[] }) {
     if (this.AllBondIssuerItems) {
-      if (
-        !searchOption ||
-        (!searchOption.ulbs.length && !searchOption.years.length)
-      ) {
-        return this.getAllBondIssuerItems();
-      }
-      const data = this.filterBondIssueItem(searchOption);
-      return of({ total: data.length, data });
+      return this.getBondIssuerItemFromCache(searchOption);
     }
     return this._http
       .get<IBondIssureItemResponse>(
@@ -47,6 +40,20 @@ export class MunicipalBondsService {
           return { total: sorted.length, data: sorted };
         })
       );
+  }
+
+  private getBondIssuerItemFromCache(searchOption?: {
+    ulbs: string[];
+    years: string[];
+  }) {
+    if (
+      !searchOption ||
+      (!searchOption.ulbs.length && !searchOption.years.length)
+    ) {
+      return this.getAllBondIssuerItems();
+    }
+    const data = this.filterBondIssueItem(searchOption);
+    return of({ total: data.length, data });
   }
 
   private getAllBondIssuerItems() {
