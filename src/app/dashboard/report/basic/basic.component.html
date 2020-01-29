@@ -20,7 +20,7 @@
         *ngIf="currencyConversionList && currencyConversionList.length"
         [data]="currencyConversionList"
         [settings]="conversionDropdownConfig"
-        (onSelect)="onSelectingConversionType($event.type)"
+        (onSelect)="onSelectingConversionType($event)"
         (onDeSelect)="onSelectingConversionType(null)"
         (onDeSelectAll)="onSelectingConversionType(null)"
       >

@@ -6,7 +6,7 @@ import { ISummaryReport } from 'src/app/models/summaryReport/summaryReport';
 
 import { environment } from '../../../environments/environment';
 import { IReportType } from '../../models/reportType';
-import { ICurrencryConversion } from './basic/conversionTypes';
+import { currencryConversionOptions, ICurrencryConversion } from './basic/conversionTypes';
 
 @Injectable({
   providedIn: "root"
@@ -23,7 +23,8 @@ export class ReportService {
   >(null);
 
   reportRequestSubject = new BehaviorSubject<IReportType>(null);
-  currencryConversionInUse: ICurrencryConversion["type"];
+  currencryConversionInUse: ICurrencryConversion =
+    currencryConversionOptions[0];
 
   constructor(private http: HttpClient) {}
 

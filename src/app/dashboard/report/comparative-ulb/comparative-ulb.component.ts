@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { IReportType } from 'src/app/models/reportType';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 
+import { currencryConversionOptions, ICurrencryConversion } from '../basic/conversionTypes';
 import { ExcelService } from '../excel.service';
 import { ReportHelperService } from '../report-helper.service';
 import { ReportService } from '../report.service';
 
 @Component({
-  selector: "app-comparative-ulb",
-  templateUrl: "./comparative-ulb.component.html",
-  styleUrls: ["./comparative-ulb.component.scss"]
+  selector: 'app-comparative-ulb',
+  templateUrl: './comparative-ulb.component.html',
+  styleUrls: ['./comparative-ulb.component.scss']
 })
 export class ComparativeUlbComponent implements OnInit {
   report: any = [];
@@ -27,12 +29,42 @@ export class ComparativeUlbComponent implements OnInit {
     accRowspan: 2
   };
 
+  currencyConversionList = currencryConversionOptions;
+
+  conversionDropdownConfig = {
+    primaryKey: 'type',
+    singleSelection: true,
+    text: 'Select conversion',
+    enableSearchFilter: false,
+    badgeShowLimit: 1,
+    labelKey: 'name',
+    showCheckbox: true
+  };
+
+  currenyConversionForm: FormGroup;
+
+  currencyTypeInUser: ICurrencryConversion['type'];
+
   constructor(
     private reportService: ReportService,
     private excelService: ExcelService,
     private reportHelper: ReportHelperService,
-    private _loaderService: GlobalLoaderService
-  ) {}
+    private _loaderService: GlobalLoaderService,
+    private _formBuilder: FormBuilder
+  ) {
+    this.initializeCurrencyConversion();
+    this.initializeForm();
+  }
+
+  private initializeCurrencyConversion() {
+    this.currencyTypeInUser = this.reportService.currencryConversionInUse.type;
+  }
+
+  private initializeForm() {
+    this.currenyConversionForm = this._formBuilder.group({
+      type: [[this.reportService.currencryConversionInUse]]
+    });
+  }
 
   ngOnInit() {
     // this.reportReq = this.reportService.getReportRequest();
@@ -46,7 +78,7 @@ export class ComparativeUlbComponent implements OnInit {
             this.years = [];
             this.response = res;
 
-            if (this.reportReq.reportGroup == "Balance Sheet") {
+            if (this.reportReq.reportGroup == 'Balance Sheet') {
               this.report = this.reportHelper.getBSReportLookup();
             } else {
               this.report = this.reportHelper.getIEReportLookup();
@@ -78,6 +110,11 @@ export class ComparativeUlbComponent implements OnInit {
     });
   }
 
+  onSelectingConversionType(type: ICurrencryConversion) {
+    this.reportService.currencryConversionInUse = type;
+    this.currencyTypeInUser = type.type;
+  }
+
   // { "code": 110, "head_of_account": "Revenue", "line_item": "Tax Revenue", "CG004_2015-16": 85497781, "CG004_2016-17": 109442436, "CG005_2015-16": 1015636583, "CG005_2016-17": 1788137186, "CG004_2015-16_2016-17": "28.01", "CG005_2015-16_2016-17": "76.06" }
   transformYears_YrVSYr() {
     // this.years.push({title: this.reportReq.ulbList[0].code, caption: this.reportReq.ulbList[0].name, isComparative: false });
@@ -88,7 +125,7 @@ export class ComparativeUlbComponent implements OnInit {
       const ulb = this.reportReq.ulbList[i];
       // if(this.report[item.code] && item.ulb_code && item.budget.length > 0){
       for (let j = 0; j < this.reportReq.years.length; j++) {
-        const key = ulb.code + "_" + this.reportReq.years[j];
+        const key = ulb.code + '_' + this.reportReq.years[j];
         this.years.push({
           title: key,
           caption: ulb.name,
@@ -99,14 +136,14 @@ export class ComparativeUlbComponent implements OnInit {
         if (j > 0 && this.reportReq.isComparative) {
           const comparativeKey =
             ulb.code +
-            "_" +
+            '_' +
             this.reportReq.years[j - 1] +
-            "_" +
+            '_' +
             this.reportReq.years[j];
           this.years.push({
             title: comparativeKey,
-            caption: "%",
-            state: "Comparision",
+            caption: '%',
+            state: 'Comparision',
             isComparative: true
           });
         }
@@ -121,7 +158,7 @@ export class ComparativeUlbComponent implements OnInit {
         const ulb1 = this.reportReq.ulbList[0];
         const ulb2 = this.reportReq.ulbList[j];
         // if(this.report[item.code] && item.ulb_code && item.budget.length > 0){
-        const key = ulb2.code + "_" + year;
+        const key = ulb2.code + '_' + year;
         this.years.push({
           title: key,
           caption: ulb2.name,
@@ -130,11 +167,11 @@ export class ComparativeUlbComponent implements OnInit {
         });
 
         if (j > 0 && this.reportReq.isComparative) {
-          const comparativeKey = ulb1.code + "_" + ulb2.code + "_" + year;
+          const comparativeKey = ulb1.code + '_' + ulb2.code + '_' + year;
           this.years.push({
             title: comparativeKey,
-            caption: "%",
-            state: "Comparision",
+            caption: '%',
+            state: 'Comparision',
             isComparative: true
           });
         }
@@ -157,7 +194,7 @@ export class ComparativeUlbComponent implements OnInit {
       const item = result[i];
       if (this.report[item.code] && item.ulb_code && item.budget.length > 0) {
         for (let j = 0; j < item.budget.length; j++) {
-          const key = item.ulb_code + "_" + item.budget[j].year;
+          const key = item.ulb_code + '_' + item.budget[j].year;
           if (
             this.report[item.code][key] === undefined ||
             this.report[item.code][key] === null
@@ -180,17 +217,17 @@ export class ComparativeUlbComponent implements OnInit {
   populateCalcFields(result, years) {
     let calcFields = [];
     if (
-      this.reportReq.reportGroup == "Balance Sheet" &&
-      this.reportReq.type.indexOf("Summary") > -1
+      this.reportReq.reportGroup == 'Balance Sheet' &&
+      this.reportReq.type.indexOf('Summary') > -1
     ) {
       // BS Summary
       this.reportKeys = this.reportHelper.getBSSummaryReportMasterKeys();
       calcFields = this.reportHelper.getBSSummaryCalcFields();
-    } else if (this.reportReq.reportGroup == "Balance Sheet") {
+    } else if (this.reportReq.reportGroup == 'Balance Sheet') {
       // BS Detailed
       this.reportKeys = this.reportHelper.getBSReportMasterKeys();
       calcFields = this.reportHelper.getBSCalcFields();
-    } else if (this.reportReq.type.indexOf("Summary") > -1) {
+    } else if (this.reportReq.type.indexOf('Summary') > -1) {
       // IE Summary
       this.reportKeys = this.reportHelper.getIESummaryMasterKeys();
       calcFields = this.reportHelper.getIESummaryCalcFields();
@@ -204,7 +241,7 @@ export class ComparativeUlbComponent implements OnInit {
       const keyName = calcFields[i].keyName;
       result[keyName] = { line_item: calcFields[i].title, isBold: true };
       if (calcFields[i].code) {
-        result[keyName]["code"] = calcFields[i].code;
+        result[keyName]['code'] = calcFields[i].code;
         result[keyName].isBold = false;
       }
       if (calcFields[i].isCalc) {
@@ -237,10 +274,10 @@ export class ComparativeUlbComponent implements OnInit {
             for (let k = 0; k < addFields.length; k++) {
               if (
                 result[addFields[k]] &&
-                result[addFields[k]][years[j]["title"]]
+                result[addFields[k]][years[j]['title']]
               ) {
                 // if amount available for specified year then add them
-                sum = sum + parseFloat(result[addFields[k]][years[j]["title"]]);
+                sum = sum + parseFloat(result[addFields[k]][years[j]['title']]);
               }
 
               if (
@@ -256,12 +293,12 @@ export class ComparativeUlbComponent implements OnInit {
           if (subtractFields && subtractFields.length > 0) {
             if (
               result[subtractFields[0]] &&
-              result[subtractFields[0]][years[j]["title"]]
+              result[subtractFields[0]][years[j]['title']]
             ) {
-              sum = sum - result[subtractFields[0]][years[j]["title"]];
+              sum = sum - result[subtractFields[0]][years[j]['title']];
             }
           }
-          result[keyName][years[j]["title"]] = sum;
+          result[keyName][years[j]['title']] = sum;
         }
       }
     }
@@ -277,7 +314,7 @@ export class ComparativeUlbComponent implements OnInit {
 
   setDataNotAvailable() {
     this.years.forEach(year => {
-      if (year.caption === "%") {
+      if (year.caption === '%') {
         return;
       }
 
@@ -288,10 +325,10 @@ export class ComparativeUlbComponent implements OnInit {
         this.reportKeys.forEach(key => {
           const original = { ...this.report[key] };
           original[year.title] = null;
-          if (!original["allNullYear"]) {
-            original["allNullYear"] = { [year.title]: true };
+          if (!original['allNullYear']) {
+            original['allNullYear'] = { [year.title]: true };
           } else {
-            original["allNullYear"][year.title] = true;
+            original['allNullYear'][year.title] = true;
           }
           this.report[key] = { ...original };
         });
@@ -316,7 +353,7 @@ export class ComparativeUlbComponent implements OnInit {
 
     const resultKeys = Object.keys(result);
     for (let i = 0; i < resultKeys.length; i++) {
-      if (["Debt", "Tax"].indexOf(result[resultKeys[i]].head_of_account) > -1) {
+      if (['Debt', 'Tax'].indexOf(result[resultKeys[i]].head_of_account) > -1) {
         // ignore Debt and Tax account types
         continue;
       }
@@ -329,10 +366,10 @@ export class ComparativeUlbComponent implements OnInit {
 
         for (let k = 0; k < this.reportReq.years.length; k++) {
           const keyCode =
-            ulb1.code + "_" + ulb2.code + "_" + this.reportReq.years[k];
+            ulb1.code + '_' + ulb2.code + '_' + this.reportReq.years[k];
 
-          const ulbN1 = ulb1.code + "_" + this.reportReq.years[k];
-          const ulbN2 = ulb2.code + "_" + this.reportReq.years[k];
+          const ulbN1 = ulb1.code + '_' + this.reportReq.years[k];
+          const ulbN2 = ulb2.code + '_' + this.reportReq.years[k];
           if (item[ulbN1] === undefined) {
             item[ulbN1] = 0;
           }
@@ -363,7 +400,7 @@ export class ComparativeUlbComponent implements OnInit {
 
     const resultKeys = Object.keys(result);
     for (let i = 0; i < resultKeys.length; i++) {
-      if (["Debt", "Tax"].indexOf(result[resultKeys[i]].head_of_account) > -1) {
+      if (['Debt', 'Tax'].indexOf(result[resultKeys[i]].head_of_account) > -1) {
         // ignore Debt and Tax account types
         continue;
       }
@@ -376,13 +413,13 @@ export class ComparativeUlbComponent implements OnInit {
         for (let k = 1; k < this.reportReq.years.length; k++) {
           const keyCode =
             ulb.code +
-            "_" +
+            '_' +
             this.reportReq.years[k - 1] +
-            "_" +
+            '_' +
             this.reportReq.years[k];
 
-          const ulbN1 = ulb.code + "_" + this.reportReq.years[k - 1];
-          const ulbN2 = ulb.code + "_" + this.reportReq.years[k];
+          const ulbN1 = ulb.code + '_' + this.reportReq.years[k - 1];
+          const ulbN2 = ulb.code + '_' + this.reportReq.years[k];
 
           item[keyCode] = this.calculateDiff(item[ulbN1], item[ulbN2]);
         }
@@ -402,11 +439,23 @@ export class ComparativeUlbComponent implements OnInit {
   }
 
   download() {
-    const reportTable = document.querySelector("table").outerHTML;
-    const title = this.reportReq.type + " " + this.reportReq.reportGroup;
-    this.excelService.transformTableToExcelData(title, reportTable, "IE");
+    const reportTable = document.querySelector('table').outerHTML;
+    const title = this.reportReq.type + ' ' + this.reportReq.reportGroup;
+    let currencyConversionName =
+      this.currenyConversionForm.value.type &&
+      this.currenyConversionForm.value.type[0] &&
+      this.currenyConversionForm.value.type[0].type
+        ? this.currenyConversionForm.value.type[0].name
+        : null;
+    if (currencyConversionName) {
+      currencyConversionName = document.getElementById('currencyWarning')
+        .textContent;
+    }
+    this.excelService.transformTableToExcelData(title, reportTable, 'IE', {
+      currencyConversionName
+    });
 
-    this.reportService.addLogByToken("Income-Expenditure");
+    this.reportService.addLogByToken('Income-Expenditure');
   }
 
   ngOnDestroy() {

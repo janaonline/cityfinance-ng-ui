@@ -24,7 +24,7 @@ export class InrCurrencyPipe implements PipeTransform {
         ? Math.round(valueToOperatte * -1)
         : Math.round(valueToOperatte);
 
-    if (options.currencyTypeInUser) {
+    if (options && options.currencyTypeInUser) {
       absoluteValue = this.getConvertedAmount(
         absoluteValue,
         options.currencyTypeInUser

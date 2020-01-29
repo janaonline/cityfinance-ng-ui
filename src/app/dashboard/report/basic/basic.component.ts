@@ -5,7 +5,7 @@ import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-load
 import { ExcelService } from '../excel.service';
 import { ReportHelperService } from '../report-helper.service';
 import { ReportService } from '../report.service';
-import { currencryConversionOptions, ICurrencryConversion } from './conversionTypes';
+import { currencryConversionOptions, currencryConversionType, ICurrencryConversion } from './conversionTypes';
 
 @Component({
   selector: "app-basic",
@@ -36,7 +36,8 @@ export class BasicComponent implements OnInit, OnDestroy {
 
   currenyConversionForm: FormGroup;
 
-  currencyTypeInUser: ICurrencryConversion["type"];
+  currencyTypeInUser: currencryConversionType = this.reportService
+    .currencryConversionInUse.type;
 
   constructor(
     private reportService: ReportService,
@@ -45,12 +46,17 @@ export class BasicComponent implements OnInit, OnDestroy {
     private loaderService: GlobalLoaderService,
     private _formBuilder: FormBuilder
   ) {
+    this.initializeCurrencyConversion();
     this.initializeForm();
+  }
+
+  private initializeCurrencyConversion() {
+    this.currencyTypeInUser = this.reportService.currencryConversionInUse.type;
   }
 
   private initializeForm() {
     this.currenyConversionForm = this._formBuilder.group({
-      type: [[this.currencyConversionList[0]]]
+      type: [[this.reportService.currencryConversionInUse]]
     });
   }
 
@@ -59,11 +65,8 @@ export class BasicComponent implements OnInit, OnDestroy {
       this.loaderService.showLoader();
 
       this.reportReq = reportCriteria;
-      // console.log(`reportCriteria`);
       this.reportService.reportResponse.subscribe(
         res => {
-          // console.log("got response");
-          // console.log({ ...res });
           this.loaderService.showLoader();
 
           if (res && (res as any[]).length > 0) {
@@ -89,9 +92,9 @@ export class BasicComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSelectingConversionType(type: ICurrencryConversion["type"]) {
+  onSelectingConversionType(type: ICurrencryConversion) {
     this.reportService.currencryConversionInUse = type;
-    this.currencyTypeInUser = type;
+    this.currencyTypeInUser = type.type;
   }
 
   setDataNotAvailable() {
@@ -234,7 +237,6 @@ export class BasicComponent implements OnInit, OnDestroy {
           }
 
           // if (keyName === "Others") {
-          //   // console.log(sum);
           // }
           result[keyName][years[j]["title"]] = sum;
         }
