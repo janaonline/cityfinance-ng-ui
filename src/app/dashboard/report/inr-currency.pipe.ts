@@ -34,6 +34,7 @@ export class InrCurrencyPipe implements PipeTransform {
     if (Math.round(absoluteValue / 1000)) {
       numberInString = this.formatNumber(absoluteValue);
     }
+    // console.log(absoluteValue, numberInString);
 
     if (valueToOperatte < 0) {
       return `(${numberInString})`;
@@ -42,7 +43,7 @@ export class InrCurrencyPipe implements PipeTransform {
   }
 
   private formatNumber(absoluteValue: number) {
-    const numberInString = absoluteValue + "";
+    const numbersWithin3Digits = absoluteValue + "";
     /*
       * IMPORTANT Do not change this to Math.round. That will mess with the value.
         Original VAlue = 123656.
@@ -52,20 +53,38 @@ export class InrCurrencyPipe implements PipeTransform {
 
      */
     const newNumber = parseInt(absoluteValue / 1000 + "", 10);
-    const stringNumber = (newNumber + "").replace(
+    const numberAfter3Digit = (newNumber + "").replace(
       /(\..*)$|(\d)(?=(\d{2})+(?!\d))/g,
       (digit, fract) => fract || digit + ","
     );
 
+    const indexOfDecimal = numbersWithin3Digits.indexOf(".");
+
+    if (indexOfDecimal === -1) {
+      return newNumber
+        ? numberAfter3Digit +
+            "," +
+            numbersWithin3Digits.substring(numbersWithin3Digits.length - 3)
+        : numbersWithin3Digits.substring(numbersWithin3Digits.length - 3);
+    }
+
+    /**
+     * You may wonder why we are doing indexOfDecimal + 2. It is so becasue we need to
+     * show the values only upto 2 decimal places. If in future we need to set the decimal
+     * values dynamically, then pass the decimal places within option object parameter
+     * and use that here.
+     */
     return newNumber
-      ? stringNumber + "," + numberInString.substring(numberInString.length - 3)
-      : numberInString.substring(numberInString.length - 3);
+      ? numberAfter3Digit +
+          "," +
+          numbersWithin3Digits.substring(indexOfDecimal - 3, indexOfDecimal + 3)
+      : numbersWithin3Digits.substring(indexOfDecimal - 3, indexOfDecimal + 3);
   }
 
   private getConvertedAmount(
     numberToConvert: number,
     option: ICurrencryConversion["type"]
   ) {
-    return parseInt(numberToConvert / option + "", 10);
+    return numberToConvert / option;
   }
 }
