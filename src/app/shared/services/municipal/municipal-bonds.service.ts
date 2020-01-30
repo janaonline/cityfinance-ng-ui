@@ -77,25 +77,33 @@ export class MunicipalBondsService {
     years: string[];
   }) {
     const list: IBondIssureItemResponse["data"] = [];
-    searchOption.ulbs.forEach(ulbName => {
-      if (searchOption.years && searchOption.years.length) {
-        searchOption.years.forEach(year => {
+    if (searchOption.ulbs && searchOption.ulbs.length) {
+      searchOption.ulbs.forEach(ulbName => {
+        if (searchOption.years && searchOption.years.length) {
+          searchOption.years.forEach(year => {
+            const ulbFound = this.AllBondIssuerItems.data.find(
+              item => item.ulb === ulbName && item.yearOfBondIssued === year
+            );
+            if (ulbFound) {
+              list.push(ulbFound);
+            }
+          });
+        } else {
           const ulbFound = this.AllBondIssuerItems.data.find(
-            item => item.ulb === ulbName && item.yearOfBondIssued === year
+            ulb => ulb.ulb === ulbName
           );
           if (ulbFound) {
             list.push(ulbFound);
           }
-        });
-      } else {
-        const ulbFound = this.AllBondIssuerItems.data.find(
-          ulb => ulb.ulb === ulbName
-        );
-        if (ulbFound) {
-          list.push(ulbFound);
         }
-      }
-    });
+      });
+    } else {
+      this.AllBondIssuerItems.data.filter(ulb => {
+        if (searchOption.years.find(year => year === ulb.yearOfBondIssued)) {
+          list.push(ulb);
+        }
+      });
+    }
     return list;
   }
 
