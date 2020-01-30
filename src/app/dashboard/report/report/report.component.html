@@ -240,7 +240,12 @@
   </div>
 
   <div class="modal-body">
-    <div class="row">
+    <div *ngIf="!(ulbs && ulbs.data)" style="display: block;  width: 80vw;">
+      <app-pre-loader style="display: block;  width: 100%;"></app-pre-loader>
+      <app-pre-loader style="display: block;  width: 100%;"></app-pre-loader>
+      <app-pre-loader style="display: block;  width: 100%;"></app-pre-loader>
+    </div>
+    <div class="row" *ngIf="ulbs && ulbs.data">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item col-md-2 stateULBName">
           <a

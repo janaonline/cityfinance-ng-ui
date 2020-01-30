@@ -13,6 +13,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AuthModule } from '../auth/auth.module';
 import { ExcelService } from '../dashboard/report/excel.service';
+import { PreLoaderComponent } from '../shared/components/pre-loader/pre-loader.component';
 import { LinkConverterPipe } from '../shared/pipes/linkConverter/link-converter.pipe';
 import { CreditRatingComponent } from './credit-rating.component';
 import { CreditRatingRouter } from './credit-rating.route';
@@ -44,6 +45,7 @@ import { ScaleComponent } from './scale/scale.component';
   ],
   declarations: [
     CreditRatingComponent,
+    PreLoaderComponent,
     ReportComponent,
     ScaleComponent,
     MunicipalBondComponent,
