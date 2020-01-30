@@ -31,11 +31,8 @@ export class InrCurrencyPipe implements PipeTransform {
       );
     }
     let numberInString = absoluteValue + "";
-    if (Math.round(absoluteValue / 1000)) {
-      numberInString = this.formatNumber(absoluteValue);
-    }
-    // console.log(absoluteValue, numberInString);
 
+    numberInString = this.formatNumber(absoluteValue);
     if (valueToOperatte < 0) {
       return `(${numberInString})`;
     }
@@ -60,6 +57,11 @@ export class InrCurrencyPipe implements PipeTransform {
 
     const indexOfDecimal = numbersWithin3Digits.indexOf(".");
 
+    // console.log(
+    //   `numbersWithin3Digits`,
+    //   numbersWithin3Digits,
+    //   numbersWithin3Digits.substring(indexOfDecimal - 3, indexOfDecimal + 3)
+    // );
     if (indexOfDecimal === -1) {
       return newNumber
         ? numberAfter3Digit +
