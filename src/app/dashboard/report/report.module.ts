@@ -7,8 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { PreLoaderComponent } from 'src/app/shared/components/pre-loader/pre-loader.component';
 
+import { SharedModule } from '../../shared/shared.module';
 import { BasicComponent } from './basic/basic.component';
 import { ComparativeUlbComponent } from './comparative-ulb/comparative-ulb.component';
 import { ExcelService } from './excel.service';
@@ -36,6 +36,7 @@ import { ReportComponent } from './report/report.component';
     MatInputModule,
     MatAutocompleteModule,
     MatFormFieldModule,
+    SharedModule,
     MatSlideToggleModule,
     ModalModule.forRoot()
   ],
@@ -45,7 +46,7 @@ import { ReportComponent } from './report/report.component';
     // IncomeExpenditureSummaryComponent,
     // BalanceSheetComponent,
     ReportComponent,
-    PreLoaderComponent,
+
     // CommonSizeComponent,
     ReportFooterComponent,
     BasicComponent,
