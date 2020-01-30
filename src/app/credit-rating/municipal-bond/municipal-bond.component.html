@@ -7,7 +7,14 @@
       class="row"
       style="position: relative; display: flex; align-items: center; margin-bottom: .5%;"
     >
+      <div *ngIf="!bondIssuerItemData" style="display: block;  width: 80vw;">
+        <app-pre-loader style="display: block;  width: 100%;"></app-pre-loader>
+        <app-pre-loader style="display: block;  width: 100%;"></app-pre-loader>
+        <app-pre-loader style="display: block;  width: 100%;"></app-pre-loader>
+      </div>
+
       <form
+        *ngIf="bondIssuerItemData && bondIssuerItemData.length"
         [formGroup]="filterForm"
         (ngSubmit)="onSubmittingFilterForm()"
         class="col-md-5 filterForm"
@@ -31,7 +38,10 @@
         <input type="submit" value="Search" class=" btn btn-primary" />
       </form>
 
-      <div *ngIf="bondIssuerItemData" class="col-md-1">
+      <div
+        *ngIf="bondIssuerItemData && bondIssuerItemData.length"
+        class="col-md-1"
+      >
         <a>
           <button class="right btn btn-primary" (click)="onClickDownload()">
             Download
@@ -40,7 +50,7 @@
       </div>
       <pagination-controls
         style="right: 0px; position: absolute;"
-        *ngIf="bondIssuerItemData"
+        *ngIf="bondIssuerItemData && bondIssuerItemData.length"
         id="foo"
         (pageChange)="setPage($event)"
         directionLinks="true"
