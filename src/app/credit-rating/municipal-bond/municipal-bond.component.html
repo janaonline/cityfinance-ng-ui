@@ -1,22 +1,19 @@
 <div class="common-container">
   <div class="container">
+    <h3 class="page-title text-center">
+      Municipal Bond Issuances
+    </h3>
     <div
       class="row"
-      style="position: relative; display: flex; align-items: center;"
+      style="position: relative; display: flex; align-items: center; margin-bottom: .5%;"
     >
-      <div class="col-md-4" style="width: fit-content;">
-        <h3 class="page-title" style="width: fit-content;">
-          Municipal Bond Issuances
-        </h3>
-      </div>
-
       <form
         [formGroup]="filterForm"
         (ngSubmit)="onSubmittingFilterForm()"
         class="col-md-5 filterForm"
       >
         <angular2-multiselect
-          style="width: 45%; margin-right: 2%;"
+          style="width: 55%; margin-right: 2%;"
           formControlName="ulbs"
           [data]="ulbFilteredByName"
           [settings]="ulbDropdownConfiguration"
@@ -25,7 +22,7 @@
         </angular2-multiselect>
 
         <angular2-multiselect
-          style="width: 45%;margin-right: 2%"
+          style="width: 35%;margin-right: 2%"
           formControlName="years"
           [data]="yearsAvailable"
           [settings]="yearsDropdownSettings"
@@ -34,20 +31,30 @@
         <input type="submit" value="Search" class=" btn btn-primary" />
       </form>
 
-      <div
-        *ngIf="bondIssuerItemData"
-        class="col-md-1"
-        style="float: right; position: absolute; right: 0px;"
-      >
+      <div *ngIf="bondIssuerItemData" class="col-md-1">
         <a>
           <button class="right btn btn-primary" (click)="onClickDownload()">
             Download
           </button>
         </a>
       </div>
+      <pagination-controls
+        style="right: 0px; position: absolute;"
+        *ngIf="bondIssuerItemData"
+        id="foo"
+        (pageChange)="setPage($event)"
+        directionLinks="true"
+        autoHide="true"
+        previousLabel="Previous"
+        nextLabel="Next"
+        screenReaderPaginationLabel="Pagination"
+        screenReaderPageLabel="page"
+        screenReaderCurrentLabel="You're on page"
+      >
+      </pagination-controls>
     </div>
 
-    <div class="row" style="overflow-x: auto;" *ngIf="paginatedbondIssuerItem">
+    <div class="row" *ngIf="paginatedbondIssuerItem">
       <div class="col-md-12 municipal-bond">
         <table accordion-heading id="tableHeadings">
           <thead>
@@ -101,19 +108,6 @@
           </accordion-group>
         </accordion>
       </div>
-      <pagination-controls
-        *ngIf="bondIssuerItemData"
-        id="foo"
-        (pageChange)="setPage($event)"
-        directionLinks="true"
-        autoHide="true"
-        previousLabel="Previous"
-        nextLabel="Next"
-        screenReaderPaginationLabel="Pagination"
-        screenReaderPageLabel="page"
-        screenReaderCurrentLabel="You're on page"
-      >
-      </pagination-controls>
     </div>
   </div>
 </div>
