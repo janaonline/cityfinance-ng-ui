@@ -92,7 +92,7 @@ export class MunicipalBondComponent implements OnInit {
   }) {
     this.bondIssuerItemData = datas.data;
     this.paginatedbondIssuerItem = this.sliceDataForCurrentView(datas.data);
-    this.totalCount = datas.total - 1;
+    this.totalCount = datas.total;
   }
 
   private onGettingULBResponseSuccess(response: IULBResponse) {
