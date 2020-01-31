@@ -69,7 +69,7 @@ export class MunicipalBondsService {
       (a, b) =>
         new Date(a.modifiedAt).getTime() - new Date(b.modifiedAt).getTime()
     );
-    return sorted.slice(0, quantity - 1);
+    return sorted.slice(0, quantity);
   }
 
   private filterBondIssueItem(searchOption?: {
