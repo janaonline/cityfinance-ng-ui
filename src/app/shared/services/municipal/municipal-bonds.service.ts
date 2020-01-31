@@ -108,8 +108,15 @@ export class MunicipalBondsService {
   }
 
   getULBS() {
-    return this._http.get<IULBResponse>(
-      `${environment.api.url}api/admin/v1/Bond/Ulbs`
-    );
+    return this._http
+      .get<IULBResponse>(`${environment.api.url}api/admin/v1/Bond/Ulbs`)
+      .pipe(
+        map(response => {
+          response.data = response.data.sort((a, b) =>
+            a.name > b.name ? 1 : -1
+          );
+          return response;
+        })
+      );
   }
 }

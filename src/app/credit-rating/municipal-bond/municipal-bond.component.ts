@@ -98,9 +98,9 @@ export class MunicipalBondComponent implements OnInit {
   private onGettingULBResponseSuccess(response: IULBResponse) {
     this.originalULBList = response.data;
     this.ulbFilteredByName = response.data;
-    this.yearsAvailable = this.getUniqueYearsFromULBS(
-      response.data
-    ).map(year => ({ name: year }));
+    this.yearsAvailable = this.getUniqueYearsFromULBS(response.data)
+      .sort((a, b) => (a > b ? -1 : 1))
+      .map(year => ({ name: year }));
   }
 
   private capitalizedName(originalName: string) {
