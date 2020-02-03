@@ -211,6 +211,12 @@ export class MunicipalBondComponent implements OnInit {
 
   private initializeFormListeners() {
     this.filterForm.controls["ulbs"].valueChanges.subscribe(newValue => {
+      if (!newValue.length) {
+        this.yearsAvailable = this.getUniqueYearsFromULBS(this.originalULBList)
+          .sort((a, b) => (+a > +b ? -1 : 1))
+          .map(year => ({ name: year }));
+        return;
+      }
       const uniqueYears = this.getUniqueYearsFromULBS(newValue);
       this.yearsAvailable = uniqueYears
         .sort((a, b) => (+a > +b ? -1 : 1))
