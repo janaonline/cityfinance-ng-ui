@@ -41,13 +41,22 @@
             style="width: 35%;margin-right: 2%"
             formControlName="years"
             [data]="yearsAvailable"
+            (onSelect)="onyearSelected()"
+            (onDeselect)="onyearSelected()"
             [settings]="yearsDropdownSettings"
           >
           </angular2-multiselect>
           <input type="submit" value="Search" class=" btn btn-primary" />
+          <button
+            class="right btn btn-primary"
+            (click)="onClickDownload()"
+            style="margin-left: 1%;"
+          >
+            Download
+          </button>
         </form>
 
-        <div
+        <!-- <div
           *ngIf="bondIssuerItemData && bondIssuerItemData.length"
           class="col-md-1"
         >
@@ -56,7 +65,7 @@
               Download
             </button>
           </a>
-        </div>
+        </div> -->
         <pagination-controls
           style="right: 0px; position: absolute;"
           *ngIf="bondIssuerItemData && bondIssuerItemData.length"

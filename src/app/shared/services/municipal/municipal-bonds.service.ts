@@ -76,7 +76,8 @@ export class MunicipalBondsService {
     ulbs: string[];
     years: string[];
   }) {
-    const list: IBondIssureItemResponse["data"] = [];
+    let list: IBondIssureItemResponse["data"] = [];
+
     if (searchOption.ulbs && searchOption.ulbs.length) {
       searchOption.ulbs.forEach(ulbName => {
         if (searchOption.years && searchOption.years.length) {
@@ -89,12 +90,9 @@ export class MunicipalBondsService {
             }
           });
         } else {
-          const ulbFound = this.AllBondIssuerItems.data.find(
+          list = this.AllBondIssuerItems.data.filter(
             ulb => ulb.ulb === ulbName
           );
-          if (ulbFound) {
-            list.push(ulbFound);
-          }
         }
       });
     } else {
