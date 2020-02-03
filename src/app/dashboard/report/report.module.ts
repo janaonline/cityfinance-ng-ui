@@ -5,6 +5,7 @@ import { MatDialogModule, MatInputModule } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
@@ -35,6 +36,7 @@ import { ReportComponent } from './report/report.component';
     AngularMultiSelectModule,
     MatInputModule,
     MatAutocompleteModule,
+    MatTooltipModule,
     MatFormFieldModule,
     SharedModule,
     MatSlideToggleModule,
