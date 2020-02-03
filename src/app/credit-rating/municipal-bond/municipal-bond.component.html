@@ -29,7 +29,7 @@
           class="col-md-5 filterForm"
         >
           <angular2-multiselect
-            style="width: 55%; margin-right: 2%;"
+            style="width: 70%; margin-right: 2%;"
             formControlName="ulbs"
             [data]="ulbFilteredByName"
             [settings]="ulbDropdownConfiguration"
@@ -43,6 +43,9 @@
             [data]="yearsAvailable"
             (onSelect)="onyearSelected()"
             (onDeselect)="onyearSelected()"
+            (onDeselectAll)="onyearSelected()"
+            (onSelectAll)="onyearSelected()"
+            (onClose)="onyearSelected()"
             [settings]="yearsDropdownSettings"
           >
           </angular2-multiselect>
@@ -111,8 +114,8 @@
         <accordion [closeOthers]="true" class="fixed-header" *ngIf="mainRows">
           <accordion-group
             class="table-responsive"
-            *ngFor="let row of object.keys(mainRows)"
-            [isOpen]="false"
+            *ngFor="let row of object.keys(mainRows); let i = index"
+            [isOpen]="i === 0 ? true : false"
           >
             <h4 accordion-heading class="text-capitalize">
               {{ formattedNamesMapping[row] }}
