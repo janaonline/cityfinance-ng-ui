@@ -92,7 +92,22 @@ export class BasicComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSelectingConversionType(type: ICurrencryConversion) {
+  /**
+   *
+   * IMPORTANT
+   * you may be wondering why here we are manually setting value on currenyConversionForm on null value?
+   * It is so because currently, angular multi-select dropdown does not provide any option
+   * to limit the minimum selection to 1. User can deselect all the values. But we have to provide
+   * a way to keep 1 value selected. This can be achieved by setting the value
+   * of the form control linked to it. Thus, we are doing so.
+   */
+  onSelectingConversionType(type: ICurrencryConversion | null) {
+    if (!type) {
+      this.currenyConversionForm.controls["type"].setValue([
+        this.reportService.currencryConversionInUse
+      ]);
+      return;
+    }
     this.reportService.currencryConversionInUse = type;
     this.currencyTypeInUser = type.type;
   }
