@@ -6,7 +6,7 @@ import { ICell, IIExcelInput } from '../../dashboard/report/models/excelFormat';
 import { MunicipalBondsService } from '../../shared/services/municipal/municipal-bonds.service';
 import { IBondIssuer } from './models/bondIssuerResponse';
 import { IBondIssuerItem, IBondIssureItemResponse } from './models/bondIssureItemResponse';
-import { IULBResponse } from './models/ulbsResponse';
+import { IULBResponse, ULB } from './models/ulbsResponse';
 
 // import {LinkConverterPipe } from '@angular/common'
 @Component({
@@ -16,12 +16,12 @@ import { IULBResponse } from './models/ulbsResponse';
 })
 export class MunicipalBondComponent implements OnInit {
   filterForm: FormGroup;
-  ulbFilteredByName: any[];
+  ulbFilteredByName: ULB[];
   originalULBList: IULBResponse["data"];
   yearsAvailable: { name: string }[] = [];
   yearsDropdownSettings = {
     singleSelection: false,
-    text: "Select Year/s",
+    text: "All Years",
     enableSearchFilter: false,
     badgeShowLimit: 1,
     showCheckbox: true,
@@ -32,7 +32,7 @@ export class MunicipalBondComponent implements OnInit {
   ulbDropdownConfiguration = {
     primaryKey: "name",
     singleSelection: false,
-    text: "Select ULB/s",
+    text: "All ULBs",
     enableSearchFilter: true,
     badgeShowLimit: 1,
     labelKey: "name",
@@ -223,21 +223,48 @@ export class MunicipalBondComponent implements OnInit {
         .map(year => ({ name: year }));
     });
 
-    this.filterForm.controls["years"].valueChanges.subscribe(yearList => {
-      if (
-        !this.filterForm.controls["ulbs"].value ||
-        !this.filterForm.controls["ulbs"].value.length
-      ) {
-        if (!yearList.length) {
-          this.ulbFilteredByName = this.originalULBList;
-        } else {
-          this.ulbFilteredByName = this.getULBHavingYears(
-            yearList,
-            this.originalULBList
-          );
-        }
-      }
-    });
+    // this.filterForm.controls["years"].valueChanges.subscribe(yearList => {
+    //   if (!yearList.length) {
+    //     this.ulbFilteredByName = this.originalULBList;
+    //   } else {
+    //     this.ulbFilteredByName = this.getULBHavingYears(
+    //       yearList,
+    //       this.originalULBList
+    //     );
+    //   }
+
+    //   const filteredSelectedULBS = (<ULB[]>(
+    //     this.filterForm.controls["ulbs"].value
+    //   )).filter(
+    //     ulb =>
+    //       !!this.ulbFilteredByName.find(
+    //         ulbToCheck => ulbToCheck.name === ulb.name
+    //       )
+    //   );
+    // });
+  }
+
+  onyearSelected() {
+    const yearList = this.filterForm.controls["years"].value;
+    if (!yearList.length) {
+      this.ulbFilteredByName = this.originalULBList;
+    } else {
+      this.ulbFilteredByName = this.getULBHavingYears(
+        yearList,
+        this.originalULBList
+      );
+    }
+
+    const filteredSelectedULBS = (<ULB[]>(
+      this.filterForm.controls["ulbs"].value
+    )).filter(
+      ulb =>
+        !!this.ulbFilteredByName.find(
+          ulbToCheck => ulbToCheck.name === ulb.name
+        )
+    );
+
+    this.filterForm.controls["ulbs"].setValue(filteredSelectedULBS);
   }
 
   private getULBHavingYears(
@@ -247,8 +274,8 @@ export class MunicipalBondComponent implements OnInit {
     return ulbList.filter(
       ulb =>
         ulb.years &&
-        yearList.some(
-          yearToFind => !!ulb.years.find(ulbYear => ulbYear === yearToFind.name)
+        yearList.some(yearToFind =>
+          ulb.years.some(ulbYear => ulbYear === yearToFind.name)
         )
     );
   }
