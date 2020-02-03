@@ -99,7 +99,7 @@ export class MunicipalBondComponent implements OnInit {
     this.originalULBList = response.data;
     this.ulbFilteredByName = response.data;
     this.yearsAvailable = this.getUniqueYearsFromULBS(response.data)
-      .sort((a, b) => (a > b ? -1 : 1))
+      .sort((a, b) => (+a > +b ? -1 : 1))
       .map(year => ({ name: year }));
   }
 
@@ -211,8 +211,16 @@ export class MunicipalBondComponent implements OnInit {
 
   private initializeFormListeners() {
     this.filterForm.controls["ulbs"].valueChanges.subscribe(newValue => {
+      if (!newValue.length) {
+        this.yearsAvailable = this.getUniqueYearsFromULBS(this.originalULBList)
+          .sort((a, b) => (+a > +b ? -1 : 1))
+          .map(year => ({ name: year }));
+        return;
+      }
       const uniqueYears = this.getUniqueYearsFromULBS(newValue);
-      this.yearsAvailable = uniqueYears.map(year => ({ name: year }));
+      this.yearsAvailable = uniqueYears
+        .sort((a, b) => (+a > +b ? -1 : 1))
+        .map(year => ({ name: year }));
     });
 
     this.filterForm.controls["years"].valueChanges.subscribe(yearList => {

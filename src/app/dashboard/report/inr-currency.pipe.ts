@@ -86,7 +86,7 @@ export class InrCurrencyPipe implements PipeTransform {
   private getConvertedAmount(
     numberToConvert: number,
     option: ICurrencryConversion["type"]
-  ) {
-    return numberToConvert / option;
+  ): number {
+    return +(numberToConvert / option).toFixed(2);
   }
 }

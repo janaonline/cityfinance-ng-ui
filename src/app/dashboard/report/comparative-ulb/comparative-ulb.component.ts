@@ -9,9 +9,9 @@ import { ReportHelperService } from '../report-helper.service';
 import { ReportService } from '../report.service';
 
 @Component({
-  selector: 'app-comparative-ulb',
-  templateUrl: './comparative-ulb.component.html',
-  styleUrls: ['./comparative-ulb.component.scss']
+  selector: "app-comparative-ulb",
+  templateUrl: "./comparative-ulb.component.html",
+  styleUrls: ["./comparative-ulb.component.scss"]
 })
 export class ComparativeUlbComponent implements OnInit {
   report: any = [];
@@ -32,18 +32,19 @@ export class ComparativeUlbComponent implements OnInit {
   currencyConversionList = currencryConversionOptions;
 
   conversionDropdownConfig = {
-    primaryKey: 'type',
+    primaryKey: "type",
     singleSelection: true,
-    text: 'Select conversion',
+    text: "Select conversion",
     enableSearchFilter: false,
     badgeShowLimit: 1,
-    labelKey: 'name',
-    showCheckbox: true
+    labelKey: "name",
+    showCheckbox: true,
+    classes: "noCrossSymbol"
   };
 
   currenyConversionForm: FormGroup;
 
-  currencyTypeInUser: ICurrencryConversion['type'];
+  currencyTypeInUser: ICurrencryConversion["type"];
 
   constructor(
     private reportService: ReportService,
@@ -78,7 +79,7 @@ export class ComparativeUlbComponent implements OnInit {
             this.years = [];
             this.response = res;
 
-            if (this.reportReq.reportGroup == 'Balance Sheet') {
+            if (this.reportReq.reportGroup == "Balance Sheet") {
               this.report = this.reportHelper.getBSReportLookup();
             } else {
               this.report = this.reportHelper.getIEReportLookup();
@@ -110,7 +111,22 @@ export class ComparativeUlbComponent implements OnInit {
     });
   }
 
-  onSelectingConversionType(type: ICurrencryConversion) {
+  /**
+   *
+   * IMPORTANT
+   * you may be wondering why here we are manually setting value on currenyConversionForm on null value?
+   * It is so because currently, angular multi-select dropdown does not provide any option
+   * to limit the minimum selection to 1. User can deselect all the values. But we have to provide
+   * a way to keep 1 value selected. This can be achieved by setting the value
+   * of the form control linked to it. Thus, we are doing so.
+   */
+  onSelectingConversionType(type: ICurrencryConversion | null) {
+    if (!type) {
+      this.currenyConversionForm.controls["type"].setValue([
+        this.reportService.currencryConversionInUse
+      ]);
+      return;
+    }
     this.reportService.currencryConversionInUse = type;
     this.currencyTypeInUser = type.type;
   }
@@ -125,7 +141,7 @@ export class ComparativeUlbComponent implements OnInit {
       const ulb = this.reportReq.ulbList[i];
       // if(this.report[item.code] && item.ulb_code && item.budget.length > 0){
       for (let j = 0; j < this.reportReq.years.length; j++) {
-        const key = ulb.code + '_' + this.reportReq.years[j];
+        const key = ulb.code + "_" + this.reportReq.years[j];
         this.years.push({
           title: key,
           caption: ulb.name,
@@ -136,14 +152,14 @@ export class ComparativeUlbComponent implements OnInit {
         if (j > 0 && this.reportReq.isComparative) {
           const comparativeKey =
             ulb.code +
-            '_' +
+            "_" +
             this.reportReq.years[j - 1] +
-            '_' +
+            "_" +
             this.reportReq.years[j];
           this.years.push({
             title: comparativeKey,
-            caption: '%',
-            state: 'Comparision',
+            caption: "%",
+            state: "Comparision",
             isComparative: true
           });
         }
@@ -158,7 +174,7 @@ export class ComparativeUlbComponent implements OnInit {
         const ulb1 = this.reportReq.ulbList[0];
         const ulb2 = this.reportReq.ulbList[j];
         // if(this.report[item.code] && item.ulb_code && item.budget.length > 0){
-        const key = ulb2.code + '_' + year;
+        const key = ulb2.code + "_" + year;
         this.years.push({
           title: key,
           caption: ulb2.name,
@@ -167,11 +183,11 @@ export class ComparativeUlbComponent implements OnInit {
         });
 
         if (j > 0 && this.reportReq.isComparative) {
-          const comparativeKey = ulb1.code + '_' + ulb2.code + '_' + year;
+          const comparativeKey = ulb1.code + "_" + ulb2.code + "_" + year;
           this.years.push({
             title: comparativeKey,
-            caption: '%',
-            state: 'Comparision',
+            caption: "%",
+            state: "Comparision",
             isComparative: true
           });
         }
@@ -194,7 +210,7 @@ export class ComparativeUlbComponent implements OnInit {
       const item = result[i];
       if (this.report[item.code] && item.ulb_code && item.budget.length > 0) {
         for (let j = 0; j < item.budget.length; j++) {
-          const key = item.ulb_code + '_' + item.budget[j].year;
+          const key = item.ulb_code + "_" + item.budget[j].year;
           if (
             this.report[item.code][key] === undefined ||
             this.report[item.code][key] === null
@@ -217,17 +233,17 @@ export class ComparativeUlbComponent implements OnInit {
   populateCalcFields(result, years) {
     let calcFields = [];
     if (
-      this.reportReq.reportGroup == 'Balance Sheet' &&
-      this.reportReq.type.indexOf('Summary') > -1
+      this.reportReq.reportGroup == "Balance Sheet" &&
+      this.reportReq.type.indexOf("Summary") > -1
     ) {
       // BS Summary
       this.reportKeys = this.reportHelper.getBSSummaryReportMasterKeys();
       calcFields = this.reportHelper.getBSSummaryCalcFields();
-    } else if (this.reportReq.reportGroup == 'Balance Sheet') {
+    } else if (this.reportReq.reportGroup == "Balance Sheet") {
       // BS Detailed
       this.reportKeys = this.reportHelper.getBSReportMasterKeys();
       calcFields = this.reportHelper.getBSCalcFields();
-    } else if (this.reportReq.type.indexOf('Summary') > -1) {
+    } else if (this.reportReq.type.indexOf("Summary") > -1) {
       // IE Summary
       this.reportKeys = this.reportHelper.getIESummaryMasterKeys();
       calcFields = this.reportHelper.getIESummaryCalcFields();
@@ -241,7 +257,7 @@ export class ComparativeUlbComponent implements OnInit {
       const keyName = calcFields[i].keyName;
       result[keyName] = { line_item: calcFields[i].title, isBold: true };
       if (calcFields[i].code) {
-        result[keyName]['code'] = calcFields[i].code;
+        result[keyName]["code"] = calcFields[i].code;
         result[keyName].isBold = false;
       }
       if (calcFields[i].isCalc) {
@@ -274,10 +290,10 @@ export class ComparativeUlbComponent implements OnInit {
             for (let k = 0; k < addFields.length; k++) {
               if (
                 result[addFields[k]] &&
-                result[addFields[k]][years[j]['title']]
+                result[addFields[k]][years[j]["title"]]
               ) {
                 // if amount available for specified year then add them
-                sum = sum + parseFloat(result[addFields[k]][years[j]['title']]);
+                sum = sum + parseFloat(result[addFields[k]][years[j]["title"]]);
               }
 
               if (
@@ -293,12 +309,12 @@ export class ComparativeUlbComponent implements OnInit {
           if (subtractFields && subtractFields.length > 0) {
             if (
               result[subtractFields[0]] &&
-              result[subtractFields[0]][years[j]['title']]
+              result[subtractFields[0]][years[j]["title"]]
             ) {
-              sum = sum - result[subtractFields[0]][years[j]['title']];
+              sum = sum - result[subtractFields[0]][years[j]["title"]];
             }
           }
-          result[keyName][years[j]['title']] = sum;
+          result[keyName][years[j]["title"]] = sum;
         }
       }
     }
@@ -314,7 +330,7 @@ export class ComparativeUlbComponent implements OnInit {
 
   setDataNotAvailable() {
     this.years.forEach(year => {
-      if (year.caption === '%') {
+      if (year.caption === "%") {
         return;
       }
 
@@ -325,10 +341,10 @@ export class ComparativeUlbComponent implements OnInit {
         this.reportKeys.forEach(key => {
           const original = { ...this.report[key] };
           original[year.title] = null;
-          if (!original['allNullYear']) {
-            original['allNullYear'] = { [year.title]: true };
+          if (!original["allNullYear"]) {
+            original["allNullYear"] = { [year.title]: true };
           } else {
-            original['allNullYear'][year.title] = true;
+            original["allNullYear"][year.title] = true;
           }
           this.report[key] = { ...original };
         });
@@ -353,7 +369,7 @@ export class ComparativeUlbComponent implements OnInit {
 
     const resultKeys = Object.keys(result);
     for (let i = 0; i < resultKeys.length; i++) {
-      if (['Debt', 'Tax'].indexOf(result[resultKeys[i]].head_of_account) > -1) {
+      if (["Debt", "Tax"].indexOf(result[resultKeys[i]].head_of_account) > -1) {
         // ignore Debt and Tax account types
         continue;
       }
@@ -366,10 +382,10 @@ export class ComparativeUlbComponent implements OnInit {
 
         for (let k = 0; k < this.reportReq.years.length; k++) {
           const keyCode =
-            ulb1.code + '_' + ulb2.code + '_' + this.reportReq.years[k];
+            ulb1.code + "_" + ulb2.code + "_" + this.reportReq.years[k];
 
-          const ulbN1 = ulb1.code + '_' + this.reportReq.years[k];
-          const ulbN2 = ulb2.code + '_' + this.reportReq.years[k];
+          const ulbN1 = ulb1.code + "_" + this.reportReq.years[k];
+          const ulbN2 = ulb2.code + "_" + this.reportReq.years[k];
           if (item[ulbN1] === undefined) {
             item[ulbN1] = 0;
           }
@@ -400,7 +416,7 @@ export class ComparativeUlbComponent implements OnInit {
 
     const resultKeys = Object.keys(result);
     for (let i = 0; i < resultKeys.length; i++) {
-      if (['Debt', 'Tax'].indexOf(result[resultKeys[i]].head_of_account) > -1) {
+      if (["Debt", "Tax"].indexOf(result[resultKeys[i]].head_of_account) > -1) {
         // ignore Debt and Tax account types
         continue;
       }
@@ -413,13 +429,13 @@ export class ComparativeUlbComponent implements OnInit {
         for (let k = 1; k < this.reportReq.years.length; k++) {
           const keyCode =
             ulb.code +
-            '_' +
+            "_" +
             this.reportReq.years[k - 1] +
-            '_' +
+            "_" +
             this.reportReq.years[k];
 
-          const ulbN1 = ulb.code + '_' + this.reportReq.years[k - 1];
-          const ulbN2 = ulb.code + '_' + this.reportReq.years[k];
+          const ulbN1 = ulb.code + "_" + this.reportReq.years[k - 1];
+          const ulbN2 = ulb.code + "_" + this.reportReq.years[k];
 
           item[keyCode] = this.calculateDiff(item[ulbN1], item[ulbN2]);
         }
@@ -439,8 +455,8 @@ export class ComparativeUlbComponent implements OnInit {
   }
 
   download() {
-    const reportTable = document.querySelector('table').outerHTML;
-    const title = this.reportReq.type + ' ' + this.reportReq.reportGroup;
+    const reportTable = document.querySelector("table").outerHTML;
+    const title = this.reportReq.type + " " + this.reportReq.reportGroup;
     let currencyConversionName =
       this.currenyConversionForm.value.type &&
       this.currenyConversionForm.value.type[0] &&
@@ -448,14 +464,14 @@ export class ComparativeUlbComponent implements OnInit {
         ? this.currenyConversionForm.value.type[0].name
         : null;
     if (currencyConversionName) {
-      currencyConversionName = document.getElementById('currencyWarning')
+      currencyConversionName = document.getElementById("currencyWarning")
         .textContent;
     }
-    this.excelService.transformTableToExcelData(title, reportTable, 'IE', {
+    this.excelService.transformTableToExcelData(title, reportTable, "IE", {
       currencyConversionName
     });
 
-    this.reportService.addLogByToken('Income-Expenditure');
+    this.reportService.addLogByToken("Income-Expenditure");
   }
 
   ngOnDestroy() {
