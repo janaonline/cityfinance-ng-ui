@@ -218,30 +218,19 @@ export class MunicipalBondComponent implements OnInit {
         return;
       }
       const uniqueYears = this.getUniqueYearsFromULBS(newValue);
+      let yearsSelected = this.filterForm.controls["years"].value;
+      if (yearsSelected) {
+        yearsSelected = yearsSelected.filter(yearAlreadySelected =>
+          uniqueYears.some(
+            yearToCheck => yearToCheck === yearAlreadySelected.name
+          )
+        );
+        this.filterForm.controls["years"].setValue(yearsSelected);
+      }
       this.yearsAvailable = uniqueYears
         .sort((a, b) => (+a > +b ? -1 : 1))
         .map(year => ({ name: year }));
     });
-
-    // this.filterForm.controls["years"].valueChanges.subscribe(yearList => {
-    //   if (!yearList.length) {
-    //     this.ulbFilteredByName = this.originalULBList;
-    //   } else {
-    //     this.ulbFilteredByName = this.getULBHavingYears(
-    //       yearList,
-    //       this.originalULBList
-    //     );
-    //   }
-
-    //   const filteredSelectedULBS = (<ULB[]>(
-    //     this.filterForm.controls["ulbs"].value
-    //   )).filter(
-    //     ulb =>
-    //       !!this.ulbFilteredByName.find(
-    //         ulbToCheck => ulbToCheck.name === ulb.name
-    //       )
-    //   );
-    // });
   }
 
   onyearSelected() {
