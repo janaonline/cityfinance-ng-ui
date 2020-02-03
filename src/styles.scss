@@ -45,6 +45,12 @@
 
 // Scroll Bar UI Ends here
 
+// For angular 2 multi select dropdown
+::ng-deep .noCrossSymbol .c-angle-down svg,
+::ng-deep .noCrossSymbol .c-angle-up svg {
+  fill: white !important;
+}
+
 html,
 body {
   margin: 0;
@@ -587,64 +593,69 @@ img.align-center {
   margin-top: 5rem !important;
 }
 
-.mx-2{
+.mx-2 {
   margin-left: 2rem;
   margin-right: 2rem;
 }
 
-.text-left{
+.text-left {
   text-align: left !important;
 }
 
-.text-right{
+.text-right {
   text-align: right !important;
 }
 
-.mat-button, .mat-raised-button{
-  background-color:#ffc500;
+.mat-button,
+.mat-raised-button {
+  background-color: #ffc500;
   color: white;
-} 
+}
 
-.mat-form-field-flex{
+.mat-form-field-flex {
   border: 1px solid rgb(71, 69, 69);
   padding: 3px 5px;
   border-radius: 2px;
 }
 
-.mat-form-field-infix{
+.mat-form-field-infix {
   border-top: unset !important;
 }
 
-.label{
+.label {
   margin-top: -2% !important;
 }
 
-.mat-form-field-appearance-legacy .mat-form-field-label{
+.mat-form-field-appearance-legacy .mat-form-field-label {
   top: 16px;
   margin-top: 1%;
 }
 
-.mat-form-field-label-wrapper{
+.mat-form-field-label-wrapper {
   top: -14px;
 }
 
-.h-100{
+.h-100 {
   height: 87vh;
 }
 
-#mapid > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div > a {
+#mapid
+  > div.leaflet-control-container
+  > div.leaflet-bottom.leaflet-right
+  > div
+  > a {
   display: none;
 }
 
 .tooltip-custom {
   background: #000000bd;
-  color:white;
+  color: white;
   padding: 0 5px;
   border: none !important;
   overflow-wrap: break-word !important;
 }
 
-.tooltip-custom-1{
+.tooltip-custom-1 {
   background: #000000bd;
   color: white;
   border: none !important;

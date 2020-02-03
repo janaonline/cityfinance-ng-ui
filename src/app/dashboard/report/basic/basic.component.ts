@@ -31,7 +31,8 @@ export class BasicComponent implements OnInit, OnDestroy {
     enableSearchFilter: false,
     badgeShowLimit: 1,
     labelKey: "name",
-    showCheckbox: true
+    showCheckbox: true,
+    classes: "noCrossSymbol"
   };
 
   currenyConversionForm: FormGroup;

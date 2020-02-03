@@ -38,7 +38,8 @@ export class ComparativeUlbComponent implements OnInit {
     enableSearchFilter: false,
     badgeShowLimit: 1,
     labelKey: "name",
-    showCheckbox: true
+    showCheckbox: true,
+    classes: "noCrossSymbol"
   };
 
   currenyConversionForm: FormGroup;

@@ -60,3 +60,8 @@ td {
   visibility: hidden;
   pointer-events: none;
 }
+
+::ng-deep .noCrossSymbol .c-angle-down svg,
+::ng-deep .noCrossSymbol .c-angle-up svg {
+  fill: white !important;
+}
