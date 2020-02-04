@@ -90,9 +90,12 @@ export class MunicipalBondsService {
             }
           });
         } else {
-          list = this.AllBondIssuerItems.data.filter(
+          const ulbFound = this.AllBondIssuerItems.data.filter(
             ulb => ulb.ulb === ulbName
           );
+          if (ulbFound.length) {
+            list = list.concat(ulbFound);
+          }
         }
       });
     } else {
