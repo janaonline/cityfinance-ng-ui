@@ -173,6 +173,8 @@
           [data]="yearLookup"
           [settings]="yearsDropdownSettings"
           (onClose)="onDateSelectionClose($event)"
+          (onSelect)="onDateSelectionClose($event)"
+          (onDeSelect)="onDateSelectionClose($event)"
           (onDeSelectAll)="resetPopupValues() || (ulbTypeSelected = 'other')"
         >
         </angular2-multiselect>
