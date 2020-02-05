@@ -20,9 +20,7 @@
         ></a>
         <ul class="dropdown-menu">
           <li routerLinkActive="active">
-            <a [routerLink]="['/dashboard', 'report']"
-              >Annual Financial Statements</a
-            >
+            <a (click)="goToReportPage()">Annual Financial Statements</a>
           </li>
           <li>
             <a [routerLink]="['/dashboard', 'financial-information']"
