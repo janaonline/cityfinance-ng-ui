@@ -12,6 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { HomeTabViewComponent } from './home/home-tab-view/home-tab-view.component';
 
 // import { GridComponent } from './home/grid/grid.component';
 @NgModule({
@@ -32,7 +33,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
     HomeComponent,
     HomeHeaderComponent,
     StatisticsComponent,
-    HeatMapComponent
+    HeatMapComponent,
+    HomeTabViewComponent
   ],
   exports: [HomeHeaderComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

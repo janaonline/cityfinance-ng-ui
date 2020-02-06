@@ -1,13 +1,18 @@
-.navbar{
-    border-radius: 0px;
-    background-color: blue;
+.navbar {
+  border-radius: 0px;
+  background-color: blue;
 
-    a, .navbar-brand{
-        color: white;
-    }
+  a, .navbar-brand {
+    color: white;
+  }
 
-    .nav>li>a:focus, .nav>li>a:hover {
-        text-decoration: none;
-        background-color: #03A9F4;
-    }
+  .nav > li > a:focus, .nav > li > a:hover {
+    text-decoration: none;
+    background-color: #03A9F4;
+  }
+
+}
+
+.position-sticky {
+  position: sticky;
 }
