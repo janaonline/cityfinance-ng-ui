@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -6,8 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home-tab-view.component.scss']
 })
 export class HomeTabViewComponent implements OnInit {
+  tabIndex: any = 0;
 
-  constructor() { }
+  tabIndexChangeHandler(event): void {
+    this.tabIndex = event;
+  }
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
