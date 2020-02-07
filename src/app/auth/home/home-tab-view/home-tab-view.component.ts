@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {DropdownSettings} from 'angular2-multiselect-dropdown/lib/multiselect.interface';
+import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
 
 
 @Component({
@@ -15,7 +16,8 @@ export class HomeTabViewComponent implements OnInit {
     {id: '2016-17', itemName: '2016-17'},
     {id: '2017-18', itemName: '2017-18'}
   ];
-  yearsDropdownSettings = {text: 'Select Years', badgeShowLimit: 1,};
+  yearsDropdownSettings = {text: 'Select Years', primaryKey: 'id', badgeShowLimit: 1};
+
 
   commonTableHeaders = [
     {title: 'Population Category'},
@@ -27,24 +29,26 @@ export class HomeTabViewComponent implements OnInit {
     {title: 'Max. Own Revenue'}
 
   ];
-  yearForm: any;
+  yearForm: FormGroup;
 
   ulbTypeSelected: string;
 
   tabIndexChangeHandler(event): void {
     this.tabIndex = event;
+    this.fetchData();
 
 
   }
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private dashboardService: DashboardService) {
     this.yearForm = formBuilder.group({
-      years: [[]]
+      years: [[this.yearLookup[0]]]
     });
 
   }
 
   ngOnInit() {
+    this.fetchData();
   }
 
   onDropdownSelect(event: any) {
@@ -62,5 +66,34 @@ export class HomeTabViewComponent implements OnInit {
 
   onDropdownClose(event: any) {
     console.log(event);
+  }
+
+  private fetchUlBsData(ulbIdsArray: string[]) {
+    for (let ulb of ulbIdsArray) {
+      this.dashboardService.fetchULBData(ulb).subscribe(response => {
+        console.log(response);
+      });
+    }
+  }
+
+  private fetchData() {
+    switch (this.tabIndex) {
+      case 0:
+        if (this.yearForm.controls['years'].value.length) {
+          const yearsArray = this.yearForm.controls['years'].value;
+          for (let year of yearsArray) {
+            this.dashboardService.fetchDependencyOwnRevenueData('3232').subscribe(response => {
+              console.log(response);
+            });
+          }
+        }
+        break;
+      case 1:
+
+        break;
+      case  2:
+        break;
+    }
+
   }
 }
