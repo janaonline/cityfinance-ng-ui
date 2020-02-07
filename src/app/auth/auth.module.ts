@@ -13,18 +13,20 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { HomeTabViewComponent } from './home/home-tab-view/home-tab-view.component';
+import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
 
 // import { GridComponent } from './home/grid/grid.component';
 @NgModule({
-  imports: [
-    CommonModule, 
-    AuthRouter, 
-    ReactiveFormsModule, 
-    FormsModule,
-    CfChartsModule,
-    AngularMaterialModule,
-    CommonModule
-  ],
+    imports: [
+        CommonModule,
+        AuthRouter,
+        ReactiveFormsModule,
+        FormsModule,
+        CfChartsModule,
+        AngularMaterialModule,
+        CommonModule,
+        AngularMultiSelectModule
+    ],
   providers: [AuthService],
   declarations: [
     LoginComponent,

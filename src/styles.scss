@@ -7,6 +7,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
+
 .cdk-overlay-connected-position-bounding-box,
 .cdk-overlay-pane,
 .cdk-global-overlay-wrapper,
@@ -295,11 +296,11 @@ img.align-center {
     // background-color: #d3d3d3;
     padding: 5px 10px;
     -webkit-transition: color 0.15s ease-in-out,
-      background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-      box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
-      -webkit-box-shadow 0.15s ease-in-out;
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    -webkit-box-shadow 0.15s ease-in-out;
   }
 }
 
@@ -569,6 +570,7 @@ img.align-center {
 .d-flex {
   display: flex !important;
 }
+
 .justify-content-center {
   justify-content: center !important;
 }
@@ -640,10 +642,10 @@ img.align-center {
 }
 
 #mapid
-  > div.leaflet-control-container
-  > div.leaflet-bottom.leaflet-right
-  > div
-  > a {
+> div.leaflet-control-container
+> div.leaflet-bottom.leaflet-right
+> div
+> a {
   display: none;
 }
 
@@ -662,4 +664,33 @@ img.align-center {
   height: 20px;
   padding: 0 5px;
   margin-right: 2% !important;
+}
+
+.d-inline-flex {
+  display: inline-flex !important;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.px-1 {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.border-bottom-0 {
+  border-bottom: none !important;
+}
+
+.border-1 {
+  border: 1px solid grey;
+}
+
+.p-0 {
+  padding: 0 !important;
+}
+
+.m-0 {
+  margin: 0 !important;
 }
