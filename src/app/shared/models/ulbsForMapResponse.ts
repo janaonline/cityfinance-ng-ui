@@ -8,6 +8,7 @@ export interface IULBWithPopulationResponse {
 
 export interface ULBWithMapData {
   population: number;
+  area: number;
   location: Location;
   _id: string;
   state: State;

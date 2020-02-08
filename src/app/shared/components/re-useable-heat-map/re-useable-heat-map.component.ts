@@ -53,6 +53,9 @@ export class ReUseableHeatMapComponent implements OnInit {
   });
 
   mouseHoverOnState: IStateULBCovered;
+  mouseHoveredOnULB: any;
+
+  currentStateInView: IStateULBCovered;
 
   ngOnInit() {}
 
@@ -293,6 +296,7 @@ export class ReUseableHeatMapComponent implements OnInit {
     if (!stateFound) {
       return false;
     }
+    this.currentStateInView = stateFound;
     this.ulbsOfSelectedState = this.allULBSList.filter(
       ulb => ulb.state === stateFound._id
     );
@@ -302,7 +306,6 @@ export class ReUseableHeatMapComponent implements OnInit {
         parseFloat(ulb.location.lat) !== NaN &&
         parseFloat(ulb.location.lng) !== NaN
     );
-    // ulbsWithCoordinates[0].location = <any>{ ...mapClickEvent.latlng };
     const centerLatLngOfState = this.getCentroid(
       ulbsWithCoordinates.map(ulb => [+ulb.location.lat, +ulb.location.lng])
     );
@@ -319,15 +322,16 @@ export class ReUseableHeatMapComponent implements OnInit {
       type: "FeatureCollection",
       features: filteredDistricts
     };
+    const dataPointsForMarker = ulbsWithCoordinates.map(ulb => ({
+      ...ulb.location,
+      name: ulb.name,
+      area: ulb.area,
+      population: ulb.population
+    }));
     this.resetULBsSelected();
     this.createDistrictMap(newObj, {
       center: { lat: centerLatLngOfState[0], lng: centerLatLngOfState[1] },
-      dataPoints: [
-        {
-          ...ulbsWithCoordinates[0].location,
-          name: ulbsWithCoordinates[0].name
-        }
-      ]
+      dataPoints: [...dataPointsForMarker]
     });
   }
 
@@ -341,7 +345,7 @@ export class ReUseableHeatMapComponent implements OnInit {
     const newElement = document.createElement("div");
     newElement.classList.add("miniMapOverlay");
     element.appendChild(newElement);
-    console.log("converted to miniMap");
+
     return true;
   }
 
@@ -349,32 +353,48 @@ export class ReUseableHeatMapComponent implements OnInit {
     districtGeoJSON,
     options: {
       center: ILeafletStateClickEvent["latlng"];
-      dataPoints: { lat: string; lng: string; name: string }[];
+      dataPoints: {
+        lat: string;
+        lng: string;
+        name: string;
+        area: number;
+        population: number;
+      }[];
     }
   ) {
     this.clearDistrictMapContainer();
 
     setTimeout(() => {
       const districtMap = L.map("districtMapId", {
-        scrollWheelZoom: false,
+        scrollWheelZoom: true,
+        fadeAnimation: true,
         dragging: false,
-        minZoom: 6,
-        maxZoom: 6,
-        zoomControl: false,
+        minZoom: 4.2,
+        maxZoom: 5.5,
+        zoomControl: true,
         doubleClickZoom: false
-      }).setView([options.center.lat, options.center.lng], 6);
+      }).setView([options.center.lat, options.center.lng], 5.5);
 
       const districtLayer = L.geoJSON(districtGeoJSON, {
         style: this.stateColorStyle
       }).addTo(districtMap);
 
       if (districtLayer) {
-        this.nationalLevelMap.fitBounds(districtLayer.getBounds());
+        districtMap.fitBounds(districtLayer.getBounds());
       }
 
       options.dataPoints.forEach(dataPoint => {
-        this.createDistrictMarker({ ...dataPoint, icon: this.blueIcon }).addTo(
-          districtMap
+        const marker = this.createDistrictMarker({
+          ...dataPoint,
+          icon: this.blueIcon
+        }).addTo(districtMap);
+        marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
+        marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
+        marker.on(
+          "click",
+          values =>
+            this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker),
+          this
         );
       });
     }, 0);
@@ -388,26 +408,15 @@ export class ReUseableHeatMapComponent implements OnInit {
     lat: string;
     lng: string;
     name: string;
+    area: number;
+    population: number;
     icon: L.Icon<L.IconOptions>;
   }) {
     const marker = L.marker([+dataPoint.lat, +dataPoint.lng], {
       icon: dataPoint.icon,
       interactive: true,
       bubblingMouseEvents: true
-    })
-      .bindTooltip(`<p> ${dataPoint.name} </p>`, {
-        className: "tooltip-custom-1",
-        opacity: 1,
-        permanent: false,
-        direction: "top",
-        offset: [0, -20]
-      })
-      .on(
-        "click",
-        values =>
-          this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker),
-        this
-      );
+    });
     return marker;
   }
 
@@ -494,8 +503,8 @@ export class ReUseableHeatMapComponent implements OnInit {
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
-    class="h-60"
-    style="background: white;z-index: 8; display: inline-block; width: 100%;"
+    class="h-60 col-sm-12"
+    style="background: white;z-index: 8; display: inline-block; width: 100%;height: 60vh"
   ></div>`;
   }
 }

@@ -11,6 +11,13 @@
 </p>
 
 <div class="col-sm-5 stateMapContainer" id="ulbMap">
+  <h5 style="position: absolute;z-index: 9;padding-left: 1%;">
+    {{
+      currentStateInView
+        ? currentStateInView.name
+        : "Data Availability for India"
+    }}
+  </h5>
   <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
     <app-pre-loader></app-pre-loader>
     <app-pre-loader></app-pre-loader>
@@ -55,6 +62,20 @@
           {{ mouseHoverOnState.coveredUlbCount }} out of
           {{ mouseHoverOnState.totalUlbs }}
         </span>
+      </span>
+    </section>
+
+    <section class="regionalDetails col-sm-12" *ngIf="mouseHoveredOnULB">
+      <span><span class="bold">ULB:</span> {{ mouseHoveredOnULB.name }}</span>
+      <span>
+        <span class="bold">Area:</span>
+        {{ mouseHoveredOnULB.area }}
+      </span>
+      <span>
+        <span class="bold">
+          Population:
+        </span>
+        {{ mouseHoveredOnULB.population }}
       </span>
     </section>
   </div>
