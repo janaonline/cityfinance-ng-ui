@@ -64,6 +64,7 @@ div.miniMap {
   position: absolute;
   right: 0px;
   top: 1%;
+  width: 40%;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
@@ -77,10 +78,15 @@ div.miniMap {
 
 .regionalDetails {
   background: white;
-  border: 1px solid black;
+  border: 0.1px solid rgb(134, 134, 134);
+  border-radius: 5px;
   position: relative;
   display: flex;
   flex-direction: column;
+  padding: 1% 2%;
+  box-shadow: 1px 4px 5px 3px #e4e0e0;
+  transform: scale(0.8);
+  transition: 1s all;
 }
 
 .bold {

@@ -125,6 +125,7 @@ export class ReUseableHeatMapComponent implements OnInit {
       style: this.stateColorStyle
     }).addTo(this.nationalLevelMap);
     this.createLegendsForNationalLevelMap();
+    this.createControls(this.nationalLevelMap);
 
     if (stateLayer) {
       this.nationalLevelMap.fitBounds(stateLayer.getBounds());
@@ -162,14 +163,13 @@ export class ReUseableHeatMapComponent implements OnInit {
       layer.setStyle({
         fillOpacity: 1,
         fillColor: this.getColorBasedOnPercentage(count),
-        weight: -1,
-        color: "#cccccc"
+        weight: -1
       });
 
       layer.on({
         mouseover: () => this.createTooltip(layer, stateLayer),
-        click: (args: ILeafletStateClickEvent) => this.onClickingState(args)
-        // mouseout: () => (this.mouseHoverOnState = null)
+        click: (args: ILeafletStateClickEvent) => this.onClickingState(args),
+        mouseout: () => (this.mouseHoverOnState = null)
       });
       coords = [];
     });
@@ -256,6 +256,29 @@ export class ReUseableHeatMapComponent implements OnInit {
     };
 
     legend.addTo(this.nationalLevelMap);
+  }
+
+  private createControls(map: L.Map) {
+    const info = new L.Control({ position: "topright" });
+    info.onAdd = function(map) {
+      this._div = L.DomUtil.create("div", "info"); // create a div with a class "info"
+      this.update();
+      return this._div;
+    };
+    // console.log(info.getContainer().);
+
+    // info.update = function(props) {
+    //   this._div.innerHTML =
+    //     "<h4>US Population Density</h4>" +
+    //     (props
+    //       ? "<b>" +
+    //         props.name +
+    //         "</b><br />" +
+    //         props.density +
+    //         " people / mi<sup>2</sup>"
+    //       : "Hover over a state");
+    //   info.addTo(map);
+    // };
   }
 
   private onClickingState(mapClickEvent: ILeafletStateClickEvent) {
@@ -423,7 +446,7 @@ export class ReUseableHeatMapComponent implements OnInit {
       return "#46B7E7";
     }
     if (value >= 25) {
-      return "8BD2F0";
+      return "#8BD2F0";
     }
     return `#D0EDF9`;
   }
