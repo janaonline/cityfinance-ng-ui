@@ -31,14 +31,14 @@
             <table class="table border-1">
               <thead>
               <tr>
-                <th class="text-center px-1 border-bottom-0" *ngFor="let header of commonTableHeaders">
-                  <div class="d-flex flex-column ">
-                    <div class="d-inline-flex p-0">
-                      {{header.title}} &nbsp;
-                      <i class="fa fa-sort p-0" aria-hidden="true"></i>
+                <th class="text-center col-sm-3 px-1 border-bottom-0" *ngFor="let header of commonTableHeaders">
+                  <div class="d-flex">
+                    <div class="d-flex flex-column p-0">
+                      {{header.title}}
+                      <span class="font-weight-light" *ngIf="header.description">
+                      {{header.description}}</span>
                     </div>
-                    <span class="font-weight-light" *ngIf="header.description">
-                    {{header.description}}</span>
+                    <i class="fa fa-sort px-1" aria-hidden="true"></i>
                   </div>
                 </th>
               </tr>

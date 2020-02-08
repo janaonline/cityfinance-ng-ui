@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {DropdownSettings} from 'angular2-multiselect-dropdown/lib/multiselect.interface';
 import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 
 @Component({
@@ -27,7 +28,6 @@ export class HomeTabViewComponent implements OnInit {
     {title: 'Own Revenue'},
     {title: 'Min. Own Revenue'},
     {title: 'Max. Own Revenue'}
-
   ];
   yearForm: FormGroup;
 
@@ -69,10 +69,14 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   private fetchUlBsData(ulbIdsArray: string[]) {
-    for (let ulb of ulbIdsArray) {
-      this.dashboardService.fetchULBData(ulb).subscribe(response => {
-        console.log(response);
-      });
+    if (ulbIdsArray.length) {
+      for (let ulb of ulbIdsArray) {
+        this.dashboardService.fetchULBData(ulb).subscribe(response => {
+          this.commonTableHeaders = [{title: 'ULB Name'}, {title: 'Population'}].concat(this.commonTableHeaders.slice(2));
+        });
+      }
+    } else {
+
     }
   }
 
@@ -83,13 +87,12 @@ export class HomeTabViewComponent implements OnInit {
           const yearsArray = this.yearForm.controls['years'].value;
           for (let year of yearsArray) {
             this.dashboardService.fetchDependencyOwnRevenueData('3232').subscribe(response => {
-              console.log(response);
+              this.commonTableHeaders = [{title: 'Population Category'}, {title: 'Number of ULBs'},].concat(this.commonTableHeaders.slice(2));
             });
           }
         }
         break;
       case 1:
-
         break;
       case  2:
         break;
