@@ -1,0 +1,54 @@
+::ng-deep .tooltip-custom-1 {
+  transform: translateY(-4000px);
+}
+.stateMap {
+  background: white;
+  z-index: 8;
+  display: inline-block;
+  width: 100%;
+}
+
+.stateMapContainer {
+  padding: 0px;
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: end;
+  background: gray;
+}
+
+div.miniMap {
+  position: absolute !important;
+  transition: all !important;
+  transition-duration: 2s !important;
+  transform: scale(0.3) !important;
+  transform-origin: 0 98%;
+  bottom: 1% !important;
+  left: 1% !important;
+}
+
+div.miniMap:after {
+  content: "";
+  background: rgb(68, 54, 54);
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  z-index: 999;
+}
+#districtMapContainer {
+  padding: 0px;
+}
+
+::ng-deep div.preLoaderWrapper[_ngcontent-c7] {
+  padding: 0% 1%;
+}
+
+.skeletonWrapper {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
