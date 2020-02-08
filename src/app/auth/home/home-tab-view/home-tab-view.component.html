@@ -8,9 +8,36 @@
     <ng-container *ngTemplateOutlet="table"></ng-container>
   </mat-tab>
   <mat-tab [label]="'Sources of financing revenue expenditure '">
-    <ng-template matTabContent>
-      two
-    </ng-template>
+    <div class="col-sm-12 col-md-5"></div>
+    <div [style.minHeight.px]="400" [formGroup]="yearForm" class="col-md-7">
+      <div class="row d-flex mt-4">
+        <div class="col-sm-10">
+          <angular2-multiselect
+            class="m-0"
+            formControlName="years"
+            style="display: inline-block;width: 208px;"
+            [data]="yearLookup"
+            [settings]="yearsDropdownSettings"
+            (onClose)="onDropdownClose($event)"
+            (onSelect)="onDropdownSelect($event)"
+            (onDeSelect)="onDropdownDeSelect($event)"
+            (onSelectAll)="onDropDownSelectAll($event)"
+            (onDeSelectAll)="resetPopupValues()">
+          </angular2-multiselect>
+        </div>
+        <div class="col-sm-2">
+          <button mat-stroked-button color="primary">View</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 d-flex" *ngFor="let data of commonTableDataDisplay">
+          <div style="height: 33%;width: 33%" *ngFor="let row of data.data;let i=index">
+            <canvas width="400px" height="400px" [id]="'canvas--'+data.year+'--'+i"></canvas>
+          </div>
+        </div>
+        <ul class="legend"></ul>
+      </div>
+    </div>
   </mat-tab>
   <mat-tab [label]="'Avenues of revenue expenditure'">
     <ng-container *ngTemplateOutlet="table"></ng-container>
@@ -19,16 +46,14 @@
     <ng-container *ngTemplateOutlet="table"></ng-container>
   </mat-tab>
   <mat-tab [label]="'Outstanding debt'">
-    <ng-template matTabContent>
-      two
-    </ng-template>
+    <ng-container *ngTemplateOutlet="table"></ng-container>
   </mat-tab>
 </mat-tab-group>
 
 <ng-template #table>
   <div [style.height.px]="400">
     <div class="col-sm-12 col-md-5">
-      <!--      <app-re-useable-heat-map (ulbsClicked)="fetchUlBsData($event)"></app-re-useable-heat-map>-->
+      <app-re-useable-heat-map (ulbsClicked)="fetchUlBsData($event)"></app-re-useable-heat-map>
     </div>
     <div [formGroup]="yearForm" class="col-sm-12 col-md-7">
       <div class="row d-flex mt-4">

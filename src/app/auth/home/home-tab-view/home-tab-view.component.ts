@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
+import {Chart} from 'chart.js';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 
 @Component({
@@ -80,7 +82,7 @@ export class HomeTabViewComponent implements OnInit {
     if (ulbIdsArray.length) {
       for (let ulb of ulbIdsArray) {
         this.dashboardService.fetchULBData(ulb).subscribe(response => {
-          this.commonTableHeaders = [{title: 'ULB Name'}, {title: 'Population'}].concat(this.commonTableHeaders.slice(2));
+          this.commonTableHeaders = [{title: 'ULB Name',id: 'ulbName'}, {title: 'Population',id: 'populationCategory'}].concat(this.commonTableHeaders.slice(2));
         });
       }
     } else {
@@ -90,12 +92,15 @@ export class HomeTabViewComponent implements OnInit {
 
   private filterDisplayDataTableYearWise() {
     this.commonTableDataDisplay = this.commonTableData.filter((data) => this.selectedYears.includes(data.year));
+    if (this.tabIndex == 2) {
+      this.renderCharts();
+    }
   }
 
   private fetchTableDataSuccess = (response: any) => {
-
     this.commonTableData = response['data'];
     this.filterDisplayDataTableYearWise();
+
 
   };
 
@@ -133,6 +138,20 @@ export class HomeTabViewComponent implements OnInit {
         this.dashboardService.fetchSourceOfRevenue('')
           .subscribe(this.fetchTableDataSuccess);
         break;
+      case 2:
+        this.commonTableHeaders = [
+          {title: 'Population Category', id: 'populationCategory'},
+          {title: 'Number of ULBs', id: 'numOfUlb'},
+          {title: 'Assigned Revenue & revenue grants', id: 'assignedRevenueAndRevenueGrants'},
+          {title: 'Deficit financed by Capital grants', id: 'deficitFinanceByCapitalGrants'},
+          {title: 'Interest Income', id: 'interestIncome'},
+          {title: 'Own Revenues', id: 'ownRevenue'},
+          {title: 'Other Income', id: 'ulbName'},
+          {title: 'Other Income', id: 'otherIncome'},
+        ];
+        this.dashboardService.fetchFinancialRevenueExpenditure('')
+          .subscribe(this.fetchTableDataSuccess);
+        break;
       case  3:
         this.commonTableHeaders = [
           {title: 'Population Category', id: 'populationCategory'},
@@ -145,6 +164,7 @@ export class HomeTabViewComponent implements OnInit {
         this.dashboardService.fetchRevenueExpenditure('')
           .subscribe(this.fetchTableDataSuccess);
         break;
+
       case 4:
         this.commonTableHeaders = [
           {title: 'Population Category', id: 'populationCategory'},
@@ -152,6 +172,18 @@ export class HomeTabViewComponent implements OnInit {
           {title: 'Cash & Bank Balance (Rs in crore)', id: 'cashAndBankBalance'},
         ];
         this.dashboardService.fetchCashAndBankBalance('')
+          .subscribe(this.fetchTableDataSuccess);
+        break;
+      case 5:
+        this.commonTableHeaders = [
+          {title: 'Population Category', id: 'populationCategory'},
+          {title: 'Number of ULBs', id: 'numOfUlb'},
+          {title: 'Loans from Central Government', id: 'LoanFromCentralGovernment'},
+          {title: 'Loans from Financial Institutions including Banks', id: 'loanFromFIIB'},
+          {title: 'Loans from State Government', id: 'loanFromStateGovernment'},
+          {title: 'Total Debt', id: 'total'},
+        ];
+        this.dashboardService.fetchOutStandingDebt('')
           .subscribe(this.fetchTableDataSuccess);
         break;
     }
@@ -164,4 +196,76 @@ export class HomeTabViewComponent implements OnInit {
     this.filterDisplayDataTableYearWise();
 
   }
+
+  private renderCharts() {
+    this.commonTableDataDisplay.forEach((yearRow) => {
+      let elementIdPrefix = 'canvas--' + yearRow.year;
+      yearRow.data.forEach((row, index) => {
+        let elementId = `${elementIdPrefix}--${index}`;
+        let labels = Object.keys(row).filter((key) => typeof row[key] === 'number');
+        labels = labels.map((label) => {
+          try {
+            label = this.commonTableHeaders.find(header => header.id == label).title;
+          } catch (e) {
+            return 'Label not available';
+          }
+          return label;
+        });
+        setTimeout(() => {
+          new Chart(elementId, {
+            type: 'pie',
+            data: {
+              labels,
+              datasets: [{
+                data: Object.values(row).filter(value => typeof value === 'number'),
+                backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              title: {
+                display: true,
+                text: row[this.commonTableHeaders[0].id],
+              },
+              legend: {
+                display: true,
+                position: 'bottom',
+              },
+              responsive: true,
+            }
+          });
+        }, 1);
+      });
+
+    });
+  }
+}
+
+function legendClickCallback(legendItemIndex): any {
+  console.log('clicked', legendItemIndex);
+  [].slice.call(document.querySelectorAll('.myChart')).forEach((chartItem, index) => {
+    var chart = Chart.instances[index];
+    var dataItem = chart.data.datasets[legendItemIndex];
+    if (dataItem.hidden == true || dataItem.hidden == null) {
+      dataItem.hidden = false;
+    } else {
+      dataItem.hidden = true;
+    }
+    chart.update();
+  });
 }
