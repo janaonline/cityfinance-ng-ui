@@ -44,16 +44,12 @@ import { ReportComponent } from './report/report.component';
   ],
   declarations: [
     InrCurrencyPipe,
-    // IncomeExpenditureComponent,
-    // IncomeExpenditureSummaryComponent,
-    // BalanceSheetComponent,
+
     ReportComponent,
 
-    // CommonSizeComponent,
     ReportFooterComponent,
     BasicComponent,
-    // ComparativeComponent,
-    // CommonSizeUlbComponent,
+
     ComparativeUlbComponent
   ],
   providers: [ReportService, ExcelService]
