@@ -64,7 +64,7 @@ export class ReUseableHeatMapComponent implements OnInit {
 
   private ListenToFormControls() {
     this.ulbsSelected.valueChanges.subscribe(newValue => {
-      console.log(newValue);
+      this.ulbsClicked.emit(newValue)
     });
   }
 

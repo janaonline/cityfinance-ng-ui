@@ -14,11 +14,22 @@ export class DashboardService {
   }
 
   fetchDependencyOwnRevenueData(year: string) {
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/ulblist`);
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/own-revenue-dependency`);
+  }
+
+  fetchSourceOfRevenue(year: string) {
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/source-revenue`);
+  }
+
+  fetchRevenueExpenditure(year: string) {
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/revenue-expenditure`);
+  }
+
+  fetchCashAndBankBalance(year: string) {
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/cash-and-bank`);
   }
 
   fetchULBData(id: string) {
     return this.httpClient.get(`${environment.api.url}api/admin/v1/ulblist`);
-
   }
 }

@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {DropdownSettings} from 'angular2-multiselect-dropdown/lib/multiselect.interface';
 import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 
 @Component({
@@ -20,16 +18,20 @@ export class HomeTabViewComponent implements OnInit {
   yearsDropdownSettings = {text: 'Select Years', primaryKey: 'id', badgeShowLimit: 1};
 
 
-  commonTableHeaders = [
-    {title: 'Population Category'},
-    {title: 'Number of ULBs'},
-    {title: 'Own Revenues', description: '(Rs in crores)'},
-    {title: 'Revenue Expenditure', description: '(Rs in crores)'},
-    {title: 'Own Revenue'},
-    {title: 'Min. Own Revenue'},
-    {title: 'Max. Own Revenue'}
+  commonTableHeaders: any[] = [
+    {title: 'Population Category', id: 'populationCategory'},
+    {title: 'Number of ULBs', id: 'numOfUlb'},
+    {title: 'Own Revenues', id: 'ownRevenue', description: '(Rs in crores)'},
+    {title: 'Revenue Expenditure', id: 'revenueExpenditure', description: '(Rs in crores)'},
+    {title: 'Own Revenue', id: 'ownRevenue'},
+    {title: 'Min. Own Revenue', id: 'minOwnRevenuePercentage'},
+    {title: 'Max. Own Revenue', id: 'maxOwnRevenuePercentage'}
   ];
+
+  commonTableData = [];
+  commonTableDataDisplay = [];
   yearForm: FormGroup;
+  selectedYears: any = [];
 
   ulbTypeSelected: string;
 
@@ -44,6 +46,8 @@ export class HomeTabViewComponent implements OnInit {
     this.yearForm = formBuilder.group({
       years: [[this.yearLookup[0]]]
     });
+    this.selectedYears = [this.yearLookup[0].id];
+
 
   }
 
@@ -52,16 +56,20 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   onDropdownSelect(event: any) {
-    console.log(event);
-
+    this.selectedYears.push(event.id);
+    this.filterDisplayDataTableYearWise();
   }
 
   resetPopupValues() {
-    return 'other';
+    this.selectedYears = [];
+    this.yearForm.controls['years'].setValue([]);
+    this.filterDisplayDataTableYearWise();
   }
 
   onDropdownDeSelect(event: any) {
-    console.log(event);
+    this.selectedYears.splice(this.selectedYears.findIndex(year => event.id == year), 1);
+    this.filterDisplayDataTableYearWise();
+
   }
 
   onDropdownClose(event: any) {
@@ -80,23 +88,80 @@ export class HomeTabViewComponent implements OnInit {
     }
   }
 
+  private filterDisplayDataTableYearWise() {
+    this.commonTableDataDisplay = this.commonTableData.filter((data) => this.selectedYears.includes(data.year));
+  }
+
+  private fetchTableDataSuccess = (response: any) => {
+
+    this.commonTableData = response['data'];
+    this.filterDisplayDataTableYearWise();
+
+  };
+
   private fetchData() {
+    this.commonTableHeaders = [{title: 'Population Category', id: 'populationCategory'},
+      {title: 'Number of ULBs', id: 'numOfUlb'}].concat(this.commonTableHeaders.slice(2));
+
     switch (this.tabIndex) {
       case 0:
-        if (this.yearForm.controls['years'].value.length) {
-          const yearsArray = this.yearForm.controls['years'].value;
-          for (let year of yearsArray) {
-            this.dashboardService.fetchDependencyOwnRevenueData('3232').subscribe(response => {
-              this.commonTableHeaders = [{title: 'Population Category'}, {title: 'Number of ULBs'},].concat(this.commonTableHeaders.slice(2));
-            });
-          }
-        }
+        this.commonTableHeaders = [
+          {title: 'Population Category', id: 'populationCategory'},
+          {title: 'Number of ULBs', id: 'numOfUlb'},
+          {title: 'Own Revenues', id: 'ownRevenue', description: '(Rs in crores)'},
+          {title: 'Revenue Expenditure', id: 'revenueExpenditure', description: '(Rs in crores)'},
+          {title: 'Own Revenue', id: 'ownRevenue'},
+          {title: 'Min. Own Revenue', id: 'minOwnRevenuePercentage'},
+          {title: 'Max. Own Revenue', id: 'maxOwnRevenuePercentage'}
+        ];
+        this.dashboardService.fetchDependencyOwnRevenueData('3232').subscribe(this.fetchTableDataSuccess);
         break;
       case 1:
+        this.commonTableHeaders = [
+          {title: 'Population Category', id: 'populationCategory'},
+          {title: 'Number of ULBs', id: 'numOfUlb'},
+          {title: 'Tax Revenue (a)', id: 'taxRevenue'},
+          {title: 'Rental Income (b)', id: 'rentalIncome'},
+          {title: 'Fees & user charges (c)', id: 'feesAndUserCharges'},
+          {title: 'Own revenues (a+b+c)', id: 'ownRevenues'},
+          {title: 'Sale & hire charges', id: 'saleAndHireCharges'},
+          {title: 'Assigned revenue', id: 'assignedRevenue'},
+          {title: 'Grants', id: 'grants'},
+          {title: 'Interest Income', id: 'interestIncome'},
+          {title: 'Other Income', id: 'otherIncome'},
+        ];
+        this.dashboardService.fetchSourceOfRevenue('')
+          .subscribe(this.fetchTableDataSuccess);
         break;
-      case  2:
+      case  3:
+        this.commonTableHeaders = [
+          {title: 'Population Category', id: 'populationCategory'},
+          {title: 'Establishment expense', id: 'establishmentExpense'},
+          {title: 'Administrative Expense', id: 'administrativeExpense'},
+          {title: 'Operational & Maint. Expense', id: 'operationalAndMaintananceExpense'},
+          {title: 'Interest & Finance Expense ', id: 'interestAndFinanceExpense'},
+          {title: 'Others', id: 'other'},
+        ];
+        this.dashboardService.fetchRevenueExpenditure('')
+          .subscribe(this.fetchTableDataSuccess);
+        break;
+      case 4:
+        this.commonTableHeaders = [
+          {title: 'Population Category', id: 'populationCategory'},
+          {title: 'Number of ULBs', id: 'numOfUlb'},
+          {title: 'Cash & Bank Balance (Rs in crore)', id: 'cashAndBankBalance'},
+        ];
+        this.dashboardService.fetchCashAndBankBalance('')
+          .subscribe(this.fetchTableDataSuccess);
         break;
     }
+
+  }
+
+  onDropDownSelectAll(event) {
+    this.yearForm.controls['years'].setValue(event);
+    this.selectedYears = event.map(e => e.id);
+    this.filterDisplayDataTableYearWise();
 
   }
 }
