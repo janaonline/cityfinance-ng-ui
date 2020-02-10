@@ -1,6 +1,13 @@
 ::ng-deep .tooltip-custom-1 {
   transform: translateY(-4000px);
 }
+
+::ng-deep .tooltip-custom {
+  background: white;
+  border: 1px solid black;
+  color: black;
+  position: absolute;
+}
 .stateMap {
   background: white;
   z-index: 8;
@@ -11,32 +18,32 @@
 .stateMapContainer {
   padding: 0px;
   position: relative;
-  min-height: 80vh;
+  min-height: 60vh;
   display: flex;
   flex-wrap: wrap;
   align-items: end;
   justify-content: end;
-  background: gray;
+  background: rgb(209, 95, 95);
 }
 
 div.miniMap {
   position: absolute !important;
   transition: all !important;
-  transition-duration: 2s !important;
+  background: transparent;
+  transition-duration: 0.6s !important;
   transform: scale(0.3) !important;
   transform-origin: 0 98%;
   bottom: 1% !important;
   left: 1% !important;
 }
 
-div.miniMap:after {
-  content: "";
-  background: rgb(68, 54, 54);
+::ng-deep.miniMapOverlay {
+  background: transparent;
   width: 100%;
   height: 100%;
   display: block;
   pointer-events: none;
-  z-index: 999;
+  z-index: 9999;
 }
 #districtMapContainer {
   padding: 0px;
@@ -51,4 +58,50 @@ div.miniMap:after {
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+.ulbSelectDropdown {
+  z-index: 9;
+  position: absolute;
+  right: 0px;
+  top: 1%;
+  width: 40%;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border-radius: 0px !important;
+  border: 0px !important;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+  border-radius: 0px !important;
+  border: 0px !important;
+}
+
+.regionalDetails {
+  background: white;
+  border: 0.1px solid rgb(134, 134, 134);
+  border-radius: 5px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1% 1%;
+  box-shadow: 1px 4px 5px 3px #e4e0e0;
+  transform: scale(0.8);
+  transition: 1s all;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+#details > p {
+  background: white;
+}
+
+mat-form-field {
+  transform: scale(0.7);
+}
+
+::ng-deep div#cdk-overlay-0.cdk-overlay-pane {
+  width: 235.1px !important;
 }

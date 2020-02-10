@@ -10,14 +10,80 @@
   re-useable-heat-map works!
 </p>
 
-<div class="col-sm-5 stateMapContainer" id="ulbMap">
+<div class="col-sm-12 stateMapContainer" id="ulbMap">
+  <h5 style="position: absolute;z-index: 9;padding-left: 1%;">
+    {{
+      currentStateInView
+        ? currentStateInView.name
+        : "Data Availability for India"
+    }}
+  </h5>
   <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
     <app-pre-loader></app-pre-loader>
     <app-pre-loader></app-pre-loader>
     <app-pre-loader></app-pre-loader>
     <app-pre-loader></app-pre-loader>
   </div>
+  <div class="ulbSelectDropdown ">
+    <mat-form-field
+      style="display: block;"
+      class="col-md-12"
+      appearance="outline"
+      *ngIf="ulbsOfSelectedState && nationalLevelMap"
+    >
+      <input
+        type="text"
+        placeholder="Search ULB"
+        aria-label="text"
+        matInput
+        [formControl]="ulbFilterControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option
+          (onSelectionChange)="onSelectingULBFromDropdown(ulb.name)"
+          *ngFor="let ulb of ulbListForAutoCompletion"
+          [value]="ulb.name"
+          [title]="ulb.name"
+        >
+          {{ ulb.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <section class="regionalDetails col-sm-12" *ngIf="mouseHoverOnState">
+      <span><span class="bold">State:</span> {{ mouseHoverOnState.name }}</span>
+      <span>
+        <span class="bold">ULB Covered(%):</span>
+        {{ mouseHoverOnState.coveredUlbPercentage | number: "2.2-2" }} %
+      </span>
+      <span>
+        <span class="bold">
+          {{ mouseHoverOnState.coveredUlbCount }} out of
+          {{ mouseHoverOnState.totalUlbs }}
+        </span>
+      </span>
+    </section>
+
+    <section class="regionalDetails col-sm-12" *ngIf="mouseHoveredOnULB">
+      <span><span class="bold">ULB:</span> {{ mouseHoveredOnULB.name }}</span>
+      <span>
+        <span class="bold">Area:</span>
+        {{ mouseHoveredOnULB.area }}
+      </span>
+      <span>
+        <span class="bold">
+          Population:
+        </span>
+        {{ mouseHoveredOnULB.population }}
+      </span>
+    </section>
+  </div>
   <div class="col-sm-12" id="districtMapContainer"></div>
 
-  <div id="mapid" class="h-100 stateMap"></div>
+  <div
+    id="mapid"
+    class="stateMap col-sm-12"
+    style="height: 60vh; max-height: 100%;"
+  ></div>
 </div>
