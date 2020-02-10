@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DashboardService} from '../../../../shared/services/dashboard/dashboard.service';
 import {Chart} from 'chart.js';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'app-ulb-coverage',
@@ -79,13 +80,35 @@ export class UlbCoverageComponent implements OnInit {
       type: 'bar',
       data: {
         labels,
-        datasets: dataSets
+        datasets: dataSets.reverse()
       },
       options: {
         title: {
           display: true,
-          text: 'chart title',
+          text: 'ULB Coverage',
         },
+        tooltips: {
+          enabled: true,
+          mode: 'nearest',
+          position: 'average',
+          callbacks: {
+            title: function (tooltipItem, data) {
+              const {datasets} = data;
+              const {datasetIndex, index} = tooltipItem[0];
+              let currentData = datasets[datasetIndex].data[index], totalData = 0;
+              return `${datasets[datasetIndex].label}: ${currentData} `;
+            },
+            label: function (tooltipItem, data) {
+              const {datasets} = data;
+              const {datasetIndex, index} = tooltipItem;
+              let currentData = datasets[datasetIndex].data[index], totalData = 0;
+              totalData = datasets.reduce((acc, curr, i) => acc + curr.data[index], 0);
+              let percentage = (((currentData) / (totalData)) * 100).toFixed(2);
+              return `${percentage} % `;
+            },
+          }
+        },
+
         scales: {
           xAxes: [{
             ticks: {
@@ -99,12 +122,13 @@ export class UlbCoverageComponent implements OnInit {
             },
             stacked: true
           }]
-        }
-        ,
+        },
+
         legend: {
           display: true,
           position: 'bottom',
         },
+
         responsive: false,
       },
     });
