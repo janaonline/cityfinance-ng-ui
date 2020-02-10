@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 import * as L from 'leaflet';
 
 import { IStateULBCovered, IStateULBCoveredResponse } from '../../models/stateUlbConvered';
@@ -14,7 +15,10 @@ import { ILeafletStateClickEvent } from './models/leafletStateClickEvent';
   styleUrls: ["./re-useable-heat-map.component.scss"]
 })
 export class ReUseableHeatMapComponent implements OnInit {
-  constructor(private _commonService: CommonService) {
+  constructor(
+    private _commonService: CommonService,
+    private _snackbar: MatSnackBar
+  ) {
     this._commonService
       .getStateUlbCovered()
       .subscribe(res => this.onGettingStateULBCoveredSuccess(res));
@@ -62,10 +66,25 @@ export class ReUseableHeatMapComponent implements OnInit {
   onSelectingULBFromDropdown(ulbName: string) {
     this.selectULBByName(ulbName);
     const stateOfULB = this.getStateOfULB(ulbName);
+
+    if (!this.DistrictsJSONForMapCreation) {
+      this.showDistrictMapNotLaodedWarning();
+    }
     if (stateOfULB) {
       this.convertDomToMiniMap("mapid");
       this.createStateLevelMap(stateOfULB.name);
     }
+  }
+
+  private showDistrictMapNotLaodedWarning() {
+    this._snackbar.open(
+      `District map is still being loaded. Please try after some time.`,
+      null,
+      {
+        duration: 5000,
+        verticalPosition: "bottom"
+      }
+    );
   }
 
   selectULBByName(ulbName: string) {
@@ -285,6 +304,9 @@ export class ReUseableHeatMapComponent implements OnInit {
   }
 
   private onClickingState(mapClickEvent: ILeafletStateClickEvent) {
+    if (!this.DistrictsJSONForMapCreation) {
+      this.showDistrictMapNotLaodedWarning();
+    }
     this.convertDomToMiniMap("mapid");
     this.createStateLevelMap(
       mapClickEvent.sourceTarget.feature.properties.ST_NM
