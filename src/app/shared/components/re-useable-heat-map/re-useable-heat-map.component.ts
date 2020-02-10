@@ -222,13 +222,23 @@ export class ReUseableHeatMapComponent implements OnInit {
       });
   }
 
-  private filterMergedStateDataBy(options: { ulbName: string }) {
+  private filterMergedStateDataBy(options: {
+    ulbName?: string;
+    stateId?: string;
+  }) {
     let filteredULBAndState: {
       [stateId: string]: IStateULBCovered & {
         ulbs: ULBWithMapData[];
       };
     } = {};
-    if (!options.ulbName || !options.ulbName.trim()) {
+
+    if (options.stateId) {
+      filteredULBAndState[options.stateId] = {
+        ...this.stateAndULBDataMerged[options.stateId]
+      };
+    }
+
+    if (options.ulbName && !options.ulbName.trim()) {
       filteredULBAndState = { ...this.stateAndULBDataMerged };
     } else {
       Object.keys(this.stateAndULBDataMerged).forEach(stateId => {
@@ -367,6 +377,21 @@ export class ReUseableHeatMapComponent implements OnInit {
       return false;
     }
     this.convertDomToMiniMap("mapid");
+    if (
+      this.currentStateInView &&
+      this.currentStateInView.name !==
+        mapClickEvent.sourceTarget.feature.properties.ST_NM
+    ) {
+      this.resetULBsSelected();
+    }
+
+    if (
+      this.currentStateInView &&
+      this.currentStateInView.name ===
+        mapClickEvent.sourceTarget.feature.properties.ST_NM
+    ) {
+      return;
+    }
     this.createStateLevelMap(
       mapClickEvent.sourceTarget.feature.properties.ST_NM
     );
@@ -378,6 +403,10 @@ export class ReUseableHeatMapComponent implements OnInit {
       return false;
     }
     this.currentStateInView = stateFound;
+    this.filteredULBStateAndULBDataMerged = this.filterMergedStateDataBy({
+      stateId: stateFound._id
+    });
+
     this.ulbsOfSelectedState = this.allULBSList.filter(
       ulb => ulb.state === stateFound._id
     );
@@ -409,7 +438,6 @@ export class ReUseableHeatMapComponent implements OnInit {
       area: ulb.area,
       population: ulb.population
     }));
-    this.resetULBsSelected();
     this.createDistrictMap(newObj, {
       center: { lat: centerLatLngOfState[0], lng: centerLatLngOfState[1] },
       dataPoints: [...dataPointsForMarker]
