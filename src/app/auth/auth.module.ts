@@ -15,6 +15,7 @@ import {StatisticsComponent} from './statistics/statistics.component';
 import {HomeTabViewComponent} from './home/home-tab-view/home-tab-view.component';
 import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
 import {SharedModule} from '../shared/shared.module';
+import { UlbCoverageComponent } from './home/home-tab-view/ulb-coverage/ulb-coverage.component';
 
 // import { GridComponent } from './home/grid/grid.component';
 @NgModule({
@@ -38,7 +39,8 @@ import {SharedModule} from '../shared/shared.module';
     HomeHeaderComponent,
     StatisticsComponent,
     HeatMapComponent,
-    HomeTabViewComponent
+    HomeTabViewComponent,
+    UlbCoverageComponent
   ],
   exports: [HomeHeaderComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

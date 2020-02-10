@@ -34,6 +34,7 @@ export class HomeTabViewComponent implements OnInit {
   commonTableDataDisplay = [];
   yearForm: FormGroup;
   selectedYears: any = [];
+  ulbCoverageData = [];
 
   ulbTypeSelected: string;
 
@@ -44,7 +45,7 @@ export class HomeTabViewComponent implements OnInit {
 
   }
 
-  constructor(private formBuilder: FormBuilder, private dashboardService: DashboardService) {
+  constructor(protected formBuilder: FormBuilder, protected dashboardService: DashboardService) {
     this.yearForm = formBuilder.group({
       years: [[this.yearLookup[0]]]
     });
@@ -82,7 +83,10 @@ export class HomeTabViewComponent implements OnInit {
     if (ulbIdsArray.length) {
       for (let ulb of ulbIdsArray) {
         this.dashboardService.fetchULBData(ulb).subscribe(response => {
-          this.commonTableHeaders = [{title: 'ULB Name',id: 'ulbName'}, {title: 'Population',id: 'populationCategory'}].concat(this.commonTableHeaders.slice(2));
+          this.commonTableHeaders = [{title: 'ULB Name', id: 'ulbName'}, {
+            title: 'Population',
+            id: 'populationCategory'
+          }].concat(this.commonTableHeaders.slice(2));
         });
       }
     } else {
@@ -103,6 +107,7 @@ export class HomeTabViewComponent implements OnInit {
 
 
   };
+
 
   private fetchData() {
     this.commonTableHeaders = [{title: 'Population Category', id: 'populationCategory'},
@@ -187,6 +192,9 @@ export class HomeTabViewComponent implements OnInit {
           .subscribe(this.fetchTableDataSuccess);
         break;
     }
+  }
+
+  fetchCoverage() {
 
   }
 
@@ -211,50 +219,96 @@ export class HomeTabViewComponent implements OnInit {
           }
           return label;
         });
+        let data = Object.values(row).filter(value => typeof value === 'number');
+        let chartTitle = row[this.commonTableHeaders[0].id];
         setTimeout(() => {
-          new Chart(elementId, {
-            type: 'pie',
-            data: {
-              labels,
-              datasets: [{
-                data: Object.values(row).filter(value => typeof value === 'number'),
-                backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-              }]
-            },
-            options: {
-              title: {
-                display: true,
-                text: row[this.commonTableHeaders[0].id],
-              },
-              legend: {
-                display: true,
-                position: 'bottom',
-              },
-              responsive: true,
-            }
-          });
+          this.renderPieChart({type: 'pie', data, labels, elementId, chartTitle});
         }, 1);
       });
 
     });
   }
+
+
+  renderPieChart({type = 'pie', labels, data, chartTitle, elementId, options = {}}) {
+    new Chart(elementId, {
+      type,
+      data: {
+        labels,
+        datasets: [{
+          data,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: chartTitle,
+        },
+        legend: {
+          display: true,
+          position: 'bottom',
+        },
+        responsive: true,
+      },
+      ...options
+    });
+
+  }
+
+  sortHeader(header) {
+    const {id} = header;
+    console.log(id);
+    if (header.hasOwnProperty('status') && header.status == true) {
+      header.status = false;
+      this.commonTableDataDisplay = this.commonTableDataDisplay
+        .map(year => {
+          year.data = year.data.sort((a, b) => {
+            if (a[id] > b[id]) {
+              return -1;
+            } else if (a[id] < b[id]) {
+              return 1;
+            } else {
+              return 0;
+            }
+          });
+          return year;
+        });
+    } else {
+      header.status = true;
+      this.commonTableDataDisplay = this.commonTableDataDisplay
+        .map(year => {
+          year.data = year.data.sort((a, b) => {
+            if (a[id] > b[id]) {
+              return 1;
+            } else if (a[id] < b[id]) {
+              return -1;
+            } else {
+              return 0;
+            }
+          });
+          return year;
+        });
+    }
+  }
 }
+
 
 function legendClickCallback(legendItemIndex): any {
   console.log('clicked', legendItemIndex);
@@ -269,3 +323,5 @@ function legendClickCallback(legendItemIndex): any {
     chart.update();
   });
 }
+
+

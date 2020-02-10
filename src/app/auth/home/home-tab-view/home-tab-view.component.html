@@ -3,7 +3,16 @@
                animationDuration="100ms">
   <mat-tab label='Extent on dependency on own revenues'>
     <ng-container *ngTemplateOutlet="heatMap"></ng-container>
-    <ng-container *ngTemplateOutlet="table"></ng-container>
+    <div class="col-sm-12 col-md-7">
+      <div class="row">
+        <div class="col-sm-12">
+          <app-ulb-coverage></app-ulb-coverage>
+        </div>
+      </div>
+      <div class="row">
+        <ng-container *ngTemplateOutlet="table"></ng-container>
+      </div>
+    </div>
   </mat-tab>
   <mat-tab [label]="'Sources of revenue'">
     <div>
@@ -87,7 +96,16 @@
                   <span class="font-weight-light" *ngIf="header.description">
                       {{header.description}}</span>
                 </div>
-                <i class="fa fa-sort px-1" aria-hidden="true"></i>
+                <i *ngIf="!header.hasOwnProperty('status');else icon" (click)="sortHeader(header)"
+                   class="fa fa-sort px-1" aria-hidden="true"></i>
+                <ng-template #icon>
+
+                  <i *ngIf="header.status" (click)="sortHeader(header)" class="fa fa-sort-asc px-1"
+                     aria-hidden="true"></i>
+                  <i *ngIf="!header.status" (click)="sortHeader(header)" class="fa fa-sort-desc px-1"
+                     aria-hidden="true"></i>
+                </ng-template>
+
               </div>
             </th>
           </tr>
