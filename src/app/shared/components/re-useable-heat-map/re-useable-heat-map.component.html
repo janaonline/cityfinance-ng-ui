@@ -1,16 +1,4 @@
-<p>
-  re-useable-heat-map works!
-</p>
-
-<p>
-  re-useable-heat-map works!
-</p>
-
-<p>
-  re-useable-heat-map works!
-</p>
-
-<div class="col-sm-5 stateMapContainer" id="ulbMap">
+<div class="col-sm-12 stateMapContainer" id="ulbMap">
   <h5 style="position: absolute;z-index: 9;padding-left: 1%;">
     {{
       currentStateInView
@@ -41,11 +29,11 @@
       />
       <mat-autocomplete #auto="matAutocomplete">
         <mat-optgroup
-          *ngFor="let stateId of object.keys(stateAndULBDataMerged)"
-          [label]="stateAndULBDataMerged[stateId].name"
+          *ngFor="let stateId of object.keys(filteredULBStateAndULBDataMerged)"
+          [label]="filteredULBStateAndULBDataMerged[stateId].name"
         >
           <mat-option
-            *ngFor="let ulb of stateAndULBDataMerged[stateId].ulbs"
+            *ngFor="let ulb of filteredULBStateAndULBDataMerged[stateId].ulbs"
             (onSelectionChange)="onSelectingULBFromDropdown(ulb.name)"
             [value]="ulb.name"
             [title]="ulb.name"

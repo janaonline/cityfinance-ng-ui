@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import * as L from 'leaflet';
+import { debounceTime } from 'rxjs/operators';
 
 import { IStateULBCovered, IStateULBCoveredResponse } from '../../models/stateUlbConvered';
 import { IULBWithPopulationResponse, ULBWithMapData } from '../../models/ulbsForMapResponse';
@@ -15,20 +16,6 @@ import { ILeafletStateClickEvent } from './models/leafletStateClickEvent';
   styleUrls: ["./re-useable-heat-map.component.scss"]
 })
 export class ReUseableHeatMapComponent implements OnInit {
-  constructor(
-    private _commonService: CommonService,
-    private _snackbar: MatSnackBar
-  ) {
-    this._commonService
-      .getStateUlbCovered()
-      .subscribe(res => this.onGettingStateULBCoveredSuccess(res));
-
-    this._commonService
-      .getULBSWithPopulationAndCoordinates()
-      .subscribe(res => this.onGettingULBWithPopulationSuccess(res));
-
-    this.listenToFormControls();
-  }
   @Output() ulbsClicked = new EventEmitter<string[]>();
 
   ulbsSelected = new FormControl([]);
@@ -37,6 +24,10 @@ export class ReUseableHeatMapComponent implements OnInit {
   stateData: IStateULBCovered[];
   allULBSList: IULBWithPopulationResponse["data"];
   stateAndULBDataMerged: {
+    [stateId: string]: IStateULBCovered & { ulbs: ULBWithMapData[] };
+  };
+
+  filteredULBStateAndULBDataMerged: {
     [stateId: string]: IStateULBCovered & { ulbs: ULBWithMapData[] };
   };
 
@@ -65,6 +56,21 @@ export class ReUseableHeatMapComponent implements OnInit {
   currentStateInView: IStateULBCovered;
 
   object = Object;
+
+  constructor(
+    private _commonService: CommonService,
+    private _snackbar: MatSnackBar
+  ) {
+    this._commonService
+      .getStateUlbCovered()
+      .subscribe(res => this.onGettingStateULBCoveredSuccess(res));
+
+    this._commonService
+      .getULBSWithPopulationAndCoordinates()
+      .subscribe(res => this.onGettingULBWithPopulationSuccess(res));
+
+    this.listenToFormControls();
+  }
 
   ngOnInit() {}
 
@@ -127,7 +133,7 @@ export class ReUseableHeatMapComponent implements OnInit {
           console.error("District Boundries getJSON request failed!", failed);
         });
     });
-    prmsArr.push(prms2);
+    // prmsArr.push(prms2);
 
     return Promise.all(prmsArr);
   }
@@ -205,20 +211,55 @@ export class ReUseableHeatMapComponent implements OnInit {
   private listenToFormControls() {
     this.ulbsSelected.valueChanges.subscribe(newValue => {
       this.ulbsClicked.emit(newValue);
-      console.log(`ulbsId to emit`, [...newValue]);
     });
 
-    this.ulbFilterControl.valueChanges.subscribe(newText => {
-      let filteredULBS: ULBWithMapData[];
-      if (newText && newText.trim()) {
-        filteredULBS = this.ulbsOfSelectedState.filter(ulb =>
-          ulb.name.includes(newText)
+    this.ulbFilterControl.valueChanges
+      .pipe(debounceTime(100))
+      .subscribe(textToSearch => {
+        this.filteredULBStateAndULBDataMerged = this.filterMergedStateDataBy({
+          ulbName: textToSearch
+        });
+      });
+  }
+
+  private filterMergedStateDataBy(options: { ulbName: string }) {
+    let filteredULBAndState: {
+      [stateId: string]: IStateULBCovered & {
+        ulbs: ULBWithMapData[];
+      };
+    } = {};
+    if (!options.ulbName || !options.ulbName.trim()) {
+      filteredULBAndState = { ...this.stateAndULBDataMerged };
+    } else {
+      Object.keys(this.stateAndULBDataMerged).forEach(stateId => {
+        const stateFound = { ...this.stateAndULBDataMerged[stateId] };
+        const ulbList = this.filteredULBBy(
+          { ulbName: options.ulbName },
+          stateFound.ulbs
         );
-      } else {
-        filteredULBS = [...this.ulbsOfSelectedState];
-      }
-      this.ulbListForAutoCompletion = filteredULBS;
-    });
+        if (!ulbList.length) {
+          return;
+        }
+        stateFound.ulbs = ulbList;
+        filteredULBAndState[stateId] = stateFound;
+      });
+    }
+
+    return filteredULBAndState;
+  }
+
+  private filteredULBBy(
+    options: { ulbName?: string },
+    ulbList: ULBWithMapData[]
+  ) {
+    let filteredULBS: ULBWithMapData[] = [];
+    if (options.ulbName) {
+      filteredULBS = filteredULBS.concat(
+        ulbList.filter(ulb => ulb.name.includes(options.ulbName))
+      );
+    }
+
+    return filteredULBS;
   }
 
   private getStateOfULB(ulbName: string) {
@@ -240,6 +281,7 @@ export class ReUseableHeatMapComponent implements OnInit {
       this.stateData,
       res.data
     );
+    this.filteredULBStateAndULBDataMerged = { ...this.stateAndULBDataMerged };
   }
 
   private CombineStateAndULBData(
@@ -317,25 +359,12 @@ export class ReUseableHeatMapComponent implements OnInit {
       this.update();
       return this._div;
     };
-    // console.log(info.getContainer().);
-
-    // info.update = function(props) {
-    //   this._div.innerHTML =
-    //     "<h4>US Population Density</h4>" +
-    //     (props
-    //       ? "<b>" +
-    //         props.name +
-    //         "</b><br />" +
-    //         props.density +
-    //         " people / mi<sup>2</sup>"
-    //       : "Hover over a state");
-    //   info.addTo(map);
-    // };
   }
 
   private onClickingState(mapClickEvent: ILeafletStateClickEvent) {
     if (!this.DistrictsJSONForMapCreation) {
       this.showDistrictMapNotLaodedWarning();
+      return false;
     }
     this.convertDomToMiniMap("mapid");
     this.createStateLevelMap(
@@ -418,12 +447,12 @@ export class ReUseableHeatMapComponent implements OnInit {
 
     setTimeout(() => {
       const districtMap = L.map("districtMapId", {
-        scrollWheelZoom: true,
+        scrollWheelZoom: false,
         fadeAnimation: true,
         dragging: false,
         minZoom: 4.2,
         maxZoom: 5.5,
-        zoomControl: true,
+        zoomControl: false,
         doubleClickZoom: false
       }).setView([options.center.lat, options.center.lng], 5.5);
 
