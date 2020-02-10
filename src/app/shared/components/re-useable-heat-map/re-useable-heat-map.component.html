@@ -40,14 +40,27 @@
         [matAutocomplete]="auto"
       />
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option
+        <mat-optgroup
+          *ngFor="let stateId of object.keys(stateAndULBDataMerged)"
+          [label]="stateAndULBDataMerged[stateId].name"
+        >
+          <mat-option
+            *ngFor="let ulb of stateAndULBDataMerged[stateId].ulbs"
+            (onSelectionChange)="onSelectingULBFromDropdown(ulb.name)"
+            [value]="ulb.name"
+            [title]="ulb.name"
+          >
+            {{ ulb.name }}
+          </mat-option>
+        </mat-optgroup>
+        <!-- <mat-option
           (onSelectionChange)="onSelectingULBFromDropdown(ulb.name)"
           *ngFor="let ulb of ulbListForAutoCompletion"
           [value]="ulb.name"
           [title]="ulb.name"
         >
           {{ ulb.name }}
-        </mat-option>
+        </mat-option> -->
       </mat-autocomplete>
     </mat-form-field>
 
