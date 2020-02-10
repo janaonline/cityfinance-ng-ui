@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
 import {Chart} from 'chart.js';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {roLocale} from 'ngx-bootstrap';
 
 
 @Component({
@@ -96,7 +97,7 @@ export class HomeTabViewComponent implements OnInit {
 
   private filterDisplayDataTableYearWise() {
     this.commonTableDataDisplay = this.commonTableData.filter((data) => this.selectedYears.includes(data.year));
-    if (this.tabIndex == 2) {
+    if (this.tabIndex == 2 || this.tabIndex == 4) {
       this.renderCharts();
     }
   }
@@ -206,26 +207,44 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   private renderCharts() {
-    this.commonTableDataDisplay.forEach((yearRow) => {
+    this.commonTableDataDisplay.forEach((yearRow, index) => {
       let elementIdPrefix = 'canvas--' + yearRow.year;
-      yearRow.data.forEach((row, index) => {
-        let elementId = `${elementIdPrefix}--${index}`;
-        let labels = Object.keys(row).filter((key) => typeof row[key] === 'number');
-        labels = labels.map((label) => {
-          try {
-            label = this.commonTableHeaders.find(header => header.id == label).title;
-          } catch (e) {
-            return 'Label not available';
-          }
-          return label;
-        });
-        let data = Object.values(row).filter(value => typeof value === 'number');
-        let chartTitle = row[this.commonTableHeaders[0].id];
+      if (this.tabIndex == 4) {
+        let label = yearRow.data.map(row => row['populationCategory']);
+        let dataNoOfUlb = yearRow.data.map(row => row['numOfUlb']);
+        let dataBankBalance = yearRow.data.map(row => row['cashAndBankBalance']);
+        let elementId1 = `${elementIdPrefix}--${0}`;
+        let elementBankBalance = `${elementIdPrefix}--${1}`;
         setTimeout(() => {
-          this.renderPieChart({type: 'pie', data, labels, elementId, chartTitle});
+          this.renderPieChart({type: 'pie', data: dataNoOfUlb, labels: label, elementId: elementId1, chartTitle: 'No of ulb'});
+          this.renderPieChart({
+            type: 'pie',
+            data: dataBankBalance,
+            labels: label,
+            elementId: elementBankBalance,
+            chartTitle: 'Bank balance'
+          });
         }, 1);
-      });
-
+        //this.commonTableDataDisplay[index].data = this.commonTableDataDisplay[index].data.slice(0, 2);
+      } else {
+        yearRow.data.forEach((row, index) => {
+          let elementId = `${elementIdPrefix}--${index}`;
+          let labels = Object.keys(row).filter((key) => typeof row[key] === 'number');
+          labels = labels.map((label) => {
+            try {
+              label = this.commonTableHeaders.find(header => header.id == label).title;
+            } catch (e) {
+              return 'Label not available';
+            }
+            return label;
+          });
+          let data = Object.values(row).filter(value => typeof value === 'number');
+          let chartTitle = row[this.commonTableHeaders[0].id];
+          setTimeout(() => {
+            this.renderPieChart({type: 'pie', data, labels, elementId, chartTitle});
+          }, 1);
+        });
+      }
     });
   }
 
