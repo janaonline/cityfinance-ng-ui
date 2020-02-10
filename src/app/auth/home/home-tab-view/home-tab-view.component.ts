@@ -280,6 +280,7 @@ export class HomeTabViewComponent implements OnInit {
           display: true,
           text: chartTitle,
         },
+
         legend: {
           display: true,
           position: 'bottom',
