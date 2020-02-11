@@ -9,6 +9,7 @@
   position: absolute;
 }
 .stateMap {
+  border-radius: inherit;
   background: white;
   z-index: 8;
   display: inline-block;
@@ -22,7 +23,10 @@
 .stateMapContainer {
   padding: 0px;
   position: relative;
-  min-height: 60vh;
+  min-height: 65vh;
+  border: 1px solid rgb(212, 212, 212);
+  border-radius: 5px;
+  padding-top: 1%;
   display: flex;
   flex-wrap: wrap;
   align-items: end;
@@ -50,6 +54,7 @@ div.miniMap {
 #districtMapContainer {
   padding: 0px;
   position: absolute;
+  border-radius: inherit;
 }
 
 ::ng-deep div.preLoaderWrapper[_ngcontent-c7] {
@@ -129,4 +134,8 @@ mat-form-field {
   color: white;
   padding: 10px;
   z-index: 9;
+}
+
+::ng-deep .leaflet-control-attribution {
+  display: none;
 }
