@@ -40,6 +40,7 @@ export class HomeTabViewComponent implements OnInit {
   ulbTypeSelected: string;
 
   tabIndexChangeHandler(event): void {
+    console.log(event);
     this.tabIndex = event;
     this.fetchData();
 
