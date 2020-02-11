@@ -7,7 +7,11 @@
 >
   <mat-tab label="Extent on dependency on own revenues">
     <ng-template matTabContent>
-      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 0">
+      <div
+        class="col-sm-12 col-md-5"
+        style="max-width: 40%;"
+        *ngIf="tabIndex === 0"
+      >
         <app-re-useable-heat-map
           (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
@@ -27,7 +31,11 @@
   </mat-tab>
   <mat-tab [label]="'Sources of revenue'">
     <ng-template matTabContent>
-      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 1">
+      <div
+        class="col-sm-12 col-md-5"
+        style="max-width: 40%;"
+        *ngIf="tabIndex === 1"
+      >
         <app-re-useable-heat-map
           (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
@@ -39,7 +47,11 @@
   </mat-tab>
   <mat-tab [label]="'Sources of financing revenue expenditure '">
     <ng-template matTabContent>
-      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 2">
+      <div
+        class="col-sm-12 col-md-5"
+        style="max-width: 40%;"
+        *ngIf="tabIndex === 2"
+      >
         <app-re-useable-heat-map
           (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
@@ -89,7 +101,11 @@
   </mat-tab>
   <mat-tab [label]="'Avenues of revenue expenditure'">
     <ng-template matTabContent>
-      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 3">
+      <div
+        class="col-sm-12 col-md-5"
+        style="max-width: 40%;"
+        *ngIf="tabIndex === 3"
+      >
         <app-re-useable-heat-map
           (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
@@ -101,7 +117,11 @@
   </mat-tab>
   <mat-tab [label]="'Cash and Bank balance'">
     <ng-template matTabContent>
-      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 4">
+      <div
+        class="col-sm-12 col-md-5"
+        style="max-width: 40%;"
+        *ngIf="tabIndex === 4"
+      >
         <app-re-useable-heat-map
           (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
@@ -157,7 +177,11 @@
   </mat-tab>
   <mat-tab [label]="'Outstanding debt'">
     <ng-template matTabContent>
-      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 5">
+      <div
+        class="col-sm-12 col-md-5"
+        style="max-width: 40%;"
+        *ngIf="tabIndex === 5"
+      >
         <app-re-useable-heat-map
           (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
