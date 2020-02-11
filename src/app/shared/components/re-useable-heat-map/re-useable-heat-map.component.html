@@ -1,4 +1,3 @@
-
 <div class="col-sm-12 stateMapContainer" id="ulbMap">
   <h5 style="position: absolute;z-index: 9;padding-left: 1%;">
     {{
@@ -29,14 +28,27 @@
         [matAutocomplete]="auto"
       />
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option
+        <mat-optgroup
+          *ngFor="let stateId of object.keys(filteredULBStateAndULBDataMerged)"
+          [label]="filteredULBStateAndULBDataMerged[stateId].name"
+        >
+          <mat-option
+            *ngFor="let ulb of filteredULBStateAndULBDataMerged[stateId].ulbs"
+            (onSelectionChange)="onSelectingULBFromDropdown(ulb.name)"
+            [value]="ulb.name"
+            [title]="ulb.name"
+          >
+            {{ ulb.name }}
+          </mat-option>
+        </mat-optgroup>
+        <!-- <mat-option
           (onSelectionChange)="onSelectingULBFromDropdown(ulb.name)"
           *ngFor="let ulb of ulbListForAutoCompletion"
           [value]="ulb.name"
           [title]="ulb.name"
         >
           {{ ulb.name }}
-        </mat-option>
+        </mat-option> -->
       </mat-autocomplete>
     </mat-form-field>
 
