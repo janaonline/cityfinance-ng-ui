@@ -13,9 +13,11 @@
         *ngIf="tabIndex === 0"
       >
         <app-re-useable-heat-map
+
           [ulbSelected]="selectedUlb?._id"
           (ulbsClicked)="fetchUlBsData($event)"
-        ></app-re-useable-heat-map>
+        ></app-re-useable-heat-map
+>
       </div>
       <div class="col-sm-12 col-md-7">
         <!-- <div class="row">

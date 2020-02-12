@@ -70,7 +70,6 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log();
     this.fetchData();
   }
 
@@ -102,19 +101,24 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   private fetchUlBsData(ulbIdsArray: string[]) {
+    console.log(ulbIdsArray, this.singleULBView);
     if (ulbIdsArray.length) {
-      for (const ulb of ulbIdsArray) {
+     /* for (const ulb of ulbIdsArray) {
         this.dashboardService.fetchULBData(ulb).subscribe(response => {
           this.commonTableHeaders = [
-            {title: 'ULB Name', id: 'ulbName'},
+            {title: 'ULB Name', id: 'name'},
             {
               title: 'Population',
-              id: 'populationCategory'
+              id: 'population'
             }
           ].concat(this.commonTableHeaders.slice(2));
         }, this.handleError);
-      }
+      }*/
     } else {
+      if (this.singleULBView) {
+        this.singleULBView = false;
+        this.fetchData();
+      }
     }
   }
 
@@ -364,7 +368,6 @@ export class HomeTabViewComponent implements OnInit {
 
   sortHeader(header) {
     const {id} = header;
-    console.log(id);
     if (header.hasOwnProperty('status') && header.status == true) {
       header.status = false;
       this.commonTableDataDisplay = this.commonTableDataDisplay.map(year => {
