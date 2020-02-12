@@ -38,6 +38,7 @@ export class HomeTabViewComponent implements OnInit {
     {title: 'Max. Own Revenue', id: 'maxOwnRevenuePercentage'}
   ];
 
+  commonTableData = [];
   commonTableDataDisplay = [];
   yearForm: FormGroup;
   selectedYears: any = [];
@@ -139,6 +140,7 @@ export class HomeTabViewComponent implements OnInit {
 
   private fetchTableDataSuccess = (response: any) => {
     this.loading = false;
+    this.commonTableData = response['data'];
     this.commonTableDataDisplay = response['data'];
     this.filterDisplayDataTableYearWise();
     if (this.singleULBView) {
@@ -424,7 +426,7 @@ export class HomeTabViewComponent implements OnInit {
   modalItemClicked(rowClickedId) {
     this.singleULBView = true;
     let newYears = [];
-    for (let year of this.commonTableDataDisplay) {
+    for (let year of this.commonTableData) {
       for (let row of year.data) {
         //if (row.populationCategory == this.modalTableData.populationCategory) {
         if (row.ulbs) {

@@ -12,8 +12,8 @@
         style="max-width: 40%; margin-top: 1%;"
         *ngIf="tabIndex === 0"
       >
-        <app-re-useable-heat-map
-          (ulbsClicked)="fetchUlBsData($event)"
+        <app-re-useable-heat-map [ulbSelected]="selectedUlb?._id"
+                                 (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
       <div class="col-sm-12 col-md-7">

@@ -316,6 +316,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     this.allULBSList = res.data;
     this.ulbsOfSelectedState = res.data;
     this.ulbListForAutoCompletion = res.data;
+    if(this.stateData)
     this.stateAndULBDataMerged = this.CombineStateAndULBData(
       this.stateData,
       res.data
@@ -346,6 +347,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
   private onGettingStateULBCoveredSuccess(res: IStateULBCoveredResponse) {
     this.stateData = res.data;
+    if(this.allULBSList)
+    this.stateAndULBDataMerged = this.CombineStateAndULBData(
+      this.stateData,
+      this.allULBSList
+    );
     this.loadMapGeoJson().then(res => {
       this.createNationalLevelMap();
     });
