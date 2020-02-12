@@ -238,6 +238,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
   private listenToFormControls() {
     this.ulbsSelected.valueChanges.subscribe(newValue => {
+      console.log(`new Value`, newValue);
       this.ulbsClicked.emit(newValue);
     });
 
@@ -625,16 +626,32 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       id => id === ulbFound._id
     );
     let newValues: string[];
+
+    // this.getDistrictMarkerOfULB(ulb)
+
     if (ulbAlreadySelect) {
       newValues = this.ulbsSelected.value.filter(id => id !== ulbFound._id);
       this.changeMarkerToUnselected(marker);
     } else {
-      newValues = <string[]>this.ulbsSelected.value;
+      newValues = [ulbFound._id];
+      this.unselectAllDistrictMarker();
+      // newValues = <string[]>this.ulbsSelected.value;
       this.changeMarkerToSelected(marker);
-      newValues.push(ulbFound._id);
+      // newValues.push(ulbFound._id);
     }
     this.ulbsSelected.setValue(newValues);
   };
+
+  private unselectAllDistrictMarker() {
+    this.districtMap.eachLayer((layer: any) => {
+      if (
+        (layer as any).options &&
+        (layer as any).options.pane === "markerPane"
+      ) {
+        this.changeMarkerToUnselected(layer);
+      }
+    });
+  }
 
   private changeMarkerToSelected(marker: L.Marker) {
     marker.setIcon(this.yellowIcon);
