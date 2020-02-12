@@ -430,6 +430,8 @@ export class HomeTabViewComponent implements OnInit {
     }
     this.commonTableDataDisplay = newYears;
     this.commonTableHeaders = this.modalTableHeaders;
+    this.modalRef.hide();
+
   }
 }
 
