@@ -13,11 +13,8 @@
         *ngIf="tabIndex === 0"
       >
         <app-re-useable-heat-map
-
-          [ulbSelected]="selectedUlb?._id"
           (ulbsClicked)="fetchUlBsData($event)"
-        ></app-re-useable-heat-map
->
+        ></app-re-useable-heat-map>
       </div>
       <div class="col-sm-12 col-md-7">
         <!-- <div class="row">
@@ -351,11 +348,11 @@
       </thead>
       <tbody>
       <!--      <ng-container *ngFor="let tr of modalTableData">-->
-      <tr *ngFor="let row of modalTableData?.data; let i = index">
+      <tr *ngFor="let row of modalTableData.data; let i = index">
         <td class="text-center" *ngFor="let col of modalTableHeaders">
           <span *ngIf="!col?.click;else clickableCol">{{ row[col?.id] }}</span>
           <ng-template #clickableCol>
-            <a (click)="modalItemClicked(row,UlbModal)">{{ row[col?.id] }}</a>
+            <a (click)="modalItemClicked(row._id)">{{ row[col?.id] }}</a>
           </ng-template>
         </td>
       </tr>

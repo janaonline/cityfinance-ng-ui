@@ -42,14 +42,20 @@ export class HomeTabViewComponent implements OnInit {
   yearForm: FormGroup;
   selectedYears: any = [];
   modalRef: BsModalRef;
-  modalTableHeaders = [];
+  modalTableHeaders = [
+    {title: 'ULB name', click: true, id: 'name'},
+    {title: 'Population', id: 'population'},
+    {title: 'Own Revenues (A) ', id: 'ownRevenue', description: '(Rs in crores)'},
+    {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', description: '(Rs in crores)'},
+    {title: 'Own Revenue % (A/B)', id: 'ownRevenuePercentage', description: '(Rs in crores)'},
+  ];
   modalTableData: {
     populationCategory: string,
     data: any[],
   };
   loading = false;
   singleULBView = false;
-  selectedUlb = {};
+  selectedUlb: { _id?: string };
 
 
   ulbTypeSelected: string;
@@ -101,19 +107,19 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   private fetchUlBsData(ulbIdsArray: string[]) {
-    console.log(ulbIdsArray, this.singleULBView);
     if (ulbIdsArray.length) {
-     /* for (const ulb of ulbIdsArray) {
-        this.dashboardService.fetchULBData(ulb).subscribe(response => {
-          this.commonTableHeaders = [
-            {title: 'ULB Name', id: 'name'},
-            {
-              title: 'Population',
-              id: 'population'
-            }
-          ].concat(this.commonTableHeaders.slice(2));
-        }, this.handleError);
-      }*/
+      this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
+      /* for (const ulb of ulbIdsArray) {
+         this.dashboardService.fetchULBData(ulb).subscribe(response => {
+           this.commonTableHeaders = [
+             {title: 'ULB Name', id: 'name'},
+             {
+               title: 'Population',
+               id: 'population'
+             }
+           ].concat(this.commonTableHeaders.slice(2));
+         }, this.handleError);
+       }*/
     } else {
       if (this.singleULBView) {
         this.singleULBView = false;
@@ -136,7 +142,7 @@ export class HomeTabViewComponent implements OnInit {
     this.commonTableDataDisplay = response['data'];
     this.filterDisplayDataTableYearWise();
     if (this.singleULBView) {
-      this.modalItemClicked(this.selectedUlb);
+      this.modalItemClicked(this.selectedUlb._id);
     }
   };
 
@@ -415,15 +421,16 @@ export class HomeTabViewComponent implements OnInit {
     ];
   }
 
-  modalItemClicked(rowClicked) {
+  modalItemClicked(rowClickedId) {
     this.singleULBView = true;
-    this.selectedUlb = rowClicked;
     let newYears = [];
     for (let year of this.commonTableDataDisplay) {
       for (let row of year.data) {
-        if (row.populationCategory == this.modalTableData.populationCategory) {
+        //if (row.populationCategory == this.modalTableData.populationCategory) {
+        if (row.ulbs) {
           for (let ulb of row.ulbs) {
-            if (ulb._id == rowClicked._id) {
+            if (ulb._id == rowClickedId) {
+              this.selectedUlb = ulb;
               let newYear = {year: year.year, data: [ulb]};
               newYears.push(newYear);
             }
@@ -433,7 +440,10 @@ export class HomeTabViewComponent implements OnInit {
     }
     this.commonTableDataDisplay = newYears;
     this.commonTableHeaders = this.modalTableHeaders;
-    this.modalRef.hide();
+    this.commonTableHeaders[0].click = false;
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
 
   }
 }
