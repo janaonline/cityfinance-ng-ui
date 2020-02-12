@@ -51,7 +51,7 @@ export class HomeTabViewComponent implements OnInit {
     {title: 'Population', id: 'population'},
     {title: 'Own Revenues (A) ', id: 'ownRevenue', description: '(Rs in crores)'},
     {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', description: '(Rs in crores)'},
-    {title: 'Own Revenue % (A/B)', id: 'ownRevenuePercentage', description: '(Rs in crores)'},
+    {title: 'Own Revenue % (A/B)', id: 'ownRevenuePercentage'},
   ];
   modalTableData: {
     populationCategory: string,
@@ -458,13 +458,13 @@ export class HomeTabViewComponent implements OnInit {
     };
     //this.dashboardService.fetchUlbCoverage(range);
     this.modalRef = this.modalService.show(UlbModal, {class: 'modal-lg'});
-    this.modalTableHeaders = [
-      {title: 'ULB name', click: true, id: 'name'},
-      {title: 'Population', id: 'population'},
-      {title: 'Own Revenues (A) ', id: 'ownRevenue', description: '(Rs in crores)'},
-      {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', description: '(Rs in crores)'},
-      {title: 'Own Revenue % (A/B)', id: 'ownRevenuePercentage', description: '(Rs in crores)'},
-    ];
+    /*  this.modalTableHeaders = [
+        {title: 'ULB name', click: true, id: 'name'},
+        {title: 'Population', id: 'population'},
+        {title: 'Own Revenues (A) ', id: 'ownRevenue', description: '(Rs in crores)'},
+        {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', description: '(Rs in crores)'},
+        {title: 'Own Revenue % (A/B)', id: 'ownRevenuePercentage'},
+      ];*/
   }
 
   modalItemClicked(rowClickedId) {
