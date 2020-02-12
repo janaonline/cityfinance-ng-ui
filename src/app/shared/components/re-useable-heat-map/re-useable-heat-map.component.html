@@ -30,7 +30,7 @@
         >
           <mat-option
             *ngFor="let ulb of filteredULBStateAndULBDataMerged[stateId].ulbs"
-            (onSelectionChange)="onSelectingULBFromDropdown(ulb.name)"
+            (onSelectionChange)="onSelectingULBFromDropdown(ulb._id)"
             [value]="ulb.name"
             [title]="ulb.name"
           >

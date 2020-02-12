@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import * as L from 'leaflet';
@@ -15,22 +15,9 @@ import { ILeafletStateClickEvent } from './models/leafletStateClickEvent';
   templateUrl: "./re-useable-heat-map.component.html",
   styleUrls: ["./re-useable-heat-map.component.scss"]
 })
-export class ReUseableHeatMapComponent implements OnInit {
-  constructor(
-    private _commonService: CommonService,
-    private _snackbar: MatSnackBar
-  ) {
-    this._commonService
-      .getStateUlbCovered()
-      .subscribe(res => this.onGettingStateULBCoveredSuccess(res));
-
-    this._commonService
-      .getULBSWithPopulationAndCoordinates()
-      .subscribe(res => this.onGettingULBWithPopulationSuccess(res));
-
-    this.listenToFormControls();
-  }
+export class ReUseableHeatMapComponent implements OnInit, OnChanges {
   @Output() ulbsClicked = new EventEmitter<string[]>();
+  @Input() ulbSelected: string;
 
   ulbsSelected = new FormControl([]);
   ulbFilterControl = new FormControl();
@@ -73,12 +60,36 @@ export class ReUseableHeatMapComponent implements OnInit {
 
   isMapOnMiniMapMode = false;
 
+  districtMap: L.Map;
+
+  constructor(
+    private _commonService: CommonService,
+    private _snackbar: MatSnackBar
+  ) {
+    this._commonService
+      .getStateUlbCovered()
+      .subscribe(res => this.onGettingStateULBCoveredSuccess(res));
+
+    this._commonService
+      .getULBSWithPopulationAndCoordinates()
+      .subscribe(res => this.onGettingULBWithPopulationSuccess(res));
+
+    this.listenToFormControls();
+  }
+
   ngOnInit() {}
 
-  onSelectingULBFromDropdown(ulbName: string) {
-    this.selectULBByName(ulbName);
-    const stateOfULB = this.getStateOfULB(ulbName);
+  ngOnChanges(changes: { ulbSelected: SimpleChange }) {
+    if (changes.ulbSelected && changes.ulbSelected.currentValue) {
+      this.onSelectingULBFromDropdown(changes.ulbSelected.currentValue);
+    }
+  }
 
+  onSelectingULBFromDropdown(ulbId: string) {
+    const stateOfULB = this.getStateOfULB(ulbId);
+    if (!stateOfULB) {
+      return false;
+    }
     if (!this.DistrictsJSONForMapCreation) {
       this.showDistrictMapNotLaodedWarning();
       return;
@@ -86,6 +97,9 @@ export class ReUseableHeatMapComponent implements OnInit {
     if (stateOfULB) {
       this.convertDomToMiniMap("mapid");
       this.createStateLevelMap(stateOfULB.name);
+      setTimeout(() => {
+        this.selectULBById(ulbId);
+      }, 0);
     }
   }
 
@@ -100,14 +114,34 @@ export class ReUseableHeatMapComponent implements OnInit {
     );
   }
 
-  selectULBByName(ulbName: string) {
-    const ulbFound = this.ulbsOfSelectedState.find(ulb => ulb.name === ulbName);
+  selectULBById(ulbId: string) {
+    const ulbFound = this.ulbsOfSelectedState.find(ulb => ulb._id === ulbId);
     if (!ulbFound) {
       return false;
     }
     const ulbsAlreadySelect = <string[]>this.ulbsSelected.value;
     ulbsAlreadySelect.push(ulbFound._id);
     this.ulbsSelected.setValue(ulbsAlreadySelect);
+    const marker = this.getDistrictMarkerOfULB(ulbFound);
+    this.changeMarkerToSelected(marker);
+  }
+
+  private getDistrictMarkerOfULB(ulb: ULBWithMapData) {
+    let markerFound;
+    try {
+      this.districtMap.eachLayer(layer => {
+        if (
+          (layer as any).options &&
+          (layer as any).options.pane === "markerPane" &&
+          (layer as any)._latlng.lat === +ulb.location.lat &&
+          (layer as any)._latlng.lng === +ulb.location.lng
+        ) {
+          markerFound = layer as any;
+          throw new Error("ULBFound");
+        }
+      });
+    } catch (error) {}
+    return markerFound;
   }
 
   loadMapGeoJson() {
@@ -277,8 +311,8 @@ export class ReUseableHeatMapComponent implements OnInit {
     return filteredULBS;
   }
 
-  private getStateOfULB(ulbName: string) {
-    const ulbFound = this.ulbsOfSelectedState.find(ulb => ulb.name === ulbName);
+  private getStateOfULB(ulbId: string) {
+    const ulbFound = this.ulbsOfSelectedState.find(ulb => ulb._id === ulbId);
     if (!ulbFound) {
       return false;
     }
@@ -515,6 +549,7 @@ export class ReUseableHeatMapComponent implements OnInit {
       if (districtLayer) {
         districtMap.fitBounds(districtLayer.getBounds());
       }
+      this.districtMap = districtMap;
 
       options.dataPoints.forEach(dataPoint => {
         const marker = this.createDistrictMarker({
@@ -562,6 +597,7 @@ export class ReUseableHeatMapComponent implements OnInit {
         +ulb.location.lat === values.latlng.lat &&
         +ulb.location.lng === values.latlng.lng
     );
+
     if (!ulbFound) {
       return false;
     }
@@ -571,14 +607,22 @@ export class ReUseableHeatMapComponent implements OnInit {
     let newValues: string[];
     if (ulbAlreadySelect) {
       newValues = this.ulbsSelected.value.filter(id => id !== ulbFound._id);
-      marker.setIcon(this.blueIcon);
+      this.changeMarkerToUnselected(marker);
     } else {
-      marker.setIcon(this.yellowIcon);
       newValues = <string[]>this.ulbsSelected.value;
+      this.changeMarkerToSelected(marker);
       newValues.push(ulbFound._id);
     }
     this.ulbsSelected.setValue(newValues);
   };
+
+  private changeMarkerToSelected(marker: L.Marker) {
+    marker.setIcon(this.yellowIcon);
+  }
+
+  private changeMarkerToUnselected(marker: L.Marker) {
+    marker.setIcon(this.blueIcon);
+  }
 
   private getColorBasedOnPercentage(value: number) {
     if (value >= 75) {
