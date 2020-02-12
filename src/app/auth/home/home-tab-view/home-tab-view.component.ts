@@ -52,6 +52,7 @@ export class HomeTabViewComponent implements OnInit {
   ];
   modalTableData: {
     populationCategory: string,
+    year: string,
     data: any[],
   };
   loading = false;
@@ -409,9 +410,10 @@ export class HomeTabViewComponent implements OnInit {
     }
   }
 
-  openModal(UlbModal: TemplateRef<any>, range) {
+  openModal(UlbModal: TemplateRef<any>, range, year) {
     this.modalTableData = {
       data: range['ulbs'],
+      year,
       populationCategory: range['populationCategory']
     };
     //this.dashboardService.fetchUlbCoverage(range);
