@@ -380,17 +380,17 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     ];
     const legend = new L.Control({ position: "bottomright" });
     const labels = [
-      `<span style="width: 80%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`
+      `<span style="width: 100%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`
     ];
     legend.onAdd = function(map) {
       const div = L.DomUtil.create("div", "info legend");
       div.style.width = "100%";
       arr.forEach(value => {
         labels.push(
-          `<span><i class="circle" style="background: ${value.color}; padding:8%; display: inline-block"> </i> ${value.text}</span>`
+          `<span style="display: flex; align-items: center; width: 45%; margin: 1% auto; "><i class="circle" style="background: ${value.color}; padding:10%; display: inline-block; margin-right: 5%;"> </i> ${value.text}</span>`
         );
       });
-      div.innerHTML = labels.join(`<br>`);
+      div.innerHTML = labels.join(``);
       return div;
     };
 
