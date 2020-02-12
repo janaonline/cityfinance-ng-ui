@@ -463,7 +463,7 @@ export class HomeTabViewComponent implements OnInit {
       {title: 'Population', id: 'population'},
       {title: 'Own Revenues (A) ', id: 'ownRevenue', description: '(Rs in crores)'},
       {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', description: '(Rs in crores)'},
-      {title: 'Own Revenue % (A/B)', id: 'ownRevenuePercentage', description: '(Rs in crores)'},
+      {title: 'Own Revenue % (A/B)', id: 'ownRevenuePercentage'},
     ];
   }
 
