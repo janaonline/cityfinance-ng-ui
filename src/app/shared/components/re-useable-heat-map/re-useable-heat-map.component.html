@@ -43,19 +43,46 @@
     </mat-form-field>
 
     <section class="regionalDetails col-sm-12" *ngIf="mouseHoverOnState">
-      <canvas id="statePercentage" width="325" height="325"></canvas>
+      <div
+        style="align-items: center;
+    display: inline-flex;
+    width: fit-content;
+    position: relative;
+    justify-content: center;
+    margin-right: 5%;"
+      >
+        <span style="position: absolute;font-size: .7em; ">
+          {{ mouseHoverOnState.coveredUlbPercentage | number: "2.1-1" }} %
+        </span>
+        <mat-progress-spinner
+          [value]="mouseHoverOnState.coveredUlbPercentage | number: '2.2-2'"
+          [diameter]="50"
+        ></mat-progress-spinner>
+      </div>
 
-      <span><span class="bold">State:</span> {{ mouseHoverOnState.name }}</span>
-      <span>
-        <span class="bold">ULB Covered(%):</span>
-        {{ mouseHoverOnState.coveredUlbPercentage | number: "2.2-2" }} %
-      </span>
-      <span>
-        <span class="bold">
+      <div
+        style="align-items: center;
+    display: inline;
+    width: fit-content;"
+      >
+        <span> {{ mouseHoverOnState.name }}</span>
+        <br />
+        <span class="colorText">
           {{ mouseHoverOnState.coveredUlbCount }} out of
           {{ mouseHoverOnState.totalUlbs }}
         </span>
-      </span>
+        ULBs
+        <!-- <span>
+          <span class="bold">ULB Covered(%):</span>
+          {{ mouseHoverOnState.coveredUlbPercentage | number: "2.2-2" }} %
+        </span> -->
+        <!-- <span>
+          <span class="bold">
+            {{ mouseHoverOnState.coveredUlbCount }} out of
+            {{ mouseHoverOnState.totalUlbs }}
+          </span>
+        </span> -->
+      </div>
     </section>
 
     <section class="regionalDetails col-sm-12" *ngIf="mouseHoveredOnULB">

@@ -207,8 +207,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       (layer as any).bringToBack();
       (layer as any).on({
         mouseover: () => this.createTooltip(layer, stateLayer),
-        click: (args: ILeafletStateClickEvent) => this.onClickingState(args)
-        // mouseout: () => (this.mouseHoverOnState = null)
+        click: (args: ILeafletStateClickEvent) => this.onClickingState(args),
+        mouseout: () => (this.mouseHoverOnState = null)
       });
     });
   }
@@ -368,67 +368,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     } else {
       stateLayer.bindTooltip("<b>" + layer.feature.properties.ST_NM + "</b>");
     }
-    setTimeout(() => {
-      this.createDoughnutChart();
-    });
-  }
-
-  private createDoughnutChart() {
-    const canvas = document.getElementById("statePercentage");
-    const ctx = (canvas as any).getContext("2d");
-
-    const colors = ["orange", "grey"];
-    const values = [10, 80];
-    const labels = ["Voluntary", "Robot", "Mandatory"];
-
-    this.dmbChart(150, 150, 125, 25, values, colors, labels, 0, ctx);
-  }
-
-  dmbChart(
-    cx,
-    cy,
-    radius,
-    arcwidth,
-    values,
-    colors,
-    labels,
-    selectedValue,
-    ctx
-  ) {
-    let tot = 0;
-    let accum = 0;
-    const PI = Math.PI;
-    const PI2 = PI * 2;
-    const offset = -PI / 2;
-    ctx.lineWidth = arcwidth;
-    for (let i = 0; i < values.length; i++) {
-      tot += values[i];
-    }
-    for (let i = 0; i < values.length; i++) {
-      ctx.beginPath();
-      ctx.arc(
-        cx,
-        cy,
-        radius,
-        offset + PI2 * (accum / tot),
-        offset + PI2 * ((accum + values[i]) / tot)
-      );
-      ctx.strokeStyle = colors[i];
-      ctx.stroke();
-      accum += values[i];
-    }
-    const innerRadius = radius - arcwidth - 3;
-    ctx.beginPath();
-    ctx.arc(cx, cy, innerRadius, 0, PI2);
-    ctx.fillStyle = colors[selectedValue];
-    ctx.fill();
-    ctx.textAlign = "center";
-    ctx.textBaseline = "bottom";
-    ctx.fillStyle = "white";
-    ctx.font = innerRadius + "px verdana";
-    ctx.fillText(values[selectedValue] + "%", cx, cy + innerRadius * 0.5);
-    ctx.font = innerRadius / 4 + "px verdana";
-    console.log(`chart created`);
   }
 
   private createLegendsForNationalLevelMap() {
