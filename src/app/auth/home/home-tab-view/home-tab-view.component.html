@@ -348,11 +348,11 @@
       </thead>
       <tbody>
       <!--      <ng-container *ngFor="let tr of modalTableData">-->
-      <tr *ngFor="let row of modalTableData; let i = index">
+      <tr *ngFor="let row of modalTableData?.data; let i = index">
         <td class="text-center" *ngFor="let col of modalTableHeaders">
           <span *ngIf="!col?.click;else clickableCol">{{ row[col?.id] }}</span>
           <ng-template #clickableCol>
-            <a>{{ row[col?.id] }}</a>
+            <a (click)="modalItemClicked(row)">{{ row[col?.id] }}</a>
           </ng-template>
         </td>
       </tr>

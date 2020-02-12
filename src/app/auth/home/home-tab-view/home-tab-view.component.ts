@@ -37,15 +37,19 @@ export class HomeTabViewComponent implements OnInit {
     {title: 'Min. Own Revenue', id: 'minOwnRevenuePercentage'},
     {title: 'Max. Own Revenue', id: 'maxOwnRevenuePercentage'}
   ];
-  commonTableData = [];
 
   commonTableDataDisplay = [];
   yearForm: FormGroup;
   selectedYears: any = [];
   modalRef: BsModalRef;
   modalTableHeaders = [];
-  modalTableData = [];
+  modalTableData: {
+    populationCategory: string,
+    data: any[],
+  };
   loading = false;
+  singleULBView = false;
+  selectedUlb = {};
 
 
   ulbTypeSelected: string;
@@ -127,6 +131,9 @@ export class HomeTabViewComponent implements OnInit {
     this.loading = false;
     this.commonTableDataDisplay = response['data'];
     this.filterDisplayDataTableYearWise();
+    if (this.singleULBView) {
+      this.modalItemClicked(this.selectedUlb);
+    }
   };
 
   private fetchData() {
@@ -390,8 +397,10 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   openModal(UlbModal: TemplateRef<any>, range) {
-    console.log(range.ulbs);
-    this.modalTableData = range['ulbs'];
+    this.modalTableData = {
+      data: range['ulbs'],
+      populationCategory: range['populationCategory']
+    };
     //this.dashboardService.fetchUlbCoverage(range);
     this.modalRef = this.modalService.show(UlbModal, {class: 'modal-lg'});
     this.modalTableHeaders = [
@@ -401,6 +410,26 @@ export class HomeTabViewComponent implements OnInit {
       {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', description: '(Rs in crores)'},
       {title: 'Own Revenue % (A/B)', id: 'ownRevenuePercentage', description: '(Rs in crores)'},
     ];
+  }
+
+  modalItemClicked(rowClicked) {
+    this.singleULBView = true;
+    this.selectedUlb = rowClicked;
+    let newYears = [];
+    for (let year of this.commonTableDataDisplay) {
+      for (let row of year.data) {
+        if (row.populationCategory == this.modalTableData.populationCategory) {
+          for (let ulb of row.ulbs) {
+            if (ulb._id == rowClicked._id) {
+              let newYear = {year: year.year, data: [ulb]};
+              newYears.push(newYear);
+            }
+          }
+        }
+      }
+    }
+    this.commonTableDataDisplay = newYears;
+    this.commonTableHeaders = this.modalTableHeaders;
   }
 }
 
