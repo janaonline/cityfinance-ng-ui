@@ -104,14 +104,16 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
   }
 
   private showDistrictMapNotLaodedWarning() {
-    this._snackbar.open(
-      `District map is still being loaded. Please try after some time.`,
-      null,
-      {
-        duration: 5000,
-        verticalPosition: "bottom"
-      }
+    this.showSnacbarMessage(
+      `District map is still being loaded. Please try after some time.`
     );
+  }
+
+  private showSnacbarMessage(message: string) {
+    this._snackbar.open(message, null, {
+      duration: 5000,
+      verticalPosition: "bottom"
+    });
   }
 
   selectULBById(ulbId: string) {
@@ -199,33 +201,28 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       this.nationalLevelMap.fitBounds(stateLayer.getBounds());
     }
 
-    let coords = [];
+    this.initializeNationalLevelMapLayer(this.nationalLevelMap);
 
     stateLayer.eachLayer(layer => {
-      (layer as any)._latlngs.forEach(lay => {
-        const exec = lay[0];
-        let data;
-        if (exec.length) {
-          data = lay.map(cord => {
-            return cord;
-          });
-          coords.push(...data[0]);
-        } else {
-          coords.push(exec);
-        }
+      (layer as any).bringToBack();
+      (layer as any).on({
+        mouseover: () => this.createTooltip(layer, stateLayer),
+        click: (args: ILeafletStateClickEvent) => this.onClickingState(args),
+        mouseout: () => (this.mouseHoverOnState = null)
       });
+    });
+  }
 
-      coords = coords.map(x => {
-        return [x.lat, x.lng];
-      });
-
-      const cordi = this.getCentroid(coords);
-
-      const avgCord = { lat: cordi[0], lng: cordi[1] };
+  private initializeNationalLevelMapLayer(map: L.Map) {
+    map.eachLayer((layer: any) => {
+      if (!layer.feature || !layer.feature.properties) {
+        return;
+      }
       let count: number;
-      const stateId = (<ILeafletStateClickEvent["sourceTarget"]>(layer as any))
-        .feature.properties.ST_NM;
-      const stateFound = this.stateData.find(state => state.name === stateId);
+      const stateName = (<ILeafletStateClickEvent["sourceTarget"]>(
+        (layer as any)
+      )).feature.properties.ST_NM;
+      const stateFound = this.stateData.find(state => state.name === stateName);
       count = stateFound ? stateFound.coveredUlbPercentage : 0;
 
       (layer as any).setStyle(
@@ -236,14 +233,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         },
         true
       );
-      (layer as any).bringToBack();
-
-      (layer as any).on({
-        mouseover: () => this.createTooltip(layer, stateLayer),
-        click: (args: ILeafletStateClickEvent) => this.onClickingState(args),
-        mouseout: () => (this.mouseHoverOnState = null)
-      });
-      coords = [];
     });
   }
 
@@ -424,6 +413,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (this.isMapOnMiniMapMode) {
       this.resetMapToNationalLevel();
       this.convertMiniMapToOriginal("mapid");
+      this.initializeNationalLevelMapLayer(this.nationalLevelMap);
       return false;
     }
 
@@ -446,6 +436,30 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     this.createStateLevelMap(
       mapClickEvent.sourceTarget.feature.properties.ST_NM
     );
+
+    this.showStateLayerOnlyFor(this.nationalLevelMap, this.currentStateInView);
+  }
+
+  private showStateLayerOnlyFor(map: L.Map, state: IStateULBCovered) {
+    map.eachLayer((layer: any) => {
+      if (!layer.setStyle || !layer.feature || !layer.feature.properties) {
+        return;
+      }
+      let fillColor: string = this.getColorBasedOnPercentage(-1);
+      if (layer.feature.properties.ST_NM === state.name) {
+        fillColor = "#019CDF";
+      } else {
+        fillColor = "#E8E8E8";
+      }
+      layer.setStyle(
+        {
+          fillOpacity: 1,
+          fillColor,
+          weight: -1
+        },
+        true
+      );
+    });
   }
 
   private convertMiniMapToOriginal(domId: string) {
@@ -474,6 +488,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         parseFloat(ulb.location.lat) !== NaN &&
         parseFloat(ulb.location.lng) !== NaN
     );
+    if (!ulbsWithCoordinates.length) {
+      const message = "State does not conains any ULB with geo co-ordinates.";
+      this.showSnacbarMessage(message);
+      return;
+    }
     const centerLatLngOfState = this.getCentroid(
       ulbsWithCoordinates.map(ulb => [+ulb.location.lat, +ulb.location.lng])
     );
@@ -634,7 +653,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (value >= 25) {
       return "#8BD2F0";
     }
-    return `#D0EDF9`;
+    if (value >= 0) {
+      return `#D0EDF9`;
+    }
+    return "gray";
   }
 
   /**
