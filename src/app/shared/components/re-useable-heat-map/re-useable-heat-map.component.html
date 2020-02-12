@@ -42,7 +42,10 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <section class="regionalDetails col-sm-12" *ngIf="mouseHoverOnState">
+    <section
+      class="regionalDetails regionalDetails2 col-sm-12"
+      *ngIf="mouseHoverOnState"
+    >
       <div
         style="align-items: center;
     display: inline-flex;
@@ -72,26 +75,18 @@
           {{ mouseHoverOnState.totalUlbs }}
         </span>
         ULBs
-        <!-- <span>
-          <span class="bold">ULB Covered(%):</span>
-          {{ mouseHoverOnState.coveredUlbPercentage | number: "2.2-2" }} %
-        </span> -->
-        <!-- <span>
-          <span class="bold">
-            {{ mouseHoverOnState.coveredUlbCount }} out of
-            {{ mouseHoverOnState.totalUlbs }}
-          </span>
-        </span> -->
       </div>
     </section>
 
     <section class="regionalDetails col-sm-12" *ngIf="mouseHoveredOnULB">
-      <span><span class="bold">ULB:</span> {{ mouseHoveredOnULB.name }}</span>
-      <span>
+      <span class=" col-sm-12"
+        ><span class="bold">ULB:</span> {{ mouseHoveredOnULB.name }}</span
+      >
+      <span class=" col-sm-12">
         <span class="bold">Area:</span>
         {{ mouseHoveredOnULB.area }}
       </span>
-      <span>
+      <span class=" col-sm-12">
         <span class="bold">
           Population:
         </span>
