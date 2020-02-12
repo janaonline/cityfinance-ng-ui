@@ -238,7 +238,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
   private listenToFormControls() {
     this.ulbsSelected.valueChanges.subscribe(newValue => {
-      console.log(`new Value`, newValue);
       this.ulbsClicked.emit(newValue);
     });
 
@@ -419,7 +418,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       return false;
     }
 
-    this.convertDomToMiniMap("mapid");
     if (
       this.currentStateInView &&
       this.currentStateInView.name !==
@@ -435,9 +433,13 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     ) {
       return;
     }
-    this.createStateLevelMap(
+    const status = this.createStateLevelMap(
       mapClickEvent.sourceTarget.feature.properties.ST_NM
     );
+    if (!status) {
+      return false;
+    }
+    this.convertDomToMiniMap("mapid");
 
     this.showStateLayerOnlyFor(this.nationalLevelMap, this.currentStateInView);
   }
@@ -493,7 +495,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (!ulbsWithCoordinates.length) {
       const message = "State does not conains any ULB with geo co-ordinates.";
       this.showSnacbarMessage(message);
-      return;
+      return false;
     }
     const centerLatLngOfState = this.getCentroid(
       ulbsWithCoordinates.map(ulb => [+ulb.location.lat, +ulb.location.lng])
@@ -521,6 +523,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       center: { lat: centerLatLngOfState[0], lng: centerLatLngOfState[1] },
       dataPoints: [...dataPointsForMarker]
     });
+    return true;
   }
 
   private convertDomToMiniMap(domId: string) {
