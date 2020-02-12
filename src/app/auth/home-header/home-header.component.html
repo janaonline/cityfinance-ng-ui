@@ -28,8 +28,19 @@
       ><img src="/assets/images/cityfinance-logo.png"
       /></span>
   </div>
-  <ul class="nav navbar-nav navbar-right">
-    <li routerLinkActive="active"><a [routerLink]="['/home']">Home</a></li>
+  <div class="nav navbar-nav navbar-right px-1 " style="color: white">
+    <h4 class="text-right m-1">
+      An initiative of Ministry of Housing and Urban Affairs,
+    </h4>
+    <h4 class="text-right m-1">
+      Government of India
+
+    </h4>
+  </div>
+</nav>
+<div class="navbar container-fluid border-top-white" style="position: unset">
+  <ul class="nav navbar-nav navbar-left">
+    <li routerLinkActive="active"><a [routerLink]="['/home']"><b>Home</b></a></li>
     <!-- <li routerLinkActive="active"><a [routerLink]="['/home']">About Cityfinance.in</a></li> -->
     <li routerLinkActive="active" class="dropdown">
       <a
@@ -38,35 +49,32 @@
         role="button"
         aria-haspopup="true"
         aria-expanded="false"
-      >Urban Finances &nbsp;<span class="caret"></span
+      > <b>Urban Finances</b> &nbsp;<span class="caret"></span
       ></a>
       <ul class="dropdown-menu">
         <li routerLinkActive="active">
-          <a (click)="goToReportPage()">Annual Financial Statements</a>
+          <a (click)="goToReportPage()"><b>Annual Financial Statements</b></a>
         </li>
         <li>
-          <a [routerLink]="['/dashboard', 'financial-information']"
-          >Availability of Financial Information</a
-          >
+          <a [routerLink]="['/dashboard', 'financial-information']"><b>Availability of Financial Information</b></a>
         </li>
-        <li routerLinkActive="active" *ngIf="!isProduction">
-          <a [routerLink]="['/dashboard', 'ranking']"
-          >Annual Fiscal Ranking</a
-          >
-        </li>
+    <!--    <li routerLinkActive="active" *ngIf="!isProduction">
+          <a [routerLink]="['/dashboard', 'ranking']"><b>Annual Fiscal Ranking</b></a>
+        </li>-->
       </ul>
     </li>
+
     <li routerLinkActive="active">
-      <a [routerLink]="['/credit-rating/laws']">Municipal Finance Laws</a>
+      <a [routerLink]="['/credit-rating/laws']"><b>Municipal Finance Laws</b></a>
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['/credit-rating/report']">Credit Rating</a>
+      <a [routerLink]="['/credit-rating/report']"><b>Municipal Finance Laws Credit Rating</b></a>
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['/credit-rating/municipal-bond']">Municipal Bonds</a>
+      <a [routerLink]="['/credit-rating/municipal-bond']"><b> Municipal Bonds</b></a>
     </li>
     <li routerLinkActive="active" *ngIf="!isLoggedIn">
-      <a [routerLink]="['/login']">Login</a>
+      <a [routerLink]="['/login']"><b>Login</b></a>
     </li>
     <li routerLinkActive="active" class="dropdown" *ngIf="isLoggedIn">
       <a
@@ -74,13 +82,13 @@
         data-toggle="dropdown"
         role="button"
         aria-haspopup="true"
-        aria-expanded="false"
-      >Settings &nbsp;<span class="caret"></span
+        aria-expanded="false"><b>Settings</b> &nbsp;<span class="caret"></span
       ></a>
       <ul class="dropdown-menu">
-        <li><a [routerLink]="['user']">Profile</a></li>
-        <li><a class="pointer" (click)="logout()">Logout</a></li>
+        <li><a [routerLink]="['user']"><b>Profile</b></a></li>
+        <li><a class="pointer" (click)="logout()"><b>Logout</b></a></li>
       </ul>
     </li>
   </ul>
-</nav>
+</div>
+

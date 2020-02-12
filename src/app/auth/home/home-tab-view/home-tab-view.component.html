@@ -13,6 +13,7 @@
         *ngIf="tabIndex === 0"
       >
         <app-re-useable-heat-map
+          [ulbSelected]="selectedUlb?._id"
           (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
@@ -194,7 +195,7 @@
 </mat-tab-group>
 
 <ng-template #table>
-  <div [style.height.px]="400" style="width: 100%" [formGroup]="yearForm">
+  <div *ngIf="loading==false; else loadingSkeleton" [style.height.px]="400" style="width: 100%" [formGroup]="yearForm">
     <div class="row d-flex mt-4">
       <div class="col-sm-10">
         <angular2-multiselect
@@ -217,64 +218,65 @@
     </div>
     <div class="row mt-2">
       <div class="col-sm-12 table-responsive">
-        <table
-          *ngIf="commonTableDataDisplay.length; else noData"
-          class="table border-1"
-        >
+        <table *ngIf="commonTableDataDisplay?.length; else noData"
+               class="table border-1">
           <thead>
-            <tr>
-              <th
-                class="text-center col-sm-3 px-1 border-bottom-0"
-                *ngFor="let header of commonTableHeaders"
-              >
-                <div class="d-flex">
-                  <div class="d-flex flex-column p-0">
-                    {{ header.title }}
-                    <span class="font-weight-light" *ngIf="header.description">
+          <tr>
+            <th
+              class="text-center col-sm-3 px-1 border-bottom-0"
+              *ngFor="let header of commonTableHeaders"
+            >
+              <div class="d-flex">
+                <div class="d-flex flex-column p-0">
+                  {{ header.title }}
+                  <span class="font-weight-light" *ngIf="header.description">
                       {{ header.description }}</span
-                    >
-                  </div>
+                  >
+                </div>
+                <i
+                  *ngIf="!header.hasOwnProperty('status'); else icon"
+                  (click)="sortHeader(header)"
+                  class="fa fa-sort px-1"
+                  aria-hidden="true"
+                ></i>
+                <ng-template #icon>
                   <i
-                    *ngIf="!header.hasOwnProperty('status'); else icon"
+                    *ngIf="header.status"
                     (click)="sortHeader(header)"
-                    class="fa fa-sort px-1"
+                    class="fa fa-sort-asc px-1"
                     aria-hidden="true"
                   ></i>
-                  <ng-template #icon>
-                    <i
-                      *ngIf="header.status"
-                      (click)="sortHeader(header)"
-                      class="fa fa-sort-asc px-1"
-                      aria-hidden="true"
-                    ></i>
-                    <i
-                      *ngIf="!header.status"
-                      (click)="sortHeader(header)"
-                      class="fa fa-sort-desc px-1"
-                      aria-hidden="true"
-                    ></i>
-                  </ng-template>
-                </div>
-              </th>
-            </tr>
+                  <i
+                    *ngIf="!header.status"
+                    (click)="sortHeader(header)"
+                    class="fa fa-sort-desc px-1"
+                    aria-hidden="true"
+                  ></i>
+                </ng-template>
+              </div>
+            </th>
+          </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let tr of commonTableDataDisplay">
-              <tr>
-                <td
-                  class="text-center"
-                  [colSpan]="commonTableHeaders.length"
-                  [style.background]="'#ffc500'"
-                >
-                  <b>{{ tr?.year }}</b>
-                </td>
-              </tr>
-              <tr *ngFor="let row of tr.data; let i = index">
-                <td class="text-center" *ngFor="let col of commonTableHeaders">
-                  {{ row[col?.id] }}
-                </td>
-              </tr>
-            </ng-container>
+          <ng-container *ngFor="let tr of commonTableDataDisplay">
+            <tr>
+              <td
+                class="text-center"
+                [colSpan]="commonTableHeaders.length"
+                [style.background]="'#ffc500'"
+              >
+                <b>{{ tr?.year }}</b>
+              </td>
+            </tr>
+            <tr *ngFor="let row of tr.data; let i = index">
+              <td class="text-center" *ngFor="let col of commonTableHeaders">
+                <span *ngIf="!col?.click;else clickableCol">{{ row[col?.id] }}</span>
+                <ng-template #clickableCol>
+                  <a (click)="openModal(UlbModal,row)">{{ row[col?.id] }}</a>
+                </ng-template>
+              </td>
+            </tr>
+          </ng-container>
           </tbody>
         </table>
         <ng-template #noData>
@@ -283,6 +285,83 @@
       </div>
     </div>
   </div>
+  <ng-template #loadingSkeleton>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+  </ng-template>
 </ng-template>
 
-<ng-template #heatMap> </ng-template>
+<ng-template #heatMap></ng-template>
+
+<ng-template #UlbModal>
+  <!-- <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div> -->
+  <div>
+    <div
+      class="modal-header col-md-12"
+      style="display: inline-flex; align-items: center;">
+    </div>
+  </div>
+
+  <div class="modal-body">
+    <table *ngIf="modalTableHeaders.length; else noData"
+           class="table border-1">
+      <thead>
+      <tr>
+        <th style="position: sticky;top: 0;background: white"
+            class="text-center px-1 border-bottom-0"
+            *ngFor="let header of modalTableHeaders"
+        >
+          <div class="d-flex justify-content-center">
+            <div class="d-flex flex-column p-0">
+              {{ header.title }}
+              <span class="font-weight-light" *ngIf="header.description">
+                      {{ header.description }}</span
+              >
+            </div>
+            <i
+              *ngIf="!header.hasOwnProperty('status'); else icon"
+              (click)="sortHeader(header)"
+              class="fa fa-sort px-1"
+              aria-hidden="true"
+            ></i>
+            <ng-template #icon>
+              <i
+                *ngIf="header.status"
+                (click)="sortHeader(header)"
+                class="fa fa-sort-asc px-1"
+                aria-hidden="true"
+              ></i>
+              <i
+                *ngIf="!header.status"
+                (click)="sortHeader(header)"
+                class="fa fa-sort-desc px-1"
+                aria-hidden="true"
+              ></i>
+            </ng-template>
+          </div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <!--      <ng-container *ngFor="let tr of modalTableData">-->
+      <tr *ngFor="let row of modalTableData?.data; let i = index">
+        <td class="text-center" *ngFor="let col of modalTableHeaders">
+          <span *ngIf="!col?.click;else clickableCol">{{ row[col?.id] }}</span>
+          <ng-template #clickableCol>
+            <a (click)="modalItemClicked(row,UlbModal)">{{ row[col?.id] }}</a>
+          </ng-template>
+        </td>
+      </tr>
+      <!--      </ng-container>-->
+      </tbody>
+    </table>
+    <ng-template #noData>
+      <h3 class="text-center">No data available</h3>
+    </ng-template>
+  </div>
+</ng-template>

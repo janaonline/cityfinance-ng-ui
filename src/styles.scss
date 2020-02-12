@@ -687,10 +687,20 @@ img.align-center {
   border: 1px solid grey;
 }
 
+.border-top-white {
+  border-top-color: white;
+  border-top-width: 1px;
+  border-top-style: solid;
+}
+
 .p-0 {
   padding: 0 !important;
 }
 
 .m-0 {
   margin: 0 !important;
+}
+
+.m-1 {
+  margin-top: 1rem;
 }

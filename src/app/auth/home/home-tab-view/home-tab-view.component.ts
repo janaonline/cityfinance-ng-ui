@@ -1,58 +1,67 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Chart } from 'chart.js';
+import {Component, OnInit, TemplateRef} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Chart} from 'chart.js';
 
-import { DashboardService } from '../../../shared/services/dashboard/dashboard.service';
+import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {viewEngine_ChangeDetectorRef_interface} from '@angular/core/src/render3/view_ref';
 
 @Component({
-  selector: "app-home-tab-view",
-  templateUrl: "./home-tab-view.component.html",
-  styleUrls: ["./home-tab-view.component.scss"]
+  selector: 'app-home-tab-view',
+  templateUrl: './home-tab-view.component.html',
+  styleUrls: ['./home-tab-view.component.scss']
 })
 export class HomeTabViewComponent implements OnInit {
   tabIndex: any = 0;
   yearLookup = [
-    { id: "2015-16", itemName: "2015-16" },
-    { id: "2016-17", itemName: "2016-17" },
-    { id: "2017-18", itemName: "2017-18" }
+    {id: '2015-16', itemName: '2015-16'},
+    {id: '2016-17', itemName: '2016-17'},
+    {id: '2017-18', itemName: '2017-18'}
   ];
   yearsDropdownSettings = {
-    text: "Select Years",
-    primaryKey: "id",
+    text: 'Select Years',
+    primaryKey: 'id',
     badgeShowLimit: 1
   };
 
   commonTableHeaders: any[] = [
-    { title: "Population Category", id: "populationCategory" },
-    { title: "Number of ULBs", id: "numOfUlb" },
-    { title: "Own Revenues", id: "ownRevenue", description: "(Rs in crores)" },
+    {title: 'Population Category', click: true, id: 'populationCategory'},
+    {title: 'Number of ULBs', id: 'numOfUlb'},
+    {title: 'Own Revenues', id: 'ownRevenue', description: '(Rs in crores)'},
     {
-      title: "Revenue Expenditure",
-      id: "revenueExpenditure",
-      description: "(Rs in crores)"
+      title: 'Revenue Expenditure',
+      id: 'revenueExpenditure',
+      description: '(Rs in crores)'
     },
-    { title: "Own Revenue", id: "ownRevenue" },
-    { title: "Min. Own Revenue", id: "minOwnRevenuePercentage" },
-    { title: "Max. Own Revenue", id: "maxOwnRevenuePercentage" }
+    {title: 'Own Revenue', id: 'ownRevenue'},
+    {title: 'Min. Own Revenue', id: 'minOwnRevenuePercentage'},
+    {title: 'Max. Own Revenue', id: 'maxOwnRevenuePercentage'}
   ];
 
-  commonTableData = [];
   commonTableDataDisplay = [];
   yearForm: FormGroup;
   selectedYears: any = [];
-  ulbCoverageData = [];
+  modalRef: BsModalRef;
+  modalTableHeaders = [];
+  modalTableData: {
+    populationCategory: string,
+    data: any[],
+  };
+  loading = false;
+  singleULBView = false;
+  selectedUlb = {};
+
 
   ulbTypeSelected: string;
 
   tabIndexChangeHandler(event): void {
-    console.log(event);
     this.tabIndex = event;
     this.fetchData();
   }
 
-  constructor(
-    protected formBuilder: FormBuilder,
-    protected dashboardService: DashboardService
+  constructor(protected formBuilder: FormBuilder,
+              protected dashboardService: DashboardService,
+              private modalService: BsModalService,
   ) {
     this.yearForm = formBuilder.group({
       years: [[this.yearLookup[0]]]
@@ -61,6 +70,7 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log();
     this.fetchData();
   }
 
@@ -69,9 +79,13 @@ export class HomeTabViewComponent implements OnInit {
     this.filterDisplayDataTableYearWise();
   }
 
+  handleError = () => {
+    this.loading = false;
+  };
+
   resetPopupValues() {
     this.selectedYears = [];
-    this.yearForm.controls["years"].setValue([]);
+    this.yearForm.controls['years'].setValue([]);
     this.filterDisplayDataTableYearWise();
   }
 
@@ -84,200 +98,183 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   onDropdownClose(event: any) {
-    console.log(event);
+    this.fetchData();
   }
 
   private fetchUlBsData(ulbIdsArray: string[]) {
-    console.log("got ulbs");
     if (ulbIdsArray.length) {
       for (const ulb of ulbIdsArray) {
         this.dashboardService.fetchULBData(ulb).subscribe(response => {
           this.commonTableHeaders = [
-            { title: "ULB Name", id: "ulbName" },
+            {title: 'ULB Name', id: 'ulbName'},
             {
-              title: "Population",
-              id: "populationCategory"
+              title: 'Population',
+              id: 'populationCategory'
             }
           ].concat(this.commonTableHeaders.slice(2));
-        });
+        }, this.handleError);
       }
     } else {
     }
   }
 
   private filterDisplayDataTableYearWise() {
-    this.commonTableDataDisplay = this.commonTableData.filter(data =>
-      this.selectedYears.includes(data.year)
-    );
+    /*   this.commonTableDataDisplay = this.commonTableData.filter(data =>
+         this.selectedYears.includes(data.year)
+       );*/
     if (this.tabIndex == 2 || this.tabIndex == 4) {
       this.renderCharts();
     }
   }
 
   private fetchTableDataSuccess = (response: any) => {
-    this.commonTableData = response["data"];
+    this.loading = false;
+    this.commonTableDataDisplay = response['data'];
     this.filterDisplayDataTableYearWise();
+    if (this.singleULBView) {
+      this.modalItemClicked(this.selectedUlb);
+    }
   };
 
   private fetchData() {
+    this.loading = true;
     this.commonTableHeaders = [
-      { title: "Population Category", id: "populationCategory" },
-      { title: "Number of ULBs", id: "numOfUlb" }
-    ].concat(this.commonTableHeaders.slice(2));
+      {title: 'Population Category', id: 'populationCategory'},
+      {title: 'Number of ULBs', id: 'numOfUlb'}
 
+    ].concat(this.commonTableHeaders.slice(2));
+    this.commonTableDataDisplay = [];
     switch (this.tabIndex) {
       case 0:
         this.commonTableHeaders = [
-          { title: "Population Category", id: "populationCategory" },
-          { title: "Number of ULBs", id: "numOfUlb" },
+          {title: 'Population Category', click: true, id: 'populationCategory'},
+          {title: 'Number of ULBs', id: 'numOfUlb'},
           {
-            title: "Own Revenues",
-            id: "ownRevenue",
-            description: "(Rs in crores)"
+            title: 'Own Revenues',
+            id: 'ownRevenue',
+            description: '(Rs in crores)'
           },
           {
-            title: "Revenue Expenditure",
-            id: "revenueExpenditure",
-            description: "(Rs in crores)"
+            title: 'Revenue Expenditure',
+            id: 'revenueExpenditure',
+            description: '(Rs in crores)'
           },
-          { title: "Own Revenue", id: "ownRevenue" },
-          { title: "Min. Own Revenue", id: "minOwnRevenuePercentage" },
-          { title: "Max. Own Revenue", id: "maxOwnRevenuePercentage" }
+          {title: 'Own Revenue', id: 'ownRevenue'},
+          {title: 'Min. Own Revenue', id: 'minOwnRevenuePercentage'},
+          {title: 'Max. Own Revenue', id: 'maxOwnRevenuePercentage'}
         ];
         this.dashboardService
-          .fetchDependencyOwnRevenueData("3232")
-          .subscribe(this.fetchTableDataSuccess);
+          .fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears))
+          .subscribe(this.fetchTableDataSuccess, this.handleError);
+
         break;
       case 1:
         this.commonTableHeaders = [
-          { title: "Population Category", id: "populationCategory" },
-          { title: "Number of ULBs", id: "numOfUlb" },
-          { title: "Tax Revenue (a)", id: "taxRevenue" },
-          { title: "Rental Income (b)", id: "rentalIncome" },
-          { title: "Fees & user charges (c)", id: "feesAndUserCharges" },
-          { title: "Own revenues (a+b+c)", id: "ownRevenues" },
-          { title: "Sale & hire charges", id: "saleAndHireCharges" },
-          { title: "Assigned revenue", id: "assignedRevenue" },
-          { title: "Grants", id: "grants" },
-          { title: "Interest Income", id: "interestIncome" },
-          { title: "Other Income", id: "otherIncome" }
+          {title: 'Population Category', id: 'populationCategory'},
+          {title: 'Number of ULBs', id: 'numOfUlb'},
+          {title: 'Tax Revenue (a)', id: 'taxRevenue'},
+          {title: 'Rental Income (b)', id: 'rentalIncome'},
+          {title: 'Fees & user charges (c)', id: 'feesAndUserCharges'},
+          {title: 'Own revenues (a+b+c)', id: 'ownRevenues'},
+          {title: 'Sale & hire charges', id: 'saleAndHireCharges'},
+          {title: 'Assigned revenue', id: 'assignedRevenue'},
+          {title: 'Grants', id: 'grants'},
+          {title: 'Interest Income', id: 'interestIncome'},
+          {title: 'Other Income', id: 'otherIncome'}
         ];
         this.dashboardService
-          .fetchSourceOfRevenue("")
-          .subscribe(this.fetchTableDataSuccess);
+          .fetchSourceOfRevenue('')
+          .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 2:
         this.commonTableHeaders = [
-          { title: "Population Category", id: "populationCategory" },
-          { title: "Number of ULBs", id: "numOfUlb" },
-          {
-            title: "Assigned Revenue & revenue grants",
-            id: "assignedRevenueAndRevenueGrants"
-          },
-          {
-            title: "Deficit financed by Capital grants",
-            id: "deficitFinanceByCapitalGrants"
-          },
-          { title: "Interest Income", id: "interestIncome" },
-          { title: "Own Revenues", id: "ownRevenue" },
-          { title: "Other Income", id: "ulbName" },
-          { title: "Other Income", id: "otherIncome" }
+          {title: 'Population Category', id: 'populationCategory'},
+          {title: 'Number of ULBs', id: 'numOfUlb'},
+          {title: 'Assigned Revenue & revenue grants', id: 'assignedRevenueAndRevenueGrants'},
+          {title: 'Deficit financed by Capital grants', id: 'deficitFinanceByCapitalGrants'},
+          {title: 'Interest Income', id: 'interestIncome'},
+          {title: 'Own Revenues', id: 'ownRevenue'},
+          {title: 'Other Income', id: 'ulbName'},
+          {title: 'Other Income', id: 'otherIncome'}
         ];
         this.dashboardService
-          .fetchFinancialRevenueExpenditure("")
-          .subscribe(this.fetchTableDataSuccess);
+          .fetchFinancialRevenueExpenditure('')
+          .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 3:
         this.commonTableHeaders = [
-          { title: "Population Category", id: "populationCategory" },
-          { title: "Establishment expense", id: "establishmentExpense" },
-          { title: "Administrative Expense", id: "administrativeExpense" },
-          {
-            title: "Operational & Maint. Expense",
-            id: "operationalAndMaintananceExpense"
-          },
-          {
-            title: "Interest & Finance Expense ",
-            id: "interestAndFinanceExpense"
-          },
-          { title: "Others", id: "other" }
+          {title: 'Population Category', id: 'populationCategory'},
+          {title: 'Establishment expense', id: 'establishmentExpense'},
+          {title: 'Administrative Expense', id: 'administrativeExpense'},
+          {title: 'Operational & Maint. Expense', id: 'operationalAndMaintananceExpense'},
+          {title: 'Interest & Finance Expense ', id: 'interestAndFinanceExpense'},
+          {title: 'Others', id: 'other'}
         ];
         this.dashboardService
-          .fetchRevenueExpenditure("")
-          .subscribe(this.fetchTableDataSuccess);
+          .fetchRevenueExpenditure('')
+          .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
 
       case 4:
         this.commonTableHeaders = [
-          { title: "Population Category", id: "populationCategory" },
-          { title: "Number of ULBs", id: "numOfUlb" },
-          {
-            title: "Cash & Bank Balance (Rs in crore)",
-            id: "cashAndBankBalance"
-          }
+          {title: 'Population Category', id: 'populationCategory'},
+          {title: 'Number of ULBs', id: 'numOfUlb'},
+          {title: 'Cash & Bank Balance (Rs in crore)', id: 'cashAndBankBalance'}
         ];
         this.dashboardService
-          .fetchCashAndBankBalance("")
-          .subscribe(this.fetchTableDataSuccess);
+          .fetchCashAndBankBalance('')
+          .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 5:
         this.commonTableHeaders = [
-          { title: "Population Category", id: "populationCategory" },
-          { title: "Number of ULBs", id: "numOfUlb" },
-          {
-            title: "Loans from Central Government",
-            id: "LoanFromCentralGovernment"
-          },
-          {
-            title: "Loans from Financial Institutions including Banks",
-            id: "loanFromFIIB"
-          },
-          {
-            title: "Loans from State Government",
-            id: "loanFromStateGovernment"
-          },
-          { title: "Total Debt", id: "total" }
+          {title: 'Population Category', id: 'populationCategory'},
+          {title: 'Number of ULBs', id: 'numOfUlb'},
+          {title: 'Loans from Central Government', id: 'LoanFromCentralGovernment'},
+          {title: 'Loans from Financial Institutions including Banks', id: 'loanFromFIIB'},
+          {title: 'Loans from State Government', id: 'loanFromStateGovernment'},
+          {title: 'Total Debt', id: 'total'}
         ];
         this.dashboardService
-          .fetchOutStandingDebt("")
-          .subscribe(this.fetchTableDataSuccess);
+          .fetchOutStandingDebt(JSON.stringify(this.selectedYears))
+          .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
     }
   }
 
-  fetchCoverage() {}
+  fetchCoverage() {
+  }
 
   onDropDownSelectAll(event) {
-    this.yearForm.controls["years"].setValue(event);
+    this.yearForm.controls['years'].setValue(event);
     this.selectedYears = event.map(e => e.id);
     this.filterDisplayDataTableYearWise();
   }
 
   private renderCharts() {
     this.commonTableDataDisplay.forEach((yearRow, index) => {
-      const elementIdPrefix = "canvas--" + yearRow.year;
+      const elementIdPrefix = 'canvas--' + yearRow.year;
       if (this.tabIndex == 4) {
-        const label = yearRow.data.map(row => row["populationCategory"]);
-        const dataNoOfUlb = yearRow.data.map(row => row["numOfUlb"]);
+        const label = yearRow.data.map(row => row['populationCategory']);
+        const dataNoOfUlb = yearRow.data.map(row => row['numOfUlb']);
         const dataBankBalance = yearRow.data.map(
-          row => row["cashAndBankBalance"]
+          row => row['cashAndBankBalance']
         );
         const elementId1 = `${elementIdPrefix}--${0}`;
         const elementBankBalance = `${elementIdPrefix}--${1}`;
         setTimeout(() => {
           this.renderPieChart({
-            type: "pie",
+            type: 'pie',
             data: dataNoOfUlb,
             labels: label,
             elementId: elementId1,
-            chartTitle: "No of ulb"
+            chartTitle: 'No of ulb'
           });
           this.renderPieChart({
-            type: "pie",
+            type: 'pie',
             data: dataBankBalance,
             labels: label,
             elementId: elementBankBalance,
-            chartTitle: "Bank balance"
+            chartTitle: 'Bank balance'
           });
         }, 1);
         // this.commonTableDataDisplay[index].data = this.commonTableDataDisplay[index].data.slice(0, 2);
@@ -285,24 +282,24 @@ export class HomeTabViewComponent implements OnInit {
         yearRow.data.forEach((row, index) => {
           const elementId = `${elementIdPrefix}--${index}`;
           let labels = Object.keys(row).filter(
-            key => typeof row[key] === "number"
+            key => typeof row[key] === 'number'
           );
           labels = labels.map(label => {
             try {
               label = this.commonTableHeaders.find(header => header.id == label)
                 .title;
             } catch (e) {
-              return "Label not available";
+              return 'Label not available';
             }
             return label;
           });
           const data = Object.values(row).filter(
-            value => typeof value === "number"
+            value => typeof value === 'number'
           );
           const chartTitle = row[this.commonTableHeaders[0].id];
           setTimeout(() => {
             this.renderPieChart({
-              type: "pie",
+              type: 'pie',
               data,
               labels,
               elementId,
@@ -315,13 +312,13 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   renderPieChart({
-    type = "pie",
-    labels,
-    data,
-    chartTitle,
-    elementId,
-    options = {}
-  }) {
+                   type = 'pie',
+                   labels,
+                   data,
+                   chartTitle,
+                   elementId,
+                   options = {}
+                 }) {
     new Chart(elementId, {
       type,
       data: {
@@ -330,20 +327,20 @@ export class HomeTabViewComponent implements OnInit {
           {
             data,
             backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)"
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
             ],
             borderColor: [
-              "rgba(255, 99, 132, 1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 206, 86, 1)",
-              "rgba(75, 192, 192, 1)",
-              "rgba(153, 102, 255, 1)",
-              "rgba(255, 159, 64, 1)"
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
             ],
             borderWidth: 1
           }
@@ -357,7 +354,7 @@ export class HomeTabViewComponent implements OnInit {
 
         legend: {
           display: true,
-          position: "bottom"
+          position: 'bottom'
         },
         responsive: true
       },
@@ -366,9 +363,9 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   sortHeader(header) {
-    const { id } = header;
+    const {id} = header;
     console.log(id);
-    if (header.hasOwnProperty("status") && header.status == true) {
+    if (header.hasOwnProperty('status') && header.status == true) {
       header.status = false;
       this.commonTableDataDisplay = this.commonTableDataDisplay.map(year => {
         year.data = year.data.sort((a, b) => {
@@ -398,12 +395,49 @@ export class HomeTabViewComponent implements OnInit {
       });
     }
   }
+
+  openModal(UlbModal: TemplateRef<any>, range) {
+    this.modalTableData = {
+      data: range['ulbs'],
+      populationCategory: range['populationCategory']
+    };
+    //this.dashboardService.fetchUlbCoverage(range);
+    this.modalRef = this.modalService.show(UlbModal, {class: 'modal-lg'});
+    this.modalTableHeaders = [
+      {title: 'ULB name', click: true, id: 'name'},
+      {title: 'Population', id: 'population'},
+      {title: 'Own Revenues (A) ', id: 'ownRevenue', description: '(Rs in crores)'},
+      {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', description: '(Rs in crores)'},
+      {title: 'Own Revenue % (A/B)', id: 'ownRevenuePercentage', description: '(Rs in crores)'},
+    ];
+  }
+
+  modalItemClicked(rowClicked) {
+    this.singleULBView = true;
+    this.selectedUlb = rowClicked;
+    let newYears = [];
+    for (let year of this.commonTableDataDisplay) {
+      for (let row of year.data) {
+        if (row.populationCategory == this.modalTableData.populationCategory) {
+          for (let ulb of row.ulbs) {
+            if (ulb._id == rowClicked._id) {
+              let newYear = {year: year.year, data: [ulb]};
+              newYears.push(newYear);
+            }
+          }
+        }
+      }
+    }
+    this.commonTableDataDisplay = newYears;
+    this.commonTableHeaders = this.modalTableHeaders;
+    this.modalRef.hide();
+
+  }
 }
 
 function legendClickCallback(legendItemIndex): any {
-  console.log("clicked", legendItemIndex);
   [].slice
-    .call(document.querySelectorAll(".myChart"))
+    .call(document.querySelectorAll('.myChart'))
     .forEach((chartItem, index) => {
       const chart = Chart.instances[index];
       const dataItem = chart.data.datasets[legendItemIndex];
