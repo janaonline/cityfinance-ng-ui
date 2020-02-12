@@ -5,6 +5,8 @@ import {Chart} from 'chart.js';
 import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {viewEngine_ChangeDetectorRef_interface} from '@angular/core/src/render3/view_ref';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {elementStart} from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -136,8 +138,40 @@ export class HomeTabViewComponent implements OnInit {
     /*   this.commonTableDataDisplay = this.commonTableData.filter(data =>
          this.selectedYears.includes(data.year)
        );*/
+
     if (this.tabIndex == 2 || this.tabIndex == 4) {
       this.renderCharts();
+    } else {
+      for (let year of this.commonTableData) {
+        let newRow = {};
+        for (let row of year.data) {
+          for (let prop of Object.keys(row)) {
+            console.log(newRow[prop]);
+            try {
+              if (newRow[prop]) {
+                if (typeof newRow[prop] == 'string') {
+                  if (newRow[prop].includes('%')) {
+                    newRow[prop] = Number(newRow[prop].repace('%', '')) + Number(row[prop].repace('%', '')) + '%';
+                    console.log(newRow[prop], row[prop]);
+                  }
+                } else {
+                  newRow[prop] = newRow[prop] + row[prop];
+                }
+              } else {
+                if (typeof row[prop] === 'string') {
+                  if (row[prop].includes('%')) {
+                    newRow[prop] = Number(row[prop].replace('%', '')) + '%';
+                    console.log(newRow[prop]);
+                  }
+                }
+                newRow[prop] = row[prop];
+              }
+            } catch (e) {
+            }
+          }
+        }
+        console.log(newRow);
+      }
     }
   }
 
@@ -203,14 +237,14 @@ export class HomeTabViewComponent implements OnInit {
         break;
       case 2:
         this.commonTableHeaders = [
-          {title: 'Population Category', id: 'populationCategory'},
-          {title: 'Number of ULBs', id: 'numOfUlb'},
-          {title: 'Assigned Revenue & revenue grants', id: 'assignedRevenueAndRevenueGrants'},
-          {title: 'Deficit financed by Capital grants', id: 'deficitFinanceByCapitalGrants'},
-          {title: 'Interest Income', id: 'interestIncome'},
-          {title: 'Own Revenues %', id: 'ownRevenue', description: '(A/B)'},
-          {title: 'Other Income %', id: 'ulbName'},
-          {title: 'Other Income %', id: 'otherIncome'}
+          {title: 'assignedRevenueAndCompensationCoverPercentage', id: 'assignedRevenueAndCompensationCoverPercentage'},
+          {title: 'coveredPercentage', id: 'coveredPercentage'},
+          {title: 'deficitFinanceByCapitalGrantsCoverPercentage', id: 'deficitFinanceByCapitalGrantsCoverPercentage'},
+          {title: 'interestIncomeCoverPercentage', id: 'interestIncomeCoverPercentage'},
+          {title: 'otherIncomeCoverPercentage', id: 'otherIncomeCoverPercentage'},
+          {title: 'ownRevenueCoverPercentage', id: 'ownRevenueCoverPercentage', description: '(A/B)'},
+          {title: 'revenueGrantsContributionAndSubsidiesCoverPercentage', id: 'revenueGrantsContributionAndSubsidiesCoverPercentage'},
+          {title: 'saleAndHireChargesCoverPercentage', id: 'saleAndHireChargesCoverPercentage'}
         ];
         this.dashboardService
           .fetchFinancialRevenueExpenditure('')
@@ -294,11 +328,13 @@ export class HomeTabViewComponent implements OnInit {
         }, 1);
         // this.commonTableDataDisplay[index].data = this.commonTableDataDisplay[index].data.slice(0, 2);
       } else {
+
         yearRow.data.forEach((row, index) => {
           const elementId = `${elementIdPrefix}--${index}`;
           let labels = Object.keys(row).filter(
             key => typeof row[key] === 'number'
           );
+          console.log(this.commonTableHeaders, labels);
           labels = labels.map(label => {
             try {
               label = this.commonTableHeaders.find(header => header.id == label)
