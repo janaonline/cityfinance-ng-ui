@@ -1,7 +1,9 @@
 <div class="testing"></div>
 
 <div class="col-sm-12 stateMapContainer" id="ulbMap">
-  <h5 style="position: absolute;z-index: 9;padding-left: 1%;">
+  <h5
+    style="position: absolute;z-index: 9;padding-left: 1%; text-decoration: underline;"
+  >
     {{ currentStateInView ? currentStateInView.name : "" }}
   </h5>
   <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
@@ -15,7 +17,11 @@
       style="display: block;"
       class="col-md-12"
       appearance="outline"
-      *ngIf="ulbsOfSelectedState && nationalLevelMap &&!!filteredULBStateAndULBDataMerged"
+      *ngIf="
+        ulbsOfSelectedState &&
+        nationalLevelMap &&
+        !!filteredULBStateAndULBDataMerged
+      "
     >
       <input
         type="text"
