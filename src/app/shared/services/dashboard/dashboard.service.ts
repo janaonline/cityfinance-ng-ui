@@ -16,7 +16,7 @@ export class DashboardService {
   }
 
   fetchDependencyOwnRevenueData(year: string) {
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/own-revenue-dependency`);
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/own-revenue-dependency?years=${year}`);
   }
 
   fetchSourceOfRevenue(year: string) {
@@ -36,7 +36,7 @@ export class DashboardService {
   }
 
   fetchOutStandingDebt(year: string) {
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/outstanding-debt`);
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/outstanding-debt?year=${year}`);
   }
 
   fetchULBData(id: string) {

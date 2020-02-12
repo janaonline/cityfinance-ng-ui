@@ -4,6 +4,7 @@ import {Chart} from 'chart.js';
 
 import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {viewEngine_ChangeDetectorRef_interface} from '@angular/core/src/render3/view_ref';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -36,15 +37,16 @@ export class HomeTabViewComponent implements OnInit {
     {title: 'Min. Own Revenue', id: 'minOwnRevenuePercentage'},
     {title: 'Max. Own Revenue', id: 'maxOwnRevenuePercentage'}
   ];
-  modalTableHeaders = [];
-
   commonTableData = [];
+
   commonTableDataDisplay = [];
   yearForm: FormGroup;
   selectedYears: any = [];
   modalRef: BsModalRef;
+  modalTableHeaders = [];
+  modalTableData = [];
+  loading = false;
 
-  ulbCoverageData = [];
 
   ulbTypeSelected: string;
 
@@ -64,6 +66,7 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log();
     this.fetchData();
   }
 
@@ -71,6 +74,10 @@ export class HomeTabViewComponent implements OnInit {
     this.selectedYears.push(event.id);
     this.filterDisplayDataTableYearWise();
   }
+
+  handleError = () => {
+    this.loading = false;
+  };
 
   resetPopupValues() {
     this.selectedYears = [];
@@ -87,7 +94,7 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   onDropdownClose(event: any) {
-    console.log(event);
+    this.fetchData();
   }
 
   private fetchUlBsData(ulbIdsArray: string[]) {
@@ -101,32 +108,35 @@ export class HomeTabViewComponent implements OnInit {
               id: 'populationCategory'
             }
           ].concat(this.commonTableHeaders.slice(2));
-        });
+        }, this.handleError);
       }
     } else {
     }
   }
 
   private filterDisplayDataTableYearWise() {
-    this.commonTableDataDisplay = this.commonTableData.filter(data =>
-      this.selectedYears.includes(data.year)
-    );
+    /*   this.commonTableDataDisplay = this.commonTableData.filter(data =>
+         this.selectedYears.includes(data.year)
+       );*/
     if (this.tabIndex == 2 || this.tabIndex == 4) {
       this.renderCharts();
     }
   }
 
   private fetchTableDataSuccess = (response: any) => {
-    this.commonTableData = response['data'];
+    this.loading = false;
+    this.commonTableDataDisplay = response['data'];
     this.filterDisplayDataTableYearWise();
   };
 
   private fetchData() {
+    this.loading = true;
     this.commonTableHeaders = [
       {title: 'Population Category', id: 'populationCategory'},
       {title: 'Number of ULBs', id: 'numOfUlb'}
-    ].concat(this.commonTableHeaders.slice(2));
 
+    ].concat(this.commonTableHeaders.slice(2));
+    this.commonTableDataDisplay = [];
     switch (this.tabIndex) {
       case 0:
         this.commonTableHeaders = [
@@ -147,8 +157,9 @@ export class HomeTabViewComponent implements OnInit {
           {title: 'Max. Own Revenue', id: 'maxOwnRevenuePercentage'}
         ];
         this.dashboardService
-          .fetchDependencyOwnRevenueData('3232')
-          .subscribe(this.fetchTableDataSuccess);
+          .fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears))
+          .subscribe(this.fetchTableDataSuccess, this.handleError);
+
         break;
       case 1:
         this.commonTableHeaders = [
@@ -166,7 +177,7 @@ export class HomeTabViewComponent implements OnInit {
         ];
         this.dashboardService
           .fetchSourceOfRevenue('')
-          .subscribe(this.fetchTableDataSuccess);
+          .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 2:
         this.commonTableHeaders = [
@@ -181,7 +192,7 @@ export class HomeTabViewComponent implements OnInit {
         ];
         this.dashboardService
           .fetchFinancialRevenueExpenditure('')
-          .subscribe(this.fetchTableDataSuccess);
+          .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 3:
         this.commonTableHeaders = [
@@ -194,7 +205,7 @@ export class HomeTabViewComponent implements OnInit {
         ];
         this.dashboardService
           .fetchRevenueExpenditure('')
-          .subscribe(this.fetchTableDataSuccess);
+          .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
 
       case 4:
@@ -205,7 +216,7 @@ export class HomeTabViewComponent implements OnInit {
         ];
         this.dashboardService
           .fetchCashAndBankBalance('')
-          .subscribe(this.fetchTableDataSuccess);
+          .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 5:
         this.commonTableHeaders = [
@@ -217,8 +228,8 @@ export class HomeTabViewComponent implements OnInit {
           {title: 'Total Debt', id: 'total'}
         ];
         this.dashboardService
-          .fetchOutStandingDebt('')
-          .subscribe(this.fetchTableDataSuccess);
+          .fetchOutStandingDebt(JSON.stringify(this.selectedYears))
+          .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
     }
   }
@@ -379,15 +390,16 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   openModal(UlbModal: TemplateRef<any>, range) {
-    console.log(range);
+    console.log(range.ulbs);
+    this.modalTableData = range['ulbs'];
     //this.dashboardService.fetchUlbCoverage(range);
     this.modalRef = this.modalService.show(UlbModal, {class: 'modal-lg'});
     this.modalTableHeaders = [
-      {title: 'ULB name', click: true, id: 'ulbName'},
-      {title: 'Population', click: true, id: 'populationCategory'},
-      {title: 'Number of ULBs', id: 'numOfUlb'},
-      {title: 'Own Revenues', id: 'ownRevenue', description: '(Rs in crores)'},
-      {title: 'Revenue Expenditure', id: 'revenueExpenditure', description: '(Rs in crores)'},
+      {title: 'ULB name', click: true, id: 'name'},
+      {title: 'Population', id: 'population'},
+      {title: 'Own Revenues (A) ', id: 'ownRevenue', description: '(Rs in crores)'},
+      {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', description: '(Rs in crores)'},
+      {title: 'Own Revenue % (A/B)', id: 'ownRevenuePercentage', description: '(Rs in crores)'},
     ];
   }
 }

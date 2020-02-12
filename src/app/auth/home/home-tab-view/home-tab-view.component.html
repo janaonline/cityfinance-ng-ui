@@ -1,4 +1,3 @@
-
 <mat-tab-group
   dynamicHeight="false"
   (selectedIndexChange)="tabIndexChangeHandler($event)"
@@ -195,7 +194,7 @@
 </mat-tab-group>
 
 <ng-template #table>
-  <div [style.height.px]="400" style="width: 100%" [formGroup]="yearForm">
+  <div *ngIf="loading==false; else loadingSkeleton" [style.height.px]="400" style="width: 100%" [formGroup]="yearForm">
     <div class="row d-flex mt-4">
       <div class="col-sm-10">
         <angular2-multiselect
@@ -218,7 +217,7 @@
     </div>
     <div class="row mt-2">
       <div class="col-sm-12 table-responsive">
-        <table *ngIf="commonTableDataDisplay.length; else noData"
+        <table *ngIf="commonTableDataDisplay?.length; else noData"
                class="table border-1">
           <thead>
           <tr>
@@ -272,7 +271,7 @@
               <td class="text-center" *ngFor="let col of commonTableHeaders">
                 <span *ngIf="!col?.click;else clickableCol">{{ row[col?.id] }}</span>
                 <ng-template #clickableCol>
-                  <a (click)="openModal(UlbModal,row[col?.id])">{{ row[col?.id] }}</a>
+                  <a (click)="openModal(UlbModal,row)">{{ row[col?.id] }}</a>
                 </ng-template>
               </td>
             </tr>
@@ -285,6 +284,11 @@
       </div>
     </div>
   </div>
+  <ng-template #loadingSkeleton>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+  </ng-template>
 </ng-template>
 
 <ng-template #heatMap></ng-template>
@@ -307,11 +311,11 @@
            class="table border-1">
       <thead>
       <tr>
-        <th
-          class="text-center px-1 border-bottom-0"
-          *ngFor="let header of modalTableHeaders"
+        <th style="position: sticky;top: 0;background: white"
+            class="text-center px-1 border-bottom-0"
+            *ngFor="let header of modalTableHeaders"
         >
-          <div class="d-flex">
+          <div class="d-flex justify-content-center">
             <div class="d-flex flex-column p-0">
               {{ header.title }}
               <span class="font-weight-light" *ngIf="header.description">
@@ -343,25 +347,16 @@
       </tr>
       </thead>
       <tbody>
-      <!--    <ng-container *ngFor="let tr of commonTableDataDisplay">
-            <tr>
-              <td
-                class="text-center"
-                [colSpan]="commonTableHeaders.length"
-                [style.background]="'#ffc500'"
-              >
-                <b>{{ tr?.year }}</b>
-              </td>
-            </tr>
-            <tr *ngFor="let row of tr.data; let i = index">
-              <td class="text-center" *ngFor="let col of commonTableHeaders">
-                <span *ngIf="!col?.click;else clickableCol">{{ row[col?.id] }}</span>
-                <ng-template #clickableCol>
-                  <a (click)="openModal(UlbModal)">{{ row[col?.id] }}</a>
-                </ng-template>
-              </td>
-            </tr>
-          </ng-container>-->
+      <!--      <ng-container *ngFor="let tr of modalTableData">-->
+      <tr *ngFor="let row of modalTableData; let i = index">
+        <td class="text-center" *ngFor="let col of modalTableHeaders">
+          <span *ngIf="!col?.click;else clickableCol">{{ row[col?.id] }}</span>
+          <ng-template #clickableCol>
+            <a>{{ row[col?.id] }}</a>
+          </ng-template>
+        </td>
+      </tr>
+      <!--      </ng-container>-->
       </tbody>
     </table>
     <ng-template #noData>
