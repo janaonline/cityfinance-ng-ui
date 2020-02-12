@@ -86,17 +86,20 @@ div.miniMap {
 }
 
 .regionalDetails {
-  width: fit-content;
   min-width: 220px;
   background: white;
   border: 0.1px solid rgb(134, 134, 134);
   border-radius: 5px;
   position: relative;
-  display: flex;
   padding: 1% 1%;
   box-shadow: 1px 4px 5px 3px #e4e0e0;
   transform: scale(0.8);
   transition: 1s all;
+}
+
+.regionalDetails2 {
+  width: fit-content;
+  display: flex;
 }
 
 .bold {
