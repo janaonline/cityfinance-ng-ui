@@ -36,7 +36,7 @@ export class DashboardService {
   }
 
   fetchOutStandingDebt(year: string) {
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/outstanding-bank`);
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/outstanding-debt`);
   }
 
   fetchULBData(id: string) {
@@ -46,6 +46,11 @@ export class DashboardService {
   fetchUlbCoverage(id: string) {
     return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/ulb-coverage`);
   }
+
+  fetchULBDataPopulationWise(range: string) {
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/`);
+  }
+
   renderPieChart({type = 'pie', labels, data, chartTitle, elementId, options = {}}) {
     new Chart(elementId, {
       type,

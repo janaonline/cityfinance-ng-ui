@@ -1,19 +1,19 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {MatSnackBar} from '@angular/material';
 import * as L from 'leaflet';
-import { debounceTime } from 'rxjs/operators';
+import {debounceTime} from 'rxjs/operators';
 
-import { IStateULBCovered, IStateULBCoveredResponse } from '../../models/stateUlbConvered';
-import { IULBWithPopulationResponse, ULBWithMapData } from '../../models/ulbsForMapResponse';
-import { CommonService } from '../../services/common.service';
-import { IDistrictGeoJson } from './models/districtGeoJSON';
-import { ILeafletStateClickEvent } from './models/leafletStateClickEvent';
+import {IStateULBCovered, IStateULBCoveredResponse} from '../../models/stateUlbConvered';
+import {IULBWithPopulationResponse, ULBWithMapData} from '../../models/ulbsForMapResponse';
+import {CommonService} from '../../services/common.service';
+import {IDistrictGeoJson} from './models/districtGeoJSON';
+import {ILeafletStateClickEvent} from './models/leafletStateClickEvent';
 
 @Component({
-  selector: "app-re-useable-heat-map",
-  templateUrl: "./re-useable-heat-map.component.html",
-  styleUrls: ["./re-useable-heat-map.component.scss"]
+  selector: 'app-re-useable-heat-map',
+  templateUrl: './re-useable-heat-map.component.html',
+  styleUrls: ['./re-useable-heat-map.component.scss']
 })
 export class ReUseableHeatMapComponent implements OnInit {
   constructor(
@@ -30,13 +30,14 @@ export class ReUseableHeatMapComponent implements OnInit {
 
     this.listenToFormControls();
   }
+
   @Output() ulbsClicked = new EventEmitter<string[]>();
 
   ulbsSelected = new FormControl([]);
   ulbFilterControl = new FormControl();
 
   stateData: IStateULBCovered[];
-  allULBSList: IULBWithPopulationResponse["data"];
+  allULBSList: IULBWithPopulationResponse['data'];
   stateAndULBDataMerged: {
     [stateId: string]: IStateULBCovered & { ulbs: ULBWithMapData[] };
   };
@@ -45,21 +46,21 @@ export class ReUseableHeatMapComponent implements OnInit {
     [stateId: string]: IStateULBCovered & { ulbs: ULBWithMapData[] };
   };
 
-  ulbsOfSelectedState: IULBWithPopulationResponse["data"];
-  ulbListForAutoCompletion: IULBWithPopulationResponse["data"];
+  ulbsOfSelectedState: IULBWithPopulationResponse['data'];
+  ulbListForAutoCompletion: IULBWithPopulationResponse['data'];
 
   nationalLevelMap: L.Map;
   StatesJSONForMapCreation: any;
   DistrictsJSONForMapCreation: IDistrictGeoJson;
 
   blueIcon = L.icon({
-    iconUrl: "./assets/images/maps/simple_blue_dot.png",
+    iconUrl: './assets/images/maps/simple_blue_dot.png',
     iconSize: [10, 10],
     iconAnchor: [20, 20]
   });
 
   yellowIcon = L.icon({
-    iconUrl: "./assets/images/maps/simple_yellow_dot.png",
+    iconUrl: './assets/images/maps/simple_yellow_dot.png',
     iconSize: [10, 10],
     iconAnchor: [20, 20]
   });
@@ -73,7 +74,8 @@ export class ReUseableHeatMapComponent implements OnInit {
 
   isMapOnMiniMapMode = false;
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   onSelectingULBFromDropdown(ulbName: string) {
     this.selectULBByName(ulbName);
@@ -84,7 +86,7 @@ export class ReUseableHeatMapComponent implements OnInit {
       return;
     }
     if (stateOfULB) {
-      this.convertDomToMiniMap("mapid");
+      this.convertDomToMiniMap('mapid');
       this.createStateLevelMap(stateOfULB.name);
     }
   }
@@ -95,7 +97,7 @@ export class ReUseableHeatMapComponent implements OnInit {
       null,
       {
         duration: 5000,
-        verticalPosition: "bottom"
+        verticalPosition: 'bottom'
       }
     );
   }
@@ -113,26 +115,26 @@ export class ReUseableHeatMapComponent implements OnInit {
   loadMapGeoJson() {
     const prmsArr = [];
     const prms1 = new Promise((resolve, reject) => {
-      $.getJSON("../assets/jsonFile/state_boundries.json")
+      $.getJSON('../assets/jsonFile/state_boundries.json')
         .done(response => {
           this.StatesJSONForMapCreation = response;
           resolve();
         })
         .fail(failed => {
-          console.error("State Boundries getJSON request failed!", failed);
+          console.error('State Boundries getJSON request failed!', failed);
         });
     });
     prmsArr.push(prms1);
 
     // All District JSON Data
     const prms2 = new Promise((resolve, reject) => {
-      $.getJSON("../assets/jsonFile/updated_district_9_July.json")
+      $.getJSON('../assets/jsonFile/updated_district_9_July.json')
         .done(resp => {
           this.DistrictsJSONForMapCreation = resp;
           resolve();
         })
         .fail(failed => {
-          console.error("District Boundries getJSON request failed!", failed);
+          console.error('District Boundries getJSON request failed!', failed);
         });
     });
     // prmsArr.push(prms2);
@@ -141,7 +143,7 @@ export class ReUseableHeatMapComponent implements OnInit {
   }
 
   createNationalLevelMap() {
-    this.nationalLevelMap = L.map("mapid", {
+    this.nationalLevelMap = L.map('mapid', {
       scrollWheelZoom: false,
       dragging: false,
       minZoom: 4,
@@ -187,9 +189,9 @@ export class ReUseableHeatMapComponent implements OnInit {
 
       const cordi = this.getCentroid(coords);
 
-      const avgCord = { lat: cordi[0], lng: cordi[1] };
+      const avgCord = {lat: cordi[0], lng: cordi[1]};
       let count: number;
-      const stateId = (<ILeafletStateClickEvent["sourceTarget"]>(layer as any))
+      const stateId = (<ILeafletStateClickEvent['sourceTarget']>(layer as any))
         .feature.properties.ST_NM;
       const stateFound = this.stateData.find(state => state.name === stateId);
       count = stateFound ? stateFound.coveredUlbPercentage : 0;
@@ -244,12 +246,12 @@ export class ReUseableHeatMapComponent implements OnInit {
     }
 
     if (options.ulbName && !options.ulbName.trim()) {
-      filteredULBAndState = { ...this.stateAndULBDataMerged };
+      filteredULBAndState = {...this.stateAndULBDataMerged};
     } else {
       Object.keys(this.stateAndULBDataMerged).forEach(stateId => {
-        const stateFound = { ...this.stateAndULBDataMerged[stateId] };
+        const stateFound = {...this.stateAndULBDataMerged[stateId]};
         const ulbList = this.filteredULBBy(
-          { ulbName: options.ulbName },
+          {ulbName: options.ulbName},
           stateFound.ulbs
         );
         if (!ulbList.length) {
@@ -292,29 +294,24 @@ export class ReUseableHeatMapComponent implements OnInit {
     this.allULBSList = res.data;
     this.ulbsOfSelectedState = res.data;
     this.ulbListForAutoCompletion = res.data;
-    this.stateAndULBDataMerged = this.CombineStateAndULBData(
-      this.stateData,
-      res.data
-    );
-    this.filteredULBStateAndULBDataMerged = { ...this.stateAndULBDataMerged };
+    //this.stateAndULBDataMerged = this.CombineStateAndULBData(this.stateData, res.data);
+    this.filteredULBStateAndULBDataMerged = {...this.stateAndULBDataMerged};
   }
 
-  private CombineStateAndULBData(
-    states: IStateULBCovered[],
-    ulbStates: ULBWithMapData[]
-  ) {
+  private CombineStateAndULBData(states: IStateULBCovered[], ulbStates: ULBWithMapData[]) {
     const newStateObj: {
       [stateId: string]: IStateULBCovered & { ulbs: ULBWithMapData[] };
     } = {};
     ulbStates.forEach(ulb => {
       if (!newStateObj[ulb.state]) {
+        console.log(states);
         const stateFound = states.find(state => state._id === ulb.state);
         if (!stateFound) {
           return;
         }
-        newStateObj[stateFound._id] = { ...stateFound, ulbs: [{ ...ulb }] };
+        newStateObj[stateFound._id] = {...stateFound, ulbs: [{...ulb}]};
       } else {
-        newStateObj[ulb.state].ulbs.push({ ...ulb });
+        newStateObj[ulb.state].ulbs.push({...ulb});
       }
     });
     return newStateObj;
@@ -332,7 +329,7 @@ export class ReUseableHeatMapComponent implements OnInit {
       return false;
     }
     let obj: IStateULBCovered = null;
-    const stateId = (<ILeafletStateClickEvent["sourceTarget"]>layer).feature
+    const stateId = (<ILeafletStateClickEvent['sourceTarget']>layer).feature
       .properties.ST_NM;
     const stateFound = this.stateData.find(state => state.name === stateId);
 
@@ -340,26 +337,26 @@ export class ReUseableHeatMapComponent implements OnInit {
     if (obj != undefined) {
       this.mouseHoverOnState = obj;
       const text =
-        "<p>State : <b>" + layer.feature.properties.ST_NM + "</b></p> <p> <b>";
+        '<p>State : <b>' + layer.feature.properties.ST_NM + '</b></p> <p> <b>';
     } else {
-      stateLayer.bindTooltip("<b>" + layer.feature.properties.ST_NM + "</b>");
+      stateLayer.bindTooltip('<b>' + layer.feature.properties.ST_NM + '</b>');
     }
   }
 
   private createLegendsForNationalLevelMap() {
     const arr = [
-      { color: "#019CDF", text: "75-100%" },
-      { color: "#46B7E7", text: "50-75%" },
-      { color: "#8BD2F0", text: "25-50%" },
-      { color: "#D0EDF9", text: "0-25%" }
+      {color: '#019CDF', text: '75-100%'},
+      {color: '#46B7E7', text: '50-75%'},
+      {color: '#8BD2F0', text: '25-50%'},
+      {color: '#D0EDF9', text: '0-25%'}
     ];
-    const legend = new L.Control({ position: "bottomright" });
+    const legend = new L.Control({position: 'bottomright'});
     const labels = [
       `<span style="width: 80%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`
     ];
-    legend.onAdd = function(map) {
-      const div = L.DomUtil.create("div", "info legend");
-      div.style.width = "100%";
+    legend.onAdd = function (map) {
+      const div = L.DomUtil.create('div', 'info legend');
+      div.style.width = '100%';
       arr.forEach(value => {
         labels.push(
           `<span><i class="circle" style="background: ${value.color}; padding:8%; display: inline-block"> </i> ${value.text}</span>`
@@ -373,9 +370,9 @@ export class ReUseableHeatMapComponent implements OnInit {
   }
 
   private createControls(map: L.Map) {
-    const info = new L.Control({ position: "topright" });
-    info.onAdd = function(map) {
-      this._div = L.DomUtil.create("div", "info"); // create a div with a class "info"
+    const info = new L.Control({position: 'topright'});
+    info.onAdd = function (map) {
+      this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
       this.update();
       return this._div;
     };
@@ -389,15 +386,15 @@ export class ReUseableHeatMapComponent implements OnInit {
 
     if (this.isMapOnMiniMapMode) {
       this.resetMapToNationalLevel();
-      this.convertMiniMapToOriginal("mapid");
+      this.convertMiniMapToOriginal('mapid');
       return false;
     }
 
-    this.convertDomToMiniMap("mapid");
+    this.convertDomToMiniMap('mapid');
     if (
       this.currentStateInView &&
       this.currentStateInView.name !==
-        mapClickEvent.sourceTarget.feature.properties.ST_NM
+      mapClickEvent.sourceTarget.feature.properties.ST_NM
     ) {
       this.resetULBsSelected();
     }
@@ -405,7 +402,7 @@ export class ReUseableHeatMapComponent implements OnInit {
     if (
       this.currentStateInView &&
       this.currentStateInView.name ===
-        mapClickEvent.sourceTarget.feature.properties.ST_NM
+      mapClickEvent.sourceTarget.feature.properties.ST_NM
     ) {
       return;
     }
@@ -416,7 +413,7 @@ export class ReUseableHeatMapComponent implements OnInit {
 
   private convertMiniMapToOriginal(domId: string) {
     const element = document.getElementById(domId);
-    element.classList.remove("miniMap");
+    element.classList.remove('miniMap');
     this.isMapOnMiniMapMode = false;
     return true;
   }
@@ -453,7 +450,7 @@ export class ReUseableHeatMapComponent implements OnInit {
       districts => districts.properties.ST_NM === stateFound.name
     );
     const newObj: IDistrictGeoJson = {
-      type: "FeatureCollection",
+      type: 'FeatureCollection',
       features: filteredDistricts
     };
     const dataPointsForMarker = ulbsWithCoordinates.map(ulb => ({
@@ -463,7 +460,7 @@ export class ReUseableHeatMapComponent implements OnInit {
       population: ulb.population
     }));
     this.createDistrictMap(newObj, {
-      center: { lat: centerLatLngOfState[0], lng: centerLatLngOfState[1] },
+      center: {lat: centerLatLngOfState[0], lng: centerLatLngOfState[1]},
       dataPoints: [...dataPointsForMarker]
     });
   }
@@ -471,10 +468,10 @@ export class ReUseableHeatMapComponent implements OnInit {
   private convertDomToMiniMap(domId: string) {
     this.isMapOnMiniMapMode = true;
     const element = document.getElementById(domId);
-    if (element.classList.contains("miniMap")) {
+    if (element.classList.contains('miniMap')) {
       return false;
     }
-    element.classList.add("miniMap");
+    element.classList.add('miniMap');
 
     // const newElement = document.createElement("div");
     // newElement.classList.add("miniMapOverlay");
@@ -485,7 +482,7 @@ export class ReUseableHeatMapComponent implements OnInit {
   private createDistrictMap(
     districtGeoJSON,
     options: {
-      center: ILeafletStateClickEvent["latlng"];
+      center: ILeafletStateClickEvent['latlng'];
       dataPoints: {
         lat: string;
         lng: string;
@@ -498,7 +495,7 @@ export class ReUseableHeatMapComponent implements OnInit {
     this.clearDistrictMapContainer();
 
     setTimeout(() => {
-      const districtMap = L.map("districtMapId", {
+      const districtMap = L.map('districtMapId', {
         scrollWheelZoom: false,
         fadeAnimation: true,
         dragging: false,
@@ -521,10 +518,10 @@ export class ReUseableHeatMapComponent implements OnInit {
           ...dataPoint,
           icon: this.blueIcon
         }).addTo(districtMap);
-        marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
-        marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
+        marker.on('mouseover', () => (this.mouseHoveredOnULB = dataPoint));
+        marker.on('mouseout', () => (this.mouseHoveredOnULB = null));
         marker.on(
-          "click",
+          'click',
           values =>
             this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker),
           this
@@ -582,13 +579,13 @@ export class ReUseableHeatMapComponent implements OnInit {
 
   private getColorBasedOnPercentage(value: number) {
     if (value >= 75) {
-      return "#019CDF";
+      return '#019CDF';
     }
     if (value >= 50) {
-      return "#46B7E7";
+      return '#46B7E7';
     }
     if (value >= 25) {
-      return "#8BD2F0";
+      return '#8BD2F0';
     }
     return `#D0EDF9`;
   }
@@ -599,7 +596,7 @@ export class ReUseableHeatMapComponent implements OnInit {
    */
   private getCentroid(arr: number[][]) {
     return arr.reduce(
-      function(x, y) {
+      function (x, y) {
         return [x[0] + y[0] / arr.length, x[1] + y[1] / arr.length];
       },
       [0, 0]
@@ -608,10 +605,10 @@ export class ReUseableHeatMapComponent implements OnInit {
 
   private stateColorStyle(feature) {
     return {
-      fillColor: "#E5E5E5",
+      fillColor: '#E5E5E5',
       weight: 1,
       opacity: 1,
-      color: "#ece5e5",
+      color: '#ece5e5',
       fillOpacity: 0.7
     };
   }
@@ -635,7 +632,7 @@ export class ReUseableHeatMapComponent implements OnInit {
   }
 
   private resetDropdownListToNationalLevel() {
-    this.filteredULBStateAndULBDataMerged = { ...this.stateAndULBDataMerged };
+    this.filteredULBStateAndULBDataMerged = {...this.stateAndULBDataMerged};
   }
 
   private resetCurrentSelectState() {
@@ -643,7 +640,7 @@ export class ReUseableHeatMapComponent implements OnInit {
   }
 
   private clearDistrictMapContainer() {
-    document.getElementById("districtMapContainer").innerHTML = `
+    document.getElementById('districtMapContainer').innerHTML = `
       <div
     id="districtMapId"
     class="h-60 col-sm-12"
