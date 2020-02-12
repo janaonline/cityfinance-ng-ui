@@ -1,11 +1,6 @@
-
 <div class="col-sm-12 stateMapContainer" id="ulbMap">
   <h5 style="position: absolute;z-index: 9;padding-left: 1%;">
-    {{
-      currentStateInView
-        ? currentStateInView.name
-        : "Data Availability for India"
-    }}
+    {{ currentStateInView ? currentStateInView.name : "" }}
   </h5>
   <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
     <app-pre-loader></app-pre-loader>
@@ -29,14 +24,19 @@
         [matAutocomplete]="auto"
       />
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option
-          (onSelectionChange)="onSelectingULBFromDropdown(ulb.name)"
-          *ngFor="let ulb of ulbListForAutoCompletion"
-          [value]="ulb.name"
-          [title]="ulb.name"
+        <mat-optgroup
+          *ngFor="let stateId of object.keys(filteredULBStateAndULBDataMerged)"
+          [label]="filteredULBStateAndULBDataMerged[stateId].name"
         >
-          {{ ulb.name }}
-        </mat-option>
+          <mat-option
+            *ngFor="let ulb of filteredULBStateAndULBDataMerged[stateId].ulbs"
+            (onSelectionChange)="onSelectingULBFromDropdown(ulb.name)"
+            [value]="ulb.name"
+            [title]="ulb.name"
+          >
+            {{ ulb.name }}
+          </mat-option>
+        </mat-optgroup>
       </mat-autocomplete>
     </mat-form-field>
 
@@ -70,9 +70,5 @@
   </div>
   <div class="col-sm-12" id="districtMapContainer"></div>
 
-  <div
-    id="mapid"
-    class="stateMap col-sm-12"
-    style="height: 60vh; max-height: 100%;"
-  ></div>
+  <div id="mapid" class="stateMap col-sm-12"></div>
 </div>

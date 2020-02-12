@@ -69,7 +69,7 @@ export class UlbCoverageComponent implements OnInit {
     });
     dataSets = datasets.map((dataset, index) => {
       let obj = {
-        maxBarThickness: 20,
+        maxBarThickness: 80,
         label: this.ulbCoverageHeader[dataset],
         data: this.ulbCoverageData.map(ulb => ulb.data[dataset]),
         ...this.getColors(index),
@@ -77,18 +77,16 @@ export class UlbCoverageComponent implements OnInit {
       return obj;
     });
     new Chart('canvas--ulb-coverage', {
-      type: 'horizontalBar',
+      type: 'bar',
       data: {
         labels,
         datasets: dataSets.reverse()
       },
       options: {
-        responsive: false,
         title: {
           display: true,
           text: 'ULB Coverage',
         },
-
         tooltips: {
           enabled: true,
           mode: 'nearest',
@@ -98,8 +96,7 @@ export class UlbCoverageComponent implements OnInit {
               const {datasets} = data;
               const {datasetIndex, index} = tooltipItem[0];
               let currentData = datasets[datasetIndex].data[index], totalData = 0;
-              totalData = datasets.reduce((acc, curr, i) => acc + curr.data[index], 0);
-              return `${datasets[datasetIndex].label}s: ${currentData}\nTotal ULBs :${totalData} `;
+              return `${datasets[datasetIndex].label}: ${currentData} `;
             },
             label: function (tooltipItem, data) {
               const {datasets} = data;
@@ -132,24 +129,7 @@ export class UlbCoverageComponent implements OnInit {
           position: 'bottom',
         },
 
-
-        // animation: {
-        //   duration: 1000,
-        //   onComplete: function () {
-        //     var chartInstance = this.chart,
-        //       ctx = chartInstance.ctx;
-        //     ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
-        //     ctx.textAlign = 'center';
-        //     ctx.textBaseline = 'bottom';
-        //     this.data.datasets.forEach(function (dataset, i) {
-        //       var meta = chartInstance.controller.getDatasetMeta(i);
-        //       meta.data.forEach(function (bar, index) {
-        //         var data = dataset.data[index];
-        //         ctx.fillText(data, bar._model.x, bar._model.y - 5);
-        //       });
-        //     });
-        //   }
-        // },
+        responsive: false,
       },
     });
   };
