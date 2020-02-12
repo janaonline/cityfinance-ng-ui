@@ -33,9 +33,9 @@ export class HomeTabViewComponent implements OnInit {
       id: 'revenueExpenditure',
       description: '(Rs in crores)'
     },
-    {title: 'Own Revenue', id: 'ownRevenue'},
-    {title: 'Min. Own Revenue', id: 'minOwnRevenuePercentage'},
-    {title: 'Max. Own Revenue', id: 'maxOwnRevenuePercentage'}
+    {title: 'Own Revenue %', id: 'ownRevenue ', description: '(A/B)'},
+    {title: 'Min. Own Revenue %', id: 'minOwnRevenuePercentage'},
+    {title: 'Max. Own Revenue %', id: 'maxOwnRevenuePercentage'}
   ];
 
   commonTableData = [];
@@ -62,6 +62,8 @@ export class HomeTabViewComponent implements OnInit {
   ulbTypeSelected: string;
 
   tabIndexChangeHandler(event): void {
+    this.singleULBView = false;
+    this.selectedUlb = {};
     this.tabIndex = event;
     this.fetchData();
   }
@@ -171,9 +173,9 @@ export class HomeTabViewComponent implements OnInit {
             id: 'revenueExpenditure',
             description: '(Rs in crores)'
           },
-          {title: 'Own Revenue', id: 'ownRevenue'},
-          {title: 'Min. Own Revenue', id: 'minOwnRevenuePercentage'},
-          {title: 'Max. Own Revenue', id: 'maxOwnRevenuePercentage'}
+          {title: 'Own Revenue %', id: 'ownRevenuePercentage', description: '(A/B)'},
+          {title: 'Min. Own Revenue %', id: 'minOwnRevenuePercentage'},
+          {title: 'Max. Own Revenue %', id: 'maxOwnRevenuePercentage'}
         ];
         this.dashboardService
           .fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears))
@@ -205,9 +207,9 @@ export class HomeTabViewComponent implements OnInit {
           {title: 'Assigned Revenue & revenue grants', id: 'assignedRevenueAndRevenueGrants'},
           {title: 'Deficit financed by Capital grants', id: 'deficitFinanceByCapitalGrants'},
           {title: 'Interest Income', id: 'interestIncome'},
-          {title: 'Own Revenues', id: 'ownRevenue'},
-          {title: 'Other Income', id: 'ulbName'},
-          {title: 'Other Income', id: 'otherIncome'}
+          {title: 'Own Revenues %', id: 'ownRevenue', description: '(A/B)'},
+          {title: 'Other Income %', id: 'ulbName'},
+          {title: 'Other Income %', id: 'otherIncome'}
         ];
         this.dashboardService
           .fetchFinancialRevenueExpenditure('')

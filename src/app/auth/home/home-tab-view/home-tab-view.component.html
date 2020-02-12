@@ -37,6 +37,7 @@
         *ngIf="tabIndex === 1"
       >
         <app-re-useable-heat-map
+          [ulbSelected]="selectedUlb?._id"
           (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
@@ -53,6 +54,7 @@
         *ngIf="tabIndex === 2"
       >
         <app-re-useable-heat-map
+          [ulbSelected]="selectedUlb?._id"
           (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
@@ -107,6 +109,7 @@
         *ngIf="tabIndex === 3"
       >
         <app-re-useable-heat-map
+          [ulbSelected]="selectedUlb?._id"
           (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
@@ -123,6 +126,7 @@
         *ngIf="tabIndex === 4"
       >
         <app-re-useable-heat-map
+          [ulbSelected]="selectedUlb?._id"
           (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
@@ -183,6 +187,7 @@
         *ngIf="tabIndex === 5"
       >
         <app-re-useable-heat-map
+          [ulbSelected]="selectedUlb?._id"
           (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
