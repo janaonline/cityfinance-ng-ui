@@ -8,18 +8,20 @@ import { DataTrackerComponent } from './data-tracker/data-tracker.component';
 import { AgGridModule } from 'ag-grid-angular';
 // import { TestComponent } from './test/test.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {AuthModule} from '../auth/auth.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    DashboardRouter,
-    AgGridModule.withComponents([]),
-    ReactiveFormsModule
-  ],
+    imports: [
+        CommonModule,
+        DashboardRouter,
+        AgGridModule.withComponents([]),
+        ReactiveFormsModule,
+        AuthModule
+    ],
   providers: [
     CommonService
   ],
-  declarations: [HeaderComponent, DashboardComponent, DataTrackerComponent, 
+  declarations: [HeaderComponent, DashboardComponent, DataTrackerComponent,
     // TestComponent
   ]
 })

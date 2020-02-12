@@ -1,0 +1,106 @@
+<div class="testing"></div>
+
+<div class="col-sm-12 stateMapContainer" id="ulbMap">
+  <h5
+    style="position: absolute;z-index: 9;padding-left: 1%; text-decoration: underline;"
+  >
+    {{ currentStateInView ? currentStateInView.name : "" }}
+  </h5>
+  <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+  </div>
+  <div class="ulbSelectDropdown ">
+    <mat-form-field
+      style="display: block;"
+      class="col-md-12"
+      appearance="outline"
+      *ngIf="
+        ulbsOfSelectedState &&
+        nationalLevelMap &&
+        !!filteredULBStateAndULBDataMerged
+      "
+    >
+      <input
+        type="text"
+        placeholder="Search ULB"
+        aria-label="text"
+        matInput
+        [formControl]="ulbFilterControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-optgroup
+          *ngFor="let stateId of object.keys(filteredULBStateAndULBDataMerged)"
+          [label]="filteredULBStateAndULBDataMerged[stateId].name"
+        >
+          <mat-option
+            *ngFor="let ulb of filteredULBStateAndULBDataMerged[stateId].ulbs"
+            (onSelectionChange)="onSelectingULBFromDropdown(ulb._id)"
+            [value]="ulb.name"
+            [title]="ulb.name"
+          >
+            {{ ulb.name }}
+          </mat-option>
+        </mat-optgroup>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <section
+      class="regionalDetails regionalDetails2 col-sm-12"
+      *ngIf="mouseHoverOnState"
+    >
+      <div
+        style="align-items: center;
+    display: inline-flex;
+    width: fit-content;
+    position: relative;
+    justify-content: center;
+    margin-right: 5%;"
+      >
+        <span style="position: absolute;font-size: .7em; ">
+          {{ mouseHoverOnState.coveredUlbPercentage | number: "2.1-1" }} %
+        </span>
+        <mat-progress-spinner
+          [value]="mouseHoverOnState.coveredUlbPercentage | number: '2.2-2'"
+          [diameter]="50"
+        ></mat-progress-spinner>
+      </div>
+
+      <div
+        style="align-items: center;
+    display: inline;
+    width: fit-content;"
+      >
+        <span> {{ mouseHoverOnState.name }}</span>
+        <br />
+        <span class="colorText">
+          {{ mouseHoverOnState.coveredUlbCount }} out of
+          {{ mouseHoverOnState.totalUlbs }}
+        </span>
+        ULBs
+      </div>
+    </section>
+
+    <section class="regionalDetails col-sm-12" *ngIf="mouseHoveredOnULB">
+      <span class=" col-sm-12"
+        ><span class="bold">ULB:</span> {{ mouseHoveredOnULB.name }}</span
+      >
+      <span class=" col-sm-12">
+        <span class="bold">Area:</span>
+        {{ mouseHoveredOnULB.area }}
+      </span>
+      <span class=" col-sm-12">
+        <span class="bold">
+          Population:
+        </span>
+        {{ mouseHoveredOnULB.population }}
+      </span>
+    </section>
+  </div>
+  <div class="col-sm-12" id="districtMapContainer"></div>
+
+  <div id="mapid" class="stateMap col-sm-12"></div>
+</div>

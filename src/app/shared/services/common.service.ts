@@ -7,6 +7,8 @@ import { NewULBStructure, NewULBStructureResponse } from 'src/app/models/newULBS
 import { ULBsStatistics } from 'src/app/models/statistics/ulbsStatistics';
 import { IULB } from 'src/app/models/ulb';
 
+import { IStateULBCoveredResponse } from '../models/stateUlbConvered';
+import { IULBWithPopulationResponse } from '../models/ulbsForMapResponse';
 import { environment } from './../../../environments/environment';
 
 @Injectable({
@@ -197,5 +199,17 @@ export class CommonService {
 
   loadHomeStatisticsData(): Observable<any> {
     return this.http.get("/assets/files/homeDashboardData.json");
+  }
+
+  getStateUlbCovered() {
+    return this.http.get<IStateULBCoveredResponse>(
+      `${environment.api.url}api/admin/v1/lookup/states-with-ulb-count`
+    );
+  }
+
+  getULBSWithPopulationAndCoordinates() {
+    return this.http.get<IULBWithPopulationResponse>(
+      `${environment.api.url}api/admin/v1/ulb-list`
+    );
   }
 }

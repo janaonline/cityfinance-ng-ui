@@ -1,0 +1,380 @@
+<mat-tab-group
+  dynamicHeight="false"
+  (selectedIndexChange)="tabIndexChangeHandler($event)"
+  [selectedIndex]="tabIndex"
+  class="mt-1"
+  animationDuration="100ms"
+>
+  <mat-tab label="Extent on dependency on own revenues">
+    <ng-template matTabContent>
+      <div
+        class="col-sm-12 col-md-5"
+        style="max-width: 40%; margin-top: 1%;"
+        *ngIf="tabIndex === 0"
+      >
+        <app-re-useable-heat-map [ulbSelected]="selectedUlb?._id"
+                                 (ulbsClicked)="fetchUlBsData($event)"
+        ></app-re-useable-heat-map>
+      </div>
+      <div class="col-sm-12 col-md-7">
+        <!-- <div class="row">
+          <div class="col-sm-12">
+            <app-ulb-coverage></app-ulb-coverage>
+          </div>
+        </div> -->
+
+        <div class="row">
+          <ng-container *ngTemplateOutlet="table"></ng-container>
+        </div>
+      </div>
+    </ng-template>
+  </mat-tab>
+  <mat-tab [label]="'Sources of revenue'">
+    <ng-template matTabContent>
+      <div
+        class="col-sm-12 col-md-5"
+        style="max-width: 40%; margin-top: 1%;"
+        *ngIf="tabIndex === 1"
+      >
+        <app-re-useable-heat-map
+          [ulbSelected]="selectedUlb?._id"
+          (ulbsClicked)="fetchUlBsData($event)"
+        ></app-re-useable-heat-map>
+      </div>
+      <div class="col-md-7 col-sm-12">
+        <ng-container *ngTemplateOutlet="table"></ng-container>
+      </div>
+    </ng-template>
+  </mat-tab>
+  <mat-tab [label]="'Sources of financing revenue expenditure '">
+    <ng-template matTabContent>
+      <div
+        class="col-sm-12 col-md-5"
+        style="max-width: 40%; margin-top: 1%;"
+        *ngIf="tabIndex === 2"
+      >
+        <app-re-useable-heat-map
+          [ulbSelected]="selectedUlb?._id"
+          (ulbsClicked)="fetchUlBsData($event)"
+        ></app-re-useable-heat-map>
+      </div>
+      <div class="col-sm-12 col-md-5"></div>
+      <div [style.minHeight.px]="400" [formGroup]="yearForm" class="col-md-7">
+        <div class="row d-flex mt-4">
+          <div class="col-sm-10">
+            <angular2-multiselect
+              class="m-0"
+              formControlName="years"
+              style="display: inline-block;width: 208px;"
+              [data]="yearLookup"
+              [settings]="yearsDropdownSettings"
+              (onClose)="onDropdownClose($event)"
+              (onSelect)="onDropdownSelect($event)"
+              (onDeSelect)="onDropdownDeSelect($event)"
+              (onSelectAll)="onDropDownSelectAll($event)"
+              (onDeSelectAll)="resetPopupValues()"
+            >
+            </angular2-multiselect>
+          </div>
+          <!-- <div class="col-sm-2">
+            <button mat-stroked-button color="primary">View</button>
+          </div> -->
+        </div>
+        <div class="row" style="height: 60vh; overflow-y: auto;">
+          <div
+            class="col-sm-12 d-flex"
+            *ngFor="let data of commonTableDataDisplay"
+          >
+            <div
+              style="height: 33%;width: 33%"
+              *ngFor="let row of data.data; let i = index"
+            >
+              <canvas
+                width="400px"
+                height="400px"
+                [id]="'canvas--' + data.year + '--' + i"
+              ></canvas>
+            </div>
+          </div>
+          <ul class="legend"></ul>
+        </div>
+      </div>
+    </ng-template>
+  </mat-tab>
+  <mat-tab [label]="'Avenues of revenue expenditure'">
+    <ng-template matTabContent>
+      <div
+        class="col-sm-12 col-md-5"
+        style="max-width: 40%; margin-top: 1%;"
+        *ngIf="tabIndex === 3"
+      >
+        <app-re-useable-heat-map
+          [ulbSelected]="selectedUlb?._id"
+          (ulbsClicked)="fetchUlBsData($event)"
+        ></app-re-useable-heat-map>
+      </div>
+      <div class="col-md-7 col-sm-12">
+        <ng-container *ngTemplateOutlet="table"></ng-container>
+      </div>
+    </ng-template>
+  </mat-tab>
+  <mat-tab [label]="'Cash and Bank balance'">
+    <ng-template matTabContent>
+      <div
+        class="col-sm-12 col-md-5"
+        style="max-width: 40%; margin-top: 1%;"
+        *ngIf="tabIndex === 4"
+      >
+        <app-re-useable-heat-map
+          [ulbSelected]="selectedUlb?._id"
+          (ulbsClicked)="fetchUlBsData($event)"
+        ></app-re-useable-heat-map>
+      </div>
+      <div class="col-sm-12 col-md-5"></div>
+      <div
+        [style.minHeight.px]="400"
+        [formGroup]="yearForm"
+        class="col-md-7 col-sm-12"
+      >
+        <div class="row d-flex mt-4">
+          <div class="col-sm-10">
+            <angular2-multiselect
+              class="m-0"
+              formControlName="years"
+              style="display: inline-block;width: 208px;"
+              [data]="yearLookup"
+              [settings]="yearsDropdownSettings"
+              (onClose)="onDropdownClose($event)"
+              (onSelect)="onDropdownSelect($event)"
+              (onDeSelect)="onDropdownDeSelect($event)"
+              (onSelectAll)="onDropDownSelectAll($event)"
+              (onDeSelectAll)="resetPopupValues()"
+            >
+            </angular2-multiselect>
+          </div>
+          <!-- <div class="col-sm-2">
+            <button mat-stroked-button color="primary">View</button>
+          </div> -->
+        </div>
+        <div class="row" style="height: 60vh; overflow-y: auto;">
+          <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
+            <div class="col-sm-12 text-center">
+              <h3>{{ data?.year }}</h3>
+            </div>
+            <div class="row d-flex justify-content-center">
+              <div
+                style="height: 33%;width: 40%"
+                *ngFor="let row of data.data.slice(0, 2); let i = index"
+              >
+                <canvas
+                  width="400px"
+                  height="400px"
+                  [id]="'canvas--' + data.year + '--' + i"
+                ></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <ng-container *ngTemplateOutlet="table"></ng-container>-->
+      </div>
+    </ng-template>
+  </mat-tab>
+  <mat-tab [label]="'Outstanding debt'">
+    <ng-template matTabContent>
+      <div
+        class="col-sm-12 col-md-5"
+        style="max-width: 40%; margin-top: 1%;"
+        *ngIf="tabIndex === 5"
+      >
+        <app-re-useable-heat-map
+          [ulbSelected]="selectedUlb?._id"
+          (ulbsClicked)="fetchUlBsData($event)"
+        ></app-re-useable-heat-map>
+      </div>
+      <div class="col-md-7 col-sm-12">
+        <ng-container *ngTemplateOutlet="table"></ng-container>
+      </div>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+<ng-template #table>
+  <div *ngIf="loading==false; else loadingSkeleton" [style.height.px]="400" style="width: 100%" [formGroup]="yearForm">
+    <div class="row d-flex mt-4">
+      <div class="col-sm-10">
+        <angular2-multiselect
+          class="m-0"
+          formControlName="years"
+          style="display: inline-block;width: 208px;"
+          [data]="yearLookup"
+          [settings]="yearsDropdownSettings"
+          (onClose)="onDropdownClose($event)"
+          (onSelect)="onDropdownSelect($event)"
+          (onDeSelect)="onDropdownDeSelect($event)"
+          (onSelectAll)="onDropDownSelectAll($event)"
+          (onDeSelectAll)="resetPopupValues()"
+        >
+        </angular2-multiselect>
+      </div>
+      <!-- <div class="col-sm-2">
+        <button mat-stroked-button color="primary">View</button>
+      </div> -->
+    </div>
+    <div class="row mt-2">
+      <div class="col-sm-12 table-responsive">
+        <table *ngIf="commonTableDataDisplay?.length; else noData"
+               class="table border-1">
+          <thead>
+          <tr>
+            <th
+              class="text-center px-1 border-bottom-0"
+              *ngFor="let header of commonTableHeaders"
+            >
+              <div class="d-flex justify-content-center">
+                <div class="d-flex flex-column p-0">
+                  {{ header.title }}
+                  <span class="font-weight-light" *ngIf="header.description">
+                      {{ header.description }}</span
+                  >
+                </div>
+                <i
+                  *ngIf="!header.hasOwnProperty('status'); else icon"
+                  (click)="sortHeader(header)"
+                  class="fa fa-sort px-1"
+                  aria-hidden="true"
+                ></i>
+                <ng-template #icon>
+                  <i
+                    *ngIf="header.status"
+                    (click)="sortHeader(header)"
+                    class="fa fa-sort-asc px-1"
+                    aria-hidden="true"
+                  ></i>
+                  <i
+                    *ngIf="!header.status"
+                    (click)="sortHeader(header)"
+                    class="fa fa-sort-desc px-1"
+                    aria-hidden="true"
+                  ></i>
+                </ng-template>
+              </div>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let tr of commonTableDataDisplay">
+            <tr>
+              <td
+                class="text-center"
+                [colSpan]="commonTableHeaders.length"
+                [style.background]="'#ffc500'"
+              >
+                <b>{{ tr?.year }}</b>
+              </td>
+            </tr>
+            <tr *ngFor="let row of tr.data; let i = index">
+              <td class="text-center" *ngFor="let col of commonTableHeaders">
+                <span *ngIf="!col?.click;else clickableCol">{{ row[col?.id] }}</span>
+                <ng-template #clickableCol>
+                  <a (click)="openModal(UlbModal,row,tr.year)">{{ row[col?.id] }}</a>
+                </ng-template>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+        <ng-template #noData>
+          <h3 class="text-center">No data available</h3>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <ng-template #loadingSkeleton>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+  </ng-template>
+</ng-template>
+
+<ng-template #heatMap></ng-template>
+
+<ng-template #UlbModal>
+  <!-- <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div> -->
+  <div>
+    <div
+      class="modal-header col-md-12"
+      style="display: inline-flex; align-items: center;">
+    </div>
+  </div>
+
+  <div class="modal-body">
+    <table *ngIf="modalTableHeaders.length; else noData"
+           class="table border-1">
+      <thead>
+      <tr>
+        <th style="position: sticky;top: 0;background: white"
+            class="text-center px-1 border-bottom-0"
+            *ngFor="let header of modalTableHeaders"
+        >
+          <div class="d-flex justify-content-center">
+            <div class="d-flex flex-column p-0">
+              {{ header.title }}
+              <span class="font-weight-light" *ngIf="header.description">
+                      {{ header.description }}</span
+              >
+            </div>
+            <i
+              *ngIf="!header.hasOwnProperty('status'); else icon"
+              (click)="sortHeader(header)"
+              class="fa fa-sort px-1"
+              aria-hidden="true"
+            ></i>
+            <ng-template #icon>
+              <i
+                *ngIf="header.status"
+                (click)="sortHeader(header)"
+                class="fa fa-sort-asc px-1"
+                aria-hidden="true"
+              ></i>
+              <i
+                *ngIf="!header.status"
+                (click)="sortHeader(header)"
+                class="fa fa-sort-desc px-1"
+                aria-hidden="true"
+              ></i>
+            </ng-template>
+          </div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td
+          class="text-center"
+          [colSpan]="modalTableHeaders.length"
+          [style.background]="'#ffc500'"
+        >
+          <b>{{modalTableData.year }}</b>
+        </td>
+      </tr>
+      <!--      <ng-container *ngFor="let tr of modalTableData">-->
+      <tr *ngFor="let row of modalTableData.data; let i = index">
+        <td class="text-center" *ngFor="let col of modalTableHeaders">
+          <span *ngIf="!col?.click;else clickableCol">{{ row[col?.id] }}</span>
+          <ng-template #clickableCol>
+            <a (click)="modalItemClicked(row._id)">{{ row[col?.id] }}</a>
+          </ng-template>
+        </td>
+      </tr>
+      <!--      </ng-container>-->
+      </tbody>
+    </table>
+    <ng-template #noData>
+      <h3 class="text-center">No data available</h3>
+    </ng-template>
+  </div>
+</ng-template>

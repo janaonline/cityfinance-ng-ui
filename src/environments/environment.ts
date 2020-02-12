@@ -16,8 +16,8 @@ export const environment = {
   production: false,
   api: {
     url2: "http://cityfinance.in/",
-    url1: "https://democityfinanceapi.dhwaniris.in/",
-    url
+    url: "https://democityfinanceapi.dhwaniris.in/",
+    //url
   }
 };
 

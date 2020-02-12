@@ -1,17 +1,18 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CustomHttpInterceptor } from 'src/app/security/custom-http.interceptor';
-import { AppComponent } from './app.component';
-import { AppRouter } from './app.route';
-import { AuthService } from './auth/auth.service';
-import { AuthGuard } from './security/auth-guard.service';
-import { DialogComponent } from './shared/components/dialog/dialog.component';
-import { AppCommonModule } from './shared/modules/app-common/app-common.module';
-import { RupeeConverterPipe } from './shared/pipes/rupee-converter.pipe';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CustomHttpInterceptor} from 'src/app/security/custom-http.interceptor';
+import {AppComponent} from './app.component';
+import {AppRouter} from './app.route';
+import {AuthService} from './auth/auth.service';
+import {AuthGuard} from './security/auth-guard.service';
+import {DialogComponent} from './shared/components/dialog/dialog.component';
+import {AppCommonModule} from './shared/modules/app-common/app-common.module';
+import {RupeeConverterPipe} from './shared/pipes/rupee-converter.pipe';
+import {ModalModule} from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [AppComponent, RupeeConverterPipe, DialogComponent],
@@ -22,9 +23,9 @@ import { RupeeConverterPipe } from './shared/pipes/rupee-converter.pipe';
     AppRouter,
     AppCommonModule,
     MatProgressSpinnerModule,
-
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ModalModule.forRoot()
   ],
   providers: [
     CustomHttpInterceptor,
@@ -38,4 +39,5 @@ import { RupeeConverterPipe } from './shared/pipes/rupee-converter.pipe';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}
