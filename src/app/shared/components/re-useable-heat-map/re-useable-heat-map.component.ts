@@ -17,6 +17,7 @@ import { ILeafletStateClickEvent } from './models/leafletStateClickEvent';
 })
 export class ReUseableHeatMapComponent implements OnInit, OnChanges {
   @Output() ulbsClicked = new EventEmitter<string[]>();
+  @Output() stateId = new EventEmitter<string>();
   @Input() ulbSelected: string;
 
   ulbsSelected = new FormControl([]);
@@ -238,7 +239,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
   private listenToFormControls() {
     this.ulbsSelected.valueChanges.subscribe(newValue => {
-      console.log(`new Value`, newValue);
       this.ulbsClicked.emit(newValue);
     });
 
@@ -386,17 +386,17 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     ];
     const legend = new L.Control({ position: "bottomright" });
     const labels = [
-      `<span style="width: 80%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`
+      `<span style="width: 100%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`
     ];
     legend.onAdd = function(map) {
       const div = L.DomUtil.create("div", "info legend");
       div.style.width = "100%";
       arr.forEach(value => {
         labels.push(
-          `<span><i class="circle" style="background: ${value.color}; padding:8%; display: inline-block"> </i> ${value.text}</span>`
+          `<span style="display: flex; align-items: center; width: 45%; margin: 1% auto; "><i class="circle" style="background: ${value.color}; padding:10%; display: inline-block; margin-right: 5%;"> </i> ${value.text}</span>`
         );
       });
-      div.innerHTML = labels.join(`<br>`);
+      div.innerHTML = labels.join(``);
       return div;
     };
 
@@ -425,7 +425,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       return false;
     }
 
-    this.convertDomToMiniMap("mapid");
     if (
       this.currentStateInView &&
       this.currentStateInView.name !==
@@ -441,9 +440,13 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     ) {
       return;
     }
-    this.createStateLevelMap(
+    const status = this.createStateLevelMap(
       mapClickEvent.sourceTarget.feature.properties.ST_NM
     );
+    if (!status) {
+      return false;
+    }
+    this.convertDomToMiniMap("mapid");
 
     this.showStateLayerOnlyFor(this.nationalLevelMap, this.currentStateInView);
   }
@@ -483,6 +486,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       return false;
     }
     this.currentStateInView = stateFound;
+    this.stateId.emit(stateFound._id);
     this.filteredULBStateAndULBDataMerged = this.filterMergedStateDataBy({
       stateId: stateFound._id
     });
@@ -499,7 +503,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (!ulbsWithCoordinates.length) {
       const message = "State does not conains any ULB with geo co-ordinates.";
       this.showSnacbarMessage(message);
-      return;
+      return false;
     }
     const centerLatLngOfState = this.getCentroid(
       ulbsWithCoordinates.map(ulb => [+ulb.location.lat, +ulb.location.lng])
@@ -527,6 +531,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       center: { lat: centerLatLngOfState[0], lng: centerLatLngOfState[1] },
       dataPoints: [...dataPointsForMarker]
     });
+    return true;
   }
 
   private convertDomToMiniMap(domId: string) {
@@ -730,6 +735,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
   private resetCurrentSelectState() {
     this.currentStateInView = null;
+    this.stateId.emit(null);
   }
 
   private clearDistrictMapContainer() {

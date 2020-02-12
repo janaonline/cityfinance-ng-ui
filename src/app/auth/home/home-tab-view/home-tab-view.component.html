@@ -13,6 +13,7 @@
         *ngIf="tabIndex === 0"
       >
         <app-re-useable-heat-map [ulbSelected]="selectedUlb?._id"
+                                 (stateId)="filterDataStateWise($event)"
                                  (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
@@ -37,6 +38,7 @@
         *ngIf="tabIndex === 1"
       >
         <app-re-useable-heat-map
+          (stateId)="filterDataStateWise($event)"
           [ulbSelected]="selectedUlb?._id"
           (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
@@ -273,10 +275,12 @@
               </td>
             </tr>
             <tr *ngFor="let row of tr.data; let i = index">
-              <td class="text-center" *ngFor="let col of commonTableHeaders">
-                <span *ngIf="!col?.click;else clickableCol">{{ row[col?.id] }}</span>
+              <td class="text-center" *ngFor="let col of commonTableHeaders;let j=index">
+                <span *ngIf="!col?.click else clickableCol">{{ row[col?.id] }}</span>
                 <ng-template #clickableCol>
-                  <a (click)="openModal(UlbModal,row,tr.year)">{{ row[col?.id] }}</a>
+                  <a *ngIf="i!=tr?.data.length-1"
+                     (click)="openModal(UlbModal,row,tr.year)">{{ row[col?.id]}}</a>
+                  <span *ngIf="i==tr?.data.length-1">{{ row[col?.id]}}</span>
                 </ng-template>
               </td>
             </tr>
@@ -329,20 +333,20 @@
             </div>
             <i
               *ngIf="!header.hasOwnProperty('status'); else icon"
-              (click)="sortHeader(header)"
+              (click)="sortDialogHeader(header)"
               class="fa fa-sort px-1"
               aria-hidden="true"
             ></i>
             <ng-template #icon>
               <i
                 *ngIf="header.status"
-                (click)="sortHeader(header)"
+                (click)="sortDialogHeader(header)"
                 class="fa fa-sort-asc px-1"
                 aria-hidden="true"
               ></i>
               <i
                 *ngIf="!header.status"
-                (click)="sortHeader(header)"
+                (click)="sortDialogHeader(header)"
                 class="fa fa-sort-desc px-1"
                 aria-hidden="true"
               ></i>

@@ -5,6 +5,8 @@ import {Chart} from 'chart.js';
 import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {viewEngine_ChangeDetectorRef_interface} from '@angular/core/src/render3/view_ref';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {elementStart} from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -38,6 +40,7 @@ export class HomeTabViewComponent implements OnInit {
     {title: 'Max. Own Revenue %', id: 'maxOwnRevenuePercentage'}
   ];
 
+  selectedState: string = '';
   commonTableData = [];
   commonTableDataDisplay = [];
   yearForm: FormGroup;
@@ -136,8 +139,36 @@ export class HomeTabViewComponent implements OnInit {
     /*   this.commonTableDataDisplay = this.commonTableData.filter(data =>
          this.selectedYears.includes(data.year)
        );*/
+
     if (this.tabIndex == 2 || this.tabIndex == 4) {
       this.renderCharts();
+    } else {
+      /*for (let year of this.commonTableData) {
+        let newRow = {};
+        for (let row of year.data) {
+          for (let prop of Object.keys(row)) {
+            try {
+              if (newRow[prop]) {
+                if (typeof newRow[prop] == 'string') {
+                  if (newRow[prop].includes('%')) {
+                    newRow[prop] = Number(newRow[prop].repace('%', '')) + Number(row[prop].repace('%', '')) + '%';
+                  }
+                } else {
+                  newRow[prop] = newRow[prop] + row[prop];
+                }
+              } else {
+                if (typeof row[prop] === 'string') {
+                  if (row[prop].includes('%')) {
+                    newRow[prop] = Number(row[prop].replace('%', '')) + '%';
+                  }
+                }
+                newRow[prop] = row[prop];
+              }
+            } catch (e) {
+            }
+          }
+        }
+      }*/
     }
   }
 
@@ -179,7 +210,7 @@ export class HomeTabViewComponent implements OnInit {
           {title: 'Max. Own Revenue %', id: 'maxOwnRevenuePercentage'}
         ];
         this.dashboardService
-          .fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears))
+          .fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
 
         break;
@@ -203,14 +234,14 @@ export class HomeTabViewComponent implements OnInit {
         break;
       case 2:
         this.commonTableHeaders = [
-          {title: 'Population Category', id: 'populationCategory'},
-          {title: 'Number of ULBs', id: 'numOfUlb'},
-          {title: 'Assigned Revenue & revenue grants', id: 'assignedRevenueAndRevenueGrants'},
-          {title: 'Deficit financed by Capital grants', id: 'deficitFinanceByCapitalGrants'},
-          {title: 'Interest Income', id: 'interestIncome'},
-          {title: 'Own Revenues %', id: 'ownRevenue', description: '(A/B)'},
-          {title: 'Other Income %', id: 'ulbName'},
-          {title: 'Other Income %', id: 'otherIncome'}
+          {title: 'assignedRevenueAndCompensationCoverPercentage', id: 'assignedRevenueAndCompensationCoverPercentage'},
+          {title: 'coveredPercentage', id: 'coveredPercentage'},
+          {title: 'deficitFinanceByCapitalGrantsCoverPercentage', id: 'deficitFinanceByCapitalGrantsCoverPercentage'},
+          {title: 'interestIncomeCoverPercentage', id: 'interestIncomeCoverPercentage'},
+          {title: 'otherIncomeCoverPercentage', id: 'otherIncomeCoverPercentage'},
+          {title: 'ownRevenueCoverPercentage', id: 'ownRevenueCoverPercentage', description: '(A/B)'},
+          {title: 'revenueGrantsContributionAndSubsidiesCoverPercentage', id: 'revenueGrantsContributionAndSubsidiesCoverPercentage'},
+          {title: 'saleAndHireChargesCoverPercentage', id: 'saleAndHireChargesCoverPercentage'}
         ];
         this.dashboardService
           .fetchFinancialRevenueExpenditure('')
@@ -294,11 +325,13 @@ export class HomeTabViewComponent implements OnInit {
         }, 1);
         // this.commonTableDataDisplay[index].data = this.commonTableDataDisplay[index].data.slice(0, 2);
       } else {
+
         yearRow.data.forEach((row, index) => {
           const elementId = `${elementIdPrefix}--${index}`;
           let labels = Object.keys(row).filter(
             key => typeof row[key] === 'number'
           );
+          console.log(this.commonTableHeaders, labels);
           labels = labels.map(label => {
             try {
               label = this.commonTableHeaders.find(header => header.id == label)
@@ -382,7 +415,8 @@ export class HomeTabViewComponent implements OnInit {
     if (header.hasOwnProperty('status') && header.status == true) {
       header.status = false;
       this.commonTableDataDisplay = this.commonTableDataDisplay.map(year => {
-        year.data = year.data.sort((a, b) => {
+        let totalArray = year.data[year.data.length - 1];
+        year.data = year.data.slice(0, year.data.length - 1).sort((a, b) => {
           if (a[id] > b[id]) {
             return -1;
           } else if (a[id] < b[id]) {
@@ -391,12 +425,16 @@ export class HomeTabViewComponent implements OnInit {
             return 0;
           }
         });
+        year.data = [...year.data, totalArray];
+        console.log(year.data);
         return year;
       });
     } else {
       header.status = true;
       this.commonTableDataDisplay = this.commonTableDataDisplay.map(year => {
-        year.data = year.data.sort((a, b) => {
+        let totalArray = year.data[year.data.length - 1];
+
+        year.data = year.data.slice(0, year.data.length - 1).sort((a, b) => {
           if (a[id] > b[id]) {
             return 1;
           } else if (a[id] < b[id]) {
@@ -405,6 +443,8 @@ export class HomeTabViewComponent implements OnInit {
             return 0;
           }
         });
+        year.data = [...year.data, totalArray];
+        console.log(year.data);
         return year;
       });
     }
@@ -451,6 +491,38 @@ export class HomeTabViewComponent implements OnInit {
       this.modalRef.hide();
     }
 
+  }
+
+  filterDataStateWise(event: string) {
+    this.selectedState = event;
+    this.fetchData();
+  }
+
+  sortDialogHeader(header) {
+    const {id} = header;
+    if (header.hasOwnProperty('status') && header.status == true) {
+      header.status = false;
+      this.modalTableData.data = this.modalTableData.data.sort((a, b) => {
+        if (a[id] > b[id]) {
+          return -1;
+        } else if (a[id] < b[id]) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    } else {
+      header.status = true;
+      this.modalTableData.data = this.modalTableData.data.sort((a, b) => {
+        if (a[id] > b[id]) {
+          return 1;
+        } else if (a[id] < b[id]) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+    }
   }
 }
 
