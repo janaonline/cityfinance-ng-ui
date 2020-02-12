@@ -17,6 +17,7 @@ import { ILeafletStateClickEvent } from './models/leafletStateClickEvent';
 })
 export class ReUseableHeatMapComponent implements OnInit, OnChanges {
   @Output() ulbsClicked = new EventEmitter<string[]>();
+  @Output() stateId = new EventEmitter<string>();
   @Input() ulbSelected: string;
 
   ulbsSelected = new FormControl([]);
@@ -479,6 +480,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       return false;
     }
     this.currentStateInView = stateFound;
+    this.stateId.emit(stateFound._id);
     this.filteredULBStateAndULBDataMerged = this.filterMergedStateDataBy({
       stateId: stateFound._id
     });
@@ -727,6 +729,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
   private resetCurrentSelectState() {
     this.currentStateInView = null;
+    this.stateId.emit(null);
   }
 
   private clearDistrictMapContainer() {
