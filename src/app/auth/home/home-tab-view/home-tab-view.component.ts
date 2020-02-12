@@ -415,7 +415,8 @@ export class HomeTabViewComponent implements OnInit {
     if (header.hasOwnProperty('status') && header.status == true) {
       header.status = false;
       this.commonTableDataDisplay = this.commonTableDataDisplay.map(year => {
-        year.data = year.data.sort((a, b) => {
+        let totalArray = year.data[year.data.length - 1];
+        year.data = year.data.slice(0, year.data.length - 1).sort((a, b) => {
           if (a[id] > b[id]) {
             return -1;
           } else if (a[id] < b[id]) {
@@ -424,12 +425,16 @@ export class HomeTabViewComponent implements OnInit {
             return 0;
           }
         });
+        year.data = [...year.data, totalArray];
+        console.log(year.data);
         return year;
       });
     } else {
       header.status = true;
       this.commonTableDataDisplay = this.commonTableDataDisplay.map(year => {
-        year.data = year.data.sort((a, b) => {
+        let totalArray = year.data[year.data.length - 1];
+
+        year.data = year.data.slice(0, year.data.length - 1).sort((a, b) => {
           if (a[id] > b[id]) {
             return 1;
           } else if (a[id] < b[id]) {
@@ -438,6 +443,8 @@ export class HomeTabViewComponent implements OnInit {
             return 0;
           }
         });
+        year.data = [...year.data, totalArray];
+        console.log(year.data);
         return year;
       });
     }
