@@ -1,3 +1,5 @@
+<div class="testing"></div>
+
 <div class="col-sm-12 stateMapContainer" id="ulbMap">
   <h5 style="position: absolute;z-index: 9;padding-left: 1%;">
     {{ currentStateInView ? currentStateInView.name : "" }}
@@ -41,6 +43,8 @@
     </mat-form-field>
 
     <section class="regionalDetails col-sm-12" *ngIf="mouseHoverOnState">
+      <canvas id="statePercentage" width="325" height="325"></canvas>
+
       <span><span class="bold">State:</span> {{ mouseHoverOnState.name }}</span>
       <span>
         <span class="bold">ULB Covered(%):</span>

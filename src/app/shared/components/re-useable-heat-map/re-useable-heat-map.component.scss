@@ -139,3 +139,11 @@ mat-form-field {
 ::ng-deep .leaflet-control-attribution {
   display: none;
 }
+
+::ng-deep .leaflet-control {
+  transform: scale(1.4);
+}
+
+#statePercentage {
+  transform: scale(0.2);
+}
