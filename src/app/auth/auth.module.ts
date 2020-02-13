@@ -16,7 +16,6 @@ import {HomeTabViewComponent} from './home/home-tab-view/home-tab-view.component
 import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
 import {SharedModule} from '../shared/shared.module';
 import {UlbCoverageComponent} from './home/home-tab-view/ulb-coverage/ulb-coverage.component';
-import {BsModalService} from 'ngx-bootstrap/modal';
 
 // import { GridComponent } from './home/grid/grid.component';
 @NgModule({
@@ -29,7 +28,7 @@ import {BsModalService} from 'ngx-bootstrap/modal';
     CfChartsModule,
     AngularMaterialModule,
     CommonModule,
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
   ],
   providers: [AuthService],
   declarations: [

@@ -27,31 +27,34 @@ import { ReportComponent } from './report/report.component';
 // import { CommonSizeUlbComponent } from './common-size-ulb/common-size-ulb.component';
 // import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
-  imports: [
-    FormsModule,
-    CommonModule,
-    ReportRouter,
-    MatDialogModule,
-    ReactiveFormsModule,
-    AngularMultiSelectModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    MatTooltipModule,
-    MatFormFieldModule,
-    SharedModule,
-    MatSlideToggleModule,
-    ModalModule.forRoot()
-  ],
-  declarations: [
-    InrCurrencyPipe,
+    imports: [
+        FormsModule,
+        CommonModule,
+        ReportRouter,
+        MatDialogModule,
+        ReactiveFormsModule,
+        AngularMultiSelectModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        MatTooltipModule,
+        MatFormFieldModule,
+        SharedModule,
+        MatSlideToggleModule,
+        ModalModule.forRoot()
+    ],
+    declarations: [
+        InrCurrencyPipe,
 
-    ReportComponent,
+        ReportComponent,
 
-    ReportFooterComponent,
-    BasicComponent,
+        ReportFooterComponent,
+        BasicComponent,
 
-    ComparativeUlbComponent
-  ],
-  providers: [ReportService, ExcelService]
+        ComparativeUlbComponent
+    ],
+    exports: [
+        InrCurrencyPipe
+    ],
+    providers: [ReportService, ExcelService]
 })
 export class ReportModule {}

@@ -66,6 +66,7 @@
           <div class="col-sm-10">
             <angular2-multiselect
               class="m-0"
+              classes="countplaceholder"
               formControlName="years"
               style="display: inline-block;width: 208px;"
               [data]="yearLookup"
@@ -228,10 +229,9 @@
                class="table border-1">
           <thead>
           <tr>
-            <th
-              class="text-center px-1 border-bottom-0"
-              *ngFor="let header of commonTableHeaders"
-            >
+            <th style="position: sticky;background: white;top:-1px"
+                class="text-center  px-1 border-bottom-0"
+                *ngFor="let header of commonTableHeaders">
               <div class="d-flex justify-content-center">
                 <div class="d-flex flex-column p-0">
                   {{ header.title }}
@@ -262,6 +262,7 @@
               </div>
             </th>
           </tr>
+
           </thead>
           <tbody>
           <ng-container *ngFor="let tr of commonTableDataDisplay">
@@ -276,11 +277,13 @@
             </tr>
             <tr *ngFor="let row of tr.data; let i = index">
               <td class="text-center" *ngFor="let col of commonTableHeaders;let j=index">
-                <span *ngIf="!col?.click else clickableCol">{{ row[col?.id] }}</span>
+                <span [ngClass]="i==tr?.data.length-1?'text-bold':''"
+                      *ngIf="!col?.click  else clickableCol">{{ row[col?.id] | rupeeConverter }}</span>
                 <ng-template #clickableCol>
                   <a *ngIf="i!=tr?.data.length-1"
                      (click)="openModal(UlbModal,row,tr.year)">{{ row[col?.id]}}</a>
-                  <span *ngIf="i==tr?.data.length-1">{{ row[col?.id]}}</span>
+                  <span [ngClass]="i==tr?.data.length-1?'text-bold':''"
+                        *ngIf="i==tr?.data.length-1">{{ row[col?.id]}}</span>
                 </ng-template>
               </td>
             </tr>
