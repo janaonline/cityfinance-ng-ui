@@ -5,7 +5,7 @@
   class="mt-1"
   animationDuration="100ms"
 >
-  <mat-tab label="Extent on dependency on own revenues">
+  <mat-tab [disabled]="loading" label="Extent of Dependency on Own Revenues">
     <ng-template matTabContent>
       <div
         class="col-sm-12 col-md-5"
@@ -30,7 +30,8 @@
       </div>
     </ng-template>
   </mat-tab>
-  <mat-tab [label]="'Sources of revenue'">
+
+  <mat-tab [disabled]="loading" [label]="'Sources of Revenue'">
     <ng-template matTabContent>
       <div
         class="col-sm-12 col-md-5"
@@ -48,7 +49,8 @@
       </div>
     </ng-template>
   </mat-tab>
-  <mat-tab [label]="'Sources of financing revenue expenditure '">
+
+  <mat-tab [disabled]="loading" [label]="'Sources of Financing Revenue Expenditure'">
     <ng-template matTabContent>
       <div
         class="col-sm-12 col-md-5"
@@ -65,8 +67,7 @@
         <div class="row d-flex mt-4">
           <div class="col-sm-10">
             <angular2-multiselect
-              class="m-0"
-              classes="countplaceholder"
+              class="mt-2"
               formControlName="years"
               style="display: inline-block;width: 208px;"
               [data]="yearLookup"
@@ -104,7 +105,8 @@
       </div>
     </ng-template>
   </mat-tab>
-  <mat-tab [label]="'Avenues of revenue expenditure'">
+
+  <mat-tab [disabled]="loading" [label]="'Avenues of Revenue Expenditure'">
     <ng-template matTabContent>
       <div
         class="col-sm-12 col-md-5"
@@ -121,7 +123,8 @@
       </div>
     </ng-template>
   </mat-tab>
-  <mat-tab [label]="'Cash and Bank balance'">
+
+  <mat-tab [disabled]="loading" [label]="'Cash and Bank Balance'">
     <ng-template matTabContent>
       <div
         class="col-sm-12 col-md-5"
@@ -182,7 +185,8 @@
       </div>
     </ng-template>
   </mat-tab>
-  <mat-tab [label]="'Outstanding debt'">
+
+  <mat-tab [disabled]="loading" [label]="'Outstanding Debt'">
     <ng-template matTabContent>
       <div
         class="col-sm-12 col-md-5"
@@ -199,16 +203,17 @@
       </div>
     </ng-template>
   </mat-tab>
+
 </mat-tab-group>
 
 <ng-template #table>
   <div *ngIf="loading==false; else loadingSkeleton" [style.height.px]="400" style="width: 100%" [formGroup]="yearForm">
-    <div class="row d-flex mt-4">
+    <div class="row d-flex mt-2">
       <div class="col-sm-10">
         <angular2-multiselect
-          class="m-0"
+          classes="mt-1"
           formControlName="years"
-          style="display: inline-block;width: 208px;"
+          style="margin-top: 1rem; display:inline-block;width: 150px;"
           [data]="yearLookup"
           [settings]="yearsDropdownSettings"
           (onClose)="onDropdownClose($event)"
@@ -306,17 +311,11 @@
 <ng-template #heatMap></ng-template>
 
 <ng-template #UlbModal>
-  <!-- <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div> -->
-  <div>
-    <div
-      class="modal-header col-md-12"
-      style="display: inline-flex; align-items: center;">
-    </div>
-  </div>
+  <button style="position: absolute;right: 0;top: -3.2rem ;border: none; background: transparent; color: #ffc500"
+          (click)="modalService.hide(1)"
+          type="button" data-dismiss="modal" aria-label="Close">
+    Close
+  </button>
 
   <div class="modal-body">
     <table *ngIf="modalTableHeaders.length; else noData"
