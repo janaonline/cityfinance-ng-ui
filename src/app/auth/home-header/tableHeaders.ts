@@ -22,14 +22,15 @@ export const tableHeaders = [
     {title: 'Other Income', id: 'otherIncome'}
   ],
   [
-    {title: 'assignedRevenueAndCompensationCoverPercentage', id: 'assignedRevenueAndCompensationCoverPercentage'},
-    {title: 'coveredPercentage', id: 'coveredPercentage'},
-    {title: 'deficitFinanceByCapitalGrantsCoverPercentage', id: 'deficitFinanceByCapitalGrantsCoverPercentage'},
-    {title: 'interestIncomeCoverPercentage', id: 'interestIncomeCoverPercentage'},
-    {title: 'otherIncomeCoverPercentage', id: 'otherIncomeCoverPercentage'},
-    {title: 'ownRevenueCoverPercentage', id: 'ownRevenueCoverPercentage', description: '(A/B)'},
-    {title: 'revenueGrantsContributionAndSubsidiesCoverPercentage', id: 'revenueGrantsContributionAndSubsidiesCoverPercentage'},
-    {title: 'saleAndHireChargesCoverPercentage', id: 'saleAndHireChargesCoverPercentage'}
+    {title: 'Population Category', id: 'populationCategory'},
+    {title: 'Assigned Revenue And Compensation Cover Percentage', id: 'assignedRevenueAndCompensationCoverPercentage'},
+    {title: 'Covered Percentage', id: 'coveredPercentage'},
+    {title: 'Deficit Finance By Capital Grants Cover Percentage', id: 'deficitFinanceByCapitalGrantsCoverPercentage'},
+    {title: 'Interest Income Cover Percentage', id: 'interestIncomeCoverPercentage'},
+    {title: 'Other Income Cover Percentage', id: 'otherIncomeCoverPercentage'},
+    {title: 'Own Revenue Cover Percentage', id: 'ownRevenueCoverPercentage', description: '(A/B)'},
+    {title: 'Revenue Grants Contribution And Subsidies Cover Percentage', id: 'revenueGrantsContributionAndSubsidiesCoverPercentage'},
+    {title: 'Sale And Hire Charges Cover Percentage', id: 'saleAndHireChargesCoverPercentage'}
   ],
   [
     {title: 'Population Category', click: true, id: 'populationCategory'},

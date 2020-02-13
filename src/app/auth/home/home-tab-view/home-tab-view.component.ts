@@ -84,7 +84,7 @@ export class HomeTabViewComponent implements OnInit {
 
   onDropdownSelect(event: any) {
     this.selectedYears.push(event.id);
-    this.filterDisplayDataTableYearWise();
+    //  this.filterDisplayDataTableYearWise();
   }
 
   handleError = () => {
@@ -165,6 +165,7 @@ export class HomeTabViewComponent implements OnInit {
   private fetchData() {
     this.loading = true;
     this.commonTableDataDisplay = [];
+    this.commonTableData = [];
     this.commonTableHeaders = tableHeaders[this.tabIndex];
     switch (this.tabIndex) {
       case 0:
@@ -239,13 +240,11 @@ export class HomeTabViewComponent implements OnInit {
         }, 1);
         // this.commonTableDataDisplay[index].data = this.commonTableDataDisplay[index].data.slice(0, 2);
       } else {
-
         yearRow.data.forEach((row, index) => {
           const elementId = `${elementIdPrefix}--${index}`;
           let labels = Object.keys(row).filter(
             key => typeof row[key] === 'number'
           );
-          console.log(this.commonTableHeaders, labels);
           labels = labels.map(label => {
             try {
               label = this.commonTableHeaders.find(header => header.id == label)
@@ -260,13 +259,34 @@ export class HomeTabViewComponent implements OnInit {
           );
           const chartTitle = row[this.commonTableHeaders[0].id];
           setTimeout(() => {
-            this.renderPieChart({
+            let c = this.renderPieChart({
               type: 'pie',
               data,
               labels,
               elementId,
-              chartTitle
+              chartTitle,
+              legend: false,
             });
+            let legendClass = `.legend-${yearRow.year}`;
+            document.querySelector(legendClass).innerHTML = c.generateLegend();
+            const legendItems = document.querySelector(legendClass).getElementsByTagName('li');
+            for (let i = 0; i < legendItems.length; i++) {
+              legendItems[i].addEventListener('click', (legendItemIndex,) => {
+                let chartsClass = '.myChart-' + yearRow.year;
+                Array.from(document.querySelectorAll(chartsClass)).forEach((chartItem, index) => {
+                  const chart = Chart.instances[index];
+                  const dataItem = chart.data.datasets[i];
+                  console.log(dataItem);
+                  if (dataItem.hidden == true || dataItem.hidden == null) {
+                    dataItem.hidden = false;
+                  } else {
+                    dataItem.hidden = true;
+                  }
+                  chart.update();
+                });
+              }, false);
+            }
+            console.log(legendItems);
           }, 1);
         });
       }
@@ -279,9 +299,11 @@ export class HomeTabViewComponent implements OnInit {
                    data,
                    chartTitle,
                    elementId,
+                   legend = true,
                    options = {}
                  }) {
-    new Chart(elementId, {
+
+    return new Chart(elementId, {
       type,
       data: {
         labels,
@@ -315,7 +337,7 @@ export class HomeTabViewComponent implements OnInit {
         },
 
         legend: {
-          display: true,
+          display: legend,
           position: 'bottom'
         },
         responsive: true
