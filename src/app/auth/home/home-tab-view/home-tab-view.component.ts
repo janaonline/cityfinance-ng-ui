@@ -1,12 +1,9 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Chart} from 'chart.js';
-
 import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
-import {viewEngine_ChangeDetectorRef_interface} from '@angular/core/src/render3/view_ref';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
-import {elementStart} from '@angular/core/src/render3/instructions';
+import {tableHeaders} from '../../home-header/tableHeaders';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -62,9 +59,6 @@ export class HomeTabViewComponent implements OnInit {
   singleULBView = false;
   selectedUlb: { _id?: string };
 
-
-  ulbTypeSelected: string;
-
   tabIndexChangeHandler(event): void {
     this.singleULBView = false;
     this.selectedUlb = {};
@@ -116,17 +110,6 @@ export class HomeTabViewComponent implements OnInit {
   private fetchUlBsData(ulbIdsArray: string[]) {
     if (ulbIdsArray.length) {
       this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
-      /* for (const ulb of ulbIdsArray) {
-         this.dashboardService.fetchULBData(ulb).subscribe(response => {
-           this.commonTableHeaders = [
-             {title: 'ULB Name', id: 'name'},
-             {
-               title: 'Population',
-               id: 'population'
-             }
-           ].concat(this.commonTableHeaders.slice(2));
-         }, this.handleError);
-       }*/
     } else {
       if (this.singleULBView) {
         this.singleULBView = false;
@@ -136,9 +119,6 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   private filterDisplayDataTableYearWise() {
-    /*   this.commonTableDataDisplay = this.commonTableData.filter(data =>
-         this.selectedYears.includes(data.year)
-       );*/
 
     if (this.tabIndex == 2 || this.tabIndex == 4) {
       this.renderCharts();
@@ -182,104 +162,42 @@ export class HomeTabViewComponent implements OnInit {
     }
   };
 
+  private callAPi(callback, args) {
+    callback(args);
+  }
+
   private fetchData() {
     this.loading = true;
-    this.commonTableHeaders = [
-      {title: 'Population Category', id: 'populationCategory'},
-      {title: 'Number of ULBs', id: 'numOfUlb'}
-
-    ].concat(this.commonTableHeaders.slice(2));
     this.commonTableDataDisplay = [];
+    this.commonTableHeaders = tableHeaders[this.tabIndex];
     switch (this.tabIndex) {
       case 0:
-        this.commonTableHeaders = [
-          {title: 'Population Category', click: true, id: 'populationCategory'},
-          {title: 'Number of ULBs', id: 'numOfUlb'},
-          {
-            title: 'Own Revenues',
-            id: 'ownRevenue',
-            description: '(Rs in crores)'
-          },
-          {
-            title: 'Revenue Expenditure',
-            id: 'revenueExpenditure',
-            description: '(Rs in crores)'
-          },
-          {title: 'Own Revenue %', id: 'ownRevenuePercentage', description: '(A/B)'},
-          {title: 'Min. Own Revenue %', id: 'minOwnRevenuePercentage'},
-          {title: 'Max. Own Revenue %', id: 'maxOwnRevenuePercentage'}
-        ];
         this.dashboardService
           .fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
-
         break;
       case 1:
-        this.commonTableHeaders = [
-          {title: 'Population Category', id: 'populationCategory'},
-          {title: 'Number of ULBs', id: 'numOfUlb'},
-          {title: 'Tax Revenue (a)', id: 'taxRevenue'},
-          {title: 'Rental Income (b)', id: 'rentalIncome'},
-          {title: 'Fees & user charges (c)', id: 'feesAndUserCharges'},
-          {title: 'Own revenues (a+b+c)', id: 'ownRevenues'},
-          {title: 'Sale & hire charges', id: 'saleAndHireCharges'},
-          {title: 'Assigned revenue', id: 'assignedRevenue'},
-          {title: 'Grants', id: 'grants'},
-          {title: 'Interest Income', id: 'interestIncome'},
-          {title: 'Other Income', id: 'otherIncome'}
-        ];
         this.dashboardService
           .fetchSourceOfRevenue('')
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 2:
-        this.commonTableHeaders = [
-          {title: 'assignedRevenueAndCompensationCoverPercentage', id: 'assignedRevenueAndCompensationCoverPercentage'},
-          {title: 'coveredPercentage', id: 'coveredPercentage'},
-          {title: 'deficitFinanceByCapitalGrantsCoverPercentage', id: 'deficitFinanceByCapitalGrantsCoverPercentage'},
-          {title: 'interestIncomeCoverPercentage', id: 'interestIncomeCoverPercentage'},
-          {title: 'otherIncomeCoverPercentage', id: 'otherIncomeCoverPercentage'},
-          {title: 'ownRevenueCoverPercentage', id: 'ownRevenueCoverPercentage', description: '(A/B)'},
-          {title: 'revenueGrantsContributionAndSubsidiesCoverPercentage', id: 'revenueGrantsContributionAndSubsidiesCoverPercentage'},
-          {title: 'saleAndHireChargesCoverPercentage', id: 'saleAndHireChargesCoverPercentage'}
-        ];
         this.dashboardService
           .fetchFinancialRevenueExpenditure('')
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 3:
-        this.commonTableHeaders = [
-          {title: 'Population Category', id: 'populationCategory'},
-          {title: 'Establishment expense', id: 'establishmentExpense'},
-          {title: 'Administrative Expense', id: 'administrativeExpense'},
-          {title: 'Operational & Maint. Expense', id: 'operationalAndMaintananceExpense'},
-          {title: 'Interest & Finance Expense ', id: 'interestAndFinanceExpense'},
-          {title: 'Others', id: 'other'}
-        ];
         this.dashboardService
           .fetchRevenueExpenditure('')
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
 
       case 4:
-        this.commonTableHeaders = [
-          {title: 'Population Category', id: 'populationCategory'},
-          {title: 'Number of ULBs', id: 'numOfUlb'},
-          {title: 'Cash & Bank Balance (Rs in crore)', id: 'cashAndBankBalance'}
-        ];
         this.dashboardService
           .fetchCashAndBankBalance('')
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 5:
-        this.commonTableHeaders = [
-          {title: 'Population Category', id: 'populationCategory'},
-          {title: 'Number of ULBs', id: 'numOfUlb'},
-          {title: 'Loans from Central Government', id: 'LoanFromCentralGovernment'},
-          {title: 'Loans from Financial Institutions including Banks', id: 'loanFromFIIB'},
-          {title: 'Loans from State Government', id: 'loanFromStateGovernment'},
-          {title: 'Total Debt', id: 'total'}
-        ];
         this.dashboardService
           .fetchOutStandingDebt(JSON.stringify(this.selectedYears))
           .subscribe(this.fetchTableDataSuccess, this.handleError);
@@ -456,15 +374,8 @@ export class HomeTabViewComponent implements OnInit {
       year,
       populationCategory: range['populationCategory']
     };
-    //this.dashboardService.fetchUlbCoverage(range);
+    this.commonTableHeaders[0].click = true;
     this.modalRef = this.modalService.show(UlbModal, {class: 'modal-lg'});
-    /*  this.modalTableHeaders = [
-        {title: 'ULB name', click: true, id: 'name'},
-        {title: 'Population', id: 'population'},
-        {title: 'Own Revenues (A) ', id: 'ownRevenue', description: '(Rs in crores)'},
-        {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', description: '(Rs in crores)'},
-        {title: 'Own Revenue % (A/B)', id: 'ownRevenuePercentage'},
-      ];*/
   }
 
   modalItemClicked(rowClickedId) {
