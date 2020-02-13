@@ -370,9 +370,9 @@
       <!--      <ng-container *ngFor="let tr of modalTableData">-->
       <tr *ngFor="let row of modalTableData.data; let i = index">
         <td class="text-center" *ngFor="let col of modalTableHeaders">
-          <span *ngIf="!col?.click;else clickableCol">{{ row[col?.id] }}</span>
+          <span *ngIf="!col?.click;else clickableCol">{{ row[col?.id] | rupeeConverter }}</span>
           <ng-template #clickableCol>
-            <a (click)="modalItemClicked(row._id)">{{ row[col?.id] }}</a>
+            <a (click)="modalItemClicked(row._id)">{{ row[col?.id] |rupeeConverter }}</a>
           </ng-template>
         </td>
       </tr>
