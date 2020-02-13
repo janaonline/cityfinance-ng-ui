@@ -182,18 +182,14 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
   createNationalLevelMap() {
     this.nationalLevelMap = L.map("mapid", {
       scrollWheelZoom: false,
+      fadeAnimation: true,
       dragging: false,
-      minZoom: 4,
-      maxZoom: 4,
+      minZoom: 4.2,
+      maxZoom: 8,
       zoomControl: false,
-      doubleClickZoom: false,
-      maxBounds: [
-        [-5, -5],
-        [50, 700]
-      ],
-      tap: false,
-      trackResize: false
-    }).setView([20.59, 78.96], 1.499999);
+      doubleClickZoom: false
+    }).setView([20.59, 78.96], 0.1);
+
     const stateLayer = L.geoJSON(this.StatesJSONForMapCreation, {
       style: this.stateColorStyle
     }).addTo(this.nationalLevelMap);
@@ -201,7 +197,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     this.createControls(this.nationalLevelMap);
 
     if (stateLayer) {
-      this.nationalLevelMap.fitBounds(stateLayer.getBounds());
+      this.nationalLevelMap.fitBounds(stateLayer.getBounds(), {
+        paddingBottomRight: [0, 0],
+        padding: [0, 0],
+        maxZoom: 8
+      });
     }
 
     this.initializeNationalLevelMapLayer(this.nationalLevelMap);
@@ -435,6 +435,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       this.resetMapToNationalLevel();
       this.convertMiniMapToOriginal("mapid");
       this.initializeNationalLevelMapLayer(this.nationalLevelMap);
+      this.clearDistrictMapContainer();
       return false;
     }
 
