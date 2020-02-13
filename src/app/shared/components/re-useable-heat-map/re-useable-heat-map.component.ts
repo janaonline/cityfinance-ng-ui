@@ -461,6 +461,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     const status = this.createStateLevelMap(
       mapClickEvent.sourceTarget.feature.properties.ST_NM
     );
+    if (!status) {
+      return false;
+    }
+    this.convertDomToMiniMap("mapid");
 
     if (!status) {
       return false;
@@ -521,7 +525,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (!stateFound) {
       return false;
     }
-
     this.stateId.emit(stateFound._id);
     this.filteredULBStateAndULBDataMerged = this.filterMergedStateDataBy({
       stateId: stateFound._id
