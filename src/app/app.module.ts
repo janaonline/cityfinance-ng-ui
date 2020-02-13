@@ -15,7 +15,7 @@ import {RupeeConverterPipe} from './shared/pipes/rupee-converter.pipe';
 import {ModalModule} from 'ngx-bootstrap/modal';
 
 @NgModule({
-  declarations: [AppComponent, RupeeConverterPipe, DialogComponent],
+  declarations: [AppComponent, DialogComponent],
   entryComponents: [DialogComponent],
   imports: [
     BrowserModule,
@@ -25,7 +25,7 @@ import {ModalModule} from 'ngx-bootstrap/modal';
     MatProgressSpinnerModule,
     HttpClientModule,
     ReactiveFormsModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
   ],
   providers: [
     CustomHttpInterceptor,
@@ -37,6 +37,7 @@ import {ModalModule} from 'ngx-bootstrap/modal';
     AuthService,
     AuthGuard
   ],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
