@@ -6,6 +6,9 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {tableHeaders} from '../../home-header/tableHeaders';
 import {of} from 'rxjs';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {divIcon} from 'leaflet';
+import {d} from '@angular/core/src/render3';
+import {hasOwnProperty} from 'tslint/lib/utils';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -212,7 +215,26 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   private renderCharts() {
-    this.commonTableDataDisplay.forEach((yearRow, index) => {
+
+    for (let key in Chart.instances) {
+      console.log(key);
+      if (Chart.instances.hasOwnProperty(key)) {
+        Chart.instances[key].destroy();
+      }
+    }
+
+    function prependDataColorDiv(parentNode: HTMLElement, props: any) {
+      const div = document.createElement('div');
+      div.style.backgroundColor = props._options.backgroundColor;
+      div.style.borderColor = props._options.borderColor;
+      div.style.borderWidth = props._options.borderWidth;
+      div.style.width = '25px';
+      div.style.height = '25px';
+      div.style.display = 'inline-block';
+      parentNode.prepend(div);
+    }
+
+    for (let yearRow of this.commonTableData) {
       const elementIdPrefix = 'canvas--' + yearRow.year;
       if (this.tabIndex == 4) {
         const label = yearRow.data.map(row => row['populationCategory']);
@@ -240,6 +262,7 @@ export class HomeTabViewComponent implements OnInit {
         }, 1);
         // this.commonTableDataDisplay[index].data = this.commonTableDataDisplay[index].data.slice(0, 2);
       } else {
+        let legendGenerated = true;
         yearRow.data.forEach((row, index) => {
           const elementId = `${elementIdPrefix}--${index}`;
           let labels = Object.keys(row).filter(
@@ -267,30 +290,55 @@ export class HomeTabViewComponent implements OnInit {
               chartTitle,
               legend: false,
             });
+            //   if (!legendGenerated) {
             let legendClass = `.legend-${yearRow.year}`;
             document.querySelector(legendClass).innerHTML = c.generateLegend();
             const legendItems = document.querySelector(legendClass).getElementsByTagName('li');
-            for (let i = 0; i < legendItems.length; i++) {
-              legendItems[i].addEventListener('click', (legendItemIndex,) => {
-                let chartsClass = '.myChart-' + yearRow.year;
-                Array.from(document.querySelectorAll(chartsClass)).forEach((chartItem, index) => {
-                  const chart = Chart.instances[index];
-                  const dataItem = chart.data.datasets[i];
-                  console.log(dataItem);
-                  if (dataItem.hidden == true || dataItem.hidden == null) {
-                    dataItem.hidden = false;
-                  } else {
-                    dataItem.hidden = true;
-                  }
-                  chart.update();
-                });
-              }, false);
+            const legendItemContainer = document.querySelector(legendClass);
+            if (legendItemContainer) {
+              const containerUl = legendItemContainer.getElementsByTagName('ul');
+              if (containerUl.length) {
+                containerUl[0].style.display = 'flex';
+              }
             }
-            console.log(legendItems);
+            for (let i = 0; i < legendItems.length; i++) {
+              if (Chart.instances.hasOwnProperty(index)) {
+                Chart.instances[index].chart.getDatasetMeta(0).data.forEach(meta => {
+                  if (meta._index == i) {
+                    legendItems[i].style.display = 'flex';
+                    legendItems[i].style.flexDirection = 'column';
+                    legendItems[i].style.justifyContent = 'center';
+                    legendItems[i].style.padding = '1rem';
+                    prependDataColorDiv(legendItems[i], meta);
+                  }
+                });
+                legendItems[i].addEventListener('click', (e) => {
+                  let chartsClass = '.myChart-' + yearRow.year;
+                  Array.from(document.querySelectorAll(chartsClass)).forEach((chartItem, index) => {
+                    const chart = Chart.instances[index];
+                    chart.getDatasetMeta(0).data.forEach(meta => {
+                      if (meta._index == i) {
+                        console.log(meta.hidden);
+                        if (meta.hidden) {
+                          legendItems[i].innerHTML = legendItems[i].textContent;
+                        } else {
+                          legendItems[i].innerHTML = legendItems[i].textContent.strike();
+                        }
+                        meta.hidden = !meta.hidden;
+                        prependDataColorDiv(legendItems[i], meta);
+                        Chart.instances[index].update();
+                      }
+                    });
+                  });
+                }, false);
+              }
+            }
+            legendGenerated = true;
+            //     }
           }, 1);
         });
       }
-    });
+    }
   }
 
   renderPieChart({
@@ -338,7 +386,7 @@ export class HomeTabViewComponent implements OnInit {
 
         legend: {
           display: legend,
-          position: 'bottom'
+          position: 'bottom',
         },
         responsive: true
       },

@@ -90,8 +90,8 @@
               <h3>{{ data?.year }}</h3>
             </div>
             <div class="row d-flex justify-content-center">
-              <div style="height: 33%;width: 40%"
-                   *ngFor="let row of data.data.slice(0, 2); let i = index">
+              <div style="height: 30%;width: 30%"
+                   *ngFor="let row of data.data; let i = index">
                 <canvas [class]="'myChart-'+data.year" width="400px" height="400px"
                         [id]="'canvas--' + data.year + '--' + i"
                 ></canvas>
