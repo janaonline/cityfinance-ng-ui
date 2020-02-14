@@ -305,7 +305,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     let filteredULBS: ULBWithMapData[] = [];
     if (options.ulbName && options.ulbName.trim()) {
       filteredULBS = filteredULBS.concat(
-        ulbList.filter(ulb => ulb.name.includes(options.ulbName))
+        ulbList.filter(ulb =>
+          ulb.name.toLowerCase().includes(options.ulbName.toLowerCase())
+        )
       );
     } else {
       filteredULBS = ulbList;
