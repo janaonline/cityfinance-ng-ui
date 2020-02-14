@@ -49,8 +49,10 @@ export const tableHeaders = [
     {title: 'Population Category', click: true, id: 'populationCategory'},
     {title: 'Number of ULBs', id: 'numOfUlb'},
     {title: 'Loans from Central Government', id: 'LoanFromCentralGovernment'},
-    {title: 'Loans from Financial Institutions including Banks', id: 'loanFromFIIB'},
     {title: 'Loans from State Government', id: 'loanFromStateGovernment'},
+    {title: 'Loans from Financial Institutions including Banks', id: 'loanFromFIIB'},
+    {title: 'Bonds and Other Debt Instruments', id: 'bondsAndOtherDebtInstruments'},
+    {title: 'Others', id: 'others'},
     {title: 'Total Debt', id: 'total'}
   ]
 ];

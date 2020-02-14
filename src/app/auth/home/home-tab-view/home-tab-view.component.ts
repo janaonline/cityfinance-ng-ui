@@ -215,15 +215,9 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   private renderCharts() {
-      if (Chart.instances){
-        Chart.instances={}
-      }
-    /*for (let key in Chart.instances) {
-      console.log(key);
-      if (Chart.instances.hasOwnProperty(key)) {
-        delete Chart.instances[key];
-      }
-    }*/
+    if (Chart.instances) {
+      Chart.instances = {};
+    }
 
     function prependDataColorDiv(parentNode: HTMLElement, props: any) {
       const div = document.createElement('div');
@@ -233,11 +227,13 @@ export class HomeTabViewComponent implements OnInit {
       div.style.width = '25px';
       div.style.height = '25px';
       div.style.display = 'inline-block';
-      parentNode.prepend(div);
+      parentNode['prepend'](div);
     }
 
     for (let yearRow of this.commonTableData) {
       const elementIdPrefix = 'canvas--' + yearRow.year;
+      let yearWiseCharts = [];
+      let legendGenerated = false;
       if (this.tabIndex == 4) {
         const label = yearRow.data.map(row => row['populationCategory']);
         const dataNoOfUlb = yearRow.data.map(row => row['numOfUlb']);
@@ -264,7 +260,6 @@ export class HomeTabViewComponent implements OnInit {
         }, 1);
         // this.commonTableDataDisplay[index].data = this.commonTableDataDisplay[index].data.slice(0, 2);
       } else {
-        let legendGenerated = false;
         for (let index = 0; index < yearRow.data.length; index++) {
           let row = yearRow.data[index];
           const elementId = `${elementIdPrefix}--${index}`;
@@ -289,6 +284,7 @@ export class HomeTabViewComponent implements OnInit {
               chartTitle,
               legend: false,
             });
+            yearWiseCharts.push(c);
             if (!legendGenerated) {
               let legendClass = `.legend-${yearRow.year}`;
               document.querySelector(legendClass).innerHTML = c.generateLegend();
@@ -298,40 +294,35 @@ export class HomeTabViewComponent implements OnInit {
                 const containerUl = legendItemContainer.getElementsByTagName('ul');
                 if (containerUl.length) {
                   containerUl[0].style.display = 'flex';
+                  containerUl[0].style.marginTop = '1rem';
                 }
               }
               for (let i = 0; i < legendItems.length; i++) {
-                if (Chart.instances.hasOwnProperty(index)) {
-                  console.log(legendItems[i]);
-                  Chart.instances[index].chart.getDatasetMeta(0).data.forEach(meta => {
-                    if (meta._index == i) {
-                      legendItems[i].style.display = 'flex';
-                      legendItems[i].style.flexDirection = 'column';
-                      legendItems[i].style.justifyContent = 'center';
-                      legendItems[i].style.padding = '1rem';
-                      prependDataColorDiv(legendItems[i], meta);
-                    }
-                  });
-                  legendItems[i].addEventListener('click', (e) => {
-                    let chartsClass = '.myChart-' + yearRow.year;
-                    Array.from(document.querySelectorAll(chartsClass)).forEach((chartItem, index) => {
-                      const chart = Chart.instances[index];
-                      chart.getDatasetMeta(0).data.forEach(meta => {
-                        if (meta._index == i) {
-                          console.log(meta.hidden);
-                          if (meta.hidden) {
-                            legendItems[i].innerHTML = legendItems[i].textContent;
-                          } else {
-                            legendItems[i].innerHTML = legendItems[i].textContent.strike();
-                          }
-                          meta.hidden = !meta.hidden;
-                          prependDataColorDiv(legendItems[i], meta);
-                          Chart.instances[index].update();
+                yearWiseCharts[0].chart.getDatasetMeta(0).data.forEach(meta => {
+                  if (meta._index == i) {
+                    legendItems[i].style.display = 'flex';
+                    legendItems[i].style.flexDirection = 'column';
+                    legendItems[i].style.justifyContent = 'center';
+                    legendItems[i].style.padding = '1rem';
+                    prependDataColorDiv(legendItems[i], meta);
+                  }
+                });
+                legendItems[i].addEventListener('click', (e) => {
+                  for (let yearChart of yearWiseCharts) {
+                    yearChart.chart.getDatasetMeta(0).data.forEach(meta => {
+                      if (meta._index == i) {
+                        if (meta.hidden) {
+                          legendItems[i].innerHTML = legendItems[i].textContent;
+                        } else {
+                          legendItems[i].innerHTML = legendItems[i].textContent.strike();
                         }
-                      });
+                        meta.hidden = !meta.hidden;
+                        prependDataColorDiv(legendItems[i], meta);
+                        yearChart.chart.update();
+                      }
                     });
-                  }, false);
-                }
+                  }
+                }, false);
               }
               legendGenerated = true;
             }
