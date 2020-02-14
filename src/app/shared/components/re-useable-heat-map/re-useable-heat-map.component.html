@@ -18,11 +18,7 @@
       style="display: block;"
       class="col-md-12"
       appearance="outline"
-      *ngIf="
-        ulbsOfSelectedState &&
-        nationalLevelMap &&
-        !!filteredULBStateAndULBDataMerged
-      "
+      *ngIf="ulbsOfSelectedState && nationalLevelMap"
     >
       <input
         type="text"
@@ -33,19 +29,35 @@
         [matAutocomplete]="auto"
       />
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-optgroup
-          *ngFor="let stateId of object.keys(filteredULBStateAndULBDataMerged)"
-          [label]="filteredULBStateAndULBDataMerged[stateId].name"
-        >
-          <mat-option
-            *ngFor="let ulb of filteredULBStateAndULBDataMerged[stateId].ulbs"
-            (onSelectionChange)="onSelectingULBFromDropdown(ulb._id)"
-            [value]="ulb.name"
-            [title]="ulb.name"
+        <mat-option *ngIf="!filteredULBStateAndULBDataMerged" disabled>
+          No ULB matched
+        </mat-option>
+        <div *ngIf="filteredULBStateAndULBDataMerged">
+          <mat-optgroup
+            *ngFor="
+              let stateId of object.keys(filteredULBStateAndULBDataMerged)
+            "
+            [label]="filteredULBStateAndULBDataMerged[stateId].name"
           >
-            {{ ulb.name }}
-          </mat-option>
-        </mat-optgroup>
+            <mat-option
+              *ngIf="
+                !filteredULBStateAndULBDataMerged[stateId].ulbs ||
+                !filteredULBStateAndULBDataMerged[stateId].ulbs.length
+              "
+              disabled
+            >
+              No ULB available.
+            </mat-option>
+            <mat-option
+              *ngFor="let ulb of filteredULBStateAndULBDataMerged[stateId].ulbs"
+              (onSelectionChange)="onSelectingULBFromDropdown(ulb._id)"
+              [value]="ulb.name"
+              [title]="ulb.name"
+            >
+              {{ ulb.name }}
+            </mat-option>
+          </mat-optgroup>
+        </div>
       </mat-autocomplete>
     </mat-form-field>
 

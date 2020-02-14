@@ -202,14 +202,32 @@ export class CommonService {
   }
 
   getStateUlbCovered() {
-    return this.http.get<IStateULBCoveredResponse>(
-      `${environment.api.url}api/admin/v1/lookup/states-with-ulb-count`
-    );
+    return this.http
+      .get<IStateULBCoveredResponse>(
+        `${environment.api.url}api/admin/v1/lookup/states-with-ulb-count`
+      )
+      .pipe(
+        map(res => {
+          res.data = res.data.sort((stateA, stateB) =>
+            stateA.name > stateB.name ? 1 : -1
+          );
+          return res;
+        })
+      );
   }
 
   getULBSWithPopulationAndCoordinates() {
-    return this.http.get<IULBWithPopulationResponse>(
-      `${environment.api.url}api/admin/v1/ulb-list`
-    );
+    return this.http
+      .get<IULBWithPopulationResponse>(
+        `${environment.api.url}api/admin/v1/ulb-list`
+      )
+      .pipe(
+        map(res => {
+          res.data = res.data.sort((ulbA, ulbB) =>
+            ulbA.name > ulbB.name ? 1 : -1
+          );
+          return res;
+        })
+      );
   }
 }
