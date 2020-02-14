@@ -338,9 +338,13 @@
       <!--      <ng-container *ngFor="let tr of modalTableData">-->
       <tr *ngFor="let row of modalTableData.data; let i = index">
         <td class="text-center" *ngFor="let col of modalTableHeaders">
-          <span *ngIf="!col?.click;else clickableCol">{{ row[col?.id] | rupeeConverter }}</span>
+          <span [ngClass]="i==modalTableData?.data?.length-1?'text-bold':''"
+                *ngIf="!col?.click;else clickableCol">{{ row[col?.id] | rupeeConverter }}</span>
           <ng-template #clickableCol>
-            <a (click)="modalItemClicked(row._id)">{{ row[col?.id] |rupeeConverter }}</a>
+            <a *ngIf="i!=modalTableData?.data?.length-1"
+               (click)="modalItemClicked(row._id)">{{ row[col?.id] |rupeeConverter }}</a>
+            <span *ngIf="i==modalTableData?.data?.length-1"
+                  class="text-bold">{{ row[col?.id] | rupeeConverter }}</span>
           </ng-template>
         </td>
       </tr>

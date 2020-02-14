@@ -4,11 +4,6 @@ import {Chart} from 'chart.js';
 import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {tableHeaders} from '../../home-header/tableHeaders';
-import {of} from 'rxjs';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
-import {divIcon} from 'leaflet';
-import {d} from '@angular/core/src/render3';
-import {hasOwnProperty} from 'tslint/lib/utils';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -28,19 +23,7 @@ export class HomeTabViewComponent implements OnInit {
     badgeShowLimit: 1
   };
 
-  commonTableHeaders: any[] = [
-    {title: 'Population Category', click: true, id: 'populationCategory'},
-    {title: 'Number of ULBs', id: 'numOfUlb'},
-    {title: 'Own Revenues', id: 'ownRevenue', description: '(Rs in crores)'},
-    {
-      title: 'Revenue Expenditure',
-      id: 'revenueExpenditure',
-      description: '(Rs in crores)'
-    },
-    {title: 'Own Revenue %', id: 'ownRevenue ', description: '(A/B)'},
-    {title: 'Min. Own Revenue %', id: 'minOwnRevenuePercentage'},
-    {title: 'Max. Own Revenue %', id: 'maxOwnRevenuePercentage'}
-  ];
+  commonTableHeaders: any[] = tableHeaders[0];
 
   selectedState: string = '';
   commonTableData = [];
@@ -350,20 +333,21 @@ export class HomeTabViewComponent implements OnInit {
           {
             data,
             backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
               'rgba(255, 99, 132, 1)',
               'rgba(54, 162, 235, 1)',
               'rgba(255, 206, 86, 1)',
               'rgba(75, 192, 192, 1)',
               'rgba(153, 102, 255, 1)',
               'rgba(255, 159, 64, 1)'
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
+
             ],
             borderWidth: 1
           }
@@ -386,24 +370,10 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   sortHeader(header) {
-    function sortCallback(a, b) {
-      if (typeof a[id] == 'number') {
-        return a[id] - b[id];
-      } else if (!isNaN(Number(a[id]))) {
-        return a[id] - b[id];
-      } else if (a[id] > b[id]) {
-        return -1;
-      } else if (a[id] < b[id]) {
-        return 1;
-      } else {
-        return 0;
-      }
-    }
-
     const {id} = header;
     this.commonTableDataDisplay = this.commonTableDataDisplay.map(year => {
       let totalArray = year.data[year.data.length - 1];
-      year.data = year.data.slice(0, year.data.length - 1).sort(sortCallback);
+      year.data = year.data.slice(0, year.data.length - 1).sort((a, b) => this.sortCallBack(a, b, id));
       year.data = [...year.data, totalArray];
       return year;
     });
@@ -420,9 +390,40 @@ export class HomeTabViewComponent implements OnInit {
     }
   }
 
+  fixToDecimalPlace(count, n = 2) {
+    if (count.toString().includes('.')) {
+      return Number(count).toFixed(3);
+    } else {
+      return count;
+    }
+  }
+
+  getTotalRow(rows: any[]) {
+    let newDataRow = {};
+    let allKeys = Object.keys(rows[0]);
+    for (let prop of allKeys) {
+      if (typeof rows[0][prop] == 'number') {
+        let count = rows.reduce((a, c) => a + c[prop], 0);
+        newDataRow[prop] = this.fixToDecimalPlace(count, 3);
+      } else {
+        if (!isNaN(rows[0][prop])) {
+          let count = rows.reduce((a, c) => a + Number(c[prop]), 0);
+          newDataRow[prop] = this.fixToDecimalPlace(count, 3);
+        }
+        if (prop == 'populationCategory') {
+          newDataRow[prop] = 'Total';
+        }
+      }
+    }
+    return newDataRow;
+  }
+
   openModal(UlbModal: TemplateRef<any>, range, year) {
+
+    const totalRow = this.getTotalRow(range['ulbs']);
+    totalRow['name'] = 'Total';
     this.modalTableData = {
-      data: range['ulbs'],
+      data: range['ulbs'].concat([totalRow]),
       year,
       populationCategory: range['populationCategory']
     };
@@ -461,44 +462,37 @@ export class HomeTabViewComponent implements OnInit {
   }
 
 
+  sortCallBack(a, b, id) {
+    if (typeof a[id] == 'number') {
+      return a[id] - b[id];
+    } else if (!isNaN(Number(a[id]))) {
+      return a[id] - b[id];
+    } else if (a[id] > b[id]) {
+      return -1;
+    } else if (a[id] < b[id]) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   sortDialogHeader(header) {
 
-    function sortCallback(a, b) {
-      if (typeof a[id] == 'number') {
-        return a[id] - b[id];
-      } else if (!isNaN(Number(a[id]))) {
-        return a[id] - b[id];
-      } else if (a[id] > b[id]) {
-        return -1;
-      } else if (a[id] < b[id]) {
-        return 1;
-      } else {
-        return 0;
-      }
-    }
-
     const {id} = header;
-    this.modalTableData.data = this.modalTableData.data.sort(sortCallback);
+    let totalArray = this.modalTableData.data[this.modalTableData.data.length - 1];
+    this.modalTableData.data = this.modalTableData.data
+      .slice(0, this.modalTableData.data.length - 1)
+      .sort((a, b) => this.sortCallBack(a, b, id))
+      .concat(totalArray);
     if (header.hasOwnProperty('status') && header.status == true) {
       header.status = false;
     } else {
       header.status = true;
-      this.modalTableData.data = this.modalTableData.data.reverse();
+      this.modalTableData.data = this.modalTableData.data
+        .slice(0, this.modalTableData.data.length - 1)
+        .reverse()
+        .concat(totalArray);
     }
   }
 }
 
-function legendClickCallback(legendItemIndex): any {
-  [].slice
-    .call(document.querySelectorAll('.myChart'))
-    .forEach((chartItem, index) => {
-      const chart = Chart.instances[index];
-      const dataItem = chart.data.datasets[legendItemIndex];
-      if (dataItem.hidden == true || dataItem.hidden == null) {
-        dataItem.hidden = false;
-      } else {
-        dataItem.hidden = true;
-      }
-      chart.update();
-    });
-}
