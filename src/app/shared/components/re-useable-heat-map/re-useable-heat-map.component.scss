@@ -120,7 +120,7 @@ mat-form-field {
 }
 
 ::ng-deep div#cdk-overlay-0.cdk-overlay-pane {
-  width: 235.1px !important;
+  min-width: 235.1px !important;
 }
 
 ::ng-deep .leaflet-bottom {

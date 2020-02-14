@@ -469,7 +469,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (!status) {
       return false;
     }
-    // this.convertDomToMiniMap("mapid");
     this.hideMapLegends();
 
     this.showStateLayerOnlyFor(this.nationalLevelMap, this.currentStateInView);
@@ -525,7 +524,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (!stateFound) {
       return false;
     }
-    this.stateId.emit(stateFound._id);
 
     this.filteredULBStateAndULBDataMerged = this.filterMergedStateDataBy({
       stateId: stateFound._id
@@ -578,6 +576,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       dataPoints: [...dataPointsForMarker]
     });
     this.currentStateInView = { ...stateFound };
+    this.stateId.emit(stateFound._id);
 
     return true;
   }
