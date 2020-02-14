@@ -103,6 +103,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       this.createStateLevelMap(stateOfULB.name);
       setTimeout(() => {
         this.selectULBById(ulbId);
+        console.log(`currentULBClicked: `, this.currentULBClicked);
+        console.log(`filtered:\n`, {
+          ...this.filteredULBStateAndULBDataMerged
+        });
       }, 0);
     }
   }
@@ -250,7 +254,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       .pipe(debounceTime(100))
       .subscribe(textToSearch => {
         this.filteredULBStateAndULBDataMerged = this.filterMergedStateDataBy({
-          ulbName: textToSearch
+          ulbName: textToSearch,
+          stateId: this.currentStateInView ? this.currentStateInView._id : null
         });
       });
   }
@@ -259,35 +264,46 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     ulbName?: string;
     stateId?: string;
   }) {
+    console.log({ ...options });
     let filteredULBAndState: {
       [stateId: string]: IStateULBCovered & {
         ulbs: ULBWithMapData[];
       };
-    } = {};
+    };
 
     if (options.stateId) {
-      filteredULBAndState[options.stateId] = {
-        ...this.stateAndULBDataMerged[options.stateId]
+      filteredULBAndState = {
+        [options.stateId]: { ...this.stateAndULBDataMerged[options.stateId] }
       };
     }
 
     if (options.ulbName && !options.ulbName.trim()) {
-      filteredULBAndState = { ...this.stateAndULBDataMerged };
+      filteredULBAndState = filteredULBAndState
+        ? filteredULBAndState
+        : { ...this.stateAndULBDataMerged };
     } else {
-      Object.keys(this.stateAndULBDataMerged).forEach(stateId => {
-        const stateFound = { ...this.stateAndULBDataMerged[stateId] };
-        const ulbList = this.filteredULBBy(
-          { ulbName: options.ulbName },
-          stateFound.ulbs
-        );
-        if (!ulbList.length) {
-          return;
+      Object.keys(filteredULBAndState || this.stateAndULBDataMerged).forEach(
+        stateId => {
+          const stateFound = { ...this.stateAndULBDataMerged[stateId] };
+          const ulbList = this.filteredULBBy(
+            { ulbName: options.ulbName },
+            stateFound.ulbs
+          );
+          if (!ulbList.length && !options.stateId) {
+            return;
+          }
+          stateFound.ulbs = ulbList;
+          if (!filteredULBAndState) {
+            filteredULBAndState = {};
+          }
+          filteredULBAndState[stateId] = stateFound;
         }
-        stateFound.ulbs = ulbList;
-        filteredULBAndState[stateId] = stateFound;
-      });
+      );
     }
 
+    console.log(`filteredULBAndState: `, {
+      ...filteredULBAndState
+    });
     return filteredULBAndState;
   }
 
@@ -296,10 +312,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     ulbList: ULBWithMapData[]
   ) {
     let filteredULBS: ULBWithMapData[] = [];
-    if (options.ulbName) {
+    if (options.ulbName && options.ulbName.trim()) {
       filteredULBS = filteredULBS.concat(
         ulbList.filter(ulb => ulb.name.includes(options.ulbName))
       );
+    } else {
+      filteredULBS = ulbList;
     }
 
     return filteredULBS;
@@ -527,8 +545,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       return false;
     }
     this.stateId.emit(stateFound._id);
+
     this.filteredULBStateAndULBDataMerged = this.filterMergedStateDataBy({
       stateId: stateFound._id
+    });
+    console.log(`filteredULBStateAndULBDataMerged: `, {
+      ...this.filteredULBStateAndULBDataMerged
     });
 
     this.ulbsOfSelectedState = [...stateFound.ulbs];
