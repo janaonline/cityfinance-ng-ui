@@ -33,7 +33,41 @@
         ></app-re-useable-heat-map>
       </div>
       <div class="col-md-7 col-sm-12">
-        <ng-container *ngTemplateOutlet="table"></ng-container>
+        <div class="row d-flex mt-4" [formGroup]="yearForm">
+          <div class="col-sm-10">
+            <angular2-multiselect class="mt-2"
+                                  formControlName="years"
+                                  style="display: inline-block;width: 208px;"
+                                  [data]="yearLookup"
+                                  [settings]="yearsDropdownSettings"
+                                  (onClose)="onDropdownClose($event)"
+                                  (onSelect)="onDropdownSelect($event)"
+                                  (onDeSelect)="onDropdownDeSelect($event)"
+                                  (onSelectAll)="onDropDownSelectAll($event)"
+                                  (onDeSelectAll)="resetPopupValues()">
+            </angular2-multiselect>
+          </div>
+          <!-- <div class="col-sm-2">
+            <button mat-stroked-button color="primary">View</button>
+          </div> -->
+        </div>
+        <!--        <ng-container *ngTemplateOutlet="table"></ng-container>-->
+        <div *ngIf="loading==false; else loadingSkeleton" class="row" style="height: 60vh; overflow-y: auto;">
+          <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
+            <div class="col-sm-12 text-center">
+              <h3>{{ data?.year }}</h3>
+            </div>
+            <div class="row d-flex justify-content-center">
+              <div style="height: 30%;width: 30%"
+                   *ngFor="let row of data.data; let i = index">
+                <canvas [class]="'myChart-'+data.year" width="400px" height="400px"
+                        [id]="'canvas--' + data.year + '--' + i"
+                ></canvas>
+              </div>
+            </div>
+            <ul [class]="'legend-'+data?.year" [id]="data?.year"></ul>
+          </div>
+        </div>
       </div>
     </ng-template>
   </mat-tab>
@@ -100,7 +134,38 @@
         ></app-re-useable-heat-map>
       </div>
       <div class="col-md-7 col-sm-12">
-        <ng-container *ngTemplateOutlet="table"></ng-container>
+        <div class="row d-flex mt-4" [formGroup]="yearForm">
+          <div class="col-sm-10">
+            <angular2-multiselect class="mt-2"
+                                  formControlName="years"
+                                  style="display: inline-block;width: 208px;"
+                                  [data]="yearLookup"
+                                  [settings]="yearsDropdownSettings"
+                                  (onClose)="onDropdownClose($event)"
+                                  (onSelect)="onDropdownSelect($event)"
+                                  (onDeSelect)="onDropdownDeSelect($event)"
+                                  (onSelectAll)="onDropDownSelectAll($event)"
+                                  (onDeSelectAll)="resetPopupValues()">
+            </angular2-multiselect>
+          </div>
+        </div>
+        <!--        <ng-container *ngTemplateOutlet="table"></ng-container>-->
+        <div *ngIf="loading==false; else loadingSkeleton" class="row" style="height: 60vh; overflow-y: auto;">
+          <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
+            <div class="col-sm-12 text-center">
+              <h3>{{ data?.year }}</h3>
+            </div>
+            <div class="row d-flex justify-content-center">
+              <div style="height: 30%;width: 30%"
+                   *ngFor="let row of data.data; let i = index">
+                <canvas [class]="'myChart-'+data.year" width="400px" height="400px"
+                        [id]="'canvas--' + data.year + '--' + i"
+                ></canvas>
+              </div>
+            </div>
+            <ul [class]="'legend-'+data?.year" [id]="data?.year"></ul>
+          </div>
+        </div>
       </div>
     </ng-template>
   </mat-tab>
@@ -192,12 +257,13 @@
       </div> -->
     </div>
     <div class="row mt-2">
-      <div class="col-sm-12 table-responsive">
-        <table *ngIf="commonTableDataDisplay?.length; else noData"
+      <div class="col-sm-12 table-responsive ">
+        <table [style.width]="(commonTableHeaders.length * 160)+'px'"
+               *ngIf="commonTableDataDisplay?.length; else noData"
                class="table border-1">
           <thead>
           <tr>
-            <th style="position: sticky;background: white;top:-1px"
+            <th style="position: sticky; width: 250px;background: white;top:-1px"
                 class="text-center  px-1 border-bottom-0"
                 *ngFor="let header of commonTableHeaders">
               <div class="d-flex justify-content-center">
@@ -290,7 +356,7 @@
            class="table border-1">
       <thead>
       <tr>
-        <th style="position: sticky;top: 0;background: white"
+        <th style="position: sticky; top: 0;background: white"
             class="text-center px-1 border-bottom-0"
             *ngFor="let header of modalTableHeaders"
         >

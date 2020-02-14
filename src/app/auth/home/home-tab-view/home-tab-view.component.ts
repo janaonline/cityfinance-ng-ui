@@ -109,27 +109,29 @@ export class HomeTabViewComponent implements OnInit {
   private filterDisplayDataTableYearWise() {
     switch (this.tabIndex) {
       case 2:
+      case 3:
       case 4:
+      case 1:
         this.renderCharts();
         break;
       case 5:
-      case 3:
-        for (let year of this.commonTableData) {
-          let newDataRow = {};
-          let allKeys = Object.keys(year.data[0]);
-          for (let prop of allKeys) {
-            if (typeof year.data[0][prop] == 'number') {
-              let count = year.data.reduce((a, c) => a + c[prop], 0);
-              newDataRow[prop] = count;
-            } else {
-              if (prop == 'populationCategory') {
-                newDataRow[prop] = 'Total';
-              }
-            }
-          }
-          year.data.push(newDataRow);
-        }
-        break;
+      /*   case 3:
+           for (let year of this.commonTableData) {
+             let newDataRow = {};
+             let allKeys = Object.keys(year.data[0]);
+             for (let prop of allKeys) {
+               if (typeof year.data[0][prop] == 'number') {
+                 let count = year.data.reduce((a, c) => a + c[prop], 0);
+                 newDataRow[prop] = count;
+               } else {
+                 if (prop == 'populationCategory') {
+                   newDataRow[prop] = 'Total';
+                 }
+               }
+             }
+             year.data.push(newDataRow);
+           }
+           break;*/
     }
 
   }
@@ -241,28 +243,31 @@ export class HomeTabViewComponent implements OnInit {
             chartTitle: 'Bank balance'
           });
         }, 1);
-        // this.commonTableDataDisplay[index].data = this.commonTableDataDisplay[index].data.slice(0, 2);
       } else {
         for (let index = 0; index < yearRow.data.length; index++) {
           let row = yearRow.data[index];
           const elementId = `${elementIdPrefix}--${index}`;
-          let labels = Object.keys(row).filter(key => typeof row[key] === 'number');
-          labels = labels.map(label => {
-            try {
-              label = this.commonTableHeaders.find(header => header.id == label)
-                .title;
-            } catch (e) {
-              return 'Label not available';
-            }
-            return label;
-          });
-          const data = Object.values(row).filter(value => typeof value === 'number');
+          let labels: any[] = Object.keys(row).filter(key => (typeof row[key] == 'number') || !isNaN(Number(row[key])));
+          labels = labels
+            .filter(label => label !== 'numOfUlb')
+            .map(label => {
+              let titleObj: { data?: number, name?: string } = {};
+              try {
+                titleObj.name = this.commonTableHeaders.find(header => header.id == label).title;
+                titleObj.data = row[label];
+              } catch (e) {
+                return {name: 'Label not available', data: row[label]};
+              }
+              return titleObj;
+            });
+          const data = labels.map(l => l.data);
+          const chartLabels = labels.map(l => l.name);
           const chartTitle = row[this.commonTableHeaders[0].id];
           setTimeout(() => {
             let c = this.renderPieChart({
               type: 'pie',
               data,
-              labels,
+              labels: chartLabels,
               elementId,
               chartTitle,
               legend: false,
@@ -358,7 +363,24 @@ export class HomeTabViewComponent implements OnInit {
           display: true,
           text: chartTitle
         },
-
+        tooltips: {
+          callbacks: {
+            title: function (tooltipItem, data) {
+              const title = data.labels[tooltipItem[0].index];
+              if (title.split(' ').length > 3) {
+                return [
+                  [title.split(' ').slice(0, 3).join(' ')],
+                  [title.split(' ').slice(3, title.split(' ').length).join(' ')]
+                ];
+              }
+              return title;
+            },
+            label: function (tooltipItem, data) {
+              const label = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+              return label + '%';
+            }
+          },
+        },
         legend: {
           display: legend,
           position: 'bottom',

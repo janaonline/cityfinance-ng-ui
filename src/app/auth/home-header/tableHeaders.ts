@@ -34,10 +34,12 @@ export const tableHeaders = [
   ],
   [
     {title: 'Population Category', click: true, id: 'populationCategory'},
+    {title: 'Number of ULBs', id: 'numOfUlb'},
     {title: 'Establishment expense', id: 'establishmentExpense'},
     {title: 'Administrative Expense', id: 'administrativeExpense'},
     {title: 'Operational & Maint. Expense', id: 'operationalAndMaintananceExpense'},
     {title: 'Interest & Finance Expense ', id: 'interestAndFinanceExpense'},
+    {title: 'Revenue Grants', id: 'revenueGrants'},
     {title: 'Others', id: 'other'}
   ],
   [
