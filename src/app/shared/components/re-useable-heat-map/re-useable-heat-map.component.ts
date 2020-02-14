@@ -129,6 +129,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     ulbsAlreadySelect.push(ulbFound._id);
     this.ulbsSelected.setValue(ulbsAlreadySelect);
     const marker = this.getDistrictMarkerOfULB(ulbFound);
+    this.currentULBClicked = ulbFound;
     this.changeMarkerToSelected(marker);
   }
 
@@ -249,7 +250,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       .pipe(debounceTime(100))
       .subscribe(textToSearch => {
         this.filteredULBStateAndULBDataMerged = this.filterMergedStateDataBy({
-          ulbName: textToSearch
+          ulbName: textToSearch,
+          stateId: this.currentStateInView ? this.currentStateInView._id : null
         });
       });
   }
@@ -262,31 +264,37 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       [stateId: string]: IStateULBCovered & {
         ulbs: ULBWithMapData[];
       };
-    } = {};
+    };
 
     if (options.stateId) {
-      filteredULBAndState[options.stateId] = {
-        ...this.stateAndULBDataMerged[options.stateId]
+      filteredULBAndState = {
+        [options.stateId]: { ...this.stateAndULBDataMerged[options.stateId] }
       };
     }
 
     if (options.ulbName && !options.ulbName.trim()) {
-      filteredULBAndState = { ...this.stateAndULBDataMerged };
+      filteredULBAndState = filteredULBAndState
+        ? filteredULBAndState
+        : { ...this.stateAndULBDataMerged };
     } else {
-      Object.keys(this.stateAndULBDataMerged).forEach(stateId => {
-        const stateFound = { ...this.stateAndULBDataMerged[stateId] };
-        const ulbList = this.filteredULBBy(
-          { ulbName: options.ulbName },
-          stateFound.ulbs
-        );
-        if (!ulbList.length) {
-          return;
+      Object.keys(filteredULBAndState || this.stateAndULBDataMerged).forEach(
+        stateId => {
+          const stateFound = { ...this.stateAndULBDataMerged[stateId] };
+          const ulbList = this.filteredULBBy(
+            { ulbName: options.ulbName },
+            stateFound.ulbs
+          );
+          if (!ulbList.length && !options.stateId) {
+            return;
+          }
+          stateFound.ulbs = ulbList;
+          if (!filteredULBAndState) {
+            filteredULBAndState = {};
+          }
+          filteredULBAndState[stateId] = stateFound;
         }
-        stateFound.ulbs = ulbList;
-        filteredULBAndState[stateId] = stateFound;
-      });
+      );
     }
-
     return filteredULBAndState;
   }
 
@@ -295,10 +303,14 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     ulbList: ULBWithMapData[]
   ) {
     let filteredULBS: ULBWithMapData[] = [];
-    if (options.ulbName) {
+    if (options.ulbName && options.ulbName.trim()) {
       filteredULBS = filteredULBS.concat(
-        ulbList.filter(ulb => ulb.name.includes(options.ulbName))
+        ulbList.filter(ulb =>
+          ulb.name.toLowerCase().includes(options.ulbName.toLowerCase())
+        )
       );
+    } else {
+      filteredULBS = ulbList;
     }
 
     return filteredULBS;
@@ -326,36 +338,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         res.data
       );
     }
+
     this.filteredULBStateAndULBDataMerged = { ...this.stateAndULBDataMerged };
-  }
-
-  private CombineStateAndULBData(
-    states: IStateULBCovered[],
-    ulbStates: ULBWithMapData[]
-  ) {
-    const newStateObj: {
-      [stateId: string]: IStateULBCovered & { ulbs: ULBWithMapData[] };
-    } = {};
-    ulbStates.forEach(ulb => {
-      if (!newStateObj[ulb.state]) {
-        const stateFound = states.find(state => state._id === ulb.state);
-        if (!stateFound) {
-          return;
-        }
-        newStateObj[stateFound._id] = { ...stateFound, ulbs: [{ ...ulb }] };
-      } else {
-        newStateObj[ulb.state].ulbs.push({ ...ulb });
-      }
-    });
-
-    states.forEach(state => {
-      if (newStateObj[state._id]) {
-        return;
-      }
-      newStateObj[state._id] = { ...state, ulbs: [] };
-    });
-
-    return newStateObj;
   }
 
   private onGettingStateULBCoveredSuccess(res: IStateULBCoveredResponse) {
@@ -366,9 +350,27 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         this.allULBSList
       );
     }
+
     this.loadMapGeoJson().then(res => {
       this.createNationalLevelMap();
     });
+  }
+
+  private CombineStateAndULBData(
+    states: IStateULBCovered[],
+    ulbStates: ULBWithMapData[]
+  ) {
+    const newStateObj: {
+      [stateId: string]: IStateULBCovered & { ulbs: ULBWithMapData[] };
+    } = {};
+    states
+      .map(state => ({
+        ...state,
+        ulbs: ulbStates.filter(ulb => ulb.state === state._id)
+      }))
+      .forEach(merged => (newStateObj[merged._id] = merged));
+
+    return newStateObj;
   }
 
   private createTooltip(layer, stateLayer) {
@@ -469,7 +471,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (!status) {
       return false;
     }
-    this.convertDomToMiniMap("mapid");
     this.hideMapLegends();
 
     this.showStateLayerOnlyFor(this.nationalLevelMap, this.currentStateInView);
@@ -525,11 +526,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (!stateFound) {
       return false;
     }
-    this.stateId.emit(stateFound._id);
+
     this.filteredULBStateAndULBDataMerged = this.filterMergedStateDataBy({
       stateId: stateFound._id
     });
-
     this.ulbsOfSelectedState = [...stateFound.ulbs];
     if (!this.ulbsOfSelectedState.length) {
       const message = `${stateFound.name} does not conains any ULB.`;
@@ -578,6 +578,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       dataPoints: [...dataPointsForMarker]
     });
     this.currentStateInView = { ...stateFound };
+    this.stateId.emit(stateFound._id);
 
     return true;
   }
@@ -616,11 +617,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         scrollWheelZoom: false,
         fadeAnimation: true,
         dragging: false,
-        minZoom: 4.2,
-        maxZoom: 5.7,
+        minZoom: 6,
+        maxZoom: 6,
         zoomControl: false,
         doubleClickZoom: false
-      }).setView([options.center.lat, options.center.lng], 5.7);
+      }).setView([options.center.lat, options.center.lng], 6);
 
       const districtLayer = L.geoJSON(districtGeoJSON, {
         style: this.stateColorStyle
@@ -755,8 +756,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       fillColor: "#E5E5E5",
       weight: 1,
       opacity: 1,
-      color: "#ece5e5",
-      fillOpacity: 0.7
+      color: "white",
+      fillOpacity: 1
     };
   }
 
