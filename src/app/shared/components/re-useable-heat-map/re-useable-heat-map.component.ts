@@ -129,6 +129,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     ulbsAlreadySelect.push(ulbFound._id);
     this.ulbsSelected.setValue(ulbsAlreadySelect);
     const marker = this.getDistrictMarkerOfULB(ulbFound);
+    this.currentULBClicked = ulbFound;
     this.changeMarkerToSelected(marker);
   }
 
@@ -469,7 +470,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (!status) {
       return false;
     }
-    this.convertDomToMiniMap("mapid");
+    // this.convertDomToMiniMap("mapid");
     this.hideMapLegends();
 
     this.showStateLayerOnlyFor(this.nationalLevelMap, this.currentStateInView);
@@ -682,6 +683,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       return false;
     }
     this.currentULBClicked = ulbFound;
+    console.log("setting ulb clicked", ulbFound);
     const ulbAlreadySelect = !!this.ulbsSelected.value.find(
       id => id === ulbFound._id
     );
