@@ -617,11 +617,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         scrollWheelZoom: false,
         fadeAnimation: true,
         dragging: false,
-        minZoom: 4.2,
-        maxZoom: 5.7,
+        minZoom: 6,
+        maxZoom: 6,
         zoomControl: false,
         doubleClickZoom: false
-      }).setView([options.center.lat, options.center.lng], 5.7);
+      }).setView([options.center.lat, options.center.lng], 6);
 
       const districtLayer = L.geoJSON(districtGeoJSON, {
         style: this.stateColorStyle
@@ -757,7 +757,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       weight: 1,
       opacity: 1,
       color: "#ece5e5",
-      fillOpacity: 0.7
+      fillOpacity: 1
     };
   }
 
