@@ -756,7 +756,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       fillColor: "#E5E5E5",
       weight: 1,
       opacity: 1,
-      color: "#ece5e5",
+      color: "white",
       fillOpacity: 1
     };
   }
