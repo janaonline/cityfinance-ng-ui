@@ -40,7 +40,10 @@
             [label]="filteredULBStateAndULBDataMerged[stateId].name"
           >
             <mat-option
-              *ngIf="!filteredULBStateAndULBDataMerged[stateId].ulbs"
+              *ngIf="
+                !filteredULBStateAndULBDataMerged[stateId].ulbs ||
+                !filteredULBStateAndULBDataMerged[stateId].ulbs.length
+              "
               disabled
             >
               No ULB available.

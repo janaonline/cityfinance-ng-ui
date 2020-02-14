@@ -103,10 +103,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       this.createStateLevelMap(stateOfULB.name);
       setTimeout(() => {
         this.selectULBById(ulbId);
-        console.log(`currentULBClicked: `, this.currentULBClicked);
-        console.log(`filtered:\n`, {
-          ...this.filteredULBStateAndULBDataMerged
-        });
       }, 0);
     }
   }
@@ -264,7 +260,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     ulbName?: string;
     stateId?: string;
   }) {
-    console.log({ ...options });
     let filteredULBAndState: {
       [stateId: string]: IStateULBCovered & {
         ulbs: ULBWithMapData[];
@@ -300,10 +295,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         }
       );
     }
-
-    console.log(`filteredULBAndState: `, {
-      ...filteredULBAndState
-    });
     return filteredULBAndState;
   }
 
@@ -345,36 +336,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         res.data
       );
     }
+
     this.filteredULBStateAndULBDataMerged = { ...this.stateAndULBDataMerged };
-  }
-
-  private CombineStateAndULBData(
-    states: IStateULBCovered[],
-    ulbStates: ULBWithMapData[]
-  ) {
-    const newStateObj: {
-      [stateId: string]: IStateULBCovered & { ulbs: ULBWithMapData[] };
-    } = {};
-    ulbStates.forEach(ulb => {
-      if (!newStateObj[ulb.state]) {
-        const stateFound = states.find(state => state._id === ulb.state);
-        if (!stateFound) {
-          return;
-        }
-        newStateObj[stateFound._id] = { ...stateFound, ulbs: [{ ...ulb }] };
-      } else {
-        newStateObj[ulb.state].ulbs.push({ ...ulb });
-      }
-    });
-
-    states.forEach(state => {
-      if (newStateObj[state._id]) {
-        return;
-      }
-      newStateObj[state._id] = { ...state, ulbs: [] };
-    });
-
-    return newStateObj;
   }
 
   private onGettingStateULBCoveredSuccess(res: IStateULBCoveredResponse) {
@@ -385,9 +348,27 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         this.allULBSList
       );
     }
+
     this.loadMapGeoJson().then(res => {
       this.createNationalLevelMap();
     });
+  }
+
+  private CombineStateAndULBData(
+    states: IStateULBCovered[],
+    ulbStates: ULBWithMapData[]
+  ) {
+    const newStateObj: {
+      [stateId: string]: IStateULBCovered & { ulbs: ULBWithMapData[] };
+    } = {};
+    states
+      .map(state => ({
+        ...state,
+        ulbs: ulbStates.filter(ulb => ulb.state === state._id)
+      }))
+      .forEach(merged => (newStateObj[merged._id] = merged));
+
+    return newStateObj;
   }
 
   private createTooltip(layer, stateLayer) {
@@ -549,10 +530,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     this.filteredULBStateAndULBDataMerged = this.filterMergedStateDataBy({
       stateId: stateFound._id
     });
-    console.log(`filteredULBStateAndULBDataMerged: `, {
-      ...this.filteredULBStateAndULBDataMerged
-    });
-
     this.ulbsOfSelectedState = [...stateFound.ulbs];
     if (!this.ulbsOfSelectedState.length) {
       const message = `${stateFound.name} does not conains any ULB.`;
@@ -705,7 +682,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       return false;
     }
     this.currentULBClicked = ulbFound;
-    console.log("setting ulb clicked", ulbFound);
     const ulbAlreadySelect = !!this.ulbsSelected.value.find(
       id => id === ulbFound._id
     );
