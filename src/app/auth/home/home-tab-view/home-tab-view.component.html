@@ -15,9 +15,8 @@
         </app-re-useable-heat-map>
       </div>
       <div class="col-sm-12 col-md-8">
-        <div class="row">
+
           <ng-container *ngTemplateOutlet="table"></ng-container>
-        </div>
       </div>
     </ng-template>
   </mat-tab>
@@ -122,7 +121,6 @@
     </ng-template>
   </mat-tab>
 
-
   <mat-tab [disabled]="loading" [label]="'Avenues of Revenue Expenditure'">
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-5"
@@ -180,8 +178,11 @@
                                  (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
-      <div class="col-sm-12 col-md-5"></div>
-      <div [style.minHeight.px]="400"
+      <div class="col-sm-12 col-md-7">
+        <ng-container *ngTemplateOutlet="table"></ng-container>
+
+      </div>
+      <!--<div [style.minHeight.px]="400"
            [formGroup]="yearForm"
            class="col-md-7 col-sm-12">
         <div class="row d-flex mt-4">
@@ -207,13 +208,13 @@
             <div class="row d-flex justify-content-center">
               <div style="height: 33%;width: 40%"
                    *ngFor="let row of data.data.slice(0, 2); let i = index">
-                <canvas width="400px" height="400px" [id]="'canvas--' + data.year + '--' + i"
+                <canvas width="400px" height="400px" [id]="'canvas&#45;&#45;' + data.year + '&#45;&#45;' + i"
                 ></canvas>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
     </ng-template>
   </mat-tab>
 
@@ -241,7 +242,7 @@
         <angular2-multiselect
           classes="mt-1"
           formControlName="years"
-          style="margin-top: 1rem; display:inline-block;width: 150px;"
+          style="margin-top: 1rem; display:inline-block;width: 160px;"
           [data]="yearLookup"
           [settings]="yearsDropdownSettings"
           (onClose)="onDropdownClose($event)"
@@ -257,10 +258,10 @@
       </div> -->
     </div>
     <div class="row mt-2">
-      <div class="col-sm-12 table-responsive ">
-        <table [style.minWidth]="(commonTableHeaders.length * 130)+'px'"
+      <div class="col-sm-12 table-responsive" style="max-height: 55vh; width: 99%; margin-right: 15px; border: 1px solid #d4d4d4">
+        <table [style.minWidth]="(commonTableHeaders.length * 110)+'px'"
                *ngIf="commonTableDataDisplay?.length; else noData"
-               class="table border-1">
+               class="table mr-1" style="margin-bottom: 1px">
           <thead>
           <tr>
             <th style="position: sticky; width: 200px;background: white;top:-1px"

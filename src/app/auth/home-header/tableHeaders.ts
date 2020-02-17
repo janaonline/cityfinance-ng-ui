@@ -1,7 +1,8 @@
 export const tableHeaders = [
   [
     {title: 'Population Category', click: true, id: 'populationCategory'},
-    {title: 'Number of ULBs', id: 'numOfUlb'},
+    {title: 'Total number of ULBs', id: 'totalUlb'},
+    {title: 'Number of ULBs with data', id: 'numOfUlb'},
     {title: 'Own Revenue (A)', id: 'ownRevenue', description: '(Rs in crores)'},
     {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', description: '(Rs in crores)'},
     {title: 'Own Revenue %', id: 'ownRevenuePercentage', description: '(A/B)'},
@@ -49,10 +50,11 @@ export const tableHeaders = [
   ],
   [
     {title: 'Population Category', click: true, id: 'populationCategory'},
-    {title: 'Number of ULBs', id: 'numOfUlb'},
+    {title: 'Total number of ULBs', id: 'totalUlb'},
+    {title: 'Number of ULBs with data', id: 'numOfUlb'},
     {title: 'Loans from Central Government', id: 'LoanFromCentralGovernment'},
     {title: 'Loans from State Government', id: 'loanFromStateGovernment'},
-    {title: 'Loans from Financial Institutions including Banks', id: 'loanFromFIIB'},
+    {title: 'Loans from Financial Institutions', id: 'loanFromFIIB'},
     {title: 'Bonds and Other Debt Instruments', id: 'bondsAndOtherDebtInstruments'},
     {title: 'Others', id: 'others'},
     {title: 'Total Debt', id: 'total'}
