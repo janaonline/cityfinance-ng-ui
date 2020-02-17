@@ -249,7 +249,7 @@ export class HomeTabViewComponent implements OnInit {
           const elementId = `${elementIdPrefix}--${index}`;
           let labels: any[] = Object.keys(row).filter(key => (typeof row[key] == 'number') || !isNaN(Number(row[key])));
           labels = labels
-            .filter(label => label !== 'numOfUlb')
+            .filter(label => !['numOfUlb', 'taxRevenue', 'rentalIncome', 'feesAndUserCharges'].includes(label))
             .map(label => {
               let titleObj: { data?: number, name?: string } = {};
               try {

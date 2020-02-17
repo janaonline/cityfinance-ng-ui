@@ -5,7 +5,7 @@
                animationDuration="100ms">
   <mat-tab [disabled]="loading" label="Extent of Dependency on Own Revenues">
     <ng-template matTabContent>
-      <div class="col-sm-12 col-md-5"
+      <div class="col-sm-12 col-md-4"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 0">
         <app-re-useable-heat-map [ulbSelected]="selectedUlb?._id"
@@ -14,7 +14,7 @@
 
         </app-re-useable-heat-map>
       </div>
-      <div class="col-sm-12 col-md-7">
+      <div class="col-sm-12 col-md-8">
         <div class="row">
           <ng-container *ngTemplateOutlet="table"></ng-container>
         </div>
@@ -32,7 +32,7 @@
                                  (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
-      <div class="col-md-7 col-sm-12">
+      <div class="col-sm-12 col-md-7">
         <div class="row d-flex mt-4" [formGroup]="yearForm">
           <div class="col-sm-10">
             <angular2-multiselect class="mt-2"
@@ -219,14 +219,14 @@
 
   <mat-tab [disabled]="loading" [label]="'Outstanding Debt'">
     <ng-template matTabContent>
-      <div class="col-sm-12 col-md-5"
+      <div class="col-sm-12 col-md-4"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 5">
         <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
                                  [ulbSelected]="selectedUlb?._id"
                                  (ulbsClicked)="fetchUlBsData($event)"></app-re-useable-heat-map>
       </div>
-      <div class="col-md-7 col-sm-12">
+      <div class="col-sm-12 col-md-8">
         <ng-container *ngTemplateOutlet="table"></ng-container>
       </div>
     </ng-template>
@@ -258,12 +258,12 @@
     </div>
     <div class="row mt-2">
       <div class="col-sm-12 table-responsive ">
-        <table [style.width]="(commonTableHeaders.length * 160)+'px'"
+        <table [style.minWidth]="(commonTableHeaders.length * 130)+'px'"
                *ngIf="commonTableDataDisplay?.length; else noData"
                class="table border-1">
           <thead>
           <tr>
-            <th style="position: sticky; width: 250px;background: white;top:-1px"
+            <th style="position: sticky; width: 200px;background: white;top:-1px"
                 class="text-center  px-1 border-bottom-0"
                 *ngFor="let header of commonTableHeaders">
               <div class="d-flex justify-content-center">

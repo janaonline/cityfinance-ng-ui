@@ -14,7 +14,7 @@ export const tableHeaders = [
     {title: 'Tax Revenue (a)', id: 'taxRevenue'},
     {title: 'Rental Income (b)', id: 'rentalIncome'},
     {title: 'Fees & user charges (c)', id: 'feesAndUserCharges'},
-    {title: 'Own revenues (a+b+c)', id: 'ownRevenues'},
+    {title: 'Own revenues', id: 'ownRevenues'},
     {title: 'Sale & hire charges', id: 'saleAndHireCharges'},
     {title: 'Assigned revenue', id: 'assignedRevenue'},
     {title: 'Grants', id: 'grants'},
