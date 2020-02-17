@@ -282,6 +282,7 @@ export class HomeTabViewComponent implements OnInit {
                 const containerUl = legendItemContainer.getElementsByTagName('ul');
                 if (containerUl.length) {
                   containerUl[0].style.display = 'flex';
+                  containerUl[0].style.alignItems = 'flex-start';
                   containerUl[0].style.marginTop = '1rem';
                 }
               }
