@@ -20,6 +20,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     private _commonService: CommonService,
     private _snackbar: MatSnackBar
   ) {
+    // document.body.style.zoom = "90%";
     this._commonService
       .getStateUlbCovered()
       .subscribe(res => this.onGettingStateULBCoveredSuccess(res));
@@ -100,7 +101,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     }
     if (stateOfULB) {
       this.convertDomToMiniMap("mapid");
-      this.createStateLevelMap(stateOfULB.name);
+      this.createStateLevelMap(stateOfULB.name, { emitStateId: false });
       setTimeout(() => {
         this.selectULBById(ulbId);
       }, 0);
@@ -363,12 +364,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         res.data
       );
     }
-    console.log({ ...this.stateAndULBDataMerged });
     this.filteredULBStateAndULBDataMerged = this.filterOutEmptyULBStates(
       this.stateAndULBDataMerged
     );
-
-    console.log("got data", { ...this.filteredULBStateAndULBDataMerged });
   }
 
   private onGettingStateULBCoveredSuccess(res: IStateULBCoveredResponse) {
@@ -427,7 +425,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       { color: "#019CDF", text: "75-100%" },
       { color: "#46B7E7", text: "50-75%" },
       { color: "#8BD2F0", text: "25-50%" },
-      { color: "#D0EDF9", text: "0-25%" }
+      { color: "#D0EDF9", text: "1-25%" },
+      { color: "#E5E5E5", text: "0%" }
     ];
     const legend = new L.Control({ position: "bottomright" });
     const labels = [
@@ -548,7 +547,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     return true;
   }
 
-  private createStateLevelMap(stateName: string) {
+  private createStateLevelMap(
+    stateName: string,
+    options: { emitStateId: boolean } = { emitStateId: true }
+  ) {
     const stateFound = Object.values(this.stateAndULBDataMerged).find(
       state => state.name === stateName
     );
@@ -607,7 +609,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       dataPoints: [...dataPointsForMarker]
     });
     this.currentStateInView = { ...stateFound };
-    this.stateId.emit(stateFound._id);
+    if (options.emitStateId) {
+      this.stateId.emit(stateFound._id);
+    }
 
     return true;
   }
@@ -644,7 +648,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     setTimeout(() => {
       let vw = Math.max(document.documentElement.clientWidth);
       vw = (vw - 1366) / 1366;
-      const zoom = 5.5 + vw;
+      const zoom = 5.1 + vw;
       const districtMap = L.map("districtMapId", {
         scrollWheelZoom: false,
         fadeAnimation: true,
@@ -764,10 +768,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (value >= 25) {
       return "#8BD2F0";
     }
-    if (value >= 0) {
+    if (value > 0) {
       return `#D0EDF9`;
     }
-    return "gray";
+    return "#E5E5E5";
   }
 
   /**
@@ -830,7 +834,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       <div
     id="districtMapId"
     class="h-60 col-sm-12"
-    style="background: white;z-index: 8; display: inline-block; width: 100%;height: 60vh;"
+    style="background: white;z-index: 8; display: inline-block; width: 99%;height: 57vh;"
   ></div>`;
   }
 }
