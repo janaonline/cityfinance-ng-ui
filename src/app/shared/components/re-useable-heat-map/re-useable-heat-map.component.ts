@@ -86,7 +86,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: { ulbSelected: SimpleChange }) {
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
-      this.onSelectingULBFromDropdown(changes.ulbSelected.currentValue);
+      if (changes.ulbSelected.currentValue !== this.ulbsSelected.value[0]) {
+        this.onSelectingULBFromDropdown(changes.ulbSelected.currentValue);
+      }
     }
   }
 
@@ -101,6 +103,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     }
     if (stateOfULB) {
       this.convertDomToMiniMap("mapid");
+      this.hideMapLegends();
       this.createStateLevelMap(stateOfULB.name, { emitStateId: false });
       setTimeout(() => {
         this.selectULBById(ulbId);
@@ -129,9 +132,19 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     const ulbsAlreadySelect = <string[]>this.ulbsSelected.value;
     ulbsAlreadySelect.push(ulbFound._id);
     this.ulbsSelected.setValue(ulbsAlreadySelect);
+    if (
+      !ulbFound.location ||
+      !ulbFound.location.lat ||
+      ulbFound.location.lat === "0.0"
+    ) {
+      const message = `${ulbFound.name} does not contain a valid geo-location.`;
+      this.showSnacbarMessage(message);
+      return false;
+    }
+
     const marker = this.getDistrictMarkerOfULB(ulbFound);
     this.currentULBClicked = ulbFound;
-    this.changeMarkerToSelected(marker);
+    return this.changeMarkerToSelected(marker);
   }
 
   private getDistrictMarkerOfULB(ulb: ULBWithMapData) {
@@ -193,7 +206,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       minZoom: zoom,
       maxZoom: zoom,
       zoomControl: false,
-      doubleClickZoom: false
+      doubleClickZoom: false,
+      keyboard: false
     }).setView([20.59, 78.96], 0.1);
 
     const stateLayer = L.geoJSON(this.StatesJSONForMapCreation, {
@@ -463,6 +477,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       this.showDistrictMapNotLaodedWarning();
       return false;
     }
+    this.resetulbFilterControl();
 
     if (this.isMapOnMiniMapMode) {
       this.resetMapToNationalLevel();
@@ -648,7 +663,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     setTimeout(() => {
       let vw = Math.max(document.documentElement.clientWidth);
       vw = (vw - 1366) / 1366;
-      const zoom = 5.1 + vw;
+      const zoom = 5.5 + vw;
       const districtMap = L.map("districtMapId", {
         scrollWheelZoom: false,
         fadeAnimation: true,
@@ -656,7 +671,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         minZoom: zoom,
         maxZoom: zoom,
         zoomControl: false,
-        doubleClickZoom: false
+        doubleClickZoom: false,
+        keyboard: false
       }).setView([options.center.lat, options.center.lng], 4);
 
       const districtLayer = L.geoJSON(districtGeoJSON, {
@@ -804,6 +820,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     this.resetDropdownListToNationalLevel();
     this.resetCurrentSelectState();
     this.resetCurrentULBClicked();
+  }
+
+  private resetulbFilterControl() {
+    this.ulbFilterControl.reset();
   }
 
   private resetulbsOfSelectedState() {
