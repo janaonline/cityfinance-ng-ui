@@ -103,13 +103,13 @@
       >
       <span class=" col-sm-12">
         <span class="bold">Area:</span>
-        {{ mouseHoveredOnULB.area }}
+        {{ mouseHoveredOnULB.area | rupeeConverter }}
       </span>
       <span class=" col-sm-12">
         <span class="bold">
           Population:
         </span>
-        {{ mouseHoveredOnULB.population }}
+        {{ mouseHoveredOnULB.population | rupeeConverter }}
       </span>
     </section>
   </div>
