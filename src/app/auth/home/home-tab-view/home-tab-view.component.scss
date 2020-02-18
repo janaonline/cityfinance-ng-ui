@@ -9,8 +9,8 @@
     overflow: hidden;
   }
 
-  .countplaceholder {
-    font-size: 2rem;
+  .countplaceholder ,.c-token{
+    font-size: 1.2rem;
   }
   .mat-tab-label {
     padding: 24px 24px !important;
@@ -33,6 +33,7 @@
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
 }
 
 /* Track */
