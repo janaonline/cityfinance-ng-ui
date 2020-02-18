@@ -16,7 +16,7 @@
       </div>
       <div class="col-sm-12 col-md-8">
 
-          <ng-container *ngTemplateOutlet="table"></ng-container>
+        <ng-container *ngTemplateOutlet="table"></ng-container>
       </div>
     </ng-template>
   </mat-tab>
@@ -239,18 +239,16 @@
   <div *ngIf="loading==false; else loadingSkeleton" [style.height.px]="400" style="width: 100%" [formGroup]="yearForm">
     <div class="row d-flex mt-2">
       <div class="col-sm-10">
-        <angular2-multiselect
-          classes="mt-1"
-          formControlName="years"
-          style="margin-top: 1rem; display:inline-block;width: 160px;"
-          [data]="yearLookup"
-          [settings]="yearsDropdownSettings"
-          (onClose)="onDropdownClose($event)"
-          (onSelect)="onDropdownSelect($event)"
-          (onDeSelect)="onDropdownDeSelect($event)"
-          (onSelectAll)="onDropDownSelectAll($event)"
-          (onDeSelectAll)="resetPopupValues()"
-        >
+        <angular2-multiselect classes="mt-1"
+                              formControlName="years"
+                              style="margin-top: 1rem; display:inline-block;width: 160px;"
+                              [data]="yearLookup"
+                              [settings]="yearsDropdownSettings"
+                              (onClose)="onDropdownClose($event)"
+                              (onSelect)="onDropdownSelect($event)"
+                              (onDeSelect)="onDropdownDeSelect($event)"
+                              (onSelectAll)="onDropDownSelectAll($event)"
+                              (onDeSelectAll)="resetPopupValues()">
         </angular2-multiselect>
       </div>
       <!-- <div class="col-sm-2">
@@ -258,14 +256,16 @@
       </div> -->
     </div>
     <div class="row mt-2">
-      <div class="col-sm-12 table-responsive" style="max-height: 55vh; width: 99%; margin-right: 15px; border: 1px solid #d4d4d4">
+      <div class="col-sm-12 table-responsive"
+           style="max-height: 55vh; width: 99%; margin-right: 15px; border: 1px solid #d4d4d4">
         <table [style.minWidth]="(commonTableHeaders.length * 110)+'px'"
                *ngIf="commonTableDataDisplay?.length; else noData"
                class="table mr-1" style="margin-bottom: 1px">
           <thead>
           <tr>
             <th style="position: sticky; width: 200px;background: white;top:-1px"
-                class="text-center  px-1 border-bottom-0"
+                class="px-1 border-bottom-0"
+                [ngClass]="header?.id!='populationCategory'?'text-center':''"
                 *ngFor="let header of commonTableHeaders">
               <div class="d-flex justify-content-center">
                 <div class="d-flex flex-column p-0">
@@ -274,30 +274,29 @@
                       {{ header.description }}</span
                   >
                 </div>
-                <i
-                  *ngIf="!header.hasOwnProperty('status'); else icon"
-                  (click)="sortHeader(header)"
-                  class="fa fa-sort px-1"
-                  aria-hidden="true"
+                <i style="position: absolute;   right: -1rem"
+                   *ngIf="!header.hasOwnProperty('status'); else icon"
+                   (click)="sortHeader(header)"
+                   class="fa fa-sort px-1"
+                   aria-hidden="true"
                 ></i>
                 <ng-template #icon>
-                  <i
-                    *ngIf="header.status"
-                    (click)="sortHeader(header)"
-                    class="fa fa-sort-asc px-1"
-                    aria-hidden="true"
+                  <i style="position: absolute;   right: -1rem"
+                     *ngIf="header.status"
+                     (click)="sortHeader(header)"
+                     class="fa fa-sort-asc px-1"
+                     aria-hidden="true"
                   ></i>
-                  <i
-                    *ngIf="!header.status"
-                    (click)="sortHeader(header)"
-                    class="fa fa-sort-desc px-1"
-                    aria-hidden="true"
+                  <i style="position: absolute;   right: -1rem"
+                     *ngIf="!header.status"
+                     (click)="sortHeader(header)"
+                     class="fa fa-sort-desc  px-1"
+                     aria-hidden="true"
                   ></i>
                 </ng-template>
               </div>
             </th>
           </tr>
-
           </thead>
           <tbody>
           <ng-container *ngFor="let tr of commonTableDataDisplay">
@@ -311,7 +310,8 @@
               </td>
             </tr>
             <tr *ngFor="let row of tr.data; let i = index">
-              <td class="text-center" *ngFor="let col of commonTableHeaders;let j=index">
+              <td [ngClass]="col?.id!='populationCategory'?'text-center':''"
+                  *ngFor="let col of commonTableHeaders;let j=index">
                 <span [ngClass]="i==tr?.data.length-1?'text-bold':''"
                       *ngIf="!col?.click  else clickableCol">{{ row[col?.id] | rupeeConverter }}</span>
                 <ng-template #clickableCol>
