@@ -78,7 +78,7 @@ div.miniMap {
   position: absolute;
   right: 0px;
   top: 1%;
-  width: 40%;
+  width: 50%;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
@@ -124,7 +124,7 @@ mat-form-field {
 }
 
 ::ng-deep .leaflet-bottom {
-  transform: scale(0.6);
+  transform: scale(0.55);
   width: 155px;
 }
 
@@ -245,6 +245,23 @@ mat-form-field {
   color: #8bd2f0;
 }
 
+::ng-deep .mat-option-text {
+  // background: red;
+  font-size: 1.4rem;
+}
+
+::ng-deep .mat-optgroup-label {
+  font-size: 1.5rem;
+}
+
 ::ng-deep .leaflet-zoom-animated svg g {
   transform: translateX(-5%) !important;
+}
+
+::ng-deep mat-option.mat-option {
+  height: 40px;
+}
+
+::ng-deep label.mat-optgroup-label {
+  height: 38px;
 }

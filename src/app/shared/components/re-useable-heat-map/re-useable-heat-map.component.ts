@@ -360,10 +360,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         res.data
       );
     }
-
+    console.log({ ...this.stateAndULBDataMerged });
     this.filteredULBStateAndULBDataMerged = this.filterOutEmptyULBStates(
       this.stateAndULBDataMerged
     );
+
+    console.log("got data", { ...this.filteredULBStateAndULBDataMerged });
   }
 
   private onGettingStateULBCoveredSuccess(res: IStateULBCoveredResponse) {
