@@ -27,7 +27,7 @@
 .stateMapContainer {
   padding: 0px;
   position: relative;
-  min-height: 65vh;
+  min-height: 64vh;
   border: 1px solid rgb(212, 212, 212);
   border-radius: 5px;
   padding-top: 1%;
@@ -42,7 +42,7 @@ div.miniMap {
   position: absolute !important;
   background: transparent;
   transform-origin: 0 100%;
-  transform: scale(0.3) !important;
+  transform: scale(0.2) !important;
   bottom: 1% !important;
   left: 1% !important;
 }
@@ -60,6 +60,7 @@ div.miniMap {
   position: absolute;
   border-radius: inherit;
   border-left: inherit;
+  transform: translateY(9%);
 }
 
 ::ng-deep div.preLoaderWrapper[_ngcontent-c7] {
@@ -78,7 +79,7 @@ div.miniMap {
   position: absolute;
   right: 0px;
   top: 1%;
-  width: 40%;
+  width: 50%;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
@@ -98,7 +99,7 @@ div.miniMap {
   position: relative;
   padding: 1% 1%;
   box-shadow: 1px 4px 5px 3px #e4e0e0;
-  transform: scale(0.8);
+  transform: scale(0.8) translateY(-45%);
   transition: 1s all;
 }
 
@@ -124,7 +125,7 @@ mat-form-field {
 }
 
 ::ng-deep .leaflet-bottom {
-  transform: scale(0.6);
+  transform: scale(0.55);
   width: 155px;
 }
 
@@ -147,10 +148,10 @@ mat-form-field {
 
 ::ng-deep .leaflet-control {
   width: fit-content;
-  transform: scale(1.6) translateY(-100%);
+  transform: scale(1.6) translateY(-50%);
   position: absolute;
   bottom: 0px;
-  background: white;
+  background: transparent;
   // transform: translateY(-100%);
 }
 
@@ -236,10 +237,6 @@ mat-form-field {
   left: 0;
 }
 
-.testing {
-  // transform: scale(0.3);
-}
-
 ::ng-deep .mat-progress-spinner circle,
 .mat-spinner circle {
   stroke: #ffc500;
@@ -249,6 +246,22 @@ mat-form-field {
   color: #8bd2f0;
 }
 
+::ng-deep .mat-option-text {
+  font-size: 1.4rem;
+}
+
+::ng-deep .mat-optgroup-label {
+  font-size: 1.5rem;
+}
+
 ::ng-deep .leaflet-zoom-animated svg g {
   transform: translateX(-5%) !important;
+}
+
+::ng-deep mat-option.mat-option {
+  height: 40px;
+}
+
+::ng-deep label.mat-optgroup-label {
+  height: 38px;
 }
