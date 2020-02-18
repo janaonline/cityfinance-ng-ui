@@ -530,13 +530,18 @@ export class HomeTabViewComponent implements OnInit {
 
 
   sortCallBack(a, b, id) {
-    if (typeof a[id] == 'number') {
-      return a[id] - b[id];
-    } else if (!isNaN(Number(a[id]))) {
-      return a[id] - b[id];
-    } else if (a[id] > b[id]) {
+    let aVal = a[id], bVal = b[id];
+    if (typeof a[id]!="number" && a[id].includes('%')) {
+      aVal = a[id].replace('%', '');
+      bVal = b[id].replace('%', '');
+    }
+    if (typeof aVal == 'number') {
+      return aVal - bVal;
+    } else if (!isNaN(Number(aVal))) {
+      return aVal - bVal;
+    } else if (aVal > bVal) {
       return -1;
-    } else if (a[id] < b[id]) {
+    } else if (aVal < bVal) {
       return 1;
     } else {
       return 0;
