@@ -267,9 +267,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     };
 
     if (options.stateId) {
-      filteredULBAndState = {
-        [options.stateId]: { ...this.stateAndULBDataMerged[options.stateId] }
-      };
+      if (this.stateAndULBDataMerged[options.stateId].ulbs.length) {
+        filteredULBAndState = {
+          [options.stateId]: { ...this.stateAndULBDataMerged[options.stateId] }
+        };
+      }
     }
 
     if (options.ulbName && !options.ulbName.trim()) {
@@ -295,7 +297,27 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         }
       );
     }
-    return filteredULBAndState;
+    return this.filterOutEmptyULBStates(filteredULBAndState);
+    // return filteredULBAndState;
+  }
+
+  private filterOutEmptyULBStates(data: {
+    [stateId: string]: IStateULBCovered & {
+      ulbs: ULBWithMapData[];
+    };
+  }) {
+    if (!data) {
+      return null;
+      return null;
+    }
+
+    const newObj = {};
+    Object.keys(data).forEach(stateKey => {
+      if (data[stateKey].ulbs && data[stateKey].ulbs.length) {
+        newObj[stateKey] = { ...data[stateKey] };
+      }
+    });
+    return newObj;
   }
 
   private filteredULBBy(
@@ -339,7 +361,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       );
     }
 
-    this.filteredULBStateAndULBDataMerged = { ...this.stateAndULBDataMerged };
+    this.filteredULBStateAndULBDataMerged = this.filterOutEmptyULBStates(
+      this.stateAndULBDataMerged
+    );
   }
 
   private onGettingStateULBCoveredSuccess(res: IStateULBCoveredResponse) {
@@ -779,7 +803,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
   }
 
   private resetDropdownListToNationalLevel() {
-    this.filteredULBStateAndULBDataMerged = { ...this.stateAndULBDataMerged };
+    this.filteredULBStateAndULBDataMerged = this.filterOutEmptyULBStates(
+      this.stateAndULBDataMerged
+    );
   }
 
   private resetCurrentSelectState() {
