@@ -62,7 +62,7 @@ export class HomeTabViewComponent implements OnInit {
     this.yearForm = formBuilder.group({
       years: [[this.yearLookup[1]]]
     });
-    this.selectedYears = [this.yearLookup[0].id];
+    this.selectedYears = [this.yearLookup[1].id];
   }
 
   ngOnInit() {
@@ -97,7 +97,6 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   private fetchUlBsData(ulbIdsArray: string[]) {
-    console.log('ulbIdsArray', ulbIdsArray);
 
     if (ulbIdsArray.length) {
       this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
@@ -144,7 +143,6 @@ export class HomeTabViewComponent implements OnInit {
     this.commonTableDataDisplay = response['data'];
     this.filterDisplayDataTableYearWise();
     if (this.singleULBView) {
-      console.log(this.selectedUlb);
       this.modalItemClicked(this.selectedUlb._id);
     }
   };
@@ -290,7 +288,7 @@ export class HomeTabViewComponent implements OnInit {
                         }
                         ,
                         render: function (args) {
-                          if (args.value > 0) {
+                          if (args.value > 4) {
                             return args.value;
                           }
                         },
@@ -323,7 +321,11 @@ export class HomeTabViewComponent implements OnInit {
                     prependDataColorDiv(legendItems[i], meta);
                   }
                 });
-                legendItems[i].addEventListener('click', (e) => {
+
+                /**
+                 * Below code adds the hide/show functionality on custom legends
+                 */
+                /*legendItems[i].addEventListener('click', (e) => {
                   for (let yearChart of yearWiseCharts) {
                     yearChart.chart.getDatasetMeta(0).data.forEach(meta => {
                       if (meta._index == i) {
@@ -338,7 +340,7 @@ export class HomeTabViewComponent implements OnInit {
                       }
                     });
                   }
-                }, false);
+                }, false);*/
               }
               legendGenerated = true;
             }
@@ -402,7 +404,6 @@ export class HomeTabViewComponent implements OnInit {
         },
         title: {
           onClick: function (e, titleBlock) {
-            console.log('Clicked title!');
           },
           display: true,
           text: chartTitle
@@ -458,7 +459,7 @@ export class HomeTabViewComponent implements OnInit {
 
   fixToDecimalPlace(count, n = 2) {
     if (count.toString().includes('.')) {
-      return Number(count).toFixed(3);
+      return Number(count).toFixed(n);
     } else {
       return count;
     }
@@ -470,11 +471,11 @@ export class HomeTabViewComponent implements OnInit {
     for (let prop of allKeys) {
       if (typeof rows[0][prop] == 'number') {
         let count = rows.reduce((a, c) => a + c[prop], 0);
-        newDataRow[prop] = this.fixToDecimalPlace(count, 3);
+        newDataRow[prop] = this.fixToDecimalPlace(count, 2);
       } else {
         if (!isNaN(rows[0][prop])) {
           let count = rows.reduce((a, c) => a + Number(c[prop]), 0);
-          newDataRow[prop] = this.fixToDecimalPlace(count, 3);
+          newDataRow[prop] = this.fixToDecimalPlace(count, 2);
         }
         if (prop == 'populationCategory') {
           newDataRow[prop] = 'Total';
@@ -523,7 +524,6 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   filterDataStateWise(event: string) {
-    console.log('stateid called', event);
     this.selectedState = event;
     this.fetchData();
   }
@@ -531,7 +531,7 @@ export class HomeTabViewComponent implements OnInit {
 
   sortCallBack(a, b, id) {
     let aVal = a[id], bVal = b[id];
-    if (typeof a[id]!="number" && a[id].includes('%')) {
+    if (typeof a[id] != 'number' && a[id].includes('%')) {
       aVal = a[id].replace('%', '');
       bVal = b[id].replace('%', '');
     }
