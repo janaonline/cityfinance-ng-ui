@@ -495,7 +495,7 @@ export class HomeTabViewComponent implements OnInit {
       populationCategory: range['populationCategory']
     };
     this.modalTableHeaders[0].click = true;
-    this.modalRef = this.modalService.show(UlbModal, {class: 'modal-lg'});
+    this.modalRef = this.modalService.show(UlbModal ,{class:'modal-uq'});
   }
 
   modalItemClicked(rowClickedId) {

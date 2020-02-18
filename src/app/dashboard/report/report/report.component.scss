@@ -12,6 +12,14 @@
   }
 }
 
+::ng-deep {
+  .modal-dialog,
+  .modal-lg {
+    min-width: 94vw;
+  }
+}
+
+
 .searchUlbMobalInput {
   margin-bottom: 0px;
 }
@@ -87,6 +95,7 @@ button:disabled {
   background: gray !important;
   color: white !important;
 }
+
 ::ng-deep .modal-content {
   overflow: auto;
   min-height: 90vh;
@@ -152,6 +161,7 @@ a.inactive-tab:hover {
 ::ng-deep .mat-form-field-wrapper {
   padding-bottom: 0px;
 }
+
 ::ng-deep .modal .modal-header {
   padding-bottom: 15px;
 }
@@ -180,6 +190,7 @@ a.inactive-tab:hover {
   border-radius: 0px !important;
   border: 0px !important;
 }
+
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
   border-radius: 0px !important;
   border: 0px !important;
