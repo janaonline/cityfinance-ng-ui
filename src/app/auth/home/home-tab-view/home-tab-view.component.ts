@@ -110,28 +110,27 @@ export class HomeTabViewComponent implements OnInit {
     switch (this.tabIndex) {
       case 2:
       case 3:
-      case 4:
       case 1:
         this.renderCharts();
         break;
+      case 4:
       case 5:
-      /*   case 3:
-           for (let year of this.commonTableData) {
-             let newDataRow = {};
-             let allKeys = Object.keys(year.data[0]);
-             for (let prop of allKeys) {
-               if (typeof year.data[0][prop] == 'number') {
-                 let count = year.data.reduce((a, c) => a + c[prop], 0);
-                 newDataRow[prop] = count;
-               } else {
-                 if (prop == 'populationCategory') {
-                   newDataRow[prop] = 'Total';
-                 }
-               }
-             }
-             year.data.push(newDataRow);
-           }
-           break;*/
+        for (let year of this.commonTableData) {
+          let newDataRow = {};
+          let allKeys = Object.keys(year.data[0]);
+          for (let prop of allKeys) {
+            if (typeof year.data[0][prop] == 'number') {
+              let count = year.data.reduce((a, c) => a + c[prop], 0);
+              newDataRow[prop] = count;
+            } else {
+              if (prop == 'populationCategory') {
+                newDataRow[prop] = 'Total';
+              }
+            }
+          }
+          year.data.push(newDataRow);
+        }
+        break;
     }
 
   }
@@ -249,7 +248,7 @@ export class HomeTabViewComponent implements OnInit {
           const elementId = `${elementIdPrefix}--${index}`;
           let labels: any[] = Object.keys(row).filter(key => (typeof row[key] == 'number') || !isNaN(Number(row[key])));
           labels = labels
-            .filter(label => label !== 'numOfUlb')
+            .filter(label => !['numOfUlb', 'totalUlb', 'taxRevenue', 'rentalIncome', 'feesAndUserCharges'].includes(label))
             .map(label => {
               let titleObj: { data?: number, name?: string } = {};
               try {
@@ -282,6 +281,7 @@ export class HomeTabViewComponent implements OnInit {
                 const containerUl = legendItemContainer.getElementsByTagName('ul');
                 if (containerUl.length) {
                   containerUl[0].style.display = 'flex';
+                  containerUl[0].style.alignItems = 'flex-start';
                   containerUl[0].style.marginTop = '1rem';
                 }
               }
@@ -359,7 +359,13 @@ export class HomeTabViewComponent implements OnInit {
         ]
       },
       options: {
+        onClick: function (e, v) {
+         // console.log('clicked', e, v);
+        },
         title: {
+          onClick: function (e, titleBlock) {
+            console.log('Clicked title!');
+          },
           display: true,
           text: chartTitle
         },
