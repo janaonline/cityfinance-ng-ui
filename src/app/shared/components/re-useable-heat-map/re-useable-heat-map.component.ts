@@ -182,12 +182,15 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
   }
 
   createNationalLevelMap() {
+    let vw = Math.max(document.documentElement.clientWidth);
+    vw = (vw - 1366) / 1366;
+    const zoom = 4 + vw;
     this.nationalLevelMap = L.map("mapid", {
       scrollWheelZoom: false,
       fadeAnimation: true,
       dragging: false,
-      minZoom: 4.2,
-      maxZoom: 8,
+      minZoom: zoom,
+      maxZoom: zoom,
       zoomControl: false,
       doubleClickZoom: false
     }).setView([20.59, 78.96], 0.1);
@@ -639,15 +642,18 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     this.clearDistrictMapContainer();
 
     setTimeout(() => {
+      let vw = Math.max(document.documentElement.clientWidth);
+      vw = (vw - 1366) / 1366;
+      const zoom = 5.5 + vw;
       const districtMap = L.map("districtMapId", {
         scrollWheelZoom: false,
         fadeAnimation: true,
         dragging: false,
-        minZoom: 6,
-        maxZoom: 6,
+        minZoom: zoom,
+        maxZoom: zoom,
         zoomControl: false,
         doubleClickZoom: false
-      }).setView([options.center.lat, options.center.lng], 6);
+      }).setView([options.center.lat, options.center.lng], 4);
 
       const districtLayer = L.geoJSON(districtGeoJSON, {
         style: this.stateColorStyle

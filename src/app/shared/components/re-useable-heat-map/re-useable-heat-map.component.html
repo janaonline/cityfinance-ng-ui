@@ -1,12 +1,12 @@
 <div class="testing"></div>
 
 <div class="col-sm-12 stateMapContainer" id="ulbMap">
-  <h4
-    style="position: absolute;z-index: 9;margin-left: 2%; text-decoration: underline;font-weight: 500;"
+  <h5
+    style="position: absolute;z-index: 9;margin-left: 2%; text-decoration: underline;font-weight: 500; width: 50%;"
   >
     {{ currentStateInView ? currentStateInView.name : "" }}
     <span *ngIf="currentULBClicked">: {{ currentULBClicked.name }} </span>
-  </h4>
+  </h5>
   <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
     <app-pre-loader></app-pre-loader>
     <app-pre-loader></app-pre-loader>
