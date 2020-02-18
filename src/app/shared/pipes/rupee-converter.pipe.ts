@@ -8,6 +8,10 @@ export class RupeeConverterPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
     let newValue = value;
+    if (typeof value == 'object') {
+      value = value.value;
+      newValue = value.value;
+    }
     if (typeof value === 'string') {
       if (value.includes('%')) {
         newValue = Number(value.replace('%', ''));
@@ -33,6 +37,7 @@ export class RupeeConverterPipe implements PipeTransform {
       lastThree = ',' + lastThree;
     }
     let finalString = othervaluebers.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + lastThree + afterPoint;
+
     if (value && value.toString().includes('%')) {
       finalString = finalString + '%';
     }

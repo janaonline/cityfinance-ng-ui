@@ -4,6 +4,7 @@ import {Chart} from 'chart.js';
 import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {tableHeaders} from '../../home-header/tableHeaders';
+import 'chartjs-plugin-labels';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -59,9 +60,9 @@ export class HomeTabViewComponent implements OnInit {
               private modalService: BsModalService,
   ) {
     this.yearForm = formBuilder.group({
-      years: [[this.yearLookup[0]]]
+      years: [[this.yearLookup[1]]]
     });
-    this.selectedYears = [this.yearLookup[0].id];
+    this.selectedYears = [this.yearLookup[1].id];
   }
 
   ngOnInit() {
@@ -96,6 +97,7 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   private fetchUlBsData(ulbIdsArray: string[]) {
+
     if (ulbIdsArray.length) {
       this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
     } else {
@@ -264,13 +266,37 @@ export class HomeTabViewComponent implements OnInit {
           const chartTitle = row[this.commonTableHeaders[0].id];
           setTimeout(() => {
             let c = this.renderPieChart({
-              type: 'pie',
-              data,
-              labels: chartLabels,
-              elementId,
-              chartTitle,
-              legend: false,
-            });
+                type: 'pie',
+                data,
+                labels: chartLabels,
+                elementId,
+                chartTitle,
+                legend: false,
+                options: {
+                  plugins:
+                    {
+                      labels: {
+                        position: 'border',
+                        fontColor: (data) => {
+                          if (data.dataset.backgroundColor[data.index]) {
+                            const rgb = this.hexToRgb(data.dataset.backgroundColor[data.index]);
+                            const threshold = 140;
+                            const luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
+                            return luminance > threshold ? 'black' : 'white';
+                          }
+                          return 'black';
+                        }
+                        ,
+                        render: function (args) {
+                          if (args.value > 4) {
+                            return args.value;
+                          }
+                        },
+                      }
+                    }
+                }
+              })
+            ;
             yearWiseCharts.push(c);
             if (!legendGenerated) {
               let legendClass = `.legend-${yearRow.year}`;
@@ -295,7 +321,11 @@ export class HomeTabViewComponent implements OnInit {
                     prependDataColorDiv(legendItems[i], meta);
                   }
                 });
-                legendItems[i].addEventListener('click', (e) => {
+
+                /**
+                 * Below code adds the hide/show functionality on custom legends
+                 */
+                /*legendItems[i].addEventListener('click', (e) => {
                   for (let yearChart of yearWiseCharts) {
                     yearChart.chart.getDatasetMeta(0).data.forEach(meta => {
                       if (meta._index == i) {
@@ -310,7 +340,7 @@ export class HomeTabViewComponent implements OnInit {
                       }
                     });
                   }
-                }, false);
+                }, false);*/
               }
               legendGenerated = true;
             }
@@ -318,6 +348,15 @@ export class HomeTabViewComponent implements OnInit {
         }
       }
     }
+  }
+
+  hexToRgb(colorString) {
+    const result = colorString.substring(colorString.indexOf('(') + 1, colorString.lastIndexOf(')')).split(/,\s*/);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
   }
 
   renderPieChart({
@@ -329,6 +368,7 @@ export class HomeTabViewComponent implements OnInit {
                    legend = true,
                    options = {}
                  }) {
+
 
     return new Chart(elementId, {
       type,
@@ -360,11 +400,10 @@ export class HomeTabViewComponent implements OnInit {
       },
       options: {
         onClick: function (e, v) {
-         // console.log('clicked', e, v);
+          // console.log('clicked', e, v);
         },
         title: {
           onClick: function (e, titleBlock) {
-            console.log('Clicked title!');
           },
           display: true,
           text: chartTitle
@@ -391,9 +430,9 @@ export class HomeTabViewComponent implements OnInit {
           display: legend,
           position: 'bottom',
         },
-        responsive: true
+        responsive: true,
+        ...options,
       },
-      ...options
     });
   }
 
@@ -420,7 +459,7 @@ export class HomeTabViewComponent implements OnInit {
 
   fixToDecimalPlace(count, n = 2) {
     if (count.toString().includes('.')) {
-      return Number(count).toFixed(3);
+      return Number(count).toFixed(n);
     } else {
       return count;
     }
@@ -432,11 +471,11 @@ export class HomeTabViewComponent implements OnInit {
     for (let prop of allKeys) {
       if (typeof rows[0][prop] == 'number') {
         let count = rows.reduce((a, c) => a + c[prop], 0);
-        newDataRow[prop] = this.fixToDecimalPlace(count, 3);
+        newDataRow[prop] = this.fixToDecimalPlace(count, 2);
       } else {
         if (!isNaN(rows[0][prop])) {
           let count = rows.reduce((a, c) => a + Number(c[prop]), 0);
-          newDataRow[prop] = this.fixToDecimalPlace(count, 3);
+          newDataRow[prop] = this.fixToDecimalPlace(count, 2);
         }
         if (prop == 'populationCategory') {
           newDataRow[prop] = 'Total';
@@ -456,7 +495,11 @@ export class HomeTabViewComponent implements OnInit {
       populationCategory: range['populationCategory']
     };
     this.modalTableHeaders[0].click = true;
-    this.modalRef = this.modalService.show(UlbModal, {class: 'modal-lg'});
+    this.modalTableHeaders = this.modalTableHeaders.map((modal) => {
+      delete modal['status'];
+      return modal;
+    });
+    this.modalRef = this.modalService.show(UlbModal, {class: 'modal-uq'});
   }
 
   modalItemClicked(rowClickedId) {
@@ -491,13 +534,24 @@ export class HomeTabViewComponent implements OnInit {
 
 
   sortCallBack(a, b, id) {
-    if (typeof a[id] == 'number') {
-      return a[id] - b[id];
-    } else if (!isNaN(Number(a[id]))) {
-      return a[id] - b[id];
-    } else if (a[id] > b[id]) {
+    let aVal = a[id], bVal = b[id];
+
+    if (typeof a[id] === 'object') {
+      aVal = a[id].value;
+      bVal = b[id].value;
+    }
+    if (typeof a[id] !== 'number' && a[id].includes('%')) {
+      aVal = aVal.replace('%', '');
+      bVal = bVal.replace('%', '');
+    }
+
+    if (typeof aVal == 'number') {
+      return aVal - bVal;
+    } else if (!isNaN(Number(aVal))) {
+      return aVal - bVal;
+    } else if (aVal > bVal) {
       return -1;
-    } else if (a[id] < b[id]) {
+    } else if (aVal < bVal) {
       return 1;
     } else {
       return 0;

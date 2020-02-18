@@ -13,6 +13,7 @@ import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
 import {PreLoaderComponent} from './components/pre-loader/pre-loader.component';
 import {ReUseableHeatMapComponent} from './components/re-useable-heat-map/re-useable-heat-map.component';
 import {RupeeConverterPipe} from './pipes/rupee-converter.pipe';
+import { TypeofPipe } from './pipes/typeof.pipe';
 
 @NgModule({
   imports: [
@@ -25,8 +26,8 @@ import {RupeeConverterPipe} from './pipes/rupee-converter.pipe';
     MatSnackBarModule,
     MatProgressSpinnerModule
   ],
-  declarations: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe],
-  exports: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe]
+  declarations: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe, TypeofPipe],
+    exports: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe, TypeofPipe]
 })
 export class SharedModule {
 }
