@@ -650,7 +650,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     setTimeout(() => {
       let vw = Math.max(document.documentElement.clientWidth);
       vw = (vw - 1366) / 1366;
-      const zoom = 5.1 + vw;
+      const zoom = 5.5 + vw;
       const districtMap = L.map("districtMapId", {
         scrollWheelZoom: false,
         fadeAnimation: true,

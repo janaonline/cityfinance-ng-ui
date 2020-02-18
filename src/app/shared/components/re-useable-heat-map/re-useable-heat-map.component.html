@@ -97,7 +97,10 @@
       </div>
     </section>
 
-    <section class="regionalDetails col-sm-12" *ngIf="mouseHoveredOnULB">
+    <section
+      class="regionalDetails ulbDetails col-sm-12"
+      *ngIf="mouseHoveredOnULB"
+    >
       <span class=" col-sm-12"
         ><span class="bold">ULB:</span> {{ mouseHoveredOnULB.name }}</span
       >
