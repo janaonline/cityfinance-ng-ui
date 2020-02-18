@@ -1,12 +1,15 @@
 <div class="testing"></div>
 
 <div class="col-sm-12 stateMapContainer" id="ulbMap">
-  <h5
-    style="position: absolute;z-index: 9;margin-left: 2%; text-decoration: underline;font-weight: 500; width: 50%;"
+  <div
+    style="position: absolute;z-index: 9;margin-left: 2%; text-decoration: underline;font-weight: 500; width: 60%; display: inherit;"
   >
-    {{ currentStateInView ? currentStateInView.name : "" }}
-    <span *ngIf="currentULBClicked">: {{ currentULBClicked.name }} </span>
-  </h5>
+    <span> {{ currentStateInView ? currentStateInView.name : "" }}</span>
+    <span *ngIf="currentULBClicked">:</span>
+    <span *ngIf="currentULBClicked" style="display: inline-block; width: 100%;">
+      {{ currentULBClicked.name }}
+    </span>
+  </div>
   <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
     <app-pre-loader></app-pre-loader>
     <app-pre-loader></app-pre-loader>
