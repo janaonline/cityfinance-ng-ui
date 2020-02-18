@@ -104,6 +104,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (stateOfULB) {
       this.convertDomToMiniMap("mapid");
       this.hideMapLegends();
+      this.showStateLayerOnlyFor(this.nationalLevelMap, stateOfULB);
+
       this.createStateLevelMap(stateOfULB.name, { emitStateId: false });
       setTimeout(() => {
         this.selectULBById(ulbId);
@@ -132,6 +134,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     const ulbsAlreadySelect = <string[]>this.ulbsSelected.value;
     ulbsAlreadySelect.push(ulbFound._id);
     this.ulbsSelected.setValue(ulbsAlreadySelect);
+    this.currentULBClicked = ulbFound;
     if (
       !ulbFound.location ||
       !ulbFound.location.lat ||
@@ -143,7 +146,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     }
 
     const marker = this.getDistrictMarkerOfULB(ulbFound);
-    this.currentULBClicked = ulbFound;
     return this.changeMarkerToSelected(marker);
   }
 
@@ -378,9 +380,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         res.data
       );
     }
-    this.filteredULBStateAndULBDataMerged = this.filterOutEmptyULBStates(
-      this.stateAndULBDataMerged
-    );
+
+    if (!this.filteredULBStateAndULBDataMerged && this.stateAndULBDataMerged) {
+      this.filteredULBStateAndULBDataMerged = this.filterOutEmptyULBStates(
+        this.stateAndULBDataMerged
+      );
+    }
   }
 
   private onGettingStateULBCoveredSuccess(res: IStateULBCoveredResponse) {
@@ -389,6 +394,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       this.stateAndULBDataMerged = this.CombineStateAndULBData(
         this.stateData,
         this.allULBSList
+      );
+    }
+
+    if (!this.filteredULBStateAndULBDataMerged && this.stateAndULBDataMerged) {
+      this.filteredULBStateAndULBDataMerged = this.filterOutEmptyULBStates(
+        this.stateAndULBDataMerged
       );
     }
 
@@ -589,11 +600,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
         parseFloat(ulb.location.lat) !== NaN &&
         parseFloat(ulb.location.lng) !== NaN
     );
-    if (!ulbsWithCoordinates.length) {
-      const message = `${stateFound.name} does not conains any ULB with geo co-ordinates.`;
-      this.showSnacbarMessage(message);
-      return false;
-    }
 
     const filteredDistricts = this.DistrictsJSONForMapCreation.features.filter(
       districts => districts.properties.ST_NM === stateFound.name
@@ -626,6 +632,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     this.currentStateInView = { ...stateFound };
     if (options.emitStateId) {
       this.stateId.emit(stateFound._id);
+    }
+
+    if (!ulbsWithCoordinates.length) {
+      const message = `${stateFound.name} does not conains any ULB with geo co-ordinates.`;
+      this.showSnacbarMessage(message);
+      return false;
     }
 
     return true;

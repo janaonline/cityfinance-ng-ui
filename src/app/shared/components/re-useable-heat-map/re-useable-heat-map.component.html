@@ -4,8 +4,14 @@
   <div
     style="position: absolute;z-index: 9;margin-left: 2%; text-decoration: underline;font-weight: 500; width: 60%; display: inherit;"
   >
-    <span> {{ currentStateInView ? currentStateInView.name : "" }}</span>
-    <span *ngIf="currentULBClicked">:</span>
+    <span
+      *ngIf="currentStateInView && currentStateInView.name"
+      style="display: inline-block;"
+      [style.width]="currentStateInView.name.length * 12 + 'px'"
+    >
+      {{ currentStateInView ? currentStateInView.name : "" }}</span
+    >
+    <span *ngIf="currentULBClicked">: </span>
     <span *ngIf="currentULBClicked" style="display: inline-block; width: 100%;">
       {{ currentULBClicked.name }}
     </span>
