@@ -4,6 +4,7 @@ import {Chart} from 'chart.js';
 import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {tableHeaders} from '../../home-header/tableHeaders';
+import 'chartjs-plugin-labels';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -264,13 +265,37 @@ export class HomeTabViewComponent implements OnInit {
           const chartTitle = row[this.commonTableHeaders[0].id];
           setTimeout(() => {
             let c = this.renderPieChart({
-              type: 'pie',
-              data,
-              labels: chartLabels,
-              elementId,
-              chartTitle,
-              legend: false,
-            });
+                type: 'pie',
+                data,
+                labels: chartLabels,
+                elementId,
+                chartTitle,
+                legend: false,
+                options: {
+                  plugins:
+                    {
+                      labels: {
+                        position: 'border',
+                        fontColor: (data) => {
+                          if (data.dataset.backgroundColor[data.index]) {
+                            const rgb = this.hexToRgb(data.dataset.backgroundColor[data.index]);
+                            const threshold = 140;
+                            const luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
+                            return luminance > threshold ? 'black' : 'white';
+                          }
+                          return 'black';
+                        }
+                        ,
+                        render: function (args) {
+                          if (args.value > 0) {
+                            return args.value;
+                          }
+                        },
+                      }
+                    }
+                }
+              })
+            ;
             yearWiseCharts.push(c);
             if (!legendGenerated) {
               let legendClass = `.legend-${yearRow.year}`;
@@ -320,6 +345,15 @@ export class HomeTabViewComponent implements OnInit {
     }
   }
 
+  hexToRgb(colorString) {
+    const result = colorString.substring(colorString.indexOf('(') + 1, colorString.lastIndexOf(')')).split(/,\s*/);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  }
+
   renderPieChart({
                    type = 'pie',
                    labels,
@@ -329,6 +363,7 @@ export class HomeTabViewComponent implements OnInit {
                    legend = true,
                    options = {}
                  }) {
+
 
     return new Chart(elementId, {
       type,
@@ -360,7 +395,7 @@ export class HomeTabViewComponent implements OnInit {
       },
       options: {
         onClick: function (e, v) {
-         // console.log('clicked', e, v);
+          // console.log('clicked', e, v);
         },
         title: {
           onClick: function (e, titleBlock) {
@@ -391,9 +426,9 @@ export class HomeTabViewComponent implements OnInit {
           display: legend,
           position: 'bottom',
         },
-        responsive: true
+        responsive: true,
+        ...options,
       },
-      ...options
     });
   }
 
