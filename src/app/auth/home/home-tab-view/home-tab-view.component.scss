@@ -9,17 +9,20 @@
     overflow: hidden;
   }
 
-  .countplaceholder ,.c-token{
+
+  .modal-uq {
+    min-width: 70vw !important;
+  }
+
+  .countplaceholder, .c-token {
     font-size: 1.2rem;
   }
+
   .mat-tab-label {
     padding: 24px 24px !important;
   }
 
-  .modal-content {
-    width: 70%;
-    margin: 5rem auto auto auto;
-  }
+
 }
 
 
