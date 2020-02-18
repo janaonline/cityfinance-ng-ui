@@ -62,7 +62,7 @@ export class HomeTabViewComponent implements OnInit {
     this.yearForm = formBuilder.group({
       years: [[this.yearLookup[1]]]
     });
-    this.selectedYears = [this.yearLookup[0].id];
+    this.selectedYears = [this.yearLookup[1].id];
   }
 
   ngOnInit() {
@@ -458,7 +458,7 @@ export class HomeTabViewComponent implements OnInit {
 
   fixToDecimalPlace(count, n = 2) {
     if (count.toString().includes('.')) {
-      return Number(count).toFixed(3);
+      return Number(count).toFixed(n);
     } else {
       return count;
     }
@@ -470,11 +470,11 @@ export class HomeTabViewComponent implements OnInit {
     for (let prop of allKeys) {
       if (typeof rows[0][prop] == 'number') {
         let count = rows.reduce((a, c) => a + c[prop], 0);
-        newDataRow[prop] = this.fixToDecimalPlace(count, 3);
+        newDataRow[prop] = this.fixToDecimalPlace(count, 2);
       } else {
         if (!isNaN(rows[0][prop])) {
           let count = rows.reduce((a, c) => a + Number(c[prop]), 0);
-          newDataRow[prop] = this.fixToDecimalPlace(count, 3);
+          newDataRow[prop] = this.fixToDecimalPlace(count, 2);
         }
         if (prop == 'populationCategory') {
           newDataRow[prop] = 'Total';
@@ -530,13 +530,18 @@ export class HomeTabViewComponent implements OnInit {
 
 
   sortCallBack(a, b, id) {
-    if (typeof a[id] == 'number') {
-      return a[id] - b[id];
-    } else if (!isNaN(Number(a[id]))) {
-      return a[id] - b[id];
-    } else if (a[id] > b[id]) {
+    let aVal = a[id], bVal = b[id];
+    if (typeof a[id] != 'number' && a[id].includes('%')) {
+      aVal = a[id].replace('%', '');
+      bVal = b[id].replace('%', '');
+    }
+    if (typeof aVal == 'number') {
+      return aVal - bVal;
+    } else if (!isNaN(Number(aVal))) {
+      return aVal - bVal;
+    } else if (aVal > bVal) {
       return -1;
-    } else if (a[id] < b[id]) {
+    } else if (aVal < bVal) {
       return 1;
     } else {
       return 0;
