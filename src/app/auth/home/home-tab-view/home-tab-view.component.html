@@ -238,19 +238,17 @@
 <ng-template #table>
   <div *ngIf="loading==false; else loadingSkeleton" [style.height.px]="400" style="width: 100%" [formGroup]="yearForm">
     <div class="row d-flex mt-2">
-      <div class="col-sm-10">
-        <angular2-multiselect classes="mt-1"
-                              formControlName="years"
-                              style="margin-top: 1rem; display:inline-block;width: 160px;"
-                              [data]="yearLookup"
-                              [settings]="yearsDropdownSettings"
-                              (onClose)="onDropdownClose($event)"
-                              (onSelect)="onDropdownSelect($event)"
-                              (onDeSelect)="onDropdownDeSelect($event)"
-                              (onSelectAll)="onDropDownSelectAll($event)"
-                              (onDeSelectAll)="resetPopupValues()">
-        </angular2-multiselect>
-      </div>
+      <angular2-multiselect classes="mt-1"
+                            formControlName="years"
+                            style="margin-top: 1rem; display:inline-block;width: 160px;"
+                            [data]="yearLookup"
+                            [settings]="yearsDropdownSettings"
+                            (onClose)="onDropdownClose($event)"
+                            (onSelect)="onDropdownSelect($event)"
+                            (onDeSelect)="onDropdownDeSelect($event)"
+                            (onSelectAll)="onDropDownSelectAll($event)"
+                            (onDeSelectAll)="resetPopupValues()">
+      </angular2-multiselect>
       <!-- <div class="col-sm-2">
         <button mat-stroked-button color="primary">View</button>
       </div> -->
@@ -312,7 +310,8 @@
             <tr *ngFor="let row of tr.data; let i = index">
               <td [ngClass]="col?.id!='populationCategory'?'text-center':''"
                   *ngFor="let col of commonTableHeaders;let j=index">
-                <span [ngClass]="i==tr?.data.length-1?'text-bold':''"
+                <span [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:null"
+                      [ngClass]="i==tr?.data.length-1?'text-bold':''"
                       *ngIf="!col?.click  else clickableCol">{{ row[col?.id] | rupeeConverter }}</span>
                 <ng-template #clickableCol>
                   <a *ngIf="i!=tr?.data.length-1"
@@ -353,74 +352,77 @@
   </button>
 
   <div class="modal-body">
-    <table *ngIf="modalTableHeaders.length; else noData"
-           class="table border-1">
-      <thead>
-      <tr>
-        <th style="position: sticky; top: 0;background: white"
-            class="text-center px-1 border-bottom-0"
-            *ngFor="let header of modalTableHeaders"
-        >
-          <div class="d-flex justify-content-center">
-            <div class="d-flex flex-column p-0">
-              {{ header.title }}
-              <span class="font-weight-light" *ngIf="header.description">
+    <div class="table-responsive border-1" style="max-height: 90vh; overflow-x: hidden">
+      <table *ngIf="modalTableHeaders.length; else noData"
+             class="table">
+        <thead>
+        <tr>
+          <th style="position: sticky; top: 0;background: white"
+              class="text-center px-1 border-bottom-0"
+              *ngFor="let header of modalTableHeaders"
+          >
+            <div class="d-flex justify-content-center">
+              <div class="d-flex flex-column p-0">
+                {{ header.title }}
+                <span class="font-weight-light" *ngIf="header.description">
                       {{ header.description }}</span
-              >
+                >
+              </div>
+              <i style="position: absolute;   right: -.5rem"
+                 *ngIf="!header.hasOwnProperty('status'); else icon"
+                 (click)="sortDialogHeader(header)"
+                 class="fa fa-sort px-1"
+                 aria-hidden="true"></i>
+              <ng-template #icon>
+                <i style="position: absolute;   right: -.5rem"
+                   *ngIf="header.status"
+                   (click)="sortDialogHeader(header)"
+                   class="fa fa-sort-asc px-1"
+                   aria-hidden="true"
+                ></i>
+                <i style="position: absolute;   right: -.5rem"
+                   *ngIf="!header.status"
+                   (click)="sortDialogHeader(header)"
+                   class="fa fa-sort-desc px-1"
+                   aria-hidden="true"
+                ></i>
+              </ng-template>
             </div>
-            <i
-              *ngIf="!header.hasOwnProperty('status'); else icon"
-              (click)="sortDialogHeader(header)"
-              class="fa fa-sort px-1"
-              aria-hidden="true"
-            ></i>
-            <ng-template #icon>
-              <i
-                *ngIf="header.status"
-                (click)="sortDialogHeader(header)"
-                class="fa fa-sort-asc px-1"
-                aria-hidden="true"
-              ></i>
-              <i
-                *ngIf="!header.status"
-                (click)="sortDialogHeader(header)"
-                class="fa fa-sort-desc px-1"
-                aria-hidden="true"
-              ></i>
-            </ng-template>
-          </div>
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td
-          class="text-center"
-          [colSpan]="modalTableHeaders.length"
-          [style.background]="'#ffc500'"
-        >
-          <b>{{modalTableData.year }}</b>
-        </td>
-      </tr>
-      <!--      <ng-container *ngFor="let tr of modalTableData">-->
-      <tr *ngFor="let row of modalTableData.data; let i = index">
-        <td class="text-center" *ngFor="let col of modalTableHeaders">
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td
+            class="text-center"
+            [colSpan]="modalTableHeaders.length"
+            [style.background]="'#ffc500'">
+            <b>{{modalTableData.year }}</b>
+          </td>
+        </tr>
+        <!--      <ng-container *ngFor="let tr of modalTableData">-->
+        <tr *ngFor="let row of modalTableData.data; let i = index">
+          <td [ngStyle]="i==modalTableData.data.length-1?{'position':'sticky','bottom':'0','background':'white'}:{}"
+              class="text-center"
+              *ngFor="let col of modalTableHeaders">
           <span [ngClass]="i==modalTableData?.data?.length-1?'text-bold':''"
                 *ngIf="!col?.click;else clickableCol">{{ row[col?.id] | rupeeConverter }}</span>
-          <ng-template #clickableCol>
-            <a *ngIf="i!=modalTableData?.data?.length-1"
-               (click)="modalItemClicked(row._id)">{{ row[col?.id] |rupeeConverter }}</a>
-            <span *ngIf="i==modalTableData?.data?.length-1"
-                  class="text-bold">{{ row[col?.id] | rupeeConverter }}</span>
-          </ng-template>
-        </td>
-      </tr>
-      <!--      </ng-container>-->
-      </tbody>
-    </table>
-    <ng-template #noData>
-      <h3 class="text-center">No data available</h3>
-    </ng-template>
+            <ng-template #clickableCol>
+              <a *ngIf="i!=modalTableData?.data?.length-1"
+                 (click)="modalItemClicked(row._id)">{{ row[col?.id] |rupeeConverter }}</a>
+              <span *ngIf="i==modalTableData?.data?.length-1"
+                    class="text-bold">{{ row[col?.id] | rupeeConverter }}</span>
+            </ng-template>
+          </td>
+        </tr>
+        <!--      </ng-container>-->
+        </tbody>
+      </table>
+      <ng-template #noData>
+        <h3 class="text-center">No data available</h3>
+      </ng-template>
+    </div>
+
   </div>
 </ng-template>
 
