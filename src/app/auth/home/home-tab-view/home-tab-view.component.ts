@@ -536,7 +536,7 @@ export class HomeTabViewComponent implements OnInit {
       aVal = a[id].value;
       bVal = b[id].value;
     }
-    if (typeof a[id] === 'number' && a[id].includes('%')) {
+    if (typeof a[id] !== 'number' && a[id].includes('%')) {
       aVal = aVal.replace('%', '');
       bVal = bVal.replace('%', '');
     }
