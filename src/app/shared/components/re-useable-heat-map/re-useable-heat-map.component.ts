@@ -465,6 +465,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       this.showDistrictMapNotLaodedWarning();
       return false;
     }
+    this.resetulbFilterControl();
 
     if (this.isMapOnMiniMapMode) {
       this.resetMapToNationalLevel();
@@ -806,6 +807,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     this.resetDropdownListToNationalLevel();
     this.resetCurrentSelectState();
     this.resetCurrentULBClicked();
+  }
+
+  private resetulbFilterControl() {
+    this.ulbFilterControl.reset();
   }
 
   private resetulbsOfSelectedState() {
