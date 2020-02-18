@@ -38,7 +38,7 @@
     </h4>
   </div>
 </nav>
-<div class="navbar container-fluid border-top-white" style="position: unset">
+<div class="navbar container-fluid border-top-white" style="position: sticky; top: 70px">
   <ul class="nav navbar-nav navbar-left">
     <li routerLinkActive="active"><a [routerLink]="['/home']"><b>Home</b></a></li>
     <!-- <li routerLinkActive="active"><a [routerLink]="['/home']">About Cityfinance.in</a></li> -->
@@ -58,9 +58,9 @@
         <li>
           <a [routerLink]="['/dashboard', 'financial-information']"><b>Availability of Financial Information</b></a>
         </li>
-    <!--    <li routerLinkActive="active" *ngIf="!isProduction">
-          <a [routerLink]="['/dashboard', 'ranking']"><b>Annual Fiscal Ranking</b></a>
-        </li>-->
+        <!--    <li routerLinkActive="active" *ngIf="!isProduction">
+              <a [routerLink]="['/dashboard', 'ranking']"><b>Annual Fiscal Ranking</b></a>
+            </li>-->
       </ul>
     </li>
 
@@ -68,7 +68,7 @@
       <a [routerLink]="['/credit-rating/laws']"><b>Municipal Finance Laws</b></a>
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['/credit-rating/report']"><b>Municipal Finance Laws Credit Rating</b></a>
+      <a [routerLink]="['/credit-rating/report']"><b>Credit Rating</b></a>
     </li>
     <li routerLinkActive="active">
       <a [routerLink]="['/credit-rating/municipal-bond']"><b> Municipal Bonds</b></a>

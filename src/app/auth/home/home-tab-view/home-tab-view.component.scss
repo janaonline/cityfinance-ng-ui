@@ -2,14 +2,27 @@
   font-weight: 400;
 }
 
-::ng-deep div.mat-tab-body-content {
-  max-width: 100vw;
-  overflow: hidden;
+
+::ng-deep {
+  div.mat-tab-body-content {
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
+  .countplaceholder {
+    font-size: 2rem;
+  }
+  .mat-tab-label {
+    padding: 24px 24px !important;
+  }
+
+  .modal-content {
+    width: 70%;
+    margin: 5rem auto auto auto;
+  }
 }
-::ng-deep.mat-tab-label
-{
-  padding: 24px 24px!important;
-}
+
+
 .table-responsive {
   max-height: 50vh;
   overflow: auto;
@@ -27,6 +40,11 @@
   box-shadow: inset 0 0 0px grey;
   border-radius: 0px;
 }
+
+.text-bold {
+  font-weight: bold;
+}
+
 
 /* Handle */
 ::-webkit-scrollbar-thumb {

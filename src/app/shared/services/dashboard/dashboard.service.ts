@@ -19,24 +19,24 @@ export class DashboardService {
     return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/own-revenue-dependency?years=${year}&state=${state}`);
   }
 
-  fetchSourceOfRevenue(year: string) {
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/source-revenue`);
+  fetchSourceOfRevenue(year: string, state: string = '') {
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/source-revenue?years=${year}&state=${state}`);
   }
 
-  fetchRevenueExpenditure(year: string) {
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/revenue-expenditure`);
+  fetchRevenueExpenditure(year: string, state: string = '') {
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/revenue-expenditure?years=${year}&state=${state}`);
   }
 
-  fetchFinancialRevenueExpenditure(year: string) {
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/source-financial-revenue-expenditure`);
+  fetchFinancialRevenueExpenditure(year: string, state: string = '') {
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/source-financial-revenue-expenditure?years=${year}&state=${state}`);
   }
 
-  fetchCashAndBankBalance(year: string) {
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/cash-and-bank`);
+  fetchCashAndBankBalance(year: string, state: string = '') {
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/cash-and-bank?years=${year}&state=${state}`);
   }
 
-  fetchOutStandingDebt(year: string) {
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/outstanding-debt?year=${year}`);
+  fetchOutStandingDebt(year: string, state: string = '') {
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/outstanding-debt?years=${year}&state=${state}`);
   }
 
   fetchULBData(id: string) {
