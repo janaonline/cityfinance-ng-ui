@@ -86,7 +86,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: { ulbSelected: SimpleChange }) {
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
-      this.onSelectingULBFromDropdown(changes.ulbSelected.currentValue);
+      if (changes.ulbSelected.currentValue !== this.ulbsSelected.value[0]) {
+        this.onSelectingULBFromDropdown(changes.ulbSelected.currentValue);
+      }
     }
   }
 
