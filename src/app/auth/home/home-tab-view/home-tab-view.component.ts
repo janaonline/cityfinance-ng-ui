@@ -60,7 +60,7 @@ export class HomeTabViewComponent implements OnInit {
               private modalService: BsModalService,
   ) {
     this.yearForm = formBuilder.group({
-      years: [[this.yearLookup[0]]]
+      years: [[this.yearLookup[1]]]
     });
     this.selectedYears = [this.yearLookup[0].id];
   }
@@ -97,6 +97,8 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   private fetchUlBsData(ulbIdsArray: string[]) {
+    console.log('ulbIdsArray', ulbIdsArray);
+
     if (ulbIdsArray.length) {
       this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
     } else {
@@ -142,6 +144,7 @@ export class HomeTabViewComponent implements OnInit {
     this.commonTableDataDisplay = response['data'];
     this.filterDisplayDataTableYearWise();
     if (this.singleULBView) {
+      console.log(this.selectedUlb);
       this.modalItemClicked(this.selectedUlb._id);
     }
   };
@@ -520,6 +523,7 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   filterDataStateWise(event: string) {
+    console.log('stateid called', event);
     this.selectedState = event;
     this.fetchData();
   }
