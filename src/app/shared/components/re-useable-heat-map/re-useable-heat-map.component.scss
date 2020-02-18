@@ -27,7 +27,7 @@
 .stateMapContainer {
   padding: 0px;
   position: relative;
-  min-height: 64vh;
+  min-height: 66vh;
   border: 1px solid rgb(212, 212, 212);
   border-radius: 5px;
   padding-top: 1%;
@@ -77,7 +77,7 @@ div.miniMap {
 .ulbSelectDropdown {
   z-index: 9;
   position: absolute;
-  right: -5%;
+  right: -4%;
   top: 1%;
   width: 50%;
 }
@@ -121,11 +121,16 @@ div.miniMap {
 }
 
 mat-form-field {
-  transform: scale(0.8);
+  transform: scale(0.86);
+  margin-top: 0.4rem;
+}
+
+::ng-deep input.mat-input-element {
+  font-size: 1.7rem;
 }
 
 ::ng-deep div#cdk-overlay-0.cdk-overlay-pane {
-  min-width: 235.1px !important;
+  min-width: 200.1px !important;
 }
 
 ::ng-deep .leaflet-bottom {
@@ -251,7 +256,7 @@ mat-form-field {
 }
 
 ::ng-deep .mat-option-text {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 }
 
 ::ng-deep .mat-optgroup-label {

@@ -7,12 +7,12 @@
     <span
       *ngIf="currentStateInView && currentStateInView.name"
       style="display: inline-block;"
-      [style.width]="currentStateInView.name.length * 12 + 'px'"
+      [style.width]="currentStateInView.name.length * 8 + 'px'"
     >
       {{ currentStateInView ? currentStateInView.name : "" }}</span
     >
     <span *ngIf="currentULBClicked">: </span>
-    <span *ngIf="currentULBClicked" style="display: inline-block; width: 100%;">
+    <span *ngIf="currentULBClicked" style="display: inline-block; width: 70%;">
       {{ currentULBClicked.name }}
     </span>
   </div>
