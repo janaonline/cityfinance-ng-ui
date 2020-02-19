@@ -8,7 +8,7 @@
       <div class="col-sm-12 col-md-4"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 0">
-        <app-re-useable-heat-map [ulbSelected]="selectedUlb?._id"
+        <app-re-useable-heat-map [ulbSelected]="selectedUlb"
                                  (stateId)="filterDataStateWise($event)"
                                  (ulbsClicked)="fetchUlBsData($event)">
 
@@ -27,7 +27,7 @@
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 1">
         <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
-                                 [ulbSelected]="selectedUlb?._id"
+                                 [ulbSelected]="selectedUlb"
                                  (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
@@ -76,7 +76,7 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 2">
-        <app-re-useable-heat-map [ulbSelected]="selectedUlb?._id"
+        <app-re-useable-heat-map [ulbSelected]="selectedUlb"
                                  (stateId)="filterDataStateWise($event)"
                                  (ulbsClicked)="fetchUlBsData($event)"></app-re-useable-heat-map>
       </div>
@@ -127,7 +127,7 @@
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 3">
         <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
-                                 [ulbSelected]="selectedUlb?._id"
+                                 [ulbSelected]="selectedUlb"
                                  (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
@@ -174,7 +174,7 @@
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 4">
         <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
-                                 [ulbSelected]="selectedUlb?._id"
+                                 [ulbSelected]="selectedUlb"
                                  (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
@@ -224,7 +224,7 @@
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 5">
         <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
-                                 [ulbSelected]="selectedUlb?._id"
+                                 [ulbSelected]="selectedUlb"
                                  (ulbsClicked)="fetchUlBsData($event)"></app-re-useable-heat-map>
       </div>
       <div class="col-sm-12 col-md-8">
@@ -236,6 +236,7 @@
 </mat-tab-group>
 
 <ng-template #table>
+  {{loading | json}}
   <div *ngIf="loading==false; else loadingSkeleton" [style.height.px]="400" style="width: 100%" [formGroup]="yearForm">
     <div class="row d-flex mt-2">
       <angular2-multiselect classes="mt-1"
@@ -338,7 +339,7 @@
        *ngIf="tabIndex === 4">
     <app-re-useable-heat-map
       (stateId)="filterDataStateWise($event)"
-      [ulbSelected]="selectedUlb?._id"
+      [ulbSelected]="selectedUlb"
       (ulbsClicked)="fetchUlBsData($event)"
     ></app-re-useable-heat-map>
   </div>
