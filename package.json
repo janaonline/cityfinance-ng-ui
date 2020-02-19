@@ -36,6 +36,7 @@
     "bootstrap": "^3.3.7",
     "chart.js": "^2.9.3",
     "chartjs-plugin-annotation": "^0.5.7",
+    "chartjs-plugin-title-click": "^1.0.0",
     "chartjs-plugin-labels": "^1.1.0",
     "core-js": "2.5.4",
     "exceljs": "1.7.0",

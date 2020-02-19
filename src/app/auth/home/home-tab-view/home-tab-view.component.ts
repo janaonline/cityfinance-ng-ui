@@ -3,8 +3,9 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Chart} from 'chart.js';
 import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
-import {tableHeaders} from '../../home-header/tableHeaders';
+import {modalTableHeaders, tableHeaders} from '../../home-header/tableHeaders';
 import 'chartjs-plugin-labels';
+import 'chartjs-plugin-title-click';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -32,13 +33,7 @@ export class HomeTabViewComponent implements OnInit {
   yearForm: FormGroup;
   selectedYears: any = [];
   modalRef: BsModalRef;
-  modalTableHeaders = [
-    {title: 'ULB name', click: true, id: 'name'},
-    {title: 'Population', id: 'population'},
-    {title: 'Own Revenues (A) ', id: 'ownRevenue', description: '(Rs in crores)'},
-    {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', description: '(Rs in crores)'},
-    {title: 'Own Revenue % (A/B)', id: 'ownRevenuePercentage'},
-  ];
+  modalTableHeaders = modalTableHeaders[0];
   modalTableData: {
     populationCategory: string,
     year: string,
@@ -271,37 +266,36 @@ export class HomeTabViewComponent implements OnInit {
           const chartTitle = row[this.commonTableHeaders[0].id];
           setTimeout(() => {
             let c = this.renderPieChart({
-                type: 'pie',
-                data,
-                labels: chartLabels,
-                elementId,
-                chartTitle,
-                legend: false,
-                options: {
-                  plugins:
-                    {
-                      labels: {
-                        position: 'border',
-                        fontColor: (data) => {
-                          if (data.dataset.backgroundColor[data.index]) {
-                            const rgb = this.hexToRgb(data.dataset.backgroundColor[data.index]);
-                            const threshold = 140;
-                            const luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
-                            return luminance > threshold ? 'black' : 'white';
-                          }
-                          return 'black';
+              type: 'pie',
+              data,
+              labels: chartLabels,
+              elementId,
+              chartTitle,
+              legend: false,
+              options: {
+                plugins:
+                  {
+                    labels: {
+                      position: 'border',
+                      fontColor: (data) => {
+                        if (data.dataset.backgroundColor[data.index]) {
+                          const rgb = this.hexToRgb(data.dataset.backgroundColor[data.index]);
+                          const threshold = 140;
+                          const luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
+                          return luminance > threshold ? 'black' : 'white';
                         }
-                        ,
-                        render: function (args) {
-                          if (args.value > 4) {
-                            return args.value;
-                          }
-                        },
+                        return 'black';
                       }
+                      ,
+                      render: function (args) {
+                        if (args.value > 4) {
+                          return args.value + '%';
+                        }
+                      },
                     }
-                }
-              })
-            ;
+                  }
+              }
+            });
             yearWiseCharts.push(c);
             if (!legendGenerated) {
               let legendClass = `.legend-${yearRow.year}`;
@@ -404,14 +398,9 @@ export class HomeTabViewComponent implements OnInit {
         ]
       },
       options: {
-        onClick: function (e, v) {
-          // console.log('clicked', e, v);
-        },
         title: {
-          onClick: function (e, titleBlock) {
-          },
-          display: true,
-          text: chartTitle
+          display: false,
+          text: chartTitle,
         },
         tooltips: {
           callbacks: {
@@ -491,7 +480,6 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   openModal(UlbModal: TemplateRef<any>, range, year) {
-
     const totalRow = this.getTotalRow(range['ulbs']);
     totalRow['name'] = 'Total';
     this.modalTableData = {
@@ -499,7 +487,10 @@ export class HomeTabViewComponent implements OnInit {
       year,
       populationCategory: range['populationCategory']
     };
-    this.modalTableHeaders[0].click = true;
+    this.modalTableHeaders = modalTableHeaders[this.tabIndex];
+    if (this.tabIndex == 0) {
+      this.modalTableHeaders[0].click = true;
+    }
     this.modalTableHeaders = this.modalTableHeaders.map((modal) => {
       delete modal['status'];
       return modal;

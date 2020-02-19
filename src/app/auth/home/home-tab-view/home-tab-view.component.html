@@ -57,11 +57,11 @@
               <h3>{{ data?.year }}</h3>
             </div>
             <div class="row d-flex justify-content-center">
-              <div style="height: 30%;width: 30%"
+              <div class="pie-chart-container px-1"
                    *ngFor="let row of data.data; let i = index">
-                <canvas [class]="'myChart-'+data.year" width="400px" height="400px"
-                        [id]="'canvas--' + data.year + '--' + i"
-                ></canvas>
+                <a (click)="openModal(UlbModal,row,data.year)" class="p-1">{{row["populationCategory"]}}</a>
+                <canvas class="p-1" [ngClass]="'myChart-'+data.year" width="400px" height="400px"
+                        [id]="'canvas--' + data.year + '--' + i"></canvas>
               </div>
             </div>
             <ul [class]="'legend-'+data?.year" [id]="data?.year"></ul>
@@ -107,11 +107,11 @@
               <h3>{{ data?.year }}</h3>
             </div>
             <div class="row d-flex justify-content-center">
-              <div style="height: 30%;width: 30%"
+              <div class="pie-chart-container px-1"
                    *ngFor="let row of data.data; let i = index">
-                <canvas [class]="'myChart-'+data.year" width="400px" height="400px"
-                        [id]="'canvas--' + data.year + '--' + i"
-                ></canvas>
+                <a (click)="openModal(UlbModal,row,data.year)" class="p-1">{{row["populationCategory"]}}</a>
+                <canvas class="p-1" [ngClass]="'myChart-'+data.year" width="400px" height="400px"
+                        [id]="'canvas--' + data.year + '--' + i"></canvas>
               </div>
             </div>
             <ul [class]="'legend-'+data?.year" [id]="data?.year"></ul>
@@ -154,11 +154,11 @@
               <h3>{{ data?.year }}</h3>
             </div>
             <div class="row d-flex justify-content-center">
-              <div style="height: 30%;width: 30%"
+              <div class="pie-chart-container px-1"
                    *ngFor="let row of data.data; let i = index">
-                <canvas [class]="'myChart-'+data.year" width="400px" height="400px"
-                        [id]="'canvas--' + data.year + '--' + i"
-                ></canvas>
+                <a (click)="openModal(UlbModal,row,data.year)" class="p-1">{{row["populationCategory"]}}</a>
+                <canvas class="p-1" [ngClass]="'myChart-'+data.year" width="400px" height="400px"
+                        [id]="'canvas--' + data.year + '--' + i"></canvas>
               </div>
             </div>
             <ul [class]="'legend-'+data?.year" [id]="data?.year"></ul>
@@ -232,11 +232,9 @@
       </div>
     </ng-template>
   </mat-tab>
-
 </mat-tab-group>
 
 <ng-template #table>
-  {{loading | json}}
   <div *ngIf="loading==false; else loadingSkeleton" [style.height.px]="400" style="width: 100%" [formGroup]="yearForm">
     <div class="row d-flex mt-2">
       <angular2-multiselect classes="mt-1"
