@@ -15,12 +15,15 @@ export class DashboardService {
 
   }
 
-  fetchDependencyOwnRevenueData(year: string, state = '') {
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/own-revenue-dependency?years=${year}&state=${state}`);
+  fetchDependencyOwnRevenueData(year: string, state = '', ulb: any = '') {
+    if (ulb && ulb._id) {
+      ulb = ulb._id;
+    }
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/own-revenue-dependency?years=${year}&state=${state}&ulb=${ulb}`);
   }
 
   fetchDependencyOwnRevenueDataForUlb(year: string, state = '', ulb = '') {
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/own-revenue-dependency?years=${year}&state=${state}&ulb=${ulb}`);
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/own-revenue-dependency?years=${year}&state=${state}`);
   }
 
   fetchSourceOfRevenue(year: string, state: string = '') {
