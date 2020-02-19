@@ -1,12 +1,23 @@
 <div class="testing"></div>
 
 <div class="col-sm-12 stateMapContainer" id="ulbMap">
-  <h5
-    style="position: absolute;z-index: 9;margin-left: 2%; text-decoration: underline;font-weight: 500; width: 50%;"
+  <div
+    style="position: absolute;z-index: 9;margin-left: 2%; text-decoration: underline;font-weight: 500; width: 56%; display: inherit; "
   >
-    {{ currentStateInView ? currentStateInView.name : "" }}
-    <span *ngIf="currentULBClicked">: {{ currentULBClicked.name }} </span>
-  </h5>
+    <span
+      *ngIf="currentStateInView && currentStateInView.name"
+      style="display: inline-block; width: fit-content;"
+    >
+      {{ currentStateInView ? currentStateInView.name : "" }}</span
+    >
+    <span *ngIf="currentULBClicked">: </span>
+    <span
+      *ngIf="currentULBClicked"
+      style="display: inline-block; max-width: 55%; "
+    >
+      {{ currentULBClicked.name }}
+    </span>
+  </div>
   <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
     <app-pre-loader></app-pre-loader>
     <app-pre-loader></app-pre-loader>
@@ -97,19 +108,22 @@
       </div>
     </section>
 
-    <section class="regionalDetails col-sm-12" *ngIf="mouseHoveredOnULB">
+    <section
+      class="regionalDetails ulbDetails col-sm-12"
+      *ngIf="mouseHoveredOnULB"
+    >
       <span class=" col-sm-12"
         ><span class="bold">ULB:</span> {{ mouseHoveredOnULB.name }}</span
       >
       <span class=" col-sm-12">
         <span class="bold">Area:</span>
-        {{ mouseHoveredOnULB.area }}
+        {{ mouseHoveredOnULB.area | rupeeConverter }}
       </span>
       <span class=" col-sm-12">
         <span class="bold">
           Population:
         </span>
-        {{ mouseHoveredOnULB.population }}
+        {{ mouseHoveredOnULB.population | rupeeConverter }}
       </span>
     </section>
   </div>

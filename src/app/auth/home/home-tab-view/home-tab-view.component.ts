@@ -97,15 +97,14 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   private fetchUlBsData(ulbIdsArray: string[]) {
-
     if (ulbIdsArray.length) {
       this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
-    } else {
+    } /*else {
       if (this.singleULBView) {
         this.singleULBView = false;
         this.fetchData();
       }
-    }
+    }*/
   }
 
   private filterDisplayDataTableYearWise() {
@@ -138,13 +137,15 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   private fetchTableDataSuccess = (response: any) => {
-    this.loading = false;
-    if (this.singleULBView) {
-      this.modalItemClicked(this.selectedUlb);
-    } else {
-      this.commonTableData = response['data'];
-      this.commonTableDataDisplay = response['data'];
-      this.filterDisplayDataTableYearWise();
+    if (response['success']) {
+      if (this.singleULBView) {
+        this.modalItemClicked(this.selectedUlb);
+      } else {
+        this.commonTableData = response['data'];
+        this.commonTableDataDisplay = response['data'];
+        this.filterDisplayDataTableYearWise();
+      }
+      this.loading = false;
     }
   };
 
@@ -507,22 +508,24 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   fetchSingleUlbDataSuccess = (response) => {
-
     this.loading = false;
     let newYears = [];
     let data = response['data'];
-    for (let year of data) {
-      if (year.data[0]['ulbs'] && year.data[0]['ulbs'].length) {
-        let newYear = {year: year.year, data: year.data[0]['ulbs']};
-        newYears.push(newYear);
+    if (data) {
+      for (let year of data) {
+        if (year.data[0]['ulbs'] && year.data[0]['ulbs'].length) {
+          let newYear = {year: year.year, data: year.data[0]['ulbs']};
+          newYears.push(newYear);
+        }
+      }
+      this.commonTableDataDisplay = newYears;
+      this.commonTableHeaders = this.modalTableHeaders;
+      this.commonTableHeaders[0].click = false;
+      if (this.modalRef) {
+        this.modalRef.hide();
       }
     }
-    this.commonTableDataDisplay = newYears;
-    this.commonTableHeaders = this.modalTableHeaders;
-    this.commonTableHeaders[0].click = false;
-    if (this.modalRef) {
-      this.modalRef.hide();
-    }
+
   };
 
   modalItemClicked(rowClickedId) {
@@ -560,6 +563,8 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   filterDataStateWise(event: string) {
+    if (event) {
+    }
     this.selectedState = event;
     this.singleULBView = false;
     this.selectedUlb = '';
