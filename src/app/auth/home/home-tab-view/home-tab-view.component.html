@@ -236,7 +236,6 @@
 </mat-tab-group>
 
 <ng-template #table>
-  {{loading | json}}
   <div *ngIf="loading==false; else loadingSkeleton" [style.height.px]="400" style="width: 100%" [formGroup]="yearForm">
     <div class="row d-flex mt-2">
       <angular2-multiselect classes="mt-1"
