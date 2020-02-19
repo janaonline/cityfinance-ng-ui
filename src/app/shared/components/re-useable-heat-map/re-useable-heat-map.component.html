@@ -13,7 +13,7 @@
     <span *ngIf="currentULBClicked">: </span>
     <span
       *ngIf="currentULBClicked"
-      style="display: inline-block; max-width: 55%; "
+      style="display: inline-block; max-width: 60%; "
     >
       {{ currentULBClicked.name }}
     </span>
@@ -61,7 +61,7 @@
             </mat-option>
             <mat-option
               *ngFor="let ulb of filteredULBStateAndULBDataMerged[stateId].ulbs"
-              (onSelectionChange)="onSelectingULBFromDropdown(ulb._id)"
+              (click)="onSelectingULBFromDropdown(ulb._id)"
               [value]="ulb.name"
               [title]="ulb.name"
             >
