@@ -86,7 +86,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: { ulbSelected: SimpleChange }) {
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
-      if (changes.ulbSelected.currentValue !== this.ulbsSelected.value[0]) {
+      if (changes.ulbSelected.currentValue !== this.currentULBClicked._id) {
         this.onSelectingULBFromDropdown(changes.ulbSelected.currentValue);
       }
     }
@@ -97,6 +97,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (!stateOfULB) {
       return false;
     }
+
     if (!this.DistrictsJSONForMapCreation) {
       this.showDistrictMapNotLaodedWarning();
       return;
@@ -105,7 +106,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       this.convertDomToMiniMap("mapid");
       this.hideMapLegends();
       this.showStateLayerOnlyFor(this.nationalLevelMap, stateOfULB);
-
+      this.unselectAllDistrictMarker();
+      // this.reset
       this.createStateLevelMap(stateOfULB.name, { emitStateId: false });
       setTimeout(() => {
         this.selectULBById(ulbId);
@@ -131,6 +133,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (!ulbFound) {
       return false;
     }
+
     const ulbsAlreadySelect = <string[]>this.ulbsSelected.value;
     ulbsAlreadySelect.push(ulbFound._id);
     this.ulbsSelected.setValue(ulbsAlreadySelect);
@@ -492,10 +495,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
     if (this.isMapOnMiniMapMode) {
       this.resetMapToNationalLevel();
-      this.convertMiniMapToOriginal("mapid");
       this.initializeNationalLevelMapLayer(this.nationalLevelMap);
-      this.clearDistrictMapContainer();
-      this.showMapLegends();
       return false;
     }
 
@@ -625,6 +625,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       lat: centerLatLngOfState[0],
       lng: centerLatLngOfState[1]
     };
+
+    if (this.districtMap) {
+      this.unselectAllDistrictMarker();
+    }
+
     this.createDistrictMap(newObj, {
       center: stateCenter,
       dataPoints: [...dataPointsForMarker]
@@ -670,6 +675,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       }[];
     }
   ) {
+    if (this.districtMap) {
+      return;
+    }
     this.clearDistrictMapContainer();
 
     setTimeout(() => {
@@ -710,7 +718,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
           this
         );
       });
-    }, 0);
+    }, 0.5);
   }
 
   private resetULBsSelected() {
@@ -751,18 +759,13 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       id => id === ulbFound._id
     );
     let newValues: string[];
-
-    // this.getDistrictMarkerOfULB(ulb)
-
     if (ulbAlreadySelect) {
       newValues = this.ulbsSelected.value.filter(id => id !== ulbFound._id);
       this.changeMarkerToUnselected(marker);
     } else {
       newValues = [ulbFound._id];
       this.unselectAllDistrictMarker();
-      // newValues = <string[]>this.ulbsSelected.value;
       this.changeMarkerToSelected(marker);
-      // newValues.push(ulbFound._id);
     }
     this.ulbsSelected.setValue(newValues);
   };
@@ -832,6 +835,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     this.resetDropdownListToNationalLevel();
     this.resetCurrentSelectState();
     this.resetCurrentULBClicked();
+    this.convertMiniMapToOriginal("mapid");
+    this.resetDistrictMap();
+    this.clearDistrictMapContainer();
+    this.showMapLegends();
   }
 
   private resetulbFilterControl() {
@@ -859,6 +866,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
   private resetCurrentULBClicked() {
     this.currentULBClicked = null;
+  }
+
+  private resetDistrictMap() {
+    this.districtMap = null;
   }
 
   private clearDistrictMapContainer() {
