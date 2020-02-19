@@ -5,6 +5,7 @@ import {DashboardService} from '../../../shared/services/dashboard/dashboard.ser
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {tableHeaders} from '../../home-header/tableHeaders';
 import 'chartjs-plugin-labels';
+import 'chartjs-plugin-title-click';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -404,14 +405,9 @@ export class HomeTabViewComponent implements OnInit {
         ]
       },
       options: {
-        onClick: function (e, v) {
-          // console.log('clicked', e, v);
-        },
         title: {
-          onClick: function (e, titleBlock) {
-          },
-          display: true,
-          text: chartTitle
+          display: false,
+          text: chartTitle,
         },
         tooltips: {
           callbacks: {
@@ -491,7 +487,7 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   openModal(UlbModal: TemplateRef<any>, range, year) {
-
+    console.log(range, year);
     const totalRow = this.getTotalRow(range['ulbs']);
     totalRow['name'] = 'Total';
     this.modalTableData = {
