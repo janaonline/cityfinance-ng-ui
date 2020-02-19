@@ -19,6 +19,10 @@ export class DashboardService {
     return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/own-revenue-dependency?years=${year}&state=${state}`);
   }
 
+  fetchDependencyOwnRevenueDataForUlb(year: string, state = '', ulb = '') {
+    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/own-revenue-dependency?years=${year}&state=${state}&ulb=${ulb}`);
+  }
+
   fetchSourceOfRevenue(year: string, state: string = '') {
     return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/source-revenue?years=${year}&state=${state}`);
   }

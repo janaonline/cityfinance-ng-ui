@@ -155,7 +155,10 @@ export class HomeTabViewComponent implements OnInit {
     this.loading = true;
     this.commonTableDataDisplay = [];
     this.commonTableData = [];
-    this.commonTableHeaders = tableHeaders[this.tabIndex];
+    this.commonTableHeaders = tableHeaders[this.tabIndex].map(row => {
+      delete row['status'];
+      return row;
+    });
     switch (this.tabIndex) {
       case 0:
         this.dashboardService
@@ -518,13 +521,17 @@ export class HomeTabViewComponent implements OnInit {
         }
       }
     }
+    this.dashboardService
+      .fetchDependencyOwnRevenueDataForUlb(JSON.stringify(this.selectedYears), this.selectedState, this.selectedUlb._id)
+      .subscribe(console.log);
+
+
     this.commonTableDataDisplay = newYears;
     this.commonTableHeaders = this.modalTableHeaders;
     this.commonTableHeaders[0].click = false;
     if (this.modalRef) {
       this.modalRef.hide();
     }
-
   }
 
   filterDataStateWise(event: string) {
@@ -540,7 +547,7 @@ export class HomeTabViewComponent implements OnInit {
       aVal = a[id].value;
       bVal = b[id].value;
     }
-    if (typeof a[id] !== 'number' && a[id].includes('%')) {
+    if (typeof aVal !== 'number' && aVal.includes('%')) {
       aVal = aVal.replace('%', '');
       bVal = bVal.replace('%', '');
     }
