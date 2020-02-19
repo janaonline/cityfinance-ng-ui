@@ -358,14 +358,12 @@
         <tr>
           <th style="position: sticky; top: 0;background: white"
               class="text-center px-1 border-bottom-0"
-              *ngFor="let header of modalTableHeaders"
-          >
+              *ngFor="let header of modalTableHeaders">
             <div class="d-flex justify-content-center">
               <div class="d-flex flex-column p-0">
                 {{ header.title }}
                 <span class="font-weight-light" *ngIf="header.description">
-                      {{ header.description }}</span
-                >
+                      {{ header.description }}</span>
               </div>
               <i style="position: absolute;   right: -.5rem"
                  *ngIf="!header.hasOwnProperty('status'); else icon"
@@ -399,7 +397,6 @@
             <b>{{modalTableData.year }}</b>
           </td>
         </tr>
-        <!--      <ng-container *ngFor="let tr of modalTableData">-->
         <tr *ngFor="let row of modalTableData.data; let i = index">
           <td [ngStyle]="i==modalTableData.data.length-1?{'position':'sticky','bottom':'0','background':'white'}:{}"
               class="text-center"

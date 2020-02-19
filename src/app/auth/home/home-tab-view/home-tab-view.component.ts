@@ -46,11 +46,11 @@ export class HomeTabViewComponent implements OnInit {
   };
   loading = false;
   singleULBView = false;
-  selectedUlb: { _id?: string };
+  selectedUlb: string;
 
   tabIndexChangeHandler(event): void {
     this.singleULBView = false;
-    this.selectedUlb = {};
+    this.selectedUlb = '';
     this.tabIndex = event;
     this.fetchData();
   }
@@ -139,11 +139,12 @@ export class HomeTabViewComponent implements OnInit {
 
   private fetchTableDataSuccess = (response: any) => {
     this.loading = false;
-    this.commonTableData = response['data'];
-    this.commonTableDataDisplay = response['data'];
-    this.filterDisplayDataTableYearWise();
     if (this.singleULBView) {
-      this.modalItemClicked(this.selectedUlb._id);
+      this.modalItemClicked(this.selectedUlb);
+    } else {
+      this.commonTableData = response['data'];
+      this.commonTableDataDisplay = response['data'];
+      this.filterDisplayDataTableYearWise();
     }
   };
 
@@ -155,11 +156,14 @@ export class HomeTabViewComponent implements OnInit {
     this.loading = true;
     this.commonTableDataDisplay = [];
     this.commonTableData = [];
-    this.commonTableHeaders = tableHeaders[this.tabIndex];
+    this.commonTableHeaders = tableHeaders[this.tabIndex].map(row => {
+      delete row['status'];
+      return row;
+    });
     switch (this.tabIndex) {
       case 0:
         this.dashboardService
-          .fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState)
+          .fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState, this.selectedUlb)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 1:
@@ -502,20 +506,15 @@ export class HomeTabViewComponent implements OnInit {
     this.modalRef = this.modalService.show(UlbModal, {class: 'modal-uq'});
   }
 
-  modalItemClicked(rowClickedId) {
-    this.singleULBView = true;
+  fetchSingleUlbDataSuccess = (response) => {
+
+    this.loading = false;
     let newYears = [];
-    for (let year of this.commonTableData) {
-      for (let row of year.data) {
-        if (row.ulbs) {
-          for (let ulb of row.ulbs) {
-            if (ulb._id == rowClickedId) {
-              this.selectedUlb = ulb;
-              let newYear = {year: year.year, data: [ulb]};
-              newYears.push(newYear);
-            }
-          }
-        }
+    let data = response['data'];
+    for (let year of data) {
+      if (year.data[0]['ulbs'] && year.data[0]['ulbs'].length) {
+        let newYear = {year: year.year, data: year.data[0]['ulbs']};
+        newYears.push(newYear);
       }
     }
     this.commonTableDataDisplay = newYears;
@@ -524,11 +523,46 @@ export class HomeTabViewComponent implements OnInit {
     if (this.modalRef) {
       this.modalRef.hide();
     }
+  };
 
+  modalItemClicked(rowClickedId) {
+    this.selectedUlb = rowClickedId;
+    this.loading = true;
+    this.dashboardService.fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+      .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
+    this.singleULBView = true;
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
+    let newYears = [];
+    /*   for (let year of this.commonTableData) {
+         for (let row of year.data) {
+           if (row.ulbs) {
+             for (let ulb of row.ulbs) {
+               if (ulb._id == rowClickedId) {
+                 this.selectedUlb = ulb;
+                 let newYear = {year: year.year, data: [ulb]};
+                 newYears.push(newYear);
+               }
+             }
+           }
+         }
+       }*/
+    // this.dashboardService
+    //   .fetchDependencyOwnRevenueDataForUlb(JSON.stringify(this.selectedYears), this.selectedState, this.selectedUlb._id)
+    //   .subscribe(console.log);
+    // this.commonTableDataDisplay = newYears;
+    // this.commonTableHeaders = this.modalTableHeaders;
+    // this.commonTableHeaders[0].click = false;
+    // if (this.modalRef) {
+    //   this.modalRef.hide();
+    // }
   }
 
   filterDataStateWise(event: string) {
     this.selectedState = event;
+    this.singleULBView = false;
+    this.selectedUlb = '';
     this.fetchData();
   }
 
@@ -540,7 +574,7 @@ export class HomeTabViewComponent implements OnInit {
       aVal = a[id].value;
       bVal = b[id].value;
     }
-    if (typeof a[id] !== 'number' && a[id].includes('%')) {
+    if (typeof aVal !== 'number' && aVal.includes('%')) {
       aVal = aVal.replace('%', '');
       bVal = bVal.replace('%', '');
     }
