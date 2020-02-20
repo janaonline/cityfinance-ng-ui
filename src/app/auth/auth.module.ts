@@ -17,6 +17,7 @@ import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
 import {SharedModule} from '../shared/shared.module';
 import {UlbCoverageComponent} from './home/home-tab-view/ulb-coverage/ulb-coverage.component';
 import {MatTooltipModule} from '@angular/material';
+import {ReportModule} from '../dashboard/report/report.module';
 
 // import { GridComponent } from './home/grid/grid.component';
 @NgModule({
@@ -31,6 +32,7 @@ import {MatTooltipModule} from '@angular/material';
         CommonModule,
         AngularMultiSelectModule,
         MatTooltipModule,
+        ReportModule,
     ],
   providers: [AuthService],
   declarations: [

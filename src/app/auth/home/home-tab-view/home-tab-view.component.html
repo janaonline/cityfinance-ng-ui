@@ -244,7 +244,7 @@
             <tr *ngFor="let row of tr.data; let i = index">
               <td [ngClass]="col?.id!='populationCategory'?'text-center':''"
                   *ngFor="let col of commonTableHeaders;let j=index">
-                <span [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id]"
+                <span [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:true}"
                       matTooltipPosition="above"
                       [ngClass]="i==tr?.data.length-1?'text-bold':''"
                       *ngIf="!col?.click  else clickableCol">{{ row[col?.id] | roundoff: {config: col}  | rupeeConverter }}</span>
@@ -260,7 +260,7 @@
               <td
                 class="text-center"
                 [colSpan]="commonTableHeaders.length">
-                <span>No data available</span>
+                <span>Data not available</span>
               </td>
             </tr>
           </ng-container>
