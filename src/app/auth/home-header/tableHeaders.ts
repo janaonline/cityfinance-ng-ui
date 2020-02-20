@@ -43,8 +43,9 @@ export const tableHeaders = [
     {title: 'Others', id: 'other'}
   ],
   [
-    {title: 'Population Category', id: 'populationCategory'},
-    {title: 'Number of ULBs', id: 'numOfUlb'},
+    {title: 'Population Category', click: true, id: 'populationCategory'},
+    {title: 'Total number of ULBs', id: 'totalUlb'},
+    {title: 'Number of ULBs with Data', id: 'numOfUlb'},
     {title: 'Cash & Bank Balance (Rs in crore)', id: 'cashAndBankBalance'}
   ],
   [

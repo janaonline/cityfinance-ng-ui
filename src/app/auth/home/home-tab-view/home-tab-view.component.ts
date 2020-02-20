@@ -112,18 +112,18 @@ export class HomeTabViewComponent implements OnInit {
       case 4:
       case 5:
         for (let year of this.commonTableData) {
-          let newDataRow = {};
-          let allKeys = Object.keys(year.data[0]);
-          for (let prop of allKeys) {
-            if (typeof year.data[0][prop] == 'number') {
-              let count = year.data.reduce((a, c) => a + c[prop], 0);
-              newDataRow[prop] = count;
-            } else {
-              if (prop == 'populationCategory') {
-                newDataRow[prop] = 'Total';
+          let newDataRow = this.getTotalRow(year.data);
+          /*  let allKeys = Object.keys(year.data[0]);
+            for (let prop of allKeys) {
+              if (typeof year.data[0][prop] == 'number') {
+                let count = year.data.reduce((a, c) => a + c[prop], 0);
+                newDataRow[prop] = count;
+              } else {
+                if (prop == 'populationCategory') {
+                  newDataRow[prop] = 'Total';
+                }
               }
-            }
-          }
+            }*/
           year.data.push(newDataRow);
         }
         break;

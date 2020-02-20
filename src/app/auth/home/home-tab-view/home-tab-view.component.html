@@ -157,7 +157,7 @@
             <div class="row d-flex justify-content-center">
               <div class="pie-chart-container px-1"
                    *ngFor="let row of data.data; let i = index">
-<!--                <a (click)="openModal(UlbModal,row,data.year)" class="p-1">{{row["populationCategory"]}}</a>-->
+                <!--                <a (click)="openModal(UlbModal,row,data.year)" class="p-1">{{row["populationCategory"]}}</a>-->
                 <span class="p-1">{{row["populationCategory"]}}</span>
                 <canvas class="p-1" [ngClass]="'myChart-'+data.year" width="400px" height="400px"
                         [id]="'canvas--' + data.year + '--' + i"></canvas>
@@ -255,8 +255,7 @@
       </div> -->
     </div>
     <div class="row mt-2">
-      <div class="col-sm-12 table-responsive"
-           style="max-height: 55vh; width: 99%; margin-right: 15px; border: 1px solid #d4d4d4">
+      <div class="col-sm-12 table-responsive table-container-main">
         <table [style.minWidth]="(commonTableHeaders.length * 110)+'px'"
                *ngIf="commonTableDataDisplay?.length; else noData"
                class="table mr-1" style="margin-bottom: 1px">
