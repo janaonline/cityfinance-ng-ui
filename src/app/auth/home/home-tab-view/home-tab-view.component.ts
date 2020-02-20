@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Chart} from 'chart.js';
 import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
-import {modalTableHeaders, tableHeaders} from '../../home-header/tableHeaders';
+import {ModalTableHeader, modalTableHeaders, tableHeaders} from '../../home-header/tableHeaders';
 import 'chartjs-plugin-labels';
 import 'chartjs-plugin-title-click';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
@@ -35,7 +35,7 @@ export class HomeTabViewComponent implements OnInit {
   yearForm: FormGroup;
   selectedYears: any = [];
   modalRef: BsModalRef;
-  modalTableHeaders = modalTableHeaders[0];
+  modalTableHeaders: ModalTableHeader[] = modalTableHeaders[0];
   modalTableData: {
     populationCategory: string,
     year: string,
@@ -56,7 +56,7 @@ export class HomeTabViewComponent implements OnInit {
       if (Chart.instances) {
         Chart.instances = {};
       }
-      setTimeout(() => this.fetchTableDataSuccess(JSON.parse(JSON.stringify(this.tabData[this.tabIndex]))), 600);
+      setTimeout(() => this.fetchTableDataSuccess(JSON.parse(JSON.stringify(this.tabData[this.tabIndex]))), 1000);
     }
   }
 
@@ -119,23 +119,26 @@ export class HomeTabViewComponent implements OnInit {
       case 3:
       case 1:
         this.renderCharts();
+
         break;
       case 4:
       case 5:
-        for (let year of this.commonTableData) {
-          let newDataRow = this.getTotalRow(year.data);
-          /*  let allKeys = Object.keys(year.data[0]);
-            for (let prop of allKeys) {
-              if (typeof year.data[0][prop] == 'number') {
-                let count = year.data.reduce((a, c) => a + c[prop], 0);
-                newDataRow[prop] = count;
-              } else {
-                if (prop == 'populationCategory') {
-                  newDataRow[prop] = 'Total';
+        if (!this.tabData[this.tabIndex]) {
+          for (let year of this.commonTableData) {
+            let newDataRow = this.getTotalRow(year.data);
+            /*  let allKeys = Object.keys(year.data[0]);
+              for (let prop of allKeys) {
+                if (typeof year.data[0][prop] == 'number') {
+                  let count = year.data.reduce((a, c) => a + c[prop], 0);
+                  newDataRow[prop] = count;
+                } else {
+                  if (prop == 'populationCategory') {
+                    newDataRow[prop] = 'Total';
+                  }
                 }
-              }
-            }*/
-          year.data.push(newDataRow);
+              }*/
+            year.data.push(newDataRow);
+          }
         }
         break;
     }
@@ -150,7 +153,6 @@ export class HomeTabViewComponent implements OnInit {
       return row;
     });
     if (response['success']) {
-      this.tabData[this.tabIndex] = response;
       if (this.singleULBView) {
         this.modalItemClicked(this.selectedUlb);
       } else {
@@ -158,6 +160,7 @@ export class HomeTabViewComponent implements OnInit {
         this.commonTableDataDisplay = response['data'];
         this.filterDisplayDataTableYearWise();
       }
+      this.tabData[this.tabIndex] = response;
       this.loading = false;
     }
   };
@@ -479,17 +482,23 @@ export class HomeTabViewComponent implements OnInit {
     }
   }
 
-  getTotalRow(rows: any[]) {
+  getTotalRow(rows: any[], headers = this.commonTableHeaders) {
     let newDataRow = {};
-    let allKeys = Object.keys(rows[0]);
-    for (let prop of allKeys) {
-      if (typeof rows[0][prop] == 'number') {
-        let count = rows.reduce((a, c) => a + c[prop], 0);
-        newDataRow[prop] = this.fixToDecimalPlace(count, 2);
-      } else {
-        if (!isNaN(rows[0][prop])) {
-          let count = rows.reduce((a, c) => a + Number(c[prop]), 0);
-          newDataRow[prop] = this.fixToDecimalPlace(count, 2);
+    for (let obj of headers) {
+      let prop = obj.id;
+      let col = headers.find((col: ModalTableHeader) => col.id === prop);
+      if (col) {
+        if (col.total) {
+          if (typeof rows[0][prop] == 'number') {
+            let count = rows.reduce((a, c) => a + c[prop], 0);
+            newDataRow[prop] = this.fixToDecimalPlace(count, 2);
+          } else {
+            if (!isNaN(rows[0][prop])) {
+              let count = rows.reduce((a, c) => a + Number(c[prop]), 0);
+              newDataRow[prop] = this.fixToDecimalPlace(count, 2);
+            }
+
+          }
         }
         if (prop == 'populationCategory') {
           newDataRow[prop] = 'Total';
@@ -500,18 +509,18 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   openModal(UlbModal: TemplateRef<any>, range, year) {
-    const totalRow = this.getTotalRow(range['ulbs']);
+    this.modalTableHeaders = modalTableHeaders[this.tabIndex];
+    const totalRow = this.getTotalRow(range['ulbs'], this.modalTableHeaders);
     totalRow['name'] = 'Total';
     this.modalTableData = {
       data: range['ulbs'].concat([totalRow]),
       year,
       populationCategory: range['populationCategory']
     };
-    this.modalTableHeaders = modalTableHeaders[this.tabIndex];
     if (this.tabIndex == 0) {
       this.modalTableHeaders[0].click = true;
     }
-    this.modalTableHeaders = this.modalTableHeaders.map((modal) => {
+    this.modalTableHeaders = this.modalTableHeaders.map((modal: any) => {
       delete modal['status'];
       return modal;
     });
@@ -542,35 +551,13 @@ export class HomeTabViewComponent implements OnInit {
   modalItemClicked(rowClickedId) {
     this.selectedUlb = rowClickedId;
     this.loading = true;
+    this.tabData = [];
     this.dashboardService.fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
       .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
     this.singleULBView = true;
     if (this.modalRef) {
       this.modalRef.hide();
     }
-    let newYears = [];
-    /*   for (let year of this.commonTableData) {
-         for (let row of year.data) {
-           if (row.ulbs) {
-             for (let ulb of row.ulbs) {
-               if (ulb._id == rowClickedId) {
-                 this.selectedUlb = ulb;
-                 let newYear = {year: year.year, data: [ulb]};
-                 newYears.push(newYear);
-               }
-             }
-           }
-         }
-       }*/
-    // this.dashboardService
-    //   .fetchDependencyOwnRevenueDataForUlb(JSON.stringify(this.selectedYears), this.selectedState, this.selectedUlb._id)
-    //   .subscribe(console.log);
-    // this.commonTableDataDisplay = newYears;
-    // this.commonTableHeaders = this.modalTableHeaders;
-    // this.commonTableHeaders[0].click = false;
-    // if (this.modalRef) {
-    //   this.modalRef.hide();
-    // }
   }
 
   filterDataStateWise(event: string) {
