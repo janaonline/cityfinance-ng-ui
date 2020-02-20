@@ -530,9 +530,13 @@ export class HomeTabViewComponent implements OnInit {
         if (year.data[0]['ulbs'] && year.data[0]['ulbs'].length) {
           let newYear = {year: year.year, data: year.data[0]['ulbs']};
           newYears.push(newYear);
+        } else {
+          let newYear = {year: year.year, data: []};
+          newYears.push(newYear);
         }
       }
       this.commonTableDataDisplay = newYears;
+      console.log(this.commonTableDataDisplay);
       this.commonTableHeaders = modalTableHeaders[this.tabIndex];
       this.commonTableHeaders[0].click = false;
       if (this.modalRef) {
