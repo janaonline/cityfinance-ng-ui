@@ -91,6 +91,32 @@ export const modalTableHeaders = [
     {title: 'Own Revenue ', id: 'ownRevenueCoverPercentage', description: '(A/B)'},
     {title: 'Revenue Grants Contribution And Subsidies', id: 'revenueGrantsContributionAndSubsidiesCoverPercentage'},
     {title: 'Sale And Hire Charges ', id: 'saleAndHireChargesCoverPercentage'}
+  ],
+  [
+    {title: 'ULB name', id: 'name'},
+    {title: 'Population', id: 'population'},
+    {title: 'Assigned Revenue And Compensation', id: 'assignedRevenueAndCompensationCoverPercentage'},
+    {title: 'Deficit Finance By Capital Grants', id: 'deficitFinanceByCapitalGrantsCoverPercentage'},
+    {title: 'Interest Income', id: 'interestIncomeCoverPercentage'},
+    {title: 'Other Income ', id: 'otherIncomeCoverPercentage'},
+    {title: 'Own Revenue ', id: 'ownRevenueCoverPercentage', description: '(A/B)'},
+    {title: 'Revenue Grants Contribution And Subsidies', id: 'revenueGrantsContributionAndSubsidiesCoverPercentage'},
+    {title: 'Sale And Hire Charges ', id: 'saleAndHireChargesCoverPercentage'}
+  ],
+  [
+    {title: 'ULB name', id: 'name'},
+    {title: 'Population', id: 'population'},
+    {title: 'Cash & Bank Balance (Rs in crore)', id: 'cashAndBankBalance'}
+  ],
+  [
+    {title: 'ULB name', id: 'name'},
+    {title: 'Population', id: 'population'},
+    {title: 'Loans from Central Government', id: 'LoanFromCentralGovernment'},
+    {title: 'Loans from State Government', id: 'loanFromStateGovernment'},
+    {title: 'Loans from Financial Institutions', id: 'loanFromFIIB'},
+    {title: 'Bonds and Other Debt Instruments', id: 'bondsAndOtherDebtInstruments'},
+    {title: 'Others', id: 'others'},
+    {title: 'Total Debt', id: 'total'}
   ]
 ];
 

@@ -6,6 +6,7 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {modalTableHeaders, tableHeaders} from '../../home-header/tableHeaders';
 import 'chartjs-plugin-labels';
 import 'chartjs-plugin-title-click';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -26,6 +27,7 @@ export class HomeTabViewComponent implements OnInit {
   };
 
   commonTableHeaders: any[] = tableHeaders[0];
+  tabData: any[] = [];
 
   selectedState: string = '';
   commonTableData = [];
@@ -44,10 +46,18 @@ export class HomeTabViewComponent implements OnInit {
   selectedUlb: string;
 
   tabIndexChangeHandler(event): void {
+    this.tabIndex = event;
     this.singleULBView = false;
     this.selectedUlb = '';
-    this.tabIndex = event;
-    this.fetchData();
+    if (!this.tabData[event]) {
+      this.fetchData();
+    } else {
+      this.loading = true;
+      if (Chart.instances) {
+        Chart.instances = {};
+      }
+      setTimeout(() => this.fetchTableDataSuccess(JSON.parse(JSON.stringify(this.tabData[this.tabIndex]))), 600);
+    }
   }
 
   constructor(protected formBuilder: FormBuilder,
@@ -88,6 +98,7 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   onDropdownClose(event: any) {
+    this.tabData = [];
     this.fetchData();
   }
 
@@ -132,7 +143,14 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   private fetchTableDataSuccess = (response: any) => {
+    this.commonTableDataDisplay = [];
+    this.commonTableData = [];
+    this.commonTableHeaders = tableHeaders[this.tabIndex].map(row => {
+      delete row['status'];
+      return row;
+    });
     if (response['success']) {
+      this.tabData[this.tabIndex] = response;
       if (this.singleULBView) {
         this.modalItemClicked(this.selectedUlb);
       } else {
@@ -220,131 +238,134 @@ export class HomeTabViewComponent implements OnInit {
       const elementIdPrefix = 'canvas--' + yearRow.year;
       let yearWiseCharts = [];
       let legendGenerated = false;
-      if (this.tabIndex == 4) {
-        const label = yearRow.data.map(row => row['populationCategory']);
-        const dataNoOfUlb = yearRow.data.map(row => row['numOfUlb']);
-        const dataBankBalance = yearRow.data.map(
-          row => row['cashAndBankBalance']
-        );
-        const elementId1 = `${elementIdPrefix}--${0}`;
-        const elementBankBalance = `${elementIdPrefix}--${1}`;
-        setTimeout(() => {
-          this.renderPieChart({
-            type: 'pie',
-            data: dataNoOfUlb,
-            labels: label,
-            elementId: elementId1,
-            chartTitle: 'No of ulb'
-          });
-          this.renderPieChart({
-            type: 'pie',
-            data: dataBankBalance,
-            labels: label,
-            elementId: elementBankBalance,
-            chartTitle: 'Bank balance'
-          });
-        }, 1);
-      } else {
-        for (let index = 0; index < yearRow.data.length; index++) {
-          let row = yearRow.data[index];
-          const elementId = `${elementIdPrefix}--${index}`;
-          let labels: any[] = Object.keys(row).filter(key => (typeof row[key] == 'number') || !isNaN(Number(row[key])));
-          labels = labels
-            .filter(label => !['numOfUlb', 'totalUlb', 'taxRevenue', 'rentalIncome', 'feesAndUserCharges'].includes(label))
-            .map(label => {
-              let titleObj: { data?: number, name?: string } = {};
-              try {
-                titleObj.name = this.commonTableHeaders.find(header => header.id == label).title;
-                titleObj.data = row[label];
-              } catch (e) {
-                return {name: 'Label not available', data: row[label]};
-              }
-              return titleObj;
-            });
-          const data = labels.map(l => l.data);
-          const chartLabels = labels.map(l => l.name);
-          const chartTitle = row[this.commonTableHeaders[0].id];
-          setTimeout(() => {
-            let c = this.renderPieChart({
-              type: 'pie',
-              data,
-              labels: chartLabels,
-              elementId,
-              chartTitle,
-              legend: false,
-              options: {
-                plugins:
-                  {
-                    labels: {
-                      position: 'border',
-                      fontColor: (data) => {
-                        if (data.dataset.backgroundColor[data.index]) {
-                          const rgb = this.hexToRgb(data.dataset.backgroundColor[data.index]);
-                          const threshold = 140;
-                          const luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
-                          return luminance > threshold ? 'black' : 'white';
-                        }
-                        return 'black';
-                      }
-                      ,
-                      render: function (args) {
-                        if (args.value > 4) {
-                          return args.value + '%';
-                        }
-                      },
-                    }
-                  }
-              }
-            });
-            yearWiseCharts.push(c);
-            if (!legendGenerated) {
-              let legendClass = `.legend-${yearRow.year}`;
-              document.querySelector(legendClass).innerHTML = c.generateLegend();
-              const legendItems = document.querySelector(legendClass).getElementsByTagName('li');
-              const legendItemContainer = document.querySelector(legendClass);
-              if (legendItemContainer) {
-                const containerUl = legendItemContainer.getElementsByTagName('ul');
-                if (containerUl.length) {
-                  containerUl[0].style.display = 'flex';
-                  containerUl[0].style.alignItems = 'flex-start';
-                  containerUl[0].style.marginTop = '1rem';
-                }
-              }
-              for (let i = 0; i < legendItems.length; i++) {
-                yearWiseCharts[0].chart.getDatasetMeta(0).data.forEach(meta => {
-                  if (meta._index == i) {
-                    legendItems[i].style.display = 'flex';
-                    legendItems[i].style.flexDirection = 'column';
-                    legendItems[i].style.justifyContent = 'center';
-                    legendItems[i].style.padding = '1rem';
-                    prependDataColorDiv(legendItems[i], meta);
-                  }
-                });
+      /* if (this.tabIndex == 4) {
+         const label = yearRow.data.map(row => row['populationCategory']);
+         const dataNoOfUlb = yearRow.data.map(row => row['numOfUlb']);
+         const dataBankBalance = yearRow.data.map(
+           row => row['cashAndBankBalance']
+         );
+         const elementId1 = `${elementIdPrefix}--${0}`;
+         const elementBankBalance = `${elementIdPrefix}--${1}`;
+         setTimeout(() => {
+           this.renderPieChart({
+             type: 'pie',
+             data: dataNoOfUlb,
+             labels: label,
+             elementId: elementId1,
+             chartTitle: 'No of ulb'
+           });
+           this.renderPieChart({
+             type: 'pie',
+             data: dataBankBalance,
+             labels: label,
+             elementId: elementBankBalance,
+             chartTitle: 'Bank balance'
+           });
+         }, 1);
+       } else {
 
-                /**
-                 * Below code adds the hide/show functionality on custom legends
-                 */
-                /*legendItems[i].addEventListener('click', (e) => {
-                  for (let yearChart of yearWiseCharts) {
-                    yearChart.chart.getDatasetMeta(0).data.forEach(meta => {
-                      if (meta._index == i) {
-                        if (meta.hidden) {
-                          legendItems[i].innerHTML = legendItems[i].textContent;
-                        } else {
-                          legendItems[i].innerHTML = legendItems[i].textContent.strike();
-                        }
-                        meta.hidden = !meta.hidden;
-                        prependDataColorDiv(legendItems[i], meta);
-                        yearChart.chart.update();
-                      }
-                    });
-                  }
-                }, false);*/
-              }
-              legendGenerated = true;
+
+       }*/
+      for (let index = 0; index < yearRow.data.length; index++) {
+        let row = yearRow.data[index];
+        const elementId = `${elementIdPrefix}--${index}`;
+        let labels: any[] = Object.keys(row).filter(key => (typeof row[key] == 'number') || !isNaN(Number(row[key])));
+        labels = labels
+          .filter(label => !['numOfUlb', 'rangeNum', 'totalUlb', 'taxRevenue', 'rentalIncome', 'feesAndUserCharges'].includes(label))
+          .map(label => {
+            let titleObj: { data?: number, name?: string } = {};
+            try {
+              titleObj.name = this.commonTableHeaders.find(header => header.id == label).title;
+              titleObj.data = row[label];
+            } catch (e) {
+              return {name: 'Label not available', data: row[label]};
             }
-          }, 1);
-        }
+            return titleObj;
+          });
+        const data = labels.map(l => l.data);
+        const chartLabels = labels.map(l => l.name);
+        const chartTitle = row[this.commonTableHeaders[0].id];
+        setTimeout(() => {
+
+          let c = this.renderPieChart({
+            type: 'pie',
+            data,
+            labels: chartLabels,
+            elementId,
+            chartTitle,
+            legend: false,
+            options: {
+              plugins:
+                {
+                  labels: {
+                    position: 'border',
+                    fontColor: (data) => {
+                      if (data.dataset.backgroundColor[data.index]) {
+                        const rgb = this.hexToRgb(data.dataset.backgroundColor[data.index]);
+                        const threshold = 140;
+                        const luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
+                        return luminance > threshold ? 'black' : 'white';
+                      }
+                      return 'black';
+                    }
+                    ,
+                    render: function (args) {
+                      if (args.value > 4) {
+                        return args.value + '%';
+                      }
+                    },
+                  }
+                }
+            }
+          });
+          yearWiseCharts.push(c);
+          if (!legendGenerated) {
+            let legendClass = `.legend-${yearRow.year}`;
+            document.querySelector(legendClass).innerHTML = c.generateLegend();
+            const legendItems = document.querySelector(legendClass).getElementsByTagName('li');
+            const legendItemContainer = document.querySelector(legendClass);
+            if (legendItemContainer) {
+              const containerUl = legendItemContainer.getElementsByTagName('ul');
+              if (containerUl.length) {
+                containerUl[0].style.display = 'flex';
+                containerUl[0].style.alignItems = 'flex-start';
+                containerUl[0].style.marginTop = '1rem';
+              }
+            }
+            for (let i = 0; i < legendItems.length; i++) {
+              yearWiseCharts[0].chart.getDatasetMeta(0).data.forEach(meta => {
+                if (meta._index == i) {
+                  legendItems[i].style.display = 'flex';
+                  legendItems[i].style.flexDirection = 'column';
+                  legendItems[i].style.justifyContent = 'center';
+                  legendItems[i].style.padding = '1rem';
+                  prependDataColorDiv(legendItems[i], meta);
+                }
+              });
+
+              /**
+               * Below code adds the hide/show functionality on custom legends
+               */
+              /*legendItems[i].addEventListener('click', (e) => {
+                for (let yearChart of yearWiseCharts) {
+                  yearChart.chart.getDatasetMeta(0).data.forEach(meta => {
+                    if (meta._index == i) {
+                      if (meta.hidden) {
+                        legendItems[i].innerHTML = legendItems[i].textContent;
+                      } else {
+                        legendItems[i].innerHTML = legendItems[i].textContent.strike();
+                      }
+                      meta.hidden = !meta.hidden;
+                      prependDataColorDiv(legendItems[i], meta);
+                      yearChart.chart.update();
+                    }
+                  });
+                }
+              }, false);*/
+            }
+            legendGenerated = true;
+          }
+        }, 10);
       }
     }
   }
@@ -367,7 +388,6 @@ export class HomeTabViewComponent implements OnInit {
                    legend = true,
                    options = {}
                  }) {
-
 
     return new Chart(elementId, {
       type,
@@ -554,11 +574,10 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   filterDataStateWise(event: string) {
-    if (event) {
-    }
     this.selectedState = event;
     this.singleULBView = false;
     this.selectedUlb = '';
+    this.tabData = [];
     this.fetchData();
   }
 
