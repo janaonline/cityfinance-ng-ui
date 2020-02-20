@@ -14,6 +14,7 @@ import {PreLoaderComponent} from './components/pre-loader/pre-loader.component';
 import {ReUseableHeatMapComponent} from './components/re-useable-heat-map/re-useable-heat-map.component';
 import {RupeeConverterPipe} from './pipes/rupee-converter.pipe';
 import { TypeofPipe } from './pipes/typeof.pipe';
+import { RoundoffPipe } from './pipes/roundoff/roundoff.pipe';
 
 @NgModule({
   imports: [
@@ -26,8 +27,8 @@ import { TypeofPipe } from './pipes/typeof.pipe';
     MatSnackBarModule,
     MatProgressSpinnerModule
   ],
-  declarations: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe, TypeofPipe],
-    exports: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe, TypeofPipe]
+  declarations: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe, TypeofPipe, RoundoffPipe],
+    exports: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe, TypeofPipe, RoundoffPipe]
 })
 export class SharedModule {
 }

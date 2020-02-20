@@ -205,8 +205,7 @@
                 <div class="d-flex flex-column p-0">
                   {{ header.title }}
                   <span class="font-weight-light" *ngIf="header.description">
-                      {{ header.description }}</span
-                  >
+                      {{ header.description }}</span>
                 </div>
                 <i style="position: absolute;   right: -1rem"
                    *ngIf="!header.hasOwnProperty('status'); else icon"
@@ -238,17 +237,17 @@
               <td
                 class="text-center"
                 [colSpan]="commonTableHeaders.length"
-                [style.background]="'#ffc500'"
-              >
+                [style.background]="'#ffc500'">
                 <b>{{ tr?.year }}</b>
               </td>
             </tr>
             <tr *ngFor="let row of tr.data; let i = index">
               <td [ngClass]="col?.id!='populationCategory'?'text-center':''"
                   *ngFor="let col of commonTableHeaders;let j=index">
-                <span [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:null"
+                <span [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id]"
+                      matTooltipPosition="above"
                       [ngClass]="i==tr?.data.length-1?'text-bold':''"
-                      *ngIf="!col?.click  else clickableCol">{{ row[col?.id] | rupeeConverter }}</span>
+                      *ngIf="!col?.click  else clickableCol">{{ row[col?.id] | roundoff: {config: col}  | rupeeConverter }}</span>
                 <ng-template #clickableCol>
                   <a *ngIf="i!=tr?.data.length-1"
                      (click)="openModal(UlbModal,row,tr.year)">{{ row[col?.id]}}</a>
@@ -338,7 +337,7 @@
               class="text-center"
               *ngFor="let col of modalTableHeaders">
           <span [ngClass]="i==modalTableData?.data?.length-1?'text-bold':''"
-                *ngIf="!col?.click;else clickableCol">{{ row[col?.id] | rupeeConverter }}</span>
+                *ngIf="!col?.click;else clickableCol">{{ row[col?.id] | roundoff: {config: col}  | rupeeConverter }}</span>
             <ng-template #clickableCol>
               <a *ngIf="i!=modalTableData?.data?.length-1"
                  (click)="modalItemClicked(row._id)">{{ row[col?.id] |rupeeConverter }}</a>

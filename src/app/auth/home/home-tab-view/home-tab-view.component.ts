@@ -28,7 +28,6 @@ export class HomeTabViewComponent implements OnInit {
 
   commonTableHeaders: any[] = tableHeaders[0];
   tabData: any[] = [];
-
   selectedState: string = '';
   commonTableData = [];
   commonTableDataDisplay = [];
@@ -49,15 +48,16 @@ export class HomeTabViewComponent implements OnInit {
     this.tabIndex = event;
     this.singleULBView = false;
     this.selectedUlb = '';
-    if (!this.tabData[event]) {
-      this.fetchData();
-    } else {
-      this.loading = true;
-      if (Chart.instances) {
-        Chart.instances = {};
-      }
-      setTimeout(() => this.fetchTableDataSuccess(JSON.parse(JSON.stringify(this.tabData[this.tabIndex]))), 1000);
+    // if (!this.tabData[event] && this.selectedState.length > 0) {
+    this.selectedState = '';
+    this.fetchData();
+    // } else {
+    this.loading = true;
+    if (Chart.instances) {
+      Chart.instances = {};
     }
+    // setTimeout(() => this.fetchTableDataSuccess(JSON.parse(JSON.stringify(this.tabData[this.tabIndex]))), 1000);
+    // }
   }
 
   constructor(protected formBuilder: FormBuilder,
@@ -105,12 +105,7 @@ export class HomeTabViewComponent implements OnInit {
   private fetchUlBsData(ulbIdsArray: string[]) {
     if (ulbIdsArray.length) {
       this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
-    } /*else {
-      if (this.singleULBView) {
-        this.singleULBView = false;
-        this.fetchData();
-      }
-    }*/
+    }
   }
 
   private filterDisplayDataTableYearWise() {
@@ -119,7 +114,6 @@ export class HomeTabViewComponent implements OnInit {
       case 3:
       case 1:
         this.renderCharts();
-
         break;
       case 4:
       case 5:
@@ -539,7 +533,7 @@ export class HomeTabViewComponent implements OnInit {
         }
       }
       this.commonTableDataDisplay = newYears;
-      this.commonTableHeaders = this.modalTableHeaders;
+      this.commonTableHeaders = modalTableHeaders[this.tabIndex];
       this.commonTableHeaders[0].click = false;
       if (this.modalRef) {
         this.modalRef.hide();
