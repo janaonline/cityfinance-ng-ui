@@ -256,6 +256,13 @@
                 </ng-template>
               </td>
             </tr>
+            <tr *ngIf="!tr.data.length">
+              <td
+                class="text-center"
+                [colSpan]="commonTableHeaders.length">
+                <span>No data available</span>
+              </td>
+            </tr>
           </ng-container>
           </tbody>
         </table>

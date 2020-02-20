@@ -55,7 +55,7 @@ export const tableHeaders: any = [
     {title: 'Population Category', click: true, id: 'populationCategory'},
     {title: 'Total number of ULBs', id: 'totalUlb', total: true},
     {title: 'Number of ULBs with Data', id: 'numOfUlb', total: true},
-    {title: 'Cash & Bank Balance (Rs in crore)', id: 'cashAndBankBalance', total: true}
+    {title: 'Cash & Bank Balance (Rs in crore)', roundOff: true, id: 'cashAndBankBalance', total: true}
   ],
   [
     {title: 'Population Category', click: true, id: 'populationCategory'},
