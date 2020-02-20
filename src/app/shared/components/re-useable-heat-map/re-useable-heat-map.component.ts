@@ -86,7 +86,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: { ulbSelected: SimpleChange }) {
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
-      if (changes.ulbSelected.currentValue !== this.currentULBClicked._id) {
+      if (
+        !this.currentULBClicked ||
+        changes.ulbSelected.currentValue !== this.currentULBClicked._id
+      ) {
         this.onSelectingULBFromDropdown(changes.ulbSelected.currentValue);
       }
     }
@@ -771,14 +774,16 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
   };
 
   private unselectAllDistrictMarker() {
-    this.districtMap.eachLayer((layer: any) => {
-      if (
-        (layer as any).options &&
-        (layer as any).options.pane === "markerPane"
-      ) {
-        this.changeMarkerToUnselected(layer);
-      }
-    });
+    if (this.districtMap) {
+      this.districtMap.eachLayer((layer: any) => {
+        if (
+          (layer as any).options &&
+          (layer as any).options.pane === "markerPane"
+        ) {
+          this.changeMarkerToUnselected(layer);
+        }
+      });
+    }
   }
 
   private changeMarkerToSelected(marker: L.Marker) {
