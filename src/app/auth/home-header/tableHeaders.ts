@@ -82,12 +82,12 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
   [
     {title: 'ULB name', id: 'name'},
     {title: 'Population', id: 'population', total: true},
-    {title: 'Own revenues', id: 'ownRevenues', total: true},
-    {title: 'Sale & hire charges', id: 'saleAndHireCharges', total: true},
-    {title: 'Assigned revenue', id: 'assignedRevenue', total: true},
-    {title: 'Grants', id: 'grants', roundOff: true, total: true},
-    {title: 'Interest Income', id: 'interestIncome', total: true},
-    {title: 'Other Income', id: 'otherIncome', total: true}
+    {title: 'Own revenues', id: 'ownRevenues',},
+    {title: 'Sale & hire charges', id: 'saleAndHireCharges'},
+    {title: 'Assigned revenue', id: 'assignedRevenue'},
+    {title: 'Grants', id: 'grants'},
+    {title: 'Interest Income', id: 'interestIncome',},
+    {title: 'Other Income', id: 'otherIncome'}
   ],
   [
     {title: 'ULB name', id: 'name'},
@@ -103,12 +103,12 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
   [
     {title: 'ULB name', id: 'name'},
     {title: 'Population', id: 'population', total: true},
-    {title: 'Establishment expense', id: 'establishmentExpense', total: true},
-    {title: 'Administrative Expense', id: 'administrativeExpense', total: true},
-    {title: 'Operational & Maint. Expense', id: 'operationalAndMaintananceExpense', total: true},
-    {title: 'Interest & Finance Expense ', id: 'interestAndFinanceExpense', total: true},
-    {title: 'Revenue Grants', id: 'revenueGrants', total: true},
-    {title: 'Others', id: 'other', total: true}
+    {title: 'Establishment expense', id: 'establishmentExpense'},
+    {title: 'Administrative Expense', id: 'administrativeExpense'},
+    {title: 'Operational & Maint. Expense', id: 'operationalAndMaintananceExpense'},
+    {title: 'Interest & Finance Expense ', id: 'interestAndFinanceExpense'},
+    {title: 'Revenue Grants', id: 'revenueGrants'},
+    {title: 'Others', id: 'other'}
   ],
   [
     {title: 'ULB name', click: true, id: 'name'},
