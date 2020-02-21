@@ -6,6 +6,7 @@ export interface ModalTableHeader {
   total?: boolean,
   roundOff?: boolean,
   showInr?: boolean,
+  suffix?: string
 }
 
 export const tableHeaders: any = [
@@ -56,7 +57,7 @@ export const tableHeaders: any = [
     {title: 'Population Category', click: true, id: 'populationCategory'},
     {title: 'Total number of ULBs', id: 'totalUlb', total: true},
     {title: 'Number of ULBs with Data', id: 'numOfUlb', total: true},
-    {title: 'Cash & Bank Balance (Rs in crore)', showInr: true, roundOff: true, id: 'cashAndBankBalance', total: true}
+    {title: 'Cash & Bank Balance', description: '(Rs in crores)', showInr: true, roundOff: true, id: 'cashAndBankBalance', total: true}
   ],
   [
     {title: 'Population Category', click: true, id: 'populationCategory'},
@@ -82,33 +83,33 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
   [
     {title: 'ULB name', id: 'name'},
     {title: 'Population', id: 'population', total: true},
-    {title: 'Own revenues', id: 'ownRevenues',},
-    {title: 'Sale & hire charges', id: 'saleAndHireCharges'},
-    {title: 'Assigned revenue', id: 'assignedRevenue'},
-    {title: 'Grants', id: 'grants'},
-    {title: 'Interest Income', id: 'interestIncome',},
-    {title: 'Other Income', id: 'otherIncome'}
+    {title: 'Own revenues', id: 'ownRevenues', suffix: '%'},
+    {title: 'Sale & hire charges', id: 'saleAndHireCharges', suffix: '%'},
+    {title: 'Assigned revenue', id: 'assignedRevenue', suffix: '%'},
+    {title: 'Grants', id: 'grants', suffix: '%'},
+    {title: 'Interest Income', id: 'interestIncome', suffix: '%'},
+    {title: 'Other Income', id: 'otherIncome', suffix: '%'}
   ],
   [
     {title: 'ULB name', id: 'name'},
     {title: 'Population', id: 'population', total: true},
-    {title: 'Assigned Revenue And Compensation', id: 'assignedRevenueAndCompensationCoverPercentage'},
-    {title: 'Deficit Finance By Capital Grants', id: 'deficitFinanceByCapitalGrantsCoverPercentage'},
-    {title: 'Interest Income', id: 'interestIncomeCoverPercentage'},
-    {title: 'Other Income ', id: 'otherIncomeCoverPercentage'},
-    {title: 'Own Revenue ', id: 'ownRevenueCoverPercentage', description: '(A/B)'},
-    {title: 'Revenue Grants Contribution And Subsidies', id: 'revenueGrantsContributionAndSubsidiesCoverPercentage'},
-    {title: 'Sale And Hire Charges ', id: 'saleAndHireChargesCoverPercentage'}
+    {title: 'Assigned Revenue And Compensation', suffix: '%', id: 'assignedRevenueAndCompensationCoverPercentage'},
+    {title: 'Deficit Finance By Capital Grants', suffix: '%', id: 'deficitFinanceByCapitalGrantsCoverPercentage'},
+    {title: 'Interest Income', suffix: '%', id: 'interestIncomeCoverPercentage'},
+    {title: 'Other Income ', suffix: '%', id: 'otherIncomeCoverPercentage'},
+    {title: 'Own Revenue ', suffix: '%', id: 'ownRevenueCoverPercentage', description: '(A/B)'},
+    {title: 'Revenue Grants Contribution And Subsidies', suffix: '%', id: 'revenueGrantsContributionAndSubsidiesCoverPercentage'},
+    {title: 'Sale And Hire Charges ', suffix: '%', id: 'saleAndHireChargesCoverPercentage'}
   ],
   [
     {title: 'ULB name', id: 'name'},
     {title: 'Population', id: 'population', total: true},
-    {title: 'Establishment expense', id: 'establishmentExpense'},
-    {title: 'Administrative Expense', id: 'administrativeExpense'},
-    {title: 'Operational & Maint. Expense', id: 'operationalAndMaintananceExpense'},
-    {title: 'Interest & Finance Expense ', id: 'interestAndFinanceExpense'},
-    {title: 'Revenue Grants', id: 'revenueGrants'},
-    {title: 'Others', id: 'other'}
+    {title: 'Establishment expense', suffix: '%', id: 'establishmentExpense'},
+    {title: 'Administrative Expense', suffix: '%', id: 'administrativeExpense'},
+    {title: 'Operational & Maint. Expense', suffix: '%', id: 'operationalAndMaintananceExpense'},
+    {title: 'Interest & Finance Expense ', suffix: '%', id: 'interestAndFinanceExpense'},
+    {title: 'Revenue Grants', suffix: '%', id: 'revenueGrants'},
+    {title: 'Others', suffix: '%', id: 'other'}
   ],
   [
     {title: 'ULB name', click: true, id: 'name'},
