@@ -11,7 +11,6 @@ import {AuthService} from './auth/auth.service';
 import {AuthGuard} from './security/auth-guard.service';
 import {DialogComponent} from './shared/components/dialog/dialog.component';
 import {AppCommonModule} from './shared/modules/app-common/app-common.module';
-import {RupeeConverterPipe} from './shared/pipes/rupee-converter.pipe';
 import {ModalModule} from 'ngx-bootstrap/modal';
 
 @NgModule({

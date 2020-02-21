@@ -244,10 +244,11 @@
             <tr *ngFor="let row of tr.data; let i = index">
               <td [ngClass]="col?.id!='populationCategory'?'text-center':''"
                   *ngFor="let col of commonTableHeaders;let j=index">
-                <span [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:true}"
-                      matTooltipPosition="above"
-                      [ngClass]="i==tr?.data.length-1?'text-bold':''"
-                      *ngIf="!col?.click  else clickableCol">{{ row[col?.id] | roundoff: {config: col}  | rupeeConverter }}</span>
+                <span
+                  [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:true}"
+                  matTooltipPosition="above"
+                  [ngClass]="i==tr?.data.length-1?'text-bold':''"
+                  *ngIf="!col?.click  else clickableCol">{{ row[col?.id] | roundoff: {config: col}  | rupeeConverter }}</span>
                 <ng-template #clickableCol>
                   <a *ngIf="i!=tr?.data.length-1"
                      (click)="openModal(UlbModal,row,tr.year)">{{ row[col?.id]}}</a>
