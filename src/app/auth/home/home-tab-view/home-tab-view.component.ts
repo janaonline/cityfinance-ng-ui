@@ -139,6 +139,38 @@ export class HomeTabViewComponent implements OnInit {
 
   }
 
+  fetchSingleUlbDataSuccess = (response) => {
+    this.loading = false;
+    let newYears = [];
+    let data = response['data'];
+    if (data) {
+      for (let year of data) {
+        try {
+          if (year.data[0]['ulbs'] && year.data[0]['ulbs'].length) {
+            let newYear = {year: year.year, data: year.data[0]['ulbs']};
+            newYears.push(newYear);
+          } else {
+            let newYear = {year: year.year, data: []};
+            newYears.push(newYear);
+          }
+        } catch (e) {
+          let newYear = {year: year.year, data: []};
+          newYears.push(newYear);
+        }
+      }
+
+      this.commonTableDataDisplay = newYears;
+      this.commonTableHeaders = modalTableHeaders[this.tabIndex];
+      this.commonTableHeaders[0].click = false;
+      if (this.modalRef) {
+        this.modalRef.hide();
+      }
+    }
+    if (this.tabIndex == 1) {
+      this.renderCharts();
+    }
+  };
+
   private fetchTableDataSuccess = (response: any) => {
     this.commonTableDataDisplay = [];
     this.commonTableData = [];
@@ -219,6 +251,10 @@ export class HomeTabViewComponent implements OnInit {
     if (Chart.instances) {
       Chart.instances = {};
     }
+    let dataArr = this.commonTableData;
+    if (this.singleULBView) {
+      dataArr = this.commonTableDataDisplay;
+    }
 
     function prependDataColorDiv(parentNode: HTMLElement, props: any) {
       const div = document.createElement('div');
@@ -231,7 +267,7 @@ export class HomeTabViewComponent implements OnInit {
       parentNode['prepend'](div);
     }
 
-    for (let yearRow of this.commonTableData) {
+    for (let yearRow of dataArr) {
       const elementIdPrefix = 'canvas--' + yearRow.year;
       let yearWiseCharts = [];
       let legendGenerated = false;
@@ -280,6 +316,7 @@ export class HomeTabViewComponent implements OnInit {
             return titleObj;
           });
         const data = labels.map(l => l.data);
+        console.log(labels, data, this.commonTableHeaders);
         const chartLabels = labels.map(l => l.name);
         const chartTitle = row[this.commonTableHeaders[0].id];
         setTimeout(() => {
@@ -306,9 +343,12 @@ export class HomeTabViewComponent implements OnInit {
                       return 'black';
                     }
                     ,
-                    render: function (args) {
+                    render: (args) => {
                       if (args.value > 4) {
-                        return args.value + '%';
+                        if (!this.singleULBView) {
+                          return args.value + '%';
+                        }
+                        return args.value;
                       }
                     },
                   }
@@ -421,7 +461,7 @@ export class HomeTabViewComponent implements OnInit {
         },
         tooltips: {
           callbacks: {
-            title: function (tooltipItem, data) {
+            title: (tooltipItem, data) => {
               const title = data.labels[tooltipItem[0].index];
               if (title.split(' ').length > 3) {
                 return [
@@ -431,9 +471,12 @@ export class HomeTabViewComponent implements OnInit {
               }
               return title;
             },
-            label: function (tooltipItem, data) {
+            label: (tooltipItem, data) => {
               const label = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-              return label + '%';
+              if (!this.singleULBView) {
+                return label + '%';
+              }
+              return label;
             }
           },
         },
@@ -521,33 +564,6 @@ export class HomeTabViewComponent implements OnInit {
     this.modalRef = this.modalService.show(UlbModal, {class: 'modal-uq'});
   }
 
-  fetchSingleUlbDataSuccess = (response) => {
-    this.loading = false;
-    let newYears = [];
-    let data = response['data'];
-    if (data) {
-      for (let year of data) {
-        try {
-          if (year.data[0]['ulbs'] && year.data[0]['ulbs'].length) {
-            let newYear = {year: year.year, data: year.data[0]['ulbs']};
-            newYears.push(newYear);
-          } else {
-            let newYear = {year: year.year, data: []};
-            newYears.push(newYear);
-          }
-        } catch (e) {
-          let newYear = {year: year.year, data: []};
-          newYears.push(newYear);
-        }
-      }
-      this.commonTableDataDisplay = newYears;
-      this.commonTableHeaders = modalTableHeaders[this.tabIndex];
-      this.commonTableHeaders[0].click = false;
-      if (this.modalRef) {
-        this.modalRef.hide();
-      }
-    }
-  };
 
   modalItemClicked(rowClickedId) {
     this.selectedUlb = rowClickedId;
@@ -560,11 +576,16 @@ export class HomeTabViewComponent implements OnInit {
           .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
       case 1:
-
+        this.dashboardService.fetchSourceOfRevenue(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+          .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
       case 2:
+        this.dashboardService.fetchFinancialRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+          .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
       case 3:
+        this.dashboardService.fetchRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+          .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
       case 4:
         this.dashboardService.fetchCashAndBankBalance(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)

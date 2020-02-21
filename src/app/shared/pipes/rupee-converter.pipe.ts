@@ -42,9 +42,9 @@ export class RupeeConverterPipe implements PipeTransform {
       finalString = finalString + '%';
     }
     if (args && args.showInr) {
-      if (typeof value === 'number' || !isNaN(value)) {
-        // return `INR ${finalString}`;
-      }
+      // if (typeof value === 'number' || !isNaN(value)) {
+      return `INR ${finalString}`;
+      //}
     }
     return finalString;
   }
