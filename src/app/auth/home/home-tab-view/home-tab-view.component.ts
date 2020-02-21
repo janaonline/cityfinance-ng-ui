@@ -118,7 +118,10 @@ export class HomeTabViewComponent implements OnInit {
       case 5:
         // if (!this.tabData[this.tabIndex]) {
         for (let year of this.commonTableData) {
-          let newDataRow = this.getTotalRow(year.data);
+          if (year.data.length) {
+            let newDataRow = this.getTotalRow(year.data);
+            year.data.push(newDataRow);
+          }
           /*  let allKeys = Object.keys(year.data[0]);
             for (let prop of allKeys) {
               if (typeof year.data[0][prop] == 'number') {
@@ -130,7 +133,6 @@ export class HomeTabViewComponent implements OnInit {
                 }
               }
             }*/
-          year.data.push(newDataRow);
         }
         //  }
         break;
