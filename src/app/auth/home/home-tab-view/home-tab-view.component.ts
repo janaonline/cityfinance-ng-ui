@@ -117,23 +117,23 @@ export class HomeTabViewComponent implements OnInit {
         break;
       case 4:
       case 5:
-        if (!this.tabData[this.tabIndex]) {
-          for (let year of this.commonTableData) {
-            let newDataRow = this.getTotalRow(year.data);
-            /*  let allKeys = Object.keys(year.data[0]);
-              for (let prop of allKeys) {
-                if (typeof year.data[0][prop] == 'number') {
-                  let count = year.data.reduce((a, c) => a + c[prop], 0);
-                  newDataRow[prop] = count;
-                } else {
-                  if (prop == 'populationCategory') {
-                    newDataRow[prop] = 'Total';
-                  }
+        // if (!this.tabData[this.tabIndex]) {
+        for (let year of this.commonTableData) {
+          let newDataRow = this.getTotalRow(year.data);
+          /*  let allKeys = Object.keys(year.data[0]);
+            for (let prop of allKeys) {
+              if (typeof year.data[0][prop] == 'number') {
+                let count = year.data.reduce((a, c) => a + c[prop], 0);
+                newDataRow[prop] = count;
+              } else {
+                if (prop == 'populationCategory') {
+                  newDataRow[prop] = 'Total';
                 }
-              }*/
-            year.data.push(newDataRow);
-          }
+              }
+            }*/
+          year.data.push(newDataRow);
         }
+        //  }
         break;
     }
 
@@ -536,7 +536,6 @@ export class HomeTabViewComponent implements OnInit {
         }
       }
       this.commonTableDataDisplay = newYears;
-      console.log(this.commonTableDataDisplay);
       this.commonTableHeaders = modalTableHeaders[this.tabIndex];
       this.commonTableHeaders[0].click = false;
       if (this.modalRef) {
@@ -550,8 +549,31 @@ export class HomeTabViewComponent implements OnInit {
     this.selectedUlb = rowClickedId;
     this.loading = true;
     this.tabData = [];
-    this.dashboardService.fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
-      .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
+
+    switch (this.tabIndex) {
+      case 0:
+        this.dashboardService.fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+          .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
+        break;
+      case 1:
+
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+      case 4:
+        this.dashboardService.fetchCashAndBankBalance(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+          .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
+        break;
+      case 5:
+        this.dashboardService.fetchOutStandingDebt(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+          .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
+        break;
+
+    }
+
+
     this.singleULBView = true;
     if (this.modalRef) {
       this.modalRef.hide();
