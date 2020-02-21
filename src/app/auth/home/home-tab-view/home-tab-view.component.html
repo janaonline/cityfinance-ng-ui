@@ -245,8 +245,9 @@
               <td [ngClass]="col?.id!='populationCategory'?'text-center':''"
                   *ngFor="let col of commonTableHeaders;let j=index">
                 <span
-                  [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:true}"
+                  [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:col?.showInr}"
                   matTooltipPosition="above"
+                  [matTooltipDisabled]="!col?.showInr"
                   [ngClass]="i==tr?.data.length-1?'text-bold':''"
                   *ngIf="!col?.click  else clickableCol">{{ row[col?.id] | roundoff: {config: col}  | rupeeConverter }}</span>
                 <ng-template #clickableCol>
@@ -344,8 +345,11 @@
           <td [ngStyle]="i==modalTableData.data.length-1?{'position':'sticky','bottom':'0','background':'white'}:{}"
               class="text-center"
               *ngFor="let col of modalTableHeaders">
-          <span [ngClass]="i==modalTableData?.data?.length-1?'text-bold':''"
-                *ngIf="!col?.click;else clickableCol">{{ row[col?.id] | roundoff: {config: col}  | rupeeConverter }}</span>
+          <span
+            [matTooltipDisabled]="!col?.showInr"
+            [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:col?.showInr}"
+            [ngClass]="i==modalTableData?.data?.length-1?'text-bold':''"
+            *ngIf="!col?.click;else clickableCol">{{ row[col?.id] | roundoff: {config: col}  | rupeeConverter }}</span>
             <ng-template #clickableCol>
               <a *ngIf="i!=modalTableData?.data?.length-1"
                  (click)="modalItemClicked(row._id)">{{ row[col?.id] |rupeeConverter }}</a>

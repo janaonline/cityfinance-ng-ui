@@ -4,7 +4,8 @@ export interface ModalTableHeader {
   id?: string,
   description?: string,
   total?: boolean,
-  roundOff?: boolean
+  roundOff?: boolean,
+  showInr?: boolean,
 }
 
 export const tableHeaders: any = [
@@ -12,8 +13,8 @@ export const tableHeaders: any = [
     {title: 'Population Category', click: true, id: 'populationCategory'},
     {title: 'Total number of ULBs', id: 'totalUlb'},
     {title: 'Number of ULBs with Data', id: 'numOfUlb'},
-    {title: 'Own Revenue (A)', id: 'ownRevenue', roundOff: true, description: '(Rs in crores)'},
-    {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', roundOff: true, description: '(Rs in crores)'},
+    {title: 'Own Revenue (A)', id: 'ownRevenue', roundOff: true, showInr: true, description: '(Rs in crores)'},
+    {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', showInr: true, roundOff: true, description: '(Rs in crores)'},
     {title: 'Own Revenue %', id: 'ownRevenuePercentage', description: '(A/B)'},
     {title: 'Min. Own Revenue %', id: 'minOwnRevenuePercentage'},
     {title: 'Max. Own Revenue %', id: 'maxOwnRevenuePercentage'}
@@ -55,18 +56,18 @@ export const tableHeaders: any = [
     {title: 'Population Category', click: true, id: 'populationCategory'},
     {title: 'Total number of ULBs', id: 'totalUlb', total: true},
     {title: 'Number of ULBs with Data', id: 'numOfUlb', total: true},
-    {title: 'Cash & Bank Balance (Rs in crore)', roundOff: true, id: 'cashAndBankBalance', total: true}
+    {title: 'Cash & Bank Balance (Rs in crore)', showInr: true, roundOff: true, id: 'cashAndBankBalance', total: true}
   ],
   [
     {title: 'Population Category', click: true, id: 'populationCategory'},
     {title: 'Total number of ULBs', id: 'totalUlb', total: true},
     {title: 'Number of ULBs with Data', id: 'numOfUlb', total: true},
-    {title: 'Loans from Central Government', roundOff: true, id: 'LoanFromCentralGovernment', total: true},
-    {title: 'Loans from State Government', roundOff: true, id: 'loanFromStateGovernment', total: true},
-    {title: 'Loans from Financial Institutions', roundOff: true, id: 'loanFromFIIB', total: true},
-    {title: 'Bonds and Other Debt Instruments', roundOff: true, id: 'bondsAndOtherDebtInstruments', total: true},
-    {title: 'Others', id: 'others', roundOff: true, total: true},
-    {title: 'Total Debt', id: 'total', roundOff: true, total: true}
+    {title: 'Loans from Central Government', showInr: true, roundOff: true, id: 'LoanFromCentralGovernment', total: true},
+    {title: 'Loans from State Government', showInr: true, roundOff: true, id: 'loanFromStateGovernment', total: true},
+    {title: 'Loans from Financial Institutions', showInr: true, roundOff: true, id: 'loanFromFIIB', total: true},
+    {title: 'Bonds and Other Debt Instruments', showInr: true, roundOff: true, id: 'bondsAndOtherDebtInstruments', total: true},
+    {title: 'Others', id: 'others', showInr: true, roundOff: true, total: true},
+    {title: 'Total Debt', id: 'total', showInr: true, roundOff: true, total: true}
   ]
 ];
 
@@ -74,19 +75,19 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
   [
     {title: 'ULB name', click: true, id: 'name'},
     {title: 'Population', id: 'population', total: true},
-    {title: 'Own Revenues (A) ', id: 'ownRevenue', total: true, roundOff: true, description: '(Rs in crores)'},
-    {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', roundOff: true, total: true, description: '(Rs in crores)'},
+    {title: 'Own Revenues (A) ', id: 'ownRevenue', total: true, showInr: true, roundOff: true, description: '(Rs in crores)'},
+    {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', showInr: true, roundOff: true, total: true, description: '(Rs in crores)'},
     {title: 'Own Revenue % (A/B)', id: 'ownRevenuePercentage'},
   ],
   [
     {title: 'ULB name', id: 'name'},
     {title: 'Population', id: 'population', total: true},
-    {title: 'Own revenues', id: 'ownRevenues', total: true},
-    {title: 'Sale & hire charges', id: 'saleAndHireCharges', total: true},
-    {title: 'Assigned revenue', id: 'assignedRevenue', total: true},
-    {title: 'Grants', id: 'grants', total: true},
-    {title: 'Interest Income', id: 'interestIncome', total: true},
-    {title: 'Other Income', id: 'otherIncome', total: true}
+    {title: 'Own revenues', id: 'ownRevenues', roundOff: true, total: true},
+    {title: 'Sale & hire charges', id: 'saleAndHireCharges', roundOff: true, total: true},
+    {title: 'Assigned revenue', id: 'assignedRevenue', roundOff: true, total: true},
+    {title: 'Grants', id: 'grants', roundOff: true, total: true},
+    {title: 'Interest Income', id: 'interestIncome', roundOff: true, total: true},
+    {title: 'Other Income', id: 'otherIncome', roundOff: true, total: true}
   ],
   [
     {title: 'ULB name', id: 'name'},
@@ -112,17 +113,17 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
   [
     {title: 'ULB name', click: true, id: 'name'},
     {title: 'Population', id: 'population', total: true},
-    {title: 'Cash & Bank Balance (Rs in crore)', total: true, roundOff: true, id: 'cashAndBankBalance'}
+    {title: 'Cash & Bank Balance (Rs in crore)', showInr: true, total: true, roundOff: true, id: 'cashAndBankBalance'}
   ],
   [
     {title: 'ULB name', click: true, id: 'name'},
     {title: 'Population', id: 'population', total: true},
-    {title: 'Loans from Central Government', roundOff: true, id: 'LoanFromCentralGovernment', total: true},
-    {title: 'Loans from State Government', roundOff: true, id: 'loanFromStateGovernment', total: true},
-    {title: 'Loans from Financial Institutions', roundOff: true, id: 'loanFromFIIB', total: true},
-    {title: 'Bonds and Other Debt Instruments', roundOff: true, id: 'bondsAndOtherDebtInstruments', total: true},
-    {title: 'Others', id: 'others', total: true, roundOff: true},
-    {title: 'Total Debt', id: 'total', total: true, roundOff: true}
+    {title: 'Loans from Central Government', showInr: true, roundOff: true, id: 'LoanFromCentralGovernment', total: true},
+    {title: 'Loans from State Government', showInr: true, roundOff: true, id: 'loanFromStateGovernment', total: true},
+    {title: 'Loans from Financial Institutions', showInr: true, roundOff: true, id: 'loanFromFIIB', total: true},
+    {title: 'Bonds and Other Debt Instruments', showInr: true, roundOff: true, id: 'bondsAndOtherDebtInstruments', total: true},
+    {title: 'Others', id: 'others', total: true, showInr: true, roundOff: true},
+    {title: 'Total Debt', id: 'total', total: true, showInr: true, roundOff: true}
   ]
 ];
 
