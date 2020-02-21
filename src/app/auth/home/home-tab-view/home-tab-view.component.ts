@@ -6,7 +6,6 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {ModalTableHeader, modalTableHeaders, tableHeaders} from '../../home-header/tableHeaders';
 import 'chartjs-plugin-labels';
 import 'chartjs-plugin-title-click';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -119,7 +118,10 @@ export class HomeTabViewComponent implements OnInit {
       case 5:
         // if (!this.tabData[this.tabIndex]) {
         for (let year of this.commonTableData) {
-          let newDataRow = this.getTotalRow(year.data);
+          if (year.data.length) {
+            let newDataRow = this.getTotalRow(year.data);
+            year.data.push(newDataRow);
+          }
           /*  let allKeys = Object.keys(year.data[0]);
             for (let prop of allKeys) {
               if (typeof year.data[0][prop] == 'number') {
@@ -131,7 +133,6 @@ export class HomeTabViewComponent implements OnInit {
                 }
               }
             }*/
-          year.data.push(newDataRow);
         }
         //  }
         break;
@@ -559,14 +560,16 @@ export class HomeTabViewComponent implements OnInit {
     this.modalTableHeaders = modalTableHeaders[this.tabIndex];
     const totalRow = this.getTotalRow(range['ulbs'], this.modalTableHeaders);
     totalRow['name'] = 'Total';
+    const ORPcolumn = this.modalTableHeaders.find(col => col.id === 'ownRevenuePercentage');
+    if (ORPcolumn) {
+      totalRow['ownRevenuePercentage'] = Number((Number(totalRow['ownRevenue']) / Number(totalRow['revenueExpenditure'])) * 100).toFixed(2) + '%';
+    }
     this.modalTableData = {
       data: range['ulbs'].concat([totalRow]),
       year,
       populationCategory: range['populationCategory']
     };
-    // if (this.tabIndex == 0) {
     this.modalTableHeaders[0].click = true;
-    // }
     this.modalTableHeaders = this.modalTableHeaders.map((modal: any) => {
       delete modal['status'];
       return modal;
