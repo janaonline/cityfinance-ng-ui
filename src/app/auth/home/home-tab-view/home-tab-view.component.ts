@@ -302,21 +302,40 @@ export class HomeTabViewComponent implements OnInit {
       for (let index = 0; index < yearRow.data.length; index++) {
         let row = yearRow.data[index];
         const elementId = `${elementIdPrefix}--${index}`;
-        let labels: any[] = Object.keys(row).filter(key => (typeof row[key] == 'number') || !isNaN(Number(row[key])));
+        // let labels: any[] = Object.keys(row).filter(key => (typeof row[key] == 'number') || !isNaN(Number(row[key])));
+        let labels: any[] = Object.keys(row).filter(key => {
+          if ((typeof row[key] == 'number') || !isNaN(Number(row[key]))) {
+            return true;
+          }
+          // if (typeof row[key] === 'string') {
+          //   if (!isNaN(row[key]).includes('%')) {
+          //     return true;
+          //   }
+          // }
+          return false;
+        });
         labels = labels
-          .filter(label => !['numOfUlb', 'rangeNum', 'totalUlb', 'taxRevenue', 'rentalIncome', 'feesAndUserCharges'].includes(label))
+          .filter(label => !['numOfUlb', 'population', 'rangeNum', 'totalUlb', 'taxRevenue', 'rentalIncome', 'feesAndUserCharges'].includes(label))
           .map(label => {
             let titleObj: { data?: number, name?: string } = {};
             try {
               titleObj.name = this.commonTableHeaders.find(header => header.id == label).title;
-              titleObj.data = row[label];
+              if (typeof row[label] === 'string') {
+                try {
+                  titleObj.data = Number(row[label].replace('%', '')) || 0;
+                } catch (e) {
+                }
+              } else {
+                titleObj.data = row[label];
+              }
             } catch (e) {
-              return {name: 'Label not available', data: row[label]};
+              return {name: 'Label not available', data: Number(row[label].replace('%', '')) || 0};
             }
             return titleObj;
           });
+
+
         const data = labels.map(l => l.data);
-        console.log(labels, data, this.commonTableHeaders);
         const chartLabels = labels.map(l => l.name);
         const chartTitle = row[this.commonTableHeaders[0].id];
         setTimeout(() => {
@@ -448,7 +467,6 @@ export class HomeTabViewComponent implements OnInit {
               'rgba(75, 192, 192, 0.2)',
               'rgba(153, 102, 255, 0.2)',
               'rgba(255, 159, 64, 0.2)'
-
             ],
             borderWidth: 1
           }
@@ -534,7 +552,6 @@ export class HomeTabViewComponent implements OnInit {
               let count = rows.reduce((a, c) => a + Number(c[prop]), 0);
               newDataRow[prop] = this.fixToDecimalPlace(count, 2);
             }
-
           }
         }
         if (prop == 'populationCategory') {
@@ -569,7 +586,6 @@ export class HomeTabViewComponent implements OnInit {
     this.selectedUlb = rowClickedId;
     this.loading = true;
     this.tabData = [];
-
     switch (this.tabIndex) {
       case 0:
         this.dashboardService.fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
@@ -595,10 +611,7 @@ export class HomeTabViewComponent implements OnInit {
         this.dashboardService.fetchOutStandingDebt(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
           .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
-
     }
-
-
     this.singleULBView = true;
     if (this.modalRef) {
       this.modalRef.hide();
