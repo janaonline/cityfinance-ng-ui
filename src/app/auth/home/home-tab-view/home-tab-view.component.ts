@@ -511,9 +511,9 @@ export class HomeTabViewComponent implements OnInit {
       year,
       populationCategory: range['populationCategory']
     };
-    if (this.tabIndex == 0) {
-      this.modalTableHeaders[0].click = true;
-    }
+    // if (this.tabIndex == 0) {
+    this.modalTableHeaders[0].click = true;
+    // }
     this.modalTableHeaders = this.modalTableHeaders.map((modal: any) => {
       delete modal['status'];
       return modal;
@@ -527,10 +527,15 @@ export class HomeTabViewComponent implements OnInit {
     let data = response['data'];
     if (data) {
       for (let year of data) {
-        if (year.data[0]['ulbs'] && year.data[0]['ulbs'].length) {
-          let newYear = {year: year.year, data: year.data[0]['ulbs']};
-          newYears.push(newYear);
-        } else {
+        try {
+          if (year.data[0]['ulbs'] && year.data[0]['ulbs'].length) {
+            let newYear = {year: year.year, data: year.data[0]['ulbs']};
+            newYears.push(newYear);
+          } else {
+            let newYear = {year: year.year, data: []};
+            newYears.push(newYear);
+          }
+        } catch (e) {
           let newYear = {year: year.year, data: []};
           newYears.push(newYear);
         }
@@ -542,7 +547,6 @@ export class HomeTabViewComponent implements OnInit {
         this.modalRef.hide();
       }
     }
-
   };
 
   modalItemClicked(rowClickedId) {
