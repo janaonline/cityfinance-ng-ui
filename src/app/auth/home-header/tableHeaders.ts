@@ -110,12 +110,12 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
     {title: 'Others', id: 'other', total: true}
   ],
   [
-    {title: 'ULB name', id: 'name'},
+    {title: 'ULB name', click: true, id: 'name'},
     {title: 'Population', id: 'population', total: true},
     {title: 'Cash & Bank Balance (Rs in crore)', total: true, roundOff: true, id: 'cashAndBankBalance'}
   ],
   [
-    {title: 'ULB name', id: 'name'},
+    {title: 'ULB name', click: true, id: 'name'},
     {title: 'Population', id: 'population', total: true},
     {title: 'Loans from Central Government', roundOff: true, id: 'LoanFromCentralGovernment', total: true},
     {title: 'Loans from State Government', roundOff: true, id: 'loanFromStateGovernment', total: true},
