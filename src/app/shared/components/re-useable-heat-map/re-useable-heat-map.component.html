@@ -6,11 +6,11 @@
   >
     <span
       *ngIf="currentStateInView && currentStateInView.name"
-      style="display: inline-block; width: fit-content;"
-    >
-      {{ currentStateInView ? currentStateInView.name : "" }}</span
-    >
-    <span *ngIf="currentULBClicked">: </span>
+      style="display: inline-block;"
+      [style.min-width.px]="currentStateInView.name.length * 8.1"
+      >{{ currentStateInView ? currentStateInView.name : ""
+      }}<span *ngIf="currentULBClicked">: </span>
+    </span>
     <span
       *ngIf="currentULBClicked"
       style="display: inline-block; max-width: 60%; "
