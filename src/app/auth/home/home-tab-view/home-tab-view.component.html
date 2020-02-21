@@ -128,8 +128,9 @@
            *ngIf="tabIndex === 4">
         <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
                                  [ulbSelected]="selectedUlb"
-                                 (ulbsClicked)="fetchUlBsData($event)"
-        ></app-re-useable-heat-map>
+                                 (ulbsClicked)="fetchUlBsData($event)">
+
+        </app-re-useable-heat-map>
       </div>
       <div class="col-sm-12 col-md-7">
         <ng-container *ngTemplateOutlet="table"></ng-container>
@@ -178,7 +179,8 @@
            *ngIf="tabIndex === 5">
         <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
                                  [ulbSelected]="selectedUlb"
-                                 (ulbsClicked)="fetchUlBsData($event)"></app-re-useable-heat-map>
+                                 (ulbsClicked)="fetchUlBsData($event)">
+        </app-re-useable-heat-map>
       </div>
       <div class="col-sm-12 col-md-8">
         <ng-container *ngTemplateOutlet="table"></ng-container>
@@ -275,18 +277,6 @@
     </div>
   </div>
 </ng-template>
-
-<ng-container #heatMap>
-  <div class="col-sm-12 col-md-5"
-       style="max-width: 40%; margin-top: 1%;"
-       *ngIf="tabIndex === 4">
-    <app-re-useable-heat-map
-      (stateId)="filterDataStateWise($event)"
-      [ulbSelected]="selectedUlb"
-      (ulbsClicked)="fetchUlBsData($event)"
-    ></app-re-useable-heat-map>
-  </div>
-</ng-container>
 
 <ng-template #UlbModal>
   <button style="position: absolute;right: 0;top: -2.5rem ;border: none; background: transparent; color: #ffc500"
