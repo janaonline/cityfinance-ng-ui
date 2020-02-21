@@ -242,11 +242,11 @@
           <td [ngStyle]="i==modalTableData.data.length-1?{'position':'sticky','bottom':'0','background':'white'}:{}"
               class="text-center"
               *ngFor="let col of modalTableHeaders">
-          <span
-            [matTooltipDisabled]="!col?.showInr"
-            [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:col?.showInr}"
-            [ngClass]="i==modalTableData?.data?.length-1?'text-bold':''"
-            *ngIf="!col?.click;else clickableCol">{{ row[col?.id] | roundoff: {config: col}  | rupeeConverter }}</span>
+          <span [matTooltipDisabled]="!col?.showInr"
+                [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:col?.showInr}"
+                [ngClass]="i==modalTableData?.data?.length-1?'text-bold':''"
+                *ngIf="!col?.click;else clickableCol">
+            {{ row[col?.id] | roundoff: {config: col}  | rupeeConverter }} {{row[col?.id] ? col.suffix || '' : null}}</span>
             <ng-template #clickableCol>
               <a *ngIf="i!=modalTableData?.data?.length-1"
                  (click)="modalItemClicked(row._id,row)">{{ row[col?.id] |rupeeConverter }}</a>
@@ -294,8 +294,10 @@
     <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
     <div *ngIf="loading==false; else loadingSkeleton" class="row" style="height: 60vh; overflow-y: auto;">
       <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
-        <div class="col-sm-12 text-center">
-          <h3>{{ data?.year }}</h3>
+        <div class="col-sm-12">
+          <div class="row">
+            <div class="col text-center"><h3>{{ data?.year }}</h3></div>
+          </div>
         </div>
         <div class="row d-flex justify-content-center">
           <div class="pie-chart-container px-1"
@@ -303,11 +305,16 @@
             <a (click)="openModal(UlbModal,row,data.year)" class="p-1">{{row["populationCategory"]}}</a>
             <canvas class="p-1" [ngClass]="'myChart-'+data.year" width="400px" height="400px"
                     [id]="'canvas--' + data.year + '--' + i"></canvas>
+            <ul class="p-0" *ngIf="row['totalUlb']&&row['numOfUlb']">
+              <li>Total number of ULBs : <b>{{+row["totalUlb"]}}</b></li>
+              <li>Number of ULBs with Data: <b> {{+row["numOfUlb"] }}</b></li>
+            </ul>
           </div>
           <div class="d-flex justify-content-center">
             <h4 *ngIf="!data.data.length">Data not Available</h4>
           </div>
         </div>
+
         <ul [class]="'legend-'+data?.year" [id]="data?.year"></ul>
       </div>
     </div>
