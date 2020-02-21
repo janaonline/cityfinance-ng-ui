@@ -158,7 +158,6 @@ export class HomeTabViewComponent implements OnInit {
           newYears.push(newYear);
         }
       }
-
       this.commonTableDataDisplay = newYears;
       this.commonTableHeaders = modalTableHeaders[this.tabIndex];
       this.commonTableHeaders[0].click = false;
@@ -166,7 +165,7 @@ export class HomeTabViewComponent implements OnInit {
         this.modalRef.hide();
       }
     }
-    if (this.tabIndex == 1) {
+    if (this.tabIndex == 1 || this.tabIndex == 2 || this.tabIndex == 3) {
       this.renderCharts();
     }
   };
@@ -333,14 +332,12 @@ export class HomeTabViewComponent implements OnInit {
             }
             return titleObj;
           });
-
-
         const data = labels.map(l => l.data);
         const chartLabels = labels.map(l => l.name);
         const chartTitle = row[this.commonTableHeaders[0].id];
         setTimeout(() => {
 
-          let c = this.renderPieChart({
+          const c = this.renderPieChart({
             type: 'pie',
             data,
             labels: chartLabels,
@@ -364,10 +361,7 @@ export class HomeTabViewComponent implements OnInit {
                     ,
                     render: (args) => {
                       if (args.value > 4) {
-                        if (!this.singleULBView) {
-                          return args.value + '%';
-                        }
-                        return args.value;
+                        return args.value + '%';
                       }
                     },
                   }
@@ -491,10 +485,9 @@ export class HomeTabViewComponent implements OnInit {
             },
             label: (tooltipItem, data) => {
               const label = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-              if (!this.singleULBView) {
-                return label + '%';
-              }
-              return label;
+              // if (!this.singleULBView) {
+              return label + '%';
+              // }
             }
           },
         },
@@ -582,7 +575,7 @@ export class HomeTabViewComponent implements OnInit {
   }
 
 
-  modalItemClicked(rowClickedId) {
+  modalItemClicked(rowClickedId, row: any = {}) {
     this.selectedUlb = rowClickedId;
     this.loading = true;
     this.tabData = [];
