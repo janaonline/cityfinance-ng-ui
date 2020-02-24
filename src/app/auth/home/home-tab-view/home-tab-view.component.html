@@ -302,7 +302,13 @@
         <div class="row d-flex justify-content-center">
           <div class="pie-chart-container px-1"
                *ngFor="let row of data.data; let i = index">
-            <a (click)="openModal(UlbModal,row,data.year)" class="p-1">{{row["populationCategory"]}}</a>
+            <div class="d-flex align-items-center">
+              <span><b>Population <span *ngIf="!singleULBView"></span>:</b></span>
+              <a *ngIf="!singleULBView" (click)="openModal(UlbModal,row,data.year)"
+                 class="p-1">{{singleULBView ? row["population"] : row["populationCategory"] }}</a>
+              <span *ngIf="singleULBView">{{row["population"] | rupeeConverter}} </span>
+            </div>
+
             <canvas class="p-1" [ngClass]="'myChart-'+data.year" width="400px" height="400px"
                     [id]="'canvas--' + data.year + '--' + i"></canvas>
             <ul class="p-0" *ngIf="row['totalUlb']&&row['numOfUlb']">

@@ -88,7 +88,8 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
     {title: 'Assigned revenue', id: 'assignedRevenue', suffix: '%'},
     {title: 'Grants', id: 'grants', suffix: '%'},
     {title: 'Interest Income', id: 'interestIncome', suffix: '%'},
-    {title: 'Other Income', id: 'otherIncome', suffix: '%'}
+    {title: 'Other Income', id: 'otherIncome', suffix: '%'},
+    {title: 'Total', id: 'total', suffix: '%'}
   ],
   [
     {title: 'ULB name', id: 'name'},
