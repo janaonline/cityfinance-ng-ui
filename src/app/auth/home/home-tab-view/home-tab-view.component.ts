@@ -6,6 +6,7 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {ModalTableHeader, modalTableHeaders, tableHeaders} from '../../home-header/tableHeaders';
 import 'chartjs-plugin-labels';
 import 'chartjs-plugin-title-click';
+import {TableDownloader} from '../../../shared/util/tableDownload/genericTableDownload';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -78,7 +79,7 @@ export class HomeTabViewComponent implements OnInit {
     //  this.filterDisplayDataTableYearWise();
   }
 
-  handleError = () => {
+  handleError = (e) => {
     this.loading = false;
   };
 
@@ -664,6 +665,14 @@ export class HomeTabViewComponent implements OnInit {
         .slice(0, this.modalTableData.data.length - 1)
         .reverse()
         .concat(totalArray);
+    }
+  }
+
+  downloadTable(elementId = 'table') {
+    const tableElement = <HTMLTableElement>document.getElementById(elementId);
+    if (tableElement) {
+      let tableDownloader = TableDownloader.getInstance();
+      tableDownloader.downloadTable(tableElement, {extension: 'xlsx', filename: 'abc'});
     }
   }
 }
