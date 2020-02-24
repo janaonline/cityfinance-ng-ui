@@ -695,7 +695,7 @@ export class HomeTabViewComponent implements OnInit {
       let tableDownloader = TableDownloader.getInstance();
       tableDownloader.downloadTable(tableElement, {
         extension: 'xlsx',
-        filename: 'abc',
+        filename: 'table',
         ...options
       });
     }
