@@ -100,7 +100,9 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
     {title: 'Other Income ', suffix: '%', id: 'otherIncomeCoverPercentage'},
     {title: 'Own Revenue ', suffix: '%', id: 'ownRevenueCoverPercentage', description: '(A/B)'},
     {title: 'Revenue Grants Contribution And Subsidies', suffix: '%', id: 'revenueGrantsContributionAndSubsidiesCoverPercentage'},
-    {title: 'Sale And Hire Charges ', suffix: '%', id: 'saleAndHireChargesCoverPercentage'}
+    {title: 'Sale And Hire Charges ', suffix: '%', id: 'saleAndHireChargesCoverPercentage'},
+    {title: 'Total', id: 'total', suffix: '%'}
+
   ],
   [
     {title: 'ULB name', id: 'name'},
@@ -110,7 +112,9 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
     {title: 'Operational & Maint. Expense', suffix: '%', id: 'operationalAndMaintananceExpense'},
     {title: 'Interest & Finance Expense ', suffix: '%', id: 'interestAndFinanceExpense'},
     {title: 'Revenue Grants', suffix: '%', id: 'revenueGrants'},
-    {title: 'Others', suffix: '%', id: 'other'}
+    {title: 'Others', suffix: '%', id: 'other'},
+    {title: 'Total', id: 'total', suffix: '%'}
+
   ],
   [
     {title: 'ULB name', click: true, id: 'name'},

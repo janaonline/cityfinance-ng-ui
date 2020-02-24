@@ -316,7 +316,7 @@ export class HomeTabViewComponent implements OnInit {
           return false;
         });
         labels = labels
-          .filter(label => !['numOfUlb', 'population', 'rangeNum', 'totalUlb', 'taxRevenue', 'rentalIncome', 'feesAndUserCharges'].includes(label))
+          .filter(label => !['numOfUlb', 'total', 'population', 'rangeNum', 'totalUlb', 'taxRevenue', 'rentalIncome', 'feesAndUserCharges'].includes(label))
           .map(label => {
             let titleObj: { data?: number, name?: string } = {};
             try {
@@ -670,9 +670,34 @@ export class HomeTabViewComponent implements OnInit {
 
   downloadTable(elementId = 'table') {
     const tableElement = <HTMLTableElement>document.getElementById(elementId);
+    let options = {};
+    if (this.selectedState && this.selectedState.length < 1) {
+      options = {
+        extraTexts: {
+          atTop: {
+            rows: [{
+              columns: [{
+                text: 'India',
+                bold: 'true',
+                text_align: 'center',
+                font_size: '24',
+                colSpan: this.commonTableHeaders.length
+              }]
+            }],
+            extraRowAfter: 2,
+
+          }
+        }
+
+      };
+    }
     if (tableElement) {
       let tableDownloader = TableDownloader.getInstance();
-      tableDownloader.downloadTable(tableElement, {extension: 'xlsx', filename: 'abc'});
+      tableDownloader.downloadTable(tableElement, {
+        extension: 'xlsx',
+        filename: 'table',
+        ...options
+      });
     }
   }
 }
