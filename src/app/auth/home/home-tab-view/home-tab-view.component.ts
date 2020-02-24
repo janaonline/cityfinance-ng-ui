@@ -316,7 +316,7 @@ export class HomeTabViewComponent implements OnInit {
           return false;
         });
         labels = labels
-          .filter(label => !['numOfUlb', 'population', 'rangeNum', 'totalUlb', 'taxRevenue', 'rentalIncome', 'feesAndUserCharges'].includes(label))
+          .filter(label => !['numOfUlb', 'total', 'population', 'rangeNum', 'totalUlb', 'taxRevenue', 'rentalIncome', 'feesAndUserCharges'].includes(label))
           .map(label => {
             let titleObj: { data?: number, name?: string } = {};
             try {
