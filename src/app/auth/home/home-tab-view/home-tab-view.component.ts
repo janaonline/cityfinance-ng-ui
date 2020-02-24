@@ -671,7 +671,7 @@ export class HomeTabViewComponent implements OnInit {
   downloadTable(elementId = 'table') {
     const tableElement = <HTMLTableElement>document.getElementById(elementId);
     let options = {};
-    if (this.selectedState.length < 1) {
+    if (this.selectedState && this.selectedState.length < 1) {
       options = {
         extraTexts: {
           atTop: {
