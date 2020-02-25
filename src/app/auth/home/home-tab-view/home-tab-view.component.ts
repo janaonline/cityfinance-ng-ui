@@ -582,6 +582,7 @@ export class HomeTabViewComponent implements OnInit {
       delete modal['status'];
       return modal;
     });
+
     this.modalRef = this.modalService.show(UlbModal, {class: 'modal-uq'});
   }
 
@@ -681,7 +682,6 @@ export class HomeTabViewComponent implements OnInit {
     let tableHeaderText = 'India';
     if (this.selectedState.hasOwnProperty('_id')) {
       tableHeaderText = this.selectedState.name;
-
     }
     options = {
       extraTexts: {
@@ -692,7 +692,7 @@ export class HomeTabViewComponent implements OnInit {
               bold: 'true',
               text_align: 'center',
               font_size: '24',
-              colSpan: this.commonTableHeaders.length
+              colSpan: elementId == 'table' ? this.modalTableHeaders.length : this.commonTableHeaders.length
             }]
           }],
           extraRowAfter: 2,
@@ -709,5 +709,6 @@ export class HomeTabViewComponent implements OnInit {
       });
     }
   }
+
 }
 

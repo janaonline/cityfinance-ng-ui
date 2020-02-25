@@ -13,7 +13,7 @@
 
 
   .modal-uq {
-    min-width: 80vw !important;
+    min-width: 70vw !important;
   }
 
   .countplaceholder, .c-token {
@@ -30,7 +30,7 @@
 
 }
 
-
+ws
 .table-responsive {
   max-height: 50vh;
   overflow: auto;
@@ -39,7 +39,7 @@
 
 #table {
   th:last-child {
-    width: 100px;
+    min-width: 100px;
   }
 }
 
