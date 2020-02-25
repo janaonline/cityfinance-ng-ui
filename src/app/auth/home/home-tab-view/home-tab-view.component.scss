@@ -13,7 +13,7 @@
 
 
   .modal-uq {
-    min-width: 70vw !important;
+    min-width: 80vw !important;
   }
 
   .countplaceholder, .c-token {
@@ -34,6 +34,13 @@
 .table-responsive {
   max-height: 50vh;
   overflow: auto;
+
+}
+
+#table {
+  th:last-child {
+    width: 100px;
+  }
 }
 
 // Scroll Bar UI Starts here

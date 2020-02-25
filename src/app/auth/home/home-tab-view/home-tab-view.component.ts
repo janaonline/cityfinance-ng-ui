@@ -28,7 +28,7 @@ export class HomeTabViewComponent implements OnInit {
 
   commonTableHeaders: any[] = tableHeaders[0];
   tabData: any[] = [];
-  selectedState: string = '';
+  selectedState: any = {};
   commonTableData = [];
   commonTableDataDisplay = [];
   yearForm: FormGroup;
@@ -49,7 +49,7 @@ export class HomeTabViewComponent implements OnInit {
     this.singleULBView = false;
     this.selectedUlb = '';
     // if (!this.tabData[event] && this.selectedState.length > 0) {
-    this.selectedState = '';
+    this.selectedState = {};
     this.fetchData();
     // } else {
     this.loading = true;
@@ -80,6 +80,8 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   handleError = (e) => {
+    this.commonTableData = [];
+    this.commonTableDataDisplay = [];
     this.loading = false;
   };
 
@@ -207,33 +209,33 @@ export class HomeTabViewComponent implements OnInit {
     switch (this.tabIndex) {
       case 0:
         this.dashboardService
-          .fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState, this.selectedUlb)
+          .fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState._id, this.selectedUlb)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 1:
         this.dashboardService
-          .fetchSourceOfRevenue(JSON.stringify(this.selectedYears), this.selectedState)
+          .fetchSourceOfRevenue(JSON.stringify(this.selectedYears), this.selectedState._id)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 2:
         this.dashboardService
-          .fetchFinancialRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState)
+          .fetchFinancialRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState._id)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 3:
         this.dashboardService
-          .fetchRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState)
+          .fetchRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState._id)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
 
       case 4:
         this.dashboardService
-          .fetchCashAndBankBalance(JSON.stringify(this.selectedYears), this.selectedState)
+          .fetchCashAndBankBalance(JSON.stringify(this.selectedYears), this.selectedState._id)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 5:
         this.dashboardService
-          .fetchOutStandingDebt(JSON.stringify(this.selectedYears), this.selectedState)
+          .fetchOutStandingDebt(JSON.stringify(this.selectedYears), this.selectedState._id)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
     }
@@ -380,16 +382,21 @@ export class HomeTabViewComponent implements OnInit {
               const containerUl = legendItemContainer.getElementsByTagName('ul');
               if (containerUl.length) {
                 containerUl[0].style.display = 'flex';
+                containerUl[0].style.padding = '0';
                 containerUl[0].style.alignItems = 'flex-start';
+                containerUl[0].style.justifyContent = 'center';
                 containerUl[0].style.marginTop = '1rem';
               }
             }
+
             for (let i = 0; i < legendItems.length; i++) {
               yearWiseCharts[0].chart.getDatasetMeta(0).data.forEach(meta => {
                 if (meta._index == i) {
                   legendItems[i].style.display = 'flex';
                   legendItems[i].style.flexDirection = 'column';
+                  legendItems[i].style.textAlign = 'center';
                   legendItems[i].style.justifyContent = 'center';
+                  legendItems[i].style.alignItems = 'center';
                   legendItems[i].style.padding = '1rem';
                   prependDataColorDiv(legendItems[i], meta);
                 }
@@ -585,27 +592,27 @@ export class HomeTabViewComponent implements OnInit {
     this.tabData = [];
     switch (this.tabIndex) {
       case 0:
-        this.dashboardService.fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+        this.dashboardService.fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState._id, rowClickedId)
           .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
       case 1:
-        this.dashboardService.fetchSourceOfRevenue(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+        this.dashboardService.fetchSourceOfRevenue(JSON.stringify(this.selectedYears), this.selectedState._id, rowClickedId)
           .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
       case 2:
-        this.dashboardService.fetchFinancialRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+        this.dashboardService.fetchFinancialRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState._id, rowClickedId)
           .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
       case 3:
-        this.dashboardService.fetchRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+        this.dashboardService.fetchRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState._id, rowClickedId)
           .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
       case 4:
-        this.dashboardService.fetchCashAndBankBalance(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+        this.dashboardService.fetchCashAndBankBalance(JSON.stringify(this.selectedYears), this.selectedState._id, rowClickedId)
           .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
       case 5:
-        this.dashboardService.fetchOutStandingDebt(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+        this.dashboardService.fetchOutStandingDebt(JSON.stringify(this.selectedYears), this.selectedState._id, rowClickedId)
           .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
     }
@@ -615,7 +622,7 @@ export class HomeTabViewComponent implements OnInit {
     }
   }
 
-  filterDataStateWise(event: string) {
+  filterDataStateWise(event: any) {
     this.selectedState = event;
     this.singleULBView = false;
     this.selectedUlb = '';
@@ -671,26 +678,28 @@ export class HomeTabViewComponent implements OnInit {
   downloadTable(elementId = 'table') {
     const tableElement = <HTMLTableElement>document.getElementById(elementId);
     let options = {};
-    if (this.selectedState && this.selectedState.length < 1) {
-      options = {
-        extraTexts: {
-          atTop: {
-            rows: [{
-              columns: [{
-                text: 'India',
-                bold: 'true',
-                text_align: 'center',
-                font_size: '24',
-                colSpan: this.commonTableHeaders.length
-              }]
-            }],
-            extraRowAfter: 2,
+    let tableHeaderText = 'India';
+    if (this.selectedState.hasOwnProperty('_id')) {
+      tableHeaderText = this.selectedState.name;
 
-          }
-        }
-
-      };
     }
+    options = {
+      extraTexts: {
+        atTop: {
+          rows: [{
+            columns: [{
+              text: tableHeaderText,
+              bold: 'true',
+              text_align: 'center',
+              font_size: '24',
+              colSpan: this.commonTableHeaders.length
+            }]
+          }],
+          extraRowAfter: 2,
+
+        }
+      }
+    };
     if (tableElement) {
       let tableDownloader = TableDownloader.getInstance();
       tableDownloader.downloadTable(tableElement, {
