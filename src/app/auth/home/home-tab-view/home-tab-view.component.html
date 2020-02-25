@@ -100,9 +100,20 @@
   <div *ngIf="loading==false; else loadingSkeleton" [style.height.px]="400" style="width: 100%" [formGroup]="yearForm">
     <div class="row d-flex">
       <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
-      <button title="Download" (click)="downloadTable('table-main');" class="mt-3"
-              style="background: black; position: absolute; right: 1rem ;color: white">
-        <i class="material-icons">arrow_downward</i></button>
+      <button mat-raised-button class="mt-3"
+              (click)="downloadTable('table-main');"
+              title="Download"
+              style="float: right;
+              right:1rem;
+              position: absolute;
+              background-color:#333333;min-width: min-content;">
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+
+
+      <!--    <button title="Download"
+                  style="background: black; position: absolute; right: 1rem ;color: white">
+            <i class="material-icons">arrow_downward</i></button>-->
     </div>
     <div class="row mt-2">
       <div class="col-sm-12 table-responsive table-container-main">
@@ -203,13 +214,27 @@
 </ng-template>
 
 <ng-template #UlbModal>
-  <button style="position: absolute;right: 0;top: -2.5rem ;border: none; background: transparent; color: #ffc500"
-          (click)="modalService.hide(1)"
-          type="button" data-dismiss="modal" aria-label="Close">Close
-  </button>
+
   <!--  <button (click)="downloadTable()"></button>-->
 
   <div class="modal-body">
+    <div style="margin-bottom: .5rem; display: flex;justify-content: flex-end">
+      <button mat-raised-button
+              (click)="downloadTable('table');"
+              title="Download"
+              style="margin-right: .5rem;
+             background-color:#333333;min-width: min-content;">
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+      <button style="background-color:#333333;min-width: min-content;"
+              (click)="modalService.hide(1)"
+              mat-raised-button
+              title="Close"
+              type="button" data-dismiss="modal" aria-label="Close">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
     <div class="table-responsive border-1" style="max-height: 90vh; overflow-x: hidden">
       <table id="table" *ngIf="modalTableHeaders.length; else noData"
              class="table">
@@ -265,7 +290,7 @@
         <tr *ngFor="let row of modalTableData.data; let i = index">
           <td [ngStyle]="i==modalTableData.data.length-1?{'position':'sticky','bottom':'0','background':'white'}:{}"
               class="text-center"
-              [attr.data-text]=" (row[col?.id] | roundoff: {config: col}  | rupeeConverter)+(row[col?.id] ? col.suffix || '':' ')"
+              [attr.data-text]="(((row[col?.id] | roundoff: {config: col}  | rupeeConverter)||' ')+(row[col?.id] ? col.suffix || '':' '))"
               [attr.data-text_align]="'center'"
               [attr.data-bold]="i==modalTableData?.data?.length-1"
               *ngFor="let col of modalTableHeaders">
