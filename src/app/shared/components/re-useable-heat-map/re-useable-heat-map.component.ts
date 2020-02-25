@@ -9,6 +9,7 @@ import { IULBWithPopulationResponse, ULBWithMapData } from '../../models/ulbsFor
 import { CommonService } from '../../services/common.service';
 import { IDistrictGeoJson } from './models/districtGeoJSON';
 import { ILeafletStateClickEvent } from './models/leafletStateClickEvent';
+import { IStateWithULBS } from './models/stateWithULBS';
 
 @Component({
   selector: "app-re-useable-heat-map",
@@ -32,7 +33,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     this.listenToFormControls();
   }
   @Output() ulbsClicked = new EventEmitter<string[]>();
-  @Output() stateId = new EventEmitter<string>();
+  @Output() stateSelected = new EventEmitter<IStateWithULBS>();
   @Input() ulbSelected: string;
 
   ulbsSelected = new FormControl([]);
@@ -41,11 +42,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
   stateData: IStateULBCovered[];
   allULBSList: IULBWithPopulationResponse["data"];
   stateAndULBDataMerged: {
-    [stateId: string]: IStateULBCovered & { ulbs: ULBWithMapData[] };
+    [stateId: string]: IStateWithULBS;
   };
 
   filteredULBStateAndULBDataMerged: {
-    [stateId: string]: IStateULBCovered & { ulbs: ULBWithMapData[] };
+    [stateId: string]: IStateWithULBS;
   };
 
   ulbsOfSelectedState: IULBWithPopulationResponse["data"];
@@ -111,7 +112,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       this.showStateLayerOnlyFor(this.nationalLevelMap, stateOfULB);
       this.unselectAllDistrictMarker();
       // this.reset
-      this.createStateLevelMap(stateOfULB.name, { emitStateId: false });
+      this.createStateLevelMap(stateOfULB.name, { emitState: false });
       setTimeout(() => {
         this.selectULBById(ulbId);
       }, 0);
@@ -578,7 +579,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
   private createStateLevelMap(
     stateName: string,
-    options: { emitStateId: boolean } = { emitStateId: true }
+    options: { emitState: boolean } = { emitState: true }
   ) {
     const stateFound = Object.values(this.stateAndULBDataMerged).find(
       state => state.name === stateName
@@ -638,8 +639,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       dataPoints: [...dataPointsForMarker]
     });
     this.currentStateInView = { ...stateFound };
-    if (options.emitStateId) {
-      this.stateId.emit(stateFound._id);
+    if (options.emitState) {
+      this.stateSelected.emit(stateFound);
     }
 
     if (!ulbsWithCoordinates.length) {
@@ -866,7 +867,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
   private resetCurrentSelectState() {
     this.currentStateInView = null;
-    this.stateId.emit(null);
+    this.stateSelected.emit(null);
   }
 
   private resetCurrentULBClicked() {
