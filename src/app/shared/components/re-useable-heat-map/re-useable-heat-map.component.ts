@@ -714,7 +714,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
           icon: this.blueIcon
         }).addTo(districtMap);
         marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
-        marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
+        // marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
         marker.on(
           "click",
           values =>
