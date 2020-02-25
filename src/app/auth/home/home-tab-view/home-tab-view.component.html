@@ -9,7 +9,7 @@
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 0">
         <app-re-useable-heat-map [ulbSelected]="selectedUlb"
-                                 (stateId)="filterDataStateWise($event)"
+                                 (stateSelected)="filterDataStateWise($event)"
                                  (ulbsClicked)="fetchUlBsData($event)">
         </app-re-useable-heat-map>
       </div>
@@ -24,32 +24,12 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 1">
-        <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
+        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
                                  [ulbSelected]="selectedUlb"
                                  (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
-
-      <div class="col-sm-12 col-md-7">
-        <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
-        <div *ngIf="loading==false; else loadingSkeleton" class="row" style="height: 60vh; overflow-y: auto;">
-          <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
-            <div class="col-sm-12 text-center">
-              <h3>{{ data?.year }}</h3>
-            </div>
-            <div class="row d-flex justify-content-center">
-              <div class="pie-chart-container px-1"
-                   *ngFor="let row of data.data; let i = index">
-                <a (click)="openModal(UlbModal,row,data.year)" class="p-1">{{row["populationCategory"]}}</a>
-                <!--                <span class="p-1">{{row["populationCategory"]}}</span>-->
-                <canvas class="p-1" [ngClass]="'myChart-'+data.year" width="400px" height="400px"
-                        [id]="'canvas--' + data.year + '--' + i"></canvas>
-              </div>
-            </div>
-            <ul [class]="'legend-'+data?.year" [id]="data?.year"></ul>
-          </div>
-        </div>
-      </div>
+      <ng-container *ngTemplateOutlet="pieChart"></ng-container>
     </ng-template>
   </mat-tab>
 
@@ -59,31 +39,12 @@
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 2">
         <app-re-useable-heat-map [ulbSelected]="selectedUlb"
-                                 (stateId)="filterDataStateWise($event)"
+                                 (stateSelected)="filterDataStateWise($event)"
                                  (ulbsClicked)="fetchUlBsData($event)">
 
         </app-re-useable-heat-map>
       </div>
-      <div [style.minHeight.px]="400" [formGroup]="yearForm"
-           class="col-md-7">
-        <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
-        <div *ngIf="loading==false; else loadingSkeleton" class="row" style="height: 60vh; overflow-y: auto;">
-          <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
-            <div class="col-sm-12 text-center">
-              <h3>{{ data?.year }}</h3>
-            </div>
-            <div class="row d-flex justify-content-center">
-              <div class="pie-chart-container px-1"
-                   *ngFor="let row of data.data; let i = index">
-                <a (click)="openModal(UlbModal,row,data.year)" class="p-1">{{row["populationCategory"]}}</a>
-                <canvas class="p-1" [ngClass]="'myChart-'+data.year" width="400px" height="400px"
-                        [id]="'canvas--' + data.year + '--' + i"></canvas>
-              </div>
-            </div>
-            <ul [class]="'legend-'+data?.year" [id]="data?.year"></ul>
-          </div>
-        </div>
-      </div>
+      <ng-container *ngTemplateOutlet="pieChart"></ng-container>
     </ng-template>
   </mat-tab>
 
@@ -92,32 +53,12 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 3">
-        <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
+        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
                                  [ulbSelected]="selectedUlb"
                                  (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
-      <div class="col-md-7 col-sm-12">
-        <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
-        <!--        <ng-container *ngTemplateOutlet="table"></ng-container>-->
-        <div *ngIf="loading==false; else loadingSkeleton" class="row" style="height: 60vh; overflow-y: auto;">
-          <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
-            <div class="col-sm-12 text-center">
-              <h3>{{ data?.year }}</h3>
-            </div>
-            <div class="row d-flex justify-content-center">
-              <div class="pie-chart-container px-1"
-                   *ngFor="let row of data.data; let i = index">
-                <a (click)="openModal(UlbModal,row,data.year)" class="p-1">{{row["populationCategory"]}}</a>
-                <!--                <span class="p-1">{{row["populationCategory"]}}</span>-->
-                <canvas class="p-1" [ngClass]="'myChart-'+data.year" width="400px" height="400px"
-                        [id]="'canvas--' + data.year + '--' + i"></canvas>
-              </div>
-            </div>
-            <ul [class]="'legend-'+data?.year" [id]="data?.year"></ul>
-          </div>
-        </div>
-      </div>
+      <ng-container *ngTemplateOutlet="pieChart"></ng-container>
     </ng-template>
   </mat-tab>
 
@@ -126,48 +67,15 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 4">
-        <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
+        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
                                  [ulbSelected]="selectedUlb"
-                                 (ulbsClicked)="fetchUlBsData($event)"
-        ></app-re-useable-heat-map>
+                                 (ulbsClicked)="fetchUlBsData($event)">
+
+        </app-re-useable-heat-map>
       </div>
       <div class="col-sm-12 col-md-7">
         <ng-container *ngTemplateOutlet="table"></ng-container>
-
       </div>
-      <!--<div [style.minHeight.px]="400"
-           [formGroup]="yearForm"
-           class="col-md-7 col-sm-12">
-        <div class="row d-flex mt-4">
-          <div class="col-sm-10">
-            <angular2-multiselect class="m-0"
-                                  formControlName="years"
-                                  style="display: inline-block;width: 208px;"
-                                  [data]="yearLookup"
-                                  [settings]="yearsDropdownSettings"
-                                  (onClose)="onDropdownClose($event)"
-                                  (onSelect)="onDropdownSelect($event)"
-                                  (onDeSelect)="onDropdownDeSelect($event)"
-                                  (onSelectAll)="onDropDownSelectAll($event)"
-                                  (onDeSelectAll)="resetPopupValues()">
-            </angular2-multiselect>
-          </div>
-        </div>
-        <div class="row" style="height: 60vh; overflow-y: auto;">
-          <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
-            <div class="col-sm-12 text-center">
-              <h3>{{ data?.year }}</h3>
-            </div>
-            <div class="row d-flex justify-content-center">
-              <div style="height: 33%;width: 40%"
-                   *ngFor="let row of data.data.slice(0, 2); let i = index">
-                <canvas width="400px" height="400px" [id]="'canvas&#45;&#45;' + data.year + '&#45;&#45;' + i"
-                ></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>-->
     </ng-template>
   </mat-tab>
 
@@ -176,9 +84,10 @@
       <div class="col-sm-12 col-md-4"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 5">
-        <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
+        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
                                  [ulbSelected]="selectedUlb"
-                                 (ulbsClicked)="fetchUlBsData($event)"></app-re-useable-heat-map>
+                                 (ulbsClicked)="fetchUlBsData($event)">
+        </app-re-useable-heat-map>
       </div>
       <div class="col-sm-12 col-md-8">
         <ng-container *ngTemplateOutlet="table"></ng-container>
@@ -189,15 +98,23 @@
 
 <ng-template #table>
   <div *ngIf="loading==false; else loadingSkeleton" [style.height.px]="400" style="width: 100%" [formGroup]="yearForm">
-    <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
+    <div class="row d-flex">
+      <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
+      <button title="Download" (click)="downloadTable('table-main');" class="mt-3"
+              style="background: black; position: absolute; right: 1rem ;color: white">
+        <i class="material-icons">arrow_downward</i></button>
+    </div>
     <div class="row mt-2">
       <div class="col-sm-12 table-responsive table-container-main">
-        <table [style.minWidth]="(commonTableHeaders.length * 110)+'px'"
+        <table id="table-main" [style.minWidth]="(commonTableHeaders.length * 110)+'px'"
                *ngIf="commonTableDataDisplay?.length; else noData"
                class="table mr-1" style="margin-bottom: 1px">
           <thead>
           <tr>
             <th style="position: sticky; width: 200px;background: white;top:-1px"
+                [attr.data-text]="header.title+ ' \r\n ' +   (header?.description||' ')"
+                [attr.data-text_align]="'center'"
+                [attr.data-bold]="true"
                 class="px-1 border-bottom-0"
                 [ngClass]="header?.id!='populationCategory'?'text-center':''"
                 *ngFor="let header of commonTableHeaders">
@@ -235,6 +152,10 @@
           <ng-container *ngFor="let tr of commonTableDataDisplay">
             <tr>
               <td
+                [attr.data-text]="tr.year"
+                [attr.data-text_align]="'center'"
+                [attr.data-background_color]="'rgba(255,197,0,1)'"
+                [attr.data-bold]="true"
                 class="text-center"
                 [colSpan]="commonTableHeaders.length"
                 [style.background]="'#ffc500'">
@@ -243,6 +164,9 @@
             </tr>
             <tr *ngFor="let row of tr.data; let i = index">
               <td [ngClass]="col?.id!='populationCategory'?'text-center':''"
+                  [attr.data-text]="(((row[col?.id] | roundoff: {config: col}  | rupeeConverter)||' ')+(row[col?.id] ? col.suffix || '':' '))"
+                  [attr.data-text_align]="'center'"
+                  [attr.data-bold]="i==tr?.data.length-1"
                   *ngFor="let col of commonTableHeaders;let j=index">
                 <span
                   [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:col?.showInr}"
@@ -260,6 +184,8 @@
             </tr>
             <tr *ngIf="!tr.data.length">
               <td
+                [attr.data-text]="'Data not available'"
+                [attr.data-text_align]="'center'"
                 class="text-center"
                 [colSpan]="commonTableHeaders.length">
                 <span>Data not available</span>
@@ -276,31 +202,23 @@
   </div>
 </ng-template>
 
-<ng-container #heatMap>
-  <div class="col-sm-12 col-md-5"
-       style="max-width: 40%; margin-top: 1%;"
-       *ngIf="tabIndex === 4">
-    <app-re-useable-heat-map
-      (stateId)="filterDataStateWise($event)"
-      [ulbSelected]="selectedUlb"
-      (ulbsClicked)="fetchUlBsData($event)"
-    ></app-re-useable-heat-map>
-  </div>
-</ng-container>
-
 <ng-template #UlbModal>
   <button style="position: absolute;right: 0;top: -2.5rem ;border: none; background: transparent; color: #ffc500"
           (click)="modalService.hide(1)"
           type="button" data-dismiss="modal" aria-label="Close">Close
   </button>
+  <!--  <button (click)="downloadTable()"></button>-->
 
   <div class="modal-body">
     <div class="table-responsive border-1" style="max-height: 90vh; overflow-x: hidden">
-      <table *ngIf="modalTableHeaders.length; else noData"
+      <table id="table" *ngIf="modalTableHeaders.length; else noData"
              class="table">
         <thead>
         <tr>
-          <th style="position: sticky; top: 0;background: white"
+          <th [attr.data-text]="header.title+ ' \r\n ' +   (header?.description||' ')"
+              [attr.data-text_align]="'center'"
+              [attr.data-bold]="true"
+              style="position: sticky; top: 0;background: white"
               class="text-center border-bottom-0"
               *ngFor="let header of modalTableHeaders">
             <div class="d-flex px-1 justify-content-center">
@@ -335,6 +253,9 @@
         <tbody>
         <tr>
           <td
+            [attr.data-text]="modalTableData.year"
+            [attr.data-text_align]="'center'"
+            [attr.data-background_color]="'#ffc500'"
             class="text-center"
             [colSpan]="modalTableHeaders.length"
             [style.background]="'#ffc500'">
@@ -344,15 +265,18 @@
         <tr *ngFor="let row of modalTableData.data; let i = index">
           <td [ngStyle]="i==modalTableData.data.length-1?{'position':'sticky','bottom':'0','background':'white'}:{}"
               class="text-center"
+              [attr.data-text]=" (row[col?.id] | roundoff: {config: col}  | rupeeConverter)+(row[col?.id] ? col.suffix || '':' ')"
+              [attr.data-text_align]="'center'"
+              [attr.data-bold]="i==modalTableData?.data?.length-1"
               *ngFor="let col of modalTableHeaders">
-          <span
-            [matTooltipDisabled]="!col?.showInr"
-            [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:col?.showInr}"
-            [ngClass]="i==modalTableData?.data?.length-1?'text-bold':''"
-            *ngIf="!col?.click;else clickableCol">{{ row[col?.id] | roundoff: {config: col}  | rupeeConverter }}</span>
+          <span [matTooltipDisabled]="!col?.showInr"
+                [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:col?.showInr}"
+                [ngClass]="i==modalTableData?.data?.length-1?'text-bold':''"
+                *ngIf="!col?.click;else clickableCol">
+            {{ row[col?.id] | roundoff: {config: col}  | rupeeConverter }} {{row[col?.id] ? col.suffix || '' : null}}</span>
             <ng-template #clickableCol>
               <a *ngIf="i!=modalTableData?.data?.length-1"
-                 (click)="modalItemClicked(row._id)">{{ row[col?.id] |rupeeConverter }}</a>
+                 (click)="modalItemClicked(row._id,row)">{{ row[col?.id] |rupeeConverter }}</a>
               <span *ngIf="i==modalTableData?.data?.length-1"
                     class="text-bold">{{ row[col?.id] | rupeeConverter }}</span>
             </ng-template>
@@ -370,7 +294,7 @@
 </ng-template>
 
 <ng-template #yearSelect>
-  <div class="row d-flex mt-2" [formGroup]="yearForm">
+  <div class=" mt-2" [formGroup]="yearForm">
     <angular2-multiselect classes="mt-1"
                           formControlName="years"
                           style="margin-top: 1rem; display:inline-block;width: 160px;"
@@ -390,4 +314,46 @@
   <app-pre-loader></app-pre-loader>
   <app-pre-loader></app-pre-loader>
   <app-pre-loader></app-pre-loader>
+</ng-template>
+
+<ng-template #pieChart>
+  <div class="col-sm-12 col-md-7">
+    <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
+    <div *ngIf="loading==false; else loadingSkeleton" class="row" style="height: 60vh; overflow-y: auto;">
+      <ng-container *ngIf="commonTableDataDisplay.length;else noData">
+        <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col text-center"><h3>{{ data?.year }}</h3></div>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="pie-chart-container px-1"
+                 *ngFor="let row of data.data; let i = index">
+              <div class="d-flex align-items-center">
+                <span><b>Population <span *ngIf="!singleULBView"></span>:</b></span>
+                <a *ngIf="!singleULBView" (click)="openModal(UlbModal,row,data.year)"
+                   class="p-1">{{singleULBView ? row["population"] : row["populationCategory"] }}</a>
+                <span *ngIf="singleULBView">{{row["population"] | rupeeConverter}} </span>
+              </div>
+
+              <canvas class="p-1" [ngClass]="'myChart-'+data.year" width="400px" height="400px"
+                      [id]="'canvas--' + data.year + '--' + i"></canvas>
+              <ul class="p-0" *ngIf="row['totalUlb']&&row['numOfUlb']">
+                <li>Total number of ULBs : <b>{{+row["totalUlb"]}}</b></li>
+                <li>Number of ULBs with Data: <b> {{+row["numOfUlb"] }}</b></li>
+              </ul>
+            </div>
+            <div class="d-flex justify-content-center">
+              <h4 *ngIf="!data.data.length">Data not Available</h4>
+            </div>
+          </div>
+          <ul [ngClass]="'legend-'+data?.year" [id]="data?.year" class="p-0"></ul>
+        </div>
+      </ng-container>
+      <ng-template #noData>
+        <h3 class="text-center">No data available</h3>
+      </ng-template>
+    </div>
+  </div>
 </ng-template>

@@ -6,7 +6,7 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {ModalTableHeader, modalTableHeaders, tableHeaders} from '../../home-header/tableHeaders';
 import 'chartjs-plugin-labels';
 import 'chartjs-plugin-title-click';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {TableDownloader} from '../../../shared/util/tableDownload/genericTableDownload';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -28,7 +28,7 @@ export class HomeTabViewComponent implements OnInit {
 
   commonTableHeaders: any[] = tableHeaders[0];
   tabData: any[] = [];
-  selectedState: string = '';
+  selectedState: any = {};
   commonTableData = [];
   commonTableDataDisplay = [];
   yearForm: FormGroup;
@@ -49,7 +49,7 @@ export class HomeTabViewComponent implements OnInit {
     this.singleULBView = false;
     this.selectedUlb = '';
     // if (!this.tabData[event] && this.selectedState.length > 0) {
-    this.selectedState = '';
+    this.selectedState = {};
     this.fetchData();
     // } else {
     this.loading = true;
@@ -79,7 +79,9 @@ export class HomeTabViewComponent implements OnInit {
     //  this.filterDisplayDataTableYearWise();
   }
 
-  handleError = () => {
+  handleError = (e) => {
+    this.commonTableData = [];
+    this.commonTableDataDisplay = [];
     this.loading = false;
   };
 
@@ -119,7 +121,10 @@ export class HomeTabViewComponent implements OnInit {
       case 5:
         // if (!this.tabData[this.tabIndex]) {
         for (let year of this.commonTableData) {
-          let newDataRow = this.getTotalRow(year.data);
+          if (year.data.length) {
+            let newDataRow = this.getTotalRow(year.data);
+            year.data.push(newDataRow);
+          }
           /*  let allKeys = Object.keys(year.data[0]);
             for (let prop of allKeys) {
               if (typeof year.data[0][prop] == 'number') {
@@ -131,7 +136,6 @@ export class HomeTabViewComponent implements OnInit {
                 }
               }
             }*/
-          year.data.push(newDataRow);
         }
         //  }
         break;
@@ -158,7 +162,6 @@ export class HomeTabViewComponent implements OnInit {
           newYears.push(newYear);
         }
       }
-
       this.commonTableDataDisplay = newYears;
       this.commonTableHeaders = modalTableHeaders[this.tabIndex];
       this.commonTableHeaders[0].click = false;
@@ -166,7 +169,7 @@ export class HomeTabViewComponent implements OnInit {
         this.modalRef.hide();
       }
     }
-    if (this.tabIndex == 1) {
+    if (this.tabIndex == 1 || this.tabIndex == 2 || this.tabIndex == 3) {
       this.renderCharts();
     }
   };
@@ -206,33 +209,33 @@ export class HomeTabViewComponent implements OnInit {
     switch (this.tabIndex) {
       case 0:
         this.dashboardService
-          .fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState, this.selectedUlb)
+          .fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState._id, this.selectedUlb)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 1:
         this.dashboardService
-          .fetchSourceOfRevenue(JSON.stringify(this.selectedYears), this.selectedState)
+          .fetchSourceOfRevenue(JSON.stringify(this.selectedYears), this.selectedState._id)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 2:
         this.dashboardService
-          .fetchFinancialRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState)
+          .fetchFinancialRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState._id)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 3:
         this.dashboardService
-          .fetchRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState)
+          .fetchRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState._id)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
 
       case 4:
         this.dashboardService
-          .fetchCashAndBankBalance(JSON.stringify(this.selectedYears), this.selectedState)
+          .fetchCashAndBankBalance(JSON.stringify(this.selectedYears), this.selectedState._id)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
       case 5:
         this.dashboardService
-          .fetchOutStandingDebt(JSON.stringify(this.selectedYears), this.selectedState)
+          .fetchOutStandingDebt(JSON.stringify(this.selectedYears), this.selectedState._id)
           .subscribe(this.fetchTableDataSuccess, this.handleError);
         break;
     }
@@ -302,26 +305,43 @@ export class HomeTabViewComponent implements OnInit {
       for (let index = 0; index < yearRow.data.length; index++) {
         let row = yearRow.data[index];
         const elementId = `${elementIdPrefix}--${index}`;
-        let labels: any[] = Object.keys(row).filter(key => (typeof row[key] == 'number') || !isNaN(Number(row[key])));
+        // let labels: any[] = Object.keys(row).filter(key => (typeof row[key] == 'number') || !isNaN(Number(row[key])));
+        let labels: any[] = Object.keys(row).filter(key => {
+          if ((typeof row[key] == 'number') || !isNaN(Number(row[key]))) {
+            return true;
+          }
+          // if (typeof row[key] === 'string') {
+          //   if (!isNaN(row[key]).includes('%')) {
+          //     return true;
+          //   }
+          // }
+          return false;
+        });
         labels = labels
-          .filter(label => !['numOfUlb', 'rangeNum', 'totalUlb', 'taxRevenue', 'rentalIncome', 'feesAndUserCharges'].includes(label))
+          .filter(label => !['numOfUlb', 'total', 'population', 'rangeNum', 'totalUlb', 'taxRevenue', 'rentalIncome', 'feesAndUserCharges'].includes(label))
           .map(label => {
             let titleObj: { data?: number, name?: string } = {};
             try {
               titleObj.name = this.commonTableHeaders.find(header => header.id == label).title;
-              titleObj.data = row[label];
+              if (typeof row[label] === 'string') {
+                try {
+                  titleObj.data = Number(row[label].replace('%', '')) || 0;
+                } catch (e) {
+                }
+              } else {
+                titleObj.data = row[label];
+              }
             } catch (e) {
-              return {name: 'Label not available', data: row[label]};
+              return {name: 'Label not available', data: Number(row[label].replace('%', '')) || 0};
             }
             return titleObj;
           });
         const data = labels.map(l => l.data);
-        console.log(labels, data, this.commonTableHeaders);
         const chartLabels = labels.map(l => l.name);
         const chartTitle = row[this.commonTableHeaders[0].id];
         setTimeout(() => {
 
-          let c = this.renderPieChart({
+          const c = this.renderPieChart({
             type: 'pie',
             data,
             labels: chartLabels,
@@ -345,10 +365,7 @@ export class HomeTabViewComponent implements OnInit {
                     ,
                     render: (args) => {
                       if (args.value > 4) {
-                        if (!this.singleULBView) {
-                          return args.value + '%';
-                        }
-                        return args.value;
+                        return args.value + '%';
                       }
                     },
                   }
@@ -365,16 +382,21 @@ export class HomeTabViewComponent implements OnInit {
               const containerUl = legendItemContainer.getElementsByTagName('ul');
               if (containerUl.length) {
                 containerUl[0].style.display = 'flex';
+                containerUl[0].style.padding = '0';
                 containerUl[0].style.alignItems = 'flex-start';
+                containerUl[0].style.justifyContent = 'center';
                 containerUl[0].style.marginTop = '1rem';
               }
             }
+
             for (let i = 0; i < legendItems.length; i++) {
               yearWiseCharts[0].chart.getDatasetMeta(0).data.forEach(meta => {
                 if (meta._index == i) {
                   legendItems[i].style.display = 'flex';
                   legendItems[i].style.flexDirection = 'column';
+                  legendItems[i].style.textAlign = 'center';
                   legendItems[i].style.justifyContent = 'center';
+                  legendItems[i].style.alignItems = 'center';
                   legendItems[i].style.padding = '1rem';
                   prependDataColorDiv(legendItems[i], meta);
                 }
@@ -448,7 +470,6 @@ export class HomeTabViewComponent implements OnInit {
               'rgba(75, 192, 192, 0.2)',
               'rgba(153, 102, 255, 0.2)',
               'rgba(255, 159, 64, 0.2)'
-
             ],
             borderWidth: 1
           }
@@ -473,10 +494,9 @@ export class HomeTabViewComponent implements OnInit {
             },
             label: (tooltipItem, data) => {
               const label = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-              if (!this.singleULBView) {
-                return label + '%';
-              }
-              return label;
+              // if (!this.singleULBView) {
+              return label + '%';
+              // }
             }
           },
         },
@@ -534,7 +554,6 @@ export class HomeTabViewComponent implements OnInit {
               let count = rows.reduce((a, c) => a + Number(c[prop]), 0);
               newDataRow[prop] = this.fixToDecimalPlace(count, 2);
             }
-
           }
         }
         if (prop == 'populationCategory') {
@@ -549,14 +568,16 @@ export class HomeTabViewComponent implements OnInit {
     this.modalTableHeaders = modalTableHeaders[this.tabIndex];
     const totalRow = this.getTotalRow(range['ulbs'], this.modalTableHeaders);
     totalRow['name'] = 'Total';
+    const ORPcolumn = this.modalTableHeaders.find(col => col.id === 'ownRevenuePercentage');
+    if (ORPcolumn) {
+      totalRow['ownRevenuePercentage'] = Number((Number(totalRow['ownRevenue']) / Number(totalRow['revenueExpenditure'])) * 100).toFixed(2) + '%';
+    }
     this.modalTableData = {
       data: range['ulbs'].concat([totalRow]),
       year,
       populationCategory: range['populationCategory']
     };
-    // if (this.tabIndex == 0) {
     this.modalTableHeaders[0].click = true;
-    // }
     this.modalTableHeaders = this.modalTableHeaders.map((modal: any) => {
       delete modal['status'];
       return modal;
@@ -565,47 +586,43 @@ export class HomeTabViewComponent implements OnInit {
   }
 
 
-  modalItemClicked(rowClickedId) {
+  modalItemClicked(rowClickedId, row: any = {}) {
     this.selectedUlb = rowClickedId;
     this.loading = true;
     this.tabData = [];
-
     switch (this.tabIndex) {
       case 0:
-        this.dashboardService.fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+        this.dashboardService.fetchDependencyOwnRevenueData(JSON.stringify(this.selectedYears), this.selectedState._id, rowClickedId)
           .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
       case 1:
-        this.dashboardService.fetchSourceOfRevenue(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+        this.dashboardService.fetchSourceOfRevenue(JSON.stringify(this.selectedYears), this.selectedState._id, rowClickedId)
           .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
       case 2:
-        this.dashboardService.fetchFinancialRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+        this.dashboardService.fetchFinancialRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState._id, rowClickedId)
           .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
       case 3:
-        this.dashboardService.fetchRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+        this.dashboardService.fetchRevenueExpenditure(JSON.stringify(this.selectedYears), this.selectedState._id, rowClickedId)
           .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
       case 4:
-        this.dashboardService.fetchCashAndBankBalance(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+        this.dashboardService.fetchCashAndBankBalance(JSON.stringify(this.selectedYears), this.selectedState._id, rowClickedId)
           .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
       case 5:
-        this.dashboardService.fetchOutStandingDebt(JSON.stringify(this.selectedYears), this.selectedState, rowClickedId)
+        this.dashboardService.fetchOutStandingDebt(JSON.stringify(this.selectedYears), this.selectedState._id, rowClickedId)
           .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
         break;
-
     }
-
-
     this.singleULBView = true;
     if (this.modalRef) {
       this.modalRef.hide();
     }
   }
 
-  filterDataStateWise(event: string) {
+  filterDataStateWise(event: any) {
     this.selectedState = event;
     this.singleULBView = false;
     this.selectedUlb = '';
@@ -655,6 +672,41 @@ export class HomeTabViewComponent implements OnInit {
         .slice(0, this.modalTableData.data.length - 1)
         .reverse()
         .concat(totalArray);
+    }
+  }
+
+  downloadTable(elementId = 'table') {
+    const tableElement = <HTMLTableElement>document.getElementById(elementId);
+    let options = {};
+    let tableHeaderText = 'India';
+    if (this.selectedState.hasOwnProperty('_id')) {
+      tableHeaderText = this.selectedState.name;
+
+    }
+    options = {
+      extraTexts: {
+        atTop: {
+          rows: [{
+            columns: [{
+              text: tableHeaderText,
+              bold: 'true',
+              text_align: 'center',
+              font_size: '24',
+              colSpan: this.commonTableHeaders.length
+            }]
+          }],
+          extraRowAfter: 2,
+
+        }
+      }
+    };
+    if (tableElement) {
+      let tableDownloader = TableDownloader.getInstance();
+      tableDownloader.downloadTable(tableElement, {
+        extension: 'xlsx',
+        filename: 'table',
+        ...options
+      });
     }
   }
 }

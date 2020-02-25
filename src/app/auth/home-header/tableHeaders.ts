@@ -6,6 +6,7 @@ export interface ModalTableHeader {
   total?: boolean,
   roundOff?: boolean,
   showInr?: boolean,
+  suffix?: string
 }
 
 export const tableHeaders: any = [
@@ -56,7 +57,7 @@ export const tableHeaders: any = [
     {title: 'Population Category', click: true, id: 'populationCategory'},
     {title: 'Total number of ULBs', id: 'totalUlb', total: true},
     {title: 'Number of ULBs with Data', id: 'numOfUlb', total: true},
-    {title: 'Cash & Bank Balance (Rs in crore)', showInr: true, roundOff: true, id: 'cashAndBankBalance', total: true}
+    {title: 'Cash & Bank Balance', description: '(Rs in crores)', showInr: true, roundOff: true, id: 'cashAndBankBalance', total: true}
   ],
   [
     {title: 'Population Category', click: true, id: 'populationCategory'},
@@ -82,33 +83,38 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
   [
     {title: 'ULB name', id: 'name'},
     {title: 'Population', id: 'population', total: true},
-    {title: 'Own revenues', id: 'ownRevenues', roundOff: true, total: true},
-    {title: 'Sale & hire charges', id: 'saleAndHireCharges', roundOff: true, total: true},
-    {title: 'Assigned revenue', id: 'assignedRevenue', roundOff: true, total: true},
-    {title: 'Grants', id: 'grants', roundOff: true, total: true},
-    {title: 'Interest Income', id: 'interestIncome', roundOff: true, total: true},
-    {title: 'Other Income', id: 'otherIncome', roundOff: true, total: true}
+    {title: 'Own revenues', id: 'ownRevenues', suffix: '%'},
+    {title: 'Sale & hire charges', id: 'saleAndHireCharges', suffix: '%'},
+    {title: 'Assigned revenue', id: 'assignedRevenue', suffix: '%'},
+    {title: 'Grants', id: 'grants', suffix: '%'},
+    {title: 'Interest Income', id: 'interestIncome', suffix: '%'},
+    {title: 'Other Income', id: 'otherIncome', suffix: '%'},
+    {title: 'Total', id: 'total', suffix: '%'}
   ],
   [
     {title: 'ULB name', id: 'name'},
     {title: 'Population', id: 'population', total: true},
-    {title: 'Assigned Revenue And Compensation', id: 'assignedRevenueAndCompensationCoverPercentage'},
-    {title: 'Deficit Finance By Capital Grants', id: 'deficitFinanceByCapitalGrantsCoverPercentage'},
-    {title: 'Interest Income', id: 'interestIncomeCoverPercentage'},
-    {title: 'Other Income ', id: 'otherIncomeCoverPercentage'},
-    {title: 'Own Revenue ', id: 'ownRevenueCoverPercentage', description: '(A/B)'},
-    {title: 'Revenue Grants Contribution And Subsidies', id: 'revenueGrantsContributionAndSubsidiesCoverPercentage'},
-    {title: 'Sale And Hire Charges ', id: 'saleAndHireChargesCoverPercentage'}
+    {title: 'Assigned Revenue And Compensation', suffix: '%', id: 'assignedRevenueAndCompensationCoverPercentage'},
+    {title: 'Deficit Finance By Capital Grants', suffix: '%', id: 'deficitFinanceByCapitalGrantsCoverPercentage'},
+    {title: 'Interest Income', suffix: '%', id: 'interestIncomeCoverPercentage'},
+    {title: 'Other Income ', suffix: '%', id: 'otherIncomeCoverPercentage'},
+    {title: 'Own Revenue ', suffix: '%', id: 'ownRevenueCoverPercentage', description: '(A/B)'},
+    {title: 'Revenue Grants Contribution And Subsidies', suffix: '%', id: 'revenueGrantsContributionAndSubsidiesCoverPercentage'},
+    {title: 'Sale And Hire Charges ', suffix: '%', id: 'saleAndHireChargesCoverPercentage'},
+    {title: 'Total', id: 'total', suffix: '%'}
+
   ],
   [
     {title: 'ULB name', id: 'name'},
     {title: 'Population', id: 'population', total: true},
-    {title: 'Establishment expense', id: 'establishmentExpense', total: true},
-    {title: 'Administrative Expense', id: 'administrativeExpense', total: true},
-    {title: 'Operational & Maint. Expense', id: 'operationalAndMaintananceExpense', total: true},
-    {title: 'Interest & Finance Expense ', id: 'interestAndFinanceExpense', total: true},
-    {title: 'Revenue Grants', id: 'revenueGrants', total: true},
-    {title: 'Others', id: 'other', total: true}
+    {title: 'Establishment expense', suffix: '%', id: 'establishmentExpense'},
+    {title: 'Administrative Expense', suffix: '%', id: 'administrativeExpense'},
+    {title: 'Operational & Maint. Expense', suffix: '%', id: 'operationalAndMaintananceExpense'},
+    {title: 'Interest & Finance Expense ', suffix: '%', id: 'interestAndFinanceExpense'},
+    {title: 'Revenue Grants', suffix: '%', id: 'revenueGrants'},
+    {title: 'Others', suffix: '%', id: 'other'},
+    {title: 'Total', id: 'total', suffix: '%'}
+
   ],
   [
     {title: 'ULB name', click: true, id: 'name'},
