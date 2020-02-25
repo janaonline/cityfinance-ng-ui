@@ -80,6 +80,10 @@ div.miniMap {
   right: -4%;
   top: 1%;
   width: 50%;
+  max-width: 259.199px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
@@ -109,7 +113,7 @@ div.miniMap {
 }
 
 .ulbDetails {
-  transform: scale(0.8) translateY(-45%) translateX(-8%);
+  transform: scale(0.8) translateY(-45%) translateX(-3%);
 }
 
 .bold {
