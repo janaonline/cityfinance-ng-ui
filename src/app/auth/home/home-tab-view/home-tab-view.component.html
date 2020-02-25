@@ -9,7 +9,7 @@
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 0">
         <app-re-useable-heat-map [ulbSelected]="selectedUlb"
-                                 (stateId)="filterDataStateWise($event)"
+                                 (stateSelected)="filterDataStateWise($event)"
                                  (ulbsClicked)="fetchUlBsData($event)">
         </app-re-useable-heat-map>
       </div>
@@ -24,7 +24,7 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 1">
-        <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
+        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
                                  [ulbSelected]="selectedUlb"
                                  (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
@@ -39,7 +39,7 @@
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 2">
         <app-re-useable-heat-map [ulbSelected]="selectedUlb"
-                                 (stateId)="filterDataStateWise($event)"
+                                 (stateSelected)="filterDataStateWise($event)"
                                  (ulbsClicked)="fetchUlBsData($event)">
 
         </app-re-useable-heat-map>
@@ -53,7 +53,7 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 3">
-        <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
+        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
                                  [ulbSelected]="selectedUlb"
                                  (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
@@ -67,7 +67,7 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 4">
-        <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
+        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
                                  [ulbSelected]="selectedUlb"
                                  (ulbsClicked)="fetchUlBsData($event)">
 
@@ -84,7 +84,7 @@
       <div class="col-sm-12 col-md-4"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 5">
-        <app-re-useable-heat-map (stateId)="filterDataStateWise($event)"
+        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
                                  [ulbSelected]="selectedUlb"
                                  (ulbsClicked)="fetchUlBsData($event)">
         </app-re-useable-heat-map>
@@ -207,7 +207,7 @@
           (click)="modalService.hide(1)"
           type="button" data-dismiss="modal" aria-label="Close">Close
   </button>
-<!--  <button (click)="downloadTable()"></button>-->
+  <!--  <button (click)="downloadTable()"></button>-->
 
   <div class="modal-body">
     <div class="table-responsive border-1" style="max-height: 90vh; overflow-x: hidden">
@@ -320,36 +320,40 @@
   <div class="col-sm-12 col-md-7">
     <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
     <div *ngIf="loading==false; else loadingSkeleton" class="row" style="height: 60vh; overflow-y: auto;">
-      <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
-        <div class="col-sm-12">
-          <div class="row">
-            <div class="col text-center"><h3>{{ data?.year }}</h3></div>
-          </div>
-        </div>
-        <div class="row d-flex justify-content-center">
-          <div class="pie-chart-container px-1"
-               *ngFor="let row of data.data; let i = index">
-            <div class="d-flex align-items-center">
-              <span><b>Population <span *ngIf="!singleULBView"></span>:</b></span>
-              <a *ngIf="!singleULBView" (click)="openModal(UlbModal,row,data.year)"
-                 class="p-1">{{singleULBView ? row["population"] : row["populationCategory"] }}</a>
-              <span *ngIf="singleULBView">{{row["population"] | rupeeConverter}} </span>
+      <ng-container *ngIf="commonTableDataDisplay.length;else noData">
+        <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col text-center"><h3>{{ data?.year }}</h3></div>
             </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="pie-chart-container px-1"
+                 *ngFor="let row of data.data; let i = index">
+              <div class="d-flex align-items-center">
+                <span><b>Population <span *ngIf="!singleULBView"></span>:</b></span>
+                <a *ngIf="!singleULBView" (click)="openModal(UlbModal,row,data.year)"
+                   class="p-1">{{singleULBView ? row["population"] : row["populationCategory"] }}</a>
+                <span *ngIf="singleULBView">{{row["population"] | rupeeConverter}} </span>
+              </div>
 
-            <canvas class="p-1" [ngClass]="'myChart-'+data.year" width="400px" height="400px"
-                    [id]="'canvas--' + data.year + '--' + i"></canvas>
-            <ul class="p-0" *ngIf="row['totalUlb']&&row['numOfUlb']">
-              <li>Total number of ULBs : <b>{{+row["totalUlb"]}}</b></li>
-              <li>Number of ULBs with Data: <b> {{+row["numOfUlb"] }}</b></li>
-            </ul>
+              <canvas class="p-1" [ngClass]="'myChart-'+data.year" width="400px" height="400px"
+                      [id]="'canvas--' + data.year + '--' + i"></canvas>
+              <ul class="p-0" *ngIf="row['totalUlb']&&row['numOfUlb']">
+                <li>Total number of ULBs : <b>{{+row["totalUlb"]}}</b></li>
+                <li>Number of ULBs with Data: <b> {{+row["numOfUlb"] }}</b></li>
+              </ul>
+            </div>
+            <div class="d-flex justify-content-center">
+              <h4 *ngIf="!data.data.length">Data not Available</h4>
+            </div>
           </div>
-          <div class="d-flex justify-content-center">
-            <h4 *ngIf="!data.data.length">Data not Available</h4>
-          </div>
+          <ul [ngClass]="'legend-'+data?.year" [id]="data?.year" class="p-0"></ul>
         </div>
-
-        <ul [class]="'legend-'+data?.year" [id]="data?.year"></ul>
-      </div>
+      </ng-container>
+      <ng-template #noData>
+        <h3 class="text-center">No data available</h3>
+      </ng-template>
     </div>
   </div>
 </ng-template>
