@@ -495,7 +495,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       this.showDistrictMapNotLaodedWarning();
       return false;
     }
-    this.resetulbFilterControl();
+    this.clearUlbFilterControl();
 
     if (this.isMapOnMiniMapMode) {
       this.resetMapToNationalLevel();
@@ -714,7 +714,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
           icon: this.blueIcon
         }).addTo(districtMap);
         marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
-        marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
+        // marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
         marker.on(
           "click",
           values =>
@@ -758,6 +758,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     if (!ulbFound) {
       return false;
     }
+    this.clearUlbFilterControl();
     this.currentULBClicked = ulbFound;
     const ulbAlreadySelect = !!this.ulbsSelected.value.find(
       id => id === ulbFound._id
@@ -847,7 +848,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     this.showMapLegends();
   }
 
-  private resetulbFilterControl() {
+  private clearUlbFilterControl() {
     this.ulbFilterControl.reset();
   }
 
