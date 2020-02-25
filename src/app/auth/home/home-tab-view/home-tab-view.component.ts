@@ -624,7 +624,11 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   filterDataStateWise(event: any) {
-    this.selectedState = event;
+    if (event) {
+      this.selectedState = event;
+    } else {
+      this.selectedState = {};
+    }
     this.singleULBView = false;
     this.selectedUlb = '';
     this.tabData = [];
