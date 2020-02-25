@@ -34,7 +34,7 @@ export class TableDownloader {
 
   downloadTable(table: HTMLTableElement, option: TableDowloadOptions) {
     const workbook = new Workbook();
-    const worksheet = workbook.addWorksheet('Sheet 1');
+    const worksheet = workbook.addWorksheet("Sheet 1");
     if (option.extraTexts && option.extraTexts.atTop) {
       this.addExtraTextToWorksheet(worksheet, option.extraTexts.atTop);
     }
@@ -60,23 +60,24 @@ export class TableDownloader {
   }
 
   private getRowsFromTableBody(table: HTMLTableElement) {
-    return <NodeListOf<HTMLTableRowElement>>table.querySelectorAll('tbody  tr');
+    return <NodeListOf<HTMLTableRowElement>>table.querySelectorAll("tbody  tr");
   }
 
   private getRowsFromTableHead(table: HTMLTableElement) {
-    return <NodeListOf<HTMLTableRowElement>>table.querySelectorAll('thead  tr');
+    return <NodeListOf<HTMLTableRowElement>>table.querySelectorAll("thead  tr");
   }
 
   private addNewRowData(
     worksheet: Worksheet,
     options: { row: HTMLTableRowElement }
   ) {
-    const newRow = worksheet.addRow(['']);
-    const currentRowIndex = worksheet.actualRowCount;
+    const newRow = worksheet.addRow([""]);
+    const currentRowIndex = worksheet.rowCount;
 
     const totalNoOfColumns = options.row.childElementCount;
     for (let i = 1; i <= totalNoOfColumns; i++) {
       const tableCell = options.row.cells.item(i - 1);
+
       this.applyAttributeToCell({
         cell: newRow.getCell(i),
         worksheet,
@@ -109,19 +110,19 @@ export class TableDownloader {
 
     if (dataAttributes.background_color) {
       option.cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FFFFFF00' },
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FFFFFF00" },
         bgColor: { argb: dataAttributes.background_color }
       };
     }
 
     if (dataAttributes.text_align) {
-      option.cell.alignment = { vertical: 'middle' };
+      option.cell.alignment = { vertical: "middle" };
       option.cell.alignment.horizontal = dataAttributes.text_align;
     }
 
-    if (dataAttributes.bold && dataAttributes.bold === 'true') {
+    if (dataAttributes.bold && dataAttributes.bold === "true") {
       option.cell.font.bold = true;
     }
 
@@ -170,8 +171,8 @@ export class TableDownloader {
   private addExtraTextToWorksheet(
     worksheet: Worksheet,
     textsToAdd:
-      | TableDowloadOptions['extraTexts']['atTop']
-      | TableDowloadOptions['extraTexts']['atBottom']
+      | TableDowloadOptions["extraTexts"]["atTop"]
+      | TableDowloadOptions["extraTexts"]["atBottom"]
   ) {
     if (!Object.keys(textsToAdd).length || !textsToAdd.rows.length) {
       return false;
@@ -192,9 +193,9 @@ export class TableDownloader {
   }
 
   private createTableRowFromData(
-    rowToAdd: TableDowloadOptions['extraTexts']['atTop']['rows'][0]
+    rowToAdd: TableDowloadOptions["extraTexts"]["atTop"]["rows"][0]
   ) {
-    const tableRow = document.createElement('tr');
+    const tableRow = document.createElement("tr");
     rowToAdd.columns.forEach(col => {
       const newTabCell = tableRow.insertCell();
       Object.keys(col).forEach(attributeName => {
@@ -225,7 +226,7 @@ export class TableDownloader {
     workbook.xlsx.writeBuffer().then((data: any) => {
       const blob = new Blob([data], {
         type:
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       });
       saveAs(blob, fileName);
     });
