@@ -139,7 +139,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     }
 
     const ulbsAlreadySelect = <string[]>this.ulbsSelected.value;
-    ulbsAlreadySelect.push(ulbFound._id);
+    ulbsAlreadySelect[0] = ulbFound._id;
     this.ulbsSelected.setValue(ulbsAlreadySelect);
     this.currentULBClicked = ulbFound;
     if (
@@ -764,6 +764,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       id => id === ulbFound._id
     );
     let newValues: string[];
+
     if (ulbAlreadySelect) {
       newValues = this.ulbsSelected.value.filter(id => id !== ulbFound._id);
       this.changeMarkerToUnselected(marker);
