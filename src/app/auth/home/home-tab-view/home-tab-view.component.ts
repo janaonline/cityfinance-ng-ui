@@ -185,9 +185,13 @@ export class HomeTabViewComponent implements OnInit {
       if (this.singleULBView) {
         this.modalItemClicked(this.selectedUlb);
       } else {
-        this.commonTableData = response['data'];
-        this.commonTableDataDisplay = response['data'];
-        this.filterDisplayDataTableYearWise();
+        if (response['data']) {
+          this.commonTableData = response['data'];
+          this.commonTableDataDisplay = response['data'];
+          if (this.commonTableDataDisplay.length) {
+            this.filterDisplayDataTableYearWise();
+          }
+        }
       }
       this.tabData[this.tabIndex] = response;
       this.loading = false;
@@ -247,7 +251,7 @@ export class HomeTabViewComponent implements OnInit {
   onDropDownSelectAll(event) {
     this.yearForm.controls['years'].setValue(event);
     this.selectedYears = event.map(e => e.id);
-    this.filterDisplayDataTableYearWise();
+    //  this.filterDisplayDataTableYearWise();
   }
 
   private renderCharts() {
@@ -695,7 +699,7 @@ export class HomeTabViewComponent implements OnInit {
               text: tableHeaderText,
               bold: 'true',
               text_align: 'center',
-              font_size: '24',
+              font_size: '14',
               colSpan: elementId == 'table' ? this.modalTableHeaders.length : this.commonTableHeaders.length
             }]
           }],
