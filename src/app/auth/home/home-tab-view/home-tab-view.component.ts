@@ -8,6 +8,7 @@ import 'chartjs-plugin-labels';
 import 'chartjs-plugin-title-click';
 import {TableDownloader} from '../../../shared/util/tableDownload/genericTableDownload';
 import {TableDowloadOptions} from '../../../shared/util/tableDownload/models/options';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -658,6 +659,15 @@ export class HomeTabViewComponent implements OnInit {
     if (typeof aVal !== 'number' && aVal.includes('%')) {
       aVal = aVal.replace('%', '');
       bVal = bVal.replace('%', '');
+    }
+    if (id === 'populationCategory') {
+      let populationCategoryObj = {
+        '< 1 Lakh': 0,
+        '1 Lakh to 10 Lakhs': 1,
+        '> 10 Lakhs': 2
+      };
+      aVal = populationCategoryObj[aVal];
+      bVal = populationCategoryObj[bVal];
     }
 
     if (typeof aVal == 'number') {
