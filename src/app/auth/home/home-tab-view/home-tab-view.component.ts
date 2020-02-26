@@ -7,6 +7,7 @@ import {ModalTableHeader, modalTableHeaders, tableHeaders} from '../../home-head
 import 'chartjs-plugin-labels';
 import 'chartjs-plugin-title-click';
 import {TableDownloader} from '../../../shared/util/tableDownload/genericTableDownload';
+import {TableDowloadOptions} from '../../../shared/util/tableDownload/models/options';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -92,6 +93,7 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   onDropdownDeSelect(event: any) {
+    console.log(event);
     this.selectedYears.splice(
       this.selectedYears.findIndex(year => event.id == year),
       1
@@ -697,20 +699,28 @@ export class HomeTabViewComponent implements OnInit {
     if (this.selectedState.hasOwnProperty('_id')) {
       tableHeaderText = this.selectedState.name;
     }
+    let textFor2ndRow = `File downloaded on  ${new Date().toLocaleDateString()}. `;
     options = {
       extraTexts: {
         atTop: {
-          rows: [{
-            columns: [{
-              text: tableHeaderText,
-              bold: 'true',
-              text_align: 'center',
-              font_size: '14',
-              colSpan: elementId == 'table' ? this.modalTableHeaders.length : this.commonTableHeaders.length
-            }]
-          }],
-          extraRowAfter: 2,
-
+          rows: [
+            {
+              columns: [{
+                text: tableHeaderText,
+                bold: 'true',
+                text_align: 'center',
+                font_size: '14',
+                colSpan: elementId == 'table' ? this.modalTableHeaders.length : this.commonTableHeaders.length
+              }]
+            }, {
+              columns: [{
+                text: textFor2ndRow,
+                bold: 'true',
+                font_size: '14',
+                colSpan: elementId == 'table' ? this.modalTableHeaders.length : this.commonTableHeaders.length
+              }]
+            }],
+          extraRowAfter: 2
         }
       }
     };

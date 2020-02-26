@@ -28,9 +28,12 @@
     border: 1px solid darkgrey;
   }
 
+  .c-remove, .clear-all {
+    display: none !important;
+  }
+
 }
 
-ws
 .table-responsive {
   max-height: 50vh;
   overflow: auto;
