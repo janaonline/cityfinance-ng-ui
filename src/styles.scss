@@ -130,7 +130,7 @@ img.align-center {
 .navbar {
   border-radius: 0px;
   background-color: #333 !important;
-  z-index: 100001;
+  z-index: 10001;
   box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 3px;
 
   a,
@@ -526,7 +526,7 @@ img.align-center {
 }
 
 .modal {
-  z-index: 1000002;
+  z-index: 10002;
   @media (min-width: 1300px) {
     .modal-lg {
       width: 1200px;
