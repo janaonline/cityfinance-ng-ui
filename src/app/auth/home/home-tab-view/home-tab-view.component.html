@@ -328,7 +328,10 @@
                           [settings]="yearsDropdownSettings"
                           (onClose)="onDropdownClose($event)"
                           (onSelect)="onDropdownSelect($event)"
+                          (onGroupDeSelect)="onDropdownDeSelect($event)"
                           (onDeSelect)="onDropdownDeSelect($event)"
+                          (onFilterDeSelectAll)="onDropdownDeSelect($event)"
+
                           (onSelectAll)="onDropDownSelectAll($event)"
                           (onDeSelectAll)="resetPopupValues()">
     </angular2-multiselect>
