@@ -268,8 +268,11 @@ export class HomeTabViewComponent implements OnInit {
       div.style.backgroundColor = props._options.backgroundColor;
       div.style.borderColor = props._options.borderColor;
       div.style.borderWidth = props._options.borderWidth;
+
       div.style.width = '25px';
+      //div.style.borderRadius = '50%';
       div.style.height = '25px';
+      div.style.marginRight = '5px';
       div.style.display = 'inline-block';
       parentNode['prepend'](div);
     }
@@ -389,6 +392,8 @@ export class HomeTabViewComponent implements OnInit {
                 containerUl[0].style.padding = '0';
                 containerUl[0].style.alignItems = 'flex-start';
                 containerUl[0].style.justifyContent = 'center';
+                containerUl[0].style.flexWrap = 'wrap';
+
                 containerUl[0].style.marginTop = '1rem';
               }
             }
@@ -397,9 +402,10 @@ export class HomeTabViewComponent implements OnInit {
               yearWiseCharts[0].chart.getDatasetMeta(0).data.forEach(meta => {
                 if (meta._index == i) {
                   legendItems[i].style.display = 'flex';
-                  legendItems[i].style.flexDirection = 'column';
-                  legendItems[i].style.textAlign = 'center';
-                  legendItems[i].style.justifyContent = 'center';
+                  legendItems[i].style.marginRight = '5px';
+                  //legendItems[i].style.flexDirection = 'column';
+                  // legendItems[i].style.textAlign = 'center';
+                  //legendItems[i].style.justifyContent = 'center';
                   legendItems[i].style.alignItems = 'center';
                   legendItems[i].style.padding = '1rem';
                   prependDataColorDiv(legendItems[i], meta);

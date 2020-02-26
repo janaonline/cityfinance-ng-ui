@@ -129,8 +129,8 @@
                 [attr.data-bold]="true"
                 class="px-1 border-bottom-0"
                 [ngClass]="header?.id!='populationCategory'?'text-center':''"
-                *ngFor="let header of commonTableHeaders">
-              <div class="d-flex justify-content-center">
+                *ngFor="let header of commonTableHeaders;let j=index">
+              <div class="d-flex" [ngClass]="j!=0?'justify-content-center':''">
                 <div class="d-flex flex-column p-0">
                   {{ header.title }}
                   <span class="font-weight-light" *ngIf="header.description">
@@ -246,8 +246,8 @@
               [attr.data-bold]="true"
               style="position: sticky; top: 0;background: white"
               class="text-center border-bottom-0"
-              *ngFor="let header of modalTableHeaders">
-            <div class="d-flex px-1 justify-content-center">
+              *ngFor="let header of modalTableHeaders;let j= index">
+            <div class="d-flex px-1 justify-content-center ">
               <div class="d-flex flex-column p-0">
                 {{ header.title }}
                 <span class="font-weight-light" *ngIf="header.description">
