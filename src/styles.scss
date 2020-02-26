@@ -526,6 +526,7 @@ img.align-center {
 }
 
 .modal {
+  z-index: 1000002;
   @media (min-width: 1300px) {
     .modal-lg {
       width: 1200px;

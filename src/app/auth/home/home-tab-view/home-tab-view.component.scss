@@ -61,6 +61,12 @@ ws
   font-weight: bold;
 }
 
+#table-main {
+  th:first-child {
+    text-align: left;
+  }
+}
+
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
