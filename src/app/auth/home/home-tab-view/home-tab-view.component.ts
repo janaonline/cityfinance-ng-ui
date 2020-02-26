@@ -88,7 +88,7 @@ export class HomeTabViewComponent implements OnInit {
   resetPopupValues() {
     this.selectedYears = [];
     this.yearForm.controls['years'].setValue([]);
-    this.filterDisplayDataTableYearWise();
+    // this.filterDisplayDataTableYearWise();
   }
 
   onDropdownDeSelect(event: any) {
