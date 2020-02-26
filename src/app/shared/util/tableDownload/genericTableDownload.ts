@@ -20,7 +20,7 @@ export class TableDownloader {
 
   private readonly _default = {
     cellWidth: 20,
-    fontSize: 9
+    fontSize: 12
   };
 
   private constructor() {}
