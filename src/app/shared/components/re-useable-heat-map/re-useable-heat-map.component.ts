@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatAutocompleteTrigger, MatSnackBar } from '@angular/material';
 import * as L from 'leaflet';
 import { debounceTime } from 'rxjs/operators';
 
@@ -31,10 +31,14 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       .subscribe(res => this.onGettingULBWithPopulationSuccess(res));
 
     this.listenToFormControls();
+    this.addListener();
   }
   @Output() ulbsClicked = new EventEmitter<string[]>();
   @Output() stateSelected = new EventEmitter<IStateWithULBS>();
   @Input() ulbSelected: string;
+
+  @ViewChild("autoCompleteInput", { read: MatAutocompleteTrigger })
+  ulbSearchAutoComplete: MatAutocompleteTrigger;
 
   ulbsSelected = new FormControl([]);
   ulbFilterControl = new FormControl();
@@ -281,6 +285,14 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
           stateId: this.currentStateInView ? this.currentStateInView._id : null
         });
       });
+  }
+
+  private addListener() {
+    window.addEventListener("scroll", ev => {
+      if (this.ulbSearchAutoComplete.autocomplete.isOpen) {
+        this.ulbSearchAutoComplete.closePanel();
+      }
+    });
   }
 
   private filterMergedStateDataBy(options: {

@@ -32,6 +32,7 @@
       *ngIf="ulbsOfSelectedState && nationalLevelMap"
     >
       <input
+        #autoCompleteInput
         type="text"
         placeholder="Search ULB"
         aria-label="text"
@@ -39,7 +40,7 @@
         [formControl]="ulbFilterControl"
         [matAutocomplete]="auto"
       />
-      <mat-autocomplete #auto="matAutocomplete">
+      <mat-autocomplete #auto="matAutocomplete" class="tesinng">
         <mat-option *ngIf="!filteredULBStateAndULBDataMerged" disabled>
           No ULB matched
         </mat-option>
