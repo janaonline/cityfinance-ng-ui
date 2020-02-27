@@ -279,12 +279,3 @@ mat-form-field {
 ::ng-deep label.mat-optgroup-label {
   height: 38px;
 }
-
-::ng-deep {
-  .cdk-overlay-connected-position-bounding-box,
-  .cdk-overlay-pane,
-  .cdk-global-overlay-wrapper,
-  .cdk-overlay-container {
-    z-index: 1 !important;
-  }
-}
