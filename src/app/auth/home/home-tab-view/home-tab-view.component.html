@@ -136,26 +136,26 @@
                   <span class="font-weight-light" *ngIf="header.description">
                       {{ header.description }}</span>
                 </div>
-             <!--   <i style="position: absolute;   right: -1rem"
-                   *ngIf="!header.hasOwnProperty('status'); else icon"
-                   (click)="sortHeader(header)"
-                   class="fa fa-sort px-1"
-                   aria-hidden="true"
-                ></i>
-                <ng-template #icon>
-                  <i style="position: absolute;   right: -1rem"
-                     *ngIf="header.status"
-                     (click)="sortHeader(header)"
-                     class="fa fa-sort-asc px-1"
-                     aria-hidden="true"
-                  ></i>
-                  <i style="position: absolute;   right: -1rem"
-                     *ngIf="!header.status"
-                     (click)="sortHeader(header)"
-                     class="fa fa-sort-desc  px-1"
-                     aria-hidden="true"
-                  ></i>
-                </ng-template>-->
+                <!--   <i style="position: absolute;   right: -1rem"
+                      *ngIf="!header.hasOwnProperty('status'); else icon"
+                      (click)="sortHeader(header)"
+                      class="fa fa-sort px-1"
+                      aria-hidden="true"
+                   ></i>
+                   <ng-template #icon>
+                     <i style="position: absolute;   right: -1rem"
+                        *ngIf="header.status"
+                        (click)="sortHeader(header)"
+                        class="fa fa-sort-asc px-1"
+                        aria-hidden="true"
+                     ></i>
+                     <i style="position: absolute;   right: -1rem"
+                        *ngIf="!header.status"
+                        (click)="sortHeader(header)"
+                        class="fa fa-sort-desc  px-1"
+                        aria-hidden="true"
+                     ></i>
+                   </ng-template>-->
               </div>
             </th>
           </tr>
@@ -350,43 +350,42 @@
     <div class="row">
       <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
     </div>
-    <div class="row">
-      <div *ngIf="loading==false; else loadingSkeleton" class="row" style="height: 60vh; overflow-y: auto;">
-        <ng-container *ngIf="commonTableDataDisplay.length;else noData">
-          <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
-            <div class="col-sm-12">
-              <div class="row">
-                <div class="col text-center"><h3>{{ data?.year }}</h3></div>
-              </div>
+    <div *ngIf="loading==false; else loadingSkeleton" class="row" style="height: 60vh; overflow-y: auto;">
+      <ng-container *ngIf="commonTableDataDisplay.length;else noData">
+        <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
+          <div class="row">
+            <div class="col-sm-12 text-center">
+              <h3>{{ data?.year }}</h3>
             </div>
-            <div class="row d-flex justify-content-center">
-              <div class="pie-chart-container px-1"
-                   *ngFor="let row of data.data; let i = index">
-                <div class="d-flex align-items-center">
-                  <span><b>Population <span *ngIf="!singleULBView"></span>:</b></span>
-                  <a *ngIf="!singleULBView" (click)="openModal(UlbModal,row,data.year)"
-                     class="p-1">{{singleULBView ? row["population"] : row["populationCategory"] }}</a>
-                  <span *ngIf="singleULBView">{{row["population"] | rupeeConverter}} </span>
-                </div>
-
-                <canvas class="p-1" [ngClass]="'myChart-'+data.year" width="400px" height="400px"
-                        [id]="'canvas--' + data.year + '--' + i"></canvas>
-                <ul class="p-0" *ngIf="row['totalUlb']&&row['numOfUlb']">
-                  <li>Total number of ULBs : <b>{{+row["totalUlb"]}}</b></li>
-                  <li>Number of ULBs with Data: <b> {{+row["numOfUlb"] }}</b></li>
-                </ul>
-              </div>
-              <div class="d-flex justify-content-center">
-                <h4 *ngIf="!data.data.length">Data not Available</h4>
-              </div>
-            </div>
-            <ul [ngClass]="'legend-'+data?.year" [id]="data?.year" class="p-0"></ul>
           </div>
-        </ng-container>
-        <ng-template #noData>
-          <h3 class="text-center">No data available</h3>
-        </ng-template>
-      </div>
+
+          <div class="row d-flex justify-content-center">
+            <div class="pie-chart-container px-1"
+                 *ngFor="let row of data.data; let i = index">
+              <div class="d-flex align-items-center">
+                <span><b>Population <span *ngIf="!singleULBView"></span>:</b></span>
+                <a *ngIf="!singleULBView" (click)="openModal(UlbModal,row,data.year)"
+                   class="p-1">{{singleULBView ? row["population"] : row["populationCategory"] }}</a>
+                <span *ngIf="singleULBView">{{row["population"] | rupeeConverter}} </span>
+              </div>
+
+              <canvas class="p-1" [ngClass]="'myChart-'+data.year" width="400px" height="400px"
+                      [id]="'canvas--' + data.year + '--' + i"></canvas>
+              <ul class="p-0" *ngIf="row['totalUlb']&&row['numOfUlb']">
+                <li>Total number of ULBs : <b>{{+row["totalUlb"]}}</b></li>
+                <li>Number of ULBs with Data: <b> {{+row["numOfUlb"] }}</b></li>
+              </ul>
+            </div>
+            <div class="d-flex justify-content-center">
+              <h4 *ngIf="!data.data.length">Data not Available</h4>
+            </div>
+          </div>
+          <ul [ngClass]="'legend-'+data?.year" [id]="data?.year" class="p-0"></ul>
+        </div>
+      </ng-container>
+      <ng-template #noData>
+        <h3 class="text-center">No data available</h3>
+      </ng-template>
     </div>
   </div>
 </ng-template>
