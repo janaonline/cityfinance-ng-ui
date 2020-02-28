@@ -9,6 +9,8 @@ import 'chartjs-plugin-title-click';
 import {TableDownloader} from '../../../shared/util/tableDownload/genericTableDownload';
 import {TableDowloadOptions} from '../../../shared/util/tableDownload/models/options';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {MatDialog} from '@angular/material';
+import {DialogComponent} from '../../../shared/components/dialog/dialog.component';
 
 @Component({
   selector: 'app-home-tab-view',
@@ -20,7 +22,7 @@ export class HomeTabViewComponent implements OnInit {
   yearLookup = [
     {id: '2015-16', itemName: '2015-16'},
     {id: '2016-17', itemName: '2016-17'},
-    {id: '2017-18', itemName: '2017-18'}
+    // {id: '2017-18', itemName: '2017-18'}
   ];
   yearsDropdownSettings = {
     text: 'Select Years',
@@ -65,7 +67,9 @@ export class HomeTabViewComponent implements OnInit {
   constructor(protected formBuilder: FormBuilder,
               protected dashboardService: DashboardService,
               private modalService: BsModalService,
+              private _dialog: MatDialog
   ) {
+
     this.yearForm = formBuilder.group({
       years: [[this.yearLookup[1]]]
     });
@@ -115,9 +119,9 @@ export class HomeTabViewComponent implements OnInit {
 
   private filterDisplayDataTableYearWise() {
     switch (this.tabIndex) {
+      case 1:
       case 2:
       case 3:
-      case 1:
         this.renderCharts();
         break;
       case 4:
@@ -213,6 +217,13 @@ export class HomeTabViewComponent implements OnInit {
       delete row['status'];
       return row;
     });
+    if (this.selectedYears.length > 1) {
+      this._dialog.open(DialogComponent, {
+        width: '40vw',
+        data: {message: 'Only ULBs with data for all of the selected years will be displayed.'}
+      });
+    }
+
     switch (this.tabIndex) {
       case 0:
         this.dashboardService
@@ -349,6 +360,7 @@ export class HomeTabViewComponent implements OnInit {
         const data = labels.map(l => l.data);
         const chartLabels = labels.map(l => l.name);
         const chartTitle = row[this.commonTableHeaders[0].id];
+        console.log(data, labels);
         setTimeout(() => {
 
           const c = this.renderPieChart({
@@ -586,7 +598,10 @@ export class HomeTabViewComponent implements OnInit {
       totalRow['ownRevenuePercentage'] = Number((Number(totalRow['ownRevenue']) / Number(totalRow['revenueExpenditure'])) * 100).toFixed(2) + '%';
     }
     this.modalTableData = {
-      data: range['ulbs'].concat([totalRow]),
+      data: range['ulbs']
+        .sort((a, b) => this.sortCallBack(a, b, 'population'))
+        .reverse()
+        .concat([totalRow]),
       year,
       populationCategory: range['populationCategory']
     };
@@ -671,10 +686,10 @@ export class HomeTabViewComponent implements OnInit {
     }
 
     if (typeof aVal == 'number') {
-      return aVal - bVal;
+      return ((aVal - bVal) == 0) ? -1 : aVal - bVal;
     } else if (!isNaN(Number(aVal))) {
-      return aVal - bVal;
-    } else if (aVal > bVal) {
+      return ((aVal - bVal) == 0) ? -1 : aVal - bVal;
+    } else if (aVal >= bVal) {
       return -1;
     } else if (aVal < bVal) {
       return 1;
@@ -742,6 +757,11 @@ export class HomeTabViewComponent implements OnInit {
         ...options
       });
     }
+  }
+
+  ngOnDestroy() {
+    this.modalService.hide(1);
+
   }
 
 }
