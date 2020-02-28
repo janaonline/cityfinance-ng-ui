@@ -14,7 +14,6 @@
   z-index: 99999 !important;
 }
 
-
 // Scroll Bar UI Starts here
 
 /* width */
@@ -130,7 +129,7 @@ img.align-center {
 .navbar {
   border-radius: 0px;
   background-color: #333 !important;
-  z-index: 10001;
+  z-index: 100;
   box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 3px;
 
   a,
@@ -291,11 +290,11 @@ img.align-center {
     // background-color: #d3d3d3;
     padding: 5px 10px;
     -webkit-transition: color 0.15s ease-in-out,
-    background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+      background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+      box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
-    -webkit-box-shadow 0.15s ease-in-out;
+      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+      -webkit-box-shadow 0.15s ease-in-out;
   }
 }
 
@@ -638,10 +637,10 @@ img.align-center {
 }
 
 #mapid
-> div.leaflet-control-container
-> div.leaflet-bottom.leaflet-right
-> div
-> a {
+  > div.leaflet-control-container
+  > div.leaflet-bottom.leaflet-right
+  > div
+  > a {
   display: none;
 }
 
