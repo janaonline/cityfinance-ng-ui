@@ -108,6 +108,12 @@ export class HomeTabViewComponent implements OnInit {
 
   onDropdownClose(event: any) {
     this.tabData = [];
+    if (this.selectedYears.length > 1) {
+      this._dialog.open(DialogComponent, {
+        width: '40vw',
+        data: {message: 'Only ULBs with data for all of the selected years will be displayed.'}
+      });
+    }
     this.fetchData();
   }
 
@@ -217,12 +223,6 @@ export class HomeTabViewComponent implements OnInit {
       delete row['status'];
       return row;
     });
-    if (this.selectedYears.length > 1) {
-      this._dialog.open(DialogComponent, {
-        width: '40vw',
-        data: {message: 'Only ULBs with data for all of the selected years will be displayed.'}
-      });
-    }
 
     switch (this.tabIndex) {
       case 0:
