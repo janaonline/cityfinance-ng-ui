@@ -119,6 +119,7 @@ export class HomeTabViewComponent implements OnInit {
 
   private filterDisplayDataTableYearWise() {
     switch (this.tabIndex) {
+      case 1:
       case 2:
       case 3:
         this.renderCharts();
@@ -359,6 +360,7 @@ export class HomeTabViewComponent implements OnInit {
         const data = labels.map(l => l.data);
         const chartLabels = labels.map(l => l.name);
         const chartTitle = row[this.commonTableHeaders[0].id];
+        console.log(data, labels);
         setTimeout(() => {
 
           const c = this.renderPieChart({
