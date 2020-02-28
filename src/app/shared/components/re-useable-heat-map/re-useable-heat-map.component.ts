@@ -112,6 +112,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     }
     if (stateOfULB) {
       this.convertDomToMiniMap("mapid");
+      this.clearUlbFilterControl();
       this.hideMapLegends();
       this.showStateLayerOnlyFor(this.nationalLevelMap, stateOfULB);
       this.unselectAllDistrictMarker();
