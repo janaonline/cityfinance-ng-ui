@@ -14,8 +14,8 @@ export const tableHeaders: any = [
     {title: 'Population Category', click: true, id: 'populationCategory'},
     {title: 'Total number of ULBs', id: 'totalUlb'},
     {title: 'Number of ULBs with Data', id: 'numOfUlb'},
-    {title: 'Own Revenue (A)', id: 'ownRevenue', roundOff: true, showInr: true, description: '(Rs in crores)'},
-    {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', showInr: true, roundOff: true, description: '(Rs in crores)'},
+    {title: 'Own Revenue (A)', id: 'ownRevenue', roundOff: true, description: '(Rs in crores)'},
+    {title: 'Revenue Expenditure (B)', id: 'revenueExpenditure', roundOff: true, description: '(Rs in crores)'},
     {title: 'Own Revenue %', id: 'ownRevenuePercentage', description: '(A/B)'},
     {title: 'Min. Own Revenue %', id: 'minOwnRevenuePercentage'},
     {title: 'Max. Own Revenue %', id: 'maxOwnRevenuePercentage'}
@@ -57,18 +57,18 @@ export const tableHeaders: any = [
     {title: 'Population Category', click: true, id: 'populationCategory'},
     {title: 'Total number of ULBs', id: 'totalUlb', total: true},
     {title: 'Number of ULBs with Data', id: 'numOfUlb', total: true},
-    {title: 'Cash & Bank Balance', description: '(Rs in crores)', showInr: true, roundOff: true, id: 'cashAndBankBalance', total: true}
+    {title: 'Cash & Bank Balance', description: '(Rs in crores)', roundOff: true, id: 'cashAndBankBalance', total: true}
   ],
   [
     {title: 'Population Category', click: true, id: 'populationCategory'},
     {title: 'Total number of ULBs', id: 'totalUlb', total: true},
     {title: 'Number of ULBs with Data', id: 'numOfUlb', total: true},
-    {title: 'Loans from Central Government', showInr: true, roundOff: true, id: 'LoanFromCentralGovernment', total: true},
-    {title: 'Loans from State Government', showInr: true, roundOff: true, id: 'loanFromStateGovernment', total: true},
-    {title: 'Loans from Financial Institutions', showInr: true, roundOff: true, id: 'loanFromFIIB', total: true},
-    {title: 'Bonds and Other Debt Instruments', showInr: true, roundOff: true, id: 'bondsAndOtherDebtInstruments', total: true},
-    {title: 'Others', id: 'others', showInr: true, roundOff: true, total: true},
-    {title: 'Total Debt', id: 'total', showInr: true, roundOff: true, total: true}
+    {title: 'Loans from Central Government',  roundOff: true, id: 'LoanFromCentralGovernment', total: true},
+    {title: 'Loans from State Government',  roundOff: true, id: 'loanFromStateGovernment', total: true},
+    {title: 'Loans from Financial Institutions',  roundOff: true, id: 'loanFromFIIB', total: true},
+    {title: 'Bonds and Other Debt Instruments',  roundOff: true, id: 'bondsAndOtherDebtInstruments', total: true},
+    {title: 'Others', id: 'others',  roundOff: true, total: true},
+    {title: 'Total Debt', id: 'total',  roundOff: true, total: true}
   ]
 ];
 
