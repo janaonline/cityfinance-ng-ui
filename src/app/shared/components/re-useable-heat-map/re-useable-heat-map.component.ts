@@ -1,4 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChange,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger, MatSnackBar } from '@angular/material';
 import * as L from 'leaflet';
@@ -16,7 +26,7 @@ import { IStateWithULBS } from './models/stateWithULBS';
   templateUrl: "./re-useable-heat-map.component.html",
   styleUrls: ["./re-useable-heat-map.component.scss"]
 })
-export class ReUseableHeatMapComponent implements OnInit, OnChanges {
+export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private _commonService: CommonService,
     private _snackbar: MatSnackBar
@@ -32,7 +42,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
     this.listenToFormControls();
     this.addListener();
+    this.addCustomStyleTag();
+    // this.removeCustomStyleTag();
   }
+
   @Output() ulbsClicked = new EventEmitter<string[]>();
   @Output() stateSelected = new EventEmitter<IStateWithULBS>();
   @Input() ulbSelected: string;
@@ -900,5 +913,23 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     class="h-60 col-sm-12"
     style="background: white;z-index: 8; display: inline-block; width: 99%;height: 57vh;"
   ></div>`;
+  }
+
+  private addCustomStyleTag() {
+    const newStyle = document.createElement("style");
+    newStyle.id = "customReuseable";
+    const styling =
+      " .mat-form-field-appearance-outline .mat-form-field-infix { padding: 14.5px 0 !important;}";
+    newStyle.appendChild(document.createTextNode(styling));
+    document.head.appendChild(newStyle);
+  }
+
+  ngOnDestroy() {
+    this.removeCustomStyleTag();
+  }
+
+  private removeCustomStyleTag() {
+    const element = document.getElementById("customReuseable");
+    element.remove();
   }
 }

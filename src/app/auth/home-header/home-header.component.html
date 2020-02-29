@@ -22,21 +22,29 @@
   </div>
 </nav> -->
 
-<nav class="navbar container-fluid position-sticky">
-  <div class="navbar-header">
+<nav
+  class="navbar container-fluid position-sticky"
+  style="display: flex; align-items: center;justify-content: space-between;"
+>
+  <div class="navbar-header" style="flex:1">
     <span [routerLink]="['/']" class="navbar-brand"
       ><img src="/assets/images/cityfinance-logo.png"
     /></span>
   </div>
   <div class="nav navbar-nav navbar-right px-1 " style="color: white">
-    <h4 class="text-right m-1">
+    <h4
+      class="text-right m-1"
+      style="align-items: center;
+    display: inline-flex;
+    justify-content: center;"
+    >
       <div style="width: 85%; display: inline-block;margin-right: 3%;">
         An initiative of Ministry of Housing and Urban Affairs,<br />
         Government of India
       </div>
 
       <img
-        style="width: 6%;transform: translateY(-10%);"
+        style="width: 6%;"
         src="/assets/images/emblem-of-india.svg"
         alt="Emblem of India"
         srcset=""
