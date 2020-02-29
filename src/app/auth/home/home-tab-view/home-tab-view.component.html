@@ -247,7 +247,7 @@
               style="position: sticky; top: 0;background: white"
               class="text-center border-bottom-0"
               *ngFor="let header of modalTableHeaders;let j= index">
-            <div class="d-flex px-1 justify-content-center ">
+            <div class="d-flex px-1" [ngClass]="j!=0?'justify-content-center':'justify-content-center'">
               <div class="d-flex flex-column p-0">
                 {{ header.title }}
                 <span class="font-weight-light" *ngIf="header.description">
@@ -290,7 +290,7 @@
         </tr>
         <tr *ngFor="let row of modalTableData.data; let i = index">
           <td [ngStyle]="i==modalTableData.data.length-1?{'position':'sticky','bottom':'0','background':'white'}:{}"
-              class="text-center"
+              [ngClass]="col.id!='name'?'text-center':'text-center'"
               [attr.data-text]="(((row[col?.id] | roundoff: {config: col}  | rupeeConverter)||' ')+(row[col?.id] ? col.suffix || '':' '))"
               [attr.data-text_align]="'center'"
               [attr.data-bold]="i==modalTableData?.data?.length-1"
@@ -360,9 +360,8 @@
           </div>
 
           <div class="row d-flex justify-content-center">
-            <div class="pie-chart-container px-1"
-                 *ngFor="let row of data.data; let i = index">
-              <div class="d-flex align-items-center">
+            <div class="pie-chart-container px-1" *ngFor="let row of data.data; let i = index">
+              <div class="d-flex align-items-center justify-content-center w-100">
                 <span><b>Population <span *ngIf="!singleULBView"></span>:</b></span>
                 <a *ngIf="!singleULBView" (click)="openModal(UlbModal,row,data.year)"
                    class="p-1">{{singleULBView ? row["population"] : row["populationCategory"] }}</a>
