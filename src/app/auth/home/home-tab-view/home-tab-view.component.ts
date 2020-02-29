@@ -717,12 +717,25 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   downloadTable(elementId = 'table') {
+    const tabHeading = [
+      'Extent of Dependency on Own Revenues',
+      'Sources of Revenue',
+      'Sources of Financing Revenue Expenditure',
+      'Avenues of Revenue Expenditure',
+      'Cash and Bank Balance',
+      'Outstanding Debt'
+
+
+    ];
+
+
     const tableElement = <HTMLTableElement>document.getElementById(elementId);
     let tableHeaderText = 'India';
     if (this.selectedState.hasOwnProperty('_id')) {
       tableHeaderText = this.selectedState.name;
     }
     let textFor2ndRow = `File downloaded on  ${new Date().toLocaleDateString()}. `;
+    let tabHeadingRow = tabHeading[this.tabIndex];
     let options: TableDowloadOptions = {
       filename: 'table',
       extension: 'xlsx',
@@ -730,15 +743,27 @@ export class HomeTabViewComponent implements OnInit {
         atTop: {
           rows: [
             {
-              columns: [{
-                text: tableHeaderText,
-                bold: 'true',
-                text_align: 'center',
-                font_size: '14',
-                colSpan: elementId == 'table' ? this.modalTableHeaders.length : this.commonTableHeaders.length
-              }]
-            }],
-          extraRowAfter: 2
+              columns: [
+                {
+                  text: tabHeadingRow,
+                  bold: 'true',
+                  text_align: 'center',
+                  font_size: '14',
+                  colSpan: elementId == 'table' ? this.modalTableHeaders.length : this.commonTableHeaders.length
+                }
+              ]
+            }, {
+              columns: [
+                {
+                  text: tableHeaderText,
+                  bold: 'true',
+                  text_align: 'center',
+                  font_size: '14',
+                  colSpan: elementId == 'table' ? this.modalTableHeaders.length : this.commonTableHeaders.length
+                }
+              ]
+            }
+          ],
         },
         atBottom: {
           rows: [{
@@ -746,7 +771,7 @@ export class HomeTabViewComponent implements OnInit {
               text: textFor2ndRow,
               bold: 'false',
               text_align: 'right',
-              font_size: '14',
+              font_size: '12',
               colSpan: elementId == 'table' ? this.modalTableHeaders.length : this.commonTableHeaders.length
             }]
           }],
