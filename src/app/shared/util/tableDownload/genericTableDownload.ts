@@ -1,8 +1,11 @@
 import { Cell, Workbook, Worksheet } from 'exceljs';
 import { saveAs } from 'file-saver';
 
-import { TableCellOption, TableDowloadOptions } from './models/options';
+import * as logoFile from '../../../dashboard/report/base64Logo.js';
+import { ILogoOption, TableCellOption, TableDowloadOptions } from './models/options';
 
+// /run/adeim / shadab / GIT / perfect -
+//   ui / src / app / dashboard / report / base64Logo.js;
 /**
  * @description How to use this class:
  * 1. Get the instance of this class using <code>getInstanse<code> static method.
@@ -20,7 +23,8 @@ export class TableDownloader {
 
   private readonly _default = {
     cellWidth: 20,
-    fontSize: 12
+    fontSize: 12,
+    addLogoToHeader: true
   };
 
   private constructor() {}
@@ -35,6 +39,15 @@ export class TableDownloader {
   downloadTable(table: HTMLTableElement, option: TableDowloadOptions) {
     const workbook = new Workbook();
     const worksheet = workbook.addWorksheet("Sheet 1");
+    const noOfColumns = this.columnCountsFrom(table);
+    if (!option.header || (option.header && option.header.addImage)) {
+      this.addLogoToFile({
+        workbook,
+        worksheet,
+        column: { from: 1, to: noOfColumns },
+        row: { from: 1, to: 2 }
+      });
+    }
     if (option.extraTexts && option.extraTexts.atTop) {
       this.addExtraTextToWorksheet(worksheet, option.extraTexts.atTop);
     }
@@ -57,6 +70,71 @@ export class TableDownloader {
       col.width = this._default.cellWidth;
     });
     this.downloadWorkbook(workbook, `${option.filename}.${option.extension}`);
+  }
+
+  private columnCountsFrom(table: HTMLTableElement) {
+    let maxNoOfColumns = 0;
+    const tableHeaderRows = this.getRowsFromTableHead(table);
+    ((tableHeaderRows as any) as Array<HTMLTableRowElement>).forEach(row => {
+      if (row.cells && row.cells.length && maxNoOfColumns < row.cells.length) {
+        maxNoOfColumns = row.cells.length;
+      }
+    });
+    return maxNoOfColumns;
+  }
+
+  /**
+   * @description Due to the size of image being used,
+   * Image will use a minimun of two cells.
+   */
+  private addLogoToFile(option: ILogoOption) {
+    const logo = option.workbook.addImage({
+      base64: logoFile.logoBase64,
+      extension: "png"
+    });
+    const imageCellsTopLeft = this.getCellRange({
+      cellStartIndex: option.column.from,
+      cellEndIndex: 2,
+      rowIndex: option.row.from
+    });
+    const imageCellBottomRight = this.getCellRange({
+      cellStartIndex: option.column.from,
+      cellEndIndex: 2,
+      rowIndex: option.row.from + 1
+    });
+    option.worksheet.addImage(
+      logo,
+      `${imageCellsTopLeft.from}:${imageCellBottomRight.from}`
+    );
+
+    const topLeftOfImageContainer = this.getCellRange({
+      cellStartIndex: option.column.from,
+      cellEndIndex: option.column.to,
+      rowIndex: option.row.from
+    });
+    const bottomRightofImageContainer = this.getCellRange({
+      cellStartIndex: option.column.from,
+      cellEndIndex: option.column.to,
+      rowIndex: option.row.to
+    });
+
+    option.worksheet.mergeCells(
+      `${topLeftOfImageContainer.from}:${bottomRightofImageContainer.to}`
+    );
+
+    // Color for logo backgeound
+    for (let i = option.row.from; i <= option.row.to; i++) {
+      option.worksheet
+        .getRow(i)
+        .eachCell({ includeEmpty: true }, function(cell, rowNumber) {
+          cell.fill = {
+            type: "pattern",
+            pattern: "solid",
+            fgColor: { argb: "000001" },
+            bgColor: { argb: "000001" }
+          };
+        });
+    }
   }
 
   private getRowsFromTableBody(table: HTMLTableElement) {
