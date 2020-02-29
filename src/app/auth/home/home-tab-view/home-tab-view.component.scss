@@ -84,13 +84,38 @@
 
 // Scroll Bar UI Ends here
 
+
 .pie-chart-container {
+  font-size: 1.5rem;
   display: flex;
   height: 30%;
   width: 30%;
   flex-direction: column;
   align-items: center;
+
+  @media (min-width: 576px) {
+    font-size: 1rem;
+  }
+
+  // Medium devices (tablets, 768px and up)
+  @media (min-width: 768px) {
+    font-size: 1rem;
+
+  }
+  // Large devices (desktops, 992px and up)
+  @media (min-width: 992px) {
+    font-size: 1rem;
+  }
+  @media (min-width: 1200px) {
+    font-size: 1.3rem;
+  }
+
+  // Extra large devices (large desktops, 1200px and up)
+  @media (min-width: 1500px) {
+    font-size: 1.5rem;
+  }
 }
+
 
 .table-container-main {
   max-height: 55vh;
