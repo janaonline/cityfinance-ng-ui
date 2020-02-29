@@ -16,6 +16,10 @@
 
 // Scroll Bar UI Starts here
 
+body {
+  //font-size: 100% !important;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 0px;
@@ -290,11 +294,11 @@ img.align-center {
     // background-color: #d3d3d3;
     padding: 5px 10px;
     -webkit-transition: color 0.15s ease-in-out,
-      background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-      box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
-      -webkit-box-shadow 0.15s ease-in-out;
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    -webkit-box-shadow 0.15s ease-in-out;
   }
 }
 
@@ -570,6 +574,7 @@ img.align-center {
   justify-content: center !important;
 }
 
+
 .mt-1 {
   margin-top: 1rem !important;
 }
@@ -637,10 +642,10 @@ img.align-center {
 }
 
 #mapid
-  > div.leaflet-control-container
-  > div.leaflet-bottom.leaflet-right
-  > div
-  > a {
+> div.leaflet-control-container
+> div.leaflet-bottom.leaflet-right
+> div
+> a {
   display: none;
 }
 
@@ -710,4 +715,8 @@ img.align-center {
 
 .align-items-center {
   align-items: center;
+}
+
+.w-100 {
+  width: 100% !important;
 }

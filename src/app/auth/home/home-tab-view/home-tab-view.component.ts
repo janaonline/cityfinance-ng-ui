@@ -7,7 +7,7 @@ import {ModalTableHeader, modalTableHeaders, tableHeaders} from '../../home-head
 import 'chartjs-plugin-labels';
 import 'chartjs-plugin-title-click';
 import {TableDownloader} from '../../../shared/util/tableDownload/genericTableDownload';
-import {TableDowloadOptions} from '../../../shared/util/tableDownload/models/options';
+import {IExtraText, TableDowloadOptions} from '../../../shared/util/tableDownload/models/options';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
 import {MatDialog} from '@angular/material';
 import {DialogComponent} from '../../../shared/components/dialog/dialog.component';
@@ -718,13 +718,14 @@ export class HomeTabViewComponent implements OnInit {
 
   downloadTable(elementId = 'table') {
     const tableElement = <HTMLTableElement>document.getElementById(elementId);
-    let options = {};
     let tableHeaderText = 'India';
     if (this.selectedState.hasOwnProperty('_id')) {
       tableHeaderText = this.selectedState.name;
     }
     let textFor2ndRow = `File downloaded on  ${new Date().toLocaleDateString()}. `;
-    options = {
+    let options: TableDowloadOptions = {
+      filename: 'table',
+      extension: 'xlsx',
       extraTexts: {
         atTop: {
           rows: [
@@ -736,23 +737,24 @@ export class HomeTabViewComponent implements OnInit {
                 font_size: '14',
                 colSpan: elementId == 'table' ? this.modalTableHeaders.length : this.commonTableHeaders.length
               }]
-            }, {
-              columns: [{
-                text: textFor2ndRow,
-                bold: 'true',
-                font_size: '14',
-                colSpan: elementId == 'table' ? this.modalTableHeaders.length : this.commonTableHeaders.length
-              }]
             }],
           extraRowAfter: 2
+        },
+        atBottom: {
+          rows: [{
+            columns: [{
+              text: textFor2ndRow,
+              bold: 'false',
+              font_size: '14',
+              colSpan: elementId == 'table' ? this.modalTableHeaders.length : this.commonTableHeaders.length
+            }]
+          }],
         }
       }
     };
     if (tableElement) {
       let tableDownloader = TableDownloader.getInstance();
       tableDownloader.downloadTable(tableElement, {
-        extension: 'xlsx',
-        filename: 'table',
         ...options
       });
     }
@@ -760,7 +762,6 @@ export class HomeTabViewComponent implements OnInit {
 
   ngOnDestroy() {
     this.modalService.hide(1);
-
   }
 
 }
