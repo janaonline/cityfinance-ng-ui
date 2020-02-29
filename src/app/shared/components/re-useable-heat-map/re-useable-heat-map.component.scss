@@ -77,7 +77,7 @@ div.miniMap {
 .ulbSelectDropdown {
   z-index: 9;
   position: absolute;
-  right: -3%;
+  right: -3.5%;
   top: 1%;
   width: 50%;
   max-width: 259.199px;
@@ -126,8 +126,8 @@ div.miniMap {
 }
 
 mat-form-field {
-  transform: scale(0.86);
-  margin-top: 0.4rem;
+  transform: scale(0.81);
+  margin-top: 0.2rem;
 }
 
 ::ng-deep input.mat-input-element {

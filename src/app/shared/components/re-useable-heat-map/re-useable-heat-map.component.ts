@@ -112,6 +112,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
     }
     if (stateOfULB) {
       this.convertDomToMiniMap("mapid");
+      this.clearUlbFilterControl();
       this.hideMapLegends();
       this.showStateLayerOnlyFor(this.nationalLevelMap, stateOfULB);
       this.unselectAllDistrictMarker();
@@ -466,10 +467,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
 
   private createLegendsForNationalLevelMap() {
     const arr = [
-      { color: "#019CDF", text: "75-100%" },
-      { color: "#46B7E7", text: "50-75%" },
-      { color: "#8BD2F0", text: "25-50%" },
-      { color: "#D0EDF9", text: "1-25%" },
+      { color: "#019CDF", text: "76%-100%" },
+      { color: "#46B7E7", text: "51%-75%" },
+      { color: "#8BD2F0", text: "26%-50%" },
+      { color: "#D0EDF9", text: "1%-25%" },
       { color: "#E5E5E5", text: "0%" }
     ];
     const legend = new L.Control({ position: "bottomright" });
@@ -482,7 +483,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
       div.style.width = "100%";
       arr.forEach(value => {
         labels.push(
-          `<span style="display: flex; align-items: center; width: 45%; margin: 1% auto; "><i class="circle" style="background: ${value.color}; padding:10%; display: inline-block; margin-right: 5%;"> </i> ${value.text}</span>`
+          `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; "><i class="circle" style="background: ${value.color}; padding:10%; display: inline-block; margin-right: 12%;"> </i> ${value.text}</span>`
         );
       });
       div.innerHTML = labels.join(``);
@@ -810,13 +811,13 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges {
   }
 
   private getColorBasedOnPercentage(value: number) {
-    if (value >= 75) {
+    if (value > 75) {
       return "#019CDF";
     }
-    if (value >= 50) {
+    if (value > 50) {
       return "#46B7E7";
     }
-    if (value >= 25) {
+    if (value > 25) {
       return "#8BD2F0";
     }
     if (value > 0) {
