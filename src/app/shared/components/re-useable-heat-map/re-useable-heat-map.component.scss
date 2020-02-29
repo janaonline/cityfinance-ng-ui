@@ -14,7 +14,7 @@
   position: absolute;
   left: 5px;
   bottom: 0px;
-  background: white;
+  background: transparent;
   z-index: 8;
   display: inline-block;
   width: 98%;
@@ -80,6 +80,7 @@ div.miniMap {
   right: -3.5%;
   top: 1%;
   width: 50%;
+  background: transparent;
   max-width: 259.199px;
   display: inline-flex;
   flex-wrap: wrap;
@@ -110,11 +111,13 @@ div.miniMap {
 .regionalDetails2 {
   width: fit-content;
   display: flex;
-  transform: scale(0.8) translateY(-45%);
+  margin-top: -5%;
+  transform: scale(0.8);
 }
 
 .ulbDetails {
-  transform: scale(0.8) translateY(-45%) translateX(0%);
+  transform: scale(0.8);
+  margin-top: -10%;
 }
 
 .bold {
@@ -280,9 +283,9 @@ mat-form-field {
   height: 38px;
 }
 
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 14px 0 !important;
-}
+// ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+//   padding: 14px 0 !important;
+// }
 
 ::ng-deep {
   .mat-form-field-flex {
