@@ -32,6 +32,13 @@
     display: none !important;
   }
 
+  .cuppa-dropdown {
+
+    .selected-list {
+      border-radius: 2px;
+    }
+  }
+
 }
 
 .table-responsive {
@@ -124,3 +131,5 @@
   border: 1px solid #d4d4d4;
   border-radius: 5px;
 }
+
+
