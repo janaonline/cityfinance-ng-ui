@@ -155,7 +155,6 @@ export class TableDownloader {
     const totalNoOfColumns = options.row.childElementCount;
     for (let i = 1; i <= totalNoOfColumns; i++) {
       const tableCell = options.row.cells.item(i - 1);
-
       this.applyAttributeToCell({
         cell: newRow.getCell(i),
         worksheet,
@@ -201,11 +200,14 @@ export class TableDownloader {
     }
 
     if (dataAttributes.bold && dataAttributes.bold === "true") {
+      option.cell.style.font.bold = true;
       option.cell.font.bold = true;
     }
 
     if (dataAttributes.font_size) {
-      option.cell.font = { size: +dataAttributes.font_size };
+      option.cell.font = !option.cell.font
+        ? { size: +dataAttributes.font_size }
+        : { ...option.cell.font, size: +dataAttributes.font_size };
     }
   }
 
