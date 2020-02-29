@@ -279,3 +279,17 @@ mat-form-field {
 ::ng-deep label.mat-optgroup-label {
   height: 38px;
 }
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 14px 0 !important;
+}
+
+::ng-deep {
+  .mat-form-field-flex {
+    border: 1px solid #999;
+  }
+}
+
+.customDropdown {
+  min-height: 70.84px;
+}
