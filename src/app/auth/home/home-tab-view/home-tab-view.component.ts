@@ -416,12 +416,13 @@ export class HomeTabViewComponent implements OnInit {
               yearWiseCharts[0].chart.getDatasetMeta(0).data.forEach(meta => {
                 if (meta._index == i) {
                   legendItems[i].style.display = 'flex';
-                  legendItems[i].style.marginRight = '5px';
+                  //legendItems[i].style.fontSize = '1.1rem';
+                  //legendItems[i].style.marginRight = '5px';
                   //legendItems[i].style.flexDirection = 'column';
                   // legendItems[i].style.textAlign = 'center';
                   //legendItems[i].style.justifyContent = 'center';
                   legendItems[i].style.alignItems = 'center';
-                  legendItems[i].style.padding = '1rem';
+                  legendItems[i].style.padding = '.6rem';
                   prependDataColorDiv(legendItems[i], meta);
                 }
               });
