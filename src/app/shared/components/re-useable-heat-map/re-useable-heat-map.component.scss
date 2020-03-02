@@ -289,7 +289,14 @@ mat-form-field {
 
 ::ng-deep {
   .mat-form-field-flex {
-    border: 1px solid #999;
+    // border: 1px solid #999;
+    border: 1.2px solid #3a3939;
+    border-radius: 0px;
+  }
+
+  .cuppa-dropdown {
+    position: relative;
+    margin-top: -2px;
   }
 }
 
