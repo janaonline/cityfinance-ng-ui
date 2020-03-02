@@ -89,7 +89,7 @@ export class HomeTabViewComponent implements OnInit {
     this.commonTableData = [];
     this.commonTableDataDisplay = [];
     this.loading = false;
-  };
+  }
 
   resetPopupValues() {
     this.selectedYears = [];
@@ -103,14 +103,15 @@ export class HomeTabViewComponent implements OnInit {
       this.selectedYears.findIndex(year => event.id == year),
       1
     );
-    //this.filterDisplayDataTableYearWise();
+    // this.filterDisplayDataTableYearWise();
   }
 
   onDropdownClose(event: any) {
     this.tabData = [];
     if (this.selectedYears.length > 1) {
       this._dialog.open(DialogComponent, {
-        width: '40vw',
+        width: 'fit-content',
+        maxWidth: '40vw',
         data: {message: 'Only ULBs with data for all of the selected years will be displayed.'}
       });
     }
@@ -133,9 +134,9 @@ export class HomeTabViewComponent implements OnInit {
       case 4:
       case 5:
         // if (!this.tabData[this.tabIndex]) {
-        for (let year of this.commonTableData) {
+        for (const year of this.commonTableData) {
           if (year.data.length) {
-            let newDataRow = this.getTotalRow(year.data);
+            const newDataRow = this.getTotalRow(year.data);
             year.data.push(newDataRow);
           }
           /*  let allKeys = Object.keys(year.data[0]);
@@ -158,20 +159,20 @@ export class HomeTabViewComponent implements OnInit {
 
   fetchSingleUlbDataSuccess = (response) => {
     this.loading = false;
-    let newYears = [];
-    let data = response['data'];
+    const newYears = [];
+    const data = response['data'];
     if (data) {
-      for (let year of data) {
+      for (const year of data) {
         try {
           if (year.data[0]['ulbs'] && year.data[0]['ulbs'].length) {
-            let newYear = {year: year.year, data: year.data[0]['ulbs']};
+            const newYear = {year: year.year, data: year.data[0]['ulbs']};
             newYears.push(newYear);
           } else {
-            let newYear = {year: year.year, data: []};
+            const newYear = {year: year.year, data: []};
             newYears.push(newYear);
           }
         } catch (e) {
-          let newYear = {year: year.year, data: []};
+          const newYear = {year: year.year, data: []};
           newYears.push(newYear);
         }
       }
@@ -185,7 +186,7 @@ export class HomeTabViewComponent implements OnInit {
     if (this.tabIndex == 1 || this.tabIndex == 2 || this.tabIndex == 3) {
       this.renderCharts();
     }
-  };
+  }
 
   private fetchTableDataSuccess = (response: any) => {
     this.commonTableDataDisplay = [];
@@ -209,7 +210,7 @@ export class HomeTabViewComponent implements OnInit {
       this.tabData[this.tabIndex] = response;
       this.loading = false;
     }
-  };
+  }
 
   private callAPi(callback, args) {
     callback(args);
@@ -284,16 +285,16 @@ export class HomeTabViewComponent implements OnInit {
       div.style.borderWidth = props._options.borderWidth;
 
       div.style.width = '25px';
-      //div.style.borderRadius = '50%';
+      // div.style.borderRadius = '50%';
       div.style.height = '25px';
       div.style.marginRight = '5px';
       div.style.display = 'inline-block';
       parentNode['prepend'](div);
     }
 
-    for (let yearRow of dataArr) {
+    for (const yearRow of dataArr) {
       const elementIdPrefix = 'canvas--' + yearRow.year;
-      let yearWiseCharts = [];
+      const yearWiseCharts = [];
       let legendGenerated = false;
       /* if (this.tabIndex == 4) {
          const label = yearRow.data.map(row => row['populationCategory']);
@@ -324,7 +325,7 @@ export class HomeTabViewComponent implements OnInit {
 
        }*/
       for (let index = 0; index < yearRow.data.length; index++) {
-        let row = yearRow.data[index];
+        const row = yearRow.data[index];
         const elementId = `${elementIdPrefix}--${index}`;
         // let labels: any[] = Object.keys(row).filter(key => (typeof row[key] == 'number') || !isNaN(Number(row[key])));
         let labels: any[] = Object.keys(row).filter(key => {
@@ -341,7 +342,7 @@ export class HomeTabViewComponent implements OnInit {
         labels = labels
           .filter(label => !['numOfUlb', 'total', 'population', 'rangeNum', 'totalUlb', 'taxRevenue', 'rentalIncome', 'feesAndUserCharges'].includes(label))
           .map(label => {
-            let titleObj: { data?: number, name?: string } = {};
+            const titleObj: { data?: number, name?: string } = {};
             try {
               titleObj.name = this.commonTableHeaders.find(header => header.id == label).title;
               if (typeof row[label] === 'string') {
@@ -395,7 +396,7 @@ export class HomeTabViewComponent implements OnInit {
           });
           yearWiseCharts.push(c);
           if (!legendGenerated) {
-            let legendClass = `.legend-${yearRow.year}`;
+            const legendClass = `.legend-${yearRow.year}`;
             document.querySelector(legendClass).innerHTML = c.generateLegend();
             const legendItems = document.querySelector(legendClass).getElementsByTagName('li');
             const legendItemContainer = document.querySelector(legendClass);
@@ -417,9 +418,9 @@ export class HomeTabViewComponent implements OnInit {
                 if (meta._index == i) {
                   legendItems[i].style.display = 'flex';
                   legendItems[i].style.marginRight = '5px';
-                  //legendItems[i].style.flexDirection = 'column';
+                  // legendItems[i].style.flexDirection = 'column';
                   // legendItems[i].style.textAlign = 'center';
-                  //legendItems[i].style.justifyContent = 'center';
+                  // legendItems[i].style.justifyContent = 'center';
                   legendItems[i].style.alignItems = 'center';
                   legendItems[i].style.padding = '1rem';
                   prependDataColorDiv(legendItems[i], meta);
@@ -537,7 +538,7 @@ export class HomeTabViewComponent implements OnInit {
   sortHeader(header) {
     const {id} = header;
     this.commonTableDataDisplay = this.commonTableDataDisplay.map(year => {
-      let totalArray = year.data[year.data.length - 1];
+      const totalArray = year.data[year.data.length - 1];
       year.data = year.data.slice(0, year.data.length - 1).sort((a, b) => this.sortCallBack(a, b, id));
       year.data = [...year.data, totalArray];
       return year;
@@ -547,7 +548,7 @@ export class HomeTabViewComponent implements OnInit {
     } else {
       header.status = true;
       this.commonTableDataDisplay = this.commonTableDataDisplay.map(year => {
-        let totalArray = year.data[year.data.length - 1];
+        const totalArray = year.data[year.data.length - 1];
         year.data = year.data.slice(0, year.data.length - 1).reverse();
         year.data = [...year.data, totalArray];
         return year;
@@ -564,18 +565,18 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   getTotalRow(rows: any[], headers = this.commonTableHeaders) {
-    let newDataRow = {};
-    for (let obj of headers) {
-      let prop = obj.id;
-      let col = headers.find((col: ModalTableHeader) => col.id === prop);
+    const newDataRow = {};
+    for (const obj of headers) {
+      const prop = obj.id;
+      const col = headers.find((col: ModalTableHeader) => col.id === prop);
       if (col) {
         if (col.total) {
           if (typeof rows[0][prop] == 'number') {
-            let count = rows.reduce((a, c) => a + c[prop], 0);
+            const count = rows.reduce((a, c) => a + c[prop], 0);
             newDataRow[prop] = this.fixToDecimalPlace(count, 2);
           } else {
             if (!isNaN(rows[0][prop])) {
-              let count = rows.reduce((a, c) => a + Number(c[prop]), 0);
+              const count = rows.reduce((a, c) => a + Number(c[prop]), 0);
               newDataRow[prop] = this.fixToDecimalPlace(count, 2);
             }
           }
@@ -675,7 +676,7 @@ export class HomeTabViewComponent implements OnInit {
       bVal = bVal.replace('%', '');
     }
     if (id === 'populationCategory') {
-      let populationCategoryObj = {
+      const populationCategoryObj = {
         '< 1 Lakh': 0,
         '1 Lakh to 10 Lakhs': 1,
         '> 10 Lakhs': 2
@@ -700,7 +701,7 @@ export class HomeTabViewComponent implements OnInit {
   sortDialogHeader(header) {
 
     const {id} = header;
-    let totalArray = this.modalTableData.data[this.modalTableData.data.length - 1];
+    const totalArray = this.modalTableData.data[this.modalTableData.data.length - 1];
     this.modalTableData.data = this.modalTableData.data
       .slice(0, this.modalTableData.data.length - 1)
       .sort((a, b) => this.sortCallBack(a, b, id))
@@ -723,7 +724,7 @@ export class HomeTabViewComponent implements OnInit {
     if (this.selectedState.hasOwnProperty('_id')) {
       tableHeaderText = this.selectedState.name;
     }
-    let textFor2ndRow = `File downloaded on  ${new Date().toLocaleDateString()}. `;
+    const textFor2ndRow = `File downloaded on  ${new Date().toLocaleDateString()}. `;
     options = {
       extraTexts: {
         atTop: {
@@ -749,7 +750,7 @@ export class HomeTabViewComponent implements OnInit {
       }
     };
     if (tableElement) {
-      let tableDownloader = TableDownloader.getInstance();
+      const tableDownloader = TableDownloader.getInstance();
       tableDownloader.downloadTable(tableElement, {
         extension: 'xlsx',
         filename: 'table',
