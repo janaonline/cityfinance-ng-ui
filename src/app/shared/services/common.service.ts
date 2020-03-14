@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -201,10 +201,15 @@ export class CommonService {
     return this.http.get("/assets/files/homeDashboardData.json");
   }
 
-  getStateUlbCovered() {
+  getStateUlbCovered(body?: { years: string[] }) {
+    // let queryParams: HttpParams;
+    // if (params) {
+    //   queryParams = this.getHttpClientParams(params);
+    // }
     return this.http
-      .get<IStateULBCoveredResponse>(
-        `${environment.api.url}api/admin/v1/lookup/states-with-ulb-count`
+      .post<IStateULBCoveredResponse>(
+        `${environment.api.url}api/admin/v1/lookup/states-with-ulb-count`,
+        body
       )
       .pipe(
         map(res => {
@@ -216,10 +221,11 @@ export class CommonService {
       );
   }
 
-  getULBSWithPopulationAndCoordinates() {
+  getULBSWithPopulationAndCoordinates(body?: { years: string[] }) {
     return this.http
-      .get<IULBWithPopulationResponse>(
-        `${environment.api.url}api/admin/v1/ulb-list`
+      .post<IULBWithPopulationResponse>(
+        `${environment.api.url}api/admin/v1/ulb-list`,
+        body
       )
       .pipe(
         map(res => {
@@ -229,5 +235,17 @@ export class CommonService {
           return res;
         })
       );
+  }
+
+  public getHttpClientParams(obj: {}) {
+    let params = new HttpParams();
+    if (obj) {
+      Object.keys(obj).forEach(key => {
+        if (obj[key]) {
+          params = params.set(key, obj[key]);
+        }
+      });
+    }
+    return params;
   }
 }
