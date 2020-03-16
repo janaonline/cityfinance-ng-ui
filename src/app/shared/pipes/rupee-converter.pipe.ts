@@ -7,6 +7,17 @@ import {el} from '@angular/platform-browser/testing/src/browser_util';
 export class RupeeConverterPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
+    if (args && args.colId) {
+      if (args.colId === 'numOfUlb') {
+        if ('audited' in args.row){
+          return `Audited : ${args.row.audited},\t\n
+                Unaudited : ${args.row.unaudited
+          }`;
+        }
+        return ;
+      }
+    }
+
     let newValue = value;
     if (typeof value == 'object') {
       value = value.value;

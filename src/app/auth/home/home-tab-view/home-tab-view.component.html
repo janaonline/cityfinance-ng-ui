@@ -192,7 +192,7 @@
                   [attr.data-bold]="i==tr?.data.length-1"
                   *ngFor="let col of commonTableHeaders;let j=index">
                 <span
-                  [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:col?.showInr}"
+                  [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:col?.showInr,row:row,colId:col?.id}"
                   matTooltipPosition="above"
                   [matTooltipDisabled]="!col?.showInr"
                   [ngClass]="i==tr?.data.length-1?'text-bold':''"
