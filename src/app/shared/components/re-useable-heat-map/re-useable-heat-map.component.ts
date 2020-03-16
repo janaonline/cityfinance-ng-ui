@@ -36,7 +36,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.listenToFormControls();
     this.addListener();
     this.addCustomStyleTag();
-    this.initiatedDataFetchingProcess();
+    // this.initiatedDataFetchingProcess();
     // this.removeCustomStyleTag();
   }
 
@@ -109,18 +109,25 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         this.onSelectingULBFromDropdown(changes.ulbSelected.currentValue);
       }
     }
-
     if (changes.yearSelected) {
+      this.clearNationalMapContainer();
+
+      // this.resetMapToNationalLevel();
+      setTimeout(() => {
+        console.log(document.getElementById("mapid"));
+        this.initiatedDataFetchingProcess();
+      }, 0);
     }
   }
 
   private initiatedDataFetchingProcess() {
+    const body = { year: this.yearSelected || [] };
     this._commonService
-      .getStateUlbCovered()
+      .getStateUlbCovered(body)
       .subscribe(res => this.onGettingStateULBCoveredSuccess(res));
 
     this._commonService
-      .getULBSWithPopulationAndCoordinates()
+      .getULBSWithPopulationAndCoordinates(body)
       .subscribe(res => this.onGettingULBWithPopulationSuccess(res));
   }
 
@@ -166,7 +173,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     if (!ulbFound) {
       return false;
     }
-
     const ulbsAlreadySelect = <string[]>this.ulbsSelected.value;
     ulbsAlreadySelect[0] = ulbFound._id;
     this.ulbsSelected.setValue(ulbsAlreadySelect);
@@ -642,6 +648,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.ulbListForAutoCompletion = this.ulbsOfSelectedState;
     const ulbsWithCoordinates = this.ulbsOfSelectedState.filter(
       ulb =>
+        ulb.location &&
         parseFloat(ulb.location.lat) !== NaN &&
         parseFloat(ulb.location.lng) !== NaN
     );
@@ -717,6 +724,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         name: string;
         area: number;
         population: number;
+        auditStatus: ULBWithMapData["auditStatus"];
       }[];
     }
   ) {
@@ -776,6 +784,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     name: string;
     area: number;
     population: number;
+    auditStatus: ULBWithMapData["auditStatus"];
     icon: L.Icon<L.IconOptions>;
   }) {
     const marker = L.marker([+dataPoint.lat, +dataPoint.lng], {
@@ -928,6 +937,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     class="h-60 col-sm-12"
     style="background: white;z-index: 8; display: inline-block; width: 99%;height: 57vh;"
   ></div>`;
+  }
+
+  private clearNationalMapContainer() {
+    if (this.nationalLevelMap) {
+      this.nationalLevelMap.remove();
+    }
   }
 
   private addCustomStyleTag() {

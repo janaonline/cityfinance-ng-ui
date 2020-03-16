@@ -106,6 +106,8 @@
           {{ mouseHoverOnState.totalUlbs }}
         </span>
         ULBs
+        <br />
+        ULBS Audited: {{ mouseHoverOnState.audited }}
       </div>
     </section>
 
@@ -125,6 +127,14 @@
           Population:
         </span>
         {{ mouseHoveredOnULB.population | rupeeConverter }}
+      </span>
+      <span class=" col-sm-12">
+        <span class="bold">
+          Audit Status:
+        </span>
+        <span class="text-capitalize">
+          {{ mouseHoveredOnULB.auditStatus }}</span
+        >
       </span>
     </section>
   </div>
