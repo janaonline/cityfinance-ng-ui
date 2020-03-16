@@ -7,6 +7,7 @@ export interface IULBWithPopulationResponse {
 }
 
 export interface ULBWithMapData {
+  auditStatus: "audited" | "unaudited";
   population: number;
   area: number;
   location: Location;
