@@ -187,7 +187,8 @@
             </tr>
             <tr *ngFor="let row of tr.data; let i = index">
               <td [ngClass]="col?.id!='populationCategory'?'text-center':''"
-                  [attr.data-text]="(((row[col?.id] | roundoff: {config: col}  | rupeeConverter)||' ')+(row[col?.id] ? col.suffix || '':' '))"
+                  [attr.data-text]="(((row[col?.id] | roundoff: {config: col}  | rupeeConverter)||' ')+(row[col?.id] ? col.suffix || '':' ')+
+                  ((col?.id=='numOfUlb')&&(row['audited']!==undefined)?' (Audited : '+row['audited']+', Unaudited: '+ row['unaudited']+')':''))"
                   [attr.data-text_align]="col?.id!='populationCategory'?'center':row[col?.id]=='Total'?'right':' '"
                   [attr.data-bold]="i==tr?.data.length-1"
                   *ngFor="let col of commonTableHeaders;let j=index">
