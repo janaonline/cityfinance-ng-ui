@@ -362,25 +362,24 @@ export class HomeTabViewComponent implements OnInit {
           return false;
         });
         labels = labels
-          .filter(
-            label =>
-              ![
-                'numOfUlb',
-                'total',
-                'population',
-                'rangeNum',
-                'totalUlb',
-                'taxRevenue',
-                'rentalIncome',
-                'feesAndUserCharges'
-              ].includes(label)
+          .filter(label => ![
+              'numOfUlb',
+              'total',
+              'audited',
+              'auditNA',
+              'unaudited',
+              'population',
+              'rangeNum',
+              'totalUlb',
+              'taxRevenue',
+              'rentalIncome',
+              'feesAndUserCharges'
+            ].includes(label)
           )
           .map(label => {
             const titleObj: { data?: number; name?: string } = {};
             try {
-              titleObj.name = this.commonTableHeaders.find(
-                header => header.id == label
-              ).title;
+              titleObj.name = this.commonTableHeaders.find(header => header.id == label).title;
               if (typeof row[label] === 'string') {
                 try {
                   titleObj.data = Number(row[label].replace('%', '')) || 0;
@@ -390,6 +389,7 @@ export class HomeTabViewComponent implements OnInit {
                 titleObj.data = row[label];
               }
             } catch (e) {
+              console.log(row, label);
               return {
                 name: 'Label not available',
                 data: Number(row[label].replace('%', '')) || 0

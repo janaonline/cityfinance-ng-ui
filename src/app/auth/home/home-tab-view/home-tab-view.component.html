@@ -383,7 +383,10 @@
                       [id]="'canvas--' + data.year + '--' + i"></canvas>
               <ul class="p-0" *ngIf="row['totalUlb']&&row['numOfUlb']">
                 <li>Total number of ULBs : <b>{{+row["totalUlb"]}}</b></li>
-                <li>Number of ULBs with Data: <b> {{+row["numOfUlb"] }}</b></li>
+                <li>Number of ULBs with Data: <b
+                  [matTooltipDisabled]="row['audited']==undefined"
+                  [matTooltip]="'Audited: '+row['audited']+', '+'Unaudited: '+ row['unaudited'] "> {{+row["numOfUlb"] }}</b>
+                </li>
               </ul>
             </div>
             <div class="d-flex justify-content-center">
