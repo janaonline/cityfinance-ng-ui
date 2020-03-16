@@ -35,7 +35,12 @@
   .cuppa-dropdown {
 
     .selected-list {
-      border-radius: 2px;
+      // border-radius: 2px;
+      border: 1.2px solid #3a3939;
+
+      .c-btn{
+        min-height: 37px;
+      }
     }
   }
 

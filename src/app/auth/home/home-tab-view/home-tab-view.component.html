@@ -8,9 +8,11 @@
       <div class="col-sm-12 col-md-4"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 0">
-        <app-re-useable-heat-map [ulbSelected]="selectedUlb"
-                                 (stateSelected)="filterDataStateWise($event)"
-                                 (ulbsClicked)="fetchUlBsData($event)">
+        <app-re-useable-heat-map
+          [yearSelected]="selectedYears"
+          [ulbSelected]="selectedUlb"
+          (stateSelected)="filterDataStateWise($event)"
+          (ulbsClicked)="fetchUlBsData($event)">
         </app-re-useable-heat-map>
       </div>
       <div class="col-sm-12 col-md-8">
@@ -24,9 +26,11 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 1">
-        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
-                                 [ulbSelected]="selectedUlb"
-                                 (ulbsClicked)="fetchUlBsData($event)"
+        <app-re-useable-heat-map
+          [yearSelected]="selectedYears"
+          (stateSelected)="filterDataStateWise($event)"
+          [ulbSelected]="selectedUlb"
+          (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
       <ng-container *ngTemplateOutlet="pieChart"></ng-container>
@@ -38,9 +42,11 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 2">
-        <app-re-useable-heat-map [ulbSelected]="selectedUlb"
-                                 (stateSelected)="filterDataStateWise($event)"
-                                 (ulbsClicked)="fetchUlBsData($event)">
+        <app-re-useable-heat-map
+          [yearSelected]="selectedYears"
+          [ulbSelected]="selectedUlb"
+          (stateSelected)="filterDataStateWise($event)"
+          (ulbsClicked)="fetchUlBsData($event)">
 
         </app-re-useable-heat-map>
       </div>
@@ -53,9 +59,11 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 3">
-        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
-                                 [ulbSelected]="selectedUlb"
-                                 (ulbsClicked)="fetchUlBsData($event)"
+        <app-re-useable-heat-map
+          [yearSelected]="selectedYears"
+          (stateSelected)="filterDataStateWise($event)"
+          [ulbSelected]="selectedUlb"
+          (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
       <ng-container *ngTemplateOutlet="pieChart"></ng-container>
@@ -67,10 +75,11 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 4">
-        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
-                                 [ulbSelected]="selectedUlb"
-                                 (ulbsClicked)="fetchUlBsData($event)">
-
+        <app-re-useable-heat-map
+          [yearSelected]="selectedYears"
+          (stateSelected)="filterDataStateWise($event)"
+          [ulbSelected]="selectedUlb"
+          (ulbsClicked)="fetchUlBsData($event)">
         </app-re-useable-heat-map>
       </div>
       <div class="col-sm-12 col-md-7">
@@ -84,9 +93,11 @@
       <div class="col-sm-12 col-md-4"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 5">
-        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
-                                 [ulbSelected]="selectedUlb"
-                                 (ulbsClicked)="fetchUlBsData($event)">
+        <app-re-useable-heat-map
+          [yearSelected]="selectedYears"
+          (stateSelected)="filterDataStateWise($event)"
+          [ulbSelected]="selectedUlb"
+          (ulbsClicked)="fetchUlBsData($event)">
         </app-re-useable-heat-map>
       </div>
       <div class="col-sm-12 col-md-8">
@@ -176,12 +187,13 @@
             </tr>
             <tr *ngFor="let row of tr.data; let i = index">
               <td [ngClass]="col?.id!='populationCategory'?'text-center':''"
-                  [attr.data-text]="(((row[col?.id] | roundoff: {config: col}  | rupeeConverter)||' ')+(row[col?.id] ? col.suffix || '':' '))"
+                  [attr.data-text]="(((row[col?.id] | roundoff: {config: col}  | rupeeConverter)||' ')+(row[col?.id] ? col.suffix || '':' ')+
+                  ((col?.id=='numOfUlb')&&(row['audited']!==undefined)?' (Audited : '+row['audited']+', Unaudited: '+ row['unaudited']+')':''))"
                   [attr.data-text_align]="col?.id!='populationCategory'?'center':row[col?.id]=='Total'?'right':' '"
                   [attr.data-bold]="i==tr?.data.length-1"
                   *ngFor="let col of commonTableHeaders;let j=index">
                 <span
-                  [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:col?.showInr}"
+                  [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:col?.showInr,row:row,colId:col?.id}"
                   matTooltipPosition="above"
                   [matTooltipDisabled]="!col?.showInr"
                   [ngClass]="i==tr?.data.length-1?'text-bold':''"
@@ -321,9 +333,9 @@
 
 <ng-template #yearSelect>
   <div class=" mt-2" [formGroup]="yearForm">
-    <angular2-multiselect classes="mt-1"
+    <angular2-multiselect classes=""
                           formControlName="years"
-                          style="margin-top: 1rem; display:inline-block;width: 160px;"
+                          style="margin-top: 14px; display:inline-block;width: 160px;"
                           [data]="yearLookup"
                           [settings]="yearsDropdownSettings"
                           (onClose)="onDropdownClose($event)"
@@ -372,7 +384,10 @@
                       [id]="'canvas--' + data.year + '--' + i"></canvas>
               <ul class="p-0" *ngIf="row['totalUlb']&&row['numOfUlb']">
                 <li>Total number of ULBs : <b>{{+row["totalUlb"]}}</b></li>
-                <li>Number of ULBs with Data: <b> {{+row["numOfUlb"] }}</b></li>
+                <li>Number of ULBs with Data: <b
+                  [matTooltipDisabled]="row['audited']==undefined"
+                  [matTooltip]="'Audited: '+row['audited']+', '+'Unaudited: '+ row['unaudited'] "> {{+row["numOfUlb"] }}</b>
+                </li>
               </ul>
             </div>
             <div class="d-flex justify-content-center">
