@@ -8,9 +8,11 @@
       <div class="col-sm-12 col-md-4"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 0">
-        <app-re-useable-heat-map [ulbSelected]="selectedUlb"
-                                 (stateSelected)="filterDataStateWise($event)"
-                                 (ulbsClicked)="fetchUlBsData($event)">
+        <app-re-useable-heat-map
+          [yearSelected]="selectedYears"
+          [ulbSelected]="selectedUlb"
+          (stateSelected)="filterDataStateWise($event)"
+          (ulbsClicked)="fetchUlBsData($event)">
         </app-re-useable-heat-map>
       </div>
       <div class="col-sm-12 col-md-8">
@@ -24,9 +26,11 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 1">
-        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
-                                 [ulbSelected]="selectedUlb"
-                                 (ulbsClicked)="fetchUlBsData($event)"
+        <app-re-useable-heat-map
+          [yearSelected]="selectedYears"
+          (stateSelected)="filterDataStateWise($event)"
+          [ulbSelected]="selectedUlb"
+          (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
       <ng-container *ngTemplateOutlet="pieChart"></ng-container>
@@ -38,9 +42,11 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 2">
-        <app-re-useable-heat-map [ulbSelected]="selectedUlb"
-                                 (stateSelected)="filterDataStateWise($event)"
-                                 (ulbsClicked)="fetchUlBsData($event)">
+        <app-re-useable-heat-map
+          [yearSelected]="selectedYears"
+          [ulbSelected]="selectedUlb"
+          (stateSelected)="filterDataStateWise($event)"
+          (ulbsClicked)="fetchUlBsData($event)">
 
         </app-re-useable-heat-map>
       </div>
@@ -53,9 +59,11 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 3">
-        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
-                                 [ulbSelected]="selectedUlb"
-                                 (ulbsClicked)="fetchUlBsData($event)"
+        <app-re-useable-heat-map
+          [yearSelected]="selectedYears"
+          (stateSelected)="filterDataStateWise($event)"
+          [ulbSelected]="selectedUlb"
+          (ulbsClicked)="fetchUlBsData($event)"
         ></app-re-useable-heat-map>
       </div>
       <ng-container *ngTemplateOutlet="pieChart"></ng-container>
@@ -67,10 +75,11 @@
       <div class="col-sm-12 col-md-5"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 4">
-        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
-                                 [ulbSelected]="selectedUlb"
-                                 (ulbsClicked)="fetchUlBsData($event)">
-
+        <app-re-useable-heat-map
+          [yearSelected]="selectedYears"
+          (stateSelected)="filterDataStateWise($event)"
+          [ulbSelected]="selectedUlb"
+          (ulbsClicked)="fetchUlBsData($event)">
         </app-re-useable-heat-map>
       </div>
       <div class="col-sm-12 col-md-7">
@@ -84,9 +93,11 @@
       <div class="col-sm-12 col-md-4"
            style="max-width: 40%; margin-top: 1%;"
            *ngIf="tabIndex === 5">
-        <app-re-useable-heat-map (stateSelected)="filterDataStateWise($event)"
-                                 [ulbSelected]="selectedUlb"
-                                 (ulbsClicked)="fetchUlBsData($event)">
+        <app-re-useable-heat-map
+          [yearSelected]="selectedYears"
+          (stateSelected)="filterDataStateWise($event)"
+          [ulbSelected]="selectedUlb"
+          (ulbsClicked)="fetchUlBsData($event)">
         </app-re-useable-heat-map>
       </div>
       <div class="col-sm-12 col-md-8">
@@ -181,7 +192,7 @@
                   [attr.data-bold]="i==tr?.data.length-1"
                   *ngFor="let col of commonTableHeaders;let j=index">
                 <span
-                  [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:col?.showInr}"
+                  [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:col?.showInr,row:row,colId:col?.id}"
                   matTooltipPosition="above"
                   [matTooltipDisabled]="!col?.showInr"
                   [ngClass]="i==tr?.data.length-1?'text-bold':''"

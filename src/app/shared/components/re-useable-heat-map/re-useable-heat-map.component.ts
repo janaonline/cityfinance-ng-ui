@@ -32,23 +32,18 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     private _snackbar: MatSnackBar
   ) {
     // document.body.style.zoom = "90%";
-    this._commonService
-      .getStateUlbCovered()
-      .subscribe(res => this.onGettingStateULBCoveredSuccess(res));
-
-    this._commonService
-      .getULBSWithPopulationAndCoordinates()
-      .subscribe(res => this.onGettingULBWithPopulationSuccess(res));
 
     this.listenToFormControls();
     this.addListener();
     this.addCustomStyleTag();
+    this.initiatedDataFetchingProcess();
     // this.removeCustomStyleTag();
   }
 
   @Output() ulbsClicked = new EventEmitter<string[]>();
   @Output() stateSelected = new EventEmitter<IStateWithULBS>();
   @Input() ulbSelected: string;
+  @Input() yearSelected: string[] = ["2017"];
 
   @ViewChild("autoCompleteInput", { read: MatAutocompleteTrigger })
   ulbSearchAutoComplete: MatAutocompleteTrigger;
@@ -102,7 +97,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {}
 
-  ngOnChanges(changes: { ulbSelected: SimpleChange }) {
+  ngOnChanges(changes: {
+    ulbSelected: SimpleChange;
+    yearSelected: SimpleChange;
+  }) {
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
       if (
         !this.currentULBClicked ||
@@ -111,6 +109,19 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         this.onSelectingULBFromDropdown(changes.ulbSelected.currentValue);
       }
     }
+
+    if (changes.yearSelected) {
+    }
+  }
+
+  private initiatedDataFetchingProcess() {
+    this._commonService
+      .getStateUlbCovered()
+      .subscribe(res => this.onGettingStateULBCoveredSuccess(res));
+
+    this._commonService
+      .getULBSWithPopulationAndCoordinates()
+      .subscribe(res => this.onGettingULBWithPopulationSuccess(res));
   }
 
   onSelectingULBFromDropdown(ulbId: string) {
@@ -434,6 +445,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       this.filteredULBStateAndULBDataMerged = this.filterOutEmptyULBStates(
         this.stateAndULBDataMerged
       );
+    }
+
+    if (this.nationalLevelMap) {
+      this.initializeNationalLevelMapLayer(this.nationalLevelMap);
     }
 
     this.loadMapGeoJson().then(res => {
