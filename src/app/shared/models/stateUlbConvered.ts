@@ -10,6 +10,7 @@ export interface IStateULBCovered {
   code: string;
   ulbCount: null;
   totalUlbs: number;
+  audited: number;
   coveredUlbCount: number;
   coveredUlbPercentage: number;
 }
