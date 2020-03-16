@@ -1,6 +1,7 @@
 import { Cell, Workbook, Worksheet } from 'exceljs';
 import { saveAs } from 'file-saver';
 
+import { logoBase64 as emblemOfIndiaWithText } from '../../../../assets/images/emblemOfIndiaWithText.js';
 import * as logoFile from '../../../dashboard/report/base64Logo.js';
 import { ILogoOption, TableCellOption, TableDowloadOptions } from './models/options';
 
@@ -92,6 +93,12 @@ export class TableDownloader {
       base64: logoFile.logoBase64,
       extension: "png"
     });
+
+    const logo2 = option.workbook.addImage({
+      base64: emblemOfIndiaWithText,
+      extension: "png"
+    });
+
     const imageCellsTopLeft = this.getCellRange({
       cellStartIndex: option.column.from,
       cellEndIndex: 2,
@@ -102,10 +109,6 @@ export class TableDownloader {
       cellEndIndex: 2,
       rowIndex: option.row.from + 1
     });
-    option.worksheet.addImage(
-      logo,
-      `${imageCellsTopLeft.from}:${imageCellBottomRight.from}`
-    );
 
     const topLeftOfImageContainer = this.getCellRange({
       cellStartIndex: option.column.from,
@@ -122,6 +125,15 @@ export class TableDownloader {
       `${topLeftOfImageContainer.from}:${bottomRightofImageContainer.to}`
     );
 
+    option.worksheet.addImage(logo, {
+      tl: { col: 0, row: 0 },
+      br: { col: 1, row: 2 }
+    });
+
+    option.worksheet.addImage(logo2, {
+      tl: { col: option.column.to - 1, row: 0 },
+      br: { col: option.column.to, row: 2 }
+    });
     // Color for logo backgeound
     for (let i = option.row.from; i <= option.row.to; i++) {
       option.worksheet
