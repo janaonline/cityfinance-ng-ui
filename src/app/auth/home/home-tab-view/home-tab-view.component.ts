@@ -82,7 +82,8 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   onDropdownSelect(event: any) {
-    this.selectedYears.push(event.id);
+    this.selectedYears = [...this.selectedYears, event.id];
+//    this.selectedYears.push(event.id);
     //  this.filterDisplayDataTableYearWise();
   }
 
@@ -99,11 +100,12 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   onDropdownDeSelect(event: any) {
-    console.log(event);
+
     this.selectedYears.splice(
       this.selectedYears.findIndex(year => event.id == year),
       1
     );
+    this.selectedYears = [...this.selectedYears];
     // this.filterDisplayDataTableYearWise();
   }
 
