@@ -201,7 +201,7 @@ export class CommonService {
     return this.http.get("/assets/files/homeDashboardData.json");
   }
 
-  getStateUlbCovered(body?: { years: string[] }) {
+  getStateUlbCovered(body?: { year: string[] }) {
     // let queryParams: HttpParams;
     // if (params) {
     //   queryParams = this.getHttpClientParams(params);
@@ -221,7 +221,7 @@ export class CommonService {
       );
   }
 
-  getULBSWithPopulationAndCoordinates(body?: { years: string[] }) {
+  getULBSWithPopulationAndCoordinates(body?: { year: string[] }) {
     return this.http
       .post<IULBWithPopulationResponse>(
         `${environment.api.url}api/admin/v1/ulb-list`,
