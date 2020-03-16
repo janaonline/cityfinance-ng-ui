@@ -131,7 +131,7 @@ export class TableDownloader {
     });
 
     option.worksheet.addImage(logo2, {
-      tl: { col: option.column.to - 1, row: 0 },
+      tl: { col: option.column.to - 1.5, row: 0 },
       br: { col: option.column.to, row: 2 }
     });
     // Color for logo backgeound
