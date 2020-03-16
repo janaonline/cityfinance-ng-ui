@@ -332,9 +332,9 @@
 
 <ng-template #yearSelect>
   <div class=" mt-2" [formGroup]="yearForm">
-    <angular2-multiselect classes="mt-1"
+    <angular2-multiselect classes=""
                           formControlName="years"
-                          style="margin-top: 1rem; display:inline-block;width: 160px;"
+                          style="margin-top: 14px; display:inline-block;width: 160px;"
                           [data]="yearLookup"
                           [settings]="yearsDropdownSettings"
                           (onClose)="onDropdownClose($event)"
