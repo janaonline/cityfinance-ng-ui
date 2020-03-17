@@ -84,6 +84,7 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
   [
     {title: 'ULB name', id: 'name'},
     {title: 'Population', id: 'population', total: true},
+    {title: 'Audit Status', id: 'audited'},
     {title: 'Own revenues', id: 'ownRevenues', suffix: '%'},
     {title: 'Sale & hire charges', id: 'saleAndHireCharges', suffix: '%'},
     {title: 'Assigned revenue', id: 'assignedRevenue', suffix: '%'},
@@ -96,6 +97,7 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
     {title: 'ULB name', id: 'name'},
     {title: 'Population', id: 'population', total: true},
     {title: 'Assigned Revenue And Compensation', suffix: '%', id: 'assignedRevenueAndCompensationCoverPercentage'},
+    {title: 'Audit Status', id: 'audited'},
     {title: 'Deficit Finance By Capital Grants', suffix: '%', id: 'deficitFinanceByCapitalGrantsCoverPercentage'},
     {title: 'Interest Income', suffix: '%', id: 'interestIncomeCoverPercentage'},
     {title: 'Other Income ', suffix: '%', id: 'otherIncomeCoverPercentage'},
@@ -109,6 +111,7 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
     {title: 'ULB name', id: 'name'},
     {title: 'Population', id: 'population', total: true},
     {title: 'Establishment expense', suffix: '%', id: 'establishmentExpense'},
+    {title: 'Audit Status', id: 'audited'},
     {title: 'Administrative Expense', suffix: '%', id: 'administrativeExpense'},
     {title: 'Operational & Maint. Expense', suffix: '%', id: 'operationalAndMaintananceExpense'},
     {title: 'Interest & Finance Expense ', suffix: '%', id: 'interestAndFinanceExpense'},
@@ -120,6 +123,7 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
   [
     {title: 'ULB name', click: true, id: 'name'},
     {title: 'Population', id: 'population', total: true},
+    {title: 'Audit Status', id: 'audited'},
     {title: 'Audit Status', id: 'audited'},
     {title: 'Cash & Bank Balance (Rs in crore)', showInr: true, total: true, roundOff: true, id: 'cashAndBankBalance'}
   ],
