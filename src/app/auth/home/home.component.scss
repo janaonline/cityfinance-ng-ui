@@ -264,3 +264,35 @@
   }
 
 }
+
+.important-links-container {
+  width: 98%;
+  overflow: hidden;
+  margin: 2rem auto;
+
+  .important-links {
+    position: relative;
+    width: 380%;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    animation: marq 60s linear infinite;
+
+    & div {
+      display: inline-block;
+      max-width: 500px;
+    }
+  }
+
+  @keyframes marq {
+    from {
+      left: 0;
+    }
+    to {
+      left: -350%
+    }
+
+  }
+}
+

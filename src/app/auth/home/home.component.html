@@ -143,6 +143,18 @@
     </div>
   </div>
 
+  <div class="important-links-container">
+    <div class="important-links">
+      <div *ngFor="let link of importantLinks">
+        <a *ngIf="link.link"  [routerLink]="link.link">
+          <h4>{{link.text}}</h4>
+        </a>
+        <h4 matTooltip="In Progress" *ngIf="!link.link">{{link.text}}</h4>
+      </div>
+    </div>
+
+  </div>
+
   <div class="partners">
     <div class="container">
       <!-- <h3>A project by</h3> -->
@@ -150,10 +162,10 @@
         <div class="col-md-4">
           <div class="text-center">
             <div class="imp-partner">Initiative by</div>
-            <br />
+            <br/>
             <div>
               <a href="http://www.janaagraha.org/" target="_new">
-                <img src="assets/images/logo-for-web1.png" />
+                <img src="assets/images/logo-for-web1.png"/>
               </a>
             </div>
           </div>
@@ -161,10 +173,10 @@
         <div class="col-md-4">
           <div class="text-center">
             <div class="imp-partner">Knowledge partner</div>
-            <br />
+            <br/>
             <div>
               <a href="https://www.magc.in/" target="_new">
-                <img src="assets/images/mgc-logo.png" />
+                <img src="assets/images/mgc-logo.png"/>
               </a>
             </div>
           </div>
@@ -173,10 +185,10 @@
         <div class="col-md-4">
           <div class="text-center">
             <div class="imp-partner">Supported by</div>
-            <br />
+            <br/>
             <div>
               <a href="https://www.omidyarnetwork.in/" target="_new">
-                <img src="assets/images/omdiyar-logo.png" />
+                <img src="assets/images/omdiyar-logo.png"/>
               </a>
             </div>
           </div>
