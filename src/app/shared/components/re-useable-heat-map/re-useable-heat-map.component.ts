@@ -112,9 +112,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     if (changes.yearSelected) {
       this.clearNationalMapContainer();
 
-      // this.resetMapToNationalLevel();
       setTimeout(() => {
-        console.log(document.getElementById("mapid"));
         this.initiatedDataFetchingProcess();
       }, 0);
     }
@@ -320,7 +318,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   private addListener() {
     window.addEventListener("scroll", ev => {
-      if (this.ulbSearchAutoComplete.autocomplete.isOpen) {
+      if (
+        this.ulbSearchAutoComplete &&
+        this.ulbSearchAutoComplete.autocomplete.isOpen
+      ) {
         this.ulbSearchAutoComplete.closePanel();
       }
     });
