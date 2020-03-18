@@ -647,6 +647,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     this.ulbListForAutoCompletion = this.ulbsOfSelectedState;
+    console.log(this.ulbsOfSelectedState);
     const ulbsWithCoordinates = this.ulbsOfSelectedState.filter(
       ulb =>
         ulb.location &&
@@ -682,6 +683,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     if (this.districtMap) {
       this.unselectAllDistrictMarker();
     }
+    if (!ulbsWithCoordinates.length) {
+      const message = `${stateFound.name} does not conains any ULB with geo co-ordinates.`;
+      this.showSnacbarMessage(message);
+      return false;
+    }
 
     this.createDistrictMap(newObj, {
       center: stateCenter,
@@ -690,12 +696,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.currentStateInView = { ...stateFound };
     if (options.emitState) {
       this.stateSelected.emit(stateFound);
-    }
-
-    if (!ulbsWithCoordinates.length) {
-      const message = `${stateFound.name} does not conains any ULB with geo co-ordinates.`;
-      this.showSnacbarMessage(message);
-      return false;
     }
 
     return true;
