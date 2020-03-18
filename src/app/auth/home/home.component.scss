@@ -65,7 +65,7 @@
     margin-bottom: 30px;
   }
 
-  h3 {
+  h3:nth-child(1) {
     text-align: center;
     position: relative;
     margin: 0 0 30px;
@@ -106,6 +106,24 @@
     background: linear-gradient(to right, #85baea, #0580b5);
   }
 
+  .benifitHeading {
+    text-align: center;
+    position: relative;
+    margin: 2% auto;
+    width: fit-content;
+
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 3px;
+      background: #000;
+      margin: auto;
+    }
+  }
   // .statistics-block{
   //   height: 100px;
   //   padding: 10px;
