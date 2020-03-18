@@ -1,5 +1,5 @@
 import { KeyValue } from '@angular/common';
-import { Component, OnInit, TemplateRef, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
@@ -1108,9 +1108,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     );
   }
 
-
-
   ngOnDestroy() {
     this.resetPage();
+    this.modalRef.hide();
   }
 }
