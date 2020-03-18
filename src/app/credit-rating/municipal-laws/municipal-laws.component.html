@@ -1,15 +1,27 @@
-<div class="container common-container center law-page">
+<div class="container-fluid common-container p-0 center law-page">
   <!-- <br /><br /><br /> -->
-  <div class="row">
+  <ng-container>
     <!-- {{tempStates | json}} -->
     <!-- {{keys | json}} -->
     <!-- {{list | json}}  -->
-    <div class="row" *ngIf="!compareState">
-      <div class="col-md-12">
-        <h3>Comparison of Municipal Finance Provisions</h3>
-        <br>
+    <div class="row m-1"  *ngIf="!compareState">
+
+      <div class="col-md-6 mt-2" style="height: 50vh;">
+        <carousel [noPause]="false">
+          <slide *ngFor="let item of slides" (click)="showStateGroup(item)" title="Click to compare states">
+            <img [src]="item.imgUrl">
+            <div class="carousel-caption d-none d-md-block">
+              <h4 class="title">{{item.caption}}</h4>
+            </div>
+          </slide>
+        </carousel>
+        <br/>
       </div>
       <div class="col-md-6">
+<!--        <div class="col-md-12">-->
+          <h3 class="">Comparison of Municipal Finance Provisions</h3>
+<!--          <br>-->
+<!--        </div>-->
         <br>
         <p>
           Presented here is a comparison of the pronouncements of various Municipal Acts, underlying Rules and
@@ -18,9 +30,12 @@
           questions like ‘What is the system of accounting prescribed?’, ‘What is the timeline for presenting the
           municipal budget?’ ‘Is a budget calendar prescribed? if so, where is it prescribed?’, ‘What are the limits on
           municipal borrowing?’, ‘Do the laws require citizen participation in budget preparation?’ and a host of other
-          interesting questions. The comparison attempts to answer a total of 70 questions across 13 criteria. Answers have been kept short and precise. Where found necessary, additional
-          explanations have been provided for better understanding as a pop-up which you can see when you hover the mouse pointer over the answer. Reference to
-          the specific provision of the Act/Rule/Manual is also given wherever possible for the benefit of anyone desirous
+          interesting questions. The comparison attempts to answer a total of 70 questions across 13 criteria. Answers
+          have been kept short and precise. Where found necessary, additional
+          explanations have been provided for better understanding as a pop-up which you can see when you hover the
+          mouse pointer over the answer. Reference to
+          the specific provision of the Act/Rule/Manual is also given wherever possible for the benefit of anyone
+          desirous
           of doing a deep-dive.
           <a *ngIf="!knowMore" (click)="knowMore = true">Read more..</a>
         </p>
@@ -47,17 +62,6 @@
 
 
       </div>
-      <div class="col-md-6" style="height: 50vh;">
-        <carousel [noPause]="false">
-          <slide *ngFor="let item of slides" (click)="showStateGroup(item)" title="Click to compare states">
-            <img [src]="item.imgUrl">
-            <div class="carousel-caption d-none d-md-block">
-              <h4 class="title">{{item.caption}}</h4>
-            </div>
-          </slide>
-        </carousel>
-        <br />
-      </div>
       <!-- <div class="col-md-12">
         <p><br />
           !-- {{selectedStates | json}} --
@@ -73,10 +77,10 @@
       </div> -->
     </div>
 
-    <div class="row1" *ngIf="compareState == 1">
+    <div class="row container m-auto" *ngIf="compareState == 1">
       <div class="col-md-12">
         <h3>Comparison of Municipal Finance Provisions
-          <a *ngIf="compareState > 0" class="back-link" (click)="compareState = 0">Back</a>
+          <a *ngIf="compareState > 0" class="back-link" style="margin-right: 0px" (click)="compareState = 0">Back</a>
         </h3>
         <br>
       </div>
@@ -90,7 +94,8 @@
         <br>
         <div class="col-md-3 col-md-offset-3">
           <button class="btn btn-primary col-md-12" (click)="showComparisionPage()"
-            tooltip="Select 1 or more states">View and Compare</button>
+                  tooltip="Select 1 or more states">View and Compare
+          </button>
         </div>
         <div class="col-md-3">
           <button class="btn btn-danger col-md-12" (click)="compareAllStates()">Compare All</button>
@@ -100,14 +105,19 @@
 
     </div>
 
-    <div class="row">
-      
-     <div class="col-md-11" *ngIf="compareState == 2">
+    <div class="row container m-auto">
+
+      <div class="col-md-11" *ngIf="compareState == 2">
         <!-- <h3>State comparision -->
         <button (click)="openStateSelectionModal(template)" class="btn btn-warning back-link"
-          style="margin-top: 40px;">Add or Remove</button> <br>
-        <a href="/assets/files/municipal-laws-report.xlsx"><button class="btn btn-danger back-link"
-            style="margin-top: 70px;">Download</button></a> <br>
+                style="margin-top: 40px;">Add or Remove
+        </button>
+        <br>
+        <a href="/assets/files/municipal-laws-report.xlsx">
+          <button class="btn btn-danger back-link"
+                  style="margin-top: 70px;">Download
+          </button>
+        </a> <br>
         <a class="back-link" style="margin-top: 100px;" (click)="compareState = 0">Back</a>
         <!-- <a class="back-link" style="margin-top: 100px;" (click)="backToStateSelection()">Back</a> -->
         <!-- <a *ngIf="compareState > 0" class="back-link" (click)="backToStateSelection()">Back</a> -->
@@ -117,7 +127,8 @@
         <!-- {{list | json}} -->
 
         <div class="table-responsive">
-          <table class="table table-striped table-hover" border="1" id="compare-table" [ngStyle]="{'width': tableWidth}">
+          <table class="table table-striped table-hover" border="1" id="compare-table"
+                 [ngStyle]="{'width': tableWidth}">
             <tr>
               <th *ngFor="let key of selectedStates" style="text-transform: capitalize;" [ngStyle]="{'width': tdWidth}">
                 {{key}}
@@ -143,8 +154,8 @@
                             No information available
                           </div>
                           <i *ngIf="list[key] && list[key][title] && list[key][title].tooltip"
-                            [tooltip]="list[key][title].tooltip" placement="bottom"
-                            class="glyphicon glyphicon-info-sign"></i>
+                             [tooltip]="list[key][title].tooltip" placement="bottom"
+                             class="glyphicon glyphicon-info-sign"></i>
 
                           <div *ngIf="list[key] && list[key][title] && list[key][title].titleWithCaptions">
                             <div *ngFor="let cell of list[key][title].titleWithCaptions; let i = index">
@@ -181,9 +192,9 @@
           </accordion>
         </div>
       </div>
-      
+
     </div>
-  </div>
+  </ng-container>
 </div>
 <!-- <br><br><br> -->
 
