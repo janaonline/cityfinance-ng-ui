@@ -274,6 +274,7 @@
     justify-content: space-between;
     flex-wrap: nowrap;
     animation: marq 60s linear infinite;
+    margin-top: 0.5%;
 
     & div {
       display: inline-block;
@@ -286,9 +287,25 @@
       left: 0;
     }
     to {
-      left: -350%
+      left: -350%;
     }
-
   }
 }
 
+.important-links-container > h3 {
+  position: relative;
+  width: fit-content;
+  margin: auto;
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 3px;
+    background: #000;
+    margin: auto;
+  }
+}
