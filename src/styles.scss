@@ -16,8 +16,8 @@
 
 // Scroll Bar UI Starts here
 
-body {
-  //font-size: 100% !important;
+.nav > li > a {
+  padding: 10px 15px;
 }
 
 /* width */
@@ -128,6 +128,7 @@ img.align-center {
   left: 0;
   right: 0;
   top: 0;
+  min-height: 40px;
 }
 
 .navbar {
@@ -143,7 +144,7 @@ img.align-center {
 
   .navbar-brand {
     height: auto !important;
-    padding: 10px 15px;
+    padding: 2px 15px;
   }
 
   li > a:focus,
@@ -155,8 +156,8 @@ img.align-center {
 }
 
 .navbar-nav > li > a {
-  padding-top: 22px !important;
-  padding-bottom: 22px !important;
+  // padding-top: 22px !important;
+  // padding-bottom: 22px !important;
   font-size: 16px;
   font-weight: 400;
   line-height: 23px;
@@ -294,11 +295,11 @@ img.align-center {
     // background-color: #d3d3d3;
     padding: 5px 10px;
     -webkit-transition: color 0.15s ease-in-out,
-    background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+      background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+      box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
-    -webkit-box-shadow 0.15s ease-in-out;
+      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+      -webkit-box-shadow 0.15s ease-in-out;
   }
 }
 
@@ -574,7 +575,6 @@ img.align-center {
   justify-content: center !important;
 }
 
-
 .mt-1 {
   margin-top: 1rem !important;
 }
@@ -642,10 +642,10 @@ img.align-center {
 }
 
 #mapid
-> div.leaflet-control-container
-> div.leaflet-bottom.leaflet-right
-> div
-> a {
+  > div.leaflet-control-container
+  > div.leaflet-bottom.leaflet-right
+  > div
+  > a {
   display: none;
 }
 
