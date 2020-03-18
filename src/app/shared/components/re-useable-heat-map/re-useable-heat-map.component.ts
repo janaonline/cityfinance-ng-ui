@@ -95,6 +95,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   currentULBClicked: ULBWithMapData;
 
+  isNationalMapToDistroctMapInProcess;
+
   ngOnInit() {}
 
   ngOnChanges(changes: {
@@ -272,7 +274,17 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       (layer as any).bringToBack();
       (layer as any).on({
         mouseover: () => this.createTooltip(layer, stateLayer),
-        click: (args: ILeafletStateClickEvent) => this.onClickingState(args),
+        click: (args: ILeafletStateClickEvent) => {
+          if (this.isNationalMapToDistroctMapInProcess) {
+            return;
+          }
+          this.isNationalMapToDistroctMapInProcess = setTimeout(() => {
+            this.onClickingState(args);
+            setTimeout(() => {
+              this.isNationalMapToDistroctMapInProcess = null;
+            }, 1000);
+          }, 1);
+        },
         mouseout: () => (this.mouseHoverOnState = null)
       });
     });
@@ -647,7 +659,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     this.ulbListForAutoCompletion = this.ulbsOfSelectedState;
-    console.log(this.ulbsOfSelectedState);
     const ulbsWithCoordinates = this.ulbsOfSelectedState.filter(
       ulb =>
         ulb.location &&
