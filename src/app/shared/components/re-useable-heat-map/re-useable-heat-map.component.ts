@@ -198,6 +198,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         if (
           (layer as any).options &&
           (layer as any).options.pane === "markerPane" &&
+          ulb.location &&
           (layer as any)._latlng.lat === +ulb.location.lat &&
           (layer as any)._latlng.lng === +ulb.location.lng
         ) {
@@ -813,6 +814,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   ) => {
     const ulbFound = this.allULBSList.find(
       ulb =>
+        ulb.location &&
         +ulb.location.lat === values.latlng.lat &&
         +ulb.location.lng === values.latlng.lng
     );
