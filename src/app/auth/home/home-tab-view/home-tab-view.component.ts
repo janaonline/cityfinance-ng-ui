@@ -82,8 +82,8 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   onDropdownSelect(event: any) {
-    this.selectedYears = [...this.selectedYears, event.id];
-//    this.selectedYears.push(event.id);
+    //this.selectedYears = [...this.selectedYears, event.id];
+    this.selectedYears.push(event.id);
     //  this.filterDisplayDataTableYearWise();
   }
 
@@ -104,13 +104,14 @@ export class HomeTabViewComponent implements OnInit {
     this.selectedYears.splice(
       this.selectedYears.findIndex(year => event.id == year),
       1
-    );
-    this.selectedYears = [...this.selectedYears];
-    // this.filterDisplayDataTableYearWise();
+    )
+    // this.selectedYears = [...this.selectedYears];
+    this.filterDisplayDataTableYearWise();
   }
 
   onDropdownClose(event: any) {
     this.tabData = [];
+    this.selectedYears = [...this.selectedYears];
     if (this.selectedYears.length > 1) {
       this._dialog.open(DialogComponent, {
         width: 'fit-content',

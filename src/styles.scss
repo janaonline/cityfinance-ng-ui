@@ -508,7 +508,7 @@ img.align-center {
       img {
         max-width: 100%;
         width: 75vh !important;
-        padding: 5% 10%;
+        padding: 3% 10%;
         margin-left: 80px;
       }
 
@@ -705,7 +705,15 @@ img.align-center {
   margin: 0 !important;
 }
 
+.m-auto {
+  margin: auto;
+}
+
 .m-1 {
+  margin: 1rem;
+}
+
+.mt-1 {
   margin-top: 1rem;
 }
 
