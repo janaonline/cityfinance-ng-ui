@@ -11,10 +11,10 @@ export class AuditStatusTextPipe implements PipeTransform {
         return 'Audited';
       }
       if (args.row.auditNA) {
-        return 'N/A';
+        return 'Not Available';
       }
       if (args.row.unaudited) {
-        return "Unaudited";
+        return 'Unaudited';
       }
     }
     return null;
