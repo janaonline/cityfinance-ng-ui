@@ -197,7 +197,10 @@
                   matTooltipPosition="above"
                   [matTooltipDisabled]="!col?.showInr"
                   [ngClass]="i==tr?.data.length-1?'text-bold':''"
-                  *ngIf="!col?.click  else clickableCol">{{ row[col?.id] | roundoff: {config: col}  | rupeeConverter }}</span>
+                  *ngIf="!col?.click  else clickableCol">{{col.id == 'audited' ? (row['audited'] | auditStatusText: {
+                  row: row,
+                  colId: col.id
+                }) : row[col?.id] | roundoff: {config: col}  | rupeeConverter }}</span>
                 <ng-template #clickableCol>
                   <a *ngIf="i!=tr?.data.length-1"
                      (click)="openModal(UlbModal,row,tr.year)">{{ row[col?.id]}}</a>
@@ -227,9 +230,6 @@
 </ng-template>
 
 <ng-template #UlbModal>
-
-  <!--  <button (click)="downloadTable()"></button>-->
-
   <div class="modal-body">
     <div style="margin-bottom: .5rem; display: flex;justify-content: flex-end">
       <button mat-raised-button
@@ -247,7 +247,6 @@
         <mat-icon>close</mat-icon>
       </button>
     </div>
-
     <div class="table-responsive border-1" style="max-height: 90vh; overflow-x: hidden">
       <table id="table" *ngIf="modalTableHeaders.length; else noData"
              class="table">
@@ -311,7 +310,10 @@
                 [matTooltip]="(row[col?.id] | typeof)==='object' ?row[col?.id].name:row[col?.id] | rupeeConverter :{showInr:col?.showInr}"
                 [ngClass]="i==modalTableData?.data?.length-1?'text-bold':''"
                 *ngIf="!col?.click;else clickableCol">
-            {{ row[col?.id] | roundoff: {config: col}  | rupeeConverter }} {{row[col?.id] ? col.suffix || '' : null}}</span>
+            {{ col.id == 'audited' ? (row['audited'] | auditStatusText: {
+            row: row,
+            colId: col.id
+          }) : row[col?.id] | roundoff: {config: col}  | rupeeConverter }} {{row[col?.id] ? col.suffix || '' : null}}</span>
             <ng-template #clickableCol>
               <a *ngIf="i!=modalTableData?.data?.length-1"
                  (click)="modalItemClicked(row._id,row)">{{ row[col?.id] |rupeeConverter }}</a>
