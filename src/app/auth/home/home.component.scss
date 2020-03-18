@@ -56,7 +56,7 @@
 
 .about {
   padding: 40px 0;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   color: #000;
 
   .about-intro {
@@ -147,7 +147,6 @@
   //   &:hover{
   //     box-shadow: 4px 6px 10px 0px #aaa;
 
-
   //     .content{
   //       h2{
   //         font-size: 30px;
@@ -215,13 +214,13 @@
     h4 {
       padding: 10px;
       margin: 0;
-      color: #EEE;
+      color: #eee;
     }
 
     .description {
       margin: 0 0 10px;
       color: rgba(250, 250, 250, 0.9);
-      padding: 5px 40px;
+      padding: 5px 15px;
       letter-spacing: 1px;
 
       p {
@@ -235,8 +234,6 @@
         color: black;
       }
     }
-
-
   }
 }
 
@@ -262,7 +259,6 @@
       margin-left: -25px;
     }
   }
-
 }
 
 .important-links-container {
@@ -278,6 +274,7 @@
     justify-content: space-between;
     flex-wrap: nowrap;
     animation: marq 60s linear infinite;
+    margin-top: 0.5%;
 
     & div {
       display: inline-block;
@@ -290,9 +287,25 @@
       left: 0;
     }
     to {
-      left: -350%
+      left: -350%;
     }
-
   }
 }
 
+.important-links-container > h3 {
+  position: relative;
+  width: fit-content;
+  margin: auto;
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 3px;
+    background: #000;
+    margin: auto;
+  }
+}

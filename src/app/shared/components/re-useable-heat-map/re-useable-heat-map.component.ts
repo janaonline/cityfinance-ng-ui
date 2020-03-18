@@ -95,6 +95,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   currentULBClicked: ULBWithMapData;
 
+  isNationalMapToDistroctMapInProcess;
+
   ngOnInit() {}
 
   ngOnChanges(changes: {
@@ -112,9 +114,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     if (changes.yearSelected) {
       this.clearNationalMapContainer();
 
-      // this.resetMapToNationalLevel();
       setTimeout(() => {
-        console.log(document.getElementById("mapid"));
         this.initiatedDataFetchingProcess();
       }, 0);
     }
@@ -274,7 +274,17 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       (layer as any).bringToBack();
       (layer as any).on({
         mouseover: () => this.createTooltip(layer, stateLayer),
-        click: (args: ILeafletStateClickEvent) => this.onClickingState(args),
+        click: (args: ILeafletStateClickEvent) => {
+          if (this.isNationalMapToDistroctMapInProcess) {
+            return;
+          }
+          this.isNationalMapToDistroctMapInProcess = setTimeout(() => {
+            this.onClickingState(args);
+            setTimeout(() => {
+              this.isNationalMapToDistroctMapInProcess = null;
+            }, 1000);
+          }, 1);
+        },
         mouseout: () => (this.mouseHoverOnState = null)
       });
     });
@@ -320,7 +330,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   private addListener() {
     window.addEventListener("scroll", ev => {
-      if (this.ulbSearchAutoComplete.autocomplete.isOpen) {
+      if (
+        this.ulbSearchAutoComplete &&
+        this.ulbSearchAutoComplete.autocomplete.isOpen
+      ) {
         this.ulbSearchAutoComplete.closePanel();
       }
     });
@@ -681,6 +694,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     if (this.districtMap) {
       this.unselectAllDistrictMarker();
     }
+    if (!ulbsWithCoordinates.length) {
+      const message = `${stateFound.name} does not conains any ULB with geo co-ordinates.`;
+      this.showSnacbarMessage(message);
+      return false;
+    }
 
     this.createDistrictMap(newObj, {
       center: stateCenter,
@@ -689,12 +707,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.currentStateInView = { ...stateFound };
     if (options.emitState) {
       this.stateSelected.emit(stateFound);
-    }
-
-    if (!ulbsWithCoordinates.length) {
-      const message = `${stateFound.name} does not conains any ULB with geo co-ordinates.`;
-      this.showSnacbarMessage(message);
-      return false;
     }
 
     return true;
