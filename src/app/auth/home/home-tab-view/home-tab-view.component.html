@@ -388,6 +388,7 @@
                 <li>Total number of ULBs : <b>{{+row["totalUlb"]}}</b></li>
                 <li>Number of ULBs with Data: <b
                   [matTooltipDisabled]="row['audited']==undefined"
+                  matTooltipPosition="above"
                   [matTooltip]="'Audited: '+row['audited']"> {{+row["numOfUlb"] }}</b>
                 </li>
               </ul>
@@ -397,6 +398,9 @@
             </div>
           </div>
           <ul [ngClass]="'legend-'+data?.year" [id]="data?.year" class="p-0 pie-chart-legend"></ul>
+          <h4 *ngIf="singleULBView" class="text-center">
+            Audit Status: {{ data.data[0] | auditStatusText:{row: data.data[0]} }}
+          </h4>
         </div>
       </ng-container>
       <ng-template #noData>
