@@ -1,5 +1,5 @@
 import 'chartjs-plugin-labels';
-import 'chartjs-plugin-title-click';
+//import 'chartjs-plugin-title-click';
 
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
