@@ -956,6 +956,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   private clearNationalMapContainer() {
     if (this.nationalLevelMap) {
       this.nationalLevelMap.remove();
+      this.nationalLevelMap = null;
     }
   }
 
