@@ -12,7 +12,8 @@ import {
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger, MatSnackBar } from '@angular/material';
 import * as L from 'leaflet';
-import { debounceTime } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 
 import { IStateULBCovered, IStateULBCoveredResponse } from '../../models/stateUlbConvered';
 import { IULBWithPopulationResponse, ULBWithMapData } from '../../models/ulbsForMapResponse';
@@ -36,8 +37,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.listenToFormControls();
     this.addListener();
     this.addCustomStyleTag();
-    // this.initiatedDataFetchingProcess();
-    // this.removeCustomStyleTag();
   }
 
   @Output() ulbsClicked = new EventEmitter<string[]>();
@@ -113,22 +112,39 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     }
     if (changes.yearSelected) {
       this.clearNationalMapContainer();
+      if (this.districtMap) {
+        this.clearDistrictMapContainer();
+        this.districtMap.remove();
+        this.districtMap = null;
+      }
 
       setTimeout(() => {
-        this.initiatedDataFetchingProcess();
+        this.initiatedDataFetchingProcess().subscribe(res => {
+          if (this.isMapOnMiniMapMode) {
+            this.createStateLevelMap(this.currentStateInView.name);
+          }
+        });
       }, 0);
     }
   }
 
   private initiatedDataFetchingProcess() {
     const body = { year: this.yearSelected || [] };
-    this._commonService
-      .getStateUlbCovered(body)
-      .subscribe(res => this.onGettingStateULBCoveredSuccess(res));
+    const subscriptions: any[] = [];
+    subscriptions.push(
+      this._commonService
+        .getStateUlbCovered(body)
+        .pipe(map(res => this.onGettingStateULBCoveredSuccess(res)))
+      // .subscribe(res => this.onGettingStateULBCoveredSuccess(res))
+    );
 
-    this._commonService
-      .getULBSWithPopulationAndCoordinates(body)
-      .subscribe(res => this.onGettingULBWithPopulationSuccess(res));
+    subscriptions.push(
+      this._commonService
+        .getULBSWithPopulationAndCoordinates(body)
+        .pipe(map(res => this.onGettingULBWithPopulationSuccess(res)))
+      // .subscribe(res => this.onGettingULBWithPopulationSuccess(res))
+    );
+    return forkJoin(subscriptions);
   }
 
   onSelectingULBFromDropdown(ulbId: string) {
@@ -450,6 +466,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         this.stateAndULBDataMerged
       );
     }
+    return res;
   }
 
   private onGettingStateULBCoveredSuccess(res: IStateULBCoveredResponse) {
@@ -474,6 +491,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.loadMapGeoJson().then(res => {
       this.createNationalLevelMap();
     });
+    return res;
   }
 
   private CombineStateAndULBData(
@@ -956,6 +974,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   private clearNationalMapContainer() {
     if (this.nationalLevelMap) {
       this.nationalLevelMap.remove();
+      this.nationalLevelMap = null;
     }
   }
 
