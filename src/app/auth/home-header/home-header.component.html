@@ -1,27 +1,3 @@
-<!-- <nav class="navbar">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <span [routerLink]="['/']" class="navbar-brand"><img src="/assets/images/cityfinance-logo.png"></span>
-    </div>
-    <ul class="nav navbar-nav navbar-right">
-      <li class="dropdown">
-        <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ULB Credit Rating &nbsp;<span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a [routerLink]="['./../../credit-rating/report']">Credit Rating Report</a></li>
-          <li><a [routerLink]="['./../../credit-rating/municipal-bond']">Municipal Bond Issuances</a></li>
-          <li><a [routerLink]="['./../../credit-rating/scale']">Credit Rating Scale</a></li>
-          <!-- <li><a href="/assets/files/CreditRating.xlsx">Credit Rating Report</a></li>
-          <li><a href="/assets/files/MunicipalBondIssuances.xlsx">Municipal Bond Issuances</a></li>
-          <li><a href="/assets/files/CreditRatingScale.xlsx">Credit Rating Scale</a></li> --
-        </ul>
-      </li>
-      <li><a [routerLink]="['/dashboard/data-tracker']">Data Tracker</a></li>
-      <!-- <li><a [routerLink]="['/dashboard/report']">Report</a></li> --
-      <li><a [routerLink]="['/login']">Login</a></li>
-    </ul>
-  </div>
-</nav> -->
-
 <nav
   class="navbar container-fluid position-sticky"
   style="display: flex; align-items: center;justify-content: space-between;"
@@ -31,7 +7,7 @@
       ><img src="/assets/images/cityfinance-logo.png"
     /></span>
   </div>
-  <div class="nav navbar-nav navbar-right px-1 " style="color: white">
+  <!-- <div class="nav navbar-nav navbar-right px-1 " style="color: white">
     <h4
       class="text-right"
       style="align-items: center;
@@ -58,12 +34,42 @@
         srcset=""
       />
     </h4>
-  </div>
+  </div> -->
 </nav>
-<div
-  class="navbar container-fluid"
-  style="position: sticky;border: 0px;top: 70px;"
+<h4
+  class="text-right"
+  style="    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    margin-bottom: 0px;
+    position: absolute;
+    transform: translateY(-75%);
+    right: 0px;
+    z-index: 99999999996;
+    color: white;
+    "
 >
+  <div
+    style="width: 30vw;min-width: f it-content; display: inline-block;margin-right: 3%;"
+  >
+    <span
+      style="display: inline-block;
+    margin-bottom: 3px;"
+      >An initiative of Ministry of Housing and Urban Affairs,</span
+    ><br />
+    Government of India
+  </div>
+
+  <img
+    style="width: 6%;"
+    src="/assets/images/emblem-of-india.svg"
+    alt="Emblem of India"
+    srcset=""
+  />
+</h4>
+<div class="navbar container-fluid" style="position: sticky;border: 0px;">
+  <!-- top: 70px; -->
+
   <ul class="nav navbar-nav navbar-left">
     <li routerLinkActive="active">
       <a [routerLink]="['/home']"><b>Home</b></a>
