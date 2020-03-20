@@ -296,7 +296,15 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
             return;
           }
           this.isNationalMapToDistroctMapInProcess = setTimeout(() => {
-            this.onClickingState(args);
+            try {
+              this.onClickingState(args);
+            } catch (error) {
+              this.mouseHoverOnState = null;
+              /**
+               * This error will generally occur when you change the year (dont close the year dropdown) and then click on the state.
+               */
+              console.log(error);
+            }
             setTimeout(() => {
               this.isNationalMapToDistroctMapInProcess = null;
             }, 1000);
