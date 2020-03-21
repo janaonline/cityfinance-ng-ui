@@ -1,12 +1,10 @@
-import 'chartjs-plugin-labels';
 //import 'chartjs-plugin-title-click';
-
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material';
+import 'chartjs-plugin-labels';
 import {Chart} from 'chart.js';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
-
 import {DialogComponent} from '../../../shared/components/dialog/dialog.component';
 import {DashboardService} from '../../../shared/services/dashboard/dashboard.service';
 import {TableDownloader} from '../../../shared/util/tableDownload/genericTableDownload';
