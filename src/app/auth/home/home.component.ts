@@ -107,7 +107,10 @@ export class HomeComponent implements OnInit {
   ];
 
   importantLinks: Link[] = [
-    { text: "Audited/Unaudited Annual Accounts of ULBs" },
+    {
+      text: "Audited/Unaudited Annual Accounts of ULBs",
+      link: "/dashboard/report/basic"
+    },
     {
       text: "Municipal Bonds and Pooled Debt Obligations",
       link: "/credit-rating/municipal-bond"
@@ -117,8 +120,7 @@ export class HomeComponent implements OnInit {
       link: "/credit-rating/report"
     },
     {
-      text: "Database of finance related provisions",
-      link: "/dashboard/report/basic"
+      text: "Database of finance related provisions"
     },
     { text: "Fiscal Ranking of ULBs" },
     { text: "Service Level Benchmarks vs Actuals" },

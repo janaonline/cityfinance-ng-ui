@@ -111,6 +111,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       }
     }
     if (changes.yearSelected) {
+      this.stateAndULBDataMerged = {};
       this.clearNationalMapContainer();
       if (this.districtMap) {
         this.clearDistrictMapContainer();
@@ -122,6 +123,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         this.initiatedDataFetchingProcess().subscribe(res => {
           if (this.isMapOnMiniMapMode) {
             this.createStateLevelMap(this.currentStateInView.name);
+            setTimeout(() => {
+              this.hideMapLegends();
+            }, 0);
           }
         });
       }, 0);
@@ -296,7 +300,15 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
             return;
           }
           this.isNationalMapToDistroctMapInProcess = setTimeout(() => {
-            this.onClickingState(args);
+            try {
+              this.onClickingState(args);
+            } catch (error) {
+              this.mouseHoverOnState = null;
+              /**
+               * This error will generally occur when you change the year (dont close the year dropdown) and then click on the state.
+               */
+              console.log(error);
+            }
             setTimeout(() => {
               this.isNationalMapToDistroctMapInProcess = null;
             }, 1000);
@@ -491,6 +503,15 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.loadMapGeoJson().then(res => {
       this.createNationalLevelMap();
     });
+
+    // if (this.StatesJSONForMapCreation) {
+    //   this.createNationalLevelMap();
+    // } else {
+    //   this.loadMapGeoJson().then(res => {
+    //     this.createNationalLevelMap();
+    //   });
+    // }
+
     return res;
   }
 
