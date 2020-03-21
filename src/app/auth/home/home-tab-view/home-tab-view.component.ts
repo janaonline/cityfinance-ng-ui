@@ -1,9 +1,10 @@
-import 'chartjs-plugin-labels';
 
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Chart } from 'chart.js';
+import 'chartjs-plugin-labels';
+
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
