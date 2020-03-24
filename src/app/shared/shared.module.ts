@@ -9,16 +9,18 @@ import {
   MatSnackBarModule,
 } from '@angular/material';
 import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
-
 import {PreLoaderComponent} from './components/pre-loader/pre-loader.component';
 import {ReUseableHeatMapComponent} from './components/re-useable-heat-map/re-useable-heat-map.component';
 import {RupeeConverterPipe} from './pipes/rupee-converter.pipe';
-import { TypeofPipe } from './pipes/typeof.pipe';
-import { RoundoffPipe } from './pipes/roundoff/roundoff.pipe';
-import { AuditStatusTextPipe } from './pipes/audit-status-text.pipe';
+import {TypeofPipe} from './pipes/typeof.pipe';
+import {RoundoffPipe} from './pipes/roundoff/roundoff.pipe';
+import {AuditStatusTextPipe} from './pipes/audit-status-text.pipe';
+import {HomeHeaderComponent} from './components/home-header/home-header.component';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   imports: [
+    RouterModule,
     CommonModule,
     MatFormFieldModule,
     ReactiveFormsModule,
@@ -28,8 +30,8 @@ import { AuditStatusTextPipe } from './pipes/audit-status-text.pipe';
     MatSnackBarModule,
     MatProgressSpinnerModule
   ],
-  declarations: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe, TypeofPipe, RoundoffPipe, AuditStatusTextPipe],
-    exports: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe, TypeofPipe, RoundoffPipe, AuditStatusTextPipe]
+  declarations: [PreLoaderComponent, ReUseableHeatMapComponent, HomeHeaderComponent, RupeeConverterPipe, TypeofPipe, RoundoffPipe, AuditStatusTextPipe],
+  exports: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe, TypeofPipe, RoundoffPipe, AuditStatusTextPipe, HomeHeaderComponent]
 })
 export class SharedModule {
 }

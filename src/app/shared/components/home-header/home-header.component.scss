@@ -1,0 +1,29 @@
+.navbar {
+  border-radius: 0px;
+  background-color: blue;
+
+  a,
+  .navbar-brand {
+    color: white;
+  }
+
+  .nav > li > a:focus,
+  .nav > li > a:hover {
+    text-decoration: none;
+    background-color: #03a9f4;
+  }
+}
+
+// .nav.navbar-nav {
+//   li:not(:last-child) {
+//     box-shadow: 10px 0px 0px -9px #636363;
+//   }
+// }
+
+.position-sticky {
+  position: sticky;
+}
+
+//::ng-deep .mat-tooltip-panel {
+//  z-index: 1000004;
+//}

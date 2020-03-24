@@ -1,25 +1,42 @@
-import { ModuleWithProviders } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {ModuleWithProviders} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {HomeComponent} from './auth/home/home.component';
 
 export const appRouter: Routes = [
-  // { path: '', redirectTo: 'auth', pathMatch: 'full' },
-  { path: "", loadChildren: "./auth/auth.module#AuthModule" },
+
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
+
+  {path: 'home', component: HomeComponent},
+
   {
-    path: "credit-rating",
-    loadChildren: "./credit-rating/credit-rating.module#CreditRatingModule"
+    path: 'users',
+    loadChildren: './users/users.module#UsersModule'
   },
   {
-    path: "dashboard",
-    loadChildren: "./dashboard/dashboard.module#DashboardModule"
+    path: 'login',
+    loadChildren: './auth/login/login.module#LoginModule'
+  },
+  {
+    path: 'register',
+    loadChildren: './auth/register/register.module#RegisterModule'
+  },
+  {
+    path: 'credit-rating',
+    loadChildren: './credit-rating/credit-rating.module#CreditRatingModule'
   },
 
   {
-    path: "not-found",
-    loadChildren: "./not-found/not-found.module#NotFoundModule"
+    path: 'dashboard',
+    loadChildren: './dashboard/dashboard.module#DashboardModule'
   },
 
-  { path: "**", redirectTo: "" },
-  { path: "**", redirectTo: "" }
+  {
+    path: 'not-found',
+    loadChildren: './not-found/not-found.module#NotFoundModule'
+  },
+
+  {path: '**', redirectTo: ''},
+  {path: '**', redirectTo: ''}
 ];
 
 export const AppRouter: ModuleWithProviders = RouterModule.forRoot(appRouter);

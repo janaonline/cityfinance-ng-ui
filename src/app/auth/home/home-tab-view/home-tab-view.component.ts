@@ -13,7 +13,7 @@ import { DialogComponent } from '../../../shared/components/dialog/dialog.compon
 import { DashboardService } from '../../../shared/services/dashboard/dashboard.service';
 import { TableDownloader } from '../../../shared/util/tableDownload/genericTableDownload';
 import { TableDowloadOptions } from '../../../shared/util/tableDownload/models/options';
-import { ModalTableHeader, modalTableHeaders, tableHeaders } from '../../home-header/tableHeaders';
+import { ModalTableHeader, modalTableHeaders, tableHeaders } from "../../../shared/components/home-header/tableHeaders";
 
 // import 'chartjs-plugin-title-click';
 
