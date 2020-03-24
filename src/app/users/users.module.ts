@@ -5,13 +5,15 @@ import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './users.component';
 import {AuthModule} from '../auth/auth.module';
 import {SharedModule} from '../shared/shared.module';
+import {AngularMaterialModule} from '../angular-material.module';
 
 @NgModule({
   imports: [
     CommonModule,
     UsersRoutingModule,
     AuthModule,
-    SharedModule
+    SharedModule,
+    AngularMaterialModule
   ],
   declarations: [UsersComponent]
 })
