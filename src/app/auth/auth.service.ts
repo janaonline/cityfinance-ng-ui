@@ -9,7 +9,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
 
   public badCredentials: Subject<boolean> = new Subject<boolean>();
-  
+
   public helper = new JwtHelperService();
   // public decodedToken = this.helper.decodeToken(myRawToken);
   // public expirationDate = this.helper.getTokenExpirationDate(myRawToken);
