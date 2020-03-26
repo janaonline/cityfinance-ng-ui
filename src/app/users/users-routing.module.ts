@@ -7,7 +7,8 @@ const routes: Routes = [
   {path: '', component: UsersComponent},
   {path: 'ulbs', loadChildren: './ulbs/ulbs.module#UlbsModule'},
   {path: 'profile', loadChildren: './profile/profile.module#ProfileModule'},
-  {path: 'states', loadChildren: './state-list/state-list.module#StateListModule'}
+  {path: 'states', loadChildren: './state-list/state-list.module#StateListModule'},
+  {path: 'data-upload', loadChildren: './data-upload/data-upload.module#DataUploadModule'}
 
 ];
 
