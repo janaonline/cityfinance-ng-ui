@@ -1,5 +1,4 @@
-
-<div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 col-xs-12 card">
+<div class="container_3 card">
   <div class="row">
     <div class="col-xs-12 header">
       <div class="col-xs-6">
@@ -12,36 +11,253 @@
           <p class="pointer">Forgot Password?</p>
         </div>
       </div>
-    </div> <!-- header -->
+    </div>
+    <!-- header -->
     <div class="col-xs-12 card-body">
       <div class="col-xs-12">
         <div class="row">
-          <form [formGroup]="registrationForm" (ngSubmit)="signup()">
+          <form
+            [formGroup]="registrationForm"
+            (ngSubmit)="signup()"
+            *ngIf="registrationType === 'user'"
+          >
             <div class="error-text col-xs-12" *ngIf="badCredentials">
               <p class="text-danger">Invalid Username or Password!!</p>
             </div>
             <div class="error-text col-xs-12" *ngIf="formError">
               <p class="text-danger">Username and Password is mandatory!</p>
             </div>
+
             <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input id="name" class="form-control" [formControl]="registrationForm.controls['name']"
-                placeholder="Full name">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-user"></i
+              ></span>
+              <input
+                id="name"
+                class="form-control"
+                [formControl]="registrationForm.controls['name']"
+                placeholder="User name"
+              />
             </div>
+
             <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input id="mobile" class="form-control" [formControl]="registrationForm.controls['mobile']"
-                placeholder="Mobile">
-            </div><div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input id="email" class="form-control" [formControl]="registrationForm.controls['email']"
-                placeholder="Email">
+              <span class="input-group-addon"
+                ><i class="fa fa-envelope"></i
+              ></span>
+              <input
+                id="email"
+                class="form-control"
+                [formControl]="registrationForm.controls['email']"
+                placeholder="Email ID"
+              />
             </div>
+
             <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-              <input id="password" type="password" class="form-control" [formControl]="registrationForm.controls['password']"
-                placeholder="Password">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-phone"></i
+              ></span>
+              <input
+                id="mobile"
+                class="form-control"
+                [formControl]="registrationForm.controls['mobile']"
+                placeholder="Mobile No"
+              />
             </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-user"></i
+              ></span>
+              <input
+                id="designation"
+                class="form-control"
+                [formControl]="registrationForm.controls['name']"
+                placeholder="Designation"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="fa fa-university"></i
+              ></span>
+              <input
+                id="organisation"
+                class="form-control"
+                [formControl]="registrationForm.controls['name']"
+                placeholder="Organisation/Instituition Name"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-lock"></i
+              ></span>
+              <input
+                id="password"
+                type="password"
+                class="form-control"
+                [formControl]="registrationForm.controls['password']"
+                placeholder="Password"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-lock"></i
+              ></span>
+              <input
+                id="confirm_password"
+                type="password"
+                class="form-control"
+                [formControl]="registrationForm.controls['password']"
+                placeholder="Confirm Password"
+              />
+            </div>
+
+            <div class="input-group">
+              <button type="submit" class="btn btn-primary">Sign up</button>
+            </div>
+          </form>
+
+          <form
+            [formGroup]="registrationForm"
+            (ngSubmit)="signup()"
+            *ngIf="registrationType === 'ulb'"
+          >
+            <div class="error-text col-xs-12" *ngIf="badCredentials">
+              <p class="text-danger">Invalid Username or Password!!</p>
+            </div>
+            <div class="error-text col-xs-12" *ngIf="formError">
+              <p class="text-danger">Username and Password is mandatory!</p>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-user"></i
+              ></span>
+              <input
+                id="name"
+                type="text"
+                class="form-control"
+                [formControl]="registrationForm.controls['state_name']"
+                placeholder="State"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-lock"></i
+              ></span>
+              <input
+                id="email"
+                type="text"
+                class="form-control"
+                [formControl]="registrationForm.controls['ulb_name']"
+                placeholder="ULB Name"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-lock"></i
+              ></span>
+              <input
+                id="mobile"
+                type="text"
+                class="form-control"
+                [formControl]="registrationForm.controls['ulb_code']"
+                placeholder="ULB Code"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-user"></i
+              ></span>
+              <input
+                id="designation"
+                type="text"
+                class="form-control"
+                [formControl]="registrationForm.controls['commisioner_name']"
+                placeholder="Commissioner Name"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-phone"></i
+              ></span>
+              <input
+                id="organisation"
+                type="tel"
+                class="form-control"
+                [formControl]="
+                  registrationForm.controls['commisioner_contact_no']
+                "
+                placeholder="Commissioner Contact No"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="fa fa-envelope"></i
+              ></span>
+              <input
+                id="organisation"
+                type="email"
+                class="form-control"
+                [formControl]="
+                  registrationForm.controls['commisioner_email_id']
+                "
+                placeholder="Commissioner Email ID"
+              />
+            </div>
+            <p class="input_info">
+              <i class="fa fa-info-circle" aria-hidden="true"></i>
+              Use official email Id of Commisioner
+            </p>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-user"></i
+              ></span>
+              <input
+                id="designation"
+                type="text"
+                class="form-control"
+                [formControl]="registrationForm.controls['accountant_name']"
+                placeholder="Accountant Name"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-phone"></i
+              ></span>
+              <input
+                id="organisation"
+                type="tel"
+                class="form-control"
+                [formControl]="
+                  registrationForm.controls['accountant_contact_no']
+                "
+                placeholder="Accountant Contact No"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="fa fa-envelope"></i
+              ></span>
+              <input
+                id="organisation"
+                type="email"
+                class="form-control"
+                [formControl]="registrationForm.controls['accountant_email_id']"
+                placeholder="Accountant Email ID"
+              />
+            </div>
+
             <div class="input-group">
               <button type="submit" class="btn btn-primary">Sign up</button>
             </div>
@@ -51,12 +267,16 @@
           <div class="col-xs-12 card-footer">
             <div class="row">
               <p>
-                Already have an Account! <a [routerLink]="['../login']" class="pointer">Sign In Here</a>
+                Already have an Account!
+                <a [routerLink]="['../../login']" class="pointer"
+                  >Sign In Here</a
+                >
               </p>
             </div>
           </div>
         </div>
       </div>
-    </div> <!-- card-body -->
+    </div>
+    <!-- card-body -->
   </div>
 </div>
