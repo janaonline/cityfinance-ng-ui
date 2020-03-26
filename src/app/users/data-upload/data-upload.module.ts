@@ -1,14 +1,15 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { DataUploadRoutingModule } from './data-upload-routing.module';
-import { DataUploadComponent } from './data-upload.component';
+import {DataUploadRoutingModule} from './data-upload-routing.module';
+
 
 @NgModule({
   imports: [
     CommonModule,
-    DataUploadRoutingModule
+    DataUploadRoutingModule,
   ],
 
 })
-export class DataUploadModule { }
+export class DataUploadModule {
+}

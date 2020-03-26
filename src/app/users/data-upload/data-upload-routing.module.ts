@@ -1,15 +1,18 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {DataUploadComponent} from './data-upload.component';
+import {CommonModule} from '@angular/common';
+import {AngularMaterialModule} from '../../angular-material.module';
 
 const routes: Routes = [
-  {path: ':id', component: DataUploadComponent}
+  {path: ':id', component: DataUploadComponent},
+  {path: '', component: DataUploadComponent}
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes), CommonModule, AngularMaterialModule],
   exports: [RouterModule],
-  declarations: [DataUploadComponent]
+  declarations: [DataUploadComponent],
 
 })
 export class DataUploadRoutingModule {

@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../auth/auth.service';
 
+interface User {
+  _id?: string
+}
 
 @Component({
   selector: 'app-home-header',
@@ -12,9 +15,17 @@ export class HomeHeaderComponent implements OnInit {
   isProduction: boolean;
 
   isLoggedIn = false;
+  user: User = null;
 
   constructor(private router: Router, private authService: AuthService) {
-    this.router.events.subscribe(event => this.isLoggedIn = this.authService.loggedIn());
+    this.router.events.subscribe(event => {
+      this.isLoggedIn = this.authService.loggedIn();
+      if (!this.user) {
+        if (this.isLoggedIn) {
+          this.user = this.authService.decodeToken().data;
+        }
+      }
+    });
   }
 
   ngOnInit() {

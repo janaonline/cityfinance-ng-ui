@@ -1,9 +1,9 @@
-import { Subject } from 'rxjs';
-import { Router } from '@angular/router';
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import {Subject} from 'rxjs';
+import {Router} from '@angular/router';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 @Injectable()
 export class AuthService {
@@ -19,15 +19,19 @@ export class AuthService {
   }
 
   authenticateUser(user) {
-    this.http.post(environment.api.url + 'users/signin', user)
+    this.http.post(environment.api.url + 'users/signin', user);
   }
 
-  signin(user){
+  signin(user) {
     return this.http.post(environment.api.url + 'users/signin', user);
   }
 
-  signup(newUser){
+  signup(newUser) {
     return this.http.post(environment.api.url + 'users/signup', newUser);
+  }
+
+  decodeToken() {
+    return this.helper.decodeToken(this.getToken());
   }
 
   getToken() {
