@@ -1,10 +1,12 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+
 import {UsersComponent} from './users.component';
 
 const routes: Routes = [
   {path: '', component: UsersComponent},
   {path: 'ulbs', loadChildren: './ulbs/ulbs.module#UlbsModule'},
+  {path: 'profile', loadChildren: './profile/profile.module#ProfileModule'},
   {path: 'states', loadChildren: './state-list/state-list.module#StateListModule'}
 
 ];

@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
       this.authService.signin(this.loginForm.value).subscribe(res => {
         if( res && res['token'] ){
           localStorage.setItem('id_token', JSON.stringify(res['token']));
-          this.router.navigate(['dashboard/report']);
+          this.router.navigate(['users']);
         } else{
           localStorage.removeItem('id_token');
         }
