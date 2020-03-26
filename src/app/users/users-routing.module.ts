@@ -4,7 +4,8 @@ import {UsersComponent} from './users.component';
 
 const routes: Routes = [
   {path: '', component: UsersComponent},
-  {path: 'ulbs', loadChildren: './ulbs/ulbs.module#UlbsModule'}
+  {path: 'ulbs', loadChildren: './ulbs/ulbs.module#UlbsModule'},
+  {path: 'states', loadChildren: './state-list/state-list.module#StateListModule'}
 
 ];
 
