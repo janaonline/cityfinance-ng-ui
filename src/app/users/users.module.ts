@@ -1,11 +1,11 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import {UsersRoutingModule} from './users-routing.module';
-import {UsersComponent} from './users.component';
-import {AuthModule} from '../auth/auth.module';
-import {SharedModule} from '../shared/shared.module';
-import {AngularMaterialModule} from '../angular-material.module';
+import { AngularMaterialModule } from '../angular-material.module';
+import { AuthModule } from '../auth/auth.module';
+import { SharedModule } from '../shared/shared.module';
+import { UsersRoutingModule } from './users-routing.module';
+import { UsersComponent } from './users.component';
 
 @NgModule({
   imports: [
@@ -17,5 +17,4 @@ import {AngularMaterialModule} from '../angular-material.module';
   ],
   declarations: [UsersComponent]
 })
-export class UsersModule {
-}
+export class UsersModule {}
