@@ -1,0 +1,106 @@
+<div class="wrapper">
+  <h1>Edit Profile</h1>
+  <form [formGroup]="profile" *ngIf="profile">
+    <div class="input-group" formGroupName="state">
+      <label for="statename"
+        >State
+        <span class="asterik">*</span>
+      </label>
+      <input
+        id="statename"
+        type="text"
+        formControlName="name"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && lf.username.errors }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="type"
+        >ULB Type
+        <span class="asterik">*</span>
+      </label>
+      <select
+        name=""
+        id="type"
+        formControlName="type"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && lf.username.errors }"
+      >
+        <option *ngFor="let type of typesOfULB" value="type">
+          {{ type.type }}
+        </option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="code"
+        >ULB Code
+        <span class="asterik">*</span>
+      </label>
+      <input
+        id="code"
+        type="text"
+        formControlName="code"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && lf.code.errors }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="name"
+        >ULB Name
+        <span class="asterik">*</span>
+      </label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && lf.name.errors }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="area"
+        >Area
+        <span class="asterik">*</span>
+      </label>
+      <input
+        id="area"
+        type="text"
+        formControlName="area"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && lf.area.errors }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="population"
+        >Population
+        <span class="asterik">*</span>
+      </label>
+      <input
+        id="population"
+        type="text"
+        formControlName="population"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && lf.population.errors }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="noOfWards"
+        >No off Wards
+        <span class="asterik">*</span>
+      </label>
+      <input
+        id="noOfWards"
+        type="text"
+        formControlName="noOfWards"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && lf.noOfWards.errors }"
+      />
+    </div>
+  </form>
+</div>

@@ -1,0 +1,25 @@
+.wrapper {
+  background-attachment: rgb(140, 215, 245);
+  width: 85%;
+  margin-left: 10%;
+  display: flex;
+  flex-wrap: wrap;
+  h1 {
+    width: 100%;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  .input-group {
+    width: 25%;
+    margin-top: 2%;
+    margin-left: 2%;
+    display: inline-block;
+
+    .form-control {
+      border-radius: 4px;
+    }
+  }
+}
