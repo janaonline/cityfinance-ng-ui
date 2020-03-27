@@ -4,6 +4,7 @@ import {DataUploadComponent} from './data-upload.component';
 import {CommonModule} from '@angular/common';
 import {AngularMaterialModule} from '../../angular-material.module';
 import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
+import {ReactiveFormsModule} from '@angular/forms';
 
 const routes: Routes = [
   {path: ':id', component: DataUploadComponent},
@@ -11,7 +12,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), CommonModule, AngularMaterialModule, AngularMultiSelectModule],
+  imports: [RouterModule.forChild(routes), CommonModule, AngularMaterialModule, AngularMultiSelectModule, ReactiveFormsModule],
   exports: [RouterModule],
   declarations: [DataUploadComponent],
 })

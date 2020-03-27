@@ -10,8 +10,9 @@
       <div class="col-sm-8">
         <div class="row">
           <div class="col-sm-5 mr-2">
-            <label for="financial_year">Financial Year</label>
-            <angular2-multiselect id="financial_year" name="financial_year" [settings]="{singleSelection:true}"
+            <label for="financial_year">Financial Year <span class="text-danger">*</span></label>
+            <angular2-multiselect [formControl]="financialYearFormControl" id="financial_year" name="financial_year"
+                                  [settings]="{singleSelection:true,text:'Select Year'}"
                                   [data]="financialYearDropdown"></angular2-multiselect>
             <div class="row mt-4 d-flex flex-column">
               <div class="col-sm-12">
@@ -28,8 +29,9 @@
           </div>
 
           <div class="col-sm-5">
-            <label for="audit_status">Status</label>
-            <angular2-multiselect id="audit_status" [settings]="{singleSelection:true}"
+            <label for="audit_status">Status <span class="text-danger">*</span></label>
+            <angular2-multiselect title="Select Year" [formControl]="auditStatusFormControl" id="audit_status"
+                                  [settings]="{singleSelection:true,text:'Select Audit Status'}"
                                   [data]="auditStatusDropdown"></angular2-multiselect>
             <div class="row mt-4 d-flex flex-column">
               <div class="col-sm-12">
@@ -95,7 +97,7 @@
           </div>
 
           <div class="col-sm-5">
-            <div class="row mt-4 d-flex flex-column">
+            <div *ngIf="auditStatusFormControl.value&&auditStatusFormControl.value[0].id==='audited'" class="row mt-4 d-flex flex-column">
               <div class="col-sm-12">
                 <h4>Audited Report</h4>
               </div>

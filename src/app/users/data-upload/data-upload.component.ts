@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {ulbUploadList} from '../../shared/components/home-header/tableHeaders';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-data-upload',
@@ -24,6 +25,9 @@ export class DataUploadComponent implements OnInit {
     id: 'unaudited',
     itemName: 'Unaudited'
   }];
+
+  financialYearFormControl: FormControl = new FormControl('', [Validators.required]);
+  auditStatusFormControl: FormControl = new FormControl('', [Validators.required]);
 
   constructor(public activatedRoute: ActivatedRoute, public router: Router, public location: Location) {
     this.activatedRoute.params.subscribe(val => {
