@@ -19,9 +19,13 @@
                 <h4>Balance Sheet</h4>
               </div>
               <div class="col-sm-12 d-flex justify-content-between">
-                <input #balanceSheetPdf type="file" style="display: none" accept=".pdf">
+                <input #balanceSheetPdf
+                       [formControl]="balanceSheetFormControl.file_pdf"
+                       type="file" style="display: none" accept=".pdf">
                 <button (click)="balanceSheetPdf.click()">Choose Pdf</button>
-                <input #balanceSheetCSV type="file" style="display: none"
+                <input #balanceSheetCSV
+                       [formControl]="balanceSheetFormControl.file_pdf"
+                       type="file" style="display: none"
                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                 <button (click)="balanceSheetCSV.click()">Choose excel</button>
               </div>
@@ -38,11 +42,15 @@
                 <h4>Schedules to balance sheet</h4>
               </div>
               <div class="col-sm-12 d-flex justify-content-between">
-                <input #balanceSheetPdf type="file" style="display: none" accept=".pdf">
-                <button (click)="balanceSheetPdf.click()">Choose Pdf</button>
-                <input #balanceSheetCSV type="file" style="display: none"
+                <input #schBalanceSheetPdf
+                       [formControl]="schBalanceSheetFormControl.file_pdf"
+                       type="file" style="display: none" accept=".pdf">
+                <button (click)="schBalanceSheetPdf.click()">Choose Pdf</button>
+                <input #schBalanceSheetCSV
+                       [formControl]="schBalanceSheetFormControl.file_excel"
+                       type="file" style="display: none"
                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                <button (click)="balanceSheetCSV.click()">Choose excel</button>
+                <button (click)="schBalanceSheetCSV.click()">Choose excel</button>
               </div>
             </div>
           </div>
@@ -55,11 +63,16 @@
                 <h4>Income and Expenditure</h4>
               </div>
               <div class="col-sm-12 d-flex justify-content-between">
-                <input #balanceSheetPdf type="file" style="display: none" accept=".pdf">
-                <button (click)="balanceSheetPdf.click()">Choose Pdf</button>
-                <input #balanceSheetCSV type="file" style="display: none"
+                <input #incomeAndExpenditurePdf
+                       [formControl]="incomeAndExpenditureFormControl.file_pdf"
+                       type="file"
+                       style="display: none" accept=".pdf">
+                <button (click)="incomeAndExpenditurePdf.click()">Choose Pdf</button>
+                <input #incomeAndExpenditureCSV
+                       [formControl]="incomeAndExpenditureFormControl.file_excel"
+                       type="file" style="display: none"
                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                <button (click)="balanceSheetCSV.click()">Choose excel</button>
+                <button (click)="incomeAndExpenditureCSV.click()">Choose excel</button>
               </div>
             </div>
           </div>
@@ -70,11 +83,14 @@
                 <h4>Schedules to Income and Expenditure</h4>
               </div>
               <div class="col-sm-12 d-flex justify-content-between">
-                <input #balanceSheetPdf type="file" style="display: none" accept=".pdf">
-                <button (click)="balanceSheetPdf.click()">Choose Pdf</button>
-                <input #balanceSheetCSV type="file" style="display: none"
+                <input #schIncomeAndExpenditurePdf
+                       [formControl]="scheduleIncomeAndExpenditureFormControl.file_pdf"
+                       type="file" style="display: none" accept=".pdf">
+                <button (click)="schIncomeAndExpenditurePdf.click()">Choose Pdf</button>
+                <input #schIncomeAndExpenditureCSV type="file" style="display: none"
+                       [formControl]="scheduleIncomeAndExpenditureFormControl.file_excel"
                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                <button (click)="balanceSheetCSV.click()">Choose excel</button>
+                <button (click)="schIncomeAndExpenditureCSV.click()">Choose excel</button>
               </div>
             </div>
           </div>
@@ -87,23 +103,30 @@
                 <h4>Trial Balance</h4>
               </div>
               <div class="col-sm-12 d-flex justify-content-between">
-                <input #balanceSheetPdf type="file" style="display: none" accept=".pdf">
-                <button (click)="balanceSheetPdf.click()">Choose Pdf</button>
-                <input #balanceSheetCSV type="file" style="display: none"
+                <input
+                  [formControl]="trialBalanceFormControl.file_pdf"
+                  #trialBalancePdf type="file" style="display: none" accept=".pdf">
+                <button (click)="trialBalancePdf.click()">Choose Pdf</button>
+                <input #trialBalanceCSV
+                       [formControl]="trialBalanceFormControl.file_excel"
+                       type="file" style="display: none"
                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                <button (click)="balanceSheetCSV.click()">Choose excel</button>
+                <button (click)="trialBalanceCSV.click()">Choose excel</button>
               </div>
             </div>
           </div>
 
           <div class="col-sm-5">
-            <div *ngIf="auditStatusFormControl.value&&auditStatusFormControl.value[0].id==='audited'" class="row mt-4 d-flex flex-column">
+            <div *ngIf="auditStatusFormControl.value&&auditStatusFormControl.value[0].id==='audited'"
+                 class="row mt-4 d-flex flex-column">
               <div class="col-sm-12">
                 <h4>Audited Report</h4>
               </div>
               <div class="col-sm-12 d-flex justify-content-between">
-                <input #balanceSheetPdf type="file" style="display: none" accept=".pdf">
-                <button (click)="balanceSheetPdf.click()">Choose Pdf</button>
+                <input #auditReport
+                       [formControl]="auditReportFormControl"
+                       type="file" style="display: none" accept=".pdf">
+                <button (click)="auditReport.click()">Choose Pdf</button>
 
               </div>
             </div>

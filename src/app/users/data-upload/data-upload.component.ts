@@ -28,6 +28,27 @@ export class DataUploadComponent implements OnInit {
 
   financialYearFormControl: FormControl = new FormControl('', [Validators.required]);
   auditStatusFormControl: FormControl = new FormControl('', [Validators.required]);
+  balanceSheetFormControl = {
+    file_pdf: new FormControl(),
+    file_excel: new FormControl(),
+  };
+  schBalanceSheetFormControl = {
+    file_pdf: new FormControl(),
+    file_excel: new FormControl(),
+  };
+  incomeAndExpenditureFormControl = {
+    file_pdf: new FormControl(),
+    file_excel: new FormControl()
+  };
+  scheduleIncomeAndExpenditureFormControl = {
+    file_pdf: new FormControl(),
+    file_excel: new FormControl()
+  };
+  trialBalanceFormControl = {
+    file_pdf: new FormControl(),
+    file_excel: new FormControl()
+  };
+  auditReportFormControl = new FormControl();
 
   constructor(public activatedRoute: ActivatedRoute, public router: Router, public location: Location) {
     this.activatedRoute.params.subscribe(val => {
