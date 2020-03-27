@@ -14,7 +14,6 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes), CommonModule, AngularMaterialModule, AngularMultiSelectModule],
   exports: [RouterModule],
   declarations: [DataUploadComponent],
-
 })
 export class DataUploadRoutingModule {
 }
