@@ -1,0 +1,47 @@
+<ng-container *ngIf="id; else noId">
+  <div class="container">
+    <div class="col">
+      <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>
+    </div>
+    <div *ngIf="id==='upload-form'">
+      <h3>Financial Data Upload</h3>
+    </div>
+  </div>
+
+</ng-container>
+
+<ng-template #noId>
+  <div class="container flex-column">
+    <div class="col">
+      <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>
+    </div>
+    <div class="col">
+      <a mat-button [routerLink]="['upload-form']" class="btn-primary mt-3"
+         style="border-radius: 5px">
+        Upload Data
+      </a>
+    </div>
+    <div class="row mt-5">
+      <div class="col-sm-12">
+        <table class="table">
+          <thead style="background: #009fe3;color: white ;border: 5px solid white">
+          <tr>
+            <th class="text-center"
+                *ngFor="let header of tableHeaders">{{header.title}}</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr style="background: 	#e7e7e7 ;border: 5px solid white">
+            <td class="text-center" *ngFor="let header of tableHeaders">{{header.title}}</td>
+          </tr>
+          </tbody>
+
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+
+</ng-template>
