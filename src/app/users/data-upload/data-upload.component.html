@@ -1,10 +1,120 @@
 <ng-container *ngIf="id; else noId">
   <div class="container">
-    <div class="col">
+    <div class="col mt-3">
       <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>
     </div>
-    <div *ngIf="id==='upload-form'">
+    <div class="mt-2" *ngIf="id==='upload-form'">
       <h3>Financial Data Upload</h3>
+    </div>
+    <div class="row mt-4">
+      <div class="col-sm-8">
+        <div class="row">
+          <div class="col-sm-5 mr-2">
+            <label for="financial_year">Financial Year</label>
+            <angular2-multiselect id="financial_year" name="financial_year" [settings]="{singleSelection:true}"
+                                  [data]="financialYearDropdown"></angular2-multiselect>
+            <div class="row mt-4 d-flex flex-column">
+              <div class="col-sm-12">
+                <h4>Balance Sheet</h4>
+              </div>
+              <div class="col-sm-12 d-flex justify-content-between">
+                <input #balanceSheetPdf type="file" style="display: none" accept=".pdf">
+                <button (click)="balanceSheetPdf.click()">Choose Pdf</button>
+                <input #balanceSheetCSV type="file" style="display: none"
+                       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                <button (click)="balanceSheetCSV.click()">Choose excel</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-5">
+            <label for="audit_status">Status</label>
+            <angular2-multiselect id="audit_status" [settings]="{singleSelection:true}"
+                                  [data]="auditStatusDropdown"></angular2-multiselect>
+            <div class="row mt-4 d-flex flex-column">
+              <div class="col-sm-12">
+                <h4>Schedules to balance sheet</h4>
+              </div>
+              <div class="col-sm-12 d-flex justify-content-between">
+                <input #balanceSheetPdf type="file" style="display: none" accept=".pdf">
+                <button (click)="balanceSheetPdf.click()">Choose Pdf</button>
+                <input #balanceSheetCSV type="file" style="display: none"
+                       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                <button (click)="balanceSheetCSV.click()">Choose excel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-5 mr-2">
+            <div class="row mt-4 d-flex flex-column">
+              <div class="col-sm-12">
+                <h4>Income and Expenditure</h4>
+              </div>
+              <div class="col-sm-12 d-flex justify-content-between">
+                <input #balanceSheetPdf type="file" style="display: none" accept=".pdf">
+                <button (click)="balanceSheetPdf.click()">Choose Pdf</button>
+                <input #balanceSheetCSV type="file" style="display: none"
+                       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                <button (click)="balanceSheetCSV.click()">Choose excel</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-5">
+            <div class="row mt-4 d-flex flex-column">
+              <div class="col-sm-12">
+                <h4>Schedules to Income and Expenditure</h4>
+              </div>
+              <div class="col-sm-12 d-flex justify-content-between">
+                <input #balanceSheetPdf type="file" style="display: none" accept=".pdf">
+                <button (click)="balanceSheetPdf.click()">Choose Pdf</button>
+                <input #balanceSheetCSV type="file" style="display: none"
+                       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                <button (click)="balanceSheetCSV.click()">Choose excel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-5 mr-2">
+            <div class="row mt-4 d-flex flex-column">
+              <div class="col-sm-12">
+                <h4>Trial Balance</h4>
+              </div>
+              <div class="col-sm-12 d-flex justify-content-between">
+                <input #balanceSheetPdf type="file" style="display: none" accept=".pdf">
+                <button (click)="balanceSheetPdf.click()">Choose Pdf</button>
+                <input #balanceSheetCSV type="file" style="display: none"
+                       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                <button (click)="balanceSheetCSV.click()">Choose excel</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-5">
+            <div class="row mt-4 d-flex flex-column">
+              <div class="col-sm-12">
+                <h4>Audited Report</h4>
+              </div>
+              <div class="col-sm-12 d-flex justify-content-between">
+                <input #balanceSheetPdf type="file" style="display: none" accept=".pdf">
+                <button (click)="balanceSheetPdf.click()">Choose Pdf</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4 mb-4">
+          <div class="col-sm-12">
+            <button class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 

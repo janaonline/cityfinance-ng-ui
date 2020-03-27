@@ -25,7 +25,6 @@
 }
 
 
-
 .asterik {
   color: red;
 }
@@ -311,11 +310,11 @@ img.align-center {
     // background-color: #d3d3d3;
     padding: 5px 10px;
     -webkit-transition: color 0.15s ease-in-out,
-      background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-      box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
-      -webkit-box-shadow 0.15s ease-in-out;
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    -webkit-box-shadow 0.15s ease-in-out;
   }
 }
 
@@ -591,6 +590,10 @@ img.align-center {
   justify-content: center !important;
 }
 
+.justify-content-between {
+  justify-content: space-between;
+}
+
 .mt-1 {
   margin-top: 1rem !important;
 }
@@ -605,6 +608,8 @@ img.align-center {
 
 .mt-4 {
   margin-top: 4rem !important;
+}.mb-4 {
+  margin-bottom: 4rem !important;
 }
 
 .mt-5 {
@@ -658,10 +663,10 @@ img.align-center {
 }
 
 #mapid
-  > div.leaflet-control-container
-  > div.leaflet-bottom.leaflet-right
-  > div
-  > a {
+> div.leaflet-control-container
+> div.leaflet-bottom.leaflet-right
+> div
+> a {
   display: none;
 }
 
@@ -742,6 +747,10 @@ img.align-center {
 }
 
 .mr-1 {
+  margin-right: 2rem;
+}
+
+.mr-2 {
   margin-right: 2rem;
 }
 

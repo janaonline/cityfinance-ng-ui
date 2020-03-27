@@ -12,6 +12,18 @@ export class DataUploadComponent implements OnInit {
 
   id = null;
   tableHeaders = ulbUploadList;
+  financialYearDropdown = [
+    {id: '2015-16', itemName: '2015-16'},
+    {id: '2016-17', itemName: '2016-17'}
+    // {id: '2017-18', itemName: '2017-18'}
+  ];
+  auditStatusDropdown = [{
+    id: 'audited',
+    itemName: 'Audited'
+  }, {
+    id: 'unaudited',
+    itemName: 'Unaudited'
+  }];
 
   constructor(public activatedRoute: ActivatedRoute, public router: Router, public location: Location) {
     this.activatedRoute.params.subscribe(val => {
