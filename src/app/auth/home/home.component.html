@@ -5,7 +5,7 @@
     top: 0px;
     z-index: 99;"
 ></app-home-header>
-<app-home-tab-view></app-home-tab-view>
+<!-- <app-home-tab-view></app-home-tab-view> -->
 <div class="dashboard-wrapper">
   <div class="home-banner">
     <div class="caption">
@@ -18,11 +18,9 @@
         >
       </h1>
       <div class="text-center">
-        &lt;!&ndash;
         <a [routerLink]="['/dashboard/report']" class="btn btn-lg btn-primary"
           >Explore More</a
         >
-        &ndash;&gt;
       </div>
     </div>
   </div>
@@ -30,6 +28,8 @@
   <div class="statistics">
     <app-statistics></app-statistics>
   </div>
+  <app-home-tab-view></app-home-tab-view>
+
   <!-- &ndash;&gt; &lt;!&ndash; Table component finshed just uncomment to make it
   visible on homepage &ndash;&gt; &lt;!&ndash; <app-grid></app-grid> &ndash;&gt;
   &lt;!&ndash; heat map component &ndash;&gt; -->
@@ -37,7 +37,7 @@
 
   <div class="about">
     <div class="container">
-      <div class="row">
+      <!-- <div class="row">
         <h3>Data Facts</h3>
         <div *ngFor="let item of statistics" [ngClass]="item.containerClass">
           <div class="statistics-block" [ngClass]="item.chartClass">
@@ -59,7 +59,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="row">
         <h3>About</h3>
