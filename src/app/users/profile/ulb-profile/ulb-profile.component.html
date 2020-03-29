@@ -102,5 +102,95 @@
         [ngClass]="{ 'is-invalid': submitted && lf.noOfWards.errors }"
       />
     </div>
+
+    <hr />
+
+    <div formGroupName="commissioner">
+      <div class="input-group">
+        <label for="commisionerName"
+          >Commisioner Name
+          <span class="asterik">*</span>
+        </label>
+        <input
+          id="commisionerName"
+          type="text"
+          formControlName="name"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && lf.name.errors }"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="commisionerEmailID"
+          >Commisioner EmailID
+          <span class="asterik">*</span>
+        </label>
+        <input
+          id="commisionerEmailID"
+          type="text"
+          formControlName="emailId"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && lf.emailId.errors }"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="commisionerContactNo"
+          >Commisioner Contact No
+          <span class="asterik">*</span>
+        </label>
+        <input
+          id="commisionerContactNo"
+          type="text"
+          formControlName="contantNo"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && lf.contantNo.errors }"
+        />
+      </div>
+    </div>
+
+    <div formGroupName="accountant">
+      <div class="input-group">
+        <label for="accountantName"
+          >Accountant Name
+          <span class="asterik">*</span>
+        </label>
+        <input
+          id="accountantName"
+          type="text"
+          formControlName="name"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && lf.name.errors }"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="accountantEmailID"
+          >Accountant EmailID
+          <span class="asterik">*</span>
+        </label>
+        <input
+          id="accountantEmailID"
+          type="text"
+          formControlName="emailId"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && lf.emailId.errors }"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="accountantContactNo"
+          >Accountant Contact No
+          <span class="asterik">*</span>
+        </label>
+        <input
+          id="accountantContactNo"
+          type="text"
+          formControlName="contantNo"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && lf.contantNo.errors }"
+        />
+      </div>
+    </div>
   </form>
 </div>
