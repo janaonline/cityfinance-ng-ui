@@ -1,6 +1,6 @@
 <div class="wrapper">
   <h1>Edit Profile</h1>
-  <form [formGroup]="profile" *ngIf="profile">
+  <form [formGroup]="profile" *ngIf="profile" (ngSubmit)="submitForm(profile)">
     <div class="input-group" formGroupName="state">
       <label for="statename"
         >State
@@ -11,7 +11,9 @@
         type="text"
         formControlName="name"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && lf.username.errors }"
+        [ngClass]="{
+          'is-invalid': formSubmitted && profile?.controls?.name.errors
+        }"
       />
     </div>
 
@@ -20,15 +22,28 @@
         >ULB Type
         <span class="asterik">*</span>
       </label>
+      <input
+        id="cin"
+        name="cin"
+        type="file"
+        (change)="
+          onSelectingFile({ file: $event.target.files[0], key: 'type' })
+        "
+        placeholder="Upload a file..."
+        accept=".xls,.xlsx"
+        multiple
+      />
       <select
         name=""
         id="type"
         formControlName="type"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && lf.username.errors }"
+        [ngClass]="{
+          'is-invalid': formSubmitted && profile?.controls?.type.errors
+        }"
       >
-        <option *ngFor="let type of typesOfULB" value="type">
-          {{ type.type }}
+        <option *ngFor="let Utype of typesOfULB | keyvalue" [value]="Utype.key">
+          {{ Utype.value }}
         </option>
       </select>
     </div>
@@ -43,7 +58,9 @@
         type="text"
         formControlName="code"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && lf.code.errors }"
+        [ngClass]="{
+          'is-invalid': formSubmitted && profile?.controls?.code.errors
+        }"
       />
     </div>
 
@@ -57,7 +74,9 @@
         type="text"
         formControlName="name"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && lf.name.errors }"
+        [ngClass]="{
+          'is-invalid': formSubmitted && profile?.controls?.name.errors
+        }"
       />
     </div>
 
@@ -71,7 +90,9 @@
         type="text"
         formControlName="area"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && lf.area.errors }"
+        [ngClass]="{
+          'is-invalid': formSubmitted && profile?.controls?.area.errors
+        }"
       />
     </div>
 
@@ -85,7 +106,9 @@
         type="text"
         formControlName="population"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && lf.population.errors }"
+        [ngClass]="{
+          'is-invalid': formSubmitted && profile?.controls?.population.errors
+        }"
       />
     </div>
 
@@ -99,7 +122,9 @@
         type="text"
         formControlName="noOfWards"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && lf.noOfWards.errors }"
+        [ngClass]="{
+          'is-invalid': formSubmitted && profile?.controls?.noOfWards?.errors
+        }"
       />
     </div>
 
@@ -116,7 +141,11 @@
           type="text"
           formControlName="name"
           class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && lf.name.errors }"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted &&
+              profile?.controls.commissioner?.controls.name.errors
+          }"
         />
       </div>
 
@@ -130,7 +159,11 @@
           type="text"
           formControlName="emailId"
           class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && lf.emailId.errors }"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted &&
+              profile?.controls.commissioner?.controls.emailId.errors
+          }"
         />
       </div>
 
@@ -144,7 +177,11 @@
           type="text"
           formControlName="contantNo"
           class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && lf.contantNo.errors }"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted &&
+              profile?.controls.commissioner?.controls.contantNo.errors
+          }"
         />
       </div>
     </div>
@@ -160,7 +197,11 @@
           type="text"
           formControlName="name"
           class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && lf.name.errors }"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted &&
+              profile?.controls.accountant?.controls.name.errors
+          }"
         />
       </div>
 
@@ -174,7 +215,11 @@
           type="text"
           formControlName="emailId"
           class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && lf.emailId.errors }"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted &&
+              profile?.controls.accountant?.controls.emailId.errors
+          }"
         />
       </div>
 
@@ -188,9 +233,20 @@
           type="text"
           formControlName="contantNo"
           class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && lf.contantNo.errors }"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted &&
+              profile?.controls.accountant?.controls.contantNo.errors
+          }"
         />
       </div>
+    </div>
+
+    <p *ngIf="formErrorMessage" style="color: red; margin-left: 2%;">
+      {{ formErrorMessage }}
+    </p>
+    <div class="input-group">
+      <button type="submit" class="btn btn-primary">Save</button>
     </div>
   </form>
 </div>

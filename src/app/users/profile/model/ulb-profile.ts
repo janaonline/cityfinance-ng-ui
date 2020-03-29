@@ -20,3 +20,16 @@ export interface ULBProfile {
     email: string;
   };
 }
+
+export enum fieldNameWithFileRequirement {
+  TYPE = "type",
+  NoOfWards = "noOfWards",
+  Population = "population",
+  Area = "area",
+  Name = "name"
+}
+
+// tslint:disable-next-line: interface-over-type-literal
+export type FieldsWithFile = {
+  [key in fieldNameWithFileRequirement]?: { file: File };
+};
