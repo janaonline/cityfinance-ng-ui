@@ -21,8 +21,22 @@
       <label for="type"
         >ULB Type
         <span class="asterik">*</span>
+
+        <span style="float: right;">
+          <span *ngIf="fileTracker?.type" class="fileName">
+            {{ fileTracker.type.file.name }}
+          </span>
+          <i
+            class="fa fa-file-text"
+            aria-hidden="true"
+            (click)="cin.click()"
+            for="cin"
+          >
+          </i>
+        </span>
       </label>
       <input
+        #cin
         id="cin"
         name="cin"
         type="file"
@@ -30,8 +44,6 @@
           onSelectingFile({ file: $event.target.files[0], key: 'type' })
         "
         placeholder="Upload a file..."
-        accept=".xls,.xlsx"
-        multiple
       />
       <select
         name=""
@@ -68,7 +80,29 @@
       <label for="name"
         >ULB Name
         <span class="asterik">*</span>
+        <span style="float: right;">
+          <span *ngIf="fileTracker?.name" class="fileName">
+            {{ fileTracker.name.file.name }}
+          </span>
+          <i
+            class="fa fa-file-text"
+            aria-hidden="true"
+            (click)="ulbname.click()"
+            for="cin"
+          >
+          </i>
+        </span>
       </label>
+      <input
+        #ulbname
+        id="ulbname"
+        name="cin"
+        type="file"
+        (change)="
+          onSelectingFile({ file: $event.target.files[0], key: 'name' })
+        "
+        placeholder="Upload a file..."
+      />
       <input
         id="name"
         type="text"
@@ -84,7 +118,29 @@
       <label for="area"
         >Area
         <span class="asterik">*</span>
+        <span style="float: right;">
+          <span *ngIf="fileTracker?.area" class="fileName">
+            {{ fileTracker.area.file.name }}
+          </span>
+          <i
+            class="fa fa-file-text"
+            aria-hidden="true"
+            (click)="area.click()"
+            for="cin"
+          >
+          </i>
+        </span>
       </label>
+      <input
+        #area
+        id="area"
+        name="cin"
+        type="file"
+        (change)="
+          onSelectingFile({ file: $event.target.files[0], key: 'area' })
+        "
+        placeholder="Upload a file..."
+      />
       <input
         id="area"
         type="text"
@@ -100,8 +156,31 @@
       <label for="population"
         >Population
         <span class="asterik">*</span>
+        <span style="float: right;">
+          <span *ngIf="fileTracker?.population" class="fileName">
+            {{ fileTracker.population.file.name }}
+          </span>
+          <i
+            class="fa fa-file-text"
+            aria-hidden="true"
+            (click)="popFileSelect.click()"
+            for="cin"
+          >
+          </i>
+        </span>
       </label>
       <input
+        #popFileSelect
+        id="cin"
+        name="cin"
+        type="file"
+        (change)="
+          onSelectingFile({ file: $event.target.files[0], key: 'population' })
+        "
+        placeholder="Upload a file..."
+      />
+      <input
+        #population
         id="population"
         type="text"
         formControlName="population"
@@ -116,7 +195,29 @@
       <label for="noOfWards"
         >No off Wards
         <span class="asterik">*</span>
+        <span style="float: right;">
+          <span *ngIf="fileTracker?.noOfWards" class="fileName">
+            {{ fileTracker.noOfWards.file.name }}
+          </span>
+          <i
+            class="fa fa-file-text"
+            aria-hidden="true"
+            (click)="wards.click()"
+            for="cin"
+          >
+          </i>
+        </span>
       </label>
+      <input
+        #wards
+        id="wards"
+        name="cin"
+        type="file"
+        (change)="
+          onSelectingFile({ file: $event.target.files[0], key: 'noOfWards' })
+        "
+        placeholder="Upload a file..."
+      />
       <input
         id="noOfWards"
         type="text"

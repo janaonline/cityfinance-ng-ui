@@ -34,10 +34,14 @@ export class UlbProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(Object.values(fieldNameWithFileRequirement));
+    // this.profile.disable();
+    // setTimeout(() => {
+    //   this.disableNonEditableFields();
+    // }, 5000);
   }
 
   onSelectingFile(option: { file: File; key: keyof FieldsWithFile }) {
+    console.log(option);
     if (!this.fileTracker) {
       this.fileTracker = { [option.key]: { file: option.file } };
     } else {
@@ -58,11 +62,14 @@ export class UlbProfileComponent implements OnInit {
       // show error and return
     }
 
+    this.profile.disable({ onlySelf: true });
+
     // upload files and their value
     const fieldWithoutFile = this.getUpdadtedFieldWithoutFileRequirement(form);
     if (fieldWithoutFile) {
       // send the request.
       // updateField
+      // Enable form.
     }
 
     const fieldWithFileRequirement: {
@@ -194,7 +201,11 @@ export class UlbProfileComponent implements OnInit {
       name: ["", [Validators.required]],
       state
     });
+    this.disableNonEditableFields();
+  }
+
+  private disableNonEditableFields() {
     this.profile.controls.code.disable();
-    state.disable();
+    this.profile.controls.state.disable();
   }
 }

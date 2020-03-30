@@ -10,6 +10,18 @@
 
   form {
     width: 100%;
+
+    .fileName {
+      font-weight: normal;
+    }
+
+    label {
+      display: block;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
   }
 
   .input-group {
