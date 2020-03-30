@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
+import { PasswordValidator } from 'src/app/util/passwordValidator';
 
 import { environment } from './../../../environments/environment';
 
@@ -11,7 +12,8 @@ import { environment } from './../../../environments/environment';
   styleUrls: ["./password.component.scss"]
 })
 export class PasswordComponent implements OnInit {
-  public loginForm: FormGroup;
+  public passwordRequestForm: FormGroup;
+  public passwordResetForm: FormGroup;
   public badCredentials: boolean;
   public submitted = false;
   public formError: boolean;
@@ -19,44 +21,58 @@ export class PasswordComponent implements OnInit {
     environment.api.url + "assets/credit_rating.xlsx";
 
   public window = window;
+
+  public uiType: "request" | "reset";
+  public errorMessage: string;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private _activatedRoute: ActivatedRoute
+  ) {
+    this.initializeForms();
+    this._activatedRoute.params.subscribe(res => {
+      if (res.id === "request" || res.id === "reset") {
+        this.uiType = res.id;
+      }
+    });
+  }
 
   ngOnInit() {
-    this.loginForm = this.fb.group({
-      username: ["", Validators.required],
-      password: ["", Validators.required]
-    });
-
     this.authService.badCredentials.subscribe(res => {
       this.badCredentials = res;
     });
   }
   get lf() {
-    return this.loginForm.controls;
+    return this.passwordRequestForm.controls;
   }
 
-  login() {
-    this.submitted = true;
-    if (this.loginForm.valid) {
-      this.authService.signin(this.loginForm.value).subscribe(
-        res => {
-          if (res && res["token"]) {
-            localStorage.setItem("id_token", JSON.stringify(res["token"]));
-            this.router.navigate(["dashboard/report"]);
-          } else {
-            localStorage.removeItem("id_token");
-          }
-        },
-        error => {
-          console.log(error);
-        }
-      );
-    } else {
-      this.formError = true;
+  submitPasswordResetRequest(form: FormGroup) {}
+
+  submitPasswordReset(form: FormGroup) {
+    if (form.invalid) {
+      // Form is invalid.
     }
+
+    const validator = new PasswordValidator();
+    try {
+      validator.validate(
+        form.controls.password.value,
+        form.controls.confirmPassword.value
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  private initializeForms() {
+    this.passwordRequestForm = this.fb.group({
+      emailId: ["", Validators.required, Validators.email]
+    });
+
+    this.passwordResetForm = this.fb.group({
+      password: ["", Validators.required],
+      confirmPassword: ["", Validators.required]
+    });
   }
 }
