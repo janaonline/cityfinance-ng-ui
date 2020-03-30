@@ -85,7 +85,9 @@ export class DataUploadComponent implements OnInit {
         file_pdf: new FormControl(),
         file_excel: new FormControl()
       }),
-      auditReportFormControl: new FormControl(),
+      auditReportFormControl: new FormGroup({
+        file_pdf: new FormControl()
+      }),
       auditStatus: new FormControl()
     });
 
@@ -96,8 +98,9 @@ export class DataUploadComponent implements OnInit {
 
   async submitClickHandler() {
     for (let parentFormGroup in this.fileFormGroup.controls) {
-      if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup) {
+      if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReportFormControl') {
         const formGroup = this.fileFormGroup.get(parentFormGroup);
+        console.log(formGroup);
         const files = formGroup.value;
         for (let fileKey in files) {
           const formControl = formGroup.get(fileKey);
@@ -116,7 +119,6 @@ export class DataUploadComponent implements OnInit {
           } else {
             formControl.setErrors(['Please select file']);
           }
-          console.log(formControl.errors, formControl);
         }
       }
     }
@@ -124,6 +126,5 @@ export class DataUploadComponent implements OnInit {
 
   handleFileChange(strings: string[], file: File) {
     this.fileFormGroup.get(strings).setValue(file);
-    console.log(this.fileFormGroup.get(strings));
   }
 }
