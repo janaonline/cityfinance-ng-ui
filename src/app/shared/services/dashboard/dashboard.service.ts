@@ -19,54 +19,54 @@ export class DashboardService {
     if (ulb && ulb._id) {
       ulb = ulb._id;
     }
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/own-revenue-dependency?years=${year}&state=${state}&ulb=${ulb}`);
+    return this.httpClient.get(`${environment.api.url}/report/dashboard/own-revenue-dependency?years=${year}&state=${state}&ulb=${ulb}`);
   }
 
   fetchSourceOfRevenue(year: string, state: string = '', ulb: any = '') {
     if (ulb && ulb._id) {
       ulb = ulb._id;
     }
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/source-revenue?years=${year}&state=${state}&ulb=${ulb}`);
+    return this.httpClient.get(`${environment.api.url}/report/dashboard/source-revenue?years=${year}&state=${state}&ulb=${ulb}`);
   }
 
   fetchRevenueExpenditure(year: string, state: string = '', ulb: any = '') {
     if (ulb && ulb._id) {
       ulb = ulb._id;
     }
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/revenue-expenditure?years=${year}&state=${state}&ulb=${ulb}`);
+    return this.httpClient.get(`${environment.api.url}/report/dashboard/revenue-expenditure?years=${year}&state=${state}&ulb=${ulb}`);
   }
 
   fetchFinancialRevenueExpenditure(year: string, state: string = '', ulb: any = '') {
     if (ulb && ulb._id) {
       ulb = ulb._id;
     }
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/source-financial-revenue-expenditure?years=${year}&state=${state}&ulb=${ulb}`);
+    return this.httpClient.get(`${environment.api.url}/report/dashboard/source-financial-revenue-expenditure?years=${year}&state=${state}&ulb=${ulb}`);
   }
 
   fetchCashAndBankBalance(year: string, state: string = '', ulb: any = '') {
     if (ulb && ulb._id) {
       ulb = ulb._id;
     }
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/cash-and-bank?years=${year}&state=${state}&ulb=${ulb}`);
+    return this.httpClient.get(`${environment.api.url}/report/dashboard/cash-and-bank?years=${year}&state=${state}&ulb=${ulb}`);
   }
 
   fetchOutStandingDebt(year: string, state: string = '', ulb: any = '') {
     if (ulb && ulb._id) {
       ulb = ulb._id;
     }
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/outstanding-debt?years=${year}&state=${state}&ulb=${ulb}`);
+    return this.httpClient.get(`${environment.api.url}/report/dashboard/outstanding-debt?years=${year}&state=${state}&ulb=${ulb}`);
   }
 
   fetchULBData(id: string) {
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/ulblist`);
+    return this.httpClient.get(`${environment.api.url}/ulblist`);
   }
 
   fetchUlbCoverage(id: string) {
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/report/dashboard/ulb-coverage`);
+    return this.httpClient.get(`${environment.api.url}/report/dashboard/ulb-coverage`);
   }
 
   fetchULBDataPopulationWise(range: string) {
-    return this.httpClient.get(`${environment.api.url}api/admin/v1/`);
+    return this.httpClient.get(`${environment.api.url}/`);
   }
 
   renderPieChart({type = 'pie', labels, data, chartTitle, elementId, options = {}}) {

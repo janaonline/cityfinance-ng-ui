@@ -31,7 +31,7 @@ export class CommonService {
       this.states.next(this.stateArr);
     }
     this.http
-      .get(environment.api.url + "api/admin/v1/lookup/states")
+      .get(environment.api.url + "/state")
       .subscribe(res => {
         this.stateArr = res["data"];
         this.states.next(this.stateArr);
@@ -40,14 +40,14 @@ export class CommonService {
 
   getAllUlbs() {
     return this.http.get<IULBResponse>(
-      environment.api.url + "api/admin/v1/lookup/ulbs"
+      environment.api.url + "ulbs"
     );
   }
 
   // since ULB is based on state, query will happen on demand
   getUlbByState(stateCode) {
     return this.http.get(
-      environment.api.url + "api/admin/v1/lookup/states/" + stateCode + "/ulbs"
+      environment.api.url + "/states/" + stateCode + "/ulbs"
     );
   }
 
@@ -68,7 +68,7 @@ export class CommonService {
 
     return this.http
       .post<NewULBStructureResponse>(
-        `${environment.api.url}ledger/getAllLegders`,
+        `${environment.api.url}/ledger/getAllLegders`,
         { year: years }
       )
       .pipe(
@@ -131,7 +131,7 @@ export class CommonService {
   getULBsStatistics() {
     return this.http
       .post<NewULBStructureResponse>(
-        `${environment.api.url}ledger/getAllLegders`,
+        `${environment.api.url}/ledger/getAllLegders`,
         { year: [] }
       )
       .pipe(map(response => this.getCount(response.data)));
@@ -208,7 +208,7 @@ export class CommonService {
     // }
     return this.http
       .post<IStateULBCoveredResponse>(
-        `${environment.api.url}api/admin/v1/lookup/states-with-ulb-count`,
+        `${environment.api.url}/states-with-ulb-count`,
         body
       )
       .pipe(
@@ -224,7 +224,7 @@ export class CommonService {
   getULBSWithPopulationAndCoordinates(body?: { year: string[] }) {
     return this.http
       .post<IULBWithPopulationResponse>(
-        `${environment.api.url}api/admin/v1/ulb-list`,
+        `${environment.api.url}/ulb-list`,
         body
       )
       .pipe(

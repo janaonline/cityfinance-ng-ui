@@ -18,7 +18,7 @@ export class MunicipalBondsService {
 
   getBondIssuer() {
     return this._http.get<IBondIssuer>(
-      `${environment.api.url}api/admin/v1/BondIssuer`
+      `${environment.api.url}/BondIssuer`
     );
   }
 
@@ -28,7 +28,7 @@ export class MunicipalBondsService {
     }
     return this._http
       .get<IBondIssureItemResponse>(
-        `${environment.api.url}api/admin/v1/BondIssuerItem`
+        `${environment.api.url}/BondIssuerItem`
       )
       .pipe(
         map(response => {
@@ -110,7 +110,7 @@ export class MunicipalBondsService {
 
   getULBS() {
     return this._http
-      .get<IULBResponse>(`${environment.api.url}api/admin/v1/Bond/Ulbs`)
+      .get<IULBResponse>(`${environment.api.url}/Bond/Ulbs`)
       .pipe(
         map(response => {
           response.data = response.data.sort((a, b) =>
