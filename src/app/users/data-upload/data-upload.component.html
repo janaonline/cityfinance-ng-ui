@@ -6,116 +6,196 @@
     <div class="mt-2" *ngIf="id==='upload-form'">
       <h3>Financial Data Upload</h3>
     </div>
-    <div class="row mt-4">
+    <div [formGroup]="fileFormGroup" class="row mt-4">
       <div class="col-sm-8">
         <div class="row">
           <div class="col-sm-5 mr-2">
             <label for="financial_year">Financial Year <span class="text-danger">*</span></label>
-            <angular2-multiselect [formControl]="financialYearFormControl" id="financial_year" name="financial_year"
+            <angular2-multiselect formControlName="financialYear" id="financial_year" name="financial_year"
                                   [settings]="{singleSelection:true,text:'Select Year'}"
                                   [data]="financialYearDropdown"></angular2-multiselect>
-            <div class="row mt-4 d-flex flex-column">
+
+            <div formGroupName="balanceSheet" class="row mt-4 d-flex flex-column">
               <div class="col-sm-12">
                 <h4>Balance Sheet</h4>
               </div>
+
               <div class="col-sm-12 d-flex justify-content-between">
                 <input #balanceSheetPdf
-                       [formControl]="balanceSheetFormControl.file_pdf"
+                       (change)="handleFileChange(['balanceSheet','file_pdf'],$event.target.files[0])"
                        type="file" style="display: none" accept=".pdf">
-                <button (click)="balanceSheetPdf.click()">Choose Pdf</button>
+
+                <div class="d-flex flex-column" style="max-width: 30%">
+                  <button (click)="balanceSheetPdf.click()">Choose Pdf</button>
+                  <div
+                    style="text-overflow: ellipsis; overflow: hidden"> {{fileFormGroup.get(['balanceSheet', 'file_pdf']).value?.name}} </div>
+                  <div class="mat-error"
+                       *ngIf="fileFormGroup.get(['balanceSheet','file_pdf']).errors"> {{fileFormGroup.get(['balanceSheet', 'file_pdf']).errors[0]}} </div>
+                </div>
+
                 <input #balanceSheetCSV
-                       [formControl]="balanceSheetFormControl.file_pdf"
+                       (change)="handleFileChange(['balanceSheet','file_excel'],$event.target.files[0])"
                        type="file" style="display: none"
                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                <button (click)="balanceSheetCSV.click()">Choose excel</button>
+
+                <div class="d-flex flex-column" style="max-width: 30%">
+                  <button (click)="balanceSheetCSV.click()">Choose excel</button>
+                  <div
+                    style="text-overflow: ellipsis; overflow: hidden"> {{fileFormGroup.get(['balanceSheet', 'file_excel']).value?.name}} </div>
+                  <div class="mat-error"
+                       *ngIf="fileFormGroup.get(['balanceSheet','file_excel']).errors"> {{fileFormGroup.get(['balanceSheet', 'file_excel']).errors[0]}} </div>
+                </div>
+
               </div>
             </div>
           </div>
 
           <div class="col-sm-5">
             <label for="audit_status">Status <span class="text-danger">*</span></label>
-            <angular2-multiselect title="Select Year" [formControl]="auditStatusFormControl" id="audit_status"
+            <angular2-multiselect title="Select Year" formControlName="auditStatus" id="audit_status"
                                   [settings]="{singleSelection:true,text:'Select Audit Status'}"
                                   [data]="auditStatusDropdown"></angular2-multiselect>
-            <div class="row mt-4 d-flex flex-column">
+            <div formGroupName="schBalanceSheet" class="row mt-4 d-flex flex-column">
               <div class="col-sm-12">
                 <h4>Schedules to balance sheet</h4>
               </div>
+
               <div class="col-sm-12 d-flex justify-content-between">
                 <input #schBalanceSheetPdf
-                       [formControl]="schBalanceSheetFormControl.file_pdf"
+                       (change)="handleFileChange(['schBalanceSheet','file_pdf'],$event.target.files[0])"
                        type="file" style="display: none" accept=".pdf">
-                <button (click)="schBalanceSheetPdf.click()">Choose Pdf</button>
+
+                <div class="d-flex flex-column" style="max-width:30%;">
+                  <button (click)="schBalanceSheetPdf.click()">Choose Pdf</button>
+                  <div
+                    style="text-overflow: ellipsis; overflow: hidden"> {{fileFormGroup.get(['schBalanceSheet', 'file_pdf']).value?.name}} </div>
+                  <div class="mat-error"
+                       *ngIf="fileFormGroup.get(['schBalanceSheet','file_pdf']).errors"> {{fileFormGroup.get(['schBalanceSheet', 'file_pdf']).errors[0]}}
+                  </div>
+                </div>
+
                 <input #schBalanceSheetCSV
-                       [formControl]="schBalanceSheetFormControl.file_excel"
+                       (change)="handleFileChange(['schBalanceSheet','file_excel'],$event.target.files[0])"
                        type="file" style="display: none"
                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                <button (click)="schBalanceSheetCSV.click()">Choose excel</button>
+
+                <div class="d-flex flex-column" style="max-width:30%;">
+                  <button (click)="schBalanceSheetCSV.click()">Choose excel</button>
+                  <div
+                    style="text-overflow: ellipsis; overflow: hidden"> {{fileFormGroup.get(['schBalanceSheet', 'file_excel']).value?.name}} </div>
+                  <div class="mat-error"
+                       *ngIf="fileFormGroup.get(['schBalanceSheet','file_pdf']).errors"> {{fileFormGroup.get(['schBalanceSheet', 'file_excel']).errors[0]}} </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-sm-5 mr-2">
+
+          <div formGroupName="incomeAndExpenditure" class="col-sm-5 mr-2">
             <div class="row mt-4 d-flex flex-column">
               <div class="col-sm-12">
                 <h4>Income and Expenditure</h4>
               </div>
               <div class="col-sm-12 d-flex justify-content-between">
                 <input #incomeAndExpenditurePdf
-                       [formControl]="incomeAndExpenditureFormControl.file_pdf"
+                       (change)="handleFileChange(['incomeAndExpenditure','file_pdf'],$event.target.files[0])"
                        type="file"
                        style="display: none" accept=".pdf">
-                <button (click)="incomeAndExpenditurePdf.click()">Choose Pdf</button>
+                <div class="d-flex flex-column" style="max-width:30%;">
+                  <button (click)="incomeAndExpenditurePdf.click()">Choose Pdf</button>
+                  <div
+                    style="text-overflow: ellipsis; overflow: hidden"> {{fileFormGroup.get(['incomeAndExpenditure', 'file_pdf']).value?.name}} </div>
+                  <div class="mat-error"
+                       *ngIf="fileFormGroup.get(['incomeAndExpenditure','file_pdf']).errors"> {{fileFormGroup.get(['incomeAndExpenditure', 'file_pdf']).errors[0]}}
+                  </div>
+                </div>
                 <input #incomeAndExpenditureCSV
-                       [formControl]="incomeAndExpenditureFormControl.file_excel"
+                       (change)="handleFileChange(['incomeAndExpenditure','file_excel'],$event.target.files[0])"
                        type="file" style="display: none"
                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                <button (click)="incomeAndExpenditureCSV.click()">Choose excel</button>
+                <div class="d-flex flex-column" style="max-width:30%;">
+                  <button (click)="incomeAndExpenditureCSV.click()">Choose excel</button>
+                  <div
+                    style="text-overflow: ellipsis; overflow: hidden"> {{fileFormGroup.get(['incomeAndExpenditure', 'file_excel']).value?.name}} </div>
+                  <div class="mat-error"
+                       *ngIf="fileFormGroup.get(['incomeAndExpenditure','file_excel']).errors"> {{fileFormGroup.get(['incomeAndExpenditure', 'file_excel']).errors[0]}}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="col-sm-5">
+
+          <div formGroupName="scheduleIncomeAndExpenditure" class="col-sm-5">
             <div class="row mt-4 d-flex flex-column">
               <div class="col-sm-12">
                 <h4>Schedules to Income and Expenditure</h4>
               </div>
               <div class="col-sm-12 d-flex justify-content-between">
                 <input #schIncomeAndExpenditurePdf
-                       [formControl]="scheduleIncomeAndExpenditureFormControl.file_pdf"
+                       (change)="handleFileChange(['scheduleIncomeAndExpenditure','file_pdf'],$event.target.files[0])"
                        type="file" style="display: none" accept=".pdf">
-                <button (click)="schIncomeAndExpenditurePdf.click()">Choose Pdf</button>
+                <div class="d-flex flex-column" style="max-width:30%;">
+                  <button (click)="schIncomeAndExpenditurePdf.click()">Choose Pdf</button>
+                  <div
+                    style="text-overflow: ellipsis; overflow: hidden"> {{fileFormGroup.get(['scheduleIncomeAndExpenditure', 'file_pdf']).value?.name}} </div>
+                  <div class="mat-error"
+                       *ngIf="fileFormGroup.get(['scheduleIncomeAndExpenditure','file_pdf']).errors"> {{fileFormGroup.get(['scheduleIncomeAndExpenditure', 'file_pdf']).errors[0]}}
+                  </div>
+                </div>
                 <input #schIncomeAndExpenditureCSV type="file" style="display: none"
-                       [formControl]="scheduleIncomeAndExpenditureFormControl.file_excel"
+                       (change)="handleFileChange(['scheduleIncomeAndExpenditure','file_excel'],$event.target.files[0])"
                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                <button (click)="schIncomeAndExpenditureCSV.click()">Choose excel</button>
+                <div class="d-flex flex-column" style="max-width:30%;">
+                  <button (click)="schIncomeAndExpenditureCSV.click()">Choose excel</button>
+                  <div
+                    style="text-overflow: ellipsis; overflow: hidden"> {{fileFormGroup.get(['scheduleIncomeAndExpenditure', 'file_excel']).value?.name}}
+                  </div>
+                  <div class="mat-error"
+                       *ngIf="fileFormGroup.get(['scheduleIncomeAndExpenditure','file_excel']).errors"> {{fileFormGroup.get(['scheduleIncomeAndExpenditure', 'file_excel']).errors[0]}}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
         <div class="row">
-          <div class="col-sm-5 mr-2">
+          <div formGroupName="trialBalance" class="col-sm-5 mr-2">
             <div class="row mt-4 d-flex flex-column">
               <div class="col-sm-12">
                 <h4>Trial Balance</h4>
               </div>
               <div class="col-sm-12 d-flex justify-content-between">
                 <input
-                  [formControl]="trialBalanceFormControl.file_pdf"
+                  (change)="handleFileChange(['trialBalance','file_pdf'],$event.target.files[0])"
                   #trialBalancePdf type="file" style="display: none" accept=".pdf">
-                <button (click)="trialBalancePdf.click()">Choose Pdf</button>
+                <div class="d-flex flex-column" style="max-width:30%;">
+                  <button (click)="trialBalancePdf.click()">Choose Pdf</button>
+                  <div
+                    style="text-overflow: ellipsis; overflow: hidden"> {{fileFormGroup.get(['trialBalance', 'file_pdf']).value?.name}}
+                  </div>
+                  <div class="mat-error"
+                       *ngIf="fileFormGroup.get(['trialBalance','file_pdf']).errors"> {{fileFormGroup.get(['trialBalance', 'file_pdf']).errors[0]}}
+                  </div>
+                </div>
                 <input #trialBalanceCSV
-                       [formControl]="trialBalanceFormControl.file_excel"
                        type="file" style="display: none"
+                       (change)="handleFileChange(['trialBalance','file_excel'],$event.target.files[0])"
                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                <button (click)="trialBalanceCSV.click()">Choose excel</button>
+                <div class="d-flex flex-column" style="max-width:30%;">
+                  <button (click)="trialBalanceCSV.click()">Choose excel</button>
+                  <div
+                    style="text-overflow: ellipsis; overflow: hidden"> {{fileFormGroup.get(['trialBalance', 'file_excel']).value?.name}}
+                  </div>
+                  <div class="mat-error"
+                       *ngIf="fileFormGroup.get(['trialBalance','file_excel']).errors"> {{fileFormGroup.get(['trialBalance', 'file_excel']).errors[0]}}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
           <div class="col-sm-5">
             <div *ngIf="auditStatusFormControl.value&&auditStatusFormControl.value[0].id==='audited'"
                  class="row mt-4 d-flex flex-column">
@@ -124,7 +204,7 @@
               </div>
               <div class="col-sm-12 d-flex justify-content-between">
                 <input #auditReport
-                       [formControl]="auditReportFormControl"
+                       (change)="handleFileChange(['auditReportFormControl'],$event.target.files[0])"
                        type="file" style="display: none" accept=".pdf">
                 <button (click)="auditReport.click()">Choose Pdf</button>
 
@@ -135,14 +215,12 @@
 
         <div class="row mt-4 mb-4">
           <div class="col-sm-12">
-            <button class="btn btn-primary">Submit</button>
+            <button class="btn btn-primary" (click)="submitClickHandler()">Submit</button>
           </div>
         </div>
-
       </div>
     </div>
   </div>
-
 </ng-container>
 
 <ng-template #noId>
@@ -171,9 +249,7 @@
             <td class="text-center" *ngFor="let header of tableHeaders">{{header.title}}</td>
           </tr>
           </tbody>
-
         </table>
-
       </div>
     </div>
   </div>
