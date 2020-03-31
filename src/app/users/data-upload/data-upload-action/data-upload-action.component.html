@@ -1,3 +1,36 @@
-<p>
-  data-upload-action works!
-</p>
+<div class="container">
+  <div class="col mt-3">
+    <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>
+  </div>
+  <div class="mt-2">
+    <h3>Financial Data Upload</h3>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-sm-8">
+
+      <div class="row">
+        <div class="col-sm-5 mr-2">
+          <label for="financial_year">Financial Year <span class="text-danger">*</span></label>
+          <angular2-multiselect formControlName="financialYear" id="financial_year" name="financial_year"
+                                [settings]="{singleSelection:true,text:'Select Year'}"
+                                [data]="financialYearDropdown">
+          </angular2-multiselect>
+        </div>
+        <div class="col-sm-5 mr-2">
+          <label for="audit_status">Status <span class="text-danger">*</span></label>
+          <angular2-multiselect title="Select Year" id="audit_status"
+                                [settings]="{singleSelection:true,text:'Select Audit Status'}"
+                                [data]="auditStatusDropdown">
+
+          </angular2-multiselect>
+        </div>
+      </div>
+      <div id="completeness" class="mt-4">
+        <h3>
+          State 1 : Completeness
+        </h3>
+      </div>
+    </div>
+  </div>
+</div>
