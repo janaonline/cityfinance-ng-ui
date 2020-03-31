@@ -5,8 +5,10 @@ import {CommonModule} from '@angular/common';
 import {AngularMaterialModule} from '../../angular-material.module';
 import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
 import {ReactiveFormsModule} from '@angular/forms';
+import {DataUploadActionComponent} from './data-upload-action/data-upload-action.component';
 
 const routes: Routes = [
+  {path: 'action', component: DataUploadActionComponent},
   {path: ':id', component: DataUploadComponent},
   {path: '', component: DataUploadComponent}
 ];

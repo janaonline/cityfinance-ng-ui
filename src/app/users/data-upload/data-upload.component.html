@@ -255,7 +255,11 @@
 
           <tbody>
           <tr style="background: 	#e7e7e7 ;border: 5px solid white">
-            <td class="text-center" *ngFor="let header of tableHeaders">{{header.title}}</td>
+            <td class="text-center" *ngFor="let header of tableHeaders">
+              <a [routerLink]="['action']"  class="btn btn-primary" *ngIf="header.id==='action'; else nonAction">{{header.title}}</a>
+              <ng-template #nonAction>
+                <span>{{header.title}}</span>
+              </ng-template>
           </tr>
           </tbody>
         </table>
