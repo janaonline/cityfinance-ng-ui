@@ -93,7 +93,7 @@ export class ReportService {
 
   addLogByToken(page) {
     this.http
-      .post(environment.api.url + "logs/addLogByToken", { particular: page })
+      .post(environment.api.url + "download-log", { particular: page })
       .subscribe(res => {
         if (res["success"]) {
           console.log("logged successfully");

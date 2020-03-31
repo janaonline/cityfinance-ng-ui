@@ -53,7 +53,7 @@ export class DataEntryService {
     const headers = new HttpHeaders();
 
     return this.http.post<S3FileURLResponse>(
-      `${environment.api.url}api/admin/v1/getSignedUrl`,
+      `${environment.api.url}/getSignedUrl`,
       JSON.stringify([
         {
           file_name: fileName,
@@ -64,7 +64,7 @@ export class DataEntryService {
     );
 
     // return this.http.post(
-    //   "https://stgmformadminapi.dhwaniris.in/api/admin/v1/" + "getS3Url",
+    //   "https://stgmformadminapi.dhwaniris.in//" + "getS3Url",
     //   JSON.stringify([
     //     {
     //       file_name: fileName,
@@ -91,7 +91,7 @@ export class DataEntryService {
    * @param alias Here fileAlias is the file_alias key that is returned from getting s3URL api call.
    */
   sendUploadFileForProcessing(alias: string, financialYear: string) {
-    return this.http.post(`${environment.api.url}api/admin/v1/processData`, {
+    return this.http.post(`${environment.api.url}/processData`, {
       alias,
       financialYear
     });
@@ -107,7 +107,7 @@ export class DataEntryService {
     // }).pipe(delay(2000));
 
     return this.http
-      .get(`${environment.api.url}api/admin/v1/getProcessStatus/${fileId}`)
+      .get(`${environment.api.url}/getProcessStatus/${fileId}`)
       .pipe(map(response => ({ ...response["data"] })));
   }
 }

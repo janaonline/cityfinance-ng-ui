@@ -3,21 +3,20 @@
 // The list of file replacements can be found in `angular.json`.
 let url;
 if (window.location.hostname.includes("demo")) {
-  url = "https://democityfinanceapi.dhwaniris.in/";
-} else if (
-  window.location.hostname.includes("localhost") ||
-  window.location.hostname.includes("staging")
-) {
-  url = "http://staging.cityfinance.in/";
-} else {
-  url = "http://cityfinance.in/";
+  url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
+} else if (window.location.hostname.includes("localhost")) {
+  url = "http://localhost:8080/api/v1/";
+} else if( window.location.hostname.includes("staging")){
+  url = "http://stgcityfinance.in/api/v1/";
+}else {
+  url = "http://cityfinance.in/api/v1/";
 }
+// url = "http://cityfinance.in/api/v1/";
 export const environment = {
   production: false,
   api: {
     url2: "http://cityfinance.in/",
-    url: "https://democityfinanceapi.dhwaniris.in/",
-    //url
+    url: url
   }
 };
 
