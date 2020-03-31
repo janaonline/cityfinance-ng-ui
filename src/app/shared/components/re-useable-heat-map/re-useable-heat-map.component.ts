@@ -96,7 +96,14 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   isNationalMapToDistroctMapInProcess;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.ulbsClicked.subscribe(value => {
+      console.log("ulb click ", value);
+    });
+    this.stateSelected.subscribe(value => {
+      console.log("state click ", value);
+    });
+  }
 
   ngOnChanges(changes: {
     ulbSelected: SimpleChange;
@@ -122,7 +129,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       setTimeout(() => {
         this.initiatedDataFetchingProcess().subscribe(res => {
           if (this.isMapOnMiniMapMode) {
-            this.createStateLevelMap(this.currentStateInView.name);
+            this.createStateLevelMap(this.currentStateInView.name, {
+              emitState: false
+            });
             setTimeout(() => {
               this.hideMapLegends();
             }, 0);
