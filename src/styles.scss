@@ -590,6 +590,10 @@ img.align-center {
   justify-content: center !important;
 }
 
+.justify-content-evenly {
+  justify-content: space-evenly;
+}
+
 .justify-content-between {
   justify-content: space-between;
 }
@@ -608,7 +612,9 @@ img.align-center {
 
 .mt-4 {
   margin-top: 4rem !important;
-}.mb-4 {
+}
+
+.mb-4 {
   margin-bottom: 4rem !important;
 }
 
@@ -695,6 +701,10 @@ img.align-center {
   flex-direction: column;
 }
 
+.flex-1 {
+  flex: 1;
+}
+
 .px-1 {
   padding-left: 1rem !important;
   padding-right: 1rem !important;
@@ -747,7 +757,7 @@ img.align-center {
 }
 
 .mr-1 {
-  margin-right: 2rem;
+  margin-right: 1rem !important;
 }
 
 .mr-2 {
