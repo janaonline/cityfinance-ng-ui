@@ -3,12 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 let url;
 if (window.location.hostname.includes("demo")) {
-  url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
+  url = "https://democityfinanceapi.dhwaniris.in/api/admin/v1";
 } else if (window.location.hostname.includes("localhost")) {
-  url = "http://localhost:8080/api/v1/";
-} else if( window.location.hostname.includes("staging")){
-  url = "http://stgcityfinance.in/api/v1/";
-}else {
+  url = "https://democityfinanceapi.dhwaniris.in/api/admin/v1";
+} else if (window.location.hostname.includes("staging")) {
+  url = "http://stgcityfinance.in/admin/api/v1/";
+} else {
   url = "http://cityfinance.in/api/v1/";
 }
 // url = "http://cityfinance.in/api/v1/";
