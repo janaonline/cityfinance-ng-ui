@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { PasswordComponent } from './password.component';
 
-const routes: Routes = [{ path: "", component: PasswordComponent }];
+const routes: Routes = [{ path: ":id", component: PasswordComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

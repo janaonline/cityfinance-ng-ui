@@ -1,0 +1,353 @@
+<div class="wrapper">
+  <h1>Edit Profile</h1>
+  <form [formGroup]="profile" *ngIf="profile" (ngSubmit)="submitForm(profile)">
+    <div class="input-group" formGroupName="state">
+      <label for="statename"
+        >State
+        <span class="asterik">*</span>
+      </label>
+      <input
+        id="statename"
+        type="text"
+        formControlName="name"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': formSubmitted && profile?.controls?.name.errors
+        }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="type"
+        >ULB Type
+        <span class="asterik">*</span>
+
+        <span style="float: right;">
+          <span *ngIf="fileTracker?.type" class="fileName">
+            {{ fileTracker.type.file.name }}
+          </span>
+          <i
+            class="fa fa-file-text"
+            aria-hidden="true"
+            (click)="cin.click()"
+            for="cin"
+          >
+          </i>
+        </span>
+      </label>
+      <input
+        #cin
+        id="cin"
+        name="cin"
+        type="file"
+        (change)="
+          onSelectingFile({ file: $event.target.files[0], key: 'type' })
+        "
+        placeholder="Upload a file..."
+      />
+      <select
+        name=""
+        id="type"
+        formControlName="type"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': formSubmitted && profile?.controls?.type.errors
+        }"
+      >
+        <option *ngFor="let Utype of typesOfULB | keyvalue" [value]="Utype.key">
+          {{ Utype.value }}
+        </option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="code"
+        >ULB Code
+        <span class="asterik">*</span>
+      </label>
+      <input
+        id="code"
+        type="text"
+        formControlName="code"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': formSubmitted && profile?.controls?.code.errors
+        }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="name"
+        >ULB Name
+        <span class="asterik">*</span>
+        <span style="float: right;">
+          <span *ngIf="fileTracker?.name" class="fileName">
+            {{ fileTracker.name.file.name }}
+          </span>
+          <i
+            class="fa fa-file-text"
+            aria-hidden="true"
+            (click)="ulbname.click()"
+            for="cin"
+          >
+          </i>
+        </span>
+      </label>
+      <input
+        #ulbname
+        id="ulbname"
+        name="cin"
+        type="file"
+        (change)="
+          onSelectingFile({ file: $event.target.files[0], key: 'name' })
+        "
+        placeholder="Upload a file..."
+      />
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': formSubmitted && profile?.controls?.name.errors
+        }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="area"
+        >Area
+        <span class="asterik">*</span>
+        <span style="float: right;">
+          <span *ngIf="fileTracker?.area" class="fileName">
+            {{ fileTracker.area.file.name }}
+          </span>
+          <i
+            class="fa fa-file-text"
+            aria-hidden="true"
+            (click)="area.click()"
+            for="cin"
+          >
+          </i>
+        </span>
+      </label>
+      <input
+        #area
+        id="area"
+        name="cin"
+        type="file"
+        (change)="
+          onSelectingFile({ file: $event.target.files[0], key: 'area' })
+        "
+        placeholder="Upload a file..."
+      />
+      <input
+        id="area"
+        type="text"
+        formControlName="area"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': formSubmitted && profile?.controls?.area.errors
+        }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="population"
+        >Population
+        <span class="asterik">*</span>
+        <span style="float: right;">
+          <span *ngIf="fileTracker?.population" class="fileName">
+            {{ fileTracker.population.file.name }}
+          </span>
+          <i
+            class="fa fa-file-text"
+            aria-hidden="true"
+            (click)="popFileSelect.click()"
+            for="cin"
+          >
+          </i>
+        </span>
+      </label>
+      <input
+        #popFileSelect
+        id="cin"
+        name="cin"
+        type="file"
+        (change)="
+          onSelectingFile({ file: $event.target.files[0], key: 'population' })
+        "
+        placeholder="Upload a file..."
+      />
+      <input
+        #population
+        id="population"
+        type="text"
+        formControlName="population"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': formSubmitted && profile?.controls?.population.errors
+        }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="noOfWards"
+        >No off Wards
+        <span class="asterik">*</span>
+        <span style="float: right;">
+          <span *ngIf="fileTracker?.noOfWards" class="fileName">
+            {{ fileTracker.noOfWards.file.name }}
+          </span>
+          <i
+            class="fa fa-file-text"
+            aria-hidden="true"
+            (click)="wards.click()"
+            for="cin"
+          >
+          </i>
+        </span>
+      </label>
+      <input
+        #wards
+        id="wards"
+        name="cin"
+        type="file"
+        (change)="
+          onSelectingFile({ file: $event.target.files[0], key: 'noOfWards' })
+        "
+        placeholder="Upload a file..."
+      />
+      <input
+        id="noOfWards"
+        type="text"
+        formControlName="noOfWards"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': formSubmitted && profile?.controls?.noOfWards?.errors
+        }"
+      />
+    </div>
+
+    <hr />
+
+    <div formGroupName="commissioner">
+      <div class="input-group">
+        <label for="commisionerName"
+          >Commisioner Name
+          <span class="asterik">*</span>
+        </label>
+        <input
+          id="commisionerName"
+          type="text"
+          formControlName="name"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted &&
+              profile?.controls.commissioner?.controls.name.errors
+          }"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="commisionerEmailID"
+          >Commisioner EmailID
+          <span class="asterik">*</span>
+        </label>
+        <input
+          id="commisionerEmailID"
+          type="text"
+          formControlName="emailId"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted &&
+              profile?.controls.commissioner?.controls.emailId.errors
+          }"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="commisionerContactNo"
+          >Commisioner Contact No
+          <span class="asterik">*</span>
+        </label>
+        <input
+          id="commisionerContactNo"
+          type="text"
+          formControlName="contantNo"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted &&
+              profile?.controls.commissioner?.controls.contantNo.errors
+          }"
+        />
+      </div>
+    </div>
+
+    <div formGroupName="accountant">
+      <div class="input-group">
+        <label for="accountantName"
+          >Accountant Name
+          <span class="asterik">*</span>
+        </label>
+        <input
+          id="accountantName"
+          type="text"
+          formControlName="name"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted &&
+              profile?.controls.accountant?.controls.name.errors
+          }"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="accountantEmailID"
+          >Accountant EmailID
+          <span class="asterik">*</span>
+        </label>
+        <input
+          id="accountantEmailID"
+          type="text"
+          formControlName="emailId"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted &&
+              profile?.controls.accountant?.controls.emailId.errors
+          }"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="accountantContactNo"
+          >Accountant Contact No
+          <span class="asterik">*</span>
+        </label>
+        <input
+          id="accountantContactNo"
+          type="text"
+          formControlName="contantNo"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted &&
+              profile?.controls.accountant?.controls.contantNo.errors
+          }"
+        />
+      </div>
+    </div>
+
+    <p *ngIf="formErrorMessage" style="color: red; margin-left: 2%;">
+      {{ formErrorMessage }}
+    </p>
+    <div class="input-group">
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+  </form>
+</div>

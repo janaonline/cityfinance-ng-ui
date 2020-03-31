@@ -3,7 +3,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { SharedModule } from '../../../app/shared/shared.module';
 import { ProfileRoutingModule } from './profile-routing.module';
+import { ProfileComponent } from './profile.component';
+import { UlbProfileComponent } from './ulb-profile/ulb-profile.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
@@ -12,8 +15,9 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     ProfileRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
-  declarations: [UserProfileComponent]
+  declarations: [UserProfileComponent, ProfileComponent, UlbProfileComponent]
 })
 export class ProfileModule {}
