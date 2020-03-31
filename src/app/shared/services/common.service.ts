@@ -30,18 +30,14 @@ export class CommonService {
     if (this.stateArr.length > 0 && !doLoadFromServer) {
       this.states.next(this.stateArr);
     }
-    this.http
-      .get(environment.api.url + "/state")
-      .subscribe(res => {
-        this.stateArr = res["data"];
-        this.states.next(this.stateArr);
-      });
+    this.http.get(environment.api.url + "/state").subscribe(res => {
+      this.stateArr = res["data"];
+      this.states.next(this.stateArr);
+    });
   }
 
   getAllUlbs() {
-    return this.http.get<IULBResponse>(
-      environment.api.url + "ulbs"
-    );
+    return this.http.get<IULBResponse>(environment.api.url + "ulbs");
   }
 
   // since ULB is based on state, query will happen on demand
@@ -208,7 +204,7 @@ export class CommonService {
     // }
     return this.http
       .post<IStateULBCoveredResponse>(
-        `${environment.api.url}/states-with-ulb-count`,
+        `${environment.api.url}/lookup/states-with-ulb-count`,
         body
       )
       .pipe(
@@ -223,10 +219,7 @@ export class CommonService {
 
   getULBSWithPopulationAndCoordinates(body?: { year: string[] }) {
     return this.http
-      .post<IULBWithPopulationResponse>(
-        `${environment.api.url}/ulb-list`,
-        body
-      )
+      .post<IULBWithPopulationResponse>(`${environment.api.url}/ulb-list`, body)
       .pipe(
         map(res => {
           res.data = res.data.sort((ulbA, ulbB) =>
