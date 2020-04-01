@@ -17,25 +17,15 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   authenticateUser(user) {
-    this.http.post(
-      `https://democityfinanceapi.dhwaniris.in/users/signin`,
-      user
-    );
+    this.http.post(environment.api.url + "users/signin", user);
   }
 
   signin(user) {
-    return this.http.post(
-      `https://democityfinanceapi.dhwaniris.in/users/signin`,
-      user
-    );
+    return this.http.post(environment.api.url + "login", user);
   }
 
   signup(newUser) {
     return this.http.post(environment.api.url + "users/signup", newUser);
-  }
-
-  decodeToken() {
-    return this.helper.decodeToken(this.getToken());
   }
 
   getToken() {
