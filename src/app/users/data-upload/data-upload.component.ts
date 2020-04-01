@@ -4,6 +4,7 @@ import {Location} from '@angular/common';
 import {ulbUploadList} from '../../shared/components/home-header/tableHeaders';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataEntryService} from '../../dashboard/data-entry/data-entry.service';
+import {FinancialDataService} from '../services/financial-data.service';
 
 @Component({
   selector: 'app-data-upload',
@@ -26,36 +27,16 @@ export class DataUploadComponent implements OnInit {
     id: 'unaudited',
     itemName: 'Unaudited'
   }];
-
-  financialYearFormControl: FormControl = new FormControl('', [Validators.required]);
-  auditStatusFormControl: FormControl = new FormControl('', [Validators.required]);
-  balanceSheetFormControl = {
-    file_pdf: new FormControl(),
-    file_excel: new FormControl(),
-  };
-  schBalanceSheetFormControl = {
-    file_pdf: new FormControl(),
-    file_excel: new FormControl(),
-  };
-  incomeAndExpenditureFormControl = {
-    file_pdf: new FormControl(),
-    file_excel: new FormControl()
-  };
-  scheduleIncomeAndExpenditureFormControl = {
-    file_pdf: new FormControl(),
-    file_excel: new FormControl()
-  };
-  trialBalanceFormControl = {
-    file_pdf: new FormControl(),
-    file_excel: new FormControl()
-  };
   auditReportFormControl = new FormControl();
 
   fileFormGroup: FormGroup;
-  filesToUpload = [];
 
 
-  constructor(public activatedRoute: ActivatedRoute, public router: Router, public location: Location, public dataUploadService: DataEntryService) {
+  constructor(public activatedRoute: ActivatedRoute,
+              public router: Router,
+              public location: Location,
+              public dataUploadService: DataEntryService,
+              private financialDataService: FinancialDataService) {
     this.activatedRoute.params.subscribe(val => {
       const {id} = val;
       if (id) {
@@ -93,6 +74,22 @@ export class DataUploadComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getFinancialData();
+
+  }
+
+  getFinancialData() {
+    this.financialDataService
+      .fetchFinancialData()
+      .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
+  }
+
+  handleResponseSuccess(response) {
+    console.log(response);
+  }
+
+  handleResponseFailure(error) {
+    console.log(error);
   }
 
   async submitClickHandler() {
