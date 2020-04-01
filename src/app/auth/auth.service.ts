@@ -28,6 +28,10 @@ export class AuthService {
     return this.http.post(environment.api.url + "users/signup", newUser);
   }
 
+  decodeToken() {
+    return this.helper.decodeToken(this.getToken());
+  }
+
   getToken() {
     return localStorage.getItem("id_token");
   }
