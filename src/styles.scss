@@ -7,6 +7,10 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
+input.is-invalid {
+  border-color: red !important;
+}
+
 .cdk-overlay-connected-position-bounding-box,
 .cdk-overlay-pane,
 .cdk-global-overlay-wrapper,
@@ -23,7 +27,6 @@
   padding: 0.5% 2%;
   outline: none;
 }
-
 
 .asterik {
   color: red;
@@ -310,11 +313,11 @@ img.align-center {
     // background-color: #d3d3d3;
     padding: 5px 10px;
     -webkit-transition: color 0.15s ease-in-out,
-    background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+      background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+      box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
-    -webkit-box-shadow 0.15s ease-in-out;
+      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+      -webkit-box-shadow 0.15s ease-in-out;
   }
 }
 
@@ -608,7 +611,8 @@ img.align-center {
 
 .mt-4 {
   margin-top: 4rem !important;
-}.mb-4 {
+}
+.mb-4 {
   margin-bottom: 4rem !important;
 }
 
@@ -663,10 +667,10 @@ img.align-center {
 }
 
 #mapid
-> div.leaflet-control-container
-> div.leaflet-bottom.leaflet-right
-> div
-> a {
+  > div.leaflet-control-container
+  > div.leaflet-bottom.leaflet-right
+  > div
+  > a {
   display: none;
 }
 
