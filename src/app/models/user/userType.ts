@@ -1,4 +1,4 @@
 export enum USER_TYPE {
-  "USER" = "user",
-  "ULB" = "ulb"
+  "USER" = "USER",
+  "ULB" = "ULB"
 }
