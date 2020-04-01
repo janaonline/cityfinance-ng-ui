@@ -1,6 +1,7 @@
 export class PasswordValidator {
-  private _alphanumericRegex = /^([a-z]+[0-9]+)|([0-9]+[a-z]+)$/g;
-  public validate(password: string, confirmPassword: string) {
+  private _alphanumericRegex = /([a-zA-Z]+[0-9]+)|([0-9]+[a-zA-Z]+)$/g;
+  public validate(password: string, confirmPassword?: string) {
+    console.log(`password: ${password}, confirmPassword: ${confirmPassword}`);
     const newPassword = password.trim();
     if (!newPassword) {
       throw new Error("Empty Field or only space is invalid.");
@@ -10,7 +11,9 @@ export class PasswordValidator {
     }
 
     if (!newPassword.match(this._alphanumericRegex)) {
-      throw new Error("Password must be alphanumeric");
+      throw new Error(
+        "Password must be alphanumeric only, without any special character."
+      );
     }
 
     if (confirmPassword && confirmPassword !== password) {
