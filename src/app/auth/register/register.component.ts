@@ -5,6 +5,8 @@ import { debounceTime } from 'rxjs/operators';
 import { PasswordValidator } from 'src/app/util/passwordValidator';
 
 import { USER_TYPE } from '../../models/user/userType';
+import { IStateULBCovered } from '../../shared/models/stateUlbConvered';
+import { CommonService } from '../../shared/services/common.service';
 import { AuthService } from './../auth.service';
 
 @Component({
@@ -18,20 +20,22 @@ export class RegisterComponent implements OnInit {
   public badCredentials: boolean;
   public formError: string[];
   public formSubmitted = false;
-  public stateList = [];
+  public stateList: IStateULBCovered[] = [];
   public ulbCodeError;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private _coomonService: CommonService
   ) {
     this._activatedRoute.params.subscribe(param => {
       if (param.type) {
         this.registrationType = param.type;
       }
     });
+    this.fetchStateList();
   }
 
   ngOnInit() {
@@ -64,6 +68,13 @@ export class RegisterComponent implements OnInit {
       }
       // alert("Registered Successfully");
       // this.router.navigate(["/"]);
+    });
+  }
+
+  private fetchStateList() {
+    this._coomonService.getStateUlbCovered().subscribe(res => {
+      console.log(res.data[0]);
+      this.stateList = res.data;
     });
   }
 

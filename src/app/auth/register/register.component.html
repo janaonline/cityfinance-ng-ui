@@ -184,8 +184,8 @@
                 <option value="" selected disabled>
                   State
                 </option>
-                <option *ngFor="let Utype of stateList" [value]="Utype.key">
-                  {{ Utype.value }}
+                <option *ngFor="let state of stateList" [value]="state._id">
+                  {{ state.name }}
                 </option>
               </select>
             </div>
