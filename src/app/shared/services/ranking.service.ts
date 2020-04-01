@@ -10,15 +10,15 @@ export class RankingService {
   constructor(private http: HttpClient) { }
 
   loadRankinModuleData() {
-    return this.http.get(environment.api.url + "api/admin/v1/report/ulb-ranking");
+    return this.http.get(environment.api.url + "/report/ulb-ranking");
   }
 
   heatMapFilter(params){
-    return this.http.post(environment.api.url + "api/admin/v1/report/ulb-ranking", params);
+    return this.http.post(environment.api.url + "/report/ulb-ranking", params);
   }
 
   rankReportData(){
-    return this.http.get(environment.api.url + "api/admin/v1/ulblist");
+    return this.http.get(environment.api.url + "/ulblist");
   }
 
 }
