@@ -167,7 +167,7 @@ mat-form-field {
   width: fit-content;
   transform: scale(1.6) translateY(-50%);
   position: absolute;
-  bottom: 0px;
+  bottom: 200px;
   background: transparent;
   // transform: translateY(-100%);
 }
@@ -257,6 +257,11 @@ mat-form-field {
 ::ng-deep .mat-progress-spinner circle,
 .mat-spinner circle {
   stroke: #ffc500;
+}
+
+::ng-deep .mat-progress-spinner.full circle,
+.mat-spinner circle {
+  stroke: #eee;
 }
 
 .colorText {

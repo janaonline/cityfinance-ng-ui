@@ -699,7 +699,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     });
     this.ulbsOfSelectedState = [...stateFound.ulbs];
     if (!this.ulbsOfSelectedState.length) {
-      const message = `${stateFound.name} does not conains any ULB.`;
+      const message = `${stateFound.name} does not contains any ULB.`;
       this.showSnacbarMessage(message);
       return false;
     }
@@ -741,7 +741,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       this.unselectAllDistrictMarker();
     }
     if (!ulbsWithCoordinates.length) {
-      const message = `${stateFound.name} does not conains any ULB with geo co-ordinates.`;
+      const message = `${stateFound.name} does not contains any ULB with geo co-ordinates.`;
       this.showSnacbarMessage(message);
       return false;
     }
