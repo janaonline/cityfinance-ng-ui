@@ -259,6 +259,11 @@ mat-form-field {
   stroke: #ffc500;
 }
 
+::ng-deep .mat-progress-spinner.full circle,
+.mat-spinner circle {
+  stroke: #eee;
+}
+
 .colorText {
   color: #8bd2f0;
 }
