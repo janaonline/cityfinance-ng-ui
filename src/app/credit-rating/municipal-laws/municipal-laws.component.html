@@ -18,47 +18,39 @@
         <br/>
       </div>
       <div class="col-md-6">
+        <button class="btn btn-primary" (click)="showStateSelectionSection()">Compare States</button>
 <!--        <div class="col-md-12">-->
           <h3 class="">Comparison of Municipal Finance Provisions</h3>
 <!--          <br>-->
 <!--        </div>-->
         <br>
         <p>
-          Presented here is a comparison of the pronouncements of various Municipal Acts, underlying Rules and
-          Regulations, and Accounts and Budget Manuals of different Indian states so far as they pertain to aspects of
-          finance, accounts, budget, audit, financial disclosure and so on in municipalities. You will find answers to
-          questions like ‘What is the system of accounting prescribed?’, ‘What is the timeline for presenting the
-          municipal budget?’ ‘Is a budget calendar prescribed? if so, where is it prescribed?’, ‘What are the limits on
-          municipal borrowing?’, ‘Do the laws require citizen participation in budget preparation?’ and a host of other
-          interesting questions. The comparison attempts to answer a total of 70 questions across 13 criteria. Answers
-          have been kept short and precise. Where found necessary, additional
-          explanations have been provided for better understanding as a pop-up which you can see when you hover the
-          mouse pointer over the answer. Reference to
-          the specific provision of the Act/Rule/Manual is also given wherever possible for the benefit of anyone
-          desirous
-          of doing a deep-dive.
-          <a *ngIf="!knowMore" (click)="knowMore = true">Read more..</a>
+          Presented here is a comparison of the pronouncements of various Municipal Acts, underlying Rules and Regulations, and Accounts and Budget Manuals of different Indian states so far as they pertain to aspects of finance, accounts, budget, audit, financial disclosure and so on in municipalities.
         </p>
-        <p *ngIf="knowMore">
-          While you may find that a significant chunk of provisions are similar across states, leading one to conclude
-          that States have more or less followed models in other states in developing their own municipal finance
-          frameworks, you will come across the odd outliers like the existence of local fund fiscal responsibility acts
-          in
-          Karnataka and Assam, exclusive municipal public disclosure laws in some states, requirement of accrual
-          budgeting
-          in Kerala and so on.
-        </p>
-        <p *ngIf="knowMore">
-          Compiling this information required poring through thousands of pages of intimidating legal documents over the
-          past few months and reducing the relevant information into simple, easily comprehensible answers to a set of
-          basic questions. We believe the information presented achieves the right trade-off between excessive detailing
-          and over-simplification. We hope you find the effort worthwhile!
-          <a *ngIf="knowMore" (click)="knowMore = false">Read less..</a>
-
+        <p>
+          One will find answers to questions such as:
         </p>
 
-        <br><br>
-        <button class="btn btn-primary center" (click)="showStateSelectionSection()">Compare States</button>
+        <ul>
+          <li>
+            What is the system of accounting prescribed?
+          </li>
+          <li>
+            What is the timeline for presenting the municipal budget?
+          </li>
+          <li>
+            Is a budget calendar prescribed? if so, where is it prescribed?
+          </li>
+          <li>
+            What are the limits on municipal borrowing?
+          </li>
+          <li>
+            Do the laws require citizen participation in budget preparation?
+          </li>
+        </ul>
+        <p>
+          The comparison attempts to answer a total of 70 questions across 13 criteria. Answers have been kept short and precise. Where found necessary, additional explanations have been provided for better understanding as a pop-up which can be seen upon hovering the mouse pointer over the answer. Reference to the specific provision of the Act/Rule/Manual is also given wherever possible for the benefit of anyone desirous of doing a deep-dive.
+        </p>
 
 
       </div>

@@ -72,11 +72,7 @@
           framework of city finances, that is credible and timely. It portrays
           financial and operational performance information such as income,
           expenditure, assets, liabilities, budgets vs actuals, progress of
-          tenders and civic works and Service Level Benchmarks. The stakeholders
-          of the portal include Principal Secretaries - Urban Development,
-          Directors of Municipal Administration, Municipal Commissioners, Smart
-          City CEOs, Investors, Merchant Bankers, Project Consultants, Credit
-          Rating Agencies & Banks.
+          tenders and civic works and Service Level Benchmarks. The portal is targeted at providing relevant information, to be considered for decision making, to Principal Secretaries - Urban Development, Directors of Municipal Administration, Municipal Commissioners, Smart City CEOs, Investors, Merchant Bankers, Project Consultants, Credit Rating Agencies & Banks.
         </p>
         <h3 class="text-center benifitHeading" style="margin-top: 5%;">
           Benefits for the States/Cities
@@ -125,9 +121,9 @@
             <h4>Infrastructure financing</h4>
             <div class="description">
               <p>
-                Serves as a data repository for investors/merchant bankers to
+                Serves as a data repository for investors / merchant bankers to
                 help them evaluate the ecosystem Facilitates a boost in flow of
-                funds through Municipal Bonds, Pool Debt Obligation, PPPs etc.
+                funds through Municipal Bonds, Pool Debt Obligation, and PPPs etc.
               </p>
               <!-- <div class="text-center">
                 <a [routerLink]="['/credit-rating/report']">
@@ -162,15 +158,25 @@
     </div>
   </div>
 
-  <div class="important-links-container">
+  <div class="important-links-container container">
     <h3 class="text-center">Important Links</h3>
 
-    <div class="important-links">
-      <div *ngFor="let link of importantLinks">
+    <div class="row">
+      <div *ngFor="let link of importantLinks" class="col-sm-6">
         <a *ngIf="link.link" [routerLink]="link.link">
-          <h4>{{ link.text }}</h4>
+          <h5>
+            <span class="material-icons">
+            link
+            </span>
+            {{ link.text }}
+          </h5>
         </a>
-        <h4 matTooltip="In Progress" *ngIf="!link.link">{{ link.text }}</h4>
+        <h5 matTooltip="In Progress" *ngIf="!link.link">
+          <span class="material-icons">
+          link_off
+          </span>
+          {{ link.text }}
+        </h5>
       </div>
     </div>
   </div>
