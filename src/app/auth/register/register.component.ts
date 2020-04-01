@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PasswordValidator } from 'src/app/util/passwordValidator';
 
+import { USER_TYPE } from '../../models/user/userType';
 import { AuthService } from './../auth.service';
 
 @Component({
@@ -13,7 +15,9 @@ export class RegisterComponent implements OnInit {
   public registrationForm: FormGroup;
   public registrationType: "user" | "ulb";
   public badCredentials: boolean;
-  public formError: boolean;
+  public formError: string[];
+  public formSubmitted = false;
+  public stateList = [];
 
   constructor(
     private fb: FormBuilder,
@@ -36,7 +40,20 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  signup() {
+  signup(form: FormGroup) {
+    let errors: string[];
+    const body = form.value;
+    if (this.registrationType === "user") {
+      errors = this.validadteUserForm(form);
+      body.role = USER_TYPE.USER;
+    } else {
+      errors = this.validadteULBForm(form);
+      body.role = USER_TYPE.ULB;
+    }
+    this.formError = errors;
+    console.log(errors);
+
+    return;
     this.authService.signup(this.registrationForm.value).subscribe(res => {
       alert("Registered Successfully");
       this.router.navigate(["/"]);
@@ -44,15 +61,87 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  private validadteUserForm(form: FormGroup) {
+    const errors: string[] = [];
+    const passwordControl = form.controls.password;
+    try {
+      const validator = new PasswordValidator();
+      validator.validate(
+        passwordControl.value,
+        form.controls.confirmPassword.value
+      );
+    } catch (error) {
+      passwordControl.setErrors({ error: true });
+      errors.push(error.message);
+    }
+
+    Object.keys(form.controls).forEach(controlName => {
+      const control = form.controls[controlName];
+      if (!control.valid) {
+        if (control.errors.required) {
+          return errors.push(
+            `${controlName.charAt(0).toUpperCase() +
+              controlName.substr(1)} is required`
+          );
+        }
+        if (control.errors.pattern) {
+          return errors.push(
+            `${controlName.charAt(0).toUpperCase() +
+              controlName.substr(1)} should alphabetic only`
+          );
+        }
+        errors.push(
+          `${controlName.charAt(0).toUpperCase() +
+            controlName.substr(1)} is invalid`
+        );
+      }
+    });
+
+    return errors.length ? errors : null;
+  }
+
+  private validadteULBForm(form) {
+    const errors: string[] = [];
+    Object.keys(form.controls).forEach(controlName => {
+      const control = form.controls[controlName];
+      if (!control.valid) {
+        if (control.errors.required) {
+          return errors.push(
+            `${controlName.charAt(0).toUpperCase() +
+              controlName.substr(1)} is required`
+          );
+        }
+        if (control.errors.pattern) {
+          return errors.push(
+            `${controlName.charAt(0).toUpperCase() +
+              controlName.substr(1)} should alphabetic only`
+          );
+        }
+        errors.push(
+          `${controlName.charAt(0).toUpperCase() +
+            controlName.substr(1)} is invalid`
+        );
+      }
+    });
+    return errors.length ? errors : null;
+  }
+
   private initializeForm() {
     if (this.registrationType === "user") {
       this.registrationForm = this.fb.group({
-        name: ["", [Validators.required]],
-        mobile: ["", [Validators.required]],
+        name: ["", [Validators.required, Validators.pattern(/[a-zA-z]+/g)]],
+        mobile: ["", [Validators.required, Validators.minLength(10)]],
         email: ["", [Validators.required]],
         password: ["", [Validators.required]],
-        designation: [""],
-        organisation: [""]
+        confirmPassword: ["", Validators.required],
+        designation: [
+          "",
+          [Validators.required, Validators.pattern(/[a-zA-z]+/g)]
+        ],
+        organisation: [
+          "",
+          [Validators.required, Validators.pattern(/[a-zA-z]+/g)]
+        ]
       });
     } else if (this.registrationType === "ulb") {
       this.registrationForm = this.fb.group({
@@ -66,6 +155,16 @@ export class RegisterComponent implements OnInit {
         accountant_contact_no: ["", [Validators.required]],
         accountant_email_id: ["", [Validators.required]]
       });
+      this.disableImportantULBFields(this.registrationForm);
     }
+  }
+
+  private disableImportantULBFields(form: FormGroup) {
+    form.controls.commisioner_name.disable();
+    form.controls.commisioner_contact_no.disable();
+    form.controls.commisioner_email_id.disable();
+    form.controls.accountant_name.disable();
+    form.controls.accountant_contact_no.disable();
+    form.controls.accountant_email_id.disable();
   }
 }
