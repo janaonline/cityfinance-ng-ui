@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { debounceTime } from 'rxjs/operators';
 import { PasswordValidator } from 'src/app/util/passwordValidator';
 
 import { USER_TYPE } from '../../models/user/userType';
@@ -18,6 +19,7 @@ export class RegisterComponent implements OnInit {
   public formError: string[];
   public formSubmitted = false;
   public stateList = [];
+  public ulbCodeError;
 
   constructor(
     private fb: FormBuilder,
@@ -51,13 +53,17 @@ export class RegisterComponent implements OnInit {
       body.role = USER_TYPE.ULB;
     }
     this.formError = errors;
-    console.log(errors);
+    if (errors) {
+      return;
+    }
 
-    return;
-    this.authService.signup(this.registrationForm.value).subscribe(res => {
-      alert("Registered Successfully");
-      this.router.navigate(["/"]);
-      console.log(res);
+    this.authService.signup(body).subscribe(res => {
+      if (!res["success"]) {
+        this.formError = [res["msg"]];
+        return;
+      }
+      // alert("Registered Successfully");
+      // this.router.navigate(["/"]);
     });
   }
 
@@ -155,6 +161,13 @@ export class RegisterComponent implements OnInit {
         accountant_contact_no: ["", [Validators.required]],
         accountant_email_id: ["", [Validators.required]]
       });
+      this.registrationForm.controls.ulb_code.valueChanges
+        .pipe(debounceTime(2000))
+        .subscribe(value => {
+          this.registrationForm.disable();
+
+          // check for ulb code and match.
+        });
       this.disableImportantULBFields(this.registrationForm);
     }
   }

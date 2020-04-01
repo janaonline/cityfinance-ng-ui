@@ -165,9 +165,6 @@
             <div class="error-text col-xs-12" *ngIf="badCredentials">
               <p class="text-danger">Invalid Username or Password!!</p>
             </div>
-            <!-- <div class="error-text col-xs-12" *ngIf="formError">
-              <p class="text-danger">Username and Password is mandatory!</p>
-            </div> -->
 
             <div class="input-group">
               <span class="input-group-addon"
@@ -184,7 +181,7 @@
                     formSubmitted && profile?.controls?.state_name.errors
                 }"
               >
-                <option disabled>
+                <option value="" selected disabled>
                   State
                 </option>
                 <option *ngFor="let Utype of stateList" [value]="Utype.key">
@@ -211,7 +208,7 @@
                 ><i class="glyphicon glyphicon-lock"></i
               ></span>
               <input
-                id="mobile"
+                id="ulb_code"
                 type="text"
                 class="form-control"
                 [formControl]="registrationForm.controls['ulb_code']"
