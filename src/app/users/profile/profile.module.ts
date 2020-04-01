@@ -8,6 +8,7 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import { UlbProfileComponent } from './ulb-profile/ulb-profile.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { CommonProfileComponent } from './common-profile/common-profile.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     ReactiveFormsModule,
     SharedModule
   ],
-  declarations: [UserProfileComponent, ProfileComponent, UlbProfileComponent]
+  declarations: [UserProfileComponent, ProfileComponent, UlbProfileComponent, CommonProfileComponent]
 })
 export class ProfileModule {}
