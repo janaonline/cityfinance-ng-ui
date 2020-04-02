@@ -204,7 +204,7 @@ export class CommonService {
     // }
     return this.http
       .post<IStateULBCoveredResponse>(
-        `${environment.api.url}/lookup/states-with-ulb-count`,
+        `${environment.api.url}/states-with-ulb-count`,
         body
       )
       .pipe(

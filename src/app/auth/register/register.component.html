@@ -18,15 +18,15 @@
         <div class="row">
           <form
             [formGroup]="registrationForm"
-            (ngSubmit)="signup()"
+            (ngSubmit)="signup(registrationForm)"
             *ngIf="registrationType === 'user'"
           >
             <div class="error-text col-xs-12" *ngIf="badCredentials">
               <p class="text-danger">Invalid Username or Password!!</p>
             </div>
-            <div class="error-text col-xs-12" *ngIf="formError">
+            <!-- <div class="error-text col-xs-12" *ngIf="formError">
               <p class="text-danger">Username and Password is mandatory!</p>
-            </div>
+            </div> -->
 
             <div class="input-group">
               <span class="input-group-addon"
@@ -37,6 +37,10 @@
                 class="form-control"
                 [formControl]="registrationForm.controls['name']"
                 placeholder="User name"
+                [ngClass]="{
+                  'is-invalid':
+                    formError && registrationForm.controls.name.errors
+                }"
               />
             </div>
 
@@ -49,6 +53,10 @@
                 class="form-control"
                 [formControl]="registrationForm.controls['email']"
                 placeholder="Email ID"
+                [ngClass]="{
+                  'is-invalid':
+                    formError && registrationForm.controls.email.errors
+                }"
               />
             </div>
 
@@ -61,6 +69,10 @@
                 class="form-control"
                 [formControl]="registrationForm.controls['mobile']"
                 placeholder="Mobile No"
+                [ngClass]="{
+                  'is-invalid':
+                    formError && registrationForm.controls.mobile.errors
+                }"
               />
             </div>
 
@@ -71,8 +83,12 @@
               <input
                 id="designation"
                 class="form-control"
-                [formControl]="registrationForm.controls['name']"
+                [formControl]="registrationForm.controls['designation']"
                 placeholder="Designation"
+                [ngClass]="{
+                  'is-invalid':
+                    formError && registrationForm.controls.designation.errors
+                }"
               />
             </div>
 
@@ -83,8 +99,12 @@
               <input
                 id="organisation"
                 class="form-control"
-                [formControl]="registrationForm.controls['name']"
+                [formControl]="registrationForm.controls['organisation']"
                 placeholder="Organisation/Instituition Name"
+                [ngClass]="{
+                  'is-invalid':
+                    formError && registrationForm.controls.organisation.errors
+                }"
               />
             </div>
 
@@ -98,6 +118,10 @@
                 class="form-control"
                 [formControl]="registrationForm.controls['password']"
                 placeholder="Password"
+                [ngClass]="{
+                  'is-invalid':
+                    formError && registrationForm.controls.password.errors
+                }"
               />
             </div>
 
@@ -109,10 +133,24 @@
                 id="confirm_password"
                 type="password"
                 class="form-control"
-                [formControl]="registrationForm.controls['password']"
+                [formControl]="registrationForm.controls['confirmPassword']"
                 placeholder="Confirm Password"
+                [ngClass]="{
+                  'is-invalid':
+                    formError &&
+                    registrationForm.controls.confirmPassword.errors
+                }"
               />
             </div>
+
+            <p *ngIf="formError">
+              <span
+                *ngFor="let error of formError; let i = index"
+                style="display: block; color: red"
+              >
+                {{ i + 1 }}. {{ error }}
+              </span>
+            </p>
 
             <div class="input-group">
               <button type="submit" class="btn btn-primary">Sign up</button>
@@ -127,21 +165,29 @@
             <div class="error-text col-xs-12" *ngIf="badCredentials">
               <p class="text-danger">Invalid Username or Password!!</p>
             </div>
-            <div class="error-text col-xs-12" *ngIf="formError">
-              <p class="text-danger">Username and Password is mandatory!</p>
-            </div>
 
             <div class="input-group">
               <span class="input-group-addon"
                 ><i class="glyphicon glyphicon-user"></i
               ></span>
-              <input
-                id="name"
-                type="text"
+              <select
+                name="State"
+                id="state_name"
+                formControlName="state_name"
                 class="form-control"
-                [formControl]="registrationForm.controls['state_name']"
                 placeholder="State"
-              />
+                [ngClass]="{
+                  'is-invalid':
+                    formSubmitted && profile?.controls?.state_name.errors
+                }"
+              >
+                <option value="" selected disabled>
+                  State
+                </option>
+                <option *ngFor="let state of stateList" [value]="state._id">
+                  {{ state.name }}
+                </option>
+              </select>
             </div>
 
             <div class="input-group">
@@ -162,7 +208,7 @@
                 ><i class="glyphicon glyphicon-lock"></i
               ></span>
               <input
-                id="mobile"
+                id="ulb_code"
                 type="text"
                 class="form-control"
                 [formControl]="registrationForm.controls['ulb_code']"
