@@ -11,6 +11,10 @@ export class FinancialDataService {
   }
 
   fetchFinancialData() {
-   return  this.httpClient.get(`${environment.api.url}ulb-financial-data`);
+    return this.httpClient.get(`${environment.api.url}ulb-financial-data`);
+  }
+
+  uploadFinancialData(data) {
+    return this.httpClient.post(`${environment.api.url}ulb-financial-data`, JSON.stringify(data));
   }
 }

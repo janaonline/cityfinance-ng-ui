@@ -141,9 +141,8 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
 ];
 
 export const ulbUploadList: ModalTableHeader[] = [
-  {id: 'ad', title: 'S.No.'},
-  {id: 'ad', title: 'Financial Year'},
-  {id: 'ad', title: 'Audit Status'},
+  {id: 'financialYear', title: 'Financial Year'},
+  {id: 'audited', title: 'Audit Status'},
   {id: 'ad', title: 'Status'},
   {id: 'action', title: 'Action'},
 ];

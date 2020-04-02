@@ -31,7 +31,6 @@ export class AuthService {
 
   decodeToken() {
     return this.helper.decodeToken(this.getToken());
-    return this.http.post(environment.api.url + 'users/signup', newUser);
   }
 
   getToken() {
