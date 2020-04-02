@@ -5,9 +5,9 @@
     top: 0px;
     z-index: 99;"
 ></app-home-header>
-<!-- <app-home-tab-view></app-home-tab-view> -->
+<app-home-tab-view></app-home-tab-view>
 <div class="dashboard-wrapper">
-  <div class="home-banner">
+  <!-- <div class="home-banner">
     <div class="caption">
       <div class="text-center logo-big">
         <img src="assets/images/cityfinance-logo-big.png" />
@@ -23,12 +23,11 @@
         >
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <div class="statistics">
+  <!-- <div class="statistics">
     <app-statistics></app-statistics>
-  </div>
-  <app-home-tab-view></app-home-tab-view>
+  </div> -->
 
   <!-- &ndash;&gt; &lt;!&ndash; Table component finshed just uncomment to make it
   visible on homepage &ndash;&gt; &lt;!&ndash; <app-grid></app-grid> &ndash;&gt;
@@ -72,7 +71,12 @@
           framework of city finances, that is credible and timely. It portrays
           financial and operational performance information such as income,
           expenditure, assets, liabilities, budgets vs actuals, progress of
-          tenders and civic works and Service Level Benchmarks. The portal is targeted at providing relevant information, to be considered for decision making, to Principal Secretaries - Urban Development, Directors of Municipal Administration, Municipal Commissioners, Smart City CEOs, Investors, Merchant Bankers, Project Consultants, Credit Rating Agencies & Banks.
+          tenders and civic works and Service Level Benchmarks. The portal is
+          targeted at providing relevant information, to be considered for
+          decision making, to Principal Secretaries - Urban Development,
+          Directors of Municipal Administration, Municipal Commissioners, Smart
+          City CEOs, Investors, Merchant Bankers, Project Consultants, Credit
+          Rating Agencies & Banks.
         </p>
         <h3 class="text-center benifitHeading" style="margin-top: 5%;">
           Benefits for the States/Cities
@@ -123,7 +127,8 @@
               <p>
                 Serves as a data repository for investors / merchant bankers to
                 help them evaluate the ecosystem Facilitates a boost in flow of
-                funds through Municipal Bonds, Pool Debt Obligation, and PPPs etc.
+                funds through Municipal Bonds, Pool Debt Obligation, and PPPs
+                etc.
               </p>
               <!-- <div class="text-center">
                 <a [routerLink]="['/credit-rating/report']">
@@ -158,7 +163,7 @@
     </div>
   </div>
 
-  <div class="important-links-container container">
+  <!-- <div class="important-links-container container">
     <h3 class="text-center">Important Links</h3>
 
     <div class="row">
@@ -166,20 +171,20 @@
         <a *ngIf="link.link" [routerLink]="link.link">
           <h5>
             <span class="material-icons">
-            link
+              link
             </span>
             {{ link.text }}
           </h5>
         </a>
         <h5 matTooltip="In Progress" *ngIf="!link.link">
           <span class="material-icons">
-          link_off
+            link_off
           </span>
           {{ link.text }}
         </h5>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div class="partners">
     <div class="container">
