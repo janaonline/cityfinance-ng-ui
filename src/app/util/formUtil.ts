@@ -38,13 +38,13 @@ export class FormUtil {
     return this.fb.group({
       state: ["", [Validators.required]],
       ulb_name: ["", [Validators.required]],
-      ulb_code: ["", [Validators.required]],
-      commisioner_name: ["", [Validators.required]],
-      commisioner_contact_no: ["", [Validators.required]],
-      commisioner_email_id: ["", [Validators.required]],
-      accountant_name: ["", [Validators.required]],
-      accountant_contact_no: ["", [Validators.required]],
-      accountant_email_id: ["", [Validators.required]]
+      ulb: ["", [Validators.required]],
+      commissionerName: ["", [Validators.required]],
+      commissionerConatactNumber: ["", [Validators.required]],
+      commissionerEmail: ["", [Validators.required]],
+      accountantName: ["", [Validators.required]],
+      accountantConatactNumber: ["", [Validators.required]],
+      accountantEmail: ["", [Validators.required]]
     });
   }
 
@@ -91,6 +91,34 @@ export class FormUtil {
       }
     });
 
+    return errors.length ? errors : null;
+  }
+
+  public validadteULBForm(form: FormGroup) {
+    console.log(form);
+    const errors: string[] = [];
+    Object.keys(form.controls).forEach(controlName => {
+      const control = form.controls[controlName];
+      console.log(controlName, control);
+      if (!control.valid) {
+        if (control.errors && control.errors.required) {
+          return errors.push(
+            `${controlName.charAt(0).toUpperCase() +
+              controlName.substr(1)} is required`
+          );
+        }
+        if (control.errors && control.errors.pattern) {
+          return errors.push(
+            `${controlName.charAt(0).toUpperCase() +
+              controlName.substr(1)} should alphabetic only`
+          );
+        }
+        errors.push(
+          `${controlName.charAt(0).toUpperCase() +
+            controlName.substr(1)} is invalid`
+        );
+      }
+    });
     return errors.length ? errors : null;
   }
 }
