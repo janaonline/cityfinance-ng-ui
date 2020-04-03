@@ -7,11 +7,13 @@ import {environment} from '../../../environments/environment';
 })
 export class FinancialDataService {
 
+  selectedFinancialRequest = null;
+
   constructor(private httpClient: HttpClient) {
   }
 
   fetchFinancialData() {
-    return this.httpClient.get(`${environment.api.url}ulb-financial-data`);
+    return this.httpClient.get(`${environment.api.url}ulb-financial-data?_id=5e85ac5c96b49706324e3d08`);
   }
 
   uploadFinancialData(data) {

@@ -149,4 +149,8 @@ export class DataUploadComponent implements OnInit {
 
     this.fileFormGroup.get(strings).setValue(file);
   }
+
+  navigateTo( row: any) {
+    this.financialDataService.selectedFinancialRequest = row;
+  }
 }

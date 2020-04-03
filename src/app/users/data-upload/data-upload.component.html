@@ -230,7 +230,8 @@
 
           <div class="row mt-4 mb-4">
             <div class="col-sm-12">
-              <button [disabled]="fileFormGroup.invalid" class="btn btn-primary" (click)="submitClickHandler()">Submit</button>
+              <button [disabled]="fileFormGroup.invalid" class="btn btn-primary" (click)="submitClickHandler()">Submit
+              </button>
             </div>
           </div>
         </div>
@@ -270,7 +271,7 @@
           >
             <td class="text-center">{{i + 1}}</td>
             <td class="text-center" *ngFor="let header of tableHeaders">
-              <a [routerLink]="['action']" class="btn btn-primary"
+              <a [routerLink]="['action',row?._id]" (click)="navigateTo(row)" class="btn btn-primary"
                  *ngIf="header.id==='action'; else nonAction">{{header.title}}</a>
               <ng-template #nonAction>
                 <span *ngIf="header.id==='audited'; else normalCol">{{row[header.id] ? 'Audited' : 'Unaudited'}}</span>

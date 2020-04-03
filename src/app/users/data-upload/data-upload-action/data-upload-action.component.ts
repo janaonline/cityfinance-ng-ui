@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FinancialDataService} from '../../services/financial-data.service';
 
 @Component({
   selector: 'app-data-upload-action',
@@ -21,10 +23,15 @@ export class DataUploadActionComponent implements OnInit {
     itemName: 'Unaudited'
   }];
 
-  constructor(public location: Location) {
+  constructor(public financeDataService: FinancialDataService, public location: Location, private activatedRoute: ActivatedRoute, private router: Router) {
+
   }
 
   ngOnInit() {
+    if (!this.financeDataService.selectedFinancialRequest) {
+      this.location.back();
+    }
+    console.log(this.financeDataService.selectedFinancialRequest);
   }
 
 }
