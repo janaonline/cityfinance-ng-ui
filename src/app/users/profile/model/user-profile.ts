@@ -1,7 +1,10 @@
+import { USER_TYPE } from 'src/app/models/user/userType';
+
 export interface UserProfile {
-  userName: string;
-  emailId: string;
+  name: string;
+  email: string;
   mobileNo: string;
   designation: string;
   organisation: string;
+  role: USER_TYPE.USER;
 }

@@ -172,13 +172,12 @@
               ></span>
               <select
                 name="State"
-                id="state_name"
-                formControlName="state_name"
+                id="state"
+                formControlName="state"
                 class="form-control"
                 placeholder="State"
                 [ngClass]="{
-                  'is-invalid':
-                    formSubmitted && profile?.controls?.state_name.errors
+                  'is-invalid': formSubmitted && profile?.controls?.state.errors
                 }"
               >
                 <option value="" selected disabled>

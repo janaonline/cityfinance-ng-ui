@@ -4,11 +4,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../../../app/shared/shared.module';
+import { CommonProfileComponent } from './common-profile/common-profile.component';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import { UlbProfileComponent } from './ulb-profile/ulb-profile.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { CommonProfileComponent } from './common-profile/common-profile.component';
 
 @NgModule({
   imports: [
@@ -19,6 +19,11 @@ import { CommonProfileComponent } from './common-profile/common-profile.componen
     ReactiveFormsModule,
     SharedModule
   ],
-  declarations: [UserProfileComponent, ProfileComponent, UlbProfileComponent, CommonProfileComponent]
+  declarations: [
+    UserProfileComponent,
+    ProfileComponent,
+    UlbProfileComponent,
+    CommonProfileComponent
+  ]
 })
 export class ProfileModule {}

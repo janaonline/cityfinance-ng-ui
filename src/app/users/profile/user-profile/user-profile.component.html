@@ -1,12 +1,34 @@
 <div class="profile_wrapper">
   <!-- <button class="back_button" (click)="window.history.back()">Back</button> -->
 
-  <h3>User Profile</h3>
-
-  <form [formGroup]="profileForm" *ngIf="profileForm">
+  <form
+    [formGroup]="profileForm"
+    *ngIf="profileForm"
+    (ngSubmit)="onFormSubmit(profileForm)"
+  >
     <div class="input-group">
       <label for="username"
         >User Name
+        <span
+          class="asterik"
+          *ngIf="(profileForm.controls?.name.validator({}))['required']"
+          >*</span
+        >
+      </label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': formErrors && profileForm.controls.name.errors
+        }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="email"
+        >Email ID
         <span
           class="asterik"
           *ngIf="profileForm.controls.email.validator({})['required']"
@@ -14,29 +36,13 @@
         >
       </label>
       <input
-        id="username"
-        type="text"
-        formControlName="username"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && lf.username.errors }"
-      />
-    </div>
-
-    <div class="input-group">
-      <label for="emailId"
-        >Email ID
-        <span
-          class="asterik"
-          *ngIf="profileForm.controls.emailId.validator({})['required']"
-          >*</span
-        >
-      </label>
-      <input
-        id="emailId"
+        id="email"
         type="email"
-        formControlName="emailId"
+        formControlName="email"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && lf.emailId.errors }"
+        [ngClass]="{
+          'is-invalid': formErrors && profileForm.controls.email.errors
+        }"
       />
     </div>
 
@@ -45,16 +51,18 @@
         >Mobile No
         <span
           class="asterik"
-          *ngIf="profileForm.controls.mobileNo.validator({})['required']"
+          *ngIf="profileForm.controls.mobile.validator({})['required']"
           >*</span
         >
       </label>
       <input
         id="mobile"
         type="text"
-        formControlName="mobileNo"
+        formControlName="mobile"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && lf.mobileNo.errors }"
+        [ngClass]="{
+          'is-invalid': formErrors && profileForm.controls.mobile.errors
+        }"
       />
     </div>
 
@@ -72,7 +80,9 @@
         type="text"
         formControlName="designation"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && lf.designation.errors }"
+        [ngClass]="{
+          'is-invalid': formErrors && profileForm.controls.designation.errors
+        }"
       />
     </div>
 
@@ -90,9 +100,27 @@
         type="text"
         formControlName="organisation"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && lf.organisation.errors }"
+        [ngClass]="{
+          'is-invalid': formErrors && profileForm.controls.organisation.errors
+        }"
       />
     </div>
+
+    <p *ngIf="formErrors">
+      <span
+        *ngFor="let error of formErrors; let i = index"
+        style="display: block; color: red"
+      >
+        {{ i + 1 }}. {{ error }}
+      </span>
+    </p>
+
+    <p *ngIf="response.successMessage" class="success-message">
+      {{ response.successMessage }}
+    </p>
+    <p *ngIf="response.errorMessage" class="error-message">
+      {{ response.errorMessage }}
+    </p>
 
     <div class="input-group">
       <button type="submit" class="btn btn-primary">Save Profile</button>

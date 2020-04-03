@@ -1,6 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { FormUtil } from '../../../util/formUtil';
+import { UserProfile } from '../model/user-profile';
 import { ProfileService } from '../service/profile.service';
 
 @Component({
@@ -10,25 +13,62 @@ import { ProfileService } from '../service/profile.service';
 })
 export class UserProfileComponent implements OnInit {
   profileForm: FormGroup;
+  profileData: UserProfile;
 
   window = window;
+  formUtil = new FormUtil();
+  formErrors: string[];
+  response = {
+    successMessage: null,
+    errorMessage: null
+  };
 
   constructor(
     private _profileService: ProfileService,
     private _fb: FormBuilder
   ) {
     this.initializeForm();
+    this.fetchUserProfile();
   }
 
   ngOnInit() {}
 
-  private initializeForm() {
-    this.profileForm = this._fb.group({
-      email: ["", [Validators.required]],
-      emailId: ["", [Validators.required]],
-      mobileNo: ["", [Validators.required]],
-      designation: ["", [Validators.required]],
-      organisation: ["", [Validators.required]]
+  private onFormSubmit(form: FormGroup) {
+    this.resetResponseMessages();
+    this.formErrors = this.formUtil.validadteUserForm(form, {
+      validationType: "EDIT"
     });
+    console.log(this.formErrors);
+    if (this.formErrors) {
+      return;
+    }
+
+    this._profileService.updateProfileData(form.value).subscribe(
+      res => {
+        this.response.successMessage = "Profile Updated successfully";
+      },
+      error => this.onGettingResponseError
+    );
+  }
+
+  private resetResponseMessages() {
+    this.response.successMessage = null;
+    this.response.errorMessage = null;
+  }
+
+  private onGettingResponseError(error: HttpErrorResponse) {
+    this.response.errorMessage = error.error.msg || "Profile Update Failed.";
+  }
+
+  private fetchUserProfile() {
+    this._profileService.getUserProfile().subscribe(res => {
+      console.log(res);
+      this.profileData = res["data"];
+      this.profileForm.patchValue({ ...this.profileData });
+    });
+  }
+
+  private initializeForm() {
+    this.profileForm = this.formUtil.getUserForm("EDIT");
   }
 }
