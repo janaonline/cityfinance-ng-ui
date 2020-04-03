@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
   public creditRatingReportUrl =
     environment.api.url + "assets/credit_rating.xlsx";
 
+  public loginError: string;
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -39,19 +41,22 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.loginError = null;
     this.submitted = true;
     if (this.loginForm.valid) {
       this.authService.signin(this.loginForm.value).subscribe(
         res => {
           if (res && res["token"]) {
             localStorage.setItem("id_token", JSON.stringify(res["token"]));
-            this.router.navigate(["users"]);
+            localStorage.setItem("userData", JSON.stringify(res["user"]));
+            this.router.navigate(["home"]);
           } else {
             localStorage.removeItem("id_token");
           }
         },
         error => {
-          console.log(error);
+          this.loginError = error.error["msg"] || "Server Error";
+          console.error(error);
         }
       );
     } else {
