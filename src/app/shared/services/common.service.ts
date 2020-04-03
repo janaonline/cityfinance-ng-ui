@@ -36,6 +36,11 @@ export class CommonService {
     });
   }
 
+  public verifyULBCodeAndName(body: {}) {
+    //
+    // return of(false);
+  }
+
   getAllUlbs() {
     return this.http.get<IULBResponse>(environment.api.url + "ulbs");
   }
