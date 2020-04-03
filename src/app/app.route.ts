@@ -9,7 +9,7 @@ export const appRouter: Routes = [
   { path: "home", component: HomeComponent },
 
   {
-    path: "users",
+    path: "user",
     loadChildren: "./users/users.module#UsersModule"
   },
   {

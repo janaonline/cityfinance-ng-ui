@@ -38,7 +38,6 @@ export class UserProfileComponent implements OnInit {
     this.formErrors = this.formUtil.validadteUserForm(form, {
       validationType: "EDIT"
     });
-    console.log(this.formErrors);
     if (this.formErrors) {
       return;
     }
