@@ -4,7 +4,7 @@
 >
   <div class="navbar-header" style="flex:1">
     <span [routerLink]="['/']" class="navbar-brand"
-    ><img src="/assets/images/cityfinance-logo.png"
+      ><img src="/assets/images/cityfinance-logo.png"
     /></span>
   </div>
   <!-- <div class="nav navbar-nav navbar-right px-1 " style="color: white">
@@ -55,8 +55,8 @@
     <span
       style="display: inline-block;
     margin-bottom: 3px;"
-    >An initiative of Ministry of Housing and Urban Affairs,</span
-    ><br/>
+      >An initiative of Ministry of Housing and Urban Affairs,</span
+    ><br />
     Government of India
   </div>
 
@@ -102,7 +102,7 @@
 
     <li routerLinkActive="active">
       <a [routerLink]="['/credit-rating/laws']"
-      ><b>Municipal Finance Laws</b></a
+        ><b>Municipal Finance Laws</b></a
       >
     </li>
     <li routerLinkActive="active">
@@ -110,7 +110,7 @@
     </li>
     <li routerLinkActive="active">
       <a [routerLink]="['/credit-rating/municipal-bond']"
-      ><b> Municipal Bonds</b></a
+        ><b> Municipal Bonds</b></a
       >
     </li>
     <li routerLinkActive="active" *ngIf="!isLoggedIn">
@@ -123,14 +123,16 @@
         role="button"
         aria-haspopup="true"
         aria-expanded="false"
-      ><b>Settings</b> &nbsp;<span class="caret"></span
+        ><b>Settings</b> &nbsp;<span class="caret"></span
       ></a>
       <ul class="dropdown-menu">
         <li>
-          <a [routerLink]="['user']"><b>Profile</b></a>
+          <a [routerLink]="['user', 'profile']"><b>Profile</b></a>
         </li>
         <li>
-          <a [routerLink]="['users','data-upload']" class="pointer"><b>Data upload</b></a>
+          <a [routerLink]="['user', 'data-upload']" class="pointer"
+            ><b>Data upload</b></a
+          >
         </li>
         <li>
           <a class="pointer" (click)="logout()"><b>Logout</b></a>

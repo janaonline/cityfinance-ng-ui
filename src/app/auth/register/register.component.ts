@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
 import { PasswordValidator } from 'src/app/util/passwordValidator';
@@ -7,6 +7,7 @@ import { PasswordValidator } from 'src/app/util/passwordValidator';
 import { USER_TYPE } from '../../models/user/userType';
 import { IStateULBCovered } from '../../shared/models/stateUlbConvered';
 import { CommonService } from '../../shared/services/common.service';
+import { FormUtil } from '../../util/formUtil';
 import { AuthService } from './../auth.service';
 
 @Component({
@@ -144,34 +145,11 @@ export class RegisterComponent implements OnInit {
   }
 
   private initializeForm() {
+    const formUtility = new FormUtil();
     if (this.registrationType === "user") {
-      this.registrationForm = this.fb.group({
-        name: ["", [Validators.required, Validators.pattern(/[a-zA-z]+/g)]],
-        mobile: ["", [Validators.required, Validators.minLength(10)]],
-        email: ["", [Validators.required]],
-        password: ["", [Validators.required]],
-        confirmPassword: ["", Validators.required],
-        designation: [
-          "",
-          [Validators.required, Validators.pattern(/[a-zA-z]+/g)]
-        ],
-        organisation: [
-          "",
-          [Validators.required, Validators.pattern(/[a-zA-z]+/g)]
-        ]
-      });
+      this.registrationForm = formUtility.getUserForm();
     } else if (this.registrationType === "ulb") {
-      this.registrationForm = this.fb.group({
-        state_name: ["", [Validators.required]],
-        ulb_name: ["", [Validators.required]],
-        ulb_code: ["", [Validators.required]],
-        commisioner_name: ["", [Validators.required]],
-        commisioner_contact_no: ["", [Validators.required]],
-        commisioner_email_id: ["", [Validators.required]],
-        accountant_name: ["", [Validators.required]],
-        accountant_contact_no: ["", [Validators.required]],
-        accountant_email_id: ["", [Validators.required]]
-      });
+      this.registrationForm = formUtility.getULBForm();
       this.registrationForm.controls.ulb_code.valueChanges
         .pipe(debounceTime(2000))
         .subscribe(value => {
