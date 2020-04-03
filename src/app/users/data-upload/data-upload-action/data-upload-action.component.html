@@ -43,8 +43,8 @@
             <div class="col-sm-12">
               <div class=" d-flex justify-content-between">
                 <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
+                  <button (click)="fileButtonClickHandler('balanceSheet','pdfUrl')" class="col">PDF file</button>
+                  <button (click)="fileButtonClickHandler('balanceSheet','excelUrl')" class="col">Excel File</button>
                 </div>
                 <div class="d-flex flex-1 justify-content-evenly">
                   <div>
@@ -73,8 +73,10 @@
             <div class="col-sm-12">
               <div class=" d-flex justify-content-between">
                 <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
+                  <button (click)="fileButtonClickHandler('schedulesToBalanceSheet','pdfUrl')" class="col">PDF file
+                  </button>
+                  <button (click)="fileButtonClickHandler('schedulesToBalanceSheet','excelUrl')" href="">Excel File
+                  </button>
                 </div>
                 <div class="d-flex flex-1 justify-content-evenly">
                   <div>

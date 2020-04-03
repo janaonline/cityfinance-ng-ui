@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 
 @Injectable({
@@ -12,8 +12,9 @@ export class FinancialDataService {
   constructor(private httpClient: HttpClient) {
   }
 
-  fetchFinancialData() {
-    return this.httpClient.get(`${environment.api.url}ulb-financial-data?_id=5e85ac5c96b49706324e3d08`);
+  fetchFinancialData(params = {}) {
+    let queryParams = new HttpParams(params);
+    return this.httpClient.get(`${environment.api.url}ulb-financial-data`, {params: queryParams});
   }
 
   uploadFinancialData(data) {

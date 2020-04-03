@@ -34,4 +34,13 @@ export class DataUploadActionComponent implements OnInit {
     console.log(this.financeDataService.selectedFinancialRequest);
   }
 
+  fileButtonClickHandler(...args) {
+    let urlObject = this.financeDataService.selectedFinancialRequest;
+    args.map(key => urlObject = urlObject[key]);
+    if (urlObject) {
+      if (typeof urlObject === 'string') {
+        window.open(urlObject);
+      }
+    }
+  }
 }
