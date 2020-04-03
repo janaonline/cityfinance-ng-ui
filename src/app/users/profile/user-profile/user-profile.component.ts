@@ -24,7 +24,7 @@ export class UserProfileComponent implements OnInit {
 
   private initializeForm() {
     this.profileForm = this._fb.group({
-      username: ["", [Validators.required]],
+      email: ["", [Validators.required]],
       emailId: ["", [Validators.required]],
       mobileNo: ["", [Validators.required]],
       designation: ["", [Validators.required]],

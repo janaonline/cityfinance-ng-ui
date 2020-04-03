@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
     this.profileForm = this.formBuilder.group({
       _id: ['', Validators.required],
       name: ['', Validators.required],
-      username: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       mobile: ['', Validators.required],
     });
 
@@ -27,8 +27,8 @@ export class ProfileComponent implements OnInit {
     })
   }
 
-  get pf() { 
-    return this.profileForm.controls; 
+  get pf() {
+    return this.profileForm.controls;
   }
 
   onSubmit() {
@@ -43,7 +43,7 @@ export class ProfileComponent implements OnInit {
       }else{
         alert('Error!');
       }
-    });      
+    });
   }
 
 }

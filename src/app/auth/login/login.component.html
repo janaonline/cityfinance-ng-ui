@@ -40,13 +40,13 @@
                   type="text"
                   formControlName="email"
                   class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && lf.username.errors }"
+                  [ngClass]="{ 'is-invalid': submitted && lf.email.errors }"
                 />
                 <div
-                  *ngIf="submitted && lf.username.errors"
+                  *ngIf="submitted && lf.email.errors"
                   class="invalid-feedback"
                 >
-                  <div *ngIf="lf.username.errors['required']">
+                  <div *ngIf="lf.email.errors['required']">
                     Email is required
                   </div>
                 </div>

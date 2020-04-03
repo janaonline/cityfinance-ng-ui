@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   public formError: boolean;
   public creditRatingReportUrl =
     environment.api.url + "assets/credit_rating.xlsx";
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
