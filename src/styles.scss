@@ -11,6 +11,16 @@ input.is-invalid {
   border-color: red !important;
 }
 
+.error-message {
+  display: block;
+  color: red;
+}
+
+.success-message {
+  display: block;
+  color: rgb(60, 164, 196);
+}
+
 .cdk-overlay-connected-position-bounding-box,
 .cdk-overlay-pane,
 .cdk-global-overlay-wrapper,
