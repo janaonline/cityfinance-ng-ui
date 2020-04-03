@@ -27,16 +27,16 @@
       </angular2-multiselect>
     </form>
     <p class="text-center">{{ reportReq.type }} {{ reportReq.reportGroup }}</p>
-    <span
+    <!-- <span
       *ngIf="currencyTypeInUser"
       style="color: white; position: absolute; bottom: 1%; left: 1%; font-style: italic;"
       id="currencyWarning"
-    >
-      <!-- Do not change the id of above span. we fetch this text dynamically from html using this id.-->
-      <span style="color: red;">*</span> The following data is in
+    > -->
+    <!-- Do not change the id of above span. we fetch this text dynamically from html using this id.-->
+    <!-- <span style="color: red;">*</span> The following data is in
       {{ (currenyConversionForm?.value?.type)[0].name }} format. There could be
-      some rounding off differences.
-    </span>
+      some rounding off differences. -->
+    <!-- </span> -->
   </div>
 
   <div style="max-width: 98%;">
@@ -97,21 +97,27 @@
           </td>
           <td class="text-right" *ngFor="let yr of years">
             <span *ngIf="report[key]">
-              <span
-                *ngIf="report[key][yr.title]"
-                [ngClass]="{ tooltipWrapper: currencyTypeInUser }"
-              >
-                <span class="tooltipData" *ngIf="currencyTypeInUser">
-                  {{
-                    report[key][yr.title]
-                      | inrCurrency: { currencyTypeInUser: null }
-                  }}
-                </span>
+              <span *ngIf="report[key][yr.title] && !currencyTypeInUser">
                 {{
                   report[key][yr.title]
                     | inrCurrency: { currencyTypeInUser: currencyTypeInUser }
                 }}
               </span>
+
+              <span
+                *ngIf="report[key][yr.title] && currencyTypeInUser"
+                [matTooltip]="
+                  'INR ' +
+                  (report[key][yr.title]
+                    | inrCurrency: { currencyTypeInUser: null })
+                "
+              >
+                {{
+                  report[key][yr.title]
+                    | inrCurrency: { currencyTypeInUser: currencyTypeInUser }
+                }}
+              </span>
+
               <span
                 *ngIf="
                   (!report[key][yr.title] && report[key]['code']) ||

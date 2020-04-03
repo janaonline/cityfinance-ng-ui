@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+interface Link {
+  text: string;
+  link?: string;
+  hoverText?: string;
+}
+
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
@@ -98,6 +104,37 @@ export class HomeComponent implements OnInit {
       containerClass: "col-md-3",
       hasChart: true
     }
+  ];
+
+  importantLinks: Link[] = [
+    {
+      text: "Audited/Unaudited Annual Accounts of ULBs",
+      link: "/dashboard/report/basic"
+    },
+    {
+      text: "Municipal Bonds and Pooled Debt Obligations",
+      link: "/credit-rating/municipal-bond"
+    },
+    {
+      text: "Credit Rating of all ULBs to date",
+      link: "/credit-rating/report"
+    },
+    {
+      text: "Database of finance related provisions"
+    },
+    { text: "Fiscal Ranking of ULBs" },
+    { text: "Service Level Benchmarks vs Actuals" },
+    { text: "List of urban PPPs" },
+    { text: "Annual Accounts of key parastatals" },
+    { text: "List of urban projects, including tenders and schemes" },
+    { text: "E-learning modules with certification for accounting staff" },
+    { text: "Compilation of CAG/DLFA audit reports" },
+    { text: "Budget Briefs for top 500 cities in India" },
+    { text: "Urban budgets of State Governments" },
+    { text: "Index on quality of input data" },
+    { text: "Best practice compilation and discussion forums" },
+    { text: "Model documents/How To kits for RFPs" },
+    { text: "XBRL for input of data directly by ULBs/States" }
   ];
 
   constructor() {}

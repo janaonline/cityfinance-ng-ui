@@ -1,0 +1,310 @@
+::ng-deep .tooltip-custom-1 {
+  transform: translateY(-4000px);
+}
+
+::ng-deep .tooltip-custom {
+  background: white;
+  border: 1px solid black;
+  color: black;
+  position: absolute;
+}
+
+.stateMap {
+  border-radius: inherit;
+  position: absolute;
+  left: 5px;
+  bottom: 0px;
+  background: transparent;
+  z-index: 8;
+  display: inline-block;
+  width: 98%;
+  height: 100%;
+  max-height: 100%;
+  transition: all 0.8s;
+  // border-left: inherit;
+}
+
+.stateMapContainer {
+  padding: 0px;
+  position: relative;
+  min-height: 66vh;
+  // border: 1px solid rgb(212, 212, 212);
+  border-radius: 5px;
+  padding-top: 1%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: end;
+  background: white;
+}
+
+div.miniMap {
+  position: absolute !important;
+  background: transparent;
+  transform-origin: 0 100%;
+  transform: scale(0.2) !important;
+  bottom: 1% !important;
+  left: 1% !important;
+}
+
+::ng-deep.miniMapOverlay {
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  z-index: 9999;
+}
+#districtMapContainer {
+  padding: 0px;
+  position: absolute;
+  border-radius: inherit;
+  border-left: inherit;
+  transform: translateY(9%);
+}
+
+::ng-deep div.preLoaderWrapper[_ngcontent-c7] {
+  padding: 0% 1%;
+}
+
+.skeletonWrapper {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.ulbSelectDropdown {
+  z-index: 9;
+  position: absolute;
+  right: -3.5%;
+  top: 1.3%;
+  width: 50%;
+  background: transparent;
+  max-width: 259.199px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border-radius: 0px !important;
+  border: 0px !important;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+  border-radius: 0px !important;
+  border: 0px !important;
+}
+
+.regionalDetails {
+  min-width: 197px;
+  width: 92%;
+  background: white;
+  border: 0.1px solid rgb(134, 134, 134);
+  border-radius: 5px;
+  position: relative;
+  padding: 1% 1%;
+  box-shadow: 1px 4px 5px 3px #e4e0e0;
+  transition: 1s all;
+}
+
+.regionalDetails2 {
+  width: fit-content;
+  display: flex;
+  margin-top: -5%;
+  transform: scale(0.8);
+}
+
+.ulbDetails {
+  transform: scale(0.8);
+  margin-top: -10%;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+#details > p {
+  background: white;
+}
+
+mat-form-field {
+  transform: scale(0.81);
+  margin-top: 0.2rem;
+}
+
+::ng-deep input.mat-input-element {
+  font-size: 1.7rem;
+}
+
+::ng-deep div#cdk-overlay-0.cdk-overlay-pane {
+  min-width: 200.1px !important;
+}
+
+::ng-deep .leaflet-bottom {
+  transform: scale(0.55);
+  width: 155px;
+}
+
+.overlay {
+  display: block;
+  position: absolute;
+  width: 200px;
+  height: 600px;
+  bottom: 50px;
+  right: 10px;
+  background-color: black;
+  color: white;
+  padding: 10px;
+  z-index: 9;
+}
+
+::ng-deep .leaflet-control-attribution {
+  display: none;
+}
+
+::ng-deep .leaflet-control {
+  width: fit-content;
+  transform: scale(1.6) translateY(-50%);
+  position: absolute;
+  bottom: 100px;
+  background: transparent;
+  // transform: translateY(-100%);
+}
+
+/*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
+
+.progress {
+  width: 100px;
+  height: 100px;
+  background: none;
+  position: relative;
+  display: flex;
+  font-size: 0.6em;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.5);
+}
+
+.progress::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 6px solid #eee;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.progress > span {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+.progress .progress-left {
+  left: 0;
+}
+
+.progress .progress-bar {
+  width: 100%;
+  height: 100%;
+  background: none;
+  border-width: 6px;
+  border-style: solid;
+  position: absolute;
+  top: 0;
+}
+
+.progress .progress-left .progress-bar {
+  left: 100%;
+  border-top-right-radius: 80px;
+  border-bottom-right-radius: 80px;
+  border-left: 0;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+}
+
+.progress .progress-right {
+  right: 0;
+}
+
+.progress .progress-right .progress-bar {
+  left: -100%;
+  border-top-left-radius: 80px;
+  border-bottom-left-radius: 80px;
+  border-right: 0;
+  -webkit-transform-origin: center right;
+  transform-origin: center right;
+}
+
+.progress .progress-value {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #ffc500;
+}
+
+::ng-deep .mat-progress-spinner.full circle,
+.mat-spinner circle {
+  stroke: #eee;
+}
+
+.colorText {
+  color: #8bd2f0;
+}
+
+::ng-deep .mat-option-text {
+  font-size: 1.2rem;
+}
+
+::ng-deep .mat-optgroup-label {
+  font-size: 1.5rem;
+}
+
+::ng-deep .leaflet-zoom-animated svg g {
+  transform: translateX(-5%) !important;
+}
+
+::ng-deep mat-option.mat-option {
+  height: 40px;
+}
+
+::ng-deep label.mat-optgroup-label {
+  height: 38px;
+}
+
+// ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+//   padding: 14px 0 !important;
+// }
+
+::ng-deep {
+  .mat-form-field-flex {
+    // border: 1px solid #999;
+    border: 1.2px solid #3a3939;
+    border-radius: 0px;
+  }
+
+  .cuppa-dropdown {
+    position: relative;
+    margin-top: -2px;
+  }
+}
+
+.customDropdown {
+  min-height: 70.84px;
+}

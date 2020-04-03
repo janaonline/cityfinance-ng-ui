@@ -1,14 +1,14 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
-import { ICurrencryConversion } from './basic/conversionTypes';
+import {ICurrencryConversion} from './basic/conversionTypes';
 
 @Pipe({
-  name: "inrCurrency"
+  name: 'inrCurrency'
 })
 export class InrCurrencyPipe implements PipeTransform {
   transform(
     value: number,
-    options?: { currencyTypeInUser: ICurrencryConversion["type"] }
+    options?: { currencyTypeInUser: ICurrencryConversion['type'] }
   ): any {
     const valueToOperatte = value;
     if (!valueToOperatte) {
@@ -30,12 +30,9 @@ export class InrCurrencyPipe implements PipeTransform {
         options.currencyTypeInUser
       );
     }
-    let numberInString = absoluteValue + "";
-    if (Math.round(absoluteValue / 1000)) {
-      numberInString = this.formatNumber(absoluteValue);
-    }
-    // console.log(absoluteValue, numberInString);
+    let numberInString = absoluteValue + '';
 
+    numberInString = this.formatNumber(absoluteValue);
     if (valueToOperatte < 0) {
       return `(${numberInString})`;
     }
@@ -43,7 +40,7 @@ export class InrCurrencyPipe implements PipeTransform {
   }
 
   private formatNumber(absoluteValue: number) {
-    const numbersWithin3Digits = absoluteValue + "";
+    const numbersWithin3Digits = absoluteValue + '';
     /*
       * IMPORTANT Do not change this to Math.round. That will mess with the value.
         Original VAlue = 123656.
@@ -52,19 +49,24 @@ export class InrCurrencyPipe implements PipeTransform {
         newNumber(with parseInt) = parseInt(123656/1000) = 123;  this is correct.
 
      */
-    const newNumber = parseInt(absoluteValue / 1000 + "", 10);
-    const numberAfter3Digit = (newNumber + "").replace(
+    const newNumber = parseInt(absoluteValue / 1000 + '', 10);
+    const numberAfter3Digit = (newNumber + '').replace(
       /(\..*)$|(\d)(?=(\d{2})+(?!\d))/g,
-      (digit, fract) => fract || digit + ","
+      (digit, fract) => fract || digit + ','
     );
 
-    const indexOfDecimal = numbersWithin3Digits.indexOf(".");
+    const indexOfDecimal = numbersWithin3Digits.indexOf('.');
 
+    // console.log(
+    //   `numbersWithin3Digits`,
+    //   numbersWithin3Digits,
+    //   numbersWithin3Digits.substring(indexOfDecimal - 3, indexOfDecimal + 3)
+    // );
     if (indexOfDecimal === -1) {
       return newNumber
         ? numberAfter3Digit +
-            "," +
-            numbersWithin3Digits.substring(numbersWithin3Digits.length - 3)
+        ',' +
+        numbersWithin3Digits.substring(numbersWithin3Digits.length - 3)
         : numbersWithin3Digits.substring(numbersWithin3Digits.length - 3);
     }
 
@@ -76,15 +78,15 @@ export class InrCurrencyPipe implements PipeTransform {
      */
     return newNumber
       ? numberAfter3Digit +
-          "," +
-          numbersWithin3Digits.substring(indexOfDecimal - 3, indexOfDecimal + 3)
+      ',' +
+      numbersWithin3Digits.substring(indexOfDecimal - 3, indexOfDecimal + 3)
       : numbersWithin3Digits.substring(indexOfDecimal - 3, indexOfDecimal + 3);
   }
 
   private getConvertedAmount(
     numberToConvert: number,
-    option: ICurrencryConversion["type"]
-  ) {
-    return numberToConvert / option;
+    option: ICurrencryConversion['type']
+  ): number {
+    return +(numberToConvert / option).toFixed(2);
   }
 }

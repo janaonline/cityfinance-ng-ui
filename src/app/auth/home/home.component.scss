@@ -1,5 +1,5 @@
 .home-banner {
-  background-image: url("/assets/images/city-banner.jpg");
+  background-image: url("/assets/images/city-banner.webp");
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 400px;
@@ -15,7 +15,7 @@
   background-size: cover;
   width: 100%;
   position: relative;
-  margin-top: 69px;
+  // margin-top: 69px;
   padding: 15px;
 
   .caption {
@@ -24,7 +24,7 @@
     text-align: center;
     z-index: 1;
 
-    .logo-big{
+    .logo-big {
       margin-top: -30px;
     }
 
@@ -56,59 +56,78 @@
 
 .about {
   padding: 40px 0;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   color: #000;
 
-  .about-intro{
-    font-size: 18px;
+  .about-intro {
+    letter-spacing: 1px;
     text-align: center;
     margin-bottom: 30px;
+    text-align: justify;
   }
 
-  h3 {
+  h3:nth-child(1) {
     text-align: center;
     position: relative;
     margin: 0 0 30px;
 
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -7px;
-      width: 50px;
-      height: 3px;
-      background: #000;
-      left: 50%;
-      margin-left: -25px;
-    }
+    // &::after {
+    //   content: "";
+    //   position: absolute;
+    //   bottom: -7px;
+    //   width: 50px;
+    //   height: 3px;
+    //   background: #000;
+    //   left: 50%;
+    //   margin-left: -25px;
+    // }
   }
 
-  .bg-danger{
-    background: #715c94;  
+  .bg-danger {
+    background: #715c94;
     background: -webkit-linear-gradient(to right, #a66def, #715c94);
     background: linear-gradient(to right, #a66def, #715c94);
   }
 
-  .bg-warning{
-    background: #f2a400;  
+  .bg-warning {
+    background: #f2a400;
     background: -webkit-linear-gradient(to right, #ffc500, #f2a400);
     background: linear-gradient(to right, #ffc500, #f2a400);
   }
 
-  .bg-success{
-    background: #357307;  
+  .bg-success {
+    background: #357307;
     background: -webkit-linear-gradient(to right, #87b555, #357307);
     background: linear-gradient(to right, #87b555, #357307);
   }
 
-  .bg-primary{
-    background: #0580b5;  
+  .bg-primary {
+    background: #0580b5;
     background: -webkit-linear-gradient(to right, #85baea, #0580b5);
     background: linear-gradient(to right, #85baea, #0580b5);
   }
 
+  .benifitHeading {
+    text-align: center;
+    position: relative;
+    margin: 2% auto;
+    width: fit-content;
+
+    // &:after {
+    //   content: "";
+    //   position: absolute;
+    //   bottom: -3px;
+    //   left: 50%;
+    //   transform: translateX(-50%);
+    //   width: 80%;
+    //   height: 3px;
+    //   background: #000;
+    //   margin: auto;
+    // }
+  }
   // .statistics-block{
   //   height: 100px;
-  //   padding: 10px; 
+  //   padding: 10px;
   //   text-align: left;
   //   display: block;
   //   overflow: hidden;
@@ -125,7 +144,7 @@
   //   }
 
   //   .content{
-  //     font-size: 30px; 
+  //     font-size: 30px;
   //     text-align: right;
   //     h2{
   //       font-size: 25px;
@@ -143,10 +162,9 @@
   //       transition: ease-in-out 0.2s;
   //     }
   //   }
-    
+
   //   &:hover{
   //     box-shadow: 4px 6px 10px 0px #aaa;
-
 
   //     .content{
   //       h2{
@@ -164,34 +182,37 @@
 
   // }
 
-  .about-block:hover{
-      cursor: pointer;
-      background: #f2a400;  
-      background: -webkit-linear-gradient(to right, #ffc500, #f2a400);
-      background: linear-gradient(to right, #ffc500, #f2a400);
-        
-      .fa{
-        color: black;
-      }
-      h4{
-        color: black;
-      }
-      .description{
-          color: #333;
+  .about-block:hover {
+    cursor: pointer;
+    background: #f2a400;
+    // background: -webkit-linear-gradient(to right, #ffc500, #f2a400);
+    // background: linear-gradient(to right, #ffc500, #f2a400);
 
-          .btn{
-            background-color: black !important;
-            color: white;
-          }
+    .fa {
+      color: black;
+    }
+
+    h4 {
+      color: black;
+    }
+
+    .description {
+      color: #333;
+
+      .btn {
+        background-color: black !important;
+        color: white;
       }
+    }
   }
+
   .about-block {
     display: block;
     width: 100%;
     position: relative;
     // background: #edf1f4;
     background: #0580b5;
-    background: linear-gradient(to right,#72b5f2,#0580b5);
+    // background: linear-gradient(to right, #72b5f2, #0580b5);
     overflow: hidden;
     z-index: 9;
     bottom: 0;
@@ -203,23 +224,23 @@
     transition: 0.3s;
     text-align: center;
 
-    .fa{
-        padding-top: 30px;
-        font-size: 40px;
-        color: rgb(230,230,100);
+    .fa {
+      padding-top: 30px;
+      font-size: 40px;
+      color: rgb(230, 230, 100);
     }
 
     h4 {
       padding: 10px;
       margin: 0;
-      color: #EEE;
+      color: #eee;
     }
 
     .description {
-        margin: 0 0 10px;
-        color: rgba(250,250,250, 0.9);
-        padding: 5px 40px;
-        letter-spacing: 1px;
+      margin: 0 0 10px;
+      color: rgba(250, 250, 250, 0.9);
+      padding: 5px 15px;
+      letter-spacing: 1px;
 
       p {
         margin: 0 0 10px;
@@ -228,20 +249,19 @@
       .btn {
         margin: 10px;
         letter-spacing: 2px;
-        background-color: rgb(230,230,100) !important;
+        background-color: rgb(230, 230, 100) !important;
         color: black;
       }
     }
-
-
   }
 }
 
 .partners {
-  .supported-by{
+  .supported-by {
     text-align: right;
     margin-right: -50px;
   }
+
   h3 {
     text-align: center;
     position: relative;
@@ -258,5 +278,51 @@
       margin-left: -25px;
     }
   }
+}
 
+.important-links-container {
+  margin: 50px auto;
+  // .important-links {
+  //   position: relative;
+  //   width: 380%;
+  //   overflow: hidden;
+  //   display: flex;
+  //   justify-content: space-between;
+  //   flex-wrap: nowrap;
+  //   animation: marq 60s linear infinite;
+  //   margin-top: 0.5%;
+
+  //   & div {
+  //     display: inline-block;
+  //     max-width: 500px;
+  //   }
+  // }
+  .material-icons{
+    vertical-align: middle;
+  }
+  @keyframes marq {
+    from {
+      left: 0;
+    }
+    to {
+      left: -350%;
+    }
+  }
+}
+
+.important-links-container > h3 {
+  position: relative;
+  text-align: center;
+
+  // &:after {
+  //   content: "";
+  //   position: absolute;
+  //   bottom: -3px;
+  //   left: 50%;
+  //   transform: translateX(-50%);
+  //   width: 80%;
+  //   height: 3px;
+  //   background: #000;
+  //   margin: auto;
+  // }
 }

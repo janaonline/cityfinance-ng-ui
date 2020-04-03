@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as XLSX from 'xlsx';
 
-import { RankingService } from '../../shared/services/ranking.service.js';
+import { RankingService } from '../../shared/services/ranking.service';
 
 declare var require: any;
 const colorData = require("../../../assets/files/colors.json");

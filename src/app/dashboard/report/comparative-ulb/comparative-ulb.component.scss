@@ -127,3 +127,8 @@ tr > td:nth-child(2) {
 td {
   overflow: hidden;
 }
+
+::ng-deep .clear-all {
+  visibility: hidden;
+  pointer-events: none;
+}

@@ -55,3 +55,13 @@
 td {
   overflow: hidden;
 }
+
+::ng-deep .clear-all {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+::ng-deep .noCrossSymbol .c-angle-down svg,
+::ng-deep .noCrossSymbol .c-angle-up svg {
+  fill: white !important;
+}

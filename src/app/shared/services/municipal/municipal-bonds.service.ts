@@ -18,7 +18,7 @@ export class MunicipalBondsService {
 
   getBondIssuer() {
     return this._http.get<IBondIssuer>(
-      `${environment.api.url}api/admin/v1/BondIssuer`
+      `${environment.api.url}/BondIssuer`
     );
   }
 
@@ -28,7 +28,7 @@ export class MunicipalBondsService {
     }
     return this._http
       .get<IBondIssureItemResponse>(
-        `${environment.api.url}api/admin/v1/BondIssuerItem`
+        `${environment.api.url}/BondIssuerItem`
       )
       .pipe(
         map(response => {
@@ -69,14 +69,15 @@ export class MunicipalBondsService {
       (a, b) =>
         new Date(a.modifiedAt).getTime() - new Date(b.modifiedAt).getTime()
     );
-    return sorted.slice(0, quantity - 1);
+    return sorted.slice(0, quantity);
   }
 
   private filterBondIssueItem(searchOption?: {
     ulbs: string[];
     years: string[];
   }) {
-    const list: IBondIssureItemResponse["data"] = [];
+    let list: IBondIssureItemResponse["data"] = [];
+
     if (searchOption.ulbs && searchOption.ulbs.length) {
       searchOption.ulbs.forEach(ulbName => {
         if (searchOption.years && searchOption.years.length) {
@@ -89,11 +90,11 @@ export class MunicipalBondsService {
             }
           });
         } else {
-          const ulbFound = this.AllBondIssuerItems.data.find(
+          const ulbFound = this.AllBondIssuerItems.data.filter(
             ulb => ulb.ulb === ulbName
           );
-          if (ulbFound) {
-            list.push(ulbFound);
+          if (ulbFound.length) {
+            list = list.concat(ulbFound);
           }
         }
       });
@@ -108,8 +109,15 @@ export class MunicipalBondsService {
   }
 
   getULBS() {
-    return this._http.get<IULBResponse>(
-      `${environment.api.url}api/admin/v1/Bond/Ulbs`
-    );
+    return this._http
+      .get<IULBResponse>(`${environment.api.url}/Bond/Ulbs`)
+      .pipe(
+        map(response => {
+          response.data = response.data.sort((a, b) =>
+            a.name > b.name ? 1 : -1
+          );
+          return response;
+        })
+      );
   }
 }

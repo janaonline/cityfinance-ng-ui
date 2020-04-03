@@ -20,20 +20,18 @@
         ></a>
         <ul class="dropdown-menu">
           <li routerLinkActive="active">
-            <a [routerLink]="['/dashboard', 'report']"
-              >Annual Financial Statements</a
-            >
+            <a (click)="goToReportPage()">Annual Financial Statements</a>
           </li>
           <li>
             <a [routerLink]="['/dashboard', 'financial-information']"
               >Availability of Financial Information</a
             >
           </li>
-          <li routerLinkActive="active" *ngIf="!isProduction">
+      <!--    <li routerLinkActive="active" *ngIf="!isProduction">
             <a [routerLink]="['/dashboard', 'ranking']"
               >Annual Fiscal Ranking</a
             >
-          </li>
+          </li>-->
         </ul>
       </li>
       <li routerLinkActive="active">

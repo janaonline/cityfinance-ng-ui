@@ -1,0 +1,35 @@
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {
+  MatAutocompleteModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
+  MatSnackBarModule,
+} from '@angular/material';
+import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
+
+import {PreLoaderComponent} from './components/pre-loader/pre-loader.component';
+import {ReUseableHeatMapComponent} from './components/re-useable-heat-map/re-useable-heat-map.component';
+import {RupeeConverterPipe} from './pipes/rupee-converter.pipe';
+import { TypeofPipe } from './pipes/typeof.pipe';
+import { RoundoffPipe } from './pipes/roundoff/roundoff.pipe';
+import { AuditStatusTextPipe } from './pipes/audit-status-text.pipe';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    AngularMultiSelectModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule
+  ],
+  declarations: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe, TypeofPipe, RoundoffPipe, AuditStatusTextPipe],
+    exports: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe, TypeofPipe, RoundoffPipe, AuditStatusTextPipe]
+})
+export class SharedModule {
+}

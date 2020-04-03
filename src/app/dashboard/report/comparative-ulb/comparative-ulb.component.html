@@ -23,16 +23,16 @@
       </angular2-multiselect>
     </form>
     <p class="text-center">{{ reportReq.type }} {{ reportReq.reportGroup }}</p>
-    <span
+    <!-- <span
       *ngIf="currencyTypeInUser"
       style="color: white; position: absolute; bottom: 1%; left: 1%; font-style: italic;"
       id="currencyWarning"
-    >
+    > -->
       <!-- Do not change the id of above span. we fetch this text dynamically from html using this id.-->
-      <span style="color: red;">*</span> The following data is in
+      <!-- <span style="color: red;">*</span> The following data is in
       {{ (currenyConversionForm?.value?.type)[0].name }} format. There could be
       some rounding off differences.
-    </span>
+    </span> -->
   </div>
   <div
     class="col-md-12"
@@ -121,6 +121,7 @@
             <span *ngIf="report[key]">
               <span
                 *ngIf="
+                  currencyTypeInUser &&
                   (report[key][yr.title] || report[key][yr.title] === 0) &&
                   report[key].line_item != 'A.Income' &&
                   report[key].line_item != 'B.Expenditure' &&
@@ -138,17 +139,42 @@
                   report[key].line_item !=
                     'IV. Current Liabilities and Provisions'
                 "
-                [ngClass]="{ tooltipWrapper: currencyTypeInUser }"
+                [matTooltip]="
+                  'INR ' +
+                  (report[key][yr.title]
+                    | inrCurrency: { currencyTypeInUser: null })
+                "
               >
-                <span class="tooltipData" *ngIf="currencyTypeInUser">
-                  {{
-                    report[key][yr.title]
-                      | inrCurrency: { currencyTypeInUser: null }
-                  }}
-                </span>
                 {{
                   report[key][yr.title]
                     | inrCurrency: { currencyTypeInUser: currencyTypeInUser }
+                }}
+              </span>
+
+              <span
+                *ngIf="
+                  !currencyTypeInUser &&
+                  (report[key][yr.title] || report[key][yr.title] === 0) &&
+                  report[key].line_item != 'A.Income' &&
+                  report[key].line_item != 'B.Expenditure' &&
+                  report[key].line_item != 'A. Liabilities' &&
+                  report[key].line_item != 'I. Reserves & Surplus' &&
+                  report[key].line_item !=
+                    'II. Grants , Contribution for specific purposes' &&
+                  report[key].line_item != 'III. Loans' &&
+                  report[key].line_item !=
+                    'IV. Current Liabilities and Provisions' &&
+                  report[key].line_item != 'B. Assets' &&
+                  report[key].line_item !=
+                    'III. Current Assets, Loans and Advances' &&
+                  report[key].line_item != 'IV. Other Assets' &&
+                  report[key].line_item !=
+                    'IV. Current Liabilities and Provisions'
+                "
+              >
+                {{
+                  report[key][yr.title]
+                    | inrCurrency: { currencyTypeInUser: null }
                 }}
               </span>
 

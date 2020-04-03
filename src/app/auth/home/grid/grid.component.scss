@@ -43,14 +43,13 @@ table tbody tr > td:nth-child(1) {
 
 .tableWrapper {
   height: 70vh;
-  max-height: 70vh;
+  max-height: 60vh;
   position: relative;
   overflow-y: auto;
   box-shadow: 3px 2px 7px 3px #c1c1c1;
   width: 75%;
   margin: auto;
 }
-
 
 tbody tr th {
   text-align: right;
@@ -128,7 +127,7 @@ app-pre-loader {
   height: 2px;
 }
 
-.table-head{
+.table-head {
   display: inline-flex;
   align-items: baseline;
   cursor: pointer;

@@ -14,16 +14,15 @@
   z-index: 99999 !important;
 }
 
-.modal-dialog,
-.modal-lg {
-  min-width: 94vw !important;
-}
-
 // Scroll Bar UI Starts here
+
+.nav > li > a {
+  padding: 10px 15px;
+}
 
 /* width */
 ::-webkit-scrollbar {
-  width: 0px;
+  // width: 0px;
 }
 
 /* Track */
@@ -44,6 +43,12 @@
 }
 
 // Scroll Bar UI Ends here
+
+// For angular 2 multi select dropdown
+::ng-deep .noCrossSymbol .c-angle-down svg,
+::ng-deep .noCrossSymbol .c-angle-up svg {
+  fill: white !important;
+}
 
 html,
 body {
@@ -123,12 +128,13 @@ img.align-center {
   left: 0;
   right: 0;
   top: 0;
+  min-height: 40px;
 }
 
 .navbar {
   border-radius: 0px;
   background-color: #333 !important;
-  z-index: 10;
+  z-index: 100;
   box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 3px;
 
   a,
@@ -138,7 +144,7 @@ img.align-center {
 
   .navbar-brand {
     height: auto !important;
-    padding: 10px 15px;
+    padding: 7px 15px;
   }
 
   li > a:focus,
@@ -150,8 +156,8 @@ img.align-center {
 }
 
 .navbar-nav > li > a {
-  padding-top: 22px !important;
-  padding-bottom: 22px !important;
+  // padding-top: 22px !important;
+  // padding-bottom: 22px !important;
   font-size: 16px;
   font-weight: 400;
   line-height: 23px;
@@ -256,7 +262,7 @@ img.align-center {
 
 .common-container {
   min-height: 100vh;
-  padding: 100px 0 40px;
+  padding: 30px 0 40px;
 }
 
 .app-wrapper {
@@ -502,7 +508,7 @@ img.align-center {
       img {
         max-width: 100%;
         width: 75vh !important;
-        padding: 5% 10%;
+        padding: 3% 10%;
         margin-left: 80px;
       }
 
@@ -524,6 +530,7 @@ img.align-center {
 }
 
 .modal {
+  z-index: 10002;
   @media (min-width: 1300px) {
     .modal-lg {
       width: 1200px;
@@ -563,6 +570,7 @@ img.align-center {
 .d-flex {
   display: flex !important;
 }
+
 .justify-content-center {
   justify-content: center !important;
 }
@@ -587,68 +595,136 @@ img.align-center {
   margin-top: 5rem !important;
 }
 
-.mx-2{
+.mx-2 {
   margin-left: 2rem;
   margin-right: 2rem;
 }
 
-.text-left{
+.text-left {
   text-align: left !important;
 }
 
-.text-right{
+.text-right {
   text-align: right !important;
 }
 
-.mat-button, .mat-raised-button{
-  background-color:#ffc500;
+.mat-button,
+.mat-raised-button {
+  background-color: #ffc500;
   color: white;
-} 
+}
 
-.mat-form-field-flex{
+.mat-form-field-flex {
   border: 1px solid rgb(71, 69, 69);
   padding: 3px 5px;
   border-radius: 2px;
 }
 
-.mat-form-field-infix{
+.mat-form-field-infix {
   border-top: unset !important;
 }
 
-.label{
+.label {
   margin-top: -2% !important;
 }
 
-.mat-form-field-appearance-legacy .mat-form-field-label{
+.mat-form-field-appearance-legacy .mat-form-field-label {
   top: 16px;
   margin-top: 1%;
 }
 
-.mat-form-field-label-wrapper{
+.mat-form-field-label-wrapper {
   top: -14px;
 }
 
-.h-100{
+.h-100 {
   height: 87vh;
 }
 
-#mapid > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div > a {
+#mapid
+  > div.leaflet-control-container
+  > div.leaflet-bottom.leaflet-right
+  > div
+  > a {
   display: none;
 }
 
 .tooltip-custom {
   background: #000000bd;
-  color:white;
+  color: white;
   padding: 0 5px;
   border: none !important;
   overflow-wrap: break-word !important;
 }
 
-.tooltip-custom-1{
+.tooltip-custom-1 {
   background: #000000bd;
   color: white;
   border: none !important;
   height: 20px;
   padding: 0 5px;
   margin-right: 2% !important;
+}
+
+.d-inline-flex {
+  display: inline-flex !important;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.px-1 {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.border-bottom-0 {
+  border-bottom: none !important;
+}
+
+.border-1 {
+  border: 1px solid grey;
+}
+
+.border-top-white {
+  border-top-color: white;
+  border-top-width: 1px;
+  border-top-style: solid;
+}
+
+.p-0 {
+  padding: 0 !important;
+}
+
+.p-1 {
+  padding: 1rem;
+}
+
+.m-0 {
+  margin: 0 !important;
+}
+
+.m-auto {
+  margin: auto;
+}
+
+.m-1 {
+  margin: 1rem;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mr-1 {
+  margin-right: 2rem;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.w-100 {
+  width: 100% !important;
 }
