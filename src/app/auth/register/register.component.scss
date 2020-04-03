@@ -23,14 +23,15 @@
   width: fit-content;
   justify-content: center;
   align-items: center;
-  margin: auto;
-  transform: translateY(5%);
+  margin: 2% auto;
+  // transform: translateY(5%);
 }
 
 :host {
   display: flex;
   width: 100vw;
-  height: 80vh;
+  height: fit-content;
+  min-height: 80vh;
   justify-items: center;
   align-items: center;
 }

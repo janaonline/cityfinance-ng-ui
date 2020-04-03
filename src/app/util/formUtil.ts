@@ -1,5 +1,6 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { mobileNoValidator } from './formValidators';
 import { PasswordValidator } from './passwordValidator';
 
 export class FormUtil {
@@ -40,11 +41,14 @@ export class FormUtil {
       ulb_name: ["", [Validators.required]],
       ulb: ["", [Validators.required]],
       commissionerName: ["", [Validators.required]],
-      commissionerConatactNumber: ["", [Validators.required]],
-      commissionerEmail: ["", [Validators.required]],
+      commissionerConatactNumber: [
+        "",
+        [Validators.required, mobileNoValidator]
+      ],
+      commissionerEmail: ["", [Validators.required, Validators.email]],
       accountantName: ["", [Validators.required]],
-      accountantConatactNumber: ["", [Validators.required]],
-      accountantEmail: ["", [Validators.required]]
+      accountantConatactNumber: ["", [Validators.required, mobileNoValidator]],
+      accountantEmail: ["", [Validators.required, Validators.email]]
     });
   }
 
@@ -72,21 +76,22 @@ export class FormUtil {
     Object.keys(form.controls).forEach(controlName => {
       const control = form.controls[controlName];
       if (!control.valid) {
-        if (control.errors.required) {
+        const newControlName = controlName.split(/(?=[A-Z])/).join(" ");
+        if (control.errors && control.errors.required) {
           return errors.push(
-            `${controlName.charAt(0).toUpperCase() +
-              controlName.substr(1)} is required`
+            `${newControlName.charAt(0).toUpperCase() +
+              newControlName.substr(1)} is required`
           );
         }
-        if (control.errors.pattern) {
+        if (control.errors && control.errors.pattern) {
           return errors.push(
-            `${controlName.charAt(0).toUpperCase() +
-              controlName.substr(1)} should alphabetic only`
+            `${newControlName.charAt(0).toUpperCase() +
+              newControlName.substr(1)} should alphabetic only`
           );
         }
         errors.push(
-          `${controlName.charAt(0).toUpperCase() +
-            controlName.substr(1)} is invalid`
+          `${newControlName.charAt(0).toUpperCase() +
+            newControlName.substr(1)} is invalid`
         );
       }
     });
@@ -95,27 +100,26 @@ export class FormUtil {
   }
 
   public validadteULBForm(form: FormGroup) {
-    console.log(form);
     const errors: string[] = [];
     Object.keys(form.controls).forEach(controlName => {
       const control = form.controls[controlName];
-      console.log(controlName, control);
       if (!control.valid) {
+        const newControlName = controlName.split(/(?=[A-Z])/).join(" ");
         if (control.errors && control.errors.required) {
           return errors.push(
-            `${controlName.charAt(0).toUpperCase() +
-              controlName.substr(1)} is required`
+            `${newControlName.charAt(0).toUpperCase() +
+              newControlName.substr(1)} is required`
           );
         }
         if (control.errors && control.errors.pattern) {
           return errors.push(
-            `${controlName.charAt(0).toUpperCase() +
-              controlName.substr(1)} should alphabetic only`
+            `${newControlName.charAt(0).toUpperCase() +
+              newControlName.substr(1)} should alphabetic only`
           );
         }
         errors.push(
-          `${controlName.charAt(0).toUpperCase() +
-            controlName.substr(1)} is invalid`
+          `${newControlName.charAt(0).toUpperCase() +
+            newControlName.substr(1)} is invalid`
         );
       }
     });

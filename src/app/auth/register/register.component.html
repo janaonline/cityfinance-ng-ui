@@ -24,9 +24,6 @@
             <div class="error-text col-xs-12" *ngIf="badCredentials">
               <p class="text-danger">Invalid Username or Password!!</p>
             </div>
-            <!-- <div class="error-text col-xs-12" *ngIf="formError">
-              <p class="text-danger">Username and Password is mandatory!</p>
-            </div> -->
 
             <div class="input-group">
               <span class="input-group-addon"
@@ -307,6 +304,15 @@
                 placeholder="Accountant Email ID"
               />
             </div>
+
+            <p *ngIf="formError">
+              <span
+                *ngFor="let error of formError; let i = index"
+                style="display: block; color: red"
+              >
+                {{ i + 1 }}. {{ error }}
+              </span>
+            </p>
 
             <p *ngIf="respone.errorMessage" class="error-message">
               {{ respone.errorMessage }}

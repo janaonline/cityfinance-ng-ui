@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
 import { USER_TYPE } from '../../models/user/userType';
 import { IStateULBCovered } from '../../shared/models/stateUlbConvered';
@@ -26,10 +28,9 @@ export class RegisterComponent implements OnInit {
   public respone = { successMessage: null, errorMessage: null };
 
   public ulbCodeError;
-  public isCheckingULBCode = true;
+  public isCheckingULBCode = false;
 
   constructor(
-    private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private _activatedRoute: ActivatedRoute,
@@ -73,10 +74,11 @@ export class RegisterComponent implements OnInit {
       body.role = USER_TYPE.USER;
     } else {
       errors = this.formUtility.validadteULBForm(form);
+
       body.role = USER_TYPE.ULB;
     }
     this.formError = errors;
-    console.log(errors);
+    console.log(body);
     if (errors) {
       return;
     }
@@ -113,40 +115,57 @@ export class RegisterComponent implements OnInit {
       this.registrationForm = this.formUtility.getUserForm();
     } else if (this.registrationType === "ulb") {
       this.registrationForm = this.formUtility.getULBForm();
-      combineLatest([
-        this.registrationForm.controls.ulb.valueChanges,
-        this.registrationForm.controls.ulb_name.valueChanges
-      ]).subscribe(
-        res => {
-          this.isCheckingULBCode = true;
-          this.ulbCodeError = "ULB Code and Name does not match.";
-          this.disableImportantULBFields(this.registrationForm);
-        },
-        err => {
-          this.ulbCodeError =
-            err.error.msg || "ULB Code and Name does not match.";
-          this.disableImportantULBFields(this.registrationForm);
-        }
-      );
-
-      // this.registrationForm.controls.ulb.valueChanges
-      //   .pipe(debounceTime(2000))
-      //   .subscribe(value => {
-      //     this.registrationForm.disable();
-
-      //     // check for ulb code and match.
-      //   });
+      this.listenToULBControls();
       this.disableImportantULBFields(this.registrationForm);
     }
   }
 
+  private listenToULBControls() {
+    combineLatest([
+      this.registrationForm.controls.ulb.valueChanges,
+      this.registrationForm.controls.ulb_name.valueChanges
+    ])
+      .pipe(
+        debounceTime(2000),
+        switchMap((res: string[]) => {
+          this.isCheckingULBCode = true;
+          this.registrationForm.disable({ onlySelf: true, emitEvent: false });
+          return this._coomonService.verifyULBCodeAndName({
+            code: res[0],
+            name: res[1]
+          });
+        })
+      )
+      .subscribe(
+        res => {
+          this.registrationForm.enable({ emitEvent: false });
+          console.log(res);
+          this.isCheckingULBCode = false;
+          if (!res.isValid) {
+            this.ulbCodeError = "ULB Code and Name does not match.";
+            this.disableImportantULBFields(this.registrationForm);
+            return;
+          }
+          this.ulbCodeError = null;
+        },
+        err => this.onGettingULBValidationError(err)
+      );
+  }
+
+  private onGettingULBValidationError(err: HttpErrorResponse) {
+    this.ulbCodeError = err.error.msg || "ULB Code and Name does not match.";
+    this.registrationForm.enable({ emitEvent: false });
+    this.disableImportantULBFields(this.registrationForm);
+    this.isCheckingULBCode = false;
+  }
+
   private disableImportantULBFields(form: FormGroup) {
-    form.controls.commissionerName.disable();
-    form.controls.commissionerConatactNumber.disable();
-    form.controls.commissionerEmail.disable();
-    form.controls.accountantName.disable();
-    form.controls.accountantConatactNumber.disable();
-    form.controls.accountantEmail.disable();
+    form.controls.commissionerName.disable({ emitEvent: false });
+    form.controls.commissionerConatactNumber.disable({ emitEvent: false });
+    form.controls.commissionerEmail.disable({ emitEvent: false });
+    form.controls.accountantName.disable({ emitEvent: false });
+    form.controls.accountantConatactNumber.disable({ emitEvent: false });
+    form.controls.accountantEmail.disable({ emitEvent: false });
   }
 
   private resetResponseMessage() {
