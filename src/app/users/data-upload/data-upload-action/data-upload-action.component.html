@@ -6,20 +6,21 @@
     <h3>Financial Data Upload</h3>
   </div>
 
-  <div class="row mt-4">
+  <div [formGroup]="financialUploadForm" class="row mt-4">
     <div class="col-sm-8">
       <div class="row">
         <div class="col-sm-5 mr-2">
           <label for="financial_year">Financial Year <span class="text-danger">*</span></label>
           <angular2-multiselect formControlName="financialYear" id="financial_year" name="financial_year"
-                                [settings]="{singleSelection:true,text:'Select Year'}"
+                                [settings]="{singleSelection:true,text:'Select Year', disabled:true}"
                                 [data]="financialYearDropdown">
           </angular2-multiselect>
         </div>
         <div class="col-sm-5 mr-2">
           <label for="audit_status">Status <span class="text-danger">*</span></label>
           <angular2-multiselect title="Select Year" id="audit_status"
-                                [settings]="{singleSelection:true,text:'Select Audit Status'}"
+                                formControlName="audited"
+                                [settings]="{singleSelection:true,text:'Select Audit Status',disabled:true}"
                                 [data]="auditStatusDropdown">
 
           </angular2-multiselect>
@@ -109,8 +110,9 @@
             <div class="col-sm-12">
               <div class=" d-flex justify-content-between">
                 <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
+                  <button (click)="fileButtonClickHandler(['incomeAndExpenditure','pdfUrl'])" class="col">PDF file
+                  </button>
+                  <button (click)="fileButtonClickHandler(['incomeAndExpenditure','excelUrl'])">Excel File</button>
                 </div>
                 <div class="d-flex flex-1 justify-content-evenly">
                   <div>
@@ -139,8 +141,12 @@
             <div class="col-sm-12">
               <div class=" d-flex justify-content-between">
                 <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
+                  <button (click)="fileButtonClickHandler(['schedulesToIncomeAndExpenditure','pdfUrl'])" class="col">PDF
+                    file
+                  </button>
+                  <button (click)="fileButtonClickHandler(['schedulesToIncomeAndExpenditure','excelUrl'])" class="col">
+                    Excel File
+                  </button>
                 </div>
                 <div class="d-flex flex-1 justify-content-evenly">
                   <div>
@@ -173,8 +179,8 @@
             <div class="col-sm-12">
               <div class=" d-flex justify-content-between">
                 <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
+                  <button (click)="fileButtonClickHandler(['trialBalance','pdfUrl'])" class="col">PDF file</button>
+                  <button (click)="fileButtonClickHandler(['trialBalance','excelUrl'])" class="col">Excel File</button>
                 </div>
                 <div class="d-flex flex-1 justify-content-evenly">
                   <div>
