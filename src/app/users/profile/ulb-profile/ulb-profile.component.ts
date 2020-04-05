@@ -65,20 +65,20 @@ export class UlbProfileComponent implements OnInit {
     this.profile.disable({ onlySelf: true });
 
     // upload files and their value
-    const fieldWithoutFile = this.getUpdadtedFieldWithoutFileRequirement(form);
+    const fieldWithoutFile = this.getUpdadtedFields(form);
     if (fieldWithoutFile) {
       // send the request.
       // updateField
       // Enable form.
     }
 
-    const fieldWithFileRequirement: {
-      [key in fieldNameWithFileRequirement]?: string;
-    } = this.getUpdadtedFieldWithOnlyFileRequirement(form);
-    console.log({ fieldWithoutFile, fieldWithFileRequirement });
-    if (fieldWithFileRequirement) {
-      this.updateFieldWithFileRequirement(fieldWithFileRequirement);
-    }
+    // const fieldWithFileRequirement: {
+    //   [key in fieldNameWithFileRequirement]?: string;
+    // } = this.getUpdadtedFieldWithOnlyFileRequirement(form);
+    // console.log({ fieldWithoutFile, fieldWithFileRequirement });
+    // if (fieldWithFileRequirement) {
+    //   this.updateFieldWithFileRequirement(fieldWithFileRequirement);
+    // }
   }
 
   private updateField(fields: {}) {}
@@ -136,16 +136,16 @@ export class UlbProfileComponent implements OnInit {
     return false;
   }
 
-  private getUpdadtedFieldWithoutFileRequirement(form: FormGroup) {
+  private getUpdadtedFields(form: FormGroup) {
     let updateObject;
     Object.keys(form.controls).forEach(controlName => {
       const control = form.controls[controlName];
       if (!control.dirty) {
         return;
       }
-      if (this.doesFieldRequireFile(controlName)) {
-        return;
-      }
+      // if (this.doesFieldRequireFile(controlName)) {
+      //   return;
+      // }
       if (updateObject) {
         updateObject[controlName] = control.value;
       } else {

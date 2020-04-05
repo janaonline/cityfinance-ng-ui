@@ -1,8 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime } from 'rxjs/operators';
-import { PasswordValidator } from 'src/app/util/passwordValidator';
+import { combineLatest } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
 import { USER_TYPE } from '../../models/user/userType';
 import { IStateULBCovered } from '../../shared/models/stateUlbConvered';
@@ -18,14 +19,18 @@ import { AuthService } from './../auth.service';
 export class RegisterComponent implements OnInit {
   public registrationForm: FormGroup;
   public registrationType: "user" | "ulb";
+  private formUtility = new FormUtil();
   public badCredentials: boolean;
   public formError: string[];
   public formSubmitted = false;
   public stateList: IStateULBCovered[] = [];
+
+  public respone = { successMessage: null, errorMessage: null };
+
   public ulbCodeError;
+  public isCheckingULBCode = false;
 
   constructor(
-    private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private _activatedRoute: ActivatedRoute,
@@ -47,29 +52,55 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  canSubmitForm() {
+    if (this.registrationType === "user") {
+      return true;
+    }
+    if (
+      !this.registrationForm ||
+      this.registrationForm.controls.commissionerName.disabled
+    ) {
+      return false;
+    }
+    return true;
+  }
+
   signup(form: FormGroup) {
     let errors: string[];
+    this.resetResponseMessage();
     const body = form.value;
     if (this.registrationType === "user") {
-      errors = this.validadteUserForm(form);
+      errors = this.formUtility.validadteUserForm(form);
       body.role = USER_TYPE.USER;
     } else {
-      errors = this.validadteULBForm(form);
+      errors = this.formUtility.validadteULBForm(form);
+
       body.role = USER_TYPE.ULB;
     }
     this.formError = errors;
+    console.log(body);
     if (errors) {
       return;
     }
 
-    this.authService.signup(body).subscribe(res => {
-      if (!res["success"]) {
-        this.formError = [res["msg"]];
-        return;
+    this.authService.signup(body).subscribe(
+      res => {
+        if (!res["success"]) {
+          this.formError = [res["msg"]];
+          return;
+        }
+        if (this.registrationType === "user") {
+          this.respone.successMessage =
+            "User Registration succssfull. Kindly check your email for further information.";
+        } else {
+          this.respone.successMessage =
+            "ULB registered successfully. Kindly check your email for further information";
+        }
+      },
+      err => {
+        this.respone.errorMessage = err.error.msg || "Server Error";
       }
-      // alert("Registered Successfully");
-      // this.router.navigate(["/"]);
-    });
+    );
   }
 
   private fetchStateList() {
@@ -79,94 +110,66 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  private validadteUserForm(form: FormGroup) {
-    const errors: string[] = [];
-    const passwordControl = form.controls.password;
-    try {
-      const validator = new PasswordValidator();
-      validator.validate(
-        passwordControl.value,
-        form.controls.confirmPassword.value
-      );
-    } catch (error) {
-      passwordControl.setErrors({ error: true });
-      errors.push(error.message);
-    }
-
-    Object.keys(form.controls).forEach(controlName => {
-      const control = form.controls[controlName];
-      if (!control.valid) {
-        if (control.errors.required) {
-          return errors.push(
-            `${controlName.charAt(0).toUpperCase() +
-              controlName.substr(1)} is required`
-          );
-        }
-        if (control.errors.pattern) {
-          return errors.push(
-            `${controlName.charAt(0).toUpperCase() +
-              controlName.substr(1)} should alphabetic only`
-          );
-        }
-        errors.push(
-          `${controlName.charAt(0).toUpperCase() +
-            controlName.substr(1)} is invalid`
-        );
-      }
-    });
-
-    return errors.length ? errors : null;
-  }
-
-  private validadteULBForm(form) {
-    const errors: string[] = [];
-    Object.keys(form.controls).forEach(controlName => {
-      const control = form.controls[controlName];
-      if (!control.valid) {
-        if (control.errors.required) {
-          return errors.push(
-            `${controlName.charAt(0).toUpperCase() +
-              controlName.substr(1)} is required`
-          );
-        }
-        if (control.errors.pattern) {
-          return errors.push(
-            `${controlName.charAt(0).toUpperCase() +
-              controlName.substr(1)} should alphabetic only`
-          );
-        }
-        errors.push(
-          `${controlName.charAt(0).toUpperCase() +
-            controlName.substr(1)} is invalid`
-        );
-      }
-    });
-    return errors.length ? errors : null;
-  }
-
   private initializeForm() {
-    const formUtility = new FormUtil();
     if (this.registrationType === "user") {
-      this.registrationForm = formUtility.getUserForm();
+      this.registrationForm = this.formUtility.getUserForm();
     } else if (this.registrationType === "ulb") {
-      this.registrationForm = formUtility.getULBForm();
-      this.registrationForm.controls.ulb_code.valueChanges
-        .pipe(debounceTime(2000))
-        .subscribe(value => {
-          this.registrationForm.disable();
-
-          // check for ulb code and match.
-        });
+      this.registrationForm = this.formUtility.getULBForm();
+      this.listenToULBControls();
       this.disableImportantULBFields(this.registrationForm);
     }
   }
 
+  private listenToULBControls() {
+    combineLatest([
+      this.registrationForm.controls.ulb.valueChanges,
+      this.registrationForm.controls.ulb_name.valueChanges
+    ])
+      .pipe(
+        debounceTime(2000),
+        switchMap((res: string[]) => {
+          this.isCheckingULBCode = true;
+          this.registrationForm.disable({ onlySelf: true, emitEvent: false });
+          return this._coomonService.verifyULBCodeAndName({
+            code: res[0],
+            name: res[1]
+          });
+        })
+      )
+      .subscribe(
+        res => {
+          this.registrationForm.enable({ emitEvent: false });
+          console.log(res);
+          this.isCheckingULBCode = false;
+          if (!res.isValid) {
+            this.ulbCodeError = "ULB Code and Name does not match.";
+            this.disableImportantULBFields(this.registrationForm);
+            return;
+          }
+          this.ulbCodeError = null;
+        },
+        err => this.onGettingULBValidationError(err)
+      );
+  }
+
+  private onGettingULBValidationError(err: HttpErrorResponse) {
+    this.ulbCodeError = err.error.msg || "ULB Code and Name does not match.";
+    this.registrationForm.enable({ emitEvent: false });
+    this.disableImportantULBFields(this.registrationForm);
+    this.isCheckingULBCode = false;
+  }
+
   private disableImportantULBFields(form: FormGroup) {
-    form.controls.commisioner_name.disable();
-    form.controls.commisioner_contact_no.disable();
-    form.controls.commisioner_email_id.disable();
-    form.controls.accountant_name.disable();
-    form.controls.accountant_contact_no.disable();
-    form.controls.accountant_email_id.disable();
+    form.controls.commissionerName.disable({ emitEvent: false });
+    form.controls.commissionerConatactNumber.disable({ emitEvent: false });
+    form.controls.commissionerEmail.disable({ emitEvent: false });
+    form.controls.accountantName.disable({ emitEvent: false });
+    form.controls.accountantConatactNumber.disable({ emitEvent: false });
+    form.controls.accountantEmail.disable({ emitEvent: false });
+  }
+
+  private resetResponseMessage() {
+    this.respone.successMessage = null;
+    this.respone.errorMessage = null;
   }
 }

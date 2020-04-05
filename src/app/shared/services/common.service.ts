@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 import { NewULBStructure, NewULBStructureResponse } from 'src/app/models/newULBStructure';
 import { ULBsStatistics } from 'src/app/models/statistics/ulbsStatistics';
@@ -34,6 +34,33 @@ export class CommonService {
       this.stateArr = res["data"];
       this.states.next(this.stateArr);
     });
+  }
+
+  public verifyULBCodeAndName(body: { name: string; code: string }) {
+    if (!body.name.trim() || !body.code.trim()) {
+      return of({ isValid: false });
+    }
+
+    console.log(`verifyULBCodeAndName`, body);
+
+    return this.getULBByCode(body.code).pipe(
+      map(res => res["data"]),
+      switchMap(data => {
+        let isValid = true;
+        if (!data || data["code"] !== body.code || data["name"] !== body.name) {
+          isValid = false;
+        }
+
+        return of({ isValid });
+      })
+    );
+
+    //
+    // return of(false);
+  }
+
+  getULBByCode(code: string) {
+    return this.http.get(`${environment.api.url}ulb-by-code?code=${code}`);
   }
 
   getAllUlbs() {

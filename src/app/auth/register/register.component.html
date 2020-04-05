@@ -24,9 +24,6 @@
             <div class="error-text col-xs-12" *ngIf="badCredentials">
               <p class="text-danger">Invalid Username or Password!!</p>
             </div>
-            <!-- <div class="error-text col-xs-12" *ngIf="formError">
-              <p class="text-danger">Username and Password is mandatory!</p>
-            </div> -->
 
             <div class="input-group">
               <span class="input-group-addon"
@@ -159,7 +156,7 @@
 
           <form
             [formGroup]="registrationForm"
-            (ngSubmit)="signup()"
+            (ngSubmit)="signup(registrationForm)"
             *ngIf="registrationType === 'ulb'"
           >
             <div class="error-text col-xs-12" *ngIf="badCredentials">
@@ -210,10 +207,17 @@
                 id="ulb_code"
                 type="text"
                 class="form-control"
-                [formControl]="registrationForm.controls['ulb_code']"
+                [formControl]="registrationForm.controls['ulb']"
                 placeholder="ULB Code"
               />
+              <i
+                class="fa fa-spinner fa-spin ulbSpinner"
+                aria-hidden="true"
+                [hidden]="!isCheckingULBCode"
+              ></i>
             </div>
+
+            <p *ngIf="ulbCodeError" class="error-message">{{ ulbCodeError }}</p>
 
             <div class="input-group">
               <span class="input-group-addon"
@@ -223,7 +227,7 @@
                 id="designation"
                 type="text"
                 class="form-control"
-                [formControl]="registrationForm.controls['commisioner_name']"
+                [formControl]="registrationForm.controls['commissionerName']"
                 placeholder="Commissioner Name"
               />
             </div>
@@ -237,7 +241,7 @@
                 type="tel"
                 class="form-control"
                 [formControl]="
-                  registrationForm.controls['commisioner_contact_no']
+                  registrationForm.controls['commissionerConatactNumber']
                 "
                 placeholder="Commissioner Contact No"
               />
@@ -251,9 +255,7 @@
                 id="organisation"
                 type="email"
                 class="form-control"
-                [formControl]="
-                  registrationForm.controls['commisioner_email_id']
-                "
+                [formControl]="registrationForm.controls['commissionerEmail']"
                 placeholder="Commissioner Email ID"
               />
             </div>
@@ -270,7 +272,7 @@
                 id="designation"
                 type="text"
                 class="form-control"
-                [formControl]="registrationForm.controls['accountant_name']"
+                [formControl]="registrationForm.controls['accountantName']"
                 placeholder="Accountant Name"
               />
             </div>
@@ -284,7 +286,7 @@
                 type="tel"
                 class="form-control"
                 [formControl]="
-                  registrationForm.controls['accountant_contact_no']
+                  registrationForm.controls['accountantConatactNumber']
                 "
                 placeholder="Accountant Contact No"
               />
@@ -298,13 +300,35 @@
                 id="organisation"
                 type="email"
                 class="form-control"
-                [formControl]="registrationForm.controls['accountant_email_id']"
+                [formControl]="registrationForm.controls['accountantEmail']"
                 placeholder="Accountant Email ID"
               />
             </div>
 
+            <p *ngIf="formError">
+              <span
+                *ngFor="let error of formError; let i = index"
+                style="display: block; color: red"
+              >
+                {{ i + 1 }}. {{ error }}
+              </span>
+            </p>
+
+            <p *ngIf="respone.errorMessage" class="error-message">
+              {{ respone.errorMessage }}
+            </p>
+            <p *ngIf="respone.successMessage" class="success-message">
+              {{ respone.successMessage }}
+            </p>
+
             <div class="input-group">
-              <button type="submit" class="btn btn-primary">Sign up</button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="!canSubmitForm()"
+              >
+                Sign up
+              </button>
             </div>
           </form>
         </div>
