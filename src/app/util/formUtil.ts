@@ -18,7 +18,7 @@ export class FormUtil {
         "",
         [Validators.required, Validators.pattern(/[a-zA-z]+/g)]
       ],
-      organisation: [
+      organization: [
         "",
         [Validators.required, Validators.pattern(/[a-zA-z]+/g)]
       ]
