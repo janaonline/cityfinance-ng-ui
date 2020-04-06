@@ -144,19 +144,11 @@
             Download
           </button>
         </a>
-        <a>
-          <button
-            style="margin-top: 100px;"
-            class="btn btn-warning back-link"
-            (click)="clearSelectedStates()"
-          >
-            Clear All
-          </button>
-        </a>
+
         <br />
         <a
           class="back-link"
-          style="margin-top: 130px;"
+          style="margin-top: 85px;"
           (click)="compareState = 0"
           >Back</a
         >
@@ -305,13 +297,23 @@
 <ng-template #template>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Add / Remove states from comparison</h4>
+
     <button
       type="button"
       class="close pull-right"
       aria-label="Close"
       (click)="modalRef.hide()"
+      style="margin-left: 2%;"
     >
       <span aria-hidden="true">&times;</span>
+    </button>
+    <button
+      type="button"
+      class="btn btn-warning   pull-right"
+      stlye="margin-right:2% !important;"
+      (click)="clearSelectedStates()"
+    >
+      Clear All
     </button>
   </div>
   <div class="modal-body">
