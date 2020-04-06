@@ -7,4 +7,5 @@ export interface UserProfile {
   designation: string;
   organisation: string;
   role: USER_TYPE.USER;
+  _id: string;
 }
