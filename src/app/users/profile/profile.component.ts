@@ -25,12 +25,13 @@ export class ProfileComponent implements OnInit {
   fetchProfileData() {
     this._profileService.getUserProfile().subscribe(res => {
       this.profileData = res["data"];
+      if (this.userType === USER_TYPE.ULB) {
+        this.showProfileComponent = true;
+      }
     });
   }
 
   private setFormView() {
     this.userType = this._profileService.getUserType();
-
-    console.log(this.userType, this.userType === USER_TYPE.USER);
   }
 }

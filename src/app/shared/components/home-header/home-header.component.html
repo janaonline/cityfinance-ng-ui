@@ -129,7 +129,7 @@
         <li>
           <a [routerLink]="['user', 'profile']"><b>Profile</b></a>
         </li>
-        <li>
+        <li *ngIf="canViewUploadData">
           <a [routerLink]="['user', 'data-upload']" class="pointer"
             ><b>Data upload</b></a
           >

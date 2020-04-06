@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit {
 
   public ulbCodeError;
   public isCheckingULBCode = false;
+  private ulb;
 
   constructor(
     private authService: AuthService,
@@ -76,6 +77,7 @@ export class RegisterComponent implements OnInit {
       errors = this.formUtility.validadteULBForm(form);
 
       body.role = USER_TYPE.ULB;
+      body.ulb = this.ulb._id;
     }
     this.formError = errors;
     console.log(body);
@@ -123,7 +125,7 @@ export class RegisterComponent implements OnInit {
   private listenToULBControls() {
     combineLatest([
       this.registrationForm.controls.ulb.valueChanges,
-      this.registrationForm.controls.ulb_name.valueChanges
+      this.registrationForm.controls.name.valueChanges
     ])
       .pipe(
         debounceTime(2000),
@@ -139,13 +141,13 @@ export class RegisterComponent implements OnInit {
       .subscribe(
         res => {
           this.registrationForm.enable({ emitEvent: false });
-          console.log(res);
           this.isCheckingULBCode = false;
           if (!res.isValid) {
             this.ulbCodeError = "ULB Code and Name does not match.";
             this.disableImportantULBFields(this.registrationForm);
             return;
           }
+          this.ulb = res.ulb;
           this.ulbCodeError = null;
         },
         err => this.onGettingULBValidationError(err)

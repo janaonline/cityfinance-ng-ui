@@ -1,6 +1,5 @@
 <div class="profile_wrapper">
-  <!-- <button class="back_button" (click)="window.history.back()">Back</button> -->
-
+  <h3>Edit Profile</h3>
   <form
     [formGroup]="profileForm"
     *ngIf="profileForm"
@@ -87,21 +86,21 @@
     </div>
 
     <div class="input-group">
-      <label for="organisation"
+      <label for="organization"
         >Organisation/Institution Name
         <span
           class="asterik"
-          *ngIf="profileForm.controls.organisation.validator({})['required']"
+          *ngIf="profileForm.controls.organization.validator({})['required']"
           >*</span
         >
       </label>
       <input
-        id="organisation"
+        id="organization"
         type="text"
-        formControlName="organisation"
+        formControlName="organization"
         class="form-control"
         [ngClass]="{
-          'is-invalid': formErrors && profileForm.controls.organisation.errors
+          'is-invalid': formErrors && profileForm.controls.organization.errors
         }"
       />
     </div>

@@ -94,13 +94,13 @@
                 ><i class="fa fa-university"></i
               ></span>
               <input
-                id="organisation"
+                id="organization"
                 class="form-control"
-                [formControl]="registrationForm.controls['organisation']"
+                [formControl]="registrationForm.controls['organization']"
                 placeholder="Organisation/Instituition Name"
                 [ngClass]="{
                   'is-invalid':
-                    formError && registrationForm.controls.organisation.errors
+                    formError && registrationForm.controls.organization.errors
                 }"
               />
             </div>
@@ -194,7 +194,7 @@
                 id="email"
                 type="text"
                 class="form-control"
-                [formControl]="registrationForm.controls['ulb_name']"
+                [formControl]="registrationForm.controls['name']"
                 placeholder="ULB Name"
               />
             </div>
@@ -237,7 +237,7 @@
                 ><i class="glyphicon glyphicon-phone"></i
               ></span>
               <input
-                id="organisation"
+                id="commissionerConatactNumber"
                 type="tel"
                 class="form-control"
                 [formControl]="
@@ -252,7 +252,7 @@
                 ><i class="fa fa-envelope"></i
               ></span>
               <input
-                id="organisation"
+                id="commissionerEmail"
                 type="email"
                 class="form-control"
                 [formControl]="registrationForm.controls['commissionerEmail']"
@@ -282,7 +282,7 @@
                 ><i class="glyphicon glyphicon-phone"></i
               ></span>
               <input
-                id="organisation"
+                id="accountantConatactNumber"
                 type="tel"
                 class="form-control"
                 [formControl]="
@@ -297,7 +297,7 @@
                 ><i class="fa fa-envelope"></i
               ></span>
               <input
-                id="organisation"
+                id="accountantEmail"
                 type="email"
                 class="form-control"
                 [formControl]="registrationForm.controls['accountantEmail']"
