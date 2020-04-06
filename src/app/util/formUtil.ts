@@ -83,6 +83,12 @@ export class FormUtil {
     return form;
   }
 
+  public getMoHUAForm() {
+    const form = this.getStateForm();
+    form.controls.departmentName.setValue("MoHUA");
+    return form;
+  }
+
   public validadteUserForm(
     form: FormGroup,
     options: { validationType: "CREATION" | "EDIT" } = {
@@ -182,5 +188,9 @@ export class FormUtil {
       }
     });
     return errors.length ? errors : null;
+  }
+
+  public validateMoHUAForm(form: FormGroup) {
+    return this.validateStateForm(form);
   }
 }

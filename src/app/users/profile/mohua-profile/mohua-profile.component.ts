@@ -3,16 +3,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { IStateULBCovered } from '../../../shared/models/stateUlbConvered';
-import { CommonService } from '../../../shared/services/common.service';
 import { FormUtil } from '../../../util/formUtil';
 import { ProfileService } from '../service/profile.service';
 
 @Component({
-  selector: "app-state-profile",
-  templateUrl: "./state-profile.component.html",
-  styleUrls: ["./state-profile.component.scss"]
+  selector: "app-mohua-profile",
+  templateUrl: "./mohua-profile.component.html",
+  styleUrls: ["./mohua-profile.component.scss"]
 })
-export class StateProfileComponent implements OnInit {
+export class MohuaProfileComponent implements OnInit {
   @Input()
   profileData: any;
   profileForm: FormGroup;
@@ -24,22 +23,11 @@ export class StateProfileComponent implements OnInit {
   respone = { successMessage: null, errorMessage: null };
   formSubmitted = true;
 
-  constructor(
-    private _commonService: CommonService,
-    private _profileService: ProfileService
-  ) {
-    this.fetchStateList();
+  constructor(private _profileService: ProfileService) {
     this.initializeForm();
   }
 
   ngOnInit() {}
-
-  private fetchStateList() {
-    this._commonService.getStateUlbCovered().subscribe(res => {
-      console.log(res.data[0]);
-      this.stateList = res.data;
-    });
-  }
 
   private onFormSubmit(form: FormGroup) {
     this.resetResponseMessage();
@@ -58,7 +46,7 @@ export class StateProfileComponent implements OnInit {
 
     this._profileService.createUser(form.value).subscribe(
       res => {
-        this.respone.successMessage = "State created successfully";
+        this.respone.successMessage = "Account created successfully";
       },
       (err: HttpErrorResponse) =>
         (this.respone.errorMessage = err.error.msg || "Server Error")
@@ -76,7 +64,7 @@ export class StateProfileComponent implements OnInit {
   }
 
   private initializeForm() {
-    this.profileForm = this.formUtil.getStateForm();
+    this.profileForm = this.formUtil.getMoHUAForm();
   }
 
   private resetResponseMessage() {
