@@ -8,6 +8,10 @@ export class AccessChecker {
   private modules = MODULES;
   private userUtil = new UserUtility();
 
+  get MODULES() {
+    return this.modules;
+  }
+
   public hasAccess(option: { moduleName: MODULES_NAME; action: ACTIONS }) {
     const moduleFound = this.modules[option.moduleName];
     if (!moduleFound) {
