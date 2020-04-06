@@ -1412,16 +1412,18 @@
         <div class="col-md-6 abs-credit-info">
           <!-- <h3 style="margin-top: 0px">Credit Rating Report</h3>
             <br /> -->
-            <!-- {{absCreditInfo | json}} -->
-            <p class="click-info" *ngIf="!absCreditInfo.title">
-              Click state on the map to get credit information
+          <!-- {{absCreditInfo | json}} -->
+          <p class="click-info" *ngIf="!absCreditInfo.title">
+            Click state on the map to get credit information
           </p>
-          
+
           <div class="row" *ngIf="absCreditInfo.title">
             <div class="col-sm-12">
               <div class="row">
                 <div class="col-sm-6">
-                  <h3 class="text-primary" style="margin-top:0">{{ absCreditInfo.title | titlecase }}</h3>
+                  <h3 class="text-primary" style="margin-top:0">
+                    {{ absCreditInfo.title | titlecase }}
+                  </h3>
                 </div>
                 <div class="col-sm-6">
                   <button class="btn btn-warning right" (click)="page = 2">
@@ -1450,9 +1452,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12">
-        <br /><br />
-      </div>
+      <div class="col-md-12"><br /><br /></div>
     </div>
 
     <div class="row" *ngIf="page == 2">
@@ -1493,59 +1493,48 @@
         >
           <table style="width:100%">
             <tr>
-              <th style="width: 25%" (click)="sortBy('ulb')">
+              <th style="width: 25%" class="sortable" (click)="sortBy('ulb')">
                 ULB
-                <span
-                  *ngIf="sortHeader == 'ulb'"
-                  class="glyphicon glyphicon-sort"
-                ></span>
+                <span class="glyphicon glyphicon-sort"></span>
               </th>
-              <th style="width: 15%" (click)="sortBy('state')">
+              <th style="width: 15%" class="sortable" (click)="sortBy('state')">
                 State
-                <span
-                  *ngIf="sortHeader == 'state'"
-                  class="glyphicon glyphicon-sort"
-                ></span>
+                <span class="glyphicon glyphicon-sort"></span>
               </th>
-              <th style="width: 15%" (click)="sortBy('agency')">
+              <th style="width: 15%" class="sortable" (click)="sortBy('agency')">
                 Agency
-                <span
-                  *ngIf="sortHeader == 'creditrating'"
-                  class="glyphicon glyphicon-sort"
-                ></span>
+                <span class="glyphicon glyphicon-sort"></span>
               </th>
               <th
                 style="width: 15%"
                 (click)="sortBy('creditrating')"
-                class="changeinrating"
+                class="changeinrating sortable"
               >
                 Credit Rating
                 <span
-                  *ngIf="sortHeader == 'changeinrating'"
                   class="glyphicon glyphicon-sort"
                 ></span>
               </th>
               <th
                 style="width: 15%"
+                
                 (click)="sortBy('status')"
-                class="updatedcreditrating"
+                class="updatedcreditrating sortable"
               >
                 Status rating
                 <span
-                  *ngIf="sortHeader == 'updatedcreditrating'"
                   class="glyphicon glyphicon-sort"
                 ></span>
               </th>
               <th
                 style="width: 15%"
-                (click)="sortBy('date')"
                 class="outlookdate text-right-imp"
               >
                 Date
-                <span
+                <!-- <span
                   *ngIf="sortHeader == 'outlookdate'"
                   class="glyphicon glyphicon-sort"
-                ></span>
+                ></span> -->
               </th>
             </tr>
           </table>
