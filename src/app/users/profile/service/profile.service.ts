@@ -23,6 +23,12 @@ export class ProfileService {
     return userData["role"] ? userData["role"] : null;
   }
 
+  createUser(body: { [key: string]: string }) {
+    return this._htttp.post(`${environment.api.url}user/create`, {
+      body
+    });
+  }
+
   updateProfileData(data: {}) {
     return this._htttp.put(`${environment.api.url}user/profile`, {
       body: data

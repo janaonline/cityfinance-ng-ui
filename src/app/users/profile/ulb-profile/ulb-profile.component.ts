@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { DataEntryService } from '../../../dashboard/data-entry/data-entry.service';
 import { ulbType } from '../../../dashboard/report/report/ulbTypes';
+import { FormUtil } from '../../../util/formUtil';
 import { fieldNameWithFileRequirement, FieldsWithFile, ULBProfile } from '../model/ulb-profile';
+import { ProfileService } from '../service/profile.service';
 
 // import { keys } from "ts-transformer-keys";
 
@@ -13,7 +16,9 @@ import { fieldNameWithFileRequirement, FieldsWithFile, ULBProfile } from '../mod
   styleUrls: ["./ulb-profile.component.scss"]
 })
 export class UlbProfileComponent implements OnInit {
+  @Input() profileData;
   profile: FormGroup;
+  formUtil = new FormUtil();
 
   // isFormSubmitted
 
@@ -25,10 +30,12 @@ export class UlbProfileComponent implements OnInit {
   formSubmitted = false;
 
   formErrorMessage;
+  respone = { successMessage: null, errorMessage: null };
 
   constructor(
     private _fb: FormBuilder,
-    private dataEntryService: DataEntryService
+    private dataEntryService: DataEntryService,
+    private _profileService: ProfileService
   ) {
     this.initializeForm();
   }
@@ -40,16 +47,17 @@ export class UlbProfileComponent implements OnInit {
     // }, 5000);
   }
 
-  onSelectingFile(option: { file: File; key: keyof FieldsWithFile }) {
-    console.log(option);
-    if (!this.fileTracker) {
-      this.fileTracker = { [option.key]: { file: option.file } };
-    } else {
-      this.fileTracker[option.key] = { file: option.file };
-    }
-  }
+  // onSelectingFile(option: { file: File; key: keyof FieldsWithFile }) {
+  //   console.log(option);
+  //   if (!this.fileTracker) {
+  //     this.fileTracker = { [option.key]: { file: option.file } };
+  //   } else {
+  //     this.fileTracker[option.key] = { file: option.file };
+  //   }
+  // }
 
   submitForm(form: FormGroup) {
+    this.resetResponseMessage();
     this.formSubmitted = true;
     console.log(form.value);
 
@@ -62,23 +70,31 @@ export class UlbProfileComponent implements OnInit {
       // show error and return
     }
 
-    this.profile.disable({ onlySelf: true });
+    this.profile.disable({ onlySelf: true, emitEvent: false });
 
     // upload files and their value
-    const fieldWithoutFile = this.getUpdadtedFields(form);
-    if (fieldWithoutFile) {
-      // send the request.
-      // updateField
-      // Enable form.
+    const updatedFields = this.getUpdadtedFields(form);
+    if (!updatedFields || !Object.keys(updatedFields).length) {
+      return;
     }
 
-    // const fieldWithFileRequirement: {
-    //   [key in fieldNameWithFileRequirement]?: string;
-    // } = this.getUpdadtedFieldWithOnlyFileRequirement(form);
-    // console.log({ fieldWithoutFile, fieldWithFileRequirement });
-    // if (fieldWithFileRequirement) {
-    //   this.updateFieldWithFileRequirement(fieldWithFileRequirement);
-    // }
+    this._profileService.updateProfileData(updatedFields).subscribe(
+      res => this.onUpdatingProfileSuccess(res),
+      err => this.onUpdatingProfileError(err)
+    );
+  }
+
+  private onUpdatingProfileSuccess(res) {
+    this.respone.successMessage = "Profile Updated Successfully";
+  }
+
+  private onUpdatingProfileError(err: HttpErrorResponse) {
+    this.respone.errorMessage = err.error.msg || "Failed to updated profile.";
+  }
+
+  private resetResponseMessage() {
+    this.respone.successMessage = null;
+    this.respone.errorMessage = null;
   }
 
   private updateField(fields: {}) {}
@@ -110,42 +126,33 @@ export class UlbProfileComponent implements OnInit {
         return;
       }
 
-      if (!this.doesFieldRequireFile(Name) && !control.valid) {
+      if (!control.valid) {
         errors.push(`${Name} is invalid`);
         return;
-      }
-
-      if (!this.fileTracker || !this.fileTracker[Name]) {
-        control.setErrors({ fileRequired: true });
-        errors.push(`You need to attach a file with edited field.`);
-      } else {
-        control.setErrors(null);
       }
     });
 
     return errors.length === 0 ? null : errors;
   }
 
-  private doesFieldRequireFile(fieldName: string) {
-    console.log(fieldName);
-    for (const key in fieldNameWithFileRequirement) {
-      if (fieldNameWithFileRequirement[key] === fieldName) {
-        return true;
-      }
-    }
-    return false;
-  }
+  // private doesFieldRequireFile(fieldName: string) {
+  //   console.log(fieldName);
+  //   for (const key in fieldNameWithFileRequirement) {
+  //     if (fieldNameWithFileRequirement[key] === fieldName) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
 
-  private getUpdadtedFields(form: FormGroup) {
-    let updateObject;
+  private getUpdadtedFields(form: FormGroup): {} | null {
+    let updateObject: { [key: string]: string };
     Object.keys(form.controls).forEach(controlName => {
       const control = form.controls[controlName];
       if (!control.dirty) {
         return;
       }
-      // if (this.doesFieldRequireFile(controlName)) {
-      //   return;
-      // }
+
       if (updateObject) {
         updateObject[controlName] = control.value;
       } else {
@@ -155,57 +162,34 @@ export class UlbProfileComponent implements OnInit {
     return updateObject;
   }
 
-  private getUpdadtedFieldWithOnlyFileRequirement(form: FormGroup) {
-    let updateObject;
-    Object.keys(form.controls).forEach(controlName => {
-      const control = form.controls[controlName];
-      if (!control.dirty) {
-        return;
-      }
-      if (!this.doesFieldRequireFile(controlName)) {
-        return;
-      }
-      console.log(controlName);
-      if (updateObject) {
-        updateObject[controlName] = control.value;
-      } else {
-        updateObject = { [controlName]: control.value };
-      }
-    });
-    return updateObject;
-  }
+  // private getUpdadtedFieldWithOnlyFileRequirement(form: FormGroup) {
+  //   let updateObject;
+  //   Object.keys(form.controls).forEach(controlName => {
+  //     const control = form.controls[controlName];
+  //     if (!control.dirty) {
+  //       return;
+  //     }
+  //     if (!this.doesFieldRequireFile(controlName)) {
+  //       return;
+  //     }
+  //     console.log(controlName);
+  //     if (updateObject) {
+  //       updateObject[controlName] = control.value;
+  //     } else {
+  //       updateObject = { [controlName]: control.value };
+  //     }
+  //   });
+  //   return updateObject;
+  // }
 
   private initializeForm() {
-    const commissioner = this._fb.group({
-      name: ["", [Validators.required]],
-      emailId: ["", [Validators.required]],
-      contantNo: ["", [Validators.required]]
-    });
-    const accountant = this._fb.group({
-      name: ["", [Validators.required]],
-      emailId: ["", [Validators.required]],
-      contantNo: ["", [Validators.required]]
-    });
-
-    const state = this._fb.group({
-      name: [""]
-    });
-    this.profile = this._fb.group({
-      commissioner,
-      accountant,
-      noOfWards: ["", [Validators.required]],
-      population: ["", [Validators.required]],
-      area: ["", [Validators.required]],
-      code: ["", [Validators.required]],
-      type: ["", [Validators.required]],
-      name: ["", [Validators.required]],
-      state
-    });
+    this.profile = this.formUtil.getULBForm("EDIT");
+    console.log(this.profile.controls);
     this.disableNonEditableFields();
   }
 
   private disableNonEditableFields() {
-    this.profile.controls.code.disable();
+    this.profile.controls.ulb.disable();
     this.profile.controls.state.disable();
   }
 }
