@@ -3,5 +3,7 @@ export enum ACTIONS {
   EDIT = "EDIT",
   VIEW = "VIEW",
   APPROVE = "APPROVE",
-  REJECT = "REJECT"
+  REJECT = "REJECT",
+  DOWNLOAD = "DOWNLOAD",
+  UPLOAD = "UPLOAD"
 }

@@ -19,11 +19,24 @@ export interface IModules {
 }
 
 export const MODULES: { [key in MODULES_NAME]?: IModules } = {
+  [MODULES_NAME.TABLE_DOWNLOAD]: {
+    name: MODULES_NAME.TABLE_DOWNLOAD,
+    access: {
+      [ACTIONS.DOWNLOAD]: [
+        USER_TYPE.USER,
+        USER_TYPE.ULB,
+        USER_TYPE.STATE,
+        USER_TYPE.MoHUA,
+        USER_TYPE.ADMIN
+      ]
+    }
+  },
+
   [MODULES_NAME.ULB_DATA_UPLOAD]: {
     name: MODULES_NAME.ULB_DATA_UPLOAD,
     access: {
       [ACTIONS.VIEW]: [USER_TYPE.STATE, USER_TYPE.MoHUA, USER_TYPE.ADMIN],
-      [ACTIONS.CREATE]: [USER_TYPE.ULB],
+      [ACTIONS.UPLOAD]: [USER_TYPE.ULB],
       [ACTIONS.APPROVE]: [USER_TYPE.MoHUA, USER_TYPE.ADMIN],
       [ACTIONS.REJECT]: [USER_TYPE.MoHUA, USER_TYPE.ADMIN]
     }
