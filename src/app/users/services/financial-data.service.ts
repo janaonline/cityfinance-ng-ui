@@ -14,10 +14,17 @@ export class FinancialDataService {
 
   fetchFinancialData(params = {}) {
     let queryParams = new HttpParams(params);
+    for (let key in params) {
+      queryParams = queryParams.set(key, params[key]);
+    }
     return this.httpClient.get(`${environment.api.url}ulb-financial-data`, {params: queryParams});
   }
 
   uploadFinancialData(data) {
     return this.httpClient.post(`${environment.api.url}ulb-financial-data`, JSON.stringify(data));
+  }
+
+  updateCompletenessStatus(id, data) {
+    return this.httpClient.post(`${environment.api.url}ulb-financial-data/completeness/${id}`, JSON.stringify(data));
   }
 }
