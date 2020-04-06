@@ -9,6 +9,7 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import { UlbProfileComponent } from './ulb-profile/ulb-profile.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { StateProfileComponent } from './state-profile/state-profile.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     UserProfileComponent,
     ProfileComponent,
     UlbProfileComponent,
-    CommonProfileComponent
+    CommonProfileComponent,
+    StateProfileComponent
   ]
 })
 export class ProfileModule {}

@@ -67,6 +67,22 @@ export class FormUtil {
     });
   }
 
+  public getStateForm() {
+    const form = this.fb.group({
+      state: ["", Validators.required],
+      name: ["", [Validators.required]],
+      email: ["", [Validators.required, Validators.email]],
+      mobile: ["", [Validators.required]],
+      designation: ["", [Validators.required]],
+      address: ["", [Validators.required]],
+      departmentName: ["", Validators.required],
+      departmentEmail: ["", [Validators.required, Validators.email]],
+      departmentContactNumber: ["", Validators.required]
+    });
+
+    return form;
+  }
+
   public validadteUserForm(
     form: FormGroup,
     options: { validationType: "CREATION" | "EDIT" } = {
@@ -115,6 +131,33 @@ export class FormUtil {
   }
 
   public validadteULBForm(form: FormGroup) {
+    const errors: string[] = [];
+    Object.keys(form.controls).forEach(controlName => {
+      const control = form.controls[controlName];
+      if (!control.valid) {
+        const newControlName = controlName.split(/(?=[A-Z])/).join(" ");
+        if (control.errors && control.errors.required) {
+          return errors.push(
+            `${newControlName.charAt(0).toUpperCase() +
+              newControlName.substr(1)} is required`
+          );
+        }
+        if (control.errors && control.errors.pattern) {
+          return errors.push(
+            `${newControlName.charAt(0).toUpperCase() +
+              newControlName.substr(1)} should alphabetic only`
+          );
+        }
+        errors.push(
+          `${newControlName.charAt(0).toUpperCase() +
+            newControlName.substr(1)} is invalid`
+        );
+      }
+    });
+    return errors.length ? errors : null;
+  }
+
+  public validateStateForm(form: FormGroup) {
     const errors: string[] = [];
     Object.keys(form.controls).forEach(controlName => {
       const control = form.controls[controlName];
