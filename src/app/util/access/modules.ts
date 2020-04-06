@@ -3,11 +3,12 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { ACTIONS } from './actions';
 
 export enum MODULES_NAME {
-  ULB = "ULB",
-  SELF_PROFILE_UPDATE = "selfProfileUpdate",
-  MoHUA = "MoHUA",
-  ULB_DATA_UPLOAD = "ULB_DATA_UPLOAD",
-  TABLE_DOWNLOAD = "TABLE_DOWNLOAD"
+  TABLE_DOWNLOAD = "TABLE_DOWNLOAD",
+  STATE = "STATE",
+  USER = "USER",
+  ULB_SIGNUP = "ULB_SIGNUP",
+  ULB_PROFILE = "ULB_PROFILE",
+  ULB_DATA_UPLOAD = "ULB_DATA_UPLOAD"
 }
 
 export interface IModules {
@@ -18,7 +19,7 @@ export interface IModules {
   subModules?: { [key in MODULES_NAME]: IModules };
 }
 
-export const MODULES: { [key in MODULES_NAME]?: IModules } = {
+export const MODULES: { [key in MODULES_NAME]: IModules } = {
   [MODULES_NAME.TABLE_DOWNLOAD]: {
     name: MODULES_NAME.TABLE_DOWNLOAD,
     access: {
@@ -44,6 +45,43 @@ export const MODULES: { [key in MODULES_NAME]?: IModules } = {
       [ACTIONS.UPLOAD]: [USER_TYPE.ULB],
       [ACTIONS.APPROVE]: [USER_TYPE.MoHUA, USER_TYPE.ADMIN],
       [ACTIONS.REJECT]: [USER_TYPE.MoHUA, USER_TYPE.ADMIN]
+    }
+  },
+
+  [MODULES_NAME.ULB_SIGNUP]: {
+    name: MODULES_NAME.ULB_SIGNUP,
+    access: {
+      [ACTIONS.VIEW]: [USER_TYPE.STATE, USER_TYPE.ADMIN],
+      [ACTIONS.APPROVE]: [USER_TYPE.STATE, USER_TYPE.ADMIN],
+      [ACTIONS.REJECT]: [USER_TYPE.STATE, USER_TYPE.ADMIN]
+    }
+  },
+
+  [MODULES_NAME.ULB_PROFILE]: {
+    name: MODULES_NAME.ULB_PROFILE,
+    access: {
+      [ACTIONS.VIEW]: [USER_TYPE.STATE, USER_TYPE.ADMIN],
+      [ACTIONS.APPROVE]: [USER_TYPE.STATE, USER_TYPE.ADMIN],
+      [ACTIONS.REJECT]: [USER_TYPE.STATE, USER_TYPE.ADMIN]
+    }
+  },
+
+  [MODULES_NAME.USER]: {
+    name: MODULES_NAME.USER,
+    access: {
+      [ACTIONS.VIEW]: [USER_TYPE.ADMIN],
+      [ACTIONS.EDIT]: [USER_TYPE.ADMIN],
+      [ACTIONS.DELETE]: [USER_TYPE.ADMIN]
+    }
+  },
+
+  [MODULES_NAME.STATE]: {
+    name: MODULES_NAME.STATE,
+    access: {
+      [ACTIONS.CREATE]: [USER_TYPE.ADMIN],
+      [ACTIONS.VIEW]: [USER_TYPE.ADMIN],
+      [ACTIONS.EDIT]: [USER_TYPE.ADMIN],
+      [ACTIONS.DELETE]: [USER_TYPE.ADMIN]
     }
   }
 };
