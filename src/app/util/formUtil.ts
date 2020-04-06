@@ -35,20 +35,35 @@ export class FormUtil {
     return form;
   }
 
-  public getULBForm() {
-    return this.fb.group({
+  public getULBForm(purpose: "CREATION" | "EDIT" = "CREATION") {
+    const baseForm = this.fb.group({
       state: ["", [Validators.required]],
-      ulb_name: ["", [Validators.required]],
       ulb: ["", [Validators.required]],
       commissionerName: ["", [Validators.required]],
       commissionerConatactNumber: [
         "",
         [Validators.required, mobileNoValidator]
       ],
+      type: ["", [Validators.required]],
+      name: ["", Validators.required],
+
       commissionerEmail: ["", [Validators.required, Validators.email]],
       accountantName: ["", [Validators.required]],
       accountantConatactNumber: ["", [Validators.required, mobileNoValidator]],
       accountantEmail: ["", [Validators.required, Validators.email]]
+    });
+    if (purpose === "EDIT") {
+      return this.fb.group({
+        ...baseForm.controls,
+        noOfWards: ["", [Validators.required]],
+        population: ["", [Validators.required]],
+        area: ["", [Validators.required]]
+      });
+    }
+
+    return this.fb.group({
+      ...baseForm.controls,
+      ulb_name: ["", [Validators.required]]
     });
   }
 

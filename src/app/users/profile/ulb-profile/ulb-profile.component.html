@@ -1,7 +1,7 @@
 <div class="wrapper">
-  <h1>Edit Profile</h1>
+  <h1>{{ profileData ? "Edit Profile" : "Create ULB" }}</h1>
   <form [formGroup]="profile" *ngIf="profile" (ngSubmit)="submitForm(profile)">
-    <div class="input-group" formGroupName="state">
+    <div class="input-group">
       <label for="statename"
         >State
         <span class="asterik">*</span>
@@ -9,10 +9,10 @@
       <input
         id="statename"
         type="text"
-        formControlName="name"
+        formControlName="state"
         class="form-control"
         [ngClass]="{
-          'is-invalid': formSubmitted && profile?.controls?.name.errors
+          'is-invalid': formSubmitted && profile?.controls?.state.errors
         }"
       />
     </div>
@@ -68,10 +68,10 @@
       <input
         id="code"
         type="text"
-        formControlName="code"
+        formControlName="ulb"
         class="form-control"
         [ngClass]="{
-          'is-invalid': formSubmitted && profile?.controls?.code.errors
+          'is-invalid': formSubmitted && profile?.controls?.ulb.errors
         }"
       />
     </div>
@@ -231,7 +231,7 @@
 
     <hr />
 
-    <div formGroupName="commissioner">
+    <div>
       <div class="input-group">
         <label for="commisionerName"
           >Commisioner Name
@@ -240,12 +240,11 @@
         <input
           id="commisionerName"
           type="text"
-          formControlName="name"
+          formControlName="commissionerName"
           class="form-control"
           [ngClass]="{
             'is-invalid':
-              formSubmitted &&
-              profile?.controls.commissioner?.controls.name.errors
+              formSubmitted && profile?.controls.commissionerName?.errors
           }"
         />
       </div>
@@ -258,12 +257,11 @@
         <input
           id="commisionerEmailID"
           type="text"
-          formControlName="emailId"
+          formControlName="commissionerEmail"
           class="form-control"
           [ngClass]="{
             'is-invalid':
-              formSubmitted &&
-              profile?.controls.commissioner?.controls.emailId.errors
+              formSubmitted && profile?.controls.commissionerEmail?.errors
           }"
         />
       </div>
@@ -276,18 +274,18 @@
         <input
           id="commisionerContactNo"
           type="text"
-          formControlName="contantNo"
+          formControlName="commissionerConatactNumber"
           class="form-control"
           [ngClass]="{
             'is-invalid':
               formSubmitted &&
-              profile?.controls.commissioner?.controls.contantNo.errors
+              profile?.controls.commissionerConatactNumber?.errors
           }"
         />
       </div>
     </div>
 
-    <div formGroupName="accountant">
+    <div>
       <div class="input-group">
         <label for="accountantName"
           >Accountant Name
@@ -296,12 +294,11 @@
         <input
           id="accountantName"
           type="text"
-          formControlName="name"
+          formControlName="accountantName"
           class="form-control"
           [ngClass]="{
             'is-invalid':
-              formSubmitted &&
-              profile?.controls.accountant?.controls.name.errors
+              formSubmitted && profile?.controls.accountantName.errors
           }"
         />
       </div>
@@ -314,12 +311,11 @@
         <input
           id="accountantEmailID"
           type="text"
-          formControlName="emailId"
+          formControlName="accountantEmail"
           class="form-control"
           [ngClass]="{
             'is-invalid':
-              formSubmitted &&
-              profile?.controls.accountant?.controls.emailId.errors
+              formSubmitted && profile?.controls.accountantEmail.errors
           }"
         />
       </div>
@@ -332,12 +328,11 @@
         <input
           id="accountantContactNo"
           type="text"
-          formControlName="contantNo"
+          formControlName="accountantConatactNumber"
           class="form-control"
           [ngClass]="{
             'is-invalid':
-              formSubmitted &&
-              profile?.controls.accountant?.controls.contantNo.errors
+              formSubmitted && profile?.controls.accountantConatactNumber.errors
           }"
         />
       </div>
@@ -345,6 +340,13 @@
 
     <p *ngIf="formErrorMessage" style="color: red; margin-left: 2%;">
       {{ formErrorMessage }}
+    </p>
+
+    <p *ngIf="respone.errorMessage" class="error-message">
+      {{ respone.errorMessage }}
+    </p>
+    <p *ngIf="respone.successMessage" class="success-message">
+      {{ respone.successMessage }}
     </p>
     <div class="input-group">
       <button type="submit" class="btn btn-primary">Save</button>
