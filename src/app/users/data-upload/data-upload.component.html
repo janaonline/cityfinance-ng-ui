@@ -248,7 +248,8 @@
     <div class="col">
       <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>
     </div>
-    <div class="col">
+    <div *ngIf="isAccessible"
+         class="col">
       <a mat-button [routerLink]="['upload-form']" class="btn-primary mt-3"
          style="border-radius: 5px">
         Upload Data
@@ -256,7 +257,6 @@
     </div>
     <div class="row mt-5">
       <div class="col-sm-12">
-
         <table class="table">
           <thead style="background: #009fe3;color: white ;border: 5px solid white">
           <tr>

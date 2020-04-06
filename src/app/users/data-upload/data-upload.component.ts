@@ -7,6 +7,8 @@ import {DataEntryService} from '../../dashboard/data-entry/data-entry.service';
 import {FinancialDataService} from '../services/financial-data.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AccessChecker} from '../../util/access/accessChecker';
+import {MODULES_NAME} from '../../util/access/modules';
+import {ACTIONS} from '../../util/access/actions';
 
 @Component({
   selector: 'app-data-upload',
@@ -34,6 +36,7 @@ export class DataUploadComponent implements OnInit {
   fileFormGroup: FormGroup;
 
   dataUploadList = [];
+  isAccessible: boolean;
 
 
   constructor(public activatedRoute: ActivatedRoute,
@@ -41,7 +44,10 @@ export class DataUploadComponent implements OnInit {
               public location: Location,
               public dataUploadService: DataEntryService,
               private financialDataService: FinancialDataService,
-              public accessUtil:AccessChecker) {
+              public accessUtil: AccessChecker) {
+
+    this.isAccessible = accessUtil.hasAccess({moduleName: MODULES_NAME.ULB_DATA_UPLOAD, action: ACTIONS.UPLOAD});
+
     this.activatedRoute.params.subscribe(val => {
       const {id} = val;
       if (id) {
@@ -98,6 +104,7 @@ export class DataUploadComponent implements OnInit {
   handleResponseFailure = (error) => {
     console.log(error);
   };
+
 
   async submitClickHandler() {
 

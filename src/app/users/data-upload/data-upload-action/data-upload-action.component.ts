@@ -11,6 +11,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class DataUploadActionComponent implements OnInit {
 
+  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance'];
   financialYearDropdown = [
     {id: '2015-16', itemName: '2015-16'},
     {id: '2016-17', itemName: '2016-17'},
@@ -37,8 +38,8 @@ export class DataUploadActionComponent implements OnInit {
       audited: new FormControl({value: null, disabled: true}),
       financialYear: new FormControl({value: null, disabled: true}),
       balanceSheet: new FormGroup({
-        completeness: new FormControl(),
-      }, {validators: [Validators.required]}),
+        completeness: new FormControl(''),
+      }),
       schedulesToBalanceSheet: new FormGroup({
         completeness: new FormControl(),
       }),
@@ -75,7 +76,7 @@ export class DataUploadActionComponent implements OnInit {
   }
 
   updateFormControls(data) {
-    const {financialYear, audited} = this.financeDataService.selectedFinancialRequest;
+    const {financialYear, audited} = data
     const selectedFinancialYearObject = this.financialYearDropdown.filter((item) => item.id === financialYear);
     if (selectedFinancialYearObject) {
       this.completenessFormControl.controls['financialYear'].setValue(selectedFinancialYearObject);
@@ -85,6 +86,17 @@ export class DataUploadActionComponent implements OnInit {
     } else {
       this.completenessFormControl.controls['audited'].setValue([this.auditStatusDropdown[1]]);
     }
+    this.fileFormGroupKeys.forEach(formGroupKey => {
+      const formGroupItem = this.financeDataService.selectedFinancialRequest[formGroupKey];
+      if (formGroupItem) {
+        const {excelUrl, pdfUrl} = formGroupItem;
+        if (excelUrl || pdfUrl) {
+          let formControl = this.completenessFormControl.get([formGroupKey, 'completeness']);
+          formControl.setValidators(Validators.required);
+          formControl.updateValueAndValidity();
+        }
+      }
+    });
   }
 
   fileButtonClickHandler(...args) {
