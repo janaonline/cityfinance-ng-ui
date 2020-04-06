@@ -38,10 +38,8 @@ export class CommonService {
 
   public verifyULBCodeAndName(body: { name: string; code: string }) {
     if (!body.name.trim() || !body.code.trim()) {
-      return of({ isValid: false });
+      return of({ isValid: false, ulb: null });
     }
-
-    console.log(`verifyULBCodeAndName`, body);
 
     return this.getULBByCode(body.code).pipe(
       map(res => res["data"]),
@@ -51,7 +49,7 @@ export class CommonService {
           isValid = false;
         }
 
-        return of({ isValid });
+        return of({ isValid, ulb: data });
       })
     );
 

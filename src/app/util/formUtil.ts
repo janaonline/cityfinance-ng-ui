@@ -44,7 +44,6 @@ export class FormUtil {
         "",
         [Validators.required, mobileNoValidator]
       ],
-      type: ["", [Validators.required]],
       name: ["", Validators.required],
 
       commissionerEmail: ["", [Validators.required, Validators.email]],
@@ -52,18 +51,18 @@ export class FormUtil {
       accountantConatactNumber: ["", [Validators.required, mobileNoValidator]],
       accountantEmail: ["", [Validators.required, Validators.email]]
     });
-    if (purpose === "EDIT") {
+    if (purpose === "CREATION") {
       return this.fb.group({
-        ...baseForm.controls,
-        noOfWards: ["", [Validators.required]],
-        population: ["", [Validators.required]],
-        area: ["", [Validators.required]]
+        ...baseForm.controls
       });
     }
 
     return this.fb.group({
       ...baseForm.controls,
-      ulb_name: ["", [Validators.required]]
+      noOfWards: ["", [Validators.required]],
+      population: ["", [Validators.required]],
+      area: ["", [Validators.required]],
+      type: ["", [Validators.required]]
     });
   }
 

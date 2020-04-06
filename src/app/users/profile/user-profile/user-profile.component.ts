@@ -61,9 +61,10 @@ export class UserProfileComponent implements OnInit {
 
   private fetchUserProfile() {
     this._profileService.getUserProfile().subscribe(res => {
-      console.log(res);
+      console.log(`res `, res);
       this.profileData = res["data"];
       this.profileForm.patchValue({ ...this.profileData });
+      console.log(this.profileForm.controls);
     });
   }
 

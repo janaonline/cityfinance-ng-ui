@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { DataEntryService } from '../../../dashboard/data-entry/data-entry.service';
@@ -15,8 +15,8 @@ import { ProfileService } from '../service/profile.service';
   templateUrl: "./ulb-profile.component.html",
   styleUrls: ["./ulb-profile.component.scss"]
 })
-export class UlbProfileComponent implements OnInit {
-  @Input() profileData;
+export class UlbProfileComponent implements OnInit, OnChanges {
+  @Input() profileData: any;
   profile: FormGroup;
   formUtil = new FormUtil();
 
@@ -36,11 +36,15 @@ export class UlbProfileComponent implements OnInit {
     private _fb: FormBuilder,
     private dataEntryService: DataEntryService,
     private _profileService: ProfileService
-  ) {
-    this.initializeForm();
+  ) {}
+
+  ngOnChanges(changes) {
+    // console.log(this.profileData, changes);
   }
 
   ngOnInit() {
+    this.initializeForm();
+
     // this.profile.disable();
     // setTimeout(() => {
     //   this.disableNonEditableFields();
@@ -59,7 +63,6 @@ export class UlbProfileComponent implements OnInit {
   submitForm(form: FormGroup) {
     this.resetResponseMessage();
     this.formSubmitted = true;
-    console.log(form.value);
 
     const errors = this.checkFieldsForError(form);
     this.formErrorMessage = errors;
@@ -185,6 +188,12 @@ export class UlbProfileComponent implements OnInit {
   private initializeForm() {
     this.profile = this.formUtil.getULBForm("EDIT");
     console.log(this.profile.controls);
+    console.log(this.profileData);
+    this.profile.patchValue({
+      ...this.profileData,
+      state: this.profileData.ulb.state.name,
+      ulb: this.profileData.ulb.code
+    });
     this.disableNonEditableFields();
   }
 

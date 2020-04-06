@@ -7,6 +7,7 @@ export class UserUtility {
       return null;
     }
     userData = JSON.parse(userData);
+
     return userData["role"] ? userData["role"] : null;
   }
 }
