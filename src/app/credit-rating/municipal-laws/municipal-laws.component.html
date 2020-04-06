@@ -24,6 +24,7 @@
         <button class="btn btn-primary" (click)="showStateSelectionSection()">
           Compare States
         </button>
+
         <!--        <div class="col-md-12">-->
         <h3 class="">Comparison of Municipal Finance Provisions</h3>
         <!--          <br>-->
@@ -136,16 +137,26 @@
         >
           Compare States
         </button>
+
         <br />
         <a href="/assets/files/municipal-laws-report.xlsx">
-          <button class="btn btn-danger back-link" style="margin-top: 70px;">
+          <button class="btn btn-danger back-link" style="margin-top: 60px;">
             Download
+          </button>
+        </a>
+        <a>
+          <button
+            style="margin-top: 100px;"
+            class="btn btn-warning back-link"
+            (click)="clearSelectedStates()"
+          >
+            Clear All
           </button>
         </a>
         <br />
         <a
           class="back-link"
-          style="margin-top: 100px;"
+          style="margin-top: 130px;"
           (click)="compareState = 0"
           >Back</a
         >
