@@ -1,0 +1,7 @@
+export enum ACTIONS {
+  CREATE = "CREATE",
+  EDIT = "EDIT",
+  VIEW = "VIEW",
+  APPROVE = "APPROVE",
+  REJECT = "REJECT"
+}
