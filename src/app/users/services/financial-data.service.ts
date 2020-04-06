@@ -7,7 +7,7 @@ import {environment} from '../../../environments/environment';
 })
 export class FinancialDataService {
 
-  selectedFinancialRequest = null;
+  public selectedFinancialRequest = null;
 
   constructor(private httpClient: HttpClient) {
   }
@@ -25,6 +25,6 @@ export class FinancialDataService {
   }
 
   updateCompletenessStatus(id, data) {
-    return this.httpClient.post(`${environment.api.url}ulb-financial-data/completeness/${id}`, JSON.stringify(data));
+    return this.httpClient.put(`${environment.api.url}ulb-financial-data/completeness/${id}`, JSON.stringify(data));
   }
 }

@@ -5,6 +5,7 @@ import {DataUploadRoutingModule} from './data-upload-routing.module';
 import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
 import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
 import {ReactiveFormsModule} from '@angular/forms';
+import {AccessChecker} from '../../util/access/accessChecker';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import {ReactiveFormsModule} from '@angular/forms';
         AngularMultiSelectModule,
         ReactiveFormsModule,
     ],
+  providers:[AccessChecker],
   declarations: [DataUploadActionComponent],
 
 })

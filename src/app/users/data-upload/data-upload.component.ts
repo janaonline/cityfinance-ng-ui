@@ -6,6 +6,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataEntryService} from '../../dashboard/data-entry/data-entry.service';
 import {FinancialDataService} from '../services/financial-data.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {AccessChecker} from '../../util/access/accessChecker';
 
 @Component({
   selector: 'app-data-upload',
@@ -39,7 +40,8 @@ export class DataUploadComponent implements OnInit {
               public router: Router,
               public location: Location,
               public dataUploadService: DataEntryService,
-              private financialDataService: FinancialDataService) {
+              private financialDataService: FinancialDataService,
+              public accessUtil:AccessChecker) {
     this.activatedRoute.params.subscribe(val => {
       const {id} = val;
       if (id) {
@@ -150,7 +152,7 @@ export class DataUploadComponent implements OnInit {
     this.fileFormGroup.get(strings).setValue(file);
   }
 
-  navigateTo( row: any) {
+  navigateTo(row: any) {
     this.financialDataService.selectedFinancialRequest = row;
   }
 }
