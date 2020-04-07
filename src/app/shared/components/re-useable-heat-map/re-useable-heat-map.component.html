@@ -1,9 +1,7 @@
 <div class="testing"></div>
 
 <div class="col-sm-12 stateMapContainer" id="ulbMap">
-  <div
-    style="position: absolute;z-index: 9;margin-left: 2%; text-decoration: underline;font-weight: 500; width: 56%; display: inherit; margin-top: 0.8rem;"
-  >
+  <div >
     <span
       *ngIf="currentStateInView && currentStateInView.name"
       style="display: inline-block;"
@@ -27,7 +25,7 @@
   <div class="ulbSelectDropdown ">
     <mat-form-field
       style="display: block;"
-      class="col-md-12 customDropdown"
+      class="customDropdown"
       appearance="outline"
       *ngIf="ulbsOfSelectedState && nationalLevelMap"
     >

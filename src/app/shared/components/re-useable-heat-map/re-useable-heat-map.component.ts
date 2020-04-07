@@ -1009,7 +1009,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     const newStyle = document.createElement("style");
     newStyle.id = "customReuseable";
     const styling =
-      " .mat-form-field-appearance-outline .mat-form-field-infix { padding: 14.5px 0 !important;}";
+      " .mat-form-field-appearance-outline .mat-form-field-infix { padding: 9px 0 !important;}";
     newStyle.appendChild(document.createTextNode(styling));
     document.head.appendChild(newStyle);
   }
