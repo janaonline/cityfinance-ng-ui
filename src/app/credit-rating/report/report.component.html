@@ -1432,17 +1432,23 @@
                 </div>
               </div>
               <table class="table">
+                <thead>
                 <tr>
                   <th>Credit Rating ULBs</th>
                   <th>{{ absCreditInfo.creditRatingUlbs }}</th>
                 </tr>
-                <tr
-                  *ngFor="let grade of ratingGrades"
-                  [ngClass]="{ hidden: !absCreditInfo.ratings[grade] }"
+                </thead>
+
+                <tbody>
+                <tr (click)="openModal(modal,grade)"
+                    *ngFor="let grade of ratingGrades"
+                    [ngClass]="{ hidden: !absCreditInfo.ratings[grade] }"
                 >
                   <td width="60%">{{ grade }}</td>
                   <td>{{ absCreditInfo.ratings[grade] }}</td>
                 </tr>
+                </tbody>
+
                 <!-- <tr *ngFor="let rating of absCreditInfo.ratings | keyvalue" [ngClass]="{'hidden': !rating.value}">
                   <td>{{rating.key}}</td>
                   <td>{{rating.value}}</td>
@@ -1452,7 +1458,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12"><br /><br /></div>
+      <div class="col-md-12"><br/><br/></div>
     </div>
 
     <div class="row" *ngIf="page == 2">
@@ -1478,7 +1484,7 @@
           [(ngModel)]="search"
           class="form-control"
         />
-        <br />
+        <br/>
       </div>
       <div class="col-md-9">
         <a href="/assets/files/CreditRating.xlsx">
@@ -1517,7 +1523,7 @@
               </th>
               <th
                 style="width: 15%"
-                
+
                 (click)="sortBy('status')"
                 class="updatedcreditrating sortable"
               >
@@ -1628,9 +1634,9 @@
               </div>
             </div> -->
 
-            <hr />
+            <hr/>
             <i style="font-size: 12px; color: #666;"
-              >The agency may apply ‘+’ or ‘-‘ signs for ratings to reflect
+            >The agency may apply ‘+’ or ‘-‘ signs for ratings to reflect
               comparative standing within the category. A plus (+) sign puts the
               rating of a security at a relatively higher position when compared
               to a rating of a security with a minus (-) sign within the same
@@ -1642,3 +1648,31 @@
     </div>
   </div>
 </div>
+
+<ng-template #modal>
+  <button style="background-color:#333333;min-width: min-content;float: right"
+          (click)="modalService.hide(1)"
+          mat-raised-button
+          title="Close"
+          type="button" data-dismiss="modal" aria-label="Close">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="modal-body">
+    <div class="table-responsive border-1">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>S.No</th>
+          <th class="text-center" *ngFor="let header of dialogHeaders">{{header.title}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of dialogData;let i = index">
+          <td>{{i + 1}}</td>
+          <td class="text-center" *ngFor="let header of dialogHeaders">{{row[header.id]}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>
