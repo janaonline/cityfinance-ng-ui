@@ -12,13 +12,13 @@
             (click)="showStateGroup(item)"
             title="Click to compare states"
           >
-            <img [src]="item.imgUrl" />
+            <img [src]="item.imgUrl"/>
             <div class="carousel-caption d-none d-md-block">
               <h4 class="title">{{ item.caption }}</h4>
             </div>
           </slide>
         </carousel>
-        <br />
+        <br/>
       </div>
       <div class="col-md-6 mt-2">
         <button class="btn btn-primary" (click)="showStateSelectionSection()">
@@ -29,7 +29,7 @@
         <h3 class="">Comparison of Municipal Finance Provisions</h3>
         <!--          <br>-->
         <!--        </div>-->
-        <br />
+        <br/>
         <p>
           Presented here is a comparison of the pronouncements of various
           Municipal Acts, underlying Rules and Regulations, and Accounts and
@@ -83,7 +83,7 @@
       </div> -->
     </div>
 
-    <div class="row container m-auto" *ngIf="compareState == 1">
+    <div class="row container m-auto mt-2" *ngIf="compareState == 1">
       <div class="col-md-12">
         <h3>
           Comparison of Municipal Finance Provisions
@@ -91,11 +91,14 @@
             *ngIf="compareState > 0"
             class="back-link"
             style="margin-right: 0px"
-            (click)="compareState = 0"
-            >Back</a
-          >
+            (click)="compareState = 0">Back</a>
         </h3>
-        <br />
+        <br/>
+      </div>
+      <div class="col-md-12">
+        <button *ngIf="selectedStates.length>1" (click)="clearSelectedStates()" class="btn btn-sm btn-danger">Clear
+          All
+        </button>
       </div>
       <div
         *ngFor="let state of states"
@@ -108,7 +111,7 @@
       </div>
 
       <div class="col-md-12">
-        <br />
+        <br/>
         <div class="col-md-3 col-md-offset-3">
           <button
             class="btn btn-primary col-md-12"
@@ -138,19 +141,19 @@
           Compare States
         </button>
 
-        <br />
+        <br/>
         <a href="/assets/files/municipal-laws-report.xlsx">
           <button class="btn btn-danger back-link" style="margin-top: 60px;">
             Download
           </button>
         </a>
 
-        <br />
+        <br/>
         <a
           class="back-link"
           style="margin-top: 85px;"
           (click)="compareState = 0"
-          >Back</a
+        >Back</a
         >
         <!-- <a class="back-link" style="margin-top: 100px;" (click)="backToStateSelection()">Back</a> -->
         <!-- <a *ngIf="compareState > 0" class="back-link" (click)="backToStateSelection()">Back</a> -->
@@ -235,7 +238,7 @@
                                     list[key][title].titleWithCaptions.length >
                                     1
                                   "
-                                  >{{ i + 1 }}.</span
+                                >{{ i + 1 }}.</span
                                 >
                                 <span *ngIf="cell.titles">
                                   <div *ngFor="let item of titles">
@@ -245,7 +248,7 @@
                                 <span *ngIf="cell.title">{{ cell.title }}</span>
                                 <span class="text-primary">{{
                                   cell.caption
-                                }}</span>
+                                  }}</span>
                               </div>
                             </div>
                           </div>
@@ -327,7 +330,7 @@
       </div>
     </div>
     <div class="col-md-12">
-      <br />
+      <br/>
       <button class="btn btn-primary center" (click)="modalRef.hide()">
         Apply Selection
       </button>
