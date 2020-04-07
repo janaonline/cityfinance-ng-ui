@@ -1438,7 +1438,7 @@
                   *ngFor="let grade of ratingGrades"
                   [ngClass]="{ hidden: !absCreditInfo.ratings[grade] }"
                 >
-                  <td>{{ grade }}</td>
+                  <td width="60%">{{ grade }}</td>
                   <td>{{ absCreditInfo.ratings[grade] }}</td>
                 </tr>
                 <!-- <tr *ngFor="let rating of absCreditInfo.ratings | keyvalue" [ngClass]="{'hidden': !rating.value}">
