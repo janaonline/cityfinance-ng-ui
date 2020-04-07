@@ -2,12 +2,15 @@ table {
   th.changeinrating {
     width: 160px;
   }
+
   th.updatedcreditrating {
     width: 160px;
   }
+
   th.outlookdate {
     width: 115px;
   }
+
   td {
     cursor: pointer;
   }
@@ -29,6 +32,7 @@ table {
   .fil2 {
     fill: #fff;
   }
+
   .svg_path {
     fill: #efefef;
     opacity: 1;
@@ -37,6 +41,7 @@ table {
       stroke-width: 0.9px !important;
     }
   }
+
   .selected {
     fill: #009fe3;
   }
@@ -45,3 +50,18 @@ table {
 .sortable {
   cursor: default;
 }
+
+::ng-deep {
+  .modal-mdl {
+    width: 50%;
+    border: 0;
+
+    & .modal-content {
+      border: 0;
+    }
+  }
+
+
+}
+
+
