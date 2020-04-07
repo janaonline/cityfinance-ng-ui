@@ -26,8 +26,16 @@
           *ngIf="bondIssuerItemData && bondIssuerItemData.length"
           [formGroup]="filterForm"
           (ngSubmit)="onSubmittingFilterForm()"
-          class="col-md-5 filterForm"
+          class="col-md-6 filterForm"
         >
+          <!--  <angular2-multiselect
+              style="width: 70%; margin-right: 2%;"
+              formControlName="states"
+              [data]="statesAvailable"
+              [settings]="stateDropdownSettings"
+              (onDeSelectAll)="filterForm.patchValue({ states: [] })">
+            </angular2-multiselect>-->
+
           <angular2-multiselect
             style="width: 70%; margin-right: 2%;"
             formControlName="ulbs"
@@ -45,14 +53,20 @@
             [settings]="yearsDropdownSettings"
           >
           </angular2-multiselect>
-          <input type="submit" value="Search" class=" btn btn-primary" />
+          <input type="submit" value="Search" class=" btn btn-primary"/>
+          <button
+            class="right btn btn-danger"
+            (click)="filterForm.reset()"
+            style="margin-left: 1%;">
+            Clear All
+          </button>
           <button
             class="right btn btn-primary"
             (click)="onClickDownload()"
             style="margin-left: 1%;"
-          >
-            Download
+          >Download
           </button>
+
         </form>
 
         <!-- <div
@@ -88,9 +102,9 @@
       >
         <table accordion-heading id="tableHeadings">
           <thead>
-            <th>Issuer</th>
-            <th
-              *ngFor="
+          <th>Issuer</th>
+          <th
+            *ngFor="
                 let bondIsuuerItem of paginatedbondIssuerItem
                   | paginate
                     : {
@@ -101,9 +115,9 @@
                       };
                 index as i
               "
-            >
-              {{ bondIsuuerItem.ulb }}
-            </th>
+          >
+            {{ bondIsuuerItem.ulb }}
+          </th>
           </thead>
         </table>
 
