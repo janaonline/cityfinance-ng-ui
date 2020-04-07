@@ -56,7 +56,7 @@
           <input type="submit" value="Search" class=" btn btn-primary"/>
           <button
             class="right btn btn-danger"
-            (click)="filterForm.reset()"
+            (click)="filterForm.patchValue({ulbs:[],years:[]})"
             style="margin-left: 1%;">
             Clear All
           </button>
