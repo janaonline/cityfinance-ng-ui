@@ -1,10 +1,8 @@
 <ng-container *ngIf="id; else noId">
-  <div class="container">
+  <div class="row">
     <div class="col mt-3">
       <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>
     </div>
-
-
     <ng-container *ngIf="id==='upload-form'">
       <div class="mt-2">
         <h3>Financial Data Upload</h3>
@@ -244,11 +242,11 @@
 
 <ng-template #noId>
 
-  <div class="container flex-column">
+  <div class="row flex-column">
     <div class="col">
       <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>
     </div>
-    <div *ngIf="isAccessible"
+    <div *ngIf="!isAccessible"
          class="col">
       <a mat-button [routerLink]="['upload-form']" class="btn-primary mt-3"
          style="border-radius: 5px">
@@ -285,6 +283,4 @@
       </div>
     </div>
   </div>
-
-
 </ng-template>

@@ -1,7 +1,8 @@
 import {HttpClient} from '@angular/common/http';
 import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
-import {creditRatingModalHeaders, tableHeaders} from '../../auth/home-header/tableHeaders';
+import {creditRatingModalHeaders} from '../../shared/components/home-header/tableHeaders';
+
 
 // import { CreditRatingJson } from './credit-rating.json';
 

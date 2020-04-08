@@ -17,6 +17,7 @@ import {RoundoffPipe} from './pipes/roundoff/roundoff.pipe';
 import {AuditStatusTextPipe} from './pipes/audit-status-text.pipe';
 import {HomeHeaderComponent} from './components/home-header/home-header.component';
 import {RouterModule} from '@angular/router';
+import {SideMenuComponent} from './side-menu/side-menu.component';
 
 @NgModule({
   imports: [
@@ -30,8 +31,8 @@ import {RouterModule} from '@angular/router';
     MatSnackBarModule,
     MatProgressSpinnerModule
   ],
-  declarations: [PreLoaderComponent, ReUseableHeatMapComponent, HomeHeaderComponent, RupeeConverterPipe, TypeofPipe, RoundoffPipe, AuditStatusTextPipe],
-  exports: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe, TypeofPipe, RoundoffPipe, AuditStatusTextPipe, HomeHeaderComponent]
+  declarations: [PreLoaderComponent, ReUseableHeatMapComponent, HomeHeaderComponent, RupeeConverterPipe, TypeofPipe, RoundoffPipe, AuditStatusTextPipe, SideMenuComponent],
+  exports: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe, TypeofPipe, RoundoffPipe, AuditStatusTextPipe, HomeHeaderComponent, SideMenuComponent]
 })
 export class SharedModule {
 }
