@@ -1,13 +1,16 @@
-
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material';
-import { Chart } from 'chart.js';
 import 'chartjs-plugin-labels';
 
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { Chart } from 'chart.js';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { forkJoin, Subject } from 'rxjs';
+import { debounceTime, map, takeUntil } from 'rxjs/operators';
+import { IStateWithULBS } from 'src/app/shared/components/re-useable-heat-map/models/stateWithULBS';
+import { IStateULBCovered, IStateULBCoveredResponse } from 'src/app/shared/models/stateUlbConvered';
+import { IULBWithPopulationResponse, ULBWithMapData } from 'src/app/shared/models/ulbsForMapResponse';
+import { CommonService } from 'src/app/shared/services/common.service';
 
 import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
 import { DashboardService } from '../../../shared/services/dashboard/dashboard.service';
@@ -41,6 +44,7 @@ export class HomeTabViewComponent implements OnInit {
   commonTableData = [];
   commonTableDataDisplay = [];
   yearForm: FormGroup;
+  ulbFilterControl = new FormControl();
   selectedYears: any = [];
   modalRef: BsModalRef;
   modalTableHeaders: ModalTableHeader[] = modalTableHeaders[0];
@@ -54,6 +58,21 @@ export class HomeTabViewComponent implements OnInit {
   selectedUlb: string;
 
   apiCanceller = new Subject();
+
+  stateData: IStateULBCovered[];
+  allULBSList: IULBWithPopulationResponse["data"];
+  stateAndULBDataMerged: {
+    [stateId: string]: IStateWithULBS;
+  };
+
+  filteredULBStateAndULBDataMerged: {
+    [stateId: string]: IStateWithULBS;
+  };
+
+  ulbsOfSelectedState: IULBWithPopulationResponse["data"];
+  ulbListForAutoCompletion: IULBWithPopulationResponse["data"];
+
+  object = Object;
 
   tabIndexChangeHandler(event): void {
     this.tabIndex = event;
@@ -75,7 +94,9 @@ export class HomeTabViewComponent implements OnInit {
     protected formBuilder: FormBuilder,
     protected dashboardService: DashboardService,
     private modalService: BsModalService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    protected _commonService: CommonService,
+    protected _snacbar: MatSnackBar
   ) {
     this.yearForm = formBuilder.group({
       years: [[this.yearLookup[1]]]
@@ -85,12 +106,196 @@ export class HomeTabViewComponent implements OnInit {
 
   ngOnInit() {
     this.fetchData();
+    this.initiatedDataFetchingProcess().subscribe(res => {});
+    this.ulbFilterControl.valueChanges
+      .pipe(debounceTime(100))
+      .subscribe(textToSearch => {
+        this.updateULBDropdownList({
+          ulbName: textToSearch,
+          stateId: this.selectedState ? this.selectedState._id : null
+        });
+      });
+  }
+
+  private filterMergedStateDataBy(options: {
+    ulbName?: string;
+    stateId?: string;
+  }) {
+    let filteredULBAndState: {
+      [stateId: string]: IStateULBCovered & {
+        ulbs: ULBWithMapData[];
+      };
+    };
+
+    if (options.stateId) {
+      if (this.stateAndULBDataMerged[options.stateId].ulbs.length) {
+        filteredULBAndState = {
+          [options.stateId]: { ...this.stateAndULBDataMerged[options.stateId] }
+        };
+      }
+    }
+
+    if (options.ulbName && !options.ulbName.trim()) {
+      filteredULBAndState = filteredULBAndState
+        ? filteredULBAndState
+        : { ...this.stateAndULBDataMerged };
+    } else {
+      Object.keys(filteredULBAndState || this.stateAndULBDataMerged).forEach(
+        stateId => {
+          const stateFound = { ...this.stateAndULBDataMerged[stateId] };
+          const ulbList = this.filteredULBBy(
+            { ulbName: options.ulbName },
+            stateFound.ulbs
+          );
+          if (!ulbList.length && !options.stateId) {
+            return;
+          }
+          stateFound.ulbs = ulbList;
+          if (!filteredULBAndState) {
+            filteredULBAndState = {};
+          }
+          filteredULBAndState[stateId] = stateFound;
+        }
+      );
+    }
+    return this.filterOutEmptyULBStates(filteredULBAndState);
+    // return filteredULBAndState;
+  }
+
+  private filteredULBBy(
+    options: { ulbName?: string },
+    ulbList: ULBWithMapData[]
+  ) {
+    let filteredULBS: ULBWithMapData[] = [];
+    if (options.ulbName && options.ulbName.trim()) {
+      filteredULBS = filteredULBS.concat(
+        ulbList.filter(ulb =>
+          ulb.name.toLowerCase().includes(options.ulbName.toLowerCase())
+        )
+      );
+    } else {
+      filteredULBS = ulbList;
+    }
+
+    return filteredULBS;
+  }
+
+  protected initiatedDataFetchingProcess() {
+    const body = { year: this.selectedYears || [] };
+    const subscriptions: any[] = [];
+    subscriptions.push(
+      this._commonService
+        .getStateUlbCovered(body)
+        .pipe(map(res => this.onGettingStateULBCoveredSuccess(res)))
+      // .subscribe(res => this.onGettingStateULBCoveredSuccess(res))
+    );
+
+    subscriptions.push(
+      this._commonService
+        .getULBSWithPopulationAndCoordinates(body)
+        .pipe(map(res => this.onGettingULBWithPopulationSuccess(res)))
+      // .subscribe(res => this.onGettingULBWithPopulationSuccess(res))
+    );
+    return forkJoin(subscriptions);
+  }
+
+  private onGettingStateULBCoveredSuccess(res: IStateULBCoveredResponse) {
+    this.stateData = res.data;
+    if (this.allULBSList) {
+      this.stateAndULBDataMerged = this.CombineStateAndULBData(
+        this.stateData,
+        this.allULBSList
+      );
+    }
+
+    if (!this.filteredULBStateAndULBDataMerged && this.stateAndULBDataMerged) {
+      this.filteredULBStateAndULBDataMerged = this.filterOutEmptyULBStates(
+        this.stateAndULBDataMerged
+      );
+    }
+
+    return res;
+  }
+
+  private onGettingULBWithPopulationSuccess(res: IULBWithPopulationResponse) {
+    this.allULBSList = res.data;
+
+    this.ulbsOfSelectedState = res.data;
+    this.ulbListForAutoCompletion = res.data;
+    if (this.stateData) {
+      this.stateAndULBDataMerged = this.CombineStateAndULBData(
+        this.stateData,
+        res.data
+      );
+    }
+
+    if (!this.filteredULBStateAndULBDataMerged && this.stateAndULBDataMerged) {
+      this.filteredULBStateAndULBDataMerged = this.filterOutEmptyULBStates(
+        this.stateAndULBDataMerged
+      );
+    }
+    return res;
+  }
+
+  protected filterOutEmptyULBStates(data: {
+    [stateId: string]: IStateULBCovered & {
+      ulbs: ULBWithMapData[];
+    };
+  }) {
+    if (!data || !Object.keys(data).length) {
+      return null;
+      return null;
+    }
+
+    const newObj = {};
+    Object.keys(data).forEach(stateKey => {
+      if (data[stateKey].ulbs && data[stateKey].ulbs.length) {
+        newObj[stateKey] = { ...data[stateKey] };
+      }
+    });
+    return newObj;
+  }
+
+  private CombineStateAndULBData(
+    states: IStateULBCovered[],
+    ulbStates: ULBWithMapData[]
+  ) {
+    const newStateObj: {
+      [stateId: string]: IStateULBCovered & { ulbs: ULBWithMapData[] };
+    } = {};
+    states
+      .map(state => ({
+        ...state,
+        ulbs: ulbStates.filter(ulb => ulb.state === state._id)
+      }))
+      .forEach(merged => (newStateObj[merged._id] = merged));
+
+    return newStateObj;
+  }
+
+  onSelectingULBFromDropdown(ulbId: string, stateId: string) {
+    this.ulbFilterControl.setValue("");
+    const stateFound = this.stateAndULBDataMerged[stateId];
+    this.selectedUlb = ulbId;
+    this.selectedState = stateFound;
+    this.updateULBDropdownList({ stateId: stateId });
+  }
+
+  updateULBDropdownList(options: { ulbName?: string; stateId?: string }) {
+    this.filteredULBStateAndULBDataMerged = this.filterMergedStateDataBy(
+      options
+    );
   }
 
   onDropdownSelect(event: any) {
     // this.selectedYears = [...this.selectedYears, event.id];
     this.selectedYears.push(event.id);
     //  this.filterDisplayDataTableYearWise();
+  }
+  private resetDropdownListToNationalLevel() {
+    this.filteredULBStateAndULBDataMerged = this.filterOutEmptyULBStates(
+      this.stateAndULBDataMerged
+    );
   }
 
   handleError = e => {
@@ -776,6 +981,7 @@ export class HomeTabViewComponent implements OnInit {
     this.tabData = [];
     this.apiCanceller.next(true);
     this.fetchData();
+    this.updateULBDropdownList({ stateId: this.selectedState._id });
   }
 
   sortCallBack(a, b, id) {

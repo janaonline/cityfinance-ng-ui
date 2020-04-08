@@ -86,6 +86,14 @@
   border-radius: 0px;
 }
 
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0px;
+}
+
+:ng-deep mat-form-field.mat-form-field {
+  line-height: 0.325;
+}
+
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #f0ad4e;

@@ -1,18 +1,16 @@
 <div class="testing"></div>
 
 <div class="col-sm-12 stateMapContainer" id="ulbMap">
-  <div >
+  <div
+    style="position: absolute;z-index: 9;margin-left: 2%; text-decoration: underline;font-weight: 500; display: inherit; margin-top: 1.8rem;"
+  >
     <span
       *ngIf="currentStateInView && currentStateInView.name"
       style="display: inline-block;"
-      [style.min-width.px]="currentStateInView.name.length * 7"
       >{{ currentStateInView ? currentStateInView.name : ""
       }}<span *ngIf="currentULBClicked">:&nbsp; </span>
     </span>
-    <span
-      *ngIf="currentULBClicked"
-      style="display: inline-block; max-width: 60%; "
-    >
+    <span *ngIf="currentULBClicked">
       {{ currentULBClicked.name }}
     </span>
   </div>
@@ -23,9 +21,9 @@
     <app-pre-loader></app-pre-loader>
   </div>
   <div class="ulbSelectDropdown ">
-    <mat-form-field
+    <!-- <mat-form-field
       style="display: block;"
-      class="customDropdown"
+      class="col-md-12 customDropdown"
       appearance="outline"
       *ngIf="ulbsOfSelectedState && nationalLevelMap"
     >
@@ -38,6 +36,7 @@
         [formControl]="ulbFilterControl"
         [matAutocomplete]="auto"
       />
+
       <mat-autocomplete #auto="matAutocomplete" class="tesinng">
         <mat-option *ngIf="!filteredULBStateAndULBDataMerged" disabled>
           No ULB matched
@@ -69,7 +68,7 @@
           </mat-optgroup>
         </div>
       </mat-autocomplete>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <section
       class="regionalDetails regionalDetails2 col-sm-12"
@@ -83,36 +82,29 @@
     justify-content: center;
     margin-right: 5%;"
       >
-      <span style="position: absolute;font-size: .7em; ">
-        {{ mouseHoverOnState.coveredUlbPercentage | number: "1.0-0" }} %
-      </span>
-      <div class="">
+        <span style="position: absolute;font-size: .7em; ">
+          {{ mouseHoverOnState.coveredUlbPercentage | number: "1.2-2" }} %
+        </span>
         <mat-progress-spinner
-        [value]="100"
-        [diameter]="50"
-        style="position: absolute;"
-        class="full"
-        ></mat-progress-spinner>
-        <mat-progress-spinner
-        [value]="mouseHoverOnState.coveredUlbPercentage | number: '2.2-2'"
-        [diameter]="50"
+          [value]="mouseHoverOnState.coveredUlbPercentage | number: '2.2-2'"
+          [diameter]="50"
         ></mat-progress-spinner>
       </div>
-    </div>
-    
-    <div
-    style="align-items: center;
+
+      <div
+        style="align-items: center;
     display: inline;
     width: fit-content;"
       >
-      <strong>Data Availability</strong> <br>
         <span> {{ mouseHoverOnState.name }}</span>
         <br />
-        <span class="colorText"> {{ mouseHoverOnState.coveredUlbCount }} </span> out of
-        <span class="colorText"> {{ mouseHoverOnState.totalUlbs }} </span>
+        <span class="colorText">
+          {{ mouseHoverOnState.coveredUlbCount }} out of
+          {{ mouseHoverOnState.totalUlbs }}
+        </span>
         ULBs
         <br />
-        <span class="colorText"> {{ mouseHoverOnState.audited }} </span> ULBs Audited 
+        ULBs Audited: {{ mouseHoverOnState.audited }}
       </div>
     </section>
 
