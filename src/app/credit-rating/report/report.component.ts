@@ -22,10 +22,12 @@ export class ReportComponent implements OnInit, OnDestroy {
     agencies?: any[],
     creditRatings?: any[],
     statusRatings?: any[]
-  } = {states: []};
+  } = {states: [], agencies: [], creditRatings: [], statusRatings: []};
   ulbSearchFormControl = new FormControl('');
   stateSearchFormControl = new FormControl([]);
   agencySearchFormControl = new FormControl([]);
+  creditSearchFormControl = new FormControl([]);
+  statusSearchFormControl = new FormControl([]);
   detailedList = [];
   // columnDefs = [
   //   { headerName: 'No', field: 'sno', width: 50 },
@@ -585,6 +587,19 @@ export class ReportComponent implements OnInit, OnDestroy {
         name: agency
       };
     });
+    this.dropdownFiltersData.creditRatings = this.commonService.getUniqueArrayByKey(this.list, 'creditrating').map(creditrating => {
+      return {
+        id: creditrating,
+        name: creditrating
+      };
+    });
+    this.dropdownFiltersData.statusRatings = this.commonService.getUniqueArrayByKey(this.list, 'status').map(status => {
+      return {
+        id: status,
+        name: status
+      };
+    });
+
   }
 
   searchDropdownItemSelected(searchFormControl: FormControl, searchKey) {
@@ -603,7 +618,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     } else {
       this.list = this.originalList;
     }
-    let remainingFilters = ['state', 'agency', 'ulb'].filter((item => item != searchKey));
+    let remainingFilters = ['state', 'agency', 'ulb', 'creditrating'].filter((item => item != searchKey));
     for (let filter of remainingFilters) {
       let formControl: FormControl;
       switch (filter) {
@@ -615,6 +630,12 @@ export class ReportComponent implements OnInit, OnDestroy {
           break;
         case 'ulb':
           formControl = this.ulbSearchFormControl;
+          break;
+        case  'creditrating':
+          formControl = this.creditSearchFormControl;
+          break;
+        case 'status':
+          formControl = this.statusSearchFormControl;
       }
       if (formControl.value.length) {
         let ids;

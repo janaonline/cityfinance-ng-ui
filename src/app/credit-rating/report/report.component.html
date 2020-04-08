@@ -1477,13 +1477,13 @@
       </div> -->
 
       <div class="col-md-3">
-<!--        <input-->
-<!--          type="text"-->
-<!--          placeholder="Search by ULB's"-->
-<!--          (keyup)="filterRecords()"-->
-<!--          [(ngModel)]="search"-->
-<!--          class="form-control"-->
-<!--        />-->
+        <!--        <input-->
+        <!--          type="text"-->
+        <!--          placeholder="Search by ULB's"-->
+        <!--          (keyup)="filterRecords()"-->
+        <!--          [(ngModel)]="search"-->
+        <!--          class="form-control"-->
+        <!--        />-->
         <br/>
       </div>
       <div class="col-md-9">
@@ -1580,9 +1580,27 @@
                                     text: 'Agency', labelKey:'name', badgeShowLimit: 1}"
                                     [data]="dropdownFiltersData.agencies"></angular2-multiselect>
             </td>
+            <td width="15%">
+              <angular2-multiselect (onSelect)="searchDropdownItemSelected(creditSearchFormControl,'creditrating')"
+                                    (onDeSelect)="searchDropdownItemSelected(creditSearchFormControl,'creditrating')"
+                                    [formControl]="creditSearchFormControl"
+                                    [settings]="{
+                                    primaryKey: 'id',
+                                    singleSelection: false,
+                                    text: 'Credit Rating', labelKey:'name', badgeShowLimit: 1}"
+                                    [data]="dropdownFiltersData.creditRatings"></angular2-multiselect>
+            </td>
+            <td width="15%">
+              <angular2-multiselect (onSelect)="searchDropdownItemSelected(statusSearchFormControl,'status')"
+                                    (onDeSelect)="searchDropdownItemSelected(statusSearchFormControl,'status')"
+                                    [formControl]="statusSearchFormControl"
+                                    [settings]="{
+                                    primaryKey: 'id',
+                                    singleSelection: false,
+                                    text: 'Status Rating', labelKey:'name', badgeShowLimit: 1}"
+                                    [data]="dropdownFiltersData.statusRatings"></angular2-multiselect>
+            </td>
             <td width="15%"></td>
-            <td width="25%"></td>
-            <td width="25%"></td>
           </tr>
         </table>
 
