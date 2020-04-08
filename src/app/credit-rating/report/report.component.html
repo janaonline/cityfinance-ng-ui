@@ -1573,6 +1573,8 @@
             <td width='15%'>
               <angular2-multiselect (onSelect)="searchDropdownItemSelected(agencySearchFormControl,'agency')"
                                     (onDeSelect)="searchDropdownItemSelected(agencySearchFormControl,'agency')"
+                                    (onSelectAll)="searchDropdownItemSelected(agencySearchFormControl,'agency')"
+                                    (onDeSelectAll)="searchDropdownItemSelected(agencySearchFormControl,'agency')"
                                     [formControl]="agencySearchFormControl"
                                     [settings]="{
                                     primaryKey: 'id',
@@ -1583,6 +1585,8 @@
             <td width="15%">
               <angular2-multiselect (onSelect)="searchDropdownItemSelected(creditSearchFormControl,'creditrating')"
                                     (onDeSelect)="searchDropdownItemSelected(creditSearchFormControl,'creditrating')"
+                                    (onSelectAll)="searchDropdownItemSelected(creditSearchFormControl,'creditrating')"
+                                    (onDeSelectAll)="searchDropdownItemSelected(creditSearchFormControl,'creditrating')"
                                     [formControl]="creditSearchFormControl"
                                     [settings]="{
                                     primaryKey: 'id',
@@ -1593,6 +1597,8 @@
             <td width="15%">
               <angular2-multiselect (onSelect)="searchDropdownItemSelected(statusSearchFormControl,'status')"
                                     (onDeSelect)="searchDropdownItemSelected(statusSearchFormControl,'status')"
+                                    (onSelectAll)="searchDropdownItemSelected(statusSearchFormControl,'status')"
+                                    (onDeSelectAll)="searchDropdownItemSelected(statusSearchFormControl,'status')"
                                     [formControl]="statusSearchFormControl"
                                     [settings]="{
                                     primaryKey: 'id',
