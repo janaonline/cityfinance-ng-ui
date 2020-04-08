@@ -6,7 +6,7 @@
   <mat-tab [disabled]="loading" label="Extent of Dependency on Own Revenues">
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-4"
-           style="max-width: 40%; margin-top: 1%;"
+           
            *ngIf="tabIndex === 0">
         <app-re-useable-heat-map
           [yearSelected]="selectedYears"
@@ -24,7 +24,7 @@
   <mat-tab [disabled]="loading" [label]="'Sources of Revenue'">
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-5"
-           style="max-width: 40%; margin-top: 1%;"
+           
            *ngIf="tabIndex === 1">
         <app-re-useable-heat-map
           [yearSelected]="selectedYears"
@@ -40,7 +40,7 @@
   <mat-tab [disabled]="loading" [label]="'Sources of Financing Revenue Expenditure'">
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-5"
-           style="max-width: 40%; margin-top: 1%;"
+           
            *ngIf="tabIndex === 2">
         <app-re-useable-heat-map
           [yearSelected]="selectedYears"
@@ -57,7 +57,7 @@
   <mat-tab [disabled]="loading" [label]="'Avenues of Revenue Expenditure'">
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-5"
-           style="max-width: 40%; margin-top: 1%;"
+           
            *ngIf="tabIndex === 3">
         <app-re-useable-heat-map
           [yearSelected]="selectedYears"
@@ -73,7 +73,7 @@
   <mat-tab [disabled]="loading" [label]="'Cash and Bank Balance'">
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-5"
-           style="max-width: 40%; margin-top: 1%;"
+           
            *ngIf="tabIndex === 4">
         <app-re-useable-heat-map
           [yearSelected]="selectedYears"
@@ -91,7 +91,7 @@
   <mat-tab [disabled]="loading" [label]="'Outstanding Debt'">
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-4"
-           style="max-width: 40%; margin-top: 1%;"
+           
            *ngIf="tabIndex === 5">
         <app-re-useable-heat-map
           [yearSelected]="selectedYears"
@@ -112,7 +112,7 @@
                 [formGroup]="yearForm">
     <div class="row d-flex">
       <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
-      <button mat-raised-button class="mt-3"
+      <button mat-raised-button class="mt-2"
               (click)="downloadTable('table-main');"
               title="Download"
               style="float: right;
@@ -337,7 +337,7 @@
   <div class=" mt-2" [formGroup]="yearForm">
     <angular2-multiselect classes=""
                           formControlName="years"
-                          style="margin-top: 14px; display:inline-block;width: 160px;"
+                          style=" display:inline-block;width: 160px;"
                           [data]="yearLookup"
                           [settings]="yearsDropdownSettings"
                           (onClose)="onDropdownClose($event)"

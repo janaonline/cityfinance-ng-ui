@@ -138,7 +138,17 @@ export const modalTableHeaders: (ModalTableHeader[])[] = [
     {title: 'Others', id: 'others', total: true, showInr: true, roundOff: true},
     {title: 'Total Debt', id: 'total', total: true, showInr: true, roundOff: true}
   ]
+
 ];
+
+export const creditRatingModalHeaders: (ModalTableHeader[])[] = [
+  [
+    {id: 'ulb', title: 'ULB'},
+    {id: 'agency', title: 'Agency'},
+    {id: 'status', title: 'Rating Status'},
+    {id: 'date', title: 'Date'},
+
+  ]];
 
 export const ulbUploadList: ModalTableHeader[] = [
   {id: 'financialYear', title: 'Financial Year'},

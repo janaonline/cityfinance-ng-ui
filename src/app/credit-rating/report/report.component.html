@@ -1410,41 +1410,55 @@
         </div>
         <!-- indian_map_main_div ends here -->
         <div class="col-md-6 abs-credit-info">
-          <h3 style="margin-top: 0px">Credit Rating Report</h3>
-          <br />
+          <!-- <h3 style="margin-top: 0px">Credit Rating Report</h3>
+            <br /> -->
           <!-- {{absCreditInfo | json}} -->
           <p class="click-info" *ngIf="!absCreditInfo.title">
             Click state on the map to get credit information
           </p>
 
           <div class="row" *ngIf="absCreditInfo.title">
-            <h3 class="text-primary">{{ absCreditInfo.title | titlecase }}</h3>
-            <table class="table">
-              <tr>
-                <th>Credit Rating ULBs</th>
-                <th>{{ absCreditInfo.creditRatingUlbs }}</th>
-              </tr>
-              <tr
-                *ngFor="let grade of ratingGrades"
-                [ngClass]="{ hidden: !absCreditInfo.ratings[grade] }"
-              >
-                <td>{{ grade }}</td>
-                <td>{{ absCreditInfo.ratings[grade] }}</td>
-              </tr>
-              <!-- <tr *ngFor="let rating of absCreditInfo.ratings | keyvalue" [ngClass]="{'hidden': !rating.value}">
-                <td>{{rating.key}}</td>
-                <td>{{rating.value}}</td>
-              </tr> -->
-            </table>
+            <div class="col-sm-12">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3 class="text-primary" style="margin-top:0">
+                    {{ absCreditInfo.title | titlecase }}
+                  </h3>
+                </div>
+                <div class="col-sm-6">
+                  <button class="btn btn-warning right" (click)="page = 2">
+                    Explore Credit Rating Reports
+                  </button>
+                </div>
+              </div>
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>Credit Rating ULBs</th>
+                  <th>{{ absCreditInfo.creditRatingUlbs }}</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr (click)="openModal(modal,grade)"
+                    *ngFor="let grade of ratingGrades"
+                    [ngClass]="{ hidden: !absCreditInfo.ratings[grade] }"
+                >
+                  <td width="60%">{{ grade }}</td>
+                  <td>{{ absCreditInfo.ratings[grade] }}</td>
+                </tr>
+                </tbody>
+
+                <!-- <tr *ngFor="let rating of absCreditInfo.ratings | keyvalue" [ngClass]="{'hidden': !rating.value}">
+                  <td>{{rating.key}}</td>
+                  <td>{{rating.value}}</td>
+                </tr> -->
+              </table>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-md-12">
-        <br /><br />
-        <button class="btn btn-warning center" (click)="page = 2">
-          Explore Credit Rating Reports
-        </button>
-      </div>
+      <div class="col-md-12"><br/><br/></div>
     </div>
 
     <div class="row" *ngIf="page == 2">
@@ -1470,7 +1484,7 @@
           [(ngModel)]="search"
           class="form-control"
         />
-        <br />
+        <br/>
       </div>
       <div class="col-md-9">
         <a href="/assets/files/CreditRating.xlsx">
@@ -1485,59 +1499,48 @@
         >
           <table style="width:100%">
             <tr>
-              <th style="width: 25%" (click)="sortBy('ulb')">
+              <th style="width: 25%" class="sortable" (click)="sortBy('ulb')">
                 ULB
-                <span
-                  *ngIf="sortHeader == 'ulb'"
-                  class="glyphicon glyphicon-sort"
-                ></span>
+                <span class="glyphicon glyphicon-sort"></span>
               </th>
-              <th style="width: 15%" (click)="sortBy('state')">
+              <th style="width: 15%" class="sortable" (click)="sortBy('state')">
                 State
-                <span
-                  *ngIf="sortHeader == 'state'"
-                  class="glyphicon glyphicon-sort"
-                ></span>
+                <span class="glyphicon glyphicon-sort"></span>
               </th>
-              <th style="width: 15%" (click)="sortBy('agency')">
+              <th style="width: 15%" class="sortable" (click)="sortBy('agency')">
                 Agency
-                <span
-                  *ngIf="sortHeader == 'creditrating'"
-                  class="glyphicon glyphicon-sort"
-                ></span>
+                <span class="glyphicon glyphicon-sort"></span>
               </th>
               <th
                 style="width: 15%"
                 (click)="sortBy('creditrating')"
-                class="changeinrating"
+                class="changeinrating sortable"
               >
                 Credit Rating
                 <span
-                  *ngIf="sortHeader == 'changeinrating'"
                   class="glyphicon glyphicon-sort"
                 ></span>
               </th>
               <th
                 style="width: 15%"
+
                 (click)="sortBy('status')"
-                class="updatedcreditrating"
+                class="updatedcreditrating sortable"
               >
                 Status rating
                 <span
-                  *ngIf="sortHeader == 'updatedcreditrating'"
                   class="glyphicon glyphicon-sort"
                 ></span>
               </th>
               <th
                 style="width: 15%"
-                (click)="sortBy('date')"
                 class="outlookdate text-right-imp"
               >
                 Date
-                <span
+                <!-- <span
                   *ngIf="sortHeader == 'outlookdate'"
                   class="glyphicon glyphicon-sort"
-                ></span>
+                ></span> -->
               </th>
             </tr>
           </table>
@@ -1631,9 +1634,9 @@
               </div>
             </div> -->
 
-            <hr />
+            <hr/>
             <i style="font-size: 12px; color: #666;"
-              >The agency may apply ‘+’ or ‘-‘ signs for ratings to reflect
+            >The agency may apply ‘+’ or ‘-‘ signs for ratings to reflect
               comparative standing within the category. A plus (+) sign puts the
               rating of a security at a relatively higher position when compared
               to a rating of a security with a minus (-) sign within the same
@@ -1645,3 +1648,31 @@
     </div>
   </div>
 </div>
+
+<ng-template #modal>
+  <button style="background-color:#333333;min-width: min-content;float: right"
+          (click)="modalService.hide(1)"
+          mat-raised-button
+          title="Close"
+          type="button" data-dismiss="modal" aria-label="Close">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="modal-body">
+    <div class="table-responsive border-1">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>S.No</th>
+          <th class="text-center" *ngFor="let header of dialogHeaders">{{header.title}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of dialogData;let i = index">
+          <td>{{i + 1}}</td>
+          <td class="text-center" *ngFor="let header of dialogHeaders">{{row[header.id]}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>

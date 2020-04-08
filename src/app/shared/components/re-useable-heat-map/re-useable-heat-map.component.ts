@@ -693,7 +693,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     });
     this.ulbsOfSelectedState = [...stateFound.ulbs];
     if (!this.ulbsOfSelectedState.length) {
-      const message = `${stateFound.name} does not conains any ULB.`;
+      const message = `${stateFound.name} does not contains any ULB.`;
       this.showSnacbarMessage(message);
       return false;
     }
@@ -735,7 +735,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       this.unselectAllDistrictMarker();
     }
     if (!ulbsWithCoordinates.length) {
-      const message = `${stateFound.name} does not conains any ULB with geo co-ordinates.`;
+      const message = `${stateFound.name} does not contains any ULB with geo co-ordinates.`;
       this.showSnacbarMessage(message);
       return false;
     }
@@ -1003,7 +1003,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     const newStyle = document.createElement("style");
     newStyle.id = "customReuseable";
     const styling =
-      " .mat-form-field-appearance-outline .mat-form-field-infix { padding: 14.5px 0 !important;}";
+      " .mat-form-field-appearance-outline .mat-form-field-infix { padding: 9px 0 !important;}";
     newStyle.appendChild(document.createTextNode(styling));
     document.head.appendChild(newStyle);
   }

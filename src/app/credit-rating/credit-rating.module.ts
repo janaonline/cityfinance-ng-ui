@@ -21,29 +21,31 @@ import { MunicipalBondComponent } from './municipal-bond/municipal-bond.componen
 import { MunicipalLawsComponent } from './municipal-laws/municipal-laws.component';
 import { ReportComponent } from './report/report.component';
 import { ScaleComponent } from './scale/scale.component';
+import {AngularMaterialModule} from '../angular-material.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CreditRatingRouter,
-    HttpClientModule,
-    AgGridModule.withComponents([]),
-    AuthModule,
-    FormsModule,
-    FormsModule,
-    CommonModule,
-    ReactiveFormsModule,
-    AngularMultiSelectModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    NgxPaginationModule,
-    MatFormFieldModule,
-    ModalModule.forRoot(),
-    TooltipModule.forRoot(),
-    AccordionModule.forRoot(),
-    CarouselModule.forRoot(),
-    SharedModule
-  ],
+    imports: [
+        CommonModule,
+        CreditRatingRouter,
+        HttpClientModule,
+        AgGridModule.withComponents([]),
+        AuthModule,
+        FormsModule,
+        FormsModule,
+        CommonModule,
+        ReactiveFormsModule,
+        AngularMultiSelectModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        NgxPaginationModule,
+        MatFormFieldModule,
+        ModalModule.forRoot(),
+        TooltipModule.forRoot(),
+        AccordionModule.forRoot(),
+        CarouselModule.forRoot(),
+        SharedModule,
+        AngularMaterialModule
+    ],
   declarations: [
     CreditRatingComponent,
     ReportComponent,
