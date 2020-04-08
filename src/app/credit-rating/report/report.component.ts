@@ -2,6 +2,9 @@ import {HttpClient} from '@angular/common/http';
 import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {creditRatingModalHeaders, tableHeaders} from '../../auth/home-header/tableHeaders';
+import {CommonService} from '../../shared/services/common.service';
+import {FormControl} from '@angular/forms';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 // import { CreditRatingJson } from './credit-rating.json';
 
@@ -14,7 +17,17 @@ export class ReportComponent implements OnInit, OnDestroy {
   page = 1;
   originalList = [];
   list = [];
-
+  dropdownFiltersData: {
+    states?: any[],
+    agencies?: any[],
+    creditRatings?: any[],
+    statusRatings?: any[]
+  } = {states: [], agencies: [], creditRatings: [], statusRatings: []};
+  ulbSearchFormControl = new FormControl('');
+  stateSearchFormControl = new FormControl([]);
+  agencySearchFormControl = new FormControl([]);
+  creditSearchFormControl = new FormControl([]);
+  statusSearchFormControl = new FormControl([]);
   detailedList = [];
   // columnDefs = [
   //   { headerName: 'No', field: 'sno', width: 50 },
@@ -310,7 +323,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(private http: HttpClient, private modalService: BsModalService) {
+  constructor(private http: HttpClient, private modalService: BsModalService, public commonService: CommonService) {
   }
 
   ngOnInit() {
@@ -319,7 +332,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       .subscribe((data: any[]) => {
         this.list = data;
         this.originalList = data;
-
+        this.generateDropDownData();
         this.showCreditInfoByState('uttar pradesh');
       });
 
@@ -559,5 +572,84 @@ export class ReportComponent implements OnInit, OnDestroy {
       && ulb.creditrating === grade);
     this.modalService.show(ModalRef, {class: 'modal-mdl'});
 
+  }
+
+  private generateDropDownData() {
+    this.dropdownFiltersData.states = this.commonService.getUniqueArrayByKey(this.list, 'state').map(state => {
+      return {
+        id: state,
+        name: state
+      };
+    });
+    this.dropdownFiltersData.agencies = this.commonService.getUniqueArrayByKey(this.list, 'agency').map(agency => {
+      return {
+        id: agency,
+        name: agency
+      };
+    });
+    this.dropdownFiltersData.creditRatings = this.commonService.getUniqueArrayByKey(this.list, 'creditrating').map(creditrating => {
+      return {
+        id: creditrating,
+        name: creditrating
+      };
+    });
+    this.dropdownFiltersData.statusRatings = this.commonService.getUniqueArrayByKey(this.list, 'status').map(status => {
+      return {
+        id: status,
+        name: status
+      };
+    });
+
+  }
+
+  searchDropdownItemSelected(searchFormControl: FormControl, searchKey) {
+    let ids;
+    if (searchKey === 'ulb') {
+      ids = searchFormControl.value;
+    } else {
+      ids = searchFormControl.value.map(el => el.id);
+    }
+    if (searchFormControl.value.length) {
+      if (searchKey === 'ulb') {
+        this.list = this.originalList.filter(ulb => ulb[searchKey].includes(ids));
+      } else {
+        this.list = this.originalList.filter(ulb => ids.includes(ulb[searchKey]));
+      }
+    } else {
+      this.list = this.originalList;
+    }
+    let remainingFilters = ['state', 'agency', 'ulb', 'creditrating'].filter((item => item != searchKey));
+    for (let filter of remainingFilters) {
+      let formControl: FormControl;
+      switch (filter) {
+        case 'state':
+          formControl = this.stateSearchFormControl;
+          break;
+        case 'agency' :
+          formControl = this.agencySearchFormControl;
+          break;
+        case 'ulb':
+          formControl = this.ulbSearchFormControl;
+          break;
+        case  'creditrating':
+          formControl = this.creditSearchFormControl;
+          break;
+        case 'status':
+          formControl = this.statusSearchFormControl;
+      }
+      if (formControl.value.length) {
+        let ids;
+        if (filter === 'ulb') {
+          ids = formControl.value;
+        } else {
+          ids = formControl.value.map(el => el.id);
+        }
+        if (filter === 'ulb') {
+          this.list = this.list.filter(ulb => ulb[filter].includes(ids));
+        } else {
+          this.list = this.list.filter(ulb => ids.includes(ulb[filter]));
+        }
+      }
+    }
   }
 }

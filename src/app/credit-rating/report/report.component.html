@@ -1477,13 +1477,13 @@
       </div> -->
 
       <div class="col-md-3">
-        <input
-          type="text"
-          placeholder="Search by ULB's"
-          (keyup)="filterRecords()"
-          [(ngModel)]="search"
-          class="form-control"
-        />
+        <!--        <input-->
+        <!--          type="text"-->
+        <!--          placeholder="Search by ULB's"-->
+        <!--          (keyup)="filterRecords()"-->
+        <!--          [(ngModel)]="search"-->
+        <!--          class="form-control"-->
+        <!--        />-->
         <br/>
       </div>
       <div class="col-md-9">
@@ -1545,6 +1545,64 @@
             </tr>
           </table>
         </div>
+
+        <table class="table">
+          <tr>
+            <td width="25%">
+              <input
+                type="text"
+                placeholder="Search by ULB's"
+                (keyup)="searchDropdownItemSelected(ulbSearchFormControl,'ulb')"
+                [formControl]="ulbSearchFormControl"
+                class="form-control"
+                style="padding: 18px 12px"
+              />
+            </td>
+            <td width="15%">
+              <angular2-multiselect (onSelect)="searchDropdownItemSelected(stateSearchFormControl,'state')"
+                                    (onDeSelect)="searchDropdownItemSelected(stateSearchFormControl,'state')"
+                                    (onSelectAll)="searchDropdownItemSelected(stateSearchFormControl,'state')"
+                                    (onDeSelectAll)="searchDropdownItemSelected(stateSearchFormControl,'state')"
+                                    [formControl]="stateSearchFormControl"
+                                    [settings]="{
+                                    primaryKey: 'id',
+                                    singleSelection: false,
+                                    text: 'States', labelKey:'name', badgeShowLimit: 1}"
+                                    [data]="dropdownFiltersData.states"></angular2-multiselect>
+            </td>
+            <td width='15%'>
+              <angular2-multiselect (onSelect)="searchDropdownItemSelected(agencySearchFormControl,'agency')"
+                                    (onDeSelect)="searchDropdownItemSelected(agencySearchFormControl,'agency')"
+                                    [formControl]="agencySearchFormControl"
+                                    [settings]="{
+                                    primaryKey: 'id',
+                                    singleSelection: false,
+                                    text: 'Agency', labelKey:'name', badgeShowLimit: 1}"
+                                    [data]="dropdownFiltersData.agencies"></angular2-multiselect>
+            </td>
+            <td width="15%">
+              <angular2-multiselect (onSelect)="searchDropdownItemSelected(creditSearchFormControl,'creditrating')"
+                                    (onDeSelect)="searchDropdownItemSelected(creditSearchFormControl,'creditrating')"
+                                    [formControl]="creditSearchFormControl"
+                                    [settings]="{
+                                    primaryKey: 'id',
+                                    singleSelection: false,
+                                    text: 'Credit Rating', labelKey:'name', badgeShowLimit: 1}"
+                                    [data]="dropdownFiltersData.creditRatings"></angular2-multiselect>
+            </td>
+            <td width="15%">
+              <angular2-multiselect (onSelect)="searchDropdownItemSelected(statusSearchFormControl,'status')"
+                                    (onDeSelect)="searchDropdownItemSelected(statusSearchFormControl,'status')"
+                                    [formControl]="statusSearchFormControl"
+                                    [settings]="{
+                                    primaryKey: 'id',
+                                    singleSelection: false,
+                                    text: 'Status Rating', labelKey:'name', badgeShowLimit: 1}"
+                                    [data]="dropdownFiltersData.statusRatings"></angular2-multiselect>
+            </td>
+            <td width="15%"></td>
+          </tr>
+        </table>
 
         <accordion [closeOthers]="true">
           <accordion-group *ngFor="let item of list" (click)="getUlbInfo(item)">
