@@ -424,7 +424,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       ulbs: ULBWithMapData[];
     };
   }) {
-    if (!data) {
+    if (!data || !Object.keys(data).length) {
       return null;
       return null;
     }
