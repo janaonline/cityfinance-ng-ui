@@ -462,7 +462,11 @@
 </ng-template>
 
 <ng-template #yearSelect>
-  <div class=" mt-2 col-md-8" [formGroup]="yearForm">
+  <div
+    class=" mt-2 col-md-8"
+    [formGroup]="yearForm"
+    style="display: flex; align-items: center;"
+  >
     <mat-form-field
       style=" display:inline-block;width: 160px; margin-right: 1rem;line-height: 0.225;"
       appearance="outline"
@@ -528,7 +532,7 @@
       mat-raised-button
       title="Apply"
       (click)="onDropdownClose()"
-      style="background-color:#333333; min-width: min-content; position: absolute;top: 0px;"
+      style="background-color:#333333; min-width: min-content;"
     >
       Apply
     </button>
