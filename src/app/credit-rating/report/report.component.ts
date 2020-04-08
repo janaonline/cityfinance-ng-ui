@@ -28,6 +28,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   agencySearchFormControl = new FormControl([]);
   creditSearchFormControl = new FormControl([]);
   statusSearchFormControl = new FormControl([]);
+  searchStack = [];
   detailedList = [];
   // columnDefs = [
   //   { headerName: 'No', field: 'sno', width: 50 },
@@ -603,23 +604,11 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   searchDropdownItemSelected(searchFormControl: FormControl, searchKey) {
-    let ids;
-    if (searchKey === 'ulb') {
-      ids = searchFormControl.value;
-    } else {
-      ids = searchFormControl.value.map(el => el.id);
-    }
-    if (searchFormControl.value.length) {
-      if (searchKey === 'ulb') {
-        this.list = this.originalList.filter(ulb => ulb[searchKey].includes(ids));
-      } else {
-        this.list = this.originalList.filter(ulb => ids.includes(ulb[searchKey]));
-      }
-    } else {
-      this.list = this.originalList;
-    }
-    let remainingFilters = ['state', 'agency', 'ulb', 'creditrating'].filter((item => item != searchKey));
-    for (let filter of remainingFilters) {
+    this.list = this.originalList;
+    this.searchStack.unshift(searchKey);
+    this.searchStack = Array.from(new Set(this.searchStack));
+    //let remainingFilters = this.searchStack.filter((item => item != searchKey));
+    for (let filter of this.searchStack.reverse().slice(0, 5)) {
       let formControl: FormControl;
       switch (filter) {
         case 'state':
@@ -651,5 +640,22 @@ export class ReportComponent implements OnInit, OnDestroy {
         }
       }
     }
+    //   console.log(this.list.length);
+    //   let ids;
+    //   if (searchKey === 'ulb') {
+    //     ids = searchFormControl.value;
+    //   } else {
+    //     ids = searchFormControl.value.map(el => el.id);
+    //   }
+    //   if (searchFormControl.value.length) {
+    //     if (searchKey === 'ulb') {
+    //       this.list = this.list.filter(ulb => ulb[searchKey].includes(ids));
+    //     } else {
+    //       this.list = this.list.filter(ulb => ids.includes(ulb[searchKey]));
+    //     }
+    //   } else {
+    //     //this.list = this.originalList;
+    //   }
+    // }
   }
 }
