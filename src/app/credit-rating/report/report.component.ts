@@ -629,12 +629,12 @@ export class ReportComponent implements OnInit, OnDestroy {
       if (formControl.value.length) {
         let ids;
         if (filter === 'ulb') {
-          ids = formControl.value;
+          ids = formControl.value.toLowerCase();
         } else {
           ids = formControl.value.map(el => el.id);
         }
         if (filter === 'ulb') {
-          this.list = this.list.filter(ulb => ulb[filter].includes(ids));
+          this.list = this.list.filter(ulb => ulb[filter].toLowerCase().includes(ids));
         } else {
           this.list = this.list.filter(ulb => ids.includes(ulb[filter]));
         }
@@ -657,5 +657,12 @@ export class ReportComponent implements OnInit, OnDestroy {
     //     //this.list = this.originalList;
     //   }
     // }
+  }
+
+  clearFilters() {
+    [this.ulbSearchFormControl, this.stateSearchFormControl, this.agencySearchFormControl, this.creditSearchFormControl, this.statusSearchFormControl]
+      .forEach(formControl => formControl.reset());
+    this.list = this.originalList;
+
   }
 }
