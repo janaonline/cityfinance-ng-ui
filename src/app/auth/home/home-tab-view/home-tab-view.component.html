@@ -462,7 +462,7 @@
 </ng-template>
 
 <ng-template #yearSelect>
-  <div class=" mt-2" [formGroup]="yearForm">
+  <div class=" mt-2 col-md-8" [formGroup]="yearForm">
     <mat-form-field
       style=" display:inline-block;width: 160px; margin-right: 1rem;line-height: 0.325;"
       appearance="outline"
@@ -513,10 +513,9 @@
     <angular2-multiselect
       classes=""
       formControlName="years"
-      style=" display:inline-block;width: 160px;"
+      style=" display:inline-block;width: 160px;margin-right: 2%;"
       [data]="yearLookup"
       [settings]="yearsDropdownSettings"
-      (onClose)="onDropdownClose($event)"
       (onSelect)="onDropdownSelect($event)"
       (onGroupDeSelect)="onDropdownDeSelect($event)"
       (onDeSelect)="onDropdownDeSelect($event)"
@@ -525,6 +524,14 @@
       (onDeSelectAll)="resetPopupValues()"
     >
     </angular2-multiselect>
+    <button
+      mat-raised-button
+      title="Apply"
+      (click)="onDropdownClose()"
+      style="background-color:#333333; min-width: min-content; position: absolute;top: 0px;"
+    >
+      Apply
+    </button>
   </div>
 </ng-template>
 
