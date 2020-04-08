@@ -1606,7 +1606,9 @@
                                     text: 'Status Rating', labelKey:'name', badgeShowLimit: 1}"
                                     [data]="dropdownFiltersData.statusRatings"></angular2-multiselect>
             </td>
-            <td width="15%"></td>
+            <td width="15%">
+              <button style="height: 38px" class="btn btn-danger" (click)="clearFilters()">Clear Filters</button>
+            </td>
           </tr>
         </table>
 
