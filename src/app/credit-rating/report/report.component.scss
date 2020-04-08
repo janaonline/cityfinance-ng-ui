@@ -1,49 +1,72 @@
-table{
-    
-    th.changeinrating{
-        width: 160px;
+table {
+  th.changeinrating {
+    width: 160px;
+  }
 
-    }
-    th.updatedcreditrating{
-        width: 160px;
+  th.updatedcreditrating {
+    width: 160px;
+  }
 
-    }
-    th.outlookdate{
-        width: 115px;
-    }
-    td{
-        cursor: pointer;
-    }
+  th.outlookdate {
+    width: 115px;
+  }
+
+  td {
+    cursor: pointer;
+  }
 }
 
-.text-right-imp{
-    text-align: right !important;
+.text-right-imp {
+  text-align: right !important;
 }
 
-.abs-credit-info{
-    .click-info{
-        margin-top: 30%;
-        font-size: 30px;
-        color: #999;
-
-    }
+.abs-credit-info {
+  .click-info {
+    margin-top: 30%;
+    font-size: 30px;
+    color: #999;
+  }
 }
 
-.map-container{
-    .fil2{
-        fill: #fff;
-    }
-    .svg_path {
+.map-container {
+  .fil2 {
+    fill: #fff;
+  }
 
-        fill: #efefef;
-        opacity: 1;
+  .svg_path {
+    fill: #efefef;
+    opacity: 1;
 
-        &:hover{
-            stroke-width: .9px!important;
-        }
+    &:hover {
+      stroke-width: 0.9px !important;
     }
-    .selected{
-        fill: #009fe3;
-    }
-    
+  }
+
+  .selected {
+    fill: #009fe3;
+  }
 }
+
+.sortable {
+  cursor: default;
+}
+
+::ng-deep {
+  .modal-mdl {
+    width: 50%;
+    border: 0;
+
+    & .modal-content {
+      border: 0;
+    }
+  }
+
+  .c-remove,
+  .clear-all {
+    display: none !important;
+  }
+
+
+}
+
+

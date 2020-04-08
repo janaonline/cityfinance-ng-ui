@@ -29,8 +29,8 @@ import { IStateWithULBS } from './models/stateWithULBS';
 })
 export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
-    private _commonService: CommonService,
-    private _snackbar: MatSnackBar
+    protected _commonService: CommonService,
+    protected _snackbar: MatSnackBar
   ) {
     // document.body.style.zoom = "90%";
 
@@ -132,7 +132,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  private initiatedDataFetchingProcess() {
+  protected initiatedDataFetchingProcess() {
     const body = { year: this.yearSelected || [] };
     const subscriptions: any[] = [];
     subscriptions.push(
@@ -413,12 +413,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     // return filteredULBAndState;
   }
 
-  private filterOutEmptyULBStates(data: {
+  protected filterOutEmptyULBStates(data: {
     [stateId: string]: IStateULBCovered & {
       ulbs: ULBWithMapData[];
     };
   }) {
-    if (!data) {
+    if (!data || !Object.keys(data).length) {
       return null;
       return null;
     }
@@ -693,7 +693,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     });
     this.ulbsOfSelectedState = [...stateFound.ulbs];
     if (!this.ulbsOfSelectedState.length) {
-      const message = `${stateFound.name} does not conains any ULB.`;
+      const message = `${stateFound.name} does not contains any ULB.`;
       this.showSnacbarMessage(message);
       return false;
     }
@@ -735,7 +735,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       this.unselectAllDistrictMarker();
     }
     if (!ulbsWithCoordinates.length) {
-      const message = `${stateFound.name} does not conains any ULB with geo co-ordinates.`;
+      const message = `${stateFound.name} does not contains any ULB with geo co-ordinates.`;
       this.showSnacbarMessage(message);
       return false;
     }
@@ -1003,7 +1003,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     const newStyle = document.createElement("style");
     newStyle.id = "customReuseable";
     const styling =
-      " .mat-form-field-appearance-outline .mat-form-field-infix { padding: 14.5px 0 !important;}";
+      " .mat-form-field-appearance-outline .mat-form-field-infix { padding: 9px 0 !important;}";
     newStyle.appendChild(document.createTextNode(styling));
     document.head.appendChild(newStyle);
   }

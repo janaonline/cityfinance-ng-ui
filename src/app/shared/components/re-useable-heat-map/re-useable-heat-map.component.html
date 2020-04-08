@@ -2,19 +2,15 @@
 
 <div class="col-sm-12 stateMapContainer" id="ulbMap">
   <div
-    style="position: absolute;z-index: 9;margin-left: 2%; text-decoration: underline;font-weight: 500; width: 56%; display: inherit; margin-top: 0.8rem;"
+    style="position: absolute;z-index: 9;margin-left: 2%; text-decoration: underline;font-weight: 500; display: inherit; margin-top: 1.8rem;"
   >
     <span
       *ngIf="currentStateInView && currentStateInView.name"
       style="display: inline-block;"
-      [style.min-width.px]="currentStateInView.name.length * 7"
       >{{ currentStateInView ? currentStateInView.name : ""
       }}<span *ngIf="currentULBClicked">:&nbsp; </span>
     </span>
-    <span
-      *ngIf="currentULBClicked"
-      style="display: inline-block; max-width: 60%; "
-    >
+    <span *ngIf="currentULBClicked">
       {{ currentULBClicked.name }}
     </span>
   </div>
@@ -25,7 +21,7 @@
     <app-pre-loader></app-pre-loader>
   </div>
   <div class="ulbSelectDropdown ">
-    <mat-form-field
+    <!-- <mat-form-field
       style="display: block;"
       class="col-md-12 customDropdown"
       appearance="outline"
@@ -40,6 +36,7 @@
         [formControl]="ulbFilterControl"
         [matAutocomplete]="auto"
       />
+
       <mat-autocomplete #auto="matAutocomplete" class="tesinng">
         <mat-option *ngIf="!filteredULBStateAndULBDataMerged" disabled>
           No ULB matched
@@ -71,7 +68,7 @@
           </mat-optgroup>
         </div>
       </mat-autocomplete>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <section
       class="regionalDetails regionalDetails2 col-sm-12"

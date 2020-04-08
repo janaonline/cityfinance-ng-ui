@@ -4,63 +4,69 @@
     <!-- {{tempStates | json}} -->
     <!-- {{keys | json}} -->
     <!-- {{list | json}}  -->
-    <div class="row m-1"  *ngIf="!compareState">
-
+    <div class="row m-1" *ngIf="!compareState">
       <div class="col-md-6 mt-2" style="height: 50vh;">
         <carousel [noPause]="false">
-          <slide *ngFor="let item of slides" (click)="showStateGroup(item)" title="Click to compare states">
-            <img [src]="item.imgUrl">
+          <slide
+            *ngFor="let item of slides"
+            (click)="showStateGroup(item)"
+            title="Click to compare states"
+          >
+            <img [src]="item.imgUrl"/>
             <div class="carousel-caption d-none d-md-block">
-              <h4 class="title">{{item.caption}}</h4>
+              <h4 class="title">{{ item.caption }}</h4>
             </div>
           </slide>
         </carousel>
         <br/>
       </div>
-      <div class="col-md-6">
-<!--        <div class="col-md-12">-->
-          <h3 class="">Comparison of Municipal Finance Provisions</h3>
-<!--          <br>-->
-<!--        </div>-->
-        <br>
+      <div class="col-md-6 mt-2">
+        <button class="btn btn-primary" (click)="showStateSelectionSection()">
+          Compare States
+        </button>
+
+        <!--        <div class="col-md-12">-->
+        <h3 class="">Comparison of Municipal Finance Provisions</h3>
+        <!--          <br>-->
+        <!--        </div>-->
+        <br/>
         <p>
-          Presented here is a comparison of the pronouncements of various Municipal Acts, underlying Rules and
-          Regulations, and Accounts and Budget Manuals of different Indian states so far as they pertain to aspects of
-          finance, accounts, budget, audit, financial disclosure and so on in municipalities. You will find answers to
-          questions like ‘What is the system of accounting prescribed?’, ‘What is the timeline for presenting the
-          municipal budget?’ ‘Is a budget calendar prescribed? if so, where is it prescribed?’, ‘What are the limits on
-          municipal borrowing?’, ‘Do the laws require citizen participation in budget preparation?’ and a host of other
-          interesting questions. The comparison attempts to answer a total of 70 questions across 13 criteria. Answers
-          have been kept short and precise. Where found necessary, additional
-          explanations have been provided for better understanding as a pop-up which you can see when you hover the
-          mouse pointer over the answer. Reference to
-          the specific provision of the Act/Rule/Manual is also given wherever possible for the benefit of anyone
-          desirous
-          of doing a deep-dive.
-          <a *ngIf="!knowMore" (click)="knowMore = true">Read more..</a>
+          Presented here is a comparison of the pronouncements of various
+          Municipal Acts, underlying Rules and Regulations, and Accounts and
+          Budget Manuals of different Indian states so far as they pertain to
+          aspects of finance, accounts, budget, audit, financial disclosure and
+          so on in municipalities.
         </p>
-        <p *ngIf="knowMore">
-          While you may find that a significant chunk of provisions are similar across states, leading one to conclude
-          that States have more or less followed models in other states in developing their own municipal finance
-          frameworks, you will come across the odd outliers like the existence of local fund fiscal responsibility acts
-          in
-          Karnataka and Assam, exclusive municipal public disclosure laws in some states, requirement of accrual
-          budgeting
-          in Kerala and so on.
-        </p>
-        <p *ngIf="knowMore">
-          Compiling this information required poring through thousands of pages of intimidating legal documents over the
-          past few months and reducing the relevant information into simple, easily comprehensible answers to a set of
-          basic questions. We believe the information presented achieves the right trade-off between excessive detailing
-          and over-simplification. We hope you find the effort worthwhile!
-          <a *ngIf="knowMore" (click)="knowMore = false">Read less..</a>
-
+        <p>
+          One will find answers to questions such as:
         </p>
 
-        <br><br>
-        <button class="btn btn-primary center" (click)="showStateSelectionSection()">Compare States</button>
-
-
+        <ul>
+          <li>
+            What is the system of accounting prescribed?
+          </li>
+          <li>
+            What is the timeline for presenting the municipal budget?
+          </li>
+          <li>
+            Is a budget calendar prescribed? if so, where is it prescribed?
+          </li>
+          <li>
+            What are the limits on municipal borrowing?
+          </li>
+          <li>
+            Do the laws require citizen participation in budget preparation?
+          </li>
+        </ul>
+        <p>
+          The comparison attempts to answer a total of 70 questions across 13
+          criteria. Answers have been kept short and precise. Where found
+          necessary, additional explanations have been provided for better
+          understanding as a pop-up which can be seen upon hovering the mouse
+          pointer over the answer. Reference to the specific provision of the
+          Act/Rule/Manual is also given wherever possible for the benefit of
+          anyone desirous of doing a deep-dive.
+        </p>
       </div>
       <!-- <div class="col-md-12">
         <p><br />
@@ -77,48 +83,78 @@
       </div> -->
     </div>
 
-    <div class="row container m-auto" *ngIf="compareState == 1">
+    <div class="row container m-auto mt-2" *ngIf="compareState == 1">
       <div class="col-md-12">
-        <h3>Comparison of Municipal Finance Provisions
-          <a *ngIf="compareState > 0" class="back-link" style="margin-right: 0px" (click)="compareState = 0">Back</a>
+        <h3>
+          Comparison of Municipal Finance Provisions
+          <a
+            *ngIf="compareState > 0"
+            class="back-link"
+            style="margin-right: 0px"
+            (click)="compareState = 0">Back</a>
         </h3>
-        <br>
+        <br/>
       </div>
-      <div *ngFor="let state of states" class="col-xs-3 state-list" (click)="addToCompare(state)">
-        <div class="btn" [ngClass]="{'btn-selected': state.selected}">
-          {{state.name}}
+      <div class="col-md-12">
+        <button *ngIf="selectedStates.length>1" (click)="clearSelectedStates()" class="btn btn-sm btn-danger">Clear
+          All
+        </button>
+      </div>
+      <div
+        *ngFor="let state of states"
+        class="col-xs-3 state-list"
+        (click)="addToCompare(state)"
+      >
+        <div class="btn" [ngClass]="{ 'btn-selected': state.selected }">
+          {{ state.name }}
         </div>
       </div>
 
       <div class="col-md-12">
-        <br>
+        <br/>
         <div class="col-md-3 col-md-offset-3">
-          <button class="btn btn-primary col-md-12" (click)="showComparisionPage()"
-                  tooltip="Select 1 or more states">View and Compare
+          <button
+            class="btn btn-primary col-md-12"
+            (click)="showComparisionPage()"
+            tooltip="Select 1 or more states"
+          >
+            View and Compare
           </button>
         </div>
         <div class="col-md-3">
-          <button class="btn btn-danger col-md-12" (click)="compareAllStates()">Compare All</button>
+          <button class="btn btn-danger col-md-12" (click)="compareAllStates()">
+            Compare All
+          </button>
         </div>
       </div>
       <!-- {{selectedStates | json}} -->
-
     </div>
 
     <div class="row container m-auto">
-
       <div class="col-md-11" *ngIf="compareState == 2">
         <!-- <h3>State comparision -->
-        <button (click)="openStateSelectionModal(template)" class="btn btn-warning back-link"
-                style="margin-top: 40px;">Add or Remove
+        <button
+          (click)="openStateSelectionModal(template)"
+          class="btn btn-warning back-link"
+          style="margin-top: 40px;"
+        >
+          Compare States
         </button>
-        <br>
+
+        <br/>
         <a href="/assets/files/municipal-laws-report.xlsx">
-          <button class="btn btn-danger back-link"
-                  style="margin-top: 70px;">Download
+          <button class="btn btn-danger back-link" style="margin-top: 60px;">
+            Download
           </button>
-        </a> <br>
-        <a class="back-link" style="margin-top: 100px;" (click)="compareState = 0">Back</a>
+        </a>
+
+        <br/>
+        <a
+          class="back-link"
+          style="margin-top: 85px;"
+          (click)="compareState = 0"
+        >Back</a
+        >
         <!-- <a class="back-link" style="margin-top: 100px;" (click)="backToStateSelection()">Back</a> -->
         <!-- <a *ngIf="compareState > 0" class="back-link" (click)="backToStateSelection()">Back</a> -->
         <!-- </h3> -->
@@ -127,62 +163,126 @@
         <!-- {{list | json}} -->
 
         <div class="table-responsive">
-          <table class="table table-striped table-hover" border="1" id="compare-table"
-                 [ngStyle]="{'width': tableWidth}">
+          <table
+            class="table table-striped table-hover"
+            border="1"
+            id="compare-table"
+            [ngStyle]="{ width: tableWidth }"
+          >
             <tr>
-              <th *ngFor="let key of selectedStates" style="text-transform: capitalize;" [ngStyle]="{'width': tdWidth}">
-                {{key}}
+              <th
+                *ngFor="let key of selectedStates"
+                style="text-transform: capitalize;"
+                [ngStyle]="{ width: tdWidth }"
+              >
+                {{ key }}
               </th>
             </tr>
           </table>
-          <accordion [closeOthers]="true" class="fixed-header" [ngStyle]="{'width': tableWidth}">
-            <accordion-group *ngFor="let key of keys" class="table-responsive">
 
-              <h4 accordion-heading>{{messages[key]}} <span class="fa fa-angle-down"></span></h4>
+          <accordion
+            [closeOthers]="true"
+            class="fixed-header"
+            [ngStyle]="{ width: tableWidth }"
+          >
+            <accordion-group *ngFor="let key of keys" class="table-responsive">
+              <h4 accordion-heading>
+                {{ messages[key] }} <span class="fa fa-angle-down"></span>
+              </h4>
               <div class="scrolling outer">
                 <div class="inner">
                   <!-- mytable -->
                   <table class="table table-striped accordion-body-table">
                     <tr *ngFor="let title of structure[key]">
-                      <td *ngFor="let key of selectedStates; let i = index" [ngStyle]="{'width': tdWidth}">
+                      <td
+                        *ngFor="let key of selectedStates; let i = index"
+                        [ngStyle]="{ width: tdWidth }"
+                      >
                         <div *ngIf="i == 0">
-                          <div *ngIf="messages[title]"><b>{{messages[title]}}</b></div>
-                          <div *ngIf="!messages[title]">{{title}}</div>
+                          <div *ngIf="messages[title]">
+                            <b>{{ messages[title] }}</b>
+                          </div>
+                          <div *ngIf="!messages[title]">{{ title }}</div>
                         </div>
                         <div *ngIf="i > 0">
                           <div *ngIf="!(list[key] && list[key][title])">
                             No information available
                           </div>
-                          <i *ngIf="list[key] && list[key][title] && list[key][title].tooltip"
-                             [tooltip]="list[key][title].tooltip" placement="bottom"
-                             class="glyphicon glyphicon-info-sign"></i>
+                          <i
+                            *ngIf="
+                              list[key] &&
+                              list[key][title] &&
+                              list[key][title].tooltip
+                            "
+                            [tooltip]="list[key][title].tooltip"
+                            placement="bottom"
+                            class="glyphicon glyphicon-info-sign"
+                          ></i>
 
-                          <div *ngIf="list[key] && list[key][title] && list[key][title].titleWithCaptions">
-                            <div *ngFor="let cell of list[key][title].titleWithCaptions; let i = index">
+                          <div
+                            *ngIf="
+                              list[key] &&
+                              list[key][title] &&
+                              list[key][title].titleWithCaptions
+                            "
+                          >
+                            <div
+                              *ngFor="
+                                let cell of list[key][title].titleWithCaptions;
+                                let i = index
+                              "
+                            >
                               <div>
-                                <span *ngIf="list[key][title].titleWithCaptions.length > 1">{{i + 1}}.</span>
+                                <span
+                                  *ngIf="
+                                    list[key][title].titleWithCaptions.length >
+                                    1
+                                  "
+                                >{{ i + 1 }}.</span
+                                >
                                 <span *ngIf="cell.titles">
-                                  <div *ngFor="let item of titles">{{item}}</div>
+                                  <div *ngFor="let item of titles">
+                                    {{ item }}
+                                  </div>
                                 </span>
-                                <span *ngIf="cell.title">{{cell.title}}</span>
-                                <span class="text-primary">{{cell.caption}}</span>
+                                <span *ngIf="cell.title">{{ cell.title }}</span>
+                                <span class="text-primary">{{
+                                  cell.caption
+                                  }}</span>
                               </div>
                             </div>
                           </div>
-                          <div *ngIf="list[key] && list[key][title] && list[key][title].titleThenCaptions">
-                            <div *ngFor="let cell of list[key][title].titleThenCaptions">
-                              <div>{{cell.title}}</div>
-                              <div class="text-primary">{{cell.caption}}</div>
+                          <div
+                            *ngIf="
+                              list[key] &&
+                              list[key][title] &&
+                              list[key][title].titleThenCaptions
+                            "
+                          >
+                            <div
+                              *ngFor="
+                                let cell of list[key][title].titleThenCaptions
+                              "
+                            >
+                              <div>{{ cell.title }}</div>
+                              <div class="text-primary">{{ cell.caption }}</div>
                             </div>
                           </div>
 
                           <div
-                            *ngIf="list[key] && list[key][title] && !(list[key][title].titleWithCaptions || list[key][title].titleThenCaptions)">
+                            *ngIf="
+                              list[key] &&
+                              list[key][title] &&
+                              !(
+                                list[key][title].titleWithCaptions ||
+                                list[key][title].titleThenCaptions
+                              )
+                            "
+                          >
                             <!-- {{list[key][title] | json}} -->
-                            {{list[key][title].title}}
+                            {{ list[key][title].title }}
                           </div>
                         </div>
-
                       </td>
                     </tr>
                   </table>
@@ -192,7 +292,6 @@
           </accordion>
         </div>
       </div>
-
     </div>
   </ng-container>
 </div>
@@ -201,19 +300,40 @@
 <ng-template #template>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Add / Remove states from comparison</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+      style="margin-left: 2%;"
+    >
       <span aria-hidden="true">&times;</span>
+    </button>
+    <button
+      type="button"
+      class="btn btn-warning   pull-right"
+      stlye="margin-right:2% !important;"
+      (click)="clearSelectedStates()"
+    >
+      Clear All
     </button>
   </div>
   <div class="modal-body">
-    <div *ngFor="let state of states" class="col-xs-3 state-list" (click)="addToCompare(state)">
-      <div class="btn" [ngClass]="{'btn-selected': state.selected}">
-        {{state.name}}
+    <div
+      *ngFor="let state of states"
+      class="col-xs-3 state-list"
+      (click)="addToCompare(state)"
+    >
+      <div class="btn" [ngClass]="{ 'btn-selected': state.selected }">
+        {{ state.name }}
       </div>
     </div>
     <div class="col-md-12">
-      <br>
-      <button class="btn btn-primary center" (click)="modalRef.hide()">Apply Selection</button>
+      <br/>
+      <button class="btn btn-primary center" (click)="modalRef.hide()">
+        Apply Selection
+      </button>
     </div>
   </div>
 </ng-template>

@@ -1,10 +1,3 @@
-<!--<app-home-header-->
-<!--  style="    display: block;-->
-<!--    background: #484848;-->
-<!--    position: sticky;-->
-<!--    top: 0px;-->
-<!--    z-index: 99;"-->
-<!--&gt;</app-home-header>-->
 <app-home-tab-view></app-home-tab-view>
 <div class="dashboard-wrapper">
   <!-- <div class="home-banner">
@@ -25,12 +18,12 @@
         &ndash;&gt;
       </div>
     </div>
-  </div>
+  </div> -->
 
-  &lt;!&ndash;
-  <div class="statistics">
+  <!-- <div class="statistics">
     <app-statistics></app-statistics>
   </div> -->
+
   <!-- &ndash;&gt; &lt;!&ndash; Table component finshed just uncomment to make it
   visible on homepage &ndash;&gt; &lt;!&ndash; <app-grid></app-grid> &ndash;&gt;
   &lt;!&ndash; heat map component &ndash;&gt; -->
@@ -73,8 +66,9 @@
           framework of city finances, that is credible and timely. It portrays
           financial and operational performance information such as income,
           expenditure, assets, liabilities, budgets vs actuals, progress of
-          tenders and civic works and Service Level Benchmarks. The stakeholders
-          of the portal include Principal Secretaries - Urban Development,
+          tenders and civic works and Service Level Benchmarks. The portal is
+          targeted at providing relevant information, to be considered for
+          decision making, to Principal Secretaries - Urban Development,
           Directors of Municipal Administration, Municipal Commissioners, Smart
           City CEOs, Investors, Merchant Bankers, Project Consultants, Credit
           Rating Agencies & Banks.
@@ -126,9 +120,11 @@
             <h4>Infrastructure financing</h4>
             <div class="description">
               <p>
-                Serves as a data repository for investors/merchant bankers to
-                help them evaluate the ecosystem Facilitates a boost in flow of
-                funds through Municipal Bonds, Pool Debt Obligation, PPPs etc.
+                Serves as a data repository for investors / merchant <br />
+                bankers to help them evaluate the ecosystem Facilitates a boost
+                <br />
+                in flow of funds through Municipal Bonds, Pool Debt Obligation,
+                PPPs etc.
               </p>
               <!-- <div class="text-center">
                 <a [routerLink]="['/credit-rating/report']">
@@ -163,18 +159,28 @@
     </div>
   </div>
 
-  <div class="important-links-container">
+  <!-- <div class="important-links-container container">
     <h3 class="text-center">Important Links</h3>
 
-    <div class="important-links">
-      <div *ngFor="let link of importantLinks">
+    <div class="row">
+      <div *ngFor="let link of importantLinks" class="col-sm-6">
         <a *ngIf="link.link" [routerLink]="link.link">
-          <h4>{{ link.text }}</h4>
+          <h5>
+            <span class="material-icons">
+              link
+            </span>
+            {{ link.text }}
+          </h5>
         </a>
-        <h4 matTooltip="In Progress" *ngIf="!link.link">{{ link.text }}</h4>
+        <h5 matTooltip="In Progress" *ngIf="!link.link">
+          <span class="material-icons">
+            link_off
+          </span>
+          {{ link.text }}
+        </h5>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div class="partners">
     <div class="container">
@@ -183,10 +189,10 @@
         <div class="col-md-3">
           <div class="text-center">
             <div class="imp-partner">Conceptualized by</div>
-            <br/>
+            <br />
             <div>
               <a href="http://www.janaagraha.org/" target="_new">
-                <img src="assets/images/logo-for-web1.png"/>
+                <img src="assets/images/logo-for-web1.png" />
               </a>
             </div>
           </div>
@@ -194,10 +200,10 @@
         <div class="col-md-3">
           <div class="text-center">
             <div class="imp-partner">Knowledge partner</div>
-            <br/>
+            <br />
             <div>
               <a href="https://www.magc.in/" target="_new">
-                <img src="assets/images/mgc-logo.png"/>
+                <img src="assets/images/mgc-logo.png" />
               </a>
             </div>
           </div>
@@ -205,7 +211,7 @@
         <div class="col-md-3">
           <div class="text-center">
             <div class="imp-partner">Technology Partner</div>
-            <br/>
+            <br />
             <div>
               <a href="https://dhwaniris.in/" target="_new">
                 <img
@@ -220,10 +226,10 @@
         <div class="col-md-3">
           <div class="text-center">
             <div class="imp-partner">Supported by</div>
-            <br/>
+            <br />
             <div>
               <a href="https://www.omidyarnetwork.in/" target="_new">
-                <img src="assets/images/omdiyar-logo.png"/>
+                <img src="assets/images/omdiyar-logo.png" />
               </a>
             </div>
           </div>

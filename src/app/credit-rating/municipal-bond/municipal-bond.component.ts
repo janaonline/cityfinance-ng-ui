@@ -1,44 +1,49 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
-import { ExcelService } from '../../dashboard/report/excel.service';
-import { ICell, IIExcelInput } from '../../dashboard/report/models/excelFormat';
-import { MunicipalBondsService } from '../../shared/services/municipal/municipal-bonds.service';
-import { IBondIssuer } from './models/bondIssuerResponse';
-import { IBondIssuerItem, IBondIssureItemResponse } from './models/bondIssureItemResponse';
-import { IULBResponse, ULB } from './models/ulbsResponse';
+import {ExcelService} from '../../dashboard/report/excel.service';
+import {ICell, IIExcelInput} from '../../dashboard/report/models/excelFormat';
+import {MunicipalBondsService} from '../../shared/services/municipal/municipal-bonds.service';
+import {IBondIssuer} from './models/bondIssuerResponse';
+import {IBondIssuerItem, IBondIssureItemResponse} from './models/bondIssureItemResponse';
+import {IULBResponse, ULB} from './models/ulbsResponse';
 
 // import {LinkConverterPipe } from '@angular/common'
 @Component({
-  selector: "app-municipal-bond",
-  templateUrl: "./municipal-bond.component.html",
-  styleUrls: ["./municipal-bond.component.scss"]
+  selector: 'app-municipal-bond',
+  templateUrl: './municipal-bond.component.html',
+  styleUrls: ['./municipal-bond.component.scss']
 })
 export class MunicipalBondComponent implements OnInit {
   filterForm: FormGroup;
   ulbFilteredByName: ULB[];
-  originalULBList: IULBResponse["data"];
+  originalULBList: IULBResponse['data'];
   yearsAvailable: { name: string }[] = [];
+  statesAvailable = [];
   yearsDropdownSettings = {
     singleSelection: false,
-    text: "All Years",
+    text: 'All Years',
     enableSearchFilter: false,
     badgeShowLimit: 1,
     showCheckbox: true,
-    labelKey: "name",
-    primaryKey: "name"
+    labelKey: 'name',
+    primaryKey: 'name'
+  };
+  stateDropdownSettings = {
+    ...this.yearsDropdownSettings,
+    text: 'All States'
   };
 
   ulbDropdownConfiguration = {
-    primaryKey: "name",
+    primaryKey: 'name',
     singleSelection: false,
-    text: "All ULBs",
+    text: 'All ULBs',
     enableSearchFilter: true,
     badgeShowLimit: 1,
-    labelKey: "name",
+    labelKey: 'name',
     showCheckbox: true,
-    noDataLabel: "No Data available",
-    classes: "ulbDropdown"
+    noDataLabel: 'No Data available',
+    classes: 'ulbDropdown'
   };
 
   mainRows: IBondIssuer;
@@ -88,7 +93,7 @@ export class MunicipalBondComponent implements OnInit {
 
   private onGettingBondIssuerItemSuccess(datas: {
     total: number;
-    data: IBondIssureItemResponse["data"];
+    data: IBondIssureItemResponse['data'];
   }) {
     this.bondIssuerItemData = datas.data;
     this.paginatedbondIssuerItem = this.sliceDataForCurrentView(datas.data);
@@ -100,20 +105,21 @@ export class MunicipalBondComponent implements OnInit {
     this.ulbFilteredByName = response.data;
     this.yearsAvailable = this.getUniqueYearsFromULBS(response.data)
       .sort((a, b) => (+a > +b ? -1 : 1))
-      .map(year => ({ name: year }));
+      .map(year => ({name: year}));
   }
 
   private capitalizedName(originalName: string) {
     const formattedName = originalName
       .split(this.regexToSplitWordOnCapitalLetters)
-      .join(" ")
+      .join(' ')
       .trim();
 
     return formattedName[0].toUpperCase() + formattedName.substring(1);
     // formattedName.trim();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   onSubmittingFilterForm() {
     const params = this.createParamsForssuerItem(this.filterForm.value);
@@ -166,7 +172,7 @@ export class MunicipalBondComponent implements OnInit {
       text: ulb.ulb,
       bold: true
     }));
-    return [{ text: "Issuer", bold: true }, ...ulbNames];
+    return [{text: 'Issuer', bold: true}, ...ulbNames];
   }
 
   private createSubHeader() {
@@ -176,7 +182,7 @@ export class MunicipalBondComponent implements OnInit {
         text: this.formattedNamesMapping[key],
         colorWholeRow: true,
         bold: true,
-        backgroundColor: "F8CBAD"
+        backgroundColor: 'F8CBAD'
       };
 
       const subHeaderRow = [config];
@@ -207,34 +213,35 @@ export class MunicipalBondComponent implements OnInit {
     };
   }
 
-  onClickingULBAutoComplete(ulbClicked: any) {}
+  onClickingULBAutoComplete(ulbClicked: any) {
+  }
 
   private initializeFormListeners() {
-    this.filterForm.controls["ulbs"].valueChanges.subscribe(newValue => {
+    this.filterForm.controls['ulbs'].valueChanges.subscribe(newValue => {
       if (!newValue.length) {
         this.yearsAvailable = this.getUniqueYearsFromULBS(this.originalULBList)
           .sort((a, b) => (+a > +b ? -1 : 1))
-          .map(year => ({ name: year }));
+          .map(year => ({name: year}));
         return;
       }
       const uniqueYears = this.getUniqueYearsFromULBS(newValue);
-      let yearsSelected = this.filterForm.controls["years"].value;
+      let yearsSelected = this.filterForm.controls['years'].value;
       if (yearsSelected) {
         yearsSelected = yearsSelected.filter(yearAlreadySelected =>
           uniqueYears.some(
             yearToCheck => yearToCheck === yearAlreadySelected.name
           )
         );
-        this.filterForm.controls["years"].setValue(yearsSelected);
+        this.filterForm.controls['years'].setValue(yearsSelected);
       }
       this.yearsAvailable = uniqueYears
         .sort((a, b) => (+a > +b ? -1 : 1))
-        .map(year => ({ name: year }));
+        .map(year => ({name: year}));
     });
   }
 
   onyearSelected() {
-    const yearList = this.filterForm.controls["years"].value;
+    const yearList = this.filterForm.controls['years'].value;
     if (!yearList.length) {
       this.ulbFilteredByName = this.originalULBList;
     } else {
@@ -245,7 +252,7 @@ export class MunicipalBondComponent implements OnInit {
     }
 
     const filteredSelectedULBS = (<ULB[]>(
-      this.filterForm.controls["ulbs"].value
+      this.filterForm.controls['ulbs'].value
     )).filter(
       ulb =>
         !!this.ulbFilteredByName.find(
@@ -253,12 +260,12 @@ export class MunicipalBondComponent implements OnInit {
         )
     );
 
-    this.filterForm.controls["ulbs"].setValue(filteredSelectedULBS);
+    this.filterForm.controls['ulbs'].setValue(filteredSelectedULBS);
   }
 
   private getULBHavingYears(
     yearList: { name: string }[],
-    ulbList: IULBResponse["data"]
+    ulbList: IULBResponse['data']
   ) {
     return ulbList.filter(
       ulb =>
@@ -269,7 +276,7 @@ export class MunicipalBondComponent implements OnInit {
     );
   }
 
-  private getUniqueYearsFromULBS(ulbs: IULBResponse["data"]) {
+  private getUniqueYearsFromULBS(ulbs: IULBResponse['data']) {
     const uniqueYears = new Set<string>();
     ulbs.forEach(ulb => {
       if (!ulb.years) {
@@ -280,12 +287,14 @@ export class MunicipalBondComponent implements OnInit {
     return Array.from(uniqueYears);
   }
 
-  private getULBFitleredBy(ulbName: string) {}
+  private getULBFitleredBy(ulbName: string) {
+  }
 
   private initializeForm() {
     this.filterForm = this._formBuilder.group({
-      ulbs: [null],
-      years: [null]
+      ulbs: [[]],
+      years: [[]],
+      states: [[]]
     });
   }
 }

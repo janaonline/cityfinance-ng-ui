@@ -266,4 +266,11 @@ export class CommonService {
     }
     return params;
   }
+
+  getUniqueArrayByKey(array = [], key) {
+    if (!Array.isArray(array)) {
+      return [];
+    }
+    return Array.from(new Set(array.map(item => item[key])));
+  }
 }

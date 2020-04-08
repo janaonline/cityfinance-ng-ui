@@ -51,7 +51,7 @@ input.is-invalid {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 0px;
+  // width: 0px;
 }
 
 /* Track */
@@ -173,7 +173,7 @@ img.align-center {
 
   .navbar-brand {
     height: auto !important;
-    padding: 2px 15px;
+    padding: 7px 15px;
   }
 
   li > a:focus,
@@ -618,6 +618,10 @@ img.align-center {
 
 .mt-2 {
   margin-top: 2rem !important;
+}
+
+.mb-2 {
+  margin-bottom: 2rem !important;
 }
 
 .mt-3 {
