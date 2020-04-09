@@ -42,7 +42,6 @@ export class HomeHeaderComponent implements OnInit {
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.VIEW
     });
-    console.log(this.canViewUploadData);
   }
 
   ngOnInit() {
