@@ -4,6 +4,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FinancialDataService} from '../../services/financial-data.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
+enum UPLOAD_STATUS {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED'
+}
+
 @Component({
   selector: 'app-data-upload-action',
   templateUrl: './data-upload-action.component.html',
@@ -33,6 +39,7 @@ export class DataUploadActionComponent implements OnInit {
   completenessStatus: any = 'PENDING';
   id: string;
   correctnessStatus: string = 'PENDING';
+  tabIndex = 0;
 
   constructor(public financeDataService: FinancialDataService,
               public location: Location,
@@ -41,7 +48,7 @@ export class DataUploadActionComponent implements OnInit {
     this.completenessFormGroup = this.fb.group({
 
       balanceSheet: new FormGroup({
-        completeness: new FormControl(''),
+        completeness: new FormControl(),
       }),
       schedulesToBalanceSheet: new FormGroup({
         completeness: new FormControl(),
@@ -60,7 +67,7 @@ export class DataUploadActionComponent implements OnInit {
     this.correctnessFormGroup = this.fb.group({
 
       balanceSheet: new FormGroup({
-        correctness: new FormControl(''),
+        correctness: new FormControl(),
       }),
       schedulesToBalanceSheet: new FormGroup({
         correctness: new FormControl(),
@@ -101,7 +108,16 @@ export class DataUploadActionComponent implements OnInit {
     }
   }
 
+  getCompletenessFormControl(formGroupKey) {
+    return this.completenessFormGroup.get([formGroupKey, 'completeness']);
+  }
+
+  getCorrectnessFormControl(formGroupKey) {
+    return this.correctnessFormGroup.get([formGroupKey, 'correctness']);
+  }
+
   updateFormControls(data) {
+    this.updateTabIndex(data);
     const {financialYear, audited} = data;
     const selectedFinancialYearObject = this.financialYearDropdown.filter((item) => item.id === financialYear);
     if (selectedFinancialYearObject) {
@@ -114,19 +130,28 @@ export class DataUploadActionComponent implements OnInit {
     }
     this.fileFormGroupKeys.forEach(formGroupKey => {
       const formGroupItem = this.financeDataService.selectedFinancialRequest[formGroupKey];
+      console.log(formGroupItem);
       if (formGroupItem) {
         const {excelUrl, pdfUrl} = formGroupItem;
-        let formControl = this.completenessFormGroup.get([formGroupKey, 'completeness']);
-        if (excelUrl || pdfUrl) {
-          formControl.setValue(formGroupItem['completeness']);
-          formControl.setValidators(Validators.required);
-          formControl.updateValueAndValidity();
-        } else {
-          formControl.disable();
-        }
+        let formControls = [this.getCompletenessFormControl(formGroupKey), this.getCompletenessFormControl(formGroupKey)];
+        let keys = ['completeness', 'correctness'];
+        formControls.forEach((formControl, index) => {
+          if (excelUrl || pdfUrl) {
+            formControl.setValue(formGroupItem[keys[index]]);
+            formControl.setValidators(Validators.required);
+            formControl.updateValueAndValidity();
+          } else {
+            formControl.disable();
+          }
+        });
       }
     });
+
+    if (this.completenessStatus === 'APPROVED') {
+      this.tabIndex = 1;
+    }
   }
+
   fileButtonClickHandler(...args) {
     let urlObject = this.financeDataService.selectedFinancialRequest;
     args.map(key => urlObject = urlObject[key]);
@@ -144,9 +169,27 @@ export class DataUploadActionComponent implements OnInit {
     this.financeDataService
       .updateCompletenessStatus(this.id, this.completenessFormGroup.value)
       .subscribe(result => {
-        console.log(result);
       }, error => {
         console.log(error);
       });
   };
+
+  private updateTabIndex(data) {
+    const {completeness} = data;
+    if (completeness === UPLOAD_STATUS.APPROVED) {
+      this.tabIndex = 1;
+    }
+  }
+
+  correctnessSubmitHandler() {
+    this.financeDataService
+      .updateCorrectnessStatus(this.id, this.correctnessFormGroup.value)
+      .subscribe(result => {
+        if (result['success']) {
+          this.router.navigate(['/user/data-upload']);
+        }
+      }, error => {
+        console.log(error);
+      });
+  }
 }

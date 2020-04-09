@@ -27,4 +27,8 @@ export class FinancialDataService {
   updateCompletenessStatus(id, data) {
     return this.httpClient.put(`${environment.api.url}ulb-financial-data/completeness/${id}`, JSON.stringify(data));
   }
+
+  updateCorrectnessStatus(id, data) {
+    return this.httpClient.put(`${environment.api.url}ulb-financial-data/correctness/${id}`, JSON.stringify(data));
+  }
 }

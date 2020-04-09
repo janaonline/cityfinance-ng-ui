@@ -1,4 +1,3 @@
-<
 <ng-container>
   <div class="col mt-3">
     <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>
@@ -7,124 +6,87 @@
     <h3>Financial Data Upload</h3>
   </div>
   <mat-tab-group dynamicHeight="false"
+                 [selectedIndex]="tabIndex"
                  class="mt-1"
                  animationDuration="100ms">
     <mat-tab label="Stage 1 : Completeness">
       <ng-template matTabContent>
-        <ng-container *ngTemplateOutlet="dropDownContainer"></ng-container>
-
         <ng-container *ngIf="completenessStatus!=='APPROVED'">
-
-          <form [formGroup]="completenessFormGroup" class="col-sm-12">
-            <div id="completeness" class="mt-4">
-              <h3>
-                State 1 : Completeness
-              </h3>
-            </div>
-            <div class="row">
-              <div class="col-sm-5">
-                <div formGroupName="balanceSheet" class="row">
-                  <div class="col-sm-12">
-                    <h4>Balance Sheet</h4>
-                  </div>
-                  <div class="col-sm-12">
-                    <div class=" d-flex justify-content-between">
-                      <div class="d-flex flex-1 justify-content-between">
-                        <button (click)="fileButtonClickHandler('balanceSheet','pdfUrl')" class="col">PDF file</button>
-                        <button (click)="fileButtonClickHandler('balanceSheet','excelUrl')" class="col">Excel File
-                        </button>
-                      </div>
-                      <div class="d-flex flex-1 justify-content-evenly">
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 (change)="radioButtonClickHandler()"
-                                 id="balanceSheet-completeness-approved"
-                                 formControlName="completeness"
-                                 value="APPROVED">
-                          <label for="balanceSheet-completeness-approved">Approve</label>
+          <ng-container *ngTemplateOutlet="dropDownContainer"></ng-container>
+          <ng-container>
+            <form [formGroup]="completenessFormGroup" class="col-sm-12">
+              <div id="completeness" class="mt-4">
+                <h3>
+                  State 1 : Completeness
+                </h3>
+              </div>
+              <div class="row">
+                <div class="col-sm-5">
+                  <div formGroupName="balanceSheet" class="row">
+                    <div class="col-sm-12">
+                      <h4>Balance Sheet</h4>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class=" d-flex justify-content-between">
+                        <div class="d-flex flex-1 justify-content-between">
+                          <button (click)="fileButtonClickHandler('balanceSheet','pdfUrl')" class="col">PDF file
+                          </button>
+                          <button (click)="fileButtonClickHandler('balanceSheet','excelUrl')" class="col">Excel File
+                          </button>
                         </div>
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 formControlName="completeness"
-                                 id="balanceSheet-completeness-rejected"
-                                 (change)="radioButtonClickHandler()"
-                                 value="REJECTED">
-                          <label for="balanceSheet-completeness-rejected">Reject</label>
+                        <div class="d-flex flex-1 justify-content-evenly">
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   (change)="radioButtonClickHandler()"
+                                   id="balanceSheet-completeness-approved"
+                                   formControlName="completeness"
+                                   value="APPROVED">
+                            <label for="balanceSheet-completeness-approved">Approve</label>
+                          </div>
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   formControlName="completeness"
+                                   id="balanceSheet-completeness-rejected"
+                                   (change)="radioButtonClickHandler()"
+                                   value="REJECTED">
+                            <label for="balanceSheet-completeness-rejected">Reject</label>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-sm-5">
-                <div class="row" formGroupName="schedulesToBalanceSheet">
-                  <div class="col-sm-12">
-                    <h4>Schedules Balance Sheet</h4>
-                  </div>
-                  <div class="col-sm-12">
-                    <div class=" d-flex justify-content-between">
-                      <div class="d-flex flex-1 justify-content-between">
-                        <button (click)="fileButtonClickHandler('schedulesToBalanceSheet','pdfUrl')" class="col">PDF
-                          file
-                        </button>
-                        <button (click)="fileButtonClickHandler('schedulesToBalanceSheet','excelUrl')" href="">Excel
-                          File
-                        </button>
-                      </div>
-                      <div class="d-flex flex-1 justify-content-evenly">
-                        <div>
-                          <input class="mr-1"
-                                 formControlName="completeness"
-                                 type="radio"
-                                 id="sch-balanceSheet-completeness-approved"
-                                 value="APPROVED">
-                          <label for="sch-balanceSheet-completeness-approved">Approve</label>
-                        </div>
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 id="sch-balanceSheet-completeness-rejected"
-                                 formControlName="completeness"
-                                 value="REJECTED">
-                          <label for="sch-balanceSheet-completeness-rejected">Reject</label>
-                        </div>
-                      </div>
+                <div class="col-sm-5">
+                  <div class="row" formGroupName="schedulesToBalanceSheet">
+                    <div class="col-sm-12">
+                      <h4>Schedules Balance Sheet</h4>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row mt-3">
-
-              <div class="col-sm-5" formGroupName="incomeAndExpenditure">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <h4>Income and Expenditure</h4>
-                  </div>
-
-                  <div class="col-sm-12">
-                    <div class=" d-flex justify-content-between">
-                      <div class="d-flex flex-1 justify-content-between">
-                        <button (click)="fileButtonClickHandler(['incomeAndExpenditure','pdfUrl'])" class="col">PDF file
-                        </button>
-                        <button (click)="fileButtonClickHandler(['incomeAndExpenditure','excelUrl'])">Excel File
-                        </button>
-                      </div>
-                      <div class="d-flex flex-1 justify-content-evenly">
-                        <div>
-                          <input class="mr-1"
-                                 type="radio"
-                                 id="incomeAndExpenditure-completeness-approved"
-                                 formControlName="completeness"
-                                 value="APPROVED">
-                          <label for="incomeAndExpenditure-completeness-approved">Approve</label>
+                    <div class="col-sm-12">
+                      <div class=" d-flex justify-content-between">
+                        <div class="d-flex flex-1 justify-content-between">
+                          <button (click)="fileButtonClickHandler('schedulesToBalanceSheet','pdfUrl')" class="col">PDF
+                            file
+                          </button>
+                          <button (click)="fileButtonClickHandler('schedulesToBalanceSheet','excelUrl')" href="">Excel
+                            File
+                          </button>
                         </div>
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 id="incomeAndExpenditure-completeness-rejected"
-                                 formControlName="completeness"
-                                 value="REJECTED">
-                          <label for="incomeAndExpenditure-completeness-rejected">Reject</label>
+                        <div class="d-flex flex-1 justify-content-evenly">
+                          <div>
+                            <input class="mr-1"
+                                   formControlName="completeness"
+                                   type="radio"
+                                   id="sch-balanceSheet-completeness-approved"
+                                   value="APPROVED">
+                            <label for="sch-balanceSheet-completeness-approved">Approve</label>
+                          </div>
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   id="sch-balanceSheet-completeness-rejected"
+                                   formControlName="completeness"
+                                   value="REJECTED">
+                            <label for="sch-balanceSheet-completeness-rejected">Reject</label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -132,78 +94,146 @@
                 </div>
               </div>
 
-              <div class="col-sm-5" formGroupName="schedulesToIncomeAndExpenditure">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <h4>Schedules to Income and Expenditure</h4>
-                  </div>
+              <div class="row mt-3">
 
-                  <div class="col-sm-12">
-                    <div class=" d-flex justify-content-between">
-                      <div class="d-flex flex-1 justify-content-between">
-                        <button (click)="fileButtonClickHandler(['schedulesToIncomeAndExpenditure','pdfUrl'])"
-                                class="col">
-                          PDF
-                          file
-                        </button>
-                        <button (click)="fileButtonClickHandler(['schedulesToIncomeAndExpenditure','excelUrl'])"
-                                class="col">
-                          Excel File
-                        </button>
-                      </div>
-                      <div class="d-flex flex-1 justify-content-evenly">
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 id=" schedulesToIncomeAndExpenditure-completeness-approved"
-                                 formControlName="completeness"
-                                 value="APPROVED">
-                          <label for=" schedulesToIncomeAndExpenditure-completeness-approved">Approve</label>
+                <div class="col-sm-5" formGroupName="incomeAndExpenditure">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h4>Income and Expenditure</h4>
+                    </div>
+
+                    <div class="col-sm-12">
+                      <div class=" d-flex justify-content-between">
+                        <div class="d-flex flex-1 justify-content-between">
+                          <button (click)="fileButtonClickHandler(['incomeAndExpenditure','pdfUrl'])" class="col">PDF
+                            file
+                          </button>
+                          <button (click)="fileButtonClickHandler(['incomeAndExpenditure','excelUrl'])">Excel File
+                          </button>
                         </div>
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 id=" schedulesToIncomeAndExpenditure-completeness-rejected"
-                                 formControlName="completeness"
-                                 value="REJECTED"
-                          >
-                          <label for=" schedulesToIncomeAndExpenditure-completeness-rejected">Reject</label>
+                        <div class="d-flex flex-1 justify-content-evenly">
+                          <div>
+                            <input class="mr-1"
+                                   type="radio"
+                                   id="incomeAndExpenditure-completeness-approved"
+                                   formControlName="completeness"
+                                   value="APPROVED">
+                            <label for="incomeAndExpenditure-completeness-approved">Approve</label>
+                          </div>
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   id="incomeAndExpenditure-completeness-rejected"
+                                   formControlName="completeness"
+                                   value="REJECTED">
+                            <label for="incomeAndExpenditure-completeness-rejected">Reject</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-5" formGroupName="schedulesToIncomeAndExpenditure">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h4>Schedules to Income and Expenditure</h4>
+                    </div>
+
+                    <div class="col-sm-12">
+                      <div class=" d-flex justify-content-between">
+                        <div class="d-flex flex-1 justify-content-between">
+                          <button (click)="fileButtonClickHandler(['schedulesToIncomeAndExpenditure','pdfUrl'])"
+                                  class="col">
+                            PDF
+                            file
+                          </button>
+                          <button (click)="fileButtonClickHandler(['schedulesToIncomeAndExpenditure','excelUrl'])"
+                                  class="col">
+                            Excel File
+                          </button>
+                        </div>
+                        <div class="d-flex flex-1 justify-content-evenly">
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   id=" schedulesToIncomeAndExpenditure-completeness-approved"
+                                   formControlName="completeness"
+                                   value="APPROVED">
+                            <label for=" schedulesToIncomeAndExpenditure-completeness-approved">Approve</label>
+                          </div>
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   id=" schedulesToIncomeAndExpenditure-completeness-rejected"
+                                   formControlName="completeness"
+                                   value="REJECTED"
+                            >
+                            <label for=" schedulesToIncomeAndExpenditure-completeness-rejected">Reject</label>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="row mt-3">
+              <div class="row mt-3">
 
-              <div class="col-sm-5" formGroupName="trialBalance">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <h4>Trial Balance</h4>
-                  </div>
+                <div class="col-sm-5" formGroupName="trialBalance">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h4>Trial Balance</h4>
+                    </div>
 
-                  <div class="col-sm-12">
-                    <div class=" d-flex justify-content-between">
-                      <div class="d-flex flex-1 justify-content-between">
-                        <button (click)="fileButtonClickHandler(['trialBalance','pdfUrl'])" class="col">PDF file
-                        </button>
-                        <button (click)="fileButtonClickHandler(['trialBalance','excelUrl'])" class="col">Excel File
-                        </button>
-                      </div>
-                      <div class="d-flex flex-1 justify-content-evenly">
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 formControlName="completeness"
-                                 id="trialBalance-completeness-approved"
-                                 value="APPROVED">
-                          <label for="trialBalance-completeness-approved">Approve</label>
+                    <div class="col-sm-12">
+                      <div class=" d-flex justify-content-between">
+                        <div class="d-flex flex-1 justify-content-between">
+                          <button (click)="fileButtonClickHandler(['trialBalance','pdfUrl'])" class="col">PDF file
+                          </button>
+                          <button (click)="fileButtonClickHandler(['trialBalance','excelUrl'])" class="col">Excel File
+                          </button>
                         </div>
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 id="trialBalance-completeness-rejected"
-                                 formControlName="completeness"
-                                 value="REJECTED">
-                          <label for="trialBalance-completeness-rejected">Reject</label>
+                        <div class="d-flex flex-1 justify-content-evenly">
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   formControlName="completeness"
+                                   id="trialBalance-completeness-approved"
+                                   value="APPROVED">
+                            <label for="trialBalance-completeness-approved">Approve</label>
+                          </div>
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   id="trialBalance-completeness-rejected"
+                                   formControlName="completeness"
+                                   value="REJECTED">
+                            <label for="trialBalance-completeness-rejected">Reject</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-5">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h4>Audit Report</h4>
+                    </div>
+
+                    <div class="col-sm-12">
+                      <div class=" d-flex justify-content-between">
+                        <div class="d-flex flex-1 justify-content-between">
+                          <button class="col">PDF file</button>
+                        </div>
+                        <div class="d-flex flex-1 justify-content-evenly">
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   name="contact" value="email">
+                            <label for="contactChoice1">Approve</label>
+                          </div>
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   name="contact" value="phone">
+                            <label for="contactChoice2">Reject</label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -211,90 +241,109 @@
                 </div>
               </div>
 
-              <div class="col-sm-5">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <h4>Audit Report</h4>
-                  </div>
-
-                  <div class="col-sm-12">
-                    <div class=" d-flex justify-content-between">
-                      <div class="d-flex flex-1 justify-content-between">
-                        <button class="col">PDF file</button>
-                      </div>
-                      <div class="d-flex flex-1 justify-content-evenly">
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 name="contact" value="email">
-                          <label for="contactChoice1">Approve</label>
-                        </div>
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 name="contact" value="phone">
-                          <label for="contactChoice2">Reject</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div class="row  mt-3 mb-4">
+                <div class="col-sm-12">
+                  <button [disabled]="completenessFormGroup.invalid" (click)="completenessClickedHandler()"
+                          class="btn btn-primary">Submit
+                  </button>
                 </div>
               </div>
-            </div>
-
-            <div class="row  mt-3 mb-4">
-              <div class="col-sm-12">
-                <button [disabled]="completenessFormGroup.invalid" (click)="completenessClickedHandler()"
-                        class="btn btn-primary">Submit
-                </button>
-              </div>
-            </div>
-          </form>
+            </form>
 
 
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="completenessStatus==='APPROVED'">
+          <div class="col-md-12 mt-4">
+            <h3 class="text-center">APPROVED</h3>
+          </div>
         </ng-container>
       </ng-template>
     </mat-tab>
 
-    <mat-tab label="State 2: Correctness">
+    <mat-tab [disabled]="this.completenessStatus!=='APPROVED'" label="State 2: Correctness">
       <ng-template matTabContent>
-        <ng-container *ngTemplateOutlet="dropDownContainer"></ng-container>
         <ng-container *ngIf="(completenessStatus!='PENDING'&&correctnessStatus==='PENDING')">
-          <form [formGroup]="correctnessFormGroup" class="col-sm-12">
-            <div id="correctness" class="mt-4">
-              <h3>
-                State 2: Correctness
-              </h3>
-            </div>
+          <ng-container *ngTemplateOutlet="dropDownContainer"></ng-container>
+          <ng-container>
+            <form [formGroup]="correctnessFormGroup" class="col-sm-12">
+              <div id="correctness" class="mt-4">
+                <h3>
+                  State 2: Correctness
+                </h3>
+              </div>
 
-            <div class="row">
-              <div class="col-sm-5">
-                <div formGroupName="balanceSheet" class="row">
-                  <div class="col-sm-12">
-                    <h4>Balance Sheet</h4>
-                  </div>
+              <div class="row">
+                <div class="col-sm-5">
+                  <div formGroupName="balanceSheet" class="row">
+                    <div class="col-sm-12">
+                      <h4>Balance Sheet</h4>
+                    </div>
 
-                  <div class="col-sm-12">
-                    <div class=" d-flex justify-content-between">
-                      <div class="d-flex flex-1 justify-content-between">
-                        <button (click)="fileButtonClickHandler('balanceSheet','pdfUrl')" class="col">PDF file</button>
-                        <button (click)="fileButtonClickHandler('balanceSheet','excelUrl')" class="col">Excel File
-                        </button>
-                      </div>
-                      <div class="d-flex flex-1 justify-content-evenly">
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 (change)="radioButtonClickHandler()"
-                                 id="balanceSheet-correctness-approved"
-                                 formControlName="correctness"
-                                 value="APPROVED">
-                          <label for="balanceSheet-correctness-approved">Approve</label>
+                    <div class="col-sm-12">
+                      <div class=" d-flex justify-content-between">
+                        <div class="d-flex flex-1 justify-content-between">
+                          <button (click)="fileButtonClickHandler('balanceSheet','pdfUrl')" class="col">PDF file
+                          </button>
+                          <button (click)="fileButtonClickHandler('balanceSheet','excelUrl')" class="col">Excel File
+                          </button>
                         </div>
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 formControlName="correctness"
-                                 id="balanceSheet-correctness-rejected"
-                                 (change)="radioButtonClickHandler()"
-                                 value="REJECTED">
-                          <label for="balanceSheet-correctness-rejected">Reject</label>
+                        <div class="d-flex flex-1 justify-content-evenly">
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   (change)="radioButtonClickHandler()"
+                                   id="balanceSheet-correctness-approved"
+                                   formControlName="correctness"
+                                   value="APPROVED">
+                            <label for="balanceSheet-correctness-approved">Approve</label>
+                          </div>
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   formControlName="correctness"
+                                   id="balanceSheet-correctness-rejected"
+                                   (change)="radioButtonClickHandler()"
+                                   value="REJECTED">
+                            <label for="balanceSheet-correctness-rejected">Reject</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-5">
+                  <div formGroupName="schedulesToBalanceSheet" class="row">
+                    <div class="col-sm-12">
+                      <h4>Schedules Balance Sheet</h4>
+                    </div>
+
+                    <div class="col-sm-12">
+                      <div class="d-flex justify-content-between">
+                        <div class=" d-flex flex-1 justify-content-between">
+                          <button (click)="fileButtonClickHandler('schedulesToBalanceSheet','pdfUrl')" class="col">PDF
+                            file
+                          </button>
+                          <button (click)="fileButtonClickHandler('schedulesToBalanceSheet','excelUrl')" href="">Excel
+                            File
+                          </button>
+                        </div>
+                        <div class="d-flex flex-1 justify-content-evenly">
+                          <div>
+                            <input class="mr-1"
+                                   formControlName="correctness"
+                                   type="radio"
+                                   id="sch-balanceSheet-correctness-approved"
+                                   value="APPROVED">
+                            <label for="sch-balanceSheet-correctness-approved">Approve</label>
+                          </div>
+
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   id="sch-balanceSheet-correctness-rejected"
+                                   formControlName="correctness"
+                                   value="REJECTED">
+                            <label for="sch-balanceSheet-correctness-rejected">Reject</label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -302,214 +351,173 @@
                 </div>
               </div>
 
-              <div class="col-sm-5">
-                <div formGroupName="schedulesToBalanceSheet" class="row">
-                  <div class="col-sm-12">
-                    <h4>Schedules Balance Sheet</h4>
-                  </div>
 
-                  <div class="col-sm-12">
-                    <div class=" d-flex justify-content-between">
-                      <button (click)="fileButtonClickHandler('schedulesToBalanceSheet','pdfUrl')" class="col">PDF
-                        file
-                      </button>
-                      <button (click)="fileButtonClickHandler('schedulesToBalanceSheet','excelUrl')" href="">Excel
-                        File
-                      </button>
+              <div class="row mt-3">
+
+                <div formGroupName="incomeAndExpenditure" class="col-sm-5">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h4>Income and Expenditure</h4>
                     </div>
-                    <div class="d-flex flex-1 justify-content-evenly">
-                      <div>
-                        <input class="mr-1"
-                               formControlName="correctness"
-                               type="radio"
-                               id="sch-balanceSheet-correctness-approved"
-                               value="APPROVED">
-                        <label for="sch-balanceSheet-correctness-approved">Approve</label>
-                      </div>
 
-                      <div>
-                        <input class="mr-1" type="radio"
-                               id="sch-balanceSheet-correctness-rejected"
-                               formControlName="correctness"
-                               value="REJECTED">
-                        <label for="sch-balanceSheet-completeness-rejected">Reject</label>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="row mt-3">
-
-              <div formGroupName="incomeAndExpenditure" class="col-sm-5">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <h4>Income and Expenditure</h4>
-                  </div>
-
-                  <div class="col-sm-12">
-                    <div class=" d-flex justify-content-between">
-                      <div class="d-flex flex-1 justify-content-between">
-                        <button (click)="fileButtonClickHandler(['incomeAndExpenditure','pdfUrl'])" class="col">PDF file
-                        </button>
-                        <button (click)="fileButtonClickHandler(['incomeAndExpenditure','excelUrl'])">Excel File
-                        </button>
-                      </div>
-                      <div class="d-flex flex-1 justify-content-evenly">
-                        <div>
-                          <input class="mr-1"
-                                 type="radio"
-                                 id="incomeAndExpenditure-correctness-approved"
-                                 formControlName="correctness"
-                                 value="APPROVED">
-                          <label for="incomeAndExpenditure-completeness-approved">Approve</label>
+                    <div class="col-sm-12">
+                      <div class=" d-flex justify-content-between">
+                        <div class="d-flex flex-1 justify-content-between">
+                          <button (click)="fileButtonClickHandler(['incomeAndExpenditure','pdfUrl'])" class="col">PDF
+                            file
+                          </button>
+                          <button (click)="fileButtonClickHandler(['incomeAndExpenditure','excelUrl'])">Excel File
+                          </button>
                         </div>
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 id="incomeAndExpenditure-correctness-rejected"
-                                 formControlName="correctness"
-                                 value="REJECTED">
-                          <label for="incomeAndExpenditure-correctness-rejected">Reject</label>
+                        <div class="d-flex flex-1 justify-content-evenly">
+                          <div>
+                            <input class="mr-1"
+                                   type="radio"
+                                   id="incomeAndExpenditure-correctness-approved"
+                                   formControlName="correctness"
+                                   value="APPROVED">
+                            <label for="incomeAndExpenditure-correctness-approved">Approve</label>
+                          </div>
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   id="incomeAndExpenditure-correctness-rejected"
+                                   formControlName="correctness"
+                                   value="REJECTED">
+                            <label for="incomeAndExpenditure-correctness-rejected">Reject</label>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="col-sm-5" formGroupName="schedulesToIncomeAndExpenditure">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <h4>Schedules to Income and Expenditure</h4>
-                  </div>
-                  <div class="col-sm-12">
-                    <div class=" d-flex justify-content-between">
-                      <div class="d-flex flex-1 justify-content-between">
-                        <button (click)="fileButtonClickHandler(['schedulesToIncomeAndExpenditure','pdfUrl'])"
-                                class="col">PDF file
-                        </button>
-                        <button (click)="fileButtonClickHandler(['schedulesToIncomeAndExpenditure','excelUrl'])"
-                                class="col">Excel File
-                        </button>
-                      </div>
-                      <div class="d-flex flex-1 justify-content-evenly">
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 id="schedulesToIncomeAndExpenditure-correctness-approved"
-                                 formControlName="correctness"
-                                 value="APPROVED">
-                          <label for="schedulesToIncomeAndExpenditure-correctness-approved">Approve</label>
+                <div class="col-sm-5" formGroupName="schedulesToIncomeAndExpenditure">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h4>Schedules to Income and Expenditure</h4>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class=" d-flex justify-content-between">
+                        <div class="d-flex flex-1 justify-content-between">
+                          <button (click)="fileButtonClickHandler(['schedulesToIncomeAndExpenditure','pdfUrl'])"
+                                  class="col">PDF file
+                          </button>
+                          <button (click)="fileButtonClickHandler(['schedulesToIncomeAndExpenditure','excelUrl'])"
+                                  class="col">Excel File
+                          </button>
                         </div>
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 id="schedulesToIncomeAndExpenditure-correctness-rejected"
-                                 formControlName="correctness"
-                                 value="REJECTED">
-                          <label for="schedulesToIncomeAndExpenditure-correctness-rejected">Reject</label>
+                        <div class="d-flex flex-1 justify-content-evenly">
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   id="schedulesToIncomeAndExpenditure-correctness-approved"
+                                   formControlName="correctness"
+                                   value="APPROVED">
+                            <label for="schedulesToIncomeAndExpenditure-correctness-approved">Approve</label>
+                          </div>
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   id="schedulesToIncomeAndExpenditure-correctness-rejected"
+                                   formControlName="correctness"
+                                   value="REJECTED">
+                            <label for="schedulesToIncomeAndExpenditure-correctness-rejected">Reject</label>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+
               </div>
 
-            </div>
+              <div class="row mt-3">
+                <div class="col-sm-5" formGroupName="trialBalance">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h4>Trial Balance</h4>
+                    </div>
 
-            <div class="row mt-3">
-              <div class="col-sm-5" formGroupName="trialBalance">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <h4>Trial Balance</h4>
-                  </div>
-
-                  <div class="col-sm-12">
-                    <div class=" d-flex justify-content-between">
-                      <div class="d-flex flex-1 justify-content-between">
-                        <button (click)="fileButtonClickHandler(['trialBalance','pdfUrl'])" class="col">PDF file
-                        </button>
-                        <button (click)="fileButtonClickHandler(['trialBalance','excelUrl'])" class="col">Excel File
-                        </button>
-                      </div>
-                      <div class="d-flex flex-1 justify-content-evenly">
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 formControlName="correctness"
-                                 id="trialBalance-correctness-approved"
-                                 value="APPROVED">
-                          <label for="trialBalance-correctness-approved">Approve</label>
+                    <div class="col-sm-12">
+                      <div class=" d-flex justify-content-between">
+                        <div class="d-flex flex-1 justify-content-between">
+                          <button (click)="fileButtonClickHandler(['trialBalance','pdfUrl'])" class="col">PDF file
+                          </button>
+                          <button (click)="fileButtonClickHandler(['trialBalance','excelUrl'])" class="col">Excel File
+                          </button>
                         </div>
-                        <div>
-                          <input class="mr-1" type="radio"
-                                 id="trialBalance-correctness-rejected"
+                        <div class="d-flex flex-1 justify-content-evenly">
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   formControlName="correctness"
+                                   id="trialBalance-correctness-approved"
+                                   value="APPROVED">
+                            <label for="trialBalance-correctness-approved">Approve</label>
+                          </div>
+                          <div>
+                            <input class="mr-1" type="radio"
+                                   id="trialBalance-correctness-rejected"
 
-                                 formControlName="correctness"
-                                 value="REJECTED">
-                          <label for="trialBalance-correctness-rejected">Reject</label>
+                                   formControlName="correctness"
+                                   value="REJECTED">
+                            <label for="trialBalance-correctness-rejected">Reject</label>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
+                  </div>
                 </div>
-              </div>
 
-              <div class="col-sm-5">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <h4>Audit Report</h4>
-                  </div>
+                <div class="col-sm-5">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h4>Audit Report</h4>
+                    </div>
 
-                  <div class="col-sm-12">
-                    <div class=" d-flex justify-content-between">
-                      <div class="d-flex flex-1 justify-content-between">
-                        <button class="col">PDF file</button>
-                      </div>
-                      <div class="d-flex flex-1 justify-content-evenly">
-                        <div>
-                          <input class="mr-1" type="radio" id="contactChoice1"
-                                 name="contact" value="email">
-                          <label for="contactChoice1">Approve</label>
+                    <div class="col-sm-12">
+                      <div class=" d-flex justify-content-between">
+                        <div class="d-flex flex-1 justify-content-between">
+                          <button class="col">PDF file</button>
                         </div>
-                        <div>
-                          <input class="mr-1" type="radio" id="contactChoice2"
-                                 name="contact" value="phone">
-                          <label for="contactChoice2">Reject</label>
+                        <div class="d-flex flex-1 justify-content-evenly">
+                          <div>
+                            <input class="mr-1" type="radio" id="contactChoice1"
+                                   name="contact" value="email">
+                            <label for="contactChoice1">Approve</label>
+                          </div>
+                          <div>
+                            <input class="mr-1" type="radio" id="contactChoice2"
+                                   name="contact" value="phone">
+                            <label for="contactChoice2">Reject</label>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row  mt-3 mb-4">
+                <div class="col-sm-12">
+                  <button (click)="correctnessSubmitHandler()" class="btn btn-primary">Submit</button>
                 </div>
               </div>
 
-            </div>
-
-            <div class="row  mt-3 mb-4">
-              <div class="col-sm-12">
-                <button class="btn btn-primary">Submit</button>
-              </div>
-            </div>
-
-          </form>
+            </form>
 
 
+          </ng-container>
         </ng-container>
+        <ng-container *ngIf="correctnessStatus==='REJECTED'">
+          <div class="col-md-12 mt-4">
+            <h3 class="text-center">Request rejected.</h3>
+          </div>
+        </ng-container>
+
       </ng-template>
     </mat-tab>
-
   </mat-tab-group>
-
-
-  <div class="row mt-4">
-    <div class="col-sm-8">
-
-
-    </div>
-  </div>
-
 </ng-container>
 
 <ng-container *ngIf="completenessStatus=='APPROVED'&&correctnessStatus=='APPROVED'">
@@ -521,7 +529,7 @@
 <ng-container></ng-container>
 <ng-template #dropDownContainer>
   <div class="col-sm-12 mt-4">
-    <div class="row" *ngIf="completenessStatus!=='APPROVED'&&correctnessStatus!='APPROVED'">
+    <div class="row">
       <div class="col-sm-3 mr-2">
         <label for="financial_year">Financial Year <span class="text-danger">*</span></label>
         <angular2-multiselect [formControl]="financialYear" id="financial_year" name="financial_year"

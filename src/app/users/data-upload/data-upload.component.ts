@@ -10,7 +10,6 @@ import {AccessChecker} from '../../util/access/accessChecker';
 import {MODULES_NAME} from '../../util/access/modules';
 import {ACTIONS} from '../../util/access/actions';
 import {UserUtility} from '../../util/user/user';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'app-data-upload',
@@ -40,6 +39,8 @@ export class DataUploadComponent implements OnInit {
   fileFormGroup: FormGroup;
   dataUploadList = [];
   isAccessible: boolean;
+  financialYearDropdownSettings: any = {singleSelection: true, text: 'Select Year'};
+  auditStatusDropdownSettings: any = {singleSelection: true, text: 'Select Year'};
 
 
   constructor(public activatedRoute: ActivatedRoute,
@@ -116,9 +117,6 @@ export class DataUploadComponent implements OnInit {
 
   handleResponseFailure = (error) => {
   };
-  financialYearDropdownSettings: any = {singleSelection: true, text: 'Select Year'};
-  auditStatusDropdownSettings: any = {singleSelection: true, text: 'Select Year'};
-
 
   async submitClickHandler() {
 
