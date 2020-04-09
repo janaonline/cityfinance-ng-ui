@@ -201,4 +201,46 @@ export class DataUploadComponent implements OnInit {
     });
 
   }
+
+  async updateClickHandler() {
+    let urlObject = {};
+    for (let parentFormGroup in this.fileFormGroup.controls) {
+      if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReportFormControl') {
+        const formGroup = this.fileFormGroup.get(parentFormGroup);
+        if (!formGroup.disabled) {
+          urlObject[parentFormGroup] = {};
+          const files = formGroup.value;
+          for (let fileKey in files) {
+            let fileUrlKey = fileKey.includes('pdf') ? 'pdfUrl' : 'excelUrl';
+            urlObject[parentFormGroup][fileUrlKey] = '';
+            const formControl = formGroup.get(fileKey);
+            if (files[fileKey]) {
+              try {
+                let {name, type} = files[fileKey];
+                let urlResponse: any = await this.dataUploadService.getURLForFileUpload(name, type).toPromise();
+                if (urlResponse.success) {
+                  let {url, file_alias} = urlResponse.data[0];
+                  urlObject[parentFormGroup][fileUrlKey] = file_alias;
+                  url = url.replace('admin/', '');
+                  let fileUploadResponse = await this.dataUploadService.uploadFileToS3(files[fileKey], url).toPromise();
+                }
+              } catch (e) {
+                formControl.setErrors(['File Upload Error']);
+              }
+            } else if (formControl.validator) {
+              formControl.setErrors(['Please select file']);
+            }
+          }
+        }
+      }
+    }
+    this.financialDataService.upDateFinancialData(this.uploadId, urlObject).subscribe((result) => {
+      console.log(result);
+      if (result['success']) {
+        this.router.navigate(['/user/data-upload']);
+      }
+    }, error => {
+      console.log(error);
+    });
+  }
 }

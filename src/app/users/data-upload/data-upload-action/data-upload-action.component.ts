@@ -169,6 +169,9 @@ export class DataUploadActionComponent implements OnInit {
     this.financeDataService
       .updateCompletenessStatus(this.id, this.completenessFormGroup.value)
       .subscribe(result => {
+        if (result['success']) {
+          this.router.navigate(['/user/data-upload']);
+        }
       }, error => {
         console.log(error);
       });
