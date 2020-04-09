@@ -6,6 +6,9 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataEntryService} from '../../dashboard/data-entry/data-entry.service';
 import {FinancialDataService} from '../services/financial-data.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {AccessChecker} from '../../util/access/accessChecker';
+import {MODULES_NAME} from '../../util/access/modules';
+import {ACTIONS} from '../../util/access/actions';
 
 @Component({
   selector: 'app-data-upload',
@@ -33,13 +36,18 @@ export class DataUploadComponent implements OnInit {
   fileFormGroup: FormGroup;
 
   dataUploadList = [];
+  isAccessible: boolean;
 
 
   constructor(public activatedRoute: ActivatedRoute,
               public router: Router,
               public location: Location,
               public dataUploadService: DataEntryService,
-              private financialDataService: FinancialDataService) {
+              private financialDataService: FinancialDataService,
+              public accessUtil: AccessChecker) {
+
+    this.isAccessible = accessUtil.hasAccess({moduleName: MODULES_NAME.ULB_DATA_UPLOAD, action: ACTIONS.UPLOAD});
+
     this.activatedRoute.params.subscribe(val => {
       const {id} = val;
       if (id) {
@@ -97,6 +105,7 @@ export class DataUploadComponent implements OnInit {
     console.log(error);
   };
 
+
   async submitClickHandler() {
 
     let urlObject = {};
@@ -148,5 +157,9 @@ export class DataUploadComponent implements OnInit {
   handleFileChange(strings: string[], file: File) {
 
     this.fileFormGroup.get(strings).setValue(file);
+  }
+
+  navigateTo(row: any) {
+    this.financialDataService.selectedFinancialRequest = row;
   }
 }

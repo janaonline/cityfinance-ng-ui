@@ -10,14 +10,16 @@ import {SharedModule} from '../../shared/shared.module';
 
 const routes: Routes = [
   {path: 'action', component: DataUploadActionComponent},
+  {path: 'action/:id', component: DataUploadActionComponent},
   {path: ':id', component: DataUploadComponent},
   {path: '', component: DataUploadComponent}
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes), CommonModule, AngularMaterialModule, AngularMultiSelectModule, ReactiveFormsModule, SharedModule],
+  imports: [RouterModule.forChild(routes), CommonModule, AngularMaterialModule, AngularMultiSelectModule, ReactiveFormsModule, SharedModule],
   exports: [RouterModule],
   declarations: [DataUploadComponent],
 })
+
 export class DataUploadRoutingModule {
 }

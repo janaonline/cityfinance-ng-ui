@@ -126,7 +126,12 @@
       ></a>
       <ul class="dropdown-menu">
         <li>
-          <a [routerLink]="['user']">Profile</a>
+          <a [routerLink]="['user', 'profile']">Profile</a>
+        </li>
+        <li *ngIf="canViewUploadData">
+          <a [routerLink]="['user', 'data-upload']" class="pointer"
+            ><b>Data upload</b></a
+          >
         </li>
         <li>
           <a class="pointer" (click)="logout()">Logout</a>

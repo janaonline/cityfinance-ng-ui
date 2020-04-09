@@ -18,6 +18,7 @@ import { AuditStatusTextPipe } from './pipes/audit-status-text.pipe';
 import { RoundoffPipe } from './pipes/roundoff/roundoff.pipe';
 import { RupeeConverterPipe } from './pipes/rupee-converter.pipe';
 import { TypeofPipe } from './pipes/typeof.pipe';
+import { SideMenuComponent } from './side-menu/side-menu.component';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { TypeofPipe } from './pipes/typeof.pipe';
     RupeeConverterPipe,
     TypeofPipe,
     RoundoffPipe,
-    AuditStatusTextPipe
+    AuditStatusTextPipe,
+    SideMenuComponent
   ],
   exports: [
     PreLoaderComponent,
@@ -47,7 +49,8 @@ import { TypeofPipe } from './pipes/typeof.pipe';
     TypeofPipe,
     RoundoffPipe,
     AuditStatusTextPipe,
-    HomeHeaderComponent
+    HomeHeaderComponent,
+    SideMenuComponent
   ]
 })
 export class SharedModule {}

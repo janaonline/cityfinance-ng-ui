@@ -1,10 +1,8 @@
 <ng-container *ngIf="id; else noId">
-  <div class="container">
+  <div class="row">
     <div class="col mt-3">
       <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>
     </div>
-
-
     <ng-container *ngIf="id==='upload-form'">
       <div class="mt-2">
         <h3>Financial Data Upload</h3>
@@ -230,7 +228,8 @@
 
           <div class="row mt-4 mb-4">
             <div class="col-sm-12">
-              <button [disabled]="fileFormGroup.invalid" class="btn btn-primary" (click)="submitClickHandler()">Submit</button>
+              <button [disabled]="fileFormGroup.invalid" class="btn btn-primary" (click)="submitClickHandler()">Submit
+              </button>
             </div>
           </div>
         </div>
@@ -243,11 +242,12 @@
 
 <ng-template #noId>
 
-  <div class="container flex-column">
+  <div class="row flex-column">
     <div class="col">
       <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>
     </div>
-    <div class="col">
+    <div *ngIf="!isAccessible"
+         class="col">
       <a mat-button [routerLink]="['upload-form']" class="btn-primary mt-3"
          style="border-radius: 5px">
         Upload Data
@@ -255,7 +255,6 @@
     </div>
     <div class="row mt-5">
       <div class="col-sm-12">
-
         <table class="table">
           <thead style="background: #009fe3;color: white ;border: 5px solid white">
           <tr>
@@ -270,7 +269,7 @@
           >
             <td class="text-center">{{i + 1}}</td>
             <td class="text-center" *ngFor="let header of tableHeaders">
-              <a [routerLink]="['action']" class="btn btn-primary"
+              <a [routerLink]="['action',row?._id]" (click)="navigateTo(row)" class="btn btn-primary"
                  *ngIf="header.id==='action'; else nonAction">{{header.title}}</a>
               <ng-template #nonAction>
                 <span *ngIf="header.id==='audited'; else normalCol">{{row[header.id] ? 'Audited' : 'Unaudited'}}</span>
@@ -284,6 +283,4 @@
       </div>
     </div>
   </div>
-
-
 </ng-template>

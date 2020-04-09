@@ -8,430 +8,473 @@
 
   <div class="row mt-4">
     <div class="col-sm-8">
-      <div class="row">
+      <div class="row" *ngIf="completenessStatus!=='APPROVED'&&correctnessStatus!='APPROVED'">
         <div class="col-sm-5 mr-2">
           <label for="financial_year">Financial Year <span class="text-danger">*</span></label>
-          <angular2-multiselect formControlName="financialYear" id="financial_year" name="financial_year"
-                                [settings]="{singleSelection:true,text:'Select Year'}"
+          <angular2-multiselect [formControl]="financialYear" id="financial_year" name="financial_year"
+                                [settings]="{singleSelection:true,text:'Select Year', disabled:true}"
                                 [data]="financialYearDropdown">
           </angular2-multiselect>
         </div>
         <div class="col-sm-5 mr-2">
           <label for="audit_status">Status <span class="text-danger">*</span></label>
           <angular2-multiselect title="Select Year" id="audit_status"
-                                [settings]="{singleSelection:true,text:'Select Audit Status'}"
+                                [formControl]="audited"
+                                [settings]="{singleSelection:true,text:'Select Audit Status',disabled:true}"
                                 [data]="auditStatusDropdown">
 
           </angular2-multiselect>
         </div>
       </div>
 
-      <div id="completeness" class="mt-4">
-        <h3>
-          State 1 : Completeness
-        </h3>
-      </div>
+      <ng-container *ngIf="completenessStatus=='PENDING'">
 
-      <div class="row">
-
-        <div class="col-sm-5">
+        <form [formGroup]="completenessFormControl">
+          <div id="completeness" class="mt-4">
+            <h3>
+              State 1 : Completeness
+            </h3>
+          </div>
           <div class="row">
-            <div class="col-sm-12">
-              <h4>Balance Sheet</h4>
+
+            <div class="col-sm-5">
+              <div formGroupName="balanceSheet" class="row">
+                <div class="col-sm-12">
+                  <h4>Balance Sheet</h4>
+                </div>
+                <div class="col-sm-12">
+                  <div class=" d-flex justify-content-between">
+                    <div class="d-flex flex-1 justify-content-between">
+                      <button (click)="fileButtonClickHandler('balanceSheet','pdfUrl')" class="col">PDF file</button>
+                      <button (click)="fileButtonClickHandler('balanceSheet','excelUrl')" class="col">Excel File
+                      </button>
+                    </div>
+                    <div class="d-flex flex-1 justify-content-evenly">
+                      <div>
+                        <input class="mr-1" type="radio"
+                               (change)="radioButtonClickHandler()"
+                               id="balanceSheet-completeness-approved"
+                               formControlName="completeness"
+                               value="APPROVED">
+                        <label for="balanceSheet-completeness-approved">Approve</label>
+                      </div>
+                      <div>
+                        <input class="mr-1" type="radio"
+                               formControlName="completeness"
+                               id="balanceSheet-completeness-rejected"
+                               (change)="radioButtonClickHandler()"
+                               value="REJECTED">
+                        <label for="balanceSheet-completeness-rejected">Reject</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="col-sm-12">
-              <div class=" d-flex justify-content-between">
-                <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
+            <div class="col-sm-5">
+              <div class="row" formGroupName="schedulesToBalanceSheet">
+                <div class="col-sm-12">
+                  <h4>Schedules Balance Sheet</h4>
                 </div>
-                <div class="d-flex flex-1 justify-content-evenly">
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice1"
-                           name="contact" value="email">
-                    <label for="contactChoice1">Approve</label>
+                <div class="col-sm-12">
+                  <div class=" d-flex justify-content-between">
+                    <div class="d-flex flex-1 justify-content-between">
+                      <button (click)="fileButtonClickHandler('schedulesToBalanceSheet','pdfUrl')" class="col">PDF file
+                      </button>
+                      <button (click)="fileButtonClickHandler('schedulesToBalanceSheet','excelUrl')" href="">Excel File
+                      </button>
+                    </div>
+                    <div class="d-flex flex-1 justify-content-evenly">
+                      <div>
+                        <input class="mr-1"
+                               formControlName="completeness"
+                               type="radio"
+                               id="sch-balanceSheet-completeness-approved"
+                               value="APPROVED">
+                        <label for="sch-balanceSheet-completeness-approved">Approve</label>
+                      </div>
+                      <div>
+                        <input class="mr-1" type="radio"
+                               id="sch-balanceSheet-completeness-rejected"
+                               formControlName="completeness"
+                               value="REJECTED">
+                        <label for="sch-balanceSheet-completeness-rejected">Reject</label>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice2"
-                           name="contact" value="phone">
-                    <label for="contactChoice2">Reject</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+
+            <div class="col-sm-5" formGroupName="incomeAndExpenditure">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h4>Income and Expenditure</h4>
+                </div>
+
+                <div class="col-sm-12">
+                  <div class=" d-flex justify-content-between">
+                    <div class="d-flex flex-1 justify-content-between">
+                      <button (click)="fileButtonClickHandler(['incomeAndExpenditure','pdfUrl'])" class="col">PDF file
+                      </button>
+                      <button (click)="fileButtonClickHandler(['incomeAndExpenditure','excelUrl'])">Excel File</button>
+                    </div>
+                    <div class="d-flex flex-1 justify-content-evenly">
+                      <div>
+                        <input class="mr-1"
+                               type="radio"
+                               formControlName="completeness"
+                               value="APPROVED">
+                        <label>Approve</label>
+                      </div>
+                      <div>
+                        <input class="mr-1" type="radio"
+                               formControlName="completeness"
+                               value="REJECTED">
+                        <label>Reject</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-sm-5" formGroupName="schedulesToIncomeAndExpenditure">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h4>Schedules to Income and Expenditure</h4>
+                </div>
+
+                <div class="col-sm-12">
+                  <div class=" d-flex justify-content-between">
+                    <div class="d-flex flex-1 justify-content-between">
+                      <button (click)="fileButtonClickHandler(['schedulesToIncomeAndExpenditure','pdfUrl'])"
+                              class="col">
+                        PDF
+                        file
+                      </button>
+                      <button (click)="fileButtonClickHandler(['schedulesToIncomeAndExpenditure','excelUrl'])"
+                              class="col">
+                        Excel File
+                      </button>
+                    </div>
+                    <div class="d-flex flex-1 justify-content-evenly">
+                      <div>
+                        <input class="mr-1" type="radio"
+                               formControlName="completeness"
+                               value="APPROVED">
+                        <label>Approve</label>
+                      </div>
+                      <div>
+                        <input class="mr-1" type="radio"
+                               formControlName="completeness"
+                               value="REJECTED"
+                        >
+                        <label for="contactChoice2">Reject</label>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
           </div>
-        </div>
 
-        <div class="col-sm-5">
-          <div class="row">
-            <div class="col-sm-12">
-              <h4>Schedules Balance Sheet</h4>
-            </div>
+          <div class="row mt-3">
 
-            <div class="col-sm-12">
-              <div class=" d-flex justify-content-between">
-                <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
+            <div class="col-sm-5" formGroupName="trialBalance">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h4>Trial Balance</h4>
                 </div>
-                <div class="d-flex flex-1 justify-content-evenly">
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice1"
-                           name="contact" value="email">
-                    <label for="contactChoice1">Approve</label>
-                  </div>
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice2"
-                           name="contact" value="phone">
-                    <label for="contactChoice2">Reject</label>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-          </div>
-        </div>
-
-      </div>
-
-      <div class="row mt-3">
-
-        <div class="col-sm-5">
-          <div class="row">
-            <div class="col-sm-12">
-              <h4>Income and Expenditure</h4>
-            </div>
-
-            <div class="col-sm-12">
-              <div class=" d-flex justify-content-between">
-                <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
-                </div>
-                <div class="d-flex flex-1 justify-content-evenly">
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice1"
-                           name="contact" value="email">
-                    <label for="contactChoice1">Approve</label>
-                  </div>
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice2"
-                           name="contact" value="phone">
-                    <label for="contactChoice2">Reject</label>
+                <div class="col-sm-12">
+                  <div class=" d-flex justify-content-between">
+                    <div class="d-flex flex-1 justify-content-between">
+                      <button (click)="fileButtonClickHandler(['trialBalance','pdfUrl'])" class="col">PDF file</button>
+                      <button (click)="fileButtonClickHandler(['trialBalance','excelUrl'])" class="col">Excel File
+                      </button>
+                    </div>
+                    <div class="d-flex flex-1 justify-content-evenly">
+                      <div>
+                        <input class="mr-1" type="radio"
+                               formControlName="completeness"
+                               value="APPROVED">
+                        <label>Approve</label>
+                      </div>
+                      <div>
+                        <input class="mr-1" type="radio"
+                               formControlName="completeness"
+                               value="REJECTED">
+                        <label>Reject</label>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-          </div>
-        </div>
-
-        <div class="col-sm-5">
-          <div class="row">
-            <div class="col-sm-12">
-              <h4>Schedules to Income and Expenditure</h4>
-            </div>
-
-            <div class="col-sm-12">
-              <div class=" d-flex justify-content-between">
-                <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
+            <div class="col-sm-5">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h4>Audit Report</h4>
                 </div>
-                <div class="d-flex flex-1 justify-content-evenly">
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice1"
-                           name="contact" value="email">
-                    <label for="contactChoice1">Approve</label>
-                  </div>
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice2"
-                           name="contact" value="phone">
-                    <label for="contactChoice2">Reject</label>
+
+                <div class="col-sm-12">
+                  <div class=" d-flex justify-content-between">
+                    <div class="d-flex flex-1 justify-content-between">
+                      <button class="col">PDF file</button>
+                    </div>
+                    <div class="d-flex flex-1 justify-content-evenly">
+                      <div>
+                        <input class="mr-1" type="radio"
+                               name="contact" value="email">
+                        <label for="contactChoice1">Approve</label>
+                      </div>
+                      <div>
+                        <input class="mr-1" type="radio"
+                               name="contact" value="phone">
+                        <label for="contactChoice2">Reject</label>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
+
+          <div class="row  mt-3 mb-4">
+            <div class="col-sm-12">
+              <button [disabled]="completenessFormControl.invalid" (click)="completenessClickedHandler()"
+                      class="btn btn-primary">Submit
+              </button>
+            </div>
+          </div>
+        </form>
+
+
+      </ng-container>
+
+
+      <ng-container *ngIf="completenessStatus=='APPROVED'&&correctnessStatus==='PENDING'">
+
+
+        <div id="correctness" class="mt-5">
+          <h3>
+            State 2: Correctness
+          </h3>
         </div>
 
-      </div>
+        <div class="row">
 
-      <div class="row mt-3">
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-12">
+                <h4>Balance Sheet</h4>
+              </div>
 
-        <div class="col-sm-5">
-          <div class="row">
-            <div class="col-sm-12">
-              <h4>Trial Balance</h4>
-            </div>
-
-            <div class="col-sm-12">
-              <div class=" d-flex justify-content-between">
-                <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
-                </div>
-                <div class="d-flex flex-1 justify-content-evenly">
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice1"
-                           name="contact" value="email">
-                    <label for="contactChoice1">Approve</label>
+              <div class="col-sm-12">
+                <div class=" d-flex justify-content-between">
+                  <div class="d-flex flex-1 justify-content-between">
+                    <button class="col">PDF file</button>
+                    <button href="">Excel File</button>
                   </div>
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice2"
-                           name="contact" value="phone">
-                    <label for="contactChoice2">Reject</label>
+                  <div class="d-flex flex-1 justify-content-evenly">
+                    <div>
+                      <input class="mr-1" type="radio" id="contactChoice1"
+                             name="contact" value="email">
+                      <label for="contactChoice1">Approve</label>
+                    </div>
+                    <div>
+                      <input class="mr-1" type="radio" id="contactChoice2"
+                             name="contact" value="phone">
+                      <label for="contactChoice2">Reject</label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
+            </div>
           </div>
-        </div>
 
-        <div class="col-sm-5">
-          <div class="row">
-            <div class="col-sm-12">
-              <h4>Audit Report</h4>
-            </div>
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-12">
+                <h4>Schedules Balance Sheet</h4>
+              </div>
 
-            <div class="col-sm-12">
-              <div class=" d-flex justify-content-between">
-                <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                </div>
-                <div class="d-flex flex-1 justify-content-evenly">
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice1"
-                           name="contact" value="email">
-                    <label for="contactChoice1">Approve</label>
+              <div class="col-sm-12">
+                <div class=" d-flex justify-content-between">
+                  <div class="d-flex flex-1 justify-content-between">
+                    <button class="col">PDF file</button>
+                    <button href="">Excel File</button>
                   </div>
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice2"
-                           name="contact" value="phone">
-                    <label for="contactChoice2">Reject</label>
+                  <div class="d-flex flex-1 justify-content-evenly">
+                    <div>
+                      <input class="mr-1" type="radio" id="contactChoice1"
+                             name="contact" value="email">
+                      <label for="contactChoice1">Approve</label>
+                    </div>
+                    <div>
+                      <input class="mr-1" type="radio" id="contactChoice2"
+                             name="contact" value="phone">
+                      <label for="contactChoice2">Reject</label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
+            </div>
           </div>
+
         </div>
 
-      </div>
+        <div class="row mt-3">
 
-      <div class="row  mt-3 mb-4">
-        <div class="col-sm-12">
-          <button class="btn btn-primary">Submit</button>
-        </div>
-      </div>
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-12">
+                <h4>Income and Expenditure</h4>
+              </div>
 
-      <div id="correctness" class="mt-5">
-        <h3>
-          State 2: Correctness
-        </h3>
-      </div>
-
-      <div class="row">
-
-        <div class="col-sm-5">
-          <div class="row">
-            <div class="col-sm-12">
-              <h4>Balance Sheet</h4>
-            </div>
-
-            <div class="col-sm-12">
-              <div class=" d-flex justify-content-between">
-                <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
-                </div>
-                <div class="d-flex flex-1 justify-content-evenly">
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice1"
-                           name="contact" value="email">
-                    <label for="contactChoice1">Approve</label>
+              <div class="col-sm-12">
+                <div class=" d-flex justify-content-between">
+                  <div class="d-flex flex-1 justify-content-between">
+                    <button class="col">PDF file</button>
+                    <button href="">Excel File</button>
                   </div>
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice2"
-                           name="contact" value="phone">
-                    <label for="contactChoice2">Reject</label>
+                  <div class="d-flex flex-1 justify-content-evenly">
+                    <div>
+                      <input class="mr-1" type="radio" id="contactChoice1"
+                             name="contact" value="email">
+                      <label for="contactChoice1">Approve</label>
+                    </div>
+                    <div>
+                      <input class="mr-1" type="radio" id="contactChoice2"
+                             name="contact" value="phone">
+                      <label for="contactChoice2">Reject</label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
+            </div>
           </div>
-        </div>
 
-        <div class="col-sm-5">
-          <div class="row">
-            <div class="col-sm-12">
-              <h4>Schedules Balance Sheet</h4>
-            </div>
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-12">
+                <h4>Schedules to Income and Expenditure</h4>
+              </div>
 
-            <div class="col-sm-12">
-              <div class=" d-flex justify-content-between">
-                <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
-                </div>
-                <div class="d-flex flex-1 justify-content-evenly">
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice1"
-                           name="contact" value="email">
-                    <label for="contactChoice1">Approve</label>
+              <div class="col-sm-12">
+                <div class=" d-flex justify-content-between">
+                  <div class="d-flex flex-1 justify-content-between">
+                    <button class="col">PDF file</button>
+                    <button href="">Excel File</button>
                   </div>
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice2"
-                           name="contact" value="phone">
-                    <label for="contactChoice2">Reject</label>
+                  <div class="d-flex flex-1 justify-content-evenly">
+                    <div>
+                      <input class="mr-1" type="radio" id="contactChoice1"
+                             name="contact" value="email">
+                      <label for="contactChoice1">Approve</label>
+                    </div>
+                    <div>
+                      <input class="mr-1" type="radio" id="contactChoice2"
+                             name="contact" value="phone">
+                      <label for="contactChoice2">Reject</label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
+            </div>
           </div>
+
         </div>
 
-      </div>
+        <div class="row mt-3">
 
-      <div class="row mt-3">
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-12">
+                <h4>Trial Balance</h4>
+              </div>
 
-        <div class="col-sm-5">
-          <div class="row">
-            <div class="col-sm-12">
-              <h4>Income and Expenditure</h4>
-            </div>
-
-            <div class="col-sm-12">
-              <div class=" d-flex justify-content-between">
-                <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
-                </div>
-                <div class="d-flex flex-1 justify-content-evenly">
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice1"
-                           name="contact" value="email">
-                    <label for="contactChoice1">Approve</label>
+              <div class="col-sm-12">
+                <div class=" d-flex justify-content-between">
+                  <div class="d-flex flex-1 justify-content-between">
+                    <button class="col">PDF file</button>
+                    <button href="">Excel File</button>
                   </div>
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice2"
-                           name="contact" value="phone">
-                    <label for="contactChoice2">Reject</label>
+                  <div class="d-flex flex-1 justify-content-evenly">
+                    <div>
+                      <input class="mr-1" type="radio" id="contactChoice1"
+                             name="contact" value="email">
+                      <label for="contactChoice1">Approve</label>
+                    </div>
+                    <div>
+                      <input class="mr-1" type="radio" id="contactChoice2"
+                             name="contact" value="phone">
+                      <label for="contactChoice2">Reject</label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
+            </div>
           </div>
-        </div>
 
-        <div class="col-sm-5">
-          <div class="row">
-            <div class="col-sm-12">
-              <h4>Schedules to Income and Expenditure</h4>
-            </div>
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-12">
+                <h4>Audit Report</h4>
+              </div>
 
-            <div class="col-sm-12">
-              <div class=" d-flex justify-content-between">
-                <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
-                </div>
-                <div class="d-flex flex-1 justify-content-evenly">
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice1"
-                           name="contact" value="email">
-                    <label for="contactChoice1">Approve</label>
+              <div class="col-sm-12">
+                <div class=" d-flex justify-content-between">
+                  <div class="d-flex flex-1 justify-content-between">
+                    <button class="col">PDF file</button>
                   </div>
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice2"
-                           name="contact" value="phone">
-                    <label for="contactChoice2">Reject</label>
+                  <div class="d-flex flex-1 justify-content-evenly">
+                    <div>
+                      <input class="mr-1" type="radio" id="contactChoice1"
+                             name="contact" value="email">
+                      <label for="contactChoice1">Approve</label>
+                    </div>
+                    <div>
+                      <input class="mr-1" type="radio" id="contactChoice2"
+                             name="contact" value="phone">
+                      <label for="contactChoice2">Reject</label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row  mt-3 mb-4">
+          <div class="col-sm-12">
+            <button class="btn btn-primary">Submit</button>
           </div>
         </div>
+      </ng-container>
 
-      </div>
-
-      <div class="row mt-3">
-
-        <div class="col-sm-5">
-          <div class="row">
-            <div class="col-sm-12">
-              <h4>Trial Balance</h4>
-            </div>
-
-            <div class="col-sm-12">
-              <div class=" d-flex justify-content-between">
-                <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                  <button href="">Excel File</button>
-                </div>
-                <div class="d-flex flex-1 justify-content-evenly">
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice1"
-                           name="contact" value="email">
-                    <label for="contactChoice1">Approve</label>
-                  </div>
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice2"
-                           name="contact" value="phone">
-                    <label for="contactChoice2">Reject</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="col-sm-5">
-          <div class="row">
-            <div class="col-sm-12">
-              <h4>Audit Report</h4>
-            </div>
-
-            <div class="col-sm-12">
-              <div class=" d-flex justify-content-between">
-                <div class="d-flex flex-1 justify-content-between">
-                  <button class="col">PDF file</button>
-                </div>
-                <div class="d-flex flex-1 justify-content-evenly">
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice1"
-                           name="contact" value="email">
-                    <label for="contactChoice1">Approve</label>
-                  </div>
-                  <div>
-                    <input class="mr-1" type="radio" id="contactChoice2"
-                           name="contact" value="phone">
-                    <label for="contactChoice2">Reject</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-
-      <div class="row  mt-3 mb-4">
-        <div class="col-sm-12">
-          <button class="btn btn-primary">Submit</button>
-        </div>
-      </div>
 
     </div>
   </div>
+
+  <ng-container *ngIf="completenessStatus=='APPROVED'&&correctnessStatus=='APPROVED'">
+    <div class="row mt-5">
+      <h3 class="text-center">Already Approved</h3>
+    </div>
+  </ng-container>
 </div>
