@@ -162,7 +162,7 @@ export class DataUploadComponent implements OnInit {
         }
       }, (error: HttpErrorResponse) => {
         const {message} = error;
-        this._snackBar.open(message, null, {duration: 1000});
+        this._snackBar.open(message, null, {duration: 1600});
         console.log(error);
       }
     );
