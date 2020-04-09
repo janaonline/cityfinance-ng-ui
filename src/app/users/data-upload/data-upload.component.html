@@ -230,24 +230,22 @@
               </div>
             </div>
             <div class="col-sm-5">
-              <div
-                *ngIf="fileFormGroup.get('auditStatus').value&&fileFormGroup.get('auditStatus').value[0].id==='audited'"
-                class="row mt-4 d-flex flex-column">
+              <div *ngIf="fileFormGroup.get('auditStatus').value&&fileFormGroup.get('auditStatus').value[0].id==='true'"
+                   class="row mt-4 d-flex flex-column">
                 <div class="col-sm-12">
                   <h4>Audited Report</h4>
                 </div>
                 <div class="col-sm-12 d-flex justify-content-between">
                   <input #auditReport
-                         (change)="handleFileChange(['auditReportFormControl','file_pdf'],$event.target.files[0])"
+                         (change)="handleFileChange(['auditReport','file_pdf'],$event.target.files[0])"
                          type="file" style="display: none" accept=".pdf">
                   <div class="d-flex flex-column" style="max-width:30%;">
                     <button (click)="auditReport.click()">Choose Pdf</button>
                     <div
-                      style="text-overflow: ellipsis; overflow: hidden"> {{fileFormGroup.get(['auditReportFormControl', 'file_pdf']).value?.name}}
+                      style="text-overflow: ellipsis; overflow: hidden"> {{fileFormGroup.get(['auditReport', 'file_pdf']).value?.name}}
                     </div>
-
                     <div class="mat-error"
-                         *ngIf="fileFormGroup.get(['auditReportFormControl','file_pdf']).errors"> {{fileFormGroup.get(['auditReportFormControl', 'file_pdf']).errors[0]}}
+                         *ngIf="fileFormGroup.get(['auditReport','file_pdf']).errors"> {{fileFormGroup.get(['auditReportFormControl', 'file_pdf']).errors[0]}}
                     </div>
                   </div>
                 </div>
@@ -260,7 +258,10 @@
               <button *ngIf="uploadId==null" [disabled]="fileFormGroup.invalid" class="btn btn-primary"
                       (click)="submitClickHandler()">Submit
               </button>
-              <button *ngIf="uploadId!==null" [disabled]="fileFormGroup.invalid" class="btn btn-primary"
+              <button *ngIf="uploadId!==null" [disabled]="
+              fileFormGroup.invalid ||( completenessStatus==='APPROVED'
+                                    ||completenessStatus ==='REJECTED')"
+                      class="btn btn-primary"
                       (click)="updateClickHandler()">Update
               </button>
             </div>
