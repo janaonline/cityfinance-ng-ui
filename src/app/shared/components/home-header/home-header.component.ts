@@ -28,6 +28,7 @@ export class HomeHeaderComponent implements OnInit {
     this.initializeAccessChecking();
     this.router.events.subscribe(event => {
       this.isLoggedIn = this.authService.loggedIn();
+      this.initializeAccessChecking();
       if (!this.user) {
         if (this.isLoggedIn) {
           this.user = this.authService.decodeToken().data;
@@ -41,6 +42,7 @@ export class HomeHeaderComponent implements OnInit {
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.VIEW
     });
+    console.log(this.canViewUploadData);
   }
 
   ngOnInit() {
