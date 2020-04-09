@@ -9,6 +9,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {AccessChecker} from '../../util/access/accessChecker';
 import {MODULES_NAME} from '../../util/access/modules';
 import {ACTIONS} from '../../util/access/actions';
+import {UserUtility} from '../../util/user/user';
 
 @Component({
   selector: 'app-data-upload',
@@ -18,6 +19,8 @@ import {ACTIONS} from '../../util/access/actions';
 export class DataUploadComponent implements OnInit {
 
   id = null;
+  uploadId = null;
+  uploadObject = null;
   tableHeaders = ulbUploadList;
   financialYearDropdown = [
     {id: '2015-16', itemName: '2015-16'},
@@ -32,11 +35,12 @@ export class DataUploadComponent implements OnInit {
     itemName: 'Unaudited'
   }];
   auditReportFormControl = new FormControl();
-
+  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance'];
   fileFormGroup: FormGroup;
-
   dataUploadList = [];
   isAccessible: boolean;
+  financialYearDropdownSettings: any = {singleSelection: true, text: 'Select Year'};
+  auditStatusDropdownSettings: any = {singleSelection: true, text: 'Select Year'};
 
 
   constructor(public activatedRoute: ActivatedRoute,
@@ -44,14 +48,16 @@ export class DataUploadComponent implements OnInit {
               public location: Location,
               public dataUploadService: DataEntryService,
               private financialDataService: FinancialDataService,
-              public accessUtil: AccessChecker) {
-
+              public accessUtil: AccessChecker,
+              public userUtil: UserUtility) {
     this.isAccessible = accessUtil.hasAccess({moduleName: MODULES_NAME.ULB_DATA_UPLOAD, action: ACTIONS.UPLOAD});
-
     this.activatedRoute.params.subscribe(val => {
-      const {id} = val;
+      const {id, uploadId} = val;
       if (id) {
         this.id = id;
+      }
+      if (uploadId) {
+        this.uploadId = uploadId;
       }
     });
     this.fileFormGroup = new FormGroup({
@@ -88,23 +94,29 @@ export class DataUploadComponent implements OnInit {
     if (!this.id) {
       this.getFinancialData();
     }
-
+    if (this.uploadId) {
+      this.getFinancialData({_id: this.uploadId});
+    }
   }
 
-  getFinancialData() {
+  getFinancialData(params = {}) {
     this.financialDataService
-      .fetchFinancialData()
+      .fetchFinancialData(params)
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
   handleResponseSuccess = (response) => {
-    this.dataUploadList = response.data;
+    if (this.uploadId) {
+      this.uploadObject = response.data;
+      this.updateFormControls();
+    } else {
+      this.dataUploadList = response.data;
+
+    }
   };
 
   handleResponseFailure = (error) => {
-    console.log(error);
   };
-
 
   async submitClickHandler() {
 
@@ -161,5 +173,32 @@ export class DataUploadComponent implements OnInit {
 
   navigateTo(row: any) {
     this.financialDataService.selectedFinancialRequest = row;
+  }
+
+  private updateFormControls() {
+    const {financialYear, audited} = this.uploadObject;
+    const selectedFinancialYearObject = this.financialYearDropdown.filter((item) => item.id === financialYear);
+    if (selectedFinancialYearObject) {
+      this.fileFormGroup.get('financialYear').setValue(selectedFinancialYearObject);
+      this.fileFormGroup.get('financialYear').disable();
+      this.financialYearDropdownSettings = {...this.financialYearDropdownSettings, disabled: true};
+    }
+    if (audited) {
+      this.fileFormGroup.get(['auditStatus']).setValue([this.auditStatusDropdown[0]]);
+    } else {
+      this.fileFormGroup.get(['auditStatus']).setValue([this.auditStatusDropdown[1]]);
+    }
+    this.auditStatusDropdownSettings = {...this.auditStatusDropdownSettings, disabled: true};
+    this.fileFormGroupKeys.forEach(formGroupKey => {
+      let formGroupDataObject = this.uploadObject[formGroupKey];
+      let formGroupItem = this.fileFormGroup.get([formGroupKey]);
+      const {completeness} = formGroupDataObject;
+      if (completeness === 'APPROVED') {
+        formGroupItem.disable();
+        formGroupItem.setErrors(null);
+        formGroupItem.updateValueAndValidity();
+      }
+    });
+
   }
 }
