@@ -12,7 +12,8 @@ const routes: Routes = [
   {path: 'action', component: DataUploadActionComponent},
   {path: 'action/:id', component: DataUploadActionComponent},
   {path: ':id', component: DataUploadComponent},
-  {path: '', component: DataUploadComponent}
+  {path: ':id/:uploadId', component: DataUploadComponent},
+  {path: '', component: DataUploadComponent},
 ];
 
 @NgModule({
