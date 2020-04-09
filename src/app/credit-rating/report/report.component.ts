@@ -29,6 +29,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   agencySearchFormControl = new FormControl([]);
   creditSearchFormControl = new FormControl([]);
   statusSearchFormControl = new FormControl([]);
+  searchStack = [];
   detailedList = [];
   // columnDefs = [
   //   { headerName: 'No', field: 'sno', width: 50 },
@@ -614,29 +615,11 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   searchDropdownItemSelected(searchFormControl: FormControl, searchKey) {
-    let ids;
-    if (searchKey === "ulb") {
-      ids = searchFormControl.value;
-    } else {
-      ids = searchFormControl.value.map(el => el.id);
-    }
-    if (searchFormControl.value.length) {
-      if (searchKey === "ulb") {
-        this.list = this.originalList.filter(ulb =>
-          ulb[searchKey].includes(ids)
-        );
-      } else {
-        this.list = this.originalList.filter(ulb =>
-          ids.includes(ulb[searchKey])
-        );
-      }
-    } else {
-      this.list = this.originalList;
-    }
-    const remainingFilters = ["state", "agency", "ulb", "creditrating"].filter(
-      item => item != searchKey
-    );
-    for (const filter of remainingFilters) {
+    this.list = this.originalList;
+    this.searchStack.unshift(searchKey);
+    this.searchStack = Array.from(new Set(this.searchStack));
+    // let remainingFilters = this.searchStack.filter((item => item != searchKey));
+    for (const filter of this.searchStack.reverse().slice(0, 5)) {
       let formControl: FormControl;
       switch (filter) {
         case "state":
@@ -657,16 +640,46 @@ export class ReportComponent implements OnInit, OnDestroy {
       if (formControl.value.length) {
         let ids;
         if (filter === "ulb") {
-          ids = formControl.value;
+          ids = formControl.value.toLowerCase();
         } else {
           ids = formControl.value.map(el => el.id);
         }
         if (filter === "ulb") {
-          this.list = this.list.filter(ulb => ulb[filter].includes(ids));
+          this.list = this.list.filter(ulb =>
+            ulb[filter].toLowerCase().includes(ids)
+          );
         } else {
           this.list = this.list.filter(ulb => ids.includes(ulb[filter]));
         }
       }
     }
+    //   console.log(this.list.length);
+    //   let ids;
+    //   if (searchKey === 'ulb') {
+    //     ids = searchFormControl.value;
+    //   } else {
+    //     ids = searchFormControl.value.map(el => el.id);
+    //   }
+    //   if (searchFormControl.value.length) {
+    //     if (searchKey === 'ulb') {
+    //       this.list = this.list.filter(ulb => ulb[searchKey].includes(ids));
+    //     } else {
+    //       this.list = this.list.filter(ulb => ids.includes(ulb[searchKey]));
+    //     }
+    //   } else {
+    //     //this.list = this.originalList;
+    //   }
+    // }
+  }
+
+  clearFilters() {
+    [
+      this.ulbSearchFormControl,
+      this.stateSearchFormControl,
+      this.agencySearchFormControl,
+      this.creditSearchFormControl,
+      this.statusSearchFormControl
+    ].forEach(formControl => formControl.reset());
+    this.list = this.originalList;
   }
 }
