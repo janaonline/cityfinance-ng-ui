@@ -259,6 +259,10 @@ mat-form-field {
   stroke: #ffc500;
 }
 
+::ng-deep.unfilled circle {
+  stroke: rgba(180, 180, 180, 0.247) !important;
+}
+
 .colorText {
   color: #8bd2f0;
 }

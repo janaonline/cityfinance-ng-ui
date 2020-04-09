@@ -7,7 +7,8 @@
     <span
       *ngIf="currentStateInView && currentStateInView.name"
       style="display: inline-block;"
-      >{{ currentStateInView ? currentStateInView.name : ""
+    >
+      {{ currentStateInView ? currentStateInView.name : ""
       }}<span *ngIf="currentULBClicked">:&nbsp; </span>
     </span>
     <span *ngIf="currentULBClicked">
@@ -89,6 +90,12 @@
           [value]="mouseHoverOnState.coveredUlbPercentage | number: '2.2-2'"
           [diameter]="50"
         ></mat-progress-spinner>
+        <mat-progress-spinner
+          style="position: absolute;"
+          class="unfilled"
+          [value]="100"
+          [diameter]="50"
+        ></mat-progress-spinner>
       </div>
 
       <div
@@ -96,6 +103,7 @@
     display: inline;
     width: fit-content;"
       >
+        <span><strong>DATA Availability</strong></span>
         <span> {{ mouseHoverOnState.name }}</span>
         <br />
         <span class="colorText">
@@ -104,7 +112,8 @@
         </span>
         ULBs
         <br />
-        ULBs Audited: {{ mouseHoverOnState.audited }}
+        <span class="colorText"> {{ mouseHoverOnState.audited }}</span> ULBs
+        Audited
       </div>
     </section>
 
