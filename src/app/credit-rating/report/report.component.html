@@ -1477,21 +1477,21 @@
       </div> -->
 
       <div class="col-md-3">
-        <input
-          type="text"
-          placeholder="Search by ULB's"
-          (keyup)="filterRecords()"
-          [(ngModel)]="search"
-          class="form-control"
-        />
+        <!--        <input-->
+        <!--          type="text"-->
+        <!--          placeholder="Search by ULB's"-->
+        <!--          (keyup)="filterRecords()"-->
+        <!--          [(ngModel)]="search"-->
+        <!--          class="form-control"-->
+        <!--        />-->
         <br/>
       </div>
-      <div class="col-md-9">
+      <div class="col-md-9 mb-2">
         <a href="/assets/files/CreditRating.xlsx">
           <button class="right btn btn-primary">Download</button>
         </a>
       </div>
-
+      <br>
       <div class="col-md-12 credit-rating-report">
         <div
           class="credit-rating-header"
@@ -1546,103 +1546,171 @@
           </table>
         </div>
 
+        <table class="table mb-0">
+          <tr>
+            <td width="25%">
+              <input
+                type="text"
+                placeholder="Search by ULB's"
+                (keyup)="searchDropdownItemSelected(ulbSearchFormControl,'ulb')"
+                [formControl]="ulbSearchFormControl"
+                class="form-control"
+                style="padding: 18px 12px"
+              />
+            </td>
+            <td width="15%">
+              <angular2-multiselect (onSelect)="searchDropdownItemSelected(stateSearchFormControl,'state')"
+                                    (onDeSelect)="searchDropdownItemSelected(stateSearchFormControl,'state')"
+                                    (onSelectAll)="searchDropdownItemSelected(stateSearchFormControl,'state')"
+                                    (onDeSelectAll)="searchDropdownItemSelected(stateSearchFormControl,'state')"
+                                    [formControl]="stateSearchFormControl"
+                                    [settings]="{
+                                    primaryKey: 'id',
+                                    singleSelection: false,
+                                    text: 'States', labelKey:'name', badgeShowLimit: 1}"
+                                    [data]="dropdownFiltersData.states"></angular2-multiselect>
+            </td>
+            <td width='15%'>
+              <angular2-multiselect (onSelect)="searchDropdownItemSelected(agencySearchFormControl,'agency')"
+                                    (onDeSelect)="searchDropdownItemSelected(agencySearchFormControl,'agency')"
+                                    (onSelectAll)="searchDropdownItemSelected(agencySearchFormControl,'agency')"
+                                    (onDeSelectAll)="searchDropdownItemSelected(agencySearchFormControl,'agency')"
+                                    [formControl]="agencySearchFormControl"
+                                    [settings]="{
+                                    primaryKey: 'id',
+                                    singleSelection: false,
+                                    text: 'Agency', labelKey:'name', badgeShowLimit: 1}"
+                                    [data]="dropdownFiltersData.agencies"></angular2-multiselect>
+            </td>
+            <td width="15%">
+              <angular2-multiselect (onSelect)="searchDropdownItemSelected(creditSearchFormControl,'creditrating')"
+                                    (onDeSelect)="searchDropdownItemSelected(creditSearchFormControl,'creditrating')"
+                                    (onSelectAll)="searchDropdownItemSelected(creditSearchFormControl,'creditrating')"
+                                    (onDeSelectAll)="searchDropdownItemSelected(creditSearchFormControl,'creditrating')"
+                                    [formControl]="creditSearchFormControl"
+                                    [settings]="{
+                                    primaryKey: 'id',
+                                    singleSelection: false,
+                                    text: 'Credit Rating', labelKey:'name', badgeShowLimit: 1}"
+                                    [data]="dropdownFiltersData.creditRatings"></angular2-multiselect>
+            </td>
+            <td width="15%">
+              <angular2-multiselect (onSelect)="searchDropdownItemSelected(statusSearchFormControl,'status')"
+                                    (onDeSelect)="searchDropdownItemSelected(statusSearchFormControl,'status')"
+                                    (onSelectAll)="searchDropdownItemSelected(statusSearchFormControl,'status')"
+                                    (onDeSelectAll)="searchDropdownItemSelected(statusSearchFormControl,'status')"
+                                    [formControl]="statusSearchFormControl"
+                                    [settings]="{
+                                    primaryKey: 'id',
+                                    singleSelection: false,
+                                    text: 'Status Rating', labelKey:'name', badgeShowLimit: 1}"
+                                    [data]="dropdownFiltersData.statusRatings"></angular2-multiselect>
+            </td>
+            <td width="15%">
+              <button style="height: 38px" class="btn btn-danger" (click)="clearFilters()">Clear Filters</button>
+            </td>
+          </tr>
+        </table>
+
         <accordion [closeOthers]="true">
-          <accordion-group *ngFor="let item of list" (click)="getUlbInfo(item)">
-            <table style="width:100%" accordion-heading>
-              <tr>
-                <td style="width: 25%">{{ item.ulb }}</td>
-                <td style="width: 15%">{{ item.state }}</td>
-                <td style="width: 15%">{{ item.agency }}</td>
-                <td style="width: 15%">{{ item.creditrating }}</td>
-                <td style="width: 15%">{{ item.status }}</td>
-                <td style="width: 15%;" class="text-right-imp">
-                  {{ item.date }}
-                </td>
-              </tr>
-            </table>
+          <ng-container *ngFor="let item of list" (click)="getUlbInfo(item)">
+            <accordion-group>
+              <table style="width:100%" accordion-heading>
+                <tr>
+                  <td style="width: 25%">{{ item.ulb }}</td>
+                  <td style="width: 15%">{{ item.state }}</td>
+                  <td style="width: 15%">{{ item.agency }}</td>
+                  <td style="width: 15%">{{ item.creditrating }}</td>
+                  <td style="width: 15%">{{ item.status }}</td>
+                  <td style="width: 15%;" class="text-right-imp">
+                    {{ item.date }}
+                  </td>
+                </tr>
+              </table>
 
-            <div class="row">
-              <div class="col-md-12">
-                <table
-                  class="table table-striped table-hover"
-                  style="width: 100%;"
-                >
-                  <tr class="warning">
-                    <!-- <th>ULB</th> -->
-                    <th (click)="sortByUlbInfo('agency')" style="width: 15%">
-                      Agency
-                    </th>
-                    <th
-                      (click)="sortByUlbInfo('creditRating')"
-                      style="width: 15%"
-                    >
-                      Credit Rating
-                    </th>
-                    <th (click)="sortByUlbInfo('outlook')" style="width: 15%">
-                      Outlook
-                    </th>
-                    <th (click)="sortByUlbInfo('type')" style="width: 15%">
-                      Type
-                    </th>
-                    <th
-                      (click)="sortByUlbInfo('amount')"
-                      style="width: 15%"
-                      class="text-right-imp"
-                    >
-                      Amount (Rs. Cr.)
-                    </th>
-                    <th
-                      (click)="sortByUlbInfo('date')"
-                      style="width: 15%"
-                      class="text-right-imp"
-                    >
-                      Date
-                    </th>
-                    <th style="width: 10%" class="text-right-imp">Link</th>
-                  </tr>
-                  <tr *ngFor="let ulb of ulbInfo">
-                    <!-- <td>{{ulb.ulb}}</td> -->
-                    <td>{{ ulb.agency }}</td>
-                    <td>{{ ulb.creditRating }}</td>
-                    <td>{{ ulb.outlook }}</td>
-                    <td>{{ ulb.type }}</td>
-                    <td class="text-right-imp">{{ ulb.amount }}</td>
-                    <td class="text-right-imp">{{ ulb.date }}</td>
-                    <td class="text-right-imp">
-                      <a [href]="ulb.link">Report Link</a>
-                    </td>
-                  </tr>
-                </table>
+              <div class="row">
+                <div class="col-md-12">
+                  <table
+                    class="table table-striped table-hover"
+                    style="width: 100%;"
+                  >
+                    <tr class="warning">
+                      <!-- <th>ULB</th> -->
+                      <th (click)="sortByUlbInfo('agency')" style="width: 15%">
+                        Agency
+                      </th>
+                      <th
+                        (click)="sortByUlbInfo('creditRating')"
+                        style="width: 15%"
+                      >
+                        Credit Rating
+                      </th>
+                      <th (click)="sortByUlbInfo('outlook')" style="width: 15%">
+                        Outlook
+                      </th>
+                      <th (click)="sortByUlbInfo('type')" style="width: 15%">
+                        Type
+                      </th>
+                      <th
+                        (click)="sortByUlbInfo('amount')"
+                        style="width: 15%"
+                        class="text-right-imp"
+                      >
+                        Amount (Rs. Cr.)
+                      </th>
+                      <th
+                        (click)="sortByUlbInfo('date')"
+                        style="width: 15%"
+                        class="text-right-imp"
+                      >
+                        Date
+                      </th>
+                      <th style="width: 10%" class="text-right-imp">Link</th>
+                    </tr>
+                    <tr *ngFor="let ulb of ulbInfo">
+                      <!-- <td>{{ulb.ulb}}</td> -->
+                      <td>{{ ulb.agency }}</td>
+                      <td>{{ ulb.creditRating }}</td>
+                      <td>{{ ulb.outlook }}</td>
+                      <td>{{ ulb.type }}</td>
+                      <td class="text-right-imp">{{ ulb.amount }}</td>
+                      <td class="text-right-imp">{{ ulb.date }}</td>
+                      <td class="text-right-imp">
+                        <a [href]="ulb.link">Report Link</a>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
               </div>
-            </div>
 
-            <!-- <div class="row">
-              <div class="col-md-12" *ngFor="let ulb of ulbInfo">
-                <p class="btn-info" style="padding: 5px; margin-top: 15px;"><b>{{ulb.creditRating}}</b> rating by <b>{{ulb.agency}}</b>
-                </p>
-                <table style="width: 100%">
-                  <tr>
-                    <td style="width: 200px"><b>Amount</b>: {{ulb.amount}}</td>
-                    <td><b>Type</b>: {{ulb.type}}</td>
-                    <td style="width: 150px"><b>Date</b>: {{ulb.date}}</td>
-                    <td style="width: 50px"><a [href]="ulb.link" target="_new">Link</a></td>
-                  </tr>
-                  <tr>
-                    <td colspan="4"><b>Rating Details</b>: {{ulb.ratingDesc}}</td>
-                  </tr>
-                </table>
-              </div>
-            </div> -->
+              <!-- <div class="row">
+                <div class="col-md-12" *ngFor="let ulb of ulbInfo">
+                  <p class="btn-info" style="padding: 5px; margin-top: 15px;"><b>{{ulb.creditRating}}</b> rating by <b>{{ulb.agency}}</b>
+                  </p>
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="width: 200px"><b>Amount</b>: {{ulb.amount}}</td>
+                      <td><b>Type</b>: {{ulb.type}}</td>
+                      <td style="width: 150px"><b>Date</b>: {{ulb.date}}</td>
+                      <td style="width: 50px"><a [href]="ulb.link" target="_new">Link</a></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4"><b>Rating Details</b>: {{ulb.ratingDesc}}</td>
+                    </tr>
+                  </table>
+                </div>
+              </div> -->
 
-            <hr/>
-            <i style="font-size: 12px; color: #666;"
-            >The agency may apply ‘+’ or ‘-‘ signs for ratings to reflect
-              comparative standing within the category. A plus (+) sign puts the
-              rating of a security at a relatively higher position when compared
-              to a rating of a security with a minus (-) sign within the same
-              category.</i
-            >
-          </accordion-group>
+              <hr/>
+              <i style="font-size: 12px; color: #666;"
+              >The agency may apply ‘+’ or ‘-‘ signs for ratings to reflect
+                comparative standing within the category. A plus (+) sign puts the
+                rating of a security at a relatively higher position when compared
+                to a rating of a security with a minus (-) sign within the same
+                category.</i
+              >
+            </accordion-group>
+          </ng-container>
         </accordion>
       </div>
     </div>

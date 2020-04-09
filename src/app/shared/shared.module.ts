@@ -1,6 +1,6 @@
-import {CommonModule} from '@angular/common';
-import {NgModule} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatFormFieldModule,
@@ -11,10 +11,10 @@ import {
 import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
 import {PreLoaderComponent} from './components/pre-loader/pre-loader.component';
 import {ReUseableHeatMapComponent} from './components/re-useable-heat-map/re-useable-heat-map.component';
+import {AuditStatusTextPipe } from './pipes/audit-status-text.pipe';
+import {RoundoffPipe} from './pipes/roundoff/roundoff.pipe';
 import {RupeeConverterPipe} from './pipes/rupee-converter.pipe';
 import {TypeofPipe} from './pipes/typeof.pipe';
-import {RoundoffPipe} from './pipes/roundoff/roundoff.pipe';
-import {AuditStatusTextPipe} from './pipes/audit-status-text.pipe';
 import {HomeHeaderComponent} from './components/home-header/home-header.component';
 import {RouterModule} from '@angular/router';
 import {SideMenuComponent} from './side-menu/side-menu.component';
@@ -31,8 +31,11 @@ import {SideMenuComponent} from './side-menu/side-menu.component';
     MatSnackBarModule,
     MatProgressSpinnerModule
   ],
-  declarations: [PreLoaderComponent, ReUseableHeatMapComponent, HomeHeaderComponent, RupeeConverterPipe, TypeofPipe, RoundoffPipe, AuditStatusTextPipe, SideMenuComponent],
+  declarations: [PreLoaderComponent, ReUseableHeatMapComponent, HomeHeaderComponent, RupeeConverterPipe,
+    TypeofPipe,
+    RoundoffPipe,
+    AuditStatusTextPipe
+  , SideMenuComponent],
   exports: [PreLoaderComponent, ReUseableHeatMapComponent, RupeeConverterPipe, TypeofPipe, RoundoffPipe, AuditStatusTextPipe, HomeHeaderComponent, SideMenuComponent]
 })
-export class SharedModule {
-}
+export class SharedModule {}
