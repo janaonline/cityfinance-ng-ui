@@ -10,6 +10,7 @@ import {AccessChecker} from '../../util/access/accessChecker';
 import {MODULES_NAME} from '../../util/access/modules';
 import {ACTIONS} from '../../util/access/actions';
 import {UserUtility} from '../../util/user/user';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-data-upload',
@@ -24,8 +25,8 @@ export class DataUploadComponent implements OnInit {
   tableHeaders = ulbUploadList;
   financialYearDropdown = [
     {id: '2015-16', itemName: '2015-16'},
-    {id: '2016-17', itemName: '2016-17'}
-    // {id: '2017-18', itemName: '2017-18'}
+    {id: '2016-17', itemName: '2016-17'},
+    {id: '2017-18', itemName: '2017-18'}
   ];
   auditStatusDropdown = [{
     id: 'true',
@@ -34,13 +35,13 @@ export class DataUploadComponent implements OnInit {
     id: 'false',
     itemName: 'Unaudited'
   }];
-  auditReportFormControl = new FormControl();
   fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance'];
   fileFormGroup: FormGroup;
   dataUploadList = [];
   isAccessible: boolean;
   financialYearDropdownSettings: any = {singleSelection: true, text: 'Select Year'};
   auditStatusDropdownSettings: any = {singleSelection: true, text: 'Select Year'};
+  completenessStatus = 'PENDING';
 
 
   constructor(public activatedRoute: ActivatedRoute,
@@ -49,7 +50,8 @@ export class DataUploadComponent implements OnInit {
               public dataUploadService: DataEntryService,
               private financialDataService: FinancialDataService,
               public accessUtil: AccessChecker,
-              public userUtil: UserUtility) {
+              public userUtil: UserUtility,
+              private _snackBar: MatSnackBar) {
     this.isAccessible = accessUtil.hasAccess({moduleName: MODULES_NAME.ULB_DATA_UPLOAD, action: ACTIONS.UPLOAD});
     this.activatedRoute.params.subscribe(val => {
       const {id, uploadId} = val;
@@ -82,7 +84,7 @@ export class DataUploadComponent implements OnInit {
         file_pdf: new FormControl(null, [Validators.required]),
         file_excel: new FormControl(null, [Validators.required])
       }),
-      auditReportFormControl: new FormGroup({
+      auditReport: new FormGroup({
         file_pdf: new FormControl()
       }),
       auditStatus: new FormControl('', [Validators.required])
@@ -119,11 +121,9 @@ export class DataUploadComponent implements OnInit {
   };
 
   async submitClickHandler() {
-
     let urlObject = {};
-
     for (let parentFormGroup in this.fileFormGroup.controls) {
-      if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReportFormControl') {
+      if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReport') {
         const formGroup = this.fileFormGroup.get(parentFormGroup);
         urlObject[parentFormGroup] = {};
         const files = formGroup.value;
@@ -144,7 +144,7 @@ export class DataUploadComponent implements OnInit {
             } catch (e) {
               formControl.setErrors(['File Upload Error']);
             }
-          } else {
+          } else if (formControl.validator) {
             formControl.setErrors(['Please select file']);
           }
         }
@@ -161,6 +161,8 @@ export class DataUploadComponent implements OnInit {
           this.router.navigate(['/users/data-upload']);
         }
       }, (error: HttpErrorResponse) => {
+        const {message} = error;
+        this._snackBar.open(message, null, {duration: 1600});
         console.log(error);
       }
     );
@@ -176,7 +178,8 @@ export class DataUploadComponent implements OnInit {
   }
 
   private updateFormControls() {
-    const {financialYear, audited} = this.uploadObject;
+    const {financialYear, audited, completeness} = this.uploadObject;
+    this.completenessStatus = completeness;
     const selectedFinancialYearObject = this.financialYearDropdown.filter((item) => item.id === financialYear);
     if (selectedFinancialYearObject) {
       this.fileFormGroup.get('financialYear').setValue(selectedFinancialYearObject);
@@ -205,7 +208,7 @@ export class DataUploadComponent implements OnInit {
   async updateClickHandler() {
     let urlObject = {};
     for (let parentFormGroup in this.fileFormGroup.controls) {
-      if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReportFormControl') {
+      if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReport') {
         const formGroup = this.fileFormGroup.get(parentFormGroup);
         if (!formGroup.disabled) {
           urlObject[parentFormGroup] = {};
