@@ -257,7 +257,11 @@
 
           <div class="row mt-4 mb-4">
             <div class="col-sm-12">
-              <button [disabled]="fileFormGroup.invalid" class="btn btn-primary" (click)="submitClickHandler()">Submit
+              <button *ngIf="uploadId==null" [disabled]="fileFormGroup.invalid" class="btn btn-primary"
+                      (click)="submitClickHandler()">Submit
+              </button>
+              <button *ngIf="uploadId!==null" [disabled]="fileFormGroup.invalid" class="btn btn-primary"
+                      (click)="updateClickHandler()">Update
               </button>
             </div>
           </div>

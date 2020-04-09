@@ -24,6 +24,10 @@ export class FinancialDataService {
     return this.httpClient.post(`${environment.api.url}ulb-financial-data`, JSON.stringify(data));
   }
 
+  upDateFinancialData(id, data) {
+    return this.httpClient.put(`${environment.api.url}ulb-financial-data/${id}`, JSON.stringify(data));
+  }
+
   updateCompletenessStatus(id, data) {
     return this.httpClient.put(`${environment.api.url}ulb-financial-data/completeness/${id}`, JSON.stringify(data));
   }
