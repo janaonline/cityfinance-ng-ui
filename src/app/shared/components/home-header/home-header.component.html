@@ -1,0 +1,142 @@
+<nav
+  class="navbar container-fluid position-sticky"
+  style="display: flex; align-items: center;justify-content: space-between;"
+>
+  <div class="navbar-header" style="flex:1">
+    <span [routerLink]="['/']" class="navbar-brand "
+      ><img src="/assets/images/cityfinance-logo.png"
+    /></span>
+  </div>
+  <!-- <div class="nav navbar-nav navbar-right px-1 " style="color: white">
+    <h4
+      class="text-right"
+      style="align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    margin-bottom: 0px;
+    "
+    >
+      <div
+        style="width: 30vw;min-width: f it-content; display: inline-block;margin-right: 3%;"
+      >
+        <span
+          style="display: inline-block;
+    margin-bottom: 3px;"
+          >An initiative of Ministry of Housing and Urban Affairs,</span
+        ><br />
+        Government of India
+      </div>
+
+      <img
+        style="width: 6%;"
+        src="/assets/images/emblem-of-india.svg"
+        alt="Emblem of India"
+        srcset=""
+      />
+    </h4>
+  </div> -->
+</nav>
+<h5
+  class="text-right"
+  style="    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    margin-bottom: 0px;
+    position: absolute;
+    transform: translateY(-75%);
+    right: 0px;
+    z-index: 101;
+    color: white;
+    margin-right: 15px;
+    "
+>
+  <div
+    style="width: 40vw;min-width: f it-content; display: inline-block;margin-right: 15px;"
+  >
+    <span
+      style="display: inline-block;
+    margin-bottom: 3px;"
+      >An initiative of Ministry of Housing and Urban Affairs,</span
+    ><br />
+    Government of India
+  </div>
+
+  <img
+    style="width: 38px;"
+    src="/assets/images/emblem-of-india.svg"
+    alt="Emblem of India"
+    srcset=""
+  />
+</h5>
+<div class="navbar container-fluid" style="position: sticky;border: 0px;">
+  <!-- top: 70px; -->
+
+  <ul class="nav navbar-nav navbar-left">
+    <li routerLinkActive="active">
+      <a [routerLink]="['/home']">Home</a>
+    </li>
+    <!-- <li routerLinkActive="active"><a [routerLink]="['/home']">About Cityfinance.in</a></li> -->
+    <li routerLinkActive="active" class="dropdown">
+      <a
+        class="dropdown-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        Urban Finances &nbsp;<span class="caret"></span
+      ></a>
+      <ul class="dropdown-menu">
+        <li routerLinkActive="active">
+          <a [routerLink]="['/dashboard/report']"
+            >Annual Financial Statements</a
+          >
+        </li>
+        <!-- <li>
+          <a [routerLink]="['/dashboard', 'financial-information']"
+            >Availability of Financial Information</a
+          >
+        </li> -->
+        <!--    <li routerLinkActive="active" *ngIf="!isProduction">
+              <a [routerLink]="['/dashboard', 'ranking']">Annual Fiscal Ranking</a>
+            </li>-->
+      </ul>
+    </li>
+
+    <li routerLinkActive="active">
+      <a [routerLink]="['/credit-rating/laws']">Municipal Finance Laws</a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/credit-rating/report']">Credit Rating</a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/credit-rating/municipal-bond']"> Municipal Bonds</a>
+    </li>
+    <li routerLinkActive="active" *ngIf="!isLoggedIn">
+      <a [routerLink]="['/login']">Login</a>
+    </li>
+    <li routerLinkActive="active" class="dropdown" *ngIf="isLoggedIn">
+      <a
+        class="dropdown-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        >Settings &nbsp;<span class="caret"></span
+      ></a>
+      <ul class="dropdown-menu">
+        <li>
+          <a [routerLink]="['user', 'profile']">Profile</a>
+        </li>
+        <li *ngIf="canViewUploadData">
+          <a [routerLink]="['user', 'data-upload']" class="pointer"
+            ><b>Data upload</b></a
+          >
+        </li>
+        <li>
+          <a class="pointer" (click)="logout()">Logout</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

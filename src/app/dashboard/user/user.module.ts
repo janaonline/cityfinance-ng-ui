@@ -1,11 +1,11 @@
-import { AgGridModule } from 'ag-grid-angular';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserRouter } from './user.router';
-import { ProfileComponent } from './profile/profile.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { UserListComponent } from './user-list/user-list.component';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AgGridModule } from 'ag-grid-angular';
+
 import { OnboardUserComponent } from './onboard-user/onboard-user.component';
+import { ProfileComponent } from './profile/profile.component';
+import { UserRouter } from './user.router';
 
 @NgModule({
   imports: [
@@ -14,9 +14,7 @@ import { OnboardUserComponent } from './onboard-user/onboard-user.component';
     FormsModule,
     ReactiveFormsModule,
     AgGridModule.withComponents([])
-
-
   ],
-  declarations: [ProfileComponent, UserListComponent, OnboardUserComponent]
+  declarations: [ProfileComponent, OnboardUserComponent]
 })
-export class UserModule { }
+export class UserModule {}

@@ -8,17 +8,21 @@ import {
   MatProgressSpinnerModule,
   MatSnackBarModule,
 } from '@angular/material';
+import { RouterModule } from '@angular/router';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
+import { HomeHeaderComponent } from './components/home-header/home-header.component';
 import { PreLoaderComponent } from './components/pre-loader/pre-loader.component';
 import { ReUseableHeatMapComponent } from './components/re-useable-heat-map/re-useable-heat-map.component';
 import { AuditStatusTextPipe } from './pipes/audit-status-text.pipe';
 import { RoundoffPipe } from './pipes/roundoff/roundoff.pipe';
 import { RupeeConverterPipe } from './pipes/rupee-converter.pipe';
 import { TypeofPipe } from './pipes/typeof.pipe';
+import { SideMenuComponent } from './side-menu/side-menu.component';
 
 @NgModule({
   imports: [
+    RouterModule,
     CommonModule,
     MatFormFieldModule,
     ReactiveFormsModule,
@@ -31,10 +35,12 @@ import { TypeofPipe } from './pipes/typeof.pipe';
   declarations: [
     PreLoaderComponent,
     ReUseableHeatMapComponent,
+    HomeHeaderComponent,
     RupeeConverterPipe,
     TypeofPipe,
     RoundoffPipe,
-    AuditStatusTextPipe
+    AuditStatusTextPipe,
+    SideMenuComponent
   ],
   exports: [
     PreLoaderComponent,
@@ -42,7 +48,9 @@ import { TypeofPipe } from './pipes/typeof.pipe';
     RupeeConverterPipe,
     TypeofPipe,
     RoundoffPipe,
-    AuditStatusTextPipe
+    AuditStatusTextPipe,
+    HomeHeaderComponent,
+    SideMenuComponent
   ]
 })
 export class SharedModule {}

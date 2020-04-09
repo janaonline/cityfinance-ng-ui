@@ -122,16 +122,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       setTimeout(() => {
         this.initiatedDataFetchingProcess().subscribe(res => {
           if (this.isMapOnMiniMapMode) {
-            this.createStateLevelMap(this.currentStateInView.name, {
-              emitState: false
-            });
-
+            this.createStateLevelMap(this.currentStateInView.name);
             setTimeout(() => {
               this.hideMapLegends();
-              if (this.ulbsSelected.value && this.ulbsSelected.value.length) {
-                this.selectULBById(this.ulbsSelected.value[0]);
-              }
-            }, 50);
+            }, 0);
           }
         });
       }, 0);

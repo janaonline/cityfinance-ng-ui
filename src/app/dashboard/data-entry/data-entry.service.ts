@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
+import { S3FileURLResponse } from '../../models/s3Responses/fileURLResponse';
 
 @Injectable({
   providedIn: "root"
@@ -49,11 +50,9 @@ export class DataEntryService {
   }
 
   getURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
-    const headers = new HttpHeaders({
-      "x-access-token": `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkMzA1YjBjMGVlZWVlYWMyZjQwYTlkZCIsImxvZ2luSWQiOiI1ZGViOTI5YWM5Y2UzZTBhYTNhN2I1MzAiLCJ1c2VyVHlwZSI6ImFkbWluIiwidXNlck5hbWUiOiJEaHdhbmkiLCJ1c2VyRW1haWwiOiJkaHdhbmlAbWZvcm0uY29tIiwib3JnYW5pc2F0aW9uIjpbXSwiaWF0IjoxNTc1NzE5NTc4OTI5LCJleHAiOjU3NTYyOTE5NTc4OTI0fQ.Fj_7C7PGUHCFxuSenEtowliL5a4aH2eON8QOw8YivIA`
-    });
+    const headers = new HttpHeaders();
 
-    return this.http.post(
+    return this.http.post<S3FileURLResponse>(
       `${environment.api.url}/getSignedUrl`,
       JSON.stringify([
         {
@@ -76,9 +75,13 @@ export class DataEntryService {
     // );
   }
 
-  uploadFileToS3(file: File, s3URL: string) {
+  uploadFileToS3(
+    file: File,
+    s3URL: string,
+    options = { reportProgress: true }
+  ) {
     return this.http.put(s3URL, file, {
-      reportProgress: true,
+      reportProgress: options.reportProgress,
       observe: "events"
     });
   }

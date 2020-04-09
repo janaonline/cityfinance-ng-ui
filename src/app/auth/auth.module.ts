@@ -15,16 +15,10 @@ import { CfChartsModule } from '../shared/cf-charts/cf-charts.module';
 import { SharedModule } from '../shared/shared.module';
 import { AuthRouter } from './auth.router';
 import { AuthService } from './auth.service';
-import { HomeHeaderComponent } from './home-header/home-header.component';
 import { HeatMapComponent } from './home/heat-map/heat-map.component';
-import { HomeTabViewComponent } from './home/home-tab-view/home-tab-view.component';
 import { UlbCoverageComponent } from './home/home-tab-view/ulb-coverage/ulb-coverage.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 
-// import { GridComponent } from './home/grid/grid.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -45,18 +39,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
     MatInputModule
   ],
   providers: [AuthService],
-  declarations: [
-    LoginComponent,
-    RegisterComponent,
-    RegisterComponent,
-    HomeComponent,
-    HomeHeaderComponent,
-    StatisticsComponent,
-    HeatMapComponent,
-    HomeTabViewComponent,
-    UlbCoverageComponent
-  ],
-  exports: [HomeHeaderComponent],
+  declarations: [StatisticsComponent, HeatMapComponent, UlbCoverageComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AuthModule {}

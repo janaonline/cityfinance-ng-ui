@@ -6,7 +6,7 @@
     </div>
   <div class="row">
       <div class="col-md-6 offset-md-3">
-         
+
           <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
               <div class="form-group">
                   <label>Name</label>
@@ -17,10 +17,10 @@
               </div>
               <div class="form-group">
                   <label>Email / Username</label>
-                  <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && pf.username.errors }" />
-                  <div *ngIf="submitted && pf.username.errors" class="invalid-feedback">
-                      <div *ngIf="pf.username.errors.required">Email is required</div>
-                      <div *ngIf="pf.username.errors.username">Email must be a valid email address</div>
+                  <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && pf.email.errors }" />
+                  <div *ngIf="submitted && pf.email.errors" class="invalid-feedback">
+                      <div *ngIf="pf.email.errors.required">Email is required</div>
+                      <div *ngIf="pf.email.errors.email">Email must be a valid email address</div>
                   </div>
               </div>
               <div class="form-group">

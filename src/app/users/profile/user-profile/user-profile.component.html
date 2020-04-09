@@ -1,0 +1,128 @@
+<div class="profile_wrapper">
+  <h3>Edit Profile</h3>
+  <form
+    [formGroup]="profileForm"
+    *ngIf="profileForm"
+    (ngSubmit)="onFormSubmit(profileForm)"
+  >
+    <div class="input-group">
+      <label for="username"
+        >User Name
+        <span
+          class="asterik"
+          *ngIf="(profileForm.controls?.name.validator({}))['required']"
+          >*</span
+        >
+      </label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': formErrors && profileForm.controls.name.errors
+        }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="email"
+        >Email ID
+        <span
+          class="asterik"
+          *ngIf="profileForm.controls.email.validator({})['required']"
+          >*</span
+        >
+      </label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': formErrors && profileForm.controls.email.errors
+        }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="mobile"
+        >Mobile No
+        <span
+          class="asterik"
+          *ngIf="profileForm.controls.mobile.validator({})['required']"
+          >*</span
+        >
+      </label>
+      <input
+        id="mobile"
+        type="text"
+        formControlName="mobile"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': formErrors && profileForm.controls.mobile.errors
+        }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="designation"
+        >Designation
+        <span
+          class="asterik"
+          *ngIf="profileForm.controls.designation.validator({})['required']"
+          >*</span
+        >
+      </label>
+      <input
+        id="designation"
+        type="text"
+        formControlName="designation"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': formErrors && profileForm.controls.designation.errors
+        }"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="organization"
+        >Organisation/Institution Name
+        <span
+          class="asterik"
+          *ngIf="profileForm.controls.organization.validator({})['required']"
+          >*</span
+        >
+      </label>
+      <input
+        id="organization"
+        type="text"
+        formControlName="organization"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': formErrors && profileForm.controls.organization.errors
+        }"
+      />
+    </div>
+
+    <p *ngIf="formErrors">
+      <span
+        *ngFor="let error of formErrors; let i = index"
+        style="display: block; color: red"
+      >
+        {{ i + 1 }}. {{ error }}
+      </span>
+    </p>
+
+    <p *ngIf="response.successMessage" class="success-message">
+      {{ response.successMessage }}
+    </p>
+    <p *ngIf="response.errorMessage" class="error-message">
+      {{ response.errorMessage }}
+    </p>
+
+    <div class="input-group">
+      <button type="submit" class="btn btn-primary">Save Profile</button>
+    </div>
+  </form>
+</div>

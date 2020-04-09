@@ -1,0 +1,149 @@
+<form [formGroup]="profileForm" *ngIf="profileForm">
+  <div class="input-group">
+    <label for="username"
+      >User Name
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.username.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="username"
+      type="text"
+      formControlName="username"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && lf.username.errors }"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="emailId"
+      >Email ID
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.emailId.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="emailId"
+      type="email"
+      formControlName="emailId"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && lf.emailId.errors }"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="mobile"
+      >Mobile No
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.mobileNo.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="mobile"
+      type="text"
+      formControlName="mobileNo"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && lf.mobileNo.errors }"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="designation"
+      >Designation
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.designation.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="designation"
+      type="text"
+      formControlName="designation"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && lf.designation.errors }"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="organisation"
+      >Department Name
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.address.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="organisation"
+      type="text"
+      formControlName="address"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && lf.organisation.errors }"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="organisation"
+      >Department EmailId
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.address.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="organisation"
+      type="text"
+      formControlName="address"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && lf.organisation.errors }"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="organisation"
+      >Department Contant No
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.address.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="organisation"
+      type="text"
+      formControlName="address"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && lf.organisation.errors }"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="organisation"
+      >Address
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.address.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="organisation"
+      type="text"
+      formControlName="address"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && lf.organisation.errors }"
+    />
+  </div>
+
+  <div class="input-group">
+    <button type="submit" class="btn btn-primary">Save Profile</button>
+  </div>
+</form>

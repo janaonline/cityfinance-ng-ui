@@ -1,4 +1,4 @@
-<div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 col-xs-12 card">
+<div class="container_3 card">
   <div class="row">
     <div class="col-xs-12 header">
       <div class="col-xs-6">
@@ -6,43 +6,329 @@
           <p class="pointer">Sign up</p>
         </div>
       </div>
-      <div class="col-xs-6 text-right">
+      <!-- <div class="col-xs-6 text-right">
         <div class="row">
           <p class="pointer">Forgot Password?</p>
         </div>
-      </div>
-    </div> <!-- header -->
+      </div> -->
+    </div>
+    <!-- header -->
     <div class="col-xs-12 card-body">
       <div class="col-xs-12">
         <div class="row">
-          <form [formGroup]="registrationForm" (ngSubmit)="signup()">
+          <form
+            [formGroup]="registrationForm"
+            (ngSubmit)="signup(registrationForm)"
+            *ngIf="registrationType === 'user'"
+          >
             <div class="error-text col-xs-12" *ngIf="badCredentials">
               <p class="text-danger">Invalid Username or Password!!</p>
             </div>
-            <div class="error-text col-xs-12" *ngIf="formError">
-              <p class="text-danger">Username and Password is mandatory!</p>
-            </div>
+
             <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input id="name" class="form-control" [formControl]="registrationForm.controls['name']"
-                placeholder="Full name">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-user"></i
+              ></span>
+              <input
+                id="name"
+                class="form-control"
+                [formControl]="registrationForm.controls['name']"
+                placeholder="User name"
+                [ngClass]="{
+                  'is-invalid':
+                    formError && registrationForm.controls.name.errors
+                }"
+              />
             </div>
+
             <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input id="mobile" class="form-control" [formControl]="registrationForm.controls['mobile']"
-                placeholder="Mobile">
-            </div><div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input id="email" class="form-control" [formControl]="registrationForm.controls['email']"
-                placeholder="Email">
+              <span class="input-group-addon"
+                ><i class="fa fa-envelope"></i
+              ></span>
+              <input
+                id="email"
+                class="form-control"
+                [formControl]="registrationForm.controls['email']"
+                placeholder="Email ID"
+                [ngClass]="{
+                  'is-invalid':
+                    formError && registrationForm.controls.email.errors
+                }"
+              />
             </div>
+
             <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-              <input id="password" type="password" class="form-control" [formControl]="registrationForm.controls['password']"
-                placeholder="Password">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-phone"></i
+              ></span>
+              <input
+                id="mobile"
+                class="form-control"
+                [formControl]="registrationForm.controls['mobile']"
+                placeholder="Mobile No"
+                [ngClass]="{
+                  'is-invalid':
+                    formError && registrationForm.controls.mobile.errors
+                }"
+              />
             </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-user"></i
+              ></span>
+              <input
+                id="designation"
+                class="form-control"
+                [formControl]="registrationForm.controls['designation']"
+                placeholder="Designation"
+                [ngClass]="{
+                  'is-invalid':
+                    formError && registrationForm.controls.designation.errors
+                }"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="fa fa-university"></i
+              ></span>
+              <input
+                id="organization"
+                class="form-control"
+                [formControl]="registrationForm.controls['organization']"
+                placeholder="Organisation/Instituition Name"
+                [ngClass]="{
+                  'is-invalid':
+                    formError && registrationForm.controls.organization.errors
+                }"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-lock"></i
+              ></span>
+              <input
+                id="password"
+                type="password"
+                class="form-control"
+                [formControl]="registrationForm.controls['password']"
+                placeholder="Password"
+                [ngClass]="{
+                  'is-invalid':
+                    formError && registrationForm.controls.password.errors
+                }"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-lock"></i
+              ></span>
+              <input
+                id="confirm_password"
+                type="password"
+                class="form-control"
+                [formControl]="registrationForm.controls['confirmPassword']"
+                placeholder="Confirm Password"
+                [ngClass]="{
+                  'is-invalid':
+                    formError &&
+                    registrationForm.controls.confirmPassword.errors
+                }"
+              />
+            </div>
+
+            <p *ngIf="formError">
+              <span
+                *ngFor="let error of formError; let i = index"
+                style="display: block; color: red"
+              >
+                {{ i + 1 }}. {{ error }}
+              </span>
+            </p>
+
             <div class="input-group">
               <button type="submit" class="btn btn-primary">Sign up</button>
+            </div>
+          </form>
+
+          <form
+            [formGroup]="registrationForm"
+            (ngSubmit)="signup(registrationForm)"
+            *ngIf="registrationType === 'ulb'"
+          >
+            <div class="error-text col-xs-12" *ngIf="badCredentials">
+              <p class="text-danger">Invalid Username or Password!!</p>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-user"></i
+              ></span>
+              <select
+                name="State"
+                id="state"
+                formControlName="state"
+                class="form-control"
+                placeholder="State"
+                [ngClass]="{
+                  'is-invalid': formSubmitted && profile?.controls?.state.errors
+                }"
+              >
+                <option value="" selected disabled>
+                  State
+                </option>
+                <option *ngFor="let state of stateList" [value]="state._id">
+                  {{ state.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-lock"></i
+              ></span>
+              <input
+                id="email"
+                type="text"
+                class="form-control"
+                [formControl]="registrationForm.controls['name']"
+                placeholder="ULB Name"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-lock"></i
+              ></span>
+              <input
+                id="ulb_code"
+                type="text"
+                class="form-control"
+                [formControl]="registrationForm.controls['ulb']"
+                placeholder="ULB Code"
+              />
+              <i
+                class="fa fa-spinner fa-spin ulbSpinner"
+                aria-hidden="true"
+                [hidden]="!isCheckingULBCode"
+              ></i>
+            </div>
+
+            <p *ngIf="ulbCodeError" class="error-message">{{ ulbCodeError }}</p>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-user"></i
+              ></span>
+              <input
+                id="designation"
+                type="text"
+                class="form-control"
+                [formControl]="registrationForm.controls['commissionerName']"
+                placeholder="Commissioner Name"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-phone"></i
+              ></span>
+              <input
+                id="commissionerConatactNumber"
+                type="tel"
+                class="form-control"
+                [formControl]="
+                  registrationForm.controls['commissionerConatactNumber']
+                "
+                placeholder="Commissioner Contact No"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="fa fa-envelope"></i
+              ></span>
+              <input
+                id="commissionerEmail"
+                type="email"
+                class="form-control"
+                [formControl]="registrationForm.controls['commissionerEmail']"
+                placeholder="Commissioner Email ID"
+              />
+            </div>
+            <p class="input_info">
+              <i class="fa fa-info-circle" aria-hidden="true"></i>
+              Use official email Id of Commisioner
+            </p>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-user"></i
+              ></span>
+              <input
+                id="designation"
+                type="text"
+                class="form-control"
+                [formControl]="registrationForm.controls['accountantName']"
+                placeholder="Accountant Name"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="glyphicon glyphicon-phone"></i
+              ></span>
+              <input
+                id="accountantConatactNumber"
+                type="tel"
+                class="form-control"
+                [formControl]="
+                  registrationForm.controls['accountantConatactNumber']
+                "
+                placeholder="Accountant Contact No"
+              />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon"
+                ><i class="fa fa-envelope"></i
+              ></span>
+              <input
+                id="accountantEmail"
+                type="email"
+                class="form-control"
+                [formControl]="registrationForm.controls['accountantEmail']"
+                placeholder="Accountant Email ID"
+              />
+            </div>
+
+            <p *ngIf="formError">
+              <span
+                *ngFor="let error of formError; let i = index"
+                style="display: block; color: red"
+              >
+                {{ i + 1 }}. {{ error }}
+              </span>
+            </p>
+
+            <p *ngIf="respone.errorMessage" class="error-message">
+              {{ respone.errorMessage }}
+            </p>
+            <p *ngIf="respone.successMessage" class="success-message">
+              {{ respone.successMessage }}
+            </p>
+
+            <div class="input-group">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="!canSubmitForm()"
+              >
+                Sign up
+              </button>
             </div>
           </form>
         </div>
@@ -50,12 +336,16 @@
           <div class="col-xs-12 card-footer">
             <div class="row">
               <p>
-                Already have an Account! <a [routerLink]="['../login']" class="pointer">Sign In Here</a>
+                Already have an Account!
+                <a [routerLink]="['../../login']" class="pointer"
+                  >Sign In Here</a
+                >
               </p>
             </div>
           </div>
         </div>
       </div>
-    </div> <!-- card-body -->
+    </div>
+    <!-- card-body -->
   </div>
 </div>

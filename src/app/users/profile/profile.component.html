@@ -1,0 +1,11 @@
+<div class="profile_wrapper">
+  <!-- <button class="back_button" (click)="window.history.back()">Back</button> -->
+
+  <app-user-profile *ngIf="userType === USER_TYPE.USER"></app-user-profile>
+  <app-ulb-profile
+    *ngIf="showProfileComponent"
+    [profileData]="profileData"
+  ></app-ulb-profile>
+  <!-- <app-common-profile></app-common-profile> -->
+  <!-- <app-state-profile></app-state-profile> -->
+</div>

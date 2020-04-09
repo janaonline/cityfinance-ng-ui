@@ -7,11 +7,40 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
+input.is-invalid {
+  border-color: red !important;
+}
+
+.error-message {
+  display: block;
+  color: red;
+}
+
+.success-message {
+  display: block;
+  margin-top: 2%;
+  color: rgb(60, 164, 196);
+}
+
 .cdk-overlay-connected-position-bounding-box,
 .cdk-overlay-pane,
 .cdk-global-overlay-wrapper,
 .cdk-overlay-container {
   z-index: 99999 !important;
+}
+
+.back_button {
+  background: white;
+  color: black;
+  border-radius: 5px;
+  border: 1.5px solid black;
+  margin-top: 1%;
+  padding: 0.5% 2%;
+  outline: none;
+}
+
+.asterik {
+  color: red;
 }
 
 // Scroll Bar UI Starts here
@@ -575,6 +604,18 @@ img.align-center {
   justify-content: center !important;
 }
 
+.justify-content-evenly {
+  justify-content: space-evenly;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.ml-1 {
+  margin-left: 1rem;
+}
+
 .mb-0 {
   margin-bottom: 0;
 }
@@ -597,6 +638,10 @@ img.align-center {
 
 .mt-4 {
   margin-top: 4rem !important;
+}
+
+.mb-4 {
+  margin-bottom: 4rem !important;
 }
 
 .mt-5 {
@@ -682,9 +727,21 @@ img.align-center {
   flex-direction: column;
 }
 
+.flex-1 {
+  flex: 1;
+}
+
 .px-1 {
   padding-left: 1rem !important;
   padding-right: 1rem !important;
+}
+
+.py-1 {
+  padding: 1rem 0 !important;
+}
+
+.py-2 {
+  padding: 2rem 0 !important;
 }
 
 .border-bottom-0 {
@@ -726,6 +783,10 @@ img.align-center {
 }
 
 .mr-1 {
+  margin-right: 1rem !important;
+}
+
+.mr-2 {
   margin-right: 2rem;
 }
 
@@ -736,3 +797,14 @@ img.align-center {
 .w-100 {
   width: 100% !important;
 }
+
+// .back_button {
+//   background: white;
+//   color: black;
+//   border-radius: 5px;
+//   border: 1.5px solid black;
+//   transform: translateX(180%);
+//   margin-top: 1%;
+//   padding: 0.5% 2%;
+//   outline: none;
+// }

@@ -1,19 +1,19 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable, of, Subject} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {IULBResponse} from 'src/app/models/IULBResponse';
-import {NewULBStructure, NewULBStructureResponse} from 'src/app/models/newULBStructure';
-import {ULBsStatistics} from 'src/app/models/statistics/ulbsStatistics';
-import {IULB} from 'src/app/models/ulb';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { a } from '@angular/core/src/render3';
+import { Observable, of, Subject } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { IULBResponse } from 'src/app/models/IULBResponse';
+import { NewULBStructure, NewULBStructureResponse } from 'src/app/models/newULBStructure';
+import { ULBsStatistics } from 'src/app/models/statistics/ulbsStatistics';
+import { IULB } from 'src/app/models/ulb';
 
-import {IStateULBCoveredResponse} from '../models/stateUlbConvered';
-import {IULBWithPopulationResponse} from '../models/ulbsForMapResponse';
-import {environment} from './../../../environments/environment';
-import {a} from '@angular/core/src/render3';
+import { IStateULBCoveredResponse } from '../models/stateUlbConvered';
+import { IULBWithPopulationResponse } from '../models/ulbsForMapResponse';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class CommonService {
   private stateArr = [];
@@ -24,38 +24,58 @@ export class CommonService {
   } = {};
 
   // private states: any = [];
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   // we are loading states while loading dashboard
   public loadStates(doLoadFromServer: boolean) {
     if (this.stateArr.length > 0 && !doLoadFromServer) {
       this.states.next(this.stateArr);
     }
-    this.http
-      .get(environment.api.url + '/state')
-      .subscribe(res => {
-        this.stateArr = res['data'];
-        this.states.next(this.stateArr);
-      });
+    this.http.get(environment.api.url + "/state").subscribe(res => {
+      this.stateArr = res["data"];
+      this.states.next(this.stateArr);
+    });
+  }
+
+  public verifyULBCodeAndName(body: { name: string; code: string }) {
+    if (!body.name.trim() || !body.code.trim()) {
+      return of({ isValid: false, ulb: null });
+    }
+
+    return this.getULBByCode(body.code).pipe(
+      map(res => res["data"]),
+      switchMap(data => {
+        let isValid = true;
+        if (!data || data["code"] !== body.code || data["name"] !== body.name) {
+          isValid = false;
+        }
+
+        return of({ isValid, ulb: data });
+      })
+    );
+
+    //
+    // return of(false);
+  }
+
+  getULBByCode(code: string) {
+    return this.http.get(`${environment.api.url}ulb-by-code?code=${code}`);
   }
 
   getAllUlbs() {
-    return this.http.get<IULBResponse>(
-      environment.api.url + 'ulbs'
-    );
+    return this.http.get<IULBResponse>(environment.api.url + "ulbs");
   }
 
   // since ULB is based on state, query will happen on demand
   getUlbByState(stateCode) {
     return this.http.get(
-      environment.api.url + '/states/' + stateCode + '/ulbs'
+      environment.api.url + "/states/" + stateCode + "/ulbs"
     );
   }
 
   getCachedResponse(years: string[]) {
     if (!years.length) {
-      return this.NewULBStructureResponseCache['NoYear'];
+      return this.NewULBStructureResponseCache["NoYear"];
     }
 
     const yearsAsString = years.reduce((a, b) => a + b);
@@ -71,7 +91,7 @@ export class CommonService {
     return this.http
       .post<NewULBStructureResponse>(
         `${environment.api.url}/ledger/getAllLegders`,
-        {year: years}
+        { year: years }
       )
       .pipe(
         map(response => {
@@ -79,7 +99,7 @@ export class CommonService {
             response
           );
           const yearsAsString = !years.length
-            ? 'NoYear'
+            ? "NoYear"
             : years.reduce((a, b) => a + b);
           this.NewULBStructureResponseCache[yearsAsString] = {
             ...formattedResponse
@@ -105,7 +125,7 @@ export class CommonService {
         newObj.data[ulb.state.code] = {
           state: ulb.state.name,
           ulbs: [
-            {...this.convertNewULBStructureToIULB(ulb), state: ulb.state.name}
+            { ...this.convertNewULBStructureToIULB(ulb), state: ulb.state.name }
           ]
         };
         return;
@@ -127,14 +147,14 @@ export class CommonService {
   }
 
   convertNewULBStructureToIULB(ulb: NewULBStructure): IULB {
-    return {...ulb.ulb, type: ulb.ulbtypes.name};
+    return { ...ulb.ulb, type: ulb.ulbtypes.name };
   }
 
   getULBsStatistics() {
     return this.http
       .post<NewULBStructureResponse>(
         `${environment.api.url}/ledger/getAllLegders`,
-        {year: []}
+        { year: [] }
       )
       .pipe(map(response => this.getCount(response.data)));
   }
@@ -159,9 +179,9 @@ export class CommonService {
           ulbsByYears: {
             [ulb.financialYear]: {
               total: 1,
-              amrut: ulb.ulb.amrut == 'Yes' ? 1 : 0,
+              amrut: ulb.ulb.amrut == "Yes" ? 1 : 0,
               nonAmrut:
-                ulb.ulb.amrut == 'No' || ulb.ulb.amrut == undefined ? 1 : 0
+                ulb.ulb.amrut == "No" || ulb.ulb.amrut == undefined ? 1 : 0
             }
           }
         };
@@ -178,29 +198,29 @@ export class CommonService {
       if (!newObj[ulb.state._id].ulbsByYears[ulb.financialYear]) {
         newObj[ulb.state._id].ulbsByYears[ulb.financialYear] = {
           total: 1,
-          amrut: ulb.ulb.amrut == 'Yes' ? 1 : 0,
-          nonAmrut: ulb.ulb.amrut == 'No' || ulb.ulb.amrut == undefined ? 1 : 0
+          amrut: ulb.ulb.amrut == "Yes" ? 1 : 0,
+          nonAmrut: ulb.ulb.amrut == "No" || ulb.ulb.amrut == undefined ? 1 : 0
         };
         return;
       }
       newObj[ulb.state._id].ulbsByYears[ulb.financialYear].total += 1;
       newObj[ulb.state._id].ulbsByYears[ulb.financialYear].amrut +=
-        ulb.ulb.amrut == 'Yes' ? 1 : 0;
+        ulb.ulb.amrut == "Yes" ? 1 : 0;
       newObj[ulb.state._id].ulbsByYears[ulb.financialYear].nonAmrut +=
-        ulb.ulb.amrut == 'No' || ulb.ulb.amrut == undefined ? 1 : 0;
+        ulb.ulb.amrut == "No" || ulb.ulb.amrut == undefined ? 1 : 0;
       // newObj[ulb.state._id].ulbsByYears[ulb.financialYear].push({ ...ulb });
     });
     // console.log('newObj',newObj);
 
-    return {...newObj};
+    return { ...newObj };
   }
 
   loadStatesAgg(): Observable<any> {
-    return this.http.get('/assets/files/homeDashboardStateAggData.json');
+    return this.http.get("/assets/files/homeDashboardStateAggData.json");
   }
 
   loadHomeStatisticsData(): Observable<any> {
-    return this.http.get('/assets/files/homeDashboardData.json');
+    return this.http.get("/assets/files/homeDashboardData.json");
   }
 
   getStateUlbCovered(body?: { year: string[] }) {
@@ -225,10 +245,7 @@ export class CommonService {
 
   getULBSWithPopulationAndCoordinates(body?: { year: string[] }) {
     return this.http
-      .post<IULBWithPopulationResponse>(
-        `${environment.api.url}/ulb-list`,
-        body
-      )
+      .post<IULBWithPopulationResponse>(`${environment.api.url}/ulb-list`, body)
       .pipe(
         map(res => {
           res.data = res.data.sort((ulbA, ulbB) =>
@@ -255,6 +272,6 @@ export class CommonService {
     if (!Array.isArray(array)) {
       return [];
     }
-    return Array.from(new Set(array.map(item => item[key])))
+    return Array.from(new Set(array.map(item => item[key])));
   }
 }
