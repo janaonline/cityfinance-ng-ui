@@ -103,12 +103,18 @@
     display: inline;
     width: fit-content;"
       >
-        <span><strong>DATA Availability</strong></span>
+        <span><strong>Data Availability</strong></span
+        ><br />
         <span> {{ mouseHoverOnState.name }}</span>
         <br />
-        <span class="colorText">
-          {{ mouseHoverOnState.coveredUlbCount }} out of
-          {{ mouseHoverOnState.totalUlbs }}
+        <span>
+          <span class="colorText">
+            {{ mouseHoverOnState.coveredUlbCount }}
+          </span>
+          out of
+          <span class="colorText">
+            {{ mouseHoverOnState.totalUlbs }}
+          </span>
         </span>
         ULBs
         <br />
