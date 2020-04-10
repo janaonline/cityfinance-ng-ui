@@ -129,15 +129,14 @@ export class DataUploadActionComponent implements OnInit {
       this.audited.setValue([this.auditStatusDropdown[1]]);
     }
     this.fileFormGroupKeys.forEach(formGroupKey => {
-      const formGroupItem = this.financeDataService.selectedFinancialRequest[formGroupKey];
-      console.log(formGroupItem);
-      if (formGroupItem) {
-        const {excelUrl, pdfUrl} = formGroupItem;
-        let formControls = [this.getCompletenessFormControl(formGroupKey), this.getCompletenessFormControl(formGroupKey)];
+      const formGroupDataItem = this.financeDataService.selectedFinancialRequest[formGroupKey];
+      if (formGroupDataItem) {
+        const {excelUrl, pdfUrl} = formGroupDataItem;
+        let formControls = [this.getCompletenessFormControl(formGroupKey), this.getCorrectnessFormControl(formGroupKey)];
         let keys = ['completeness', 'correctness'];
         formControls.forEach((formControl, index) => {
           if (excelUrl || pdfUrl) {
-            formControl.setValue(formGroupItem[keys[index]]);
+            formControl.setValue(formGroupDataItem[keys[index]]);
             formControl.setValidators(Validators.required);
             formControl.updateValueAndValidity();
           } else {

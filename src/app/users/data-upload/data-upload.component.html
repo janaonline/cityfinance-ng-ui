@@ -20,12 +20,12 @@
               <div formGroupName="balanceSheet" class="row mt-4 d-flex flex-column">
 
                 <div class="col-sm-12">
-                  <h4>Balance Sheet</h4>
+                  <h4>Balance Sheet <span class="text-danger">*</span></h4>
                 </div>
 
                 <div class="col-sm-12 d-flex justify-content-between">
                   <input #balanceSheetPdf
-                         (change)="handleFileChange(['balanceSheet','file_pdf'],$event.target.files[0])"
+                         (change)="handleFileChange(['balanceSheet','file_pdf'],$event?.target?.files[0])"
                          type="file" style="display: none" accept=".pdf">
 
                   <div class="d-flex flex-column" style="max-width: 30%">
@@ -110,7 +110,7 @@
             <div formGroupName="incomeAndExpenditure" class="col-sm-5 mr-2">
               <div class="row mt-4 d-flex flex-column">
                 <div class="col-sm-12">
-                  <h4>Income and Expenditure</h4>
+                  <h4>Income and Expenditure <span class="text-danger">*</span></h4>
                 </div>
                 <div class="col-sm-12 d-flex justify-content-between">
                   <input #incomeAndExpenditurePdf
@@ -191,7 +191,7 @@
             <div formGroupName="trialBalance" class="col-sm-5 mr-2">
               <div class="row mt-4 d-flex flex-column">
                 <div class="col-sm-12">
-                  <h4>Trial Balance</h4>
+                  <h4>Trial Balance <span class="text-danger">*</span></h4>
                 </div>
                 <div class="col-sm-12 d-flex justify-content-between">
                   <input
@@ -255,14 +255,13 @@
 
           <div class="row mt-4 mb-4">
             <div class="col-sm-12">
-              <button *ngIf="uploadId==null" [disabled]="fileFormGroup.invalid" class="btn btn-primary"
-                      (click)="submitClickHandler()">Submit
+              <button #submitButton *ngIf="uploadId==null" [disabled]="fileFormGroup.invalid" class="btn btn-primary"
+                      (click)="submitClickHandler(submitButton)">Submit
               </button>
-              <button *ngIf="uploadId!==null" [disabled]="
-              fileFormGroup.invalid ||( completenessStatus==='REJECTED'
-                                    ||completenessStatus ==='REJECTED')"
+              <button #updateButton *ngIf="uploadId!==null &&
+               (completenessStatus==='REJECTED'||correctnessStatus ==='REJECTED')" [disabled]="fileFormGroup.invalid "
                       class="btn btn-primary"
-                      (click)="updateClickHandler()">Update
+                      (click)="updateClickHandler(updateButton)">Update
               </button>
             </div>
           </div>
@@ -305,8 +304,8 @@
                 <ng-container *ngSwitchCase="'action'">
                   <ng-container [ngSwitch]="userUtil.getUserType()">
                     <a (click)="navigateTo(row)" title="Edit" [routerLink]="['upload-form',row?._id]">
-                      <i *ngSwitchCase="'ULB'" class="fa fa-pencil"
-                         [ngClass]="row['correctness']==='REJECTED' ? 'fa fa-pencil': 'fa fa-eye'"
+                      <i *ngSwitchCase="'ULB'"
+                         [ngClass]="row['correctness']==='REJECTED' || row['completeness']==='REJECTED' ? 'fa fa-pencil': 'fa fa-eye'"
                          aria-hidden="true"></i>
                     </a>
                     <a *ngSwitchDefault [routerLink]="['action',row?._id]" (click)="navigateTo(row)"
@@ -319,7 +318,7 @@
                 <span *ngSwitchCase="'ad'">{{
                   row['status'] === 'APPROVED' ?
                     'Approved By ' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
-                    : row['status'] === 'REJECTED' ? 'Rejected By ' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
+                    : row['completeness'] === 'REJECTED' || row['correctness'] === 'REJECTED' ? 'Rejected By ' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
                     : 'Requested By ULB'}}</span>
                 <span *ngSwitchDefault>{{row[header.id]}}</span>
               </ng-container>

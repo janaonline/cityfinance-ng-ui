@@ -121,7 +121,8 @@ export class DataUploadComponent implements OnInit {
   handleResponseFailure = (error) => {
   };
 
-  async submitClickHandler() {
+  async submitClickHandler(event) {
+    event.disabled = true;
     let urlObject = {};
     for (let parentFormGroup in this.fileFormGroup.controls) {
       if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReport') {
@@ -143,9 +144,11 @@ export class DataUploadComponent implements OnInit {
                 let fileUploadResponse = await this.dataUploadService.uploadFileToS3(files[fileKey], url).toPromise();
               }
             } catch (e) {
+              event.disabled = false;
               formControl.setErrors(['File Upload Error']);
             }
           } else if (formControl.validator) {
+            event.disabled = false;
             formControl.setErrors(['Please select file']);
           }
         }
@@ -162,11 +165,12 @@ export class DataUploadComponent implements OnInit {
           this.router.navigate(['/users/data-upload']);
         }
       }, (error: HttpErrorResponse) => {
+        event.disabled = false;
         const {message} = error;
         this._snackBar.open(message, null, {duration: 1600});
-        console.log(error);
       }
     );
+    event.disabled = false;
   }
 
   handleFileChange(strings: string[], file: File) {
@@ -200,20 +204,25 @@ export class DataUploadComponent implements OnInit {
       const {completeness, correctness} = formGroupDataObject;
       if (correctnessOverAll === 'REJECTED' || completenessOverAll === 'REJECTED') {
         if (completeness === 'REJECTED' || correctness === 'REJECTED') {
+          console.log('here', formGroupItem, formGroupKey);
           formGroupItem.enable();
+        } else {
+          formGroupItem.disable();
+          formGroupItem.setErrors(null);
+          formGroupItem.updateValueAndValidity();
         }
       } else {
-        // if (completeness === 'APPROVED') {
         formGroupItem.disable();
         formGroupItem.setErrors(null);
         formGroupItem.updateValueAndValidity();
-        //}
       }
+      console.log(this.fileFormGroup);
     });
 
   }
 
-  async updateClickHandler() {
+  async updateClickHandler(updateButton: HTMLButtonElement) {
+    updateButton.disabled = true;
     let urlObject = {};
     for (let parentFormGroup in this.fileFormGroup.controls) {
       if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReport') {
@@ -236,9 +245,11 @@ export class DataUploadComponent implements OnInit {
                   let fileUploadResponse = await this.dataUploadService.uploadFileToS3(files[fileKey], url).toPromise();
                 }
               } catch (e) {
+                updateButton.disabled = false;
                 formControl.setErrors(['File Upload Error']);
               }
             } else if (formControl.validator) {
+              updateButton.disabled = false;
               formControl.setErrors(['Please select file']);
             }
           }
@@ -253,5 +264,6 @@ export class DataUploadComponent implements OnInit {
     }, error => {
       console.log(error);
     });
+    updateButton.disabled = false;
   }
 }
