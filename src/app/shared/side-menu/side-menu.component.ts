@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+
+export interface ILink {
+  title: string,
+  type: 'link' | 'other',
+  route: string[]
+}
 
 @Component({
   selector: 'app-side-menu',
@@ -7,7 +13,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideMenuComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
+
+  @Input('content') contents: ILink[] = [];
 
   ngOnInit() {
   }
