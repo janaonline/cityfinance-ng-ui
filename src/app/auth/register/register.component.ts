@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
-import { debounceTime, switchMap } from 'rxjs/operators';
+import { debounceTime, filter, switchMap } from 'rxjs/operators';
 
 import { USER_TYPE } from '../../models/user/userType';
 import { IStateULBCovered } from '../../shared/models/stateUlbConvered';
@@ -80,17 +80,17 @@ export class RegisterComponent implements OnInit {
       body.ulb = this.ulb._id;
     }
     this.formError = errors;
-    console.log(body);
     if (errors) {
       return;
     }
-
     this.authService.signup(body).subscribe(
       res => {
         if (!res["success"]) {
           this.formError = [res["msg"]];
           return;
         }
+        form.reset();
+
         if (this.registrationType === "user") {
           this.respone.successMessage =
             "User Registration succssfull. Kindly check your email for further information.";
@@ -107,7 +107,6 @@ export class RegisterComponent implements OnInit {
 
   private fetchStateList() {
     this._coomonService.getStateUlbCovered().subscribe(res => {
-      console.log(res.data[0]);
       this.stateList = res.data;
     });
   }
@@ -129,6 +128,7 @@ export class RegisterComponent implements OnInit {
     ])
       .pipe(
         debounceTime(2000),
+        filter((values: string[]) => values.every(tt => !!(tt && tt.trim()))),
         switchMap((res: string[]) => {
           this.isCheckingULBCode = true;
           this.registrationForm.disable({ onlySelf: true, emitEvent: false });

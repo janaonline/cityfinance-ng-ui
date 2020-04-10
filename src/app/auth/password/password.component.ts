@@ -27,7 +27,7 @@ export class PasswordComponent implements OnInit {
   public uiType: "request" | "reset";
   public errorMessage: string;
   public successMessage: string;
-  private token: string;
+  public token: string;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -82,18 +82,20 @@ export class PasswordComponent implements OnInit {
       return;
     }
 
-    this._passwordService.resetPassword(form.value).subscribe(
-      res => {
-        form.patchValue({
-          password: "",
-          confirmPassword: ""
-        });
-        const message =
-          "Password has been reset sucessfully.You can login with new your Password. ";
-        this.successMessage = res["message"] || message;
-      },
-      error => this.onGettingResponseError(error, form)
-    );
+    this._passwordService
+      .resetPassword({ ...form.value, token: this.token })
+      .subscribe(
+        res => {
+          form.patchValue({
+            password: "",
+            confirmPassword: ""
+          });
+          const message =
+            "Password has been reset sucessfully.You can login with new your Password. ";
+          this.successMessage = res["message"] || message;
+        },
+        error => this.onGettingResponseError(error, form)
+      );
   }
 
   private onGettingResponseError(error: HttpErrorResponse, form: FormGroup) {
