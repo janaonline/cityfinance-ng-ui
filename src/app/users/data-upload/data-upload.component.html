@@ -298,27 +298,29 @@
           </tr>
           </thead>
           <tbody>
-          <tr style="background: 	#e7e7e7 ;border: 5px solid white"
-              *ngFor="let row of dataUploadList;let i= index"
-          >
+          <tr style="background: 	#e7e7e7 ;border: 5px solid white" *ngFor="let row of dataUploadList;let i= index">
             <td class="text-center">{{i + 1}}</td>
             <td class="text-center" *ngFor="let header of tableHeaders">
-              <ng-container *ngIf="header.id==='action'; else nonAction">
-                <ng-container [ngSwitch]="userUtil.getUserType()">
-                  <a (click)="navigateTo(row)" title="Edit" [routerLink]="['upload-form',row?._id]">
-                    <i *ngSwitchCase="'ULB'" class="fa fa-pencil" aria-hidden="true"></i>
-                  </a>
-                  <a *ngSwitchDefault [routerLink]="['action',row?._id]" (click)="navigateTo(row)"
-                     class="btn btn-primary">{{header.title}}</a>
+              <ng-container [ngSwitch]="header.id">
+                <ng-container *ngSwitchCase="'action'">
+                  <ng-container [ngSwitch]="userUtil.getUserType()">
+                    <a (click)="navigateTo(row)" title="Edit" [routerLink]="['upload-form',row?._id]">
+                      <i *ngSwitchCase="'ULB'" class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                    <a *ngSwitchDefault [routerLink]="['action',row?._id]" (click)="navigateTo(row)"
+                       class="btn btn-primary">Take {{header.title}}</a>
+                  </ng-container>
                 </ng-container>
+                <span *ngSwitchCase="'audited'">
+                      {{row[header.id] ? 'Audited' : 'Unaudited'}}
+                    </span>
+                <span *ngSwitchCase="'ad'">{{
+                  row['status'] === 'APPROVED' ?
+                    'Approved By ' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
+                    : row['status'] === 'REJECTED' ? 'Rejected By ' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
+                    : 'Requested By ULB'}}</span>
+                <span *ngSwitchDefault>{{row[header.id]}}</span>
               </ng-container>
-
-              <ng-template #nonAction>
-                <span *ngIf="header.id==='audited'; else normalCol">{{row[header.id] ? 'Audited' : 'Unaudited'}}</span>
-                <ng-template #normalCol>
-                  <span>{{row[header.id]}}</span>
-                </ng-template>
-              </ng-template>
           </tr>
           </tbody>
         </table>
