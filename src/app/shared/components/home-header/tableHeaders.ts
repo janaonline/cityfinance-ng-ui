@@ -11,285 +11,285 @@ export interface ModalTableHeader {
 
 export const tableHeaders: any = [
   [
-    { title: "Population Category", click: true, id: "populationCategory" },
-    { title: "Total number of ULBs", id: "totalUlb" },
-    { title: "Number of ULBs with Data", id: "numOfUlb", showInr: true },
+    {title: 'Population Category', click: true, id: 'populationCategory'},
+    {title: 'Total number of ULBs', id: 'totalUlb'},
+    {title: 'Number of ULBs with Data', id: 'numOfUlb', showInr: true},
     {
-      title: "Own Revenue (A)",
-      id: "ownRevenue",
+      title: 'Own Revenue (A)',
+      id: 'ownRevenue',
       roundOff: true,
-      description: "(Rs in crores)"
+      description: '(Rs in crores)'
     },
     {
-      title: "Revenue Expenditure (B)",
-      id: "revenueExpenditure",
+      title: 'Revenue Expenditure (B)',
+      id: 'revenueExpenditure',
       roundOff: true,
-      description: "(Rs in crores)"
+      description: '(Rs in crores)'
     },
     {
-      title: "Own Revenue %",
-      id: "ownRevenuePercentage",
-      description: "(A/B)"
+      title: 'Own Revenue %',
+      id: 'ownRevenuePercentage',
+      description: '(A/B)'
     },
-    { title: "Min. Own Revenue %", id: "minOwnRevenuePercentage" },
-    { title: "Max. Own Revenue %", id: "maxOwnRevenuePercentage" }
+    {title: 'Min. Own Revenue %', id: 'minOwnRevenuePercentage'},
+    {title: 'Max. Own Revenue %', id: 'maxOwnRevenuePercentage'}
   ],
   [
-    { title: "Population Category", id: "populationCategory" },
-    { title: "Number of ULBs", id: "numOfUlb" },
-    { title: "Tax Revenue (a)", id: "taxRevenue" },
-    { title: "Rental Income (b)", id: "rentalIncome" },
-    { title: "Fees & user charges (c)", id: "feesAndUserCharges" },
-    { title: "Own revenues", id: "ownRevenues" },
-    { title: "Sale & hire charges", id: "saleAndHireCharges" },
-    { title: "Assigned revenue", id: "assignedRevenue" },
-    { title: "Grants", id: "grants" },
-    { title: "Interest Income", id: "interestIncome" },
-    { title: "Other Income", id: "otherIncome" }
+    {title: 'Population Category', id: 'populationCategory'},
+    {title: 'Number of ULBs', id: 'numOfUlb'},
+    {title: 'Tax Revenue (a)', id: 'taxRevenue'},
+    {title: 'Rental Income (b)', id: 'rentalIncome'},
+    {title: 'Fees & user charges (c)', id: 'feesAndUserCharges'},
+    {title: 'Own revenues', id: 'ownRevenues'},
+    {title: 'Sale & hire charges', id: 'saleAndHireCharges'},
+    {title: 'Assigned revenue', id: 'assignedRevenue'},
+    {title: 'Grants', id: 'grants'},
+    {title: 'Interest Income', id: 'interestIncome'},
+    {title: 'Other Income', id: 'otherIncome'}
   ],
   [
-    { title: "Population Category", id: "populationCategory" },
+    {title: 'Population Category', id: 'populationCategory'},
     {
-      title: "Assigned Revenue And Compensation",
-      id: "assignedRevenueAndCompensationCoverPercentage"
+      title: 'Assigned Revenue And Compensation',
+      id: 'assignedRevenueAndCompensationCoverPercentage'
     },
     {
-      title: "Deficit Finance By Capital Grants",
-      id: "deficitFinanceByCapitalGrantsCoverPercentage"
+      title: 'Deficit Finance By Capital Grants',
+      id: 'deficitFinanceByCapitalGrantsCoverPercentage'
     },
-    { title: "Interest Income", id: "interestIncomeCoverPercentage" },
-    { title: "Other Income ", id: "otherIncomeCoverPercentage" },
+    {title: 'Interest Income', id: 'interestIncomeCoverPercentage'},
+    {title: 'Other Income ', id: 'otherIncomeCoverPercentage'},
     {
-      title: "Own Revenue ",
-      id: "ownRevenueCoverPercentage",
-      description: "(A/B)"
+      title: 'Own Revenue ',
+      id: 'ownRevenueCoverPercentage',
+      description: '(A/B)'
     },
     {
-      title: "Revenue Grants Contribution And Subsidies",
-      id: "revenueGrantsContributionAndSubsidiesCoverPercentage"
+      title: 'Revenue Grants Contribution And Subsidies',
+      id: 'revenueGrantsContributionAndSubsidiesCoverPercentage'
     },
-    { title: "Sale And Hire Charges ", id: "saleAndHireChargesCoverPercentage" }
+    {title: 'Sale And Hire Charges ', id: 'saleAndHireChargesCoverPercentage'}
   ],
   [
-    { title: "Population Category", click: true, id: "populationCategory" },
-    { title: "Number of ULBs", id: "numOfUlb" },
-    { title: "Establishment expense", id: "establishmentExpense" },
-    { title: "Administrative Expense", id: "administrativeExpense" },
+    {title: 'Population Category', click: true, id: 'populationCategory'},
+    {title: 'Number of ULBs', id: 'numOfUlb'},
+    {title: 'Establishment expense', id: 'establishmentExpense'},
+    {title: 'Administrative Expense', id: 'administrativeExpense'},
     {
-      title: "Operational & Maint. Expense",
-      id: "operationalAndMaintananceExpense"
+      title: 'Operational & Maint. Expense',
+      id: 'operationalAndMaintananceExpense'
     },
-    { title: "Interest & Finance Expense ", id: "interestAndFinanceExpense" },
-    { title: "Revenue Grants", id: "revenueGrants" },
-    { title: "Others", id: "other" }
+    {title: 'Interest & Finance Expense ', id: 'interestAndFinanceExpense'},
+    {title: 'Revenue Grants', id: 'revenueGrants'},
+    {title: 'Others', id: 'other'}
   ],
   [
-    { title: "Population Category", click: true, id: "populationCategory" },
-    { title: "Total number of ULBs", id: "totalUlb", total: true },
+    {title: 'Population Category', click: true, id: 'populationCategory'},
+    {title: 'Total number of ULBs', id: 'totalUlb', total: true},
     {
-      title: "Number of ULBs with Data",
-      id: "numOfUlb",
+      title: 'Number of ULBs with Data',
+      id: 'numOfUlb',
       total: true,
       showInr: true
     },
     {
-      title: "Cash & Bank Balance",
-      description: "(Rs in crores)",
+      title: 'Cash & Bank Balance',
+      description: '(Rs in crores)',
       roundOff: true,
-      id: "cashAndBankBalance",
+      id: 'cashAndBankBalance',
       total: true
     }
   ],
   [
-    { title: "Population Category", click: true, id: "populationCategory" },
-    { title: "Total number of ULBs", id: "totalUlb", total: true },
+    {title: 'Population Category', click: true, id: 'populationCategory'},
+    {title: 'Total number of ULBs', id: 'totalUlb', total: true},
     {
-      title: "Number of ULBs with Data",
-      id: "numOfUlb",
+      title: 'Number of ULBs with Data',
+      id: 'numOfUlb',
       total: true,
       showInr: true
     },
     {
-      title: "Loans from Central Government",
+      title: 'Loans from Central Government',
       roundOff: true,
-      id: "LoanFromCentralGovernment",
+      id: 'LoanFromCentralGovernment',
       total: true
     },
     {
-      title: "Loans from State Government",
+      title: 'Loans from State Government',
       roundOff: true,
-      id: "loanFromStateGovernment",
+      id: 'loanFromStateGovernment',
       total: true
     },
     {
-      title: "Loans from Financial Institutions",
+      title: 'Loans from Financial Institutions',
       roundOff: true,
-      id: "loanFromFIIB",
+      id: 'loanFromFIIB',
       total: true
     },
     {
-      title: "Bonds and Other Debt Instruments",
+      title: 'Bonds and Other Debt Instruments',
       roundOff: true,
-      id: "bondsAndOtherDebtInstruments",
+      id: 'bondsAndOtherDebtInstruments',
       total: true
     },
-    { title: "Others", id: "others", roundOff: true, total: true },
-    { title: "Total Debt", id: "total", roundOff: true, total: true }
+    {title: 'Others', id: 'others', roundOff: true, total: true},
+    {title: 'Total Debt', id: 'total', roundOff: true, total: true}
   ]
 ];
 
 export const modalTableHeaders: ModalTableHeader[][] = [
   [
-    { title: "ULB name", click: true, id: "name" },
-    { title: "Population", id: "population", total: true },
-    { title: "Audit Status", id: "audited" },
+    {title: 'ULB name', click: true, id: 'name'},
+    {title: 'Population', id: 'population', total: true},
+    {title: 'Audit Status', id: 'audited'},
     {
-      title: "Own Revenues (A) ",
-      id: "ownRevenue",
+      title: 'Own Revenues (A) ',
+      id: 'ownRevenue',
       total: true,
       showInr: true,
       roundOff: true,
-      description: "(Rs in crores)"
+      description: '(Rs in crores)'
     },
     {
-      title: "Revenue Expenditure (B)",
-      id: "revenueExpenditure",
+      title: 'Revenue Expenditure (B)',
+      id: 'revenueExpenditure',
       showInr: true,
       roundOff: true,
       total: true,
-      description: "(Rs in crores)"
+      description: '(Rs in crores)'
     },
-    { title: "Own Revenue % (A/B)", id: "ownRevenuePercentage" }
+    {title: 'Own Revenue % (A/B)', id: 'ownRevenuePercentage'}
   ],
   [
-    { title: "ULB name", id: "name" },
-    { title: "Population", id: "population", total: true },
-    { title: "Audit Status", id: "audited" },
-    { title: "Own revenues", id: "ownRevenues", suffix: "%" },
-    { title: "Sale & hire charges", id: "saleAndHireCharges", suffix: "%" },
-    { title: "Assigned revenue", id: "assignedRevenue", suffix: "%" },
-    { title: "Grants", id: "grants", suffix: "%" },
-    { title: "Interest Income", id: "interestIncome", suffix: "%" },
-    { title: "Other Income", id: "otherIncome", suffix: "%" },
-    { title: "Total", id: "total", suffix: "%" }
+    {title: 'ULB name', id: 'name'},
+    {title: 'Population', id: 'population', total: true},
+    {title: 'Audit Status', id: 'audited'},
+    {title: 'Own revenues', id: 'ownRevenues', suffix: '%'},
+    {title: 'Sale & hire charges', id: 'saleAndHireCharges', suffix: '%'},
+    {title: 'Assigned revenue', id: 'assignedRevenue', suffix: '%'},
+    {title: 'Grants', id: 'grants', suffix: '%'},
+    {title: 'Interest Income', id: 'interestIncome', suffix: '%'},
+    {title: 'Other Income', id: 'otherIncome', suffix: '%'},
+    {title: 'Total', id: 'total', suffix: '%'}
   ],
   [
-    { title: "ULB name", id: "name" },
-    { title: "Population", id: "population", total: true },
+    {title: 'ULB name', id: 'name'},
+    {title: 'Population', id: 'population', total: true},
     {
-      title: "Assigned Revenue And Compensation",
-      suffix: "%",
-      id: "assignedRevenueAndCompensationCoverPercentage"
+      title: 'Assigned Revenue And Compensation',
+      suffix: '%',
+      id: 'assignedRevenueAndCompensationCoverPercentage'
     },
-    { title: "Audit Status", id: "audited" },
+    {title: 'Audit Status', id: 'audited'},
     {
-      title: "Deficit Finance By Capital Grants",
-      suffix: "%",
-      id: "deficitFinanceByCapitalGrantsCoverPercentage"
-    },
-    {
-      title: "Interest Income",
-      suffix: "%",
-      id: "interestIncomeCoverPercentage"
-    },
-    { title: "Other Income ", suffix: "%", id: "otherIncomeCoverPercentage" },
-    {
-      title: "Own Revenue ",
-      suffix: "%",
-      id: "ownRevenueCoverPercentage",
-      description: "(A/B)"
+      title: 'Deficit Finance By Capital Grants',
+      suffix: '%',
+      id: 'deficitFinanceByCapitalGrantsCoverPercentage'
     },
     {
-      title: "Revenue Grants Contribution And Subsidies",
-      suffix: "%",
-      id: "revenueGrantsContributionAndSubsidiesCoverPercentage"
+      title: 'Interest Income',
+      suffix: '%',
+      id: 'interestIncomeCoverPercentage'
+    },
+    {title: 'Other Income ', suffix: '%', id: 'otherIncomeCoverPercentage'},
+    {
+      title: 'Own Revenue ',
+      suffix: '%',
+      id: 'ownRevenueCoverPercentage',
+      description: '(A/B)'
     },
     {
-      title: "Sale And Hire Charges ",
-      suffix: "%",
-      id: "saleAndHireChargesCoverPercentage"
+      title: 'Revenue Grants Contribution And Subsidies',
+      suffix: '%',
+      id: 'revenueGrantsContributionAndSubsidiesCoverPercentage'
     },
-    { title: "Total", id: "total", suffix: "%" }
+    {
+      title: 'Sale And Hire Charges ',
+      suffix: '%',
+      id: 'saleAndHireChargesCoverPercentage'
+    },
+    {title: 'Total', id: 'total', suffix: '%'}
   ],
   [
-    { title: "ULB name", id: "name" },
-    { title: "Population", id: "population", total: true },
-    { title: "Establishment expense", suffix: "%", id: "establishmentExpense" },
-    { title: "Audit Status", id: "audited" },
+    {title: 'ULB name', id: 'name'},
+    {title: 'Population', id: 'population', total: true},
+    {title: 'Establishment expense', suffix: '%', id: 'establishmentExpense'},
+    {title: 'Audit Status', id: 'audited'},
     {
-      title: "Administrative Expense",
-      suffix: "%",
-      id: "administrativeExpense"
+      title: 'Administrative Expense',
+      suffix: '%',
+      id: 'administrativeExpense'
     },
     {
-      title: "Operational & Maint. Expense",
-      suffix: "%",
-      id: "operationalAndMaintananceExpense"
+      title: 'Operational & Maint. Expense',
+      suffix: '%',
+      id: 'operationalAndMaintananceExpense'
     },
     {
-      title: "Interest & Finance Expense ",
-      suffix: "%",
-      id: "interestAndFinanceExpense"
+      title: 'Interest & Finance Expense ',
+      suffix: '%',
+      id: 'interestAndFinanceExpense'
     },
-    { title: "Revenue Grants", suffix: "%", id: "revenueGrants" },
-    { title: "Others", suffix: "%", id: "other" },
-    { title: "Total", id: "total", suffix: "%" }
+    {title: 'Revenue Grants', suffix: '%', id: 'revenueGrants'},
+    {title: 'Others', suffix: '%', id: 'other'},
+    {title: 'Total', id: 'total', suffix: '%'}
   ],
   [
-    { title: "ULB name", click: true, id: "name" },
-    { title: "Population", id: "population", total: true },
-    { title: "Audit Status", id: "audited" },
-    { title: "Audit Status", id: "audited" },
+    {title: 'ULB name', click: true, id: 'name'},
+    {title: 'Population', id: 'population', total: true},
+    {title: 'Audit Status', id: 'audited'},
+    {title: 'Audit Status', id: 'audited'},
     {
-      title: "Cash & Bank Balance (Rs in crore)",
+      title: 'Cash & Bank Balance (Rs in crore)',
       showInr: true,
       total: true,
       roundOff: true,
-      id: "cashAndBankBalance"
+      id: 'cashAndBankBalance'
     }
   ],
   [
-    { title: "ULB name", click: true, id: "name" },
-    { title: "Population", id: "population", total: true },
-    { title: "Audit Status", id: "audited", total: false },
+    {title: 'ULB name', click: true, id: 'name'},
+    {title: 'Population', id: 'population', total: true},
+    {title: 'Audit Status', id: 'audited', total: false},
     {
-      title: "Loans from Central Government",
+      title: 'Loans from Central Government',
       showInr: true,
       roundOff: true,
-      id: "LoanFromCentralGovernment",
+      id: 'LoanFromCentralGovernment',
       total: true
     },
     {
-      title: "Loans from State Government",
+      title: 'Loans from State Government',
       showInr: true,
       roundOff: true,
-      id: "loanFromStateGovernment",
+      id: 'loanFromStateGovernment',
       total: true
     },
     {
-      title: "Loans from Financial Institutions",
+      title: 'Loans from Financial Institutions',
       showInr: true,
       roundOff: true,
-      id: "loanFromFIIB",
+      id: 'loanFromFIIB',
       total: true
     },
     {
-      title: "Bonds and Other Debt Instruments",
+      title: 'Bonds and Other Debt Instruments',
       showInr: true,
       roundOff: true,
-      id: "bondsAndOtherDebtInstruments",
+      id: 'bondsAndOtherDebtInstruments',
       total: true
     },
     {
-      title: "Others",
-      id: "others",
+      title: 'Others',
+      id: 'others',
       total: true,
       showInr: true,
       roundOff: true
     },
     {
-      title: "Total Debt",
-      id: "total",
+      title: 'Total Debt',
+      id: 'total',
       total: true,
       showInr: true,
       roundOff: true
@@ -299,16 +299,16 @@ export const modalTableHeaders: ModalTableHeader[][] = [
 
 export const creditRatingModalHeaders: ModalTableHeader[][] = [
   [
-    { id: "ulb", title: "ULB" },
-    { id: "agency", title: "Agency" },
-    { id: "status", title: "Rating Status" },
-    { id: "date", title: "Date" }
+    {id: 'ulb', title: 'ULB'},
+    {id: 'agency', title: 'Agency'},
+    {id: 'status', title: 'Rating Status'},
+    {id: 'date', title: 'Date'}
   ]
 ];
 
 export const ulbUploadList: ModalTableHeader[] = [
-  { id: "financialYear", title: "Financial Year" },
-  { id: "audited", title: "Audit Status" },
-  { id: "ad", title: "Status" },
-  { id: "action", title: "Action" }
+  {id: 'financialYear', title: 'Financial Year'},
+  {id: 'audited', title: 'Audit Status'},
+  {id: 'ad', title: 'Status'},
+  {id: 'action', title: 'Action'}
 ];
