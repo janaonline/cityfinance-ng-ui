@@ -3,12 +3,7 @@ import {Location} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FinancialDataService} from '../../services/financial-data.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-
-enum UPLOAD_STATUS {
-  PENDING = 'PENDING',
-  APPROVED = 'APPROVED',
-  REJECTED = 'REJECTED'
-}
+import {UPLOAD_STATUS} from '../../../util/enums';
 
 @Component({
   selector: 'app-data-upload-action',
@@ -146,7 +141,7 @@ export class DataUploadActionComponent implements OnInit {
       }
     });
 
-    if (this.completenessStatus === 'APPROVED') {
+    if (this.completenessStatus === UPLOAD_STATUS.APPROVED) {
       this.tabIndex = 1;
     }
   }
