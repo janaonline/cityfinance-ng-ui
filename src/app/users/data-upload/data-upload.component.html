@@ -259,7 +259,7 @@
                       (click)="submitClickHandler()">Submit
               </button>
               <button *ngIf="uploadId!==null" [disabled]="
-              fileFormGroup.invalid ||( completenessStatus==='APPROVED'
+              fileFormGroup.invalid ||( completenessStatus==='REJECTED'
                                     ||completenessStatus ==='REJECTED')"
                       class="btn btn-primary"
                       (click)="updateClickHandler()">Update
