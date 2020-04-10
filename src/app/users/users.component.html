@@ -45,8 +45,10 @@
 <!--</div>-->
 <div class="container-fluid">
   <div class="row d-flex">
-<!--    <app-side-menu class="col-sm-2 mt-2 mr-2"></app-side-menu>-->
-    <div class="container  flex-1">
+    <div class="col-sm-2 mt-2 mr-2">
+      <app-side-menu [content]="sideMenuContent"></app-side-menu>
+    </div>
+    <div class="col-sm-9">
       <router-outlet></router-outlet>
     </div>
   </div>
