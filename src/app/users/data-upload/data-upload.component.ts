@@ -42,6 +42,7 @@ export class DataUploadComponent implements OnInit {
   financialYearDropdownSettings: any = {singleSelection: true, text: 'Select Year'};
   auditStatusDropdownSettings: any = {singleSelection: true, text: 'Select Year'};
   completenessStatus = 'PENDING';
+  correctnessStatus = 'PENDING';
 
 
   constructor(public activatedRoute: ActivatedRoute,
@@ -178,8 +179,9 @@ export class DataUploadComponent implements OnInit {
   }
 
   private updateFormControls() {
-    const {financialYear, audited, completeness} = this.uploadObject;
-    this.completenessStatus = completeness;
+    const {financialYear, audited, completeness: completenessOverAll, correctness: correctnessOverAll} = this.uploadObject;
+    this.completenessStatus = completenessOverAll;
+    this.correctnessStatus = correctnessOverAll;
     const selectedFinancialYearObject = this.financialYearDropdown.filter((item) => item.id === financialYear);
     if (selectedFinancialYearObject) {
       this.fileFormGroup.get('financialYear').setValue(selectedFinancialYearObject);
@@ -195,11 +197,17 @@ export class DataUploadComponent implements OnInit {
     this.fileFormGroupKeys.forEach(formGroupKey => {
       let formGroupDataObject = this.uploadObject[formGroupKey];
       let formGroupItem = this.fileFormGroup.get([formGroupKey]);
-      const {completeness} = formGroupDataObject;
-      if (completeness === 'APPROVED') {
+      const {completeness, correctness} = formGroupDataObject;
+      if (correctnessOverAll === 'REJECTED' || completenessOverAll === 'REJECTED') {
+        if (completeness === 'REJECTED' || correctness === 'REJECTED') {
+          formGroupItem.enable();
+        }
+      } else {
+        // if (completeness === 'APPROVED') {
         formGroupItem.disable();
         formGroupItem.setErrors(null);
         formGroupItem.updateValueAndValidity();
+        //}
       }
     });
 
