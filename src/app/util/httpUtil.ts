@@ -5,7 +5,9 @@ export class HttpUtility {
     let queryParams = new HttpParams();
     // tslint:disable-next-line: forin
     for (const key in params) {
-      queryParams = queryParams.set(key, params[key]);
+      if (params[key]) {
+        queryParams = queryParams.set(key, params[key]);
+      }
     }
     return queryParams;
   }

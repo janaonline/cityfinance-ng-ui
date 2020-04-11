@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { USER_TYPE } from '../../models/user/userType';
@@ -11,23 +12,49 @@ import { ProfileService } from './service/profile.service';
 })
 export class ProfileComponent implements OnInit {
   USER_TYPE = USER_TYPE;
-  userType;
+  userType: USER_TYPE;
 
   profileData = null;
   showProfileComponent = false;
+  profileType: USER_TYPE;
+
+  profileMode: "view" | "create";
+  listFetchOption = {
+    filter: null,
+    sort: null,
+    skip: 0
+  };
+
+  filterForm: FormGroup;
 
   constructor(
     private _profileService: ProfileService,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private _fb: FormBuilder
   ) {
-    this._activatedRoute.queryParams.subscribe(params => {
-      const param = { id: null };
-      param.id = params.id
-        ? params.id
-        : this._profileService.getUserLoggedInId();
+    this._activatedRoute.params.subscribe(params => {
+      this.initializeFilterForm();
+      this.profileMode = params.type;
       console.log(params);
-      this.fetchProfileData(param);
-      this.setFormView();
+
+      this._activatedRoute.queryParams.subscribe(queryParams => {
+        const param = { _id: null, role: null };
+        console.log({ queryParams, params });
+        if (this.profileMode === "create") {
+          if (!queryParams || !queryParams.role) {
+            return;
+          }
+          this.profileType = queryParams.role;
+        }
+        if (queryParams && queryParams.id && queryParams.role) {
+          param._id = queryParams.id;
+          param.role = queryParams.role;
+        }
+        console.log(queryParams);
+        this.initializeListFetchParams();
+        this.fetchProfileData(param);
+        this.setFormView();
+      });
     });
   }
 
@@ -36,9 +63,10 @@ export class ProfileComponent implements OnInit {
   fetchProfileData(params: {}) {
     this._profileService.getUserProfile(params).subscribe(res => {
       this.profileData = res["data"];
-      console.log(res["data"]);
+      console.log({ ...res["data"] });
       this.userType = res["data"].role;
-      this.showProfileComponent = true;
+      // this.profileData.role = params["role"];
+      // this.showProfileComponent = true;
 
       // if (this.userType === USER_TYPE.ULB) {
       //   // this.showProfileComponent = true;
@@ -48,5 +76,19 @@ export class ProfileComponent implements OnInit {
 
   private setFormView() {
     this.userType = this._profileService.getLoggedInUserType();
+  }
+
+  private initializeFilterForm() {
+    this.filterForm = this._fb.group({
+      status: [null]
+    });
+  }
+
+  private initializeListFetchParams() {
+    this.listFetchOption = {
+      filter: this.filterForm ? this.filterForm.value : {},
+      sort: null,
+      skip: 0
+    };
   }
 }

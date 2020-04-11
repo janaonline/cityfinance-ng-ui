@@ -12,3 +12,7 @@
 .form-control {
   border-radius: 4px;
 }
+
+.sortable-headers > th {
+  cursor: pointer;
+}
