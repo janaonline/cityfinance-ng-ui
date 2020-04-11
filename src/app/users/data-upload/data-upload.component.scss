@@ -2,5 +2,10 @@
   .selected-list .c-btn {
     font-size: 1.3rem !important;
   }
+
+  .c-remove,
+  .clear-all {
+    display: none !important;
+  }
 }
 

@@ -288,7 +288,7 @@
     </div>
     <div class="row mt-5">
       <div class="col-sm-12">
-        <table class="table">
+        <table class="table" *ngIf="this.dataUploadList.length">
           <thead style="background: #009fe3;color: white ;border: 5px solid white">
           <tr>
             <th class="text-center">S.No.</th>
@@ -297,6 +297,28 @@
           </tr>
           </thead>
           <tbody>
+
+          <tr [formGroup]="fileFormGroup">
+            <td></td>
+            <td class="text-center">
+              <angular2-multiselect
+                formControlName="financialYear"
+                [settings]="financialYearDropdownSettings"
+                [data]="financialYearDropdown"></angular2-multiselect>
+            </td>
+            <td class="text-center">
+              <angular2-multiselect
+                formControlName="auditStatus"
+                [settings]="auditStatusDropdownSettings"
+                [data]="auditStatusDropdown">
+              </angular2-multiselect>
+            </td>
+            <td></td>
+            <td class="text-center">
+              <button class="btn btn-danger" (click)="applyFilterClicked()">Apply filters</button>
+            </td>
+          </tr>
+
           <tr style="background: 	#e7e7e7 ;border: 5px solid white" *ngFor="let row of dataUploadList;let i= index">
             <td class="text-center">{{i + 1}}</td>
             <td class="text-center" *ngFor="let header of tableHeaders">

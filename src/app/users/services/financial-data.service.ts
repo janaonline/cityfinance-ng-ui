@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,16 +9,17 @@ import {environment} from '../../../environments/environment';
 export class FinancialDataService {
 
   public selectedFinancialRequest = null;
+  public financialYears = null;
 
   constructor(private httpClient: HttpClient) {
   }
 
-  fetchFinancialData(params = {}) {
+  fetchFinancialData(params = {}, body = {}) {
     let queryParams = new HttpParams(params);
     for (let key in params) {
       queryParams = queryParams.set(key, params[key]);
     }
-    return this.httpClient.get(`${environment.api.url}ulb-financial-data`, {params: queryParams});
+    return this.httpClient.post(`${environment.api.url}ulb-financial-data/list`, JSON.stringify(body), {params: queryParams});
   }
 
   uploadFinancialData(data) {
@@ -34,5 +36,9 @@ export class FinancialDataService {
 
   updateCorrectnessStatus(id, data) {
     return this.httpClient.put(`${environment.api.url}ulb-financial-data/correctness/${id}`, JSON.stringify(data));
+  }
+
+  getFinancialYears() {
+    return this.httpClient.get(`${environment.api.url}financial-year`);
   }
 }
