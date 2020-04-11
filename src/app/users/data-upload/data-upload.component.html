@@ -288,7 +288,7 @@
     </div>
     <div class="row mt-5">
       <div class="col-sm-12">
-        <table class="table" *ngIf="this.dataUploadList.length">
+        <table class="table">
           <thead style="background: #009fe3;color: white ;border: 5px solid white">
           <tr>
             <th class="text-center">S.No.</th>
@@ -318,33 +318,43 @@
               <button class="btn btn-danger" (click)="applyFilterClicked()">Apply filters</button>
             </td>
           </tr>
-
-          <tr style="background: 	#e7e7e7 ;border: 5px solid white" *ngFor="let row of dataUploadList;let i= index">
-            <td class="text-center">{{i + 1}}</td>
-            <td class="text-center" *ngFor="let header of tableHeaders">
-              <ng-container [ngSwitch]="header.id">
-                <ng-container *ngSwitchCase="'action'">
-                  <ng-container [ngSwitch]="userUtil.getUserType()">
-                    <a (click)="navigateTo(row)" title="Edit" [routerLink]="['upload-form',row?._id]">
-                      <i *ngSwitchCase="'ULB'"
-                         [ngClass]="row['correctness']==='REJECTED' || row['completeness']==='REJECTED' ? 'fa fa-pencil': 'fa fa-eye'"
-                         aria-hidden="true"></i>
-                    </a>
-                    <a *ngSwitchDefault [routerLink]="['action',row?._id]" (click)="navigateTo(row)"
-                       class="btn btn-primary">Take {{header.title}}</a>
+          <ng-container *ngIf="dataUploadList.length;else noData">
+            <tr style="background: 	#e7e7e7 ;border: 5px solid white" *ngFor="let row of dataUploadList;let i= index">
+              <td class="text-center">{{i + 1}}</td>
+              <td class="text-center" *ngFor="let header of tableHeaders">
+                <ng-container [ngSwitch]="header.id">
+                  <ng-container *ngSwitchCase="'action'">
+                    <ng-container [ngSwitch]="userUtil.getUserType()">
+                      <a (click)="navigateTo(row)" title="Edit" [routerLink]="['upload-form',row?._id]">
+                        <i *ngSwitchCase="'ULB'"
+                           [ngClass]="row['correctness']==='REJECTED' || row['completeness']==='REJECTED' ? 'fa fa-pencil': 'fa fa-eye'"
+                           aria-hidden="true"></i>
+                      </a>
+                      <a *ngSwitchDefault [routerLink]="['action',row?._id]" (click)="navigateTo(row)"
+                         class="btn btn-primary">Take {{header.title}}</a>
+                    </ng-container>
                   </ng-container>
-                </ng-container>
-                <span *ngSwitchCase="'audited'">
+                  <span *ngSwitchCase="'audited'">
                       {{row[header.id] ? 'Audited' : 'Unaudited'}}
                     </span>
-                <span *ngSwitchCase="'ad'">{{
-                  row['status'] === 'APPROVED' ?
-                    'Approved By ' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
-                    : row['completeness'] === 'REJECTED' || row['correctness'] === 'REJECTED' ? 'Rejected By ' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
-                    : 'Requested By ULB'}}</span>
-                <span *ngSwitchDefault>{{row[header.id]}}</span>
-              </ng-container>
-          </tr>
+                  <span *ngSwitchCase="'ad'">{{
+                    row['status'] === 'APPROVED' ?
+                      'Approved By ' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
+                      : row['completeness'] === 'REJECTED' || row['correctness'] === 'REJECTED' ? 'Rejected By ' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
+                      : 'Requested By ULB'}}</span>
+                  <span *ngSwitchDefault>{{row[header.id]}}</span>
+                </ng-container>
+            </tr>
+          </ng-container>
+          <ng-template #noData>
+            <tr>
+              <td class="text-center" [attr.colspan]="tableHeaders.length+1">
+                <h3>
+                  No Data Available
+                </h3>
+              </td>
+            </tr>
+          </ng-template>
           </tbody>
         </table>
       </div>

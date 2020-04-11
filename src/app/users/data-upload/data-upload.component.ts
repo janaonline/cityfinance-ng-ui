@@ -306,7 +306,7 @@ export class DataUploadComponent implements OnInit {
         [filterKeys[0]]: this.fileFormGroup.get(filterKeys[0]).value.length ? this
           .fileFormGroup.get(filterKeys[0]).value[0].id : '',
         'audited': this.fileFormGroup.get(filterKeys[1]).value.length ? this
-          .fileFormGroup.get(filterKeys[1]).value[0].id : '',
+          .fileFormGroup.get(filterKeys[1]).value[0].id == 'true' : '',
       }
     };
     this.financialDataService.fetchFinancialData({}, filterObject).subscribe(result => {
