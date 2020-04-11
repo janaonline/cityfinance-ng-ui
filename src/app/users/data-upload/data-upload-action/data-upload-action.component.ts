@@ -12,7 +12,8 @@ import {UPLOAD_STATUS} from '../../../util/enums';
 })
 export class DataUploadActionComponent implements OnInit {
 
-  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance'];
+
+  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance', 'auditReport'];
   financialYearDropdown = [
     {id: '2015-16', itemName: '2015-16'},
     {id: '2016-17', itemName: '2016-17'},
@@ -41,7 +42,6 @@ export class DataUploadActionComponent implements OnInit {
               private fb: FormBuilder,
               private activatedRoute: ActivatedRoute, private router: Router) {
     this.completenessFormGroup = this.fb.group({
-
       balanceSheet: new FormGroup({
         completeness: new FormControl(),
       }),
@@ -55,12 +55,14 @@ export class DataUploadActionComponent implements OnInit {
         completeness: new FormControl(),
       }),
       trialBalance: new FormGroup({
+        completeness: new FormControl(),
+      }),
+      auditReport: new FormGroup({
         completeness: new FormControl(),
       })
     });
 
     this.correctnessFormGroup = this.fb.group({
-
       balanceSheet: new FormGroup({
         correctness: new FormControl(),
       }),
@@ -74,6 +76,9 @@ export class DataUploadActionComponent implements OnInit {
         correctness: new FormControl(),
       }),
       trialBalance: new FormGroup({
+        correctness: new FormControl(),
+      }),
+      auditReport: new FormGroup({
         correctness: new FormControl(),
       })
     });
@@ -118,11 +123,7 @@ export class DataUploadActionComponent implements OnInit {
     if (selectedFinancialYearObject) {
       this.financialYear.setValue(selectedFinancialYearObject);
     }
-    if (audited) {
-      this.audited.setValue([this.auditStatusDropdown[0]]);
-    } else {
-      this.audited.setValue([this.auditStatusDropdown[1]]);
-    }
+    this.setAuditStatus(audited);
     this.fileFormGroupKeys.forEach(formGroupKey => {
       const formGroupDataItem = this.financeDataService.selectedFinancialRequest[formGroupKey];
       if (formGroupDataItem) {
@@ -140,13 +141,22 @@ export class DataUploadActionComponent implements OnInit {
         });
       }
     });
+    this.updateTabIndex(data);
+  }
 
-    if (this.completenessStatus === UPLOAD_STATUS.APPROVED) {
-      this.tabIndex = 1;
+  setAuditStatus(value: boolean) {
+    if (value) {
+      this.fileFormGroupKeys.splice(this.fileFormGroupKeys.length - 1, 1);
+      this.audited.setValue([this.auditStatusDropdown[0]]);
+    } else {
+      this.audited.setValue([this.auditStatusDropdown[1]]);
     }
   }
 
   fileButtonClickHandler(...args) {
+    if (args.length === 1) {
+      args = args[0];
+    }
     let urlObject = this.financeDataService.selectedFinancialRequest;
     args.map(key => urlObject = urlObject[key]);
     if (urlObject) {

@@ -1,0 +1,34 @@
+<ng-container [formGroup]="config.formGroup">
+  <div class="col-sm-12">
+    <div [formGroupName]="config.formGroupName" class=" d-flex justify-content-between">
+      <div class="d-flex flex-1 justify-content-between">
+        <button [disabled]="config.formGroup.get(config.formGroupName).disabled"
+                (click)="fileButtonClickHandler(config.formGroupName,'pdfUrl')" class="col">PDF file
+        </button>
+        <button *ngIf="config.formGroupName!=='auditReport'"
+                [disabled]="config.formGroup.get(config.formGroupName).disabled"
+                (click)="fileButtonClickHandler(config.formGroupName,'excelUrl')" class="col">Excel File
+        </button>
+      </div>
+      <div class="d-flex flex-1 justify-content-evenly">
+        <div>
+          <input class="mr-1" type="radio"
+                 (change)="radioButtonClickHandler()"
+                 [id]="config.formGroupName+'-'+config.status+'-approved'"
+                 [formControlName]="config.status"
+                 value="APPROVED">
+          <label [for]="config.formGroupName+'-'+config.status+'-approved'">Approve</label>
+        </div>
+        <div>
+          <input class="mr-1" type="radio"
+                 formControlName="completeness"
+                 [id]="config.formGroupName+'-'+config.status+'-rejected'"
+                 (change)="radioButtonClickHandler()"
+                 value="REJECTED">
+          <label [for]="config.formGroupName+'-'+config.status+'-rejected'">Reject</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
