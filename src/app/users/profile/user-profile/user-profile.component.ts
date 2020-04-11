@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 import { FormUtil } from '../../../util/formUtil';
 import { UserProfile } from '../model/user-profile';
@@ -12,8 +12,8 @@ import { ProfileService } from '../service/profile.service';
   styleUrls: ["./user-profile.component.scss"]
 })
 export class UserProfileComponent implements OnInit {
+  @Input() profileData: UserProfile;
   profileForm: FormGroup;
-  profileData: UserProfile;
 
   window = window;
   formUtil = new FormUtil();
@@ -23,12 +23,8 @@ export class UserProfileComponent implements OnInit {
     errorMessage: null
   };
 
-  constructor(
-    private _profileService: ProfileService,
-    private _fb: FormBuilder
-  ) {
+  constructor(private _profileService: ProfileService) {
     this.initializeForm();
-    this.fetchUserProfile();
   }
 
   ngOnInit() {}
@@ -42,7 +38,7 @@ export class UserProfileComponent implements OnInit {
       return;
     }
 
-    this._profileService.updateProfileData(form.value).subscribe(
+    this._profileService.updateUserProfileData(form.value).subscribe(
       res => {
         this.response.successMessage = "Profile Updated successfully";
       },
@@ -59,16 +55,17 @@ export class UserProfileComponent implements OnInit {
     this.response.errorMessage = error.error.msg || "Profile Update Failed.";
   }
 
-  private fetchUserProfile() {
-    this._profileService.getUserProfile().subscribe(res => {
-      console.log(`res `, res);
-      this.profileData = res["data"];
-      this.profileForm.patchValue({ ...this.profileData });
-      console.log(this.profileForm.controls);
-    });
-  }
+  // private fetchUserProfile() {
+  //   this._profileService.getUserProfile().subscribe(res => {
+  //     console.log(`res `, res);
+  //     this.profileData = res["data"];
+  //     this.profileForm.patchValue({ ...this.profileData });
+  //     console.log(this.profileForm.controls);
+  //   });
+  // }
 
   private initializeForm() {
     this.profileForm = this.formUtil.getUserForm("EDIT");
+    this.profileForm.patchValue({ ...this.profileData });
   }
 }

@@ -54,7 +54,7 @@ export class MohuaProfileComponent implements OnInit {
   }
 
   private updateProfile(form: FormGroup) {
-    return this._profileService.updateProfileData(form.value).subscribe(
+    return this._profileService.updateUserProfileData(form.value).subscribe(
       res => {
         this.respone.successMessage = "Profile Updated successfully";
       },

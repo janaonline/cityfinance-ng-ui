@@ -53,16 +53,26 @@ export class FormUtil {
     });
     if (purpose === "CREATION") {
       return this.fb.group({
-        ...baseForm.controls
+        ...baseForm.controls,
+        password: [""]
       });
     }
 
     return this.fb.group({
       ...baseForm.controls,
-      noOfWards: ["", [Validators.required]],
-      population: ["", [Validators.required]],
-      area: ["", [Validators.required]],
-      type: ["", [Validators.required]]
+      ulb: this.fb.group({
+        code: ["", [Validators.required]],
+        wards: ["", [Validators.required, Validators.pattern(/^[0-9]\d*$/)]],
+        population: [
+          "",
+          [Validators.required, Validators.pattern(/^[0-9]\d*$/)]
+        ],
+        area: ["", [Validators.required, Validators.pattern(/^[0-9]\d*$/)]],
+        ulbType: this.fb.group({
+          _id: ["", [Validators.required]]
+        }),
+        name: ["", [Validators.required]]
+      })
     });
   }
 
