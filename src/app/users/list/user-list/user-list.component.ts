@@ -5,6 +5,7 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 
 import { UserService } from '../../../dashboard/user/user.service';
 import { UserProfile } from '../../profile/model/user-profile';
+import { ProfileService } from '../../profile/service/profile.service';
 
 @Component({
   selector: "app-user-list",
@@ -20,8 +21,11 @@ export class UserListComponent implements OnInit {
   userTypeList: any[] = [];
   listType: USER_TYPE;
 
+  loggedInType: USER_TYPE;
+
   constructor(
     private _userService: UserService,
+    private _profileService: ProfileService,
     private _fb: FormBuilder,
     private _activatedRoute: ActivatedRoute,
     private _router: Router
@@ -29,6 +33,16 @@ export class UserListComponent implements OnInit {
     this._activatedRoute.params.subscribe(params => {
       this.initializeList(params.userType);
       this.initializeFilterForm();
+      const type = this._profileService.getLoggedInUserType();
+      if (type === USER_TYPE.ULB) {
+        this.fetchULBProfileUpdateRequest();
+      }
+    });
+  }
+
+  private fetchULBProfileUpdateRequest() {
+    this._profileService.getULBProfileUpdateRequestList().subscribe(res => {
+      console.log(res);
     });
   }
 

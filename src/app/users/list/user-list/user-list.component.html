@@ -314,6 +314,190 @@
             </tr>
           </tbody>
         </table>
+
+        <table class="table" *ngIf="listType === userTypes.ULB">
+          <thead>
+            <!-- <tr *ngIf="filterForm">
+              <th></th>
+
+              <th>
+                <div class="input-group">
+                  <input
+                    placeholder="State"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.name"
+                    [ngClass]="{
+                      'is-invalid':
+                        formErrors && profileForm.controls.name.errors
+                    }"
+                  />
+                </div>
+              </th>
+
+              <th>
+                <div class="input-group">
+                  <input
+                    placeholder="ULB Name"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.email"
+                    [ngClass]="{
+                      'is-invalid':
+                        formErrors && profileForm.controls.email.errors
+                    }"
+                  />
+                </div>
+              </th>
+
+              <th>
+                <div class="input-group">
+                  <input
+                    placeholder="ULB Code"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.designation"
+                    [ngClass]="{
+                      'is-invalid':
+                        formErrors && profileForm.controls.designation.errors
+                    }"
+                  />
+                </div>
+              </th>
+              <th>
+                <div class="input-group">
+                  <input
+                    placeholder="Editted Field"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.organisationName"
+                    [ngClass]="{
+                      'is-invalid':
+                        formErrors && profileForm.controls.name.errors
+                    }"
+                  />
+                </div>
+              </th>
+              <th>
+                <div class="input-group">
+                  <input
+                    placeholder="STATUS"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.organisationName"
+                    [ngClass]="{
+                      'is-invalid':
+                        formErrors && profileForm.controls.name.errors
+                    }"
+                  />
+                </div>
+              </th>
+              <th>
+                <button
+                  class="btn btn-primary"
+                  (click)="searchUsersBy(filterForm)"
+                >
+                  Search
+                </button>
+              </th>
+            </tr> -->
+            <tr
+              style="background: #009fe3;color: white ;border: 5px solid white"
+            >
+              <th class="text-center">S.No.</th>
+              <th class="text-center">State</th>
+              <th class="text-center">ULB Name</th>
+              <th class="text-center">ULB Code</th>
+              <th class="text-center">Status</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="filterForm">
+              <td></td>
+
+              <td>
+                <div class="input-group">
+                  <input
+                    placeholder="State"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.name"
+                    [ngClass]="{
+                      'is-invalid':
+                        formErrors && profileForm.controls.name.errors
+                    }"
+                  />
+                </div>
+              </td>
+
+              <td>
+                <div class="input-group">
+                  <input
+                    placeholder="ULB Name"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.email"
+                    [ngClass]="{
+                      'is-invalid':
+                        formErrors && profileForm.controls.email.errors
+                    }"
+                  />
+                </div>
+              </td>
+
+              <td>
+                <div class="input-group">
+                  <input
+                    placeholder="ULB Code"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.designation"
+                    [ngClass]="{
+                      'is-invalid':
+                        formErrors && profileForm.controls.designation.errors
+                    }"
+                  />
+                </div>
+              </td>
+
+              <td>
+                <div class="input-group">
+                  <input
+                    placeholder="STATUS"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.organisationName"
+                    [ngClass]="{
+                      'is-invalid':
+                        formErrors && profileForm.controls.name.errors
+                    }"
+                  />
+                </div>
+              </td>
+              <td>
+                <button
+                  class="btn btn-primary"
+                  (click)="searchUsersBy(filterForm)"
+                >
+                  Search
+                </button>
+              </td>
+            </tr>
+            <tr
+              style="background: 	#e7e7e7 ;border: 5px solid white"
+              *ngFor="let user of userList; let i = index"
+            >
+              <td class="text-center">{{ i + 1 }}</td>
+              <td class="text-center">name</td>
+              <td class="text-center">type</td>
+              <td class="text-center">Action</td>
+              <td class="text-center">Action</td>
+              <td class="text-center">Action</td>
+              <td class="text-center">Action</td>
+            </tr>
+          </tbody>
+        </table>
         <pagination-controls
           style="float: right; position: relative;"
           *ngIf="userList && userList.length"

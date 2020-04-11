@@ -11,6 +11,7 @@ import { UlbProfileComponent } from './ulb-profile/ulb-profile.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { StateProfileComponent } from './state-profile/state-profile.component';
 import { MohuaProfileComponent } from './mohua-profile/mohua-profile.component';
+import { ProfileRequestComponent } from './ulb-profile/profile-request/profile-request.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { MohuaProfileComponent } from './mohua-profile/mohua-profile.component';
     UlbProfileComponent,
     CommonProfileComponent,
     StateProfileComponent,
-    MohuaProfileComponent
+    MohuaProfileComponent,
+    ProfileRequestComponent
   ]
 })
 export class ProfileModule {}
