@@ -31,9 +31,9 @@ export class DataUploadActionComponent implements OnInit {
 
   completenessFormGroup: FormGroup;
   correctnessFormGroup: FormGroup;
-  completenessStatus: any = 'PENDING';
+  completenessStatus: any = UPLOAD_STATUS.PENDING;
   id: string;
-  correctnessStatus: string = 'PENDING';
+  correctnessStatus: string = UPLOAD_STATUS.PENDING;
   tabIndex = 0;
 
   constructor(public financeDataService: FinancialDataService,
@@ -111,7 +111,7 @@ export class DataUploadActionComponent implements OnInit {
             formControl.setValue(formGroupDataItem[keys[i]]);
             formControl.setValidators(Validators.required);
             formControl.updateValueAndValidity();
-            if ((i == 0 && formGroupDataItem[keys[i]] === 'PENDING') || (i == 1) && formGroupDataItem[keys[i]] === 'PENDING') {
+            if ((i == 0 && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) || (i == 1) && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
               continue;
             }
           }
