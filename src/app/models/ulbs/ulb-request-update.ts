@@ -31,7 +31,19 @@ export interface IULBProfileRequest {
   modifiedAt: string;
   createdAt: string;
   isActive: boolean;
-  ulb: string;
+  ulb: {
+    _id: string;
+    code: string;
+    name: string;
+    ulbType: {
+      _id: string;
+      name: string;
+    };
+  };
   actionTakenBy: string;
   __v: number;
+}
+
+export interface IFullULBProfileRequest extends IULBProfileRequest {
+  old: IULBProfileRequest;
 }

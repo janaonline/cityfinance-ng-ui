@@ -12,7 +12,14 @@ export class FormUtil {
   public getUserForm(purpose: "CREATION" | "EDIT" = "CREATION") {
     let form = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(/[a-zA-z]+/g)]],
-      mobile: ["", [Validators.required, Validators.minLength(10)]],
+      mobile: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.pattern(/[0-9]/g)
+        ]
+      ],
       email: ["", [Validators.required]],
       designation: [
         "",
@@ -81,12 +88,26 @@ export class FormUtil {
       state: ["", Validators.required],
       name: ["", [Validators.required]],
       email: ["", [Validators.required, Validators.email]],
-      mobile: ["", [Validators.required]],
+      mobile: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.pattern(/[0-9]/g)
+        ]
+      ],
       designation: ["", [Validators.required]],
       address: ["", [Validators.required]],
       departmentName: ["", Validators.required],
       departmentEmail: ["", [Validators.required, Validators.email]],
-      departmentContactNumber: ["", Validators.required]
+      departmentContactNumber: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.pattern(/[0-9]/g)
+        ]
+      ]
     });
 
     return form;

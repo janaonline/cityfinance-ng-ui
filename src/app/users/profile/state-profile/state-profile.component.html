@@ -1,6 +1,10 @@
 <h3>{{ profileData ? "Edit Profile" : "Create State" }}</h3>
 
-<form [formGroup]="profileForm" *ngIf="profileForm">
+<form
+  [formGroup]="profileForm"
+  *ngIf="profileForm"
+  (ngSubmit)="onFormSubmit(profileForm)"
+>
   <div class="input-group">
     <label for="state"
       >State
@@ -39,7 +43,9 @@
       type="text"
       formControlName="name"
       class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && lf.name.errors }"
+      [ngClass]="{
+        'is-invalid': formSubmitted && profileForm.controls.name.errors
+      }"
     />
   </div>
 
@@ -57,7 +63,9 @@
       type="email"
       formControlName="email"
       class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && lf.email.errors }"
+      [ngClass]="{
+        'is-invalid': formSubmitted && profileForm.controls.email.errors
+      }"
     />
   </div>
 
@@ -75,7 +83,9 @@
       type="text"
       formControlName="mobile"
       class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && lf.mobile.errors }"
+      [ngClass]="{
+        'is-invalid': formSubmitted && profileForm.controls.mobile.errors
+      }"
     />
   </div>
 
@@ -93,7 +103,9 @@
       type="text"
       formControlName="designation"
       class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && lf.designation.errors }"
+      [ngClass]="{
+        'is-invalid': formSubmitted && profileForm.controls.designation.errors
+      }"
     />
   </div>
 
@@ -111,7 +123,10 @@
       type="text"
       formControlName="departmentName"
       class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && lf.departmentName.errors }"
+      [ngClass]="{
+        'is-invalid':
+          formSubmitted && profileForm.controls.departmentName.errors
+      }"
     />
   </div>
 
@@ -129,7 +144,10 @@
       type="email"
       formControlName="departmentEmail"
       class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && lf.departmentEmail.errors }"
+      [ngClass]="{
+        'is-invalid':
+          formSubmitted && profileForm.controls.departmentEmail.errors
+      }"
     />
   </div>
 
@@ -150,7 +168,8 @@
       formControlName="departmentContactNumber"
       class="form-control"
       [ngClass]="{
-        'is-invalid': submitted && lf.departmentContactNumber.errors
+        'is-invalid':
+          formSubmitted && profileForm.controls.departmentContactNumber.errors
       }"
     />
   </div>
@@ -169,7 +188,9 @@
       type="text"
       formControlName="address"
       class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && lf.address.errors }"
+      [ngClass]="{
+        'is-invalid': formSubmitted && profileForm.controls.address.errors
+      }"
     />
   </div>
 
@@ -189,7 +210,9 @@
     {{ respone.successMessage }}
   </p>
 
-  <div class="input-group">
-    <button type="submit" class="btn btn-primary">Save Profile</button>
+  <div class="input-group d-block" style="display: block;">
+    <button type="submit" class="btn btn-primary">
+      {{ profileData ? "Save" : "Create" }}
+    </button>
   </div>
 </form>

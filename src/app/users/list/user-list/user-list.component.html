@@ -1,8 +1,25 @@
 <div class="common-container">
   <div class="container">
     <div class="row">
-      <div class="col-md-6">
-        <h3>{{ listType }} LIST</h3>
+      <div class="col-md-12">
+        <h3>
+          {{ listType }} LIST
+          <a
+            *ngIf="listType === userTypes.STATE"
+            class="btn btn-primary"
+            style="float: right;"
+            [routerLink]="['/', 'user', 'profile', 'create']"
+            [queryParams]="{ role: userTypes.STATE }"
+            >Create State</a
+          >
+          <!-- <button
+            class="btn btn-primary"
+            style="float: right;"
+            (click)="searchUsersBy(filterForm.value)"
+          >
+            Create State
+          </button> -->
+        </h3>
       </div>
       <!-- <div class="col-md-6">
       <button [routerLink]="['../onboard']" class="right btn btn-primary">Onboard User</button>
@@ -80,7 +97,7 @@
               <th>
                 <button
                   class="btn btn-primary"
-                  (click)="searchUsersBy(filterForm)"
+                  (click)="searchUsersBy(filterForm.value)"
                 >
                   Search
                 </button>
@@ -88,26 +105,56 @@
             </tr>
             <tr
               style="background: #009fe3;color: white ;border: 5px solid white"
+              class="sortable-headers"
             >
               <th class="text-center">S.No.</th>
-              <th class="text-center">User name</th>
-              <th class="text-center">Email ID</th>
-              <th class="text-center">Designation</th>
-              <th class="text-center">Organisation</th>
+              <th class="text-center" (click)="sortListBy('name')">
+                User name
+              </th>
+              <th class="text-center" (click)="sortListBy('email')">
+                Email ID
+              </th>
+              <th class="text-center" (click)="sortListBy('designation')">
+                Designation
+              </th>
+              <th class="text-center" (click)="sortListBy('organization')">
+                Organisation
+              </th>
               <th class="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr style="background: 	#e7e7e7 ;border: 5px solid white">
-              <td class="text-center">1</td>
-              <td class="text-center">name</td>
-              <td class="text-center">email</td>
-              <td class="text-center">desig</td>
-              <td class="text-center">orga</td>
+            <tr
+              *ngFor="
+                let user of userList
+                  | paginate
+                    : {
+                        id: 'foo',
+                        itemsPerPage: tableDefaultOptions.itemPerPage,
+                        currentPage: tableDefaultOptions.currentPage,
+                        totalItems: tableDefaultOptions.totalCount
+                      };
+                index as i
+              "
+              style="background: 	#e7e7e7 ;border: 5px solid white"
+            >
+              <td class="text-center">
+                {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+              </td>
+              <td class="text-center">{{ user.name }}</td>
+              <td class="text-center">{{ user.email }}</td>
+              <td class="text-center">{{ user.designation }}</td>
+              <td class="text-center">{{ user.organisation }}</td>
               <td class="text-center d-flex justify-content-center actionCell">
-                <i class="fa fa-eye" aria-hidden="true"></i>
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-                <i class="fa fa-trash" aria-hidden="true"></i>
+                <a
+                  [routerLink]="['/', 'user', 'profile', 'view']"
+                  [queryParams]="{ id: user._id, role: 'USER' }"
+                >
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+                <span class="ml-1 mr-1"> /</span>
+                <!-- <i class="fa fa-pencil" aria-hidden="true"></i> -->
+                <a> <i class="fa fa-trash" aria-hidden="true"></i></a>
               </td>
             </tr>
 
@@ -294,7 +341,7 @@
               <td>
                 <button
                   class="btn btn-primary"
-                  (click)="searchUsersBy(filterForm)"
+                  (click)="searchUsersBy(filterForm.value)"
                 >
                   Search
                 </button>
@@ -315,100 +362,16 @@
           </tbody>
         </table>
 
-        <table class="table" *ngIf="listType === userTypes.ULB">
+        <table class="table" *ngIf="listType === userTypes.STATE">
           <thead>
-            <!-- <tr *ngIf="filterForm">
-              <th></th>
-
-              <th>
-                <div class="input-group">
-                  <input
-                    placeholder="State"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.name"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.name.errors
-                    }"
-                  />
-                </div>
-              </th>
-
-              <th>
-                <div class="input-group">
-                  <input
-                    placeholder="ULB Name"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.email"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.email.errors
-                    }"
-                  />
-                </div>
-              </th>
-
-              <th>
-                <div class="input-group">
-                  <input
-                    placeholder="ULB Code"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.designation"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.designation.errors
-                    }"
-                  />
-                </div>
-              </th>
-              <th>
-                <div class="input-group">
-                  <input
-                    placeholder="Editted Field"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.organisationName"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.name.errors
-                    }"
-                  />
-                </div>
-              </th>
-              <th>
-                <div class="input-group">
-                  <input
-                    placeholder="STATUS"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.organisationName"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.name.errors
-                    }"
-                  />
-                </div>
-              </th>
-              <th>
-                <button
-                  class="btn btn-primary"
-                  (click)="searchUsersBy(filterForm)"
-                >
-                  Search
-                </button>
-              </th>
-            </tr> -->
             <tr
               style="background: #009fe3;color: white ;border: 5px solid white"
             >
               <th class="text-center">S.No.</th>
               <th class="text-center">State</th>
-              <th class="text-center">ULB Name</th>
-              <th class="text-center">ULB Code</th>
-              <th class="text-center">Status</th>
+              <th class="text-center">Username</th>
+              <th class="text-center">Email ID</th>
+              <th class="text-center">Designation</th>
               <th class="text-center">Action</th>
             </tr>
           </thead>
@@ -478,29 +441,41 @@
               <td>
                 <button
                   class="btn btn-primary"
-                  (click)="searchUsersBy(filterForm)"
+                  (click)="searchUsersBy(filterForm.value)"
                 >
                   Search
                 </button>
               </td>
             </tr>
+
             <tr
               style="background: 	#e7e7e7 ;border: 5px solid white"
-              *ngFor="let user of userList; let i = index"
+              *ngFor="
+                let user of userList
+                  | paginate
+                    : {
+                        id: 'foo',
+                        itemsPerPage: tableDefaultOptions.itemPerPage,
+                        currentPage: tableDefaultOptions.currentPage,
+                        totalItems: tableDefaultOptions.totalCount
+                      };
+                index as i
+              "
             >
               <td class="text-center">{{ i + 1 }}</td>
-              <td class="text-center">name</td>
-              <td class="text-center">type</td>
+              <td class="text-center">State Name</td>
+              <td class="text-center">Username</td>
+              <td class="text-center">EmailId</td>
+              <td class="text-center">Designation</td>
               <td class="text-center">Action</td>
-              <td class="text-center">Action</td>
-              <td class="text-center">Action</td>
-              <td class="text-center">Action</td>
+            </tr>
+            <tr *ngIf="userList && !userList.length">
+              <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
             </tr>
           </tbody>
         </table>
         <pagination-controls
           style="float: right; position: relative;"
-          *ngIf="userList && userList.length"
           id="foo"
           (pageChange)="setPage($event)"
           directionLinks="true"

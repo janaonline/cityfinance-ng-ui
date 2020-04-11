@@ -7,8 +7,8 @@ import { ProfileRequestComponent } from './ulb-profile/profile-request/profile-r
 // import {UsersComponent} from './users.component';
 
 const routes: Routes = [
-  { path: "", component: ProfileComponent, pathMatch: "full" },
-  { path: "request", component: ProfileRequestComponent, pathMatch: "full" }
+  { path: "request", component: ProfileRequestComponent, pathMatch: "full" },
+  { path: ":type", component: ProfileComponent, pathMatch: "full" }
   // {path: '', component: UsersComponent},
   // {path: 'ulbs', loadChildren: './ulbs/ulbs.module#UlbsModule'}
 ];

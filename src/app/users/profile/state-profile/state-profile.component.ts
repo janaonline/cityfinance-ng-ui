@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { USER_TYPE } from 'src/app/models/user/userType';
 
 import { IStateULBCovered } from '../../../shared/models/stateUlbConvered';
 import { CommonService } from '../../../shared/services/common.service';
@@ -22,12 +23,13 @@ export class StateProfileComponent implements OnInit {
   formErrors: string[];
 
   respone = { successMessage: null, errorMessage: null };
-  formSubmitted = true;
+  formSubmitted = false;
 
   constructor(
     private _commonService: CommonService,
     private _profileService: ProfileService
   ) {
+    console.log("this is state");
     this.fetchStateList();
     this.initializeForm();
   }
@@ -41,24 +43,34 @@ export class StateProfileComponent implements OnInit {
     });
   }
 
-  private onFormSubmit(form: FormGroup) {
+  public onFormSubmit(form: FormGroup) {
     this.resetResponseMessage();
+    this.formSubmitted = true;
+    this.formErrors = this.formUtil.validateStateForm(form);
+    if (this.formErrors) {
+      return;
+    }
+
     if (this.profileData) {
       return this.updateProfile(form);
     }
+
     this.createProfile(form);
   }
 
   private createProfile(form: FormGroup) {
-    this.formSubmitted = true;
-    this.formErrors = this.formUtil.validateStateForm(form);
-    if (this.formErrors && this.formErrors.length) {
-      return;
-    }
+    // this.formSubmitted = true;
+    // this.formErrors = this.formUtil.validateStateForm(form);
+    // if (this.formErrors && this.formErrors.length) {
+    //   return;
+    // }
+    const body = form.value;
+    body.role = USER_TYPE.STATE;
+    body.password = "";
 
-    this._profileService.createUser(form.value).subscribe(
+    this._profileService.createUser(body).subscribe(
       res => {
-        this.respone.successMessage = "State created successfully";
+        this.respone.successMessage = "Profile created successfully";
       },
       (err: HttpErrorResponse) =>
         (this.respone.errorMessage = err.error.msg || "Server Error")

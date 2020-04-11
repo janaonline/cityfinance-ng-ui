@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { UserService } from '../../../dashboard/user/user.service';
 import { UserProfile } from '../../profile/model/user-profile';
@@ -22,6 +23,20 @@ export class UserListComponent implements OnInit {
   listType: USER_TYPE;
 
   loggedInType: USER_TYPE;
+  currentSort = 1;
+
+  tableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null
+  };
+
+  listFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0
+  };
 
   constructor(
     private _userService: UserService,
@@ -33,17 +48,20 @@ export class UserListComponent implements OnInit {
     this._activatedRoute.params.subscribe(params => {
       this.initializeList(params.userType);
       this.initializeFilterForm();
+      this.initializeListFetchParams();
+
       const type = this._profileService.getLoggedInUserType();
       if (type === USER_TYPE.ULB) {
-        this.fetchULBProfileUpdateRequest();
+        return this.fetchULBProfileUpdateRequest();
       }
+      this.fetchList(this.listFetchOption);
     });
   }
 
   private fetchULBProfileUpdateRequest() {
-    this._profileService.getULBProfileUpdateRequestList().subscribe(res => {
-      console.log(res);
-    });
+    // this._profileService.getULBProfileUpdateRequestList().subscribe(res => {
+    //   console.log(res);
+    // });
   }
 
   private initializeList(type: USER_TYPE) {
@@ -57,20 +75,54 @@ export class UserListComponent implements OnInit {
     if (!this.listType) {
       return this._router.navigate(["/home"]);
     }
-    this.fetchList({ role: this.listType });
   }
 
   ngOnInit() {}
 
-  public searchUsersBy(params: {}) {
-    this.fetchList(params);
+  public searchUsersBy(filterForm: {}) {
+    this.listFetchOption.filter = filterForm;
+
+    this.fetchList({ ...(<any>this.listFetchOption) });
   }
 
-  setPage(pageNoClick: number) {}
+  sortListBy(key: string) {
+    this.currentSort = this.currentSort > 0 ? -1 : 1;
+    const values = {
+      filter: this.filterForm.value,
+      sort: { [key]: this.currentSort },
+      role: this.listType,
+      skip:
+        this.tableDefaultOptions.currentPage *
+        this.tableDefaultOptions.itemPerPage
+    };
+    this.listFetchOption = values;
+    this.searchUsersBy(values.filter);
+  }
 
-  private fetchList(body: { [key: string]: string } = {}) {
+  setPage(pageNoClick: number) {
+    console.log(pageNoClick);
+    this.tableDefaultOptions.currentPage = pageNoClick;
+    this.listFetchOption.skip =
+      (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+    this.searchUsersBy(this.filterForm.value);
+  }
+
+  private fetchList(
+    body: {
+      filter: { [key: string]: string };
+      sort: { [key: string]: number };
+      role?: USER_TYPE;
+    } = { filter: {}, sort: {} }
+  ) {
+    const util = new JSONUtility();
+    console.log({ ...body });
+    body.filter = util.filterEmptyValue(body.filter);
+
     this._userService.getUsers(body).subscribe(res => {
-      console.log(res);
+      if (res.hasOwnProperty("total")) {
+        console.log("has total key");
+        this.tableDefaultOptions.totalCount = res["total"];
+      }
       if (res["success"]) {
         this.userList = res["data"];
       } else {
@@ -104,5 +156,14 @@ export class UserListComponent implements OnInit {
       designation: [null],
       organisationName: [null]
     });
+  }
+
+  private initializeListFetchParams() {
+    this.listFetchOption = {
+      role: this.listType,
+      filter: this.filterForm ? this.filterForm.value : {},
+      sort: null,
+      skip: 0
+    };
   }
 }

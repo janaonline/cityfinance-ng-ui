@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { IULBProfileRequest, IULBProfileRequestResponse } from 'src/app/models/ulbs/ulb-request-update';
+import { IFullULBProfileRequest, IULBProfileRequestResponse } from 'src/app/models/ulbs/ulb-request-update';
 
 import { environment } from '../../../../environments/environment';
 import { IULBTypeListResponse } from '../../../models/ulbs/type';
@@ -41,10 +41,10 @@ export class ProfileService {
   }
 
   createUser(body: { [key: string]: string }) {
-    return this._htttp.post(`${environment.api.url}user/create`, {
-      body
-    });
+    return this._htttp.post(`${environment.api.url}user/create`, body);
   }
+
+  createProfile() {}
 
   updateUserProfileData(data: {}) {
     return this._htttp.put(`${environment.api.url}user/profile`, {
@@ -56,18 +56,20 @@ export class ProfileService {
     return this._htttp.post(`${environment.api.url}ulb-update-request`, body);
   }
 
-  getULBProfileUpdateRequestList() {
-    return this._htttp.get<IULBProfileRequestResponse>(
-      `${environment.api.url}ulb-update-request`
+  getULBProfileUpdateRequestList(body) {
+    console.log(`service `, body);
+    return this._htttp.post<IULBProfileRequestResponse>(
+      `${environment.api.url}ulb-update-request/list`,
+      body
     );
   }
 
   getULBProfileUpdateRequest(requestId: string) {
     return this._htttp
-      .get<IULBProfileRequest>(
+      .get<IFullULBProfileRequest>(
         `${environment.api.url}ulb-update-request/${requestId}`
       )
-      .pipe(map(res => <IULBProfileRequest>res["data"]));
+      .pipe(map(res => <IFullULBProfileRequest>res["data"]));
   }
 
   updateULBProfileRequest(params: { status: string; id: string }) {

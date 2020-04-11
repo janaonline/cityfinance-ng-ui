@@ -3,178 +3,145 @@
 </h3>
 
 <div *ngIf="request">
+  <button class="back_button mb-2" (click)="window.history.back()">Back</button>
+
   <table style="width: 70%;">
     <thead>
       <tr>
         <th>Sr No</th>
         <th>Field Name</th>
         <th>Current Value</th>
-        <th>New Request Value</th>
+        <th>New Requested Value</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngIf="request.accountantConatactNumber">
         <td>1.</td>
         <td>Accountant Contact Number</td>
-        <td></td>
+        <td>{{ request.old.accountantConatactNumber }}</td>
         <td>{{ request.accountantConatactNumber }}</td>
       </tr>
       <tr *ngIf="request.accountantEmail">
         <td>2.</td>
         <td>Accountant Email ID</td>
-        <td></td>
+        <td>{{ request.old.accountantEmail }}</td>
         <td>{{ request.accountantEmail }}</td>
       </tr>
       <tr *ngIf="request.accountantName">
         <td>3.</td>
         <td>Accountant Name</td>
-        <td></td>
+        <td>{{ request.old.accountantName }}</td>
         <td>{{ request.accountantName }}</td>
       </tr>
       <tr *ngIf="request.commissionerConatactNumber">
         <td>4.</td>
         <td>Commissioner Conatact Number</td>
-        <td></td>
+        <td>{{ request.old.commissionerConatactNumber }}</td>
         <td>{{ request.commissionerConatactNumber }}</td>
       </tr>
       <tr *ngIf="request.commissionerEmail">
         <td>5.</td>
         <td>Commissioner Email</td>
-        <td></td>
+        <td>{{ request.old.commissionerEmail }}</td>
         <td>{{ request.commissionerEmail }}</td>
       </tr>
       <tr *ngIf="request.commissionerName">
         <td>6.</td>
         <td>Commissioner Name</td>
-        <td></td>
+        <td>{{ request.old.commissionerName }}</td>
         <td>{{ request.commissionerName }}</td>
       </tr>
       <tr *ngIf="request.area">
         <td>7.</td>
         <td>Area</td>
+        <td>{{ request.old.area }}</td>
         <td>{{ request.area }}</td>
       </tr>
       <tr *ngIf="request.population">
         <td>8.</td>
         <td>Population</td>
-        <td></td>
+        <td>{{ request.old.population }}</td>
         <td>{{ request.population }}</td>
       </tr>
-      <tr *ngIf="request.wards">
+      <tr *ngIf="request.wards || request.wards === 0">
         <td>9</td>
         <td>No of Wards</td>
-        <td></td>
+        <td>{{ request.old["ulb"].wards }}</td>
         <td>{{ request.wards }}</td>
       </tr>
       <tr *ngIf="request.commissionerName">
         <td>10</td>
         <td>Commissioner Name</td>
-        <td></td>
+        <td>{{ request.old.commissionerName }}</td>
         <td>{{ request.commissionerName }}</td>
       </tr>
       <tr *ngIf="request.ulbType">
         <td>11</td>
         <td>ULB Type</td>
-        <td></td>
-        <td>{{ request.ulbType }}</td>
+        <td>{{ request.old.ulb.ulbType.name }}</td>
+        <td>{{ request.ulb.ulbType.name }}</td>
       </tr>
+      <!-- <tr *ngIf="request.ulbType">
+        <td>11</td>
+        <td>ULB Type</td>
+        <td>{{ request.old.ulb.ulbType.name }}</td>
+        <td>{{ request.ulb.ulbType.name }}</td>
+      </tr> -->
     </tbody>
   </table>
 </div>
 
-<div *ngIf="requestList">
+<div *ngIf="requestList" style="width: 90%">
   <table class="table listing-table">
     <thead>
       <tr style="background: #009fe3;color: white ;border: 5px solid white">
         <th class="text-center">S.No.</th>
         <th class="text-center">Request Created On</th>
-        <th class="text-center">Status</th>
+        <th class="text-center" (click)="sortListBy('status')">Status</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngIf="filterForm">
         <td></td>
+        <td></td>
 
         <td>
-          <div class="input-group">
-            <input
-              placeholder="State"
-              type="text"
-              class="form-control"
-              [formControl]="filterForm.controls.name"
-              [ngClass]="{
-                'is-invalid': formErrors && profileForm.controls.name.errors
-              }"
-            />
-          </div>
-        </td>
-
-        <td>
-          <div class="input-group">
-            <input
-              placeholder="ULB Name"
-              type="text"
-              class="form-control"
-              [formControl]="filterForm.controls.email"
-              [ngClass]="{
-                'is-invalid': formErrors && profileForm.controls.email.errors
-              }"
-            />
-          </div>
-        </td>
-
-        <td>
-          <div class="input-group">
-            <input
-              placeholder="ULB Code"
-              type="text"
-              class="form-control"
-              [formControl]="filterForm.controls.designation"
-              [ngClass]="{
-                'is-invalid':
-                  formErrors && profileForm.controls.designation.errors
-              }"
-            />
-          </div>
-        </td>
-        <td>
-          <div class="input-group">
-            <input
-              placeholder="Editted Field"
-              type="text"
-              class="form-control"
-              [formControl]="filterForm.controls.organisationName"
-              [ngClass]="{
-                'is-invalid': formErrors && profileForm.controls.name.errors
-              }"
-            />
-          </div>
-        </td>
-        <td>
-          <div class="input-group">
+          <div class="input-group" style="margin: auto;">
             <input
               placeholder="STATUS"
-              type="text"
+              type="status"
               class="form-control"
-              [formControl]="filterForm.controls.organisationName"
-              [ngClass]="{
-                'is-invalid': formErrors && profileForm.controls.name.errors
-              }"
+              [formControl]="filterForm.controls.status"
             />
           </div>
         </td>
         <td>
-          <button class="btn btn-primary" (click)="searchUsersBy(filterForm)">
+          <button
+            class="btn btn-primary"
+            (click)="searchUsersBy(filterForm.value)"
+          >
             Search
           </button>
         </td>
       </tr>
       <tr
         style="background: 	#e7e7e7 ;border: 5px solid white"
-        *ngFor="let request of requestList; let i = index"
+        *ngFor="
+          let request of requestList
+            | paginate
+              : {
+                  id: 'foo',
+                  itemsPerPage: tableDefaultOptions.itemPerPage,
+                  currentPage: tableDefaultOptions.currentPage,
+                  totalItems: tableDefaultOptions.totalCount
+                };
+          index as i
+        "
       >
-        <td class="text-center">{{ i + 1 }}</td>
+        <td class="text-center">
+          {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+        </td>
         <td class="text-center">
           {{ request.createdAt | date: "mediumDate" }}
         </td>
@@ -183,34 +150,58 @@
           <a [routerLink]="['./']" [queryParams]="{ requestId: request._id }">
             <i class="fa fa-eye" aria-hidden="true" title="View Request"></i
           ></a>
-          /
-
-          <i
-            class="fa fa-times"
-            aria-hidden="true"
-            title="Cancel Request"
-            (click)="openRequestCancelPopup(cancelRequestPopup, request._id)"
-          ></i>
+          <span *ngIf="request.status === REQUEST_STATUS.PENDING">
+            /
+            <i
+              class="fa fa-times"
+              aria-hidden="true"
+              title="Cancel Request"
+              (click)="openRequestCancelPopup(cancelRequestPopup, request._id)"
+            ></i>
+          </span>
         </td>
       </tr>
     </tbody>
   </table>
+  <pagination-controls
+    style="float: right; position: relative;"
+    id="foo"
+    (pageChange)="setPage($event)"
+    directionLinks="true"
+    autoHide="false"
+    previousLabel="Previous"
+    nextLabel="Next"
+    screenReaderPaginationLabel="Pagination"
+    screenReaderPageLabel="page"
+    screenReaderCurrentLabel="You're on page"
+  >
+  </pagination-controls>
 </div>
 
 <ng-template #cancelRequestPopup>
   <div class="modal-body">
-    <p style="margin:auto">Are you sure you want to cancel the request?</p>
+    <p
+      style="margin: 3% auto;
+    text-align: center;"
+    >
+      Are you sure you want to cancel the request?
+    </p>
 
     <div style="display: flex;width: 100%;justify-content: center;">
       <button
         class="btn btn-primary"
-        (click)="updateRequest()"
-        style="margin-left: 2%;"
+        (click)="
+          updateRequest({
+            status: REQUEST_STATUS.CANCELLED,
+            id: requestIDToCancel
+          })
+        "
+        style="margin-right: 2%;"
       >
         Yes
       </button>
 
-      <button class="btn btn-primary" (click)="modalService.hide()">
+      <button class="btn btn-primary" (click)="modalService.hide(1)">
         No
       </button>
     </div>
