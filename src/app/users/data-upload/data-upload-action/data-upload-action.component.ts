@@ -12,7 +12,6 @@ import {UPLOAD_STATUS} from '../../../util/enums';
 })
 export class DataUploadActionComponent implements OnInit {
 
-
   fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance', 'auditReport'];
   financialYearDropdown = [
     {id: '2015-16', itemName: '2015-16'},
@@ -41,48 +40,24 @@ export class DataUploadActionComponent implements OnInit {
               public location: Location,
               private fb: FormBuilder,
               private activatedRoute: ActivatedRoute, private router: Router) {
-    this.completenessFormGroup = this.fb.group({
-      balanceSheet: new FormGroup({
-        completeness: new FormControl(),
-      }),
-      schedulesToBalanceSheet: new FormGroup({
-        completeness: new FormControl(),
-      }),
-      incomeAndExpenditure: new FormGroup({
-        completeness: new FormControl(),
-      }),
-      schedulesToIncomeAndExpenditure: new FormGroup({
-        completeness: new FormControl(),
-      }),
-      trialBalance: new FormGroup({
-        completeness: new FormControl(),
-      }),
-      auditReport: new FormGroup({
-        completeness: new FormControl(),
-      })
-    });
+    this.createForms();
 
-    this.correctnessFormGroup = this.fb.group({
-      balanceSheet: new FormGroup({
-        correctness: new FormControl(),
-      }),
-      schedulesToBalanceSheet: new FormGroup({
-        correctness: new FormControl(),
-      }),
-      incomeAndExpenditure: new FormGroup({
-        correctness: new FormControl(),
-      }),
-      schedulesToIncomeAndExpenditure: new FormGroup({
-        correctness: new FormControl(),
-      }),
-      trialBalance: new FormGroup({
-        correctness: new FormControl(),
-      }),
-      auditReport: new FormGroup({
-        correctness: new FormControl(),
-      })
-    });
+  }
 
+  createForms() {
+    this.completenessFormGroup = this.fb.group({});
+    this.correctnessFormGroup = this.fb.group({});
+
+    this.fileFormGroupKeys.forEach(formGroupKey => {
+      this.completenessFormGroup.addControl(formGroupKey, new FormGroup({
+        completeness: new FormControl(),
+        message: new FormControl()
+      }));
+      this.correctnessFormGroup.addControl(formGroupKey, new FormGroup({
+        correctness: new FormControl(),
+        message: new FormControl()
+      }));
+    });
   }
 
   ngOnInit() {
