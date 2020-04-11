@@ -9,6 +9,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {AccessChecker} from '../../util/access/accessChecker';
 import {MODULES_NAME} from '../../util/access/modules';
 import {ACTIONS} from '../../util/access/actions';
+import {UserUtility} from '../../util/user/user';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-data-upload',
@@ -18,11 +20,13 @@ import {ACTIONS} from '../../util/access/actions';
 export class DataUploadComponent implements OnInit {
 
   id = null;
+  uploadId = null;
+  uploadObject = null;
   tableHeaders = ulbUploadList;
   financialYearDropdown = [
     {id: '2015-16', itemName: '2015-16'},
-    {id: '2016-17', itemName: '2016-17'}
-    // {id: '2017-18', itemName: '2017-18'}
+    {id: '2016-17', itemName: '2016-17'},
+    {id: '2017-18', itemName: '2017-18'}
   ];
   auditStatusDropdown = [{
     id: 'true',
@@ -31,12 +35,14 @@ export class DataUploadComponent implements OnInit {
     id: 'false',
     itemName: 'Unaudited'
   }];
-  auditReportFormControl = new FormControl();
-
+  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance'];
   fileFormGroup: FormGroup;
-
   dataUploadList = [];
   isAccessible: boolean;
+  financialYearDropdownSettings: any = {singleSelection: true, text: 'Select Year'};
+  auditStatusDropdownSettings: any = {singleSelection: true, text: 'Select Year'};
+  completenessStatus = 'PENDING';
+  correctnessStatus = 'PENDING';
 
 
   constructor(public activatedRoute: ActivatedRoute,
@@ -44,14 +50,17 @@ export class DataUploadComponent implements OnInit {
               public location: Location,
               public dataUploadService: DataEntryService,
               private financialDataService: FinancialDataService,
-              public accessUtil: AccessChecker) {
-
+              public accessUtil: AccessChecker,
+              public userUtil: UserUtility,
+              private _snackBar: MatSnackBar) {
     this.isAccessible = accessUtil.hasAccess({moduleName: MODULES_NAME.ULB_DATA_UPLOAD, action: ACTIONS.UPLOAD});
-
     this.activatedRoute.params.subscribe(val => {
-      const {id} = val;
+      const {id, uploadId} = val;
       if (id) {
         this.id = id;
+      }
+      if (uploadId) {
+        this.uploadId = uploadId;
       }
     });
     this.fileFormGroup = new FormGroup({
@@ -76,7 +85,7 @@ export class DataUploadComponent implements OnInit {
         file_pdf: new FormControl(null, [Validators.required]),
         file_excel: new FormControl(null, [Validators.required])
       }),
-      auditReportFormControl: new FormGroup({
+      auditReport: new FormGroup({
         file_pdf: new FormControl()
       }),
       auditStatus: new FormControl('', [Validators.required])
@@ -88,30 +97,35 @@ export class DataUploadComponent implements OnInit {
     if (!this.id) {
       this.getFinancialData();
     }
-
+    if (this.uploadId) {
+      this.getFinancialData({_id: this.uploadId});
+    }
   }
 
-  getFinancialData() {
+  getFinancialData(params = {}) {
     this.financialDataService
-      .fetchFinancialData()
+      .fetchFinancialData(params)
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
   handleResponseSuccess = (response) => {
-    this.dataUploadList = response.data;
+    if (this.uploadId) {
+      this.uploadObject = response.data;
+      this.updateFormControls();
+    } else {
+      this.dataUploadList = response.data;
+
+    }
   };
 
   handleResponseFailure = (error) => {
-    console.log(error);
   };
 
-
-  async submitClickHandler() {
-
+  async submitClickHandler(event) {
+    event.disabled = true;
     let urlObject = {};
-
     for (let parentFormGroup in this.fileFormGroup.controls) {
-      if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReportFormControl') {
+      if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReport') {
         const formGroup = this.fileFormGroup.get(parentFormGroup);
         urlObject[parentFormGroup] = {};
         const files = formGroup.value;
@@ -130,9 +144,11 @@ export class DataUploadComponent implements OnInit {
                 let fileUploadResponse = await this.dataUploadService.uploadFileToS3(files[fileKey], url).toPromise();
               }
             } catch (e) {
+              event.disabled = false;
               formControl.setErrors(['File Upload Error']);
             }
-          } else {
+          } else if (formControl.validator) {
+            event.disabled = false;
             formControl.setErrors(['Please select file']);
           }
         }
@@ -149,9 +165,12 @@ export class DataUploadComponent implements OnInit {
           this.router.navigate(['/users/data-upload']);
         }
       }, (error: HttpErrorResponse) => {
-        console.log(error);
+        event.disabled = false;
+        const {message} = error;
+        this._snackBar.open(message, null, {duration: 1600});
       }
     );
+    event.disabled = false;
   }
 
   handleFileChange(strings: string[], file: File) {
@@ -161,5 +180,90 @@ export class DataUploadComponent implements OnInit {
 
   navigateTo(row: any) {
     this.financialDataService.selectedFinancialRequest = row;
+  }
+
+  private updateFormControls() {
+    const {financialYear, audited, completeness: completenessOverAll, correctness: correctnessOverAll} = this.uploadObject;
+    this.completenessStatus = completenessOverAll;
+    this.correctnessStatus = correctnessOverAll;
+    const selectedFinancialYearObject = this.financialYearDropdown.filter((item) => item.id === financialYear);
+    if (selectedFinancialYearObject) {
+      this.fileFormGroup.get('financialYear').setValue(selectedFinancialYearObject);
+      this.fileFormGroup.get('financialYear').disable();
+      this.financialYearDropdownSettings = {...this.financialYearDropdownSettings, disabled: true};
+    }
+    if (audited) {
+      this.fileFormGroup.get(['auditStatus']).setValue([this.auditStatusDropdown[0]]);
+    } else {
+      this.fileFormGroup.get(['auditStatus']).setValue([this.auditStatusDropdown[1]]);
+    }
+    this.auditStatusDropdownSettings = {...this.auditStatusDropdownSettings, disabled: true};
+    this.fileFormGroupKeys.forEach(formGroupKey => {
+      let formGroupDataObject = this.uploadObject[formGroupKey];
+      let formGroupItem = this.fileFormGroup.get([formGroupKey]);
+      const {completeness, correctness} = formGroupDataObject;
+      if (correctnessOverAll === 'REJECTED' || completenessOverAll === 'REJECTED') {
+        if (completeness === 'REJECTED' || correctness === 'REJECTED') {
+          console.log('here', formGroupItem, formGroupKey);
+          formGroupItem.enable();
+        } else {
+          formGroupItem.disable();
+          formGroupItem.setErrors(null);
+          formGroupItem.updateValueAndValidity();
+        }
+      } else {
+        formGroupItem.disable();
+        formGroupItem.setErrors(null);
+        formGroupItem.updateValueAndValidity();
+      }
+      console.log(this.fileFormGroup);
+    });
+
+  }
+
+  async updateClickHandler(updateButton: HTMLButtonElement) {
+    updateButton.disabled = true;
+    let urlObject = {};
+    for (let parentFormGroup in this.fileFormGroup.controls) {
+      if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReport') {
+        const formGroup = this.fileFormGroup.get(parentFormGroup);
+        if (!formGroup.disabled) {
+          urlObject[parentFormGroup] = {};
+          const files = formGroup.value;
+          for (let fileKey in files) {
+            let fileUrlKey = fileKey.includes('pdf') ? 'pdfUrl' : 'excelUrl';
+            urlObject[parentFormGroup][fileUrlKey] = '';
+            const formControl = formGroup.get(fileKey);
+            if (files[fileKey]) {
+              try {
+                let {name, type} = files[fileKey];
+                let urlResponse: any = await this.dataUploadService.getURLForFileUpload(name, type).toPromise();
+                if (urlResponse.success) {
+                  let {url, file_alias} = urlResponse.data[0];
+                  urlObject[parentFormGroup][fileUrlKey] = file_alias;
+                  url = url.replace('admin/', '');
+                  let fileUploadResponse = await this.dataUploadService.uploadFileToS3(files[fileKey], url).toPromise();
+                }
+              } catch (e) {
+                updateButton.disabled = false;
+                formControl.setErrors(['File Upload Error']);
+              }
+            } else if (formControl.validator) {
+              updateButton.disabled = false;
+              formControl.setErrors(['Please select file']);
+            }
+          }
+        }
+      }
+    }
+    this.financialDataService.upDateFinancialData(this.uploadId, urlObject).subscribe((result) => {
+      console.log(result);
+      if (result['success']) {
+        this.router.navigate(['/user/data-upload']);
+      }
+    }, error => {
+      console.log(error);
+    });
+    updateButton.disabled = false;
   }
 }

@@ -1,6 +1,33 @@
-.side-menu {
-  background: lightgray;
-  max-height: 100vh;
+
+.side-menu-wrapper {
+  border-radius: 1rem;
+  background: #333;
   overflow: auto;
-  height: fit-content
+  max-height: 80vh;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  border: .1rem solid lightgray;
+
+  & .side-menu-content {
+    background: lightgray;
+    color: #333;
+    flex: 1;
+
+    &.side-bar-section {
+      color: inherit;
+    }
+  }
+}
+
+.bg-black {
+  background: #333;
+  color: white;
+}
+
+.active {
+  background: white;
+  color: black;
+  border-left: .4rem solid #009fe3;
 }
