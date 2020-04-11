@@ -30,6 +30,7 @@ export class RegisterComponent implements OnInit {
   public ulbCodeError;
   public isCheckingULBCode = false;
   private ulb;
+  public ulbList: any[];
 
   constructor(
     private authService: AuthService,
@@ -122,6 +123,12 @@ export class RegisterComponent implements OnInit {
   }
 
   private listenToULBControls() {
+    this.registrationForm.controls.state.valueChanges.subscribe(stateId => {
+      this._coomonService.getULBByStateCode(stateId).subscribe(res => {
+        this.ulbList = res["data"];
+      });
+    });
+
     combineLatest([
       this.registrationForm.controls.ulb.valueChanges,
       this.registrationForm.controls.name.valueChanges

@@ -62,6 +62,10 @@ export class CommonService {
     return this.http.get(`${environment.api.url}ulb-by-code?code=${code}`);
   }
 
+  getULBByStateCode(stateID: string) {
+    return this.http.get(`${environment.api.url}/${stateID}`);
+  }
+
   getAllUlbs() {
     return this.http.get<IULBResponse>(environment.api.url + "ulbs");
   }

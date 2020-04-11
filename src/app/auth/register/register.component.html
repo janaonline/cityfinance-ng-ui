@@ -193,13 +193,30 @@
               <span class="input-group-addon"
                 ><i class="glyphicon glyphicon-lock"></i
               ></span>
-              <input
+              <select
+                name="ulb"
+                id="ulb"
+                [formControl]="registrationForm.controls['name']"
+                class="form-control"
+                placeholder="ULB"
+                [ngClass]="{
+                  'is-invalid': formSubmitted && profile?.controls?.name.errors
+                }"
+              >
+                <option value="" selected disabled>
+                  ULB
+                </option>
+                <option *ngFor="let ulb of ulbList" [value]="ulb.name">
+                  {{ ulb.name }}
+                </option>
+              </select>
+              <!-- <input
                 id="email"
                 type="text"
                 class="form-control"
                 [formControl]="registrationForm.controls['name']"
                 placeholder="ULB Name"
-              />
+              /> -->
             </div>
 
             <div class="input-group">

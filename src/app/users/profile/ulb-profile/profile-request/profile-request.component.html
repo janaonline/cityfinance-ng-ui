@@ -8,7 +8,6 @@
   <table style="width: 70%;">
     <thead>
       <tr>
-        <th>Sr No</th>
         <th>Field Name</th>
         <th>Current Value</th>
         <th>New Requested Value</th>
@@ -16,67 +15,56 @@
     </thead>
     <tbody>
       <tr *ngIf="request.accountantConatactNumber">
-        <td>1.</td>
         <td>Accountant Contact Number</td>
         <td>{{ request.old.accountantConatactNumber }}</td>
         <td>{{ request.accountantConatactNumber }}</td>
       </tr>
       <tr *ngIf="request.accountantEmail">
-        <td>2.</td>
         <td>Accountant Email ID</td>
         <td>{{ request.old.accountantEmail }}</td>
         <td>{{ request.accountantEmail }}</td>
       </tr>
       <tr *ngIf="request.accountantName">
-        <td>3.</td>
         <td>Accountant Name</td>
         <td>{{ request.old.accountantName }}</td>
         <td>{{ request.accountantName }}</td>
       </tr>
       <tr *ngIf="request.commissionerConatactNumber">
-        <td>4.</td>
         <td>Commissioner Conatact Number</td>
         <td>{{ request.old.commissionerConatactNumber }}</td>
         <td>{{ request.commissionerConatactNumber }}</td>
       </tr>
       <tr *ngIf="request.commissionerEmail">
-        <td>5.</td>
         <td>Commissioner Email</td>
         <td>{{ request.old.commissionerEmail }}</td>
         <td>{{ request.commissionerEmail }}</td>
       </tr>
       <tr *ngIf="request.commissionerName">
-        <td>6.</td>
         <td>Commissioner Name</td>
         <td>{{ request.old.commissionerName }}</td>
         <td>{{ request.commissionerName }}</td>
       </tr>
       <tr *ngIf="request.area">
-        <td>7.</td>
         <td>Area</td>
         <td>{{ request.old.area }}</td>
         <td>{{ request.area }}</td>
       </tr>
       <tr *ngIf="request.population">
-        <td>8.</td>
         <td>Population</td>
         <td>{{ request.old.population }}</td>
         <td>{{ request.population }}</td>
       </tr>
       <tr *ngIf="request.wards || request.wards === 0">
-        <td>9</td>
         <td>No of Wards</td>
         <td>{{ request.old["ulb"].wards }}</td>
         <td>{{ request.wards }}</td>
       </tr>
       <tr *ngIf="request.commissionerName">
-        <td>10</td>
         <td>Commissioner Name</td>
         <td>{{ request.old.commissionerName }}</td>
         <td>{{ request.commissionerName }}</td>
       </tr>
       <tr *ngIf="request.ulbType">
-        <td>11</td>
         <td>ULB Type</td>
         <td>{{ request.old.ulb.ulbType.name }}</td>
         <td>{{ request.ulb.ulbType.name }}</td>

@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { USER_TYPE } from '../models/user/userType';
 import { ILink } from '../shared/side-menu/side-menu.component';
+import { AccessChecker } from '../util/access/accessChecker';
+import { ACTIONS } from '../util/access/actions';
+import { MODULES_NAME } from '../util/access/modules';
 
 @Component({
   selector: "app-users",
@@ -9,10 +12,21 @@ import { ILink } from '../shared/side-menu/side-menu.component';
   styleUrls: ["./users.component.scss"]
 })
 export class UsersComponent implements OnInit {
+  accessChecker = new AccessChecker();
   sideMenuContent: ILink[] = [
     { title: "ULB", type: "link", route: ["/user/data-upload"] },
     { title: "Links to User Module", type: "other", route: [] },
-    { title: "State", type: "link", route: [`/user/list/${USER_TYPE.STATE}`] },
+    {
+      title: "State",
+      type: "link",
+      route: [`/user/list/${USER_TYPE.STATE}`],
+      condition: () => {
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.STATE
+        });
+      }
+    },
     {
       title: "ULB Profile Edit",
       type: "link",
@@ -21,7 +35,13 @@ export class UsersComponent implements OnInit {
     {
       title: "Users",
       type: "link",
-      route: [`/user/list/${USER_TYPE.USER}`]
+      route: [`/user/list/${USER_TYPE.USER}`],
+      condition: () => {
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.USERLIST
+        });
+      }
     }
   ];
 

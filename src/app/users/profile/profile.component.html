@@ -6,7 +6,7 @@
     [profileData]="profileData"
   ></app-user-profile>
   <app-ulb-profile
-    *ngIf="showProfileComponent"
+    *ngIf="profileData && profileData.role === USER_TYPE.ULB"
     [profileData]="profileData"
   ></app-ulb-profile>
   <!-- <app-common-profile></app-common-profile> -->

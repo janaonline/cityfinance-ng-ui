@@ -35,6 +35,8 @@ export class ProfileComponent implements OnInit {
     this._activatedRoute.params.subscribe(params => {
       this.initializeFilterForm();
       this.profileMode = params.type;
+      console.log(params);
+      console.log(params);
 
       this._activatedRoute.queryParams.subscribe(queryParams => {
         const param = { id: null, role: null };
@@ -62,9 +64,9 @@ export class ProfileComponent implements OnInit {
   fetchProfileData(params: {}) {
     this._profileService.getUserProfile(params).subscribe(res => {
       this.profileData = res["data"];
-      console.log(res["data"]);
+      console.log({ ...res["data"] });
       this.userType = res["data"].role;
-      this.profileData.role = params["role"];
+      // this.profileData.role = params["role"];
       // this.showProfileComponent = true;
 
       // if (this.userType === USER_TYPE.ULB) {
