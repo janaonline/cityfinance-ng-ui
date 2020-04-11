@@ -24,6 +24,7 @@ export class FileStatusCheckerInputComponent implements OnInit {
 
 
   ngOnInit() {
+    console.log(this.config.formGroup);
   }
 
   fileButtonClickHandler(formGroupNameKey: string, fileUrl: string) {

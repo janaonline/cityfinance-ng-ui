@@ -57,6 +57,7 @@ export class DataUploadActionComponent implements OnInit {
         message: new FormControl()
       }));
     });
+    console.log(this.correctnessFormGroup.value, this.completenessFormGroup.value);
   }
 
   ngOnInit() {
@@ -104,15 +105,19 @@ export class DataUploadActionComponent implements OnInit {
         const {excelUrl, pdfUrl} = formGroupDataItem;
         let formControls = [this.getCompletenessFormControl(formGroupKey), this.getCorrectnessFormControl(formGroupKey)];
         let keys = ['completeness', 'correctness'];
-        formControls.forEach((formControl, index) => {
+        for (let i = 0; i < formControls.length; i++) {
+          const formControl = formControls[i];
           if (excelUrl || pdfUrl) {
-            formControl.setValue(formGroupDataItem[keys[index]]);
+            formControl.setValue(formGroupDataItem[keys[i]]);
             formControl.setValidators(Validators.required);
             formControl.updateValueAndValidity();
-          } else {
-            formControl.disable();
+            if ((i == 0 && formGroupDataItem[keys[i]] === 'PENDING') || (i == 1) && formGroupDataItem[keys[i]] === 'PENDING') {
+              continue;
+            }
           }
-        });
+          formControl.disable();
+          formControl.updateValueAndValidity();
+        }
       }
     });
     this.updateTabIndex(data);
