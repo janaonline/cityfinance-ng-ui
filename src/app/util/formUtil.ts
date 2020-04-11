@@ -1,6 +1,6 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { mobileNoValidator } from './formValidators';
+import { customEmailValidator, mobileNoValidator } from './formValidators';
 import { PasswordValidator } from './passwordValidator';
 
 export class FormUtil {
@@ -12,15 +12,11 @@ export class FormUtil {
   public getUserForm(purpose: "CREATION" | "EDIT" = "CREATION") {
     let form = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(/[a-zA-z]+/g)]],
-      mobile: [
+      mobile: ["", [Validators.required, mobileNoValidator]],
+      email: [
         "",
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.pattern(/[0-9]/g)
-        ]
+        [Validators.required, Validators.email, customEmailValidator]
       ],
-      email: ["", [Validators.required]],
       designation: [
         "",
         [Validators.required, Validators.pattern(/[a-zA-z]+/g)]
@@ -53,10 +49,16 @@ export class FormUtil {
       ],
       name: ["", Validators.required],
 
-      commissionerEmail: ["", [Validators.required, Validators.email]],
+      commissionerEmail: [
+        "",
+        [Validators.required, Validators.email, customEmailValidator]
+      ],
       accountantName: ["", [Validators.required]],
       accountantConatactNumber: ["", [Validators.required, mobileNoValidator]],
-      accountantEmail: ["", [Validators.required, Validators.email]]
+      accountantEmail: [
+        "",
+        [Validators.required, Validators.email, customEmailValidator]
+      ]
     });
     if (purpose === "CREATION") {
       return this.fb.group({
@@ -87,27 +89,19 @@ export class FormUtil {
     const form = this.fb.group({
       state: ["", Validators.required],
       name: ["", [Validators.required]],
-      email: ["", [Validators.required, Validators.email]],
-      mobile: [
+      email: [
         "",
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.pattern(/[0-9]/g)
-        ]
+        [Validators.required, Validators.email, customEmailValidator]
       ],
+      mobile: ["", [Validators.required, mobileNoValidator]],
       designation: ["", [Validators.required]],
       address: ["", [Validators.required]],
       departmentName: ["", Validators.required],
-      departmentEmail: ["", [Validators.required, Validators.email]],
-      departmentContactNumber: [
+      departmentEmail: [
         "",
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.pattern(/[0-9]/g)
-        ]
-      ]
+        [Validators.required, Validators.email, customEmailValidator]
+      ],
+      departmentContactNumber: ["", [Validators.required, mobileNoValidator]]
     });
 
     return form;
