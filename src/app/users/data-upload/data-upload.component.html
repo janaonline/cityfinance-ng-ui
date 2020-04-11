@@ -194,13 +194,11 @@
                   <h4>Trial Balance <span class="text-danger">*</span></h4>
                 </div>
                 <div class="col-sm-12 d-flex justify-content-between">
-                  <input
-                    (change)="handleFileChange(['trialBalance','file_pdf'],$event.target.files[0])"
-                    #trialBalancePdf type="file" style="display: none" accept=".pdf">
+                  <input (change)="handleFileChange(['trialBalance','file_pdf'],$event.target.files[0])"
+                         #trialBalancePdf type="file" style="display: none" accept=".pdf">
                   <div class="d-flex flex-column" style="max-width:30%;">
                     <button
                       [disabled]="fileFormGroup.get(['trialBalance']).disabled"
-
                       (click)="trialBalancePdf.click()">Choose Pdf
                     </button>
                     <div
