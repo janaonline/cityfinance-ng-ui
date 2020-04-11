@@ -1,14 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 
-import { DataEntryService } from '../../../dashboard/data-entry/data-entry.service';
 import { ulbType } from '../../../dashboard/report/report/ulbTypes';
 import { FormUtil } from '../../../util/formUtil';
-import { fieldNameWithFileRequirement, FieldsWithFile, ULBProfile } from '../model/ulb-profile';
+import { FieldsWithFile, IULBProfileData } from '../model/ulb-profile';
 import { ProfileService } from '../service/profile.service';
-
-// import { keys } from "ts-transformer-keys";
 
 @Component({
   selector: "app-ulb-profile",
@@ -16,49 +14,36 @@ import { ProfileService } from '../service/profile.service';
   styleUrls: ["./ulb-profile.component.scss"]
 })
 export class UlbProfileComponent implements OnInit, OnChanges {
-  @Input() profileData: any;
+  @Input() profileData: IULBProfileData;
   profile: FormGroup;
   formUtil = new FormUtil();
-
-  // isFormSubmitted
-
-  currentULBData: ULBProfile;
+  jsonUtil = new JSONUtility();
 
   typesOfULB = ulbType;
+
+  ulbTypeList: any[];
 
   fileTracker: FieldsWithFile;
   formSubmitted = false;
 
-  formErrorMessage;
+  formErrorMessage: string[];
   respone = { successMessage: null, errorMessage: null };
 
-  constructor(
-    private _fb: FormBuilder,
-    private dataEntryService: DataEntryService,
-    private _profileService: ProfileService
-  ) {}
+  constructor(private _profileService: ProfileService) {
+    this.fetchDatas();
+  }
 
-  ngOnChanges(changes) {
-    // console.log(this.profileData, changes);
+  ngOnChanges(changes) {}
+
+  fetchDatas() {
+    this._profileService.getULBTypeList().subscribe(res => {
+      this.ulbTypeList = res["data"];
+    });
   }
 
   ngOnInit() {
     this.initializeForm();
-
-    // this.profile.disable();
-    // setTimeout(() => {
-    //   this.disableNonEditableFields();
-    // }, 5000);
   }
-
-  // onSelectingFile(option: { file: File; key: keyof FieldsWithFile }) {
-  //   console.log(option);
-  //   if (!this.fileTracker) {
-  //     this.fileTracker = { [option.key]: { file: option.file } };
-  //   } else {
-  //     this.fileTracker[option.key] = { file: option.file };
-  //   }
-  // }
 
   submitForm(form: FormGroup) {
     this.resetResponseMessage();
@@ -67,21 +52,27 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     const errors = this.checkFieldsForError(form);
     this.formErrorMessage = errors;
     if (errors) {
-      console.log(`errors`, errors);
+      console.error(`errors`, errors);
       return;
 
       // show error and return
     }
 
-    this.profile.disable({ onlySelf: true, emitEvent: false });
-
     // upload files and their value
-    const updatedFields = this.getUpdadtedFields(form);
+    const updatedFields = this.getUpdatedFieldsOnly(form);
     if (!updatedFields || !Object.keys(updatedFields).length) {
       return;
     }
 
-    this._profileService.updateProfileData(updatedFields).subscribe(
+    const flatten = this.jsonUtil.convertToFlatJSON(updatedFields);
+    if (flatten["_id"]) {
+      flatten["ulbType"] = flatten["_id"];
+      delete flatten["_id"];
+    }
+
+    this.profile.disable({ onlySelf: true, emitEvent: false });
+
+    this._profileService.createULBUpdateRequest(flatten).subscribe(
       res => this.onUpdatingProfileSuccess(res),
       err => this.onUpdatingProfileError(err)
     );
@@ -100,32 +91,19 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.respone.errorMessage = null;
   }
 
-  private updateField(fields: {}) {}
-
-  private updateFieldWithFileRequirement(
-    fields: {
-      [key in fieldNameWithFileRequirement]?: string;
-    }
-  ) {
-    console.log(fields);
-    console.log(this.fileTracker);
-    Object.keys(fields).forEach(key => {
-      const file = this.fileTracker[key].file;
-      this.dataEntryService
-        .getURLForFileUpload(file.name, file.type)
-        .subscribe(res => {
-          this.dataEntryService
-            .uploadFileToS3(file, res.data[0].url, { reportProgress: false })
-            .subscribe(res2 => console.log(`res2`, res2));
-        });
-    });
-  }
-
   private checkFieldsForError(form: FormGroup) {
-    const errors: string[] = [];
+    let errors: string[] = [];
     Object.keys(form.controls).forEach(Name => {
       const control = form.controls[Name];
-      if (!control.dirty) {
+      if (control.disabled) {
+        return;
+      }
+      if (control instanceof FormGroup) {
+        const nestedErrors = this.checkFieldsForError(control);
+        if (!nestedErrors || !nestedErrors.length) {
+          return;
+        }
+        errors = [...errors, ...nestedErrors];
         return;
       }
 
@@ -138,21 +116,23 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     return errors.length === 0 ? null : errors;
   }
 
-  // private doesFieldRequireFile(fieldName: string) {
-  //   console.log(fieldName);
-  //   for (const key in fieldNameWithFileRequirement) {
-  //     if (fieldNameWithFileRequirement[key] === fieldName) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
-
-  private getUpdadtedFields(form: FormGroup): {} | null {
-    let updateObject: { [key: string]: string };
+  private getUpdatedFieldsOnly(form: FormGroup): {} | null {
+    let updateObject: { [key: string]: any };
     Object.keys(form.controls).forEach(controlName => {
       const control = form.controls[controlName];
       if (!control.dirty) {
+        return;
+      }
+      if (control instanceof FormGroup) {
+        const nestedValue = this.getUpdatedFieldsOnly(control);
+
+        if (nestedValue && Object.keys(nestedValue).length) {
+          if (updateObject) {
+            updateObject[controlName] = nestedValue;
+          } else {
+            updateObject = { [controlName]: nestedValue };
+          }
+        }
         return;
       }
 
@@ -165,40 +145,20 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     return updateObject;
   }
 
-  // private getUpdadtedFieldWithOnlyFileRequirement(form: FormGroup) {
-  //   let updateObject;
-  //   Object.keys(form.controls).forEach(controlName => {
-  //     const control = form.controls[controlName];
-  //     if (!control.dirty) {
-  //       return;
-  //     }
-  //     if (!this.doesFieldRequireFile(controlName)) {
-  //       return;
-  //     }
-  //     console.log(controlName);
-  //     if (updateObject) {
-  //       updateObject[controlName] = control.value;
-  //     } else {
-  //       updateObject = { [controlName]: control.value };
-  //     }
-  //   });
-  //   return updateObject;
-  // }
-
   private initializeForm() {
     this.profile = this.formUtil.getULBForm("EDIT");
-    console.log(this.profile.controls);
-    console.log(this.profileData);
-    this.profile.patchValue({
-      ...this.profileData,
-      state: this.profileData.ulb.state.name,
-      ulb: this.profileData.ulb.code
-    });
-    this.disableNonEditableFields();
+    if (this.profileData) {
+      this.profile.patchValue({
+        ...{ ...this.profileData },
+        state: this.profileData.ulb.state.name
+      });
+
+      this.disableNonEditableFields();
+    }
   }
 
   private disableNonEditableFields() {
-    this.profile.controls.ulb.disable();
+    (<FormGroup>this.profile.controls.ulb).controls.code.disable();
     this.profile.controls.state.disable();
   }
 }

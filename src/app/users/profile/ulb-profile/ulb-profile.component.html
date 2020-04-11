@@ -17,50 +17,30 @@
       />
     </div>
 
-    <div class="input-group">
-      <label for="type"
-        >ULB Type
-        <span class="asterik">*</span>
-
-        <!-- <span style="float: right;">
-          <span *ngIf="fileTracker?.type" class="fileName">
-            {{ fileTracker.type.file.name }}
-          </span>
-          <i
-            class="fa fa-file-text"
-            aria-hidden="true"
-            (click)="cin.click()"
-            for="cin"
-          >
-          </i>
-        </span> -->
-      </label>
-      <!-- <input
-        #cin
-        id="cin"
-        name="cin"
-        type="file"
-        (change)="
-          onSelectingFile({ file: $event.target.files[0], key: 'type' })
-        "
-        placeholder="Upload a file..."
-      /> -->
-      <select
-        name=""
-        id="type"
-        formControlName="type"
-        class="form-control"
-        [ngClass]="{
-          'is-invalid': formSubmitted && profile?.controls?.type.errors
-        }"
-      >
-        <option *ngFor="let Utype of typesOfULB | keyvalue" [value]="Utype.key">
-          {{ Utype.value }}
-        </option>
-      </select>
+    <div formGroupName="ulb" style="display: inline;">
+      <div class="input-group" formGroupName="ulbType">
+        <label for="type"
+          >ULB Type
+          <span class="asterik">*</span>
+        </label>
+        <select
+          name=""
+          id="type"
+          formControlName="_id"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted && profile.controls.ulb.controls?.ulbType.errors
+          }"
+        >
+          <option *ngFor="let Utype of ulbTypeList" [value]="Utype._id">
+            {{ Utype.name }}
+          </option>
+        </select>
+      </div>
     </div>
 
-    <div class="input-group">
+    <div class="input-group" formGroupName="ulb">
       <label for="code"
         >ULB Code
         <span class="asterik">*</span>
@@ -68,57 +48,39 @@
       <input
         id="code"
         type="text"
-        formControlName="ulb"
+        formControlName="code"
         class="form-control"
         [ngClass]="{
-          'is-invalid': formSubmitted && profile?.controls?.ulb.errors
+          'is-invalid':
+            formSubmitted && profile.controls.ulb.controls.code.errors
         }"
       />
     </div>
 
-    <div class="input-group">
+    <div class="input-group" formGroupName="ulb">
       <label for="name"
         >ULB Name
         <span class="asterik">*</span>
-        <!-- <span style="float: right;">
-          <span *ngIf="fileTracker?.name" class="fileName">
-            {{ fileTracker.name.file.name }}
-          </span>
-          <i
-            class="fa fa-file-text"
-            aria-hidden="true"
-            (click)="ulbname.click()"
-            for="cin"
-          >
-          </i>
-        </span> -->
       </label>
-      <!-- <input
-        #ulbname
-        id="ulbname"
-        name="cin"
-        type="file"
-        (change)="
-          onSelectingFile({ file: $event.target.files[0], key: 'name' })
-        "
-        placeholder="Upload a file..."
-      /> -->
+
       <input
         id="name"
         type="text"
         formControlName="name"
         class="form-control"
         [ngClass]="{
-          'is-invalid': formSubmitted && profile?.controls?.name.errors
+          'is-invalid':
+            formSubmitted && profile.controls.ulb.controls?.name.errors
         }"
       />
     </div>
 
-    <div class="input-group">
-      <label for="area"
-        >Area
-        <span class="asterik">*</span>
-        <!-- <span style="float: right;">
+    <div formGroupName="ulb">
+      <div class="input-group">
+        <label for="area"
+          >Area
+          <span class="asterik">*</span>
+          <!-- <span style="float: right;">
           <span *ngIf="fileTracker?.area" class="fileName">
             {{ fileTracker.area.file.name }}
           </span>
@@ -130,8 +92,8 @@
           >
           </i>
         </span> -->
-      </label>
-      <!-- <input
+        </label>
+        <!-- <input
         #area
         id="area"
         name="cin"
@@ -141,92 +103,53 @@
         "
         placeholder="Upload a file..."
       /> -->
-      <input
-        id="area"
-        type="text"
-        formControlName="area"
-        class="form-control"
-        [ngClass]="{
-          'is-invalid': formSubmitted && profile?.controls?.area.errors
-        }"
-      />
-    </div>
+        <input
+          id="area"
+          type="text"
+          formControlName="area"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted && profile.controls.ulb.controls?.area.errors
+          }"
+        />
+      </div>
 
-    <div class="input-group">
-      <label for="population"
-        >Population
-        <span class="asterik">*</span>
-        <!-- <span style="float: right;">
-          <span *ngIf="fileTracker?.population" class="fileName">
-            {{ fileTracker.population.file.name }}
-          </span>
-          <i
-            class="fa fa-file-text"
-            aria-hidden="true"
-            (click)="popFileSelect.click()"
-            for="cin"
-          >
-          </i>
-        </span> -->
-      </label>
-      <!-- <input
-        #popFileSelect
-        id="cin"
-        name="cin"
-        type="file"
-        (change)="
-          onSelectingFile({ file: $event.target.files[0], key: 'population' })
-        "
-        placeholder="Upload a file..."
-      /> -->
-      <input
-        #population
-        id="population"
-        type="text"
-        formControlName="population"
-        class="form-control"
-        [ngClass]="{
-          'is-invalid': formSubmitted && profile?.controls?.population.errors
-        }"
-      />
-    </div>
+      <div class="input-group">
+        <label for="population"
+          >Population
+          <span class="asterik">*</span>
+        </label>
 
-    <div class="input-group">
-      <label for="noOfWards"
-        >No off Wards
-        <span class="asterik">*</span>
-        <!-- <span style="float: right;">
-          <span *ngIf="fileTracker?.noOfWards" class="fileName">
-            {{ fileTracker.noOfWards.file.name }}
-          </span>
-          <i
-            class="fa fa-file-text"
-            aria-hidden="true"
-            (click)="wards.click()"
-            for="cin"
-          >
-          </i>
-        </span> -->
-      </label>
-      <!-- <input
-        #wards
-        id="wards"
-        name="cin"
-        type="file"
-        (change)="
-          onSelectingFile({ file: $event.target.files[0], key: 'noOfWards' })
-        "
-        placeholder="Upload a file..."
-      /> -->
-      <input
-        id="noOfWards"
-        type="text"
-        formControlName="noOfWards"
-        class="form-control"
-        [ngClass]="{
-          'is-invalid': formSubmitted && profile?.controls?.noOfWards?.errors
-        }"
-      />
+        <input
+          #population
+          id="population"
+          type="text"
+          formControlName="population"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted && profile?.controls?.ulb.controls.population.errors
+          }"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="noOfWards"
+          >No off Wards
+          <span class="asterik">*</span>
+        </label>
+        <input
+          id="noOfWards"
+          type="text"
+          formControlName="wards"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              formSubmitted && profile.controls.ulb.controls?.wards?.errors
+          }"
+        />
+      </div>
     </div>
 
     <hr />
@@ -338,8 +261,8 @@
       </div>
     </div>
 
-    <p *ngIf="formErrorMessage" style="color: red; margin-left: 2%;">
-      {{ formErrorMessage }}
+    <p *ngIf="formErrorMessage" style="display: block; color: red">
+      Form Fields are not valid.
     </p>
 
     <p *ngIf="respone.errorMessage" class="error-message">

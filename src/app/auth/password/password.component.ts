@@ -27,7 +27,7 @@ export class PasswordComponent implements OnInit {
   public uiType: "request" | "reset";
   public errorMessage: string;
   public successMessage: string;
-  private token: string;
+  public token: string;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -57,10 +57,9 @@ export class PasswordComponent implements OnInit {
       return;
     }
 
-    form.disable();
-
     this._passwordService.requestPasswordReset(form.value).subscribe(
       res => {
+        form.patchValue({ email: "" });
         const message =
           "Password reset has been initiated. Check You email for further instruction. ";
         this.successMessage = res["message"] || message;
@@ -71,10 +70,6 @@ export class PasswordComponent implements OnInit {
   }
 
   submitPasswordReset(form: FormGroup) {
-    if (form.invalid) {
-      // Form is invalid.
-    }
-
     const validator = new PasswordValidator();
     try {
       validator.validate(
@@ -82,20 +77,25 @@ export class PasswordComponent implements OnInit {
         form.controls.confirmPassword.value
       );
     } catch (error) {
-      this.errorMessage = error;
-      console.error(error);
+      this.errorMessage = error.message;
+      console.log(error);
       return;
     }
 
-    form.disable();
-    this._passwordService.resetPassword(form.value).subscribe(
-      res => {
-        const message =
-          "Password has been reset sucessfully.You can login with new your Password. ";
-        this.successMessage = res["message"] || message;
-      },
-      error => this.onGettingResponseError(error, form)
-    );
+    this._passwordService
+      .resetPassword({ ...form.value, token: this.token })
+      .subscribe(
+        res => {
+          form.patchValue({
+            password: "",
+            confirmPassword: ""
+          });
+          const message =
+            "Password has been reset sucessfully.You can login with new your Password. ";
+          this.successMessage = res["message"] || message;
+        },
+        error => this.onGettingResponseError(error, form)
+      );
   }
 
   private onGettingResponseError(error: HttpErrorResponse, form: FormGroup) {
@@ -108,15 +108,16 @@ export class PasswordComponent implements OnInit {
       if (res.id !== "request" && res.id !== "reset") {
         return this.router.navigate(["/home"]);
       }
-      if (res.id === "reset") {
+      if (res.id === "request") {
         this._activatedRoute.queryParams.subscribe(params => {
-          if (!params.token) {
-            return this.router.navigate(["/home"]);
-          }
           this.token = params.token;
+          if (params.token) {
+            this.uiType = "reset";
+          } else {
+            this.uiType = res.id;
+          }
         });
       }
-      this.uiType = res.id;
     });
   }
 
