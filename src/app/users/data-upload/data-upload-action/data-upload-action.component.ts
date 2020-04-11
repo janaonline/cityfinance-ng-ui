@@ -47,7 +47,6 @@ export class DataUploadActionComponent implements OnInit {
   createForms() {
     this.completenessFormGroup = this.fb.group({});
     this.correctnessFormGroup = this.fb.group({});
-
     this.fileFormGroupKeys.forEach(formGroupKey => {
       this.completenessFormGroup.addControl(formGroupKey, new FormGroup({
         completeness: new FormControl(),
