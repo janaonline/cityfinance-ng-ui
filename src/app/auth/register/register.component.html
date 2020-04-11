@@ -206,6 +206,14 @@
                 <option value="" selected disabled>
                   ULB
                 </option>
+                <option
+                  value=""
+                  *ngIf="ulbList && !ulbList.length"
+                  selected
+                  disabled
+                >
+                  NO ULB Available
+                </option>
                 <option *ngFor="let ulb of ulbList" [value]="ulb.name">
                   {{ ulb.name }}
                 </option>

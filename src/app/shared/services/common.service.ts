@@ -7,6 +7,7 @@ import { IULBResponse } from 'src/app/models/IULBResponse';
 import { NewULBStructure, NewULBStructureResponse } from 'src/app/models/newULBStructure';
 import { ULBsStatistics } from 'src/app/models/statistics/ulbsStatistics';
 import { IULB } from 'src/app/models/ulb';
+import { HttpUtility } from 'src/app/util/httpUtil';
 
 import { IStateULBCoveredResponse } from '../models/stateUlbConvered';
 import { IULBWithPopulationResponse } from '../models/ulbsForMapResponse';
@@ -18,6 +19,7 @@ import { environment } from './../../../environments/environment';
 export class CommonService {
   private stateArr = [];
   public states: Subject<any> = new Subject<any>();
+  private httpUtil = new HttpUtility();
 
   private NewULBStructureResponseCache: {
     [datesAsString: string]: IULBResponse;
@@ -63,7 +65,8 @@ export class CommonService {
   }
 
   getULBByStateCode(stateID: string) {
-    return this.http.get(`${environment.api.url}/${stateID}`);
+    const params = this.httpUtil.convertToHttpParams({ state: stateID });
+    return this.http.get(`${environment.api.url}ulb`, { params });
   }
 
   getAllUlbs() {

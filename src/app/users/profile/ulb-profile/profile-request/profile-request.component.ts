@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { IULBType } from 'src/app/models/ulbs/type';
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
@@ -27,6 +28,7 @@ export class ProfileRequestComponent implements OnInit {
     public modalService: BsModalService,
     public _fb: FormBuilder
   ) {
+    this.loggedInUserType = this._profileService.getLoggedInUserType();
     this.initializeFilterForm();
     this.initializeListFetchParams();
     this._activatedRoute.queryParams.subscribe(params => {
@@ -41,6 +43,7 @@ export class ProfileRequestComponent implements OnInit {
     });
   }
   REQUEST_STATUS = REQUEST_STATUS;
+  userTypes = USER_TYPE;
   window = window;
 
   filterForm: FormGroup;
@@ -65,6 +68,7 @@ export class ProfileRequestComponent implements OnInit {
     totalCount: null
   };
   currentSort = 1;
+  loggedInUserType: USER_TYPE;
 
   resetDatas() {
     this.requestList = null;
@@ -158,9 +162,21 @@ export class ProfileRequestComponent implements OnInit {
   }
 
   private initializeFilterForm() {
-    this.filterForm = this._fb.group({
-      status: [""]
-    });
+    if (this.loggedInUserType === USER_TYPE.ULB) {
+      this.filterForm = this._fb.group({
+        status: [""]
+      });
+      return;
+    }
+
+    if (this.loggedInUserType === USER_TYPE.ADMIN) {
+      this.filterForm = this._fb.group({
+        state: [],
+        name: [""],
+        code: [],
+        status: [""]
+      });
+    }
   }
 
   private initializeListFetchParams() {

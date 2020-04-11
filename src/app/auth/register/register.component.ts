@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 import { debounceTime, filter, switchMap } from 'rxjs/operators';
 
 import { USER_TYPE } from '../../models/user/userType';
@@ -124,6 +124,7 @@ export class RegisterComponent implements OnInit {
 
   private listenToULBControls() {
     this.registrationForm.controls.state.valueChanges.subscribe(stateId => {
+      this.ulbList = null;
       this._coomonService.getULBByStateCode(stateId).subscribe(res => {
         this.ulbList = res["data"];
       });
@@ -134,15 +135,25 @@ export class RegisterComponent implements OnInit {
       this.registrationForm.controls.name.valueChanges
     ])
       .pipe(
-        debounceTime(2000),
+        debounceTime(1000),
         filter((values: string[]) => values.every(tt => !!(tt && tt.trim()))),
         switchMap((res: string[]) => {
-          this.isCheckingULBCode = true;
-          this.registrationForm.disable({ onlySelf: true, emitEvent: false });
-          return this._coomonService.verifyULBCodeAndName({
-            code: res[0],
-            name: res[1]
-          });
+          const code = res[0];
+
+          const ulbId = res[1];
+          const response = { isValid: false, ulb: null };
+          const ulbFound = this.ulbList.find(ulb => ulb.name === ulbId);
+
+          if (!ulbFound) {
+            return of(response);
+          }
+
+          if (ulbFound.code !== code) {
+            return of(response);
+          }
+          response.isValid = true;
+          response.ulb = ulbFound;
+          return of(response);
         })
       )
       .subscribe(

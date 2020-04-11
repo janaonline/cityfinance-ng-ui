@@ -36,10 +36,9 @@ export class ProfileComponent implements OnInit {
       this.initializeFilterForm();
       this.profileMode = params.type;
       console.log(params);
-      console.log(params);
 
       this._activatedRoute.queryParams.subscribe(queryParams => {
-        const param = { id: null, role: null };
+        const param = { _id: null, role: null };
         console.log({ queryParams, params });
         if (this.profileMode === "create") {
           if (!queryParams || !queryParams.role) {
@@ -48,7 +47,7 @@ export class ProfileComponent implements OnInit {
           this.profileType = queryParams.role;
         }
         if (queryParams && queryParams.id && queryParams.role) {
-          param.id = queryParams.id;
+          param._id = queryParams.id;
           param.role = queryParams.role;
         }
         console.log(queryParams);

@@ -33,6 +33,17 @@ export class UsersComponent implements OnInit {
       route: ["/user/profile/request"]
     },
     {
+      title: "ULB Signup List",
+      type: "link",
+      route: [`/user/list/${USER_TYPE.ULB}`],
+      condition: () => {
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.ULB_PROFILE
+        });
+      }
+    },
+    {
       title: "Users",
       type: "link",
       route: [`/user/list/${USER_TYPE.USER}`],
