@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {ulbUploadList} from '../../shared/components/home-header/tableHeaders';
@@ -11,6 +11,9 @@ import {MODULES_NAME} from '../../util/access/modules';
 import {ACTIONS} from '../../util/access/actions';
 import {UserUtility} from '../../util/user/user';
 import {MatSnackBar} from '@angular/material';
+import {fromEvent} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {DropdownSettings} from 'angular2-multiselect-dropdown/lib/multiselect.interface';
 
 @Component({
   selector: 'app-data-upload',
@@ -23,11 +26,7 @@ export class DataUploadComponent implements OnInit {
   uploadId = null;
   uploadObject = null;
   tableHeaders = ulbUploadList;
-  financialYearDropdown = [
-    {id: '2015-16', itemName: '2015-16'},
-    {id: '2016-17', itemName: '2016-17'},
-    {id: '2017-18', itemName: '2017-18'}
-  ];
+  financialYearDropdown = [];
   auditStatusDropdown = [{
     id: 'true',
     itemName: 'Audited'
@@ -39,11 +38,17 @@ export class DataUploadComponent implements OnInit {
   fileFormGroup: FormGroup;
   dataUploadList = [];
   isAccessible: boolean;
-  financialYearDropdownSettings: any = {singleSelection: true, text: 'Select Year'};
-  auditStatusDropdownSettings: any = {singleSelection: true, text: 'Select Year'};
+  financialYearDropdownSettings: any = {
+    singleSelection: true,
+    text: 'Select Year'
+  };
+  auditStatusDropdownSettings: any = {
+    singleSelection: true,
+    text: 'Audit Status'
+  };
   completenessStatus = 'PENDING';
   correctnessStatus = 'PENDING';
-
+  @ViewChild('searchFinancialYear') searchFinancialYear: ElementRef;
 
   constructor(public activatedRoute: ActivatedRoute,
               public router: Router,
@@ -90,10 +95,10 @@ export class DataUploadComponent implements OnInit {
       }),
       auditStatus: new FormControl('', [Validators.required])
     });
-
   }
 
   ngOnInit() {
+    this.fetchFinancialYears();
     if (!this.id) {
       this.getFinancialData();
     }
@@ -265,5 +270,49 @@ export class DataUploadComponent implements OnInit {
       console.log(error);
     });
     updateButton.disabled = false;
+  }
+
+  private listenToSearchEvents() {
+    // let fields = [this.searchFinancialYear.nativeElement];
+    // fields.forEach(inputField => {
+    //   let eventSubject = fromEvent(inputField, 'input').pipe(
+    //     map((e: KeyboardEvent) => {
+    //       console.log(e);
+    //     })
+    //   );
+    // });
+
+
+  }
+
+  private fetchFinancialYears() {
+    this.financialDataService.getFinancialYears().subscribe(result => {
+      if (result['success']) {
+        this.financialYearDropdown = result['data'];
+        this.financialYearDropdown = this.financialYearDropdown.map(year => {
+          return {
+            id: year.name,
+            itemName: year.name
+          };
+        });
+      }
+    });
+  }
+
+  applyFilterClicked() {
+    let filterKeys = ['financialYear', 'auditStatus'];
+    let filterObject = {
+      filter: {
+        [filterKeys[0]]: this.fileFormGroup.get(filterKeys[0]).value.length ? this
+          .fileFormGroup.get(filterKeys[0]).value[0].id : '',
+        'audited': this.fileFormGroup.get(filterKeys[1]).value.length ? this
+          .fileFormGroup.get(filterKeys[1]).value[0].id == 'true' : '',
+      }
+    };
+    this.financialDataService.fetchFinancialData({}, filterObject).subscribe(result => {
+      this.handleResponseSuccess(result);
+    }, (response: HttpErrorResponse) => {
+      this._snackBar.open(response.error.errors.message || response.error.message || 'Some Error Occurred', null, {duration: 1600});
+    });
   }
 }

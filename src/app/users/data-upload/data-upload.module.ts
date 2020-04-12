@@ -8,16 +8,18 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {AccessChecker} from '../../util/access/accessChecker';
 import {AngularMaterialModule} from '../../angular-material.module';
 import {UserUtility} from '../../util/user/user';
+import {SharedModule} from '../../shared/shared.module';
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    DataUploadRoutingModule,
-    AngularMultiSelectModule,
-    ReactiveFormsModule,
-    AngularMaterialModule,
-  ],
+    imports: [
+        CommonModule,
+        DataUploadRoutingModule,
+        AngularMultiSelectModule,
+        ReactiveFormsModule,
+        AngularMaterialModule,
+        SharedModule,
+    ],
   providers: [AccessChecker, UserUtility],
   declarations: [DataUploadActionComponent],
 
