@@ -11,13 +11,13 @@
         </button>
       </div>
       <div class="d-flex flex-1 justify-content-evenly">
-        <div *ngFor="let radio of ['approved', 'rejected']">
+        <div *ngFor="let radio of ['Approved', 'Rejected']">
           <input class="mr-1" type="radio"
                  (change)="radioButtonClickHandler()"
                  [id]="config.formGroupName+'-'+config.status+'-'+radio"
                  [formControlName]="config.status"
                  [value]="radio | uppercase">
-          <label [for]="config.formGroupName+'-'+config.status+'-'+radio">Approve</label>
+          <label [for]="config.formGroupName+'-'+config.status+'-'+radio">{{radio}}</label>
         </div>
         <!--        <div>-->
         <!--          <input class="mr-1" type="radio"-->
