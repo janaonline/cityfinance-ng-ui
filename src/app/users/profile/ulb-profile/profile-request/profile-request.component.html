@@ -59,11 +59,7 @@
         <td>{{ request.old["ulb"].wards }}</td>
         <td>{{ request.wards }}</td>
       </tr>
-      <tr *ngIf="request.commissionerName">
-        <td>Commissioner Name</td>
-        <td>{{ request.old.commissionerName }}</td>
-        <td>{{ request.commissionerName }}</td>
-      </tr>
+
       <tr *ngIf="request.ulbType">
         <td>ULB Type</td>
         <td>{{ request.old.ulb.ulbType.name }}</td>
@@ -129,13 +125,31 @@
         <td></td>
 
         <td>
-          <div class="input-group" style="margin: auto;">
-            <input
-              placeholder="STATUS"
-              type="status"
+          <div class="input-group m-auto">
+            <select
+              name="ulb"
+              id="ulb"
+              [formControl]="filterForm.controls['status']"
               class="form-control"
-              [formControl]="filterForm.controls.status"
-            />
+              placeholder="STATUS"
+            >
+              <option value="">
+                None
+              </option>
+              <option
+                *ngFor="let status of requestStatusTypeList"
+                [value]="status.value"
+              >
+                {{ status.value }}
+              </option>
+            </select>
+            <!-- <input
+                id="email"
+                type="text"
+                class="form-control"
+                [formControl]="registrationForm.controls['name']"
+                placeholder="ULB Name"
+              /> -->
           </div>
         </td>
         <td>
@@ -350,5 +364,11 @@
         No
       </button>
     </div>
+    <p *ngIf="respone.errorMessage" class="error-message text-center mt-1">
+      {{ respone.errorMessage }}
+    </p>
+    <p *ngIf="respone.successMessage" class="success-message text-center mt-1">
+      {{ respone.successMessage }}
+    </p>
   </div>
 </ng-template>

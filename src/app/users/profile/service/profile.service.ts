@@ -70,7 +70,7 @@ export class ProfileService {
 
   updateULBProfileRequest(params: { status: string; id: string }) {
     return this._htttp.put(
-      `${environment.api.url}ulb-update-request/${params.id}`,
+      `${environment.api.url}ulb-update-request/action/${params.id}`,
       { body: { status: params.status } }
     );
   }

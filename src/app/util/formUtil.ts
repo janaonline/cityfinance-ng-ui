@@ -76,7 +76,10 @@ export class FormUtil {
           "",
           [Validators.required, Validators.pattern(/^[0-9]\d*$/)]
         ],
-        area: ["", [Validators.required, Validators.pattern(/^[0-9]\d*$/)]],
+        area: [
+          "",
+          [Validators.required, Validators.pattern(/^[0-9]\d*(\.\d+)?$/)]
+        ],
         ulbType: this.fb.group({
           _id: ["", [Validators.required]]
         }),

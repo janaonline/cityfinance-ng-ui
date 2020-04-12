@@ -28,6 +28,7 @@ export class ProfileRequestComponent implements OnInit {
     public modalService: BsModalService,
     public _fb: FormBuilder
   ) {
+    this.createRequestStatusTypeList();
     this.loggedInUserType = this._profileService.getLoggedInUserType();
     this.initializeFilterForm();
     this.initializeListFetchParams();
@@ -70,6 +71,16 @@ export class ProfileRequestComponent implements OnInit {
   currentSort = 1;
   loggedInUserType: USER_TYPE;
 
+  respone = {
+    errorMessage: null,
+    successMessage: null
+  };
+
+  requestStatusTypeList: {
+    key: string;
+    value: string;
+  }[];
+
   resetDatas() {
     this.requestList = null;
     this.request = null;
@@ -95,26 +106,28 @@ export class ProfileRequestComponent implements OnInit {
   }
 
   openRequestCancelPopup(ModalRef: TemplateRef<any>, requestID: string) {
+    this.resetResponseMessages();
+
     this.requestIDToCancel = requestID;
     this.modalService.show(ModalRef);
-    // return this._dialog.open(DialogComponent, {
-    //   data: { message: alertMessage }
-    // });
   }
 
   updateRequest(params: { status: string; id: string }) {
-    return this._profileService
-      .updateULBProfileRequest(params)
-      .subscribe(res => {
+    this.resetResponseMessages();
+    return this._profileService.updateULBProfileRequest(params).subscribe(
+      res => {
         const requestFound = this.requestList.find(
           request => request._id === params.id
         );
         requestFound.status = params.status;
         this.modalService.hide(1);
-      });
+      },
+      err => (this.respone.errorMessage = err.error.message || "Server Error")
+    );
   }
 
   fetchRequestList(body: { [key: string]: any }) {
+    this.resetResponseMessages();
     const util = new JSONUtility();
     console.log(`fetchRequestList`);
     body.filter = util.filterEmptyValue(body.filter);
@@ -185,5 +198,17 @@ export class ProfileRequestComponent implements OnInit {
       sort: null,
       skip: 0
     };
+  }
+
+  private resetResponseMessages() {
+    this.respone.errorMessage = null;
+    this.respone.successMessage = null;
+  }
+
+  private createRequestStatusTypeList() {
+    this.requestStatusTypeList = Object.keys(REQUEST_STATUS).map(key => ({
+      key,
+      value: key
+    }));
   }
 }
