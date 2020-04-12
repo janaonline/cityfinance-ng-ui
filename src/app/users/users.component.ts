@@ -5,6 +5,7 @@ import { ILink } from '../shared/side-menu/side-menu.component';
 import { AccessChecker } from '../util/access/accessChecker';
 import { ACTIONS } from '../util/access/actions';
 import { MODULES_NAME } from '../util/access/modules';
+import { ProfileService } from './profile/service/profile.service';
 
 @Component({
   selector: "app-users",
@@ -56,7 +57,16 @@ export class UsersComponent implements OnInit {
     }
   ];
 
-  constructor() {}
+  loggedInUserType: USER_TYPE;
+  userTypes = USER_TYPE;
+
+  constructor(private profileService: ProfileService) {
+    this.initializeUSerType();
+  }
 
   ngOnInit() {}
+
+  private initializeUSerType() {
+    this.loggedInUserType = this.profileService.getLoggedInUserType();
+  }
 }

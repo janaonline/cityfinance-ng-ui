@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { IULBType } from 'src/app/models/ulbs/type';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
+import { CommonService } from 'src/app/shared/services/common.service';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
@@ -26,8 +28,12 @@ export class ProfileRequestComponent implements OnInit {
     private _router: Router,
     private _dialog: MatDialog,
     public modalService: BsModalService,
-    public _fb: FormBuilder
+    public _fb: FormBuilder,
+    private _commonService: CommonService
   ) {
+    this.initializeAccessCheck();
+    this.fetchStateList();
+    this.createRequestStatusTypeList();
     this.loggedInUserType = this._profileService.getLoggedInUserType();
     this.initializeFilterForm();
     this.initializeListFetchParams();
@@ -52,6 +58,7 @@ export class ProfileRequestComponent implements OnInit {
   ulbTypeList: { [id: string]: IULBType } = {};
 
   canApproveRequest: "readOnly" | "write";
+  canViewULBSignUpList = false;
   accessChecker = new AccessChecker();
 
   requestIDToCancel: string;
@@ -69,6 +76,19 @@ export class ProfileRequestComponent implements OnInit {
   };
   currentSort = 1;
   loggedInUserType: USER_TYPE;
+
+  respone = {
+    errorMessage: null,
+    successMessage: null
+  };
+
+  requestStatusTypeList: {
+    key: string;
+    value: string;
+  }[];
+
+  stateList: IStateULBCovered[];
+  statesByID: { [id: string]: IStateULBCovered } = {};
 
   resetDatas() {
     this.requestList = null;
@@ -95,32 +115,38 @@ export class ProfileRequestComponent implements OnInit {
   }
 
   openRequestCancelPopup(ModalRef: TemplateRef<any>, requestID: string) {
+    this.resetResponseMessages();
+
     this.requestIDToCancel = requestID;
     this.modalService.show(ModalRef);
-    // return this._dialog.open(DialogComponent, {
-    //   data: { message: alertMessage }
-    // });
   }
 
   updateRequest(params: { status: string; id: string }) {
-    return this._profileService
-      .updateULBProfileRequest(params)
-      .subscribe(res => {
+    this.resetResponseMessages();
+    console.log(params);
+
+    return this._profileService.updateULBProfileRequest(params).subscribe(
+      res => {
+        console.log(params);
         const requestFound = this.requestList.find(
           request => request._id === params.id
         );
         requestFound.status = params.status;
         this.modalService.hide(1);
-      });
+      },
+      err => (this.respone.errorMessage = err.error.message || "Server Error")
+    );
   }
 
   fetchRequestList(body: { [key: string]: any }) {
+    this.resetResponseMessages();
     const util = new JSONUtility();
-    console.log(`fetchRequestList`);
     body.filter = util.filterEmptyValue(body.filter);
     console.log(`fetchRequestList`, { ...body });
 
     this._profileService.getULBProfileUpdateRequestList(body).subscribe(res => {
+      console.log(res);
+
       this.requestList = res.data;
     });
   }
@@ -146,11 +172,16 @@ export class ProfileRequestComponent implements OnInit {
   }
   ngOnInit() {}
 
-  initializeMode() {
-    const moduleName = MODULES_NAME.ULB_PROFILE;
-    const action = ACTIONS.APPROVE;
-    const hasAccess = this.accessChecker.hasAccess({ moduleName, action });
+  initializeAccessCheck() {
+    const hasAccess = this.accessChecker.hasAccess({
+      moduleName: MODULES_NAME.ULB_PROFILE,
+      action: ACTIONS.APPROVE
+    });
     this.canApproveRequest = hasAccess ? "write" : "readOnly";
+    this.canViewULBSignUpList = this.accessChecker.hasAccess({
+      moduleName: MODULES_NAME.ULB_SIGNUP_REQUEST,
+      action: ACTIONS.VIEW
+    });
   }
 
   setPage(pageNoClick: number) {
@@ -159,6 +190,16 @@ export class ProfileRequestComponent implements OnInit {
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     this.searchUsersBy(this.filterForm.value);
+  }
+
+  private fetchStateList() {
+    this._commonService.getStateUlbCovered().subscribe(res => {
+      console.log(`state list `, res.data);
+      this.stateList = res.data;
+      res.data.forEach(state => {
+        this.statesByID[state._id] = state;
+      });
+    });
   }
 
   private initializeFilterForm() {
@@ -185,5 +226,17 @@ export class ProfileRequestComponent implements OnInit {
       sort: null,
       skip: 0
     };
+  }
+
+  private resetResponseMessages() {
+    this.respone.errorMessage = null;
+    this.respone.successMessage = null;
+  }
+
+  private createRequestStatusTypeList() {
+    this.requestStatusTypeList = Object.keys(REQUEST_STATUS).map(key => ({
+      key,
+      value: key
+    }));
   }
 }

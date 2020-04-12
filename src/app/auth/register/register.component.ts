@@ -101,7 +101,9 @@ export class RegisterComponent implements OnInit {
         }
       },
       err => {
-        this.respone.errorMessage = err.error.msg || "Server Error";
+        console.log(err);
+
+        this.respone.errorMessage = err.error.message || "Server Error";
       }
     );
   }

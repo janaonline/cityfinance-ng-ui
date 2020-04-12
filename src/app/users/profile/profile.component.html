@@ -10,10 +10,9 @@
     [profileData]="profileData"
   ></app-ulb-profile>
   <!-- <app-common-profile></app-common-profile> -->
+
   <app-state-profile
-    *ngIf="
-      profileType === USER_TYPE.STATE ||
-      (profileData && profileData.role === USER_TYPE.STATE)
-    "
+    *ngIf="profileType === USER_TYPE.STATE"
+    [profileData]="profileData"
   ></app-state-profile>
 </div>

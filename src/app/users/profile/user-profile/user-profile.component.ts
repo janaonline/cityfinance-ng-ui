@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
@@ -27,12 +28,19 @@ export class UserProfileComponent implements OnInit {
   };
 
   canEditProfile = false;
+  loggedInUserType: USER_TYPE;
+  userTypes = USER_TYPE;
 
   constructor(private _profileService: ProfileService) {}
 
   ngOnInit() {
     this.checkProfileAccess();
     this.initializeForm();
+    this.initializeUserType();
+  }
+
+  private initializeUserType() {
+    this.loggedInUserType = this._profileService.getLoggedInUserType();
   }
 
   private onFormSubmit(form: FormGroup) {
@@ -66,23 +74,13 @@ export class UserProfileComponent implements OnInit {
 
   private checkProfileAccess() {
     const accessChecker = new AccessChecker();
-    const moduleName = MODULES_NAME.ULB_PROFILE;
+    const moduleName = MODULES_NAME.USER_PROFILE;
     const action = ACTIONS.EDIT;
     this.canEditProfile = accessChecker.hasAccess({ moduleName, action });
   }
 
-  // private fetchUserProfile() {
-  //   this._profileService.getUserProfile().subscribe(res => {
-  //     console.log(`res `, res);
-  //     this.profileData = res["data"];
-  //     this.profileForm.patchValue({ ...this.profileData });
-  //     console.log(this.profileForm.controls);
-  //   });
-  // }
-
   private initializeForm() {
     this.profileForm = this.formUtil.getUserForm("EDIT");
-    console.log(this.profileData);
     this.profileForm.patchValue({ ...this.profileData });
     if (!this.canEditProfile) {
       this.profileForm.disable();

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
+import { CommonService } from 'src/app/shared/services/common.service';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { UserService } from '../../../dashboard/user/user.service';
@@ -14,6 +16,26 @@ import { ProfileService } from '../../profile/service/profile.service';
   styleUrls: ["./user-list.component.scss"]
 })
 export class UserListComponent implements OnInit {
+  constructor(
+    private _userService: UserService,
+    private _profileService: ProfileService,
+    private _fb: FormBuilder,
+    private _activatedRoute: ActivatedRoute,
+    private _router: Router,
+    private _commonService: CommonService
+  ) {
+    this._activatedRoute.params.subscribe(params => {
+      this.initializeList(params.userType);
+      this.initializeFilterForm();
+      this.initializeListFetchParams();
+
+      const type = this._profileService.getLoggedInUserType();
+      if (type === USER_TYPE.ULB) {
+        return this.fetchULBProfileUpdateRequest();
+      }
+      this.fetchList(this.listFetchOption);
+    });
+  }
   userList: UserProfile[];
   filterForm: FormGroup;
 
@@ -38,25 +60,9 @@ export class UserListComponent implements OnInit {
     skip: 0
   };
 
-  constructor(
-    private _userService: UserService,
-    private _profileService: ProfileService,
-    private _fb: FormBuilder,
-    private _activatedRoute: ActivatedRoute,
-    private _router: Router
-  ) {
-    this._activatedRoute.params.subscribe(params => {
-      this.initializeList(params.userType);
-      this.initializeFilterForm();
-      this.initializeListFetchParams();
+  stateList: IStateULBCovered[];
 
-      const type = this._profileService.getLoggedInUserType();
-      if (type === USER_TYPE.ULB) {
-        return this.fetchULBProfileUpdateRequest();
-      }
-      this.fetchList(this.listFetchOption);
-    });
-  }
+  statesByID: { [id: string]: IStateULBCovered } = {};
 
   private fetchULBProfileUpdateRequest() {
     // this._profileService.getULBProfileUpdateRequestList().subscribe(res => {
@@ -115,12 +121,13 @@ export class UserListComponent implements OnInit {
     } = { filter: {}, sort: {} }
   ) {
     const util = new JSONUtility();
-    console.log({ ...body });
+    console.log(`searchParams body`, { ...body });
     body.filter = util.filterEmptyValue(body.filter);
 
     this._userService.getUsers(body).subscribe(res => {
+      console.log(res);
+
       if (res.hasOwnProperty("total")) {
-        console.log("has total key");
         this.tableDefaultOptions.totalCount = res["total"];
       }
       if (res["success"]) {
@@ -136,8 +143,24 @@ export class UserListComponent implements OnInit {
       case USER_TYPE.USER:
         return this.initializeUserFilterForm();
       case USER_TYPE.ULB:
-        return this.initializeULBFilterForm();
+        this.fetchStateList();
+        this.initializeULBFilterForm();
+        return;
+      case USER_TYPE.STATE:
+        this.initializeStateFilterForm();
+        this.fetchStateList();
+        return;
     }
+  }
+
+  private fetchStateList() {
+    this._commonService.getStateUlbCovered().subscribe(res => {
+      console.log(`state list `, res.data);
+      this.stateList = res.data;
+      res.data.forEach(state => {
+        this.statesByID[state._id] = state;
+      });
+    });
   }
 
   private initializeUserFilterForm() {
@@ -154,7 +177,17 @@ export class UserListComponent implements OnInit {
       name: [null],
       email: [null],
       designation: [null],
-      organisationName: [null]
+      organisationName: [null],
+      state: [null]
+    });
+  }
+
+  private initializeStateFilterForm() {
+    this.filterForm = this._fb.group({
+      name: [null],
+      email: [null],
+      designation: [null],
+      state: [null]
     });
   }
 

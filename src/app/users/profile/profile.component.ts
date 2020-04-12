@@ -35,17 +35,19 @@ export class ProfileComponent implements OnInit {
     this._activatedRoute.params.subscribe(params => {
       this.initializeFilterForm();
       this.profileMode = params.type;
-      console.log(params);
+      this.setFormView();
 
       this._activatedRoute.queryParams.subscribe(queryParams => {
         const param = { _id: null, role: null };
         console.log({ queryParams, params });
+        this.profileType = queryParams.role;
+
         if (this.profileMode === "create") {
           if (!queryParams || !queryParams.role) {
             return;
           }
-          this.profileType = queryParams.role;
         }
+
         if (queryParams && queryParams.id && queryParams.role) {
           param._id = queryParams.id;
           param.role = queryParams.role;
@@ -53,7 +55,6 @@ export class ProfileComponent implements OnInit {
         console.log(queryParams);
         this.initializeListFetchParams();
         this.fetchProfileData(param);
-        this.setFormView();
       });
     });
   }
@@ -63,14 +64,8 @@ export class ProfileComponent implements OnInit {
   fetchProfileData(params: {}) {
     this._profileService.getUserProfile(params).subscribe(res => {
       this.profileData = res["data"];
-      console.log({ ...res["data"] });
-      this.userType = res["data"].role;
-      // this.profileData.role = params["role"];
-      // this.showProfileComponent = true;
 
-      // if (this.userType === USER_TYPE.ULB) {
-      //   // this.showProfileComponent = true;
-      // }
+      this.userType = res["data"].role;
     });
   }
 

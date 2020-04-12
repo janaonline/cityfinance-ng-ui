@@ -1,6 +1,12 @@
 <div class="profile_wrapper">
   <h3>Edit Profile</h3>
-  <button class="back_button" (click)="window.history.back()">Back</button>
+  <button
+    class="back_button"
+    (click)="window.history.back()"
+    *ngIf="loggedInUserType !== userTypes.USER"
+  >
+    Back
+  </button>
 
   <form
     [formGroup]="profileForm"

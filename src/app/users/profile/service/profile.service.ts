@@ -44,12 +44,8 @@ export class ProfileService {
     return this._htttp.post(`${environment.api.url}user/create`, body);
   }
 
-  createProfile() {}
-
-  updateUserProfileData(data: {}) {
-    return this._htttp.put(`${environment.api.url}user/profile`, {
-      body: data
-    });
+  updateUserProfileData(body: {}) {
+    return this._htttp.put(`${environment.api.url}user/profile`, body);
   }
 
   createULBUpdateRequest(body: {}) {
@@ -74,7 +70,7 @@ export class ProfileService {
 
   updateULBProfileRequest(params: { status: string; id: string }) {
     return this._htttp.put(
-      `${environment.api.url}ulb-update-request/${params.id}`,
+      `${environment.api.url}ulb-update-request/action/${params.id}`,
       { body: { status: params.status } }
     );
   }
