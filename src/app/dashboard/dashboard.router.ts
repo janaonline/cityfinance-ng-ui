@@ -18,11 +18,11 @@ export const dashboardRouter: Routes = [
         loadChildren: "./user/user.module#UserModule",
         canActivate: [AuthGuard]
       },
-      {
-        path: "entry",
-        loadChildren: "./data-entry/data-entry.module#DataEntryModule",
-        canActivate: [AuthGuard]
-      },
+      // {
+      //   path: "entry",
+      //   loadChildren: "./data-entry/data-entry.module#DataEntryModule",
+      //   canActivate: [AuthGuard]
+      // },
       {
         path: "report",
         loadChildren: "./report/report.module#ReportModule"
