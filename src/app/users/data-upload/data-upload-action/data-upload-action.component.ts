@@ -12,7 +12,7 @@ import {UPLOAD_STATUS} from '../../../util/enums';
 })
 export class DataUploadActionComponent implements OnInit {
 
-  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance'];
+  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance', 'auditReport'];
   financialYearDropdown = [
     {id: '2015-16', itemName: '2015-16'},
     {id: '2016-17', itemName: '2016-17'},
@@ -31,53 +31,33 @@ export class DataUploadActionComponent implements OnInit {
 
   completenessFormGroup: FormGroup;
   correctnessFormGroup: FormGroup;
-  completenessStatus: any = 'PENDING';
+  completenessStatus: any = UPLOAD_STATUS.PENDING;
   id: string;
-  correctnessStatus: string = 'PENDING';
+  correctnessStatus: string = UPLOAD_STATUS.PENDING;
   tabIndex = 0;
 
   constructor(public financeDataService: FinancialDataService,
               public location: Location,
               private fb: FormBuilder,
               private activatedRoute: ActivatedRoute, private router: Router) {
-    this.completenessFormGroup = this.fb.group({
+    this.createForms();
 
-      balanceSheet: new FormGroup({
+  }
+
+  createForms() {
+    this.completenessFormGroup = this.fb.group({});
+    this.correctnessFormGroup = this.fb.group({});
+    this.fileFormGroupKeys.forEach(formGroupKey => {
+      this.completenessFormGroup.addControl(formGroupKey, new FormGroup({
         completeness: new FormControl(),
-      }),
-      schedulesToBalanceSheet: new FormGroup({
-        completeness: new FormControl(),
-      }),
-      incomeAndExpenditure: new FormGroup({
-        completeness: new FormControl(),
-      }),
-      schedulesToIncomeAndExpenditure: new FormGroup({
-        completeness: new FormControl(),
-      }),
-      trialBalance: new FormGroup({
-        completeness: new FormControl(),
-      })
+        message: new FormControl()
+      }));
+      this.correctnessFormGroup.addControl(formGroupKey, new FormGroup({
+        correctness: new FormControl(),
+        message: new FormControl()
+      }));
     });
-
-    this.correctnessFormGroup = this.fb.group({
-
-      balanceSheet: new FormGroup({
-        correctness: new FormControl(),
-      }),
-      schedulesToBalanceSheet: new FormGroup({
-        correctness: new FormControl(),
-      }),
-      incomeAndExpenditure: new FormGroup({
-        correctness: new FormControl(),
-      }),
-      schedulesToIncomeAndExpenditure: new FormGroup({
-        correctness: new FormControl(),
-      }),
-      trialBalance: new FormGroup({
-        correctness: new FormControl(),
-      })
-    });
-
+    console.log(this.correctnessFormGroup.value, this.completenessFormGroup.value);
   }
 
   ngOnInit() {
@@ -118,35 +98,44 @@ export class DataUploadActionComponent implements OnInit {
     if (selectedFinancialYearObject) {
       this.financialYear.setValue(selectedFinancialYearObject);
     }
-    if (audited) {
-      this.audited.setValue([this.auditStatusDropdown[0]]);
-    } else {
-      this.audited.setValue([this.auditStatusDropdown[1]]);
-    }
+    this.setAuditStatus(audited);
     this.fileFormGroupKeys.forEach(formGroupKey => {
       const formGroupDataItem = this.financeDataService.selectedFinancialRequest[formGroupKey];
       if (formGroupDataItem) {
         const {excelUrl, pdfUrl} = formGroupDataItem;
         let formControls = [this.getCompletenessFormControl(formGroupKey), this.getCorrectnessFormControl(formGroupKey)];
         let keys = ['completeness', 'correctness'];
-        formControls.forEach((formControl, index) => {
+        for (let i = 0; i < formControls.length; i++) {
+          const formControl = formControls[i];
           if (excelUrl || pdfUrl) {
-            formControl.setValue(formGroupDataItem[keys[index]]);
+            formControl.setValue(formGroupDataItem[keys[i]]);
             formControl.setValidators(Validators.required);
             formControl.updateValueAndValidity();
-          } else {
-            formControl.disable();
+            if ((i == 0 && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) || (i == 1) && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
+              continue;
+            }
           }
-        });
+          formControl.disable();
+          formControl.updateValueAndValidity();
+        }
       }
     });
+    this.updateTabIndex(data);
+  }
 
-    if (this.completenessStatus === UPLOAD_STATUS.APPROVED) {
-      this.tabIndex = 1;
+  setAuditStatus(value: boolean) {
+    if (value) {
+      this.fileFormGroupKeys.splice(this.fileFormGroupKeys.length - 1, 1);
+      this.audited.setValue([this.auditStatusDropdown[0]]);
+    } else {
+      this.audited.setValue([this.auditStatusDropdown[1]]);
     }
   }
 
   fileButtonClickHandler(...args) {
+    if (args.length === 1) {
+      args = args[0];
+    }
     let urlObject = this.financeDataService.selectedFinancialRequest;
     args.map(key => urlObject = urlObject[key]);
     if (urlObject) {
