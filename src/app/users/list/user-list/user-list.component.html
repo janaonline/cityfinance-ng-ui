@@ -30,6 +30,25 @@
       <div class="col-md-12">
         <table class="table" *ngIf="listType === userTypes.USER">
           <thead>
+            <tr
+              style="background: #009fe3;color: white ;border: 5px solid white"
+              class="sortable-headers"
+            >
+              <th class="text-center">S.No.</th>
+              <th class="text-center" (click)="sortListBy('name')">
+                User name
+              </th>
+              <th class="text-center" (click)="sortListBy('email')">
+                Email ID
+              </th>
+              <th class="text-center" (click)="sortListBy('designation')">
+                Designation
+              </th>
+              <th class="text-center" (click)="sortListBy('organization')">
+                Organisation
+              </th>
+              <th class="text-center">Action</th>
+            </tr>
             <tr *ngIf="filterForm">
               <th></th>
 
@@ -103,25 +122,6 @@
                 </button>
               </th>
             </tr>
-            <tr
-              style="background: #009fe3;color: white ;border: 5px solid white"
-              class="sortable-headers"
-            >
-              <th class="text-center">S.No.</th>
-              <th class="text-center" (click)="sortListBy('name')">
-                User name
-              </th>
-              <th class="text-center" (click)="sortListBy('email')">
-                Email ID
-              </th>
-              <th class="text-center" (click)="sortListBy('designation')">
-                Designation
-              </th>
-              <th class="text-center" (click)="sortListBy('organization')">
-                Organisation
-              </th>
-              <th class="text-center">Action</th>
-            </tr>
           </thead>
           <tbody>
             <tr
@@ -167,13 +167,14 @@
         <table class="table" *ngIf="listType === userTypes.ULB">
           <thead>
             <tr
+              class="sortable-headers"
               style="background: #009fe3;color: white ;border: 5px solid white"
             >
               <th class="text-center">S.No.</th>
-              <th class="text-center">State</th>
-              <th class="text-center">ULB Name</th>
-              <th class="text-center">ULB Code</th>
-              <th class="text-center">Status</th>
+              <th class="text-center" (click)="sortListBy('state')">State</th>
+              <th class="text-center" (click)="sortListBy('name')">ULB Name</th>
+              <th class="text-center" (click)="sortListBy('code')">ULB Code</th>
+              <th class="text-center" (click)="sortListBy('status')">Status</th>
               <th class="text-center">Action</th>
             </tr>
           </thead>
@@ -183,16 +184,20 @@
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="State"
-                    type="text"
+                  <select
+                    name="State"
+                    id="state"
+                    [formControl]="filterForm.controls.state"
                     class="form-control"
-                    [formControl]="filterForm.controls.name"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.name.errors
-                    }"
-                  />
+                    placeholder="State"
+                  >
+                    <option value="" selected disabled>
+                      State
+                    </option>
+                    <option *ngFor="let state of stateList" [value]="state._id">
+                      {{ state.name }}
+                    </option>
+                  </select>
                 </div>
               </td>
 
@@ -264,7 +269,11 @@
               "
             >
               <td class="text-center">{{ i + 1 }}</td>
-              <td class="text-center">{{ ulb["state"] }} tttt</td>
+              <td class="text-center">
+                {{
+                  statesByID[ulb["state"]] ? statesByID[ulb["state"]].name : ""
+                }}
+              </td>
               <td class="text-center">{{ ulb["name"] }}</td>
               <td class="text-center">{{ ulb["code"] }}</td>
               <td class="text-center">
@@ -288,13 +297,18 @@
         <table class="table" *ngIf="listType === userTypes.STATE">
           <thead>
             <tr
+              class="sortable-headers"
               style="background: #009fe3;color: white ;border: 5px solid white"
             >
               <th class="text-center">S.No.</th>
-              <th class="text-center">State</th>
-              <th class="text-center">Username</th>
-              <th class="text-center">Email ID</th>
-              <th class="text-center">Designation</th>
+              <th class="text-center" (click)="sortListBy('state')">State</th>
+              <th class="text-center" (click)="sortListBy('name')">Username</th>
+              <th class="text-center" (click)="sortListBy('email')">
+                Email ID
+              </th>
+              <th class="text-center" (click)="sortListBy('designation')">
+                Designation
+              </th>
               <th class="text-center">Action</th>
             </tr>
           </thead>
@@ -304,15 +318,30 @@
 
               <td>
                 <div class="input-group">
-                  <input
+                  <select
+                    name="State"
+                    id="state"
+                    [formControl]="filterForm.controls.state"
+                    class="form-control"
                     placeholder="State"
+                  >
+                    <option value="" selected disabled>
+                      State
+                    </option>
+                    <option *ngFor="let state of stateList" [value]="state._id">
+                      {{ state.name }}
+                    </option>
+                  </select>
+                </div>
+              </td>
+
+              <td>
+                <div class="input-group">
+                  <input
+                    placeholder="User Name"
                     type="text"
                     class="form-control"
                     [formControl]="filterForm.controls.name"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.name.errors
-                    }"
                   />
                 </div>
               </td>
@@ -320,14 +349,10 @@
               <td>
                 <div class="input-group">
                   <input
-                    placeholder="ULB Name"
+                    placeholder="Email ID"
                     type="text"
                     class="form-control"
                     [formControl]="filterForm.controls.email"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.email.errors
-                    }"
                   />
                 </div>
               </td>
@@ -335,29 +360,10 @@
               <td>
                 <div class="input-group">
                   <input
-                    placeholder="ULB Code"
+                    placeholder="Designation"
                     type="text"
                     class="form-control"
                     [formControl]="filterForm.controls.designation"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.designation.errors
-                    }"
-                  />
-                </div>
-              </td>
-
-              <td>
-                <div class="input-group">
-                  <input
-                    placeholder="STATUS"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.organisationName"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.name.errors
-                    }"
                   />
                 </div>
               </td>
@@ -386,11 +392,27 @@
               "
             >
               <td class="text-center">{{ i + 1 }}</td>
-              <td class="text-center">State Name</td>
-              <td class="text-center">Username</td>
-              <td class="text-center">EmailId</td>
-              <td class="text-center">Designation</td>
-              <td class="text-center">Action</td>
+              <td class="text-center">
+                {{
+                  statesByID[user["state"]]
+                    ? statesByID[user["state"]].name
+                    : ""
+                }}
+              </td>
+              <td class="text-center">{{ user["name"] }}</td>
+              <td class="text-center">{{ user["email"] }}</td>
+              <td class="text-center">{{ user["designation"] }}</td>
+              <td class="text-center d-flex justify-content-center actionCell">
+                <a
+                  [routerLink]="['/', 'user', 'profile', 'view']"
+                  [queryParams]="{ id: user._id, role: 'STATE' }"
+                >
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+                <span class="ml-1 mr-1"> /</span>
+                <!-- <i class="fa fa-pencil" aria-hidden="true"></i> -->
+                <a> <i class="fa fa-trash" aria-hidden="true"></i></a>
+              </td>
             </tr>
             <tr *ngIf="userList && !userList.length">
               <td colspan="6" class="text-center"><h3>No Data Found</h3></td>

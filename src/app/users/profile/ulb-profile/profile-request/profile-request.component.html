@@ -76,10 +76,7 @@
 
   <div
     class="mt-2"
-    *ngIf="
-      request.status === REQUEST_STATUS.PENDING &&
-      loggedInUserType === userTypes.ADMIN
-    "
+    *ngIf="request.status === REQUEST_STATUS.PENDING && canApproveRequest"
   >
     <button
       class="btn btn-primary mr-2"
@@ -104,6 +101,12 @@
       Reject Request
     </button>
   </div>
+  <p *ngIf="respone.errorMessage" class="error-message text-center mt-1">
+    {{ respone.errorMessage }}
+  </p>
+  <p *ngIf="respone.successMessage" class="success-message text-center mt-1">
+    {{ respone.successMessage }}
+  </p>
 </div>
 
 <div
@@ -214,18 +217,18 @@
   </pagination-controls>
 </div>
 
-<div
-  *ngIf="requestList && loggedInUserType === userTypes.ADMIN"
-  style="width: 90%"
->
+<div *ngIf="requestList && canViewULBSignUpList" style="width: 90%">
   <table class="table listing-table">
     <thead>
-      <tr style="background: #009fe3;color: white ;border: 5px solid white">
+      <tr
+        class="sortable-headers"
+        style="background: #009fe3;color: white ;border: 5px solid white"
+      >
         <th class="text-center">S.No.</th>
-        <th class="text-center">State</th>
-        <th class="text-center" (click)="sortListBy('status')">ULB Name</th>
-        <th class="text-center" (click)="sortListBy('status')">ULB Code</th>
-        <th class="text-center" (click)="sortListBy('status')">STATUS</th>
+        <th class="text-center" (click)="sortListBy('name')">State</th>
+        <th class="text-center" (click)="sortListBy('name')">ULB Name</th>
+        <th class="text-center" (click)="sortListBy('code')">ULB Code</th>
+        <th class="text-center" (click)="sortListBy('satus')">STATUS</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
@@ -233,13 +236,21 @@
       <tr *ngIf="filterForm">
         <td></td>
         <td>
-          <div class="input-group" style="margin: auto;">
-            <input
-              placeholder="State"
-              type="status"
-              class="form-control"
+          <div class="input-group m-auto">
+            <select
+              name="State"
+              id="state"
               [formControl]="filterForm.controls.state"
-            />
+              class="form-control"
+              placeholder="State"
+            >
+              <option value="" selected disabled>
+                State
+              </option>
+              <option *ngFor="let state of stateList" [value]="state._id">
+                {{ state.name }}
+              </option>
+            </select>
           </div>
         </td>
 
@@ -264,13 +275,31 @@
           </div>
         </td>
         <td>
-          <div class="input-group" style="margin: auto;">
-            <input
-              placeholder="STATUS"
-              type="status"
+          <div class="input-group m-auto">
+            <select
+              name="ulb"
+              id="ulb"
+              [formControl]="filterForm.controls['status']"
               class="form-control"
-              [formControl]="filterForm.controls.status"
-            />
+              placeholder="STATUS"
+            >
+              <option value="">
+                None
+              </option>
+              <option
+                *ngFor="let status of requestStatusTypeList"
+                [value]="status.value"
+              >
+                {{ status.value }}
+              </option>
+            </select>
+            <!-- <input
+                id="email"
+                type="text"
+                class="form-control"
+                [formControl]="registrationForm.controls['name']"
+                placeholder="ULB Name"
+              /> -->
           </div>
         </td>
         <td>
@@ -309,7 +338,12 @@
           <a [routerLink]="['./']" [queryParams]="{ requestId: request._id }">
             <i class="fa fa-eye" aria-hidden="true" title="View Request"></i
           ></a>
-          <span *ngIf="request.status === REQUEST_STATUS.PENDING">
+          <span
+            *ngIf="
+              request.status === REQUEST_STATUS.PENDING &&
+              loggedInUserType === userTypes.ULB
+            "
+          >
             /
             <i
               class="fa fa-times"
@@ -319,6 +353,9 @@
             ></i>
           </span>
         </td>
+      </tr>
+      <tr *ngIf="requestList && !requestList.length">
+        <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
       </tr>
     </tbody>
   </table>

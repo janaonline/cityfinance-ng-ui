@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { USER_TYPE } from 'src/app/models/user/userType';
 
@@ -13,7 +13,7 @@ import { ProfileService } from '../service/profile.service';
   templateUrl: "./state-profile.component.html",
   styleUrls: ["./state-profile.component.scss"]
 })
-export class StateProfileComponent implements OnInit {
+export class StateProfileComponent implements OnInit, OnChanges {
   @Input()
   profileData: any;
   profileForm: FormGroup;
@@ -24,21 +24,24 @@ export class StateProfileComponent implements OnInit {
 
   respone = { successMessage: null, errorMessage: null };
   formSubmitted = false;
+  window = window;
 
   constructor(
     private _commonService: CommonService,
     private _profileService: ProfileService
   ) {
-    console.log("this is state");
+    console.log(`this is state`);
     this.fetchStateList();
-    this.initializeForm();
   }
 
   ngOnInit() {}
+  ngOnChanges() {
+    this.initializeForm();
+  }
 
   private fetchStateList() {
     this._commonService.getStateUlbCovered().subscribe(res => {
-      console.log(res.data[0]);
+      console.log(`state list `, res.data);
       this.stateList = res.data;
     });
   }
@@ -70,10 +73,13 @@ export class StateProfileComponent implements OnInit {
 
     this._profileService.createUser(body).subscribe(
       res => {
+        form.reset();
+        this.formSubmitted = false;
+
         this.respone.successMessage = "Profile created successfully";
       },
       (err: HttpErrorResponse) =>
-        (this.respone.errorMessage = err.error.msg || "Server Error")
+        (this.respone.errorMessage = err.error.message || "Server Error")
     );
   }
 
@@ -89,6 +95,17 @@ export class StateProfileComponent implements OnInit {
 
   private initializeForm() {
     this.profileForm = this.formUtil.getStateForm();
+
+    if (this.profileData) {
+      console.log(this.profileData);
+      console.log(this.profileForm);
+      if (this.profileData.role !== USER_TYPE.STATE) {
+        this.profileData = null;
+        return;
+      }
+      this.profileForm.patchValue(this.profileData);
+      this.profileForm.controls.state.setValue(this.profileData.state._id);
+    }
   }
 
   private resetResponseMessage() {

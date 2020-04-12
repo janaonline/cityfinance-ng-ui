@@ -1,4 +1,11 @@
-<h3>{{ profileData ? "Edit Profile" : "Create State" }}</h3>
+<h3>
+  {{
+    profileData && profileData.role === "STATE"
+      ? "Edit Profile"
+      : "Create State"
+  }}
+</h3>
+<button class="back_button" (click)="window.history.back()">Back</button>
 
 <form
   [formGroup]="profileForm"
