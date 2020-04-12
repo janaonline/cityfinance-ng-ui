@@ -1,26 +1,34 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {DataUploadComponent} from './data-upload.component';
-import {CommonModule} from '@angular/common';
-import {AngularMaterialModule} from '../../angular-material.module';
-import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
-import {ReactiveFormsModule} from '@angular/forms';
-import {DataUploadActionComponent} from './data-upload-action/data-upload-action.component';
-import {SharedModule} from '../../shared/shared.module';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+
+import { AngularMaterialModule } from '../../angular-material.module';
+import { SharedModule } from '../../shared/shared.module';
+import { BulkEntryComponent } from './bulk-entry/bulk-entry.component';
+import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
+import { DataUploadComponent } from './data-upload.component';
 
 const routes: Routes = [
-  {path: 'action', component: DataUploadActionComponent},
-  {path: 'action/:id', component: DataUploadActionComponent},
-  {path: ':id', component: DataUploadComponent},
-  {path: ':id/:uploadId', component: DataUploadComponent},
-  {path: '', component: DataUploadComponent},
+  { path: "bulk-upload", component: BulkEntryComponent },
+  { path: "action", component: DataUploadActionComponent },
+  { path: "action/:id", component: DataUploadActionComponent },
+  { path: ":id", component: DataUploadComponent },
+  { path: ":id/:uploadId", component: DataUploadComponent },
+  { path: "", component: DataUploadComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), CommonModule, AngularMaterialModule, AngularMultiSelectModule, ReactiveFormsModule, SharedModule],
+  imports: [
+    RouterModule.forChild(routes),
+    CommonModule,
+    AngularMaterialModule,
+    AngularMultiSelectModule,
+    ReactiveFormsModule,
+    SharedModule
+  ],
   exports: [RouterModule],
-  declarations: [DataUploadComponent],
+  declarations: [DataUploadComponent]
 })
-
-export class DataUploadRoutingModule {
-}
+export class DataUploadRoutingModule {}
