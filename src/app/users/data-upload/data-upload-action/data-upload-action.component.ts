@@ -50,14 +50,13 @@ export class DataUploadActionComponent implements OnInit {
     this.fileFormGroupKeys.forEach(formGroupKey => {
       this.completenessFormGroup.addControl(formGroupKey, new FormGroup({
         completeness: new FormControl(),
-        message: new FormControl()
+        message: new FormControl('')
       }));
       this.correctnessFormGroup.addControl(formGroupKey, new FormGroup({
         correctness: new FormControl(),
-        message: new FormControl()
+        message: new FormControl('')
       }));
     });
-    console.log(this.correctnessFormGroup.value, this.completenessFormGroup.value);
   }
 
   ngOnInit() {
@@ -83,6 +82,10 @@ export class DataUploadActionComponent implements OnInit {
     }
   }
 
+  getFormControl(formGroup: FormGroup, formGroupName: string, formControlName: string) {
+    return formGroup.get([formGroupName, formControlName]);
+  }
+
   getCompletenessFormControl(formGroupKey) {
     return this.completenessFormGroup.get([formGroupKey, 'completeness']);
   }
@@ -103,31 +106,51 @@ export class DataUploadActionComponent implements OnInit {
       const formGroupDataItem = this.financeDataService.selectedFinancialRequest[formGroupKey];
       if (formGroupDataItem) {
         const {excelUrl, pdfUrl} = formGroupDataItem;
-        let formControls = [this.getCompletenessFormControl(formGroupKey), this.getCorrectnessFormControl(formGroupKey)];
-        let keys = ['completeness', 'correctness'];
+        let formControls = [
+          this.getFormControl(this.completenessFormGroup, formGroupKey, 'completeness'),
+          this.getFormControl(this.correctnessFormGroup, formGroupKey, 'correctness'),
+          this.getFormControl(this.completenessFormGroup, formGroupKey, 'message'),
+          this.getFormControl(this.correctnessFormGroup, formGroupKey, 'message'),
+        ];
+        let keys = ['completeness', 'correctness', 'message', 'message'];
         for (let i = 0; i < formControls.length; i++) {
           const formControl = formControls[i];
-          if (excelUrl || pdfUrl) {
-            formControl.setValue(formGroupDataItem[keys[i]]);
-            formControl.setValidators(Validators.required);
-            formControl.updateValueAndValidity();
-            if ((i == 0 && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) || (i == 1) && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
-              continue;
-            }
+          switch (keys[i]) {
+            case 'completeness':
+            case 'correctness':
+              if (excelUrl || pdfUrl) {
+                if (formGroupDataItem[keys[i]] != UPLOAD_STATUS.PENDING) {
+                  formControl.setValue(formGroupDataItem[keys[i]]);
+                }
+                formControl.setValidators(Validators.required);
+                formControl.updateValueAndValidity();
+                if ((i == 0 && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) || (i == 1) && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
+                  continue;
+                }
+              }
+              formControl.disable();
+              formControl.updateValueAndValidity();
+              break;
+            case 'message':
+              if (formControls[i - 2].disabled) {
+                formControl.disable();
+                formControl.updateValueAndValidity();
+              }
+              break;
           }
-          formControl.disable();
-          formControl.updateValueAndValidity();
         }
       }
     });
+
     this.updateTabIndex(data);
   }
 
   setAuditStatus(value: boolean) {
+
     if (value) {
-      this.fileFormGroupKeys.splice(this.fileFormGroupKeys.length - 1, 1);
       this.audited.setValue([this.auditStatusDropdown[0]]);
     } else {
+      this.fileFormGroupKeys.splice(this.fileFormGroupKeys.length - 1, 1);
       this.audited.setValue([this.auditStatusDropdown[1]]);
     }
   }
@@ -149,8 +172,13 @@ export class DataUploadActionComponent implements OnInit {
   }
 
   completenessClickedHandler() {
+    let responseObject = {...this.completenessFormGroup.getRawValue()};
+    if (!this.financeDataService.selectedFinancialRequest.audited) {
+      const {auditReport, ...rest} = this.completenessFormGroup.getRawValue();
+      responseObject = {...rest};
+    }
     this.financeDataService
-      .updateCompletenessStatus(this.id, this.completenessFormGroup.value)
+      .updateCompletenessStatus(this.id, responseObject)
       .subscribe(result => {
         if (result['success']) {
           this.router.navigate(['/user/data-upload']);
