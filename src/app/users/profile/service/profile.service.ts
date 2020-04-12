@@ -44,12 +44,8 @@ export class ProfileService {
     return this._htttp.post(`${environment.api.url}user/create`, body);
   }
 
-  createProfile() {}
-
-  updateUserProfileData(data: {}) {
-    return this._htttp.put(`${environment.api.url}user/profile`, {
-      body: data
-    });
+  updateUserProfileData(body: {}) {
+    return this._htttp.put(`${environment.api.url}user/profile`, body);
   }
 
   createULBUpdateRequest(body: {}) {
