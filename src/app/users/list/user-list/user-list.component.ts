@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
+import { CommonService } from 'src/app/shared/services/common.service';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { UserService } from '../../../dashboard/user/user.service';
 import { UserProfile } from '../../profile/model/user-profile';
@@ -13,6 +16,26 @@ import { ProfileService } from '../../profile/service/profile.service';
   styleUrls: ["./user-list.component.scss"]
 })
 export class UserListComponent implements OnInit {
+  constructor(
+    private _userService: UserService,
+    private _profileService: ProfileService,
+    private _fb: FormBuilder,
+    private _activatedRoute: ActivatedRoute,
+    private _router: Router,
+    private _commonService: CommonService
+  ) {
+    this._activatedRoute.params.subscribe(params => {
+      this.initializeList(params.userType);
+      this.initializeFilterForm();
+      this.initializeListFetchParams();
+
+      const type = this._profileService.getLoggedInUserType();
+      if (type === USER_TYPE.ULB) {
+        return this.fetchULBProfileUpdateRequest();
+      }
+      this.fetchList(this.listFetchOption);
+    });
+  }
   userList: UserProfile[];
   filterForm: FormGroup;
 
@@ -22,28 +45,29 @@ export class UserListComponent implements OnInit {
   listType: USER_TYPE;
 
   loggedInType: USER_TYPE;
+  currentSort = 1;
 
-  constructor(
-    private _userService: UserService,
-    private _profileService: ProfileService,
-    private _fb: FormBuilder,
-    private _activatedRoute: ActivatedRoute,
-    private _router: Router
-  ) {
-    this._activatedRoute.params.subscribe(params => {
-      this.initializeList(params.userType);
-      this.initializeFilterForm();
-      const type = this._profileService.getLoggedInUserType();
-      if (type === USER_TYPE.ULB) {
-        this.fetchULBProfileUpdateRequest();
-      }
-    });
-  }
+  tableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null
+  };
+
+  listFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0
+  };
+
+  stateList: IStateULBCovered[];
+
+  statesByID: { [id: string]: IStateULBCovered } = {};
 
   private fetchULBProfileUpdateRequest() {
-    this._profileService.getULBProfileUpdateRequestList().subscribe(res => {
-      console.log(res);
-    });
+    // this._profileService.getULBProfileUpdateRequestList().subscribe(res => {
+    //   console.log(res);
+    // });
   }
 
   private initializeList(type: USER_TYPE) {
@@ -57,20 +81,55 @@ export class UserListComponent implements OnInit {
     if (!this.listType) {
       return this._router.navigate(["/home"]);
     }
-    this.fetchList({ role: this.listType });
   }
 
   ngOnInit() {}
 
-  public searchUsersBy(params: {}) {
-    this.fetchList(params);
+  public searchUsersBy(filterForm: {}) {
+    this.listFetchOption.filter = filterForm;
+
+    this.fetchList({ ...(<any>this.listFetchOption) });
   }
 
-  setPage(pageNoClick: number) {}
+  sortListBy(key: string) {
+    this.currentSort = this.currentSort > 0 ? -1 : 1;
+    const values = {
+      filter: this.filterForm.value,
+      sort: { [key]: this.currentSort },
+      role: this.listType,
+      skip:
+        this.tableDefaultOptions.currentPage *
+        this.tableDefaultOptions.itemPerPage
+    };
+    this.listFetchOption = values;
+    this.searchUsersBy(values.filter);
+  }
 
-  private fetchList(body: { [key: string]: string } = {}) {
+  setPage(pageNoClick: number) {
+    console.log(pageNoClick);
+    this.tableDefaultOptions.currentPage = pageNoClick;
+    this.listFetchOption.skip =
+      (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+    this.searchUsersBy(this.filterForm.value);
+  }
+
+  private fetchList(
+    body: {
+      filter: { [key: string]: string };
+      sort: { [key: string]: number };
+      role?: USER_TYPE;
+    } = { filter: {}, sort: {} }
+  ) {
+    const util = new JSONUtility();
+    console.log(`searchParams body`, { ...body });
+    body.filter = util.filterEmptyValue(body.filter);
+
     this._userService.getUsers(body).subscribe(res => {
       console.log(res);
+
+      if (res.hasOwnProperty("total")) {
+        this.tableDefaultOptions.totalCount = res["total"];
+      }
       if (res["success"]) {
         this.userList = res["data"];
       } else {
@@ -84,8 +143,24 @@ export class UserListComponent implements OnInit {
       case USER_TYPE.USER:
         return this.initializeUserFilterForm();
       case USER_TYPE.ULB:
-        return this.initializeULBFilterForm();
+        this.fetchStateList();
+        this.initializeULBFilterForm();
+        return;
+      case USER_TYPE.STATE:
+        this.initializeStateFilterForm();
+        this.fetchStateList();
+        return;
     }
+  }
+
+  private fetchStateList() {
+    this._commonService.getStateUlbCovered().subscribe(res => {
+      console.log(`state list `, res.data);
+      this.stateList = res.data;
+      res.data.forEach(state => {
+        this.statesByID[state._id] = state;
+      });
+    });
   }
 
   private initializeUserFilterForm() {
@@ -102,7 +177,26 @@ export class UserListComponent implements OnInit {
       name: [null],
       email: [null],
       designation: [null],
-      organisationName: [null]
+      organisationName: [null],
+      state: [null]
     });
+  }
+
+  private initializeStateFilterForm() {
+    this.filterForm = this._fb.group({
+      name: [null],
+      email: [null],
+      designation: [null],
+      state: [null]
+    });
+  }
+
+  private initializeListFetchParams() {
+    this.listFetchOption = {
+      role: this.listType,
+      filter: this.filterForm ? this.filterForm.value : {},
+      sort: null,
+      skip: 0
+    };
   }
 }

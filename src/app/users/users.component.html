@@ -46,12 +46,13 @@
 <div class="container-fluid">
   <div class="row d-flex">
     <div class="col-sm-2 mt-2 mr-2">
-      <app-side-menu [content]="sideMenuContent"></app-side-menu>
+      <app-side-menu
+        [content]="sideMenuContent"
+        *ngIf="loggedInUserType !== userTypes.USER"
+      ></app-side-menu>
     </div>
     <div class="col-sm-9">
       <router-outlet></router-outlet>
     </div>
   </div>
-
 </div>
-

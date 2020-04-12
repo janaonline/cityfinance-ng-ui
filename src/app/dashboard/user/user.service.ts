@@ -22,10 +22,7 @@ export class UserService {
     return this.http.post(environment.api.url + "users/onboard", newUser);
   }
 
-  getUsers(criteria) {
-    return this.http.post<UserProfile[]>(
-      environment.api.url + "users/getAll",
-      criteria
-    );
+  getUsers(body: {}) {
+    return this.http.post<UserProfile[]>(environment.api.url + "user", body);
   }
 }

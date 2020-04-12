@@ -1,23 +1,72 @@
-import {Component, OnInit} from '@angular/core';
-import {ILink} from '../shared/side-menu/side-menu.component';
+import { Component, OnInit } from '@angular/core';
+
+import { USER_TYPE } from '../models/user/userType';
+import { ILink } from '../shared/side-menu/side-menu.component';
+import { AccessChecker } from '../util/access/accessChecker';
+import { ACTIONS } from '../util/access/actions';
+import { MODULES_NAME } from '../util/access/modules';
+import { ProfileService } from './profile/service/profile.service';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  selector: "app-users",
+  templateUrl: "./users.component.html",
+  styleUrls: ["./users.component.scss"]
 })
 export class UsersComponent implements OnInit {
-
+  accessChecker = new AccessChecker();
   sideMenuContent: ILink[] = [
-    {title: 'ULB', type: 'link', route: ['/user/data-upload']},
-    {title: 'Links to User Module', type: 'other', route: []},
-    {title: 'ULB Profile edit', type: 'link', route: ['/user/profile']}
+    { title: "ULB", type: "link", route: ["/user/data-upload"] },
+    { title: "Links to User Module", type: "other", route: [] },
+    {
+      title: "State",
+      type: "link",
+      route: [`/user/list/${USER_TYPE.STATE}`],
+      condition: () => {
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.STATE
+        });
+      }
+    },
+    {
+      title: "ULB Profile Edit",
+      type: "link",
+      route: ["/user/profile/request"]
+    },
+    {
+      title: "ULB Signup List",
+      type: "link",
+      route: [`/user/list/${USER_TYPE.ULB}`],
+      condition: () => {
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.ULB_PROFILE
+        });
+      }
+    },
+    {
+      title: "Users",
+      type: "link",
+      route: [`/user/list/${USER_TYPE.USER}`],
+      condition: () => {
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.USERLIST
+        });
+      }
+    }
   ];
 
-  constructor() {
+  loggedInUserType: USER_TYPE;
+  userTypes = USER_TYPE;
+
+  constructor(private profileService: ProfileService) {
+    this.initializeUSerType();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
+  private initializeUSerType() {
+    this.loggedInUserType = this.profileService.getLoggedInUserType();
+  }
 }

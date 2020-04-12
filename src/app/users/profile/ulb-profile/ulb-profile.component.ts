@@ -47,6 +47,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   submitForm(form: FormGroup) {
     this.resetResponseMessage();
+    console.log({ ...form.value });
+
     this.formSubmitted = true;
 
     const errors = this.checkFieldsForError(form);
@@ -108,6 +110,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       }
 
       if (!control.valid) {
+        console.log(Name, control);
+
         errors.push(`${Name} is invalid`);
         return;
       }
@@ -150,9 +154,11 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     if (this.profileData) {
       this.profile.patchValue({
         ...{ ...this.profileData },
+        name: this.profileData.ulb.name,
         state: this.profileData.ulb.state.name
       });
-
+      if (this.profileData) {
+      }
       this.disableNonEditableFields();
     }
   }

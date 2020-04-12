@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { USER_TYPE } from 'src/app/models/user/userType';
 
 import { IStateULBCovered } from '../../../shared/models/stateUlbConvered';
 import { CommonService } from '../../../shared/services/common.service';
@@ -12,7 +13,7 @@ import { ProfileService } from '../service/profile.service';
   templateUrl: "./state-profile.component.html",
   styleUrls: ["./state-profile.component.scss"]
 })
-export class StateProfileComponent implements OnInit {
+export class StateProfileComponent implements OnInit, OnChanges {
   @Input()
   profileData: any;
   profileForm: FormGroup;
@@ -22,46 +23,63 @@ export class StateProfileComponent implements OnInit {
   formErrors: string[];
 
   respone = { successMessage: null, errorMessage: null };
-  formSubmitted = true;
+  formSubmitted = false;
+  window = window;
 
   constructor(
     private _commonService: CommonService,
     private _profileService: ProfileService
   ) {
+    console.log(`this is state`);
     this.fetchStateList();
-    this.initializeForm();
   }
 
   ngOnInit() {}
+  ngOnChanges() {
+    this.initializeForm();
+  }
 
   private fetchStateList() {
     this._commonService.getStateUlbCovered().subscribe(res => {
-      console.log(res.data[0]);
+      console.log(`state list `, res.data);
       this.stateList = res.data;
     });
   }
 
-  private onFormSubmit(form: FormGroup) {
+  public onFormSubmit(form: FormGroup) {
     this.resetResponseMessage();
+    this.formSubmitted = true;
+    this.formErrors = this.formUtil.validateStateForm(form);
+    if (this.formErrors) {
+      return;
+    }
+
     if (this.profileData) {
       return this.updateProfile(form);
     }
+
     this.createProfile(form);
   }
 
   private createProfile(form: FormGroup) {
-    this.formSubmitted = true;
-    this.formErrors = this.formUtil.validateStateForm(form);
-    if (this.formErrors && this.formErrors.length) {
-      return;
-    }
+    // this.formSubmitted = true;
+    // this.formErrors = this.formUtil.validateStateForm(form);
+    // if (this.formErrors && this.formErrors.length) {
+    //   return;
+    // }
+    const body = form.value;
+    body.role = USER_TYPE.STATE;
+    body.password = "";
 
-    this._profileService.createUser(form.value).subscribe(
+    this._profileService.createUser(body).subscribe(
       res => {
-        this.respone.successMessage = "State created successfully";
+        form.reset();
+        this.formSubmitted = false;
+
+        this.respone.successMessage = "Profile created successfully";
       },
       (err: HttpErrorResponse) =>
-        (this.respone.errorMessage = err.error.msg || "Server Error")
+        (this.respone.errorMessage = err.error.message || "Server Error")
     );
   }
 
@@ -77,6 +95,17 @@ export class StateProfileComponent implements OnInit {
 
   private initializeForm() {
     this.profileForm = this.formUtil.getStateForm();
+
+    if (this.profileData) {
+      console.log(this.profileData);
+      console.log(this.profileForm);
+      if (this.profileData.role !== USER_TYPE.STATE) {
+        this.profileData = null;
+        return;
+      }
+      this.profileForm.patchValue(this.profileData);
+      this.profileForm.controls.state.setValue(this.profileData.state._id);
+    }
   }
 
   private resetResponseMessage() {

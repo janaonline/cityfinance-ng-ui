@@ -4,5 +4,13 @@ td {
 
 .listing-table {
   margin: auto;
-  width: 70%;
+  width: 100%;
+}
+
+.fa {
+  cursor: pointer;
+}
+
+.sortable-headers > th {
+  cursor: pointer;
 }
