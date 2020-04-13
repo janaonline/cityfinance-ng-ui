@@ -182,7 +182,7 @@ export class DataUploadComponent implements OnInit {
         if (response.success) {
           swal({
             title: 'Successfully Uploaded',
-            text: 'Reference No:',
+            text: `Reference No: ${response['data']['referenceCode']}`,
             icon: 'success',
             // @ts-ignore
             button: 'Okay'
@@ -232,7 +232,6 @@ export class DataUploadComponent implements OnInit {
       const {completeness, correctness} = formGroupDataObject;
       if (correctnessOverAll === 'REJECTED' || completenessOverAll === 'REJECTED') {
         if (completeness === 'REJECTED' || correctness === 'REJECTED') {
-          console.log('here', formGroupItem, formGroupKey);
           formGroupItem.enable();
         } else {
           formGroupItem.disable();
@@ -244,7 +243,6 @@ export class DataUploadComponent implements OnInit {
         formGroupItem.setErrors(null);
         formGroupItem.updateValueAndValidity();
       }
-      console.log(this.fileFormGroup);
     });
 
   }
@@ -285,7 +283,6 @@ export class DataUploadComponent implements OnInit {
       }
     }
     this.financialDataService.upDateFinancialData(this.uploadId, urlObject).subscribe((result) => {
-      console.log(result);
       if (result['success']) {
         this.router.navigate(['/user/data-upload']);
       }
