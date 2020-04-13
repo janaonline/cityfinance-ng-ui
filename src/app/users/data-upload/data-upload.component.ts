@@ -167,7 +167,7 @@ export class DataUploadComponent implements OnInit {
     };
     this.financialDataService.uploadFinancialData(responseObject).subscribe((response: any) => {
         if (response.success) {
-          this.router.navigate(['/users/data-upload']);
+          this.router.navigate(['/user/data-upload']);
         }
       }, (error: HttpErrorResponse) => {
         event.disabled = false;
