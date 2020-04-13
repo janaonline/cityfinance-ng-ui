@@ -60,7 +60,6 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       return;
     }
     this.resetResponseMessage();
-    console.log({ ...form.value });
 
     this.formSubmitted = true;
 
@@ -146,8 +145,6 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       }
 
       if (!control.valid) {
-        console.log(Name, control);
-
         errors.push(`${Name} is invalid`);
         return;
       }
@@ -197,11 +194,9 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       if (this.profileData.status !== "APPROVED") {
         this.canSubmitForm = false;
       } else {
-        this.canSubmitForm = true;
+        this.initializeAccess();
       }
       this.profile.disable({ emitEvent: false });
-
-      console.log(this.canSubmitForm);
 
       this.disableNonEditableFields();
     }

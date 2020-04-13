@@ -3,5 +3,6 @@ export enum USER_TYPE {
   "ULB" = "ULB",
   "ADMIN" = "ADMIN",
   "MoHUA" = "MoHUA",
-  "STATE" = "STATE"
+  "STATE" = "STATE",
+  "PARTNER" = "PARTNER"
 }

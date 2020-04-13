@@ -5,6 +5,17 @@
 <div *ngIf="request">
   <button class="back_button mb-2" (click)="window.history.back()">Back</button>
 
+  <h4>
+    STATUS:
+    <span
+      [ngClass]="{
+        'error-message': request.status !== REQUEST_STATUS.APPROVED,
+        'success-message': request.status === REQUEST_STATUS.APPROVED
+      }"
+      style="display: inline;"
+      >{{ request.status }}</span
+    >
+  </h4>
   <table style="width: 70%;">
     <thead>
       <tr>

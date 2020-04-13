@@ -299,6 +299,9 @@
                 ></a>
               </td>
             </tr>
+            <tr *ngIf="userList && !userList.length">
+              <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
+            </tr>
           </tbody>
         </table>
 
