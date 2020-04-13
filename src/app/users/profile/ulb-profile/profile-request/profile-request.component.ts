@@ -123,7 +123,6 @@ export class ProfileRequestComponent implements OnInit {
 
   updateRequest(params: { status: string; id: string }) {
     this.resetResponseMessages();
-    console.log(params);
 
     return this._profileService.updateULBProfileRequest(params).subscribe(
       res => {
@@ -177,6 +176,7 @@ export class ProfileRequestComponent implements OnInit {
       moduleName: MODULES_NAME.ULB_PROFILE,
       action: ACTIONS.APPROVE
     });
+
     this.canApproveRequest = hasAccess ? "write" : "readOnly";
     this.canViewULBSignUpList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.ULB_SIGNUP_REQUEST,
