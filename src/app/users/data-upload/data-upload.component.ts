@@ -11,6 +11,7 @@ import {MODULES_NAME} from '../../util/access/modules';
 import {ACTIONS} from '../../util/access/actions';
 import {UserUtility} from '../../util/user/user';
 import {MatSnackBar} from '@angular/material';
+import swal from 'sweetalert';
 import {fromEvent} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {DropdownSettings} from 'angular2-multiselect-dropdown/lib/multiselect.interface';
@@ -167,7 +168,17 @@ export class DataUploadComponent implements OnInit {
     };
     this.financialDataService.uploadFinancialData(responseObject).subscribe((response: any) => {
         if (response.success) {
-          this.router.navigate(['/users/data-upload']);
+          swal({
+            title: 'Successfully Uploaded',
+            text: 'Reference No:',
+            icon: 'success',
+            // @ts-ignore
+            button: 'Okay'
+          }).then((result) => {
+            if (result) {
+              this.router.navigate(['/user/data-upload']);
+            }
+          });
         }
       }, (error: HttpErrorResponse) => {
         event.disabled = false;
