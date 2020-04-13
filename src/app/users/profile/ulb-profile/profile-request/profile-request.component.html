@@ -74,9 +74,14 @@
     </tbody>
   </table>
 
+  canApproveRequest: {{ canApproveRequest }}
   <div
     class="mt-2"
-    *ngIf="request.status === REQUEST_STATUS.PENDING && canApproveRequest"
+    *ngIf="
+      request.status === REQUEST_STATUS.PENDING &&
+      canApproveRequest &&
+      canApproveRequest !== 'readOnly'
+    "
   >
     <button
       class="btn btn-primary mr-2"

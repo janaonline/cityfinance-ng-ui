@@ -177,6 +177,8 @@ export class ProfileRequestComponent implements OnInit {
       moduleName: MODULES_NAME.ULB_PROFILE,
       action: ACTIONS.APPROVE
     });
+    console.log(hasAccess);
+
     this.canApproveRequest = hasAccess ? "write" : "readOnly";
     this.canViewULBSignUpList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.ULB_SIGNUP_REQUEST,
