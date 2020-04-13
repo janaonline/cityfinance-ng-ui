@@ -59,12 +59,12 @@
       </tr>
       <tr *ngIf="request.area">
         <td>Area</td>
-        <td>{{ !request.old ? "" : request.old.area }}</td>
+        <td>{{ !request.old ? "" : request.old["ulb"].area }}</td>
         <td>{{ request.area }}</td>
       </tr>
       <tr *ngIf="request.population">
         <td>Population</td>
-        <td>{{ !request.old ? "" : request.old.population }}</td>
+        <td>{{ !request.old ? "" : request.old["ulb"].population }}</td>
         <td>{{ request.population }}</td>
       </tr>
       <tr *ngIf="request.wards || request.wards === 0">
@@ -76,7 +76,7 @@
       <tr *ngIf="request.ulbType">
         <td>ULB Type</td>
         <td>{{ !request.old ? "" : request.old.ulb.ulbType.name }}</td>
-        <td>{{ request.ulb.ulbType.name }}</td>
+        <td>{{ request.ulbType.name }}</td>
       </tr>
       <!-- <tr *ngIf="request.ulbType">
         <td>11</td>
