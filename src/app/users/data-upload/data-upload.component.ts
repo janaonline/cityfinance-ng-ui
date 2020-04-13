@@ -50,6 +50,18 @@ export class DataUploadComponent implements OnInit {
   completenessStatus = 'PENDING';
   correctnessStatus = 'PENDING';
   @ViewChild('searchFinancialYear') searchFinancialYear: ElementRef;
+  tableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null
+  };
+  currentSort = 1;
+  listFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0
+  };
 
   constructor(public activatedRoute: ActivatedRoute,
               public router: Router,
@@ -101,16 +113,16 @@ export class DataUploadComponent implements OnInit {
   ngOnInit() {
     this.fetchFinancialYears();
     if (!this.id) {
-      this.getFinancialData();
+      this.getFinancialData({}, this.listFetchOption);
     }
     if (this.uploadId) {
       this.getFinancialData({_id: this.uploadId});
     }
   }
 
-  getFinancialData(params = {}) {
+  getFinancialData(params = {}, body = {}) {
     this.financialDataService
-      .fetchFinancialData(params)
+      .fetchFinancialData(params, body)
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
@@ -120,7 +132,7 @@ export class DataUploadComponent implements OnInit {
       this.updateFormControls();
     } else {
       this.dataUploadList = response.data;
-
+      this.tableDefaultOptions.totalCount = response['total'];
     }
   };
 
@@ -320,10 +332,31 @@ export class DataUploadComponent implements OnInit {
           .fileFormGroup.get(filterKeys[1]).value[0].id == 'true' : '',
       }
     };
-    this.financialDataService.fetchFinancialData({}, filterObject).subscribe(result => {
+    this.listFetchOption = {
+      ...this.listFetchOption,
+      ...filterObject
+    };
+    this.financialDataService.fetchFinancialData({}, this.listFetchOption).subscribe(result => {
       this.handleResponseSuccess(result);
     }, (response: HttpErrorResponse) => {
       this._snackBar.open(response.error.errors.message || response.error.message || 'Some Error Occurred', null, {duration: 1600});
     });
+  }
+
+  setPage(pageNoClick: number) {
+    this.tableDefaultOptions.currentPage = pageNoClick;
+    this.listFetchOption.skip = (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+    this.getFinancialData({}, this.listFetchOption);
+
+
+  }
+
+  sortById(id: string) {
+    this.currentSort = this.currentSort > 0 ? -1 : 1;
+    this.listFetchOption = {
+      ...this.listFetchOption,
+      sort: {[id]: this.currentSort},
+    };
+    this.getFinancialData({}, this.listFetchOption);
   }
 }
