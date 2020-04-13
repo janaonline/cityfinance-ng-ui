@@ -127,10 +127,8 @@ export class ProfileRequestComponent implements OnInit {
     return this._profileService.updateULBProfileRequest(params).subscribe(
       res => {
         console.log(params);
-        const requestFound = this.requestList.find(
-          request => request._id === params.id
-        );
-        requestFound.status = params.status;
+        this.request.status = params.status;
+        // requestFound.status = params.status;
         this.modalService.hide(1);
       },
       err => (this.respone.errorMessage = err.error.message || "Server Error")

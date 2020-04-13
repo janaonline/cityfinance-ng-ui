@@ -40,6 +40,17 @@ export class UsersComponent implements OnInit {
     //   // }
     // },
     {
+      title: "Partner",
+      type: "link",
+      route: [`/user/list/${USER_TYPE.PARTNER}`],
+      condition: () => {
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.PARTNER
+        });
+      }
+    },
+    {
       title: "State",
       type: "link",
       route: [`/user/list/${USER_TYPE.STATE}`],
