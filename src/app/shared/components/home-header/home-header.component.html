@@ -125,7 +125,7 @@
         >Settings &nbsp;<span class="caret"></span
       ></a>
       <ul class="dropdown-menu">
-        <li>
+        <li *ngIf="canEditOwnProfile">
           <a [routerLink]="['user', 'profile', 'view']">Profile</a>
         </li>
         <li *ngIf="canViewUploadData">

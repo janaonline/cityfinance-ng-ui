@@ -22,6 +22,7 @@ export class HomeHeaderComponent implements OnInit {
   user: User = null;
 
   canViewUploadData = false;
+  canEditOwnProfile = false;
   private accessChecker = new AccessChecker();
 
   constructor(private router: Router, private authService: AuthService) {
@@ -41,6 +42,11 @@ export class HomeHeaderComponent implements OnInit {
     this.canViewUploadData = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.VIEW
+    });
+
+    this.canEditOwnProfile = this.accessChecker.hasAccess({
+      moduleName: MODULES_NAME.SELF_PROFILE,
+      action: ACTIONS.EDIT
     });
   }
 

@@ -12,18 +12,8 @@
             [queryParams]="{ role: userTypes.STATE }"
             >Create State</a
           >
-          <!-- <button
-            class="btn btn-primary"
-            style="float: right;"
-            (click)="searchUsersBy(filterForm.value)"
-          >
-            Create State
-          </button> -->
         </h3>
       </div>
-      <!-- <div class="col-md-6">
-      <button [routerLink]="['../onboard']" class="right btn btn-primary">Onboard User</button>
-    </div> -->
     </div>
 
     <div class="row">
@@ -144,7 +134,7 @@
               <td class="text-center">{{ user.name }}</td>
               <td class="text-center">{{ user.email }}</td>
               <td class="text-center">{{ user.designation }}</td>
-              <td class="text-center">{{ user.organisation }}</td>
+              <td class="text-center">{{ user.organization }}</td>
               <td class="text-center d-flex justify-content-center actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
@@ -153,8 +143,14 @@
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
                 <span class="ml-1 mr-1"> /</span>
-                <!-- <i class="fa fa-pencil" aria-hidden="true"></i> -->
-                <a> <i class="fa fa-trash" aria-hidden="true"></i></a>
+                <a>
+                  <i
+                    class="fa fa-trash"
+                    aria-hidden="true"
+                    title="Delete User"
+                    (click)="deleteUser(user._id)"
+                  ></i
+                ></a>
               </td>
             </tr>
 
@@ -191,8 +187,8 @@
                     class="form-control"
                     placeholder="State"
                   >
-                    <option value="" selected disabled>
-                      State
+                    <option value="" selected>
+                      ALL
                     </option>
                     <option *ngFor="let state of stateList" [value]="state._id">
                       {{ state.name }}
@@ -207,7 +203,7 @@
                     placeholder="ULB Name"
                     type="text"
                     class="form-control"
-                    [formControl]="filterForm.controls.email"
+                    [formControl]="filterForm.controls.name"
                     [ngClass]="{
                       'is-invalid':
                         formErrors && profileForm.controls.email.errors
@@ -222,7 +218,7 @@
                     placeholder="ULB Code"
                     type="text"
                     class="form-control"
-                    [formControl]="filterForm.controls.designation"
+                    [formControl]="filterForm.controls.code"
                     [ngClass]="{
                       'is-invalid':
                         formErrors && profileForm.controls.designation.errors
@@ -232,17 +228,24 @@
               </td>
 
               <td>
-                <div class="input-group">
-                  <input
-                    placeholder="STATUS"
-                    type="text"
+                <div class="input-group m-auto">
+                  <select
+                    name="ulb"
+                    id="ulb"
+                    [formControl]="filterForm.controls['status']"
                     class="form-control"
-                    [formControl]="filterForm.controls.organisationName"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.name.errors
-                    }"
-                  />
+                    placeholder="STATUS"
+                  >
+                    <option value="">
+                      ALL
+                    </option>
+                    <option
+                      *ngFor="let status of requestStatusTypeList"
+                      [value]="status.value"
+                    >
+                      {{ status.value }}
+                    </option>
+                  </select>
                 </div>
               </td>
               <td>
@@ -270,14 +273,12 @@
             >
               <td class="text-center">{{ i + 1 }}</td>
               <td class="text-center">
-                {{
-                  statesByID[ulb["state"]] ? statesByID[ulb["state"]].name : ""
-                }}
+                {{ ulb.ulb && ulb.ulb.state ? ulb.ulb.state.name : "" }}
               </td>
               <td class="text-center">{{ ulb["name"] }}</td>
-              <td class="text-center">{{ ulb["code"] }}</td>
+              <td class="text-center">{{ ulb.ulb["code"] }}</td>
               <td class="text-center">
-                {{ ulb["isEmailVerified"] ? "VERIFIED" : "NOT VERIFIED" }}
+                {{ ulb.status }}
               </td>
               <td class="text-center">
                 <a
@@ -288,7 +289,14 @@
                 </a>
                 <span class="ml-1 mr-1"> /</span>
                 <!-- <i class="fa fa-pencil" aria-hidden="true"></i> -->
-                <a> <i class="fa fa-trash" aria-hidden="true"></i></a>
+                <a>
+                  <i
+                    class="fa fa-trash"
+                    aria-hidden="true"
+                    title="Delete User"
+                    (click)="deleteUser(ulb._id)"
+                  ></i
+                ></a>
               </td>
             </tr>
           </tbody>
@@ -325,8 +333,8 @@
                     class="form-control"
                     placeholder="State"
                   >
-                    <option value="" selected disabled>
-                      State
+                    <option value="" selected>
+                      ALL
                     </option>
                     <option *ngFor="let state of stateList" [value]="state._id">
                       {{ state.name }}
@@ -393,11 +401,7 @@
             >
               <td class="text-center">{{ i + 1 }}</td>
               <td class="text-center">
-                {{
-                  statesByID[user["state"]]
-                    ? statesByID[user["state"]].name
-                    : ""
-                }}
+                {{ user.state ? user.state.name : "" }}
               </td>
               <td class="text-center">{{ user["name"] }}</td>
               <td class="text-center">{{ user["email"] }}</td>
@@ -411,7 +415,14 @@
                 </a>
                 <span class="ml-1 mr-1"> /</span>
                 <!-- <i class="fa fa-pencil" aria-hidden="true"></i> -->
-                <a> <i class="fa fa-trash" aria-hidden="true"></i></a>
+                <a>
+                  <i
+                    class="fa fa-trash"
+                    aria-hidden="true"
+                    title="Delete User"
+                    (click)="deleteUser(user._id)"
+                  ></i
+                ></a>
               </td>
             </tr>
             <tr *ngIf="userList && !userList.length">
@@ -419,6 +430,7 @@
             </tr>
           </tbody>
         </table>
+
         <pagination-controls
           style="float: right; position: relative;"
           id="foo"

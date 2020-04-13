@@ -1,11 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { AccessChecker } from 'src/app/util/access/accessChecker';
+import { ACTIONS } from 'src/app/util/access/actions';
+import { MODULES_NAME } from 'src/app/util/access/modules';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { ulbType } from '../../../dashboard/report/report/ulbTypes';
 import { FormUtil } from '../../../util/formUtil';
-import { FieldsWithFile, IULBProfileData } from '../model/ulb-profile';
+import { IULBProfileData } from '../model/ulb-profile';
 import { ProfileService } from '../service/profile.service';
 
 @Component({
@@ -15,6 +19,7 @@ import { ProfileService } from '../service/profile.service';
 })
 export class UlbProfileComponent implements OnInit, OnChanges {
   @Input() profileData: IULBProfileData;
+  @Input() editable = false;
   profile: FormGroup;
   formUtil = new FormUtil();
   jsonUtil = new JSONUtility();
@@ -23,11 +28,14 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   ulbTypeList: any[];
 
-  fileTracker: FieldsWithFile;
   formSubmitted = false;
 
   formErrorMessage: string[];
   respone = { successMessage: null, errorMessage: null };
+  canSubmitForm = false;
+  loggedInUserType: USER_TYPE;
+  USER_TYPE = USER_TYPE;
+  window = window;
 
   constructor(private _profileService: ProfileService) {
     this.fetchDatas();
@@ -42,10 +50,15 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.initializeAccess();
     this.initializeForm();
+    this.initializeLogginUserType();
   }
 
   submitForm(form: FormGroup) {
+    if (!this.canSubmitForm) {
+      return;
+    }
     this.resetResponseMessage();
     console.log({ ...form.value });
 
@@ -78,6 +91,29 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       res => this.onUpdatingProfileSuccess(res),
       err => this.onUpdatingProfileError(err)
     );
+  }
+
+  updateFormStatus(status: { status: IULBProfileData["status"]; _id: string }) {
+    this.resetResponseMessage();
+    this._profileService.updateULBSingUPStatus(status).subscribe(
+      res => {
+        this.canSubmitForm = true;
+        this.profileData.status = status.status;
+        this.respone.successMessage = "ULB Singup updated successfully.";
+      },
+      err => {
+        this.respone.errorMessage = err.error.message || "Server Error";
+      }
+    );
+  }
+
+  public enableProfileEdit() {
+    this.profile.enable();
+    this.disableNonEditableFields();
+  }
+  public disableProfileEdit() {
+    this.profile.disable({ emitEvent: false });
+    this.disableNonEditableFields();
   }
 
   private onUpdatingProfileSuccess(res) {
@@ -157,10 +193,31 @@ export class UlbProfileComponent implements OnInit, OnChanges {
         name: this.profileData.ulb.name,
         state: this.profileData.ulb.state.name
       });
-      if (this.profileData) {
+
+      if (this.profileData.status !== "APPROVED") {
+        this.canSubmitForm = false;
+      } else {
+        this.canSubmitForm = true;
       }
+      this.profile.disable({ emitEvent: false });
+
+      console.log(this.canSubmitForm);
+
       this.disableNonEditableFields();
     }
+  }
+
+  private initializeAccess() {
+    const accessCheck = new AccessChecker();
+    this.canSubmitForm = accessCheck.hasAccess({
+      action: ACTIONS.EDIT,
+      moduleName: MODULES_NAME.ULB_PROFILE
+    });
+    console.log(this.canSubmitForm);
+  }
+
+  private initializeLogginUserType() {
+    this.loggedInUserType = this._profileService.getLoggedInUserType();
   }
 
   private disableNonEditableFields() {
