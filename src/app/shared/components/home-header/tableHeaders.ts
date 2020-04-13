@@ -307,6 +307,7 @@ export const creditRatingModalHeaders: ModalTableHeader[][] = [
 ];
 
 export const ulbUploadList: ModalTableHeader[] = [
+  {id: 'ulb', title: 'ULB name'},
   {id: 'financialYear', click: true, title: 'Financial Year'},
   {id: 'audited', click: true, title: 'Audit Status'},
   {id: 'ad', title: 'Status'},
