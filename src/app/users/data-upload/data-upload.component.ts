@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {ulbUploadList} from '../../shared/components/home-header/tableHeaders';
@@ -16,6 +16,8 @@ import {fromEvent} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {DropdownSettings} from 'angular2-multiselect-dropdown/lib/multiselect.interface';
 import {USER_TYPE} from '../../models/user/userType';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {UPLOAD_STATUS} from '../../util/enums';
 
 @Component({
   selector: 'app-data-upload',
@@ -23,7 +25,7 @@ import {USER_TYPE} from '../../models/user/userType';
   styleUrls: ['./data-upload.component.scss']
 })
 export class DataUploadComponent implements OnInit {
-
+  uploadStatus = UPLOAD_STATUS;
   id = null;
   uploadId = null;
   uploadObject = null;
@@ -48,8 +50,8 @@ export class DataUploadComponent implements OnInit {
     singleSelection: true,
     text: 'Audit Status'
   };
-  completenessStatus = 'PENDING';
-  correctnessStatus = 'PENDING';
+  completenessStatus = UPLOAD_STATUS.PENDING;
+  correctnessStatus = UPLOAD_STATUS.PENDING;
   @ViewChild('searchFinancialYear') searchFinancialYear: ElementRef;
   tableDefaultOptions = {
     itemPerPage: 10,
@@ -63,12 +65,14 @@ export class DataUploadComponent implements OnInit {
     role: null,
     skip: 0
   };
+  modalTableData: any[] = [];
 
   constructor(public activatedRoute: ActivatedRoute,
               public router: Router,
               public location: Location,
               public dataUploadService: DataEntryService,
               private financialDataService: FinancialDataService,
+              private modalService: BsModalService,
               public accessUtil: AccessChecker,
               public userUtil: UserUtility,
               private _snackBar: MatSnackBar) {
@@ -368,5 +372,13 @@ export class DataUploadComponent implements OnInit {
     if (this.userUtil.getUserType() === USER_TYPE.ULB) {
       this.tableHeaders = this.tableHeaders.filter((header) => header.id != 'ulb');
     }
+  }
+
+  openModal(row: any, historyModal: TemplateRef<any>) {
+    this.modalTableData = row.history;
+    this.modalTableData = this.modalTableData.filter(row => typeof row['actionTakenBy'] != 'string')
+      .reverse();
+    this.modalService.show(historyModal, {});
+
   }
 }

@@ -132,6 +132,7 @@ export class DataUploadActionComponent implements OnInit {
               formControl.updateValueAndValidity();
               break;
             case 'message':
+              formControl.setValue(formGroupDataItem[keys[i]]);
               if (formControls[i - 2].disabled) {
                 formControl.disable();
                 formControl.updateValueAndValidity();
