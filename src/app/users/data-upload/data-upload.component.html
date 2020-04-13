@@ -291,7 +291,13 @@
           <tr>
             <th class="text-center">S.No.</th>
             <th class="text-center"
-                *ngFor="let header of tableHeaders">{{header.title}}</th>
+                *ngFor="let header of tableHeaders">
+              <ng-container [ngSwitch]="!!header.click">
+                <span (click)="sortById(header.id)" *ngSwitchCase="true">
+                  {{header.title}} <i class="glyphicon glyphicon-sort"></i></span>
+                <span *ngSwitchCase="false">{{header.title}}</span>
+              </ng-container>
+            </th>
           </tr>
           </thead>
           <tbody>
@@ -317,7 +323,14 @@
             </td>
           </tr>
           <ng-container *ngIf="dataUploadList.length;else noData">
-            <tr style="background: 	#e7e7e7 ;border: 5px solid white" *ngFor="let row of dataUploadList;let i= index">
+            <tr style="background: 	#e7e7e7 ;border: 5px solid white" *ngFor="let row of dataUploadList | paginate
+                    : {
+                        id: 'foo',
+                        itemsPerPage: tableDefaultOptions.itemPerPage,
+                        currentPage: tableDefaultOptions.currentPage,
+                        totalItems: tableDefaultOptions.totalCount
+                      };
+                index as i">
               <td class="text-center">{{i + 1}}</td>
               <td class="text-center" *ngFor="let header of tableHeaders">
                 <ng-container [ngSwitch]="header.id">
@@ -355,6 +368,19 @@
           </ng-template>
           </tbody>
         </table>
+        <pagination-controls
+          style="float: right; position: relative;"
+          id="foo"
+          (pageChange)="setPage($event)"
+          directionLinks="true"
+          autoHide="false"
+          previousLabel="Previous"
+          nextLabel="Next"
+          screenReaderPaginationLabel="Pagination"
+          screenReaderPageLabel="page"
+          screenReaderCurrentLabel="You're on page"
+        >
+        </pagination-controls>
       </div>
     </div>
   </div>
