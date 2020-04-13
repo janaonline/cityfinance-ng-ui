@@ -15,8 +15,30 @@ import { ProfileService } from './profile/service/profile.service';
 export class UsersComponent implements OnInit {
   accessChecker = new AccessChecker();
   sideMenuContent: ILink[] = [
+    {
+      title: "ULB Bulk Upload",
+      type: "link",
+      route: ["/user/data-upload/bulk-upload"],
+      condition: () => {
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.UPLOAD,
+          moduleName: MODULES_NAME.ULBDataBULKEntry
+        });
+      }
+    },
     { title: "ULB", type: "link", route: ["/user/data-upload"] },
     { title: "Links to User Module", type: "other", route: [] },
+    // {
+    //   title: "Admin",
+    //   type: "link",
+    //   route: [`/user/list/${USER_TYPE.ADMIN}`]
+    //   // condition: () => {
+    //   //   return this.accessChecker.hasAccess({
+    //   //     action: ACTIONS.VIEW,
+    //   //     moduleName: MODULES_NAME.ADMIN
+    //   //   });
+    //   // }
+    // },
     {
       title: "State",
       type: "link",

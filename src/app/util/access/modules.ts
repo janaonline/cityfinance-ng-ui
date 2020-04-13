@@ -10,7 +10,9 @@ export enum MODULES_NAME {
   USERLIST = "USERLIST",
   ULB_SIGNUP_REQUEST = "ULB_SIGNUP_REQUEST",
   ULB_PROFILE = "ULB_PROFILE",
-  ULB_DATA_UPLOAD = "ULB_DATA_UPLOAD"
+  ULB_DATA_UPLOAD = "ULB_DATA_UPLOAD",
+  ULBDataBULKEntry = "ULBDataBULKEntry",
+  ADMIN = "ADMIN"
 }
 
 export interface IModules {
@@ -80,6 +82,20 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
     name: MODULES_NAME.USERLIST,
     access: {
       [ACTIONS.VIEW]: [USER_TYPE.ADMIN, USER_TYPE.MoHUA]
+    }
+  },
+
+  [MODULES_NAME.ULBDataBULKEntry]: {
+    name: MODULES_NAME.ULBDataBULKEntry,
+    access: {
+      [ACTIONS.UPLOAD]: [USER_TYPE.ULB]
+    }
+  },
+
+  [MODULES_NAME.ADMIN]: {
+    name: MODULES_NAME.ADMIN,
+    access: {
+      [ACTIONS.VIEW]: [USER_TYPE.MoHUA]
     }
   },
 

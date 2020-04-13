@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { delay, map, retryWhen } from 'rxjs/operators';
 
-import { DataEntryService } from './../data-entry.service';
+import { DataEntryService } from '../../../dashboard/data-entry/data-entry.service';
 
 @Component({
   selector: "app-bulk-entry",
