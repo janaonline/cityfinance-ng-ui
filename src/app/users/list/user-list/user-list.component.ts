@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { ULBSIGNUPSTATUS } from 'src/app/util/enums';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { UserService } from '../../../dashboard/user/user.service';
@@ -24,6 +25,7 @@ export class UserListComponent implements OnInit {
     private _router: Router,
     private _commonService: CommonService
   ) {
+    this.createRequestStatusTypeList();
     this._activatedRoute.params.subscribe(params => {
       this.initializeList(params.userType);
       this.initializeFilterForm();
@@ -63,6 +65,10 @@ export class UserListComponent implements OnInit {
   stateList: IStateULBCovered[];
 
   statesByID: { [id: string]: IStateULBCovered } = {};
+  requestStatusTypeList: {
+    key: string;
+    value: string;
+  }[];
 
   private fetchULBProfileUpdateRequest() {
     // this._profileService.getULBProfileUpdateRequestList().subscribe(res => {
@@ -111,6 +117,12 @@ export class UserListComponent implements OnInit {
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     this.searchUsersBy(this.filterForm.value);
+  }
+
+  public deleteUser(userId: string) {
+    this._profileService.deleteUser({ userId }).subscribe(res => {
+      this.fetchList(this.listFetchOption);
+    });
   }
 
   private fetchList(
@@ -175,9 +187,8 @@ export class UserListComponent implements OnInit {
   private initializeULBFilterForm() {
     this.filterForm = this._fb.group({
       name: [null],
-      email: [null],
-      designation: [null],
-      organisationName: [null],
+      code: [null],
+      status: [""],
       state: [null]
     });
   }
@@ -198,5 +209,12 @@ export class UserListComponent implements OnInit {
       sort: null,
       skip: 0
     };
+  }
+
+  private createRequestStatusTypeList() {
+    this.requestStatusTypeList = Object.keys(ULBSIGNUPSTATUS).map(key => ({
+      key,
+      value: key
+    }));
   }
 }

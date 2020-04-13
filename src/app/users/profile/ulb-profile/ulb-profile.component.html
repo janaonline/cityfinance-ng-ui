@@ -1,5 +1,12 @@
 <div class="wrapper">
   <h1>{{ profileData ? "Edit Profile" : "Create ULB" }}</h1>
+  <button
+    class="back_button"
+    (click)="window.history.back()"
+    *ngIf="loggedInUserType !== USER_TYPE.ULB"
+  >
+    Back
+  </button>
   <form [formGroup]="profile" *ngIf="profile" (ngSubmit)="submitForm(profile)">
     <div class="input-group">
       <label for="statename"
@@ -271,8 +278,53 @@
     <p *ngIf="respone.successMessage" class="success-message">
       {{ respone.successMessage }}
     </p>
-    <div class="input-group">
-      <button type="submit" class="btn btn-primary">Save</button>
+
+    <div class="input-group" *ngIf="profile.disabled && canSubmitForm">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="enableProfileEdit()"
+      >
+        Edit
+      </button>
+    </div>
+
+    <div *ngIf="profile.enabled && canSubmitForm" class="mt-2">
+      <button type="submit" class="btn btn-primary mr-2">Save</button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="disableProfileEdit()"
+      >
+        Cancel
+      </button>
+    </div>
+
+    <div *ngIf="profileData.status === 'PENDING'" class="mt-2">
+      <button
+        type="button"
+        class="btn btn-primary mr-2"
+        (click)="
+          updateFormStatus({
+            status: 'APPROVED',
+            _id: profileData._id
+          })
+        "
+      >
+        APPROVE SINGUP
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="
+          updateFormStatus({
+            status: 'REJECTED',
+            _id: request._id
+          })
+        "
+      >
+        REJECT SIGNUP
+      </button>
     </div>
   </form>
 </div>

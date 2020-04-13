@@ -7,6 +7,7 @@ import { environment } from '../../../../environments/environment';
 import { IULBTypeListResponse } from '../../../models/ulbs/type';
 import { USER_TYPE } from '../../../models/user/userType';
 import { HttpUtility } from '../../../util/httpUtil';
+import { ULBSignupSTATUS } from '../model/ulb-profile';
 
 @Injectable({
   providedIn: "root"
@@ -44,8 +45,20 @@ export class ProfileService {
     return this._htttp.post(`${environment.api.url}user/create`, body);
   }
 
+  updateULBSingUPStatus(body: { _id: string; status: ULBSignupSTATUS }) {
+    return this._htttp.put(
+      `${environment.api.url}user/ulb-status/${body._id}`,
+      body
+    );
+  }
+
   updateUserProfileData(body: {}) {
     return this._htttp.put(`${environment.api.url}user/profile`, body);
+  }
+
+  deleteUser(param: { userId: string }) {
+    // const params = this.httpUtil.convertToHttpParams(param);
+    return this._htttp.delete(`${environment.api.url}user/${param.userId}`);
   }
 
   createULBUpdateRequest(body: {}) {
@@ -71,7 +84,7 @@ export class ProfileService {
   updateULBProfileRequest(params: { status: string; id: string }) {
     return this._htttp.put(
       `${environment.api.url}ulb-update-request/action/${params.id}`,
-      { body: { status: params.status } }
+      { status: params.status }
     );
   }
 }

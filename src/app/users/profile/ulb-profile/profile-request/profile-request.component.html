@@ -16,59 +16,61 @@
     <tbody>
       <tr *ngIf="request.accountantConatactNumber">
         <td>Accountant Contact Number</td>
-        <td>{{ request.old.accountantConatactNumber }}</td>
+        <td>{{ !request.old ? "" : request.old.accountantConatactNumber }}</td>
         <td>{{ request.accountantConatactNumber }}</td>
       </tr>
       <tr *ngIf="request.accountantEmail">
         <td>Accountant Email ID</td>
-        <td>{{ request.old.accountantEmail }}</td>
+        <td>{{ !request.old ? "" : request.old.accountantEmail }}</td>
         <td>{{ request.accountantEmail }}</td>
       </tr>
       <tr *ngIf="request.accountantName">
         <td>Accountant Name</td>
-        <td>{{ request.old.accountantName }}</td>
+        <td>{{ !request.old ? "" : request.old.accountantName }}</td>
         <td>{{ request.accountantName }}</td>
       </tr>
       <tr *ngIf="request.commissionerConatactNumber">
         <td>Commissioner Conatact Number</td>
-        <td>{{ request.old.commissionerConatactNumber }}</td>
+        <td>
+          {{ !request.old ? "" : request.old.commissionerConatactNumber }}
+        </td>
         <td>{{ request.commissionerConatactNumber }}</td>
       </tr>
       <tr *ngIf="request.commissionerEmail">
         <td>Commissioner Email</td>
-        <td>{{ request.old.commissionerEmail }}</td>
+        <td>{{ !request.old ? "" : request.old.commissionerEmail }}</td>
         <td>{{ request.commissionerEmail }}</td>
       </tr>
       <tr *ngIf="request.commissionerName">
         <td>Commissioner Name</td>
-        <td>{{ request.old.commissionerName }}</td>
+        <td>{{ !request.old ? "" : request.old.commissionerName }}</td>
         <td>{{ request.commissionerName }}</td>
       </tr>
       <tr *ngIf="request.area">
         <td>Area</td>
-        <td>{{ request.old.area }}</td>
+        <td>{{ !request.old ? "" : request.old.area }}</td>
         <td>{{ request.area }}</td>
       </tr>
       <tr *ngIf="request.population">
         <td>Population</td>
-        <td>{{ request.old.population }}</td>
+        <td>{{ !request.old ? "" : request.old.population }}</td>
         <td>{{ request.population }}</td>
       </tr>
       <tr *ngIf="request.wards || request.wards === 0">
         <td>No of Wards</td>
-        <td>{{ request.old["ulb"].wards }}</td>
+        <td>{{ !request.old ? "" : request.old["ulb"].wards }}</td>
         <td>{{ request.wards }}</td>
       </tr>
 
       <tr *ngIf="request.ulbType">
         <td>ULB Type</td>
-        <td>{{ request.old.ulb.ulbType.name }}</td>
+        <td>{{ !request.old ? "" : request.old.ulb.ulbType.name }}</td>
         <td>{{ request.ulb.ulbType.name }}</td>
       </tr>
       <!-- <tr *ngIf="request.ulbType">
         <td>11</td>
         <td>ULB Type</td>
-        <td>{{ request.old.ulb.ulbType.name }}</td>
+        <td>{{ !request.old ? "" : request.old.ulb.ulbType.name }}</td>
         <td>{{ request.ulb.ulbType.name }}</td>
       </tr> -->
     </tbody>
@@ -76,7 +78,11 @@
 
   <div
     class="mt-2"
-    *ngIf="request.status === REQUEST_STATUS.PENDING && canApproveRequest"
+    *ngIf="
+      request.status === REQUEST_STATUS.PENDING &&
+      canApproveRequest &&
+      canApproveRequest !== 'readOnly'
+    "
   >
     <button
       class="btn btn-primary mr-2"
@@ -136,8 +142,8 @@
               class="form-control"
               placeholder="STATUS"
             >
-              <option value="">
-                None
+              <option value="" selected>
+                All
               </option>
               <option
                 *ngFor="let status of requestStatusTypeList"
@@ -157,7 +163,8 @@
         </td>
         <td>
           <button
-            class="btn btn-primary"
+            class="btn btn-primary m-auto d-block"
+            style="display: block;"
             (click)="searchUsersBy(filterForm.value)"
           >
             Search
@@ -225,10 +232,10 @@
         style="background: #009fe3;color: white ;border: 5px solid white"
       >
         <th class="text-center">S.No.</th>
-        <th class="text-center" (click)="sortListBy('name')">State</th>
+        <th class="text-center" (click)="sortListBy('state')">State</th>
         <th class="text-center" (click)="sortListBy('name')">ULB Name</th>
         <th class="text-center" (click)="sortListBy('code')">ULB Code</th>
-        <th class="text-center" (click)="sortListBy('satus')">STATUS</th>
+        <th class="text-center" (click)="sortListBy('status')">STATUS</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
@@ -244,8 +251,8 @@
               class="form-control"
               placeholder="State"
             >
-              <option value="" selected disabled>
-                State
+              <option value="">
+                All
               </option>
               <option *ngFor="let state of stateList" [value]="state._id">
                 {{ state.name }}
@@ -284,7 +291,7 @@
               placeholder="STATUS"
             >
               <option value="">
-                None
+                All
               </option>
               <option
                 *ngFor="let status of requestStatusTypeList"
@@ -329,10 +336,10 @@
           {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
         </td>
         <td class="text-center">
-          State
+          {{ request.ulb && request.ulb.state ? request.ulb.state.name : "" }}
         </td>
-        <td class="text-center">ulb name</td>
-        <td class="text-center">ulb code</td>
+        <td class="text-center">{{ request.ulb ? request.ulb.name : "" }}</td>
+        <td class="text-center">{{ request.ulb ? request.ulb.code : "" }}</td>
         <td class="text-center">{{ request.status }}</td>
         <td class="text-center">
           <a [routerLink]="['./']" [queryParams]="{ requestId: request._id }">
