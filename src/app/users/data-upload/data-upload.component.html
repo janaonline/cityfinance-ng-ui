@@ -304,6 +304,7 @@
 
           <tr [formGroup]="fileFormGroup">
             <td></td>
+            <td *ngIf="userUtil.getUserType()!='ULB'"></td>
             <td class="text-center">
               <angular2-multiselect
                 formControlName="financialYear"
@@ -348,6 +349,7 @@
                   <span *ngSwitchCase="'audited'">
                       {{row[header.id] ? 'Audited' : 'Unaudited'}}
                     </span>
+                  <span *ngSwitchCase="'ulb'">{{row[header.id].name}}</span>
                   <span *ngSwitchCase="'ad'">{{
                     row['status'] === 'APPROVED' ?
                       'Approved By ' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'

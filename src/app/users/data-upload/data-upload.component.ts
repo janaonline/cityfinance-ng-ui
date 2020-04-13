@@ -15,6 +15,7 @@ import swal from 'sweetalert';
 import {fromEvent} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {DropdownSettings} from 'angular2-multiselect-dropdown/lib/multiselect.interface';
+import {USER_TYPE} from '../../models/user/userType';
 
 @Component({
   selector: 'app-data-upload',
@@ -81,33 +82,8 @@ export class DataUploadComponent implements OnInit {
         this.uploadId = uploadId;
       }
     });
-    this.fileFormGroup = new FormGroup({
-      financialYear: new FormControl('', [Validators.required]),
-      balanceSheet: new FormGroup({
-        file_pdf: new FormControl(null, [Validators.required]),
-        file_excel: new FormControl(null, [Validators.required]),
-      }),
-      schedulesToBalanceSheet: new FormGroup({
-        file_pdf: new FormControl(),
-        file_excel: new FormControl(),
-      }),
-      incomeAndExpenditure: new FormGroup({
-        file_pdf: new FormControl(null, [Validators.required]),
-        file_excel: new FormControl(null, [Validators.required])
-      }),
-      schedulesToIncomeAndExpenditure: new FormGroup({
-        file_pdf: new FormControl(),
-        file_excel: new FormControl()
-      }),
-      trialBalance: new FormGroup({
-        file_pdf: new FormControl(null, [Validators.required]),
-        file_excel: new FormControl(null, [Validators.required])
-      }),
-      auditReport: new FormGroup({
-        file_pdf: new FormControl()
-      }),
-      auditStatus: new FormControl('', [Validators.required])
-    });
+    this.createForms();
+    this.setTableHeaderByUserType();
   }
 
   ngOnInit() {
@@ -355,5 +331,42 @@ export class DataUploadComponent implements OnInit {
       sort: {[id]: this.currentSort},
     };
     this.getFinancialData({}, this.listFetchOption);
+  }
+
+  private createForms() {
+    this.fileFormGroup = new FormGroup({
+      financialYear: new FormControl('', [Validators.required]),
+      balanceSheet: new FormGroup({
+        file_pdf: new FormControl(null, [Validators.required]),
+        file_excel: new FormControl(null, [Validators.required]),
+      }),
+      schedulesToBalanceSheet: new FormGroup({
+        file_pdf: new FormControl(),
+        file_excel: new FormControl(),
+      }),
+      incomeAndExpenditure: new FormGroup({
+        file_pdf: new FormControl(null, [Validators.required]),
+        file_excel: new FormControl(null, [Validators.required])
+      }),
+      schedulesToIncomeAndExpenditure: new FormGroup({
+        file_pdf: new FormControl(),
+        file_excel: new FormControl()
+      }),
+      trialBalance: new FormGroup({
+        file_pdf: new FormControl(null, [Validators.required]),
+        file_excel: new FormControl(null, [Validators.required])
+      }),
+      auditReport: new FormGroup({
+        file_pdf: new FormControl()
+      }),
+      auditStatus: new FormControl('', [Validators.required])
+    });
+
+  }
+
+  private setTableHeaderByUserType() {
+    if (this.userUtil.getUserType() === USER_TYPE.ULB) {
+      this.tableHeaders = this.tableHeaders.filter((header) => header.id != 'ulb');
+    }
   }
 }
