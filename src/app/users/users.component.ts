@@ -1,24 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { USER_TYPE } from '../models/user/userType';
-import { ILink } from '../shared/side-menu/side-menu.component';
-import { AccessChecker } from '../util/access/accessChecker';
-import { ACTIONS } from '../util/access/actions';
-import { MODULES_NAME } from '../util/access/modules';
-import { ProfileService } from './profile/service/profile.service';
+import {USER_TYPE} from '../models/user/userType';
+import {ILink} from '../shared/side-menu/side-menu.component';
+import {AccessChecker} from '../util/access/accessChecker';
+import {ACTIONS} from '../util/access/actions';
+import {MODULES_NAME} from '../util/access/modules';
+import {ProfileService} from './profile/service/profile.service';
 
 @Component({
-  selector: "app-users",
-  templateUrl: "./users.component.html",
-  styleUrls: ["./users.component.scss"]
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
   accessChecker = new AccessChecker();
   sideMenuContent: ILink[] = [
     {
-      title: "ULB Bulk Upload",
-      type: "link",
-      route: ["/user/data-upload/bulk-upload"],
+      title: 'ULB Bulk Upload',
+      type: 'link',
+      route: ['/user/data-upload/bulk-upload'],
       condition: () => {
         return this.accessChecker.hasAccess({
           action: ACTIONS.UPLOAD,
@@ -26,8 +26,8 @@ export class UsersComponent implements OnInit {
         });
       }
     },
-    { title: "ULB", type: "link", route: ["/user/data-upload"] },
-    { title: "Links to User Module", type: "other", route: [] },
+    {title: 'ULB Data', type: 'link', route: ['/user/data-upload']},
+    {title: 'Links to User Module', type: 'other', route: []},
     // {
     //   title: "Admin",
     //   type: "link",
@@ -40,8 +40,8 @@ export class UsersComponent implements OnInit {
     //   // }
     // },
     {
-      title: "Partner",
-      type: "link",
+      title: 'Partner',
+      type: 'link',
       route: [`/user/list/${USER_TYPE.PARTNER}`],
       condition: () => {
         return this.accessChecker.hasAccess({
@@ -51,8 +51,8 @@ export class UsersComponent implements OnInit {
       }
     },
     {
-      title: "State",
-      type: "link",
+      title: 'State',
+      type: 'link',
       route: [`/user/list/${USER_TYPE.STATE}`],
       condition: () => {
         return this.accessChecker.hasAccess({
@@ -62,13 +62,13 @@ export class UsersComponent implements OnInit {
       }
     },
     {
-      title: "ULB Profile Edit",
-      type: "link",
-      route: ["/user/profile/request"]
+      title: 'ULB Profile Edit',
+      type: 'link',
+      route: ['/user/profile/request']
     },
     {
-      title: "ULB Signup List",
-      type: "link",
+      title: 'ULB Signup List',
+      type: 'link',
       route: [`/user/list/${USER_TYPE.ULB}`],
       condition: () => {
         return this.accessChecker.hasAccess({
@@ -78,8 +78,8 @@ export class UsersComponent implements OnInit {
       }
     },
     {
-      title: "Users",
-      type: "link",
+      title: 'Users',
+      type: 'link',
       route: [`/user/list/${USER_TYPE.USER}`],
       condition: () => {
         return this.accessChecker.hasAccess({
@@ -87,7 +87,18 @@ export class UsersComponent implements OnInit {
           moduleName: MODULES_NAME.USERLIST
         });
       }
-    }
+    },
+    {
+      title: 'Reports',
+      type: 'other',
+      route: []
+    },
+    {
+      title: 'Usage Report',
+      type: 'link',
+      route: ['/user/reports'],
+      condition: () => true
+    },
   ];
 
   loggedInUserType: USER_TYPE;
@@ -97,7 +108,8 @@ export class UsersComponent implements OnInit {
     this.initializeUSerType();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   private initializeUSerType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
