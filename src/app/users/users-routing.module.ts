@@ -17,7 +17,8 @@ const routes: Routes = [
         path: 'data-upload',
         loadChildren: './data-upload/data-upload.module#DataUploadModule'
       },
-      {path: 'list', loadChildren: './list/list.module#ListModule'}
+      {path: 'list', loadChildren: './list/list.module#ListModule'},
+      {path: 'reports', loadChildren: './reports/reports.module#ReportsModule'}
     ]
   }
 ];
