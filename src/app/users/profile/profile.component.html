@@ -9,10 +9,19 @@
     *ngIf="profileData && profileData.role === USER_TYPE.ULB"
     [profileData]="profileData"
   ></app-ulb-profile>
-  <!-- <app-common-profile></app-common-profile> -->
 
   <app-state-profile
     *ngIf="profileType === USER_TYPE.STATE"
     [profileData]="profileData"
   ></app-state-profile>
+
+  <app-common-profile
+    *ngIf="profileType === USER_TYPE.PARTNER"
+    [profileData]="profileData"
+  ></app-common-profile>
+
+  <app-mohua-profile
+    *ngIf="profileType === USER_TYPE.MoHUA"
+    [profileData]="profileData"
+  ></app-mohua-profile>
 </div>

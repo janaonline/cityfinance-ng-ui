@@ -5,13 +5,19 @@ import { PasswordValidator } from './passwordValidator';
 
 export class FormUtil {
   private fb: FormBuilder;
+
+  private altest1Aplhabet = /[a-zA-z]+/g;
+  private alphabetWithSpeacialRegex;
   constructor() {
     this.fb = new FormBuilder();
   }
 
   public getUserForm(purpose: "CREATION" | "EDIT" = "CREATION") {
     let form = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(/[a-zA-z]+/g)]],
+      name: [
+        "",
+        [Validators.required, Validators.pattern(this.altest1Aplhabet)]
+      ],
       mobile: ["", [Validators.required, mobileNoValidator]],
       email: [
         "",
@@ -19,11 +25,11 @@ export class FormUtil {
       ],
       designation: [
         "",
-        [Validators.required, Validators.pattern(/[a-zA-z]+/g)]
+        [Validators.required, Validators.pattern(this.altest1Aplhabet)]
       ],
       organization: [
         "",
-        [Validators.required, Validators.pattern(/[a-zA-z]+/g)]
+        [Validators.required, Validators.pattern(this.altest1Aplhabet)]
       ]
     });
     if (purpose === "CREATION") {
@@ -111,8 +117,43 @@ export class FormUtil {
   }
 
   public getMoHUAForm() {
-    const form = this.getStateForm();
+    const form = this.fb.group({
+      name: ["", [Validators.required]],
+      email: [
+        "",
+        [Validators.required, Validators.email, customEmailValidator]
+      ],
+      mobile: ["", [Validators.required, mobileNoValidator]],
+      designation: ["", [Validators.required]],
+      address: ["", [Validators.required]],
+      departmentName: ["", Validators.required],
+      departmentEmail: [
+        "",
+        [Validators.required, Validators.email, customEmailValidator]
+      ],
+      departmentContactNumber: ["", [Validators.required, mobileNoValidator]]
+    });
     form.controls.departmentName.setValue("MoHUA");
+    return form;
+  }
+
+  public getPartnerForm() {
+    const form = this.fb.group({
+      name: ["", [Validators.required]],
+      email: [
+        "",
+        [Validators.required, Validators.email, customEmailValidator]
+      ],
+      mobile: ["", [Validators.required, mobileNoValidator]],
+      designation: ["", [Validators.required]],
+      address: ["", [Validators.required]],
+      departmentName: ["", Validators.required],
+      departmentEmail: [
+        "",
+        [Validators.required, Validators.email, customEmailValidator]
+      ],
+      departmentContactNumber: ["", [Validators.required, mobileNoValidator]]
+    });
     return form;
   }
 

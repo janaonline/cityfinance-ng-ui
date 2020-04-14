@@ -120,7 +120,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   }
 
   private onUpdatingProfileError(err: HttpErrorResponse) {
-    this.respone.errorMessage = err.error.msg || "Failed to updated profile.";
+    this.respone.errorMessage =
+      err.error.mesage || "Failed to updated profile.";
   }
 
   private resetResponseMessage() {

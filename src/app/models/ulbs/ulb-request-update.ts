@@ -9,7 +9,7 @@ export interface IULBProfileRequestResponse {
 
 export interface IULBProfileRequest {
   _id: string;
-  ulbType: null | string;
+  ulbType: null | { name: string; _id: string };
   natureOfUlb: null;
   name: null | string;
   regionalName: null;
@@ -45,5 +45,11 @@ export interface IULBProfileRequest {
 }
 
 export interface IFullULBProfileRequest extends IULBProfileRequest {
-  old: IULBProfileRequest;
+  old: IULBProfileRequest & {
+    ulb: {
+      wards: number | null;
+      area: null;
+      population: null;
+    };
+  };
 }

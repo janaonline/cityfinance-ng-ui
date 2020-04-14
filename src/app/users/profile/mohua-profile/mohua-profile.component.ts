@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { CommonService } from 'src/app/shared/services/common.service';
 
-import { IStateULBCovered } from '../../../shared/models/stateUlbConvered';
 import { FormUtil } from '../../../util/formUtil';
 import { ProfileService } from '../service/profile.service';
 
@@ -11,45 +12,63 @@ import { ProfileService } from '../service/profile.service';
   templateUrl: "./mohua-profile.component.html",
   styleUrls: ["./mohua-profile.component.scss"]
 })
-export class MohuaProfileComponent implements OnInit {
+export class MohuaProfileComponent implements OnInit, OnChanges {
   @Input()
   profileData: any;
   profileForm: FormGroup;
 
   formUtil = new FormUtil();
-  stateList: IStateULBCovered[];
   formErrors: string[];
 
   respone = { successMessage: null, errorMessage: null };
-  formSubmitted = true;
+  formSubmitted = false;
+  window = window;
+  USER_TYPE = USER_TYPE;
 
-  constructor(private _profileService: ProfileService) {
+  constructor(
+    private _commonService: CommonService,
+    private _profileService: ProfileService
+  ) {}
+
+  ngOnInit() {}
+  ngOnChanges() {
     this.initializeForm();
   }
 
-  ngOnInit() {}
-
-  private onFormSubmit(form: FormGroup) {
+  public onFormSubmit(form: FormGroup) {
     this.resetResponseMessage();
+    this.formSubmitted = true;
+    this.formErrors = this.formUtil.validateStateForm(form);
+    if (this.formErrors) {
+      return;
+    }
+
     if (this.profileData) {
       return this.updateProfile(form);
     }
+
     this.createProfile(form);
   }
 
   private createProfile(form: FormGroup) {
-    this.formSubmitted = true;
-    this.formErrors = this.formUtil.validateStateForm(form);
-    if (this.formErrors && this.formErrors.length) {
-      return;
-    }
+    // this.formSubmitted = true;
+    // this.formErrors = this.formUtil.validateStateForm(form);
+    // if (this.formErrors && this.formErrors.length) {
+    //   return;
+    // }
+    const body = form.value;
+    body.role = USER_TYPE.MoHUA;
+    body.password = "";
 
-    this._profileService.createUser(form.value).subscribe(
+    this._profileService.createUser(body).subscribe(
       res => {
-        this.respone.successMessage = "Account created successfully";
+        form.reset();
+        this.formSubmitted = false;
+
+        this.respone.successMessage = "Profile created successfully";
       },
       (err: HttpErrorResponse) =>
-        (this.respone.errorMessage = err.error.msg || "Server Error")
+        (this.respone.errorMessage = err.error.message || "Server Error")
     );
   }
 
@@ -59,12 +78,22 @@ export class MohuaProfileComponent implements OnInit {
         this.respone.successMessage = "Profile Updated successfully";
       },
       (err: HttpErrorResponse) =>
-        (this.respone.errorMessage = err.error.msg || "Server Error")
+        (this.respone.errorMessage = err.error.message || "Server Error")
     );
   }
 
   private initializeForm() {
-    this.profileForm = this.formUtil.getMoHUAForm();
+    this.profileForm = this.formUtil.getPartnerForm();
+
+    if (this.profileData) {
+      console.log(this.profileData);
+      console.log(this.profileForm);
+      if (this.profileData.role !== USER_TYPE.PARTNER) {
+        this.profileData = null;
+        return;
+      }
+      this.profileForm.patchValue(this.profileData);
+    }
   }
 
   private resetResponseMessage() {

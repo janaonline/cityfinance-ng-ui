@@ -94,7 +94,7 @@ export class RegisterComponent implements OnInit {
 
         if (this.registrationType === "user") {
           this.respone.successMessage =
-            "User Registration succssfull. Kindly check your email for further information.";
+            "User Registration successful. Kindly check your email for further information.";
         } else {
           this.respone.successMessage =
             "ULB registered successfully. Kindly check your email for further information";
@@ -128,6 +128,11 @@ export class RegisterComponent implements OnInit {
     this.registrationForm.controls.state.valueChanges.subscribe(stateId => {
       this.ulbList = null;
       this._coomonService.getULBByStateCode(stateId).subscribe(res => {
+        if (res["data"]) {
+          res["data"] = res["data"].sort((stateA, stateB) =>
+            stateA.name > stateB.name ? 1 : -1
+          );
+        }
         this.ulbList = res["data"];
       });
     });

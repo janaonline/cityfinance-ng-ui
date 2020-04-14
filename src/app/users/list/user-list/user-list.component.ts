@@ -112,7 +112,6 @@ export class UserListComponent implements OnInit {
   }
 
   setPage(pageNoClick: number) {
-    console.log(pageNoClick);
     this.tableDefaultOptions.currentPage = pageNoClick;
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
@@ -133,12 +132,9 @@ export class UserListComponent implements OnInit {
     } = { filter: {}, sort: {} }
   ) {
     const util = new JSONUtility();
-    console.log(`searchParams body`, { ...body });
     body.filter = util.filterEmptyValue(body.filter);
 
     this._userService.getUsers(body).subscribe(res => {
-      console.log(res);
-
       if (res.hasOwnProperty("total")) {
         this.tableDefaultOptions.totalCount = res["total"];
       }
@@ -162,12 +158,17 @@ export class UserListComponent implements OnInit {
         this.initializeStateFilterForm();
         this.fetchStateList();
         return;
+      case USER_TYPE.PARTNER:
+        this.initializePartnerFilterForm();
+        break;
+      case USER_TYPE.MoHUA:
+        this.initializeMoHUAFilterForm();
+        break;
     }
   }
 
   private fetchStateList() {
     this._commonService.getStateUlbCovered().subscribe(res => {
-      console.log(`state list `, res.data);
       this.stateList = res.data;
       res.data.forEach(state => {
         this.statesByID[state._id] = state;
@@ -180,7 +181,7 @@ export class UserListComponent implements OnInit {
       name: [null],
       email: [null],
       designation: [null],
-      organisationName: [null]
+      organization: [null]
     });
   }
 
@@ -199,6 +200,22 @@ export class UserListComponent implements OnInit {
       email: [null],
       designation: [null],
       state: [null]
+    });
+  }
+
+  private initializePartnerFilterForm() {
+    this.filterForm = this._fb.group({
+      name: [null],
+      email: [null],
+      designation: [null]
+    });
+  }
+
+  private initializeMoHUAFilterForm() {
+    this.filterForm = this._fb.group({
+      name: [null],
+      email: [null],
+      designation: [null]
     });
   }
 
