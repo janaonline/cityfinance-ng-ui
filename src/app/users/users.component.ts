@@ -26,7 +26,7 @@ export class UsersComponent implements OnInit {
         });
       }
     },
-    { title: "ULB", type: "link", route: ["/user/data-upload"] },
+    { title: "ULB Data", type: "link", route: ["/user/data-upload"] },
     { title: "Links to User Module", type: "other", route: [] },
     // {
     //   title: "Admin",
@@ -98,6 +98,17 @@ export class UsersComponent implements OnInit {
           moduleName: MODULES_NAME.USERLIST
         });
       }
+    },
+    {
+      title: "Reports",
+      type: "other",
+      route: []
+    },
+    {
+      title: "Usage Report",
+      type: "link",
+      route: ["/user/reports/usage"],
+      condition: () => true
     }
   ];
 

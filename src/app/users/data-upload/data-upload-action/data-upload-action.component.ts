@@ -60,11 +60,11 @@ export class DataUploadActionComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.financeDataService.selectedFinancialRequest) {
+   // if (!this.financeDataService.selectedFinancialRequest) {
       this.activatedRoute.params.subscribe(value => {
         const {id} = value;
         this.id = id;
-        this.financeDataService.fetchFinancialData({_id: id}).subscribe((response: any) => {
+        this.financeDataService.fetFinancialData( id).subscribe((response: any) => {
           if (response['success']) {
             this.financeDataService.selectedFinancialRequest = response.data;
             this.completenessStatus = this.financeDataService.selectedFinancialRequest['completeness'];
@@ -73,13 +73,6 @@ export class DataUploadActionComponent implements OnInit {
           }
         });
       });
-    } else {
-      this.id = this.financeDataService.selectedFinancialRequest._id;
-      this.completenessStatus = this.financeDataService.selectedFinancialRequest['completeness'];
-      this.correctnessStatus = this.financeDataService.selectedFinancialRequest['correctness'];
-      this.updateFormControls(this.financeDataService.selectedFinancialRequest);
-
-    }
   }
 
   getFormControl(formGroup: FormGroup, formGroupName: string, formControlName: string) {
