@@ -34,3 +34,18 @@
     border: 1px solid #999 !important;
   }
 }
+
+.user-dropdown {
+  display: flex;
+  flex-direction: column;
+  word-break: break-all;
+  padding: 1rem;
+  width: 20rem;
+  max-width: 22rem;
+  align-items: center;
+  background: white;
+
+  .mat-list-item {
+    cursor: pointer;
+  }
+}

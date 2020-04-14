@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ACTIONS } from 'src/app/util/access/actions';
-import { MODULES_NAME } from 'src/app/util/access/modules';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {ACTIONS} from 'src/app/util/access/actions';
+import {MODULES_NAME} from 'src/app/util/access/modules';
 
-import { AuthService } from '../../../auth/auth.service';
-import { AccessChecker } from '../../../util/access/accessChecker';
+import {AuthService} from '../../../auth/auth.service';
+import {AccessChecker} from '../../../util/access/accessChecker';
 
 interface User {
   _id?: string;
 }
 
 @Component({
-  selector: "app-home-header",
-  templateUrl: "./home-header.component.html",
-  styleUrls: ["./home-header.component.scss"]
+  selector: 'app-home-header',
+  templateUrl: './home-header.component.html',
+  styleUrls: ['./home-header.component.scss']
 })
 export class HomeHeaderComponent implements OnInit {
   isProduction: boolean;
@@ -32,7 +32,7 @@ export class HomeHeaderComponent implements OnInit {
       this.initializeAccessChecking();
       if (!this.user) {
         if (this.isLoggedIn) {
-          this.user = this.authService.decodeToken().data;
+          this.user = this.authService.decodeToken();
         }
       }
     });
@@ -57,21 +57,21 @@ export class HomeHeaderComponent implements OnInit {
 
   initializedIsProduction() {
     this.isProduction = !(
-      window.location.hostname.includes("demo") ||
-      window.location.hostname.includes("staging") ||
-      window.location.hostname.includes("localhost")
+      window.location.hostname.includes('demo') ||
+      window.location.hostname.includes('staging') ||
+      window.location.hostname.includes('localhost')
     );
   }
 
   goToReportPage() {
-    if (!window.location.pathname.includes("/dashboard/report")) {
-      this.router.navigate(["/dashboard", "report"]);
+    if (!window.location.pathname.includes('/dashboard/report')) {
+      this.router.navigate(['/dashboard', 'report']);
     }
   }
 
   logout() {
     localStorage.clear();
-    this.router.navigate(["/"]);
+    this.router.navigate(['/']);
     this.isLoggedIn = false;
   }
 }

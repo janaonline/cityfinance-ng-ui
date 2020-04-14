@@ -3,11 +3,10 @@
     <div class="col-sm-12">
       <div class=" d-flex justify-content-between">
         <div class="d-flex flex-1 justify-content-between">
-          <button [disabled]="config.formGroup.get(config.formGroupName).get(config.status).disabled"
+          <button
                   (click)="fileButtonClickHandler(config.formGroupName,'pdfUrl')" class="col">PDF file
           </button>
           <button *ngIf="config.formGroupName!=='auditReport'"
-                  [disabled]="config.formGroup.get(config.formGroupName).get(config.status).disabled"
                   (click)="fileButtonClickHandler(config.formGroupName,'excelUrl')" class="col">Excel File
           </button>
         </div>

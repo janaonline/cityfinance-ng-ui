@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {ulbUploadList} from '../../shared/components/home-header/tableHeaders';
@@ -11,9 +11,13 @@ import {MODULES_NAME} from '../../util/access/modules';
 import {ACTIONS} from '../../util/access/actions';
 import {UserUtility} from '../../util/user/user';
 import {MatSnackBar} from '@angular/material';
+import swal from 'sweetalert';
 import {fromEvent} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {DropdownSettings} from 'angular2-multiselect-dropdown/lib/multiselect.interface';
+import {USER_TYPE} from '../../models/user/userType';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {UPLOAD_STATUS} from '../../util/enums';
 
 @Component({
   selector: 'app-data-upload',
@@ -21,7 +25,7 @@ import {DropdownSettings} from 'angular2-multiselect-dropdown/lib/multiselect.in
   styleUrls: ['./data-upload.component.scss']
 })
 export class DataUploadComponent implements OnInit {
-
+  uploadStatus = UPLOAD_STATUS;
   id = null;
   uploadId = null;
   uploadObject = null;
@@ -46,15 +50,29 @@ export class DataUploadComponent implements OnInit {
     singleSelection: true,
     text: 'Audit Status'
   };
-  completenessStatus = 'PENDING';
-  correctnessStatus = 'PENDING';
+  completenessStatus = UPLOAD_STATUS.PENDING;
+  correctnessStatus = UPLOAD_STATUS.PENDING;
   @ViewChild('searchFinancialYear') searchFinancialYear: ElementRef;
+  tableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null
+  };
+  currentSort = 1;
+  listFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0
+  };
+  modalTableData: any[] = [];
 
   constructor(public activatedRoute: ActivatedRoute,
               public router: Router,
               public location: Location,
               public dataUploadService: DataEntryService,
               private financialDataService: FinancialDataService,
+              private modalService: BsModalService,
               public accessUtil: AccessChecker,
               public userUtil: UserUtility,
               private _snackBar: MatSnackBar) {
@@ -68,48 +86,23 @@ export class DataUploadComponent implements OnInit {
         this.uploadId = uploadId;
       }
     });
-    this.fileFormGroup = new FormGroup({
-      financialYear: new FormControl('', [Validators.required]),
-      balanceSheet: new FormGroup({
-        file_pdf: new FormControl(null, [Validators.required]),
-        file_excel: new FormControl(null, [Validators.required]),
-      }),
-      schedulesToBalanceSheet: new FormGroup({
-        file_pdf: new FormControl(),
-        file_excel: new FormControl(),
-      }),
-      incomeAndExpenditure: new FormGroup({
-        file_pdf: new FormControl(null, [Validators.required]),
-        file_excel: new FormControl(null, [Validators.required])
-      }),
-      schedulesToIncomeAndExpenditure: new FormGroup({
-        file_pdf: new FormControl(),
-        file_excel: new FormControl()
-      }),
-      trialBalance: new FormGroup({
-        file_pdf: new FormControl(null, [Validators.required]),
-        file_excel: new FormControl(null, [Validators.required])
-      }),
-      auditReport: new FormGroup({
-        file_pdf: new FormControl()
-      }),
-      auditStatus: new FormControl('', [Validators.required])
-    });
+    this.createForms();
+    this.setTableHeaderByUserType();
   }
 
   ngOnInit() {
     this.fetchFinancialYears();
     if (!this.id) {
-      this.getFinancialData();
+      this.getFinancialData({}, this.listFetchOption);
     }
     if (this.uploadId) {
       this.getFinancialData({_id: this.uploadId});
     }
   }
 
-  getFinancialData(params = {}) {
+  getFinancialData(params = {}, body = {}) {
     this.financialDataService
-      .fetchFinancialData(params)
+      .fetchFinancialData(params, body)
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
@@ -119,7 +112,7 @@ export class DataUploadComponent implements OnInit {
       this.updateFormControls();
     } else {
       this.dataUploadList = response.data;
-
+      this.tableDefaultOptions.totalCount = response['total'];
     }
   };
 
@@ -167,7 +160,17 @@ export class DataUploadComponent implements OnInit {
     };
     this.financialDataService.uploadFinancialData(responseObject).subscribe((response: any) => {
         if (response.success) {
-          this.router.navigate(['/users/data-upload']);
+          swal({
+            title: 'Successfully Uploaded',
+            text: `Reference No: ${response['data']['referenceCode']}`,
+            icon: 'success',
+            // @ts-ignore
+            button: 'Okay'
+          }).then((result) => {
+            if (result) {
+              this.router.navigate(['/user/data-upload']);
+            }
+          });
         }
       }, (error: HttpErrorResponse) => {
         event.disabled = false;
@@ -209,7 +212,6 @@ export class DataUploadComponent implements OnInit {
       const {completeness, correctness} = formGroupDataObject;
       if (correctnessOverAll === 'REJECTED' || completenessOverAll === 'REJECTED') {
         if (completeness === 'REJECTED' || correctness === 'REJECTED') {
-          console.log('here', formGroupItem, formGroupKey);
           formGroupItem.enable();
         } else {
           formGroupItem.disable();
@@ -221,7 +223,6 @@ export class DataUploadComponent implements OnInit {
         formGroupItem.setErrors(null);
         formGroupItem.updateValueAndValidity();
       }
-      console.log(this.fileFormGroup);
     });
 
   }
@@ -262,7 +263,6 @@ export class DataUploadComponent implements OnInit {
       }
     }
     this.financialDataService.upDateFinancialData(this.uploadId, urlObject).subscribe((result) => {
-      console.log(result);
       if (result['success']) {
         this.router.navigate(['/user/data-upload']);
       }
@@ -309,10 +309,76 @@ export class DataUploadComponent implements OnInit {
           .fileFormGroup.get(filterKeys[1]).value[0].id == 'true' : '',
       }
     };
-    this.financialDataService.fetchFinancialData({}, filterObject).subscribe(result => {
+    this.listFetchOption = {
+      ...this.listFetchOption,
+      ...filterObject
+    };
+    this.financialDataService.fetchFinancialData({}, this.listFetchOption).subscribe(result => {
       this.handleResponseSuccess(result);
     }, (response: HttpErrorResponse) => {
       this._snackBar.open(response.error.errors.message || response.error.message || 'Some Error Occurred', null, {duration: 1600});
     });
+  }
+
+  setPage(pageNoClick: number) {
+    this.tableDefaultOptions.currentPage = pageNoClick;
+    this.listFetchOption.skip = (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+    this.getFinancialData({}, this.listFetchOption);
+
+
+  }
+
+  sortById(id: string) {
+    this.currentSort = this.currentSort > 0 ? -1 : 1;
+    this.listFetchOption = {
+      ...this.listFetchOption,
+      sort: {[id]: this.currentSort},
+    };
+    this.getFinancialData({}, this.listFetchOption);
+  }
+
+  private createForms() {
+    this.fileFormGroup = new FormGroup({
+      financialYear: new FormControl('', [Validators.required]),
+      balanceSheet: new FormGroup({
+        file_pdf: new FormControl(null, [Validators.required]),
+        file_excel: new FormControl(null, [Validators.required]),
+      }),
+      schedulesToBalanceSheet: new FormGroup({
+        file_pdf: new FormControl(),
+        file_excel: new FormControl(),
+      }),
+      incomeAndExpenditure: new FormGroup({
+        file_pdf: new FormControl(null, [Validators.required]),
+        file_excel: new FormControl(null, [Validators.required])
+      }),
+      schedulesToIncomeAndExpenditure: new FormGroup({
+        file_pdf: new FormControl(),
+        file_excel: new FormControl()
+      }),
+      trialBalance: new FormGroup({
+        file_pdf: new FormControl(null, [Validators.required]),
+        file_excel: new FormControl(null, [Validators.required])
+      }),
+      auditReport: new FormGroup({
+        file_pdf: new FormControl()
+      }),
+      auditStatus: new FormControl('', [Validators.required])
+    });
+
+  }
+
+  private setTableHeaderByUserType() {
+    if (this.userUtil.getUserType() === USER_TYPE.ULB) {
+      this.tableHeaders = this.tableHeaders.filter((header) => header.id != 'ulb');
+    }
+  }
+
+  openModal(row: any, historyModal: TemplateRef<any>) {
+    this.modalTableData = row.history;
+    this.modalTableData = this.modalTableData.filter(row => typeof row['actionTakenBy'] != 'string')
+      .reverse();
+    this.modalService.show(historyModal, {});
+
   }
 }

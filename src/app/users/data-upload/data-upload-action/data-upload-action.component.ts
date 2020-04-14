@@ -85,64 +85,12 @@ export class DataUploadActionComponent implements OnInit {
   getFormControl(formGroup: FormGroup, formGroupName: string, formControlName: string) {
     return formGroup.get([formGroupName, formControlName]);
   }
-
-  getCompletenessFormControl(formGroupKey) {
-    return this.completenessFormGroup.get([formGroupKey, 'completeness']);
-  }
-
-  getCorrectnessFormControl(formGroupKey) {
-    return this.correctnessFormGroup.get([formGroupKey, 'correctness']);
-  }
-
   updateFormControls(data) {
     this.updateTabIndex(data);
     const {financialYear, audited} = data;
-    const selectedFinancialYearObject = this.financialYearDropdown.filter((item) => item.id === financialYear);
-    if (selectedFinancialYearObject) {
-      this.financialYear.setValue(selectedFinancialYearObject);
-    }
+    this.setFinancialYear(financialYear);
     this.setAuditStatus(audited);
-    this.fileFormGroupKeys.forEach(formGroupKey => {
-      const formGroupDataItem = this.financeDataService.selectedFinancialRequest[formGroupKey];
-      if (formGroupDataItem) {
-        const {excelUrl, pdfUrl} = formGroupDataItem;
-        let formControls = [
-          this.getFormControl(this.completenessFormGroup, formGroupKey, 'completeness'),
-          this.getFormControl(this.correctnessFormGroup, formGroupKey, 'correctness'),
-          this.getFormControl(this.completenessFormGroup, formGroupKey, 'message'),
-          this.getFormControl(this.correctnessFormGroup, formGroupKey, 'message'),
-        ];
-        let keys = ['completeness', 'correctness', 'message', 'message'];
-        for (let i = 0; i < formControls.length; i++) {
-          const formControl = formControls[i];
-          switch (keys[i]) {
-            case 'completeness':
-            case 'correctness':
-              if (excelUrl || pdfUrl) {
-                if (formGroupDataItem[keys[i]] != UPLOAD_STATUS.PENDING) {
-                  formControl.setValue(formGroupDataItem[keys[i]]);
-                }
-                formControl.setValidators(Validators.required);
-                formControl.updateValueAndValidity();
-                if ((i == 0 && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) || (i == 1) && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
-                  continue;
-                }
-              }
-              formControl.disable();
-              formControl.updateValueAndValidity();
-              break;
-            case 'message':
-              if (formControls[i - 2].disabled) {
-                formControl.disable();
-                formControl.updateValueAndValidity();
-              }
-              break;
-          }
-        }
-      }
-    });
-
-    this.updateTabIndex(data);
+    this.setFileFormControls();
   }
 
   setAuditStatus(value: boolean) {
@@ -205,5 +153,55 @@ export class DataUploadActionComponent implements OnInit {
       }, error => {
         console.log(error);
       });
+  }
+
+  private setFinancialYear(financialYear: string) {
+    const selectedFinancialYearObject = this.financialYearDropdown.filter((item) => item.id === financialYear);
+    if (selectedFinancialYearObject) {
+      this.financialYear.setValue(selectedFinancialYearObject);
+    }
+  }
+
+  private setFileFormControls() {
+    this.fileFormGroupKeys.forEach(formGroupKey => {
+      const formGroupDataItem = this.financeDataService.selectedFinancialRequest[formGroupKey];
+      if (formGroupDataItem) {
+        const {excelUrl, pdfUrl} = formGroupDataItem;
+        let formControls = [
+          this.getFormControl(this.completenessFormGroup, formGroupKey, 'completeness'),
+          this.getFormControl(this.correctnessFormGroup, formGroupKey, 'correctness'),
+          this.getFormControl(this.completenessFormGroup, formGroupKey, 'message'),
+          this.getFormControl(this.correctnessFormGroup, formGroupKey, 'message'),
+        ];
+        let keys = ['completeness', 'correctness', 'message', 'message'];
+        for (let i = 0; i < formControls.length; i++) {
+          const formControl = formControls[i];
+          switch (keys[i]) {
+            case 'completeness':
+            case 'correctness':
+              if (excelUrl || pdfUrl) {
+                if (formGroupDataItem[keys[i]] != UPLOAD_STATUS.PENDING) {
+                  formControl.setValue(formGroupDataItem[keys[i]]);
+                }
+                formControl.setValidators(Validators.required);
+                formControl.updateValueAndValidity();
+                if ((i == 0 && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) || (i == 1) && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
+                  continue;
+                }
+              }
+              formControl.disable();
+              formControl.updateValueAndValidity();
+              break;
+            case 'message':
+              formControl.setValue(formGroupDataItem[keys[i]]);
+              if (formControls[i - 2].disabled) {
+                formControl.disable();
+                formControl.updateValueAndValidity();
+              }
+              break;
+          }
+        }
+      }
+    });
   }
 }

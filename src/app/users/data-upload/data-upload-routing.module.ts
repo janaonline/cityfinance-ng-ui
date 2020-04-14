@@ -9,6 +9,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { BulkEntryComponent } from './bulk-entry/bulk-entry.component';
 import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
 import { DataUploadComponent } from './data-upload.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 const routes: Routes = [
   { path: "bulk-upload", component: BulkEntryComponent },
@@ -20,14 +21,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-    CommonModule,
-    AngularMaterialModule,
-    AngularMultiSelectModule,
-    ReactiveFormsModule,
-    SharedModule
-  ],
+    imports: [
+        RouterModule.forChild(routes),
+        CommonModule,
+        AngularMaterialModule,
+        AngularMultiSelectModule,
+        ReactiveFormsModule,
+        SharedModule,
+        NgxPaginationModule
+    ],
   exports: [RouterModule],
   declarations: [DataUploadComponent]
 })
