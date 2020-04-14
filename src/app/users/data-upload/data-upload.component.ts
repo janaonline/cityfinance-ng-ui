@@ -47,6 +47,25 @@ export class DataUploadComponent implements OnInit {
     singleSelection: true,
     text: 'Audit Status'
   };
+  uploadCheckStatusDropDownSettings: any = {
+    singleSelection: true,
+    text: 'Status'
+  };
+  uploadCheckStatusDropDown: any = [
+    {
+      id: UPLOAD_STATUS.PENDING,
+      itemName: 'Pending'
+    },
+    {
+      id: UPLOAD_STATUS.APPROVED,
+      itemName: 'Approved'
+    },
+    {
+      id: UPLOAD_STATUS.REJECTED,
+      itemName: 'Rejected'
+    }
+  ];
+
   completenessStatus = UPLOAD_STATUS.PENDING;
   correctnessStatus = UPLOAD_STATUS.PENDING;
   @ViewChild('searchFinancialYear') searchFinancialYear: ElementRef;
@@ -125,6 +144,7 @@ export class DataUploadComponent implements OnInit {
   handleResponseFailure = (error) => {
     this.handlerError(error);
   };
+  uploadStatusFormControl: FormControl = new FormControl();
 
   async submitClickHandler(event) {
     event.disabled = true;

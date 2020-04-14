@@ -318,7 +318,13 @@
                 [data]="auditStatusDropdown">
               </angular2-multiselect>
             </td>
-            <td></td>
+            <td>
+<!--              <angular2-multiselect-->
+<!--                [formControl]="uploadStatusFormControl"-->
+<!--                [settings]="uploadCheckStatusDropDown"-->
+<!--                [data]="auditStatusDropdown">-->
+<!--              </angular2-multiselect>-->
+            </td>
             <td class="text-center">
               <button class="btn btn-danger" (click)="applyFilterClicked()">Apply filters</button>
             </td>
@@ -411,7 +417,7 @@
         <thead>
         <tr>
           <th style="position: sticky;top: 0;background: white" class=" text-center "></th>
-          <th style="position: sticky;top: 0;background: white" class="  text-center ">SR.No</th>
+          <th style="position: sticky;top: 0;background: white" class="  text-center ">Sr. No</th>
           <th style="position: sticky;top: 0;background: white" class="text-center ">Action</th>
           <th style="position: sticky;top: 0;;background: white" class="text-center ">Data</th>
         </tr>
@@ -423,13 +429,13 @@
           </td>
           <td class="text-center">{{i + 1}}</td>
           <ng-container [ngSwitch]="row['status']">
-            <td *ngSwitchCase="uploadStatus.PENDING">
+            <td class="text-center" *ngSwitchCase="uploadStatus.PENDING">
               {{row['completeness'] == uploadStatus.PENDING && row['correctness'] == uploadStatus.PENDING ? 'Requested By ULB' : 'Under Review'}}
             </td>
-            <td *ngSwitchCase="uploadStatus.APPROVED">Approved By :{{ row['actionTakenByUserName']}}
+            <td class="text-center"  *ngSwitchCase="uploadStatus.APPROVED">Approved By :{{ row['actionTakenByUserName']}}
               ({{row['actionTakenByUserRole']}})
             </td>
-            <td *ngSwitchCase="uploadStatus.REJECTED">Rejected By :{{ row['actionTakenByUserName']}}
+            <td class="text-center"  *ngSwitchCase="uploadStatus.REJECTED">Rejected By :{{ row['actionTakenByUserName']}}
               ({{row['actionTakenByUserRole'].role}})
             </td>
             <!--            <td class="text-center">{{
