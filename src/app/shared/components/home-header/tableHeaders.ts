@@ -310,6 +310,6 @@ export const ulbUploadList: ModalTableHeader[] = [
   {id: 'ulbName', title: 'ULB name'},
   {id: 'financialYear', click: true, title: 'Financial Year'},
   {id: 'audited', click: true, title: 'Audit Status'},
-  {id: 'ad', title: 'Status'},
+  {id: 'status', title: 'Status'},
   {id: 'action', title: 'Action'}
 ];

@@ -319,11 +319,11 @@
               </angular2-multiselect>
             </td>
             <td>
-<!--              <angular2-multiselect-->
-<!--                [formControl]="uploadStatusFormControl"-->
-<!--                [settings]="uploadCheckStatusDropDown"-->
-<!--                [data]="auditStatusDropdown">-->
-<!--              </angular2-multiselect>-->
+              <angular2-multiselect
+                [formControl]="uploadStatusFormControl"
+                [settings]="uploadCheckStatusDropDownSettings"
+                [data]="uploadCheckStatusDropDown">
+              </angular2-multiselect>
             </td>
             <td class="text-center">
               <button class="btn btn-danger" (click)="applyFilterClicked()">Apply filters</button>
@@ -356,11 +356,27 @@
                       {{row[header.id] ? 'Audited' : 'Unaudited'}}
                     </span>
                   <span *ngSwitchCase="'ulbName'">{{row[header.id]}}</span>
-                  <a (click)="openModal(row,historyModal)" *ngSwitchCase="'ad'">{{
-                    row['status'] === 'APPROVED' ?
-                      'Approved By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
-                      : row['completeness'] === 'REJECTED' || row['correctness'] === 'REJECTED' ? 'Rejected By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
-                      : 'Requested By ULB'}}</a>
+                  <ng-container *ngSwitchCase="'status'">
+                    <ng-container [ngSwitch]="row['status']">
+                      <a (click)="openModal(row,historyModal)" *ngSwitchCase="uploadStatus.PENDING">
+                        {{row['completeness'] == uploadStatus.PENDING && row['correctness'] == uploadStatus.PENDING ? 'Requested By ULB' : 'Under Review'}}
+                      </a>
+                      <a *ngSwitchCase="uploadStatus.APPROVED">
+                        Approved By :{{ row['actionTakenByUserName']}}
+                        ({{row['actionTakenByUserRole']}})
+                      </a>
+                      <a *ngSwitchCase="uploadStatus.REJECTED">
+                        Rejected By :{{ row['actionTakenByUserName']}}
+                        ({{row['actionTakenByUserRole']}})
+                      </a>
+                    </ng-container>
+                  </ng-container>
+                  <!--
+                                    <a (click)="openModal(row,historyModal)" *ngSwitchCase="'ad'">{{
+                                      row['status'] === 'APPROVED' ?
+                                        'Approved By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
+                                        : row['completeness'] === 'REJECTED' || row['correctness'] === 'REJECTED' ? 'Rejected By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
+                                        : 'Requested By ULB'}}</a>-->
                   <span *ngSwitchDefault>{{row[header.id]}}</span>
                 </ng-container>
             </tr>
@@ -432,10 +448,10 @@
             <td class="text-center" *ngSwitchCase="uploadStatus.PENDING">
               {{row['completeness'] == uploadStatus.PENDING && row['correctness'] == uploadStatus.PENDING ? 'Requested By ULB' : 'Under Review'}}
             </td>
-            <td class="text-center"  *ngSwitchCase="uploadStatus.APPROVED">Approved By :{{ row['actionTakenByUserName']}}
+            <td class="text-center" *ngSwitchCase="uploadStatus.APPROVED">Approved By :{{ row['actionTakenByUserName']}}
               ({{row['actionTakenByUserRole']}})
             </td>
-            <td class="text-center"  *ngSwitchCase="uploadStatus.REJECTED">Rejected By :{{ row['actionTakenByUserName']}}
+            <td class="text-center" *ngSwitchCase="uploadStatus.REJECTED">Rejected By :{{ row['actionTakenByUserName']}}
               ({{row['actionTakenByUserRole'].role}})
             </td>
             <!--            <td class="text-center">{{

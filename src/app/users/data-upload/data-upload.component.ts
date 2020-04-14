@@ -331,6 +331,7 @@ export class DataUploadComponent implements OnInit {
           .fileFormGroup.get(filterKeys[0]).value[0].id : '',
         'audited': this.fileFormGroup.get(filterKeys[1]).value.length ? this
           .fileFormGroup.get(filterKeys[1]).value[0].id == 'true' : '',
+        'status': (this.uploadStatusFormControl.value.length && this.uploadStatusFormControl.value[0].id) || ''
       }
     };
     this.listFetchOption = {
