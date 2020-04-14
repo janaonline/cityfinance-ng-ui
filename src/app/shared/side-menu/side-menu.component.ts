@@ -20,7 +20,6 @@ export class SideMenuComponent implements OnInit, OnChanges {
     this.contents = this.contents.filter(menu =>
       menu.condition ? menu.condition() : true
     );
-    console.log(this.contents);
   }
 
   @Input('content') contents: ILink[] = [];

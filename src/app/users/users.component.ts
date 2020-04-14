@@ -96,7 +96,7 @@ export class UsersComponent implements OnInit {
     {
       title: 'Usage Report',
       type: 'link',
-      route: ['/user/reports'],
+      route: ['/user/reports/usage'],
       condition: () => true
     },
   ];
