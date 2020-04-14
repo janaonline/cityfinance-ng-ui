@@ -110,14 +110,19 @@ export class DataUploadComponent implements OnInit {
   ngOnInit() {
     this.fetchFinancialYears();
     if (!this.id) {
-      this.getFinancialData({skip: this.listFetchOption.skip, limit: 10}, this.listFetchOption);
+      this.getFinancialDataList({skip: this.listFetchOption.skip, limit: 10}, this.listFetchOption);
     }
     if (this.uploadId) {
-      this.getFinancialData({_id: this.uploadId});
+      this.getFinancialData();
     }
   }
 
-  getFinancialData(params = {}, body = {}) {
+  getFinancialData() {
+    this.financialDataService.fetFinancialData(this.uploadId)
+      .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
+  }
+
+  getFinancialDataList(params = {}, body = {}) {
     const {skip} = this.listFetchOption;
     const newParams = {
       skip,
@@ -351,7 +356,7 @@ export class DataUploadComponent implements OnInit {
     console.log(this.tableDefaultOptions);
     this.listFetchOption.skip = (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     const {skip} = this.listFetchOption;
-    this.getFinancialData({skip, limit: 10}, this.listFetchOption);
+    this.getFinancialDataList({skip, limit: 10}, this.listFetchOption);
 
 
   }
@@ -362,7 +367,7 @@ export class DataUploadComponent implements OnInit {
       ...this.listFetchOption,
       sort: {[id]: this.currentSort},
     };
-    this.getFinancialData({}, this.listFetchOption);
+    this.getFinancialDataList({}, this.listFetchOption);
   }
 
   private createForms() {
