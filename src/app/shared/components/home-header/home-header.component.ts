@@ -57,10 +57,10 @@ export class HomeHeaderComponent implements OnInit {
       action: ACTIONS.EDIT
     });
 
-    //  this.canViewPartnerList = this.accessChecker.hasAccess({
-    //    moduleName: MODULES_NAME.Mo,
-    //    action: ACTIONS.VIEW
-    //  });
+    this.canViewMoHUAList = this.accessChecker.hasAccess({
+      moduleName: MODULES_NAME.MoHUA,
+      action: ACTIONS.VIEW
+    });
 
     this.canViewPartnerList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.PARTNER,

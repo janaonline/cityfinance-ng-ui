@@ -139,6 +139,8 @@ export class ProfileRequestComponent implements OnInit {
     body.filter = util.filterEmptyValue(body.filter);
 
     this._profileService.getULBProfileUpdateRequestList(body).subscribe(res => {
+      console.log(`getULBProfileUpdateRequestList `, res);
+
       this.requestList = res.data;
     });
   }

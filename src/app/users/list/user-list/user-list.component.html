@@ -7,7 +7,7 @@
           <a
             *ngIf="listType === userTypes.STATE"
             class="btn btn-primary"
-            style="float: right;"
+            style="float: right; margin-right: 6px;"
             [routerLink]="['/', 'user', 'profile', 'create']"
             [queryParams]="{ role: userTypes.STATE }"
             >Create State</a
@@ -44,7 +44,7 @@
             >
               <th class="text-center">S.No.</th>
               <th class="text-center" (click)="sortListBy('name')">
-                User name
+                User Name
               </th>
               <th class="text-center" (click)="sortListBy('email')">
                 Email ID
@@ -113,7 +113,7 @@
                     placeholder="Organisation Name"
                     type="text"
                     class="form-control"
-                    [formControl]="filterForm.controls.organisationName"
+                    [formControl]="filterForm.controls.organization"
                     [ngClass]="{
                       'is-invalid':
                         formErrors && profileForm.controls.name.errors
@@ -149,7 +149,7 @@
               <td class="text-center">
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
               </td>
-              <td class="text-center">{{ user.name }}</td>
+              <td class="">{{ user.name }}</td>
               <td class="text-center">{{ user.email }}</td>
               <td class="text-center">{{ user.designation }}</td>
               <td class="text-center">{{ user.organization }}</td>
