@@ -349,11 +349,11 @@
                   <span *ngSwitchCase="'audited'">
                       {{row[header.id] ? 'Audited' : 'Unaudited'}}
                     </span>
-                  <span *ngSwitchCase="'ulb'">{{row[header.id].name}}</span>
+                  <span *ngSwitchCase="'ulbName'">{{row[header.id]}}</span>
                   <a (click)="openModal(row,historyModal)" *ngSwitchCase="'ad'">{{
                     row['status'] === 'APPROVED' ?
-                      'Approved By ' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
-                      : row['completeness'] === 'REJECTED' || row['correctness'] === 'REJECTED' ? 'Rejected By ' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
+                      'Approved By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
+                      : row['completeness'] === 'REJECTED' || row['correctness'] === 'REJECTED' ? 'Rejected By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
                       : 'Requested By ULB'}}</a>
                   <span *ngSwitchDefault>{{row[header.id]}}</span>
                 </ng-container>
@@ -423,12 +423,14 @@
           </td>
           <td class="text-center">{{i + 1}}</td>
           <ng-container [ngSwitch]="row['status']">
-            <td *ngSwitchCase="uploadStatus.PENDING">Requested BY ULB</td>
-            <td *ngSwitchCase="uploadStatus.APPROVED">Approved By :{{ row['actionTakenBy'].name}}
-              ({{row['actionTakenBy'].role}})
+            <td *ngSwitchCase="uploadStatus.PENDING">
+              {{row['completeness'] == uploadStatus.PENDING && row['correctness'] == uploadStatus.PENDING ? 'Requested By ULB' : 'Under Review'}}
             </td>
-            <td *ngSwitchCase="uploadStatus.REJECTED">Rejected By :{{ row['actionTakenBy'].name}}
-              ({{row['actionTakenBy'].role}})
+            <td *ngSwitchCase="uploadStatus.APPROVED">Approved By :{{ row['actionTakenByUserName']}}
+              ({{row['actionTakenByUserRole']}})
+            </td>
+            <td *ngSwitchCase="uploadStatus.REJECTED">Rejected By :{{ row['actionTakenByUserName']}}
+              ({{row['actionTakenByUserRole'].role}})
             </td>
             <!--            <td class="text-center">{{
                           (row['completeness'] == uploadStatus.PENDING ||

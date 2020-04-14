@@ -5,16 +5,13 @@ import {ulbUploadList} from '../../shared/components/home-header/tableHeaders';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataEntryService} from '../../dashboard/data-entry/data-entry.service';
 import {FinancialDataService} from '../services/financial-data.service';
-import {HttpErrorResponse} from '@angular/common/http';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {AccessChecker} from '../../util/access/accessChecker';
 import {MODULES_NAME} from '../../util/access/modules';
 import {ACTIONS} from '../../util/access/actions';
 import {UserUtility} from '../../util/user/user';
 import {MatSnackBar} from '@angular/material';
 import swal from 'sweetalert';
-import {fromEvent} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {DropdownSettings} from 'angular2-multiselect-dropdown/lib/multiselect.interface';
 import {USER_TYPE} from '../../models/user/userType';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {UPLOAD_STATUS} from '../../util/enums';
@@ -59,6 +56,7 @@ export class DataUploadComponent implements OnInit {
     totalCount: null
   };
   currentSort = 1;
+
   listFetchOption = {
     filter: null,
     sort: null,
@@ -93,7 +91,7 @@ export class DataUploadComponent implements OnInit {
   ngOnInit() {
     this.fetchFinancialYears();
     if (!this.id) {
-      this.getFinancialData({}, this.listFetchOption);
+      this.getFinancialData({skip: this.listFetchOption.skip, limit: 10}, this.listFetchOption);
     }
     if (this.uploadId) {
       this.getFinancialData({_id: this.uploadId});
@@ -101,8 +99,14 @@ export class DataUploadComponent implements OnInit {
   }
 
   getFinancialData(params = {}, body = {}) {
+    const {skip} = this.listFetchOption;
+    const newParams = {
+      skip,
+      limit: 10,
+      ...params
+    };
     this.financialDataService
-      .fetchFinancialData(params, body)
+      .fetchFinancialDataList(newParams, body)
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
@@ -112,11 +116,14 @@ export class DataUploadComponent implements OnInit {
       this.updateFormControls();
     } else {
       this.dataUploadList = response.data;
-      this.tableDefaultOptions.totalCount = response['total'];
+      if (response['total']) {
+        this.tableDefaultOptions.totalCount = response['total'];
+      }
     }
   };
 
   handleResponseFailure = (error) => {
+    this.handlerError(error);
   };
 
   async submitClickHandler(event) {
@@ -266,9 +273,7 @@ export class DataUploadComponent implements OnInit {
       if (result['success']) {
         this.router.navigate(['/user/data-upload']);
       }
-    }, error => {
-      console.log(error);
-    });
+    }, error => this.handlerError(error));
     updateButton.disabled = false;
   }
 
@@ -281,7 +286,6 @@ export class DataUploadComponent implements OnInit {
     //     })
     //   );
     // });
-
 
   }
 
@@ -313,7 +317,8 @@ export class DataUploadComponent implements OnInit {
       ...this.listFetchOption,
       ...filterObject
     };
-    this.financialDataService.fetchFinancialData({}, this.listFetchOption).subscribe(result => {
+    const {skip} = this.listFetchOption;
+    this.financialDataService.fetchFinancialDataList({skip, limit: 10}, this.listFetchOption).subscribe(result => {
       this.handleResponseSuccess(result);
     }, (response: HttpErrorResponse) => {
       this._snackBar.open(response.error.errors.message || response.error.message || 'Some Error Occurred', null, {duration: 1600});
@@ -322,8 +327,10 @@ export class DataUploadComponent implements OnInit {
 
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;
+    console.log(this.tableDefaultOptions);
     this.listFetchOption.skip = (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
-    this.getFinancialData({}, this.listFetchOption);
+    const {skip} = this.listFetchOption;
+    this.getFinancialData({skip, limit: 10}, this.listFetchOption);
 
 
   }
@@ -375,10 +382,19 @@ export class DataUploadComponent implements OnInit {
   }
 
   openModal(row: any, historyModal: TemplateRef<any>) {
-    this.modalTableData = row.history;
-    this.modalTableData = this.modalTableData.filter(row => typeof row['actionTakenBy'] != 'string')
-      .reverse();
-    this.modalService.show(historyModal, {});
 
+    this.financialDataService.fetchFinancialDataHistory(row._id).subscribe((result: HttpResponse<any>) => {
+      if (result['success']) {
+        this.modalTableData = result['data'];
+        this.modalTableData = this.modalTableData.filter(row => typeof row['actionTakenBy'] != 'string').reverse();
+        this.modalService.show(historyModal, {});
+      }
+    }, error => this.handlerError(error));
+
+  }
+
+  private handlerError(error: any) {
+    const {message} = error;
+    this._snackBar.open(message, null, {duration: 1600});
   }
 }

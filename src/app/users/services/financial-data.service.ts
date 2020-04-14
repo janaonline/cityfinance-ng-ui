@@ -14,12 +14,20 @@ export class FinancialDataService {
   constructor(private httpClient: HttpClient) {
   }
 
-  fetchFinancialData(params = {}, body = {}) {
+  fetchFinancialDataList(params = {}, body = {}) {
     let queryParams = new HttpParams(params);
     for (let key in params) {
       queryParams = queryParams.set(key, params[key]);
     }
-    return this.httpClient.post(`${environment.api.url}ulb-financial-data/list`, JSON.stringify(body), {params: queryParams});
+    return this.httpClient.post(`${environment.api.url}ulb-financial-data/all`, JSON.stringify(body), {params: queryParams});
+  }
+
+  fetFinancialData(id: string) {
+    return this.httpClient.get(`${environment.api.url}ulb-financial-data/details/${id}`);
+  }
+
+  fetchFinancialDataHistory(id) {
+    return this.httpClient.get(`${environment.api.url}ulb-financial-data/history/${id}`);
   }
 
   uploadFinancialData(data) {
