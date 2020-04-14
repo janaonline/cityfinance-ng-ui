@@ -382,7 +382,7 @@ export class DataUploadComponent implements OnInit {
   }
 
   openModal(row: any, historyModal: TemplateRef<any>) {
-
+    this.modalTableData = [];
     this.financialDataService.fetchFinancialDataHistory(row._id).subscribe((result: HttpResponse<any>) => {
       if (result['success']) {
         this.modalTableData = result['data'];
