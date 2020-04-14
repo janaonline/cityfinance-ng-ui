@@ -1,5 +1,5 @@
 export class PasswordValidator {
-  private _alphanumericRegex = /([a-zA-Z]+[0-9]+)|([0-9]+[a-zA-Z]+)$/g;
+  private _alphanumericRegex = /[^\w\d]*(([0-9]+.*[A-Za-z]+.*)|[A-Za-z]+.*([0-9]+.*))$/g;
   public validate(password: string, confirmPassword?: string) {
     console.log(`password: ${password}, confirmPassword: ${confirmPassword}`);
     const newPassword = password.trim();
@@ -12,7 +12,7 @@ export class PasswordValidator {
 
     if (!newPassword.match(this._alphanumericRegex)) {
       throw new Error(
-        "Password must be alphanumeric only, without any special character."
+        "Password must be contain atleast 1 number and 1 alphabet."
       );
     }
 
