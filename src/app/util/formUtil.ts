@@ -111,8 +111,43 @@ export class FormUtil {
   }
 
   public getMoHUAForm() {
-    const form = this.getStateForm();
+    const form = this.fb.group({
+      name: ["", [Validators.required]],
+      email: [
+        "",
+        [Validators.required, Validators.email, customEmailValidator]
+      ],
+      mobile: ["", [Validators.required, mobileNoValidator]],
+      designation: ["", [Validators.required]],
+      address: ["", [Validators.required]],
+      departmentName: ["", Validators.required],
+      departmentEmail: [
+        "",
+        [Validators.required, Validators.email, customEmailValidator]
+      ],
+      departmentContactNumber: ["", [Validators.required, mobileNoValidator]]
+    });
     form.controls.departmentName.setValue("MoHUA");
+    return form;
+  }
+
+  public getPartnerForm() {
+    const form = this.fb.group({
+      name: ["", [Validators.required]],
+      email: [
+        "",
+        [Validators.required, Validators.email, customEmailValidator]
+      ],
+      mobile: ["", [Validators.required, mobileNoValidator]],
+      designation: ["", [Validators.required]],
+      address: ["", [Validators.required]],
+      departmentName: ["", Validators.required],
+      departmentEmail: [
+        "",
+        [Validators.required, Validators.email, customEmailValidator]
+      ],
+      departmentContactNumber: ["", [Validators.required, mobileNoValidator]]
+    });
     return form;
   }
 
