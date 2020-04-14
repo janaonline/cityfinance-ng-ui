@@ -67,6 +67,10 @@ export class ProfileService {
 
   getULBProfileUpdateRequestList(body) {
     console.log(`service `, body);
+    // return this._htttp.post<IULBProfileRequestResponse>(
+    //   `${environment.api.url}ulb-update-request/all`,
+    //   body
+    // );
     return this._htttp.post<IULBProfileRequestResponse>(
       `${environment.api.url}ulb-update-request/list`,
       body
