@@ -89,7 +89,7 @@ export class StateProfileComponent implements OnInit, OnChanges {
         this.respone.successMessage = "Profile Updated successfully";
       },
       (err: HttpErrorResponse) =>
-        (this.respone.errorMessage = err.error.msg || "Server Error")
+        (this.respone.errorMessage = err.error.message || "Server Error")
     );
   }
 

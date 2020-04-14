@@ -19,4 +19,9 @@
     *ngIf="profileType === USER_TYPE.PARTNER"
     [profileData]="profileData"
   ></app-common-profile>
+
+  <app-mohua-profile
+    *ngIf="profileType === USER_TYPE.MoHUA"
+    [profileData]="profileData"
+  ></app-mohua-profile>
 </div>

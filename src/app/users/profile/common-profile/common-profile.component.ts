@@ -23,6 +23,7 @@ export class CommonProfileComponent implements OnInit, OnChanges {
   respone = { successMessage: null, errorMessage: null };
   formSubmitted = false;
   window = window;
+  USER_TYPE = USER_TYPE;
 
   constructor(
     private _commonService: CommonService,
@@ -77,7 +78,7 @@ export class CommonProfileComponent implements OnInit, OnChanges {
         this.respone.successMessage = "Profile Updated successfully";
       },
       (err: HttpErrorResponse) =>
-        (this.respone.errorMessage = err.error.msg || "Server Error")
+        (this.respone.errorMessage = err.error.message || "Server Error")
     );
   }
 

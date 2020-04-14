@@ -21,6 +21,15 @@
             [queryParams]="{ role: userTypes.PARTNER }"
             >Create PARTNER</a
           >
+
+          <a
+            *ngIf="listType === userTypes.MoHUA"
+            class="btn btn-primary"
+            style="float: right;"
+            [routerLink]="['/', 'user', 'profile', 'create']"
+            [queryParams]="{ role: userTypes.MoHUA }"
+            >Create MoHUA</a
+          >
         </h3>
       </div>
     </div>
@@ -444,6 +453,113 @@
         </table>
 
         <table class="table" *ngIf="listType === userTypes.PARTNER">
+          <thead>
+            <tr
+              class="sortable-headers"
+              style="background: #009fe3;color: white ;border: 5px solid white"
+            >
+              <th class="text-center">S.No.</th>
+              <th class="text-center" (click)="sortListBy('name')">Username</th>
+              <th class="text-center" (click)="sortListBy('email')">
+                Email ID
+              </th>
+              <th class="text-center" (click)="sortListBy('designation')">
+                Designation
+              </th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="filterForm">
+              <td></td>
+
+              <td>
+                <div class="input-group">
+                  <input
+                    placeholder="User Name"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.name"
+                  />
+                </div>
+              </td>
+
+              <td>
+                <div class="input-group">
+                  <input
+                    placeholder="Email ID"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.email"
+                  />
+                </div>
+              </td>
+
+              <td>
+                <div class="input-group">
+                  <input
+                    placeholder="Designation"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.designation"
+                  />
+                </div>
+              </td>
+              <td>
+                <button
+                  class="btn btn-primary"
+                  (click)="searchUsersBy(filterForm.value)"
+                >
+                  Search
+                </button>
+              </td>
+            </tr>
+
+            <tr
+              style="background: 	#e7e7e7 ;border: 5px solid white"
+              *ngFor="
+                let user of userList
+                  | paginate
+                    : {
+                        id: 'foo',
+                        itemsPerPage: tableDefaultOptions.itemPerPage,
+                        currentPage: tableDefaultOptions.currentPage,
+                        totalItems: tableDefaultOptions.totalCount
+                      };
+                index as i
+              "
+            >
+              <td class="text-center">{{ i + 1 }}</td>
+
+              <td class="text-center">{{ user["name"] }}</td>
+              <td class="text-center">{{ user["email"] }}</td>
+              <td class="text-center">{{ user["designation"] }}</td>
+              <td class="text-center d-flex justify-content-center actionCell">
+                <a
+                  [routerLink]="['/', 'user', 'profile', 'view']"
+                  [queryParams]="{ id: user._id, role: 'PARTNER' }"
+                >
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+                <span class="ml-1 mr-1"> /</span>
+                <!-- <i class="fa fa-pencil" aria-hidden="true"></i> -->
+                <a>
+                  <i
+                    class="fa fa-trash"
+                    aria-hidden="true"
+                    title="Delete User"
+                    (click)="deleteUser(user._id)"
+                  ></i
+                ></a>
+              </td>
+            </tr>
+            <tr *ngIf="userList && !userList.length">
+              <td colspan="5" class="text-center"><h3>No Data Found</h3></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table class="table" *ngIf="listType === userTypes.MoHUA">
           <thead>
             <tr
               class="sortable-headers"

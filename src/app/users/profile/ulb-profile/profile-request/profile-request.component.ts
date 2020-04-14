@@ -35,10 +35,10 @@ export class ProfileRequestComponent implements OnInit {
     this.fetchStateList();
     this.createRequestStatusTypeList();
     this.loggedInUserType = this._profileService.getLoggedInUserType();
-    this.initializeFilterForm();
     this.initializeListFetchParams();
     this._activatedRoute.queryParams.subscribe(params => {
       this.resetDatas();
+      this.initializeFilterForm();
 
       if (params.requestId) {
         this.fetchULBProfileRequest(params.requestId);
@@ -126,9 +126,7 @@ export class ProfileRequestComponent implements OnInit {
 
     return this._profileService.updateULBProfileRequest(params).subscribe(
       res => {
-        console.log(params);
         this.request.status = params.status;
-        // requestFound.status = params.status;
         this.modalService.hide(1);
       },
       err => (this.respone.errorMessage = err.error.message || "Server Error")
@@ -139,23 +137,18 @@ export class ProfileRequestComponent implements OnInit {
     this.resetResponseMessages();
     const util = new JSONUtility();
     body.filter = util.filterEmptyValue(body.filter);
-    console.log(`fetchRequestList`, { ...body });
 
     this._profileService.getULBProfileUpdateRequestList(body).subscribe(res => {
-      console.log(res);
-
       this.requestList = res.data;
     });
   }
 
   fetchULBProfileRequest(requestId: string) {
-    this._profileService.getULBProfileUpdateRequest(requestId).subscribe(
-      res => {
+    this._profileService
+      .getULBProfileUpdateRequest(requestId)
+      .subscribe(res => {
         this.request = res;
-        console.log(this.request);
-      }
-      // err => this._router.navigate(['/home'])
-    );
+      });
   }
 
   fetchulbTypeList() {
@@ -183,7 +176,6 @@ export class ProfileRequestComponent implements OnInit {
   }
 
   setPage(pageNoClick: number) {
-    console.log(pageNoClick);
     this.tableDefaultOptions.currentPage = pageNoClick;
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
@@ -192,7 +184,6 @@ export class ProfileRequestComponent implements OnInit {
 
   private fetchStateList() {
     this._commonService.getStateUlbCovered().subscribe(res => {
-      console.log(`state list `, res.data);
       this.stateList = res.data;
       res.data.forEach(state => {
         this.statesByID[state._id] = state;
@@ -201,6 +192,8 @@ export class ProfileRequestComponent implements OnInit {
   }
 
   private initializeFilterForm() {
+    console.log(`initializeFilterForm`);
+
     if (this.loggedInUserType === USER_TYPE.ULB) {
       this.filterForm = this._fb.group({
         status: [""]
@@ -208,14 +201,12 @@ export class ProfileRequestComponent implements OnInit {
       return;
     }
 
-    if (this.loggedInUserType === USER_TYPE.ADMIN) {
-      this.filterForm = this._fb.group({
-        state: [],
-        name: [""],
-        code: [],
-        status: [""]
-      });
-    }
+    this.filterForm = this._fb.group({
+      state: [],
+      name: [""],
+      code: [],
+      status: [""]
+    });
   }
 
   private initializeListFetchParams() {

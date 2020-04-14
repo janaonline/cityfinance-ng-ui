@@ -40,6 +40,17 @@ export class UsersComponent implements OnInit {
     //   // }
     // },
     {
+      title: "MoHUA",
+      type: "link",
+      route: [`/user/list/${USER_TYPE.MoHUA}`],
+      condition: () => {
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.MoHUA
+        });
+      }
+    },
+    {
       title: "Partner",
       type: "link",
       route: [`/user/list/${USER_TYPE.PARTNER}`],
