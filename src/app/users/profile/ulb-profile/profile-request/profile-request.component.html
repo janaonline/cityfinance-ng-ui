@@ -245,13 +245,13 @@
         <th class="text-center">S.No.</th>
         <th
           class="text-center"
-          (click)="sortListBy('state')"
+          (click)="sortListBy('stateName')"
           *ngIf="loggedInUserType !== userTypes.STATE"
         >
           State
         </th>
-        <th class="text-center" (click)="sortListBy('name')">ULB Name</th>
-        <th class="text-center" (click)="sortListBy('code')">ULB Code</th>
+        <th class="text-center" (click)="sortListBy('ulbName')">ULB Name</th>
+        <th class="text-center" (click)="sortListBy('ulbCode')">ULB Code</th>
         <th class="text-center" (click)="sortListBy('status')">STATUS</th>
         <th class="text-center">Action</th>
       </tr>
@@ -347,10 +347,10 @@
           {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
         </td>
         <td class="" *ngIf="loggedInUserType !== userTypes.STATE">
-          {{ request.ulb && request.ulb.state ? request.ulb.state.name : "" }}
+          {{ request["stateName"] }}
         </td>
-        <td class="">{{ request.ulb ? request.ulb.name : "" }}</td>
-        <td class="">{{ request.ulb ? request.ulb.code : "" }}</td>
+        <td class="">{{ request.ulbName }}</td>
+        <td class="">{{ request.ulbCode }}</td>
         <td class="">{{ request.status }}</td>
         <td class="text-center">
           <a [routerLink]="['./']" [queryParams]="{ requestId: request._id }">

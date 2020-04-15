@@ -83,7 +83,9 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       flatten["ulbType"] = flatten["_id"];
       delete flatten["_id"];
     }
-
+    if (this.loggedInUserType !== USER_TYPE.ULB) {
+      flatten["ulb"] = this.profileData.ulb._id;
+    }
     this.profile.disable({ onlySelf: true, emitEvent: false });
 
     this._profileService.createULBUpdateRequest(flatten).subscribe(

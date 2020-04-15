@@ -73,8 +73,12 @@ export class CommonProfileComponent implements OnInit, OnChanges {
   }
 
   private updateProfile(form: FormGroup) {
+    const body = {
+      ...form.value,
+      _id: this.profileData._id
+    };
     form.disable();
-    return this._profileService.updateUserProfileData(form.value).subscribe(
+    return this._profileService.updateUserProfileData(body).subscribe(
       res => {
         form.enable();
         this.respone.successMessage = "Profile Updated successfully";
