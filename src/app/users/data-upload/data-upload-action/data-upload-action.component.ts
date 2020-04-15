@@ -194,9 +194,15 @@ export class DataUploadActionComponent implements OnInit {
                 }
                 formControl.setValidators(Validators.required);
                 formControl.updateValueAndValidity();
-                if ((i == 0 && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) || (i == 1) && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
-                  continue;
+                // checking for correctness and completeness only
+                if (i < 2) {
+                  if (formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
+                    continue;
+                  }
                 }
+                // if ((i == 0 && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) || (i == 1) && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
+                //   continue;
+                // }
               }
               formControl.disable();
               formControl.updateValueAndValidity();

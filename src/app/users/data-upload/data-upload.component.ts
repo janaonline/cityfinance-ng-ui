@@ -242,8 +242,8 @@ export class DataUploadComponent implements OnInit {
       let formGroupDataObject = this.uploadObject[formGroupKey];
       let formGroupItem = this.fileFormGroup.get([formGroupKey]);
       const {completeness, correctness} = formGroupDataObject;
-      if (correctnessOverAll === 'REJECTED' || completenessOverAll === 'REJECTED') {
-        if (completeness === 'REJECTED' || correctness === 'REJECTED') {
+      if (status === UPLOAD_STATUS.REJECTED) {
+        if (completeness === UPLOAD_STATUS.REJECTED || completeness === UPLOAD_STATUS.NA || correctness === UPLOAD_STATUS.REJECTED || correctness === UPLOAD_STATUS.NA) {
           formGroupItem.enable();
         } else {
           formGroupItem.disable();

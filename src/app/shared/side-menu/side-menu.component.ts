@@ -26,4 +26,8 @@ export class SideMenuComponent implements OnInit, OnChanges {
 
   ngOnInit() {
   }
+
+  menuItemClicked(event) {
+
+  }
 }

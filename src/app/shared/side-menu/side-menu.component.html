@@ -5,7 +5,7 @@
       <ng-container *ngFor="let link of contents">
         <ng-container [ngSwitch]="link.type">
           <ng-container *ngSwitchCase="'link'">
-            <mat-list-item
+            <mat-list-item  (click)="menuItemClicked($event)"
               [routerLink]="link.route"
               routerLinkActive="active">
               {{link.title}}</mat-list-item>

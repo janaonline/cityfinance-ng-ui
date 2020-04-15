@@ -274,9 +274,9 @@
 <ng-template #noId>
 
   <div class="row flex-column">
-    <div class="col">
-      <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>
-    </div>
+    <!--    <div class="col">-->
+    <!--      <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>-->
+    <!--    </div>-->
     <div *ngIf="isAccessible"
          class="col" style="margin-left: 5px">
       <a mat-button [routerLink]="['upload-form']" class="btn-primary mt-3"
@@ -350,7 +350,7 @@
                     <ng-container [ngSwitch]="userUtil.getUserType()">
                       <a (click)="navigateTo(row)" title="Edit" [routerLink]="['upload-form',row?._id]">
                         <i *ngSwitchCase="'ULB'"
-                           [ngClass]="row['correctness']==='REJECTED' || row['completeness']==='REJECTED' ? 'fa fa-pencil': 'fa fa-eye'"
+                           [ngClass]="row['status']===uploadStatus.REJECTED ? 'fa fa-pencil': 'fa fa-eye'"
                            aria-hidden="true"></i>
                       </a>
                       <a *ngSwitchDefault [routerLink]="['action',row?._id]" (click)="navigateTo(row)"
@@ -362,15 +362,15 @@
                     </span>
                   <span *ngSwitchCase="'ulbName'">{{row[header.id]}}</span>
                   <ng-container *ngSwitchCase="'status'">
-                    <ng-container [ngSwitch]="row['status']">
-                      <a (click)="openModal(row,historyModal)" *ngSwitchCase="uploadStatus.PENDING">
+                    <ng-container  [ngSwitch]="row['status']">
+                      <a *ngSwitchCase="uploadStatus.PENDING" (click)="openModal(row,historyModal)">
                         {{row['completeness'] == uploadStatus.PENDING && row['correctness'] == uploadStatus.PENDING ? 'Requested By ULB' : 'Under Review'}}
                       </a>
-                      <a *ngSwitchCase="uploadStatus.APPROVED">
+                      <a *ngSwitchCase="uploadStatus.APPROVED" (click)="openModal(row,historyModal)">
                         Approved By :{{ row['actionTakenByUserName']}}
                         ({{row['actionTakenByUserRole']}})
                       </a>
-                      <a *ngSwitchCase="uploadStatus.REJECTED">
+                      <a *ngSwitchCase="uploadStatus.REJECTED" (click)="openModal(row,historyModal)">
                         Rejected By :{{ row['actionTakenByUserName']}}
                         ({{row['actionTakenByUserRole']}})
                       </a>
@@ -457,7 +457,7 @@
               ({{row['actionTakenByUserRole']}})
             </td>
             <td class="text-center" *ngSwitchCase="uploadStatus.REJECTED">Rejected By :{{ row['actionTakenByUserName']}}
-              ({{row['actionTakenByUserRole'].role}})
+              ({{row['actionTakenByUserRole']}})
             </td>
             <!--            <td class="text-center">{{
                           (row['completeness'] == uploadStatus.PENDING ||
