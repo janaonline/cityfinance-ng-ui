@@ -84,19 +84,21 @@ export class StateProfileComponent implements OnInit, OnChanges {
   }
 
   private updateProfile(form: FormGroup) {
-    console.log(this.profileData);
-
     const body = {
       ...form.value,
       _id: this.profileData._id
     };
 
+    form.disable();
     return this._profileService.updateUserProfileData(body).subscribe(
       res => {
+        form.enable();
         this.respone.successMessage = "Profile Updated successfully";
       },
-      (err: HttpErrorResponse) =>
-        (this.respone.errorMessage = err.error.message || "Server Error")
+      (err: HttpErrorResponse) => {
+        form.enable();
+        this.respone.errorMessage = err.error.message || "Server Error";
+      }
     );
   }
 

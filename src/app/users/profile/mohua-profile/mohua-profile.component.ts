@@ -73,12 +73,16 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
   }
 
   private updateProfile(form: FormGroup) {
+    form.disable();
     return this._profileService.updateUserProfileData(form.value).subscribe(
       res => {
+        form.enable();
         this.respone.successMessage = "Profile Updated successfully";
       },
-      (err: HttpErrorResponse) =>
-        (this.respone.errorMessage = err.error.message || "Server Error")
+      (err: HttpErrorResponse) => {
+        form.enable();
+        this.respone.errorMessage = err.error.message || "Server Error";
+      }
     );
   }
 
