@@ -1,4 +1,5 @@
-td {
+td,
+th {
   padding: 1%;
 }
 
@@ -16,4 +17,8 @@ td {
 }
 table .input-group {
   width: 88%;
+  input,
+  select {
+    border-radius: 5px;
+  }
 }

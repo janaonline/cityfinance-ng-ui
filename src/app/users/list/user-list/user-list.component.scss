@@ -19,4 +19,9 @@
 
 table .input-group {
   width: 88%;
+
+  input,
+  select {
+    border-radius: 5px;
+  }
 }
