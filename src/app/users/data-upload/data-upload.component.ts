@@ -223,7 +223,7 @@ export class DataUploadComponent implements OnInit {
   }
 
   private updateFormControls() {
-    const {financialYear, audited, completeness: completenessOverAll, correctness: correctnessOverAll} = this.uploadObject;
+    const {financialYear, audited, completeness: completenessOverAll, correctness: correctnessOverAll, status} = this.uploadObject;
     this.completenessStatus = completenessOverAll;
     this.correctnessStatus = correctnessOverAll;
     const selectedFinancialYearObject = this.financialYearDropdown.filter((item) => item.id === financialYear);
