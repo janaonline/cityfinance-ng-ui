@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { PasswordValidator } from 'src/app/util/passwordValidator';
@@ -9,9 +9,9 @@ import { environment } from './../../../environments/environment';
 import { PasswordService } from './service/password.service';
 
 @Component({
-  selector: 'app-password',
-  templateUrl: './password.component.html',
-  styleUrls: ['./password.component.scss']
+  selector: "app-password",
+  templateUrl: "./password.component.html",
+  styleUrls: ["./password.component.scss"]
 })
 export class PasswordComponent implements OnInit {
   public passwordRequestForm: FormGroup;
@@ -20,11 +20,11 @@ export class PasswordComponent implements OnInit {
   public submitted = false;
   public formError: boolean;
   public creditRatingReportUrl =
-    environment.api.url + 'assets/credit_rating.xlsx';
+    environment.api.url + "assets/credit_rating.xlsx";
 
   public window = window;
 
-  public uiType: 'request' | 'reset';
+  public uiType: "request" | "reset";
   public errorMessage: string;
   public successMessage: string;
   public token: string;
@@ -53,16 +53,16 @@ export class PasswordComponent implements OnInit {
     this.errorMessage = null;
     console.log(`submitPasswordResetRequest `);
     if (!form.valid) {
-      this.errorMessage = 'Email ID is incorrect.';
+      this.errorMessage = "Email ID is incorrect.";
       return;
     }
 
     this._passwordService.requestPasswordReset(form.value).subscribe(
       res => {
-        form.patchValue({ email: '' });
+        form.patchValue({ email: "" });
         const message =
-          'Password reset has been initiated. Check You email for further instruction. ';
-        this.successMessage = res['message'] || message;
+          "Password reset has been initiated. Check You email for further instruction. ";
+        this.successMessage = res["message"] || message;
         // this.router.navigate(["/home"]);
       },
       error => this.onGettingResponseError(error, form)
@@ -87,11 +87,11 @@ export class PasswordComponent implements OnInit {
       .subscribe(
         res => {
           form.patchValue({
-            password: '',
-            confirmPassword: ''
+            password: "",
+            confirmPassword: ""
           });
-          this.router.navigate(['login'], {
-            queryParams: { message: 'Password Successfully Updated.'}
+          this.router.navigate(["login"], {
+            queryParams: { message: "Password Successfully Updated." }
           });
           // const message =
           //   "Password has been reset sucessfully.You can login with new your Password. ";
@@ -108,14 +108,15 @@ export class PasswordComponent implements OnInit {
 
   private validateUrl() {
     this._activatedRoute.params.subscribe(res => {
-      if (res.id !== "'request'&& res.id !== "'reset' {
-        return this.router.navigate(["'/home');
+      if (res.id !== "request" && res.id !== "reset") {
+        return this.router.navigate(["/home"]);
       }
-      if (res.id === "'request' {
+
+      if (res.id === "request") {
         this._activatedRoute.queryParams.subscribe(params => {
           this.token = params.token;
           if (params.token) {
-            this.uiType = "'reset'
+            this.uiType = "reset";
           } else {
             this.uiType = res.id;
           }
@@ -126,12 +127,12 @@ export class PasswordComponent implements OnInit {
 
   private initializeForms() {
     this.passwordRequestForm = this.fb.group({
-      email: ["'' [Validators.required, Validators.email]]
+      email: ["", [Validators.required, Validators.email]]
     });
 
     this.passwordResetForm = this.fb.group({
-      password: ["'' Validators.required],
-      confirmPassword: ["'' Validators.required]
+      password: ["", Validators.required],
+      confirmPassword: ["", Validators.required]
     });
   }
 }
