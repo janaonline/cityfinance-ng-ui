@@ -102,13 +102,24 @@ export class UsersComponent implements OnInit {
     {
       title: "Reports",
       type: "other",
-      route: []
+      route: [],
+      condition: () => {
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.REPORTS
+        });
+      }
     },
     {
       title: "Usage Report",
       type: "link",
       route: ["/user/reports/usage"],
-      condition: () => true
+      condition: () => {
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.REPORTS
+        });
+      }
     }
   ];
 

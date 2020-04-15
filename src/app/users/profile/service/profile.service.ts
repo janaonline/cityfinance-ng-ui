@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { IFullULBProfileRequest, IULBProfileRequestResponse } from 'src/app/models/ulbs/ulb-request-update';
@@ -52,7 +52,15 @@ export class ProfileService {
     );
   }
 
-  updateUserProfileData(body: {}) {
+  updateUserProfileData(body: { _id?: string }) {
+    if (body._id) {
+      const value = { ...body };
+      delete value._id;
+      return this._htttp.put(
+        `${environment.api.url}user/profile/${body._id}`,
+        value
+      );
+    }
     return this._htttp.put(`${environment.api.url}user/profile`, body);
   }
 
@@ -61,20 +69,35 @@ export class ProfileService {
     return this._htttp.delete(`${environment.api.url}user/${param.userId}`);
   }
 
-  createULBUpdateRequest(body: {}) {
-    return this._htttp.post(`${environment.api.url}ulb-update-request`, body);
-  }
-
   getULBProfileUpdateRequestList(body) {
-    console.log(`service `, body);
+    if (!body.filter) {
+      body.filter = {};
+    }
+    if (!body.sort) {
+      body.sort = {};
+    }
+    let params = new HttpParams();
+
+    Object.keys(body).forEach(key => {
+      if (typeof body[key] === "object") {
+        const value = JSON.stringify(body[key]);
+
+        params = params.append(key, value);
+      } else {
+        params = params.append(key, body[key]);
+      }
+    });
     // return this._htttp.post<IULBProfileRequestResponse>(
     //   `${environment.api.url}ulb-update-request/all`,
     //   body
     // );
-    return this._htttp.post<IULBProfileRequestResponse>(
-      `${environment.api.url}ulb-update-request/list`,
-      body
+    return this._htttp.get<IULBProfileRequestResponse>(
+      `${environment.api.url}ulb-update-request/all?${params}`
     );
+  }
+
+  createULBUpdateRequest(body: {}) {
+    return this._htttp.post(`${environment.api.url}ulb-update-request`, body);
   }
 
   getULBProfileUpdateRequest(requestId: string) {

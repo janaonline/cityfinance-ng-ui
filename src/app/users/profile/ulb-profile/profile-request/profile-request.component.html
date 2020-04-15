@@ -243,9 +243,15 @@
         style="background: #009fe3;color: white ;border: 5px solid white"
       >
         <th class="text-center">S.No.</th>
-        <th class="text-center" (click)="sortListBy('state')">State</th>
-        <th class="text-center" (click)="sortListBy('name')">ULB Name</th>
-        <th class="text-center" (click)="sortListBy('code')">ULB Code</th>
+        <th
+          class="text-center"
+          (click)="sortListBy('stateName')"
+          *ngIf="loggedInUserType !== userTypes.STATE"
+        >
+          State
+        </th>
+        <th class="text-center" (click)="sortListBy('ulbName')">ULB Name</th>
+        <th class="text-center" (click)="sortListBy('ulbCode')">ULB Code</th>
         <th class="text-center" (click)="sortListBy('status')">STATUS</th>
         <th class="text-center">Action</th>
       </tr>
@@ -253,8 +259,8 @@
     <tbody>
       <tr *ngIf="filterForm">
         <td></td>
-        <td>
-          <div class="input-group m-auto">
+        <td *ngIf="loggedInUserType !== userTypes.STATE">
+          <div class="input-group ">
             <select
               name="State"
               id="state"
@@ -273,7 +279,7 @@
         </td>
 
         <td>
-          <div class="input-group" style="margin: auto;">
+          <div class="input-group">
             <input
               placeholder="ULB Name"
               type="status"
@@ -283,7 +289,7 @@
           </div>
         </td>
         <td>
-          <div class="input-group" style="margin: auto;">
+          <div class="input-group">
             <input
               placeholder="ULB Code"
               type="status"
@@ -293,7 +299,7 @@
           </div>
         </td>
         <td>
-          <div class="input-group m-auto">
+          <div class="input-group ">
             <select
               name="ulb"
               id="ulb"
@@ -311,18 +317,12 @@
                 {{ status.value }}
               </option>
             </select>
-            <!-- <input
-                id="email"
-                type="text"
-                class="form-control"
-                [formControl]="registrationForm.controls['name']"
-                placeholder="ULB Name"
-              /> -->
           </div>
         </td>
         <td>
           <button
-            class="btn btn-primary"
+            class="btn btn-primary m-auto"
+            style="display: block;"
             (click)="searchUsersBy(filterForm.value)"
           >
             Search
@@ -346,12 +346,12 @@
         <td class="text-center">
           {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
         </td>
-        <td class="text-center">
-          {{ request.ulb && request.ulb.state ? request.ulb.state.name : "" }}
+        <td class="" *ngIf="loggedInUserType !== userTypes.STATE">
+          {{ request["stateName"] }}
         </td>
-        <td class="text-center">{{ request.ulb ? request.ulb.name : "" }}</td>
-        <td class="text-center">{{ request.ulb ? request.ulb.code : "" }}</td>
-        <td class="text-center">{{ request.status }}</td>
+        <td class="">{{ request.ulbName }}</td>
+        <td class="">{{ request.ulbCode }}</td>
+        <td class="">{{ request.status }}</td>
         <td class="text-center">
           <a [routerLink]="['./']" [queryParams]="{ requestId: request._id }">
             <i class="fa fa-eye" aria-hidden="true" title="View Request"></i
