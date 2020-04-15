@@ -43,16 +43,16 @@
               class="sortable-headers"
             >
               <th class="text-center">S.No.</th>
-              <th class="text-center" (click)="sortListBy('name')">
+              <th class="" (click)="sortListBy('name')">
                 User Name
               </th>
-              <th class="text-center" (click)="sortListBy('email')">
+              <th class="" (click)="sortListBy('email')">
                 Email ID
               </th>
-              <th class="text-center" (click)="sortListBy('designation')">
+              <th class="" (click)="sortListBy('designation')">
                 Designation
               </th>
-              <th class="text-center" (click)="sortListBy('organization')">
+              <th class="" (click)="sortListBy('organization')">
                 Organisation
               </th>
               <th class="text-center">Action</th>
@@ -185,14 +185,18 @@
               style="background: #009fe3;color: white ;border: 5px solid white"
             >
               <th class="text-center">S.No.</th>
-              <th class="text-center" (click)="sortListBy('stateName')">
+              <th
+                class=""
+                (click)="sortListBy('stateName')"
+                *ngIf="loggedInType !== userTypes.STATE"
+              >
                 State
               </th>
-              <th class="text-center" (click)="sortListBy('name')">ULB Name</th>
-              <th class="text-center" (click)="sortListBy('ulbCode')">
+              <th class="" (click)="sortListBy('name')">ULB Name</th>
+              <th class="" (click)="sortListBy('ulbCode')">
                 ULB Code
               </th>
-              <th class="text-center" (click)="sortListBy('status')">Status</th>
+              <th class="" (click)="sortListBy('status')">Status</th>
               <th class="text-center">Action</th>
             </tr>
           </thead>
@@ -200,7 +204,7 @@
             <tr *ngIf="filterForm">
               <td></td>
 
-              <td>
+              <td *ngIf="loggedInType !== userTypes.STATE">
                 <div class="input-group">
                   <select
                     name="State"
@@ -295,7 +299,7 @@
               "
             >
               <td class="text-center">{{ i + 1 }}</td>
-              <td class="">
+              <td class="" *ngIf="loggedInType !== userTypes.STATE">
                 {{ ulb["stateName"] }}
               </td>
               <td class="">{{ ulb["name"] }}</td>
@@ -337,15 +341,18 @@
               style="background: #009fe3;color: white ;border: 5px solid white"
             >
               <th class="text-center">S.No.</th>
-              <th class="text-center" (click)="sortListBy('stateName')">
+              <th class="" (click)="sortListBy('stateName')">
                 State
               </th>
-              <th class="text-center" (click)="sortListBy('name')">Username</th>
-              <th class="text-center" (click)="sortListBy('email')">
+              <th class="" (click)="sortListBy('name')">Username</th>
+              <th class="" (click)="sortListBy('email')">
                 Email ID
               </th>
-              <th class="text-center" (click)="sortListBy('designation')">
+              <th class="" (click)="sortListBy('designation')">
                 Designation
+              </th>
+              <th class="" (click)="sortListBy('departmentName')">
+                Department
               </th>
               <th class="text-center">Action</th>
             </tr>
@@ -406,6 +413,16 @@
                 </div>
               </td>
               <td>
+                <div class="input-group">
+                  <input
+                    placeholder="Designation"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.departmentName"
+                  />
+                </div>
+              </td>
+              <td>
                 <button
                   class="btn btn-primary m-auto"
                   style="display: block;"
@@ -437,6 +454,7 @@
               <td class="">{{ user["name"] }}</td>
               <td class="">{{ user["email"] }}</td>
               <td class="">{{ user["designation"] }}</td>
+              <td class="">{{ user["departmentName"] }}</td>
               <td class="text-center d-flex justify-content-center actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
@@ -471,11 +489,11 @@
               style="background: #009fe3;color: white ;border: 5px solid white"
             >
               <th class="text-center">S.No.</th>
-              <th class="text-center" (click)="sortListBy('name')">Username</th>
-              <th class="text-center" (click)="sortListBy('email')">
+              <th class="" (click)="sortListBy('name')">Username</th>
+              <th class="" (click)="sortListBy('email')">
                 Email ID
               </th>
-              <th class="text-center" (click)="sortListBy('designation')">
+              <th class="" (click)="sortListBy('designation')">
                 Designation
               </th>
               <th class="text-center">Action</th>
@@ -581,11 +599,11 @@
               style="background: #009fe3;color: white ;border: 5px solid white"
             >
               <th class="text-center">S.No.</th>
-              <th class="text-center" (click)="sortListBy('name')">Username</th>
-              <th class="text-center" (click)="sortListBy('email')">
+              <th class="" (click)="sortListBy('name')">Username</th>
+              <th class="" (click)="sortListBy('email')">
                 Email ID
               </th>
-              <th class="text-center" (click)="sortListBy('designation')">
+              <th class="" (click)="sortListBy('designation')">
                 Designation
               </th>
               <th class="text-center">Action</th>

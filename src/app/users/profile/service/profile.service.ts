@@ -69,10 +69,6 @@ export class ProfileService {
     return this._htttp.delete(`${environment.api.url}user/${param.userId}`);
   }
 
-  createULBUpdateRequest(body: {}) {
-    return this._htttp.post(`${environment.api.url}ulb-update-request`, body);
-  }
-
   getULBProfileUpdateRequestList(body) {
     console.log(`service `, body);
     // return this._htttp.post<IULBProfileRequestResponse>(
@@ -83,6 +79,10 @@ export class ProfileService {
       `${environment.api.url}ulb-update-request/list`,
       body
     );
+  }
+
+  createULBUpdateRequest(body: {}) {
+    return this._htttp.post(`${environment.api.url}ulb-update-request`, body);
   }
 
   getULBProfileUpdateRequest(requestId: string) {

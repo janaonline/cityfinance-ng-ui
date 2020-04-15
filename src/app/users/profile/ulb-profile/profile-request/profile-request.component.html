@@ -243,7 +243,13 @@
         style="background: #009fe3;color: white ;border: 5px solid white"
       >
         <th class="text-center">S.No.</th>
-        <th class="text-center" (click)="sortListBy('state')">State</th>
+        <th
+          class="text-center"
+          (click)="sortListBy('state')"
+          *ngIf="loggedInUserType !== userTypes.STATE"
+        >
+          State
+        </th>
         <th class="text-center" (click)="sortListBy('name')">ULB Name</th>
         <th class="text-center" (click)="sortListBy('code')">ULB Code</th>
         <th class="text-center" (click)="sortListBy('status')">STATUS</th>
@@ -253,7 +259,7 @@
     <tbody>
       <tr *ngIf="filterForm">
         <td></td>
-        <td>
+        <td *ngIf="loggedInUserType !== userTypes.STATE">
           <div class="input-group ">
             <select
               name="State"
@@ -340,7 +346,7 @@
         <td class="text-center">
           {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
         </td>
-        <td class="">
+        <td class="" *ngIf="loggedInUserType !== userTypes.STATE">
           {{ request.ulb && request.ulb.state ? request.ulb.state.name : "" }}
         </td>
         <td class="">{{ request.ulb ? request.ulb.name : "" }}</td>

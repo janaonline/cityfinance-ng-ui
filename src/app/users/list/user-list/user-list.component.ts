@@ -33,8 +33,8 @@ export class UserListComponent implements OnInit {
       this.initializeFilterForm();
       this.initializeListFetchParams();
 
-      const type = this._profileService.getLoggedInUserType();
-      if (type === USER_TYPE.ULB) {
+      this.loggedInType = this._profileService.getLoggedInUserType();
+      if (this.loggedInType === USER_TYPE.ULB) {
         return this.fetchULBProfileUpdateRequest();
       }
       this.fetchList(this.listFetchOption);
@@ -220,7 +220,8 @@ export class UserListComponent implements OnInit {
       name: [null],
       email: [null],
       designation: [null],
-      state: [null]
+      state: [null],
+      departmentName: [null]
     });
   }
 
