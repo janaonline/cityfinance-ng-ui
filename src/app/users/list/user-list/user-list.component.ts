@@ -258,6 +258,14 @@ export class UserListComponent implements OnInit {
     }));
   }
 
+  public downloadList() {
+    const params = { ...this.listFetchOption };
+    delete params["skip"];
+
+    const url = this._userService.getURLForUserList(params);
+    return window.open(url);
+  }
+
   private resetResponseMessages() {
     this.respone.errorMessage = null;
     this.respone.successMessage = null;

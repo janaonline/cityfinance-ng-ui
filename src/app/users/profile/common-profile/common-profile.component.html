@@ -193,9 +193,27 @@
     {{ respone.successMessage }}
   </p>
 
-  <div class="input-group d-block" style="display: block;">
-    <button type="submit" class="btn btn-primary">
+  <div
+    class="input-group  d-block"
+    *ngIf="profileForm.disabled"
+    style="display: block;"
+  >
+    <button type="button" class="btn btn-primary" (click)="enableProfileEdit()">
+      Edit
+    </button>
+  </div>
+
+  <div *ngIf="profileForm.enabled" class="mt-2" style="display: block;">
+    <button type="submit" class="btn btn-primary mr-2">
       {{ profileData ? "Update Profile" : "Create" }}
+    </button>
+    <button
+      *ngIf="profileData"
+      type="button"
+      class="btn btn-primary"
+      (click)="disableProfileEdit()"
+    >
+      Cancel
     </button>
   </div>
 </form>
