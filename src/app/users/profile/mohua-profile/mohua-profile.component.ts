@@ -88,7 +88,7 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
     if (this.profileData) {
       console.log(this.profileData);
       console.log(this.profileForm);
-      if (this.profileData.role !== USER_TYPE.PARTNER) {
+      if (this.profileData.role !== USER_TYPE.MoHUA) {
         this.profileData = null;
         return;
       }
