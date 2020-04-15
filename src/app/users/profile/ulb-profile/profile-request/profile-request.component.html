@@ -1,395 +1,446 @@
-<h3>
-  Profile Edit Request
-</h3>
+<div class="common-container">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3>
+          Profile Edit Request
+        </h3>
 
-<div *ngIf="request">
-  <button class="back_button mb-2" (click)="window.history.back()">Back</button>
+        <div *ngIf="request">
+          <button class="back_button mb-2" (click)="window.history.back()">
+            Back
+          </button>
 
-  <h4>
-    STATUS:
-    <span
-      [ngClass]="{
-        'error-message': request.status !== REQUEST_STATUS.APPROVED,
-        'success-message': request.status === REQUEST_STATUS.APPROVED
-      }"
-      style="display: inline;"
-      >{{ request.status }}</span
-    >
-  </h4>
-  <table style="width: 70%;">
-    <thead>
-      <tr>
-        <th>Field Name</th>
-        <th>Current Value</th>
-        <th>New Requested Value</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngIf="request.accountantConatactNumber">
-        <td>Accountant Contact Number</td>
-        <td>{{ !request.old ? "" : request.old.accountantConatactNumber }}</td>
-        <td>{{ request.accountantConatactNumber }}</td>
-      </tr>
-      <tr *ngIf="request.accountantEmail">
-        <td>Accountant Email ID</td>
-        <td>{{ !request.old ? "" : request.old.accountantEmail }}</td>
-        <td>{{ request.accountantEmail }}</td>
-      </tr>
-      <tr *ngIf="request.accountantName">
-        <td>Accountant Name</td>
-        <td>{{ !request.old ? "" : request.old.accountantName }}</td>
-        <td>{{ request.accountantName }}</td>
-      </tr>
-      <tr *ngIf="request.commissionerConatactNumber">
-        <td>Commissioner Conatact Number</td>
-        <td>
-          {{ !request.old ? "" : request.old.commissionerConatactNumber }}
-        </td>
-        <td>{{ request.commissionerConatactNumber }}</td>
-      </tr>
-      <tr *ngIf="request.commissionerEmail">
-        <td>Commissioner Email</td>
-        <td>{{ !request.old ? "" : request.old.commissionerEmail }}</td>
-        <td>{{ request.commissionerEmail }}</td>
-      </tr>
-      <tr *ngIf="request.commissionerName">
-        <td>Commissioner Name</td>
-        <td>{{ !request.old ? "" : request.old.commissionerName }}</td>
-        <td>{{ request.commissionerName }}</td>
-      </tr>
-      <tr *ngIf="request.area">
-        <td>Area</td>
-        <td>{{ !request.old ? "" : request.old["ulb"].area }}</td>
-        <td>{{ request.area }}</td>
-      </tr>
-      <tr *ngIf="request.population">
-        <td>Population</td>
-        <td>{{ !request.old ? "" : request.old["ulb"].population }}</td>
-        <td>{{ request.population }}</td>
-      </tr>
-      <tr *ngIf="request.wards || request.wards === 0">
-        <td>No of Wards</td>
-        <td>{{ !request.old ? "" : request.old["ulb"].wards }}</td>
-        <td>{{ request.wards }}</td>
-      </tr>
+          <h4>
+            STATUS:
+            <span
+              [ngClass]="{
+                'error-message': request.status !== REQUEST_STATUS.APPROVED,
+                'success-message': request.status === REQUEST_STATUS.APPROVED
+              }"
+              style="display: inline;"
+              >{{ request.status }}</span
+            >
+          </h4>
+          <table style="width: 70%;">
+            <thead>
+              <tr>
+                <th>Field Name</th>
+                <th>Current Value</th>
+                <th>New Requested Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="request.accountantConatactNumber">
+                <td>Accountant Contact Number</td>
+                <td>
+                  {{ !request.old ? "" : request.old.accountantConatactNumber }}
+                </td>
+                <td>{{ request.accountantConatactNumber }}</td>
+              </tr>
+              <tr *ngIf="request.accountantEmail">
+                <td>Accountant Email ID</td>
+                <td>{{ !request.old ? "" : request.old.accountantEmail }}</td>
+                <td>{{ request.accountantEmail }}</td>
+              </tr>
+              <tr *ngIf="request.accountantName">
+                <td>Accountant Name</td>
+                <td>{{ !request.old ? "" : request.old.accountantName }}</td>
+                <td>{{ request.accountantName }}</td>
+              </tr>
+              <tr *ngIf="request.commissionerConatactNumber">
+                <td>Commissioner Conatact Number</td>
+                <td>
+                  {{
+                    !request.old ? "" : request.old.commissionerConatactNumber
+                  }}
+                </td>
+                <td>{{ request.commissionerConatactNumber }}</td>
+              </tr>
+              <tr *ngIf="request.commissionerEmail">
+                <td>Commissioner Email</td>
+                <td>{{ !request.old ? "" : request.old.commissionerEmail }}</td>
+                <td>{{ request.commissionerEmail }}</td>
+              </tr>
+              <tr *ngIf="request.commissionerName">
+                <td>Commissioner Name</td>
+                <td>{{ !request.old ? "" : request.old.commissionerName }}</td>
+                <td>{{ request.commissionerName }}</td>
+              </tr>
+              <tr *ngIf="request.area">
+                <td>Area</td>
+                <td>{{ !request.old ? "" : request.old["ulb"].area }}</td>
+                <td>{{ request.area }}</td>
+              </tr>
+              <tr *ngIf="request.population">
+                <td>Population</td>
+                <td>{{ !request.old ? "" : request.old["ulb"].population }}</td>
+                <td>{{ request.population }}</td>
+              </tr>
+              <tr *ngIf="request.wards || request.wards === 0">
+                <td>No of Wards</td>
+                <td>{{ !request.old ? "" : request.old["ulb"].wards }}</td>
+                <td>{{ request.wards }}</td>
+              </tr>
 
-      <tr *ngIf="request.ulbType">
-        <td>ULB Type</td>
-        <td>{{ !request.old ? "" : request.old.ulb.ulbType.name }}</td>
-        <td>{{ request.ulbType.name }}</td>
-      </tr>
-      <!-- <tr *ngIf="request.ulbType">
+              <tr *ngIf="request.ulbType">
+                <td>ULB Type</td>
+                <td>{{ !request.old ? "" : request.old.ulb.ulbType.name }}</td>
+                <td>{{ request.ulbType.name }}</td>
+              </tr>
+              <!-- <tr *ngIf="request.ulbType">
         <td>11</td>
         <td>ULB Type</td>
         <td>{{ !request.old ? "" : request.old.ulb.ulbType.name }}</td>
         <td>{{ request.ulb.ulbType.name }}</td>
       </tr> -->
-    </tbody>
-  </table>
+            </tbody>
+          </table>
 
-  <div
-    class="mt-2"
-    *ngIf="
-      request.status === REQUEST_STATUS.PENDING &&
-      canApproveRequest &&
-      canApproveRequest !== 'readOnly'
-    "
-  >
-    <button
-      class="btn btn-primary mr-2"
-      (click)="
-        updateRequest({
-          status: REQUEST_STATUS.APPROVED,
-          id: request._id
-        })
-      "
-    >
-      Approve Request
-    </button>
-    <button
-      class="btn btn-primary"
-      (click)="
-        updateRequest({
-          status: REQUEST_STATUS.REJECTED,
-          id: request._id
-        })
-      "
-    >
-      Reject Request
-    </button>
-  </div>
-  <p *ngIf="respone.errorMessage" class="error-message text-center mt-1">
-    {{ respone.errorMessage }}
-  </p>
-  <p *ngIf="respone.successMessage" class="success-message text-center mt-1">
-    {{ respone.successMessage }}
-  </p>
-</div>
-
-<div
-  *ngIf="requestList && loggedInUserType === userTypes.ULB"
-  style="width: 90%"
->
-  <table class="table listing-table">
-    <thead>
-      <tr style="background: #009fe3;color: white ;border: 5px solid white">
-        <th class="text-center">S.No.</th>
-        <th class="text-center">Request Created On</th>
-        <th class="text-center" (click)="sortListBy('status')">Status</th>
-        <th class="text-center">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngIf="filterForm">
-        <td></td>
-        <td></td>
-
-        <td>
-          <div class="input-group m-auto">
-            <select
-              name="ulb"
-              id="ulb"
-              [formControl]="filterForm.controls['status']"
-              class="form-control"
-              placeholder="STATUS"
+          <div
+            class="mt-2"
+            *ngIf="
+              request.status === REQUEST_STATUS.PENDING &&
+              canApproveRequest &&
+              canApproveRequest !== 'readOnly'
+            "
+          >
+            <button
+              class="btn btn-primary mr-2"
+              (click)="
+                updateRequest({
+                  status: REQUEST_STATUS.APPROVED,
+                  id: request._id
+                })
+              "
             >
-              <option value="" selected>
-                All
-              </option>
-              <option
-                *ngFor="let status of requestStatusTypeList"
-                [value]="status.value"
+              Approve Request
+            </button>
+            <button
+              class="btn btn-primary"
+              (click)="
+                updateRequest({
+                  status: REQUEST_STATUS.REJECTED,
+                  id: request._id
+                })
+              "
+            >
+              Reject Request
+            </button>
+          </div>
+          <p
+            *ngIf="respone.errorMessage"
+            class="error-message text-center mt-1"
+          >
+            {{ respone.errorMessage }}
+          </p>
+          <p
+            *ngIf="respone.successMessage"
+            class="success-message text-center mt-1"
+          >
+            {{ respone.successMessage }}
+          </p>
+        </div>
+
+        <div
+          *ngIf="requestList && loggedInUserType === userTypes.ULB"
+          style="width: 90%"
+        >
+          <table class="table listing-table">
+            <thead>
+              <tr
+                style="background: #009fe3;color: white ;border: 5px solid white"
               >
-                {{ status.value }}
-              </option>
-            </select>
-            <!-- <input
+                <th class="text-center">S.No.</th>
+                <th class="text-center">Request Created On</th>
+                <th class="text-center" (click)="sortListBy('status')">
+                  Status
+                </th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="filterForm">
+                <td></td>
+                <td></td>
+
+                <td>
+                  <div class="input-group m-auto">
+                    <select
+                      name="ulb"
+                      id="ulb"
+                      [formControl]="filterForm.controls['status']"
+                      class="form-control"
+                      placeholder="STATUS"
+                    >
+                      <option value="" selected>
+                        All
+                      </option>
+                      <option
+                        *ngFor="let status of requestStatusTypeList"
+                        [value]="status.value"
+                      >
+                        {{ status.value }}
+                      </option>
+                    </select>
+                    <!-- <input
                 id="email"
                 type="text"
                 class="form-control"
                 [formControl]="registrationForm.controls['name']"
                 placeholder="ULB Name"
               /> -->
-          </div>
-        </td>
-        <td>
-          <button
-            class="btn btn-primary m-auto d-block"
-            style="display: block;"
-            (click)="searchUsersBy(filterForm.value)"
-          >
-            Search
-          </button>
-        </td>
-      </tr>
-      <tr
-        style="background: 	#e7e7e7 ;border: 5px solid white"
-        *ngFor="
-          let request of requestList
-            | paginate
-              : {
-                  id: 'foo',
-                  itemsPerPage: tableDefaultOptions.itemPerPage,
-                  currentPage: tableDefaultOptions.currentPage,
-                  totalItems: tableDefaultOptions.totalCount
-                };
-          index as i
-        "
-      >
-        <td class="text-center">
-          {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
-        </td>
-        <td class="text-center">
-          {{ request.createdAt | date: "mediumDate" }}
-        </td>
-        <td class="text-center">{{ request.status }}</td>
-        <td class="text-center">
-          <a [routerLink]="['./']" [queryParams]="{ requestId: request._id }">
-            <i class="fa fa-eye" aria-hidden="true" title="View Request"></i
-          ></a>
-          <span *ngIf="request.status === REQUEST_STATUS.PENDING">
-            /
-            <i
-              class="fa fa-times"
-              aria-hidden="true"
-              title="Cancel Request"
-              (click)="openRequestCancelPopup(cancelRequestPopup, request._id)"
-            ></i>
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <pagination-controls
-    style="float: right; position: relative;"
-    id="foo"
-    (pageChange)="setPage($event)"
-    directionLinks="true"
-    autoHide="false"
-    previousLabel="Previous"
-    nextLabel="Next"
-    screenReaderPaginationLabel="Pagination"
-    screenReaderPageLabel="page"
-    screenReaderCurrentLabel="You're on page"
-  >
-  </pagination-controls>
-</div>
-
-<div *ngIf="requestList && canViewULBSignUpList" style="width: 90%">
-  <table class="table listing-table">
-    <thead>
-      <tr
-        class="sortable-headers"
-        style="background: #009fe3;color: white ;border: 5px solid white"
-      >
-        <th class="text-center">S.No.</th>
-        <th
-          class="text-center"
-          (click)="sortListBy('stateName')"
-          *ngIf="loggedInUserType !== userTypes.STATE"
-        >
-          State
-        </th>
-        <th class="text-center" (click)="sortListBy('ulbName')">ULB Name</th>
-        <th class="text-center" (click)="sortListBy('ulbCode')">ULB Code</th>
-        <th class="text-center" (click)="sortListBy('status')">STATUS</th>
-        <th class="text-center">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngIf="filterForm">
-        <td></td>
-        <td *ngIf="loggedInUserType !== userTypes.STATE">
-          <div class="input-group ">
-            <select
-              name="State"
-              id="state"
-              [formControl]="filterForm.controls.state"
-              class="form-control"
-              placeholder="State"
-            >
-              <option value="">
-                All
-              </option>
-              <option *ngFor="let state of stateList" [value]="state._id">
-                {{ state.name }}
-              </option>
-            </select>
-          </div>
-        </td>
-
-        <td>
-          <div class="input-group">
-            <input
-              placeholder="ULB Name"
-              type="status"
-              class="form-control"
-              [formControl]="filterForm.controls.name"
-            />
-          </div>
-        </td>
-        <td>
-          <div class="input-group">
-            <input
-              placeholder="ULB Code"
-              type="status"
-              class="form-control"
-              [formControl]="filterForm.controls.code"
-            />
-          </div>
-        </td>
-        <td>
-          <div class="input-group ">
-            <select
-              name="ulb"
-              id="ulb"
-              [formControl]="filterForm.controls['status']"
-              class="form-control"
-              placeholder="STATUS"
-            >
-              <option value="">
-                All
-              </option>
-              <option
-                *ngFor="let status of requestStatusTypeList"
-                [value]="status.value"
+                  </div>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-primary m-auto d-block"
+                    style="display: block;"
+                    (click)="searchUsersBy(filterForm.value)"
+                  >
+                    Search
+                  </button>
+                </td>
+              </tr>
+              <tr
+                style="background: 	#e7e7e7 ;border: 5px solid white"
+                *ngFor="
+                  let request of requestList
+                    | paginate
+                      : {
+                          id: 'foo',
+                          itemsPerPage: tableDefaultOptions.itemPerPage,
+                          currentPage: tableDefaultOptions.currentPage,
+                          totalItems: tableDefaultOptions.totalCount
+                        };
+                  index as i
+                "
               >
-                {{ status.value }}
-              </option>
-            </select>
-          </div>
-        </td>
-        <td>
-          <button
-            class="btn btn-primary m-auto"
-            style="display: block;"
-            (click)="searchUsersBy(filterForm.value)"
+                <td class="text-center">
+                  {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+                </td>
+                <td class="text-center">
+                  {{ request.createdAt | date: "mediumDate" }}
+                </td>
+                <td class="text-center">{{ request.status }}</td>
+                <td class="text-center">
+                  <a
+                    [routerLink]="['./']"
+                    [queryParams]="{ requestId: request._id }"
+                  >
+                    <i
+                      class="fa fa-eye"
+                      aria-hidden="true"
+                      title="View Request"
+                    ></i
+                  ></a>
+                  <span *ngIf="request.status === REQUEST_STATUS.PENDING">
+                    /
+                    <i
+                      class="fa fa-times"
+                      aria-hidden="true"
+                      title="Cancel Request"
+                      (click)="
+                        openRequestCancelPopup(cancelRequestPopup, request._id)
+                      "
+                    ></i>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls
+            style="float: right; position: relative;"
+            id="foo"
+            (pageChange)="setPage($event)"
+            directionLinks="true"
+            autoHide="false"
+            previousLabel="Previous"
+            nextLabel="Next"
+            screenReaderPaginationLabel="Pagination"
+            screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page"
           >
-            Search
-          </button>
-        </td>
-      </tr>
-      <tr
-        style="background: 	#e7e7e7 ;border: 5px solid white"
-        *ngFor="
-          let request of requestList
-            | paginate
-              : {
-                  id: 'foo',
-                  itemsPerPage: tableDefaultOptions.itemPerPage,
-                  currentPage: tableDefaultOptions.currentPage,
-                  totalItems: tableDefaultOptions.totalCount
-                };
-          index as i
-        "
-      >
-        <td class="text-center">
-          {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
-        </td>
-        <td class="" *ngIf="loggedInUserType !== userTypes.STATE">
-          {{ request["stateName"] }}
-        </td>
-        <td class="">{{ request.ulbName }}</td>
-        <td class="">{{ request.ulbCode }}</td>
-        <td class="">{{ request.status }}</td>
-        <td class="text-center">
-          <a [routerLink]="['./']" [queryParams]="{ requestId: request._id }">
-            <i class="fa fa-eye" aria-hidden="true" title="View Request"></i
-          ></a>
-          <span
-            *ngIf="
-              request.status === REQUEST_STATUS.PENDING &&
-              loggedInUserType === userTypes.ULB
-            "
+          </pagination-controls>
+        </div>
+
+        <div *ngIf="requestList && canViewULBSignUpList" style="width: 100%">
+          <table class="table listing-table">
+            <thead>
+              <tr
+                class="sortable-headers"
+                style="background: #009fe3;color: white ;border: 5px solid white"
+              >
+                <th class="text-center">S.No.</th>
+                <th
+                  class="text-center"
+                  (click)="sortListBy('stateName')"
+                  *ngIf="loggedInUserType !== userTypes.STATE"
+                >
+                  State
+                </th>
+                <th class="text-center" (click)="sortListBy('ulbName')">
+                  ULB Name
+                </th>
+                <th class="text-center" (click)="sortListBy('ulbCode')">
+                  ULB Code
+                </th>
+                <th class="text-center" (click)="sortListBy('status')">
+                  STATUS
+                </th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="filterForm">
+                <td></td>
+                <td *ngIf="loggedInUserType !== userTypes.STATE">
+                  <div class="input-group ">
+                    <select
+                      name="State"
+                      id="state"
+                      [formControl]="filterForm.controls.state"
+                      class="form-control"
+                      placeholder="State"
+                    >
+                      <option value="">
+                        All
+                      </option>
+                      <option
+                        *ngFor="let state of stateList"
+                        [value]="state._id"
+                      >
+                        {{ state.name }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="ULB Name"
+                      type="status"
+                      class="form-control"
+                      [formControl]="filterForm.controls.name"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="ULB Code"
+                      type="status"
+                      class="form-control"
+                      [formControl]="filterForm.controls.code"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group ">
+                    <select
+                      name="ulb"
+                      id="ulb"
+                      [formControl]="filterForm.controls['status']"
+                      class="form-control"
+                      placeholder="STATUS"
+                    >
+                      <option value="">
+                        All
+                      </option>
+                      <option
+                        *ngFor="let status of requestStatusTypeList"
+                        [value]="status.value"
+                      >
+                        {{ status.value }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-primary m-auto"
+                    style="display: block;"
+                    (click)="searchUsersBy(filterForm.value)"
+                  >
+                    Search
+                  </button>
+                </td>
+              </tr>
+              <tr
+                style="background: 	#e7e7e7 ;border: 5px solid white"
+                *ngFor="
+                  let request of requestList
+                    | paginate
+                      : {
+                          id: 'foo',
+                          itemsPerPage: tableDefaultOptions.itemPerPage,
+                          currentPage: tableDefaultOptions.currentPage,
+                          totalItems: tableDefaultOptions.totalCount
+                        };
+                  index as i
+                "
+              >
+                <td class="text-center">
+                  {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+                </td>
+                <td class="" *ngIf="loggedInUserType !== userTypes.STATE">
+                  {{ request["stateName"] }}
+                </td>
+                <td class="">{{ request.ulbName }}</td>
+                <td class="">{{ request.ulbCode }}</td>
+                <td class="">{{ request.status }}</td>
+                <td class="text-center">
+                  <a
+                    [routerLink]="['./']"
+                    [queryParams]="{ requestId: request._id }"
+                  >
+                    <i
+                      class="fa fa-eye"
+                      aria-hidden="true"
+                      title="View Request"
+                    ></i
+                  ></a>
+                  <span
+                    *ngIf="
+                      request.status === REQUEST_STATUS.PENDING &&
+                      loggedInUserType === userTypes.ULB
+                    "
+                  >
+                    /
+                    <i
+                      class="fa fa-times"
+                      aria-hidden="true"
+                      title="Cancel Request"
+                      (click)="
+                        openRequestCancelPopup(cancelRequestPopup, request._id)
+                      "
+                    ></i>
+                  </span>
+                </td>
+              </tr>
+              <tr *ngIf="requestList && !requestList.length">
+                <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls
+            style="float: right; position: relative;"
+            id="foo"
+            (pageChange)="setPage($event)"
+            directionLinks="true"
+            autoHide="false"
+            previousLabel="Previous"
+            nextLabel="Next"
+            screenReaderPaginationLabel="Pagination"
+            screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page"
           >
-            /
-            <i
-              class="fa fa-times"
-              aria-hidden="true"
-              title="Cancel Request"
-              (click)="openRequestCancelPopup(cancelRequestPopup, request._id)"
-            ></i>
-          </span>
-        </td>
-      </tr>
-      <tr *ngIf="requestList && !requestList.length">
-        <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
-      </tr>
-    </tbody>
-  </table>
-  <pagination-controls
-    style="float: right; position: relative;"
-    id="foo"
-    (pageChange)="setPage($event)"
-    directionLinks="true"
-    autoHide="false"
-    previousLabel="Previous"
-    nextLabel="Next"
-    screenReaderPaginationLabel="Pagination"
-    screenReaderPageLabel="page"
-    screenReaderCurrentLabel="You're on page"
-  >
-  </pagination-controls>
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <ng-template #cancelRequestPopup>

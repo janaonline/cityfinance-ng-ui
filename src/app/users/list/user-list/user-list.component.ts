@@ -139,6 +139,7 @@ export class UserListComponent implements OnInit {
     this.resetResponseMessages();
     this._profileService.deleteUser({ userId }).subscribe(
       res => {
+        this._dialog.closeAll();
         this.fetchList(this.listFetchOption);
       },
       err => (this.respone.errorMessage = err.error.message || "Server Error")
