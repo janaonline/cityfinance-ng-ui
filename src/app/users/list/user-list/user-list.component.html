@@ -3,7 +3,11 @@
     <div class="row">
       <div class="col-md-12">
         <h3>
-          {{ listType }} LIST
+          <span *ngIf="listType === userTypes.STATE"> State List</span>
+          <span *ngIf="listType === userTypes.PARTNER"> Partner List</span>
+          <span *ngIf="listType === userTypes.USER"> User List</span>
+          <span *ngIf="listType === userTypes.ULB"> ULB List</span>
+          <span *ngIf="listType === userTypes.MoHUA"> MoHUA List</span>
           <a
             *ngIf="listType === userTypes.STATE"
             class="btn btn-primary"
@@ -19,7 +23,7 @@
             style="float: right;"
             [routerLink]="['/', 'user', 'profile', 'create']"
             [queryParams]="{ role: userTypes.PARTNER }"
-            >Create PARTNER</a
+            >Create Partner</a
           >
 
           <a
@@ -30,6 +34,13 @@
             [queryParams]="{ role: userTypes.MoHUA }"
             >Create MoHUA</a
           >
+          <!-- <button
+            class="btn btn-primary"
+            style="float: right; margin-right: 6px;"
+            (click)="downloadList()"
+          >
+            Download List
+          </button> -->
         </h3>
       </div>
     </div>

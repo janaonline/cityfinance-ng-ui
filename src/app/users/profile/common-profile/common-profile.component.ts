@@ -95,14 +95,21 @@ export class CommonProfileComponent implements OnInit, OnChanges {
     this.profileForm = this.formUtil.getPartnerForm();
 
     if (this.profileData) {
-      console.log(this.profileData);
-      console.log(this.profileForm);
       if (this.profileData.role !== USER_TYPE.PARTNER) {
         this.profileData = null;
         return;
       }
       this.profileForm.patchValue(this.profileData);
+      this.profileForm.disable({ emitEvent: false });
     }
+  }
+
+  public enableProfileEdit() {
+    this.resetResponseMessage();
+    this.profileForm.enable();
+  }
+  public disableProfileEdit() {
+    this.profileForm.disable({ emitEvent: false });
   }
 
   private resetResponseMessage() {
