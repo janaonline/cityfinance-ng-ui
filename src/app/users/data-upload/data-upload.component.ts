@@ -403,7 +403,7 @@ export class DataUploadComponent implements OnInit {
 
   private setTableHeaderByUserType() {
     if (this.userUtil.getUserType() === USER_TYPE.ULB) {
-      this.tableHeaders = this.tableHeaders.filter((header) => header.id != 'ulb');
+      this.tableHeaders = this.tableHeaders.filter((header) => header.id != 'ulbName');
     }
   }
 
