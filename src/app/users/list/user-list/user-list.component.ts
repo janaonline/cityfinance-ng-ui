@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
@@ -23,7 +24,8 @@ export class UserListComponent implements OnInit {
     private _fb: FormBuilder,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    public _dialog: MatDialog
   ) {
     this.createRequestStatusTypeList();
     this._activatedRoute.params.subscribe(params => {
@@ -31,8 +33,8 @@ export class UserListComponent implements OnInit {
       this.initializeFilterForm();
       this.initializeListFetchParams();
 
-      const type = this._profileService.getLoggedInUserType();
-      if (type === USER_TYPE.ULB) {
+      this.loggedInType = this._profileService.getLoggedInUserType();
+      if (this.loggedInType === USER_TYPE.ULB) {
         return this.fetchULBProfileUpdateRequest();
       }
       this.fetchList(this.listFetchOption);
@@ -70,6 +72,12 @@ export class UserListComponent implements OnInit {
     value: string;
   }[];
 
+  userToDelete: { [key: string]: string };
+  respone = {
+    errorMessage: null,
+    successMessage: null
+  };
+
   private fetchULBProfileUpdateRequest() {
     // this._profileService.getULBProfileUpdateRequestList().subscribe(res => {
     //   console.log(res);
@@ -90,6 +98,14 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit() {}
+  openUserDeleteConfirmationBox(template: TemplateRef<any>, user: any) {
+    this.resetResponseMessages();
+    this.userToDelete = user;
+    this._dialog.open(template);
+    this._dialog.afterAllClosed.subscribe(event => {
+      this.userToDelete = null;
+    });
+  }
 
   public searchUsersBy(filterForm: {}) {
     this.listFetchOption.filter = filterForm;
@@ -99,12 +115,13 @@ export class UserListComponent implements OnInit {
 
   sortListBy(key: string) {
     this.currentSort = this.currentSort > 0 ? -1 : 1;
+
     const values = {
       filter: this.filterForm.value,
       sort: { [key]: this.currentSort },
       role: this.listType,
       skip:
-        this.tableDefaultOptions.currentPage *
+        (this.tableDefaultOptions.currentPage - 1) *
         this.tableDefaultOptions.itemPerPage
     };
     this.listFetchOption = values;
@@ -119,9 +136,14 @@ export class UserListComponent implements OnInit {
   }
 
   public deleteUser(userId: string) {
-    this._profileService.deleteUser({ userId }).subscribe(res => {
-      this.fetchList(this.listFetchOption);
-    });
+    this.resetResponseMessages();
+    this._profileService.deleteUser({ userId }).subscribe(
+      res => {
+        this._dialog.closeAll();
+        this.fetchList(this.listFetchOption);
+      },
+      err => (this.respone.errorMessage = err.error.message || "Server Error")
+    );
   }
 
   private fetchList(
@@ -199,7 +221,8 @@ export class UserListComponent implements OnInit {
       name: [null],
       email: [null],
       designation: [null],
-      state: [null]
+      state: [null],
+      departmentName: [null]
     });
   }
 
@@ -233,5 +256,10 @@ export class UserListComponent implements OnInit {
       key,
       value: key
     }));
+  }
+
+  private resetResponseMessages() {
+    this.respone.errorMessage = null;
+    this.respone.successMessage = null;
   }
 }
