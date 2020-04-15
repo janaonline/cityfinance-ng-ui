@@ -254,7 +254,7 @@
       <tr *ngIf="filterForm">
         <td></td>
         <td>
-          <div class="input-group m-auto">
+          <div class="input-group ">
             <select
               name="State"
               id="state"
@@ -273,7 +273,7 @@
         </td>
 
         <td>
-          <div class="input-group" style="margin: auto;">
+          <div class="input-group">
             <input
               placeholder="ULB Name"
               type="status"
@@ -283,7 +283,7 @@
           </div>
         </td>
         <td>
-          <div class="input-group" style="margin: auto;">
+          <div class="input-group">
             <input
               placeholder="ULB Code"
               type="status"
@@ -293,7 +293,7 @@
           </div>
         </td>
         <td>
-          <div class="input-group m-auto">
+          <div class="input-group ">
             <select
               name="ulb"
               id="ulb"
@@ -311,18 +311,12 @@
                 {{ status.value }}
               </option>
             </select>
-            <!-- <input
-                id="email"
-                type="text"
-                class="form-control"
-                [formControl]="registrationForm.controls['name']"
-                placeholder="ULB Name"
-              /> -->
           </div>
         </td>
         <td>
           <button
-            class="btn btn-primary"
+            class="btn btn-primary m-auto"
+            style="display: block;"
             (click)="searchUsersBy(filterForm.value)"
           >
             Search
@@ -346,12 +340,12 @@
         <td class="text-center">
           {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
         </td>
-        <td class="text-center">
+        <td class="">
           {{ request.ulb && request.ulb.state ? request.ulb.state.name : "" }}
         </td>
-        <td class="text-center">{{ request.ulb ? request.ulb.name : "" }}</td>
-        <td class="text-center">{{ request.ulb ? request.ulb.code : "" }}</td>
-        <td class="text-center">{{ request.status }}</td>
+        <td class="">{{ request.ulb ? request.ulb.name : "" }}</td>
+        <td class="">{{ request.ulb ? request.ulb.code : "" }}</td>
+        <td class="">{{ request.status }}</td>
         <td class="text-center">
           <a [routerLink]="['./']" [queryParams]="{ requestId: request._id }">
             <i class="fa fa-eye" aria-hidden="true" title="View Request"></i

@@ -14,7 +14,8 @@ export enum MODULES_NAME {
   ULB_DATA_UPLOAD = "ULB_DATA_UPLOAD",
   ULBDataBULKEntry = "ULBDataBULKEntry",
   SELF_PROFILE = "SELF_PROFILE",
-  MoHUA = "MoHUA"
+  MoHUA = "MoHUA",
+  REPORTS = "REPORTS"
 }
 
 export interface IModules {
@@ -165,6 +166,13 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
       [ACTIONS.CREATE]: [USER_TYPE.ADMIN],
       [ACTIONS.EDIT]: [USER_TYPE.ADMIN],
       [ACTIONS.DELETE]: [USER_TYPE.ADMIN]
+    }
+  },
+  [MODULES_NAME.REPORTS]: {
+    name: MODULES_NAME.REPORTS,
+    access: {
+      [ACTIONS.VIEW]: [USER_TYPE.MoHUA, USER_TYPE.ADMIN],
+      [ACTIONS.DOWNLOAD]: [USER_TYPE.MoHUA, USER_TYPE.ADMIN]
     }
   }
 };
