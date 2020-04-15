@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/co
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {ulbUploadList} from '../../shared/components/home-header/tableHeaders';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Form, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataEntryService} from '../../dashboard/data-entry/data-entry.service';
 import {FinancialDataService} from '../services/financial-data.service';
 import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
@@ -145,11 +145,11 @@ export class DataUploadComponent implements OnInit {
       }
     }
   };
-
   handleResponseFailure = (error) => {
     this.handlerError(error);
   };
   uploadStatusFormControl: FormControl = new FormControl();
+  ulbNameSearchFormControl: FormControl = new FormControl();
 
   async submitClickHandler(event) {
     event.disabled = true;
@@ -332,11 +332,12 @@ export class DataUploadComponent implements OnInit {
     let filterKeys = ['financialYear', 'auditStatus'];
     let filterObject = {
       filter: {
-        [filterKeys[0]]: this.fileFormGroup.get(filterKeys[0]).value.length ? this
+        [filterKeys[0]]: (!!this.fileFormGroup.get(filterKeys[0]).value && this.fileFormGroup.get(filterKeys[0]).value.length) ? this
           .fileFormGroup.get(filterKeys[0]).value[0].id : '',
+        'ulbName': this.ulbNameSearchFormControl.value,
         'audited': this.fileFormGroup.get(filterKeys[1]).value.length ? this
           .fileFormGroup.get(filterKeys[1]).value[0].id == 'true' : '',
-        'status': (this.uploadStatusFormControl.value.length && this.uploadStatusFormControl.value[0].id) || ''
+        'status': (this.uploadStatusFormControl.value && this.uploadStatusFormControl.value.length && this.uploadStatusFormControl.value[0].id) || ''
       }
     };
     this.listFetchOption = {
@@ -353,7 +354,6 @@ export class DataUploadComponent implements OnInit {
 
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;
-    console.log(this.tableDefaultOptions);
     this.listFetchOption.skip = (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     const {skip} = this.listFetchOption;
     this.getFinancialDataList({skip, limit: 10}, this.listFetchOption);

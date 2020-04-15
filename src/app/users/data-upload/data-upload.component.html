@@ -304,7 +304,12 @@
 
           <tr [formGroup]="fileFormGroup">
             <td></td>
-            <td *ngIf="userUtil.getUserType()!='ULB'"></td>
+            <td class="text-center" *ngIf="userUtil.getUserType()!='ULB'">
+              <label>
+                <input placeholder="Enter ULB name" type="text" [formControl]="ulbNameSearchFormControl"
+                       class="form-control" style="height: 40px">
+              </label>
+            </td>
             <td class="text-center">
               <angular2-multiselect
                 formControlName="financialYear"
