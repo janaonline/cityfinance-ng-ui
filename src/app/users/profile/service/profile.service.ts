@@ -1,13 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { IFullULBProfileRequest, IULBProfileRequestResponse } from 'src/app/models/ulbs/ulb-request-update';
 
 import { environment } from '../../../../environments/environment';
 import { IULBTypeListResponse } from '../../../models/ulbs/type';
+import { IFullULBProfileRequest, IULBProfileRequestResponse } from '../../../models/ulbs/ulb-request-update';
 import { USER_TYPE } from '../../../models/user/userType';
 import { HttpUtility } from '../../../util/httpUtil';
-import { ULBSignupSTATUS } from '../model/ulb-profile';
+import { IULBProfileData } from '../model/ulb-profile';
 
 @Injectable({
   providedIn: "root"
@@ -45,7 +45,10 @@ export class ProfileService {
     return this._htttp.post(`${environment.api.url}user/create`, body);
   }
 
-  updateULBSingUPStatus(body: { _id: string; status: ULBSignupSTATUS }) {
+  updateULBSingUPStatus(body: {
+    _id: string;
+    status: IULBProfileData["status"];
+  }) {
     return this._htttp.put(
       `${environment.api.url}user/ulb-status/${body._id}`,
       body
