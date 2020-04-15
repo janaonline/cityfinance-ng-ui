@@ -189,7 +189,6 @@ export class DataUploadActionComponent implements OnInit {
             case 'completeness':
             case 'correctness':
               if (excelUrl || pdfUrl) {
-                console.log(formGroupDataItem, keys[i], formGroupKey);
                 if (formGroupDataItem[keys[i]] != UPLOAD_STATUS.PENDING) {
                   formControl.setValue(formGroupDataItem[keys[i]]);
                 }
