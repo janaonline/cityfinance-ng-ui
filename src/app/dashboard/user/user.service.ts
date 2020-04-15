@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpUtility } from 'src/app/util/httpUtil';
 
 import { UserProfile } from '../../users/profile/model/user-profile';
 import { environment } from './../../../environments/environment';
@@ -8,6 +9,7 @@ import { environment } from './../../../environments/environment';
   providedIn: "root"
 })
 export class UserService {
+  private httpUtil = new HttpUtility();
   constructor(private http: HttpClient) {}
 
   getProfile() {
@@ -22,7 +24,26 @@ export class UserService {
     return this.http.post(environment.api.url + "users/onboard", newUser);
   }
 
-  getUsers(body: {}) {
-    return this.http.post<UserProfile[]>(environment.api.url + "user", body);
+  getUsers(body: { filter?: {}; sort?: {} }) {
+    if (!body.filter) {
+      body.filter = {};
+    }
+    if (!body.sort) {
+      body.sort = {};
+    }
+    let params = new HttpParams();
+    Object.keys(body).forEach(key => {
+      if (typeof body[key] === "object") {
+        const value = JSON.stringify(body[key]);
+
+        params = params.append(key, value);
+      } else {
+        params = params.append(key, body[key]);
+      }
+    });
+
+    return this.http.get<UserProfile[]>(
+      environment.api.url + `user/all?${params}`
+    );
   }
 }

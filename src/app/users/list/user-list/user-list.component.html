@@ -150,9 +150,9 @@
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
               </td>
               <td class="">{{ user.name }}</td>
-              <td class="text-center">{{ user.email }}</td>
-              <td class="text-center">{{ user.designation }}</td>
-              <td class="text-center">{{ user.organization }}</td>
+              <td class="">{{ user.email }}</td>
+              <td class="">{{ user.designation }}</td>
+              <td class="">{{ user.organization }}</td>
               <td class="text-center d-flex justify-content-center actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
@@ -185,9 +185,13 @@
               style="background: #009fe3;color: white ;border: 5px solid white"
             >
               <th class="text-center">S.No.</th>
-              <th class="text-center" (click)="sortListBy('state')">State</th>
+              <th class="text-center" (click)="sortListBy('stateName')">
+                State
+              </th>
               <th class="text-center" (click)="sortListBy('name')">ULB Name</th>
-              <th class="text-center" (click)="sortListBy('code')">ULB Code</th>
+              <th class="text-center" (click)="sortListBy('ulbCode')">
+                ULB Code
+              </th>
               <th class="text-center" (click)="sortListBy('status')">Status</th>
               <th class="text-center">Action</th>
             </tr>
@@ -246,7 +250,7 @@
               </td>
 
               <td>
-                <div class="input-group m-auto">
+                <div class="input-group ">
                   <select
                     name="ulb"
                     id="ulb"
@@ -268,7 +272,8 @@
               </td>
               <td>
                 <button
-                  class="btn btn-primary"
+                  class="btn btn-primary m-auto"
+                  style="display: block;"
                   (click)="searchUsersBy(filterForm.value)"
                 >
                   Search
@@ -290,12 +295,12 @@
               "
             >
               <td class="text-center">{{ i + 1 }}</td>
-              <td class="text-center">
-                {{ ulb.ulb && ulb.ulb.state ? ulb.ulb.state.name : "" }}
+              <td class="">
+                {{ ulb["stateName"] }}
               </td>
-              <td class="text-center">{{ ulb["name"] }}</td>
-              <td class="text-center">{{ ulb.ulb["code"] }}</td>
-              <td class="text-center">
+              <td class="">{{ ulb["name"] }}</td>
+              <td class="">{{ ulb["ulbCode"] }}</td>
+              <td class="">
                 {{ ulb.status }}
               </td>
               <td class="text-center">
@@ -330,7 +335,9 @@
               style="background: #009fe3;color: white ;border: 5px solid white"
             >
               <th class="text-center">S.No.</th>
-              <th class="text-center" (click)="sortListBy('state')">State</th>
+              <th class="text-center" (click)="sortListBy('stateName')">
+                State
+              </th>
               <th class="text-center" (click)="sortListBy('name')">Username</th>
               <th class="text-center" (click)="sortListBy('email')">
                 Email ID
@@ -398,7 +405,8 @@
               </td>
               <td>
                 <button
-                  class="btn btn-primary"
+                  class="btn btn-primary m-auto"
+                  style="display: block;"
                   (click)="searchUsersBy(filterForm.value)"
                 >
                   Search
@@ -421,12 +429,12 @@
               "
             >
               <td class="text-center">{{ i + 1 }}</td>
-              <td class="text-center">
-                {{ user.state ? user.state.name : "" }}
+              <td class="">
+                {{ user["stateName"] }}
               </td>
-              <td class="text-center">{{ user["name"] }}</td>
-              <td class="text-center">{{ user["email"] }}</td>
-              <td class="text-center">{{ user["designation"] }}</td>
+              <td class="">{{ user["name"] }}</td>
+              <td class="">{{ user["email"] }}</td>
+              <td class="">{{ user["designation"] }}</td>
               <td class="text-center d-flex justify-content-center actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
@@ -507,7 +515,8 @@
               </td>
               <td>
                 <button
-                  class="btn btn-primary"
+                  class="btn btn-primary m-auto"
+                  style="display: block;"
                   (click)="searchUsersBy(filterForm.value)"
                 >
                   Search
@@ -531,9 +540,9 @@
             >
               <td class="text-center">{{ i + 1 }}</td>
 
-              <td class="text-center">{{ user["name"] }}</td>
-              <td class="text-center">{{ user["email"] }}</td>
-              <td class="text-center">{{ user["designation"] }}</td>
+              <td class="">{{ user["name"] }}</td>
+              <td class="">{{ user["email"] }}</td>
+              <td class="">{{ user["designation"] }}</td>
               <td class="text-center d-flex justify-content-center actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
@@ -614,7 +623,8 @@
               </td>
               <td>
                 <button
-                  class="btn btn-primary"
+                  class="btn btn-primary m-auto"
+                  style="display: block;"
                   (click)="searchUsersBy(filterForm.value)"
                 >
                   Search
@@ -638,9 +648,9 @@
             >
               <td class="text-center">{{ i + 1 }}</td>
 
-              <td class="text-center">{{ user["name"] }}</td>
-              <td class="text-center">{{ user["email"] }}</td>
-              <td class="text-center">{{ user["designation"] }}</td>
+              <td class="">{{ user["name"] }}</td>
+              <td class="">{{ user["email"] }}</td>
+              <td class="">{{ user["designation"] }}</td>
               <td class="text-center d-flex justify-content-center actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"

@@ -99,12 +99,13 @@ export class UserListComponent implements OnInit {
 
   sortListBy(key: string) {
     this.currentSort = this.currentSort > 0 ? -1 : 1;
+
     const values = {
       filter: this.filterForm.value,
       sort: { [key]: this.currentSort },
       role: this.listType,
       skip:
-        this.tableDefaultOptions.currentPage *
+        (this.tableDefaultOptions.currentPage - 1) *
         this.tableDefaultOptions.itemPerPage
     };
     this.listFetchOption = values;

@@ -84,7 +84,14 @@ export class StateProfileComponent implements OnInit, OnChanges {
   }
 
   private updateProfile(form: FormGroup) {
-    return this._profileService.updateUserProfileData(form.value).subscribe(
+    console.log(this.profileData);
+
+    const body = {
+      ...form.value,
+      _id: this.profileData._id
+    };
+
+    return this._profileService.updateUserProfileData(body).subscribe(
       res => {
         this.respone.successMessage = "Profile Updated successfully";
       },

@@ -52,7 +52,15 @@ export class ProfileService {
     );
   }
 
-  updateUserProfileData(body: {}) {
+  updateUserProfileData(body: { _id?: string }) {
+    if (body._id) {
+      const value = { ...body };
+      delete value._id;
+      return this._htttp.put(
+        `${environment.api.url}user/profile/${body._id}`,
+        value
+      );
+    }
     return this._htttp.put(`${environment.api.url}user/profile`, body);
   }
 
