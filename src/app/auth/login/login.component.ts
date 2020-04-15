@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.activatedRoute.queryParams.subscribe(param => {
-      if (param.message && param.token && param.name && param.email) {
+      if (param.message) {
         this.emailVerificationMessage = param.message;
       }
     });

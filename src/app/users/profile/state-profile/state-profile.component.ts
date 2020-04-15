@@ -106,15 +106,22 @@ export class StateProfileComponent implements OnInit, OnChanges {
     this.profileForm = this.formUtil.getStateForm();
 
     if (this.profileData) {
-      console.log(this.profileData);
-      console.log(this.profileForm);
       if (this.profileData.role !== USER_TYPE.STATE) {
         this.profileData = null;
         return;
       }
       this.profileForm.patchValue(this.profileData);
+      this.profileForm.disable({ emitEvent: false });
       this.profileForm.controls.state.setValue(this.profileData.state._id);
     }
+  }
+
+  public enableProfileEdit() {
+    this.resetResponseMessage();
+    this.profileForm.enable();
+  }
+  public disableProfileEdit() {
+    this.profileForm.disable({ emitEvent: false });
   }
 
   private resetResponseMessage() {
