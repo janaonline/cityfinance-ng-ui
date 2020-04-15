@@ -36,9 +36,10 @@
 }
 
 .user-dropdown {
+  text-align: center;
   display: flex;
   flex-direction: column;
-  word-break: break-all;
+  word-break: break-word;
   padding: 1rem;
   width: 20rem;
   max-width: 22rem;
