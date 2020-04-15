@@ -317,7 +317,9 @@
                     class="fa fa-trash"
                     aria-hidden="true"
                     title="Delete User"
-                    (click)="deleteUser(ulb._id)"
+                    (click)="
+                      openUserDeleteConfirmationBox(userDeletePopup, ulb)
+                    "
                   ></i
                 ></a>
               </td>
@@ -449,7 +451,9 @@
                     class="fa fa-trash"
                     aria-hidden="true"
                     title="Delete User"
-                    (click)="deleteUser(user._id)"
+                    (click)="
+                      openUserDeleteConfirmationBox(userDeletePopup, user)
+                    "
                   ></i
                 ></a>
               </td>
@@ -557,7 +561,9 @@
                     class="fa fa-trash"
                     aria-hidden="true"
                     title="Delete User"
-                    (click)="deleteUser(user._id)"
+                    (click)="
+                      openUserDeleteConfirmationBox(userDeletePopup, user)
+                    "
                   ></i
                 ></a>
               </td>
@@ -665,7 +671,9 @@
                     class="fa fa-trash"
                     aria-hidden="true"
                     title="Delete User"
-                    (click)="deleteUser(user._id)"
+                    (click)="
+                      openUserDeleteConfirmationBox(userDeletePopup, user)
+                    "
                   ></i
                 ></a>
               </td>
@@ -693,3 +701,32 @@
     </div>
   </div>
 </div>
+
+<ng-template #userDeletePopup>
+  <div class="modal-body">
+    <p
+      style="margin: 3% auto;
+    text-align: center;"
+    >
+      Are you sure you want to delete user
+      <strong> {{ userToDelete["name"] }}</strong> ?
+    </p>
+
+    <div style="display: flex;width: 100%;justify-content: center;">
+      <button
+        class="btn btn-primary"
+        style="margin-right: 2%;"
+        (click)="deleteUser(userToDelete['_id'])"
+      >
+        Yes
+      </button>
+
+      <button class="btn btn-primary" (click)="_dialog.closeAll()">
+        No
+      </button>
+    </div>
+    <p *ngIf="respone.errorMessage" class="error-message text-center mt-1">
+      {{ respone.errorMessage }}
+    </p>
+  </div>
+</ng-template>
