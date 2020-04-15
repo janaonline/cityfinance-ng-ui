@@ -189,14 +189,21 @@ export class DataUploadActionComponent implements OnInit {
             case 'completeness':
             case 'correctness':
               if (excelUrl || pdfUrl) {
+                console.log(formGroupDataItem, keys[i], formGroupKey);
                 if (formGroupDataItem[keys[i]] != UPLOAD_STATUS.PENDING) {
                   formControl.setValue(formGroupDataItem[keys[i]]);
                 }
                 formControl.setValidators(Validators.required);
                 formControl.updateValueAndValidity();
-                if ((i == 0 && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) || (i == 1) && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
-                  continue;
+                // checking for correctness and completeness only
+                if (i < 2) {
+                  if (formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
+                    continue;
+                  }
                 }
+                // if ((i == 0 && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) || (i == 1) && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
+                //   continue;
+                // }
               }
               formControl.disable();
               formControl.updateValueAndValidity();
