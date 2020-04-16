@@ -177,7 +177,9 @@
                     class="fa fa-trash"
                     aria-hidden="true"
                     title="Delete User"
-                    (click)="deleteUser(user._id)"
+                    (click)="
+                      openUserDeleteConfirmationBox(userDeletePopup, user)
+                    "
                   ></i
                 ></a>
               </td>
