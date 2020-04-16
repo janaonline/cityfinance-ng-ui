@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {FormGroup, Validators} from '@angular/forms';
 import {UPLOAD_STATUS} from '../../../util/enums';
 
 export interface IFileStatusCheckerInputComponent {
@@ -47,8 +47,20 @@ export class FileStatusCheckerInputComponent implements OnInit, AfterViewInit {
   radioButtonClickHandler(event: Event) {
     const formControlValue = this.config.formGroup.get([this.config.formGroupName, this.config.status]).value;
     this.showMessageInput = formControlValue && formControlValue.toUpperCase() === UPLOAD_STATUS.REJECTED;
-    this.config.formGroup.get([this.config.formGroupName, this.config.messageFormControlKey]).reset();
+    this.setMessageInputValidators(formControlValue);
     this.config.formGroup.updateValueAndValidity();
+  }
+
+  setMessageInputValidators(radioFormControlValue: UPLOAD_STATUS) {
+    this.config.formGroup.get([this.config.formGroupName, this.config.messageFormControlKey]).reset();
+    if (radioFormControlValue === UPLOAD_STATUS.REJECTED) {
+      this.config.formGroup.get([this.config.formGroupName, this.config.messageFormControlKey]).setValidators([Validators.required]);
+      this.config.formGroup.get([this.config.formGroupName, this.config.messageFormControlKey]).updateValueAndValidity();
+      return;
+    }
+    this.config.formGroup.get([this.config.formGroupName, this.config.messageFormControlKey]).clearValidators();
+    this.config.formGroup.get([this.config.formGroupName, this.config.messageFormControlKey]).updateValueAndValidity();
+
   }
 
   ngAfterViewInit(): void {
