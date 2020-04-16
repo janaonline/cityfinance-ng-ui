@@ -107,7 +107,7 @@ export class ProfileRequestComponent implements OnInit {
       filter: this.filterForm.value,
       sort: { [key]: this.currentSort },
       skip:
-        this.tableDefaultOptions.currentPage *
+        (this.tableDefaultOptions.currentPage - 1) *
         this.tableDefaultOptions.itemPerPage
     };
     this.listFetchOption = values;
@@ -204,9 +204,9 @@ export class ProfileRequestComponent implements OnInit {
     }
 
     this.filterForm = this._fb.group({
-      state: [],
-      name: [""],
-      code: [],
+      state: [""],
+      ulbName: [""],
+      ulbCode: [],
       status: [""]
     });
   }

@@ -55,7 +55,8 @@ export class UserService {
       body.sort = {};
     }
     delete body["skip"];
-    body["token"] = localStorage.getItem("id_token");
+    body["token"] = localStorage.getItem("id_token").valueOf();
+    body["csv"] = true;
     let params = new HttpParams();
     Object.keys(body).forEach(key => {
       if (typeof body[key] === "object") {

@@ -48,12 +48,15 @@ export class FormUtil {
     const baseForm = this.fb.group({
       state: ["", [Validators.required]],
       ulb: ["", [Validators.required]],
-      commissionerName: ["", [Validators.required]],
+      commissionerName: [
+        "",
+        [Validators.required, Validators.pattern(this.altest1Aplhabet)]
+      ],
       commissionerConatactNumber: [
         "",
         [Validators.required, mobileNoValidator]
       ],
-      name: ["", Validators.required],
+      name: ["", Validators.required, Validators.pattern(this.altest1Aplhabet)],
 
       commissionerEmail: [
         "",
@@ -139,7 +142,10 @@ export class FormUtil {
 
   public getPartnerForm() {
     const form = this.fb.group({
-      name: ["", [Validators.required]],
+      name: [
+        "",
+        [Validators.required, Validators.pattern(this.altest1Aplhabet)]
+      ],
       email: [
         "",
         [Validators.required, Validators.email, customEmailValidator]

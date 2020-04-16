@@ -3,11 +3,24 @@
     <div class="row">
       <div class="col-md-12">
         <h3>
-          <span *ngIf="listType === userTypes.STATE"> State List</span>
-          <span *ngIf="listType === userTypes.PARTNER"> Partner List</span>
-          <span *ngIf="listType === userTypes.USER"> User List</span>
-          <span *ngIf="listType === userTypes.ULB"> ULB List</span>
-          <span *ngIf="listType === userTypes.MoHUA"> MoHUA List</span>
+          <span *ngIf="listType === userTypes.STATE" style="margin-left: 6px;">
+            State List</span
+          >
+          <span
+            *ngIf="listType === userTypes.PARTNER"
+            style="margin-left: 6px;"
+          >
+            Partner List</span
+          >
+          <span *ngIf="listType === userTypes.USER" style="margin-left: 6px;">
+            User List</span
+          >
+          <span *ngIf="listType === userTypes.ULB" style="margin-left: 6px;">
+            ULB Signup List</span
+          >
+          <span *ngIf="listType === userTypes.MoHUA" style="margin-left: 6px;">
+            MoHUA List</span
+          >
           <a
             *ngIf="listType === userTypes.STATE"
             class="btn btn-primary"
@@ -20,7 +33,7 @@
           <a
             *ngIf="listType === userTypes.PARTNER"
             class="btn btn-primary"
-            style="float: right;"
+            style="float: right; margin-right: 6px;"
             [routerLink]="['/', 'user', 'profile', 'create']"
             [queryParams]="{ role: userTypes.PARTNER }"
             >Create Partner</a
@@ -29,7 +42,7 @@
           <a
             *ngIf="listType === userTypes.MoHUA"
             class="btn btn-primary"
-            style="float: right;"
+            style="float: right; margin-right: 6px;"
             [routerLink]="['/', 'user', 'profile', 'create']"
             [queryParams]="{ role: userTypes.MoHUA }"
             >Create MoHUA</a
@@ -177,7 +190,9 @@
                     class="fa fa-trash"
                     aria-hidden="true"
                     title="Delete User"
-                    (click)="deleteUser(user._id)"
+                    (click)="
+                      openUserDeleteConfirmationBox(userDeletePopup, user)
+                    "
                   ></i
                 ></a>
               </td>
@@ -193,7 +208,7 @@
           <thead>
             <tr
               class="sortable-headers"
-              style="background: #009fe3;color: white ;border: 5px solid white"
+              style="background: #009fe3;color: white ;border: 1px solid white"
             >
               <th class="text-center">S.No.</th>
               <th
@@ -225,7 +240,7 @@
                     placeholder="State"
                   >
                     <option value="" selected>
-                      ALL
+                      ALL States
                     </option>
                     <option *ngFor="let state of stateList" [value]="state._id">
                       {{ state.name }}
@@ -255,11 +270,7 @@
                     placeholder="ULB Code"
                     type="text"
                     class="form-control"
-                    [formControl]="filterForm.controls.code"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.designation.errors
-                    }"
+                    [formControl]="filterForm.controls.ulbCode"
                   />
                 </div>
               </td>
@@ -274,7 +285,7 @@
                     placeholder="STATUS"
                   >
                     <option value="">
-                      ALL
+                      ALL Status
                     </option>
                     <option
                       *ngFor="let status of requestStatusTypeList"
@@ -382,7 +393,7 @@
                     placeholder="State"
                   >
                     <option value="" selected>
-                      ALL
+                      ALL States
                     </option>
                     <option *ngFor="let state of stateList" [value]="state._id">
                       {{ state.name }}

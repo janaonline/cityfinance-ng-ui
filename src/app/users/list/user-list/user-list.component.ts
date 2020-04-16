@@ -210,9 +210,9 @@ export class UserListComponent implements OnInit {
   private initializeULBFilterForm() {
     this.filterForm = this._fb.group({
       name: [null],
-      code: [null],
+      ulbCode: [null],
       status: [""],
-      state: [null]
+      state: [""]
     });
   }
 
@@ -221,7 +221,7 @@ export class UserListComponent implements OnInit {
       name: [null],
       email: [null],
       designation: [null],
-      state: [null],
+      state: [""],
       departmentName: [null]
     });
   }

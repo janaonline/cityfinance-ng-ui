@@ -28,7 +28,11 @@ export class JSONUtility {
       if (typeof obj[key] === "string" && !obj[key].trim()) {
         return;
       }
-      value[key] = obj[key];
+      if (typeof obj[key] === "string") {
+        value[key] = obj[key].trim();
+      } else {
+        value[key] = obj[key];
+      }
     });
 
     return Object.keys(value).length ? value : null;
