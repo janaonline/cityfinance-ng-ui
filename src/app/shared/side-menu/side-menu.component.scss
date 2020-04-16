@@ -19,6 +19,15 @@
       color: inherit;
     }
   }
+
+  .side-menu-item {
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+      background: darkgray !important;
+    }
+  }
 }
 
 .bg-black {
