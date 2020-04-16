@@ -539,6 +539,10 @@
                 Designation
                 <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
+              <th class="" (click)="sortListBy('designation')">
+                Department
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+              </th>
               <th class="text-center">Action</th>
             </tr>
           </thead>
@@ -579,6 +583,16 @@
                 </div>
               </td>
               <td>
+                <div class="input-group">
+                  <input
+                    placeholder="Department Name"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.departmentName"
+                  />
+                </div>
+              </td>
+              <td>
                 <button
                   class="btn btn-primary m-auto"
                   style="display: block;"
@@ -608,6 +622,7 @@
               <td class="">{{ user["name"] }}</td>
               <td class="">{{ user["email"] }}</td>
               <td class="">{{ user["designation"] }}</td>
+              <td class="">{{ user["departmentName"] }}</td>
               <td class="text-center d-flex justify-content-center actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"

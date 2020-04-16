@@ -230,7 +230,8 @@ export class UserListComponent implements OnInit {
     this.filterForm = this._fb.group({
       name: [null],
       email: [null],
-      designation: [null]
+      designation: [null],
+      departmentName: [null]
     });
   }
 

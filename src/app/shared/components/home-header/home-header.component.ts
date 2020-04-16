@@ -38,10 +38,9 @@ export class HomeHeaderComponent implements OnInit {
     this.router.events.subscribe(event => {
       this.isLoggedIn = this.authService.loggedIn();
       this.initializeAccessChecking();
-      if (!this.user) {
-        if (this.isLoggedIn) {
-          this.user = this.authService.decodeToken();
-        }
+
+      if (this.isLoggedIn) {
+        this.user = this.authService.decodeToken();
       }
     });
   }
