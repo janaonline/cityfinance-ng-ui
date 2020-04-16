@@ -69,15 +69,19 @@
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('name')">
                 User Name
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="" (click)="sortListBy('email')">
                 Email ID
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="" (click)="sortListBy('designation')">
                 Designation
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="" (click)="sortListBy('organization')">
                 Organisation
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="text-center">Action</th>
             </tr>
@@ -216,13 +220,19 @@
                 (click)="sortListBy('stateName')"
                 *ngIf="loggedInType !== userTypes.STATE"
               >
-                State
+                State <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
-              <th class="" (click)="sortListBy('name')">ULB Name</th>
+              <th class="" (click)="sortListBy('name')">
+                ULB Name
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+              </th>
               <th class="" (click)="sortListBy('ulbCode')">
                 ULB Code
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
-              <th class="" (click)="sortListBy('status')">Status</th>
+              <th class="" (click)="sortListBy('status')">
+                Status <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+              </th>
               <th class="text-center">Action</th>
             </tr>
           </thead>
@@ -240,7 +250,7 @@
                     placeholder="State"
                   >
                     <option value="" selected>
-                      ALL States
+                      All States
                     </option>
                     <option *ngFor="let state of stateList" [value]="state._id">
                       {{ state.name }}
@@ -285,7 +295,7 @@
                     placeholder="STATUS"
                   >
                     <option value="">
-                      ALL Status
+                      All Status
                     </option>
                     <option
                       *ngFor="let status of requestStatusTypeList"
@@ -364,17 +374,23 @@
             >
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('stateName')">
-                State
+                State <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
-              <th class="" (click)="sortListBy('name')">Username</th>
+              <th class="" (click)="sortListBy('name')">
+                Username
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+              </th>
               <th class="" (click)="sortListBy('email')">
                 Email ID
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="" (click)="sortListBy('designation')">
                 Designation
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="" (click)="sortListBy('departmentName')">
                 Department
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="text-center">Action</th>
             </tr>
@@ -393,7 +409,7 @@
                     placeholder="State"
                   >
                     <option value="" selected>
-                      ALL States
+                      All States
                     </option>
                     <option *ngFor="let state of stateList" [value]="state._id">
                       {{ state.name }}
@@ -511,12 +527,17 @@
               style="background: #009fe3;color: white ;border: 5px solid white"
             >
               <th class="text-center">S.No.</th>
-              <th class="" (click)="sortListBy('name')">Username</th>
+              <th class="" (click)="sortListBy('name')">
+                Username
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+              </th>
               <th class="" (click)="sortListBy('email')">
                 Email ID
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="" (click)="sortListBy('designation')">
                 Designation
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="text-center">Action</th>
             </tr>
@@ -621,12 +642,17 @@
               style="background: #009fe3;color: white ;border: 5px solid white"
             >
               <th class="text-center">S.No.</th>
-              <th class="" (click)="sortListBy('name')">Username</th>
+              <th class="" (click)="sortListBy('name')">
+                Username
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+              </th>
               <th class="" (click)="sortListBy('email')">
                 Email ID
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="" (click)="sortListBy('designation')">
                 Designation
+                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="text-center">Action</th>
             </tr>
