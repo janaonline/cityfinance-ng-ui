@@ -2,15 +2,51 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <h3>
-          Profile Profile Request List
-        </h3>
+        <button
+          class="back_button mb-2"
+          (click)="window.history.back()"
+          *ngIf="request"
+        >
+          Back
+        </button>
+        <h3>Profile Profile Request <span *ngIf="!request">List</span></h3>
 
         <div *ngIf="request">
-          <button class="back_button mb-2" (click)="window.history.back()">
-            Back
-          </button>
-
+          <div class="defaultDataWrapper">
+            <div class="input-group">
+              <label for="stateName"> State: </label>
+              <input
+                #stateName
+                placeholder="User Name"
+                type="text"
+                class="form-control"
+                [value]="!request.old ? '' : request.old.ulb['state'].name"
+                disabled="true"
+              />
+            </div>
+            <div class="input-group">
+              <label for="stateName"> ULB Name: </label>
+              <input
+                #stateName
+                placeholder="User Name"
+                type="text"
+                class="form-control"
+                [value]="!request.old ? '' : request.old.ulb.name"
+                disabled="true"
+              />
+            </div>
+            <div class="input-group">
+              <label for="stateName"> ULB Code: </label>
+              <input
+                #stateName
+                placeholder="User Name"
+                type="text"
+                class="form-control"
+                [value]="!request.old ? '' : request.old.ulb.code"
+                disabled="true"
+              />
+            </div>
+          </div>
           <h4>
             STATUS:
             <span
@@ -22,6 +58,7 @@
               >{{ request.status }}</span
             >
           </h4>
+
           <table style="width: 70%;">
             <thead>
               <tr>
@@ -34,59 +71,262 @@
               <tr *ngIf="request.accountantConatactNumber">
                 <td>Accountant Contact Number</td>
                 <td>
-                  {{ !request.old ? "" : request.old.accountantConatactNumber }}
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="
+                        !request.old ? '' : request.old.accountantConatactNumber
+                      "
+                      disabled="true"
+                    />
+                  </div>
+                  <!-- {{ !request.old ? "" : request.old.accountantConatactNumber }} -->
                 </td>
-                <td>{{ request.accountantConatactNumber }}</td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="request.accountantConatactNumber"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
               </tr>
               <tr *ngIf="request.accountantEmail">
                 <td>Accountant Email ID</td>
-                <td>{{ !request.old ? "" : request.old.accountantEmail }}</td>
-                <td>{{ request.accountantEmail }}</td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="!request.old ? '' : request.old.accountantEmail"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="request.accountantEmail"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
               </tr>
               <tr *ngIf="request.accountantName">
                 <td>Accountant Name</td>
-                <td>{{ !request.old ? "" : request.old.accountantName }}</td>
-                <td>{{ request.accountantName }}</td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="!request.old ? '' : request.old.accountantName"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="request.accountantName"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
               </tr>
               <tr *ngIf="request.commissionerConatactNumber">
                 <td>Commissioner Conatact Number</td>
                 <td>
-                  {{
-                    !request.old ? "" : request.old.commissionerConatactNumber
-                  }}
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="
+                        !request.old
+                          ? ''
+                          : request.old.commissionerConatactNumber
+                      "
+                      disabled="true"
+                    />
+                  </div>
                 </td>
-                <td>{{ request.commissionerConatactNumber }}</td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="request.commissionerConatactNumber"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
               </tr>
               <tr *ngIf="request.commissionerEmail">
                 <td>Commissioner Email</td>
-                <td>{{ !request.old ? "" : request.old.commissionerEmail }}</td>
-                <td>{{ request.commissionerEmail }}</td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="
+                        !request.old ? '' : request.old.commissionerEmail
+                      "
+                      disabled="true"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="request.commissionerEmail"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
               </tr>
               <tr *ngIf="request.commissionerName">
                 <td>Commissioner Name</td>
-                <td>{{ !request.old ? "" : request.old.commissionerName }}</td>
-                <td>{{ request.commissionerName }}</td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="!request.old ? '' : request.old.commissionerName"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="request.commissionerName"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
               </tr>
               <tr *ngIf="request.area">
                 <td>Area</td>
-                <td>{{ !request.old ? "" : request.old["ulb"].area }}</td>
-                <td>{{ request.area }}</td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="!request.old ? '' : request.old['ulb'].area"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="request.area"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
               </tr>
               <tr *ngIf="request.population">
                 <td>Population</td>
-                <td>{{ !request.old ? "" : request.old["ulb"].population }}</td>
-                <td>{{ request.population }}</td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="!request.old ? '' : request.old.ulb.population"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="request.population"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
               </tr>
               <tr *ngIf="request.wards || request.wards === 0">
                 <td>No of Wards</td>
-                <td>{{ !request.old ? "" : request.old["ulb"].wards }}</td>
-                <td>{{ request.wards }}</td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="!request.old ? '' : request.old.ulb.wards"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="request.wards"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
               </tr>
 
               <tr *ngIf="request.ulbType">
                 <td>ULB Type</td>
-                <td>{{ !request.old ? "" : request.old.ulb.ulbType.name }}</td>
-                <td>{{ request.ulbType.name }}</td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="!request.old ? '' : request.old.ulb.ulbType.name"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="request.ulbType.name"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
               </tr>
               <!-- <tr *ngIf="request.ulbType">
         <td>11</td>
@@ -273,20 +513,24 @@
               >
                 <th class="text-center">S.No.</th>
                 <th
-                  class="text-center"
+                  class=""
                   (click)="sortListBy('stateName')"
                   *ngIf="loggedInUserType !== userTypes.STATE"
                 >
                   State
+                  <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
                 </th>
-                <th class="text-center" (click)="sortListBy('ulbName')">
+                <th class="" (click)="sortListBy('ulbName')">
                   ULB Name
+                  <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
                 </th>
-                <th class="text-center" (click)="sortListBy('ulbCode')">
+                <th class="" (click)="sortListBy('ulbCode')">
                   ULB Code
+                  <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
                 </th>
-                <th class="text-center" (click)="sortListBy('status')">
+                <th class="" (click)="sortListBy('status')">
                   STATUS
+                  <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
                 </th>
                 <th class="text-center">Action</th>
               </tr>
