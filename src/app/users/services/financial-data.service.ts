@@ -19,7 +19,10 @@ export class FinancialDataService {
     for (let key in params) {
       queryParams = queryParams.set(key, params[key]);
     }
-    return this.httpClient.post(`${environment.api.url}ulb-financial-data/all`, JSON.stringify(body), {params: queryParams});
+    for (let key in body) {
+      queryParams = queryParams.set(key, JSON.stringify(body[key]));
+    }
+    return this.httpClient.get(`${environment.api.url}ulb-financial-data/all`, {params: queryParams});
   }
 
   fetFinancialData(id: string) {
