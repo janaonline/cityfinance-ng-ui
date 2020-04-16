@@ -9,7 +9,18 @@
         >
           Back
         </button>
-        <h3>Profile Profile Edit <span *ngIf="!request">List</span></h3>
+        <h3>
+          <span style="margin-left: .5%;"
+            >Profile Profile Edit <span *ngIf="!request">List</span></span
+          >
+          <button
+            class="btn btn-primary"
+            style="float: right; margin-right: 6px;"
+            (click)="downloadList()"
+          >
+            Download List
+          </button>
+        </h3>
 
         <div *ngIf="request">
           <div class="defaultDataWrapper">

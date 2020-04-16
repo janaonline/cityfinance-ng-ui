@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { UserService } from 'src/app/dashboard/user/user.service';
 import { IULBType } from 'src/app/models/ulbs/type';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
@@ -29,7 +30,8 @@ export class ProfileRequestComponent implements OnInit {
     private _dialog: MatDialog,
     public modalService: BsModalService,
     public _fb: FormBuilder,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private userService: UserService
   ) {
     this.initializeAccessCheck();
     this.fetchStateList();
@@ -229,5 +231,13 @@ export class ProfileRequestComponent implements OnInit {
       key,
       value: key
     }));
+  }
+
+  public downloadList() {
+    const params = { ...this.listFetchOption };
+    delete params["skip"];
+
+    const url = this.userService.getURLForUserList(params);
+    return window.open(url);
   }
 }
