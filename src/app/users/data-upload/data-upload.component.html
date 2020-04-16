@@ -312,7 +312,13 @@
               <td></td>
               <td class="text-center" *ngIf="userUtil.getUserType()!='ULB'">
                 <label>
-                  <input placeholder="Enter ULB name" type="text" [formControl]="ulbNameSearchFormControl"
+                  <input placeholder="ULB name" type="text" [formControl]="ulbNameSearchFormControl"
+                         class="form-control" style="height: 40px">
+                </label>
+              </td>
+              <td class="text-center" *ngIf="userUtil.getUserType()!='ULB'">
+                <label>
+                  <input placeholder="ULB Code" type="text" [formControl]="ulbCodeSearchFormControl"
                          class="form-control" style="height: 40px">
                 </label>
               </td>
