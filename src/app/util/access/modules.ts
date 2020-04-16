@@ -145,7 +145,7 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
   [MODULES_NAME.ULBDataBULKEntry]: {
     name: MODULES_NAME.ULBDataBULKEntry,
     access: {
-      [ACTIONS.UPLOAD]: [USER_TYPE.ULB]
+      [ACTIONS.UPLOAD]: [USER_TYPE.PARTNER, USER_TYPE.MoHUA, USER_TYPE.ADMIN]
     }
   },
 
