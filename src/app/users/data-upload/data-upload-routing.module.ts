@@ -12,12 +12,12 @@ import { DataUploadComponent } from './data-upload.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 
 const routes: Routes = [
+  { path: "", component: DataUploadComponent },
   { path: "bulk-upload", component: BulkEntryComponent },
   { path: "action", component: DataUploadActionComponent },
   { path: "action/:id", component: DataUploadActionComponent },
   { path: ":id", component: DataUploadComponent },
-  { path: ":id/:uploadId", component: DataUploadComponent },
-  { path: "", component: DataUploadComponent }
+  { path: ":id/:uploadId", component: DataUploadComponent }
 ];
 
 @NgModule({

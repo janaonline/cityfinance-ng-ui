@@ -329,7 +329,7 @@ export class DataUploadComponent implements OnInit {
     });
   }
 
-  applyFilterClicked() {
+  setLIstFetchOptions(config = {}) {
     let filterKeys = ['financialYear', 'auditStatus'];
     let filterObject = {
       filter: {
@@ -341,10 +341,15 @@ export class DataUploadComponent implements OnInit {
         'status': this.uploadStatusFormControl.value
       }
     };
-    this.listFetchOption = {
+    return {
       ...this.listFetchOption,
-      ...filterObject
+      ...filterObject,
+      ...config
     };
+  }
+
+  applyFilterClicked() {
+    this.listFetchOption = this.setLIstFetchOptions();
     const {skip} = this.listFetchOption;
     this.financialDataService.fetchFinancialDataList({skip, limit: 10}, this.listFetchOption).subscribe(result => {
       this.handleResponseSuccess(result);
@@ -433,4 +438,12 @@ export class DataUploadComponent implements OnInit {
     }
     this._snackBar.open(string, null, {duration: 1600});
   }
+
+  downloadList() {
+    let filterOptions = this.setLIstFetchOptions({download: true});
+    let url = this.financialDataService.getFinancialDataListApi(filterOptions);
+    return window.open(url);
+
+  }
+
 }
