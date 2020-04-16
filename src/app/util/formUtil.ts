@@ -56,7 +56,10 @@ export class FormUtil {
         "",
         [Validators.required, mobileNoValidator]
       ],
-      name: ["", Validators.required, Validators.pattern(this.altest1Aplhabet)],
+      name: [
+        "",
+        [Validators.required, Validators.pattern(this.altest1Aplhabet)]
+      ],
 
       commissionerEmail: [
         "",
