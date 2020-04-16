@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/co
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {ulbUploadList} from '../../shared/components/home-header/tableHeaders';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Form, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataEntryService} from '../../dashboard/data-entry/data-entry.service';
 import {FinancialDataService} from '../services/financial-data.service';
 import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
@@ -110,14 +110,19 @@ export class DataUploadComponent implements OnInit {
   ngOnInit() {
     this.fetchFinancialYears();
     if (!this.id) {
-      this.getFinancialData({skip: this.listFetchOption.skip, limit: 10}, this.listFetchOption);
+      this.getFinancialDataList({skip: this.listFetchOption.skip, limit: 10}, this.listFetchOption);
     }
     if (this.uploadId) {
-      this.getFinancialData({_id: this.uploadId});
+      this.getFinancialData();
     }
   }
 
-  getFinancialData(params = {}, body = {}) {
+  getFinancialData() {
+    this.financialDataService.fetFinancialData(this.uploadId)
+      .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
+  }
+
+  getFinancialDataList(params = {}, body = {}) {
     const {skip} = this.listFetchOption;
     const newParams = {
       skip,
@@ -140,11 +145,12 @@ export class DataUploadComponent implements OnInit {
       }
     }
   };
-
   handleResponseFailure = (error) => {
     this.handlerError(error);
   };
-  uploadStatusFormControl: FormControl = new FormControl();
+  uploadStatusFormControl: FormControl = new FormControl('');
+  ulbNameSearchFormControl: FormControl = new FormControl();
+  ulbCodeSearchFormControl: FormControl = new FormControl();
 
   async submitClickHandler(event) {
     event.disabled = true;
@@ -218,7 +224,7 @@ export class DataUploadComponent implements OnInit {
   }
 
   private updateFormControls() {
-    const {financialYear, audited, completeness: completenessOverAll, correctness: correctnessOverAll} = this.uploadObject;
+    const {financialYear, audited, completeness: completenessOverAll, correctness: correctnessOverAll, status} = this.uploadObject;
     this.completenessStatus = completenessOverAll;
     this.correctnessStatus = correctnessOverAll;
     const selectedFinancialYearObject = this.financialYearDropdown.filter((item) => item.id === financialYear);
@@ -237,8 +243,8 @@ export class DataUploadComponent implements OnInit {
       let formGroupDataObject = this.uploadObject[formGroupKey];
       let formGroupItem = this.fileFormGroup.get([formGroupKey]);
       const {completeness, correctness} = formGroupDataObject;
-      if (correctnessOverAll === 'REJECTED' || completenessOverAll === 'REJECTED') {
-        if (completeness === 'REJECTED' || correctness === 'REJECTED') {
+      if (status === UPLOAD_STATUS.REJECTED) {
+        if (completeness === UPLOAD_STATUS.REJECTED || completeness === UPLOAD_STATUS.NA || correctness === UPLOAD_STATUS.REJECTED || correctness === UPLOAD_STATUS.NA) {
           formGroupItem.enable();
         } else {
           formGroupItem.disable();
@@ -327,10 +333,12 @@ export class DataUploadComponent implements OnInit {
     let filterKeys = ['financialYear', 'auditStatus'];
     let filterObject = {
       filter: {
-        [filterKeys[0]]: this.fileFormGroup.get(filterKeys[0]).value.length ? this
-          .fileFormGroup.get(filterKeys[0]).value[0].id : '',
+        [filterKeys[0]]: this.fileFormGroup.get(filterKeys[0]).value,
+        'ulbName': this.ulbNameSearchFormControl.value,
+        'ulbCode': this.ulbCodeSearchFormControl.value,
         'audited': this.fileFormGroup.get(filterKeys[1]).value.length ? this
-          .fileFormGroup.get(filterKeys[1]).value[0].id == 'true' : '',
+          .fileFormGroup.get(filterKeys[1]).value == 'true' : '',
+        'status': this.uploadStatusFormControl.value
       }
     };
     this.listFetchOption = {
@@ -347,10 +355,9 @@ export class DataUploadComponent implements OnInit {
 
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;
-    console.log(this.tableDefaultOptions);
     this.listFetchOption.skip = (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     const {skip} = this.listFetchOption;
-    this.getFinancialData({skip, limit: 10}, this.listFetchOption);
+    this.getFinancialDataList({skip, limit: 10}, this.listFetchOption);
 
 
   }
@@ -361,7 +368,7 @@ export class DataUploadComponent implements OnInit {
       ...this.listFetchOption,
       sort: {[id]: this.currentSort},
     };
-    this.getFinancialData({}, this.listFetchOption);
+    this.getFinancialDataList({}, this.listFetchOption);
   }
 
   private createForms() {
@@ -397,7 +404,7 @@ export class DataUploadComponent implements OnInit {
 
   private setTableHeaderByUserType() {
     if (this.userUtil.getUserType() === USER_TYPE.ULB) {
-      this.tableHeaders = this.tableHeaders.filter((header) => header.id != 'ulb');
+      this.tableHeaders = this.tableHeaders.filter((header) => !['ulbName', 'ulbCode'].includes(header.id));
     }
   }
 

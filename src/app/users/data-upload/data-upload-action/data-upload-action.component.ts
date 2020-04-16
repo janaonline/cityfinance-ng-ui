@@ -44,6 +44,20 @@ export class DataUploadActionComponent implements OnInit {
 
   }
 
+  private fetchFinancialYears() {
+    this.financeDataService.getFinancialYears().subscribe(result => {
+      if (result['success']) {
+        this.financialYearDropdown = result['data'];
+        this.financialYearDropdown = this.financialYearDropdown.map(year => {
+          return {
+            id: year['name'],
+            itemName: year['name']
+          };
+        });
+      }
+    });
+  }
+
   createForms() {
     this.completenessFormGroup = this.fb.group({});
     this.correctnessFormGroup = this.fb.group({});
@@ -60,24 +74,26 @@ export class DataUploadActionComponent implements OnInit {
   }
 
   ngOnInit() {
-   // if (!this.financeDataService.selectedFinancialRequest) {
-      this.activatedRoute.params.subscribe(value => {
-        const {id} = value;
-        this.id = id;
-        this.financeDataService.fetFinancialData( id).subscribe((response: any) => {
-          if (response['success']) {
-            this.financeDataService.selectedFinancialRequest = response.data;
-            this.completenessStatus = this.financeDataService.selectedFinancialRequest['completeness'];
-            this.correctnessStatus = this.financeDataService.selectedFinancialRequest['correctness'];
-            this.updateFormControls(this.financeDataService.selectedFinancialRequest);
-          }
-        });
+    this.fetchFinancialYears();
+    // if (!this.financeDataService.selectedFinancialRequest) {
+    this.activatedRoute.params.subscribe(value => {
+      const {id} = value;
+      this.id = id;
+      this.financeDataService.fetFinancialData(id).subscribe((response: any) => {
+        if (response['success']) {
+          this.financeDataService.selectedFinancialRequest = response.data;
+          this.completenessStatus = this.financeDataService.selectedFinancialRequest['completeness'];
+          this.correctnessStatus = this.financeDataService.selectedFinancialRequest['correctness'];
+          this.updateFormControls(this.financeDataService.selectedFinancialRequest);
+        }
       });
+    });
   }
 
   getFormControl(formGroup: FormGroup, formGroupName: string, formControlName: string) {
     return formGroup.get([formGroupName, formControlName]);
   }
+
   updateFormControls(data) {
     this.updateTabIndex(data);
     const {financialYear, audited} = data;
@@ -178,9 +194,15 @@ export class DataUploadActionComponent implements OnInit {
                 }
                 formControl.setValidators(Validators.required);
                 formControl.updateValueAndValidity();
-                if ((i == 0 && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) || (i == 1) && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
-                  continue;
+                // checking for correctness and completeness only
+                if (i < 2) {
+                  if (formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
+                    continue;
+                  }
                 }
+                // if ((i == 0 && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) || (i == 1) && formGroupDataItem[keys[i]] === UPLOAD_STATUS.PENDING) {
+                //   continue;
+                // }
               }
               formControl.disable();
               formControl.updateValueAndValidity();
