@@ -78,7 +78,7 @@ export class UsersComponent implements OnInit {
       route: ["/user/profile/request"]
     },
     {
-      title: "ULB Signup List",
+      title: "ULB Signup",
       type: "link",
       route: [`/user/list/${USER_TYPE.ULB}`],
       condition: () => {

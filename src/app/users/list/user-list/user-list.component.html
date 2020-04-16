@@ -6,7 +6,7 @@
           <span *ngIf="listType === userTypes.STATE"> State List</span>
           <span *ngIf="listType === userTypes.PARTNER"> Partner List</span>
           <span *ngIf="listType === userTypes.USER"> User List</span>
-          <span *ngIf="listType === userTypes.ULB"> ULB List</span>
+          <span *ngIf="listType === userTypes.ULB"> ULB Signup List</span>
           <span *ngIf="listType === userTypes.MoHUA"> MoHUA List</span>
           <a
             *ngIf="listType === userTypes.STATE"
@@ -225,7 +225,7 @@
                     placeholder="State"
                   >
                     <option value="" selected>
-                      ALL
+                      ALL States
                     </option>
                     <option *ngFor="let state of stateList" [value]="state._id">
                       {{ state.name }}
@@ -255,11 +255,7 @@
                     placeholder="ULB Code"
                     type="text"
                     class="form-control"
-                    [formControl]="filterForm.controls.code"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.designation.errors
-                    }"
+                    [formControl]="filterForm.controls.ulbCode"
                   />
                 </div>
               </td>
@@ -274,7 +270,7 @@
                     placeholder="STATUS"
                   >
                     <option value="">
-                      ALL
+                      ALL Status
                     </option>
                     <option
                       *ngFor="let status of requestStatusTypeList"
@@ -382,7 +378,7 @@
                     placeholder="State"
                   >
                     <option value="" selected>
-                      ALL
+                      ALL States
                     </option>
                     <option *ngFor="let state of stateList" [value]="state._id">
                       {{ state.name }}
