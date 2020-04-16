@@ -311,39 +311,54 @@
             <tr [formGroup]="fileFormGroup">
               <td></td>
               <td class="text-center" *ngIf="userUtil.getUserType()!='ULB'">
-                <label>
+                <div class="input-group">
                   <input placeholder="ULB name" type="text" [formControl]="ulbNameSearchFormControl"
-                         class="form-control" style="height: 40px">
-                </label>
+                         class="form-control">
+                </div>
               </td>
               <td class="text-center" *ngIf="userUtil.getUserType()!='ULB'">
-                <label>
+                <div class="input-group">
                   <input placeholder="ULB Code" type="text" [formControl]="ulbCodeSearchFormControl"
-                         class="form-control" style="height: 40px">
-                </label>
+                         class="form-control">
+                </div>
               </td>
               <td class="text-center">
-                <angular2-multiselect
-                  formControlName="financialYear"
-                  [settings]="financialYearDropdownSettings"
-                  [data]="financialYearDropdown"></angular2-multiselect>
+                <div class="input-group">
+                  <label for="financialYear"></label>
+                  <select id="financialYear" class="form-control" formControlName="financialYear">
+                    <option value="" selected>All years</option>
+                    <option [value]="option.id"
+                            *ngFor="let option of financialYearDropdown">{{option?.itemName}}</option>
+
+                  </select>
+                </div>
+
+                <!--                  formControlName="financialYear"-->
+                <!--                  [settings]="financialYearDropdownSettings"-->
+                <!--                  [data]="financialYearDropdown"></angular2-multiselect>-->
               </td>
               <td class="text-center">
-                <angular2-multiselect
-                  formControlName="auditStatus"
-                  [settings]="auditStatusDropdownSettings"
-                  [data]="auditStatusDropdown">
-                </angular2-multiselect>
+                <div class="input-group">
+                  <label for="auditStatus"></label>
+                  <select id="auditStatus" class="form-control" formControlName="auditStatus">
+                    <option value="" selected>All Audit Status</option>
+                    <option [value]="option.id"
+                            *ngFor="let option of auditStatusDropdown">{{option?.itemName}}</option>
+                  </select>
+                </div>
               </td>
               <td class="text-center">
-                <angular2-multiselect
-                  [formControl]="uploadStatusFormControl"
-                  [settings]="uploadCheckStatusDropDownSettings"
-                  [data]="uploadCheckStatusDropDown">
-                </angular2-multiselect>
+                <div class="input-group">
+                  <label for="uploadStatus"></label>
+                  <select id="uploadStatus" class="form-control" [formControl]="uploadStatusFormControl">
+                    <option value="" selected>All Status</option>
+                    <option [value]="option.id"
+                            *ngFor="let option of uploadCheckStatusDropDown">{{option?.itemName}}</option>
+                  </select>
+                </div>
               </td>
               <td class="text-center">
-                <button class="btn btn-danger" (click)="applyFilterClicked()">Apply filters</button>
+                <button class="btn btn-primary" (click)="applyFilterClicked()">Search</button>
               </td>
             </tr>
             <ng-container *ngIf="dataUploadList.length;else noData">
