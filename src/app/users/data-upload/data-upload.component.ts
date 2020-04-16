@@ -420,8 +420,17 @@ export class DataUploadComponent implements OnInit {
 
   }
 
-  private handlerError(error: any) {
-    const {message} = error;
-    this._snackBar.open(message, null, {duration: 1600});
+  private handlerError(response: any) {
+    let string = 'Some Error Occurred';
+    const {message, error} = response;
+    if (error) {
+      let errorMessage = error.message;
+      if (errorMessage) {
+        string = errorMessage;
+      } else {
+        string = message;
+      }
+    }
+    this._snackBar.open(string, null, {duration: 1600});
   }
 }
