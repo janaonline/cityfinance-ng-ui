@@ -4,7 +4,7 @@
 >
   <div class="navbar-header" style="flex:1">
     <span [routerLink]="['/']" class="navbar-brand "
-      ><img src="/assets/images/cityfinance-logo.png"
+    ><img src="/assets/images/cityfinance-logo.png"
     /></span>
   </div>
   <!-- <div class="nav navbar-nav navbar-right px-1 " style="color: white">
@@ -56,8 +56,8 @@
     <span
       style="display: inline-block;
     margin-bottom: 3px;"
-      >An initiative of Ministry of Housing and Urban Affairs,</span
-    ><br />
+    >An initiative of Ministry of Housing and Urban Affairs,</span
+    ><br/>
     Government of India
   </div>
 
@@ -89,7 +89,7 @@
       <ul class="dropdown-menu">
         <li routerLinkActive="active">
           <a [routerLink]="['/dashboard/report']"
-            >Annual Financial Statements</a
+          >Annual Financial Statements</a
           >
         </li>
         <!-- <li>
@@ -113,9 +113,7 @@
       <a [routerLink]="['/credit-rating/municipal-bond']"> Municipal Bonds</a>
     </li>
     <li *ngIf="isLoggedIn && canViewUploadData">
-      <a [routerLink]="['user', 'data-upload']" class="pointer"
-        ><b>Data upload</b></a
-      >
+      <a [routerLink]="['user', 'data-upload']" class="pointer">Data upload</a>
     </li>
     <li routerLinkActive="active" *ngIf="!isLoggedIn">
       <a [routerLink]="['/login']">Login</a>
@@ -142,56 +140,37 @@
           </div>
           <mat-divider></mat-divider>
           <mat-list dense>
-            <mat-list-item
-              [routerLink]="['user', 'profile', 'view']"
-              *ngIf="canEditOwnProfile"
-              >Profile</mat-list-item
-            >
-            <mat-divider></mat-divider>
-            <mat-list-item
-              [routerLink]="['user', 'list', USER_TYPE.MoHUA]"
-              *ngIf="canViewMoHUAList"
-              >MoHUA</mat-list-item
-            >
-            <mat-divider></mat-divider>
+            <ng-container *ngIf="canEditOwnProfile">
+              <mat-list-item [routerLink]="['user', 'profile', 'view']">Profile</mat-list-item>
+              <mat-divider></mat-divider>
+            </ng-container>
+            <ng-container *ngIf="canViewMoHUAList">
+              <mat-list-item [routerLink]="['user', 'list', USER_TYPE.MoHUA]">MoHUA</mat-list-item>
+              <mat-divider></mat-divider>
+            </ng-container>
 
-            <mat-list-item
-              [routerLink]="['user', 'list', USER_TYPE.PARTNER]"
-              *ngIf="canViewPartnerList"
-              >Partners</mat-list-item
-            >
-            <mat-divider></mat-divider>
+            <ng-container *ngIf="canViewPartnerList">
+              <mat-list-item [routerLink]="['user', 'list', USER_TYPE.PARTNER]">Partners</mat-list-item>
+              <mat-divider></mat-divider>
+            </ng-container>
 
-            <mat-list-item
-              [routerLink]="['user', 'list', USER_TYPE.STATE]"
-              *ngIf="canViewStateList"
-              >States</mat-list-item
-            >
-            <mat-divider></mat-divider>
+            <ng-container *ngIf="canViewStateList">
+              <mat-list-item [routerLink]="['user', 'list', USER_TYPE.STATE]">States</mat-list-item>
+              <mat-divider></mat-divider>
+            </ng-container>
 
-            <mat-list-item
-              [routerLink]="['user', 'list', USER_TYPE.ULB]"
-              *ngIf="canViewULBSingUpListing"
-              >ULBs</mat-list-item
-            >
-            <mat-divider></mat-divider>
+            <ng-container *ngIf="canViewULBSingUpListing">
+              <mat-list-item [routerLink]="['user', 'list', USER_TYPE.ULB]">ULBs</mat-list-item>
+              <mat-divider></mat-divider>
+            </ng-container>
 
-            <mat-list-item
-              [routerLink]="['user', 'list', USER_TYPE.USER]"
-              *ngIf="canViewUserList"
-              >Users</mat-list-item
-            >
-
-            <mat-divider></mat-divider>
-
+            <ng-container *ngIf="canViewUserList">
+              <mat-list-item [routerLink]="['user', 'list', USER_TYPE.USER]">Users</mat-list-item>
+              <mat-divider></mat-divider>
+            </ng-container>
             <mat-list-item (click)="logout()">Logout</mat-list-item>
           </mat-list>
         </div>
-        <!-- <ul>
-          <li *ngIf="canEditOwnProfile">
-            <a [routerLink]="['user', 'profile', 'view']">Profile</a>
-          </li>
-        </ul> -->
       </div>
     </li>
   </ul>

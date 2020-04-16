@@ -148,8 +148,9 @@ export class DataUploadComponent implements OnInit {
   handleResponseFailure = (error) => {
     this.handlerError(error);
   };
-  uploadStatusFormControl: FormControl = new FormControl();
+  uploadStatusFormControl: FormControl = new FormControl('');
   ulbNameSearchFormControl: FormControl = new FormControl();
+  ulbCodeSearchFormControl: FormControl = new FormControl();
 
   async submitClickHandler(event) {
     event.disabled = true;
@@ -332,12 +333,12 @@ export class DataUploadComponent implements OnInit {
     let filterKeys = ['financialYear', 'auditStatus'];
     let filterObject = {
       filter: {
-        [filterKeys[0]]: (!!this.fileFormGroup.get(filterKeys[0]).value && this.fileFormGroup.get(filterKeys[0]).value.length) ? this
-          .fileFormGroup.get(filterKeys[0]).value[0].id : '',
+        [filterKeys[0]]: this.fileFormGroup.get(filterKeys[0]).value,
         'ulbName': this.ulbNameSearchFormControl.value,
+        'ulbCode': this.ulbCodeSearchFormControl.value,
         'audited': this.fileFormGroup.get(filterKeys[1]).value.length ? this
-          .fileFormGroup.get(filterKeys[1]).value[0].id == 'true' : '',
-        'status': (this.uploadStatusFormControl.value && this.uploadStatusFormControl.value.length && this.uploadStatusFormControl.value[0].id) || ''
+          .fileFormGroup.get(filterKeys[1]).value == 'true' : '',
+        'status': this.uploadStatusFormControl.value
       }
     };
     this.listFetchOption = {
@@ -403,7 +404,7 @@ export class DataUploadComponent implements OnInit {
 
   private setTableHeaderByUserType() {
     if (this.userUtil.getUserType() === USER_TYPE.ULB) {
-      this.tableHeaders = this.tableHeaders.filter((header) => header.id != 'ulbName');
+      this.tableHeaders = this.tableHeaders.filter((header) => !['ulbName', 'ulbCode'].includes(header.id));
     }
   }
 

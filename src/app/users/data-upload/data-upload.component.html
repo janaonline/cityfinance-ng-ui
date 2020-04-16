@@ -8,7 +8,7 @@
         <h3>Financial Data Upload</h3>
       </div>
       <div [formGroup]="fileFormGroup" class="row mt-4">
-        <div class="col-sm-8">
+        <div class="col-sm-9">
           <div class="row">
             <div class="col-sm-5 mr-2">
               <label for="financial_year">Financial Year <span class="text-danger">*</span></label>
@@ -29,6 +29,7 @@
                          type="file" style="display: none" accept=".pdf">
 
                   <div class="d-flex flex-column" style="max-width: 30%">
+
                     <button [disabled]="fileFormGroup.get(['balanceSheet']).disabled" (click)="balanceSheetPdf.click()">
                       Choose Pdf
                     </button>
@@ -37,12 +38,10 @@
                     <div class="mat-error"
                          *ngIf="fileFormGroup.get(['balanceSheet','file_pdf']).errors"> {{fileFormGroup.get(['balanceSheet', 'file_pdf']).errors[0]}} </div>
                   </div>
-
                   <input #balanceSheetCSV
                          (change)="handleFileChange(['balanceSheet','file_excel'],$event.target.files[0])"
                          type="file" style="display: none"
                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-
                   <div class="d-flex flex-column" style="max-width: 30%">
                     <button [disabled]="fileFormGroup.get(['balanceSheet']).disabled" (click)="balanceSheetCSV.click()">
                       Choose excel
@@ -187,6 +186,7 @@
               </div>
             </div>
           </div>
+
           <div class="row">
             <div formGroupName="trialBalance" class="col-sm-5 mr-2">
               <div class="row mt-4 d-flex flex-column">
@@ -269,73 +269,100 @@
   </div>
 </ng-container>
 
-<ng-template #editForm> edit form here</ng-template>
 
-<ng-template #noId>
+<ng-template class="" #noId>
+  <div class="common-container">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h3>
+            <span>
+              ULB Data
+            </span>
+            <a *ngIf="isAccessible" mat-button [routerLink]="['upload-form']" class="btn-primary "
+               style="border-radius: 5px;float: right;margin-right: 6px">
+              Upload Data
+            </a>
+          </h3>
+        </div>
+      </div>
+      <!--    <div class="col">-->
+      <!--      <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>-->
+      <!--    </div>-->
 
-  <div class="row flex-column">
-    <!--    <div class="col">-->
-    <!--      <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>-->
-    <!--    </div>-->
-    <div *ngIf="isAccessible"
-         class="col" style="margin-left: 5px">
-      <a mat-button [routerLink]="['upload-form']" class="btn-primary mt-3"
-         style="border-radius: 5px">
-        Upload Data
-      </a>
-    </div>
-    <div class="row mt-5">
-      <div class="col-sm-12">
-        <table class="table">
-          <thead style="background: #009fe3;color: white ;border: 5px solid white">
-          <tr>
-            <th class="text-center">S.No.</th>
-            <th class="text-center"
-                *ngFor="let header of tableHeaders">
-              <ng-container [ngSwitch]="!!header.click">
+      <div class="row">
+        <div class="col-sm-12">
+          <table class="table">
+            <thead>
+            <tr style="background: #009fe3;color: white ;border: 5px solid white">
+              <th class="text-center">S.No.</th>
+              <th class="text-center"
+                  *ngFor="let header of tableHeaders">
+                <ng-container [ngSwitch]="!!header.click">
                 <span (click)="sortById(header.id)" *ngSwitchCase="true">
                   {{header.title}} <i class="glyphicon glyphicon-sort"></i></span>
-                <span *ngSwitchCase="false">{{header.title}}</span>
-              </ng-container>
-            </th>
-          </tr>
-          </thead>
-          <tbody>
+                  <span *ngSwitchCase="false">{{header.title}}</span>
+                </ng-container>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
 
-          <tr [formGroup]="fileFormGroup">
-            <td></td>
-            <td class="text-center" *ngIf="userUtil.getUserType()!='ULB'">
-              <label>
-                <input placeholder="Enter ULB name" type="text" [formControl]="ulbNameSearchFormControl"
-                       class="form-control" style="height: 40px">
-              </label>
-            </td>
-            <td class="text-center">
-              <angular2-multiselect
-                formControlName="financialYear"
-                [settings]="financialYearDropdownSettings"
-                [data]="financialYearDropdown"></angular2-multiselect>
-            </td>
-            <td class="text-center">
-              <angular2-multiselect
-                formControlName="auditStatus"
-                [settings]="auditStatusDropdownSettings"
-                [data]="auditStatusDropdown">
-              </angular2-multiselect>
-            </td>
-            <td class="text-center">
-              <angular2-multiselect
-                [formControl]="uploadStatusFormControl"
-                [settings]="uploadCheckStatusDropDownSettings"
-                [data]="uploadCheckStatusDropDown">
-              </angular2-multiselect>
-            </td>
-            <td class="text-center">
-              <button class="btn btn-danger" (click)="applyFilterClicked()">Apply filters</button>
-            </td>
-          </tr>
-          <ng-container *ngIf="dataUploadList.length;else noData">
-            <tr style="background: 	#e7e7e7 ;border: 5px solid white" *ngFor="let row of dataUploadList | paginate
+            <tr [formGroup]="fileFormGroup">
+              <td></td>
+              <td class="text-center" *ngIf="userUtil.getUserType()!='ULB'">
+                <div class="input-group">
+                  <input placeholder="ULB name" type="text" [formControl]="ulbNameSearchFormControl"
+                         class="form-control">
+                </div>
+              </td>
+              <td class="text-center" *ngIf="userUtil.getUserType()!='ULB'">
+                <div class="input-group">
+                  <input placeholder="ULB Code" type="text" [formControl]="ulbCodeSearchFormControl"
+                         class="form-control">
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="input-group">
+                  <label for="financialYear"></label>
+                  <select id="financialYear" class="form-control" formControlName="financialYear">
+                    <option value="" selected>All years</option>
+                    <option [value]="option.id"
+                            *ngFor="let option of financialYearDropdown">{{option?.itemName}}</option>
+
+                  </select>
+                </div>
+
+                <!--                  formControlName="financialYear"-->
+                <!--                  [settings]="financialYearDropdownSettings"-->
+                <!--                  [data]="financialYearDropdown"></angular2-multiselect>-->
+              </td>
+              <td class="text-center">
+                <div class="input-group">
+                  <label for="auditStatus"></label>
+                  <select id="auditStatus" class="form-control" formControlName="auditStatus">
+                    <option value="" selected>All Audit Status</option>
+                    <option [value]="option.id"
+                            *ngFor="let option of auditStatusDropdown">{{option?.itemName}}</option>
+                  </select>
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="input-group">
+                  <label for="uploadStatus"></label>
+                  <select id="uploadStatus" class="form-control" [formControl]="uploadStatusFormControl">
+                    <option value="" selected>All Status</option>
+                    <option [value]="option.id"
+                            *ngFor="let option of uploadCheckStatusDropDown">{{option?.itemName}}</option>
+                  </select>
+                </div>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-primary" (click)="applyFilterClicked()">Search</button>
+              </td>
+            </tr>
+            <ng-container *ngIf="dataUploadList.length;else noData">
+              <tr style="background: 	#e7e7e7 ;border: 5px solid white" *ngFor="let row of dataUploadList | paginate
                     : {
                         id: 'foo',
                         itemsPerPage: tableDefaultOptions.itemPerPage,
@@ -343,73 +370,74 @@
                         totalItems: tableDefaultOptions.totalCount
                       };
                 index as i">
-              <td class="text-center">{{i + 1}}</td>
-              <td class="text-center" *ngFor="let header of tableHeaders">
-                <ng-container [ngSwitch]="header.id">
-                  <ng-container *ngSwitchCase="'action'">
-                    <ng-container [ngSwitch]="userUtil.getUserType()">
-                      <a (click)="navigateTo(row)" title="Edit" [routerLink]="['upload-form',row?._id]">
-                        <i *ngSwitchCase="'ULB'"
-                           [ngClass]="row['status']===uploadStatus.REJECTED ? 'fa fa-pencil': 'fa fa-eye'"
-                           aria-hidden="true"></i>
-                      </a>
-                      <a *ngSwitchDefault [routerLink]="['action',row?._id]" (click)="navigateTo(row)"
-                         class="btn btn-primary">Take {{header.title}}</a>
+                <td class="text-center">{{i + 1}}</td>
+                <td class="text-center" *ngFor="let header of tableHeaders">
+                  <ng-container [ngSwitch]="header.id">
+                    <ng-container *ngSwitchCase="'action'">
+                      <ng-container [ngSwitch]="userUtil.getUserType()">
+                        <a (click)="navigateTo(row)" title="Edit" [routerLink]="['upload-form',row?._id]">
+                          <i *ngSwitchCase="'ULB'"
+                             [ngClass]="row['status']===uploadStatus.REJECTED ? 'fa fa-pencil': 'fa fa-eye'"
+                             aria-hidden="true"></i>
+                        </a>
+                        <a *ngSwitchDefault [routerLink]="['action',row?._id]" (click)="navigateTo(row)"
+                           class="btn btn-primary">Take {{header.title}}</a>
+                      </ng-container>
                     </ng-container>
-                  </ng-container>
-                  <span *ngSwitchCase="'audited'">
+                    <span *ngSwitchCase="'audited'">
                       {{row[header.id] ? 'Audited' : 'Unaudited'}}
                     </span>
-                  <span *ngSwitchCase="'ulbName'">{{row[header.id]}}</span>
-                  <ng-container *ngSwitchCase="'status'">
-                    <ng-container  [ngSwitch]="row['status']">
-                      <a *ngSwitchCase="uploadStatus.PENDING" (click)="openModal(row,historyModal)">
-                        {{row['completeness'] == uploadStatus.PENDING && row['correctness'] == uploadStatus.PENDING ? 'Requested By ULB' : 'Under Review'}}
-                      </a>
-                      <a *ngSwitchCase="uploadStatus.APPROVED" (click)="openModal(row,historyModal)">
-                        Approved By :{{ row['actionTakenByUserName']}}
-                        ({{row['actionTakenByUserRole']}})
-                      </a>
-                      <a *ngSwitchCase="uploadStatus.REJECTED" (click)="openModal(row,historyModal)">
-                        Rejected By :{{ row['actionTakenByUserName']}}
-                        ({{row['actionTakenByUserRole']}})
-                      </a>
+                    <span *ngSwitchCase="'ulbName'">{{row[header.id]}}</span>
+                    <ng-container *ngSwitchCase="'status'">
+                      <ng-container [ngSwitch]="row['status']">
+                        <a *ngSwitchCase="uploadStatus.PENDING" (click)="openModal(row,historyModal)">
+                          {{row['completeness'] == uploadStatus.PENDING && row['correctness'] == uploadStatus.PENDING ? 'Requested By ULB' : 'Under Review'}}
+                        </a>
+                        <a *ngSwitchCase="uploadStatus.APPROVED" (click)="openModal(row,historyModal)">
+                          Approved By :{{ row['actionTakenByUserName']}}
+                          ({{row['actionTakenByUserRole']}})
+                        </a>
+                        <a *ngSwitchCase="uploadStatus.REJECTED" (click)="openModal(row,historyModal)">
+                          Rejected By :{{ row['actionTakenByUserName']}}
+                          ({{row['actionTakenByUserRole']}})
+                        </a>
+                      </ng-container>
                     </ng-container>
+                    <!--
+                                      <a (click)="openModal(row,historyModal)" *ngSwitchCase="'ad'">{{
+                                        row['status'] === 'APPROVED' ?
+                                          'Approved By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
+                                          : row['completeness'] === 'REJECTED' || row['correctness'] === 'REJECTED' ? 'Rejected By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
+                                          : 'Requested By ULB'}}</a>-->
+                    <span *ngSwitchDefault>{{row[header.id]}}</span>
                   </ng-container>
-                  <!--
-                                    <a (click)="openModal(row,historyModal)" *ngSwitchCase="'ad'">{{
-                                      row['status'] === 'APPROVED' ?
-                                        'Approved By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
-                                        : row['completeness'] === 'REJECTED' || row['correctness'] === 'REJECTED' ? 'Rejected By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
-                                        : 'Requested By ULB'}}</a>-->
-                  <span *ngSwitchDefault>{{row[header.id]}}</span>
-                </ng-container>
-            </tr>
-          </ng-container>
-          <ng-template #noData>
-            <tr>
-              <td class="text-center" [attr.colspan]="tableHeaders.length+1">
-                <h3>
-                  No Data Available
-                </h3>
-              </td>
-            </tr>
-          </ng-template>
-          </tbody>
-        </table>
-        <pagination-controls
-          style="float: right; position: relative;"
-          id="foo"
-          (pageChange)="setPage($event)"
-          directionLinks="true"
-          autoHide="false"
-          previousLabel="Previous"
-          nextLabel="Next"
-          screenReaderPaginationLabel="Pagination"
-          screenReaderPageLabel="page"
-          screenReaderCurrentLabel="You're on page"
-        >
-        </pagination-controls>
+              </tr>
+            </ng-container>
+            <ng-template #noData>
+              <tr>
+                <td class="text-center" [attr.colspan]="tableHeaders.length+1">
+                  <h3>
+                    No Data Available
+                  </h3>
+                </td>
+              </tr>
+            </ng-template>
+            </tbody>
+          </table>
+          <pagination-controls
+            style="float: right; position: relative;"
+            id="foo"
+            (pageChange)="setPage($event)"
+            directionLinks="true"
+            autoHide="false"
+            previousLabel="Previous"
+            nextLabel="Next"
+            screenReaderPaginationLabel="Pagination"
+            screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page"
+          >
+          </pagination-controls>
+        </div>
       </div>
     </div>
   </div>
