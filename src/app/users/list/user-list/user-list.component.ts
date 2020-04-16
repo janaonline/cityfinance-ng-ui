@@ -212,7 +212,7 @@ export class UserListComponent implements OnInit {
       name: [null],
       ulbCode: [null],
       status: [""],
-      state: [null]
+      state: [""]
     });
   }
 
@@ -221,7 +221,7 @@ export class UserListComponent implements OnInit {
       name: [null],
       email: [null],
       designation: [null],
-      state: [null],
+      state: [""],
       departmentName: [null]
     });
   }

@@ -204,7 +204,7 @@ export class ProfileRequestComponent implements OnInit {
     }
 
     this.filterForm = this._fb.group({
-      state: [],
+      state: [""],
       name: [""],
       ulbCode: [],
       status: [""]
