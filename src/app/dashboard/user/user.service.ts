@@ -49,15 +49,21 @@ export class UserService {
 
   public getURLForUserList(body: { filter?: {}; sort?: {} }) {
     if (!body.filter) {
-      body.filter = {};
+      // body.filter = {};
     }
     if (!body.sort) {
-      body.sort = {};
+      // body.sort = {};
     }
     delete body["skip"];
-    body["token"] = localStorage.getItem("id_token").valueOf();
+
+    body["token"] = localStorage
+      .getItem("id_token")
+      .replace('"', "")
+      .replace('"', "");
     body["csv"] = true;
     let params = new HttpParams();
+    console.log(body, params);
+
     Object.keys(body).forEach(key => {
       if (typeof body[key] === "object") {
         const value = JSON.stringify(body[key]);
