@@ -85,10 +85,13 @@
               </th>
               <th class="text-center">Action</th>
             </tr>
+           
+          </thead>
+          <tbody>
             <tr *ngIf="filterForm">
-              <th></th>
+              <td></td>
 
-              <th>
+              <td>
                 <div class="input-group">
                   <input
                     placeholder="User Name"
@@ -102,9 +105,9 @@
                     }"
                   />
                 </div>
-              </th>
+              </td>
 
-              <th>
+              <td>
                 <div class="input-group">
                   <input
                     placeholder="Email ID"
@@ -118,9 +121,9 @@
                     }"
                   />
                 </div>
-              </th>
+              </td>
 
-              <th>
+              <td>
                 <div class="input-group">
                   <input
                     placeholder="Designation"
@@ -134,8 +137,8 @@
                     }"
                   />
                 </div>
-              </th>
-              <th>
+              </td>
+              <td>
                 <div class="input-group">
                   <input
                     placeholder="Organisation Name"
@@ -148,18 +151,16 @@
                     }"
                   />
                 </div>
-              </th>
-              <th>
+              </td>
+              <td>
                 <button
                   class="btn btn-primary"
                   (click)="searchUsersBy(filterForm.value)"
                 >
                   Search
                 </button>
-              </th>
+              </td>
             </tr>
-          </thead>
-          <tbody>
             <tr
               *ngFor="
                 let user of userList
