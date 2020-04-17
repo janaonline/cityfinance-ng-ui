@@ -116,9 +116,10 @@
         <div class="col-sm-12">
           <table class="table">
             <thead>
-            <tr style="background: #009fe3;color: white ;border: 5px solid white">
+            <tr style="background: #009fe3;color: white">
               <th class="text-center">S.No.</th>
-              <th [ngClass]="header.id=='action'?'text-center':''" *ngFor="let header of tableHeaders">
+              <th [attr.width]="100/(tableHeaders.length)+'%'" [ngClass]="header.id=='action'?'text-center':''"
+                  *ngFor="let header of tableHeaders">
                 <ng-container [ngSwitch]="!!header.click">
                 <span (click)="sortById(header.id)" *ngSwitchCase="true">
                   {{header.title}} <i class="glyphicon glyphicon-sort"></i></span>
@@ -128,7 +129,6 @@
             </tr>
             </thead>
             <tbody>
-
             <tr [formGroup]="fileFormGroup">
               <td></td>
               <td *ngIf="userUtil.getUserType()!='ULB'">
@@ -183,7 +183,7 @@
               </td>
             </tr>
             <ng-container *ngIf="dataUploadList.length;else noData">
-              <tr style="background: 	#e7e7e7 ;border: 5px solid white" *ngFor="let row of dataUploadList | paginate
+              <tr style="background: 	#e7e7e7 ;border-bottom: 5px solid white" *ngFor="let row of dataUploadList | paginate
                     : {
                         id: 'foo',
                         itemsPerPage: tableDefaultOptions.itemPerPage,
