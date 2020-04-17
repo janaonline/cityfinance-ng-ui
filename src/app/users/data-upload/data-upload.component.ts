@@ -201,7 +201,7 @@ export class DataUploadComponent implements OnInit {
             button: 'Okay'
           }).then((result) => {
             if (result) {
-              this.router.navigate(['/user/data-upload']);
+              this.router.navigate(['/user/data-upload/list']);
             }
           });
         }
@@ -301,7 +301,7 @@ export class DataUploadComponent implements OnInit {
     }
     this.financialDataService.upDateFinancialData(this.uploadId, urlObject).subscribe((result) => {
       if (result['success']) {
-        this.router.navigate(['/user/data-upload']);
+        this.router.navigate(['/user/data-upload/list']);
       }
     }, error => this.handlerError(error));
     updateButton.disabled = false;
