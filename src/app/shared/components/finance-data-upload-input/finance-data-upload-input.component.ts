@@ -24,7 +24,6 @@ export class FinanceDataUploadInputComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.config.formGroup.get(this.config.formGroupName).value);
   }
 
 

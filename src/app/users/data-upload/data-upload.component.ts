@@ -29,13 +29,13 @@ export class DataUploadComponent implements OnInit {
   tableHeaders = ulbUploadList;
   financialYearDropdown = [];
   auditStatusDropdown = [{
-    id: 'true',
+    id: true,
     itemName: 'Audited'
   }, {
-    id: 'false',
+    id: false,
     itemName: 'Unaudited'
   }];
-  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance'];
+  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance', 'auditStatus'];
   fileFormGroup: FormGroup;
   dataUploadList = [];
   isAccessible: boolean;
@@ -155,7 +155,7 @@ export class DataUploadComponent implements OnInit {
   async submitClickHandler(event) {
     event.disabled = true;
     let urlObject = {};
-    for (let parentFormGroup in this.fileFormGroup.controls) {
+    for (let parentFormGroup of this.fileFormGroupKeys) {
       if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReport') {
         const formGroup = this.fileFormGroup.get(parentFormGroup);
         urlObject[parentFormGroup] = {};
@@ -191,9 +191,6 @@ export class DataUploadComponent implements OnInit {
       financialYear: this.fileFormGroup.controls['financialYear'].value[0].id,
       audited: this.fileFormGroup.controls['auditStatus'].value[0].id
     };
-    console.log(responseObject);
-    return;
-
     this.financialDataService.uploadFinancialData(responseObject).subscribe((response: any) => {
         if (response.success) {
           swal({
@@ -210,8 +207,7 @@ export class DataUploadComponent implements OnInit {
         }
       }, (error: HttpErrorResponse) => {
         event.disabled = false;
-        const {message} = error;
-        this._snackBar.open(message, null, {duration: 1600});
+        this.handlerError(error);
       }
     );
     event.disabled = false;
@@ -220,6 +216,11 @@ export class DataUploadComponent implements OnInit {
   handleFileChange(strings: string[], file: File) {
 
     this.fileFormGroup.get(strings).setValue(file);
+  }
+
+  removeAuditReportFromFIleKeys() {
+    this.fileFormGroupKeys = this.fileFormGroupKeys.filter(key => !['auditReport'].includes(key));
+
   }
 
   navigateTo(row: any) {
@@ -239,6 +240,7 @@ export class DataUploadComponent implements OnInit {
     if (audited) {
       this.fileFormGroup.get(['auditStatus']).setValue([this.auditStatusDropdown[0]]);
     } else {
+      this.removeAuditReportFromFIleKeys();
       this.fileFormGroup.get(['auditStatus']).setValue([this.auditStatusDropdown[1]]);
     }
     this.auditStatusDropdownSettings = {...this.auditStatusDropdownSettings, disabled: true};
@@ -260,13 +262,12 @@ export class DataUploadComponent implements OnInit {
         formGroupItem.updateValueAndValidity();
       }
     });
-    console.log(this.fileFormGroup);
   }
 
   async updateClickHandler(updateButton: HTMLButtonElement) {
     updateButton.disabled = true;
     let urlObject = {};
-    for (let parentFormGroup in this.fileFormGroup.controls) {
+    for (let parentFormGroup of this.fileFormGroupKeys) {
       if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReport') {
         const formGroup = this.fileFormGroup.get(parentFormGroup);
         if (!formGroup.disabled) {
@@ -449,4 +450,17 @@ export class DataUploadComponent implements OnInit {
 
   }
 
+  auditStatusDropdownHandler() {
+    this.fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance', 'auditReport'];
+    if (this.fileFormGroup.get('auditStatus').value) {
+      if (this.fileFormGroup.get('auditStatus').value.length) {
+        if (this.fileFormGroup.get('auditStatus').value[0].id) {
+          return this.fileFormGroup.get(['auditReport', 'file_pdf']).setValidators([Validators.required]);
+        }
+      }
+    }
+    this.removeAuditReportFromFIleKeys();
+    this.fileFormGroup.get(['auditReport', 'file_pdf']).setValidators(null);
+    this.fileFormGroup.get(['auditReport', 'file_pdf']).updateValueAndValidity();
+  }
 }

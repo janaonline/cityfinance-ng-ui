@@ -40,8 +40,10 @@
           </span>
         </li>
 
-        <li *ngIf="config.formGroup.get([config.formGroupName,'file_excel']).value" class="list-group-item"
-            style="white-space: nowrap; text-overflow:  ellipsis;overflow: hidden">
+        <li
+          *ngIf="(config.formGroup.get([config.formGroupName,'file_excel'])) && config.formGroup.get([config.formGroupName,'file_excel']).value"
+          class="list-group-item"
+          style="white-space: nowrap; text-overflow:  ellipsis;overflow: hidden">
           <span [title]="config.formGroup.get([config.formGroupName, 'file_excel']).value?.name">
             Excel:{{config.formGroup.get([config.formGroupName, 'file_excel']).value?.name}}
           </span>
