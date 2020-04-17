@@ -1,3 +1,5 @@
+<button class="back_button" (click)="window.history.back()">Back</button>
+
 <h3>
   {{
     profileData && profileData.role === USER_TYPE.MoHUA
@@ -5,7 +7,6 @@
       : "Create MoHUA"
   }}
 </h3>
-<button class="back_button" (click)="window.history.back()">Back</button>
 
 <form
   [formGroup]="profileForm"

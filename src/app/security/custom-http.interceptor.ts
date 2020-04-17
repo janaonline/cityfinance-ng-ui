@@ -16,14 +16,15 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     }
 
     const token = JSON.parse(localStorage.getItem('id_token'));
+    const sessionID = sessionStorage.getItem('sessionID');
     let headers = req.headers;
     if (!req.headers.has('Accept')) {
       headers = req.headers.set('Content-Type', 'application/json');
-
     }
-    // let headers = req.headers.set('Content-Type', 'application/json' );
+    if(sessionID) {
+      headers = headers.set('sessionId', sessionID);
+    }
     if (token) {
-      //  headers = headers.set('Authorization', token);
       headers = headers.set('x-access-token', token);
       const authReq = req.clone({headers});
       return next.handle(authReq);
