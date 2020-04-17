@@ -16,6 +16,8 @@ import { ProfileService } from '../service/profile.service';
 export class StateProfileComponent implements OnInit, OnChanges {
   @Input()
   profileData: any;
+  @Input() editable = false;
+
   profileForm: FormGroup;
 
   formUtil = new FormUtil();
@@ -30,7 +32,6 @@ export class StateProfileComponent implements OnInit, OnChanges {
     private _commonService: CommonService,
     private _profileService: ProfileService
   ) {
-    console.log(`this is state`);
     this.fetchStateList();
   }
 
@@ -111,7 +112,9 @@ export class StateProfileComponent implements OnInit, OnChanges {
         return;
       }
       this.profileForm.patchValue(this.profileData);
-      this.profileForm.disable({ emitEvent: false });
+      if (!this.editable) {
+        this.profileForm.disable({ emitEvent: false });
+      }
       this.profileForm.controls.state.setValue(this.profileData.state._id);
     }
   }

@@ -1,3 +1,5 @@
+<button class="back_button" (click)="window.history.back()">Back</button>
+
 <h3>
   {{
     profileData && profileData.role === "STATE"
@@ -5,7 +7,6 @@
       : "Create State"
   }}
 </h3>
-<button class="back_button" (click)="window.history.back()">Back</button>
 
 <form
   [formGroup]="profileForm"
@@ -231,14 +232,14 @@
     <button type="submit" class="btn btn-primary mr-2">
       {{ profileData ? "Update Profile" : "Create" }}
     </button>
-    <button
+    <!-- <button
       *ngIf="profileData"
       type="button"
       class="btn btn-primary"
       (click)="disableProfileEdit()"
     >
       Cancel
-    </button>
+    </button> -->
   </div>
 
   <!-- <div class="input-group d-block" style="display: block;">

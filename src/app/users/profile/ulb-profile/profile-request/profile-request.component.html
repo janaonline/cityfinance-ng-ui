@@ -11,9 +11,10 @@
         </button>
         <h3>
           <span style="margin-left: .5%;"
-            >Profile Profile Edit <span *ngIf="!request">List</span></span
+            >ULB Profile Edit <span *ngIf="!request">List</span></span
           >
           <button
+            *ngIf="!request && loggedInUserType !== userTypes.ULB"
             class="btn btn-primary"
             style="float: right; margin-right: 6px;"
             (click)="downloadList()"
@@ -75,7 +76,7 @@
               <tr>
                 <th>Field Name</th>
                 <th>Current Value</th>
-                <th>New Requested Value</th>
+                <th>Requested Value</th>
               </tr>
             </thead>
             <tbody>
@@ -395,17 +396,22 @@
 
         <div
           *ngIf="requestList && loggedInUserType === userTypes.ULB"
-          style="width: 90%"
+          style="width: 100%"
         >
           <table class="table listing-table">
             <thead>
               <tr
+                class="sortable-headers"
                 style="background: #009fe3;color: white ;border: 5px solid white"
               >
                 <th class="text-center">S.No.</th>
-                <th class="text-center">Request Created On</th>
+                <th class="text-center" (click)="sortListBy('stateName')">
+                  State Name
+                  <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+                </th>
                 <th class="text-center" (click)="sortListBy('status')">
                   Status
+                  <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
                 </th>
                 <th class="text-center">Action</th>
               </tr>
@@ -471,7 +477,7 @@
                   {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
                 </td>
                 <td class="text-center">
-                  {{ request.createdAt | date: "mediumDate" }}
+                  {{ request.stateName }}
                 </td>
                 <td class="text-center">{{ request.status }}</td>
                 <td class="text-center">
@@ -645,7 +651,7 @@
                 <td class="">{{ request.ulbName }}</td>
                 <td class="">{{ request.ulbCode }}</td>
                 <td class="">{{ request.status }}</td>
-                <td class="text-center">
+                <td class="text-center d-flex">
                   <a
                     [routerLink]="['./']"
                     [queryParams]="{ requestId: request._id }"
