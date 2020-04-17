@@ -21,6 +21,7 @@ import {TypeofPipe} from './pipes/typeof.pipe';
 import {SideMenuComponent} from './side-menu/side-menu.component';
 import {FileStatusCheckerInputComponent} from './components/file-status-checker-input/file-status-checker-input.component';
 import {FinanceDataUploadInputComponent} from './components/finance-data-upload-input/finance-data-upload-input.component';
+import {FinancialDataChartComponent} from './components/financial-data-chart/financial-data-chart.component';
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import {FinanceDataUploadInputComponent} from './components/finance-data-upload-
     AuditStatusTextPipe,
     SideMenuComponent,
     FileStatusCheckerInputComponent,
-    FinanceDataUploadInputComponent
+    FinanceDataUploadInputComponent,
+    FinancialDataChartComponent
   ],
   exports: [
     PreLoaderComponent,
@@ -57,7 +59,8 @@ import {FinanceDataUploadInputComponent} from './components/finance-data-upload-
     HomeHeaderComponent,
     SideMenuComponent,
     FileStatusCheckerInputComponent,
-    FinanceDataUploadInputComponent
+    FinanceDataUploadInputComponent,
+    FinancialDataChartComponent
   ]
 })
 export class SharedModule {

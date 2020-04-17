@@ -87,7 +87,8 @@
             <span>
               ULB Data
             </span>
-            <button role="menuitem" *ngIf="isAccessible" [routerLink]="['upload-form']" class="btn btn-primary "
+            <button role="menuitem" *ngIf="isAccessible" [routerLink]="['/user/data-upload/upload-form']"
+                    class="btn btn-primary "
                     style="border-radius: 5px;float: right;margin-right: 6px">
               Upload Data
             </button>
@@ -187,12 +188,12 @@
                   <ng-container [ngSwitch]="header.id">
                     <ng-container *ngSwitchCase="'action'">
                       <ng-container [ngSwitch]="userUtil.getUserType()">
-                        <a (click)="navigateTo(row)" title="Edit" [routerLink]="['upload-form',row?._id]">
+                        <a (click)="navigateTo(row)" title="Edit" [routerLink]="['/user/data-upload/upload-form',row?._id]">
                           <i *ngSwitchCase="'ULB'"
                              [ngClass]="row['status']===uploadStatus.REJECTED ? 'fa fa-pencil': 'fa fa-eye'"
                              aria-hidden="true"></i>
                         </a>
-                        <a *ngSwitchDefault [routerLink]="['action',row?._id]" (click)="navigateTo(row)"
+                        <a *ngSwitchDefault [routerLink]="['/user/data-upload/action',row?._id]" (click)="navigateTo(row)"
                            class="btn btn-primary">Take {{header.title}}</a>
                       </ng-container>
                     </ng-container>

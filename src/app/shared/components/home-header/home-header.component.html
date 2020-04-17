@@ -112,7 +112,7 @@
       <a [routerLink]="['/credit-rating/municipal-bond']"> Municipal Bonds</a>
     </li>
     <li *ngIf="isLoggedIn && canViewUploadData">
-      <a [routerLink]="['user', 'data-upload']" class="pointer">Data upload</a>
+      <a [routerLink]="['user', 'data-upload','list']" class="pointer">Data upload</a>
     </li>
     <li routerLinkActive="active" *ngIf="!isLoggedIn">
       <a [routerLink]="['/login']">Login</a>

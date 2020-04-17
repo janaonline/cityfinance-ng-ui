@@ -5,17 +5,17 @@
         <h3>ULB Data Bulk Entry</h3>
       </div>
       <div class="col-md-6">
-        <button [routerLink]="['../list']" class="right btn btn-primary">
+        <button [routerLink]="['/dashboard/entry/list']" class="right btn btn-primary">
           Entry List
         </button>
       </div>
     </div>
-    <br />
+    <br/>
     <span
-      >Note* : Current version supports bulk data entry for single year
+    >Note* : Current version supports bulk data entry for single year
       only</span
     >
-    <br />
+    <br/>
 
     <div class="row">
       <form [formGroup]="bulkEntryForm" (ngSubmit)="upload()">
@@ -43,7 +43,7 @@
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <br />
+            <br/>
             <button type="submit" class="btn btn-primary btn-s">Upload</button>
           </div>
         </div>
@@ -92,9 +92,9 @@
                   aria-valuemax="100"
                 >
                   {{
-                    fileProcessingTracker[i]?.message
-                      ? fileProcessingTracker[i]?.message
-                      : "Failed to upload file..."
+                  fileProcessingTracker[i]?.message
+                    ? fileProcessingTracker[i]?.message
+                    : "Failed to upload file..."
                   }}
                 </div>
               </div>
@@ -124,6 +124,6 @@
         </ul>
       </div>
     </div>
-    <br /><br />
+    <br/><br/>
   </div>
 </div>
