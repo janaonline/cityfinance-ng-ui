@@ -75,7 +75,7 @@
               <tr>
                 <th>Field Name</th>
                 <th>Current Value</th>
-                <th>New Requested Value</th>
+                <th>Requested Value</th>
               </tr>
             </thead>
             <tbody>
@@ -395,17 +395,22 @@
 
         <div
           *ngIf="requestList && loggedInUserType === userTypes.ULB"
-          style="width: 90%"
+          style="width: 100%"
         >
           <table class="table listing-table">
             <thead>
               <tr
+                class="sortable-headers"
                 style="background: #009fe3;color: white ;border: 5px solid white"
               >
                 <th class="text-center">S.No.</th>
-                <th class="text-center">Request Created On</th>
+                <th class="text-center" (click)="sortListBy('stateName')">
+                  State Name
+                  <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+                </th>
                 <th class="text-center" (click)="sortListBy('status')">
                   Status
+                  <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
                 </th>
                 <th class="text-center">Action</th>
               </tr>
@@ -471,7 +476,7 @@
                   {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
                 </td>
                 <td class="text-center">
-                  {{ request.createdAt | date: "mediumDate" }}
+                  {{ request.stateName }}
                 </td>
                 <td class="text-center">{{ request.status }}</td>
                 <td class="text-center">
