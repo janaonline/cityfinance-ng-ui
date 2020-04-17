@@ -8,9 +8,9 @@
         <h3>Financial Data Upload</h3>
       </div>
       <div [formGroup]="fileFormGroup" class="row mt-4">
-        <div class="col-sm-9">
+        <div class="col-sm-8">
           <div class="row">
-            <div class="col-sm-5 mr-2">
+            <div class="col-sm-6">
               <label for="financial_year">Financial Year <span class="text-danger">*</span></label>
               <angular2-multiselect formControlName="financialYear" id="financial_year" name="financial_year"
                                     [settings]="financialYearDropdownSettings"
@@ -21,9 +21,11 @@
 
             </div>
 
-            <div class="col-sm-5">
+            <div class="col-sm-6">
               <label for="audit_status">Status <span class="text-danger">*</span></label>
               <angular2-multiselect title="Select Year" formControlName="auditStatus" id="audit_status"
+                                    (onSelect)="auditStatusDropdownHandler()"
+                                    (onDeSelect)="auditStatusDropdownHandler()"
                                     [settings]="auditStatusDropdownSettings"
                                     [data]="auditStatusDropdown"></angular2-multiselect>
               <app-finance-data-upload-input
@@ -33,13 +35,13 @@
           </div>
 
           <div class="row">
-            <div formGroupName="incomeAndExpenditure" class="col-sm-5 mr-2">
+            <div formGroupName="incomeAndExpenditure" class="col-sm-6">
               <app-finance-data-upload-input
                 [config]="{formGroup:fileFormGroup,formGroupName:'incomeAndExpenditure',title:'Income and Expenditure ',required:true}">
               </app-finance-data-upload-input>
             </div>
 
-            <div formGroupName="schedulesToIncomeAndExpenditure" class="col-sm-5">
+            <div formGroupName="schedulesToIncomeAndExpenditure" class="col-sm-6">
               <app-finance-data-upload-input
                 [config]="{formGroup:fileFormGroup,formGroupName:'schedulesToIncomeAndExpenditure',title:'Schedules to Income and Expenditure',required:false}">
               </app-finance-data-upload-input>
@@ -47,14 +49,15 @@
           </div>
 
           <div class="row">
-            <div class="col-sm-5">
+            <div class="col-sm-6">
               <app-finance-data-upload-input
                 [config]="{formGroup:fileFormGroup,formGroupName:'trialBalance',title:'Trial Balance',required:true}">
               </app-finance-data-upload-input>
             </div>
-            <div class="col-sm-5">
+
+            <div class="col-sm-6">
               <app-finance-data-upload-input
-                *ngIf="fileFormGroup.get('auditStatus').value&&fileFormGroup.get('auditStatus').value[0].id==='true'"
+                *ngIf="(fileFormGroup.get('auditStatus').value &&fileFormGroup.get('auditStatus').value[0])&&fileFormGroup.get('auditStatus').value[0].id==true"
                 [config]="{formGroup:fileFormGroup,formGroupName:'auditReport',title:'Audited Report',required:true}">
               </app-finance-data-upload-input>
             </div>
@@ -188,12 +191,14 @@
                   <ng-container [ngSwitch]="header.id">
                     <ng-container *ngSwitchCase="'action'">
                       <ng-container [ngSwitch]="userUtil.getUserType()">
-                        <a (click)="navigateTo(row)" title="Edit" [routerLink]="['/user/data-upload/upload-form',row?._id]">
+                        <a (click)="navigateTo(row)" title="Edit"
+                           [routerLink]="['/user/data-upload/upload-form',row?._id]">
                           <i *ngSwitchCase="'ULB'"
                              [ngClass]="row['status']===uploadStatus.REJECTED ? 'fa fa-pencil': 'fa fa-eye'"
                              aria-hidden="true"></i>
                         </a>
-                        <a *ngSwitchDefault [routerLink]="['/user/data-upload/action',row?._id]" (click)="navigateTo(row)"
+                        <a *ngSwitchDefault [routerLink]="['/user/data-upload/action',row?._id]"
+                           (click)="navigateTo(row)"
                            class="btn btn-primary">Take {{header.title}}</a>
                       </ng-container>
                     </ng-container>
