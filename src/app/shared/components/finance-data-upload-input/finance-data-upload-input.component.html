@@ -1,0 +1,54 @@
+<ng-container [formGroup]="config.formGroup">
+  <div [formGroupName]="config.formGroupName" class="row mt-4 d-flex flex-column">
+    <div class="col-sm-12">
+      <h4>{{config.title}} <span *ngIf="config.required" class="text-danger">*</span></h4>
+    </div>
+    <div class="col-sm-12 d-flex justify-content-between">
+      <input #balanceSheetPdf
+             (change)="handleFileChange([config.formGroupName,'file_pdf'],$event?.target?.files[0])"
+             type="file" style="display: none" accept=".pdf">
+      <div class="d-flex flex-column" style="max-width: 30%">
+        <button [disabled]="config.formGroup.get([config.formGroupName]).disabled" (click)="balanceSheetPdf.click()">
+          Choose Pdf
+        </button>
+        <div class="mat-error"
+             *ngIf="config.formGroup.get([config.formGroupName,'file_pdf']).errors"> {{config.formGroup.get([config.formGroupName, 'file_pdf']).errors[0]}} </div>
+      </div>
+
+      <ng-container *ngIf="config.formGroupName!=='auditReport'">
+        <input #balanceSheetCSV
+               (change)="handleFileChange([config.formGroupName,'file_excel'],$event.target.files[0])"
+               type="file" style="display: none"
+               accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+        <div class="d-flex flex-column" style="max-width: 30%">
+          <button [disabled]="config.formGroup.get([config.formGroupName]).disabled" (click)="balanceSheetCSV.click()">
+            Choose excel
+          </button>
+
+          <div class="mat-error"
+               *ngIf="config.formGroup.get([config.formGroupName,'file_excel']).errors"> {{config.formGroup.get([config.formGroupName, 'file_excel']).errors[0]}} </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="col-sm-12 mt-1">
+      <ul class="list-group"
+          *ngIf="config.formGroup.get([config.formGroupName,'file_pdf']).value || (config.formGroup.get([config.formGroupName,'file_excel'])&& config.formGroup.get([config.formGroupName,'file_excel']).value)">
+        <li *ngIf="config.formGroup.get([config.formGroupName,'file_pdf']).value" class="list-group-item"
+            style="white-space: nowrap; text-overflow:  ellipsis;overflow: hidden">
+          <span [title]="config.formGroup.get([config.formGroupName, 'file_pdf']).value?.name">
+                  PDF: {{config.formGroup.get([config.formGroupName, 'file_pdf']).value?.name}}
+          </span>
+        </li>
+
+        <li *ngIf="config.formGroup.get([config.formGroupName,'file_excel']).value" class="list-group-item"
+            style="white-space: nowrap; text-overflow:  ellipsis;overflow: hidden">
+          <span [title]="config.formGroup.get([config.formGroupName, 'file_excel']).value?.name">
+            Excel:{{config.formGroup.get([config.formGroupName, 'file_excel']).value?.name}}
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</ng-container>
+

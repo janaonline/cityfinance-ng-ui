@@ -20,6 +20,7 @@ import {RupeeConverterPipe} from './pipes/rupee-converter.pipe';
 import {TypeofPipe} from './pipes/typeof.pipe';
 import {SideMenuComponent} from './side-menu/side-menu.component';
 import {FileStatusCheckerInputComponent} from './components/file-status-checker-input/file-status-checker-input.component';
+import {FinanceDataUploadInputComponent} from './components/finance-data-upload-input/finance-data-upload-input.component';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import {FileStatusCheckerInputComponent} from './components/file-status-checker-
     RoundoffPipe,
     AuditStatusTextPipe,
     SideMenuComponent,
-    FileStatusCheckerInputComponent
+    FileStatusCheckerInputComponent,
+    FinanceDataUploadInputComponent
   ],
   exports: [
     PreLoaderComponent,
@@ -54,7 +56,8 @@ import {FileStatusCheckerInputComponent} from './components/file-status-checker-
     AuditStatusTextPipe,
     HomeHeaderComponent,
     SideMenuComponent,
-    FileStatusCheckerInputComponent
+    FileStatusCheckerInputComponent,
+    FinanceDataUploadInputComponent
   ]
 })
 export class SharedModule {

@@ -191,6 +191,9 @@ export class DataUploadComponent implements OnInit {
       financialYear: this.fileFormGroup.controls['financialYear'].value[0].id,
       audited: this.fileFormGroup.controls['auditStatus'].value[0].id
     };
+    console.log(responseObject);
+    return;
+
     this.financialDataService.uploadFinancialData(responseObject).subscribe((response: any) => {
         if (response.success) {
           swal({
@@ -257,7 +260,7 @@ export class DataUploadComponent implements OnInit {
         formGroupItem.updateValueAndValidity();
       }
     });
-
+    console.log(this.fileFormGroup);
   }
 
   async updateClickHandler(updateButton: HTMLButtonElement) {
