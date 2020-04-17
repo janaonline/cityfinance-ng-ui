@@ -15,6 +15,8 @@ import { ProfileService } from '../service/profile.service';
 export class CommonProfileComponent implements OnInit, OnChanges {
   @Input()
   profileData: any;
+  @Input() editable = false;
+
   profileForm: FormGroup;
 
   formUtil = new FormUtil();
@@ -100,7 +102,10 @@ export class CommonProfileComponent implements OnInit, OnChanges {
         return;
       }
       this.profileForm.patchValue(this.profileData);
-      this.profileForm.disable({ emitEvent: false });
+      if (!this.editable) {
+        this.profileForm.disable({ emitEvent: false });
+      }
+      // this.profileForm.disable({ emitEvent: false });
     }
   }
 

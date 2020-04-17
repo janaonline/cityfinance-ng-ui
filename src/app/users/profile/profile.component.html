@@ -8,20 +8,24 @@
   <app-ulb-profile
     *ngIf="profileData && profileData.role === USER_TYPE.ULB"
     [profileData]="profileData"
+    [editable]="editable"
   ></app-ulb-profile>
 
   <app-state-profile
     *ngIf="profileType === USER_TYPE.STATE"
     [profileData]="profileData"
+    [editable]="editable"
   ></app-state-profile>
 
   <app-common-profile
     *ngIf="profileType === USER_TYPE.PARTNER"
     [profileData]="profileData"
+    [editable]="editable"
   ></app-common-profile>
 
   <app-mohua-profile
     *ngIf="profileType === USER_TYPE.MoHUA"
     [profileData]="profileData"
+    [editable]="editable"
   ></app-mohua-profile>
 </div>

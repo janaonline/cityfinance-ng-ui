@@ -181,14 +181,13 @@
               <td class="">{{ user.email }}</td>
               <td class="">{{ user.designation }}</td>
               <td class="">{{ user.organization }}</td>
-              <td class="text-center d-flex justify-content-center actionCell">
+              <td class="text-center d-flex actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: user._id, role: 'USER' }"
                 >
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
-                <span class="ml-1 mr-1"> /</span>
                 <a>
                   <i
                     class="fa fa-trash"
@@ -339,15 +338,19 @@
               <td class="">
                 {{ ulb.status }}
               </td>
-              <td class="text-center">
+              <td class="text-center  d-flex  actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: ulb._id, role: 'ULB' }"
                 >
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
-                <span class="ml-1 mr-1"> /</span>
-                <!-- <i class="fa fa-pencil" aria-hidden="true"></i> -->
+                <a
+                  [routerLink]="['/', 'user', 'profile', 'view']"
+                  [queryParams]="{ id: ulb._id, role: 'ULB', edit: true }"
+                >
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </a>
                 <a>
                   <i
                     class="fa fa-trash"
@@ -493,15 +496,19 @@
               <td class="">{{ user["email"] }}</td>
               <td class="">{{ user["designation"] }}</td>
               <td class="">{{ user["departmentName"] }}</td>
-              <td class="text-center d-flex justify-content-center actionCell">
+              <td class="text-center d-flex  actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: user._id, role: 'STATE' }"
                 >
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
-                <span class="ml-1 mr-1"> /</span>
-                <!-- <i class="fa fa-pencil" aria-hidden="true"></i> -->
+                <a
+                  [routerLink]="['/', 'user', 'profile', 'view']"
+                  [queryParams]="{ id: user._id, role: 'STATE', edit: true }"
+                >
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </a>
                 <a>
                   <i
                     class="fa fa-trash"
@@ -623,15 +630,19 @@
               <td class="">{{ user["email"] }}</td>
               <td class="">{{ user["designation"] }}</td>
               <td class="">{{ user["departmentName"] }}</td>
-              <td class="text-center d-flex justify-content-center actionCell">
+              <td class="text-center d-flex  actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: user._id, role: 'PARTNER' }"
                 >
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
-                <span class="ml-1 mr-1"> /</span>
-                <!-- <i class="fa fa-pencil" aria-hidden="true"></i> -->
+                <a
+                  [routerLink]="['/', 'user', 'profile', 'view']"
+                  [queryParams]="{ id: user._id, role: 'PARTNER', edit: true }"
+                >
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </a>
                 <a>
                   <i
                     class="fa fa-trash"
@@ -738,15 +749,21 @@
               <td class="">{{ user["name"] }}</td>
               <td class="">{{ user["email"] }}</td>
               <td class="">{{ user["designation"] }}</td>
-              <td class="text-center d-flex justify-content-center actionCell">
+              <td class="text-center d-flex  actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: user._id, role: listType }"
                 >
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
-                <span class="ml-1 mr-1"> /</span>
-                <!-- <i class="fa fa-pencil" aria-hidden="true"></i> -->
+
+                <a
+                  [routerLink]="['/', 'user', 'profile', 'view']"
+                  [queryParams]="{ id: user._id, role: listType, edit: true }"
+                >
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </a>
+
                 <a>
                   <i
                     class="fa fa-trash"

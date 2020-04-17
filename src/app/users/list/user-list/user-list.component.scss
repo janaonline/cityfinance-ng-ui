@@ -4,9 +4,12 @@
 }
 
 .actionCell {
-  i {
-    margin-right: 6%;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  // i {
+  //   margin-right: 6%;
+  // }
 }
 
 .form-control {

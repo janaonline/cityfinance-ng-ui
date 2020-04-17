@@ -1,5 +1,4 @@
 <div class="wrapper">
-  <h1>{{ profileData ? "Edit Profile" : "Create ULB" }}</h1>
   <button
     class="back_button"
     (click)="window.history.back()"
@@ -7,6 +6,8 @@
   >
     Back
   </button>
+  <h1>{{ profileData ? "Edit Profile" : "Create ULB" }}</h1>
+
   <form [formGroup]="profile" *ngIf="profile" (ngSubmit)="submitForm(profile)">
     <div class="input-group">
       <label for="statename"
@@ -291,13 +292,13 @@
 
     <div *ngIf="profile.enabled && canSubmitForm" class="mt-2">
       <button type="submit" class="btn btn-primary mr-2">Update Profile</button>
-      <button
+      <!-- <button
         type="button"
         class="btn btn-primary"
         (click)="disableProfileEdit()"
       >
         Cancel
-      </button>
+      </button> -->
     </div>
 
     <div *ngIf="profileData.status === 'PENDING'" class="mt-2">
