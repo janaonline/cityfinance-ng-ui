@@ -262,7 +262,6 @@ export class DataUploadComponent implements OnInit {
         formGroupItem.updateValueAndValidity();
       }
     });
-    console.log(this.fileFormGroup);
   }
 
   async updateClickHandler(updateButton: HTMLButtonElement) {
