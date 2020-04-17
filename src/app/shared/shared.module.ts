@@ -2,7 +2,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {
-  MatAutocompleteModule,
+  MatAutocompleteModule, MatCardModule,
   MatFormFieldModule,
   MatInputModule, MatListModule,
   MatProgressSpinnerModule,
@@ -34,7 +34,8 @@ import {FinancialDataChartComponent} from './components/financial-data-chart/fin
     AngularMultiSelectModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    MatListModule
+    MatListModule,
+    MatCardModule
   ],
   declarations: [
     PreLoaderComponent,
