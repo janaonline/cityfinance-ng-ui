@@ -99,6 +99,35 @@ export class ProfileService {
     );
   }
 
+  public getURLForUlbUpdateRequestList(body: any) {
+    if (!body.filter) {
+      body.filter = {};
+    }
+    if (!body.sort) {
+      body.sort = {};
+    }
+    delete body["skip"];
+
+    body["token"] = localStorage
+      .getItem("id_token")
+      .replace('"', "")
+      .replace('"', "");
+    body["csv"] = true;
+    let params = new HttpParams();
+
+    Object.keys(body).forEach(key => {
+      if (typeof body[key] === "object") {
+        const value = JSON.stringify(body[key]);
+
+        params = params.append(key, value);
+      } else {
+        params = params.append(key, body[key]);
+      }
+    });
+
+    return `${environment.api.url}ulb-update-request/all?${params}`;
+  }
+
   createULBUpdateRequest(body: {}) {
     return this._htttp.post(`${environment.api.url}ulb-update-request`, body);
   }
