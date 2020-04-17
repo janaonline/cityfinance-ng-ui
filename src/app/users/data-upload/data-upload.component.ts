@@ -35,7 +35,7 @@ export class DataUploadComponent implements OnInit {
     id: false,
     itemName: 'Unaudited'
   }];
-  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance', 'auditStatus'];
+  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance', 'auditReport'];
   fileFormGroup: FormGroup;
   dataUploadList = [];
   isAccessible: boolean;
