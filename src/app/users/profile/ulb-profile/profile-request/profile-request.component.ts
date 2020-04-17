@@ -237,7 +237,7 @@ export class ProfileRequestComponent implements OnInit {
     const params = { ...this.listFetchOption };
     delete params["skip"];
 
-    const url = this.userService.getURLForUserList(params);
+    const url = this._profileService.getURLForUlbUpdateRequestList(params);
     return window.open(url);
   }
 }
