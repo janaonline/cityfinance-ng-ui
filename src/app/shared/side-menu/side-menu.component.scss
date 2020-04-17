@@ -1,14 +1,13 @@
-
 .side-menu-wrapper {
   border-radius: 1rem;
   background: #333;
   overflow: auto;
-  max-height: 80vh;
-  height: 80vh;
+  max-height: 83vh;
+  height: 83vh;
   display: flex;
   flex-direction: column;
   color: white;
-  border: .1rem solid lightgray;
+  border: 0.1rem solid lightgray;
 
   & .side-menu-content {
     background: lightgray;
@@ -38,5 +37,5 @@
 .active {
   background: white;
   color: black;
-  border-left: .4rem solid #009fe3;
+  border-left: 0.4rem solid #009fe3;
 }

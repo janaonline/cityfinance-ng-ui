@@ -14,7 +14,7 @@
             >ULB Profile Edit <span *ngIf="!request">List</span></span
           >
           <button
-            *ngIf="!request"
+            *ngIf="!request && loggedInUserType !== userTypes.ULB"
             class="btn btn-primary"
             style="float: right; margin-right: 6px;"
             (click)="downloadList()"
