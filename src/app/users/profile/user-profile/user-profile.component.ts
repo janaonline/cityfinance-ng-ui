@@ -59,7 +59,7 @@ export class UserProfileComponent implements OnInit {
       res => {
         this.response.successMessage = "Profile Updated successfully";
       },
-      error => this.onGettingResponseError
+      error => this.onGettingResponseError(error)
     );
   }
 
@@ -69,7 +69,8 @@ export class UserProfileComponent implements OnInit {
   }
 
   private onGettingResponseError(error: HttpErrorResponse) {
-    this.response.errorMessage = error.error.msg || "Profile Update Failed.";
+    this.response.errorMessage =
+      error.error.message || "Profile Update Failed.";
   }
 
   private checkProfileAccess() {
