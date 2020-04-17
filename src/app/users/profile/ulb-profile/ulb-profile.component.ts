@@ -199,7 +199,9 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       } else {
         this.initializeAccess();
       }
-      this.profile.disable({ emitEvent: false });
+      if (!this.editable) {
+        this.profile.disable({ emitEvent: false });
+      }
 
       this.disableNonEditableFields();
     }

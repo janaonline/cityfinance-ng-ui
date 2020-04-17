@@ -14,6 +14,7 @@
             >ULB Profile Edit <span *ngIf="!request">List</span></span
           >
           <button
+            *ngIf="!request"
             class="btn btn-primary"
             style="float: right; margin-right: 6px;"
             (click)="downloadList()"
@@ -650,7 +651,7 @@
                 <td class="">{{ request.ulbName }}</td>
                 <td class="">{{ request.ulbCode }}</td>
                 <td class="">{{ request.status }}</td>
-                <td class="text-center">
+                <td class="text-center d-flex">
                   <a
                     [routerLink]="['./']"
                     [queryParams]="{ requestId: request._id }"

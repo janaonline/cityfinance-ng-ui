@@ -27,6 +27,8 @@ export class ProfileComponent implements OnInit {
 
   filterForm: FormGroup;
 
+  editable = false;
+
   constructor(
     private _profileService: ProfileService,
     private _activatedRoute: ActivatedRoute,
@@ -39,8 +41,9 @@ export class ProfileComponent implements OnInit {
 
       this._activatedRoute.queryParams.subscribe(queryParams => {
         const param = { _id: null, role: null };
-        console.log({ queryParams, params });
+
         this.profileType = queryParams.role;
+        this.editable = queryParams.edit === "true" ? true : false;
 
         if (this.profileMode === "create") {
           if (!queryParams || !queryParams.role) {
