@@ -109,8 +109,7 @@
             <thead>
             <tr style="background: #009fe3;color: white ;border: 5px solid white">
               <th class="text-center">S.No.</th>
-              <th class="text-center"
-                  *ngFor="let header of tableHeaders">
+              <th [ngClass]="header.id=='action'?'text-center':''" *ngFor="let header of tableHeaders">
                 <ng-container [ngSwitch]="!!header.click">
                 <span (click)="sortById(header.id)" *ngSwitchCase="true">
                   {{header.title}} <i class="glyphicon glyphicon-sort"></i></span>
@@ -123,19 +122,19 @@
 
             <tr [formGroup]="fileFormGroup">
               <td></td>
-              <td class="text-center" *ngIf="userUtil.getUserType()!='ULB'">
+              <td *ngIf="userUtil.getUserType()!='ULB'">
                 <div class="input-group">
                   <input placeholder="ULB name" type="text" [formControl]="ulbNameSearchFormControl"
                          class="form-control">
                 </div>
               </td>
-              <td class="text-center" *ngIf="userUtil.getUserType()!='ULB'">
+              <td *ngIf="userUtil.getUserType()!='ULB'">
                 <div class="input-group">
                   <input placeholder="ULB Code" type="text" [formControl]="ulbCodeSearchFormControl"
                          class="form-control">
                 </div>
               </td>
-              <td class="text-center">
+              <td>
                 <div class="input-group">
                   <label for="financialYear"></label>
                   <select id="financialYear" class="form-control" formControlName="financialYear">
@@ -150,7 +149,7 @@
                 <!--                  [settings]="financialYearDropdownSettings"-->
                 <!--                  [data]="financialYearDropdown"></angular2-multiselect>-->
               </td>
-              <td class="text-center">
+              <td>
                 <div class="input-group">
                   <label for="auditStatus"></label>
                   <select id="auditStatus" class="form-control" formControlName="auditStatus">
@@ -160,7 +159,7 @@
                   </select>
                 </div>
               </td>
-              <td class="text-center">
+              <td>
                 <div class="input-group">
                   <label for="uploadStatus"></label>
                   <select id="uploadStatus" class="form-control" [formControl]="uploadStatusFormControl">
@@ -170,8 +169,8 @@
                   </select>
                 </div>
               </td>
-              <td class="text-center">
-                <button class="btn btn-primary" (click)="applyFilterClicked()">Search</button>
+              <td>
+                <button class="btn btn-primary m-auto d-block" (click)="applyFilterClicked()">Search</button>
               </td>
             </tr>
             <ng-container *ngIf="dataUploadList.length;else noData">
@@ -184,7 +183,7 @@
                       };
                 index as i">
                 <td class="text-center">{{i + 1}}</td>
-                <td class="text-center" *ngFor="let header of tableHeaders">
+                <td [ngClass]="header.id=='action'?'text-center':''" *ngFor="let header of tableHeaders">
                   <ng-container [ngSwitch]="header.id">
                     <ng-container *ngSwitchCase="'action'">
                       <ng-container [ngSwitch]="userUtil.getUserType()">

@@ -7,7 +7,7 @@
       <input #balanceSheetPdf
              (change)="handleFileChange([config.formGroupName,'file_pdf'],$event?.target?.files[0])"
              type="file" style="display: none" accept=".pdf">
-      <div class="d-flex flex-column" style="max-width: 30%">
+      <div class="d-flex flex-column">
         <button [disabled]="config.formGroup.get([config.formGroupName]).disabled" (click)="balanceSheetPdf.click()">
           Choose Pdf
         </button>
@@ -20,11 +20,10 @@
                (change)="handleFileChange([config.formGroupName,'file_excel'],$event.target.files[0])"
                type="file" style="display: none"
                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-        <div class="d-flex flex-column" style="max-width: 30%">
+        <div class="d-flex flex-column">
           <button [disabled]="config.formGroup.get([config.formGroupName]).disabled" (click)="balanceSheetCSV.click()">
             Choose excel
           </button>
-
           <div class="mat-error"
                *ngIf="config.formGroup.get([config.formGroupName,'file_excel']).errors"> {{config.formGroup.get([config.formGroupName, 'file_excel']).errors[0]}} </div>
         </div>
@@ -37,7 +36,7 @@
         <li *ngIf="config.formGroup.get([config.formGroupName,'file_pdf']).value" class="list-group-item"
             style="white-space: nowrap; text-overflow:  ellipsis;overflow: hidden">
           <span [title]="config.formGroup.get([config.formGroupName, 'file_pdf']).value?.name">
-                  PDF: {{config.formGroup.get([config.formGroupName, 'file_pdf']).value?.name}}
+                  Pdf: {{config.formGroup.get([config.formGroupName, 'file_pdf']).value?.name}}
           </span>
         </li>
 
