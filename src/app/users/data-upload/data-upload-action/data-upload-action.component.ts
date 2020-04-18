@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FinancialDataService} from '../../services/financial-data.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UPLOAD_STATUS} from '../../../util/enums';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-data-upload-action',
@@ -39,7 +40,9 @@ export class DataUploadActionComponent implements OnInit {
   constructor(public financeDataService: FinancialDataService,
               public location: Location,
               private fb: FormBuilder,
-              private activatedRoute: ActivatedRoute, private router: Router) {
+              private activatedRoute: ActivatedRoute,
+              private _snackBar: MatSnackBar,
+              private router: Router) {
     this.createForms();
 
   }
@@ -47,6 +50,7 @@ export class DataUploadActionComponent implements OnInit {
   private fetchFinancialYears() {
     this.financeDataService.getFinancialYears().subscribe(result => {
       if (result['success']) {
+        this.fetchFinancialDataById();
         this.financialYearDropdown = result['data'];
         this.financialYearDropdown = this.financialYearDropdown.map(year => {
           return {
@@ -55,7 +59,12 @@ export class DataUploadActionComponent implements OnInit {
           };
         });
       }
-    });
+    }, error => this.handlerError(error));
+  }
+
+  private handlerError(error: any) {
+    const {message} = error;
+    this._snackBar.open(message, null, {duration: 1600});
   }
 
   createForms() {
@@ -76,6 +85,10 @@ export class DataUploadActionComponent implements OnInit {
   ngOnInit() {
     this.fetchFinancialYears();
     // if (!this.financeDataService.selectedFinancialRequest) {
+
+  }
+
+  fetchFinancialDataById() {
     this.activatedRoute.params.subscribe(value => {
       const {id} = value;
       this.id = id;
@@ -138,7 +151,7 @@ export class DataUploadActionComponent implements OnInit {
       .updateCompletenessStatus(this.id, responseObject)
       .subscribe(result => {
         if (result['success']) {
-          this.router.navigate(['/user/data-upload']);
+          this.router.navigate(['/user/data-upload/list']);
         }
       }, error => {
         console.log(error);
@@ -157,7 +170,7 @@ export class DataUploadActionComponent implements OnInit {
       .updateCorrectnessStatus(this.id, this.correctnessFormGroup.value)
       .subscribe(result => {
         if (result['success']) {
-          this.router.navigate(['/user/data-upload']);
+          this.router.navigate(['/user/data-upload/list']);
         }
       }, error => {
         console.log(error);
@@ -165,6 +178,7 @@ export class DataUploadActionComponent implements OnInit {
   }
 
   private setFinancialYear(financialYear: string) {
+    // console.log(financialYear, this.financialYearDropdown);
     const selectedFinancialYearObject = this.financialYearDropdown.filter((item) => item.id === financialYear);
     if (selectedFinancialYearObject) {
       this.financialYear.setValue(selectedFinancialYearObject);

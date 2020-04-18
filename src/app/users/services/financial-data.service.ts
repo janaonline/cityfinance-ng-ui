@@ -19,7 +19,28 @@ export class FinancialDataService {
     for (let key in params) {
       queryParams = queryParams.set(key, params[key]);
     }
-    return this.httpClient.post(`${environment.api.url}ulb-financial-data/all`, JSON.stringify(body), {params: queryParams});
+    for (let key in body) {
+      queryParams = queryParams.set(key, JSON.stringify(body[key]));
+    }
+    return this.httpClient.get(`${environment.api.url}ulb-financial-data/all`, {params: queryParams});
+  }
+
+  getFinancialDataListApi(body = {}) {
+    body['token'] = localStorage
+      .getItem('id_token')
+      .replace('"', '')
+      .replace('"', '');
+    body['csv'] = true;
+    let params = new HttpParams();
+    Object.keys(body).forEach(key => {
+      if (typeof body[key] === 'object') {
+        const value = JSON.stringify(body[key]);
+        params = params.append(key, value);
+      } else {
+        params = params.append(key, body[key]);
+      }
+    });
+    return `${environment.api.url}ulb-financial-data/all?${params}`;
   }
 
   fetFinancialData(id: string) {

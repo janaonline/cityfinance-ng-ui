@@ -2,7 +2,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {
-  MatAutocompleteModule,
+  MatAutocompleteModule, MatCardModule,
   MatFormFieldModule,
   MatInputModule, MatListModule,
   MatProgressSpinnerModule,
@@ -20,6 +20,8 @@ import {RupeeConverterPipe} from './pipes/rupee-converter.pipe';
 import {TypeofPipe} from './pipes/typeof.pipe';
 import {SideMenuComponent} from './side-menu/side-menu.component';
 import {FileStatusCheckerInputComponent} from './components/file-status-checker-input/file-status-checker-input.component';
+import {FinanceDataUploadInputComponent} from './components/finance-data-upload-input/finance-data-upload-input.component';
+import {FinancialDataChartComponent} from './components/financial-data-chart/financial-data-chart.component';
 
 @NgModule({
   imports: [
@@ -32,7 +34,8 @@ import {FileStatusCheckerInputComponent} from './components/file-status-checker-
     AngularMultiSelectModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    MatListModule
+    MatListModule,
+    MatCardModule
   ],
   declarations: [
     PreLoaderComponent,
@@ -43,7 +46,9 @@ import {FileStatusCheckerInputComponent} from './components/file-status-checker-
     RoundoffPipe,
     AuditStatusTextPipe,
     SideMenuComponent,
-    FileStatusCheckerInputComponent
+    FileStatusCheckerInputComponent,
+    FinanceDataUploadInputComponent,
+    FinancialDataChartComponent
   ],
   exports: [
     PreLoaderComponent,
@@ -54,7 +59,9 @@ import {FileStatusCheckerInputComponent} from './components/file-status-checker-
     AuditStatusTextPipe,
     HomeHeaderComponent,
     SideMenuComponent,
-    FileStatusCheckerInputComponent
+    FileStatusCheckerInputComponent,
+    FinanceDataUploadInputComponent,
+    FinancialDataChartComponent
   ]
 })
 export class SharedModule {

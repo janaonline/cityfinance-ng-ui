@@ -29,13 +29,13 @@ export class DataUploadComponent implements OnInit {
   tableHeaders = ulbUploadList;
   financialYearDropdown = [];
   auditStatusDropdown = [{
-    id: 'true',
+    id: true,
     itemName: 'Audited'
   }, {
-    id: 'false',
+    id: false,
     itemName: 'Unaudited'
   }];
-  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance'];
+  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance', 'auditReport'];
   fileFormGroup: FormGroup;
   dataUploadList = [];
   isAccessible: boolean;
@@ -155,7 +155,7 @@ export class DataUploadComponent implements OnInit {
   async submitClickHandler(event) {
     event.disabled = true;
     let urlObject = {};
-    for (let parentFormGroup in this.fileFormGroup.controls) {
+    for (let parentFormGroup of this.fileFormGroupKeys) {
       if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReport') {
         const formGroup = this.fileFormGroup.get(parentFormGroup);
         urlObject[parentFormGroup] = {};
@@ -201,14 +201,13 @@ export class DataUploadComponent implements OnInit {
             button: 'Okay'
           }).then((result) => {
             if (result) {
-              this.router.navigate(['/user/data-upload']);
+              this.router.navigate(['/user/data-upload/list']);
             }
           });
         }
       }, (error: HttpErrorResponse) => {
         event.disabled = false;
-        const {message} = error;
-        this._snackBar.open(message, null, {duration: 1600});
+        this.handlerError(error);
       }
     );
     event.disabled = false;
@@ -217,6 +216,11 @@ export class DataUploadComponent implements OnInit {
   handleFileChange(strings: string[], file: File) {
 
     this.fileFormGroup.get(strings).setValue(file);
+  }
+
+  removeAuditReportFromFIleKeys() {
+    this.fileFormGroupKeys = this.fileFormGroupKeys.filter(key => !['auditReport'].includes(key));
+
   }
 
   navigateTo(row: any) {
@@ -236,6 +240,7 @@ export class DataUploadComponent implements OnInit {
     if (audited) {
       this.fileFormGroup.get(['auditStatus']).setValue([this.auditStatusDropdown[0]]);
     } else {
+      this.removeAuditReportFromFIleKeys();
       this.fileFormGroup.get(['auditStatus']).setValue([this.auditStatusDropdown[1]]);
     }
     this.auditStatusDropdownSettings = {...this.auditStatusDropdownSettings, disabled: true};
@@ -257,13 +262,12 @@ export class DataUploadComponent implements OnInit {
         formGroupItem.updateValueAndValidity();
       }
     });
-
   }
 
   async updateClickHandler(updateButton: HTMLButtonElement) {
     updateButton.disabled = true;
     let urlObject = {};
-    for (let parentFormGroup in this.fileFormGroup.controls) {
+    for (let parentFormGroup of this.fileFormGroupKeys) {
       if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReport') {
         const formGroup = this.fileFormGroup.get(parentFormGroup);
         if (!formGroup.disabled) {
@@ -297,7 +301,7 @@ export class DataUploadComponent implements OnInit {
     }
     this.financialDataService.upDateFinancialData(this.uploadId, urlObject).subscribe((result) => {
       if (result['success']) {
-        this.router.navigate(['/user/data-upload']);
+        this.router.navigate(['/user/data-upload/list']);
       }
     }, error => this.handlerError(error));
     updateButton.disabled = false;
@@ -329,7 +333,7 @@ export class DataUploadComponent implements OnInit {
     });
   }
 
-  applyFilterClicked() {
+  setLIstFetchOptions(config = {}) {
     let filterKeys = ['financialYear', 'auditStatus'];
     let filterObject = {
       filter: {
@@ -341,10 +345,15 @@ export class DataUploadComponent implements OnInit {
         'status': this.uploadStatusFormControl.value
       }
     };
-    this.listFetchOption = {
+    return {
       ...this.listFetchOption,
-      ...filterObject
+      ...filterObject,
+      ...config
     };
+  }
+
+  applyFilterClicked() {
+    this.listFetchOption = this.setLIstFetchOptions();
     const {skip} = this.listFetchOption;
     this.financialDataService.fetchFinancialDataList({skip, limit: 10}, this.listFetchOption).subscribe(result => {
       this.handleResponseSuccess(result);
@@ -420,8 +429,38 @@ export class DataUploadComponent implements OnInit {
 
   }
 
-  private handlerError(error: any) {
-    const {message} = error;
-    this._snackBar.open(message, null, {duration: 1600});
+  private handlerError(response: any) {
+    let string = 'Some Error Occurred';
+    const {message, error} = response;
+    if (error) {
+      let errorMessage = error.message;
+      if (errorMessage) {
+        string = errorMessage;
+      } else {
+        string = message;
+      }
+    }
+    this._snackBar.open(string, null, {duration: 1600});
+  }
+
+  downloadList() {
+    let filterOptions = this.setLIstFetchOptions({download: true});
+    let url = this.financialDataService.getFinancialDataListApi(filterOptions);
+    return window.open(url);
+
+  }
+
+  auditStatusDropdownHandler() {
+    this.fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance', 'auditReport'];
+    if (this.fileFormGroup.get('auditStatus').value) {
+      if (this.fileFormGroup.get('auditStatus').value.length) {
+        if (this.fileFormGroup.get('auditStatus').value[0].id) {
+          return this.fileFormGroup.get(['auditReport', 'file_pdf']).setValidators([Validators.required]);
+        }
+      }
+    }
+    this.removeAuditReportFromFIleKeys();
+    this.fileFormGroup.get(['auditReport', 'file_pdf']).setValidators(null);
+    this.fileFormGroup.get(['auditReport', 'file_pdf']).updateValueAndValidity();
   }
 }

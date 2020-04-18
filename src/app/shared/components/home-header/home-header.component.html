@@ -102,7 +102,6 @@
             </li>-->
       </ul>
     </li>
-
     <li routerLinkActive="active">
       <a [routerLink]="['/credit-rating/laws']">Municipal Finance Laws</a>
     </li>
@@ -113,23 +112,19 @@
       <a [routerLink]="['/credit-rating/municipal-bond']"> Municipal Bonds</a>
     </li>
     <li *ngIf="isLoggedIn && canViewUploadData">
-      <a [routerLink]="['user', 'data-upload']" class="pointer">Data upload</a>
+      <a [routerLink]="['user', 'data-upload','list']" class="pointer">Data upload</a>
     </li>
     <li routerLinkActive="active" *ngIf="!isLoggedIn">
       <a [routerLink]="['/login']">Login</a>
     </li>
     <li routerLinkActive="active" class="dropdown" *ngIf="isLoggedIn">
-      <a
-        class="dropdown-toggle"
-        data-toggle="dropdown"
-        role="button"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        <i class="fa fa-user-circle" style="font-size: 2rem"></i>
-        &nbsp;</a
-      >
-      <div class="dropdown-menu">
+      <a class="dropdown-toggle"
+         data-toggle="dropdown"
+         role="button"
+         aria-haspopup="true"
+         aria-expanded="false">
+        <i class="fa fa-user-circle" style="font-size: 2rem"></i>&nbsp;</a>
+      <div class="dropdown-menu" style="position: absolute;left: -65px">
         <div class="user-dropdown">
           <div class="user-avt" style="font-size: 3rem">
             <i class="fa fa-user-circle"></i>

@@ -9,6 +9,10 @@
   .clear-all {
     display: none !important;
   }
+
+  .pure-checkbox input[type="checkbox"] + label:before {
+    border: 1px solid darkgrey;
+  }
 }
 
 .common-container {
