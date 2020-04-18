@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,14 @@ export class SessionService {
 
 
   generateSessionID() {
-    return this.http.get(`${environment.api.url}start_session`);
+    const sessionID =  sessionStorage.get(`sessionID`);
+    if(sessionID) return of({data: {_id: sessionID}})
+    return this.http.get(`${environment.api.url}start_session`).pipe(
+      map(res => {
+         sessionStorage.setItem(`sessionID`, res['data']._id);
+         return res;
+      })
+    );
   }
 
 
