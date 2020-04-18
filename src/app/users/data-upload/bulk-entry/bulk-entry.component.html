@@ -1,21 +1,17 @@
 <div class="common-container">
   <div class="container">
-    <div class="row">
-      <div class="col-md-6">
+    <div class="row" style="position: relative;">
+      <div class="col-md-8">
         <h3>ULB Data Bulk Entry</h3>
       </div>
-      <div class="col-md-6">
-        <button [routerLink]="['/dashboard/entry/list']" class="right btn btn-primary">
-          Entry List
-        </button>
-      </div>
+      <button [routerLink]="['../list']" class=" btn btn-primary" style="position: absolute; top: 48%;">
+        Entry List
+      </button>
     </div>
-    <br/>
-    <span
-    >Note* : Current version supports bulk data entry for single year
-      only</span
-    >
-    <br/>
+    <br />
+    <span style="color: red;">Note : Current version supports bulk data entry for single year
+      only</span>
+    <br />
 
     <div class="row">
       <form [formGroup]="bulkEntryForm" (ngSubmit)="upload()">
@@ -30,20 +26,13 @@
         <div class="col-md-4">
           <div class="form-group">
             <label>Select files to upload</label>
-            <input
-              id="cin"
-              name="cin"
-              type="file"
-              (change)="fileChangeEvent($event)"
-              placeholder="Upload a file..."
-              accept=".xls,.xlsx"
-              multiple
-            />
+            <input id="cin" name="cin" type="file" (change)="fileChangeEvent($event)" placeholder="Upload a file..."
+              accept=".xls,.xlsx" multiple />
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <br/>
+            <br />
             <button type="submit" class="btn btn-primary btn-s">Upload</button>
           </div>
         </div>
@@ -53,44 +42,29 @@
     <div class="row">
       <div class="col-sm-10">
         <ul class="list-group" type="1">
-          <li
-            class="list-group-item"
-            *ngFor="let file of filesToUpload; let i = index"
-          >
+          <li class="list-group-item" *ngFor="let file of filesToUpload; let i = index">
             <div>
               <div style="width: 50%; display: inline-block;">
-                <div
-                  style="width: fit-content; display: inline-block; margin-right: .5em;"
-                >
+                <div style="width: fit-content; display: inline-block; margin-right: .5em;">
                   {{ i + 1 }}.
                 </div>
                 {{ file.name }}
               </div>
 
               <!-- Normal Progress bar-->
-              <div
-                class="progress"
-                *ngIf="
+              <div class="progress" *ngIf="
                   fileUploadTracker[i]?.status === 'FAILED' ||
                   fileProcessingTracker[i]?.status === 'FAILED' ||
                   fileProcessingTracker[i]?.status === 'completed'
-                "
-              >
-                <div
-                  class="progress-bar"
-                  [ngClass]="{
+                ">
+                <div class="progress-bar" [ngClass]="{
                     uploadComplete:
                       fileProcessingTracker[i]?.status === 'completed',
                     uploadFailed:
                       fileProcessingTracker[i]?.status === 'FAILED' ||
                       fileUploadTracker[i]?.status === 'FAILED'
-                  }"
-                  role="progressbar"
-                  style="width: 100%;"
-                  [attr.aria-valuenow]="100"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                >
+                  }" role="progressbar" style="width: 100%;" [attr.aria-valuenow]="100" aria-valuemin="0"
+                  aria-valuemax="100">
                   {{
                   fileProcessingTracker[i]?.message
                     ? fileProcessingTracker[i]?.message
@@ -100,22 +74,13 @@
               </div>
 
               <!-- Stripped progres bar for in processing-->
-              <div
-                class="progress"
-                *ngIf="
+              <div class="progress" *ngIf="
                   fileUploadTracker[i]?.status !== 'FAILED' &&
                   (fileProcessingTracker[i]?.status === 'in-process' ||
                     (submitted && !fileProcessingTracker[i]?.status))
-                "
-              >
-                <div
-                  class="progress-bar progress-bar-striped active"
-                  role="progressbar"
-                  aria-valuenow="75"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                  style="width: 100%"
-                >
+                ">
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="75"
+                  aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                   {{ fileProcessingTracker[i]?.message || "Processing..." }}
                 </div>
               </div>
@@ -124,6 +89,6 @@
         </ul>
       </div>
     </div>
-    <br/><br/>
+    <br /><br />
   </div>
 </div>

@@ -30,14 +30,12 @@ export class AppComponent implements OnDestroy {
   private startSession() {
     this.sessionService.generateSessionID().subscribe(res => {
       this.sessionId = res['data']._id;
-      sessionStorage.setItem(`sessionID`, res['data']._id);
     })
   }
 
   ngOnDestroy(): void {
     this.sessionService.endSession(this.sessionId).subscribe(res => {
-     // this.sessionId = res['data']._id;
-     // sessionStorage.setItem(`sessionID`, res['data']._id);
+    
    })
    }
 }
