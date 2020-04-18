@@ -1,14 +1,12 @@
 <div class="common-container">
   <div class="container">
-    <div class="row">
-      <div class="col-md-6">
+    <div class="row" style="position: relative;">
+      <div class="col-md-8">
         <h3>ULB Data Bulk Entry</h3>
       </div>
-      <div class="col-md-6">
-        <button [routerLink]="['../list']" class="right btn btn-primary">
-          Entry List
-        </button>
-      </div>
+      <button [routerLink]="['../list']" class=" btn btn-primary" style="position: absolute; top: 48%;">
+        Entry List
+      </button>
     </div>
     <br />
     <span style="color: red;">Note : Current version supports bulk data entry for single year
