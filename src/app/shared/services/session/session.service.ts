@@ -13,7 +13,7 @@ export class SessionService {
 
 
   generateSessionID() {
-    const sessionID =  sessionStorage.get(`sessionID`);
+    const sessionID =  sessionStorage.getItem(`sessionID`);
     if(sessionID) return of({data: {_id: sessionID}})
     return this.http.get(`${environment.api.url}start_session`).pipe(
       map(res => {
