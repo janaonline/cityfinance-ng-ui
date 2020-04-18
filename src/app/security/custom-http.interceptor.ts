@@ -1,10 +1,12 @@
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
-  constructor() {
+  constructor(private router: Router) {
   }
 
   intercept(
@@ -27,9 +29,21 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     if (token) {
       headers = headers.set('x-access-token', token);
       const authReq = req.clone({headers});
-      return next.handle(authReq);
+      return next.handle(authReq).pipe(
+        catchError(this.handleError)
+      );
     }
 
-    return next.handle(req);
+    return next.handle(req).pipe(
+        catchError(this.handleError)
+      );
+  }
+
+
+  private handleError = (err: HttpErrorResponse) => {
+     if( err.status === 401) {
+            this.router.navigate(['login'])
+      }          
+        return throwError(err);
   }
 }
