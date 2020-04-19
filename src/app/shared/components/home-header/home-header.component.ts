@@ -14,7 +14,7 @@ interface User {
 @Component({
   selector: "app-home-header",
   templateUrl: "./home-header.component.html",
-  styleUrls: ["./home-header.component.scss"]
+  styleUrls: ["./home-header.component.scss"],
 })
 export class HomeHeaderComponent implements OnInit {
   isProduction: boolean;
@@ -35,9 +35,13 @@ export class HomeHeaderComponent implements OnInit {
 
   constructor(private router: Router, private authService: AuthService) {
     this.initializeAccessChecking();
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
+      console.log(event);
+
       this.isLoggedIn = this.authService.loggedIn();
+
       this.initializeAccessChecking();
+      console.log(`this.isLoggedIn `, this.isLoggedIn);
 
       if (this.isLoggedIn) {
         this.user = this.authService.decodeToken();
@@ -48,37 +52,37 @@ export class HomeHeaderComponent implements OnInit {
   private initializeAccessChecking() {
     this.canViewUploadData = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canEditOwnProfile = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.SELF_PROFILE,
-      action: ACTIONS.EDIT
+      action: ACTIONS.EDIT,
     });
 
     this.canViewMoHUAList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.MoHUA,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewPartnerList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.PARTNER,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewStateList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.STATE,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewULBSingUpListing = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.ULB_SIGNUP_REQUEST,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewUserList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.USERLIST,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
   }
 
