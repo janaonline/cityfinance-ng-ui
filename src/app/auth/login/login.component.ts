@@ -8,7 +8,7 @@ import { environment } from './../../../environments/environment';
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"]
+  styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    this.activatedRoute.queryParams.subscribe(param => {
+    this.activatedRoute.queryParams.subscribe((param) => {
       if (param.message) {
         this.emailVerificationMessage = param.message;
       }
@@ -37,10 +37,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: ["", Validators.required],
-      password: ["", Validators.required]
+      password: ["", Validators.required],
     });
 
-    this.authService.badCredentials.subscribe(res => {
+    this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
   }
@@ -53,17 +53,23 @@ export class LoginComponent implements OnInit {
     this.loginError = null;
     this.submitted = true;
     if (this.loginForm.valid) {
+      console.log(`sending login request`);
+
       this.authService.signin(this.loginForm.value).subscribe(
-        res => {
+        (res) => {
+          console.log(`got response`);
+
           if (res && res["token"]) {
             localStorage.setItem("id_token", JSON.stringify(res["token"]));
             localStorage.setItem("userData", JSON.stringify(res["user"]));
+            console.log(`redirecting to home`);
+
             this.router.navigate(["home"]);
           } else {
             localStorage.removeItem("id_token");
           }
         },
-        error => {
+        (error) => {
           this.loginError = error.error["message"] || "Server Error";
           console.error(error);
         }
