@@ -46,6 +46,7 @@ export class ReportTableComponent implements OnInit {
       case 'state':
         this.tableHeadersMain = stateWiseReportMain;
         this.tableHeaderSub = stateWiseReportSub;
+        this.fetchStateWiseReportData();
     }
   };
 
@@ -99,5 +100,12 @@ export class ReportTableComponent implements OnInit {
         this.financialYearDropdown = result['data'];
       }
     });
+  }
+
+  private fetchStateWiseReportData() {
+    this.financialDataService
+      .getOverAllReportData(this.financialYearFormControl.value)
+      .subscribe(this.handleResponseSuccess,
+        error => this.handleResponseFailure);
   }
 }

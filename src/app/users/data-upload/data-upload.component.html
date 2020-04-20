@@ -202,9 +202,16 @@
                              [ngClass]="row['status']===uploadStatus.REJECTED ? 'fa fa-pencil': 'fa fa-eye'"
                              aria-hidden="true"></i>
                         </a>
-                        <a *ngSwitchDefault [routerLink]="['/user/data-upload/action',row?._id]"
-                           (click)="navigateTo(row)"
-                           class="btn btn-primary">Take {{header.title}}</a>
+                        <ng-container *ngSwitchDefault>
+                          <a [routerLink]="['/user/data-upload/action',row?._id]"
+                             (click)="navigateTo(row)">
+                            <i *ngIf="row['status']!==uploadStatus.PENDING" class="fa fa-eye"></i>
+                          </a>
+                          <a *ngIf="row['status']===uploadStatus.PENDING"
+                             [routerLink]="['/user/data-upload/action',row?._id]"
+                             (click)="navigateTo(row)"
+                             class="btn btn-primary">Take {{header.title}}</a>
+                        </ng-container>
                       </ng-container>
                     </ng-container>
                     <span *ngSwitchCase="'audited'">
