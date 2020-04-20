@@ -37,7 +37,6 @@ export class FileStatusCheckerInputComponent implements OnInit, AfterViewInit, O
     const fileValue = this.financialDataService.selectedFinancialRequest[this.config.formGroupName];
     if (fileValue) {
       const {pdfUrl, excelUrl} = fileValue;
-      console.log(pdfUrl, excelUrl);
       if (!(pdfUrl || excelUrl)) {
         this.disableButton = true;
         this.buttonTextSuffix = '';
