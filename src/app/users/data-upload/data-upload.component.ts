@@ -147,7 +147,6 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         this.dataUploadList = this.dataUploadList.sort((a, b) => {
           let c1 = a['status'][a['status'].length - 1];
           let c2 = b['status'][b['status'].length - 1];
-          console.log(c1 > c2);
           if (c1 > c2) {
             return -1;
           } else {
@@ -361,7 +360,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     //   let eventSubject = fromEvent(inputField, 'input').pipe(
     //     map((e: KeyboardEvent) => {
     //       console.log(e);
-    //     })
+    //     })s
     //   );
     // });
 
