@@ -7,6 +7,8 @@ export interface ModalTableHeader {
   roundOff?: boolean;
   showInr?: boolean;
   suffix?: string;
+  colSpan?: number,
+  rowSpan?: number,
 }
 
 export const tableHeaders: any = [
@@ -307,10 +309,33 @@ export const creditRatingModalHeaders: ModalTableHeader[][] = [
 ];
 
 export const ulbUploadList: ModalTableHeader[] = [
-  {id: 'ulbName', click:true, title: 'ULB name'},
-  {id: 'ulbCode', click:true, title: 'ULB Code'},
+  {id: 'ulbName', click: true, title: 'ULB name'},
+  {id: 'ulbCode', click: true, title: 'ULB Code'},
   {id: 'financialYear', click: true, title: 'Financial Year'},
   {id: 'audited', click: true, title: 'Audit Status'},
   {id: 'status', title: 'Status'},
   {id: 'action', title: 'Action'}
+];
+
+export const overAllReportMain: ModalTableHeader[] = [
+  {title: 'State', id: 'state', rowSpan: 2},
+  {title: 'total ULBs', id: 'total', rowSpan: 2},
+  {title: 'ULB uploaded', id: 'uploaded', colSpan: 2},
+  {title: 'Total ULBs not uploaded', id: 'uploaded', colSpan: 2},
+  {title: 'ULBS under review', id: 'uploaded', colSpan: 2},
+  {title: 'ULBs data accepted', id: 'uploaded', colSpan: 2},
+  {title: 'ULBs data rejected', id: 'uploaded', colSpan: 2},
+];
+export const overAllSubHeader: ModalTableHeader[] = [
+  {title: 'Nos.', id: 'uploaded'},
+  {title: '%', id: 'Percentage'},
+  {title: 'Nos.', id: 'number'},
+  {title: '%', id: 'Percentage'},
+  {title: 'Nos.', id: 'pending'},
+  {title: '%', id: 'Percentage'},
+  {title: 'Nos.', id: 'approved'},
+  {title: '%', id: 'Percentage'},
+  {title: 'Nos.', id: 'rejected'},
+  {title: '%', id: 'Percentage'},
+
 ];
