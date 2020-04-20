@@ -8,13 +8,9 @@ const routes: Routes = [{
   component: ReportsComponent,
   children: [
     {
-      path: ':usage',
+      path: ':type',
       component: ReportTableComponent
     },
-    {
-      path: ':overall',
-      component: ReportTableComponent
-    }
   ]
 }];
 

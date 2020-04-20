@@ -1,5 +1,5 @@
 <div class="row mt-4">
-  <table class="table">
+  <table *ngIf="overAllReportData.length" class="table">
     <thead>
     <tr>
       <th rowspan="2">Sr. No</th>
@@ -15,7 +15,7 @@
     </tr>
     </thead>
     <tbody>
-    <ng-container *ngFor="let rowSpan of reportData;let i = index">
+    <ng-container *ngFor="let rowSpan of overAllReportData;let i = index">
 
       <tr *ngFor="let subRow of ['Total', 'Audited','UnAudited'];let dataIndex = index ">
         <td *ngIf="dataIndex==0" rowspan="3">{{i + 1}}</td>

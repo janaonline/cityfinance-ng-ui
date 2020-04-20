@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FinancialDataService} from '../../services/financial-data.service';
 import {overAllReportMain, overAllSubHeader} from '../../../shared/components/home-header/tableHeaders';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-usage-report',
@@ -9,18 +10,34 @@ import {overAllReportMain, overAllSubHeader} from '../../../shared/components/ho
 })
 export class ReportTableComponent implements OnInit {
 
-  tableHeadersMain = overAllReportMain;
-  tableHeaderSub = overAllSubHeader;
-  reportData = [];
+  tableHeadersMain = [];
+  tableHeaderSub = [];
+  overAllReportData = [];
 
-  constructor(private financialDataService: FinancialDataService) {
+  constructor(private financialDataService: FinancialDataService,
+              private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.fetchReportData();
+    this.activatedRoute.params.subscribe(this.initializeDataByParams);
   }
 
-  fetchReportData() {
+  initializeDataByParams = ({type}) => {
+    this.tableHeadersMain = [];
+    this.tableHeaderSub = [];
+    this.overAllReportData = [];
+    switch (type) {
+      case 'overAll':
+        this.tableHeadersMain = overAllReportMain;
+        this.tableHeaderSub = overAllSubHeader;
+        this.fetchOverAllReportData();
+        break;
+      case 'state':
+
+    }
+  };
+
+  fetchOverAllReportData() {
     this.financialDataService
       .getOverAllReportData()
       .subscribe(this.handleResponseSuccess,
@@ -28,7 +45,7 @@ export class ReportTableComponent implements OnInit {
   }
 
   handleResponseSuccess = (response) => {
-    this.reportData = response['data'];
+    this.overAllReportData = response['data'];
     this.addExtraColumns();
   };
 
@@ -37,7 +54,7 @@ export class ReportTableComponent implements OnInit {
   };
 
   private addExtraColumns() {
-    this.reportData = this.reportData.map(row => {
+    this.overAllReportData = this.overAllReportData.map(row => {
       return {
         ...row
       };
