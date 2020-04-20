@@ -1,6 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FinancialDataService} from '../../services/financial-data.service';
-import {overAllReportMain, overAllSubHeader} from '../../../shared/components/home-header/tableHeaders';
+import {
+  overAllReportMain,
+  overAllSubHeader,
+  stateWiseReportMain,
+  stateWiseReportSub
+} from '../../../shared/components/home-header/tableHeaders';
 import {ActivatedRoute} from '@angular/router';
 import {FormControl} from '@angular/forms';
 
@@ -39,6 +44,8 @@ export class ReportTableComponent implements OnInit {
         this.fetchOverAllReportData();
         break;
       case 'state':
+        this.tableHeadersMain = stateWiseReportMain;
+        this.tableHeaderSub = stateWiseReportSub;
     }
   };
 

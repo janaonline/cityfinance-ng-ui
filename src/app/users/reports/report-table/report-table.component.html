@@ -7,22 +7,12 @@
       <button class="ml-1 btn btn-primary">Download</button>
     </div>
   </div>
+  <div class="col-sm-12 mt-2" [ngSwitch]="reportType">
 
-  <div class="col-sm-12 mt-2">
-    <table *ngIf="overAllReportData.length" class="table">
+    <table *ngSwitchCase="'overAll'" class="table">
       <thead>
-      <tr>
-        <th rowspan="2">Sr. No</th>
-        <th [colSpan]="header?.colSpan?header.colSpan:1"
-            [rowSpan]="header.rowSpan?header.rowSpan:1"
-            *ngFor="let header of tableHeadersMain">{{header.title}}</th>
-      </tr>
-      <tr style="background: #009fe3;color: white">
-        <th *ngFor="let subheader of tableHeaderSub">{{subheader.title}}</th>
-      </tr>
-      <tr>
-
-      </tr>
+      <ng-container
+        *ngTemplateOutlet="header; context:{$implicit:{main:tableHeadersMain,sub:tableHeaderSub} } "></ng-container>
       </thead>
       <tbody>
       <ng-container *ngFor="let rowSpan of overAllReportData;let i = index">
@@ -43,5 +33,23 @@
       </ng-container>
       </tbody>
     </table>
+    <table *ngSwitchCase="'state'" class="table">
+      <thead>
+      <ng-container
+        *ngTemplateOutlet="header; context:{$implicit:{main:tableHeadersMain,sub:tableHeaderSub} } "></ng-container>
+      </thead>
+    </table>
   </div>
 </div>
+
+<ng-template #header let-rows>
+  <tr>
+    <th rowspan="2">Sr. No</th>
+    <th [colSpan]="header?.colSpan?header.colSpan:1"
+        [rowSpan]="header.rowSpan?header.rowSpan:1"
+        *ngFor="let header of rows.main">{{header.title}}</th>
+  </tr>
+  <tr>
+    <th *ngFor="let subheader of rows.sub">{{subheader.title}}</th>
+  </tr>
+</ng-template>

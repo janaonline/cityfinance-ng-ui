@@ -319,7 +319,7 @@ export const ulbUploadList: ModalTableHeader[] = [
 
 export const overAllReportMain: ModalTableHeader[] = [
   {title: 'State', id: 'state', rowSpan: 2},
-  {title: 'total ULBs', id: 'total', rowSpan: 2},
+  {title: 'Total ULBs', id: 'total', rowSpan: 2},
   {title: 'ULB uploaded', id: 'uploaded', colSpan: 2},
   {title: 'Total ULBs not uploaded', id: 'uploaded', colSpan: 2},
   {title: 'ULBS under review', id: 'uploaded', colSpan: 2},
@@ -337,5 +337,15 @@ export const overAllSubHeader: ModalTableHeader[] = [
   {title: '%', id: 'approvedPercentage'},
   {title: 'Nos.', id: 'rejected'},
   {title: '%', id: 'rejectedPercentage'},
-
 ];
+
+export const stateWiseReportMain: ModalTableHeader[] = [
+  {id: 'name', title: 'State', rowSpan: 2},
+  {id: 'total', title: 'Total ULBs', rowSpan: 2},
+  {title: 'ULB uploaded', id: 'uploaded', colSpan: 2},
+  {title: 'Total ULBs not uploaded', id: 'uploaded', colSpan: 2},
+  {title: 'ULBS under review', id: 'uploaded', colSpan: 2},
+  {title: 'ULBs data accepted', id: 'uploaded', colSpan: 2},
+  {title: 'ULBs data rejected', id: 'uploaded', colSpan: 2},
+];
+export const stateWiseReportSub: ModalTableHeader[] = [...overAllSubHeader];
