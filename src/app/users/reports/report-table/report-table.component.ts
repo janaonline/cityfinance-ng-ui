@@ -1,6 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {FinancialDataService} from '../../services/financial-data.service';
-import {overAllReportMain, overAllSubHeader} from '../../../shared/components/home-header/tableHeaders';
+import {
+  overAllReportMain,
+  overAllSubHeader,
+  stateWiseReportMain,
+  stateWiseReportSub
+} from '../../../shared/components/home-header/tableHeaders';
+import {ActivatedRoute} from '@angular/router';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-usage-report',
@@ -9,26 +16,49 @@ import {overAllReportMain, overAllSubHeader} from '../../../shared/components/ho
 })
 export class ReportTableComponent implements OnInit {
 
-  tableHeadersMain = overAllReportMain;
-  tableHeaderSub = overAllSubHeader;
-  reportData = [];
+  tableHeadersMain = [];
+  tableHeaderSub = [];
+  overAllReportData = [];
+  financialYearFormControl: FormControl = new FormControl('2015-16');
+  reportType: string;
+  private financialYearDropdown: any = [];
 
-  constructor(private financialDataService: FinancialDataService) {
+  constructor(private financialDataService: FinancialDataService,
+              private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.fetchReportData();
+    this.fetchFinancialYears();
+    this.activatedRoute.params.subscribe(this.initializeDataByParams);
   }
 
-  fetchReportData() {
+  initializeDataByParams = ({type}) => {
+    this.reportType = type;
+    this.tableHeadersMain = [];
+    this.tableHeaderSub = [];
+    this.overAllReportData = [];
+    switch (type) {
+      case 'overAll':
+        this.tableHeadersMain = overAllReportMain;
+        this.tableHeaderSub = overAllSubHeader;
+        this.fetchOverAllReportData();
+        break;
+      case 'state':
+        this.tableHeadersMain = stateWiseReportMain;
+        this.tableHeaderSub = stateWiseReportSub;
+        this.fetchStateWiseReportData();
+    }
+  };
+
+  fetchOverAllReportData() {
     this.financialDataService
-      .getOverAllReportData()
+      .getOverAllReportData(this.financialYearFormControl.value)
       .subscribe(this.handleResponseSuccess,
         error => this.handleResponseFailure);
   }
 
   handleResponseSuccess = (response) => {
-    this.reportData = response['data'];
+    this.overAllReportData = response['data'];
     this.addExtraColumns();
   };
 
@@ -37,10 +67,45 @@ export class ReportTableComponent implements OnInit {
   };
 
   private addExtraColumns() {
-    this.reportData = this.reportData.map(row => {
+    this.overAllReportData = this.overAllReportData.map(item => {
+      const {total, data} = item;
+      let keys = ['uploaded', 'pending', 'approved', 'rejected'];
+      let totalObject = {};
+      for (let key of keys) {
+        let sum = item.data.map(item => item[key]).reduce((a, c) => a + (c || 0), 0);
+        totalObject[key] = sum;
+      }
+      item.data.unshift(totalObject);
+      for (let row of item.data) {
+        if (!('audited' in row)) {
+          row['notUploaded'] = total - row['uploaded'];
+          row[`notUploadedPercentage`] = Number((row['notUploaded'] / total) * 100).toFixed(2) + '%';
+        }
+
+        keys.forEach(key => {
+          row[`${key}Percentage`] = Number((row[key] / total) * 100).toFixed(2) + '%';
+        });
+      }
+
       return {
-        ...row
+        ...item
       };
     });
+    console.log(this.overAllReportData);
+  }
+
+  private fetchFinancialYears() {
+    this.financialDataService.getFinancialYears().subscribe(result => {
+      if (result['success']) {
+        this.financialYearDropdown = result['data'];
+      }
+    });
+  }
+
+  private fetchStateWiseReportData() {
+    this.financialDataService
+      .getOverAllReportData(this.financialYearFormControl.value)
+      .subscribe(this.handleResponseSuccess,
+        error => this.handleResponseFailure);
   }
 }

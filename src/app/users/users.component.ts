@@ -120,6 +120,16 @@ export class UsersComponent implements OnInit {
           moduleName: MODULES_NAME.REPORTS
         });
       }
+    }, {
+      title: 'State Wise Report',
+      type: 'link',
+      route: ['/user/reports/state'],
+      condition: () => {
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.REPORTS
+        });
+      }
     }
   ];
 
