@@ -65,8 +65,12 @@
           <div class="row mt-4 mb-4">
             <div class="col-sm-12">
               <button #submitButton *ngIf="uploadId==null" [disabled]="fileFormGroup.invalid" class="btn btn-primary"
-                      (click)="submitClickHandler(submitButton)">Submit
+                      (click)="submitClickHandler(submitButton)">{{fileUpload.uploading ? 'Please Wait..' : 'Submit'}}
               </button>
+              <div *ngIf="fileUpload.uploading" class="alert alert-success mt-1">Uploading
+                : {{fileUpload.currentUploadedFiles}} out
+                of {{fileUpload.totalFiles}} files
+              </div>
               <button #updateButton *ngIf="uploadId!==null &&
                (completenessStatus==='REJECTED'||correctnessStatus ==='REJECTED')" [disabled]="fileFormGroup.invalid "
                       class="btn btn-primary"

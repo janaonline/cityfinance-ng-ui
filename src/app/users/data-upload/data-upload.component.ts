@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {ulbUploadList} from '../../shared/components/home-header/tableHeaders';
@@ -15,13 +15,15 @@ import swal from 'sweetalert';
 import {USER_TYPE} from '../../models/user/userType';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {UPLOAD_STATUS} from '../../util/enums';
+import FileUpload from '../../util/fileUpload';
 
 @Component({
   selector: 'app-data-upload',
   templateUrl: './data-upload.component.html',
   styleUrls: ['./data-upload.component.scss']
 })
-export class DataUploadComponent implements OnInit {
+export class DataUploadComponent implements OnInit, OnDestroy {
+
   uploadStatus = UPLOAD_STATUS;
   id = null;
   uploadId = null;
@@ -92,6 +94,7 @@ export class DataUploadComponent implements OnInit {
               private modalService: BsModalService,
               public accessUtil: AccessChecker,
               public userUtil: UserUtility,
+              public fileUpload: FileUpload,
               private _snackBar: MatSnackBar) {
     this.isAccessible = accessUtil.hasAccess({moduleName: MODULES_NAME.ULB_DATA_UPLOAD, action: ACTIONS.UPLOAD});
     this.activatedRoute.params.subscribe(val => {
@@ -152,9 +155,26 @@ export class DataUploadComponent implements OnInit {
   ulbNameSearchFormControl: FormControl = new FormControl();
   ulbCodeSearchFormControl: FormControl = new FormControl();
 
+  getAddedFilterCount() {
+    let count = 0;
+    for (let parentFormGroup of this.fileFormGroupKeys) {
+      const formGroup = this.fileFormGroup.get(parentFormGroup);
+      const files = formGroup.value;
+      for (let fileKey in files) {
+        let fileUrlKey = fileKey.includes('pdf') ? 'pdfUrl' : 'excelUrl';
+        if (files[fileKey]) {
+          count++;
+        }
+      }
+    }
+    return count;
+  }
+
   async submitClickHandler(event) {
     event.disabled = true;
     let urlObject = {};
+    this.fileUpload.totalFiles = this.getAddedFilterCount();
+    this.fileUpload.uploading = true;
     for (let parentFormGroup of this.fileFormGroupKeys) {
       if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReport') {
         const formGroup = this.fileFormGroup.get(parentFormGroup);
@@ -173,13 +193,16 @@ export class DataUploadComponent implements OnInit {
                 urlObject[parentFormGroup][fileUrlKey] = file_alias;
                 url = url.replace('admin/', '');
                 let fileUploadResponse = await this.dataUploadService.uploadFileToS3(files[fileKey], url).toPromise();
+                this.fileUpload.currentUploadedFiles++;
               }
             } catch (e) {
               event.disabled = false;
+              this.fileUpload.reset();
               formControl.setErrors(['File Upload Error']);
             }
           } else if (formControl.validator) {
             event.disabled = false;
+            this.fileUpload.reset();
             formControl.setErrors(['Please select file']);
           }
         }
@@ -207,10 +230,13 @@ export class DataUploadComponent implements OnInit {
         }
       }, (error: HttpErrorResponse) => {
         event.disabled = false;
+        this.fileUpload.reset();
         this.handlerError(error);
       }
     );
     event.disabled = false;
+    this.fileUpload.reset();
+
   }
 
   handleFileChange(strings: string[], file: File) {
@@ -266,6 +292,8 @@ export class DataUploadComponent implements OnInit {
 
   async updateClickHandler(updateButton: HTMLButtonElement) {
     updateButton.disabled = true;
+    this.fileUpload.totalFiles = this.getAddedFilterCount();
+    this.fileUpload.uploading = true;
     let urlObject = {};
     for (let parentFormGroup of this.fileFormGroupKeys) {
       if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReport') {
@@ -286,24 +314,33 @@ export class DataUploadComponent implements OnInit {
                   urlObject[parentFormGroup][fileUrlKey] = file_alias;
                   url = url.replace('admin/', '');
                   let fileUploadResponse = await this.dataUploadService.uploadFileToS3(files[fileKey], url).toPromise();
+                  this.fileUpload.currentUploadedFiles++;
                 }
               } catch (e) {
                 updateButton.disabled = false;
+                this.fileUpload.reset();
                 formControl.setErrors(['File Upload Error']);
               }
             } else if (formControl.validator) {
               updateButton.disabled = false;
+              this.fileUpload.reset();
               formControl.setErrors(['Please select file']);
             }
           }
         }
       }
     }
+
     this.financialDataService.upDateFinancialData(this.uploadId, urlObject).subscribe((result) => {
       if (result['success']) {
         this.router.navigate(['/user/data-upload/list']);
       }
-    }, error => this.handlerError(error));
+    }, error => {
+      updateButton.disabled = false;
+      this.fileUpload.reset();
+      this.handlerError(error);
+    });
+    this.fileUpload.reset();
     updateButton.disabled = false;
   }
 
@@ -443,6 +480,7 @@ export class DataUploadComponent implements OnInit {
     this._snackBar.open(string, null, {duration: 1600});
   }
 
+
   downloadList() {
     let filterOptions = this.setLIstFetchOptions({download: true});
     let url = this.financialDataService.getFinancialDataListApi(filterOptions);
@@ -462,5 +500,9 @@ export class DataUploadComponent implements OnInit {
     this.removeAuditReportFromFIleKeys();
     this.fileFormGroup.get(['auditReport', 'file_pdf']).setValidators(null);
     this.fileFormGroup.get(['auditReport', 'file_pdf']).updateValueAndValidity();
+  }
+
+  ngOnDestroy(): void {
+
   }
 }
