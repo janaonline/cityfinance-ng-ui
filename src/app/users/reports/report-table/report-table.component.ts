@@ -21,7 +21,7 @@ export class ReportTableComponent implements OnInit {
   overAllReportData = [];
   financialYearFormControl: FormControl = new FormControl('2015-16');
   reportType: string;
-  private financialYearDropdown: any = [];
+  financialYearDropdown: any = [];
 
   constructor(private financialDataService: FinancialDataService,
               private activatedRoute: ActivatedRoute) {
@@ -104,7 +104,7 @@ export class ReportTableComponent implements OnInit {
 
   private fetchStateWiseReportData() {
     this.financialDataService
-      .getOverAllReportData(this.financialYearFormControl.value)
+      .getStateWiseReportData(this.financialYearFormControl.value)
       .subscribe(this.handleResponseSuccess,
         error => this.handleResponseFailure);
   }

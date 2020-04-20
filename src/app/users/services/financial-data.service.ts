@@ -72,10 +72,10 @@ export class FinancialDataService {
   }
 
   getOverAllReportData(financialYear: string = '2015-16') {
-    return this.httpClient.get(`${environment.api.url}/report/financial-data/overall?financialYear=${financialYear}`);
+    return this.httpClient.get(`${environment.api.url}report/financial-data/overall?financialYear=${financialYear}`);
   }
-  getStateWiseReportData(financialYear:string = '2015-16'){
-    return this.httpClient.get(`${environment.api.url}/report/financial-data/overall?financialYear=${financialYear}`);
 
+  getStateWiseReportData(financialYear: string = '2015-16') {
+    return this.httpClient.get(`${environment.api.url}report/financial-data/statewise?financialYear=${financialYear}`);
   }
 }
