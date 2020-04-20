@@ -330,7 +330,6 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         }
       }
     }
-
     this.financialDataService.upDateFinancialData(this.uploadId, urlObject).subscribe((result) => {
       if (result['success']) {
         this.router.navigate(['/user/data-upload/list']);
