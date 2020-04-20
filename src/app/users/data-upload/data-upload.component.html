@@ -196,12 +196,15 @@
                   <ng-container [ngSwitch]="header.id">
                     <ng-container *ngSwitchCase="'action'">
                       <ng-container [ngSwitch]="userUtil.getUserType()">
-                        <a (click)="navigateTo(row)" title="Edit"
-                           [routerLink]="['/user/data-upload/upload-form',row?._id]">
-                          <i *ngSwitchCase="'ULB'"
-                             [ngClass]="row['status']===uploadStatus.REJECTED ? 'fa fa-pencil': 'fa fa-eye'"
+                        <ng-container *ngSwitchCase="'ULB'">
+                          <a *ngIf="row['status']===uploadStatus.PENDING"
+                             class="btn btn-primary"
+                             (click)="navigateTo(row)" title="Edit"
+                             [routerLink]="['/user/data-upload/upload-form',row?._id]">Take {{header.title}}
+                          </a>
+                          <i *ngIf="row['status']!==uploadStatus.PENDING" class="fa fa-eye"
                              aria-hidden="true"></i>
-                        </a>
+                        </ng-container>
                         <ng-container *ngSwitchDefault>
                           <a [routerLink]="['/user/data-upload/action',row?._id]"
                              (click)="navigateTo(row)">
