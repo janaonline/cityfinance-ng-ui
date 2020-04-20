@@ -50,3 +50,14 @@
     cursor: pointer;
   }
 }
+
+::ng-deep mat-list-item {
+  transition: all 0.3s;
+  width: 100%;
+  // border-radius: 5px;
+}
+
+// ::ng-deep mat-list-item:hover {
+//   // filter: contrast(500%);
+//   background: rgb(133, 133, 133);
+// }
