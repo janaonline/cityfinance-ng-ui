@@ -9,7 +9,7 @@
                  [selectedIndex]="tabIndex"
                  class="mt-1"
                  animationDuration="100ms">
-    <mat-tab label="Stage 1 : Completeness">
+    <mat-tab *ngIf="financeDataService.selectedFinancialRequest" label="Stage 1 : Completeness">
       <ng-template matTabContent>
         <ng-container *ngTemplateOutlet="dropDownContainer"></ng-container>
         <ng-container>
@@ -138,7 +138,8 @@
       </ng-template>
     </mat-tab>
 
-    <mat-tab [disabled]="this.completenessStatus!=='APPROVED'" label="State 2: Correctness">
+    <mat-tab *ngIf="financeDataService.selectedFinancialRequest" [disabled]="this.completenessStatus!=='APPROVED'"
+             label="State 2: Correctness">
       <ng-template matTabContent>
         <ng-container *ngTemplateOutlet="dropDownContainer"></ng-container>
         <ng-container>

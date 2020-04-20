@@ -261,7 +261,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   navigateTo(row: any) {
-    this.financialDataService.selectedFinancialRequest = row;
+    //  this.financialDataService.selectedFinancialRequest = row;
   }
 
   private updateFormControls() {

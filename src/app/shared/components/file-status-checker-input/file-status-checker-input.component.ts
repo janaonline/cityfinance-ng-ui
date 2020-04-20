@@ -1,6 +1,7 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormGroup, Validators} from '@angular/forms';
 import {UPLOAD_STATUS} from '../../../util/enums';
+import {FinancialDataService} from '../../../users/services/financial-data.service';
 
 export interface IFileStatusCheckerInputComponent {
   formGroupName: string,
@@ -14,19 +15,35 @@ export interface IFileStatusCheckerInputComponent {
   templateUrl: './file-status-checker-input.component.html',
   styleUrls: ['./file-status-checker-input.component.scss']
 })
-export class FileStatusCheckerInputComponent implements OnInit, AfterViewInit {
+export class FileStatusCheckerInputComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input('config') config: IFileStatusCheckerInputComponent;
   @Output('fileButtonClicked') fileButtonClicked: EventEmitter<string[]> = new EventEmitter();
   showMessageInput = false;
+  disableButton = false;
+  buttonTextSuffix = 'View';
 
-  constructor() {
+  constructor(private financialDataService: FinancialDataService) {
 
+  }
+
+
+  ngOnChanges(changes: SimpleChanges): void {
   }
 
 
   ngOnInit() {
     const value = this.config.formGroup.get([this.config.formGroupName, this.config.status]).value;
+    const fileValue = this.financialDataService.selectedFinancialRequest[this.config.formGroupName];
+    if (fileValue) {
+      const {pdfUrl, excelUrl} = fileValue;
+      console.log(pdfUrl, excelUrl);
+      if (!(pdfUrl || excelUrl)) {
+        this.disableButton = true;
+        this.buttonTextSuffix = '';
+      }
+    }
+
     if (value) {
       this.showMessageInput = value.toUpperCase() === UPLOAD_STATUS.REJECTED;
       this.config.formGroup.updateValueAndValidity();
