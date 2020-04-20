@@ -59,18 +59,28 @@ export class ReportTableComponent implements OnInit {
   };
 
   private addExtraColumns() {
-    this.overAllReportData = this.overAllReportData.map(row => {
-      const {total, data} = row;
+    this.overAllReportData = this.overAllReportData.map(item => {
+      const {total, data} = item;
       let keys = ['uploaded', 'pending', 'approved', 'rejected'];
       let totalObject = {};
       for (let key of keys) {
-        let sum = row.data.map(item => item[key]).reduce((a, c) => a + (c || 0), 0);
+        let sum = item.data.map(item => item[key]).reduce((a, c) => a + (c || 0), 0);
         totalObject[key] = sum;
-        totalObject[`${key}percentage`] = Number(sum / total).toFixed(2);
       }
-      row.data.unshift(totalObject);
+      item.data.unshift(totalObject);
+      for (let row of item.data) {
+        if (!('audited' in row)) {
+          row['notUploaded'] = total - row['uploaded'];
+          row[`notUploadedPercentage`] = Number((row['notUploaded'] / total) * 100).toFixed(2) + '%';
+        }
+
+        keys.forEach(key => {
+          row[`${key}Percentage`] = Number((row[key] / total) * 100).toFixed(2) + '%';
+        });
+      }
+
       return {
-        ...row
+        ...item
       };
     });
     console.log(this.overAllReportData);

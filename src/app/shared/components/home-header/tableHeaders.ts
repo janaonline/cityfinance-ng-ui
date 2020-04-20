@@ -328,14 +328,14 @@ export const overAllReportMain: ModalTableHeader[] = [
 ];
 export const overAllSubHeader: ModalTableHeader[] = [
   {title: 'Nos.', id: 'uploaded'},
-  {title: '%', id: 'Percentage'},
-  {title: 'Nos.', id: 'number'},
-  {title: '%', id: 'Percentage'},
+  {title: '%', id: 'uploadedPercentage'},
+  {title: 'Nos.', id: 'notUploaded'},
+  {title: '%', id: 'notUploadedPercentage'},
   {title: 'Nos.', id: 'pending'},
-  {title: '%', id: 'Percentage'},
+  {title: '%', id: 'pendingPercentage'},
   {title: 'Nos.', id: 'approved'},
-  {title: '%', id: 'Percentage'},
+  {title: '%', id: 'approvedPercentage'},
   {title: 'Nos.', id: 'rejected'},
-  {title: '%', id: 'Percentage'},
+  {title: '%', id: 'rejectedPercentage'},
 
 ];
