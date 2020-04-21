@@ -349,3 +349,15 @@ export const stateWiseReportMain: ModalTableHeader[] = [
   {title: 'ULBs data rejected', id: 'uploaded', colSpan: 2},
 ];
 export const stateWiseReportSub: ModalTableHeader[] = [...overAllSubHeader];
+
+export const ulbWiseReportMain: ModalTableHeader[] = [
+  {id: 'state', title: 'State', rowSpan: 2},
+  {id: 'name', title: 'ULB', rowSpan: 2},
+  {id: 'total', title: 'Total ULBs', rowSpan: 2},
+  {title: 'ULB uploaded', id: 'uploaded', colSpan: 2},
+  {title: 'Total ULBs not uploaded', id: 'uploaded', colSpan: 2},
+  {title: 'ULBS under review', id: 'uploaded', colSpan: 2},
+  {title: 'ULBs data accepted', id: 'uploaded', colSpan: 2},
+  {title: 'ULBs data rejected', id: 'uploaded', colSpan: 2},
+];
+export const ulbWiseReportSub = [...stateWiseReportSub];

@@ -78,4 +78,9 @@ export class FinancialDataService {
   getStateWiseReportData(financialYear: string = '2015-16') {
     return this.httpClient.get(`${environment.api.url}report/financial-data/statewise?financialYear=${financialYear}`);
   }
+
+  getUlbTypeWiseData(financialYear: string = '2015-16') {
+    return this.httpClient.get(`${environment.api.url}report/financial-data/ulbtypewise?financialYear=${financialYear}`);
+
+  }
 }

@@ -4,7 +4,7 @@ import {
   overAllReportMain,
   overAllSubHeader,
   stateWiseReportMain,
-  stateWiseReportSub
+  stateWiseReportSub, ulbWiseReportMain, ulbWiseReportSub
 } from '../../../shared/components/home-header/tableHeaders';
 import {ActivatedRoute} from '@angular/router';
 import {FormControl} from '@angular/forms';
@@ -47,6 +47,13 @@ export class ReportTableComponent implements OnInit {
         this.tableHeadersMain = stateWiseReportMain;
         this.tableHeaderSub = stateWiseReportSub;
         this.fetchStateWiseReportData();
+        break;
+      case 'ulb':
+        this.tableHeadersMain = ulbWiseReportMain;
+        this.tableHeaderSub = ulbWiseReportSub;
+        this.fetchUlbTypeWiseData();
+
+
     }
   };
 
@@ -105,6 +112,13 @@ export class ReportTableComponent implements OnInit {
   private fetchStateWiseReportData() {
     this.financialDataService
       .getStateWiseReportData(this.financialYearFormControl.value)
+      .subscribe(this.handleResponseSuccess,
+        error => this.handleResponseFailure);
+  }
+
+  private fetchUlbTypeWiseData() {
+    this.financialDataService
+      .getUlbTypeWiseData(this.financialYearFormControl.value)
       .subscribe(this.handleResponseSuccess,
         error => this.handleResponseFailure);
   }
