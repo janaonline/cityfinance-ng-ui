@@ -142,7 +142,18 @@ export class UsersComponent implements OnInit {
           moduleName: MODULES_NAME.REPORTS
         });
       }
-    }
+    },
+    // {
+    //   title: 'State and ULB Wise Report',
+    //   type: 'link',
+    //   route: ['/user/reports/stateUlb'],
+    //   condition: () => {
+    //     return this.accessChecker.hasAccess({
+    //       action: ACTIONS.VIEW,
+    //       moduleName: MODULES_NAME.REPORTS
+    //     });
+    //   }
+    // }
   ];
 
   loggedInUserType: USER_TYPE;

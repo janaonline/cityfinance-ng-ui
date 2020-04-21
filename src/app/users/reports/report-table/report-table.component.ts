@@ -52,7 +52,11 @@ export class ReportTableComponent implements OnInit {
         this.tableHeadersMain = ulbWiseReportMain;
         this.tableHeaderSub = ulbWiseReportSub;
         this.fetchUlbTypeWiseData();
-
+        break;
+      case 'stateUlb':
+        this.tableHeadersMain = ulbWiseReportMain;
+        this.tableHeaderSub = ulbWiseReportSub;
+        this.fetchStateAndUlbTypeWiseData();
 
     }
   };
@@ -119,6 +123,13 @@ export class ReportTableComponent implements OnInit {
   private fetchUlbTypeWiseData() {
     this.financialDataService
       .getUlbTypeWiseData(this.financialYearFormControl.value)
+      .subscribe(this.handleResponseSuccess,
+        error => this.handleResponseFailure);
+  }
+
+  private fetchStateAndUlbTypeWiseData() {
+    this.financialDataService
+      .getStateAndUlbTypeWiseData(this.financialYearFormControl.value)
       .subscribe(this.handleResponseSuccess,
         error => this.handleResponseFailure);
   }
