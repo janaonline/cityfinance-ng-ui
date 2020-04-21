@@ -1,4 +1,4 @@
-export default class FileUpload {
+export class FileUpload {
   get uploading(): boolean {
     return this._uploading;
   }
