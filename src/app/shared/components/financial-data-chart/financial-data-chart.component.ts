@@ -1,49 +1,93 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
 import {Chart} from 'chart.js';
+import {FormControl} from '@angular/forms';
+import {FinancialDataService} from '../../../users/services/financial-data.service';
+import {element} from 'protractor';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'app-financial-data-chart',
   templateUrl: './financial-data-chart.component.html',
   styleUrls: ['./financial-data-chart.component.scss']
 })
-export class FinancialDataChartComponent implements OnInit {
+export class FinancialDataChartComponent implements OnInit, OnChanges {
 
   @Input() financialYears: any[];
+  chart = null;
+  financialYearFormControl: FormControl = new FormControl('2015-16');
 
-  constructor() {
+
+  constructor(private financialDataService: FinancialDataService) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
   }
 
   ngOnInit() {
-    this.renderChart();
+    this.fetchData();
+
+
   }
 
-  renderChart() {
-    var barChartData = {
-      labels: ['Delhi', 'Uttrakhand', 'Punjab',],
-      datasets: [
-        {
-          barThickness: 15,
-          label: 'Request Under Review',
-          backgroundColor: ['rgb(252,131,228)', 'rgb(252,131,228)', 'rgb(252,131,228)'],
-          data: [12, 21, 13]
-        },
-        {
-          barThickness: 15,
-          backgroundColor: ['rgb(131,252,131)', 'rgb(131,252,131)', 'rgb(131,252,131)'],
-          label: ' Approved By Admin',
-          data: [10, 15, 46]
-
-        }, {
-          barThickness: 15,
-          backgroundColor: ['rgb(131,201,252)', 'rgb(131,201,252)', 'rgb(131,201,252)'],
-          label: ' Rejected By Admin',
-          data: [11, 75, 26]
-        }]
+  renderChart(data) {
+    let labels = data.map(element => element.name);
+    let barChartData = {
+      labels,
+      datasets: this.prepareDatasets(data)
     };
+    if (!this.chart) {
+      this.initializeChart(barChartData);
+    } else {
+      this.updateChart(this.chart, labels, barChartData.datasets);
+      this.chart.data.labels = labels;
+      this.chart.data.datasets = barChartData.datasets;
+      this.chart.update();
+    }
+  }
+
+  prepareDatasets(data) {
+    let underReview = {
+      barThickness: 15,
+      label: 'Request Under Review',
+      backgroundColor: ['rgb(252,131,228)', 'rgb(252,131,228)', 'rgb(252,131,228)'],
+      data: data.map(element => element.pending)
+    };
+    let rejected = {
+      ...underReview,
+      label: ' Rejected By Admin',
+      backgroundColor: ['rgb(131,201,252)', 'rgb(131,201,252)', 'rgb(131,201,252)'],
+      data: data.map(element => element.rejected)
+    };
+    let approved = {
+      ...rejected,
+      label: ' Approved By Admin',
+      backgroundColor: ['rgb(131,252,131)', 'rgb(131,252,131)', 'rgb(131,252,131)'],
+      data: data.map(element => element.approved)
+    };
+    return [underReview, approved, rejected];
+  }
+
+  updateChart(chart, labels, datasets) {
+    chart.data.labels = labels;
+    chart.data.datasets = datasets;
+    chart.update();
+
+  }
+
+  private fetchData() {
+    this.financialDataService.getChartData(this.financialYearFormControl.value).subscribe(response => {
+      if (response['success']) {
+        this.renderChart(response['data']);
+      }
+    }, error => {
+    });
+  }
+
+  private initializeChart(data) {
     let id = <HTMLCanvasElement>document.getElementById('chart');
-    new Chart(id, {
+    this.chart = new Chart(id, {
       type: 'bar',
-      data: barChartData,
+      data: data,
       options: {
         title: {
           display: true,
