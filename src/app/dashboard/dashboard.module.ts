@@ -10,6 +10,8 @@ import {AgGridModule} from 'ag-grid-angular';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthModule} from '../auth/auth.module';
 import {SharedModule} from '../shared/shared.module';
+import {MatListModule} from '@angular/material';
+import {AngularMaterialModule} from '../angular-material.module';
 
 @NgModule({
   imports: [
@@ -18,7 +20,9 @@ import {SharedModule} from '../shared/shared.module';
     AgGridModule.withComponents([]),
     ReactiveFormsModule,
     AuthModule,
-    SharedModule
+    SharedModule,
+    MatListModule,
+    AngularMaterialModule
   ],
   providers: [
     CommonService
