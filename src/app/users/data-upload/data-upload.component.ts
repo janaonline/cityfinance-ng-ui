@@ -15,7 +15,7 @@ import swal from 'sweetalert';
 import {USER_TYPE} from '../../models/user/userType';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {UPLOAD_STATUS} from '../../util/enums';
-import FileUpload from '../../util/fileUpload';
+import {FileUpload} from '../../util/fileUpload';
 
 @Component({
   selector: 'app-data-upload',
@@ -85,6 +85,17 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     skip: 0
   };
   modalTableData: any[] = [];
+
+  /*  fileUpload = {
+      uploading: false,
+      currentUploadedFiles: 0,
+      totalFiles: 0,
+      reset: function () {
+        this.uploading = false;
+        this.currentUploadedFiles = 0;
+        this.totalFiles = 0;
+      }
+    };*/
 
   constructor(public activatedRoute: ActivatedRoute,
               public router: Router,
