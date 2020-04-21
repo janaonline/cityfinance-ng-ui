@@ -11,6 +11,7 @@ import {BulkEntryComponent} from './bulk-entry/bulk-entry.component';
 import {DataUploadActionComponent} from './data-upload-action/data-upload-action.component';
 import {DataUploadRoutingModule} from './data-upload-routing.module';
 import FileUpload from '../../util/fileUpload';
+import {FinancialDataService} from '../services/financial-data.service';
 
 @NgModule({
   imports: [
@@ -21,7 +22,7 @@ import FileUpload from '../../util/fileUpload';
     AngularMaterialModule,
     SharedModule
   ],
-  providers: [AccessChecker, UserUtility, FileUpload],
+  providers: [AccessChecker, UserUtility, FileUpload,FinancialDataService],
   declarations: [DataUploadActionComponent, BulkEntryComponent]
 })
 export class DataUploadModule {
