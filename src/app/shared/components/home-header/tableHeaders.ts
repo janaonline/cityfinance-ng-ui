@@ -320,11 +320,11 @@ export const ulbUploadList: ModalTableHeader[] = [
 export const overAllReportMain: ModalTableHeader[] = [
   {title: 'State', id: 'state', rowSpan: 2},
   {title: 'Total ULBs', id: 'total', rowSpan: 2},
-  {title: 'ULB uploaded', id: 'uploaded', colSpan: 2},
-  {title: 'Total ULBs not uploaded', id: 'uploaded', colSpan: 2},
-  {title: 'ULBS under review', id: 'uploaded', colSpan: 2},
-  {title: 'ULBs data accepted', id: 'uploaded', colSpan: 2},
-  {title: 'ULBs data rejected', id: 'uploaded', colSpan: 2},
+  {title: 'ULB Uploaded', id: 'uploaded', colSpan: 2},
+  {title: 'Total ULBs Not Uploaded', id: 'uploaded', colSpan: 2},
+  {title: 'ULBS Under Review', id: 'uploaded', colSpan: 2},
+  {title: 'ULBs Data Accepted', id: 'uploaded', colSpan: 2},
+  {title: 'ULBs Data Rejected', id: 'uploaded', colSpan: 2},
 ];
 export const overAllSubHeader: ModalTableHeader[] = [
   {title: 'Nos.', id: 'uploaded'},
@@ -371,7 +371,7 @@ export const usageReportMain: ModalTableHeader[] = [
 ];
 export const usageReportSub: ModalTableHeader[] = [
   {id: 'intTheMonth', title: 'In a month', rowSpan: 1},
-  {id: 'moreThan10Times', title: 'more than 10 times', rowSpan: 1},
+  {id: 'moreThan10Times', title: 'More than 10 times', rowSpan: 1},
   {id: 'moreThan5Times', title: 'More than 5 time', rowSpan: 1},
   {id: 'moreThan1Times', title: 'More than 1 time', rowSpan: 1},
   {id: 'oneTime', title: '1 time', rowSpan: 1},

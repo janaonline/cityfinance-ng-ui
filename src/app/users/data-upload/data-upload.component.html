@@ -90,7 +90,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
-          <app-financial-data-chart  [financialYears]="financialYearDropdown"></app-financial-data-chart>
+          <app-financial-data-chart [financialYears]="financialYearDropdown"></app-financial-data-chart>
         </div>
       </div>
       <div class="row">
@@ -206,8 +206,11 @@
                              (click)="navigateTo(row)" title="Edit"
                              [routerLink]="['/user/data-upload/upload-form',row?._id]">Take {{header.title}}
                           </a>
-                          <i *ngIf="row['status']!==uploadStatus.PENDING" class="fa fa-eye"
-                             aria-hidden="true"></i>
+                          <a *ngIf="row['status']!==uploadStatus.PENDING"
+                             (click)="navigateTo(row)" title="View"
+                             [routerLink]="['/user/data-upload/upload-form',row?._id]">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                          </a>
                         </ng-container>
                         <ng-container *ngSwitchDefault>
                           <a [routerLink]="['/user/data-upload/action',row?._id]"
