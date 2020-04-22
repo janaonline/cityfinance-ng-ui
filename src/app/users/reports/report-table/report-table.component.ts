@@ -4,7 +4,7 @@ import {
   overAllReportMain,
   overAllSubHeader,
   stateWiseReportMain,
-  stateWiseReportSub, ulbWiseReportMain, ulbWiseReportSub
+  stateWiseReportSub, ulbWiseReportMain, ulbWiseReportSub, usageReportMain, usageReportSub
 } from '../../../shared/components/home-header/tableHeaders';
 import {ActivatedRoute} from '@angular/router';
 import {FormControl} from '@angular/forms';
@@ -57,6 +57,12 @@ export class ReportTableComponent implements OnInit {
         this.tableHeadersMain = ulbWiseReportMain;
         this.tableHeaderSub = ulbWiseReportSub;
         this.fetchStateAndUlbTypeWiseData();
+        break;
+      case 'usage':
+        this.tableHeadersMain = usageReportMain;
+        this.tableHeaderSub = usageReportSub;
+
+        this.fetchUsageReportData();
 
     }
   };
@@ -70,7 +76,9 @@ export class ReportTableComponent implements OnInit {
 
   handleResponseSuccess = (response) => {
     this.overAllReportData = response['data'];
-    this.addExtraColumns();
+    if (this.reportType !== 'usage') {
+      this.addExtraColumns();
+    }
   };
 
   handleResponseFailure = (error) => {
@@ -130,6 +138,13 @@ export class ReportTableComponent implements OnInit {
   private fetchStateAndUlbTypeWiseData() {
     this.financialDataService
       .getStateAndUlbTypeWiseData(this.financialYearFormControl.value)
+      .subscribe(this.handleResponseSuccess,
+        error => this.handleResponseFailure);
+  }
+
+  private fetchUsageReportData() {
+    this.financialDataService
+      .getUsageReportData(this.financialYearFormControl.value)
       .subscribe(this.handleResponseSuccess,
         error => this.handleResponseFailure);
   }
