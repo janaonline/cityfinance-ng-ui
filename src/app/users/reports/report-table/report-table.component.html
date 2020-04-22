@@ -87,7 +87,6 @@
         </tr>
       </ng-container>
       </tbody>
-
     </table>
 
     <table *ngSwitchCase="'stateUlb'" class="table">
@@ -96,22 +95,30 @@
         *ngTemplateOutlet="header; context:{$implicit:{main:tableHeadersMain,sub:tableHeaderSub} } "></ng-container>
       </thead>
       <tbody>
-      <ng-container *ngFor="let rowSpan of overAllReportData;let i = index">
-        <tr *ngFor="let subRow of ['Total', 'Audited','Unaudited'];let dataIndex = index ">
-          <td *ngIf="dataIndex==0" rowspan="3">{{i + 1}}</td>
-          <td>{{subRow == 'Total' ? 'All states' : ''}}</td>
-          <td>{{subRow == 'Total' ? rowSpan['name'] : ''}}</td>
-          <td>{{subRow == 'Total' ? rowSpan['total'] : subRow}}</td>
-          <ng-container *ngFor="let  row of tableHeaderSub">
-            <ng-container [ngSwitch]="subRow">
-              <td *ngSwitchDefault>
-                <ng-container *ngIf="rowSpan['data'][dataIndex]">
-                  {{rowSpan['data'][dataIndex][row.id]}}
-                </ng-container>
-              </td>
+      <ng-container *ngFor="let state of overAllReportData;let i = index">
+        <ng-container *ngFor="let ulb of state.data.slice(1); let ulbIndex = index">
+          <tr *ngFor="let subRow of ['Total', 'Audited','Unaudited'];let datasetIndex =index ">
+            <td [rowSpan]="state.data.length">state.data {{ulbIndex == 0 ? i + 1 : ''}} </td>
+            <td [rowSpan]="ulb.data.length"> data set {{datasetIndex == 0 ? state.name : ''}}</td>
+            <ng-container *ngFor="let  row of tableHeaderSub">
+
             </ng-container>
-          </ng-container>
-        </tr>
+          <tr>
+        </ng-container>
+
+        <!--          <td *ngIf="dataIndex==0" [rowSpan]="subRow.length">{{i + 1}}</td>-->
+        <!--          <td>{{subRow == 'Total' ? 'All states' : ''}}</td>-->
+        <!--          <td>{{subRow == 'Total' ? rowSpan['name'] : ''}}</td>-->
+        <!--          <td>{{subRow == 'Total' ? rowSpan['total'] : subRow}}</td>-->
+        <!--          <ng-container *ngFor="let  row of tableHeaderSub">-->
+        <!--            <ng-container [ngSwitch]="subRow">-->
+        <!--              <td *ngSwitchDefault>-->
+        <!--                <ng-container *ngIf="rowSpan['data'][dataIndex]">-->
+        <!--                  {{rowSpan['data'][dataIndex][row.id]}}-->
+        <!--                </ng-container>-->
+        <!--              </td>-->
+        <!--            </ng-container>-->
+        <!--          </ng-container>-->
       </ng-container>
       </tbody>
 
