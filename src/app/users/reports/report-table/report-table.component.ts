@@ -1,0 +1,163 @@
+import {Component, OnInit} from '@angular/core';
+import {FinancialDataService} from '../../services/financial-data.service';
+import {
+  overAllReportMain,
+  overAllSubHeader,
+  stateWiseReportMain,
+  stateWiseReportSub,
+  ulbWiseReportMain,
+  ulbWiseReportSub,
+  usageReportMain,
+  usageReportSub
+} from '../../../shared/components/home-header/tableHeaders';
+import {ActivatedRoute} from '@angular/router';
+import {FormControl} from '@angular/forms';
+import {TableDownloader} from '../../../shared/util/tableDownload/genericTableDownload';
+
+@Component({
+  selector: 'app-usage-report',
+  templateUrl: './report-table.component.html',
+  styleUrls: ['./report-table.component.scss']
+})
+export class ReportTableComponent implements OnInit {
+
+  tableHeadersMain = [];
+  tableHeaderSub = [];
+  overAllReportData = [];
+  financialYearFormControl: FormControl = new FormControl('2015-16');
+  reportType: string;
+  financialYearDropdown: any = [];
+
+  constructor(private financialDataService: FinancialDataService,
+              private activatedRoute: ActivatedRoute) {
+  }
+
+  ngOnInit() {
+    this.fetchFinancialYears();
+    this.activatedRoute.params.subscribe(this.initializeDataByParams);
+  }
+
+  initializeDataByParams = ({type}) => {
+    this.reportType = type;
+    this.tableHeadersMain = [];
+    this.tableHeaderSub = [];
+    this.overAllReportData = [];
+    switch (type) {
+      case 'overAll':
+        this.tableHeadersMain = overAllReportMain;
+        this.tableHeaderSub = overAllSubHeader;
+        this.fetchOverAllReportData();
+        break;
+      case 'state':
+        this.tableHeadersMain = stateWiseReportMain;
+        this.tableHeaderSub = stateWiseReportSub;
+        this.fetchStateWiseReportData();
+        break;
+      case 'ulb':
+        this.tableHeadersMain = ulbWiseReportMain;
+        this.tableHeaderSub = ulbWiseReportSub;
+        this.fetchUlbTypeWiseData();
+        break;
+      case 'stateUlb':
+        this.tableHeadersMain = ulbWiseReportMain;
+        this.tableHeaderSub = ulbWiseReportSub;
+        this.fetchStateAndUlbTypeWiseData();
+        break;
+      case 'usage':
+        this.tableHeadersMain = usageReportMain;
+        this.tableHeaderSub = usageReportSub;
+
+        this.fetchUsageReportData();
+
+    }
+  };
+
+  fetchOverAllReportData() {
+    this.financialDataService
+      .getOverAllReportData(this.financialYearFormControl.value)
+      .subscribe(this.handleResponseSuccess,
+        error => this.handleResponseFailure);
+  }
+
+  handleResponseSuccess = (response) => {
+    this.overAllReportData = response['data'];
+    if (this.reportType !== 'usage') {
+      this.addExtraColumns();
+    }
+  };
+
+  handleResponseFailure = (error) => {
+
+  };
+
+  private addExtraColumns() {
+    this.overAllReportData = this.overAllReportData.map(item => {
+      const {total, data} = item;
+      let keys = ['uploaded', 'pending', 'approved', 'rejected'];
+      let totalObject = {};
+      for (let key of keys) {
+        totalObject[key] = item.data.map(item => item[key]).reduce((a, c) => a + (c || 0), 0);
+      }
+      item.data.unshift(totalObject);
+      for (let row of item.data) {
+        if (!('audited' in row)) {
+          row['notUploaded'] = total - row['uploaded'];
+          let percentage = ((row['notUploaded'] / total) * 100) || 0;
+          row[`notUploadedPercentage`] = Number(percentage).toFixed(2) + '%';
+        }
+        keys.forEach(key => {
+          let percentage = ((row[key] / total) * 100) || 0;
+          row[`${key}Percentage`] = Number(percentage).toFixed(2) + '%';
+        });
+      }
+      return {
+        ...item
+      };
+    });
+  }
+
+  private fetchFinancialYears() {
+    this.financialDataService.getFinancialYears().subscribe(result => {
+      if (result['success']) {
+        this.financialYearDropdown = result['data'];
+      }
+    });
+  }
+
+  private fetchStateWiseReportData() {
+    this.financialDataService
+      .getStateWiseReportData(this.financialYearFormControl.value)
+      .subscribe(this.handleResponseSuccess,
+        error => this.handleResponseFailure);
+  }
+
+  private fetchUlbTypeWiseData() {
+    this.financialDataService
+      .getUlbTypeWiseData(this.financialYearFormControl.value)
+      .subscribe(this.handleResponseSuccess,
+        error => this.handleResponseFailure);
+  }
+
+  private fetchStateAndUlbTypeWiseData() {
+    this.financialDataService
+      .getStateAndUlbTypeWiseData(this.financialYearFormControl.value)
+      .subscribe(this.handleResponseSuccess,
+        error => this.handleResponseFailure);
+  }
+
+  private fetchUsageReportData() {
+    this.financialDataService
+      .getUsageReportData(this.financialYearFormControl.value)
+      .subscribe(this.handleResponseSuccess,
+        error => this.handleResponseFailure);
+  }
+
+  tableDownload() {
+    let tableElement = <HTMLTableElement>document.getElementById('table');
+    let tableDownloader = TableDownloader.getInstance();
+    tableDownloader.downloadTable(tableElement, {
+      filename: this.reportType,
+      extension: 'xlsx'
+    });
+  }
+}

@@ -70,4 +70,29 @@ export class FinancialDataService {
   getFinancialYears() {
     return this.httpClient.get(`${environment.api.url}financial-year`);
   }
+
+  getOverAllReportData(financialYear: string = '2015-16') {
+    return this.httpClient.get(`${environment.api.url}report/financial-data/overall?financialYear=${financialYear}`);
+  }
+
+  getStateWiseReportData(financialYear: string = '2015-16') {
+    return this.httpClient.get(`${environment.api.url}report/financial-data/statewise?financialYear=${financialYear}`);
+  }
+
+  getUlbTypeWiseData(financialYear: string = '2015-16') {
+    return this.httpClient.get(`${environment.api.url}report/financial-data/ulbtypewise?financialYear=${financialYear}`);
+  }
+
+  getStateAndUlbTypeWiseData(financialYear: string = '2015-16') {
+    return this.httpClient.get(`${environment.api.url}report/financial-data/stateandulbtypewise?financialYear=${financialYear}`);
+  }
+
+  getUsageReportData(financialYear: string = '2015-16') {
+    return this.httpClient.get(`${environment.api.url}report/usage?financialYear=${financialYear}`);
+
+  }
+  getChartData(financialYear: string = '2015-16') {
+    return this.httpClient.get(`${environment.api.url}report/financial-data/chart?financialYear=${financialYear}`);
+
+  }
 }

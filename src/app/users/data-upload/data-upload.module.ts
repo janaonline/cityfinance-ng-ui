@@ -1,15 +1,16 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
-
-import { AngularMaterialModule } from '../../angular-material.module';
-import { SharedModule } from '../../shared/shared.module';
-import { AccessChecker } from '../../util/access/accessChecker';
-import { UserUtility } from '../../util/user/user';
-import { BulkEntryComponent } from './bulk-entry/bulk-entry.component';
-import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
-import { DataUploadRoutingModule } from './data-upload-routing.module';
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
+import {AngularMaterialModule} from '../../angular-material.module';
+import {SharedModule} from '../../shared/shared.module';
+import {AccessChecker} from '../../util/access/accessChecker';
+import {BulkEntryComponent} from './bulk-entry/bulk-entry.component';
+import {DataUploadActionComponent} from './data-upload-action/data-upload-action.component';
+import {DataUploadRoutingModule} from './data-upload-routing.module';
+import {FinancialDataService} from '../services/financial-data.service';
+import {FileUpload} from '../../util/fileUpload';
+import {UserUtility} from '../../util/user/user';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { DataUploadRoutingModule } from './data-upload-routing.module';
     AngularMaterialModule,
     SharedModule
   ],
-  providers: [AccessChecker, UserUtility],
+  providers: [AccessChecker, FileUpload,UserUtility, FinancialDataService],
   declarations: [DataUploadActionComponent, BulkEntryComponent]
 })
-export class DataUploadModule {}
+export class DataUploadModule {
+}

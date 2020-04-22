@@ -1,18 +1,21 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable, of, throwError} from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import {Observable, of, Subject, throwError} from 'rxjs';
+import {NavigationEnd, ResolveEnd, Router} from '@angular/router';
+import {catchError, filter, takeUntil} from 'rxjs/operators';
 
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {
+
+
+  routerNavigationSuccess = new Subject<any>();
+
+  constructor(private router: Router
+    , private _router: Router) {
+    this.initializeRequestCancelProccess();
   }
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.body instanceof File && req.method === 'PUT') {
       return next.handle(req);
     }
@@ -23,27 +26,41 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     if (!req.headers.has('Accept')) {
       headers = req.headers.set('Content-Type', 'application/json');
     }
-    if(sessionID) {
+    if (sessionID) {
       headers = headers.set('sessionId', sessionID);
     }
     if (token) {
       headers = headers.set('x-access-token', token);
       const authReq = req.clone({headers});
       return next.handle(authReq).pipe(
+        takeUntil(this.routerNavigationSuccess),
         catchError(this.handleError)
       );
     }
 
     return next.handle(req).pipe(
-        catchError(this.handleError)
-      );
+      takeUntil(this.routerNavigationSuccess),
+      catchError(this.handleError)
+    );
+  }
+
+  initializeRequestCancelProccess() {
+    this._router.events
+      .pipe(
+        filter(event => event instanceof ResolveEnd || event instanceof NavigationEnd),
+        filter((event: ResolveEnd | NavigationEnd) => {
+          return event.url.split('?')[0] !== event.urlAfterRedirects.split('?')[0];
+        }),
+        filter(event => event instanceof NavigationEnd)
+      )
+      .subscribe(this.routerNavigationSuccess);
   }
 
 
   private handleError = (err: HttpErrorResponse) => {
-     if( err.status === 401) {
-            this.router.navigate(['login'])
-      }          
-        return throwError(err);
-  }
+    if (err.status === 401) {
+      this.router.navigate(['login']);
+    }
+    return throwError(err);
+  };
 }

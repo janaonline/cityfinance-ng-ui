@@ -65,8 +65,12 @@
           <div class="row mt-4 mb-4">
             <div class="col-sm-12">
               <button #submitButton *ngIf="uploadId==null" [disabled]="fileFormGroup.invalid" class="btn btn-primary"
-                      (click)="submitClickHandler(submitButton)">Submit
+                      (click)="submitClickHandler(submitButton)">{{fileUpload.uploading ? 'Please Wait..' : 'Submit'}}
               </button>
+              <div *ngIf="fileUpload.uploading" class="alert alert-success mt-1">Uploading
+                : {{fileUpload.currentUploadedFiles}} out
+                of {{fileUpload.totalFiles}} files
+              </div>
               <button #updateButton *ngIf="uploadId!==null &&
                (completenessStatus==='REJECTED'||correctnessStatus ==='REJECTED')" [disabled]="fileFormGroup.invalid "
                       class="btn btn-primary"
@@ -86,7 +90,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
-          <app-financial-data-chart></app-financial-data-chart>
+          <app-financial-data-chart [financialYears]="financialYearDropdown"></app-financial-data-chart>
         </div>
       </div>
       <div class="row">
@@ -196,15 +200,28 @@
                   <ng-container [ngSwitch]="header.id">
                     <ng-container *ngSwitchCase="'action'">
                       <ng-container [ngSwitch]="userUtil.getUserType()">
-                        <a (click)="navigateTo(row)" title="Edit"
-                           [routerLink]="['/user/data-upload/upload-form',row?._id]">
-                          <i *ngSwitchCase="'ULB'"
-                             [ngClass]="row['status']===uploadStatus.REJECTED ? 'fa fa-pencil': 'fa fa-eye'"
-                             aria-hidden="true"></i>
-                        </a>
-                        <a *ngSwitchDefault [routerLink]="['/user/data-upload/action',row?._id]"
-                           (click)="navigateTo(row)"
-                           class="btn btn-primary">Take {{header.title}}</a>
+                        <ng-container *ngSwitchCase="'ULB'">
+                          <a *ngIf="row['status']===uploadStatus.PENDING"
+                             class="btn btn-primary"
+                             (click)="navigateTo(row)" title="Edit"
+                             [routerLink]="['/user/data-upload/upload-form',row?._id]">Take {{header.title}}
+                          </a>
+                          <a *ngIf="row['status']!==uploadStatus.PENDING"
+                             (click)="navigateTo(row)" title="View"
+                             [routerLink]="['/user/data-upload/upload-form',row?._id]">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                          </a>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                          <a [routerLink]="['/user/data-upload/action',row?._id]"
+                             (click)="navigateTo(row)">
+                            <i *ngIf="row['status']!==uploadStatus.PENDING" class="fa fa-eye"></i>
+                          </a>
+                          <a *ngIf="row['status']===uploadStatus.PENDING"
+                             [routerLink]="['/user/data-upload/action',row?._id]"
+                             (click)="navigateTo(row)"
+                             class="btn btn-primary">Take {{header.title}}</a>
+                        </ng-container>
                       </ng-container>
                     </ng-container>
                     <span *ngSwitchCase="'audited'">

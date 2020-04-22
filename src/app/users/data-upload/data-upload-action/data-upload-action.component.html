@@ -9,7 +9,7 @@
                  [selectedIndex]="tabIndex"
                  class="mt-1"
                  animationDuration="100ms">
-    <mat-tab label="Stage 1 : Completeness">
+    <mat-tab *ngIf="financeDataService.selectedFinancialRequest" label="Stage 1 : Completeness">
       <ng-template matTabContent>
         <ng-container *ngTemplateOutlet="dropDownContainer"></ng-container>
         <ng-container>
@@ -20,7 +20,7 @@
               </h3>
             </div>
             <div class="row">
-              <div class="col-sm-5">
+              <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
                     <h4>Balance Sheet</h4>
@@ -35,7 +35,7 @@
 
                 </div>
               </div>
-              <div class="col-sm-5">
+              <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
                     <h4>Schedules Balance Sheet</h4>
@@ -54,7 +54,7 @@
 
             <div class="row mt-3">
 
-              <div class="col-sm-5">
+              <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
                     <h4>Income and Expenditure</h4>
@@ -70,7 +70,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-5">
+              <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
                     <h4>Schedules to Income and Expenditure</h4>
@@ -90,7 +90,7 @@
 
             <div class="row mt-3">
 
-              <div class="col-sm-5">
+              <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
                     <h4>Trial Balance</h4>
@@ -107,7 +107,7 @@
 
                 </div>
               </div>
-              <div class="col-sm-5" *ngIf="financeDataService?.selectedFinancialRequest?.audited">
+              <div class="col-sm-6" *ngIf="financeDataService?.selectedFinancialRequest?.audited">
                 <div class="row">
                   <div class="col-sm-12">
                     <h4>Audit Report</h4>
@@ -138,7 +138,8 @@
       </ng-template>
     </mat-tab>
 
-    <mat-tab [disabled]="this.completenessStatus!=='APPROVED'" label="State 2: Correctness">
+    <mat-tab *ngIf="financeDataService.selectedFinancialRequest" [disabled]="this.completenessStatus!=='APPROVED'"
+             label="State 2: Correctness">
       <ng-template matTabContent>
         <ng-container *ngTemplateOutlet="dropDownContainer"></ng-container>
         <ng-container>
@@ -150,7 +151,7 @@
             </div>
 
             <div class="row">
-              <div class="col-sm-5">
+              <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
                     <h4>Balance Sheet</h4>
@@ -166,7 +167,7 @@
                   </app-file-status-checker-input>
                 </div>
               </div>
-              <div class="col-sm-5">
+              <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
                     <h4>Schedules Balance Sheet</h4>
@@ -184,7 +185,7 @@
             </div>
 
             <div class="row mt-3">
-              <div class="col-sm-5">
+              <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
                     <h4>Income and Expenditure</h4>
@@ -200,7 +201,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-5">
+              <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
                     <h4>Schedules to Income and Expenditure</h4>
@@ -218,7 +219,7 @@
             </div>
 
             <div class="row mt-3">
-              <div class="col-sm-5">
+              <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
                     <h4>Trial Balance</h4>
@@ -233,7 +234,7 @@
                   </app-file-status-checker-input>
                 </div>
               </div>
-              <div class="col-sm-5" *ngIf="financeDataService?.selectedFinancialRequest?.audited">
+              <div class="col-sm-6" *ngIf="financeDataService?.selectedFinancialRequest?.audited">
                 <div class="row">
                   <div class="col-sm-12">
                     <h4>Audit Report</h4>

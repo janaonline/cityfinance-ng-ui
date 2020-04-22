@@ -22,6 +22,7 @@ import {SideMenuComponent} from './side-menu/side-menu.component';
 import {FileStatusCheckerInputComponent} from './components/file-status-checker-input/file-status-checker-input.component';
 import {FinanceDataUploadInputComponent} from './components/finance-data-upload-input/finance-data-upload-input.component';
 import {FinancialDataChartComponent} from './components/financial-data-chart/financial-data-chart.component';
+import {FinancialDataService} from '../users/services/financial-data.service';
 
 @NgModule({
   imports: [
@@ -63,6 +64,7 @@ import {FinancialDataChartComponent} from './components/financial-data-chart/fin
     FinanceDataUploadInputComponent,
     FinancialDataChartComponent
   ]
+  , providers: [FinancialDataService]
 })
 export class SharedModule {
 }
