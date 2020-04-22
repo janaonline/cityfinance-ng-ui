@@ -365,7 +365,7 @@ export const ulbWiseReportSub = [...stateWiseReportSub];
 export const usageReportMain: ModalTableHeader[] = [
   {id: 'month', title: 'Month', rowSpan: 2},
   {id: 'num', title: 'No of Visits', rowSpan: 2},
-  {id: 'state', title: 'No of users registered', rowSpan: 2},
+  {id: 'state', title: 'No. of User Logged In', rowSpan: 2},
   {title: 'No of users registered', id: 'numOfRegUser', colSpan: 5},
   {title: 'No of Reports Download', id: 'uploaded', rowSpan: 2},
 ];
