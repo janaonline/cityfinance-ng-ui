@@ -47,7 +47,6 @@
           <ng-container *ngFor="let  row of tableHeaderSub">
             <ng-container [ngSwitch]="subRow">
               <td *ngSwitchDefault>
-                {{row.id}}
                 <ng-container *ngIf="rowSpan['data'][dataIndex]">
                   {{rowSpan['data'][dataIndex][row.id]}}
                 </ng-container>
@@ -113,6 +112,25 @@
       </tbody>
 
     </table>
+
+    <table *ngSwitchCase="'usage'" class="table">
+      <thead>
+      <ng-container
+        *ngTemplateOutlet="header; context:{$implicit:{main:tableHeadersMain,sub:tableHeaderSub} } "></ng-container>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let rowSpan of overAllReportData;let i = index">
+        <tr *ngFor="let  row of tableHeaderSub">
+          <td>{{i + 1}}</td>
+          <td>{{rowSpan['month']}} </td>
+          <td class="text-center">{{rowSpan['num']}} </td>
+          <td class="text-center">{{rowSpan['numOfRegUser']}} </td>
+          <td class="text-center" *ngFor="let col of tableHeaderSub"> {{ rowSpan[col.id]}}</td>
+          <td class="text-center">{{rowSpan['numReportDownloads']}} </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
   </div>
 </div>
 
@@ -121,9 +139,10 @@
     <th rowspan="2">Sr. No</th>
     <th [colSpan]="header?.colSpan?header.colSpan:1"
         [rowSpan]="header.rowSpan?header.rowSpan:1"
+        [ngClass]="header.colSpan>2?'text-center':''"
         *ngFor="let header of rows.main">{{header.title}}</th>
   </tr>
-  <tr>
+  <tr *ngIf="rows.sub.length">
     <th *ngFor="let subheader of rows.sub">{{subheader.title}}</th>
   </tr>
 </ng-template>

@@ -361,3 +361,19 @@ export const ulbWiseReportMain: ModalTableHeader[] = [
   {title: 'ULBs data rejected', id: 'uploaded', colSpan: 2},
 ];
 export const ulbWiseReportSub = [...stateWiseReportSub];
+
+export const usageReportMain: ModalTableHeader[] = [
+  {id: 'month', title: 'Month', rowSpan: 2},
+  {id: 'num', title: 'No of Visits', rowSpan: 2},
+  {id: 'state', title: 'No of users registered', rowSpan: 2},
+  {title: 'No of users registered', id: 'numOfRegUser', colSpan: 5},
+  {title: 'No of Reports Download', id: 'uploaded', rowSpan: 2},
+];
+export const usageReportSub: ModalTableHeader[] = [
+  {id: 'intTheMonth', title: 'In a month', rowSpan: 1},
+  {id: 'moreThan10Times', title: 'more than 10 times', rowSpan: 1},
+  {id: 'moreThan5Times', title: 'More than 5 time', rowSpan: 1},
+  {id: 'moreThan1Times', title: 'More than 1 time', rowSpan: 1},
+  {id: 'oneTime', title: '1 time', rowSpan: 1},
+
+];
