@@ -24,7 +24,7 @@ export class ReportTableComponent implements OnInit {
   tableHeadersMain = [];
   tableHeaderSub = [];
   overAllReportData = [];
-  financialYearFormControl: FormControl = new FormControl('2015-16');
+  financialYearFormControl: FormControl = new FormControl('2020-21');
   reportType: string;
   financialYearDropdown: any = [];
 

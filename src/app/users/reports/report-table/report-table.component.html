@@ -8,7 +8,7 @@
       <button (click)="tableDownload()" class="ml-1 btn btn-primary">Download</button>
     </div>
   </div>
-  <div class="col-sm-12 mt-2" [ngSwitch]="reportType">
+  <div *ngIf="overAllReportData.length else noData" class="col-sm-12 mt-2" [ngSwitch]="reportType">
     <table id="table" *ngSwitchCase="'overAll'" class="table">
       <thead>
       <ng-container
@@ -136,6 +136,11 @@
       </tbody>
     </table>
   </div>
+  <ng-template #noData>
+    <div class="col-sm-12 d-flex align-items-center" style="height: 50vh">
+      <h4 class="text-center m-auto">No Data Found.</h4>
+    </div>
+  </ng-template>
 </div>
 
 <ng-template #header let-rows>
