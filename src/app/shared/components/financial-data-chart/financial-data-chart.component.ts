@@ -3,7 +3,6 @@ import {Chart} from 'chart.js';
 import {FormControl} from '@angular/forms';
 import {FinancialDataService} from '../../../users/services/financial-data.service';
 import {element} from 'protractor';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'app-financial-data-chart',
@@ -46,22 +45,24 @@ export class FinancialDataChartComponent implements OnInit, OnChanges {
   }
 
   prepareDatasets(data) {
+
     let underReview = {
       barThickness: 15,
       label: 'Request Under Review',
-      backgroundColor: ['rgb(252,131,228)', 'rgb(252,131,228)', 'rgb(252,131,228)'],
+      backgroundColor: data.map(element => 'rgb(252,131,228)'),
       data: data.map(element => element.pending)
     };
     let rejected = {
       ...underReview,
       label: ' Rejected By Admin',
-      backgroundColor: ['rgb(131,201,252)', 'rgb(131,201,252)', 'rgb(131,201,252)'],
+      backgroundColor: data.map(element => 'rgb(131,201,252)'),
+
       data: data.map(element => element.rejected)
     };
     let approved = {
       ...rejected,
       label: ' Approved By Admin',
-      backgroundColor: ['rgb(131,252,131)', 'rgb(131,252,131)', 'rgb(131,252,131)'],
+      backgroundColor: data.map(element => 'rgb(131,252,131)'),
       data: data.map(element => element.approved)
     };
     return [underReview, approved, rejected];
@@ -107,7 +108,7 @@ export class FinancialDataChartComponent implements OnInit, OnChanges {
             stacked: true,
           }],
           yAxes: [{
-            stacked: true
+            stacked: false
           }]
         }
       }

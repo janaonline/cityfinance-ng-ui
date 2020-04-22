@@ -1,7 +1,7 @@
 <div class="row mt-4">
   <div class="col-sm-12">
     <div style="float: right; display: flex">
-      <select class="form-control"  (change)="initializeDataByParams({type:reportType})"
+      <select class="form-control" style="height: 32px" (change)="initializeDataByParams({type:reportType})"
               [formControl]="financialYearFormControl">
         <option [value]="year.name" *ngFor="let year of financialYearDropdown">{{year.name}}</option>
       </select>
