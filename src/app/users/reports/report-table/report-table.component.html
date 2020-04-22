@@ -4,12 +4,12 @@
       <select (change)="initializeDataByParams({type:reportType})" [formControl]="financialYearFormControl">
         <option [value]="year.name" *ngFor="let year of financialYearDropdown">{{year.name}}</option>
       </select>
-      <button class="ml-1 btn btn-primary">Download</button>
+      <button (click)="tableDownload()"  class="ml-1 btn btn-primary">Download</button>
     </div>
   </div>
   <div class="col-sm-12 mt-2" [ngSwitch]="reportType">
 
-    <table *ngSwitchCase="'overAll'" class="table">
+    <table id="table" *ngSwitchCase="'overAll'" class="table">
       <thead>
       <ng-container
         *ngTemplateOutlet="header; context:{$implicit:{main:tableHeadersMain,sub:tableHeaderSub} } "></ng-container>
