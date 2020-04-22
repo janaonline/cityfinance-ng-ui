@@ -36,12 +36,9 @@ export class HomeHeaderComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService) {
     this.initializeAccessChecking();
     this.router.events.subscribe((event) => {
-      console.log(event);
-
       this.isLoggedIn = this.authService.loggedIn();
 
       this.initializeAccessChecking();
-      console.log(`this.isLoggedIn `, this.isLoggedIn);
 
       if (this.isLoggedIn) {
         this.user = this.authService.decodeToken();

@@ -16,27 +16,21 @@ export class FormUtil {
     let form = this.fb.group({
       name: [
         "",
-        [Validators.required, Validators.pattern(this.altest1Aplhabet)]
+        [Validators.required, Validators.pattern(this.altest1Aplhabet)],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
       email: [
         "",
-        [Validators.required, Validators.email, customEmailValidator]
+        [Validators.required, Validators.email, customEmailValidator],
       ],
-      designation: [
-        "",
-        [Validators.required, Validators.pattern(this.altest1Aplhabet)]
-      ],
-      organization: [
-        "",
-        [Validators.required, Validators.pattern(this.altest1Aplhabet)]
-      ]
+      designation: ["", [Validators.required]],
+      organization: ["", [Validators.required]],
     });
     if (purpose === "CREATION") {
       form = this.fb.group({
         ...form.controls,
         password: ["", [Validators.required]],
-        confirmPassword: ["", Validators.required]
+        confirmPassword: ["", Validators.required],
       });
       return form;
     }
@@ -51,25 +45,25 @@ export class FormUtil {
       commissionerName: ["", [Validators.required]],
       commissionerConatactNumber: [
         "",
-        [Validators.required, mobileNoValidator]
+        [Validators.required, mobileNoValidator],
       ],
       name: ["", [Validators.required]],
 
       commissionerEmail: [
         "",
-        [Validators.required, Validators.email, customEmailValidator]
+        [Validators.required, Validators.email, customEmailValidator],
       ],
       accountantName: ["", [Validators.required]],
       accountantConatactNumber: ["", [Validators.required, mobileNoValidator]],
       accountantEmail: [
         "",
-        [Validators.required, Validators.email, customEmailValidator]
-      ]
+        [Validators.required, Validators.email, customEmailValidator],
+      ],
     });
     if (purpose === "CREATION") {
       return this.fb.group({
         ...baseForm.controls,
-        password: [""]
+        password: [""],
       });
     }
 
@@ -80,17 +74,17 @@ export class FormUtil {
         wards: ["", [Validators.required, Validators.pattern(/^[0-9]\d*$/)]],
         population: [
           "",
-          [Validators.required, Validators.pattern(/^[0-9]\d*$/)]
+          [Validators.required, Validators.pattern(/^[0-9]\d*$/)],
         ],
         area: [
           "",
-          [Validators.required, Validators.pattern(/^[0-9]\d*(\.\d+)?$/)]
+          [Validators.required, Validators.pattern(/^[0-9]\d*(\.\d+)?$/)],
         ],
         ulbType: this.fb.group({
-          _id: ["", [Validators.required]]
+          _id: ["", [Validators.required]],
         }),
-        name: ["", [Validators.required]]
-      })
+        name: ["", [Validators.required]],
+      }),
     });
   }
 
@@ -100,7 +94,7 @@ export class FormUtil {
       name: ["", [Validators.required]],
       email: [
         "",
-        [Validators.required, Validators.email, customEmailValidator]
+        [Validators.required, Validators.email, customEmailValidator],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
       designation: ["", [Validators.required]],
@@ -108,9 +102,9 @@ export class FormUtil {
       departmentName: ["", Validators.required],
       departmentEmail: [
         "",
-        [Validators.required, Validators.email, customEmailValidator]
+        [Validators.required, Validators.email, customEmailValidator],
       ],
-      departmentContactNumber: ["", [Validators.required, mobileNoValidator]]
+      departmentContactNumber: ["", [Validators.required, mobileNoValidator]],
     });
 
     return form;
@@ -121,7 +115,7 @@ export class FormUtil {
       name: ["", [Validators.required]],
       email: [
         "",
-        [Validators.required, Validators.email, customEmailValidator]
+        [Validators.required, Validators.email, customEmailValidator],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
       designation: ["", [Validators.required]],
@@ -129,9 +123,9 @@ export class FormUtil {
       departmentName: ["", Validators.required],
       departmentEmail: [
         "",
-        [Validators.required, Validators.email, customEmailValidator]
+        [Validators.required, Validators.email, customEmailValidator],
       ],
-      departmentContactNumber: ["", [Validators.required, mobileNoValidator]]
+      departmentContactNumber: ["", [Validators.required, mobileNoValidator]],
     });
     form.controls.departmentName.setValue("MoHUA");
     return form;
@@ -141,11 +135,11 @@ export class FormUtil {
     const form = this.fb.group({
       name: [
         "",
-        [Validators.required, Validators.pattern(this.altest1Aplhabet)]
+        [Validators.required, Validators.pattern(this.altest1Aplhabet)],
       ],
       email: [
         "",
-        [Validators.required, Validators.email, customEmailValidator]
+        [Validators.required, Validators.email, customEmailValidator],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
       designation: ["", [Validators.required]],
@@ -153,9 +147,9 @@ export class FormUtil {
       departmentName: ["", Validators.required],
       departmentEmail: [
         "",
-        [Validators.required, Validators.email, customEmailValidator]
+        [Validators.required, Validators.email, customEmailValidator],
       ],
-      departmentContactNumber: ["", [Validators.required, mobileNoValidator]]
+      departmentContactNumber: ["", [Validators.required, mobileNoValidator]],
     });
     return form;
   }
@@ -163,7 +157,7 @@ export class FormUtil {
   public validadteUserForm(
     form: FormGroup,
     options: { validationType: "CREATION" | "EDIT" } = {
-      validationType: "CREATION"
+      validationType: "CREATION",
     }
   ) {
     const errors: string[] = [];
@@ -181,25 +175,28 @@ export class FormUtil {
       }
     }
 
-    Object.keys(form.controls).forEach(controlName => {
+    Object.keys(form.controls).forEach((controlName) => {
       const control = form.controls[controlName];
       if (!control.valid) {
         const newControlName = controlName.split(/(?=[A-Z])/).join(" ");
         if (control.errors && control.errors.required) {
           return errors.push(
-            `${newControlName.charAt(0).toUpperCase() +
-              newControlName.substr(1)} is required`
+            `${
+              newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
+            } is required`
           );
         }
         if (control.errors && control.errors.pattern) {
           return errors.push(
-            `${newControlName.charAt(0).toUpperCase() +
-              newControlName.substr(1)} should alphabetic only`
+            `${
+              newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
+            } should alphabetic only`
           );
         }
         errors.push(
-          `${newControlName.charAt(0).toUpperCase() +
-            newControlName.substr(1)} is invalid`
+          `${
+            newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
+          } is invalid`
         );
       }
     });
@@ -209,25 +206,28 @@ export class FormUtil {
 
   public validadteULBForm(form: FormGroup) {
     const errors: string[] = [];
-    Object.keys(form.controls).forEach(controlName => {
+    Object.keys(form.controls).forEach((controlName) => {
       const control = form.controls[controlName];
       if (!control.valid) {
         const newControlName = controlName.split(/(?=[A-Z])/).join(" ");
         if (control.errors && control.errors.required) {
           return errors.push(
-            `${newControlName.charAt(0).toUpperCase() +
-              newControlName.substr(1)} is required`
+            `${
+              newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
+            } is required`
           );
         }
         if (control.errors && control.errors.pattern) {
           return errors.push(
-            `${newControlName.charAt(0).toUpperCase() +
-              newControlName.substr(1)} should alphabetic only`
+            `${
+              newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
+            } should alphabetic only`
           );
         }
         errors.push(
-          `${newControlName.charAt(0).toUpperCase() +
-            newControlName.substr(1)} is invalid`
+          `${
+            newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
+          } is invalid`
         );
       }
     });
@@ -236,25 +236,28 @@ export class FormUtil {
 
   public validateStateForm(form: FormGroup) {
     const errors: string[] = [];
-    Object.keys(form.controls).forEach(controlName => {
+    Object.keys(form.controls).forEach((controlName) => {
       const control = form.controls[controlName];
       if (!control.valid) {
         const newControlName = controlName.split(/(?=[A-Z])/).join(" ");
         if (control.errors && control.errors.required) {
           return errors.push(
-            `${newControlName.charAt(0).toUpperCase() +
-              newControlName.substr(1)} is required`
+            `${
+              newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
+            } is required`
           );
         }
         if (control.errors && control.errors.pattern) {
           return errors.push(
-            `${newControlName.charAt(0).toUpperCase() +
-              newControlName.substr(1)} should alphabetic only`
+            `${
+              newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
+            } should alphabetic only`
           );
         }
         errors.push(
-          `${newControlName.charAt(0).toUpperCase() +
-            newControlName.substr(1)} is invalid`
+          `${
+            newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
+          } is invalid`
         );
       }
     });

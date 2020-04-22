@@ -53,16 +53,11 @@ export class LoginComponent implements OnInit {
     this.loginError = null;
     this.submitted = true;
     if (this.loginForm.valid) {
-      console.log(`sending login request`);
-
       this.authService.signin(this.loginForm.value).subscribe(
         (res) => {
-          console.log(`got response`);
-
           if (res && res["token"]) {
             localStorage.setItem("id_token", JSON.stringify(res["token"]));
             localStorage.setItem("userData", JSON.stringify(res["user"]));
-            console.log(`redirecting to home`);
 
             this.router.navigate(["home"]);
           } else {
@@ -71,7 +66,6 @@ export class LoginComponent implements OnInit {
         },
         (error) => {
           this.loginError = error.error["message"] || "Server Error";
-          console.error(error);
         }
       );
     } else {
