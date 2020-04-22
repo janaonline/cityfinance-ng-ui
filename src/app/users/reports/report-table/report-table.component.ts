@@ -110,12 +110,10 @@ export class ReportTableComponent implements OnInit {
           row[`${key}Percentage`] = Number(percentage).toFixed(2) + '%';
         });
       }
-
       return {
         ...item
       };
     });
-    console.log(this.overAllReportData);
   }
 
   private fetchFinancialYears() {

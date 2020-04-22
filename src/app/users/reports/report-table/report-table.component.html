@@ -4,7 +4,7 @@
       <select (change)="initializeDataByParams({type:reportType})" [formControl]="financialYearFormControl">
         <option [value]="year.name" *ngFor="let year of financialYearDropdown">{{year.name}}</option>
       </select>
-      <button (click)="tableDownload()"  class="ml-1 btn btn-primary">Download</button>
+      <button (click)="tableDownload()" class="ml-1 btn btn-primary">Download</button>
     </div>
   </div>
   <div class="col-sm-12 mt-2" [ngSwitch]="reportType">
@@ -120,7 +120,7 @@
       </thead>
       <tbody>
       <ng-container *ngFor="let rowSpan of overAllReportData;let i = index">
-        <tr *ngFor="let  row of tableHeaderSub">
+        <tr>
           <td>{{i + 1}}</td>
           <td>{{rowSpan['month']}} </td>
           <td class="text-center">{{rowSpan['num']}} </td>
