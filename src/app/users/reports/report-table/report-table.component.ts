@@ -23,8 +23,8 @@ export class ReportTableComponent implements OnInit {
 
   tableHeadersMain = [];
   tableHeaderSub = [];
-  overAllReportData = [];
-  financialYearFormControl: FormControl = new FormControl('2015-16');
+  overAllReportData: any = [];
+  financialYearFormControl: FormControl = new FormControl('2020-21');
   reportType: string;
   financialYearDropdown: any = [];
 
@@ -90,30 +90,45 @@ export class ReportTableComponent implements OnInit {
 
   };
 
+  totalRowAddCallback(item) {
+    const {total, data} = item;
+    let keys = ['uploaded', 'pending', 'approved', 'rejected'];
+    let totalObject = {};
+    for (let key of keys) {
+      totalObject[key] = item.data.map(item => item[key]).reduce((a, c) => a + (c || 0), 0);
+    }
+    item.data.unshift(totalObject);
+    for (let row of item.data) {
+      if (!('audited' in row)) {
+        row['notUploaded'] = total - row['uploaded'];
+        let percentage = ((row['notUploaded'] / total) * 100) || 0;
+        row[`notUploadedPercentage`] = Number(percentage).toFixed(2) + '%';
+      }
+      keys.forEach(key => {
+        let percentage = ((row[key] / total) * 100) || 0;
+        row[`${key}Percentage`] = Number(percentage).toFixed(2) + '%';
+      });
+    }
+    return {
+      ...item
+    };
+  }
+
   private addExtraColumns() {
-    this.overAllReportData = this.overAllReportData.map(item => {
-      const {total, data} = item;
-      let keys = ['uploaded', 'pending', 'approved', 'rejected'];
-      let totalObject = {};
-      for (let key of keys) {
-        totalObject[key] = item.data.map(item => item[key]).reduce((a, c) => a + (c || 0), 0);
-      }
-      item.data.unshift(totalObject);
-      for (let row of item.data) {
-        if (!('audited' in row)) {
-          row['notUploaded'] = total - row['uploaded'];
-          let percentage = ((row['notUploaded'] / total) * 100) || 0;
-          row[`notUploadedPercentage`] = Number(percentage).toFixed(2) + '%';
+    switch (this.reportType) {
+      case 'stateUlb':
+        this.overAllReportData = this.overAllReportData.slice(0,1);
+        console.log(this.overAllReportData);
+        for (const state of this.overAllReportData) {
+          state.data = state.data.map(this.totalRowAddCallback);
         }
-        keys.forEach(key => {
-          let percentage = ((row[key] / total) * 100) || 0;
-          row[`${key}Percentage`] = Number(percentage).toFixed(2) + '%';
-        });
-      }
-      return {
-        ...item
-      };
-    });
+        return;
+      case 'ulb':
+        const {data} = this.overAllReportData;
+        this.overAllReportData = data;
+
+    }
+    this.overAllReportData = this.overAllReportData.map(this.totalRowAddCallback);
   }
 
   private fetchFinancialYears() {
