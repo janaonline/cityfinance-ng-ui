@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ACTIONS } from 'src/app/util/access/actions';
-import { MODULES_NAME } from 'src/app/util/access/modules';
 
+import { ACTIONS } from '../../../../app/util/access/actions';
+import { MODULES_NAME } from '../../../../app/util/access/modules';
 import { AuthService } from '../../../auth/auth.service';
 import { USER_TYPE } from '../../../models/user/userType';
 import { AccessChecker } from '../../../util/access/accessChecker';
