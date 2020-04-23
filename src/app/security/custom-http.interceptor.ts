@@ -27,7 +27,6 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     if (!req.headers.has("Accept")) {
       headers = req.headers.set("Content-Type", "application/json");
     }
-    console.log(`sessionID`, sessionID, req.url);
     if (sessionID) {
       headers = headers.set("sessionId", sessionID);
     }

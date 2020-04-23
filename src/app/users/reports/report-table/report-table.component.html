@@ -1,138 +1,203 @@
 <div class="row mt-4">
   <div class="col-sm-12">
-    <div style="float: right; display: flex">
-      <select class="form-control" style="height: 32px" (change)="initializeDataByParams({type:reportType})"
-              [formControl]="financialYearFormControl">
-        <option [value]="year.name" *ngFor="let year of financialYearDropdown">{{year.name}}</option>
+    <div style="float: right; display: flex;">
+      <select
+        class="form-control"
+        style="height: 32px;"
+        (change)="initializeDataByParams({ type: reportType })"
+        [formControl]="financialYearFormControl"
+      >
+        <option
+          [value]="year.name"
+          *ngFor="let year of financialYearDropdown"
+          >{{ year.name }}</option
+        >
       </select>
-      <button (click)="tableDownload()" class="ml-1 btn btn-primary">Download</button>
+      <button (click)="tableDownload()" class="ml-1 btn btn-primary">
+        Download
+      </button>
     </div>
   </div>
   <div class="col-sm-12 mt-2" [ngSwitch]="reportType">
     <table id="table" *ngSwitchCase="'overAll'" class="table">
       <thead>
-      <ng-container
-        *ngTemplateOutlet="header; context:{$implicit:{main:tableHeadersMain,sub:tableHeaderSub} } "></ng-container>
+        <ng-container
+          *ngTemplateOutlet="
+            header;
+            context: {
+              $implicit: { main: tableHeadersMain, sub: tableHeaderSub }
+            }
+          "
+        ></ng-container>
       </thead>
       <tbody>
-      <ng-container *ngFor="let rowSpan of overAllReportData;let i = index">
-        <tr *ngFor="let subRow of ['Total', 'Audited','Unaudited'];let dataIndex = index ">
-          <td [attr.data-text]="i+1" *ngIf="dataIndex==0" rowspan="3">{{i + 1}}</td>
-          <td [attr.data-text]="subRow == 'Total' ? 'All states' : ''">
-            {{subRow == 'Total' ? 'All states' : ''}}</td>
-          <td
-            [attr.data-text]="subRow == 'Total' ? rowSpan['total'] : subRow">{{subRow == 'Total' ? rowSpan['total'] : subRow}}</td>
-          <ng-container *ngFor="let  row of tableHeaderSub">
-            <ng-container [ngSwitch]="subRow">
-              <ng-container *ngSwitchDefault>
-                <ng-container *ngIf="rowSpan['data'][dataIndex]">
-                  <td [attr.data-text]="rowSpan['data'][dataIndex][row.id]">
-                    {{rowSpan['data'][dataIndex][row.id]}}
-                  </td>
+        <ng-container *ngFor="let rowSpan of overAllReportData; let i = index">
+          <tr
+            *ngFor="
+              let subRow of ['Total', 'Audited', 'Unaudited'];
+              let dataIndex = index
+            "
+          >
+            <td [attr.data-text]="i + 1" *ngIf="dataIndex == 0" rowspan="3">
+              {{ i + 1 }}
+            </td>
+            <td [attr.data-text]="subRow == 'Total' ? 'All states' : ''">
+              {{ subRow == "Total" ? "All states" : "" }}
+            </td>
+            <td
+              [attr.data-text]="subRow == 'Total' ? rowSpan['total'] : subRow"
+            >
+              {{ subRow == "Total" ? rowSpan["total"] : subRow }}
+            </td>
+            <ng-container *ngFor="let row of tableHeaderSub">
+              <ng-container [ngSwitch]="subRow">
+                <ng-container *ngSwitchDefault>
+                  <ng-container *ngIf="rowSpan['data'][dataIndex]">
+                    <td [attr.data-text]="rowSpan['data'][dataIndex][row.id]">
+                      {{ rowSpan["data"][dataIndex][row.id] }}
+                    </td>
+                  </ng-container>
                 </ng-container>
               </ng-container>
             </ng-container>
-          </ng-container>
-        </tr>
-      </ng-container>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
     <table *ngSwitchCase="'state'" class="table">
       <thead>
-      <ng-container
-        *ngTemplateOutlet="header; context:{$implicit:{main:tableHeadersMain,sub:tableHeaderSub} } "></ng-container>
+        <ng-container
+          *ngTemplateOutlet="
+            header;
+            context: {
+              $implicit: { main: tableHeadersMain, sub: tableHeaderSub }
+            }
+          "
+        ></ng-container>
       </thead>
       <tbody>
-      <ng-container *ngFor="let rowSpan of overAllReportData;let i = index">
-        <tr *ngFor="let subRow of ['Total', 'Audited','Unaudited'];let dataIndex = index ">
-          <td *ngIf="dataIndex==0" rowspan="3">{{i + 1}}</td>
-          <td>{{subRow == 'Total' ? rowSpan['name'] : ''}}</td>
-          <td>{{subRow == 'Total' ? rowSpan['total'] : subRow}}</td>
-          <ng-container *ngFor="let  row of tableHeaderSub">
-            <ng-container [ngSwitch]="subRow">
-              <td *ngSwitchDefault>
-                <ng-container *ngIf="rowSpan['data'][dataIndex]">
-                  {{rowSpan['data'][dataIndex][row.id]}}
-                </ng-container>
-              </td>
+        <ng-container *ngFor="let rowSpan of overAllReportData; let i = index">
+          <tr
+            *ngFor="
+              let subRow of ['Total', 'Audited', 'Unaudited'];
+              let dataIndex = index
+            "
+          >
+            <td *ngIf="dataIndex == 0" rowspan="3">{{ i + 1 }}</td>
+            <td>{{ subRow == "Total" ? rowSpan["name"] : "" }}</td>
+            <td>{{ subRow == "Total" ? rowSpan["total"] : subRow }}</td>
+            <ng-container *ngFor="let row of tableHeaderSub">
+              <ng-container [ngSwitch]="subRow">
+                <td *ngSwitchDefault>
+                  <ng-container *ngIf="rowSpan['data'][dataIndex]">
+                    {{ rowSpan["data"][dataIndex][row.id] }}
+                  </ng-container>
+                </td>
+              </ng-container>
             </ng-container>
-          </ng-container>
-        </tr>
-      </ng-container>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
 
-
     <table *ngSwitchCase="'ulb'" class="table">
       <thead>
-      <ng-container
-        *ngTemplateOutlet="header; context:{$implicit:{main:tableHeadersMain,sub:tableHeaderSub} } "></ng-container>
+        <ng-container
+          *ngTemplateOutlet="
+            header;
+            context: {
+              $implicit: { main: tableHeadersMain, sub: tableHeaderSub }
+            }
+          "
+        ></ng-container>
       </thead>
       <tbody>
-      <ng-container *ngFor="let rowSpan of overAllReportData;let i = index">
-        <tr *ngFor="let subRow of ['Total', 'Audited','Unaudited'];let dataIndex = index ">
-          <td *ngIf="dataIndex==0" rowspan="3">{{i + 1}}</td>
-          <td>{{subRow == 'Total' ? 'All states' : ''}}</td>
-          <td>{{subRow == 'Total' ? rowSpan['name'] : ''}}</td>
-          <td>{{subRow == 'Total' ? rowSpan['total'] : subRow}}</td>
-          <ng-container *ngFor="let  row of tableHeaderSub">
-            <ng-container [ngSwitch]="subRow">
-              <td *ngSwitchDefault>
-                <ng-container *ngIf="rowSpan['data'][dataIndex]">
-                  {{rowSpan['data'][dataIndex][row.id]}}
-                </ng-container>
-              </td>
+        <ng-container *ngFor="let rowSpan of overAllReportData; let i = index">
+          <tr
+            *ngFor="
+              let subRow of ['Total', 'Audited', 'Unaudited'];
+              let dataIndex = index
+            "
+          >
+            <td *ngIf="dataIndex == 0" rowspan="3">{{ i + 1 }}</td>
+            <td>{{ subRow == "Total" ? "All states" : "" }}</td>
+            <td>{{ subRow == "Total" ? rowSpan["name"] : "" }}</td>
+            <td>{{ subRow == "Total" ? rowSpan["total"] : subRow }}</td>
+            <ng-container *ngFor="let row of tableHeaderSub">
+              <ng-container [ngSwitch]="subRow">
+                <td *ngSwitchDefault>
+                  <ng-container *ngIf="rowSpan['data'][dataIndex]">
+                    {{ rowSpan["data"][dataIndex][row.id] }}
+                  </ng-container>
+                </td>
+              </ng-container>
             </ng-container>
-          </ng-container>
-        </tr>
-      </ng-container>
+          </tr>
+        </ng-container>
       </tbody>
-
     </table>
 
     <table *ngSwitchCase="'stateUlb'" class="table">
       <thead>
-      <ng-container
-        *ngTemplateOutlet="header; context:{$implicit:{main:tableHeadersMain,sub:tableHeaderSub} } "></ng-container>
+        <ng-container
+          *ngTemplateOutlet="
+            header;
+            context: {
+              $implicit: { main: tableHeadersMain, sub: tableHeaderSub }
+            }
+          "
+        ></ng-container>
       </thead>
       <tbody>
-      <ng-container *ngFor="let rowSpan of overAllReportData;let i = index">
-        <tr *ngFor="let subRow of ['Total', 'Audited','Unaudited'];let dataIndex = index ">
-          <td *ngIf="dataIndex==0" rowspan="3">{{i + 1}}</td>
-          <td>{{subRow == 'Total' ? 'All states' : ''}}</td>
-          <td>{{subRow == 'Total' ? rowSpan['name'] : ''}}</td>
-          <td>{{subRow == 'Total' ? rowSpan['total'] : subRow}}</td>
-          <ng-container *ngFor="let  row of tableHeaderSub">
-            <ng-container [ngSwitch]="subRow">
-              <td *ngSwitchDefault>
-                <ng-container *ngIf="rowSpan['data'][dataIndex]">
-                  {{rowSpan['data'][dataIndex][row.id]}}
-                </ng-container>
-              </td>
+        <ng-container *ngFor="let rowSpan of overAllReportData; let i = index">
+          <tr
+            *ngFor="
+              let subRow of ['Total', 'Audited', 'Unaudited'];
+              let dataIndex = index
+            "
+          >
+            <td *ngIf="dataIndex == 0" rowspan="3">{{ i + 1 }}</td>
+            <td>{{ subRow == "Total" ? "All states" : "" }}</td>
+            <td>{{ subRow == "Total" ? rowSpan["name"] : "" }}</td>
+            <td>{{ subRow == "Total" ? rowSpan["total"] : subRow }}</td>
+            <ng-container *ngFor="let row of tableHeaderSub">
+              <ng-container [ngSwitch]="subRow">
+                <td *ngSwitchDefault>
+                  <ng-container *ngIf="rowSpan['data'][dataIndex]">
+                    {{ rowSpan["data"][dataIndex][row.id] }}
+                  </ng-container>
+                </td>
+              </ng-container>
             </ng-container>
-          </ng-container>
-        </tr>
-      </ng-container>
+          </tr>
+        </ng-container>
       </tbody>
-
     </table>
 
     <table *ngSwitchCase="'usage'" class="table">
       <thead>
-      <ng-container
-        *ngTemplateOutlet="header; context:{$implicit:{main:tableHeadersMain,sub:tableHeaderSub} } "></ng-container>
+        <ng-container
+          *ngTemplateOutlet="
+            header;
+            context: {
+              $implicit: { main: tableHeadersMain, sub: tableHeaderSub }
+            }
+          "
+        ></ng-container>
       </thead>
       <tbody>
-      <ng-container *ngFor="let rowSpan of overAllReportData;let i = index">
-        <tr>
-          <td>{{i + 1}}</td>
-          <td>{{rowSpan['month']}} </td>
-          <td class="text-center">{{rowSpan['num']}} </td>
-          <td class="text-center">{{rowSpan['numOfRegUser']}} </td>
-          <td class="text-center" *ngFor="let col of tableHeaderSub"> {{ rowSpan[col.id]}}</td>
-          <td class="text-center">{{rowSpan['numReportDownloads']}} </td>
-        </tr>
-      </ng-container>
+        <ng-container *ngFor="let rowSpan of overAllReportData; let i = index">
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ rowSpan["month"] }}</td>
+            <td class="text-center">{{ rowSpan["visitCount"] }}</td>
+            <td class="text-center">{{ rowSpan["numOfRegUser"] }}</td>
+            <td class="text-center" *ngFor="let col of tableHeaderSub">
+              {{ rowSpan[col.id] }}
+            </td>
+            <td class="text-center">{{ rowSpan["numReportDownloads"] }}</td>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
   </div>
@@ -141,13 +206,19 @@
 <ng-template #header let-rows>
   <tr>
     <th rowspan="2">Sr. No</th>
-    <th [colSpan]="header?.colSpan?header.colSpan:1"
-        [rowSpan]="header.rowSpan?header.rowSpan:1"
-        [ngClass]="header.colSpan>2?'text-center':''"
-        [attr.data-text]="header.title"
-        *ngFor="let header of rows.main">{{header.title}}</th>
+    <th
+      [colSpan]="header?.colSpan ? header.colSpan : 1"
+      [rowSpan]="header.rowSpan ? header.rowSpan : 1"
+      [ngClass]="header.colSpan > 2 ? 'text-center' : ''"
+      [attr.data-text]="header.title"
+      *ngFor="let header of rows.main"
+    >
+      {{ header.title }}
+    </th>
   </tr>
   <tr *ngIf="rows.sub.length">
-    <th [attr.data-text]="subheader.title" *ngFor="let subheader of rows.sub">{{subheader.title}}</th>
+    <th [attr.data-text]="subheader.title" *ngFor="let subheader of rows.sub">
+      {{ subheader.title }}
+    </th>
   </tr>
 </ng-template>

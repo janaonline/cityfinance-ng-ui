@@ -5,7 +5,7 @@
   class="mt-1"
   animationDuration="100ms"
 >
-  <mat-tab [disabled]="loading" label="Extent of Dependency on Own Revenues">
+  <mat-tab [disabled]="loading" label="Own Revenues">
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-4" *ngIf="tabIndex === 0">
         <app-re-useable-heat-map
@@ -22,7 +22,7 @@
     </ng-template>
   </mat-tab>
 
-  <mat-tab [disabled]="loading" [label]="'Sources of Revenue'">
+  <!-- <mat-tab [disabled]="loading" [label]="'Revenue sources'">
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 1">
         <app-re-useable-heat-map
@@ -34,12 +34,9 @@
       </div>
       <ng-container *ngTemplateOutlet="pieChart"></ng-container>
     </ng-template>
-  </mat-tab>
+  </mat-tab> -->
 
-  <mat-tab
-    [disabled]="loading"
-    [label]="'Sources of Financing Revenue Expenditure'"
-  >
+  <mat-tab [disabled]="loading" [label]="'Revenue Expenditure'">
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 2">
         <app-re-useable-heat-map
@@ -107,7 +104,7 @@
   <ng-container
     *ngIf="loading == false; else loadingSkeleton"
     [style.height.px]="400"
-    style="width: 100%"
+    style="width: 100%;"
     [formGroup]="yearForm"
   >
     <div class="row d-flex">
@@ -117,10 +114,13 @@
         class="mt-2"
         (click)="downloadTable('table-main')"
         title="Download"
-        style="float: right;
-              right:1rem;
-              position: absolute;
-              background-color:#333333;min-width: min-content;"
+        style="
+          float: right;
+          right: 1rem;
+          position: absolute;
+          background-color: #333333;
+          min-width: min-content;
+        "
       >
         <mat-icon>arrow_downward</mat-icon>
       </button>
@@ -136,12 +136,17 @@
           [style.minWidth]="commonTableHeaders.length * 110 + 'px'"
           *ngIf="commonTableDataDisplay?.length; else noData"
           class="table mr-1"
-          style="margin-bottom: 1px"
+          style="margin-bottom: 1px;"
         >
           <thead>
             <tr>
               <th
-                style="position: sticky; width: 200px;background: white;top:-1px"
+                style="
+                  position: sticky;
+                  width: 200px;
+                  background: white;
+                  top: -1px;
+                "
                 [attr.data-text]="
                   header.title + ' \r\n ' + (header?.description || ' ')
                 "
@@ -298,18 +303,23 @@
 
 <ng-template #UlbModal>
   <div class="modal-body">
-    <div style="margin-bottom: .5rem; display: flex;justify-content: flex-end">
+    <div
+      style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end;"
+    >
       <button
         mat-raised-button
         (click)="downloadTable('table')"
         title="Download"
-        style="margin-right: .5rem;
-             background-color:#333333;min-width: min-content;"
+        style="
+          margin-right: 0.5rem;
+          background-color: #333333;
+          min-width: min-content;
+        "
       >
         <mat-icon>arrow_downward</mat-icon>
       </button>
       <button
-        style="background-color:#333333;min-width: min-content;"
+        style="background-color: #333333; min-width: min-content;"
         (click)="modalService.hide(1)"
         mat-raised-button
         title="Close"
@@ -322,7 +332,7 @@
     </div>
     <div
       class="table-responsive border-1"
-      style="max-height: 90vh; overflow-x: hidden"
+      style="max-height: 90vh; overflow-x: hidden;"
     >
       <table
         id="table"
@@ -337,7 +347,7 @@
               "
               [attr.data-text_align]="'center'"
               [attr.data-bold]="true"
-              style="position: sticky; top: 0;background: white"
+              style="position: sticky; top: 0; background: white;"
               class="text-center border-bottom-0"
               *ngFor="let header of modalTableHeaders; let j = index"
             >
@@ -354,7 +364,7 @@
                   >
                 </div>
                 <i
-                  style="position: absolute;   right: -.5rem"
+                  style="position: absolute; right: -0.5rem;"
                   *ngIf="!header.hasOwnProperty('status'); else icon"
                   (click)="sortDialogHeader(header)"
                   class="fa fa-sort px-1"
@@ -362,14 +372,14 @@
                 ></i>
                 <ng-template #icon>
                   <i
-                    style="position: absolute;   right: -.5rem"
+                    style="position: absolute; right: -0.5rem;"
                     *ngIf="header.status"
                     (click)="sortDialogHeader(header)"
                     class="fa fa-sort-asc px-1"
                     aria-hidden="true"
                   ></i>
                   <i
-                    style="position: absolute;   right: -.5rem"
+                    style="position: absolute; right: -0.5rem;"
                     *ngIf="!header.status"
                     (click)="sortDialogHeader(header)"
                     class="fa fa-sort-desc px-1"
@@ -463,12 +473,17 @@
 
 <ng-template #yearSelect>
   <div
-    class=" mt-2 col-md-8"
+    class="mt-2 col-md-8"
     [formGroup]="yearForm"
     style="display: flex; align-items: center;"
   >
     <mat-form-field
-      style=" display:inline-block;width: 160px; margin-right: 1rem;line-height: 0.225;"
+      style="
+        display: inline-block;
+        width: 160px;
+        margin-right: 1rem;
+        line-height: 0.225;
+      "
       appearance="outline"
       *ngIf="ulbsOfSelectedState"
     >
@@ -517,7 +532,7 @@
     <angular2-multiselect
       classes=""
       formControlName="years"
-      style=" display:inline-block;width: 160px;margin-right: 2%;"
+      style="display: inline-block; width: 160px; margin-right: 2%;"
       [data]="yearLookup"
       [settings]="yearsDropdownSettings"
       (onSelect)="onDropdownSelect($event)"
@@ -532,7 +547,7 @@
       mat-raised-button
       title="Apply"
       (click)="onDropdownClose()"
-      style="background-color:#333333; min-width: min-content;"
+      style="background-color: #333333; min-width: min-content;"
     >
       Apply
     </button>
