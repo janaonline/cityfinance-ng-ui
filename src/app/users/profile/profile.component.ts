@@ -8,7 +8,7 @@ import { ProfileService } from './service/profile.service';
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.component.html",
-  styleUrls: ["./profile.component.scss"]
+  styleUrls: ["./profile.component.scss"],
 })
 export class ProfileComponent implements OnInit {
   USER_TYPE = USER_TYPE;
@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit {
   listFetchOption = {
     filter: null,
     sort: null,
-    skip: 0
+    skip: 0,
   };
 
   filterForm: FormGroup;
@@ -34,12 +34,12 @@ export class ProfileComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _fb: FormBuilder
   ) {
-    this._activatedRoute.params.subscribe(params => {
+    this._activatedRoute.params.subscribe((params) => {
       this.initializeFilterForm();
       this.profileMode = params.type;
       this.setFormView();
 
-      this._activatedRoute.queryParams.subscribe(queryParams => {
+      this._activatedRoute.queryParams.subscribe((queryParams) => {
         const param = { _id: null, role: null };
 
         this.profileType = queryParams.role;
@@ -55,7 +55,6 @@ export class ProfileComponent implements OnInit {
           param._id = queryParams.id;
           param.role = queryParams.role;
         }
-        console.log(queryParams);
         this.initializeListFetchParams();
         this.fetchProfileData(param);
       });
@@ -65,7 +64,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {}
 
   fetchProfileData(params: {}) {
-    this._profileService.getUserProfile(params).subscribe(res => {
+    this._profileService.getUserProfile(params).subscribe((res) => {
       this.profileData = res["data"];
 
       this.userType = res["data"].role;
@@ -78,7 +77,7 @@ export class ProfileComponent implements OnInit {
 
   private initializeFilterForm() {
     this.filterForm = this._fb.group({
-      status: [null]
+      status: [null],
     });
   }
 
@@ -86,7 +85,7 @@ export class ProfileComponent implements OnInit {
     this.listFetchOption = {
       filter: this.filterForm ? this.filterForm.value : {},
       sort: null,
-      skip: 0
+      skip: 0,
     };
   }
 }

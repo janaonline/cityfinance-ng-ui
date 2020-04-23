@@ -10,7 +10,7 @@ import { ProfileService } from '../service/profile.service';
 @Component({
   selector: "app-mohua-profile",
   templateUrl: "./mohua-profile.component.html",
-  styleUrls: ["./mohua-profile.component.scss"]
+  styleUrls: ["./mohua-profile.component.scss"],
 })
 export class MohuaProfileComponent implements OnInit, OnChanges {
   @Input()
@@ -41,6 +41,9 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
     this.resetResponseMessage();
     this.formSubmitted = true;
     this.formErrors = this.formUtil.validateStateForm(form);
+    console.log(this.formErrors);
+    console.log(form);
+
     if (this.formErrors) {
       return;
     }
@@ -63,7 +66,7 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
     body.password = "";
 
     this._profileService.createUser(body).subscribe(
-      res => {
+      (res) => {
         form.reset();
         this.formSubmitted = false;
 
@@ -77,11 +80,11 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
   private updateProfile(form: FormGroup) {
     const body = {
       ...form.value,
-      _id: this.profileData._id
+      _id: this.profileData._id,
     };
     form.disable();
     return this._profileService.updateUserProfileData(body).subscribe(
-      res => {
+      (res) => {
         form.enable();
         this.respone.successMessage = "Profile Updated successfully";
       },
@@ -93,7 +96,7 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
   }
 
   private initializeForm() {
-    this.profileForm = this.formUtil.getPartnerForm();
+    this.profileForm = this.formUtil.getMoHUAForm();
 
     if (this.profileData) {
       if (this.profileData.role !== USER_TYPE.MoHUA) {

@@ -37,13 +37,6 @@ export class AuthService {
   }
 
   loggedIn() {
-    console.log(`token`, this.getToken());
-
-    console.log(
-      `is token expired? `,
-      this.helper.isTokenExpired(this.getToken())
-    );
-
     return !this.helper.isTokenExpired(this.getToken());
   }
 
