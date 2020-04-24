@@ -38,12 +38,17 @@ export class ReportTableComponent implements OnInit {
     this.activatedRoute.params.subscribe(this.initializeDataByParams);
   }
 
-  initializeDataByParams = ({type}) => {
-    this.loading = true;
+  resetValues({type}) {
     this.reportType = type;
     this.tableHeadersMain = [];
     this.tableHeaderSub = [];
     this.overAllReportData = [];
+    this.setFinancialYearByTable();
+  }
+
+  initializeDataByParams = ({type}) => {
+    this.loading = true;
+    this.resetValues({type});
     switch (type) {
       case 'overAll':
         this.tableHeadersMain = overAllReportMain;
@@ -136,9 +141,18 @@ export class ReportTableComponent implements OnInit {
   private fetchFinancialYears() {
     this.financialDataService.getFinancialYears().subscribe(result => {
       if (result['success']) {
-        this.financialYearDropdown = result['data'];
+        this.financialDataService.financialYears = result['data'];
+        this.setFinancialYearByTable();
+
       }
     });
+  }
+
+  private setFinancialYearByTable() {
+    this.financialYearDropdown = this.financialDataService.financialYears;
+    if (this.reportType == 'usage') {
+      this.financialYearDropdown = this.financialYearDropdown.filter(year => year.name >= '2020-21');
+    }
   }
 
   private fetchStateWiseReportData() {
@@ -177,4 +191,6 @@ export class ReportTableComponent implements OnInit {
       extension: 'xlsx'
     });
   }
+
+
 }
