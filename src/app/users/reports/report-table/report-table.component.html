@@ -67,13 +67,7 @@
     <table *ngSwitchCase="'state'" class="table">
       <thead>
       <ng-container
-        *ngTemplateOutlet="
-            header;
-            context: {
-              $implicit: { main: tableHeadersMain, sub: tableHeaderSub }
-            }
-          "
-      ></ng-container>
+        *ngTemplateOutlet="  header;context: {         $implicit: { main: tableHeadersMain, sub: tableHeaderSub }} "></ng-container>
       </thead>
       <tbody>
       <ng-container *ngFor="let rowSpan of overAllReportData; let i = index">
@@ -84,7 +78,7 @@
             "
         >
           <td *ngIf="dataIndex == 0" rowspan="3">{{ i + 1 }}</td>
-          <td>{{ subRow == "Total" ? rowSpan["name"] : "" }}</td>
+          <td *ngIf="dataIndex == 0" rowspan="3">{{ subRow == "Total" ? rowSpan["name"] : "" }}</td>
           <td>{{ subRow == "Total" ? rowSpan["total"] : subRow }}</td>
           <ng-container *ngFor="let row of tableHeaderSub">
             <ng-container [ngSwitch]="subRow">
