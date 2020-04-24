@@ -13,6 +13,7 @@ import {
 import {ActivatedRoute} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {TableDownloader} from '../../../shared/util/tableDownload/genericTableDownload';
+import {cloneWithOffset} from 'ngx-bootstrap/chronos/units/offset';
 
 @Component({
   selector: 'app-usage-report',
@@ -73,7 +74,6 @@ export class ReportTableComponent implements OnInit {
       case 'usage':
         this.tableHeadersMain = usageReportMain;
         this.tableHeaderSub = usageReportSub;
-
         this.fetchUsageReportData();
 
     }
@@ -126,9 +126,12 @@ export class ReportTableComponent implements OnInit {
   private addExtraColumns() {
     switch (this.reportType) {
       case 'stateUlb':
+        this.overAllReportData = this.overAllReportData.slice(0, 2);
         for (const state of this.overAllReportData) {
           state.data = state.data.map(this.totalRowAddCallback);
+          state.overall = this.calculateOverall(state);
         }
+        console.log(this.overAllReportData);
         return;
       case 'ulb':
         const {data} = this.overAllReportData;
@@ -136,6 +139,23 @@ export class ReportTableComponent implements OnInit {
 
     }
     this.overAllReportData = this.overAllReportData.map(this.totalRowAddCallback);
+  }
+
+  calculateOverall({data, overall}) {
+    const {total: overAllTotal} = overall;
+    let keys = ['count', 'uploaded', 'pending', 'approved', 'rejected'];
+    let newData = data.map(el => el.data[0]);
+    let totalUlb = data.map(el => el.total).reduce((a, c) => a + c, 0);
+    let overAllObject = {};
+    for (let key of keys) {
+      overAllObject[key] = newData.map(item => item[key]).reduce((a, c) => a + (c || 0), 0);
+    }
+    keys.forEach(key => {
+      let percentage = ((overAllObject[key] / overAllTotal) * 100) || 0;
+      overAllObject[`${key}Percentage`] = Number(percentage).toFixed(2) + '%';
+    });
+    overAllObject['totalUlb'] = totalUlb;
+    return {...overall, ...overAllObject};
   }
 
   private fetchFinancialYears() {
