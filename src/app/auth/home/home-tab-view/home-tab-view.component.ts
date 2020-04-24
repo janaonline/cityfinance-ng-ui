@@ -76,7 +76,7 @@ export class HomeTabViewComponent implements OnInit {
   ulbListForAutoCompletion: IULBWithPopulationResponse["data"];
 
   defaultDailogConfiuration: IDialogConfiguration = {
-    message: "You need to be loggedIn to download the data.",
+    message: "You need to be Login to download the data.",
     buttons: {
       confirm: {
         text: "Proceed to login",
