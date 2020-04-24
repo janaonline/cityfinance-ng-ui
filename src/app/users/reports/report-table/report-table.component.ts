@@ -27,6 +27,7 @@ export class ReportTableComponent implements OnInit {
   financialYearFormControl: FormControl = new FormControl('2020-21');
   reportType: string;
   financialYearDropdown: any = [];
+  loading = false;
 
   constructor(private financialDataService: FinancialDataService,
               private activatedRoute: ActivatedRoute) {
@@ -38,6 +39,7 @@ export class ReportTableComponent implements OnInit {
   }
 
   initializeDataByParams = ({type}) => {
+    this.loading = true;
     this.reportType = type;
     this.tableHeadersMain = [];
     this.tableHeaderSub = [];
@@ -80,6 +82,7 @@ export class ReportTableComponent implements OnInit {
   }
 
   handleResponseSuccess = (response) => {
+    this.loading = false;
     this.overAllReportData = response['data'];
     if (this.reportType !== 'usage') {
       this.addExtraColumns();
@@ -87,6 +90,7 @@ export class ReportTableComponent implements OnInit {
   };
 
   handleResponseFailure = (error) => {
+    this.loading = false;
 
   };
 
@@ -117,7 +121,7 @@ export class ReportTableComponent implements OnInit {
   private addExtraColumns() {
     switch (this.reportType) {
       case 'stateUlb':
-        this.overAllReportData = this.overAllReportData.slice(0,1);
+        this.overAllReportData = this.overAllReportData.slice(0, 1);
         console.log(this.overAllReportData);
         for (const state of this.overAllReportData) {
           state.data = state.data.map(this.totalRowAddCallback);
