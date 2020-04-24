@@ -96,7 +96,7 @@ export class ReportTableComponent implements OnInit {
 
   totalRowAddCallback(item) {
     const {total, data} = item;
-    let keys = ['uploaded', 'pending', 'approved', 'rejected'];
+    let keys = ['count', 'uploaded', 'pending', 'approved', 'rejected'];
     let totalObject = {};
     for (let key of keys) {
       totalObject[key] = item.data.map(item => item[key]).reduce((a, c) => a + (c || 0), 0);
@@ -121,8 +121,6 @@ export class ReportTableComponent implements OnInit {
   private addExtraColumns() {
     switch (this.reportType) {
       case 'stateUlb':
-        this.overAllReportData = this.overAllReportData.slice(0, 1);
-        console.log(this.overAllReportData);
         for (const state of this.overAllReportData) {
           state.data = state.data.map(this.totalRowAddCallback);
         }
