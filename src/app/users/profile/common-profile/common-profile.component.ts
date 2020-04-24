@@ -10,7 +10,7 @@ import { ProfileService } from '../service/profile.service';
 @Component({
   selector: "app-common-profile",
   templateUrl: "./common-profile.component.html",
-  styleUrls: ["./common-profile.component.scss"]
+  styleUrls: ["./common-profile.component.scss"],
 })
 export class CommonProfileComponent implements OnInit, OnChanges {
   @Input()
@@ -63,7 +63,7 @@ export class CommonProfileComponent implements OnInit, OnChanges {
     body.password = "";
 
     this._profileService.createUser(body).subscribe(
-      res => {
+      (res) => {
         form.reset();
         this.formSubmitted = false;
 
@@ -77,16 +77,17 @@ export class CommonProfileComponent implements OnInit, OnChanges {
   private updateProfile(form: FormGroup) {
     const body = {
       ...form.value,
-      _id: this.profileData._id
+      _id: this.profileData._id,
     };
-    form.disable();
+
+    form.disable({ emitEvent: false });
     return this._profileService.updateUserProfileData(body).subscribe(
-      res => {
-        form.enable();
+      (res) => {
+        // form.enable({ emitEvent: false });
         this.respone.successMessage = "Profile Updated successfully";
       },
       (err: HttpErrorResponse) => {
-        form.enable();
+        form.enable({ emitEvent: false });
 
         this.respone.errorMessage = err.error.message || "Server Error";
       }
