@@ -131,17 +131,24 @@
             context: {
               $implicit: { main: tableHeadersMain, sub: tableHeaderSub }
             }
-          "
+         "
         ></ng-container>
         </thead>
         <tbody>
         <ng-container *ngFor="let state of overAllReportData; let i = index">
+          <tr>
+            <td>{{i + 1}}</td>
+            <td>{{state.name}}</td>
+            <td>{{state?.overall?.total}}</td>
+            <td>{{state?.overall?.totalUlb}}</td>
+            <td *ngFor="let row of tableHeaderSub">{{state?.overall[row.id]}}</td>
+          </tr>
           <ng-container *ngFor="let ulb of state.data; let ulbIndex = index">
-            <tr *ngFor="  let subRow of ['Total', 'Audited', 'Unaudited'];   let datasetIndex = index ">
-              <td [rowSpan]="state.data.length+state.data.length *3"
-                  *ngIf="datasetIndex==0 &&ulbIndex==0">{{ i + 1 }}</td>
-              <td [rowSpan]="state.data.length+state.data.length*3"
-                  *ngIf="datasetIndex==0 &&ulbIndex==0"> {{state['name']}}</td>
+            <tr *ngFor="let subRow of ['Total', 'Audited', 'Unaudited'];   let datasetIndex = index ">
+              <td [rowSpan]="state.data.length *3"
+                  *ngIf="datasetIndex==0 &&ulbIndex==0"></td>
+              <td [rowSpan]="state.data.length*3"
+                  *ngIf="datasetIndex==0 &&ulbIndex==0"></td>
               <td [rowSpan]="3" *ngIf="datasetIndex==0"> {{ulb['name'] }}</td>
               <td>{{ subRow == "Total" ? ulb["total"] : subRow }}</td>
               <ng-container *ngFor="let row of tableHeaderSub">
@@ -155,9 +162,6 @@
               </ng-container>
               <!--            <ng-container *ngFor="let row of tableHeaderSub"></ng-container>-->
             </tr>
-
-            <tr></tr
-            >
           </ng-container>
 
           <!--          <td *ngIf="dataIndex==0" [rowSpan]="subRow.length">{{i + 1}}</td>-->
