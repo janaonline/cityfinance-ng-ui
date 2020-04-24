@@ -41,7 +41,7 @@
           <td [attr.data-text]="i + 1" *ngIf="dataIndex == 0" rowspan="3">
             {{ i + 1 }}
           </td>
-          <td [attr.data-text]="subRow == 'Total' ? 'All states' : ''">
+          <td [rowSpan]="3" *ngIf="dataIndex==0" [attr.data-text]="subRow == 'Total' ? 'All states' : ''">
             {{ subRow == "Total" ? "All states" : "" }}
           </td>
           <td
@@ -140,22 +140,24 @@
       </thead>
       <tbody>
       <ng-container *ngFor="let state of overAllReportData; let i = index">
-        <ng-container
-          *ngFor="let ulb of state.data.slice(1); let ulbIndex = index"
-        >
-          <tr
-            *ngFor="
-                let subRow of ['Total', 'Audited', 'Unaudited'];
-                let datasetIndex = index
-              "
-          >
-            <td [rowSpan]="state.data.length">
-              state.data {{ ulbIndex == 0 ? i + 1 : "" }}
-            </td>
-            <td [rowSpan]="ulb.data.length">
-              data set {{ datasetIndex == 0 ? state.name : "" }}
-            </td>
-            <ng-container *ngFor="let row of tableHeaderSub"></ng-container>
+        <ng-container *ngFor="let ulb of state.data; let ulbIndex = index">
+          <tr *ngFor="  let subRow of ['Total', 'Audited', 'Unaudited'];   let datasetIndex = index ">
+            <td [rowSpan]="state.data.length+state.data.length *3"
+                *ngIf="datasetIndex==0 &&ulbIndex==0">{{ i + 1 }}</td>
+            <td [rowSpan]="state.data.length+state.data.length*3"
+                *ngIf="datasetIndex==0 &&ulbIndex==0"> {{state['name']}}</td>
+            <td [rowSpan]="3" *ngIf="datasetIndex==0"> {{ulb['name'] }}</td>
+            <td>{{ subRow == "Total" ? ulb["total"] : subRow }}</td>
+            <ng-container *ngFor="let row of tableHeaderSub">
+              <ng-container [ngSwitch]="subRow">
+                <ng-container *ngIf="ulb['data'][datasetIndex]">
+                  <td>
+                    {{ ulb["data"][datasetIndex][row.id] }}
+                  </td>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+            <!--            <ng-container *ngFor="let row of tableHeaderSub"></ng-container>-->
           </tr>
 
           <tr></tr
