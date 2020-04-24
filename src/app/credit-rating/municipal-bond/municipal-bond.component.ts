@@ -67,7 +67,7 @@ export class MunicipalBondComponent implements OnInit {
   private regexToSplitWordOnCapitalLetters = /([A-Z]+[^A-Z]*|[^A-Z]+)/;
 
   defaultDailogConfiuration: IDialogConfiguration = {
-    message: "You need to be loggedIn to download the data.",
+    message: "You need to be Login to download the data.",
     buttons: {
       confirm: {
         text: "Proceed to login",

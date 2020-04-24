@@ -46,7 +46,7 @@ export class BasicComponent implements OnInit, OnDestroy {
     .currencryConversionInUse.type;
 
   defaultDailogConfiuration: IDialogConfiguration = {
-    message: "You need to be loggedIn to download the data.",
+    message: "You need to be Login to download the data.",
     buttons: {
       confirm: {
         text: "Proceed to login",
