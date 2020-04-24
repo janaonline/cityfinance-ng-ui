@@ -5,13 +5,8 @@
         class="form-control"
         style="height: 32px;"
         (change)="initializeDataByParams({ type: reportType })"
-        [formControl]="financialYearFormControl"
-      >
-        <option
-          [value]="year.name"
-          *ngFor="let year of financialYearDropdown"
-        >{{ year.name }}</option
-        >
+        [formControl]="financialYearFormControl">
+        <option [value]="year.name" *ngFor="let year of financialYearDropdown">{{ year.name }}</option>
       </select>
       <button (click)="tableDownload()" class="ml-1 btn btn-primary">
         Download
