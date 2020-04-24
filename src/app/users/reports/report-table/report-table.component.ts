@@ -131,12 +131,10 @@ export class ReportTableComponent implements OnInit {
           state.data = state.data.map(this.totalRowAddCallback);
           state.overall = this.calculateOverall(state);
         }
-        console.log(this.overAllReportData);
         return;
       case 'ulb':
         const {data} = this.overAllReportData;
         this.overAllReportData = data;
-
     }
     this.overAllReportData = this.overAllReportData.map(this.totalRowAddCallback);
   }
