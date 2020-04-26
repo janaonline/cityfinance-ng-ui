@@ -126,7 +126,6 @@ export class ReportTableComponent implements OnInit {
   private addExtraColumns() {
     switch (this.reportType) {
       case 'stateUlb':
-        this.overAllReportData = this.overAllReportData.slice(0, 2);
         for (const state of this.overAllReportData) {
           state.data = state.data.map(this.totalRowAddCallback);
           state.overall = this.calculateOverall(state);
