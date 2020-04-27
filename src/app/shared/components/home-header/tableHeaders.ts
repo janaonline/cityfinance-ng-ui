@@ -345,11 +345,11 @@ export const overAllSubHeader: ModalTableHeader[] = [
 export const stateWiseReportMain: ModalTableHeader[] = [
   {id: 'name', title: 'State', rowSpan: 2},
   {id: 'total', title: 'Total ULBs', rowSpan: 2},
-  {title: 'ULB uploaded', id: 'count', colSpan: 2},
-  {title: 'Total ULBs not uploaded', id: 'count', colSpan: 2},
-  {title: 'ULBS under review', id: 'count', colSpan: 2},
-  {title: 'ULBs data accepted', id: 'count', colSpan: 2},
-  {title: 'ULBs data rejected', id: 'count', colSpan: 2},
+  {title: 'ULB Uploaded', id: 'count', colSpan: 2},
+  {title: 'Total ULBs Not Uploaded', id: 'count', colSpan: 2},
+  {title: 'ULBS Under Review', id: 'count', colSpan: 2},
+  {title: 'ULBs Data Accepted', id: 'count', colSpan: 2},
+  {title: 'ULBs Data Rejected', id: 'count', colSpan: 2},
 ];
 export const stateWiseReportSub: ModalTableHeader[] = [...overAllSubHeader];
 
@@ -357,25 +357,25 @@ export const ulbWiseReportMain: ModalTableHeader[] = [
   {id: 'state', title: 'State', rowSpan: 2},
   {id: 'name', title: 'ULB', rowSpan: 2},
   {id: 'total', title: 'Total ULBs', rowSpan: 2},
-  {title: 'ULB uploaded', id: 'count', colSpan: 2},
-  {title: 'Total ULBs not uploaded', id: 'count', colSpan: 2},
-  {title: 'ULBS under review', id: 'count', colSpan: 2},
-  {title: 'ULBs data accepted', id: 'count', colSpan: 2},
-  {title: 'ULBs data rejected', id: 'count', colSpan: 2},
+  {title: 'ULB Uploaded', id: 'count', colSpan: 2},
+  {title: 'Total ULBs Not Uploaded', id: 'count', colSpan: 2},
+  {title: 'ULBS Under Review', id: 'count', colSpan: 2},
+  {title: 'ULBs Data Accepted', id: 'count', colSpan: 2},
+  {title: 'ULBs Data Rejected', id: 'count', colSpan: 2},
 ];
 export const ulbWiseReportSub = [...stateWiseReportSub];
 
 export const usageReportMain: ModalTableHeader[] = [
   {id: 'month', title: 'Month', rowSpan: 2},
-  {id: 'visitCount', title: 'No of Visits', rowSpan: 2},
+  {id: 'visitCount', title: 'No Of Visits', rowSpan: 2},
   {id: 'state', title: 'No of Users Registered', rowSpan: 2},
-  {title: 'No. of User Logged In', id: 'numOfRegUser', colSpan: 5},
+  {title: 'No. Of User Logged In', id: 'numOfRegUser', colSpan: 5},
   {title: 'No of Reports Download', id: 'count', rowSpan: 2},
 ];
 export const usageReportSub: ModalTableHeader[] = [
-  {id: 'intTheMonth', title: 'In a month', rowSpan: 1},
-  {id: 'moreThan10Times', title: 'More than 10 times', rowSpan: 1},
-  {id: 'moreThan5Times', title: 'More than 5 times', rowSpan: 1},
-  {id: 'moreThan1Times', title: 'More than 1 time', rowSpan: 1},
-  {id: 'oneTime', title: '1 time', rowSpan: 1},
+  {id: 'intTheMonth', title: 'In a Month', rowSpan: 1},
+  {id: 'moreThan10Times', title: 'More Than 10 Times', rowSpan: 1},
+  {id: 'moreThan5Times', title: 'More Than 5 Times', rowSpan: 1},
+  {id: 'moreThan1Times', title: 'More Than 1 Time', rowSpan: 1},
+  {id: 'oneTime', title: '1 Time', rowSpan: 1},
 ];
