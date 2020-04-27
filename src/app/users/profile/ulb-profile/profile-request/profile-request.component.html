@@ -409,8 +409,8 @@
                 "
               >
                 <th class="text-center">S.No.</th>
-                <th class="text-center" (click)="sortListBy('stateName')">
-                  State Name
+                <th class="text-center" (click)="sortListBy('createdAt')">
+                  Request Created On
                   <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
                 </th>
                 <th class="text-center" (click)="sortListBy('status')">
@@ -481,7 +481,7 @@
                   {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
                 </td>
                 <td class="text-center">
-                  {{ request.stateName }}
+                  {{ request.createdAt | date: "longDate" }}
                 </td>
                 <td class="text-center">{{ request.status }}</td>
                 <td class="text-center">

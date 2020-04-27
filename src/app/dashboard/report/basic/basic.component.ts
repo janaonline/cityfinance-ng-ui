@@ -49,7 +49,7 @@ export class BasicComponent implements OnInit, OnDestroy {
     message: "You need to be Login to download the data.",
     buttons: {
       confirm: {
-        text: "Proceed to login",
+        text: "Proceed to Login",
         callback: () => {
           this.router.navigate(["/", "login"]);
         },
