@@ -133,10 +133,7 @@ export class FormUtil {
 
   public getPartnerForm() {
     const form = this.fb.group({
-      name: [
-        "",
-        [Validators.required, Validators.pattern(this.altest1Aplhabet)],
-      ],
+      name: ["", [Validators.required]],
       email: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
