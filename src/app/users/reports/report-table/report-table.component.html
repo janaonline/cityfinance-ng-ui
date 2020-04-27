@@ -14,7 +14,8 @@
         </button>
       </div>
     </div>
-    <div *ngIf="overAllReportData.length; else noData" class="col-sm-12 mt-2" [ngSwitch]="reportType">
+    <div *ngIf="overAllReportData.length || overAllReportData?.data?.length; else noData" class="col-sm-12 mt-2"
+         [ngSwitch]="reportType">
       <table id="table" *ngSwitchCase="'overAll'" class="table">
         <thead>
         <ng-container
@@ -102,11 +103,18 @@
         ></ng-container>
         </thead>
         <tbody>
-        <ng-container *ngFor="let state of overAllReportData; let i = index">
+        <tr>
+          <td></td>
+          <td>All states</td>
+          <td>{{overAllReportData?.overall?.total}}</td>
+          <td>{{overAllReportData?.overall?.totalUlb}}</td>
+          <td *ngFor="let row of tableHeaderSub">{{overAllReportData?.overall[row.id]}}</td>
+        </tr>
+        <ng-container *ngFor="let state of overAllReportData?.data; let i = index">
           <tr *ngFor="let subRow of ['Total', 'Audited', 'Unaudited']; let dataIndex = index">
             <td rowspan="3" *ngIf="dataIndex==0">{{ dataIndex == 0 ? i + 1 : '' }}</td>
             <td [rowSpan]="overAllReportData.length*3"
-                *ngIf="i==0&&dataIndex==0">{{ subRow == "Total" ? "All states" : "" }}</td>
+                *ngIf="i==0&&dataIndex==0">{{ subRow == "Total" ? '' : "" }}</td>
             <td rowspan="3" *ngIf="dataIndex==0">{{ subRow == "Total" ? state["name"] : "" }}</td>
             <td>{{ subRow == "Total" ? state["total"] : subRow }}</td>
             <ng-container *ngFor="let row of tableHeaderSub">
