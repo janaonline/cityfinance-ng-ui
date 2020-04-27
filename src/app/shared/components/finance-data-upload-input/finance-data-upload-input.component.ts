@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 
 export interface IFinancialDataUploadInputComponent {
@@ -19,6 +19,9 @@ export interface IFinancialDataUploadInputComponent {
 export class FinanceDataUploadInputComponent implements OnInit {
   @Input('config') config: IFinancialDataUploadInputComponent;
   @Output('fileButtonClicked') fileButtonClicked: EventEmitter<string[]> = new EventEmitter();
+
+  @ViewChild('balanceSheetCSV') balanceSheetCSV: ElementRef;
+  @ViewChild('balanceSheetPdf') balanceSheetPdf: ElementRef;
 
   constructor() {
   }
@@ -47,4 +50,13 @@ export class FinanceDataUploadInputComponent implements OnInit {
     }
   }
 
+  removeFiles(strings: string[], type: 'pdf' | 'excel') {
+    this.config.formGroup.get(strings).setValue(null);
+    this.config.formGroup.get(strings).updateValueAndValidity();
+    if (type == 'pdf') {
+      this.balanceSheetPdf.nativeElement.value = null;
+    } else {
+      this.balanceSheetCSV.nativeElement.value = null;
+    }
+  }
 }

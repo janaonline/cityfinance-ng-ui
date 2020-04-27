@@ -23,21 +23,23 @@ import {FileStatusCheckerInputComponent} from './components/file-status-checker-
 import {FinanceDataUploadInputComponent} from './components/finance-data-upload-input/finance-data-upload-input.component';
 import {FinancialDataChartComponent} from './components/financial-data-chart/financial-data-chart.component';
 import {FinancialDataService} from '../users/services/financial-data.service';
+import {AngularMaterialModule} from '../angular-material.module';
 
 @NgModule({
-  imports: [
-    RouterModule,
-    CommonModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    AngularMultiSelectModule,
-    MatSnackBarModule,
-    MatProgressSpinnerModule,
-    MatListModule,
-    MatCardModule
-  ],
+    imports: [
+        RouterModule,
+        CommonModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        AngularMultiSelectModule,
+        MatSnackBarModule,
+        MatProgressSpinnerModule,
+        MatListModule,
+        MatCardModule,
+        AngularMaterialModule
+    ],
   declarations: [
     PreLoaderComponent,
     ReUseableHeatMapComponent,
