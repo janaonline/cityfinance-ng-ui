@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-
 import {USER_TYPE} from '../models/user/userType';
 import {ILink} from '../shared/side-menu/side-menu.component';
 import {AccessChecker} from '../util/access/accessChecker';
 import {ACTIONS} from '../util/access/actions';
 import {MODULES_NAME} from '../util/access/modules';
 import {ProfileService} from './profile/service/profile.service';
+import {UserUtility} from '../util/user/user';
 
 @Component({
   selector: 'app-users',
@@ -118,7 +118,8 @@ export class UsersComponent implements OnInit {
         return this.accessChecker.hasAccess({
           action: ACTIONS.VIEW,
           moduleName: MODULES_NAME.REPORTS
-        });
+        }) && ([USER_TYPE.ADMIN, USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
+
       }
     },
     {
@@ -129,7 +130,7 @@ export class UsersComponent implements OnInit {
         return this.accessChecker.hasAccess({
           action: ACTIONS.VIEW,
           moduleName: MODULES_NAME.REPORTS
-        });
+        }) && ([USER_TYPE.STATE, USER_TYPE.ADMIN, USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
       }
     },
     {
@@ -140,7 +141,7 @@ export class UsersComponent implements OnInit {
         return this.accessChecker.hasAccess({
           action: ACTIONS.VIEW,
           moduleName: MODULES_NAME.REPORTS
-        });
+        }) && ([USER_TYPE.ADMIN, USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
       }
     },
     {
@@ -151,9 +152,10 @@ export class UsersComponent implements OnInit {
         return this.accessChecker.hasAccess({
           action: ACTIONS.VIEW,
           moduleName: MODULES_NAME.REPORTS
-        });
+        }) && ([USER_TYPE.STATE, USER_TYPE.ADMIN, USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
       }
     },
+
     {
       title: 'Usage Report',
       type: 'link',
@@ -162,7 +164,7 @@ export class UsersComponent implements OnInit {
         return this.accessChecker.hasAccess({
           action: ACTIONS.VIEW,
           moduleName: MODULES_NAME.REPORTS
-        });
+        }) && ([ USER_TYPE.ADMIN, USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
       }
     }
   ];
@@ -170,7 +172,7 @@ export class UsersComponent implements OnInit {
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
 
-  constructor(private profileService: ProfileService) {
+  constructor(private profileService: ProfileService, private userUtility: UserUtility) {
     this.initializeUSerType();
   }
 
