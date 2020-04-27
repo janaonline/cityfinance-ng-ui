@@ -34,7 +34,6 @@ export class ReportTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchFinancialYears();
     this.activatedRoute.params.subscribe(this.initializeDataByParams);
   }
 
@@ -43,10 +42,10 @@ export class ReportTableComponent implements OnInit {
     this.tableHeadersMain = [];
     this.tableHeaderSub = [];
     this.overAllReportData = [];
-    this.setFinancialYearByTable();
   }
 
   initializeDataByParams = ({type}) => {
+    this.fetchFinancialYears();
     this.loading = true;
     this.resetValues({type});
     switch (type) {
@@ -160,7 +159,6 @@ export class ReportTableComponent implements OnInit {
       if (result['success']) {
         this.financialDataService.financialYears = result['data'];
         this.setFinancialYearByTable();
-
       }
     });
   }
@@ -168,6 +166,7 @@ export class ReportTableComponent implements OnInit {
   private setFinancialYearByTable() {
     this.financialYearDropdown = this.financialDataService.financialYears;
     if (this.reportType == 'usage') {
+      console.log(this.financialYearDropdown);
       this.financialYearDropdown = this.financialYearDropdown.filter(year => year.name >= '2020-21');
     }
   }
