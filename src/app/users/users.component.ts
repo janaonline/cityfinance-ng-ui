@@ -118,7 +118,7 @@ export class UsersComponent implements OnInit {
         return this.accessChecker.hasAccess({
           action: ACTIONS.VIEW,
           moduleName: MODULES_NAME.REPORTS
-        }) && ([USER_TYPE.ADMIN, USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
+        }) && ([USER_TYPE.ADMIN,USER_TYPE.PARTNER,USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
 
       }
     },
@@ -130,7 +130,7 @@ export class UsersComponent implements OnInit {
         return this.accessChecker.hasAccess({
           action: ACTIONS.VIEW,
           moduleName: MODULES_NAME.REPORTS
-        }) && ([USER_TYPE.STATE, USER_TYPE.ADMIN, USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
+        }) && ([USER_TYPE.STATE,USER_TYPE.ADMIN,USER_TYPE.PARTNER,USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
       }
     },
     {
@@ -141,7 +141,7 @@ export class UsersComponent implements OnInit {
         return this.accessChecker.hasAccess({
           action: ACTIONS.VIEW,
           moduleName: MODULES_NAME.REPORTS
-        }) && ([USER_TYPE.ADMIN, USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
+        }) && ([USER_TYPE.ADMIN,USER_TYPE.PARTNER,USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
       }
     },
     {
@@ -152,7 +152,7 @@ export class UsersComponent implements OnInit {
         return this.accessChecker.hasAccess({
           action: ACTIONS.VIEW,
           moduleName: MODULES_NAME.REPORTS
-        }) && ([USER_TYPE.STATE, USER_TYPE.ADMIN, USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
+        }) && ([USER_TYPE.STATE, USER_TYPE.ADMIN,USER_TYPE.PARTNER,USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
       }
     },
 
@@ -164,7 +164,7 @@ export class UsersComponent implements OnInit {
         return this.accessChecker.hasAccess({
           action: ACTIONS.VIEW,
           moduleName: MODULES_NAME.REPORTS
-        }) && ([ USER_TYPE.ADMIN, USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
+        }) && ([USER_TYPE.ADMIN,USER_TYPE.PARTNER,USER_TYPE.MoHUA].includes(this.userUtility.getUserType()));
       }
     }
   ];
