@@ -13,7 +13,6 @@ import {
 import {ActivatedRoute} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {TableDownloader} from '../../../shared/util/tableDownload/genericTableDownload';
-import {cloneWithOffset} from 'ngx-bootstrap/chronos/units/offset';
 
 @Component({
   selector: 'app-usage-report',
@@ -100,7 +99,7 @@ export class ReportTableComponent implements OnInit {
   };
 
   totalRowAddCallback(item) {
-    const {total, data} = item;
+    const {total} = item;
     let keys = ['count', 'uploaded', 'pending', 'approved', 'rejected'];
     let totalObject = {};
     for (let key of keys) {
@@ -132,8 +131,9 @@ export class ReportTableComponent implements OnInit {
         }
         return;
       case 'ulb':
-        const {data} = this.overAllReportData;
-        this.overAllReportData = data;
+        this.overAllReportData.overall = this.calculateOverall(this.overAllReportData);
+        this.overAllReportData.data = this.overAllReportData.data.map(this.totalRowAddCallback);
+        return;
     }
     this.overAllReportData = this.overAllReportData.map(this.totalRowAddCallback);
   }
@@ -141,7 +141,7 @@ export class ReportTableComponent implements OnInit {
   calculateOverall({data, overall}) {
     const {total: overAllTotal} = overall;
     let keys = ['count', 'uploaded', 'pending', 'approved', 'rejected'];
-    let newData = data.map(el => el.data[0]);
+    let newData = overall.data;
     let totalUlb = data.map(el => el.total).reduce((a, c) => a + c, 0);
     let overAllObject = {};
     for (let key of keys) {
