@@ -89,7 +89,7 @@
   <div class="common-container">
     <div class="container">
       <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12" *ngIf="!(userUtil.getUserType()=='ULB' || userUtil.getUserType()=='STATE')">
           <app-financial-data-chart [financialYears]="financialYearDropdown"></app-financial-data-chart>
         </div>
       </div>
