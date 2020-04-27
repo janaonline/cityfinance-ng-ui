@@ -1,15 +1,15 @@
-import { HttpClient } from "@angular/common/http";
-import { Component, OnDestroy, OnInit, TemplateRef } from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { MatDialog } from "@angular/material";
-import { Router } from "@angular/router";
-import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { HttpClient } from '@angular/common/http';
+import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
-import { AuthService } from "../../../app/auth/auth.service";
-import { DialogComponent } from "../../../app/shared/components/dialog/dialog.component";
-import { IDialogConfiguration } from "../../../app/shared/components/dialog/models/dialogConfiguration";
-import { creditRatingModalHeaders } from "../../shared/components/home-header/tableHeaders";
-import { CommonService } from "../../shared/services/common.service";
+import { AuthService } from '../../../app/auth/auth.service';
+import { DialogComponent } from '../../../app/shared/components/dialog/dialog.component';
+import { IDialogConfiguration } from '../../../app/shared/components/dialog/models/dialogConfiguration';
+import { creditRatingModalHeaders } from '../../shared/components/home-header/tableHeaders';
+import { CommonService } from '../../shared/services/common.service';
 
 // import { CreditRatingJson } from './credit-rating.json';
 
@@ -341,7 +341,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     message: "You need to be Login to download the data.",
     buttons: {
       confirm: {
-        text: "Proceed to login",
+        text: "Proceed to Login",
         callback: () => {
           this.router.navigate(["/", "login"]);
         },
