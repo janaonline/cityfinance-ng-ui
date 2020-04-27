@@ -14,7 +14,6 @@
         <div class="mat-error"
              *ngIf="config.formGroup.get([config.formGroupName,'file_pdf']).errors"> {{config.formGroup.get([config.formGroupName, 'file_pdf']).errors[0]}} </div>
       </div>
-
       <ng-container *ngIf="config.formGroupName!=='auditReport'">
         <input #balanceSheetCSV
                (change)="handleFileChange([config.formGroupName,'file_excel'],$event.target.files[0])"
@@ -31,22 +30,33 @@
     </div>
 
     <div class="col-sm-12 mt-1">
-      <ul class="list-group"
-          *ngIf="config.formGroup.get([config.formGroupName,'file_pdf']).value || (config.formGroup.get([config.formGroupName,'file_excel'])&& config.formGroup.get([config.formGroupName,'file_excel']).value)">
-        <li *ngIf="config.formGroup.get([config.formGroupName,'file_pdf']).value" class="list-group-item"
-            style="white-space: nowrap; text-overflow:  ellipsis;overflow: hidden">
-          <span [title]="config.formGroup.get([config.formGroupName, 'file_pdf']).value?.name">
-                  Pdf: {{config.formGroup.get([config.formGroupName, 'file_pdf']).value?.name}}
-          </span>
+      <ul class="list-group" *ngIf="config.formGroup.get([config.formGroupName,'file_pdf']).value || (config.formGroup.get([config.formGroupName,'file_excel'])&& config.formGroup.get([config.formGroupName,'file_excel']).value)">
+        <li *ngIf="config.formGroup.get([config.formGroupName,'file_pdf']).value"
+            class="list-group-item d-flex justify-content-between ">
+          <div style="white-space: nowrap; margin: auto 0; text-overflow:  ellipsis;overflow: hidden"
+               [title]="config.formGroup.get([config.formGroupName, 'file_pdf']).value?.name">
+            Pdf: {{config.formGroup.get([config.formGroupName, 'file_pdf']).value?.name}}
+          </div>
+          <button [disabled]="config.formGroup.get([config.formGroupName]).disabled"
+                  (click)="removeFiles([config.formGroupName,'file_pdf'],'pdf')"
+                  mat-icon-button color="'red'">
+            <mat-icon class="text-danger"> delete</mat-icon>
+          </button>
         </li>
 
-        <li
-          *ngIf="(config.formGroup.get([config.formGroupName,'file_excel'])) && config.formGroup.get([config.formGroupName,'file_excel']).value"
-          class="list-group-item"
+        <li *ngIf="(config.formGroup.get([config.formGroupName,'file_excel'])) && config.formGroup.get([config.formGroupName,'file_excel']).value"
+          class="list-group-item d-flex justify-content-between "
           style="white-space: nowrap; text-overflow:  ellipsis;overflow: hidden">
-          <span [title]="config.formGroup.get([config.formGroupName, 'file_excel']).value?.name">
+          <div
+            style="white-space: nowrap; margin: auto 0; text-overflow:  ellipsis;overflow: hidden"
+            [title]="config.formGroup.get([config.formGroupName, 'file_excel']).value?.name">
             Excel:{{config.formGroup.get([config.formGroupName, 'file_excel']).value?.name}}
-          </span>
+          </div>
+          <button [disabled]="config.formGroup.get([config.formGroupName]).disabled"
+                  (click)="removeFiles([config.formGroupName,'file_excel'],'excel')"
+                  mat-icon-button>
+            <mat-icon class="text-danger">delete</mat-icon>
+          </button>
         </li>
       </ul>
     </div>
