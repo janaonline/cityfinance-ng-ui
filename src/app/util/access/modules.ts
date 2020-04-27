@@ -1,6 +1,6 @@
-import { USER_TYPE } from 'src/app/models/user/userType';
+import {USER_TYPE} from 'src/app/models/user/userType';
 
-import { ACTIONS } from './actions';
+import {ACTIONS} from './actions';
 
 export enum MODULES_NAME {
   TABLE_DOWNLOAD = "TABLE_DOWNLOAD",
@@ -171,7 +171,7 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
   [MODULES_NAME.REPORTS]: {
     name: MODULES_NAME.REPORTS,
     access: {
-      [ACTIONS.VIEW]: [USER_TYPE.MoHUA, USER_TYPE.ADMIN],
+      [ACTIONS.VIEW]: [USER_TYPE.MoHUA, USER_TYPE.ADMIN,USER_TYPE.STATE],
       [ACTIONS.DOWNLOAD]: [USER_TYPE.MoHUA, USER_TYPE.ADMIN]
     }
   }
