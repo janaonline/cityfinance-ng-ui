@@ -108,7 +108,7 @@ export class FinancialDataChartComponent implements OnInit, OnChanges {
             stacked: true,
           }],
           yAxes: [{
-            stacked: false
+            stacked: true
           }]
         }
       }
