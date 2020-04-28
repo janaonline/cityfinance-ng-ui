@@ -1,9 +1,9 @@
-import { Cell, Workbook, Worksheet } from 'exceljs';
-import { saveAs } from 'file-saver';
+import {Cell, Workbook, Worksheet} from 'exceljs';
+import {saveAs} from 'file-saver';
 
-import { logoBase64 as emblemOfIndiaWithText } from '../../../../assets/images/emblemOfIndiaWithText.js';
+import {logoBase64 as emblemOfIndiaWithText} from '../../../../assets/images/emblemOfIndiaWithText.js';
 import * as logoFile from '../../../dashboard/report/base64Logo.js';
-import { ILogoOption, TableCellOption, TableDowloadOptions } from './models/options';
+import {ILogoOption, TableCellOption, TableDowloadOptions} from './models/options';
 
 // /run/adeim / shadab / GIT / perfect -
 //   ui / src / app / dashboard / report / base64Logo.js;
@@ -20,7 +20,9 @@ import { ILogoOption, TableCellOption, TableDowloadOptions } from './models/opti
  *
  */
 export class TableDownloader {
-  private constructor() {}
+  private constructor() {
+  }
+
   private static instance: TableDownloader;
 
   private readonly _default = {
@@ -50,14 +52,14 @@ export class TableDownloader {
   downloadTable(table: HTMLTableElement, option: TableDowloadOptions) {
     this.previousColumnNumber = 0;
     const workbook = new Workbook();
-    const worksheet = workbook.addWorksheet("Sheet 1");
+    const worksheet = workbook.addWorksheet('Sheet 1');
     const noOfColumns = this.columnCountsFrom(table);
     if (!option.header || (option.header && option.header.addImage)) {
       this.addLogoToFile({
         workbook,
         worksheet,
-        column: { from: 1, to: noOfColumns },
-        row: { from: 1, to: 2 },
+        column: {from: 1, to: noOfColumns},
+        row: {from: 1, to: 2},
       });
     }
     if (option.extraTexts && option.extraTexts.atTop) {
@@ -67,11 +69,11 @@ export class TableDownloader {
     const tableHeaderRows = this.getRowsFromTableHead(table);
     const tableBodyRows = this.getRowsFromTableBody(table);
     ((tableHeaderRows as any) as Array<HTMLTableRowElement>).forEach((row) => {
-      this.addNewRowData(worksheet, { row });
+      this.addNewRowData(worksheet, {row});
     });
 
     ((tableBodyRows as any) as Array<HTMLTableRowElement>).forEach((row) => {
-      this.addNewRowData(worksheet, { row });
+      this.addNewRowData(worksheet, {row});
     });
 
     if (option.extraTexts && option.extraTexts.atBottom) {
@@ -108,12 +110,12 @@ export class TableDownloader {
   private addLogoToFile(option: ILogoOption) {
     const logo = option.workbook.addImage({
       base64: logoFile.logoBase64,
-      extension: "png",
+      extension: 'png',
     });
 
     const logo2 = option.workbook.addImage({
       base64: emblemOfIndiaWithText,
-      extension: "png",
+      extension: 'png',
     });
 
     const imageCellsTopLeft = this.getCellRange({
@@ -143,35 +145,35 @@ export class TableDownloader {
     );
 
     option.worksheet.addImage(logo, {
-      tl: { col: 0, row: 0 },
-      br: { col: 1, row: 2 },
+      tl: {col: 0, row: 0},
+      br: {col: 1, row: 2},
     });
 
     option.worksheet.addImage(logo2, {
-      tl: { col: option.column.to - 1.5, row: 0 },
-      br: { col: option.column.to, row: 2 },
+      tl: {col: option.column.to - 1.5, row: 0},
+      br: {col: option.column.to, row: 2},
     });
     // Color for logo backgeound
     for (let i = option.row.from; i <= option.row.to; i++) {
       option.worksheet
         .getRow(i)
-        .eachCell({ includeEmpty: true }, function (cell, rowNumber) {
+        .eachCell({includeEmpty: true}, function (cell, rowNumber) {
           cell.fill = {
-            type: "pattern",
-            pattern: "solid",
-            fgColor: { argb: "000001" },
-            bgColor: { argb: "000001" },
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: {argb: '000001'},
+            bgColor: {argb: '000001'},
           };
         });
     }
   }
 
   private getRowsFromTableBody(table: HTMLTableElement) {
-    return <NodeListOf<HTMLTableRowElement>>table.querySelectorAll("tbody  tr");
+    return <NodeListOf<HTMLTableRowElement>>table.querySelectorAll('tbody  tr');
   }
 
   private getRowsFromTableHead(table: HTMLTableElement) {
-    return <NodeListOf<HTMLTableRowElement>>table.querySelectorAll("thead  tr");
+    return <NodeListOf<HTMLTableRowElement>>table.querySelectorAll('thead  tr');
   }
 
   private addNewRowData(
@@ -179,7 +181,7 @@ export class TableDownloader {
     options: { row: HTMLTableRowElement }
   ) {
     this.previousColumnNumber = 0;
-    const newRow = worksheet.addRow([""]);
+    const newRow = worksheet.addRow(['']);
     const currentRowIndex = worksheet.rowCount;
 
     const totalNoOfColumns = options.row.childElementCount;
@@ -207,7 +209,7 @@ export class TableDownloader {
     const dataAttributes = <TableCellOption>(<any>option.tableCell.dataset);
     const text = dataAttributes.text;
     option.cell.value = text;
-    option.cell.font = { size: this._default.fontSize };
+    option.cell.font = {size: this._default.fontSize};
 
     if (option.tableCell.colSpan > 1) {
       this.mergeCells(option.worksheet, {
@@ -222,27 +224,26 @@ export class TableDownloader {
 
     if (dataAttributes.background_color) {
       option.cell.fill = {
-        type: "pattern",
-        pattern: "solid",
-        fgColor: { argb: "FFFFFF00" },
-        bgColor: { argb: dataAttributes.background_color },
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: {argb: dataAttributes.background_color},
       };
     }
 
     if (dataAttributes.text_align) {
-      option.cell.alignment = { vertical: "middle" };
+      option.cell.alignment = {vertical: 'middle'};
       option.cell.alignment.horizontal = dataAttributes.text_align;
     }
 
-    if (dataAttributes.bold && dataAttributes.bold === "true") {
+    if (dataAttributes.bold && dataAttributes.bold === 'true') {
       option.cell.style.font.bold = true;
       option.cell.font.bold = true;
     }
 
     if (dataAttributes.font_size) {
       option.cell.font = !option.cell.font
-        ? { size: +dataAttributes.font_size }
-        : { ...option.cell.font, size: +dataAttributes.font_size };
+        ? {size: +dataAttributes.font_size}
+        : {...option.cell.font, size: +dataAttributes.font_size};
     }
   }
 
@@ -281,14 +282,14 @@ export class TableDownloader {
       options.rowIndex;
     const to =
       String.fromCharCode(baseNumber + options.cellEndIndex) + options.rowIndex;
-    return { from, to };
+    return {from, to};
   }
 
   private addExtraTextToWorksheet(
     worksheet: Worksheet,
     textsToAdd:
-      | TableDowloadOptions["extraTexts"]["atTop"]
-      | TableDowloadOptions["extraTexts"]["atBottom"]
+      | TableDowloadOptions['extraTexts']['atTop']
+      | TableDowloadOptions['extraTexts']['atBottom']
   ) {
     if (!Object.keys(textsToAdd).length || !textsToAdd.rows.length) {
       return false;
@@ -300,7 +301,7 @@ export class TableDownloader {
 
     textsToAdd.rows.forEach((rowToAdd) => {
       const tableRow = this.createTableRowFromData(rowToAdd);
-      this.addNewRowData(worksheet, { row: tableRow });
+      this.addNewRowData(worksheet, {row: tableRow});
     });
 
     if (textsToAdd.extraRowAfter) {
@@ -309,9 +310,9 @@ export class TableDownloader {
   }
 
   private createTableRowFromData(
-    rowToAdd: TableDowloadOptions["extraTexts"]["atTop"]["rows"][0]
+    rowToAdd: TableDowloadOptions['extraTexts']['atTop']['rows'][0]
   ) {
-    const tableRow = document.createElement("tr");
+    const tableRow = document.createElement('tr');
     rowToAdd.columns.forEach((col) => {
       const newTabCell = tableRow.insertCell();
       Object.keys(col).forEach((attributeName) => {
@@ -342,7 +343,7 @@ export class TableDownloader {
     workbook.xlsx.writeBuffer().then((data: any) => {
       const blob = new Blob([data], {
         type:
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
       saveAs(blob, fileName);
     });
