@@ -15,7 +15,7 @@ import { ProfileService } from '../service/profile.service';
 @Component({
   selector: "app-ulb-profile",
   templateUrl: "./ulb-profile.component.html",
-  styleUrls: ["./ulb-profile.component.scss"]
+  styleUrls: ["./ulb-profile.component.scss"],
 })
 export class UlbProfileComponent implements OnInit, OnChanges {
   @Input() profileData: IULBProfileData;
@@ -44,7 +44,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   ngOnChanges(changes) {}
 
   fetchDatas() {
-    this._profileService.getULBTypeList().subscribe(res => {
+    this._profileService.getULBTypeList().subscribe((res) => {
       this.ulbTypeList = res["data"];
     });
   }
@@ -89,20 +89,20 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.profile.disable({ onlySelf: true, emitEvent: false });
 
     this._profileService.createULBUpdateRequest(flatten).subscribe(
-      res => this.onUpdatingProfileSuccess(res),
-      err => this.onUpdatingProfileError(err)
+      (res) => this.onUpdatingProfileSuccess(res),
+      (err) => this.onUpdatingProfileError(err)
     );
   }
 
   updateFormStatus(status: { status: IULBProfileData["status"]; _id: string }) {
     this.resetResponseMessage();
     this._profileService.updateULBSingUPStatus(status).subscribe(
-      res => {
+      (res) => {
         this.canSubmitForm = true;
         this.profileData.status = status.status;
         this.respone.successMessage = "ULB Singup updated successfully.";
       },
-      err => {
+      (err) => {
         this.respone.errorMessage = err.error.message || "Server Error";
       }
     );
@@ -118,12 +118,12 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   }
 
   private onUpdatingProfileSuccess(res) {
-    this.respone.successMessage = "Profile Updated Successfully";
+    this.respone.successMessage = res.message || "Profile Updated Successfully";
   }
 
   private onUpdatingProfileError(err: HttpErrorResponse) {
     this.respone.errorMessage =
-      err.error.mesage || "Failed to updated profile.";
+      err.error.message || "Failed to updated profile.";
   }
 
   private resetResponseMessage() {
@@ -133,7 +133,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   private checkFieldsForError(form: FormGroup) {
     let errors: string[] = [];
-    Object.keys(form.controls).forEach(Name => {
+    Object.keys(form.controls).forEach((Name) => {
       const control = form.controls[Name];
       if (control.disabled) {
         return;
@@ -158,7 +158,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   private getUpdatedFieldsOnly(form: FormGroup): {} | null {
     let updateObject: { [key: string]: any };
-    Object.keys(form.controls).forEach(controlName => {
+    Object.keys(form.controls).forEach((controlName) => {
       const control = form.controls[controlName];
       if (!control.dirty) {
         return;
@@ -191,7 +191,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       this.profile.patchValue({
         ...{ ...this.profileData },
         name: this.profileData.ulb.name,
-        state: this.profileData.ulb.state.name
+        state: this.profileData.ulb.state.name,
       });
 
       if (this.profileData.status !== "APPROVED") {
@@ -211,7 +211,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     const accessCheck = new AccessChecker();
     this.canSubmitForm = accessCheck.hasAccess({
       action: ACTIONS.EDIT,
-      moduleName: MODULES_NAME.ULB_PROFILE
+      moduleName: MODULES_NAME.ULB_PROFILE,
     });
     console.log(this.canSubmitForm);
   }

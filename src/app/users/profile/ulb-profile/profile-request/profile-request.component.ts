@@ -20,7 +20,7 @@ import { ProfileService } from '../../service/profile.service';
 @Component({
   selector: "app-profile-request",
   templateUrl: "./profile-request.component.html",
-  styleUrls: ["./profile-request.component.scss"]
+  styleUrls: ["./profile-request.component.scss"],
 })
 export class ProfileRequestComponent implements OnInit {
   constructor(
@@ -38,7 +38,7 @@ export class ProfileRequestComponent implements OnInit {
     this.createRequestStatusTypeList();
     this.loggedInUserType = this._profileService.getLoggedInUserType();
     this.initializeListFetchParams();
-    this._activatedRoute.queryParams.subscribe(params => {
+    this._activatedRoute.queryParams.subscribe((params) => {
       this.resetDatas();
       this.initializeFilterForm();
 
@@ -65,23 +65,24 @@ export class ProfileRequestComponent implements OnInit {
 
   requestIDToCancel: string;
 
-  listFetchOption = {
-    filter: null,
-    sort: null,
-    skip: 0
-  };
-
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
-    totalCount: null
+    totalCount: null,
+  };
+
+  listFetchOption = {
+    filter: null,
+    sort: null,
+    skip: 0,
+    limit: this.tableDefaultOptions.itemPerPage,
   };
   currentSort = 1;
   loggedInUserType: USER_TYPE;
 
   respone = {
     errorMessage: null,
-    successMessage: null
+    successMessage: null,
   };
 
   requestStatusTypeList: {
@@ -110,7 +111,8 @@ export class ProfileRequestComponent implements OnInit {
       sort: { [key]: this.currentSort },
       skip:
         (this.tableDefaultOptions.currentPage - 1) *
-        this.tableDefaultOptions.itemPerPage
+        this.tableDefaultOptions.itemPerPage,
+      limit: this.tableDefaultOptions.itemPerPage,
     };
     this.listFetchOption = values;
     this.fetchRequestList(values);
@@ -127,11 +129,11 @@ export class ProfileRequestComponent implements OnInit {
     this.resetResponseMessages();
 
     return this._profileService.updateULBProfileRequest(params).subscribe(
-      res => {
+      (res) => {
         this.request.status = params.status;
         this.modalService.hide(1);
       },
-      err => (this.respone.errorMessage = err.error.message || "Server Error")
+      (err) => (this.respone.errorMessage = err.error.message || "Server Error")
     );
   }
 
@@ -140,25 +142,30 @@ export class ProfileRequestComponent implements OnInit {
     const util = new JSONUtility();
     body.filter = util.filterEmptyValue(body.filter);
 
-    this._profileService.getULBProfileUpdateRequestList(body).subscribe(res => {
-      console.log(`getULBProfileUpdateRequestList `, res);
+    this._profileService
+      .getULBProfileUpdateRequestList(body)
+      .subscribe((res) => {
+        console.log(`getULBProfileUpdateRequestList `, res);
+        if (res.total) {
+          this.tableDefaultOptions.totalCount = res.total;
+        }
 
-      this.requestList = res.data;
-    });
+        this.requestList = res.data;
+      });
   }
 
   fetchULBProfileRequest(requestId: string) {
     this._profileService
       .getULBProfileUpdateRequest(requestId)
-      .subscribe(res => {
+      .subscribe((res) => {
         this.request = res;
       });
   }
 
   fetchulbTypeList() {
-    this._profileService.getULBTypeList().subscribe(res => {
+    this._profileService.getULBTypeList().subscribe((res) => {
       if (res.data && res.data.length) {
-        res.data.forEach(type => {
+        res.data.forEach((type) => {
           this.ulbTypeList[type._id] = type;
         });
       }
@@ -169,13 +176,13 @@ export class ProfileRequestComponent implements OnInit {
   initializeAccessCheck() {
     const hasAccess = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.ULB_PROFILE,
-      action: ACTIONS.APPROVE
+      action: ACTIONS.APPROVE,
     });
 
     this.canApproveRequest = hasAccess ? "write" : "readOnly";
     this.canViewULBSignUpList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.ULB_SIGNUP_REQUEST,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
   }
 
@@ -187,9 +194,9 @@ export class ProfileRequestComponent implements OnInit {
   }
 
   private fetchStateList() {
-    this._commonService.getStateUlbCovered().subscribe(res => {
+    this._commonService.getStateUlbCovered().subscribe((res) => {
       this.stateList = res.data;
-      res.data.forEach(state => {
+      res.data.forEach((state) => {
         this.statesByID[state._id] = state;
       });
     });
@@ -200,7 +207,7 @@ export class ProfileRequestComponent implements OnInit {
 
     if (this.loggedInUserType === USER_TYPE.ULB) {
       this.filterForm = this._fb.group({
-        status: [""]
+        status: [""],
       });
       return;
     }
@@ -209,7 +216,7 @@ export class ProfileRequestComponent implements OnInit {
       state: [""],
       ulbName: [""],
       ulbCode: [],
-      status: [""]
+      status: [""],
     });
   }
 
@@ -217,7 +224,8 @@ export class ProfileRequestComponent implements OnInit {
     this.listFetchOption = {
       filter: this.filterForm ? this.filterForm.value : {},
       sort: null,
-      skip: 0
+      skip: 0,
+      limit: this.tableDefaultOptions.itemPerPage,
     };
   }
 
@@ -227,14 +235,14 @@ export class ProfileRequestComponent implements OnInit {
   }
 
   private createRequestStatusTypeList() {
-    this.requestStatusTypeList = Object.keys(REQUEST_STATUS).map(key => ({
+    this.requestStatusTypeList = Object.keys(REQUEST_STATUS).map((key) => ({
       key,
-      value: key
+      value: key,
     }));
   }
 
   public downloadList() {
-    const params = { ...this.listFetchOption };
+    const params = { ...this.listFetchOption, limit: null };
     delete params["skip"];
 
     const url = this._profileService.getURLForUlbUpdateRequestList(params);
