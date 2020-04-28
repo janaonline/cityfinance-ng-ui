@@ -44,11 +44,9 @@ export class ReportTableComponent implements OnInit {
     this.overAllReportData = [];
   }
 
-  initializeDataByParams = ({type}) => {
-    this.fetchFinancialYears();
+  fetchDataByReport() {
     this.loading = true;
-    this.resetValues({type});
-    switch (type) {
+    switch (this.reportType) {
       case 'overAll':
         this.tableHeadersMain = overAllReportMain;
         this.tableHeaderSub = overAllSubHeader;
@@ -75,6 +73,12 @@ export class ReportTableComponent implements OnInit {
         this.fetchUsageReportData();
 
     }
+  }
+
+  initializeDataByParams = ({type}) => {
+    this.resetValues({type});
+    this.fetchFinancialYears();
+
   };
 
   fetchOverAllReportData() {
@@ -159,6 +163,7 @@ export class ReportTableComponent implements OnInit {
       if (result['success']) {
         this.financialDataService.financialYears = result['data'];
         this.setFinancialYearByTable();
+        this.fetchDataByReport();
       }
     });
   }
@@ -167,6 +172,8 @@ export class ReportTableComponent implements OnInit {
     this.financialYearDropdown = this.financialDataService.financialYears;
     if (this.reportType == 'usage') {
       this.financialYearDropdown = this.financialYearDropdown.filter(year => year.name >= '2020-21');
+      this.financialYearFormControl.setValue('2020-21');
+
     }
   }
 
