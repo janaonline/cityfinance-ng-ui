@@ -20,15 +20,25 @@ import { ILogoOption, TableCellOption, TableDowloadOptions } from './models/opti
  *
  */
 export class TableDownloader {
+  private constructor() {}
   private static instance: TableDownloader;
 
   private readonly _default = {
     cellWidth: 20,
     fontSize: 12,
-    addLogoToHeader: true
+    addLogoToHeader: true,
   };
 
-  private constructor() {}
+  /**
+   *
+   * @description Why this variabnle exists? When we merge the cells in the exceljs,
+   * we cannot get the proper number of the next cell.
+   * For Ex:
+   *  If we merge cells from A1 to D1, then the next cell shoud be E1, but exceljs
+   * will generate next cell as B1. Due to this we have to manually keep track of the previous
+   * cells for each row and reset it to 0, at the beginning of new row.
+   */
+  previousColumnNumber = 0;
 
   public static getInstance() {
     if (!TableDownloader.instance) {
@@ -38,6 +48,7 @@ export class TableDownloader {
   }
 
   downloadTable(table: HTMLTableElement, option: TableDowloadOptions) {
+    this.previousColumnNumber = 0;
     const workbook = new Workbook();
     const worksheet = workbook.addWorksheet("Sheet 1");
     const noOfColumns = this.columnCountsFrom(table);
@@ -46,7 +57,7 @@ export class TableDownloader {
         workbook,
         worksheet,
         column: { from: 1, to: noOfColumns },
-        row: { from: 1, to: 2 }
+        row: { from: 1, to: 2 },
       });
     }
     if (option.extraTexts && option.extraTexts.atTop) {
@@ -55,11 +66,11 @@ export class TableDownloader {
 
     const tableHeaderRows = this.getRowsFromTableHead(table);
     const tableBodyRows = this.getRowsFromTableBody(table);
-    ((tableHeaderRows as any) as Array<HTMLTableRowElement>).forEach(row => {
+    ((tableHeaderRows as any) as Array<HTMLTableRowElement>).forEach((row) => {
       this.addNewRowData(worksheet, { row });
     });
 
-    ((tableBodyRows as any) as Array<HTMLTableRowElement>).forEach(row => {
+    ((tableBodyRows as any) as Array<HTMLTableRowElement>).forEach((row) => {
       this.addNewRowData(worksheet, { row });
     });
 
@@ -67,7 +78,7 @@ export class TableDownloader {
       this.addExtraTextToWorksheet(worksheet, option.extraTexts.atBottom);
     }
 
-    worksheet.columns.forEach(col => {
+    worksheet.columns.forEach((col) => {
       col.width = this._default.cellWidth;
     });
     this.downloadWorkbook(workbook, `${option.filename}.${option.extension}`);
@@ -76,9 +87,15 @@ export class TableDownloader {
   private columnCountsFrom(table: HTMLTableElement) {
     let maxNoOfColumns = 0;
     const tableHeaderRows = this.getRowsFromTableHead(table);
-    ((tableHeaderRows as any) as Array<HTMLTableRowElement>).forEach(row => {
+    ((tableHeaderRows as any) as Array<HTMLTableRowElement>).forEach((row) => {
       if (row.cells && row.cells.length && maxNoOfColumns < row.cells.length) {
-        maxNoOfColumns = row.cells.length;
+        let columnsInRow = 0;
+        for (let index = 0; index < row.cells.length; index++) {
+          const cell = row.cells[index];
+          columnsInRow += cell.colSpan ? cell.colSpan : 1;
+        }
+        maxNoOfColumns =
+          columnsInRow > maxNoOfColumns ? columnsInRow : maxNoOfColumns;
       }
     });
     return maxNoOfColumns;
@@ -91,34 +108,34 @@ export class TableDownloader {
   private addLogoToFile(option: ILogoOption) {
     const logo = option.workbook.addImage({
       base64: logoFile.logoBase64,
-      extension: "png"
+      extension: "png",
     });
 
     const logo2 = option.workbook.addImage({
       base64: emblemOfIndiaWithText,
-      extension: "png"
+      extension: "png",
     });
 
     const imageCellsTopLeft = this.getCellRange({
       cellStartIndex: option.column.from,
       cellEndIndex: 2,
-      rowIndex: option.row.from
+      rowIndex: option.row.from,
     });
     const imageCellBottomRight = this.getCellRange({
       cellStartIndex: option.column.from,
       cellEndIndex: 2,
-      rowIndex: option.row.from + 1
+      rowIndex: option.row.from + 1,
     });
 
     const topLeftOfImageContainer = this.getCellRange({
       cellStartIndex: option.column.from,
       cellEndIndex: option.column.to,
-      rowIndex: option.row.from
+      rowIndex: option.row.from,
     });
     const bottomRightofImageContainer = this.getCellRange({
       cellStartIndex: option.column.from,
       cellEndIndex: option.column.to,
-      rowIndex: option.row.to
+      rowIndex: option.row.to,
     });
 
     option.worksheet.mergeCells(
@@ -127,23 +144,23 @@ export class TableDownloader {
 
     option.worksheet.addImage(logo, {
       tl: { col: 0, row: 0 },
-      br: { col: 1, row: 2 }
+      br: { col: 1, row: 2 },
     });
 
     option.worksheet.addImage(logo2, {
       tl: { col: option.column.to - 1.5, row: 0 },
-      br: { col: option.column.to, row: 2 }
+      br: { col: option.column.to, row: 2 },
     });
     // Color for logo backgeound
     for (let i = option.row.from; i <= option.row.to; i++) {
       option.worksheet
         .getRow(i)
-        .eachCell({ includeEmpty: true }, function(cell, rowNumber) {
+        .eachCell({ includeEmpty: true }, function (cell, rowNumber) {
           cell.fill = {
             type: "pattern",
             pattern: "solid",
             fgColor: { argb: "000001" },
-            bgColor: { argb: "000001" }
+            bgColor: { argb: "000001" },
           };
         });
     }
@@ -161,18 +178,21 @@ export class TableDownloader {
     worksheet: Worksheet,
     options: { row: HTMLTableRowElement }
   ) {
+    this.previousColumnNumber = 0;
     const newRow = worksheet.addRow([""]);
     const currentRowIndex = worksheet.rowCount;
 
     const totalNoOfColumns = options.row.childElementCount;
+
     for (let i = 1; i <= totalNoOfColumns; i++) {
       const tableCell = options.row.cells.item(i - 1);
+
       this.applyAttributeToCell({
-        cell: newRow.getCell(i),
+        cell: newRow.getCell(this.previousColumnNumber + 1),
         worksheet,
         rowIndex: currentRowIndex,
         cellIndex: i,
-        tableCell
+        tableCell,
       });
     }
   }
@@ -192,9 +212,12 @@ export class TableDownloader {
     if (option.tableCell.colSpan > 1) {
       this.mergeCells(option.worksheet, {
         rowIndex: option.rowIndex,
-        cellStartIndex: option.cellIndex,
-        cellEndIndex: option.tableCell.colSpan
+        cellStartIndex: this.previousColumnNumber + 1,
+        cellEndIndex: this.previousColumnNumber + option.tableCell.colSpan,
       });
+      this.previousColumnNumber += option.tableCell.colSpan;
+    } else {
+      this.previousColumnNumber = option.cellIndex;
     }
 
     if (dataAttributes.background_color) {
@@ -202,7 +225,7 @@ export class TableDownloader {
         type: "pattern",
         pattern: "solid",
         fgColor: { argb: "FFFFFF00" },
-        bgColor: { argb: dataAttributes.background_color }
+        bgColor: { argb: dataAttributes.background_color },
       };
     }
 
@@ -234,8 +257,9 @@ export class TableDownloader {
     const cellRange = this.getCellRange({
       rowIndex: options.rowIndex,
       cellStartIndex: options.cellStartIndex,
-      cellEndIndex: options.cellEndIndex
+      cellEndIndex: options.cellEndIndex,
     });
+
     worksheet.mergeCells(`${cellRange.from}:${cellRange.to}`);
   }
 
@@ -274,7 +298,7 @@ export class TableDownloader {
       this.addEmptyRows(textsToAdd.extraRowsBefore, worksheet);
     }
 
-    textsToAdd.rows.forEach(rowToAdd => {
+    textsToAdd.rows.forEach((rowToAdd) => {
       const tableRow = this.createTableRowFromData(rowToAdd);
       this.addNewRowData(worksheet, { row: tableRow });
     });
@@ -288,9 +312,9 @@ export class TableDownloader {
     rowToAdd: TableDowloadOptions["extraTexts"]["atTop"]["rows"][0]
   ) {
     const tableRow = document.createElement("tr");
-    rowToAdd.columns.forEach(col => {
+    rowToAdd.columns.forEach((col) => {
       const newTabCell = tableRow.insertCell();
-      Object.keys(col).forEach(attributeName => {
+      Object.keys(col).forEach((attributeName) => {
         newTabCell.setAttribute(`data-${attributeName}`, col[attributeName]);
         /**
          * NOTE Why are we applying colSpan seperately?
@@ -318,7 +342,7 @@ export class TableDownloader {
     workbook.xlsx.writeBuffer().then((data: any) => {
       const blob = new Blob([data], {
         type:
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
       saveAs(blob, fileName);
     });
