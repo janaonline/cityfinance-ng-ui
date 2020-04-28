@@ -225,9 +225,9 @@
   </div>
   <ng-template #header let-rows>
     <tr>
-      <th [attr.data-background_color]="'#009fe3'" [attr.data-text]="'Sr. No'">Sr. No</th>
+      <th [attr.data-background_color]="'FF009fe3'" [attr.data-text]="'Sr. No'">Sr. No</th>
       <th
-        [attr.data-background_color]="'#009fe3'"
+        [attr.data-background_color]="'FF009fe3'"
         [colSpan]="header?.colSpan ? header.colSpan : 1"
         [attr.data-text_align]="header.colSpan > 2 ? 'center' : ''"
         [ngClass]="header.colSpan > 2 ? 'text-center' : ''"
@@ -236,13 +236,13 @@
       </th>
     </tr>
     <tr *ngIf="rows.sub.length">
-      <th [attr.data-background_color]="'#009fe3'" [attr.data-text]="' '" *ngFor="let ex of rows.extraSubheader"></th>
+      <th [attr.data-background_color]="'FF009fe3'" [attr.data-text]="' '" *ngFor="let ex of rows.extraSubheader"></th>
       <th [attr.data-text]="subheader.title"
-          [attr.data-background_color]="'#009fe3'"
+          [attr.data-background_color]="'FF009fe3'"
           *ngFor="let subheader of rows.sub">
         {{ subheader.title }}
       </th>
-      <th [attr.data-background_color]="'#009fe3'"
+      <th [attr.data-background_color]="'FF009fe3'"
           [attr.data-text]="' '" *ngIf="reportType==='usage'"></th>
     </tr>
   </ng-template>
