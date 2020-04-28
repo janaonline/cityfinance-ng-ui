@@ -52,9 +52,17 @@ table {
 }
 
 ::ng-deep {
+  .modal-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .modal-mdl {
     width: 50%;
     border: 0;
+    height: 90vh;
+    flex: 1;
 
     & .modal-content {
       border: 0;
