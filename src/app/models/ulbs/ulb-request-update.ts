@@ -5,6 +5,7 @@ export interface IULBProfileRequestResponse {
   success: boolean;
   message: string;
   data: IULBProfileRequest[];
+  total?: number;
 }
 
 export interface IULBProfileRequest {

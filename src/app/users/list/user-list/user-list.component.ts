@@ -15,7 +15,7 @@ import { ProfileService } from '../../profile/service/profile.service';
 @Component({
   selector: "app-user-list",
   templateUrl: "./user-list.component.html",
-  styleUrls: ["./user-list.component.scss"]
+  styleUrls: ["./user-list.component.scss"],
 })
 export class UserListComponent implements OnInit {
   constructor(
@@ -28,7 +28,7 @@ export class UserListComponent implements OnInit {
     public _dialog: MatDialog
   ) {
     this.createRequestStatusTypeList();
-    this._activatedRoute.params.subscribe(params => {
+    this._activatedRoute.params.subscribe((params) => {
       this.initializeList(params.userType);
       this.initializeFilterForm();
       this.initializeListFetchParams();
@@ -54,14 +54,15 @@ export class UserListComponent implements OnInit {
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
-    totalCount: null
+    totalCount: null,
   };
 
   listFetchOption = {
     filter: null,
     sort: null,
     role: null,
-    skip: 0
+    skip: 0,
+    limit: this.tableDefaultOptions.itemPerPage,
   };
 
   stateList: IStateULBCovered[];
@@ -75,7 +76,7 @@ export class UserListComponent implements OnInit {
   userToDelete: { [key: string]: string };
   respone = {
     errorMessage: null,
-    successMessage: null
+    successMessage: null,
   };
 
   private fetchULBProfileUpdateRequest() {
@@ -102,7 +103,7 @@ export class UserListComponent implements OnInit {
     this.resetResponseMessages();
     this.userToDelete = user;
     this._dialog.open(template);
-    this._dialog.afterAllClosed.subscribe(event => {
+    this._dialog.afterAllClosed.subscribe((event) => {
       this.userToDelete = null;
     });
   }
@@ -120,9 +121,10 @@ export class UserListComponent implements OnInit {
       filter: this.filterForm.value,
       sort: { [key]: this.currentSort },
       role: this.listType,
+      limit: this.tableDefaultOptions.itemPerPage,
       skip:
         (this.tableDefaultOptions.currentPage - 1) *
-        this.tableDefaultOptions.itemPerPage
+        this.tableDefaultOptions.itemPerPage,
     };
     this.listFetchOption = values;
     this.searchUsersBy(values.filter);
@@ -138,11 +140,11 @@ export class UserListComponent implements OnInit {
   public deleteUser(userId: string) {
     this.resetResponseMessages();
     this._profileService.deleteUser({ userId }).subscribe(
-      res => {
+      (res) => {
         this._dialog.closeAll();
         this.fetchList(this.listFetchOption);
       },
-      err => (this.respone.errorMessage = err.error.message || "Server Error")
+      (err) => (this.respone.errorMessage = err.error.message || "Server Error")
     );
   }
 
@@ -156,7 +158,7 @@ export class UserListComponent implements OnInit {
     const util = new JSONUtility();
     body.filter = util.filterEmptyValue(body.filter);
 
-    this._userService.getUsers(body).subscribe(res => {
+    this._userService.getUsers(body).subscribe((res) => {
       if (res.hasOwnProperty("total")) {
         this.tableDefaultOptions.totalCount = res["total"];
       }
@@ -190,9 +192,9 @@ export class UserListComponent implements OnInit {
   }
 
   private fetchStateList() {
-    this._commonService.getStateUlbCovered().subscribe(res => {
+    this._commonService.getStateUlbCovered().subscribe((res) => {
       this.stateList = res.data;
-      res.data.forEach(state => {
+      res.data.forEach((state) => {
         this.statesByID[state._id] = state;
       });
     });
@@ -203,7 +205,7 @@ export class UserListComponent implements OnInit {
       name: [null],
       email: [null],
       designation: [null],
-      organization: [null]
+      organization: [null],
     });
   }
 
@@ -212,7 +214,7 @@ export class UserListComponent implements OnInit {
       name: [null],
       ulbCode: [null],
       status: [""],
-      state: [""]
+      state: [""],
     });
   }
 
@@ -222,7 +224,7 @@ export class UserListComponent implements OnInit {
       email: [null],
       designation: [null],
       state: [""],
-      departmentName: [null]
+      departmentName: [null],
     });
   }
 
@@ -231,7 +233,7 @@ export class UserListComponent implements OnInit {
       name: [null],
       email: [null],
       designation: [null],
-      departmentName: [null]
+      departmentName: [null],
     });
   }
 
@@ -239,7 +241,7 @@ export class UserListComponent implements OnInit {
     this.filterForm = this._fb.group({
       name: [null],
       email: [null],
-      designation: [null]
+      designation: [null],
     });
   }
 
@@ -248,14 +250,15 @@ export class UserListComponent implements OnInit {
       role: this.listType,
       filter: this.filterForm ? this.filterForm.value : {},
       sort: null,
-      skip: 0
+      skip: 0,
+      limit: this.tableDefaultOptions.itemPerPage,
     };
   }
 
   private createRequestStatusTypeList() {
-    this.requestStatusTypeList = Object.keys(ULBSIGNUPSTATUS).map(key => ({
+    this.requestStatusTypeList = Object.keys(ULBSIGNUPSTATUS).map((key) => ({
       key,
-      value: key
+      value: key,
     }));
   }
 
