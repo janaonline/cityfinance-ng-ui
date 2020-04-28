@@ -1414,7 +1414,7 @@
           </div>
           <!-- Show Div after loading Ends here -->
           <div class="row mt-1">
-            <div class="col-sm-12" *ngIf="!selectedStates[0].length">
+            <div class="col-sm-12" *ngIf="!(selectedStates&& selectedStates[0].length)">
               <h5 class="text-center">Click on any state to view statewise data.</h5>
             </div>
             <div class="col-sm-12 text-center" *ngIf="selectedStates[0].length">
@@ -1825,7 +1825,7 @@
     <mat-icon>close</mat-icon>
   </button>
   <div class="modal-body">
-    <div class="table-responsive border-1">
+    <div class="table-responsive border-1" style="max-height: 70vh">
       <table class="table">
         <thead>
         <tr>

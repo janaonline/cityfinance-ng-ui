@@ -191,7 +191,6 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
     this.absCreditInfo['title'] = stateName || 'India';
     this.absCreditInfo['ulbs'] = ulbList;
-    console.log(this.absCreditInfo);
   }
 
   openUlbInfo(info, template: TemplateRef<any>) {
@@ -210,7 +209,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.ulbInfo.forEach((ulb) => {
       ulb = this.addRatingDesc(ulb);
     });
-    this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
+    this.modalRef = this.modalService.show(template, {class: 'modal-lg modal-center'});
   }
 
   getUlbInfo(info) {
@@ -335,9 +334,8 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   openModal(ModalRef: TemplateRef<any>, grade) {
-    console.log(this.selectedStates);
     this.dialogData = this.list.filter((ulb) => ((this.selectedStates[0].length ? this.selectedStates.includes(ulb.state.toLowerCase()) : true) && ulb.creditrating === grade));
-    this.modalService.show(ModalRef, {class: 'modal-mdl'});
+    this.modalService.show(ModalRef, {class: 'modal-mdl modal-center'});
   }
 
   private generateDropDownData() {
