@@ -166,7 +166,6 @@ export class ReportTableComponent implements OnInit {
   private setFinancialYearByTable() {
     this.financialYearDropdown = this.financialDataService.financialYears;
     if (this.reportType == 'usage') {
-      console.log(this.financialYearDropdown);
       this.financialYearDropdown = this.financialYearDropdown.filter(year => year.name >= '2020-21');
     }
   }
