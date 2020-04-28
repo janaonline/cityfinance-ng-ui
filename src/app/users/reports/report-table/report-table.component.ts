@@ -206,11 +206,49 @@ export class ReportTableComponent implements OnInit {
   }
 
   tableDownload() {
+    let tableHeadings = {
+      'overAll': 'Overall Report',
+      'state': 'State Wise Report',
+      'ulb': 'ULB Type Wise Report',
+      'stateUlb': 'State and ULB Type Wise Report',
+      'usage': 'Usage Report'
+    };
+
+    let extraColspan = {
+      'overAll': 3,
+      'state': 3,
+      'ulb': 4,
+      'stateUlb': 4,
+      'usage': 5
+    };
     let tableElement = <HTMLTableElement>document.getElementById('table');
     let tableDownloader = TableDownloader.getInstance();
     tableDownloader.downloadTable(tableElement, {
       filename: this.reportType,
-      extension: 'xlsx'
+      extension: 'xlsx',
+      extraTexts: {
+        atTop: {
+          rows: [
+            {
+              columns: [{
+                font_size:'16',
+                bold: 'true',
+                colSpan: this.tableHeaderSub.length + extraColspan[this.reportType],
+                text: tableHeadings[this.reportType],
+                text_align: 'center'
+              }]
+            }, {
+              columns: [{
+                font_size: '15',
+                bold: 'true',
+                colSpan: this.tableHeaderSub.length + extraColspan[this.reportType],
+                text: `Year : ${this.financialYearFormControl.value}`,
+                text_align: 'center'
+              }]
+            },
+          ],
+        }
+      }
     });
   }
 
