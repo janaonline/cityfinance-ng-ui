@@ -210,7 +210,18 @@ export class ReportTableComponent implements OnInit {
     let tableDownloader = TableDownloader.getInstance();
     tableDownloader.downloadTable(tableElement, {
       filename: this.reportType,
-      extension: 'xlsx'
+      extension: 'xlsx',
+     /* extraTexts: {
+        atTop: {
+          rows: [{
+            columns: [{
+              bold: 'true',
+              text: `Year : ${this.financialYearFormControl.value}`,
+              text_align: 'left'
+            }]
+          }]
+        }
+      }*/
     });
   }
 
