@@ -52,6 +52,10 @@ table {
 }
 
 ::ng-deep {
+  .modal-content {
+    min-height: unset;
+  }
+
   .modal-center {
     display: flex;
     align-items: center;
