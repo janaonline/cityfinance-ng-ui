@@ -441,4 +441,17 @@ export class ReportComponent implements OnInit, OnDestroy {
     ].forEach((formControl) => formControl.reset());
     this.list = this.originalList;
   }
+
+  modalRowClicked({ulb, agency, creditrating, status}: any) {
+    this.ulbSearchFormControl.setValue(ulb);
+    this.searchDropdownItemSelected(this.ulbSearchFormControl, 'ulb');
+    this.page = 2;
+    this.modalService.hide(1);
+  }
+
+  setPage(number: number) {
+    this.page = number;
+    this.list = this.originalList;
+
+  }
 }
