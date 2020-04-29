@@ -3,6 +3,8 @@
     <div class="col-sm-12">
       <h4>{{config.title}} <span *ngIf="config.required" class="text-danger">*</span></h4>
     </div>
+
+
     <div class="col-sm-12 d-flex justify-content-between">
       <input #balanceSheetPdf
              (change)="handleFileChange([config.formGroupName,'file_pdf'],$event?.target?.files[0])"
@@ -30,7 +32,14 @@
     </div>
 
     <div class="col-sm-12 mt-1">
-      <ul class="list-group" *ngIf="config.formGroup.get([config.formGroupName,'file_pdf']).value || (config.formGroup.get([config.formGroupName,'file_excel'])&& config.formGroup.get([config.formGroupName,'file_excel']).value)">
+      <h6
+        *ngIf="config.formGroup.get([config.formGroupName, 'message']).value&&config.formGroup.get([config.formGroupName, 'message']).value.length"
+        class="text-danger" style="word-break: break-all"> Rejection Reason
+        : {{config.formGroup.get([config.formGroupName, 'message']).value}}</h6>
+
+
+      <ul class="list-group"
+          *ngIf="config.formGroup.get([config.formGroupName,'file_pdf']).value || (config.formGroup.get([config.formGroupName,'file_excel'])&& config.formGroup.get([config.formGroupName,'file_excel']).value)">
         <li *ngIf="config.formGroup.get([config.formGroupName,'file_pdf']).value"
             class="list-group-item d-flex justify-content-between ">
           <div style="white-space: nowrap; margin: auto 0; text-overflow:  ellipsis;overflow: hidden"
@@ -44,7 +53,8 @@
           </button>
         </li>
 
-        <li *ngIf="(config.formGroup.get([config.formGroupName,'file_excel'])) && config.formGroup.get([config.formGroupName,'file_excel']).value"
+        <li
+          *ngIf="(config.formGroup.get([config.formGroupName,'file_excel'])) && config.formGroup.get([config.formGroupName,'file_excel']).value"
           class="list-group-item d-flex justify-content-between "
           style="white-space: nowrap; text-overflow:  ellipsis;overflow: hidden">
           <div
@@ -57,6 +67,18 @@
                   mat-icon-button>
             <mat-icon class="text-danger">delete</mat-icon>
           </button>
+        </li>
+      </ul>
+
+      <ul class="list-group"
+          *ngIf="config.formGroup.get([config.formGroupName,'pdfUrl']).value||(config.formGroup.get([config.formGroupName,'excelUrl'])&& config.formGroup.get([config.formGroupName,'excelUrl']).value)">
+        <li class="list-group-item d-flex justify-content-between "
+            *ngIf="config.formGroup.get([config.formGroupName,'pdfUrl']).value">
+          <a target="_blank" [href]="config.formGroup.get([config.formGroupName,'pdfUrl']).value">View PDF</a>
+        </li>
+        <li class="list-group-item d-flex justify-content-between "
+            *ngIf="(config.formGroup.get([config.formGroupName,'excelUrl'])) && config.formGroup.get([config.formGroupName,'excelUrl']).value">
+          <a target="_blank" [href]="config.formGroup.get([config.formGroupName,'excelUrl']).value">View Excel</a>
         </li>
       </ul>
     </div>

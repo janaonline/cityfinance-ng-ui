@@ -156,12 +156,12 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       this.dataUploadList = response.data;
       if (!this.listFetchOption.sort) {
         this.dataUploadList = this.dataUploadList.sort((a, b) => {
-          let c1 = a['status'][a['status'].length - 1];
-          let c2 = b['status'][b['status'].length - 1];
+          let c1 = a['status'][2];
+          let c2 = b['status'][2];
           if (c1 > c2) {
-            return -1;
+            return 1;
           } else {
-            return 0;
+            return -1;
           }
         });
       }
@@ -295,21 +295,31 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     this.fileFormGroupKeys.forEach(formGroupKey => {
       let formGroupDataObject = this.uploadObject[formGroupKey];
       let formGroupItem = this.fileFormGroup.get([formGroupKey]);
+      formGroupItem.get('message').setValue(formGroupDataObject['message']);
+      const {excelUrl, pdfUrl} = formGroupDataObject;
+      formGroupItem.get('pdfUrl').setValue(pdfUrl);
+      formGroupItem.get('excelUrl').setValue(excelUrl);
       const {completeness, correctness} = formGroupDataObject;
       if (status === UPLOAD_STATUS.REJECTED) {
         if (completeness === UPLOAD_STATUS.REJECTED || completeness === UPLOAD_STATUS.NA || correctness === UPLOAD_STATUS.REJECTED || correctness === UPLOAD_STATUS.NA) {
           formGroupItem.enable();
         } else {
-          formGroupItem.disable();
-          formGroupItem.setErrors(null);
-          formGroupItem.updateValueAndValidity();
+          this.disableFormGroups(formGroupItem, formGroupDataObject);
         }
       } else {
-        formGroupItem.disable();
-        formGroupItem.setErrors(null);
-        formGroupItem.updateValueAndValidity();
+        this.disableFormGroups(formGroupItem, formGroupDataObject);
       }
     });
+  }
+
+  disableFormGroups(formGroupItem, formGroupDataObject) {
+    formGroupItem.disable();
+    formGroupItem.setErrors(null);
+    formGroupItem.updateValueAndValidity();
+  }
+
+  getFileName(url) {
+    return url.split('/').reverse()[0];
   }
 
   async updateClickHandler(updateButton: HTMLButtonElement) {
@@ -444,25 +454,47 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       balanceSheet: new FormGroup({
         file_pdf: new FormControl(null, [Validators.required]),
         file_excel: new FormControl(null, [Validators.required]),
+        excelUrl: new FormControl(''),
+        pdfUrl: new FormControl(''),
+        message: new FormControl('')
       }),
       schedulesToBalanceSheet: new FormGroup({
         file_pdf: new FormControl(),
         file_excel: new FormControl(),
+        message: new FormControl(''),
+        excelUrl: new FormControl(''),
+        pdfUrl: new FormControl('')
+
       }),
       incomeAndExpenditure: new FormGroup({
         file_pdf: new FormControl(null, [Validators.required]),
-        file_excel: new FormControl(null, [Validators.required])
+        file_excel: new FormControl(null, [Validators.required]),
+        message: new FormControl(''),
+        excelUrl: new FormControl(''),
+        pdfUrl: new FormControl('')
+
       }),
       schedulesToIncomeAndExpenditure: new FormGroup({
         file_pdf: new FormControl(),
-        file_excel: new FormControl()
+        file_excel: new FormControl(),
+        message: new FormControl(''),
+        excelUrl: new FormControl(''),
+        pdfUrl: new FormControl('')
+
       }),
       trialBalance: new FormGroup({
         file_pdf: new FormControl(null, [Validators.required]),
-        file_excel: new FormControl(null, [Validators.required])
+        file_excel: new FormControl(null, [Validators.required]),
+        message: new FormControl(''),
+        excelUrl: new FormControl(''),
+        pdfUrl: new FormControl('')
+
       }),
       auditReport: new FormGroup({
-        file_pdf: new FormControl()
+        file_pdf: new FormControl(),
+        message: new FormControl(''),
+        excelUrl: new FormControl(''),
+        pdfUrl: new FormControl('')
       }),
       auditStatus: new FormControl('', [Validators.required])
     });

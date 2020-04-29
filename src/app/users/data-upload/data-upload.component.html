@@ -201,12 +201,12 @@
                     <ng-container *ngSwitchCase="'action'">
                       <ng-container [ngSwitch]="userUtil.getUserType()">
                         <ng-container *ngSwitchCase="'ULB'">
-                          <a *ngIf="row['status']===uploadStatus.PENDING"
+                          <a *ngIf="row['status']===uploadStatus.REJECTED"
                              class="btn btn-primary"
                              (click)="navigateTo(row)" title="Edit"
                              [routerLink]="['/user/data-upload/upload-form',row?._id]">Take {{header.title}}
                           </a>
-                          <a *ngIf="row['status']!==uploadStatus.PENDING"
+                          <a *ngIf="row['status']!==uploadStatus.REJECTED"
                              (click)="navigateTo(row)" title="View"
                              [routerLink]="['/user/data-upload/upload-form',row?._id]">
                             <i class="fa fa-eye" aria-hidden="true"></i>
