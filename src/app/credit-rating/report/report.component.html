@@ -1569,16 +1569,29 @@
         <table class="table mb-0">
           <tr>
             <td width="25%">
-              <input
-                type="text"
-                placeholder="Search by ULB's"
-                (keyup)="
-                  searchDropdownItemSelected(ulbSearchFormControl, 'ulb')
-                "
-                [formControl]="ulbSearchFormControl"
-                class="form-control"
-                style="padding: 18px 12px;"
-              />
+              <input type="text"
+                     placeholder="Search by ULB's"
+                     aria-label="Number"
+                     matInput
+                     class="form-control"
+                     [formControl]="ulbSearchFormControl"
+                     [matAutocomplete]="auto"
+                     style="min-height: 38px">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option (click)="ulbDropdownSelected(option)" *ngFor="let option of list" [value]="option.ulb">
+                  {{option.ulb}}
+                </mat-option>
+              </mat-autocomplete>
+
+              <!--              <input-->
+              <!--                type="text"-->
+              <!--                placeholder="Search by ULB's"-->
+              <!--                (keyup)=" searchDropdownItemSelected(ulbSearchFormControl, 'ulb')-->
+              <!--                "-->
+              <!--                [formControl]="ulbSearchFormControl"-->
+              <!--                class="form-control"-->
+              <!--                style="padding: 18px 12px;"-->
+              <!--              />-->
             </td>
             <td width="15%">
               <angular2-multiselect
@@ -1836,7 +1849,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr (click)="modalRowClicked(row)"  *ngFor="let row of dialogData; let i = index">
+        <tr (click)="modalRowClicked(row)" *ngFor="let row of dialogData; let i = index">
           <td>{{ i + 1 }}</td>
           <td class="text-center" *ngFor="let header of dialogHeaders">
             {{ row[header.id] }}

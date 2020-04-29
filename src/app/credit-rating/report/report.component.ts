@@ -11,6 +11,7 @@ import {IDialogConfiguration} from '../../../app/shared/components/dialog/models
 import {creditRatingModalHeaders} from '../../shared/components/home-header/tableHeaders';
 import {CommonService} from '../../shared/services/common.service';
 import {CreditScale, ratingGrades} from '../../util/creditReportUtil';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 // import { CreditRatingJson } from './credit-rating.json';
 
@@ -107,6 +108,9 @@ export class ReportComponent implements OnInit, OnDestroy {
       .subscribe((data: any[]) => {
         this.detailedList = data;
       });
+
+    this.ulbSearchFormControl.valueChanges.pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe(res => this.searchDropdownItemSelected(this.ulbSearchFormControl, 'ulb'));
   }
 
   download() {
@@ -454,4 +458,9 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.list = this.originalList;
 
   }
+
+  ulbDropdownSelected(option: any) {
+    this.searchDropdownItemSelected(this.ulbSearchFormControl, 'ulb');
+  }
+
 }
