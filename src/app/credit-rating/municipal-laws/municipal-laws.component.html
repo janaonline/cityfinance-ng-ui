@@ -122,6 +122,7 @@
           <button
             class="btn btn-primary col-md-12"
             (click)="showComparisionPage()"
+            [tooltipEnable]="selectedStates.length>1"
             tooltip="Select 1 or more states"
           >
             View and Compare
