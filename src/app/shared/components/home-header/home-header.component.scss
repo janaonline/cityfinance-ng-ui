@@ -36,6 +36,8 @@
 }
 
 .user-dropdown {
+  position: fixed;
+  right: 0;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -45,6 +47,9 @@
   max-width: 18rem;
   align-items: center;
   background: white;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
 
   .mat-list-item {
     cursor: pointer;
