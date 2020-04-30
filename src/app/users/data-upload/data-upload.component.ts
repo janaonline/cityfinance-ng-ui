@@ -168,7 +168,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
           }
         });
       }
-      if (response['total']) {
+      if ('total' in response) {
         this.tableDefaultOptions.totalCount = response['total'];
       }
     }
