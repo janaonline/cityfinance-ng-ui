@@ -49,7 +49,7 @@ export const tableHeaders: any = [
     {title: 'Interest Income', id: 'interestIncome'},
     {title: 'Other Income', id: 'otherIncome'},
   ],
-  [
+ /* [
     {title: 'Population Category', id: 'populationCategory'},
     {
       title: 'Assigned Revenue And Compensation',
@@ -74,7 +74,7 @@ export const tableHeaders: any = [
       title: 'Sale And Hire Charges ',
       id: 'saleAndHireChargesCoverPercentage',
     },
-  ],
+  ],*/
   [
     {title: 'Population Category', click: true, id: 'populationCategory'},
     {title: 'Number of ULBs', id: 'numOfUlb'},
@@ -178,7 +178,7 @@ export const modalTableHeaders: ModalTableHeader[][] = [
     {title: 'Other Income', id: 'otherIncome', suffix: '%'},
     {title: 'Total', id: 'total', suffix: '%'},
   ],
-  [
+ /* [
     {title: 'ULB name', id: 'name'},
     {title: 'Population', id: 'population', total: true},
     {
@@ -215,7 +215,7 @@ export const modalTableHeaders: ModalTableHeader[][] = [
       id: 'saleAndHireChargesCoverPercentage',
     },
     {title: 'Total', id: 'total', suffix: '%'},
-  ],
+  ],*/
   [
     {title: 'ULB name', id: 'name'},
     {title: 'Population', id: 'population', total: true},
