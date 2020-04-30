@@ -85,6 +85,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     skip: 0
   };
   modalTableData: any[] = [];
+  loading = false;
 
   /*  fileUpload = {
       uploading: false,
@@ -137,6 +138,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   getFinancialDataList(params = {}, body = {}) {
+    this.loading = true;
     const {skip} = this.listFetchOption;
     const newParams = {
       skip,
@@ -149,6 +151,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   handleResponseSuccess = (response) => {
+    this.loading = false;
     if (this.uploadId) {
       this.uploadObject = response.data;
       this.updateFormControls();
@@ -171,6 +174,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     }
   };
   handleResponseFailure = (error) => {
+    this.loading = false;
     this.handlerError(error);
   };
   uploadStatusFormControl: FormControl = new FormControl('');
@@ -193,6 +197,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   async submitClickHandler(event) {
+    this.fileFormGroup.disable();
     event.disabled = true;
     let urlObject = {};
     this.fileUpload.totalFiles = this.getAddedFilterCount();
@@ -219,11 +224,13 @@ export class DataUploadComponent implements OnInit, OnDestroy {
               }
             } catch (e) {
               event.disabled = false;
+              this.fileFormGroup.enable();
               this.fileUpload.reset();
               formControl.setErrors(['File Upload Error']);
             }
           } else if (formControl.validator) {
             event.disabled = false;
+            this.fileFormGroup.enable();
             this.fileUpload.reset();
             formControl.setErrors(['Please select file']);
           }
@@ -238,6 +245,9 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     };
     this.financialDataService.uploadFinancialData(responseObject).subscribe((response: any) => {
         if (response.success) {
+          event.disabled = false;
+          this.fileFormGroup.enable();
+          this.fileUpload.reset();
           swal({
             title: 'Successfully Uploaded',
             text: `Reference No: ${response['data']['referenceCode']}`,
@@ -253,12 +263,10 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       }, (error: HttpErrorResponse) => {
         event.disabled = false;
         this.fileUpload.reset();
+        this.fileFormGroup.enable();
         this.handlerError(error);
       }
     );
-    event.disabled = false;
-    this.fileUpload.reset();
-
   }
 
   handleFileChange(strings: string[], file: File) {
@@ -324,6 +332,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
 
   async updateClickHandler(updateButton: HTMLButtonElement) {
     updateButton.disabled = true;
+    this.fileFormGroup.disable();
     this.fileUpload.totalFiles = this.getAddedFilterCount();
     this.fileUpload.uploading = true;
     let urlObject = {};
@@ -349,11 +358,13 @@ export class DataUploadComponent implements OnInit, OnDestroy {
                   this.fileUpload.currentUploadedFiles++;
                 }
               } catch (e) {
+                this.fileFormGroup.enable();
                 updateButton.disabled = false;
                 this.fileUpload.reset();
                 formControl.setErrors(['File Upload Error']);
               }
             } else if (formControl.validator) {
+              this.fileFormGroup.enable();
               updateButton.disabled = false;
               this.fileUpload.reset();
               formControl.setErrors(['Please select file']);
@@ -364,15 +375,18 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     }
     this.financialDataService.upDateFinancialData(this.uploadId, urlObject).subscribe((result) => {
       if (result['success']) {
+        this.fileFormGroup.enable();
+        this.fileUpload.reset();
+        updateButton.disabled = false;
         this.router.navigate(['/user/data-upload/list']);
       }
     }, error => {
+      this.fileFormGroup.enable();
       updateButton.disabled = false;
       this.fileUpload.reset();
       this.handlerError(error);
     });
-    this.fileUpload.reset();
-    updateButton.disabled = false;
+
   }
 
   private listenToSearchEvents() {
@@ -421,11 +435,13 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   applyFilterClicked() {
+    this.loading = true;
     this.listFetchOption = this.setLIstFetchOptions();
     const {skip} = this.listFetchOption;
     this.financialDataService.fetchFinancialDataList({skip, limit: 10}, this.listFetchOption).subscribe(result => {
       this.handleResponseSuccess(result);
     }, (response: HttpErrorResponse) => {
+      this.loading = false;
       this._snackBar.open(response.error.errors.message || response.error.message || 'Some Error Occurred', null, {duration: 1600});
     });
   }
