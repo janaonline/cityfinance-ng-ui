@@ -85,6 +85,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     skip: 0
   };
   modalTableData: any[] = [];
+  loading = false;
 
   /*  fileUpload = {
       uploading: false,
@@ -137,6 +138,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   getFinancialDataList(params = {}, body = {}) {
+    this.loading = true;
     const {skip} = this.listFetchOption;
     const newParams = {
       skip,
@@ -149,6 +151,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   handleResponseSuccess = (response) => {
+    this.loading = false;
     if (this.uploadId) {
       this.uploadObject = response.data;
       this.updateFormControls();
@@ -156,21 +159,22 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       this.dataUploadList = response.data;
       if (!this.listFetchOption.sort) {
         this.dataUploadList = this.dataUploadList.sort((a, b) => {
-          let c1 = a['status'][a['status'].length - 1];
-          let c2 = b['status'][b['status'].length - 1];
+          let c1 = a['status'][2];
+          let c2 = b['status'][2];
           if (c1 > c2) {
-            return -1;
+            return 1;
           } else {
-            return 0;
+            return -1;
           }
         });
       }
-      if (response['total']) {
+      if ('total' in response) {
         this.tableDefaultOptions.totalCount = response['total'];
       }
     }
   };
   handleResponseFailure = (error) => {
+    this.loading = false;
     this.handlerError(error);
   };
   uploadStatusFormControl: FormControl = new FormControl('');
@@ -193,6 +197,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   async submitClickHandler(event) {
+    this.fileFormGroup.disable();
     event.disabled = true;
     let urlObject = {};
     this.fileUpload.totalFiles = this.getAddedFilterCount();
@@ -219,11 +224,13 @@ export class DataUploadComponent implements OnInit, OnDestroy {
               }
             } catch (e) {
               event.disabled = false;
+              this.fileFormGroup.enable();
               this.fileUpload.reset();
               formControl.setErrors(['File Upload Error']);
             }
           } else if (formControl.validator) {
             event.disabled = false;
+            this.fileFormGroup.enable();
             this.fileUpload.reset();
             formControl.setErrors(['Please select file']);
           }
@@ -238,6 +245,9 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     };
     this.financialDataService.uploadFinancialData(responseObject).subscribe((response: any) => {
         if (response.success) {
+          event.disabled = false;
+          this.fileFormGroup.enable();
+          this.fileUpload.reset();
           swal({
             title: 'Successfully Uploaded',
             text: `Reference No: ${response['data']['referenceCode']}`,
@@ -253,12 +263,10 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       }, (error: HttpErrorResponse) => {
         event.disabled = false;
         this.fileUpload.reset();
+        this.fileFormGroup.enable();
         this.handlerError(error);
       }
     );
-    event.disabled = false;
-    this.fileUpload.reset();
-
   }
 
   handleFileChange(strings: string[], file: File) {
@@ -295,25 +303,36 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     this.fileFormGroupKeys.forEach(formGroupKey => {
       let formGroupDataObject = this.uploadObject[formGroupKey];
       let formGroupItem = this.fileFormGroup.get([formGroupKey]);
+      formGroupItem.get('message').setValue(formGroupDataObject['message']);
+      const {excelUrl, pdfUrl} = formGroupDataObject;
+      formGroupItem.get('pdfUrl').setValue(pdfUrl);
+      formGroupItem.get('excelUrl').setValue(excelUrl);
       const {completeness, correctness} = formGroupDataObject;
       if (status === UPLOAD_STATUS.REJECTED) {
         if (completeness === UPLOAD_STATUS.REJECTED || completeness === UPLOAD_STATUS.NA || correctness === UPLOAD_STATUS.REJECTED || correctness === UPLOAD_STATUS.NA) {
           formGroupItem.enable();
         } else {
-          formGroupItem.disable();
-          formGroupItem.setErrors(null);
-          formGroupItem.updateValueAndValidity();
+          this.disableFormGroups(formGroupItem, formGroupDataObject);
         }
       } else {
-        formGroupItem.disable();
-        formGroupItem.setErrors(null);
-        formGroupItem.updateValueAndValidity();
+        this.disableFormGroups(formGroupItem, formGroupDataObject);
       }
     });
   }
 
+  disableFormGroups(formGroupItem, formGroupDataObject) {
+    formGroupItem.disable();
+    formGroupItem.setErrors(null);
+    formGroupItem.updateValueAndValidity();
+  }
+
+  getFileName(url) {
+    return url.split('/').reverse()[0];
+  }
+
   async updateClickHandler(updateButton: HTMLButtonElement) {
     updateButton.disabled = true;
+    this.fileFormGroup.disable();
     this.fileUpload.totalFiles = this.getAddedFilterCount();
     this.fileUpload.uploading = true;
     let urlObject = {};
@@ -339,11 +358,13 @@ export class DataUploadComponent implements OnInit, OnDestroy {
                   this.fileUpload.currentUploadedFiles++;
                 }
               } catch (e) {
+                this.fileFormGroup.enable();
                 updateButton.disabled = false;
                 this.fileUpload.reset();
                 formControl.setErrors(['File Upload Error']);
               }
             } else if (formControl.validator) {
+              this.fileFormGroup.enable();
               updateButton.disabled = false;
               this.fileUpload.reset();
               formControl.setErrors(['Please select file']);
@@ -354,15 +375,18 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     }
     this.financialDataService.upDateFinancialData(this.uploadId, urlObject).subscribe((result) => {
       if (result['success']) {
+        this.fileFormGroup.enable();
+        this.fileUpload.reset();
+        updateButton.disabled = false;
         this.router.navigate(['/user/data-upload/list']);
       }
     }, error => {
+      this.fileFormGroup.enable();
       updateButton.disabled = false;
       this.fileUpload.reset();
       this.handlerError(error);
     });
-    this.fileUpload.reset();
-    updateButton.disabled = false;
+
   }
 
   private listenToSearchEvents() {
@@ -411,11 +435,13 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   applyFilterClicked() {
+    this.loading = true;
     this.listFetchOption = this.setLIstFetchOptions();
     const {skip} = this.listFetchOption;
     this.financialDataService.fetchFinancialDataList({skip, limit: 10}, this.listFetchOption).subscribe(result => {
       this.handleResponseSuccess(result);
     }, (response: HttpErrorResponse) => {
+      this.loading = false;
       this._snackBar.open(response.error.errors.message || response.error.message || 'Some Error Occurred', null, {duration: 1600});
     });
   }
@@ -444,25 +470,47 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       balanceSheet: new FormGroup({
         file_pdf: new FormControl(null, [Validators.required]),
         file_excel: new FormControl(null, [Validators.required]),
+        excelUrl: new FormControl(''),
+        pdfUrl: new FormControl(''),
+        message: new FormControl('')
       }),
       schedulesToBalanceSheet: new FormGroup({
         file_pdf: new FormControl(),
         file_excel: new FormControl(),
+        message: new FormControl(''),
+        excelUrl: new FormControl(''),
+        pdfUrl: new FormControl('')
+
       }),
       incomeAndExpenditure: new FormGroup({
         file_pdf: new FormControl(null, [Validators.required]),
-        file_excel: new FormControl(null, [Validators.required])
+        file_excel: new FormControl(null, [Validators.required]),
+        message: new FormControl(''),
+        excelUrl: new FormControl(''),
+        pdfUrl: new FormControl('')
+
       }),
       schedulesToIncomeAndExpenditure: new FormGroup({
         file_pdf: new FormControl(),
-        file_excel: new FormControl()
+        file_excel: new FormControl(),
+        message: new FormControl(''),
+        excelUrl: new FormControl(''),
+        pdfUrl: new FormControl('')
+
       }),
       trialBalance: new FormGroup({
         file_pdf: new FormControl(null, [Validators.required]),
-        file_excel: new FormControl(null, [Validators.required])
+        file_excel: new FormControl(null, [Validators.required]),
+        message: new FormControl(''),
+        excelUrl: new FormControl(''),
+        pdfUrl: new FormControl('')
+
       }),
       auditReport: new FormGroup({
-        file_pdf: new FormControl()
+        file_pdf: new FormControl(),
+        message: new FormControl(''),
+        excelUrl: new FormControl(''),
+        pdfUrl: new FormControl('')
       }),
       auditStatus: new FormControl('', [Validators.required])
     });
