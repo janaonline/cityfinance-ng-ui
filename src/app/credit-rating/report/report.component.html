@@ -1576,7 +1576,7 @@
                      class="form-control"
                      [formControl]="ulbSearchFormControl"
                      [matAutocomplete]="auto"
-                     style="min-height: 38px">
+                     style="min-height: 39px; font-size: 13px; border-color: rgb(153,153,153)">
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option (click)="ulbDropdownSelected(option)" *ngFor="let option of list" [value]="option.ulb">
                   {{option.ulb}}
@@ -1707,7 +1707,7 @@
             </td>
             <td width="15%">
               <button
-                style="height: 38px;"
+                style="height: 40px;"
                 class="btn btn-danger"
                 (click)="clearFilters()"
               >

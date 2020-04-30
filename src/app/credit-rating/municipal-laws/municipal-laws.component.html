@@ -341,7 +341,8 @@
     </div>
     <div class="col-md-12">
       <br/>
-      <button tooltip="Select 1 or more states" class="btn btn-primary center"
+      <button [tooltipEnable]="selectedStates.length>1"
+              [tooltip]="'Select 1 or more states'" class="btn btn-primary center"
               (click)="selectedStates.length>1? modalRef.hide():null">
         Apply Selection
       </button>

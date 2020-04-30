@@ -36,14 +36,13 @@
     </h4>
   </div> -->
 </nav>
-<h5
-  class="text-right"
-  style="    align-items: center;
+<h5 class="text-right" style="   margin-top: 0;
+   align-items: center;
     display: inline-flex;
     justify-content: center;
     margin-bottom: 0px;
     position: absolute;
-    transform: translateY(-75%);
+    transform: translateY(-100%);
     right: 0px;
     z-index: 101;
     color: white;
@@ -62,7 +61,7 @@
   </div>
 
   <img
-    style="width: 38px;"
+    style="width: 38px;height: 40px"
     src="/assets/images/emblem-of-india.svg"
     alt="Emblem of India"
     srcset=""
@@ -114,17 +113,17 @@
     <li *ngIf="isLoggedIn && canViewUploadData">
       <a [routerLink]="['user', 'data-upload','list']" class="pointer">Data upload</a>
     </li>
-    <li routerLinkActive="active" *ngIf="!isLoggedIn">
+    <li style="position: absolute; right: 15px" routerLinkActive="active" *ngIf="!isLoggedIn">
       <a [routerLink]="['/login']">Login</a>
     </li>
-    <li routerLinkActive="active" class="dropdown" *ngIf="isLoggedIn">
+    <li routerLinkActive="active" class="dropdown" style="position: absolute; right: 5px;" *ngIf="isLoggedIn">
       <a class="dropdown-toggle"
          data-toggle="dropdown"
          role="button"
          aria-haspopup="true"
          aria-expanded="false">
         <i class="fa fa-user-circle" style="font-size: 2rem"></i>&nbsp;</a>
-      <div class="dropdown-menu" style="position: absolute;left: -65px">
+      <div class="dropdown-menu" style="position: absolute;left: -65px ; width: 0 ; min-width: 0!important; height: 0">
         <div class="user-dropdown">
           <div class="user-avt" style="font-size: 3rem">
             <i class="fa fa-user-circle"></i>
