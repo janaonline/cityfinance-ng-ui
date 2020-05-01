@@ -1576,7 +1576,7 @@
                      class="form-control"
                      [formControl]="ulbSearchFormControl"
                      [matAutocomplete]="auto"
-                     style="min-height: 39px; font-size: 13px; border-color: rgb(153,153,153)">
+                     style="min-height: 39px; border-radius: 0;font-size: 13px; border: 1px solid rgb(153,153,153) !important;" >
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option (click)="ulbDropdownSelected(option)" *ngFor="let option of list" [value]="option.ulb">
                   {{option.ulb}}
@@ -1722,12 +1722,12 @@
             <accordion-group (click)="getUlbInfo(item)">
               <table style="width: 100%;" accordion-heading>
                 <tr>
-                  <td style="width: 25%;">{{ item.ulb }}</td>
-                  <td style="width: 15%;">{{ item.state }}</td>
-                  <td style="width: 15%;">{{ item.agency }}</td>
-                  <td style="width: 15%;">{{ item.creditrating }}</td>
-                  <td style="width: 15%;">{{ item.status }}</td>
-                  <td style="width: 15%;" class="text-right-imp">
+                  <td style="width: 25%; padding: 10px 6px">{{ item.ulb }}</td>
+                  <td style="width: 15%; padding: 10px 6px">{{ item.state }}</td>
+                  <td style="width: 15%;  padding: 10px 6px">{{ item.agency }}</td>
+                  <td style="width: 15%; padding: 10px 6px">{{ item.creditrating }}</td>
+                  <td style="width: 15%; padding: 10px 6px">{{ item.status }}</td>
+                  <td style="width: 15%; padding: 10px 6px" class="text-right-imp">
                     {{ item.date }}
                   </td>
                 </tr>

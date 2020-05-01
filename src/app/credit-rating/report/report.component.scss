@@ -51,9 +51,14 @@ table {
   cursor: default;
 }
 
+
 ::ng-deep {
   .modal-content {
     min-height: unset;
+  }
+
+  .credit-rating-container .panel .panel-heading {
+    padding: 0 !important;
   }
 
   .modal-center {
@@ -71,11 +76,16 @@ table {
     & .modal-content {
       border: 0;
     }
+
   }
 
   .c-remove,
   .clear-all {
     display: none !important;
+  }
+
+  .c-btn {
+    font-size: 13px !important;
   }
 }
 
