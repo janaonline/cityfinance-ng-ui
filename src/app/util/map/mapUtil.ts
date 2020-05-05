@@ -23,8 +23,10 @@ export class MapUtil {
     keyboard: false,
   };
 
-  public static getStateName(layer: ILeafletStateClickEvent) {
-    return layer.sourceTarget.feature.properties.ST_NM;
+  public static getStateName(layer: ILeafletStateClickEvent | L.Layer): string {
+    return layer instanceof L.Layer
+      ? (<any>layer).feature.properties.ST_NM
+      : layer.sourceTarget.feature.properties.ST_NM;
   }
 
   public static colorStateLayer(layer: any, fillColor: string) {
