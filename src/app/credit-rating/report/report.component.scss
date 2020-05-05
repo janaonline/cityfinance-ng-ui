@@ -29,6 +29,8 @@ table {
 }
 
 .map-container {
+  height: 55vh;
+  // background: red;
   .fil2 {
     fill: #fff;
   }
@@ -50,7 +52,6 @@ table {
 .sortable {
   cursor: default;
 }
-
 
 ::ng-deep {
   .modal-content {
@@ -76,7 +77,6 @@ table {
     & .modal-content {
       border: 0;
     }
-
   }
 
   .c-remove,
@@ -89,4 +89,21 @@ table {
   }
 }
 
+#mapidd {
+  border-radius: inherit;
+  left: 5px;
+  bottom: 0px;
+  background: transparent;
+  z-index: 1;
+  display: inline-block;
+  width: 98%;
+  height: 100%;
+  max-height: 100%;
+  transition: all 0.8s;
+  // border-left: inherit;
+}
 
+::ng-deep .leaflet-control-attribution,
+.leaflet-control {
+  display: none !important;
+}

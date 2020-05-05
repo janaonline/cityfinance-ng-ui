@@ -15,7 +15,6 @@ import { CfChartsModule } from '../shared/cf-charts/cf-charts.module';
 import { SharedModule } from '../shared/shared.module';
 import { AuthRouter } from './auth.router';
 import { AuthService } from './auth.service';
-import { HeatMapComponent } from './home/heat-map/heat-map.component';
 import { UlbCoverageComponent } from './home/home-tab-view/ulb-coverage/ulb-coverage.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 
@@ -36,10 +35,10 @@ import { StatisticsComponent } from './statistics/statistics.component';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    MatInputModule
+    MatInputModule,
   ],
   providers: [AuthService],
-  declarations: [StatisticsComponent, HeatMapComponent, UlbCoverageComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  declarations: [StatisticsComponent, UlbCoverageComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AuthModule {}

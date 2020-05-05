@@ -13,6 +13,7 @@ import { AngularMaterialModule } from './angular-material.module';
 import { AppComponent } from './app.component';
 import { AppRouter } from './app.route';
 import { AuthService } from './auth/auth.service';
+import { HeatMapComponent } from './auth/home/heat-map/heat-map.component';
 import { HomeTabViewComponent } from './auth/home/home-tab-view/home-tab-view.component';
 import { HomeComponent } from './auth/home/home.component';
 import { AuthGuard } from './security/auth-guard.service';
@@ -39,25 +40,26 @@ import { SharedModule } from './shared/shared.module';
     CommonModule,
     AngularMultiSelectModule,
     MatAutocompleteModule,
-    MatInputModule
+    MatInputModule,
   ],
   providers: [
     CustomHttpInterceptor,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CustomHttpInterceptor,
-      multi: true
+      multi: true,
     },
     AuthService,
-    AuthGuard
+    AuthGuard,
   ],
   declarations: [
     AppComponent,
     DialogComponent,
     HomeComponent,
-    HomeTabViewComponent
+    HomeTabViewComponent,
+    HeatMapComponent,
   ],
   exports: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
