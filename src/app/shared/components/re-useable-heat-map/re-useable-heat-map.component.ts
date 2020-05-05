@@ -7,7 +7,7 @@ import {
   OnInit,
   Output,
   SimpleChange,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger, MatSnackBar } from '@angular/material';
@@ -488,6 +488,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   private onGettingStateULBCoveredSuccess(res: IStateULBCoveredResponse) {
     this.stateData = res.data;
+
     if (this.allULBSList) {
       this.stateAndULBDataMerged = this.CombineStateAndULBData(
         this.stateData,
@@ -553,7 +554,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       const text =
         "<p>State : <b>" + layer.feature.properties.ST_NM + "</b></p> <p> <b>";
     } else {
-      stateLayer.bindTooltip("<b>" + layer.feature.properties.ST_NM + "</b>");
+      // stateLayer.bindTooltip("<b>" + layer.feature.properties.ST_NM + "</b>");
     }
   }
 
