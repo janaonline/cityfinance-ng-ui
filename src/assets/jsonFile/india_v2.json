@@ -5254,7 +5254,7 @@
         {
           "arcs": [[695, 696, 697, 698]],
           "type": "Polygon",
-          "properties": {"ST_NM": "Jammu and Kashmir"}
+          "properties": {"ST_NM": "Jammu & Kashmir"}
         },
         {"type": null, "properties": {"ST_NM": "Hello"}},
         {
