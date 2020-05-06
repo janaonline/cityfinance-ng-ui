@@ -2,6 +2,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import * as L from 'leaflet';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
+import { MapUtil } from 'src/app/util/map/mapUtil';
 
 import { RankingService } from '../../../shared/services/ranking.service';
 
@@ -226,15 +227,15 @@ export class HeatMapComponent implements OnInit {
     let coords = [];
 
     stateLayer.eachLayer((layer: any) => {
-      const center: {
-        lat: number;
-        lng: number;
-      } = layer.getBounds().getCenter();
-      const bounds = layer.getBounds();
-      const arr = [
-        [bounds._northEast.lat, bounds._northEast.lng],
-        [bounds._southWest.lat, bounds._southWest.lng],
-      ];
+      // const center: {
+      //   lat: number;
+      //   lng: number;
+      // } = layer.getBounds().getCenter();
+      // const bounds = layer.getBounds();
+      // const arr = [
+      //   [bounds._northEast.lat, bounds._northEast.lng],
+      //   [bounds._southWest.lat, bounds._southWest.lng],
+      // ];
       // layer._latlngs.forEach((lay) => {
       //   const exec = lay[0];
       //   let data;
@@ -248,15 +249,17 @@ export class HeatMapComponent implements OnInit {
       //   }
       // });
 
-      coords = coords.map((x) => {
-        return [x.lat, x.lng];
-      });
+      const centroids = MapUtil.getStateCentroid(layer);
+
+      // coords = coords.map((x) => {
+      //   return [x.lat, x.lng];
+      // });
 
       // const cordi = this.getCentroid(
       //   layer._latlngs.flat(Infinity).map((cod) => [cod.lat, cod.lng])
       // );
 
-      const avgCord = { lat: center.lat, lng: center.lng };
+      const avgCord = { lat: centroids.lat, lng: centroids.lng };
 
       let tooltip: any = this.mapData.find(
         (data) => data.name == layer.feature.properties.ST_NM.toString()
@@ -343,15 +346,22 @@ export class HeatMapComponent implements OnInit {
     const rand = this.colorArr[
       Math.floor(Math.random() * this.colorArr.length)
     ];
-    console.log(stateName);
+    // ||
+    //   stateName === "Bihar" ||
+    //   stateName === "Goa" ||
+    //   stateName === "Haryana" ||
+    //   stateName === "Delhi" ||
+    //   stateName === "Jammu & Kashmir" ||
+    //   stateName === "Himachal Pradesh" ||
+    //   stateName === "Gujarat"
 
-    if (states.includes(stateName) || true) {
+    if (states.includes(stateName)) {
       this.colorArr = this.colorArr.filter((color) => color != rand);
 
       const point = L.point([-10, -10]);
 
       const marker = L.marker([cord.lat, cord.lng], { icon: this.yellowIcon })
-        .bindTooltip("<p>Rank: <b>" + (tooltipText || stateName) + "<b></p>", {
+        .bindTooltip("<p>Rank: <b>" + tooltipText + "<b></p>", {
           className: "tooltip-custom-1",
           opacity: 1,
           offset: point,
