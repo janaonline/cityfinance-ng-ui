@@ -1,24 +1,29 @@
-import {HttpClient} from '@angular/common/http';
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {MatDialog} from '@angular/material';
-import {Router} from '@angular/router';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
+import { FeatureCollection, Geometry } from 'geojson';
+import * as L from 'leaflet';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
+import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
+import { MapUtil } from 'src/app/util/map/mapUtil';
 
-import {AuthService} from '../../../app/auth/auth.service';
-import {DialogComponent} from '../../../app/shared/components/dialog/dialog.component';
-import {IDialogConfiguration} from '../../../app/shared/components/dialog/models/dialogConfiguration';
-import {creditRatingModalHeaders} from '../../shared/components/home-header/tableHeaders';
-import {CommonService} from '../../shared/services/common.service';
-import {CreditScale, ratingGrades} from '../../util/creditReportUtil';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import { AuthService } from '../../../app/auth/auth.service';
+import { DialogComponent } from '../../../app/shared/components/dialog/dialog.component';
+import { IDialogConfiguration } from '../../../app/shared/components/dialog/models/dialogConfiguration';
+import { creditRatingModalHeaders } from '../../shared/components/home-header/tableHeaders';
+import { CommonService } from '../../shared/services/common.service';
+import { CreditScale, ratingGrades } from '../../util/creditReportUtil';
 
 // import { CreditRatingJson } from './credit-rating.json';
 
 @Component({
-  selector: 'app-report',
-  templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss'],
+  selector: "app-report",
+  templateUrl: "./report.component.html",
+  styleUrls: ["./report.component.scss"],
 })
 export class ReportComponent implements OnInit, OnDestroy {
   constructor(
@@ -27,9 +32,15 @@ export class ReportComponent implements OnInit, OnDestroy {
     public commonService: CommonService,
     private _dialog: MatDialog,
     protected _authService: AuthService,
-    protected router: Router
+    protected router: Router,
+    private geoService: GeographicalService
   ) {
+    this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
+      this.createNationalLevelMap(data, "mapidd");
+    });
   }
+
+  nationalLevelMap: L.Map;
 
   page = 1;
   originalList = [];
@@ -39,31 +50,17 @@ export class ReportComponent implements OnInit, OnDestroy {
     agencies?: any[];
     creditRatings?: any[];
     statusRatings?: any[];
-  } = {states: [], agencies: [], creditRatings: [], statusRatings: []};
-  ulbSearchFormControl = new FormControl('');
+  } = { states: [], agencies: [], creditRatings: [], statusRatings: [] };
+  ulbSearchFormControl = new FormControl("");
   stateSearchFormControl = new FormControl([]);
   agencySearchFormControl = new FormControl([]);
   creditSearchFormControl = new FormControl([]);
   statusSearchFormControl = new FormControl([]);
   searchStack = [];
   detailedList = [];
-  // columnDefs = [
-  //   { headerName: 'No', field: 'sno', width: 50 },
-  //   { headerName: 'ULB', field: 'ulb', width: 300 },
-  //   // { headerName: 'city', field: 'city', width: 120 },
-  //   { headerName: 'State', field: 'state', width: 150 },
-  //   { headerName: 'Initial Credit Rating', field: 'creditrating', width: 120 },
-  //   // { headerName: 'date', field: 'date', width: 120 },
-  //   { headerName: 'Change', field: 'changeinrating', width: 120 },
-  //   { headerName: 'Updated Credit Rating', field: 'updatedcreditrating', width: 120 },
-  //   // { headerName: 'outlook', field: 'outlook', width: 120 },
-  //   { headerName: 'Date of update', field: 'outlookdate', width: 120 },
-  //   // { headerName: 'agency', field: 'agency', width: 120 },
-  //   // { headerName: 'Link', field: 'link', width: 600 },
-  // ];
 
   selectedStates: Array<string> = [];
-  absCreditInfo = {};
+  absCreditInfo: { [key: string]: any } = {};
   ratingGrades = ratingGrades;
 
   search: string;
@@ -81,21 +78,86 @@ export class ReportComponent implements OnInit, OnDestroy {
   creditScale = CreditScale;
 
   defaultDailogConfiuration: IDialogConfiguration = {
-    message: 'You need to be Login to download the data.',
+    message: "You need to be Login to download the data.",
     buttons: {
       confirm: {
-        text: 'Proceed to Login',
+        text: "Proceed to Login",
         callback: () => {
-          this.router.navigate(['/', 'login']);
+          this.router.navigate(["/", "login"]);
         },
       },
-      cancel: {text: 'Cancel'},
+      cancel: { text: "Cancel" },
     },
   };
 
+  stateLayerSelectonMap: ILeafletStateClickEvent;
+
+  stateColors = {
+    unselected: "#E5E5E5",
+    selected: "#019CDF",
+  };
+
+  // private defaultStateStyle(feature) {
+  //   return {
+  //     fillColor: "#E5E5E5",
+  //     weight: 1,
+  //     opacity: 1,
+  //     color: "white",
+  //     fillOpacity: 1,
+  //   };
+  // }
+
+  createNationalLevelMap(
+    geoData: FeatureCollection<
+      Geometry,
+      {
+        [name: string]: any;
+      }
+    >,
+    containerId: string
+  ) {
+    const configuration = {
+      containerId,
+      geoData,
+    };
+
+    const { stateLayers, map } = MapUtil.createDefaultNationalMap(
+      configuration
+    );
+    this.nationalLevelMap = map;
+
+    stateLayers.eachLayer((layer) => {
+      (layer as any).bringToBack();
+      (layer as any).on({
+        click: (args: ILeafletStateClickEvent) => this.onClickingState(args),
+      });
+    });
+  }
+
+  onClickingState(layer: ILeafletStateClickEvent) {
+    const stateName = MapUtil.getStateName(layer);
+    if (
+      this.stateLayerSelectonMap &&
+      stateName === MapUtil.getStateName(this.stateLayerSelectonMap)
+    ) {
+      return this.resetMapToNationalView();
+    }
+
+    this.showCreditInfoByState(stateName);
+    MapUtil.colorStateLayer(layer.sourceTarget, this.stateColors.selected);
+
+    if (this.stateLayerSelectonMap) {
+      MapUtil.colorStateLayer(
+        this.stateLayerSelectonMap.sourceTarget,
+        this.stateColors.unselected
+      );
+    }
+    this.stateLayerSelectonMap = layer;
+  }
+
   ngOnInit() {
     this.http
-      .get('/assets/files/credit-rating.json')
+      .get("/assets/files/credit-rating.json")
       .subscribe((data: any[]) => {
         this.list = data;
         this.originalList = data;
@@ -104,13 +166,16 @@ export class ReportComponent implements OnInit, OnDestroy {
       });
 
     this.http
-      .get('/assets/files/credit-rating-detailed.json')
+      .get("/assets/files/credit-rating-detailed.json")
       .subscribe((data: any[]) => {
         this.detailedList = data;
       });
 
-    this.ulbSearchFormControl.valueChanges.pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe(res => this.searchDropdownItemSelected(this.ulbSearchFormControl, 'ulb'));
+    this.ulbSearchFormControl.valueChanges
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((res) =>
+        this.searchDropdownItemSelected(this.ulbSearchFormControl, "ulb")
+      );
   }
 
   download() {
@@ -121,66 +186,70 @@ export class ReportComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    window.open('/assets/files/CreditRating.xlsx');
+    window.open("/assets/files/CreditRating.xlsx");
   }
-
-  // onFirstDataRendered(params) {
-  //   params.api.sizeColumnsToFit();
-  // }
 
   setDefaultAbsCreditInfo() {
     this.absCreditInfo = {
-      title: '',
+      title: "",
       ulbs: 0,
       creditRatingUlbs: 0,
       ratings: {
-        'AAA+': 0,
+        "AAA+": 0,
         AAA: 0,
-        'AAA-': 0,
-        'AA+': 0,
+        "AAA-": 0,
+        "AA+": 0,
         AA: 0,
-        'AA-': 0,
-        'A+': 0,
+        "AA-": 0,
+        "A+": 0,
         A: 0,
-        'A-': 0,
-        'BBB+': 0,
+        "A-": 0,
+        "BBB+": 0,
         BBB: 0,
-        'BBB-': 0,
+        "BBB-": 0,
         BB: 0,
-        'BB+': 0,
-        'BB-': 0,
-        'B+': 0,
+        "BB+": 0,
+        "BB-": 0,
+        "B+": 0,
         B: 0,
-        'B-': 0,
-        'C+': 0,
+        "B-": 0,
+        "C+": 0,
         C: 0,
-        'C-': 0,
-        'D+': 0,
+        "C-": 0,
+        "D+": 0,
         D: 0,
-        'D-': 0,
+        "D-": 0,
       },
     };
   }
 
   calculateRatings(dataObject, ratingValue) {
-    if (!dataObject['ratings'][ratingValue]) {
-      dataObject['ratings'][ratingValue] = 0;
+    if (!dataObject["ratings"][ratingValue]) {
+      dataObject["ratings"][ratingValue] = 0;
     }
-    dataObject['ratings'][ratingValue] =
-      dataObject['ratings'][ratingValue] + 1;
-    dataObject['creditRatingUlbs'] =
-      dataObject['creditRatingUlbs'] + 1;
+    dataObject["ratings"][ratingValue] = dataObject["ratings"][ratingValue] + 1;
+    dataObject["creditRatingUlbs"] = dataObject["creditRatingUlbs"] + 1;
   }
 
-  showCreditInfoByState(stateName = '') {
+  resetMapToNationalView() {
+    this.showCreditInfoByState("");
+    MapUtil.colorStateLayer(
+      this.stateLayerSelectonMap.sourceTarget,
+      this.stateColors.unselected
+    );
+    this.stateLayerSelectonMap = null;
+  }
+
+  showCreditInfoByState(stateName = "") {
     this.selectedStates[0] = stateName;
     this.setDefaultAbsCreditInfo();
     const ulbList = [];
     if (stateName) {
       for (let i = 0; i < this.list.length; i++) {
         const ulb = this.list[i];
-        if (ulb.state.toLowerCase() == stateName) {
-          ulbList.push(ulb['ulb']);
+
+        if (ulb.state.toLowerCase() == stateName.toLowerCase()) {
+          ulbList.push(ulb["ulb"]);
           const rating = ulb.creditrating.trim();
           this.calculateRatings(this.absCreditInfo, rating);
         }
@@ -188,13 +257,13 @@ export class ReportComponent implements OnInit, OnDestroy {
     } else {
       for (let i = 0; i < this.list.length; i++) {
         const ulb = this.list[i];
-        ulbList.push(ulb['ulb']);
+        ulbList.push(ulb["ulb"]);
         const rating = ulb.creditrating.trim();
         this.calculateRatings(this.absCreditInfo, rating);
       }
     }
-    this.absCreditInfo['title'] = stateName || 'India';
-    this.absCreditInfo['ulbs'] = ulbList;
+    this.absCreditInfo["title"] = stateName || "India";
+    this.absCreditInfo["ulbs"] = ulbList;
   }
 
   openUlbInfo(info, template: TemplateRef<any>) {
@@ -213,7 +282,9 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.ulbInfo.forEach((ulb) => {
       ulb = this.addRatingDesc(ulb);
     });
-    this.modalRef = this.modalService.show(template, {class: 'modal-lg modal-center'});
+    this.modalRef = this.modalService.show(template, {
+      class: "modal-lg modal-center",
+    });
   }
 
   getUlbInfo(info) {
@@ -250,7 +321,6 @@ export class ReportComponent implements OnInit, OnDestroy {
       }
     }, 0);
 
-    // console.log(this.ulbInfo);
     this.ulbInfoSortHeader = header;
   }
 
@@ -272,7 +342,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       //   const c = d1 - d2;
       //   return c;
       // }
-      if (header == 'amount') {
+      if (header == "amount") {
         return parseInt(a[header]) - parseInt(b[header]);
       }
       if (a[header].toLowerCase() < b[header].toLowerCase()) {
@@ -288,7 +358,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   sortDesc(list, header) {
     return list.sort(function (a, b) {
-      if (header == 'amount') {
+      if (header == "amount") {
         return parseInt(b[header]) - parseInt(a[header]);
       }
       if (a[header].toLowerCase() < b[header].toLowerCase()) {
@@ -305,13 +375,13 @@ export class ReportComponent implements OnInit, OnDestroy {
   addRatingDesc(ulbInfo) {
     const ratingKey =
       ulbInfo.agency +
-      '_' +
-      ulbInfo.creditRating.replace('+', '').replace('-', '');
+      "_" +
+      ulbInfo.creditRating.replace("+", "").replace("-", "");
     if (!this.creditScale[ratingKey]) {
-      ulbInfo['ratingDesc'] =
-        'We are gathering credit rating scale data from the agency. Information will be available shortly.';
+      ulbInfo["ratingDesc"] =
+        "We are gathering credit rating scale data from the agency. Information will be available shortly.";
     } else {
-      ulbInfo['ratingDesc'] = this.creditScale[ratingKey].description;
+      ulbInfo["ratingDesc"] = this.creditScale[ratingKey].description;
     }
 
     return ulbInfo;
@@ -334,17 +404,21 @@ export class ReportComponent implements OnInit, OnDestroy {
   //   return ratingScale;
   // }
 
-  ngOnDestroy() {
-  }
+  ngOnDestroy() {}
 
   openModal(ModalRef: TemplateRef<any>, grade) {
-    this.dialogData = this.list.filter((ulb) => ((this.selectedStates[0].length ? this.selectedStates.includes(ulb.state.toLowerCase()) : true) && ulb.creditrating === grade));
-    this.modalService.show(ModalRef, {class: 'modal-mdl modal-center'});
+    this.dialogData = this.list.filter(
+      (ulb) =>
+        (this.selectedStates[0].length
+          ? this.selectedStates.includes(ulb.state.toLowerCase())
+          : true) && ulb.creditrating === grade
+    );
+    this.modalService.show(ModalRef, { class: "modal-mdl modal-center" });
   }
 
   private generateDropDownData() {
     this.dropdownFiltersData.states = this.commonService
-      .getUniqueArrayByKey(this.list, 'state')
+      .getUniqueArrayByKey(this.list, "state")
       .map((state) => {
         return {
           id: state,
@@ -352,7 +426,7 @@ export class ReportComponent implements OnInit, OnDestroy {
         };
       });
     this.dropdownFiltersData.agencies = this.commonService
-      .getUniqueArrayByKey(this.list, 'agency')
+      .getUniqueArrayByKey(this.list, "agency")
       .map((agency) => {
         return {
           id: agency,
@@ -360,7 +434,7 @@ export class ReportComponent implements OnInit, OnDestroy {
         };
       });
     this.dropdownFiltersData.creditRatings = this.commonService
-      .getUniqueArrayByKey(this.list, 'creditrating')
+      .getUniqueArrayByKey(this.list, "creditrating")
       .map((creditrating) => {
         return {
           id: creditrating,
@@ -368,7 +442,7 @@ export class ReportComponent implements OnInit, OnDestroy {
         };
       });
     this.dropdownFiltersData.statusRatings = this.commonService
-      .getUniqueArrayByKey(this.list, 'status')
+      .getUniqueArrayByKey(this.list, "status")
       .map((status) => {
         return {
           id: status,
@@ -385,29 +459,29 @@ export class ReportComponent implements OnInit, OnDestroy {
     for (const filter of this.searchStack.reverse().slice(0, 5)) {
       let formControl: FormControl;
       switch (filter) {
-        case 'state':
+        case "state":
           formControl = this.stateSearchFormControl;
           break;
-        case 'agency':
+        case "agency":
           formControl = this.agencySearchFormControl;
           break;
-        case 'ulb':
+        case "ulb":
           formControl = this.ulbSearchFormControl;
           break;
-        case 'creditrating':
+        case "creditrating":
           formControl = this.creditSearchFormControl;
           break;
-        case 'status':
+        case "status":
           formControl = this.statusSearchFormControl;
       }
       if (formControl.value.length) {
         let ids;
-        if (filter === 'ulb') {
+        if (filter === "ulb") {
           ids = formControl.value.toLowerCase();
         } else {
           ids = formControl.value.map((el) => el.id);
         }
-        if (filter === 'ulb') {
+        if (filter === "ulb") {
           this.list = this.list.filter((ulb) =>
             ulb[filter].toLowerCase().includes(ids)
           );
@@ -416,23 +490,6 @@ export class ReportComponent implements OnInit, OnDestroy {
         }
       }
     }
-    //   console.log(this.list.length);
-    //   let ids;
-    //   if (searchKey === 'ulb') {
-    //     ids = searchFormControl.value;
-    //   } else {
-    //     ids = searchFormControl.value.map(el => el.id);
-    //   }
-    //   if (searchFormControl.value.length) {
-    //     if (searchKey === 'ulb') {
-    //       this.list = this.list.filter(ulb => ulb[searchKey].includes(ids));
-    //     } else {
-    //       this.list = this.list.filter(ulb => ids.includes(ulb[searchKey]));
-    //     }
-    //   } else {
-    //     //this.list = this.originalList;
-    //   }
-    // }
   }
 
   clearFilters() {
@@ -446,9 +503,9 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.list = this.originalList;
   }
 
-  modalRowClicked({ulb, agency, creditrating, status}: any) {
+  modalRowClicked({ ulb, agency, creditrating, status }: any) {
     this.ulbSearchFormControl.setValue(ulb);
-    this.searchDropdownItemSelected(this.ulbSearchFormControl, 'ulb');
+    this.searchDropdownItemSelected(this.ulbSearchFormControl, "ulb");
     this.page = 2;
     this.modalService.hide(1);
   }
@@ -456,11 +513,11 @@ export class ReportComponent implements OnInit, OnDestroy {
   setPage(number: number) {
     this.page = number;
     this.list = this.originalList;
-
   }
 
   ulbDropdownSelected(option: any) {
-    this.searchDropdownItemSelected(this.ulbSearchFormControl, 'ulb');
+    this.searchDropdownItemSelected(this.ulbSearchFormControl, "ulb");
   }
-
 }
+"ulb";
+"ulb";

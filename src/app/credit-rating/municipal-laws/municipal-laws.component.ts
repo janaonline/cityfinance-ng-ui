@@ -2,7 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
+import { FeatureCollection, Geometry } from 'geojson';
+import * as L from 'leaflet';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
+import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
+import { MapUtil } from 'src/app/util/map/mapUtil';
 
 import { AuthService } from '../../../app/auth/auth.service';
 import { DialogComponent } from '../../../app/shared/components/dialog/dialog.component';
@@ -21,8 +26,24 @@ export class MunicipalLawsComponent implements OnInit {
     private modalService: BsModalService,
     private _dialog: MatDialog,
     protected _authService: AuthService,
-    protected router: Router
-  ) {}
+    protected router: Router,
+    private geoService: GeographicalService
+  ) {
+    this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
+      try {
+        this.loadSlides();
+        this.mapGeoData = data;
+        this.createNationalLevelMap(data, "mapidd");
+      } catch (error) {}
+    });
+  }
+
+  mapGeoData: FeatureCollection<
+    Geometry,
+    {
+      [name: string]: any;
+    }
+  >;
   modalRef: BsModalRef;
 
   states: any;
@@ -57,7 +78,12 @@ export class MunicipalLawsComponent implements OnInit {
 
   stateName = "";
 
-  slides = [];
+  stateColors = {
+    unselected: "#E5E5E5",
+    selected: "#019CDF",
+  };
+
+  slides: { imgUrl: string; caption: string; states: string[] }[] = [];
   defaultDailogConfiuration: IDialogConfiguration = {
     message: "You need to be Login to download the data.",
     buttons: {
@@ -71,23 +97,121 @@ export class MunicipalLawsComponent implements OnInit {
     },
   };
 
-  ngOnInit() {
-    this.loadSlides();
+  nationalLevelMap: L.Map;
 
+  statesLayer: L.GeoJSON<any>;
+
+  currentSlideIndex = 0;
+
+  ngOnInit() {
     this.commonService.states.subscribe((res) => {
       this.states = res;
     });
     this.commonService.loadStates(true);
 
+    this.fetchMunicipalLawJSONFile();
+
+    this.loadMessages();
+    this.loadSkeleton();
+  }
+
+  fetchMunicipalLawJSONFile() {
     this.http
       .get("/assets/files/municipal-laws.json")
       .subscribe((data: any[]) => {
         this.list = data;
-        // this.prepareData();
       });
+  }
 
-    this.loadMessages();
-    this.loadSkeleton();
+  reRenderMap() {
+    this.createNationalLevelMap(this.mapGeoData, "mapidd");
+  }
+
+  createNationalLevelMap(
+    geoData: FeatureCollection<
+      Geometry,
+      {
+        [name: string]: any;
+      }
+    >,
+    containerId: string
+  ) {
+    const configuration = {
+      containerId,
+      geoData,
+    };
+    let map;
+
+    ({ stateLayers: this.statesLayer, map } = MapUtil.createDefaultNationalMap(
+      configuration
+    ));
+
+    this.nationalLevelMap = map;
+
+    this.statesLayer.eachLayer((layer) => {
+      (layer as any).bringToBack();
+      (layer as any).on({
+        click: (args: ILeafletStateClickEvent) => {
+          this.onClickingStateOnMap(args);
+        },
+      });
+    });
+  }
+
+  onClickingStateOnMap(stateLayer: ILeafletStateClickEvent) {
+    const stateName = MapUtil.getStateName(stateLayer).toLowerCase();
+    // const stateList = this.slides[this.currentSlideIndex].states;
+    const list = this.slides.find((slide) => {
+      const slideHasState = !!slide.states.find(
+        (name) => name.toLowerCase() === stateName
+      );
+      return slideHasState;
+    });
+
+    if (!list) {
+      return;
+    }
+
+    // const stateFound = !!stateList.find(
+    //   (name) => name.toLowerCase() == stateName
+    // );
+
+    this.showStateGroup({ states: list.states }, stateName);
+  }
+
+  /**
+   *
+   * @param stateNames States Which needs to be colored. Other states will be colored
+   * as default.
+   */
+  reColorStates(stateNames: string[], statesLayer: L.GeoJSON<any>) {
+    statesLayer.eachLayer((layer) => {
+      const stateName = MapUtil.getStateName(layer).toLowerCase();
+      const stateFound = !!stateNames.find(
+        (name) => name.toLowerCase() == stateName
+      );
+
+      if (stateFound) {
+        MapUtil.colorStateLayer(layer, this.stateColors.selected);
+      } else {
+        MapUtil.colorStateLayer(layer, this.stateColors.unselected);
+      }
+    });
+  }
+
+  onSlideChaning(slideIndexSet: number) {
+    this.currentSlideIndex = slideIndexSet;
+    const currentSlide = this.slides[slideIndexSet];
+    this.reColorStates(currentSlide.states, this.statesLayer);
+  }
+
+  showMapView() {
+    this.compareState = 0;
+    setTimeout(() => {
+      this.reRenderMap();
+      const currentSlide = this.slides[this.currentSlideIndex];
+      this.reColorStates(currentSlide.states, this.statesLayer);
+    });
   }
 
   loadSlides() {
@@ -102,7 +226,7 @@ export class MunicipalLawsComponent implements OnInit {
           "bihar",
           "chhattisgarh",
           "goa",
-          "jammu and kashmir",
+          "jammu & kashmir",
           "jharkhand",
           "karnataka",
           "kerala",
@@ -127,7 +251,7 @@ export class MunicipalLawsComponent implements OnInit {
           "andhra pradesh",
           "bihar",
           "haryana",
-          "jammu and kashmir",
+          "jammu & kashmir",
           "madhya pradesh",
           "maharashtra",
           "odisha",
@@ -160,7 +284,7 @@ export class MunicipalLawsComponent implements OnInit {
           "criteria",
           "bihar",
           "chhattisgarh",
-          "jammu and kashmir",
+          "jammu & kashmir",
           "jharkhand",
           "maharashtra",
           "mizoram",
@@ -210,19 +334,24 @@ export class MunicipalLawsComponent implements OnInit {
     window.open("/assets/files/municipal-laws-report.xlsx");
   }
 
-  showStateGroup(item) {
+  showStateGroup(item, stateToShow?: string) {
     const stateList = item.states;
     this.selectedStates = ["criteria"];
+
     this.states.forEach((state) => {
-      if (stateList.indexOf(state.name.toLowerCase()) > -1) {
+      if (
+        stateList.indexOf(state.name.toLowerCase()) > -1 &&
+        (stateToShow ? stateToShow == state.name.toLowerCase() : true)
+      ) {
         this.addToCompare(state);
       } else {
         state.selected = false;
       }
     });
-    // this.defineTdWidth();
     this.showComparisionPage();
   }
+
+  showStateComparison(item, state: string) {}
 
   compareAllStates() {
     this.selectedStates = ["criteria"];
@@ -382,8 +511,6 @@ export class MunicipalLawsComponent implements OnInit {
 
             const nextItem = this.list[index + 1];
             if (!nextItem.criteria && lastCriteria) {
-              // console.log('this is tooltip for : ', lastCriteria, nextItem, stateName, '**********************');
-              // this.tempStates[stateName][lastCriteria]['tooltip'] = item[stateName];
               temp[key[0]].tooltip = nextItem[stateName];
             }
           }

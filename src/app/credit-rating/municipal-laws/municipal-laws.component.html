@@ -5,21 +5,26 @@
     <!-- {{keys | json}} -->
     <!-- {{list | json}}  -->
     <div class="row m-1" *ngIf="!compareState">
-      <div class="col-md-6 mt-2" style="height: 50vh;">
-        <carousel [noPause]="false">
-          <slide
-            *ngFor="let item of slides"
-            (click)="showStateGroup(item)"
-            title="Click to compare states"
-          >
-            <img [src]="item.imgUrl"/>
+      <div class="col-md-6 mt-2" style="min-height: 50vh;">
+        <carousel
+          [noPause]="false"
+          (activeSlideChange)="onSlideChaning($event)"
+        >
+          <slide *ngFor="let item of slides" title="Click to compare states">
+            <!-- (click)="showStateGroup(item)" -->
+            <!-- {{ item | json }} -->
+            <!-- <div></div> -->
+
+            <!-- <img [src]="item.imgUrl" /> -->
             <div class="carousel-caption d-none d-md-block">
               <h4 class="title">{{ item.caption }}</h4>
             </div>
           </slide>
+          <div id="mapidd"></div>
         </carousel>
-        <br/>
+        <br />
       </div>
+
       <div class="col-md-6 mt-2">
         <button class="btn btn-primary" (click)="showStateSelectionSection()">
           Compare States
@@ -29,7 +34,7 @@
         <h3 class="">Comparison of Municipal Finance Provisions</h3>
         <!--          <br>-->
         <!--        </div>-->
-        <br/>
+        <br />
         <p>
           Presented here is a comparison of the pronouncements of various
           Municipal Acts, underlying Rules and Regulations, and Accounts and
@@ -68,19 +73,6 @@
           anyone desirous of doing a deep-dive.
         </p>
       </div>
-      <!-- <div class="col-md-12">
-        <p><br />
-          !-- {{selectedStates | json}} --
-          !-- <button class="btn btn-primary center" (click)="compareState = 1">Compare States</button> --
-          <br> <br>
-          !-- <b>Navigation:</b>
-          <i>In the following screens, you will find the option to select one or more states to compare and be able to
-            select
-            the comparison parameters and specific questions relevant to you. An option to download the on-screen report
-            in
-            MS-Excel is also provided for each report.</i> --
-        </p>
-      </div> -->
     </div>
 
     <div class="row container m-auto mt-2" *ngIf="compareState == 1">
@@ -92,10 +84,10 @@
             class="back-link"
             style="margin-right: 0px;"
             (click)="compareState = 0"
-          >Back</a
+            >Back</a
           >
         </h3>
-        <br/>
+        <br />
       </div>
       <div class="col-md-12">
         <button
@@ -117,12 +109,12 @@
       </div>
 
       <div class="col-md-12">
-        <br/>
+        <br />
         <div class="col-md-3 col-md-offset-3">
           <button
             class="btn btn-primary col-md-12"
             (click)="showComparisionPage()"
-            [tooltipEnable]="selectedStates.length>1"
+            [tooltipEnable]="selectedStates.length > 1"
             tooltip="Select 1 or more states"
           >
             View and Compare
@@ -148,7 +140,7 @@
           Compare States
         </button>
 
-        <br/>
+        <br />
         <a>
           <button
             class="btn btn-danger back-link"
@@ -159,12 +151,9 @@
           </button>
         </a>
 
-        <br/>
-        <a
-          class="back-link"
-          style="margin-top: 85px;"
-          (click)="compareState = 0"
-        >Back</a
+        <br />
+        <a class="back-link" style="margin-top: 85px;" (click)="showMapView()"
+          >Back</a
         >
         <!-- <a class="back-link" style="margin-top: 100px;" (click)="backToStateSelection()">Back</a> -->
         <!-- <a *ngIf="compareState > 0" class="back-link" (click)="backToStateSelection()">Back</a> -->
@@ -249,7 +238,7 @@
                                     list[key][title].titleWithCaptions.length >
                                     1
                                   "
-                                >{{ i + 1 }}.</span
+                                  >{{ i + 1 }}.</span
                                 >
                                 <span *ngIf="cell.titles">
                                   <div *ngFor="let item of titles">
@@ -259,7 +248,7 @@
                                 <span *ngIf="cell.title">{{ cell.title }}</span>
                                 <span class="text-primary">{{
                                   cell.caption
-                                  }}</span>
+                                }}</span>
                               </div>
                             </div>
                           </div>
@@ -341,10 +330,13 @@
       </div>
     </div>
     <div class="col-md-12">
-      <br/>
-      <button [tooltipEnable]="selectedStates.length>1"
-              [tooltip]="'Select 1 or more states'" class="btn btn-primary center"
-              (click)="selectedStates.length>1? modalRef.hide():null">
+      <br />
+      <button
+        [tooltipEnable]="selectedStates.length > 1"
+        [tooltip]="'Select 1 or more states'"
+        class="btn btn-primary center"
+        (click)="selectedStates.length > 1 ? modalRef.hide() : null"
+      >
         Apply Selection
       </button>
     </div>
