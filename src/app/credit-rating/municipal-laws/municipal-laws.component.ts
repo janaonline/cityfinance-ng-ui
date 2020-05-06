@@ -160,18 +160,23 @@ export class MunicipalLawsComponent implements OnInit {
 
   onClickingStateOnMap(stateLayer: ILeafletStateClickEvent) {
     const stateName = MapUtil.getStateName(stateLayer).toLowerCase();
-    const stateList = this.slides[this.currentSlideIndex].states;
+    // const stateList = this.slides[this.currentSlideIndex].states;
+    const list = this.slides.find((slide) => {
+      const slideHasState = !!slide.states.find(
+        (name) => name.toLowerCase() === stateName
+      );
+      return slideHasState;
+    });
 
-    const stateFound = !!stateList.find(
-      (name) => name.toLowerCase() == stateName
-    );
-    if (!stateFound) {
+    if (!list) {
       return;
     }
-    this.showStateGroup(
-      { states: this.slides[this.currentSlideIndex].states },
-      stateName
-    );
+
+    // const stateFound = !!stateList.find(
+    //   (name) => name.toLowerCase() == stateName
+    // );
+
+    this.showStateGroup({ states: list.states }, stateName);
   }
 
   /**
@@ -221,7 +226,7 @@ export class MunicipalLawsComponent implements OnInit {
           "bihar",
           "chhattisgarh",
           "goa",
-          "jammu and kashmir",
+          "jammu & kashmir",
           "jharkhand",
           "karnataka",
           "kerala",
@@ -246,7 +251,7 @@ export class MunicipalLawsComponent implements OnInit {
           "andhra pradesh",
           "bihar",
           "haryana",
-          "jammu and kashmir",
+          "jammu & kashmir",
           "madhya pradesh",
           "maharashtra",
           "odisha",
@@ -279,7 +284,7 @@ export class MunicipalLawsComponent implements OnInit {
           "criteria",
           "bihar",
           "chhattisgarh",
-          "jammu and kashmir",
+          "jammu & kashmir",
           "jharkhand",
           "maharashtra",
           "mizoram",
@@ -506,8 +511,6 @@ export class MunicipalLawsComponent implements OnInit {
 
             const nextItem = this.list[index + 1];
             if (!nextItem.criteria && lastCriteria) {
-              // console.log('this is tooltip for : ', lastCriteria, nextItem, stateName, '**********************');
-              // this.tempStates[stateName][lastCriteria]['tooltip'] = item[stateName];
               temp[key[0]].tooltip = nextItem[stateName];
             }
           }

@@ -226,29 +226,37 @@ export class HeatMapComponent implements OnInit {
     let coords = [];
 
     stateLayer.eachLayer((layer: any) => {
-      // console.log(layer.getBounds().getCenter());
-      layer._latlngs.forEach((lay) => {
-        const exec = lay[0];
-        let data;
-        if (exec.length) {
-          data = lay.map((cord) => {
-            return cord;
-          });
-          coords.push(...data[0]);
-        } else {
-          coords.push(exec);
-        }
-      });
+      const center: {
+        lat: number;
+        lng: number;
+      } = layer.getBounds().getCenter();
+      const bounds = layer.getBounds();
+      const arr = [
+        [bounds._northEast.lat, bounds._northEast.lng],
+        [bounds._southWest.lat, bounds._southWest.lng],
+      ];
+      // layer._latlngs.forEach((lay) => {
+      //   const exec = lay[0];
+      //   let data;
+      //   if (exec.length) {
+      //     data = lay.map((cord) => {
+      //       return cord;
+      //     });
+      //     coords.push(...data[0]);
+      //   } else {
+      //     coords.push(exec);
+      //   }
+      // });
 
       coords = coords.map((x) => {
         return [x.lat, x.lng];
       });
 
-      const cordi = this.getCentroid(coords);
+      // const cordi = this.getCentroid(
+      //   layer._latlngs.flat(Infinity).map((cod) => [cod.lat, cod.lng])
+      // );
 
-      const avgCord = { lat: cordi[0], lng: cordi[1] };
-
-      // console.log(avgCord, layer.feature.properties.ST_NM);
+      const avgCord = { lat: center.lat, lng: center.lng };
 
       let tooltip: any = this.mapData.find(
         (data) => data.name == layer.feature.properties.ST_NM.toString()
@@ -274,7 +282,6 @@ export class HeatMapComponent implements OnInit {
       layer.on({
         mouseover: () => {
           let obj = null;
-          // console.log(this.mapData);
 
           obj = this.mapData.filter(
             (el) => el.name == layer.feature.properties.ST_NM
@@ -336,30 +343,15 @@ export class HeatMapComponent implements OnInit {
     const rand = this.colorArr[
       Math.floor(Math.random() * this.colorArr.length)
     ];
+    console.log(stateName);
 
-    if (states.includes(stateName)) {
+    if (states.includes(stateName) || true) {
       this.colorArr = this.colorArr.filter((color) => color != rand);
-      // var marker = L.marker([cord.lat, cord.lng], { icon: this.yellowIcon }).bindTooltip('<p>Rank: <b>'+ tooltipText +'<b></p>',
-      // {
-      //   className: 'tooltip-custom-1',
-      //   opacity: 1,
-      //   permanent: true,
-      //   direction: 'top'
-      // }).addTo(this.map);
-      // let numMarker = L.ExtraMarkers.icon({
-      //   icon: "fa-number",
-      //   number: tooltipText,
-      //   markerColor: "yellow",
-      //   iconColor: "black",
-      //   shape: "star",
-      //   iconAnchor: [20, 40] // point of the icon which will correspond to marker's location
-      // });
 
       const point = L.point([-10, -10]);
-      console.log(stateName, tooltipText, cord);
 
       const marker = L.marker([cord.lat, cord.lng], { icon: this.yellowIcon })
-        .bindTooltip("<p>Rank: <b>" + tooltipText + "<b></p>", {
+        .bindTooltip("<p>Rank: <b>" + (tooltipText || stateName) + "<b></p>", {
           className: "tooltip-custom-1",
           opacity: 1,
           offset: point,
@@ -374,13 +366,51 @@ export class HeatMapComponent implements OnInit {
     }
   }
 
-  getCentroid(arr) {
+  getCentroid(arr: number[][]) {
+    // arr = arr[0];
+
+    // let minX, maxX, minY, maxY;
+    // for (let i = 0; i < arr.length; i++) {
+    //   minX = arr[i][0] < minX || minX == null ? arr[i][0] : minX;
+    //   maxX = arr[i][0] > maxX || maxX == null ? arr[i][0] : maxX;
+    //   minY = arr[i][1] < minY || minY == null ? arr[i][1] : minY;
+    //   maxY = arr[i][1] > maxY || maxY == null ? arr[i][1] : maxY;
+    // }
+    // return [(minX + maxX) / 2, (minY + maxY) / 2];
+
     return arr.reduce(
       function (x, y) {
         return [x[0] + y[0] / arr.length, x[1] + y[1] / arr.length];
       },
       [0, 0]
     );
+
+    let twoTimesSignedArea = 0;
+    let cxTimes6SignedArea = 0;
+    let cyTimes6SignedArea = 0;
+
+    const length = arr.length;
+
+    const x = function (i) {
+      return arr[i % length][0];
+    };
+    const y = function (i) {
+      return arr[i % length][1];
+    };
+
+    for (let i = 0; i < arr.length; i++) {
+      const twoSA = x(i) * y(i + 1) - x(i + 1) * y(i);
+
+      twoTimesSignedArea += twoSA;
+      cxTimes6SignedArea += (x(i) + x(i + 1)) * twoSA;
+      cyTimes6SignedArea += (y(i) + y(i + 1)) * twoSA;
+    }
+    const sixSignedArea = 3 * twoTimesSignedArea;
+
+    const latitude = cxTimes6SignedArea / sixSignedArea,
+      longitude = cyTimes6SignedArea / sixSignedArea;
+
+    return [latitude, longitude];
   }
 
   // common functions
