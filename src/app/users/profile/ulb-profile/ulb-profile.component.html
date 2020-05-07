@@ -317,15 +317,56 @@
       <button
         type="button"
         class="btn btn-primary"
-        (click)="
-          updateFormStatus({
-            status: 'REJECTED',
-            _id: profileData._id
-          })
-        "
+        (click)="openSignupRejectPopup(rejectSignupPopup)"
       >
         Reject Sign Up
       </button>
     </div>
   </form>
 </div>
+
+<ng-template #rejectSignupPopup>
+  <div class="">
+    <h3 style="margin: 3% auto; text-align: center;">
+      Reason for Signup Rejection
+    </h3>
+
+    <textarea
+      [formControl]="SignupRejectReason"
+      class="form-control"
+      id="exampleFormControlTextarea1"
+      rows="3"
+    ></textarea>
+
+    <div
+      style="display: flex; width: 100%; justify-content: center;"
+      class="mt-4"
+    >
+      <button
+        class="btn btn-primary"
+        (click)="
+          updateFormStatus({
+            status: 'REJECTED',
+            id: profileData._id,
+            reason: SignupRejectReason.value
+          }) || SignupRejectReason.setValue(null)
+        "
+        style="margin-right: 2%;"
+        [disabled]="!SignupRejectReason.valid"
+      >
+        Confirm Rejection
+      </button>
+
+      <button class="btn btn-primary" (click)="dialogBox.closeAll()">
+        Cancel
+      </button>
+    </div>
+
+    <p *ngIf="respone.errorMessage" class="error-message text-center mt-1">
+      {{ respone.errorMessage }}
+    </p>
+    <p *ngIf="respone.successMessage" class="success-message text-center mt-1">
+      {{ respone.successMessage }}
+    </p>
+  </div>
+</ng-template>

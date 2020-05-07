@@ -10,7 +10,7 @@ import { HttpUtility } from '../../../util/httpUtil';
 import { IULBProfileData } from '../model/ulb-profile';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class ProfileService {
   httpUtil = new HttpUtility();
@@ -48,6 +48,7 @@ export class ProfileService {
   updateULBSingUPStatus(body: {
     _id: string;
     status: IULBProfileData["status"];
+    reason?: string;
   }) {
     return this._htttp.put(
       `${environment.api.url}user/ulb-status/${body._id}`,
@@ -81,7 +82,7 @@ export class ProfileService {
     }
     let params = new HttpParams();
 
-    Object.keys(body).forEach(key => {
+    Object.keys(body).forEach((key) => {
       if (typeof body[key] === "object") {
         const value = JSON.stringify(body[key]);
 
@@ -115,7 +116,7 @@ export class ProfileService {
     body["csv"] = true;
     let params = new HttpParams();
 
-    Object.keys(body).forEach(key => {
+    Object.keys(body).forEach((key) => {
       if (typeof body[key] === "object") {
         const value = JSON.stringify(body[key]);
 
@@ -137,7 +138,7 @@ export class ProfileService {
       .get<IFullULBProfileRequest>(
         `${environment.api.url}ulb-update-request/${requestId}`
       )
-      .pipe(map(res => <IFullULBProfileRequest>res["data"]));
+      .pipe(map((res) => <IFullULBProfileRequest>res["data"]));
   }
 
   updateULBProfileRequest(params: { status: string; id: string }) {

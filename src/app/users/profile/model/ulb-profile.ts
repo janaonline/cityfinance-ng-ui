@@ -1,11 +1,9 @@
-import { UPLOAD_STATUS } from 'src/app/util/enums';
-
 export enum fieldNameWithFileRequirement {
   TYPE = "type",
   NoOfWards = "noOfWards",
   Population = "population",
   Area = "area",
-  Name = "name"
+  Name = "name",
 }
 
 // tslint:disable-next-line: interface-over-type-literal
@@ -25,7 +23,7 @@ export interface IULBProfileData {
   commissionerConatactNumber: string;
   commissionerEmail: string;
   commissionerName: string;
-  status: UPLOAD_STATUS;
+  status: ULBSignupSTATUS;
   ulb: Ulb;
 }
 

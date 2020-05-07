@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
@@ -20,7 +22,9 @@ import { ProfileService } from '../service/profile.service';
 export class UlbProfileComponent implements OnInit, OnChanges {
   @Input() profileData: IULBProfileData;
   @Input() editable = false;
+
   profile: FormGroup;
+  SignupRejectReason = new FormControl();
   formUtil = new FormUtil();
   jsonUtil = new JSONUtility();
 
@@ -37,7 +41,11 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   USER_TYPE = USER_TYPE;
   window = window;
 
-  constructor(private _profileService: ProfileService) {
+  constructor(
+    private _profileService: ProfileService,
+    public modalService: BsModalService,
+    public dialogBox: MatDialog
+  ) {
     this.fetchDatas();
   }
 
@@ -94,13 +102,18 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     );
   }
 
-  updateFormStatus(status: { status: IULBProfileData["status"]; _id: string }) {
+  updateFormStatus(status: {
+    status: IULBProfileData["status"];
+    _id: string;
+    reason?: string;
+  }) {
     this.resetResponseMessage();
     this._profileService.updateULBSingUPStatus(status).subscribe(
       (res) => {
-        this.canSubmitForm = true;
         this.profileData.status = status.status;
         this.respone.successMessage = "ULB Singup updated successfully.";
+        this.canSubmitForm = status.status === "REJECTED" ? false : true;
+        this.dialogBox.closeAll();
       },
       (err) => {
         this.respone.errorMessage = err.error.message || "Server Error";
@@ -108,13 +121,24 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     );
   }
 
-  public enableProfileEdit() {
+  enableProfileEdit() {
     this.profile.enable();
     this.disableNonEditableFields();
   }
-  public disableProfileEdit() {
+  disableProfileEdit() {
     this.profile.disable({ emitEvent: false });
     this.disableNonEditableFields();
+  }
+
+  openSignupRejectPopup(templateRef: TemplateRef<any>) {
+    this.dialogBox.open(templateRef, {
+      height: "fit-content",
+      width: "28vw",
+    });
+  }
+
+  closeSignupRejectPopup(templateRef: TemplateRef<any>) {
+    this.modalService.hide(1);
   }
 
   private onUpdatingProfileSuccess(res) {
@@ -213,7 +237,6 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       action: ACTIONS.EDIT,
       moduleName: MODULES_NAME.ULB_PROFILE,
     });
-    console.log(this.canSubmitForm);
   }
 
   private initializeLogginUserType() {
