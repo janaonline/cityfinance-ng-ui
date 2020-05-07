@@ -161,6 +161,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         this.dataUploadList = this.dataUploadList.sort((a, b) => {
           let c1 = a['status'][2];
           let c2 = b['status'][2];
+          console.log(c1, c2);
           if (c1 > c2) {
             return 1;
           } else {
@@ -217,7 +218,8 @@ export class DataUploadComponent implements OnInit, OnDestroy {
               const urlResponse: any = await this.dataUploadService.getURLForFileUpload(name, type).toPromise();
               if (urlResponse.success) {
                 let {url, file_alias} = urlResponse.data[0];
-                urlObject[parentFormGroup][fileUrlKey] = file_alias;
+                urlObject[parentFormGroup][fileUrlKey] = urlResponse.data[0].file_alias;
+                console.log(fileUrlKey, file_alias, urlObject);
                 url = url.replace('admin/', '');
                 let fileUploadResponse = await this.dataUploadService.uploadFileToS3(files[fileKey], url).toPromise();
                 this.fileUpload.currentUploadedFiles++;
