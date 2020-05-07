@@ -24,7 +24,7 @@ export class ReportTableComponent implements OnInit {
   tableHeadersMain = [];
   tableHeaderSub = [];
   overAllReportData: any = [];
-  financialYearFormControl: FormControl = new FormControl('2020-21');
+  financialYearFormControl: FormControl = new FormControl('2019-20');
   reportType: string;
   financialYearDropdown: any = [];
   loading = false;
@@ -173,7 +173,8 @@ export class ReportTableComponent implements OnInit {
     if (this.reportType == 'usage') {
       this.financialYearDropdown = this.financialYearDropdown.filter(year => year.name >= '2020-21');
       this.financialYearFormControl.setValue('2020-21');
-
+    } else {
+      this.financialYearDropdown = this.financialYearDropdown.filter(year => !['2014-15', '2020-21'].includes(year.name));
     }
   }
 
@@ -231,7 +232,7 @@ export class ReportTableComponent implements OnInit {
           rows: [
             {
               columns: [{
-                font_size:'16',
+                font_size: '16',
                 bold: 'true',
                 colSpan: this.tableHeaderSub.length + extraColspan[this.reportType],
                 text: tableHeadings[this.reportType],
