@@ -139,14 +139,14 @@
     </mat-tab>
 
     <mat-tab *ngIf="financeDataService.selectedFinancialRequest" [disabled]="this.completenessStatus!=='APPROVED'"
-             label="State 2: Correctness">
+             label="Stage 2: Correctness">
       <ng-template matTabContent>
         <ng-container *ngTemplateOutlet="dropDownContainer"></ng-container>
         <ng-container>
           <form [formGroup]="correctnessFormGroup" class="col-sm-12">
             <div id="correctness" class="mt-4">
               <h3>
-                State 2: Correctness
+                Stage 2: Correctness
               </h3>
             </div>
 

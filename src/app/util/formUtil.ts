@@ -6,8 +6,15 @@ import { PasswordValidator } from './passwordValidator';
 export class FormUtil {
   private fb: FormBuilder;
 
-  private altest1Aplhabet = /[a-zA-z]+/g;
-  private alphabetWithSpeacialRegex;
+  private regexForAtleast1Aplhabet = /\w+/g;
+  private regexForAtleast1AplhabetWithSpecialCharacter = /\w+\.?\w*/g;
+  private regexForOnlyNumberWithoutDecimalAccept = `\\d*$`;
+
+  /**
+   * @description This will validate  decimal point till only 9 precision point only.
+   */
+  private regexForOnlyNumbericWithDecimalAccept = `\\d*\\.?\\d{1,9}`;
+
   constructor() {
     this.fb = new FormBuilder();
   }
@@ -16,7 +23,10 @@ export class FormUtil {
     let form = this.fb.group({
       name: [
         "",
-        [Validators.required, Validators.pattern(this.altest1Aplhabet)],
+        [
+          Validators.required,
+          Validators.pattern(this.regexForAtleast1Aplhabet),
+        ],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
       email: [
@@ -42,7 +52,13 @@ export class FormUtil {
     const baseForm = this.fb.group({
       state: ["", [Validators.required]],
       ulb: ["", [Validators.required]],
-      commissionerName: ["", [Validators.required]],
+      commissionerName: [
+        "",
+        [
+          Validators.required,
+          Validators.pattern(this.regexForAtleast1AplhabetWithSpecialCharacter),
+        ],
+      ],
       commissionerConatactNumber: [
         "",
         [Validators.required, mobileNoValidator],
@@ -53,7 +69,13 @@ export class FormUtil {
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
-      accountantName: ["", [Validators.required]],
+      accountantName: [
+        "",
+        [
+          Validators.required,
+          Validators.pattern(this.regexForAtleast1AplhabetWithSpecialCharacter),
+        ],
+      ],
       accountantConatactNumber: ["", [Validators.required, mobileNoValidator]],
       accountantEmail: [
         "",
@@ -71,14 +93,26 @@ export class FormUtil {
       ...baseForm.controls,
       ulb: this.fb.group({
         code: ["", [Validators.required]],
-        wards: ["", [Validators.required, Validators.pattern(/^[0-9]\d*$/)]],
+        wards: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(this.regexForOnlyNumberWithoutDecimalAccept),
+          ],
+        ],
         population: [
           "",
-          [Validators.required, Validators.pattern(/^[0-9]\d*$/)],
+          [
+            Validators.required,
+            Validators.pattern(this.regexForOnlyNumberWithoutDecimalAccept),
+          ], /// ^[0-9]\d*$/
         ],
         area: [
           "",
-          [Validators.required, Validators.pattern(/^[0-9]\d*(\.\d+)?$/)],
+          [
+            Validators.required,
+            Validators.pattern(this.regexForOnlyNumbericWithDecimalAccept),
+          ],
         ],
         ulbType: this.fb.group({
           _id: ["", [Validators.required]],

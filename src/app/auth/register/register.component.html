@@ -178,7 +178,7 @@
                 id="state"
                 formControlName="state"
                 class="form-control"
-                placeholder="State"
+                placeholder="State *"
                 [ngClass]="{
                   'is-invalid': formSubmitted && profile?.controls?.state.errors
                 }"
@@ -201,7 +201,7 @@
                 id="ulb"
                 [formControl]="registrationForm.controls['name']"
                 class="form-control"
-                placeholder="ULB"
+                placeholder="ULB  *"
                 [ngClass]="{
                   'is-invalid': formSubmitted && profile?.controls?.name.errors
                 }"
@@ -239,7 +239,7 @@
                 type="text"
                 class="form-control"
                 [formControl]="registrationForm.controls['ulb']"
-                placeholder="ULB Code"
+                placeholder="ULB Code  *"
               />
               <i
                 class="fa fa-spinner fa-spin ulbSpinner"
@@ -259,7 +259,7 @@
                 type="text"
                 class="form-control"
                 [formControl]="registrationForm.controls['commissionerName']"
-                placeholder="Commissioner Name"
+                placeholder="Commissioner Name *"
               />
             </div>
 
@@ -274,7 +274,7 @@
                 [formControl]="
                   registrationForm.controls['commissionerConatactNumber']
                 "
-                placeholder="Commissioner Contact No"
+                placeholder="Commissioner Contact No *"
               />
             </div>
 
@@ -287,12 +287,12 @@
                 type="email"
                 class="form-control"
                 [formControl]="registrationForm.controls['commissionerEmail']"
-                placeholder="Commissioner Email ID"
+                placeholder="Commissioner Email ID *"
               />
             </div>
             <p class="input_info">
               <i class="fa fa-info-circle" aria-hidden="true"></i>
-              Use official email Id of Commisioner
+              Use official email Id of Commissioner
             </p>
 
             <div class="input-group">
@@ -304,7 +304,7 @@
                 type="text"
                 class="form-control"
                 [formControl]="registrationForm.controls['accountantName']"
-                placeholder="Accountant Name"
+                placeholder="Accountant Name *"
               />
             </div>
 
@@ -319,7 +319,7 @@
                 [formControl]="
                   registrationForm.controls['accountantConatactNumber']
                 "
-                placeholder="Accountant Contact No"
+                placeholder="Accountant Contact No *"
               />
             </div>
 
@@ -332,7 +332,7 @@
                 type="email"
                 class="form-control"
                 [formControl]="registrationForm.controls['accountantEmail']"
-                placeholder="Accountant Email ID"
+                placeholder="Accountant Email ID *"
               />
             </div>
 
