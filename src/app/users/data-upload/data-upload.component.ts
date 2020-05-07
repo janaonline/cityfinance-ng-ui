@@ -161,6 +161,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         this.dataUploadList = this.dataUploadList.sort((a, b) => {
           let c1 = a['status'][2];
           let c2 = b['status'][2];
+          console.log(c1, c2);
           if (c1 > c2) {
             return 1;
           } else {
@@ -199,7 +200,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   async submitClickHandler(event) {
     this.fileFormGroup.disable();
     event.disabled = true;
-    let urlObject = {};
+    const urlObject = {};
     this.fileUpload.totalFiles = this.getAddedFilterCount();
     this.fileUpload.uploading = true;
     for (let parentFormGroup of this.fileFormGroupKeys) {
@@ -207,17 +208,18 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         const formGroup = this.fileFormGroup.get(parentFormGroup);
         urlObject[parentFormGroup] = {};
         const files = formGroup.value;
-        for (let fileKey in files) {
-          let fileUrlKey = fileKey.includes('pdf') ? 'pdfUrl' : 'excelUrl';
+        for (let fileKey of ['file_pdf', 'file_excel']) {
+          const fileUrlKey = fileKey.includes('pdf') ? 'pdfUrl' : 'excelUrl';
           urlObject[parentFormGroup][fileUrlKey] = '';
           const formControl = formGroup.get(fileKey);
           if (files[fileKey]) {
             try {
               let {name, type} = files[fileKey];
-              let urlResponse: any = await this.dataUploadService.getURLForFileUpload(name, type).toPromise();
+              const urlResponse: any = await this.dataUploadService.getURLForFileUpload(name, type).toPromise();
               if (urlResponse.success) {
                 let {url, file_alias} = urlResponse.data[0];
-                urlObject[parentFormGroup][fileUrlKey] = file_alias;
+                urlObject[parentFormGroup][fileUrlKey] = urlResponse.data[0].file_alias;
+                console.log(fileUrlKey, file_alias, urlObject);
                 url = url.replace('admin/', '');
                 let fileUploadResponse = await this.dataUploadService.uploadFileToS3(files[fileKey], url).toPromise();
                 this.fileUpload.currentUploadedFiles++;
@@ -237,7 +239,6 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         }
       }
     }
-
     let responseObject = {
       ...urlObject,
       financialYear: this.fileFormGroup.controls['financialYear'].value[0].id,
@@ -267,11 +268,6 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         this.handlerError(error);
       }
     );
-  }
-
-  handleFileChange(strings: string[], file: File) {
-
-    this.fileFormGroup.get(strings).setValue(file);
   }
 
   removeAuditReportFromFIleKeys() {
@@ -342,7 +338,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         if (!formGroup.disabled) {
           urlObject[parentFormGroup] = {};
           const files = formGroup.value;
-          for (let fileKey in files) {
+          for (let fileKey of ['file_pdf', 'file_excel']) {
             let fileUrlKey = fileKey.includes('pdf') ? 'pdfUrl' : 'excelUrl';
             urlObject[parentFormGroup][fileUrlKey] = '';
             const formControl = formGroup.get(fileKey);
