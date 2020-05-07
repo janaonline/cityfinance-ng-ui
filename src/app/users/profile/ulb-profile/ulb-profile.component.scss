@@ -39,3 +39,8 @@
 .is-invalid {
   border-color: red;
 }
+
+.form-group {
+  display: flex;
+  flex-wrap: wrap;
+}

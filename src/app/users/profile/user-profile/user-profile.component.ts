@@ -13,7 +13,7 @@ import { ProfileService } from '../service/profile.service';
 @Component({
   selector: "app-user-profile",
   templateUrl: "./user-profile.component.html",
-  styleUrls: ["./user-profile.component.scss"]
+  styleUrls: ["./user-profile.component.scss"],
 })
 export class UserProfileComponent implements OnInit {
   @Input() profileData: UserProfile;
@@ -24,7 +24,7 @@ export class UserProfileComponent implements OnInit {
   formErrors: string[];
   response = {
     successMessage: null,
-    errorMessage: null
+    errorMessage: null,
   };
 
   canEditProfile = false;
@@ -49,17 +49,17 @@ export class UserProfileComponent implements OnInit {
     }
     this.resetResponseMessages();
     this.formErrors = this.formUtil.validadteUserForm(form, {
-      validationType: "EDIT"
+      validationType: "EDIT",
     });
     if (this.formErrors) {
       return;
     }
 
     this._profileService.updateUserProfileData(form.value).subscribe(
-      res => {
+      (res) => {
         this.response.successMessage = "Profile Updated successfully";
       },
-      error => this.onGettingResponseError(error)
+      (error) => this.onGettingResponseError(error)
     );
   }
 
@@ -75,7 +75,7 @@ export class UserProfileComponent implements OnInit {
 
   private checkProfileAccess() {
     const accessChecker = new AccessChecker();
-    const moduleName = MODULES_NAME.USER_PROFILE;
+    const moduleName = MODULES_NAME.USER;
     const action = ACTIONS.EDIT;
     this.canEditProfile = accessChecker.hasAccess({ moduleName, action });
   }

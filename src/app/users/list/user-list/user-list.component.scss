@@ -6,10 +6,8 @@
 .actionCell {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  // i {
-  //   margin-right: 6%;
-  // }
+  justify-content: space-between;
+  padding-right: 45%;
 }
 
 .form-control {
@@ -27,4 +25,18 @@ table .input-group {
   select {
     border-radius: 5px;
   }
+}
+
+.clickable {
+  color: rgb(8, 131, 212);
+  cursor: pointer;
+}
+i {
+  transition: all 0.2s;
+}
+
+i:hover {
+  color: rgb(8, 131, 212);
+  // transform: scale(1.1);
+  // transform-origin: center;
 }

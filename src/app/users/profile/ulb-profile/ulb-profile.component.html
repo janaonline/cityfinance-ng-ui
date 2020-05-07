@@ -6,7 +6,18 @@
   >
     Back
   </button>
-  <h1>{{ profileData ? "Edit Profile" : "Create ULB" }}</h1>
+  <h1 *ngIf="profileData">
+    <span *ngIf="profile.disabled">View</span>
+    <span *ngIf="profile.enabled">Edit</span>
+    Profile
+  </h1>
+  <div *ngIf="profileData && profileData.status === SIGNUP_STATUS.REJECTED">
+    <p class="error-message">Reason for Rejection: asdas</p>
+  </div>
+  <h1 *ngIf="!profileData">
+    Create ULB
+  </h1>
+  <!-- <h1>{{ profileData ? "Edit Profile" : "Create ULB" }}</h1> -->
 
   <form [formGroup]="profile" *ngIf="profile" (ngSubmit)="submitForm(profile)">
     <div class="input-group">
@@ -83,44 +94,28 @@
       />
     </div>
 
-    <div formGroupName="ulb">
+    <div formGroupName="ulb" class="form-group">
       <div class="input-group">
         <label for="area"
           >Area (Sq kms)
           <span class="asterik">*</span>
-          <!-- <span style="float: right;">
-          <span *ngIf="fileTracker?.area" class="fileName">
-            {{ fileTracker.area.file.name }}
-          </span>
-          <i
-            class="fa fa-file-text"
-            aria-hidden="true"
-            (click)="area.click()"
-            for="cin"
-          >
-          </i>
-        </span> -->
         </label>
-        <!-- <input
-        #area
-        id="area"
-        name="cin"
-        type="file"
-        (change)="
-          onSelectingFile({ file: $event.target.files[0], key: 'area' })
-        "
-        placeholder="Upload a file..."
-      /> -->
+
         <input
           id="area"
           type="text"
           formControlName="area"
           class="form-control"
           [ngClass]="{
-            'is-invalid':
-              formSubmitted && profile.controls.ulb.controls?.area.errors
+            'is-invalid': profile.controls.ulb.controls?.area.errors
           }"
         />
+        <small
+          *ngIf="profile.controls.ulb.controls?.area.errors"
+          class="form-field-error-message"
+        >
+          Only numeric values are accepted. For Ex: 33, 45.4, 0.8
+        </small>
       </div>
 
       <div class="input-group">
@@ -136,10 +131,16 @@
           formControlName="population"
           class="form-control"
           [ngClass]="{
-            'is-invalid':
-              formSubmitted && profile?.controls?.ulb.controls.population.errors
+            'is-invalid': profile?.controls?.ulb.controls.population.errors
           }"
         />
+
+        <small
+          *ngIf="profile.controls.ulb.controls?.population.errors"
+          class="form-field-error-message"
+        >
+          Only numeric values without decimals are accepted. For Ex: 33, 1, 1223
+        </small>
       </div>
 
       <div class="input-group">
@@ -153,10 +154,16 @@
           formControlName="wards"
           class="form-control"
           [ngClass]="{
-            'is-invalid':
-              formSubmitted && profile.controls.ulb.controls?.wards?.errors
+            'is-invalid': profile.controls.ulb.controls?.wards?.errors
           }"
         />
+        <small
+          *ngIf="profile.controls.ulb.controls?.wards.errors"
+          class="form-field-error-message"
+        >
+          Only numeric values without decimals are accepted. For Ex: 33, 1, 1223
+          {{ profile.controls.ulb.controls?.wards.errors | json }}
+        </small>
       </div>
     </div>
 

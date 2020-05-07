@@ -7,6 +7,7 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
+import { ULBSIGNUPSTATUS } from 'src/app/util/enums';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { ulbType } from '../../../dashboard/report/report/ulbTypes';
@@ -40,6 +41,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   loggedInUserType: USER_TYPE;
   USER_TYPE = USER_TYPE;
   window = window;
+  SIGNUP_STATUS = ULBSIGNUPSTATUS;
 
   constructor(
     private _profileService: ProfileService,
@@ -94,6 +96,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     if (this.loggedInUserType !== USER_TYPE.ULB) {
       flatten["ulb"] = this.profileData.ulb._id;
     }
+
+    return;
     this.profile.disable({ onlySelf: true, emitEvent: false });
 
     this._profileService.createULBUpdateRequest(flatten).subscribe(
@@ -223,8 +227,11 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       } else {
         this.initializeAccess();
       }
-      if (!this.editable) {
-        this.profile.disable({ emitEvent: false });
+      if (
+        !this.editable ||
+        this.profileData.status !== this.SIGNUP_STATUS.APPROVED
+      ) {
+        this.profile.disable({ emitEvent: false, onlySelf: true });
       }
 
       this.disableNonEditableFields();
@@ -235,7 +242,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     const accessCheck = new AccessChecker();
     this.canSubmitForm = accessCheck.hasAccess({
       action: ACTIONS.EDIT,
-      moduleName: MODULES_NAME.ULB_PROFILE,
+      moduleName: MODULES_NAME.ULB,
     });
   }
 
@@ -243,6 +250,10 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.loggedInUserType = this._profileService.getLoggedInUserType();
   }
 
+  /**
+   * @description ULB's code and state cannot be changed, therefore they should stay
+   * disabled.
+   */
   private disableNonEditableFields() {
     (<FormGroup>this.profile.controls.ulb).controls.code.disable();
     this.profile.controls.state.disable();

@@ -8,17 +8,17 @@
           >
           <span
             *ngIf="listType === userTypes.PARTNER"
-            style="margin-left: .5%;"
+            style="margin-left: 0.5%;"
           >
             Partner List</span
           >
-          <span *ngIf="listType === userTypes.USER" style="margin-left: .5%;">
+          <span *ngIf="listType === userTypes.USER" style="margin-left: 0.5%;">
             User List</span
           >
-          <span *ngIf="listType === userTypes.ULB" style="margin-left: .5%;">
+          <span *ngIf="listType === userTypes.ULB" style="margin-left: 0.5%;">
             ULB Signup List</span
           >
-          <span *ngIf="listType === userTypes.MoHUA" style="margin-left: .5%;">
+          <span *ngIf="listType === userTypes.MoHUA" style="margin-left: 0.5%;">
             MoHUA List</span
           >
           <a
@@ -63,7 +63,11 @@
         <table class="table" *ngIf="listType === userTypes.USER">
           <thead>
             <tr
-              style="background: #009fe3;color: white ;border: 5px solid white"
+              style="
+                background: #009fe3;
+                color: white;
+                border: 5px solid white;
+              "
               class="sortable-headers"
             >
               <th class="text-center">S.No.</th>
@@ -85,7 +89,6 @@
               </th>
               <th class="text-center">Action</th>
             </tr>
-           
           </thead>
           <tbody>
             <tr *ngIf="filterForm">
@@ -99,10 +102,6 @@
                     type="text"
                     class="form-control"
                     [formControl]="filterForm.controls.name"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.name.errors
-                    }"
                   />
                 </div>
               </td>
@@ -115,10 +114,6 @@
                     type="text"
                     class="form-control"
                     [formControl]="filterForm.controls.email"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.email.errors
-                    }"
                   />
                 </div>
               </td>
@@ -131,10 +126,6 @@
                     type="text"
                     class="form-control"
                     [formControl]="filterForm.controls.designation"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.designation.errors
-                    }"
                   />
                 </div>
               </td>
@@ -145,10 +136,6 @@
                     type="text"
                     class="form-control"
                     [formControl]="filterForm.controls.organization"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.name.errors
-                    }"
                   />
                 </div>
               </td>
@@ -173,7 +160,7 @@
                       };
                 index as i
               "
-              style="background: 	#e7e7e7 ;border: 5px solid white"
+              style="background: #e7e7e7; border: 5px solid white;"
             >
               <td class="text-center">
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
@@ -189,7 +176,7 @@
                 >
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
-                <a>
+                <a *ngIf="canDeleteUser">
                   <i
                     class="fa fa-trash"
                     aria-hidden="true"
@@ -212,7 +199,11 @@
           <thead>
             <tr
               class="sortable-headers"
-              style="background: #009fe3;color: white ;border: 1px solid white"
+              style="
+                background: #009fe3;
+                color: white;
+                border: 1px solid white;
+              "
             >
               <th class="text-center">S.No.</th>
               <th
@@ -266,10 +257,6 @@
                     type="text"
                     class="form-control"
                     [formControl]="filterForm.controls.name"
-                    [ngClass]="{
-                      'is-invalid':
-                        formErrors && profileForm.controls.email.errors
-                    }"
                   />
                 </div>
               </td>
@@ -286,7 +273,7 @@
               </td>
 
               <td>
-                <div class="input-group ">
+                <div class="input-group">
                   <select
                     name="ulb"
                     id="ulb"
@@ -317,7 +304,7 @@
               </td>
             </tr>
             <tr
-              style="background: 	#e7e7e7 ;border: 5px solid white"
+              style="background: #e7e7e7; border: 5px solid white;"
               *ngFor="
                 let ulb of userList
                   | paginate
@@ -337,9 +324,16 @@
               <td class="">{{ ulb["name"] }}</td>
               <td class="">{{ ulb["ulbCode"] }}</td>
               <td class="">
-                {{ ulb.status }}
+                <span
+                  (click)="showUserRejectReason(ulb)"
+                  [ngClass]="{
+                    clickable: ulb.status === SINGPUP_STATUS.REJECTED
+                  }"
+                >
+                  {{ ulb.status }}
+                </span>
               </td>
-              <td class="text-center  d-flex  actionCell">
+              <td class="text-center d-flex actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: ulb._id, role: 'ULB' }"
@@ -347,12 +341,13 @@
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
                 <a
+                  *ngIf="ulb.status === SINGPUP_STATUS.APPROVED"
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: ulb._id, role: 'ULB', edit: true }"
                 >
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
-                <a>
+                <a *ngIf="canDeleteUser">
                   <i
                     class="fa fa-trash"
                     aria-hidden="true"
@@ -374,7 +369,11 @@
           <thead>
             <tr
               class="sortable-headers"
-              style="background: #009fe3;color: white ;border: 5px solid white"
+              style="
+                background: #009fe3;
+                color: white;
+                border: 5px solid white;
+              "
             >
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('stateName')">
@@ -476,7 +475,7 @@
             </tr>
 
             <tr
-              style="background: 	#e7e7e7 ;border: 5px solid white"
+              style="background: #e7e7e7; border: 5px solid white;"
               *ngFor="
                 let user of userList
                   | paginate
@@ -497,7 +496,7 @@
               <td class="">{{ user["email"] }}</td>
               <td class="">{{ user["designation"] }}</td>
               <td class="">{{ user["departmentName"] }}</td>
-              <td class="text-center d-flex  actionCell">
+              <td class="text-center d-flex actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: user._id, role: 'STATE' }"
@@ -510,7 +509,7 @@
                 >
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
-                <a>
+                <a *ngIf="canDeleteUser">
                   <i
                     class="fa fa-trash"
                     aria-hidden="true"
@@ -532,7 +531,11 @@
           <thead>
             <tr
               class="sortable-headers"
-              style="background: #009fe3;color: white ;border: 5px solid white"
+              style="
+                background: #009fe3;
+                color: white;
+                border: 5px solid white;
+              "
             >
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('name')">
@@ -612,7 +615,7 @@
             </tr>
 
             <tr
-              style="background: 	#e7e7e7 ;border: 5px solid white"
+              style="background: #e7e7e7; border: 5px solid white;"
               *ngFor="
                 let user of userList
                   | paginate
@@ -631,7 +634,7 @@
               <td class="">{{ user["email"] }}</td>
               <td class="">{{ user["designation"] }}</td>
               <td class="">{{ user["departmentName"] }}</td>
-              <td class="text-center d-flex  actionCell">
+              <td class="text-center d-flex actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: user._id, role: 'PARTNER' }"
@@ -644,7 +647,7 @@
                 >
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
-                <a>
+                <a *ngIf="canDeleteUser">
                   <i
                     class="fa fa-trash"
                     aria-hidden="true"
@@ -666,7 +669,11 @@
           <thead>
             <tr
               class="sortable-headers"
-              style="background: #009fe3;color: white ;border: 5px solid white"
+              style="
+                background: #009fe3;
+                color: white;
+                border: 5px solid white;
+              "
             >
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('name')">
@@ -732,7 +739,7 @@
             </tr>
 
             <tr
-              style="background: 	#e7e7e7 ;border: 5px solid white"
+              style="background: #e7e7e7; border: 5px solid white;"
               *ngFor="
                 let user of userList
                   | paginate
@@ -750,7 +757,7 @@
               <td class="">{{ user["name"] }}</td>
               <td class="">{{ user["email"] }}</td>
               <td class="">{{ user["designation"] }}</td>
-              <td class="text-center d-flex  actionCell">
+              <td class="text-center d-flex actionCell">
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: user._id, role: listType }"
@@ -765,7 +772,7 @@
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
 
-                <a>
+                <a *ngIf="canDeleteUser">
                   <i
                     class="fa fa-trash"
                     aria-hidden="true"
@@ -803,15 +810,12 @@
 
 <ng-template #userDeletePopup>
   <div class="modal-body">
-    <p
-      style="margin: 3% auto;
-    text-align: center;"
-    >
+    <p style="margin: 3% auto; text-align: center;">
       Are you sure you want to delete user
       <strong> {{ userToDelete["name"] }}</strong> ?
     </p>
 
-    <div style="display: flex;width: 100%;justify-content: center;">
+    <div style="display: flex; width: 100%; justify-content: center;">
       <button
         class="btn btn-primary"
         style="margin-right: 2%;"

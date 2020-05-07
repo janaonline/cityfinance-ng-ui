@@ -171,7 +171,7 @@ export class ProfileRequestComponent implements OnInit {
 
   initializeAccessCheck() {
     const hasAccess = this.accessChecker.hasAccess({
-      moduleName: MODULES_NAME.ULB_PROFILE,
+      moduleName: MODULES_NAME.ULB,
       action: ACTIONS.APPROVE,
     });
 

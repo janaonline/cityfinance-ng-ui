@@ -3,12 +3,18 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
+import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
 import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { AccessChecker } from 'src/app/util/access/accessChecker';
+import { ACTIONS } from 'src/app/util/access/actions';
+import { MODULES_NAME } from 'src/app/util/access/modules';
 import { ULBSIGNUPSTATUS } from 'src/app/util/enums';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { UserService } from '../../../dashboard/user/user.service';
+import { IULBProfileData } from '../../profile/model/ulb-profile';
 import { UserProfile } from '../../profile/model/user-profile';
 import { ProfileService } from '../../profile/service/profile.service';
 
@@ -37,6 +43,7 @@ export class UserListComponent implements OnInit {
       if (this.loggedInType === USER_TYPE.ULB) {
         return this.fetchULBProfileUpdateRequest();
       }
+      this.initializeAccessChecks();
       this.fetchList(this.listFetchOption);
     });
   }
@@ -79,24 +86,10 @@ export class UserListComponent implements OnInit {
     successMessage: null,
   };
 
-  private fetchULBProfileUpdateRequest() {
-    // this._profileService.getULBProfileUpdateRequestList().subscribe(res => {
-    //   console.log(res);
-    // });
-  }
+  SINGPUP_STATUS = ULBSIGNUPSTATUS;
 
-  private initializeList(type: USER_TYPE) {
-    for (const key in USER_TYPE) {
-      if (USER_TYPE[key] === type) {
-        this.listType = <USER_TYPE>USER_TYPE[key];
-        break;
-      }
-    }
-
-    if (!this.listType) {
-      return this._router.navigate(["/home"]);
-    }
-  }
+  // ACCESS
+  canDeleteUser = false;
 
   ngOnInit() {}
   openUserDeleteConfirmationBox(template: TemplateRef<any>, user: any) {
@@ -108,7 +101,7 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  public searchUsersBy(filterForm: {}) {
+  searchUsersBy(filterForm: {}) {
     this.listFetchOption.filter = filterForm;
 
     this.fetchList({ ...(<any>this.listFetchOption) });
@@ -137,8 +130,19 @@ export class UserListComponent implements OnInit {
     this.searchUsersBy(this.filterForm.value);
   }
 
-  public deleteUser(userId: string) {
+  downloadList() {
+    const params = { ...this.listFetchOption };
+    delete params["skip"];
+
+    const url = this._userService.getURLForUserList(params);
+    return window.open(url);
+  }
+
+  deleteUser(userId: string) {
     this.resetResponseMessages();
+    if (!this.canDeleteUser) {
+      return false;
+    }
     this._profileService.deleteUser({ userId }).subscribe(
       (res) => {
         this._dialog.closeAll();
@@ -146,6 +150,21 @@ export class UserListComponent implements OnInit {
       },
       (err) => (this.respone.errorMessage = err.error.message || "Server Error")
     );
+  }
+
+  showUserRejectReason(user: IULBProfileData, template: TemplateRef<any>) {
+    if (user.status !== this.SINGPUP_STATUS.REJECTED) {
+      return false;
+    }
+    const configuration: IDialogConfiguration = {
+      message: `<h3 class="text-center">Reason for Rejection</h3> <p>Something something.... &#128561; &#128561;</p>`,
+      buttons: { cancel: { text: "Close" } },
+    };
+    this._dialog.open(DialogComponent, {
+      height: "21vh",
+      width: "31vw",
+      data: configuration,
+    });
   }
 
   private fetchList(
@@ -262,16 +281,52 @@ export class UserListComponent implements OnInit {
     }));
   }
 
-  public downloadList() {
-    const params = { ...this.listFetchOption };
-    delete params["skip"];
-
-    const url = this._userService.getURLForUserList(params);
-    return window.open(url);
-  }
-
   private resetResponseMessages() {
     this.respone.errorMessage = null;
     this.respone.successMessage = null;
+  }
+
+  private fetchULBProfileUpdateRequest() {
+    // this._profileService.getULBProfileUpdateRequestList().subscribe(res => {
+    //   console.log(res);
+    // });
+  }
+
+  private initializeList(type: USER_TYPE) {
+    for (const key in USER_TYPE) {
+      if (USER_TYPE[key] === type) {
+        this.listType = <USER_TYPE>USER_TYPE[key];
+        break;
+      }
+    }
+
+    if (!this.listType) {
+      return this._router.navigate(["/home"]);
+    }
+  }
+
+  private initializeAccessChecks() {
+    // let moduleName: MODULES_NAME;
+    // switch (this.listType) {
+    //   case USER_TYPE.MoHUA:
+    //     moduleName = MODULES_NAME.MoHUA;
+    //     break;
+    //   case USER_TYPE.PARTNER:
+    //     moduleName = MODULES_NAME.PARTNER;
+    //     break;
+    //   case USER_TYPE.STATE:
+    //     moduleName = MODULES_NAME.STATE;
+    //     break;
+    //   case USER_TYPE.ULB:
+    //     moduleName = MODULES_NAME.ULB;
+    //     break;
+    //   case USER_TYPE.USER:
+    //     moduleName = MODULES_NAME.USER;
+    //     break;
+    // }
+    this.canDeleteUser = new AccessChecker().hasAccess({
+      action: ACTIONS.DELETE,
+      moduleName: <MODULES_NAME>(<any>this.listType),
+    });
   }
 }

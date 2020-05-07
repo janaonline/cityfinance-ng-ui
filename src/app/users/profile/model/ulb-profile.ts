@@ -1,3 +1,5 @@
+import { ULBSIGNUPSTATUS } from 'src/app/util/enums';
+
 export enum fieldNameWithFileRequirement {
   TYPE = "type",
   NoOfWards = "noOfWards",
@@ -23,7 +25,8 @@ export interface IULBProfileData {
   commissionerConatactNumber: string;
   commissionerEmail: string;
   commissionerName: string;
-  status: ULBSignupSTATUS;
+  status: keyof typeof ULBSIGNUPSTATUS;
+  reasonForReject?: string;
   ulb: Ulb;
 }
 
@@ -42,5 +45,3 @@ export interface State {
   name: string;
   code: string;
 }
-
-export type ULBSignupSTATUS = "APPROVED" | "REJECTED" | "PENDING";
