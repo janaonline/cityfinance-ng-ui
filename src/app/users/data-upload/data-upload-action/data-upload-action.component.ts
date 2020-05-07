@@ -151,7 +151,8 @@ export class DataUploadActionComponent implements OnInit {
       .updateCompletenessStatus(this.id, responseObject)
       .subscribe(result => {
         if (result['success']) {
-          this.router.navigate(['/user/data-upload/list']);
+          this.fetchFinancialDataById();
+          //this.router.navigate(['/user/data-upload/list']);
         }
       }, error => {
         console.log(error);
@@ -170,6 +171,7 @@ export class DataUploadActionComponent implements OnInit {
       .updateCorrectnessStatus(this.id, this.correctnessFormGroup.value)
       .subscribe(result => {
         if (result['success']) {
+
           this.router.navigate(['/user/data-upload/list']);
         }
       }, error => {
