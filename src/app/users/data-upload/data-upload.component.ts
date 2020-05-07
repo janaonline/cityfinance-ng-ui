@@ -411,6 +411,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
             itemName: year.name
           };
         });
+        this.financialYearDropdown = this.financialYearDropdown.filter(year => !['2014-15', '2020-21'].includes(year.itemName));
       }
     });
   }
