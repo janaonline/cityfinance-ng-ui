@@ -48,8 +48,10 @@ export class ProfileService {
   updateULBSingUPStatus(body: {
     _id: string;
     status: IULBProfileData["status"];
-    reason?: string;
+    rejectReason?: string;
   }) {
+    console.log(body);
+
     return this._htttp.put(
       `${environment.api.url}user/ulb-status/${body._id}`,
       body

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { USER_TYPE } from 'src/app/models/user/userType';
@@ -25,7 +25,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   @Input() editable = false;
 
   profile: FormGroup;
-  SignupRejectReason = new FormControl();
+  SignupRejectReason = new FormControl("", [Validators.required]);
   formUtil = new FormUtil();
   jsonUtil = new JSONUtility();
 
@@ -109,9 +109,10 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   updateFormStatus(status: {
     status: IULBProfileData["status"];
     _id: string;
-    reason?: string;
+    rejectReason?: string;
   }) {
     this.resetResponseMessage();
+
     this._profileService.updateULBSingUPStatus(status).subscribe(
       (res) => {
         this.profileData.status = status.status;
