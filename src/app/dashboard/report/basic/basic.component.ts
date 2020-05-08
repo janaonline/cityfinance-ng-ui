@@ -1,7 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
+import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
 
+import { AuthService } from '../../../../app/auth/auth.service';
+import { DialogComponent } from '../../../../app/shared/components/dialog/dialog.component';
+import { IDialogConfiguration } from '../../../../app/shared/components/dialog/models/dialogConfiguration';
+import { GlobalLoaderService } from '../../../../app/shared/services/loaders/global-loader.service';
 import { ExcelService } from '../excel.service';
 import { ReportHelperService } from '../report-helper.service';
 import { ReportService } from '../report.service';
@@ -10,7 +15,7 @@ import { currencryConversionOptions, currencryConversionType, ICurrencryConversi
 @Component({
   selector: "app-basic",
   templateUrl: "./basic.component.html",
-  styleUrls: ["./basic.component.scss"]
+  styleUrls: ["./basic.component.scss"],
 })
 export class BasicComponent implements OnInit, OnDestroy {
   report: any = {};
@@ -32,7 +37,7 @@ export class BasicComponent implements OnInit, OnDestroy {
     badgeShowLimit: 1,
     labelKey: "name",
     showCheckbox: true,
-    classes: "noCrossSymbol"
+    classes: "noCrossSymbol",
   };
 
   currenyConversionForm: FormGroup;
@@ -40,12 +45,28 @@ export class BasicComponent implements OnInit, OnDestroy {
   currencyTypeInUser: currencryConversionType = this.reportService
     .currencryConversionInUse.type;
 
+  defaultDailogConfiuration: IDialogConfiguration = {
+    message: "You need to be Login to download the data.",
+    buttons: {
+      confirm: {
+        text: "Proceed to Login",
+        callback: () => {
+          this.router.navigate(["/", "login"]);
+        },
+      },
+      cancel: { text: "Cancel" },
+    },
+  };
+
   constructor(
     private reportService: ReportService,
     private excelService: ExcelService,
     private reportHelper: ReportHelperService,
     private loaderService: GlobalLoaderService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _dialog: MatDialog,
+    private router: Router,
+    private _authService: AuthService
   ) {
     this.initializeCurrencyConversion();
     this.initializeForm();
@@ -57,17 +78,17 @@ export class BasicComponent implements OnInit, OnDestroy {
 
   private initializeForm() {
     this.currenyConversionForm = this._formBuilder.group({
-      type: [[this.reportService.currencryConversionInUse]]
+      type: [[this.reportService.currencryConversionInUse]],
     });
   }
 
   ngOnInit() {
-    this.reportService.getNewReportRequest().subscribe(reportCriteria => {
+    this.reportService.getNewReportRequest().subscribe((reportCriteria) => {
       this.loaderService.showLoader();
 
       this.reportReq = reportCriteria;
       this.reportService.reportResponse.subscribe(
-        res => {
+        (res) => {
           this.loaderService.showLoader();
 
           if (res && (res as any[]).length > 0) {
@@ -85,7 +106,7 @@ export class BasicComponent implements OnInit, OnDestroy {
           this.loaderService.stopLoader();
           this.setDataNotAvailable();
         },
-        err => {
+        (err) => {
           this.loaderService.stopLoader();
           console.error(err);
         }
@@ -105,7 +126,7 @@ export class BasicComponent implements OnInit, OnDestroy {
   onSelectingConversionType(type: ICurrencryConversion | null) {
     if (!type) {
       this.currenyConversionForm.controls["type"].setValue([
-        this.reportService.currencryConversionInUse
+        this.reportService.currencryConversionInUse,
       ]);
       return;
     }
@@ -114,17 +135,17 @@ export class BasicComponent implements OnInit, OnDestroy {
   }
 
   setDataNotAvailable() {
-    this.years.forEach(year => {
+    this.years.forEach((year) => {
       if (year["caption"] === "%") {
         return;
       }
 
       const canSetDataNotAvaliable = this.reportKeys.every(
-        key => !this.report[key] || !this.report[key][year.title]
+        (key) => !this.report[key] || !this.report[key][year.title]
       );
 
       if (canSetDataNotAvaliable) {
-        this.reportKeys.forEach(key => {
+        this.reportKeys.forEach((key) => {
           const original = { ...this.report[key] };
           original[year.title] = null;
           if (!original["allNullYear"]) {
@@ -163,7 +184,7 @@ export class BasicComponent implements OnInit, OnDestroy {
       this.report[keyCode] = {
         code: result[i].code,
         line_item: result[i].line_item,
-        head_of_account: result[i].head_of_account
+        head_of_account: result[i].head_of_account,
       };
 
       // converting budget array to object key value pair
@@ -263,6 +284,13 @@ export class BasicComponent implements OnInit, OnDestroy {
   }
 
   download() {
+    const isUserLoggedIn = this._authService.loggedIn();
+    if (!isUserLoggedIn) {
+      const dailogboxx = this._dialog.open(DialogComponent, {
+        data: this.defaultDailogConfiuration,
+      });
+      return;
+    }
     const reportTable = document.querySelector("table").outerHTML;
     const title = this.reportReq.type + " " + this.reportReq.reportGroup;
     let currencyConversionName =
@@ -276,7 +304,7 @@ export class BasicComponent implements OnInit, OnDestroy {
         .textContent;
     }
     this.excelService.transformTableToExcelData(title, reportTable, "IE", {
-      currencyConversionName
+      currencyConversionName,
     });
 
     this.reportService.addLogByToken("Income-Expenditure");

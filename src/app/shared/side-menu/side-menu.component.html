@@ -1,0 +1,24 @@
+<div class="side-menu-wrapper">
+  <h4 class="text-center">Menu</h4>
+  <div class="side-menu-content">
+    <mat-list role="option" class="p-0" *ngIf="contents.length">
+      <ng-container *ngFor="let link of contents">
+        <ng-container [ngSwitch]="link.type">
+          <ng-container *ngSwitchCase="'link'">
+            <mat-list-item class="side-menu-item"
+                           [routerLink]="link.route"
+                           routerLinkActive="active">
+              {{link.title}}
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </ng-container>
+          <ng-container *ngSwitchCase="'other'">
+            <div class="bg-black" matSubheader>{{link.title}}</div>
+            <mat-divider></mat-divider>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </mat-list>
+  </div>
+</div>
+

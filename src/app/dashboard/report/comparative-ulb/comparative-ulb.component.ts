@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { IReportType } from 'src/app/models/reportType';
-import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 
+import { IReportType } from '../../../../app/models/reportType';
+import { GlobalLoaderService } from '../../../../app/shared/services/loaders/global-loader.service';
 import { currencryConversionOptions, ICurrencryConversion } from '../basic/conversionTypes';
 import { ExcelService } from '../excel.service';
 import { ReportHelperService } from '../report-helper.service';
@@ -11,7 +11,7 @@ import { ReportService } from '../report.service';
 @Component({
   selector: "app-comparative-ulb",
   templateUrl: "./comparative-ulb.component.html",
-  styleUrls: ["./comparative-ulb.component.scss"]
+  styleUrls: ["./comparative-ulb.component.scss"],
 })
 export class ComparativeUlbComponent implements OnInit {
   report: any = [];
@@ -26,7 +26,7 @@ export class ComparativeUlbComponent implements OnInit {
   reqYear: string;
   headerGroup = {
     yearColspan: 2,
-    accRowspan: 2
+    accRowspan: 2,
   };
 
   currencyConversionList = currencryConversionOptions;
@@ -39,7 +39,7 @@ export class ComparativeUlbComponent implements OnInit {
     badgeShowLimit: 1,
     labelKey: "name",
     showCheckbox: true,
-    classes: "noCrossSymbol"
+    classes: "noCrossSymbol",
   };
 
   currenyConversionForm: FormGroup;
@@ -63,17 +63,17 @@ export class ComparativeUlbComponent implements OnInit {
 
   private initializeForm() {
     this.currenyConversionForm = this._formBuilder.group({
-      type: [[this.reportService.currencryConversionInUse]]
+      type: [[this.reportService.currencryConversionInUse]],
     });
   }
 
   ngOnInit() {
     // this.reportReq = this.reportService.getReportRequest();
-    this.reportService.getNewReportRequest().subscribe(reportCriteria => {
+    this.reportService.getNewReportRequest().subscribe((reportCriteria) => {
       this._loaderService.showLoader();
       this.reportReq = reportCriteria;
       this.reportService.reportResponse.subscribe(
-        res => {
+        (res) => {
           this._loaderService.stopLoader();
           if (res) {
             this.years = [];
@@ -123,7 +123,7 @@ export class ComparativeUlbComponent implements OnInit {
   onSelectingConversionType(type: ICurrencryConversion | null) {
     if (!type) {
       this.currenyConversionForm.controls["type"].setValue([
-        this.reportService.currencryConversionInUse
+        this.reportService.currencryConversionInUse,
       ]);
       return;
     }
@@ -146,7 +146,7 @@ export class ComparativeUlbComponent implements OnInit {
           title: key,
           caption: ulb.name,
           state: ulb.state,
-          isComparative: false
+          isComparative: false,
         });
 
         if (j > 0 && this.reportReq.isComparative) {
@@ -160,7 +160,7 @@ export class ComparativeUlbComponent implements OnInit {
             title: comparativeKey,
             caption: "%",
             state: "Comparision",
-            isComparative: true
+            isComparative: true,
           });
         }
       }
@@ -179,7 +179,7 @@ export class ComparativeUlbComponent implements OnInit {
           title: key,
           caption: ulb2.name,
           state: ulb2.state,
-          isComparative: false
+          isComparative: false,
         });
 
         if (j > 0 && this.reportReq.isComparative) {
@@ -188,7 +188,7 @@ export class ComparativeUlbComponent implements OnInit {
             title: comparativeKey,
             caption: "%",
             state: "Comparision",
-            isComparative: true
+            isComparative: true,
           });
         }
       }
@@ -329,16 +329,16 @@ export class ComparativeUlbComponent implements OnInit {
   }
 
   setDataNotAvailable() {
-    this.years.forEach(year => {
+    this.years.forEach((year) => {
       if (year.caption === "%") {
         return;
       }
 
       const canSetDataNotAvaliable = this.reportKeys.every(
-        key => !this.report[key][year.title]
+        (key) => !this.report[key][year.title]
       );
       if (canSetDataNotAvaliable) {
-        this.reportKeys.forEach(key => {
+        this.reportKeys.forEach((key) => {
           const original = { ...this.report[key] };
           original[year.title] = null;
           if (!original["allNullYear"]) {
@@ -468,7 +468,7 @@ export class ComparativeUlbComponent implements OnInit {
         .textContent;
     }
     this.excelService.transformTableToExcelData(title, reportTable, "IE", {
-      currencyConversionName
+      currencyConversionName,
     });
 
     this.reportService.addLogByToken("Income-Expenditure");

@@ -1,0 +1,221 @@
+<button class="back_button" (click)="window.history.back()">Back</button>
+
+<h3 *ngIf="profileData && profileData.role === USER_TYPE.MoHUA">
+  <span *ngIf="profileForm.enabled">Edit</span>
+  <span *ngIf="!profileForm.enabled">View</span>
+  Profile
+</h3>
+<h3 *ngIf="!profileData">
+  Create MoHUA
+</h3>
+
+<form
+  [formGroup]="profileForm"
+  *ngIf="profileForm"
+  (ngSubmit)="onFormSubmit(profileForm)"
+>
+  <div class="input-group">
+    <label for="name"
+      >User Name
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.name.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="name"
+      type="text"
+      formControlName="name"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': formSubmitted && profileForm.controls.name.errors
+      }"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="email"
+      >Email ID
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.email.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': formSubmitted && profileForm.controls.email.errors
+      }"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="mobile"
+      >Mobile No
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.mobile.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="mobile"
+      type="text"
+      formControlName="mobile"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': formSubmitted && profileForm.controls.mobile.errors
+      }"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="designation"
+      >Designation
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.designation.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="designation"
+      type="text"
+      formControlName="designation"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': formSubmitted && profileForm.controls.designation.errors
+      }"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="departmentName"
+      >Department Name
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.departmentName.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="departmentName"
+      type="text"
+      formControlName="departmentName"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          formSubmitted && profileForm.controls.departmentName.errors
+      }"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="departmentEmail"
+      >Department EmailId
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.departmentEmail.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="departmentEmail"
+      type="email"
+      formControlName="departmentEmail"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          formSubmitted && profileForm.controls.departmentEmail.errors
+      }"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="departmentContactNumber"
+      >Department Contant No
+      <span
+        class="asterik"
+        *ngIf="
+          profileForm.controls.departmentContactNumber.validator({})['required']
+        "
+        >*</span
+      >
+    </label>
+    <input
+      id="departmentContactNumber"
+      type="text"
+      formControlName="departmentContactNumber"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          formSubmitted && profileForm.controls.departmentContactNumber.errors
+      }"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="address"
+      >Address
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.address.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="address"
+      type="text"
+      formControlName="address"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': formSubmitted && profileForm.controls.address.errors
+      }"
+    />
+  </div>
+
+  <p *ngIf="formErrors">
+    <span
+      *ngFor="let error of formErrors; let i = index"
+      style="display: block; color: red;"
+    >
+      {{ i + 1 }}. {{ error }}
+    </span>
+  </p>
+
+  <p *ngIf="respone.errorMessage" class="error-message">
+    {{ respone.errorMessage }}
+  </p>
+  <p *ngIf="respone.successMessage" class="success-message">
+    {{ respone.successMessage }}
+  </p>
+
+  <div
+    class="input-group d-block"
+    *ngIf="profileForm.disabled"
+    style="display: block;"
+  >
+    <button type="button" class="btn btn-primary" (click)="enableProfileEdit()">
+      Edit
+    </button>
+  </div>
+
+  <div *ngIf="profileForm.enabled" class="mt-2" style="display: block;">
+    <button type="submit" class="btn btn-primary mr-2">
+      {{ profileData ? "Update Profile" : "Create" }}
+    </button>
+    <!-- <button
+      *ngIf="profileData"
+      type="button"
+      class="btn btn-primary"
+      (click)="disableProfileEdit()"
+    >
+      Cancel
+    </button> -->
+  </div>
+</form>

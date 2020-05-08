@@ -124,7 +124,7 @@
             <br /><br />
             <a
               style="float: right; text-decoration: underline;"
-              [routerLink]="['/dashboard/data-tracker']"
+              (click)="routerTo('/dashboard/data-tracker')"
               >Download Source Files</a
             >
           </div>
@@ -153,22 +153,34 @@
       <form
         [formGroup]="reportForm"
         class="col-md-4"
-        style="max-width: fit-content;padding: 0; display: inline-flex; align-items: center; margin-right: 12px;"
+        style="
+          max-width: fit-content;
+          padding: 0;
+          display: inline-flex;
+          align-items: center;
+          margin-right: 12px;
+        "
       >
         <mat-slide-toggle
           formControlName="isComparative"
-          style=" display: inline-block;  width: 15%;  margin-right: 3px; padding-left: 1%; min-width: fit-content;"
+          style="
+            display: inline-block;
+            width: 15%;
+            margin-right: 3px;
+            padding-left: 1%;
+            min-width: fit-content;
+          "
           >Comparison Report</mat-slide-toggle
         >
         <i
           class="fa fa-info-circle"
           aria-hidden="true"
-          style="margin-right: 10px; margin-left: 0px; "
+          style="margin-right: 10px; margin-left: 0px;"
           title="Comparison Report"
         ></i>
 
         <angular2-multiselect
-          style="display: inline-block;width: 208px; margin-left: 2%;"
+          style="display: inline-block; width: 208px; margin-left: 2%;"
           formControlName="yearList"
           [data]="yearLookup"
           [settings]="yearsDropdownSettings"
@@ -221,7 +233,7 @@
       <button
         type="button"
         style="margin-left: 1%;"
-        class="close1  btn"
+        class="close1 btn"
         style="background: #f0ad4e; color: white;"
         (click)="resetPopupValues()"
       >
@@ -230,7 +242,7 @@
 
       <button
         class="btn btn-primary"
-        style=" position: absolute; right: 5px;"
+        style="position: absolute; right: 5px;"
         (click)="search()"
       >
         Generate Report
@@ -242,10 +254,10 @@
   </div>
 
   <div class="modal-body">
-    <div *ngIf="!(ulbs && ulbs.data)" style="display: block;  width: 80vw;">
-      <app-pre-loader style="display: block;  width: 100%;"></app-pre-loader>
-      <app-pre-loader style="display: block;  width: 100%;"></app-pre-loader>
-      <app-pre-loader style="display: block;  width: 100%;"></app-pre-loader>
+    <div *ngIf="!(ulbs && ulbs.data)" style="display: block; width: 80vw;">
+      <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+      <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+      <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
     </div>
     <div class="row" *ngIf="ulbs && ulbs.data">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -287,7 +299,7 @@
             <i
               class="fa fa-info-circle"
               aria-hidden="true"
-              style="margin-left: 5px"
+              style="margin-left: 5px;"
               title="Base ULB for Comparison"
             ></i>
           </a>
@@ -321,7 +333,12 @@
 
       <div
         class="col-md-2"
-        style="max-height: 54vh; overflow: auto;padding-right: 0px; max-width: 214px;"
+        style="
+          max-height: 54vh;
+          overflow: auto;
+          padding-right: 0px;
+          max-width: 214px;
+        "
       >
         <ul class="list-unstyled left-nav">
           <li
@@ -444,7 +461,7 @@
                   class="nav nav-tabs"
                   id="myTabContent"
                   role="tablist"
-                  style="max-height: 47vh; overflow: auto"
+                  style="max-height: 47vh; overflow: auto;"
                 >
                   <li
                     *ngFor="
@@ -490,7 +507,7 @@
 
                       <input
                         name="list_name_ulb"
-                        style="margin-left: -20px"
+                        style="margin-left: -20px;"
                         type="radio"
                         [disabled]="!reportForm.value.yearList.length"
                         [checked]="

@@ -15,7 +15,7 @@
   background-size: cover;
   width: 100%;
   position: relative;
-  // margin-top: 69px;
+  margin-top: 69px;
   padding: 15px;
 
   .caption {
@@ -207,6 +207,7 @@
   }
 
   .about-block {
+    min-height: 22rem;
     display: block;
     width: 100%;
     position: relative;

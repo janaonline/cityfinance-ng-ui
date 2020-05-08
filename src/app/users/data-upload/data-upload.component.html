@@ -1,0 +1,369 @@
+<ng-container *ngIf="id; else noId">
+  <div class="row">
+    <div class="col mt-3">
+      <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>
+    </div>
+    <ng-container *ngIf="id==='upload-form';else editForm">
+      <div class="mt-2">
+        <h3>Financial Data Upload</h3>
+      </div>
+      <div [formGroup]="fileFormGroup" class="row mt-4">
+        <div class="col-sm-8">
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="financial_year">Financial Year <span class="text-danger">*</span></label>
+              <angular2-multiselect formControlName="financialYear" id="financial_year" name="financial_year"
+                                    [settings]="financialYearDropdownSettings"
+                                    [data]="financialYearDropdown">
+              </angular2-multiselect>
+              <app-finance-data-upload-input
+                [config]="{formGroup:fileFormGroup,formGroupName:'balanceSheet',title:'Balance Sheet',required:true}"></app-finance-data-upload-input>
+
+            </div>
+
+            <div class="col-sm-6">
+              <label for="audit_status">Status <span class="text-danger">*</span></label>
+              <angular2-multiselect title="Select Year" formControlName="auditStatus" id="audit_status"
+                                    (onSelect)="auditStatusDropdownHandler()"
+                                    (onDeSelect)="auditStatusDropdownHandler()"
+                                    [settings]="auditStatusDropdownSettings"
+                                    [data]="auditStatusDropdown"></angular2-multiselect>
+              <app-finance-data-upload-input
+                [config]="{formGroup:fileFormGroup,formGroupName:'schedulesToBalanceSheet',title:'Schedules to balance sheet',required:false}">
+              </app-finance-data-upload-input>
+            </div>
+          </div>
+
+          <div class="row">
+            <div formGroupName="incomeAndExpenditure" class="col-sm-6">
+              <app-finance-data-upload-input
+                [config]="{formGroup:fileFormGroup,formGroupName:'incomeAndExpenditure',title:'Income and Expenditure ',required:true}">
+              </app-finance-data-upload-input>
+            </div>
+
+            <div formGroupName="schedulesToIncomeAndExpenditure" class="col-sm-6">
+              <app-finance-data-upload-input
+                [config]="{formGroup:fileFormGroup,formGroupName:'schedulesToIncomeAndExpenditure',title:'Schedules to Income and Expenditure',required:false}">
+              </app-finance-data-upload-input>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <app-finance-data-upload-input
+                [config]="{formGroup:fileFormGroup,formGroupName:'trialBalance',title:'Trial Balance',required:true}">
+              </app-finance-data-upload-input>
+            </div>
+
+            <div class="col-sm-6">
+              <app-finance-data-upload-input
+                *ngIf="(fileFormGroup.get('auditStatus').value &&fileFormGroup.get('auditStatus').value[0])&&fileFormGroup.get('auditStatus').value[0].id==true"
+                [config]="{formGroup:fileFormGroup,formGroupName:'auditReport',title:'Audited Report',required:true}">
+              </app-finance-data-upload-input>
+            </div>
+          </div>
+          <div class="row mt-4 mb-4">
+            <div class="col-sm-12">
+              <button #submitButton *ngIf="userUtil.getUserType()!=='STATE'&& uploadId==null"
+                      [disabled]="fileFormGroup.invalid" class="btn btn-primary"
+                      (click)="submitClickHandler(submitButton)">{{fileUpload.uploading ? 'Please Wait..' : 'Submit'}}
+              </button>
+              <div *ngIf="fileUpload.uploading" class="alert alert-success mt-1">Uploading
+                : {{fileUpload.currentUploadedFiles}} out
+                of {{fileUpload.totalFiles}} files
+              </div>
+              <button #updateButton
+                      *ngIf="userUtil.getUserType()!=='STATE' && (uploadId!==null &&  (completenessStatus==='REJECTED'||correctnessStatus ==='REJECTED'))"
+
+                      [disabled]="fileFormGroup.invalid "
+                      class="btn btn-primary"
+                      (click)="updateClickHandler(updateButton)">{{fileUpload.uploading ? 'Please Wait..' : 'Update'}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
+
+
+<ng-template class="" #noId>
+  <div class="common-container">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12" *ngIf="!(userUtil.getUserType()=='ULB' || userUtil.getUserType()=='STATE')">
+          <app-financial-data-chart [financialYears]="financialYearDropdown"></app-financial-data-chart>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h3>
+            <span>
+              ULB Data
+            </span>
+            <button role="menuitem" *ngIf="isAccessible" [routerLink]="['/user/data-upload/upload-form']"
+                    class="btn btn-primary "
+                    style="border-radius: 5px;float: right;margin-right: 6px">
+              Upload Data
+            </button>
+            <button class="btn btn-primary"
+                    style="float: right; margin-right: 6px;"
+                    (click)="downloadList()">
+              Download List
+            </button>
+          </h3>
+        </div>
+      </div>
+      <!--    <div class="col">-->
+      <!--      <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>-->
+      <!--    </div>-->
+
+      <div class="row">
+        <div class="col-sm-12">
+          <table class="table" *ngIf="!loading;else loader">
+            <thead>
+            <tr style="background: #009fe3;color: white">
+              <th class="text-center">S.No.</th>
+              <th [attr.width]="100/(tableHeaders.length)+'%'" [ngClass]="header.id=='action'?'text-center':''"
+                  *ngFor="let header of tableHeaders">
+                <ng-container [ngSwitch]="!!header.click">
+                <span (click)="sortById(header.id)" *ngSwitchCase="true">
+                  {{header.title}} <i class="glyphicon glyphicon-sort"></i></span>
+                  <span *ngSwitchCase="false">{{header.title}}</span>
+                </ng-container>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr [formGroup]="fileFormGroup">
+              <td></td>
+              <td *ngIf="userUtil.getUserType()!='ULB'">
+                <div class="input-group">
+                  <input placeholder="ULB Name" type="text" [formControl]="ulbNameSearchFormControl"
+                         class="form-control">
+                </div>
+              </td>
+              <td *ngIf="userUtil.getUserType()!='ULB'">
+                <div class="input-group">
+                  <input placeholder="ULB Code" type="text" [formControl]="ulbCodeSearchFormControl"
+                         class="form-control">
+                </div>
+              </td>
+              <td>
+                <div class="input-group">
+                  <label for="financialYear"></label>
+                  <select id="financialYear" class="form-control" formControlName="financialYear">
+                    <option value="" selected>All years</option>
+                    <option [value]="option.id"
+                            *ngFor="let option of financialYearDropdown">{{option?.itemName}}</option>
+
+                  </select>
+                </div>
+
+                <!--                  formControlName="financialYear"-->
+                <!--                  [settings]="financialYearDropdownSettings"-->
+                <!--                  [data]="financialYearDropdown"></angular2-multiselect>-->
+              </td>
+              <td>
+                <div class="input-group">
+                  <label for="auditStatus"></label>
+                  <select id="auditStatus" class="form-control" formControlName="auditStatus">
+                    <option value="" selected>All Audit Status</option>
+                    <option [value]="option.id"
+                            *ngFor="let option of auditStatusDropdown">{{option?.itemName}}</option>
+                  </select>
+                </div>
+              </td>
+              <td>
+                <div class="input-group">
+                  <label for="uploadStatus"></label>
+                  <select id="uploadStatus" class="form-control" [formControl]="uploadStatusFormControl">
+                    <option value="" selected>All Status</option>
+                    <option [value]="option.id"
+                            *ngFor="let option of uploadCheckStatusDropDown">{{option?.itemName}}</option>
+                  </select>
+                </div>
+              </td>
+              <td>
+                <button class="btn btn-primary m-auto d-block" (click)="applyFilterClicked()">Search</button>
+              </td>
+            </tr>
+            <ng-container *ngIf="dataUploadList.length;else noData">
+              <tr style="background: 	#e7e7e7 ;border-bottom: 5px solid white" *ngFor="let row of dataUploadList | paginate
+                    : {
+                        id: 'foo',
+                        itemsPerPage: tableDefaultOptions.itemPerPage,
+                        currentPage: tableDefaultOptions.currentPage,
+                        totalItems: tableDefaultOptions.totalCount
+                      };
+                index as i">
+                <td class="text-center">{{i + 1}}</td>
+                <td [ngClass]="header.id=='action'?'text-center':''" *ngFor="let header of tableHeaders">
+                  <ng-container [ngSwitch]="header.id">
+                    <ng-container *ngSwitchCase="'action'">
+                      <ng-container [ngSwitch]="userUtil.getUserType()">
+                        <ng-container *ngSwitchCase="'ULB'">
+                          <a *ngIf="row['status']===uploadStatus.REJECTED"
+                             class="btn btn-primary"
+                             (click)="navigateTo(row)" title="Edit"
+                             [routerLink]="['/user/data-upload/upload-form',row?._id]">Take {{header.title}}
+                          </a>
+                          <a *ngIf="row['status']!==uploadStatus.REJECTED"
+                             (click)="navigateTo(row)" title="View"
+                             [routerLink]="['/user/data-upload/upload-form',row?._id]">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                          </a>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'STATE'">
+                          <a (click)="navigateTo(row)" title="View"
+                             [routerLink]="['/user/data-upload/upload-form',row?._id]">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                          </a>
+                        </ng-container>
+
+                        <ng-container *ngSwitchDefault>
+                          <a [routerLink]="['/user/data-upload/action',row?._id]"
+                             (click)="navigateTo(row)">
+                            <i *ngIf="row['status']!==uploadStatus.PENDING" class="fa fa-eye"></i>
+                          </a>
+                          <a *ngIf="row['status']===uploadStatus.PENDING"
+                             [routerLink]="['/user/data-upload/action',row?._id]"
+                             (click)="navigateTo(row)"
+                             class="btn btn-primary">Take {{header.title}}</a>
+                        </ng-container>
+                      </ng-container>
+                    </ng-container>
+                    <span *ngSwitchCase="'audited'">
+                      {{row[header.id] ? 'Audited' : 'Unaudited'}}
+                    </span>
+                    <span *ngSwitchCase="'ulbName'">{{row[header.id]}}</span>
+                    <ng-container *ngSwitchCase="'status'">
+                      <ng-container [ngSwitch]="row['status']">
+                        <a *ngSwitchCase="uploadStatus.PENDING" (click)="openModal(row,historyModal)">
+                          {{row['completeness'] == uploadStatus.PENDING && row['correctness'] == uploadStatus.PENDING ? 'Requested By ULB' : 'Under Review'}}
+                        </a>
+                        <a *ngSwitchCase="uploadStatus.APPROVED" (click)="openModal(row,historyModal)">
+                          Approved By :{{ row['actionTakenByUserName']}}
+                          ({{row['actionTakenByUserRole']}})
+                        </a>
+                        <a *ngSwitchCase="uploadStatus.REJECTED" (click)="openModal(row,historyModal)">
+                          Rejected By :{{ row['actionTakenByUserName']}}
+                          ({{row['actionTakenByUserRole']}})
+                        </a>
+                      </ng-container>
+                    </ng-container>
+                    <!--
+                                      <a (click)="openModal(row,historyModal)" *ngSwitchCase="'ad'">{{
+                                        row['status'] === 'APPROVED' ?
+                                          'Approved By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
+                                          : row['completeness'] === 'REJECTED' || row['correctness'] === 'REJECTED' ? 'Rejected By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
+                                          : 'Requested By ULB'}}</a>-->
+                    <span *ngSwitchDefault>{{row[header.id]}}</span>
+                  </ng-container>
+              </tr>
+            </ng-container>
+            <ng-template #noData>
+              <tr>
+                <td class="text-center" [attr.colspan]="tableHeaders.length+1">
+                  <h3>
+                    No Data Available
+                  </h3>
+                </td>
+              </tr>
+            </ng-template>
+            </tbody>
+          </table>
+          <pagination-controls
+            style="float: right; position: relative;"
+            id="foo"
+            (pageChange)="setPage($event)"
+            directionLinks="true"
+            autoHide="true"
+            previousLabel="Previous"
+            nextLabel="Next"
+            screenReaderPaginationLabel="Pagination"
+            screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page"
+          >
+          </pagination-controls>
+          <ng-template #loader>
+            <div class="d-flex w-100 justify-content-center align-items-center " style="height: 70vh">
+              <mat-spinner></mat-spinner>
+            </div>
+          </ng-template>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #historyModal>
+  <div class="modal-body">
+    <div style="margin-bottom: .5rem; display: flex;justify-content: flex-end">
+      <button
+        style="min-width: min-content;"
+        (click)="modalService.hide(1)"
+        class="btn btn-danger"
+        title="Close"
+        type="button"
+        data-dismiss="modal"
+        aria-label="Close"
+      ><i class="fa fa-times" style="color:white"></i>
+      </button>
+    </div>
+    <div class="modal-title">
+      <h3>Tracking</h3>
+    </div>
+    <div *ngIf="modalTableData.length; else noData" class="table-responsive border-1"
+         style="max-height: 50vh ; overflow-y: auto">
+      <table class="table ">
+        <thead>
+        <tr>
+          <th style="position: sticky;top: 0;background: white" class=" text-center "></th>
+          <th style="position: sticky;top: 0;background: white" class="  text-center ">Sr. No</th>
+          <th style="position: sticky;top: 0;background: white" class="text-center ">Action</th>
+          <th style="position: sticky;top: 0;;background: white" class="text-center ">Data</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of modalTableData;let i=index">
+          <td class="text-center">
+            <i *ngIf="row['status']==uploadStatus.APPROVED" class="fa fa-check-circle text-success"></i>
+          </td>
+          <td class="text-center">{{i + 1}}</td>
+          <ng-container [ngSwitch]="row['status']">
+            <td class="text-center" *ngSwitchCase="uploadStatus.PENDING">
+              {{row['completeness'] == uploadStatus.PENDING && row['correctness'] == uploadStatus.PENDING ? 'Requested By ULB' : 'Under Review'}}
+            </td>
+            <td class="text-center" *ngSwitchCase="uploadStatus.APPROVED">Approved By :{{ row['actionTakenByUserName']}}
+              ({{row['actionTakenByUserRole']}})
+            </td>
+            <td class="text-center" *ngSwitchCase="uploadStatus.REJECTED">Rejected By :{{ row['actionTakenByUserName']}}
+              ({{row['actionTakenByUserRole']}})
+            </td>
+            <!--            <td class="text-center">{{
+                          (row['completeness'] == uploadStatus.PENDING ||
+                            row['correctness'] == uploadStatus.PENDING ? 'Requested BY ULB' :
+                              (row['completeness'] == uploadStatus.REJECTED ||
+                                row['correctness'] == uploadStatus.REJECTED) ?
+                                'REjected By :' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
+                                : 'APPROVED By :' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
+                          )}}</td>-->
+          </ng-container>
+          <td class="text-center">{{row['modifiedAt'] | date : 'medium'}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <ng-template #noData>
+    <div class="row">
+      <div class="col-sm-12">
+        <h4 class="text-center">Nothing to show</h4>
+      </div>
+    </div>
+  </ng-template>
+</ng-template>

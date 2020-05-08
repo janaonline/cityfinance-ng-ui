@@ -1,11 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { a } from '@angular/core/src/render3';
 import { Observable, of, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 import { NewULBStructure, NewULBStructureResponse } from 'src/app/models/newULBStructure';
 import { ULBsStatistics } from 'src/app/models/statistics/ulbsStatistics';
 import { IULB } from 'src/app/models/ulb';
+import { HttpUtility } from 'src/app/util/httpUtil';
 
 import { IStateULBCoveredResponse } from '../models/stateUlbConvered';
 import { IULBWithPopulationResponse } from '../models/ulbsForMapResponse';
@@ -17,6 +19,7 @@ import { environment } from './../../../environments/environment';
 export class CommonService {
   private stateArr = [];
   public states: Subject<any> = new Subject<any>();
+  private httpUtil = new HttpUtility();
 
   private NewULBStructureResponseCache: {
     [datesAsString: string]: IULBResponse;
@@ -30,18 +33,44 @@ export class CommonService {
     if (this.stateArr.length > 0 && !doLoadFromServer) {
       this.states.next(this.stateArr);
     }
-    this.http
-      .get(environment.api.url + "/state")
-      .subscribe(res => {
-        this.stateArr = res["data"];
-        this.states.next(this.stateArr);
-      });
+    this.http.get(environment.api.url + "/state").subscribe(res => {
+      this.stateArr = res["data"];
+      this.states.next(this.stateArr);
+    });
+  }
+
+  public verifyULBCodeAndName(body: { name: string; code: string }) {
+    if (!body.name.trim() || !body.code.trim()) {
+      return of({ isValid: false, ulb: null });
+    }
+
+    return this.getULBByCode(body.code).pipe(
+      map(res => res["data"]),
+      switchMap(data => {
+        let isValid = true;
+        if (!data || data["code"] !== body.code || data["name"] !== body.name) {
+          isValid = false;
+        }
+
+        return of({ isValid, ulb: data });
+      })
+    );
+
+    //
+    // return of(false);
+  }
+
+  getULBByCode(code: string) {
+    return this.http.get(`${environment.api.url}ulb-by-code?code=${code}`);
+  }
+
+  getULBByStateCode(stateID: string) {
+    const params = this.httpUtil.convertToHttpParams({ state: stateID });
+    return this.http.get(`${environment.api.url}ulb`, { params });
   }
 
   getAllUlbs() {
-    return this.http.get<IULBResponse>(
-      environment.api.url + "ulbs"
-    );
+    return this.http.get<IULBResponse>(environment.api.url + "ulbs");
   }
 
   // since ULB is based on state, query will happen on demand
@@ -223,10 +252,7 @@ export class CommonService {
 
   getULBSWithPopulationAndCoordinates(body?: { year: string[] }) {
     return this.http
-      .post<IULBWithPopulationResponse>(
-        `${environment.api.url}/ulb-list`,
-        body
-      )
+      .post<IULBWithPopulationResponse>(`${environment.api.url}/ulb-list`, body)
       .pipe(
         map(res => {
           res.data = res.data.sort((ulbA, ulbB) =>
@@ -247,5 +273,12 @@ export class CommonService {
       });
     }
     return params;
+  }
+
+  getUniqueArrayByKey(array = [], key) {
+    if (!Array.isArray(array)) {
+      return [];
+    }
+    return Array.from(new Set(array.map(item => item[key])));
   }
 }

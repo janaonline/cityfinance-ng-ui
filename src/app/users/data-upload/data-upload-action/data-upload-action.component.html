@@ -1,0 +1,288 @@
+<ng-container>
+  <div class="col mt-3">
+    <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>
+  </div>
+  <div class="mt-2">
+    <h3>Financial Data Upload</h3>
+  </div>
+  <mat-tab-group dynamicHeight="false"
+                 [selectedIndex]="tabIndex"
+                 class="mt-1"
+                 animationDuration="100ms">
+    <mat-tab *ngIf="financeDataService.selectedFinancialRequest" label="Stage 1 : Completeness">
+      <ng-template matTabContent>
+        <ng-container *ngTemplateOutlet="dropDownContainer"></ng-container>
+        <ng-container>
+          <form [formGroup]="completenessFormGroup" class="col-sm-12">
+            <div id="completeness" class="mt-4">
+              <h3>
+                State 1 : Completeness
+              </h3>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4>Balance Sheet</h4>
+                  </div>
+                  <app-file-status-checker-input (fileButtonClicked)="fileButtonClickHandler($event)"
+                                                 [config]="{
+                                                     formGroup:completenessFormGroup,
+                                                     formGroupName:'balanceSheet',
+                                                     status:'completeness',
+                                                     messageFormControlKey:'message'
+                                                     }"></app-file-status-checker-input>
+
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4>Schedules Balance Sheet</h4>
+                  </div>
+                  <app-file-status-checker-input (fileButtonClicked)="fileButtonClickHandler($event)"
+                                                 [config]="{
+                                                     formGroup:completenessFormGroup,
+                                                     formGroupName:'schedulesToBalanceSheet',
+                                                     status:'completeness',
+                                                     messageFormControlKey:'message'
+                                                     }"></app-file-status-checker-input>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4>Income and Expenditure</h4>
+                  </div>
+                  <app-file-status-checker-input (fileButtonClicked)="fileButtonClickHandler($event)"
+                                                 [config]="{
+                                                     formGroup:completenessFormGroup,
+                                                     formGroupName:'incomeAndExpenditure',
+                                                     status:'completeness',
+                                                     messageFormControlKey:'message'
+                                                     }">
+                  </app-file-status-checker-input>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4>Schedules to Income and Expenditure</h4>
+                  </div>
+                  <app-file-status-checker-input (fileButtonClicked)="fileButtonClickHandler($event)"
+                                                 [config]="{
+                                                     formGroup:completenessFormGroup,
+                                                     formGroupName:'schedulesToIncomeAndExpenditure',
+                                                     status:'completeness',
+                                                     messageFormControlKey:'message'
+                                                     }">
+                  </app-file-status-checker-input>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4>Trial Balance</h4>
+                  </div>
+
+                  <app-file-status-checker-input (fileButtonClicked)="fileButtonClickHandler($event)"
+                                                 [config]="{
+                                                     formGroup:completenessFormGroup,
+                                                     formGroupName:'trialBalance',
+                                                     status:'completeness',
+                                                     messageFormControlKey:'message'
+                                                     }">
+                  </app-file-status-checker-input>
+
+                </div>
+              </div>
+              <div class="col-sm-6" *ngIf="financeDataService?.selectedFinancialRequest?.audited">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4>Audit Report</h4>
+                  </div>
+                  <app-file-status-checker-input
+                    (fileButtonClicked)="fileButtonClickHandler($event)"
+                    [config]="{
+                                                     formGroup:completenessFormGroup,
+                                                      formGroupName:'auditReport',
+                                                     status:'completeness',
+                                                     messageFormControlKey:'message'
+                                                     }">
+                  </app-file-status-checker-input>
+                </div>
+              </div>
+            </div>
+
+            <div class="row  mt-3 mb-4">
+              <div class="col-sm-12">
+                <button [disabled]="completenessFormGroup.invalid || completenessStatus!=='PENDING'"
+                        (click)="completenessClickedHandler()"
+                        class="btn btn-primary">Submit
+                </button>
+              </div>
+            </div>
+          </form>
+        </ng-container>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab *ngIf="financeDataService.selectedFinancialRequest" [disabled]="this.completenessStatus!=='APPROVED'"
+             label="Stage 2: Correctness">
+      <ng-template matTabContent>
+        <ng-container *ngTemplateOutlet="dropDownContainer"></ng-container>
+        <ng-container>
+          <form [formGroup]="correctnessFormGroup" class="col-sm-12">
+            <div id="correctness" class="mt-4">
+              <h3>
+                Stage 2: Correctness
+              </h3>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4>Balance Sheet</h4>
+                  </div>
+                  <app-file-status-checker-input (fileButtonClicked)="fileButtonClickHandler($event)"
+                                                 [config]="{
+                                                     formGroup:correctnessFormGroup,
+                                                     formGroupName:'balanceSheet',
+                                                     status:'correctness',
+                                                     messageFormControlKey:'message'
+                                                     }">
+
+                  </app-file-status-checker-input>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4>Schedules Balance Sheet</h4>
+                  </div>
+                  <app-file-status-checker-input (fileButtonClicked)="fileButtonClickHandler($event)"
+                                                 [config]="{
+                                                     formGroup:correctnessFormGroup,
+                                                     formGroupName:'schedulesToBalanceSheet',
+                                                     status:'correctness',
+                                                     messageFormControlKey:'message'
+                                                     }">
+                  </app-file-status-checker-input>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4>Income and Expenditure</h4>
+                  </div>
+                  <app-file-status-checker-input (fileButtonClicked)="fileButtonClickHandler($event)"
+                                                 [config]="{
+                                                     formGroup:correctnessFormGroup,
+                                                     formGroupName:'incomeAndExpenditure',
+                                                     status:'correctness',
+                                                     messageFormControlKey:'message'
+                                                     }">
+                  </app-file-status-checker-input>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4>Schedules to Income and Expenditure</h4>
+                  </div>
+                  <app-file-status-checker-input (fileButtonClicked)="fileButtonClickHandler($event)"
+                                                 [config]="{
+                                                     formGroup:correctnessFormGroup,
+                                                     formGroupName:'schedulesToIncomeAndExpenditure',
+                                                     status:'correctness',
+                                                     messageFormControlKey:'message'
+                                                     }">
+                  </app-file-status-checker-input>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4>Trial Balance</h4>
+                  </div>
+                  <app-file-status-checker-input (fileButtonClicked)="fileButtonClickHandler($event)"
+                                                 [config]="{
+                                                     formGroup:correctnessFormGroup,
+                                                     formGroupName:'trialBalance',
+                                                     status:'correctness',
+                                                     messageFormControlKey:'message'
+                                                     }">
+                  </app-file-status-checker-input>
+                </div>
+              </div>
+              <div class="col-sm-6" *ngIf="financeDataService?.selectedFinancialRequest?.audited">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4>Audit Report</h4>
+                  </div>
+                  <app-file-status-checker-input (fileButtonClicked)="fileButtonClickHandler($event)"
+                                                 [config]="{
+                                                     formGroup:correctnessFormGroup,
+                                                     formGroupName:'auditReport',
+                                                     status:'correctness',
+                                                     messageFormControlKey:'message'
+                                                     }">
+                  </app-file-status-checker-input>
+                </div>
+              </div>
+            </div>
+            <div class="row  mt-3 mb-4">
+              <div class="col-sm-12">
+                <button [disabled]="correctnessFormGroup.invalid || correctnessStatus!=='PENDING'"
+                        (click)="correctnessSubmitHandler()" class="btn btn-primary">Submit
+                </button>
+              </div>
+            </div>
+          </form>
+        </ng-container>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</ng-container>
+
+<ng-container></ng-container>
+<ng-template #dropDownContainer>
+  <div class="col-sm-12 mt-4">
+    <div class="row">
+      <div class="col-sm-3 mr-2">
+        <label for="financial_year">Financial Year <span class="text-danger">*</span></label>
+        <angular2-multiselect [formControl]="financialYear" id="financial_year" name="financial_year"
+                              [settings]="{singleSelection:true,text:'Select Year', disabled:true}"
+                              [data]="financialYearDropdown">
+        </angular2-multiselect>
+      </div>
+      <div class="col-sm-3 mr-2">
+        <label for="audit_status">Status <span class="text-danger">*</span></label>
+        <angular2-multiselect title="Select Year" id="audit_status"
+                              [formControl]="audited"
+                              [settings]="{singleSelection:true,text:'Select Audit Status',disabled:true}"
+                              [data]="auditStatusDropdown">
+        </angular2-multiselect>
+      </div>
+    </div>
+  </div>
+</ng-template>

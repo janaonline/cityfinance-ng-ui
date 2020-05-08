@@ -1,15 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { IDetailedReportResponse } from 'src/app/models/detailedReport/detailedReportResponse';
-import { ISummaryReport } from 'src/app/models/summaryReport/summaryReport';
 
+import { IDetailedReportResponse } from '../../../app/models/detailedReport/detailedReportResponse';
+import { ISummaryReport } from '../../../app/models/summaryReport/summaryReport';
 import { environment } from '../../../environments/environment';
 import { IReportType } from '../../models/reportType';
 import { currencryConversionOptions, ICurrencryConversion } from './basic/conversionTypes';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class ReportService {
   public reportResponse: BehaviorSubject<
@@ -44,7 +44,7 @@ export class ReportService {
         environment.api.url + "ledger/getIE",
         criteria
       )
-      .subscribe(res => {
+      .subscribe((res) => {
         if (res["success"]) {
           if (res["data2"]) {
             this.reportResponse.next(res);
@@ -62,7 +62,7 @@ export class ReportService {
 
     this.http
       .post<ISummaryReport>(environment.api.url + "ledger/getBS", criteria)
-      .subscribe(res => {
+      .subscribe((res) => {
         if (res["success"]) {
           if (res["data2"]) {
             localStorage.setItem("ulbData2", JSON.stringify(res["data2"]));
@@ -79,7 +79,7 @@ export class ReportService {
 
     this.http
       .post(environment.api.url + "ledger/getAggregate", criteria)
-      .subscribe(res => {
+      .subscribe((res) => {
         if (res["success"]) {
           if (res["data2"]) {
             localStorage.setItem("ulbData2", JSON.stringify(res["data2"]));
@@ -94,7 +94,7 @@ export class ReportService {
   addLogByToken(page) {
     this.http
       .post(environment.api.url + "download-log", { particular: page })
-      .subscribe(res => {
+      .subscribe((res) => {
         if (res["success"]) {
           console.log("logged successfully");
         } else {
@@ -113,7 +113,7 @@ export class ReportService {
       itemsShowLimit: 1,
       limitSelection: 1,
       allowSearchFilter: true,
-      groupBy: "state"
+      groupBy: "state",
     };
   }
 
@@ -130,7 +130,7 @@ export class ReportService {
       enableSearchFilter: false,
       limitSelection: 4,
       badgeShowLimit: 1,
-      classes: "myclass custom-class"
+      classes: "myclass custom-class",
     };
   }
 
@@ -141,35 +141,35 @@ export class ReportService {
         title: "Non-Tax Revenue",
         minVal: 120,
         maxVal: 150,
-        equals: 0
+        equals: 0,
       },
       "170-180": {
         index: -1,
         title: "Other Income",
         minVal: 170,
         maxVal: 180,
-        equals: 0
+        equals: 0,
       },
       "250, 270-290": {
         index: -1,
         title: "Other Expenses",
         minVal: 270,
         maxVal: 290,
-        equals: 250
+        equals: 250,
       },
 
       "310-312": {
         index: -1,
         title: "Reserves & Surplus",
         minVal: 310,
-        maxVal: 312
+        maxVal: 312,
       },
       "330-331": { index: -1, title: "Loans", minVal: 330, maxVal: 331 },
       "340-360": {
         index: -1,
         title: "Current Liabilities and Provisions",
         minVal: 340,
-        maxVal: 360
+        maxVal: 360,
       },
       "410-412": { index: -1, title: "Fixed Assets", minVal: 410, maxVal: 412 },
       "420-421": { index: -1, title: "Investments", minVal: 420, maxVal: 421 },
@@ -177,9 +177,9 @@ export class ReportService {
         index: -1,
         title: "Current Assets, Loans and Advances",
         minVal: 430,
-        maxVal: 461
+        maxVal: 461,
       },
-      "470-480": { index: -1, title: "Other Assets", minVal: 470, maxVal: 480 }
+      "470-480": { index: -1, title: "Other Assets", minVal: 470, maxVal: 480 },
     };
   }
 }

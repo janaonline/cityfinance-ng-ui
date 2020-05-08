@@ -1,0 +1,31 @@
+a.btn-primary {
+  text-decoration: none;
+}
+
+.container {
+  width: 95%;
+  max-width: 100vw;
+}
+
+.actionCell {
+  i {
+    margin-right: 6%;
+  }
+}
+
+.form-control {
+  border-radius: 4px;
+}
+
+.sortable-headers > th {
+  cursor: pointer;
+}
+
+table .input-group {
+  width: 88%;
+
+  input,
+  select {
+    border-radius: 5px;
+  }
+}

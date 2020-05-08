@@ -1,0 +1,41 @@
+<div class="profile_wrapper">
+  <!-- Since ULB and User cannot be created by anyone from within the platform, 
+  therefore we dont need to check for their creation mode. -->
+
+  <app-user-profile
+    *ngIf="profileData && profileData.role === USER_TYPE.USER"
+    [profileData]="profileData"
+  ></app-user-profile>
+  <app-ulb-profile
+    *ngIf="profileData && profileData.role === USER_TYPE.ULB"
+    [profileData]="profileData"
+    [editable]="editable"
+  ></app-ulb-profile>
+
+  <app-state-profile
+    *ngIf="
+      (profileMode === 'create' && profileType === USER_TYPE.STATE) ||
+      (profileData && profileData.role === USER_TYPE.STATE)
+    "
+    [profileData]="profileData"
+    [editable]="editable"
+  ></app-state-profile>
+
+  <app-common-profile
+    *ngIf="
+      (profileMode === 'create' && profileType === USER_TYPE.PARTNER) ||
+      (profileData && profileData.role === USER_TYPE.PARTNER)
+    "
+    [profileData]="profileData"
+    [editable]="editable"
+  ></app-common-profile>
+
+  <app-mohua-profile
+    *ngIf="
+      (profileMode === 'create' && profileType === USER_TYPE.MoHUA) ||
+      (profileData && profileData.role === USER_TYPE.MoHUA)
+    "
+    [profileData]="profileData"
+    [editable]="editable"
+  ></app-mohua-profile>
+</div>

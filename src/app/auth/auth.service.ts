@@ -25,7 +25,11 @@ export class AuthService {
   }
 
   signup(newUser) {
-    return this.http.post(environment.api.url + "users/signup", newUser);
+    return this.http.post(environment.api.url + "register", newUser);
+  }
+
+  decodeToken() {
+    return this.helper.decodeToken(this.getToken());
   }
 
   getToken() {
