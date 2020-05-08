@@ -354,8 +354,8 @@
         (click)="
           updateFormStatus({
             status: 'REJECTED',
-            id: profileData._id,
-            reason: SignupRejectReason.value
+            _id: profileData._id,
+            rejectReason: SignupRejectReason.value
           }) || SignupRejectReason.setValue(null)
         "
         style="margin-right: 2%;"

@@ -1,11 +1,12 @@
 <button class="back_button" (click)="window.history.back()">Back</button>
 
-<h3>
-  {{
-    profileData && profileData.role === USER_TYPE.MoHUA
-      ? "Edit Profile"
-      : "Create MoHUA"
-  }}
+<h3 *ngIf="profileData && profileData.role === USER_TYPE.MoHUA">
+  <span *ngIf="profileForm.enabled">Edit</span>
+  <span *ngIf="!profileForm.enabled">View</span>
+  Profile
+</h3>
+<h3 *ngIf="!profileData">
+  Create MoHUA
 </h3>
 
 <form
@@ -181,7 +182,7 @@
   <p *ngIf="formErrors">
     <span
       *ngFor="let error of formErrors; let i = index"
-      style="display: block; color: red"
+      style="display: block; color: red;"
     >
       {{ i + 1 }}. {{ error }}
     </span>
@@ -195,7 +196,7 @@
   </p>
 
   <div
-    class="input-group  d-block"
+    class="input-group d-block"
     *ngIf="profileForm.disabled"
     style="display: block;"
   >

@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserProfile } from 'src/app/users/profile/model/user-profile';
 
 import { ACTIONS } from '../../../../app/util/access/actions';
 import { MODULES_NAME } from '../../../../app/util/access/modules';
 import { AuthService } from '../../../auth/auth.service';
 import { USER_TYPE } from '../../../models/user/userType';
 import { AccessChecker } from '../../../util/access/accessChecker';
-
-interface User {
-  _id?: string;
-}
 
 @Component({
   selector: "app-home-header",
@@ -20,7 +17,7 @@ export class HomeHeaderComponent implements OnInit {
   isProduction: boolean;
 
   isLoggedIn = false;
-  user: User = null;
+  user: UserProfile = null;
 
   canViewUploadData = false;
   canViewULBSingUpListing = false;
