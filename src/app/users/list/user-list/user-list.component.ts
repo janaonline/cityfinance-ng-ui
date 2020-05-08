@@ -90,6 +90,7 @@ export class UserListComponent implements OnInit {
 
   // ACCESS
   canDeleteUser = false;
+  canEditProfile = false;
 
   ngOnInit() {}
   openUserDeleteConfirmationBox(template: TemplateRef<any>, user: any) {
@@ -306,26 +307,14 @@ export class UserListComponent implements OnInit {
   }
 
   private initializeAccessChecks() {
-    // let moduleName: MODULES_NAME;
-    // switch (this.listType) {
-    //   case USER_TYPE.MoHUA:
-    //     moduleName = MODULES_NAME.MoHUA;
-    //     break;
-    //   case USER_TYPE.PARTNER:
-    //     moduleName = MODULES_NAME.PARTNER;
-    //     break;
-    //   case USER_TYPE.STATE:
-    //     moduleName = MODULES_NAME.STATE;
-    //     break;
-    //   case USER_TYPE.ULB:
-    //     moduleName = MODULES_NAME.ULB;
-    //     break;
-    //   case USER_TYPE.USER:
-    //     moduleName = MODULES_NAME.USER;
-    //     break;
-    // }
-    this.canDeleteUser = new AccessChecker().hasAccess({
+    const accessChecker = new AccessChecker();
+    this.canDeleteUser = accessChecker.hasAccess({
       action: ACTIONS.DELETE,
+      moduleName: <MODULES_NAME>(<any>this.listType),
+    });
+
+    this.canEditProfile = accessChecker.hasAccess({
+      action: ACTIONS.EDIT,
       moduleName: <MODULES_NAME>(<any>this.listType),
     });
   }

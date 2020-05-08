@@ -116,7 +116,7 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
   [MODULES_NAME.SELF_PROFILE]: {
     name: MODULES_NAME.SELF_PROFILE,
     access: {
-      [ACTIONS.EDIT]: [USER_TYPE.USER, USER_TYPE.ULB],
+      [ACTIONS.EDIT]: [USER_TYPE.USER, USER_TYPE.ULB, USER_TYPE.STATE],
     },
   },
 

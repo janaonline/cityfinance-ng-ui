@@ -65,6 +65,8 @@ export class ProfileComponent implements OnInit {
 
   fetchProfileData(params: {}) {
     this._profileService.getUserProfile(params).subscribe((res) => {
+      console.log(res, this.userType);
+
       this.profileData = res["data"];
 
       this.userType = res["data"].role;

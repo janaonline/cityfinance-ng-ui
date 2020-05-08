@@ -341,7 +341,9 @@
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
                 <a
-                  *ngIf="ulb.status === SINGPUP_STATUS.APPROVED"
+                  *ngIf="
+                    ulb.status === SINGPUP_STATUS.APPROVED && canEditProfile
+                  "
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: ulb._id, role: 'ULB', edit: true }"
                 >

@@ -12,7 +12,7 @@
   ></app-ulb-profile>
 
   <app-state-profile
-    *ngIf="profileType === USER_TYPE.STATE"
+    *ngIf="profileData && profileData.role === USER_TYPE.STATE"
     [profileData]="profileData"
     [editable]="editable"
   ></app-state-profile>
