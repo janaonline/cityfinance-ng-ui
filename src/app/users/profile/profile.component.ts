@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { USER_TYPE } from '../../models/user/userType';
+import { IBaseProfileData } from './model/base-profile';
 import { ProfileService } from './service/profile.service';
 
+interface IQueryParamOption {
+  role: USER_TYPE;
+  id?: string;
+  edit: "true" | "false";
+}
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.component.html",
@@ -12,52 +17,28 @@ import { ProfileService } from './service/profile.service';
 })
 export class ProfileComponent implements OnInit {
   USER_TYPE = USER_TYPE;
-  userType: USER_TYPE;
+  // userType: USER_TYPE;
 
-  profileData = null;
-  showProfileComponent = false;
+  profileData: IBaseProfileData = null;
+  // showProfileComponent = false;
   profileType: USER_TYPE;
 
   profileMode: "view" | "create";
-  listFetchOption = {
-    filter: null,
-    sort: null,
-    skip: 0,
-  };
-
-  filterForm: FormGroup;
 
   editable = false;
 
   constructor(
     private _profileService: ProfileService,
-    private _activatedRoute: ActivatedRoute,
-    private _fb: FormBuilder
+    private _activatedRoute: ActivatedRoute
   ) {
     this._activatedRoute.params.subscribe((params) => {
-      this.initializeFilterForm();
       this.profileMode = params.type;
-      this.setFormView();
+      // this.setFormView();
 
-      this._activatedRoute.queryParams.subscribe((queryParams) => {
-        const param = { _id: null, role: null };
-
-        this.profileType = queryParams.role;
-        this.editable = queryParams.edit === "true" ? true : false;
-
-        if (this.profileMode === "create") {
-          if (!queryParams || !queryParams.role) {
-            return;
-          }
-        }
-
-        if (queryParams && queryParams.id && queryParams.role) {
-          param._id = queryParams.id;
-          param.role = queryParams.role;
-        }
-        this.initializeListFetchParams();
-        this.fetchProfileData(param);
-      });
+      this._activatedRoute.queryParams.subscribe(
+        (queryParams: IQueryParamOption) =>
+          this.onGettingQueryParams(queryParams)
+      );
     });
   }
 
@@ -65,29 +46,44 @@ export class ProfileComponent implements OnInit {
 
   fetchProfileData(params: {}) {
     this._profileService.getUserProfile(params).subscribe((res) => {
-      console.log(res, this.userType);
-
       this.profileData = res["data"];
-
-      this.userType = res["data"].role;
     });
   }
 
-  private setFormView() {
-    this.userType = this._profileService.getLoggedInUserType();
+  // private setFormView() {
+  //   this.userType = this._profileService.getLoggedInUserType();
+  // }
+
+  private onGettingQueryParams(queryParams: IQueryParamOption) {
+    this.profileType = queryParams.role;
+    this.editable = queryParams.edit === "true" ? true : false;
+
+    if (this.profileMode === "create") {
+      this.validateRoleCreationParameters(queryParams);
+      return;
+    }
+    const param = this.createQueryParamsForDataFetch(queryParams);
+    this.fetchProfileData(param);
   }
 
-  private initializeFilterForm() {
-    this.filterForm = this._fb.group({
-      status: [null],
-    });
+  private createQueryParamsForDataFetch(queryParams: IQueryParamOption) {
+    const param = { _id: null, role: null };
+
+    if (queryParams && queryParams.id && queryParams.role) {
+      param._id = queryParams.id;
+      param.role = queryParams.role;
+    }
+    return param;
   }
 
-  private initializeListFetchParams() {
-    this.listFetchOption = {
-      filter: this.filterForm ? this.filterForm.value : {},
-      sort: null,
-      skip: 0,
-    };
+  /**
+   * @description Validate if all the required paramaters are available or not for
+   * creating a role. If not, then return to previous page;
+   */
+  private validateRoleCreationParameters(queryParams: IQueryParamOption) {
+    if (!queryParams || !queryParams.role) {
+      console.error(`No role defined for creation.`);
+      window.history.back();
+    }
   }
 }

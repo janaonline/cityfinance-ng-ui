@@ -27,9 +27,9 @@ export interface IULBProfileData extends IBaseProfileData {
   commissionerEmail: string;
   commissionerName: string;
   status: keyof typeof ULBSIGNUPSTATUS;
-  reasonForReject?: string;
   ulb: Ulb;
   role: USER_TYPE.ULB;
+  rejectReason?: string;
 }
 
 export interface Ulb {

@@ -116,15 +116,10 @@ export class UsersComponent implements OnInit {
       type: "link",
       route: ["/user/reports/overAll"],
       condition: () => {
-        return (
-          this.accessChecker.hasAccess({
-            action: ACTIONS.VIEW,
-            moduleName: MODULES_NAME.REPORTS,
-          }) &&
-          [USER_TYPE.ADMIN, USER_TYPE.PARTNER, USER_TYPE.MoHUA].includes(
-            this.userUtility.getUserType()
-          )
-        );
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.OVERALL_REPORT,
+        });
       },
     },
     {
@@ -132,18 +127,10 @@ export class UsersComponent implements OnInit {
       type: "link",
       route: ["/user/reports/state"],
       condition: () => {
-        return (
-          this.accessChecker.hasAccess({
-            action: ACTIONS.VIEW,
-            moduleName: MODULES_NAME.REPORTS,
-          }) &&
-          [
-            USER_TYPE.STATE,
-            USER_TYPE.ADMIN,
-            USER_TYPE.PARTNER,
-            USER_TYPE.MoHUA,
-          ].includes(this.userUtility.getUserType())
-        );
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.STATE_WISE_REPORT,
+        });
       },
     },
     {
@@ -151,15 +138,10 @@ export class UsersComponent implements OnInit {
       type: "link",
       route: ["/user/reports/ulb"],
       condition: () => {
-        return (
-          this.accessChecker.hasAccess({
-            action: ACTIONS.VIEW,
-            moduleName: MODULES_NAME.REPORTS,
-          }) &&
-          [USER_TYPE.ADMIN, USER_TYPE.PARTNER, USER_TYPE.MoHUA].includes(
-            this.userUtility.getUserType()
-          )
-        );
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.ULB_TYPE_WISE_REPORT,
+        });
       },
     },
     {
@@ -167,18 +149,10 @@ export class UsersComponent implements OnInit {
       type: "link",
       route: ["/user/reports/stateUlb"],
       condition: () => {
-        return (
-          this.accessChecker.hasAccess({
-            action: ACTIONS.VIEW,
-            moduleName: MODULES_NAME.REPORTS,
-          }) &&
-          [
-            USER_TYPE.STATE,
-            USER_TYPE.ADMIN,
-            USER_TYPE.PARTNER,
-            USER_TYPE.MoHUA,
-          ].includes(this.userUtility.getUserType())
-        );
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.STATE_AND_ULB_TYPE_WISE_REPORT,
+        });
       },
     },
 
@@ -187,15 +161,10 @@ export class UsersComponent implements OnInit {
       type: "link",
       route: ["/user/reports/usage"],
       condition: () => {
-        return (
-          this.accessChecker.hasAccess({
-            action: ACTIONS.VIEW,
-            moduleName: MODULES_NAME.REPORTS,
-          }) &&
-          [USER_TYPE.ADMIN, USER_TYPE.PARTNER, USER_TYPE.MoHUA].includes(
-            this.userUtility.getUserType()
-          )
-        );
+        return this.accessChecker.hasAccess({
+          action: ACTIONS.VIEW,
+          moduleName: MODULES_NAME.USAGE_REPORT,
+        });
       },
     },
   ];

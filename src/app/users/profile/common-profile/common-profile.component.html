@@ -1,12 +1,11 @@
 <button class="back_button" (click)="window.history.back()">Back</button>
 
-<h3>
-  {{
-    profileData && profileData.role === USER_TYPE.PARTNER
-      ? "Edit Profile"
-      : "Create Partner"
-  }}
+<h3 *ngIf="profileData && profileData.role === USER_TYPE.PARTNER">
+  <span *ngIf="profileForm.disabled">View</span>
+  <span *ngIf="profileForm.enabled">Edit</span>
+  Profile
 </h3>
+<h3 *ngIf="!profileData">Create Partner</h3>
 
 <form
   [formGroup]="profileForm"
@@ -116,7 +115,7 @@
 
   <div class="input-group">
     <label for="departmentEmail"
-      >Department EmailId
+      >Department Email ID
       <span
         class="asterik"
         *ngIf="profileForm.controls.departmentEmail.validator({})['required']"
@@ -181,7 +180,7 @@
   <p *ngIf="formErrors">
     <span
       *ngFor="let error of formErrors; let i = index"
-      style="display: block; color: red"
+      style="display: block; color: red;"
     >
       {{ i + 1 }}. {{ error }}
     </span>
@@ -195,7 +194,7 @@
   </p>
 
   <div
-    class="input-group  d-block"
+    class="input-group d-block"
     *ngIf="profileForm.disabled"
     style="display: block;"
   >

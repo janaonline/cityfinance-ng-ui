@@ -153,12 +153,15 @@ export class UserListComponent implements OnInit {
     );
   }
 
-  showUserRejectReason(user: IULBProfileData, template: TemplateRef<any>) {
+  showUserRejectReason(user: IULBProfileData) {
     if (user.status !== this.SINGPUP_STATUS.REJECTED) {
       return false;
     }
+    const reason = user.rejectReason
+      ? user.rejectReason
+      : "Something something.... &#128561; &#128561;";
     const configuration: IDialogConfiguration = {
-      message: `<h3 class="text-center">Reason for Rejection</h3> <p>Something something.... &#128561; &#128561;</p>`,
+      message: `<h3 class="text-center">Reason for Rejection</h3> <p>${reason}</p>`,
       buttons: { cancel: { text: "Close" } },
     };
     this._dialog.open(DialogComponent, {
