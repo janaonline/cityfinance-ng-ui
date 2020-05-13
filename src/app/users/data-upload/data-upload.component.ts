@@ -230,7 +230,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
               this.fileUpload.reset();
               formControl.setErrors(['File Upload Error']);
             }
-          } else if (formControl.validator) {
+          } else if (formControl && formControl.validator) {
             event.disabled = false;
             this.fileFormGroup.enable();
             this.fileUpload.reset();
@@ -359,7 +359,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
                 this.fileUpload.reset();
                 formControl.setErrors(['File Upload Error']);
               }
-            } else if (formControl.validator) {
+            } else if (formControl && formControl.validator) {
               this.fileFormGroup.enable();
               updateButton.disabled = false;
               this.fileUpload.reset();
