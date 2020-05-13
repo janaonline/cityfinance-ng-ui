@@ -1,10 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
+import { ULBSIGNUPSTATUS } from 'src/app/util/enums';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { ulbType } from '../../../dashboard/report/report/ulbTypes';
@@ -20,7 +23,9 @@ import { ProfileService } from '../service/profile.service';
 export class UlbProfileComponent implements OnInit, OnChanges {
   @Input() profileData: IULBProfileData;
   @Input() editable = false;
+
   profile: FormGroup;
+  SignupRejectReason = new FormControl("", [Validators.required]);
   formUtil = new FormUtil();
   jsonUtil = new JSONUtility();
 
@@ -36,8 +41,13 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   loggedInUserType: USER_TYPE;
   USER_TYPE = USER_TYPE;
   window = window;
+  SIGNUP_STATUS = ULBSIGNUPSTATUS;
 
-  constructor(private _profileService: ProfileService) {
+  constructor(
+    private _profileService: ProfileService,
+    public modalService: BsModalService,
+    public dialogBox: MatDialog
+  ) {
     this.fetchDatas();
   }
 
@@ -86,6 +96,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     if (this.loggedInUserType !== USER_TYPE.ULB) {
       flatten["ulb"] = this.profileData.ulb._id;
     }
+
+    return;
     this.profile.disable({ onlySelf: true, emitEvent: false });
 
     this._profileService.createULBUpdateRequest(flatten).subscribe(
@@ -94,13 +106,19 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     );
   }
 
-  updateFormStatus(status: { status: IULBProfileData["status"]; _id: string }) {
+  updateFormStatus(status: {
+    status: IULBProfileData["status"];
+    _id: string;
+    rejectReason?: string;
+  }) {
     this.resetResponseMessage();
+
     this._profileService.updateULBSingUPStatus(status).subscribe(
       (res) => {
-        this.canSubmitForm = true;
         this.profileData.status = status.status;
         this.respone.successMessage = "ULB Singup updated successfully.";
+        this.canSubmitForm = status.status === "REJECTED" ? false : true;
+        this.dialogBox.closeAll();
       },
       (err) => {
         this.respone.errorMessage = err.error.message || "Server Error";
@@ -108,13 +126,24 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     );
   }
 
-  public enableProfileEdit() {
+  enableProfileEdit() {
     this.profile.enable();
     this.disableNonEditableFields();
   }
-  public disableProfileEdit() {
+  disableProfileEdit() {
     this.profile.disable({ emitEvent: false });
     this.disableNonEditableFields();
+  }
+
+  openSignupRejectPopup(templateRef: TemplateRef<any>) {
+    this.dialogBox.open(templateRef, {
+      height: "fit-content",
+      width: "28vw",
+    });
+  }
+
+  closeSignupRejectPopup(templateRef: TemplateRef<any>) {
+    this.modalService.hide(1);
   }
 
   private onUpdatingProfileSuccess(res) {
@@ -199,8 +228,11 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       } else {
         this.initializeAccess();
       }
-      if (!this.editable) {
-        this.profile.disable({ emitEvent: false });
+      if (
+        !this.editable ||
+        this.profileData.status !== this.SIGNUP_STATUS.APPROVED
+      ) {
+        this.profile.disable({ emitEvent: false, onlySelf: true });
       }
 
       this.disableNonEditableFields();
@@ -211,15 +243,18 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     const accessCheck = new AccessChecker();
     this.canSubmitForm = accessCheck.hasAccess({
       action: ACTIONS.EDIT,
-      moduleName: MODULES_NAME.ULB_PROFILE,
+      moduleName: MODULES_NAME.ULB,
     });
-    console.log(this.canSubmitForm);
   }
 
   private initializeLogginUserType() {
     this.loggedInUserType = this._profileService.getLoggedInUserType();
   }
 
+  /**
+   * @description ULB's code and state cannot be changed, therefore they should stay
+   * disabled.
+   */
   private disableNonEditableFields() {
     (<FormGroup>this.profile.controls.ulb).controls.code.disable();
     this.profile.controls.state.disable();

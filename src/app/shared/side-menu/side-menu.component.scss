@@ -8,6 +8,7 @@
   flex-direction: column;
   color: white;
   border: 0.1rem solid lightgray;
+  border-right: 0px;
 
   & .side-menu-content {
     background: lightgray;
@@ -38,4 +39,25 @@
   background: white;
   color: black;
   border-left: 0.4rem solid #009fe3;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 11px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 11px 1px 1px rgb(243, 243, 243);
+  border-radius: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #009fe3;
+  border-radius: 11px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #f0ad4e;
 }

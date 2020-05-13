@@ -140,7 +140,7 @@
 
   <div class="input-group">
     <label for="departmentEmail"
-      >Department EmailId
+      >Department Email ID
       <span
         class="asterik"
         *ngIf="profileForm.controls.departmentEmail.validator({})['required']"
@@ -161,7 +161,7 @@
 
   <div class="input-group">
     <label for="departmentContactNumber"
-      >Department Contant No
+      >Department Contact No
       <span
         class="asterik"
         *ngIf="
@@ -205,7 +205,7 @@
   <p *ngIf="formErrors">
     <span
       *ngFor="let error of formErrors; let i = index"
-      style="display: block; color: red"
+      style="display: block; color: red;"
     >
       {{ i + 1 }}. {{ error }}
     </span>
@@ -219,7 +219,7 @@
   </p>
 
   <div
-    class="input-group  d-block"
+    class="input-group d-block"
     *ngIf="profileForm.disabled"
     style="display: block;"
   >

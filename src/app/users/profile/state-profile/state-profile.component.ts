@@ -11,7 +11,7 @@ import { ProfileService } from '../service/profile.service';
 @Component({
   selector: "app-state-profile",
   templateUrl: "./state-profile.component.html",
-  styleUrls: ["./state-profile.component.scss"]
+  styleUrls: ["./state-profile.component.scss"],
 })
 export class StateProfileComponent implements OnInit, OnChanges {
   @Input()
@@ -32,6 +32,8 @@ export class StateProfileComponent implements OnInit, OnChanges {
     private _commonService: CommonService,
     private _profileService: ProfileService
   ) {
+    console.log("State Component");
+
     this.fetchStateList();
   }
 
@@ -41,7 +43,7 @@ export class StateProfileComponent implements OnInit, OnChanges {
   }
 
   private fetchStateList() {
-    this._commonService.getStateUlbCovered().subscribe(res => {
+    this._commonService.getStateUlbCovered().subscribe((res) => {
       console.log(`state list `, res.data);
       this.stateList = res.data;
     });
@@ -73,7 +75,7 @@ export class StateProfileComponent implements OnInit, OnChanges {
     body.password = "";
 
     this._profileService.createUser(body).subscribe(
-      res => {
+      (res) => {
         form.reset();
         this.formSubmitted = false;
 
@@ -87,12 +89,12 @@ export class StateProfileComponent implements OnInit, OnChanges {
   private updateProfile(form: FormGroup) {
     const body = {
       ...form.value,
-      _id: this.profileData._id
+      _id: this.profileData._id,
     };
 
     form.disable();
     return this._profileService.updateUserProfileData(body).subscribe(
-      res => {
+      (res) => {
         form.enable();
         this.respone.successMessage = "Profile Updated successfully";
       },
@@ -104,6 +106,8 @@ export class StateProfileComponent implements OnInit, OnChanges {
   }
 
   private initializeForm() {
+    console.log(`initializeForm`);
+
     this.profileForm = this.formUtil.getStateForm();
 
     if (this.profileData) {

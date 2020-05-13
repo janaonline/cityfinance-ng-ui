@@ -1,21 +1,27 @@
-import {USER_TYPE} from 'src/app/models/user/userType';
+import { USER_TYPE } from 'src/app/models/user/userType';
 
-import {ACTIONS} from './actions';
+import { ACTIONS } from './actions';
 
 export enum MODULES_NAME {
   TABLE_DOWNLOAD = "TABLE_DOWNLOAD",
   STATE = "STATE",
 
-  USER_PROFILE = "USER_PROFILE",
+  USER = "USER",
   USERLIST = "USERLIST",
   PARTNER = "PARTNER",
   ULB_SIGNUP_REQUEST = "ULB_SIGNUP_REQUEST",
-  ULB_PROFILE = "ULB_PROFILE",
+
+  ULB = "ULB",
   ULB_DATA_UPLOAD = "ULB_DATA_UPLOAD",
   ULBDataBULKEntry = "ULBDataBULKEntry",
   SELF_PROFILE = "SELF_PROFILE",
   MoHUA = "MoHUA",
-  REPORTS = "REPORTS"
+  REPORTS = "REPORTS",
+  OVERALL_REPORT = "OVERALL_REPORT",
+  STATE_WISE_REPORT = "STATE_WISE_REPORT",
+  ULB_TYPE_WISE_REPORT = "ULB_TYPE_WISE_REPORT",
+  STATE_AND_ULB_TYPE_WISE_REPORT = "STATE_AND_ULB_TYPE_WISE_REPORT",
+  USAGE_REPORT = "USAGE_REPORT",
 }
 
 export interface IModules {
@@ -23,7 +29,7 @@ export interface IModules {
   access: {
     [key in ACTIONS]?: USER_TYPE[];
   };
-  subModules?: { [key in MODULES_NAME]: IModules };
+  // subModules?: { [key in MODULES_NAME]: IModules };
 }
 
 export const MODULES: { [key in MODULES_NAME]: IModules } = {
@@ -35,9 +41,9 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
         USER_TYPE.ULB,
         USER_TYPE.STATE,
         USER_TYPE.MoHUA,
-        USER_TYPE.ADMIN
-      ]
-    }
+        USER_TYPE.ADMIN,
+      ],
+    },
   },
 
   [MODULES_NAME.ULB_DATA_UPLOAD]: {
@@ -48,12 +54,12 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
         USER_TYPE.STATE,
         USER_TYPE.PARTNER,
         USER_TYPE.MoHUA,
-        USER_TYPE.ADMIN
+        USER_TYPE.ADMIN,
       ],
       [ACTIONS.UPLOAD]: [USER_TYPE.ULB],
       [ACTIONS.APPROVE]: [USER_TYPE.PARTNER, USER_TYPE.MoHUA, USER_TYPE.ADMIN],
-      [ACTIONS.REJECT]: [USER_TYPE.PARTNER, USER_TYPE.MoHUA, USER_TYPE.ADMIN]
-    }
+      [ACTIONS.REJECT]: [USER_TYPE.PARTNER, USER_TYPE.MoHUA, USER_TYPE.ADMIN],
+    },
   },
 
   [MODULES_NAME.ULB_SIGNUP_REQUEST]: {
@@ -63,73 +69,81 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
         USER_TYPE.STATE,
         USER_TYPE.PARTNER,
         USER_TYPE.MoHUA,
-        USER_TYPE.ADMIN
+        USER_TYPE.ADMIN,
       ],
       [ACTIONS.APPROVE]: [
         USER_TYPE.STATE,
         USER_TYPE.PARTNER,
         USER_TYPE.MoHUA,
-        USER_TYPE.ADMIN
+        USER_TYPE.ADMIN,
       ],
       [ACTIONS.REJECT]: [
         USER_TYPE.STATE,
         USER_TYPE.PARTNER,
         USER_TYPE.MoHUA,
-        USER_TYPE.ADMIN
-      ]
-    }
+        USER_TYPE.ADMIN,
+      ],
+      [ACTIONS.DELETE]: [USER_TYPE.ADMIN],
+    },
   },
 
-  [MODULES_NAME.ULB_PROFILE]: {
-    name: MODULES_NAME.ULB_PROFILE,
+  [MODULES_NAME.ULB]: {
+    name: MODULES_NAME.ULB,
     access: {
       [ACTIONS.VIEW]: [
         USER_TYPE.STATE,
         USER_TYPE.PARTNER,
         USER_TYPE.MoHUA,
-        USER_TYPE.ADMIN
+        USER_TYPE.ADMIN,
       ],
       [ACTIONS.APPROVE]: [
         USER_TYPE.STATE,
         USER_TYPE.PARTNER,
         USER_TYPE.MoHUA,
-        USER_TYPE.ADMIN
+        USER_TYPE.ADMIN,
       ],
       [ACTIONS.REJECT]: [
         USER_TYPE.STATE,
         USER_TYPE.PARTNER,
         USER_TYPE.MoHUA,
-        USER_TYPE.ADMIN
+        USER_TYPE.ADMIN,
       ],
       [ACTIONS.EDIT]: [
         USER_TYPE.ADMIN,
         USER_TYPE.PARTNER,
         USER_TYPE.MoHUA,
-        USER_TYPE.ULB
-      ]
-    }
+        USER_TYPE.ULB,
+      ],
+      [ACTIONS.DELETE]: [USER_TYPE.ADMIN],
+    },
   },
 
   [MODULES_NAME.SELF_PROFILE]: {
     name: MODULES_NAME.SELF_PROFILE,
     access: {
-      [ACTIONS.EDIT]: [USER_TYPE.USER, USER_TYPE.ULB]
-    }
+      [ACTIONS.EDIT]: [
+        USER_TYPE.USER,
+        USER_TYPE.ULB,
+        USER_TYPE.STATE,
+        USER_TYPE.PARTNER,
+        USER_TYPE.MoHUA,
+      ],
+    },
   },
 
-  [MODULES_NAME.USER_PROFILE]: {
-    name: MODULES_NAME.USER_PROFILE,
+  [MODULES_NAME.USER]: {
+    name: MODULES_NAME.USER,
     access: {
       [ACTIONS.VIEW]: [USER_TYPE.PARTNER, USER_TYPE.ADMIN, USER_TYPE.MoHUA],
       [ACTIONS.EDIT]: [USER_TYPE.USER],
-      [ACTIONS.DELETE]: [USER_TYPE.PARTNER, USER_TYPE.ADMIN, USER_TYPE.MoHUA]
-    }
+      [ACTIONS.DELETE]: [USER_TYPE.ADMIN],
+    },
   },
   [MODULES_NAME.USERLIST]: {
     name: MODULES_NAME.USERLIST,
     access: {
-      [ACTIONS.VIEW]: [USER_TYPE.PARTNER, USER_TYPE.ADMIN, USER_TYPE.MoHUA]
-    }
+      [ACTIONS.VIEW]: [USER_TYPE.PARTNER, USER_TYPE.ADMIN, USER_TYPE.MoHUA],
+    },
   },
 
   [MODULES_NAME.PARTNER]: {
@@ -138,15 +152,15 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
       [ACTIONS.VIEW]: [USER_TYPE.ADMIN, USER_TYPE.MoHUA],
       [ACTIONS.CREATE]: [USER_TYPE.ADMIN, USER_TYPE.MoHUA],
       [ACTIONS.EDIT]: [USER_TYPE.ADMIN, USER_TYPE.MoHUA],
-      [ACTIONS.DELETE]: [USER_TYPE.ADMIN, USER_TYPE.MoHUA]
-    }
+      [ACTIONS.DELETE]: [USER_TYPE.ADMIN],
+    },
   },
 
   [MODULES_NAME.ULBDataBULKEntry]: {
     name: MODULES_NAME.ULBDataBULKEntry,
     access: {
-      [ACTIONS.UPLOAD]: [USER_TYPE.PARTNER, USER_TYPE.MoHUA, USER_TYPE.ADMIN]
-    }
+      [ACTIONS.UPLOAD]: [USER_TYPE.PARTNER, USER_TYPE.MoHUA, USER_TYPE.ADMIN],
+    },
   },
 
   [MODULES_NAME.STATE]: {
@@ -155,8 +169,8 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
       [ACTIONS.CREATE]: [USER_TYPE.PARTNER, USER_TYPE.MoHUA, USER_TYPE.ADMIN],
       [ACTIONS.VIEW]: [USER_TYPE.PARTNER, USER_TYPE.MoHUA, USER_TYPE.ADMIN],
       [ACTIONS.EDIT]: [USER_TYPE.PARTNER, USER_TYPE.MoHUA, USER_TYPE.ADMIN],
-      [ACTIONS.DELETE]: [USER_TYPE.PARTNER, USER_TYPE.MoHUA, USER_TYPE.ADMIN]
-    }
+      [ACTIONS.DELETE]: [USER_TYPE.ADMIN],
+    },
   },
 
   [MODULES_NAME.MoHUA]: {
@@ -165,14 +179,60 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
       [ACTIONS.VIEW]: [USER_TYPE.ADMIN],
       [ACTIONS.CREATE]: [USER_TYPE.ADMIN],
       [ACTIONS.EDIT]: [USER_TYPE.ADMIN],
-      [ACTIONS.DELETE]: [USER_TYPE.ADMIN]
-    }
+      [ACTIONS.DELETE]: [USER_TYPE.ADMIN],
+    },
   },
   [MODULES_NAME.REPORTS]: {
     name: MODULES_NAME.REPORTS,
     access: {
-      [ACTIONS.VIEW]: [USER_TYPE.PARTNER, USER_TYPE.MoHUA, USER_TYPE.ADMIN,USER_TYPE.STATE],
-      [ACTIONS.DOWNLOAD]: [USER_TYPE.MoHUA, USER_TYPE.ADMIN,USER_TYPE.PARTNER,USER_TYPE.STATE]
-    }
-  }
+      [ACTIONS.VIEW]: [
+        USER_TYPE.PARTNER,
+        USER_TYPE.MoHUA,
+        USER_TYPE.ADMIN,
+        USER_TYPE.STATE,
+      ],
+      [ACTIONS.DOWNLOAD]: [
+        USER_TYPE.MoHUA,
+        USER_TYPE.ADMIN,
+        USER_TYPE.PARTNER,
+        USER_TYPE.STATE,
+      ],
+    },
+  },
+
+  [MODULES_NAME.OVERALL_REPORT]: {
+    name: MODULES_NAME.OVERALL_REPORT,
+    access: {
+      [ACTIONS.VIEW]: [USER_TYPE.ADMIN, USER_TYPE.MoHUA, USER_TYPE.PARTNER],
+    },
+  },
+  [MODULES_NAME.STATE_WISE_REPORT]: {
+    name: MODULES_NAME.OVERALL_REPORT,
+    access: {
+      [ACTIONS.VIEW]: [USER_TYPE.ADMIN, USER_TYPE.MoHUA, USER_TYPE.PARTNER],
+    },
+  },
+  [MODULES_NAME.ULB_TYPE_WISE_REPORT]: {
+    name: MODULES_NAME.OVERALL_REPORT,
+    access: {
+      [ACTIONS.VIEW]: [USER_TYPE.ADMIN, USER_TYPE.MoHUA, USER_TYPE.PARTNER],
+    },
+  },
+  [MODULES_NAME.STATE_AND_ULB_TYPE_WISE_REPORT]: {
+    name: MODULES_NAME.OVERALL_REPORT,
+    access: {
+      [ACTIONS.VIEW]: [
+        USER_TYPE.ADMIN,
+        USER_TYPE.MoHUA,
+        USER_TYPE.PARTNER,
+        USER_TYPE.STATE,
+      ],
+    },
+  },
+  [MODULES_NAME.USAGE_REPORT]: {
+    name: MODULES_NAME.OVERALL_REPORT,
+    access: {
+      [ACTIONS.VIEW]: [USER_TYPE.ADMIN, USER_TYPE.MoHUA, USER_TYPE.PARTNER],
+    },
+  },
 };

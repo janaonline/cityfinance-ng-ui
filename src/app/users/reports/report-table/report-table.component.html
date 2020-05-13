@@ -13,7 +13,7 @@
         </button>
       </div>
     </div>
-    <div *ngIf="overAllReportData.length || overAllReportData?.data?.length; else noData" class="col-sm-12 mt-2"
+    <div *ngIf="overAllReportData.length || overAllReportData?.data?.length; else noData" class="col-sm-12 mt-2 tableContainer"
          [ngSwitch]="reportType">
       <table id="table" *ngSwitchCase="'overAll'" class="table">
         <thead>
