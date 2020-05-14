@@ -162,7 +162,6 @@
           class="form-field-error-message"
         >
           Only numeric values without decimals are accepted. For Ex: 33, 1, 1223
-          {{ profile.controls.ulb.controls?.wards.errors | json }}
         </small>
       </div>
     </div>
@@ -181,10 +180,16 @@
           formControlName="commissionerName"
           class="form-control"
           [ngClass]="{
-            'is-invalid':
-              formSubmitted && profile?.controls.commissionerName?.errors
+            'is-invalid': profile?.controls.commissionerName?.errors
           }"
         />
+        <small
+          *ngIf="profile?.controls.commissionerName?.errors"
+          class="form-field-error-message"
+        >
+          Commisioner Name should contains only alphabets and special characters
+          like '.' / '@' etc.
+        </small>
       </div>
 
       <div class="input-group">

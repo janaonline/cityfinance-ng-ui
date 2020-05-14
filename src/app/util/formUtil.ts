@@ -7,7 +7,7 @@ export class FormUtil {
   private fb: FormBuilder;
 
   private regexForAtleast1Aplhabet = /\w+/g;
-  private regexForAtleast1AplhabetWithSpecialCharacter = /\w+\.?\w*/g;
+  private regexForAtleast1AplhabetWithSpecialCharacter = "\\w+.?\\s*\\w*\\D";
   private regexForOnlyNumberWithoutDecimalAccept = `\\d*$`;
 
   /**
