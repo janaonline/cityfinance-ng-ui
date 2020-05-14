@@ -333,7 +333,9 @@
     </div>
 
     <p *ngIf="formErrorMessage" style="display: block; color: red;">
-      Form Fields are not valid.
+      <span *ngFor="let error of formErrorMessage; let i = index">
+        {{ i + 1 }}. {{ error }}
+      </span>
     </p>
 
     <p *ngIf="respone.errorMessage" class="error-message">

@@ -75,21 +75,14 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
     const errors = this.checkFieldsForError(form);
     this.formErrorMessage = errors;
-    console.log(errors);
 
     if (errors) {
       console.error(`errors`, errors);
       return;
-
-      // show error and return
     }
 
     // upload files and their value
     const updatedFields = this.getUpdatedFieldsOnly(form);
-    console.log(
-      updatedFields,
-      !updatedFields || !Object.keys(updatedFields).length
-    );
 
     if (!updatedFields || !Object.keys(updatedFields).length) {
       return;
@@ -167,28 +160,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   }
 
   private checkFieldsForError(form: FormGroup) {
-    let errors: string[] = [];
-    Object.keys(form.controls).forEach((Name) => {
-      const control = form.controls[Name];
-      if (control.disabled) {
-        return;
-      }
-      if (control instanceof FormGroup) {
-        const nestedErrors = this.checkFieldsForError(control);
-        if (!nestedErrors || !nestedErrors.length) {
-          return;
-        }
-        errors = [...errors, ...nestedErrors];
-        return;
-      }
-
-      if (!control.valid) {
-        errors.push(`${Name} is invalid`);
-        return;
-      }
-    });
-
-    return errors.length === 0 ? null : errors;
+    return new FormUtil().validationULBProfileUpdateForm(form);
   }
 
   private getUpdatedFieldsOnly(form: FormGroup): {} | null {
