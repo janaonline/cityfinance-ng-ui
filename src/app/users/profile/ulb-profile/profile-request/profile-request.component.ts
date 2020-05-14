@@ -94,6 +94,7 @@ export class ProfileRequestComponent implements OnInit {
   }
 
   public searchUsersBy(filterForm: {}) {
+    // this.resetListFetchOptionsToDefeault();
     this.listFetchOption.filter = filterForm;
 
     this.fetchRequestList({ ...(<any>this.listFetchOption) });
@@ -227,6 +228,10 @@ export class ProfileRequestComponent implements OnInit {
       skip: 0,
       limit: this.tableDefaultOptions.itemPerPage,
     };
+  }
+
+  public resetListFetchOptionsToDefeault() {
+    this.initializeListFetchParams();
   }
 
   private resetResponseMessages() {

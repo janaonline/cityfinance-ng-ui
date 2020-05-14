@@ -1,6 +1,5 @@
 .navbar {
   border-radius: 0px;
-  background-color: blue;
 
   a,
   .navbar-brand {
@@ -14,19 +13,9 @@
   }
 }
 
-// .nav.navbar-nav {
-//   li:not(:last-child) {
-//     box-shadow: 10px 0px 0px -9px #636363;
-//   }
-// }
-
 .position-sticky {
   position: sticky;
 }
-
-//::ng-deep .mat-tooltip-panel {
-//  z-index: 1000004;
-//}
 
 ::ng-deep {
   .selected-list,
@@ -47,9 +36,9 @@
   max-width: 18rem;
   align-items: center;
   background: white;
-  border: 1px solid rgba(0,0,0,.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 4px;
-  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 
   .mat-list-item {
     cursor: pointer;
@@ -59,10 +48,4 @@
 ::ng-deep mat-list-item {
   transition: all 0.3s;
   width: 100%;
-  // border-radius: 5px;
 }
-
-// ::ng-deep mat-list-item:hover {
-//   // filter: contrast(500%);
-//   background: rgb(133, 133, 133);
-// }
