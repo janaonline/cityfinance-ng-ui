@@ -126,7 +126,13 @@ export class ProfileRequestComponent implements OnInit {
 
     return this._profileService.updateULBProfileRequest(params).subscribe(
       (res) => {
-        this.request.status = params.status;
+        const requestFound = this.requestList.find(
+          (request) => request._id === params.id
+        );
+        if (!requestFound) {
+          return;
+        }
+        requestFound.status = params.status;
         this.modalService.hide(1);
       },
       (err) => (this.respone.errorMessage = err.error.message || "Server Error")
@@ -141,7 +147,6 @@ export class ProfileRequestComponent implements OnInit {
     this._profileService
       .getULBProfileUpdateRequestList(body)
       .subscribe((res) => {
-        console.log(`getULBProfileUpdateRequestList `, res);
         if (res.total) {
           this.tableDefaultOptions.totalCount = res.total;
         }
@@ -199,8 +204,6 @@ export class ProfileRequestComponent implements OnInit {
   }
 
   private initializeFilterForm() {
-    console.log(`initializeFilterForm`);
-
     if (this.loggedInUserType === USER_TYPE.ULB) {
       this.filterForm = this._fb.group({
         status: [""],
