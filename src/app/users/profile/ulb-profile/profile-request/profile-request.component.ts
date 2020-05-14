@@ -125,12 +125,14 @@ export class ProfileRequestComponent implements OnInit {
 
     return this._profileService.updateULBProfileRequest(params).subscribe(
       (res) => {
-        const requestFound = this.requestList.find(
-          (request) => request._id === params.id
-        );
+        const requestFound = this.request
+          ? this.request
+          : this.requestList.find((request) => request._id === params.id);
         if (!requestFound) {
           return;
         }
+
+        this.respone.successMessage = res.message;
         requestFound.status = params.status;
         this.matDialog.closeAll();
       },

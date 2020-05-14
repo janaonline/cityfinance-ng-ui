@@ -380,16 +380,10 @@
               Reject Request
             </button>
           </div>
-          <p
-            *ngIf="respone.errorMessage"
-            class="error-message text-center mt-1"
-          >
+          <p *ngIf="respone.errorMessage" class="error-message mt-1">
             {{ respone.errorMessage }}
           </p>
-          <p
-            *ngIf="respone.successMessage"
-            class="success-message text-center mt-1"
-          >
+          <p *ngIf="respone.successMessage" class="success-message mt-1">
             {{ respone.successMessage }}
           </p>
         </div>
