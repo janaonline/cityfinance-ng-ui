@@ -235,8 +235,28 @@ export class FormUtil {
     return errors.length ? errors : null;
   }
 
-  public validadteULBForm(form: FormGroup) {
+  /**
+   *
+   * @description This validation method for ULB is called only at the time
+   * of ULB Sign up only.
+   */
+  public validateULBSignUPForm(form: FormGroup) {
     const errors: string[] = [];
+    let commissionerEmail: string = form.controls.commissionerEmail.value;
+    let accountantEmail: string = form.controls.accountantEmail.value;
+
+    commissionerEmail = commissionerEmail
+      ? commissionerEmail.trim()
+      : commissionerEmail;
+    accountantEmail = accountantEmail
+      ? accountantEmail.trim()
+      : accountantEmail;
+
+    if (accountantEmail == commissionerEmail) {
+      errors.push(
+        "Commisionar Email ID and Accountant Email ID cannot be same"
+      );
+    }
     Object.keys(form.controls).forEach((controlName) => {
       const control = form.controls[controlName];
       if (!control.valid) {
@@ -263,6 +283,49 @@ export class FormUtil {
       }
     });
     return errors.length ? errors : null;
+  }
+
+  public validationULBProfileUpdateForm(form: FormGroup) {
+    let errors: string[] = [];
+
+    if (form.controls.commissionerEmail && form.controls.accountantEmail) {
+      let commissionerEmail: string = form.controls.commissionerEmail.value;
+      let accountantEmail: string = form.controls.accountantEmail.value;
+
+      commissionerEmail = commissionerEmail
+        ? commissionerEmail.trim()
+        : commissionerEmail;
+      accountantEmail = accountantEmail
+        ? accountantEmail.trim()
+        : accountantEmail;
+
+      if (accountantEmail == commissionerEmail) {
+        errors.push(
+          "Commisionar Email ID and Accountant Email ID cannot be same"
+        );
+      }
+    }
+
+    Object.keys(form.controls).forEach((Name) => {
+      const control = form.controls[Name];
+      if (control.disabled) {
+        return;
+      }
+      if (control instanceof FormGroup) {
+        const nestedErrors = this.validationULBProfileUpdateForm(control);
+        if (!nestedErrors || !nestedErrors.length) {
+          return;
+        }
+        errors = [...errors, ...nestedErrors];
+        return;
+      }
+
+      if (!control.valid) {
+        errors.push(`${Name} is invalid`);
+        return;
+      }
+    });
+    return errors.length === 0 ? null : errors;
   }
 
   public validateStateForm(form: FormGroup) {

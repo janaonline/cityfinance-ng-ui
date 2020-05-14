@@ -144,7 +144,7 @@ export class ProfileService {
   }
 
   updateULBProfileRequest(params: { status: string; id: string }) {
-    return this._htttp.put(
+    return this._htttp.put<{ message: string; success: boolean }>(
       `${environment.api.url}ulb-update-request/action/${params.id}`,
       { status: params.status }
     );

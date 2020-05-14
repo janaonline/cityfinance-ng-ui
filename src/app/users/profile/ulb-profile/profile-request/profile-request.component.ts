@@ -94,6 +94,7 @@ export class ProfileRequestComponent implements OnInit {
   }
 
   public searchUsersBy(filterForm: {}) {
+    // this.resetListFetchOptionsToDefeault();
     this.listFetchOption.filter = filterForm;
 
     this.fetchRequestList({ ...(<any>this.listFetchOption) });
@@ -125,12 +126,14 @@ export class ProfileRequestComponent implements OnInit {
 
     return this._profileService.updateULBProfileRequest(params).subscribe(
       (res) => {
-        const requestFound = this.requestList.find(
-          (request) => request._id === params.id
-        );
+        const requestFound = this.request
+          ? this.request
+          : this.requestList.find((request) => request._id === params.id);
         if (!requestFound) {
           return;
         }
+
+        this.respone.successMessage = res.message;
         requestFound.status = params.status;
         this.matDialog.closeAll();
       },
@@ -225,6 +228,10 @@ export class ProfileRequestComponent implements OnInit {
       skip: 0,
       limit: this.tableDefaultOptions.itemPerPage,
     };
+  }
+
+  public resetListFetchOptionsToDefeault() {
+    this.initializeListFetchParams();
   }
 
   private resetResponseMessages() {
