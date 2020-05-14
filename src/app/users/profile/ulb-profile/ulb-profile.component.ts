@@ -75,6 +75,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
     const errors = this.checkFieldsForError(form);
     this.formErrorMessage = errors;
+    console.log(errors);
+
     if (errors) {
       console.error(`errors`, errors);
       return;
@@ -84,6 +86,11 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
     // upload files and their value
     const updatedFields = this.getUpdatedFieldsOnly(form);
+    console.log(
+      updatedFields,
+      !updatedFields || !Object.keys(updatedFields).length
+    );
+
     if (!updatedFields || !Object.keys(updatedFields).length) {
       return;
     }
@@ -97,7 +104,6 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       flatten["ulb"] = this.profileData.ulb._id;
     }
 
-    return;
     this.profile.disable({ onlySelf: true, emitEvent: false });
 
     this._profileService.createULBUpdateRequest(flatten).subscribe(
