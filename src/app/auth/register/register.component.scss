@@ -24,7 +24,7 @@
   justify-content: center;
   align-items: center;
   margin: 2% auto;
-  max-width: 22vw;
+  max-width: 18vw;
   // transform: translateY(5%);
 }
 
@@ -66,4 +66,14 @@
   top: 33%;
   position: absolute;
   margin-left: 2%;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.input-group {
+  width: 100%;
+  // display: block;
 }

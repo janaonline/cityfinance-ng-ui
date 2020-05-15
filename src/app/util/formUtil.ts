@@ -1,7 +1,7 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { customEmailValidator, mobileNoValidator } from './formValidators';
 import { PasswordValidator } from './passwordValidator';
+import { customEmailValidator, customPasswordValidator, mobileNoValidator } from './reactiveFormValidators';
 
 export class FormUtil {
   private fb: FormBuilder;
@@ -39,7 +39,7 @@ export class FormUtil {
     if (purpose === "CREATION") {
       form = this.fb.group({
         ...form.controls,
-        password: ["", [Validators.required]],
+        password: ["", [customPasswordValidator]],
         confirmPassword: ["", Validators.required],
       });
       return form;

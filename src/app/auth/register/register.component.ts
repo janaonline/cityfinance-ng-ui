@@ -108,6 +108,15 @@ export class RegisterComponent implements OnInit {
     );
   }
 
+  public GetFormControlErrors(controlName: string) {
+    return !!(
+      this.registrationForm.controls[controlName].dirty &&
+      this.registrationForm.controls[controlName].errors
+    )
+      ? this.registrationForm.controls[controlName].errors
+      : null;
+  }
+
   private fetchStateList() {
     this._coomonService.getStateUlbCovered().subscribe((res) => {
       this.stateList = res.data;
