@@ -21,9 +21,10 @@
               ></span>
               <input
                 id="name"
+                autocomplete="username"
                 class="form-control"
                 [formControl]="registrationForm.controls['name']"
-                placeholder="User name"
+                placeholder="User name*"
                 [ngClass]="{
                   'is-invalid': GetFormControlErrors('name')
                 }"
@@ -37,7 +38,8 @@
                 User name cannot be empty.
               </span>
               <span *ngIf="error?.pattern">
-                User name must be more than 1 character.</span
+                User name must of only Alphabet characters only and 1st letter
+                must be capital.</span
               >
             </small>
 
@@ -49,7 +51,7 @@
                 id="email"
                 class="form-control"
                 [formControl]="registrationForm.controls['email']"
-                placeholder="Email ID"
+                placeholder="Email ID*"
                 [ngClass]="{
                   'is-invalid': GetFormControlErrors('email')
                 }"
@@ -73,7 +75,7 @@
                 id="mobile"
                 class="form-control"
                 [formControl]="registrationForm.controls['mobile']"
-                placeholder="Mobile No"
+                placeholder="Mobile No*"
                 [ngClass]="{
                   'is-invalid': GetFormControlErrors('mobile')
                 }"
@@ -100,7 +102,7 @@
                 id="designation"
                 class="form-control"
                 [formControl]="registrationForm.controls['designation']"
-                placeholder="Designation"
+                placeholder="Designation*"
                 [ngClass]="{
                   'is-invalid': GetFormControlErrors('designation')
                 }"
@@ -128,7 +130,7 @@
                 id="organization"
                 class="form-control"
                 [formControl]="registrationForm.controls['organization']"
-                placeholder="Organisation/Instituition Name"
+                placeholder="Organisation/Instituition Name*"
                 [ngClass]="{
                   'is-invalid': GetFormControlErrors('organization')
                 }"
@@ -152,7 +154,7 @@
                 type="password"
                 class="form-control"
                 [formControl]="registrationForm.controls['password']"
-                placeholder="Password"
+                placeholder="Password*"
                 [ngClass]="{
                   'is-invalid': GetFormControlErrors('password')
                 }"
@@ -176,7 +178,7 @@
                 type="password"
                 class="form-control"
                 [formControl]="registrationForm.controls['confirmPassword']"
-                placeholder="Confirm Password"
+                placeholder="Confirm Password*"
                 [ngClass]="{
                   'is-invalid':
                     formError &&
@@ -201,7 +203,13 @@
             </p>
 
             <div class="input-group">
-              <button type="submit" class="btn btn-primary">Sign up</button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="!registrationForm.valid"
+              >
+                Sign up
+              </button>
             </div>
           </form>
 

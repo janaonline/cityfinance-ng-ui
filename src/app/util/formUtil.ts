@@ -6,7 +6,7 @@ import { customEmailValidator, customPasswordValidator, mobileNoValidator } from
 export class FormUtil {
   private fb: FormBuilder;
 
-  private regexForAtleast1Aplhabet = /\w+/g;
+  private regexForUserName = "[A-Z]+[a-zA-Z]*[\\s*[a-zA-Z]*";
   private regexForAtleast1AplhabetWithSpecialCharacter = "\\w+.?\\s*\\w*\\D";
   private regexForOnlyNumberWithoutDecimalAccept = `\\d*$`;
 
@@ -23,10 +23,7 @@ export class FormUtil {
     let form = this.fb.group({
       name: [
         "",
-        [
-          Validators.required,
-          Validators.pattern(this.regexForAtleast1Aplhabet),
-        ],
+        [Validators.required, Validators.pattern(this.regexForUserName)],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
       email: [
@@ -201,13 +198,19 @@ export class FormUtil {
           form.controls.confirmPassword.value
         );
       } catch (error) {
-        passwordControl.setErrors({ error: true });
+        // passwordControl.setErrors({ error: true });
         errors.push(error.message);
       }
     }
 
     Object.keys(form.controls).forEach((controlName) => {
       const control = form.controls[controlName];
+      /**
+       * We dont need to check for password here as we have already validated it earlier.
+       */
+      if (controlName === "password") {
+        return;
+      }
       if (!control.valid) {
         const newControlName = controlName.split(/(?=[A-Z])/).join(" ");
         if (control.errors && control.errors.required) {
