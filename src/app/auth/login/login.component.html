@@ -67,14 +67,6 @@
                   class="form-control"
                   [ngClass]="{ 'is-invalid': submitted && lf.password.errors }"
                 />
-                <div
-                  *ngIf="submitted && lf.password.errors"
-                  class="invalid-feedback"
-                >
-                  <div *ngIf="lf.password.errors['required']">
-                    Password is required
-                  </div>
-                </div>
               </div>
 
               <p *ngIf="loginError" class="error-message">
@@ -99,8 +91,6 @@
           </div>
         </div>
       </div>
-      <!-- card-body -->
     </div>
   </div>
 </div>
-<!-- <app-footer></app-footer>  -->
