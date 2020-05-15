@@ -410,9 +410,12 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.dialogData = this.list.filter(
       (ulb) =>
         (this.selectedStates[0].length
-          ? this.selectedStates.includes(ulb.state.toLowerCase())
+          ? this.selectedStates[0]
+              .toLowerCase()
+              .includes(ulb.state.toLowerCase())
           : true) && ulb.creditrating === grade
     );
+
     this.modalService.show(ModalRef, { class: "modal-mdl modal-center" });
   }
 
