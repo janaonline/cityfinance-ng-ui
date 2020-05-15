@@ -4,10 +4,10 @@ export const mobileNoValidator = (control: AbstractControl) => {
   const pattern = /^[6-9]\d{9}$/g;
   const mobileNo = false;
   if (!control.value || !control.value.trim()) {
-    return { mobileNo };
+    return { required: true };
   }
   if (!control.value.match(pattern)) {
-    return { mobileNo };
+    return { pattern: false };
   }
   return null;
 };

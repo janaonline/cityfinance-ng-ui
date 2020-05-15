@@ -330,6 +330,20 @@ export class FormUtil {
 
   public validateStateForm(form: FormGroup) {
     const errors: string[] = [];
+    let stateEmailID: string = form.controls.email.value;
+    let departmentEmailID: string = form.controls.departmentEmail.value;
+
+    stateEmailID = stateEmailID ? stateEmailID.trim() : stateEmailID;
+    departmentEmailID = departmentEmailID
+      ? departmentEmailID.trim()
+      : departmentEmailID;
+
+    if (departmentEmailID == stateEmailID) {
+      errors.push("State Email ID and Department Email ID cannot be same");
+      form.controls.email.setErrors({ sameEmail: true });
+      form.controls.departmentEmail.setErrors({ sameEmail: true });
+    }
+
     Object.keys(form.controls).forEach((controlName) => {
       const control = form.controls[controlName];
       if (!control.valid) {
