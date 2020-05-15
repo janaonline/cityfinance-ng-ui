@@ -52,9 +52,14 @@
   transform: scale(1.5);
 }
 
+.input_info,
+.form-field-error-message {
+  margin-left: 11%;
+}
+
 .input_info {
-  margin-left: 10%;
   margin-top: 1%;
+  width: 83%;
 }
 
 .input-group .form-control {

@@ -51,10 +51,7 @@ export class FormUtil {
       ulb: ["", [Validators.required]],
       commissionerName: [
         "",
-        [
-          Validators.required,
-          Validators.pattern(this.regexForAtleast1AplhabetWithSpecialCharacter),
-        ],
+        [Validators.required, Validators.pattern(this.regexForUserName)],
       ],
       commissionerConatactNumber: [
         "",
@@ -68,10 +65,7 @@ export class FormUtil {
       ],
       accountantName: [
         "",
-        [
-          Validators.required,
-          Validators.pattern(this.regexForAtleast1AplhabetWithSpecialCharacter),
-        ],
+        [Validators.required, Validators.pattern(this.regexForUserName)],
       ],
       accountantConatactNumber: ["", [Validators.required, mobileNoValidator]],
       accountantEmail: [
