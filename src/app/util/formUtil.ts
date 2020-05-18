@@ -1,12 +1,17 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { customEmailValidator, mobileNoValidator } from './formValidators';
 import { PasswordValidator } from './passwordValidator';
+import {
+  customEmailValidator,
+  customPasswordValidator,
+  mobileNoValidator,
+  nonEmptyValidator
+} from './reactiveFormValidators';
 
 export class FormUtil {
   private fb: FormBuilder;
 
-  private regexForAtleast1Aplhabet = /\w+/g;
+  private regexForUserName = "[A-Z]+[a-zA-Z]*[\\s*[a-zA-Z]*";
   private regexForAtleast1AplhabetWithSpecialCharacter = "\\w+.?\\s*\\w*\\D";
   private regexForOnlyNumberWithoutDecimalAccept = `\\d*$`;
 
@@ -23,23 +28,20 @@ export class FormUtil {
     let form = this.fb.group({
       name: [
         "",
-        [
-          Validators.required,
-          Validators.pattern(this.regexForAtleast1Aplhabet),
-        ],
+        [Validators.required, Validators.pattern(this.regexForUserName)],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
       email: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
-      designation: ["", [Validators.required]],
+      designation: ["", [Validators.required, nonEmptyValidator]],
       organization: ["", [Validators.required]],
     });
     if (purpose === "CREATION") {
       form = this.fb.group({
         ...form.controls,
-        password: ["", [Validators.required]],
+        password: ["", [customPasswordValidator]],
         confirmPassword: ["", Validators.required],
       });
       return form;
@@ -54,16 +56,13 @@ export class FormUtil {
       ulb: ["", [Validators.required]],
       commissionerName: [
         "",
-        [
-          Validators.required,
-          Validators.pattern(this.regexForAtleast1AplhabetWithSpecialCharacter),
-        ],
+        [Validators.required, Validators.pattern(this.regexForUserName)],
       ],
       commissionerConatactNumber: [
         "",
         [Validators.required, mobileNoValidator],
       ],
-      name: ["", [Validators.required]],
+      name: ["", [Validators.required, nonEmptyValidator]],
 
       commissionerEmail: [
         "",
@@ -71,10 +70,7 @@ export class FormUtil {
       ],
       accountantName: [
         "",
-        [
-          Validators.required,
-          Validators.pattern(this.regexForAtleast1AplhabetWithSpecialCharacter),
-        ],
+        [Validators.required, Validators.pattern(this.regexForUserName)],
       ],
       accountantConatactNumber: ["", [Validators.required, mobileNoValidator]],
       accountantEmail: [
@@ -125,15 +121,15 @@ export class FormUtil {
   public getStateForm() {
     const form = this.fb.group({
       state: ["", Validators.required],
-      name: ["", [Validators.required]],
+      name: ["", [Validators.required, nonEmptyValidator]],
       email: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
-      designation: ["", [Validators.required]],
-      address: ["", [Validators.required]],
-      departmentName: ["", Validators.required],
+      designation: ["", [Validators.required, nonEmptyValidator]],
+      address: ["", [Validators.required, nonEmptyValidator]],
+      departmentName: ["", Validators.required, nonEmptyValidator],
       departmentEmail: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
@@ -146,36 +142,35 @@ export class FormUtil {
 
   public getMoHUAForm() {
     const form = this.fb.group({
-      name: ["", [Validators.required]],
+      name: ["", [Validators.required, nonEmptyValidator]],
       email: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
-      designation: ["", [Validators.required]],
-      address: ["", [Validators.required]],
-      departmentName: ["", Validators.required],
+      designation: ["", [Validators.required, nonEmptyValidator]],
+      address: ["", [Validators.required, nonEmptyValidator]],
+      departmentName: ["MoHUA", [Validators.required, nonEmptyValidator]],
       departmentEmail: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
       departmentContactNumber: ["", [Validators.required, mobileNoValidator]],
     });
-    form.controls.departmentName.setValue("MoHUA");
     return form;
   }
 
   public getPartnerForm() {
     const form = this.fb.group({
-      name: ["", [Validators.required]],
+      name: ["", [Validators.required, nonEmptyValidator]],
       email: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
-      designation: ["", [Validators.required]],
-      address: ["", [Validators.required]],
-      departmentName: ["", Validators.required],
+      designation: ["", [Validators.required, nonEmptyValidator]],
+      address: ["", [Validators.required, nonEmptyValidator]],
+      departmentName: ["", Validators.required, nonEmptyValidator],
       departmentEmail: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
@@ -201,13 +196,19 @@ export class FormUtil {
           form.controls.confirmPassword.value
         );
       } catch (error) {
-        passwordControl.setErrors({ error: true });
+        // passwordControl.setErrors({ error: true });
         errors.push(error.message);
       }
     }
 
     Object.keys(form.controls).forEach((controlName) => {
       const control = form.controls[controlName];
+      /**
+       * We dont need to check for password here as we have already validated it earlier.
+       */
+      if (controlName === "password") {
+        return;
+      }
       if (!control.valid) {
         const newControlName = controlName.split(/(?=[A-Z])/).join(" ");
         if (control.errors && control.errors.required) {
@@ -330,6 +331,20 @@ export class FormUtil {
 
   public validateStateForm(form: FormGroup) {
     const errors: string[] = [];
+    let stateEmailID: string = form.controls.email.value;
+    let departmentEmailID: string = form.controls.departmentEmail.value;
+
+    stateEmailID = stateEmailID ? stateEmailID.trim() : stateEmailID;
+    departmentEmailID = departmentEmailID
+      ? departmentEmailID.trim()
+      : departmentEmailID;
+
+    if (departmentEmailID == stateEmailID) {
+      errors.push("State Email ID and Department Email ID cannot be same");
+      form.controls.email.setErrors({ sameEmail: true });
+      form.controls.departmentEmail.setErrors({ sameEmail: true });
+    }
+
     Object.keys(form.controls).forEach((controlName) => {
       const control = form.controls[controlName];
       if (!control.valid) {

@@ -13,196 +13,258 @@
   *ngIf="profileForm"
   (ngSubmit)="onFormSubmit(profileForm)"
 >
-  <div class="input-group">
-    <label for="state"
-      >State
-      <span class="asterik">*</span>
-    </label>
-    <select
-      name="State"
-      id="state"
-      formControlName="state"
-      class="form-control"
-      placeholder="State"
-      [ngClass]="{
-        'is-invalid': formSubmitted && profile?.controls?.state.errors
-      }"
-    >
-      <option value="" selected disabled>
-        State
-      </option>
-      <option *ngFor="let state of stateList" [value]="state._id">
-        {{ state.name }}
-      </option>
-    </select>
-  </div>
-
-  <div class="input-group">
-    <label for="name"
-      >User Name
-      <span
-        class="asterik"
-        *ngIf="profileForm.controls.name.validator({})['required']"
-        >*</span
+  <div>
+    <div class="input-group">
+      <label for="state"
+        >State
+        <span class="asterik">*</span>
+      </label>
+      <select
+        name="State"
+        id="state"
+        formControlName="state"
+        class="form-control"
+        placeholder="State"
+        [ngClass]="{
+          'is-invalid': profileForm?.controls?.state.errors
+        }"
       >
-    </label>
-    <input
-      id="name"
-      type="text"
-      formControlName="name"
-      class="form-control"
-      [ngClass]="{
-        'is-invalid': formSubmitted && profileForm.controls.name.errors
-      }"
-    />
-  </div>
+        <option value="" selected disabled>
+          State
+        </option>
+        <option *ngFor="let state of stateList" [value]="state._id">
+          {{ state.name }}
+        </option>
+      </select>
+    </div>
 
-  <div class="input-group">
-    <label for="email"
-      >Email ID
-      <span
-        class="asterik"
-        *ngIf="profileForm.controls.email.validator({})['required']"
-        >*</span
+    <div class="input-group">
+      <label for="name"
+        >User Name
+        <span
+          class="asterik"
+          *ngIf="profileForm.controls.name.validator({})['required']"
+          >*</span
+        >
+      </label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': GetFormControlErrors('name')
+        }"
+      />
+      <small
+        *ngIf="GetFormControlErrors('name') as nameError"
+        class="form-field-error-message"
       >
-    </label>
-    <input
-      id="email"
-      type="email"
-      formControlName="email"
-      class="form-control"
-      [ngClass]="{
-        'is-invalid': formSubmitted && profileForm.controls.email.errors
-      }"
-    />
-  </div>
+        <span *ngIf="nameError?.required"> User name cannot be empty. </span>
+      </small>
+    </div>
 
-  <div class="input-group">
-    <label for="mobile"
-      >Mobile No
-      <span
-        class="asterik"
-        *ngIf="profileForm.controls.mobile.validator({})['required']"
-        >*</span
+    <div class="input-group">
+      <label for="email"
+        >Email ID
+        <span
+          class="asterik"
+          *ngIf="profileForm.controls.email.validator({})['required']"
+          >*</span
+        >
+      </label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': GetFormControlErrors('email')
+        }"
+      />
+      <small
+        *ngIf="GetFormControlErrors('email') as emailError"
+        class="form-field-error-message"
       >
-    </label>
-    <input
-      id="mobile"
-      type="text"
-      formControlName="mobile"
-      class="form-control"
-      [ngClass]="{
-        'is-invalid': formSubmitted && profileForm.controls.mobile.errors
-      }"
-    />
-  </div>
+        <span *ngIf="emailError?.required">Email ID cannot be empty.</span>
+        <span *ngIf="emailError?.email === false">Email ID is not valid.</span>
+      </small>
+    </div>
 
-  <div class="input-group">
-    <label for="designation"
-      >Designation
-      <span
-        class="asterik"
-        *ngIf="profileForm.controls.designation.validator({})['required']"
-        >*</span
+    <div class="input-group">
+      <label for="mobile"
+        >Mobile No
+        <span
+          class="asterik"
+          *ngIf="profileForm.controls.mobile.validator({})['required']"
+          >*</span
+        >
+      </label>
+      <input
+        id="mobile"
+        type="text"
+        formControlName="mobile"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': GetFormControlErrors('mobile')
+        }"
+      />
+      <small
+        *ngIf="GetFormControlErrors('mobile') as error"
+        class="form-field-error-message"
       >
-    </label>
-    <input
-      id="designation"
-      type="text"
-      formControlName="designation"
-      class="form-control"
-      [ngClass]="{
-        'is-invalid': formSubmitted && profileForm.controls.designation.errors
-      }"
-    />
-  </div>
+        <span *ngIf="error?.required"> Mobile No cannot be empty. </span>
+        <span *ngIf="error?.pattern === false">
+          Mobile No must start with either 6 / 7 / 8 / 9, and of 10 digits only.
+        </span>
+      </small>
+    </div>
 
-  <div class="input-group">
-    <label for="departmentName"
-      >Department Name
-      <span
-        class="asterik"
-        *ngIf="profileForm.controls.departmentName.validator({})['required']"
-        >*</span
+    <div class="input-group">
+      <label for="designation"
+        >Designation
+        <span
+          class="asterik"
+          *ngIf="profileForm.controls.designation.validator({})['required']"
+          >*</span
+        >
+      </label>
+      <input
+        id="designation"
+        type="text"
+        formControlName="designation"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': GetFormControlErrors('designation')
+        }"
+      />
+      <small
+        *ngIf="GetFormControlErrors('designation') as error"
+        class="form-field-error-message"
       >
-    </label>
-    <input
-      id="departmentName"
-      type="text"
-      formControlName="departmentName"
-      class="form-control"
-      [ngClass]="{
-        'is-invalid':
-          formSubmitted && profileForm.controls.departmentName.errors
-      }"
-    />
-  </div>
+        <span *ngIf="error?.required"> Designation cannot be empty. </span>
+      </small>
+    </div>
 
-  <div class="input-group">
-    <label for="departmentEmail"
-      >Department Email ID
-      <span
-        class="asterik"
-        *ngIf="profileForm.controls.departmentEmail.validator({})['required']"
-        >*</span
+    <div class="input-group">
+      <label for="departmentName"
+        >Department Name
+        <span
+          class="asterik"
+          *ngIf="profileForm.controls.departmentName.validator({})['required']"
+          >*</span
+        >
+      </label>
+      <input
+        id="departmentName"
+        type="text"
+        formControlName="departmentName"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': GetFormControlErrors('departmentName')
+        }"
+      />
+      <small
+        *ngIf="GetFormControlErrors('departmentName') as error"
+        class="form-field-error-message"
       >
-    </label>
-    <input
-      id="departmentEmail"
-      type="email"
-      formControlName="departmentEmail"
-      class="form-control"
-      [ngClass]="{
-        'is-invalid':
-          formSubmitted && profileForm.controls.departmentEmail.errors
-      }"
-    />
-  </div>
+        <span *ngIf="error?.required">Department Name cannot be empty. </span>
+      </small>
+    </div>
 
-  <div class="input-group">
-    <label for="departmentContactNumber"
-      >Department Contact No
-      <span
-        class="asterik"
-        *ngIf="
-          profileForm.controls.departmentContactNumber.validator({})['required']
-        "
-        >*</span
+    <div class="input-group">
+      <label for="departmentEmail"
+        >Department Email ID
+        <span
+          class="asterik"
+          *ngIf="profileForm.controls.departmentEmail.validator({})['required']"
+          >*</span
+        >
+      </label>
+      <input
+        id="departmentEmail"
+        type="email"
+        formControlName="departmentEmail"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': GetFormControlErrors('departmentEmail')
+        }"
+      />
+      <small
+        *ngIf="GetFormControlErrors('departmentEmail') as error"
+        class="form-field-error-message"
       >
-    </label>
-    <input
-      id="departmentContactNumber"
-      type="text"
-      formControlName="departmentContactNumber"
-      class="form-control"
-      [ngClass]="{
-        'is-invalid':
-          formSubmitted && profileForm.controls.departmentContactNumber.errors
-      }"
-    />
-  </div>
+        <span *ngIf="error?.required"
+          >Department Email ID cannot be empty.
+        </span>
+        <span *ngIf="error?.email === false"
+          >Department Email ID is not valid.
+        </span>
+      </small>
+    </div>
 
-  <div class="input-group">
-    <label for="address"
-      >Address
-      <span
-        class="asterik"
-        *ngIf="profileForm.controls.address.validator({})['required']"
-        >*</span
+    <div class="input-group">
+      <label for="departmentContactNumber"
+        >Department Contact No
+        <span
+          class="asterik"
+          *ngIf="
+            profileForm.controls.departmentContactNumber.validator({})[
+              'required'
+            ]
+          "
+          >*</span
+        >
+      </label>
+      <input
+        id="departmentContactNumber"
+        type="text"
+        formControlName="departmentContactNumber"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': GetFormControlErrors('departmentContactNumber')
+        }"
+      />
+      <small
+        *ngIf="GetFormControlErrors('departmentContactNumber') as error"
+        class="form-field-error-message"
       >
-    </label>
-    <input
-      id="address"
-      type="text"
-      formControlName="address"
-      class="form-control"
-      [ngClass]="{
-        'is-invalid': formSubmitted && profileForm.controls.address.errors
-      }"
-    />
+        <span *ngIf="error?.required"> Contact No cannot be empty. </span>
+        <span *ngIf="error?.pattern === false">
+          Contact No must start with either 6 / 7 / 8 / 9, and of 10 digits
+          only.
+        </span>
+      </small>
+    </div>
+
+    <div class="input-group">
+      <label for="address"
+        >Address
+        <span
+          class="asterik"
+          *ngIf="profileForm.controls.address.validator({})['required']"
+          >*</span
+        >
+      </label>
+      <input
+        id="address"
+        type="text"
+        formControlName="address"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': GetFormControlErrors('address')
+        }"
+      />
+      <small
+        *ngIf="GetFormControlErrors('address') as error"
+        class="form-field-error-message"
+      >
+        <span *ngIf="error?.required"> Adddress cannot be empty. </span>
+      </small>
+    </div>
   </div>
 
-  <p *ngIf="formErrors">
+  <p *ngIf="formErrors" style="width: 100%;">
     <span
       *ngFor="let error of formErrors; let i = index"
       style="display: block; color: red;"
@@ -229,22 +291,12 @@
   </div>
 
   <div *ngIf="profileForm.enabled" class="mt-2" style="display: block;">
-    <button type="submit" class="btn btn-primary mr-2">
+    <button
+      type="submit"
+      class="btn btn-primary mr-2"
+      [disabled]="!profileForm.valid"
+    >
       {{ profileData ? "Update Profile" : "Create" }}
     </button>
-    <!-- <button
-      *ngIf="profileData"
-      type="button"
-      class="btn btn-primary"
-      (click)="disableProfileEdit()"
-    >
-      Cancel
-    </button> -->
   </div>
-
-  <!-- <div class="input-group d-block" style="display: block;">
-    <button type="submit" class="btn btn-primary">
-      
-    </button>
-  </div> -->
 </form>

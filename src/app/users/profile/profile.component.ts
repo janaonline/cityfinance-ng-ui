@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AccessChecker } from 'src/app/util/access/accessChecker';
+import { ACTIONS } from 'src/app/util/access/actions';
+import { MODULES_NAME } from 'src/app/util/access/modules';
 
 import { USER_TYPE } from '../../models/user/userType';
 import { IBaseProfileData } from './model/base-profile';
@@ -33,7 +36,6 @@ export class ProfileComponent implements OnInit {
   ) {
     this._activatedRoute.params.subscribe((params) => {
       this.profileMode = params.type;
-      // this.setFormView();
 
       this._activatedRoute.queryParams.subscribe(
         (queryParams: IQueryParamOption) =>
@@ -50,17 +52,22 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  // private setFormView() {
-  //   this.userType = this._profileService.getLoggedInUserType();
-  // }
-
   private onGettingQueryParams(queryParams: IQueryParamOption) {
     this.profileType = queryParams.role;
     this.editable = queryParams.edit === "true" ? true : false;
-
+    let hasAccess: boolean;
     if (this.profileMode === "create") {
-      this.validateRoleCreationParameters(queryParams);
+      const hasAllParameters = this.validateRoleCreationParameters(queryParams);
+      hasAccess = this.validateRoleCreationAccess(queryParams);
+      if (!hasAllParameters || !hasAccess) {
+        return window.history.back();
+      }
       return;
+    } else {
+      hasAccess = this.validateProfileViewAccess(queryParams);
+      if (!hasAccess) {
+        return window.history.back();
+      }
     }
     const param = this.createQueryParamsForDataFetch(queryParams);
     this.fetchProfileData(param);
@@ -83,7 +90,41 @@ export class ProfileComponent implements OnInit {
   private validateRoleCreationParameters(queryParams: IQueryParamOption) {
     if (!queryParams || !queryParams.role) {
       console.error(`No role defined for creation.`);
-      window.history.back();
+      return false;
     }
+    return true;
+  }
+
+  private validateRoleCreationAccess(queryParams: IQueryParamOption) {
+    const accessValidator = new AccessChecker();
+    const canCreate = accessValidator.hasAccess({
+      moduleName: <any>queryParams.role,
+      action: ACTIONS.CREATE,
+    });
+    if (!canCreate) {
+      console.error("ACCESS DENIED");
+    }
+    return canCreate;
+  }
+
+  private validateProfileViewAccess(queryParams: IQueryParamOption) {
+    const accessValidator = new AccessChecker();
+
+    /**
+     * If there is no id in the queryParam that means we are looking at our own profile.
+     */
+    const moduleName: any = queryParams.id
+      ? queryParams.role
+      : MODULES_NAME.SELF_PROFILE;
+    const action = queryParams.edit === "true" ? ACTIONS.EDIT : ACTIONS.VIEW;
+    const hasAccess = accessValidator.hasAccess({
+      moduleName,
+      action,
+    });
+
+    if (!hasAccess) {
+      console.error(`Accesss DENIED.`);
+    }
+    return hasAccess;
   }
 }
