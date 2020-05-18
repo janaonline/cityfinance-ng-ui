@@ -20,6 +20,13 @@ export class LoginComponent implements OnInit {
 
   public loginError: string;
   public emailVerificationMessage: string;
+  public showRecaptcha = true;
+  public reCaptcha = {
+    show: false,
+    siteKey: environment.reCaptcha.siteKey,
+    userGeneratedKey: null,
+  };
+  public reCaptchaSiteKey = environment.reCaptcha.siteKey;
 
   constructor(
     private fb: FormBuilder,
@@ -27,6 +34,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
+    console.log(this.reCaptchaSiteKey);
+
     this.activatedRoute.queryParams.subscribe((param) => {
       if (param.message) {
         this.emailVerificationMessage = param.message;
@@ -52,24 +61,37 @@ export class LoginComponent implements OnInit {
   login() {
     this.loginError = null;
     this.submitted = true;
+    if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
+      this.loginError = "Login Failed. You must validate that you are human.";
+      return;
+    }
+
     if (this.loginForm.valid) {
       this.authService.signin(this.loginForm.value).subscribe(
-        (res) => {
-          if (res && res["token"]) {
-            localStorage.setItem("id_token", JSON.stringify(res["token"]));
-            localStorage.setItem("userData", JSON.stringify(res["user"]));
-
-            this.router.navigate(["home"]);
-          } else {
-            localStorage.removeItem("id_token");
-          }
-        },
-        (error) => {
-          this.loginError = error.error["message"] || "Server Error";
-        }
+        (res) => this.onSuccessfullLogin(res),
+        (error) => this.onLoginError(error)
       );
     } else {
       this.formError = true;
     }
+  }
+
+  private onSuccessfullLogin(res) {
+    if (res && res["token"]) {
+      localStorage.setItem("id_token", JSON.stringify(res["token"]));
+      localStorage.setItem("userData", JSON.stringify(res["user"]));
+
+      this.router.navigate(["home"]);
+    } else {
+      localStorage.removeItem("id_token");
+    }
+  }
+
+  private onLoginError(error) {
+    this.loginError = error.error["message"] || "Server Error";
+  }
+
+  resolveCaptcha(keyGenerated: string) {
+    this.reCaptcha.userGeneratedKey = keyGenerated;
   }
 }
