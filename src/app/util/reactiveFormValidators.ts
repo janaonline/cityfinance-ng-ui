@@ -39,3 +39,20 @@ export const customPasswordValidator = (control: AbstractControl) => {
   }
   return null;
 };
+
+/**
+ * @description This Validator must be used for string inputs only.
+ * The in-built <code> Validators.required </code> accepts empty string as valid,
+ * but this validator will in-validate it. It can be used along side Validators.required also.
+ * @example
+ *  'asdas' = valid
+ *  '    '  = invalid
+ */
+export const nonEmptyValidator = (control: AbstractControl) => {
+  const value = control.value;
+  if (!value || !value.trim()) {
+    return { required: true };
+  }
+
+  return null;
+};
