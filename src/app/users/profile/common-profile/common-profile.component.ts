@@ -37,6 +37,15 @@ export class CommonProfileComponent implements OnInit, OnChanges {
     this.initializeForm();
   }
 
+  public GetFormControlErrors(controlName: string) {
+    return !!(
+      this.profileForm.controls[controlName].dirty &&
+      this.profileForm.controls[controlName].errors
+    )
+      ? this.profileForm.controls[controlName].errors
+      : null;
+  }
+
   public onFormSubmit(form: FormGroup) {
     this.resetResponseMessage();
     this.formSubmitted = true;
