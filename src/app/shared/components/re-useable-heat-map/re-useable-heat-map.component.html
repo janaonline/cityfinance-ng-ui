@@ -10,11 +10,14 @@
       font-weight: 500;
       display: inherit;
       margin-top: 1.8rem;
+      width: 15vw;
     "
   >
+    <!-- width: 281px; -->
+
     <span
       *ngIf="currentStateInView && currentStateInView.name"
-      style="display: inline-block;"
+      style="display: inline-block; min-width: fit-content;"
     >
       {{ currentStateInView ? currentStateInView.name : ""
       }}<span *ngIf="currentULBClicked">:&nbsp; </span>

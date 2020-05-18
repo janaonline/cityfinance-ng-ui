@@ -75,7 +75,7 @@
 </h5>
 <div
   class="navbar container-fluid"
-  style="position: sticky; border: 0px; margin-top: 5px;"
+  style="position: sticky; border: 0px; margin-top: 11px;"
 >
   <!-- top: 70px; -->
 
@@ -134,7 +134,12 @@
     <li
       routerLinkActive="active"
       class="dropdown"
-      style="position: absolute; right: 5px;"
+      style="
+        position: absolute;
+        right: 5px;
+        display: flex;
+        align-items: center;
+      "
       *ngIf="isLoggedIn"
     >
       <a
