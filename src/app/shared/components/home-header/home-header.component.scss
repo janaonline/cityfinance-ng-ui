@@ -26,7 +26,7 @@
 
 .user-dropdown {
   position: fixed;
-  right: 0;
+  right: 1vw;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -39,6 +39,7 @@
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 4px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  z-index: 8888888;
 
   .mat-list-item {
     cursor: pointer;
@@ -48,4 +49,33 @@
 ::ng-deep mat-list-item {
   transition: all 0.3s;
   width: 100%;
+}
+
+li.navbar-brand {
+  padding: 2px 15px;
+}
+
+.login-link {
+  // float: right;
+  right: 1vw;
+  // position: absolute;
+  border-radius: 40px;
+  font-size: 1.3rem;
+
+  padding: 5px 8px;
+  border: 1px solid white;
+}
+
+.login-and-profile {
+  position: absolute;
+  right: 1px;
+}
+
+img,
+li {
+  outline: none;
+}
+
+.web-logo {
+  cursor: pointer;
 }
