@@ -1,7 +1,12 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { PasswordValidator } from './passwordValidator';
-import { customEmailValidator, customPasswordValidator, mobileNoValidator } from './reactiveFormValidators';
+import {
+  customEmailValidator,
+  customPasswordValidator,
+  mobileNoValidator,
+  nonEmptyValidator
+} from './reactiveFormValidators';
 
 export class FormUtil {
   private fb: FormBuilder;
@@ -30,7 +35,7 @@ export class FormUtil {
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
-      designation: ["", [Validators.required]],
+      designation: ["", [Validators.required, nonEmptyValidator]],
       organization: ["", [Validators.required]],
     });
     if (purpose === "CREATION") {
@@ -57,7 +62,7 @@ export class FormUtil {
         "",
         [Validators.required, mobileNoValidator],
       ],
-      name: ["", [Validators.required]],
+      name: ["", [Validators.required, nonEmptyValidator]],
 
       commissionerEmail: [
         "",
@@ -116,15 +121,15 @@ export class FormUtil {
   public getStateForm() {
     const form = this.fb.group({
       state: ["", Validators.required],
-      name: ["", [Validators.required]],
+      name: ["", [Validators.required, nonEmptyValidator]],
       email: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
-      designation: ["", [Validators.required]],
-      address: ["", [Validators.required]],
-      departmentName: ["", Validators.required],
+      designation: ["", [Validators.required, nonEmptyValidator]],
+      address: ["", [Validators.required, nonEmptyValidator]],
+      departmentName: ["", Validators.required, nonEmptyValidator],
       departmentEmail: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
@@ -137,15 +142,15 @@ export class FormUtil {
 
   public getMoHUAForm() {
     const form = this.fb.group({
-      name: ["", [Validators.required]],
+      name: ["", [Validators.required, nonEmptyValidator]],
       email: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
-      designation: ["", [Validators.required]],
-      address: ["", [Validators.required]],
-      departmentName: ["", Validators.required],
+      designation: ["", [Validators.required, nonEmptyValidator]],
+      address: ["", [Validators.required, nonEmptyValidator]],
+      departmentName: ["", Validators.required, nonEmptyValidator],
       departmentEmail: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
@@ -158,15 +163,15 @@ export class FormUtil {
 
   public getPartnerForm() {
     const form = this.fb.group({
-      name: ["", [Validators.required]],
+      name: ["", [Validators.required, nonEmptyValidator]],
       email: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
-      designation: ["", [Validators.required]],
-      address: ["", [Validators.required]],
-      departmentName: ["", Validators.required],
+      designation: ["", [Validators.required, nonEmptyValidator]],
+      address: ["", [Validators.required, nonEmptyValidator]],
+      departmentName: ["", Validators.required, nonEmptyValidator],
       departmentEmail: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
