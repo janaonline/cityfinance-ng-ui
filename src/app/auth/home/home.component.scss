@@ -298,7 +298,7 @@
   //     max-width: 500px;
   //   }
   // }
-  .material-icons{
+  .material-icons {
     vertical-align: middle;
   }
   @keyframes marq {
@@ -326,4 +326,21 @@
   //   background: #000;
   //   margin: auto;
   // }
+}
+
+.support-by {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.support-by a {
+  width: 49%;
+  // margin-right: 5%;
+}
+
+.container .col-md-3 {
+  width: 23%;
 }
