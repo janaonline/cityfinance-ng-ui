@@ -30,7 +30,7 @@
   border-radius: inherit;
   left: 5px;
   bottom: 0px;
-  background: rgb(69, 5, 71);
+  background: transparent;
   z-index: 1;
   display: inline-block;
   width: 98%;
@@ -81,4 +81,11 @@ form {
     width: 142%;
     min-width: fit-content;
   }
+}
+
+.loader-wrapper {
+  width: 55%;
+  display: block;
+  box-shadow: 1px 1px 9px 0px #dbd8d8;
+  border-radius: 5px;
 }

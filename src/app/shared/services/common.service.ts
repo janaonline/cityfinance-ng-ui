@@ -42,7 +42,14 @@ export class CommonService {
 
   public fetchStateList() {
     return this.http
-      .get<IStateListResponse>(environment.api.url + "/state")
+      .get<IStateListResponse>(environment.api.url + "state")
+      .pipe(map((res) => res["data"]));
+  }
+
+  public fetchDataForHomepageMap(stateId?: string) {
+    const params = this.httpUtil.convertToHttpParams({ state: stateId });
+    return this.http
+      .get(environment.api.url + `report/dashboard/home-page-data/`, { params })
       .pipe(map((res) => res["data"]));
   }
 
