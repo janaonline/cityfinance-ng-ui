@@ -4,6 +4,12 @@
   a,
   .navbar-brand {
     color: white;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+  }
+
+  span{
+    font-size: 1.2rem !important;
   }
 
   .nav > li > a:focus,
@@ -11,6 +17,22 @@
     text-decoration: none;
     background-color: #03a9f4;
   }
+}
+
+.container-fluid {
+  width: 100%;
+  max-width: 1440px;
+  padding-right: .75rem;
+  padding-left: .75rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.navbar-right > li:first-child
+{
+    position:absolute;
+    bottom: 0;
+    left:15px;
 }
 
 .position-sticky {
