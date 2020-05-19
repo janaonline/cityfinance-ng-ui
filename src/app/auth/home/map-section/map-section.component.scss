@@ -74,4 +74,9 @@ form {
   .selected-list .c-angle-up svg {
     fill: var(--multi-dropdown-color);
   }
+
+  .pure-checkbox {
+    font-size: 1.3rem;
+    padding: 3px;
+  }
 }

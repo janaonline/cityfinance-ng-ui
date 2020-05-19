@@ -32,6 +32,7 @@ export class MapSectionComponent implements OnInit {
     enableSearchFilter: false,
     labelKey: "name",
     primaryKey: "_id",
+    showCheckbox: false,
     classes: "myclass custom-class",
   };
   constructor(
