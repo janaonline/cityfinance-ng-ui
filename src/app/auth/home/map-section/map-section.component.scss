@@ -12,28 +12,25 @@
 
 .selectPart {
   grid-area: s;
-  // background: red;
   font-size: 2.4rem;
   color: var(--multi-dropdown-color);
 }
 
 .visualization {
   grid-area: v;
-  // background: rgb(15, 128, 118);
   color: var(--multi-dropdown-color);
-  font-weight: 700;
+  font-size: 1.3em;
 }
 
 .mapWrapper {
   grid-area: m;
-  // background: rgb(69, 5, 71);
 }
 
 #mapid {
   border-radius: inherit;
   left: 5px;
   bottom: 0px;
-  background: rgb(69, 5, 71);
+  background: transparent;
   z-index: 1;
   display: inline-block;
   width: 98%;
@@ -47,14 +44,14 @@ form {
   display: inline-block;
 }
 
-.myclass {
+.homepage-stateList {
   display: inline-block;
   width: 100%;
   border: 2px solid var(--multi-dropdown-color);
   border-radius: 8px;
 }
 
-::ng-deep .myclass {
+::ng-deep .homepage-stateList {
   div.selected-list {
     border: none !important;
   }
@@ -77,6 +74,18 @@ form {
 
   .pure-checkbox {
     font-size: 1.3rem;
-    padding: 3px;
+    padding: 3px 8px;
   }
+
+  .dropdown-list {
+    width: 142%;
+    min-width: fit-content;
+  }
+}
+
+.loader-wrapper {
+  width: 55%;
+  display: block;
+  box-shadow: 1px 1px 9px 0px #dbd8d8;
+  border-radius: 5px;
 }
