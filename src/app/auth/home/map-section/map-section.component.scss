@@ -44,14 +44,14 @@ form {
   display: inline-block;
 }
 
-.myclass {
+.homepage-stateList {
   display: inline-block;
   width: 100%;
   border: 2px solid var(--multi-dropdown-color);
   border-radius: 8px;
 }
 
-::ng-deep .myclass {
+::ng-deep .homepage-stateList {
   div.selected-list {
     border: none !important;
   }
@@ -74,6 +74,11 @@ form {
 
   .pure-checkbox {
     font-size: 1.3rem;
-    padding: 3px;
+    padding: 3px 8px;
+  }
+
+  .dropdown-list {
+    width: 142%;
+    min-width: fit-content;
   }
 }

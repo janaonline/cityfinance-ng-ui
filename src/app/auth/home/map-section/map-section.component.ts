@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FeatureCollection, Geometry } from 'geojson';
 import { ICreditRatingData } from 'src/app/models/creditRating/creditRatingResponse';
+import { IState } from 'src/app/models/state/state';
 import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
 import { AssetsService } from 'src/app/shared/services/assets/assets.service';
+import { CommonService } from 'src/app/shared/services/common.service';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
 import { MapUtil } from 'src/app/util/map/mapUtil';
 
@@ -20,7 +22,7 @@ export class MapSectionComponent implements OnInit {
   creditRating: { [stateName: string]: number } = {};
 
   nationalLevelMap: L.Map;
-  stateList: any[] = [{ name: "asdas", _id: 1 }];
+  stateList: IState[];
   // stateIDSelected: string;
 
   mapGeoData: FeatureCollection<
@@ -37,14 +39,16 @@ export class MapSectionComponent implements OnInit {
     labelKey: "name",
     primaryKey: "_id",
     showCheckbox: false,
-    classes: "myclass custom-class",
+    classes: "homepage-stateList custom-class",
   };
   constructor(
     private geoService: GeographicalService,
     private fb: FormBuilder,
-    private assetService: AssetsService
+    private assetService: AssetsService,
+    private commonService: CommonService
   ) {
     this.initializeform();
+    this.fetchStateList();
     this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
       try {
         this.mapGeoData = data;
@@ -55,6 +59,12 @@ export class MapSectionComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  private fetchStateList() {
+    this.commonService
+      .fetchStateList()
+      .subscribe((res) => (this.stateList = res));
+  }
 
   onSelectingStateFromDropDown(state: any | null) {
     // this.stateIDSelected = stateId;
