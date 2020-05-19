@@ -6,7 +6,7 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
-  MatTooltipModule,
+  MatTooltipModule
 } from '@angular/material';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 

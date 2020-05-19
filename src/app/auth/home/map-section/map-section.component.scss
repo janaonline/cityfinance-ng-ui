@@ -1,0 +1,82 @@
+.wrapper {
+  width: 100%;
+  display: grid;
+  grid-template: repeat(6, 12vh) / repeat(4, 15vw);
+  grid-template-areas:
+    " s s m m "
+    " . . m m "
+    " v v m m "
+    " v v m m "
+    " . . m m ";
+}
+
+.selectPart {
+  grid-area: s;
+  // background: red;
+  font-size: 2.4rem;
+  color: var(--multi-dropdown-color);
+}
+
+.visualization {
+  grid-area: v;
+  // background: rgb(15, 128, 118);
+  color: var(--multi-dropdown-color);
+  font-weight: 700;
+}
+
+.mapWrapper {
+  grid-area: m;
+  // background: rgb(69, 5, 71);
+}
+
+#mapid {
+  border-radius: inherit;
+  left: 5px;
+  bottom: 0px;
+  background: rgb(69, 5, 71);
+  z-index: 1;
+  display: inline-block;
+  width: 98%;
+  height: 100%;
+  max-height: 100%;
+  transition: all 0.8s;
+}
+
+form {
+  width: 28%;
+  display: inline-block;
+}
+
+.myclass {
+  display: inline-block;
+  width: 100%;
+  border: 2px solid var(--multi-dropdown-color);
+  border-radius: 8px;
+}
+
+::ng-deep .myclass {
+  div.selected-list {
+    border: none !important;
+  }
+  .c-remove,
+  .clear-all {
+    display: none;
+  }
+  div.c-btn {
+    font-size: 1.5rem;
+    color: var(--multi-dropdown-color);
+    outline: none;
+    padding: 1px 10px;
+    min-height: 31px;
+  }
+
+  .selected-list .c-angle-down svg,
+  .selected-list .c-angle-up svg {
+    fill: var(--multi-dropdown-color);
+  }
+
+  .pure-checkbox {
+    font-size: 1.3rem;
+    padding: 3px;
+  }
+}

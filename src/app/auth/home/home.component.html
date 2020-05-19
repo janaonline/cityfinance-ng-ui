@@ -1,11 +1,3 @@
-<!--<app-home-header-->
-<!--  style="    display: block;-->
-<!--    background: #484848;-->
-<!--    position: sticky;-->
-<!--    top: 0px;-->
-<!--    z-index: 99;"-->
-<!--&gt;</app-home-header>-->
-<app-home-tab-view></app-home-tab-view>
 <div class="dashboard-wrapper">
   <!-- <div class="home-banner">
     <div class="caption">
@@ -62,11 +54,11 @@
         </div>
       </div> -->
 
-      <div class="row">
+      <div class="row about-title">
         <div class="col-sm-12">
-          <h3>About</h3>
+          <h2><span>About Cityfinance</span></h2>
           <p class="about-intro">
-            Cityfinance.in is an initiative of Ministry of Housing and Urban
+            <!-- Cityfinance.in is an initiative of Ministry of Housing and Urban
             Affairs, Government of India. The primary objective of
             CityFinance.in is to serve as a national framework of standardised,
             timely and credible financial information on cities, beginning with
@@ -80,13 +72,25 @@
             hope the portal is useful as a crucial support system for Principal
             Secretaries, Directors of Municipal Administration, Municipal
             Commissioners, Smart City CEOs, Investors, Merchant Bankers, Project
-            Consultants, Credit Rating Agencies & Banks.
+            Consultants, Credit Rating Agencies & Banks. -->
+
+            Cityfinance.in serves as <b>national framework</b> of
+            <b>standardized, timely</b> and
+            <b>credible financial <br />information</b> on <b>cities</b>,
+            beginning with urban local bodies. Cityfinance aims to provide
+            information<br />
+            on financial performance of Urban Local Bodies in a timely and
+            accessible manner.<br /><br />
+            Explore available information about Urban local bodies on
+            Cityfinance portal.
           </p>
-          <h3 class="text-center benifitHeading" style="margin-top: 5%;">
-            Benefits for States/Cities
-          </h3>
+
+          <app-map-section></app-map-section>
+          <h2 class="text-center benifitHeading" style="margin-top: 4rem;">
+            <span>Benefits for</span>
+          </h2>
         </div>
-        <div class="col-sm-12">
+        <!-- <div class="col-sm-12">
           <div class="row">
             <div class="col-md-6">
               <div class="about-block">
@@ -98,13 +102,13 @@
                     benchmarking the own revenue performance your organisation
                     with other urban local bodies and civic agencies in your
                     peer group.
-                  </p>
-                  <!-- <div class="text-center">
+                  </p> -->
+        <!-- <div class="text-center">
                     <a [routerLink]="['/dashboard/report']">
                       <div class="btn btn-sm btn-primary">Explore</div>
                     </a>
                   </div> -->
-                </div>
+        <!-- </div>
               </div>
             </div>
             <div class="col-md-6">
@@ -118,13 +122,13 @@
                     reports, details of municipal bond issuances and database of
                     Public Private Partnerships in urban infrastructure and
                     services.
-                  </p>
-                  <!-- <div class="text-center">
+                  </p> -->
+        <!-- <div class="text-center">
                     <a [routerLink]="['/credit-rating/laws']">
                       <div class="btn btn-sm btn-primary">Explore</div>
                     </a>
                   </div> -->
-                </div>
+        <!-- </div>
               </div>
             </div>
           </div>
@@ -139,13 +143,13 @@
                     Refer model RFPs, technical documents and model policies for
                     accounting, budgeting, MIS and auditing for best in class
                     financial management and budgetary control
-                  </p>
-                  <!-- <div class="text-center">
+                  </p> -->
+        <!-- <div class="text-center">
                     <a [routerLink]="['/credit-rating/report']">
                       <div class="btn btn-sm btn-primary">Explore</div>
                     </a>
                   </div> -->
-                </div>
+        <!-- </div>
               </div>
             </div>
             <div class="col-md-6">
@@ -157,12 +161,164 @@
                   <p>
                     Get started on reform initiatives and innovations with ready
                     to use playbooks, sign-up for digital learning modules
-                  </p>
-                  <!-- <div class="text-center">
+                  </p> -->
+        <!-- <div class="text-center">
                     <a [routerLink]="['/credit-rating/municipal-bond']">
                       <div class="btn btn-sm btn-primary">Explore</div>
                     </a>
                   </div> -->
+        <!-- </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="col-sm-12 sector-section-main sector-section-main-homepage">
+          <div class="row">
+            <div
+              class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 scheme-section-card d-flex wow dg-fadeInDown"
+              data-wow-duration="1s"
+              data-wow-delay="0s"
+            >
+              <div class="sectorcard w-100 card">
+                <p class="sector-title card-header">Transport</p>
+                <div class="card-body">
+                  <div
+                    class="sector-icon wow fadeInleft animated"
+                    data-wow-duration="0.7s"
+                    style="visibility: visible; animation-duration: 0.7s;"
+                  >
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="https://indiainvestmentgrid.gov.in/assets/iigNew2/images/sector/transportcar.svg"
+                    />
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="https://indiainvestmentgrid.gov.in/assets/iigNew2/images/sector/transportcar_hover.svg"
+                    />
+                  </div>
+                  <div class="sector-info">
+                    <span>
+                      Enhance own revenues<br />
+                      Raise market financing<br />
+                      Improve financial management<br />
+                      Build skills and competencies
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 scheme-section-card d-flex wow dg-fadeInDown"
+              data-wow-duration="1s"
+              data-wow-delay="0s"
+            >
+              <div class="sectorcard w-100 card">
+                <p class="sector-title card-header">Transport</p>
+                <div class="card-body">
+                  <div
+                    class="sector-icon wow fadeInleft animated"
+                    data-wow-duration="0.7s"
+                    style="visibility: visible; animation-duration: 0.7s;"
+                  >
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="https://indiainvestmentgrid.gov.in/assets/iigNew2/images/sector/transportcar.svg"
+                    />
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="https://indiainvestmentgrid.gov.in/assets/iigNew2/images/sector/transportcar_hover.svg"
+                    />
+                  </div>
+                  <div class="sector-info">
+                    <span>
+                      Enhance own revenues<br />
+                      Raise market financing<br />
+                      Improve financial management<br />
+                      Build skills and competencies
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 scheme-section-card d-flex wow dg-fadeInDown"
+              data-wow-duration="1s"
+              data-wow-delay="0s"
+            >
+              <div class="sectorcard w-100 card">
+                <p class="sector-title card-header">Transport</p>
+                <div class="card-body">
+                  <div
+                    class="sector-icon wow fadeInleft animated"
+                    data-wow-duration="0.7s"
+                    style="visibility: visible; animation-duration: 0.7s;"
+                  >
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="https://indiainvestmentgrid.gov.in/assets/iigNew2/images/sector/transportcar.svg"
+                    />
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="https://indiainvestmentgrid.gov.in/assets/iigNew2/images/sector/transportcar_hover.svg"
+                    />
+                  </div>
+                  <div class="sector-info">
+                    <span>
+                      Enhance own revenues<br />
+                      Raise market financing<br />
+                      Improve financial management<br />
+                      Build skills and competencies
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 scheme-section-card d-flex wow dg-fadeInDown"
+              data-wow-duration="1s"
+              data-wow-delay="0s"
+            >
+              <div class="sectorcard w-100 card">
+                <p class="sector-title card-header">Transport</p>
+                <div class="card-body">
+                  <div
+                    class="sector-icon wow fadeInleft animated"
+                    data-wow-duration="0.7s"
+                    style="visibility: visible; animation-duration: 0.7s;"
+                  >
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="https://indiainvestmentgrid.gov.in/assets/iigNew2/images/sector/transportcar.svg"
+                    />
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="https://indiainvestmentgrid.gov.in/assets/iigNew2/images/sector/transportcar_hover.svg"
+                    />
+                  </div>
+                  <div class="sector-info">
+                    <span>
+                      Enhance own revenues<br />
+                      Raise market financing<br />
+                      Improve financial management<br />
+                      Build skills and competencies
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -244,7 +400,7 @@
               <a href="https://www.omidyarnetwork.in/" target="_new">
                 <img src="assets/images/omdiyar-logo.png" />
               </a>
-              <a href="https://www.omidyarnetwork.in/" target="_new">
+              <a href="https://www.gatesfoundation.org/" target="_new">
                 <img src="assets/images/BMGF.png" />
               </a>
             </div>

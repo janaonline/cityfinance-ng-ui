@@ -60,10 +60,11 @@
   color: #000;
 
   .about-intro {
+    font-size: 1.8rem;
     letter-spacing: 1px;
     text-align: center;
     margin-bottom: 30px;
-    text-align: justify;
+    text-align: center;
   }
 
   h3:nth-child(1) {
@@ -206,6 +207,20 @@
     }
   }
 
+  .about-title h2 { 
+    width: 50%;
+    text-align: center;
+    border-bottom: 1px solid #25A891;
+    line-height: 0.1em;
+    margin: 10px auto 35px;
+  } 
+  
+  .about-title h2 span { 
+    background:#fafafa; 
+    color: #25A891;
+    padding: 0px 15px;
+  }
+
   .about-block {
     min-height: 22rem;
     display: block;
@@ -255,6 +270,140 @@
       }
     }
   }
+}
+
+.row{
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.75rem;
+  margin-left: -0.75rem;
+}
+
+.scheme-section-card{
+  visibility: visible; 
+  animation-duration: 1s; 
+  animation-delay: 0s; 
+  animation-name: dg-fadeInDown;
+}
+
+.sectorcard:hover {
+  transform: scale(1.05);
+  transition: all 1s ease-out 0s;
+  background: white;
+}
+
+.sectorcard {
+  text-align: center;
+  background-image: linear-gradient(to left top, rgb(5, 166, 88), rgb(5, 155, 154));
+  position: relative;
+  border-radius: 3px;
+  margin: 0.75rem 0px;
+  overflow: hidden;
+  transition: all 1.5s ease-out 0s;
+}
+
+.sector-icon{
+  visibility: visible; 
+  animation-duration: 0.7s;
+}
+
+.card:hover {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 15px;
+}
+
+.card {
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 26px;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  border-image: initial;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sector-section-main-homepage .sectorcard .sector-title {
+  transform: translateY(1rem);
+  transition: transform 0.5s ease 0s;
+}
+
+.sectorcard .sector-title {
+  font-size: 2.2rem;
+  text-align: center;
+  color: white;
+  font-weight: 500;
+  text-transform: uppercase;
+  min-height: 6rem;
+  margin: 0;
+  padding-top: 1.5rem;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  border-image: initial;
+  background: none;
+}
+
+.sectorcard:hover .sector-title {
+  color: rgb(30, 193, 124);
+  backface-visibility: hidden;
+}
+
+.card-header {
+  margin-bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.03);
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.sectorcard:hover .card-body .sector-icon img:nth-last-child(2n) {
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  transition: transform 1s ease 0s;
+}
+
+.sectorcard .card-body .sector-icon img:nth-last-child(2n) {
+  opacity: 1;
+  visibility: visible;
+  transition: transform 1s ease 0s;
+}
+
+.sectorcard:hover .card-body .sector-icon img:nth-last-child(2n+1) {
+  opacity: 1;
+  visibility: visible;
+  position: relative;
+  transition: transform 1s ease 0s;
+}
+
+.sectorcard .card-body .sector-icon img:nth-last-child(2n+1) {
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  transition: transform 1s ease 0s;
+}
+
+.sectorcard .card-body .sector-icon img {
+  height: 15rem;
+}
+
+img {
+  vertical-align: middle;
+  border-style: none;
+}
+
+.sectorcard .card-body .sector-info {
+  opacity: 0;
+  color: rgb(30, 193, 124);
+  text-align: center;
+  font-size: 1.8rem;
+  width: 100%;
+  padding: 2rem 1rem;
+  transition: opacity 1s ease-out 0s;
+}
+
+.sectorcard:hover .card-body .sector-info {
+  opacity: 1;
+  color: rgb(30, 193, 124);
+  backface-visibility: hidden;
 }
 
 .partners {
