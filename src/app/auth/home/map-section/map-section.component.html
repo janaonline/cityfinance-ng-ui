@@ -18,7 +18,15 @@
     <h3>{{ stateSelected ? stateSelected.name : "INDIA" }}</h3>
     <p>Urban local bodies</p>
     <p>Financial Statements</p>
-    <p>Cities Credit Rating</p>
+    <p>
+      <strong>
+        {{
+          stateSelected ? creditRating[stateSelected.name] : creditRating.total
+        }}
+      </strong>
+
+      Cities Credit Rating
+    </p>
     <p>Municipal Bonds Issuance</p>
   </div>
   <div class="mapWrapper">

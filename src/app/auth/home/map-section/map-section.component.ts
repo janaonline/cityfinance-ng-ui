@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FeatureCollection, Geometry } from 'geojson';
+import { ICreditRatingData } from 'src/app/models/creditRating/creditRatingResponse';
 import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
+import { AssetsService } from 'src/app/shared/services/assets/assets.service';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
 import { MapUtil } from 'src/app/util/map/mapUtil';
 
@@ -14,6 +16,8 @@ export class MapSectionComponent implements OnInit {
   statesLayer: L.GeoJSON<any>;
   myForm: FormGroup;
   stateSelected: { name: string; _id: string };
+
+  creditRating: { [stateName: string]: number } = {};
 
   nationalLevelMap: L.Map;
   stateList: any[] = [{ name: "asdas", _id: 1 }];
@@ -37,7 +41,8 @@ export class MapSectionComponent implements OnInit {
   };
   constructor(
     private geoService: GeographicalService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private assetService: AssetsService
   ) {
     this.initializeform();
     this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
@@ -46,6 +51,7 @@ export class MapSectionComponent implements OnInit {
         this.createNationalLevelMap(data, "mapid");
       } catch (error) {}
     });
+    this.fetchCreditRatingTotalCount();
   }
 
   ngOnInit() {}
@@ -58,12 +64,6 @@ export class MapSectionComponent implements OnInit {
   }
 
   private fetchDataForVisualisation(stateId: string | null) {}
-
-  private initializeform() {
-    this.myForm = this.fb.group({
-      stateId: [""],
-    });
-  }
 
   private createNationalLevelMap(
     geoData: FeatureCollection<
@@ -93,6 +93,33 @@ export class MapSectionComponent implements OnInit {
           // this.onClickingStateOnMap(args);
         },
       });
+    });
+  }
+
+  private fetchCreditRatingTotalCount() {
+    this.assetService
+      .fetchCreditRatingReport()
+      .subscribe((res) => this.computeStatesTotalRatings(res));
+  }
+
+  private computeStatesTotalRatings(res: ICreditRatingData[]) {
+    const computedData = { total: 0 };
+    res.forEach((data) => {
+      if (computedData[data.state] || computedData[data.state] === 0) {
+        computedData[data.state] += 1;
+      } else {
+        computedData[data.state] = 1;
+      }
+      computedData.total += 1;
+    });
+    console.log(computedData);
+
+    this.creditRating = computedData;
+  }
+
+  private initializeform() {
+    this.myForm = this.fb.group({
+      stateId: [""],
     });
   }
 }
