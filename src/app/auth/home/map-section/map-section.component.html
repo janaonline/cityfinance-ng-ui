@@ -1,0 +1,27 @@
+<!-- asdasasd -->
+
+<div class="wrapper">
+  <div class="selectPart">
+    Click on a state to see available data on City governments
+    <form [formGroup]="myForm">
+      <angular2-multiselect
+        [data]="stateList"
+        formControlName="stateId"
+        [settings]="DropdownSettings"
+        (onSelect)="onSelectingStateFromDropDown($event)"
+        (onDeSelect)="onSelectingStateFromDropDown(null)"
+      >
+      </angular2-multiselect>
+    </form>
+  </div>
+  <div class="visualization">
+    <h3>{{ stateSelected ? stateSelected.name : "INDIA" }}</h3>
+    <p>Urban local bodies</p>
+    <p>Financial Statements</p>
+    <p>Cities Credit Rating</p>
+    <p>Municipal Bonds Issuance</p>
+  </div>
+  <div class="mapWrapper">
+    <div id="mapid"></div>
+  </div>
+</div>

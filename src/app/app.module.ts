@@ -15,6 +15,7 @@ import { AppRouter } from './app.route';
 import { AuthService } from './auth/auth.service';
 import { HeatMapComponent } from './auth/home/heat-map/heat-map.component';
 import { HomeComponent } from './auth/home/home.component';
+import { MapSectionComponent } from './auth/home/map-section/map-section.component';
 import { AuthGuard } from './security/auth-guard.service';
 import { CfChartsModule } from './shared/cf-charts/cf-charts.module';
 import { DialogComponent } from './shared/components/dialog/dialog.component';
@@ -55,6 +56,7 @@ import { SharedModule } from './shared/shared.module';
     AppComponent,
     DialogComponent,
     HomeComponent,
+    MapSectionComponent,
     HeatMapComponent,
   ],
   exports: [],
