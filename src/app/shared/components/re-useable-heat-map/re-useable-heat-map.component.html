@@ -13,8 +13,6 @@
       width: 15vw;
     "
   >
-    <!-- width: 281px; -->
-
     <span
       *ngIf="currentStateInView && currentStateInView.name"
       style="display: inline-block; min-width: fit-content;"
@@ -26,6 +24,9 @@
       {{ currentULBClicked.name }}
     </span>
   </div>
+  <!-- <p *ngIf="currentStateInView" class="text-center" style="width: 100%;">
+    Click on any ULB to view their data or click on INDIA map to go back.
+  </p> -->
   <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
     <app-pre-loader></app-pre-loader>
     <app-pre-loader></app-pre-loader>
@@ -33,55 +34,6 @@
     <app-pre-loader></app-pre-loader>
   </div>
   <div class="ulbSelectDropdown">
-    <!-- <mat-form-field
-      style="display: block;"
-      class="col-md-12 customDropdown"
-      appearance="outline"
-      *ngIf="ulbsOfSelectedState && nationalLevelMap"
-    >
-      <input
-        #autoCompleteInput
-        type="text"
-        placeholder="Search ULB"
-        aria-label="text"
-        matInput
-        [formControl]="ulbFilterControl"
-        [matAutocomplete]="auto"
-      />
-
-      <mat-autocomplete #auto="matAutocomplete" class="tesinng">
-        <mat-option *ngIf="!filteredULBStateAndULBDataMerged" disabled>
-          No ULB matched
-        </mat-option>
-        <div *ngIf="filteredULBStateAndULBDataMerged">
-          <mat-optgroup
-            *ngFor="
-              let stateId of object.keys(filteredULBStateAndULBDataMerged)
-            "
-            [label]="filteredULBStateAndULBDataMerged[stateId].name"
-          >
-            <mat-option
-              *ngIf="
-                !filteredULBStateAndULBDataMerged[stateId].ulbs ||
-                !filteredULBStateAndULBDataMerged[stateId].ulbs.length
-              "
-              disabled
-            >
-              No ULB available.
-            </mat-option>
-            <mat-option
-              *ngFor="let ulb of filteredULBStateAndULBDataMerged[stateId].ulbs"
-              (click)="onSelectingULBFromDropdown(ulb._id)"
-              [value]="ulb.name"
-              [title]="ulb.name"
-            >
-              {{ ulb.name }}
-            </mat-option>
-          </mat-optgroup>
-        </div>
-      </mat-autocomplete>
-    </mat-form-field> -->
-
     <section
       class="regionalDetails regionalDetails2 col-sm-12"
       *ngIf="mouseHoverOnState"
@@ -159,7 +111,19 @@
       </span>
     </section>
   </div>
-  <div class="col-sm-12" id="districtMapContainer"></div>
+  <div
+    class="col-sm-12"
+    id="districtMapContainer"
+    [ngStyle]="{ visibility: currentStateInView ? 'visible' : 'hidden' }"
+  >
+    <!-- <p class="text-center" *ngIf="currentStateInView">
+      Click on any ULB to view their data or Click on INDIA map to go back.
+    </p> -->
+  </div>
 
-  <div id="mapidd" class="stateMap"></div>
+  <div id="mapidd" class="stateMap">
+    <p class="text-center" *ngIf="!currentStateInView && nationalLevelMap">
+      Click on any state to view its data and ulbs.
+    </p>
+  </div>
 </div>
