@@ -6,8 +6,8 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { Chart } from 'chart.js';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { forkJoin, Subject } from 'rxjs';
-import { debounceTime, map, takeUntil } from 'rxjs/operators';
+import { forkJoin, Observable, Subject } from 'rxjs';
+import { debounceTime, delay, map, takeUntil } from 'rxjs/operators';
 
 import { IDialogConfiguration } from '../../../../app/shared/components/dialog/models/dialogConfiguration';
 import { IStateWithULBS } from '../../../../app/shared/components/re-useable-heat-map/models/stateWithULBS';
@@ -895,36 +895,106 @@ export class HomeTabViewComponent implements OnInit {
     return newDataRow;
   }
 
-  openModal(UlbModal: TemplateRef<any>, range, year) {
+  openModal(UlbModal: TemplateRef<any>, range, year: string) {
+    const rowClickedId = "";
+    let subscription: Observable<any>;
     this.modalTableHeaders = modalTableHeaders[this.tabIndex];
-    const totalRow = this.getTotalRow(range["ulbs"], this.modalTableHeaders);
-    totalRow["name"] = "Total";
-    const ORPcolumn = this.modalTableHeaders.find(
-      (col) => col.id === "ownRevenuePercentage"
-    );
-    if (ORPcolumn) {
-      totalRow["ownRevenuePercentage"] =
-        Number(
-          (Number(totalRow["ownRevenue"]) /
-            Number(totalRow["revenueExpenditure"])) *
-            100
-        ).toFixed(2) + "%";
-    }
-    this.modalTableData = {
-      data: range["ulbs"]
-        .sort((a, b) => this.sortCallBack(a, b, "population"))
-        .reverse()
-        .concat([totalRow]),
-      year,
-      populationCategory: range["populationCategory"],
-    };
-    this.modalTableHeaders[0].click = true;
-    this.modalTableHeaders = this.modalTableHeaders.map((modal: any) => {
-      delete modal["status"];
-      return modal;
+    this.modalRef = this.modalService.show(UlbModal, {
+      class: "modal-uq",
     });
 
-    this.modalRef = this.modalService.show(UlbModal, { class: "modal-uq" });
+    switch (this.tabIndex) {
+      case 0:
+        subscription = this.dashboardService.fetchDependencyOwnRevenueData(
+          JSON.stringify(year),
+          this.selectedState._id,
+          rowClickedId,
+          range.populationCategory
+        );
+
+        break;
+      case 1:
+        subscription = this.dashboardService.fetchSourceOfRevenue(
+          JSON.stringify(year),
+          this.selectedState._id,
+          rowClickedId,
+          range.populationCategory
+        );
+
+        break;
+      /*    case 2:
+        this.dashboardService
+          .fetchFinancialRevenueExpenditure(
+            JSON.stringify(this.selectedYears),
+            this.selectedState._id,
+            rowClickedId
+          )
+          .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
+        break;*/
+      case 2:
+        subscription = this.dashboardService.fetchRevenueExpenditure(
+          JSON.stringify(year),
+          this.selectedState._id,
+          rowClickedId,
+          range.populationCategory
+        );
+
+        break;
+      case 3:
+        subscription = this.dashboardService.fetchCashAndBankBalance(
+          JSON.stringify(year),
+          this.selectedState._id,
+          rowClickedId,
+          range.populationCategory
+        );
+
+        break;
+      case 4:
+        subscription = this.dashboardService.fetchOutStandingDebt(
+          JSON.stringify(year),
+          this.selectedState._id,
+          rowClickedId,
+          range.populationCategory
+        );
+
+        break;
+    }
+
+    subscription.pipe(delay(1000)).subscribe((res) => {
+      range.ulbs = res["data"];
+      const totalRow = this.getTotalRow(range.ulbs, this.modalTableHeaders);
+      console.log(totalRow);
+      totalRow["name"] = "Total";
+      const ORPcolumn = this.modalTableHeaders.find(
+        (col) => col.id === "ownRevenuePercentage"
+      );
+      if (ORPcolumn) {
+        totalRow["ownRevenuePercentage"] =
+          Number(
+            (Number(totalRow["ownRevenue"]) /
+              Number(totalRow["revenueExpenditure"])) *
+              100
+          ).toFixed(2) + "%";
+      }
+      this.modalTableData = {
+        data: range["ulbs"]
+          .sort((a, b) => this.sortCallBack(a, b, "population"))
+          .reverse()
+          .concat([totalRow]),
+        year,
+        populationCategory: range["populationCategory"],
+      };
+      this.modalTableHeaders[0].click = true;
+      this.modalTableHeaders = this.modalTableHeaders.map((modal: any) => {
+        delete modal["status"];
+        return modal;
+      });
+    }, this.handleError);
+
+    this.modalService.onHide.subscribe((res) => {
+      this.modalTableData = null;
+    });
+    return;
   }
 
   modalItemClicked(rowClickedId, row: any = {}) {
