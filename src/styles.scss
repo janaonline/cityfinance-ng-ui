@@ -359,9 +359,12 @@ img.align-center {
 }
 
 .home-footer {
-  background-color: #363839;
-  padding: 10px 0;
+//  background-color: #363839;
+  background-image: linear-gradient(to right, #095169, #059B9A);
   color: #fff;
+  font-size: 1.8rem;
+  font-weight: 300;
+  padding: 40px 0;
 }
 
 .address {

@@ -241,7 +241,8 @@
 
   .about-title h2 span {
     background: #fafafa;
-    color: #25a891;
+    //color: #25a891;
+    color: #059B9A;
     padding: 0px 15px;
   }
 
@@ -318,10 +319,13 @@
 
 .sectorcard {
   text-align: center;
+  // background-image: linear-gradient(
+  //   to left top,
+  //   rgb(5, 166, 88),
+  //   rgb(5, 155, 154)
+  // );
   background-image: linear-gradient(
-    to left top,
-    rgb(5, 166, 88),
-    rgb(5, 155, 154)
+    to left top,#095169, #059B9A
   );
   position: relative;
   border-radius: 3px;
@@ -363,7 +367,8 @@
 }
 
 .sectorcard:hover .sector-title {
-  color: rgb(30, 193, 124);
+//  color: rgb(30, 193, 124);
+  color: #059B9A;
   backface-visibility: hidden;
   -webkit-transform: translateY(0);
   transform: translateY(0);
@@ -435,7 +440,8 @@ img {
 
 .sectorcard:hover .card-body .sector-info {
   opacity: 0;
-  color: rgb(30, 193, 124);
+//  color: rgb(30, 193, 124);
+  color: #059B9A;
   backface-visibility: hidden;
 }
 
@@ -450,7 +456,8 @@ img {
 
 .sectorcard:hover .card-body .sector-info-hidden {
   opacity: 1;
-  color: rgb(30, 193, 124);
+//  color: rgb(30, 193, 124);
+  color: #059B9A;
   backface-visibility: hidden;
 }
 
