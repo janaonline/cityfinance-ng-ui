@@ -551,8 +551,8 @@ img.background {
   display: grid;
   grid-template: repeat(4, 1fr) / repeat(8, 1fr);
   grid-template-areas:
-    ". . i i i . . ."
-    ". . i i i . . ."
+    ". . i i i i . ."
+    ". . i i i i . ."
     "q q q q q q q q"
     "q q q q q q q q";
   img,
@@ -572,7 +572,7 @@ img.background {
 }
 
 .quotes-right {
-  font-size: 3rem;
+  font-size: 2.8rem;
   text-align: left;
   padding: 1%;
   width: fit-content;
@@ -585,7 +585,19 @@ img.background {
     color: white;
     padding: 1% 5%;
     border-radius: 50px;
+    float: right;
 
     text-decoration: none;
+  }
+}
+
+::ng-deep {
+  .carousel,
+  .slide {
+    height: 58vh;
+    overflow: hidden;
+  }
+  .carousel-control {
+    display: none;
   }
 }
