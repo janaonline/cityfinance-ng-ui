@@ -95,10 +95,13 @@ body {
   margin: 0;
   padding: 0;
 }
+// * {
+//   overflow: visible !important;
+// }
 
 body {
-  overflow-y: auto;
-  min-height: 100vh;
+  // overflow-y: auto;
+  // min-height: 100vh;
   font-family: "Roboto", sans-serif;
 }
 

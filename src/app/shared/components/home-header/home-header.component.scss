@@ -9,7 +9,7 @@
     text-transform: uppercase;
   }
 
-  span{
+  span {
     font-size: 1.2rem !important;
     font-weight: 400;
   }
@@ -24,17 +24,16 @@
 .container-fluid {
   width: 100%;
   max-width: 1440px;
-  padding-right: .75rem;
-  padding-left: .75rem;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
   margin-right: auto;
   margin-left: auto;
 }
 
-.navbar-right > li:first-child
-{
-    position:absolute;
-    bottom: 0;
-    left:15px;
+.navbar-right > li:first-child {
+  position: absolute;
+  bottom: 0;
+  left: 15px;
 }
 
 .position-sticky {
@@ -102,4 +101,26 @@ li {
 
 .web-logo {
   cursor: pointer;
+}
+
+nav.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.navbar-2nd-row {
+  // position: relative;
+  border: 0px;
+  margin-top: 0.5%;
+  position: sticky;
+  top: 1px;
+}
+
+:host {
+  min-height: 8vh;
+  position: sticky !important;
+  // top: -45px;
+  z-index: 2;
 }
