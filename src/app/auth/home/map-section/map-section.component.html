@@ -18,26 +18,36 @@
     <h3>{{ stateSelected ? stateSelected.name : "INDIA" }}</h3>
 
     <p>
-      <strong>{{ dataForVisualization.totalULB }}</strong> Urban local bodies
+      <strong [attr.data-animate-value]="dataForVisualization.totalULB"
+        >0</strong
+      >
+      Urban local bodies
     </p>
     <p>
-      <strong>{{ dataForVisualization.financialStatements }}</strong> Financial
-      Statements
+      <strong
+        [attr.data-animate-value]="dataForVisualization.financialStatements"
+        >0</strong
+      >
+      Financial Statements
     </p>
     <p>
-      <strong>
-        {{
+      <strong
+        [attr.data-animate-value]="
           stateSelected
             ? creditRating[stateSelected.name] || 0
             : creditRating.total
-        }}
+        "
+      >
+        0
       </strong>
 
       Cities Credit Rating
     </p>
     <p *ngIf="dataForVisualization.totalMunicipalBonds">
-      <strong>
-        {{ dataForVisualization.totalMunicipalBonds }}
+      <strong
+        [attr.data-animate-value]="dataForVisualization.totalMunicipalBonds"
+      >
+        0
       </strong>
       Municipal Bonds Issuance
     </p>
