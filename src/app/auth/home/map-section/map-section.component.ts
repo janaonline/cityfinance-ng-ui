@@ -10,6 +10,7 @@ import { AssetsService } from 'src/app/shared/services/assets/assets.service';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
 import { MapUtil } from 'src/app/util/map/mapUtil';
+import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
 
 @Component({
   selector: "app-map-section",
@@ -102,9 +103,17 @@ export class MapSectionComponent implements OnInit {
   }
 
   private fetchStateList() {
-    this.commonService
-      .fetchStateList()
-      .subscribe((res) => (this.stateList = res));
+    this.commonService.fetchStateList().subscribe((res) => {
+      this.stateList = res.filter(
+        (state) =>
+          !(
+            state.name === "Andaman & Nicobar Island" ||
+            state.name === "Arunanchal Pradesh" ||
+            state.name === "Dadara & Nagar Havelli" ||
+            state.name === "Lakshadweep"
+          )
+      );
+    });
   }
 
   private fetchDataForVisualization(stateId?: string) {
@@ -175,9 +184,18 @@ export class MapSectionComponent implements OnInit {
     >,
     containerId: string
   ) {
-    const configuration = {
+    let zoom = 4.72;
+
+    zoom += 1 - window.devicePixelRatio;
+
+    const configuration: IMapCreationConfig = {
       containerId,
       geoData,
+      options: {
+        zoom,
+        maxZoom: zoom,
+        minZoom: zoom,
+      },
     };
     let map;
 
@@ -190,6 +208,7 @@ export class MapSectionComponent implements OnInit {
 
     this.statesLayer.eachLayer((layer) => {
       const stateName = MapUtil.getStateName(layer);
+
       if (!stateName) {
         return;
       }
@@ -225,12 +244,12 @@ export class MapSectionComponent implements OnInit {
       { color: "#D0EDF9", text: "1%-25%" },
       { color: "#E5E5E5", text: "0%" },
     ];
-    const legend = new L.Control({ position: "bottomright" });
+    const legend = new L.Control({ position: "bottomleft" });
     const labels = [
       `<span style="width: 100%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`,
     ];
     legend.onAdd = function (map) {
-      const div = L.DomUtil.create("div", "info legend");
+      const div = L.DomUtil.create("div", "info legend ml-0");
       div.id = "legendContainer";
       div.style.width = "100%";
       arr.forEach((value) => {
@@ -276,6 +295,7 @@ export class MapSectionComponent implements OnInit {
     const stateFound = this.stateList.find(
       (state) => state.name.toLowerCase() === stateName.toLowerCase()
     );
+
     const doesStateHasData = !!this.stateDatasForMapColoring.find(
       (state) => state._id == stateFound._id && state.coveredUlbPercentage > 0
     );

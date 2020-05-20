@@ -1,18 +1,19 @@
 .wrapper {
   width: 100%;
   display: grid;
-  grid-template: repeat(6, 12vh) / repeat(4, 15vw);
+  grid-template: repeat(7, 12vh) / repeat(16, 1fr);
   grid-template-areas:
-    " s s m m "
-    " . . m m "
-    " v v m m "
-    " v v m m "
-    " . . m m ";
+    "s s s s s s s m m m m m m m m m"
+    ". . . . . . . m m m m m m m m m"
+    "v v v v . . . m m m m m m m m m"
+    "v v v v . . . m m m m m m m m m"
+    ". . . . . . . m m m m m m m m m"
+    ". . . . . . . m m m m m m m m m";
 }
 
 .selectPart {
   grid-area: s;
-  font-size: 2.4rem;
+  font-size: 2rem;
   color: var(--multi-dropdown-color);
 }
 
@@ -23,6 +24,7 @@
 }
 
 .mapWrapper {
+  // background: red;
   grid-area: m;
 }
 
@@ -66,6 +68,9 @@ form {
     padding: 1px 10px;
     min-height: 31px;
   }
+  .dropdown-list {
+    z-index: 1;
+  }
 
   .selected-list .c-angle-down svg,
   .selected-list .c-angle-up svg {
@@ -93,4 +98,9 @@ form {
   display: block;
   box-shadow: 1px 1px 9px 0px #dbd8d8;
   border-radius: 5px;
+}
+
+::ng-deep .ml-0 {
+  margin-left: 0px !important;
+  max-width: 140px;
 }
