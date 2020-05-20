@@ -17,6 +17,15 @@
               >Click here to view all data.</a
             >
           </div>
+          <p
+            style="z-index: 2; margin-top: 1%; text-decoration: underline;"
+            class="text-center"
+            *ngIf="
+              !selectedStates || !selectedStates[0] || !selectedStates[0].length
+            "
+          >
+            Click on any state to view their data.
+          </p>
         </div>
 
         <div class="col-md-6 abs-credit-info">
@@ -41,38 +50,35 @@
                   </button>
                 </div>
               </div>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Credit Rating</th>
-                    <th class="text-right">No. Of ULBs</th>
-                  </tr>
-                </thead>
+              <div class="tableWrapper">
+                <table class="table fixed-table">
+                  <thead>
+                    <tr>
+                      <th>Credit Rating</th>
+                      <th class="text-right">No. Of ULBs</th>
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  <tr
-                    (click)="openModal(modal, grade)"
-                    *ngFor="let grade of ratingGrades"
-                    [ngClass]="{ hidden: !absCreditInfo.ratings[grade] }"
-                  >
-                    <td width="60%">{{ grade }}</td>
-                    <td class="text-right">
-                      {{ absCreditInfo.ratings[grade] }}
-                    </td>
-                  </tr>
-                  <tr class="bold">
-                    <td width="60%">Total</td>
-                    <td class="text-right">
-                      {{ absCreditInfo.creditRatingUlbs }}
-                    </td>
-                  </tr>
-                </tbody>
-
-                <!-- <tr *ngFor="let rating of absCreditInfo.ratings | keyvalue" [ngClass]="{'hidden': !rating.value}">
-                  <td>{{rating.key}}</td>
-                  <td>{{rating.value}}</td>
-                </tr> -->
-              </table>
+                  <tbody>
+                    <tr
+                      (click)="openModal(modal, grade)"
+                      *ngFor="let grade of ratingGrades"
+                      [ngClass]="{ hidden: !absCreditInfo.ratings[grade] }"
+                    >
+                      <td width="60%">{{ grade }}</td>
+                      <td class="text-right">
+                        {{ absCreditInfo.ratings[grade] }}
+                      </td>
+                    </tr>
+                    <tr class="bold">
+                      <td width="60%">Total</td>
+                      <td class="text-right">
+                        {{ absCreditInfo.creditRatingUlbs }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
