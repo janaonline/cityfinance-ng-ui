@@ -79,9 +79,7 @@ li.navbar-brand {
 }
 
 .login-link {
-  // float: right;
   right: 1vw;
-  // position: absolute;
   border-radius: 40px;
   font-size: 1.3rem;
 
@@ -111,7 +109,6 @@ nav.navbar {
 }
 
 .navbar-2nd-row {
-  // position: relative;
   border: 0px;
   margin-top: 1%;
   position: sticky;
@@ -121,6 +118,5 @@ nav.navbar {
 :host {
   min-height: 8vh;
   position: sticky !important;
-  // top: -45px;
   z-index: 2;
 }

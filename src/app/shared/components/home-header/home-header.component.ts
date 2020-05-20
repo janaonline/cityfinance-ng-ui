@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserProfile } from 'src/app/users/profile/model/user-profile';
 
@@ -34,7 +34,8 @@ export class HomeHeaderComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private _elementRef: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private _ngZone: NgZone
   ) {
     this.initializeAccessChecking();
     this.router.events.subscribe((event) => {
@@ -89,6 +90,9 @@ export class HomeHeaderComponent implements OnInit {
     this.isLoggedIn = this.authService.loggedIn();
     this.initializedIsProduction();
     this.setTopRowSticky();
+    setTimeout(() => {
+      this.initializeTranparenceyHandler();
+    }, 1111);
   }
 
   initializedIsProduction() {
@@ -122,6 +126,24 @@ export class HomeHeaderComponent implements OnInit {
   private setTopRowSticky() {
     const element = document.getElementById("1stNavbarRow");
     const topPosition = -element.clientHeight + "px";
+    console.log(element.clientHeight);
+
     this.renderer.setStyle(this._elementRef.nativeElement, "top", topPosition);
+  }
+
+  private initializeTranparenceyHandler() {
+    this._ngZone.runOutsideAngular(() => {
+      const root = document.getElementsByTagName("body")[0];
+      const options: IntersectionObserverInit = {
+        root: null,
+        rootMargin: "0px",
+        threshold: [0, 0.1, 0.2, 0.25, 0.4, 0.75, 1],
+      };
+      const observer = new IntersectionObserver((event) => {
+        console.log(event, `observer`);
+      }, options);
+      const target = document.getElementById("carousel");
+      observer.observe(target);
+    });
   }
 }
