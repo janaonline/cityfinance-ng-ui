@@ -2,7 +2,7 @@
 
 <div class="wrapper">
   <div class="selectPart">
-    Click on a state to see available data on City governments
+    Click on a state to see available data on City governments<br />
     <form [formGroup]="myForm">
       <angular2-multiselect
         [data]="stateList"
@@ -35,7 +35,7 @@
 
       Cities Credit Rating
     </p>
-    <p>
+    <p *ngIf="dataForVisualization.totalMunicipalBonds">
       <strong>
         {{ dataForVisualization.totalMunicipalBonds }}
       </strong>
