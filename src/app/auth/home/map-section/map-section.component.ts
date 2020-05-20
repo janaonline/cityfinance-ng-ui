@@ -129,7 +129,7 @@ export class MapSectionComponent implements OnInit {
   }
 
   public animateValues = () => {
-    const speed = 660;
+    const speed = 460;
     const interval = 50;
 
     const animateValues = (document.querySelectorAll(
