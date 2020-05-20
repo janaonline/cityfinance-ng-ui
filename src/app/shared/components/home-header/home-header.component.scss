@@ -37,6 +37,11 @@
     left: 20px;
 }
 
+.navbar-right{
+  float: right !important;
+  margin: 0 !important;
+}
+
 .position-sticky {
   position: sticky;
 }
@@ -90,7 +95,8 @@ li.navbar-brand {
 
 .login-and-profile {
   position: absolute;
-  right: 1px;
+  right: 5px;
+  top: 10px;
 }
 
 img,
