@@ -90,9 +90,9 @@ export class HomeHeaderComponent implements OnInit {
     this.isLoggedIn = this.authService.loggedIn();
     this.initializedIsProduction();
     this.setTopRowSticky();
-    setTimeout(() => {
-      this.initializeTranparenceyHandler();
-    }, 1111);
+    // setTimeout(() => {
+    //   this.initializeTranparenceyHandler();
+    // }, 1111);
   }
 
   initializedIsProduction() {
