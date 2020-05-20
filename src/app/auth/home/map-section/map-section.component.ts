@@ -148,6 +148,7 @@ export class MapSectionComponent implements OnInit {
     ));
 
     this.nationalLevelMap = map;
+    this.createLegendsForNationalLevelMap();
 
     this.statesLayer.eachLayer((layer) => {
       const stateName = MapUtil.getStateName(layer);
@@ -175,6 +176,35 @@ export class MapSectionComponent implements OnInit {
         click: (args: ILeafletStateClickEvent) => this.onClickingState(args),
       });
     });
+  }
+
+  private createLegendsForNationalLevelMap() {
+    const arr = [
+      { color: "#019CDF", text: "76%-100%" },
+      { color: "#46B7E7", text: "51%-75%" },
+      { color: "#8BD2F0", text: "26%-50%" },
+      { color: "#D0EDF9", text: "1%-25%" },
+      { color: "#E5E5E5", text: "0%" },
+    ];
+    const legend = new L.Control({ position: "bottomright" });
+    const labels = [
+      `<span style="width: 100%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`,
+    ];
+    legend.onAdd = function (map) {
+      const div = L.DomUtil.create("div", "info legend");
+      div.id = "legendContainer";
+      div.style.width = "100%";
+      arr.forEach((value) => {
+        labels.push(
+          `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; "><i class="circle" style="background: ${value.color}; padding:10%; display: inline-block; margin-right: 12%;"> </i> ${value.text}</span>`
+        );
+      });
+      div.innerHTML = labels.join(``);
+      return div;
+    };
+
+    legend.addTo(this.nationalLevelMap);
+    // this.nationalLevelMap.leg;
   }
 
   private createTooltip(layer: L.Layer) {
