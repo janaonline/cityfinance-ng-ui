@@ -273,7 +273,7 @@
   }
 }
 
-.carousel-item{
+.carousel-item {
   height: 500px;
 }
 
@@ -339,7 +339,7 @@
   border-color: initial;
   border-image: initial;
   background: none;
-//  transform: translateY(1rem);
+  //  transform: translateY(1rem);
   transition: transform 0.5s ease 0s;
 }
 
@@ -359,7 +359,7 @@
   transform: translateY(7rem);
 }
 
-.sectorcard .card-body{
+.sectorcard .card-body {
   padding: 15px 0;
   position: relative;
 }
@@ -422,7 +422,7 @@ img {
 
 .sectorcard .card-body .sector-info-hidden {
   opacity: 0;
-  color:white;
+  color: white;
   text-align: center;
   font-size: 1.8rem;
   width: 100%;
@@ -435,7 +435,7 @@ img {
   backface-visibility: hidden;
 }
 
-.benefit-cards{
+.benefit-cards {
   display: grid;
   grid-template-columns: 0 1fr 1fr 1fr 1fr 1fr;
   column-gap: 15px;
@@ -496,7 +496,6 @@ img {
 
 .support-by a {
   width: 49%;
-  // margin-right: 5%;
 }
 
 .container .col-md-3 {
@@ -508,20 +507,30 @@ img.background {
   width: 100%;
 }
 
-.foreground {
+.testing {
+  top: 1px;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
   position: absolute;
+  height: 100%;
+  // background: red;
+  justify-content: space-between;
+  z-index: 555555;
+}
+
+.foreground {
+  align-self: center;
   left: 5vw;
-  width: 28vw;
-  z-index: 111;
-  bottom: 5vh;
+  width: 32vw;
 
   display: grid;
-  grid-template: repeat(4, 1fr) / repeat(4, 1fr);
+  grid-template: repeat(4, 1fr) / repeat(8, 1fr);
   grid-template-areas:
-    ". i i ."
-    ". i i ."
-    "q q q q"
-    "q q q q";
+    ". . i i i . . ."
+    ". . i i i . . ."
+    "q q q q q q q q"
+    "q q q q q q q q";
   img,
   picture {
     grid-area: i;
@@ -533,29 +542,26 @@ img.background {
     text-align: center;
     padding: 1%;
     height: fit-content;
-
-    // margin-top: 2%;
     color: white;
-    // padding: 2%;
     background: rgba(0, 174, 255, 0.151);
   }
 }
 
 .quotes-right {
-  position: absolute;
-  right: 1vh;
-  top: 8vh;
   font-size: 3rem;
   text-align: left;
   padding: 1%;
-  width: 50vw;
-
-  // margin-top: 2%;
+  width: fit-content;
   color: white;
-  // padding: 2%;
+
   background: rgba(0, 174, 255, 0.151);
   a {
-    color: #ffc500;
+    font-size: 0.7em;
+    background: #ffc500;
+    color: white;
+    padding: 1% 5%;
+    border-radius: 50px;
+
     text-decoration: none;
   }
 }
