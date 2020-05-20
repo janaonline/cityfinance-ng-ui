@@ -159,12 +159,12 @@ export class MapSectionComponent implements OnInit {
         (state) => state.name.toLowerCase() === stateName.toLowerCase()
       );
 
-      if (!stateFound) {
-        return;
-      }
+      // if (!stateFound) {
+      //   return;
+      // }
 
       const color = this.getColorBasedOnPercentage(
-        stateFound.coveredUlbPercentage
+        stateFound ? stateFound.coveredUlbPercentage : 0
       );
       MapUtil.colorStateLayer(layer, color);
       (layer as any).bringToBack();
@@ -197,6 +197,7 @@ export class MapSectionComponent implements OnInit {
 
   onClickingState(currentStateLayer: ILeafletStateClickEvent) {
     const stateName = MapUtil.getStateName(currentStateLayer);
+
     if (this.stateSelected && stateName === this.stateSelected.name) {
       this.resetMapToNationalView(currentStateLayer.target);
       return;
