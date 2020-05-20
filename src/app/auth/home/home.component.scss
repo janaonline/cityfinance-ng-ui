@@ -54,8 +54,31 @@
   }
 }
 
+.header-marquee {
+  background-color: #fafafa;
+  margin: 10px auto 0;
+  position: relative;
+  overflow: hidden;
+  width: 100% !important;
+  height: auto;
+
+  #marquee-horizontal{
+    margin: auto;
+    max-width: 1366px;
+  }
+
+  a {
+    padding-left: 5px;
+    padding-right: 5px;
+
+    span{
+      font-size: 2rem;
+    }
+  }
+}
+
 .about {
-  padding: 60px 0;
+  padding: 40px 0;
   background-color: #fafafa;
   color: #000;
 
@@ -271,10 +294,6 @@
       }
     }
   }
-}
-
-.carousel-item{
-  height: 500px;
 }
 
 .row {
