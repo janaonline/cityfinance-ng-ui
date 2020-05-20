@@ -30,14 +30,13 @@
   margin-left: auto;
 }
 
-.navbar-right > li:first-child
-{
-    position: absolute;
-    bottom: 0;
-    left: 20px;
+.navbar-right > li:first-child {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
 }
 
-.navbar-right{
+.navbar-right {
   float: right !important;
   margin: 0 !important;
 }
@@ -127,3 +126,22 @@ nav.navbar {
   position: sticky !important;
   z-index: 2;
 }
+
+::ng-deep {
+  .carousel-control .icon-prev:before {
+    content: "\2039";
+  }
+  .carousel-control .icon-next:before {
+    content: "\203a";
+  }
+
+  .carousel-control .icon-prev:before,
+  .carousel-control .icon-next:before {
+    font-size: 6rem;
+    color: white;
+  }
+}
+
+// ::ng-deep .carousel-control .icon-next:before {
+
+// }
