@@ -9,7 +9,7 @@
     text-transform: uppercase;
   }
 
-  span{
+  span {
     font-size: 1.2rem !important;
     font-weight: 400;
   }
@@ -23,18 +23,17 @@
 
 .container-fluid {
   width: 100%;
-  max-width: 1440px;
-  padding-right: .75rem;
-  padding-left: .75rem;
+  // max-width: 1440px;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
   margin-right: auto;
   margin-left: auto;
 }
 
-.navbar-right > li:first-child
-{
-    position:absolute;
-    bottom: 0;
-    left:15px;
+.navbar-right > li:first-child {
+  position: absolute;
+  bottom: 0;
+  left: 15px;
 }
 
 .position-sticky {
@@ -80,9 +79,7 @@ li.navbar-brand {
 }
 
 .login-link {
-  // float: right;
   right: 1vw;
-  // position: absolute;
   border-radius: 40px;
   font-size: 1.3rem;
 
@@ -102,4 +99,24 @@ li {
 
 .web-logo {
   cursor: pointer;
+}
+
+nav.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.navbar-2nd-row {
+  border: 0px;
+  margin-top: 1%;
+  position: sticky;
+  top: 1px;
+}
+
+:host {
+  min-height: 8vh;
+  position: sticky !important;
+  z-index: 2;
 }

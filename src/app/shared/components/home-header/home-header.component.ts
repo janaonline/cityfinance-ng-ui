@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserProfile } from 'src/app/users/profile/model/user-profile';
 
@@ -30,7 +30,13 @@ export class HomeHeaderComponent implements OnInit {
   USER_TYPE = USER_TYPE;
   private accessChecker = new AccessChecker();
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private _elementRef: ElementRef,
+    private renderer: Renderer2,
+    private _ngZone: NgZone
+  ) {
     this.initializeAccessChecking();
     this.router.events.subscribe((event) => {
       this.isLoggedIn = this.authService.loggedIn();
@@ -83,6 +89,10 @@ export class HomeHeaderComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn = this.authService.loggedIn();
     this.initializedIsProduction();
+    this.setTopRowSticky();
+    // setTimeout(() => {
+    //   this.initializeTranparenceyHandler();
+    // }, 1111);
   }
 
   initializedIsProduction() {
@@ -103,5 +113,37 @@ export class HomeHeaderComponent implements OnInit {
     localStorage.clear();
     this.router.navigate(["/"]);
     this.isLoggedIn = false;
+  }
+
+  /**
+   * @description Why are we setting sticky position explicity here using js/ts and not just by using
+   * css?. It is so because we need to set sticky only 2nd row of navbar, and by just setting position
+   * sticky to 2nd row wont work as this element <code> HomeHeaderComponent </code> gets out of view after
+   * scroll. So we need to manually set the sticky position on HomeHeaderComponent. This can be done from
+   * its parent component also, but it would be better to keep this functionality here only as it is its part,
+   * and not the parent's component part.
+   */
+  private setTopRowSticky() {
+    const element = document.getElementById("1stNavbarRow");
+    const topPosition = -element.clientHeight + "px";
+    console.log(element.clientHeight);
+
+    this.renderer.setStyle(this._elementRef.nativeElement, "top", topPosition);
+  }
+
+  private initializeTranparenceyHandler() {
+    this._ngZone.runOutsideAngular(() => {
+      const root = document.getElementsByTagName("body")[0];
+      const options: IntersectionObserverInit = {
+        root: null,
+        rootMargin: "0px",
+        threshold: [0, 0.1, 0.2, 0.25, 0.4, 0.75, 1],
+      };
+      const observer = new IntersectionObserver((event) => {
+        console.log(event, `observer`);
+      }, options);
+      const target = document.getElementById("carousel");
+      observer.observe(target);
+    });
   }
 }

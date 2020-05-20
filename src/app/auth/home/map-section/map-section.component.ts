@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FeatureCollection, Geometry } from 'geojson';
 import * as L from 'leaflet';
@@ -21,7 +21,8 @@ export class MapSectionComponent implements OnInit {
     private geoService: GeographicalService,
     private fb: FormBuilder,
     private assetService: AssetsService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private _ngZone: NgZone
   ) {
     this.initializeform();
     this.fetchDataForMapColoring();
@@ -107,10 +108,46 @@ export class MapSectionComponent implements OnInit {
 
   private fetchDataForVisualization(stateId?: string) {
     this.dataForVisualization = null;
-    this.commonService
-      .fetchDataForHomepageMap(stateId)
-      .subscribe((res) => (this.dataForVisualization = res));
+    this.commonService.fetchDataForHomepageMap(stateId).subscribe((res) => {
+      this.dataForVisualization = { ...res };
+      this._ngZone.runOutsideAngular(() => {
+        setTimeout(() => {
+          this.animateValues();
+        });
+      });
+    });
   }
+
+  public animateValues = () => {
+    const speed = 660;
+    const interval = 50;
+
+    const animateValues = (document.querySelectorAll(
+      "[data-animate-value]"
+    ) as any) as Array<HTMLElement>;
+
+    animateValues.forEach((element: HTMLElement) => {
+      const target = +element.getAttribute("data-animate-value");
+      const currentValue = +element.innerText;
+      if (currentValue >= target) {
+        return;
+      }
+
+      let incrementor = +Number(target / speed);
+      incrementor = incrementor === 0 ? target : incrementor;
+      if (currentValue < target) {
+        const newValue = +Number(currentValue + incrementor).toFixed(1);
+        element.innerText = `${newValue > target ? target : newValue}`;
+        this._ngZone.runOutsideAngular(() => {
+          setTimeout(() => {
+            setTimeout(this.animateValues, interval);
+          });
+        });
+      } else {
+        element.innerText = `${target}`;
+      }
+    });
+  };
 
   private fetchDataForMapColoring() {
     this.commonService
@@ -148,6 +185,7 @@ export class MapSectionComponent implements OnInit {
     ));
 
     this.nationalLevelMap = map;
+    this.createLegendsForNationalLevelMap();
 
     this.statesLayer.eachLayer((layer) => {
       const stateName = MapUtil.getStateName(layer);
@@ -159,12 +197,12 @@ export class MapSectionComponent implements OnInit {
         (state) => state.name.toLowerCase() === stateName.toLowerCase()
       );
 
-      if (!stateFound) {
-        return;
-      }
+      // if (!stateFound) {
+      //   return;
+      // }
 
       const color = this.getColorBasedOnPercentage(
-        stateFound.coveredUlbPercentage
+        stateFound ? stateFound.coveredUlbPercentage : 0
       );
       MapUtil.colorStateLayer(layer, color);
       (layer as any).bringToBack();
@@ -175,6 +213,34 @@ export class MapSectionComponent implements OnInit {
         click: (args: ILeafletStateClickEvent) => this.onClickingState(args),
       });
     });
+  }
+
+  private createLegendsForNationalLevelMap() {
+    const arr = [
+      { color: "#019CDF", text: "76%-100%" },
+      { color: "#46B7E7", text: "51%-75%" },
+      { color: "#8BD2F0", text: "26%-50%" },
+      { color: "#D0EDF9", text: "1%-25%" },
+      { color: "#E5E5E5", text: "0%" },
+    ];
+    const legend = new L.Control({ position: "bottomright" });
+    const labels = [
+      `<span style="width: 100%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`,
+    ];
+    legend.onAdd = function (map) {
+      const div = L.DomUtil.create("div", "info legend");
+      div.id = "legendContainer";
+      div.style.width = "100%";
+      arr.forEach((value) => {
+        labels.push(
+          `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; "><i class="circle" style="background: ${value.color}; padding:10%; display: inline-block; margin-right: 12%;"> </i> ${value.text}</span>`
+        );
+      });
+      div.innerHTML = labels.join(``);
+      return div;
+    };
+
+    legend.addTo(this.nationalLevelMap);
   }
 
   private createTooltip(layer: L.Layer) {
@@ -197,6 +263,7 @@ export class MapSectionComponent implements OnInit {
 
   onClickingState(currentStateLayer: ILeafletStateClickEvent) {
     const stateName = MapUtil.getStateName(currentStateLayer);
+
     if (this.stateSelected && stateName === this.stateSelected.name) {
       this.resetMapToNationalView(currentStateLayer.target);
       return;
@@ -227,6 +294,7 @@ export class MapSectionComponent implements OnInit {
     this.previousStateLayer = null;
     this.stateSelected = null;
     this.updateDropdownStateSelection(null);
+    this.fetchDataForVisualization();
   }
   private resetStateLayer(layer) {
     layer.setStyle({
