@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { FeatureCollection, Geometry } from 'geojson';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IRawIndiaGEOData } from 'src/app/models/geoDatas/india';
 import * as topo from 'topojson';
@@ -20,5 +22,16 @@ export class GeographicalService {
         return topo.feature(rawData, rawData.objects.india);
       })
     );
+  }
+
+  loadRawIndiVerson_1GeoData(): Observable<
+    FeatureCollection<
+      Geometry,
+      {
+        [name: string]: any;
+      }
+    >
+  > {
+    return this._http.get<any>("/assets/jsonFile/state_boundries.json");
   }
 }

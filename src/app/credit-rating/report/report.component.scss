@@ -27,10 +27,13 @@ table {
     color: #999;
   }
 }
+.dashboard-wrapper,
+.tableWrapper {
+  height: 55vh;
+}
 
 .map-container {
-  height: 55vh;
-  // background: red;
+  height: 100%;
   .fil2 {
     fill: #fff;
   }
@@ -106,4 +109,54 @@ table {
 ::ng-deep .leaflet-control-attribution,
 .leaflet-control {
   display: none !important;
+}
+
+.tableWrapper {
+  display: inline-block;
+  margin-top: 1%;
+  width: 100%;
+  overflow: auto;
+}
+
+.fixed-table {
+  border-collapse: collapse;
+  border-spacing: 0px;
+  margin-bottom: 0px;
+
+  thead tr th {
+    position: sticky;
+    top: -1px;
+    background: white;
+  }
+
+  tbody tr:last-child td {
+    background: rgb(240, 240, 240);
+
+    position: sticky;
+    bottom: 0%;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 11px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 11px 1px 1px rgb(243, 243, 243);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #6b7e92;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #f0ad4e;
 }

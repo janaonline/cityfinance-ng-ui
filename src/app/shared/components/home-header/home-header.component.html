@@ -1,12 +1,13 @@
-<nav
-  class="navbar container-fluid position-sticky"
-  style="display: flex; align-items: center; justify-content: space-between;"
->
+<nav class="navbar container-fluid" id="1stNavbarRow">
   <div
     class="navbar-header"
     style="flex: 1; display: flex; align-items: center;"
   >
-    <span [routerLink]="['/']" class="navbar-brand d-flex align-items-center">
+    <span
+      [routerLink]="['/']"
+      class="navbar-brand d-flex align-items-center"
+      style="outline: none;"
+    >
       <img
         style="display: inline-block; width: 40px; height: 31px;"
         src="/assets/images/emblem-of-india.svg"
@@ -75,14 +76,14 @@
   </div>
 </nav>
 
-<div
-  class="navbar container-fluid"
-  style="position: relative; border: 0px; z-index: -1; margin-top: 20px;"
->
+<div class="navbar container-fluid navbar-2nd-row">
   <ul class="nav navbar-nav navbar-right">
     <li [routerLink]="['/']" class="navbar-brand">
-      <img src="/assets/images/cityfinance-logo.png" class="web-logo" style="width: 297px;
-      height: 51px;" />
+      <img
+        src="/assets/images/cityfinance-logo.png"
+        class="web-logo"
+        style="width: 297px; height: 51px;"
+      />
     </li>
     <li routerLinkActive="active">
       <a [routerLink]="['/home']">Home</a>
