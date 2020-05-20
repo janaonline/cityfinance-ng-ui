@@ -75,7 +75,7 @@ export class MapSectionComponent implements OnInit {
     fillOpacity: 1,
   };
 
-  previousStateLayer: ILeafletStateClickEvent["target"] = null;
+  previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
 
   ngOnInit() {}
 
@@ -92,10 +92,11 @@ export class MapSectionComponent implements OnInit {
         return;
       }
 
-      this.higlightClickedState(layer);
       if (this.previousStateLayer) {
         this.resetStateLayer(this.previousStateLayer);
       }
+      this.higlightClickedState(layer);
+
       this.previousStateLayer = layer;
     });
   }
@@ -210,7 +211,8 @@ export class MapSectionComponent implements OnInit {
         mouseover: () => {
           this.createTooltip(layer);
         },
-        click: (args: ILeafletStateClickEvent) => this.onClickingState(args),
+        click: (args: ILeafletStateClickEvent) =>
+          this.onClickingState(args, layer),
       });
     });
   }
@@ -258,10 +260,12 @@ export class MapSectionComponent implements OnInit {
       zoomAnimation: true,
     };
 
-    layer.bindTooltip("<b>" + stateName + "</b>", option).openTooltip();
+    // layer.bindTooltip("<b>" + stateName + "</b>", option).openTooltip();
+    layer.bindTooltip("<b>" + stateName + "</b>", option);
+    layer.toggleTooltip();
   }
 
-  onClickingState(currentStateLayer: ILeafletStateClickEvent) {
+  onClickingState(currentStateLayer: ILeafletStateClickEvent, layer: L.Layer) {
     const stateName = MapUtil.getStateName(currentStateLayer);
 
     if (this.stateSelected && stateName === this.stateSelected.name) {
@@ -278,15 +282,21 @@ export class MapSectionComponent implements OnInit {
     if (!stateFound) {
       return;
     }
-    if (this.previousStateLayer) {
-      this.resetStateLayer(this.previousStateLayer);
-      this.previousStateLayer = null;
-    }
-    this.higlightClickedState(currentStateLayer.target);
+    this.selectStateOnMap(stateFound);
+    // const state = this.stateList.find(state => state.name === )
+
+    // if (this.previousStateLayer) {
+    //   this.resetStateLayer(this.previousStateLayer);
+    //   (this.previousStateLayer as any).closePopup();
+    //   // (this.previousStateLayer as any).closeTooltip();
+    //   this.previousStateLayer = null;
+    // }
+    // this.higlightClickedState(layer);
 
     this.updateDropdownStateSelection(stateFound);
     this.fetchDataForVisualization(stateFound._id);
-    this.previousStateLayer = currentStateLayer.target;
+
+    // this.previousStateLayer = layer;
   }
 
   private resetMapToNationalView(stateLayer) {
@@ -301,6 +311,7 @@ export class MapSectionComponent implements OnInit {
       color: this.defaultStateLayerColorOption.color,
       weight: this.defaultStateLayerColorOption.weight,
     });
+    layer.closeTooltip();
   }
 
   private updateDropdownStateSelection(state: IState) {
@@ -313,6 +324,7 @@ export class MapSectionComponent implements OnInit {
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
       stateLayer.bringToFront();
     }
+    // this.createTooltip(stateLayer);
   }
 
   private getColorBasedOnPercentage(value: number) {

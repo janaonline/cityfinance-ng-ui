@@ -75,12 +75,17 @@ form {
   .pure-checkbox {
     font-size: 1.3rem;
     padding: 3px 8px;
+    transition: all 200ms;
+    cursor: pointer;
+    label {
+      font-weight: 500;
+    }
   }
 
-  // .dropdown-list {
-  //   width: 142%;
-  //   min-width: fit-content;
-  // }
+  .pure-checkbox:hover {
+    background: var(--multi-dropdown-color);
+    color: white;
+  }
 }
 
 .loader-wrapper {
