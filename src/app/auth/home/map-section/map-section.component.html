@@ -1,0 +1,53 @@
+<!-- asdasasd -->
+
+<div class="wrapper">
+  <div class="selectPart">
+    Click on a state to see available data on City governments
+    <form [formGroup]="myForm">
+      <angular2-multiselect
+        [data]="stateList"
+        formControlName="stateId"
+        [settings]="DropdownSettings"
+        (onSelect)="onSelectingStateFromDropDown($event)"
+        (onDeSelect)="onSelectingStateFromDropDown(null)"
+      >
+      </angular2-multiselect>
+    </form>
+  </div>
+  <div class="visualization" *ngIf="dataForVisualization">
+    <h3>{{ stateSelected ? stateSelected.name : "INDIA" }}</h3>
+
+    <p>
+      <strong>{{ dataForVisualization.totalULB }}</strong> Urban local bodies
+    </p>
+    <p>
+      <strong>{{ dataForVisualization.financialStatements }}</strong> Financial
+      Statements
+    </p>
+    <p>
+      <strong>
+        {{
+          stateSelected
+            ? creditRating[stateSelected.name] || 0
+            : creditRating.total
+        }}
+      </strong>
+
+      Cities Credit Rating
+    </p>
+    <p>
+      <strong>
+        {{ dataForVisualization.totalMunicipalBonds }}
+      </strong>
+      Municipal Bonds Issuance
+    </p>
+  </div>
+
+  <div class="visualization loader-wrapper" *ngIf="!dataForVisualization">
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+  </div>
+  <div class="mapWrapper">
+    <div id="mapid"></div>
+  </div>
+</div>

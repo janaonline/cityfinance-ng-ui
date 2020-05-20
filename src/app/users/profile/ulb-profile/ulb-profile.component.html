@@ -88,10 +88,15 @@
         formControlName="name"
         class="form-control"
         [ngClass]="{
-          'is-invalid':
-            formSubmitted && profile.controls.ulb.controls?.name.errors
+          'is-invalid': profile.controls.ulb.controls?.name.errors
         }"
       />
+      <small
+        *ngIf="profile.controls.ulb.controls?.name?.errors?.required"
+        class="form-field-error-message"
+      >
+        ULB Name cannot be empty
+      </small>
     </div>
 
     <div formGroupName="ulb" class="form-group">
@@ -162,14 +167,13 @@
           class="form-field-error-message"
         >
           Only numeric values without decimals are accepted. For Ex: 33, 1, 1223
-          {{ profile.controls.ulb.controls?.wards.errors | json }}
         </small>
       </div>
     </div>
 
     <hr />
 
-    <div>
+    <div class="d-flex flex-wrap">
       <div class="input-group">
         <label for="commisionerName"
           >Commisioner Name
@@ -181,10 +185,20 @@
           formControlName="commissionerName"
           class="form-control"
           [ngClass]="{
-            'is-invalid':
-              formSubmitted && profile?.controls.commissionerName?.errors
+            'is-invalid': profile?.controls.commissionerName?.errors
           }"
         />
+        <small
+          *ngIf="profile?.controls.commissionerName?.errors as comError"
+          class="form-field-error-message"
+        >
+          Commisioner Name
+          <span *ngIf="comError?.required"> cannot be empty </span>
+          <span *ngIf="comError?.pattern">
+            must be of only Alphabet characters only and 1st letter must be
+            capital.
+          </span>
+        </small>
       </div>
 
       <div class="input-group">
@@ -198,10 +212,19 @@
           formControlName="commissionerEmail"
           class="form-control"
           [ngClass]="{
-            'is-invalid':
-              formSubmitted && profile?.controls.commissionerEmail?.errors
+            'is-invalid': profile?.controls.commissionerEmail?.errors
           }"
         />
+        <small
+          *ngIf="profile?.controls.commissionerEmail?.errors as comEmailError"
+          class="form-field-error-message"
+        >
+          Commisioner Email ID
+          <span *ngIf="comEmailError?.required"> cannot be empty </span>
+          <span *ngIf="comEmailError?.email === false">
+            is not a valid email id.
+          </span>
+        </small>
       </div>
 
       <div class="input-group">
@@ -215,11 +238,18 @@
           formControlName="commissionerConatactNumber"
           class="form-control"
           [ngClass]="{
-            'is-invalid':
-              formSubmitted &&
-              profile?.controls.commissionerConatactNumber?.errors
+            'is-invalid': profile?.controls.commissionerConatactNumber?.errors
           }"
         />
+        <small
+          *ngIf="
+            profile?.controls.commissionerConatactNumber
+              ?.errors as comContactError
+          "
+          class="form-field-error-message"
+        >
+          Contact No is not valid
+        </small>
       </div>
     </div>
 
@@ -235,10 +265,20 @@
           formControlName="accountantName"
           class="form-control"
           [ngClass]="{
-            'is-invalid':
-              formSubmitted && profile?.controls.accountantName.errors
+            'is-invalid': profile?.controls.accountantName.errors
           }"
         />
+        <small
+          *ngIf="profile?.controls.accountantName.errors as nameError"
+          class="form-field-error-message"
+        >
+          Accountant Name
+          <span *ngIf="nameError?.required"> cannot be empty </span>
+          <span *ngIf="nameError?.pattern">
+            must be of only Alphabet characters only and 1st letter must be
+            capital.
+          </span>
+        </small>
       </div>
 
       <div class="input-group">
@@ -252,10 +292,19 @@
           formControlName="accountantEmail"
           class="form-control"
           [ngClass]="{
-            'is-invalid':
-              formSubmitted && profile?.controls.accountantEmail.errors
+            'is-invalid': profile?.controls.accountantEmail.errors
           }"
         />
+        <small
+          *ngIf="profile?.controls.accountantEmail.errors as EmailError"
+          class="form-field-error-message"
+        >
+          Accountant Email ID
+          <span *ngIf="EmailError?.required"> cannot be empty </span>
+          <span *ngIf="EmailError?.email === false">
+            is not a valid email id.
+          </span>
+        </small>
       </div>
 
       <div class="input-group">
@@ -269,15 +318,24 @@
           formControlName="accountantConatactNumber"
           class="form-control"
           [ngClass]="{
-            'is-invalid':
-              formSubmitted && profile?.controls.accountantConatactNumber.errors
+            'is-invalid': profile?.controls.accountantConatactNumber.errors
           }"
         />
+        <small
+          *ngIf="
+            profile?.controls.accountantConatactNumber.errors as ContactError
+          "
+          class="form-field-error-message"
+        >
+          Contact No is not valid
+        </small>
       </div>
     </div>
 
     <p *ngIf="formErrorMessage" style="display: block; color: red;">
-      Form Fields are not valid.
+      <span *ngFor="let error of formErrorMessage; let i = index">
+        {{ i + 1 }}. {{ error }}
+      </span>
     </p>
 
     <p *ngIf="respone.errorMessage" class="error-message">

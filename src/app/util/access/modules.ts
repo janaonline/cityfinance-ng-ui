@@ -128,6 +128,13 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
         USER_TYPE.PARTNER,
         USER_TYPE.MoHUA,
       ],
+      [ACTIONS.VIEW]: [
+        USER_TYPE.USER,
+        USER_TYPE.ULB,
+        USER_TYPE.STATE,
+        USER_TYPE.PARTNER,
+        USER_TYPE.MoHUA,
+      ],
     },
   },
 

@@ -14,7 +14,7 @@ import { AuthService } from './../auth.service';
 @Component({
   selector: "app-register",
   templateUrl: "./register.component.html",
-  styleUrls: ["./register.component.scss"]
+  styleUrls: ["./register.component.scss"],
 })
 export class RegisterComponent implements OnInit {
   public registrationForm: FormGroup;
@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _coomonService: CommonService
   ) {
-    this._activatedRoute.params.subscribe(param => {
+    this._activatedRoute.params.subscribe((param) => {
       if (param.type) {
         this.registrationType = param.type;
       }
@@ -49,7 +49,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.initializeForm();
 
-    this.authService.badCredentials.subscribe(res => {
+    this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
   }
@@ -75,7 +75,7 @@ export class RegisterComponent implements OnInit {
       errors = this.formUtility.validadteUserForm(form);
       body.role = USER_TYPE.USER;
     } else {
-      errors = this.formUtility.validadteULBForm(form);
+      errors = this.formUtility.validateULBSignUPForm(form);
 
       body.role = USER_TYPE.ULB;
       body.ulb = this.ulb._id;
@@ -85,7 +85,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
     this.authService.signup(body).subscribe(
-      res => {
+      (res) => {
         if (!res["success"]) {
           this.formError = [res["msg"]];
           return;
@@ -100,7 +100,7 @@ export class RegisterComponent implements OnInit {
             "ULB registered successfully. Kindly check your email for further information";
         }
       },
-      err => {
+      (err) => {
         console.log(err);
 
         this.respone.errorMessage = err.error.message || "Server Error";
@@ -108,8 +108,17 @@ export class RegisterComponent implements OnInit {
     );
   }
 
+  public GetFormControlErrors(controlName: string) {
+    return !!(
+      this.registrationForm.controls[controlName].dirty &&
+      this.registrationForm.controls[controlName].errors
+    )
+      ? this.registrationForm.controls[controlName].errors
+      : null;
+  }
+
   private fetchStateList() {
-    this._coomonService.getStateUlbCovered().subscribe(res => {
+    this._coomonService.getStateUlbCovered().subscribe((res) => {
       this.stateList = res.data;
     });
   }
@@ -125,9 +134,9 @@ export class RegisterComponent implements OnInit {
   }
 
   private listenToULBControls() {
-    this.registrationForm.controls.state.valueChanges.subscribe(stateId => {
+    this.registrationForm.controls.state.valueChanges.subscribe((stateId) => {
       this.ulbList = null;
-      this._coomonService.getULBByStateCode(stateId).subscribe(res => {
+      this._coomonService.getULBByStateCode(stateId).subscribe((res) => {
         if (res["data"]) {
           res["data"] = res["data"].sort((stateA, stateB) =>
             stateA.name > stateB.name ? 1 : -1
@@ -139,17 +148,17 @@ export class RegisterComponent implements OnInit {
 
     combineLatest([
       this.registrationForm.controls.ulb.valueChanges,
-      this.registrationForm.controls.name.valueChanges
+      this.registrationForm.controls.name.valueChanges,
     ])
       .pipe(
         debounceTime(1000),
-        filter((values: string[]) => values.every(tt => !!(tt && tt.trim()))),
+        filter((values: string[]) => values.every((tt) => !!(tt && tt.trim()))),
         switchMap((res: string[]) => {
           const code = res[0];
 
           const ulbId = res[1];
           const response = { isValid: false, ulb: null };
-          const ulbFound = this.ulbList.find(ulb => ulb.name === ulbId);
+          const ulbFound = this.ulbList.find((ulb) => ulb.name === ulbId);
 
           if (!ulbFound) {
             return of(response);
@@ -164,7 +173,7 @@ export class RegisterComponent implements OnInit {
         })
       )
       .subscribe(
-        res => {
+        (res) => {
           this.registrationForm.enable({ emitEvent: false });
           this.isCheckingULBCode = false;
           if (!res.isValid) {
@@ -175,7 +184,7 @@ export class RegisterComponent implements OnInit {
           this.ulb = res.ulb;
           this.ulbCodeError = null;
         },
-        err => this.onGettingULBValidationError(err)
+        (err) => this.onGettingULBValidationError(err)
       );
   }
 

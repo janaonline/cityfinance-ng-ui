@@ -32,8 +32,6 @@ export class StateProfileComponent implements OnInit, OnChanges {
     private _commonService: CommonService,
     private _profileService: ProfileService
   ) {
-    console.log("State Component");
-
     this.fetchStateList();
   }
 
@@ -42,11 +40,12 @@ export class StateProfileComponent implements OnInit, OnChanges {
     this.initializeForm();
   }
 
-  private fetchStateList() {
-    this._commonService.getStateUlbCovered().subscribe((res) => {
-      console.log(`state list `, res.data);
-      this.stateList = res.data;
-    });
+  public enableProfileEdit() {
+    this.resetResponseMessage();
+    this.profileForm.enable();
+  }
+  public disableProfileEdit() {
+    this.profileForm.disable({ emitEvent: false });
   }
 
   public onFormSubmit(form: FormGroup) {
@@ -64,12 +63,16 @@ export class StateProfileComponent implements OnInit, OnChanges {
     this.createProfile(form);
   }
 
+  public GetFormControlErrors(controlName: string) {
+    return !!(
+      this.profileForm.controls[controlName].dirty &&
+      this.profileForm.controls[controlName].errors
+    )
+      ? this.profileForm.controls[controlName].errors
+      : null;
+  }
+
   private createProfile(form: FormGroup) {
-    // this.formSubmitted = true;
-    // this.formErrors = this.formUtil.validateStateForm(form);
-    // if (this.formErrors && this.formErrors.length) {
-    //   return;
-    // }
     const body = form.value;
     body.role = USER_TYPE.STATE;
     body.password = "";
@@ -106,9 +109,8 @@ export class StateProfileComponent implements OnInit, OnChanges {
   }
 
   private initializeForm() {
-    console.log(`initializeForm`);
-
     this.profileForm = this.formUtil.getStateForm();
+    console.log(this.profileForm);
 
     if (this.profileData) {
       if (this.profileData.role !== USER_TYPE.STATE) {
@@ -123,16 +125,14 @@ export class StateProfileComponent implements OnInit, OnChanges {
     }
   }
 
-  public enableProfileEdit() {
-    this.resetResponseMessage();
-    this.profileForm.enable();
-  }
-  public disableProfileEdit() {
-    this.profileForm.disable({ emitEvent: false });
-  }
-
   private resetResponseMessage() {
     this.respone.successMessage = null;
     this.respone.errorMessage = null;
+  }
+
+  private fetchStateList() {
+    this._commonService.getStateUlbCovered().subscribe((res) => {
+      this.stateList = res.data;
+    });
   }
 }

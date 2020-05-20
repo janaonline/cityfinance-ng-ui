@@ -8,6 +8,7 @@ import * as L from 'leaflet';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
+import { AssetsService } from 'src/app/shared/services/assets/assets.service';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
 import { MapUtil } from 'src/app/util/map/mapUtil';
 
@@ -33,7 +34,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     private _dialog: MatDialog,
     protected _authService: AuthService,
     protected router: Router,
-    private geoService: GeographicalService
+    private geoService: GeographicalService,
+    private assetService: AssetsService
   ) {
     this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
       this.createNationalLevelMap(data, "mapidd");
@@ -156,17 +158,15 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.http
-      .get("/assets/files/credit-rating.json")
-      .subscribe((data: any[]) => {
-        this.list = data;
-        this.originalList = data;
-        this.generateDropDownData();
-        this.showCreditInfoByState();
-      });
+    this.assetService.fetchCreditRatingReport().subscribe((data: any[]) => {
+      this.list = data;
+      this.originalList = data;
+      this.generateDropDownData();
+      this.showCreditInfoByState();
+    });
 
-    this.http
-      .get("/assets/files/credit-rating-detailed.json")
+    this.assetService
+      .fetchCreditRatingDetailedReport()
       .subscribe((data: any[]) => {
         this.detailedList = data;
       });
@@ -410,9 +410,12 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.dialogData = this.list.filter(
       (ulb) =>
         (this.selectedStates[0].length
-          ? this.selectedStates.includes(ulb.state.toLowerCase())
+          ? this.selectedStates[0]
+              .toLowerCase()
+              .includes(ulb.state.toLowerCase())
           : true) && ulb.creditrating === grade
     );
+
     this.modalService.show(ModalRef, { class: "modal-mdl modal-center" });
   }
 

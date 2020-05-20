@@ -1,15 +1,21 @@
 <div class="wrapper app-wrapper">
-  <app-home-header style="    display: block;
-    background: #484848;
-    position: sticky;
-    top: 0px;
-    z-index: 99;"></app-home-header>
+  <app-home-header
+    style="
+      display: block;
+      background: #6b7e92;
+      position: sticky;
+      top: 0px;
+      z-index: 99;
+    "
+  ></app-home-header>
   <router-outlet></router-outlet>
 </div>
 <app-footer></app-footer>
 
-<div class="spinner" *ngIf="showLoader" style="z-index: 999999;position: fixed;
-top: 0px;
-bottom: 0px;">
+<div
+  class="spinner"
+  *ngIf="showLoader"
+  style="z-index: 999999; position: fixed; top: 0px; bottom: 0px;"
+>
   <mat-spinner></mat-spinner>
 </div>

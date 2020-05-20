@@ -1,12 +1,154 @@
-<!--<app-home-header-->
-<!--  style="    display: block;-->
-<!--    background: #484848;-->
-<!--    position: sticky;-->
-<!--    top: 0px;-->
-<!--    z-index: 99;"-->
-<!--&gt;</app-home-header>-->
-<app-home-tab-view></app-home-tab-view>
 <div class="dashboard-wrapper">
+  <carousel>
+    <slide>
+      <picture>
+        <source
+          class="background"
+          srcset="/assets/images/carousels/background_1.webp"
+          type="image/webp"
+        />
+        <source
+          class="background"
+          srcset="/assets/images/carousels/background_1.png"
+          type="image/png"
+        />
+        <img
+          class="background"
+          src="/assets/images/carousels/background_1.png"
+          alt="first slide"
+        />
+      </picture>
+      <div class="foreground">
+        <picture>
+          <source
+            srcset="/assets/images/carousels/foreground.webp"
+            type="image/webp"
+          />
+          <source
+            srcset="/assets/images/carousels/foreground.jpg"
+            type="image/png"
+          />
+          <img
+            class="background"
+            src="/assets/images/carousels/foreground.jpg"
+            alt="first slide"
+          />
+        </picture>
+
+        <div class="quotes-left">
+          "Alternative funding modes are being explored for financing
+          improvement in cities. Cities of Pune, Hyderabad and Indore have
+          raised significant sums of money through Municipal Bonds"<br />
+          - Prime Minister: Shri Narendra Modi
+        </div>
+      </div>
+
+      <div class="quotes-right">
+        10 municipal bond issuance raising INR 3490 crore since 2017<br />
+        <a routerLink="/credit-rating/municipal-bond"
+          >(Click here to know more on municipal bond issuance)</a
+        >
+      </div>
+    </slide>
+    <slide>
+      <picture>
+        <source
+          srcset="/assets/images/carousels/background_2.webp"
+          type="image/webp"
+        />
+        <source
+          srcset="/assets/images/carousels/background_2.png"
+          type="image/png"
+        />
+        <img
+          class="background"
+          src="/assets/images/carousels/background_2.png"
+          alt="first slide"
+        />
+      </picture>
+      <div class="foreground">
+        <picture>
+          <source
+            srcset="/assets/images/carousels/foreground.webp"
+            type="image/webp"
+          />
+          <source
+            srcset="/assets/images/carousels/foreground.jpg"
+            type="image/png"
+          />
+          <img
+            class="background"
+            src="/assets/images/carousels/foreground.jpg"
+            alt="first slide"
+          />
+        </picture>
+
+        <div class="quotes-left">
+          "It’s our mission to strengthen our cities to meet the challenges of
+          21st century"<br />
+          - Prime Minister: Shri Narendra Modi
+        </div>
+      </div>
+
+      <div class="quotes-right">
+        Credit rating in place for 469 cities<br />
+        <a routerLink="/credit-rating/report"
+          >(Click here to know more on credit ratings of cities)</a
+        >
+      </div>
+    </slide>
+    <slide>
+      <picture>
+        <source
+          class="background"
+          srcset="/assets/images/carousels/background_3.webp"
+          type="image/webp"
+        />
+        <source
+          class="background"
+          srcset="/assets/images/carousels/background_3.png"
+          type="image/png"
+        />
+        <img
+          class="background"
+          src="/assets/images/carousels/background_3.png"
+          alt="first slide"
+        />
+      </picture>
+      <div class="foreground" style="bottom: -4vh;">
+        <picture>
+          <source
+            srcset="/assets/images/carousels/Shri_Hardeep_Singh_Puri.webp"
+            type="image/webp"
+          />
+          <source
+            srcset="/assets/images/carousels/Shri_Hardeep_Singh_Puri.jpg"
+            type="image/png"
+          />
+          <img
+            class="background"
+            src="/assets/images/carousels/Shri_Hardeep_Singh_Puri.jpg"
+            alt="first slide"
+          />
+        </picture>
+
+        <div class="quotes-left">
+          "It’s our mission to strengthen our cities to meet the challenges of
+          21st century"<br />
+          - Minster for Housing and Urban Affairs- Shri Hardeep Singh Puri
+        </div>
+      </div>
+
+      <div class="quotes-right">
+        Significant increase in audit of annual accounts of Urban local bodies
+        <a routerLink="/dashboard/report/basic"
+          >(Click here to access annual financial statements of Urban Local
+          bodies)</a
+        >
+      </div>
+    </slide>
+  </carousel>
+
   <!-- <div class="home-banner">
     <div class="caption">
       <div class="text-center logo-big">
@@ -62,11 +204,11 @@
         </div>
       </div> -->
 
-      <div class="row">
+      <div class="row about-title">
         <div class="col-sm-12">
-          <h3>About</h3>
+          <h2><span>About Cityfinance</span></h2>
           <p class="about-intro">
-            Cityfinance.in is an initiative of Ministry of Housing and Urban
+            <!-- Cityfinance.in is an initiative of Ministry of Housing and Urban
             Affairs, Government of India. The primary objective of
             CityFinance.in is to serve as a national framework of standardised,
             timely and credible financial information on cities, beginning with
@@ -80,13 +222,22 @@
             hope the portal is useful as a crucial support system for Principal
             Secretaries, Directors of Municipal Administration, Municipal
             Commissioners, Smart City CEOs, Investors, Merchant Bankers, Project
-            Consultants, Credit Rating Agencies & Banks.
+            Consultants, Credit Rating Agencies & Banks. -->
+
+            Cityfinance.in serves as <b>national framework</b> of
+            <b>standardized, timely</b> and
+            <b>credible financial <br />information</b> on <b>cities</b>,
+            beginning with urban local bodies. Cityfinance aims to provide
+            information<br />
+            on financial performance of Urban Local Bodies in a timely and
+            accessible manner.<br /><br />
+            Explore available information about Urban local bodies on
+            Cityfinance portal.
           </p>
-          <h3 class="text-center benifitHeading" style="margin-top: 5%;">
-            Benefits for States/Cities
-          </h3>
+
+          <app-map-section></app-map-section>
         </div>
-        <div class="col-sm-12">
+        <!-- <div class="col-sm-12">
           <div class="row">
             <div class="col-md-6">
               <div class="about-block">
@@ -98,13 +249,13 @@
                     benchmarking the own revenue performance your organisation
                     with other urban local bodies and civic agencies in your
                     peer group.
-                  </p>
-                  <!-- <div class="text-center">
+                  </p> -->
+        <!-- <div class="text-center">
                     <a [routerLink]="['/dashboard/report']">
                       <div class="btn btn-sm btn-primary">Explore</div>
                     </a>
                   </div> -->
-                </div>
+        <!-- </div>
               </div>
             </div>
             <div class="col-md-6">
@@ -118,13 +269,13 @@
                     reports, details of municipal bond issuances and database of
                     Public Private Partnerships in urban infrastructure and
                     services.
-                  </p>
-                  <!-- <div class="text-center">
+                  </p> -->
+        <!-- <div class="text-center">
                     <a [routerLink]="['/credit-rating/laws']">
                       <div class="btn btn-sm btn-primary">Explore</div>
                     </a>
                   </div> -->
-                </div>
+        <!-- </div>
               </div>
             </div>
           </div>
@@ -139,13 +290,13 @@
                     Refer model RFPs, technical documents and model policies for
                     accounting, budgeting, MIS and auditing for best in class
                     financial management and budgetary control
-                  </p>
-                  <!-- <div class="text-center">
+                  </p> -->
+        <!-- <div class="text-center">
                     <a [routerLink]="['/credit-rating/report']">
                       <div class="btn btn-sm btn-primary">Explore</div>
                     </a>
                   </div> -->
-                </div>
+        <!-- </div>
               </div>
             </div>
             <div class="col-md-6">
@@ -157,12 +308,166 @@
                   <p>
                     Get started on reform initiatives and innovations with ready
                     to use playbooks, sign-up for digital learning modules
-                  </p>
-                  <!-- <div class="text-center">
+                  </p> -->
+        <!-- <div class="text-center">
                     <a [routerLink]="['/credit-rating/municipal-bond']">
                       <div class="btn btn-sm btn-primary">Explore</div>
                     </a>
                   </div> -->
+        <!-- </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <h2 class="text-center benifitHeading" style="margin: 4rem auto 8rem;">
+          <span>Benefits for</span>
+        </h2>
+        <div class="col-sm-12 sector-section-main sector-section-main-homepage">
+          <div class="row benefit-cards">
+            <div
+              class="scheme-section-card d-flex wow dg-fadeInDown"
+              data-wow-duration="1s"
+              data-wow-delay="0s"
+            >
+              <div class="sectorcard w-100 card">
+                <p class="sector-title card-header">Title 1</p>
+                <div class="card-body">
+                  <div class="sector-info">
+                    <p>
+                      Automate XV FC Grant<br/>
+                      Administration and<br/> 
+                      monitoring of property<br/> 
+                      tax and user charge<br/> 
+                      reform condition for<br/> 
+                      additional borrowing<br/> 
+                      by states
+                    </p>
+                  </div>
+                  <div class="sector-info-hidden">
+                    <p>
+                      Submit all financial data<br/> 
+                      online, and states and<br/> 
+                      MoHUA verify and approve<br/> 
+                      claims online. 
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="scheme-section-card d-flex wow dg-fadeInDown"
+              data-wow-duration="1s"
+              data-wow-delay="0s"
+            >
+              <div class="sectorcard w-100 card">
+                <p class="sector-title card-header">Title 2</p>
+                <div class="card-body">
+                  <div class="sector-info">
+                    <p>
+                      Benchmark property tax,<br/> 
+                      user charges and other<br/> 
+                      financial performance<br/> 
+                      indicators
+                    </p>
+                  </div>
+                  <div class="sector-info-hidden">
+                    <p>
+                      Compare revenue<br/> 
+                      performance with<br/> 
+                      peer ULBs, benchmark<br/> 
+                      against the best
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="scheme-section-card d-flex wow dg-fadeInDown"
+              data-wow-duration="1s"
+              data-wow-delay="0s"
+            >
+              <div class="sectorcard w-100 card">
+                <p class="sector-title card-header">TItle 3</p>
+                <div class="card-body">
+                  <div class="sector-info">
+                    <p>
+                      Prepare to raise<br/> 
+                      market financing
+                    </p>
+                  </div>
+                  <div class="sector-info-hidden">
+                    <p>
+                      Obtain guidance on<br/> 
+                      completing audited<br/> 
+                      annual accounts,<br/> 
+                      access credit rating<br/> 
+                      reports and municipal<br/> 
+                      borrowings data, refer<br/> 
+                      database of all urban<br/> 
+                      projects in India,<br/> 
+                      sector-wise and ULB-wise<br/> 
+                      with cost, timelines<br/> 
+                      and suggested financing<br/> 
+                      models 
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="scheme-section-card d-flex wow dg-fadeInDown"
+              data-wow-duration="1s"
+              data-wow-delay="0s"
+            >
+              <div class="sectorcard w-100 card">
+                <p class="sector-title card-header">Title 4</p>
+                <div class="card-body">
+                  <div class="sector-info">
+                    <p>
+                      Access Best Practices<br/> 
+                      in financial management<br/> 
+                      and revenue enhancement
+                    </p>
+                  </div>
+                  <div class="sector-info-hidden">
+                    <p>
+                      Gain access to a<br/> 
+                      comprehensive and<br/> 
+                      easy to use database<br/> 
+                      of best practices in<br/> 
+                      revenue enhancement,<br/> 
+                      credit rating and<br/> 
+                      municipal borrowings. 
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="scheme-section-card d-flex wow dg-fadeInDown"
+              data-wow-duration="1s"
+              data-wow-delay="0s"
+            >
+              <div class="sectorcard w-100 card">
+                <p class="sector-title card-header">Title 5</p>
+                <div class="card-body">
+                  <div class="sector-info">
+                    <p>
+                      Build skills and<br/> 
+                      competencies through<br/> 
+                      digital learning
+                    </p>
+                  </div>
+                  <div class="sector-info-hidden">
+                    <p>
+                      Certification-based<br/> 
+                      skilling of municipal<br/> 
+                      revenue and finance<br/> 
+                      officials through<br/> 
+                      digital content and<br/> 
+                      delivery
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -237,12 +542,15 @@
           </div>
         </div>
         <div class="col-md-3">
-          <div class="text-center">
+          <div class="text-center" style="width: 135%;">
             <div class="imp-partner">Supported by</div>
             <br />
-            <div>
+            <div class="support-by">
               <a href="https://www.omidyarnetwork.in/" target="_new">
                 <img src="assets/images/omdiyar-logo.png" />
+              </a>
+              <a href="https://www.gatesfoundation.org/" target="_new">
+                <img src="assets/images/BMGF.png" />
               </a>
             </div>
           </div>

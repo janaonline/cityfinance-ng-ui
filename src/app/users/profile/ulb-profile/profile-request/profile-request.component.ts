@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
 import { IULBType } from 'src/app/models/ulbs/type';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
@@ -24,8 +24,7 @@ export class ProfileRequestComponent implements OnInit {
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _profileService: ProfileService,
-
-    public modalService: BsModalService,
+    public matDialog: MatDialog,
     public _fb: FormBuilder,
     private _commonService: CommonService
   ) {
@@ -95,6 +94,7 @@ export class ProfileRequestComponent implements OnInit {
   }
 
   public searchUsersBy(filterForm: {}) {
+    // this.resetListFetchOptionsToDefeault();
     this.listFetchOption.filter = filterForm;
 
     this.fetchRequestList({ ...(<any>this.listFetchOption) });
@@ -118,7 +118,7 @@ export class ProfileRequestComponent implements OnInit {
     this.resetResponseMessages();
 
     this.requestIDToCancel = requestID;
-    this.modalService.show(ModalRef);
+    this.matDialog.open(ModalRef, { width: "31vw", height: "fit-content" });
   }
 
   updateRequest(params: { status: string; id: string }) {
@@ -126,8 +126,16 @@ export class ProfileRequestComponent implements OnInit {
 
     return this._profileService.updateULBProfileRequest(params).subscribe(
       (res) => {
-        this.request.status = params.status;
-        this.modalService.hide(1);
+        const requestFound = this.request
+          ? this.request
+          : this.requestList.find((request) => request._id === params.id);
+        if (!requestFound) {
+          return;
+        }
+
+        this.respone.successMessage = res.message;
+        requestFound.status = params.status;
+        this.matDialog.closeAll();
       },
       (err) => (this.respone.errorMessage = err.error.message || "Server Error")
     );
@@ -141,7 +149,6 @@ export class ProfileRequestComponent implements OnInit {
     this._profileService
       .getULBProfileUpdateRequestList(body)
       .subscribe((res) => {
-        console.log(`getULBProfileUpdateRequestList `, res);
         if (res.total) {
           this.tableDefaultOptions.totalCount = res.total;
         }
@@ -199,8 +206,6 @@ export class ProfileRequestComponent implements OnInit {
   }
 
   private initializeFilterForm() {
-    console.log(`initializeFilterForm`);
-
     if (this.loggedInUserType === USER_TYPE.ULB) {
       this.filterForm = this._fb.group({
         status: [""],
@@ -223,6 +228,10 @@ export class ProfileRequestComponent implements OnInit {
       skip: 0,
       limit: this.tableDefaultOptions.itemPerPage,
     };
+  }
+
+  public resetListFetchOptionsToDefeault() {
+    this.initializeListFetchParams();
   }
 
   private resetResponseMessages() {

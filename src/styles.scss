@@ -6,7 +6,9 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700");
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-
+:root {
+  --multi-dropdown-color: rgb(240, 158, 6);
+}
 input.is-invalid {
   border-color: red !important;
 }
@@ -14,6 +16,8 @@ input.is-invalid {
 .form-field-error-message {
   display: block;
   margin-top: 1%;
+  color: red;
+
   // position: absolute;
   // bottom: -41%;
 }
@@ -169,9 +173,9 @@ img.align-center {
 
 .navbar {
   border-radius: 0px;
-  background-color: #333 !important;
-  z-index: 100;
-  box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 3px;
+  // background-color: #333 !important;
+  // z-index: 1;
+  // box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 3px;
 
   a,
   .navbar-brand {
@@ -185,9 +189,11 @@ img.align-center {
 
   li > a:focus,
   li > a:hover,
-  li.active {
+  li.active,
+  a.active {
     text-decoration: none;
     background-color: #ffc500 !important;
+    background: #ffc500 !important;
   }
 }
 

@@ -24,7 +24,7 @@
   justify-content: center;
   align-items: center;
   margin: 2% auto;
-  max-width: 22vw;
+  max-width: 18vw;
   // transform: translateY(5%);
 }
 
@@ -52,9 +52,14 @@
   transform: scale(1.5);
 }
 
+.input_info,
+.form-field-error-message {
+  margin-left: 11%;
+}
+
 .input_info {
-  margin-left: 10%;
   margin-top: 1%;
+  width: 83%;
 }
 
 .input-group .form-control {
@@ -66,4 +71,14 @@
   top: 33%;
   position: absolute;
   margin-left: 2%;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.input-group {
+  width: 100%;
+  // display: block;
 }

@@ -1,0 +1,91 @@
+.wrapper {
+  width: 100%;
+  display: grid;
+  grid-template: repeat(6, 12vh) / repeat(4, 15vw);
+  grid-template-areas:
+    " s s m m "
+    " . . m m "
+    " v v m m "
+    " v v m m "
+    " . . m m ";
+}
+
+.selectPart {
+  grid-area: s;
+  font-size: 2.4rem;
+  color: var(--multi-dropdown-color);
+}
+
+.visualization {
+  grid-area: v;
+  color: var(--multi-dropdown-color);
+  font-size: 1.3em;
+}
+
+.mapWrapper {
+  grid-area: m;
+}
+
+#mapid {
+  border-radius: inherit;
+  left: 5px;
+  bottom: 0px;
+  background: transparent;
+  z-index: 1;
+  display: inline-block;
+  width: 98%;
+  height: 100%;
+  max-height: 100%;
+  transition: all 0.8s;
+}
+
+form {
+  width: 28%;
+  display: inline-block;
+}
+
+.homepage-stateList {
+  display: inline-block;
+  width: 100%;
+  border: 2px solid var(--multi-dropdown-color);
+  border-radius: 8px;
+}
+
+::ng-deep .homepage-stateList {
+  div.selected-list {
+    border: none !important;
+  }
+  .c-remove,
+  .clear-all {
+    display: none;
+  }
+  div.c-btn {
+    font-size: 1.5rem;
+    color: var(--multi-dropdown-color);
+    outline: none;
+    padding: 1px 10px;
+    min-height: 31px;
+  }
+
+  .selected-list .c-angle-down svg,
+  .selected-list .c-angle-up svg {
+    fill: var(--multi-dropdown-color);
+  }
+
+  .pure-checkbox {
+    font-size: 1.3rem;
+    padding: 3px 8px;
+  }
+
+  .dropdown-list {
+    width: 142%;
+    min-width: fit-content;
+  }
+}
+
+.loader-wrapper {
+  width: 55%;
+  display: block;
+  box-shadow: 1px 1px 9px 0px #dbd8d8;
+  border-radius: 5px;
+}

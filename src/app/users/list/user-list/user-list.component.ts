@@ -159,7 +159,7 @@ export class UserListComponent implements OnInit {
     }
     const reason = user.rejectReason
       ? user.rejectReason
-      : "Something something.... &#128561; &#128561;";
+      : "No reason available";
     const configuration: IDialogConfiguration = {
       message: `<h3 class="text-center">Reason for Rejection</h3> <p>${reason}</p>`,
       buttons: { cancel: { text: "Close" } },

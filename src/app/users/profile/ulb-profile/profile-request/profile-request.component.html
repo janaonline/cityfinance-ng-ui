@@ -380,16 +380,10 @@
               Reject Request
             </button>
           </div>
-          <p
-            *ngIf="respone.errorMessage"
-            class="error-message text-center mt-1"
-          >
+          <p *ngIf="respone.errorMessage" class="error-message mt-1">
             {{ respone.errorMessage }}
           </p>
-          <p
-            *ngIf="respone.successMessage"
-            class="success-message text-center mt-1"
-          >
+          <p *ngIf="respone.successMessage" class="success-message mt-1">
             {{ respone.successMessage }}
           </p>
         </div>
@@ -457,7 +451,10 @@
                   <button
                     class="btn btn-primary m-auto d-block"
                     style="display: block;"
-                    (click)="searchUsersBy(filterForm.value)"
+                    (click)="
+                      resetListFetchOptionsToDefeault() ||
+                        searchUsersBy(filterForm.value)
+                    "
                   >
                     Search
                   </button>
@@ -713,34 +710,32 @@
 </div>
 
 <ng-template #cancelRequestPopup>
-  <div class="modal-body">
-    <p style="margin: 3% auto; text-align: center;">
-      Are you sure you want to cancel the request?
-    </p>
+  <p style="margin: 3% auto; text-align: center;">
+    Are you sure you want to cancel the request?
+  </p>
 
-    <div style="display: flex; width: 100%; justify-content: center;">
-      <button
-        class="btn btn-primary"
-        (click)="
-          updateRequest({
-            status: REQUEST_STATUS.CANCELLED,
-            id: requestIDToCancel
-          })
-        "
-        style="margin-right: 2%;"
-      >
-        Yes
-      </button>
+  <div style="display: flex; width: 100%; justify-content: center;">
+    <button
+      class="btn btn-primary"
+      (click)="
+        updateRequest({
+          status: REQUEST_STATUS.CANCELLED,
+          id: requestIDToCancel
+        })
+      "
+      style="margin-right: 2%;"
+    >
+      Yes
+    </button>
 
-      <button class="btn btn-primary" (click)="modalService.hide(1)">
-        No
-      </button>
-    </div>
-    <p *ngIf="respone.errorMessage" class="error-message text-center mt-1">
-      {{ respone.errorMessage }}
-    </p>
-    <p *ngIf="respone.successMessage" class="success-message text-center mt-1">
-      {{ respone.successMessage }}
-    </p>
+    <button class="btn btn-primary" (click)="matDialog.closeAll()">
+      No
+    </button>
   </div>
+  <p *ngIf="respone.errorMessage" class="error-message text-center mt-1">
+    {{ respone.errorMessage }}
+  </p>
+  <p *ngIf="respone.successMessage" class="success-message text-center mt-1">
+    {{ respone.successMessage }}
+  </p>
 </ng-template>
