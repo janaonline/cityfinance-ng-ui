@@ -54,8 +54,31 @@
   }
 }
 
+.header-marquee {
+  background-color: #fafafa;
+  margin: 10px auto 0;
+  position: relative;
+  overflow: hidden;
+  width: 100% !important;
+  height: auto;
+
+  #marquee-horizontal {
+    margin: auto;
+    max-width: 1366px;
+  }
+
+  a {
+    padding-left: 5px;
+    padding-right: 5px;
+
+    span {
+      font-size: 2rem;
+    }
+  }
+}
+
 .about {
-  padding: 60px 0;
+  padding: 40px 0;
   background-color: #fafafa;
   color: #000;
 
@@ -218,7 +241,8 @@
 
   .about-title h2 span {
     background: #fafafa;
-    color: #25a891;
+    //color: #25a891;
+    color: #059b9a;
     padding: 0px 15px;
   }
 
@@ -273,10 +297,6 @@
   }
 }
 
-.carousel-item {
-  height: 500px;
-}
-
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -299,11 +319,12 @@
 
 .sectorcard {
   text-align: center;
-  background-image: linear-gradient(
-    to left top,
-    rgb(5, 166, 88),
-    rgb(5, 155, 154)
-  );
+  // background-image: linear-gradient(
+  //   to left top,
+  //   rgb(5, 166, 88),
+  //   rgb(5, 155, 154)
+  // );
+  background-image: linear-gradient(to left top, #095169, #059b9a);
   position: relative;
   border-radius: 3px;
   margin: 0.75rem 0px;
@@ -344,7 +365,8 @@
 }
 
 .sectorcard:hover .sector-title {
-  color: rgb(30, 193, 124);
+  //  color: rgb(30, 193, 124);
+  color: #059b9a;
   backface-visibility: hidden;
   -webkit-transform: translateY(0);
   transform: translateY(0);
@@ -416,7 +438,8 @@ img {
 
 .sectorcard:hover .card-body .sector-info {
   opacity: 0;
-  color: rgb(30, 193, 124);
+  //  color: rgb(30, 193, 124);
+  color: #059b9a;
   backface-visibility: hidden;
 }
 
@@ -431,7 +454,8 @@ img {
 
 .sectorcard:hover .card-body .sector-info-hidden {
   opacity: 1;
-  color: rgb(30, 193, 124);
+  //  color: rgb(30, 193, 124);
+  color: #059b9a;
   backface-visibility: hidden;
 }
 

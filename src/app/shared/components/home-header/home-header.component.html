@@ -82,7 +82,7 @@
       <img
         src="/assets/images/cityfinance-logo.png"
         class="web-logo"
-        style="width: 320px; height: 55px;"
+        style="width: 297px; height: 51px;"
       />
     </li>
     <li routerLinkActive="active">
@@ -92,30 +92,29 @@
       <a [routerLink]="['/analytics']">Analytics</a>
     </li>
     <li routerLinkActive="active" class="dropdown">
-      <a
+      <!-- <a
         class="dropdown-toggle"
         data-toggle="dropdown"
         role="button"
         aria-haspopup="true"
         aria-expanded="false"
-      >
-        Annual Financial Statements&nbsp;<span class="caret"></span
-      ></a>
-      <ul class="dropdown-menu">
+      > -->
+      <a [routerLink]="['/dashboard/report']">Annual Financial Statements</a>
+      <!-- <ul class="dropdown-menu">
         <li routerLinkActive="active">
           <a [routerLink]="['/dashboard/report']"
             >Annual Financial Statements</a
           >
         </li>
-        <!-- <li>
+        <li>
           <a [routerLink]="['/dashboard', 'financial-information']"
             >Availability of Financial Information</a
           >
-        </li> -->
-        <!--    <li routerLinkActive="active" *ngIf="!isProduction">
+        </li>
+        <li routerLinkActive="active" *ngIf="!isProduction">
               <a [routerLink]="['/dashboard', 'ranking']">Annual Fiscal Ranking</a>
-            </li>-->
-      </ul>
+            </li>
+      </ul> -->
     </li>
     <li routerLinkActive="active">
       <a [routerLink]="['/credit-rating/laws']">Municipal Finance Laws</a>
