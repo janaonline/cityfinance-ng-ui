@@ -10,6 +10,7 @@ import { AssetsService } from 'src/app/shared/services/assets/assets.service';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
 import { MapUtil } from 'src/app/util/map/mapUtil';
+import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
 
 @Component({
   selector: "app-map-section",
@@ -75,7 +76,7 @@ export class MapSectionComponent implements OnInit {
     fillOpacity: 1,
   };
 
-  previousStateLayer: ILeafletStateClickEvent["target"] = null;
+  previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
 
   ngOnInit() {}
 
@@ -92,18 +93,27 @@ export class MapSectionComponent implements OnInit {
         return;
       }
 
-      this.higlightClickedState(layer);
       if (this.previousStateLayer) {
         this.resetStateLayer(this.previousStateLayer);
       }
+      this.higlightClickedState(layer);
+
       this.previousStateLayer = layer;
     });
   }
 
   private fetchStateList() {
-    this.commonService
-      .fetchStateList()
-      .subscribe((res) => (this.stateList = res));
+    this.commonService.fetchStateList().subscribe((res) => {
+      this.stateList = res.filter(
+        (state) =>
+          !(
+            state.name === "Andaman & Nicobar Island" ||
+            state.name === "Arunanchal Pradesh" ||
+            state.name === "Dadara & Nagar Havelli" ||
+            state.name === "Lakshadweep"
+          )
+      );
+    });
   }
 
   private fetchDataForVisualization(stateId?: string) {
@@ -119,7 +129,7 @@ export class MapSectionComponent implements OnInit {
   }
 
   public animateValues = () => {
-    const speed = 660;
+    const speed = 460;
     const interval = 50;
 
     const animateValues = (document.querySelectorAll(
@@ -174,9 +184,18 @@ export class MapSectionComponent implements OnInit {
     >,
     containerId: string
   ) {
-    const configuration = {
+    let zoom = 4.72;
+
+    zoom += 1 - window.devicePixelRatio;
+
+    const configuration: IMapCreationConfig = {
       containerId,
       geoData,
+      options: {
+        zoom,
+        maxZoom: zoom,
+        minZoom: zoom,
+      },
     };
     let map;
 
@@ -189,6 +208,7 @@ export class MapSectionComponent implements OnInit {
 
     this.statesLayer.eachLayer((layer) => {
       const stateName = MapUtil.getStateName(layer);
+
       if (!stateName) {
         return;
       }
@@ -210,7 +230,8 @@ export class MapSectionComponent implements OnInit {
         mouseover: () => {
           this.createTooltip(layer);
         },
-        click: (args: ILeafletStateClickEvent) => this.onClickingState(args),
+        click: (args: ILeafletStateClickEvent) =>
+          this.onClickingState(args, layer),
       });
     });
   }
@@ -223,12 +244,12 @@ export class MapSectionComponent implements OnInit {
       { color: "#D0EDF9", text: "1%-25%" },
       { color: "#E5E5E5", text: "0%" },
     ];
-    const legend = new L.Control({ position: "bottomright" });
+    const legend = new L.Control({ position: "bottomleft" });
     const labels = [
       `<span style="width: 100%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`,
     ];
     legend.onAdd = function (map) {
-      const div = L.DomUtil.create("div", "info legend");
+      const div = L.DomUtil.create("div", "info legend ml-0");
       div.id = "legendContainer";
       div.style.width = "100%";
       arr.forEach((value) => {
@@ -258,10 +279,12 @@ export class MapSectionComponent implements OnInit {
       zoomAnimation: true,
     };
 
-    layer.bindTooltip("<b>" + stateName + "</b>", option).openTooltip();
+    // layer.bindTooltip("<b>" + stateName + "</b>", option).openTooltip();
+    layer.bindTooltip("<b>" + stateName + "</b>", option);
+    layer.toggleTooltip();
   }
 
-  onClickingState(currentStateLayer: ILeafletStateClickEvent) {
+  onClickingState(currentStateLayer: ILeafletStateClickEvent, layer: L.Layer) {
     const stateName = MapUtil.getStateName(currentStateLayer);
 
     if (this.stateSelected && stateName === this.stateSelected.name) {
@@ -272,21 +295,28 @@ export class MapSectionComponent implements OnInit {
     const stateFound = this.stateList.find(
       (state) => state.name.toLowerCase() === stateName.toLowerCase()
     );
+
     const doesStateHasData = !!this.stateDatasForMapColoring.find(
       (state) => state._id == stateFound._id && state.coveredUlbPercentage > 0
     );
     if (!stateFound) {
       return;
     }
-    if (this.previousStateLayer) {
-      this.resetStateLayer(this.previousStateLayer);
-      this.previousStateLayer = null;
-    }
-    this.higlightClickedState(currentStateLayer.target);
+    this.selectStateOnMap(stateFound);
+    // const state = this.stateList.find(state => state.name === )
+
+    // if (this.previousStateLayer) {
+    //   this.resetStateLayer(this.previousStateLayer);
+    //   (this.previousStateLayer as any).closePopup();
+    //   // (this.previousStateLayer as any).closeTooltip();
+    //   this.previousStateLayer = null;
+    // }
+    // this.higlightClickedState(layer);
 
     this.updateDropdownStateSelection(stateFound);
     this.fetchDataForVisualization(stateFound._id);
-    this.previousStateLayer = currentStateLayer.target;
+
+    // this.previousStateLayer = layer;
   }
 
   private resetMapToNationalView(stateLayer) {
@@ -301,6 +331,7 @@ export class MapSectionComponent implements OnInit {
       color: this.defaultStateLayerColorOption.color,
       weight: this.defaultStateLayerColorOption.weight,
     });
+    layer.closeTooltip();
   }
 
   private updateDropdownStateSelection(state: IState) {
@@ -313,6 +344,7 @@ export class MapSectionComponent implements OnInit {
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
       stateLayer.bringToFront();
     }
+    // this.createTooltip(stateLayer);
   }
 
   private getColorBasedOnPercentage(value: number) {

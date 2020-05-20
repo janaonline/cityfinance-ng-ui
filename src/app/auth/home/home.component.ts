@@ -17,7 +17,7 @@ interface Link {
       useValue: {
         interval: 4000,
         noPause: true,
-        showIndicators: false,
+        showIndicators: true,
       },
     },
   ],

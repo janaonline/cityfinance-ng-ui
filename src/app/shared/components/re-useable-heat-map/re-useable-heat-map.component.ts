@@ -995,7 +995,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     id="districtMapId"
     class="h-60 col-sm-12"
     style="background: white;z-index: 8; display: inline-block; width: 99%;height: 57vh;"
-  ></div>`;
+  > <p class="text-center mt-2" *ngIf="currentStateInView">
+      Click on any ULB to view their data or Click on INDIA map to go back.
+    </p>
+  </div>`;
   }
 
   private clearNationalMapContainer() {

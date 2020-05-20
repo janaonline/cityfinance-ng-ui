@@ -18,36 +18,37 @@
           alt="first slide"
         />
       </picture>
-      <div class="foreground">
-        <picture>
-          <!-- <source
-            srcset="/assets/images/carousels/foreground.webp"
-            type="image/webp"
-          /> -->
-          <source
-            srcset="/assets/images/carousels/shri_narendra_modi.png"
-            type="image/png"
-          />
-          <img
-            class="background"
-            src="/assets/images/carousels/shri_narendra_modi.png"
-            alt="first slide"
-          />
-        </picture>
+      <div class="testing">
+        <div class="foreground">
+          <picture>
+            <source
+              srcset="/assets/images/carousels/shri_narendra_modi.webp"
+              type="image/webp"
+            />
+            <source
+              srcset="/assets/images/carousels/shri_narendra_modi.png"
+              type="image/png"
+            />
+            <img
+              class="background"
+              src="/assets/images/carousels/shri_narendra_modi.png"
+              alt="first slide"
+            />
+          </picture>
 
-        <div class="quotes-left">
-          "Alternative funding modes are being explored for financing
-          improvement in cities. Cities of Pune, Hyderabad and Indore have
-          raised significant sums of money through Municipal Bonds"<br />
-          - Prime Minister: Shri Narendra Modi
+          <div class="quotes-left">
+            "Alternative funding modes are being explored for financing
+            improvement in cities. Cities of Pune, Hyderabad and Indore have
+            raised significant sums of money through Municipal Bonds"<br />
+            - Prime Minister: Shri Narendra Modi
+          </div>
         </div>
-      </div>
 
-      <div class="quotes-right">
-        10 municipal bond issuance raising INR 3490 crore since 2017<br />
-        <a routerLink="/credit-rating/municipal-bond"
-          >(Click here to know more on municipal bond issuance)</a
-        >
+        <div class="quotes-right">
+          10 municipal bond issuance raising INR 3490 crore since 2017<br />
+
+          <a routerLink="/credit-rating/municipal-bond">Explore</a>
+        </div>
       </div>
     </slide>
     <slide>
@@ -66,35 +67,35 @@
           alt="first slide"
         />
       </picture>
-      <div class="foreground">
-        <picture>
-          <!-- <source
-            srcset="/assets/images/carousels/foreground.webp"
-            type="image/webp"
-          /> -->
-          <source
-            srcset="/assets/images/carousels/shri_narendra_modi.png"
-            type="image/png"
-          />
-          <img
-            class="background"
-            src="/assets/images/carousels/shri_narendra_modi.png"
-            alt="first slide"
-          />
-        </picture>
+      <div class="testing">
+        <div class="foreground">
+          <picture>
+            <source
+              srcset="/assets/images/carousels/shri_narendra_modi.webp"
+              type="image/webp"
+            />
+            <source
+              srcset="/assets/images/carousels/shri_narendra_modi.png"
+              type="image/png"
+            />
+            <img
+              class="background"
+              src="/assets/images/carousels/shri_narendra_modi.png"
+              alt="first slide"
+            />
+          </picture>
 
-        <div class="quotes-left">
-          "It’s our mission to strengthen our cities to meet the challenges of
-          21st century"<br />
-          - Prime Minister: Shri Narendra Modi
+          <div class="quotes-left">
+            "It’s our mission to strengthen our cities to meet the challenges of
+            21st century"<br />
+            - Prime Minister: Shri Narendra Modi
+          </div>
         </div>
-      </div>
 
-      <div class="quotes-right">
-        Credit rating in place for 469 cities<br />
-        <a routerLink="/credit-rating/report"
-          >(Click here to know more on credit ratings of cities)</a
-        >
+        <div class="quotes-right">
+          Credit rating in place for 469 cities<br />
+          <a routerLink="/credit-rating/report">Explore</a>
+        </div>
       </div>
     </slide>
     <slide>
@@ -115,36 +116,36 @@
           alt="first slide"
         />
       </picture>
-      <div class="foreground" style="bottom: -4vh;">
-        <picture>
-          <!-- <source
-            srcset="/assets/images/carousels/Shri_Hardeep_Singh_Puri.webp"
-            type="image/webp"
-          /> -->
-          <source
-            srcset="/assets/images/carousels/shri_hardeep_singh_puri.png"
-            type="image/png"
-          />
-          <img
-            class="background"
-            src="/assets/images/carousels/shri_hardeep_singh_puri.png"
-            alt="first slide"
-          />
-        </picture>
+      <div class="testing">
+        <div class="foreground">
+          <picture>
+            <source
+              srcset="/assets/images/carousels/shri_hardeep_singh_puri.webp"
+              type="image/webp"
+            />
+            <source
+              srcset="/assets/images/carousels/Shri_Hardeep_Singh_Puri.jpg"
+              type="image/png"
+            />
+            <img
+              class="background"
+              src="/assets/images/carousels/Shri_Hardeep_Singh_Puri.jpg"
+              alt="first slide"
+            />
+          </picture>
 
-        <div class="quotes-left">
-          "It’s our mission to strengthen our cities to meet the challenges of
-          21st century"<br />
-          - Minster for Housing and Urban Affairs- Shri Hardeep Singh Puri
+          <div class="quotes-left">
+            "It’s our mission to strengthen our cities to meet the challenges of
+            21st century"<br />
+            - Minster for Housing and Urban Affairs- Shri Hardeep Singh Puri
+          </div>
         </div>
-      </div>
 
-      <div class="quotes-right">
-        Significant increase in audit of annual accounts of Urban local bodies
-        <a routerLink="/dashboard/report/basic"
-          >(Click here to access annual financial statements of Urban Local
-          bodies)</a
-        >
+        <div class="quotes-right">
+          Significant increase in audit of annual accounts of Urban local
+          bodies<br />
+          <a routerLink="/dashboard/report/basic">Explore</a>
+        </div>
       </div>
     </slide>
   </carousel>
@@ -179,41 +180,64 @@
   <!-- <app-heat-map *ngIf="!isProduction"></app-heat-map> -->
 
   <div class="header-marquee">
-		<div id="marquee-horizontal" aria-hidden="true">
-      <marquee scrollamount="3" 
-        onmouseover="this.stop();" 
-        onfocus="this.stop();" 
-        onmouseout="this.start();" 
-        onblur="this.start();" 
+    <div id="marquee-horizontal" aria-hidden="true">
+      <marquee
+        scrollamount="3"
+        onmouseover="this.stop();"
+        onfocus="this.stop();"
+        onmouseout="this.start();"
+        onblur="this.start();"
         tabindex="152"
-        aria-hidden="true">
-        <a href=" https://www.sebi.gov.in/media/press-releases/feb-2020/sebi-constitutes-municipal-bonds-development-committee-_45988.html" 
-          title="SEBI constitutes 'Municipal Bonds Development Committee'" tabindex="154">
-          <span style="color:#009fe3; padding-right:10px; padding-left: 10px;">
-            SEBI constitutes 'Municipal Bonds Development Committee'
-          </span>
-        </a> ::: 
-        <a href=" https://www.sebi.gov.in/media/press-releases/feb-2020/sebi-constitutes-municipal-bonds-development-committee-_45988.html" 
-          title="SEBI constitutes 'Municipal Bonds Development Committee'" tabindex="154">
-          <span style="color:#009fe3; padding-right:10px; padding-left: 10px;">
-            SEBI constitutes 'Municipal Bonds Development Committee'
-          </span>
-        </a>
-        <a href=" https://www.sebi.gov.in/media/press-releases/feb-2020/sebi-constitutes-municipal-bonds-development-committee-_45988.html" 
-          title="SEBI constitutes 'Municipal Bonds Development Committee'" tabindex="154">
-          <span style="color:#009fe3; padding-right:10px; padding-left: 10px;">
+        aria-hidden="true"
+      >
+        <a
+          href=" https://www.sebi.gov.in/media/press-releases/feb-2020/sebi-constitutes-municipal-bonds-development-committee-_45988.html"
+          title="SEBI constitutes 'Municipal Bonds Development Committee'"
+          tabindex="154"
+        >
+          <span
+            style="color: #009fe3; padding-right: 10px; padding-left: 10px;"
+          >
             SEBI constitutes 'Municipal Bonds Development Committee'
           </span>
         </a>
-        <a href=" https://www.sebi.gov.in/media/press-releases/feb-2020/sebi-constitutes-municipal-bonds-development-committee-_45988.html" 
-          title="SEBI constitutes 'Municipal Bonds Development Committee'" tabindex="154">
-          <span style="color:#009fe3; padding-right:10px; padding-left: 10px;">
+        :::
+        <a
+          href=" https://www.sebi.gov.in/media/press-releases/feb-2020/sebi-constitutes-municipal-bonds-development-committee-_45988.html"
+          title="SEBI constitutes 'Municipal Bonds Development Committee'"
+          tabindex="154"
+        >
+          <span
+            style="color: #009fe3; padding-right: 10px; padding-left: 10px;"
+          >
+            SEBI constitutes 'Municipal Bonds Development Committee'
+          </span>
+        </a>
+        <a
+          href=" https://www.sebi.gov.in/media/press-releases/feb-2020/sebi-constitutes-municipal-bonds-development-committee-_45988.html"
+          title="SEBI constitutes 'Municipal Bonds Development Committee'"
+          tabindex="154"
+        >
+          <span
+            style="color: #009fe3; padding-right: 10px; padding-left: 10px;"
+          >
+            SEBI constitutes 'Municipal Bonds Development Committee'
+          </span>
+        </a>
+        <a
+          href=" https://www.sebi.gov.in/media/press-releases/feb-2020/sebi-constitutes-municipal-bonds-development-committee-_45988.html"
+          title="SEBI constitutes 'Municipal Bonds Development Committee'"
+          tabindex="154"
+        >
+          <span
+            style="color: #009fe3; padding-right: 10px; padding-left: 10px;"
+          >
             SEBI constitutes 'Municipal Bonds Development Committee'
           </span>
         </a>
       </marquee>
     </div>
-	</div> 
+  </div>
   <div class="about">
     <div class="container">
       <!-- <div class="row">
@@ -260,13 +284,14 @@
             Commissioners, Smart City CEOs, Investors, Merchant Bankers, Project
             Consultants, Credit Rating Agencies & Banks. -->
 
-            Cityfinance.in serves as <b style="color: #059B9A;">national framework</b> of
-            <b style="color: #059B9A;">standardized, timely</b> and
-            <b style="color: #059B9A;">credible financial information</b> on 
-            <b style="color: #059B9A;">cities</b>,
-            beginning with urban local bodies. Cityfinance aims to provide
-            information on financial performance of Urban Local Bodies in a timely and
-            accessible manner.<br /><br />
+            Cityfinance.in serves as
+            <b style="color: #059b9a;">national framework</b> of
+            <b style="color: #059b9a;">standardized, timely</b> and
+            <b style="color: #059b9a;">credible financial information</b> on
+            <b style="color: #059b9a;">cities</b>, beginning with urban local
+            bodies. Cityfinance aims to provide information on financial
+            performance of Urban Local Bodies in a timely and accessible
+            manner.<br /><br />
             Explore available information about Urban local bodies on
             Cityfinance portal.
           </p>

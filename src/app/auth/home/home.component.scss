@@ -62,7 +62,7 @@
   width: 100% !important;
   height: auto;
 
-  #marquee-horizontal{
+  #marquee-horizontal {
     margin: auto;
     max-width: 1366px;
   }
@@ -71,7 +71,7 @@
     padding-left: 5px;
     padding-right: 5px;
 
-    span{
+    span {
       font-size: 2rem;
     }
   }
@@ -242,7 +242,7 @@
   .about-title h2 span {
     background: #fafafa;
     //color: #25a891;
-    color: #059B9A;
+    color: #059b9a;
     padding: 0px 15px;
   }
 
@@ -324,9 +324,7 @@
   //   rgb(5, 166, 88),
   //   rgb(5, 155, 154)
   // );
-  background-image: linear-gradient(
-    to left top,#095169, #059B9A
-  );
+  background-image: linear-gradient(to left top, #095169, #059b9a);
   position: relative;
   border-radius: 3px;
   margin: 0.75rem 0px;
@@ -362,13 +360,13 @@
   border-color: initial;
   border-image: initial;
   background: none;
-//  transform: translateY(1rem);
+  //  transform: translateY(1rem);
   transition: transform 0.5s ease 0s;
 }
 
 .sectorcard:hover .sector-title {
-//  color: rgb(30, 193, 124);
-  color: #059B9A;
+  //  color: rgb(30, 193, 124);
+  color: #059b9a;
   backface-visibility: hidden;
   -webkit-transform: translateY(0);
   transform: translateY(0);
@@ -383,7 +381,7 @@
   transform: translateY(7rem);
 }
 
-.sectorcard .card-body{
+.sectorcard .card-body {
   padding: 15px 0;
   position: relative;
 }
@@ -440,14 +438,14 @@ img {
 
 .sectorcard:hover .card-body .sector-info {
   opacity: 0;
-//  color: rgb(30, 193, 124);
-  color: #059B9A;
+  //  color: rgb(30, 193, 124);
+  color: #059b9a;
   backface-visibility: hidden;
 }
 
 .sectorcard .card-body .sector-info-hidden {
   opacity: 0;
-  color:white;
+  color: white;
   text-align: center;
   font-size: 1.8rem;
   width: 100%;
@@ -456,12 +454,12 @@ img {
 
 .sectorcard:hover .card-body .sector-info-hidden {
   opacity: 1;
-//  color: rgb(30, 193, 124);
-  color: #059B9A;
+  //  color: rgb(30, 193, 124);
+  color: #059b9a;
   backface-visibility: hidden;
 }
 
-.benefit-cards{
+.benefit-cards {
   display: grid;
   grid-template-columns: 0 1fr 1fr 1fr 1fr 1fr;
   column-gap: 15px;
@@ -522,7 +520,6 @@ img {
 
 .support-by a {
   width: 49%;
-  // margin-right: 5%;
 }
 
 .container .col-md-3 {
@@ -534,20 +531,30 @@ img.background {
   width: 100%;
 }
 
-.foreground {
+.testing {
+  top: 1px;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
   position: absolute;
+  height: 100%;
+  // background: red;
+  justify-content: space-between;
+  z-index: 555555;
+}
+
+.foreground {
+  align-self: center;
   left: 5vw;
-  width: 28vw;
-  z-index: 111;
-  bottom: 5vh;
+  width: 32vw;
 
   display: grid;
-  grid-template: repeat(4, 1fr) / repeat(4, 1fr);
+  grid-template: repeat(4, 1fr) / repeat(8, 1fr);
   grid-template-areas:
-    ". i i ."
-    ". i i ."
-    "q q q q"
-    "q q q q";
+    ". . i i i i . ."
+    ". . i i i i . ."
+    "q q q q q q q q"
+    "q q q q q q q q";
   img,
   picture {
     grid-area: i;
@@ -559,29 +566,42 @@ img.background {
     text-align: center;
     padding: 1%;
     height: fit-content;
-
-    // margin-top: 2%;
     color: white;
-    // padding: 2%;
     background: rgba(0, 174, 255, 0.151);
   }
 }
 
 .quotes-right {
-  position: absolute;
-  right: 1vh;
-  top: 8vh;
-  font-size: 3rem;
+  font-size: 2.8rem;
   text-align: left;
   padding: 1%;
-  width: 50vw;
-
-  // margin-top: 2%;
+  width: fit-content;
   color: white;
-  // padding: 2%;
+
   background: rgba(0, 174, 255, 0.151);
   a {
-    color: #ffc500;
+    font-size: 0.7em;
+    background: #ffc500;
+    color: white;
+    padding: 5px 18px;
+    border-radius: 50px;
+    float: right;
     text-decoration: none;
+    transition: transform 500ms;
+  }
+
+  a:hover {
+    transform: translateX(-5%);
+  }
+}
+
+::ng-deep {
+  .carousel,
+  .slide {
+    height: 58vh;
+    overflow: hidden;
+  }
+  .carousel-control {
+    display: none;
   }
 }

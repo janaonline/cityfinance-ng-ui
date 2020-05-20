@@ -121,6 +121,8 @@
           background-color: #333333;
           color: white;
           min-width: min-content;
+          border: none;
+          outline: none;
         "
       >
         <mat-icon>arrow_downward</mat-icon>
@@ -270,7 +272,7 @@
                   <ng-template #clickableCol>
                     <a
                       *ngIf="i != tr?.data.length - 1"
-                      (click)="openModal(UlbModal, row, tr.year)"
+                      (click)="openModal(UlbModal, row, [tr.year])"
                       >{{ row[col?.id] }}</a
                     >
                     <span
@@ -338,7 +340,7 @@
     >
       <table
         id="table"
-        *ngIf="modalTableHeaders.length; else noData"
+        *ngIf="modalTableData && modalTableHeaders.length; else loadingSkeleton"
         class="table"
       >
         <thead>
@@ -549,7 +551,14 @@
       mat-raised-button
       title="Apply"
       (click)="onDropdownClose()"
-      style="background-color: #333333; min-width: min-content; color: white;"
+      style="
+        background-color: #333333;
+        min-width: fit-content;
+        color: white;
+        border: none;
+        outline: none;
+        padding: 1% 2%;
+      "
     >
       Apply
     </button>
@@ -593,7 +602,7 @@
                 >
                 <a
                   *ngIf="!singleULBView"
-                  (click)="openModal(UlbModal, row, data.year)"
+                  (click)="openModal(UlbModal, row, [data.year])"
                   class="p-1"
                   >{{
                     singleULBView

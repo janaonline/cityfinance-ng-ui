@@ -4309,7 +4309,7 @@
             [[10]]
           ],
           "type": "MultiPolygon",
-          "properties": {"ST_NM": "Andaman and Nicobar Islands"}
+          "properties": {"ST_NM": "Andaman & Nicobar Islands"}
         },
         {
           "arcs": [[11, 12, 13]],
@@ -4479,12 +4479,12 @@
             ]
           ],
           "type": "Polygon",
-          "properties": {"ST_NM": "Dadra and Nagar Haveli"}
+          "properties": {"ST_NM": "Dadra & Nagar Haveli"}
         },
         {
           "arcs": [[172, 173]],
           "type": "Polygon",
-          "properties": {"ST_NM": "Daman and Diu"}
+          "properties": {"ST_NM": "Daman & Diu"}
         },
         {
           "arcs": [[174, 175, 176]],
