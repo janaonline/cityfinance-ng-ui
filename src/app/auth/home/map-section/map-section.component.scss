@@ -117,11 +117,18 @@ form {
 }
 
 ::ng-deep .ml-0 {
-  margin-left: 0px !important;
+  margin-left: -21% !important;
   max-width: 140px;
   margin-bottom: 5vh !important;
 
-  // transform: scale(0.8);
+  // transform: scale(0.9);
+  overflow: visible;
+}
+
+::ng-deep {
+  .leaflet-container {
+    overflow: visible;
+  }
 }
 
 .loading-value {

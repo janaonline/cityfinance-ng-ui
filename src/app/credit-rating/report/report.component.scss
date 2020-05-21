@@ -210,3 +210,8 @@ div.arrow:after {
   border-color: #337ab7;
   // transform: scale(0.8);
 }
+::ng-deep {
+  .leaflet-container {
+    overflow: visible;
+  }
+}

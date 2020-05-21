@@ -213,7 +213,7 @@ img.align-center {
 }
 
 .navbar-nav > li > .dropdown-menu {
-  background-color: #333333;
+  // background-color: #333333;
   margin-top: -1px;
   padding-bottom: 0;
   padding-top: 0;
@@ -355,12 +355,12 @@ img.align-center {
 
 .navbar-nav > li:hover .dropdown-menu {
   display: block;
-  background-color: #333333;
+  // background-color: #333333;
 }
 
 .home-footer {
-//  background-color: #363839;
-  background-image: linear-gradient(to right, #095169, #059B9A);
+  //  background-color: #363839;
+  background-image: linear-gradient(to right, #095169, #059b9a);
   color: #fff;
   font-size: 1.8rem;
   font-weight: 300;

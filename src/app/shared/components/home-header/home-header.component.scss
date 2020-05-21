@@ -140,6 +140,9 @@ nav.navbar {
     font-size: 6rem;
     color: var(--multi-dropdown-color);
   }
+  .dropdown-menu li {
+    background: rgba(1, 49, 79, 0.9);
+  }
 }
 
 // ::ng-deep .carousel-control .icon-next:before {
