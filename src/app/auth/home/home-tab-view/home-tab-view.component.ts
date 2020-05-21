@@ -3,11 +3,12 @@ import 'chartjs-plugin-labels';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Chart } from 'chart.js';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { debounceTime, delay, map, takeUntil } from 'rxjs/operators';
+import { AnalyticsTabs, IAnalyticsTabs } from 'src/app/shared/components/home-header/tabs';
 
 import { IDialogConfiguration } from '../../../../app/shared/components/dialog/models/dialogConfiguration';
 import { IStateWithULBS } from '../../../../app/shared/components/re-useable-heat-map/models/stateWithULBS';
@@ -102,8 +103,6 @@ export class HomeTabViewComponent implements OnInit {
     if (Chart.instances) {
       Chart.instances = {};
     }
-    // setTimeout(() => this.fetchTableDataSuccess(JSON.parse(JSON.stringify(this.tabData[this.tabIndex]))), 1000);
-    // }
   }
 
   constructor(
@@ -114,7 +113,8 @@ export class HomeTabViewComponent implements OnInit {
     protected _snacbar: MatSnackBar,
     private _dialog: MatDialog,
     protected _authService: AuthService,
-    protected router: Router
+    protected router: Router,
+    private activateRoute: ActivatedRoute
   ) {
     this.yearForm = formBuilder.group({
       years: [[this.yearLookup[1]]],
@@ -123,16 +123,28 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchData();
-    this.initiatedDataFetchingProcess().subscribe((res) => {});
-    this.ulbFilterControl.valueChanges
-      .pipe(debounceTime(100))
-      .subscribe((textToSearch) => {
-        this.updateULBDropdownList({
-          ulbName: textToSearch,
-          stateId: this.selectedState ? this.selectedState._id : null,
-        });
-      });
+    this.activateRoute.params.subscribe(
+      (param: { tab: IAnalyticsTabs["url"] }) => {
+        const tabFound = Object.values(AnalyticsTabs).find(
+          (tab) => tab.url === this.router.url
+        );
+        if (!tabFound) {
+          this.router.navigate(["/home"]);
+          return;
+        }
+        this.tabIndex = tabFound.id;
+        this.fetchData();
+        this.initiatedDataFetchingProcess().subscribe((res) => {});
+        this.ulbFilterControl.valueChanges
+          .pipe(debounceTime(100))
+          .subscribe((textToSearch) => {
+            this.updateULBDropdownList({
+              ulbName: textToSearch,
+              stateId: this.selectedState ? this.selectedState._id : null,
+            });
+          });
+      }
+    );
   }
 
   private filterMergedStateDataBy(options: {

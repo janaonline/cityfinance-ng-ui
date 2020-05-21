@@ -89,7 +89,19 @@
       <a [routerLink]="['/home']">Home</a>
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['/analytics']">Analytics</a>
+      <a
+        class="dropdown-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        >Analytics
+      </a>
+      <ul class="dropdown-menu">
+        <li routerLinkActive="active" *ngFor="let tab of tabs">
+          <a [routerLink]="[tab.url]"> {{ tab.name }}</a>
+        </li>
+      </ul>
     </li>
     <li routerLinkActive="active" class="dropdown">
       <!-- <a
