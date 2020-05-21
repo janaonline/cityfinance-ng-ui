@@ -1,6 +1,15 @@
 <div class="testing"></div>
 
 <div class="col-sm-12 stateMapContainer">
+  <p class="text-center national-map-click-guide">
+    <span *ngIf="!currentStateInView && nationalLevelMap">
+      Click on any state to view state and ULB related data</span
+    >
+    <span *ngIf="currentStateInView">
+      Click on any ULB to view it's data or click on India map to go back</span
+    >
+  </p>
+
   <div
     style="
       position: absolute;
@@ -9,7 +18,7 @@
       text-decoration: underline;
       font-weight: 500;
       display: inherit;
-      margin-top: 1.8rem;
+      margin-top: 3.8rem;
       width: 15vw;
     "
   >
@@ -121,9 +130,5 @@
     </p> -->
   </div>
 
-  <div id="mapidd" class="stateMap">
-    <p class="text-center" *ngIf="!currentStateInView && nationalLevelMap">
-      Click on any state to view state and ULB related data
-    </p>
-  </div>
+  <div id="mapidd" class="stateMap"></div>
 </div>

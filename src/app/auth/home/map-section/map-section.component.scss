@@ -1,15 +1,13 @@
 .wrapper {
   width: 100%;
   display: grid;
-  grid-template: repeat(6, 12vh) / repeat(16, 1fr);
-  gap: 15px;
+  grid-template: repeat(4, 15vh) / repeat(16, 1fr);
+  grid-gap: 15px;
   grid-template-areas:
     ". . . . . . . . m m m m m m m m"
     "s s s s s s s s m m m m m m m m"
     "v v v v . . . . m m m m m m m m"
-    "v v v v . . . . m m m m m m m m"
-    ". . . . . . . . m m m m m m m m"
-    ". . . . . . . . m m m m m m m m";
+    "v v v v . . . . m m m m m m m m";
 }
 
 .selectPart {
@@ -121,7 +119,9 @@ form {
 ::ng-deep .ml-0 {
   margin-left: 0px !important;
   max-width: 140px;
-  transform: scale(0.8);
+  margin-bottom: 5vh !important;
+
+  // transform: scale(0.8);
 }
 
 .loading-value {

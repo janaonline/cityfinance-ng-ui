@@ -140,6 +140,7 @@ export class MapSectionComponent implements OnInit {
 
     animateValues.forEach((element: HTMLElement) => {
       const target = +element.getAttribute("data-animate-value");
+
       const currentValue = +element.innerText;
       if (startiongValue !== null && startiongValue !== undefined) {
         element.innerText = `0`;
@@ -156,6 +157,9 @@ export class MapSectionComponent implements OnInit {
 
       let incrementor = +Number(target / speed);
       incrementor = incrementor === 0 ? target : incrementor;
+
+      // NOTE Need to re do it.
+      incrementor = 1;
       if (currentValue < target) {
         const newValue = +Number(currentValue + incrementor).toFixed(1);
         element.innerText = `${newValue > target ? target : newValue}`;

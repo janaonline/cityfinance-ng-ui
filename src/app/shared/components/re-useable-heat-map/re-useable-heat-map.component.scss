@@ -79,7 +79,7 @@ div.miniMap {
   z-index: 9;
   position: absolute;
   right: -3.5%;
-  top: 6.3%;
+  top: 11%;
   width: 50%;
   background: transparent;
   max-width: 259.199px;
@@ -112,7 +112,7 @@ div.miniMap {
 .regionalDetails2 {
   width: fit-content;
   display: flex;
-  margin-top: -5%;
+  margin-top: 2%;
   transform: scale(0.8);
 }
 
@@ -302,6 +302,20 @@ mat-form-field {
   .cuppa-dropdown {
     position: relative;
     margin-top: -2px;
+  }
+
+  .map-click-guide {
+    position: absolute;
+    bottom: 3vh;
+  }
+  .national-map-click-guide {
+    // left: 4vw;
+    text-align: center;
+    width: 100%;
+    margin: 2% auto;
+  }
+  .map-click-guide {
+    right: 5vw;
   }
 }
 
