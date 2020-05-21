@@ -4,7 +4,7 @@ import { HomeTabViewComponent } from 'src/app/auth/home/home-tab-view/home-tab-v
 
 export const routes: Routes = [
   {
-    path: "",
+    path: ":tab",
     component: HomeTabViewComponent,
   },
 ];

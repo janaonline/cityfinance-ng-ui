@@ -7,6 +7,7 @@ import { MODULES_NAME } from '../../../../app/util/access/modules';
 import { AuthService } from '../../../auth/auth.service';
 import { USER_TYPE } from '../../../models/user/userType';
 import { AccessChecker } from '../../../util/access/accessChecker';
+import { AnalyticsTabs, IAnalyticsTabs } from './tabs';
 
 @Component({
   selector: "app-home-header",
@@ -27,6 +28,8 @@ export class HomeHeaderComponent implements OnInit {
   canViewMoHUAList = false;
   canEditOwnProfile = false;
 
+  tabs: IAnalyticsTabs[] = [];
+
   USER_TYPE = USER_TYPE;
   private accessChecker = new AccessChecker();
 
@@ -37,6 +40,9 @@ export class HomeHeaderComponent implements OnInit {
     private renderer: Renderer2,
     private _ngZone: NgZone
   ) {
+    Object.values(AnalyticsTabs).forEach((tab) => {
+      this.tabs.push(tab);
+    });
     this.initializeAccessChecking();
     this.router.events.subscribe((event) => {
       this.isLoggedIn = this.authService.loggedIn();
