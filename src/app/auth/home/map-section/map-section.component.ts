@@ -60,7 +60,7 @@ export class MapSectionComponent implements OnInit {
 
   DropdownSettings = {
     singleSelection: true,
-    text: "All States",
+    text: "India",
     enableSearchFilter: false,
     labelKey: "name",
     primaryKey: "_id",
@@ -104,14 +104,16 @@ export class MapSectionComponent implements OnInit {
 
   private fetchStateList() {
     this.commonService.fetchStateList().subscribe((res) => {
-      this.stateList = res.filter(
-        (state) =>
-          !(
-            state.name === "Andaman & Nicobar Island" ||
-            state.name === "Arunanchal Pradesh" ||
-            state.name === "Dadara & Nagar Havelli" ||
-            state.name === "Lakshadweep"
-          )
+      this.stateList = [{ _id: "", name: "India" }].concat(
+        res.filter(
+          (state) =>
+            !(
+              state.name === "Andaman & Nicobar Island" ||
+              state.name === "Arunanchal Pradesh" ||
+              state.name === "Dadara & Nagar Havelli" ||
+              state.name === "Lakshadweep"
+            )
+        )
       );
     });
   }
@@ -122,13 +124,13 @@ export class MapSectionComponent implements OnInit {
       this.dataForVisualization = { ...res };
       this._ngZone.runOutsideAngular(() => {
         setTimeout(() => {
-          this.animateValues();
+          this.animateValues(1);
         });
       });
     });
   }
 
-  public animateValues = () => {
+  public animateValues = (startiongValue?: number) => {
     const speed = 460;
     const interval = 50;
 
@@ -139,6 +141,15 @@ export class MapSectionComponent implements OnInit {
     animateValues.forEach((element: HTMLElement) => {
       const target = +element.getAttribute("data-animate-value");
       const currentValue = +element.innerText;
+      if (startiongValue !== null && startiongValue !== undefined) {
+        element.innerText = `0`;
+        this._ngZone.runOutsideAngular(() => {
+          setTimeout(() => {
+            setTimeout(this.animateValues, interval);
+          });
+        });
+        return;
+      }
       if (currentValue >= target) {
         return;
       }
@@ -370,7 +381,7 @@ export class MapSectionComponent implements OnInit {
   }
 
   private computeStatesTotalRatings(res: ICreditRatingData[]) {
-    const computedData = { total: 0 };
+    const computedData = { total: 0, India: 0 };
     res.forEach((data) => {
       if (computedData[data.state] || computedData[data.state] === 0) {
         computedData[data.state] += 1;
@@ -378,6 +389,7 @@ export class MapSectionComponent implements OnInit {
         computedData[data.state] = 1;
       }
       computedData.total += 1;
+      computedData["India"] += 1;
     });
 
     this.creditRating = computedData;

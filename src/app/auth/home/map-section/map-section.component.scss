@@ -1,14 +1,14 @@
 .wrapper {
   width: 100%;
   display: grid;
-  grid-template: repeat(7, 12vh) / repeat(16, 1fr);
+  grid-template: repeat(6, 12vh) / repeat(16, 1fr);
   grid-template-areas:
-    "s s s s s s s m m m m m m m m m"
-    ". . . . . . . m m m m m m m m m"
-    "v v v v . . . m m m m m m m m m"
-    "v v v v . . . m m m m m m m m m"
-    ". . . . . . . m m m m m m m m m"
-    ". . . . . . . m m m m m m m m m";
+    "s s s s s s s s m m m m m m m m"
+    ". . . . . . . . m m m m m m m m"
+    ". . . . . . . . m m m m m m m m"
+    ". . . . . . . . m m m m m m m m"
+    "v v v v . . . . m m m m m m m m"
+    "v v v v . . . . m m m m m m m m";
 }
 
 .selectPart {
@@ -21,6 +21,22 @@
   grid-area: v;
   color: var(--multi-dropdown-color);
   font-size: 1.3em;
+  table {
+    // width: 100%;
+    tbody tr {
+      width: fit-content !important;
+      td:first-child {
+        text-align: right;
+        // min-width: 1.5vw;
+      }
+
+      td:last-child {
+        padding-left: 3%;
+        width: fit-content !important;
+        min-width: 15vw;
+      }
+    }
+  }
 }
 
 .mapWrapper {
@@ -103,4 +119,8 @@ form {
 ::ng-deep .ml-0 {
   margin-left: 0px !important;
   max-width: 140px;
+}
+
+.loading-value {
+  opacity: 0.1;
 }

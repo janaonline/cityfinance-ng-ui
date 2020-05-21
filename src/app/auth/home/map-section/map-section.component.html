@@ -14,49 +14,89 @@
       </angular2-multiselect>
     </form>
   </div>
-  <div class="visualization" *ngIf="dataForVisualization">
-    <h3>{{ stateSelected ? stateSelected.name : "INDIA" }}</h3>
+  <div class="visualization">
+    <h3>{{ stateSelected ? stateSelected.name : "India" }}</h3>
 
-    <p>
-      <strong [attr.data-animate-value]="dataForVisualization.totalULB"
-        >0</strong
-      >
-      Urban local bodies
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <strong
+              [attr.data-animate-value]="dataForVisualization?.totalULB || 0"
+              [ngClass]="{ 'loading-value': !dataForVisualization }"
+              >0</strong
+            >
+          </td>
+          <td>Urban local bodies</td>
+        </tr>
+        <tr>
+          <td>
+            <strong
+              [attr.data-animate-value]="
+                dataForVisualization?.financialStatements || 0
+              "
+              [ngClass]="{ 'loading-value': !dataForVisualization }"
+              >0</strong
+            >
+          </td>
+          <td>
+            Financial Statements
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong
+              [attr.data-animate-value]="
+                stateSelected
+                  ? creditRating[stateSelected.name] || 0
+                  : creditRating.total
+              "
+              [ngClass]="{ 'loading-value': !dataForVisualization }"
+            >
+              0
+            </strong>
+          </td>
+          <td>Cities Credit Rating</td>
+        </tr>
+        <tr *ngIf="dataForVisualization?.totalMunicipalBonds > 0">
+          <td>
+            <strong
+              [attr.data-animate-value]="
+                dataForVisualization.totalMunicipalBonds
+              "
+              [ngClass]="{ 'loading-value': !dataForVisualization }"
+            >
+              0
+            </strong>
+          </td>
+          <td>Municipal Bonds Issuance</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- <p>
+      
+     
     </p>
     <p>
-      <strong
-        [attr.data-animate-value]="dataForVisualization.financialStatements"
-        >0</strong
-      >
-      Financial Statements
+      
+     
     </p>
     <p>
-      <strong
-        [attr.data-animate-value]="
-          stateSelected
-            ? creditRating[stateSelected.name] || 0
-            : creditRating.total
-        "
-      >
-        0
-      </strong>
+      
 
-      Cities Credit Rating
+      
     </p>
     <p *ngIf="dataForVisualization.totalMunicipalBonds">
-      <strong
-        [attr.data-animate-value]="dataForVisualization.totalMunicipalBonds"
-      >
-        0
-      </strong>
-      Municipal Bonds Issuance
-    </p>
+      
+      
+    </p> -->
   </div>
 
-  <div class="visualization loader-wrapper" *ngIf="!dataForVisualization">
+  <!-- <div class="visualization loader-wrapper" *ngIf="!dataForVisualization">
     <app-pre-loader></app-pre-loader>
     <app-pre-loader></app-pre-loader>
-  </div>
+  </div> -->
   <div class="mapWrapper">
     <div id="mapid"></div>
   </div>
