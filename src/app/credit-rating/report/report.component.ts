@@ -11,6 +11,7 @@ import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-he
 import { AssetsService } from 'src/app/shared/services/assets/assets.service';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
 import { MapUtil } from 'src/app/util/map/mapUtil';
+import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
 
 import { AuthService } from '../../../app/auth/auth.service';
 import { DialogComponent } from '../../../app/shared/components/dialog/dialog.component';
@@ -118,11 +119,19 @@ export class ReportComponent implements OnInit, OnDestroy {
     >,
     containerId: string
   ) {
-    const configuration = {
+    let zoom = 4.32;
+
+    zoom += 1 - window.devicePixelRatio;
+
+    const configuration: IMapCreationConfig = {
       containerId,
       geoData,
+      options: {
+        zoom,
+        maxZoom: zoom,
+        minZoom: zoom,
+      },
     };
-
     const { stateLayers, map } = MapUtil.createDefaultNationalMap(
       configuration
     );
