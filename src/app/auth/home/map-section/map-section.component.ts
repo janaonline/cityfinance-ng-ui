@@ -199,7 +199,7 @@ export class MapSectionComponent implements OnInit {
     >,
     containerId: string
   ) {
-    let zoom = 4.62;
+    let zoom = 4.52;
 
     zoom += 1 - window.devicePixelRatio;
 

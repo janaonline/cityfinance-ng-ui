@@ -95,9 +95,10 @@
         role="button"
         aria-haspopup="true"
         aria-expanded="false"
+        [routerLink]="'analytics/own-revenues'"
         >Analytics
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu dropdown-menu-left">
         <li routerLinkActive="active" *ngFor="let tab of tabs">
           <a [routerLink]="[tab.url]"> {{ tab.name }}</a>
         </li>
