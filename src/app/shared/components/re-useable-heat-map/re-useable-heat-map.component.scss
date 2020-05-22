@@ -134,31 +134,6 @@ div.miniMap {
 //   margin-top: 0.2rem;
 // }
 
-::ng-deep input.mat-input-element {
-  font-size: 1.7rem;
-}
-
-::ng-deep div#cdk-overlay-0.cdk-overlay-pane {
-  min-width: 200.1px !important;
-}
-::ng-deep .analytics-map {
-  .leaflet-bottom {
-    transform: scale(0.55);
-    width: 155px;
-  }
-  .leaflet-control-attribution {
-    display: none;
-  }
-
-  .leaflet-control {
-    width: fit-content;
-    transform: scale(1.6) translateY(-50%);
-    position: absolute;
-    bottom: 0px;
-    background: transparent;
-  }
-}
-
 // ::ng-deep
 
 .overlay {
@@ -269,29 +244,49 @@ div.miniMap {
   color: #8bd2f0;
 }
 
-::ng-deep .mat-option-text {
-  font-size: 1.2rem;
-}
+// ::ng-deep .mat-option-text {
+//   font-size: 1.2rem;
+// }
 
-::ng-deep .mat-optgroup-label {
-  font-size: 1.5rem;
-}
+// ::ng-deep .mat-optgroup-label {
+//   font-size: 1.5rem;
+// }
 
 ::ng-deep .leaflet-zoom-animated svg g {
   transform: translateX(-5%) !important;
 }
 
-::ng-deep mat-option.mat-option {
-  height: 40px;
-}
-
-::ng-deep label.mat-optgroup-label {
-  height: 38px;
-}
-
-// ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
-//   padding: 14px 0 !important;
+// ::ng-deep mat-option.mat-option {
+//   height: 40px;
 // }
+
+// ::ng-deep label.mat-optgroup-label {
+//   height: 38px;
+// }
+// ::ng-deep input.mat-input-element {
+//   font-size: 1.7rem;
+// }
+
+::ng-deep div#cdk-overlay-0.cdk-overlay-pane {
+  min-width: 200.1px !important;
+}
+::ng-deep .analytics-map {
+  .leaflet-bottom {
+    transform: scale(0.55);
+    width: 155px;
+  }
+  .leaflet-control-attribution {
+    display: none;
+  }
+
+  .leaflet-control {
+    width: fit-content;
+    transform: scale(1.6) translateY(-50%);
+    position: absolute;
+    bottom: 0px;
+    background: transparent;
+  }
+}
 
 ::ng-deep {
   .mat-form-field-flex {
@@ -335,13 +330,16 @@ div.miniMap {
 
 // @media (max-width: 777px) {
 //   .national-map-click-guide {
-//     font-size: 1rem;
 //     color: yellow;
 //   }
 // }
-// @media (-webkit-min-device-pixel-ratio: 1.25) {
+// @media (min-width: 777px) {
 //   .national-map-click-guide {
 //     color: green;
-//     // font-size: 1.7rem;
+//   }
+// }
+// @media (min-width: 1024px) {
+//   .national-map-click-guide {
+//     color: red;
 //   }
 // }
