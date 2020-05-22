@@ -275,9 +275,6 @@ div.miniMap {
     transform: scale(0.55);
     width: 155px;
   }
-  .leaflet-control-attribution {
-    display: none;
-  }
 
   .leaflet-control {
     width: fit-content;
@@ -289,6 +286,9 @@ div.miniMap {
 }
 
 ::ng-deep {
+  .leaflet-control-attribution {
+    display: none;
+  }
   .mat-form-field-flex {
     // border: 1px solid #999;
     border: 1.2px solid #3a3939;
