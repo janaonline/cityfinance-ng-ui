@@ -70,9 +70,8 @@
   a {
     padding-left: 5px;
     padding-right: 5px;
-    outline: none;
-    text-decoration: none;
-
+    outline:none;
+    text-decoration:none;
     span {
       font-size: 2rem;
     }
@@ -452,6 +451,10 @@ img {
   font-size: 1.8rem;
   width: 100%;
   padding: 2rem 1rem;
+
+  img{
+    margin-bottom: 15px;
+  }
 }
 
 .sectorcard:hover .card-body .sector-info-hidden {
