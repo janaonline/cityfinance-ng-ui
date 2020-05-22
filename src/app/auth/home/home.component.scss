@@ -554,7 +554,7 @@ img.background {
   margin-top: 5%;
   left: 5vw;
   width: 32vw;
-
+  margin-left: 2%;
   display: grid;
   grid-template: repeat(4, 1fr) / repeat(8, 1fr);
   grid-template-areas:
@@ -576,6 +576,10 @@ img.background {
     color: white;
     // background: rgba(0, 174, 255, 0.151);
     background: transparent;
+    margin-right: 2%;
+    .minister-name{
+      font-size: 0.9vw;
+    }
   }
 }
 
