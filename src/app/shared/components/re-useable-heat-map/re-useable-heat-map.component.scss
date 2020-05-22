@@ -129,23 +129,12 @@ div.miniMap {
   background: white;
 }
 
-mat-form-field {
-  transform: scale(0.81);
-  margin-top: 0.2rem;
-}
+// mat-form-field {
+//   transform: scale(0.81);
+//   margin-top: 0.2rem;
+// }
 
-::ng-deep input.mat-input-element {
-  font-size: 1.7rem;
-}
-
-::ng-deep div#cdk-overlay-0.cdk-overlay-pane {
-  min-width: 200.1px !important;
-}
-
-::ng-deep .leaflet-bottom {
-  transform: scale(0.55);
-  width: 155px;
-}
+// ::ng-deep
 
 .overlay {
   display: block;
@@ -158,19 +147,6 @@ mat-form-field {
   color: white;
   padding: 10px;
   z-index: 9;
-}
-
-::ng-deep .leaflet-control-attribution {
-  display: none;
-}
-
-::ng-deep .leaflet-control {
-  width: fit-content;
-  transform: scale(1.6) translateY(-50%);
-  position: absolute;
-  bottom: 0px;
-  background: transparent;
-  // transform: translateY(-100%);
 }
 
 /*
@@ -268,29 +244,49 @@ mat-form-field {
   color: #8bd2f0;
 }
 
-::ng-deep .mat-option-text {
-  font-size: 1.2rem;
-}
+// ::ng-deep .mat-option-text {
+//   font-size: 1.2rem;
+// }
 
-::ng-deep .mat-optgroup-label {
-  font-size: 1.5rem;
-}
+// ::ng-deep .mat-optgroup-label {
+//   font-size: 1.5rem;
+// }
 
 ::ng-deep .leaflet-zoom-animated svg g {
   transform: translateX(-5%) !important;
 }
 
-::ng-deep mat-option.mat-option {
-  height: 40px;
-}
-
-::ng-deep label.mat-optgroup-label {
-  height: 38px;
-}
-
-// ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
-//   padding: 14px 0 !important;
+// ::ng-deep mat-option.mat-option {
+//   height: 40px;
 // }
+
+// ::ng-deep label.mat-optgroup-label {
+//   height: 38px;
+// }
+// ::ng-deep input.mat-input-element {
+//   font-size: 1.7rem;
+// }
+
+::ng-deep div#cdk-overlay-0.cdk-overlay-pane {
+  min-width: 200.1px !important;
+}
+::ng-deep .analytics-map {
+  .leaflet-bottom {
+    transform: scale(0.55);
+    width: 155px;
+  }
+  .leaflet-control-attribution {
+    display: none;
+  }
+
+  .leaflet-control {
+    width: fit-content;
+    transform: scale(1.6) translateY(-50%);
+    position: absolute;
+    bottom: 0px;
+    background: transparent;
+  }
+}
 
 ::ng-deep {
   .mat-form-field-flex {
@@ -309,10 +305,19 @@ mat-form-field {
     bottom: 3vh;
   }
   .national-map-click-guide {
-    // left: 4vw;
+    margin-left: 13%;
+    width: fit-content;
+    margin-top: 2%;
+    bottom: 1px;
+    font-size: 1vw;
+  }
+  .state-map-click-guide {
     text-align: center;
-    width: 100%;
+    left: 18%;
     margin: 2% auto;
+    position: absolute;
+    bottom: 1px;
+    font-size: 0.8vw;
   }
   .map-click-guide {
     right: 5vw;
@@ -322,3 +327,19 @@ mat-form-field {
 .customDropdown {
   min-height: 70.84px;
 }
+
+// @media (max-width: 777px) {
+//   .national-map-click-guide {
+//     color: yellow;
+//   }
+// }
+// @media (min-width: 777px) {
+//   .national-map-click-guide {
+//     color: green;
+//   }
+// }
+// @media (min-width: 1024px) {
+//   .national-map-click-guide {
+//     color: red;
+//   }
+// }

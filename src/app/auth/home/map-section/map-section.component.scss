@@ -1,26 +1,37 @@
 .wrapper {
   width: 100%;
   display: grid;
-  grid-template: repeat(4, 15vh) / repeat(16, 1fr);
+  grid-template: repeat(4, 15vh) / repeat(17, 1fr);
   grid-gap: 15px;
   grid-template-areas:
-    ". . . . . . . . m m m m m m m m"
-    "s s s s s s s s m m m m m m m m"
-    "v v v v . . . . m m m m m m m m"
-    "v v v v . . . . m m m m m m m m";
+    ". . . . . . . . . m m m m m m m m"
+    "s s s s s s s s s m m m m m m m m"
+    "v v v v . . . . . m m m m m m m m"
+    "v v v v . . . . . m m m m m m m m";
 }
 
 .selectPart {
   grid-area: s;
-  font-size: 2rem;
+
   color: var(--multi-dropdown-color);
+}
+@media (max-width: 1958px) {
+  .selectPart {
+    font-size: 1.3vw;
+  }
+}
+
+@media (min-width: 1961px) {
+  .selectPart {
+    font-size: 1.1vw;
+  }
 }
 
 .visualization {
   grid-area: v;
   margin-top: 5px;
   color: var(--multi-dropdown-color);
-  font-size: 1.3em;
+  font-size: 1.2vw;
   table {
     // width: 100%;
     tbody tr {
@@ -117,17 +128,16 @@ form {
 }
 
 ::ng-deep .ml-0 {
-  margin-left: -21% !important;
+  margin-left: -24% !important;
   max-width: 140px;
   margin-bottom: 5vh !important;
-
-  // transform: scale(0.9);
   overflow: visible;
 }
 
 ::ng-deep {
   .leaflet-container {
     overflow: visible;
+    // font-size: 0.7vw;
   }
 }
 
