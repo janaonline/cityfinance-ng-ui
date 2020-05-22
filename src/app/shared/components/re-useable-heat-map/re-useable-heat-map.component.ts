@@ -573,7 +573,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     legend.onAdd = function (map) {
       const div = L.DomUtil.create("div", "info legend");
       div.id = "legendContainer";
-      div.style.width = "100%";
+      // div.style.width = "100%";
       arr.forEach((value) => {
         labels.push(
           `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; "><i class="circle" style="background: ${value.color}; padding:10%; display: inline-block; margin-right: 12%;"> </i> ${value.text}</span>`
@@ -995,7 +995,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     id="districtMapId"
     class="h-60 col-sm-12"
     style="background: white;z-index: 8; display: inline-block; width: 99%;height: 57vh;"
-  >
+  > <p class="text-center state-map-click-guide" >
+    Click on any ULB to view it's data or click on India map to go back
+  </p>
   </div>`;
   }
 
