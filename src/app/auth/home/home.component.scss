@@ -548,6 +548,7 @@ img.background {
 
 .foreground {
   align-self: center;
+  margin-top: 5%;
   left: 5vw;
   width: 32vw;
 
@@ -565,7 +566,7 @@ img.background {
 
   .quotes-left {
     grid-area: q;
-    font-size: 2rem;
+    font-size: 1.2vw;
     text-align: center;
     padding: 1%;
     height: fit-content;
@@ -576,16 +577,16 @@ img.background {
 }
 
 .quotes-right {
-  font-size: 2.8rem;
+  font-size: 1.7vw;
   text-align: left;
   padding: 1%;
   width: fit-content;
   color: white;
 
-  background: rgba(0, 174, 255, 0.151);
+  // background: rgba(0, 174, 255, 0.151);
 }
 .explore {
-  font-size: 1em;
+  font-size: 1vw;
   background: #ffc500;
   color: white;
   padding: 5px 18px;
@@ -614,7 +615,7 @@ img.background {
   .carousel-inner,
   .slide,
   slide.carousel-item {
-    height: 58vh;
+    height: 60vh;
     overflow: hidden;
   }
   .carousel-control {
