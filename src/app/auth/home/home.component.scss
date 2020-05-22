@@ -540,6 +540,7 @@ img.background {
   width: 100%;
   position: absolute;
   height: 100%;
+
   // background: red;
   justify-content: space-between;
   z-index: 555555;
@@ -582,25 +583,37 @@ img.background {
   color: white;
 
   background: rgba(0, 174, 255, 0.151);
-  a {
-    font-size: 0.7em;
-    background: #ffc500;
-    color: white;
-    padding: 5px 18px;
-    border-radius: 50px;
-    float: right;
-    text-decoration: none;
-    transition: transform 500ms;
-  }
+}
+.explore {
+  font-size: 1em;
+  background: #ffc500;
+  color: white;
+  padding: 5px 18px;
+  border-radius: 50px;
+  float: right;
+  text-decoration: none;
+  bottom: 16%;
+  left: 50vw;
+  transform: translateX(-50%);
+  position: absolute;
+  transition: all 500ms;
+}
 
-  a:hover {
-    transform: translateX(-5%);
-  }
+.explore:hover {
+  color: #ffc500;
+  text-decoration: underline;
+  background: rgba(0, 174, 255, 0.39);
+  // transform: translateX(-5%);
 }
 
 ::ng-deep {
+  // .carousel-inner {
+  //   height: 55vh;
+  // }
   .carousel,
-  .slide {
+  .carousel-inner,
+  .slide,
+  slide.carousel-item {
     height: 58vh;
     overflow: hidden;
   }
