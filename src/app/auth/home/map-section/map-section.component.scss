@@ -1,4 +1,5 @@
 .wrapper {
+  overflow: hidden;
   width: 100%;
   display: grid;
   grid-template: repeat(4, 15vh) / repeat(17, 1fr);
@@ -132,6 +133,8 @@ form {
   max-width: 140px;
   margin-bottom: 5vh !important;
   overflow: visible;
+  font-size: 0.6vw;
+  // background: red;
 }
 
 ::ng-deep {

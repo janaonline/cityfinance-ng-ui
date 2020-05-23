@@ -27,7 +27,17 @@
               >0</strong
             >
           </td>
-          <td>Urban local bodies</td>
+          <td>Total ULBs</td>
+        </tr>
+        <tr>
+          <td>
+            <strong
+              [attr.data-animate-value]="dataForVisualization?.totalULB || 0"
+              [ngClass]="{ 'loading-value': !dataForVisualization }"
+              >0</strong
+            >
+          </td>
+          <td>ULBs with data</td>
         </tr>
         <tr>
           <td>
@@ -56,20 +66,20 @@
               0
             </strong>
           </td>
-          <td>Cities Credit Rating</td>
+          <td>ULBs with Credit Rating</td>
         </tr>
-        <tr *ngIf="dataForVisualization?.totalMunicipalBonds > 0">
+        <tr>
           <td>
             <strong
               [attr.data-animate-value]="
-                dataForVisualization.totalMunicipalBonds
+                dataForVisualization?.totalMunicipalBonds || 0
               "
               [ngClass]="{ 'loading-value': !dataForVisualization }"
             >
               0
             </strong>
           </td>
-          <td>Municipal Bonds Issuance</td>
+          <td>Municipal Bonds issuance</td>
         </tr>
       </tbody>
     </table>
