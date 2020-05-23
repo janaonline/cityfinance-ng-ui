@@ -86,9 +86,9 @@ li.navbar-brand {
 .login-link {
   right: 1vw;
   border-radius: 40px;
-  font-size: 1.3rem;
+  font-size: 0.8vw !important;
 
-  padding: 5px 8px;
+  padding: 0.1vw 0.8vw;
   border: 1px solid white;
 }
 
@@ -105,6 +105,8 @@ li {
 
 .web-logo {
   cursor: pointer;
+  width: 17vw;
+  // height: 51px;
 }
 
 nav.navbar {
@@ -116,9 +118,19 @@ nav.navbar {
 
 .navbar-2nd-row {
   border: 0px;
-  margin-top: 1%;
+  margin-top: 0%;
   position: sticky;
   top: 1px;
+  .nav > li > a {
+    padding: 0.8vw 1vw;
+    // padding: 10px 15px;
+
+    font-size: 0.8vw;
+  }
+
+  .navbar-brand {
+    padding: 1px;
+  }
 }
 
 :host {
@@ -144,7 +156,11 @@ nav.navbar {
     background: rgba(1, 49, 79, 0.9);
   }
 }
-
-// ::ng-deep .carousel-control .icon-next:before {
-
-// }
+span.indian-emblem-wrapper.navbar-brand {
+  font-size: 0.8vw !important;
+  .indian-emblem {
+    display: inline-block;
+    width: 1vw;
+    // height: 31px;
+  }
+}

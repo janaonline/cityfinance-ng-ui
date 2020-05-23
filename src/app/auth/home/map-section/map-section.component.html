@@ -72,7 +72,7 @@
           <td>
             <strong
               [attr.data-animate-value]="
-                dataForVisualization.totalMunicipalBonds
+                dataForVisualization?.totalMunicipalBonds || 0
               "
               [ngClass]="{ 'loading-value': !dataForVisualization }"
             >
