@@ -152,8 +152,14 @@ nav.navbar {
     font-size: 6rem;
     color: var(--multi-dropdown-color);
   }
-  .dropdown-menu li {
-    background: rgba(1, 49, 79, 0.9);
+  .dropdown-menu {
+    background: transparent;
+    li {
+      background: rgba(1, 49, 79, 0.9);
+      a {
+        font-size: 0.8vw !important;
+      }
+    }
   }
 }
 span.indian-emblem-wrapper.navbar-brand {
