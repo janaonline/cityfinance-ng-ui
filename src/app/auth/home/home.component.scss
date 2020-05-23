@@ -70,8 +70,8 @@
   a {
     padding-left: 5px;
     padding-right: 5px;
-    outline:none;
-    text-decoration:none;
+    outline: none;
+    text-decoration: none;
     span {
       font-size: 2rem;
     }
@@ -452,7 +452,7 @@ img {
   width: 100%;
   padding: 2rem 1rem;
 
-  img{
+  img {
     margin-bottom: 15px;
   }
 }
@@ -517,14 +517,16 @@ img {
 
 .support-by {
   display: inline-flex;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
   width: 100%;
+  min-width: fit-content;
 }
 
 .support-by a {
   width: 49%;
+  margin-right: 4%;
 }
 
 .container .col-md-3 {
@@ -577,7 +579,7 @@ img.background {
     // background: rgba(0, 174, 255, 0.151);
     background: transparent;
     margin-right: 2%;
-    .minister-name{
+    .minister-name {
       font-size: 0.9vw;
     }
   }
