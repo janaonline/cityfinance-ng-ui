@@ -27,9 +27,17 @@ table {
     color: #999;
   }
 }
-.dashboard-wrapper,
+
 .tableWrapper {
   height: 55vh;
+}
+
+@media (min-width: 768px) {
+  .dashboard-wrapper {
+    #mapidd {
+      height: 55vh;
+    }
+  }
 }
 
 .map-container {
@@ -213,5 +221,15 @@ div.arrow:after {
 ::ng-deep {
   .leaflet-container {
     overflow: visible;
+  }
+}
+
+@media (max-width: 943px) {
+  .ulbDetails {
+    width: 100% !important;
+
+    // div {
+    //
+    // }
   }
 }
