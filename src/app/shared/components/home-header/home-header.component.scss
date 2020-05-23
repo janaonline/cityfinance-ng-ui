@@ -90,6 +90,12 @@ li.navbar-brand {
 
   padding: 0.1vw 0.8vw;
   border: 1px solid white;
+  transition: all 300ms;
+  &:hover {
+    // border: 1px solid green;
+    box-shadow: 1px 1px 5px gray;
+    transform: scale(1.1);
+  }
 }
 
 .login-and-profile {
