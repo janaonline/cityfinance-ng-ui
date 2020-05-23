@@ -131,7 +131,7 @@ export class HomeHeaderComponent implements OnInit {
    */
   private setTopRowSticky() {
     const element = document.getElementById("1stNavbarRow");
-    const topPosition = -element.clientHeight + "px";
+    const topPosition = -element.offsetHeight + "px";
     console.log(element.clientHeight);
 
     this.renderer.setStyle(this._elementRef.nativeElement, "top", topPosition);
