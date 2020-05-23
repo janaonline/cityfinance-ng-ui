@@ -132,7 +132,7 @@ export class MapSectionComponent implements OnInit {
 
   public animateValues = (startiongValue?: number) => {
     const speed = 460;
-    const interval = 50;
+    const interval = this.isMapAtNationalLevel() ? 5 : 1;
 
     const animateValues = (document.querySelectorAll(
       "[data-animate-value]"
@@ -159,7 +159,7 @@ export class MapSectionComponent implements OnInit {
       incrementor = incrementor === 0 ? target : incrementor;
 
       // NOTE Need to re do it.
-      incrementor = 1;
+      incrementor = 5;
       if (currentValue < target) {
         const newValue = +Number(currentValue + incrementor).toFixed(1);
         element.innerText = `${newValue > target ? target : newValue}`;
@@ -397,6 +397,10 @@ export class MapSectionComponent implements OnInit {
     });
 
     this.creditRating = computedData;
+  }
+
+  private isMapAtNationalLevel() {
+    return this.stateSelected ? false : true;
   }
 
   private initializeform() {
