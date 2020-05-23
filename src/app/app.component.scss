@@ -43,7 +43,8 @@
 .app-wrapper {
   app-home-header {
     display: block;
-    background: rgba(1, 49, 79, 0.9);
+    background-image: linear-gradient(to right, #095169, #059b9a);
+    opacity: 0.9;
     position: relative;
     z-index: 3;
   }

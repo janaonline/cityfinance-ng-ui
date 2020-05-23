@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1" y1="1" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#07727f"/>
+      <stop offset="0.385" stop-color="#07737f"/>
+      <stop offset="1" stop-color="#068a8e"/>
+    </linearGradient>
+    <clipPath id="clip-performance_indicators">
+      <rect width="1024" height="1024"/>
+    </clipPath>
+  </defs>
+  <g id="performance_indicators" data-name="performance indicators" clip-path="url(#clip-performance_indicators)">
+    <rect width="1024" height="1024" fill="#fff"/>
+    <path id="Icon_awesome-chart-line" data-name="Icon awesome-chart-line" d="M992,644.5H128V36.5a31.991,31.991,0,0,0-32-32H32a31.991,31.991,0,0,0-32,32v672a64.008,64.008,0,0,0,64,64H992a31.991,31.991,0,0,0,32-32v-64A31.991,31.991,0,0,0,992,644.5Zm-64-576H691.88c-42.76,0-64.18,51.7-33.94,81.94l64.8,64.8L576,362,429.26,215.26a63.977,63.977,0,0,0-90.5,0L201.38,352.64a32,32,0,0,0,0,45.26l45.24,45.24a32,32,0,0,0,45.26,0L384,351,530.74,497.74a63.977,63.977,0,0,0,90.5,0l192-192,64.8,64.8c30.24,30.24,81.94,8.82,81.94-33.94V100.5A31.961,31.961,0,0,0,928,68.5Z" transform="translate(0 124)" stroke="#000" stroke-width="1" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

@@ -70,9 +70,8 @@
   a {
     padding-left: 5px;
     padding-right: 5px;
-    outline: none;
-    text-decoration: none;
-
+    outline:none;
+    text-decoration:none;
     span {
       font-size: 2rem;
     }
@@ -452,6 +451,10 @@ img {
   font-size: 1.8rem;
   width: 100%;
   padding: 2rem 1rem;
+
+  img{
+    margin-bottom: 15px;
+  }
 }
 
 .sectorcard:hover .card-body .sector-info-hidden {
@@ -551,7 +554,7 @@ img.background {
   margin-top: 5%;
   left: 5vw;
   width: 32vw;
-
+  margin-left: 2%;
   display: grid;
   grid-template: repeat(4, 1fr) / repeat(8, 1fr);
   grid-template-areas:
@@ -573,6 +576,10 @@ img.background {
     color: white;
     // background: rgba(0, 174, 255, 0.151);
     background: transparent;
+    margin-right: 2%;
+    .minister-name{
+      font-size: 0.9vw;
+    }
   }
 }
 
