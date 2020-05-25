@@ -96,7 +96,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   stateLayerSelectonMap: ILeafletStateClickEvent;
 
   stateColors = {
-    unselected: "#E5E5E5",
+    unselected: "#D0EDF9",
     selected: "#019CDF",
   };
 
