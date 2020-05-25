@@ -32,7 +32,9 @@
         <tr>
           <td>
             <strong
-              [attr.data-animate-value]="dataForVisualization?.totalULB || 0"
+              [attr.data-animate-value]="
+                dataForVisualization?.coveredUlbCount || 0
+              "
               [ngClass]="{ 'loading-value': !dataForVisualization }"
               >0</strong
             >

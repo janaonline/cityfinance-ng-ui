@@ -56,6 +56,7 @@ export class MapSectionComponent implements OnInit {
     financialStatements: number;
     totalMunicipalBonds: number;
     totalULB: number;
+    coveredUlbCount: number;
   };
 
   DropdownSettings = {
