@@ -5,7 +5,7 @@ import { IMapCreationConfig } from './models/mapCreationConfig';
 
 export class MapUtil {
   private static readonly defaultStateLayerStyle = {
-    fillColor: "#E5E5E5",
+    fillColor: "#D0EDF9",
     weight: 1,
     opacity: 1,
     color: "white",

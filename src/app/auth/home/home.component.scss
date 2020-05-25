@@ -73,19 +73,19 @@
     outline: none;
     text-decoration: none;
     span {
-      font-size: 2rem;
+      font-size: 1.2vw;
     }
   }
 }
 
 .about {
-  padding: 40px 0;
+  padding: 3vw 0;
   background-color: #fafafa;
   color: #000;
 
   .about-intro {
     color: #707070;
-    font-size: 1.8rem;
+    font-size: 1.2vw;
     letter-spacing: 1px;
     margin: 30px 0 40px;
     text-align: center;
@@ -233,8 +233,9 @@
 
   .about-title h2 {
     border-bottom: 1px solid #25a891;
+    font-size: 1.6vw;
     line-height: 0.1em;
-    margin: 10px auto 35px;
+    margin: 1vw auto 2vw;
     text-align: center;
     text-transform: uppercase;
     width: 50%;
@@ -348,7 +349,7 @@
 }
 
 .sectorcard .sector-title {
-  font-size: 2.2rem;
+  font-size: 1.2vw;
   text-align: center;
   color: white;
   font-weight: 500;
@@ -378,8 +379,8 @@
   background-color: rgba(0, 0, 0, 0.03);
   padding: 0.75rem 1.25rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-  -webkit-transform: translateY(7rem);
-  transform: translateY(7rem);
+  -webkit-transform: translateY(4rem);
+  transform: translateY(4rem);
 }
 
 .sectorcard .card-body {
@@ -391,31 +392,39 @@
   opacity: 0;
   visibility: hidden;
   position: fixed;
-  transition: transform 1s ease 0s;
+  transition: transform 0.5s ease 0s;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
 }
 
 .sectorcard .card-body .sector-icon img:nth-last-child(2n) {
   opacity: 1;
   visibility: visible;
-  transition: transform 1s ease 0s;
+  transition: transform 0.5s ease 0s;
+  -webkit-transform: translateY(4rem);
+  transform: translateY(4rem);
 }
 
 .sectorcard:hover .card-body .sector-icon img:nth-last-child(2n + 1) {
   opacity: 1;
   visibility: visible;
   position: relative;
-  transition: transform 1s ease 0s;
+  transition: transform 0.5s ease 0s;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
 }
 
 .sectorcard .card-body .sector-icon img:nth-last-child(2n + 1) {
   opacity: 0;
   visibility: hidden;
   position: fixed;
-  transition: transform 1s ease 0s;
+  transition: transform 0.5s ease 0s;
+  -webkit-transform: translateY(4rem);
+  transform: translateY(4rem);
 }
 
 .sectorcard .card-body .sector-icon img {
-  height: 15rem;
+  height: 6vw;
 }
 
 img {
@@ -448,7 +457,7 @@ img {
   opacity: 0;
   color: white;
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 1vw;
   width: 100%;
   padding: 2rem 1rem;
 
