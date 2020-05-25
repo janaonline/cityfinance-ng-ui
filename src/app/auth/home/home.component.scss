@@ -379,8 +379,8 @@
   background-color: rgba(0, 0, 0, 0.03);
   padding: 0.75rem 1.25rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-  -webkit-transform: translateY(7rem);
-  transform: translateY(7rem);
+  -webkit-transform: translateY(4rem);
+  transform: translateY(4rem);
 }
 
 .sectorcard .card-body {
@@ -392,31 +392,39 @@
   opacity: 0;
   visibility: hidden;
   position: fixed;
-  transition: transform 1s ease 0s;
+  transition: transform 0.5s ease 0s;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
 }
 
 .sectorcard .card-body .sector-icon img:nth-last-child(2n) {
   opacity: 1;
   visibility: visible;
-  transition: transform 1s ease 0s;
+  transition: transform 0.5s ease 0s;
+  -webkit-transform: translateY(4rem);
+  transform: translateY(4rem);
 }
 
 .sectorcard:hover .card-body .sector-icon img:nth-last-child(2n + 1) {
   opacity: 1;
   visibility: visible;
   position: relative;
-  transition: transform 1s ease 0s;
+  transition: transform 0.5s ease 0s;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
 }
 
 .sectorcard .card-body .sector-icon img:nth-last-child(2n + 1) {
   opacity: 0;
   visibility: hidden;
   position: fixed;
-  transition: transform 1s ease 0s;
+  transition: transform 0.5s ease 0s;
+  -webkit-transform: translateY(4rem);
+  transform: translateY(4rem);
 }
 
 .sectorcard .card-body .sector-icon img {
-  height: 15rem;
+  height: 6vw;
 }
 
 img {
