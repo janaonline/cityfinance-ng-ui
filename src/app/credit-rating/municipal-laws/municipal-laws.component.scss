@@ -94,7 +94,7 @@ table {
   padding: 30px 0 0px;
 }
 
-#mapidd {
+#finance-law-map {
   border-radius: inherit;
   left: 5px;
   bottom: 0px;
@@ -112,4 +112,10 @@ table {
 ::ng-deep .leaflet-control-attribution,
 .leaflet-control {
   display: none !important;
+}
+
+::ng-deep .law-page {
+  .carousel-control {
+    display: none;
+  }
 }

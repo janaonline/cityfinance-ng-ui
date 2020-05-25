@@ -618,18 +618,20 @@ img.background {
 }
 
 ::ng-deep {
-  .carousel-indicators {
-    z-index: 1;
-  }
+  .dashboard-wrapper {
+    .carousel-indicators {
+      z-index: 1;
+    }
 
-  .carousel,
-  .carousel-inner,
-  .slide,
-  slide.carousel-item {
-    height: 60vh;
-    overflow: hidden;
-  }
-  .carousel-control {
-    display: none;
+    .carousel,
+    .carousel-inner,
+    .slide,
+    slide.carousel-item {
+      height: 60vh;
+      overflow: hidden;
+    }
+    .carousel-control {
+      display: none;
+    }
   }
 }
