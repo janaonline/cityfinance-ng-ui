@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Injectable } from '@angular/core';
 import { NavigationEnd, ResolveEnd, Router } from '@angular/router';
 import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, filter } from 'rxjs/operators';
+import { catchError, filter, takeUntil } from 'rxjs/operators';
 
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
@@ -34,10 +34,12 @@ export class CustomHttpInterceptor implements HttpInterceptor {
       headers = headers.set("x-access-token", token);
     }
     const authReq = req.clone({ headers });
-    return next.handle(authReq).pipe(
-      // takeUntil(this.routerNavigationSuccess),
-      catchError(this.handleError)
-    );
+    return next
+      .handle(authReq)
+      .pipe(
+        takeUntil(this.routerNavigationSuccess),
+        catchError(this.handleError)
+      );
   }
 
   initializeRequestCancelProccess() {
