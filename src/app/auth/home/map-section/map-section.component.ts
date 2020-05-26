@@ -263,7 +263,7 @@ export class MapSectionComponent implements OnInit {
     ];
     const legend = new L.Control({ position: "bottomleft" });
     const labels = [
-      `<span style="width: 100%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`,
+      `<span style="width: 100%; display: block;" class="text-center">% of Data Availability <br> on Cityfinance.in</span>`,
     ];
     legend.onAdd = function (map) {
       const div = L.DomUtil.create("div", "info legend ml-0");
@@ -282,7 +282,11 @@ export class MapSectionComponent implements OnInit {
   }
 
   private createTooltip(layer: L.Layer) {
-    const stateName = MapUtil.getStateName(layer);
+    const stateCode = MapUtil.getStateCode(layer);
+    const stateFound = this.stateList.find((state) => state.code === stateCode);
+    if (!stateFound) {
+      return;
+    }
 
     const option: L.TooltipOptions = {
       sticky: true,
@@ -290,7 +294,7 @@ export class MapSectionComponent implements OnInit {
       zoomAnimation: true,
     };
 
-    layer.bindTooltip("<b>" + stateName + "</b>", option);
+    layer.bindTooltip("<b>" + stateFound.name + "</b>", option);
     layer.toggleTooltip();
   }
 

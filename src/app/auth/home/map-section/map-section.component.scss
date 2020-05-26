@@ -1,5 +1,5 @@
 .wrapper {
-  overflow: hidden;
+  overflow: visible;
   width: 100%;
   display: grid;
   grid-template: repeat(4, 15vh) / repeat(17, 1fr);
@@ -128,7 +128,7 @@ form {
 }
 
 ::ng-deep .ml-0 {
-  margin-left: -24% !important;
+  // margin-left: -24% !important;
   max-width: 140px;
   margin-bottom: 5vh !important;
   overflow: visible;
