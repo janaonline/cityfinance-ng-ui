@@ -34,7 +34,7 @@ export class MapSectionComponent implements OnInit {
   }
   statesLayer: L.GeoJSON<any>;
   myForm: FormGroup;
-  stateSelected: { name: string; _id: string };
+  stateSelected: IState;
   creditRating: { [stateName: string]: number } = {};
   nationalLevelMap: L.Map;
   stateList: IState[];
@@ -105,17 +105,18 @@ export class MapSectionComponent implements OnInit {
 
   private fetchStateList() {
     this.commonService.fetchStateList().subscribe((res) => {
-      this.stateList = [{ _id: "", name: "India" }].concat(
-        res.filter(
-          (state) =>
-            !(
-              state.name === "Andaman & Nicobar Island" ||
-              state.name === "Arunanchal Pradesh" ||
-              state.name === "Dadara & Nagar Havelli" ||
-              state.name === "Lakshadweep"
-            )
-        )
-      );
+      this.stateList = res;
+      // this.stateList = [{ _id: "", name: "India" }].concat(
+      //   res.filter(
+      //     (state) =>
+      //       !(
+      //         state.name === "Andaman & Nicobar Island" ||
+      //         state.name === "Arunanchal Pradesh" ||
+      //         state.name === "Dadara & Nagar Havelli" ||
+      //         state.name === "Lakshadweep"
+      //       )
+      //   )
+      // );
     });
   }
 
@@ -223,14 +224,14 @@ export class MapSectionComponent implements OnInit {
     this.createLegendsForNationalLevelMap();
 
     this.statesLayer.eachLayer((layer) => {
-      const stateName = MapUtil.getStateName(layer);
+      const stateCode = MapUtil.getStateCode(layer);
 
-      if (!stateName) {
+      if (!stateCode) {
         return;
       }
 
       const stateFound = this.stateDatasForMapColoring.find(
-        (state) => state.name.toLowerCase() === stateName.toLowerCase()
+        (state) => state.code === stateCode
       );
 
       // if (!stateFound) {
@@ -262,7 +263,7 @@ export class MapSectionComponent implements OnInit {
     ];
     const legend = new L.Control({ position: "bottomleft" });
     const labels = [
-      `<span style="width: 100%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`,
+      `<span style="width: 100%; display: block;" class="text-center">% of Data Availability <br> on Cityfinance.in</span>`,
     ];
     legend.onAdd = function (map) {
       const div = L.DomUtil.create("div", "info legend ml-0");
@@ -281,13 +282,11 @@ export class MapSectionComponent implements OnInit {
   }
 
   private createTooltip(layer: L.Layer) {
-    const stateName = MapUtil.getStateName(layer);
-    const doesStateHasData = !!this.stateDatasForMapColoring.find(
-      (state) => state.name === stateName && state.coveredUlbPercentage > 0
-    );
-    // if (!doesStateHasData) {
-    //   return;
-    // }
+    const stateCode = MapUtil.getStateCode(layer);
+    const stateFound = this.stateList.find((state) => state.code === stateCode);
+    if (!stateFound) {
+      return;
+    }
 
     const option: L.TooltipOptions = {
       sticky: true,
@@ -295,22 +294,19 @@ export class MapSectionComponent implements OnInit {
       zoomAnimation: true,
     };
 
-    // layer.bindTooltip("<b>" + stateName + "</b>", option).openTooltip();
-    layer.bindTooltip("<b>" + stateName + "</b>", option);
+    layer.bindTooltip("<b>" + stateFound.name + "</b>", option);
     layer.toggleTooltip();
   }
 
   onClickingState(currentStateLayer: ILeafletStateClickEvent, layer: L.Layer) {
-    const stateName = MapUtil.getStateName(currentStateLayer);
+    const stateCode = MapUtil.getStateCode(currentStateLayer);
 
-    if (this.stateSelected && stateName === this.stateSelected.name) {
+    if (this.stateSelected && stateCode === this.stateSelected.code) {
       this.resetMapToNationalView(currentStateLayer.target);
       return;
     }
 
-    const stateFound = this.stateList.find(
-      (state) => state.name.toLowerCase() === stateName.toLowerCase()
-    );
+    const stateFound = this.stateList.find((state) => state.code === stateCode);
 
     const doesStateHasData = !!this.stateDatasForMapColoring.find(
       (state) => state._id == stateFound._id && state.coveredUlbPercentage > 0
@@ -319,20 +315,9 @@ export class MapSectionComponent implements OnInit {
       return;
     }
     this.selectStateOnMap(stateFound);
-    // const state = this.stateList.find(state => state.name === )
-
-    // if (this.previousStateLayer) {
-    //   this.resetStateLayer(this.previousStateLayer);
-    //   (this.previousStateLayer as any).closePopup();
-    //   // (this.previousStateLayer as any).closeTooltip();
-    //   this.previousStateLayer = null;
-    // }
-    // this.higlightClickedState(layer);
 
     this.updateDropdownStateSelection(stateFound);
     this.fetchDataForVisualization(stateFound._id);
-
-    // this.previousStateLayer = layer;
   }
 
   private resetMapToNationalView(stateLayer) {
@@ -360,7 +345,6 @@ export class MapSectionComponent implements OnInit {
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
       stateLayer.bringToFront();
     }
-    // this.createTooltip(stateLayer);
   }
 
   private getColorBasedOnPercentage(value: number) {

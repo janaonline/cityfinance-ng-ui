@@ -95,14 +95,24 @@ export class HomeTabViewComponent implements OnInit {
     this.tabIndex = event;
     this.singleULBView = false;
     this.selectedUlb = "";
+    this.loading = true;
+
     // if (!this.tabData[event] && this.selectedState.length > 0) {
-    this.selectedState = {};
-    this.fetchData();
-    // } else {
+    // this.selectedState = {};
+    // this.fetchData();
+    // // } else {
+    // this.loading = true;
+    // if (Chart.instances) {
+    //   Chart.instances = {};
+    // }
+  }
+  onTabChangeAnimationComplete() {
     this.loading = true;
     if (Chart.instances) {
       Chart.instances = {};
     }
+    this.selectedState = {};
+    this.fetchData();
   }
 
   constructor(
@@ -366,7 +376,7 @@ export class HomeTabViewComponent implements OnInit {
     this.fetchData();
   }
 
-  private fetchUlBsData(ulbIdsArray: string[]) {
+  fetchUlBsData(ulbIdsArray: string[]) {
     if (ulbIdsArray.length) {
       this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
     }
@@ -432,6 +442,7 @@ export class HomeTabViewComponent implements OnInit {
           newYears.push(newYear);
         }
       }
+
       this.commonTableDataDisplay = newYears;
       this.commonTableHeaders = modalTableHeaders[this.tabIndex];
       this.commonTableHeaders[0].click = false;
@@ -650,7 +661,7 @@ export class HomeTabViewComponent implements OnInit {
                 titleObj.data = row[label];
               }
             } catch (e) {
-              console.log(row, label);
+              console.error(e, row, label);
               return {
                 name: "Label not available",
                 data: Number(row[label].replace("%", "")) || 0,
@@ -975,7 +986,6 @@ export class HomeTabViewComponent implements OnInit {
     subscription.pipe(delay(1000)).subscribe((res) => {
       range.ulbs = res["data"];
       const totalRow = this.getTotalRow(range.ulbs, this.modalTableHeaders);
-      console.log(totalRow);
       totalRow["name"] = "Total";
       const ORPcolumn = this.modalTableHeaders.find(
         (col) => col.id === "ownRevenuePercentage"
