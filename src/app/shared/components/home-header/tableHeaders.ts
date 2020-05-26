@@ -1,4 +1,4 @@
-export interface ModalTableHeader {
+export interface ModalTableHeader extends Object {
   title: string;
   click?: boolean;
   id?: string;
@@ -9,6 +9,7 @@ export interface ModalTableHeader {
   suffix?: string;
   colSpan?: number;
   rowSpan?: number;
+  status?: string;
 }
 
 export const tableHeaders: any = [

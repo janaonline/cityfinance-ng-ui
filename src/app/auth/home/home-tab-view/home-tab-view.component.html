@@ -4,6 +4,7 @@
   [selectedIndex]="tabIndex"
   class="mt-1"
   animationDuration="100ms"
+  (animationDone)="onTabChangeAnimationComplete()"
 >
   <mat-tab [disabled]="loading" label="Own Revenues">
     <ng-template matTabContent>

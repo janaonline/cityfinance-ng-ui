@@ -324,8 +324,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
-    console.log(this.stateData);
-
     map.eachLayer((layer: any) => {
       const stateCode = MapUtil.getStateCode(layer);
       if (!stateCode) {
@@ -500,9 +498,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       this.initializeNationalLevelMapLayer(this.stateLayers);
     }
 
-    this.loadMapGeoJson().then((res) => {
-      this.createNationalLevelMap(this.StatesJSONForMapCreation, "mapidd");
-    });
+    this.loadMapGeoJson()
+      .then((res) => {
+        this.createNationalLevelMap(this.StatesJSONForMapCreation, "mapidd");
+      })
+      .catch((err) => {});
 
     return res;
   }
@@ -531,7 +531,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
     let obj: IStateULBCovered = null;
     const stateCode = MapUtil.getStateCode(layer);
-    console.log(stateCode);
 
     const stateFound = this.stateData.find((state) => state.code === stateCode);
 
