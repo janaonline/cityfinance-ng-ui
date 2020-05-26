@@ -44,6 +44,12 @@ export class MapUtil {
       : layer.sourceTarget.feature.properties.ST_NM;
   }
 
+  public static getStateCode(layer: ILeafletStateClickEvent | L.Layer): string {
+    return layer instanceof L.Layer
+      ? (<any>layer).feature.properties.ST_CODE
+      : layer.sourceTarget.feature.properties.ST_CODE;
+  }
+
   public static colorStateLayer(layer: any, fillColor: string) {
     layer.setStyle(
       {

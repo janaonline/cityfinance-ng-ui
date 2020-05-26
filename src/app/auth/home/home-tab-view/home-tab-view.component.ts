@@ -95,14 +95,24 @@ export class HomeTabViewComponent implements OnInit {
     this.tabIndex = event;
     this.singleULBView = false;
     this.selectedUlb = "";
+    this.loading = true;
+
     // if (!this.tabData[event] && this.selectedState.length > 0) {
-    this.selectedState = {};
-    this.fetchData();
-    // } else {
+    // this.selectedState = {};
+    // this.fetchData();
+    // // } else {
+    // this.loading = true;
+    // if (Chart.instances) {
+    //   Chart.instances = {};
+    // }
+  }
+  onTabChangeAnimationComplete() {
     this.loading = true;
     if (Chart.instances) {
       Chart.instances = {};
     }
+    this.selectedState = {};
+    this.fetchData();
   }
 
   constructor(

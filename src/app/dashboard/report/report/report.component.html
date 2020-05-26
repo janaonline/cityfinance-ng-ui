@@ -132,7 +132,10 @@
       </div>
 
       <div class="col-md-10">
-        <div class="financial-tab-text" *ngIf="showWriteups">
+        <div
+          class="financial-tab-text"
+          *ngIf="!reportForm?.value?.ulbList?.length"
+        >
           <h3>
             View and download annual financial statements of Urban Local Bodies
             (ULBs)
