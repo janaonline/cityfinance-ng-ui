@@ -109,6 +109,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     },
   };
 
+  showWriteups = true;
+
   constructor(
     private formBuilder: FormBuilder,
     private _loaderService: GlobalLoaderService,
@@ -706,6 +708,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     this.modalRef.hide();
     this._loaderService.showLoader();
+    this.showWriteups = false;
 
     if (
       this.reportForm.value.ulbList.length == 1 &&
