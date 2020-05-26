@@ -103,11 +103,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     yearSelected: SimpleChange;
   }) {
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
-      if (
-        !this.currentULBClicked ||
-        changes.ulbSelected.currentValue !== this.currentULBClicked._id
-      ) {
-        this.onSelectingULBFromDropdown(changes.ulbSelected.currentValue);
+      const newULBId =
+        typeof changes.ulbSelected.currentValue === "object"
+          ? changes.ulbSelected.currentValue._id
+          : changes.ulbSelected.currentValue;
+      if (!this.currentULBClicked || newULBId !== this.currentULBClicked._id) {
+        this.onSelectingULBFromDropdown(newULBId);
       }
     }
     if (changes.yearSelected) {
@@ -310,7 +311,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
               /**
                * This error will generally occur when you change the year (dont close the year dropdown) and then click on the state.
                */
-              console.log(error);
+              console.error(error);
             }
             setTimeout(() => {
               this.isNationalMapToDistroctMapInProcess = null;
