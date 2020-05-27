@@ -201,6 +201,14 @@ div.arrow:after {
   transform-origin: 100% 0;
   transition: 0.2s ease;
 }
+#nationalLevelButton {
+  display: inline-flex;
+  position: relative;
+  width: fit-content;
+  align-items: center;
+  min-width: fit-content;
+  justify-content: center;
+}
 
 #nationalLevelButton i {
   border: solid black;
@@ -231,5 +239,54 @@ div.arrow:after {
     // div {
     //
     // }
+  }
+}
+
+.map-info {
+  position: absolute;
+  z-index: 1;
+  margin-top: 1%;
+  text-decoration: underline;
+  display: block;
+  width: fit-content;
+  margin-left: 30%;
+}
+.map-info-state {
+  z-index: 2;
+  margin-top: 1%;
+}
+
+@media (max-width: 1074px) {
+  .map-info {
+    margin-left: 10%;
+  }
+  .map-info-state {
+    margin-left: 14%;
+  }
+}
+@media (min-width: 1075px) and (max-width: 1358px) {
+  .map-info {
+    margin-left: 20%;
+  }
+  .map-info-state {
+    margin-left: 23%;
+  }
+}
+
+@media (min-width: 1418px) {
+  .map-info {
+    margin-left: 24%;
+  }
+  .map-info-state {
+    margin-left: 27%;
+  }
+}
+
+@media (min-width: 1718px) {
+  .map-info {
+    margin-left: 28%;
+  }
+  .map-info-state {
+    margin-left: 31%;
   }
 }
