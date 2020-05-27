@@ -105,18 +105,7 @@ export class MapSectionComponent implements OnInit {
 
   private fetchStateList() {
     this.commonService.fetchStateList().subscribe((res) => {
-      this.stateList = res;
-      // this.stateList = [{ _id: "", name: "India" }].concat(
-      //   res.filter(
-      //     (state) =>
-      //       !(
-      //         state.name === "Andaman & Nicobar Island" ||
-      //         state.name === "Arunanchal Pradesh" ||
-      //         state.name === "Dadara & Nagar Havelli" ||
-      //         state.name === "Lakshadweep"
-      //       )
-      //   )
-      // );
+      this.stateList = [{ _id: "", name: "India" }].concat(res);
     });
   }
 
