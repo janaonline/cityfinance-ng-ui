@@ -8,7 +8,7 @@
         [data]="stateList"
         formControlName="stateId"
         [settings]="DropdownSettings"
-        (onSelect)="onSelectingStateFromDropDown($event)"
+        (onSelect)="onSelectingStateFromDropDown($event._id ? $event : null)"
         (onDeSelect)="onSelectingStateFromDropDown(null)"
       >
       </angular2-multiselect>
