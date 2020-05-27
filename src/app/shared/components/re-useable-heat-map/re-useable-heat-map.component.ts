@@ -107,6 +107,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     ulbSelected: SimpleChange;
     yearSelected: SimpleChange;
   }) {
+    console.log(changes);
+
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
       const newULBId =
         typeof changes.ulbSelected.currentValue === "object"

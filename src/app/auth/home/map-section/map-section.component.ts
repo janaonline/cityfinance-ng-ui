@@ -87,25 +87,28 @@ export class MapSectionComponent implements OnInit {
     this.selectStateOnMap(state);
   }
 
-  private selectStateOnMap(state: IState) {
+  private selectStateOnMap(state?: IState) {
+    if (this.previousStateLayer) {
+      this.resetStateLayer(this.previousStateLayer);
+      this.previousStateLayer = null;
+    }
+    if (!state) {
+      return;
+    }
+
     this.statesLayer.eachLayer((layer) => {
       const layerName = MapUtil.getStateName(layer);
       if (layerName !== state.name) {
         return;
       }
-
-      if (this.previousStateLayer) {
-        this.resetStateLayer(this.previousStateLayer);
-      }
       this.higlightClickedState(layer);
-
       this.previousStateLayer = layer;
     });
   }
 
   private fetchStateList() {
     this.commonService.fetchStateList().subscribe((res) => {
-      this.stateList = [{ _id: "", name: "India" }].concat(res);
+      this.stateList = [{ _id: null, name: "India" }].concat(res);
     });
   }
 

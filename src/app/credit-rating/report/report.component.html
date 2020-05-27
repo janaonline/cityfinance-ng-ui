@@ -7,8 +7,7 @@
           <div id="mapidd"></div>
 
           <div
-            style="z-index: 2; margin-top: 1%;"
-            class="text-center"
+            class="map-info-state"
             *ngIf="
               selectedStates && selectedStates[0] && selectedStates[0].length
             "
@@ -17,27 +16,13 @@
               class="text-center"
               id="nationalLevelButton"
               (click)="resetMapToNationalView()"
-              style="
-                display: inline-flex;
-                position: relative;
-                width: fit-content;
-                align-items: center;
-                min-width: fit-content;
-                justify-content: center;
-              "
             >
               <div class="arrow"></div>
               View National Level Data
             </a>
           </div>
           <p
-            style="
-              z-index: 2;
-              margin-top: 1%;
-              text-decoration: underline;
-              display: block;
-            "
-            class="text-center"
+            class="map-info"
             *ngIf="
               !selectedStates || !selectedStates[0] || !selectedStates[0].length
             "

@@ -120,7 +120,7 @@ export class HomeTabViewComponent implements OnInit {
   constructor(
     protected formBuilder: FormBuilder,
     protected dashboardService: DashboardService,
-    private modalService: BsModalService,
+    public modalService: BsModalService,
     protected _commonService: CommonService,
     protected _snacbar: MatSnackBar,
     private _dialog: MatDialog,
