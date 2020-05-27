@@ -379,6 +379,8 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   fetchUlBsData(ulbIdsArray: string[]) {
+    console.log(`map emitted ulb`, ulbIdsArray);
+
     if (ulbIdsArray.length) {
       this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
     }
@@ -1098,7 +1100,13 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   filterDataStateWise(event: any) {
+    console.log(`map emitted state`, event);
+    console.log({ ...this.selectedState });
+
     if (event) {
+      if (this.selectedState && this.selectedState._id === event._id) {
+        return;
+      }
       this.selectedState = event;
     } else {
       this.selectedState = {};
