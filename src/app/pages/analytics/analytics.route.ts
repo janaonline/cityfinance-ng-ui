@@ -1,6 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeTabViewComponent } from 'src/app/auth/home/home-tab-view/home-tab-view.component';
+
+import { HomeTabViewComponent } from './home-tab-view/home-tab-view.component';
 
 export const routes: Routes = [
   {

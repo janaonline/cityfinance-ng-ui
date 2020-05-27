@@ -8,6 +8,7 @@ import { Chart } from 'chart.js';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { debounceTime, delay, map, takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/auth.service';
 import { AnalyticsTabs, IAnalyticsTabs } from 'src/app/shared/components/home-header/tabs';
 
 import { IDialogConfiguration } from '../../../../app/shared/components/dialog/models/dialogConfiguration';
@@ -20,7 +21,6 @@ import { ModalTableHeader, modalTableHeaders, tableHeaders } from '../../../shar
 import { DashboardService } from '../../../shared/services/dashboard/dashboard.service';
 import { TableDownloader } from '../../../shared/util/tableDownload/genericTableDownload';
 import { TableDowloadOptions } from '../../../shared/util/tableDownload/models/options';
-import { AuthService } from '../../auth.service';
 
 // import 'chartjs-plugin-title-click';
 
