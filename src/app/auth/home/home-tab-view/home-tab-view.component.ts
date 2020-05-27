@@ -96,6 +96,8 @@ export class HomeTabViewComponent implements OnInit {
     this.singleULBView = false;
     this.selectedUlb = "";
     this.loading = true;
+    this.selectedState = null;
+    this.updateULBDropdownList({});
 
     // if (!this.tabData[event] && this.selectedState.length > 0) {
     // this.selectedState = {};
@@ -1020,6 +1022,16 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   modalItemClicked(rowClickedId, row: any = {}) {
+    const ulbFound = this.allULBSList.find((ulb) => ulb._id === rowClickedId);
+    if (!ulbFound) {
+      console.error(`ULB clicked not found in dropdown ulb list`);
+    } else {
+      this.selectedState = this.stateAndULBDataMerged[ulbFound.state];
+      this.updateULBDropdownList({
+        stateId: ulbFound.state,
+      });
+    }
+
     this.selectedUlb = rowClickedId;
     this.loading = true;
     this.tabData = [];
