@@ -19,25 +19,26 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
-  width: 100%;
+  width: 95%;
+  margin: auto;
+  overflow: hidden;
+
   //   background: red;
 
   .file {
+    overflow: hidden;
     border: 1px solid rgb(230, 230, 230);
 
     display: inline-block;
     position: relative;
-    width: 22%;
+    width: 23%;
     background: rgba(243, 243, 243, 0.637);
     padding-top: 1%;
-    // height: 45vh;
-    // min-height: 222px;
-    transition: all 200ms;
+
+    transition: all 500ms;
     margin: 1%;
 
     border-radius: 5px;
-
-    // box-shadow: 6px 3px 11px 0px grey;
 
     overflow: hidden;
     img {
@@ -57,7 +58,7 @@
       position: absolute;
       bottom: 0px;
       left: 50%;
-      transform: translateY(102%) translateX(-50%);
+      transform: translateY(2%) translateX(-50%);
       transition: all 200ms;
       table {
         width: 94%;
@@ -81,13 +82,8 @@
     }
     &:hover {
       box-shadow: 6px 3px 15px 0px grey;
-      border-bottom: 0px solid rgb(230, 230, 230);
-      border-left: 0px solid rgb(230, 230, 230);
-      border-right: 0px solid rgb(230, 230, 230);
-
-      .details {
-        transform: translateY(0%) translateX(-50%);
-      }
+      border-bottom-color: rgb(190, 190, 190);
+      border-right-color: rgb(190, 190, 190);
     }
   }
 
