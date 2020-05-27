@@ -298,4 +298,10 @@ export class CommonService {
     }
     return Array.from(new Set(array.map((item) => item[key])));
   }
+
+  getPublicFileList() {
+    return this.http
+      .get(`${environment.api.url}resource/all`)
+      .pipe(map((res) => res["data"]["data"]));
+  }
 }
