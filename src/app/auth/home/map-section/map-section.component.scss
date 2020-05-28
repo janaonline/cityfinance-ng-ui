@@ -20,7 +20,7 @@
 
 @media (max-width: 1059px) {
   .wrapper {
-    font-size: 2vw;
+    font-size: 1.5vw;
     grid-template: repeat(6, 15vh) / repeat(4, 1fr);
     grid-template-areas:
       "s s v v"
@@ -120,9 +120,13 @@ form {
     outline: none;
     padding: 1px 10px;
     min-height: 31px;
+
+    @media (max-width: 1059px) {
+      min-height: 25px;
+    }
   }
   .dropdown-list {
-    z-index: 1;
+    z-index: 2;
     min-width: 255px;
   }
 

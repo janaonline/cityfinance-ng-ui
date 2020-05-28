@@ -625,6 +625,12 @@ img.background {
   // transform: translateX(-5%);
 }
 
+@media (max-width: 768px) {
+  .explore {
+    bottom: 20%;
+  }
+}
+
 ::ng-deep {
   .dashboard-wrapper {
     .carousel-indicators {
