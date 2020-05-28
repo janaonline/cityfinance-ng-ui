@@ -13,7 +13,7 @@ export const appRouter: Routes = [
   },
   {
     path: "files",
-    loadChildren: "./pages/public-files/public-files.module#PublicFilesModule",
+    loadChildren: "./pages/resources/public-files.module#PublicFilesModule",
   },
 
   {

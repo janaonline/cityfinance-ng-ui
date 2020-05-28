@@ -2,13 +2,32 @@
   overflow: visible;
   width: 100%;
   display: grid;
-  grid-template: repeat(4, 15vh) / repeat(17, 1fr);
   grid-gap: 15px;
-  grid-template-areas:
-    ". . . . . . . . . m m m m m m m m"
-    "s s s s s s s s s m m m m m m m m"
-    "v v v v . . . . . m m m m m m m m"
-    "v v v v . . . . . m m m m m m m m";
+}
+
+@media (min-width: 1060px) {
+  .wrapper {
+    font-size: 1vw;
+
+    grid-template: repeat(4, 15vh) / repeat(17, 1fr);
+    grid-template-areas:
+      ". . . . . . . . . m m m m m m m m"
+      "s s s s s s s s s m m m m m m m m"
+      "v v v v . . . . . m m m m m m m m"
+      "v v v v . . . . . m m m m m m m m";
+  }
+}
+
+@media (max-width: 1059px) {
+  .wrapper {
+    font-size: 2vw;
+    grid-template: repeat(6, 15vh) / repeat(4, 1fr);
+    grid-template-areas:
+      "s s v v"
+      "m m m m"
+      "m m m m"
+      "m m m m";
+  }
 }
 
 .selectPart {
@@ -18,13 +37,14 @@
 }
 @media (max-width: 1958px) {
   .selectPart {
-    font-size: 1.3vw;
+    // font-size: 1.3vw;
+    font-size: 1.3em;
   }
 }
 
 @media (min-width: 1961px) {
   .selectPart {
-    font-size: 1.1vw;
+    font-size: 1em;
   }
 }
 
@@ -32,7 +52,7 @@
   grid-area: v;
   margin-top: 5px;
   color: var(--multi-dropdown-color);
-  font-size: 1.2vw;
+  font-size: 1.2em;
   table {
     // width: 100%;
     tbody tr {
@@ -51,8 +71,13 @@
   }
 }
 
+@media (max-width: 1059px) {
+  .visualization .heading {
+    margin-top: 0px;
+  }
+}
+
 .mapWrapper {
-  // background: red;
   grid-area: m;
   #mapid {
     border-radius: inherit;
@@ -65,6 +90,7 @@
     height: 100%;
     max-height: 100%;
     transition: all 0.8s;
+    font-size: 0.7em;
   }
 }
 
@@ -89,7 +115,7 @@ form {
     display: none;
   }
   div.c-btn {
-    font-size: 1.5rem;
+    font-size: 0.8em;
     color: var(--multi-dropdown-color);
     outline: none;
     padding: 1px 10px;
@@ -97,6 +123,7 @@ form {
   }
   .dropdown-list {
     z-index: 1;
+    min-width: 255px;
   }
 
   .selected-list .c-angle-down svg,
@@ -128,19 +155,22 @@ form {
 }
 
 ::ng-deep .ml-0 {
-  // margin-left: -24% !important;
   max-width: 140px;
   margin-bottom: 5vh !important;
   overflow: visible;
   font-size: 0.6vw;
-  // background: red;
+}
+
+@media (max-width: 1060px) {
+  ::ng-deep .ml-0 {
+    font-size: 1em;
+  }
 }
 
 ::ng-deep {
   .mapWrapper {
     .leaflet-container {
       overflow: visible;
-      // font-size: 0.7vw;
     }
   }
 }

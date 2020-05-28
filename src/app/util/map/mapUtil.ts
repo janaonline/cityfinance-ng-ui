@@ -1,11 +1,11 @@
 import * as L from 'leaflet';
 import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
 
-import { IMapCreationConfig } from './models/mapCreationConfig';
+import { IMapCreationConfig, IStateLayerStyle } from './models/mapCreationConfig';
 
 export class MapUtil {
-  private static readonly defaultStateLayerStyle = {
-    fillColor: "#D0EDF9",
+  private static readonly defaultStateLayerStyle: IStateLayerStyle = {
+    fillColor: "#efefef",
     weight: 1,
     opacity: 1,
     color: "white",
@@ -50,7 +50,16 @@ export class MapUtil {
       : layer.sourceTarget.feature.properties.ST_CODE;
   }
 
+  public static colorIndiaMap(map: L.Map, fillColor: string) {
+    return map.eachLayer((layer) => {
+      MapUtil.colorStateLayer(layer, fillColor);
+    });
+  }
+
   public static colorStateLayer(layer: any, fillColor: string) {
+    if (!layer.setStyle) {
+      return;
+    }
     layer.setStyle(
       {
         fillOpacity: 1,
@@ -77,8 +86,9 @@ export class MapUtil {
       0.1
     );
 
-    const stateLayers = MapUtil.applyDefaultStateColor(
-      configuration.geoData
+    const stateLayers = MapUtil.applyStyleOnStates(
+      configuration.geoData,
+      configuration.layerOptions
     ).addTo(map);
 
     map = MapUtil.centerMap(map, stateLayers);
@@ -98,9 +108,15 @@ export class MapUtil {
       : (<any>layer).getBounds().getCenter();
   }
 
-  private static applyDefaultStateColor(
-    geoData: IMapCreationConfig["geoData"]
+  private static applyStyleOnStates(
+    geoData: IMapCreationConfig["geoData"],
+    style?: IStateLayerStyle
   ) {
+    if (style) {
+      return L.geoJSON(geoData, {
+        style: { ...MapUtil.defaultStateLayerStyle, ...style },
+      });
+    }
     return L.geoJSON(geoData, {
       style: MapUtil.defaultStateLayerStyle,
     });
