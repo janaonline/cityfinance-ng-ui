@@ -631,13 +631,22 @@ img.background {
       z-index: 1;
     }
 
-    .carousel,
-    .carousel-inner,
-    .slide,
-    slide.carousel-item {
-      height: 60vh;
-      overflow: hidden;
+    @media (min-width: 768px) {
+      .carousel,
+      .carousel-inner,
+      .slide,
+      slide.carousel-item {
+        height: 60vh;
+        overflow: hidden;
+        .item {
+          height: 100%;
+          img {
+            height: 100%;
+          }
+        }
+      }
     }
+
     .carousel-control {
       display: none;
     }
