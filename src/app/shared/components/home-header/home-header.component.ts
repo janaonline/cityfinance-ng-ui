@@ -131,8 +131,10 @@ export class HomeHeaderComponent implements OnInit {
    */
   private setTopRowSticky() {
     const element = document.getElementById("1stNavbarRow");
+    if (!element) {
+      return;
+    }
     const topPosition = -element.offsetHeight + "px";
-    console.log(element.clientHeight);
 
     this.renderer.setStyle(this._elementRef.nativeElement, "top", topPosition);
   }
@@ -145,9 +147,7 @@ export class HomeHeaderComponent implements OnInit {
         rootMargin: "0px",
         threshold: [0, 0.1, 0.2, 0.25, 0.4, 0.75, 1],
       };
-      const observer = new IntersectionObserver((event) => {
-        console.log(event, `observer`);
-      }, options);
+      const observer = new IntersectionObserver((event) => {}, options);
       const target = document.getElementById("carousel");
       observer.observe(target);
     });
