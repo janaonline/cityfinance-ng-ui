@@ -36,6 +36,7 @@ table {
   .dashboard-wrapper {
     #mapidd {
       height: 55vh;
+      min-height: 410px;
     }
   }
 }
@@ -235,10 +236,13 @@ div.arrow:after {
 @media (max-width: 943px) {
   .ulbDetails {
     width: 100% !important;
+    margin-top: 5%;
+  }
 
-    // div {
-    //
-    // }
+  .map-info {
+    width: 100% !important;
+    text-align: center;
+    margin-left: 0px !important;
   }
 }
 

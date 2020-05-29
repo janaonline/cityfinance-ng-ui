@@ -35,52 +35,53 @@
           <p class="click-info" *ngIf="!absCreditInfo.title">
             Click state on the map to get credit information
           </p>
-
-          <div class="row" *ngIf="absCreditInfo.title">
-            <div class="col-sm-8 ulbDetails">
-              <div class="row">
-                <div class="col-sm-6">
-                  <h3 class="text-primary" style="margin-top: 0;">
-                    {{ absCreditInfo.title | titlecase }}
-                  </h3>
-                </div>
-                <div class="col-sm-6">
-                  <button class="btn btn-warning right" (click)="page = 2">
-                    Explore Credit Rating Reports
-                  </button>
-                </div>
+          <div class="col-sm-8 ulbDetails" *ngIf="absCreditInfo.title">
+            <div class="row">
+              <div class="col-sm-6">
+                <h3 class="text-primary" style="margin-top: 0;">
+                  {{ absCreditInfo.title | titlecase }}
+                </h3>
               </div>
-              <div class="tableWrapper">
-                <table class="table fixed-table">
-                  <thead>
-                    <tr>
-                      <th>Credit Rating</th>
-                      <th class="text-right">No. Of ULBs</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr
-                      (click)="openModal(modal, grade)"
-                      *ngFor="let grade of ratingGrades"
-                      [ngClass]="{ hidden: !absCreditInfo.ratings[grade] }"
-                    >
-                      <td width="60%">{{ grade }}</td>
-                      <td class="text-right">
-                        {{ absCreditInfo.ratings[grade] }}
-                      </td>
-                    </tr>
-                    <tr class="bold">
-                      <td width="60%">Total</td>
-                      <td class="text-right">
-                        {{ absCreditInfo.creditRatingUlbs }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="col-sm-6">
+                <button class="btn btn-warning right" (click)="page = 2">
+                  Explore Credit Rating Reports
+                </button>
               </div>
             </div>
+            <div class="tableWrapper">
+              <table class="table fixed-table">
+                <thead>
+                  <tr>
+                    <th>Credit Rating</th>
+                    <th class="text-right">No. Of ULBs</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr
+                    (click)="openModal(modal, grade)"
+                    *ngFor="let grade of ratingGrades"
+                    [ngClass]="{ hidden: !absCreditInfo.ratings[grade] }"
+                  >
+                    <td width="60%">{{ grade }}</td>
+                    <td class="text-right">
+                      {{ absCreditInfo.ratings[grade] }}
+                    </td>
+                  </tr>
+                  <tr class="bold">
+                    <td width="60%">Total</td>
+                    <td class="text-right">
+                      {{ absCreditInfo.creditRatingUlbs }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
+
+          <!-- <div class="row" >
+            
+          </div> -->
         </div>
       </div>
       <!-- <div class="col-md-12"><br /><br /></div> -->

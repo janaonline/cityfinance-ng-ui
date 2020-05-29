@@ -193,18 +193,14 @@ export class MapSectionComponent implements OnInit {
     >,
     containerId: string
   ) {
-    let zoom = 4.52;
+    // let zoom = 4.52;
 
-    zoom += 1 - window.devicePixelRatio;
+    // zoom += 1 - window.devicePixelRatio;
+    // console.log(`zoom: ${zoom}`);
 
     const configuration: IMapCreationConfig = {
       containerId,
       geoData,
-      options: {
-        zoom,
-        maxZoom: zoom,
-        minZoom: zoom,
-      },
     };
     let map;
 
