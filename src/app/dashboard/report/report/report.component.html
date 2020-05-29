@@ -200,20 +200,13 @@
         "
       >
         <mat-slide-toggle
+          class="comparative-toggle"
           formControlName="isComparative"
-          style="
-            display: inline-block;
-            width: 15%;
-            margin-right: 3px;
-            padding-left: 1%;
-            min-width: fit-content;
-          "
           >Comparison Report</mat-slide-toggle
         >
         <i
-          class="fa fa-info-circle"
+          class="fa fa-info-circle comparative-info-circle"
           aria-hidden="true"
-          style="margin-right: 10px; margin-left: 0px;"
           title="Comparison Report"
         ></i>
 
@@ -270,9 +263,8 @@
 
       <button
         type="button"
-        style="margin-left: 1%;"
         class="close1 btn"
-        style="background: #f0ad4e; color: white;"
+        style="background: #f0ad4e; color: white; font-size: 0.7vw;"
         (click)="resetPopupValues()"
       >
         Clear All
@@ -280,7 +272,7 @@
 
       <button
         class="btn btn-primary"
-        style="position: absolute; right: 5px;"
+        style="position: absolute; right: 5px; font-size: 0.8vw;"
         (click)="search()"
       >
         Generate Report
@@ -297,7 +289,7 @@
       <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
       <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
     </div>
-    <div class="row" *ngIf="ulbs && ulbs.data">
+    <div class="row popup-cotnainer-2" *ngIf="ulbs && ulbs.data">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item col-md-2 stateULBName">
           <a
@@ -369,15 +361,7 @@
         </li>
       </ul>
 
-      <div
-        class="col-md-2"
-        style="
-          max-height: 54vh;
-          overflow: auto;
-          padding-right: 0px;
-          max-width: 214px;
-        "
-      >
+      <div class="col-sm-2 state-list-sidebar">
         <ul class="list-unstyled left-nav">
           <li
             *ngFor="let state of ulbs.data | keyvalue"
@@ -417,7 +401,7 @@
         </ul>
       </div>
 
-      <div class="col-md-10">
+      <div class="col-sm-10 ulb-list-container">
         <ul class="list-group" *ngIf="currentStateInView">
           <li
             _ngcontent-c4=""
@@ -429,7 +413,7 @@
               <div _ngcontent-c4="" class="col-md-12">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li
-                    class="nav-item aaa"
+                    class="nav-item ulb-category"
                     *ngFor="let ulb of filteredULBTypes"
                     (click)="setULBTypeOfState(ulb)"
                   >
@@ -495,19 +479,14 @@
                     </a>
                   </li>
                 </ul>
-                <ul
-                  class="nav nav-tabs"
-                  id="myTabContent"
-                  role="tablist"
-                  style="max-height: 47vh; overflow: auto;"
-                >
+                <ul class="nav nav-tabs" id="myTabContent" role="tablist">
                   <li
                     *ngFor="
                       let ulb of currentStateInView.value.ulbs
                         | keyvalue: valueAscOrder
                     "
                     class="list-group-item level-two checkbox col-md-4"
-                    style="margin: 0px; max-width: 300px;"
+                    style="margin: 0px; max-width: 300px; width: 27%;"
                     [id]="ulb['value']['code']"
                   >
                     <label _ngcontent-c4="">
