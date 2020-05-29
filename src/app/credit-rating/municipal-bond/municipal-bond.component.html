@@ -1,32 +1,38 @@
 <div class="common-container">
-  <div class="container">
+  <div class="container municipal-bonds">
     <h3 class="page-title text-center">
       Municipal Bond Issuances
     </h3>
     <div
       class="row"
-      style="position: relative; display: flex; align-items: center; margin-bottom: .5%;"
+      style="
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5%;
+      "
     >
-      <div *ngIf="!bondIssuerItemData" style="display: block;  width: 80vw;">
-        <app-pre-loader style="display: block;  width: 100%;"></app-pre-loader>
-        <app-pre-loader style="display: block;  width: 100%;"></app-pre-loader>
-        <app-pre-loader style="display: block;  width: 100%;"></app-pre-loader>
+      <div *ngIf="!bondIssuerItemData" style="display: block; width: 80vw;">
+        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
       </div>
     </div>
 
-    <div
-      class="row"
-      *ngIf="paginatedbondIssuerItem"
-      style="min-width: fit-content;"
-    >
+    <div class="row" *ngIf="paginatedbondIssuerItem">
       <div
-        style="width: 100%; position: relative; display: block; margin-bottom: 3%;"
+        style="
+          width: 100%;
+          position: relative;
+          display: block;
+          margin-bottom: 1%;
+        "
       >
         <form
           *ngIf="bondIssuerItemData && bondIssuerItemData.length"
           [formGroup]="filterForm"
           (ngSubmit)="onSubmittingFilterForm()"
-          class="col-md-6 filterForm"
+          class="filterForm"
         >
           <!--  <angular2-multiselect
               style="width: 70%; margin-right: 2%;"
@@ -46,39 +52,30 @@
           </angular2-multiselect>
 
           <angular2-multiselect
-            style="width: 35%;margin-right: 2%"
+            style="width: 35%; margin-right: 2%;"
             formControlName="years"
             [data]="yearsAvailable"
             (onClose)="onyearSelected()"
             [settings]="yearsDropdownSettings"
           >
           </angular2-multiselect>
-          <input type="submit" value="Search" class=" btn btn-primary"/>
+          <input type="submit" value="Search" class="btn btn-primary" />
           <button
             class="right btn btn-danger"
-            (click)="filterForm.patchValue({ulbs:[],years:[]})"
-            style="margin-left: 1%;">
+            (click)="filterForm.patchValue({ ulbs: [], years: [] })"
+            style="margin-left: 1%;"
+          >
             Clear All
           </button>
           <button
             class="right btn btn-primary"
             (click)="onClickDownload()"
             style="margin-left: 1%;"
-          >Download
+          >
+            Download
           </button>
-
         </form>
 
-        <!-- <div
-          *ngIf="bondIssuerItemData && bondIssuerItemData.length"
-          class="col-md-1"
-        >
-          <a>
-            <button class="right btn btn-primary" (click)="onClickDownload()">
-              Download
-            </button>
-          </a>
-        </div> -->
         <pagination-controls
           style="right: 0px; position: absolute;"
           *ngIf="bondIssuerItemData && bondIssuerItemData.length"
@@ -97,14 +94,13 @@
 
       <div
         class="col-md-12 municipal-bond"
-        style=" padding-right: 0px;
-    padding-left: 0px;"
+        style="padding-right: 0px; padding-left: 0px;"
       >
         <table accordion-heading id="tableHeadings">
           <thead>
-          <th>Issuer</th>
-          <th
-            *ngFor="
+            <th>Issuer</th>
+            <th
+              *ngFor="
                 let bondIsuuerItem of paginatedbondIssuerItem
                   | paginate
                     : {
@@ -115,9 +111,9 @@
                       };
                 index as i
               "
-          >
-            {{ bondIsuuerItem.ulb }}
-          </th>
+            >
+              {{ bondIsuuerItem.ulb }}
+            </th>
           </thead>
         </table>
 

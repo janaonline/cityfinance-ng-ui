@@ -7,6 +7,75 @@
   }
 }
 
+.municipal-bonds {
+  font-size: 1vw;
+  margin-bottom: 3%;
+
+  @media (min-width: 1500px) {
+    font-size: 1vw;
+  }
+
+  @media (min-width: 1300px) and (max-width: 1500px) {
+    font-size: 1.2vw;
+  }
+
+  @media (min-width: 1080px) and (max-width: 1300px) {
+    font-size: 1.2vw;
+  }
+  width: 70vw !important;
+  min-width: 70vw;
+  ::ng-deep {
+    .c-btn {
+      font-size: 0.8em;
+    }
+    .dropdown-list {
+      font-size: 0.8em;
+    }
+  }
+
+  #tableHeadings {
+    thead {
+      th {
+        font-size: 0.8em;
+      }
+    }
+  }
+  accordion {
+    width: fit-content;
+  }
+  accordion-group {
+    width: fit-content;
+    min-width: 100%;
+    font-size: 1em;
+
+    ::ng-deep {
+      .panel-title {
+        font-size: 1em !important;
+      }
+    }
+    h4,
+    .panel-title {
+      font-size: 1em !important;
+    }
+  }
+
+  .accordion-body-table {
+    font-size: 0.8em;
+  }
+
+  .page-title {
+    font-size: 1.5em;
+  }
+
+  pagination-controls {
+    font-size: 0.8em;
+  }
+
+  .btn {
+    font-size: 0.7em;
+  }
+}
+
 .common-container {
   padding-bottom: 0px;
 }
@@ -15,7 +84,7 @@
 }
 
 .fixed-header {
-  max-height: calc(100vh - 330px);
+  // max-height: calc(100vh - 330px);
   overflow: auto;
   height: fit-content;
 }
@@ -25,7 +94,7 @@ table {
     background-color: #009fe3;
     color: white;
     padding: 5px 10px;
-    font-size: 14px;
+    // font-size: 14px;
     font-weight: 500;
   }
   td {
@@ -87,6 +156,9 @@ angular2-multiselect {
   display: inline-flex;
   align-items: center;
   padding-left: 0px;
+  padding-bottom: 0.1%;
+  width: 38vw;
+  min-width: fit-content;
 }
 
 ::ng-deep .c-btn {
@@ -105,16 +177,13 @@ td {
 
 .municipal-bond {
   overflow-x: auto;
+  margin-bottom: 1%;
+  min-width: 100%;
 }
 
 accordion {
   display: block;
   min-width: 100%;
-}
-
-.municipal-bond {
-  min-width: 100%;
-  width: fit-content;
 }
 
 ::ng-deep .dropdown-list {
