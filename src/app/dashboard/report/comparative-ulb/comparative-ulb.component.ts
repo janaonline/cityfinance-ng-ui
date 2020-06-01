@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { IDetailedReportResponse } from 'src/app/models/detailedReport/detailedReportResponse';
 
 import { IReportType } from '../../../../app/models/reportType';
 import { GlobalLoaderService } from '../../../../app/shared/services/loaders/global-loader.service';
@@ -16,7 +17,13 @@ import { ReportService } from '../report.service';
 export class ComparativeUlbComponent implements OnInit {
   report: any = [];
   reportReq: IReportType;
-  years: any = [];
+  years: {
+    title: string;
+    caption: string;
+    population?: number;
+    state: string;
+    isComparative: boolean;
+  }[] = [];
 
   isProcessed = false;
   response: any = {};
@@ -68,7 +75,6 @@ export class ComparativeUlbComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.reportReq = this.reportService.getReportRequest();
     this.reportService.getNewReportRequest().subscribe((reportCriteria) => {
       this._loaderService.showLoader();
       this.reportReq = reportCriteria;
@@ -93,7 +99,7 @@ export class ComparativeUlbComponent implements OnInit {
               this.years = [];
               this.transformYears_YrVSYr();
             }
-            this.transformResult(res);
+            this.transformResult(<any>res);
             this.headerGroup.yearColspan =
               this.years.length / this.reportReq.years.length;
           } else {
@@ -101,6 +107,7 @@ export class ComparativeUlbComponent implements OnInit {
             this.reportKeys = [];
           }
           this._loaderService.stopLoader();
+          this.isProcessed = true;
 
           this.setDataNotAvailable();
         },
@@ -147,6 +154,7 @@ export class ComparativeUlbComponent implements OnInit {
           caption: ulb.name,
           state: ulb.state,
           isComparative: false,
+          population: 11111111,
         });
 
         if (j > 0 && this.reportReq.isComparative) {
@@ -161,6 +169,7 @@ export class ComparativeUlbComponent implements OnInit {
             caption: "%",
             state: "Comparision",
             isComparative: true,
+            population: 222222,
           });
         }
       }
@@ -180,6 +189,7 @@ export class ComparativeUlbComponent implements OnInit {
           caption: ulb2.name,
           state: ulb2.state,
           isComparative: false,
+          population: ulb2.population,
         });
 
         if (j > 0 && this.reportReq.isComparative) {
@@ -189,6 +199,7 @@ export class ComparativeUlbComponent implements OnInit {
             caption: "%",
             state: "Comparision",
             isComparative: true,
+            population: +this.calculateDiff(ulb1.population, ulb2.population),
           });
         }
       }
@@ -196,16 +207,7 @@ export class ComparativeUlbComponent implements OnInit {
     }
   }
 
-  /**
-   *
-   * @param result
-   *
-   * @output
-   */
-  transformResult(result) {
-    // Sample response format from server
-    // [ {"ulb_code":"CG001","head_of_account":"Revenue","code":110,"groupCode":null,"line_item":"Tax Revenue","budget":[{"year":"2015-16","amount":30465128}]}, ...]
-
+  transformResult(result: IDetailedReportResponse["data"]) {
     for (let i = 0; i < result.length; i++) {
       const item = result[i];
       if (this.report[item.code] && item.ulb_code && item.budget.length > 0) {
@@ -215,7 +217,10 @@ export class ComparativeUlbComponent implements OnInit {
             this.report[item.code][key] === undefined ||
             this.report[item.code][key] === null
           ) {
-            this.report[item.code][key] = item.budget[j].amount;
+            this.report[item.code][key] =
+              this.reportReq.valueType === "absolute"
+                ? item.budget[j].amount
+                : item.budget[j].amount / item.population;
           }
         }
       }
@@ -230,7 +235,17 @@ export class ComparativeUlbComponent implements OnInit {
    * @param result
    * @param years
    */
-  populateCalcFields(result, years) {
+  populateCalcFields(
+    result,
+    years: {
+      title: string;
+      caption: string;
+      population?: number;
+      state: string;
+      isComparative: boolean;
+      [key: string]: any;
+    }[]
+  ) {
     let calcFields = [];
     if (
       this.reportReq.reportGroup == "Balance Sheet" &&
@@ -264,24 +279,6 @@ export class ComparativeUlbComponent implements OnInit {
         for (let j = 0; j < years.length; j++) {
           let sum = 0;
 
-          // if(years[j].isComparative){
-
-          //   // const ulbN1 = years[j-2].title;
-          //   // const ulbN2 = years[j-1].title;
-
-          //   // const ulbN1 = this.reportReq.years[j-2];
-          //   // const ulbN2 = this.reportReq.years[j-1];
-
-          //   // const keyCode = this.report[keyName]['code'] + '_' + this.reportReq.years[j-2] + '_' + this.reportReq.years[j-1];
-          //   const keyCode = years[j-2].title+ '_' + this.reportReq.years[j-1];
-
-          //   console.log('****keyCode : ' + keyCode);
-          //   this.report[keyName][keyCode] = this.calculateDiff(this.report[keyName][years[j-2].title], this.report[keyName][years[j-1].title]);
-
-          //   console.log('****this.report[keyName] : ' + this.report[keyName]);
-
-          //   continue;
-          // }
           const addFields = calcFields[i].addFields;
           const subtractFields = calcFields[i].subtractFields;
 
@@ -314,18 +311,17 @@ export class ComparativeUlbComponent implements OnInit {
               sum = sum - result[subtractFields[0]][years[j]["title"]];
             }
           }
+
           result[keyName][years[j]["title"]] = sum;
         }
       }
     }
 
-    if (this.reportReq.ulbList.length > 1) {
-      this.transformToReportFormat_UlbVSUlb(this.report);
-    } else {
-      this.transformToReportFormat_YrVSYr(this.report);
-    }
-
-    // this.isProcessed = true;
+    // if (this.reportReq.ulbList.length > 1) {
+    //   this.transformToReportFormat_UlbVSUlb(this.report);
+    // } else {
+    //   this.transformToReportFormat_YrVSYr(this.report);
+    // }
   }
 
   setDataNotAvailable() {
@@ -392,6 +388,7 @@ export class ComparativeUlbComponent implements OnInit {
           if (item[ulbN2] === undefined) {
             item[ulbN2] = 0;
           }
+
           item[keyCode] = this.calculateDiff(item[ulbN1], item[ulbN2]);
         }
       }
@@ -456,7 +453,10 @@ export class ComparativeUlbComponent implements OnInit {
 
   download() {
     const reportTable = document.querySelector("table").outerHTML;
-    const title = this.reportReq.type + " " + this.reportReq.reportGroup;
+    let title = this.reportReq.type + " " + this.reportReq.reportGroup;
+    if (this.reportReq.valueType === "per_capita") {
+      title += " (Per Capita) ";
+    }
     let currencyConversionName =
       this.currenyConversionForm.value.type &&
       this.currenyConversionForm.value.type[0] &&
@@ -467,6 +467,10 @@ export class ComparativeUlbComponent implements OnInit {
       currencyConversionName = document.getElementById("currencyWarning")
         .textContent;
     }
+    if (this.reportReq.valueType === "per_capita") {
+      currencyConversionName = " NOTE: Values are in per CAPITA format";
+    }
+
     this.excelService.transformTableToExcelData(title, reportTable, "IE", {
       currencyConversionName,
     });
