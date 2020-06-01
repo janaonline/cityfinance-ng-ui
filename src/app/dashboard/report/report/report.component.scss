@@ -119,11 +119,11 @@ button:disabled {
 
 .ulbTypeSelected,
 .stateULBName {
-  font-size: 1.1vw;
+  font-size: 0.8vw;
 }
 
 .ulb-category {
-  font-size: 1vw;
+  font-size: 0.8vw;
 }
 
 ::ng-deep .mat-form-field-wrapper {
@@ -256,7 +256,7 @@ a.inactive-tab:hover {
 
   ::ng-deep {
     .mat-slide-toggle-content {
-      font-size: 1vw;
+      font-size: 0.8vw;
     }
   }
 }
