@@ -69,26 +69,35 @@ export class BasicComponent implements OnInit, OnDestroy {
     private _dialog: MatDialog,
     private router: Router,
     private _authService: AuthService
-  ) {
-    this.initializeCurrencyConversion();
-    this.initializeForm();
+  ) {}
+
+  private initializeCurrencyConversion(reportCriteria: IReportType) {
+    this.currencyTypeInUser =
+      reportCriteria && reportCriteria.valueType === "absolute"
+        ? this.reportService.currencryConversionInUse.type
+        : this.currencyConversionList[0].type;
   }
 
-  private initializeCurrencyConversion() {
-    this.currencyTypeInUser = this.reportService.currencryConversionInUse.type;
-  }
-
-  private initializeForm() {
+  private initializeForm(reportCriteria: IReportType) {
     this.currenyConversionForm = this._formBuilder.group({
-      type: [[this.reportService.currencryConversionInUse]],
+      type: [
+        [
+          reportCriteria && reportCriteria.valueType === "absolute"
+            ? this.reportService.currencryConversionInUse
+            : this.currencyConversionList[0],
+        ],
+      ],
     });
   }
 
   ngOnInit() {
     this.reportService.getNewReportRequest().subscribe((reportCriteria) => {
+      this.initializeCurrencyConversion(reportCriteria);
+      this.initializeForm(reportCriteria);
       this.loaderService.showLoader();
 
       this.reportReq = reportCriteria;
+
       this.reportService.reportResponse.subscribe(
         (res) => {
           this.loaderService.showLoader();
