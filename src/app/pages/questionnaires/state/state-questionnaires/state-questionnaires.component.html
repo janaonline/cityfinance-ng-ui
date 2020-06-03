@@ -1,3 +1,34 @@
-<p>
-  state-questionnaires works!
-</p>
+<div class="wrapper">
+  <mat-horizontal-stepper id="stepper" linear>
+    <mat-step
+      label="Introduction"
+      [completed]="introductionCompleted"
+      state="phone"
+      matStepperIcon="done"
+    >
+      <app-introduction
+        (completed)="setIntroductionCompleted($event)"
+      ></app-introduction>
+      <!-- <ng-template matStepLabel>Introduction</ng-template> -->
+    </mat-step>
+    <mat-step label="Property Tax">
+      <app-property-tax
+        (answer)="onCompletingPropertyTax($event)"
+        (previous)="stepper.previous()"
+      ></app-property-tax>
+    </mat-step>
+    <mat-step label="User Charges">
+      <app-user-charges
+        (previous)="stepper.previous()"
+        (answer)="onCompletingPropertyTax($event)"
+      ></app-user-charges>
+    </mat-step>
+    <mat-step label="Done">
+      <app-completed></app-completed>
+    </mat-step>
+
+    <!-- <ng-template matStepperIcon="edit">
+      <mat-icon background="red">bubble_chart</mat-icon>
+    </ng-template> -->
+  </mat-horizontal-stepper>
+</div>
