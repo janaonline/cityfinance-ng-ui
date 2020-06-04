@@ -28,6 +28,9 @@ export class HomeHeaderComponent implements OnInit {
   canViewMoHUAList = false;
   canEditOwnProfile = false;
 
+  canViewQuestionnaireForm = false;
+  canViewQuestionnaireList = false;
+
   tabs: IAnalyticsTabs[] = [];
 
   USER_TYPE = USER_TYPE;
@@ -88,6 +91,16 @@ export class HomeHeaderComponent implements OnInit {
 
     this.canViewUserList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.USERLIST,
+      action: ACTIONS.VIEW,
+    });
+
+    this.canViewQuestionnaireList = this.accessChecker.hasAccess({
+      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE_LIST,
+      action: ACTIONS.VIEW,
+    });
+
+    this.canViewQuestionnaireForm = this.accessChecker.hasAccess({
+      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
       action: ACTIONS.VIEW,
     });
   }
