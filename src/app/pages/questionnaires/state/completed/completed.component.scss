@@ -1,0 +1,29 @@
+:host {
+  .message-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 94%;
+    height: 55vh;
+    align-items: center;
+    // background: red;
+
+    .box {
+      box-shadow: 1px 1px 11px 1px #b9b5b5;
+      padding: 5%;
+      display: flex;
+      min-width: 35vw;
+      border-radius: 5px;
+      border: 1px solid #c7c5c5;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  app-tick-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    display: inline-block;
+  }
+}

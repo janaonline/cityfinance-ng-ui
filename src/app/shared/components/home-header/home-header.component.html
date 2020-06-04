@@ -137,6 +137,20 @@
     <li routerLinkActive="active">
       <a [routerLink]="['/files']"> Resources </a>
     </li>
+    <li routerLinkActive="active">
+      <a
+        [routerLink]="['/questionnaires/form']"
+        *ngIf="canViewQuestionnaireForm && user?.role === USER_TYPE.STATE"
+      >
+        Questionnaires
+      </a>
+      <a
+        [routerLink]="['/questionnaires/states']"
+        *ngIf="canViewQuestionnaireList"
+      >
+        Questionnaires
+      </a>
+    </li>
     <li *ngIf="isLoggedIn && canViewUploadData">
       <a [routerLink]="['user', 'data-upload', 'list']" class="pointer"
         >Data upload</a

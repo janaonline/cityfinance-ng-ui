@@ -1,0 +1,344 @@
+<p>
+  <strong>NOTE:</strong> Question with <span class="mandatory">*</span> sign are
+  mandatory.
+</p>
+
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        A. Notification of Floor rates linked to current cost
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <form [formGroup]="questionForm" *ngIf="questionForm">
+      <ul>
+        <li>
+          <p>
+            Do your byelaws/ executive orders provide for levying user charges
+            in-line with current costs?
+          </p>
+          <mat-radio-group
+            aria-label="Select an option"
+            id="11"
+            formControlName="Byelaws_UC_A"
+          >
+            <mat-radio-button value="Yes">Yes</mat-radio-button>
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
+        </li>
+
+        <ol
+          type="a"
+          class="sub-questions-list"
+          *ngIf="questionForm?.controls?.Byelaws_UC_A.value === 'Yes'"
+        >
+          <li>
+            <p>
+              What is the existing status of legal framework of levying of user
+              charges in-line with current costs in all the Municipalities and
+              Municipal Corporations?
+            </p>
+            <mat-form-field class="example-full-width textarea-wrapper">
+              <textarea
+                formControlName="Existing_Status_Yes_UC_A"
+                matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="5"
+                cdkAutosizeMinCols="8"
+              ></textarea>
+            </mat-form-field>
+          </li>
+          <li>
+            <p>
+              Mention the relevant section/ clause number of byelaws/ executive
+              order (Upload relevant doc in upload section)
+            </p>
+            <mat-form-field class="example-full-width textarea-wrapper">
+              <textarea
+                formControlName="Relevant_Section_UC_A"
+                matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="5"
+                cdkAutosizeMinCols="8"
+              ></textarea>
+            </mat-form-field>
+          </li>
+        </ol>
+      </ul>
+      <h4 *ngIf="questionForm?.controls?.Byelaws_UC_A.value === 'No'">
+        Action Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls?.Byelaws_UC_A.value === 'No'"
+      >
+        <li>
+          <p>
+            Would you be seeking state government approval/ issue executive
+            order to provide for levying user charges in line with current cost?
+          </p>
+          <mat-form-field class="example-full-width textarea-wrapper">
+            <textarea
+              formControlName="State_Approval_UC_A"
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMinCols="8"
+            ></textarea>
+          </mat-form-field>
+        </li>
+        <li>
+          <p>Date by which it will be completed</p>
+          <mat-form-field>
+            <input
+              readonly
+              matInput
+              [min]="todayDate"
+              [matDatepicker]="myDatepicker5"
+              formControlName="Action_Date_UC_A"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="myDatepicker5"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker5></mat-datepicker>
+          </mat-form-field>
+        </li>
+      </ol>
+      <h4 *ngIf="questionForm?.controls?.Byelaws_UC_A.value === 'No'">
+        Implementation Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls?.Byelaws_UC_A.value === 'No'"
+      >
+        <li>
+          <p>
+            What is the existing status of legal framework of levying of user
+            charges in-line with current costs in all the Municipalities and
+            Municipal Corporations?
+          </p>
+          <mat-form-field class="example-full-width textarea-wrapper">
+            <textarea
+              formControlName="Existing_Status_No_UC_A"
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMinCols="8"
+            ></textarea>
+          </mat-form-field>
+        </li>
+        <li>
+          <p>
+            What is the plan for implementing above for 1) AMRUT cities & towns
+            and 2) Other cities & towns?
+          </p>
+          <mat-form-field class="example-full-width textarea-wrapper">
+            <textarea
+              formControlName="Implement_Plan_UC_A"
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMinCols="8"
+            ></textarea>
+          </mat-form-field>
+        </li>
+        <li>
+          <p>Date by which it will be completed</p>
+          <mat-form-field>
+            <input
+              readonly
+              matInput
+              [min]="todayDate"
+              [matDatepicker]="myDatepicker6"
+              formControlName="Implement_Date_UC_A"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="myDatepicker6"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker6></mat-datepicker>
+          </mat-form-field>
+        </li>
+      </ol>
+    </form>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        B. Periodic increase in floor rates linked to current price
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="questionForm" *ngIf="questionForm">
+      <ul>
+        <li>
+          <p>
+            Is there a provision for periodic increase in user charges for
+            water, drainage and sewerage in line with price increase?
+          </p>
+          <mat-radio-group
+            aria-label="Select an option"
+            id="11"
+            formControlName="Periodic_Increase_UC_B"
+          >
+            <mat-radio-button value="Yes">Yes</mat-radio-button>
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
+        </li>
+
+        <ol
+          type="a"
+          class="sub-questions-list"
+          *ngIf="questionForm?.controls?.Periodic_Increase_UC_B.value === 'Yes'"
+        >
+          <li>
+            <p>
+              What is the existing status of byelaws/ executive orders for
+              periodic increase in user charges for water, drainage and sewerage
+              in Municipalities and Municipal Corporations?
+            </p>
+            <mat-form-field class="example-full-width textarea-wrapper">
+              <textarea
+                matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="5"
+                cdkAutosizeMinCols="8"
+                formControlName="Existing_Status_Yes_UC_B"
+              ></textarea>
+            </mat-form-field>
+          </li>
+          <li>
+            <p>
+              Mention the relevant section/ clause copy of relevant byelaws/
+              executive order (Upload relevant doc in upload section)
+            </p>
+            <mat-form-field class="example-full-width textarea-wrapper">
+              <textarea
+                matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="5"
+                cdkAutosizeMinCols="8"
+                formControlName="Relevant_Section_UC_B"
+              ></textarea>
+            </mat-form-field>
+          </li>
+        </ol>
+      </ul>
+      <h4 *ngIf="questionForm?.controls?.Periodic_Increase_UC_B.value === 'No'">
+        Action Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls?.Periodic_Increase_UC_B.value === 'No'"
+      >
+        <li>
+          <p>
+            Would you be seeking state government approval/ issue executive
+            order to provide for periodic increase in user charges in line with
+            price increase?
+          </p>
+          <mat-form-field class="example-full-width textarea-wrapper">
+            <textarea
+              formControlName="State_Approval_UC_B"
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMinCols="8"
+            ></textarea>
+          </mat-form-field>
+        </li>
+        <li>
+          <p>Date by which it will be completed</p>
+          <mat-form-field>
+            <input
+              readonly
+              matInput
+              [min]="todayDate"
+              [matDatepicker]="myDatepicker7"
+              formControlName="Action_Date_UC_B"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="myDatepicker7"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker7></mat-datepicker>
+          </mat-form-field>
+        </li>
+      </ol>
+      <h4 *ngIf="questionForm?.controls?.Periodic_Increase_UC_B.value === 'No'">
+        Implementation Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls?.Periodic_Increase_UC_B.value === 'No'"
+      >
+        <li>
+          <p>
+            What is the existing status of byelaws/ executive orders for
+            periodic increase in user charges for water, drainage and sewerage
+            in Municipalities and Municipal Corporations?
+          </p>
+          <mat-form-field class="example-full-width textarea-wrapper">
+            <textarea
+              formControlName="Existing_Status_No_UC_B"
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMinCols="8"
+            ></textarea>
+          </mat-form-field>
+        </li>
+        <li>
+          <p>
+            What is the plan for implementing above for 1) AMRUT cities & towns,
+            and 2) Other cities & Towns?
+          </p>
+          <mat-form-field class="example-full-width textarea-wrapper">
+            <textarea
+              formControlName="Implement_Plan_UC_B"
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMinCols="8"
+            ></textarea>
+          </mat-form-field>
+        </li>
+        <li>
+          <p>Date by which it will be completed</p>
+          <mat-form-field>
+            <input
+              readonly
+              matInput
+              [min]="todayDate"
+              [matDatepicker]="myDatepicker8"
+              formControlName="Implement_Date_UC_B"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="myDatepicker8"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker8></mat-datepicker>
+          </mat-form-field>
+        </li>
+      </ol>
+    </form>
+  </mat-expansion-panel>
+</mat-accordion>
+<button
+  *ngIf="shouldGoToNext"
+  class="btn btn-primary mt-2"
+  style="float: right; display: block;"
+  (click)="onClickNext()"
+>
+  Next
+</button>
+
+<button
+  class="btn btn-primary mt-2 mr-2"
+  style="float: right; display: block;"
+  (click)="previous.emit(questionForm.value)"
+>
+  Previous
+</button>

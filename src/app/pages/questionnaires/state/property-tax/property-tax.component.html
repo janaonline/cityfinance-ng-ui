@@ -1,0 +1,356 @@
+<p>
+  <strong>NOTE:</strong> Question with <span class="mandatory">*</span> sign are
+  mandatory.
+</p>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        A. Notification of Floor rates linked to prevailing circle rates
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <form [formGroup]="questionForm" *ngIf="questionForm">
+      <ul>
+        <li>
+          <p>
+            Does your Municipality/ Municipal Corporation Act links property tax
+            to prevailing guideline value/ circle rate?
+            <span class="mandatory"> *</span>
+          </p>
+          <mat-radio-group
+            aria-label="Select an option"
+            id="11"
+            formControlName="Act_Linking_PT_A"
+          >
+            <mat-radio-button value="Yes">Yes</mat-radio-button>
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
+        </li>
+
+        <ol
+          type="a"
+          class="sub-questions-list"
+          *ngIf="questionForm?.controls?.Act_Linking_PT_A.value === 'Yes'"
+        >
+          <li>
+            <p>
+              What is the existing status regarding aligning Property tax with
+              prevailing circle rates of all Municipalities/Municipal
+              Corporations?<span class="mandatory"> *</span>
+            </p>
+            <mat-form-field class="example-full-width textarea-wrapper">
+              <textarea
+                formControlName="Existing_Status_PT_A"
+                matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="5"
+                cdkAutosizeMinCols="8"
+              ></textarea>
+            </mat-form-field>
+          </li>
+          <li>
+            <p>
+              Mention the relevant section/provision/clause number of gazette
+              notification/rules/relevant provision in the Act (Upload relevant
+              documents in upload section)<span class="mandatory"> *</span>
+            </p>
+            <mat-form-field class="example-full-width textarea-wrapper">
+              <textarea
+                formControlName="Relevent_Sections_PT_A"
+                matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="5"
+                cdkAutosizeMinCols="8"
+              ></textarea>
+            </mat-form-field>
+          </li>
+        </ol>
+      </ul>
+      <h4 *ngIf="questionForm?.controls?.Act_Linking_PT_A.value === 'No'">
+        Action Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls?.Act_Linking_PT_A.value === 'No'"
+      >
+        <li>
+          <p>
+            Would you be seeking legislative changes/ state government approval/
+            issue executive order to provide for such linkage of property tax to
+            guideline value/ circle rate? <span class="mandatory"> *</span>
+          </p>
+          <mat-form-field class="example-full-width textarea-wrapper">
+            <textarea
+              formControlName="Legislative_Changes_PT_A"
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMinCols="8"
+            ></textarea>
+          </mat-form-field>
+        </li>
+        <li>
+          <p>
+            Date by which it will be completed <span class="mandatory"> *</span>
+          </p>
+          <mat-form-field>
+            <input
+              readonly
+              matInput
+              [min]="todayDate"
+              [matDatepicker]="myDatepicker"
+              formControlName="Action_Date_PT_A"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="myDatepicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker></mat-datepicker>
+          </mat-form-field>
+        </li>
+      </ol>
+      <h4 *ngIf="questionForm?.controls?.Act_Linking_PT_A.value === 'No'">
+        Implementation Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls?.Act_Linking_PT_A.value === 'No'"
+      >
+        <li>
+          <p>
+            What is the existing status regarding aligning Property tax with
+            prevailing circle rates of all Municipalities/Municipal
+            Corporations? <span class="mandatory"> *</span>
+          </p>
+          <mat-form-field class="example-full-width textarea-wrapper">
+            <textarea
+              formControlName="Relevent_Sections_No_PT_A"
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMinCols="8"
+            ></textarea>
+          </mat-form-field>
+        </li>
+        <li>
+          <p>
+            What is the plan for adoption of property tax linking to prevailing
+            circle rates for 1) Municipal Corporations, 2) Municipalities, and
+            3) Town Panchayats? <span class="mandatory"> *</span>
+          </p>
+          <mat-form-field class="example-full-width textarea-wrapper">
+            <textarea
+              formControlName="Adoption_Plan_PT_A"
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMinCols="8"
+            ></textarea>
+          </mat-form-field>
+        </li>
+        <li>
+          <p>
+            Date by which it will be completed <span class="mandatory"> *</span>
+          </p>
+          <mat-form-field>
+            <input
+              readonly
+              matInput
+              [min]="todayDate"
+              [matDatepicker]="myDatepicker2"
+              formControlName="Implement_Date_PT_A"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="myDatepicker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker2></mat-datepicker>
+          </mat-form-field>
+        </li>
+      </ol>
+    </form>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        B. Periodic increase of floor rates in line with price increase
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="questionForm" *ngIf="questionForm">
+      <ul start="3">
+        <li>
+          <p>
+            Does your Municipality/ Municipal Corporation Act provide for
+            periodic increase of floor rates of property tax?
+            <span class="mandatory"> *</span>
+          </p>
+          <mat-radio-group
+            aria-label="Select an option"
+            id="11"
+            formControlName="Periodic_Increase_PT_B"
+          >
+            <mat-radio-button value="Yes">Yes</mat-radio-button>
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
+        </li>
+
+        <ol
+          type="a"
+          class="sub-questions-list"
+          *ngIf="questionForm?.controls.Periodic_Increase_PT_B.value === 'Yes'"
+        >
+          <li>
+            <p>
+              What is the existing status of periodic increase in property tax
+              in line with the increase in circle rates for all Municipalities
+              and Municipal Corporations? <span class="mandatory"> *</span>
+            </p>
+            <mat-form-field class="example-full-width textarea-wrapper">
+              <textarea
+                matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="5"
+                cdkAutosizeMinCols="8"
+                formControlName="Existing_Status_Yes_PT_B"
+              ></textarea>
+            </mat-form-field>
+          </li>
+          <li>
+            <p>
+              Mention the relevant section/provision/clause number of gazette
+              notification/rules/relevant provision in the Act (Upload relevant
+              doc in upload section) <span class="mandatory"> *</span>
+            </p>
+            <mat-form-field class="example-full-width textarea-wrapper">
+              <textarea
+                matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="5"
+                cdkAutosizeMinCols="8"
+                formControlName="Relevent_Sections_PT_B"
+              ></textarea>
+            </mat-form-field>
+          </li>
+        </ol>
+      </ul>
+      <h4 *ngIf="questionForm?.controls.Periodic_Increase_PT_B.value === 'No'">
+        Action Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls.Periodic_Increase_PT_B.value === 'No'"
+      >
+        <li>
+          <p>
+            Would you be seeking legislative changes/ state government approval/
+            issue executive order to provide for periodic increase of floor
+            rates of property tax? <span class="mandatory"> *</span>
+          </p>
+          <mat-form-field class="example-full-width textarea-wrapper">
+            <textarea
+              formControlName="Legislative_Changes_PT_B"
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMinCols="8"
+            ></textarea>
+          </mat-form-field>
+        </li>
+        <li>
+          <p>
+            Date by which it will be completed <span class="mandatory"> *</span>
+          </p>
+          <mat-form-field>
+            <input
+              readonly
+              matInput
+              [matDatepicker]="myDatepicker3"
+              formControlName="Action_Date_PT_B"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="myDatepicker3"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker3></mat-datepicker>
+          </mat-form-field>
+        </li>
+      </ol>
+      <h4 *ngIf="questionForm?.controls.Periodic_Increase_PT_B.value === 'No'">
+        Implementation Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls.Periodic_Increase_PT_B.value === 'No'"
+      >
+        <li>
+          <p>
+            What is the existing status of periodic increase in property tax in
+            line with the increase in circle rates for all Municipalities and
+            Municipal Corporations? <span class="mandatory"> *</span>
+          </p>
+          <mat-form-field class="example-full-width textarea-wrapper">
+            <textarea
+              formControlName="Existing_Status_No_PT_B"
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMinCols="8"
+            ></textarea>
+          </mat-form-field>
+        </li>
+        <li>
+          <p>
+            What are the plans for implementing above for property tax for 1)
+            Municipal Corporations, 2) Municipalities, and 3) Town Panchayats?
+            <span class="mandatory">*</span>
+          </p>
+          <mat-form-field class="example-full-width textarea-wrapper">
+            <textarea
+              formControlName="Implement_Plan_PT_B"
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMinCols="8"
+            ></textarea>
+          </mat-form-field>
+        </li>
+        <li>
+          <p>
+            Date by which it will be completed <span class="mandatory"> *</span>
+          </p>
+          <mat-form-field>
+            <input
+              readonly
+              matInput
+              [matDatepicker]="myDatepicker4"
+              formControlName="Implement_Date_PT_B"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="myDatepicker4"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker4></mat-datepicker>
+          </mat-form-field>
+        </li>
+      </ol>
+    </form>
+  </mat-expansion-panel>
+</mat-accordion>
+<button
+  class="btn btn-primary mt-2"
+  style="float: right; display: block;"
+  [disabled]="questionForm.invalid"
+  (click)="answer.emit(questionForm.value)"
+>
+  Next
+</button>
+<button
+  *ngIf="shouldGoToPrevious"
+  class="btn btn-primary mt-2 mr-2"
+  style="float: right; display: block;"
+  (click)="previous.emit(questionForm.value)"
+>
+  Previous
+</button>

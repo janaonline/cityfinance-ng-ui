@@ -1,0 +1,46 @@
+.wrapper {
+  width: 88vw;
+  margin: auto;
+  padding: 1% 2%;
+}
+
+:host {
+  ::ng-deep .mat-horizontal-stepper-header-container {
+    width: 55% !important;
+  }
+
+  ::ng-deep .mandatory {
+    color: red;
+  }
+
+  ::ng-deep .mat-horizontal-stepper-header {
+    pointer-events: none !important;
+  }
+  ::ng-deep .mat-step-header[ng-reflect-selected="true"] .mat-step-icon {
+    background: #009a00;
+  }
+
+  ::ng-deep .mat-step-header[ng-reflect-selected="false"] .mat-step-icon {
+    background: #009fe3;
+  }
+
+  button {
+    outline: none;
+  }
+}
+
+::ng-deep .mat-horizontal-content-container {
+  margin-top: 1%;
+}
+// ::ng-deep .mat-expansion-panel-header {
+//   background: red;
+// }
+// ::ng-deep .mat-expansion-panel-header:hover {
+//   background: green;
+// }
+::ng-deep .mat-calendar-controls {
+  .mat-button {
+    background: transparent !important;
+    color: gray;
+  }
+}
