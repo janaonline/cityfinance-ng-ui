@@ -11,7 +11,7 @@
     </mat-expansion-panel-header>
 
     <form [formGroup]="questionForm" *ngIf="questionForm">
-      <ol>
+      <ul>
         <li>
           <p>
             Does your Municipality/ Municipal Corporation Act links property tax
@@ -66,7 +66,7 @@
             </mat-form-field>
           </li>
         </ol>
-      </ol>
+      </ul>
       <h4 *ngIf="questionForm?.controls?.Act_Linking_PT_A.value === 'No'">
         Action Plan
       </h4>
@@ -179,7 +179,7 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     <form [formGroup]="questionForm" *ngIf="questionForm">
-      <ol start="3">
+      <ul start="3">
         <li>
           <p>
             Does your Municipality/ Municipal Corporation Act provide for
@@ -234,7 +234,7 @@
             </mat-form-field>
           </li>
         </ol>
-      </ol>
+      </ul>
       <h4 *ngIf="questionForm?.controls.Periodic_Increase_PT_B.value === 'No'">
         Action Plan
       </h4>
@@ -347,6 +347,7 @@
   Next
 </button>
 <button
+  *ngIf="shouldGoToPrevious"
   class="btn btn-primary mt-2 mr-2"
   style="float: right; display: block;"
   (click)="previous.emit(questionForm.value)"

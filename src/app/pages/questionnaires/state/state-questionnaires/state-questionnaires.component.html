@@ -7,7 +7,12 @@
   </div>
 
   <mat-horizontal-stepper id="stepper" linear *ngIf="!showLoader">
-    <mat-step label="Introduction" state="phone" matStepperIcon="done">
+    <mat-step
+      label="Introduction"
+      state="phone"
+      matStepperIcon="done"
+      *ngIf="canSeeIntroduction"
+    >
       <app-introduction
         (completed)="setIntroductionCompleted($event)"
       ></app-introduction>
@@ -16,19 +21,21 @@
       <app-property-tax
         [data]="propertyTaxData"
         [editable]="editable"
+        [shouldGoToPrevious]="canSeeIntroduction"
         (answer)="onCompletingPropertyTax($event)"
         (previous)="stepper.previous()"
       ></app-property-tax>
     </mat-step>
     <mat-step label="User Charges">
       <app-user-charges
+        [shouldGoToNext]="canGoToDonePage"
         [data]="UserChargesData"
         [editable]="editable"
         (previous)="stepper.previous()"
         (answer)="onCompletingUserCharges($event)"
       ></app-user-charges>
     </mat-step>
-    <mat-step label="Done">
+    <mat-step label="Done" *ngIf="canGoToDonePage">
       <app-completed (showOld)="showPropertyTax()"></app-completed>
     </mat-step>
   </mat-horizontal-stepper>

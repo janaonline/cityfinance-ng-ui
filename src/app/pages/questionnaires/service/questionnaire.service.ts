@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { HttpUtility } from 'src/app/util/httpUtil';
@@ -31,5 +31,26 @@ export class QuestionnaireService {
     return this.http.post(`${environment.api.url}state/form`, {
       ...data,
     });
+  }
+
+  getQuestionnaireFilledList(body: { filter?: {}; sort?: {} }) {
+    if (!body.filter) {
+      body.filter = {};
+    }
+    if (!body.sort) {
+      body.sort = {};
+    }
+    let params = new HttpParams();
+    Object.keys(body).forEach((key) => {
+      if (typeof body[key] === "object") {
+        const value = JSON.stringify(body[key]);
+
+        params = params.append(key, value);
+      } else {
+        params = params.append(key, body[key]);
+      }
+    });
+
+    return this.http.get(environment.api.url + `state/form/all`, { params });
   }
 }

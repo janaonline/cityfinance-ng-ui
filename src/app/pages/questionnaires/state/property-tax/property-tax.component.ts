@@ -10,6 +10,7 @@ import { debounceTime } from 'rxjs/operators';
 export class PropertyTaxComponent implements OnInit, OnChanges {
   @Input() data: any;
   @Input() editable: boolean;
+  @Input() shouldGoToPrevious = true;
   @Output()
   answer: EventEmitter<{
     [key: string]: string;
@@ -20,6 +21,7 @@ export class PropertyTaxComponent implements OnInit, OnChanges {
   questionForm: FormGroup;
 
   todayDate = new Date();
+
   constructor(private _fb: FormBuilder) {
     this.initializeForm();
   }

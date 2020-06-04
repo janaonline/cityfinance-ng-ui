@@ -13,6 +13,7 @@ import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/di
 export class UserChargesComponent implements OnInit, OnChanges {
   @Input() data: any;
   @Input() editable: boolean;
+  @Input() shouldGoToNext = true;
 
   @Output()
   answer: EventEmitter<{ [key: string]: string }> = new EventEmitter();

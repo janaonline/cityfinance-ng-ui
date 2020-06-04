@@ -13,8 +13,10 @@ import {
   MatStepperModule,
   MatTabsModule
 } from '@angular/material';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from 'src/app/shared/shared.module';
 
+import { SubmittedFormComponent } from './list/submitted-form/submitted-form.component';
 import { QuestionnaireRoutes } from './questionnaires.route';
 import { CompletedComponent } from './state/completed/completed.component';
 import { IntroductionComponent } from './state/introduction/introduction.component';
@@ -39,6 +41,7 @@ import { UserChargesComponent } from './state/user-charges/user-charges.componen
     SharedModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxPaginationModule,
   ],
   declarations: [
     StateQuestionnairesComponent,
@@ -46,6 +49,7 @@ import { UserChargesComponent } from './state/user-charges/user-charges.componen
     PropertyTaxComponent,
     UserChargesComponent,
     CompletedComponent,
+    SubmittedFormComponent,
   ],
 })
 export class QuestionnairesModule {}

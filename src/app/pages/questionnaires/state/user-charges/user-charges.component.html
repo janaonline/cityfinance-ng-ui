@@ -12,7 +12,7 @@
     </mat-expansion-panel-header>
 
     <form [formGroup]="questionForm" *ngIf="questionForm">
-      <ol>
+      <ul>
         <li>
           <p>
             Do your byelaws/ executive orders provide for levying user charges
@@ -65,7 +65,7 @@
             </mat-form-field>
           </li>
         </ol>
-      </ol>
+      </ul>
       <h4 *ngIf="questionForm?.controls?.Byelaws_UC_A.value === 'No'">
         Action Plan
       </h4>
@@ -172,7 +172,7 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     <form [formGroup]="questionForm" *ngIf="questionForm">
-      <ol start="3">
+      <ul>
         <li>
           <p>
             Is there a provision for periodic increase in user charges for
@@ -225,7 +225,7 @@
             </mat-form-field>
           </li>
         </ol>
-      </ol>
+      </ul>
       <h4 *ngIf="questionForm?.controls?.Periodic_Increase_UC_B.value === 'No'">
         Action Plan
       </h4>
@@ -327,6 +327,7 @@
   </mat-expansion-panel>
 </mat-accordion>
 <button
+  *ngIf="shouldGoToNext"
   class="btn btn-primary mt-2"
   style="float: right; display: block;"
   (click)="onClickNext()"

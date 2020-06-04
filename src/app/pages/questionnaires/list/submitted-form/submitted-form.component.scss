@@ -1,0 +1,22 @@
+:host {
+  .tableWrapper {
+    width: 65vw;
+    display: block;
+    margin: auto;
+    margin-top: 5%;
+  }
+
+  .actionCell {
+    display: flex;
+    justify-content: center;
+
+    i {
+      cursor: pointer;
+      transition: all 0.5s;
+      &:hover {
+        transform: scale(1.2);
+        color: rgb(8, 131, 212);
+      }
+    }
+  }
+}

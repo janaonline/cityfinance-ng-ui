@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatHorizontalStepper } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { AccessChecker } from 'src/app/util/access/accessChecker';
+import { ACTIONS } from 'src/app/util/access/actions';
+import { MODULES_NAME } from 'src/app/util/access/modules';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { IQuestionnaireResponse } from '../../model/questionnaireResponse.interface';
@@ -22,37 +26,40 @@ export class StateQuestionnairesComponent implements OnInit {
     userCharges: null,
   };
   editable = true;
+  canGoToDonePage = true;
+  canSeeIntroduction = true;
 
   userData: { state: string; role: USER_TYPE };
   stateList: any[];
   showLoader = true;
   userHasAlreadyFilledForm = false;
 
-  constructor(private _questionnaireService: QuestionnaireService) {}
+  accessValidator = new AccessChecker();
+
+  constructor(
+    private _questionnaireService: QuestionnaireService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    try {
-      this.userData = JSON.parse(localStorage.getItem("userData"));
-      const userRole: USER_TYPE = this.userData.role;
-      console.log(userRole);
-      switch (userRole) {
-        case USER_TYPE.STATE:
-          this.fetchQuestionnaireData();
-          break;
+    this.activatedRoute.queryParams.subscribe((params) => {
+      try {
+        this.userData = JSON.parse(localStorage.getItem("userData"));
+        const id =
+          params && params.stateId ? params.stateId : this.userData.state;
+        this.validateUserAccess({ stateId: id });
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    });
   }
 
-  fetchQuestionnaireData() {
+  fetchQuestionnaireData(stateId: string) {
     this._questionnaireService
-      .getQuestionnaireData(this.userData.state)
+      .getQuestionnaireData(stateId)
       .subscribe((res) => {
         this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
-        console.log(
-          `userHasAlreadyFilledForms: ${this.userHasAlreadyFilledForm}`
-        );
 
         if (this.userHasAlreadyFilledForm) {
           this.setComponentStateToAlreadyFilled(res);
@@ -92,6 +99,29 @@ export class StateQuestionnairesComponent implements OnInit {
     console.log(`showPropertyTax`);
   }
 
+  private validateUserAccess(params: { stateId: string }) {
+    const userRole: USER_TYPE = this.userData.role;
+
+    const canUserFillQuestionnaireForm = this.accessValidator.hasAccess({
+      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
+      action: ACTIONS.FORM_FILL,
+    });
+    const canUserViewFilledQuestionnaireForm = this.accessValidator.hasAccess({
+      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
+      action: ACTIONS.VIEW,
+    });
+    if (userRole !== USER_TYPE.STATE && (!params || !params.stateId)) {
+      if (canUserViewFilledQuestionnaireForm) {
+        return this.router.navigate(["/questionnaires/states"]);
+      }
+      return this.router.navigate(["/home"]);
+    }
+
+    if (canUserFillQuestionnaireForm || canUserViewFilledQuestionnaireForm) {
+      return this.fetchQuestionnaireData(params.stateId);
+    }
+  }
+
   private setComponentStateToAlreadyFilled(
     res: IQuestionnaireResponse["data"][0]
   ) {
@@ -99,6 +129,8 @@ export class StateQuestionnairesComponent implements OnInit {
     this.propertyTaxData = res.propertyTax;
     this.UserChargesData = res.userCharges;
     this.editable = false;
+    this.canGoToDonePage = false;
+    this.canSeeIntroduction = false;
   }
 
   private hasUserAlreadyFilledForm(res: IQuestionnaireResponse["data"][0]) {
