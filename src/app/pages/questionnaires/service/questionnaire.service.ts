@@ -29,7 +29,7 @@ export class QuestionnaireService {
   saveQuestionnaireData(data: { [key: string]: string }) {
     console.log(`saveQuestionnaireData`);
     return this.http.post(`${environment.api.url}state/form`, {
-      body: { ...data },
+      ...data,
     });
   }
 }

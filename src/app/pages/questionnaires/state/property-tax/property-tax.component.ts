@@ -251,7 +251,7 @@ export class PropertyTaxComponent implements OnInit, OnChanges {
     }
     console.log(`Action_Date_PT_B `, control.value);
 
-    if (control.value && control.value.trim()) {
+    if (control.value) {
       return null;
     }
 
@@ -302,7 +302,7 @@ export class PropertyTaxComponent implements OnInit, OnChanges {
     if (!dependentControl || dependentControl.value !== "No") {
       return null;
     }
-    if (control.value && control.value.trim()) {
+    if (control.value) {
       return null;
     }
 

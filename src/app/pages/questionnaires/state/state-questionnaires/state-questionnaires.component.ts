@@ -3,6 +3,7 @@ import { MatHorizontalStepper } from '@angular/material';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
+import { IQuestionnaireResponse } from '../../model/questionnaireResponse.interface';
 import { QuestionnaireService } from '../../service/questionnaire.service';
 
 @Component({
@@ -25,6 +26,7 @@ export class StateQuestionnairesComponent implements OnInit {
   userData: { state: string; role: USER_TYPE };
   stateList: any[];
   showLoader = true;
+  userHasAlreadyFilledForm = false;
 
   constructor(private _questionnaireService: QuestionnaireService) {}
 
@@ -32,7 +34,7 @@ export class StateQuestionnairesComponent implements OnInit {
     try {
       this.userData = JSON.parse(localStorage.getItem("userData"));
       const userRole: USER_TYPE = this.userData.role;
-
+      console.log(userRole);
       switch (userRole) {
         case USER_TYPE.STATE:
           this.fetchQuestionnaireData();
@@ -47,19 +49,15 @@ export class StateQuestionnairesComponent implements OnInit {
     this._questionnaireService
       .getQuestionnaireData(this.userData.state)
       .subscribe((res) => {
-        const util = new JSONUtility();
-        const userHasAlreadyFilledForms =
-          res &&
-          (util.filterEmptyValue(res.propertyTax) ||
-            util.filterEmptyValue(res.userCharges))
-            ? true
-            : false;
+        this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
+        console.log(
+          `userHasAlreadyFilledForms: ${this.userHasAlreadyFilledForm}`
+        );
 
-        if (userHasAlreadyFilledForms) {
-          this.propertyTaxData = res.propertyTax;
-          this.UserChargesData = res.userCharges;
-          this.editable = false;
+        if (this.userHasAlreadyFilledForm) {
+          this.setComponentStateToAlreadyFilled(res);
         }
+        this.showLoader = false;
       });
   }
 
@@ -78,14 +76,37 @@ export class StateQuestionnairesComponent implements OnInit {
     this.finalData.userCharges = value;
     this.stepper.next();
     this.editable = false;
-
-    this._questionnaireService.saveQuestionnaireData(value).subscribe((res) => {
-      console.log(res);
-    });
+    if (this.userHasAlreadyFilledForm) {
+      return;
+    }
+    this._questionnaireService
+      .saveQuestionnaireData(this.finalData)
+      .subscribe((res) => {
+        this.userHasAlreadyFilledForm = true;
+        console.log(res);
+      });
   }
 
   showPropertyTax() {
     this.stepper.selectedIndex = 1;
     console.log(`showPropertyTax`);
+  }
+
+  private setComponentStateToAlreadyFilled(
+    res: IQuestionnaireResponse["data"][0]
+  ) {
+    this.userHasAlreadyFilledForm = true;
+    this.propertyTaxData = res.propertyTax;
+    this.UserChargesData = res.userCharges;
+    this.editable = false;
+  }
+
+  private hasUserAlreadyFilledForm(res: IQuestionnaireResponse["data"][0]) {
+    const util = new JSONUtility();
+    return res &&
+      (util.filterEmptyValue(res.propertyTax) ||
+        util.filterEmptyValue(res.userCharges))
+      ? true
+      : false;
   }
 }

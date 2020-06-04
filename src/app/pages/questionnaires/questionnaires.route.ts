@@ -5,7 +5,7 @@ import { StateQuestionnairesComponent } from './state/state-questionnaires/state
 
 export const routes: Routes = [
   {
-    path: "",
+    path: "form",
     component: StateQuestionnairesComponent,
   },
 ];
