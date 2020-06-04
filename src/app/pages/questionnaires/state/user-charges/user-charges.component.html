@@ -1,5 +1,10 @@
+<p>
+  <strong>NOTE:</strong> Question with <span class="mandatory">*</span> sign are
+  mandatory.
+</p>
+
 <mat-accordion>
-  <mat-expansion-panel expanded="true">
+  <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
         A. Notification of Floor rates linked to current cost
@@ -18,12 +23,16 @@
             id="11"
             formControlName="Byelaws_UC_A"
           >
-            <mat-radio-button value="yes">Yes</mat-radio-button>
-            <mat-radio-button value="no">No</mat-radio-button>
+            <mat-radio-button value="Yes">Yes</mat-radio-button>
+            <mat-radio-button value="No">No</mat-radio-button>
           </mat-radio-group>
         </li>
 
-        <ol type="a" class="sub-questions-list">
+        <ol
+          type="a"
+          class="sub-questions-list"
+          *ngIf="questionForm?.controls?.Byelaws_UC_A.value === 'Yes'"
+        >
           <li>
             <p>
               What is the existing status of legal framework of levying of user
@@ -57,8 +66,13 @@
           </li>
         </ol>
       </ol>
-      <h4>Action Plan</h4>
-      <ol class="sub-questions-list">
+      <h4 *ngIf="questionForm?.controls?.Byelaws_UC_A.value === 'No'">
+        Action Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls?.Byelaws_UC_A.value === 'No'"
+      >
         <li>
           <p>
             Would you be seeking state government approval/ issue executive
@@ -80,6 +94,7 @@
             <input
               readonly
               matInput
+              [min]="todayDate"
               [matDatepicker]="myDatepicker5"
               formControlName="Action_Date_UC_A"
             />
@@ -91,8 +106,13 @@
           </mat-form-field>
         </li>
       </ol>
-      <h4>Implementation Plan</h4>
-      <ol class="sub-questions-list">
+      <h4 *ngIf="questionForm?.controls?.Byelaws_UC_A.value === 'No'">
+        Implementation Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls?.Byelaws_UC_A.value === 'No'"
+      >
         <li>
           <p>
             What is the existing status of legal framework of levying of user
@@ -130,6 +150,7 @@
             <input
               readonly
               matInput
+              [min]="todayDate"
               [matDatepicker]="myDatepicker6"
               formControlName="Implement_Date_UC_A"
             />
@@ -162,12 +183,16 @@
             id="11"
             formControlName="Periodic_Increase_UC_B"
           >
-            <mat-radio-button value="yes">Yes</mat-radio-button>
-            <mat-radio-button value="no">No</mat-radio-button>
+            <mat-radio-button value="Yes">Yes</mat-radio-button>
+            <mat-radio-button value="No">No</mat-radio-button>
           </mat-radio-group>
         </li>
 
-        <ol type="a" class="sub-questions-list">
+        <ol
+          type="a"
+          class="sub-questions-list"
+          *ngIf="questionForm?.controls?.Periodic_Increase_UC_B.value === 'Yes'"
+        >
           <li>
             <p>
               What is the existing status of byelaws/ executive orders for
@@ -201,8 +226,13 @@
           </li>
         </ol>
       </ol>
-      <h4>Action Plan</h4>
-      <ol class="sub-questions-list">
+      <h4 *ngIf="questionForm?.controls?.Periodic_Increase_UC_B.value === 'No'">
+        Action Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls?.Periodic_Increase_UC_B.value === 'No'"
+      >
         <li>
           <p>
             Would you be seeking state government approval/ issue executive
@@ -225,6 +255,7 @@
             <input
               readonly
               matInput
+              [min]="todayDate"
               [matDatepicker]="myDatepicker7"
               formControlName="Action_Date_UC_B"
             />
@@ -236,8 +267,13 @@
           </mat-form-field>
         </li>
       </ol>
-      <h4>Implementation Plan</h4>
-      <ol class="sub-questions-list">
+      <h4 *ngIf="questionForm?.controls?.Periodic_Increase_UC_B.value === 'No'">
+        Implementation Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls?.Periodic_Increase_UC_B.value === 'No'"
+      >
         <li>
           <p>
             What is the existing status of byelaws/ executive orders for
@@ -275,6 +311,7 @@
             <input
               readonly
               matInput
+              [min]="todayDate"
               [matDatepicker]="myDatepicker8"
               formControlName="Implement_Date_UC_B"
             />
@@ -292,7 +329,7 @@
 <button
   class="btn btn-primary mt-2"
   style="float: right; display: block;"
-  (click)="showconfirmationDialog()"
+  (click)="onClickNext()"
 >
   Next
 </button>

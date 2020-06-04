@@ -1,5 +1,9 @@
+<p>
+  <strong>NOTE:</strong> Question with <span class="mandatory">*</span> sign are
+  mandatory.
+</p>
 <mat-accordion>
-  <mat-expansion-panel expanded="true">
+  <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
         A. Notification of Floor rates linked to prevailing circle rates
@@ -12,23 +16,28 @@
           <p>
             Does your Municipality/ Municipal Corporation Act links property tax
             to prevailing guideline value/ circle rate?
+            <span class="mandatory"> *</span>
           </p>
           <mat-radio-group
             aria-label="Select an option"
             id="11"
             formControlName="Act_Linking_PT_A"
           >
-            <mat-radio-button value="yes">Yes</mat-radio-button>
-            <mat-radio-button value="no">No</mat-radio-button>
+            <mat-radio-button value="Yes">Yes</mat-radio-button>
+            <mat-radio-button value="No">No</mat-radio-button>
           </mat-radio-group>
         </li>
 
-        <ol type="a" class="sub-questions-list">
+        <ol
+          type="a"
+          class="sub-questions-list"
+          *ngIf="questionForm?.controls?.Act_Linking_PT_A.value === 'Yes'"
+        >
           <li>
             <p>
               What is the existing status regarding aligning Property tax with
               prevailing circle rates of all Municipalities/Municipal
-              Corporations?
+              Corporations?<span class="mandatory"> *</span>
             </p>
             <mat-form-field class="example-full-width textarea-wrapper">
               <textarea
@@ -44,7 +53,7 @@
             <p>
               Mention the relevant section/provision/clause number of gazette
               notification/rules/relevant provision in the Act (Upload relevant
-              documents in upload section)
+              documents in upload section)<span class="mandatory"> *</span>
             </p>
             <mat-form-field class="example-full-width textarea-wrapper">
               <textarea
@@ -58,13 +67,18 @@
           </li>
         </ol>
       </ol>
-      <h4>Action Plan</h4>
-      <ol class="sub-questions-list">
+      <h4 *ngIf="questionForm?.controls?.Act_Linking_PT_A.value === 'No'">
+        Action Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls?.Act_Linking_PT_A.value === 'No'"
+      >
         <li>
           <p>
             Would you be seeking legislative changes/ state government approval/
             issue executive order to provide for such linkage of property tax to
-            guideline value/ circle rate?
+            guideline value/ circle rate? <span class="mandatory"> *</span>
           </p>
           <mat-form-field class="example-full-width textarea-wrapper">
             <textarea
@@ -77,11 +91,14 @@
           </mat-form-field>
         </li>
         <li>
-          <p>Date by which it will be completed</p>
+          <p>
+            Date by which it will be completed <span class="mandatory"> *</span>
+          </p>
           <mat-form-field>
             <input
               readonly
               matInput
+              [min]="todayDate"
               [matDatepicker]="myDatepicker"
               formControlName="Action_Date_PT_A"
             />
@@ -93,13 +110,18 @@
           </mat-form-field>
         </li>
       </ol>
-      <h4>Implementation Plan</h4>
-      <ol class="sub-questions-list">
+      <h4 *ngIf="questionForm?.controls?.Act_Linking_PT_A.value === 'No'">
+        Implementation Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls?.Act_Linking_PT_A.value === 'No'"
+      >
         <li>
           <p>
             What is the existing status regarding aligning Property tax with
             prevailing circle rates of all Municipalities/Municipal
-            Corporations?
+            Corporations? <span class="mandatory"> *</span>
           </p>
           <mat-form-field class="example-full-width textarea-wrapper">
             <textarea
@@ -115,7 +137,7 @@
           <p>
             What is the plan for adoption of property tax linking to prevailing
             circle rates for 1) Municipal Corporations, 2) Municipalities, and
-            3) Town Panchayats?
+            3) Town Panchayats? <span class="mandatory"> *</span>
           </p>
           <mat-form-field class="example-full-width textarea-wrapper">
             <textarea
@@ -128,11 +150,14 @@
           </mat-form-field>
         </li>
         <li>
-          <p>Date by which it will be completed</p>
+          <p>
+            Date by which it will be completed <span class="mandatory"> *</span>
+          </p>
           <mat-form-field>
             <input
               readonly
               matInput
+              [min]="todayDate"
               [matDatepicker]="myDatepicker2"
               formControlName="Implement_Date_PT_A"
             />
@@ -159,23 +184,28 @@
           <p>
             Does your Municipality/ Municipal Corporation Act provide for
             periodic increase of floor rates of property tax?
+            <span class="mandatory"> *</span>
           </p>
           <mat-radio-group
             aria-label="Select an option"
             id="11"
             formControlName="Periodic_Increase_PT_B"
           >
-            <mat-radio-button value="yes">Yes</mat-radio-button>
-            <mat-radio-button value="no">No</mat-radio-button>
+            <mat-radio-button value="Yes">Yes</mat-radio-button>
+            <mat-radio-button value="No">No</mat-radio-button>
           </mat-radio-group>
         </li>
 
-        <ol type="a" class="sub-questions-list">
+        <ol
+          type="a"
+          class="sub-questions-list"
+          *ngIf="questionForm?.controls.Periodic_Increase_PT_B.value === 'Yes'"
+        >
           <li>
             <p>
               What is the existing status of periodic increase in property tax
               in line with the increase in circle rates for all Municipalities
-              and Municipal Corporations?
+              and Municipal Corporations? <span class="mandatory"> *</span>
             </p>
             <mat-form-field class="example-full-width textarea-wrapper">
               <textarea
@@ -191,7 +221,7 @@
             <p>
               Mention the relevant section/provision/clause number of gazette
               notification/rules/relevant provision in the Act (Upload relevant
-              doc in upload section)
+              doc in upload section) <span class="mandatory"> *</span>
             </p>
             <mat-form-field class="example-full-width textarea-wrapper">
               <textarea
@@ -205,13 +235,18 @@
           </li>
         </ol>
       </ol>
-      <h4>Action Plan</h4>
-      <ol class="sub-questions-list">
+      <h4 *ngIf="questionForm?.controls.Periodic_Increase_PT_B.value === 'No'">
+        Action Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls.Periodic_Increase_PT_B.value === 'No'"
+      >
         <li>
           <p>
             Would you be seeking legislative changes/ state government approval/
             issue executive order to provide for periodic increase of floor
-            rates of property tax?
+            rates of property tax? <span class="mandatory"> *</span>
           </p>
           <mat-form-field class="example-full-width textarea-wrapper">
             <textarea
@@ -224,7 +259,9 @@
           </mat-form-field>
         </li>
         <li>
-          <p>Date by which it will be completed</p>
+          <p>
+            Date by which it will be completed <span class="mandatory"> *</span>
+          </p>
           <mat-form-field>
             <input
               readonly
@@ -240,13 +277,18 @@
           </mat-form-field>
         </li>
       </ol>
-      <h4>Implementation Plan</h4>
-      <ol class="sub-questions-list">
+      <h4 *ngIf="questionForm?.controls.Periodic_Increase_PT_B.value === 'No'">
+        Implementation Plan
+      </h4>
+      <ol
+        class="sub-questions-list"
+        *ngIf="questionForm?.controls.Periodic_Increase_PT_B.value === 'No'"
+      >
         <li>
           <p>
             What is the existing status of periodic increase in property tax in
             line with the increase in circle rates for all Municipalities and
-            Municipal Corporations?
+            Municipal Corporations? <span class="mandatory"> *</span>
           </p>
           <mat-form-field class="example-full-width textarea-wrapper">
             <textarea
@@ -262,6 +304,7 @@
           <p>
             What are the plans for implementing above for property tax for 1)
             Municipal Corporations, 2) Municipalities, and 3) Town Panchayats?
+            <span class="mandatory">*</span>
           </p>
           <mat-form-field class="example-full-width textarea-wrapper">
             <textarea
@@ -274,7 +317,9 @@
           </mat-form-field>
         </li>
         <li>
-          <p>Date by which it will be completed</p>
+          <p>
+            Date by which it will be completed <span class="mandatory"> *</span>
+          </p>
           <mat-form-field>
             <input
               readonly
@@ -296,6 +341,7 @@
 <button
   class="btn btn-primary mt-2"
   style="float: right; display: block;"
+  [disabled]="questionForm.invalid"
   (click)="answer.emit(questionForm.value)"
 >
   Next

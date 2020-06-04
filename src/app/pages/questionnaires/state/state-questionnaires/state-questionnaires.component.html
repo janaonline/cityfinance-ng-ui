@@ -1,34 +1,35 @@
 <div class="wrapper">
-  <mat-horizontal-stepper id="stepper" linear>
-    <mat-step
-      label="Introduction"
-      [completed]="introductionCompleted"
-      state="phone"
-      matStepperIcon="done"
-    >
+  <div class="loader-wrapper">
+    <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+    <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+    <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+    <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+  </div>
+
+  <mat-horizontal-stepper id="stepper" linear *ngIf="!showLoader">
+    <mat-step label="Introduction" state="phone" matStepperIcon="done">
       <app-introduction
         (completed)="setIntroductionCompleted($event)"
       ></app-introduction>
-      <!-- <ng-template matStepLabel>Introduction</ng-template> -->
     </mat-step>
     <mat-step label="Property Tax">
       <app-property-tax
+        [data]="propertyTaxData"
+        [editable]="editable"
         (answer)="onCompletingPropertyTax($event)"
         (previous)="stepper.previous()"
       ></app-property-tax>
     </mat-step>
     <mat-step label="User Charges">
       <app-user-charges
+        [data]="UserChargesData"
+        [editable]="editable"
         (previous)="stepper.previous()"
-        (answer)="onCompletingPropertyTax($event)"
+        (answer)="onCompletingUserCharges($event)"
       ></app-user-charges>
     </mat-step>
     <mat-step label="Done">
-      <app-completed></app-completed>
+      <app-completed (showOld)="showPropertyTax()"></app-completed>
     </mat-step>
-
-    <!-- <ng-template matStepperIcon="edit">
-      <mat-icon background="red">bubble_chart</mat-icon>
-    </ng-template> -->
   </mat-horizontal-stepper>
 </div>
