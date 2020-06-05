@@ -330,6 +330,7 @@
   *ngIf="shouldGoToNext"
   class="btn btn-primary mt-2"
   style="float: right; display: block;"
+  [disabled]="questionForm.invalid"
   (click)="onClickNext()"
 >
   Next
