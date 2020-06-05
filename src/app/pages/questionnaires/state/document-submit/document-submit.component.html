@@ -52,7 +52,7 @@
               *ngFor="let doc of documents[question.key] || []"
             >
               <span class="file-tracker-name"> {{ doc.name }}</span>
-              <a [href]="doc.url" class="download-link-icon">
+              <a [href]="doc.url" class="download-link-icon" target="_blank">
                 <i
                   title="Download"
                   class="fa fa-cloud-download"

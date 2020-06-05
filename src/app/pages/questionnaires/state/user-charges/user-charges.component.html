@@ -16,12 +16,15 @@
         <li>
           <p>
             Do your byelaws/ executive orders provide for levying user charges
-            in-line with current costs?
+            in-line with current costs? <span class="mandatory"> *</span>
           </p>
           <mat-radio-group
             aria-label="Select an option"
             id="11"
             formControlName="Byelaws_UC_A"
+            [ngClass]="{
+              'is-invalid': GetFormControlErrors('Byelaws_UC_A')
+            }"
           >
             <mat-radio-button value="Yes">Yes</mat-radio-button>
             <mat-radio-button value="No">No</mat-radio-button>
@@ -37,32 +40,33 @@
             <p>
               What is the existing status of legal framework of levying of user
               charges in-line with current costs in all the Municipalities and
-              Municipal Corporations?
+              Municipal Corporations? <span class="mandatory"> *</span>
             </p>
-            <mat-form-field class="example-full-width textarea-wrapper">
+            <div class="input-group textarea-wrapper">
               <textarea
                 formControlName="Existing_Status_Yes_UC_A"
-                matInput
-                cdkTextareaAutosize
-                cdkAutosizeMinRows="5"
-                cdkAutosizeMinCols="8"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': GetFormControlErrors('Existing_Status_Yes_UC_A')
+                }"
               ></textarea>
-            </mat-form-field>
+            </div>
           </li>
           <li>
             <p>
               Mention the relevant section/ clause number of byelaws/ executive
               order (Upload relevant doc in upload section)
+              <span class="mandatory"> *</span>
             </p>
-            <mat-form-field class="example-full-width textarea-wrapper">
+            <div class="input-group textarea-wrapper">
               <textarea
                 formControlName="Relevant_Section_UC_A"
-                matInput
-                cdkTextareaAutosize
-                cdkAutosizeMinRows="5"
-                cdkAutosizeMinCols="8"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': GetFormControlErrors('Relevant_Section_UC_A')
+                }"
               ></textarea>
-            </mat-form-field>
+            </div>
           </li>
         </ol>
       </ul>
@@ -77,21 +81,28 @@
           <p>
             Would you be seeking state government approval/ issue executive
             order to provide for levying user charges in line with current cost?
+            <span class="mandatory"> *</span>
           </p>
-          <mat-form-field class="example-full-width textarea-wrapper">
+          <div class="input-group textarea-wrapper">
             <textarea
               formControlName="State_Approval_UC_A"
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="5"
-              cdkAutosizeMinCols="8"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('State_Approval_UC_A')
+              }"
             ></textarea>
-          </mat-form-field>
+          </div>
         </li>
         <li>
-          <p>Date by which it will be completed</p>
-          <mat-form-field>
+          <p>
+            Date by which it will be completed <span class="mandatory"> *</span>
+          </p>
+          <div class="input-group">
             <input
+              class="form-control date-field"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Action_Date_UC_A')
+              }"
               readonly
               matInput
               [min]="todayDate"
@@ -103,7 +114,7 @@
               [for]="myDatepicker5"
             ></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker5></mat-datepicker>
-          </mat-form-field>
+          </div>
         </li>
       </ol>
       <h4 *ngIf="questionForm?.controls?.Byelaws_UC_A.value === 'No'">
@@ -117,37 +128,44 @@
           <p>
             What is the existing status of legal framework of levying of user
             charges in-line with current costs in all the Municipalities and
-            Municipal Corporations?
+            Municipal Corporations? <span class="mandatory"> *</span>
           </p>
-          <mat-form-field class="example-full-width textarea-wrapper">
+          <div class="input-group textarea-wrapper">
             <textarea
               formControlName="Existing_Status_No_UC_A"
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="5"
-              cdkAutosizeMinCols="8"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Existing_Status_No_UC_A')
+              }"
             ></textarea>
-          </mat-form-field>
+          </div>
         </li>
         <li>
           <p>
             What is the plan for implementing above for 1) AMRUT cities & towns
-            and 2) Other cities & towns?
+            and 2) Other cities & towns? <span class="mandatory"> *</span>
           </p>
-          <mat-form-field class="example-full-width textarea-wrapper">
+          <div class="input-group textarea-wrapper">
             <textarea
               formControlName="Implement_Plan_UC_A"
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="5"
-              cdkAutosizeMinCols="8"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Implement_Plan_UC_A')
+              }"
             ></textarea>
-          </mat-form-field>
+          </div>
         </li>
         <li>
-          <p>Date by which it will be completed</p>
-          <mat-form-field>
+          <p>
+            Date by which it will be completed <span class="mandatory"> *</span>
+          </p>
+
+          <div class="input-group">
             <input
+              class="form-control date-field"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Implement_Date_UC_A')
+              }"
               readonly
               matInput
               [min]="todayDate"
@@ -159,7 +177,7 @@
               [for]="myDatepicker6"
             ></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker6></mat-datepicker>
-          </mat-form-field>
+          </div>
         </li>
       </ol>
     </form>
@@ -177,11 +195,15 @@
           <p>
             Is there a provision for periodic increase in user charges for
             water, drainage and sewerage in line with price increase?
+            <span class="mandatory"> *</span>
           </p>
           <mat-radio-group
             aria-label="Select an option"
             id="11"
             formControlName="Periodic_Increase_UC_B"
+            [ngClass]="{
+              'is-invalid': GetFormControlErrors('Periodic_Increase_UC_B')
+            }"
           >
             <mat-radio-button value="Yes">Yes</mat-radio-button>
             <mat-radio-button value="No">No</mat-radio-button>
@@ -198,31 +220,34 @@
               What is the existing status of byelaws/ executive orders for
               periodic increase in user charges for water, drainage and sewerage
               in Municipalities and Municipal Corporations?
+              <span class="mandatory"> *</span>
             </p>
-            <mat-form-field class="example-full-width textarea-wrapper">
+            <div class="input-group textarea-wrapper">
               <textarea
-                matInput
-                cdkTextareaAutosize
-                cdkAutosizeMinRows="5"
-                cdkAutosizeMinCols="8"
                 formControlName="Existing_Status_Yes_UC_B"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': GetFormControlErrors('Existing_Status_Yes_UC_B')
+                }"
               ></textarea>
-            </mat-form-field>
+            </div>
           </li>
           <li>
             <p>
               Mention the relevant section/ clause copy of relevant byelaws/
               executive order (Upload relevant doc in upload section)
+              <span class="mandatory"> *</span>
             </p>
-            <mat-form-field class="example-full-width textarea-wrapper">
+
+            <div class="input-group textarea-wrapper">
               <textarea
-                matInput
-                cdkTextareaAutosize
-                cdkAutosizeMinRows="5"
-                cdkAutosizeMinCols="8"
                 formControlName="Relevant_Section_UC_B"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': GetFormControlErrors('Relevant_Section_UC_B')
+                }"
               ></textarea>
-            </mat-form-field>
+            </div>
           </li>
         </ol>
       </ul>
@@ -237,22 +262,28 @@
           <p>
             Would you be seeking state government approval/ issue executive
             order to provide for periodic increase in user charges in line with
-            price increase?
+            price increase? <span class="mandatory"> *</span>
           </p>
-          <mat-form-field class="example-full-width textarea-wrapper">
+          <div class="input-group textarea-wrapper">
             <textarea
               formControlName="State_Approval_UC_B"
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="5"
-              cdkAutosizeMinCols="8"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('State_Approval_UC_B')
+              }"
             ></textarea>
-          </mat-form-field>
+          </div>
         </li>
         <li>
-          <p>Date by which it will be completed</p>
-          <mat-form-field>
+          <p>
+            Date by which it will be completed <span class="mandatory"> *</span>
+          </p>
+          <div class="input-group">
             <input
+              class="form-control date-field"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Action_Date_UC_B')
+              }"
               readonly
               matInput
               [min]="todayDate"
@@ -264,7 +295,7 @@
               [for]="myDatepicker7"
             ></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker7></mat-datepicker>
-          </mat-form-field>
+          </div>
         </li>
       </ol>
       <h4 *ngIf="questionForm?.controls?.Periodic_Increase_UC_B.value === 'No'">
@@ -279,36 +310,45 @@
             What is the existing status of byelaws/ executive orders for
             periodic increase in user charges for water, drainage and sewerage
             in Municipalities and Municipal Corporations?
+            <span class="mandatory"> *</span>
           </p>
-          <mat-form-field class="example-full-width textarea-wrapper">
+
+          <div class="input-group textarea-wrapper">
             <textarea
               formControlName="Existing_Status_No_UC_B"
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="5"
-              cdkAutosizeMinCols="8"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Existing_Status_No_UC_B')
+              }"
             ></textarea>
-          </mat-form-field>
+          </div>
         </li>
         <li>
           <p>
             What is the plan for implementing above for 1) AMRUT cities & towns,
-            and 2) Other cities & Towns?
+            and 2) Other cities & Towns? <span class="mandatory"> *</span>
           </p>
-          <mat-form-field class="example-full-width textarea-wrapper">
+          <div class="input-group textarea-wrapper">
             <textarea
               formControlName="Implement_Plan_UC_B"
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="5"
-              cdkAutosizeMinCols="8"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Implement_Plan_UC_B')
+              }"
             ></textarea>
-          </mat-form-field>
+          </div>
         </li>
         <li>
-          <p>Date by which it will be completed</p>
-          <mat-form-field>
+          <p>
+            Date by which it will be completed <span class="mandatory"> *</span>
+          </p>
+
+          <div class="input-group">
             <input
+              class="form-control date-field"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Implement_Date_UC_B')
+              }"
               readonly
               matInput
               [min]="todayDate"
@@ -320,7 +360,7 @@
               [for]="myDatepicker8"
             ></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker8></mat-datepicker>
-          </mat-form-field>
+          </div>
         </li>
       </ol>
     </form>

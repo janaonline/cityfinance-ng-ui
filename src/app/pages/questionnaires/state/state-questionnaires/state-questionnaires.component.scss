@@ -48,6 +48,9 @@
     color: gray;
   }
 }
+::ng-deep .mat-step-header.cdk-program-focused {
+  background: transparent !important;
+}
 
 ::ng-deep {
   mat-radio-group.is-invalid {

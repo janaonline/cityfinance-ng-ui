@@ -143,7 +143,9 @@ export class DocumentSubmitComponent implements OnInit {
                   { name: file.name, url: res["data"][0].file_alias },
                 ];
               } else {
-                valueToEmit[fieldKey] = [{ name: file.name, url }];
+                valueToEmit[fieldKey] = [
+                  { name: file.name, url: res["data"][0].file_alias },
+                ];
               }
               return url;
             }),

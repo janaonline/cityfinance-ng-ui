@@ -37,6 +37,8 @@ export class UserChargesComponent implements OnInit, OnChanges {
     },
   };
 
+  clickedonNext = false;
+
   constructor(private _fb: FormBuilder, private _dialog: MatDialog) {
     this.initializeForm();
   }
@@ -66,10 +68,22 @@ export class UserChargesComponent implements OnInit, OnChanges {
   }
 
   onClickNext() {
+    this.clickedonNext = true;
+    if (this.questionForm.invalid) {
+      return;
+    }
     // if (this.editable) {
     //   return this.showconfirmationDialog();
     // }
     return this.answer.emit(this.questionForm.value);
+  }
+
+  public GetFormControlErrors(controlName: string) {
+    return !!(
+      this.clickedonNext && this.questionForm.controls[controlName].errors
+    )
+      ? this.questionForm.controls[controlName].errors
+      : null;
   }
 
   showconfirmationDialog() {
@@ -88,7 +102,7 @@ export class UserChargesComponent implements OnInit, OnChanges {
       Existing_Status_No_UC_A: ["", [this.Existing_Status_No_UC_A_Validator]],
       Implement_Plan_UC_A: ["", [this.Implement_Plan_UC_A_Validator]],
       Implement_Date_UC_A: [null, [this.Implement_Date_UC_A_Validator]],
-      Periodic_Increase_UC_B: ["", [this.Periodic_Increase_UC_B_Validator]],
+      Periodic_Increase_UC_B: ["", [Validators.required]],
       Existing_Status_Yes_UC_B: ["", [this.Existing_Status_Yes_UC_B_Validator]],
       Relevant_Section_UC_B: ["", [this.Relevant_Section_UC_B_Validator]],
       State_Approval_UC_B: ["", [this.State_Approval_UC_B_Validator]],
@@ -218,22 +232,22 @@ export class UserChargesComponent implements OnInit, OnChanges {
     return { required: true };
   };
 
-  private Periodic_Increase_UC_B_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Periodic_Increase_UC_B_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Byelaws_UC_A;
+  //   const dependentControl = this.questionForm.controls.Byelaws_UC_A;
 
-    if (!dependentControl || dependentControl.value !== "Yes") {
-      return null;
-    }
-    if (control.value && control.value.trim()) {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "Yes") {
+  //     return null;
+  //   }
+  //   if (control.value && control.value.trim()) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 
   private Existing_Status_Yes_UC_B_Validator = (control: AbstractControl) => {
     if (!this.questionForm) {
