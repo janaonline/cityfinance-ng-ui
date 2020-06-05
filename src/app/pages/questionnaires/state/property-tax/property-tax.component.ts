@@ -23,6 +23,7 @@ export class PropertyTaxComponent implements OnInit, OnChanges {
   todayDate = new Date();
 
   clickedonNext = false;
+  shouldExpandAccordian = false;
 
   constructor(private _fb: FormBuilder) {
     this.initializeForm();
@@ -56,6 +57,7 @@ export class PropertyTaxComponent implements OnInit, OnChanges {
   onClickNext() {
     this.clickedonNext = true;
     if (this.questionForm.invalid) {
+      this.shouldExpandAccordian = true;
       return;
     }
     this.answer.emit(this.questionForm.value);

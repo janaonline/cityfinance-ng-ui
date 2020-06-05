@@ -4,7 +4,7 @@
 </p>
 
 <mat-accordion>
-  <mat-expansion-panel>
+  <mat-expansion-panel [expanded]="shouldExpandAccordian">
     <mat-expansion-panel-header>
       <mat-panel-title>
         A. Notification of Floor rates linked to current cost
@@ -183,7 +183,7 @@
     </form>
   </mat-expansion-panel>
 
-  <mat-expansion-panel>
+  <mat-expansion-panel [expanded]="shouldExpandAccordian">
     <mat-expansion-panel-header>
       <mat-panel-title>
         B. Periodic increase in floor rates linked to current price

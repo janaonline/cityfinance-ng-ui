@@ -38,6 +38,7 @@ export class UserChargesComponent implements OnInit, OnChanges {
   };
 
   clickedonNext = false;
+  shouldExpandAccordian = false;
 
   constructor(private _fb: FormBuilder, private _dialog: MatDialog) {
     this.initializeForm();
@@ -70,6 +71,7 @@ export class UserChargesComponent implements OnInit, OnChanges {
   onClickNext() {
     this.clickedonNext = true;
     if (this.questionForm.invalid) {
+      this.shouldExpandAccordian = true;
       return;
     }
     // if (this.editable) {
