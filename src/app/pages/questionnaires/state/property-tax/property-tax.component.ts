@@ -42,7 +42,13 @@ export class PropertyTaxComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.questionForm.valueChanges
       .pipe(debounceTime(1111))
-      .subscribe((value) => console.log(this.questionForm));
+      .subscribe((value) => {
+        Object.keys(this.questionForm.controls).forEach((key) => {
+          const control = this.questionForm.controls[key];
+          control.updateValueAndValidity();
+        });
+        this.questionForm.updateValueAndValidity();
+      });
   }
 
   private initializeForm() {
