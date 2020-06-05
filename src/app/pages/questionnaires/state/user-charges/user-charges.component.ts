@@ -44,7 +44,12 @@ export class UserChargesComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.questionForm.valueChanges
       .pipe(debounceTime(1000))
-      .subscribe((value) => console.log(this.questionForm));
+      .subscribe((value) => {
+        Object.keys(this.questionForm.controls).forEach((key) => {
+          const control = this.questionForm.controls[key];
+          control.updateValueAndValidity();
+        });
+      });
   }
 
   ngOnChanges(changes: { data: SimpleChange; editable: SimpleChange }) {
