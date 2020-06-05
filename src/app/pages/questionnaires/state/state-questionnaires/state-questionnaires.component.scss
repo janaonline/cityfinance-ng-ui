@@ -20,11 +20,13 @@
   ::ng-deep .block-steeper-top-navigation .mat-horizontal-stepper-header {
     pointer-events: none !important;
   }
-  ::ng-deep .mat-step-header[ng-reflect-selected="true"] .mat-step-icon {
+  ::ng-deep .mat-step-header[ng-reflect-selected="true"] .mat-step-icon,
+  ::ng-deep .mat-step-header[aria-selected="true"] .mat-step-icon {
     background: #009a00;
   }
 
-  ::ng-deep .mat-step-header[ng-reflect-selected="false"] .mat-step-icon {
+  ::ng-deep .mat-step-header[ng-reflect-selected="false"] .mat-step-icon,
+  ::ng-deep .mat-step-header[aria-selected="false"] .mat-step-icon {
     background: #009fe3;
   }
 
