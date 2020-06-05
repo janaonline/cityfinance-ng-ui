@@ -6,7 +6,11 @@
 
 :host {
   ::ng-deep .mat-horizontal-stepper-header-container {
-    width: 55% !important;
+    width: 75% !important;
+  }
+
+  ::ng-deep .question-instruction {
+    font-style: italic;
   }
 
   ::ng-deep .mandatory {

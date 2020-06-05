@@ -35,6 +35,13 @@
         (answer)="onCompletingUserCharges($event)"
       ></app-user-charges>
     </mat-step>
+    <mat-step label="Document">
+      <app-document-submit
+        [documents]="documentData"
+        (outputValues)="onFileUploaded($event)"
+        (previous)="stepper.previous()"
+      ></app-document-submit>
+    </mat-step>
     <mat-step label="Done" *ngIf="canGoToDonePage">
       <app-completed (showOld)="showPropertyTax()"></app-completed>
     </mat-step>

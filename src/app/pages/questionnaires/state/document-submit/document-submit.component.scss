@@ -1,0 +1,116 @@
+:host {
+  .question-table {
+    width: 100%;
+    margin-bottom: 3%;
+    tr:not(:last-child) td {
+      padding: 1% 1%;
+      border-bottom: 0.5px solid rgb(224, 224, 224);
+      position: relative;
+    }
+    tbody tr td:nth-child(1) {
+      padding: 0.5% 0.1%;
+      width: 2%;
+    }
+    tbody tr td:nth-child(3) {
+      padding: 0.5% 0.1%;
+      width: 15%;
+    }
+    .question {
+      width: 83%;
+      margin: 0%;
+    }
+  }
+
+  li {
+    padding: 2% 1%;
+    border-bottom: 0.5px solid rgb(221, 221, 221);
+    position: relative;
+    // display: flex;
+    align-items: center;
+    p {
+      margin: 1px;
+    }
+  }
+
+  button.btn-primary {
+    outline: none;
+  }
+
+  .myFile {
+    position: absolute;
+    overflow: hidden;
+    float: left;
+    clear: left;
+    top: 4px;
+  }
+  .myFile input[type="file"] {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    font-size: 100px;
+    filter: alpha(opacity=0);
+    cursor: pointer;
+  }
+  .myFile input[type="file"]:disabled {
+    cursor: not-allowed;
+  }
+
+  .myFile:disabled {
+    cursor: not-allowed !important;
+  }
+
+  .left {
+    width: 75%;
+    // background: red;
+    display: inline-block;
+  }
+
+  .right {
+    width: 15%;
+    right: 0%;
+    // background: green;
+    display: inline-block;
+    position: absolute;
+    button {
+      float: right;
+    }
+  }
+
+  .file-list {
+    margin: 1%;
+    .file-tracker-name {
+      color: gray;
+      font-style: italic;
+    }
+  }
+
+  .progress {
+    display: inline-block;
+    width: 55%;
+    margin-bottom: 0%;
+    margin-left: 2%;
+    float: right;
+  }
+
+  .btn-upload {
+    // width: 30%;
+    // font-size: 2rem;
+    // padding: 1% 1%;
+    display: inline-block;
+    // float: right;
+    // margin: auto;
+  }
+
+  .download-link-icon {
+    margin-left: 2%;
+    font-size: 1.5vw;
+  }
+
+  .showList {
+    margin: 1%;
+    display: flex;
+    align-items: center;
+  }
+}

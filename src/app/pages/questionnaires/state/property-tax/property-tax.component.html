@@ -1,4 +1,4 @@
-<p>
+<p class="question-instruction">
   <strong>NOTE:</strong> Question with <span class="mandatory">*</span> sign are
   mandatory.
 </p>
@@ -341,7 +341,6 @@
 <button
   class="btn btn-primary mt-2"
   style="float: right; display: block;"
-  [disabled]="questionForm.invalid"
   (click)="answer.emit(questionForm.value)"
 >
   Next

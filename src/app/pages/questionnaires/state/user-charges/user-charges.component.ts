@@ -53,7 +53,6 @@ export class UserChargesComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: { data: SimpleChange; editable: SimpleChange }) {
-    console.log(changes);
     if (changes.data && changes.data.currentValue) {
       this.questionForm.patchValue({ ...changes.data.currentValue });
     }
@@ -67,9 +66,9 @@ export class UserChargesComponent implements OnInit, OnChanges {
   }
 
   onClickNext() {
-    if (this.editable) {
-      return this.showconfirmationDialog();
-    }
+    // if (this.editable) {
+    //   return this.showconfirmationDialog();
+    // }
     return this.answer.emit(this.questionForm.value);
   }
 

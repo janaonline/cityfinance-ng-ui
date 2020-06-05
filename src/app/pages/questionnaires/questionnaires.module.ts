@@ -23,6 +23,7 @@ import { IntroductionComponent } from './state/introduction/introduction.compone
 import { PropertyTaxComponent } from './state/property-tax/property-tax.component';
 import { StateQuestionnairesComponent } from './state/state-questionnaires/state-questionnaires.component';
 import { UserChargesComponent } from './state/user-charges/user-charges.component';
+import { DocumentSubmitComponent } from './state/document-submit/document-submit.component';
 
 @NgModule({
   imports: [
@@ -50,6 +51,7 @@ import { UserChargesComponent } from './state/user-charges/user-charges.componen
     UserChargesComponent,
     CompletedComponent,
     SubmittedFormComponent,
+    DocumentSubmitComponent,
   ],
 })
 export class QuestionnairesModule {}
