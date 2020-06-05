@@ -26,6 +26,7 @@ export class StateQuestionnairesComponent implements OnInit {
     propertyTax: null,
     userCharges: null,
     documents: null,
+    isCompleted: true,
   };
   editable = true;
   canGoToDonePage = true;
@@ -101,6 +102,7 @@ export class StateQuestionnairesComponent implements OnInit {
 
   onFileUploaded(value: { [key: string]: string }) {
     this.finalData.documents = { ...value };
+
     this.editable = false;
     console.log(this.finalData);
     if (this.userHasAlreadyFilledForm) {

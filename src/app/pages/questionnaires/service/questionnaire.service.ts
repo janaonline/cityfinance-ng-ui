@@ -26,8 +26,7 @@ export class QuestionnaireService {
       .pipe(map((res) => res.data[0]));
   }
 
-  saveQuestionnaireData(data: { [key: string]: string }) {
-    console.log(`saveQuestionnaireData`);
+  saveQuestionnaireData(data: { [key: string]: any }) {
     return this.http.post(`${environment.api.url}state/form`, {
       ...data,
     });
