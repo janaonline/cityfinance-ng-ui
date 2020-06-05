@@ -9,7 +9,8 @@
 :root {
   --multi-dropdown-color: rgb(240, 158, 6);
 }
-input.is-invalid {
+input.is-invalid,
+.is-invalid {
   border-color: red !important;
 }
 
