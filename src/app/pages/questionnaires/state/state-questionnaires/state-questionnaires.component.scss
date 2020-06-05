@@ -17,7 +17,7 @@
     color: red;
   }
 
-  ::ng-deep .mat-horizontal-stepper-header {
+  ::ng-deep .block-steeper-top-navigation .mat-horizontal-stepper-header {
     pointer-events: none !important;
   }
   ::ng-deep .mat-step-header[ng-reflect-selected="true"] .mat-step-icon {

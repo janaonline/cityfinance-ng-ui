@@ -6,7 +6,11 @@
     <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
   </div>
 
-  <mat-horizontal-stepper id="stepper" linear *ngIf="!showLoader">
+  <mat-horizontal-stepper
+    id="stepper"
+    *ngIf="!showLoader"
+    [ngClass]="{ 'block-steeper-top-navigation': !userHasAlreadyFilledForm }"
+  >
     <mat-step
       label="Introduction"
       state="phone"
