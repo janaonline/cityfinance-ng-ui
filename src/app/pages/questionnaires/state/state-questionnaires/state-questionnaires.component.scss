@@ -48,3 +48,11 @@
     color: gray;
   }
 }
+
+::ng-deep {
+  mat-radio-group.is-invalid {
+    .mat-radio-outer-circle {
+      border-color: red;
+    }
+  }
+}
