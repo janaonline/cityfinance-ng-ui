@@ -43,27 +43,46 @@ export class DocumentSubmitComponent implements OnInit {
     {
       key: "State_Acts_Doc",
       question:
-        "Latest copy of the State Municipal Corporation Act and State Municipalities Act",
+        "Latest copy of the State Municipal Corporation Act and State Municipalities Act.",
     },
     {
       key: "State_Amendments_Doc",
       question:
-        "Any notified amendments to the State Municipal Corporation Act and/or State Municipalities Act pertaining to provisions of the property tax and/or user charges",
+        "Any notified amendments to the State Municipal Corporation Act and/or State Municipalities Act pertaining to provisions of the property tax and/or user charges.",
     },
     {
       key: "City_Acts_Doc",
       question:
-        "Any individual city wise Municipal Corporation Acts or Municipalities Acts",
+        "Any individual city wise Municipal Corporation Acts or Municipalities Acts.",
     },
     {
       key: "State_Rules_Doc",
       question:
-        "Latest copy of the State Municipal Corporation Act and State Municipalities Act",
+        "Notified Rules against the provisions of the State Municipal Corporation Act and State Municipalities Act.",
     },
     {
       key: "City_Amendments_Doc",
       question:
-        "Latest copy of the State Municipal Corporation Act and State Municipalities Act",
+        "Any notified amendments to the Municipal Corporation Rules or Municipalities Rules pertaining to provisions of the property tax and/or user charges.",
+    },
+    {
+      key: "City_Rules_Doc",
+      question:
+        "Any individual city wise Municipal Corporation or Municipalities Rules.",
+    },
+    {
+      key: "Admin_Doc",
+      question:
+        "Any other Acts/bye-laws/Rules that govern the administration of property tax and user charges.",
+    },
+    {
+      key: "Implement_Doc",
+      question:
+        "PPT/Word file/PDF doc containing the implementation plan for meeting the conditions of the scheme.",
+    },
+    {
+      key: "Other_Doc",
+      question: "Any other documents relevant to the questionnaire.",
     },
   ];
 
