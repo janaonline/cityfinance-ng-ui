@@ -142,20 +142,20 @@
         [routerLink]="['/questionnaires/form']"
         *ngIf="canViewQuestionnaireForm && user?.role === USER_TYPE.STATE"
       >
-        Questionnaires
+        Questionnaire
       </a>
       <a
         [routerLink]="['/questionnaires/states']"
         *ngIf="canViewQuestionnaireList"
       >
-        Questionnaires
+        Questionnaire
       </a>
     </li>
-    <li *ngIf="isLoggedIn && canViewUploadData">
+    <!-- <li *ngIf="isLoggedIn && canViewUploadData">
       <a [routerLink]="['user', 'data-upload', 'list']" class="pointer"
         >Data upload</a
       >
-    </li>
+    </li> -->
 
     <!-- <li
       routerLinkActive="active"
