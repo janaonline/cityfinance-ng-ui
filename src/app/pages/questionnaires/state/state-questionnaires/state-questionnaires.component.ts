@@ -18,12 +18,15 @@ import { QuestionnaireService } from '../../service/questionnaire.service';
 export class StateQuestionnairesComponent implements OnInit {
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
   introductionCompleted = false;
-  propertyTaxData: { [key: string]: string };
-  UserChargesData: { [key: string]: string };
+  propertyTaxData: IQuestionnaireResponse["data"][0]["propertyTax"];
+  UserChargesData: IQuestionnaireResponse["data"][0]["userCharges"];
+  documentData: IQuestionnaireResponse["data"][0]["documents"];
 
   finalData = {
     propertyTax: null,
     userCharges: null,
+    documents: null,
+    isCompleted: true,
   };
   editable = true;
   canGoToDonePage = true;
@@ -56,16 +59,22 @@ export class StateQuestionnairesComponent implements OnInit {
   }
 
   fetchQuestionnaireData(stateId: string) {
-    this._questionnaireService
-      .getQuestionnaireData(stateId)
-      .subscribe((res) => {
+    this._questionnaireService.getQuestionnaireData(stateId).subscribe(
+      (res) => {
         this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
 
         if (this.userHasAlreadyFilledForm) {
           this.setComponentStateToAlreadyFilled(res);
         }
         this.showLoader = false;
-      });
+      },
+      (error) => {
+        this.showLoader = false;
+        setTimeout(() => {
+          this.stepper.selectedIndex = 3;
+        }, 222);
+      }
+    );
   }
 
   setIntroductionCompleted(value: boolean) {
@@ -82,10 +91,24 @@ export class StateQuestionnairesComponent implements OnInit {
   onCompletingUserCharges(value: { [key: string]: string }) {
     this.finalData.userCharges = value;
     this.stepper.next();
+
+    // this._questionnaireService
+    //   .saveQuestionnaireData(this.finalData)
+    //   .subscribe((res) => {
+    //     this.userHasAlreadyFilledForm = true;
+    //     console.log(res);
+    //   });
+  }
+
+  onFileUploaded(value: { [key: string]: string }) {
+    this.finalData.documents = { ...value };
+
     this.editable = false;
+    console.log(this.finalData);
     if (this.userHasAlreadyFilledForm) {
       return;
     }
+    this.stepper.next();
     this._questionnaireService
       .saveQuestionnaireData(this.finalData)
       .subscribe((res) => {
@@ -128,6 +151,7 @@ export class StateQuestionnairesComponent implements OnInit {
     this.userHasAlreadyFilledForm = true;
     this.propertyTaxData = res.propertyTax;
     this.UserChargesData = res.userCharges;
+    this.documentData = res.documents;
     this.editable = false;
     this.canGoToDonePage = false;
     this.canSeeIntroduction = false;

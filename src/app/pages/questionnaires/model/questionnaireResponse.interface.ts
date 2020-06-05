@@ -4,5 +4,6 @@ export interface IQuestionnaireResponse {
   data: {
     propertyTax: { [key: string]: string };
     userCharges: { [key: string]: string };
+    documents: { [key: string]: { name: string; url: string }[] };
   }[];
 }

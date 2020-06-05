@@ -22,6 +22,9 @@ export class PropertyTaxComponent implements OnInit, OnChanges {
 
   todayDate = new Date();
 
+  clickedonNext = false;
+  shouldExpandAccordian = false;
+
   constructor(private _fb: FormBuilder) {
     this.initializeForm();
   }
@@ -49,6 +52,23 @@ export class PropertyTaxComponent implements OnInit, OnChanges {
         });
         this.questionForm.updateValueAndValidity();
       });
+  }
+
+  onClickNext() {
+    this.clickedonNext = true;
+    if (this.questionForm.invalid) {
+      this.shouldExpandAccordian = true;
+      return;
+    }
+    this.answer.emit(this.questionForm.value);
+  }
+
+  public GetFormControlErrors(controlName: string) {
+    return !!(
+      this.clickedonNext && this.questionForm.controls[controlName].errors
+    )
+      ? this.questionForm.controls[controlName].errors
+      : null;
   }
 
   private initializeForm() {
@@ -257,7 +277,6 @@ export class PropertyTaxComponent implements OnInit, OnChanges {
     if (!dependentControl || dependentControl.value !== "No") {
       return null;
     }
-    console.log(`Action_Date_PT_B `, control.value);
 
     if (control.value) {
       return null;

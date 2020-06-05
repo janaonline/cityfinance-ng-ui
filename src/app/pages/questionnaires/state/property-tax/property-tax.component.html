@@ -1,9 +1,9 @@
-<p>
+<p class="question-instruction">
   <strong>NOTE:</strong> Question with <span class="mandatory">*</span> sign are
   mandatory.
 </p>
 <mat-accordion>
-  <mat-expansion-panel>
+  <mat-expansion-panel [expanded]="shouldExpandAccordian">
     <mat-expansion-panel-header>
       <mat-panel-title>
         A. Notification of Floor rates linked to prevailing circle rates
@@ -22,14 +22,22 @@
             aria-label="Select an option"
             id="11"
             formControlName="Act_Linking_PT_A"
+            [ngClass]="{
+              'is-invalid': GetFormControlErrors('Act_Linking_PT_A')
+            }"
           >
-            <mat-radio-button value="Yes">Yes</mat-radio-button>
+            <mat-radio-button
+              value="Yes"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Act_Linking_PT_A')
+              }"
+              >Yes</mat-radio-button
+            >
             <mat-radio-button value="No">No</mat-radio-button>
           </mat-radio-group>
         </li>
 
         <ol
-          type="a"
           class="sub-questions-list"
           *ngIf="questionForm?.controls?.Act_Linking_PT_A.value === 'Yes'"
         >
@@ -39,15 +47,15 @@
               prevailing circle rates of all Municipalities/Municipal
               Corporations?<span class="mandatory"> *</span>
             </p>
-            <mat-form-field class="example-full-width textarea-wrapper">
+            <div class="input-group textarea-wrapper">
               <textarea
                 formControlName="Existing_Status_PT_A"
-                matInput
-                cdkTextareaAutosize
-                cdkAutosizeMinRows="5"
-                cdkAutosizeMinCols="8"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': GetFormControlErrors('Existing_Status_PT_A')
+                }"
               ></textarea>
-            </mat-form-field>
+            </div>
           </li>
           <li>
             <p>
@@ -55,15 +63,15 @@
               notification/rules/relevant provision in the Act (Upload relevant
               documents in upload section)<span class="mandatory"> *</span>
             </p>
-            <mat-form-field class="example-full-width textarea-wrapper">
+            <div class="input-group textarea-wrapper">
               <textarea
                 formControlName="Relevent_Sections_PT_A"
-                matInput
-                cdkTextareaAutosize
-                cdkAutosizeMinRows="5"
-                cdkAutosizeMinCols="8"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': GetFormControlErrors('Relevent_Sections_PT_A')
+                }"
               ></textarea>
-            </mat-form-field>
+            </div>
           </li>
         </ol>
       </ul>
@@ -80,22 +88,26 @@
             issue executive order to provide for such linkage of property tax to
             guideline value/ circle rate? <span class="mandatory"> *</span>
           </p>
-          <mat-form-field class="example-full-width textarea-wrapper">
+          <div class="input-group textarea-wrapper">
             <textarea
               formControlName="Legislative_Changes_PT_A"
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="5"
-              cdkAutosizeMinCols="8"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Legislative_Changes_PT_A')
+              }"
             ></textarea>
-          </mat-form-field>
+          </div>
         </li>
         <li>
           <p>
             Date by which it will be completed <span class="mandatory"> *</span>
           </p>
-          <mat-form-field>
+          <div class="input-group">
             <input
+              class="form-control date-field"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Action_Date_PT_A')
+              }"
               readonly
               matInput
               [min]="todayDate"
@@ -107,7 +119,7 @@
               [for]="myDatepicker"
             ></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker></mat-datepicker>
-          </mat-form-field>
+          </div>
         </li>
       </ol>
       <h4 *ngIf="questionForm?.controls?.Act_Linking_PT_A.value === 'No'">
@@ -123,15 +135,15 @@
             prevailing circle rates of all Municipalities/Municipal
             Corporations? <span class="mandatory"> *</span>
           </p>
-          <mat-form-field class="example-full-width textarea-wrapper">
+          <div class="input-group textarea-wrapper">
             <textarea
               formControlName="Relevent_Sections_No_PT_A"
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="5"
-              cdkAutosizeMinCols="8"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Relevent_Sections_No_PT_A')
+              }"
             ></textarea>
-          </mat-form-field>
+          </div>
         </li>
         <li>
           <p>
@@ -139,22 +151,26 @@
             circle rates for 1) Municipal Corporations, 2) Municipalities, and
             3) Town Panchayats? <span class="mandatory"> *</span>
           </p>
-          <mat-form-field class="example-full-width textarea-wrapper">
+          <div class="input-group textarea-wrapper">
             <textarea
               formControlName="Adoption_Plan_PT_A"
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="5"
-              cdkAutosizeMinCols="8"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Adoption_Plan_PT_A')
+              }"
             ></textarea>
-          </mat-form-field>
+          </div>
         </li>
         <li>
           <p>
             Date by which it will be completed <span class="mandatory"> *</span>
           </p>
-          <mat-form-field>
+          <div class="input-group">
             <input
+              class="form-control date-field"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Implement_Date_PT_A')
+              }"
               readonly
               matInput
               [min]="todayDate"
@@ -166,13 +182,13 @@
               [for]="myDatepicker2"
             ></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker2></mat-datepicker>
-          </mat-form-field>
+          </div>
         </li>
       </ol>
     </form>
   </mat-expansion-panel>
 
-  <mat-expansion-panel>
+  <mat-expansion-panel [expanded]="shouldExpandAccordian">
     <mat-expansion-panel-header>
       <mat-panel-title>
         B. Periodic increase of floor rates in line with price increase
@@ -190,6 +206,9 @@
             aria-label="Select an option"
             id="11"
             formControlName="Periodic_Increase_PT_B"
+            [ngClass]="{
+              'is-invalid': GetFormControlErrors('Periodic_Increase_PT_B')
+            }"
           >
             <mat-radio-button value="Yes">Yes</mat-radio-button>
             <mat-radio-button value="No">No</mat-radio-button>
@@ -197,7 +216,6 @@
         </li>
 
         <ol
-          type="a"
           class="sub-questions-list"
           *ngIf="questionForm?.controls.Periodic_Increase_PT_B.value === 'Yes'"
         >
@@ -207,15 +225,15 @@
               in line with the increase in circle rates for all Municipalities
               and Municipal Corporations? <span class="mandatory"> *</span>
             </p>
-            <mat-form-field class="example-full-width textarea-wrapper">
+            <div class="input-group textarea-wrapper">
               <textarea
-                matInput
-                cdkTextareaAutosize
-                cdkAutosizeMinRows="5"
-                cdkAutosizeMinCols="8"
                 formControlName="Existing_Status_Yes_PT_B"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': GetFormControlErrors('Existing_Status_Yes_PT_B')
+                }"
               ></textarea>
-            </mat-form-field>
+            </div>
           </li>
           <li>
             <p>
@@ -223,15 +241,15 @@
               notification/rules/relevant provision in the Act (Upload relevant
               doc in upload section) <span class="mandatory"> *</span>
             </p>
-            <mat-form-field class="example-full-width textarea-wrapper">
+            <div class="input-group textarea-wrapper">
               <textarea
-                matInput
-                cdkTextareaAutosize
-                cdkAutosizeMinRows="5"
-                cdkAutosizeMinCols="8"
                 formControlName="Relevent_Sections_PT_B"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': GetFormControlErrors('Relevent_Sections_PT_B')
+                }"
               ></textarea>
-            </mat-form-field>
+            </div>
           </li>
         </ol>
       </ul>
@@ -248,24 +266,30 @@
             issue executive order to provide for periodic increase of floor
             rates of property tax? <span class="mandatory"> *</span>
           </p>
-          <mat-form-field class="example-full-width textarea-wrapper">
+          <div class="input-group textarea-wrapper">
             <textarea
               formControlName="Legislative_Changes_PT_B"
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="5"
-              cdkAutosizeMinCols="8"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Legislative_Changes_PT_B')
+              }"
             ></textarea>
-          </mat-form-field>
+          </div>
         </li>
         <li>
           <p>
             Date by which it will be completed <span class="mandatory"> *</span>
           </p>
-          <mat-form-field>
+
+          <div class="input-group">
             <input
+              class="form-control date-field"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Action_Date_PT_B')
+              }"
               readonly
               matInput
+              [min]="todayDate"
               [matDatepicker]="myDatepicker3"
               formControlName="Action_Date_PT_B"
             />
@@ -274,7 +298,7 @@
               [for]="myDatepicker3"
             ></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker3></mat-datepicker>
-          </mat-form-field>
+          </div>
         </li>
       </ol>
       <h4 *ngIf="questionForm?.controls.Periodic_Increase_PT_B.value === 'No'">
@@ -290,15 +314,15 @@
             line with the increase in circle rates for all Municipalities and
             Municipal Corporations? <span class="mandatory"> *</span>
           </p>
-          <mat-form-field class="example-full-width textarea-wrapper">
+          <div class="input-group textarea-wrapper">
             <textarea
               formControlName="Existing_Status_No_PT_B"
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="5"
-              cdkAutosizeMinCols="8"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Existing_Status_No_PT_B')
+              }"
             ></textarea>
-          </mat-form-field>
+          </div>
         </li>
         <li>
           <p>
@@ -306,24 +330,30 @@
             Municipal Corporations, 2) Municipalities, and 3) Town Panchayats?
             <span class="mandatory">*</span>
           </p>
-          <mat-form-field class="example-full-width textarea-wrapper">
+          <div class="input-group textarea-wrapper">
             <textarea
               formControlName="Implement_Plan_PT_B"
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="5"
-              cdkAutosizeMinCols="8"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Implement_Plan_PT_B')
+              }"
             ></textarea>
-          </mat-form-field>
+          </div>
         </li>
         <li>
           <p>
             Date by which it will be completed <span class="mandatory"> *</span>
           </p>
-          <mat-form-field>
+
+          <div class="input-group">
             <input
+              class="form-control date-field"
+              [ngClass]="{
+                'is-invalid': GetFormControlErrors('Implement_Date_PT_B')
+              }"
               readonly
               matInput
+              [min]="todayDate"
               [matDatepicker]="myDatepicker4"
               formControlName="Implement_Date_PT_B"
             />
@@ -332,7 +362,7 @@
               [for]="myDatepicker4"
             ></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker4></mat-datepicker>
-          </mat-form-field>
+          </div>
         </li>
       </ol>
     </form>
@@ -341,8 +371,7 @@
 <button
   class="btn btn-primary mt-2"
   style="float: right; display: block;"
-  [disabled]="questionForm.invalid"
-  (click)="answer.emit(questionForm.value)"
+  (click)="onClickNext()"
 >
   Next
 </button>

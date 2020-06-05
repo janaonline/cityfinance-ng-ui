@@ -6,14 +6,18 @@
 
 :host {
   ::ng-deep .mat-horizontal-stepper-header-container {
-    width: 55% !important;
+    width: 75% !important;
+  }
+
+  ::ng-deep .question-instruction {
+    font-style: italic;
   }
 
   ::ng-deep .mandatory {
     color: red;
   }
 
-  ::ng-deep .mat-horizontal-stepper-header {
+  ::ng-deep .block-steeper-top-navigation .mat-horizontal-stepper-header {
     pointer-events: none !important;
   }
   ::ng-deep .mat-step-header[ng-reflect-selected="true"] .mat-step-icon {
@@ -42,5 +46,16 @@
   .mat-button {
     background: transparent !important;
     color: gray;
+  }
+}
+::ng-deep .mat-step-header.cdk-program-focused {
+  background: transparent !important;
+}
+
+::ng-deep {
+  mat-radio-group.is-invalid {
+    .mat-radio-outer-circle {
+      border-color: red;
+    }
   }
 }
