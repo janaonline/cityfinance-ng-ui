@@ -39,6 +39,8 @@ export class StateQuestionnairesComponent implements OnInit {
 
   accessValidator = new AccessChecker();
 
+  currentStateId;
+
   constructor(
     private _questionnaireService: QuestionnaireService,
     private activatedRoute: ActivatedRoute,
@@ -51,6 +53,7 @@ export class StateQuestionnairesComponent implements OnInit {
         this.userData = JSON.parse(localStorage.getItem("userData"));
         const id =
           params && params.stateId ? params.stateId : this.userData.state;
+        this.currentStateId = id;
         this.validateUserAccess({ stateId: id });
       } catch (error) {
         console.error(error);
@@ -111,11 +114,14 @@ export class StateQuestionnairesComponent implements OnInit {
     setTimeout(() => {
       this.stepper.next();
       this.userHasAlreadyFilledForm = true;
+      if (this.userData.role !== USER_TYPE.STATE) {
+        this.finalData["state"] = this.currentStateId;
+      }
+
       this._questionnaireService
         .saveQuestionnaireData(this.finalData)
         .subscribe((res) => {
           this.userHasAlreadyFilledForm = true;
-          console.log(res);
         });
     }, 2000);
   }

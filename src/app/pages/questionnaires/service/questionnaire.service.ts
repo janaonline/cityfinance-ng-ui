@@ -52,4 +52,10 @@ export class QuestionnaireService {
 
     return this.http.get(environment.api.url + `state/form/all`, { params });
   }
+
+  getStateWithoutQuestionnaireFilled() {
+    return this.http
+      .get(`${environment.api.url}state?type=filter`)
+      .pipe(map((res) => res["data"]));
+  }
 }

@@ -5,6 +5,10 @@
     margin: auto;
     margin-top: 5%;
   }
+  .table {
+    width: 101%;
+    max-width: 101%;
+  }
 
   .actionCell {
     display: flex;
@@ -18,5 +22,15 @@
         color: rgb(8, 131, 212);
       }
     }
+  }
+}
+
+::ng-deep .state-without-questionnaire-popup {
+  mat-dialog-container.mat-dialog-container {
+    overflow: visible;
+  }
+
+  .c-btn {
+    font-size: 1.5rem;
   }
 }

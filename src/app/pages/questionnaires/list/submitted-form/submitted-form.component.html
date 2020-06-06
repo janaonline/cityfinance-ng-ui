@@ -1,5 +1,15 @@
 <div class="tableWrapper">
-  <h3 class="text-center">Questionnaire's List</h3>
+  <h3 class="text-center">
+    Questionnaire's List
+
+    <button
+      class="btn btn-primary"
+      style="float: right;"
+      (click)="openStateSelectPopup()"
+    >
+      Fill Qustionniare
+    </button>
+  </h3>
   <div class="loader-wrapper" *ngIf="!userList">
     <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
     <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
@@ -73,3 +83,38 @@
   >
   </pagination-controls>
 </div>
+
+<ng-template #defaultTabButtons>
+  <div
+    class="d-flex align-items-center flex-column justify-content-center"
+    style="flex-wrap: wrap; height: 100%;"
+  >
+    <angular2-multiselect
+      style="width: 70%;"
+      [(ngModel)]="stateSelectToFillQuestionnaire"
+      [data]="statesWithoutQuestionnaire"
+      [settings]="stateDropdownConfiguration"
+    >
+    </angular2-multiselect>
+
+    <div>
+      <button
+        class="btn btn-primary mt-2"
+        style="margin-right: 1em;"
+        (click)="
+          navigateToQuestionnaireForm(stateSelectToFillQuestionnaire[0]._id) ||
+            matdialog.closeAll()
+        "
+      >
+        Submit
+      </button>
+      <button
+        class="btn btn-primary mt-2"
+        style="margin-left: 1em;"
+        (click)="matdialog.closeAll()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>
