@@ -275,7 +275,7 @@ export class UserChargesComponent implements OnInit, OnChanges {
 
     const dependentControl = this.questionForm.controls.Periodic_Increase_UC_B;
 
-    if (!dependentControl || dependentControl.value !== "No") {
+    if (!dependentControl || dependentControl.value !== "Yes") {
       return null;
     }
     if (control.value && control.value.trim()) {
