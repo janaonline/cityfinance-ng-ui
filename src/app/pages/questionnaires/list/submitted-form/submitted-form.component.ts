@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
@@ -16,6 +17,8 @@ import { QuestionnaireService } from '../../service/questionnaire.service';
   styleUrls: ["./submitted-form.component.scss"],
 })
 export class SubmittedFormComponent implements OnInit {
+  @ViewChild("defaultTabButtons")
+  private defaultTabButtonsTpl: TemplateRef<any>;
   filterForm: FormGroup;
   currentSort = 1;
   userList: any[];
@@ -33,20 +36,36 @@ export class SubmittedFormComponent implements OnInit {
     limit: this.tableDefaultOptions.itemPerPage,
   };
 
+  statesWithoutQuestionnaire: { _id: string; name: string }[] = [];
+  stateDropdownConfiguration = {
+    primaryKey: "_id",
+    singleSelection: true,
+    text: "Select a state",
+    enableSearchFilter: true,
+    badgeShowLimit: 1,
+    labelKey: "name",
+    showCheckbox: false,
+    noDataLabel: "No Data available",
+  };
+
   accessValidator = new AccessChecker();
+  stateSelectToFillQuestionnaire: { _id: string; name: string }[];
 
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
     private questionnaireSerive: QuestionnaireService,
-    private authService: AuthService
+    private authService: AuthService,
+    public matdialog: MatDialog,
+    public router: Router
   ) {
     this.initializeFilterForm();
     this.validatePageAccess();
   }
 
   ngOnInit() {
-    this.fetchList(this.listFetchOption);
+    this.fetchStatesWithQuestionnaireList(this.listFetchOption);
+    this.fetchStatesWithoutQuestionnaireList();
   }
 
   sortListBy(key: string) {
@@ -66,7 +85,7 @@ export class SubmittedFormComponent implements OnInit {
 
   searchUsersBy(filterForm: {}) {
     this.listFetchOption.filter = filterForm;
-    this.fetchList({ ...(<any>this.listFetchOption) });
+    this.fetchStatesWithQuestionnaireList({ ...(<any>this.listFetchOption) });
   }
 
   setPage(pageNoClick: number) {
@@ -77,12 +96,21 @@ export class SubmittedFormComponent implements OnInit {
   }
 
   navigateToQuestionnaireForm(stateId: string) {
+    console.log(`stateId`, stateId, this.stateSelectToFillQuestionnaire);
     this._router.navigate(["/questionnaires", "form"], {
       queryParams: { stateId },
     });
   }
 
-  private fetchList(
+  openStateSelectPopup() {
+    this.matdialog.open(this.defaultTabButtonsTpl, {
+      height: "25vh",
+      width: "35vw",
+      panelClass: "state-without-questionnaire-popup",
+    });
+  }
+
+  private fetchStatesWithQuestionnaireList(
     body: {
       filter: { [key: string]: string };
       sort: { [key: string]: number };
@@ -95,8 +123,6 @@ export class SubmittedFormComponent implements OnInit {
     this.questionnaireSerive
       .getQuestionnaireFilledList(body)
       .subscribe((res) => {
-        console.log(res);
-
         if (res.hasOwnProperty("total")) {
           this.tableDefaultOptions.totalCount = res["total"];
         }
@@ -105,6 +131,13 @@ export class SubmittedFormComponent implements OnInit {
         } else {
           alert("Failed");
         }
+      });
+  }
+  private fetchStatesWithoutQuestionnaireList() {
+    this.questionnaireSerive
+      .getStateWithoutQuestionnaireFilled()
+      .subscribe((res) => {
+        this.statesWithoutQuestionnaire = res;
       });
   }
 
@@ -125,14 +158,11 @@ export class SubmittedFormComponent implements OnInit {
       return this._router.navigate(["/login"]);
     }
 
-    console.log(`hasAccess: ${hasAccess}, `);
-
     if (!hasAccess) {
       const QuestionnaireFormAccess = this.accessValidator.hasAccess({
         moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
         action: ACTIONS.VIEW,
       });
-      console.log(`QuestionnaireFormAccess: ${QuestionnaireFormAccess}, `);
       if (QuestionnaireFormAccess) {
         return this._router.navigate(["/questionnaires/form"]);
       }

@@ -39,6 +39,8 @@ export class StateQuestionnairesComponent implements OnInit {
 
   accessValidator = new AccessChecker();
 
+  currentStateId;
+
   constructor(
     private _questionnaireService: QuestionnaireService,
     private activatedRoute: ActivatedRoute,
@@ -51,6 +53,7 @@ export class StateQuestionnairesComponent implements OnInit {
         this.userData = JSON.parse(localStorage.getItem("userData"));
         const id =
           params && params.stateId ? params.stateId : this.userData.state;
+        this.currentStateId = id;
         this.validateUserAccess({ stateId: id });
       } catch (error) {
         console.error(error);
@@ -66,6 +69,7 @@ export class StateQuestionnairesComponent implements OnInit {
         if (this.userHasAlreadyFilledForm) {
           this.setComponentStateToAlreadyFilled(res);
         }
+        this.validateQuestionnaireFillAccess();
         this.showLoader = false;
       },
       (error) => {
@@ -91,13 +95,6 @@ export class StateQuestionnairesComponent implements OnInit {
   onCompletingUserCharges(value: { [key: string]: string }) {
     this.finalData.userCharges = value;
     this.stepper.next();
-
-    // this._questionnaireService
-    //   .saveQuestionnaireData(this.finalData)
-    //   .subscribe((res) => {
-    //     this.userHasAlreadyFilledForm = true;
-    //     console.log(res);
-    //   });
   }
 
   onFileUploaded(value: { [key: string]: string }) {
@@ -111,11 +108,14 @@ export class StateQuestionnairesComponent implements OnInit {
     setTimeout(() => {
       this.stepper.next();
       this.userHasAlreadyFilledForm = true;
+      if (this.userData.role !== USER_TYPE.STATE) {
+        this.finalData["state"] = this.currentStateId;
+      }
+
       this._questionnaireService
         .saveQuestionnaireData(this.finalData)
         .subscribe((res) => {
           this.userHasAlreadyFilledForm = true;
-          console.log(res);
         });
     }, 2000);
   }
@@ -132,6 +132,7 @@ export class StateQuestionnairesComponent implements OnInit {
       moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
       action: ACTIONS.FORM_FILL,
     });
+
     const canUserViewFilledQuestionnaireForm = this.accessValidator.hasAccess({
       moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
       action: ACTIONS.VIEW,
@@ -140,11 +141,25 @@ export class StateQuestionnairesComponent implements OnInit {
       if (canUserViewFilledQuestionnaireForm) {
         return this.router.navigate(["/questionnaires/states"]);
       }
+      console.error(`access denied!`);
+
       return this.router.navigate(["/home"]);
     }
 
     if (canUserFillQuestionnaireForm || canUserViewFilledQuestionnaireForm) {
       return this.fetchQuestionnaireData(params.stateId);
+    }
+  }
+
+  private validateQuestionnaireFillAccess() {
+    const canUserFillQuestionnaireForm = this.accessValidator.hasAccess({
+      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
+      action: ACTIONS.FORM_FILL,
+    });
+
+    if (!canUserFillQuestionnaireForm) {
+      console.error(`access denied!`);
+      return this.router.navigate(["/home"]);
     }
   }
 
