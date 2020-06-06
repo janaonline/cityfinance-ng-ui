@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
@@ -37,13 +38,14 @@ export class SubmittedFormComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
-    private questionnaireSerive: QuestionnaireService
+    private questionnaireSerive: QuestionnaireService,
+    private authService: AuthService
   ) {
     this.initializeFilterForm();
+    this.validatePageAccess();
   }
 
   ngOnInit() {
-    this.validatePageAccess();
     this.fetchList(this.listFetchOption);
   }
 
@@ -118,7 +120,22 @@ export class SubmittedFormComponent implements OnInit {
       action: ACTIONS.VIEW,
     });
 
+    if (!this.authService.loggedIn()) {
+      sessionStorage.setItem(`postLoginNavigation`, "/questionnaires/states");
+      return this._router.navigate(["/login"]);
+    }
+
+    console.log(`hasAccess: ${hasAccess}, `);
+
     if (!hasAccess) {
+      const QuestionnaireFormAccess = this.accessValidator.hasAccess({
+        moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
+        action: ACTIONS.VIEW,
+      });
+      console.log(`QuestionnaireFormAccess: ${QuestionnaireFormAccess}, `);
+      if (QuestionnaireFormAccess) {
+        return this._router.navigate(["/questionnaires/form"]);
+      }
       return this._router.navigate(["/home"]);
     }
   }

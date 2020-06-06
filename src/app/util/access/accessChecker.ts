@@ -24,6 +24,9 @@ export class AccessChecker {
     }
 
     const logginUserType = this.userUtil.getUserType();
+    if (!logginUserType) {
+      return false;
+    }
     return !!action.find((userType: USER_TYPE) => userType === logginUserType);
   }
 }
