@@ -99,7 +99,7 @@ export class DocumentSubmitComponent implements OnInit {
           this._dialog.closeAll();
         },
       },
-      cancel: { text: "NO" },
+      cancel: { text: "No" },
     },
   };
   defaultErrorMessageConfiguration: IDialogConfiguration = {
