@@ -86,7 +86,7 @@ export class DocumentSubmitComponent implements OnInit {
     },
   ];
 
-  fileExnetsionAllowed = ["pdf", "ppt", "docx", "xlsx"];
+  fileExnetsionAllowed = ["pdf", "ppt", "docx", "xlsx", "xls"];
 
   defaultDailogConfiuration: IDialogConfiguration = {
     message:
@@ -116,7 +116,16 @@ export class DocumentSubmitComponent implements OnInit {
     private _dialog: MatDialog
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(() => {
+      document.getElementById("fileinput").onmouseover = function (e) {
+        e.preventDefault();
+      };
+      document.getElementById("fileinput").onmouseenter = function (e) {
+        e.preventDefault();
+      };
+    }, 2222);
+  }
 
   onUploadButtonClick() {
     if (!this.hasUploadedMandatoryFile()) {

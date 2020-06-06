@@ -104,17 +104,20 @@ export class StateQuestionnairesComponent implements OnInit {
     this.finalData.documents = { ...value };
 
     this.editable = false;
-    console.log(this.finalData);
     if (this.userHasAlreadyFilledForm) {
       return;
     }
-    this.stepper.next();
-    this._questionnaireService
-      .saveQuestionnaireData(this.finalData)
-      .subscribe((res) => {
-        this.userHasAlreadyFilledForm = true;
-        console.log(res);
-      });
+
+    setTimeout(() => {
+      this.stepper.next();
+      this.userHasAlreadyFilledForm = true;
+      this._questionnaireService
+        .saveQuestionnaireData(this.finalData)
+        .subscribe((res) => {
+          this.userHasAlreadyFilledForm = true;
+          console.log(res);
+        });
+    }, 2000);
   }
 
   showPropertyTax() {

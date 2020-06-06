@@ -70,15 +70,19 @@
           <button
             *ngIf="!documents"
             class="myFile btn btn-primary"
+            title="Select File/s"
             [disabled]="uploadInProgress || fileUploadCompleted"
           >
             Select File/s
             <input
+              title="Select File/s"
+              id="fileinput"
               *ngIf="!documents"
               type="file"
               multiple
               (change)="fileChangeEvent($event, question.key)"
               [disabled]="uploadInProgress || fileUploadCompleted"
+              onmouseover=""
             />
           </button>
         </td>
