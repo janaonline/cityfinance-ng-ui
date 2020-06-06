@@ -135,7 +135,9 @@
       <a [routerLink]="['/credit-rating/municipal-bond']"> Municipal Bonds</a>
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['/files']"> Resources </a>
+      <a [routerLink]="['/files']">
+        Resources User
+      </a>
     </li>
     <li routerLinkActive="active">
       <a
@@ -146,7 +148,13 @@
       </a>
       <a
         [routerLink]="['/questionnaires/states']"
-        *ngIf="canViewQuestionnaireList"
+        *ngIf="
+          isLoggedIn && user?.role !== USER_TYPE.STATE
+            ? canViewQuestionnaireList
+            : isLoggedIn
+            ? false
+            : true
+        "
       >
         Questionnaire
       </a>
