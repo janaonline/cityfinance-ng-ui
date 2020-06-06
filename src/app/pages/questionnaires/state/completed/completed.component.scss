@@ -2,7 +2,7 @@
   .message-wrapper {
     display: flex;
     justify-content: center;
-    width: 94%;
+    width: 98%;
     height: 55vh;
     align-items: center;
     // background: red;
@@ -11,10 +11,10 @@
       box-shadow: 1px 1px 11px 1px #b9b5b5;
       padding: 5%;
       display: flex;
-      min-width: 35vw;
+      width: 45vw;
       border-radius: 5px;
       border: 1px solid #c7c5c5;
-      text-align: center;
+      // text-align: center;
       align-items: center;
       justify-content: center;
     }
