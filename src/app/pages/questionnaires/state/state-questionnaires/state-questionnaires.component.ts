@@ -68,7 +68,7 @@ export class StateQuestionnairesComponent implements OnInit {
   fetchQuestionnaireData(stateId: string) {
     this._questionnaireService.getQuestionnaireData(stateId).subscribe(
       (res) => {
-        this.stateName = res.stateName;
+        this.stateName = res ? res.stateName : "Not Available";
         this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
 
         if (this.userHasAlreadyFilledForm) {
