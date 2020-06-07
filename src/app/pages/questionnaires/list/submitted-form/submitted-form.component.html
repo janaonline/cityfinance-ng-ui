@@ -31,6 +31,7 @@
           State
           <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
         </th>
+        <th>Status</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
@@ -54,6 +55,10 @@
         </td>
         <td class="">{{ user.createdAt | date: "longDate" }}</td>
         <td class="">{{ user.stateName }}</td>
+        <td class="">
+          {{ user.isCompleted ? "COMPLETED" : "SAVED AS DRAFT" }}
+        </td>
+
         <td class="text-center d-flex actionCell">
           <i
             class="fa fa-eye"
