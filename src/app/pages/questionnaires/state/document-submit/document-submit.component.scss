@@ -81,6 +81,10 @@
   .file-list {
     margin: 1%;
     width: 85%;
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+
     .file-tracker-name {
       color: gray;
       font-style: italic;

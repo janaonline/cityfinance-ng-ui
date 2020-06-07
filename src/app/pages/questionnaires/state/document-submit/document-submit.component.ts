@@ -1,5 +1,5 @@
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
 
 import { IQuestionnaireDocumentsCollection } from '../../model/document-collection.interface';
+import { documentForm, QuestionsIdMapping } from '../configs/document.config';
 
 /**
  * These are thew question ids that are mapped to files that user select and the question.
@@ -40,12 +41,18 @@ type IFileUploadTracking = {
   templateUrl: "./document-submit.component.html",
   styleUrls: ["./document-submit.component.scss"],
 })
-export class DocumentSubmitComponent implements OnInit {
+export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
   @Input()
   documents: IQuestionnaireDocumentsCollection;
+  @Input()
+  canUploadFile = true;
+  @Input()
+  editable = true;
 
   @Output()
   outputValues = new EventEmitter<emitValue>();
+  @Output()
+  saveAsDraft = new EventEmitter<emitValue>();
 
   @Output()
   previous = new EventEmitter<boolean>();
@@ -68,47 +75,24 @@ export class DocumentSubmitComponent implements OnInit {
   questions = [
     {
       key: "State_Acts_Doc",
-      question:
-        "Latest copy of the State Municipal Corporation Act and State Municipalities Act.",
-    },
-    {
-      key: "State_Amendments_Doc",
-      question:
-        "Any notified amendments to the State Municipal Corporation Act and/or State Municipalities Act pertaining to provisions of the property tax and/or user charges.",
-    },
-    {
-      key: "City_Acts_Doc",
-      question:
-        "Any individual city wise Municipal Corporation Acts or Municipalities Acts.",
+      question: QuestionsIdMapping["State_Acts_Doc"],
     },
     {
       key: "State_Rules_Doc",
-      question:
-        "Notified Rules against the provisions of the State Municipal Corporation Act and State Municipalities Act.",
+      question: QuestionsIdMapping["State_Rules_Doc"],
     },
-    {
-      key: "City_Amendments_Doc",
-      question:
-        "Any notified amendments to the Municipal Corporation Rules or Municipalities Rules pertaining to provisions of the property tax and/or user charges.",
-    },
-    {
-      key: "City_Rules_Doc",
-      question:
-        "Any individual city wise Municipal Corporation or Municipalities Rules.",
-    },
+
     {
       key: "Admin_Doc",
-      question:
-        "Any other Acts/bye-laws/Rules that govern the administration of property tax and user charges.",
+      question: QuestionsIdMapping["Admin_Doc"],
     },
     {
       key: "Implement_Doc",
-      question:
-        "PPT/Word file/PDF doc containing the implementation plan for meeting the conditions of the scheme.",
+      question: QuestionsIdMapping["Implement_Doc"],
     },
     {
       key: "Other_Doc",
-      question: "Any other documents relevant to the questionnaire.",
+      question: QuestionsIdMapping["Other_Doc"],
     },
   ];
 
@@ -139,18 +123,61 @@ export class DocumentSubmitComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private _dialog: MatDialog
   ) {}
+  ngOnChanges(changes: {
+    documents: SimpleChange;
+    canUploadFile: SimpleChange;
+  }): void {
+    console.log(changes);
+
+    if (changes.documents && changes.documents.currentValue) {
+      if (changes.canUploadFile && !changes.canUploadFile.currentValue) {
+        return;
+      }
+      documentForm.patchValue(changes.documents.currentValue);
+
+      this.userSelectedFiles = { ...changes.documents.currentValue };
+      Object.keys(this.userSelectedFiles).forEach((questiopnId) => {
+        if (!this.userSelectedFiles[questiopnId]) {
+          return;
+        }
+
+        this.fileUploadTracker[questiopnId] = {};
+
+        this.userSelectedFiles[questiopnId].forEach((file) => {
+          this.fileUploadTracker[questiopnId][file.name] = {
+            fileName: file.name,
+            percentage: 100,
+            url: file.url,
+            status: "completed",
+          };
+          console.log(questiopnId, file.name);
+
+          //      fileName?: string;
+          // percentage?: number;
+          // status?: "in-process" | "completed";
+          // url?: string;
+          // subscription?: Subscription;
+        });
+      });
+      // console.log(this.userSelectedFiles, changes.documents.currentValue);
+    }
+  }
 
   ngOnInit() {}
 
   cancelFileUpload(questionKey: fileKeys, fileNameToFilter: string) {
-    if (!this.userSelectedFiles || !this.userSelectedFiles[questionKey]) {
-      return false;
-    }
+    console.log(this.userSelectedFiles);
+
+    // if (!this.userSelectedFiles || !this.userSelectedFiles[questionKey]) {
+    //   return false;
+    // }
 
     // Remove the file requested from user selection.
-    this.userSelectedFiles[questionKey] = this.userSelectedFiles[
-      questionKey
-    ].filter((file) => file.name !== fileNameToFilter);
+    if (this.userSelectedFiles[questionKey]) {
+      this.userSelectedFiles[questionKey] = this.userSelectedFiles[
+        questionKey
+      ].filter((file) => file.name !== fileNameToFilter);
+    }
 
     if (!this.fileUploadTracker || !this.fileUploadTracker[questionKey]) {
       return false;
@@ -166,10 +193,7 @@ export class DocumentSubmitComponent implements OnInit {
     }
 
     // Remove the file from file Tracker.
-
     delete this.fileUploadTracker[questionKey][fileNameToFilter];
-
-    console.log(`fileUploadTracker `, this.fileUploadTracker);
   }
 
   fileChangeEvent(event: Event, key: fileKeys) {
@@ -198,9 +222,14 @@ export class DocumentSubmitComponent implements OnInit {
         const subs = this.dataEntryService
           .getURLForFileUpload(file.name, file.type)
           .pipe(
-            map((res) => res["data"][0].url),
-            switchMap((url) =>
-              this.initiateFileUploadProcess(file, url, file.name, fieldKey)
+            switchMap((res) =>
+              this.initiateFileUploadProcess(
+                file,
+                res.data[0].url,
+                res.data[0].file_alias,
+                file.name,
+                fieldKey
+              )
             )
           );
 
@@ -232,7 +261,22 @@ export class DocumentSubmitComponent implements OnInit {
 
   onUploadButtonClick() {
     const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
-    console.log(valueToEmit);
+    documentForm.patchValue({ ...valueToEmit });
+    console.log(this.fileUploadTracker);
+
+    this.outputValues.emit(valueToEmit);
+  }
+
+  onSaveAsDraftClick() {
+    const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
+    console.log(`fileUploadTracker `, this.fileUploadTracker);
+    console.log(`valueToEmit `, valueToEmit);
+    documentForm.reset();
+
+    documentForm.patchValue({ ...valueToEmit });
+    console.log(`fornm `, documentForm.value);
+
+    this.saveAsDraft.emit(valueToEmit);
   }
 
   private mapFileTrackerToEmitValues(tracker: IFileUploadTracking): emitValue {
@@ -242,8 +286,8 @@ export class DocumentSubmitComponent implements OnInit {
         return;
       }
       Object.values(tracker[questionId]).forEach(
-        (value: emitValue["State_Acts_Doc"][0]) => {
-          const objectToSave = { name: value.name, url: value.url };
+        (value: IFileUploadTracking[fileKeys]["fileName"]) => {
+          const objectToSave = { name: value.fileName, url: value.url };
 
           if (!output[questionId]) {
             output[questionId] = [objectToSave];
@@ -272,15 +316,21 @@ export class DocumentSubmitComponent implements OnInit {
     });
   }
 
+  /**
+   *
+   * @param fileAlias This contains the url  to download the file. Therefore we need to store this key and not url key
+   * @param url File will be uploaded on this url
+   */
   private initiateFileUploadProcess(
     file: File,
     url: string,
+    fileAlias: string,
     fileID: string,
     questionId: fileKeys
   ) {
     return this.dataEntryService.uploadFileToS3(file, url).pipe(
       map((response: HttpEvent<any>) => {
-        return this.logUploadProgess(response, fileID, url, questionId);
+        return this.logUploadProgess(response, fileID, fileAlias, questionId);
       })
     );
   }
@@ -347,5 +397,11 @@ export class DocumentSubmitComponent implements OnInit {
     return !!this.userSelectedFiles[key].find(
       (file) => file.name === fileToCheck.name
     );
+  }
+
+  ngOnDestroy(): void {
+    documentForm.reset();
+    documentForm.enable();
+    console.log(`ngOnDestroy`);
   }
 }

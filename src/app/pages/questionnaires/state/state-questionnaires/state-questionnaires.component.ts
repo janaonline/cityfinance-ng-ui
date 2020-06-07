@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatHorizontalStepper } from '@angular/material';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog, MatHorizontalStepper } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
+import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
@@ -9,19 +11,19 @@ import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { IQuestionnaireResponse } from '../../model/questionnaireResponse.interface';
 import { QuestionnaireService } from '../../service/questionnaire.service';
+import { documentForm } from '../configs/document.config';
+import { propertyTaxForm } from '../configs/property-tax.cofig';
+import { userChargesForm } from '../configs/user-charges.config';
 
 @Component({
   selector: "app-state-questionnaires",
   templateUrl: "./state-questionnaires.component.html",
   styleUrls: ["./state-questionnaires.component.scss"],
 })
-export class StateQuestionnairesComponent implements OnInit {
-  constructor(
-    private _questionnaireService: QuestionnaireService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router
-  ) {}
+export class StateQuestionnairesComponent implements OnInit, OnDestroy {
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
+  @ViewChild("savingAsDraft") savingAsDraftPopup: TemplateRef<any>;
+  draftSavingInProgess = false;
   introductionCompleted = false;
   propertyTaxData: IQuestionnaireResponse["data"][0]["propertyTax"];
   UserChargesData: IQuestionnaireResponse["data"][0]["userCharges"];
@@ -51,6 +53,23 @@ export class StateQuestionnairesComponent implements OnInit {
 
   stateName: string;
 
+  expandPropertyTaxQuestion = false;
+  expandUserChargesQuestion = false;
+
+  defaultDailogConfiuration: IDialogConfiguration = {
+    message: "",
+    buttons: {
+      cancel: { text: "OK" },
+    },
+  };
+
+  constructor(
+    private _questionnaireService: QuestionnaireService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private _matDialog: MatDialog
+  ) {}
+
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params) => {
       try {
@@ -73,7 +92,12 @@ export class StateQuestionnairesComponent implements OnInit {
 
         if (this.userHasAlreadyFilledForm) {
           this.setComponentStateToAlreadyFilled(res);
+        } else {
+          this.propertyTaxData = res.propertyTax;
+          this.UserChargesData = res.userCharges;
+          this.documentData = res.documents;
         }
+
         this.validateQuestionnaireFillAccess();
         this.showLoader = false;
       },
@@ -91,8 +115,7 @@ export class StateQuestionnairesComponent implements OnInit {
     this.stepper.next();
   }
 
-  onCompletingPropertyTax(value: { [key: string]: string }) {
-    console.log(`property tax completed`, value);
+  onCompletingPropertyTax(value: { [key: string]: string }, isValid: boolean) {
     this.finalData.propertyTax = value;
     this.stepper.next();
   }
@@ -103,31 +126,106 @@ export class StateQuestionnairesComponent implements OnInit {
   }
 
   onFileUploaded(value: { [key: string]: string }) {
-    this.finalData.documents = { ...value };
+    this.stepper.next();
 
-    this.editable = false;
     if (this.userHasAlreadyFilledForm) {
       return;
     }
+    this.finalData.documents = { ...value };
+  }
 
-    setTimeout(() => {
-      this.stepper.next();
+  saveAsDraft() {
+    this.draftSavingInProgess = true;
+    if (this.userHasAlreadyFilledForm) return false;
+    const obj = {
+      documents: documentForm.value,
+      propertyTax: propertyTaxForm.value,
+      userCharges: userChargesForm.value,
+      isCompleted: false,
+    };
+
+    console.log(`savign as draft`, documentForm.value);
+
+    if (this.userData.role !== USER_TYPE.STATE) {
+      obj["state"] = this.currentStateId;
+    }
+    this._matDialog.open(this.savingAsDraftPopup, {
+      width: "35vw",
+      height: "fit-content",
+    });
+    this._questionnaireService.saveQuestionnaireData(obj).subscribe((res) => {
+      this.draftSavingInProgess = false;
+      setTimeout(() => {
+        this._matDialog.closeAll();
+      }, 3000);
+    });
+  }
+
+  uploadCompletedQuestionnaireData() {
+    if (this.userHasAlreadyFilledForm) {
+      return;
+    }
+    try {
+      this.validatorQuestionnaireForms();
+    } catch (error) {
+      return;
+    }
+
+    const obj = {
+      documents: documentForm.value,
+      propertyTax: propertyTaxForm.value,
+      userCharges: userChargesForm.value,
+      isCompleted: true,
+    };
+    if (this.userData.role !== USER_TYPE.STATE) {
+      obj["state"] = this.currentStateId;
+    }
+    this.userHasAlreadyFilledForm = true;
+    this.editable = false;
+    this._questionnaireService.saveQuestionnaireData(obj).subscribe((res) => {
       this.userHasAlreadyFilledForm = true;
-      if (this.userData.role !== USER_TYPE.STATE) {
-        this.finalData["state"] = this.currentStateId;
-      }
+    });
+  }
 
-      this._questionnaireService
-        .saveQuestionnaireData(this.finalData)
-        .subscribe((res) => {
-          this.userHasAlreadyFilledForm = true;
-        });
-    }, 2000);
+  validatorQuestionnaireForms() {
+    let message = "";
+    if (propertyTaxForm.valid && userChargesForm.valid && documentForm.valid) {
+      return true;
+    }
+    if (!propertyTaxForm.valid) {
+      message = "All questions must be answered in Property Tax";
+      this.expandPropertyTaxQuestion = true;
+      this.stepper.selectedIndex = 1;
+    }
+
+    if (!userChargesForm.valid) {
+      message += message
+        ? " and User Charges."
+        : "All questions must be answered in User Charges";
+      this.expandUserChargesQuestion = true;
+      if (propertyTaxForm.valid) {
+        this.stepper.selectedIndex = 2;
+      }
+    }
+
+    if (documentForm.invalid) {
+      message += message
+        ? " and mandatory documents must be uploaded in Upload Document section."
+        : "All mandatory documents must be uploaded in Upload Document section.";
+      if (propertyTaxForm.valid && userChargesForm.valid) {
+        this.stepper.selectedIndex = 3;
+      }
+    }
+    message += " Please fill remaining questions and then submit.";
+    this._matDialog.open(DialogComponent, {
+      data: { ...this.defaultDailogConfiuration, message },
+      width: "25vw",
+    });
+    throw message;
   }
 
   showPropertyTax() {
     this.stepper.selectedIndex = 1;
-    console.log(`showPropertyTax`);
   }
 
   private validateUserAccess(params: { stateId: string }) {
@@ -182,10 +280,13 @@ export class StateQuestionnairesComponent implements OnInit {
 
   private hasUserAlreadyFilledForm(res: IQuestionnaireResponse["data"][0]) {
     const util = new JSONUtility();
-    return res &&
-      (util.filterEmptyValue(res.propertyTax) ||
-        util.filterEmptyValue(res.userCharges))
-      ? true
-      : false;
+    return res && res.isCompleted;
+    // return res &&
+    //   (util.filterEmptyValue(res.propertyTax) ||
+    //     util.filterEmptyValue(res.userCharges))
+    //   ? true
+    //   : false;
   }
+
+  ngOnDestroy(): void {}
 }
