@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { debounceTime } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { QuestionsIdMapping, userChargesForm } from '../configs/user-charges.con
   templateUrl: "./user-charges.component.html",
   styleUrls: ["./user-charges.component.scss"],
 })
-export class UserChargesComponent implements OnInit, OnChanges {
+export class UserChargesComponent implements OnInit, OnChanges, OnDestroy {
   @Input() data: any;
   @Input() editable: boolean;
   @Input() shouldGoToNext = true;
@@ -100,6 +100,12 @@ export class UserChargesComponent implements OnInit, OnChanges {
   }
   private initializeForm() {
     this.questionForm = userChargesForm;
+  }
+
+  ngOnDestroy(): void {
+    this.questionForm.reset();
+    this.questionForm.enable();
+    console.log(`ngOnDestroy`);
   }
 
   // private Existing_Status_Yes_UC_A_Validator = (control: AbstractControl) => {

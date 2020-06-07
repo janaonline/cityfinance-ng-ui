@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatHorizontalStepper } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
@@ -20,7 +20,7 @@ import { userChargesForm } from '../configs/user-charges.config';
   templateUrl: "./state-questionnaires.component.html",
   styleUrls: ["./state-questionnaires.component.scss"],
 })
-export class StateQuestionnairesComponent implements OnInit {
+export class StateQuestionnairesComponent implements OnInit, OnDestroy {
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
   introductionCompleted = false;
   propertyTaxData: IQuestionnaireResponse["data"][0]["propertyTax"];
@@ -76,7 +76,6 @@ export class StateQuestionnairesComponent implements OnInit {
           params && params.stateId ? params.stateId : this.userData.state;
         this.currentStateId = id;
         this.validateUserAccess({ stateId: id });
-        // this.listenToAllForms();
       } catch (error) {
         console.error(error);
       }
@@ -110,7 +109,6 @@ export class StateQuestionnairesComponent implements OnInit {
   }
 
   onCompletingPropertyTax(value: { [key: string]: string }, isValid: boolean) {
-    console.log(`property tax completed`, value, isValid);
     this.finalData.propertyTax = value;
     this.stepper.next();
   }
@@ -127,30 +125,6 @@ export class StateQuestionnairesComponent implements OnInit {
       return;
     }
     this.finalData.documents = { ...value };
-
-    // this.userHasAlreadyFilledForm = true;
-    // if (this.userData.role !== USER_TYPE.STATE) {
-    //   this.finalData["state"] = this.currentStateId;
-    // }
-
-    //  this._questionnaireService
-    //    .saveQuestionnaireData(this.finalData)
-    //    .subscribe((res) => {
-    //      this.userHasAlreadyFilledForm = true;
-    //    });
-
-    // setTimeout(() => {
-    //   // this.stepper.next();
-    //   // this.userHasAlreadyFilledForm = true;
-    //   // if (this.userData.role !== USER_TYPE.STATE) {
-    //   //   this.finalData["state"] = this.currentStateId;
-    //   // }
-    //   // this._questionnaireService
-    //   //   .saveQuestionnaireData(this.finalData)
-    //   //   .subscribe((res) => {
-    //   //     this.userHasAlreadyFilledForm = true;
-    //   //   });
-    // }, 2000);
   }
 
   uploadCompletedQuestionnaireData() {
@@ -169,6 +143,9 @@ export class StateQuestionnairesComponent implements OnInit {
       userCharges: userChargesForm.value,
       isCompleted: true,
     };
+    if (this.userData.role !== USER_TYPE.STATE) {
+      this.finalData["state"] = this.currentStateId;
+    }
     this.userHasAlreadyFilledForm = true;
     this.editable = false;
     this._questionnaireService
@@ -279,9 +256,5 @@ export class StateQuestionnairesComponent implements OnInit {
       : false;
   }
 
-  // private listenToAllForms() {
-  //   propertyTaxForm.valueChanges.pipe(debounceTime(2000)).subscribe((value) => {
-  //     console.log(value);
-  //   });
-  // }
+  ngOnDestroy(): void {}
 }

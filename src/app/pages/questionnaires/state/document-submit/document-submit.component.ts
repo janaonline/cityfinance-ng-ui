@@ -1,5 +1,5 @@
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -41,7 +41,7 @@ type IFileUploadTracking = {
   templateUrl: "./document-submit.component.html",
   styleUrls: ["./document-submit.component.scss"],
 })
-export class DocumentSubmitComponent implements OnInit {
+export class DocumentSubmitComponent implements OnInit, OnDestroy {
   @Input()
   documents: IQuestionnaireDocumentsCollection;
   @Input()
@@ -338,5 +338,11 @@ export class DocumentSubmitComponent implements OnInit {
     return !!this.userSelectedFiles[key].find(
       (file) => file.name === fileToCheck.name
     );
+  }
+
+  ngOnDestroy(): void {
+    documentForm.reset();
+    documentForm.enable();
+    console.log(`ngOnDestroy`);
   }
 }
