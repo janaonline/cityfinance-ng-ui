@@ -1,4 +1,8 @@
 :host {
+  ol,
+  ul {
+    list-style-type: none;
+  }
   mat-radio-button {
     margin-left: 1%;
   }

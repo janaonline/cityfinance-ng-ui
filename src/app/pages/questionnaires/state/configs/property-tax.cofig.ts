@@ -2,34 +2,34 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 
 const QuestionsIdMapping = {
   Act_Linking_PT_A:
-    "Does your Municipality/Municipal Corporation Act  link property tax to prevailing guideline values/circle rates?",
+    "1. Does your Municipality/Municipal Corporation Act  link property tax to prevailing guideline values/circle rates?",
   Existing_Status_PT_A:
-    "What is the current status regarding aligning property tax with prevailing guideline values/circle rates of all Municipalities/Municipal Corporations? ",
+    "1.a) What is the current status regarding aligning property tax with prevailing guideline values/circle rates of all Municipalities/Municipal Corporations? ",
 
   Relevent_Sections_Yes_PT_A:
-    " Mention the relevant section/provision/clause number of gazette notification/rules/relevant provision in the Act (Upload relevant documents in Upload Documents section)",
+    "1.b) Mention the relevant section/provision/clause number of gazette notification/rules/relevant provision in the Act <i>(Upload relevant documents in Upload Documents section)</i>",
   Legislative_Changes_PT_A:
-    "Would you be seeking legislative changes/state government approval/issue executive order to provide for such linkage of property tax to guideline values/circle rates?",
-  Action_Date_PT_A: "Date by which it will be completed",
+    "1.a) Would you be seeking legislative changes/state government approval/issue executive order to provide for such linkage of property tax to guideline values/circle rates?",
+  Action_Date_PT_A: "1.b) Date by which it will be completed",
   Relevent_Sections_No_PT_A:
-    "What is the existing status regarding aligning property tax with prevailing circle rates of all Municipalities/Municipal Corporations?",
+    "2.a) What is the existing status regarding aligning property tax with prevailing circle rates of all Municipalities/Municipal Corporations?",
   Adoption_Plan_PT_A:
-    "What is the plan for adoption of property tax linking with prevailing guideline values/circle rates for 1) Municipal Corporations, 2) Municipalities, and  3) Town Panchayats? (Upload relevant documents in Upload Documents section)",
-  Implement_Date_PT_A: "Date by which it will be completed",
+    "2.b) What is the plan for adoption of property tax linking with prevailing guideline values/circle rates for 1) Municipal Corporations, 2) Municipalities, and  3) Town Panchayats? <i>(Upload relevant documents in Upload Documents section)</i>",
+  Implement_Date_PT_A: "2.c) Date by which it will be completed",
   Periodic_Increase_PT_B:
-    "Does your Municipality/ Municipal Corporation Act provide for periodic increase of floor rates of property tax?",
+    "3. Does your Municipality/ Municipal Corporation Act provide for periodic increase of floor rates of property tax?",
   Existing_Status_Yes_PT_B:
-    "What is the existing status of periodic increase in property tax in line with the increase in guideline values/circle rates for all Municipalities and Municipal Corporations?",
+    "3.a) What is the existing status of periodic increase in property tax in line with the increase in guideline values/circle rates for all Municipalities and Municipal Corporations?",
   Relevent_Sections_PT_B:
-    "Mention the relevant section/provision/clause number of gazette notification/rules/relevant provision in the Act (Upload relevant documents in Upload Documents section)",
+    "3.b) Mention the relevant section/provision/clause number of gazette notification/rules/relevant provision in the Act <i>(Upload relevant documents in Upload Documents section)</i>",
   Legislative_Changes_PT_B:
-    "Would you be seeking legislative changes/state government approval/issue executive order to provide for periodic increase of floor rates of property tax?",
-  Action_Date_PT_B: "Date by which it will be completed",
+    "3.a) Would you be seeking legislative changes/state government approval/issue executive order to provide for periodic increase of floor rates of property tax?",
+  Action_Date_PT_B: "3.b) Date by which it will be completed",
   Existing_Status_No_PT_B:
-    "What is the existing status of periodic increase in property tax in line with the increase in guideline values/circle rates for all Municipalities and Municipal Corporations?",
+    "4.a) What is the existing status of periodic increase in property tax in line with the increase in guideline values/circle rates for all Municipalities and Municipal Corporations?",
   Implement_Plan_PT_B:
-    "What is the plan for implementing above for property tax for 1) Municipal Corporations, 2) Municipalities, and 3) Town Panchayats? (Upload relevant documents in Upload Document section)",
-  Implement_Date_PT_B: "Date by which it will be completed",
+    "4.b) What is the plan for implementing above for property tax for 1) Municipal Corporations, 2) Municipalities, and 3) Town Panchayats? <i>(Upload relevant documents in Upload Documents section)</i>",
+  Implement_Date_PT_B: "4.c) Date by which it will be completed",
 };
 
 let propertyTaxForm: FormGroup;

@@ -2,33 +2,33 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 
 const QuestionsIdMapping = {
   Byelaws_UC_A:
-    "Do your byelaws/executive orders provide for levying user charges in-line with current costs?",
+    "1. Do your byelaws/executive orders provide for levying user charges in-line with current costs?",
   Existing_Status_Yes_UC_A:
-    "What is the existing legal framework for levying user charges in-line with current costs in all the Municipalities and Municipal Corporations?",
+    "1.a) What is the existing legal framework for levying user charges in-line with current costs in all the Municipalities and Municipal Corporations?",
   Relevant_Section_UC_A:
-    "Mention the relevant section/clause number of  byelaws/executive order (Upload relevant documents in Upload Documents section)",
+    "1.b) Mention the relevant section/clause number of  byelaws/executive order <i>(Upload relevant documents in Upload Documents section)</i> ",
   State_Approval_UC_A:
-    "Would you be seeking state government approval/issue executive order to provide for levying user charges in line with current costs?",
-  Action_Date_UC_A: "Date by which it will be completed",
+    "1.a) Would you be seeking state government approval/issue executive order to provide for levying user charges in line with current costs?",
+  Action_Date_UC_A: "1.b) Date by which it will be completed",
   Existing_Status_No_UC_A:
-    "What is the existing legal framework of levying of user charges in-line with current costs in all the Municipalities and Municipal Corporations?",
+    "2.a) What is the existing legal framework of levying of user charges in-line with current costs in all the Municipalities and Municipal Corporations?",
   Implement_Plan_UC_A:
-    "What is the plan for implementing above for 1) AMRUT cities & towns and 2) Other cities & towns? (Upload relevant documents in Upload Documents section)",
-  Implement_Date_UC_A: "Date by which it will be completed",
+    "2.b) What is the plan for implementing above for 1) AMRUT cities & towns and 2) Other cities & towns?  <i>(Upload relevant documents in Upload Documents section)</i>",
+  Implement_Date_UC_A: "2.c) Date by which it will be completed",
   Periodic_Increase_UC_B:
-    "Is there a provision for periodic increase in user charges for water, drainage and sewerage in line with price increase?",
+    "3. Is there a provision for periodic increase in user charges for water, drainage and sewerage in line with price increase?",
   Existing_Status_Yes_UC_B:
-    "What is the existing status of byelaws/executive orders for periodic increase in user charges for water, drainage and sewerage in Municipalities and Municipal Corporations?",
+    "3.a) What is the existing status of byelaws/executive orders for periodic increase in user charges for water, drainage and sewerage in Municipalities and Municipal Corporations?",
   Relevant_Section_UC_B:
-    "Mention the relevant section/clause namber of relevant byelaws/executive order (Upload relevant documents in Upload Documents section)",
+    "3.b)Mention the relevant section/clause namber of relevant byelaws/executive order <i>(Upload relevant documents in Upload Documents section)</i>",
   State_Approval_UC_B:
-    "Would you be seeking state government approval/issue executive order to provide for periodic increase in user charges in line with price increase?",
-  Action_Date_UC_B: "Date by which it will be completed",
+    "3.a) Would you be seeking state government approval/issue executive order to provide for periodic increase in user charges in line with price increase?",
+  Action_Date_UC_B: "3.b) Date by which it will be completed",
   Existing_Status_No_UC_B:
-    "What is the existing status of byelaws/executive orders for periodic increase in user charges for water, drainage and sewerage in Municipalities and Municipal Corporations?",
+    "4.a) What is the existing status of byelaws/executive orders for periodic increase in user charges for water, drainage and sewerage in Municipalities and Municipal Corporations?",
   Implement_Plan_UC_B:
-    "What is the plan for implementing above for 1) AMRUT cities & towns, and 2) Other cities & Towns? (Upload relevant documents in Upload Documents section)",
-  Implement_Date_UC_B: "Date by which it will be completed",
+    "4.b) What is the plan for implementing above for 1) AMRUT cities & towns, and 2) Other cities & Towns?  <i>(Upload relevant documents in Upload Documents section)</i>",
+  Implement_Date_UC_B: "4.c) Date by which it will be completed",
 };
 
 let userChargesForm: FormGroup;
