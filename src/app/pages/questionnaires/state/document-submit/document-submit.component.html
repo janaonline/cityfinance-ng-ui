@@ -55,6 +55,8 @@
                   documents[question.key][i]?.url) ||
                 (fileUploadTracker &&
                   fileUploadTracker[question.key] &&
+                  fileUploadTracker[question.key][file.name].percentage ===
+                    100 &&
                   fileUploadTracker[question.key][file.name]
                     ?.url) as downloadurl
               "
