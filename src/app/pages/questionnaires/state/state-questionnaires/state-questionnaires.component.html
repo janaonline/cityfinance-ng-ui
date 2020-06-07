@@ -47,6 +47,7 @@
       <app-property-tax
         [data]="propertyTaxData"
         [editable]="editable"
+        [showErroredQuestions]="expandPropertyTaxQuestion"
         [shouldGoToPrevious]="canSeeIntroduction"
         (answer)="onCompletingPropertyTax($event)"
         (previous)="stepper.previous()"
@@ -54,6 +55,7 @@
     </mat-step>
     <mat-step label="User Charges">
       <app-user-charges
+        [showErroredQuestions]="expandUserChargesQuestion"
         [shouldGoToNext]="canGoToDonePage"
         [data]="UserChargesData"
         [editable]="editable"
@@ -64,12 +66,18 @@
     <mat-step label="Upload Documents">
       <app-document-submit
         [documents]="documentData"
+        [canUploadFile]="editable"
         (outputValues)="onFileUploaded($event)"
         (previous)="stepper.previous()"
       ></app-document-submit>
     </mat-step>
     <mat-step label="Submit" *ngIf="canGoToDonePage">
-      <app-completed (showOld)="showPropertyTax()"></app-completed>
+      <app-completed
+        [submitted]="userHasAlreadyFilledForm"
+        (showOld)="showPropertyTax()"
+        (submit)="uploadCompletedQuestionnaireData()"
+        (previous)="stepper.previous()"
+      ></app-completed>
     </mat-step>
   </mat-horizontal-stepper>
 </div>

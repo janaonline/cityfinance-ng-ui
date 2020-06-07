@@ -8,6 +8,7 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
 
 import { IQuestionnaireDocumentsCollection } from '../../model/document-collection.interface';
+import { documentForm, QuestionsIdMapping } from '../configs/document.config';
 
 /**
  * These are thew question ids that are mapped to files that user select and the question.
@@ -43,6 +44,8 @@ type IFileUploadTracking = {
 export class DocumentSubmitComponent implements OnInit {
   @Input()
   documents: IQuestionnaireDocumentsCollection;
+  @Input()
+  canUploadFile = true;
 
   @Output()
   outputValues = new EventEmitter<emitValue>();
@@ -68,47 +71,24 @@ export class DocumentSubmitComponent implements OnInit {
   questions = [
     {
       key: "State_Acts_Doc",
-      question:
-        "Latest copy of the State Municipal Corporation Act and State Municipalities Act.",
-    },
-    {
-      key: "State_Amendments_Doc",
-      question:
-        "Any notified amendments to the State Municipal Corporation Act and/or State Municipalities Act pertaining to provisions of the property tax and/or user charges.",
-    },
-    {
-      key: "City_Acts_Doc",
-      question:
-        "Any individual city wise Municipal Corporation Acts or Municipalities Acts.",
+      question: QuestionsIdMapping["State_Acts_Doc"],
     },
     {
       key: "State_Rules_Doc",
-      question:
-        "Notified Rules against the provisions of the State Municipal Corporation Act and State Municipalities Act.",
+      question: QuestionsIdMapping["State_Rules_Doc"],
     },
-    {
-      key: "City_Amendments_Doc",
-      question:
-        "Any notified amendments to the Municipal Corporation Rules or Municipalities Rules pertaining to provisions of the property tax and/or user charges.",
-    },
-    {
-      key: "City_Rules_Doc",
-      question:
-        "Any individual city wise Municipal Corporation or Municipalities Rules.",
-    },
+
     {
       key: "Admin_Doc",
-      question:
-        "Any other Acts/bye-laws/Rules that govern the administration of property tax and user charges.",
+      question: QuestionsIdMapping["Admin_Doc"],
     },
     {
       key: "Implement_Doc",
-      question:
-        "PPT/Word file/PDF doc containing the implementation plan for meeting the conditions of the scheme.",
+      question: QuestionsIdMapping["Implement_Doc"],
     },
     {
       key: "Other_Doc",
-      question: "Any other documents relevant to the questionnaire.",
+      question: QuestionsIdMapping["Other_Doc"],
     },
   ];
 
@@ -166,10 +146,7 @@ export class DocumentSubmitComponent implements OnInit {
     }
 
     // Remove the file from file Tracker.
-
     delete this.fileUploadTracker[questionKey][fileNameToFilter];
-
-    console.log(`fileUploadTracker `, this.fileUploadTracker);
   }
 
   fileChangeEvent(event: Event, key: fileKeys) {
@@ -198,9 +175,14 @@ export class DocumentSubmitComponent implements OnInit {
         const subs = this.dataEntryService
           .getURLForFileUpload(file.name, file.type)
           .pipe(
-            map((res) => res["data"][0].url),
-            switchMap((url) =>
-              this.initiateFileUploadProcess(file, url, file.name, fieldKey)
+            switchMap((res) =>
+              this.initiateFileUploadProcess(
+                file,
+                res.data[0].url,
+                res.data[0].file_alias,
+                file.name,
+                fieldKey
+              )
             )
           );
 
@@ -232,7 +214,10 @@ export class DocumentSubmitComponent implements OnInit {
 
   onUploadButtonClick() {
     const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
-    console.log(valueToEmit);
+    documentForm.patchValue({ ...valueToEmit });
+    console.log(this.fileUploadTracker);
+
+    this.outputValues.emit(valueToEmit);
   }
 
   private mapFileTrackerToEmitValues(tracker: IFileUploadTracking): emitValue {
@@ -242,8 +227,8 @@ export class DocumentSubmitComponent implements OnInit {
         return;
       }
       Object.values(tracker[questionId]).forEach(
-        (value: emitValue["State_Acts_Doc"][0]) => {
-          const objectToSave = { name: value.name, url: value.url };
+        (value: IFileUploadTracking[fileKeys]["fileName"]) => {
+          const objectToSave = { name: value.fileName, url: value.url };
 
           if (!output[questionId]) {
             output[questionId] = [objectToSave];
@@ -272,15 +257,21 @@ export class DocumentSubmitComponent implements OnInit {
     });
   }
 
+  /**
+   *
+   * @param fileAlias This contains the url  to download the file. Therefore we need to store this key and not url key
+   * @param url File will be uploaded on this url
+   */
   private initiateFileUploadProcess(
     file: File,
     url: string,
+    fileAlias: string,
     fileID: string,
     questionId: fileKeys
   ) {
     return this.dataEntryService.uploadFileToS3(file, url).pipe(
       map((response: HttpEvent<any>) => {
-        return this.logUploadProgess(response, fileID, url, questionId);
+        return this.logUploadProgess(response, fileID, fileAlias, questionId);
       })
     );
   }

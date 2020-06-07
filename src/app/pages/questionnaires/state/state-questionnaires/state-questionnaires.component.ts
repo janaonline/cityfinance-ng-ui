@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatHorizontalStepper } from '@angular/material';
+import { MatDialog, MatHorizontalStepper } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
+import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
@@ -9,6 +11,9 @@ import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { IQuestionnaireResponse } from '../../model/questionnaireResponse.interface';
 import { QuestionnaireService } from '../../service/questionnaire.service';
+import { documentForm } from '../configs/document.config';
+import { propertyTaxForm } from '../configs/property-tax.cofig';
+import { userChargesForm } from '../configs/user-charges.config';
 
 @Component({
   selector: "app-state-questionnaires",
@@ -16,11 +21,6 @@ import { QuestionnaireService } from '../../service/questionnaire.service';
   styleUrls: ["./state-questionnaires.component.scss"],
 })
 export class StateQuestionnairesComponent implements OnInit {
-  constructor(
-    private _questionnaireService: QuestionnaireService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router
-  ) {}
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
   introductionCompleted = false;
   propertyTaxData: IQuestionnaireResponse["data"][0]["propertyTax"];
@@ -51,6 +51,23 @@ export class StateQuestionnairesComponent implements OnInit {
 
   stateName: string;
 
+  expandPropertyTaxQuestion = false;
+  expandUserChargesQuestion = false;
+
+  defaultDailogConfiuration: IDialogConfiguration = {
+    message: "",
+    buttons: {
+      cancel: { text: "OK" },
+    },
+  };
+
+  constructor(
+    private _questionnaireService: QuestionnaireService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private _matDialog: MatDialog
+  ) {}
+
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params) => {
       try {
@@ -59,6 +76,7 @@ export class StateQuestionnairesComponent implements OnInit {
           params && params.stateId ? params.stateId : this.userData.state;
         this.currentStateId = id;
         this.validateUserAccess({ stateId: id });
+        // this.listenToAllForms();
       } catch (error) {
         console.error(error);
       }
@@ -91,8 +109,8 @@ export class StateQuestionnairesComponent implements OnInit {
     this.stepper.next();
   }
 
-  onCompletingPropertyTax(value: { [key: string]: string }) {
-    console.log(`property tax completed`, value);
+  onCompletingPropertyTax(value: { [key: string]: string }, isValid: boolean) {
+    console.log(`property tax completed`, value, isValid);
     this.finalData.propertyTax = value;
     this.stepper.next();
   }
@@ -103,26 +121,98 @@ export class StateQuestionnairesComponent implements OnInit {
   }
 
   onFileUploaded(value: { [key: string]: string }) {
-    this.finalData.documents = { ...value };
+    this.stepper.next();
 
-    this.editable = false;
     if (this.userHasAlreadyFilledForm) {
       return;
     }
+    this.finalData.documents = { ...value };
 
-    setTimeout(() => {
-      this.stepper.next();
-      this.userHasAlreadyFilledForm = true;
-      if (this.userData.role !== USER_TYPE.STATE) {
-        this.finalData["state"] = this.currentStateId;
+    // this.userHasAlreadyFilledForm = true;
+    // if (this.userData.role !== USER_TYPE.STATE) {
+    //   this.finalData["state"] = this.currentStateId;
+    // }
+
+    //  this._questionnaireService
+    //    .saveQuestionnaireData(this.finalData)
+    //    .subscribe((res) => {
+    //      this.userHasAlreadyFilledForm = true;
+    //    });
+
+    // setTimeout(() => {
+    //   // this.stepper.next();
+    //   // this.userHasAlreadyFilledForm = true;
+    //   // if (this.userData.role !== USER_TYPE.STATE) {
+    //   //   this.finalData["state"] = this.currentStateId;
+    //   // }
+    //   // this._questionnaireService
+    //   //   .saveQuestionnaireData(this.finalData)
+    //   //   .subscribe((res) => {
+    //   //     this.userHasAlreadyFilledForm = true;
+    //   //   });
+    // }, 2000);
+  }
+
+  uploadCompletedQuestionnaireData() {
+    if (this.userHasAlreadyFilledForm) {
+      return;
+    }
+    try {
+      this.validatorQuestionnaireForms();
+    } catch (error) {
+      return;
+    }
+
+    this.finalData = {
+      documents: documentForm.value,
+      propertyTax: propertyTaxForm.value,
+      userCharges: userChargesForm.value,
+      isCompleted: true,
+    };
+    this.userHasAlreadyFilledForm = true;
+    this.editable = false;
+    this._questionnaireService
+      .saveQuestionnaireData(this.finalData)
+      .subscribe((res) => {
+        this.userHasAlreadyFilledForm = true;
+      });
+  }
+
+  validatorQuestionnaireForms() {
+    let message = "";
+    if (propertyTaxForm.valid && userChargesForm.valid && documentForm.valid) {
+      return true;
+    }
+    if (!propertyTaxForm.valid) {
+      message = "All questions must be answered in Property Tax";
+      this.expandPropertyTaxQuestion = true;
+      this.stepper.selectedIndex = 1;
+    }
+
+    if (!userChargesForm.valid) {
+      message += message
+        ? " and User Charges."
+        : "All questions must be answered in User Charges";
+      this.expandUserChargesQuestion = true;
+      if (propertyTaxForm.valid) {
+        this.stepper.selectedIndex = 2;
       }
+    }
 
-      this._questionnaireService
-        .saveQuestionnaireData(this.finalData)
-        .subscribe((res) => {
-          this.userHasAlreadyFilledForm = true;
-        });
-    }, 2000);
+    if (documentForm.invalid) {
+      message += message
+        ? " and mandatory documents must be uploaded in Upload Document section."
+        : "All mandatory documents must be uploaded in Upload Document section.";
+      if (propertyTaxForm.valid && userChargesForm.valid) {
+        this.stepper.selectedIndex = 3;
+      }
+    }
+    message += " Please fill remaining questions and then submit.";
+    this._matDialog.open(DialogComponent, {
+      data: { ...this.defaultDailogConfiuration, message },
+      width: "25vw",
+    });
+    throw message;
   }
 
   showPropertyTax() {
@@ -188,4 +278,10 @@ export class StateQuestionnairesComponent implements OnInit {
       ? true
       : false;
   }
+
+  // private listenToAllForms() {
+  //   propertyTaxForm.valueChanges.pipe(debounceTime(2000)).subscribe((value) => {
+  //     console.log(value);
+  //   });
+  // }
 }

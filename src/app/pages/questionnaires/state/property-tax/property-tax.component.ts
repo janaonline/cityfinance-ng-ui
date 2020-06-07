@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+import { propertyTaxForm, QuestionsIdMapping } from '../configs/property-tax.cofig';
 
 @Component({
   selector: "app-property-tax",
@@ -11,6 +12,8 @@ export class PropertyTaxComponent implements OnInit, OnChanges {
   @Input() data: any;
   @Input() editable: boolean;
   @Input() shouldGoToPrevious = true;
+  @Input() showErroredQuestions = false;
+
   @Output()
   answer: EventEmitter<{
     [key: string]: string;
@@ -23,7 +26,8 @@ export class PropertyTaxComponent implements OnInit, OnChanges {
   todayDate = new Date();
 
   clickedonNext = false;
-  shouldExpandAccordian = false;
+
+  QuestionsIdMapping = QuestionsIdMapping;
 
   constructor(private _fb: FormBuilder) {
     this.initializeForm();
@@ -43,296 +47,302 @@ export class PropertyTaxComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.questionForm.valueChanges
-      .pipe(debounceTime(1111))
-      .subscribe((value) => {
-        Object.keys(this.questionForm.controls).forEach((key) => {
-          const control = this.questionForm.controls[key];
-          control.updateValueAndValidity();
-        });
-        this.questionForm.updateValueAndValidity();
-      });
+    // this.questionForm.valueChanges
+    //   .pipe(debounceTime(1111))
+    //   .subscribe((value) => {
+    //     // Object.keys(this.questionForm.controls).forEach((key) => {
+    //     //   const control = this.questionForm.controls[key];
+    //     //   control.updateValueAndValidity();
+    //     // });
+    //     this.questionForm.updateValueAndValidity();
+    //   });
   }
 
   onClickNext() {
-    this.clickedonNext = true;
-    if (this.questionForm.invalid) {
-      this.shouldExpandAccordian = true;
-      return;
-    }
+    // this.clickedonNext = true;
+    // if (this.questionForm.invalid) {
+    //   this.shouldExpandAccordian = true;
+    //   return;
+    // }
     this.answer.emit(this.questionForm.value);
   }
 
   public GetFormControlErrors(controlName: string) {
     return !!(
-      this.clickedonNext && this.questionForm.controls[controlName].errors
+      this.showErroredQuestions &&
+      this.questionForm.controls[controlName].errors
     )
       ? this.questionForm.controls[controlName].errors
       : null;
   }
 
   private initializeForm() {
-    this.questionForm = this._fb.group({
-      Act_Linking_PT_A: ["", [Validators.required]],
-      Existing_Status_PT_A: ["", [this.Existing_Status_PT_A_Validator]],
-      Relevent_Sections_PT_A: ["", [this.Relevent_Sections_PT_A_Validator]],
-      Legislative_Changes_PT_A: ["", [this.Legislative_Changes_PT_A_Validator]],
-      Action_Date_PT_A: [null, [this.Action_Date_PT_A_Validator]],
-      Relevent_Sections_No_PT_A: [
-        "",
-        [this.Relevent_Sections_No_PT_A_Validator],
-      ],
-      Adoption_Plan_PT_A: ["", [this.Adoption_Plan_PT_A_Validator]],
-      Implement_Date_PT_A: [null, [this.Implement_Date_PT_A_Validator]],
-      Periodic_Increase_PT_B: ["", [Validators.required]],
-      Existing_Status_Yes_PT_B: ["", [this.Existing_Status_Yes_PT_B_Validator]],
-      Relevent_Sections_PT_B: ["", [this.Relevent_Sections_PT_B_Validator]],
-      Legislative_Changes_PT_B: ["", [this.Legislative_Changes_PT_B_Validator]],
-      Action_Date_PT_B: ["", [this.Action_Date_PT_B_Validator]],
-      Existing_Status_No_PT_B: ["", [this.Existing_Status_No_PT_B_Validator]],
-      Implement_Plan_PT_B: ["", [this.Implement_Plan_PT_B_Validator]],
-      Implement_Date_PT_B: [null, [this.Implement_Date_PT_B_Validator]],
-    });
+    this.questionForm = propertyTaxForm;
+    console.log(`listening to property tax form, child`);
+    // propertyTaxForm.valueChanges.subscribe((value) => {
+    //   console.log(value);
+    // });
+    // this.questionForm = this._fb.group({
+    //   Act_Linking_PT_A: ["", [Validators.required]],
+    //   Existing_Status_PT_A: ["", [this.Existing_Status_PT_A_Validator]],
+    //   Relevent_Sections_PT_A: ["", [this.Relevent_Sections_PT_A_Validator]],
+    //   Legislative_Changes_PT_A: ["", [this.Legislative_Changes_PT_A_Validator]],
+    //   Action_Date_PT_A: [null, [this.Action_Date_PT_A_Validator]],
+    //   Relevent_Sections_No_PT_A: [
+    //     "",
+    //     [this.Relevent_Sections_No_PT_A_Validator],
+    //   ],
+    //   Adoption_Plan_PT_A: ["", [this.Adoption_Plan_PT_A_Validator]],
+    //   Implement_Date_PT_A: [null, [this.Implement_Date_PT_A_Validator]],
+    //   Periodic_Increase_PT_B: ["", [Validators.required]],
+    //   Existing_Status_Yes_PT_B: ["", [this.Existing_Status_Yes_PT_B_Validator]],
+    //   Relevent_Sections_PT_B: ["", [this.Relevent_Sections_PT_B_Validator]],
+    //   Legislative_Changes_PT_B: ["", [this.Legislative_Changes_PT_B_Validator]],
+    //   Action_Date_PT_B: ["", [this.Action_Date_PT_B_Validator]],
+    //   Existing_Status_No_PT_B: ["", [this.Existing_Status_No_PT_B_Validator]],
+    //   Implement_Plan_PT_B: ["", [this.Implement_Plan_PT_B_Validator]],
+    //   Implement_Date_PT_B: [null, [this.Implement_Date_PT_B_Validator]],
+    // });
   }
 
-  private Existing_Status_PT_A_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Existing_Status_PT_A_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Act_Linking_PT_A;
+  //   const dependentControl = this.questionForm.controls.Act_Linking_PT_A;
 
-    if (!dependentControl || dependentControl.value !== "Yes") {
-      return null;
-    }
-    if (control.value && control.value.trim()) {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "Yes") {
+  //     return null;
+  //   }
+  //   if (control.value && control.value.trim()) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 
-  private Relevent_Sections_PT_A_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Relevent_Sections_PT_A_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Act_Linking_PT_A;
+  //   const dependentControl = this.questionForm.controls.Act_Linking_PT_A;
 
-    if (!dependentControl || dependentControl.value !== "Yes") {
-      return null;
-    }
-    if (control.value && control.value.trim()) {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "Yes") {
+  //     return null;
+  //   }
+  //   if (control.value && control.value.trim()) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 
-  private Legislative_Changes_PT_A_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Legislative_Changes_PT_A_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Act_Linking_PT_A;
+  //   const dependentControl = this.questionForm.controls.Act_Linking_PT_A;
 
-    if (!dependentControl || dependentControl.value !== "No") {
-      return null;
-    }
-    if (control.value && control.value.trim()) {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "No") {
+  //     return null;
+  //   }
+  //   if (control.value && control.value.trim()) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 
-  private Action_Date_PT_A_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Action_Date_PT_A_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Act_Linking_PT_A;
+  //   const dependentControl = this.questionForm.controls.Act_Linking_PT_A;
 
-    if (!dependentControl || dependentControl.value !== "No") {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "No") {
+  //     return null;
+  //   }
 
-    if (control.value) {
-      return null;
-    }
+  //   if (control.value) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 
-  private Relevent_Sections_No_PT_A_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Relevent_Sections_No_PT_A_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Act_Linking_PT_A;
+  //   const dependentControl = this.questionForm.controls.Act_Linking_PT_A;
 
-    if (!dependentControl || dependentControl.value !== "No") {
-      return null;
-    }
-    if (control.value && control.value.trim()) {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "No") {
+  //     return null;
+  //   }
+  //   if (control.value && control.value.trim()) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 
-  private Adoption_Plan_PT_A_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Adoption_Plan_PT_A_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Act_Linking_PT_A;
+  //   const dependentControl = this.questionForm.controls.Act_Linking_PT_A;
 
-    if (!dependentControl || dependentControl.value !== "No") {
-      return null;
-    }
-    if (control.value && control.value.trim()) {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "No") {
+  //     return null;
+  //   }
+  //   if (control.value && control.value.trim()) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 
-  private Implement_Date_PT_A_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Implement_Date_PT_A_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Act_Linking_PT_A;
+  //   const dependentControl = this.questionForm.controls.Act_Linking_PT_A;
 
-    if (!dependentControl || dependentControl.value !== "No") {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "No") {
+  //     return null;
+  //   }
 
-    if (control.value) {
-      return null;
-    }
+  //   if (control.value) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 
-  private Existing_Status_Yes_PT_B_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Existing_Status_Yes_PT_B_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Periodic_Increase_PT_B;
+  //   const dependentControl = this.questionForm.controls.Periodic_Increase_PT_B;
 
-    if (!dependentControl || dependentControl.value !== "Yes") {
-      return null;
-    }
-    if (control.value && control.value.trim()) {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "Yes") {
+  //     return null;
+  //   }
+  //   if (control.value && control.value.trim()) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 
-  private Relevent_Sections_PT_B_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Relevent_Sections_PT_B_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Periodic_Increase_PT_B;
+  //   const dependentControl = this.questionForm.controls.Periodic_Increase_PT_B;
 
-    if (!dependentControl || dependentControl.value !== "Yes") {
-      return null;
-    }
-    if (control.value && control.value.trim()) {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "Yes") {
+  //     return null;
+  //   }
+  //   if (control.value && control.value.trim()) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 
-  private Legislative_Changes_PT_B_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Legislative_Changes_PT_B_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Periodic_Increase_PT_B;
+  //   const dependentControl = this.questionForm.controls.Periodic_Increase_PT_B;
 
-    if (!dependentControl || dependentControl.value !== "No") {
-      return null;
-    }
-    if (control.value && control.value.trim()) {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "No") {
+  //     return null;
+  //   }
+  //   if (control.value && control.value.trim()) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 
-  private Action_Date_PT_B_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Action_Date_PT_B_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Periodic_Increase_PT_B;
+  //   const dependentControl = this.questionForm.controls.Periodic_Increase_PT_B;
 
-    if (!dependentControl || dependentControl.value !== "No") {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "No") {
+  //     return null;
+  //   }
 
-    if (control.value) {
-      return null;
-    }
+  //   if (control.value) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 
-  private Existing_Status_No_PT_B_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Existing_Status_No_PT_B_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Periodic_Increase_PT_B;
+  //   const dependentControl = this.questionForm.controls.Periodic_Increase_PT_B;
 
-    if (!dependentControl || dependentControl.value !== "No") {
-      return null;
-    }
-    if (control.value && control.value.trim()) {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "No") {
+  //     return null;
+  //   }
+  //   if (control.value && control.value.trim()) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 
-  private Implement_Plan_PT_B_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Implement_Plan_PT_B_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Periodic_Increase_PT_B;
+  //   const dependentControl = this.questionForm.controls.Periodic_Increase_PT_B;
 
-    if (!dependentControl || dependentControl.value !== "No") {
-      return null;
-    }
-    if (control.value && control.value.trim()) {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "No") {
+  //     return null;
+  //   }
+  //   if (control.value && control.value.trim()) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 
-  private Implement_Date_PT_B_Validator = (control: AbstractControl) => {
-    if (!this.questionForm) {
-      return null;
-    }
+  // private Implement_Date_PT_B_Validator = (control: AbstractControl) => {
+  //   if (!this.questionForm) {
+  //     return null;
+  //   }
 
-    const dependentControl = this.questionForm.controls.Periodic_Increase_PT_B;
+  //   const dependentControl = this.questionForm.controls.Periodic_Increase_PT_B;
 
-    if (!dependentControl || dependentControl.value !== "No") {
-      return null;
-    }
-    if (control.value) {
-      return null;
-    }
+  //   if (!dependentControl || dependentControl.value !== "No") {
+  //     return null;
+  //   }
+  //   if (control.value) {
+  //     return null;
+  //   }
 
-    return { required: true };
-  };
+  //   return { required: true };
+  // };
 }

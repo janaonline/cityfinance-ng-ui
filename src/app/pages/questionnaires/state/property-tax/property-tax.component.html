@@ -3,7 +3,7 @@
   mandatory.
 </p>
 <mat-accordion multi="true">
-  <mat-expansion-panel [expanded]="shouldExpandAccordian">
+  <mat-expansion-panel [expanded]="showErroredQuestions">
     <mat-expansion-panel-header>
       <mat-panel-title>
         A. Notification of Floor rates linked to prevailing circle rates
@@ -14,8 +14,7 @@
       <ul>
         <li>
           <p>
-            Does your Municipality/ Municipal Corporation Act links property tax
-            to prevailing guideline value/ circle rate?
+            {{ QuestionsIdMapping["Act_Linking_PT_A"] }}
             <span class="mandatory"> *</span>
           </p>
           <mat-radio-group
@@ -43,9 +42,8 @@
         >
           <li>
             <p>
-              What is the existing status regarding aligning Property tax with
-              prevailing circle rates of all Municipalities/Municipal
-              Corporations?<span class="mandatory"> *</span>
+              {{ QuestionsIdMapping["Existing_Status_PT_A"]
+              }}<span class="mandatory"> *</span>
             </p>
             <div class="input-group textarea-wrapper">
               <textarea
@@ -60,9 +58,8 @@
           </li>
           <li>
             <p>
-              Mention the relevant section/provision/clause number of gazette
-              notification/rules/relevant provision in the Act (Upload relevant
-              documents in upload section)<span class="mandatory"> *</span>
+              {{ QuestionsIdMapping["Relevent_Sections_Yes_PT_A"]
+              }}<span class="mandatory"> *</span>
             </p>
             <div class="input-group textarea-wrapper">
               <textarea
@@ -86,9 +83,8 @@
       >
         <li>
           <p>
-            Would you be seeking legislative changes/ state government approval/
-            issue executive order to provide for such linkage of property tax to
-            guideline value/ circle rate? <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Legislative_Changes_PT_A"] }}
+            <span class="mandatory"> *</span>
           </p>
           <div class="input-group textarea-wrapper">
             <textarea
@@ -103,7 +99,8 @@
         </li>
         <li>
           <p>
-            Date by which it will be completed <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Action_Date_PT_A"] }}
+            <span class="mandatory"> *</span>
           </p>
           <div class="input-group">
             <input
@@ -134,9 +131,8 @@
       >
         <li>
           <p>
-            What is the existing status regarding aligning Property tax with
-            prevailing circle rates of all Municipalities/Municipal
-            Corporations? <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Relevent_Sections_No_PT_A"] }}
+            <span class="mandatory"> *</span>
           </p>
           <div class="input-group textarea-wrapper">
             <textarea
@@ -151,9 +147,8 @@
         </li>
         <li>
           <p>
-            What is the plan for adoption of property tax linking to prevailing
-            circle rates for 1) Municipal Corporations, 2) Municipalities, and
-            3) Town Panchayats? <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Adoption_Plan_PT_A"] }}
+            <span class="mandatory"> *</span>
           </p>
           <div class="input-group textarea-wrapper">
             <textarea
@@ -168,7 +163,8 @@
         </li>
         <li>
           <p>
-            Date by which it will be completed <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Implement_Date_PT_A"] }}
+            <span class="mandatory"> *</span>
           </p>
           <div class="input-group">
             <input
@@ -193,7 +189,7 @@
     </form>
   </mat-expansion-panel>
 
-  <mat-expansion-panel [expanded]="shouldExpandAccordian">
+  <mat-expansion-panel [expanded]="showErroredQuestions">
     <mat-expansion-panel-header>
       <mat-panel-title>
         B. Periodic increase of floor rates in line with price increase
@@ -203,8 +199,7 @@
       <ul start="3">
         <li>
           <p>
-            Does your Municipality/ Municipal Corporation Act provide for
-            periodic increase of floor rates of property tax?
+            {{ QuestionsIdMapping["Periodic_Increase_PT_B"] }}
             <span class="mandatory"> *</span>
           </p>
           <mat-radio-group
@@ -226,9 +221,8 @@
         >
           <li>
             <p>
-              What is the existing status of periodic increase in property tax
-              in line with the increase in circle rates for all Municipalities
-              and Municipal Corporations? <span class="mandatory"> *</span>
+              {{ QuestionsIdMapping["Existing_Status_Yes_PT_B"] }}
+              <span class="mandatory"> *</span>
             </p>
             <div class="input-group textarea-wrapper">
               <textarea
@@ -243,9 +237,8 @@
           </li>
           <li>
             <p>
-              Mention the relevant section/provision/clause number of gazette
-              notification/rules/relevant provision in the Act (Upload relevant
-              doc in upload section) <span class="mandatory"> *</span>
+              {{ QuestionsIdMapping["Relevent_Sections_PT_B"] }}
+              <span class="mandatory"> *</span>
             </p>
             <div class="input-group textarea-wrapper">
               <textarea
@@ -269,9 +262,8 @@
       >
         <li>
           <p>
-            Would you be seeking legislative changes/ state government approval/
-            issue executive order to provide for periodic increase of floor
-            rates of property tax? <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Legislative_Changes_PT_B"] }}
+            <span class="mandatory"> *</span>
           </p>
           <div class="input-group textarea-wrapper">
             <textarea
@@ -286,7 +278,8 @@
         </li>
         <li>
           <p>
-            Date by which it will be completed <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Action_Date_PT_B"] }}
+            <span class="mandatory"> *</span>
           </p>
 
           <div class="input-group">
@@ -318,9 +311,8 @@
       >
         <li>
           <p>
-            What is the existing status of periodic increase in property tax in
-            line with the increase in circle rates for all Municipalities and
-            Municipal Corporations? <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Existing_Status_No_PT_B"] }}
+            <span class="mandatory"> *</span>
           </p>
           <div class="input-group textarea-wrapper">
             <textarea
@@ -335,8 +327,7 @@
         </li>
         <li>
           <p>
-            What are the plans for implementing above for property tax for 1)
-            Municipal Corporations, 2) Municipalities, and 3) Town Panchayats?
+            {{ QuestionsIdMapping["Implement_Plan_PT_B"] }}
             <span class="mandatory">*</span>
           </p>
           <div class="input-group textarea-wrapper">
@@ -352,7 +343,8 @@
         </li>
         <li>
           <p>
-            Date by which it will be completed <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Implement_Plan_PT_B"] }}
+            <span class="mandatory"> *</span>
           </p>
 
           <div class="input-group">

@@ -2,8 +2,8 @@
   <p class="question-instruction">
     <strong>NOTE:</strong><br />
     1. Question with <span class="mandatory">*</span> sign are mandatory.<br />
-    2. Only files wih extensions {{ fileExnetsionAllowed }} are allowed. Other
-    type of files will be filtered out.<br />
+    2. Only files wih extensions <strong>{{ fileExnetsionAllowed }}</strong> are
+    allowed. Other type of files will be filtered out.<br />
     3. Maximum of 10 files can be selected per question.<br />
     4. Duplicate Files for same question will be filtered out.
   </p>
@@ -84,12 +84,14 @@
             *ngIf="!documents"
             class="myFile btn btn-primary"
             title="Select File/s"
+            [disabled]="!canUploadFile"
           >
             Select File/s
             <input
               title="Select File/s"
               id="fileinput"
               *ngIf="!documents"
+              [disabled]="!canUploadFile"
               type="file"
               multiple
               (change)="fileChangeEvent($event, question.key)"
@@ -117,7 +119,7 @@
             (click)="onUploadButtonClick()"
             [disabled]="NoOfFileInProgress !== 0"
           >
-            Upload
+            Next
           </button>
           <button
             *ngIf="documents"
@@ -125,7 +127,7 @@
             style="float: right; margin-right: 2%;"
             (click)="previous.emit(true)"
           >
-            Previousssss
+            Previous
           </button>
         </td>
       </tr>

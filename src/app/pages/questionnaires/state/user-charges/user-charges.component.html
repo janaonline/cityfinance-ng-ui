@@ -4,7 +4,7 @@
 </p>
 
 <mat-accordion multi="true">
-  <mat-expansion-panel [expanded]="shouldExpandAccordian">
+  <mat-expansion-panel [expanded]="showErroredQuestions">
     <mat-expansion-panel-header>
       <mat-panel-title>
         A. Notification of Floor rates linked to current cost
@@ -15,8 +15,8 @@
       <ul>
         <li>
           <p>
-            Do your byelaws/ executive orders provide for levying user charges
-            in-line with current costs? <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Byelaws_UC_A"] }}
+            <span class="mandatory"> *</span>
           </p>
           <mat-radio-group
             aria-label="Select an option"
@@ -37,9 +37,8 @@
         >
           <li>
             <p>
-              What is the existing status of legal framework of levying of user
-              charges in-line with current costs in all the Municipalities and
-              Municipal Corporations? <span class="mandatory"> *</span>
+              {{ QuestionsIdMapping["Existing_Status_Yes_UC_A"] }}
+              <span class="mandatory"> *</span>
             </p>
             <div class="input-group textarea-wrapper">
               <textarea
@@ -54,8 +53,7 @@
           </li>
           <li>
             <p>
-              Mention the relevant section/ clause number of byelaws/ executive
-              order (Upload relevant doc in upload section)
+              {{ QuestionsIdMapping["Relevant_Section_UC_A"] }}
               <span class="mandatory"> *</span>
             </p>
             <div class="input-group textarea-wrapper">
@@ -80,8 +78,7 @@
       >
         <li>
           <p>
-            Would you be seeking state government approval/ issue executive
-            order to provide for levying user charges in line with current cost?
+            {{ QuestionsIdMapping["State_Approval_UC_A"] }}
             <span class="mandatory"> *</span>
           </p>
           <div class="input-group textarea-wrapper">
@@ -97,7 +94,8 @@
         </li>
         <li>
           <p>
-            Date by which it will be completed <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Action_Date_UC_A"] }}
+            <span class="mandatory"> *</span>
           </p>
           <div class="input-group">
             <input
@@ -128,9 +126,8 @@
       >
         <li>
           <p>
-            What is the existing status of legal framework of levying of user
-            charges in-line with current costs in all the Municipalities and
-            Municipal Corporations? <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Existing_Status_No_UC_A"] }}
+            <span class="mandatory"> *</span>
           </p>
           <div class="input-group textarea-wrapper">
             <textarea
@@ -145,8 +142,8 @@
         </li>
         <li>
           <p>
-            What is the plan for implementing above for 1) AMRUT cities & towns
-            and 2) Other cities & towns? <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Implement_Plan_UC_A"] }}
+            <span class="mandatory"> *</span>
           </p>
           <div class="input-group textarea-wrapper">
             <textarea
@@ -161,7 +158,8 @@
         </li>
         <li>
           <p>
-            Date by which it will be completed <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Implement_Date_UC_A"] }}
+            <span class="mandatory"> *</span>
           </p>
 
           <div class="input-group">
@@ -187,7 +185,7 @@
     </form>
   </mat-expansion-panel>
 
-  <mat-expansion-panel [expanded]="shouldExpandAccordian">
+  <mat-expansion-panel [expanded]="showErroredQuestions">
     <mat-expansion-panel-header>
       <mat-panel-title>
         B. Periodic increase in floor rates linked to current price
@@ -197,8 +195,7 @@
       <ul>
         <li>
           <p>
-            Is there a provision for periodic increase in user charges for
-            water, drainage and sewerage in line with price increase?
+            {{ QuestionsIdMapping["Periodic_Increase_UC_B"] }}
             <span class="mandatory"> *</span>
           </p>
           <mat-radio-group
@@ -220,9 +217,7 @@
         >
           <li>
             <p>
-              What is the existing status of byelaws/ executive orders for
-              periodic increase in user charges for water, drainage and sewerage
-              in Municipalities and Municipal Corporations?
+              {{ QuestionsIdMapping["Existing_Status_Yes_UC_B"] }}
               <span class="mandatory"> *</span>
             </p>
             <div class="input-group textarea-wrapper">
@@ -238,8 +233,7 @@
           </li>
           <li>
             <p>
-              Mention the relevant section/ clause copy of relevant byelaws/
-              executive order (Upload relevant doc in upload section).
+              {{ QuestionsIdMapping["Relevant_Section_UC_B"] }}
               <span class="mandatory"> *</span>
             </p>
 
@@ -265,9 +259,8 @@
       >
         <li>
           <p>
-            Would you be seeking state government approval/ issue executive
-            order to provide for periodic increase in user charges in line with
-            price increase? <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["State_Approval_UC_B"] }}
+            <span class="mandatory"> *</span>
           </p>
           <div class="input-group textarea-wrapper">
             <textarea
@@ -282,7 +275,8 @@
         </li>
         <li>
           <p>
-            Date by which it will be completed <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Action_Date_UC_B"] }}
+            <span class="mandatory"> *</span>
           </p>
           <div class="input-group">
             <input
@@ -313,9 +307,7 @@
       >
         <li>
           <p>
-            What is the existing status of byelaws/ executive orders for
-            periodic increase in user charges for water, drainage and sewerage
-            in Municipalities and Municipal Corporations?
+            {{ QuestionsIdMapping["Existing_Status_No_UC_B"] }}
             <span class="mandatory"> *</span>
           </p>
 
@@ -332,8 +324,8 @@
         </li>
         <li>
           <p>
-            What is the plan for implementing above for 1) AMRUT cities & towns,
-            and 2) Other cities & Towns? <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Implement_Plan_UC_B"] }}
+            <span class="mandatory"> *</span>
           </p>
           <div class="input-group textarea-wrapper">
             <textarea
@@ -348,7 +340,8 @@
         </li>
         <li>
           <p>
-            Date by which it will be completed <span class="mandatory"> *</span>
+            {{ QuestionsIdMapping["Implement_Date_UC_B"] }}
+            <span class="mandatory"> *</span>
           </p>
 
           <div class="input-group">
