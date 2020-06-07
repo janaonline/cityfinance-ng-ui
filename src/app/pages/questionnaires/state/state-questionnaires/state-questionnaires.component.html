@@ -18,14 +18,14 @@
     *ngIf="userData.role === USER_TYPE.STATE"
     style="padding: 0 24px; font-size: 1vw;"
   >
-    <i><strong>Welcome:</strong> {{ userData.name }}</i>
+    <i><strong>Welcome:</strong> {{ userData.name }}, {{ stateName }} </i>
   </p>
 
   <p
     *ngIf="userData.role !== USER_TYPE.STATE"
     style="padding: 0 24px; font-size: 1vw;"
   >
-    <i><strong>STATE:</strong> {{ userData.name }}</i>
+    <i><strong>STATE:</strong> {{ stateName }}</i>
   </p>
 
   <mat-horizontal-stepper
