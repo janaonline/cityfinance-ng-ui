@@ -16,6 +16,11 @@ import { QuestionnaireService } from '../../service/questionnaire.service';
   styleUrls: ["./state-questionnaires.component.scss"],
 })
 export class StateQuestionnairesComponent implements OnInit {
+  constructor(
+    private _questionnaireService: QuestionnaireService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {}
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
   introductionCompleted = false;
   propertyTaxData: IQuestionnaireResponse["data"][0]["propertyTax"];
@@ -32,8 +37,9 @@ export class StateQuestionnairesComponent implements OnInit {
   canGoToDonePage = true;
   canSeeIntroduction = true;
 
-  userData: { state: string; role: USER_TYPE };
-  stateList: any[];
+  userData: { state: string; role: USER_TYPE; name: string };
+  USER_TYPE = USER_TYPE;
+  // stateList: any[];
   showLoader = true;
   userHasAlreadyFilledForm = false;
 
@@ -41,11 +47,9 @@ export class StateQuestionnairesComponent implements OnInit {
 
   currentStateId;
 
-  constructor(
-    private _questionnaireService: QuestionnaireService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router
-  ) {}
+  window = window;
+
+  stateName: string;
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params) => {
@@ -64,6 +68,7 @@ export class StateQuestionnairesComponent implements OnInit {
   fetchQuestionnaireData(stateId: string) {
     this._questionnaireService.getQuestionnaireData(stateId).subscribe(
       (res) => {
+        this.stateName = res ? res.stateName : "Not Available";
         this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
 
         if (this.userHasAlreadyFilledForm) {

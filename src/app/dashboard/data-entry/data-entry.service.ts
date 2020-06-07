@@ -1,71 +1,75 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {environment} from '../../../environments/environment';
-import {S3FileURLResponse} from '../../models/s3Responses/fileURLResponse';
+import { environment } from '../../../environments/environment';
+import { S3FileURLResponse } from '../../models/s3Responses/fileURLResponse';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class DataEntryService {
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   bulkEntry(files) {
     const httpOptions = {
-      headers: new HttpHeaders({Accept: 'multipart/form-data'})
+      headers: new HttpHeaders({ Accept: "multipart/form-data" }),
     };
-    return this.http.post(environment.api.url + 'ledger/bulkEntry', files, {
+    return this.http.post(environment.api.url + "ledger/bulkEntry", files, {
       ...httpOptions,
       reportProgress: true,
-      observe: 'events'
+      observe: "events",
     });
   }
 
   createEntry(ledgerForm) {
     const httpOptions = {
-      headers: new HttpHeaders({Accept: 'multipart/form-data'})
+      headers: new HttpHeaders({ Accept: "multipart/form-data" }),
     };
     return this.http.post(
-      environment.api.url + 'ledger/entry',
+      environment.api.url + "ledger/entry",
       ledgerForm,
       httpOptions
     );
   }
 
   getLedgerLogs(criteria) {
-    return this.http.get(environment.api.url + 'ulb-financial-data/approved-records');
+    return this.http.get(
+      environment.api.url + "ulb-financial-data/approved-records"
+    );
   }
 
   getFileList(id) {
-    return this.http.get(environment.api.url + 'ulb-financial-data/source-files/' + id);
+    return this.http.get(
+      environment.api.url + "ulb-financial-data/source-files/" + id
+    );
   }
 
   excelToJsonConvertor(files) {
     const httpOptions = {
-      headers: new HttpHeaders({Accept: 'multipart/form-data'})
+      headers: new HttpHeaders({ Accept: "multipart/form-data" }),
     };
     return this.http.post(
-      environment.api.url + 'ledger/excelToJsonConvertor',
+      environment.api.url + "ledger/excelToJsonConvertor",
       files,
       httpOptions
     );
   }
 
-  getURLForFileUpload(fileName: File['name'], fileType: File['type']) {
+  getURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
     const headers = new HttpHeaders();
+    console.log(`getURLForFileUpload for: ${fileName}`);
 
     return this.http.post<S3FileURLResponse>(
       `${environment.api.url}/getSignedUrl`,
       JSON.stringify([
         {
           file_name: fileName,
-          mime_type: fileType
-        }
+          mime_type: fileType,
+        },
       ]),
-      {headers}
+      { headers }
     );
 
     // return this.http.post(
@@ -83,11 +87,11 @@ export class DataEntryService {
   uploadFileToS3(
     file: File,
     s3URL: string,
-    options = {reportProgress: true}
+    options = { reportProgress: true }
   ) {
     return this.http.put(s3URL, file, {
       reportProgress: options.reportProgress,
-      observe: 'events'
+      observe: "events",
     });
   }
 
@@ -98,13 +102,13 @@ export class DataEntryService {
   sendUploadFileForProcessing(alias: string, financialYear: string) {
     return this.http.post(`${environment.api.url}/processData`, {
       alias,
-      financialYear
+      financialYear,
     });
   }
 
   getFileProcessingStatus(
     fileId: string
-  ): Observable<{ message: string; completed: boolean; status: 'FAILED' }> {
+  ): Observable<{ message: string; completed: boolean; status: "FAILED" }> {
     // IMPORTANT Comment this and uncomment below line. Some changes may be required there...
     // return of({
     //   status: Math.random() > 0.5,
@@ -113,6 +117,6 @@ export class DataEntryService {
 
     return this.http
       .get(`${environment.api.url}/getProcessStatus/${fileId}`)
-      .pipe(map(response => ({...response['data']})));
+      .pipe(map((response) => ({ ...response["data"] })));
   }
 }

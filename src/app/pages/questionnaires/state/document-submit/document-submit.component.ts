@@ -1,7 +1,7 @@
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { forkJoin, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
@@ -9,12 +9,32 @@ import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/di
 
 import { IQuestionnaireDocumentsCollection } from '../../model/document-collection.interface';
 
+/**
+ * These are thew question ids that are mapped to files that user select and the question.
+ * This will be used to unique identify each question and their respective file.
+ */
 type fileKeys = keyof IQuestionnaireDocumentsCollection;
+
+//
 type userSelectedFile = {
-  [key in fileKeys]?: FileList;
+  [key in fileKeys]?: File[];
 };
 
+// Values to be emitted
 type emitValue = { [key in fileKeys]?: { name: string; url: string }[] };
+
+type IFileUploadTracking = {
+  [key in fileKeys]?: {
+    [fileName: string]: {
+      fileName?: string;
+      percentage?: number;
+      status?: "in-process" | "completed";
+      url?: string;
+      subscription?: Subscription;
+    };
+  };
+};
+
 @Component({
   selector: "app-document-submit",
   templateUrl: "./document-submit.component.html",
@@ -29,15 +49,21 @@ export class DocumentSubmitComponent implements OnInit {
 
   @Output()
   previous = new EventEmitter<boolean>();
+
+  /**
+   * @description Keeps the track of which file User has selected.
+   */
   userSelectedFiles: userSelectedFile = {};
 
-  fileUploadTracker: {
-    fileNameWithQuestionID?: string;
-    percentage?: number;
-    status?: string;
-  } = {};
+  /**
+   * @description This is used for 2 purpose.
+   * 1. It keeps the tracking of each file upload. How much file is upload, wheter it is completed or not.
+   * 2. Its value will be emiited to parent component with fileName and url only.
+   * So it user removes/deselect a file, then that file entry must be removed from here also.
+   */
+  fileUploadTracker: IFileUploadTracking = {};
 
-  uploadInProgress = false;
+  NoOfFileInProgress = 0;
 
   questions = [
     {
@@ -95,7 +121,7 @@ export class DocumentSubmitComponent implements OnInit {
       confirm: {
         text: "Yes",
         callback: () => {
-          this.startUpload();
+          // this.startUpload();
           this._dialog.closeAll();
         },
       },
@@ -109,30 +135,129 @@ export class DocumentSubmitComponent implements OnInit {
     },
   };
 
-  fileUploadCompleted = false;
-
   constructor(
     private dataEntryService: DataEntryService,
     private _dialog: MatDialog
   ) {}
 
-  ngOnInit() {
-    setTimeout(() => {
-      document.getElementById("fileinput").onmouseover = function (e) {
-        e.preventDefault();
-      };
-      document.getElementById("fileinput").onmouseenter = function (e) {
-        e.preventDefault();
-      };
-    }, 2222);
+  ngOnInit() {}
+
+  cancelFileUpload(questionKey: fileKeys, fileNameToFilter: string) {
+    if (!this.userSelectedFiles || !this.userSelectedFiles[questionKey]) {
+      return false;
+    }
+
+    // Remove the file requested from user selection.
+    this.userSelectedFiles[questionKey] = this.userSelectedFiles[
+      questionKey
+    ].filter((file) => file.name !== fileNameToFilter);
+
+    if (!this.fileUploadTracker || !this.fileUploadTracker[questionKey]) {
+      return false;
+    }
+
+    const currentFileTracker = this.fileUploadTracker[questionKey][
+      fileNameToFilter
+    ];
+
+    // Cancel the subscribtion if the file is being uploaded.
+    if (!currentFileTracker.percentage || currentFileTracker.percentage < 100) {
+      currentFileTracker.subscription.unsubscribe();
+    }
+
+    // Remove the file from file Tracker.
+
+    delete this.fileUploadTracker[questionKey][fileNameToFilter];
+
+    console.log(`fileUploadTracker `, this.fileUploadTracker);
+  }
+
+  fileChangeEvent(event: Event, key: fileKeys) {
+    console.log(`fileChangeEvent`);
+
+    const filteredFiles = <any>(
+      this.filterInvalidFiles(event.target["files"], key)
+    );
+
+    if (this.userSelectedFiles[key]) {
+      this.userSelectedFiles[key].push(...filteredFiles);
+    } else {
+      this.userSelectedFiles[key] = filteredFiles;
+    }
+
+    this.startUpload({ [key]: filteredFiles });
+  }
+
+  startUpload(filesToUpload: userSelectedFile) {
+    Object.keys(filesToUpload).forEach((fieldKey: fileKeys) => {
+      const files = <File[]>filesToUpload[fieldKey];
+      this.NoOfFileInProgress += files.length;
+      for (let index = 0; index < files.length; index++) {
+        const file = files[index];
+
+        const subs = this.dataEntryService
+          .getURLForFileUpload(file.name, file.type)
+          .pipe(
+            map((res) => res["data"][0].url),
+            switchMap((url) =>
+              this.initiateFileUploadProcess(file, url, file.name, fieldKey)
+            )
+          );
+
+        // Save the subscription so that each file can be cancelled individually.
+        if (!this.fileUploadTracker[fieldKey]) {
+          this.fileUploadTracker[fieldKey] = { [file.name]: {} };
+        }
+        if (!this.fileUploadTracker[fieldKey][file.name]) {
+          this.fileUploadTracker[fieldKey][file.name] = {};
+        }
+        this.fileUploadTracker[fieldKey][
+          file.name
+        ].subscription = subs.subscribe();
+      }
+    });
+  }
+
+  filterInvalidFiles(list: FileList, key: fileKeys) {
+    const newList: File[] = [];
+    for (let index = 0; index < list.length; index++) {
+      const file = list[index];
+      const isFileAlreadySelected = this.isFileAlreadySelected(file, key);
+      if (this.isValidFile(file) && index < 10 && !isFileAlreadySelected) {
+        newList.push(file);
+      }
+    }
+    return newList;
   }
 
   onUploadButtonClick() {
-    if (!this.hasUploadedMandatoryFile()) {
-      return this.showErrorDialog();
-    }
+    const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
+    console.log(valueToEmit);
+  }
 
-    this.showconfirmationDialog();
+  private mapFileTrackerToEmitValues(tracker: IFileUploadTracking): emitValue {
+    const output: emitValue = {};
+    Object.keys(tracker).forEach((questionId) => {
+      if (!tracker[questionId]) {
+        return;
+      }
+      Object.values(tracker[questionId]).forEach(
+        (value: emitValue["State_Acts_Doc"][0]) => {
+          const objectToSave = { name: value.name, url: value.url };
+
+          if (!output[questionId]) {
+            output[questionId] = [objectToSave];
+          } else {
+            output[questionId].push(objectToSave);
+          }
+        }
+      );
+    });
+
+    if (!Object.keys(output).length) {
+      return null;
+    }
+    return output;
   }
 
   showconfirmationDialog() {
@@ -147,90 +272,58 @@ export class DocumentSubmitComponent implements OnInit {
     });
   }
 
-  startUpload() {
-    const subscription: Observable<any>[] = [];
-    const valueToEmit: emitValue = {};
-    this.uploadInProgress = true;
-
-    Object.keys(this.userSelectedFiles).forEach((fieldKey: fileKeys) => {
-      const files = <FileList>this.userSelectedFiles[fieldKey];
-      for (let index = 0; index < files.length; index++) {
-        const file = files[index];
-        /**
-         *  Keep all the subscription so that we can get notification when all the files are uploaded,
-         *  and proceed further
-         */
-        const subs = this.dataEntryService
-          .getURLForFileUpload(file.name, file.type)
-          .pipe(
-            map((res) => {
-              const url = res["data"][0].url;
-              if (valueToEmit[fieldKey]) {
-                valueToEmit[fieldKey] = [
-                  ...valueToEmit[fieldKey],
-                  { name: file.name, url: res["data"][0].file_alias },
-                ];
-              } else {
-                valueToEmit[fieldKey] = [
-                  { name: file.name, url: res["data"][0].file_alias },
-                ];
-              }
-              return url;
-            }),
-            switchMap((url) =>
-              this.uploadFileToS3(file, url, `${file.name}_${fieldKey}`)
-            )
-          );
-        subscription.push(subs);
-      }
-    });
-
-    // After all the files are uploaded. Emit the values
-    forkJoin(subscription).subscribe((res) => {
-      this.fileUploadCompleted = true;
-      this.uploadInProgress = false;
-      this.outputValues.emit(valueToEmit);
-    });
-  }
-
-  private uploadFileToS3(file: File, s3URL: string, fileID: string) {
-    return this.dataEntryService.uploadFileToS3(file, s3URL).pipe(
+  private initiateFileUploadProcess(
+    file: File,
+    url: string,
+    fileID: string,
+    questionId: fileKeys
+  ) {
+    return this.dataEntryService.uploadFileToS3(file, url).pipe(
       map((response: HttpEvent<any>) => {
-        return this.logUploadProgess(response, fileID);
+        return this.logUploadProgess(response, fileID, url, questionId);
       })
     );
   }
 
-  private logUploadProgess(event: HttpEvent<any>, fileAlias: string) {
+  private logUploadProgess(
+    event: HttpEvent<any>,
+    fileId: string,
+    url: string,
+    questionId: fileKeys
+  ) {
     if (event.type === HttpEventType.UploadProgress) {
       const percentDone = Math.round((100 * event.loaded) / event.total);
-      this.fileUploadTracker[fileAlias] = {
+      this.NoOfFileInProgress += percentDone >= 100 ? -1 : 0;
+      if (!this.fileUploadTracker[questionId]) {
+        this.fileUploadTracker[questionId] = {
+          [fileId]: {
+            percentage: percentDone,
+            fileName: fileId,
+            status: percentDone < 100 ? "in-process" : "completed",
+            url,
+          },
+        };
+        return event;
+      }
+
+      if (!this.fileUploadTracker[questionId][fileId]) {
+        this.fileUploadTracker[questionId][fileId] = {
+          percentage: percentDone,
+          fileName: fileId,
+          status: percentDone < 100 ? "in-process" : "completed",
+          url,
+        };
+        return event;
+      }
+      this.fileUploadTracker[questionId][fileId] = {
+        ...this.fileUploadTracker[questionId][fileId],
         percentage: percentDone,
-        fileNameWithQuestionID: fileAlias,
+        fileName: fileId,
         status: percentDone < 100 ? "in-process" : "completed",
+        url,
       };
     }
     return event;
-  }
-
-  fileChangeEvent(event: Event, key: fileKeys) {
-    console.log(event.target["files"]);
-
-    this.userSelectedFiles[key] = <any>(
-      this.filterInvalidFiles(event.target["files"])
-    );
-    console.log(this.userSelectedFiles);
-  }
-
-  filterInvalidFiles(list: FileList) {
-    const newList: File[] = [];
-    for (let index = 0; index < list.length; index++) {
-      const file = list[index];
-      if (this.isValidFile(file) && index < 10) {
-        newList.push(file);
-      }
-    }
-    return newList;
   }
 
   private hasUploadedMandatoryFile() {
@@ -242,12 +335,17 @@ export class DocumentSubmitComponent implements OnInit {
 
   private isValidFile(file: File) {
     const fileExtends = file.name.split(".").pop();
-    console.log(
-      file.name,
-      fileExtends,
-      this.fileExnetsionAllowed.includes(fileExtends)
-    );
 
     return this.fileExnetsionAllowed.includes(fileExtends);
+  }
+
+  private isFileAlreadySelected(fileToCheck: File, key: fileKeys) {
+    if (!this.userSelectedFiles[key]) {
+      return false;
+    }
+
+    return !!this.userSelectedFiles[key].find(
+      (file) => file.name === fileToCheck.name
+    );
   }
 }

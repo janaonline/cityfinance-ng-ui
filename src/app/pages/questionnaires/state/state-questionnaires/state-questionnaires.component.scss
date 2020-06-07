@@ -5,6 +5,9 @@
 }
 
 :host {
+  .back_button {
+    margin: 2rem 24px;
+  }
   ::ng-deep .mat-horizontal-stepper-header-container {
     width: 75% !important;
   }
