@@ -39,9 +39,17 @@
       matStepperIcon="done"
       *ngIf="canSeeIntroduction"
     >
-      <app-introduction
-        (completed)="setIntroductionCompleted($event)"
-      ></app-introduction>
+      <app-introduction (completed)="setIntroductionCompleted($event)">
+        <div class="footer">
+          <button
+            class="btn btn-primary"
+            style="float: right; display: block;"
+            (click)="stepper.next()"
+          >
+            Next
+          </button>
+        </div>
+      </app-introduction>
     </mat-step>
     <mat-step label="Property Tax">
       <app-property-tax
@@ -51,7 +59,34 @@
         [shouldGoToPrevious]="canSeeIntroduction"
         (answer)="onCompletingPropertyTax($event)"
         (previous)="stepper.previous()"
-      ></app-property-tax>
+      >
+        <div class="footer">
+          <button
+            class="btn btn-primary mt-2"
+            style="float: right; display: block;"
+            (click)="stepper.next()"
+          >
+            Next
+          </button>
+
+          <button
+            *ngIf="editable"
+            class="btn btn-primary mt-2 mr-2"
+            style="float: right; display: block;"
+            (click)="stepper.previous()"
+          >
+            Previous
+          </button>
+          <button
+            *ngIf="editable"
+            class="btn btn-primary mt-2"
+            style="float: right; display: block; margin-right: 2%;"
+            (click)="saveAsDraft()"
+          >
+            Save as draft
+          </button>
+        </div>
+      </app-property-tax>
     </mat-step>
     <mat-step label="User Charges">
       <app-user-charges
@@ -61,7 +96,32 @@
         [editable]="editable"
         (previous)="stepper.previous()"
         (answer)="onCompletingUserCharges($event)"
-      ></app-user-charges>
+      >
+        <div class="footer">
+          <button
+            class="btn btn-primary mt-2"
+            style="float: right; display: block;"
+            (click)="stepper.next()"
+          >
+            Next
+          </button>
+          <button
+            class="btn btn-primary mt-2 mr-2"
+            style="float: right; display: block;"
+            (click)="stepper.previous()"
+          >
+            Previous
+          </button>
+          <button
+            *ngIf="editable"
+            class="btn btn-primary mt-2"
+            style="float: right; display: block; margin-right: 2%;"
+            (click)="saveAsDraft()"
+          >
+            Save as draft
+          </button>
+        </div>
+      </app-user-charges>
     </mat-step>
     <mat-step label="Upload Documents">
       <app-document-submit
@@ -69,7 +129,25 @@
         [canUploadFile]="editable"
         (outputValues)="onFileUploaded($event)"
         (previous)="stepper.previous()"
-      ></app-document-submit>
+        (saveAsDraft)="saveAsDraft()"
+      >
+        <!-- <div class="footer">
+          <button
+            class="btn btn-primary mt-2"
+            style="float: right; display: block;"
+            (click)="stepper.next()"
+          >
+            Next
+          </button>
+          <button
+            class="btn btn-primary mt-2 mr-2"
+            style="float: right; display: block;"
+            (click)="stepper.previous()"
+          >
+            Previous
+          </button> -->
+        <!-- </div> -->
+      </app-document-submit>
     </mat-step>
     <mat-step label="Submit" *ngIf="canGoToDonePage">
       <app-completed
@@ -81,3 +159,11 @@
     </mat-step>
   </mat-horizontal-stepper>
 </div>
+
+<ng-template #savingAsDraft>
+  <mat-spinner style="margin: auto;" *ngIf="draftSavingInProgess"></mat-spinner>
+  <h2 class="text-center" *ngIf="draftSavingInProgess">Saving...</h2>
+
+  <app-tick-icon class="tick" *ngIf="!draftSavingInProgess"></app-tick-icon>
+  <h2 class="text-center" *ngIf="!draftSavingInProgess">Saved as draft</h2>
+</ng-template>

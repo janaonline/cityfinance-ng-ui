@@ -46,24 +46,9 @@ export class PropertyTaxComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  ngOnInit() {
-    // this.questionForm.valueChanges
-    //   .pipe(debounceTime(1111))
-    //   .subscribe((value) => {
-    //     // Object.keys(this.questionForm.controls).forEach((key) => {
-    //     //   const control = this.questionForm.controls[key];
-    //     //   control.updateValueAndValidity();
-    //     // });
-    //     this.questionForm.updateValueAndValidity();
-    //   });
-  }
+  ngOnInit() {}
 
   onClickNext() {
-    // this.clickedonNext = true;
-    // if (this.questionForm.invalid) {
-    //   this.shouldExpandAccordian = true;
-    //   return;
-    // }
     this.answer.emit(this.questionForm.value);
   }
 

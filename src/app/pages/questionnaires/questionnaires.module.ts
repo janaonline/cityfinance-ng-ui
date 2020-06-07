@@ -9,6 +9,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatNativeDateModule,
+  MatProgressSpinnerModule,
   MatRadioModule,
   MatStepperModule,
   MatTabsModule
@@ -47,6 +48,7 @@ import { UserChargesComponent } from './state/user-charges/user-charges.componen
     MatDialogModule,
     AngularMultiSelectModule,
     FormsModule,
+    MatProgressSpinnerModule,
   ],
   declarations: [
     StateQuestionnairesComponent,

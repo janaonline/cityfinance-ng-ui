@@ -367,7 +367,10 @@
     </form>
   </mat-expansion-panel>
 </mat-accordion>
-<button
+
+<ng-content select=".footer"> </ng-content>
+
+<!-- <button
   class="btn btn-primary mt-2"
   style="float: right; display: block;"
   (click)="onClickNext()"
@@ -381,4 +384,4 @@
   (click)="previous.emit(questionForm.value)"
 >
   Previous
-</button>
+</button> -->

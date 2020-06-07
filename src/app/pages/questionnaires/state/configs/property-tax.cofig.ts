@@ -2,34 +2,34 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 
 const QuestionsIdMapping = {
   Act_Linking_PT_A:
-    "Does your Municipality/ Municipal Corporation Act  links property tax to prevailing guideline value/ circle rate?",
+    "Does your Municipality/Municipal Corporation Act  link property tax to prevailing guideline values/circle rates?",
   Existing_Status_PT_A:
-    "What is the existing status regarding aligning Property tax with prevailing circle rates of all Municipalities/Municipal Corporations?",
+    "What is the current status regarding aligning property tax with prevailing guideline values/circle rates of all Municipalities/Municipal Corporations? ",
 
   Relevent_Sections_Yes_PT_A:
-    " Mention the relevant section/provision/clause number of gazette notification/rules/relevant provision in the Act (Upload relevant documents in upload section)",
+    " Mention the relevant section/provision/clause number of gazette notification/rules/relevant provision in the Act (Upload relevant documents in Upload Documents section)",
   Legislative_Changes_PT_A:
-    "Would you be seeking legislative changes/ state government approval/ issue executive order to provide for such linkage of property tax to guideline value/ circle rate?",
+    "Would you be seeking legislative changes/state government approval/issue executive order to provide for such linkage of property tax to guideline values/circle rates?",
   Action_Date_PT_A: "Date by which it will be completed",
   Relevent_Sections_No_PT_A:
-    "What is the existing status regarding aligning Property tax with prevailing circle rates of all Municipalities/Municipal Corporations?",
+    "What is the existing status regarding aligning property tax with prevailing circle rates of all Municipalities/Municipal Corporations?",
   Adoption_Plan_PT_A:
-    "What is the plan for adoption of property tax linking to prevailing circle rates for 1) Municipal Corporations, 2) Municipalities, and  3) Town Panchayats",
+    "What is the plan for adoption of property tax linking with prevailing guideline values/circle rates for 1) Municipal Corporations, 2) Municipalities, and  3) Town Panchayats? (Upload relevant documents in Upload Documents section)",
   Implement_Date_PT_A: "Date by which it will be completed",
   Periodic_Increase_PT_B:
     "Does your Municipality/ Municipal Corporation Act provide for periodic increase of floor rates of property tax?",
   Existing_Status_Yes_PT_B:
-    "What is the existing status of periodic increase in property tax in line with the increase in circle rates for all Municipalities and Municipal Corporations.",
+    "What is the existing status of periodic increase in property tax in line with the increase in guideline values/circle rates for all Municipalities and Municipal Corporations?",
   Relevent_Sections_PT_B:
-    "Mention the relevant section/provision/clause number of gazette notification/rules/relevant provision in the Act (Upload relevant doc in upload section)",
+    "Mention the relevant section/provision/clause number of gazette notification/rules/relevant provision in the Act (Upload relevant documents in Upload Documents section)",
   Legislative_Changes_PT_B:
-    "Would you be seeking legislative changes/ state government approval/ issue executive order to provide for periodic increase of floor rates of property tax?",
+    "Would you be seeking legislative changes/state government approval/issue executive order to provide for periodic increase of floor rates of property tax?",
   Action_Date_PT_B: "Date by which it will be completed",
   Existing_Status_No_PT_B:
-    "What is the existing status of periodic increase in property tax in line with the increase in circle rates for all Municipalities and Municipal Corporations.",
+    "What is the existing status of periodic increase in property tax in line with the increase in guideline values/circle rates for all Municipalities and Municipal Corporations?",
   Implement_Plan_PT_B:
-    "What are the plans for implementing above for property tax for 1) Municipal Corporations, 2) Municipalities, and 3) Town Panchayats",
-  Implement_Date_PT_B: "Date by which it will be completed?",
+    "What is the plan for implementing above for property tax for 1) Municipal Corporations, 2) Municipalities, and 3) Town Panchayats? (Upload relevant documents in Upload Document section)",
+  Implement_Date_PT_B: "Date by which it will be completed",
 };
 
 let propertyTaxForm: FormGroup;

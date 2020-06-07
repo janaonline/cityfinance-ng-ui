@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatHorizontalStepper } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
@@ -22,6 +22,8 @@ import { userChargesForm } from '../configs/user-charges.config';
 })
 export class StateQuestionnairesComponent implements OnInit, OnDestroy {
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
+  @ViewChild("savingAsDraft") savingAsDraftPopup: TemplateRef<any>;
+  draftSavingInProgess = false;
   introductionCompleted = false;
   propertyTaxData: IQuestionnaireResponse["data"][0]["propertyTax"];
   UserChargesData: IQuestionnaireResponse["data"][0]["userCharges"];
@@ -90,7 +92,12 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
         if (this.userHasAlreadyFilledForm) {
           this.setComponentStateToAlreadyFilled(res);
+        } else {
+          this.propertyTaxData = res.propertyTax;
+          this.UserChargesData = res.userCharges;
+          this.documentData = res.documents;
         }
+
         this.validateQuestionnaireFillAccess();
         this.showLoader = false;
       },
@@ -127,6 +134,33 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     this.finalData.documents = { ...value };
   }
 
+  saveAsDraft() {
+    this.draftSavingInProgess = true;
+    if (this.userHasAlreadyFilledForm) return false;
+    const obj = {
+      documents: documentForm.value,
+      propertyTax: propertyTaxForm.value,
+      userCharges: userChargesForm.value,
+      isCompleted: false,
+    };
+
+    console.log(`savign as draft`, documentForm.value);
+
+    if (this.userData.role !== USER_TYPE.STATE) {
+      obj["state"] = this.currentStateId;
+    }
+    this._matDialog.open(this.savingAsDraftPopup, {
+      width: "35vw",
+      height: "fit-content",
+    });
+    this._questionnaireService.saveQuestionnaireData(obj).subscribe((res) => {
+      this.draftSavingInProgess = false;
+      setTimeout(() => {
+        this._matDialog.closeAll();
+      }, 3000);
+    });
+  }
+
   uploadCompletedQuestionnaireData() {
     if (this.userHasAlreadyFilledForm) {
       return;
@@ -137,22 +171,20 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.finalData = {
+    const obj = {
       documents: documentForm.value,
       propertyTax: propertyTaxForm.value,
       userCharges: userChargesForm.value,
       isCompleted: true,
     };
     if (this.userData.role !== USER_TYPE.STATE) {
-      this.finalData["state"] = this.currentStateId;
+      obj["state"] = this.currentStateId;
     }
     this.userHasAlreadyFilledForm = true;
     this.editable = false;
-    this._questionnaireService
-      .saveQuestionnaireData(this.finalData)
-      .subscribe((res) => {
-        this.userHasAlreadyFilledForm = true;
-      });
+    this._questionnaireService.saveQuestionnaireData(obj).subscribe((res) => {
+      this.userHasAlreadyFilledForm = true;
+    });
   }
 
   validatorQuestionnaireForms() {
@@ -194,7 +226,6 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
   showPropertyTax() {
     this.stepper.selectedIndex = 1;
-    console.log(`showPropertyTax`);
   }
 
   private validateUserAccess(params: { stateId: string }) {
@@ -249,11 +280,12 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
   private hasUserAlreadyFilledForm(res: IQuestionnaireResponse["data"][0]) {
     const util = new JSONUtility();
-    return res &&
-      (util.filterEmptyValue(res.propertyTax) ||
-        util.filterEmptyValue(res.userCharges))
-      ? true
-      : false;
+    return res && res.isCompleted;
+    // return res &&
+    //   (util.filterEmptyValue(res.propertyTax) ||
+    //     util.filterEmptyValue(res.userCharges))
+    //   ? true
+    //   : false;
   }
 
   ngOnDestroy(): void {}

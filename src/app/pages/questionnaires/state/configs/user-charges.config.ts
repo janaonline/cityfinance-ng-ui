@@ -2,32 +2,32 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 
 const QuestionsIdMapping = {
   Byelaws_UC_A:
-    "Do your byelaws/ executive orders provide for levying user charges in-line with current costs?",
+    "Do your byelaws/executive orders provide for levying user charges in-line with current costs?",
   Existing_Status_Yes_UC_A:
-    "What is the existing status of legal framework of levying of user charges in-line with current costs in all the Municipalities and Municipal Corporations",
+    "What is the existing legal framework for levying user charges in-line with current costs in all the Municipalities and Municipal Corporations?",
   Relevant_Section_UC_A:
-    "Mention the relevant section/ clause number of  byelaws/ executive order (Upload relevant doc in upload section)",
+    "Mention the relevant section/clause number of  byelaws/executive order (Upload relevant documents in Upload Documents section)",
   State_Approval_UC_A:
-    "Would you be seeking state government approval/ issue executive order to provide for levying user charges in line with current cost?",
+    "Would you be seeking state government approval/issue executive order to provide for levying user charges in line with current costs?",
   Action_Date_UC_A: "Date by which it will be completed",
   Existing_Status_No_UC_A:
-    "What is the existing status of legal framework of levying of user charges in-line with current costs in all the Municipalities and Municipal Corporations",
+    "What is the existing legal framework of levying of user charges in-line with current costs in all the Municipalities and Municipal Corporations?",
   Implement_Plan_UC_A:
-    "What is the plan for implementing above for 1) AMRUT cities & towns and 2) Other cities & towns",
+    "What is the plan for implementing above for 1) AMRUT cities & towns and 2) Other cities & towns? (Upload relevant documents in Upload Documents section)",
   Implement_Date_UC_A: "Date by which it will be completed",
   Periodic_Increase_UC_B:
     "Is there a provision for periodic increase in user charges for water, drainage and sewerage in line with price increase?",
   Existing_Status_Yes_UC_B:
-    "What is the existing status of byelaws/ executive orders for periodic increase in user charges for water, drainage and sewerage in Municipalities and Municipal Corporations",
+    "What is the existing status of byelaws/executive orders for periodic increase in user charges for water, drainage and sewerage in Municipalities and Municipal Corporations?",
   Relevant_Section_UC_B:
-    "Mention the relevant section/ clause copy of relevant byelaws/ executive order (Upload relevant doc in upload section)",
+    "Mention the relevant section/clause namber of relevant byelaws/executive order (Upload relevant documents in Upload Documents section)",
   State_Approval_UC_B:
-    "Would you be seeking state government approval/ issue executive order to provide for periodic increase in user charges in line with price increase",
+    "Would you be seeking state government approval/issue executive order to provide for periodic increase in user charges in line with price increase?",
   Action_Date_UC_B: "Date by which it will be completed",
   Existing_Status_No_UC_B:
-    "What is the existing status of byelaws/ executive orders for periodic increase in user charges for water, drainage and sewerage in Municipalities and Municipal Corporations",
+    "What is the existing status of byelaws/executive orders for periodic increase in user charges for water, drainage and sewerage in Municipalities and Municipal Corporations?",
   Implement_Plan_UC_B:
-    "What is the plan for implementing above for 1) AMRUT cities & towns, and 2) Other cities & Towns",
+    "What is the plan for implementing above for 1) AMRUT cities & towns, and 2) Other cities & Towns? (Upload relevant documents in Upload Documents section)",
   Implement_Date_UC_B: "Date by which it will be completed",
 };
 

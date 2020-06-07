@@ -22,7 +22,7 @@
           </p>
           <div
             class="file-list"
-            *ngFor="let file of userSelectedFiles[question.key]"
+            *ngFor="let file of userSelectedFiles[question.key]; let i = index"
           >
             <span class="file-tracker-name">
               {{ file.name }}
@@ -48,8 +48,28 @@
                 {{ fileUploadTracker[question.key][file.name].percentage }} %
               </div>
             </div>
+            <a
+              *ngIf="
+                (documents &&
+                  documents[question.key] &&
+                  documents[question.key][i]?.url) ||
+                (fileUploadTracker &&
+                  fileUploadTracker[question.key] &&
+                  fileUploadTracker[question.key][file.name]
+                    ?.url) as downloadurl
+              "
+              [href]="downloadurl"
+              class="download-link-icon"
+              target="_blank"
+            >
+              <i
+                title="Download"
+                class="fa fa-cloud-download"
+                aria-hidden="true"
+              ></i>
+            </a>
 
-            <span style="float: right;">
+            <span style="float: right; margin-left: 2%;" *ngIf="canUploadFile">
               <i
                 class="fa fa-times"
                 aria-hidden="true"
@@ -59,7 +79,7 @@
             </span>
           </div>
 
-          <div *ngIf="documents">
+          <div *ngIf="documents && !canUploadFile">
             <div
               class="file-list showList"
               *ngFor="let doc of documents[question.key] || []"
@@ -72,6 +92,7 @@
                   aria-hidden="true"
                 ></i>
               </a>
+
               <!-- <a [href]="doc.url"
               ></a
             > -->
@@ -81,7 +102,7 @@
 
         <td>
           <button
-            *ngIf="!documents"
+            *ngIf="canUploadFile"
             class="myFile btn btn-primary"
             title="Select File/s"
             [disabled]="!canUploadFile"
@@ -90,7 +111,7 @@
             <input
               title="Select File/s"
               id="fileinput"
-              *ngIf="!documents"
+              *ngIf="canUploadFile"
               [disabled]="!canUploadFile"
               type="file"
               multiple
@@ -104,17 +125,26 @@
         <td></td>
         <td>
           <button
-            *ngIf="!documents"
+            *ngIf="canUploadFile"
             class="btn btn-primary btn-upload mt-3"
             style="float: right; margin-right: 2%;"
             (click)="previous.emit(true)"
           >
             Previous
           </button>
+          <button
+            *ngIf="canUploadFile"
+            class="btn btn-primary btn-upload mt-3"
+            style="float: right; margin-right: 2%;"
+            [disabled]="NoOfFileInProgress !== 0"
+            (click)="onSaveAsDraftClick()"
+          >
+            Save as draft
+          </button>
         </td>
         <td>
           <button
-            *ngIf="!documents"
+            *ngIf="canUploadFile"
             class="btn btn-primary btn-upload mt-3"
             (click)="onUploadButtonClick()"
             [disabled]="NoOfFileInProgress !== 0"
@@ -122,7 +152,7 @@
             Next
           </button>
           <button
-            *ngIf="documents"
+            *ngIf="!canUploadFile"
             class="btn btn-primary btn-upload mt-3"
             style="float: right; margin-right: 2%;"
             (click)="previous.emit(true)"

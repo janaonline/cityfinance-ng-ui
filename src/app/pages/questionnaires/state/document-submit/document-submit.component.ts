@@ -1,5 +1,5 @@
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -41,14 +41,18 @@ type IFileUploadTracking = {
   templateUrl: "./document-submit.component.html",
   styleUrls: ["./document-submit.component.scss"],
 })
-export class DocumentSubmitComponent implements OnInit, OnDestroy {
+export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
   @Input()
   documents: IQuestionnaireDocumentsCollection;
   @Input()
   canUploadFile = true;
+  @Input()
+  editable = true;
 
   @Output()
   outputValues = new EventEmitter<emitValue>();
+  @Output()
+  saveAsDraft = new EventEmitter<emitValue>();
 
   @Output()
   previous = new EventEmitter<boolean>();
@@ -119,18 +123,61 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy {
     private dataEntryService: DataEntryService,
     private _dialog: MatDialog
   ) {}
+  ngOnChanges(changes: {
+    documents: SimpleChange;
+    canUploadFile: SimpleChange;
+  }): void {
+    console.log(changes);
+
+    if (changes.documents && changes.documents.currentValue) {
+      if (changes.canUploadFile && !changes.canUploadFile.currentValue) {
+        return;
+      }
+      documentForm.patchValue(changes.documents.currentValue);
+
+      this.userSelectedFiles = { ...changes.documents.currentValue };
+      Object.keys(this.userSelectedFiles).forEach((questiopnId) => {
+        if (!this.userSelectedFiles[questiopnId]) {
+          return;
+        }
+
+        this.fileUploadTracker[questiopnId] = {};
+
+        this.userSelectedFiles[questiopnId].forEach((file) => {
+          this.fileUploadTracker[questiopnId][file.name] = {
+            fileName: file.name,
+            percentage: 100,
+            url: file.url,
+            status: "completed",
+          };
+          console.log(questiopnId, file.name);
+
+          //      fileName?: string;
+          // percentage?: number;
+          // status?: "in-process" | "completed";
+          // url?: string;
+          // subscription?: Subscription;
+        });
+      });
+      // console.log(this.userSelectedFiles, changes.documents.currentValue);
+    }
+  }
 
   ngOnInit() {}
 
   cancelFileUpload(questionKey: fileKeys, fileNameToFilter: string) {
-    if (!this.userSelectedFiles || !this.userSelectedFiles[questionKey]) {
-      return false;
-    }
+    console.log(this.userSelectedFiles);
+
+    // if (!this.userSelectedFiles || !this.userSelectedFiles[questionKey]) {
+    //   return false;
+    // }
 
     // Remove the file requested from user selection.
-    this.userSelectedFiles[questionKey] = this.userSelectedFiles[
-      questionKey
-    ].filter((file) => file.name !== fileNameToFilter);
+    if (this.userSelectedFiles[questionKey]) {
+      this.userSelectedFiles[questionKey] = this.userSelectedFiles[
+        questionKey
+      ].filter((file) => file.name !== fileNameToFilter);
+    }
 
     if (!this.fileUploadTracker || !this.fileUploadTracker[questionKey]) {
       return false;
@@ -218,6 +265,18 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy {
     console.log(this.fileUploadTracker);
 
     this.outputValues.emit(valueToEmit);
+  }
+
+  onSaveAsDraftClick() {
+    const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
+    console.log(`fileUploadTracker `, this.fileUploadTracker);
+    console.log(`valueToEmit `, valueToEmit);
+    documentForm.reset();
+
+    documentForm.patchValue({ ...valueToEmit });
+    console.log(`fornm `, documentForm.value);
+
+    this.saveAsDraft.emit(valueToEmit);
   }
 
   private mapFileTrackerToEmitValues(tracker: IFileUploadTracking): emitValue {

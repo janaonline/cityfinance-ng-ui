@@ -3,11 +3,22 @@
   margin: auto;
   padding: 1% 2%;
 }
+.tick {
+  width: 16%;
+  // height: 30px;
+  margin: auto;
+  display: block;
+}
 
 :host {
   .back_button {
     margin: 2rem 24px;
   }
+
+  .btn-primary {
+    outline: none;
+  }
+
   ::ng-deep .mat-horizontal-stepper-header-container {
     width: 75% !important;
   }

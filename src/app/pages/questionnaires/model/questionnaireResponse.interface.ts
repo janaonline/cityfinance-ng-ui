@@ -6,5 +6,6 @@ export interface IQuestionnaireResponse {
     userCharges: { [key: string]: string };
     documents: { [key: string]: { name: string; url: string }[] };
     stateName: string;
+    isCompleted: boolean;
   }[];
 }
