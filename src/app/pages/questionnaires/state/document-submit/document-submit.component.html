@@ -4,7 +4,8 @@
     1. Question with <span class="mandatory">*</span> sign are mandatory.<br />
     2. Only files wih extensions {{ fileExnetsionAllowed }} are allowed. Other
     type of files will be filtered out.<br />
-    3. Maximum of 10 files can be selected per question.
+    3. Maximum of 10 files can be selected per question.<br />
+    4. Duplicate Files for same question will be filtered out.
   </p>
   <table class="question-table">
     <tbody>
@@ -23,27 +24,39 @@
             class="file-list"
             *ngFor="let file of userSelectedFiles[question.key]"
           >
-            <span class="file-tracker-name"> {{ file.name }}</span>
+            <span class="file-tracker-name">
+              {{ file.name }}
+            </span>
             <div
               class="progress"
-              *ngIf="fileUploadTracker[file.name + '_' + question.key]"
+              *ngIf="
+                fileUploadTracker[question.key] &&
+                fileUploadTracker[question.key][file.name]
+              "
             >
               <div
                 class="progress-bar"
                 role="progressbar"
                 [ngStyle]="{
                   'width.%':
-                    fileUploadTracker[file.name + '_' + question.key].percentage
+                    fileUploadTracker[question.key][file.name].percentage
                 }"
                 aria-valuenow="25"
                 aria-valuemin="0"
                 aria-valuemax="100"
               >
-                {{
-                  fileUploadTracker[file.name + "_" + question.key].percentage
-                }}
+                {{ fileUploadTracker[question.key][file.name].percentage }} %
               </div>
             </div>
+
+            <span style="float: right;">
+              <i
+                class="fa fa-times"
+                aria-hidden="true"
+                title="Remove"
+                (click)="cancelFileUpload(question.key, file.name)"
+              ></i>
+            </span>
           </div>
 
           <div *ngIf="documents">
@@ -71,7 +84,6 @@
             *ngIf="!documents"
             class="myFile btn btn-primary"
             title="Select File/s"
-            [disabled]="uploadInProgress || fileUploadCompleted"
           >
             Select File/s
             <input
@@ -81,7 +93,6 @@
               type="file"
               multiple
               (change)="fileChangeEvent($event, question.key)"
-              [disabled]="uploadInProgress || fileUploadCompleted"
               onmouseover=""
             />
           </button>
@@ -95,7 +106,6 @@
             class="btn btn-primary btn-upload mt-3"
             style="float: right; margin-right: 2%;"
             (click)="previous.emit(true)"
-            [disabled]="uploadInProgress"
           >
             Previous
           </button>
@@ -105,7 +115,7 @@
             *ngIf="!documents"
             class="btn btn-primary btn-upload mt-3"
             (click)="onUploadButtonClick()"
-            [disabled]="uploadInProgress || fileUploadCompleted"
+            [disabled]="NoOfFileInProgress !== 0"
           >
             Upload
           </button>
@@ -114,9 +124,8 @@
             class="btn btn-primary btn-upload mt-3"
             style="float: right; margin-right: 2%;"
             (click)="previous.emit(true)"
-            [disabled]="uploadInProgress"
           >
-            Previous
+            Previousssss
           </button>
         </td>
       </tr>

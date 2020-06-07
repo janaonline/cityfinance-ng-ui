@@ -80,6 +80,7 @@
 
   .file-list {
     margin: 1%;
+    width: 85%;
     .file-tracker-name {
       color: gray;
       font-style: italic;
@@ -91,10 +92,20 @@
 
   .progress {
     display: inline-block;
-    width: 55%;
+    width: 35%;
     margin-bottom: 0%;
     margin-left: 2%;
-    float: right;
+  }
+
+  .fa-times {
+    color: red;
+    font-size: 1vw;
+    transition: all 0.5s;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.3);
+    }
   }
 
   .btn-upload {

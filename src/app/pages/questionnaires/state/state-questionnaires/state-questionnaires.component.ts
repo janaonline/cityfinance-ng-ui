@@ -32,7 +32,8 @@ export class StateQuestionnairesComponent implements OnInit {
   canGoToDonePage = true;
   canSeeIntroduction = true;
 
-  userData: { state: string; role: USER_TYPE };
+  userData: { state: string; role: USER_TYPE; name: string };
+  USER_TYPE = USER_TYPE;
   stateList: any[];
   showLoader = true;
   userHasAlreadyFilledForm = false;
@@ -40,6 +41,8 @@ export class StateQuestionnairesComponent implements OnInit {
   accessValidator = new AccessChecker();
 
   currentStateId;
+
+  window = window;
 
   constructor(
     private _questionnaireService: QuestionnaireService,

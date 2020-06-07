@@ -6,6 +6,28 @@
     <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
   </div>
 
+  <button
+    *ngIf="userData.role !== USER_TYPE.STATE"
+    class="back_button"
+    (click)="window.history.back()"
+  >
+    Back
+  </button>
+
+  <p
+    *ngIf="userData.role === USER_TYPE.STATE"
+    style="padding: 0 24px; font-size: 1vw;"
+  >
+    <i><strong>Welcome:</strong> {{ userData.name }}</i>
+  </p>
+
+  <p
+    *ngIf="userData.role !== USER_TYPE.STATE"
+    style="padding: 0 24px; font-size: 1vw;"
+  >
+    <i><strong>STATE:</strong> {{ userData.name }}</i>
+  </p>
+
   <mat-horizontal-stepper
     id="stepper"
     *ngIf="!showLoader"
