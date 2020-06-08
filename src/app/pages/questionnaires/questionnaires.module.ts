@@ -23,6 +23,7 @@ import { QuestionnaireRoutes } from './questionnaires.route';
 import { CompletedComponent } from './state/completed/completed.component';
 import { DocumentSubmitComponent } from './state/document-submit/document-submit.component';
 import { IntroductionComponent } from './state/introduction/introduction.component';
+import { PreviewComponent } from './state/preview/preview.component';
 import { PropertyTaxComponent } from './state/property-tax/property-tax.component';
 import { StateQuestionnairesComponent } from './state/state-questionnaires/state-questionnaires.component';
 import { UserChargesComponent } from './state/user-charges/user-charges.component';
@@ -58,6 +59,8 @@ import { UserChargesComponent } from './state/user-charges/user-charges.componen
     CompletedComponent,
     SubmittedFormComponent,
     DocumentSubmitComponent,
+    PreviewComponent,
   ],
+  entryComponents: [PreviewComponent],
 })
 export class QuestionnairesModule {}

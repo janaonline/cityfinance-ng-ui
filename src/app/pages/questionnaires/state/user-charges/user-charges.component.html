@@ -15,7 +15,10 @@
       <ul>
         <li>
           <p>
-            {{ QuestionsIdMapping["Byelaws_UC_A"] }}
+            {{
+              QuestionsIdMapping["Byelaws_UC_A"].number +
+                QuestionsIdMapping["Byelaws_UC_A"].question
+            }}
             <span class="mandatory"> *</span>
           </p>
           <mat-radio-group
@@ -37,7 +40,10 @@
         >
           <li>
             <p>
-              {{ QuestionsIdMapping["Existing_Status_Yes_UC_A"] }}
+              {{
+                QuestionsIdMapping["Existing_Status_Yes_UC_A"].number +
+                  QuestionsIdMapping["Existing_Status_Yes_UC_A"].question
+              }}
               <span class="mandatory"> *</span>
             </p>
             <div class="input-group textarea-wrapper">
@@ -54,7 +60,10 @@
           <li>
             <p>
               <span
-                [innerHTML]="QuestionsIdMapping['Relevant_Section_UC_A']"
+                [innerHTML]="
+                  QuestionsIdMapping['Relevant_Section_UC_A'].number +
+                  QuestionsIdMapping['Relevant_Section_UC_A'].question
+                "
               ></span>
 
               <span class="mandatory"> *</span>
@@ -81,7 +90,10 @@
       >
         <li>
           <p>
-            {{ QuestionsIdMapping["State_Approval_UC_A"] }}
+            {{
+              QuestionsIdMapping["State_Approval_UC_A"].number +
+                QuestionsIdMapping["State_Approval_UC_A"].question
+            }}
             <span class="mandatory"> *</span>
           </p>
           <div class="input-group textarea-wrapper">
@@ -97,7 +109,10 @@
         </li>
         <li>
           <p>
-            {{ QuestionsIdMapping["Action_Date_UC_A"] }}
+            {{
+              QuestionsIdMapping["Action_Date_UC_A"].number +
+                QuestionsIdMapping["Action_Date_UC_A"].question
+            }}
             <span class="mandatory"> *</span>
           </p>
           <div class="input-group">
@@ -129,7 +144,10 @@
       >
         <li>
           <p>
-            {{ QuestionsIdMapping["Existing_Status_No_UC_A"] }}
+            {{
+              QuestionsIdMapping["Existing_Status_No_UC_A"].number +
+                QuestionsIdMapping["Existing_Status_No_UC_A"].question
+            }}
             <span class="mandatory"> *</span>
           </p>
           <div class="input-group textarea-wrapper">
@@ -146,7 +164,10 @@
         <li>
           <p>
             <span
-              [innerHTML]="QuestionsIdMapping['Implement_Plan_UC_A']"
+              [innerHTML]="
+                QuestionsIdMapping['Implement_Plan_UC_A'].number +
+                QuestionsIdMapping['Implement_Plan_UC_A'].question
+              "
             ></span>
 
             <span class="mandatory"> *</span>
@@ -164,7 +185,10 @@
         </li>
         <li>
           <p>
-            {{ QuestionsIdMapping["Implement_Date_UC_A"] }}
+            {{
+              QuestionsIdMapping["Implement_Date_UC_A"].number +
+                QuestionsIdMapping["Implement_Date_UC_A"].question
+            }}
             <span class="mandatory"> *</span>
           </p>
 
@@ -201,7 +225,10 @@
       <ul>
         <li>
           <p>
-            {{ QuestionsIdMapping["Periodic_Increase_UC_B"] }}
+            {{
+              QuestionsIdMapping["Periodic_Increase_UC_B"].number +
+                QuestionsIdMapping["Periodic_Increase_UC_B"].question
+            }}
             <span class="mandatory"> *</span>
           </p>
           <mat-radio-group
@@ -223,7 +250,10 @@
         >
           <li>
             <p>
-              {{ QuestionsIdMapping["Existing_Status_Yes_UC_B"] }}
+              {{
+                QuestionsIdMapping["Existing_Status_Yes_UC_B"].number +
+                  QuestionsIdMapping["Existing_Status_Yes_UC_B"].question
+              }}
               <span class="mandatory"> *</span>
             </p>
             <div class="input-group textarea-wrapper">
@@ -240,7 +270,10 @@
           <li>
             <p>
               <span
-                [innerHTML]="QuestionsIdMapping['Relevant_Section_UC_B']"
+                [innerHTML]="
+                  QuestionsIdMapping['Relevant_Section_UC_B'].number +
+                  QuestionsIdMapping['Relevant_Section_UC_B'].question
+                "
               ></span>
 
               <span class="mandatory"> *</span>
@@ -268,7 +301,10 @@
       >
         <li>
           <p>
-            {{ QuestionsIdMapping["State_Approval_UC_B"] }}
+            {{
+              QuestionsIdMapping["State_Approval_UC_B"].number +
+                QuestionsIdMapping["State_Approval_UC_B"].question
+            }}
             <span class="mandatory"> *</span>
           </p>
           <div class="input-group textarea-wrapper">
@@ -284,7 +320,10 @@
         </li>
         <li>
           <p>
-            {{ QuestionsIdMapping["Action_Date_UC_B"] }}
+            {{
+              QuestionsIdMapping["Action_Date_UC_B"].number +
+                QuestionsIdMapping["Action_Date_UC_B"].question
+            }}
             <span class="mandatory"> *</span>
           </p>
           <div class="input-group">
@@ -316,7 +355,10 @@
       >
         <li>
           <p>
-            {{ QuestionsIdMapping["Existing_Status_No_UC_B"] }}
+            {{
+              QuestionsIdMapping["Existing_Status_No_UC_B"].number +
+                QuestionsIdMapping["Existing_Status_No_UC_B"].question
+            }}
             <span class="mandatory"> *</span>
           </p>
 
@@ -334,7 +376,10 @@
         <li>
           <p>
             <span
-              [innerHTML]="QuestionsIdMapping['Implement_Plan_UC_B']"
+              [innerHTML]="
+                QuestionsIdMapping['Implement_Plan_UC_B'].number +
+                QuestionsIdMapping['Implement_Plan_UC_B'].question
+              "
             ></span>
 
             <span class="mandatory"> *</span>
@@ -352,7 +397,10 @@
         </li>
         <li>
           <p>
-            {{ QuestionsIdMapping["Implement_Date_UC_B"] }}
+            {{
+              QuestionsIdMapping["Implement_Date_UC_B"].number +
+                QuestionsIdMapping["Implement_Date_UC_B"].question
+            }}
             <span class="mandatory"> *</span>
           </p>
 

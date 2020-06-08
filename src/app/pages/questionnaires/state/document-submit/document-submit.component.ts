@@ -127,8 +127,6 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
     documents: SimpleChange;
     canUploadFile: SimpleChange;
   }): void {
-    console.log(changes);
-
     if (changes.documents && changes.documents.currentValue) {
       if (changes.canUploadFile && !changes.canUploadFile.currentValue) {
         return;
@@ -150,7 +148,6 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
             url: file.url,
             status: "completed",
           };
-          console.log(questiopnId, file.name);
 
           //      fileName?: string;
           // percentage?: number;
@@ -166,8 +163,6 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {}
 
   cancelFileUpload(questionKey: fileKeys, fileNameToFilter: string) {
-    console.log(this.userSelectedFiles);
-
     // if (!this.userSelectedFiles || !this.userSelectedFiles[questionKey]) {
     //   return false;
     // }
@@ -197,8 +192,6 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   fileChangeEvent(event: Event, key: fileKeys) {
-    console.log(`fileChangeEvent`);
-
     const filteredFiles = <any>(
       this.filterInvalidFiles(event.target["files"], key)
     );
@@ -251,8 +244,18 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
     const newList: File[] = [];
     for (let index = 0; index < list.length; index++) {
       const file = list[index];
+      const noOfFileAlreadySelect = this.fileUploadTracker[key]
+        ? Object.keys(this.fileUploadTracker[key]).length
+        : 0;
+      console.log(`fileUploade tracker `, { ...this.fileUploadTracker });
+
       const isFileAlreadySelected = this.isFileAlreadySelected(file, key);
-      if (this.isValidFile(file) && index < 10 && !isFileAlreadySelected) {
+
+      if (
+        this.isValidFile(file) &&
+        noOfFileAlreadySelect < 10 &&
+        !isFileAlreadySelected
+      ) {
         newList.push(file);
       }
     }
@@ -262,19 +265,16 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
   onUploadButtonClick() {
     const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
     documentForm.patchValue({ ...valueToEmit });
-    console.log(this.fileUploadTracker);
 
     this.outputValues.emit(valueToEmit);
   }
 
   onSaveAsDraftClick() {
     const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
-    console.log(`fileUploadTracker `, this.fileUploadTracker);
-    console.log(`valueToEmit `, valueToEmit);
+
     documentForm.reset();
 
     documentForm.patchValue({ ...valueToEmit });
-    console.log(`fornm `, documentForm.value);
 
     this.saveAsDraft.emit(valueToEmit);
   }
@@ -344,6 +344,9 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
     if (event.type === HttpEventType.UploadProgress) {
       const percentDone = Math.round((100 * event.loaded) / event.total);
       this.NoOfFileInProgress += percentDone >= 100 ? -1 : 0;
+      console.log(
+        `NoOfFileInProgress: ${this.NoOfFileInProgress}, percentDone: ${percentDone}`
+      );
       if (!this.fileUploadTracker[questionId]) {
         this.fileUploadTracker[questionId] = {
           [fileId]: {
@@ -402,6 +405,5 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
   ngOnDestroy(): void {
     documentForm.reset();
     documentForm.enable();
-    console.log(`ngOnDestroy`);
   }
 }

@@ -10,6 +10,7 @@ export class CompletedComponent implements OnInit {
   @Output()
   showOld = new EventEmitter();
   @Output() previous: EventEmitter<boolean> = new EventEmitter();
+  @Output() preview: EventEmitter<boolean> = new EventEmitter();
 
   @Output() submit: EventEmitter<boolean> = new EventEmitter();
 
