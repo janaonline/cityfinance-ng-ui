@@ -17,7 +17,8 @@
         </td>
         <td>
           <p class="question">
-            {{ question.question }}
+            <span [innerHTML]="question.question"></span>
+
             <span *ngIf="i === 0" class="mandatory">*</span>
           </p>
           <div
