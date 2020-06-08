@@ -61,7 +61,7 @@ const QuestionsIdMapping = {
   },
   Action_Date_UC_B: {
     number: "3.b)",
-    questiojn: "Date by which it will be completed",
+    question: "Date by which it will be completed",
   },
   Existing_Status_No_UC_B: {
     number: "4.a)",

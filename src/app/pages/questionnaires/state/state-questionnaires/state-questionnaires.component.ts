@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { MatDialog, MatHorizontalStepper } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatHorizontalStepper } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
@@ -14,6 +14,7 @@ import { QuestionnaireService } from '../../service/questionnaire.service';
 import { documentForm } from '../configs/document.config';
 import { propertyTaxForm } from '../configs/property-tax.cofig';
 import { userChargesForm } from '../configs/user-charges.config';
+import { PreviewComponent } from '../preview/preview.component';
 
 @Component({
   selector: "app-state-questionnaires",
@@ -61,6 +62,11 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     buttons: {
       cancel: { text: "OK" },
     },
+  };
+
+  previewConfig: MatDialogConfig = {
+    width: "65vw",
+    height: "70vh",
   };
 
   constructor(
@@ -226,6 +232,10 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
   showPropertyTax() {
     this.stepper.selectedIndex = 1;
+  }
+
+  showPreview() {
+    this._matDialog.open(PreviewComponent, this.previewConfig);
   }
 
   private validateUserAccess(params: { stateId: string }) {

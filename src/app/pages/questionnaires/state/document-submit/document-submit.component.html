@@ -152,7 +152,7 @@
             (click)="onUploadButtonClick()"
             [disabled]="NoOfFileInProgress !== 0"
           >
-            Next
+            Next {{ NoOfFileInProgress }}
           </button>
           <button
             *ngIf="!canUploadFile"

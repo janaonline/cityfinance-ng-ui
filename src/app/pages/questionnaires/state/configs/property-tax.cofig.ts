@@ -13,14 +13,14 @@ const QuestionsIdMapping = {
   },
 
   Relevent_Sections_Yes_PT_A: {
-    number: "1.b) ",
+    number: "1.b)",
     question:
-      "1.b) Mention the relevant section/provision/clause number of gazette notification/rules/relevant provision in the Act <i>(Upload relevant documents in Upload Documents section)</i>",
+      "Mention the relevant section/provision/clause number of gazette notification/rules/relevant provision in the Act <i>(Upload relevant documents in Upload Documents section)</i>",
   },
   Legislative_Changes_PT_A: {
     number: "1.a)",
     question:
-      "1.a) Would you be seeking legislative changes/state government approval/issue executive order to provide for such linkage of property tax to guideline values/circle rates?",
+      "Would you be seeking legislative changes/state government approval/issue executive order to provide for such linkage of property tax to guideline values/circle rates?",
   },
   Action_Date_PT_A: {
     number: "1.b)",
@@ -327,7 +327,7 @@ const Implement_Date_PT_B_Validator = (control: AbstractControl) => {
 propertyTaxForm = _fb.group({
   Act_Linking_PT_A: ["", [Validators.required]],
   Existing_Status_PT_A: ["", [Existing_Status_PT_A_Validator]],
-  Relevent_Sections_PT_A: ["", [Relevent_Sections_PT_A_Validator]],
+  Relevent_Sections_Yes_PT_A: ["", [Relevent_Sections_PT_A_Validator]],
   Legislative_Changes_PT_A: ["", [Legislative_Changes_PT_A_Validator]],
   Action_Date_PT_A: [null, [Action_Date_PT_A_Validator]],
   Relevent_Sections_No_PT_A: ["", [Relevent_Sections_No_PT_A_Validator]],

@@ -85,6 +85,13 @@
           >
             Save as draft
           </button>
+          <!-- <button
+            class="btn btn-primary mt-2"
+            style="float: right; display: block; margin-right: 2%;"
+            (click)="showPreview()"
+          >
+            Preview
+          </button> -->
         </div>
       </app-property-tax>
     </mat-step>
@@ -155,6 +162,7 @@
         (showOld)="showPropertyTax()"
         (submit)="uploadCompletedQuestionnaireData()"
         (previous)="stepper.previous()"
+        (preview)="showPreview()"
       ></app-completed>
     </mat-step>
   </mat-horizontal-stepper>
