@@ -108,7 +108,7 @@
         aria-haspopup="true"
         aria-expanded="false"
       > -->
-      <a [routerLink]="['/dashboard/report']">Annual Financial Statements</a>
+      <a [routerLink]="['/dashboard/report']">Financial Statements</a>
       <!-- <ul class="dropdown-menu">
         <li routerLinkActive="active">
           <a [routerLink]="['/dashboard/report']"
@@ -126,14 +126,35 @@
       </ul> -->
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['/credit-rating/laws']">Municipal Finance Laws</a>
+      <a [routerLink]="['/credit-rating/laws']">Municipal Laws</a>
     </li>
-    <li routerLinkActive="active">
+    <li>
+      <a
+        class="dropdown-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        >Borrowing
+      </a>
+      <ul class="dropdown-menu dropdown-menu-left">
+        <li routerLinkActive="active">
+          <a [routerLink]="['/credit-rating/municipal-bond']"
+            >Municipal Bonds</a
+          >
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="['/credit-rating/report']">Credit Rating</a>
+        </li>
+      </ul>
+    </li>
+
+    <!-- <li routerLinkActive="active">
       <a [routerLink]="['/credit-rating/report']">Credit Rating</a>
     </li>
     <li routerLinkActive="active">
       <a [routerLink]="['/credit-rating/municipal-bond']"> Municipal Bonds</a>
-    </li>
+    </li> -->
     <li routerLinkActive="active">
       <a [routerLink]="['/files']">
         Resources
