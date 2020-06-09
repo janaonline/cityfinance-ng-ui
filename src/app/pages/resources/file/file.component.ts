@@ -15,8 +15,10 @@ export class FileComponent implements OnInit {
 
   ngOnInit() {
     this.commonService.getPublicFileList().subscribe((res) => {
-      console.log(res);
-      this.files = res;
+      // this.files = res;
+      this.files = res.filter(
+        (file) => file._id !== "5ece1bb38accef1fcfecc373"
+      );
     });
   }
 }
