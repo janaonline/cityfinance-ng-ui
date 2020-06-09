@@ -156,7 +156,6 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
           // subscription?: Subscription;
         });
       });
-      // console.log(this.userSelectedFiles, changes.documents.currentValue);
     }
   }
 
@@ -242,12 +241,12 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
 
   filterInvalidFiles(list: FileList, key: fileKeys) {
     const newList: File[] = [];
-    for (let index = 0; index < list.length; index++) {
+    const maxLimit = list.length > 10 ? 10 : list.length;
+    for (let index = 0; index < maxLimit; index++) {
       const file = list[index];
       const noOfFileAlreadySelect = this.fileUploadTracker[key]
         ? Object.keys(this.fileUploadTracker[key]).length
         : 0;
-      console.log(`fileUploade tracker `, { ...this.fileUploadTracker });
 
       const isFileAlreadySelected = this.isFileAlreadySelected(file, key);
 
@@ -343,9 +342,19 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
   ) {
     if (event.type === HttpEventType.UploadProgress) {
       const percentDone = Math.round((100 * event.loaded) / event.total);
-      this.NoOfFileInProgress += percentDone >= 100 ? -1 : 0;
+
+      /**
+       * NOTE: Why are we comparing loaded and total instead of using percentDone?
+       * It is because if the difference between load and total is very small
+       * like total = 2797671 and loaded = 2797613, percentDone will be 100%
+       * (we cannot show percentage done in decimal) but actual file is
+       * not uploaded 100%. It can casue issue in the NoOfFileInProgress going
+       * negative direction.
+       */
+      this.NoOfFileInProgress += event.loaded === event.total ? -1 : 0;
       console.log(
-        `NoOfFileInProgress: ${this.NoOfFileInProgress}, percentDone: ${percentDone}`
+        `fileId: ${fileId}, NoOfFileInProgress: ${this.NoOfFileInProgress}, percentDone: ${percentDone}`,
+        event
       );
       if (!this.fileUploadTracker[questionId]) {
         this.fileUploadTracker[questionId] = {
