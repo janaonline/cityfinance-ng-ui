@@ -11,8 +11,34 @@
 }
 
 :host {
-  .back_button {
-    margin: 2rem 24px;
+  .box {
+    box-shadow: 1px 1px 11px 1px #b9b5b5;
+    padding: 5%;
+    display: flex;
+    width: 45vw;
+    border-radius: 5px;
+    border: 1px solid #c7c5c5;
+    // text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin: 5% auto;
+  }
+
+  .btn {
+    outline: none;
+  }
+
+  app-tick-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    display: inline-block;
+  }
+
+  .form-editable {
+    .back_button {
+      margin: 2rem 24px;
+    }
   }
 
   .btn-primary {
