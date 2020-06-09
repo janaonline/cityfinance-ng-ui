@@ -343,9 +343,19 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
   ) {
     if (event.type === HttpEventType.UploadProgress) {
       const percentDone = Math.round((100 * event.loaded) / event.total);
-      this.NoOfFileInProgress += percentDone >= 100 ? -1 : 0;
+
+      /**
+       * NOTE: Why are we comparing loaded and total instead of using percentDone?
+       * It is because if the difference between load and total is very small
+       * like total = 2797671 and loaded = 2797613, percentDone will be 100%
+       * (we cannot show percentage done in decimal) but actual file is
+       * not uploaded 100%. It can casue issue in the NoOfFileInProgress going
+       * negative direction.
+       */
+      this.NoOfFileInProgress += event.loaded === event.total ? -1 : 0;
       console.log(
-        `NoOfFileInProgress: ${this.NoOfFileInProgress}, percentDone: ${percentDone}`
+        `fileId: ${fileId}, NoOfFileInProgress: ${this.NoOfFileInProgress}, percentDone: ${percentDone}`,
+        event
       );
       if (!this.fileUploadTracker[questionId]) {
         this.fileUploadTracker[questionId] = {
