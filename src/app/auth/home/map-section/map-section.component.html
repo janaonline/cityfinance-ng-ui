@@ -59,6 +59,19 @@
           <td>
             <strong
               [attr.data-animate-value]="
+                dataForVisualization?.totalMunicipalBonds || 0
+              "
+              [ngClass]="{ 'loading-value': !dataForVisualization }"
+            >
+              0
+            </strong>
+          </td>
+          <td>Municipal Bond issuances</td>
+        </tr>
+        <tr>
+          <td>
+            <strong
+              [attr.data-animate-value]="
                 stateSelected
                   ? creditRating[stateSelected.name] || 0
                   : creditRating.total
@@ -68,20 +81,7 @@
               0
             </strong>
           </td>
-          <td>ULBs with Credit Rating</td>
-        </tr>
-        <tr>
-          <td>
-            <strong
-              [attr.data-animate-value]="
-                dataForVisualization?.totalMunicipalBonds || 0
-              "
-              [ngClass]="{ 'loading-value': !dataForVisualization }"
-            >
-              0
-            </strong>
-          </td>
-          <td>Municipal Bond issuances</td>
+          <td>ULBs with Credit Rating Reports</td>
         </tr>
       </tbody>
     </table>
