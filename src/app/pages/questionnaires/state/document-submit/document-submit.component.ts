@@ -352,10 +352,7 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
        * negative direction.
        */
       this.NoOfFileInProgress += event.loaded === event.total ? -1 : 0;
-      console.log(
-        `fileId: ${fileId}, NoOfFileInProgress: ${this.NoOfFileInProgress}, percentDone: ${percentDone}`,
-        event
-      );
+
       if (!this.fileUploadTracker[questionId]) {
         this.fileUploadTracker[questionId] = {
           [fileId]: {
@@ -412,7 +409,7 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
-    documentForm.reset();
-    documentForm.enable();
+    // documentForm.reset();
+    // documentForm.enable();
   }
 }

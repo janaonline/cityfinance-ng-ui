@@ -1,6 +1,12 @@
-<div class="wrapper">
+<button class="btn btn-primary" (click)="downloadasPDF()">
+  Download as PDF
+</button>
+
+<div class="wrapper" id="preview">
+  <ng-content select=".header"> </ng-content>
+
   <!-- PROPERTY TAX-->
-  <section class="property-tax">
+  <section class="property-tax" id="property-tax">
     <h3 class="tab-heading text-center">Property Tax</h3>
     <p class="main-section-header">
       A. Notification of floor rates linked to prevailing circle rates
@@ -361,7 +367,7 @@
   </section>
 
   <!-- USER CHARGES-->
-  <section class="user-charges">
+  <section class="user-charges" id="user-charges">
     <h3 class="tab-heading text-center">User Charges</h3>
     <p class="main-section-header">
       A. Notification of Floor rates linked to current cost
@@ -710,7 +716,7 @@
   </section>
 
   <!-- DOCUMENTS -->
-  <section class="upload-documnets">
+  <section class="upload-documnets" id="upload-documnets">
     <h3 class="tab-heading text-center">Documents</h3>
     <table>
       <tbody>
@@ -720,7 +726,7 @@
           </td>
           <td>
             <span
-              class="question mandatory"
+              class="question"
               [innerHTML]="documentQuestions.State_Acts_Doc"
             ></span>
             <br />
@@ -751,6 +757,18 @@
             ></span>
             <br />
             <strong>Ans:</strong>
+            <a
+              class="download-link"
+              *ngFor="
+                let file of documentForm.value.State_Rules_Doc;
+                let i = index;
+                last as isLast
+              "
+              [href]="file.url"
+              target="_blank"
+            >
+              {{ file.name }} <span *ngIf="!isLast">,</span>
+            </a>
           </td>
         </tr>
 
@@ -765,6 +783,18 @@
             ></span>
             <br />
             <strong>Ans:</strong>
+            <a
+              class="download-link"
+              *ngFor="
+                let file of documentForm.value.Admin_Doc;
+                let i = index;
+                last as isLast
+              "
+              [href]="file.url"
+              target="_blank"
+            >
+              {{ file.name }} <span *ngIf="!isLast">,</span>
+            </a>
           </td>
         </tr>
 
@@ -779,6 +809,18 @@
             ></span>
             <br />
             <strong>Ans:</strong>
+            <a
+              class="download-link"
+              *ngFor="
+                let file of documentForm.value.Implement_Doc;
+                let i = index;
+                last as isLast
+              "
+              [href]="file.url"
+              target="_blank"
+            >
+              {{ file.name }} <span *ngIf="!isLast">,</span>
+            </a>
           </td>
         </tr>
 
@@ -793,6 +835,18 @@
             ></span>
             <br />
             <strong>Ans:</strong>
+            <a
+              class="download-link"
+              *ngFor="
+                let file of documentForm.value.Other_Doc;
+                let i = index;
+                last as isLast
+              "
+              [href]="file.url"
+              target="_blank"
+            >
+              {{ file.name }} <span *ngIf="!isLast">,</span>
+            </a>
           </td>
         </tr>
       </tbody>
@@ -800,4 +854,8 @@
   </section>
 
   <h3></h3>
+</div>
+
+<div class="loader" *ngIf="showLoader">
+  <mat-spinner style="margin: auto;"></mat-spinner>
 </div>

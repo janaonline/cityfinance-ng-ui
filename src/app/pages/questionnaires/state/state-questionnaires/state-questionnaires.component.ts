@@ -14,7 +14,6 @@ import { QuestionnaireService } from '../../service/questionnaire.service';
 import { documentForm } from '../configs/document.config';
 import { propertyTaxForm } from '../configs/property-tax.cofig';
 import { userChargesForm } from '../configs/user-charges.config';
-import { PreviewComponent } from '../preview/preview.component';
 
 @Component({
   selector: "app-state-questionnaires",
@@ -56,6 +55,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
   expandPropertyTaxQuestion = false;
   expandUserChargesQuestion = false;
+  showPreview = false;
 
   defaultDailogConfiuration: IDialogConfiguration = {
     message: "",
@@ -150,8 +150,6 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
       isCompleted: false,
     };
 
-    console.log(`savign as draft`, documentForm.value);
-
     if (this.userData.role !== USER_TYPE.STATE) {
       obj["state"] = this.currentStateId;
     }
@@ -188,9 +186,13 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     }
     this.userHasAlreadyFilledForm = true;
     this.editable = false;
-    this._questionnaireService.saveQuestionnaireData(obj).subscribe((res) => {
-      this.userHasAlreadyFilledForm = true;
+    this.setComponentStateToAlreadyFilled({
+      ...obj,
+      stateName: this.stateName,
     });
+    this._questionnaireService
+      .saveQuestionnaireData(obj)
+      .subscribe((res) => {}, console.error);
   }
 
   validatorQuestionnaireForms() {
@@ -234,9 +236,9 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     this.stepper.selectedIndex = 1;
   }
 
-  showPreview() {
-    this._matDialog.open(PreviewComponent, this.previewConfig);
-  }
+  // showPreview() {
+  //   this._matDialog.open(PreviewComponent, this.previewConfig);
+  // }
 
   private validateUserAccess(params: { stateId: string }) {
     const userRole: USER_TYPE = this.userData.role;
@@ -283,6 +285,9 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     this.propertyTaxData = res.propertyTax;
     this.UserChargesData = res.userCharges;
     this.documentData = res.documents;
+    propertyTaxForm.patchValue({ ...this.propertyTaxData });
+    userChargesForm.patchValue({ ...this.UserChargesData });
+    documentForm.patchValue({ ...this.documentData });
     this.editable = false;
     this.canGoToDonePage = false;
     this.canSeeIntroduction = false;

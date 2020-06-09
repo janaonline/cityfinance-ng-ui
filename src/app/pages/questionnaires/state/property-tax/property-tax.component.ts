@@ -63,12 +63,10 @@ export class PropertyTaxComponent implements OnInit, OnChanges, OnDestroy {
 
   private initializeForm() {
     this.questionForm = propertyTaxForm;
-    console.log(`initializeForm `, propertyTaxForm);
   }
 
   ngOnDestroy(): void {
-    this.questionForm.reset();
-    this.questionForm.enable();
-    console.log(`ngOnDestroy`);
+    // this.questionForm.reset();
+    // this.questionForm.enable();
   }
 }
