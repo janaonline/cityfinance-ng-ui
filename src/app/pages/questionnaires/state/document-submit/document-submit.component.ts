@@ -156,7 +156,6 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
           // subscription?: Subscription;
         });
       });
-      // console.log(this.userSelectedFiles, changes.documents.currentValue);
     }
   }
 
@@ -242,12 +241,12 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
 
   filterInvalidFiles(list: FileList, key: fileKeys) {
     const newList: File[] = [];
-    for (let index = 0; index < list.length; index++) {
+    const maxLimit = list.length > 10 ? 10 : list.length;
+    for (let index = 0; index < maxLimit; index++) {
       const file = list[index];
       const noOfFileAlreadySelect = this.fileUploadTracker[key]
         ? Object.keys(this.fileUploadTracker[key]).length
         : 0;
-      console.log(`fileUploade tracker `, { ...this.fileUploadTracker });
 
       const isFileAlreadySelected = this.isFileAlreadySelected(file, key);
 
