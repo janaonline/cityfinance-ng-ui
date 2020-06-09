@@ -484,6 +484,10 @@ img {
     text-align: right;
     margin-right: -50px;
   }
+  .container {
+    max-width: 100vw;
+    width: 90%;
+  }
 
   h3 {
     text-align: center;
@@ -534,8 +538,8 @@ img {
 }
 
 .support-by a {
-  width: 49%;
-  margin-right: 4%;
+  width: 26%;
+  margin-right: 2%;
 }
 
 .container .col-md-3 {
