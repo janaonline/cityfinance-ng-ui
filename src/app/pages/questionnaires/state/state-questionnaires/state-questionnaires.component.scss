@@ -1,7 +1,15 @@
 .wrapper {
   width: 88vw;
-  margin: auto;
+  margin: 2% auto;
   padding: 1% 2%;
+  position: relative;
+  .header {
+    padding: 0 24px;
+    text-align: center;
+    width: 96%;
+    margin: auto;
+    position: relative;
+  }
 }
 .tick {
   width: 16%;
@@ -37,7 +45,13 @@
 
   .form-editable {
     .back_button {
-      margin: 2rem 24px;
+      // margin: 2rem 24px;
+      font-size: 2rem;
+      float: left;
+      left: 0px;
+      margin-top: 0%;
+      position: absolute;
+      // left: 0px;
     }
   }
 
@@ -47,6 +61,7 @@
 
   ::ng-deep .mat-horizontal-stepper-header-container {
     width: 75% !important;
+    margin: auto;
   }
 
   ::ng-deep .question-instruction {
@@ -98,6 +113,15 @@
   mat-radio-group.is-invalid {
     .mat-radio-outer-circle {
       border-color: red;
+    }
+  }
+
+  ::ng-deep {
+    .preview-wrapper {
+      .back_button {
+        position: absolute;
+        z-index: 2;
+      }
     }
   }
 }

@@ -97,7 +97,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
         this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
 
         if (this.userHasAlreadyFilledForm) {
-          this.setComponentStateToAlreadyFilled(res);
+          this.setComponentStateToAlreadyFilled(res, true);
         } else {
           this.propertyTaxData = res.propertyTax;
           this.UserChargesData = res.userCharges;
@@ -186,10 +186,13 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     }
     this.userHasAlreadyFilledForm = true;
     this.editable = false;
-    this.setComponentStateToAlreadyFilled({
-      ...obj,
-      stateName: this.stateName,
-    });
+    this.setComponentStateToAlreadyFilled(
+      {
+        ...obj,
+        stateName: this.stateName,
+      },
+      false
+    );
     this._questionnaireService
       .saveQuestionnaireData(obj)
       .subscribe((res) => {}, console.error);
@@ -218,7 +221,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
     if (documentForm.invalid) {
       message += message
-        ? ". And mandatory documents must be uploaded in Upload Documents section."
+        ? " And mandatory documents must be uploaded in Upload Documents section."
         : "All mandatory documents must be uploaded in Upload Document section.";
       if (propertyTaxForm.valid && userChargesForm.valid) {
         this.stepper.selectedIndex = 3;
@@ -235,10 +238,6 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
   showPropertyTax() {
     this.stepper.selectedIndex = 1;
   }
-
-  // showPreview() {
-  //   this._matDialog.open(PreviewComponent, this.previewConfig);
-  // }
 
   private validateUserAccess(params: { stateId: string }) {
     const userRole: USER_TYPE = this.userData.role;
@@ -279,7 +278,8 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
   }
 
   private setComponentStateToAlreadyFilled(
-    res: IQuestionnaireResponse["data"][0]
+    res: IQuestionnaireResponse["data"][0],
+    showPreviw?: boolean
   ) {
     this.userHasAlreadyFilledForm = true;
     this.propertyTaxData = res.propertyTax;
@@ -291,6 +291,10 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     this.editable = false;
     this.canGoToDonePage = false;
     this.canSeeIntroduction = false;
+    this.showPreview =
+      showPreviw !== null && showPreviw !== undefined
+        ? showPreviw
+        : this.showPreview;
   }
 
   private hasUserAlreadyFilledForm(res: IQuestionnaireResponse["data"][0]) {

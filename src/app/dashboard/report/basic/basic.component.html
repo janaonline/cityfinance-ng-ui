@@ -17,8 +17,10 @@
   >
     <img class="align-center" src="/assets/images/cityfinance-logo.png" />
     <br />
+    <!-- *ngIf="reportReq.valueType === 'absolute'" -->
+
     <form
-      *ngIf="reportReq.valueType === 'absolute'"
+      [ngClass]="{ 'disable-form': reportReq.valueType === 'per_capita' }"
       [formGroup]="currenyConversionForm"
       style="
         width: 14%;
@@ -39,7 +41,10 @@
       >
       </angular2-multiselect>
     </form>
-    <p class="text-center">{{ reportReq.type }} {{ reportReq.reportGroup }}</p>
+    <p class="text-center">
+      {{ reportReq.type }} {{ reportReq.reportGroup }}
+      <span *ngIf="reportReq.valueType === 'per_capita'">(Per Capita)</span>
+    </p>
     <!-- <span
       *ngIf="currencyTypeInUser"
       style="color: white; position: absolute; bottom: 1%; left: 1%; font-style: italic;"

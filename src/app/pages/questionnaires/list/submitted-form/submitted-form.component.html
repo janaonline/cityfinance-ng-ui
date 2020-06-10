@@ -1,13 +1,13 @@
 <div class="tableWrapper">
   <h3 class="text-center">
-    Questionnaire's List
+    Tracker for state responses on MoF questionnaire
 
     <button
       class="btn btn-primary"
       style="float: right;"
       (click)="openStateSelectPopup()"
     >
-      Fill Qustionniare
+      Fill Questionnaire
     </button>
   </h3>
   <div class="loader-wrapper" *ngIf="!userList">
@@ -23,16 +23,20 @@
         class="sortable-headers"
       >
         <th class="text-center">S.No.</th>
-        <th class="pointer" (click)="sortListBy('createdAt')">
-          Form Filled On
-          <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
-        </th>
         <th class="pointer" (click)="sortListBy('stateName')">
           State
           <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
         </th>
-        <th>Status</th>
-        <th class="text-center">Action</th>
+        <th class="pointer" (click)="sortListBy('createdAt')">
+          Form Filled On
+          <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+        </th>
+
+        <th class="pointer" (click)="sortListBy('isCompleted')">
+          Status
+          <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+        </th>
+        <th class="text-center">View Forms</th>
       </tr>
     </thead>
     <tbody>
@@ -53,8 +57,9 @@
         <td class="text-center">
           {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
         </td>
-        <td class="">{{ user.createdAt | date: "longDate" }}</td>
         <td class="">{{ user.stateName }}</td>
+        <td class="">{{ user.createdAt | date: "longDate" }}</td>
+
         <td class="">
           {{ user.isCompleted ? "COMPLETED" : "SAVED AS DRAFT" }}
         </td>

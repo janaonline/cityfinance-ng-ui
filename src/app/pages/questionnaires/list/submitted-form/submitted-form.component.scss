@@ -1,6 +1,6 @@
 :host {
   .tableWrapper {
-    width: 65vw;
+    width: 55vw;
     display: block;
     margin: auto;
     margin-top: 5%;
@@ -8,6 +8,20 @@
   .table {
     width: 101%;
     max-width: 101%;
+
+    th:nth-child(1) {
+      width: 1%;
+    }
+
+    th:not(:nth-child(1)) {
+      width: 28%;
+      // background: green;
+    }
+
+    th:nth-last-child() {
+      // width: 1%;
+      background: red !important;
+    }
   }
 
   .actionCell {

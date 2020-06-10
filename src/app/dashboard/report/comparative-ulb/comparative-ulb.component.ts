@@ -480,7 +480,7 @@ export class ComparativeUlbComponent implements OnInit {
         .textContent;
     }
     if (this.reportReq.valueType === "per_capita") {
-      currencyConversionName = " NOTE: Values are in per CAPITA format";
+      currencyConversionName = " NOTE: Values are in Per Capita format";
     }
 
     this.excelService.transformTableToExcelData(title, reportTable, "IE", {

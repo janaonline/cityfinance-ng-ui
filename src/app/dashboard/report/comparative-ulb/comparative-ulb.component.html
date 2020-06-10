@@ -14,7 +14,7 @@
     <br />
 
     <form
-      *ngIf="reportReq.valueType === 'absolute'"
+      [ngClass]="{ 'disable-form': reportReq.valueType === 'per_capita' }"
       [formGroup]="currenyConversionForm"
       style="
         width: 14%;
@@ -35,7 +35,10 @@
       >
       </angular2-multiselect>
     </form>
-    <p class="text-center">{{ reportReq.type }} {{ reportReq.reportGroup }}</p>
+    <p class="text-center">
+      {{ reportReq.type }} {{ reportReq.reportGroup }}
+      <span *ngIf="reportReq.valueType === 'per_capita'">(Per Capita)</span>
+    </p>
   </div>
   <div
     class="col-md-12"
