@@ -23,15 +23,19 @@
         class="sortable-headers"
       >
         <th class="text-center">S.No.</th>
-        <th class="pointer" (click)="sortListBy('createdAt')">
-          Form Filled On
-          <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
-        </th>
         <th class="pointer" (click)="sortListBy('stateName')">
           State
           <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
         </th>
-        <th>Status</th>
+        <th class="pointer" (click)="sortListBy('createdAt')">
+          Form Filled On
+          <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+        </th>
+
+        <th class="pointer" (click)="sortListBy('isCompleted')">
+          Status
+          <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+        </th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
@@ -53,8 +57,9 @@
         <td class="text-center">
           {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
         </td>
-        <td class="">{{ user.createdAt | date: "longDate" }}</td>
         <td class="">{{ user.stateName }}</td>
+        <td class="">{{ user.createdAt | date: "longDate" }}</td>
+
         <td class="">
           {{ user.isCompleted ? "COMPLETED" : "SAVED AS DRAFT" }}
         </td>

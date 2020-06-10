@@ -31,7 +31,7 @@ export class SubmittedFormComponent implements OnInit {
 
   listFetchOption = {
     filter: null,
-    sort: null,
+    sort: { createdAt: -1 },
     skip: 0,
     limit: this.tableDefaultOptions.itemPerPage,
   };
@@ -79,7 +79,7 @@ export class SubmittedFormComponent implements OnInit {
         (this.tableDefaultOptions.currentPage - 1) *
         this.tableDefaultOptions.itemPerPage,
     };
-    this.listFetchOption = values;
+    this.listFetchOption = <any>values;
     this.searchUsersBy(values.filter);
   }
 
