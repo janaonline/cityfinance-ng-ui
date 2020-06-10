@@ -218,7 +218,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
     if (documentForm.invalid) {
       message += message
-        ? ". And mandatory documents must be uploaded in Upload Documents section."
+        ? " And mandatory documents must be uploaded in Upload Documents section."
         : "All mandatory documents must be uploaded in Upload Document section.";
       if (propertyTaxForm.valid && userChargesForm.valid) {
         this.stepper.selectedIndex = 3;
