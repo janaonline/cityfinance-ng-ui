@@ -115,4 +115,13 @@
       border-color: red;
     }
   }
+
+  ::ng-deep {
+    .preview-wrapper {
+      .back_button {
+        position: absolute;
+        z-index: 2;
+      }
+    }
+  }
 }

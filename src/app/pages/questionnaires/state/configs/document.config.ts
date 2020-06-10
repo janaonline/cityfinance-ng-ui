@@ -4,14 +4,14 @@ import { IQuestionnaireDocumentsCollection } from '../../model/document-collecti
 
 const QuestionsIdMapping = {
   State_Acts_Doc:
-    "Latest copies of the <strong>State Municipal Corporation Act and State Municipalities Act or City specific Acts </strong> along with copies of <strong>amendments</strong> pertaining to provisions of the property tax and/or user charges (Please highlight the sections relevant to property tax and user charges if possible)",
+    "Latest copies of the <strong>State Municipal Corporation Act and State Municipalities Act or City specific Acts </strong> along with copies of <strong>amendments</strong> pertaining to provisions of the property tax and/or user charges (Please highlight the sections relevant to property tax and user charges if possible).",
   State_Rules_Doc:
-    "Latest copies of the Notified Rules and amendments therein that pertain to <strong> property tax</strong>",
+    "Latest copies of the Notified Rules and amendments therein that pertain to <strong> property tax</strong>.",
   Admin_Doc:
-    "Latest copies of the Notified Rules and amendments therein that pertain to <strong>user charges</strong>",
+    "Latest copies of the Notified Rules and amendments therein that pertain to <strong>user charges</strong>.",
   Implement_Doc:
-    "PPT/Word file/PDF doc containing the <strong>implementation plan</strong> for meeting the conditions of the scheme",
-  Other_Doc: "Other documents relevant to the questionnaire",
+    "PPT/Word file/PDF doc containing the <strong>implementation plan</strong> for meeting the conditions of the scheme.",
+  Other_Doc: "Other documents relevant to the questionnaire.",
 };
 
 type fileKeys = keyof IQuestionnaireDocumentsCollection;
