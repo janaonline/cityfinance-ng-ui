@@ -208,8 +208,8 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
     if (!userChargesForm.valid) {
       message += message
-        ? " and User Charges."
-        : "All questions must be answered in User Charges";
+        ? " and User Charges sections."
+        : "All questions must be answered in answered in User Charges section";
       this.expandUserChargesQuestion = true;
       if (propertyTaxForm.valid) {
         this.stepper.selectedIndex = 2;
@@ -218,13 +218,13 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
     if (documentForm.invalid) {
       message += message
-        ? " and mandatory documents must be uploaded in Upload Document section."
+        ? ". And mandatory documents must be uploaded in Upload Documents section."
         : "All mandatory documents must be uploaded in Upload Document section.";
       if (propertyTaxForm.valid && userChargesForm.valid) {
         this.stepper.selectedIndex = 3;
       }
     }
-    message += " Please fill remaining questions and then submit.";
+    message += " Kindly submit the form once completed.";
     this._matDialog.open(DialogComponent, {
       data: { ...this.defaultDailogConfiuration, message },
       width: "25vw",
