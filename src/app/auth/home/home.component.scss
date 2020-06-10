@@ -616,9 +616,10 @@ img.background {
   float: right;
   text-decoration: none;
   bottom: 16%;
-  left: 50vw;
-  transform: translateX(-50%);
-  position: absolute;
+  margin-right: 2%;
+  // left: 50vw;
+  // transform: translateX(-50%);
+  // position: absolute;
   transition: all 500ms;
 }
 
