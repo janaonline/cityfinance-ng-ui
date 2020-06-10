@@ -1,9 +1,12 @@
-<button class="btn btn-primary" (click)="downloadasPDF()">
+<button
+  class="btn btn-primary download-buttom"
+  (click)="downloadAsPDFWithjsPDF()"
+>
   <i class="fa fa-cloud-download" aria-hidden="true"></i> Download as PDF
 </button>
 
 <div class="wrapper" id="preview">
-  <ng-content select=".header"> </ng-content>
+  <ng-content select=".header" class="text-center"> </ng-content>
 
   <!-- PROPERTY TAX-->
   <section class="property-tax" id="property-tax">
@@ -730,7 +733,7 @@
               [innerHTML]="documentQuestions.State_Acts_Doc"
             ></span>
             <br />
-            <strong>Ans:</strong>
+            <strong></strong>
             <a
               class="download-link"
               *ngFor="
@@ -756,7 +759,7 @@
               [innerHTML]="documentQuestions.State_Rules_Doc"
             ></span>
             <br />
-            <strong>Ans:</strong>
+            <strong></strong>
             <a
               class="download-link"
               *ngFor="
@@ -782,7 +785,7 @@
               [innerHTML]="documentQuestions.Admin_Doc"
             ></span>
             <br />
-            <strong>Ans:</strong>
+            <strong></strong>
             <a
               class="download-link"
               *ngFor="
@@ -808,7 +811,7 @@
               [innerHTML]="documentQuestions.Implement_Doc"
             ></span>
             <br />
-            <strong>Ans:</strong>
+            <strong></strong>
             <a
               class="download-link"
               *ngFor="
@@ -834,7 +837,7 @@
               [innerHTML]="documentQuestions.Other_Doc"
             ></span>
             <br />
-            <strong>Ans:</strong>
+            <strong></strong>
             <a
               class="download-link"
               *ngFor="

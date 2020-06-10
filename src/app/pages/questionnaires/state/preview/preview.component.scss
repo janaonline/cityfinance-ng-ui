@@ -11,6 +11,12 @@ table {
 }
 
 :host {
+  .download-buttom {
+    position: absolute;
+    float: right;
+    right: 0px;
+    z-index: 2;
+  }
   position: relative;
   display: block;
   font-size: 2vw;
