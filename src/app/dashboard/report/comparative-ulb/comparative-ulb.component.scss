@@ -99,6 +99,13 @@ tr > td:nth-child(2) {
   font-size: 1.2em;
 }
 
+::ng-deep .disable-form {
+  pointer-events: none;
+  .c-angle-down {
+    opacity: 0;
+  }
+}
+
 .tooltipWrapper {
   position: relative;
   cursor: pointer;
