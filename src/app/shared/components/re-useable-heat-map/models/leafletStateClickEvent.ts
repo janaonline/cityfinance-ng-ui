@@ -9,7 +9,7 @@ export interface ILeafletStateClickEvent {
     feature: {
       type: "Feature";
       geometry: {};
-      properties: { id?: string; ST_NM: string };
+      properties: { id?: string; ST_NM: string; ST_CODE: string };
     };
   };
 }

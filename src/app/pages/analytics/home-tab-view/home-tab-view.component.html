@@ -4,6 +4,7 @@
   [selectedIndex]="tabIndex"
   class="mt-1"
   animationDuration="100ms"
+  (animationDone)="onTabChangeAnimationComplete()"
 >
   <mat-tab [disabled]="loading" label="Own Revenues">
     <ng-template matTabContent>
@@ -121,6 +122,8 @@
           background-color: #333333;
           color: white;
           min-width: min-content;
+          border: none;
+          outline: none;
         "
       >
         <mat-icon>arrow_downward</mat-icon>
@@ -270,7 +273,7 @@
                   <ng-template #clickableCol>
                     <a
                       *ngIf="i != tr?.data.length - 1"
-                      (click)="openModal(UlbModal, row, tr.year)"
+                      (click)="openModal(UlbModal, row, [tr.year])"
                       >{{ row[col?.id] }}</a
                     >
                     <span
@@ -315,13 +318,21 @@
           margin-right: 0.5rem;
           background-color: #333333;
           color: white;
+          outline: none;
+          border: none;
           min-width: min-content;
         "
       >
         <mat-icon>arrow_downward</mat-icon>
       </button>
       <button
-        style="background-color: #333333; min-width: min-content; color: white;"
+        style="
+          background-color: #333333;
+          min-width: min-content;
+          color: white;
+          outline: none;
+          border: none;
+        "
         (click)="modalService.hide(1)"
         mat-raised-button
         title="Close"
@@ -338,7 +349,7 @@
     >
       <table
         id="table"
-        *ngIf="modalTableHeaders.length; else noData"
+        *ngIf="modalTableData && modalTableHeaders.length; else loadingSkeleton"
         class="table"
       >
         <thead>
@@ -549,7 +560,14 @@
       mat-raised-button
       title="Apply"
       (click)="onDropdownClose()"
-      style="background-color: #333333; min-width: min-content; color: white;"
+      style="
+        background-color: #333333;
+        min-width: fit-content;
+        color: white;
+        border: none;
+        outline: none;
+        padding: 1% 2%;
+      "
     >
       Apply
     </button>
@@ -570,7 +588,7 @@
     <div
       *ngIf="loading == false; else loadingSkeleton"
       class="row"
-      style="height: 60vh; overflow-y: auto;"
+      style="height: 68vh; overflow-y: auto;"
     >
       <ng-container *ngIf="commonTableDataDisplay.length; else noData">
         <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
@@ -593,7 +611,7 @@
                 >
                 <a
                   *ngIf="!singleULBView"
-                  (click)="openModal(UlbModal, row, data.year)"
+                  (click)="openModal(UlbModal, row, [data.year])"
                   class="p-1"
                   >{{
                     singleULBView

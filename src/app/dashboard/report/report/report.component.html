@@ -59,6 +59,31 @@
             </select> -->
             <br />
           </div>
+          <div class="col-md-12">
+            <br />
+            <label for="" class="">Value Format </label>
+          </div>
+          <div class="col-md-12 form-group">
+            <label class="radio-inline">
+              <input
+                type="radio"
+                name="valueType"
+                formControlName="valueType"
+                value="absolute"
+                checked
+              />Absolute
+            </label>
+            <label class="radio-inline">
+              <input
+                type="radio"
+                name="valueType"
+                formControlName="valueType"
+                value="per_capita"
+              />Per Capita
+            </label>
+
+            <br />
+          </div>
 
           <div class="col-md-12">
             <!-- <div class="checkbox">
@@ -132,6 +157,44 @@
       </div>
 
       <div class="col-md-10">
+        <div
+          class="financial-tab-text"
+          *ngIf="!reportForm?.value?.ulbList?.length"
+        >
+          <h3>
+            View and download annual financial statements of Urban Local Bodies
+            (ULBs)
+          </h3>
+          <br />
+          <p>Annual financial statements comprise</p>
+          <ul>
+            <li>
+              Income and Expenditure statement, which is a statement of
+              financial performance in a financial year and
+            </li>
+            <li>
+              Balance Sheet which is a statement of a ULB’s assets (what it
+              owns) and liabilities (what it owes) as at the end of the
+              financial year
+            </li>
+          </ul>
+          <br />
+          <p>
+            Income and Expenditure statement and Balance Sheet of ULBs can be
+            generated in Summary or Detailed formats and for a single year or
+            multiple years. Comparative reports for multiple ULBs too can be
+            generated.<br /><br />
+            <b
+              >Use the left pane to select report parameters and presentation
+              options to generate the desired report. View reports on screen or
+              download them in MS Excel format.</b
+            ><br /><br />
+            <b
+              >Use Download Source Files link to view and download the original
+              financial statements uploaded by ULBs in PDF format.</b
+            >
+          </p>
+        </div>
         <router-outlet></router-outlet>
       </div>
     </div>
@@ -162,20 +225,13 @@
         "
       >
         <mat-slide-toggle
+          class="comparative-toggle"
           formControlName="isComparative"
-          style="
-            display: inline-block;
-            width: 15%;
-            margin-right: 3px;
-            padding-left: 1%;
-            min-width: fit-content;
-          "
           >Comparison Report</mat-slide-toggle
         >
         <i
-          class="fa fa-info-circle"
+          class="fa fa-info-circle comparative-info-circle"
           aria-hidden="true"
-          style="margin-right: 10px; margin-left: 0px;"
           title="Comparison Report"
         ></i>
 
@@ -225,16 +281,15 @@
             "
             [title]="option.name"
           >
-            {{ option.name }}
+            {{ option.name }} {{ option.stateCode }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
 
       <button
         type="button"
-        style="margin-left: 1%;"
         class="close1 btn"
-        style="background: #f0ad4e; color: white;"
+        style="background: #f0ad4e; color: white; font-size: 0.7vw;"
         (click)="resetPopupValues()"
       >
         Clear All
@@ -242,7 +297,7 @@
 
       <button
         class="btn btn-primary"
-        style="position: absolute; right: 5px;"
+        style="position: absolute; right: 5px; font-size: 0.8vw;"
         (click)="search()"
       >
         Generate Report
@@ -259,7 +314,7 @@
       <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
       <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
     </div>
-    <div class="row" *ngIf="ulbs && ulbs.data">
+    <div class="row popup-cotnainer-2" *ngIf="ulbs && ulbs.data">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item col-md-2 stateULBName">
           <a
@@ -331,15 +386,7 @@
         </li>
       </ul>
 
-      <div
-        class="col-md-2"
-        style="
-          max-height: 54vh;
-          overflow: auto;
-          padding-right: 0px;
-          max-width: 214px;
-        "
-      >
+      <div class="col-sm-2 state-list-sidebar">
         <ul class="list-unstyled left-nav">
           <li
             *ngFor="let state of ulbs.data | keyvalue"
@@ -379,7 +426,7 @@
         </ul>
       </div>
 
-      <div class="col-md-10">
+      <div class="col-sm-10 ulb-list-container">
         <ul class="list-group" *ngIf="currentStateInView">
           <li
             _ngcontent-c4=""
@@ -391,7 +438,7 @@
               <div _ngcontent-c4="" class="col-md-12">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li
-                    class="nav-item aaa"
+                    class="nav-item ulb-category"
                     *ngFor="let ulb of filteredULBTypes"
                     (click)="setULBTypeOfState(ulb)"
                   >
@@ -457,19 +504,14 @@
                     </a>
                   </li>
                 </ul>
-                <ul
-                  class="nav nav-tabs"
-                  id="myTabContent"
-                  role="tablist"
-                  style="max-height: 47vh; overflow: auto;"
-                >
+                <ul class="nav nav-tabs" id="myTabContent" role="tablist">
                   <li
                     *ngFor="
                       let ulb of currentStateInView.value.ulbs
                         | keyvalue: valueAscOrder
                     "
                     class="list-group-item level-two checkbox col-md-4"
-                    style="margin: 0px; max-width: 300px;"
+                    style="margin: 0px; max-width: 300px; width: 27%;"
                     [id]="ulb['value']['code']"
                   >
                     <label _ngcontent-c4="">

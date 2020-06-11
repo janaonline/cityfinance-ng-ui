@@ -4,12 +4,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { interval } from 'rxjs';
+import { interval, merge } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 
 import { AuthService } from '../../../../app/auth/auth.service';
 import { IULBResponse } from '../../../../app/models/IULBResponse';
-import { IReportType } from '../../../../app/models/reportType';
 import { IULB } from '../../../../app/models/ulb';
 import { DialogComponent } from '../../../../app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from '../../../../app/shared/components/dialog/models/dialogConfiguration';
@@ -154,6 +153,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       reportGroup: ["Income & Expenditure Statement", Validators.required],
       ulbList: [this.selectedUlbs, [Validators.required]],
       ulbIds: [],
+      valueType: ["absolute"],
     });
 
     // HERE
@@ -212,9 +212,17 @@ export class ReportComponent implements OnInit, OnDestroy {
      *  value of the form is changed. So if you remove it, then the search function will be
      * executed with the previous type nad not the lastest type.
      */
-    this.reportForm.controls["type"].valueChanges
+    // forkJoin([
+    // this.reportForm.controls["type"].valueChanges,
+    // this.reportForm.controls["valueType"].valueChanges,
+    // ])
+
+    merge(
+      this.reportForm.controls["type"].valueChanges,
+      this.reportForm.controls["valueType"].valueChanges
+    )
       .pipe(debounce(() => interval(400)))
-      .subscribe((newType: IReportType["type"]) => {
+      .subscribe((value: any[]) => {
         if (this.reportForm.valid) {
           this.search();
         }
@@ -521,6 +529,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       yearList: [],
       ulbList: [],
       reportGroup: "Income & Expenditure Statement",
+      valueType: "absolute",
     });
     this.baseULBSelected = null;
     this.activeGroup = "IE";
@@ -528,52 +537,6 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.reportService.reportResponse.next(null);
     this.submitted = false;
   }
-
-  // onItemSelect(item: any) {}
-  // onSelectAll(items: any) {}
-
-  // onStateSelect(selectedState: any) {
-  //   if (selectedState && selectedState.code) {
-  //     this.commonService.getUlbByState(selectedState.code).subscribe(res => {
-  //       const unsortedUlbs = res["data"]["ulbs"];
-
-  //       const sortedUlbs = unsortedUlbs.sort((a, b) =>
-  //         a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-  //       );
-  //       this.ulbs = [...this.ulbs, ...sortedUlbs];
-  //     });
-  //   }
-  // }
-
-  // onStateDeselect(deselectedState: any) {}
-
-  // loadUlbs() {
-  //   if (this.reportForm.value.state && this.reportForm.value.state.code) {
-  //     this.commonService
-  //       .getUlbByState(this.reportForm.value.state.code)
-  //       .subscribe(res => {
-  //         const unsortedUlbs = res["data"]["ulbs"];
-  //         this.ulbs = unsortedUlbs.sort((a, b) =>
-  //           a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-  //         );
-  //       });
-  //   }
-  // }
-
-  // reportTypeChange() {
-  //   if (
-  //     [
-  //       "Comparative Detailed ULB",
-  //       "Comparative Summary ULB",
-  //       "Common Size Detailed ULB",
-  //       "Common Size Summary ULB"
-  //     ].indexOf(this.reportForm.value.type) > -1
-  //   ) {
-  //     this.isMultiULB = true;
-  //   } else {
-  //     this.isMultiULB = false;
-  //   }
-  // }
 
   /**
    * This method is executed whenever user is changing the type of report.

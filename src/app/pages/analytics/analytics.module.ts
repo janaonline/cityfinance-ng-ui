@@ -10,10 +10,10 @@ import {
   MatTooltipModule
 } from '@angular/material';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
-import { HomeTabViewComponent } from 'src/app/auth/home/home-tab-view/home-tab-view.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 import { AnalyticsRoutes } from './analytics.route';
+import { HomeTabViewComponent } from './home-tab-view/home-tab-view.component';
 
 @NgModule({
   imports: [

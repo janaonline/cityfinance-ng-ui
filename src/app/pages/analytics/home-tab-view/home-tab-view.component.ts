@@ -3,11 +3,13 @@ import 'chartjs-plugin-labels';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Chart } from 'chart.js';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { forkJoin, Subject } from 'rxjs';
-import { debounceTime, map, takeUntil } from 'rxjs/operators';
+import { forkJoin, Observable, Subject } from 'rxjs';
+import { debounceTime, delay, map, takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/auth.service';
+import { AnalyticsTabs, IAnalyticsTabs } from 'src/app/shared/components/home-header/tabs';
 
 import { IDialogConfiguration } from '../../../../app/shared/components/dialog/models/dialogConfiguration';
 import { IStateWithULBS } from '../../../../app/shared/components/re-useable-heat-map/models/stateWithULBS';
@@ -19,7 +21,6 @@ import { ModalTableHeader, modalTableHeaders, tableHeaders } from '../../../shar
 import { DashboardService } from '../../../shared/services/dashboard/dashboard.service';
 import { TableDownloader } from '../../../shared/util/tableDownload/genericTableDownload';
 import { TableDowloadOptions } from '../../../shared/util/tableDownload/models/options';
-import { AuthService } from '../../auth.service';
 
 // import 'chartjs-plugin-title-click';
 
@@ -94,27 +95,38 @@ export class HomeTabViewComponent implements OnInit {
     this.tabIndex = event;
     this.singleULBView = false;
     this.selectedUlb = "";
+    this.loading = true;
+    this.selectedState = null;
+    this.updateULBDropdownList({});
+
     // if (!this.tabData[event] && this.selectedState.length > 0) {
-    this.selectedState = {};
-    this.fetchData();
-    // } else {
+    // this.selectedState = {};
+    // this.fetchData();
+    // // } else {
+    // this.loading = true;
+    // if (Chart.instances) {
+    //   Chart.instances = {};
+    // }
+  }
+  onTabChangeAnimationComplete() {
     this.loading = true;
     if (Chart.instances) {
       Chart.instances = {};
     }
-    // setTimeout(() => this.fetchTableDataSuccess(JSON.parse(JSON.stringify(this.tabData[this.tabIndex]))), 1000);
-    // }
+    this.selectedState = {};
+    this.fetchData();
   }
 
   constructor(
     protected formBuilder: FormBuilder,
     protected dashboardService: DashboardService,
-    private modalService: BsModalService,
+    public modalService: BsModalService,
     protected _commonService: CommonService,
     protected _snacbar: MatSnackBar,
     private _dialog: MatDialog,
     protected _authService: AuthService,
-    protected router: Router
+    protected router: Router,
+    private activateRoute: ActivatedRoute
   ) {
     this.yearForm = formBuilder.group({
       years: [[this.yearLookup[1]]],
@@ -123,16 +135,28 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchData();
-    this.initiatedDataFetchingProcess().subscribe((res) => {});
-    this.ulbFilterControl.valueChanges
-      .pipe(debounceTime(100))
-      .subscribe((textToSearch) => {
-        this.updateULBDropdownList({
-          ulbName: textToSearch,
-          stateId: this.selectedState ? this.selectedState._id : null,
-        });
-      });
+    this.activateRoute.params.subscribe(
+      (param: { tab: IAnalyticsTabs["url"] }) => {
+        const tabFound = Object.values(AnalyticsTabs).find(
+          (tab) => tab.url === this.router.url
+        );
+        if (!tabFound) {
+          this.router.navigate(["/home"]);
+          return;
+        }
+        this.tabIndex = tabFound.id;
+        this.fetchData();
+        this.initiatedDataFetchingProcess().subscribe((res) => {});
+        this.ulbFilterControl.valueChanges
+          .pipe(debounceTime(100))
+          .subscribe((textToSearch) => {
+            this.updateULBDropdownList({
+              ulbName: textToSearch,
+              stateId: this.selectedState ? this.selectedState._id : null,
+            });
+          });
+      }
+    );
   }
 
   private filterMergedStateDataBy(options: {
@@ -354,7 +378,9 @@ export class HomeTabViewComponent implements OnInit {
     this.fetchData();
   }
 
-  private fetchUlBsData(ulbIdsArray: string[]) {
+  fetchUlBsData(ulbIdsArray: string[]) {
+    console.log(`map emitted ulb`, ulbIdsArray);
+
     if (ulbIdsArray.length) {
       this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
     }
@@ -420,6 +446,7 @@ export class HomeTabViewComponent implements OnInit {
           newYears.push(newYear);
         }
       }
+
       this.commonTableDataDisplay = newYears;
       this.commonTableHeaders = modalTableHeaders[this.tabIndex];
       this.commonTableHeaders[0].click = false;
@@ -638,7 +665,7 @@ export class HomeTabViewComponent implements OnInit {
                 titleObj.data = row[label];
               }
             } catch (e) {
-              console.log(row, label);
+              console.error(e, row, label);
               return {
                 name: "Label not available",
                 data: Number(row[label].replace("%", "")) || 0,
@@ -895,39 +922,118 @@ export class HomeTabViewComponent implements OnInit {
     return newDataRow;
   }
 
-  openModal(UlbModal: TemplateRef<any>, range, year) {
+  openModal(UlbModal: TemplateRef<any>, range, year: string) {
+    const rowClickedId = "";
+    let subscription: Observable<any>;
     this.modalTableHeaders = modalTableHeaders[this.tabIndex];
-    const totalRow = this.getTotalRow(range["ulbs"], this.modalTableHeaders);
-    totalRow["name"] = "Total";
-    const ORPcolumn = this.modalTableHeaders.find(
-      (col) => col.id === "ownRevenuePercentage"
-    );
-    if (ORPcolumn) {
-      totalRow["ownRevenuePercentage"] =
-        Number(
-          (Number(totalRow["ownRevenue"]) /
-            Number(totalRow["revenueExpenditure"])) *
-            100
-        ).toFixed(2) + "%";
-    }
-    this.modalTableData = {
-      data: range["ulbs"]
-        .sort((a, b) => this.sortCallBack(a, b, "population"))
-        .reverse()
-        .concat([totalRow]),
-      year,
-      populationCategory: range["populationCategory"],
-    };
-    this.modalTableHeaders[0].click = true;
-    this.modalTableHeaders = this.modalTableHeaders.map((modal: any) => {
-      delete modal["status"];
-      return modal;
+    this.modalRef = this.modalService.show(UlbModal, {
+      class: "modal-uq",
     });
 
-    this.modalRef = this.modalService.show(UlbModal, { class: "modal-uq" });
+    switch (this.tabIndex) {
+      case 0:
+        subscription = this.dashboardService.fetchDependencyOwnRevenueData(
+          JSON.stringify(year),
+          this.selectedState._id,
+          rowClickedId,
+          range.populationCategory
+        );
+
+        break;
+      case 1:
+        subscription = this.dashboardService.fetchSourceOfRevenue(
+          JSON.stringify(year),
+          this.selectedState._id,
+          rowClickedId,
+          range.populationCategory
+        );
+
+        break;
+      /*    case 2:
+        this.dashboardService
+          .fetchFinancialRevenueExpenditure(
+            JSON.stringify(this.selectedYears),
+            this.selectedState._id,
+            rowClickedId
+          )
+          .subscribe(this.fetchSingleUlbDataSuccess, this.handleError);
+        break;*/
+      case 2:
+        subscription = this.dashboardService.fetchRevenueExpenditure(
+          JSON.stringify(year),
+          this.selectedState._id,
+          rowClickedId,
+          range.populationCategory
+        );
+
+        break;
+      case 3:
+        subscription = this.dashboardService.fetchCashAndBankBalance(
+          JSON.stringify(year),
+          this.selectedState._id,
+          rowClickedId,
+          range.populationCategory
+        );
+
+        break;
+      case 4:
+        subscription = this.dashboardService.fetchOutStandingDebt(
+          JSON.stringify(year),
+          this.selectedState._id,
+          rowClickedId,
+          range.populationCategory
+        );
+
+        break;
+    }
+
+    subscription.pipe(delay(1000)).subscribe((res) => {
+      range.ulbs = res["data"];
+      const totalRow = this.getTotalRow(range.ulbs, this.modalTableHeaders);
+      totalRow["name"] = "Total";
+      const ORPcolumn = this.modalTableHeaders.find(
+        (col) => col.id === "ownRevenuePercentage"
+      );
+      if (ORPcolumn) {
+        totalRow["ownRevenuePercentage"] =
+          Number(
+            (Number(totalRow["ownRevenue"]) /
+              Number(totalRow["revenueExpenditure"])) *
+              100
+          ).toFixed(2) + "%";
+      }
+      this.modalTableData = {
+        data: range["ulbs"]
+          .sort((a, b) => this.sortCallBack(a, b, "population"))
+          .reverse()
+          .concat([totalRow]),
+        year,
+        populationCategory: range["populationCategory"],
+      };
+      this.modalTableHeaders[0].click = true;
+      this.modalTableHeaders = this.modalTableHeaders.map((modal: any) => {
+        delete modal["status"];
+        return modal;
+      });
+    }, this.handleError);
+
+    this.modalService.onHide.subscribe((res) => {
+      this.modalTableData = null;
+    });
+    return;
   }
 
   modalItemClicked(rowClickedId, row: any = {}) {
+    const ulbFound = this.allULBSList.find((ulb) => ulb._id === rowClickedId);
+    if (!ulbFound) {
+      console.error(`ULB clicked not found in dropdown ulb list`);
+    } else {
+      this.selectedState = this.stateAndULBDataMerged[ulbFound.state];
+      this.updateULBDropdownList({
+        stateId: ulbFound.state,
+      });
+    }
+
     this.selectedUlb = rowClickedId;
     this.loading = true;
     this.tabData = [];
@@ -994,7 +1100,13 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   filterDataStateWise(event: any) {
+    console.log(`map emitted state`, event);
+    console.log({ ...this.selectedState });
+
     if (event) {
+      if (this.selectedState && this.selectedState._id === event._id) {
+        return;
+      }
       this.selectedState = event;
     } else {
       this.selectedState = {};

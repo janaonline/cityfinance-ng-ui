@@ -8,6 +8,7 @@ export interface IFinancialDataUploadInputComponent {
   title: string,
   required: boolean,
   formGroup: FormGroup,
+  disabled?: boolean;
 
 }
 

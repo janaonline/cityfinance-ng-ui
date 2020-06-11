@@ -11,6 +11,15 @@ export const appRouter: Routes = [
     path: "analytics",
     loadChildren: "./pages/analytics/analytics.module#AnalyticsModule",
   },
+  {
+    path: "files",
+    loadChildren: "./pages/resources/public-files.module#PublicFilesModule",
+  },
+  {
+    path: "questionnaires",
+    loadChildren:
+      "./pages/questionnaires/questionnaires.module#QuestionnairesModule",
+  },
 
   {
     path: "user",

@@ -40,4 +40,12 @@
   }
 }
 
-
+.app-wrapper {
+  app-home-header {
+    display: block;
+    background-image: linear-gradient(to right, #095169, #059b9a);
+    opacity: 0.9;
+    position: relative;
+    z-index: 3;
+  }
+}

@@ -129,7 +129,7 @@ export class FormUtil {
       mobile: ["", [Validators.required, mobileNoValidator]],
       designation: ["", [Validators.required, nonEmptyValidator]],
       address: ["", [Validators.required, nonEmptyValidator]],
-      departmentName: ["", Validators.required, nonEmptyValidator],
+      departmentName: ["", [Validators.required, nonEmptyValidator]],
       departmentEmail: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
@@ -170,7 +170,7 @@ export class FormUtil {
       mobile: ["", [Validators.required, mobileNoValidator]],
       designation: ["", [Validators.required, nonEmptyValidator]],
       address: ["", [Validators.required, nonEmptyValidator]],
-      departmentName: ["", Validators.required, nonEmptyValidator],
+      departmentName: ["", [Validators.required, nonEmptyValidator]],
       departmentEmail: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
