@@ -1,11 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import * as html2canvas from 'html2canvas';
-import * as html2pdf from 'html2pdf.js';
-import * as jsPDF from 'jspdf';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 
+import { QuestionnaireService } from '../../service/questionnaire.service';
+import { defaultDailogConfiuration } from '../configs/common.config';
 import { documentForm, QuestionsIdMapping as documentQuestions } from '../configs/document.config';
 import { propertyTaxForm, QuestionsIdMapping as propertyTaxQuestion } from '../configs/property-tax.cofig';
 import { QuestionsIdMapping as userChargesQuestion, userChargesForm } from '../configs/user-charges.config';
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: "app-preview",
@@ -13,6 +18,7 @@ import { QuestionsIdMapping as userChargesQuestion, userChargesForm } from '../c
   styleUrls: ["./preview.component.scss"],
 })
 export class PreviewComponent implements OnInit {
+  @ViewChild("preview") _html: ElementRef;
   propertyTaxQuestion = propertyTaxQuestion;
   propertyTaxForm = propertyTaxForm;
   userChargesQuestion = userChargesQuestion;
@@ -22,106 +28,104 @@ export class PreviewComponent implements OnInit {
   showLoader = false;
   baseValue = 1;
 
-  pdfDownloadConfig = {
-    margin: 0.5,
-    filename: "questionnaire.pdf",
-    image: { type: "jpeg", quality: 1 },
-    html2canvas: { scale: 4 },
-    jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
-  };
+  /**
+   * IMPORTANT  For the pdf format donwload of form, we need to maintain a sperate style for it or we have to
+   * inline the styling. Currently, it is kept seperate. Any style changes done to the html part needs to be
+   * manually applied for it to work on pdf version also.
+   */
 
-  constructor() {}
+  styleForPDF = `<style>
+    table tbody tr td:nth-child(1) {
+        width: 3%;
+        position: relative;
+    }
+    table {
+        font-size: 0.5em !important;
+    }
+    table td {
+        padding-top: 1%;
+    }
+    #preview {
+        position: relative;
+        display: block;
+        font-size: 15px;
+    }
+
+    #preview .tab-heading {
+        font-size: 1em;
+    }
+    .main-section-header {
+        font-size: 0.7em;
+        margin-top: 1em;
+    }
+    .question-number {
+        position: absolute;
+        top: 5px;
+    }
+    .question {
+        position: relative;
+    }
+    .action-plan,
+    .implementation-plan {
+        font-size: 0.5em;
+        margin-bottom: 0px;
+        margin-top: 1%;
+    }
+    .download-link {
+        margin-right: 5px;
+    }
+
+    .text-center,
+    .header {
+        text-align: center;
+    }
+</style>`;
+
+  constructor(
+    private _questionnaireService: QuestionnaireService,
+    private _matDialog: MatDialog
+  ) {}
 
   ngOnInit() {}
 
-  async downloadAsPDFWithjsPDF() {
+  downloadForm() {
+    const elementToAddPDFInString = this._html.nativeElement.outerHTML;
+    const html = this.styleForPDF + elementToAddPDFInString;
     this.showLoader = true;
-
-    const canvasDimensions = document
-      .getElementById("preview")
-      .getBoundingClientRect();
-    const height =
-      canvasDimensions.height > 2048 ? canvasDimensions.height : 2048;
-    // console.log(height);
-    // const width = canvasDimensions.width > 1614 ? canvasDimensions.width : 1614;
-    const option: Partial<html2canvas.Options> = {
-      scale: 1,
-      height: height * this.baseValue,
-      width: 1614 * this.baseValue,
-      logging: false,
-    };
-    const clonedElement = document.getElementById("preview");
-    // clonedElement.style.fontSize = "55px";
-    const canvas = await html2canvas.default(clonedElement, option);
-    const pdf = new jsPDF("p", "mm", "a4");
-    const imgData = canvas.toDataURL("image/png", 1.0);
-    /**
-     * IMPORTANT A4 Specs = 210mm * 297mm
-     */
-    pdf.addImage(imgData, "PNG", 5, 0, 201, 290);
-    pdf.save(`Questionnaire.pdf`);
-    this.showLoader = false;
-  }
-
-  async downloadasPDF() {
-    $("section").css("font-size", "24px");
-
-    this.showLoader = true;
-    const element = document.getElementById("preview");
-
-    // New Promise-based usage:
-    // const sometinh = html2pdf().set(this.pdfDownloadConfig).from(element);
-
-    await html2pdf().set(this.pdfDownloadConfig).from(element).save();
-    console.log(`downloaded`);
-    $("section").css("font-size", "38px");
-
-    // pdf.save(`Questionnaire.pdf`);
-
-    this.showLoader = false;
-  }
-
-  printHtmldiv() {
-    const pdf = new jsPDF("p", "pt", "letter");
-
-    // source can be HTML-formatted string, or a reference
-    // to an actual DOM element from which the text will be scraped.
-    const source = document.getElementById("preview");
-
-    // we support special element handlers. Register them with jQuery-style
-    // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
-    // There is no support for any other type of selectors
-    // (class, of compound) at this time.
-    const specialElementHandlers = {
-      // element with id of "bypass" - jQuery style selector
-      "#bypassme": function (element, renderer) {
-        // true = "handled elsewhere, bypass text extraction"
-        return true;
+    this._questionnaireService.downloadPDF({ html }).subscribe(
+      (res) => {
+        this.downloadFile(res.slice(0), "pdf", "Questionnaire.pdf");
+        this.showLoader = false;
       },
-    };
-
-    const margins = {
-      top: 0,
-      bottom: 0,
-      left: 0,
-      width: 522,
-    };
-    // all coords and widths are in jsPDF instance's declared units
-    // 'inches' in this case
-    pdf.fromHTML(
-      source, // HTML string or DOM elem ref.
-      margins.left, // x coord
-      margins.top, // y coord
-      {
-        width: margins.width, // max width of content on PDF
-        elementHandlers: specialElementHandlers,
-      },
-      function (dispose) {
-        // dispose: object with X, Y of the last line add to the PDF
-        // this allow the insertion of new lines after html
-        pdf.save("Mypdf.pdf");
-      },
-      margins
+      (err) => {
+        this.showLoader = false;
+        this.onGettingError(
+          ' "Failed to download PDF. Please try after sometime."'
+        );
+      }
     );
+  }
+
+  private onGettingError(message: string) {
+    const option = { ...defaultDailogConfiuration };
+    option.buttons.cancel.text = "OK";
+    option.message = message;
+    this.showLoader = false;
+    this._matDialog.open(DialogComponent, { data: option });
+  }
+
+  private downloadFile(blob: any, type: string, filename: string): string {
+    const url = window.URL.createObjectURL(blob); // <-- work with blob directly
+
+    // create hidden dom element (so it works in all browsers)
+    const a = document.createElement("a");
+    a.setAttribute("style", "display:none;");
+    document.body.appendChild(a);
+
+    // create file, attach to hidden element and open hidden element
+    a.href = url;
+    a.download = filename;
+    a.click();
+    return url;
   }
 }
