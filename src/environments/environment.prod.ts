@@ -8,14 +8,14 @@ if (window.location.hostname.includes("demo")) {
   window.location.hostname.includes("localhost") ||
   window.location.hostname.includes("staging")
 ) {
-  url = "http://staging.cityfinance.in/";
+  url = "https://staging.cityfinance.in/";
 } else {
-  url = "http://cityfinance.in/";
+  url = "https://cityfinance.in/";
 }
 export const environment = {
   production: true,
   api: {
-    url2: "http://cityfinance.in/",
+    url2: "https://cityfinance.in/",
     url1: "https://democityfinanceapi.dhwaniris.in/",
     url
   }
