@@ -10,12 +10,12 @@ if (
 } else if (window.location.hostname.includes("staging")) {
   url = "https://staging.cityfinance.in/api/v1/";
 } else {
-  url = "http://cityfinance.in/api/v1/";
+  url = "https://cityfinance.in/api/v1/";
 }
 export const environment = {
   production: true,
   api: {
-    url2: "http://cityfinance.in/",
+    url2: "https://cityfinance.in/",
     url1: "https://democityfinanceapi.dhwaniris.in/",
     url
   }
