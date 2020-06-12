@@ -184,6 +184,7 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
     // Cancel the subscribtion if the file is being uploaded.
     if (!currentFileTracker.percentage || currentFileTracker.percentage < 100) {
       currentFileTracker.subscription.unsubscribe();
+      this.NoOfFileInProgress--;
     }
 
     // Remove the file from file Tracker.
