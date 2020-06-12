@@ -1,0 +1,14 @@
+.input-group {
+  width: 33%;
+  margin-right: 2%;
+  margin-top: 2%;
+  display: inline-block;
+  .form-control {
+    border-radius: 4px;
+  }
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+}

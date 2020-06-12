@@ -1,0 +1,243 @@
+<nav class="navbar container-fluid navbar-1st-row" id="1stNavbarRow">
+  <div
+    class="navbar-header"
+    style="flex: 1; display: flex; align-items: center;"
+  >
+    <span
+      [routerLink]="['/']"
+      class="navbar-brand d-flex align-items-center indian-emblem-wrapper"
+      style="outline: none;"
+    >
+      <img
+        src="/assets/images/emblem-of-india.svg"
+        alt="Emblem of India"
+        srcset=""
+        class="indian-emblem"
+      />
+      &nbsp;&nbsp;An initiative of Ministry of Housing and Urban Affairs &nbsp;
+      |&nbsp; Government of India</span
+    >
+
+    <ul class="nav navbar-nav login-and-profile">
+      <li *ngIf="!isLoggedIn">
+        <a
+          [routerLink]="['/login']"
+          routerLinkActive="active"
+          class="login-link"
+          >Login / Register
+        </a>
+      </li>
+      <li
+        routerLinkActive="active"
+        class="dropdown"
+        style="
+          /* position: absolute;
+          right: 5px;
+          display: flex; */
+          align-self: center;
+          z-index: 8888;
+        "
+        *ngIf="isLoggedIn"
+      >
+        <a
+          class="dropdown-toggle"
+          data-toggle="dropdown"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+          style="padding: 6px 15px;"
+        >
+          <i class="fa fa-user-circle" style="font-size: 2rem;"></i>&nbsp;</a
+        >
+        <div class="dropdown-menu" style="">
+          <div class="user-dropdown">
+            <div class="user-avt" style="font-size: 3rem;">
+              <i class="fa fa-user-circle"></i>
+            </div>
+            <div>{{ user?.name }}</div>
+            <div class="mat-card-subtitle" style="font-size: 0.9rem;">
+              {{ user?.email }}
+            </div>
+            <mat-divider></mat-divider>
+            <mat-list dense>
+              <ng-container *ngIf="canEditOwnProfile">
+                <mat-list-item [routerLink]="['user', 'profile', 'view']"
+                  >Profile</mat-list-item
+                >
+                <mat-divider></mat-divider>
+              </ng-container>
+
+              <mat-list-item (click)="logout()">Logout</mat-list-item>
+            </mat-list>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="navbar container-fluid navbar-2nd-row">
+  <ul class="nav navbar-nav navbar-right">
+    <li [routerLink]="['/']" class="navbar-brand">
+      <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/home']">Home</a>
+    </li>
+    <li routerLinkActive="active">
+      <a
+        class="dropdown-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        [routerLink]="'analytics/own-revenues'"
+        >Analytics
+      </a>
+      <ul class="dropdown-menu dropdown-menu-left">
+        <li routerLinkActive="active" *ngFor="let tab of tabs">
+          <a [routerLink]="[tab.url]"> {{ tab.name }}</a>
+        </li>
+      </ul>
+    </li>
+    <li routerLinkActive="active" class="dropdown">
+      <!-- <a
+        class="dropdown-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      > -->
+      <a [routerLink]="['/dashboard/report']">Financial Statements</a>
+      <!-- <ul class="dropdown-menu">
+        <li routerLinkActive="active">
+          <a [routerLink]="['/dashboard/report']"
+            >Annual Financial Statements</a
+          >
+        </li>
+        <li>
+          <a [routerLink]="['/dashboard', 'financial-information']"
+            >Availability of Financial Information</a
+          >
+        </li>
+        <li routerLinkActive="active" *ngIf="!isProduction">
+              <a [routerLink]="['/dashboard', 'ranking']">Annual Fiscal Ranking</a>
+            </li>
+      </ul> -->
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/credit-rating/laws']">Municipal Laws</a>
+    </li>
+    <li>
+      <a
+        class="dropdown-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        >Borrowings
+      </a>
+      <ul class="dropdown-menu dropdown-menu-left">
+        <li routerLinkActive="active">
+          <a [routerLink]="['/credit-rating/municipal-bond']"
+            >Municipal Bonds</a
+          >
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="['/credit-rating/report']">Credit Rating</a>
+        </li>
+      </ul>
+    </li>
+
+    <!-- <li routerLinkActive="active">
+      <a [routerLink]="['/credit-rating/report']">Credit Rating</a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/credit-rating/municipal-bond']"> Municipal Bonds</a>
+    </li> -->
+    <li routerLinkActive="active">
+      <a [routerLink]="['/files']">
+        Resources
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a
+        [routerLink]="['/questionnaires/form']"
+        *ngIf="canViewQuestionnaireForm && user?.role === USER_TYPE.STATE"
+      >
+        Questionnaire
+      </a>
+      <a
+        [routerLink]="['/questionnaires/states']"
+        *ngIf="
+          isLoggedIn && user?.role !== USER_TYPE.STATE
+            ? canViewQuestionnaireList
+            : isLoggedIn
+            ? false
+            : true
+        "
+      >
+        Questionnaire
+      </a>
+    </li>
+    <!-- <li *ngIf="isLoggedIn && canViewUploadData">
+      <a [routerLink]="['user', 'data-upload', 'list']" class="pointer"
+        >Data upload</a
+      >
+    </li> -->
+
+    <!-- <li
+      routerLinkActive="active"
+      class="dropdown"
+      style="
+        position: absolute;
+        right: 5px;
+        display: flex;
+        align-items: center;
+      "
+      *ngIf="isLoggedIn"
+    >
+      <a
+        class="dropdown-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        style="padding: 6px 15px;"
+      >
+        <i class="fa fa-user-circle" style="font-size: 2rem;"></i>&nbsp;</a
+      >
+      <div
+        class="dropdown-menu"
+        style="
+          position: absolute;
+          left: -65px;
+          width: 0;
+          min-width: 0 !important;
+          height: 0;
+        "
+      >
+        <div class="user-dropdown">
+          <div class="user-avt" style="font-size: 3rem;">
+            <i class="fa fa-user-circle"></i>
+          </div>
+          <div>{{ user?.name }}</div>
+          <div class="mat-card-subtitle" style="font-size: 0.9rem;">
+            {{ user?.email }}
+          </div>
+          <mat-divider></mat-divider>
+          <mat-list dense>
+            <ng-container *ngIf="canEditOwnProfile">
+              <mat-list-item [routerLink]="['user', 'profile', 'view']"
+                >Profile</mat-list-item
+              >
+              <mat-divider></mat-divider>
+            </ng-container>
+
+            <mat-list-item (click)="logout()">Logout</mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+    </li> -->
+  </ul>
+</div>

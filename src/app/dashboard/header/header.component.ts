@@ -21,6 +21,12 @@ export class HeaderComponent implements OnInit {
     this.isLoggedIn = this.authService.loggedIn();
   }
 
+  goToReportPage() {
+    if (!window.location.pathname.includes("/dashboard/report")) {
+      this.router.navigate(["/dashboard", "report"]);
+    }
+  }
+
   logout() {
     localStorage.clear();
     this.router.navigate(["/"]);

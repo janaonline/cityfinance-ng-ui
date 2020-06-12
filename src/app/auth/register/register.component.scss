@@ -1,22 +1,84 @@
-.card{
-    position: absolute;
-    top: 45%;
-    transform: translateY(-50%);
-    -webkit-box-shadow: 0px 10px 26px 6px rgba(176,169,176,1);
-    -moz-box-shadow: 0px 10px 26px 6px rgba(176,169,176,1);
-    box-shadow: 0px 10px 26px 6px rgba(176,169,176,1);
+.card {
+  -webkit-box-shadow: 0px 10px 26px 6px rgba(176, 169, 176, 1);
+  -moz-box-shadow: 0px 10px 26px 6px rgba(176, 169, 176, 1);
+  box-shadow: 0px 10px 26px 6px rgba(176, 169, 176, 1);
 }
-.card .header{
-    background: #0000ff;
-    padding: 10px 15px 0px;
-    color: #ffffff;
+.card .header {
+  background: #0000ff;
+  padding: 10px 15px 0px;
+  color: #ffffff;
 }
-.card-body{
-    background: #ffffff;
+.card-body {
+  background: #ffffff;
 }
-.card-body .input-group{
-    margin-top: 15px;
+.card-body .input-group {
+  margin-top: 15px;
 }
-.card-footer p span{
-    color: #0000ff;
+.card-footer p span {
+  color: #0000ff;
+}
+
+.container_3 {
+  display: flex;
+  width: fit-content;
+  justify-content: center;
+  align-items: center;
+  margin: 2% auto;
+  max-width: 18vw;
+  // transform: translateY(5%);
+}
+
+:host {
+  display: flex;
+  width: 100vw;
+  height: fit-content;
+  min-height: 80vh;
+  justify-items: center;
+  align-items: center;
+}
+
+.form-control {
+  border: 1px solid #e8e8e8;
+}
+
+.form-control::placeholder,
+.input_info {
+  color: rgb(95, 95, 95);
+}
+
+.fa-info-circle {
+  color: #009fe3;
+  padding: 1%;
+  transform: scale(1.5);
+}
+
+.input_info,
+.form-field-error-message {
+  margin-left: 11%;
+}
+
+.input_info {
+  margin-top: 1%;
+  width: 83%;
+}
+
+.input-group .form-control {
+  width: 95%;
+}
+
+.ulbSpinner {
+  color: green;
+  top: 33%;
+  position: absolute;
+  margin-left: 2%;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.input-group {
+  width: 100%;
+  // display: block;
 }

@@ -1,6 +1,167 @@
-<app-home-header></app-home-header>
 <div class="dashboard-wrapper">
-  <div class="home-banner">
+  <carousel id="carousel">
+    <slide class="animated fadeIn">
+      <picture>
+        <source
+          class="background"
+          srcset="/assets/images/carousels/background_1.webp"
+          type="image/webp"
+        />
+        <source
+          class="background"
+          srcset="/assets/images/carousels/background_1.png"
+          type="image/png"
+        />
+        <img
+          class="background"
+          src="/assets/images/carousels/background_1.png"
+          alt="first slide"
+        />
+      </picture>
+      <div class="testing">
+        <div class="foreground">
+          <picture>
+            <source
+              srcset="/assets/images/carousels/shri_narendra_modi.webp"
+              type="image/webp"
+            />
+            <source
+              srcset="/assets/images/carousels/shri_narendra_modi.png"
+              type="image/png"
+            />
+            <img
+              class="background"
+              src="/assets/images/carousels/shri_narendra_modi.png"
+              alt="first slide"
+            />
+          </picture>
+
+          <div class="quotes-left">
+            "Alternative funding modes are being explored for financing
+            improvement in cities. Cities of Pune, Hyderabad and Indore have
+            raised significant sums of money through Municipal Bonds"<br />
+            -
+            <i class="minister-name"
+              >Shri Narendra Modi, Hon’ble Prime Minister</i
+            >
+          </div>
+        </div>
+
+        <div class="quotes-right">
+          915 Credit Rating reports of 224 ULBs<br />
+          <a routerLink="/credit-rating/municipal-bond" class="explore"
+            >Explore</a
+          >
+        </div>
+      </div>
+    </slide>
+    <slide class="animated fadeIn">
+      <picture>
+        <source
+          srcset="/assets/images/carousels/background_2.webp"
+          type="image/webp"
+        />
+        <source
+          srcset="/assets/images/carousels/background_2.png"
+          type="image/png"
+        />
+        <img
+          class="background"
+          src="/assets/images/carousels/background_2.png"
+          alt="first slide"
+        />
+      </picture>
+      <div class="testing">
+        <div class="foreground">
+          <picture>
+            <source
+              srcset="/assets/images/carousels/shri_narendra_modi.webp"
+              type="image/webp"
+            />
+            <source
+              srcset="/assets/images/carousels/shri_narendra_modi.png"
+              type="image/png"
+            />
+            <img
+              class="background"
+              src="/assets/images/carousels/shri_narendra_modi.png"
+              alt="first slide"
+            />
+          </picture>
+
+          <div class="quotes-left">
+            "It’s our mission to strengthen our cities to meet the challenges of
+            21st century"<br />
+            -
+            <i class="minister-name"
+              >Shri Narendra Modi, Hon’ble Prime Minister</i
+            >
+          </div>
+        </div>
+
+        <div class="quotes-right">
+          Details of 41 Municipal Bond issuances worth INR 4518 Crores <br />
+          <a routerLink="/credit-rating/report" class="explore">Explore</a>
+        </div>
+      </div>
+    </slide>
+    <slide class="animated fadeIn">
+      <picture>
+        <source
+          class="background"
+          srcset="/assets/images/carousels/background_3.webp"
+          type="image/webp"
+        />
+        <source
+          class="background"
+          srcset="/assets/images/carousels/background_3.png"
+          type="image/png"
+        />
+        <img
+          class="background"
+          src="/assets/images/carousels/background_3.png"
+          alt="first slide"
+        />
+      </picture>
+      <div class="testing">
+        <div class="foreground">
+          <picture>
+            <source
+              srcset="/assets/images/carousels/Shri_Hardeep_Singh_Puri.webp"
+              type="image/webp"
+            />
+            <source
+              srcset="/assets/images/carousels/shri_hardeep_singh_puri.png"
+              type="image/png"
+            />
+            <img
+              class="background"
+              src="/assets/images/carousels/shri_hardeep_singh_puri.png"
+              alt="first slide"
+            />
+          </picture>
+
+          <div class="quotes-left">
+            "Municipalities need to lay a foundation of robust financial
+            management for both, enhancing own revenues, as well as tapping the
+            capital market through municipal bonds"<br />
+            -
+            <i class="minister-name"
+              >Shri Hardeep Singh Puri, Hon’ble Minister for Housing & Urban
+              Affair</i
+            >
+          </div>
+        </div>
+
+        <div class="quotes-right">
+          Over 2000 Financial statements from 1200 Urban Local Bodies<br />
+          <a routerLink="/dashboard/report/basic" class="explore">Explore</a>
+        </div>
+      </div>
+    </slide>
+  </carousel>
+
+  <!-- <div class="home-banner">
     <div class="caption">
       <div class="text-center logo-big">
         <img src="assets/images/cityfinance-logo-big.png" />
@@ -11,21 +172,102 @@
         >
       </h1>
       <div class="text-center">
-        <!-- <a [routerLink]="['/dashboard/report']" class="btn btn-lg btn-primary">Explore More</a> -->
+        &lt;!&ndash;
+        <a [routerLink]="['/dashboard/report']" class="btn btn-lg btn-primary"
+          >Explore More</a
+        >
+        &ndash;&gt;
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- <div class="statistics">
     <app-statistics></app-statistics>
   </div> -->
 
-  <!-- Table component finshed just uncomment to make it visible on homepage -->
-  <!-- <app-grid></app-grid> -->
+  <!-- &ndash;&gt; &lt;!&ndash; Table component finshed just uncomment to make it
+  visible on homepage &ndash;&gt; &lt;!&ndash; <app-grid></app-grid> &ndash;&gt;
+  &lt;!&ndash; heat map component &ndash;&gt; -->
+  <!-- <app-heat-map *ngIf="!isProduction"></app-heat-map> -->
 
-  <!-- heat map component -->
-  <app-heat-map *ngIf="!isProduction"></app-heat-map>
+  <div class="header-marquee">
+    <div id="marquee-horizontal" aria-hidden="true">
+      <marquee
+        scrollamount="3"
+        onmouseover="this.stop();"
+        onfocus="this.stop();"
+        onmouseout="this.start();"
+        onblur="this.start();"
+        tabindex="152"
+        aria-hidden="true"
+      >
+        <a
+          href=" https://www.sebi.gov.in/media/press-releases/feb-2020/sebi-constitutes-municipal-bonds-development-committee-_45988.html"
+          title="SEBI constitutes 'Municipal Bonds Development Committee'"
+          tabindex="154"
+          target="_blank"
+        >
+          <span
+            style="color: #009fe3; padding-right: 10px; padding-left: 10px;"
+          >
+            SEBI constitutes 'Municipal Bonds Development Committee'
+          </span>
+        </a>
+        <a
+          href="https://www.sebi.gov.in/legal/regulations/sep-2019/securities-and-exchange-board-of-india-issue-and-listing-of-debt-securities-by-municipalities-amendment-regulations-2019_44519.html"
+          title="SEBI Regulations on Municipal Bonds"
+          tabindex="154"
+          target="_blank"
+        >
+          <span
+            style="color: #009fe3; padding-right: 10px; padding-left: 10px;"
+          >
+            SEBI Regulations on Municipal Bonds
+          </span>
+        </a>
+        <a
+          href="https://static.pib.gov.in/WriteReadData/userfiles/Aatma%20Nirbhar%20Bharat%20%20Presentation%20Part%205%2017-5-2020.pdf"
+          title="Centre increases borrowing limit for states from 3% to 5% for 2020-21"
+          tabindex="154"
+          target="_blank"
+        >
+          <span
+            style="color: #009fe3; padding-right: 10px; padding-left: 10px;"
+          >
+            Centre increases borrowing limit for states from 3% to 5% for
+            2020-21
+          </span>
+        </a>
+        <a
+          href="https://pib.gov.in/PressReleseDetail.aspx?PRID=1575548"
+          title="8 Urban Local Bodies, i.e. Pune, Hyderabad, Bhopal, Indore, Visakhapatnam, Amravati, Ahmedabad & Surat have issued municipal bonds worth Rs. 3,400 crore"
+          tabindex="154"
+          target="_blank"
+        >
+          <span
+            style="color: #009fe3; padding-right: 10px; padding-left: 10px;"
+          >
+            8 Urban Local Bodies, i.e. Pune, Hyderabad, Bhopal, Indore,
+            Visakhapatnam, Amravati, Ahmedabad & Surat have issued municipal
+            bonds worth Rs. 3,400 crore
+          </span>
+        </a>
 
+        <a
+          href="https://fincomindia.nic.in/ShowContent.aspx?uid1=3&uid2=0&uid3=0&uid4=0&uid5=0&uid6=0&uid7=0"
+          title="Report of XV Finance Commission for the year 2020-21"
+          tabindex="154"
+          target="_blank"
+        >
+          <span
+            style="color: #009fe3; padding-right: 10px; padding-left: 10px;"
+          >
+            Report of XV Finance Commission for the year 2020-21
+          </span>
+        </a>
+      </marquee>
+    </div>
+  </div>
   <div class="about">
     <div class="container">
       <!-- <div class="row">
@@ -35,98 +277,393 @@
             <div *ngIf="item.hasChart" class="col-md-3">
               <i class="fa fa-bar-chart"></i>
             </div>
-            <div *ngIf="item.hasChart" class="content col-md-9" >
-              <h5 style="color: #eee;">{{item.title}}</h5>
-              <h2>{{item.caption}}</h2>
+            <div *ngIf="item.hasChart" class="content col-md-9">
+              <h5 style="color: #eee;">{{ item.title }}</h5>
+              <h2>{{ item.caption }}</h2>
             </div>
             <div *ngIf="!item.hasChart" class="title">
-              -- <h5 style="color: #eee;">{{item.title}}</h5> --
-              <h2 class="text-center">{{item.caption}} <span class="fa fa-angle-double-right"></span></h2>
+              &#45;&#45;
+              <h5 style="color: #eee;">{{ item.title }}</h5>
+              &#45;&#45;
+              <h2 class="text-center">
+                {{ item.caption }}
+                <span class="fa fa-angle-double-right"></span>
+              </h2>
             </div>
           </div>
         </div>
       </div> -->
 
-      <div class="row">
-        <!-- <br><br><br> -->
-        <h3>About</h3>
-        <p class="about-intro">
-          Cityfinance.in is an initiative of Janaagraha Centre for Citizenship
-          and Democracy (JCCD). The primary objective of this portal is to
-          create a national database of city finances and design framework for
-          analysing the financial and operational performance of the cities.
-          <a [routerLink]="['/dashboard', 'financial-information']">
-            Please click here for availability of financial information on the
-            City Finance portal.
-          </a>
-        </p>
-        <div class="col-md-6">
-          <div class="about-block">
-            <i class="fa fa-inr" aria-hidden="true"></i>
-            <h4>Urban Finances</h4>
-            <div class="description">
-              <p>
-                Financial Statements (Balance Sheet and Income & Expenditure
-                Statement) of urban local bodies
-              </p>
-              <div class="text-center">
-                <a [routerLink]="['/dashboard/report']">
-                  <div class="btn btn-sm btn-primary">Explore</div>
-                </a>
+      <div class="row about-title">
+        <div class="col-sm-12">
+          <h2><span>About Cityfinance</span></h2>
+          <p class="about-intro">
+            <!-- Cityfinance.in is an initiative of Ministry of Housing and Urban
+            Affairs, Government of India. The primary objective of
+            CityFinance.in is to serve as a national framework of standardised,
+            timely and credible financial information on cities, beginning with
+            urban local bodies. The information to be covered would in a phased
+            manner include balance sheet and income & expenditure information
+            from annual accounts, budgeted receipts and payments vs actuals from
+            annual budgets, progress of tenders and civic works, service level
+            benchmarks, CAG and DLFA audit reports, credit rating reports,
+            details of municipal bond issuances, model RFPs, compilation of best
+            practices in revenue enhancement and digital learning modules. We
+            hope the portal is useful as a crucial support system for Principal
+            Secretaries, Directors of Municipal Administration, Municipal
+            Commissioners, Smart City CEOs, Investors, Merchant Bankers, Project
+            Consultants, Credit Rating Agencies & Banks. -->
+
+            Cityfinance.in serves as a
+            <b style="color: #059b9a;">national framework</b> of
+            <b style="color: #059b9a;">standardized, timely</b> and
+            <b style="color: #059b9a;">credible financial information</b> on
+            <b style="color: #059b9a;">cities</b>, beginning with urban local
+            bodies. Cityfinance aims to provide information on financial
+            performance of Urban Local Bodies in a timely and accessible
+            manner.<br />
+          </p>
+
+          <app-map-section></app-map-section>
+        </div>
+        <!-- <div class="col-sm-12">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="about-block">
+                <i class="fa fa-inr" aria-hidden="true"></i>
+                <h4>Enhance own revenues</h4>
+                <div class="description">
+                  <p>
+                    Gain access to best practices and innovations, besides
+                    benchmarking the own revenue performance your organisation
+                    with other urban local bodies and civic agencies in your
+                    peer group.
+                  </p> -->
+        <!-- <div class="text-center">
+                    <a [routerLink]="['/dashboard/report']">
+                      <div class="btn btn-sm btn-primary">Explore</div>
+                    </a>
+                  </div> -->
+        <!-- </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="about-block">
+                <i class="fa fa-gavel" aria-hidden="true"></i>
+                <h4>Raise market financing</h4>
+                <div class="description">
+                  <p>
+                    Look up comparative financial and performance information of
+                    urban local bodies and civic agencies, credit rating
+                    reports, details of municipal bond issuances and database of
+                    Public Private Partnerships in urban infrastructure and
+                    services.
+                  </p> -->
+        <!-- <div class="text-center">
+                    <a [routerLink]="['/credit-rating/laws']">
+                      <div class="btn btn-sm btn-primary">Explore</div>
+                    </a>
+                  </div> -->
+        <!-- </div>
               </div>
             </div>
           </div>
-        </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="about-block">
+                <i class="fa fa-building" aria-hidden="true"></i>
 
-        <div class="col-md-6">
-          <div class="about-block">
-            <i class="fa fa-gavel" aria-hidden="true"></i>
-            <h4>Municipal Finance Laws</h4>
-            <div class="description">
-              <p>
-                Summary of key provisions of municipal acts, rules, and manuals
-                pertaining to municipal finances
-              </p>
-              <div class="text-center">
-                <a [routerLink]="['/credit-rating/laws']">
-                  <div class="btn btn-sm btn-primary">Explore</div>
-                </a>
+                <h4>Improve financial management and budgetary control</h4>
+                <div class="description">
+                  <p>
+                    Refer model RFPs, technical documents and model policies for
+                    accounting, budgeting, MIS and auditing for best in class
+                    financial management and budgetary control
+                  </p> -->
+        <!-- <div class="text-center">
+                    <a [routerLink]="['/credit-rating/report']">
+                      <div class="btn btn-sm btn-primary">Explore</div>
+                    </a>
+                  </div> -->
+        <!-- </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="about-block">
+                <i class="fa fa-users" aria-hidden="true"></i>
+
+                <h4>Build skills and competencies</h4>
+                <div class="description">
+                  <p>
+                    Get started on reform initiatives and innovations with ready
+                    to use playbooks, sign-up for digital learning modules
+                  </p> -->
+        <!-- <div class="text-center">
+                    <a [routerLink]="['/credit-rating/municipal-bond']">
+                      <div class="btn btn-sm btn-primary">Explore</div>
+                    </a>
+                  </div> -->
+        <!-- </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="about-block">
-            <i class="fa fa-star-half-o" aria-hidden="true"></i>
-            <h4>Credit Rating</h4>
-            <div class="description">
-              <p>
-                Details of current and history of credit ratings of urban local
-                bodies under various instruments.
-              </p>
-              <div class="text-center">
-                <a [routerLink]="['/credit-rating/report']">
-                  <div class="btn btn-sm btn-primary">Explore</div>
-                </a>
+        </div> -->
+        <h2 class="text-center benifitHeading" style="margin: 4vw auto;">
+          <span>Benefits</span>
+        </h2>
+        <div class="col-sm-12 sector-section-main sector-section-main-homepage">
+          <div class="row benefit-cards">
+            <div
+              class="scheme-section-card d-flex wow dg-fadeInDown"
+              data-wow-duration="1s"
+              data-wow-delay="0s"
+            >
+              <div class="sectorcard w-100 card">
+                <p class="sector-title card-header">
+                  Automate XV FC Grant Administration
+                </p>
+                <div class="card-body">
+                  <!-- <div class="sector-icon wow fadeInleft animated animated" 
+                    data-wow-duration="0.7s" style="visibility: visible; animation-duration: 0.7s;"> 
+                    <img alt="Transport" title="Transport" class="lazy" 
+                    src="/assets/images/card-icons/best_practices_white.png"> 
+                    <img alt="Transport" title="Transport" class="lazy" 
+                    src="/assets/images/card-icons/best_practices_white.svg"> 
+                  </div> -->
+                  <div
+                    class="sector-icon wow fadeInleft animated animated"
+                    data-wow-duration="0.7s"
+                    style="visibility: visible; animation-duration: 0.7s;"
+                  >
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="/assets/images/card-icons/grant_administration_white.svg"
+                    />
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="/assets/images/card-icons/grant_administration.svg"
+                    />
+                  </div>
+                  <div class="sector-info-hidden">
+                    <!-- <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      style="height: 120px; width: 120px;"
+                      src="/assets/images/card-icons/grant_administration.svg"
+                    /> -->
+                    <p>
+                      Submit all financial data online, and states and MoHUA
+                      verify and approve claims online.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="about-block">
-            <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-            <h4>Municipal Bonds</h4>
-            <div class="description">
-              <p>
-                Details of bond issuances by urban local bodies with details of
-                credit rating, cost of servicing debt, etc
-              </p>
-              <div class="text-center">
-                <a [routerLink]="['/credit-rating/municipal-bond']">
-                  <div class="btn btn-sm btn-primary">Explore</div>
-                </a>
+            <div
+              class="scheme-section-card d-flex wow dg-fadeInDown"
+              data-wow-duration="1s"
+              data-wow-delay="0s"
+            >
+              <div class="sectorcard w-100 card">
+                <p class="sector-title card-header">
+                  Benchmark financial performance indicators
+                </p>
+                <div class="card-body">
+                  <!-- <div class="sector-info">
+                    <p>
+                      Benchmark property tax,<br />
+                      user charges and other<br />
+                      financial performance<br />
+                      indicators
+                    </p>
+                  </div> -->
+                  <div
+                    class="sector-icon wow fadeInleft animated animated"
+                    data-wow-duration="0.7s"
+                    style="visibility: visible; animation-duration: 0.7s;"
+                  >
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="/assets/images/card-icons/performance_indicators_white.svg"
+                    />
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="/assets/images/card-icons/performance_indicators.svg"
+                    />
+                  </div>
+                  <div class="sector-info-hidden">
+                    <!-- <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      style="height: 120px; width: 120px;"
+                      src="/assets/images/card-icons/performance_indicators.svg"
+                    /> -->
+                    <p>
+                      Compare revenue performance with peer ULBs, benchmark
+                      against the best.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="scheme-section-card d-flex wow dg-fadeInDown"
+              data-wow-duration="1s"
+              data-wow-delay="0s"
+            >
+              <div class="sectorcard w-100 card">
+                <p class="sector-title card-header">Raise market financing</p>
+                <div class="card-body">
+                  <!-- <div class="sector-info">
+                    <p>
+                      Prepare to raise<br />
+                      market financing
+                    </p>
+                  </div> -->
+                  <div
+                    class="sector-icon wow fadeInleft animated animated"
+                    data-wow-duration="0.7s"
+                    style="visibility: visible; animation-duration: 0.7s;"
+                  >
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="/assets/images/card-icons/raise_market_financing_white.svg"
+                    />
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="/assets/images/card-icons/raise_market_financing.svg"
+                    />
+                  </div>
+                  <div class="sector-info-hidden">
+                    <!-- <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      style="height: 100px; width: 120px; margin-bottom: 25px;"
+                      src="/assets/images/card-icons/raise_market_financing.svg"
+                    /> -->
+                    <p>
+                      Obtain guidance on completing audited annual accounts,
+                      access credit rating reports and municipal borrowings
+                      data.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="scheme-section-card d-flex wow dg-fadeInDown"
+              data-wow-duration="1s"
+              data-wow-delay="0s"
+            >
+              <div class="sectorcard w-100 card">
+                <p class="sector-title card-header">Access best practices</p>
+                <div class="card-body">
+                  <!-- <div class="sector-info">
+                    <p>
+                      Access Best Practices<br />
+                      in financial management<br />
+                      and revenue enhancement
+                    </p>
+                  </div> -->
+                  <div
+                    class="sector-icon wow fadeInleft animated animated"
+                    data-wow-duration="0.7s"
+                    style="visibility: visible; animation-duration: 0.7s;"
+                  >
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="/assets/images/card-icons/best_practices_white.svg"
+                    />
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="/assets/images/card-icons/best_practices.svg"
+                    />
+                  </div>
+                  <div class="sector-info-hidden">
+                    <!-- <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      style="height: 120px; width: 120px;"
+                      src="/assets/images/card-icons/best_practices.svg"
+                    /> -->
+                    <p>
+                      Gain access to a comprehensive and easy to use database of
+                      best practices in revenue enhancement, credit rating and
+                      municipal borrowings.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="scheme-section-card d-flex wow dg-fadeInDown"
+              data-wow-duration="1s"
+              data-wow-delay="0s"
+            >
+              <div class="sectorcard w-100 card">
+                <p class="sector-title card-header">
+                  Build skills and competencies
+                </p>
+                <div class="card-body">
+                  <!-- <div class="sector-info">
+                    <p>
+                      Build skills and<br />
+                      competencies through<br />
+                      digital learning
+                    </p>
+                  </div> -->
+                  <div
+                    class="sector-icon wow fadeInleft animated animated"
+                    data-wow-duration="0.7s"
+                    style="visibility: visible; animation-duration: 0.7s;"
+                  >
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="/assets/images/card-icons/skills_and_competencies_white.svg"
+                    />
+                    <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      src="/assets/images/card-icons/skills_and_competencies.svg"
+                    />
+                  </div>
+                  <div class="sector-info-hidden">
+                    <!-- <img
+                      alt="Transport"
+                      title="Transport"
+                      class="lazy"
+                      style="height: 110px; width: 110px; margin-bottom: 20px;"
+                      src="/assets/images/card-icons/skills_and_competencies.svg"
+                    /> -->
+                    <p>
+                      Certification-based skilling of municipal revenue and
+                      finance officials through digital content and delivery.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -135,13 +672,36 @@
     </div>
   </div>
 
+  <!-- <div class="important-links-container container">
+    <h3 class="text-center">Important Links</h3>
+
+    <div class="row">
+      <div *ngFor="let link of importantLinks" class="col-sm-6">
+        <a *ngIf="link.link" [routerLink]="link.link">
+          <h5>
+            <span class="material-icons">
+              link
+            </span>
+            {{ link.text }}
+          </h5>
+        </a>
+        <h5 matTooltip="In Progress" *ngIf="!link.link">
+          <span class="material-icons">
+            link_off
+          </span>
+          {{ link.text }}
+        </h5>
+      </div>
+    </div>
+  </div> -->
+
   <div class="partners">
     <div class="container">
       <!-- <h3>A project by</h3> -->
-      <div class="row">
-        <div class="col-md-4">
+      <div class="row" style="justify-content: space-between;">
+        <div class="col-md-2 col-sm-4">
           <div class="text-center">
-            <div class="imp-partner">Initiative by</div>
+            <div class="imp-partner">Conceptualized by</div>
             <br />
             <div>
               <a href="http://www.janaagraha.org/" target="_new">
@@ -150,32 +710,51 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2 col-sm-4">
           <div class="text-center">
             <div class="imp-partner">Knowledge partner</div>
             <br />
             <div>
               <a href="https://www.magc.in/" target="_new">
-                <img src="assets/images/mgc-logo.png" />
+                <img src="assets/images/mgc-logo.png" style="width: 61%;" />
               </a>
             </div>
           </div>
         </div>
-        <!-- <div class="col-md-3">
+        <div class="col-md-2 col-sm-4">
           <div class="text-center">
-            <div class="imp-partner supported-by">Supported by</div><br>
-            <div><a href="https://shaktifoundation.in/" target="_new">
-              <img style="width: 160px;" src="assets/images/shakti-logo.jpg">
-            </a></div>
-          </div>
-        </div> -->
-        <div class="col-md-4">
-          <div class="text-center">
-            <div class="imp-partner">Supported by</div>
+            <div class="imp-partner">Technology Partner</div>
             <br />
             <div>
+              <a href="https://dhwaniris.in/" target="_new">
+                <img
+                  width="50%"
+                  src="https://dhwaniris.in/wp-content/uploads/2018/08/Dhwani-Logo_Versions-e1533798168980.png"
+                  alt="Dhwani RIS"
+                  style="width: 58%;"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5 col-sm-4">
+          <div class="text-center" style="width: 100%;">
+            <div class="imp-partner">Supported by</div>
+            <br />
+            <div class="support-by">
               <a href="https://www.omidyarnetwork.in/" target="_new">
-                <img src="assets/images/omdiyar-logo.png" />
+                <img
+                  src="assets/images/omdiyar-logo.png"
+                  style="width: 100%;"
+                />
+              </a>
+
+              <a href="https://www.gatesfoundation.org/" target="_new">
+                <img src="assets/images/BMGF.png" />
+              </a>
+
+              <a href="https://shaktifoundation.in/" target="_new">
+                <img src="assets/images/shakti-logo.jpg" />
               </a>
             </div>
           </div>
@@ -184,4 +763,3 @@
     </div>
   </div>
 </div>
-<!-- <app-home-footer></app-home-footer> -->

@@ -1,0 +1,52 @@
+a.btn-primary {
+  text-decoration: none;
+}
+
+.container {
+  width: 95%;
+  max-width: 100vw;
+}
+
+.actionCell {
+  i {
+    margin-right: 6%;
+  }
+}
+
+.form-control {
+  border-radius: 4px;
+}
+
+.sortable-headers > th {
+  cursor: pointer;
+}
+
+table .input-group {
+  width: 88%;
+
+  input,
+  select {
+    border-radius: 5px;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 11px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 11px 1px 1px rgb(243, 243, 243);
+  border-radius: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #f0ad4e;
+  border-radius: 11px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #f0ad4e;
+}

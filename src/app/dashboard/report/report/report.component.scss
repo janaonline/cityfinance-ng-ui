@@ -12,6 +12,13 @@
   }
 }
 
+::ng-deep {
+  .modal-dialog,
+  .modal-lg {
+    min-width: 94vw;
+  }
+}
+
 .searchUlbMobalInput {
   margin-bottom: 0px;
 }
@@ -87,13 +94,14 @@ button:disabled {
   background: gray !important;
   color: white !important;
 }
+
 ::ng-deep .modal-content {
   overflow: auto;
   min-height: 90vh;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 6px;
+  padding: 8px;
 }
 
 .stateULBName > * {
@@ -107,6 +115,15 @@ button:disabled {
 .stateULBName {
   padding-right: 0px;
   max-width: 214px;
+}
+
+.ulbTypeSelected,
+.stateULBName {
+  font-size: 0.8vw;
+}
+
+.ulb-category {
+  font-size: 0.8vw;
 }
 
 ::ng-deep .mat-form-field-wrapper {
@@ -152,6 +169,7 @@ a.inactive-tab:hover {
 ::ng-deep .mat-form-field-wrapper {
   padding-bottom: 0px;
 }
+
 ::ng-deep .modal .modal-header {
   padding-bottom: 15px;
 }
@@ -172,6 +190,78 @@ a.inactive-tab:hover {
   .mat-form-field-underline,
   .mat-input-element,
   ::placeholder {
-    color: rgb(3, 3, 3) !important;
+    color: rgb(235, 8, 8) !important;
   }
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border-radius: 0px !important;
+  border: 0px !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+  border-radius: 0px !important;
+  border: 0px !important;
+}
+
+.financial-tab-text {
+  margin: auto;
+  width: 90%;
+  h3 {
+    margin-top: 0;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+.popup-cotnainer-2,
+.ulb-list-container {
+  height: 84vh;
+  overflow: hidden;
+}
+
+#myTabContent {
+  max-height: 67vh;
+  overflow: auto;
+  font-size: 0.9vw;
+}
+
+@media (max-width: 768px) {
+}
+
+.state-list-sidebar {
+  max-height: 90%;
+  overflow: auto;
+  padding-right: 0px;
+  max-width: 214px;
+  font-size: 1vw;
+}
+
+.clear-all {
+  background: #f0ad4e;
+  color: white;
+}
+
+.generate-report {
+  position: absolute;
+  right: 5px;
+}
+
+.comparative-toggle {
+  display: inline-block;
+  width: 15%;
+  margin-right: 3px;
+  padding-left: 1%;
+  min-width: fit-content;
+
+  ::ng-deep {
+    .mat-slide-toggle-content {
+      font-size: 0.8vw;
+    }
+  }
+}
+
+.comparative-info-circle {
+  margin-right: 10px;
+  margin-left: 0px;
 }

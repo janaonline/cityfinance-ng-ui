@@ -4,27 +4,28 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
+import { S3FileURLResponse } from '../../models/s3Responses/fileURLResponse';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class DataEntryService {
   constructor(private http: HttpClient) {}
 
   bulkEntry(files) {
     const httpOptions = {
-      headers: new HttpHeaders({ Accept: "multipart/form-data" })
+      headers: new HttpHeaders({ Accept: "multipart/form-data" }),
     };
     return this.http.post(environment.api.url + "ledger/bulkEntry", files, {
       ...httpOptions,
       reportProgress: true,
-      observe: "events"
+      observe: "events",
     });
   }
 
   createEntry(ledgerForm) {
     const httpOptions = {
-      headers: new HttpHeaders({ Accept: "multipart/form-data" })
+      headers: new HttpHeaders({ Accept: "multipart/form-data" }),
     };
     return this.http.post(
       environment.api.url + "ledger/entry",
@@ -34,12 +35,20 @@ export class DataEntryService {
   }
 
   getLedgerLogs(criteria) {
-    return this.http.post(environment.api.url + "ledger/getAll", criteria);
+    return this.http.get(
+      environment.api.url + "ulb-financial-data/approved-records"
+    );
+  }
+
+  getFileList(id) {
+    return this.http.get(
+      environment.api.url + "ulb-financial-data/source-files/" + id
+    );
   }
 
   excelToJsonConvertor(files) {
     const httpOptions = {
-      headers: new HttpHeaders({ Accept: "multipart/form-data" })
+      headers: new HttpHeaders({ Accept: "multipart/form-data" }),
     };
     return this.http.post(
       environment.api.url + "ledger/excelToJsonConvertor",
@@ -49,23 +58,22 @@ export class DataEntryService {
   }
 
   getURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
-    const headers = new HttpHeaders({
-      "x-access-token": `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkMzA1YjBjMGVlZWVlYWMyZjQwYTlkZCIsImxvZ2luSWQiOiI1ZGViOTI5YWM5Y2UzZTBhYTNhN2I1MzAiLCJ1c2VyVHlwZSI6ImFkbWluIiwidXNlck5hbWUiOiJEaHdhbmkiLCJ1c2VyRW1haWwiOiJkaHdhbmlAbWZvcm0uY29tIiwib3JnYW5pc2F0aW9uIjpbXSwiaWF0IjoxNTc1NzE5NTc4OTI5LCJleHAiOjU3NTYyOTE5NTc4OTI0fQ.Fj_7C7PGUHCFxuSenEtowliL5a4aH2eON8QOw8YivIA`
-    });
+    const headers = new HttpHeaders();
+    console.log(`getURLForFileUpload for: ${fileName}`);
 
-    return this.http.post(
-      `${environment.api.url}api/admin/v1/getSignedUrl`,
+    return this.http.post<S3FileURLResponse>(
+      `${environment.api.url}/getSignedUrl`,
       JSON.stringify([
         {
           file_name: fileName,
-          mime_type: fileType
-        }
+          mime_type: fileType,
+        },
       ]),
       { headers }
     );
 
     // return this.http.post(
-    //   "https://stgmformadminapi.dhwaniris.in/api/admin/v1/" + "getS3Url",
+    //   "https://stgmformadminapi.dhwaniris.in//" + "getS3Url",
     //   JSON.stringify([
     //     {
     //       file_name: fileName,
@@ -76,10 +84,14 @@ export class DataEntryService {
     // );
   }
 
-  uploadFileToS3(file: File, s3URL: string) {
+  uploadFileToS3(
+    file: File,
+    s3URL: string,
+    options = { reportProgress: true }
+  ) {
     return this.http.put(s3URL, file, {
-      reportProgress: true,
-      observe: "events"
+      reportProgress: options.reportProgress,
+      observe: "events",
     });
   }
 
@@ -88,9 +100,9 @@ export class DataEntryService {
    * @param alias Here fileAlias is the file_alias key that is returned from getting s3URL api call.
    */
   sendUploadFileForProcessing(alias: string, financialYear: string) {
-    return this.http.post(`${environment.api.url}api/admin/v1/processData`, {
+    return this.http.post(`${environment.api.url}/processData`, {
       alias,
-      financialYear
+      financialYear,
     });
   }
 
@@ -104,7 +116,7 @@ export class DataEntryService {
     // }).pipe(delay(2000));
 
     return this.http
-      .get(`${environment.api.url}api/admin/v1/getProcessStatus/${fileId}`)
-      .pipe(map(response => ({ ...response["data"] })));
+      .get(`${environment.api.url}/getProcessStatus/${fileId}`)
+      .pipe(map((response) => ({ ...response["data"] })));
   }
 }

@@ -1,39 +1,64 @@
 <div class="row" *ngIf="isProcessed && reportKeys.length == 0"></div>
-
 <div class="row" *ngIf="isProcessed && reportKeys.length > 0">
   <div
-    style="background: #333; color: white; display: block; padding: 1%; max-width: 98%;"
+    style="
+      background: #333;
+      color: white;
+      display: block;
+      padding: 1%;
+      max-width: 98%;
+      position: relative;
+    "
   >
     <img class="align-center" src="/assets/images/cityfinance-logo.png" />
     <br />
-    <p class="text-center">{{ reportReq.type }} {{ reportReq.reportGroup }}</p>
+
+    <form
+      [ngClass]="{ 'disable-form': reportReq.valueType === 'per_capita' }"
+      [formGroup]="currenyConversionForm"
+      style="
+        width: 14%;
+        display: inline-block;
+        position: absolute;
+        right: 1%;
+        bottom: 9%;
+      "
+    >
+      <angular2-multiselect
+        formControlName="type"
+        *ngIf="currencyConversionList && currencyConversionList.length"
+        [data]="currencyConversionList"
+        [settings]="conversionDropdownConfig"
+        (onSelect)="onSelectingConversionType($event)"
+        (onDeSelect)="onSelectingConversionType(null)"
+        (onDeSelectAll)="onSelectingConversionType(null)"
+      >
+      </angular2-multiselect>
+    </form>
+    <p class="text-center">
+      {{ reportReq.type }} {{ reportReq.reportGroup }}
+      <span *ngIf="reportReq.valueType === 'per_capita'">(Per Capita)</span>
+    </p>
   </div>
   <div
     class="col-md-12"
-    style="max-width: 98%; overflow: auto; padding: 0px; border-right: 1px solid #e2e2e2"
+    style="
+      max-width: 98%;
+      overflow: auto;
+      padding: 0px;
+      border-right: 1px solid #e2e2e2;
+    "
   >
     <table class="table-bordered">
       <thead>
-        <!-- City Finance logo-->
-        <tr>
-          <!-- <td class="report-header" colspan="20">
-            <img
-              class="align-center"
-              src="/assets/images/cityfinance-logo.png"
-            />
-            <br />
-            <p class="text-center">
-              {{ reportReq.type }} {{ reportReq.reportGroup }}
-            </p>
-          </td> -->
-        </tr>
+        <tr></tr>
 
         <!-- Years -->
         <tr *ngIf="reportReq.years.length > 0">
           <th
             class="text-center yearssss"
             colspan="2"
-            style="position: sticky; left: 0px; background: white;"
+            style="position: sticky; left: 0px; background: white; width: 30vw;"
           >
             Year(s)
           </th>
@@ -58,18 +83,47 @@
           <th
             class="text-center"
             [attr.rowspan]="headerGroup.accRowspan"
-            style="position: sticky; left: 103px; background: white; border-right: inherit solid #868686;"
+            style="
+              position: sticky;
+              left: 103px;
+              background: white;
+              border-right: inherit solid #868686;
+            "
           >
             Major Group/Minor Group
           </th>
           <th class="text-center" *ngFor="let yr of years">{{ yr.state }}</th>
-          <!-- <th colspan="20" ></th> -->
         </tr>
 
         <tr>
-          <!-- <th class="text-center">Account Code</th>
-          <th class="text-center">Major Group/Minor Group</th> -->
           <th class="text-center" *ngFor="let yr of years">{{ yr.caption }}</th>
+        </tr>
+        <tr>
+          <th
+            style="
+              position: sticky;
+              left: 0px;
+              background: white;
+              border-right: inherit solid #868686;
+            "
+          ></th>
+          <th
+            style="
+              position: sticky;
+              left: 103px;
+              background: white;
+              border-right: inherit solid #868686;
+            "
+          ></th>
+          <th class="text-center" *ngFor="let yr of years">
+            <span *ngIf="yr.population !== undefined && yr.population !== null"
+              >Population:
+              {{
+                yr.population | inrCurrency: { currencyTypeInUser: null }
+              }}</span
+            >
+            <span *ngIf="yr.isComparative">%</span>
+          </th>
         </tr>
       </thead>
 
@@ -81,15 +135,18 @@
             hidden: !report[key]
           }"
         >
-          <!-- <td>{{report[key] | json}}</td> -->
           <td
             class="text-center sticky"
-            style="position: sticky; left: 0px;background: white;"
+            style="position: sticky; left: 0px; background: white;"
           >
             {{ report[key] ? report[key].code : "" }}
           </td>
           <td
-            style="position: sticky; left:103px;border-right: inherit solid #868686; "
+            style="
+              position: sticky;
+              left: 103px;
+              border-right: inherit solid #868686;
+            "
             [ngClass]="{
               'text-right':
                 (report[key] && report[key].line_item.includes('Total')) ||
@@ -107,6 +164,7 @@
             <span *ngIf="report[key]">
               <span
                 *ngIf="
+                  currencyTypeInUser &&
                   (report[key][yr.title] || report[key][yr.title] === 0) &&
                   report[key].line_item != 'A.Income' &&
                   report[key].line_item != 'B.Expenditure' &&
@@ -124,7 +182,43 @@
                   report[key].line_item !=
                     'IV. Current Liabilities and Provisions'
                 "
-                >{{ report[key][yr.title] | inrCurrency }}
+                [matTooltip]="
+                  'INR ' +
+                  (report[key][yr.title]
+                    | inrCurrency: { currencyTypeInUser: null })
+                "
+              >
+                {{
+                  report[key][yr.title]
+                    | inrCurrency: { currencyTypeInUser: currencyTypeInUser }
+                }}
+              </span>
+
+              <span
+                *ngIf="
+                  !currencyTypeInUser &&
+                  (report[key][yr.title] || report[key][yr.title] === 0) &&
+                  report[key].line_item != 'A.Income' &&
+                  report[key].line_item != 'B.Expenditure' &&
+                  report[key].line_item != 'A. Liabilities' &&
+                  report[key].line_item != 'I. Reserves & Surplus' &&
+                  report[key].line_item !=
+                    'II. Grants , Contribution for specific purposes' &&
+                  report[key].line_item != 'III. Loans' &&
+                  report[key].line_item !=
+                    'IV. Current Liabilities and Provisions' &&
+                  report[key].line_item != 'B. Assets' &&
+                  report[key].line_item !=
+                    'III. Current Assets, Loans and Advances' &&
+                  report[key].line_item != 'IV. Other Assets' &&
+                  report[key].line_item !=
+                    'IV. Current Liabilities and Provisions'
+                "
+              >
+                {{
+                  report[key][yr.title]
+                    | inrCurrency: { currencyTypeInUser: null }
+                }}
               </span>
 
               <span

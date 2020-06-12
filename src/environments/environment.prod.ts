@@ -2,23 +2,23 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 let url;
-if (window.location.hostname.includes("demo")) {
-  url = "https://democityfinanceapi.dhwaniris.in/";
-} else if (
-  window.location.hostname.includes("localhost") ||
-  window.location.hostname.includes("staging")
+if (
+  window.location.hostname.includes("demo") ||
+  window.location.hostname.includes("localhost")
 ) {
-  url = "https://staging.cityfinance.in/";
+  url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
+} else if (window.location.hostname.includes("staging")) {
+  url = "https://stgcityfinance.in/api/v1/";
 } else {
-  url = "https://cityfinance.in/";
+  url = "https://cityfinance.in/api/v1/";
 }
 export const environment = {
   production: true,
   api: {
     url2: "https://cityfinance.in/",
     url1: "https://democityfinanceapi.dhwaniris.in/",
-    url
-  }
+    url,
+  },
 };
 
 /*

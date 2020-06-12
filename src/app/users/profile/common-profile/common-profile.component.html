@@ -1,0 +1,291 @@
+<button class="back_button" (click)="window.history.back()">Back</button>
+
+<h3 *ngIf="profileData && profileData.role === USER_TYPE.PARTNER">
+  <span *ngIf="profileForm.disabled">View</span>
+  <span *ngIf="profileForm.enabled">Edit</span>
+  Profile
+</h3>
+<h3 *ngIf="!profileData">Create Partner</h3>
+
+<form
+  [formGroup]="profileForm"
+  *ngIf="profileForm"
+  (ngSubmit)="onFormSubmit(profileForm)"
+>
+  <div class="input-group">
+    <label for="name"
+      >User Name
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.name.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="name"
+      type="text"
+      formControlName="name"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': GetFormControlErrors('name')
+      }"
+    />
+    <small
+      *ngIf="GetFormControlErrors('name') as error"
+      class="form-field-error-message"
+    >
+      <span *ngIf="error.required">User Name canot be empty</span>
+    </small>
+  </div>
+
+  <div class="input-group">
+    <label for="email"
+      >Email ID
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.email.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': GetFormControlErrors('email')
+      }"
+    />
+    <small
+      *ngIf="GetFormControlErrors('email') as error"
+      class="form-field-error-message"
+    >
+      <span *ngIf="error.required">Email ID canot be empty</span>
+      <span *ngIf="error.email === false">Email ID is not valid</span>
+      {{ error | json }}
+    </small>
+  </div>
+
+  <div class="input-group">
+    <label for="mobile"
+      >Mobile No
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.mobile.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="mobile"
+      type="text"
+      formControlName="mobile"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': GetFormControlErrors('mobile')
+      }"
+    />
+    <small
+      *ngIf="GetFormControlErrors('mobile') as error"
+      class="form-field-error-message"
+    >
+      <span *ngIf="error?.required">
+        Mobile No cannot be empty.
+      </span>
+      <span *ngIf="error?.pattern === false">
+        Mobile No must start with either 6 / 7 / 8 / 9, and of 10 digits only.
+      </span>
+    </small>
+  </div>
+
+  <div class="input-group">
+    <label for="designation"
+      >Designation
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.designation.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="designation"
+      type="text"
+      formControlName="designation"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': GetFormControlErrors('designation')
+      }"
+    />
+    <small
+      *ngIf="GetFormControlErrors('designation') as error"
+      class="form-field-error-message"
+    >
+      <span *ngIf="error?.required">
+        Designation cannot be empty.
+      </span>
+    </small>
+  </div>
+
+  <div class="input-group">
+    <label for="departmentName"
+      >Department Name
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.departmentName.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="departmentName"
+      type="text"
+      formControlName="departmentName"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': GetFormControlErrors('departmentName')
+      }"
+    />
+    <small
+      *ngIf="GetFormControlErrors('departmentName') as error"
+      class="form-field-error-message"
+    >
+      <span *ngIf="error?.required">
+        Department Name cannot be empty.
+      </span>
+    </small>
+  </div>
+
+  <div class="input-group">
+    <label for="departmentEmail"
+      >Department Email ID
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.departmentEmail.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="departmentEmail"
+      type="email"
+      formControlName="departmentEmail"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': GetFormControlErrors('departmentEmail')
+      }"
+    />
+    <small
+      *ngIf="GetFormControlErrors('departmentEmail') as error"
+      class="form-field-error-message"
+    >
+      <span *ngIf="error.required">Email ID canot be empty</span>
+      <span *ngIf="error.email === false">Email ID is not valid</span>
+    </small>
+  </div>
+
+  <div class="input-group">
+    <label for="departmentContactNumber"
+      >Department Contant No
+      <span
+        class="asterik"
+        *ngIf="
+          profileForm.controls.departmentContactNumber.validator({})['required']
+        "
+        >*</span
+      >
+    </label>
+    <input
+      id="departmentContactNumber"
+      type="text"
+      formControlName="departmentContactNumber"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': GetFormControlErrors('departmentContactNumber')
+      }"
+    />
+    <small
+      *ngIf="GetFormControlErrors('departmentContactNumber') as error"
+      class="form-field-error-message"
+    >
+      <span *ngIf="error?.required">
+        Contant No cannot be empty.
+      </span>
+      <span *ngIf="error?.pattern === false">
+        Contant No must start with either 6 / 7 / 8 / 9, and of 10 digits only.
+      </span>
+    </small>
+  </div>
+
+  <div class="input-group">
+    <label for="address"
+      >Address
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.address.validator({})['required']"
+        >*</span
+      >
+    </label>
+    <input
+      id="address"
+      type="text"
+      formControlName="address"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': GetFormControlErrors('address')
+      }"
+    />
+    <small
+      *ngIf="GetFormControlErrors('address') as error"
+      class="form-field-error-message"
+    >
+      <span *ngIf="error?.required">
+        Address cannot be empty.
+      </span>
+    </small>
+  </div>
+
+  <p *ngIf="formErrors">
+    <span
+      *ngFor="let error of formErrors; let i = index"
+      style="display: block; color: red;"
+    >
+      {{ i + 1 }}. {{ error }}
+    </span>
+  </p>
+
+  <p *ngIf="respone.errorMessage" class="error-message">
+    {{ respone.errorMessage }}
+  </p>
+  <p *ngIf="respone.successMessage" class="success-message">
+    {{ respone.successMessage }}
+  </p>
+
+  <div
+    class="input-group d-block"
+    *ngIf="profileForm.disabled"
+    style="display: block;"
+  >
+    <button type="button" class="btn btn-primary" (click)="enableProfileEdit()">
+      Edit
+    </button>
+  </div>
+
+  <div
+    *ngIf="profileForm.enabled"
+    class="mt-2"
+    style="display: block; width: 100%;"
+  >
+    <button
+      type="submit"
+      class="btn btn-primary mr-2"
+      [disabled]="profileForm.invalid"
+    >
+      {{ profileData ? "Update Profile" : "Create" }}
+    </button>
+    <!-- <button
+      *ngIf="profileData"
+      type="button"
+      class="btn btn-primary"
+      (click)="disableProfileEdit()"
+    >
+      Cancel
+    </button> -->
+  </div>
+</form>

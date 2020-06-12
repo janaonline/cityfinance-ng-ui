@@ -1,0 +1,42 @@
+.container {
+  width: 95%;
+  max-width: 100vw;
+}
+
+.actionCell {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-right: 25%;
+}
+
+.form-control {
+  border-radius: 4px;
+}
+
+.sortable-headers > th {
+  cursor: pointer;
+}
+
+table .input-group {
+  width: 88%;
+
+  input,
+  select {
+    border-radius: 5px;
+  }
+}
+
+.clickable {
+  color: rgb(8, 131, 212);
+  cursor: pointer;
+}
+i {
+  transition: all 0.2s;
+}
+
+i:hover {
+  color: rgb(8, 131, 212);
+  // transform: scale(1.1);
+  // transform-origin: center;
+}

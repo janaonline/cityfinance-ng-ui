@@ -1,0 +1,63 @@
+.side-menu-wrapper {
+  border-radius: 1rem;
+  background: #333;
+  overflow: auto;
+  max-height: 83vh;
+  height: 83vh;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  border: 0.1rem solid lightgray;
+  border-right: 0px;
+
+  & .side-menu-content {
+    background: lightgray;
+    color: #333;
+    flex: 1;
+
+    &.side-bar-section {
+      color: inherit;
+    }
+  }
+
+  .side-menu-item {
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+      background: darkgray !important;
+    }
+  }
+}
+
+.bg-black {
+  background: #333;
+  color: white;
+}
+
+.active {
+  background: white;
+  color: black;
+  border-left: 0.4rem solid #009fe3;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 11px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 11px 1px 1px rgb(243, 243, 243);
+  border-radius: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #009fe3;
+  border-radius: 11px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #f0ad4e;
+}

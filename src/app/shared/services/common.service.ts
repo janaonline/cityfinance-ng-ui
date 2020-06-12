@@ -1,20 +1,26 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { a } from '@angular/core/src/render3';
 import { Observable, of, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 import { NewULBStructure, NewULBStructureResponse } from 'src/app/models/newULBStructure';
+import { IStateListResponse } from 'src/app/models/state/state-response';
 import { ULBsStatistics } from 'src/app/models/statistics/ulbsStatistics';
 import { IULB } from 'src/app/models/ulb';
+import { HttpUtility } from 'src/app/util/httpUtil';
 
+import { IStateULBCoveredResponse } from '../models/stateUlbConvered';
+import { IULBWithPopulationResponse } from '../models/ulbsForMapResponse';
 import { environment } from './../../../environments/environment';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class CommonService {
   private stateArr = [];
   public states: Subject<any> = new Subject<any>();
+  private httpUtil = new HttpUtility();
 
   private NewULBStructureResponseCache: {
     [datesAsString: string]: IULBResponse;
@@ -28,24 +34,63 @@ export class CommonService {
     if (this.stateArr.length > 0 && !doLoadFromServer) {
       this.states.next(this.stateArr);
     }
-    this.http
-      .get(environment.api.url + "api/admin/v1/lookup/states")
-      .subscribe(res => {
-        this.stateArr = res["data"];
-        this.states.next(this.stateArr);
-      });
+    this.http.get(environment.api.url + "/state").subscribe((res) => {
+      this.stateArr = res["data"];
+      this.states.next(this.stateArr);
+    });
+  }
+
+  public fetchStateList() {
+    return this.http
+      .get<IStateListResponse>(environment.api.url + "state")
+      .pipe(map((res) => res["data"]));
+  }
+
+  public fetchDataForHomepageMap(stateId?: string) {
+    const params = this.httpUtil.convertToHttpParams({ state: stateId });
+    return this.http
+      .get(environment.api.url + `report/dashboard/home-page-data/`, { params })
+      .pipe(map((res) => res["data"]));
+  }
+
+  public verifyULBCodeAndName(body: { name: string; code: string }) {
+    if (!body.name.trim() || !body.code.trim()) {
+      return of({ isValid: false, ulb: null });
+    }
+
+    return this.getULBByCode(body.code).pipe(
+      map((res) => res["data"]),
+      switchMap((data) => {
+        let isValid = true;
+        if (!data || data["code"] !== body.code || data["name"] !== body.name) {
+          isValid = false;
+        }
+
+        return of({ isValid, ulb: data });
+      })
+    );
+
+    //
+    // return of(false);
+  }
+
+  getULBByCode(code: string) {
+    return this.http.get(`${environment.api.url}ulb-by-code?code=${code}`);
+  }
+
+  getULBByStateCode(stateID: string) {
+    const params = this.httpUtil.convertToHttpParams({ state: stateID });
+    return this.http.get(`${environment.api.url}ulb`, { params });
   }
 
   getAllUlbs() {
-    return this.http.get<IULBResponse>(
-      environment.api.url + "api/admin/v1/lookup/ulbs"
-    );
+    return this.http.get<IULBResponse>(environment.api.url + "ulbs");
   }
 
   // since ULB is based on state, query will happen on demand
   getUlbByState(stateCode) {
     return this.http.get(
-      environment.api.url + "api/admin/v1/lookup/states/" + stateCode + "/ulbs"
+      environment.api.url + "/states/" + stateCode + "/ulbs"
     );
   }
 
@@ -66,11 +111,11 @@ export class CommonService {
 
     return this.http
       .post<NewULBStructureResponse>(
-        `${environment.api.url}ledger/getAllLegders`,
+        `${environment.api.url}/ledger/getAllLegders`,
         { year: years }
       )
       .pipe(
-        map(response => {
+        map((response) => {
           const formattedResponse = this.convertULBStaticticsToIULBResponse(
             response
           );
@@ -78,7 +123,7 @@ export class CommonService {
             ? "NoYear"
             : years.reduce((a, b) => a + b);
           this.NewULBStructureResponseCache[yearsAsString] = {
-            ...formattedResponse
+            ...formattedResponse,
           };
           return formattedResponse;
         })
@@ -91,9 +136,9 @@ export class CommonService {
     const newObj: IULBResponse = {
       msg: originalResponse.msg,
       success: originalResponse.success,
-      data: {}
+      data: {},
     };
-    originalResponse.data.forEach(ulb => {
+    originalResponse.data.forEach((ulb) => {
       if (!ulb.state.code) {
         return;
       }
@@ -101,8 +146,11 @@ export class CommonService {
         newObj.data[ulb.state.code] = {
           state: ulb.state.name,
           ulbs: [
-            { ...this.convertNewULBStructureToIULB(ulb), state: ulb.state.name }
-          ]
+            {
+              ...this.convertNewULBStructureToIULB(ulb),
+              state: ulb.state.name,
+            },
+          ],
         };
         return;
       }
@@ -110,12 +158,12 @@ export class CommonService {
       const convertedULB = this.convertNewULBStructureToIULB(ulb);
       if (
         newObj.data[ulb.state.code].ulbs.every(
-          ulb => ulb.code !== convertedULB.code
+          (ulb) => ulb.code !== convertedULB.code
         )
       ) {
         newObj.data[ulb.state.code].ulbs.push({
           ...this.convertNewULBStructureToIULB(ulb),
-          state: ulb.state.name
+          state: ulb.state.name,
         });
       }
     });
@@ -129,15 +177,15 @@ export class CommonService {
   getULBsStatistics() {
     return this.http
       .post<NewULBStructureResponse>(
-        `${environment.api.url}ledger/getAllLegders`,
+        `${environment.api.url}/ledger/getAllLegders`,
         { year: [] }
       )
-      .pipe(map(response => this.getCount(response.data)));
+      .pipe(map((response) => this.getCount(response.data)));
   }
 
   getCount(ulbList: NewULBStructure[]): ULBsStatistics {
     const newObj: ULBsStatistics = {};
-    ulbList.forEach(ulb => {
+    ulbList.forEach((ulb) => {
       // if (ulb.ulb.amrut == undefined) {
       //   console.log(ulb.ulb.name);
       // }
@@ -157,15 +205,15 @@ export class CommonService {
               total: 1,
               amrut: ulb.ulb.amrut == "Yes" ? 1 : 0,
               nonAmrut:
-                ulb.ulb.amrut == "No" || ulb.ulb.amrut == undefined ? 1 : 0
-            }
-          }
+                ulb.ulb.amrut == "No" || ulb.ulb.amrut == undefined ? 1 : 0,
+            },
+          },
         };
         return;
       }
       newObj[ulb.state._id].totalULBS.push(ulb);
       const doesULBAlreadyExist = newObj[ulb.state._id].uniqueULBS.find(
-        ulbToSearch => ulbToSearch.ulb.code === ulb.ulb.code
+        (ulbToSearch) => ulbToSearch.ulb.code === ulb.ulb.code
       );
       if (!doesULBAlreadyExist) {
         newObj[ulb.state._id].uniqueULBS.push(ulb);
@@ -175,7 +223,7 @@ export class CommonService {
         newObj[ulb.state._id].ulbsByYears[ulb.financialYear] = {
           total: 1,
           amrut: ulb.ulb.amrut == "Yes" ? 1 : 0,
-          nonAmrut: ulb.ulb.amrut == "No" || ulb.ulb.amrut == undefined ? 1 : 0
+          nonAmrut: ulb.ulb.amrut == "No" || ulb.ulb.amrut == undefined ? 1 : 0,
         };
         return;
       }
@@ -197,5 +245,63 @@ export class CommonService {
 
   loadHomeStatisticsData(): Observable<any> {
     return this.http.get("/assets/files/homeDashboardData.json");
+  }
+
+  getStateUlbCovered(body?: { year: string[] }) {
+    // let queryParams: HttpParams;
+    // if (params) {
+    //   queryParams = this.getHttpClientParams(params);
+    // }
+    return this.http
+      .post<IStateULBCoveredResponse>(
+        `${environment.api.url}/states-with-ulb-count`,
+        body
+      )
+      .pipe(
+        map((res) => {
+          res.data = res.data.sort((stateA, stateB) =>
+            stateA.name > stateB.name ? 1 : -1
+          );
+          return res;
+        })
+      );
+  }
+
+  getULBSWithPopulationAndCoordinates(body?: { year: string[] }) {
+    return this.http
+      .post<IULBWithPopulationResponse>(`${environment.api.url}/ulb-list`, body)
+      .pipe(
+        map((res) => {
+          res.data = res.data.sort((ulbA, ulbB) =>
+            ulbA.name > ulbB.name ? 1 : -1
+          );
+          return res;
+        })
+      );
+  }
+
+  public getHttpClientParams(obj: {}) {
+    let params = new HttpParams();
+    if (obj) {
+      Object.keys(obj).forEach((key) => {
+        if (obj[key]) {
+          params = params.set(key, obj[key]);
+        }
+      });
+    }
+    return params;
+  }
+
+  getUniqueArrayByKey(array = [], key) {
+    if (!Array.isArray(array)) {
+      return [];
+    }
+    return Array.from(new Set(array.map((item) => item[key])));
+  }
+
+  getPublicFileList() {
+    return this.http
+      .get(`${environment.api.url}resource/all`)
+      .pipe(map((res) => res["data"]["data"]));
   }
 }

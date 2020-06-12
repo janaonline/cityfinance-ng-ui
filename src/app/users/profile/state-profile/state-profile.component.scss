@@ -1,0 +1,19 @@
+.input-group {
+  width: 33%;
+  margin-right: 2%;
+  margin-top: 2%;
+  display: inline-block;
+  .form-control {
+    border-radius: 4px;
+  }
+}
+
+form,
+form > div {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-field-error-message > span {
+  display: block;
+}

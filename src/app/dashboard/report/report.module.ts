@@ -5,9 +5,11 @@ import { MatDialogModule, MatInputModule } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
+import { SharedModule } from '../../shared/shared.module';
 import { BasicComponent } from './basic/basic.component';
 import { ComparativeUlbComponent } from './comparative-ulb/comparative-ulb.component';
 import { ExcelService } from './excel.service';
@@ -25,32 +27,34 @@ import { ReportComponent } from './report/report.component';
 // import { CommonSizeUlbComponent } from './common-size-ulb/common-size-ulb.component';
 // import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
-  imports: [
-    FormsModule,
-    CommonModule,
-    ReportRouter,
-    MatDialogModule,
-    ReactiveFormsModule,
-    AngularMultiSelectModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    MatFormFieldModule,
-    MatSlideToggleModule,
-    ModalModule.forRoot()
-  ],
-  declarations: [
-    InrCurrencyPipe,
-    // IncomeExpenditureComponent,
-    // IncomeExpenditureSummaryComponent,
-    // BalanceSheetComponent,
-    ReportComponent,
-    // CommonSizeComponent,
-    ReportFooterComponent,
-    BasicComponent,
-    // ComparativeComponent,
-    // CommonSizeUlbComponent,
-    ComparativeUlbComponent
-  ],
-  providers: [ReportService, ExcelService]
+    imports: [
+        FormsModule,
+        CommonModule,
+        ReportRouter,
+        MatDialogModule,
+        ReactiveFormsModule,
+        AngularMultiSelectModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        MatTooltipModule,
+        MatFormFieldModule,
+        SharedModule,
+        MatSlideToggleModule,
+        ModalModule.forRoot()
+    ],
+    declarations: [
+        InrCurrencyPipe,
+
+        ReportComponent,
+
+        ReportFooterComponent,
+        BasicComponent,
+
+        ComparativeUlbComponent
+    ],
+    exports: [
+        InrCurrencyPipe
+    ],
+    providers: [ReportService, ExcelService]
 })
 export class ReportModule {}
