@@ -1,7 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 
 import { QuestionnaireService } from '../../service/questionnaire.service';
@@ -9,8 +7,6 @@ import { defaultDailogConfiuration } from '../configs/common.config';
 import { documentForm, QuestionsIdMapping as documentQuestions } from '../configs/document.config';
 import { propertyTaxForm, QuestionsIdMapping as propertyTaxQuestion } from '../configs/property-tax.cofig';
 import { QuestionsIdMapping as userChargesQuestion, userChargesForm } from '../configs/user-charges.config';
-
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: "app-preview",
