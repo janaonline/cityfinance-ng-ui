@@ -129,7 +129,7 @@ export class FormUtil {
       mobile: ["", [Validators.required, mobileNoValidator]],
       designation: ["", [Validators.required, nonEmptyValidator]],
       address: ["", [Validators.required, nonEmptyValidator]],
-      departmentName: ["", Validators.required, nonEmptyValidator],
+      departmentName: ["", [Validators.required, nonEmptyValidator]],
       departmentEmail: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
@@ -150,14 +150,13 @@ export class FormUtil {
       mobile: ["", [Validators.required, mobileNoValidator]],
       designation: ["", [Validators.required, nonEmptyValidator]],
       address: ["", [Validators.required, nonEmptyValidator]],
-      departmentName: ["", Validators.required, nonEmptyValidator],
+      departmentName: ["MoHUA", [Validators.required, nonEmptyValidator]],
       departmentEmail: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
       departmentContactNumber: ["", [Validators.required, mobileNoValidator]],
     });
-    form.controls.departmentName.setValue("MoHUA");
     return form;
   }
 
@@ -171,7 +170,7 @@ export class FormUtil {
       mobile: ["", [Validators.required, mobileNoValidator]],
       designation: ["", [Validators.required, nonEmptyValidator]],
       address: ["", [Validators.required, nonEmptyValidator]],
-      departmentName: ["", Validators.required, nonEmptyValidator],
+      departmentName: ["", [Validators.required, nonEmptyValidator]],
       departmentEmail: [
         "",
         [Validators.required, Validators.email, customEmailValidator],

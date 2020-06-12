@@ -86,7 +86,7 @@
         *ngIf="GetFormControlErrors('email') as emailError"
         class="form-field-error-message"
       >
-        <span *ngIf="emailError?.required">User name cannot be empty.</span>
+        <span *ngIf="emailError?.required">Email ID cannot be empty.</span>
         <span *ngIf="emailError?.email === false">Email ID is not valid.</span>
       </small>
     </div>

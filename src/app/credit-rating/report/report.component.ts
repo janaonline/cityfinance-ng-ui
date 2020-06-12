@@ -11,6 +11,7 @@ import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-he
 import { AssetsService } from 'src/app/shared/services/assets/assets.service';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
 import { MapUtil } from 'src/app/util/map/mapUtil';
+import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
 
 import { AuthService } from '../../../app/auth/auth.service';
 import { DialogComponent } from '../../../app/shared/components/dialog/dialog.component';
@@ -95,19 +96,9 @@ export class ReportComponent implements OnInit, OnDestroy {
   stateLayerSelectonMap: ILeafletStateClickEvent;
 
   stateColors = {
-    unselected: "#E5E5E5",
+    unselected: "#efefef",
     selected: "#019CDF",
   };
-
-  // private defaultStateStyle(feature) {
-  //   return {
-  //     fillColor: "#E5E5E5",
-  //     weight: 1,
-  //     opacity: 1,
-  //     color: "white",
-  //     fillOpacity: 1,
-  //   };
-  // }
 
   createNationalLevelMap(
     geoData: FeatureCollection<
@@ -118,11 +109,22 @@ export class ReportComponent implements OnInit, OnDestroy {
     >,
     containerId: string
   ) {
-    const configuration = {
+    let zoom = 4.32;
+
+    zoom += 1 - window.devicePixelRatio;
+
+    const configuration: IMapCreationConfig = {
       containerId,
       geoData,
+      options: {
+        zoom,
+        maxZoom: zoom,
+        minZoom: zoom,
+      },
+      layerOptions: {
+        fillColor: this.stateColors.selected,
+      },
     };
-
     const { stateLayers, map } = MapUtil.createDefaultNationalMap(
       configuration
     );
@@ -146,6 +148,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
 
     this.showCreditInfoByState(stateName);
+    MapUtil.colorIndiaMap(this.nationalLevelMap, this.stateColors.unselected);
     MapUtil.colorStateLayer(layer.sourceTarget, this.stateColors.selected);
 
     if (this.stateLayerSelectonMap) {
@@ -181,7 +184,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   download() {
     const isUserLoggedIn = this._authService.loggedIn();
     if (!isUserLoggedIn) {
-      const dailogboxx = this._dialog.open(DialogComponent, {
+      this._dialog.open(DialogComponent, {
         data: this.defaultDailogConfiuration,
       });
       return;
@@ -233,10 +236,8 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   resetMapToNationalView() {
     this.showCreditInfoByState("");
-    MapUtil.colorStateLayer(
-      this.stateLayerSelectonMap.sourceTarget,
-      this.stateColors.unselected
-    );
+    MapUtil.colorIndiaMap(this.nationalLevelMap, this.stateColors.selected);
+
     this.stateLayerSelectonMap = null;
   }
 
@@ -267,13 +268,6 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   openUlbInfo(info, template: TemplateRef<any>) {
-    // info["ratingScale"] = this.getRatingDesc(info);
-
-    // if(info.creditrating.indexOf("+") > -1 || info.creditrating.indexOf("-") > -1){
-    //   info["addedRatingDesc"] = true;
-    // }
-    // this.ulbInfo = info;
-
     this.ulbInfo = [];
 
     this.ulbInfo = this.detailedList.filter((item) => {
@@ -386,23 +380,6 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     return ulbInfo;
   }
-
-  // getRatingDesc(info){
-  //   const agencies = info.agency.split(" / ");
-  //   let ratingScale = [];
-  //   for (let i = 0; i < agencies.length; i++) {
-  //     ratingScale.push({rating: info.creditrating, agency: agencies[i] });
-
-  //     var ratingKey = agencies[i] + "_" + info.creditrating.replace("+", "").replace("-", "");
-  //     if(!this.creditScale[ratingKey]){
-  //       ratingScale[i]["desc"] = "We are gathering credit rating scale data from the agency. Information will be available shortly.";
-  //     } else{
-  //       ratingScale[i]["desc"] = this.creditScale[ratingKey].description;
-  //     }
-  //   }
-
-  //   return ratingScale;
-  // }
 
   ngOnDestroy() {}
 
@@ -522,5 +499,3 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.searchDropdownItemSelected(this.ulbSearchFormControl, "ulb");
   }
 }
-"ulb";
-"ulb";

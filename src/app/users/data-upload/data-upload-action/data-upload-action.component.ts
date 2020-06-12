@@ -149,7 +149,13 @@ export class DataUploadActionComponent implements OnInit {
     }
     this.financeDataService
       .updateCompletenessStatus(this.id, responseObject)
-      .subscribe(result => {
+      .subscribe((result: any) => {
+        const {data} = result;
+        if (data) {
+          if (data.completeness === UPLOAD_STATUS.REJECTED) {
+            return this.router.navigate(['/user/data-upload/list']);
+          }
+        }
         if (result['success']) {
           this.fetchFinancialDataById();
           //this.router.navigate(['/user/data-upload/list']);

@@ -68,11 +68,15 @@
                   [ngClass]="{ 'is-invalid': submitted && lf.password.errors }"
                 />
               </div>
-              <re-captcha
+              <div
+                class="g-recaptcha"
+                [attr.data-sitekey]="reCaptcha.siteKey"
+              ></div>
+              <!-- <re-captcha
                 *ngIf="reCaptcha.show"
                 (resolved)="resolveCaptcha($event)"
                 [siteKey]="reCaptcha.siteKey"
-              ></re-captcha>
+              ></re-captcha> -->
 
               <p *ngIf="loginError" class="error-message">
                 {{ loginError }}

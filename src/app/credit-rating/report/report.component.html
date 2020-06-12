@@ -3,45 +3,53 @@
   <div class="common-container credit-rating-container">
     <div class="row" *ngIf="page == 1">
       <div class="col-md-12 dashboard-wrapper">
-        <div class="col-md-6 map-container">
+        <div class="col-md-6 col-sm-12 col-xl-12 map-container">
           <div id="mapidd"></div>
 
           <div
-            style="z-index: 2; margin-top: 1%;"
-            class="text-center"
+            class="map-info-state"
             *ngIf="
               selectedStates && selectedStates[0] && selectedStates[0].length
             "
           >
-            <a class="text-center" (click)="resetMapToNationalView()"
-              >Click here to view all data.</a
+            <a
+              class="text-center"
+              id="nationalLevelButton"
+              (click)="resetMapToNationalView()"
             >
+              <div class="arrow"></div>
+              View National Level Data
+            </a>
           </div>
+          <p
+            class="map-info"
+            *ngIf="
+              !selectedStates || !selectedStates[0] || !selectedStates[0].length
+            "
+          >
+            Click on any state to view it's data.
+          </p>
         </div>
 
         <div class="col-md-6 abs-credit-info">
-          <!-- <h3 style="margin-top: 0px">Credit Rating Report</h3>
-            <br /> -->
-          <!-- {{absCreditInfo | json}} -->
           <p class="click-info" *ngIf="!absCreditInfo.title">
             Click state on the map to get credit information
           </p>
-
-          <div class="row" *ngIf="absCreditInfo.title">
-            <div class="col-sm-8">
-              <div class="row">
-                <div class="col-sm-6">
-                  <h3 class="text-primary" style="margin-top: 0;">
-                    {{ absCreditInfo.title | titlecase }}
-                  </h3>
-                </div>
-                <div class="col-sm-6">
-                  <button class="btn btn-warning right" (click)="page = 2">
-                    Explore Credit Rating Reports
-                  </button>
-                </div>
+          <div class="col-sm-8 ulbDetails" *ngIf="absCreditInfo.title">
+            <div class="row">
+              <div class="col-sm-6">
+                <h3 class="text-primary" style="margin-top: 0;">
+                  {{ absCreditInfo.title | titlecase }}
+                </h3>
               </div>
-              <table class="table">
+              <div class="col-sm-6">
+                <button class="btn btn-warning right" (click)="page = 2">
+                  Explore Credit Rating Reports
+                </button>
+              </div>
+            </div>
+            <div class="tableWrapper">
+              <table class="table fixed-table">
                 <thead>
                   <tr>
                     <th>Credit Rating</th>
@@ -67,14 +75,13 @@
                     </td>
                   </tr>
                 </tbody>
-
-                <!-- <tr *ngFor="let rating of absCreditInfo.ratings | keyvalue" [ngClass]="{'hidden': !rating.value}">
-                  <td>{{rating.key}}</td>
-                  <td>{{rating.value}}</td>
-                </tr> -->
               </table>
             </div>
           </div>
+
+          <!-- <div class="row" >
+            
+          </div> -->
         </div>
       </div>
       <!-- <div class="col-md-12"><br /><br /></div> -->

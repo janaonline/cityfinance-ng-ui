@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
+import { IDetailedReportResponse } from 'src/app/models/detailedReport/detailedReportResponse';
+import { IReportType } from 'src/app/models/reportType';
 
 import { AuthService } from '../../../../app/auth/auth.service';
 import { DialogComponent } from '../../../../app/shared/components/dialog/dialog.component';
@@ -19,7 +21,7 @@ import { currencryConversionOptions, currencryConversionType, ICurrencryConversi
 })
 export class BasicComponent implements OnInit, OnDestroy {
   report: any = {};
-  reportReq: any = {};
+  reportReq: IReportType;
   years: { title: string; isComparative: boolean }[] = [];
 
   links: any = {};
@@ -67,26 +69,35 @@ export class BasicComponent implements OnInit, OnDestroy {
     private _dialog: MatDialog,
     private router: Router,
     private _authService: AuthService
-  ) {
-    this.initializeCurrencyConversion();
-    this.initializeForm();
+  ) {}
+
+  private initializeCurrencyConversion(reportCriteria: IReportType) {
+    this.currencyTypeInUser =
+      reportCriteria && reportCriteria.valueType === "absolute"
+        ? this.reportService.currencryConversionInUse.type
+        : this.currencyConversionList[0].type;
   }
 
-  private initializeCurrencyConversion() {
-    this.currencyTypeInUser = this.reportService.currencryConversionInUse.type;
-  }
-
-  private initializeForm() {
+  private initializeForm(reportCriteria: IReportType) {
     this.currenyConversionForm = this._formBuilder.group({
-      type: [[this.reportService.currencryConversionInUse]],
+      type: [
+        [
+          reportCriteria && reportCriteria.valueType === "absolute"
+            ? this.reportService.currencryConversionInUse
+            : this.currencyConversionList[0],
+        ],
+      ],
     });
   }
 
   ngOnInit() {
     this.reportService.getNewReportRequest().subscribe((reportCriteria) => {
+      this.initializeCurrencyConversion(reportCriteria);
+      this.initializeForm(reportCriteria);
       this.loaderService.showLoader();
 
       this.reportReq = reportCriteria;
+
       this.reportService.reportResponse.subscribe(
         (res) => {
           this.loaderService.showLoader();
@@ -95,7 +106,7 @@ export class BasicComponent implements OnInit, OnDestroy {
             this.years = [];
             this.transformYears();
             this.links = this.reportService.loadDefaultLinks();
-            this.transformResult(res);
+            this.transformResult(<IDetailedReportResponse["data"]>res);
           } else if (!res) {
             this.isProcessed = false;
           } else {
@@ -168,12 +179,11 @@ export class BasicComponent implements OnInit, OnDestroy {
 
   // { "_id": "5c11811913568869f16fcf73", "ulb_code": "CG002", "head_of_account": "Revenue", "code": 110, "groupCode": null, "line_item": "Tax Revenue", "budget": [ { "year": "2015-16", "amount": 410345457 }, { "_id": "5c11812613568869f16fcfc0", "year": "2016-17", "amount": 401343956 } ] }
 
-  transformResult(result) {
+  transformResult(result: IDetailedReportResponse["data"]) {
     if (!result) {
       return false;
     }
     this.report = {};
-
     for (let i = 0; i < result.length; i++) {
       if (["Debt", "Tax"].indexOf(result[i].head_of_account) > -1) {
         // ignore Debt and Tax account types
@@ -190,17 +200,14 @@ export class BasicComponent implements OnInit, OnDestroy {
       // converting budget array to object key value pair
       const budgets = result[i]["budget"];
       for (let j = 0; j < budgets.length; j++) {
-        this.report[keyCode][budgets[j].year] = budgets[j].amount;
+        this.report[keyCode][budgets[j].year] =
+          this.reportReq.valueType === "absolute"
+            ? budgets[j].amount
+            : budgets[j].amount / result[i].population;
       }
     }
 
     this.populateCalcFields(this.report, this.years);
-
-    // if(this.reportReq.reportGroup == 'Balance Sheet'){
-    //   this.generateBSCalculationFields();
-    // }else if(this.reportReq.type && this.reportReq.type=='Summary' ){
-    //   this.transformToSummary();
-    // }
   }
 
   populateCalcFields(result, years) {
@@ -302,6 +309,9 @@ export class BasicComponent implements OnInit, OnDestroy {
     if (currencyConversionName) {
       currencyConversionName = document.getElementById("currencyWarning")
         .textContent;
+    }
+    if (this.reportReq.valueType === "per_capita") {
+      currencyConversionName = " NOTE: Values are in Per Capita format";
     }
     this.excelService.transformTableToExcelData(title, reportTable, "IE", {
       currencyConversionName,

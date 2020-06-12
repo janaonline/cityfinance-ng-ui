@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -10,7 +10,7 @@ import { environment } from './../../../environments/environment';
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.scss"],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   public loginForm: FormGroup;
   public badCredentials: boolean;
   public submitted = false;
@@ -52,6 +52,10 @@ export class LoginComponent implements OnInit {
     this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
+
+    console.log(window.history.state);
+
+    // this.router.
   }
 
   get lf() {
@@ -69,7 +73,9 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.authService.signin(this.loginForm.value).subscribe(
         (res) => this.onSuccessfullLogin(res),
-        (error) => this.onLoginError(error)
+        (error) => {
+          this.loginError = error.error["message"] || "Server Error";
+        }
       );
     } else {
       this.formError = true;
@@ -80,8 +86,9 @@ export class LoginComponent implements OnInit {
     if (res && res["token"]) {
       localStorage.setItem("id_token", JSON.stringify(res["token"]));
       localStorage.setItem("userData", JSON.stringify(res["user"]));
-
-      this.router.navigate(["home"]);
+      const postLoginRoute =
+        sessionStorage.getItem("postLoginNavigation") || "home";
+      this.router.navigate([postLoginRoute]);
     } else {
       localStorage.removeItem("id_token");
     }
@@ -93,5 +100,9 @@ export class LoginComponent implements OnInit {
 
   resolveCaptcha(keyGenerated: string) {
     this.reCaptcha.userGeneratedKey = keyGenerated;
+  }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem("postLoginNavigation");
   }
 }

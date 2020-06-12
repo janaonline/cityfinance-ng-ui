@@ -11,9 +11,12 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger, MatSnackBar } from '@angular/material';
+import { FeatureCollection, Geometry } from 'geojson';
 import * as L from 'leaflet';
 import { forkJoin } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
+import { MapUtil } from 'src/app/util/map/mapUtil';
+import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
 
 import { IStateULBCovered, IStateULBCoveredResponse } from '../../models/stateUlbConvered';
 import { IULBWithPopulationResponse, ULBWithMapData } from '../../models/ulbsForMapResponse';
@@ -96,18 +99,23 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   isNationalMapToDistroctMapInProcess;
 
+  stateLayers: L.GeoJSON<any>;
+
   ngOnInit() {}
 
   ngOnChanges(changes: {
     ulbSelected: SimpleChange;
     yearSelected: SimpleChange;
   }) {
+    console.log(changes);
+
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
-      if (
-        !this.currentULBClicked ||
-        changes.ulbSelected.currentValue !== this.currentULBClicked._id
-      ) {
-        this.onSelectingULBFromDropdown(changes.ulbSelected.currentValue);
+      const newULBId =
+        typeof changes.ulbSelected.currentValue === "object"
+          ? changes.ulbSelected.currentValue._id
+          : changes.ulbSelected.currentValue;
+      if (!this.currentULBClicked || newULBId !== this.currentULBClicked._id) {
+        this.onSelectingULBFromDropdown(newULBId);
       }
     }
     if (changes.yearSelected) {
@@ -232,16 +240,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   loadMapGeoJson() {
     const prmsArr = [];
-    // const prms1 = new Promise((resolve, reject) => {
-    //   $.getJSON("../assets/jsonFile/state_boundries.json")
-    //     .done((response) => {
-    //       this.StatesJSONForMapCreation = response;
-    //       resolve();
-    //     })
-    //     .fail((failed) => {
-    //       console.error("State Boundries getJSON request failed!", failed);
-    //     });
-    // });
+
     const prms1 = this._geoService.loadConvertedIndiaGeoData().toPromise();
     prmsArr.push(prms1);
 
@@ -263,41 +262,45 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     return Promise.all(prmsArr);
   }
 
-  createNationalLevelMap() {
+  createNationalLevelMap(
+    geoData: FeatureCollection<
+      Geometry,
+      {
+        [name: string]: any;
+      }
+    >,
+    containerId: string
+  ) {
     let vw = Math.max(document.documentElement.clientWidth);
     vw = (vw - 1366) / 1366;
     const zoom = 4 + vw;
-    this.nationalLevelMap = L.map("mapidd", {
-      scrollWheelZoom: false,
-      fadeAnimation: true,
-      dragging: false,
-      minZoom: zoom,
-      maxZoom: zoom,
-      zoomControl: false,
-      doubleClickZoom: false,
-      keyboard: false,
-    }).setView([20.59, 78.96], 0.1);
 
-    const stateLayer = L.geoJSON(this.StatesJSONForMapCreation, {
-      style: this.stateColorStyle,
-    }).addTo(this.nationalLevelMap);
+    const configuration: IMapCreationConfig = {
+      containerId,
+      geoData,
+      options: {
+        zoom,
+        maxZoom: zoom,
+        minZoom: zoom,
+      },
+    };
+    let map: L.Map;
+
+    ({ stateLayers: this.stateLayers, map } = MapUtil.createDefaultNationalMap(
+      configuration
+    ));
+
+    this.nationalLevelMap = map;
+
     this.createLegendsForNationalLevelMap();
     this.createControls(this.nationalLevelMap);
 
-    if (stateLayer) {
-      this.nationalLevelMap.fitBounds(stateLayer.getBounds(), {
-        paddingBottomRight: [0, 0],
-        padding: [0, 0],
-        maxZoom: 8,
-      });
-    }
+    this.initializeNationalLevelMapLayer(this.stateLayers);
 
-    this.initializeNationalLevelMapLayer(this.nationalLevelMap);
-
-    stateLayer.eachLayer((layer) => {
+    this.stateLayers.eachLayer((layer) => {
       (layer as any).bringToBack();
       (layer as any).on({
-        mouseover: () => this.createTooltip(layer, stateLayer),
+        mouseover: () => this.createTooltip(layer, this.stateLayers),
         click: (args: ILeafletStateClickEvent) => {
           if (this.isNationalMapToDistroctMapInProcess) {
             return;
@@ -310,7 +313,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
               /**
                * This error will generally occur when you change the year (dont close the year dropdown) and then click on the state.
                */
-              console.log(error);
+              console.error(error);
             }
             setTimeout(() => {
               this.isNationalMapToDistroctMapInProcess = null;
@@ -322,28 +325,19 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  private initializeNationalLevelMapLayer(map: L.Map) {
+  private initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
     map.eachLayer((layer: any) => {
-      if (!layer.feature || !layer.feature.properties) {
+      const stateCode = MapUtil.getStateCode(layer);
+      if (!stateCode) {
         return;
       }
-      let count: number;
-      const stateName = (<ILeafletStateClickEvent["sourceTarget"]>(
-        (layer as any)
-      )).feature.properties.ST_NM;
-      const stateFound = this.stateData.find(
-        (state) => state.name === stateName
-      );
-      count = stateFound ? stateFound.coveredUlbPercentage : 0;
 
-      (layer as any).setStyle(
-        {
-          fillOpacity: 1,
-          fillColor: this.getColorBasedOnPercentage(count),
-          weight: -1,
-        },
-        true
+      const stateFound = this.stateData.find(
+        (state) => state.code === stateCode
       );
+      const count = stateFound ? stateFound.coveredUlbPercentage : 0;
+      const color = this.getColorBasedOnPercentage(count);
+      MapUtil.colorStateLayer(layer, color);
     });
   }
 
@@ -503,20 +497,14 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     if (this.nationalLevelMap) {
-      this.initializeNationalLevelMapLayer(this.nationalLevelMap);
+      this.initializeNationalLevelMapLayer(this.stateLayers);
     }
 
-    this.loadMapGeoJson().then((res) => {
-      this.createNationalLevelMap();
-    });
-
-    // if (this.StatesJSONForMapCreation) {
-    //   this.createNationalLevelMap();
-    // } else {
-    //   this.loadMapGeoJson().then(res => {
-    //     this.createNationalLevelMap();
-    //   });
-    // }
+    this.loadMapGeoJson()
+      .then((res) => {
+        this.createNationalLevelMap(this.StatesJSONForMapCreation, "mapidd");
+      })
+      .catch((err) => {});
 
     return res;
   }
@@ -544,9 +532,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     let obj: IStateULBCovered = null;
-    const stateId = (<ILeafletStateClickEvent["sourceTarget"]>layer).feature
-      .properties.ST_NM;
-    const stateFound = this.stateData.find((state) => state.name === stateId);
+    const stateCode = MapUtil.getStateCode(layer);
+
+    const stateFound = this.stateData.find((state) => state.code === stateCode);
 
     obj = stateFound;
     if (obj != undefined) {
@@ -573,7 +561,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     legend.onAdd = function (map) {
       const div = L.DomUtil.create("div", "info legend");
       div.id = "legendContainer";
-      div.style.width = "100%";
+      // div.style.width = "100%";
       arr.forEach((value) => {
         labels.push(
           `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; "><i class="circle" style="background: ${value.color}; padding:10%; display: inline-block; margin-right: 12%;"> </i> ${value.text}</span>`
@@ -584,7 +572,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     };
 
     legend.addTo(this.nationalLevelMap);
-    // this.nationalLevelMap.leg;
   }
 
   private createControls(map: L.Map) {
@@ -605,7 +592,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this.isMapOnMiniMapMode) {
       this.resetMapToNationalLevel();
-      this.initializeNationalLevelMapLayer(this.nationalLevelMap);
+      this.initializeNationalLevelMapLayer(this.stateLayers);
       return false;
     }
 
@@ -994,8 +981,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       <div
     id="districtMapId"
     class="h-60 col-sm-12"
-    style="background: white;z-index: 8; display: inline-block; width: 99%;height: 57vh;"
-  ></div>`;
+    style="background: transparent;z-index: 8; display: inline-block; width: 99%;height: 57vh;"
+  > <p class="text-center state-map-click-guide" >
+    Click on any ULB to view it's data or click on India map to go back
+  </p>
+  </div>`;
   }
 
   private clearNationalMapContainer() {

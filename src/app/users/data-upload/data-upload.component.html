@@ -17,7 +17,8 @@
                                     [data]="financialYearDropdown">
               </angular2-multiselect>
               <app-finance-data-upload-input
-                [config]="{formGroup:fileFormGroup,formGroupName:'balanceSheet',title:'Balance Sheet',required:true}"></app-finance-data-upload-input>
+                [config]="{formGroup:fileFormGroup,disabled:this.fileUpload.uploading, formGroupName:'balanceSheet',title:'Balance Sheet',required:true}">
+              </app-finance-data-upload-input>
 
             </div>
 
@@ -29,15 +30,16 @@
                                     [settings]="auditStatusDropdownSettings"
                                     [data]="auditStatusDropdown"></angular2-multiselect>
               <app-finance-data-upload-input
-                [config]="{formGroup:fileFormGroup,formGroupName:'schedulesToBalanceSheet',title:'Schedules to balance sheet',required:false}">
+                [config]="{formGroup:fileFormGroup,disabled:this.fileUpload.uploading,  formGroupName:'schedulesToBalanceSheet',title:'Schedules to balance sheet',required:false}">
               </app-finance-data-upload-input>
             </div>
           </div>
 
           <div class="row">
+            {{fileFormGroup.get('incomeAndExpenditure').disabled}}
             <div formGroupName="incomeAndExpenditure" class="col-sm-6">
               <app-finance-data-upload-input
-                [config]="{formGroup:fileFormGroup,formGroupName:'incomeAndExpenditure',title:'Income and Expenditure ',required:true}">
+                [config]="{formGroup:fileFormGroup,disabled:this.fileUpload.uploading,  formGroupName:'incomeAndExpenditure',title:'Income and Expenditure ',required:true}">
               </app-finance-data-upload-input>
             </div>
 
@@ -51,14 +53,14 @@
           <div class="row">
             <div class="col-sm-6">
               <app-finance-data-upload-input
-                [config]="{formGroup:fileFormGroup,formGroupName:'trialBalance',title:'Trial Balance',required:true}">
+                [config]="{formGroup:fileFormGroup,disabled:this.fileUpload.uploading,  formGroupName:'trialBalance',title:'Trial Balance',required:true}">
               </app-finance-data-upload-input>
             </div>
 
             <div class="col-sm-6">
               <app-finance-data-upload-input
                 *ngIf="(fileFormGroup.get('auditStatus').value &&fileFormGroup.get('auditStatus').value[0])&&fileFormGroup.get('auditStatus').value[0].id==true"
-                [config]="{formGroup:fileFormGroup,formGroupName:'auditReport',title:'Audited Report',required:true}">
+                [config]="{formGroup:fileFormGroup,disabled:this.fileUpload.uploading,  formGroupName:'auditReport',title:'Audited Report',required:true}">
               </app-finance-data-upload-input>
             </div>
           </div>
@@ -74,7 +76,6 @@
               </div>
               <button #updateButton
                       *ngIf="userUtil.getUserType()!=='STATE' && (uploadId!==null &&  (completenessStatus==='REJECTED'||correctnessStatus ==='REJECTED'))"
-
                       [disabled]="fileFormGroup.invalid "
                       class="btn btn-primary"
                       (click)="updateClickHandler(updateButton)">{{fileUpload.uploading ? 'Please Wait..' : 'Update'}}

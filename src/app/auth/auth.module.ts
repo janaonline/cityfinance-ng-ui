@@ -6,16 +6,16 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
-  MatTooltipModule,
+  MatTooltipModule
 } from '@angular/material';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 import { AngularMaterialModule } from '../angular-material.module';
+import { UlbCoverageComponent } from '../pages/analytics/home-tab-view/ulb-coverage/ulb-coverage.component';
 import { CfChartsModule } from '../shared/cf-charts/cf-charts.module';
 import { SharedModule } from '../shared/shared.module';
 import { AuthRouter } from './auth.router';
 import { AuthService } from './auth.service';
-import { UlbCoverageComponent } from './home/home-tab-view/ulb-coverage/ulb-coverage.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({

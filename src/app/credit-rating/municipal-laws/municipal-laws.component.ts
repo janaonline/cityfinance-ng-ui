@@ -28,15 +28,7 @@ export class MunicipalLawsComponent implements OnInit {
     protected _authService: AuthService,
     protected router: Router,
     private geoService: GeographicalService
-  ) {
-    this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
-      try {
-        this.loadSlides();
-        this.mapGeoData = data;
-        this.createNationalLevelMap(data, "mapidd");
-      } catch (error) {}
-    });
-  }
+  ) {}
 
   mapGeoData: FeatureCollection<
     Geometry,
@@ -104,6 +96,17 @@ export class MunicipalLawsComponent implements OnInit {
   currentSlideIndex = 0;
 
   ngOnInit() {
+    this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
+      try {
+        this.mapGeoData = data;
+        setTimeout(() => {
+          this.createNationalLevelMap(data, "finance-law-map");
+          this.loadSlides();
+        }, 1);
+      } catch (error) {
+        console.error(error);
+      }
+    });
     this.commonService.states.subscribe((res) => {
       this.states = res;
     });
@@ -124,7 +127,7 @@ export class MunicipalLawsComponent implements OnInit {
   }
 
   reRenderMap() {
-    this.createNationalLevelMap(this.mapGeoData, "mapidd");
+    this.createNationalLevelMap(this.mapGeoData, "finance-law-map");
   }
 
   createNationalLevelMap(
@@ -147,6 +150,7 @@ export class MunicipalLawsComponent implements OnInit {
     ));
 
     this.nationalLevelMap = map;
+    console.log("createNationalLevelMap");
 
     this.statesLayer.eachLayer((layer) => {
       (layer as any).bringToBack();
@@ -185,6 +189,11 @@ export class MunicipalLawsComponent implements OnInit {
    * as default.
    */
   reColorStates(stateNames: string[], statesLayer: L.GeoJSON<any>) {
+    console.log(`reColorStates `, statesLayer);
+
+    // if (!statesLayer) {
+    //   return;
+    // }
     statesLayer.eachLayer((layer) => {
       const stateName = MapUtil.getStateName(layer).toLowerCase();
       const stateFound = !!stateNames.find(
@@ -202,6 +211,7 @@ export class MunicipalLawsComponent implements OnInit {
   onSlideChaning(slideIndexSet: number) {
     this.currentSlideIndex = slideIndexSet;
     const currentSlide = this.slides[slideIndexSet];
+
     this.reColorStates(currentSlide.states, this.statesLayer);
   }
 

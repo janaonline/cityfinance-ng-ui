@@ -1,0 +1,30 @@
+<div class="public-files">
+  <h2><span> Resources </span></h2>
+</div>
+
+<div class="files-wrapper">
+  <div *ngFor="let file of files" class="file">
+    <img [src]="file.imageUrl" [alt]="file.name" />
+    <div class="details">
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              {{ file.name }}
+            </td>
+            <td>
+              <a [href]="file.downloadUrl" target="_blank">
+                <i
+                  title="Download"
+                  class="fa fa-cloud-download"
+                  aria-hidden="true"
+                  style="float: right;"
+                ></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -8,6 +8,7 @@ export interface IDetailedReportResponse extends IBaseReponse {
     head_of_account: string;
     groupCode: string;
     code: number;
+    population: number;
     budget: IBudget[];
   }[];
 }

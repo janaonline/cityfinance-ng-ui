@@ -314,6 +314,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         this.disableFormGroups(formGroupItem, formGroupDataObject);
       }
     });
+    console.log(this.fileFormGroup);
   }
 
   disableFormGroups(formGroupItem, formGroupDataObject) {
@@ -328,7 +329,6 @@ export class DataUploadComponent implements OnInit, OnDestroy {
 
   async updateClickHandler(updateButton: HTMLButtonElement) {
     updateButton.disabled = true;
-    this.fileFormGroup.disable();
     this.fileUpload.totalFiles = this.getAddedFilterCount();
     this.fileUpload.uploading = true;
     let urlObject = {};
@@ -371,18 +371,13 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     }
     this.financialDataService.upDateFinancialData(this.uploadId, urlObject).subscribe((result) => {
       if (result['success']) {
-        this.fileFormGroup.enable();
-        this.fileUpload.reset();
-        updateButton.disabled = false;
         this.router.navigate(['/user/data-upload/list']);
       }
     }, error => {
-      this.fileFormGroup.enable();
       updateButton.disabled = false;
       this.fileUpload.reset();
       this.handlerError(error);
     });
-
   }
 
   private listenToSearchEvents() {

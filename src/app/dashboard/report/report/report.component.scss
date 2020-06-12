@@ -117,6 +117,15 @@ button:disabled {
   max-width: 214px;
 }
 
+.ulbTypeSelected,
+.stateULBName {
+  font-size: 0.8vw;
+}
+
+.ulb-category {
+  font-size: 0.8vw;
+}
+
 ::ng-deep .mat-form-field-wrapper {
   margin: 0px !important;
 }
@@ -193,4 +202,66 @@ a.inactive-tab:hover {
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
   border-radius: 0px !important;
   border: 0px !important;
+}
+
+.financial-tab-text {
+  margin: auto;
+  width: 90%;
+  h3 {
+    margin-top: 0;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+.popup-cotnainer-2,
+.ulb-list-container {
+  height: 84vh;
+  overflow: hidden;
+}
+
+#myTabContent {
+  max-height: 67vh;
+  overflow: auto;
+  font-size: 0.9vw;
+}
+
+@media (max-width: 768px) {
+}
+
+.state-list-sidebar {
+  max-height: 90%;
+  overflow: auto;
+  padding-right: 0px;
+  max-width: 214px;
+  font-size: 1vw;
+}
+
+.clear-all {
+  background: #f0ad4e;
+  color: white;
+}
+
+.generate-report {
+  position: absolute;
+  right: 5px;
+}
+
+.comparative-toggle {
+  display: inline-block;
+  width: 15%;
+  margin-right: 3px;
+  padding-left: 1%;
+  min-width: fit-content;
+
+  ::ng-deep {
+    .mat-slide-toggle-content {
+      font-size: 0.8vw;
+    }
+  }
+}
+
+.comparative-info-circle {
+  margin-right: 10px;
+  margin-left: 0px;
 }

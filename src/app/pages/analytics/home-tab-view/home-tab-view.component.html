@@ -4,6 +4,7 @@
   [selectedIndex]="tabIndex"
   class="mt-1"
   animationDuration="100ms"
+  (animationDone)="onTabChangeAnimationComplete()"
 >
   <mat-tab [disabled]="loading" label="Own Revenues">
     <ng-template matTabContent>
@@ -119,7 +120,10 @@
           right: 1rem;
           position: absolute;
           background-color: #333333;
+          color: white;
           min-width: min-content;
+          border: none;
+          outline: none;
         "
       >
         <mat-icon>arrow_downward</mat-icon>
@@ -139,38 +143,38 @@
           style="margin-bottom: 1px;"
         >
           <thead>
-          <tr>
-            <th
-              style="
+            <tr>
+              <th
+                style="
                   position: sticky;
                   width: 200px;
                   background: white;
                   top: -1px;
                 "
-              [attr.data-text]="
+                [attr.data-text]="
                   header.title + ' \r\n ' + (header?.description || ' ')
                 "
-              [attr.data-text_align]="
+                [attr.data-text_align]="
                   header?.id != 'populationCategory' ? 'center' : ' '
                 "
-              [attr.data-bold]="true"
-              class="px-1 border-bottom-0"
-              [ngClass]="
+                [attr.data-bold]="true"
+                class="px-1 border-bottom-0"
+                [ngClass]="
                   header?.id != 'populationCategory' ? 'text-center' : ''
                 "
-              *ngFor="let header of commonTableHeaders; let j = index"
-            >
-              <div
-                class="d-flex"
-                [ngClass]="j != 0 ? 'justify-content-center' : ''"
+                *ngFor="let header of commonTableHeaders; let j = index"
               >
-                <div class="d-flex flex-column p-0">
-                  {{ header.title }}
-                  <span class="font-weight-light" *ngIf="header.description">
+                <div
+                  class="d-flex"
+                  [ngClass]="j != 0 ? 'justify-content-center' : ''"
+                >
+                  <div class="d-flex flex-column p-0">
+                    {{ header.title }}
+                    <span class="font-weight-light" *ngIf="header.description">
                       {{ header.description }}</span
-                  >
-                </div>
-                <!--   <i style="position: absolute;   right: -1rem"
+                    >
+                  </div>
+                  <!--   <i style="position: absolute;   right: -1rem"
                     *ngIf="!header.hasOwnProperty('status'); else icon"
                     (click)="sortHeader(header)"
                     class="fa fa-sort px-1"
@@ -190,31 +194,31 @@
                       aria-hidden="true"
                    ></i>
                  </ng-template>-->
-              </div>
-            </th>
-          </tr>
+                </div>
+              </th>
+            </tr>
           </thead>
           <tbody>
-          <ng-container *ngFor="let tr of commonTableDataDisplay">
-            <tr>
-              <td
-                [attr.data-text]="tr.year"
-                [attr.data-text_align]="'center'"
-                [attr.data-background_color]="'FFffc500'"
-                [attr.data-bold]="true"
-                class="text-center"
-                [colSpan]="commonTableHeaders.length"
-                [style.background]="'#ffc500'"
-              >
-                <b>{{ tr?.year }}</b>
-              </td>
-            </tr>
-            <tr *ngFor="let row of tr.data; let i = index">
-              <td
-                [ngClass]="
+            <ng-container *ngFor="let tr of commonTableDataDisplay">
+              <tr>
+                <td
+                  [attr.data-text]="tr.year"
+                  [attr.data-text_align]="'center'"
+                  [attr.data-background_color]="'FFffc500'"
+                  [attr.data-bold]="true"
+                  class="text-center"
+                  [colSpan]="commonTableHeaders.length"
+                  [style.background]="'#ffc500'"
+                >
+                  <b>{{ tr?.year }}</b>
+                </td>
+              </tr>
+              <tr *ngFor="let row of tr.data; let i = index">
+                <td
+                  [ngClass]="
                     col?.id != 'populationCategory' ? 'text-center' : ''
                   "
-                [attr.data-text]="
+                  [attr.data-text]="
                     ((row[col?.id]
                       | roundoff: { config: col }
                       | rupeeConverter) || ' ') +
@@ -227,16 +231,16 @@
                         ')'
                       : '')
                   "
-                [attr.data-text_align]="
+                  [attr.data-text_align]="
                     col?.id != 'populationCategory'
                       ? 'center'
                       : row[col?.id] == 'Total'
                       ? 'right'
                       : ' '
                   "
-                [attr.data-bold]="i == tr?.data.length - 1"
-                *ngFor="let col of commonTableHeaders; let j = index"
-              >
+                  [attr.data-bold]="i == tr?.data.length - 1"
+                  *ngFor="let col of commonTableHeaders; let j = index"
+                >
                   <span
                     [matTooltip]="
                       (row[col?.id] | typeof) === 'object'
@@ -253,44 +257,44 @@
                     [matTooltipDisabled]="!col?.showInr"
                     [ngClass]="i == tr?.data.length - 1 ? 'text-bold' : ''"
                     *ngIf="!col?.click; else clickableCol"
-                  >{{
-                    col.id == "audited"
-                      ? (row["audited"]
-                        | auditStatusText
-                        : {
-                          row: row,
-                          colId: col.id
-                        })
-                      : (row[col?.id]
-                        | roundoff: {config: col}
-                        | rupeeConverter)
+                    >{{
+                      col.id == "audited"
+                        ? (row["audited"]
+                          | auditStatusText
+                            : {
+                                row: row,
+                                colId: col.id
+                              })
+                        : (row[col?.id]
+                          | roundoff: { config: col }
+                          | rupeeConverter)
                     }}</span
                   >
-                <ng-template #clickableCol>
-                  <a
-                    *ngIf="i != tr?.data.length - 1"
-                    (click)="openModal(UlbModal, row, tr.year)"
-                  >{{ row[col?.id] }}</a
-                  >
-                  <span
-                    [ngClass]="i == tr?.data.length - 1 ? 'text-bold' : ''"
-                    *ngIf="i == tr?.data.length - 1"
-                  >{{ row[col?.id] }}</span
-                  >
-                </ng-template>
-              </td>
-            </tr>
-            <tr *ngIf="!tr.data.length">
-              <td
-                [attr.data-text]="'Data not available'"
-                [attr.data-text_align]="'center'"
-                class="text-center"
-                [colSpan]="commonTableHeaders.length"
-              >
-                <span>Data not available</span>
-              </td>
-            </tr>
-          </ng-container>
+                  <ng-template #clickableCol>
+                    <a
+                      *ngIf="i != tr?.data.length - 1"
+                      (click)="openModal(UlbModal, row, [tr.year])"
+                      >{{ row[col?.id] }}</a
+                    >
+                    <span
+                      [ngClass]="i == tr?.data.length - 1 ? 'text-bold' : ''"
+                      *ngIf="i == tr?.data.length - 1"
+                      >{{ row[col?.id] }}</span
+                    >
+                  </ng-template>
+                </td>
+              </tr>
+              <tr *ngIf="!tr.data.length">
+                <td
+                  [attr.data-text]="'Data not available'"
+                  [attr.data-text_align]="'center'"
+                  class="text-center"
+                  [colSpan]="commonTableHeaders.length"
+                >
+                  <span>Data not available</span>
+                </td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
         <ng-template #noData>
@@ -313,13 +317,22 @@
         style="
           margin-right: 0.5rem;
           background-color: #333333;
+          color: white;
+          outline: none;
+          border: none;
           min-width: min-content;
         "
       >
         <mat-icon>arrow_downward</mat-icon>
       </button>
       <button
-        style="background-color: #333333; min-width: min-content;"
+        style="
+          background-color: #333333;
+          min-width: min-content;
+          color: white;
+          outline: none;
+          border: none;
+        "
         (click)="modalService.hide(1)"
         mat-raised-button
         title="Close"
@@ -336,91 +349,91 @@
     >
       <table
         id="table"
-        *ngIf="modalTableHeaders.length; else noData"
+        *ngIf="modalTableData && modalTableHeaders.length; else loadingSkeleton"
         class="table"
       >
         <thead>
-        <tr>
-          <th
-            [attr.data-text]="
+          <tr>
+            <th
+              [attr.data-text]="
                 header.title + ' \r\n ' + (header?.description || ' ')
               "
-            [attr.data-text_align]="'center'"
-            [attr.data-bold]="true"
-            style="position: sticky; top: 0; background: white;"
-            class="text-center border-bottom-0"
-            *ngFor="let header of modalTableHeaders; let j = index"
-          >
-            <div
-              class="d-flex px-1"
-              [ngClass]="
+              [attr.data-text_align]="'center'"
+              [attr.data-bold]="true"
+              style="position: sticky; top: 0; background: white;"
+              class="text-center border-bottom-0"
+              *ngFor="let header of modalTableHeaders; let j = index"
+            >
+              <div
+                class="d-flex px-1"
+                [ngClass]="
                   j != 0 ? 'justify-content-center' : 'justify-content-center'
                 "
-            >
-              <div class="d-flex flex-column p-0">
-                {{ header.title }}
-                <span class="font-weight-light" *ngIf="header.description">
+              >
+                <div class="d-flex flex-column p-0">
+                  {{ header.title }}
+                  <span class="font-weight-light" *ngIf="header.description">
                     {{ header.description }}</span
-                >
+                  >
+                </div>
+                <i
+                  style="position: absolute; right: -0.5rem;"
+                  *ngIf="!header.hasOwnProperty('status'); else icon"
+                  (click)="sortDialogHeader(header)"
+                  class="fa fa-sort px-1"
+                  aria-hidden="true"
+                ></i>
+                <ng-template #icon>
+                  <i
+                    style="position: absolute; right: -0.5rem;"
+                    *ngIf="header.status"
+                    (click)="sortDialogHeader(header)"
+                    class="fa fa-sort-asc px-1"
+                    aria-hidden="true"
+                  ></i>
+                  <i
+                    style="position: absolute; right: -0.5rem;"
+                    *ngIf="!header.status"
+                    (click)="sortDialogHeader(header)"
+                    class="fa fa-sort-desc px-1"
+                    aria-hidden="true"
+                  ></i>
+                </ng-template>
               </div>
-              <i
-                style="position: absolute; right: -0.5rem;"
-                *ngIf="!header.hasOwnProperty('status'); else icon"
-                (click)="sortDialogHeader(header)"
-                class="fa fa-sort px-1"
-                aria-hidden="true"
-              ></i>
-              <ng-template #icon>
-                <i
-                  style="position: absolute; right: -0.5rem;"
-                  *ngIf="header.status"
-                  (click)="sortDialogHeader(header)"
-                  class="fa fa-sort-asc px-1"
-                  aria-hidden="true"
-                ></i>
-                <i
-                  style="position: absolute; right: -0.5rem;"
-                  *ngIf="!header.status"
-                  (click)="sortDialogHeader(header)"
-                  class="fa fa-sort-desc px-1"
-                  aria-hidden="true"
-                ></i>
-              </ng-template>
-            </div>
-          </th>
-        </tr>
+            </th>
+          </tr>
         </thead>
         <tbody>
-        <tr>
-          <td
-            [attr.data-text]="modalTableData.year"
-            [attr.data-text_align]="'center'"
-            [attr.data-background_color]="'FFffc500'"
-            class="text-center"
-            [colSpan]="modalTableHeaders.length"
-            [style.background]="'#ffc500'"
-          >
-            <b>{{ modalTableData.year }}</b>
-          </td>
-        </tr>
-        <tr *ngFor="let row of modalTableData.data; let i = index">
-          <td
-            [ngStyle]="
+          <tr>
+            <td
+              [attr.data-text]="modalTableData.year"
+              [attr.data-text_align]="'center'"
+              [attr.data-background_color]="'FFffc500'"
+              class="text-center"
+              [colSpan]="modalTableHeaders.length"
+              [style.background]="'#ffc500'"
+            >
+              <b>{{ modalTableData.year }}</b>
+            </td>
+          </tr>
+          <tr *ngFor="let row of modalTableData.data; let i = index">
+            <td
+              [ngStyle]="
                 i == modalTableData.data.length - 1
                   ? { position: 'sticky', bottom: '0', background: 'white' }
                   : {}
               "
-            [ngClass]="col.id != 'name' ? 'text-center' : 'text-center'"
-            [attr.data-text]="
+              [ngClass]="col.id != 'name' ? 'text-center' : 'text-center'"
+              [attr.data-text]="
                 ((row[col?.id] | roundoff: { config: col } | rupeeConverter) ||
                   ' ') + (row[col?.id] ? col.suffix || '' : ' ')
               "
-            [attr.data-text_align]="
+              [attr.data-text_align]="
                 row[col?.id] == 'Total' ? 'right' : 'center'
               "
-            [attr.data-bold]="i == modalTableData?.data?.length - 1"
-            *ngFor="let col of modalTableHeaders"
-          >
+              [attr.data-bold]="i == modalTableData?.data?.length - 1"
+              *ngFor="let col of modalTableHeaders"
+            >
               <span
                 [matTooltipDisabled]="!col?.showInr"
                 [matTooltip]="
@@ -434,34 +447,34 @@
                 *ngIf="!col?.click; else clickableCol"
               >
                 {{
-                col.id == "audited"
-                  ? (row["audited"]
-                    | auditStatusText
-                    : {
-                      row: row,
-                      colId: col.id
-                    })
-                  : (row[col?.id]
-                    | roundoff: {config: col}
-                    | rupeeConverter)
+                  col.id == "audited"
+                    ? (row["audited"]
+                      | auditStatusText
+                        : {
+                            row: row,
+                            colId: col.id
+                          })
+                    : (row[col?.id]
+                      | roundoff: { config: col }
+                      | rupeeConverter)
                 }}
                 {{ row[col?.id] ? col.suffix || "" : null }}</span
               >
-            <ng-template #clickableCol>
-              <a
-                *ngIf="i != modalTableData?.data?.length - 1"
-                (click)="modalItemClicked(row._id, row)"
-              >{{ row[col?.id] | rupeeConverter }}</a
-              >
-              <span
-                *ngIf="i == modalTableData?.data?.length - 1"
-                class="text-bold"
-              >{{ row[col?.id] | rupeeConverter }}</span
-              >
-            </ng-template>
-          </td>
-        </tr>
-        <!--      </ng-container>-->
+              <ng-template #clickableCol>
+                <a
+                  *ngIf="i != modalTableData?.data?.length - 1"
+                  (click)="modalItemClicked(row._id, row)"
+                  >{{ row[col?.id] | rupeeConverter }}</a
+                >
+                <span
+                  *ngIf="i == modalTableData?.data?.length - 1"
+                  class="text-bold"
+                  >{{ row[col?.id] | rupeeConverter }}</span
+                >
+              </ng-template>
+            </td>
+          </tr>
+          <!--      </ng-container>-->
         </tbody>
       </table>
       <ng-template #noData>
@@ -547,7 +560,14 @@
       mat-raised-button
       title="Apply"
       (click)="onDropdownClose()"
-      style="background-color: #333333; min-width: min-content;"
+      style="
+        background-color: #333333;
+        min-width: fit-content;
+        color: white;
+        border: none;
+        outline: none;
+        padding: 1% 2%;
+      "
     >
       Apply
     </button>
@@ -568,7 +588,7 @@
     <div
       *ngIf="loading == false; else loadingSkeleton"
       class="row"
-      style="height: 60vh; overflow-y: auto;"
+      style="height: 68vh; overflow-y: auto;"
     >
       <ng-container *ngIf="commonTableDataDisplay.length; else noData">
         <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
@@ -587,20 +607,20 @@
                 class="d-flex align-items-center justify-content-center w-100"
               >
                 <span
-                ><b>Population <span *ngIf="!singleULBView"></span>:</b></span
+                  ><b>Population <span *ngIf="!singleULBView"></span>:</b></span
                 >
                 <a
                   *ngIf="!singleULBView"
-                  (click)="openModal(UlbModal, row, data.year)"
+                  (click)="openModal(UlbModal, row, [data.year])"
                   class="p-1"
-                >{{
-                  singleULBView
-                    ? row["population"]
-                    : row["populationCategory"]
+                  >{{
+                    singleULBView
+                      ? row["population"]
+                      : row["populationCategory"]
                   }}</a
                 >
                 <span *ngIf="singleULBView"
-                >{{ row["population"] | rupeeConverter }}
+                  >{{ row["population"] | rupeeConverter }}
                 </span>
               </div>
 
@@ -638,7 +658,7 @@
           ></ul>
           <h4 *ngIf="singleULBView" class="text-center">
             Audit Status:
-            {{ data.data[0] | auditStatusText: {row: data.data[0]} }}
+            {{ data.data[0] | auditStatusText: { row: data.data[0] } }}
           </h4>
         </div>
       </ng-container>
