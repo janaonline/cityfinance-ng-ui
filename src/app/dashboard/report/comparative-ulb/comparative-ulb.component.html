@@ -99,8 +99,22 @@
           <th class="text-center" *ngFor="let yr of years">{{ yr.caption }}</th>
         </tr>
         <tr>
-          <th></th>
-          <th></th>
+          <th
+            style="
+              position: sticky;
+              left: 0px;
+              background: white;
+              border-right: inherit solid #868686;
+            "
+          ></th>
+          <th
+            style="
+              position: sticky;
+              left: 103px;
+              background: white;
+              border-right: inherit solid #868686;
+            "
+          ></th>
           <th class="text-center" *ngFor="let yr of years">
             <span *ngIf="yr.population !== undefined && yr.population !== null"
               >Population:
