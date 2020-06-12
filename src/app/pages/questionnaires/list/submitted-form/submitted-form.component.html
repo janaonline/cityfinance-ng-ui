@@ -27,8 +27,8 @@
           State
           <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
         </th>
-        <th class="pointer" (click)="sortListBy('createdAt')">
-          Form Filled On
+        <th class="pointer" (click)="sortListBy('modifiedAt')">
+          Form Last Updated On
           <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
         </th>
 
@@ -99,6 +99,10 @@
     class="d-flex align-items-center flex-column justify-content-center"
     style="flex-wrap: wrap; height: 100%;"
   >
+    <small style="margin-bottom: 2%;">
+      <span style="color: red;">*</span> NOTE: States for which Questionnaire is
+      either completed or in draft mode, will not be listed here.
+    </small>
     <angular2-multiselect
       style="width: 70%;"
       [(ngModel)]="stateSelectToFillQuestionnaire"

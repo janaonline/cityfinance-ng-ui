@@ -29,28 +29,12 @@ table {
   }
   .question-number {
     position: absolute;
-    top: 19%;
+    top: 15px;
   }
   .question {
     position: relative;
   }
-  // .user-charges,
-  // .property-tax {
-  //   .question:after {
-  //     color: red;
-  //     content: "*";
-  //     margin-left: 0.2%;
-  //     position: absolute;
-  //   }
-  // }
-  // .upload-documnets {
-  //   .mandatory:after {
-  //     color: red;
-  //     content: "*";
-  //     margin-left: 0.2%;
-  //     position: absolute;
-  //   }
-  // }
+
   .action-plan,
   .implementation-plan {
     font-size: 0.5em;
