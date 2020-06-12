@@ -58,4 +58,10 @@ export class QuestionnaireService {
       .get(`${environment.api.url}state?type=filter`)
       .pipe(map((res) => res["data"]));
   }
+
+  downloadPDF(body) {
+    return this.http.post(`${environment.api.url}download/pdf`, body, {
+      responseType: "blob",
+    });
+  }
 }

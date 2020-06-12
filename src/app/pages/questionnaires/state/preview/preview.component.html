@@ -1,11 +1,8 @@
-<button
-  class="btn btn-primary download-buttom"
-  (click)="downloadAsPDFWithjsPDF()"
->
+<button class="btn btn-primary download-buttom" (click)="downloadForm()">
   <i class="fa fa-cloud-download" aria-hidden="true"></i> Download as PDF
 </button>
 
-<div class="wrapper" id="preview">
+<div class="wrapper" id="preview" #preview>
   <ng-content select=".header" class="text-center"> </ng-content>
 
   <!-- PROPERTY TAX-->
