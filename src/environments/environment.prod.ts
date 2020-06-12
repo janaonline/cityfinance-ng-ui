@@ -17,8 +17,11 @@ export const environment = {
   api: {
     url2: "https://cityfinance.in/",
     url1: "https://democityfinanceapi.dhwaniris.in/",
-    url
-  }
+    url,
+  },
+  reCaptcha: {
+    siteKey: "6LcT9_gUAAAAANrZM5TNnE4OEEC46iFDfcAHZ8lD",
+  },
 };
 
 /*
