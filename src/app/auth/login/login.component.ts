@@ -20,13 +20,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public loginError: string;
   public emailVerificationMessage: string;
-  public showRecaptcha = true;
   public reCaptcha = {
     show: false,
     siteKey: environment.reCaptcha.siteKey,
     userGeneratedKey: null,
   };
-  public reCaptchaSiteKey = environment.reCaptcha.siteKey;
 
   constructor(
     private fb: FormBuilder,
@@ -34,8 +32,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    console.log(this.reCaptchaSiteKey);
-
     this.activatedRoute.queryParams.subscribe((param) => {
       if (param.message) {
         this.emailVerificationMessage = param.message;
@@ -52,8 +48,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
-
-    console.log(window.history.state);
 
     // this.router.
   }
@@ -73,9 +67,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.loginForm.valid) {
       this.authService.signin(this.loginForm.value).subscribe(
         (res) => this.onSuccessfullLogin(res),
-        (error) => {
-          this.loginError = error.error["message"] || "Server Error";
-        }
+        (error) => this.onLoginError(error)
       );
     } else {
       this.formError = true;
@@ -96,10 +88,22 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private onLoginError(error) {
     this.loginError = error.error["message"] || "Server Error";
+    if (error.error.errors && error.error.errors.loginAttempts >= 3) {
+      this.reCaptcha.show = true;
+    }
   }
 
   resolveCaptcha(keyGenerated: string) {
     this.reCaptcha.userGeneratedKey = keyGenerated;
+    this.authService.verifyCaptcha(keyGenerated).subscribe((res) => {
+      if (!res["success"]) {
+        this.reCaptcha.show = false;
+        this.reCaptcha.userGeneratedKey = null;
+        setTimeout(() => {
+          this.reCaptcha.show = true;
+        }, 500);
+      }
+    });
   }
 
   ngOnDestroy() {
