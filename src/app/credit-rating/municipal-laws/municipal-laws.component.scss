@@ -118,4 +118,10 @@ table {
   .carousel-control {
     display: none;
   }
+
+  :host {
+    div.carousel.slide {
+      outline: none;
+    }
+  }
 }

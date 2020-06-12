@@ -31,7 +31,7 @@ export class SubmittedFormComponent implements OnInit {
 
   listFetchOption = {
     filter: null,
-    sort: { createdAt: -1 },
+    sort: { modifiedAt: -1 },
     skip: 0,
     limit: this.tableDefaultOptions.itemPerPage,
   };

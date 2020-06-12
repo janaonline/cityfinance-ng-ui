@@ -2,7 +2,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 
 const QuestionsIdMapping = {
   Act_Linking_PT_A: {
-    number: "1.",
+    number: "1. ",
     question:
       "Does your Municipality/Municipal Corporation Act  link property tax to prevailing guideline values/circle rates?",
   },
@@ -13,69 +13,69 @@ const QuestionsIdMapping = {
   },
 
   Relevent_Sections_Yes_PT_A: {
-    number: "1.b)",
+    number: "1.b) ",
     question:
       "Mention the relevant section/provision/clause number of gazette notification/rules/relevant provision in the Act <i>(Upload relevant documents in Upload Documents section)</i>",
   },
   Legislative_Changes_PT_A: {
-    number: "1.a)",
+    number: "1.a) ",
     question:
       "Would you be seeking legislative changes/state government approval/issue executive order to provide for such linkage of property tax to guideline values/circle rates?",
   },
   Action_Date_PT_A: {
-    number: "1.b)",
+    number: "1.b) ",
     question: "Date by which it will be completed",
   },
   Relevent_Sections_No_PT_A: {
-    number: "2.a)",
+    number: "2.a) ",
     question:
       "What is the existing status regarding aligning property tax with prevailing circle rates of all Municipalities/Municipal Corporations?",
   },
   Adoption_Plan_PT_A: {
-    number: "2.b)",
+    number: "2.b) ",
     question:
       "What is the plan for adoption of property tax linking with prevailing guideline values/circle rates for 1) Municipal Corporations, 2) Municipalities, and  3) Town Panchayats? <i>(Upload relevant documents in Upload Documents section)</i>",
   },
   Implement_Date_PT_A: {
-    number: "2.c)",
+    number: "2.c) ",
     question: "Date by which it will be completed",
   },
   Periodic_Increase_PT_B: {
-    number: "3.",
+    number: "3. ",
     question:
       "Does your Municipality/ Municipal Corporation Act provide for periodic increase of floor rates of property tax?",
   },
   Existing_Status_Yes_PT_B: {
-    number: "3.a)",
+    number: "3.a) ",
     question:
       " What is the existing status of periodic increase in property tax in line with the increase in guideline values/circle rates for all Municipalities and Municipal Corporations?",
   },
   Relevent_Sections_PT_B: {
-    number: "3.b)",
+    number: "3.b) ",
     question:
       "Mention the relevant section/provision/clause number of gazette notification/rules/relevant provision in the Act <i>(Upload relevant documents in Upload Documents section)</i>",
   },
   Legislative_Changes_PT_B: {
-    number: "3.a)",
+    number: "3.a) ",
     question:
       "Would you be seeking legislative changes/state government approval/issue executive order to provide for periodic increase of floor rates of property tax?",
   },
   Action_Date_PT_B: {
-    number: "3.b)",
+    number: "3.b) ",
     question: "Date by which it will be completed",
   },
   Existing_Status_No_PT_B: {
-    number: "4.a)",
+    number: "4.a) ",
     question:
       "What is the existing status of periodic increase in property tax in line with the increase in guideline values/circle rates for all Municipalities and Municipal Corporations?",
   },
   Implement_Plan_PT_B: {
-    number: "4.b)",
+    number: "4.b) ",
     question:
       "What is the plan for implementing above for property tax for 1) Municipal Corporations, 2) Municipalities, and 3) Town Panchayats? <i>(Upload relevant documents in Upload Documents section)</i>",
   },
   Implement_Date_PT_B: {
-    number: "4.c)",
+    number: "4.c) ",
     question: "Date by which it will be completed",
   },
 };
