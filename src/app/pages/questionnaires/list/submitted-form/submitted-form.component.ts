@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
@@ -21,7 +22,8 @@ export class SubmittedFormComponent implements OnInit {
   private defaultTabButtonsTpl: TemplateRef<any>;
   filterForm: FormGroup;
   currentSort = 1;
-  userList: any[];
+  stateList: any[];
+  ulbsFilledQuestionnaireList: any[];
 
   tableDefaultOptions = {
     itemPerPage: 10,
@@ -55,6 +57,7 @@ export class SubmittedFormComponent implements OnInit {
     private _fb: FormBuilder,
     private _router: Router,
     private questionnaireSerive: QuestionnaireService,
+    private _profileService: ProfileService,
     private authService: AuthService,
     public matdialog: MatDialog,
     public router: Router
@@ -96,8 +99,7 @@ export class SubmittedFormComponent implements OnInit {
   }
 
   navigateToQuestionnaireForm(stateId: string) {
-    console.log(`stateId`, stateId, this.stateSelectToFillQuestionnaire);
-    this._router.navigate(["/questionnaires", "form"], {
+    this._router.navigate(["/questionnaires/state/form"], {
       queryParams: { stateId },
     });
   }
@@ -127,7 +129,7 @@ export class SubmittedFormComponent implements OnInit {
           this.tableDefaultOptions.totalCount = res["total"];
         }
         if (res["success"]) {
-          this.userList = res["data"];
+          this.stateList = res["data"];
         } else {
           alert("Failed");
         }
@@ -154,7 +156,7 @@ export class SubmittedFormComponent implements OnInit {
     });
 
     if (!this.authService.loggedIn()) {
-      sessionStorage.setItem(`postLoginNavigation`, "/questionnaires/states");
+      sessionStorage.setItem(`postLoginNavigation`, "/questionnaires/list");
       return this._router.navigate(["/login"]);
     }
 
@@ -164,8 +166,15 @@ export class SubmittedFormComponent implements OnInit {
         action: ACTIONS.VIEW,
       });
       if (QuestionnaireFormAccess) {
-        return this._router.navigate(["/questionnaires/form"]);
+        const userType = this._profileService.getLoggedInUserType();
+        switch (userType) {
+          case USER_TYPE.STATE:
+            return this._router.navigate(["/questionnaires/state/form"]);
+          case USER_TYPE.ULB:
+            return this._router.navigate(["/questionnaires/ulb/form"]);
+        }
       }
+
       return this._router.navigate(["/home"]);
     }
   }

@@ -27,6 +27,7 @@ import { PreviewComponent } from './state/preview/preview.component';
 import { PropertyTaxComponent } from './state/property-tax/property-tax.component';
 import { StateQuestionnairesComponent } from './state/state-questionnaires/state-questionnaires.component';
 import { UserChargesComponent } from './state/user-charges/user-charges.component';
+import { ULBQuestionnaireComponent } from './ulb/questionnaire/questionnaire.component';
 
 @NgModule({
   imports: [
@@ -50,6 +51,7 @@ import { UserChargesComponent } from './state/user-charges/user-charges.componen
     AngularMultiSelectModule,
     FormsModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
   ],
   declarations: [
     StateQuestionnairesComponent,
@@ -60,6 +62,7 @@ import { UserChargesComponent } from './state/user-charges/user-charges.componen
     SubmittedFormComponent,
     DocumentSubmitComponent,
     PreviewComponent,
+    ULBQuestionnaireComponent,
   ],
   entryComponents: [PreviewComponent],
 })

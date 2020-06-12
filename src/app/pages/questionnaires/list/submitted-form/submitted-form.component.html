@@ -1,98 +1,201 @@
-<div class="tableWrapper">
-  <h3 class="text-center">
-    Tracker for state responses on MoF questionnaire
+<mat-tab-group class="questionnaire-tab-group">
+  <mat-tab label="States Tracker">
+    <div class="tableWrapper">
+      <h3 class="text-center table-heading">
+        Tracker for state responses on MoF questionnaire
 
-    <button
-      class="btn btn-primary"
-      style="float: right;"
-      (click)="openStateSelectPopup()"
-    >
-      Fill Questionnaire
-    </button>
-  </h3>
-  <div class="loader-wrapper" *ngIf="!userList">
-    <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
-    <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
-    <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
-    <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
-  </div>
-  <table class="table" *ngIf="userList">
-    <thead>
-      <tr
-        style="background: #009fe3; color: white; border: 5px solid white;"
-        class="sortable-headers"
+        <button
+          class="btn btn-primary fill-questionnaire"
+          (click)="openStateSelectPopup()"
+        >
+          Fill Questionnaire
+        </button>
+      </h3>
+      <div class="loader-wrapper" *ngIf="!stateList">
+        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+      </div>
+      <table class="table" *ngIf="stateList">
+        <thead>
+          <tr
+            style="background: #009fe3; color: white; border: 5px solid white;"
+            class="sortable-headers"
+          >
+            <th class="text-center">S.No.</th>
+            <th class="pointer" (click)="sortListBy('stateName')">
+              State
+              <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+            </th>
+            <th class="pointer" (click)="sortListBy('modifiedAt')">
+              Form Last Updated On
+              <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+            </th>
+
+            <th class="pointer" (click)="sortListBy('isCompleted')">
+              Status
+              <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+            </th>
+            <th class="text-center">View Forms</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let user of stateList
+                | paginate
+                  : {
+                      id: 'foo',
+                      itemsPerPage: tableDefaultOptions.itemPerPage,
+                      currentPage: tableDefaultOptions.currentPage,
+                      totalItems: tableDefaultOptions.totalCount
+                    };
+              index as i
+            "
+            style="background: #e7e7e7; border: 5px solid white;"
+          >
+            <td class="text-center">
+              {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+            </td>
+            <td class="">{{ user.stateName }}</td>
+            <td class="">{{ user.createdAt | date: "longDate" }}</td>
+
+            <td class="">
+              {{ user.isCompleted ? "COMPLETED" : "SAVED AS DRAFT" }}
+            </td>
+
+            <td class="text-center d-flex actionCell">
+              <i
+                class="fa fa-eye"
+                aria-hidden="true"
+                (click)="navigateToQuestionnaireForm(user.state)"
+              ></i>
+            </td>
+          </tr>
+
+          <tr *ngIf="stateList && !stateList.length">
+            <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls
+        *ngIf="stateList"
+        style="float: right; position: relative;"
+        id="foo"
+        (pageChange)="setPage($event)"
+        directionLinks="true"
+        autoHide="false"
+        previousLabel="Previous"
+        nextLabel="Next"
+        screenReaderPaginationLabel="Pagination"
+        screenReaderPageLabel="page"
+        screenReaderCurrentLabel="You're on page"
       >
-        <th class="text-center">S.No.</th>
-        <th class="pointer" (click)="sortListBy('stateName')">
-          State
-          <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
-        </th>
-        <th class="pointer" (click)="sortListBy('modifiedAt')">
-          Form Last Updated On
-          <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
-        </th>
+      </pagination-controls>
+    </div>
+  </mat-tab>
+  <mat-tab label="ULBs Tracker">
+    <div class="tableWrapper">
+      <h3 class="text-center table-heading">
+        Tracker for ulb responses on MoF questionnaire
 
-        <th class="pointer" (click)="sortListBy('isCompleted')">
-          Status
-          <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
-        </th>
-        <th class="text-center">View Forms</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="
-          let user of userList
-            | paginate
-              : {
-                  id: 'foo',
-                  itemsPerPage: tableDefaultOptions.itemPerPage,
-                  currentPage: tableDefaultOptions.currentPage,
-                  totalItems: tableDefaultOptions.totalCount
-                };
-          index as i
-        "
-        style="background: #e7e7e7; border: 5px solid white;"
+        <button
+          class="btn btn-primary fill-questionnaire"
+          (click)="openStateSelectPopup()"
+        >
+          Fill Questionnaire
+        </button>
+      </h3>
+      <div class="loader-wrapper" *ngIf="!ulbsFilledQuestionnaireList">
+        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+      </div>
+      <table class="table" *ngIf="ulbsFilledQuestionnaireList">
+        <thead>
+          <tr
+            style="background: #009fe3; color: white; border: 5px solid white;"
+            class="sortable-headers"
+          >
+            <th class="text-center">S.No.</th>
+            <th class="pointer" (click)="sortListBy('stateName')">
+              State
+              <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+            </th>
+            <th class="pointer" (click)="sortListBy('modifiedAt')">
+              Form Last Updated On
+              <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+            </th>
+
+            <th class="pointer" (click)="sortListBy('isCompleted')">
+              Status
+              <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+            </th>
+            <th class="text-center">View Forms</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let user of ulbsFilledQuestionnaireList
+                | paginate
+                  : {
+                      id: 'foo',
+                      itemsPerPage: tableDefaultOptions.itemPerPage,
+                      currentPage: tableDefaultOptions.currentPage,
+                      totalItems: tableDefaultOptions.totalCount
+                    };
+              index as i
+            "
+            style="background: #e7e7e7; border: 5px solid white;"
+          >
+            <td class="text-center">
+              {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+            </td>
+            <td class="">{{ user.stateName }}</td>
+            <td class="">{{ user.createdAt | date: "longDate" }}</td>
+
+            <td class="">
+              {{ user.isCompleted ? "COMPLETED" : "SAVED AS DRAFT" }}
+            </td>
+
+            <td class="text-center d-flex actionCell">
+              <i
+                class="fa fa-eye"
+                aria-hidden="true"
+                (click)="navigateToQuestionnaireForm(user.state)"
+              ></i>
+            </td>
+          </tr>
+
+          <tr
+            *ngIf="
+              ulbsFilledQuestionnaireList && !ulbsFilledQuestionnaireList.length
+            "
+          >
+            <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls
+        *ngIf="ulbsFilledQuestionnaireList"
+        style="float: right; position: relative;"
+        id="foo"
+        (pageChange)="setPage($event)"
+        directionLinks="true"
+        autoHide="false"
+        previousLabel="Previous"
+        nextLabel="Next"
+        screenReaderPaginationLabel="Pagination"
+        screenReaderPageLabel="page"
+        screenReaderCurrentLabel="You're on page"
       >
-        <td class="text-center">
-          {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
-        </td>
-        <td class="">{{ user.stateName }}</td>
-        <td class="">{{ user.createdAt | date: "longDate" }}</td>
-
-        <td class="">
-          {{ user.isCompleted ? "COMPLETED" : "SAVED AS DRAFT" }}
-        </td>
-
-        <td class="text-center d-flex actionCell">
-          <i
-            class="fa fa-eye"
-            aria-hidden="true"
-            (click)="navigateToQuestionnaireForm(user.state)"
-          ></i>
-        </td>
-      </tr>
-
-      <tr *ngIf="userList && !userList.length">
-        <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
-      </tr>
-    </tbody>
-  </table>
-  <pagination-controls
-    *ngIf="userList"
-    style="float: right; position: relative;"
-    id="foo"
-    (pageChange)="setPage($event)"
-    directionLinks="true"
-    autoHide="false"
-    previousLabel="Previous"
-    nextLabel="Next"
-    screenReaderPaginationLabel="Pagination"
-    screenReaderPageLabel="page"
-    screenReaderCurrentLabel="You're on page"
-  >
-  </pagination-controls>
-</div>
+      </pagination-controls>
+    </div>
+  </mat-tab>
+</mat-tab-group>
 
 <ng-template #defaultTabButtons>
   <div

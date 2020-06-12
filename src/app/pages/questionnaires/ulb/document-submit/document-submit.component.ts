@@ -189,6 +189,7 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
 
     // Remove the file from file Tracker.
     delete this.fileUploadTracker[questionKey][fileNameToFilter];
+    // console.log(``)
   }
 
   fileChangeEvent(event: Event, key: fileKeys) {

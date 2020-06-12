@@ -249,12 +249,14 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
     name: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
     access: {
       [ACTIONS.FORM_FILL]: [
+        USER_TYPE.ULB,
         USER_TYPE.STATE,
         USER_TYPE.PARTNER,
         USER_TYPE.MoHUA,
         USER_TYPE.ADMIN,
       ],
       [ACTIONS.VIEW]: [
+        USER_TYPE.ULB,
         USER_TYPE.STATE,
         USER_TYPE.PARTNER,
         USER_TYPE.MoHUA,

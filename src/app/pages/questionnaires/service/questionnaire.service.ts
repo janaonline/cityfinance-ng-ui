@@ -15,9 +15,9 @@ export class QuestionnaireService {
     console.log(`QuestionnaireService`);
   }
 
-  getQuestionnaireData(userId: string) {
-    console.log(`getQuestionnaireData`, userId);
-    const params = this.httpUtility.convertToHttpParams({ state: userId });
+  getQuestionnaireData(queryParams: { [key: string]: any }) {
+    console.log(`getQuestionnaireData`, queryParams);
+    const params = this.httpUtility.convertToHttpParams(queryParams);
 
     return this.http
       .get<IQuestionnaireResponse>(`${environment.api.url}state/form`, {

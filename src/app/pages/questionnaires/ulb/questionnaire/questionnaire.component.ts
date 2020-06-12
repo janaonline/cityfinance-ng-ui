@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatHorizontalStepper } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
@@ -12,15 +12,14 @@ import { JSONUtility } from 'src/app/util/jsonUtil';
 import { IQuestionnaireResponse } from '../../model/questionnaireResponse.interface';
 import { QuestionnaireService } from '../../service/questionnaire.service';
 import { documentForm } from '../configs/document.config';
-import { propertyTaxForm } from '../configs/property-tax.cofig';
 import { userChargesForm } from '../configs/user-charges.config';
 
 @Component({
-  selector: "app-state-questionnaires",
-  templateUrl: "./state-questionnaires.component.html",
-  styleUrls: ["./state-questionnaires.component.scss"],
+  selector: "app-questionnaire",
+  templateUrl: "./questionnaire.component.html",
+  styleUrls: ["./questionnaire.component.scss"],
 })
-export class StateQuestionnairesComponent implements OnInit, OnDestroy {
+export class ULBQuestionnaireComponent implements OnInit {
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
   @ViewChild("savingAsDraft") savingAsDraftPopup: TemplateRef<any>;
   draftSavingInProgess = false;
@@ -47,11 +46,11 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
   accessValidator = new AccessChecker();
 
-  currentStateId;
+  currentULBId;
 
   window = window;
 
-  stateName: string;
+  ulbName: string;
 
   expandPropertyTaxQuestion = false;
   expandUserChargesQuestion = false;
@@ -74,48 +73,47 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private _matDialog: MatDialog
-  ) {}
+  ) {
+    console.log("ubl questionnaire");
+  }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params) => {
       try {
         this.userData = JSON.parse(localStorage.getItem("userData"));
-        const id =
-          params && params.stateId ? params.stateId : this.userData.state;
-        this.currentStateId = id;
-        this.validateUserAccess({ stateId: id });
+        const id = params && params.ulbId ? params.ulbId : this.userData.state;
+        this.currentULBId = id;
+        this.validateUserAccess({ ulbId: id });
       } catch (error) {
         console.error(error);
       }
     });
   }
 
-  fetchQuestionnaireData(stateId: string) {
-    this._questionnaireService
-      .getQuestionnaireData({ state: stateId })
-      .subscribe(
-        (res) => {
-          this.stateName = res ? res.stateName : "Not Available";
-          this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
+  fetchQuestionnaireData(ulbId: string) {
+    this._questionnaireService.getQuestionnaireData({ ulb: ulbId }).subscribe(
+      (res) => {
+        this.ulbName = res ? res.ulbName : "Not Available";
+        this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
 
-          if (this.userHasAlreadyFilledForm) {
-            this.setComponentStateToAlreadyFilled(res, true);
-          } else {
-            this.propertyTaxData = res.propertyTax;
-            this.UserChargesData = res.userCharges;
-            this.documentData = res.documents;
-          }
-
-          this.validateQuestionnaireFillAccess();
-          this.showLoader = false;
-        },
-        (error) => {
-          this.showLoader = false;
-          setTimeout(() => {
-            this.stepper.selectedIndex = 3;
-          }, 222);
+        if (this.userHasAlreadyFilledForm) {
+          this.setComponentStateToAlreadyFilled(res, true);
+        } else {
+          // this.propertyTaxData = res.propertyTax;
+          this.UserChargesData = res.userCharges;
+          this.documentData = res.documents;
         }
-      );
+
+        this.validateQuestionnaireFillAccess();
+        this.showLoader = false;
+      },
+      (error) => {
+        this.showLoader = false;
+        setTimeout(() => {
+          this.stepper.selectedIndex = 3;
+        }, 222);
+      }
+    );
   }
 
   setIntroductionCompleted(value: boolean) {
@@ -123,10 +121,10 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     this.stepper.next();
   }
 
-  onCompletingPropertyTax(value: { [key: string]: string }, isValid: boolean) {
-    this.finalData.propertyTax = value;
-    this.stepper.next();
-  }
+  // onCompletingPropertyTax(value: { [key: string]: string }, isValid: boolean) {
+  //   this.finalData.propertyTax = value;
+  //   this.stepper.next();
+  // }
 
   onCompletingUserCharges(value: { [key: string]: string }) {
     this.finalData.userCharges = value;
@@ -147,13 +145,12 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     if (this.userHasAlreadyFilledForm) return false;
     const obj = {
       documents: documentForm.value,
-      propertyTax: propertyTaxForm.value,
       userCharges: userChargesForm.value,
       isCompleted: false,
     };
 
     if (this.userData.role !== USER_TYPE.STATE) {
-      obj["state"] = this.currentStateId;
+      obj["state"] = this.currentULBId;
     }
     this._matDialog.open(this.savingAsDraftPopup, {
       width: "35vw",
@@ -179,19 +176,18 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
     const obj = {
       documents: documentForm.value,
-      propertyTax: propertyTaxForm.value,
       userCharges: userChargesForm.value,
       isCompleted: true,
     };
     if (this.userData.role !== USER_TYPE.STATE) {
-      obj["state"] = this.currentStateId;
+      obj["state"] = this.currentULBId;
     }
     this.userHasAlreadyFilledForm = true;
     this.editable = false;
     this.setComponentStateToAlreadyFilled(
       {
         ...obj,
-        stateName: this.stateName,
+        ulbName: this.ulbName,
       },
       false
     );
@@ -202,30 +198,30 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
   validatorQuestionnaireForms() {
     let message = "";
-    if (propertyTaxForm.valid && userChargesForm.valid && documentForm.valid) {
+    if (userChargesForm.valid && documentForm.valid) {
       return true;
     }
-    if (!propertyTaxForm.valid) {
-      message = "All questions must be answered in Property Tax";
-      this.expandPropertyTaxQuestion = true;
-      this.stepper.selectedIndex = 1;
-    }
+    // if (!propertyTaxForm.valid) {
+    //   message = "All questions must be answered in Property Tax";
+    //   this.expandPropertyTaxQuestion = true;
+    //   this.stepper.selectedIndex = 1;
+    // }
 
     if (!userChargesForm.valid) {
       message += message
         ? " and User Charges sections."
         : "All questions must be answered in answered in User Charges section";
       this.expandUserChargesQuestion = true;
-      if (propertyTaxForm.valid) {
-        this.stepper.selectedIndex = 2;
-      }
+      // if (propertyTaxForm.valid) {
+      //   this.stepper.selectedIndex = 2;
+      // }
     }
 
     if (documentForm.invalid) {
       message += message
         ? " And mandatory documents must be uploaded in Upload Documents section."
         : "All mandatory documents must be uploaded in Upload Document section.";
-      if (propertyTaxForm.valid && userChargesForm.valid) {
+      if (userChargesForm.valid) {
         this.stepper.selectedIndex = 3;
       }
     }
@@ -241,7 +237,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     this.stepper.selectedIndex = 1;
   }
 
-  private validateUserAccess(params: { stateId: string }) {
+  private validateUserAccess(params: { ulbId: string }) {
     const userRole: USER_TYPE = this.userData.role;
 
     const canUserFillQuestionnaireForm = this.accessValidator.hasAccess({
@@ -253,7 +249,11 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
       moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
       action: ACTIONS.VIEW,
     });
-    if (userRole !== USER_TYPE.STATE && (!params || !params.stateId)) {
+    console.log(
+      `canUserViewFilledQuestionnaireForm: ${canUserViewFilledQuestionnaireForm}`
+    );
+
+    if (userRole !== USER_TYPE.ULB && (!params || !params.ulbId)) {
       if (canUserViewFilledQuestionnaireForm) {
         return this.router.navigate(["/questionnaires/states"]);
       }
@@ -263,7 +263,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     }
 
     if (canUserFillQuestionnaireForm || canUserViewFilledQuestionnaireForm) {
-      return this.fetchQuestionnaireData(params.stateId);
+      return this.fetchQuestionnaireData(params.ulbId);
     }
   }
 
@@ -284,10 +284,10 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     showPreviw?: boolean
   ) {
     this.userHasAlreadyFilledForm = true;
-    this.propertyTaxData = res.propertyTax;
+    // this.propertyTaxData = res.propertyTax;
     this.UserChargesData = res.userCharges;
     this.documentData = res.documents;
-    propertyTaxForm.patchValue({ ...this.propertyTaxData });
+    // propertyTaxForm.patchValue({ ...this.propertyTaxData });
     userChargesForm.patchValue({ ...this.UserChargesData });
     documentForm.patchValue({ ...this.documentData });
     this.editable = false;
@@ -302,12 +302,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
   private hasUserAlreadyFilledForm(res: IQuestionnaireResponse["data"][0]) {
     const util = new JSONUtility();
     return res && res.isCompleted;
-    // return res &&
-    //   (util.filterEmptyValue(res.propertyTax) ||
-    //     util.filterEmptyValue(res.userCharges))
-    //   ? true
-    //   : false;
   }
 
-  ngOnDestroy(): void {}
+  // ngOnDestroy(): void {}
 }

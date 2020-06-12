@@ -1,9 +1,22 @@
 :host {
+  .questionnaire-tab-group {
+    width: 57vw;
+    margin: 5% auto;
+  }
+  .fill-questionnaire {
+    float: right;
+    position: absolute;
+    right: 0px;
+  }
   .tableWrapper {
-    width: 55vw;
+    width: 100%;
     display: block;
     margin: auto;
     margin-top: 5%;
+    overflow: hidden;
+  }
+  .table-heading {
+    position: relative;
   }
   .table {
     width: 101%;
