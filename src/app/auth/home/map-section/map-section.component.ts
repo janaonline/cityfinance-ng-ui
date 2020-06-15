@@ -77,6 +77,20 @@ export class MapSectionComponent implements OnInit {
     fillOpacity: 1,
   };
 
+  dataPointsForVisualization: { name: string; key: string }[] = [
+    { name: "Total Urban Local Bodies (ULBs) in Country", key: "totalULB" },
+    {
+      name: "ULBs for which data is available on Portal",
+      key: "coveredUlbCount",
+    },
+    {
+      name: "Number of Financial Statements of ULBs ",
+      key: "financialStatements",
+    },
+    { name: "Details on Municipal Bond Issuances", key: "totalMunicipalBonds" },
+    { name: "Number of ULBs with Credit Rating Reports", key: "total" },
+  ];
+
   previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
 
   ngOnInit() {}
@@ -125,7 +139,7 @@ export class MapSectionComponent implements OnInit {
   }
 
   public animateValues = (startiongValue?: number) => {
-    const speed = 460;
+    const speed = 1000;
     const interval = this.isMapAtNationalLevel() ? 5 : 1;
 
     const animateValues = (document.querySelectorAll(
@@ -153,7 +167,7 @@ export class MapSectionComponent implements OnInit {
       incrementor = incrementor === 0 ? target : incrementor;
 
       // NOTE Need to re do it.
-      incrementor = 5;
+      incrementor = 2;
       if (currentValue < target) {
         const newValue = +Number(currentValue + incrementor).toFixed(1);
         element.innerText = `${newValue > target ? target : newValue}`;
