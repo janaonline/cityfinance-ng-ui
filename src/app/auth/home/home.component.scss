@@ -113,8 +113,9 @@
       flex-wrap: wrap;
       align-items: center;
       // background: #095169;
+      overflow: hidden;
       picture {
-        width: 30%;
+        width: 29.5%;
         height: auto;
       }
       img {
@@ -274,16 +275,16 @@
 
   .about-title h2 {
     position: relative;
-    span::after {
-      content: "";
-      background: #25a891;
-      width: 44%;
-      display: inline-block;
-      position: absolute;
-      right: 6%;
-      height: 1px;
-      top: 50%;
-    }
+    // span::after {
+    //   content: "";
+    //   background: #25a891;
+    //   width: 44%;
+    //   display: inline-block;
+    //   position: absolute;
+    //   right: 6%;
+    //   height: 1px;
+    //   top: 50%;
+    // }
     // border-bottom: 1px solid #25a891;
     // font-size: 1.6vw;
     // line-height: 0.1em;
@@ -414,6 +415,11 @@
   background: none;
   //  transform: translateY(1rem);
   transition: transform 0.5s ease 0s;
+}
+
+app-map-section {
+  display: block;
+  width: 100%;
 }
 
 .sectorcard:hover .sector-title {
@@ -594,6 +600,11 @@ img {
 
 .container .col-md-3 {
   width: 23%;
+}
+.container {
+  width: 85%;
+  // background: red;
+  max-width: unset;
 }
 
 img.background {

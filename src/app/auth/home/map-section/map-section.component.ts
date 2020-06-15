@@ -77,18 +77,36 @@ export class MapSectionComponent implements OnInit {
     fillOpacity: 1,
   };
 
-  dataPointsForVisualization: { name: string; key: string }[] = [
-    { name: "Total Urban Local Bodies (ULBs) in Country", key: "totalULB" },
+  dataPointsForVisualization: {
+    name: string;
+    key: string;
+    background: string;
+  }[] = [
+    {
+      name: "Total Urban Local Bodies (ULBs) in Country",
+      key: "totalULB",
+      background: "#6f58a8",
+    },
     {
       name: "ULBs for which data is available on Portal",
       key: "coveredUlbCount",
+      background: "#138061",
     },
     {
       name: "Number of Financial Statements of ULBs ",
       key: "financialStatements",
+      background: "#095169",
     },
-    { name: "Details on Municipal Bond Issuances", key: "totalMunicipalBonds" },
-    { name: "Number of ULBs with Credit Rating Reports", key: "total" },
+    {
+      name: "Details on Municipal Bond Issuances",
+      key: "totalMunicipalBonds",
+      background: "#059b9a",
+    },
+    {
+      name: "Number of ULBs with Credit Rating Reports",
+      key: "total",
+      background: "#2494d3 ",
+    },
   ];
 
   previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
@@ -207,7 +225,8 @@ export class MapSectionComponent implements OnInit {
     >,
     containerId: string
   ) {
-    // let zoom = 4.52;
+    const zoom = 4.3;
+    console.log(window.devicePixelRatio);
 
     // zoom += 1 - window.devicePixelRatio;
     // console.log(`zoom: ${zoom}`);
@@ -215,6 +234,10 @@ export class MapSectionComponent implements OnInit {
     const configuration: IMapCreationConfig = {
       containerId,
       geoData,
+      options: {
+        zoom,
+        minZoom: zoom,
+      },
     };
     let map;
 
