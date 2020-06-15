@@ -219,3 +219,12 @@ form {
 .loading-value {
   opacity: 0.1;
 }
+
+:host {
+  ::ng-deep {
+    .selected-list .c-angle-down,
+    .selected-list .c-angle-up {
+      top: 34%;
+    }
+  }
+}
