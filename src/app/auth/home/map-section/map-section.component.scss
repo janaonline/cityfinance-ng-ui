@@ -60,6 +60,7 @@
   // background: green;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   margin-top: 5px;
   color: var(--multi-dropdown-color);
   font-size: 1.2em;
@@ -226,5 +227,35 @@ form {
     .selected-list .c-angle-up {
       top: 34%;
     }
+  }
+
+  .heading {
+    width: 50%;
+    display: block;
+    margin: auto;
+    margin-bottom: 2%;
+
+    color: #059b9a;
+    position: relative;
+    text-align: center;
+    span {
+      display: inline-block;
+      background: #fafafa;
+      z-index: 1;
+      position: relative;
+      padding: 1% 3%;
+    }
+  }
+
+  .heading::after {
+    content: "";
+    display: inline-block;
+    background: #059b9a;
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    z-index: 0;
   }
 }
