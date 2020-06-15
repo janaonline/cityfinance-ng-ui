@@ -1,4 +1,4 @@
-import { Component, ElementRef, NgZone, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FeatureCollection, Geometry } from 'geojson';
 import * as L from 'leaflet';
@@ -17,12 +17,12 @@ import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
   templateUrl: "./map-section.component.html",
   styleUrls: ["./map-section.component.scss"],
 })
-export class MapSectionComponent implements OnInit {
+export class MapSectionComponent implements OnInit, AfterViewInit {
   constructor(
     private geoService: GeographicalService,
     private fb: FormBuilder,
     private assetService: AssetsService,
-    private commonService: CommonService,
+    public commonService: CommonService,
     private _ngZone: NgZone,
     private elem: ElementRef
   ) {
@@ -30,8 +30,8 @@ export class MapSectionComponent implements OnInit {
     this.fetchDataForMapColoring();
     this.fetchStateList();
     this.fetchDataForVisualization();
-
     this.fetchCreditRatingTotalCount();
+    this.fetchUserVisitCount();
   }
   statesLayer: L.GeoJSON<any>;
   myForm: FormGroup;
@@ -111,6 +111,8 @@ export class MapSectionComponent implements OnInit {
   ];
 
   previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
+
+  totalUsersVisit: number;
 
   ngOnInit() {}
 
@@ -239,10 +241,10 @@ export class MapSectionComponent implements OnInit {
 
   private onGettingMapColoringData(data: IStateULBCoveredResponse["data"]) {
     this.stateDatasForMapColoring = data;
-    this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
+    this.geoService.loadConvertedIndiaGeoData().subscribe((geoData) => {
       try {
-        this.mapGeoData = data;
-        this.createNationalLevelMap(data, "mapid");
+        this.mapGeoData = geoData;
+        this.createNationalLevelMap(geoData, "mapid");
       } catch (error) {}
     });
   }
@@ -258,8 +260,6 @@ export class MapSectionComponent implements OnInit {
   ) {
     // const zoom = 4.7 - (window.devicePixelRatio - 1) * (0.2 / 0.5);
     const zoom = 5 - (window.devicePixelRatio - 1);
-
-    console.log(window.devicePixelRatio, zoom);
 
     const configuration: IMapCreationConfig = {
       containerId,
@@ -363,9 +363,9 @@ export class MapSectionComponent implements OnInit {
 
     const stateFound = this.stateList.find((state) => state.code === stateCode);
 
-    const doesStateHasData = !!this.stateDatasForMapColoring.find(
-      (state) => state._id == stateFound._id && state.coveredUlbPercentage > 0
-    );
+    // const doesStateHasData = !!this.stateDatasForMapColoring.find(
+    //   (state) => state._id == stateFound._id && state.coveredUlbPercentage > 0
+    // );
     if (!stateFound) {
       return;
     }
@@ -422,6 +422,12 @@ export class MapSectionComponent implements OnInit {
     this.assetService
       .fetchCreditRatingReport()
       .subscribe((res) => this.computeStatesTotalRatings(res));
+  }
+
+  private fetchUserVisitCount() {
+    this.commonService
+      .getWebsiteVisitCount()
+      .subscribe((res) => (this.totalUsersVisit = res));
   }
 
   private computeStatesTotalRatings(res: ICreditRatingData[]) {
