@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FeatureCollection, Geometry } from 'geojson';
 import * as L from 'leaflet';
@@ -23,7 +23,8 @@ export class MapSectionComponent implements OnInit {
     private fb: FormBuilder,
     private assetService: AssetsService,
     private commonService: CommonService,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private elem: ElementRef
   ) {
     this.initializeform();
     this.fetchDataForMapColoring();
@@ -112,6 +113,36 @@ export class MapSectionComponent implements OnInit {
   previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
 
   ngOnInit() {}
+
+  ngAfterViewInit() {
+    this.setdataPointsCardUI();
+  }
+
+  private setdataPointsCardUI() {
+    const options: IntersectionObserverInit = {
+      root: null,
+      threshold: [1],
+    };
+    const elements = this.elem.nativeElement.querySelectorAll(".card");
+    elements.forEach((element: HTMLElement) => {
+      const width = element.getBoundingClientRect().width;
+      element.style.height = `${width * 1.13}px`;
+
+      element.style.opacity = "0";
+      element.style.transform = "scale(0)";
+      element.style.transitionDuration = "1s";
+
+      const observer = new IntersectionObserver((event) => {
+        if (event[0].isIntersecting) {
+          element.style.opacity = "1";
+          element.style.transform = "scale(1)";
+
+          observer.disconnect();
+        }
+      }, options);
+      observer.observe(element);
+    });
+  }
 
   onSelectingStateFromDropDown(state: any | null) {
     this.stateSelected = state;
@@ -225,11 +256,10 @@ export class MapSectionComponent implements OnInit {
     >,
     containerId: string
   ) {
-    const zoom = 4.3;
-    console.log(window.devicePixelRatio);
+    // const zoom = 4.7 - (window.devicePixelRatio - 1) * (0.2 / 0.5);
+    const zoom = 5 - (window.devicePixelRatio - 1);
 
-    // zoom += 1 - window.devicePixelRatio;
-    // console.log(`zoom: ${zoom}`);
+    console.log(window.devicePixelRatio, zoom);
 
     const configuration: IMapCreationConfig = {
       containerId,

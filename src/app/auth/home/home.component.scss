@@ -112,7 +112,6 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      // background: #095169;
       overflow: hidden;
       picture {
         width: 29.5%;
@@ -304,9 +303,7 @@
     display: block;
     width: 100%;
     position: relative;
-    // background: #edf1f4;
     background: #0580b5;
-    // background: linear-gradient(to right, #72b5f2, #0580b5);
     overflow: hidden;
     z-index: 9;
     bottom: 0;
@@ -627,16 +624,16 @@ img.background {
 
 .foreground {
   align-self: center;
-  margin-top: 16%;
+  margin-top: 5%;
   left: 5vw;
   width: 68vw;
   margin-left: 2%;
   display: grid;
-  grid-template: repeat(4, 1fr) / repeat(12, 1fr);
+  grid-template: repeat(4, 11vh) / repeat(12, 1fr);
   grid-template-areas:
-    "i i i i . . . . . . . ."
-    "i i i i . . q q q q q q"
-    ". . . . . . q q q q q q"
+    "i i i . . . . . . . . ."
+    "i i i . q q q q q q . ."
+    "i i i . q q q q q q . ."
     ". . . . . . . . . . . .";
   img,
   picture {
