@@ -549,6 +549,7 @@ img {
 img.background {
   display: block;
   width: 100%;
+  filter: brightness(54%);
 }
 
 .testing {
@@ -559,24 +560,23 @@ img.background {
   position: absolute;
   height: 100%;
 
-  // background: red;
   justify-content: space-between;
   z-index: 555555;
 }
 
 .foreground {
   align-self: center;
-  margin-top: 5%;
+  margin-top: 16%;
   left: 5vw;
-  width: 32vw;
+  width: 68vw;
   margin-left: 2%;
   display: grid;
-  grid-template: repeat(4, 1fr) / repeat(8, 1fr);
+  grid-template: repeat(4, 1fr) / repeat(12, 1fr);
   grid-template-areas:
-    ". . i i i i . ."
-    ". . i i i i . ."
-    "q q q q q q q q"
-    "q q q q q q q q";
+    "i i i i . . . . . . . ."
+    "i i i i . . q q q q q q"
+    ". . . . . . q q q q q q"
+    ". . . . . . . . . . . .";
   img,
   picture {
     grid-area: i;
@@ -584,7 +584,7 @@ img.background {
 
   .quotes-left {
     grid-area: q;
-    font-size: 1.2vw;
+    font-size: 1.5vw;
     text-align: center;
     padding: 1%;
     height: fit-content;
