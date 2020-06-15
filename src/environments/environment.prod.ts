@@ -8,7 +8,7 @@ if (
 ) {
   url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
 } else if (window.location.hostname.includes("staging")) {
-  url = "https://stgcityfinance.in/api/v1/";
+  url = "https://staging.cityfinance.in/api/v1/";
 } else {
   url = "https://cityfinance.in/api/v1/";
 }
