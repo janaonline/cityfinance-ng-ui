@@ -1,8 +1,11 @@
 <!-- asdasasd -->
 
 <div class="wrapper">
+  <div class="visit-count">
+    <i class="fa fa-users" aria-hidden="true" style="margin-right: 2%;"></i>
+    <span><strong>Visitors:</strong> {{ totalUsersVisit }} </span>
+  </div>
   <div class="selectPart">
-    Click on a state to see available data on City governments<br />
     <form [formGroup]="myForm">
       <angular2-multiselect
         [data]="stateList"
@@ -13,9 +16,25 @@
       >
       </angular2-multiselect>
     </form>
+    Click on a state to see available data on City governments
   </div>
   <div class="visualization">
-    <h3 class="heading">{{ stateSelected ? stateSelected.name : "India" }}</h3>
+    <div
+      class="card"
+      *ngFor="let points of dataPointsForVisualization"
+      [style.backgroundColor]="points.background"
+    >
+      <strong
+        class="data-point-value"
+        [attr.data-animate-value]="
+          dataForVisualization ? dataForVisualization[points.key] : 0
+        "
+        [ngClass]="{ 'loading-value': !dataForVisualization }"
+        >0</strong
+      >
+      <span class="data-point-name"> {{ points.name }}</span>
+    </div>
+    <!-- <h3 class="heading">{{ stateSelected ? stateSelected.name : "India" }}</h3>
 
     <table>
       <tbody>
@@ -84,31 +103,9 @@
           <td>ULBs with Credit Rating Reports</td>
         </tr>
       </tbody>
-    </table>
-
-    <!-- <p>
-      
-     
-    </p>
-    <p>
-      
-     
-    </p>
-    <p>
-      
-
-      
-    </p>
-    <p *ngIf="dataForVisualization.totalMunicipalBonds">
-      
-      
-    </p> -->
+    </table> -->
   </div>
 
-  <!-- <div class="visualization loader-wrapper" *ngIf="!dataForVisualization">
-    <app-pre-loader></app-pre-loader>
-    <app-pre-loader></app-pre-loader>
-  </div> -->
   <div class="mapWrapper">
     <div id="mapid"></div>
   </div>

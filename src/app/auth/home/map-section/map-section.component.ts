@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FeatureCollection, Geometry } from 'geojson';
 import * as L from 'leaflet';
@@ -17,20 +17,21 @@ import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
   templateUrl: "./map-section.component.html",
   styleUrls: ["./map-section.component.scss"],
 })
-export class MapSectionComponent implements OnInit {
+export class MapSectionComponent implements OnInit, AfterViewInit {
   constructor(
     private geoService: GeographicalService,
     private fb: FormBuilder,
     private assetService: AssetsService,
-    private commonService: CommonService,
-    private _ngZone: NgZone
+    public commonService: CommonService,
+    private _ngZone: NgZone,
+    private elem: ElementRef
   ) {
     this.initializeform();
     this.fetchDataForMapColoring();
     this.fetchStateList();
     this.fetchDataForVisualization();
-
     this.fetchCreditRatingTotalCount();
+    this.fetchUserVisitCount();
   }
   statesLayer: L.GeoJSON<any>;
   myForm: FormGroup;
@@ -77,9 +78,73 @@ export class MapSectionComponent implements OnInit {
     fillOpacity: 1,
   };
 
+  dataPointsForVisualization: {
+    name: string;
+    key: string;
+    background: string;
+  }[] = [
+    {
+      name: "Total Urban Local Bodies (ULBs) in Country",
+      key: "totalULB",
+      background: "#6f58a8",
+    },
+    {
+      name: "ULBs for which data is available on Portal",
+      key: "coveredUlbCount",
+      background: "#138061",
+    },
+    {
+      name: "Number of Financial Statements of ULBs ",
+      key: "financialStatements",
+      background: "#095169",
+    },
+    {
+      name: "Details on Municipal Bond Issuances",
+      key: "totalMunicipalBonds",
+      background: "#059b9a",
+    },
+    {
+      name: "Number of ULBs with Credit Rating Reports",
+      key: "total",
+      background: "#2494d3 ",
+    },
+  ];
+
   previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
 
+  totalUsersVisit: number;
+
   ngOnInit() {}
+
+  ngAfterViewInit() {
+    this.setdataPointsCardUI();
+  }
+
+  private setdataPointsCardUI() {
+    const options: IntersectionObserverInit = {
+      root: null,
+      threshold: [1],
+    };
+    const elements = this.elem.nativeElement.querySelectorAll(".card");
+    elements.forEach((element: HTMLElement) => {
+      const width = element.getBoundingClientRect().width;
+      element.style.height = `${width * 1.13}px`;
+
+      element.style.opacity = "0";
+      element.style.transform = "scale(0)";
+      element.style.transitionDuration = "1s";
+
+      const observer = new IntersectionObserver((event) => {
+        if (event[0].isIntersecting) {
+          element.style.opacity = "1";
+          element.style.transform = "scale(1)";
+
+          observer.disconnect();
+        }
+      }, options);
+      observer.observe(element);
+    });
+  }
 
   onSelectingStateFromDropDown(state: any | null) {
     this.stateSelected = state;
@@ -125,7 +190,7 @@ export class MapSectionComponent implements OnInit {
   }
 
   public animateValues = (startiongValue?: number) => {
-    const speed = 460;
+    const speed = 1000;
     const interval = this.isMapAtNationalLevel() ? 5 : 1;
 
     const animateValues = (document.querySelectorAll(
@@ -153,7 +218,7 @@ export class MapSectionComponent implements OnInit {
       incrementor = incrementor === 0 ? target : incrementor;
 
       // NOTE Need to re do it.
-      incrementor = 5;
+      incrementor = 2;
       if (currentValue < target) {
         const newValue = +Number(currentValue + incrementor).toFixed(1);
         element.innerText = `${newValue > target ? target : newValue}`;
@@ -176,10 +241,10 @@ export class MapSectionComponent implements OnInit {
 
   private onGettingMapColoringData(data: IStateULBCoveredResponse["data"]) {
     this.stateDatasForMapColoring = data;
-    this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
+    this.geoService.loadConvertedIndiaGeoData().subscribe((geoData) => {
       try {
-        this.mapGeoData = data;
-        this.createNationalLevelMap(data, "mapid");
+        this.mapGeoData = geoData;
+        this.createNationalLevelMap(geoData, "mapid");
       } catch (error) {}
     });
   }
@@ -193,14 +258,16 @@ export class MapSectionComponent implements OnInit {
     >,
     containerId: string
   ) {
-    // let zoom = 4.52;
-
-    // zoom += 1 - window.devicePixelRatio;
-    // console.log(`zoom: ${zoom}`);
+    // const zoom = 4.7 - (window.devicePixelRatio - 1) * (0.2 / 0.5);
+    const zoom = 5 - (window.devicePixelRatio - 1);
 
     const configuration: IMapCreationConfig = {
       containerId,
       geoData,
+      options: {
+        zoom,
+        minZoom: zoom,
+      },
     };
     let map;
 
@@ -296,9 +363,9 @@ export class MapSectionComponent implements OnInit {
 
     const stateFound = this.stateList.find((state) => state.code === stateCode);
 
-    const doesStateHasData = !!this.stateDatasForMapColoring.find(
-      (state) => state._id == stateFound._id && state.coveredUlbPercentage > 0
-    );
+    // const doesStateHasData = !!this.stateDatasForMapColoring.find(
+    //   (state) => state._id == stateFound._id && state.coveredUlbPercentage > 0
+    // );
     if (!stateFound) {
       return;
     }
@@ -355,6 +422,12 @@ export class MapSectionComponent implements OnInit {
     this.assetService
       .fetchCreditRatingReport()
       .subscribe((res) => this.computeStatesTotalRatings(res));
+  }
+
+  private fetchUserVisitCount() {
+    this.commonService
+      .getWebsiteVisitCount()
+      .subscribe((res) => (this.totalUsersVisit = res));
   }
 
   private computeStatesTotalRatings(res: ICreditRatingData[]) {

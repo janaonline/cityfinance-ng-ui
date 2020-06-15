@@ -5,16 +5,22 @@
   grid-gap: 15px;
 }
 
+.visit-count {
+  grid-area: c;
+  color: #059b9a;
+}
+
 @media (min-width: 1060px) {
   .wrapper {
     font-size: 1vw;
 
-    grid-template: repeat(4, 15vh) / repeat(17, 1fr);
+    grid-template: repeat(4, 15vh) / repeat(19, 1fr);
     grid-template-areas:
-      ". . . . . . . . . m m m m m m m m"
-      "s s s s s s s s s m m m m m m m m"
-      "v v v v . . . . . m m m m m m m m"
-      "v v v v . . . . . m m m m m m m m";
+      "m m m m m m m m m c c c c c . . . . ."
+      "m m m m m m m m m s s s s s s s s s s"
+      "m m m m m m m m m v v v v v v v v v v"
+      "m m m m m m m m m v v v v v v v v v v";
+    grid-template-rows: auto 3vh 1fr 1fr;
   }
 }
 
@@ -32,13 +38,14 @@
 
 .selectPart {
   grid-area: s;
+  font-weight: 500;
 
   color: var(--multi-dropdown-color);
 }
 @media (max-width: 1958px) {
   .selectPart {
     // font-size: 1.3vw;
-    font-size: 1.3em;
+    font-size: 1.1em;
   }
 }
 
@@ -50,6 +57,9 @@
 
 .visualization {
   grid-area: v;
+  // background: green;
+  display: flex;
+  flex-wrap: wrap;
   margin-top: 5px;
   color: var(--multi-dropdown-color);
   font-size: 1.2em;
@@ -69,6 +79,31 @@
       }
     }
   }
+
+  .card {
+    // background: red;
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1%;
+    padding: 2%;
+    width: 30%;
+    height: 200px;
+    border-radius: 7px;
+    box-shadow: 3px 3px 9px #a0a0a0;
+    font-size: 0.7em;
+    .data-point-value {
+      font-size: 1.5em;
+    }
+    .data-point-name {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
 }
 
 @media (max-width: 1059px) {
@@ -79,6 +114,7 @@
 
 .mapWrapper {
   grid-area: m;
+  // background: red;
   #mapid {
     border-radius: inherit;
     left: 5px;
@@ -95,7 +131,7 @@
 }
 
 form {
-  width: 45%;
+  width: 30%;
   display: inline-block;
 }
 
@@ -182,4 +218,13 @@ form {
 
 .loading-value {
   opacity: 0.1;
+}
+
+:host {
+  ::ng-deep {
+    .selected-list .c-angle-down,
+    .selected-list .c-angle-up {
+      top: 34%;
+    }
+  }
 }
