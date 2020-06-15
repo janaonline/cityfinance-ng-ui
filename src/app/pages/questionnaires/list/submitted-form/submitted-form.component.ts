@@ -11,6 +11,7 @@ import { MODULES_NAME } from 'src/app/util/access/modules';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { QuestionnaireService } from '../../service/questionnaire.service';
+import { IListType } from './models/list-types.interface';
 
 @Component({
   selector: "app-submitted-form",
@@ -29,6 +30,10 @@ export class SubmittedFormComponent implements OnInit {
     itemPerPage: 10,
     currentPage: 1,
     totalCount: null,
+  };
+
+  ulbTableOptions = {
+    ...this.tableDefaultOptions,
   };
 
   listFetchOption = {
@@ -67,11 +72,12 @@ export class SubmittedFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchStatesWithQuestionnaireList(this.listFetchOption);
+    this.fetchQuestionnaireList(this.listFetchOption);
+    this.fetchQuestionnaireList(this.listFetchOption, "ulb");
     this.fetchStatesWithoutQuestionnaireList();
   }
 
-  sortListBy(key: string) {
+  sortListBy(key: string, listType: IListType = "state") {
     this.currentSort = this.currentSort > 0 ? -1 : 1;
 
     const values = {
@@ -83,19 +89,19 @@ export class SubmittedFormComponent implements OnInit {
         this.tableDefaultOptions.itemPerPage,
     };
     this.listFetchOption = <any>values;
-    this.searchUsersBy(values.filter);
+    this.searchUsersBy(values.filter, listType);
   }
 
-  searchUsersBy(filterForm: {}) {
+  searchUsersBy(filterForm: {}, listType: IListType = "state") {
     this.listFetchOption.filter = filterForm;
-    this.fetchStatesWithQuestionnaireList({ ...(<any>this.listFetchOption) });
+    this.fetchQuestionnaireList({ ...(<any>this.listFetchOption) }, listType);
   }
 
-  setPage(pageNoClick: number) {
+  setPage(pageNoClick: number, listType: IListType = "state") {
     this.tableDefaultOptions.currentPage = pageNoClick;
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
-    this.searchUsersBy(this.filterForm.value);
+    this.searchUsersBy(this.filterForm.value, listType);
   }
 
   navigateToQuestionnaireForm(stateId: string) {
@@ -112,24 +118,39 @@ export class SubmittedFormComponent implements OnInit {
     });
   }
 
-  private fetchStatesWithQuestionnaireList(
+  private fetchQuestionnaireList(
     body: {
       filter: { [key: string]: string };
       sort: { [key: string]: number };
       role?: USER_TYPE;
-    } = { filter: {}, sort: {} }
+    } = { filter: {}, sort: {} },
+    listType: IListType = "state"
   ) {
     const util = new JSONUtility();
     body.filter = util.filterEmptyValue(body.filter);
 
-    this.questionnaireSerive
-      .getQuestionnaireFilledList(body)
+    if (listType === "state") {
+      return this.questionnaireSerive
+        .getStateQuestionnaireFilledList(body)
+        .subscribe((res) => {
+          if (res.hasOwnProperty("total")) {
+            this.tableDefaultOptions.totalCount = res["total"];
+          }
+          if (res["success"]) {
+            this.stateList = res["data"];
+          } else {
+            alert("Failed");
+          }
+        });
+    }
+    return this.questionnaireSerive
+      .getULBQuestionnaireFilledList(body)
       .subscribe((res) => {
         if (res.hasOwnProperty("total")) {
-          this.tableDefaultOptions.totalCount = res["total"];
+          this.ulbTableOptions.totalCount = res["total"];
         }
         if (res["success"]) {
-          this.stateList = res["data"];
+          this.ulbsFilledQuestionnaireList = res["data"];
         } else {
           alert("Failed");
         }

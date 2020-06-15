@@ -32,7 +32,7 @@ export class QuestionnaireService {
     });
   }
 
-  getQuestionnaireFilledList(body: { filter?: {}; sort?: {} }) {
+  getStateQuestionnaireFilledList(body: { filter?: {}; sort?: {} }) {
     if (!body.filter) {
       body.filter = {};
     }
@@ -51,6 +51,27 @@ export class QuestionnaireService {
     });
 
     return this.http.get(environment.api.url + `state/form/all`, { params });
+  }
+
+  getULBQuestionnaireFilledList(body: { filter?: {}; sort?: {} }) {
+    if (!body.filter) {
+      body.filter = {};
+    }
+    if (!body.sort) {
+      body.sort = {};
+    }
+    let params = new HttpParams();
+    Object.keys(body).forEach((key) => {
+      if (typeof body[key] === "object") {
+        const value = JSON.stringify(body[key]);
+
+        params = params.append(key, value);
+      } else {
+        params = params.append(key, body[key]);
+      }
+    });
+
+    return this.http.get(environment.api.url + `ulb/form`, { params });
   }
 
   getStateWithoutQuestionnaireFilled() {

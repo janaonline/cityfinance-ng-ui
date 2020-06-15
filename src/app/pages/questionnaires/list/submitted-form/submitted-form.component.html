@@ -95,6 +95,7 @@
       </pagination-controls>
     </div>
   </mat-tab>
+
   <mat-tab label="ULBs Tracker">
     <div class="tableWrapper">
       <h3 class="text-center table-heading">
@@ -120,16 +121,16 @@
             class="sortable-headers"
           >
             <th class="text-center">S.No.</th>
-            <th class="pointer" (click)="sortListBy('stateName')">
+            <th class="pointer" (click)="sortListBy('stateName', 'ulb')">
               State
               <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
             </th>
-            <th class="pointer" (click)="sortListBy('modifiedAt')">
+            <th class="pointer" (click)="sortListBy('modifiedAt', 'ulb')">
               Form Last Updated On
               <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
             </th>
 
-            <th class="pointer" (click)="sortListBy('isCompleted')">
+            <th class="pointer" (click)="sortListBy('isCompleted', 'ulb')">
               Status
               <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
             </th>
@@ -143,16 +144,16 @@
                 | paginate
                   : {
                       id: 'foo',
-                      itemsPerPage: tableDefaultOptions.itemPerPage,
-                      currentPage: tableDefaultOptions.currentPage,
-                      totalItems: tableDefaultOptions.totalCount
+                      itemsPerPage: ulbTableOptions.itemPerPage,
+                      currentPage: ulbTableOptions.currentPage,
+                      totalItems: ulbTableOptions.totalCount
                     };
               index as i
             "
             style="background: #e7e7e7; border: 5px solid white;"
           >
             <td class="text-center">
-              {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+              {{ (ulbTableOptions.currentPage - 1) * 10 + i + 1 }}
             </td>
             <td class="">{{ user.stateName }}</td>
             <td class="">{{ user.createdAt | date: "longDate" }}</td>
@@ -183,7 +184,7 @@
         *ngIf="ulbsFilledQuestionnaireList"
         style="float: right; position: relative;"
         id="foo"
-        (pageChange)="setPage($event)"
+        (pageChange)="setPage($event, 'ulb')"
         directionLinks="true"
         autoHide="false"
         previousLabel="Previous"
