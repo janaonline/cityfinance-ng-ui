@@ -104,6 +104,8 @@
       font-size: 1em;
     }
     .right {
+      border-radius: 7px;
+      padding: 1%;
       position: relative;
       grid-area: r;
       background-image: linear-gradient(to top, #095169, #059b9a);
