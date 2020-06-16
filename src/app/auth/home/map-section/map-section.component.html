@@ -35,6 +35,21 @@
       >
       <span class="data-point-name"> {{ points.name }}</span>
     </div>
+    <div class="card" [style.backgroundColor]="'#2494d3'">
+      <strong
+        class="data-point-value"
+        [attr.data-animate-value]="
+          stateSelected && creditRating
+            ? creditRating[stateSelected.name] || 0
+            : creditRating.total
+        "
+        [ngClass]="{ 'loading-value': !dataForVisualization }"
+        >0</strong
+      >
+      <span class="data-point-name">
+        Number of ULBs with Credit Rating Reports</span
+      >
+    </div>
     <!-- <h3 class="heading">{{ stateSelected ? stateSelected.name : "India" }}</h3>
 
     <table>
