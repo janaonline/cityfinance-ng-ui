@@ -81,6 +81,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   dataPointsForVisualization: {
     name: string;
     key: string;
+    object?: {};
     background: string;
   }[] = [
     {
@@ -103,11 +104,12 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
       key: "totalMunicipalBonds",
       background: "#059b9a",
     },
-    {
-      name: "Number of ULBs with Credit Rating Reports",
-      key: "total",
-      background: "#2494d3 ",
-    },
+    // {
+    //   name: "Number of ULBs with Credit Rating Reports",
+    //   key: "total",
+    //   object: this.creditRating,
+    //   background: "#2494d3 ",
+    // },
   ];
 
   previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
