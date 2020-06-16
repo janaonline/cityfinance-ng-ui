@@ -107,8 +107,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     ulbSelected: SimpleChange;
     yearSelected: SimpleChange;
   }) {
-    console.log(changes);
-
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
       const newULBId =
         typeof changes.ulbSelected.currentValue === "object"
@@ -147,14 +145,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       this._commonService
         .getStateUlbCovered(body)
         .pipe(map((res) => this.onGettingStateULBCoveredSuccess(res)))
-      // .subscribe(res => this.onGettingStateULBCoveredSuccess(res))
     );
 
     subscriptions.push(
       this._commonService
         .getULBSWithPopulationAndCoordinates(body)
         .pipe(map((res) => this.onGettingULBWithPopulationSuccess(res)))
-      // .subscribe(res => this.onGettingULBWithPopulationSuccess(res))
     );
     return forkJoin(subscriptions);
   }
@@ -257,7 +253,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
           console.error("District Boundries getJSON request failed!", failed);
         });
     });
-    // prmsArr.push(prms2);
+    prmsArr.push(prms2);
 
     return Promise.all(prmsArr);
   }
