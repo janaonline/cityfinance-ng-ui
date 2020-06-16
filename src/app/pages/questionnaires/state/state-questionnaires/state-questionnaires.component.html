@@ -35,7 +35,10 @@
         matStepperIcon="done"
         *ngIf="canSeeIntroduction"
       >
-        <app-introduction (completed)="setIntroductionCompleted($event)">
+        <app-introduction
+          [userType]="USER_TYPE.STATE"
+          (completed)="setIntroductionCompleted($event)"
+        >
           <div class="footer">
             <button
               class="btn btn-primary"
@@ -89,6 +92,7 @@
           [showErroredQuestions]="expandUserChargesQuestion"
           [shouldGoToNext]="canGoToDonePage"
           [data]="UserChargesData"
+          [userType]="USER_TYPE.STATE"
           [editable]="editable"
           (previous)="stepper.previous()"
           (answer)="onCompletingUserCharges($event)"
@@ -123,6 +127,7 @@
         <app-document-submit
           [documents]="documentData"
           [canUploadFile]="editable"
+          [userType]="USER_TYPE.STATE"
           (outputValues)="onFileUploaded($event)"
           (previous)="stepper.previous()"
           (saveAsDraft)="saveAsDraft()"

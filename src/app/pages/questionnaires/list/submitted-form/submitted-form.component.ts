@@ -104,9 +104,19 @@ export class SubmittedFormComponent implements OnInit {
     this.searchUsersBy(this.filterForm.value, listType);
   }
 
-  navigateToQuestionnaireForm(stateId: string) {
-    this._router.navigate(["/questionnaires/state/form"], {
+  navigateToStateQuestionnaireForm(stateId: string) {
+    console.log(`ulbId: ${stateId}`);
+
+    this._router.navigate(["/questionnaires/ulb/form"], {
       queryParams: { stateId },
+    });
+  }
+
+  navigateToULBQuestionnaireForm(ulbId: string) {
+    console.log(`ulbId: ${ulbId}`);
+
+    this._router.navigate(["/questionnaires/ulb/form"], {
+      queryParams: { ulbId },
     });
   }
 
@@ -180,6 +190,7 @@ export class SubmittedFormComponent implements OnInit {
       sessionStorage.setItem(`postLoginNavigation`, "/questionnaires/list");
       return this._router.navigate(["/login"]);
     }
+    console.log(`hasAccess: ${hasAccess}`);
 
     if (!hasAccess) {
       const QuestionnaireFormAccess = this.accessValidator.hasAccess({

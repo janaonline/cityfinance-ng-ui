@@ -35,7 +35,10 @@
         matStepperIcon="done"
         *ngIf="canSeeIntroduction"
       >
-        <app-introduction (completed)="setIntroductionCompleted($event)">
+        <app-introduction
+          [userType]="USER_TYPE.ULB"
+          (completed)="setIntroductionCompleted($event)"
+        >
           <div class="footer">
             <button
               class="btn btn-primary"
@@ -86,6 +89,7 @@
       </mat-step> -->
       <mat-step label="User Charges">
         <app-user-charges
+          [userType]="USER_TYPE.ULB"
           [showErroredQuestions]="expandUserChargesQuestion"
           [shouldGoToNext]="canGoToDonePage"
           [data]="UserChargesData"
@@ -121,6 +125,7 @@
       </mat-step>
       <mat-step label="Upload Documents">
         <app-document-submit
+          [userType]="USER_TYPE.ULB"
           [documents]="documentData"
           [canUploadFile]="editable"
           (outputValues)="onFileUploaded($event)"

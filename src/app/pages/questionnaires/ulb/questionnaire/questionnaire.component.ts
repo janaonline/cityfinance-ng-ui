@@ -38,7 +38,7 @@ export class ULBQuestionnaireComponent implements OnInit {
   canGoToDonePage = true;
   canSeeIntroduction = true;
 
-  userData: { state: string; role: USER_TYPE; name: string };
+  userData: { state: string; role: USER_TYPE; name: string; ulb: string };
   USER_TYPE = USER_TYPE;
   // stateList: any[];
   showLoader = true;
@@ -81,7 +81,7 @@ export class ULBQuestionnaireComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((params) => {
       try {
         this.userData = JSON.parse(localStorage.getItem("userData"));
-        const id = params && params.ulbId ? params.ulbId : this.userData.state;
+        const id = params && params.ulbId ? params.ulbId : this.userData.ulb;
         this.currentULBId = id;
         this.validateUserAccess({ ulbId: id });
       } catch (error) {
@@ -91,29 +91,30 @@ export class ULBQuestionnaireComponent implements OnInit {
   }
 
   fetchQuestionnaireData(ulbId: string) {
-    this._questionnaireService.getQuestionnaireData({ ulb: ulbId }).subscribe(
-      (res) => {
-        this.ulbName = res ? res.ulbName : "Not Available";
-        this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
+    this._questionnaireService
+      .getULBQuestionnaireData({ ulb: ulbId })
+      .subscribe(
+        (res) => {
+          this.ulbName = res ? res.ulbName : "Not Available";
+          this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
 
-        if (this.userHasAlreadyFilledForm) {
-          this.setComponentStateToAlreadyFilled(res, true);
-        } else {
-          // this.propertyTaxData = res.propertyTax;
-          this.UserChargesData = res.userCharges;
-          this.documentData = res.documents;
+          if (this.userHasAlreadyFilledForm) {
+            this.setComponentStateToAlreadyFilled(res, true);
+          } else {
+            this.UserChargesData = res ? res.userCharges : null;
+            this.documentData = res ? res.documents : null;
+          }
+
+          this.validateQuestionnaireFillAccess();
+          this.showLoader = false;
+        },
+        (error) => {
+          this.showLoader = false;
+          setTimeout(() => {
+            this.stepper.selectedIndex = 3;
+          }, 222);
         }
-
-        this.validateQuestionnaireFillAccess();
-        this.showLoader = false;
-      },
-      (error) => {
-        this.showLoader = false;
-        setTimeout(() => {
-          this.stepper.selectedIndex = 3;
-        }, 222);
-      }
-    );
+      );
   }
 
   setIntroductionCompleted(value: boolean) {
@@ -149,19 +150,23 @@ export class ULBQuestionnaireComponent implements OnInit {
       isCompleted: false,
     };
 
-    if (this.userData.role !== USER_TYPE.STATE) {
-      obj["state"] = this.currentULBId;
+    console.log(this.userData);
+
+    if (this.userData.role !== USER_TYPE.ULB) {
+      obj["ulb"] = this.currentULBId;
     }
     this._matDialog.open(this.savingAsDraftPopup, {
       width: "35vw",
       height: "fit-content",
     });
-    this._questionnaireService.saveQuestionnaireData(obj).subscribe((res) => {
-      this.draftSavingInProgess = false;
-      setTimeout(() => {
-        this._matDialog.closeAll();
-      }, 3000);
-    });
+    this._questionnaireService
+      .saveULBQuestionnaireData(obj)
+      .subscribe((res) => {
+        this.draftSavingInProgess = false;
+        setTimeout(() => {
+          this._matDialog.closeAll();
+        }, 3000);
+      });
   }
 
   uploadCompletedQuestionnaireData() {
@@ -192,7 +197,7 @@ export class ULBQuestionnaireComponent implements OnInit {
       false
     );
     this._questionnaireService
-      .saveQuestionnaireData(obj)
+      .saveULBQuestionnaireData(obj)
       .subscribe((res) => {}, console.error);
   }
 
@@ -201,20 +206,13 @@ export class ULBQuestionnaireComponent implements OnInit {
     if (userChargesForm.valid && documentForm.valid) {
       return true;
     }
-    // if (!propertyTaxForm.valid) {
-    //   message = "All questions must be answered in Property Tax";
-    //   this.expandPropertyTaxQuestion = true;
-    //   this.stepper.selectedIndex = 1;
-    // }
 
     if (!userChargesForm.valid) {
       message += message
         ? " and User Charges sections."
         : "All questions must be answered in answered in User Charges section";
       this.expandUserChargesQuestion = true;
-      // if (propertyTaxForm.valid) {
-      //   this.stepper.selectedIndex = 2;
-      // }
+      this.stepper.selectedIndex = 1;
     }
 
     if (documentForm.invalid) {
@@ -222,7 +220,7 @@ export class ULBQuestionnaireComponent implements OnInit {
         ? " And mandatory documents must be uploaded in Upload Documents section."
         : "All mandatory documents must be uploaded in Upload Document section.";
       if (userChargesForm.valid) {
-        this.stepper.selectedIndex = 3;
+        this.stepper.selectedIndex = 2;
       }
     }
     message += " Kindly submit the form once completed.";
@@ -249,9 +247,6 @@ export class ULBQuestionnaireComponent implements OnInit {
       moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
       action: ACTIONS.VIEW,
     });
-    console.log(
-      `canUserViewFilledQuestionnaireForm: ${canUserViewFilledQuestionnaireForm}`
-    );
 
     if (userRole !== USER_TYPE.ULB && (!params || !params.ulbId)) {
       if (canUserViewFilledQuestionnaireForm) {

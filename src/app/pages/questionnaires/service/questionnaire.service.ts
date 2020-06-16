@@ -11,12 +11,9 @@ import { IQuestionnaireResponse } from '../model/questionnaireResponse.interface
 })
 export class QuestionnaireService {
   private readonly httpUtility = new HttpUtility();
-  constructor(private http: HttpClient) {
-    console.log(`QuestionnaireService`);
-  }
+  constructor(private http: HttpClient) {}
 
-  getQuestionnaireData(queryParams: { [key: string]: any }) {
-    console.log(`getQuestionnaireData`, queryParams);
+  getStateQuestionnaireData(queryParams: { [key: string]: any }) {
     const params = this.httpUtility.convertToHttpParams(queryParams);
 
     return this.http
@@ -26,8 +23,23 @@ export class QuestionnaireService {
       .pipe(map((res) => res.data[0]));
   }
 
-  saveQuestionnaireData(data: { [key: string]: any }) {
+  getULBQuestionnaireData(queryParams: { [key: string]: any }) {
+    const params = this.httpUtility.convertToHttpParams(queryParams);
+
+    return this.http
+      .get<IQuestionnaireResponse>(`${environment.api.url}ulb/form`, {
+        params,
+      })
+      .pipe(map((res) => res.data[0]));
+  }
+
+  saveStateQuestionnaireData(data: { [key: string]: any }) {
     return this.http.post(`${environment.api.url}state/form`, {
+      ...data,
+    });
+  }
+  saveULBQuestionnaireData(data: { [key: string]: any }) {
+    return this.http.post(`${environment.api.url}ulb/form`, {
       ...data,
     });
   }
@@ -71,7 +83,7 @@ export class QuestionnaireService {
       }
     });
 
-    return this.http.get(environment.api.url + `ulb/form`, { params });
+    return this.http.get(environment.api.url + `ulb/form/all`, { params });
   }
 
   getStateWithoutQuestionnaireFilled() {

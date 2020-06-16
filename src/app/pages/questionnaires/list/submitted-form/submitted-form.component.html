@@ -69,7 +69,7 @@
               <i
                 class="fa fa-eye"
                 aria-hidden="true"
-                (click)="navigateToQuestionnaireForm(user.state)"
+                (click)="navigateToStateQuestionnaireForm(user.state)"
               ></i>
             </td>
           </tr>
@@ -121,8 +121,8 @@
             class="sortable-headers"
           >
             <th class="text-center">S.No.</th>
-            <th class="pointer" (click)="sortListBy('stateName', 'ulb')">
-              State
+            <th class="pointer" (click)="sortListBy('stateName', 'ulbName')">
+              ULB Name
               <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
             </th>
             <th class="pointer" (click)="sortListBy('modifiedAt', 'ulb')">
@@ -155,7 +155,7 @@
             <td class="text-center">
               {{ (ulbTableOptions.currentPage - 1) * 10 + i + 1 }}
             </td>
-            <td class="">{{ user.stateName }}</td>
+            <td class="">{{ user.ulbName }}</td>
             <td class="">{{ user.createdAt | date: "longDate" }}</td>
 
             <td class="">
@@ -166,7 +166,7 @@
               <i
                 class="fa fa-eye"
                 aria-hidden="true"
-                (click)="navigateToQuestionnaireForm(user.state)"
+                (click)="navigateToULBQuestionnaireForm(user.ulb)"
               ></i>
             </td>
           </tr>
@@ -220,8 +220,9 @@
         class="btn btn-primary mt-2"
         style="margin-right: 1em;"
         (click)="
-          navigateToQuestionnaireForm(stateSelectToFillQuestionnaire[0]._id) ||
-            matdialog.closeAll()
+          navigateToStateQuestionnaireForm(
+            stateSelectToFillQuestionnaire[0]._id
+          ) || matdialog.closeAll()
         "
       >
         Submit

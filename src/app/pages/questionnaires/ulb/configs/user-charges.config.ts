@@ -9,7 +9,7 @@ const QuestionsIdMapping = {
   Existing_Status_Yes_UC_A: {
     number: "1.a) ",
     question:
-      "What is the existing legal framework for levying user charges in line with current costs in all the Municipalities and Municipal Corporations?",
+      "What is the existing legal framework for levying user charges in line with current costs in your Municipal Corporation/Municipality?",
   },
   Relevant_Section_UC_A: {
     number: "1.b) ",
@@ -28,12 +28,12 @@ const QuestionsIdMapping = {
   Existing_Status_No_UC_A: {
     number: "2.a) ",
     question:
-      "What is the existing legal framework of levying of user charges in line with current costs in all the Municipalities and Municipal Corporations?",
+      "What is the existing legal framework of levying of user charges in line with current costs in your Municipal Corporation/Municipality?",
   },
   Implement_Plan_UC_A: {
     number: "2.b) ",
     question:
-      " What is the plan for implementing above for 1) AMRUT cities & towns and 2) Other cities & towns?  <i>(Upload relevant documents in Upload Documents section)</i>",
+      " What is the plan for implementing above? <i>(Upload relevant documents in Upload Documents section)</i>",
   },
   Implement_Date_UC_A: {
     number: "2.c) ",
@@ -47,7 +47,7 @@ const QuestionsIdMapping = {
   Existing_Status_Yes_UC_B: {
     number: "3.a) ",
     question:
-      "What is the existing status of byelaws/executive orders for periodic increase in user charges for water, drainage and sewerage in Municipalities and Municipal Corporations?",
+      "What is the existing status of byelaws/executive orders for periodic increase in user charges for water, drainage and sewerage in your Municipal Corporation/Municipality?",
   },
   Relevant_Section_UC_B: {
     number: "3.b) ",
@@ -66,12 +66,12 @@ const QuestionsIdMapping = {
   Existing_Status_No_UC_B: {
     number: "4.a) ",
     question:
-      "What is the existing status of byelaws/executive orders for periodic increase in user charges for water, drainage and sewerage in Municipalities and Municipal Corporations?",
+      "What is the existing status of byelaws/executive orders for periodic increase in user charges for water, drainage and sewerage in your Municipal Corporation/Municipality?",
   },
   Implement_Plan_UC_B: {
     number: "4.b) ",
     question:
-      "What is the plan for implementing above for 1) AMRUT cities & towns, and 2) Other cities & Towns?  <i>(Upload relevant documents in Upload Documents section)</i>",
+      "What is the plan for implementing above?<i>(Upload relevant documents in Upload Documents section)</i>",
   },
   Implement_Date_UC_B: {
     number: "4.c) ",

@@ -92,7 +92,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
   fetchQuestionnaireData(stateId: string) {
     this._questionnaireService
-      .getQuestionnaireData({ state: stateId })
+      .getStateQuestionnaireData({ state: stateId })
       .subscribe(
         (res) => {
           this.stateName = res ? res.stateName : "Not Available";
@@ -159,12 +159,14 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
       width: "35vw",
       height: "fit-content",
     });
-    this._questionnaireService.saveQuestionnaireData(obj).subscribe((res) => {
-      this.draftSavingInProgess = false;
-      setTimeout(() => {
-        this._matDialog.closeAll();
-      }, 3000);
-    });
+    this._questionnaireService
+      .saveStateQuestionnaireData(obj)
+      .subscribe((res) => {
+        this.draftSavingInProgess = false;
+        setTimeout(() => {
+          this._matDialog.closeAll();
+        }, 3000);
+      });
   }
 
   uploadCompletedQuestionnaireData() {
@@ -196,7 +198,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
       false
     );
     this._questionnaireService
-      .saveQuestionnaireData(obj)
+      .saveStateQuestionnaireData(obj)
       .subscribe((res) => {}, console.error);
   }
 
