@@ -635,10 +635,10 @@ img.background {
   display: grid;
   grid-template: repeat(4, 11vh) / repeat(12, 1fr);
   grid-template-areas:
-    "i i i . . . . . . . . ."
-    "i i i . q q q q q q . ."
-    "i i i . q q q q q q . ."
-    ". . . . . . . . . . . .";
+    "i i i i i . . . . . . ."
+    "i i i i i q q q q q q ."
+    "i i i i i q q q q q q ."
+    "i i i i i . . . . . . .";
   img,
   picture {
     grid-area: i;
