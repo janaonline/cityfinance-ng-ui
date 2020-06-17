@@ -132,26 +132,39 @@
       position: relative;
       grid-area: r;
       background-image: linear-gradient(to top, #095169, #059b9a);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: end;
+      display: grid;
+      grid-template: repeat(4, 1fr) / repeat(7, 1fr);
+      grid-template-areas:
+        ". . . . . . ."
+        "i i t t t t t"
+        "i i t t t t t"
+        "i i t t t t t";
+      // display: flex;
+      // flex-wrap: wrap;
+      // align-items: end;
       overflow: hidden;
       picture {
-        width: 29.5%;
+        grid-area: i;
+        // grid-column: 1/ 2;
+        position: relative;
+        // width: 29.5%;
         height: auto;
       }
       img {
-        width: 100%;
+        position: absolute;
+        bottom: 0px;
+        // width: 100%;
         height: auto;
       }
       .quotes {
+        grid-area: t;
         margin-left: 5%;
         position: relative;
         display: inline-block;
-        width: 65%;
+        // width: 65%;
         color: white;
         font-size: 0.95em;
-        top: -21%;
+        // top: -21%;
       }
     }
   }
