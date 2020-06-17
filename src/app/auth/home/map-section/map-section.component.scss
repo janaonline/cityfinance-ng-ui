@@ -39,6 +39,7 @@
 .selectPart {
   grid-area: s;
   font-weight: 500;
+  margin-left: 1.4%;
 
   color: var(--multi-dropdown-color);
 }
@@ -91,7 +92,7 @@
     justify-content: center;
     margin: 1%;
     padding: 2%;
-    width: 30%;
+    width: 31%;
     height: 200px;
     border-radius: 7px;
     box-shadow: 3px 3px 9px #a0a0a0;
@@ -197,10 +198,10 @@ form {
 
 ::ng-deep .ml-0 {
   max-width: 140px;
-  transform: translateX(-5%);
+  transform: translateX(-11%);
   margin-bottom: 5vh !important;
   overflow: visible;
-  font-size: 0.6vw;
+  // font-size: 0.6vw;
 }
 
 @media (max-width: 1060px) {
@@ -225,7 +226,8 @@ form {
   ::ng-deep {
     .selected-list .c-angle-down,
     .selected-list .c-angle-up {
-      top: 34%;
+      top: 50%;
+      transform: translateY(-55%);
     }
   }
 
