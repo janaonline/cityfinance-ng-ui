@@ -127,13 +127,13 @@
     }
     .right {
       border-radius: 7px;
-      padding: 1%;
+      padding: 0 1%;
       position: relative;
       grid-area: r;
       background-image: linear-gradient(to top, #095169, #059b9a);
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
+      align-items: end;
       overflow: hidden;
       picture {
         width: 29.5%;
@@ -150,6 +150,7 @@
         width: 65%;
         color: white;
         font-size: 0.95em;
+        top: -21%;
       }
     }
   }
@@ -633,6 +634,9 @@ img.background {
   width: 68vw;
   margin-left: 2%;
   display: grid;
+  position: absolute;
+  bottom: 0px;
+  left: 2%;
   grid-template: repeat(4, 11vh) / repeat(12, 1fr);
   grid-template-areas:
     "i i i i i . . . . . . ."
