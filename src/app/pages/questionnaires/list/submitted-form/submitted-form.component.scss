@@ -1,4 +1,10 @@
 :host {
+  ::ng-deep {
+    div.mat-tab-label {
+      padding: 24px 24px !important;
+      border: none;
+    }
+  }
   .questionnaire-tab-group {
     width: 57vw;
     margin: 5% auto;

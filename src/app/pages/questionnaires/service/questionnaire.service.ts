@@ -39,6 +39,7 @@ export class QuestionnaireService {
     });
   }
   saveULBQuestionnaireData(data: { [key: string]: any }) {
+    console.log(data);
     return this.http.post(`${environment.api.url}ulb/form`, {
       ...data,
     });

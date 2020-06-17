@@ -185,7 +185,7 @@ export class ULBQuestionnaireComponent implements OnInit {
       isCompleted: true,
     };
     if (this.userData.role !== USER_TYPE.STATE) {
-      obj["state"] = this.currentULBId;
+      obj["ulb"] = this.currentULBId;
     }
     this.userHasAlreadyFilledForm = true;
     this.editable = false;

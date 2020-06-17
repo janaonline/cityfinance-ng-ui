@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { CommonService } from 'src/app/shared/services/common.service';
 import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
@@ -11,7 +12,7 @@ import { MODULES_NAME } from 'src/app/util/access/modules';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { QuestionnaireService } from '../../service/questionnaire.service';
-import { IListType } from './models/list-types.interface';
+import { formStatusList, IListType } from './models/list-types.interface';
 
 @Component({
   selector: "app-submitted-form",
@@ -19,11 +20,15 @@ import { IListType } from './models/list-types.interface';
   styleUrls: ["./submitted-form.component.scss"],
 })
 export class SubmittedFormComponent implements OnInit {
-  @ViewChild("defaultTabButtons")
-  private defaultTabButtonsTpl: TemplateRef<any>;
+  @ViewChild("stateQuestionnairePopup")
+  private stateQuestionnairePopup: TemplateRef<any>;
+
+  @ViewChild("ulbQuestionnairePopup")
+  private ulbQuestionnairePopup: TemplateRef<any>;
   filterForm: FormGroup;
   currentSort = 1;
   stateList: any[];
+  allStates: any[];
   ulbsFilledQuestionnaireList: any[];
 
   tableDefaultOptions = {
@@ -36,11 +41,18 @@ export class SubmittedFormComponent implements OnInit {
     ...this.tableDefaultOptions,
   };
 
-  listFetchOption = {
+  stateListlistFetchOption = {
     filter: null,
     sort: { modifiedAt: -1 },
     skip: 0,
     limit: this.tableDefaultOptions.itemPerPage,
+  };
+
+  ulbQuestionnaireListFetchOption = {
+    filter: null,
+    sort: { modifiedAt: -1 },
+    skip: 0,
+    limit: this.ulbTableOptions.itemPerPage,
   };
 
   statesWithoutQuestionnaire: { _id: string; name: string }[] = [];
@@ -58,12 +70,16 @@ export class SubmittedFormComponent implements OnInit {
   accessValidator = new AccessChecker();
   stateSelectToFillQuestionnaire: { _id: string; name: string }[];
 
+  // FORM_STATUS = FormSTATUS;
+  formStatusList = formStatusList;
+
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
     private questionnaireSerive: QuestionnaireService,
     private _profileService: ProfileService,
     private authService: AuthService,
+    private commonService: CommonService,
     public matdialog: MatDialog,
     public router: Router
   ) {
@@ -72,8 +88,9 @@ export class SubmittedFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchQuestionnaireList(this.listFetchOption);
-    this.fetchQuestionnaireList(this.listFetchOption, "ulb");
+    this.fetchQuestionnaireList(this.stateListlistFetchOption);
+    this.fetchQuestionnaireList(this.ulbQuestionnaireListFetchOption, "ulb");
+    this.fetchAllStatesList();
     this.fetchStatesWithoutQuestionnaireList();
   }
 
@@ -88,20 +105,32 @@ export class SubmittedFormComponent implements OnInit {
         (this.tableDefaultOptions.currentPage - 1) *
         this.tableDefaultOptions.itemPerPage,
     };
-    this.listFetchOption = <any>values;
+    this.stateListlistFetchOption = <any>values;
     this.searchUsersBy(values.filter, listType);
   }
 
   searchUsersBy(filterForm: {}, listType: IListType = "state") {
-    this.listFetchOption.filter = filterForm;
-    this.fetchQuestionnaireList({ ...(<any>this.listFetchOption) }, listType);
+    this.stateListlistFetchOption.filter = filterForm;
+    console.log(filterForm, listType);
+
+    this.fetchQuestionnaireList(
+      { ...(<any>this.stateListlistFetchOption) },
+      listType
+    );
   }
 
   setPage(pageNoClick: number, listType: IListType = "state") {
-    this.tableDefaultOptions.currentPage = pageNoClick;
-    this.listFetchOption.skip =
-      (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
-    this.searchUsersBy(this.filterForm.value, listType);
+    if (listType === "state") {
+      this.tableDefaultOptions.currentPage = pageNoClick;
+      this.stateListlistFetchOption.skip =
+        (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+      return this.searchUsersBy(this.filterForm.value, listType);
+    }
+
+    this.ulbTableOptions.currentPage = pageNoClick;
+    this.stateListlistFetchOption.skip =
+      (pageNoClick - 1) * this.ulbTableOptions.itemPerPage;
+    return this.searchUsersBy(this.filterForm.value, listType);
   }
 
   navigateToStateQuestionnaireForm(stateId: string) {
@@ -121,7 +150,15 @@ export class SubmittedFormComponent implements OnInit {
   }
 
   openStateSelectPopup() {
-    this.matdialog.open(this.defaultTabButtonsTpl, {
+    this.matdialog.open(this.stateQuestionnairePopup, {
+      height: "25vh",
+      width: "35vw",
+      panelClass: "state-without-questionnaire-popup",
+    });
+  }
+
+  openULBSelectPopup() {
+    this.matdialog.open(this.ulbQuestionnairePopup, {
       height: "25vh",
       width: "35vw",
       panelClass: "state-without-questionnaire-popup",
@@ -174,9 +211,20 @@ export class SubmittedFormComponent implements OnInit {
       });
   }
 
+  private fetchAllStatesList() {
+    this.commonService
+      .fetchStateList()
+      .subscribe((list) => (this.allStates = list));
+    // this.questionnaireSerive
+    //   .getStateWithoutQuestionnaireFilled()
+    //   .subscribe((res) => {
+    //     this.statesWithoutQuestionnaire = res;
+    //   });
+  }
+
   private initializeFilterForm() {
     this.filterForm = this._fb.group({
-      stateName: [null],
+      isCompleted: [""],
     });
   }
 
