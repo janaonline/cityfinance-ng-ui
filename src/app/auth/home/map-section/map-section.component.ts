@@ -87,22 +87,22 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     {
       name: "Total Urban Local Bodies (ULBs) in Country",
       key: "totalULB",
-      background: "#6f58a8",
+      background: "rgb(241, 104, 49)",
     },
     {
       name: "ULBs for which data is available on Portal",
       key: "coveredUlbCount",
-      background: "#138061",
+      background: "rgb(34, 188, 238)",
     },
     {
       name: "Number of Financial Statements of ULBs ",
       key: "financialStatements",
-      background: "#095169",
+      background: "rgb(231, 19, 104)",
     },
     {
       name: "Details on Municipal Bond Issuances",
       key: "totalMunicipalBonds",
-      background: "#059b9a",
+      background: "rgb(252, 196, 21)",
     },
     // {
     //   name: "Number of ULBs with Credit Rating Reports",
@@ -115,6 +115,16 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
 
   totalUsersVisit: number;
+
+  absCreditInfo = {};
+
+  creditRatingList: any[];
+
+  // Including A
+  creditRatingAboveA;
+
+  // Including BBB-
+  creditRatingAboveBBB_Minus;
 
   ngOnInit() {}
 
@@ -182,6 +192,11 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   private fetchDataForVisualization(stateId?: string) {
     this.dataForVisualization = null;
     this.commonService.fetchDataForHomepageMap(stateId).subscribe((res) => {
+      this.setDefaultAbsCreditInfo();
+
+      this.showCreditInfoByState(
+        this.stateSelected ? this.stateSelected.name : ""
+      );
       this.dataForVisualization = { ...res };
       this._ngZone.runOutsideAngular(() => {
         setTimeout(() => {
@@ -431,8 +446,98 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
       .getWebsiteVisitCount()
       .subscribe((res) => (this.totalUsersVisit = res));
   }
+  setDefaultAbsCreditInfo() {
+    this.absCreditInfo = {
+      title: "",
+      ulbs: 0,
+      creditRatingUlbs: 0,
+      ratings: {
+        "AAA+": 0,
+        AAA: 0,
+        "AAA-": 0,
+        "AA+": 0,
+        AA: 0,
+        "AA-": 0,
+        "A+": 0,
+        A: 0,
+        "A-": 0,
+        "BBB+": 0,
+        BBB: 0,
+        "BBB-": 0,
+        BB: 0,
+        "BB+": 0,
+        "BB-": 0,
+        "B+": 0,
+        B: 0,
+        "B-": 0,
+        "C+": 0,
+        C: 0,
+        "C-": 0,
+        "D+": 0,
+        D: 0,
+        "D-": 0,
+      },
+    };
+  }
+
+  showCreditInfoByState(stateName = "") {
+    const ulbList = [];
+    if (stateName) {
+      for (let i = 0; i < this.creditRatingList.length; i++) {
+        const ulb = this.creditRatingList[i];
+
+        if (ulb.state.toLowerCase() == stateName.toLowerCase()) {
+          ulbList.push(ulb["ulb"]);
+          const rating = ulb.creditrating.trim();
+          this.calculateRatings(this.absCreditInfo, rating);
+        }
+      }
+    } else {
+      for (let i = 0; i < this.creditRatingList.length; i++) {
+        const ulb = this.creditRatingList[i];
+        ulbList.push(ulb["ulb"]);
+        const rating = ulb.creditrating.trim();
+        this.calculateRatings(this.absCreditInfo, rating);
+      }
+    }
+    this.creditRatingAboveA =
+      this.absCreditInfo["ratings"]["A"] +
+      this.absCreditInfo["ratings"]["A+"] +
+      this.absCreditInfo["ratings"]["A-"] +
+      this.absCreditInfo["ratings"]["AA"] +
+      this.absCreditInfo["ratings"]["AA+"] +
+      this.absCreditInfo["ratings"]["AA-"] +
+      this.absCreditInfo["ratings"]["AAA"] +
+      this.absCreditInfo["ratings"]["AAA+"] +
+      this.absCreditInfo["ratings"]["AAA-"];
+
+    this.creditRatingAboveBBB_Minus =
+      this.creditRatingAboveA +
+      this.absCreditInfo["ratings"]["B"] +
+      this.absCreditInfo["ratings"]["B+"] +
+      this.absCreditInfo["ratings"]["B-"] +
+      this.absCreditInfo["ratings"]["BB"] +
+      this.absCreditInfo["ratings"]["BB+"] +
+      this.absCreditInfo["ratings"]["BB-"] +
+      this.absCreditInfo["ratings"]["BBB"] +
+      this.absCreditInfo["ratings"]["BBB+"] +
+      this.absCreditInfo["ratings"]["BBB-"];
+
+    this.absCreditInfo["title"] = stateName || "India";
+    this.absCreditInfo["ulbs"] = ulbList;
+  }
+
+  calculateRatings(dataObject, ratingValue) {
+    if (!dataObject["ratings"][ratingValue]) {
+      dataObject["ratings"][ratingValue] = 0;
+    }
+    dataObject["ratings"][ratingValue] = dataObject["ratings"][ratingValue] + 1;
+    dataObject["creditRatingUlbs"] = dataObject["creditRatingUlbs"] + 1;
+  }
 
   private computeStatesTotalRatings(res: ICreditRatingData[]) {
+    this.creditRatingList = res;
+
     const computedData = { total: 0, India: 0 };
     res.forEach((data) => {
       if (computedData[data.state] || computedData[data.state] === 0) {
