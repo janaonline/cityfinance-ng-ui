@@ -94,10 +94,12 @@
   .about-wrapper {
     font-size: 1vw;
     display: grid;
-    grid-template: repeat(1, 10vh) / repeat(8, 1fr);
+    grid-template: repeat(auto-fit, minmax(3vh, auto)) / repeat(8, 1fr);
     grid-template-areas:
+      "l l l . . . . ."
       "l l l . r r r r"
       "l l l . r r r r"
+      ". . . . . . . ."
       ". . . . . . . .";
     .about-heading {
       text-align: center;
@@ -127,6 +129,9 @@
     .left {
       grid-area: l;
       font-size: 1em;
+      p {
+        margin: 0px;
+      }
     }
     .right {
       border-radius: 7px;
@@ -135,12 +140,16 @@
       grid-area: r;
       background-image: linear-gradient(to top, #095169, #059b9a);
       display: grid;
-      grid-template: repeat(4, 1fr) / repeat(7, 1fr);
+      grid-template: repeat(auto-fit, minmax(3vh, 7vh)) / repeat(7, 1fr);
       grid-template-areas:
-        ". . . . . . ."
+        ". . t t t t t"
+        ". . t t t t t"
+        ". . t t t t t"
         "i i t t t t t"
         "i i t t t t t"
         "i i t t t t t";
+      position: absolute;
+      bottom: 0px;
       // display: flex;
       // flex-wrap: wrap;
       // align-items: end;
@@ -151,6 +160,7 @@
         position: relative;
         // width: 29.5%;
         height: auto;
+        width: 77%;
       }
       img {
         position: absolute;
@@ -162,11 +172,14 @@
         grid-area: t;
         margin-left: 5%;
         position: relative;
-        display: inline-block;
-        // width: 65%;
+        // display: inline-block;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
         color: white;
         font-size: 0.95em;
-        // top: -21%;
       }
     }
   }
