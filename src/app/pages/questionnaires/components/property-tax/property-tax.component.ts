@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { propertyTaxForm, QuestionsIdMapping } from '../configs/property-tax.cofig';
+import { propertyTaxForm, QuestionsIdMapping } from '../../state/configs/property-tax.cofig';
 
 @Component({
   selector: "app-property-tax",

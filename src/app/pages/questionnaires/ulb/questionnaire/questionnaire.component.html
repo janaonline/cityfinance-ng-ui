@@ -9,18 +9,18 @@
 
     <h2 class="header">
       <button
-        *ngIf="userData.role !== USER_TYPE.STATE"
+        *ngIf="userData.role !== USER_TYPE.ULB"
         class="back_button"
         (click)="window.history.back()"
       >
         Back
       </button>
-      <span *ngIf="userData.role !== USER_TYPE.STATE"
-        ><strong>STATE:</strong> {{ stateName }}</span
+      <span *ngIf="userData.role !== USER_TYPE.ULB"
+        ><strong>ULB:</strong> {{ ulbName }}</span
       >
 
-      <span *ngIf="userData.role === USER_TYPE.STATE"
-        ><strong>Welcome:</strong> {{ userData.name }}, {{ stateName }}</span
+      <span *ngIf="userData.role === USER_TYPE.ULB"
+        ><strong>Welcome:</strong> {{ userData.name }}, {{ ulbName }}</span
       >
     </h2>
 
@@ -36,7 +36,7 @@
         *ngIf="canSeeIntroduction"
       >
         <app-introduction
-          [userType]="USER_TYPE.STATE"
+          [userType]="USER_TYPE.ULB"
           (completed)="setIntroductionCompleted($event)"
         >
           <div class="footer">
@@ -50,7 +50,7 @@
           </div>
         </app-introduction>
       </mat-step>
-      <mat-step label="Property Tax">
+      <!-- <mat-step label="Property Tax">
         <app-property-tax
           [data]="propertyTaxData"
           [editable]="editable"
@@ -86,13 +86,13 @@
             </button>
           </div>
         </app-property-tax>
-      </mat-step>
+      </mat-step> -->
       <mat-step label="User Charges">
         <app-user-charges
+          [userType]="USER_TYPE.ULB"
           [showErroredQuestions]="expandUserChargesQuestion"
           [shouldGoToNext]="canGoToDonePage"
           [data]="UserChargesData"
-          [userType]="USER_TYPE.STATE"
           [editable]="editable"
           (previous)="stepper.previous()"
           (answer)="onCompletingUserCharges($event)"
@@ -125,9 +125,9 @@
       </mat-step>
       <mat-step label="Upload Documents">
         <app-document-submit
+          [userType]="USER_TYPE.ULB"
           [documents]="documentData"
           [canUploadFile]="editable"
-          [userType]="USER_TYPE.STATE"
           (outputValues)="onFileUploaded($event)"
           (previous)="stepper.previous()"
           (saveAsDraft)="saveAsDraft()"
@@ -160,7 +160,7 @@
 <div class="wrapper preview-wrapper" *ngIf="userHasAlreadyFilledForm">
   <h2>
     <button
-      *ngIf="userData.role !== USER_TYPE.STATE"
+      *ngIf="userData.role !== USER_TYPE.ULB"
       class="back_button"
       style="margin-top: 0px; font-size: 2rem;"
       (click)="window.history.back()"
@@ -178,9 +178,9 @@
       to view submitted response.
     </p>
   </div>
-  <app-preview *ngIf="showPreview" [userType]="USER_TYPE.STATE">
+  <app-preview *ngIf="showPreview" [userType]="USER_TYPE.ULB">
     <p class="header" style="font-size: 1em;">
-      <strong>STATE:</strong> {{ stateName }}
+      <strong>ULB:</strong> {{ ulbName }}
     </p>
   </app-preview>
 </div>
