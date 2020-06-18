@@ -85,7 +85,7 @@
 
   .about-intro {
     color: #707070;
-    font-size: 1.05em;
+    font-size: 1.2em;
     // font-size: 1.2vw;
     // letter-spacing: 1px;
     // margin: 30px 0 40px;
@@ -94,14 +94,15 @@
   .about-wrapper {
     font-size: 1vw;
     display: grid;
-    grid-template: repeat(3, 12vh) / repeat(8, 1fr);
+    grid-template: repeat(1, 10vh) / repeat(8, 1fr);
     grid-template-areas:
       "l l l . r r r r"
       "l l l . r r r r"
       ". . . . . . . .";
     .about-heading {
       text-align: center;
-      margin: 0px;
+      margin: 0px 0px 2% 0px;
+
       span {
         display: inline-block;
         background: #fafafa;
@@ -777,7 +778,7 @@ img.background {
   position: relative;
   margin: 2% auto;
   width: fit-content;
-  width: 28%;
+  width: 35%;
   span {
     display: inline-block;
     background: #fafafa;
