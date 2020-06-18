@@ -503,7 +503,6 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     this.creditRatingAboveA =
       this.absCreditInfo["ratings"]["A"] +
       this.absCreditInfo["ratings"]["A+"] +
-      this.absCreditInfo["ratings"]["A-"] +
       this.absCreditInfo["ratings"]["AA"] +
       this.absCreditInfo["ratings"]["AA+"] +
       this.absCreditInfo["ratings"]["AA-"] +
