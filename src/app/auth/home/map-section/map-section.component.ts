@@ -275,8 +275,16 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     >,
     containerId: string
   ) {
-    // const zoom = 4.7 - (window.devicePixelRatio - 1) * (0.2 / 0.5);
-    const zoom = 4.7 - (window.devicePixelRatio - 1);
+    let zoom: number;
+    const defaultZoomLevel = 4.7 - (window.devicePixelRatio - 1);
+    try {
+      zoom = localStorage.getItem("mapZoomLevel")
+        ? +localStorage.getItem("mapZoomLevel")
+        : defaultZoomLevel;
+    } catch (error) {
+      // const zoom = 4.7 - (window.devicePixelRatio - 1) * (0.2 / 0.5);
+      zoom = defaultZoomLevel;
+    }
 
     const configuration: IMapCreationConfig = {
       containerId,
