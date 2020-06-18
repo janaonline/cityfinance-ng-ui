@@ -4,6 +4,7 @@
     <div class="tableWrapper">
       <h3 class="text-center table-heading">
         Tracker for state responses on MoF questionnaire
+        {{ stateTableConfig | json }}
 
         <button
           class="btn btn-primary fill-questionnaire"
@@ -82,17 +83,17 @@
               let user of stateList
                 | paginate
                   : {
-                      id: 'foo',
-                      itemsPerPage: tableDefaultOptions.itemPerPage,
-                      currentPage: tableDefaultOptions.currentPage,
-                      totalItems: tableDefaultOptions.totalCount
+                      id: 'stateTablePagination',
+                      itemsPerPage: stateTableConfig.itemPerPage,
+                      currentPage: stateTableConfig.currentPage,
+                      totalItems: stateTableConfig.totalCount
                     };
               index as i
             "
             style="background: #e7e7e7; border: 5px solid white;"
           >
             <td class="text-center">
-              {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+              {{ (stateTableConfig.currentPage - 1) * 10 + i + 1 }}
             </td>
             <td class="">{{ user.stateName }}</td>
             <td class="">{{ user.createdAt | date: "longDate" }}</td>
@@ -118,7 +119,7 @@
       <pagination-controls
         *ngIf="stateList"
         style="float: right; position: relative;"
-        id="foo"
+        id="stateTablePagination"
         (pageChange)="setPage($event)"
         directionLinks="true"
         autoHide="false"
@@ -181,7 +182,7 @@
               let user of ulbsFilledQuestionnaireList
                 | paginate
                   : {
-                      id: 'foo',
+                      id: 'ulbTablePagination',
                       itemsPerPage: ulbTableOptions.itemPerPage,
                       currentPage: ulbTableOptions.currentPage,
                       totalItems: ulbTableOptions.totalCount
@@ -221,7 +222,7 @@
       <pagination-controls
         *ngIf="ulbsFilledQuestionnaireList"
         style="float: right; position: relative;"
-        id="foo"
+        id="ulbTablePagination"
         (pageChange)="setPage($event, 'ulb')"
         directionLinks="true"
         autoHide="false"

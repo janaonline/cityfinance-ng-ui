@@ -278,6 +278,7 @@ export class ULBQuestionnaireComponent implements OnInit {
     res: IQuestionnaireResponse["data"][0],
     showPreviw?: boolean
   ) {
+    console.log(`setComponentStateToAlreadyFilled`, res, showPreviw);
     this.userHasAlreadyFilledForm = true;
     // this.propertyTaxData = res.propertyTax;
     this.UserChargesData = res.userCharges;

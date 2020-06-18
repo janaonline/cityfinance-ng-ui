@@ -1,12 +1,13 @@
 <button class="btn btn-primary download-buttom" (click)="downloadForm()">
   <i class="fa fa-cloud-download" aria-hidden="true"></i> Download as PDF
+  {{ userType }}
 </button>
 
 <div class="wrapper" id="preview" #preview>
   <ng-content select=".header" class="text-center"> </ng-content>
 
   <!-- PROPERTY TAX-->
-  <section class="property-tax" id="property-tax">
+  <section class="property-tax" id="property-tax" *ngIf="propertyTaxForm">
     <h3 class="tab-heading text-center">Property Tax</h3>
     <p class="main-section-header">
       A. Notification of floor rates linked to prevailing circle rates
@@ -367,7 +368,7 @@
   </section>
 
   <!-- USER CHARGES-->
-  <section class="user-charges" id="user-charges">
+  <section class="user-charges" id="user-charges" *ngIf="userChargesForm">
     <h3 class="tab-heading text-center">User Charges</h3>
     <p class="main-section-header">
       A. Notification of Floor rates linked to current cost
@@ -716,7 +717,7 @@
   </section>
 
   <!-- DOCUMENTS -->
-  <section class="upload-documnets" id="upload-documnets">
+  <section class="upload-documnets" id="upload-documnets" *ngIf="documentForm">
     <h3 class="tab-heading text-center">Documents</h3>
     <table>
       <tbody>

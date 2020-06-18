@@ -175,7 +175,7 @@
       to view submitted response.
     </p>
   </div>
-  <app-preview *ngIf="showPreview">
+  <app-preview *ngIf="showPreview" [userType]="USER_TYPE.ULB">
     <p class="header" style="font-size: 1em;">
       <strong>ULB:</strong> {{ ulbName }}
     </p>

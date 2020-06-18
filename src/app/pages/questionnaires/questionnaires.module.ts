@@ -21,11 +21,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CompletedComponent } from './components/completed/completed.component';
 import { DocumentSubmitComponent } from './components/document-submit/document-submit.component';
 import { IntroductionComponent } from './components/introduction/introduction.component';
+import { PreviewComponent } from './components/preview/preview.component';
 import { PropertyTaxComponent } from './components/property-tax/property-tax.component';
 import { UserChargesComponent } from './components/user-charges/user-charges.component';
 import { SubmittedFormComponent } from './list/submitted-form/submitted-form.component';
 import { QuestionnaireRoutes } from './questionnaires.route';
-import { PreviewComponent } from './state/preview/preview.component';
 import { StateQuestionnairesComponent } from './state/state-questionnaires/state-questionnaires.component';
 import { ULBQuestionnaireComponent } from './ulb/questionnaire/questionnaire.component';
 

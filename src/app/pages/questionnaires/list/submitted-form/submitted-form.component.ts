@@ -37,6 +37,10 @@ export class SubmittedFormComponent implements OnInit {
     totalCount: null,
   };
 
+  stateTableConfig = {
+    ...this.tableDefaultOptions,
+  };
+
   ulbTableOptions = {
     ...this.tableDefaultOptions,
   };
@@ -45,7 +49,7 @@ export class SubmittedFormComponent implements OnInit {
     filter: null,
     sort: { modifiedAt: -1 },
     skip: 0,
-    limit: this.tableDefaultOptions.itemPerPage,
+    limit: this.stateTableConfig.itemPerPage,
   };
 
   ulbQuestionnaireListFetchOption = {
@@ -89,7 +93,7 @@ export class SubmittedFormComponent implements OnInit {
 
   ngOnInit() {
     this.fetchQuestionnaireList(this.stateListlistFetchOption);
-    this.fetchQuestionnaireList(this.ulbQuestionnaireListFetchOption, "ulb");
+    // this.fetchQuestionnaireList(this.ulbQuestionnaireListFetchOption, "ulb");
     this.fetchAllStatesList();
     this.fetchStatesWithoutQuestionnaireList();
   }
@@ -134,9 +138,7 @@ export class SubmittedFormComponent implements OnInit {
   }
 
   navigateToStateQuestionnaireForm(stateId: string) {
-    console.log(`ulbId: ${stateId}`);
-
-    this._router.navigate(["/questionnaires/ulb/form"], {
+    this._router.navigate(["/questionnaires/state/form"], {
       queryParams: { stateId },
     });
   }
