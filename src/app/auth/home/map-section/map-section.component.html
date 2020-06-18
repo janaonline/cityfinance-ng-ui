@@ -1,8 +1,12 @@
 <!-- asdasasd -->
+<h2 class="heading"><span>Dashboard</span></h2>
 
 <div class="wrapper">
+  <!-- <div class="visit-count">
+    <i class="fa fa-users" aria-hidden="true" style="margin-right: 2%;"></i>
+    <span><strong>Visitors:</strong> {{ totalUsersVisit }} </span>
+  </div> -->
   <div class="selectPart">
-    Click on a state to see available data on City governments<br />
     <form [formGroup]="myForm">
       <angular2-multiselect
         [data]="stateList"
@@ -13,9 +17,205 @@
       >
       </angular2-multiselect>
     </form>
+    Click on a state to see available data on City governments
   </div>
   <div class="visualization">
-    <h3 class="heading">{{ stateSelected ? stateSelected.name : "India" }}</h3>
+    <!-- <div
+      class="card"
+      *ngFor="let points of dataPointsForVisualization"
+      [style.backgroundColor]="points.background"
+    >
+      <strong
+        class="data-point-value"
+        [attr.data-animate-value]="
+          dataForVisualization ? dataForVisualization[points.key] : 0
+        "
+        [ngClass]="{ 'loading-value': !dataForVisualization }"
+        >0</strong
+      >
+      <span class="data-point-name"> {{ points.name }}</span>
+    </div> -->
+
+    <!-- <div class="card" [style.backgroundColor]="'rgb(241, 104, 49)'">
+      <strong
+        class="data-point-value"
+        [attr.data-animate-value]="
+          dataForVisualization ? dataForVisualization['totalULB'] : 0
+        "
+        [ngClass]="{ 'loading-value': !dataForVisualization }"
+        >0</strong
+      >
+      <span class="data-point-name">
+        Total Urban Local Bodies (ULBs) in Country</span
+      >
+    </div> -->
+
+    <div class="card" id="card1">
+      <!-- <strong
+        class="data-point-value"
+        [attr.data-animate-value]="
+          dataForVisualization ? dataForVisualization['coveredUlbCount'] : 0
+        "
+        [ngClass]="{ 'loading-value': !dataForVisualization }"
+        >0</strong
+      > -->
+      <span class="data-point-name">
+        Financial data on
+        <strong class="data-point-value">
+          <span
+            [ngClass]="{ 'loading-value': !dataForVisualization }"
+            [attr.data-animate-value]="
+              dataForVisualization ? dataForVisualization['coveredUlbCount'] : 0
+            "
+            >0</span
+          >
+          ULBs</strong
+        >
+        (out of
+        <strong
+          [ngClass]="{ 'loading-value': !dataForVisualization }"
+          [attr.data-animate-value]="
+            dataForVisualization ? dataForVisualization['totalULB'] : 0
+          "
+          >0</strong
+        >
+        ULBs)</span
+      >
+    </div>
+
+    <div class="card" id="card2">
+      <strong
+        class="data-point-value"
+        [attr.data-animate-value]="
+          dataForVisualization ? dataForVisualization['financialStatements'] : 0
+        "
+        [ngClass]="{ 'loading-value': !dataForVisualization }"
+        >0</strong
+      >
+      <span class="data-point-name">
+        Annual Financial Statements across FYs 2015-16 to 2017-18</span
+      >
+    </div>
+
+    <div class="card" id="card3">
+      <!-- <strong
+        class="data-point-value"
+        [attr.data-animate-value]="
+          stateSelected && creditRating
+            ? creditRating[stateSelected.name] || 0
+            : creditRating.total
+        "
+        [ngClass]="{ 'loading-value': !dataForVisualization }"
+        >0</strong
+      > -->
+      <span class="data-point-name">
+        <strong class="data-point-value"> Credit Rating reports</strong> on
+        <strong class="data-point-value">
+          <span
+            [attr.data-animate-value]="
+              stateSelected && creditRating
+                ? creditRating[stateSelected.name] || 0
+                : creditRating.total
+            "
+            [ngClass]="{ 'loading-value': !dataForVisualization }"
+            >0</span
+          >
+          ULB</strong
+        >
+
+        <span *ngIf="stateSelected">
+          (out of
+          <span>
+            <strong
+              [ngClass]="{ 'loading-value': !dataForVisualization }"
+              [attr.data-animate-value]="creditRating?.total || 0"
+              >0</strong
+            ></span
+          >
+          ULBs with credit rating)</span
+        ></span
+      >
+    </div>
+    <div class="card" id="card4">
+      <!-- <strong
+        class="data-point-value"
+        [attr.data-animate-value]="
+          stateSelected && creditRating
+            ? creditRating[stateSelected.name] || 0
+            : creditRating.total
+        "
+        [ngClass]="{ 'loading-value': !dataForVisualization }"
+        >0</strong
+      > -->
+      <span class="data-point-name">
+        <strong class="data-point-value">
+          <span
+            *ngIf="creditRatingAboveBBB_Minus !== undefined"
+            [ngClass]="{ 'loading-value': !dataForVisualization }"
+            [attr.data-animate-value]="creditRatingAboveBBB_Minus || 0"
+          >
+            0
+          </span>
+          ULBs
+        </strong>
+
+        with <strong class="data-point-value">investment grade</strong> Credit
+        Rating
+      </span>
+    </div>
+
+    <div class="card" id="card5">
+      <!-- <strong
+        class="data-point-value"
+        [attr.data-animate-value]="
+          stateSelected && creditRating
+            ? creditRating[stateSelected.name] || 0
+            : creditRating.total
+        "
+        [ngClass]="{ 'loading-value': !dataForVisualization }"
+        >0</strong
+      > -->
+      <span class="data-point-name">
+        <strong class="data-point-value">
+          <span
+            [ngClass]="{ 'loading-value': !dataForVisualization }"
+            [attr.data-animate-value]="creditRatingAboveA || 0"
+            >0</span
+          >
+          ULBs</strong
+        >
+        with Credit Rating of
+        <strong class="data-point-value">A and above</strong>
+      </span>
+    </div>
+
+    <div class="card" id="card6">
+      <!-- <strong
+        class="data-point-value"
+        [attr.data-animate-value]="
+          dataForVisualization ? dataForVisualization['totalMunicipalBonds'] : 0
+        "
+        [ngClass]="{ 'loading-value': !dataForVisualization }"
+        >0</strong
+      > -->
+      <span class="data-point-name"
+        >Details on
+        <strong class="data-point-value">
+          <span
+            [ngClass]="{ 'loading-value': !dataForVisualization }"
+            [attr.data-animate-value]="
+              dataForVisualization?.totalMunicipalBonds || 0
+            "
+            >0</span
+          >
+          Municipal Bond issuances</strong
+        >
+        amounting to <br />
+        <strong class="data-point-value">Rs 5,459 Cr</strong></span
+      >
+    </div>
+
+    <!-- <h3 class="heading">{{ stateSelected ? stateSelected.name : "India" }}</h3>
 
     <table>
       <tbody>
@@ -84,31 +284,9 @@
           <td>ULBs with Credit Rating Reports</td>
         </tr>
       </tbody>
-    </table>
-
-    <!-- <p>
-      
-     
-    </p>
-    <p>
-      
-     
-    </p>
-    <p>
-      
-
-      
-    </p>
-    <p *ngIf="dataForVisualization.totalMunicipalBonds">
-      
-      
-    </p> -->
+    </table> -->
   </div>
 
-  <!-- <div class="visualization loader-wrapper" *ngIf="!dataForVisualization">
-    <app-pre-loader></app-pre-loader>
-    <app-pre-loader></app-pre-loader>
-  </div> -->
   <div class="mapWrapper">
     <div id="mapid"></div>
   </div>
