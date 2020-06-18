@@ -311,5 +311,9 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     //   : false;
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    propertyTaxForm.reset();
+    documentForm.reset();
+    userChargesForm.reset();
+  }
 }

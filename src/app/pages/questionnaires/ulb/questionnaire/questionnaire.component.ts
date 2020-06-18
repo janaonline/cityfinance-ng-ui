@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatHorizontalStepper } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
@@ -19,7 +19,7 @@ import { userChargesForm } from '../configs/user-charges.config';
   templateUrl: "./questionnaire.component.html",
   styleUrls: ["./questionnaire.component.scss"],
 })
-export class ULBQuestionnaireComponent implements OnInit {
+export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
   @ViewChild("savingAsDraft") savingAsDraftPopup: TemplateRef<any>;
   draftSavingInProgess = false;
@@ -316,5 +316,8 @@ export class ULBQuestionnaireComponent implements OnInit {
     return res && res.isCompleted;
   }
 
-  // ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    documentForm.reset();
+    userChargesForm.reset();
+  }
 }
