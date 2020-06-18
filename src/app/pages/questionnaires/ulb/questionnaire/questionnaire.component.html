@@ -158,14 +158,17 @@
 </div>
 
 <div class="wrapper preview-wrapper" *ngIf="userHasAlreadyFilledForm">
-  <button
-    *ngIf="userData.role !== USER_TYPE.ULB"
-    class="back_button"
-    style="margin-top: 0px;"
-    (click)="window.history.back()"
-  >
-    Back
-  </button>
+  <h2>
+    <button
+      *ngIf="userData.role !== USER_TYPE.ULB"
+      class="back_button"
+      style="margin-top: 0px; font-size: 2rem;"
+      (click)="window.history.back()"
+    >
+      Back
+    </button>
+  </h2>
+
   <div class="box" *ngIf="!showPreview">
     <p style="display: flex; align-items: center;">
       <app-tick-icon></app-tick-icon>You have submitted the form.&nbsp;

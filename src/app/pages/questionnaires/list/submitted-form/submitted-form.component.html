@@ -43,7 +43,16 @@
         <tbody>
           <tr *ngIf="filterForm">
             <td></td>
-            <td></td>
+            <td>
+              <div class="input-group">
+                <input
+                  placeholder="State Name"
+                  type="text"
+                  class="form-control"
+                  [formControl]="filterForm.controls.stateName"
+                />
+              </div>
+            </td>
             <td></td>
             <td>
               <div class="input-group">
@@ -138,12 +147,12 @@
       <h3 class="text-center table-heading">
         Tracker for ulb responses on MoF questionnaire
 
-        <button
+        <!-- <button
           class="btn btn-primary fill-questionnaire"
           (click)="openULBSelectPopup()"
         >
           Fill Questionnaire
-        </button>
+        </button> -->
       </h3>
       <div class="loader-wrapper" *ngIf="!ulbsFilledQuestionnaireList">
         <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
@@ -175,6 +184,50 @@
           </tr>
         </thead>
         <tbody>
+          <tr *ngIf="ulbfilterForm">
+            <td></td>
+            <td>
+              <div class="input-group">
+                <input
+                  placeholder="ULB Name"
+                  type="text"
+                  class="form-control"
+                  [formControl]="ulbfilterForm.controls.ulbName"
+                />
+              </div>
+            </td>
+            <td></td>
+            <td>
+              <div class="input-group">
+                <select
+                  name="State"
+                  id="state"
+                  [formControl]="ulbfilterForm.controls.isCompleted"
+                  class="form-control"
+                  placeholder="State"
+                >
+                  <option value="" selected>
+                    All Forms
+                  </option>
+                  <option
+                    *ngFor="let formStatus of formStatusList"
+                    [value]="formStatus.value"
+                  >
+                    {{ formStatus.name }}
+                  </option>
+                </select>
+              </div>
+            </td>
+            <td>
+              <button
+                class="btn btn-primary m-auto"
+                style="display: block;"
+                (click)="searchUsersBy(ulbfilterForm.value, 'ulb')"
+              >
+                Search
+              </button>
+            </td>
+          </tr>
           <tr
             *ngFor="
               let user of ulbsFilledQuestionnaireList
@@ -275,7 +328,8 @@
   </div>
 </ng-template>
 
-<ng-template #ulbQuestionnairePopup>
+<!-- Dont need it for now.-->
+<!-- <ng-template #ulbQuestionnairePopup>
   <div
     class="d-flex align-items-center flex-column justify-content-center"
     style="flex-wrap: wrap; height: 100%;"
@@ -313,4 +367,4 @@
       </button>
     </div>
   </div>
-</ng-template>
+</ng-template> -->

@@ -26,6 +26,9 @@ export class SubmittedFormComponent implements OnInit {
   @ViewChild("ulbQuestionnairePopup")
   private ulbQuestionnairePopup: TemplateRef<any>;
   filterForm: FormGroup;
+
+  ulbfilterForm: FormGroup;
+
   currentSort = 1;
   stateList: any[];
   allStates: any[];
@@ -100,17 +103,29 @@ export class SubmittedFormComponent implements OnInit {
 
   sortListBy(key: string, listType: IListType = "state") {
     this.currentSort = this.currentSort > 0 ? -1 : 1;
+    let values = {};
+    if (listType === "state") {
+      values = {
+        filter: this.filterForm.value,
+        sort: { [key]: this.currentSort },
+        limit: this.tableDefaultOptions.itemPerPage,
+        skip:
+          (this.tableDefaultOptions.currentPage - 1) *
+          this.tableDefaultOptions.itemPerPage,
+      };
+    } else {
+      values = {
+        filter: this.ulbfilterForm.value,
+        sort: { [key]: this.currentSort },
+        limit: this.ulbTableOptions.itemPerPage,
+        skip:
+          (this.ulbTableOptions.currentPage - 1) *
+          this.ulbTableOptions.itemPerPage,
+      };
+    }
 
-    const values = {
-      filter: this.filterForm.value,
-      sort: { [key]: this.currentSort },
-      limit: this.tableDefaultOptions.itemPerPage,
-      skip:
-        (this.tableDefaultOptions.currentPage - 1) *
-        this.tableDefaultOptions.itemPerPage,
-    };
     this.stateListlistFetchOption = <any>values;
-    this.searchUsersBy(values.filter, listType);
+    this.searchUsersBy(values["filter"], listType);
   }
 
   searchUsersBy(filterForm: {}, listType: IListType = "state") {
@@ -132,9 +147,9 @@ export class SubmittedFormComponent implements OnInit {
     }
 
     this.ulbTableOptions.currentPage = pageNoClick;
-    this.stateListlistFetchOption.skip =
+    this.ulbQuestionnaireListFetchOption.skip =
       (pageNoClick - 1) * this.ulbTableOptions.itemPerPage;
-    return this.searchUsersBy(this.filterForm.value, listType);
+    return this.searchUsersBy(this.ulbfilterForm.value, listType);
   }
 
   navigateToStateQuestionnaireForm(stateId: string) {
@@ -227,6 +242,11 @@ export class SubmittedFormComponent implements OnInit {
   private initializeFilterForm() {
     this.filterForm = this._fb.group({
       isCompleted: [""],
+      stateName: [""],
+    });
+    this.ulbfilterForm = this._fb.group({
+      isCompleted: [""],
+      ulbName: [""],
     });
   }
 
