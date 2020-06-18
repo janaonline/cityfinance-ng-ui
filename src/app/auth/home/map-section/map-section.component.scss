@@ -105,6 +105,51 @@
       width: 100%;
       text-align: center;
     }
+    transition: all 0.1s;
+  }
+
+  #card1 {
+    background: rgb(34, 188, 238);
+
+    &:hover {
+      background: white;
+      color: rgb(34, 188, 238);
+    }
+  }
+  #card2 {
+    background: rgb(231, 19, 104);
+    &:hover {
+      background: white;
+      color: rgb(231, 19, 104);
+    }
+  }
+  #card3 {
+    background: rgb(98, 180, 70);
+    &:hover {
+      background: white;
+      color: rgb(98, 180, 70);
+    }
+  }
+  #card4 {
+    background: rgb(241, 104, 49);
+    &:hover {
+      background: white;
+      color: rgb(241, 104, 49);
+    }
+  }
+  #card5 {
+    background: rgb(67, 132, 76);
+    &:hover {
+      background: white;
+      color: rgb(67, 132, 76);
+    }
+  }
+  #card6 {
+    background: rgb(252, 196, 21);
+    &:hover {
+      background: white;
+      color: rgb(252, 196, 21);
+    }
   }
 }
 
