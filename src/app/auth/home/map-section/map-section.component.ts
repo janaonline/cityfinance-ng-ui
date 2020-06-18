@@ -275,8 +275,16 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     >,
     containerId: string
   ) {
-    // const zoom = 4.7 - (window.devicePixelRatio - 1) * (0.2 / 0.5);
-    const zoom = 4.7 - (window.devicePixelRatio - 1);
+    let zoom: number;
+    const defaultZoomLevel = 4.7 - (window.devicePixelRatio - 1);
+    try {
+      zoom = localStorage.getItem("mapZoomLevel")
+        ? +localStorage.getItem("mapZoomLevel")
+        : defaultZoomLevel;
+    } catch (error) {
+      // const zoom = 4.7 - (window.devicePixelRatio - 1) * (0.2 / 0.5);
+      zoom = defaultZoomLevel;
+    }
 
     const configuration: IMapCreationConfig = {
       containerId,
@@ -503,7 +511,6 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     this.creditRatingAboveA =
       this.absCreditInfo["ratings"]["A"] +
       this.absCreditInfo["ratings"]["A+"] +
-      this.absCreditInfo["ratings"]["A-"] +
       this.absCreditInfo["ratings"]["AA"] +
       this.absCreditInfo["ratings"]["AA+"] +
       this.absCreditInfo["ratings"]["AA-"] +
@@ -513,12 +520,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
 
     this.creditRatingAboveBBB_Minus =
       this.creditRatingAboveA +
-      this.absCreditInfo["ratings"]["B"] +
-      this.absCreditInfo["ratings"]["B+"] +
-      this.absCreditInfo["ratings"]["B-"] +
-      this.absCreditInfo["ratings"]["BB"] +
-      this.absCreditInfo["ratings"]["BB+"] +
-      this.absCreditInfo["ratings"]["BB-"] +
+      this.absCreditInfo["ratings"]["A-"] +
       this.absCreditInfo["ratings"]["BBB"] +
       this.absCreditInfo["ratings"]["BBB+"] +
       this.absCreditInfo["ratings"]["BBB-"];

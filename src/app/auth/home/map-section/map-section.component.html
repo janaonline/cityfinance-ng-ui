@@ -129,6 +129,7 @@
           (out of
           <span>
             <strong
+              class="data-point-value"
               [ngClass]="{ 'loading-value': !dataForVisualization }"
               [attr.data-animate-value]="creditRating?.total || 0"
               >0</strong
@@ -152,6 +153,7 @@
       <span class="data-point-name">
         <strong>
           <span
+            class="data-point-value"
             *ngIf="creditRatingAboveBBB_Minus !== undefined"
             [ngClass]="{ 'loading-value': !dataForVisualization }"
             [attr.data-animate-value]="creditRatingAboveBBB_Minus || 0"
@@ -179,6 +181,7 @@
       <span class="data-point-name">
         <strong>
           <span
+            class="data-point-value"
             [ngClass]="{ 'loading-value': !dataForVisualization }"
             [attr.data-animate-value]="creditRatingAboveA || 0"
             >0</span
@@ -202,6 +205,7 @@
         >Details on
         <strong>
           <span
+            class="data-point-value"
             [ngClass]="{ 'loading-value': !dataForVisualization }"
             [attr.data-animate-value]="
               dataForVisualization?.totalMunicipalBonds || 0
