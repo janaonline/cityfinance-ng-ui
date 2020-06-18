@@ -31,7 +31,6 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     this.fetchStateList();
     this.fetchDataForVisualization();
     this.fetchCreditRatingTotalCount();
-    this.fetchUserVisitCount();
   }
   statesLayer: L.GeoJSON<any>;
   myForm: FormGroup;
@@ -449,11 +448,6 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
       .subscribe((res) => this.computeStatesTotalRatings(res));
   }
 
-  private fetchUserVisitCount() {
-    this.commonService
-      .getWebsiteVisitCount()
-      .subscribe((res) => (this.totalUsersVisit = res));
-  }
   setDefaultAbsCreditInfo() {
     this.absCreditInfo = {
       title: "",

@@ -98,7 +98,7 @@
     box-shadow: 3px 3px 9px #a0a0a0;
     font-size: 0.8em;
     .data-point-value {
-      font-size: 1.5em;
+      font-size: 1.2em;
     }
     .data-point-name {
       display: block;
@@ -232,10 +232,10 @@ form {
   }
 
   .heading {
-    width: 50%;
+    width: 35%;
     display: block;
-    margin: auto;
-    margin-bottom: 2%;
+    margin: 4vw auto;
+    // margin-bottom: 2%;
 
     color: #059b9a;
     position: relative;

@@ -61,9 +61,8 @@
       > -->
       <span class="data-point-name">
         Financial data on
-        <strong>
+        <strong class="data-point-value">
           <span
-            class="data-point-value"
             [ngClass]="{ 'loading-value': !dataForVisualization }"
             [attr.data-animate-value]="
               dataForVisualization ? dataForVisualization['coveredUlbCount'] : 0
@@ -74,7 +73,6 @@
         >
         (out of
         <strong
-          class="data-point-value"
           [ngClass]="{ 'loading-value': !dataForVisualization }"
           [attr.data-animate-value]="
             dataForVisualization ? dataForVisualization['totalULB'] : 0
@@ -111,25 +109,24 @@
         >0</strong
       > -->
       <span class="data-point-name">
-        <strong> Credit Rating reports</strong> on
-        <strong
-          class="data-point-value"
-          [attr.data-animate-value]="
-            stateSelected && creditRating
-              ? creditRating[stateSelected.name] || 0
-              : creditRating.total
-          "
-          [ngClass]="{ 'loading-value': !dataForVisualization }"
-        >
-          0</strong
+        <strong class="data-point-value"> Credit Rating reports</strong> on
+        <strong class="data-point-value">
+          <span
+            [attr.data-animate-value]="
+              stateSelected && creditRating
+                ? creditRating[stateSelected.name] || 0
+                : creditRating.total
+            "
+            [ngClass]="{ 'loading-value': !dataForVisualization }"
+            >0</span
+          >
+          ULB</strong
         >
 
-        ULB
         <span *ngIf="stateSelected">
           (out of
           <span>
             <strong
-              class="data-point-value"
               [ngClass]="{ 'loading-value': !dataForVisualization }"
               [attr.data-animate-value]="creditRating?.total || 0"
               >0</strong
@@ -139,7 +136,7 @@
         ></span
       >
     </div>
-    <div class="card" [style.backgroundColor]="'rgb(98, 180, 70)'">
+    <div class="card" [style.backgroundColor]="'rgb(241, 104, 49)'">
       <!-- <strong
         class="data-point-value"
         [attr.data-animate-value]="
@@ -151,9 +148,8 @@
         >0</strong
       > -->
       <span class="data-point-name">
-        <strong>
+        <strong class="data-point-value">
           <span
-            class="data-point-value"
             *ngIf="creditRatingAboveBBB_Minus !== undefined"
             [ngClass]="{ 'loading-value': !dataForVisualization }"
             [attr.data-animate-value]="creditRatingAboveBBB_Minus || 0"
@@ -163,11 +159,12 @@
           ULBs
         </strong>
 
-        with <strong>investment grade</strong> Credit Rating
+        with <strong class="data-point-value">investment grade</strong> Credit
+        Rating
       </span>
     </div>
 
-    <div class="card" [style.backgroundColor]="'rgb(98, 180, 70)'">
+    <div class="card" [style.backgroundColor]="'rgb(67, 132, 76)'">
       <!-- <strong
         class="data-point-value"
         [attr.data-animate-value]="
@@ -179,16 +176,16 @@
         >0</strong
       > -->
       <span class="data-point-name">
-        <strong>
+        <strong class="data-point-value">
           <span
-            class="data-point-value"
             [ngClass]="{ 'loading-value': !dataForVisualization }"
             [attr.data-animate-value]="creditRatingAboveA || 0"
             >0</span
           >
           ULBs</strong
         >
-        with Credit Rating of A and above
+        with Credit Rating of
+        <strong class="data-point-value">A and above</strong>
       </span>
     </div>
 
@@ -203,9 +200,8 @@
       > -->
       <span class="data-point-name"
         >Details on
-        <strong>
+        <strong class="data-point-value">
           <span
-            class="data-point-value"
             [ngClass]="{ 'loading-value': !dataForVisualization }"
             [attr.data-animate-value]="
               dataForVisualization?.totalMunicipalBonds || 0
@@ -214,7 +210,7 @@
           >
           Municipal Bond issuances</strong
         >
-        amounting to <strong>Rs 5,459 Cr</strong></span
+        amounting to <strong class="data-point-value">Rs 5,459 Cr</strong></span
       >
     </div>
 
