@@ -239,18 +239,25 @@ export class ULBQuestionnaireComponent implements OnInit {
     const userRole: USER_TYPE = this.userData.role;
 
     const canUserFillQuestionnaireForm = this.accessValidator.hasAccess({
-      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
+      moduleName: MODULES_NAME.ULB_LEVEL_PROPERTY_TAX_QUESTIONNAIRE,
       action: ACTIONS.FORM_FILL,
     });
 
     const canUserViewFilledQuestionnaireForm = this.accessValidator.hasAccess({
-      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
+      moduleName: MODULES_NAME.ULB_LEVEL_PROPERTY_TAX_QUESTIONNAIRE,
       action: ACTIONS.VIEW,
     });
 
+    console.log(
+      userRole,
+      canUserViewFilledQuestionnaireForm,
+      canUserFillQuestionnaireForm,
+      userRole !== USER_TYPE.ULB && (!params || !params.ulbId)
+    );
+
     if (userRole !== USER_TYPE.ULB && (!params || !params.ulbId)) {
       if (canUserViewFilledQuestionnaireForm) {
-        return this.router.navigate(["/questionnaires/states"]);
+        // return this.router.navigate(["/questionnaires/states"]);
       }
       console.error(`access denied!`);
 
@@ -264,13 +271,22 @@ export class ULBQuestionnaireComponent implements OnInit {
 
   private validateQuestionnaireFillAccess() {
     const canUserFillQuestionnaireForm = this.accessValidator.hasAccess({
-      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
+      moduleName: MODULES_NAME.ULB_LEVEL_PROPERTY_TAX_QUESTIONNAIRE,
       action: ACTIONS.FORM_FILL,
     });
 
     if (!canUserFillQuestionnaireForm) {
-      console.error(`access denied!`);
-      return this.router.navigate(["/home"]);
+      const canUserViewQuestionnaireForm = this.accessValidator.hasAccess({
+        moduleName: MODULES_NAME.ULB_LEVEL_PROPERTY_TAX_QUESTIONNAIRE,
+        action: ACTIONS.VIEW,
+      });
+      if (!canUserViewQuestionnaireForm) {
+        console.error(`access denied!`);
+        return this.router.navigate(["/home"]);
+      }
+      this.editable = false;
+      userChargesForm.disable();
+      documentForm.disable();
     }
   }
 

@@ -93,7 +93,7 @@ export class SubmittedFormComponent implements OnInit {
 
   ngOnInit() {
     this.fetchQuestionnaireList(this.stateListlistFetchOption);
-    // this.fetchQuestionnaireList(this.ulbQuestionnaireListFetchOption, "ulb");
+    this.fetchQuestionnaireList(this.ulbQuestionnaireListFetchOption, "ulb");
     this.fetchAllStatesList();
     this.fetchStatesWithoutQuestionnaireList();
   }
@@ -183,7 +183,7 @@ export class SubmittedFormComponent implements OnInit {
         .getStateQuestionnaireFilledList(body)
         .subscribe((res) => {
           if (res.hasOwnProperty("total")) {
-            this.tableDefaultOptions.totalCount = res["total"];
+            this.stateTableConfig.totalCount = res["total"];
           }
           if (res["success"]) {
             this.stateList = res["data"];

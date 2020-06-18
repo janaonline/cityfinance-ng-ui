@@ -80,7 +80,10 @@
               ></i>
             </a>
 
-            <span style="float: right; margin-left: 2%;" *ngIf="canUploadFile">
+            <span
+              style="float: right; margin-left: 2%;"
+              *ngIf="canUploadFile && !documentForm.disabled"
+            >
               <i
                 class="fa fa-times"
                 aria-hidden="true"
@@ -144,7 +147,7 @@
             Previous
           </button>
           <button
-            *ngIf="canUploadFile"
+            *ngIf="canUploadFile && !documentForm.disabled"
             class="btn btn-primary btn-upload mt-3"
             style="float: right; margin-right: 2%;"
             [disabled]="NoOfFileInProgress !== 0"
