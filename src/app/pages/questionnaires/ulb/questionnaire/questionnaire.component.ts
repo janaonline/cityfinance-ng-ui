@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
+import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
@@ -51,6 +52,7 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
   window = window;
 
   ulbName: string;
+  state: { [key: string]: any };
 
   expandPropertyTaxQuestion = false;
   expandUserChargesQuestion = false;
@@ -71,6 +73,7 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
   constructor(
     private _questionnaireService: QuestionnaireService,
     private activatedRoute: ActivatedRoute,
+    private _profileService: ProfileService,
     private router: Router,
     private _matDialog: MatDialog
   ) {
@@ -248,13 +251,6 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
       action: ACTIONS.VIEW,
     });
 
-    console.log(
-      userRole,
-      canUserViewFilledQuestionnaireForm,
-      canUserFillQuestionnaireForm,
-      userRole !== USER_TYPE.ULB && (!params || !params.ulbId)
-    );
-
     if (userRole !== USER_TYPE.ULB && (!params || !params.ulbId)) {
       if (canUserViewFilledQuestionnaireForm) {
         // return this.router.navigate(["/questionnaires/states"]);
@@ -265,7 +261,12 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
     }
 
     if (canUserFillQuestionnaireForm || canUserViewFilledQuestionnaireForm) {
-      return this.fetchQuestionnaireData(params.ulbId);
+      const param = { id: params.ulbId };
+      this._profileService.getULBGeneralData(param).subscribe((res) => {
+        this.state = res["data"][0].state;
+        console.log(this.state);
+        return this.fetchQuestionnaireData(params.ulbId);
+      });
     }
   }
 

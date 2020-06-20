@@ -46,6 +46,13 @@ export class CommonService {
     });
   }
 
+  public getBondIssuerItemAmount(state?: string) {
+    const params = this.httpUtil.convertToHttpParams({ state });
+    return this.http.get(`${environment.api.url}BondIssuerItem/amount`, {
+      params,
+    });
+  }
+
   public fetchStateList() {
     return this.http
       .get<IStateListResponse>(environment.api.url + "state")
