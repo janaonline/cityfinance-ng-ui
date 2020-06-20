@@ -31,6 +31,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     this.fetchStateList();
     this.fetchDataForVisualization();
     this.fetchCreditRatingTotalCount();
+    this.fetchBondIssueAmout();
   }
   statesLayer: L.GeoJSON<any>;
   myForm: FormGroup;
@@ -124,6 +125,8 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
 
   // Including BBB-
   creditRatingAboveBBB_Minus;
+
+  bondIssueAmount: number;
 
   ngOnInit() {}
 
@@ -440,6 +443,12 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
       return `#D0EDF9`;
     }
     return "#E5E5E5";
+  }
+
+  private fetchBondIssueAmout(stateId?: string) {
+    this.commonService.getBondIssuerItemAmount(stateId).subscribe((res) => {
+      this.bondIssueAmount = res["data"]["totalAmount"];
+    });
   }
 
   private fetchCreditRatingTotalCount() {
