@@ -163,6 +163,9 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   onSelectingStateFromDropDown(state: any | null) {
     this.stateSelected = state;
     this.fetchDataForVisualization(state ? state._id : null);
+    this.fetchBondIssueAmout(
+      this.stateSelected ? this.stateSelected._id : null
+    );
     this.selectStateOnMap(state);
   }
 
@@ -447,7 +450,11 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
 
   private fetchBondIssueAmout(stateId?: string) {
     this.commonService.getBondIssuerItemAmount(stateId).subscribe((res) => {
-      this.bondIssueAmount = res["data"]["totalAmount"];
+      try {
+        this.bondIssueAmount = res["data"][0]["totalAmount"];
+      } catch (error) {
+        this.bondIssueAmount = 0;
+      }
     });
   }
 

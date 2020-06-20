@@ -149,22 +149,24 @@
     </div>
 
     <div class="card" id="card6">
-      <strong class="data-point-value">
+      <div>
+        <strong class="data-point-value">
+          <span
+            [ngClass]="{ 'loading-value': !dataForVisualization }"
+            [attr.data-animate-value]="
+              dataForVisualization?.totalMunicipalBonds || 0
+            "
+            >0</span
+          >
+        </strong>
         <span
-          [ngClass]="{ 'loading-value': !dataForVisualization }"
-          [attr.data-animate-value]="
-            dataForVisualization?.totalMunicipalBonds || 0
-          "
-          >0</span
+          >Municipal Bond issuances of <br />
+          <strong class="data-point-value" style="font-size: 1.5em;"
+            >Rs <span> {{ bondIssueAmount }} </span> Cr</strong
+          >
+          with details</span
         >
-      </strong>
-      <span class="data-point-name"
-        >Municipal Bond issuances of <br />
-        <strong class="data-point-value"
-          >Rs <span> {{ bondIssueAmount }} </span> Cr</strong
-        ><br />
-        with details</span
-      >
+      </div>
     </div>
 
     <!-- <h3 class="heading">{{ stateSelected ? stateSelected.name : "India" }}</h3>
