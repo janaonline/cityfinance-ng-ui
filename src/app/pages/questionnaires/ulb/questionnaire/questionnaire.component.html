@@ -16,11 +16,11 @@
         Back
       </button>
       <span *ngIf="userData.role !== USER_TYPE.ULB"
-        ><strong>ULB:</strong> {{ ulbName }}</span
-      >
+        ><strong>ULB:</strong> {{ ulbName }}, {{ state?.name }}
+      </span>
 
       <span *ngIf="userData.role === USER_TYPE.ULB"
-        ><strong>Welcome:</strong> {{ userData.name }}, {{ ulbName }}</span
+        ><strong>Welcome:</strong> {{ userData.name }}</span
       >
     </h2>
 
@@ -180,7 +180,7 @@
   </div>
   <app-preview *ngIf="showPreview" [userType]="USER_TYPE.ULB">
     <p class="header" style="font-size: 1em;">
-      <strong>ULB:</strong> {{ ulbName }}
+      <strong>ULB:</strong> {{ ulbName }}, {{ state?.name }}
     </p>
   </app-preview>
 </div>
