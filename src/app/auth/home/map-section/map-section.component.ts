@@ -404,6 +404,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
 
     this.updateDropdownStateSelection(stateFound);
     this.fetchDataForVisualization(stateFound._id);
+    this.fetchBondIssueAmout(stateFound._id);
   }
 
   private resetMapToNationalView(stateLayer) {
@@ -412,6 +413,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     this.stateSelected = null;
     this.updateDropdownStateSelection(null);
     this.fetchDataForVisualization();
+    this.fetchBondIssueAmout();
   }
   private resetStateLayer(layer) {
     layer.setStyle({
