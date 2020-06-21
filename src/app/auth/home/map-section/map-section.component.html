@@ -162,7 +162,11 @@
         <span
           >Municipal Bond issuances of <br />
           <strong class="data-point-value" style="font-size: 1.5em;"
-            >Rs <span> {{ bondIssueAmount }} </span> Cr</strong
+            >Rs
+            <span [ngClass]="{ 'loading-value': isBondIssueAmountInProgress }">
+              {{ bondIssueAmount }}
+            </span>
+            Cr</strong
           >
           with details</span
         >
