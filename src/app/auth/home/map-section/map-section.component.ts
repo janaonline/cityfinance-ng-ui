@@ -127,6 +127,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   creditRatingAboveBBB_Minus;
 
   bondIssueAmount: number;
+  isBondIssueAmountInProgress = false;
 
   ngOnInit() {}
 
@@ -449,12 +450,14 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   }
 
   private fetchBondIssueAmout(stateId?: string) {
+    this.isBondIssueAmountInProgress = true;
     this.commonService.getBondIssuerItemAmount(stateId).subscribe((res) => {
       try {
         this.bondIssueAmount = res["data"][0]["totalAmount"];
       } catch (error) {
         this.bondIssueAmount = 0;
       }
+      this.isBondIssueAmountInProgress = false;
     });
   }
 
