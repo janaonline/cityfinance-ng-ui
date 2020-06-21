@@ -288,7 +288,11 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
       this.editable = false;
       userChargesForm.disable();
       documentForm.disable();
+      return;
     }
+    this.editable = true;
+    userChargesForm.enable();
+    documentForm.enable();
   }
 
   private setComponentStateToAlreadyFilled(
