@@ -42,6 +42,7 @@ import { SharedModule } from './shared/shared.module';
     AngularMultiSelectModule,
     MatAutocompleteModule,
     MatInputModule,
+
     CarouselModule.forRoot(),
   ],
   providers: [
@@ -60,6 +61,7 @@ import { SharedModule } from './shared/shared.module';
     HomeComponent,
     MapSectionComponent,
     HeatMapComponent,
+    // InrCurrencyPipe,
   ],
   exports: [],
   bootstrap: [AppComponent],

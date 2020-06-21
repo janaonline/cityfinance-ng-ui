@@ -49,12 +49,13 @@
     <div class="card" id="card1">
       <strong
         class="data-point-value"
-        [attr.data-animate-value]="
-          dataForVisualization ? dataForVisualization['coveredUlbCount'] : 0
-        "
         [ngClass]="{ 'loading-value': !dataForVisualization }"
-        >0</strong
       >
+        {{
+          dataForVisualization?.coveredUlbCount
+            | inrCurrency: { currencyTypeInUser: null }
+        }}
+      </strong>
       <!-- <span
         class="data-point-value"
         [ngClass]="{ 'loading-value': !dataForVisualization }"
@@ -65,13 +66,12 @@
       > -->
       <span class="data-point-name">
         (out of
-        <span
-          [ngClass]="{ 'loading-value': !dataForVisualization }"
-          [attr.data-animate-value]="
-            dataForVisualization ? dataForVisualization['totalULB'] : 0
-          "
-          >0</span
-        >
+        <span [ngClass]="{ 'loading-value': !dataForVisualization }">
+          {{
+            dataForVisualization?.totalULB
+              | inrCurrency: { currencyTypeInUser: null }
+          }}
+        </span>
         )</span
       >
       ULBs with Financial data
@@ -80,12 +80,13 @@
     <div class="card" id="card2">
       <strong
         class="data-point-value"
-        [attr.data-animate-value]="
-          dataForVisualization ? dataForVisualization['financialStatements'] : 0
-        "
         [ngClass]="{ 'loading-value': !dataForVisualization }"
-        >0</strong
       >
+        {{
+          dataForVisualization?.financialStatements
+            | inrCurrency: { currencyTypeInUser: null }
+        }}
+      </strong>
       <span class="data-point-name">
         Financial Statements for FYs 2015-16 to 17-18</span
       >
@@ -94,25 +95,25 @@
     <div class="card" id="card3">
       <strong
         class="data-point-value"
-        [attr.data-animate-value]="
+        [ngClass]="{ 'loading-value': !dataForVisualization }"
+      >
+        {{
           stateSelected && creditRating
             ? creditRating[stateSelected.name] || 0
-            : creditRating.total
-        "
-        [ngClass]="{ 'loading-value': !dataForVisualization }"
-        >0</strong
-      >
+            : (creditRating.total | inrCurrency: { currencyTypeInUser: null })
+        }}
+      </strong>
       <span class="data-point-name">
         <span> ULBs Credit Rating reports</span>
 
         <span *ngIf="stateSelected">
           (out of
           <span>
-            <strong
-              [ngClass]="{ 'loading-value': !dataForVisualization }"
-              [attr.data-animate-value]="creditRating?.total || 0"
-              >0</strong
-            ></span
+            <strong [ngClass]="{ 'loading-value': !dataForVisualization }">
+              {{
+                creditRating?.total | inrCurrency: { currencyTypeInUser: null }
+              }}
+            </strong></span
           >
           ULBs)</span
         ></span
@@ -123,9 +124,11 @@
         <span
           *ngIf="creditRatingAboveBBB_Minus !== undefined"
           [ngClass]="{ 'loading-value': !dataForVisualization }"
-          [attr.data-animate-value]="creditRatingAboveBBB_Minus || 0"
         >
-          0
+          {{
+            creditRatingAboveBBB_Minus
+              | inrCurrency: { currencyTypeInUser: null }
+          }}
         </span>
       </strong>
       ULBs <br />
@@ -136,11 +139,9 @@
 
     <div class="card" id="card5">
       <strong class="data-point-value">
-        <span
-          [ngClass]="{ 'loading-value': !dataForVisualization }"
-          [attr.data-animate-value]="creditRatingAboveA || 0"
-          >0</span
-        >
+        <span [ngClass]="{ 'loading-value': !dataForVisualization }">
+          {{ creditRatingAboveA | inrCurrency: { currencyTypeInUser: null } }}
+        </span>
       </strong>
       <span class="data-point-name">
         ULBs <br />
@@ -151,20 +152,19 @@
     <div class="card" id="card6">
       <div>
         <strong class="data-point-value">
-          <span
-            [ngClass]="{ 'loading-value': !dataForVisualization }"
-            [attr.data-animate-value]="
-              dataForVisualization?.totalMunicipalBonds || 0
-            "
-            >0</span
-          >
+          <span [ngClass]="{ 'loading-value': !dataForVisualization }">
+            {{
+              dataForVisualization?.totalMunicipalBonds
+                | inrCurrency: { currencyTypeInUser: null }
+            }}
+          </span>
         </strong>
         <span
           >Municipal Bond issuances of <br />
           <strong class="data-point-value" style="font-size: 1.5em;"
             >Rs
             <span [ngClass]="{ 'loading-value': isBondIssueAmountInProgress }">
-              {{ bondIssueAmount }}
+              {{ bondIssueAmount | inrCurrency: { currencyTypeInUser: null } }}
             </span>
             Cr</strong
           >
