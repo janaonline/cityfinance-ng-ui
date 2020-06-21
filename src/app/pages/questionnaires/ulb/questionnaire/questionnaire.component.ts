@@ -98,7 +98,7 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
       .getULBQuestionnaireData({ ulb: ulbId })
       .subscribe(
         (res) => {
-          this.ulbName = res ? res.ulbName : "Not Available";
+          this.ulbName = res ? res.ulbName : this.userData.name;
           this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
 
           if (this.userHasAlreadyFilledForm) {
