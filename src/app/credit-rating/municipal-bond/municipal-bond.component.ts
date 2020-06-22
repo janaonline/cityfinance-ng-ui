@@ -147,11 +147,14 @@ export class MunicipalBondComponent implements OnInit {
   onULBDropdownClose() {
     setTimeout(() => {
       const ulbSelected = this.filterForm.value.ulbs;
-
-      // Update the state List.
-      this.initializeStateList(
-        ulbSelected.length ? ulbSelected : this.ulbFilteredByName
-      );
+      const yearsSelected = this.filterForm.value.years;
+      if (ulbSelected.length) {
+        this.initializeStateList(ulbSelected);
+      } else if (yearsSelected.length) {
+        this.initializeStateList(this.ulbFilteredByName);
+      } else {
+        this.initializeStateList(this.originalULBList);
+      }
     });
   }
 
@@ -182,10 +185,20 @@ export class MunicipalBondComponent implements OnInit {
     if (ulbsSelected.length) {
       this.initializeStateList(ulbsSelected);
     } else {
-      this.initializeStateList(newULBList);
+      if (yearList.length) {
+        this.initializeStateList(newULBList);
+      } else {
+        this.initializeStateList(this.originalULBList);
+      }
     }
 
     this.updateSelectedState();
+  }
+
+  resetFilters() {
+    this.filterForm.patchValue({ ulbs: [], years: [], states: [] });
+    this.initializeStateList(this.originalULBList);
+    this.initializeYearList(this.originalULBList);
   }
 
   private onGettingBondIssuerSuccess(res: IBondIssuer) {
@@ -213,7 +226,11 @@ export class MunicipalBondComponent implements OnInit {
     this.originalULBList = response.data;
     this.ulbFilteredByName = response.data;
     this.initializeStateList(response.data);
-    this.yearsAvailable = this.getUniqueYearsFromULBS(response.data)
+    this.initializeYearList(response.data);
+  }
+
+  private initializeYearList(list: IULBResponse["data"]) {
+    this.yearsAvailable = this.getUniqueYearsFromULBS(list)
       .sort((a, b) => (+a > +b ? -1 : 1))
       .map((year) => ({ name: year }));
   }
