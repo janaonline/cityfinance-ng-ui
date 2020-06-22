@@ -24,7 +24,8 @@
         style="
           width: 100%;
           position: relative;
-          display: block;
+          display: flex;
+          align-items: center;
           margin-bottom: 1%;
         "
       >
@@ -43,16 +44,27 @@
             </angular2-multiselect>-->
 
           <angular2-multiselect
-            style="width: 70%; margin-right: 2%;"
+            style="width: 40%; margin-right: 2%;"
+            formControlName="states"
+            [data]="stateList"
+            [settings]="stateDropdownConfiguration"
+            (onClose)="onStateDropdownClose()"
+            (onDeSelectAll)="filterForm.patchValue({ states: [] })"
+          >
+          </angular2-multiselect>
+
+          <angular2-multiselect
+            style="width: 100%; margin-right: 2%;"
             formControlName="ulbs"
             [data]="ulbFilteredByName"
             [settings]="ulbDropdownConfiguration"
+            (onClose)="onULBDropdownClose()"
             (onDeSelectAll)="filterForm.patchValue({ ulbs: [] })"
           >
           </angular2-multiselect>
 
           <angular2-multiselect
-            style="width: 35%; margin-right: 2%;"
+            style="width: 41%; margin-right: 2%;"
             formControlName="years"
             [data]="yearsAvailable"
             (onClose)="onyearSelected()"
