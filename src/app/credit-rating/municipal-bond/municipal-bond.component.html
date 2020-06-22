@@ -44,9 +44,20 @@
 
           <angular2-multiselect
             style="width: 70%; margin-right: 2%;"
+            formControlName="states"
+            [data]="stateList"
+            [settings]="stateDropdownConfiguration"
+            (onClose)="onStateDropdownClose()"
+            (onDeSelectAll)="filterForm.patchValue({ states: [] })"
+          >
+          </angular2-multiselect>
+
+          <angular2-multiselect
+            style="width: 70%; margin-right: 2%;"
             formControlName="ulbs"
             [data]="ulbFilteredByName"
             [settings]="ulbDropdownConfiguration"
+            (onClose)="onULBDropdownClose()"
             (onDeSelectAll)="filterForm.patchValue({ ulbs: [] })"
           >
           </angular2-multiselect>
