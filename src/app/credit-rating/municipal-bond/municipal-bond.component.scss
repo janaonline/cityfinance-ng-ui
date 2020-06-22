@@ -157,7 +157,7 @@ angular2-multiselect {
   align-items: center;
   padding-left: 0px;
   padding-bottom: 0.1%;
-  width: 38vw;
+  width: 48vw;
   min-width: fit-content;
 }
 
@@ -188,6 +188,16 @@ accordion {
 
 ::ng-deep .dropdown-list {
   min-width: 250px !important;
+}
+
+::ng-deep .municipal-bonds {
+  .c-remove {
+    display: none;
+  }
+
+  .ngx-pagination {
+    margin-bottom: 0px;
+  }
 }
 
 // Scroll Bar UI Starts here// Scroll Bar UI Starts here
