@@ -92,10 +92,10 @@
     border-radius: 7px;
     box-shadow: 3px 3px 9px #a0a0a0;
     font-size: 0.8em;
-    padding: 4%;
+    padding: 4% 3%;
     text-align: center;
     .data-point-value {
-      font-size: 2em;
+      font-size: 1.8em;
       display: block;
       width: 100%;
     }
@@ -105,6 +105,22 @@
       text-align: center;
     }
     transition: all 0.1s;
+    .btn-explore {
+      background: transparent;
+      border: 0px solid white;
+      border-radius: 5px;
+      outline: none;
+      transition: all 0.5s;
+      opacity: 0;
+      transform: translateY(+100%);
+    }
+
+    &:hover {
+      .btn-explore {
+        opacity: 1;
+        transform: translateY(+10%);
+      }
+    }
   }
 
   #card1 {
@@ -113,6 +129,10 @@
     &:hover {
       background: white;
       color: rgb(34, 188, 238);
+      .btn-explore {
+        color: white;
+        background: rgb(34, 188, 238);
+      }
     }
   }
   #card2 {
@@ -120,6 +140,10 @@
     &:hover {
       background: white;
       color: rgb(231, 19, 104);
+      .btn-explore {
+        color: white;
+        background: rgb(231, 19, 104);
+      }
     }
   }
   #card3 {
@@ -127,6 +151,10 @@
     &:hover {
       background: white;
       color: rgb(98, 180, 70);
+      .btn-explore {
+        color: white;
+        background: rgb(98, 180, 70);
+      }
     }
   }
   #card4 {
@@ -134,6 +162,10 @@
     &:hover {
       background: white;
       color: rgb(241, 104, 49);
+      .btn-explore {
+        color: white;
+        background: rgb(241, 104, 49);
+      }
     }
   }
   #card5 {
@@ -141,6 +173,10 @@
     &:hover {
       background: white;
       color: rgb(67, 132, 76);
+      .btn-explore {
+        color: white;
+        background: rgb(67, 132, 76);
+      }
     }
   }
   #card6 {
@@ -148,6 +184,10 @@
     &:hover {
       background: white;
       color: rgb(252, 196, 21);
+      .btn-explore {
+        color: white;
+        background: rgb(252, 196, 21);
+      }
     }
   }
 }
