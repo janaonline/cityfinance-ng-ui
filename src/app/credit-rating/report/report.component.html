@@ -1,7 +1,7 @@
 <!--  -->
 <div class="container-fluid">
   <div class="common-container credit-rating-container">
-    <div class="row" *ngIf="page == 1">
+    <div class="row" [ngClass]="{ 'hide-container': page !== 1 }">
       <div class="col-md-12 dashboard-wrapper">
         <div class="col-md-6 col-sm-12 col-xl-12 map-container">
           <div id="mapidd"></div>
@@ -92,7 +92,7 @@
         <h3 style="margin-top: 0px;">Credit Rating Report</h3>
       </div>
       <div class="col-md-6">
-        <a class="right" (click)="setPage(1)">Back</a>
+        <a class="right" (click)="setPage(1)">Backkkkk</a>
       </div>
     </div>
 
