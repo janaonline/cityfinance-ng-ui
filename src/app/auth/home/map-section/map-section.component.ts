@@ -455,7 +455,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     this.isBondIssueAmountInProgress = true;
     this.commonService.getBondIssuerItemAmount(stateId).subscribe((res) => {
       try {
-        this.bondIssueAmount = res["data"][0]["totalAmount"];
+        this.bondIssueAmount = Math.round(res["data"][0]["totalAmount"]);
       } catch (error) {
         this.bondIssueAmount = 0;
       }
