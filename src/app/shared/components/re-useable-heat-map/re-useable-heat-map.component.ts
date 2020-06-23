@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger, MatSnackBar } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
 import { FeatureCollection, Geometry } from 'geojson';
 import * as L from 'leaflet';
 import { forkJoin } from 'rxjs';
@@ -35,8 +36,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     protected _commonService: CommonService,
     protected _snackbar: MatSnackBar,
-    protected _geoService: GeographicalService
+    protected _geoService: GeographicalService,
+    private _activateRoute: ActivatedRoute
   ) {
+    this._activateRoute.queryParams.subscribe(
+      (params) => (this.queryParams = params)
+    );
     this.listenToFormControls();
     this.addListener();
     this.addCustomStyleTag();
@@ -101,6 +106,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   stateLayers: L.GeoJSON<any>;
 
+  queryParams: { state?: string } = {};
+
   ngOnInit() {}
 
   ngOnChanges(changes: {
@@ -127,6 +134,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
       setTimeout(() => {
         this.initiatedDataFetchingProcess().subscribe((res) => {
+          this.onGettingStateULBCoveredSuccess(res[0]);
+          this.onGettingULBWithPopulationSuccess(res[1]);
           if (this.isMapOnMiniMapMode) {
             this.createStateLevelMap(this.currentStateInView.name);
             setTimeout(() => {
@@ -142,15 +151,13 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     const body = { year: this.yearSelected || [] };
     const subscriptions: any[] = [];
     subscriptions.push(
-      this._commonService
-        .getStateUlbCovered(body)
-        .pipe(map((res) => this.onGettingStateULBCoveredSuccess(res)))
+      this._commonService.getStateUlbCovered(body)
+      // .pipe(map((res) => this.onGettingStateULBCoveredSuccess(res)))
     );
 
     subscriptions.push(
-      this._commonService
-        .getULBSWithPopulationAndCoordinates(body)
-        .pipe(map((res) => this.onGettingULBWithPopulationSuccess(res)))
+      this._commonService.getULBSWithPopulationAndCoordinates(body)
+      // .pipe(map((res) => this.onGettingULBWithPopulationSuccess(res)))
     );
     return forkJoin(subscriptions);
   }
@@ -293,32 +300,53 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
     this.initializeNationalLevelMapLayer(this.stateLayers);
 
+    // Prepare to auto select state from query Params.
+    let stateToAutoSelect: IStateULBCovered;
+    let layerToAutoSelect;
+    if (this.queryParams.state) {
+      const stateFound = this.stateData.find(
+        (state) => state._id === this.queryParams.state
+      );
+      if (stateFound) stateToAutoSelect = stateFound;
+    }
+
     this.stateLayers.eachLayer((layer) => {
+      if (stateToAutoSelect) {
+        if (MapUtil.getStateName(layer) === stateToAutoSelect.name) {
+          layerToAutoSelect = { sourceTarget: layer };
+        }
+      }
       (layer as any).bringToBack();
       (layer as any).on({
         mouseover: () => this.createTooltip(layer, this.stateLayers),
-        click: (args: ILeafletStateClickEvent) => {
-          if (this.isNationalMapToDistroctMapInProcess) {
-            return;
-          }
-          this.isNationalMapToDistroctMapInProcess = setTimeout(() => {
-            try {
-              this.onClickingState(args);
-            } catch (error) {
-              this.mouseHoverOnState = null;
-              /**
-               * This error will generally occur when you change the year (dont close the year dropdown) and then click on the state.
-               */
-              console.error(error);
-            }
-            setTimeout(() => {
-              this.isNationalMapToDistroctMapInProcess = null;
-            }, 1000);
-          }, 1);
-        },
+        click: (args: ILeafletStateClickEvent) => this.onStateLayerClick(args),
         mouseout: () => (this.mouseHoverOnState = null),
       });
     });
+
+    if (layerToAutoSelect) {
+      this.onStateLayerClick(layerToAutoSelect);
+    }
+  }
+
+  private onStateLayerClick(args: ILeafletStateClickEvent) {
+    if (this.isNationalMapToDistroctMapInProcess) {
+      return;
+    }
+    this.isNationalMapToDistroctMapInProcess = setTimeout(() => {
+      try {
+        this.onClickingState(args);
+      } catch (error) {
+        this.mouseHoverOnState = null;
+        /**
+         * This error will generally occur when you change the year (dont close the year dropdown) and then click on the state.
+         */
+        console.error(error);
+      }
+      setTimeout(() => {
+        this.isNationalMapToDistroctMapInProcess = null;
+      }, 1000);
+    }, 1);
   }
 
   private initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
@@ -581,12 +609,14 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   private onClickingState(mapClickEvent: ILeafletStateClickEvent) {
     if (!this.DistrictsJSONForMapCreation) {
+      console.error(`district json not loaded`);
       this.showDistrictMapNotLaodedWarning();
       return false;
     }
     this.clearUlbFilterControl();
 
     if (this.isMapOnMiniMapMode) {
+      console.error("map is on mini mode");
       this.resetMapToNationalLevel();
       this.initializeNationalLevelMapLayer(this.stateLayers);
       return false;
@@ -614,7 +644,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       return false;
     }
     this.convertDomToMiniMap("mapidd");
-
     if (!status) {
       return false;
     }
@@ -673,7 +702,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     const stateFound = Object.values(this.stateAndULBDataMerged).find(
       (state) => state.name === stateName
     );
+
     if (!stateFound) {
+      console.error(`state not found for given name`);
       return false;
     }
 

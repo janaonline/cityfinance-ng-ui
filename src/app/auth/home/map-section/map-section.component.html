@@ -52,7 +52,7 @@
         [ngClass]="{ 'loading-value': !dataForVisualization }"
       >
         {{
-          dataForVisualization?.coveredUlbCount
+          dataForVisualization?.coveredUlbCount || 0
             | inrCurrency: { currencyTypeInUser: null }
         }}
       </strong>
@@ -88,6 +88,7 @@
         class="btn btn-explore"
         *ngIf="dataForVisualization?.coveredUlbCount"
         [routerLink]="['/analytics/own-revenues']"
+        [queryParams]="{ state: stateSelected ? stateSelected._id : null }"
         >Explore</a
       >
     </div>
@@ -98,7 +99,7 @@
         [ngClass]="{ 'loading-value': !dataForVisualization }"
       >
         {{
-          dataForVisualization?.financialStatements
+          dataForVisualization?.financialStatements || 0
             | inrCurrency: { currencyTypeInUser: null }
         }}
       </strong>
@@ -216,7 +217,7 @@
         <strong class="data-point-value">
           <span [ngClass]="{ 'loading-value': !dataForVisualization }">
             {{
-              dataForVisualization?.totalMunicipalBonds
+              dataForVisualization?.totalMunicipalBonds || 0
                 | inrCurrency: { currencyTypeInUser: null }
             }}
           </span>
@@ -237,6 +238,7 @@
         *ngIf="bondIssueAmount"
         class="btn btn-explore"
         [routerLink]="['/credit-rating/municipal-bond']"
+        [queryParams]="{ state: stateSelected ? stateSelected._id : null }"
         >Explore</a
       >
     </div>
