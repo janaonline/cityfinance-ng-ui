@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../../../app/auth/auth.service';
 import { DialogComponent } from '../../../app/shared/components/dialog/dialog.component';
@@ -92,25 +92,32 @@ export class MunicipalBondComponent implements OnInit {
     },
   };
 
+  queryParams = {};
+
   constructor(
     private _formBuilder: FormBuilder,
     private _bondService: MunicipalBondsService,
     private _excelService: ExcelService,
     private authService: AuthService,
     private diaglog: MatDialog,
-    private router: Router
+    private router: Router,
+    private _activatedRoute: ActivatedRoute
   ) {
-    this.initializeForm();
-    this.initializeFormListeners();
-    this._bondService
-      .getBondIssuer()
-      .subscribe((res) => this.onGettingBondIssuerSuccess(res));
-    this._bondService
-      .getBondIssuerItem()
-      .subscribe((res) => this.onGettingBondIssuerItemSuccess(res));
-    this._bondService
-      .getULBS()
-      .subscribe((res) => this.onGettingULBResponseSuccess(res));
+    this._activatedRoute.queryParams.subscribe((params) => {
+      console.log(params);
+      this.queryParams = params;
+      this.initializeForm();
+      this.initializeFormListeners();
+      this._bondService
+        .getBondIssuer()
+        .subscribe((res) => this.onGettingBondIssuerSuccess(res));
+      this._bondService
+        .getBondIssuerItem()
+        .subscribe((res) => this.onGettingBondIssuerItemSuccess(res));
+      this._bondService
+        .getULBS()
+        .subscribe((res) => this.onGettingULBResponseSuccess(res));
+    });
   }
 
   onStateDropdownClose() {
@@ -226,7 +233,24 @@ export class MunicipalBondComponent implements OnInit {
     this.originalULBList = response.data;
     this.ulbFilteredByName = response.data;
     this.initializeStateList(response.data);
+
     this.initializeYearList(response.data);
+
+    // Auto select state from query Params
+    this.setStateFromQueryParams(this.queryParams);
+  }
+
+  private setStateFromQueryParams(queryParams: { [key: string]: string }) {
+    if (queryParams["state"]) {
+      const stateFound = this.stateList.find(
+        (state) => state.state === queryParams["state"]
+      );
+      console.log(`state Found`, stateFound);
+      if (!stateFound) return;
+      this.filterForm.controls["states"].setValue([stateFound]);
+      this.onStateDropdownClose();
+      this.onSubmittingFilterForm();
+    }
   }
 
   private initializeYearList(list: IULBResponse["data"]) {
@@ -262,6 +286,7 @@ export class MunicipalBondComponent implements OnInit {
   onSubmittingFilterForm() {
     const params = this.createParamsForssuerItem(this.filterForm.value);
     this._bondService.getBondIssuerItem(params).subscribe((res) => {
+      console.log(res);
       this.onGettingBondIssuerItemSuccess(res);
     });
     this.resetPagination();

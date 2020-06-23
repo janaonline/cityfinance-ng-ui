@@ -294,3 +294,11 @@ div.arrow:after {
     margin-left: 31%;
   }
 }
+
+:host {
+  .hide-container {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+  }
+}

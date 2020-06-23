@@ -54,11 +54,12 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
 
   stateDatasForMapColoring: IStateULBCoveredResponse["data"];
   dataForVisualization: {
-    financialStatements: number;
-    totalMunicipalBonds: number;
-    totalULB: number;
-    coveredUlbCount: number;
-  };
+    financialStatements?: number;
+    totalMunicipalBonds?: number;
+    totalULB?: number;
+    coveredUlbCount?: number;
+    loading: boolean;
+  } = { loading: true };
 
   DropdownSettings = {
     singleSelection: true,
@@ -196,14 +197,14 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   }
 
   private fetchDataForVisualization(stateId?: string) {
-    this.dataForVisualization = null;
+    this.dataForVisualization.loading = true;
     this.commonService.fetchDataForHomepageMap(stateId).subscribe((res) => {
       this.setDefaultAbsCreditInfo();
 
       this.showCreditInfoByState(
         this.stateSelected ? this.stateSelected.name : ""
       );
-      this.dataForVisualization = { ...res };
+      this.dataForVisualization = { ...res, loading: false };
       this._ngZone.runOutsideAngular(() => {
         setTimeout(() => {
           this.animateValues(1);

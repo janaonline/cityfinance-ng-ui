@@ -1253,6 +1253,26 @@
             "ulb": "Vadodara Municipal Corporation",
             "agency": "CRISIL",
             "creditRating": "A+",
+            "outlook": "Stable",
+            "type": "Corporate Credit Rating",
+            "amount": "Not applicable",
+            "date": "1/3/2017",
+            "link": "https://jccd-cityfinance.s3.ap-south-1.amazonaws.com/downloads/credit-rating/VMC+Credit+Rating+2017.pdf"
+        },
+		 {
+            "ulb": "Vadodara Municipal Corporation",
+            "agency": "CRISIL",
+            "creditRating": "A-",
+            "outlook": "Not applicable",
+            "type": "Corporate Credit Rating",
+            "amount": "Not applicable",
+            "date": "27/08/2008",
+            "link": "https://jccd-cityfinance.s3.ap-south-1.amazonaws.com/downloads/credit-rating/VMC+Credit+Rating+2008.pdf"
+        },
+		 {
+            "ulb": "Vadodara Municipal Corporation",
+            "agency": "CRISIL",
+            "creditRating": "A+",
             "outlook": "Not applicable",
             "type": "Corporate Credit Rating",
             "amount": "Not applicable",

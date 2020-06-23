@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import { IBondIssuer } from '../../../credit-rating/municipal-bond/models/bondIssuerResponse';
@@ -28,6 +28,7 @@ export class MunicipalBondsService {
     if (this.AllBondIssuerItems) {
       return this.getBondIssuerItemFromCache(searchOption);
     }
+
     return this._http
       .get<IBondIssureItemResponse>(`${environment.api.url}/BondIssuerItem`)
       .pipe(
@@ -38,7 +39,8 @@ export class MunicipalBondsService {
             response.data
           );
           return { total: sorted.length, data: sorted };
-        })
+        }),
+        switchMap(() => this.getBondIssuerItemFromCache(searchOption))
       );
   }
 

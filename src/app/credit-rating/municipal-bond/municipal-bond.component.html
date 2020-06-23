@@ -44,7 +44,8 @@
             </angular2-multiselect>-->
 
           <angular2-multiselect
-            style="width: 40%; margin-right: 2%;"
+            *ngIf="stateList"
+            style="width: 66%; margin-right: 2%;"
             formControlName="states"
             [data]="stateList"
             [settings]="stateDropdownConfiguration"
@@ -54,6 +55,7 @@
           </angular2-multiselect>
 
           <angular2-multiselect
+            *ngIf="ulbFilteredByName"
             style="width: 100%; margin-right: 2%;"
             formControlName="ulbs"
             [data]="ulbFilteredByName"

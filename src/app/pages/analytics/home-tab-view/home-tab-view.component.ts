@@ -138,7 +138,7 @@ export class HomeTabViewComponent implements OnInit {
     this.activateRoute.params.subscribe(
       (param: { tab: IAnalyticsTabs["url"] }) => {
         const tabFound = Object.values(AnalyticsTabs).find(
-          (tab) => tab.url === this.router.url
+          (tab) => tab.url === this.router.url.split("?")[0]
         );
         if (!tabFound) {
           this.router.navigate(["/home"]);
@@ -379,8 +379,6 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   fetchUlBsData(ulbIdsArray: string[]) {
-    console.log(`map emitted ulb`, ulbIdsArray);
-
     if (ulbIdsArray.length) {
       this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
     }
@@ -1100,9 +1098,6 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   filterDataStateWise(event: any) {
-    console.log(`map emitted state`, event);
-    console.log({ ...this.selectedState });
-
     if (event) {
       if (this.selectedState && this.selectedState._id === event._id) {
         return;
