@@ -49,6 +49,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() ulbsClicked = new EventEmitter<string[]>();
   @Output() stateSelected = new EventEmitter<IStateWithULBS>();
+  @Output() isProcessingCompleted = new EventEmitter<boolean>(null);
   @Input() ulbSelected: string;
   @Input() yearSelected: string[] = ["2017"];
 
@@ -136,8 +137,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         this.initiatedDataFetchingProcess().subscribe((res) => {
           this.onGettingStateULBCoveredSuccess(res[0]);
           this.onGettingULBWithPopulationSuccess(res[1]);
+
           if (this.isMapOnMiniMapMode) {
             this.createStateLevelMap(this.currentStateInView.name);
+            this.isProcessingCompleted.emit(true);
             setTimeout(() => {
               this.hideMapLegends();
             }, 0);
@@ -148,6 +151,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   protected initiatedDataFetchingProcess() {
+    console.log(`initiatedDataFetchingProcess`);
     const body = { year: this.yearSelected || [] };
     const subscriptions: any[] = [];
     subscriptions.push(
@@ -324,7 +328,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       });
     });
 
-    if (layerToAutoSelect) {
+    /**
+     * @description If the map is already on mini mode, then it means the state is already selected, and its state map
+     * is in the view.
+     */
+    if (layerToAutoSelect && !this.isMapOnMiniMapMode) {
       this.onStateLayerClick(layerToAutoSelect);
     }
   }
@@ -526,6 +534,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
     this.loadMapGeoJson()
       .then((res) => {
+        console.log(`map loaded`, res);
         this.createNationalLevelMap(this.StatesJSONForMapCreation, "mapidd");
       })
       .catch((err) => {});
@@ -614,6 +623,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       return false;
     }
     this.clearUlbFilterControl();
+    console.log(`isMapOnMiniMapMode `, this.isMapOnMiniMapMode);
 
     if (this.isMapOnMiniMapMode) {
       console.error("map is on mini mode");
