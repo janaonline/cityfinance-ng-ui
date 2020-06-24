@@ -106,6 +106,12 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   queryParams: { state?: string } = {};
 
+  /**
+   * @description When the queryParams has any state id to auto select, then the layer of that
+   * state will be set to it. Use this layer for further process.
+   */
+  stateLayerToAutoSelect: L.Layer;
+
   createNationalLevelMap(
     geoData: FeatureCollection<
       Geometry,
@@ -136,12 +142,10 @@ export class ReportComponent implements OnInit, OnDestroy {
     );
     this.nationalLevelMap = map;
 
-    let stateLayerToAutoSelect: L.Layer;
-
     stateLayers.eachLayer((layer) => {
       if (this.queryParams.state) {
         if (MapUtil.getStateName(layer) === this.queryParams.state) {
-          stateLayerToAutoSelect = layer;
+          this.stateLayerToAutoSelect = layer;
         }
       }
       (layer as any).bringToBack();
@@ -150,8 +154,8 @@ export class ReportComponent implements OnInit, OnDestroy {
       });
     });
 
-    if (stateLayerToAutoSelect) {
-      this.onClickingState(<any>{ sourceTarget: stateLayerToAutoSelect });
+    if (this.stateLayerToAutoSelect) {
+      this.onClickingState(<any>{ sourceTarget: this.stateLayerToAutoSelect });
     }
   }
 
@@ -182,7 +186,12 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.list = data;
       this.originalList = data;
       this.generateDropDownData();
-      this.showCreditInfoByState();
+      if (this.stateLayerToAutoSelect) {
+        const stateName = MapUtil.getStateName(this.stateLayerToAutoSelect);
+        this.showCreditInfoByState(stateName);
+      } else {
+        this.showCreditInfoByState();
+      }
     });
 
     this.assetService
@@ -259,6 +268,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   showCreditInfoByState(stateName = "") {
+    console.log(`state: ${stateName}`, this.list);
     this.selectedStates[0] = stateName;
     this.setDefaultAbsCreditInfo();
     const ulbList = [];
