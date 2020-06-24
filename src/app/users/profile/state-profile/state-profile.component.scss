@@ -17,3 +17,8 @@ form > div {
 .form-field-error-message > span {
   display: block;
 }
+
+.error-message,
+.success-message {
+  width: 100%;
+}
