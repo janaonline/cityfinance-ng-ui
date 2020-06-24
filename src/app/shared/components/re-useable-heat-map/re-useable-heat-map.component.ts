@@ -45,11 +45,13 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.listenToFormControls();
     this.addListener();
     this.addCustomStyleTag();
+    this.isProcessingCompleted.emit(false);
+    console.log("constructor of map");
   }
 
   @Output() ulbsClicked = new EventEmitter<string[]>();
   @Output() stateSelected = new EventEmitter<IStateWithULBS>();
-  @Output() isProcessingCompleted = new EventEmitter<boolean>(null);
+  @Output() isProcessingCompleted = new EventEmitter<boolean>(false);
   @Input() ulbSelected: string;
   @Input() yearSelected: string[] = ["2017"];
 
@@ -140,10 +142,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
           if (this.isMapOnMiniMapMode) {
             this.createStateLevelMap(this.currentStateInView.name);
+            console.log(`state created`);
             this.isProcessingCompleted.emit(true);
             setTimeout(() => {
               this.hideMapLegends();
-            }, 0);
+            }, 1000);
           }
         });
       }, 0);
@@ -278,6 +281,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     >,
     containerId: string
   ) {
+    this.isProcessingCompleted.emit(false);
     let vw = Math.max(document.documentElement.clientWidth);
     vw = (vw - 1366) / 1366;
     const zoom = 4 + vw;
@@ -335,9 +339,18 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     if (layerToAutoSelect && !this.isMapOnMiniMapMode) {
       this.onStateLayerClick(layerToAutoSelect);
     }
+    if (this.isMapOnMiniMapMode) {
+      this.hideMapLegends();
+      this.showStateLayerOnlyFor(
+        this.nationalLevelMap,
+        this.currentStateInView
+      );
+    }
+    this.isProcessingCompleted.emit(true);
   }
 
   private onStateLayerClick(args: ILeafletStateClickEvent) {
+    this.isProcessingCompleted.emit(false);
     if (this.isNationalMapToDistroctMapInProcess) {
       return;
     }
@@ -353,7 +366,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       }
       setTimeout(() => {
         this.isNationalMapToDistroctMapInProcess = null;
-      }, 1000);
+        this.isProcessingCompleted.emit(true);
+      }, 0);
     }, 1);
   }
 
@@ -623,10 +637,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       return false;
     }
     this.clearUlbFilterControl();
-    console.log(`isMapOnMiniMapMode `, this.isMapOnMiniMapMode);
 
     if (this.isMapOnMiniMapMode) {
-      console.error("map is on mini mode");
       this.resetMapToNationalLevel();
       this.initializeNationalLevelMapLayer(this.stateLayers);
       return false;
@@ -696,6 +708,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         true
       );
     });
+    this.isProcessingCompleted.emit(true);
   }
 
   private convertMiniMapToOriginal(domId: string) {
