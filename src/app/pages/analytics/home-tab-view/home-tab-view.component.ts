@@ -1179,11 +1179,11 @@ export class HomeTabViewComponent implements OnInit {
     }
 
     const tabHeading = [
-      "Extent of Dependency on Own Revenues",
-      "Sources of Revenue",
-      "Sources of Financing Revenue Expenditure",
-      "Avenues of Revenue Expenditure",
+      "Own Revenues",
+      "Revenue Sources",
+      "Revenue Expenditure",
       "Cash and Bank Balance",
+
       "Outstanding Debt",
     ];
 
