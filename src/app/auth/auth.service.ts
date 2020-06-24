@@ -40,6 +40,12 @@ export class AuthService {
     return !this.helper.isTokenExpired(this.getToken());
   }
 
+  verifyCaptcha(recaptcha: string) {
+    return this.http.post(`${environment.api.url}captcha_validate`, {
+      recaptcha,
+    });
+  }
+
   logout() {
     localStorage.clear();
   }

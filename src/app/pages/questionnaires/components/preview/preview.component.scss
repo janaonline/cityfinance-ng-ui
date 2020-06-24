@@ -11,6 +11,9 @@ table {
 }
 
 :host {
+  span.top-11 {
+    top: 8px;
+  }
   .download-buttom {
     position: absolute;
     float: right;

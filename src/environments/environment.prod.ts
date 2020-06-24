@@ -19,6 +19,9 @@ export const environment = {
     url1: "https://democityfinanceapi.dhwaniris.in/",
     url,
   },
+  reCaptcha: {
+    siteKey: "6LcT9_gUAAAAANrZM5TNnE4OEEC46iFDfcAHZ8lD",
+  },
 };
 
 /*

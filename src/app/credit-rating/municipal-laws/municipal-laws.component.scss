@@ -118,10 +118,10 @@ table {
   .carousel-control {
     display: none;
   }
+}
 
-  :host {
-    div.carousel.slide {
-      outline: none;
-    }
+::ng-deep .municipal-law-carousel {
+  div.carousel.slide {
+    outline: none !important;
   }
 }

@@ -1,12 +1,31 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 
 import { QuestionnaireService } from '../../service/questionnaire.service';
-import { defaultDailogConfiuration } from '../configs/common.config';
-import { documentForm, QuestionsIdMapping as documentQuestions } from '../configs/document.config';
-import { propertyTaxForm, QuestionsIdMapping as propertyTaxQuestion } from '../configs/property-tax.cofig';
-import { QuestionsIdMapping as userChargesQuestion, userChargesForm } from '../configs/user-charges.config';
+import { defaultDailogConfiuration } from '../../state/configs/common.config';
+import {
+  documentForm as stateDocumentForm,
+  QuestionsIdMapping as stateDocumentQuestions
+} from '../../state/configs/document.config';
+import {
+  propertyTaxForm as statePropertyTaxForm,
+  QuestionsIdMapping as statePropertyTaxQuestion
+} from '../../state/configs/property-tax.cofig';
+import {
+  QuestionsIdMapping as stateUserChargesQuestion,
+  userChargesForm as stateUserChargesForm
+} from '../../state/configs/user-charges.config';
+import {
+  documentForm as ulbDocumentForm,
+  QuestionsIdMapping as ulbDocumentQuestions
+} from '../../ulb/configs/document.config';
+import {
+  QuestionsIdMapping as ulbUserChargesQuestion,
+  userChargesForm as ulbUserChargesForm
+} from '../../ulb/configs/user-charges.config';
 
 @Component({
   selector: "app-preview",
@@ -14,13 +33,17 @@ import { QuestionsIdMapping as userChargesQuestion, userChargesForm } from '../c
   styleUrls: ["./preview.component.scss"],
 })
 export class PreviewComponent implements OnInit {
+  @Input()
+  userType: USER_TYPE;
   @ViewChild("preview") _html: ElementRef;
-  propertyTaxQuestion = propertyTaxQuestion;
-  propertyTaxForm = propertyTaxForm;
-  userChargesQuestion = userChargesQuestion;
-  userChargesForm = userChargesForm;
-  documentQuestions = documentQuestions;
-  documentForm = documentForm;
+
+  USER_TYPE = USER_TYPE;
+  propertyTaxQuestion;
+  propertyTaxForm: FormGroup;
+  userChargesQuestion;
+  userChargesForm: FormGroup;
+  documentQuestions;
+  documentForm: FormGroup;
   showLoader = false;
   baseValue = 1;
 
@@ -82,7 +105,9 @@ export class PreviewComponent implements OnInit {
     private _matDialog: MatDialog
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initializeUserBasedView();
+  }
 
   downloadForm() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
@@ -123,5 +148,27 @@ export class PreviewComponent implements OnInit {
     a.download = filename;
     a.click();
     return url;
+  }
+
+  private initializeUserBasedView() {
+    console.log(this.userType);
+
+    switch (this.userType) {
+      case USER_TYPE.STATE: {
+        this.propertyTaxQuestion = statePropertyTaxQuestion;
+        this.propertyTaxForm = statePropertyTaxForm;
+        this.userChargesQuestion = stateUserChargesQuestion;
+        this.userChargesForm = stateUserChargesForm;
+        this.documentQuestions = stateDocumentQuestions;
+        this.documentForm = stateDocumentForm;
+        return;
+      }
+      case USER_TYPE.ULB: {
+        this.userChargesQuestion = ulbUserChargesQuestion;
+        this.userChargesForm = ulbUserChargesForm;
+        this.documentQuestions = ulbDocumentQuestions;
+        this.documentForm = ulbDocumentForm;
+      }
+    }
   }
 }

@@ -1,12 +1,3 @@
-.heading {
-  background-color: #444;
-  color: #fff;
-
-  td {
-    // font-weight: bold;
-  }
-}
-
 .municipal-bonds {
   font-size: 1vw;
   margin-bottom: 3%;
@@ -74,166 +65,137 @@
   .btn {
     font-size: 0.7em;
   }
-}
 
-.common-container {
-  padding-bottom: 0px;
-}
-.page-title {
-  margin-top: 0px;
-}
+  .heading {
+    background-color: #444;
+    color: #fff;
 
-.fixed-header {
-  // max-height: calc(100vh - 330px);
-  overflow: auto;
-  height: fit-content;
-}
-table {
-  min-width: 100%;
+    td {
+      // font-weight: bold;
+    }
+  }
+
+  .common-container {
+    padding-bottom: 0px;
+  }
+  .page-title {
+    margin-top: 0px;
+  }
+
+  .fixed-header {
+    // max-height: calc(100vh - 330px);
+    overflow: auto;
+    height: fit-content;
+  }
+  table {
+    min-width: 100%;
+    th {
+      background-color: #009fe3;
+      color: white;
+      padding: 5px 10px;
+      // font-size: 14px;
+      font-weight: 500;
+    }
+    td {
+      padding: 3px 5px;
+    }
+  }
+
+  .scrolling table {
+    table-layout: inherit;
+    *margin-left: -20%; /*ie7*/
+  }
+  .scrolling td,
   th {
-    background-color: #009fe3;
+    vertical-align: top;
+    padding: 10px;
+  }
+  .scrolling th {
+    position: absolute;
+    *position: relative; /*ie7*/
+    left: 0;
+    width: 20%;
+    // height: 100%;
+  }
+  .outer {
+    position: relative;
+  }
+  .inner {
+    overflow-x: auto;
+    overflow-y: visible;
+    // margin-left: 120px;
+  }
+
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 8px;
+  }
+
+  .stateULBName > * {
+    background: rgb(175, 175, 175);
     color: white;
-    padding: 5px 10px;
-    // font-size: 14px;
-    font-weight: 500;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    text-align: center;
   }
+
+  .stateULBName {
+    padding-right: 0px;
+    max-width: 214px;
+  }
+
+  ::ng-deep .mat-form-field-wrapper {
+    margin: 0px !important;
+  }
+
+  angular2-multiselect {
+    display: inline-block;
+  }
+
+  .filterForm {
+    display: inline-flex;
+    align-items: center;
+    padding-left: 0px;
+    padding-bottom: 0.1%;
+    width: 48vw;
+    min-width: fit-content;
+  }
+
+  ::ng-deep .c-btn {
+    min-height: 28px !important;
+  }
+
+  .somepadding {
+    padding: 10px 5px;
+  }
+
+  th,
   td {
-    padding: 3px 5px;
+    min-width: 230px;
+    max-width: 230px;
+  }
+
+  .municipal-bond {
+    overflow-x: auto;
+    margin-bottom: 1%;
+    min-width: 100%;
+  }
+
+  accordion {
+    display: block;
+    min-width: 100%;
+  }
+
+  ::ng-deep .dropdown-list {
+    min-width: 250px !important;
+  }
+
+  ::ng-deep .municipal-bonds {
+    .c-remove {
+      display: none;
+    }
+
+    .ngx-pagination {
+      margin-bottom: 0px;
+    }
   }
 }
-
-.scrolling table {
-  table-layout: inherit;
-  *margin-left: -20%; /*ie7*/
-}
-.scrolling td,
-th {
-  vertical-align: top;
-  padding: 10px;
-}
-.scrolling th {
-  position: absolute;
-  *position: relative; /*ie7*/
-  left: 0;
-  width: 20%;
-  // height: 100%;
-}
-.outer {
-  position: relative;
-}
-.inner {
-  overflow-x: auto;
-  overflow-y: visible;
-  // margin-left: 120px;
-}
-
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 8px;
-}
-
-.stateULBName > * {
-  background: rgb(175, 175, 175);
-  color: white;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  text-align: center;
-}
-
-.stateULBName {
-  padding-right: 0px;
-  max-width: 214px;
-}
-
-::ng-deep .mat-form-field-wrapper {
-  margin: 0px !important;
-}
-
-angular2-multiselect {
-  display: inline-block;
-}
-
-.filterForm {
-  display: inline-flex;
-  align-items: center;
-  padding-left: 0px;
-  padding-bottom: 0.1%;
-  width: 38vw;
-  min-width: fit-content;
-}
-
-::ng-deep .c-btn {
-  min-height: 28px !important;
-}
-
-.somepadding {
-  padding: 10px 5px;
-}
-
-th,
-td {
-  min-width: 230px;
-  max-width: 230px;
-}
-
-.municipal-bond {
-  overflow-x: auto;
-  margin-bottom: 1%;
-  min-width: 100%;
-}
-
-accordion {
-  display: block;
-  min-width: 100%;
-}
-
-::ng-deep .dropdown-list {
-  min-width: 250px !important;
-}
-
-// Scroll Bar UI Starts here// Scroll Bar UI Starts here
-
-// /* width */
-// ::-webkit-scrollbar {
-//   width: 0px;
-//   height: 3px;
-// }
-
-// /* Track */
-// ::-webkit-scrollbar-track {
-//   box-shadow: inset 0 0 0px grey;
-//   border-radius: 0px;
-// }
-
-// /* Handle */
-// ::-webkit-scrollbar-thumb {
-//   background: #f0ad4e;
-//   border-radius: 0px;
-// }
-
-// /* Handle on hover */
-// ::-webkit-scrollbar-thumb:hover {
-//   background: #f0ad4e;
-// }
-
-// /* width */
-// ::-webkit-scrollbar {
-//   width: 0px;
-//   height: 2px;
-// }
-
-// /* Track */
-// ::-webkit-scrollbar-track {
-//   box-shadow: inset 0 0 0px grey;
-//   border-radius: 0px;
-// }
-
-// /* Handle */
-// ::-webkit-scrollbar-thumb {
-//   background: #f0ad4e;
-//   border-radius: 0px;
-// }
-
-// /* Handle on hover */
-// ::-webkit-scrollbar-thumb:hover {
-//   background: #f0ad4e;
-// }

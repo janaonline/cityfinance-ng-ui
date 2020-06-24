@@ -91,29 +91,31 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
   }
 
   fetchQuestionnaireData(stateId: string) {
-    this._questionnaireService.getQuestionnaireData(stateId).subscribe(
-      (res) => {
-        this.stateName = res ? res.stateName : "Not Available";
-        this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
+    this._questionnaireService
+      .getStateQuestionnaireData({ state: stateId })
+      .subscribe(
+        (res) => {
+          this.stateName = res ? res.stateName : "Not Available";
+          this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
 
-        if (this.userHasAlreadyFilledForm) {
-          this.setComponentStateToAlreadyFilled(res, true);
-        } else {
-          this.propertyTaxData = res.propertyTax;
-          this.UserChargesData = res.userCharges;
-          this.documentData = res.documents;
+          if (this.userHasAlreadyFilledForm) {
+            this.setComponentStateToAlreadyFilled(res, true);
+          } else {
+            this.propertyTaxData = res.propertyTax;
+            this.UserChargesData = res.userCharges;
+            this.documentData = res.documents;
+          }
+
+          this.validateQuestionnaireFillAccess();
+          this.showLoader = false;
+        },
+        (error) => {
+          this.showLoader = false;
+          setTimeout(() => {
+            this.stepper.selectedIndex = 3;
+          }, 222);
         }
-
-        this.validateQuestionnaireFillAccess();
-        this.showLoader = false;
-      },
-      (error) => {
-        this.showLoader = false;
-        setTimeout(() => {
-          this.stepper.selectedIndex = 3;
-        }, 222);
-      }
-    );
+      );
   }
 
   setIntroductionCompleted(value: boolean) {
@@ -157,12 +159,14 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
       width: "35vw",
       height: "fit-content",
     });
-    this._questionnaireService.saveQuestionnaireData(obj).subscribe((res) => {
-      this.draftSavingInProgess = false;
-      setTimeout(() => {
-        this._matDialog.closeAll();
-      }, 3000);
-    });
+    this._questionnaireService
+      .saveStateQuestionnaireData(obj)
+      .subscribe((res) => {
+        this.draftSavingInProgess = false;
+        setTimeout(() => {
+          this._matDialog.closeAll();
+        }, 3000);
+      });
   }
 
   uploadCompletedQuestionnaireData() {
@@ -194,7 +198,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
       false
     );
     this._questionnaireService
-      .saveQuestionnaireData(obj)
+      .saveStateQuestionnaireData(obj)
       .subscribe((res) => {}, console.error);
   }
 
@@ -307,5 +311,9 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     //   : false;
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    propertyTaxForm.reset();
+    documentForm.reset();
+    userChargesForm.reset();
+  }
 }

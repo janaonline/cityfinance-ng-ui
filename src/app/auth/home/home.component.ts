@@ -150,5 +150,22 @@ export class HomeComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(() => {
+      const aboutElement = document
+        .getElementById("about-heading")
+        .getBoundingClientRect();
+      const quoteBox = document
+        .getElementById("quotes-box")
+        .getBoundingClientRect();
+      const height =
+        quoteBox.top -
+        aboutElement.bottom +
+        aboutElement.height / 2 +
+        quoteBox.height;
+      console.log(height);
+
+      document.getElementById("quotes-box").style.height = `${height}px`;
+    });
+  }
 }

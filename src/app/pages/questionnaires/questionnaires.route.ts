@@ -3,14 +3,19 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { SubmittedFormComponent as SubmittedFormsListComponent } from './list/submitted-form/submitted-form.component';
 import { StateQuestionnairesComponent } from './state/state-questionnaires/state-questionnaires.component';
+import { ULBQuestionnaireComponent } from './ulb/questionnaire/questionnaire.component';
 
 export const routes: Routes = [
   {
-    path: "form",
+    path: "state/form",
     component: StateQuestionnairesComponent,
   },
   {
-    path: "states",
+    path: "ulb/form",
+    component: ULBQuestionnaireComponent,
+  },
+  {
+    path: "list",
     component: SubmittedFormsListComponent,
   },
 ];

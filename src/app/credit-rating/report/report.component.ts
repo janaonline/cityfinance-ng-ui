@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FeatureCollection, Geometry } from 'geojson';
 import * as L from 'leaflet';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -36,8 +36,12 @@ export class ReportComponent implements OnInit, OnDestroy {
     protected _authService: AuthService,
     protected router: Router,
     private geoService: GeographicalService,
-    private assetService: AssetsService
+    private assetService: AssetsService,
+    private _activatedRoute: ActivatedRoute
   ) {
+    this._activatedRoute.queryParams.subscribe(
+      (params) => (this.queryParams = params)
+    );
     this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
       this.createNationalLevelMap(data, "mapidd");
     });
@@ -100,6 +104,14 @@ export class ReportComponent implements OnInit, OnDestroy {
     selected: "#019CDF",
   };
 
+  queryParams: { state?: string } = {};
+
+  /**
+   * @description When the queryParams has any state id to auto select, then the layer of that
+   * state will be set to it. Use this layer for further process.
+   */
+  stateLayerToAutoSelect: L.Layer;
+
   createNationalLevelMap(
     geoData: FeatureCollection<
       Geometry,
@@ -131,11 +143,20 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.nationalLevelMap = map;
 
     stateLayers.eachLayer((layer) => {
+      if (this.queryParams.state) {
+        if (MapUtil.getStateName(layer) === this.queryParams.state) {
+          this.stateLayerToAutoSelect = layer;
+        }
+      }
       (layer as any).bringToBack();
       (layer as any).on({
         click: (args: ILeafletStateClickEvent) => this.onClickingState(args),
       });
     });
+
+    if (this.stateLayerToAutoSelect) {
+      this.onClickingState(<any>{ sourceTarget: this.stateLayerToAutoSelect });
+    }
   }
 
   onClickingState(layer: ILeafletStateClickEvent) {
@@ -165,7 +186,12 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.list = data;
       this.originalList = data;
       this.generateDropDownData();
-      this.showCreditInfoByState();
+      if (this.stateLayerToAutoSelect) {
+        const stateName = MapUtil.getStateName(this.stateLayerToAutoSelect);
+        this.showCreditInfoByState(stateName);
+      } else {
+        this.showCreditInfoByState();
+      }
     });
 
     this.assetService
@@ -242,6 +268,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   showCreditInfoByState(stateName = "") {
+    console.log(`state: ${stateName}`, this.list);
     this.selectedStates[0] = stateName;
     this.setDefaultAbsCreditInfo();
     const ulbList = [];

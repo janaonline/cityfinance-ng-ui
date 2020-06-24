@@ -161,19 +161,17 @@
       </a>
     </li>
     <li routerLinkActive="active">
-      <a
-        [routerLink]="['/questionnaires/form']"
+      <!-- <a
+        [routerLink]="['/questionnaires/state/form']"
         *ngIf="canViewQuestionnaireForm && user?.role === USER_TYPE.STATE"
       >
-        Questionnaire
-      </a>
+        Questionnaireeeee
+      </a> -->
       <a
-        [routerLink]="['/questionnaires/states']"
+        [routerLink]="['/questionnaires/list']"
         *ngIf="
-          isLoggedIn && user?.role !== USER_TYPE.STATE
-            ? canViewQuestionnaireList
-            : isLoggedIn
-            ? false
+          isLoggedIn
+            ? canViewQuestionnaireList || canViewQuestionnaireForm
             : true
         "
       >

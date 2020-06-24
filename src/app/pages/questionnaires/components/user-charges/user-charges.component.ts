@@ -2,10 +2,18 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { debounceTime } from 'rxjs/operators';
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
 
-import { QuestionsIdMapping, userChargesForm } from '../configs/user-charges.config';
+import {
+  QuestionsIdMapping as StateQuestionsIdMapping,
+  userChargesForm as StateuserChargesForm
+} from '../../state/configs/user-charges.config';
+import {
+  QuestionsIdMapping as ULBQuestionsIdMapping,
+  userChargesForm as ULBuserChargesForm
+} from '../../ulb/configs/user-charges.config';
 
 @Component({
   selector: "app-user-charges",
@@ -17,6 +25,9 @@ export class UserChargesComponent implements OnInit, OnChanges, OnDestroy {
   @Input() editable: boolean;
   @Input() shouldGoToNext = true;
   @Input() showErroredQuestions = false;
+
+  @Input()
+  userType: USER_TYPE;
 
   @Output()
   answer: EventEmitter<{ [key: string]: string }> = new EventEmitter();
@@ -41,11 +52,9 @@ export class UserChargesComponent implements OnInit, OnChanges, OnDestroy {
   };
 
   clickedonNext = false;
-  QuestionsIdMapping = QuestionsIdMapping;
+  QuestionsIdMapping;
 
-  constructor(private _fb: FormBuilder, private _dialog: MatDialog) {
-    this.initializeForm();
-  }
+  constructor(private _fb: FormBuilder, private _dialog: MatDialog) {}
 
   ngOnInit() {
     this.questionForm.valueChanges
@@ -59,6 +68,9 @@ export class UserChargesComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: { data: SimpleChange; editable: SimpleChange }) {
+    this.initializeForm();
+    console.log(changes);
+
     if (changes.data && changes.data.currentValue) {
       this.questionForm.patchValue({ ...changes.data.currentValue });
     }
@@ -96,10 +108,17 @@ export class UserChargesComponent implements OnInit, OnChanges, OnDestroy {
     const dailogboxx = this._dialog.open(DialogComponent, {
       data: this.defaultDailogConfiuration,
     });
-    // dailogboxx.afterClose;d()
   }
   private initializeForm() {
-    this.questionForm = userChargesForm;
+    switch (this.userType) {
+      case USER_TYPE.STATE:
+        this.QuestionsIdMapping = StateQuestionsIdMapping;
+        this.questionForm = StateuserChargesForm;
+        return;
+      case USER_TYPE.ULB:
+        this.QuestionsIdMapping = ULBQuestionsIdMapping;
+        this.questionForm = ULBuserChargesForm;
+    }
   }
 
   ngOnDestroy(): void {
