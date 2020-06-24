@@ -8,7 +8,7 @@ if (
 ) {
   url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
 } else if (window.location.hostname.includes("staging")) {
-  url = "https://stgcityfinance.in/api/v1/";
+  url = "https://staging.cityfinance.in/api/v1/";
 } else {
   url = "https://cityfinance.in/api/v1/";
 }
@@ -18,6 +18,9 @@ export const environment = {
     url2: "https://cityfinance.in/",
     url1: "https://democityfinanceapi.dhwaniris.in/",
     url,
+  },
+  reCaptcha: {
+    siteKey: "6LcT9_gUAAAAANrZM5TNnE4OEEC46iFDfcAHZ8lD",
   },
 };
 

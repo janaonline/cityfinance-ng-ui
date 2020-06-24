@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 import { AngularMaterialModule } from '../angular-material.module';
+import { InrCurrencyPipe } from '../dashboard/report/inr-currency.pipe';
 import { FinancialDataService } from '../users/services/financial-data.service';
 import {
   FileStatusCheckerInputComponent
@@ -60,6 +61,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     FinanceDataUploadInputComponent,
     FinancialDataChartComponent,
     TickIconComponent,
+    InrCurrencyPipe,
   ],
   exports: [
     PreLoaderComponent,
@@ -74,6 +76,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     FinanceDataUploadInputComponent,
     FinancialDataChartComponent,
     TickIconComponent,
+    InrCurrencyPipe,
   ],
   providers: [FinancialDataService],
 })

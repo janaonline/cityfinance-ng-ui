@@ -9,12 +9,13 @@
   .wrapper {
     font-size: 1vw;
 
-    grid-template: repeat(4, 15vh) / repeat(17, 1fr);
+    grid-template: repeat(4, 15vh) / repeat(19, 1fr);
     grid-template-areas:
-      ". . . . . . . . . m m m m m m m m"
-      "s s s s s s s s s m m m m m m m m"
-      "v v v v . . . . . m m m m m m m m"
-      "v v v v . . . . . m m m m m m m m";
+      "m m m m m m m m m s s s s s s s s s s"
+      "m m m m m m m m m v v v v v v v v v v"
+      "m m m m m m m m m v v v v v v v v v v"
+      "m m m m m m m m m v v v v v v v v v v";
+    grid-template-rows: auto 3vh 1fr 1fr;
   }
 }
 
@@ -32,13 +33,15 @@
 
 .selectPart {
   grid-area: s;
+  font-weight: 500;
+  margin-left: 1.4%;
 
   color: var(--multi-dropdown-color);
 }
 @media (max-width: 1958px) {
   .selectPart {
     // font-size: 1.3vw;
-    font-size: 1.3em;
+    font-size: 1.1em;
   }
 }
 
@@ -50,6 +53,10 @@
 
 .visualization {
   grid-area: v;
+  // background: green;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   margin-top: 5px;
   color: var(--multi-dropdown-color);
   font-size: 1.2em;
@@ -69,6 +76,120 @@
       }
     }
   }
+
+  .card {
+    // background: red;
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1%;
+    padding: 2%;
+    width: 31%;
+    height: 200px;
+    border-radius: 7px;
+    box-shadow: 3px 3px 9px #a0a0a0;
+    font-size: 0.8em;
+    padding: 4% 3%;
+    text-align: center;
+    .data-point-value {
+      font-size: 1.8em;
+      display: block;
+      width: 100%;
+    }
+    .data-point-name {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+    transition: all 0.1s;
+    .btn-explore {
+      background: transparent;
+      border: 0px solid white;
+      border-radius: 5px;
+      outline: none;
+      transition: all 0.5s;
+      opacity: 0;
+      transform: translateY(+100%);
+    }
+
+    &:hover {
+      .btn-explore {
+        opacity: 1;
+        transform: translateY(+10%);
+      }
+    }
+  }
+
+  #card1 {
+    background: rgb(34, 188, 238);
+
+    &:hover {
+      background: white;
+      color: rgb(34, 188, 238);
+      .btn-explore {
+        color: white;
+        background: rgb(34, 188, 238);
+      }
+    }
+  }
+  #card2 {
+    background: rgb(231, 19, 104);
+    &:hover {
+      background: white;
+      color: rgb(231, 19, 104);
+      .btn-explore {
+        color: white;
+        background: rgb(231, 19, 104);
+      }
+    }
+  }
+  #card3 {
+    background: rgb(98, 180, 70);
+    &:hover {
+      background: white;
+      color: rgb(98, 180, 70);
+      .btn-explore {
+        color: white;
+        background: rgb(98, 180, 70);
+      }
+    }
+  }
+  #card4 {
+    background: rgb(241, 104, 49);
+    &:hover {
+      background: white;
+      color: rgb(241, 104, 49);
+      .btn-explore {
+        color: white;
+        background: rgb(241, 104, 49);
+      }
+    }
+  }
+  #card5 {
+    background: rgb(67, 132, 76);
+    &:hover {
+      background: white;
+      color: rgb(67, 132, 76);
+      .btn-explore {
+        color: white;
+        background: rgb(67, 132, 76);
+      }
+    }
+  }
+  #card6 {
+    background: rgb(252, 196, 21);
+    &:hover {
+      background: white;
+      color: rgb(252, 196, 21);
+      .btn-explore {
+        color: white;
+        background: rgb(252, 196, 21);
+      }
+    }
+  }
 }
 
 @media (max-width: 1059px) {
@@ -79,6 +200,7 @@
 
 .mapWrapper {
   grid-area: m;
+  // background: red;
   #mapid {
     border-radius: inherit;
     left: 5px;
@@ -95,7 +217,7 @@
 }
 
 form {
-  width: 45%;
+  width: 30%;
   display: inline-block;
 }
 
@@ -160,10 +282,10 @@ form {
 
 ::ng-deep .ml-0 {
   max-width: 140px;
-  transform: translateX(-5%);
-  margin-bottom: 5vh !important;
+  transform: translateX(-35%);
+  margin-bottom: 3vh !important;
   overflow: visible;
-  font-size: 0.6vw;
+  // font-size: 0.6vw;
 }
 
 @media (max-width: 1060px) {
@@ -182,4 +304,44 @@ form {
 
 .loading-value {
   opacity: 0.1;
+}
+
+:host {
+  ::ng-deep {
+    .selected-list .c-angle-down,
+    .selected-list .c-angle-up {
+      top: 50%;
+      transform: translateY(-55%);
+    }
+  }
+
+  .heading {
+    width: 35%;
+    display: block;
+    margin: 2vw auto;
+    // margin-bottom: 2%;
+
+    color: #059b9a;
+    position: relative;
+    text-align: center;
+    span {
+      display: inline-block;
+      background: #fafafa;
+      z-index: 1;
+      position: relative;
+      padding: 1% 3%;
+    }
+  }
+
+  .heading::after {
+    content: "";
+    display: inline-block;
+    background: #059b9a;
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    z-index: 0;
+  }
 }

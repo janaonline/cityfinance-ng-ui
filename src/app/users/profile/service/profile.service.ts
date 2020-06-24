@@ -149,4 +149,8 @@ export class ProfileService {
       { status: params.status }
     );
   }
+
+  public getULBGeneralData(param: { [key: string]: any }) {
+    return this._htttp.get(`${environment.api.url}ulb/${param.id}`);
+  }
 }

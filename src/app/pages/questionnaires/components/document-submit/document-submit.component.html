@@ -6,8 +6,14 @@
     allowed. Other type of files will be filtered out.<br />
     3. Maximum of 10 files can be selected per question.<br />
     4. Duplicate Files for same question will be filtered out.<br />
+
     5. Please use following format for naming the documents to be uploaded:
-    nameofthedocument_State name
+    <span *ngIf="userType === USER_TYPE.STATE"
+      >nameofthedocument_State name</span
+    >
+    <span *ngIf="userType === USER_TYPE.ULB"
+      >nameofthedocument_State name_ULB name</span
+    >
   </p>
   <table class="question-table">
     <tbody>
@@ -74,7 +80,10 @@
               ></i>
             </a>
 
-            <span style="float: right; margin-left: 2%;" *ngIf="canUploadFile">
+            <span
+              style="float: right; margin-left: 2%;"
+              *ngIf="canUploadFile && !documentForm.disabled"
+            >
               <i
                 class="fa fa-times"
                 aria-hidden="true"
@@ -138,7 +147,7 @@
             Previous
           </button>
           <button
-            *ngIf="canUploadFile"
+            *ngIf="canUploadFile && !documentForm.disabled"
             class="btn btn-primary btn-upload mt-3"
             style="float: right; margin-right: 2%;"
             [disabled]="NoOfFileInProgress !== 0"

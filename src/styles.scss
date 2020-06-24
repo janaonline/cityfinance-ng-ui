@@ -7,7 +7,8 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 :root {
-  --multi-dropdown-color: rgb(240, 158, 6);
+  // --multi-dropdown-color: rgb(240, 158, 6);
+  --multi-dropdown-color: #059b9a;
 }
 input.is-invalid,
 .is-invalid {

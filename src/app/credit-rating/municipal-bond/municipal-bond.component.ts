@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../../../app/auth/auth.service';
 import { DialogComponent } from '../../../app/shared/components/dialog/dialog.component';
@@ -22,6 +22,7 @@ import { IULBResponse, ULB } from './models/ulbsResponse';
 export class MunicipalBondComponent implements OnInit {
   filterForm: FormGroup;
   ulbFilteredByName: ULB[];
+  stateList: IULBResponse["data"];
   originalULBList: IULBResponse["data"];
   yearsAvailable: { name: string }[] = [];
   statesAvailable = [];
@@ -46,6 +47,18 @@ export class MunicipalBondComponent implements OnInit {
     enableSearchFilter: true,
     badgeShowLimit: 1,
     labelKey: "name",
+    showCheckbox: true,
+    noDataLabel: "No Data available",
+    classes: "ulbDropdown",
+  };
+
+  stateDropdownConfiguration = {
+    primaryKey: "state",
+    singleSelection: false,
+    text: "All States",
+    enableSearchFilter: true,
+    badgeShowLimit: 1,
+    labelKey: "stateName",
     showCheckbox: true,
     noDataLabel: "No Data available",
     classes: "ulbDropdown",
@@ -79,25 +92,120 @@ export class MunicipalBondComponent implements OnInit {
     },
   };
 
+  queryParams = {};
+
   constructor(
     private _formBuilder: FormBuilder,
     private _bondService: MunicipalBondsService,
     private _excelService: ExcelService,
     private authService: AuthService,
     private diaglog: MatDialog,
-    private router: Router
+    private router: Router,
+    private _activatedRoute: ActivatedRoute
   ) {
-    this.initializeForm();
-    this.initializeFormListeners();
-    this._bondService
-      .getBondIssuer()
-      .subscribe((res) => this.onGettingBondIssuerSuccess(res));
-    this._bondService
-      .getBondIssuerItem()
-      .subscribe((res) => this.onGettingBondIssuerItemSuccess(res));
-    this._bondService
-      .getULBS()
-      .subscribe((res) => this.onGettingULBResponseSuccess(res));
+    this._activatedRoute.queryParams.subscribe((params) => {
+      console.log(params);
+      this.queryParams = params;
+      this.initializeForm();
+      this.initializeFormListeners();
+      this._bondService
+        .getBondIssuer()
+        .subscribe((res) => this.onGettingBondIssuerSuccess(res));
+      this._bondService
+        .getBondIssuerItem()
+        .subscribe((res) => this.onGettingBondIssuerItemSuccess(res));
+      this._bondService
+        .getULBS()
+        .subscribe((res) => this.onGettingULBResponseSuccess(res));
+    });
+  }
+
+  onStateDropdownClose() {
+    const statesSelected: IULBResponse["data"] = this.filterForm.value.states;
+
+    // Update the ulb list
+    let newULBList: IULBResponse["data"];
+    const yearsSelected = this.filterForm.value.years;
+    if (statesSelected.length) {
+      newULBList = this.getULBByState(
+        statesSelected.map((state) => state.state),
+        this.originalULBList
+      );
+    } else {
+      if (yearsSelected.length) {
+        newULBList = this.getULBHavingYears(
+          yearsSelected,
+          this.originalULBList
+        );
+      } else {
+        newULBList = [...this.originalULBList];
+      }
+    }
+
+    // Filter Out ULBs based on years if selected.
+    if (yearsSelected.length) {
+      newULBList = this.getULBHavingYears(yearsSelected, newULBList);
+    }
+
+    this.ulbFilteredByName = newULBList;
+    this.updateSelectedULB();
+  }
+
+  onULBDropdownClose() {
+    setTimeout(() => {
+      const ulbSelected = this.filterForm.value.ulbs;
+      const yearsSelected = this.filterForm.value.years;
+      if (ulbSelected.length) {
+        this.initializeStateList(ulbSelected);
+      } else if (yearsSelected.length) {
+        this.initializeStateList(this.ulbFilteredByName);
+      } else {
+        this.initializeStateList(this.originalULBList);
+      }
+    });
+  }
+
+  onyearSelected() {
+    const yearList = this.filterForm.controls["years"].value;
+    let newULBList: IULBResponse["data"];
+
+    // Update the ULBs
+    if (!yearList.length) {
+      newULBList = this.originalULBList;
+    } else {
+      newULBList = this.getULBHavingYears(yearList, this.originalULBList);
+    }
+    // Check with state.
+    const statesSelected = this.filterForm.value.states;
+    if (statesSelected.length) {
+      newULBList = this.getULBByState(
+        statesSelected.map((state) => state.state),
+        newULBList
+      );
+    }
+
+    this.ulbFilteredByName = newULBList;
+    this.updateSelectedULB();
+
+    // Update the State List.
+    const ulbsSelected = this.filterForm.value.ulbs;
+    if (ulbsSelected.length) {
+      this.initializeStateList(ulbsSelected);
+    } else {
+      if (yearList.length) {
+        this.initializeStateList(newULBList);
+      } else {
+        this.initializeStateList(this.originalULBList);
+      }
+    }
+
+    this.updateSelectedState();
+  }
+
+  resetFilters() {
+    this.filterForm.patchValue({ ulbs: [], years: [], states: [] });
+    this.initializeStateList(this.originalULBList);
+    this.initializeYearList(this.originalULBList);
   }
 
   private onGettingBondIssuerSuccess(res: IBondIssuer) {
@@ -124,9 +232,43 @@ export class MunicipalBondComponent implements OnInit {
   private onGettingULBResponseSuccess(response: IULBResponse) {
     this.originalULBList = response.data;
     this.ulbFilteredByName = response.data;
-    this.yearsAvailable = this.getUniqueYearsFromULBS(response.data)
+    this.initializeStateList(response.data);
+
+    this.initializeYearList(response.data);
+
+    // Auto select state from query Params
+    this.setStateFromQueryParams(this.queryParams);
+  }
+
+  private setStateFromQueryParams(queryParams: { [key: string]: string }) {
+    if (queryParams["state"]) {
+      const stateFound = this.stateList.find(
+        (state) => state.state === queryParams["state"]
+      );
+      console.log(`state Found`, stateFound);
+      if (!stateFound) return;
+      this.filterForm.controls["states"].setValue([stateFound]);
+      this.onStateDropdownClose();
+      this.onSubmittingFilterForm();
+    }
+  }
+
+  private initializeYearList(list: IULBResponse["data"]) {
+    this.yearsAvailable = this.getUniqueYearsFromULBS(list)
       .sort((a, b) => (+a > +b ? -1 : 1))
       .map((year) => ({ name: year }));
+  }
+
+  private initializeStateList(response: IULBResponse["data"]) {
+    if (!response) return false;
+    const unqiueStates = {};
+    this.stateList = [];
+    response.forEach((state) => {
+      if (unqiueStates[state.state]) return;
+
+      this.stateList.push(state);
+      unqiueStates[state.state] = state;
+    });
   }
 
   private capitalizedName(originalName: string) {
@@ -144,13 +286,10 @@ export class MunicipalBondComponent implements OnInit {
   onSubmittingFilterForm() {
     const params = this.createParamsForssuerItem(this.filterForm.value);
     this._bondService.getBondIssuerItem(params).subscribe((res) => {
+      console.log(res);
       this.onGettingBondIssuerItemSuccess(res);
     });
     this.resetPagination();
-  }
-
-  private resetPagination() {
-    this.currentPageInView = this.defaultPageView;
   }
 
   onClickDownload() {
@@ -183,6 +322,40 @@ export class MunicipalBondComponent implements OnInit {
         this.bondIssuerItemData
       );
     }, 500);
+  }
+
+  private getULBByState(stateIds: string[], list: IULBResponse["data"]) {
+    return list.filter((ulb) => stateIds.includes(ulb.state));
+  }
+
+  private updateSelectedULB() {
+    const filteredSelectedULBS = (<ULB[]>(
+      this.filterForm.controls["ulbs"].value
+    )).filter(
+      (ulb) =>
+        !!this.ulbFilteredByName.find(
+          (ulbToCheck) => ulbToCheck.name === ulb.name
+        )
+    );
+
+    this.filterForm.controls["ulbs"].setValue(filteredSelectedULBS);
+  }
+
+  private updateSelectedState() {
+    const filteredSelectedStates = (<ULB[]>(
+      this.filterForm.controls["states"].value
+    )).filter(
+      (state) =>
+        !!this.stateList.find(
+          (stateToCheck) => stateToCheck.state === state.state
+        )
+    );
+
+    this.filterForm.controls["states"].setValue(filteredSelectedStates);
+  }
+
+  private resetPagination() {
+    this.currentPageInView = this.defaultPageView;
   }
 
   private sliceDataForCurrentView(list: any[]) {
@@ -234,24 +407,28 @@ export class MunicipalBondComponent implements OnInit {
   private createParamsForssuerItem(obj: {
     ulbs: { name: string }[];
     years: { name: string }[];
+    states?: { state: string }[];
   }) {
     return {
       ulbs: obj.ulbs ? obj.ulbs.map((ulb) => ulb.name) : [],
       years: obj.years ? obj.years.map((year) => year.name) : [],
+      states: obj.states ? obj.states.map((state) => state.state) : [],
     };
   }
 
   onClickingULBAutoComplete(ulbClicked: any) {}
 
   private initializeFormListeners() {
-    this.filterForm.controls["ulbs"].valueChanges.subscribe((newValue) => {
-      if (!newValue.length) {
-        this.yearsAvailable = this.getUniqueYearsFromULBS(this.originalULBList)
+    this.filterForm.controls["ulbs"].valueChanges.subscribe((ulbsSelected) => {
+      if (!ulbsSelected.length) {
+        this.yearsAvailable = this.getUniqueYearsFromULBS(
+          this.ulbFilteredByName
+        )
           .sort((a, b) => (+a > +b ? -1 : 1))
           .map((year) => ({ name: year }));
         return;
       }
-      const uniqueYears = this.getUniqueYearsFromULBS(newValue);
+      const uniqueYears = this.getUniqueYearsFromULBS(ulbsSelected);
       let yearsSelected = this.filterForm.controls["years"].value;
       if (yearsSelected) {
         yearsSelected = yearsSelected.filter((yearAlreadySelected) =>
@@ -265,29 +442,6 @@ export class MunicipalBondComponent implements OnInit {
         .sort((a, b) => (+a > +b ? -1 : 1))
         .map((year) => ({ name: year }));
     });
-  }
-
-  onyearSelected() {
-    const yearList = this.filterForm.controls["years"].value;
-    if (!yearList.length) {
-      this.ulbFilteredByName = this.originalULBList;
-    } else {
-      this.ulbFilteredByName = this.getULBHavingYears(
-        yearList,
-        this.originalULBList
-      );
-    }
-
-    const filteredSelectedULBS = (<ULB[]>(
-      this.filterForm.controls["ulbs"].value
-    )).filter(
-      (ulb) =>
-        !!this.ulbFilteredByName.find(
-          (ulbToCheck) => ulbToCheck.name === ulb.name
-        )
-    );
-
-    this.filterForm.controls["ulbs"].setValue(filteredSelectedULBS);
   }
 
   private getULBHavingYears(

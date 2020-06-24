@@ -36,10 +36,14 @@
   implementing the scheme.<br />
 </p>
 <h2 class="text-center">Guidelines for the user</h2>
-<p>
+<p *ngIf="userType === USER_TYPE.STATE">
   1. The form is divided into two parts 1) Property Tax and 2) User Charges.
   Please try to answer all the questions. Once you answer all the questions you
   would be able to submit the form
+</p>
+<p *ngIf="userType === USER_TYPE.ULB">
+  1. Please try to answer all the questions. Once you answer all the questions
+  you would be able to submit the form
 </p>
 <p>
   2. You can fill the form at one go or in several sessions by saving it as
@@ -65,9 +69,13 @@
   7. It is advisable to upload relevant implementation plan in PPT/MS Word/pdf
   format
 </p>
-<p>
+<p *ngIf="userType === USER_TYPE.STATE">
   8. Please use following format for naming the documents to be uploaded:
   nameofthedocument_State name
+</p>
+<p *ngIf="userType === USER_TYPE.ULB">
+  8. Please use following format for naming the documents to be uploaded:
+  nameofthedocument_State name_ULB name
 </p>
 <br /><br />
 
