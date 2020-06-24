@@ -189,9 +189,13 @@
     min-width: 250px !important;
   }
 
-  ::ng-deep .municipal-bonds {
+  .filterForm {
+    font-size: 1vw;
+  }
+
+  ::ng-deep {
     .c-remove {
-      display: none;
+      display: none !important;
     }
 
     .ngx-pagination {
