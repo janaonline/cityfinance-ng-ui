@@ -4,7 +4,7 @@
     <!-- {{tempStates | json}} -->
     <!-- {{keys | json}} -->
     <!-- {{list | json}}  -->
-    <div class="row m-1" *ngIf="!compareState">
+    <div class="row m-1" [ngClass]="{ 'hide-container': compareState }">
       <div class="col-md-6 mt-2" style="min-height: 50vh;">
         <carousel
           class="municipal-law-carousel"
