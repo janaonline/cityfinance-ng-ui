@@ -10,14 +10,17 @@ if (
 } else if (window.location.hostname.includes("staging")) {
   url = "https://staging.cityfinance.in/api/v1/";
 } else {
-  url = "http://cityfinance.in/api/v1/";
+  url = "https://cityfinance.in/api/v1/";
 }
 // url = "http://cityfinance.in/api/v1/";
 export const environment = {
   production: false,
   api: {
-    url2: "http://cityfinance.in/",
+    url2: "https://cityfinance.in/",
     url: url,
+  },
+  reCaptcha: {
+    siteKey: "6LcT9_gUAAAAANrZM5TNnE4OEEC46iFDfcAHZ8lD",
   },
 };
 

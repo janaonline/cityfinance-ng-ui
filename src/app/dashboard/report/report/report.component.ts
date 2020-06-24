@@ -29,6 +29,16 @@ interface CustomArray<T> {
   styleUrls: ["./report.component.scss"],
 })
 export class ReportComponent implements OnInit, OnDestroy {
+  constructor(
+    private formBuilder: FormBuilder,
+    private _loaderService: GlobalLoaderService,
+    private commonService: CommonService,
+    private modalService: BsModalService,
+    private reportService: ReportService,
+    private router: Router,
+    private _dialog: MatDialog,
+    private authService: AuthService
+  ) {}
   // get lf() {
   //   return this.reportForm.controls;
   // }
@@ -108,16 +118,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     },
   };
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private _loaderService: GlobalLoaderService,
-    private commonService: CommonService,
-    private modalService: BsModalService,
-    private reportService: ReportService,
-    private router: Router,
-    private _dialog: MatDialog,
-    private authService: AuthService
-  ) {}
+  clickedOnGenerateReport = false;
 
   ngOnInit() {
     for (let i = 65; i <= 90; i++) {
@@ -573,6 +574,7 @@ export class ReportComponent implements OnInit, OnDestroy {
    * This method is executed whenever the report is needed to generate (generally when Generate Report button is clicked);
    */
   search() {
+    this.clickedOnGenerateReport = true;
     this.reportForm.value.years = [];
     for (let i = 0; i < this.reportForm.value.yearList.length; i++) {
       const year = this.reportForm.value.yearList[i].id;
@@ -722,7 +724,10 @@ export class ReportComponent implements OnInit, OnDestroy {
     } else {
       this.ulbTypeSelected = "other";
     }
-    this.modalRef = this.modalService.show(template, { class: "modal-lg" });
+    this.modalRef = this.modalService.show(template, {
+      class: "modal-lg",
+      // backdrop: "static",
+    });
   }
 
   // Click event on parent checkbox

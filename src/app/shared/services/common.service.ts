@@ -29,6 +29,12 @@ export class CommonService {
   // private states: any = [];
   constructor(private http: HttpClient) {}
 
+  public getWebsiteVisitCount() {
+    return this.http
+      .get(`${environment.api.url}visit_count`)
+      .pipe(map((res) => (res && res["data"] ? res["data"] : 0)));
+  }
+
   // we are loading states while loading dashboard
   public loadStates(doLoadFromServer: boolean) {
     if (this.stateArr.length > 0 && !doLoadFromServer) {
@@ -37,6 +43,13 @@ export class CommonService {
     this.http.get(environment.api.url + "/state").subscribe((res) => {
       this.stateArr = res["data"];
       this.states.next(this.stateArr);
+    });
+  }
+
+  public getBondIssuerItemAmount(state?: string) {
+    const params = this.httpUtil.convertToHttpParams({ state });
+    return this.http.get(`${environment.api.url}BondIssuerItem/amount`, {
+      params,
     });
   }
 

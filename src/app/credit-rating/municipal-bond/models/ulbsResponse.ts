@@ -8,4 +8,6 @@ export interface IULBResponse {
 export interface ULB {
   name: string;
   years: string[];
+  state?: string; // State Id
+  stateName: string;
 }

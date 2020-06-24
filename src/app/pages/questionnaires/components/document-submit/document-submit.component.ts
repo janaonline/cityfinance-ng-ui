@@ -1,14 +1,23 @@
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
 
 import { IQuestionnaireDocumentsCollection } from '../../model/document-collection.interface';
-import { documentForm, QuestionsIdMapping } from '../configs/document.config';
+import {
+  documentForm as StateDocumentForm,
+  QuestionsIdMapping as StateQuestionsIdMApping
+} from '../../state/configs/document.config';
+import {
+  documentForm as ULBDocumentForm,
+  QuestionsIdMapping as ULBQuestionsIdMapping
+} from '../../ulb/configs/document.config';
 
 /**
  * These are thew question ids that are mapped to files that user select and the question.
@@ -49,6 +58,9 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
   @Input()
   editable = true;
 
+  @Input()
+  userType: USER_TYPE;
+
   @Output()
   outputValues = new EventEmitter<emitValue>();
   @Output()
@@ -72,29 +84,7 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
 
   NoOfFileInProgress = 0;
 
-  questions = [
-    {
-      key: "State_Acts_Doc",
-      question: QuestionsIdMapping["State_Acts_Doc"],
-    },
-    {
-      key: "State_Rules_Doc",
-      question: QuestionsIdMapping["State_Rules_Doc"],
-    },
-
-    {
-      key: "Admin_Doc",
-      question: QuestionsIdMapping["Admin_Doc"],
-    },
-    {
-      key: "Implement_Doc",
-      question: QuestionsIdMapping["Implement_Doc"],
-    },
-    {
-      key: "Other_Doc",
-      question: QuestionsIdMapping["Other_Doc"],
-    },
-  ];
+  questions: { key: string; question: string }[];
 
   fileExnetsionAllowed = ["pdf", "ppt", "docx", "xlsx", "xls"];
 
@@ -118,6 +108,8 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
       cancel: { text: "OK" },
     },
   };
+  documentForm: FormGroup;
+  USER_TYPE = USER_TYPE;
 
   constructor(
     private dataEntryService: DataEntryService,
@@ -127,11 +119,13 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
     documents: SimpleChange;
     canUploadFile: SimpleChange;
   }): void {
+    this.initializeQuestionMapping();
+
     if (changes.documents && changes.documents.currentValue) {
       if (changes.canUploadFile && !changes.canUploadFile.currentValue) {
         return;
       }
-      documentForm.patchValue(changes.documents.currentValue);
+      this.documentForm.patchValue(changes.documents.currentValue);
 
       this.userSelectedFiles = { ...changes.documents.currentValue };
       Object.keys(this.userSelectedFiles).forEach((questiopnId) => {
@@ -189,7 +183,6 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
 
     // Remove the file from file Tracker.
     delete this.fileUploadTracker[questionKey][fileNameToFilter];
-    this.NoOfFileInProgress--;
   }
 
   fileChangeEvent(event: Event, key: fileKeys) {
@@ -265,7 +258,7 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
 
   onUploadButtonClick() {
     const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
-    documentForm.patchValue({ ...valueToEmit });
+    this.documentForm.patchValue({ ...valueToEmit });
 
     this.outputValues.emit(valueToEmit);
   }
@@ -273,9 +266,9 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
   onSaveAsDraftClick() {
     const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
 
-    documentForm.reset();
+    this.documentForm.reset();
 
-    documentForm.patchValue({ ...valueToEmit });
+    this.documentForm.patchValue({ ...valueToEmit });
 
     this.saveAsDraft.emit(valueToEmit);
   }
@@ -413,5 +406,62 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
   ngOnDestroy(): void {
     // documentForm.reset();
     // documentForm.enable();
+  }
+
+  private initializeQuestionMapping() {
+    switch (this.userType) {
+      case USER_TYPE.STATE:
+        this.questions = [
+          {
+            key: "State_Acts_Doc",
+            question: StateQuestionsIdMApping["State_Acts_Doc"],
+          },
+          {
+            key: "State_Rules_Doc",
+            question: StateQuestionsIdMApping["State_Rules_Doc"],
+          },
+
+          {
+            key: "Admin_Doc",
+            question: StateQuestionsIdMApping["Admin_Doc"],
+          },
+          {
+            key: "Implement_Doc",
+            question: StateQuestionsIdMApping["Implement_Doc"],
+          },
+          {
+            key: "Other_Doc",
+            question: StateQuestionsIdMApping["Other_Doc"],
+          },
+        ];
+        this.documentForm = StateDocumentForm;
+
+        return;
+      case USER_TYPE.ULB:
+        this.questions = this.questions = [
+          {
+            key: "State_Acts_Doc",
+            question: ULBQuestionsIdMapping["State_Acts_Doc"],
+          },
+          {
+            key: "State_Rules_Doc",
+            question: ULBQuestionsIdMapping["State_Rules_Doc"],
+          },
+
+          {
+            key: "Admin_Doc",
+            question: ULBQuestionsIdMapping["Admin_Doc"],
+          },
+          {
+            key: "Implement_Doc",
+            question: ULBQuestionsIdMapping["Implement_Doc"],
+          },
+          {
+            key: "Other_Doc",
+            question: ULBQuestionsIdMapping["Other_Doc"],
+          },
+        ];
+        this.documentForm = ULBDocumentForm;
+    }
   }
 }

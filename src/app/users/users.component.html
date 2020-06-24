@@ -48,7 +48,10 @@
     <div class="col-sm-2 mt-2 mr-2">
       <app-side-menu
         [content]="sideMenuContent"
-        *ngIf="loggedInUserType !== userTypes.USER"
+        *ngIf="
+          loggedInUserType !== userTypes.USER &&
+          loggedInUserType !== userTypes.STATE
+        "
       ></app-side-menu>
     </div>
     <div class="col-sm-9">

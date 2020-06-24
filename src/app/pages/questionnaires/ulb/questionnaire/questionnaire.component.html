@@ -1,0 +1,189 @@
+<div class="form-editable" *ngIf="!userHasAlreadyFilledForm">
+  <div class="wrapper">
+    <div class="loader-wrapper" *ngIf="showLoader">
+      <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+      <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+      <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+      <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+    </div>
+
+    <h2 class="header" *ngIf="!showLoader">
+      <button
+        *ngIf="userData.role !== USER_TYPE.ULB"
+        class="back_button"
+        (click)="window.history.back()"
+      >
+        Back
+      </button>
+      <span *ngIf="userData.role !== USER_TYPE.ULB"
+        ><strong>ULB:</strong> {{ ulbName }}, {{ state?.name }}
+      </span>
+
+      <span *ngIf="userData.role === USER_TYPE.ULB"
+        ><strong>Welcome:</strong> {{ userData.name }}</span
+      >
+    </h2>
+
+    <mat-horizontal-stepper
+      id="stepper"
+      *ngIf="!showLoader"
+      [ngClass]="{ 'block-steeper-top-navigation': !userHasAlreadyFilledForm }"
+    >
+      <mat-step
+        label="Introduction"
+        state="phone"
+        matStepperIcon="done"
+        *ngIf="canSeeIntroduction"
+      >
+        <app-introduction
+          [userType]="USER_TYPE.ULB"
+          (completed)="setIntroductionCompleted($event)"
+        >
+          <div class="footer">
+            <button
+              class="btn btn-primary"
+              style="float: right; display: block;"
+              (click)="stepper.next()"
+            >
+              Next
+            </button>
+          </div>
+        </app-introduction>
+      </mat-step>
+      <!-- <mat-step label="Property Tax">
+        <app-property-tax
+          [data]="propertyTaxData"
+          [editable]="editable"
+          [showErroredQuestions]="expandPropertyTaxQuestion"
+          [shouldGoToPrevious]="canSeeIntroduction"
+          (answer)="onCompletingPropertyTax($event)"
+          (previous)="stepper.previous()"
+        >
+          <div class="footer">
+            <button
+              class="btn btn-primary mt-2"
+              style="float: right; display: block;"
+              (click)="stepper.next()"
+            >
+              Next
+            </button>
+
+            <button
+              *ngIf="editable"
+              class="btn btn-primary mt-2 mr-2"
+              style="float: right; display: block;"
+              (click)="stepper.previous()"
+            >
+              Previous
+            </button>
+            <button
+              *ngIf="editable"
+              class="btn btn-primary mt-2"
+              style="float: right; display: block; margin-right: 2%;"
+              (click)="saveAsDraft()"
+            >
+              Save as draft
+            </button>
+          </div>
+        </app-property-tax>
+      </mat-step> -->
+      <mat-step label="User Charges">
+        <app-user-charges
+          [userType]="USER_TYPE.ULB"
+          [showErroredQuestions]="expandUserChargesQuestion"
+          [shouldGoToNext]="canGoToDonePage"
+          [data]="UserChargesData"
+          [editable]="editable"
+          (previous)="stepper.previous()"
+          (answer)="onCompletingUserCharges($event)"
+        >
+          <div class="footer">
+            <button
+              class="btn btn-primary mt-2"
+              style="float: right; display: block;"
+              (click)="stepper.next()"
+            >
+              Next
+            </button>
+            <button
+              class="btn btn-primary mt-2 mr-2"
+              style="float: right; display: block;"
+              (click)="stepper.previous()"
+            >
+              Previous
+            </button>
+            <button
+              *ngIf="editable"
+              class="btn btn-primary mt-2"
+              style="float: right; display: block; margin-right: 2%;"
+              (click)="saveAsDraft()"
+            >
+              Save as draft
+            </button>
+          </div>
+        </app-user-charges>
+      </mat-step>
+      <mat-step label="Upload Documents">
+        <app-document-submit
+          [userType]="USER_TYPE.ULB"
+          [documents]="documentData"
+          [canUploadFile]="editable"
+          (outputValues)="onFileUploaded($event)"
+          (previous)="stepper.previous()"
+          (saveAsDraft)="saveAsDraft()"
+        >
+        </app-document-submit>
+      </mat-step>
+      <mat-step label="Submit" *ngIf="canGoToDonePage">
+        <app-completed
+          [submitted]="userHasAlreadyFilledForm"
+          (showOld)="showPropertyTax()"
+          (submit)="uploadCompletedQuestionnaireData()"
+          (previous)="stepper.previous()"
+        ></app-completed>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+
+  <ng-template #savingAsDraft>
+    <mat-spinner
+      style="margin: auto;"
+      *ngIf="draftSavingInProgess"
+    ></mat-spinner>
+    <h2 class="text-center" *ngIf="draftSavingInProgess">Saving...</h2>
+
+    <app-tick-icon class="tick" *ngIf="!draftSavingInProgess"></app-tick-icon>
+    <h2 class="text-center" *ngIf="!draftSavingInProgess">Saved as draft</h2>
+  </ng-template>
+</div>
+
+<div
+  class="wrapper preview-wrapper"
+  *ngIf="userHasAlreadyFilledForm && ulbName"
+>
+  <h2>
+    <button
+      *ngIf="userData.role !== USER_TYPE.ULB"
+      class="back_button"
+      style="margin-top: 0px; font-size: 2rem;"
+      (click)="window.history.back()"
+    >
+      Back
+    </button>
+  </h2>
+
+  <div class="box" *ngIf="!showPreview">
+    <p style="display: flex; align-items: center;">
+      <app-tick-icon></app-tick-icon>You have submitted the form.&nbsp;
+    </p>
+    <p>
+      <a (click)="showPreview = true" style="display: inline;">Click here </a>
+      to view submitted response.
+    </p>
+  </div>
+  <app-preview *ngIf="showPreview" [userType]="USER_TYPE.ULB">
+    <p class="header" style="font-size: 1em;">
+      <strong>ULB:</strong> {{ ulbName }}, {{ state?.name }}
+    </p>
+  </app-preview>
+</div>

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FeatureCollection, Geometry } from 'geojson';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IRawIndiaGEOData } from 'src/app/models/geoDatas/india';
 import * as topo from 'topojson';
@@ -10,10 +10,24 @@ import * as topo from 'topojson';
   providedIn: "root",
 })
 export class GeographicalService {
+  private readonly rawIndiaMapCached = new BehaviorSubject<IRawIndiaGEOData>(
+    null
+  );
+  private readonly convertedIndiaMapCached = new BehaviorSubject<any>(null);
+
   constructor(private _http: HttpClient) {}
 
   loadRawIndiaGeoData() {
-    return this._http.get<IRawIndiaGEOData>("/assets/jsonFile/india_v2.json");
+    // if (this.rawIndiaMapCached.value) return this.rawIndiaMapCached;
+
+    return this._http
+      .get<IRawIndiaGEOData>("/assets/jsonFile/india_v2.json")
+      .pipe(
+        map((response) => {
+          this.rawIndiaMapCached.next(response);
+          return response;
+        })
+      );
   }
 
   loadConvertedIndiaGeoData() {
