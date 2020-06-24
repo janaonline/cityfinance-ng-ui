@@ -234,7 +234,7 @@
     </small>
   </div>
 
-  <p *ngIf="formErrors">
+  <p *ngIf="formErrors" class="error-message">
     <span
       *ngFor="let error of formErrors; let i = index"
       style="display: block; color: red;"

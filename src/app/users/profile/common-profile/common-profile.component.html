@@ -241,7 +241,7 @@
     </small>
   </div>
 
-  <p *ngIf="formErrors">
+  <p *ngIf="formErrors" class="error-message">
     <span
       *ngFor="let error of formErrors; let i = index"
       style="display: block; color: red;"
@@ -276,9 +276,7 @@
     >
       {{ profileData ? "Update Profile" : "Create" }}
     </button>
-    <p *ngIf="respone.successMessage" class="success-message">
-      {{ respone.successMessage }}
-    </p>
+
     <!-- <button
       *ngIf="profileData"
       type="button"
@@ -288,4 +286,7 @@
       Cancel
     </button> -->
   </div>
+  <p *ngIf="respone.successMessage" class="success-message">
+    {{ respone.successMessage }}
+  </p>
 </form>
