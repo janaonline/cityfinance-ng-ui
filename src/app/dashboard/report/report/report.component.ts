@@ -287,7 +287,8 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.originalUlbList = response;
       const newULBS = this.filterULBByFilters("");
       this.ulbs = { ...newULBS };
-      if (!response[this.currentStateInView.key]) {
+
+      if (!response.data[this.currentStateInView.key]) {
         this.currentStateInView = null;
       }
 
@@ -317,7 +318,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     Object.keys(selectedULB).forEach((stateKey) => {
       const ulbsInState = Object.values(selectedULB[stateKey]);
-      const ulbs = Object.values(ulbsInState[0]);
+      const ulbs = (<any>ulbsInState.map((ulb) => Object.values(ulb))).flat();
 
       ulbs.forEach((ulb) => {
         const exists = this.doesULBExistInState(stateKey, ulb);
@@ -986,6 +987,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   onULBClick(stateCode: string, ulbType: { type: IULB["type"] }, ulb: IULB) {
     const ulbCode = ulb.code;
+
     if (!this.StateULBTypeMapping[stateCode]) {
       this.StateULBTypeMapping = {
         ...this.StateULBTypeMapping,

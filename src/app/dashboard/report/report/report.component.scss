@@ -48,7 +48,8 @@
 .ulbTabActive,
 .activeState {
   background: #337ab7;
-  color: white;
+  background-color: #337ab7 !important;
+  color: white !important;
 }
 
 .activeState > a {
@@ -264,4 +265,10 @@ a.inactive-tab:hover {
 .comparative-info-circle {
   margin-right: 10px;
   margin-left: 0px;
+}
+
+.finance-statement-popup {
+  .nav-tabs > li.active > a {
+    background: grey;
+  }
 }
