@@ -135,6 +135,7 @@
         role="button"
         aria-haspopup="true"
         aria-expanded="false"
+        [ngClass]="{ active: isCreditRatingActive || isMunicipalBondActive }"
         >Borrowings
       </a>
       <ul class="dropdown-menu dropdown-menu-left">

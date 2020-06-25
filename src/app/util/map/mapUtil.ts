@@ -8,7 +8,7 @@ export class MapUtil {
     fillColor: "#efefef",
     weight: 1,
     opacity: 1,
-    color: "white",
+    color: "#403f3f",
     fillOpacity: 1,
   };
 

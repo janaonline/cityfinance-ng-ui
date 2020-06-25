@@ -89,9 +89,16 @@ export class HomeTabViewComponent implements OnInit {
     },
   };
 
+  isMapProcessingCompleted = true;
   object = Object;
 
+  setMapProcessingState(value: boolean) {
+    console.log(`setMapProcessingState`, value);
+    this.isMapProcessingCompleted = value;
+  }
+
   tabIndexChangeHandler(event): void {
+    this.setMapProcessingState(false);
     this.tabIndex = event;
     this.singleULBView = false;
     this.selectedUlb = "";
