@@ -977,7 +977,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       fillColor: "#E5E5E5",
       weight: 1,
       opacity: 1,
-      color: "white",
+      color: "#403f3f",
       fillOpacity: 1,
     };
   }
