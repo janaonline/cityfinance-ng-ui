@@ -399,25 +399,17 @@ export class HomeTabViewComponent implements OnInit {
         break;
       case 3:
       case 4:
-        // if (!this.tabData[this.tabIndex]) {
         for (const year of this.commonTableData) {
           if (year.data.length) {
             const newDataRow = this.getTotalRow(year.data);
-            year.data.push(newDataRow);
+            const yearHasPopurationTotal = !!year.data.find(
+              (obj) => obj.populationCategory === "Total"
+            );
+            if (!yearHasPopurationTotal) {
+              year.data.push(newDataRow);
+            }
           }
-          /*  let allKeys = Object.keys(year.data[0]);
-            for (let prop of allKeys) {
-              if (typeof year.data[0][prop] == 'number') {
-                let count = year.data.reduce((a, c) => a + c[prop], 0);
-                newDataRow[prop] = count;
-              } else {
-                if (prop == 'populationCategory') {
-                  newDataRow[prop] = 'Total';
-                }
-              }
-            }*/
         }
-        //  }
         break;
     }
   }
