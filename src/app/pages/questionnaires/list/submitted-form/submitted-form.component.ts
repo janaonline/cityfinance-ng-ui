@@ -140,9 +140,9 @@ export class SubmittedFormComponent implements OnInit {
 
   setPage(pageNoClick: number, listType: IListType = "state") {
     if (listType === "state") {
-      this.tableDefaultOptions.currentPage = pageNoClick;
+      this.stateTableConfig.currentPage = pageNoClick;
       this.stateListlistFetchOption.skip =
-        (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+        (pageNoClick - 1) * this.stateTableConfig.itemPerPage;
       return this.searchUsersBy(this.filterForm.value, listType);
     }
 

@@ -1,5 +1,5 @@
 import { Component, ElementRef, NgZone, OnInit, Renderer2 } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { UserProfile } from 'src/app/users/profile/model/user-profile';
 
 import { ACTIONS } from '../../../../app/util/access/actions';
@@ -34,6 +34,9 @@ export class HomeHeaderComponent implements OnInit {
   tabs: IAnalyticsTabs[] = [];
 
   USER_TYPE = USER_TYPE;
+
+  isMunicipalBondActive = false;
+  isCreditRatingActive = false;
   private accessChecker = new AccessChecker();
 
   constructor(
@@ -48,6 +51,16 @@ export class HomeHeaderComponent implements OnInit {
     });
     this.initializeAccessChecking();
     this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        if (event.url.includes(`/credit-rating/report`)) {
+          this.isCreditRatingActive = true;
+        } else if (event.url.includes(`municipal-bond`)) {
+          this.isMunicipalBondActive = true;
+        } else {
+          this.isCreditRatingActive = false;
+          this.isMunicipalBondActive = false;
+        }
+      }
       this.isLoggedIn = this.authService.loggedIn();
       this.user = this.isLoggedIn ? this.user : null;
 

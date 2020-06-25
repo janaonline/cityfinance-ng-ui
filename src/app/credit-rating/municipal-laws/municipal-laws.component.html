@@ -4,7 +4,7 @@
     <!-- {{tempStates | json}} -->
     <!-- {{keys | json}} -->
     <!-- {{list | json}}  -->
-    <div class="row m-1" *ngIf="!compareState">
+    <div class="row m-1" [ngClass]="{ 'hide-container': compareState }">
       <div class="col-md-6 mt-2" style="min-height: 50vh;">
         <carousel
           class="municipal-law-carousel"
@@ -115,8 +115,8 @@
           <button
             class="btn btn-primary col-md-12"
             (click)="showComparisionPage()"
-            [tooltipEnable]="selectedStates.length > 1"
-            tooltip="Select 1 or more states"
+            [tooltipEnable]="selectedStates.length < 2"
+            tooltip="Select atleast 1 states"
           >
             View and Compare
           </button>

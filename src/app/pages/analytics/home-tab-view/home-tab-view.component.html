@@ -10,6 +10,7 @@
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-4" *ngIf="tabIndex === 0">
         <app-re-useable-heat-map
+          (isProcessingCompleted)="setMapProcessingState($event)"
           [yearSelected]="selectedYears"
           [ulbSelected]="selectedUlb"
           (stateSelected)="filterDataStateWise($event)"
@@ -27,6 +28,7 @@
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 1">
         <app-re-useable-heat-map
+          (isProcessingCompleted)="setMapProcessingState($event)"
           [yearSelected]="selectedYears"
           (stateSelected)="filterDataStateWise($event)"
           [ulbSelected]="selectedUlb"
@@ -40,7 +42,8 @@
   <!--  <mat-tab  [disabled]="loading" [label]="'Revenue Expenditure'">-->
   <!--    <ng-template matTabContent>-->
   <!--      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 2">-->
-  <!--        <app-re-useable-heat-map-->
+  <!--        <app-re-useable-heat-map
+          (isProcessingCompleted)="isMapInProcessing  = $event"-->
   <!--          [yearSelected]="selectedYears"-->
   <!--          [ulbSelected]="selectedUlb"-->
   <!--          (stateSelected)="filterDataStateWise($event)"-->
@@ -56,6 +59,7 @@
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 2">
         <app-re-useable-heat-map
+          (isProcessingCompleted)="setMapProcessingState($event)"
           [yearSelected]="selectedYears"
           (stateSelected)="filterDataStateWise($event)"
           [ulbSelected]="selectedUlb"
@@ -70,6 +74,7 @@
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 3">
         <app-re-useable-heat-map
+          (isProcessingCompleted)="setMapProcessingState($event)"
           [yearSelected]="selectedYears"
           (stateSelected)="filterDataStateWise($event)"
           [ulbSelected]="selectedUlb"
@@ -87,6 +92,7 @@
     <ng-template matTabContent>
       <div class="col-sm-12 col-md-4" *ngIf="tabIndex === 4">
         <app-re-useable-heat-map
+          (isProcessingCompleted)="setMapProcessingState($event)"
           [yearSelected]="selectedYears"
           (stateSelected)="filterDataStateWise($event)"
           [ulbSelected]="selectedUlb"
