@@ -383,10 +383,18 @@ export class HomeTabViewComponent implements OnInit {
         },
       });
     }
-    this.fetchData();
+    this.commonTableDataDisplay = [];
+    this.commonTableData = [];
+    this.commonTableHeaders = tableHeaders[this.tabIndex].map((row) => {
+      delete row["status"];
+      return row;
+    });
+    this.loading = true;
     this.initiatedDropdownDataFetchingProcess().subscribe((res) => {
       if (this.selectedState) {
         this.updateULBDropdownList({ stateId: this.selectedState._id });
+
+        this.fetchData();
       }
     });
   }
