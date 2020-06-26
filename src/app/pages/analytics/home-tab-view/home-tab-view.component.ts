@@ -93,7 +93,6 @@ export class HomeTabViewComponent implements OnInit {
   object = Object;
 
   setMapProcessingState(value: boolean) {
-    console.log(`setMapProcessingState`, value);
     this.isMapProcessingCompleted = value;
   }
 
@@ -153,7 +152,7 @@ export class HomeTabViewComponent implements OnInit {
         }
         this.tabIndex = tabFound.id;
         this.fetchData();
-        this.initiatedDataFetchingProcess().subscribe((res) => {});
+        this.initiatedDropdownDataFetchingProcess().subscribe((res) => {});
         this.ulbFilterControl.valueChanges
           .pipe(debounceTime(100))
           .subscribe((textToSearch) => {
@@ -229,21 +228,23 @@ export class HomeTabViewComponent implements OnInit {
     return filteredULBS;
   }
 
-  protected initiatedDataFetchingProcess() {
+  protected initiatedDropdownDataFetchingProcess() {
+    this.allULBSList = null;
+    this.stateData = null;
+    this.filteredULBStateAndULBDataMerged = null;
+    this.stateAndULBDataMerged = null;
     const body = { year: this.selectedYears || [] };
     const subscriptions: any[] = [];
     subscriptions.push(
       this._commonService
         .getStateUlbCovered(body)
         .pipe(map((res) => this.onGettingStateULBCoveredSuccess(res)))
-      // .subscribe(res => this.onGettingStateULBCoveredSuccess(res))
     );
 
     subscriptions.push(
       this._commonService
         .getULBSWithPopulationAndCoordinates(body)
         .pipe(map((res) => this.onGettingULBWithPopulationSuccess(res)))
-      // .subscribe(res => this.onGettingULBWithPopulationSuccess(res))
     );
     return forkJoin(subscriptions);
   }
@@ -383,11 +384,20 @@ export class HomeTabViewComponent implements OnInit {
       });
     }
     this.fetchData();
+    this.initiatedDropdownDataFetchingProcess().subscribe((res) => {
+      if (this.selectedState) {
+        this.updateULBDropdownList({ stateId: this.selectedState._id });
+      }
+    });
   }
 
   fetchUlBsData(ulbIdsArray: string[]) {
     if (ulbIdsArray.length) {
       this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
+    } else {
+      const selectedState = { ...this.selectedState };
+      this.selectedState = null;
+      this.filterDataStateWise(selectedState);
     }
   }
 

@@ -389,6 +389,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   private listenToFormControls() {
     this.ulbsSelected.valueChanges.subscribe((newValue) => {
+      console.log(`ulbsSelected value changes, emitting to parent `, newValue);
       this.ulbsClicked.emit(newValue);
     });
 
@@ -601,7 +602,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       { color: "#D0EDF9", text: "1%-25%" },
       { color: "#E5E5E5", text: "0%" },
     ];
-    const legend = new L.Control({ position: "bottomright" });
+    const legend = new L.Control({ position: "bottomleft" });
     const labels = [
       `<span style="width: 100%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`,
     ];
@@ -912,7 +913,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     let newValues: string[];
 
     if (ulbAlreadySelect) {
-      newValues = this.ulbsSelected.value.filter((id) => id !== ulbFound._id);
+      console.log(`ulb already selected`);
+      this.currentULBClicked = null;
+      newValues = [];
       this.changeMarkerToUnselected(marker);
     } else {
       newValues = [ulbFound._id];
