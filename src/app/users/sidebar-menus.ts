@@ -168,7 +168,7 @@ export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
   },
 ];
 
-export const sideMenuForStateUser = [
+export const sideMenuForStateUser: { title: string; subMenus: ILink[] }[] = [
   {
     title: "ULB DATA",
     subMenus: [
@@ -280,6 +280,25 @@ export const sideMenuForStateUser = [
           });
         },
       },
+    ],
+  },
+];
+
+export const sideMenuForULBUser: { title: string; subMenus: ILink[] }[] = [
+  {
+    title: "ULB DATA",
+    subMenus: [
+      {
+        title: "Financial Statements",
+        type: "link",
+        route: ["/user/data-upload/list"],
+      },
+    ],
+  },
+  {
+    title: "ULB Profile",
+    subMenus: [
+      { title: "Update Profile", route: ["/user/profile/view"], type: "link" },
     ],
   },
 ];
