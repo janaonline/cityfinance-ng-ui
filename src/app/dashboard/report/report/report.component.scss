@@ -47,7 +47,7 @@
 .ulbTypeSelected,
 .ulbTabActive,
 .activeState {
-  background: #337ab7;
+  background: #216278;
   color: white;
 }
 
@@ -62,7 +62,7 @@
 .ulbTabActive:hover,
 .ulbTypeSelected:hover,
 .activeState:hover {
-  background: #337ab7;
+  background: #216278;
   color: white;
 }
 
@@ -105,11 +105,11 @@ button:disabled {
 }
 
 .stateULBName > * {
-  background: rgb(175, 175, 175);
-  color: white;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  text-align: center;
+  // background: rgb(175, 175, 175);
+  // color: white;
+  // border-top-left-radius: 5px;
+  // border-top-right-radius: 5px;
+  // text-align: center;
 }
 
 .stateULBName {
@@ -264,4 +264,9 @@ a.inactive-tab:hover {
 .comparative-info-circle {
   margin-right: 10px;
   margin-left: 0px;
+}
+
+a {
+  color: #216278;
+  text-decoration: none;
 }

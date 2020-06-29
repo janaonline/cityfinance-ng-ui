@@ -161,9 +161,18 @@ nav.navbar {
   .dropdown-menu {
     background: transparent;
     li {
-      background: rgba(1, 49, 79, 0.9);
+      background: rgb(255, 203, 26);
       a {
         font-size: 0.8vw !important;
+        color: #111111 !important;
+        padding: 10px 15px;
+      }
+
+      &.active{
+
+        a{
+          background: transparent;
+        }
       }
     }
   }

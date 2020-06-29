@@ -243,8 +243,8 @@ export class MapSectionComponent implements OnInit {
 
   private createLegendsForNationalLevelMap() {
     const arr = [
-      { color: "#019CDF", text: "76%-100%" },
-      { color: "#46B7E7", text: "51%-75%" },
+      { color: "#059b9a", text: "76%-100%" },
+      { color: "#059b9a", text: "51%-75%" },
       { color: "#8BD2F0", text: "26%-50%" },
       { color: "#D0EDF9", text: "1%-25%" },
       { color: "#E5E5E5", text: "0%" },
@@ -337,7 +337,7 @@ export class MapSectionComponent implements OnInit {
 
   private getColorBasedOnPercentage(value: number) {
     if (value > 75) {
-      return "#019CDF";
+      return "#059b9a";
     }
     if (value > 50) {
       return "#46B7E7";

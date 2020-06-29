@@ -7,7 +7,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 :root {
-  --multi-dropdown-color: rgb(240, 158, 6);
+  --multi-dropdown-color: #216278;
 }
 input.is-invalid,
 .is-invalid {
@@ -141,7 +141,7 @@ img.align-center {
 
 .btn-primary,
 .bg-primary {
-  background-color: #009fe3 !important;
+  background-color: #059b9a !important;
   color: #fff;
   border: 0;
 
@@ -198,6 +198,7 @@ img.align-center {
     text-decoration: none;
     background-color: #ffc500 !important;
     background: #ffc500 !important;
+    color: #000 !important;
   }
 }
 
@@ -609,7 +610,7 @@ img.align-center {
   border: 1px solid #999;
 
   .c-list .c-token {
-    background-color: #009fe3;
+    background-color: #059b9a;
     color: white;
   }
 }
@@ -853,7 +854,7 @@ img.align-center {
 .fa-pencil,
 .fa-trash,
 .fa-times {
-  color: gray;
+  // color: gray;
 }
 
 .modal-open {

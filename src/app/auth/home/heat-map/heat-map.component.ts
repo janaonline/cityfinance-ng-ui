@@ -370,7 +370,7 @@ export class HeatMapComponent implements OnInit {
         })
         .addTo(this.map);
 
-      return "#009fe3";
+      return "#059b9a";
     } else {
       return "#e8e8e8";
     }

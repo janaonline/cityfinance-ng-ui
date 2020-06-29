@@ -1,17 +1,17 @@
 .side-menu-wrapper {
   border-radius: 1rem;
   background: #333;
-  overflow: auto;
-  max-height: 83vh;
-  height: 83vh;
+  // overflow: auto;
+  // max-height: 83vh;
+  // height: 83vh;
   display: flex;
   flex-direction: column;
   color: white;
-  border: 0.1rem solid lightgray;
-  border-right: 0px;
+  border: 1px solid lightgray;
+  // border-right: 0px;
 
   & .side-menu-content {
-    background: lightgray;
+    background: #fff;
     color: #333;
     flex: 1;
 
@@ -31,14 +31,14 @@
 }
 
 .bg-black {
-  background: #333;
-  color: white;
+  background: #e8e8e8;
+  color: #111;
 }
 
 .active {
   background: white;
   color: black;
-  border-left: 0.4rem solid #009fe3;
+  border-left: 0.4rem solid #059b9a;
 }
 
 ::-webkit-scrollbar {
@@ -53,7 +53,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #009fe3;
+  background: #059b9a;
   border-radius: 11px;
 }
 

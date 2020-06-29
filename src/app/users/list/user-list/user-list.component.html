@@ -64,7 +64,7 @@
           <thead>
             <tr
               style="
-                background: #009fe3;
+                background: #059b9a;
                 color: white;
                 border: 5px solid white;
               "
@@ -195,15 +195,10 @@
           </tbody>
         </table>
 
-        <table class="table" *ngIf="listType === userTypes.ULB">
+        <table class="table table-striped" *ngIf="listType === userTypes.ULB">
           <thead>
             <tr
               class="sortable-headers"
-              style="
-                background: #009fe3;
-                color: white;
-                border: 1px solid white;
-              "
             >
               <th class="text-center">S.No.</th>
               <th
@@ -304,7 +299,6 @@
               </td>
             </tr>
             <tr
-              style="background: #e7e7e7; border: 5px solid white;"
               *ngFor="
                 let ulb of userList
                   | paginate
@@ -337,6 +331,7 @@
                 <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: ulb._id, role: 'ULB' }"
+                  class="p-2"
                 >
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
@@ -372,7 +367,7 @@
             <tr
               class="sortable-headers"
               style="
-                background: #009fe3;
+                background: #059b9a;
                 color: white;
                 border: 5px solid white;
               "
@@ -534,7 +529,7 @@
             <tr
               class="sortable-headers"
               style="
-                background: #009fe3;
+                background: #059b9a;
                 color: white;
                 border: 5px solid white;
               "
@@ -672,7 +667,7 @@
             <tr
               class="sortable-headers"
               style="
-                background: #009fe3;
+                background: #059b9a;
                 color: white;
                 border: 5px solid white;
               "
