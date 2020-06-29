@@ -26,6 +26,12 @@ table .input-group {
     border-radius: 5px;
   }
 }
+table tbody tr:nth-child(even) {
+  background: rgb(236, 236, 236) !important;
+}
+table tbody tr:nth-child(odd) {
+  background: white;
+}
 
 .clickable {
   color: rgb(8, 131, 212);

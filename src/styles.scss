@@ -15,6 +15,9 @@ input.is-invalid,
   border-color: red !important;
 }
 
+.ngx-pagination li.current {
+  background: #059b9a;
+}
 .form-field-error-message {
   display: block;
   margin-top: 1%;

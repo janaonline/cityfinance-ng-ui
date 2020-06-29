@@ -72,7 +72,7 @@ export class MunicipalLawsComponent implements OnInit {
 
   stateColors = {
     unselected: "#E5E5E5",
-    selected: "#019CDF",
+    selected: "#059b9a",
   };
 
   slides: { imgUrl: string; caption: string; states: string[] }[] = [];
