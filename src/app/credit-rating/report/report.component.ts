@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
@@ -19,6 +18,7 @@ import { IDialogConfiguration } from '../../../app/shared/components/dialog/mode
 import { creditRatingModalHeaders } from '../../shared/components/home-header/tableHeaders';
 import { CommonService } from '../../shared/services/common.service';
 import { CreditScale, ratingGrades } from '../../util/creditReportUtil';
+import { ULBRatings } from './ratings';
 
 // import { CreditRatingJson } from './credit-rating.json';
 
@@ -29,7 +29,6 @@ import { CreditScale, ratingGrades } from '../../util/creditReportUtil';
 })
 export class ReportComponent implements OnInit, OnDestroy {
   constructor(
-    private http: HttpClient,
     private modalService: BsModalService,
     public commonService: CommonService,
     private _dialog: MatDialog,
@@ -67,7 +66,12 @@ export class ReportComponent implements OnInit, OnDestroy {
   detailedList = [];
 
   selectedStates: Array<string> = [];
-  absCreditInfo: { [key: string]: any } = {};
+  absCreditInfo: {
+    creditRatingUlbs: number;
+    ratings: { [key: string]: number };
+    title: string;
+    ulbs: string[];
+  };
   ratingGrades = ratingGrades;
 
   search: string;
@@ -101,10 +105,10 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   stateColors = {
     unselected: "#efefef",
-    selected: "#019CDF",
+    selected: "#059b9a",
   };
 
-  queryParams: { state?: string } = {};
+  queryParams: { state?: string; minRating?: "BBB-" | "A" } = {};
 
   /**
    * @description When the queryParams has any state id to auto select, then the layer of that
@@ -221,7 +225,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   setDefaultAbsCreditInfo() {
     this.absCreditInfo = {
       title: "",
-      ulbs: 0,
+      ulbs: [],
       creditRatingUlbs: 0,
       ratings: {
         "AAA+": 0,
@@ -257,6 +261,8 @@ export class ReportComponent implements OnInit, OnDestroy {
       dataObject["ratings"][ratingValue] = 0;
     }
     dataObject["ratings"][ratingValue] = dataObject["ratings"][ratingValue] + 1;
+
+    // creditRatingUlbs is total summation of rating for the selected state.
     dataObject["creditRatingUlbs"] = dataObject["creditRatingUlbs"] + 1;
   }
 
@@ -268,7 +274,6 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   showCreditInfoByState(stateName = "") {
-    console.log(`state: ${stateName}`, this.list);
     this.selectedStates[0] = stateName;
     this.setDefaultAbsCreditInfo();
     const ulbList = [];
@@ -279,7 +284,9 @@ export class ReportComponent implements OnInit, OnDestroy {
         if (ulb.state.toLowerCase() == stateName.toLowerCase()) {
           ulbList.push(ulb["ulb"]);
           const rating = ulb.creditrating.trim();
-          this.calculateRatings(this.absCreditInfo, rating);
+          if (this.canAddRating(rating)) {
+            this.calculateRatings(this.absCreditInfo, rating);
+          }
         }
       }
     } else {
@@ -287,11 +294,33 @@ export class ReportComponent implements OnInit, OnDestroy {
         const ulb = this.list[i];
         ulbList.push(ulb["ulb"]);
         const rating = ulb.creditrating.trim();
-        this.calculateRatings(this.absCreditInfo, rating);
+        if (this.canAddRating(rating)) {
+          this.calculateRatings(this.absCreditInfo, rating);
+        }
       }
     }
     this.absCreditInfo["title"] = stateName || "India";
     this.absCreditInfo["ulbs"] = ulbList;
+  }
+
+  private canAddRating(ratingToEvaluate: string) {
+    if (!this.queryParams || !this.queryParams.minRating) return true;
+    const minBound = 0;
+    const upperBound = ULBRatings.findIndex(
+      (rating) => rating === this.queryParams.minRating
+    );
+
+    // If the upper bound is invalid, then allow all the ratings.
+    if (upperBound < 0) return true;
+
+    const indexFound = ULBRatings.findIndex(
+      (rating) => rating === ratingToEvaluate
+    );
+
+    if (minBound <= indexFound && indexFound <= upperBound) return true;
+
+    // If the given rating is not found in our application, then dont allow it.
+    return false;
   }
 
   openUlbInfo(info, template: TemplateRef<any>) {

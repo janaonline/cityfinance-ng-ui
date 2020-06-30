@@ -57,7 +57,7 @@ table {
   }
 
   .selected {
-    fill: #009fe3;
+    fill: 059b9a;
   }
 }
 
@@ -220,11 +220,11 @@ div.arrow:after {
 
 #nationalLevelButton:hover div.arrow::after {
   transform: rotate(45deg) translateX(10%);
-  border-color: #337ab7;
+  border-color: #059b9a;
   height: 120%;
 }
 #nationalLevelButton:hover div.arrow::before {
-  border-color: #337ab7;
+  border-color: #059b9a;
   // transform: scale(0.8);
 }
 ::ng-deep {
