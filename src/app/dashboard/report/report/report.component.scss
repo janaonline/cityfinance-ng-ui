@@ -37,6 +37,24 @@
 .ulbTypeSelected {
   background: rgb(192, 192, 192);
 }
+.disable-state-link {
+  cursor: not-allowed;
+  opacity: 0.5;
+  // background: red;
+  position: relative;
+  pointer-events: none;
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    // background: green;
+    cursor: not-allowed;
+  }
+  // pointer-events: visible;
+}
 
 .stateULBSelected,
 .stateULBSelected:hover {
