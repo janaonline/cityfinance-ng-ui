@@ -181,7 +181,10 @@
         *ngIf="creditRatingAboveBBB_Minus"
         class="btn btn-explore"
         [routerLink]="['/credit-rating/report']"
-        [queryParams]="{ state: stateSelected ? stateSelected.name : null }"
+        [queryParams]="{
+          state: stateSelected ? stateSelected.name : null,
+          minRating: 'BBB-'
+        }"
         >Explore</a
       >
     </div>
@@ -201,7 +204,10 @@
         *ngIf="creditRatingAboveA"
         class="btn btn-explore"
         [routerLink]="['/credit-rating/report']"
-        [queryParams]="{ state: stateSelected ? stateSelected.name : null }"
+        [queryParams]="{
+          state: stateSelected ? stateSelected.name : null,
+          minRating: 'A'
+        }"
         >Explore</a
       >
     </div>

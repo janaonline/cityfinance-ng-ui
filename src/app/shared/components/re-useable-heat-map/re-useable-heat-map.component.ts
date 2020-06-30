@@ -46,7 +46,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.addListener();
     this.addCustomStyleTag();
     this.isProcessingCompleted.emit(false);
-    console.log("constructor of map");
   }
 
   @Output() ulbsClicked = new EventEmitter<string[]>();
@@ -142,7 +141,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
           if (this.isMapOnMiniMapMode) {
             this.createStateLevelMap(this.currentStateInView.name);
-            console.log(`state created`);
+
+            if (this.currentULBClicked) {
+              setTimeout(() => {
+                this.selectULBById(this.currentULBClicked._id);
+              }, 100);
+            }
             this.isProcessingCompleted.emit(true);
             setTimeout(() => {
               this.hideMapLegends();
@@ -154,7 +158,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   protected initiatedDataFetchingProcess() {
-    console.log(`initiatedDataFetchingProcess`);
     const body = { year: this.yearSelected || [] };
     const subscriptions: any[] = [];
     subscriptions.push(
@@ -208,12 +211,16 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   selectULBById(ulbId: string) {
     const ulbFound = this.ulbsOfSelectedState.find((ulb) => ulb._id === ulbId);
+
     if (!ulbFound) {
+      console.error(`ulb ${ulbId} not found`);
       return false;
     }
     const ulbsAlreadySelect = <string[]>this.ulbsSelected.value;
     ulbsAlreadySelect[0] = ulbFound._id;
-    this.ulbsSelected.setValue(ulbsAlreadySelect);
+    if (ulbsAlreadySelect[0] !== ulbFound._id) {
+      this.ulbsSelected.setValue(ulbsAlreadySelect);
+    }
     this.currentULBClicked = ulbFound;
     if (
       !ulbFound.location ||
@@ -548,7 +555,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
     this.loadMapGeoJson()
       .then((res) => {
-        console.log(`map loaded`, res);
         this.createNationalLevelMap(this.StatesJSONForMapCreation, "mapidd");
       })
       .catch((err) => {});
@@ -595,13 +601,13 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   private createLegendsForNationalLevelMap() {
     const arr = [
-      { color: "#019CDF", text: "76%-100%" },
-      { color: "#46B7E7", text: "51%-75%" },
+      { color: "#216278", text: "76%-100%" },
+      { color: "#059b9a", text: "51%-75%" },
       { color: "#8BD2F0", text: "26%-50%" },
       { color: "#D0EDF9", text: "1%-25%" },
       { color: "#E5E5E5", text: "0%" },
     ];
-    const legend = new L.Control({ position: "bottomright" });
+    const legend = new L.Control({ position: "bottomleft" });
     const labels = [
       `<span style="width: 100%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`,
     ];
@@ -695,7 +701,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       }
       let fillColor: string = this.getColorBasedOnPercentage(-1);
       if (layer.feature.properties.ST_NM === state.name) {
-        fillColor = "#019CDF";
+        fillColor = "#216278";
       } else {
         fillColor = "#E8E8E8";
       }
@@ -859,11 +865,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         }).addTo(districtMap);
         marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
         marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
-        marker.on(
-          "click",
-          (values) =>
-            this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker),
-          this
+        marker.on("click", (values) =>
+          this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker)
         );
       });
     }, 0.5);
@@ -912,7 +915,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     let newValues: string[];
 
     if (ulbAlreadySelect) {
-      newValues = this.ulbsSelected.value.filter((id) => id !== ulbFound._id);
+      this.currentULBClicked = null;
+      newValues = [];
       this.changeMarkerToUnselected(marker);
     } else {
       newValues = [ulbFound._id];
@@ -945,10 +949,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   private getColorBasedOnPercentage(value: number) {
     if (value > 75) {
-      return "#019CDF";
+      return "#216278";
     }
     if (value > 50) {
-      return "#46B7E7";
+      return "#059b9a";
     }
     if (value > 25) {
       return "#8BD2F0";

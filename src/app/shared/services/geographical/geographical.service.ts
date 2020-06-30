@@ -38,7 +38,7 @@ export class GeographicalService {
     );
   }
 
-  loadRawIndiVerson_1GeoData(): Observable<
+  loadStatesGeoData(): Observable<
     FeatureCollection<
       Geometry,
       {
@@ -46,6 +46,6 @@ export class GeographicalService {
       }
     >
   > {
-    return this._http.get<any>("/assets/jsonFile/state_boundries.json");
+    return this._http.get<any>("/assets/jsonFile/states_with_district_boundaries.json");
   }
 }

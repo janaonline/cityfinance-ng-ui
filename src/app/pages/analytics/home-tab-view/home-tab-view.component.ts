@@ -93,7 +93,6 @@ export class HomeTabViewComponent implements OnInit {
   object = Object;
 
   setMapProcessingState(value: boolean) {
-    console.log(`setMapProcessingState`, value);
     this.isMapProcessingCompleted = value;
   }
 
@@ -153,7 +152,7 @@ export class HomeTabViewComponent implements OnInit {
         }
         this.tabIndex = tabFound.id;
         this.fetchData();
-        this.initiatedDataFetchingProcess().subscribe((res) => {});
+        this.initiatedDropdownDataFetchingProcess().subscribe((res) => {});
         this.ulbFilterControl.valueChanges
           .pipe(debounceTime(100))
           .subscribe((textToSearch) => {
@@ -229,21 +228,23 @@ export class HomeTabViewComponent implements OnInit {
     return filteredULBS;
   }
 
-  protected initiatedDataFetchingProcess() {
+  protected initiatedDropdownDataFetchingProcess() {
+    this.allULBSList = null;
+    this.stateData = null;
+    this.filteredULBStateAndULBDataMerged = null;
+    this.stateAndULBDataMerged = null;
     const body = { year: this.selectedYears || [] };
     const subscriptions: any[] = [];
     subscriptions.push(
       this._commonService
         .getStateUlbCovered(body)
         .pipe(map((res) => this.onGettingStateULBCoveredSuccess(res)))
-      // .subscribe(res => this.onGettingStateULBCoveredSuccess(res))
     );
 
     subscriptions.push(
       this._commonService
         .getULBSWithPopulationAndCoordinates(body)
         .pipe(map((res) => this.onGettingULBWithPopulationSuccess(res)))
-      // .subscribe(res => this.onGettingULBWithPopulationSuccess(res))
     );
     return forkJoin(subscriptions);
   }
@@ -382,12 +383,29 @@ export class HomeTabViewComponent implements OnInit {
         },
       });
     }
-    this.fetchData();
+    this.commonTableDataDisplay = [];
+    this.commonTableData = [];
+    this.commonTableHeaders = tableHeaders[this.tabIndex].map((row) => {
+      delete row["status"];
+      return row;
+    });
+    this.loading = true;
+    this.initiatedDropdownDataFetchingProcess().subscribe((res) => {
+      if (this.selectedState) {
+        this.updateULBDropdownList({ stateId: this.selectedState._id });
+
+        this.fetchData();
+      }
+    });
   }
 
   fetchUlBsData(ulbIdsArray: string[]) {
     if (ulbIdsArray.length) {
       this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
+    } else {
+      const selectedState = { ...this.selectedState };
+      this.selectedState = null;
+      this.filterDataStateWise(selectedState);
     }
   }
 
@@ -399,25 +417,17 @@ export class HomeTabViewComponent implements OnInit {
         break;
       case 3:
       case 4:
-        // if (!this.tabData[this.tabIndex]) {
         for (const year of this.commonTableData) {
           if (year.data.length) {
             const newDataRow = this.getTotalRow(year.data);
-            year.data.push(newDataRow);
+            const yearHasPopurationTotal = !!year.data.find(
+              (obj) => obj.populationCategory === "Total"
+            );
+            if (!yearHasPopurationTotal) {
+              year.data.push(newDataRow);
+            }
           }
-          /*  let allKeys = Object.keys(year.data[0]);
-            for (let prop of allKeys) {
-              if (typeof year.data[0][prop] == 'number') {
-                let count = year.data.reduce((a, c) => a + c[prop], 0);
-                newDataRow[prop] = count;
-              } else {
-                if (prop == 'populationCategory') {
-                  newDataRow[prop] = 'Total';
-                }
-              }
-            }*/
         }
-        //  }
         break;
     }
   }

@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatCardModule,
+  MatExpansionModule,
   MatFormFieldModule,
   MatInputModule,
   MatListModule,
@@ -47,6 +48,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     MatListModule,
     MatCardModule,
     AngularMaterialModule,
+    MatExpansionModule,
   ],
   declarations: [
     PreLoaderComponent,

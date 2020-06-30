@@ -1,140 +1,140 @@
-.mat-tab-label{
-    color: #333333;
-    opacity: 1 !important;
-    height: 35px !important;
-    border: 1px solid #ddd;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom: none;
-    border-left: none;
+.mat-tab-label {
+  color: #333333;
+  opacity: 1 !important;
+  height: 35px !important;
+  border: 1px solid #ddd;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: none;
+  border-left: none;
 }
 
-.mat-ink-bar{
-    visibility: hidden !important;
+.mat-ink-bar {
+  visibility: hidden !important;
 }
 
-.mat-tab-labels{
-    border-bottom: 1px solid #ffc500;
+.mat-tab-labels {
+  border-bottom: 1px solid #ffc500;
 }
 
-.mat-tab-label-active{
-    background: #ffc500;
-    color: white;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+.mat-tab-label-active {
+  background: #ffc500;
+  color: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
-.head-pill{
-    display: flex;
-    justify-content: space-between;
+.head-pill {
+  display: flex;
+  justify-content: space-between;
 }
 
-.head-pill-style{
-    padding: 10px 12px;
-    background: #009fe3;
-    border-radius: 5px;
-    color: white;
+.head-pill-style {
+  padding: 10px 12px;
+  background: #059b9a;
+  border-radius: 5px;
+  color: white;
 }
 
-.right-card{
-    height: 100vh;
-    border-left: 1px solid #ddd;
-    box-shadow: -4px 0px 6px 1px #0000001c;
+.right-card {
+  height: 100vh;
+  border-left: 1px solid #ddd;
+  box-shadow: -4px 0px 6px 1px #0000001c;
 }
 
-#ranking-table{
-    border-collapse:separate; 
-    border-spacing:0 10px; 
-    padding: 0;
-    position: relative;
+#ranking-table {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  padding: 0;
+  position: relative;
 }
 
-.table-right{
-    height: 90vh;
-    overflow-y: scroll;
+.table-right {
+  height: 90vh;
+  overflow-y: scroll;
 }
 
-#ranking-table>thead>tr>th{
-    border:none !important;
-    position: sticky;
-    top: 0;
-    background: white;
+#ranking-table > thead > tr > th {
+  border: none !important;
+  position: sticky;
+  top: 0;
+  background: white;
 }
 
-#ranking-table > tbody > tr > td{
-    border:none !important;
+#ranking-table > tbody > tr > td {
+  border: none !important;
 }
 
-#ranking-table > tbody > tr{
-    border: none !important;
-    background: #f4ffef;
-    color: green;
-    box-shadow: 0px 1px 4px 1px #0000001c;
-    margin: 10px 0px;
-    border-radius: 5px;
+#ranking-table > tbody > tr {
+  border: none !important;
+  background: #f4ffef;
+  color: green;
+  box-shadow: 0px 1px 4px 1px #0000001c;
+  margin: 10px 0px;
+  border-radius: 5px;
 }
 
-#report-table > thead{
-    background: #333333;
-    border-radius: 5px !important;
-    overflow: hidden;
-    color: white;
+#report-table > thead {
+  background: #333333;
+  border-radius: 5px !important;
+  overflow: hidden;
+  color: white;
 }
 
-#report-table{
-    border-radius: 5px !important;
-    box-shadow: 0px 1px 4px 1px #0000001c;
-    overflow: hidden;
+#report-table {
+  border-radius: 5px !important;
+  box-shadow: 0px 1px 4px 1px #0000001c;
+  overflow: hidden;
 }
 
-#report-table>thead>tr>th{
-    border:none !important;
-    text-align: center !important;
-    border-left: 1px solid #ddd !important;
-    border-right: 1px solid #ddd !important;
-    border-top: 1px solid #ddd !important;
+#report-table > thead > tr > th {
+  border: none !important;
+  text-align: center !important;
+  border-left: 1px solid #ddd !important;
+  border-right: 1px solid #ddd !important;
+  border-top: 1px solid #ddd !important;
 }
 
-#report-table > tbody > tr > td{
-    border:none !important;
-    text-align: center !important;
-    border-left: 1px solid #ddd !important;
-    border-right: 1px solid #ddd !important;
+#report-table > tbody > tr > td {
+  border: none !important;
+  text-align: center !important;
+  border-left: 1px solid #ddd !important;
+  border-right: 1px solid #ddd !important;
 }
 
-.chart-head{
-    text-align: center;
-    border: 1px solid #ddd;
-    padding: 6px;
-    border-radius: 5px;
-    display: inline-flex;
-    color: #797474;
+.chart-head {
+  text-align: center;
+  border: 1px solid #ddd;
+  padding: 6px;
+  border-radius: 5px;
+  display: inline-flex;
+  color: #797474;
 }
 
-.chart-container{
-    height: auto;
+.chart-container {
+  height: auto;
 }
 
 //shapes css
 .square {
-    height: 18px;
-    width: 18px;
-    background-color: #555;
+  height: 18px;
+  width: 18px;
+  background-color: #555;
 }
 
 .triangle-up {
-    width: 0;
-    height: 0;
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-bottom: 18px solid #555;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 18px solid #555;
 }
 
 .circle {
-    height: 20px;
-    width: 20px;
-    background-color: #555;
-    border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  background-color: #555;
+  border-radius: 50%;
 }
 
 // Scroll Bar UI Starts here
@@ -161,20 +161,19 @@
   background: #f0ad4e;
 }
 
-.table-head{
-    display: inline-flex;
-    align-items: baseline;
-    cursor: pointer;
+.table-head {
+  display: inline-flex;
+  align-items: baseline;
+  cursor: pointer;
 }
 
 .spinner {
-    // position: absolute;
-    display: flex;
-    top: 0px;
-    // height: 100vh;
-    width: 100vw;
-    background: #bdbdbd42;
-    justify-content: center;
-    align-items: center;
-  }
-  
+  // position: absolute;
+  display: flex;
+  top: 0px;
+  // height: 100vh;
+  width: 100vw;
+  background: #bdbdbd42;
+  justify-content: center;
+  align-items: center;
+}
