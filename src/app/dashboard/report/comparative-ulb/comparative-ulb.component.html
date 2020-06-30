@@ -10,7 +10,7 @@
       position: relative;
     "
   >
-    <img class="align-center" src="/assets/images/cityfinance-logo.png" />
+    <!-- <img class="align-center" src="/assets/images/cityfinance-logo.png" /> -->
     <br />
 
     <form
@@ -35,7 +35,7 @@
       >
       </angular2-multiselect>
     </form>
-    <p class="text-center">
+    <p class="text-center" style="font-size: 1vw;">
       {{ reportReq.type }} {{ reportReq.reportGroup }}
       <span *ngIf="reportReq.valueType === 'per_capita'">(Per Capita)</span>
     </p>
