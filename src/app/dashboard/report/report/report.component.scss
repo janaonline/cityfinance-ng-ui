@@ -47,13 +47,17 @@
 .ulbTypeSelected,
 .ulbTabActive,
 .activeState {
-  background: #337ab7;
-  background-color: #337ab7 !important;
+  background: #216278;
+  background-color: #216278 !important;
   color: white !important;
 }
 
 .activeState > a {
   color: white;
+}
+
+a {
+  color: #216278;
 }
 
 .stateULBSelected > a {
@@ -63,7 +67,7 @@
 .ulbTabActive:hover,
 .ulbTypeSelected:hover,
 .activeState:hover {
-  background: #337ab7;
+  background: #216278;
   color: white;
 }
 

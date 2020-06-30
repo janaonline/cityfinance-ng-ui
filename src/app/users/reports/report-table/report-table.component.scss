@@ -1,6 +1,6 @@
 table > thead {
   & tr {
-    background: #009fe3;
+    background: #059b9a;
     color: white;
 
     & th {
@@ -23,6 +23,13 @@ table > thead {
 table > tbody > tr > {
   background: #e7e7e7;
   border-bottom: 5px solid white;
+}
+
+table tbody tr:nth-child(even) {
+  background: rgb(236, 236, 236);
+}
+table tbody tr:nth-child(odd) {
+  background: white;
 }
 
 .tableContainer {
@@ -52,7 +59,7 @@ table thead tr:nth-child(2) th {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #009fe3;
+  background: #059b9a;
 }
 
 ::-webkit-scrollbar-track,

@@ -101,7 +101,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   stateColors = {
     unselected: "#efefef",
-    selected: "#019CDF",
+    selected: "#059b9a",
   };
 
   queryParams: { state?: string } = {};
