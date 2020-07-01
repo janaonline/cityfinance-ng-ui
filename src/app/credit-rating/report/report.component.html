@@ -37,6 +37,22 @@
           </p>
           <div class="col-sm-8 ulbDetails" *ngIf="absCreditInfo.title">
             <div class="row">
+              <div class="col-sm-12">
+                <h2
+                  *ngIf="queryParams?.minRating"
+                  class="text-center mb-1 text-primary"
+                  style="margin-bottom: 1.2vw;"
+                >
+                  ULBs with rating {{ queryParams.minRating }} and Above
+                  <button
+                    class="btn btn-warning right"
+                    (click)="onClearRatingFilter()"
+                  >
+                    Show All
+                  </button>
+                </h2>
+              </div>
+
               <div class="col-sm-6">
                 <h3 class="text-primary" style="margin-top: 0;">
                   {{ absCreditInfo.title | titlecase }}

@@ -299,6 +299,11 @@ export const sideMenuForULBUser: { title: string; subMenus: ILink[] }[] = [
     title: "ULB Profile",
     subMenus: [
       { title: "Update Profile", route: ["/user/profile/view"], type: "link" },
+      {
+        title: "Profile Update State",
+        route: ["/user/profile/request"],
+        type: "link",
+      },
     ],
   },
 ];

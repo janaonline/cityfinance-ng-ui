@@ -93,10 +93,13 @@ export class ProfileRequestComponent implements OnInit {
     this.request = null;
   }
 
-  public searchUsersBy(filterForm: {}) {
+  public searchUsersBy(filterForm: {}, skip?: number) {
     // this.resetListFetchOptionsToDefeault();
     this.listFetchOption.filter = filterForm;
-    this.listFetchOption.skip = 0;
+
+    if (skip !== undefined && skip !== null) {
+      this.listFetchOption.skip = skip;
+    }
 
     this.fetchRequestList({ ...(<any>this.listFetchOption) });
   }
@@ -192,6 +195,9 @@ export class ProfileRequestComponent implements OnInit {
 
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;
+    console.log(`pageNoClick: ${pageNoClick}, `, {
+      ...this.tableDefaultOptions,
+    });
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     this.searchUsersBy(this.filterForm.value);

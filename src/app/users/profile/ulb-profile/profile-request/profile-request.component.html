@@ -453,7 +453,7 @@
                     style="display: block;"
                     (click)="
                       resetListFetchOptionsToDefeault() ||
-                        searchUsersBy(filterForm.value)
+                        searchUsersBy(filterForm.value, 0)
                     "
                   >
                     Search
@@ -490,8 +490,8 @@
                       class="fa fa-eye"
                       aria-hidden="true"
                       title="View Request"
-                    ></i
-                  ></a>
+                    ></i>
+                  </a>
                   <span *ngIf="request.status === REQUEST_STATUS.PENDING">
                     /
                     <i
@@ -504,6 +504,9 @@
                     ></i>
                   </span>
                 </td>
+              </tr>
+              <tr *ngIf="!requestList?.length">
+                <td colspan="4" class="text-center"><h3>No Data Found</h3></td>
               </tr>
             </tbody>
           </table>
@@ -627,7 +630,7 @@
                   <button
                     class="btn btn-primary m-auto"
                     style="display: block;"
-                    (click)="searchUsersBy(filterForm.value)"
+                    (click)="searchUsersBy(filterForm.value, 0)"
                   >
                     Search
                   </button>
@@ -662,11 +665,17 @@
                     [queryParams]="{ requestId: request._id }"
                   >
                     <i
-                      class="fa fa-eye"
+                      class="fa"
+                      [ngClass]="{
+                        'fa-pencil':
+                          request.status === REQUEST_STATUS.PENDING &&
+                          loggedInUserType !== userTypes.ULB,
+                        'fa-eye': request.status !== REQUEST_STATUS.PENDING
+                      }"
                       aria-hidden="true"
                       title="View Request"
-                    ></i
-                  ></a>
+                    ></i>
+                  </a>
                   <span
                     *ngIf="
                       request.status === REQUEST_STATUS.PENDING &&
@@ -685,6 +694,7 @@
                   </span>
                 </td>
               </tr>
+
               <tr *ngIf="requestList && !requestList.length">
                 <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
               </tr>
