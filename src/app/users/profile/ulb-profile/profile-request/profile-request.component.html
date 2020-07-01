@@ -453,7 +453,7 @@
                     style="display: block;"
                     (click)="
                       resetListFetchOptionsToDefeault() ||
-                        searchUsersBy(filterForm.value)
+                        searchUsersBy(filterForm.value, 0)
                     "
                   >
                     Search
@@ -627,7 +627,7 @@
                   <button
                     class="btn btn-primary m-auto"
                     style="display: block;"
-                    (click)="searchUsersBy(filterForm.value)"
+                    (click)="searchUsersBy(filterForm.value, 0)"
                   >
                     Search
                   </button>
