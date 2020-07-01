@@ -490,8 +490,8 @@
                       class="fa fa-eye"
                       aria-hidden="true"
                       title="View Request"
-                    ></i
-                  ></a>
+                    ></i>
+                  </a>
                   <span *ngIf="request.status === REQUEST_STATUS.PENDING">
                     /
                     <i
@@ -504,6 +504,9 @@
                     ></i>
                   </span>
                 </td>
+              </tr>
+              <tr *ngIf="!requestList?.length">
+                <td colspan="4" class="text-center"><h3>No Data Found</h3></td>
               </tr>
             </tbody>
           </table>
@@ -662,11 +665,17 @@
                     [queryParams]="{ requestId: request._id }"
                   >
                     <i
-                      class="fa fa-eye"
+                      class="fa"
+                      [ngClass]="{
+                        'fa-pencil':
+                          request.status === REQUEST_STATUS.PENDING &&
+                          loggedInUserType !== userTypes.ULB,
+                        'fa-eye': request.status !== REQUEST_STATUS.PENDING
+                      }"
                       aria-hidden="true"
                       title="View Request"
-                    ></i
-                  ></a>
+                    ></i>
+                  </a>
                   <span
                     *ngIf="
                       request.status === REQUEST_STATUS.PENDING &&
@@ -685,6 +694,7 @@
                   </span>
                 </td>
               </tr>
+
               <tr *ngIf="requestList && !requestList.length">
                 <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
               </tr>
