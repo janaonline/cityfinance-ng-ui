@@ -96,6 +96,7 @@ export class ProfileRequestComponent implements OnInit {
   public searchUsersBy(filterForm: {}) {
     // this.resetListFetchOptionsToDefeault();
     this.listFetchOption.filter = filterForm;
+    this.listFetchOption.skip = 0;
 
     this.fetchRequestList({ ...(<any>this.listFetchOption) });
   }
