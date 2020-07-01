@@ -264,17 +264,17 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     prms1.then((data) => (this.StatesJSONForMapCreation = data));
 
     // All District JSON Data
-    const prms2 = new Promise((resolve, reject) => {
-      $.getJSON("../assets/jsonFile/updated_district_9_July.json")
-        .done((resp) => {
-          this.DistrictsJSONForMapCreation = resp;
-          resolve();
-        })
-        .fail((failed) => {
-          console.error("District Boundries getJSON request failed!", failed);
-        });
-    });
-    prmsArr.push(prms2);
+    // const prms2 = new Promise((resolve, reject) => {
+    //   $.getJSON("../assets/jsonFile/updated_district_9_July.json")
+    //     .done((resp) => {
+    //       this.DistrictsJSONForMapCreation = resp;
+    //       resolve();
+    //     })
+    //     .fail((failed) => {
+    //       console.error("District Boundries getJSON request failed!", failed);
+    //     });
+    // });
+    // prmsArr.push(prms2);
 
     return Promise.all(prmsArr);
   }
@@ -292,7 +292,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     let vw = Math.max(document.documentElement.clientWidth);
     vw = (vw - 1366) / 1366;
     const zoom = 4 + vw;
-
     const configuration: IMapCreationConfig = {
       containerId,
       geoData,
@@ -555,6 +554,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
     this.loadMapGeoJson()
       .then((res) => {
+        this.DistrictsJSONForMapCreation = { ...this.StatesJSONForMapCreation };
         this.createNationalLevelMap(this.StatesJSONForMapCreation, "mapidd");
       })
       .catch((err) => {});
@@ -754,6 +754,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         parseFloat(ulb.location.lat) !== NaN &&
         parseFloat(ulb.location.lng) !== NaN
     );
+    console.log(this.DistrictsJSONForMapCreation);
 
     const filteredDistricts = this.DistrictsJSONForMapCreation.features.filter(
       (districts) => districts.properties.ST_NM === stateFound.name
