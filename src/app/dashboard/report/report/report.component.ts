@@ -309,7 +309,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
       if (!this.reportForm.value.isComparative) {
         this.showState({ ...this.currentStateInView });
-        this.ulbTypeSelected = null;
+        this.ulbTypeSelected = "other";
       }
 
       this.filterSelectedULBs();
@@ -590,7 +590,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   resetPage() {
-    this.resetPopupValues();
+    // this.resetPopupValues();
     // this.reportForm.reset();
     this.reportForm.patchValue({
       type: "Summary",
@@ -1162,8 +1162,9 @@ export class ReportComponent implements OnInit, OnDestroy {
       ulbTypeFilter: [],
     };
 
-    Object.assign(this.ulbs, this.originalUlbList);
+    // Object.assign(this.ulbs, this.originalUlbList);
     this.resetPage();
+    this.clickedOnGenerateReport = false;
   }
 
   /**
