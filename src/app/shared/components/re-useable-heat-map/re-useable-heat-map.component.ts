@@ -110,6 +110,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   queryParams: { state?: string } = {};
 
+  randomNumber = Math.random();
+
   ngOnInit() {}
 
   ngOnChanges(changes: {
@@ -183,7 +185,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
     if (stateOfULB) {
-      this.convertDomToMiniMap("mapidd");
+      this.convertDomToMiniMap("mapidd" + this.randomNumber);
       this.clearUlbFilterControl();
       this.hideMapLegends();
       this.showStateLayerOnlyFor(this.nationalLevelMap, stateOfULB);
@@ -555,7 +557,10 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.loadMapGeoJson()
       .then((res) => {
         this.DistrictsJSONForMapCreation = { ...this.StatesJSONForMapCreation };
-        this.createNationalLevelMap(this.StatesJSONForMapCreation, "mapidd");
+        this.createNationalLevelMap(
+          this.StatesJSONForMapCreation,
+          "mapidd" + this.randomNumber
+        );
       })
       .catch((err) => {});
 
@@ -671,7 +676,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     if (!status) {
       return false;
     }
-    this.convertDomToMiniMap("mapidd");
+    this.convertDomToMiniMap("mapidd" + this.randomNumber);
     if (!status) {
       return false;
     }
@@ -754,7 +759,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         parseFloat(ulb.location.lat) !== NaN &&
         parseFloat(ulb.location.lng) !== NaN
     );
-    console.log(this.DistrictsJSONForMapCreation);
 
     const filteredDistricts = this.DistrictsJSONForMapCreation.features.filter(
       (districts) => districts.properties.ST_NM === stateFound.name
@@ -994,7 +998,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.resetDropdownListToNationalLevel();
     this.resetCurrentSelectState();
     this.resetCurrentULBClicked();
-    this.convertMiniMapToOriginal("mapidd");
+    this.convertMiniMapToOriginal("mapidd" + this.randomNumber);
     this.resetDistrictMap();
     this.clearDistrictMapContainer();
     this.showMapLegends();
