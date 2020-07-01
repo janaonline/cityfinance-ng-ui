@@ -104,6 +104,7 @@ export class UserListComponent implements OnInit {
 
   searchUsersBy(filterForm: {}) {
     this.listFetchOption.filter = filterForm;
+    this.listFetchOption.skip = 0;
 
     this.fetchList({ ...(<any>this.listFetchOption) });
   }
