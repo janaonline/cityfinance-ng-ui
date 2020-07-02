@@ -196,6 +196,7 @@ export class UsersComponent implements OnInit {
         return;
       case USER_TYPE.STATE:
         this.SideBarContents = <any>sideMenuForStateUser;
+        return;
       case USER_TYPE.ULB:
         this.SideBarContents = <any>sideMenuForULBUser;
     }
