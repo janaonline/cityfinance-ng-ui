@@ -37,7 +37,7 @@ export class FormUtil {
         [Validators.required, Validators.email, customEmailValidator],
       ],
       designation: ["", [Validators.required, nonEmptyValidator]],
-      organization: ["", [Validators.required]],
+      organization: ["", [Validators.required, nonEmptyValidator]],
     });
     if (purpose === "CREATION") {
       form = this.fb.group({
