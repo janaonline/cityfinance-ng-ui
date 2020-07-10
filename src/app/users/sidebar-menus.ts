@@ -300,7 +300,7 @@ export const sideMenuForULBUser: { title: string; subMenus: ILink[] }[] = [
     subMenus: [
       { title: "Update Profile", route: ["/user/profile/view"], type: "link" },
       {
-        title: "Profile Update State",
+        title: "Profile Update Status",
         route: ["/user/profile/request"],
         type: "link",
       },
