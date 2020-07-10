@@ -3,11 +3,22 @@
  * that need to be implemented for any form, must be implemented here.
  */
 import { AbstractControl } from '@angular/forms';
+import { control } from 'leaflet';
+import { combineLatest } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 import { PasswordValidator } from './passwordValidator';
 
 const validator = new PasswordValidator();
 
+/**
+ *
+ * @description This Validator will only accept 10 digit number only with starting number 6 / 7 / 8 / 9.
+ *
+ * @example
+ *  6767676767 = valid
+ *  5767676767 = invalid since number is starting with digit 5.
+ */
 export const mobileNoValidator = (control: AbstractControl) => {
   const pattern = /^[6-9]\d{9}$/g;
   if (!control.value || !control.value.trim()) {
@@ -23,7 +34,7 @@ export const customEmailValidator = (control: AbstractControl) => {
   const pattern = /^.*\.[a-z]{2,3}/g;
   const email = false;
   if (!control.value || !control.value.trim()) {
-    return { email };
+    return { required: true };
   }
   if (!control.value.match(pattern)) {
     return { email };
@@ -55,4 +66,27 @@ export const nonEmptyValidator = (control: AbstractControl) => {
   }
 
   return null;
+};
+
+export const PartnerFormEmailValidations = (
+  emailControl: AbstractControl,
+  departmentEmailControl: AbstractControl
+) => {
+  const emailObserver = emailControl.valueChanges;
+  const departmentEmailObserver = departmentEmailControl.valueChanges;
+  combineLatest(emailObserver, departmentEmailObserver)
+    .pipe(debounceTime(500))
+    .subscribe((value: string[]) => {
+      const email = value[0] ? value[0].trim() : null;
+      const departmentEmail = value[1] ? value[1].trim() : null;
+      if (!email || !departmentEmail) {
+        console.log(emailControl);
+        return false;
+      }
+
+      if (email.toLocaleLowerCase() !== departmentEmail.toLocaleLowerCase()) {
+        return emailControl.setErrors(null);
+      }
+      emailControl.setErrors({ sameEmail: true });
+    });
 };

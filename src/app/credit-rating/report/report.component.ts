@@ -518,7 +518,7 @@ export class ReportComponent implements OnInit, OnDestroy {
         case "status":
           formControl = this.statusSearchFormControl;
       }
-      if (formControl.value.length) {
+      if (formControl.value && formControl.value.length) {
         let ids;
         if (filter === "ulb") {
           ids = formControl.value.toLowerCase();
@@ -557,6 +557,9 @@ export class ReportComponent implements OnInit, OnDestroy {
   setPage(number: number) {
     this.page = number;
     this.list = this.originalList;
+    setTimeout(() => {
+      this.clearFilters();
+    });
   }
 
   ulbDropdownSelected(option: any) {

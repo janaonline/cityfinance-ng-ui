@@ -119,10 +119,15 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     yearSelected: SimpleChange;
   }) {
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
+      console.log(
+        "map got nw ulb from parent ",
+        changes.ulbSelected.currentValue
+      );
       const newULBId =
         typeof changes.ulbSelected.currentValue === "object"
           ? changes.ulbSelected.currentValue._id
           : changes.ulbSelected.currentValue;
+      console.log(`current ulb selected : `, this.currentULBClicked);
       if (!this.currentULBClicked || newULBId !== this.currentULBClicked._id) {
         this.onSelectingULBFromDropdown(newULBId);
       }
@@ -397,6 +402,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   private listenToFormControls() {
     this.ulbsSelected.valueChanges.subscribe((newValue) => {
+      console.log("map got ulb from somewhere, now emitting", newValue);
       this.ulbsClicked.emit(newValue);
     });
 

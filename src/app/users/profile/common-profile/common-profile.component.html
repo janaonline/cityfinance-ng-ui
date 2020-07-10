@@ -62,7 +62,9 @@
     >
       <span *ngIf="error.required">Email ID canot be empty</span>
       <span *ngIf="error.email === false">Email ID is not valid</span>
-      {{ error | json }}
+      <span *ngIf="error?.sameEmail === true"
+        >Email ID and Department Email Id cannot be same</span
+      >
     </small>
   </div>
 
@@ -155,7 +157,7 @@
 
   <div class="input-group">
     <label for="departmentEmail"
-      >Department Email ID
+      >Department Email ID :
       <span
         class="asterik"
         *ngIf="profileForm.controls.departmentEmail.validator({})['required']"
