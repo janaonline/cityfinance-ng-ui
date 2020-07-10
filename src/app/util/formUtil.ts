@@ -1,4 +1,5 @@
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { of } from 'rxjs';
 
 import { PasswordValidator } from './passwordValidator';
 import {
@@ -43,7 +44,20 @@ export class FormUtil {
       form = this.fb.group({
         ...form.controls,
         password: ["", [customPasswordValidator]],
-        confirmPassword: ["", Validators.required],
+        confirmPassword: [
+          "",
+          Validators.required,
+          (control: AbstractControl) => {
+            if (!control.value) return of(null);
+            if (control.value !== form.controls.password.value) {
+              return of({
+                passwordMisMatch:
+                  "Password and Confirm Password does not match",
+              });
+            }
+            return of(null);
+          },
+        ],
       });
       return form;
     }
