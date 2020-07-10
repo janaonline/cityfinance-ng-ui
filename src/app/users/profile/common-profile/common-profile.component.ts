@@ -13,6 +13,14 @@ import { ProfileService } from '../service/profile.service';
   styleUrls: ["./common-profile.component.scss"],
 })
 export class CommonProfileComponent implements OnInit, OnChanges {
+  /***************************
+   *
+   *
+   *      This is Partner Profile Update / Create.
+   *
+   *
+   *******************************/
+
   @Input()
   profileData: any;
   @Input() editable = false;
@@ -49,10 +57,10 @@ export class CommonProfileComponent implements OnInit, OnChanges {
   public onFormSubmit(form: FormGroup) {
     this.resetResponseMessage();
     this.formSubmitted = true;
-    this.formErrors = this.formUtil.validateStateForm(form);
-    if (this.formErrors) {
-      return;
-    }
+    // this.formErrors = this.formUtil.validateStateForm(form);
+    // if (this.formErrors) {
+    //   return;
+    // }
 
     if (this.profileData) {
       return this.updateProfile(form);
