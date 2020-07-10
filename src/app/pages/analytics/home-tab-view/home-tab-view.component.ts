@@ -329,6 +329,7 @@ export class HomeTabViewComponent implements OnInit {
     this.selectedUlb = ulbId;
     this.selectedState = stateFound;
     this.updateULBDropdownList({ stateId: stateId });
+    this.fetchUlBsData([ulbId]);
   }
 
   updateULBDropdownList(options: { ulbName?: string; stateId?: string }) {
@@ -400,6 +401,7 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   fetchUlBsData(ulbIdsArray: string[]) {
+    console.log(`ulbs from map `, ulbIdsArray);
     if (ulbIdsArray.length) {
       this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
     } else {
