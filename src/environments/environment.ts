@@ -13,7 +13,7 @@ if (
   url = "https://staging.cityfinance.in/api/v1/";
 } else {
   url = "https://cityfinance.in/api/v1/";
-  // GoogleTagID = "UA-171288029-1";
+  GoogleTagID = "UA-171288029-1";
 }
 // url = "http://cityfinance.in/api/v1/";
 export const environment = {
