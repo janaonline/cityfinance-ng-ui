@@ -7,7 +7,7 @@
       <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
     </div>
 
-    <h2 class="header">
+    <h2 class="header" *ngIf="!showLoader">
       <button
         *ngIf="userData.role !== USER_TYPE.STATE"
         class="back_button"
@@ -157,7 +157,10 @@
   </ng-template>
 </div>
 
-<div class="wrapper preview-wrapper" *ngIf="userHasAlreadyFilledForm">
+<div
+  class="wrapper preview-wrapper"
+  *ngIf="userHasAlreadyFilledForm && !showLoader"
+>
   <h2>
     <button
       *ngIf="userData.role !== USER_TYPE.STATE"

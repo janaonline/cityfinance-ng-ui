@@ -644,7 +644,6 @@ export class ReportComponent implements OnInit, OnDestroy {
    * This method is executed whenever the report is needed to generate (generally when Generate Report button is clicked);
    */
   search() {
-    this.clickedOnGenerateReport = true;
     this.reportForm.value.years = [];
     for (let i = 0; i < this.reportForm.value.yearList.length; i++) {
       const year = this.reportForm.value.yearList[i].id;
@@ -741,6 +740,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     this.modalRef.hide();
     this._loaderService.showLoader();
+    this.clickedOnGenerateReport = true;
 
     if (
       this.reportForm.value.ulbList.length == 1 &&
