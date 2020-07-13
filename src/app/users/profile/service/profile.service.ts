@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
 
 import { environment } from '../../../../environments/environment';
 import { IULBTypeListResponse } from '../../../models/ulbs/type';
@@ -33,6 +34,18 @@ export class ProfileService {
     }
     userData = JSON.parse(userData);
     return userData["role"] ? userData["role"] : null;
+  }
+
+  getUserLoggedInDetails(): IUserLoggedInDetails {
+    let userData: any = localStorage.getItem("userData");
+    if (!userData) return null;
+    try {
+      userData = <IUserLoggedInDetails>JSON.parse(userData);
+    } catch (error) {
+      console.error(`FAiled to parse userData from  localStorage.\n`, error);
+      return null;
+    }
+    return userData;
   }
 
   getULBTypeList() {

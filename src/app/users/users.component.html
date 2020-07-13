@@ -52,6 +52,27 @@
       ></app-side-menu>
     </div>
     <div class="col-sm-9">
+      <h3 class="text-center mt-2" *ngIf="loggedInUserType !== userTypes.USER">
+        Welcome: {{ userLoggedInDetails.name }},
+        <span
+          *ngIf="
+            loggedInUserType === userTypes.ADMIN ||
+            loggedInUserType === userTypes.MoHUA ||
+            loggedInUserType === userTypes.PARTNER
+          "
+        >
+          {{ userLoggedInDetails.role }}
+        </span>
+        <span
+          *ngIf="
+            loggedInUserType === userTypes.STATE ||
+            loggedInUserType === userTypes.ULB
+          "
+        >
+          {{ states[userLoggedInDetails["state"]]?.name }}
+        </span>
+      </h3>
+
       <router-outlet></router-outlet>
     </div>
   </div>
