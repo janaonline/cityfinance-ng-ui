@@ -50,3 +50,9 @@ table .input-group {
 ::-webkit-scrollbar-thumb:hover {
   background: #f0ad4e;
 }
+
+:host {
+  div.common-container {
+    padding: 5px 0 40px;
+  }
+}

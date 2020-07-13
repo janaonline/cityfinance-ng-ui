@@ -31,7 +31,7 @@ export class MunicipalBondComponent implements OnInit {
     text: "All Years",
     enableSearchFilter: false,
     badgeShowLimit: 1,
-    showCheckbox: true,
+    showCheckbox: false,
     labelKey: "name",
     primaryKey: "name",
   };
