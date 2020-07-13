@@ -80,6 +80,32 @@
               </tr>
             </thead>
             <tbody>
+              <tr *ngIf="request.name">
+                <td>ULb Name</td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="!request.old ? '' : request.old?.ulb?.name"
+                      disabled="true"
+                    />
+                  </div>
+                  <!-- {{ !request.old ? "" : request.old.accountantConatactNumber }} -->
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="User Name"
+                      type="text"
+                      class="form-control"
+                      [value]="request.name"
+                      disabled="true"
+                    />
+                  </div>
+                </td>
+              </tr>
               <tr *ngIf="request.accountantConatactNumber">
                 <td>Accountant Contact Number</td>
                 <td>
