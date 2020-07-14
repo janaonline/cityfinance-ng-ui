@@ -67,7 +67,6 @@
           </div>
 
           <div class="row">
-            {{ fileFormGroup.get("incomeAndExpenditure").disabled }}
             <div formGroupName="incomeAndExpenditure" class="col-sm-6">
               <app-finance-data-upload-input
                 [config]="{
@@ -152,8 +151,8 @@
                 *ngIf="
                   userUtil.getUserType() !== 'STATE' &&
                   uploadId !== null &&
-                    (completenessStatus === 'REJECTED' ||
-                      correctnessStatus === 'REJECTED')
+                  (completenessStatus === 'REJECTED' ||
+                    correctnessStatus === 'REJECTED')
                 "
                 [disabled]="fileFormGroup.invalid"
                 class="btn btn-primary"
