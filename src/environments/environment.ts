@@ -2,15 +2,18 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 let url;
+let GoogleTagID: string;
 if (
   window.location.hostname.includes("demo") ||
   window.location.hostname.includes("localhost")
 ) {
   url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
+  GoogleTagID = "UA-171288029-2";
 } else if (window.location.hostname.includes("staging")) {
   url = "https://staging.cityfinance.in/api/v1/";
 } else {
   url = "https://cityfinance.in/api/v1/";
+  GoogleTagID = "UA-171288029-1";
 }
 // url = "http://cityfinance.in/api/v1/";
 export const environment = {
@@ -22,6 +25,7 @@ export const environment = {
   reCaptcha: {
     siteKey: "6LcT9_gUAAAAANrZM5TNnE4OEEC46iFDfcAHZ8lD",
   },
+  GoogleTagID,
 };
 
 /*
