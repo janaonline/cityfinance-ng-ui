@@ -168,6 +168,7 @@ export class UserListComponent implements OnInit {
     this._dialog.open(DialogComponent, {
       height: "21vh",
       width: "31vw",
+      minHeight: "175px",
       data: configuration,
     });
   }
