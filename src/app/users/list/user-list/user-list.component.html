@@ -327,6 +327,41 @@
               </td>
               <td class="text-center d-flex actionCell">
                 <a
+                  *ngIf="ulb.status === SINGPUP_STATUS.PENDING"
+                  class="btn btn-primary"
+                  title="Edit"
+                  [routerLink]="['/', 'user', 'profile', 'view']"
+                  [queryParams]="{ id: ulb._id, role: 'ULB' }"
+                  >Take Action
+                </a>
+                <ng-container *ngIf="ulb.status !== SINGPUP_STATUS.PENDING">
+                  <a
+                    [routerLink]="['/', 'user', 'profile', 'view']"
+                    [queryParams]="{ id: ulb._id, role: 'ULB' }"
+                  >
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                  </a>
+                  <a
+                    *ngIf="
+                      ulb.status === SINGPUP_STATUS.APPROVED && canEditProfile
+                    "
+                    [routerLink]="['/', 'user', 'profile', 'view']"
+                    [queryParams]="{ id: ulb._id, role: 'ULB', edit: true }"
+                  >
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </a>
+                  <a *ngIf="canDeleteUser">
+                    <i
+                      class="fa fa-trash"
+                      aria-hidden="true"
+                      title="Delete User"
+                      (click)="
+                        openUserDeleteConfirmationBox(userDeletePopup, ulb)
+                      "
+                    ></i
+                  ></a>
+                </ng-container>
+                <!-- <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: ulb._id, role: 'ULB' }"
                 >
@@ -350,7 +385,7 @@
                       openUserDeleteConfirmationBox(userDeletePopup, ulb)
                     "
                   ></i
-                ></a>
+                ></a> -->
               </td>
             </tr>
             <tr *ngIf="userList && !userList.length">
