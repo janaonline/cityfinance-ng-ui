@@ -231,7 +231,7 @@ export class ProfileRequestComponent implements OnInit {
   private initializeListFetchParams() {
     this.listFetchOption = {
       filter: this.filterForm ? this.filterForm.value : {},
-      sort: null,
+      sort: this.loggedInUserType === USER_TYPE.ULB ? { createdAt: 1 } : null,
       skip: 0,
       limit: this.tableDefaultOptions.itemPerPage,
     };
