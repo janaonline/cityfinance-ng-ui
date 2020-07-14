@@ -12,7 +12,9 @@
     Profile
   </h1>
   <div *ngIf="profileData && profileData.status === SIGNUP_STATUS.REJECTED">
-    <p class="error-message">Reason for Rejection: asdas</p>
+    <p class="error-message">
+      Reason for Rejection: {{ profileData.rejectReason }}
+    </p>
   </div>
   <h1 *ngIf="!profileData">
     Create ULB

@@ -272,7 +272,11 @@ export class FormUtil {
       ? accountantEmail.trim()
       : accountantEmail;
 
-    if (accountantEmail == commissionerEmail) {
+    if (
+      accountantEmail.trim() &&
+      commissionerEmail.trim() &&
+      accountantEmail == commissionerEmail
+    ) {
       errors.push(
         "Commisionar Email ID and Accountant Email ID cannot be same"
       );
