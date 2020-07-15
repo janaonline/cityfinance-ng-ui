@@ -153,7 +153,7 @@ export class ProfileRequestComponent implements OnInit {
     this._profileService
       .getULBProfileUpdateRequestList(body)
       .subscribe((res) => {
-        if (res.total) {
+        if (res.total || res.total === 0) {
           this.tableDefaultOptions.totalCount = res.total;
         }
 
@@ -195,9 +195,7 @@ export class ProfileRequestComponent implements OnInit {
 
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;
-    console.log(`pageNoClick: ${pageNoClick}, `, {
-      ...this.tableDefaultOptions,
-    });
+
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     this.searchUsersBy(this.filterForm.value);
