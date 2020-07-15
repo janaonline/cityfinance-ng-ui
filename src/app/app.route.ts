@@ -38,6 +38,11 @@ export const appRouter: Routes = [
     loadChildren: "./auth/password/password.module#PasswordModule",
   },
   {
+    path: "account-reactivate",
+    loadChildren:
+      "./auth/account-reactivate/account-reactivate.module#AccountReactivateModule",
+  },
+  {
     path: "credit-rating",
     loadChildren: "./credit-rating/credit-rating.module#CreditRatingModule",
   },
