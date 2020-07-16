@@ -9,6 +9,9 @@ export class AccountReactivateService {
   constructor(private _http: HttpClient) {}
 
   sendReactivationEmail(body) {
-    return this._http.post(`${environment.api}`, body);
+    return this._http.post(
+      `${environment.api.url}/resend_verification_link`,
+      body
+    );
   }
 }
