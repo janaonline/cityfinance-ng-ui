@@ -102,9 +102,10 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  searchUsersBy(filterForm: {}) {
+  searchUsersBy(filterForm: {}, skip?: number) {
     this.listFetchOption.filter = filterForm;
-    this.listFetchOption.skip = 0;
+    this.listFetchOption.skip =
+      skip || skip === 0 ? skip : this.listFetchOption.skip;
 
     this.fetchList({ ...(<any>this.listFetchOption) });
   }
