@@ -23,10 +23,15 @@ export class AccountReactivateComponent implements OnInit {
   ngOnInit() {}
 
   onFormSubmit() {
+    this.resetMessages();
     const body = this.form.value;
     this._reactrivateService.sendReactivationEmail(body).subscribe(
-      (res) => {},
-      (err) => {}
+      (res) => {
+        this.successMessage = res["message"] || ";Email send";
+      },
+      (err) => {
+        this.errorMessage = err["error"]["message"] || "Server Error";
+      }
     );
   }
 
@@ -34,5 +39,10 @@ export class AccountReactivateComponent implements OnInit {
     this.form = this._fb.group({
       email: ["", [Validators.required, Validators.email]],
     });
+  }
+
+  private resetMessages() {
+    this.errorMessage = null;
+    this.successMessage = null;
   }
 }
