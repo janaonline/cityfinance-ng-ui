@@ -58,6 +58,7 @@ export class FormUtil {
             return of(null);
           },
         ],
+        captcha: [null, [Validators.required]],
       });
       return form;
     }
@@ -97,6 +98,7 @@ export class FormUtil {
       return this.fb.group({
         ...baseForm.controls,
         password: [""],
+        captcha: [null, [Validators.required]],
       });
     }
 
