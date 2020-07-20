@@ -183,7 +183,6 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         this.dataUploadList = this.dataUploadList.sort((a, b) => {
           const c1 = a["status"][2];
           const c2 = b["status"][2];
-          console.log(c1, c2);
           if (c1 > c2) {
             return 1;
           } else {
@@ -244,7 +243,6 @@ export class DataUploadComponent implements OnInit, OnDestroy {
                 let { url, file_alias } = urlResponse.data[0];
                 urlObject[parentFormGroup][fileUrlKey] =
                   urlResponse.data[0].file_alias;
-                console.log(fileUrlKey, file_alias, urlObject);
                 url = url.replace("admin/", "");
                 const fileUploadResponse = await this.dataUploadService
                   .uploadFileToS3(files[fileKey], url)
@@ -369,7 +367,6 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         this.disableFormGroups(formGroupItem, formGroupDataObject);
       }
     });
-    console.log(this.fileFormGroup);
   }
 
   disableFormGroups(formGroupItem, formGroupDataObject) {
@@ -387,6 +384,19 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     this.fileUpload.totalFiles = this.getAddedFilterCount();
     this.fileUpload.uploading = true;
     const urlObject = {};
+    let total = 0;
+    for (const parentFormGroup of this.fileFormGroupKeys) {
+      if (
+        this.fileFormGroup.get(parentFormGroup) instanceof FormGroup ||
+        parentFormGroup === "auditReport"
+      ) {
+        const formGroup = this.fileFormGroup.get(parentFormGroup);
+        if (!formGroup.disabled) {
+          total++;
+        }
+      }
+    }
+    this.fileUpload.totalFiles = total;
     for (const parentFormGroup of this.fileFormGroupKeys) {
       if (
         this.fileFormGroup.get(parentFormGroup) instanceof FormGroup ||
@@ -452,7 +462,6 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     // fields.forEach(inputField => {
     //   let eventSubject = fromEvent(inputField, 'input').pipe(
     //     map((e: KeyboardEvent) => {
-    //       console.log(e);
     //     })s
     //   );
     // });
