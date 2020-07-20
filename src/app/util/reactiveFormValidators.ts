@@ -79,13 +79,16 @@ export const PartnerFormEmailValidations = (
     .subscribe((value: string[]) => {
       const email = value[0] ? value[0].trim() : null;
       const departmentEmail = value[1] ? value[1].trim() : null;
+
       if (!email || !departmentEmail) {
         console.log(emailControl);
         return false;
       }
 
       if (email.toLocaleLowerCase() !== departmentEmail.toLocaleLowerCase()) {
-        return emailControl.setErrors(null);
+        emailControl.updateValueAndValidity({ emitEvent: false });
+        departmentEmailControl.updateValueAndValidity({ emitEvent: false });
+        return;
       }
       emailControl.setErrors({ sameEmail: true });
     });

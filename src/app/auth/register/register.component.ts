@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, of } from 'rxjs';
 import { debounceTime, filter, switchMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 import { USER_TYPE } from '../../models/user/userType';
 import { IStateULBCovered } from '../../shared/models/stateUlbConvered';
@@ -31,6 +32,11 @@ export class RegisterComponent implements OnInit {
   public isCheckingULBCode = false;
   private ulb;
   public ulbList: any[];
+  public reCaptcha = {
+    show: true,
+    siteKey: environment.reCaptcha.siteKey,
+    userGeneratedKey: null,
+  };
 
   constructor(
     private authService: AuthService,
@@ -62,6 +68,10 @@ export class RegisterComponent implements OnInit {
       !this.registrationForm ||
       this.registrationForm.controls.commissionerName.disabled
     ) {
+      return false;
+    }
+
+    if (!this.reCaptcha.userGeneratedKey) {
       return false;
     }
     return true;
@@ -202,6 +212,22 @@ export class RegisterComponent implements OnInit {
     form.controls.accountantName.disable({ emitEvent: false });
     form.controls.accountantConatactNumber.disable({ emitEvent: false });
     form.controls.accountantEmail.disable({ emitEvent: false });
+  }
+
+  resolveCaptcha(keyGenerated: string) {
+    this.reCaptcha.userGeneratedKey = keyGenerated;
+    this.authService.verifyCaptcha(keyGenerated).subscribe((res) => {
+      if (!res["success"]) {
+        this.reCaptcha.show = false;
+        this.reCaptcha.userGeneratedKey = null;
+        setTimeout(() => {
+          this.reCaptcha.show = true;
+        }, 500);
+        return;
+      }
+
+      this.registrationForm.controls.captcha.setValue(keyGenerated);
+    });
   }
 
   private resetResponseMessage() {

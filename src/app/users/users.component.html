@@ -20,8 +20,9 @@
         </span>
         <span
           *ngIf="
-            loggedInUserType === userTypes.STATE ||
-            loggedInUserType === userTypes.ULB
+            states &&
+            (loggedInUserType === userTypes.STATE ||
+              loggedInUserType === userTypes.ULB)
           "
         >
           {{ states[userLoggedInDetails["state"]]?.name }}

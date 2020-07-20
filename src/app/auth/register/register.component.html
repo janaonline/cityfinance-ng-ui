@@ -207,6 +207,12 @@
               {{ respone.successMessage }}
             </p>
 
+            <re-captcha
+              *ngIf="reCaptcha.show"
+              (resolved)="resolveCaptcha($event)"
+              [siteKey]="reCaptcha.siteKey"
+            ></re-captcha>
+
             <div class="input-group">
               <button
                 type="submit"
@@ -501,6 +507,11 @@
             <p *ngIf="respone.successMessage" class="success-message">
               {{ respone.successMessage }}
             </p>
+            <re-captcha
+              *ngIf="reCaptcha.show"
+              (resolved)="resolveCaptcha($event)"
+              [siteKey]="reCaptcha.siteKey"
+            ></re-captcha>
 
             <div class="input-group">
               <button
