@@ -1,45 +1,52 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormGroup, Validators} from '@angular/forms';
-import {UPLOAD_STATUS} from '../../../util/enums';
-import {FinancialDataService} from '../../../users/services/financial-data.service';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormGroup, Validators } from '@angular/forms';
+
+import { FinancialDataService } from '../../../users/services/financial-data.service';
+import { UPLOAD_STATUS } from '../../../util/enums';
 
 export interface IFileStatusCheckerInputComponent {
-  formGroupName: string,
-  status: 'completeness' | 'correctness',
-  messageFormControlKey: string
-  formGroup: FormGroup,
+  formGroupName: string;
+  status: "completeness" | "correctness";
+  messageFormControlKey: string;
+  formGroup: FormGroup;
 }
 
 @Component({
-  selector: 'app-file-status-checker-input',
-  templateUrl: './file-status-checker-input.component.html',
-  styleUrls: ['./file-status-checker-input.component.scss']
+  selector: "app-file-status-checker-input",
+  templateUrl: "./file-status-checker-input.component.html",
+  styleUrls: ["./file-status-checker-input.component.scss"],
 })
-export class FileStatusCheckerInputComponent implements OnInit, AfterViewInit, OnChanges {
-
-  @Input('config') config: IFileStatusCheckerInputComponent;
-  @Output('fileButtonClicked') fileButtonClicked: EventEmitter<string[]> = new EventEmitter();
+export class FileStatusCheckerInputComponent
+  implements OnInit, AfterViewInit, OnChanges {
+  @Input("config") config: IFileStatusCheckerInputComponent;
+  @Output("fileButtonClicked") fileButtonClicked: EventEmitter<
+    string[]
+  > = new EventEmitter();
   showMessageInput = false;
   disableButton = false;
-  buttonTextSuffix = 'View';
+  buttonTextSuffix = "View";
+  pdfLink: string;
+  excelLink: string;
 
-  constructor(private financialDataService: FinancialDataService) {
+  constructor(private financialDataService: FinancialDataService) {}
 
-  }
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-  }
-
+  ngOnChanges(changes: SimpleChanges): void {}
 
   ngOnInit() {
-    const value = this.config.formGroup.get([this.config.formGroupName, this.config.status]).value;
-    const fileValue = this.financialDataService.selectedFinancialRequest[this.config.formGroupName];
+    const value = this.config.formGroup.get([
+      this.config.formGroupName,
+      this.config.status,
+    ]).value;
+    const fileValue = this.financialDataService.selectedFinancialRequest[
+      this.config.formGroupName
+    ];
     if (fileValue) {
-      const {pdfUrl, excelUrl} = fileValue;
+      const { pdfUrl, excelUrl } = fileValue;
+      this.pdfLink = pdfUrl;
+      this.excelLink = excelUrl;
       if (!(pdfUrl || excelUrl)) {
         this.disableButton = true;
-        this.buttonTextSuffix = '';
+        this.buttonTextSuffix = "";
       }
     }
 
@@ -47,8 +54,11 @@ export class FileStatusCheckerInputComponent implements OnInit, AfterViewInit, O
       this.showMessageInput = value.toUpperCase() === UPLOAD_STATUS.REJECTED;
       this.config.formGroup.updateValueAndValidity();
     }
-    const formControlValueObserver = this.config.formGroup.get([this.config.formGroupName, this.config.status]).valueChanges;
-    formControlValueObserver.subscribe(value => {
+    const formControlValueObserver = this.config.formGroup.get([
+      this.config.formGroupName,
+      this.config.status,
+    ]).valueChanges;
+    formControlValueObserver.subscribe((value) => {
       if (value) {
         this.showMessageInput = value.toUpperCase() === UPLOAD_STATUS.REJECTED;
         this.config.formGroup.updateValueAndValidity();
@@ -57,29 +67,42 @@ export class FileStatusCheckerInputComponent implements OnInit, AfterViewInit, O
   }
 
   fileButtonClickHandler(formGroupNameKey: string, fileUrl: string) {
+    console.log("emitting ", formGroupNameKey, fileUrl);
     this.fileButtonClicked.emit([formGroupNameKey, fileUrl]);
   }
 
   radioButtonClickHandler(event: Event) {
-    const formControlValue = this.config.formGroup.get([this.config.formGroupName, this.config.status]).value;
-    this.showMessageInput = formControlValue && formControlValue.toUpperCase() === UPLOAD_STATUS.REJECTED;
+    const formControlValue = this.config.formGroup.get([
+      this.config.formGroupName,
+      this.config.status,
+    ]).value;
+    this.showMessageInput =
+      formControlValue &&
+      formControlValue.toUpperCase() === UPLOAD_STATUS.REJECTED;
     this.setMessageInputValidators(formControlValue);
     this.config.formGroup.updateValueAndValidity();
   }
 
   setMessageInputValidators(radioFormControlValue: UPLOAD_STATUS) {
-    this.config.formGroup.get([this.config.formGroupName, this.config.messageFormControlKey]).reset();
+    this.config.formGroup
+      .get([this.config.formGroupName, this.config.messageFormControlKey])
+      .reset();
     if (radioFormControlValue === UPLOAD_STATUS.REJECTED) {
-      this.config.formGroup.get([this.config.formGroupName, this.config.messageFormControlKey]).setValidators([Validators.required]);
-      this.config.formGroup.get([this.config.formGroupName, this.config.messageFormControlKey]).updateValueAndValidity();
+      this.config.formGroup
+        .get([this.config.formGroupName, this.config.messageFormControlKey])
+        .setValidators([Validators.required]);
+      this.config.formGroup
+        .get([this.config.formGroupName, this.config.messageFormControlKey])
+        .updateValueAndValidity();
       return;
     }
-    this.config.formGroup.get([this.config.formGroupName, this.config.messageFormControlKey]).clearValidators();
-    this.config.formGroup.get([this.config.formGroupName, this.config.messageFormControlKey]).updateValueAndValidity();
-
+    this.config.formGroup
+      .get([this.config.formGroupName, this.config.messageFormControlKey])
+      .clearValidators();
+    this.config.formGroup
+      .get([this.config.formGroupName, this.config.messageFormControlKey])
+      .updateValueAndValidity();
   }
 
-  ngAfterViewInit(): void {
-
-  }
+  ngAfterViewInit(): void {}
 }
