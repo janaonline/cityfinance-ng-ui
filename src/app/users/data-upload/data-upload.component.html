@@ -59,7 +59,12 @@
                   disabled: this.fileUpload.uploading,
                   formGroupName: 'schedulesToBalanceSheet',
                   title: 'Schedules to Balance Sheet',
-                  required: false
+                  required: false,
+                  canRemoveFile:
+                    userUtil.getUserType() !== 'STATE' &&
+                    uploadId !== null &&
+                    (completenessStatus === 'REJECTED' ||
+                      correctnessStatus === 'REJECTED')
                 }"
               >
               </app-finance-data-upload-input>
@@ -89,7 +94,12 @@
                   formGroup: fileFormGroup,
                   formGroupName: 'schedulesToIncomeAndExpenditure',
                   title: 'Schedules to Income and Expenditure',
-                  required: false
+                  required: false,
+                  canRemoveFile:
+                    userUtil.getUserType() !== 'STATE' &&
+                    uploadId !== null &&
+                    (completenessStatus === 'REJECTED' ||
+                      correctnessStatus === 'REJECTED')
                 }"
               >
               </app-finance-data-upload-input>
@@ -128,6 +138,7 @@
               </app-finance-data-upload-input>
             </div>
           </div>
+
           <div class="row mt-4 mb-4">
             <div class="col-sm-12">
               <button

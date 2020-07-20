@@ -271,10 +271,12 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     };
     this.financialDataService.uploadFinancialData(responseObject).subscribe(
       (response: any) => {
+        this.fileUpload.uploading = false;
         if (response.success) {
           event.disabled = false;
           this.fileFormGroup.enable();
           this.fileUpload.reset();
+
           swal({
             title: "Successfully Uploaded",
             text: `Reference No: ${response["data"]["referenceCode"]}`,
@@ -290,6 +292,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       },
       (error: HttpErrorResponse) => {
         event.disabled = false;
+        this.fileUpload.uploading = false;
         this.fileUpload.reset();
         this.fileFormGroup.enable();
         this.handlerError(error);
@@ -392,7 +395,8 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       ) {
         const formGroup = this.fileFormGroup.get(parentFormGroup);
         if (!formGroup.disabled) {
-          total++;
+          if (formGroup.value.file_excel) total++;
+          if (formGroup.value.file_pdf) total++;
         }
       }
     }
@@ -441,10 +445,13 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         }
       }
     }
+
+    console.log(this.uploadId, { ...urlObject });
     this.financialDataService
       .upDateFinancialData(this.uploadId, urlObject)
       .subscribe(
         (result) => {
+          this.fileUpload.uploading = false;
           if (result["success"]) {
             this.router.navigate(["/user/data-upload/list"]);
           }
@@ -452,6 +459,8 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         (error) => {
           updateButton.disabled = false;
           this.fileUpload.reset();
+          this.fileUpload.uploading = false;
+
           this.handlerError(error);
         }
       );
