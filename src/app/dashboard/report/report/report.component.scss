@@ -206,16 +206,16 @@ a.inactive-tab:hover {
 }
 
 /* When the input is focused */
-::ng-deep .container {
-  .mat-form-field-outline,
-  .mat-form-field-empty.mat-form-field-label,
-  .mat-form-field-label,
-  .mat-form-field-underline,
-  .mat-input-element,
-  ::placeholder {
-    color: rgb(235, 8, 8) !important;
-  }
-}
+// ::ng-deep .container {
+//   .mat-form-field-outline,
+//   .mat-form-field-empty.mat-form-field-label,
+//   .mat-form-field-label,
+//   .mat-form-field-underline,
+//   .mat-input-element,
+//   ::placeholder {
+//     color: rgb(235, 8, 8) !important;
+//   }
+// }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
   border-radius: 0px !important;
