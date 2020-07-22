@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { IUserLoggedInDetails } from '../models/login/userLoggedInDetails';
 import { IState } from '../models/state/state';
@@ -17,9 +18,10 @@ import { defaultSideBarContents, sideMenuForStateUser, sideMenuForULBUser } from
 export class UsersComponent implements OnInit {
   constructor(
     private profileService: ProfileService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private _router: Router
   ) {
-    this.initializeUSerType();
+    this.initializeUserType();
     this.initializeSidebarContents();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
@@ -43,7 +45,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {}
 
-  private initializeUSerType() {
+  private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
   }
 
@@ -65,6 +67,9 @@ export class UsersComponent implements OnInit {
 
   private initializeLoggedInUserDataFetch() {
     this.userLoggedInDetails = this.profileService.getUserLoggedInDetails();
+    if (!this.userLoggedInDetails) {
+      return this._router.navigate(["/login"]);
+    }
     switch (this.userLoggedInDetails.role) {
       case USER_TYPE.STATE:
       case USER_TYPE.ULB:

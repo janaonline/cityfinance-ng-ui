@@ -80,6 +80,9 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams.subscribe((params) => {
       try {
         this.userData = JSON.parse(localStorage.getItem("userData"));
+        if (!this.userData) {
+          return this.router.navigate(["/login"]);
+        }
         const id =
           params && params.stateId ? params.stateId : this.userData.state;
         this.currentStateId = id;

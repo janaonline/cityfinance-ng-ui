@@ -84,6 +84,10 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams.subscribe((params) => {
       try {
         this.userData = JSON.parse(localStorage.getItem("userData"));
+        if (!this.userData) {
+          return this.router.navigate(["/login"]);
+        }
+
         const id = params && params.ulbId ? params.ulbId : this.userData.ulb;
         this.currentULBId = id;
         this.validateUserAccess({ ulbId: id });
