@@ -400,7 +400,9 @@
                                 '/user/data-upload/action',
                                 row?._id
                               ]"
-                              (click)="navigateTo(row)"
+                              (click)="
+                                navigateTo('/user/data-upload/action', row?._id)
+                              "
                             >
                               <i
                                 *ngIf="row['status'] !== uploadStatus.PENDING"
