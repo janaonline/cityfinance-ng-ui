@@ -42,8 +42,8 @@ export class FileStatusCheckerInputComponent
     ];
     if (fileValue) {
       const { pdfUrl, excelUrl } = fileValue;
-      this.pdfLink = pdfUrl;
-      this.excelLink = excelUrl;
+      this.pdfLink = pdfUrl && pdfUrl.trim() ? pdfUrl : null;
+      this.excelLink = excelUrl && excelUrl.trim() ? excelUrl : null;
       if (!(pdfUrl || excelUrl)) {
         this.disableButton = true;
         this.buttonTextSuffix = "";
@@ -67,7 +67,6 @@ export class FileStatusCheckerInputComponent
   }
 
   fileButtonClickHandler(formGroupNameKey: string, fileUrl: string) {
-    console.log("emitting ", formGroupNameKey, fileUrl);
     this.fileButtonClicked.emit([formGroupNameKey, fileUrl]);
   }
 

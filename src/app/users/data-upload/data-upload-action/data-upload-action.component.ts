@@ -1,34 +1,44 @@
-import {Component, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FinancialDataService} from '../../services/financial-data.service';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {UPLOAD_STATUS} from '../../../util/enums';
-import {MatSnackBar} from '@angular/material';
+import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { UPLOAD_STATUS } from '../../../util/enums';
+import { FinancialDataService } from '../../services/financial-data.service';
 
 @Component({
-  selector: 'app-data-upload-action',
-  templateUrl: './data-upload-action.component.html',
-  styleUrls: ['./data-upload-action.component.scss']
+  selector: "app-data-upload-action",
+  templateUrl: "./data-upload-action.component.html",
+  styleUrls: ["./data-upload-action.component.scss"],
 })
 export class DataUploadActionComponent implements OnInit {
-
-  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance', 'auditReport'];
-  financialYearDropdown = [
-    {id: '2015-16', itemName: '2015-16'},
-    {id: '2016-17', itemName: '2016-17'},
-    {id: '2018-19', itemName: '2018-19'},
-    {id: '2019-20', itemName: '2019-2020'},
+  fileFormGroupKeys = [
+    "balanceSheet",
+    "schedulesToBalanceSheet",
+    "incomeAndExpenditure",
+    "schedulesToIncomeAndExpenditure",
+    "trialBalance",
+    "auditReport",
   ];
-  auditStatusDropdown = [{
-    id: 'audited',
-    itemName: 'Audited'
-  }, {
-    id: 'unaudited',
-    itemName: 'Unaudited'
-  }];
-  audited = new FormControl({value: null, disabled: true});
-  financialYear = new FormControl({value: null, disabled: true});
+  financialYearDropdown = [
+    { id: "2015-16", itemName: "2015-16" },
+    { id: "2016-17", itemName: "2016-17" },
+    { id: "2018-19", itemName: "2018-19" },
+    { id: "2019-20", itemName: "2019-2020" },
+  ];
+  auditStatusDropdown = [
+    {
+      id: "audited",
+      itemName: "Audited",
+    },
+    {
+      id: "unaudited",
+      itemName: "Unaudited",
+    },
+  ];
+  audited = new FormControl({ value: null, disabled: true });
+  financialYear = new FormControl({ value: null, disabled: true });
 
   completenessFormGroup: FormGroup;
   correctnessFormGroup: FormGroup;
@@ -37,86 +47,108 @@ export class DataUploadActionComponent implements OnInit {
   correctnessStatus: string = UPLOAD_STATUS.PENDING;
   tabIndex = 0;
 
-  constructor(public financeDataService: FinancialDataService,
-              public location: Location,
-              private fb: FormBuilder,
-              private activatedRoute: ActivatedRoute,
-              private _snackBar: MatSnackBar,
-              private router: Router) {
+  constructor(
+    public financeDataService: FinancialDataService,
+    public location: Location,
+    private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private _snackBar: MatSnackBar,
+    private router: Router
+  ) {
     this.createForms();
-
   }
 
   private fetchFinancialYears() {
-    this.financeDataService.getFinancialYears().subscribe(result => {
-      if (result['success']) {
-        this.fetchFinancialDataById();
-        this.financialYearDropdown = result['data'];
-        this.financialYearDropdown = this.financialYearDropdown.map(year => {
-          return {
-            id: year['name'],
-            itemName: year['name']
-          };
-        });
-      }
-    }, error => this.handlerError(error));
+    this.financeDataService.getFinancialYears().subscribe(
+      (result) => {
+        if (result["success"]) {
+          this.fetchFinancialDataById();
+          this.financialYearDropdown = result["data"];
+          this.financialYearDropdown = this.financialYearDropdown.map(
+            (year) => {
+              return {
+                id: year["name"],
+                itemName: year["name"],
+              };
+            }
+          );
+        }
+      },
+      (error) => this.handlerError(error)
+    );
   }
 
   private handlerError(error: any) {
-    const {message} = error;
-    this._snackBar.open(message, null, {duration: 1600});
+    const { message } = error;
+    this._snackBar.open(message, null, { duration: 1600 });
   }
 
   createForms() {
     this.completenessFormGroup = this.fb.group({});
     this.correctnessFormGroup = this.fb.group({});
-    this.fileFormGroupKeys.forEach(formGroupKey => {
-      this.completenessFormGroup.addControl(formGroupKey, new FormGroup({
-        completeness: new FormControl(),
-        message: new FormControl('')
-      }));
-      this.correctnessFormGroup.addControl(formGroupKey, new FormGroup({
-        correctness: new FormControl(),
-        message: new FormControl('')
-      }));
+    this.fileFormGroupKeys.forEach((formGroupKey) => {
+      this.completenessFormGroup.addControl(
+        formGroupKey,
+        new FormGroup({
+          completeness: new FormControl(),
+          message: new FormControl(""),
+        })
+      );
+      this.correctnessFormGroup.addControl(
+        formGroupKey,
+        new FormGroup({
+          correctness: new FormControl(),
+          message: new FormControl(""),
+        })
+      );
     });
   }
 
   ngOnInit() {
     this.fetchFinancialYears();
-    // if (!this.financeDataService.selectedFinancialRequest) {
-
   }
 
   fetchFinancialDataById() {
-    this.activatedRoute.params.subscribe(value => {
-      const {id} = value;
+    this.financeDataService.selectedFinancialRequest = null;
+    this.activatedRoute.params.subscribe((value) => {
+      const { id } = value;
       this.id = id;
-      this.financeDataService.fetFinancialData(id).subscribe((response: any) => {
-        if (response['success']) {
-          this.financeDataService.selectedFinancialRequest = response.data;
-          this.completenessStatus = this.financeDataService.selectedFinancialRequest['completeness'];
-          this.correctnessStatus = this.financeDataService.selectedFinancialRequest['correctness'];
-          this.updateFormControls(this.financeDataService.selectedFinancialRequest);
-        }
-      });
+      this.financeDataService
+        .fetFinancialData(id)
+        .subscribe((response: any) => {
+          if (response["success"]) {
+            this.financeDataService.selectedFinancialRequest = response.data;
+            this.completenessStatus = this.financeDataService.selectedFinancialRequest[
+              "completeness"
+            ];
+            this.correctnessStatus = this.financeDataService.selectedFinancialRequest[
+              "correctness"
+            ];
+            this.updateFormControls(
+              this.financeDataService.selectedFinancialRequest
+            );
+          }
+        });
     });
   }
 
-  getFormControl(formGroup: FormGroup, formGroupName: string, formControlName: string) {
+  getFormControl(
+    formGroup: FormGroup,
+    formGroupName: string,
+    formControlName: string
+  ) {
     return formGroup.get([formGroupName, formControlName]);
   }
 
   updateFormControls(data) {
     this.updateTabIndex(data);
-    const {financialYear, audited} = data;
+    const { financialYear, audited } = data;
     this.setFinancialYear(financialYear);
     this.setAuditStatus(audited);
     this.setFileFormControls();
   }
 
   setAuditStatus(value: boolean) {
-
     if (value) {
       this.audited.setValue([this.auditStatusDropdown[0]]);
     } else {
@@ -130,43 +162,45 @@ export class DataUploadActionComponent implements OnInit {
       args = args[0];
     }
     let urlObject = this.financeDataService.selectedFinancialRequest;
-    args.map(key => urlObject = urlObject[key]);
+    args.map((key) => (urlObject = urlObject[key]));
     if (urlObject) {
-      if (typeof urlObject === 'string') {
+      if (typeof urlObject === "string") {
         window.open(urlObject);
       }
     }
   }
 
-  radioButtonClickHandler() {
-  }
+  radioButtonClickHandler() {}
 
   completenessClickedHandler() {
-    let responseObject = {...this.completenessFormGroup.getRawValue()};
+    let responseObject = { ...this.completenessFormGroup.getRawValue() };
     if (!this.financeDataService.selectedFinancialRequest.audited) {
-      const {auditReport, ...rest} = this.completenessFormGroup.getRawValue();
-      responseObject = {...rest};
+      const { auditReport, ...rest } = this.completenessFormGroup.getRawValue();
+      responseObject = { ...rest };
     }
     this.financeDataService
       .updateCompletenessStatus(this.id, responseObject)
-      .subscribe((result: any) => {
-        const {data} = result;
-        if (data) {
-          if (data.completeness === UPLOAD_STATUS.REJECTED) {
-            return this.router.navigate(['/user/data-upload/list']);
+      .subscribe(
+        (result: any) => {
+          const { data } = result;
+          if (data) {
+            if (data.completeness === UPLOAD_STATUS.REJECTED) {
+              return this.router.navigate(["/user/data-upload/list"]);
+            }
           }
+          if (result["success"]) {
+            this.fetchFinancialDataById();
+            // this.router.navigate(['/user/data-upload/list']);
+          }
+        },
+        (error) => {
+          console.error(error);
         }
-        if (result['success']) {
-          this.fetchFinancialDataById();
-          //this.router.navigate(['/user/data-upload/list']);
-        }
-      }, error => {
-        console.log(error);
-      });
-  };
+      );
+  }
 
   private updateTabIndex(data) {
-    const {completeness} = data;
+    const { completeness } = data;
     if (completeness === UPLOAD_STATUS.APPROVED) {
       this.tabIndex = 1;
     }
@@ -175,41 +209,61 @@ export class DataUploadActionComponent implements OnInit {
   correctnessSubmitHandler() {
     this.financeDataService
       .updateCorrectnessStatus(this.id, this.correctnessFormGroup.value)
-      .subscribe(result => {
-        if (result['success']) {
-
-          this.router.navigate(['/user/data-upload/list']);
+      .subscribe(
+        (result) => {
+          if (result["success"]) {
+            this.router.navigate(["/user/data-upload/list"]);
+          }
+        },
+        (error) => {
+          console.error(error);
         }
-      }, error => {
-        console.log(error);
-      });
+      );
   }
 
   private setFinancialYear(financialYear: string) {
-    // console.log(financialYear, this.financialYearDropdown);
-    const selectedFinancialYearObject = this.financialYearDropdown.filter((item) => item.id === financialYear);
+    const selectedFinancialYearObject = this.financialYearDropdown.filter(
+      (item) => item.id === financialYear
+    );
     if (selectedFinancialYearObject) {
       this.financialYear.setValue(selectedFinancialYearObject);
     }
   }
 
   private setFileFormControls() {
-    this.fileFormGroupKeys.forEach(formGroupKey => {
-      const formGroupDataItem = this.financeDataService.selectedFinancialRequest[formGroupKey];
+    this.fileFormGroupKeys.forEach((formGroupKey) => {
+      const formGroupDataItem = this.financeDataService
+        .selectedFinancialRequest[formGroupKey];
       if (formGroupDataItem) {
-        const {excelUrl, pdfUrl} = formGroupDataItem;
-        let formControls = [
-          this.getFormControl(this.completenessFormGroup, formGroupKey, 'completeness'),
-          this.getFormControl(this.correctnessFormGroup, formGroupKey, 'correctness'),
-          this.getFormControl(this.completenessFormGroup, formGroupKey, 'message'),
-          this.getFormControl(this.correctnessFormGroup, formGroupKey, 'message'),
+        const { excelUrl, pdfUrl } = formGroupDataItem;
+        const formControls = [
+          this.getFormControl(
+            this.completenessFormGroup,
+            formGroupKey,
+            "completeness"
+          ),
+          this.getFormControl(
+            this.correctnessFormGroup,
+            formGroupKey,
+            "correctness"
+          ),
+          this.getFormControl(
+            this.completenessFormGroup,
+            formGroupKey,
+            "message"
+          ),
+          this.getFormControl(
+            this.correctnessFormGroup,
+            formGroupKey,
+            "message"
+          ),
         ];
-        let keys = ['completeness', 'correctness', 'message', 'message'];
+        const keys = ["completeness", "correctness", "message", "message"];
         for (let i = 0; i < formControls.length; i++) {
           const formControl = formControls[i];
           switch (keys[i]) {
-            case 'completeness':
-            case 'correctness':
+            case "completeness":
+            case "correctness":
               if (excelUrl || pdfUrl) {
                 if (formGroupDataItem[keys[i]] != UPLOAD_STATUS.PENDING) {
                   formControl.setValue(formGroupDataItem[keys[i]]);
@@ -229,7 +283,7 @@ export class DataUploadActionComponent implements OnInit {
               formControl.disable();
               formControl.updateValueAndValidity();
               break;
-            case 'message':
+            case "message":
               formControl.setValue(formGroupDataItem[keys[i]]);
               if (formControls[i - 2].disabled) {
                 formControl.disable();
