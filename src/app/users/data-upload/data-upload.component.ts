@@ -180,15 +180,15 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     } else {
       this.dataUploadList = response.data;
       if (!this.listFetchOption.sort) {
-        this.dataUploadList = this.dataUploadList.sort((a, b) => {
-          const c1 = a["status"][2];
-          const c2 = b["status"][2];
-          if (c1 > c2) {
-            return 1;
-          } else {
-            return -1;
-          }
-        });
+        // this.dataUploadList = this.dataUploadList.sort((a, b) => {
+        //   const c1 = a["status"][2];
+        //   const c2 = b["status"][2];
+        //   if (c1 > c2) {
+        //     return 1;
+        //   } else {
+        //     return -1;
+        //   }
+        // });
       }
       if ("total" in response) {
         this.tableDefaultOptions.totalCount = response["total"];
