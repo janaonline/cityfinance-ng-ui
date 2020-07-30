@@ -48,6 +48,10 @@ i {
 
 i:hover {
   color: rgb(8, 131, 212);
-  // transform: scale(1.1);
-  // transform-origin: center;
+}
+
+::ng-deep {
+  .linkColor {
+    color: #0883d4 !important;
+  }
 }

@@ -195,6 +195,10 @@
   }
 
   ::ng-deep {
+    .pure-checkbox input[type="checkbox"] + label:before {
+      border: 1px solid #a9a9a9 !important;
+    }
+
     .c-remove {
       display: none !important;
     }
