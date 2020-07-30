@@ -80,7 +80,7 @@ export class DataUploadActionComponent implements OnInit {
 
   private handlerError(error: any) {
     const { message } = error;
-    this._snackBar.open(message, null, { duration: 1600 });
+    this._snackBar.open(message, null, { duration: 6600 });
   }
 
   createForms() {

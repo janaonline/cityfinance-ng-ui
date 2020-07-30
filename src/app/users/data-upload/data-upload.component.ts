@@ -529,7 +529,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
               response.error.message ||
               "Some Error Occurred",
             null,
-            { duration: 4600 }
+            { duration: 6600 }
           );
         }
       );
@@ -635,7 +635,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         string = message;
       }
     }
-    this._snackBar.open(string, null, { duration: 4600 });
+    this._snackBar.open(string, null, { duration: 6600 });
   }
 
   downloadList() {
