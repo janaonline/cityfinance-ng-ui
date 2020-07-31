@@ -28,6 +28,7 @@ export class PasswordComponent implements OnInit {
   public errorMessage: string;
   public successMessage: string;
   public token: string;
+  public ulrMessage: string;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -116,6 +117,13 @@ export class PasswordComponent implements OnInit {
       if (res.id === "request") {
         this._activatedRoute.queryParams.subscribe((params) => {
           this.token = params.token;
+          if (params["email"]) {
+            this.passwordRequestForm.setValue({ email: params["email"] });
+          }
+
+          if (params["message"]) {
+            this.ulrMessage = params["message"];
+          }
           if (params.token) {
             this.uiType = "reset";
           } else {

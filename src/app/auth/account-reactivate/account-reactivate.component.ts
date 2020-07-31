@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 import { AccountReactivateService } from './service/account-reactivate.service';
 
@@ -12,10 +13,12 @@ export class AccountReactivateComponent implements OnInit {
   form: FormGroup;
   errorMessage;
   successMessage;
+  urlMessage: string;
 
   constructor(
     private _reactrivateService: AccountReactivateService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private _activatedRoute: ActivatedRoute
   ) {
     this.createForm();
   }
@@ -38,6 +41,14 @@ export class AccountReactivateComponent implements OnInit {
   private createForm() {
     this.form = this._fb.group({
       email: ["", [Validators.required, Validators.email]],
+    });
+    this._activatedRoute.queryParams.subscribe((params) => {
+      if (params["email"]) {
+        this.form.setValue({ email: params["email"] });
+      }
+      if (params["message"]) {
+        this.urlMessage = params["message"];
+      }
     });
   }
 
