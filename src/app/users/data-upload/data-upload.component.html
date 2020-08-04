@@ -9,7 +9,7 @@
         Back
       </button>
     </div>
-    <ng-container *ngIf="id === 'upload-form'; else editForm">
+    <ng-container *ngIf="id === 'upload-form'">
       <div class="mt-2">
         <h3>Financial Data Upload</h3>
       </div>
@@ -340,7 +340,7 @@
                     let row of dataUploadList
                       | paginate
                         : {
-                            id: 'foo',
+                            id: 'upload-pagination',
                             itemsPerPage: tableDefaultOptions.itemPerPage,
                             currentPage: tableDefaultOptions.currentPage,
                             totalItems: tableDefaultOptions.totalCount
@@ -485,8 +485,9 @@
             </tbody>
           </table>
           <pagination-controls
+            *ngIf="tableDefaultOptions.totalCount"
             style="float: right; position: relative;"
-            id="foo"
+            id="upload-pagination"
             (pageChange)="setPage($event)"
             directionLinks="true"
             autoHide="true"
