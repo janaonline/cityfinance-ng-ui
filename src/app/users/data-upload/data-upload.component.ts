@@ -173,12 +173,17 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   handleResponseSuccess = (response) => {
-    this.loading = false;
     if (this.uploadId) {
       this.uploadObject = response.data;
       this.updateFormControls();
     } else {
       this.dataUploadList = response.data;
+      if ("total" in response) {
+        this.tableDefaultOptions = {
+          ...this.tableDefaultOptions,
+          totalCount: response["total"] || 0,
+        };
+      }
       if (!this.listFetchOption.sort) {
         // this.dataUploadList = this.dataUploadList.sort((a, b) => {
         //   const c1 = a["status"][2];
@@ -190,10 +195,8 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         //   }
         // });
       }
-      if ("total" in response) {
-        this.tableDefaultOptions.totalCount = response["total"];
-      }
     }
+    this.loading = false;
   };
   handleResponseFailure = (error) => {
     this.loading = false;
