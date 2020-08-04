@@ -62,9 +62,23 @@ export class CustomHttpInterceptor implements HttpInterceptor {
      * @description 401 means usre need to be logged in to access this api. Therefore, redirect the user
      * to login page
      */
-    if (err.status === 401) {
-      this.router.navigate(["login"]);
+    // if (err.status === 401) {
+    //   this.router.navigate(["login"]);
+    // }
+    switch (err.status) {
+      case 401:
+        this.router.navigate(["login"]);
+        break;
+      case 440:
+        this.clearLocalStorage();
+        this.router.navigate(["login"], {
+          queryParams: { message: "Session Expired. Kindly login again." },
+        });
     }
     return throwError(err);
   };
+
+  private clearLocalStorage() {
+    localStorage.clear();
+  }
 }

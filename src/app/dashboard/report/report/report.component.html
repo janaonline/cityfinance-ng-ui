@@ -347,7 +347,7 @@
                 reportForm.controls['isComparative'].value
               )
             "
-            >Base ULB
+            >Base ULB {{ ulbTypeSelected }}
             <i
               class="fa fa-info-circle"
               aria-hidden="true"
@@ -393,10 +393,18 @@
                   getTotalULBSelectedBy(state.key)) ||
                 (ulbTypeSelected === 'base' &&
                   baseULBSelected?.state === state?.value?.state),
-              activeState: currentStateInView?.key === state?.key
+              activeState:
+                currentStateInView && currentStateInView?.key === state?.key
             }"
           >
-            <a data-toggle="tab" class="active" (click)="showState(state)">
+            <a
+              data-toggle="tab"
+              class="active"
+              (click)="showState(state)"
+              [ngClass]="{
+                'disable-state-link': !reportForm.value.yearList.length
+              }"
+            >
               <input
                 #stateClear
                 *ngIf="ulbTypeSelected === 'other'"

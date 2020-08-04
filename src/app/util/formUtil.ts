@@ -1,11 +1,13 @@
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { of } from 'rxjs';
 
 import { PasswordValidator } from './passwordValidator';
 import {
   customEmailValidator,
   customPasswordValidator,
   mobileNoValidator,
-  nonEmptyValidator
+  nonEmptyValidator,
+  PartnerFormEmailValidations as setPartnerFormEmailValidations
 } from './reactiveFormValidators';
 
 export class FormUtil {
@@ -36,13 +38,27 @@ export class FormUtil {
         [Validators.required, Validators.email, customEmailValidator],
       ],
       designation: ["", [Validators.required, nonEmptyValidator]],
-      organization: ["", [Validators.required]],
+      organization: ["", [Validators.required, nonEmptyValidator]],
     });
     if (purpose === "CREATION") {
       form = this.fb.group({
         ...form.controls,
         password: ["", [customPasswordValidator]],
-        confirmPassword: ["", Validators.required],
+        confirmPassword: [
+          "",
+          Validators.required,
+          (control: AbstractControl) => {
+            if (!control.value) return of(null);
+            if (control.value !== form.controls.password.value) {
+              return of({
+                passwordMisMatch:
+                  "Password and Confirm Password does not match",
+              });
+            }
+            return of(null);
+          },
+        ],
+        captcha: [null, [Validators.required]],
       });
       return form;
     }
@@ -82,6 +98,7 @@ export class FormUtil {
       return this.fb.group({
         ...baseForm.controls,
         password: [""],
+        captcha: [null, [Validators.required]],
       });
     }
 
@@ -177,6 +194,11 @@ export class FormUtil {
       ],
       departmentContactNumber: ["", [Validators.required, mobileNoValidator]],
     });
+
+    setPartnerFormEmailValidations(
+      form.controls.email,
+      form.controls.departmentEmail
+    );
     return form;
   }
 
@@ -196,7 +218,6 @@ export class FormUtil {
           form.controls.confirmPassword.value
         );
       } catch (error) {
-        // passwordControl.setErrors({ error: true });
         errors.push(error.message);
       }
     }
@@ -253,7 +274,11 @@ export class FormUtil {
       ? accountantEmail.trim()
       : accountantEmail;
 
-    if (accountantEmail == commissionerEmail) {
+    if (
+      accountantEmail.trim() &&
+      commissionerEmail.trim() &&
+      accountantEmail == commissionerEmail
+    ) {
       errors.push(
         "Commisionar Email ID and Accountant Email ID cannot be same"
       );
@@ -286,6 +311,10 @@ export class FormUtil {
     return errors.length ? errors : null;
   }
 
+  /**
+   * @description ULB has different keys during signup and updating, therefore we
+   * need 2 different method to validate it.
+   */
   public validationULBProfileUpdateForm(form: FormGroup) {
     let errors: string[] = [];
 
@@ -371,6 +400,22 @@ export class FormUtil {
       }
     });
     return errors.length ? errors : null;
+  }
+
+  public validatePartnerForm(form: FormGroup) {
+    // const errors: string[] = [];
+    // let stateEmailID: string = form.controls.email.value;
+    // let departmentEmailID: string = form.controls.departmentEmail.value;
+    // stateEmailID = stateEmailID ? stateEmailID.trim() : stateEmailID;
+    // departmentEmailID = departmentEmailID
+    //   ? departmentEmailID.trim()
+    //   : departmentEmailID;
+    // if (departmentEmailID == stateEmailID) {
+    //   errors.push("State Email ID and Department Email ID cannot be same");
+    //   form.controls.email.setErrors({ sameEmail: true });
+    //   form.controls.departmentEmail.setErrors({ sameEmail: true });
+    // }
+    // return ["false"];
   }
 
   public validateMoHUAForm(form: FormGroup) {

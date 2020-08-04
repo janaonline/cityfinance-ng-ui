@@ -33,10 +33,10 @@
             </h4>
             <form [formGroup]="loginForm" (ngSubmit)="login()">
               <div class="error-text col-xs-12" *ngIf="badCredentials">
-                <p class="text-danger">Invalid Username or Password!!</p>
+                <p class="text-danger">Invalid Email or Password!!</p>
               </div>
               <div class="error-text col-xs-12" *ngIf="formError">
-                <p class="text-danger">Username and Password is mandatory!</p>
+                <p class="text-danger">Email and Password is mandatory!</p>
               </div>
               <div class="input-group">
                 <span class="input-group-addon"
@@ -67,6 +67,14 @@
                   class="form-control"
                   [ngClass]="{ 'is-invalid': submitted && lf.password.errors }"
                 />
+                <div
+                  *ngIf="submitted && lf.password.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="lf.password.errors['required']">
+                    Password is required
+                  </div>
+                </div>
               </div>
 
               <re-captcha
@@ -91,6 +99,13 @@
                   Don't have an Account!
                   <a [routerLink]="['../register']" class="pointer"
                     >Sign Up Here</a
+                  >
+
+                  <a
+                    [routerLink]="['../account-reactivate']"
+                    class="pointer"
+                    style="float: right;"
+                    >Activate Account</a
                   >
                 </p>
               </div>

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
+import { IUserLoggedInDetails } from '../models/login/userLoggedInDetails';
+import { IState } from '../models/state/state';
 import { USER_TYPE } from '../models/user/userType';
+import { CommonService } from '../shared/services/common.service';
 import { ILink } from '../shared/side-menu/side-menu.component';
 import { AccessChecker } from '../util/access/accessChecker';
-import { UserUtility } from '../util/user/user';
 import { ProfileService } from './profile/service/profile.service';
 import { defaultSideBarContents, sideMenuForStateUser, sideMenuForULBUser } from './sidebar-menus';
 
@@ -15,174 +18,34 @@ import { defaultSideBarContents, sideMenuForStateUser, sideMenuForULBUser } from
 export class UsersComponent implements OnInit {
   constructor(
     private profileService: ProfileService,
-    private userUtility: UserUtility
+    private _commonService: CommonService,
+    private _router: Router
   ) {
-    this.initializeUSerType();
+    this.initializeUserType();
     this.initializeSidebarContents();
+    this.fetchStateList();
+    this.initializeLoggedInUserDataFetch();
   }
+
+  states: { [staeId: string]: IState };
+  userLoggedInDetails: IUserLoggedInDetails;
   accessChecker = new AccessChecker();
 
   SideBarContents: { title: string; subMenus: ILink[] }[] = [];
-  // sideMenuContent: ILink[] = [
-  //   {
-  //     title: "ULB Bulk Upload",
-  //     type: "link",
-  //     route: ["/user/data-upload/bulk-upload"],
-  //     condition: () => {
-  //       return this.accessChecker.hasAccess({
-  //         action: ACTIONS.UPLOAD,
-  //         moduleName: MODULES_NAME.ULBDataBULKEntry,
-  //       });
-  //     },
-  //   },
-  //   { title: "ULB Data", type: "link", route: ["/user/data-upload/list"] },
-  //   { title: "Links to User Module", type: "other", route: [] },
-  //   // {
-  //   //   title: "Admin",
-  //   //   type: "link",
-  //   //   route: [`/user/list/${USER_TYPE.ADMIN}`]
-  //   //   // condition: () => {
-  //   //   //   return this.accessChecker.hasAccess({
-  //   //   //     action: ACTIONS.VIEW,
-  //   //   //     moduleName: MODULES_NAME.ADMIN
-  //   //   //   });
-  //   //   // }
-  //   // },
-  //   {
-  //     title: "MoHUA",
-  //     type: "link",
-  //     route: [`/user/list/${USER_TYPE.MoHUA}`],
-  //     condition: () => {
-  //       return this.accessChecker.hasAccess({
-  //         action: ACTIONS.VIEW,
-  //         moduleName: MODULES_NAME.MoHUA,
-  //       });
-  //     },
-  //   },
-  //   {
-  //     title: "Partner",
-  //     type: "link",
-  //     route: [`/user/list/${USER_TYPE.PARTNER}`],
-  //     condition: () => {
-  //       return this.accessChecker.hasAccess({
-  //         action: ACTIONS.VIEW,
-  //         moduleName: MODULES_NAME.PARTNER,
-  //       });
-  //     },
-  //   },
-  //   {
-  //     title: "State",
-  //     type: "link",
-  //     route: [`/user/list/${USER_TYPE.STATE}`],
-  //     condition: () => {
-  //       return this.accessChecker.hasAccess({
-  //         action: ACTIONS.VIEW,
-  //         moduleName: MODULES_NAME.STATE,
-  //       });
-  //     },
-  //   },
-  //   {
-  //     title: "ULB Profile Edit",
-  //     type: "link",
-  //     route: ["/user/profile/request"],
-  //   },
-  //   {
-  //     title: "ULB Signup",
-  //     type: "link",
-  //     route: [`/user/list/${USER_TYPE.ULB}`],
-  //     condition: () => {
-  //       return this.accessChecker.hasAccess({
-  //         action: ACTIONS.VIEW,
-  //         moduleName: MODULES_NAME.ULB,
-  //       });
-  //     },
-  //   },
-  //   {
-  //     title: "Users",
-  //     type: "link",
-  //     route: [`/user/list/${USER_TYPE.USER}`],
-  //     condition: () => {
-  //       return this.accessChecker.hasAccess({
-  //         action: ACTIONS.VIEW,
-  //         moduleName: MODULES_NAME.USERLIST,
-  //       });
-  //     },
-  //   },
-  //   {
-  //     title: "Reports",
-  //     type: "other",
-  //     route: [],
-  //     condition: () => {
-  //       return this.accessChecker.hasAccess({
-  //         action: ACTIONS.VIEW,
-  //         moduleName: MODULES_NAME.REPORTS,
-  //       });
-  //     },
-  //   },
-  //   {
-  //     title: "Overall Report",
-  //     type: "link",
-  //     route: ["/user/reports/overAll"],
-  //     condition: () => {
-  //       return this.accessChecker.hasAccess({
-  //         action: ACTIONS.VIEW,
-  //         moduleName: MODULES_NAME.OVERALL_REPORT,
-  //       });
-  //     },
-  //   },
-  //   {
-  //     title: "State Wise Report",
-  //     type: "link",
-  //     route: ["/user/reports/state"],
-  //     condition: () => {
-  //       return this.accessChecker.hasAccess({
-  //         action: ACTIONS.VIEW,
-  //         moduleName: MODULES_NAME.STATE_WISE_REPORT,
-  //       });
-  //     },
-  //   },
-  //   {
-  //     title: "ULB Type Wise Report",
-  //     type: "link",
-  //     route: ["/user/reports/ulb"],
-  //     condition: () => {
-  //       return this.accessChecker.hasAccess({
-  //         action: ACTIONS.VIEW,
-  //         moduleName: MODULES_NAME.ULB_TYPE_WISE_REPORT,
-  //       });
-  //     },
-  //   },
-  //   {
-  //     title: "State and ULB Type Wise Report",
-  //     type: "link",
-  //     route: ["/user/reports/stateUlb"],
-  //     condition: () => {
-  //       return this.accessChecker.hasAccess({
-  //         action: ACTIONS.VIEW,
-  //         moduleName: MODULES_NAME.STATE_AND_ULB_TYPE_WISE_REPORT,
-  //       });
-  //     },
-  //   },
-
-  //   {
-  //     title: "Usage Report",
-  //     type: "link",
-  //     route: ["/user/reports/usage"],
-  //     condition: () => {
-  //       return this.accessChecker.hasAccess({
-  //         action: ACTIONS.VIEW,
-  //         moduleName: MODULES_NAME.USAGE_REPORT,
-  //       });
-  //     },
-  //   },
-  // ];
 
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
 
+  private fetchStateList() {
+    this._commonService.fetchStateList().subscribe((res) => {
+      this.states = {};
+      res.forEach((state) => (this.states[state._id] = state));
+    });
+  }
+
   ngOnInit() {}
 
-  private initializeUSerType() {
+  private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
   }
 
@@ -196,8 +59,21 @@ export class UsersComponent implements OnInit {
         return;
       case USER_TYPE.STATE:
         this.SideBarContents = <any>sideMenuForStateUser;
+        return;
       case USER_TYPE.ULB:
         this.SideBarContents = <any>sideMenuForULBUser;
+    }
+  }
+
+  private initializeLoggedInUserDataFetch() {
+    this.userLoggedInDetails = this.profileService.getUserLoggedInDetails();
+    if (!this.userLoggedInDetails) {
+      return this._router.navigate(["/login"]);
+    }
+    switch (this.userLoggedInDetails.role) {
+      case USER_TYPE.STATE:
+      case USER_TYPE.ULB:
+        return this.fetchStateList();
     }
   }
 }

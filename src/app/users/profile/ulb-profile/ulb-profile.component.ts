@@ -114,6 +114,9 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
     this._profileService.updateULBSingUPStatus(status).subscribe(
       (res) => {
+        if (status.rejectReason) {
+          this.profileData.rejectReason = status.rejectReason;
+        }
         this.profileData.status = status.status;
         this.respone.successMessage = "ULB Singup updated successfully.";
         this.canSubmitForm = status.status === "REJECTED" ? false : true;

@@ -93,9 +93,13 @@ export class ProfileRequestComponent implements OnInit {
     this.request = null;
   }
 
-  public searchUsersBy(filterForm: {}) {
+  public searchUsersBy(filterForm: {}, skip?: number) {
     // this.resetListFetchOptionsToDefeault();
     this.listFetchOption.filter = filterForm;
+
+    if (skip !== undefined && skip !== null) {
+      this.listFetchOption.skip = skip;
+    }
 
     this.fetchRequestList({ ...(<any>this.listFetchOption) });
   }
@@ -149,7 +153,7 @@ export class ProfileRequestComponent implements OnInit {
     this._profileService
       .getULBProfileUpdateRequestList(body)
       .subscribe((res) => {
-        if (res.total) {
+        if (res.total || res.total === 0) {
           this.tableDefaultOptions.totalCount = res.total;
         }
 
@@ -191,6 +195,7 @@ export class ProfileRequestComponent implements OnInit {
 
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;
+
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     this.searchUsersBy(this.filterForm.value);
@@ -224,7 +229,7 @@ export class ProfileRequestComponent implements OnInit {
   private initializeListFetchParams() {
     this.listFetchOption = {
       filter: this.filterForm ? this.filterForm.value : {},
-      sort: null,
+      sort: this.loggedInUserType === USER_TYPE.ULB ? { createdAt: 1 } : null,
       skip: 0,
       limit: this.tableDefaultOptions.itemPerPage,
     };

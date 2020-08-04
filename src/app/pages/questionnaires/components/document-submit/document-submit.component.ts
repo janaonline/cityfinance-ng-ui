@@ -86,7 +86,7 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
 
   questions: { key: string; question: string }[];
 
-  fileExnetsionAllowed = ["pdf", "ppt", "docx", "xlsx", "xls"];
+  fileExnetsionAllowed = ["pdf", "ppt", "pptx", "docx", "doc", "xlsx", "xls"];
 
   defaultDailogConfiuration: IDialogConfiguration = {
     message:

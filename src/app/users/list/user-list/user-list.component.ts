@@ -102,8 +102,10 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  searchUsersBy(filterForm: {}) {
+  searchUsersBy(filterForm: {}, skip?: number) {
     this.listFetchOption.filter = filterForm;
+    this.listFetchOption.skip =
+      skip || skip === 0 ? skip : this.listFetchOption.skip;
 
     this.fetchList({ ...(<any>this.listFetchOption) });
   }
@@ -161,12 +163,13 @@ export class UserListComponent implements OnInit {
       ? user.rejectReason
       : "No reason available";
     const configuration: IDialogConfiguration = {
-      message: `<h3 class="text-center">Reason for Rejection</h3> <p>${reason}</p>`,
+      message: `<h3 class="text-center linkColor">Reason for Rejection</h3> <p class="text-center">${reason}</p>`,
       buttons: { cancel: { text: "Close" } },
     };
     this._dialog.open(DialogComponent, {
-      height: "21vh",
+      height: "fit-content",
       width: "31vw",
+      minHeight: "175px",
       data: configuration,
     });
   }

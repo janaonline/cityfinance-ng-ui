@@ -9,7 +9,7 @@
         Back
       </button>
     </div>
-    <ng-container *ngIf="id === 'upload-form'; else editForm">
+    <ng-container *ngIf="id === 'upload-form'">
       <div class="mt-2">
         <h3>Financial Data Upload</h3>
       </div>
@@ -58,8 +58,13 @@
                   formGroup: fileFormGroup,
                   disabled: this.fileUpload.uploading,
                   formGroupName: 'schedulesToBalanceSheet',
-                  title: 'Schedules to balance sheet',
-                  required: false
+                  title: 'Schedules to Balance Sheet',
+                  required: false,
+                  canRemoveFile:
+                    userUtil.getUserType() !== 'STATE' &&
+                    uploadId !== null &&
+                    (completenessStatus === 'REJECTED' ||
+                      correctnessStatus === 'REJECTED')
                 }"
               >
               </app-finance-data-upload-input>
@@ -67,7 +72,6 @@
           </div>
 
           <div class="row">
-            {{ fileFormGroup.get("incomeAndExpenditure").disabled }}
             <div formGroupName="incomeAndExpenditure" class="col-sm-6">
               <app-finance-data-upload-input
                 [config]="{
@@ -90,7 +94,12 @@
                   formGroup: fileFormGroup,
                   formGroupName: 'schedulesToIncomeAndExpenditure',
                   title: 'Schedules to Income and Expenditure',
-                  required: false
+                  required: false,
+                  canRemoveFile:
+                    userUtil.getUserType() !== 'STATE' &&
+                    uploadId !== null &&
+                    (completenessStatus === 'REJECTED' ||
+                      correctnessStatus === 'REJECTED')
                 }"
               >
               </app-finance-data-upload-input>
@@ -129,6 +138,7 @@
               </app-finance-data-upload-input>
             </div>
           </div>
+
           <div class="row mt-4 mb-4">
             <div class="col-sm-12">
               <button
@@ -152,8 +162,8 @@
                 *ngIf="
                   userUtil.getUserType() !== 'STATE' &&
                   uploadId !== null &&
-                    (completenessStatus === 'REJECTED' ||
-                      correctnessStatus === 'REJECTED')
+                  (completenessStatus === 'REJECTED' ||
+                    correctnessStatus === 'REJECTED')
                 "
                 [disabled]="fileFormGroup.invalid"
                 class="btn btn-primary"
@@ -330,7 +340,7 @@
                     let row of dataUploadList
                       | paginate
                         : {
-                            id: 'foo',
+                            id: 'upload-pagination',
                             itemsPerPage: tableDefaultOptions.itemPerPage,
                             currentPage: tableDefaultOptions.currentPage,
                             totalItems: tableDefaultOptions.totalCount
@@ -390,7 +400,9 @@
                                 '/user/data-upload/action',
                                 row?._id
                               ]"
-                              (click)="navigateTo(row)"
+                              (click)="
+                                navigateTo('/user/data-upload/action', row?._id)
+                              "
                             >
                               <i
                                 *ngIf="row['status'] !== uploadStatus.PENDING"
@@ -473,8 +485,9 @@
             </tbody>
           </table>
           <pagination-controls
+            *ngIf="tableDefaultOptions.totalCount"
             style="float: right; position: relative;"
-            id="foo"
+            id="upload-pagination"
             (pageChange)="setPage($event)"
             directionLinks="true"
             autoHide="true"

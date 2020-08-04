@@ -26,11 +26,16 @@ table .input-group {
     border-radius: 5px;
   }
 }
-table tbody tr:nth-child(even) {
-  background: rgb(236, 236, 236) !important;
-}
-table tbody tr:nth-child(odd) {
-  background: white;
+:host {
+  table tbody tr:nth-child(even) {
+    background: rgb(236, 236, 236) !important;
+  }
+  table tbody tr:nth-child(odd) {
+    background: white;
+  }
+  table thead tr th {
+    border: 0px;
+  }
 }
 
 .clickable {
@@ -43,6 +48,10 @@ i {
 
 i:hover {
   color: rgb(8, 131, 212);
-  // transform: scale(1.1);
-  // transform-origin: center;
+}
+
+::ng-deep {
+  .linkColor {
+    color: #0883d4 !important;
+  }
 }

@@ -11,7 +11,7 @@ import { PasswordService } from './service/password.service';
 @Component({
   selector: "app-password",
   templateUrl: "./password.component.html",
-  styleUrls: ["./password.component.scss"]
+  styleUrls: ["./password.component.scss"],
 })
 export class PasswordComponent implements OnInit {
   public passwordRequestForm: FormGroup;
@@ -28,6 +28,7 @@ export class PasswordComponent implements OnInit {
   public errorMessage: string;
   public successMessage: string;
   public token: string;
+  public ulrMessage: string;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -40,7 +41,7 @@ export class PasswordComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.badCredentials.subscribe(res => {
+    this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
   }
@@ -51,21 +52,22 @@ export class PasswordComponent implements OnInit {
 
   submitPasswordResetRequest(form: FormGroup) {
     this.errorMessage = null;
-    console.log(`submitPasswordResetRequest `);
+    this.successMessage = null;
     if (!form.valid) {
-      this.errorMessage = "Email ID is incorrect.";
+      this.errorMessage = form.controls.email.value
+        ? "Email ID is incorrect."
+        : "Please enter an email.";
       return;
     }
 
     this._passwordService.requestPasswordReset(form.value).subscribe(
-      res => {
-        form.patchValue({ email: "" });
+      (res) => {
+        form.patchValue({ email: null });
         const message =
           "Password reset has been initiated. Check You email for further instruction. ";
         this.successMessage = res["message"] || message;
-        // this.router.navigate(["/home"]);
       },
-      error => this.onGettingResponseError(error, form)
+      (error) => this.onGettingResponseError(error, form)
     );
   }
 
@@ -85,19 +87,19 @@ export class PasswordComponent implements OnInit {
     this._passwordService
       .resetPassword({ ...form.value, token: this.token })
       .subscribe(
-        res => {
+        (res) => {
           form.patchValue({
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
           });
           this.router.navigate(["login"], {
-            queryParams: { message: "Password Successfully Updated." }
+            queryParams: { message: "Password Successfully Updated." },
           });
           // const message =
           //   "Password has been reset sucessfully.You can login with new your Password. ";
           // this.successMessage = res["message"] || message;
         },
-        error => this.onGettingResponseError(error, form)
+        (error) => this.onGettingResponseError(error, form)
       );
   }
 
@@ -107,14 +109,21 @@ export class PasswordComponent implements OnInit {
   }
 
   private validateUrl() {
-    this._activatedRoute.params.subscribe(res => {
+    this._activatedRoute.params.subscribe((res) => {
       if (res.id !== "request" && res.id !== "reset") {
         return this.router.navigate(["/home"]);
       }
 
       if (res.id === "request") {
-        this._activatedRoute.queryParams.subscribe(params => {
+        this._activatedRoute.queryParams.subscribe((params) => {
           this.token = params.token;
+          if (params["email"]) {
+            this.passwordRequestForm.setValue({ email: params["email"] });
+          }
+
+          if (params["message"]) {
+            this.ulrMessage = params["message"];
+          }
           if (params.token) {
             this.uiType = "reset";
           } else {
@@ -127,12 +136,12 @@ export class PasswordComponent implements OnInit {
 
   private initializeForms() {
     this.passwordRequestForm = this.fb.group({
-      email: ["", [Validators.required, Validators.email]]
+      email: ["", [Validators.required, Validators.email]],
     });
 
     this.passwordResetForm = this.fb.group({
       password: ["", Validators.required],
-      confirmPassword: ["", Validators.required]
+      confirmPassword: ["", Validators.required],
     });
   }
 }

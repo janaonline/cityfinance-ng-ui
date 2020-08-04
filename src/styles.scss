@@ -7,7 +7,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 :root {
-  // --multi-dropdown-color: rgb(240, 158, 6);
   --multi-dropdown-color: #059b9a;
 }
 input.is-invalid,
@@ -22,9 +21,10 @@ input.is-invalid,
   display: block;
   margin-top: 1%;
   color: red;
+}
 
-  // position: absolute;
-  // bottom: -41%;
+i.glyphicon-sort.glyphicon-sort.glyphicon-sort:hover {
+  color: unset;
 }
 
 .error-message {
