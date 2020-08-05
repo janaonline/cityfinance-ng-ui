@@ -116,6 +116,16 @@ export class ReportComponent implements OnInit, OnDestroy {
    */
   stateLayerToAutoSelect: L.Layer;
 
+  onClearRatingFilter() {
+    this.router.navigate(["/credit-rating/report"]).then((res) => {
+      let stateToSelect: string;
+      if (this.stateLayerSelectonMap) {
+        stateToSelect = MapUtil.getStateName(this.stateLayerSelectonMap);
+      }
+      this.showCreditInfoByState(stateToSelect);
+    });
+  }
+
   createNationalLevelMap(
     geoData: FeatureCollection<
       Geometry,
@@ -437,8 +447,6 @@ export class ReportComponent implements OnInit, OnDestroy {
     return ulbInfo;
   }
 
-  ngOnDestroy() {}
-
   openModal(ModalRef: TemplateRef<any>, grade) {
     this.dialogData = this.list.filter(
       (ulb) =>
@@ -510,7 +518,7 @@ export class ReportComponent implements OnInit, OnDestroy {
         case "status":
           formControl = this.statusSearchFormControl;
       }
-      if (formControl.value.length) {
+      if (formControl.value && formControl.value.length) {
         let ids;
         if (filter === "ulb") {
           ids = formControl.value.toLowerCase();
@@ -549,9 +557,14 @@ export class ReportComponent implements OnInit, OnDestroy {
   setPage(number: number) {
     this.page = number;
     this.list = this.originalList;
+    setTimeout(() => {
+      this.clearFilters();
+    });
   }
 
   ulbDropdownSelected(option: any) {
     this.searchDropdownItemSelected(this.ulbSearchFormControl, "ulb");
   }
+
+  ngOnDestroy() {}
 }

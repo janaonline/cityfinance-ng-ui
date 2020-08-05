@@ -110,6 +110,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   queryParams: { state?: string } = {};
 
+  randomNumber = Math.random();
+
   ngOnInit() {}
 
   ngOnChanges(changes: {
@@ -117,10 +119,15 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     yearSelected: SimpleChange;
   }) {
     if (changes.ulbSelected && changes.ulbSelected.currentValue) {
+      console.log(
+        "map got nw ulb from parent ",
+        changes.ulbSelected.currentValue
+      );
       const newULBId =
         typeof changes.ulbSelected.currentValue === "object"
           ? changes.ulbSelected.currentValue._id
           : changes.ulbSelected.currentValue;
+      console.log(`current ulb selected : `, this.currentULBClicked);
       if (!this.currentULBClicked || newULBId !== this.currentULBClicked._id) {
         this.onSelectingULBFromDropdown(newULBId);
       }
@@ -183,7 +190,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
     if (stateOfULB) {
-      this.convertDomToMiniMap("mapidd");
+      this.convertDomToMiniMap("mapidd" + this.randomNumber);
       this.clearUlbFilterControl();
       this.hideMapLegends();
       this.showStateLayerOnlyFor(this.nationalLevelMap, stateOfULB);
@@ -264,17 +271,17 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     prms1.then((data) => (this.StatesJSONForMapCreation = data));
 
     // All District JSON Data
-    const prms2 = new Promise((resolve, reject) => {
-      $.getJSON("../assets/jsonFile/updated_district_9_July.json")
-        .done((resp) => {
-          this.DistrictsJSONForMapCreation = resp;
-          resolve();
-        })
-        .fail((failed) => {
-          console.error("District Boundries getJSON request failed!", failed);
-        });
-    });
-    prmsArr.push(prms2);
+    // const prms2 = new Promise((resolve, reject) => {
+    //   $.getJSON("../assets/jsonFile/updated_district_9_July.json")
+    //     .done((resp) => {
+    //       this.DistrictsJSONForMapCreation = resp;
+    //       resolve();
+    //     })
+    //     .fail((failed) => {
+    //       console.error("District Boundries getJSON request failed!", failed);
+    //     });
+    // });
+    // prmsArr.push(prms2);
 
     return Promise.all(prmsArr);
   }
@@ -292,7 +299,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     let vw = Math.max(document.documentElement.clientWidth);
     vw = (vw - 1366) / 1366;
     const zoom = 4 + vw;
-
     const configuration: IMapCreationConfig = {
       containerId,
       geoData,
@@ -396,6 +402,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   private listenToFormControls() {
     this.ulbsSelected.valueChanges.subscribe((newValue) => {
+      console.log("map got ulb from somewhere, now emitting", newValue);
       this.ulbsClicked.emit(newValue);
     });
 
@@ -555,7 +562,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
     this.loadMapGeoJson()
       .then((res) => {
-        this.createNationalLevelMap(this.StatesJSONForMapCreation, "mapidd");
+        this.DistrictsJSONForMapCreation = { ...this.StatesJSONForMapCreation };
+        this.createNationalLevelMap(
+          this.StatesJSONForMapCreation,
+          "mapidd" + this.randomNumber
+        );
       })
       .catch((err) => {});
 
@@ -671,7 +682,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     if (!status) {
       return false;
     }
-    this.convertDomToMiniMap("mapidd");
+    this.convertDomToMiniMap("mapidd" + this.randomNumber);
     if (!status) {
       return false;
     }
@@ -993,7 +1004,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.resetDropdownListToNationalLevel();
     this.resetCurrentSelectState();
     this.resetCurrentULBClicked();
-    this.convertMiniMapToOriginal("mapidd");
+    this.convertMiniMapToOriginal("mapidd" + this.randomNumber);
     this.resetDistrictMap();
     this.clearDistrictMapContainer();
     this.showMapLegends();

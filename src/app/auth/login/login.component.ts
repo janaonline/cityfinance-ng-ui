@@ -65,7 +65,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     if (this.loginForm.valid) {
-      this.authService.signin(this.loginForm.value).subscribe(
+      const body = { ...this.loginForm.value };
+      body["email"] = body["email"].trim();
+      this.authService.signin(body).subscribe(
         (res) => this.onSuccessfullLogin(res),
         (error) => this.onLoginError(error)
       );

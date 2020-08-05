@@ -13,8 +13,9 @@
   @media (min-width: 1080px) and (max-width: 1300px) {
     font-size: 1.2vw;
   }
-  width: 70vw !important;
-  min-width: 70vw;
+  min-width: 80vw !important;
+  width: fit-content;
+  max-width: 92vw !important;
   ::ng-deep {
     .c-btn {
       font-size: 0.8em;
@@ -156,7 +157,7 @@
     align-items: center;
     padding-left: 0px;
     padding-bottom: 0.1%;
-    width: 48vw;
+    width: 51vw;
     min-width: fit-content;
   }
 
@@ -194,6 +195,10 @@
   }
 
   ::ng-deep {
+    .pure-checkbox input[type="checkbox"] + label:before {
+      border: 1px solid #a9a9a9 !important;
+    }
+
     .c-remove {
       display: none !important;
     }

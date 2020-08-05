@@ -233,6 +233,7 @@ export class ReportComponent implements OnInit, OnDestroy {
         if (isComparative) {
           this.showAlertBoxForComparativeReport();
           this.clearPopupValues();
+          this.ulbTypeInView = null;
         } else {
           this.clearPopupValues([this.yearLookup[0]]);
         }
@@ -245,16 +246,18 @@ export class ReportComponent implements OnInit, OnDestroy {
           ulbPopulationFilter: [],
           ulbTypeFilter: [],
         };
+        console.log(this.currentStateInView);
+        console.log(this.ulbTypeInView);
         this.searchByNameControl.setValue("");
         this.baseULBSelected = null;
         this.currentStateInView = null;
-        this.setULBTypeOfState(null);
-        // this.setPopupDefaultValues();
-        this.setULBType(
-          isComparative ? null : "other",
-          this.baseULBSelected ? true : false,
-          this.reportForm.controls.isComparative.value
-        );
+        // this.setULBTypeOfState(null);
+        // // this.setPopupDefaultValues();
+        // this.setULBType(
+        //   isComparative ? null : "other",
+        //   this.baseULBSelected ? true : false,
+        //   this.reportForm.controls.isComparative.value
+        // );
       }
     );
 
@@ -288,11 +291,14 @@ export class ReportComponent implements OnInit, OnDestroy {
       const newULBS = this.filterULBByFilters("");
       this.ulbs = { ...newULBS };
 
-      if (!response.data[this.currentStateInView.key]) {
+      if (
+        this.currentStateInView &&
+        !response.data[this.currentStateInView.key]
+      ) {
         this.currentStateInView = null;
       }
 
-      if (!this.currentStateInView) {
+      if (!this.currentStateInView && !this.reportForm.value.isComparative) {
         const firstStateKey = Object.keys(this.originalUlbList.data).sort()[0];
         const firstState = this.originalUlbList.data[firstStateKey];
         this.currentStateInView = {
@@ -301,7 +307,10 @@ export class ReportComponent implements OnInit, OnDestroy {
         };
       }
 
-      this.showState({ ...this.currentStateInView });
+      if (!this.reportForm.value.isComparative) {
+        this.showState({ ...this.currentStateInView });
+        this.ulbTypeSelected = "other";
+      }
 
       this.filterSelectedULBs();
       this._loaderService.stopLoader();
@@ -458,6 +467,7 @@ export class ReportComponent implements OnInit, OnDestroy {
    * This methond is executed whenever user is clicking on the ULB Type (Municipality / Town Panchayat / Municipal Corporation)
    */
   setULBTypeOfState(type: { type: ulbType }) {
+    console.log(`setULBTypeOfState`);
     this.ulbTypeInView = type;
     this.showState(this.currentStateInView);
   }
@@ -467,6 +477,8 @@ export class ReportComponent implements OnInit, OnDestroy {
       return (this.currentStateInView = null);
     }
     if (!this.ulbTypeInView) {
+      console.log(`showState`);
+
       this.ulbTypeInView = { type: this.ULBTYPES[0].type };
     }
 
@@ -522,9 +534,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       ulbList: [],
       year: [],
     });
-    // if (defaultYearSet) {
-    //   this.reportForm.controls.yearList.setValue(defaultYearSet);
-    // }
+    console.log(`clearPopupValues`, defaultYearSet);
     const preSelectedYear: { id: string; itemName: string }[] = this.reportForm
       .controls.yearList.value;
     if (!defaultYearSet) {
@@ -580,7 +590,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   resetPage() {
-    this.resetPopupValues();
+    // this.resetPopupValues();
     // this.reportForm.reset();
     this.reportForm.patchValue({
       type: "Summary",
@@ -634,7 +644,6 @@ export class ReportComponent implements OnInit, OnDestroy {
    * This method is executed whenever the report is needed to generate (generally when Generate Report button is clicked);
    */
   search() {
-    this.clickedOnGenerateReport = true;
     this.reportForm.value.years = [];
     for (let i = 0; i < this.reportForm.value.yearList.length; i++) {
       const year = this.reportForm.value.yearList[i].id;
@@ -731,6 +740,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     this.modalRef.hide();
     this._loaderService.showLoader();
+    this.clickedOnGenerateReport = true;
 
     if (
       this.reportForm.value.ulbList.length == 1 &&
@@ -1152,8 +1162,9 @@ export class ReportComponent implements OnInit, OnDestroy {
       ulbTypeFilter: [],
     };
 
-    Object.assign(this.ulbs, this.originalUlbList);
+    // Object.assign(this.ulbs, this.originalUlbList);
     this.resetPage();
+    this.clickedOnGenerateReport = false;
   }
 
   /**
