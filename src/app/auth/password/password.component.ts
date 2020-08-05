@@ -29,6 +29,7 @@ export class PasswordComponent implements OnInit {
   public successMessage: string;
   public token: string;
   public ulrMessage: string;
+  public isApiInProcess = false;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -59,13 +60,14 @@ export class PasswordComponent implements OnInit {
         : "Please enter an email.";
       return;
     }
-
+    form.disable();
     this._passwordService.requestPasswordReset(form.value).subscribe(
       (res) => {
         form.patchValue({ email: null });
         const message =
           "Password reset has been initiated. Check You email for further instruction. ";
         this.successMessage = res["message"] || message;
+        form.enable();
       },
       (error) => this.onGettingResponseError(error, form)
     );
@@ -83,6 +85,7 @@ export class PasswordComponent implements OnInit {
       console.log(error);
       return;
     }
+    form.disable();
 
     this._passwordService
       .resetPassword({ ...form.value, token: this.token })
@@ -92,6 +95,8 @@ export class PasswordComponent implements OnInit {
             password: "",
             confirmPassword: "",
           });
+          form.enable();
+
           this.router.navigate(["login"], {
             queryParams: { message: "Password Successfully Updated." },
           });
