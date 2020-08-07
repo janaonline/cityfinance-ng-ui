@@ -35,6 +35,7 @@ export class UserListComponent implements OnInit {
   ) {
     this.createRequestStatusTypeList();
     this._activatedRoute.params.subscribe((params) => {
+      this.resetTableOption();
       this.initializeList(params.userType);
       this.initializeFilterForm();
       this.initializeListFetchParams();
@@ -310,6 +311,14 @@ export class UserListComponent implements OnInit {
     if (!this.listType) {
       return this._router.navigate(["/home"]);
     }
+  }
+
+  private resetTableOption() {
+    this.tableDefaultOptions = {
+      itemPerPage: 10,
+      currentPage: 1,
+      totalCount: null,
+    };
   }
 
   private initializeAccessChecks() {
