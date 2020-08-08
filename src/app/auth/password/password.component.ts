@@ -30,6 +30,11 @@ export class PasswordComponent implements OnInit {
   public token: string;
   public ulrMessage: string;
   public isApiInProcess = false;
+  public reCaptcha = {
+    show: true,
+    siteKey: environment.reCaptcha.siteKey,
+    userGeneratedKey: null,
+  };
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -49,6 +54,26 @@ export class PasswordComponent implements OnInit {
 
   get lf() {
     return this.passwordRequestForm.controls;
+  }
+
+  private resetCaptcha() {
+    this.reCaptcha.show = false;
+    this.reCaptcha.userGeneratedKey = null;
+    this.passwordRequestForm.controls.captcha.reset();
+    setTimeout(() => {
+      this.reCaptcha.show = true;
+    }, 500);
+  }
+
+  resolveCaptcha(keyGenerated: string) {
+    this.reCaptcha.userGeneratedKey = keyGenerated;
+    this.authService.verifyCaptcha(keyGenerated).subscribe((res) => {
+      if (!res["success"]) {
+        this.resetCaptcha();
+      }
+
+      this.passwordRequestForm.controls.captcha.setValue(keyGenerated);
+    });
   }
 
   submitPasswordResetRequest(form: FormGroup) {
@@ -82,7 +107,7 @@ export class PasswordComponent implements OnInit {
       );
     } catch (error) {
       this.errorMessage = error.message;
-      console.log(error);
+      console.error(error);
       return;
     }
     form.disable();
@@ -100,9 +125,6 @@ export class PasswordComponent implements OnInit {
           this.router.navigate(["login"], {
             queryParams: { message: "Password Successfully Updated." },
           });
-          // const message =
-          //   "Password has been reset sucessfully.You can login with new your Password. ";
-          // this.successMessage = res["message"] || message;
         },
         (error) => this.onGettingResponseError(error, form)
       );
@@ -111,6 +133,7 @@ export class PasswordComponent implements OnInit {
   private onGettingResponseError(error: HttpErrorResponse, form: FormGroup) {
     this.errorMessage = error.error.message;
     form.enable();
+    this.resetCaptcha();
   }
 
   private validateUrl() {
@@ -142,6 +165,7 @@ export class PasswordComponent implements OnInit {
   private initializeForms() {
     this.passwordRequestForm = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
+      captcha: ["", [Validators.required]],
     });
 
     this.passwordResetForm = this.fb.group({
