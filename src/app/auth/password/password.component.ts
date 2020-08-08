@@ -146,7 +146,7 @@ export class PasswordComponent implements OnInit {
         this._activatedRoute.queryParams.subscribe((params) => {
           this.token = params.token;
           if (params["email"]) {
-            this.passwordRequestForm.setValue({ email: params["email"] });
+            this.passwordRequestForm.patchValue({ email: params["email"] });
           }
 
           if (params["message"]) {
