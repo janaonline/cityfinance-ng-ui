@@ -1,5 +1,5 @@
 <ng-container *ngIf="id; else noId">
-  <div class="row">
+  <div class="row" style="margin-left: 9%;">
     <div class="col mt-3">
       <button
         (click)="location.back()"
@@ -165,9 +165,9 @@
                   (completenessStatus === 'REJECTED' ||
                     correctnessStatus === 'REJECTED')
                 "
-                [disabled]="fileFormGroup.invalid"
+                [disabled]="fileFormGroup.invalid || isApiInProgress"
                 class="btn btn-primary"
-                (click)="updateClickHandler(updateButton)"
+                (click)="checkRejectFields(updateButton)"
               >
                 {{ fileUpload.uploading ? "Please Wait.." : "Update" }}
               </button>
@@ -616,4 +616,31 @@
       </div>
     </div>
   </ng-template>
+</ng-template>
+
+<ng-template #updateWithoutChangeWarning>
+  <div>
+    <p class="text-center">
+      The following fields were rejected but you are updating without making any
+      changes.
+    </p>
+    <ol *ngIf="Object.keys(rejectFields) as keys">
+      <li *ngFor="let key of keys">{{ rejectFields[key] }}</li>
+    </ol>
+    <p class="text-center font-weight-bold">
+      <strong>Are you sure you want to update?</strong>
+    </p>
+    <div class="d-flex justify-content-center">
+      <button
+        #updateButton
+        class="btn btn-primary mr-1"
+        (click)="updateClickHandler(updateButton)"
+      >
+        Yes
+      </button>
+      <button class="btn btn-primary ml-1" (click)="_matDialog.closeAll()">
+        No
+      </button>
+    </div>
+  </div>
 </ng-template>

@@ -21,6 +21,12 @@ import { userChargesForm } from '../configs/user-charges.config';
   styleUrls: ["./state-questionnaires.component.scss"],
 })
 export class StateQuestionnairesComponent implements OnInit, OnDestroy {
+  constructor(
+    private _questionnaireService: QuestionnaireService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private _matDialog: MatDialog
+  ) {}
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
   @ViewChild("savingAsDraft") savingAsDraftPopup: TemplateRef<any>;
   draftSavingInProgess = false;
@@ -69,12 +75,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     height: "70vh",
   };
 
-  constructor(
-    private _questionnaireService: QuestionnaireService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private _matDialog: MatDialog
-  ) {}
+  saveAsDraftFailMessge: string;
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params) => {
@@ -146,6 +147,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
   }
 
   saveAsDraft() {
+    this.saveAsDraftFailMessge = null;
     this.draftSavingInProgess = true;
     if (this.userHasAlreadyFilledForm) return false;
     const obj = {
@@ -162,14 +164,19 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
       width: "35vw",
       height: "fit-content",
     });
-    this._questionnaireService
-      .saveStateQuestionnaireData(obj)
-      .subscribe((res) => {
+    this._questionnaireService.saveStateQuestionnaireData(obj).subscribe(
+      (res) => {
         this.draftSavingInProgess = false;
         setTimeout(() => {
           this._matDialog.closeAll();
         }, 3000);
-      });
+      },
+      (err) => {
+        this.draftSavingInProgess = false;
+        this.saveAsDraftFailMessge =
+          err.error.message || err.error.msg || "Server Error";
+      }
+    );
   }
 
   uploadCompletedQuestionnaireData() {

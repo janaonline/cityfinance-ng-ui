@@ -65,6 +65,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     // if (err.status === 401) {
     //   this.router.navigate(["login"]);
     // }
+    console.log(`interceptor error: `, err);
     switch (err.status) {
       case 401:
         this.router.navigate(["login"]);
@@ -74,6 +75,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
         this.router.navigate(["login"], {
           queryParams: { message: "Session Expired. Kindly login again." },
         });
+        break;
     }
     return throwError(err);
   };
