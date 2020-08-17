@@ -133,6 +133,12 @@
             ></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker5></mat-datepicker>
           </div>
+          <div
+            class="error-message"
+            *ngIf="GetFormControlErrors('Action_Date_UC_A')"
+          >
+            Date cannot be before current day.
+          </div>
         </li>
       </ol>
       <h4 *ngIf="questionForm?.controls?.Byelaws_UC_A.value === 'No'">
@@ -209,6 +215,12 @@
               [for]="myDatepicker6"
             ></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker6></mat-datepicker>
+          </div>
+          <div
+            class="error-message"
+            *ngIf="GetFormControlErrors('Implement_Date_UC_A')"
+          >
+            Date cannot be before current day.
           </div>
         </li>
       </ol>
@@ -343,6 +355,12 @@
               [for]="myDatepicker7"
             ></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker7></mat-datepicker>
+          </div>
+          <div
+            class="error-message"
+            *ngIf="GetFormControlErrors('Action_Date_UC_A')"
+          >
+            Date cannot be before current day.
           </div>
         </li>
       </ol>

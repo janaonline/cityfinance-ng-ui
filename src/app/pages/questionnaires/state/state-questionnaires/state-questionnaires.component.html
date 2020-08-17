@@ -168,6 +168,26 @@
       {{ saveAsDraftFailMessge || "Saved as draft" }}
     </h2>
   </ng-template>
+
+  <ng-template #savingPopup>
+    <mat-spinner
+      style="margin: auto;"
+      *ngIf="!saveAsDraftFailMessge"
+    ></mat-spinner>
+    <h2 class="text-center" *ngIf="!saveAsDraftFailMessge">Saving...</h2>
+
+    <div class="d-flex justify-content-center" *ngIf="saveAsDraftFailMessge">
+      <i
+        class="fa fa-exclamation-circle"
+        style="transform: scale(3.5); color: red;"
+        aria-hidden="true"
+      ></i>
+    </div>
+
+    <h2 class="text-center">
+      {{ saveAsDraftFailMessge }}
+    </h2>
+  </ng-template>
 </div>
 
 <div
