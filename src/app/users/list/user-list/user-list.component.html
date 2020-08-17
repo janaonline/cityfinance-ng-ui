@@ -60,7 +60,10 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table" *ngIf="listType === userTypes.USER">
+        <table
+          class="table"
+          *ngIf="listType === userTypes.USER && !isApiInProgress"
+        >
           <thead>
             <tr
               style="background: #059b9a; color: white; border: 0px;"
@@ -190,7 +193,10 @@
           </tbody>
         </table>
 
-        <table class="table" *ngIf="listType === userTypes.ULB">
+        <table
+          class="table"
+          *ngIf="listType === userTypes.ULB && !isApiInProgress"
+        >
           <thead>
             <tr
               class="sortable-headers"
@@ -394,7 +400,10 @@
           </tbody>
         </table>
 
-        <table class="table" *ngIf="listType === userTypes.STATE">
+        <table
+          class="table"
+          *ngIf="listType === userTypes.STATE && !isApiInProgress"
+        >
           <thead>
             <tr
               class="sortable-headers"
@@ -553,7 +562,10 @@
           </tbody>
         </table>
 
-        <table class="table" *ngIf="listType === userTypes.PARTNER">
+        <table
+          class="table"
+          *ngIf="listType === userTypes.PARTNER && !isApiInProgress"
+        >
           <thead>
             <tr
               class="sortable-headers"
@@ -688,7 +700,10 @@
           </tbody>
         </table>
 
-        <table class="table" *ngIf="listType === userTypes.MoHUA">
+        <table
+          class="table"
+          *ngIf="listType === userTypes.MoHUA && !isApiInProgress"
+        >
           <thead>
             <tr
               class="sortable-headers"
@@ -810,20 +825,36 @@
           </tbody>
         </table>
 
-        <pagination-controls
-          style="float: right; position: relative;"
-          id="foo"
-          (pageChange)="setPage($event)"
-          directionLinks="true"
-          autoHide="false"
-          previousLabel="Previous"
-          nextLabel="Next"
-          screenReaderPaginationLabel="Pagination"
-          screenReaderPageLabel="page"
-          screenReaderCurrentLabel="You're on page"
+        <div
+          *ngIf="isApiInProgress"
+          style="
+            background: white;
+            z-index: 99999999;
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+          "
         >
-        </pagination-controls>
+          <app-pre-loader></app-pre-loader>
+          <app-pre-loader></app-pre-loader>
+          <app-pre-loader></app-pre-loader>
+          <app-pre-loader></app-pre-loader>
+        </div>
       </div>
+      <pagination-controls
+        style="float: right; position: relative;"
+        id="foo"
+        (pageChange)="setPage($event)"
+        directionLinks="true"
+        autoHide="false"
+        previousLabel="Previous"
+        nextLabel="Next"
+        screenReaderPaginationLabel="Pagination"
+        screenReaderPageLabel="page"
+        screenReaderCurrentLabel="You're on page"
+      >
+      </pagination-controls>
     </div>
   </div>
 </div>
