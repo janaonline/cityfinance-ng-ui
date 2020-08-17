@@ -52,6 +52,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     });
     this.createForms();
     this.setTableHeaderByUserType();
+    this.modalService.onHide.subscribe(() => (this.isPopupOpen = false));
   }
   @ViewChild("updateWithoutChangeWarning")
   updateWithoutChangeWarning: TemplateRef<any>;
@@ -146,6 +147,8 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     schedulesToBalanceSheet: "Schedules To Balance Sheet",
     schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
   };
+
+  isPopupOpen = false;
 
   ngOnInit() {
     this.fetchFinancialYears();
@@ -742,9 +745,10 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       );
     }
   }
-
   openModal(row: any, historyModal: TemplateRef<any>) {
+    if (this.isPopupOpen) return;
     this.modalTableData = [];
+    this.isPopupOpen = true;
     this.financialDataService.fetchFinancialDataHistory(row._id).subscribe(
       (result: HttpResponse<any>) => {
         if (result["success"]) {

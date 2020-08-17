@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatHorizontalStepper } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,6 +30,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
   ) {}
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
   @ViewChild("savingAsDraft") savingAsDraftPopup: TemplateRef<any>;
+  @ViewChild("savingPopup") savingPopup: TemplateRef<any>;
   draftSavingInProgess = false;
   introductionCompleted = false;
   propertyTaxData: IQuestionnaireResponse["data"][0]["propertyTax"];
@@ -180,12 +182,14 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
   }
 
   uploadCompletedQuestionnaireData() {
+    this.saveAsDraftFailMessge = null;
     if (this.userHasAlreadyFilledForm) {
       return;
     }
     try {
       this.validatorQuestionnaireForms();
     } catch (error) {
+      console.error(error);
       return;
     }
 
@@ -195,21 +199,36 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
       userCharges: userChargesForm.value,
       isCompleted: true,
     };
+
     if (this.userData.role !== USER_TYPE.STATE) {
       obj["state"] = this.currentStateId;
     }
-    this.userHasAlreadyFilledForm = true;
-    this.editable = false;
-    this.setComponentStateToAlreadyFilled(
-      {
-        ...obj,
-        stateName: this.stateName,
+    this._matDialog.open(this.savingPopup, {
+      width: "35vw",
+      height: "fit-content",
+      disableClose: true,
+    });
+
+    this._questionnaireService.saveStateQuestionnaireData(obj).subscribe(
+      (res) => {
+        this._matDialog.closeAll();
+        this.userHasAlreadyFilledForm = true;
+        this.editable = false;
+        this.setComponentStateToAlreadyFilled(
+          {
+            ...obj,
+            stateName: this.stateName,
+          },
+          false
+        );
       },
-      false
+      (err: HttpErrorResponse) => {
+        this.saveAsDraftFailMessge =
+          err.error.message ||
+          "Failed to save data. Please try after some time";
+        console.error(err);
+      }
     );
-    this._questionnaireService
-      .saveStateQuestionnaireData(obj)
-      .subscribe((res) => {}, console.error);
   }
 
   validatorQuestionnaireForms() {

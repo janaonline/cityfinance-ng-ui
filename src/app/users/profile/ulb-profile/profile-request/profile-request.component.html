@@ -421,7 +421,7 @@
           *ngIf="requestList && loggedInUserType === userTypes.ULB"
           style="width: 100%;"
         >
-          <table class="table listing-table">
+          <table class="table listing-table" *ngIf="!isApiInProgress">
             <thead>
               <tr
                 class="sortable-headers"
@@ -539,23 +539,40 @@
               </tr>
             </tbody>
           </table>
-          <pagination-controls
-            style="float: right; position: relative;"
-            id="foo"
-            (pageChange)="setPage($event)"
-            directionLinks="true"
-            autoHide="false"
-            previousLabel="Previous"
-            nextLabel="Next"
-            screenReaderPaginationLabel="Pagination"
-            screenReaderPageLabel="page"
-            screenReaderCurrentLabel="You're on page"
+          <div
+            *ngIf="isApiInProgress"
+            style="
+              background: white;
+              z-index: 99999999;
+              left: 0px;
+              right: 0px;
+              top: 0px;
+              bottom: 0px;
+            "
           >
-          </pagination-controls>
+            <app-pre-loader></app-pre-loader>
+            <app-pre-loader></app-pre-loader>
+            <app-pre-loader></app-pre-loader>
+            <app-pre-loader></app-pre-loader>
+          </div>
         </div>
+        <pagination-controls
+          *ngIf="requestList && loggedInUserType === userTypes.ULB"
+          style="float: right; position: relative;"
+          id="foo"
+          (pageChange)="setPage($event)"
+          directionLinks="true"
+          autoHide="false"
+          previousLabel="Previous"
+          nextLabel="Next"
+          screenReaderPaginationLabel="Pagination"
+          screenReaderPageLabel="page"
+          screenReaderCurrentLabel="You're on page"
+        >
+        </pagination-controls>
 
         <div *ngIf="requestList && canViewULBSignUpList" style="width: 100%;">
-          <table class="table listing-table">
+          <table class="table listing-table" *ngIf="!isApiInProgress">
             <thead>
               <tr
                 class="sortable-headers"
@@ -739,20 +756,36 @@
               </tr>
             </tbody>
           </table>
-          <pagination-controls
-            style="float: right; position: relative;"
-            id="foo"
-            (pageChange)="setPage($event)"
-            directionLinks="true"
-            autoHide="false"
-            previousLabel="Previous"
-            nextLabel="Next"
-            screenReaderPaginationLabel="Pagination"
-            screenReaderPageLabel="page"
-            screenReaderCurrentLabel="You're on page"
+          <div
+            *ngIf="isApiInProgress"
+            style="
+              background: white;
+              z-index: 99999999;
+              left: 0px;
+              right: 0px;
+              top: 0px;
+              bottom: 0px;
+            "
           >
-          </pagination-controls>
+            <app-pre-loader></app-pre-loader>
+            <app-pre-loader></app-pre-loader>
+            <app-pre-loader></app-pre-loader>
+            <app-pre-loader></app-pre-loader>
+          </div>
         </div>
+        <pagination-controls
+          style="float: right; position: relative;"
+          id="foo"
+          (pageChange)="setPage($event)"
+          directionLinks="true"
+          autoHide="false"
+          previousLabel="Previous"
+          nextLabel="Next"
+          screenReaderPaginationLabel="Pagination"
+          screenReaderPageLabel="page"
+          screenReaderCurrentLabel="You're on page"
+        >
+        </pagination-controls>
       </div>
     </div>
   </div>
