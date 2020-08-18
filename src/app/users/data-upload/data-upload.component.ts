@@ -588,7 +588,6 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     });
 
     console.log({ urlObject });
-    return;
     this.financialDataService
       .upDateFinancialData(this.uploadId, urlObject)
       .subscribe(
