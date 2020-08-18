@@ -11,7 +11,7 @@ import { SessionService } from './shared/services/session/session.service';
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnDestroy {
-  title = "PerfectAngular";
+  title = "City Finance";
 
   showLoader = false;
   sessionId: string;

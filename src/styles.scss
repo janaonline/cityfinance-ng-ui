@@ -322,7 +322,13 @@ img.align-center {
 @media (min-width: 1200px) {
   .container {
     width: 80%;
-    max-width: 1350px;
+    max-width: 1350px; 
+  }
+}
+
+@media screen and (max-width: 468px) { 
+  .container {
+    width: 100% !important;  
   }
 }
 
@@ -529,8 +535,7 @@ img.align-center {
   }
 
   .carousel {
-    // margin-top: -30px;
-
+    // margin-top: -30px; 
     .carousel-control {
       background: none;
       color: #000;
@@ -862,4 +867,27 @@ img.align-center {
 
 .modal-open {
   overflow: inherit;
+}
+ 
+
+@media screen and (max-width: 468px) { 
+  .leaflet-left .leaflet-control {
+    margin-left: 20px !important;
+}
+  .ml-0 {
+    font-size: 1.9em !important; 
+   }
+   .app-wrapper app-home-header{
+    background-image: none !important;
+  } 
+  .carousel { 
+      margin-top: -1px !important; 
+  }
+  .navbar-toggler:focus, .navbar-toggler:hover{
+    border: none !important;
+    outline: 0;
+  }
+  .h2, h2 {
+    font-size: 20px;
+}
 }
