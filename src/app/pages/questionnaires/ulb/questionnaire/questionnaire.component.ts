@@ -21,6 +21,15 @@ import { userChargesForm } from '../configs/user-charges.config';
   styleUrls: ["./questionnaire.component.scss"],
 })
 export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
+  constructor(
+    private _questionnaireService: QuestionnaireService,
+    private activatedRoute: ActivatedRoute,
+    private _profileService: ProfileService,
+    private router: Router,
+    private _matDialog: MatDialog
+  ) {
+    console.log("ubl questionnaire");
+  }
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
   @ViewChild("savingAsDraft") savingAsDraftPopup: TemplateRef<any>;
   draftSavingInProgess = false;
@@ -70,15 +79,7 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
     height: "70vh",
   };
 
-  constructor(
-    private _questionnaireService: QuestionnaireService,
-    private activatedRoute: ActivatedRoute,
-    private _profileService: ProfileService,
-    private router: Router,
-    private _matDialog: MatDialog
-  ) {
-    console.log("ubl questionnaire");
-  }
+  saveAsDraftFailMessge: string;
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params) => {
@@ -149,6 +150,7 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
   }
 
   saveAsDraft() {
+    this.saveAsDraftFailMessge = null;
     this.draftSavingInProgess = true;
     if (this.userHasAlreadyFilledForm) return false;
     const obj = {
@@ -157,8 +159,6 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
       isCompleted: false,
     };
 
-    console.log(this.userData);
-
     if (this.userData.role !== USER_TYPE.ULB) {
       obj["ulb"] = this.currentULBId;
     }
@@ -166,14 +166,18 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
       width: "35vw",
       height: "fit-content",
     });
-    this._questionnaireService
-      .saveULBQuestionnaireData(obj)
-      .subscribe((res) => {
+    this._questionnaireService.saveULBQuestionnaireData(obj).subscribe(
+      (res) => {
         this.draftSavingInProgess = false;
         setTimeout(() => {
           this._matDialog.closeAll();
         }, 3000);
-      });
+      },
+      (err) => {
+        this.draftSavingInProgess = false;
+        this.saveAsDraftFailMessge = err;
+      }
+    );
   }
 
   uploadCompletedQuestionnaireData() {
@@ -203,9 +207,10 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
       },
       false
     );
-    this._questionnaireService
-      .saveULBQuestionnaireData(obj)
-      .subscribe((res) => {}, console.error);
+    this._questionnaireService.saveULBQuestionnaireData(obj).subscribe(
+      (res) => {},
+      (err) => console.error("sdadssad", err)
+    );
   }
 
   validatorQuestionnaireForms() {

@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { HttpUtility } from 'src/app/util/httpUtil';
 import { environment } from 'src/environments/environment';
 
@@ -39,10 +39,11 @@ export class QuestionnaireService {
     });
   }
   saveULBQuestionnaireData(data: { [key: string]: any }) {
-    console.log(data);
-    return this.http.post(`${environment.api.url}ulb/form`, {
-      ...data,
-    });
+    return this.http
+      .post(`${environment.api.url}ulb/form`, {
+        ...data,
+      })
+      .pipe(catchError(this.handleError));
   }
 
   getStateQuestionnaireFilledList(body: { filter?: {}; sort?: {} }) {
@@ -98,4 +99,10 @@ export class QuestionnaireService {
       responseType: "blob",
     });
   }
+
+  private handleError = (err) => {
+    const message =
+      typeof err === "string" ? err : err.error.message || err.error.msg;
+    throw message;
+  };
 }

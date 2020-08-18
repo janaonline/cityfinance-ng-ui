@@ -113,10 +113,15 @@ export class HomeHeaderComponent implements OnInit {
       action: ACTIONS.VIEW,
     });
 
-    this.canViewQuestionnaireForm = this.accessChecker.hasAccess({
-      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
-      action: ACTIONS.VIEW,
-    });
+    this.canViewQuestionnaireForm =
+      this.accessChecker.hasAccess({
+        moduleName: MODULES_NAME.STATE_PROPERTY_TAX_QUESTIONNAIRE,
+        action: ACTIONS.VIEW,
+      }) ||
+      this.accessChecker.hasAccess({
+        moduleName: MODULES_NAME.ULB_LEVEL_PROPERTY_TAX_QUESTIONNAIRE,
+        action: ACTIONS.VIEW,
+      });
   }
 
   ngOnInit() {

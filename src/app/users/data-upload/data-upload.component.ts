@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import swal from 'sweetalert';
@@ -24,17 +24,6 @@ import { FinancialDataService } from '../services/financial-data.service';
   styleUrls: ["./data-upload.component.scss"],
 })
 export class DataUploadComponent implements OnInit, OnDestroy {
-  /*  fileUpload = {
-      uploading: false,
-      currentUploadedFiles: 0,
-      totalFiles: 0,
-      reset: function () {
-        this.uploading = false;
-        this.currentUploadedFiles = 0;
-        this.totalFiles = 0;
-      }
-    };*/
-
   constructor(
     public activatedRoute: ActivatedRoute,
     public router: Router,
@@ -45,7 +34,8 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     public accessUtil: AccessChecker,
     public userUtil: UserUtility,
     public fileUpload: FileUpload,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public _matDialog: MatDialog
   ) {
     this.isAccessible = accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
@@ -62,7 +52,12 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     });
     this.createForms();
     this.setTableHeaderByUserType();
+    this.modalService.onHide.subscribe(() => (this.isPopupOpen = false));
   }
+  @ViewChild("updateWithoutChangeWarning")
+  updateWithoutChangeWarning: TemplateRef<any>;
+
+  Object = Object;
 
   uploadStatus = UPLOAD_STATUS;
   id = null;
@@ -140,6 +135,21 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   ulbNameSearchFormControl: FormControl = new FormControl();
   ulbCodeSearchFormControl: FormControl = new FormControl();
 
+  rejectFields = {};
+
+  isApiInProgress = false;
+
+  FieldsKeyAndText = {
+    auditReport: "Audit Report",
+    incomeAndExpenditure: "Income and Expenditure",
+    trialBalance: "Trial Balance",
+    balanceSheet: "Balance Sheet",
+    schedulesToBalanceSheet: "Schedules To Balance Sheet",
+    schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
+  };
+
+  isPopupOpen = false;
+
   ngOnInit() {
     this.fetchFinancialYears();
     if (!this.id) {
@@ -175,6 +185,9 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   handleResponseSuccess = (response) => {
     if (this.uploadId) {
       this.uploadObject = response.data;
+
+      this.setRejectedFields(this.uploadObject);
+
       this.updateFormControls();
     } else {
       this.dataUploadList = response.data;
@@ -198,6 +211,73 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     }
     this.loading = false;
   };
+
+  setRejectedFields = (uploadObject) => {
+    if (
+      uploadObject.auditReport &&
+      (uploadObject.auditReport.completeness === "REJECTED" ||
+        uploadObject.auditReport.correctness === "REJECTED")
+    ) {
+      this.rejectFields = { ...this.rejectFields, auditReport: `Audit Report` };
+    }
+
+    if (
+      uploadObject.incomeAndExpenditure &&
+      (uploadObject.incomeAndExpenditure.completeness === "REJECTED" ||
+        uploadObject.incomeAndExpenditure.correctness === "REJECTED")
+    ) {
+      this.rejectFields = {
+        ...this.rejectFields,
+        incomeAndExpenditure: "Income and Expenditure",
+      };
+    }
+
+    if (
+      uploadObject.trialBalance &&
+      (uploadObject.trialBalance.completeness === "REJECTED" ||
+        uploadObject.trialBalance.correctness === "REJECTED")
+    ) {
+      this.rejectFields = {
+        ...this.rejectFields,
+        trialBalance: "Trial Balance",
+      };
+    }
+
+    if (
+      uploadObject.balanceSheet &&
+      (uploadObject.balanceSheet.completeness === "REJECTED" ||
+        uploadObject.balanceSheet.correctness === "REJECTED")
+    ) {
+      this.rejectFields = {
+        ...this.rejectFields,
+        balanceSheet: "Balance Sheet",
+      };
+    }
+
+    if (
+      uploadObject.schedulesToBalanceSheet &&
+      (uploadObject.schedulesToBalanceSheet.completeness === "REJECTED" ||
+        uploadObject.schedulesToBalanceSheet.correctness === "REJECTED")
+    ) {
+      this.rejectFields = {
+        ...this.rejectFields,
+        schedulesToBalanceSheet: "Schedules To Balance Sheet",
+      };
+    }
+
+    if (
+      uploadObject.schedulesToIncomeAndExpenditure &&
+      (uploadObject.schedulesToIncomeAndExpenditure.completeness ===
+        "REJECTED" ||
+        uploadObject.schedulesToIncomeAndExpenditure.correctness === "REJECTED")
+    ) {
+      this.rejectFields = {
+        ...this.rejectFields,
+        schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
+      };
+    }
+  };
+
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
@@ -219,9 +299,11 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   async submitClickHandler(event) {
+    if (this.isApiInProgress) return;
     this.fileFormGroup.disable();
     event.disabled = true;
     const urlObject = {};
+    this.isApiInProgress = true;
     this.fileUpload.totalFiles = this.getAddedFilterCount();
     this.fileUpload.uploading = true;
     for (const parentFormGroup of this.fileFormGroupKeys) {
@@ -292,6 +374,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
             }
           });
         }
+        this.isApiInProgress = false;
       },
       (error: HttpErrorResponse) => {
         event.disabled = false;
@@ -299,6 +382,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         this.fileUpload.reset();
         this.fileFormGroup.enable();
         this.handlerError(error);
+        this.isApiInProgress = false;
       }
     );
   }
@@ -385,11 +469,55 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     return url.split("/").reverse()[0];
   }
 
+  updateRejectedFields() {
+    const values = this.fileFormGroup.value;
+
+    Object.keys(this.FieldsKeyAndText).forEach((key) => {
+      if (!this.uploadObject[key]) {
+        return false;
+      }
+
+      const isFieldREJECTED =
+        this.uploadObject[key] &&
+        (this.uploadObject[key].completeness === "REJECTED" ||
+          this.uploadObject[key].correctness === "REJECTED")
+          ? true
+          : false;
+
+      if (
+        isFieldREJECTED &&
+        (values[key].file_pdf ||
+          values[key].file_excel ||
+          this.uploadObject[key].excelUrl !== values[key].excelUrl ||
+          this.uploadObject[key].pdfUrl !== values[key].pdfUrl)
+      ) {
+        delete this.rejectFields[key];
+      } else {
+        if (isFieldREJECTED) {
+          this.rejectFields[key] = this.FieldsKeyAndText[key];
+        }
+      }
+    });
+  }
+
+  checkRejectFields(updateButton: HTMLButtonElement) {
+    this.updateRejectedFields();
+    if (Object.keys(this.rejectFields).length) {
+      this._matDialog.open(this.updateWithoutChangeWarning, {
+        width: "31vw",
+        height: "fit-content",
+      });
+      return;
+    }
+    this.updateClickHandler(updateButton);
+  }
+
   async updateClickHandler(updateButton: HTMLButtonElement) {
     updateButton.disabled = true;
     this.fileUpload.totalFiles = this.getAddedFilterCount();
     this.fileUpload.uploading = true;
     const urlObject = {};
+    this.isApiInProgress = true;
     let total = 0;
     for (const parentFormGroup of this.fileFormGroupKeys) {
       if (
@@ -412,6 +540,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         const formGroup = this.fileFormGroup.get(parentFormGroup);
         if (!formGroup.disabled) {
           urlObject[parentFormGroup] = {};
+
           const files = formGroup.value;
           for (const fileKey of ["file_pdf", "file_excel"]) {
             const fileUrlKey = fileKey.includes("pdf") ? "pdfUrl" : "excelUrl";
@@ -449,11 +578,23 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       }
     }
 
+    Object.keys(urlObject).forEach((key) => {
+      urlObject[key].pdfUrl = urlObject[key].pdfUrl
+        ? urlObject[key].pdfUrl
+        : this.uploadObject[key].pdfUrl;
+      urlObject[key].excelUrl = urlObject[key].excelUrl
+        ? urlObject[key].excelUrl
+        : this.uploadObject[key].excelUrl;
+    });
+
+    console.log({ urlObject });
+    return;
     this.financialDataService
       .upDateFinancialData(this.uploadId, urlObject)
       .subscribe(
         (result) => {
           this.fileUpload.uploading = false;
+          this.isApiInProgress = false;
           if (result["success"]) {
             this.router.navigate(["/user/data-upload/list"]);
           }
@@ -462,7 +603,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
           updateButton.disabled = false;
           this.fileUpload.reset();
           this.fileUpload.uploading = false;
-
+          this.isApiInProgress = false;
           this.handlerError(error);
         }
       );
@@ -610,9 +751,10 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       );
     }
   }
-
   openModal(row: any, historyModal: TemplateRef<any>) {
+    if (this.isPopupOpen) return;
     this.modalTableData = [];
+    this.isPopupOpen = true;
     this.financialDataService.fetchFinancialDataHistory(row._id).subscribe(
       (result: HttpResponse<any>) => {
         if (result["success"]) {
