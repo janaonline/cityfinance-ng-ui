@@ -260,13 +260,17 @@ export class SubmittedFormComponent implements OnInit {
       sessionStorage.setItem(`postLoginNavigation`, "/questionnaires/list");
       return this._router.navigate(["/login"]);
     }
-    console.log(`hasAccess: ${hasAccess}`);
 
     if (!hasAccess) {
-      const QuestionnaireFormAccess = this.accessValidator.hasAccess({
-        moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
-        action: ACTIONS.VIEW,
-      });
+      const QuestionnaireFormAccess =
+        this.accessValidator.hasAccess({
+          moduleName: MODULES_NAME.STATE_PROPERTY_TAX_QUESTIONNAIRE,
+          action: ACTIONS.VIEW,
+        }) ||
+        this.accessValidator.hasAccess({
+          moduleName: MODULES_NAME.ULB_LEVEL_PROPERTY_TAX_QUESTIONNAIRE,
+          action: ACTIONS.VIEW,
+        });
       if (QuestionnaireFormAccess) {
         const userType = this._profileService.getLoggedInUserType();
         switch (userType) {
@@ -277,6 +281,7 @@ export class SubmittedFormComponent implements OnInit {
         }
       }
 
+      console.error("Access Denied");
       return this._router.navigate(["/home"]);
     }
   }
