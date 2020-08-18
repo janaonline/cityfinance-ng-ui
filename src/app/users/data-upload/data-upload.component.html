@@ -144,7 +144,11 @@
               <button
                 #submitButton
                 *ngIf="userUtil.getUserType() !== 'STATE' && uploadId == null"
-                [disabled]="fileFormGroup.invalid || fileFormGroup.disabled"
+                [disabled]="
+                  fileFormGroup.invalid ||
+                  fileFormGroup.disabled ||
+                  isApiInProgress
+                "
                 class="btn btn-primary"
                 (click)="submitClickHandler(submitButton)"
               >

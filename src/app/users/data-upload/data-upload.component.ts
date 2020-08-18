@@ -302,6 +302,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     this.fileFormGroup.disable();
     event.disabled = true;
     const urlObject = {};
+    this.isApiInProgress = true;
     this.fileUpload.totalFiles = this.getAddedFilterCount();
     this.fileUpload.uploading = true;
     for (const parentFormGroup of this.fileFormGroupKeys) {
@@ -372,6 +373,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
             }
           });
         }
+        this.isApiInProgress = false;
       },
       (error: HttpErrorResponse) => {
         event.disabled = false;
@@ -379,6 +381,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         this.fileUpload.reset();
         this.fileFormGroup.enable();
         this.handlerError(error);
+        this.isApiInProgress = false;
       }
     );
   }
@@ -583,6 +586,8 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         : this.uploadObject[key].excelUrl;
     });
 
+    console.log({ urlObject });
+    return;
     this.financialDataService
       .upDateFinancialData(this.uploadId, urlObject)
       .subscribe(
