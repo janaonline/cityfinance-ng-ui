@@ -35,8 +35,18 @@
   grid-area: s;
   font-weight: 500;
   margin-left: 1.4%;
+  color: var(--multi-dropdown-color); 
+  form{
+    @media screen and (max-width:468px){
+      float: left;
+      margin-right: 10px;
+    }
+  }
 
-  color: var(--multi-dropdown-color);
+  @media screen and (max-width: 468px){
+    grid-area: 1 / 5 / auto / 1;
+  }
+
 }
 @media (max-width: 1958px) {
   .selectPart {
@@ -60,6 +70,11 @@
   margin-top: 5px;
   color: var(--multi-dropdown-color);
   font-size: 1.2em;
+
+  @media screen  and (max-width:468px){
+    grid-area: 36 / 1 / 7 / 6;
+    font-size: 14px; 
+  }
   table {
     // width: 100%;
     tbody tr {
@@ -94,6 +109,9 @@
     font-size: 0.8em;
     padding: 4% 3%;
     text-align: center;
+    @media screen  and (max-width:468px){ 
+      min-height: 235px;
+    }
     .data-point-value {
       font-size: 1.8em;
       display: block;
@@ -113,6 +131,13 @@
       transition: all 0.5s;
       opacity: 0;
       transform: translateY(+100%);
+
+      @media screen and (max-width:468px){
+        opacity: 1;
+        border: 1px solid #fff;
+        color: #fff;
+        transform: translateY(+60%);
+      }
     }
 
     &:hover {
@@ -200,6 +225,10 @@
 
 .mapWrapper {
   grid-area: m;
+
+  @media screen and (max-width:468px) {
+    grid-area:  1 / 1 / 8 / 6;
+  }
   // background: red;
   #mapid {
     border-radius: inherit;
@@ -290,7 +319,7 @@ form {
 
 @media (max-width: 1060px) {
   ::ng-deep .ml-0 {
-    font-size: 1em;
+    font-size: 1.8em;
   }
 }
 
@@ -320,7 +349,9 @@ form {
     display: block;
     margin: 2vw auto;
     // margin-bottom: 2%;
-
+    @media screen and (max-width:468px){
+      width: 100%;
+    }
     color: #059b9a;
     position: relative;
     text-align: center;
@@ -344,4 +375,18 @@ form {
     left: 0%;
     z-index: 0;
   }
+}
+
+
+@media screen and (max-width: 468px) {
+  .wrapper {     
+grid-template: repeat(6, 6vh)/repeat(4, 1fr);
+  }
+  .selectPart{
+    font-size: 2.1em;
+  }
+  .btn{
+    padding: 3px 14px;
+  }
+    
 }
