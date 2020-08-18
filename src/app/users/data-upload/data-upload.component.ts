@@ -299,6 +299,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   async submitClickHandler(event) {
+    if (this.isApiInProgress) return;
     this.fileFormGroup.disable();
     event.disabled = true;
     const urlObject = {};
