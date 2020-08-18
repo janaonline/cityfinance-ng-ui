@@ -149,7 +149,8 @@
                 <button
                   [disabled]="
                     completenessFormGroup.invalid ||
-                    completenessStatus !== 'PENDING'
+                    completenessStatus !== 'PENDING' ||
+                    isApiInProgress
                   "
                   (click)="completenessClickedHandler()"
                   class="btn btn-primary"
@@ -297,7 +298,8 @@
                 <button
                   [disabled]="
                     correctnessFormGroup.invalid ||
-                    correctnessStatus !== 'PENDING'
+                    correctnessStatus !== 'PENDING' ||
+                    isApiInProgress
                   "
                   (click)="correctnessSubmitHandler()"
                   class="btn btn-primary"

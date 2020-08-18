@@ -274,21 +274,26 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
   private validateUserAccess(params: { stateId: string }) {
     const userRole: USER_TYPE = this.userData.role;
-
     const canUserFillQuestionnaireForm = this.accessValidator.hasAccess({
-      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
+      moduleName: MODULES_NAME.STATE_PROPERTY_TAX_QUESTIONNAIRE,
       action: ACTIONS.FORM_FILL,
     });
 
     const canUserViewFilledQuestionnaireForm = this.accessValidator.hasAccess({
-      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
+      moduleName: MODULES_NAME.STATE_PROPERTY_TAX_QUESTIONNAIRE,
       action: ACTIONS.VIEW,
     });
+
+    if (!canUserViewFilledQuestionnaireForm) {
+      console.error(`Access denied!`);
+      return this.router.navigate(["/home"]);
+    }
+
     if (userRole !== USER_TYPE.STATE && (!params || !params.stateId)) {
       if (canUserViewFilledQuestionnaireForm) {
         return this.router.navigate(["/questionnaires/states"]);
       }
-      console.error(`access denied!`);
+      console.error(`Access denied!`);
 
       return this.router.navigate(["/home"]);
     }
@@ -300,7 +305,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
   private validateQuestionnaireFillAccess() {
     const canUserFillQuestionnaireForm = this.accessValidator.hasAccess({
-      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
+      moduleName: MODULES_NAME.STATE_PROPERTY_TAX_QUESTIONNAIRE,
       action: ACTIONS.FORM_FILL,
     });
 

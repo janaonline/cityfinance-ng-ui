@@ -144,11 +144,15 @@
               <button
                 #submitButton
                 *ngIf="userUtil.getUserType() !== 'STATE' && uploadId == null"
-                [disabled]="fileFormGroup.invalid || fileFormGroup.disabled"
+                [disabled]="
+                  fileFormGroup.invalid ||
+                  fileFormGroup.disabled ||
+                  isApiInProgress
+                "
                 class="btn btn-primary"
                 (click)="submitClickHandler(submitButton)"
               >
-                {{ fileUpload.uploading ? "Please Wait.." : "Submit" }}
+                {{ fileUpload.uploading ? "Please Wait.." : "Submitttt" }}
               </button>
               <div
                 *ngIf="fileUpload.uploading"
