@@ -1,32 +1,30 @@
-<!--  -->
 <div class="container-fluid">
   <div class="common-container credit-rating-container">
     <div class="row" [ngClass]="{ 'hide-container': page !== 1 }">
+      <!--  -->
+      <div class="w-100 b-sm">
+        <div class="inner-head">
+          <div class="back-icon">
+            <a href=""><span class="glyphicon glyphicon-arrow-left"></span></a>
+          </div>
+          <div class="head-content">
+            <h5>Credit ratings</h5>
+          </div>
+        </div>
+      </div> <!-- w-100 end -->
       <div class="col-md-12 dashboard-wrapper">
         <div class="col-md-6 col-sm-12 col-xl-12 map-container">
           <div id="mapidd"></div>
 
-          <div
-            class="map-info-state"
-            *ngIf="
-              selectedStates && selectedStates[0] && selectedStates[0].length
-            "
-          >
-            <a
-              class="text-center"
-              id="nationalLevelButton"
-              (click)="resetMapToNationalView()"
-            >
+          <div class="map-info-state" *ngIf=" selectedStates && selectedStates[0] && selectedStates[0].length  ">
+            <a class="text-center" id="nationalLevelButton" (click)="resetMapToNationalView()">
               <div class="arrow"></div>
               View National Level Data
             </a>
           </div>
-          <p
-            class="map-info"
-            *ngIf="
+          <p class="map-info mb-2" *ngIf="
               !selectedStates || !selectedStates[0] || !selectedStates[0].length
-            "
-          >
+            ">
             Click on any state to view it's data.
           </p>
         </div>
@@ -38,27 +36,20 @@
           <div class="col-sm-8 ulbDetails" *ngIf="absCreditInfo.title">
             <div class="row">
               <div class="col-sm-12">
-                <h2
-                  *ngIf="queryParams?.minRating"
-                  class="text-center mb-1 text-primary"
-                  style="margin-bottom: 1.2vw;"
-                >
+                <h2 *ngIf="queryParams?.minRating" class="text-center mb-1 text-primary" style="margin-bottom: 1.2vw;">
                   ULBs with rating {{ queryParams.minRating }} and Above
-                  <button
-                    class="btn btn-warning right"
-                    (click)="onClearRatingFilter()"
-                  >
+                  <button class="btn btn-warning right" (click)="onClearRatingFilter()">
                     Show All
                   </button>
                 </h2>
               </div>
 
-              <div class="col-sm-6">
+              <div class="col-sm-6 col-xs-6">
                 <h3 class="text-primary" style="margin-top: 0;">
                   {{ absCreditInfo.title | titlecase }}
                 </h3>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-6 col-xs-6">
                 <button class="btn btn-warning right" (click)="page = 2">
                   Explore Credit Rating Reports
                 </button>
@@ -74,11 +65,8 @@
                 </thead>
 
                 <tbody>
-                  <tr
-                    (click)="openModal(modal, grade)"
-                    *ngFor="let grade of ratingGrades"
-                    [ngClass]="{ hidden: !absCreditInfo.ratings[grade] }"
-                  >
+                  <tr (click)="openModal(modal, grade)" *ngFor="let grade of ratingGrades"
+                    [ngClass]="{ hidden: !absCreditInfo.ratings[grade] }">
                     <td width="60%">{{ grade }}</td>
                     <td class="text-right">
                       {{ absCreditInfo.ratings[grade] }}
@@ -104,10 +92,35 @@
     </div>
 
     <div class="row" *ngIf="page == 2">
-      <div class="col-md-6">
+      <!--  -->
+      <div class="w-100 b-sm">
+        <div class="inner-head">
+          <div class="back-icon">
+            <a href=""><span class="glyphicon glyphicon-arrow-left"></span></a>
+          </div>
+          <div class="head-content">
+            <h5>Credit ratings report</h5>
+          </div>
+          <div class="download">
+            <a>
+              <button class="btn-download-report header-btn-style" (click)="download()">
+                <span class="glyphicon glyphicon-download-alt	"></span>
+              </button>
+            </a>
+          </div>
+          <div class="table-filter">
+            <a>
+              <button class="table-filter-btn header-btn-style">
+                <span class="glyphicon glyphicon-filter"></span>
+              </button>
+            </a>
+          </div>
+        </div>
+      </div> <!-- w-100 end -->
+      <div class="col-md-6 n-sm">
         <h3 style="margin-top: 0px;">Credit Rating Report</h3>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 n-sm">
         <a class="right" (click)="setPage(1)">Back</a>
       </div>
     </div>
@@ -128,7 +141,7 @@
         <!--        />-->
         <br />
       </div>
-      <div class="col-md-9 mb-2">
+      <div class="col-md-9 mb-2 n-sm">
         <a>
           <button class="right btn btn-primary" (click)="download()">
             Download
@@ -137,56 +150,32 @@
       </div>
       <br />
       <div class="col-md-12 credit-rating-report">
-        <div
-          class="credit-rating-header"
-          style="background: #059b9a; color: #fff;"
-        >
-          <table style="width: 100%;">
+        <div class="credit-rating-header table-responsive" style="background: #059b9a; color: #fff;">
+          <table style="width: 100%;" class="table">
             <tr>
-              <th
-                style="width: 25%; padding: 10px 6px;"
-                class="sortable"
-                (click)="sortBy('ulb')"
-              >
+              <th style=" width: 25%; padding: 10px 6px;" class="sortable" (click)="sortBy('ulb')">
                 ULB
                 <span class="glyphicon glyphicon-sort"></span>
               </th>
-              <th
-                style="width: 15%; padding: 10px 6px;"
-                class="sortable"
-                (click)="sortBy('state')"
-              >
+              <th style="     width: 15%; padding: 10px 6px;" class="sortable" (click)="sortBy('state')">
                 State
                 <span class="glyphicon glyphicon-sort"></span>
               </th>
-              <th
-                style="width: 15%; padding: 10px 6px;"
-                class="sortable"
-                (click)="sortBy('agency')"
-              >
+              <th style="    width: 15%;  padding: 10px 6px;" class="sortable" (click)="sortBy('agency')">
                 Agency
                 <span class="glyphicon glyphicon-sort"></span>
               </th>
-              <th
-                style="width: 15%; padding: 10px 6px;"
-                (click)="sortBy('creditrating')"
-                class="changeinrating sortable"
-              >
+              <th style=" width: 15%; padding: 10px 6px;" (click)="sortBy('creditrating')"
+                class="changeinrating sortable">
                 Credit Rating
                 <span class="glyphicon glyphicon-sort"></span>
               </th>
-              <th
-                style="width: 15%; padding: 10px 6px;"
-                (click)="sortBy('status')"
-                class="updatedcreditrating sortable"
-              >
+              <th style="width: 15%;  padding: 10px 6px;" (click)="sortBy('status')"
+                class="updatedcreditrating sortable">
                 Status rating
                 <span class="glyphicon glyphicon-sort"></span>
               </th>
-              <th
-                style="width: 15%; padding: 10px 6px;"
-                class="outlookdate text-right-imp"
-              >
+              <th style=" width: 15%; padding: 10px 6px;" class="outlookdate text-right-imp">
                 Date
                 <!-- <span
                   *ngIf="sortHeader == 'outlookdate'"
@@ -197,30 +186,19 @@
           </table>
         </div>
 
-        <table class="table mb-0">
+        <div class="n-sm"> 
+        <table class="table mb-0 ">
           <tr>
             <td width="25%">
-              <input
-                type="text"
-                placeholder="Search by ULB's"
-                aria-label="Number"
-                matInput
-                class="form-control"
-                [formControl]="ulbSearchFormControl"
-                [matAutocomplete]="auto"
-                style="
+              <input type="text" placeholder="Search by ULB's" aria-label="Number" matInput class="form-control"
+                [formControl]="ulbSearchFormControl" [matAutocomplete]="auto" style="
                   min-height: 39px;
                   border-radius: 0;
                   font-size: 13px;
                   border: 1px solid rgb(153, 153, 153) !important;
-                "
-              />
+                " />
               <mat-autocomplete #auto="matAutocomplete">
-                <mat-option
-                  (click)="ulbDropdownSelected(option)"
-                  *ngFor="let option of list"
-                  [value]="option.ulb"
-                >
+                <mat-option (click)="ulbDropdownSelected(option)" *ngFor="let option of list" [value]="option.ulb">
                   {{ option.ulb }}
                 </mat-option>
               </mat-autocomplete>
@@ -236,151 +214,112 @@
               <!--              />-->
             </td>
             <td width="15%">
-              <angular2-multiselect
-                (onSelect)="
+              <angular2-multiselect (onSelect)="
                   searchDropdownItemSelected(stateSearchFormControl, 'state')
-                "
-                (onDeSelect)="
+                " (onDeSelect)="
                   searchDropdownItemSelected(stateSearchFormControl, 'state')
-                "
-                (onSelectAll)="
+                " (onSelectAll)="
                   searchDropdownItemSelected(stateSearchFormControl, 'state')
-                "
-                (onDeSelectAll)="
+                " (onDeSelectAll)="
                   searchDropdownItemSelected(stateSearchFormControl, 'state')
-                "
-                [formControl]="stateSearchFormControl"
-                [settings]="{
+                " [formControl]="stateSearchFormControl" [settings]="{
                   primaryKey: 'id',
                   singleSelection: false,
                   text: 'States',
                   labelKey: 'name',
                   badgeShowLimit: 1
-                }"
-                [data]="dropdownFiltersData.states"
-              ></angular2-multiselect>
+                }" [data]="dropdownFiltersData.states"></angular2-multiselect>
             </td>
             <td width="15%">
-              <angular2-multiselect
-                (onSelect)="
+              <angular2-multiselect (onSelect)="
                   searchDropdownItemSelected(agencySearchFormControl, 'agency')
-                "
-                (onDeSelect)="
+                " (onDeSelect)="
                   searchDropdownItemSelected(agencySearchFormControl, 'agency')
-                "
-                (onSelectAll)="
+                " (onSelectAll)="
                   searchDropdownItemSelected(agencySearchFormControl, 'agency')
-                "
-                (onDeSelectAll)="
+                " (onDeSelectAll)="
                   searchDropdownItemSelected(agencySearchFormControl, 'agency')
-                "
-                [formControl]="agencySearchFormControl"
-                [settings]="{
+                " [formControl]="agencySearchFormControl" [settings]="{
                   primaryKey: 'id',
                   singleSelection: false,
                   text: 'Agency',
                   labelKey: 'name',
                   badgeShowLimit: 1
-                }"
-                [data]="dropdownFiltersData.agencies"
-              ></angular2-multiselect>
+                }" [data]="dropdownFiltersData.agencies"></angular2-multiselect>
             </td>
             <td width="15%">
-              <angular2-multiselect
-                (onSelect)="
+              <angular2-multiselect (onSelect)="
                   searchDropdownItemSelected(
                     creditSearchFormControl,
                     'creditrating'
                   )
-                "
-                (onDeSelect)="
+                " (onDeSelect)="
                   searchDropdownItemSelected(
                     creditSearchFormControl,
                     'creditrating'
                   )
-                "
-                (onSelectAll)="
+                " (onSelectAll)="
                   searchDropdownItemSelected(
                     creditSearchFormControl,
                     'creditrating'
                   )
-                "
-                (onDeSelectAll)="
+                " (onDeSelectAll)="
                   searchDropdownItemSelected(
                     creditSearchFormControl,
                     'creditrating'
                   )
-                "
-                [formControl]="creditSearchFormControl"
-                [settings]="{
+                " [formControl]="creditSearchFormControl" [settings]="{
                   primaryKey: 'id',
                   singleSelection: false,
                   text: 'Credit Rating',
                   labelKey: 'name',
                   badgeShowLimit: 1
-                }"
-                [data]="dropdownFiltersData.creditRatings"
-              ></angular2-multiselect>
+                }" [data]="dropdownFiltersData.creditRatings"></angular2-multiselect>
             </td>
             <td width="15%">
-              <angular2-multiselect
-                (onSelect)="
+              <angular2-multiselect (onSelect)="
                   searchDropdownItemSelected(statusSearchFormControl, 'status')
-                "
-                (onDeSelect)="
+                " (onDeSelect)="
                   searchDropdownItemSelected(statusSearchFormControl, 'status')
-                "
-                (onSelectAll)="
+                " (onSelectAll)="
                   searchDropdownItemSelected(statusSearchFormControl, 'status')
-                "
-                (onDeSelectAll)="
+                " (onDeSelectAll)="
                   searchDropdownItemSelected(statusSearchFormControl, 'status')
-                "
-                [formControl]="statusSearchFormControl"
-                [settings]="{
+                " [formControl]="statusSearchFormControl" [settings]="{
                   primaryKey: 'id',
                   singleSelection: false,
                   text: 'Status Rating',
                   labelKey: 'name',
                   badgeShowLimit: 1
-                }"
-                [data]="dropdownFiltersData.statusRatings"
-              ></angular2-multiselect>
+                }" [data]="dropdownFiltersData.statusRatings"></angular2-multiselect>
             </td>
             <td width="15%">
-              <button
-                style="height: 40px;"
-                class="btn btn-danger"
-                (click)="clearFilters()"
-              >
+              <button style="height: 40px;" class="btn btn-danger" (click)="clearFilters()">
                 Clear Filters
               </button>
             </td>
           </tr>
         </table>
-
-        <accordion [closeOthers]="true">
+      </div> <!-- table-responsive div end-->
+        <accordion [closeOthers]="true"  class="table-responsive">
           <ng-container *ngFor="let item of list">
-            <accordion-group (click)="getUlbInfo(item)">
-              <table style="width: 100%;" accordion-heading>
+            <accordion-group (click)="getUlbInfo(item)" class="credit-r-m">
+              <table style="width: 100%;" accordion-heading class="credit-r-report-table" >
                 <tr>
                   <td style="width: 25%; padding: 10px 6px;">{{ item.ulb }}</td>
-                  <td style="width: 15%; padding: 10px 6px;">
+                  <td style="width: 15%;  padding: 10px 6px;">
                     {{ item.state }}
                   </td>
-                  <td style="width: 15%; padding: 10px 6px;">
+                  <td style="width: 15%;   padding: 10px 6px;">
                     {{ item.agency }}
                   </td>
-                  <td style="width: 15%; padding: 10px 6px;">
+                  <td style="width: 15%;   padding: 10px 6px;">
                     {{ item.creditrating }}
                   </td>
-                  <td style="width: 15%; padding: 10px 6px;">
+                  <td style="width: 15%;  padding: 10px 6px;">
                     {{ item.status }}
                   </td>
-                  <td
-                    style="width: 15%; padding: 10px 6px;"
-                    class="text-right-imp"
-                  >
+                  <td style="width: 15%;   padding: 10px 6px;" class="text-right-imp">
                     {{ item.date }}
                   </td>
                 </tr>
@@ -388,42 +327,26 @@
 
               <div class="row">
                 <div class="col-md-12">
-                  <table
-                    class="table table-striped table-hover"
-                    style="width: 100%;"
-                  >
+                  <div class="table-responsive"> 
+                  <table class="table table-striped table-hover" style="width: 100%;">
                     <tr class="warning">
                       <!-- <th>ULB</th> -->
-                      <th (click)="sortByUlbInfo('agency')" style="width: 15%;">
+                      <th (click)="sortByUlbInfo('agency')"  >
                         Agency
                       </th>
-                      <th
-                        (click)="sortByUlbInfo('creditRating')"
-                        style="width: 15%;"
-                      >
+                      <th (click)="sortByUlbInfo('creditRating')"  >
                         Credit Rating
                       </th>
-                      <th
-                        (click)="sortByUlbInfo('outlook')"
-                        style="width: 15%;"
-                      >
+                      <th (click)="sortByUlbInfo('outlook')" >
                         Outlook
                       </th>
-                      <th (click)="sortByUlbInfo('type')" style="width: 15%;">
+                      <th (click)="sortByUlbInfo('type')"  >
                         Type
                       </th>
-                      <th
-                        (click)="sortByUlbInfo('amount')"
-                        style="width: 15%;"
-                        class="text-right-imp"
-                      >
+                      <th (click)="sortByUlbInfo('amount')"   class="text-right-imp">
                         Amount (Rs. Cr.)
                       </th>
-                      <th
-                        (click)="sortByUlbInfo('date')"
-                        style="width: 15%;"
-                        class="text-right-imp"
-                      >
+                      <th (click)="sortByUlbInfo('date')"   class="text-right-imp">
                         Date
                       </th>
                       <th style="width: 10%;" class="text-right-imp">Link</th>
@@ -441,6 +364,7 @@
                       </td>
                     </tr>
                   </table>
+                </div> <!-- table-responsive div end-->
                 </div>
               </div>
 
@@ -463,13 +387,11 @@
               </div> -->
 
               <hr />
-              <i style="font-size: 12px; color: #666;"
-                >The agency may apply ‘+’ or ‘-‘ signs for ratings to reflect
+              <i style="font-size: 12px; color: #666;">The agency may apply ‘+’ or ‘-‘ signs for ratings to reflect
                 comparative standing within the category. A plus (+) sign puts
                 the rating of a security at a relatively higher position when
                 compared to a rating of a security with a minus (-) sign within
-                the same category.</i
-              >
+                the same category.</i>
             </accordion-group>
           </ng-container>
         </accordion>
@@ -479,15 +401,8 @@
 </div>
 
 <ng-template #modal>
-  <button
-    style="background-color: #333333; min-width: min-content; float: right;"
-    (click)="modalService.hide(1)"
-    mat-raised-button
-    title="Close"
-    type="button"
-    data-dismiss="modal"
-    aria-label="Close"
-  >
+  <button style="background-color: #333333; min-width: min-content; float: right;" (click)="modalService.hide(1)"
+    mat-raised-button title="Close" type="button" data-dismiss="modal" aria-label="Close">
     <mat-icon>close</mat-icon>
   </button>
   <div class="modal-body">
@@ -502,10 +417,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            (click)="modalRowClicked(row)"
-            *ngFor="let row of dialogData; let i = index"
-          >
+          <tr (click)="modalRowClicked(row)" *ngFor="let row of dialogData; let i = index">
             <td>{{ i + 1 }}</td>
             <td class="text-center" *ngFor="let header of dialogHeaders">
               {{ row[header.id] }}

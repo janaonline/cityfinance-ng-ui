@@ -22,6 +22,12 @@
   width: 95%;
   margin: auto;
   overflow: hidden;
+  @media screen and (max-width:468px){
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
   .file {
     overflow: hidden;
     border: 1px solid rgb(230, 230, 230);
@@ -38,6 +44,9 @@
     border-radius: 5px;
 
     overflow: hidden;
+    @media screen and (max-width:468px){
+      margin: 15px 10px;
+    }
     img {
       width: 70%;
       display: block;
@@ -108,3 +117,19 @@
     }
   }
 }
+
+@media screen and (max-width:468px){
+ .file{
+  min-height: 190px !important;
+  min-width: 160px !important;
+ }
+ .details td{
+  font-size: 10px !important;
+ }
+ .file .fa-cloud-download {
+  font-size: 3.5vw !important;
+}
+}
+
+
+ 
