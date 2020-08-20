@@ -29,6 +29,9 @@
     thead {
       th {
         font-size: 0.8em;
+        @media screen and (max-width:468px) {
+          font-size: 2.8em;
+        }
       }
     }
   }
@@ -43,6 +46,9 @@
     ::ng-deep {
       .panel-title {
         font-size: 1em !important;
+        @media screen and (max-width:468px){
+          font-size: 3.4em !important;
+        }
       }
     }
     h4,
@@ -53,6 +59,9 @@
 
   .accordion-body-table {
     font-size: 0.8em;
+    @media screen and (max-width:468px){
+      font-size: 2.8em;
+    }
   }
 
   .page-title {
@@ -61,10 +70,16 @@
 
   pagination-controls {
     font-size: 0.8em;
+    @media screen and (max-width:468px){
+      font-size: 3.8em;
+    }
   }
 
   .btn {
     font-size: 0.7em;
+    @media screen and (max-width:468px){
+      font-size: 1.2em;
+    }
   }
 
   .heading {
@@ -192,6 +207,9 @@
 
   .filterForm {
     font-size: 1vw;
+    @media screen and (max-width:468px ){
+      font-size:3vw !important;
+    }
   }
 
   ::ng-deep {
@@ -206,5 +224,36 @@
     .ngx-pagination {
       margin-bottom: 0px;
     }
+  }
+}
+
+.pagination-top{
+      right: 0px; 
+     position: absolute;
+     @media screen and (max-width:468px){ 
+        position: relative;
+      }
+}
+
+.drop-down-bond{
+  display: flex;
+  flex-wrap: nowrap;
+  margin: 10px 0px;
+  @media screen and (max-width:468px){ 
+    position: relative;
+  }
+} 
+.bond-btn-top{
+  margin: 10px 0px;
+  @media screen and (max-width:468px){ 
+    position: relative;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width:468px){
+  .pagination-top pagination-controls[_ngcontent-c7] {
+    font-size: 1.1em;
+    float: right;
   }
 }

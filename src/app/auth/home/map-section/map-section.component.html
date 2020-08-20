@@ -78,8 +78,7 @@
         Financial data</span
       >
 
-      <a
-        class="btn btn-explore"
+      <a class="btn btn-explore"
         *ngIf="dataForVisualization?.coveredUlbCount"
         [routerLink]="['/analytics/own-revenues']"
         [queryParams]="{ state: stateSelected ? stateSelected._id : null }"

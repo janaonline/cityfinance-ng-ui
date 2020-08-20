@@ -313,6 +313,10 @@ img.align-center {
 .common-container {
   min-height: 100vh;
   padding: 30px 0 40px;
+
+  @media screen and (max-width:468px){
+    padding:0px;
+  }
 }
 
 .app-wrapper {
@@ -547,7 +551,10 @@ img.align-center {
 
     .carousel-indicators {
       bottom: -10px;
-
+        @media screen and (max-width:468px){
+          width: 100%;
+          left: 30%;
+        }
       li {
         margin: 5px;
         width: 30px;
@@ -606,6 +613,10 @@ img.align-center {
 
   .modal-xlg {
     width: 1000px;
+
+    @media screen and (max-width:468px){
+      width: auto;
+    }
   }
 
   .modal-body {
@@ -868,8 +879,31 @@ img.align-center {
 .modal-open {
   overflow: inherit;
 }
- 
+.b-sm{
+  display: none;
+  margin-top: -1px;
+ }
+ .n-sm{
+  display: block;
+}
+ // inner heading  css start
 
+.inner-head{
+  background: #ffc500;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  color: #fff; 
+}
+.back-icon span{ 
+  color: #fff; 
+  margin-left: 10px;
+}
+.head-content {
+  margin: auto;
+  text-transform: uppercase;
+}
+ // inner heading  css end
 @media screen and (max-width: 468px) { 
   .leaflet-left .leaflet-control {
     margin-left: 20px !important;
@@ -890,4 +924,28 @@ img.align-center {
   .h2, h2 {
     font-size: 20px;
 }
+.h3, h3 {
+  font-size: 18px;
 }
+.table-responsive {
+  overflow-y: scroll;
+ }
+ .b-sm{
+  display: block;
+}
+.n-sm{
+  display: none;
+}
+.selected-list .c-angle-down, .selected-list .c-angle-up { 
+  right: 2px !important; 
+}
+.credit-rating-report {
+  padding: 0px 5px;
+}
+.credit-r-m .accordion-toggle { 
+  overflow-y: hidden !important;
+  overflow-x: scroll !important;
+}
+}
+
+// max width 468 px 
