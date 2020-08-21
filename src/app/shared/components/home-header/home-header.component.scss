@@ -197,6 +197,18 @@ span.indian-emblem-wrapper.navbar-brand {
   @media screen and (max-width: 468px) {
     font-size: 1.2vh !important;
   }
+  @media screen and (max-width:411px) and (min-width:360px) {
+    font-size: 8px!important;
+  }
+  @media screen and (max-width: 375px) {
+    font-size: 7px!important;
+  }
+  @media screen and (max-width:320px){
+    font-size: 6px !important;
+  }
+  @media screen and (max-width: 280px) {
+    font-size: 5px !important;
+  }
   .indian-emblem {
     display: inline-block;
     width: 1vw;

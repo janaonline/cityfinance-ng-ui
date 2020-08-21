@@ -148,7 +148,7 @@
           class="table mr-1"
           style="margin-bottom: 1px;"
         >
-          <thead>
+          <thead class="">
             <tr>
               <th
                 style="
@@ -313,9 +313,7 @@
 
 <ng-template #UlbModal>
   <div class="modal-body">
-    <div
-      style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end;"
-    >
+    <div  style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end;" >
       <button
         mat-raised-button
         (click)="downloadTable('table')"
@@ -332,8 +330,7 @@
         <mat-icon>arrow_downward</mat-icon>
       </button>
       <button
-        style="
-          background-color: #333333;
+        style="          background-color: #333333;
           min-width: min-content;
           color: white;
           outline: none;
@@ -351,7 +348,7 @@
     </div>
     <div
       class="table-responsive border-1"
-      style="max-height: 90vh; overflow-x: hidden;"
+      style="max-height: 90vh; overflow-x: scroll;"
     >
       <table
         id="table"
