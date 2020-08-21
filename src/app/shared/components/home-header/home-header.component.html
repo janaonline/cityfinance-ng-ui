@@ -76,14 +76,25 @@
   </div>
 </nav>
 
-<div class="navbar navbar-expand-lg  nav-m container-fluid navbar-2nd-row">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<div class="navbar navbar-expand-lg nav-m container-fluid navbar-2nd-row">
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
     <span class="navbar-toggler-icon"></span>
   </button>
   <li [routerLink]="['/']" class="navbar-brand d-b-lg">
     <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
   </li>
-  <ul class="nav navbar-nav navbar-right nav-ul collapse navbar-collapse" id="navbarNavDropdown">
+  <ul
+    class="nav navbar-nav navbar-right nav-ul collapse navbar-collapse"
+    id="navbarNavDropdown"
+  >
     <li [routerLink]="['/']" class="navbar-brand d-n-sm">
       <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
     </li>
@@ -98,39 +109,27 @@
         role="button"
         aria-haspopup="true"
         aria-expanded="false"
-[routerLink]="'analytics/own-revenues'"
+        (click)="navigateToAnalytics()"
         >Analytics
       </a>
       <ul class="dropdown-menu dropdown-menu-left">
-        <li routerLinkActive="active" *ngFor="let tab of tabs">
-          <a [routerLink]="[tab.url]"> {{ tab.name }}</a>
+        <li
+          routerLinkActive="active"
+          *ngFor="let tab of tabs"
+          (click)="onClickingAnalyticsSubMenu($event)"
+        >
+          <a
+            [routerLink]="[tab.url]"
+            class="analytics-sub-menu"
+            (click)="onClickingAnalyticsSubMenu($event)"
+          >
+            {{ tab.name }}</a
+          >
         </li>
       </ul>
     </li>
     <li routerLinkActive="active" class="dropdown">
-      <!-- <a
-        class="dropdown-toggle"
-        data-toggle="dropdown"
-        role="button"
-        aria-haspopup="true"
-        aria-expanded="false"
-      > -->
       <a [routerLink]="['/dashboard/report']">Financial Statements</a>
-      <!-- <ul class="dropdown-menu">
-        <li routerLinkActive="active">
-          <a [routerLink]="['/dashboard/report']"
-            >Annual Financial Statements</a
-          >
-        </li>
-        <li>
-          <a [routerLink]="['/dashboard', 'financial-information']"
-            >Availability of Financial Information</a
-          >
-        </li>
-        <li routerLinkActive="active" *ngIf="!isProduction">
-              <a [routerLink]="['/dashboard', 'ranking']">Annual Fiscal Ranking</a>
-            </li>
-      </ul> -->
     </li>
     <li routerLinkActive="active">
       <a [routerLink]="['/credit-rating/laws']">Municipal Laws</a>
@@ -158,9 +157,7 @@
     </li>
 
     <li routerLinkActive="active" class="d-b-lg-menu">
-      <a [routerLink]="['/credit-rating/municipal-bond']"
-        >Municipal Bonds</a
-      >
+      <a [routerLink]="['/credit-rating/municipal-bond']">Municipal Bonds</a>
     </li>
     <li routerLinkActive="active" class="d-b-lg-menu">
       <a [routerLink]="['/credit-rating/report']">Credit Rating</a>

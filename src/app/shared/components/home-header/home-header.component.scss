@@ -35,7 +35,7 @@
   bottom: 0;
   left: 20px;
 
-  @media screen and (max-width:468px){
+  @media screen and (max-width: 468px) {
     top: 0;
   }
 }
@@ -44,9 +44,9 @@
   float: right !important;
   margin: 0 !important;
 
-  @media screen and (max-width:468px){ 
-      float: left !important;
-      margin: 25px 0px!important;  
+  @media screen and (max-width: 468px) {
+    float: left !important;
+    margin: 25px 0px !important;
   }
 }
 
@@ -101,7 +101,7 @@ li.navbar-brand {
   border: 1px solid white;
   transition: all 300ms;
 
-  @media screen and (max-width:468px) {
+  @media screen and (max-width: 468px) {
     display: none;
   }
   &:hover {
@@ -146,10 +146,10 @@ nav.navbar {
 
     font-size: 1vw;
 
-    @media screen and (max-width:468px){
+    @media screen and (max-width: 468px) {
       padding: 10px 15px 10px 23px;
-    font-size: 2.5vw;
-    font-weight: 400;
+      font-size: 2.5vw;
+      font-weight: 400;
     }
   }
 
@@ -184,7 +184,7 @@ nav.navbar {
       a {
         font-size: 0.8vw !important;
 
-        @media screen and (max-width:468px){
+        @media screen and (max-width: 468px) {
           font-size: 2.5vw !important;
         }
       }
@@ -194,7 +194,7 @@ nav.navbar {
 span.indian-emblem-wrapper.navbar-brand {
   font-size: 8px !important;
 
-  @media screen and (max-width:468px) {
+  @media screen and (max-width: 468px) {
     font-size: 1.2vh !important;
   }
   .indian-emblem {
@@ -202,7 +202,7 @@ span.indian-emblem-wrapper.navbar-brand {
     width: 1vw;
     // height: 31px;
 
-    @media screen and (max-width:468px){
+    @media screen and (max-width: 468px) {
       width: 2vw;
     }
   }
@@ -213,19 +213,17 @@ nav.navbar-1st-row {
   // background: red;
 }
 
-
-.navbar-toggler{
+.navbar-toggler {
   display: none;
 }
 
-
-.d-n-sm{
+.d-n-sm {
   display: block;
 }
-.d-b-lg{
+.d-b-lg {
   display: none;
 }
-.d-b-lg-menu{
+.d-b-lg-menu {
   display: none;
 }
 
@@ -238,18 +236,17 @@ nav.navbar-1st-row {
 //     right: 30px;
 //     opacity: 1;
 // }
-@media screen and (max-width:468px){
-
-  .navbar-toggler{
+@media screen and (max-width: 468px) {
+  .navbar-toggler {
     display: block;
     float: left;
     border: 0;
     background: none;
   }
-  .navbar span{
+  .navbar span {
     position: relative;
   }
-  
+
   // .navbar-toggler:after{
   //   position: absolute;
   //   height: 1px;
@@ -259,7 +256,7 @@ nav.navbar-1st-row {
   //   top: 4px;
   //   left: -7px;
   // }
-  .navbar-toggler-icon{ 
+  .navbar-toggler-icon {
     height: 2px;
     width: 13px;
     display: block;
@@ -267,8 +264,8 @@ nav.navbar-1st-row {
     top: 4px;
     left: -7px;
     border-radius: 15px;
-}
-  .navbar-toggler-icon:before{
+  }
+  .navbar-toggler-icon:before {
     content: "";
     position: absolute;
     height: 2px;
@@ -279,8 +276,8 @@ nav.navbar-1st-row {
     left: 0px;
     border-radius: 15px;
   }
-  
-  .navbar-toggler-icon:after{
+
+  .navbar-toggler-icon:after {
     content: "";
     position: absolute;
     height: 2px;
@@ -291,8 +288,8 @@ nav.navbar-1st-row {
     left: 0px;
     border-radius: 15px;
   }
-  
-  .nav-ul{
+
+  .nav-ul {
     width: 70%;
     background-image: linear-gradient(to right, #095169, #059b9a);
     position: absolute;
@@ -303,50 +300,55 @@ nav.navbar-1st-row {
     padding: 0;
     transform: translateX(-250px);
     transition: all 0.4s ease;
-    &.in{
+    &.in {
       transform: translateX(0);
     }
   }
-  .navbar-1st-row{
+  .navbar-1st-row {
     background-image: linear-gradient(to right, #095169, #059b9a);
     opacity: 1;
     margin: 0;
     width: 100%;
     height: 50px;
   }
-  .navbar-2nd-row{
+  .navbar-2nd-row {
     position: absolute;
     top: 24px;
     left: 0px;
   }
-  .navbar .navbar-brand { 
+  .navbar .navbar-brand {
     padding: 2px 15px;
-}
-.d-n-sm{
-  display: none;
-} 
+  }
+  .d-n-sm {
+    display: none;
+  }
 
-.navbar-2nd-row li{
-  border-bottom: 1px solid #9a9999;
-  box-shadow: 0px 3px 2px 0px #00000045;
+  .navbar-2nd-row li {
+    border-bottom: 1px solid #9a9999;
+    box-shadow: 0px 3px 2px 0px #00000045;
+  }
+  .d-b-lg {
+    display: block;
+    border-bottom: 1px solid #9a999900 !important;
+    box-shadow: 0px 3px 2px 0px #00000000 !important;
+    padding: 2px 15px 0px 0px !important;
+  }
+  .d-b-lg img {
+    width: 25vw;
+  }
+  .navbar-header {
+    margin-top: -20px;
+    margin-right: 0;
+  }
+  .d-b-lg-menu {
+    display: block;
+  }
 }
-.d-b-lg{
-  display: block;
-  border-bottom: 1px solid #9a999900 !important;
-  box-shadow: 0px 3px 2px 0px #00000000 !important;
-  padding: 2px 15px 0px 0px !important;
-  
-}
-.d-b-lg img{
-  width: 25vw;
-}
-.navbar-header{
-  margin-top: -20px;
-  margin-right: 0;
-} 
-.d-b-lg-menu{
-  display: block;
-}
+
+@media screen and (max-width: 468px) {
+  .analytics-sub-menu {
+    transform: translateX(15px);
+  }
 }
 
 // responsive max-width 468px css end
