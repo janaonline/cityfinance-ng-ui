@@ -1,6 +1,7 @@
 import { Component, ElementRef, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { UserProfile } from 'src/app/users/profile/model/user-profile';
+import { UserUtility } from 'src/app/util/user/user';
 
 import { ACTIONS } from '../../../../app/util/access/actions';
 import { MODULES_NAME } from '../../../../app/util/access/modules';
@@ -16,6 +17,9 @@ import { AnalyticsTabs, IAnalyticsTabs } from './tabs';
 })
 export class HomeHeaderComponent implements OnInit {
   isProduction: boolean;
+
+  userUtil = new UserUtility();
+  showAnalyticsSubMenu = !this.userUtil.isUserOnMobile();
 
   isLoggedIn = false;
   user: UserProfile = null;
@@ -131,6 +135,17 @@ export class HomeHeaderComponent implements OnInit {
     // setTimeout(() => {
     //   this.initializeTranparenceyHandler();
     // }, 1111);
+  }
+
+  navigateToAnalytics() {
+    this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+    if (this.userUtil.isUserOnMobile()) return;
+    this.router.navigate(["analytics/own-revenues"]);
+  }
+
+  onClickingAnalyticsSubMenu(event: Event) {
+    if (!this.userUtil.isUserOnMobile()) return;
+    event.stopPropagation();
   }
 
   initializedIsProduction() {
