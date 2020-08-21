@@ -283,6 +283,15 @@ div.miniMap {
     position: absolute;
     bottom: 0px;
     background: transparent;
+
+    @media screen and (max-width:468px){
+      font-size: 10px;
+    width: 100%;
+    margin: 0 0;
+    left: 0;
+    padding: 0;
+    margin-left: 0 !important;
+    }
   }
 }
 
@@ -311,6 +320,11 @@ div.miniMap {
     margin-top: 2%;
     bottom: 1px;
     font-size: 1vw;
+
+    @media screen and (max-width:468px){
+      font-size: 12px;
+      margin: auto;
+    }
   }
   .state-map-click-guide {
     text-align: center;

@@ -225,6 +225,10 @@ img.align-center {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
+
+  @media screen and (max-width:468px){
+    width: 100%;
+  }
 }
 
 .dropdown .dropdown-menu > li {
@@ -950,6 +954,33 @@ app-home-header{
   left: 0;
   width: 100%; 
 }
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+  background-color: #eee0;
+  border-color: #337ab7;
+}
+.navbar-nav .dropdown-menu>li>a {
+  display: none;
+}
+.navbar-nav .open .dropdown-menu>li>a {
+  display: block;
+}
 }
 
 // max width 468 px 
+
+// max- width 414px start
+@media screen and (max-width:414px) and  (min-width:300px) {
+  app-home-header{
+    min-height: 6vh !important;
+  }
+}
+
+// max-width 375px end
+// max-width 280 start
+@media screen and (max-width:280px){
+ .btn{
+  font-size: 9px;
+ }
+}
+
+// max-width 280px end 
