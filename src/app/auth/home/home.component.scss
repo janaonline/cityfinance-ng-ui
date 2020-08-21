@@ -481,8 +481,9 @@
   transition: transform 0.5s ease 0s;
 
   @media screen and (max-width:468px) {
-    font-size: 1.6vw; 
+    font-size: 10px; 
     margin-top: 0;
+    min-height: 8em;
     padding-top: 0px;
   }
 }
@@ -498,6 +499,12 @@ app-map-section {
   backface-visibility: hidden;
   -webkit-transform: translateY(0);
   transform: translateY(0);
+
+  @media screen and (max-width:468px){
+    -webkit-transform: translateY(13px);  
+    transform: translateY(13px);
+
+  }
 }
 
 .card-header {
@@ -596,7 +603,7 @@ img {
   padding: 2rem 1rem;
 
   @media screen and (max-width:468px){
-    font-size: 0.6em;
+    font-size: 12px;
   }
 
   @media screen and (max-width:468px){
@@ -915,6 +922,6 @@ img.background {
     font-size: 14px;
 }
 .sector-info-hidden{
-  opacity: 1;
+  opacity: 1; 
 }
 }
