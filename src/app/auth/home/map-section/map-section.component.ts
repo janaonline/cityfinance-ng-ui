@@ -293,9 +293,15 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
         ? +localStorage.getItem("mapZoomLevel")
         : defaultZoomLevel;
     } catch (error) {
-      // const zoom = 4.7 - (window.devicePixelRatio - 1) * (0.2 / 0.5);
       zoom = defaultZoomLevel;
     }
+
+    /**
+     * @description Only Keep the zoom level under 4. On some phone such as IPhone 6/7/8,
+     * deviccePixelRatio is too low which cause zoom level go beyound 4.
+     * For Mobile, zoom level beyond 4 is bad.
+     */
+    if (userUtil.isUserOnMobile() && zoom > 3.9) zoom = 3.9;
 
     const configuration: IMapCreationConfig = {
       containerId,
