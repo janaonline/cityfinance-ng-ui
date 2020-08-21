@@ -11,6 +11,7 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
 import { MapUtil } from 'src/app/util/map/mapUtil';
 import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
+import { UserUtility } from 'src/app/util/user/user';
 
 @Component({
   selector: "app-map-section",
@@ -283,7 +284,10 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     containerId: string
   ) {
     let zoom: number;
-    const defaultZoomLevel = 4.7 - (window.devicePixelRatio - 1);
+    const userUtil = new UserUtility();
+
+    const defaultZoomLevel =
+      (userUtil.isUserOnMobile() ? 5.9 : 4.7) - (window.devicePixelRatio - 1);
     try {
       zoom = localStorage.getItem("mapZoomLevel")
         ? +localStorage.getItem("mapZoomLevel")
