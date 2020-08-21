@@ -227,7 +227,7 @@
   grid-area: m;
 
   @media screen and (max-width:468px) {
-    grid-area:  1 / 1 / 8 / 5;
+    grid-area:  2 / 1 / 8 / 5;
     width: 100%;
     overflow: hidden;
   }
@@ -385,7 +385,7 @@ form {
 
 @media screen and (max-width: 468px) {
   .wrapper {     
-grid-template: repeat(6, 6vh)/repeat(4, 1fr);
+grid-template: repeat(6, 8vh)/repeat(4, 1fr);
   }
   .selectPart{
     font-size: 2.1em;
