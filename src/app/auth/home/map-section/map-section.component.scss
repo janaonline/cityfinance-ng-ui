@@ -227,7 +227,9 @@
   grid-area: m;
 
   @media screen and (max-width:468px) {
-    grid-area:  1 / 1 / 8 / 6;
+    grid-area:  1 / 1 / 8 / 5;
+    width: 100%;
+    overflow: hidden;
   }
   // background: red;
   #mapid {
@@ -242,6 +244,9 @@
     max-height: 100%;
     transition: all 0.8s;
     font-size: 0.7em;
+    @media screen and (max-width:468px) {
+      left: 0px;
+    }
   }
 }
 
