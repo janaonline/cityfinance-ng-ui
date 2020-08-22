@@ -274,6 +274,38 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     });
   }
 
+  calculateVH(vh: number) {
+    const h = Math.max(
+      document.documentElement.clientHeight,
+      window.innerHeight || 0
+    );
+    return (vh * h) / 100;
+  }
+
+  calculateMapZoomLevel() {
+    let zoom: number;
+    const userUtil = new UserUtility();
+    if (userUtil.isUserOnMobile()) {
+      zoom = 3.8 + (window.devicePixelRatio - 2) / 10;
+      if (window.innerHeight < 600) zoom = 3.6;
+      const valueOf1vh = this.calculateVH(1);
+      if (valueOf1vh < 5) zoom = 3;
+      else if (valueOf1vh < 7) zoom = zoom - 0.2;
+      return zoom;
+    }
+
+    const defaultZoomLevel = 4.7 - (window.devicePixelRatio - 1);
+    try {
+      zoom = localStorage.getItem("mapZoomLevel")
+        ? +localStorage.getItem("mapZoomLevel")
+        : defaultZoomLevel;
+    } catch (error) {
+      zoom = defaultZoomLevel;
+    }
+
+    return zoom;
+  }
+
   private createNationalLevelMap(
     geoData: FeatureCollection<
       Geometry,
@@ -283,25 +315,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     >,
     containerId: string
   ) {
-    let zoom: number;
-    const userUtil = new UserUtility();
-
-    const defaultZoomLevel =
-      (userUtil.isUserOnMobile() ? 5.9 : 4.7) - (window.devicePixelRatio - 1);
-    try {
-      zoom = localStorage.getItem("mapZoomLevel")
-        ? +localStorage.getItem("mapZoomLevel")
-        : defaultZoomLevel;
-    } catch (error) {
-      zoom = defaultZoomLevel;
-    }
-
-    /**
-     * @description Only Keep the zoom level under 4. On some phone such as IPhone 6/7/8,
-     * deviccePixelRatio is too low which cause zoom level go beyound 4.
-     * For Mobile, zoom level beyond 4 is bad.
-     */
-    if (userUtil.isUserOnMobile() && zoom > 3.9) zoom = 3.9;
+    const zoom = this.calculateMapZoomLevel();
 
     const configuration: IMapCreationConfig = {
       containerId,
