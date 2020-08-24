@@ -76,17 +76,16 @@
   </div>
 </nav>
 
-<div class="navbar navbar-expand-lg nav-m container-fluid navbar-2nd-row">
+<div class="navbar navbar-expand-md nav-m container-fluid navbar-2nd-row">
   <button
     class="navbar-toggler"
     type="button"
     data-toggle="collapse"
     data-target="#navbarNavDropdown"
-    aria-controls="navbarNavDropdown"
+    aria-controls="navbarNavDropdown" 
     aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
-    <span class="navbar-toggler-icon"></span>
+    aria-label="Toggle navigation" >
+    <span class="navbar-toggler-icon" ></span>
   </button>
   <li [routerLink]="['/']" class="navbar-brand d-b-lg">
     <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
@@ -99,7 +98,7 @@
       <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['/home']">Home</a>
+      <a (click)="navigateTo('/home')">Home</a>
     </li>
     <li routerLinkActive="active">
       <span class="down-icon"></span>
@@ -118,21 +117,18 @@
           *ngFor="let tab of tabs"
           (click)="onClickingAnalyticsSubMenu($event)"
         >
-          <a
-            [routerLink]="[tab.url]"
-            class="analytics-sub-menu"
-            (click)="onClickingAnalyticsSubMenu($event)"
+          <a class="analytics-sub-menu"
+            (click)="onClickingAnalyticsSubMenu($event)" 
           >
-            {{ tab.name }}</a
-          >
+            {{ tab.name }}</a>
         </li>
       </ul>
     </li>
     <li routerLinkActive="active" class="dropdown">
-      <a [routerLink]="['/dashboard/report']">Financial Statements</a>
+      <a (click)="navigateTo('/dashboard/report')">Financial Statements</a>
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['/credit-rating/laws']">Municipal Laws</a>
+      <a (click)="navigateTo('/credit-rating/laws')">Municipal Laws</a>
     </li>
     <li class="d-n-sm">
       <a
@@ -146,21 +142,21 @@
       </a>
       <ul class="dropdown-menu dropdown-menu-left">
         <li routerLinkActive="active">
-          <a [routerLink]="['/credit-rating/municipal-bond']"
+          <a (click)="navigateTo('/credit-rating/municipal-bond')"
             >Municipal Bonds</a
           >
         </li>
         <li routerLinkActive="active">
-          <a [routerLink]="['/credit-rating/report']">Credit Rating</a>
+          <a (click)="navigateTo('/credit-rating/report')">Credit Rating</a>
         </li>
       </ul>
     </li>
 
     <li routerLinkActive="active" class="d-b-lg-menu">
-      <a [routerLink]="['/credit-rating/municipal-bond']">Municipal Bonds</a>
+      <a  (click)="navigateTo('/credit-rating/municipal-bond')">Municipal Bonds</a>
     </li>
     <li routerLinkActive="active" class="d-b-lg-menu">
-      <a [routerLink]="['/credit-rating/report']">Credit Rating</a>
+      <a (click)="navigateTo('/credit-rating/report')">Credit Rating</a>
     </li>
 
     <!-- <li routerLinkActive="active">
@@ -170,7 +166,7 @@
       <a [routerLink]="['/credit-rating/municipal-bond']"> Municipal Bonds</a>
     </li> -->
     <li routerLinkActive="active">
-      <a [routerLink]="['/files']">
+      <a (click)="navigateToResources('/files')">
         Resources
       </a>
     </li>
@@ -253,3 +249,4 @@
     </li> -->
   </ul>
 </div>
+  

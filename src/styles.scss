@@ -384,6 +384,10 @@ img.align-center {
   font-size: 0.9vw;
   font-weight: 300;
   padding: 20px 0;
+  @media screen and (max-width:480px){
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
 }
 
 .address {
@@ -907,8 +911,33 @@ img.align-center {
   margin: auto;
   text-transform: uppercase;
 }
+.list-area { 
+  width: max-content;
+}
+.modal-btn-body{
+  margin-bottom: 0.5rem; display: flex; justify-content: flex-end;
+
+  @media screen and (max-width:480px) {
+      justify-content: start;
+  }
+}
+.modal-close-btn{
+background-color: #333333;
+min-width: min-content;
+color: white;
+outline: none;
+border: none;
+}
+.modal-download-btn{  
+  margin-right: 0.5rem;
+  background-color: #333333;
+  color: white;
+  outline: none;
+  border: none;
+  min-width: min-content;
+}
  // inner heading  css end
-@media screen and (max-width: 468px) { 
+@media screen and (max-width: 480px) { 
   .leaflet-left .leaflet-control {
     margin-left: 20px !important;
 }
@@ -963,6 +992,19 @@ app-home-header{
 }
 .navbar-nav .open .dropdown-menu>li>a {
   display: block;
+}
+
+.abc .nav-ul{ 
+    transform: translateX(-250px);
+}
+.modal-content{
+  overflow: scroll;
+}
+.pie-chart-legend>ul{
+  justify-content: flex-start !important;
+}
+.leaflet-left {
+  left: 10px;
 }
 }
 

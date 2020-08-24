@@ -192,8 +192,11 @@ nav.navbar {
   }
 }
 span.indian-emblem-wrapper.navbar-brand {
-  font-size: 8px !important;
+  font-size: 12px !important;
 
+  @media screen and (max-width:480px) and (min-width:470px) {
+    font-size: 10px !important;
+  }
   @media screen and (max-width: 468px) {
     font-size: 1.2vh !important;
   }
@@ -208,6 +211,9 @@ span.indian-emblem-wrapper.navbar-brand {
   }
   @media screen and (max-width: 280px) {
     font-size: 5px !important;
+  }
+  @media screen and (max-width: 240px) {
+    font-size: 4px !important;
   }
   .indian-emblem {
     display: inline-block;
@@ -248,7 +254,7 @@ nav.navbar-1st-row {
 //     right: 30px;
 //     opacity: 1;
 // }
-@media screen and (max-width: 468px) {
+@media screen and (max-width: 480px) {
   .navbar-toggler {
     display: block;
     float: left;
