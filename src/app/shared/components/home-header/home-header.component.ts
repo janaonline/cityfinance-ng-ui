@@ -143,9 +143,61 @@ export class HomeHeaderComponent implements OnInit {
     this.router.navigate(["analytics/own-revenues"]);
   }
 
-  onClickingAnalyticsSubMenu(event: Event) {
+  
+  
+  navigateToHome() {
+    // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+   //  if (this.userUtil.isUserOnMobile()) return;
+   let element = document.getElementById("navbarNavDropdown");
+   element.classList.remove("in");
+     this.router.navigate(["/home"]);
+   }
+
+  navigateToFinancial() {
+   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  if (this.userUtil.isUserOnMobile()) return;
+  let element = document.getElementById("navbarNavDropdown");
+  element.classList.remove("in");
+    this.router.navigate(["/dashboard/report"]);
+  }
+
+  navigateToMunicipalLaw() { 
+    // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+   //  if (this.userUtil.isUserOnMobile()) return;
+   let element = document.getElementById("navbarNavDropdown");
+   element.classList.remove("in");
+     this.router.navigate(["/credit-rating/laws"]);
+   }
+
+   navigateToMunicipalBond() { 
+    // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+   //  if (this.userUtil.isUserOnMobile()) return;
+   let element = document.getElementById("navbarNavDropdown");
+   element.classList.remove("in");
+     this.router.navigate(["/credit-rating/municipal-bond"]);
+   }
+   navigateToCreditRating() { 
+    // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+   //  if (this.userUtil.isUserOnMobile()) return;
+   let element = document.getElementById("navbarNavDropdown");
+   element.classList.remove("in");
+     this.router.navigate(["/credit-rating/report"]);
+   }
+
+   navigateToResources() { 
+    // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+   //  if (this.userUtil.isUserOnMobile()) return;
+   let element = document.getElementById("navbarNavDropdown");
+   element.classList.remove("in");
+     this.router.navigate(["/files"]);
+   }
+
+
+  onClickingAnalyticsSubMenu(event: Event) { 
     if (!this.userUtil.isUserOnMobile()) return;
     event.stopPropagation();
+    let element = document.getElementById("navbarNavDropdown");
+     element.classList.remove("in"); 
   }
 
   initializedIsProduction() {
@@ -199,4 +251,4 @@ export class HomeHeaderComponent implements OnInit {
       observer.observe(target);
     });
   }
-}
+} 
