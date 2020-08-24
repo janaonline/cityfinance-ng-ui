@@ -145,53 +145,58 @@ export class HomeHeaderComponent implements OnInit {
 
   
   
-  navigateToHome() {
-    // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
-   //  if (this.userUtil.isUserOnMobile()) return;
-   let element = document.getElementById("navbarNavDropdown");
-   element.classList.remove("in");
-     this.router.navigate(["/home"]);
-   }
+  // navigateToHome() {
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/home"]);
+  //  }
 
-  navigateToFinancial() {
-   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
-  //  if (this.userUtil.isUserOnMobile()) return;
-  let element = document.getElementById("navbarNavDropdown");
-  element.classList.remove("in");
-    this.router.navigate(["/dashboard/report"]);
-  }
+  // navigateToFinancial() {
+  //  // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  // //  if (this.userUtil.isUserOnMobile()) return;
+  // let element = document.getElementById("navbarNavDropdown");
+  // element.classList.remove("in");
+  //   this.router.navigate(["/dashboard/report"]);
+  // }
 
-  navigateToMunicipalLaw() { 
-    // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
-   //  if (this.userUtil.isUserOnMobile()) return;
-   let element = document.getElementById("navbarNavDropdown");
-   element.classList.remove("in");
-     this.router.navigate(["/credit-rating/laws"]);
-   }
+  // navigateToMunicipalLaw() { 
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/credit-rating/laws"]);
+  //  }
 
-   navigateToMunicipalBond() { 
-    // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
-   //  if (this.userUtil.isUserOnMobile()) return;
-   let element = document.getElementById("navbarNavDropdown");
-   element.classList.remove("in");
-     this.router.navigate(["/credit-rating/municipal-bond"]);
-   }
-   navigateToCreditRating() { 
-    // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
-   //  if (this.userUtil.isUserOnMobile()) return;
-   let element = document.getElementById("navbarNavDropdown");
-   element.classList.remove("in");
-     this.router.navigate(["/credit-rating/report"]);
-   }
+  //  navigateToMunicipalBond() { 
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/credit-rating/municipal-bond"]);
+  //  }
+  //  navigateToCreditRating() { 
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/credit-rating/report"]);
+  //  }
 
-   navigateToResources() { 
-    // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
-   //  if (this.userUtil.isUserOnMobile()) return;
-   let element = document.getElementById("navbarNavDropdown");
-   element.classList.remove("in");
-     this.router.navigate(["/files"]);
-   }
+  //  navigateToResources() { 
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/files"]);
+  //  }
 
+   navigateTo(url: string){
+    let element = document.getElementById("navbarNavDropdown");
+   if (element) element.classList.remove("in");
+      this.router.navigate([url]);
+   }
 
   onClickingAnalyticsSubMenu(event: Event) { 
     if (!this.userUtil.isUserOnMobile()) return;

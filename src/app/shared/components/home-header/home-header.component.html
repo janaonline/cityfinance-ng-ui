@@ -98,7 +98,7 @@
       <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
     </li>
     <li routerLinkActive="active">
-      <a (click)="navigateToHome()">Home</a>
+      <a (click)="navigateTo('/home')">Home</a>
     </li>
     <li routerLinkActive="active">
       <span class="down-icon"></span>
@@ -117,8 +117,7 @@
           *ngFor="let tab of tabs"
           (click)="onClickingAnalyticsSubMenu($event)"
         >
-          <a [routerLink]="[tab.url]"
-            class="analytics-sub-menu"
+          <a class="analytics-sub-menu"
             (click)="onClickingAnalyticsSubMenu($event)" 
           >
             {{ tab.name }}</a>
@@ -126,10 +125,10 @@
       </ul>
     </li>
     <li routerLinkActive="active" class="dropdown">
-      <a (click)="navigateToFinancial()">Financial Statements</a>
+      <a (click)="navigateTo('/dashboard/report')">Financial Statements</a>
     </li>
     <li routerLinkActive="active">
-      <a (click)="navigateToMunicipalLaw()">Municipal Laws</a>
+      <a (click)="navigateTo('/credit-rating/laws')">Municipal Laws</a>
     </li>
     <li class="d-n-sm">
       <a
@@ -143,21 +142,21 @@
       </a>
       <ul class="dropdown-menu dropdown-menu-left">
         <li routerLinkActive="active">
-          <a (click)="navigateToMunicipalBond()"
+          <a (click)="navigateTo('/credit-rating/municipal-bond')"
             >Municipal Bonds</a
           >
         </li>
         <li routerLinkActive="active">
-          <a (click)="navigateToCreditRating()">Credit Rating</a>
+          <a (click)="navigateTo('/credit-rating/report')">Credit Rating</a>
         </li>
       </ul>
     </li>
 
     <li routerLinkActive="active" class="d-b-lg-menu">
-      <a  (click)="navigateToMunicipalBond()">Municipal Bonds</a>
+      <a  (click)="navigateTo('/credit-rating/municipal-bond')">Municipal Bonds</a>
     </li>
     <li routerLinkActive="active" class="d-b-lg-menu">
-      <a (click)="navigateToCreditRating()">Credit Rating</a>
+      <a (click)="navigateTo('/credit-rating/report')">Credit Rating</a>
     </li>
 
     <!-- <li routerLinkActive="active">
@@ -167,7 +166,7 @@
       <a [routerLink]="['/credit-rating/municipal-bond']"> Municipal Bonds</a>
     </li> -->
     <li routerLinkActive="active">
-      <a (click)="navigateToResources()">
+      <a (click)="navigateToResources('/files')">
         Resources
       </a>
     </li>
