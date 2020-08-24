@@ -117,7 +117,8 @@
           *ngFor="let tab of tabs"
           (click)="onClickingAnalyticsSubMenu($event)"
         >
-          <a class="analytics-sub-menu"
+          <a [routerLink]="[tab.url]" 
+          class="analytics-sub-menu"
             (click)="onClickingAnalyticsSubMenu($event)" 
           >
             {{ tab.name }}</a>
