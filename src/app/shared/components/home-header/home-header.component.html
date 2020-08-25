@@ -117,7 +117,8 @@
           *ngFor="let tab of tabs"
           (click)="onClickingAnalyticsSubMenu($event)"
         >
-          <a class="analytics-sub-menu"
+          <a [routerLink]="[tab.url]" 
+          class="analytics-sub-menu"
             (click)="onClickingAnalyticsSubMenu($event)" 
           >
             {{ tab.name }}</a>
@@ -166,7 +167,7 @@
       <a [routerLink]="['/credit-rating/municipal-bond']"> Municipal Bonds</a>
     </li> -->
     <li routerLinkActive="active">
-      <a (click)="navigateToResources('/files')">
+      <a (click)="navigateTo('/files')">
         Resources
       </a>
     </li>
