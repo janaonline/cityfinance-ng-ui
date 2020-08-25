@@ -104,8 +104,7 @@ export class MunicipalBondsService {
           }
         }
       });
-    }
-    if (searchOption.years && searchOption.years.length) {
+    } else if (searchOption.years && searchOption.years.length) {
       this.AllBondIssuerItems.data.filter((ulb) => {
         if (searchOption.years.find((year) => year === ulb.yearOfBondIssued)) {
           list.push(ulb);
@@ -118,7 +117,9 @@ export class MunicipalBondsService {
         searchOption.states.includes(ulb["state"])
       );
     }
-    return list;
+    return list.filter(
+      (ulb, indexA) => indexA === list.findIndex((ulb2) => ulb2._id === ulb._id)
+    );
   }
 
   getULBS() {
