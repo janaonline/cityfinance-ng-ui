@@ -916,6 +916,9 @@ img.align-center {
 }
 .list-area { 
   width: max-content;
+  @media screen and (max-width:551px) {
+    width:85%;
+  }
 }
 .modal-btn-body{
   margin-bottom: 0.5rem; display: flex; justify-content: flex-end;
@@ -944,6 +947,7 @@ border: none;
   app-home-header{
     min-height: 6vh !important;
   }
+
 }
 
  @media screen and (max-width:768px){
@@ -951,10 +955,13 @@ border: none;
     border: none !important;
     outline: 0;
   }
+  .selected-list .countplaceholder { 
+    right: 30px !important;
+}
  }
 // max-width 768px end 
 
-@media screen and (max-width: 480px) { 
+@media screen and (max-width: 551px) { 
   .leaflet-left .leaflet-control {
     margin-left: 20px !important;
 }
@@ -1020,9 +1027,12 @@ app-home-header{
 .leaflet-left {
   left: 10px;
 }
+.selected-list .countplaceholder {
+  right: 20px !important;
+}
 }
 
-// max width 468 px 
+// max width 551px 
 
 // max- width 414px start
 @media screen and (max-width:480px) and  (min-width:300px) {

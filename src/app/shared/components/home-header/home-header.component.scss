@@ -201,6 +201,9 @@ nav.navbar {
       a {
         font-weight: 400;
         font-size: 0.8vw !important;
+        @media screen and (max-width:1024px) and (min-width:780px){ 
+          font-size: 10px !important; 
+        }
         @media screen and (max-width:768px) and (min-width:550px){ 
           font-size: 12px !important;
           font-weight: 400;
@@ -233,7 +236,7 @@ span.indian-emblem-wrapper.navbar-brand {
   @media screen and (max-width: 375px) {
     font-size: 7px!important;
   }
-  @media screen and (max-width:320px){
+  @media screen and (max-width:330px){
     font-size: 6px !important;
   }
   @media screen and (max-width: 280px) {
