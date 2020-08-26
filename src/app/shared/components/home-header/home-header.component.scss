@@ -275,7 +275,7 @@ nav.navbar-1st-row {
 //     right: 30px;
 //     opacity: 1;
 // }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) and (min-width:55px) {
   .navbar-toggler {
     display: block;
     float: left;
@@ -341,10 +341,7 @@ nav.navbar-1st-row {
     transition: all 0.4s ease;
     &.in {
       transform: translateX(0);
-    }
-    @media screen and (max-width:480px) and (min-width:470px){
-      top: 26px;
-    }
+    } 
   }
   .navbar-1st-row {
     background-image: linear-gradient(to right, #095169, #059b9a);
@@ -390,10 +387,13 @@ nav.navbar-1st-row {
   }
 }
 // max- 768px 
-@media screen and (max-width: 468px) {
+@media screen and (max-width: 551px) {
   .analytics-sub-menu {
     transform: translateX(15px);
   }
+  .nav-ul {
+    top: 0px;
+  }
 }
-
+ 
 // responsive max-width 468px css end
