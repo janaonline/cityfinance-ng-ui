@@ -147,6 +147,7 @@ nav.navbar {
     font-size: 1vw;
     @media screen and (max-width:768px) and (min-width:555px){
       font-size: 12px;
+      padding: 10px 15px 10px 23px;
       font-weight: 400;
     }
     @media screen and (max-width:551px) and (min-width:470px){
@@ -275,11 +276,11 @@ nav.navbar-1st-row {
 //     right: 30px;
 //     opacity: 1;
 // }
-@media screen and (max-width: 768px) and (min-width:55px) {
+@media screen and (max-width: 768px)  {
   .navbar-toggler {
     display: block;
     float: left;
-    border: 0;
+    border: 0; 
     background: none;
   }
   .navbar span {
