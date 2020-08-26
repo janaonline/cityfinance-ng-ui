@@ -940,6 +940,11 @@ border: none;
   min-width: min-content;
 }
  // inner heading  css end
+ @media screen and (max-width:800px) and (min-width:770px){
+  app-home-header{
+    min-height: 6vh !important;
+  }
+}
 
  @media screen and (max-width:768px){
   .navbar-toggler:focus, .navbar-toggler:hover{
