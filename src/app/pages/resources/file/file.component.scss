@@ -78,6 +78,10 @@
           font-weight: 500;
           padding-top: 2%;
           padding-bottom: 2%;
+
+          @media screen and (max-width:768px) and (min-width:550px){
+            font-size: 12px;
+          }
         }
         tr td:nth-child(2) {
           width: 10%;
