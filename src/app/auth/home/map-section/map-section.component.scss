@@ -19,7 +19,7 @@
   }
 }
 
-@media (max-width: 1059px) {
+@media (max-width: 1059px) and (min-width:900px){
   .wrapper {
     font-size: 1.5vw;
     grid-template: repeat(6, 15vh) / repeat(4, 1fr);
@@ -42,7 +42,9 @@
       margin-right: 10px;
     }
   }
-
+  @media screen and (max-width:885px) and (min-width:500px){
+    grid-area: 1 / 1 / 7 / 6;
+  }
   @media screen and (max-width: 468px){
     grid-area: 1 / 5 / auto / 1;
   }
@@ -70,7 +72,10 @@
   margin-top: 5px;
   color: var(--multi-dropdown-color);
   font-size: 1.2em;
-
+  @media screen  and (max-width:480px) and (max-width:470px) {
+    grid-area: 36 / 1 / 7 / 6;
+    font-size: 14px; 
+  }
   @media screen  and (max-width:468px){
     grid-area: 36 / 1 / 7 / 6;
     font-size: 14px; 
@@ -109,6 +114,13 @@
     font-size: 0.8em;
     padding: 4% 3%;
     text-align: center;
+
+@media screen and (max-width:551px){
+  width: 46%;
+  min-height: 230px;
+}
+
+    
     @media screen  and (max-width:468px){ 
       min-height: 235px;
     }
@@ -135,7 +147,7 @@
       opacity: 0;
       transform: translateY(+100%);
 
-      @media screen and (max-width:468px){
+      @media screen and (max-width:551px){
         opacity: 1;
         border: 1px solid #fff;
         color: #fff;
@@ -229,8 +241,14 @@
 .mapWrapper {
   grid-area: m;
 
+  @media screen  and (max-width:480px) and (max-width:470px) {
+    grid-area:  2 / 1 / 8 / 5 !important;
+    width: 100%;
+    overflow: hidden; 
+  }
+
   @media screen and (max-width:468px) {
-    grid-area:  2 / 1 / 8 / 5;
+    grid-area:  2 / 1 / 8 / 5 !important;
     width: 100%;
     overflow: hidden;
   }
@@ -247,6 +265,11 @@
     max-height: 100%;
     transition: all 0.8s;
     font-size: 0.7em;
+   
+
+     @media screen and (max-width:885px) and (min-width:500px){
+      font-size: 6px;
+  }
     @media screen and (max-width:468px) {
       left: 0px;
     }
@@ -327,7 +350,7 @@ form {
 
 @media (max-width: 1060px) {
   ::ng-deep .ml-0 {
-    font-size: 1.8em;
+    font-size: 10px;
   }
 }
 
@@ -385,16 +408,58 @@ form {
   }
 }
 
+@media screen and (max-width: 480px) and (min-width:470px) {
+ .wrapper{
+  font-size: 12px;
+  grid-template: repeat(6, 8vh)/repeat(4, 1fr);}
+ .selectPart{
+  grid-area: 1/8/auto/1;
+ }
+ .selectPart form{
+  float: left;
+  margin-right: 10px;
+ }
+ .homepage-stateList{ 
+  font-size: 14px!important;
+}
+.mapWrapper {
+  grid-area: 2 / 8 / 6 / 1 !important;
+  width: 100%;
+  overflow: hidden; 
+}
+.visualization {
+  grid-area: 20 / 1 / 6 / 8;
+  font-size: 14px; 
+}
+.visualization .card{
+  min-height: 235px;
+}
+} // 480px - 470 
+
+@media screen and (max-width:1024px) and (min-width:500px){
+  .visualization {
+ //   grid-area: 5 / 1 / 5 / 6; 
+  }
+  .wrapper {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(3,minmax(40px,auto));
+    grid-template-areas:
+        "s s s"
+        "m m m"
+        "v v v";
+
+   }
+   .mapWrapper #mapid {
+    min-height: 350px;
+}
+}
 
 @media screen and (max-width: 468px) {
   .wrapper {     
 grid-template: repeat(6, 8vh)/repeat(4, 1fr);
   }
-  .selectPart{
-    font-size: 2.1em;
-  }
+   
   .btn{
     padding: 3px 14px;
   }
-    
 }
