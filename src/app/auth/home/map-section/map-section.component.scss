@@ -113,14 +113,11 @@
     box-shadow: 3px 3px 9px #a0a0a0;
     font-size: 0.8em;
     padding: 4% 3%;
-    text-align: center;
-
+    text-align: center; 
 @media screen and (max-width:551px){
   width: 46%;
   min-height: 230px;
-}
-
-    
+}    
     @media screen  and (max-width:468px){ 
       min-height: 235px;
     }
@@ -380,7 +377,7 @@ form {
     display: block;
     margin: 2vw auto;
     // margin-bottom: 2%;
-    @media screen and (max-width:468px){
+    @media screen and (max-width:768px){
       width: 100%;
     }
     color: #059b9a;
@@ -452,6 +449,11 @@ form {
    .mapWrapper #mapid {
     min-height: 350px;
 }
+}
+@media screen and (max-width:600px) and (min-width:555px){
+  .selectPart {  
+    font-size: 13px;
+  }
 }
 
 @media screen and (max-width: 468px) {

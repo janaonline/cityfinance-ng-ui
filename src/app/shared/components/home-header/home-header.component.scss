@@ -34,7 +34,9 @@
   position: absolute;
   bottom: 0;
   left: 20px;
-
+  @media screen and (max-width:800px) and (min-width:770px){
+    top: 5px;
+  }
   @media screen and (max-width: 468px) {
     top: 0;
   }
@@ -145,6 +147,9 @@ nav.navbar {
     // padding: 10px 15px;
 
     font-size: 1vw;
+    @media screen and (max-width:800px) and (min-width:770px){
+      font-size: 10px; 
+    }
     @media screen and (max-width:768px) and (min-width:555px){
       font-size: 12px;
       padding: 10px 15px 10px 23px;

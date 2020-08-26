@@ -107,9 +107,16 @@
       "l l l . r r r r"
       ". . . . . . . ."
       ". . . . . . . .";
+      @media screen and (max-width:800px) and (min-width:770px){
+        font-size: 12px;  
+        grid-template: repeat(2, minmax(11vh, auto))/repeat(4, 1fr);
+        grid-template-areas:
+            "l l l l "
+            "r r r r ";
+      }
       @media screen and (max-width:768px) and (min-width:600px){
         font-size: 12px;  
-        grid-template: repeat(2, minmax(25vh, auto))/repeat(4, 1fr);
+        grid-template: repeat(2, minmax(21vh, auto))/repeat(4, 1fr);
         grid-template-areas:
             "l l l l "
             "r r r r ";
@@ -185,6 +192,9 @@
       // flex-wrap: wrap;
       // align-items: end;
       overflow: hidden;
+      @media screen and (max-width:800px) and (min-width:770px){
+        height: max-content !important;
+      }
       @media screen and (max-width:768px) and (min-width:555px){
         grid-template: repeat(2, minmax(3vh, auto))/repeat(6, 1fr);
         grid-template-areas:
@@ -210,7 +220,7 @@
         height: auto;
         width: 77%;
         @media screen and (max-width:885px) and (min-width:580px){
-          width: 75%; 
+          width: 65%; 
         }
         @media screen and (max-width:551px){
           width: 40%;
@@ -223,7 +233,7 @@
         // width: 100%;
         height: auto;
         @media screen and (max-width:600px) and (min-width:500px){
-          bottom: 37px;
+          bottom: 0px;
         }
       }
       .quotes {
@@ -239,7 +249,7 @@
         color: white;
         font-size: 0.95em;
         @media screen and (max-width:885px) and (min-width:500px){
-          font-size: 10px;
+          font-size: 12px;
         }
         @media screen and (max-width:480px) and (min-width:470px){
           font-size: 2.5em;
@@ -793,6 +803,14 @@ img.background {
     "i i i i i q q q q q q ."
     "i i i i i q q q q q q ."
     "i i i i i . . . . . . .";
+  @media screen and (max-width:800px) and (min-width:770px){
+    grid-template: repeat(4, 5vh)/repeat(12, 1fr);
+    grid-template-areas:
+        "i i i i i . . . . . . ."
+        "i i i i i q q q q q q ."
+        "i i i i i q q q q q q ."
+        "i i i i i . . . . . . .";
+  }
   @media screen and (max-width:768px) and (min-width:601px){
     grid-template: repeat(4, 7vh)/repeat(12, 1fr);
     grid-template-areas:
@@ -802,7 +820,7 @@ img.background {
         "i i i i i . . . . . . .";
   } 
   @media screen and (max-width:600px) and (min-width:500px){
-    grid-template: repeat(4, 5vh)/repeat(12, 1fr);
+    grid-template: repeat(4, 4vh)/repeat(12, 1fr);
     grid-template-areas:
         "i i i i i . . . . . . ."
         "i i i i i q q q q q q ."
@@ -919,11 +937,11 @@ img.background {
     }
 
     @media (min-width: 768px) {
-      .carousel,
+      .carousel, 
       .carousel-inner,
       .slide,
       slide.carousel-item {
-        height: 60vh;
+        height: 65vh;
         overflow: hidden;
         .item {
           height: 100%;
@@ -934,6 +952,14 @@ img.background {
       }
     }
 
+    @media (max-width: 800px) {
+      .carousel, 
+      .carousel-inner,
+      .slide,
+      slide.carousel-item {
+        height: auto; 
+        }
+      } 
     .carousel-control {
       display: none;
     }
