@@ -381,9 +381,12 @@ img.align-center {
   //  background-color: #363839;
   background-image: linear-gradient(to right, #095169, #059b9a);
   color: #fff;
-  font-size: 0.9vw;
+  font-size: 14px;
   font-weight: 300;
   padding: 20px 0;
+  @media screen and (max-width:768px) and (min-width:500px){
+    font-size: 14px;
+  }
   @media screen and (max-width:480px){
     font-size: 10px;
     letter-spacing: 0.5px;
@@ -913,6 +916,9 @@ img.align-center {
 }
 .list-area { 
   width: max-content;
+  @media screen and (max-width:551px) {
+    width:85%;
+  }
 }
 .modal-btn-body{
   margin-bottom: 0.5rem; display: flex; justify-content: flex-end;
@@ -937,12 +943,30 @@ border: none;
   min-width: min-content;
 }
  // inner heading  css end
-@media screen and (max-width: 480px) { 
+ @media screen and (max-width:800px) and (min-width:770px){
+  app-home-header{
+    min-height: 6vh !important;
+  }
+
+}
+
+ @media screen and (max-width:768px){
+  .navbar-toggler:focus, .navbar-toggler:hover{
+    border: none !important;
+    outline: 0;
+  }
+  .selected-list .countplaceholder { 
+    right: 30px !important;
+}
+ }
+// max-width 768px end 
+
+@media screen and (max-width: 551px) { 
   .leaflet-left .leaflet-control {
     margin-left: 20px !important;
 }
   .ml-0 {
-    font-size: 1.9em !important; 
+    font-size: 8px!important; 
    }
    .app-wrapper app-home-header{
     background-image: none !important;
@@ -950,10 +974,7 @@ border: none;
   .carousel { 
       margin-top: -1px !important; 
   }
-  .navbar-toggler:focus, .navbar-toggler:hover{
-    border: none !important;
-    outline: 0;
-  }
+  
   .h2, h2 {
     font-size: 20px;
 }
@@ -1006,12 +1027,15 @@ app-home-header{
 .leaflet-left {
   left: 10px;
 }
+.selected-list .countplaceholder {
+  right: 20px !important;
+}
 }
 
-// max width 468 px 
+// max width 551px 
 
 // max- width 414px start
-@media screen and (max-width:414px) and  (min-width:300px) {
+@media screen and (max-width:480px) and  (min-width:300px) {
   app-home-header{
     min-height: 6vh !important;
   }

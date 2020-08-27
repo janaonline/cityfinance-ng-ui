@@ -1,7 +1,11 @@
 .home-footer a {
   color: white;
 }
-
+@media screen and (max-width:768px) and (min-width:500px){
+  .s-mt-f{
+    margin-top: 8px;
+  }
+}
 @media screen and (max-width:480px){
   .s-mt-f{
     margin-top: 15px;

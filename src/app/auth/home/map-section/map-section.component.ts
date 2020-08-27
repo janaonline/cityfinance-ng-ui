@@ -323,6 +323,10 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
       options: {
         zoom,
         minZoom: zoom,
+        attributionControl: false,
+        doubleClickZoom: false,
+        dragging: false,
+        tap: false,
       },
     };
     let map;

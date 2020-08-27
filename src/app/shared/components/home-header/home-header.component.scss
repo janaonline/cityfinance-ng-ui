@@ -34,7 +34,9 @@
   position: absolute;
   bottom: 0;
   left: 20px;
-
+  @media screen and (max-width:800px) and (min-width:770px){
+    top: 5px;
+  }
   @media screen and (max-width: 468px) {
     top: 0;
   }
@@ -93,7 +95,7 @@ li.navbar-brand {
 }
 
 .login-link {
-  right: 1vw;
+  right: 20px;
   border-radius: 40px;
   font-size: 0.8vw !important;
 
@@ -101,7 +103,7 @@ li.navbar-brand {
   border: 1px solid white;
   transition: all 300ms;
 
-  @media screen and (max-width: 468px) {
+  @media screen and (max-width: 480px) {
     display: none;
   }
   &:hover {
@@ -145,10 +147,22 @@ nav.navbar {
     // padding: 10px 15px;
 
     font-size: 1vw;
-
+    @media screen and (max-width:800px) and (min-width:770px){
+      font-size: 10px; 
+    }
+    @media screen and (max-width:768px) and (min-width:555px){
+      font-size: 12px;
+      padding: 10px 15px 10px 23px;
+      font-weight: 400;
+    }
+    @media screen and (max-width:551px) and (min-width:470px){
+      padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 400;
+    }
     @media screen and (max-width: 468px) {
       padding: 10px 15px 10px 23px;
-      font-size: 2.5vw;
+      font-size: 12px;
       font-weight: 400;
     }
   }
@@ -179,13 +193,29 @@ nav.navbar {
   }
   .dropdown-menu {
     background: transparent;
+    @media screen and (max-width:768px){
+      width: 100%; 
+    }
     li {
       background: rgba(1, 49, 79, 0.9);
       a {
+        font-weight: 400;
         font-size: 0.8vw !important;
+        @media screen and (max-width:1024px) and (min-width:780px){ 
+          font-size: 10px !important; 
+        }
+        @media screen and (max-width:768px) and (min-width:550px){ 
+          font-size: 12px !important;
+          font-weight: 400;
+        }
+        @media screen and (max-width:480px) and (min-width:470px){
+          font-size: 10px !important;
+          font-weight: 400;
 
+        }
         @media screen and (max-width: 468px) {
-          font-size: 2.5vw !important;
+          font-size: 10px !important;
+          font-weight: 400;
         }
       }
     }
@@ -206,7 +236,7 @@ span.indian-emblem-wrapper.navbar-brand {
   @media screen and (max-width: 375px) {
     font-size: 7px!important;
   }
-  @media screen and (max-width:320px){
+  @media screen and (max-width:330px){
     font-size: 6px !important;
   }
   @media screen and (max-width: 280px) {
@@ -254,11 +284,11 @@ nav.navbar-1st-row {
 //     right: 30px;
 //     opacity: 1;
 // }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px)  {
   .navbar-toggler {
     display: block;
     float: left;
-    border: 0;
+    border: 0; 
     background: none;
   }
   .navbar span {
@@ -311,16 +341,16 @@ nav.navbar-1st-row {
     width: 70%;
     background-image: linear-gradient(to right, #095169, #059b9a);
     position: absolute;
-    top: 1px;
+    top: 26px;
     height: 100vh;
     min-height: 100vh;
-    left: -16px;
+    left: -7px;
     padding: 0;
-    transform: translateX(-250px);
+    transform: translateX(-550px);
     transition: all 0.4s ease;
     &.in {
       transform: translateX(0);
-    }
+    } 
   }
   .navbar-1st-row {
     background-image: linear-gradient(to right, #095169, #059b9a);
@@ -352,7 +382,7 @@ nav.navbar-1st-row {
     padding: 2px 15px 0px 0px !important;
   }
   .d-b-lg img {
-    width: 25vw;
+    width: 16vw;
   }
   .navbar-header {
     margin-top: -20px;
@@ -360,13 +390,19 @@ nav.navbar-1st-row {
   }
   .d-b-lg-menu {
     display: block;
+  } 
+  .navbar-nav>li { 
+    float: none !important;
   }
 }
-
-@media screen and (max-width: 468px) {
+// max- 768px 
+@media screen and (max-width: 551px) {
   .analytics-sub-menu {
     transform: translateX(15px);
   }
+  .nav-ul {
+    top: 0px;
+  }
 }
-
+ 
 // responsive max-width 468px css end
