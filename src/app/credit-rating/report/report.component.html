@@ -33,7 +33,7 @@
           <p class="click-info" *ngIf="!absCreditInfo.title">
             Click state on the map to get credit information
           </p>
-          <div class="col-sm-8 ulbDetails" *ngIf="absCreditInfo.title">
+          <div class="col-sm-8 col-lg-8 col-md-12  ulbDetails" *ngIf="absCreditInfo.title">
             <div class="row">
               <div class="col-sm-12">
                 <h2 *ngIf="queryParams?.minRating" class="text-center mb-1 text-primary" style="margin-bottom: 1.2vw;">
@@ -110,7 +110,7 @@
           </div>
           <div class="table-filter">
             <a>
-              <button class="table-filter-btn header-btn-style">
+              <button class="table-filter-btn header-btn-style btn-style-none" type="button" data-toggle="modal" data-target="#table-filter">
                 <span class="glyphicon glyphicon-filter"></span>
               </button>
             </a>
@@ -124,6 +124,33 @@
         <a class="right" (click)="setPage(1)">Back</a>
       </div>
     </div>
+    
+    <!-- Mobile filter popup start here -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="table-filter" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"> Edit Filter </h4>
+        </div>
+        <div class="modal-body">
+         <div class="filter-field-container">
+            <p> filter fields here </p>
+         </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+    <!-- mobile filter popup end here -->
 
     <div class="row" *ngIf="page == 2">
       <!-- <div class="col-md-12">

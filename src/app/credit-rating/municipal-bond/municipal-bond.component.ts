@@ -34,10 +34,12 @@ export class MunicipalBondComponent implements OnInit {
     showCheckbox: true,
     labelKey: "name",
     primaryKey: "name",
+    classes: "dropdown-year",
   };
   stateDropdownSettings = {
     ...this.yearsDropdownSettings,
     text: "All States",
+    classes:  "dropdown-state",
   };
 
   ulbDropdownConfiguration = {
@@ -50,6 +52,7 @@ export class MunicipalBondComponent implements OnInit {
     showCheckbox: true,
     noDataLabel: "No Data available",
     classes: "ulbDropdown",
+
   };
 
   stateDropdownConfiguration = {

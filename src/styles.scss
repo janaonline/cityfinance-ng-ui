@@ -625,7 +625,7 @@ img.align-center {
   .modal-xlg {
     width: 1000px;
 
-    @media screen and (max-width:468px){
+    @media screen and (max-width:768px){
       width: auto;
     }
   }
@@ -1030,6 +1030,7 @@ app-home-header{
 .selected-list .countplaceholder {
   right: 20px !important;
 }
+
 }
 
 // max width 551px 

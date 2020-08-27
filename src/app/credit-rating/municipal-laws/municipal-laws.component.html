@@ -97,21 +97,21 @@
         </button>
       </div>
       <div class="row m-law-container">
-      <div *ngFor="let state of states" class="col-sm-12 col-md-3 col-lg-3 state-list m-law" (click)="addToCompare(state)">
+      <div *ngFor="let state of states" class="col-sm-6 col-xs-12 col-md-3 col-lg-3 state-list m-law" (click)="addToCompare(state)">
         <div class="btn" [ngClass]="{ 'btn-selected': state.selected }">
           {{ state.name }}
         </div>
       </div>
     </div>
-      <div class="col-md-12">
+      <div class="col-md-12 ">
         <br />
-        <div class="col-md-3 col-md-offset-3  col-xs-6">
+        <div class="col-md-3 col-md-offset-3  col-xs-6 mb-2">
           <button class="btn btn-primary col-md-12" (click)="showComparisionPage()"
             [tooltipEnable]="selectedStates.length < 2" tooltip="Select atleast 1 states">
             View and Compare
           </button>
         </div>
-        <div class="col-md-3 col-xs-6">
+        <div class="col-md-3 col-xs-6 mb-2">
           <button class="btn btn-danger col-md-12" (click)="compareAllStates()">
             Compare All
           </button>
@@ -150,7 +150,7 @@
               <div class="scrolling outer">
                 <div class="inner">
                   <!-- mytable -->
-                  <table class="table table-striped accordion-body-table">
+                  <table class="table table-striped accordion-body-table law-table-container">
                     <tr *ngFor="let title of structure[key]">
                       <td *ngFor="let key of selectedStates; let i = index" [ngStyle]="{ width: tdWidth }">
                         <div *ngIf="i == 0">
@@ -262,7 +262,7 @@
   </div>
   <div class="modal-body">
     <div class="mv-65">
-    <div *ngFor="let state of states" class="col-sm-12 col-md-3 col-lg-3 state-list" (click)="addToCompare(state)">
+    <div *ngFor="let state of states" class="col-sm-6 col-xs-12 col-md-3 col-lg-3 state-list" (click)="addToCompare(state)">
       <div class="btn" [ngClass]="{ 'btn-selected': state.selected }">
         {{ state.name }}
       </div>

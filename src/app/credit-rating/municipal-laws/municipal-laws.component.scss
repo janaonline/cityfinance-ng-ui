@@ -144,8 +144,15 @@ table {
     z-index: -1;
   }
 }
+@media screen and (max-width:800px) and (min-width:560px){
+  .m-law-container {
+    height: 65vh;
+    overflow: scroll;
+}
 
-@media screen and (max-width: 468px){
+}
+
+@media screen and (max-width: 551px){
     .m-law .btn{
       white-space: break-spaces;
     }
@@ -157,5 +164,4 @@ table {
     height: 65vh;
     overflow: scroll;
 }
-}
-
+}  
