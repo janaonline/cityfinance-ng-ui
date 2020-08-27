@@ -1,8 +1,8 @@
-import { USER_TYPE } from '../models/user/userType';
-import { ILink } from '../shared/side-menu/side-menu.component';
-import { AccessChecker } from '../util/access/accessChecker';
-import { ACTIONS } from '../util/access/actions';
-import { MODULES_NAME } from '../util/access/modules';
+import { USER_TYPE } from "../models/user/userType";
+import { ILink } from "../shared/side-menu/side-menu.component";
+import { AccessChecker } from "../util/access/accessChecker";
+import { ACTIONS } from "../util/access/actions";
+import { MODULES_NAME } from "../util/access/modules";
 
 const accessChecker = new AccessChecker();
 
@@ -164,6 +164,11 @@ export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
           });
         },
       },
+      {
+        title: "Annual Accounts",
+        type: "link",
+        route: ["/user/annual-accounts/view"],
+      },
     ],
   },
 ];
@@ -279,6 +284,11 @@ export const sideMenuForStateUser: { title: string; subMenus: ILink[] }[] = [
             moduleName: MODULES_NAME.ULBDataBULKEntry,
           });
         },
+      },
+      {
+        title: "Annual Accounts",
+        type: "link",
+        route: ["/user/annual-accounts/view"],
       },
     ],
   },

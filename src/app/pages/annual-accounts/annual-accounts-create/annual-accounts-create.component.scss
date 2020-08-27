@@ -1,0 +1,31 @@
+.radio-group {
+  display: flex;
+  flex-direction: row;
+  //   margin: 10px 0;
+  margin-left: 12px;
+}
+
+.radio-button {
+  margin: 3px;
+}
+.instructions-layout {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.myFile input[type="file"] {
+  display: block;
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  font-size: 100px;
+  filter: alpha(opacity=0);
+  cursor: pointer;
+}
+.myFile input[type="file"]:disabled {
+  cursor: not-allowed;
+}
+
+.myFile:disabled {
+  cursor: not-allowed !important;
+}

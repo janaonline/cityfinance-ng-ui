@@ -41,6 +41,8 @@ export class UserService {
         params = params.append(key, body[key]);
       }
     });
+    console.log(params);
+    
 
     return this.http.get<UserProfile[]>(
       environment.api.url + `user/all?${params}`

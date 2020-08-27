@@ -7,7 +7,7 @@ import { ProfileComponent } from './profile/profile.component';
 export const userRouter: Routes = [
   { path: "profile", component: ProfileComponent },
   { path: "onboard", component: OnboardUserComponent },
-  { path: "", redirectTo: "profile", pathMatch: "full" }
+  { path: "", redirectTo: "profile", pathMatch: "full" },
 ];
 
 export const UserRouter: ModuleWithProviders = RouterModule.forChild(

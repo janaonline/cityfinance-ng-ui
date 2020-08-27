@@ -1,7 +1,7 @@
-import { ModuleWithProviders } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { ModuleWithProviders } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-import { HomeComponent } from './auth/home/home.component';
+import { HomeComponent } from "./auth/home/home.component";
 
 export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -50,6 +50,11 @@ export const appRouter: Routes = [
   {
     path: "dashboard",
     loadChildren: "./dashboard/dashboard.module#DashboardModule",
+  },
+  {
+    path: "annual-accounts",
+    loadChildren:
+      "./pages/annual-accounts/annual-accounts.module#AnnualAccountsModule",
   },
 
   {
