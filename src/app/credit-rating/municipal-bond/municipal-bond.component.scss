@@ -28,7 +28,7 @@
   #tableHeadings {
     thead {
       th {
-        font-size: 12px;
+        font-size: 14px;
         @media screen and (max-width:468px) {
           font-size: 2.8em;
         }
@@ -53,13 +53,13 @@
     }
     h4,
     .panel-title {
-      font-size: 12px !important;
+      font-size: 14px !important;
     }
   }
 
   .accordion-body-table {
-    font-size: 12px;
-    @media screen and (max-width:468px){
+    font-size: 14px;
+    @media screen and (max-width:551px){
       font-size: 2.8em;
     }
   }
@@ -268,4 +268,34 @@
     font-size: 1.1em;
     float: right;
   }
+}
+
+
+::ng-deep .dropdown-year {
+  @media screen and (max-width:551px){
+    .list-area {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+.municipal-bond table{
+  position: relative;
+}
+.municipal-bond table th{
+  position: sticky;
+} 
+.municipal-bond table th:first-child{
+  left: 0;
+  z-index: 1;
+}
+.accordion-body-table {
+  position: relative;
+}
+.accordion-body-table tbody tr td{
+  position: sticky;
+}
+.accordion-body-table tbody tr td:first-child{
+  left: 0;
+  z-index: 1;
 }

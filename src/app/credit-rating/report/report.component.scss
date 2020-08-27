@@ -237,6 +237,7 @@ div.arrow:after {
   .ulbDetails {
     width: 100% !important;
     margin-top: 5%;
+    padding: 0;
   }
 
   .map-info {
@@ -314,7 +315,16 @@ div.arrow:after {
   color: #059b9a;
   margin-right: 10px;
 }
+.btn-style-none{
+  background:none;
+  border:none;
+}
 
+.btn-style-none:focus, .btn-style-none:hover, .glyphicon, .header-btn-style {
+  background:none;
+  outline: 0;
+  border:none;
+}
 @media screen and (max-width:468px){
 
 }
