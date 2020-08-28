@@ -37,7 +37,7 @@
   margin-left: 1.4%;
   color: var(--multi-dropdown-color); 
   form{
-    @media screen and (max-width:468px){
+    @media screen and (max-width:551px){
       float: left;
       margin-right: 10px;
     }
@@ -55,11 +55,18 @@
     // font-size: 1.3vw;
     font-size: 1.1em;
   }
-}
+} 
 
 @media (min-width: 1961px) {
   .selectPart {
     font-size: 1em;
+  }
+}
+
+@media (max-width: 250px) {
+  .selectPart {
+    // font-size: 1.3vw;
+    font-size: 8px;
   }
 }
 
@@ -464,4 +471,12 @@ grid-template: repeat(6, 8vh)/repeat(4, 1fr);
   .btn{
     padding: 3px 14px;
   }
+}
+@media screen and (max-width: 240px) {
+//   .wrapper {     
+// grid-template: repeat(6, 14vh)/repeat(4, 1fr);
+//   } 
+  // .mapWrapper[_ngcontent-c8] {
+  //   grid-area: 2 / 1 / 8 / 5 !important;
+  // }
 }

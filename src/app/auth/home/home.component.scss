@@ -476,7 +476,9 @@
   animation-duration: 1s;
   animation-delay: 0s;
   animation-name: dg-fadeInDown;
-
+@media screen and (min-width:1000px){
+    width: calc(100% / 5 - 0px );
+}
   @media screen and (max-width:480px){
     padding: 0px 10px !important;
   }
