@@ -111,6 +111,8 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
   documentForm: FormGroup;
   USER_TYPE = USER_TYPE;
 
+  MaxFileSize = 20 * 1024 * 1024; // 20 MB. Always keep it in MB since in other places, we are dealing in MB only.
+
   constructor(
     private dataEntryService: DataEntryService,
     private _dialog: MatDialog
@@ -239,6 +241,8 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
     const maxLimit = list.length > 10 ? 10 : list.length;
     for (let index = 0; index < maxLimit; index++) {
       const file = list[index];
+      console.log(file);
+      if (file.size > this.MaxFileSize) continue;
       const noOfFileAlreadySelect = this.fileUploadTracker[key]
         ? Object.keys(this.fileUploadTracker[key]).length
         : 0;

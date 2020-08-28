@@ -18,17 +18,20 @@
   max-width: 92vw !important;
   ::ng-deep {
     .c-btn {
-      font-size: 0.8em;
+      font-size: 12px;
     }
     .dropdown-list {
-      font-size: 0.8em;
+      font-size: 12px;
     }
   }
 
   #tableHeadings {
     thead {
       th {
-        font-size: 0.8em;
+        font-size: 14px;
+        @media screen and (max-width:468px) {
+          font-size: 2.8em;
+        }
       }
     }
   }
@@ -43,16 +46,22 @@
     ::ng-deep {
       .panel-title {
         font-size: 1em !important;
+        @media screen and (max-width:468px){
+          font-size: 3.4em !important;
+        }
       }
     }
     h4,
     .panel-title {
-      font-size: 1em !important;
+      font-size: 14px !important;
     }
   }
 
   .accordion-body-table {
-    font-size: 0.8em;
+    font-size: 14px;
+    @media screen and (max-width:551px){
+      font-size: 2.8em;
+    }
   }
 
   .page-title {
@@ -60,11 +69,17 @@
   }
 
   pagination-controls {
-    font-size: 0.8em;
+    font-size: 12px;
+    @media screen and (max-width:468px){
+      font-size: 3.8em;
+    }
   }
 
   .btn {
-    font-size: 0.7em;
+    font-size: 12px;
+    @media screen and (max-width:468px){
+      font-size: 1.2em;
+    }
   }
 
   .heading {
@@ -162,7 +177,7 @@
   }
 
   ::ng-deep .c-btn {
-    min-height: 28px !important;
+    min-height: 38px !important;
   }
 
   .somepadding {
@@ -173,6 +188,11 @@
   td {
     min-width: 230px;
     max-width: 230px;
+
+    @media screen and (max-width:551px) {
+      min-width: 120px;
+      max-width: 120px;
+    }
   }
 
   .municipal-bond {
@@ -192,6 +212,9 @@
 
   .filterForm {
     font-size: 1vw;
+    @media screen and (max-width:468px ){
+      font-size:3vw !important;
+    }
   }
 
   ::ng-deep {
@@ -205,6 +228,74 @@
 
     .ngx-pagination {
       margin-bottom: 0px;
+      @media screen and (max-width:1024px){ 
+        padding:0px;
+      }
+
     }
   }
+}
+
+.pagination-top{
+      right: 0px; 
+     position: absolute;
+     @media screen and (max-width:1000px) and (min-width:560px){
+      top: -35px;
+     }
+     @media screen and (max-width:551px){ 
+        position: relative;
+      }
+}
+
+.drop-down-bond{
+  display: flex;
+  flex-wrap: nowrap;
+  margin: 10px 0px;
+  @media screen and (max-width:468px){ 
+    position: relative;
+  }
+} 
+.bond-btn-top{
+  margin: 10px 0px;
+  @media screen and (max-width:468px){ 
+    position: relative;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width:468px){
+  .pagination-top pagination-controls[_ngcontent-c7] {
+    font-size: 1.1em;
+    float: right;
+  }
+}
+
+
+::ng-deep .dropdown-year {
+  @media screen and (max-width:551px){
+    .list-area {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+.municipal-bond table{
+  position: relative;
+}
+.municipal-bond table th{
+  position: sticky;
+} 
+.municipal-bond table th:first-child{
+  left: 0;
+  z-index: 1;
+}
+.accordion-body-table {
+  position: relative;
+}
+.accordion-body-table tbody tr td{
+  position: sticky;
+}
+.accordion-body-table tbody tr td:first-child{
+  left: 0;
+  z-index: 1;
 }

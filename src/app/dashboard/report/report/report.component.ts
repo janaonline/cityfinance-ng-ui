@@ -1,21 +1,26 @@
-import { KeyValue } from '@angular/common';
-import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
-import { Router } from '@angular/router';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { interval, merge } from 'rxjs';
-import { debounce } from 'rxjs/operators';
+import { KeyValue } from "@angular/common";
+import { Component, OnDestroy, OnInit, TemplateRef } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { MatDialog } from "@angular/material";
+import { Router } from "@angular/router";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { interval, merge } from "rxjs";
+import { debounce } from "rxjs/operators";
 
-import { AuthService } from '../../../../app/auth/auth.service';
-import { IULBResponse } from '../../../../app/models/IULBResponse';
-import { IULB } from '../../../../app/models/ulb';
-import { DialogComponent } from '../../../../app/shared/components/dialog/dialog.component';
-import { IDialogConfiguration } from '../../../../app/shared/components/dialog/models/dialogConfiguration';
-import { GlobalLoaderService } from '../../../../app/shared/services/loaders/global-loader.service';
-import { CommonService } from '../../../shared/services/common.service';
-import { ReportService } from '../report.service';
-import { ulbType, ulbTypes } from './ulbTypes';
+import { AuthService } from "../../../../app/auth/auth.service";
+import { IULBResponse } from "../../../../app/models/IULBResponse";
+import { IULB } from "../../../../app/models/ulb";
+import { DialogComponent } from "../../../../app/shared/components/dialog/dialog.component";
+import { IDialogConfiguration } from "../../../../app/shared/components/dialog/models/dialogConfiguration";
+import { GlobalLoaderService } from "../../../../app/shared/services/loaders/global-loader.service";
+import { CommonService } from "../../../shared/services/common.service";
+import { ReportService } from "../report.service";
+import { ulbType, ulbTypes } from "./ulbTypes";
 
 interface CustomArray<T> {
   flat(): Array<T>;
@@ -64,6 +69,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     { id: "2015-16", itemName: "2015-16" },
     { id: "2016-17", itemName: "2016-17" },
     { id: "2017-18", itemName: "2017-18" },
+    { id: "2018-19", itemName: "2018-19" },
+    { id: "2019-20", itemName: "2019-20" },
   ];
   ulbTypeLookup = [
     { itemName: "All Municipal Corporation", id: "Municipal Corporation" },

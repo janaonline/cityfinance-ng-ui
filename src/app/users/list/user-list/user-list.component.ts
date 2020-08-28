@@ -10,6 +10,7 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
+import { BaseComponent } from 'src/app/util/baseComponent';
 import { ULBSIGNUPSTATUS } from 'src/app/util/enums';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
@@ -23,7 +24,7 @@ import { ProfileService } from '../../profile/service/profile.service';
   templateUrl: "./user-list.component.html",
   styleUrls: ["./user-list.component.scss"],
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent extends BaseComponent implements OnInit {
   constructor(
     private _userService: UserService,
     private _profileService: ProfileService,
@@ -33,8 +34,10 @@ export class UserListComponent implements OnInit {
     private _commonService: CommonService,
     public _dialog: MatDialog
   ) {
+    super();
     this.createRequestStatusTypeList();
     this._activatedRoute.params.subscribe((params) => {
+      this.resetTableOption();
       this.initializeList(params.userType);
       this.initializeFilterForm();
       this.initializeListFetchParams();
@@ -181,10 +184,12 @@ export class UserListComponent implements OnInit {
       role?: USER_TYPE;
     } = { filter: {}, sort: {} }
   ) {
+    this.isApiInProgress = true;
     const util = new JSONUtility();
     body.filter = util.filterEmptyValue(body.filter);
 
     this._userService.getUsers(body).subscribe((res) => {
+      this.isApiInProgress = false;
       if (res.hasOwnProperty("total")) {
         this.tableDefaultOptions.totalCount = res["total"];
       }
@@ -310,6 +315,14 @@ export class UserListComponent implements OnInit {
     if (!this.listType) {
       return this._router.navigate(["/home"]);
     }
+  }
+
+  private resetTableOption() {
+    this.tableDefaultOptions = {
+      itemPerPage: 10,
+      currentPage: 1,
+      totalCount: null,
+    };
   }
 
   private initializeAccessChecks() {

@@ -1,0 +1,301 @@
+<div class="container">
+  <div class="row mt-2">
+    <div>
+      <h3 *ngIf="!viewMode">Upload Annual Accounts:</h3>
+      <h3 *ngIf="viewMode">Annual Accounts Details:</h3>
+    </div>
+    <form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <div>
+        <label>1. Name of the State*</label><br />
+        <mat-form-field>
+          <!-- <mat-label>State</mat-label> -->
+          <mat-select
+            formControlName="state"
+            (selectionChange)="loadUlb($event)"
+          >
+            <mat-option *ngFor="let state of stateList" [value]="state._id">{{
+              state.name
+            }}</mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              !validateForm.controls['state'].valid &&
+              validateForm.controls['state'].touched
+            "
+          >
+            Please select a state.
+          </mat-error> </mat-form-field
+        ><br />
+        <label>2. Type of Body*</label>
+        <mat-radio-group
+          class="radio-group"
+          formControlName="bodyType"
+          (change)="resetBodyValues()"
+        >
+          <mat-radio-button class="radio-button" value="ulb">
+            Urban Local Body
+          </mat-radio-button>
+          <mat-radio-button class="radio-button" value="parastatal">
+            Parastatal Agency
+          </mat-radio-button>
+        </mat-radio-group>
+        <label>3. Name of the Urban Local Body or Parastatal*</label>
+        <div *ngIf="validateForm.controls['bodyType'].value == 'ulb'">
+          <mat-form-field>
+            <!-- <mat-label>Name of the Urban Local Body</mat-label> -->
+            <mat-select
+              formControlName="ulb"
+              (selectionChange)="updateUlbType($event)"
+            >
+              <mat-option *ngFor="let ulb of ulbList" [value]="ulb._id">{{
+                ulb.name
+              }}</mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                !validateForm.controls['ulb'].valid &&
+                validateForm.controls['ulb'].touched
+              "
+            >
+              Please select a ULB.
+            </mat-error> </mat-form-field
+          >&nbsp;&nbsp;
+          <mat-form-field>
+            <!-- <mat-label>Type of Urban Local Body</mat-label> -->
+            <input matInput type="text" formControlName="ulbType" readonly />
+          </mat-form-field>
+        </div>
+        <div *ngIf="validateForm.controls['bodyType'].value == 'parastatal'">
+          <mat-form-field>
+            <!-- <mat-label>Name of the Parastatal Agency</mat-label> -->
+            <input matInput type="text" formControlName="parastatalName" />
+          </mat-form-field>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-md-4">
+            <label>4. Name of the Person</label><br />
+            <mat-form-field class="example-form-field">
+              <input matInput type="text" formControlName="person" />
+            </mat-form-field>
+          </div>
+          <!-- <br /> -->
+          <div class="col-md-4">
+            <label>5. Designation</label><br />
+            <mat-form-field class="example-form-field">
+              <input matInput type="text" formControlName="designation" />
+            </mat-form-field>
+          </div>
+          <!-- <br /> -->
+          <div class="col-md-4">
+            <label>6. Email Id</label><br />
+            <mat-form-field class="example-form-field">
+              <input matInput type="text" formControlName="email" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="instructions-layout">
+        <h5>
+          Please read the following instructions and upload the documents:
+        </h5>
+        <p>Instructions :</p>
+        <p>
+          1. All the documents pertaining to a specific financial year should be
+          combined into a single document before uploading.
+          <br />2. Please use following format for naming the documents to be
+          uploaded: nameofthedocument_FY_ULB Name (Example: Name of the document
+          for annual audited accounts of Jaipur for 2015-16: Annual
+          accounts_15-16_Jaipur municipal corporation).<br />3. Please upload
+          the documents in PDF and Excel format according to type mentioned in
+          the question.<br />4. File size of the single document should not
+          exceed 50 MB. If it exceeds 50 MB the compress the file size using
+          <a href="https://pdfcompressor.com/" target="_blank">
+            https://pdfcompressor.com/ </a
+          >.
+        </p>
+      </div>
+      <div *ngIf="!viewMode">
+        <div>
+          <label
+            >Audited/Unaudited Annual Accounts for financial year
+            2015-16:-</label
+          ><br />
+          <div class="row">
+            <div class="col-sm-6">
+              <label>Upload PDF:</label>&nbsp;
+              <button class="myFile btn btn-primary">
+                Select File
+                <input
+                  type="file"
+                  accept=".pdf"
+                  (change)="upload($event, 'pdf', 'financial_year_2015_16')"
+                  onmouseover=""
+                />
+              </button>
+              <span
+                *ngIf="documents.financial_year_2015_16.pdf.length > 0"
+                style="overflow-wrap: break-word;"
+              >
+                {{ documents.financial_year_2015_16.pdf[0].name }}</span
+              >
+            </div>
+            <div class="col-sm-6">
+              <label>Upload Excel:</label>&nbsp;
+              <button class="myFile btn btn-primary">
+                Select File
+                <input
+                  type="file"
+                  accept=".xls, .xlsx"
+                  (change)="upload($event, 'excel', 'financial_year_2015_16')"
+                  onmouseover=""
+                />
+              </button>
+              <span
+                *ngIf="documents.financial_year_2015_16.excel.length > 0"
+                style="overflow-wrap: break-word;"
+              >
+                {{ documents.financial_year_2015_16.excel[0].name }}</span
+              >
+            </div>
+          </div>
+          <label
+            >Audited/Unaudited Annual Accounts for financial year
+            2016-17:-</label
+          ><br />
+          <div class="row">
+            <div class="col-sm-6">
+              <label>Upload PDF:</label>&nbsp;
+              <button class="myFile btn btn-primary">
+                Select File
+                <input
+                  type="file"
+                  accept=".pdf"
+                  (change)="upload($event, 'pdf', 'financial_year_2016_17')"
+                />
+              </button>
+              <span
+                *ngIf="documents.financial_year_2016_17.pdf.length > 0"
+                style="overflow-wrap: break-word;"
+              >
+                {{ documents.financial_year_2016_17.pdf[0].name }}</span
+              >
+            </div>
+            <div class="col-sm-6">
+              <label>Upload Excel:</label>&nbsp;
+              <button class="myFile btn btn-primary">
+                Select File
+                <input
+                  type="file"
+                  accept=".xls, .xlsx"
+                  (change)="upload($event, 'excel', 'financial_year_2016_17')"
+                />
+              </button>
+              <span
+                *ngIf="documents.financial_year_2016_17.excel.length > 0"
+                style="overflow-wrap: break-word;"
+              >
+                {{ documents.financial_year_2016_17.excel[0].name }}</span
+              >
+            </div>
+          </div>
+          <label
+            >Audited/Unaudited Annual Accounts for financial year
+            2017-18:-</label
+          ><br />
+          <div class="row">
+            <div class="col-sm-6">
+              <label>Upload PDF:</label>&nbsp;
+              <button class="myFile btn btn-primary">
+                Select File
+                <input
+                  type="file"
+                  accept=".pdf"
+                  (change)="upload($event, 'pdf', 'financial_year_2017_18')"
+                /></button
+              ><span
+                *ngIf="documents.financial_year_2017_18.pdf.length > 0"
+                style="overflow-wrap: break-word;"
+              >
+                {{ documents.financial_year_2017_18.pdf[0].name }}</span
+              >
+            </div>
+            <div class="col-sm-6">
+              <label>Upload Excel:</label>&nbsp;
+              <button class="myFile btn btn-primary">
+                Select File
+                <input
+                  type="file"
+                  accept=".xls, .xlsx"
+                  (change)="upload($event, 'excel', 'financial_year_2017_18')"
+                />
+              </button>
+              <span
+                *ngIf="documents.financial_year_2017_18.excel.length > 0"
+                style="overflow-wrap: break-word;"
+              >
+                {{ documents.financial_year_2017_18.excel[0].name }}</span
+              >
+            </div>
+          </div>
+          <label
+            >Audited/Unaudited Annual Accounts for financial year
+            2018-19:-</label
+          ><br />
+          <div class="row">
+            <div class="col-sm-6">
+              <label>Upload PDF:</label>&nbsp;
+              <button class="myFile btn btn-primary">
+                Select File
+                <input
+                  type="file"
+                  accept=".pdf"
+                  (change)="upload($event, 'pdf', 'financial_year_2018_19')"
+                />
+              </button>
+              <span
+                *ngIf="documents.financial_year_2018_19.pdf.length > 0"
+                style="overflow-wrap: break-word;"
+              >
+                {{ documents.financial_year_2018_19.pdf[0].name }}</span
+              >
+            </div>
+            <div class="col-sm-6">
+              <label>Upload Excel:</label>&nbsp;
+              <button class="myFile btn btn-primary">
+                Select File
+                <input
+                  type="file"
+                  accept=".xls, .xlsx"
+                  (change)="upload($event, 'excel', 'financial_year_2018_19')"
+                />
+              </button>
+              <span
+                *ngIf="documents.financial_year_2018_19.excel.length > 0"
+                style="overflow-wrap: break-word;"
+              >
+                {{ documents.financial_year_2018_19.excel[0].name }}</span
+              >
+            </div>
+          </div>
+          <br /><br />
+        </div>
+        <div>
+          <button
+            mat-button
+            color="primary"
+            [disabled]="
+              !validateForm.valid ||
+              (validateForm.value.parastatalName == null &&
+                validateForm.value.ulb == null)
+            "
+          >
+            Submit
+          </button>
+        </div>
+        <br />
+      </div>
+    </form>
+  </div>
+</div>

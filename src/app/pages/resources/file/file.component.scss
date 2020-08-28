@@ -6,6 +6,10 @@
   text-align: center;
   text-transform: uppercase;
   width: 50%;
+  @media screen and (max-width:468px){
+    font-size: 3.6vw;
+    margin-top: 20px;
+  }
 }
 
 .public-files h2 span {
@@ -22,6 +26,12 @@
   width: 95%;
   margin: auto;
   overflow: hidden;
+  @media screen and (max-width:480px){
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
   .file {
     overflow: hidden;
     border: 1px solid rgb(230, 230, 230);
@@ -38,6 +48,9 @@
     border-radius: 5px;
 
     overflow: hidden;
+    @media screen and (max-width:480px){
+      margin: 15px 10px;
+    }
     img {
       width: 70%;
       display: block;
@@ -65,6 +78,10 @@
           font-weight: 500;
           padding-top: 2%;
           padding-bottom: 2%;
+
+          @media screen and (max-width:768px) and (min-width:550px){
+            font-size: 12px;
+          }
         }
         tr td:nth-child(2) {
           width: 10%;
@@ -108,3 +125,34 @@
     }
   }
 }
+@media screen and (max-width:480px) and (min-width:470px){
+  .file{
+   min-height: 230px !important;
+   min-width: 210px !important;
+  }
+  .details td{
+   font-size: 12px !important;
+  }
+  .file .fa-cloud-download {
+   font-size: 5.5vw !important;
+ }
+ }
+ 
+ 
+ 
+ 
+@media screen and (max-width:468px){
+ .file{
+  min-height: 190px !important;
+  min-width: 160px !important;
+ }
+ .details td{
+  font-size: 10px !important;
+ }
+ .file .fa-cloud-download {
+  font-size: 3.5vw !important;
+}
+}
+
+
+ 
