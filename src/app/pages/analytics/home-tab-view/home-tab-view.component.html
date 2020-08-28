@@ -74,13 +74,13 @@
   class="mt-1" animationDuration="100ms" (animationDone)="onTabChangeAnimationComplete()">
   <mat-tab [disabled]="loading" label="Own Revenues">
     <ng-template matTabContent>
-      <div class="col-sm-12 col-md-4" *ngIf="tabIndex === 0">
+      <div class="col-sm-12 col-md-12 col-lg-5" *ngIf="tabIndex === 0">
         <app-re-useable-heat-map (isProcessingCompleted)="setMapProcessingState($event)" [yearSelected]="selectedYears"
           [ulbSelected]="selectedUlb" (stateSelected)="filterDataStateWise($event)"
           (ulbsClicked)="fetchUlBsData($event)">
         </app-re-useable-heat-map>
       </div>
-      <div class="col-sm-12 col-md-8">
+      <div class="col-sm-12 col-md-12 col-lg-7">
         <ng-container *ngTemplateOutlet="table"></ng-container>
       </div>
     </ng-template>
@@ -507,7 +507,7 @@
     <div class="row n-sm ">
       <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
     </div>
-    <div *ngIf="loading == false; else loadingSkeleton" class="row" style="height: 68vh; overflow-y: auto;">
+    <div *ngIf="loading == false; else loadingSkeleton" class="row">
       <ng-container *ngIf="commonTableDataDisplay.length; else noData">
         <div class="col-sm-12" *ngFor="let data of commonTableDataDisplay">
           <div class="row">
