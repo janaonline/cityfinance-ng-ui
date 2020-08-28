@@ -130,12 +130,13 @@
     font-size: 1.5rem;
   }
 
-  @media screen and (max-width:480px){
+  @media screen and (max-width:551px){
     height: 80%;
     width: 80%;
     margin: auto;
     align-content: center;
     align-items: center;
+    left: 10%;
   }
 }
 
@@ -177,6 +178,10 @@
   @media (min-width: 1500px) {
     font-size: 1.3rem;
   }
+
+  @media screen and (max-width:1024px) and (min-width:560px) {
+ font-size: 14px;
+  }
 }
 
 .pie-chart-legend {
@@ -213,7 +218,7 @@
 //   display: none !important;
 // }
 
-@media screen and (max-width:468px){
+@media screen and (max-width:551px){
   // .b-sm{
   //   display: block !important;
   //   }
@@ -230,11 +235,8 @@
     width: 8% !important;
     white-space: break-spaces;
 }
+.ng-star-inserted {
+  white-space: normal !important;
 }
-
-.search-style-sm{
-
-}
-.search-style-sm>div{
-
 } 
+
