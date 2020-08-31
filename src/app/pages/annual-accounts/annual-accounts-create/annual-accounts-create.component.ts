@@ -36,6 +36,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
     },
   };
   viewMode = false;
+  ulb: any;
 
   constructor(
     private fb: FormBuilder,
@@ -52,6 +53,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
     if (this.viewData != undefined) {
       this.viewMode = true;
     }
+
     this.validateForm = this.fb.group({
       state: [{ value: null, disabled: this.viewMode }, [Validators.required]],
       bodyType: [
@@ -59,7 +61,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
         [Validators.required],
       ],
       ulb: [{ value: null, disabled: this.viewMode }],
-      ulbType: [{ value: null, disabled: this.viewMode }],
+      ulbType: [{ value: null, disabled: "true" }],
       parastatalName: [{ value: null, disabled: this.viewMode }],
       person: [{ value: null, disabled: this.viewMode }],
       designation: [{ value: null, disabled: this.viewMode }],
@@ -76,7 +78,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
       state: this.viewData.state,
       bodyType: this.viewData.bodyType,
       ulb: this.viewData.ulb,
-      ulbList: this.viewData.ulbList,
+      ulbType: this.viewData.ulbType,
       parastatalName: this.viewData.parastatalName,
       person: this.viewData.person,
       designation: this.viewData.designation,
@@ -107,8 +109,8 @@ export class AnnualAccountsCreateComponent implements OnInit {
   }
 
   updateUlbType(event) {
-    const ulb = this.ulbList.find((item) => item._id == event.value);
-    this.validateForm.patchValue({ ulbType: ulb.ulbType });
+    this.ulb = this.ulbList.find((item) => item._id == event.value);
+    this.validateForm.patchValue({ ulbType: this.ulb.ulbType.name });
   }
 
   resetBodyValues() {
@@ -121,6 +123,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
 
   submitForm(): void {
     this.validateForm.value["documents"] = this.documents;
+
     this.annualAccountsService
       .createAnnualAccounts(this.validateForm.value)
       .subscribe(
