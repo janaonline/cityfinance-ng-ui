@@ -98,17 +98,19 @@ li.navbar-brand {
   right: 20px;
   border-radius: 40px;
   font-size: 0.8vw !important;
-
   padding: 0.1vw 0.8vw;
   border: 1px solid white;
   transition: all 300ms;
 
   @media screen and (max-width: 480px) {
-    display: none;
+    //display: none;
+    font-size: 7px !important;
+    top: 5px;
+    padding: 0px 5px;
   }
   &:hover {
     // border: 1px solid green;
-    box-shadow: 1px 1px 5px gray;
+    box-shadow: 1px 1px 5px gray; 
     transform: scale(1.1);
   }
 }
@@ -224,7 +226,7 @@ nav.navbar {
 span.indian-emblem-wrapper.navbar-brand {
   font-size: 12px !important;
 
-  @media screen and (max-width:480px) and (min-width:470px) {
+  @media screen and (max-width:550px) and (min-width:470px) {
     font-size: 10px !important;
   }
   @media screen and (max-width: 468px) {

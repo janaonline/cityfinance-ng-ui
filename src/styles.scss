@@ -625,14 +625,14 @@ img.align-center {
   .modal-xlg {
     width: 1000px;
 
-    @media screen and (max-width:468px){
+    @media screen and (max-width:768px){
       width: auto;
     }
   }
 
   .modal-body {
-    display: table;
-    width: 100%;
+  //  display: table;
+   // width: 100%;
   }
 }
 
@@ -642,6 +642,7 @@ img.align-center {
   .c-list .c-token {
     background-color: #059b9a;
     color: white;
+        width: max-content; 
   }
 }
 
@@ -942,6 +943,10 @@ border: none;
   border: none;
   min-width: min-content;
 }
+
+.selected-list .countplaceholder { 
+  right: 20px !important;
+}
  // inner heading  css end
  @media screen and (max-width:800px) and (min-width:770px){
   app-home-header{
@@ -1030,6 +1035,7 @@ app-home-header{
 .selected-list .countplaceholder {
   right: 20px !important;
 }
+
 }
 
 // max width 551px 
@@ -1050,3 +1056,9 @@ app-home-header{
 }
 
 // max-width 280px end 
+
+
+.mat-tab-header { 
+  width: 95%;
+  margin: auto;
+}

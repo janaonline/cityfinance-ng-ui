@@ -274,7 +274,7 @@ div.miniMap {
   .leaflet-bottom {
     transform: scale(0.55);
     width: 155px;
-    font-size: 0.7vw;
+    font-size: 0.7vw; 
   }
 
   .leaflet-control {
@@ -283,12 +283,14 @@ div.miniMap {
     position: absolute;
     bottom: 0px;
     background: transparent;
-
-    @media screen and (max-width:468px){
+    @media screen and (max-width:1024px) and (min-width:560px){
+      font-size: 12px;
+    }
+    @media screen and (max-width:551px){
       font-size: 10px;
     width: 100%;
     margin: 0 0;
-    left: 0;
+    left: -80px;
     padding: 0;
     margin-left: 0 !important;
     }
@@ -320,8 +322,10 @@ div.miniMap {
     margin-top: 2%;
     bottom: 1px;
     font-size: 1vw;
-
-    @media screen and (max-width:468px){
+    @media screen and (max-width:1024px) and (min-width:560px) {
+      font-size: 12px;
+       }
+    @media screen and (max-width:551px){
       font-size: 12px;
       margin: auto;
     }
