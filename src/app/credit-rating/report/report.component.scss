@@ -237,6 +237,7 @@ div.arrow:after {
   .ulbDetails {
     width: 100% !important;
     margin-top: 5%;
+    padding: 0;
   }
 
   .map-info {
@@ -254,6 +255,10 @@ div.arrow:after {
   display: block;
   width: fit-content;
   margin-left: 30%;
+
+  @media screen and (max-width:468px){
+    position: relative;
+  }
 }
 .map-info-state {
   z-index: 2;
@@ -301,4 +306,25 @@ div.arrow:after {
     opacity: 0;
     z-index: -1;
   }
+}
+
+
+.header-btn-style {
+  border: 0;
+  background: 0;
+  color: #059b9a;
+  margin-right: 10px;
+}
+.btn-style-none{
+  background:none;
+  border:none;
+}
+
+.btn-style-none:focus, .btn-style-none:hover, .glyphicon, .header-btn-style {
+  background:none;
+  outline: 0;
+  border:none;
+}
+@media screen and (max-width:468px){
+
 }

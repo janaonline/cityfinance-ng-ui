@@ -16,8 +16,8 @@ const routes: Routes = [{ path: ":userType", component: UserListComponent }];
     NgxPaginationModule,
     RouterModule.forChild(routes),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  declarations: [UserListComponent]
+  declarations: [UserListComponent],
 })
 export class ListModule {}

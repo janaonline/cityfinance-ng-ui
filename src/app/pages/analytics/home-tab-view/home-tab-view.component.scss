@@ -110,7 +110,7 @@
   align-items: center;
 
   @media (min-width: 576px) {
-    font-size: 1rem;
+    font-size: 1rem; 
   }
 
   // Medium devices (tablets, 768px and up)
@@ -129,6 +129,15 @@
   @media (min-width: 1500px) {
     font-size: 1.5rem;
   }
+
+  @media screen and (max-width:551px){
+    height: 80%;
+    width: 80%;
+    margin: auto;
+    align-content: center;
+    align-items: center;
+    left: 10%;
+  }
 }
 
 .table-container-main {
@@ -137,6 +146,10 @@
   margin-right: 15px;
   // border: 1px solid #d4d4d4;
   border-radius: 5px;
+  @media screen and (max-width:468px){
+    width:100%;
+    padding:0px !important;
+  }
 }
 
 .table > tbody > tr > td,
@@ -165,6 +178,10 @@
   @media (min-width: 1500px) {
     font-size: 1.3rem;
   }
+
+  @media screen and (max-width:1024px) and (min-width:560px) {
+ font-size: 14px;
+  }
 }
 
 .pie-chart-legend {
@@ -184,8 +201,42 @@
     font-size: 1.15rem;
   }
 
+  
   // Extra large devices (large desktops, 1200px and up)
   @media (min-width: 1500px) {
     font-size: 1.5rem;
   }
 }
+
+
+
+// .b-sm{
+// display: block !important;
+// }
+
+// .n-sm{
+//   display: none !important;
+// }
+
+@media screen and (max-width:551px){
+  // .b-sm{
+  //   display: block !important;
+  //   }
+    
+  //   .n-sm{
+  //     display:block !important;
+  //   }
+    thead.m-bg-n {
+      background: #059b9a;
+      color: #fff;
+  }
+  thead.m-bg-n th{
+    background: #059b9a !important;
+    width: 8% !important;
+    white-space: break-spaces;
+}
+.ng-star-inserted {
+  white-space: normal !important;
+}
+} 
+

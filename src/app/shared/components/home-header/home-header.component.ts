@@ -1,6 +1,7 @@
 import { Component, ElementRef, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { UserProfile } from 'src/app/users/profile/model/user-profile';
+import { UserUtility } from 'src/app/util/user/user';
 
 import { ACTIONS } from '../../../../app/util/access/actions';
 import { MODULES_NAME } from '../../../../app/util/access/modules';
@@ -16,6 +17,9 @@ import { AnalyticsTabs, IAnalyticsTabs } from './tabs';
 })
 export class HomeHeaderComponent implements OnInit {
   isProduction: boolean;
+
+  userUtil = new UserUtility();
+  showAnalyticsSubMenu = !this.userUtil.isUserOnMobile();
 
   isLoggedIn = false;
   user: UserProfile = null;
@@ -113,10 +117,15 @@ export class HomeHeaderComponent implements OnInit {
       action: ACTIONS.VIEW,
     });
 
-    this.canViewQuestionnaireForm = this.accessChecker.hasAccess({
-      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
-      action: ACTIONS.VIEW,
-    });
+    this.canViewQuestionnaireForm =
+      this.accessChecker.hasAccess({
+        moduleName: MODULES_NAME.STATE_PROPERTY_TAX_QUESTIONNAIRE,
+        action: ACTIONS.VIEW,
+      }) ||
+      this.accessChecker.hasAccess({
+        moduleName: MODULES_NAME.ULB_LEVEL_PROPERTY_TAX_QUESTIONNAIRE,
+        action: ACTIONS.VIEW,
+      });
   }
 
   ngOnInit() {
@@ -126,6 +135,74 @@ export class HomeHeaderComponent implements OnInit {
     // setTimeout(() => {
     //   this.initializeTranparenceyHandler();
     // }, 1111);
+  }
+
+  navigateToAnalytics() {
+    this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+    if (this.userUtil.isUserOnMobile()) return;
+    this.router.navigate(["analytics/own-revenues"]);
+  }
+
+  
+  
+  // navigateToHome() {
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/home"]);
+  //  }
+
+  // navigateToFinancial() {
+  //  // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  // //  if (this.userUtil.isUserOnMobile()) return;
+  // let element = document.getElementById("navbarNavDropdown");
+  // element.classList.remove("in");
+  //   this.router.navigate(["/dashboard/report"]);
+  // }
+
+  // navigateToMunicipalLaw() { 
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/credit-rating/laws"]);
+  //  }
+
+  //  navigateToMunicipalBond() { 
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/credit-rating/municipal-bond"]);
+  //  }
+  //  navigateToCreditRating() { 
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/credit-rating/report"]);
+  //  }
+
+  //  navigateToResources() { 
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/files"]);
+  //  }
+
+   navigateTo(url: string){
+    let element = document.getElementById("navbarNavDropdown");
+   if (element) element.classList.remove("in");
+      this.router.navigate([url]);
+   }
+
+  onClickingAnalyticsSubMenu(event: Event) { 
+    if (!this.userUtil.isUserOnMobile()) return;
+    event.stopPropagation();
+    let element = document.getElementById("navbarNavDropdown");
+     element.classList.remove("in"); 
   }
 
   initializedIsProduction() {
@@ -179,4 +256,5 @@ export class HomeHeaderComponent implements OnInit {
       observer.observe(target);
     });
   }
-}
+} 
+

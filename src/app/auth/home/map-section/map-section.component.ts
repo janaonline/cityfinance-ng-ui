@@ -11,6 +11,7 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
 import { MapUtil } from 'src/app/util/map/mapUtil';
 import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
+import { UserUtility } from 'src/app/util/user/user';
 
 @Component({
   selector: "app-map-section",
@@ -273,6 +274,38 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     });
   }
 
+  calculateVH(vh: number) {
+    const h = Math.max(
+      document.documentElement.clientHeight,
+      window.innerHeight || 0
+    );
+    return (vh * h) / 100;
+  }
+
+  calculateMapZoomLevel() {
+    let zoom: number;
+    const userUtil = new UserUtility();
+    if (userUtil.isUserOnMobile()) {
+      zoom = 3.8 + (window.devicePixelRatio - 2) / 10;
+      if (window.innerHeight < 600) zoom = 3.6;
+      const valueOf1vh = this.calculateVH(1);
+      if (valueOf1vh < 5) zoom = 3;
+      else if (valueOf1vh < 7) zoom = zoom - 0.2;
+      return zoom;
+    }
+
+    const defaultZoomLevel = 4.7 - (window.devicePixelRatio - 1);
+    try {
+      zoom = localStorage.getItem("mapZoomLevel")
+        ? +localStorage.getItem("mapZoomLevel")
+        : defaultZoomLevel;
+    } catch (error) {
+      zoom = defaultZoomLevel;
+    }
+
+    return zoom;
+  }
+
   private createNationalLevelMap(
     geoData: FeatureCollection<
       Geometry,
@@ -282,16 +315,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     >,
     containerId: string
   ) {
-    let zoom: number;
-    const defaultZoomLevel = 4.7 - (window.devicePixelRatio - 1);
-    try {
-      zoom = localStorage.getItem("mapZoomLevel")
-        ? +localStorage.getItem("mapZoomLevel")
-        : defaultZoomLevel;
-    } catch (error) {
-      // const zoom = 4.7 - (window.devicePixelRatio - 1) * (0.2 / 0.5);
-      zoom = defaultZoomLevel;
-    }
+    const zoom = this.calculateMapZoomLevel();
 
     const configuration: IMapCreationConfig = {
       containerId,
@@ -299,6 +323,10 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
       options: {
         zoom,
         minZoom: zoom,
+        attributionControl: false,
+        doubleClickZoom: false,
+        dragging: false,
+        tap: false,
       },
     };
     let map;

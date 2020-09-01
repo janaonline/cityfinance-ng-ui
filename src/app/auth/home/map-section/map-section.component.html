@@ -1,7 +1,7 @@
 <!-- asdasasd -->
 <h2 class="heading"><span>Dashboard</span></h2>
 
-<div class="wrapper">
+<div class="wrapper ">
   <div class="selectPart">
     <form [formGroup]="myForm">
       <angular2-multiselect
@@ -14,7 +14,7 @@
       </angular2-multiselect>
     </form>
     Click on a state to see available data on City governments
-  </div>
+  </div> 
   <div class="visualization">
     <!-- <div
       class="card"
@@ -78,8 +78,7 @@
         Financial data</span
       >
 
-      <a
-        class="btn btn-explore"
+      <a class="btn btn-explore"
         *ngIf="dataForVisualization?.coveredUlbCount"
         [routerLink]="['/analytics/own-revenues']"
         [queryParams]="{ state: stateSelected ? stateSelected._id : null }"
@@ -313,9 +312,8 @@
         </tr>
       </tbody>
     </table> -->
-  </div>
-
+  </div> 
   <div class="mapWrapper">
-    <div id="mapid"></div>
-  </div>
+    <div id="mapid"></div> 
+</div>
 </div>

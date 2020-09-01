@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BaseComponent } from 'src/app/util/baseComponent';
 
 import { UPLOAD_STATUS } from '../../../util/enums';
 import { FinancialDataService } from '../../services/financial-data.service';
@@ -12,7 +13,7 @@ import { FinancialDataService } from '../../services/financial-data.service';
   templateUrl: "./data-upload-action.component.html",
   styleUrls: ["./data-upload-action.component.scss"],
 })
-export class DataUploadActionComponent implements OnInit {
+export class DataUploadActionComponent extends BaseComponent implements OnInit {
   fileFormGroupKeys = [
     "balanceSheet",
     "schedulesToBalanceSheet",
@@ -55,6 +56,7 @@ export class DataUploadActionComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private router: Router
   ) {
+    super();
     this.createForms();
   }
 
@@ -173,6 +175,8 @@ export class DataUploadActionComponent implements OnInit {
   radioButtonClickHandler() {}
 
   completenessClickedHandler() {
+    if (this.isApiInProgress) return;
+    this.isApiInProgress = true;
     let responseObject = { ...this.completenessFormGroup.getRawValue() };
     if (!this.financeDataService.selectedFinancialRequest.audited) {
       const { auditReport, ...rest } = this.completenessFormGroup.getRawValue();
@@ -192,8 +196,10 @@ export class DataUploadActionComponent implements OnInit {
             this.fetchFinancialDataById();
             // this.router.navigate(['/user/data-upload/list']);
           }
+          this.isApiInProgress = false;
         },
         (error) => {
+          this.isApiInProgress = false;
           console.error(error);
         }
       );
@@ -207,15 +213,18 @@ export class DataUploadActionComponent implements OnInit {
   }
 
   correctnessSubmitHandler() {
+    if (this.isApiInProgress) return;
     this.financeDataService
       .updateCorrectnessStatus(this.id, this.correctnessFormGroup.value)
       .subscribe(
         (result) => {
+          this.isApiInProgress = false;
           if (result["success"]) {
             this.router.navigate(["/user/data-upload/list"]);
           }
         },
         (error) => {
+          this.isApiInProgress = false;
           console.error(error);
         }
       );

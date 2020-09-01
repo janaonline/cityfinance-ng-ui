@@ -1,54 +1,26 @@
 <nav class="navbar container-fluid navbar-1st-row" id="1stNavbarRow">
-  <div
-    class="navbar-header"
-    style="flex: 1; display: flex; align-items: center;"
-  >
-    <span
-      [routerLink]="['/']"
-      class="navbar-brand d-flex align-items-center indian-emblem-wrapper"
-      style="outline: none;"
-    >
-      <img
-        src="/assets/images/emblem-of-india.svg"
-        alt="Emblem of India"
-        srcset=""
-        class="indian-emblem"
-      />
+  <div class="navbar-header" style="flex: 1; display: flex; align-items: center;">
+    <span [routerLink]="['/']" class="navbar-brand d-flex align-items-center indian-emblem-wrapper"
+      style="outline: none;">
+      <img src="/assets/images/emblem-of-india.svg" alt="Emblem of India" srcset="" class="indian-emblem" />
       &nbsp;&nbsp;An initiative of Ministry of Housing and Urban Affairs &nbsp;
-      |&nbsp; Government of India</span
-    >
+      |&nbsp; Government of India</span>
 
     <ul class="nav navbar-nav login-and-profile">
       <li *ngIf="!isLoggedIn">
-        <a
-          [routerLink]="['/login']"
-          routerLinkActive="active"
-          class="login-link"
-          >Login / Register
+        <a [routerLink]="['/login']" routerLinkActive="active" class="login-link">Login / Register
         </a>
       </li>
-      <li
-        routerLinkActive="active"
-        class="dropdown"
-        style="
+      <li routerLinkActive="active" class="dropdown" style="
           /* position: absolute;
           right: 5px;
           display: flex; */
           align-self: center;
           z-index: 8888;
-        "
-        *ngIf="isLoggedIn"
-      >
-        <a
-          class="dropdown-toggle"
-          data-toggle="dropdown"
-          role="button"
-          aria-haspopup="true"
-          aria-expanded="false"
-          style="padding: 6px 15px;"
-        >
-          <i class="fa fa-user-circle" style="font-size: 2rem;"></i>&nbsp;</a
-        >
+        " *ngIf="isLoggedIn">
+        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+          style="padding: 6px 15px;">
+          <i class="fa fa-user-circle" style="font-size: 2rem;"></i>&nbsp;</a>
         <div class="dropdown-menu" style="">
           <div class="user-dropdown">
             <div class="user-avt" style="font-size: 3rem;">
@@ -61,9 +33,7 @@
             <mat-divider></mat-divider>
             <mat-list dense>
               <ng-container *ngIf="canEditOwnProfile">
-                <mat-list-item [routerLink]="['user', 'profile', 'view']"
-                  >Profile</mat-list-item
-                >
+                <mat-list-item [routerLink]="['user', 'profile', 'view']">Profile</mat-list-item>
                 <mat-divider></mat-divider>
               </ng-container>
 
@@ -76,78 +46,58 @@
   </div>
 </nav>
 
-<div class="navbar container-fluid navbar-2nd-row">
-  <ul class="nav navbar-nav navbar-right">
-    <li [routerLink]="['/']" class="navbar-brand">
+<div class="navbar navbar-expand-lg nav-m container-fluid navbar-2nd-row">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <li [routerLink]="['/']" class="navbar-brand d-b-lg">
+    <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
+  </li>
+  <ul class="nav navbar-nav navbar-right nav-ul collapse navbar-collapse" id="navbarNavDropdown">
+    <li [routerLink]="['/']" class="navbar-brand d-n-sm">
       <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['/home']">Home</a>
+      <a (click)="navigateTo('/home')">Home</a>
     </li>
     <li routerLinkActive="active">
-      <a
-        class="dropdown-toggle"
-        data-toggle="dropdown"
-        role="button"
-        aria-haspopup="true"
-        aria-expanded="false"
-        [routerLink]="'analytics/own-revenues'"
-        >Analytics
+      <span class="down-icon"></span>
+      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+        (click)="navigateToAnalytics()">Analytics
       </a>
       <ul class="dropdown-menu dropdown-menu-left">
-        <li routerLinkActive="active" *ngFor="let tab of tabs">
-          <a [routerLink]="[tab.url]"> {{ tab.name }}</a>
+        <li routerLinkActive="active" *ngFor="let tab of tabs" (click)="onClickingAnalyticsSubMenu($event)">
+          <a [routerLink]="[tab.url]" class="analytics-sub-menu" (click)="onClickingAnalyticsSubMenu($event)">
+            {{ tab.name }}</a>
         </li>
       </ul>
     </li>
     <li routerLinkActive="active" class="dropdown">
-      <!-- <a
-        class="dropdown-toggle"
-        data-toggle="dropdown"
-        role="button"
-        aria-haspopup="true"
-        aria-expanded="false"
-      > -->
-      <a [routerLink]="['/dashboard/report']">Financial Statements</a>
-      <!-- <ul class="dropdown-menu">
-        <li routerLinkActive="active">
-          <a [routerLink]="['/dashboard/report']"
-            >Annual Financial Statements</a
-          >
-        </li>
-        <li>
-          <a [routerLink]="['/dashboard', 'financial-information']"
-            >Availability of Financial Information</a
-          >
-        </li>
-        <li routerLinkActive="active" *ngIf="!isProduction">
-              <a [routerLink]="['/dashboard', 'ranking']">Annual Fiscal Ranking</a>
-            </li>
-      </ul> -->
+      <a (click)="navigateTo('/dashboard/report')">Financial Statements</a>
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['/credit-rating/laws']">Municipal Laws</a>
+      <a (click)="navigateTo('/credit-rating/laws')">Municipal Laws</a>
     </li>
-    <li>
-      <a
-        class="dropdown-toggle"
-        data-toggle="dropdown"
-        role="button"
-        aria-haspopup="true"
-        aria-expanded="false"
-        [ngClass]="{ active: isCreditRatingActive || isMunicipalBondActive }"
-        >Borrowings
+    <li class="d-n-sm">
+      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+        [ngClass]="{ active: isCreditRatingActive || isMunicipalBondActive }">Borrowings
       </a>
       <ul class="dropdown-menu dropdown-menu-left">
         <li routerLinkActive="active">
-          <a [routerLink]="['/credit-rating/municipal-bond']"
-            >Municipal Bonds</a
-          >
+          <a (click)="navigateTo('/credit-rating/municipal-bond')">Municipal Bonds</a>
         </li>
         <li routerLinkActive="active">
-          <a [routerLink]="['/credit-rating/report']">Credit Rating</a>
+          <a (click)="navigateTo('/credit-rating/report')">Credit Rating</a>
         </li>
       </ul>
+    </li>
+
+    <li routerLinkActive="active" class="d-b-lg-menu">
+      <a (click)="navigateTo('/credit-rating/municipal-bond')">Municipal Bonds</a>
+    </li>
+    <li routerLinkActive="active" class="d-b-lg-menu">
+      <a (click)="navigateTo('/credit-rating/report')">Credit Rating</a>
     </li>
 
     <!-- <li routerLinkActive="active">
@@ -157,25 +107,22 @@
       <a [routerLink]="['/credit-rating/municipal-bond']"> Municipal Bonds</a>
     </li> -->
     <li routerLinkActive="active">
-      <a [routerLink]="['/files']">
+      <a (click)="navigateTo('/files')">
         Resources
       </a>
     </li>
-    <li routerLinkActive="active">
+    <li routerLinkActive="active" class="d-n-sm">
       <!-- <a
         [routerLink]="['/questionnaires/state/form']"
         *ngIf="canViewQuestionnaireForm && user?.role === USER_TYPE.STATE"
       >
         Questionnaireeeee
       </a> -->
-      <a
-        [routerLink]="['/questionnaires/list']"
-        *ngIf="
+      <a [routerLink]="['/questionnaires/list']" *ngIf="
           isLoggedIn
             ? canViewQuestionnaireList || canViewQuestionnaireForm
             : true
-        "
-      >
+        ">
         Questionnaire
       </a>
     </li>

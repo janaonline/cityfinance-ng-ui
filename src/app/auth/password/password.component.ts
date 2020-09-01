@@ -29,6 +29,12 @@ export class PasswordComponent implements OnInit {
   public successMessage: string;
   public token: string;
   public ulrMessage: string;
+  public isApiInProcess = false;
+  public reCaptcha = {
+    show: true,
+    siteKey: environment.reCaptcha.siteKey,
+    userGeneratedKey: null,
+  };
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -50,6 +56,26 @@ export class PasswordComponent implements OnInit {
     return this.passwordRequestForm.controls;
   }
 
+  private resetCaptcha() {
+    this.reCaptcha.show = false;
+    this.reCaptcha.userGeneratedKey = null;
+    this.passwordRequestForm.controls.captcha.reset();
+    setTimeout(() => {
+      this.reCaptcha.show = true;
+    }, 500);
+  }
+
+  resolveCaptcha(keyGenerated: string) {
+    this.reCaptcha.userGeneratedKey = keyGenerated;
+    this.authService.verifyCaptcha(keyGenerated).subscribe((res) => {
+      if (!res["success"]) {
+        this.resetCaptcha();
+      }
+
+      this.passwordRequestForm.controls.captcha.setValue(keyGenerated);
+    });
+  }
+
   submitPasswordResetRequest(form: FormGroup) {
     this.errorMessage = null;
     this.successMessage = null;
@@ -59,13 +85,14 @@ export class PasswordComponent implements OnInit {
         : "Please enter an email.";
       return;
     }
-
+    form.disable();
     this._passwordService.requestPasswordReset(form.value).subscribe(
       (res) => {
         form.patchValue({ email: null });
         const message =
           "Password reset has been initiated. Check You email for further instruction. ";
         this.successMessage = res["message"] || message;
+        form.enable();
       },
       (error) => this.onGettingResponseError(error, form)
     );
@@ -80,9 +107,10 @@ export class PasswordComponent implements OnInit {
       );
     } catch (error) {
       this.errorMessage = error.message;
-      console.log(error);
+      console.error(error);
       return;
     }
+    form.disable();
 
     this._passwordService
       .resetPassword({ ...form.value, token: this.token })
@@ -92,12 +120,11 @@ export class PasswordComponent implements OnInit {
             password: "",
             confirmPassword: "",
           });
+          form.enable();
+
           this.router.navigate(["login"], {
             queryParams: { message: "Password Successfully Updated." },
           });
-          // const message =
-          //   "Password has been reset sucessfully.You can login with new your Password. ";
-          // this.successMessage = res["message"] || message;
         },
         (error) => this.onGettingResponseError(error, form)
       );
@@ -106,6 +133,7 @@ export class PasswordComponent implements OnInit {
   private onGettingResponseError(error: HttpErrorResponse, form: FormGroup) {
     this.errorMessage = error.error.message;
     form.enable();
+    this.resetCaptcha();
   }
 
   private validateUrl() {
@@ -118,7 +146,7 @@ export class PasswordComponent implements OnInit {
         this._activatedRoute.queryParams.subscribe((params) => {
           this.token = params.token;
           if (params["email"]) {
-            this.passwordRequestForm.setValue({ email: params["email"] });
+            this.passwordRequestForm.patchValue({ email: params["email"] });
           }
 
           if (params["message"]) {
@@ -137,6 +165,7 @@ export class PasswordComponent implements OnInit {
   private initializeForms() {
     this.passwordRequestForm = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
+      captcha: ["", [Validators.required]],
     });
 
     this.passwordResetForm = this.fb.group({
