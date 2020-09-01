@@ -233,6 +233,10 @@ div.arrow:after {
   }
 }
 
+.filter-layout {
+  margin: 15px;
+}
+
 @media (max-width: 943px) {
   .ulbDetails {
     width: 100% !important;
@@ -256,7 +260,7 @@ div.arrow:after {
   width: fit-content;
   margin-left: 30%;
 
-  @media screen and (max-width:468px){
+  @media screen and (max-width: 468px) {
     position: relative;
   }
 }
@@ -308,23 +312,24 @@ div.arrow:after {
   }
 }
 
-
 .header-btn-style {
   border: 0;
   background: 0;
   color: #059b9a;
   margin-right: 10px;
 }
-.btn-style-none{
-  background:none;
-  border:none;
+.btn-style-none {
+  background: none;
+  border: none;
 }
 
-.btn-style-none:focus, .btn-style-none:hover, .glyphicon, .header-btn-style {
-  background:none;
+.btn-style-none:focus,
+.btn-style-none:hover,
+.glyphicon,
+.header-btn-style {
+  background: none;
   outline: 0;
-  border:none;
+  border: none;
 }
-@media screen and (max-width:468px){
-
+@media screen and (max-width: 468px) {
 }

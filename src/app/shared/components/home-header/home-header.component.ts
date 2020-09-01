@@ -1,14 +1,20 @@
-import { Component, ElementRef, NgZone, OnInit, Renderer2 } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { UserProfile } from 'src/app/users/profile/model/user-profile';
-import { UserUtility } from 'src/app/util/user/user';
+import {
+  Component,
+  ElementRef,
+  NgZone,
+  OnInit,
+  Renderer2,
+} from "@angular/core";
+import { NavigationEnd, Router } from "@angular/router";
+import { UserProfile } from "src/app/users/profile/model/user-profile";
+import { UserUtility } from "src/app/util/user/user";
 
-import { ACTIONS } from '../../../../app/util/access/actions';
-import { MODULES_NAME } from '../../../../app/util/access/modules';
-import { AuthService } from '../../../auth/auth.service';
-import { USER_TYPE } from '../../../models/user/userType';
-import { AccessChecker } from '../../../util/access/accessChecker';
-import { AnalyticsTabs, IAnalyticsTabs } from './tabs';
+import { ACTIONS } from "../../../../app/util/access/actions";
+import { MODULES_NAME } from "../../../../app/util/access/modules";
+import { AuthService } from "../../../auth/auth.service";
+import { USER_TYPE } from "../../../models/user/userType";
+import { AccessChecker } from "../../../util/access/accessChecker";
+import { AnalyticsTabs, IAnalyticsTabs } from "./tabs";
 
 @Component({
   selector: "app-home-header",
@@ -143,8 +149,6 @@ export class HomeHeaderComponent implements OnInit {
     this.router.navigate(["analytics/own-revenues"]);
   }
 
-  
-  
   // navigateToHome() {
   //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
   //  //  if (this.userUtil.isUserOnMobile()) return;
@@ -161,7 +165,7 @@ export class HomeHeaderComponent implements OnInit {
   //   this.router.navigate(["/dashboard/report"]);
   // }
 
-  // navigateToMunicipalLaw() { 
+  // navigateToMunicipalLaw() {
   //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
   //  //  if (this.userUtil.isUserOnMobile()) return;
   //  let element = document.getElementById("navbarNavDropdown");
@@ -169,14 +173,14 @@ export class HomeHeaderComponent implements OnInit {
   //    this.router.navigate(["/credit-rating/laws"]);
   //  }
 
-  //  navigateToMunicipalBond() { 
+  //  navigateToMunicipalBond() {
   //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
   //  //  if (this.userUtil.isUserOnMobile()) return;
   //  let element = document.getElementById("navbarNavDropdown");
   //  element.classList.remove("in");
   //    this.router.navigate(["/credit-rating/municipal-bond"]);
   //  }
-  //  navigateToCreditRating() { 
+  //  navigateToCreditRating() {
   //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
   //  //  if (this.userUtil.isUserOnMobile()) return;
   //  let element = document.getElementById("navbarNavDropdown");
@@ -184,7 +188,7 @@ export class HomeHeaderComponent implements OnInit {
   //    this.router.navigate(["/credit-rating/report"]);
   //  }
 
-  //  navigateToResources() { 
+  //  navigateToResources() {
   //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
   //  //  if (this.userUtil.isUserOnMobile()) return;
   //  let element = document.getElementById("navbarNavDropdown");
@@ -192,17 +196,25 @@ export class HomeHeaderComponent implements OnInit {
   //    this.router.navigate(["/files"]);
   //  }
 
-   navigateTo(url: string){
+  navigateTo(url: string) {
     let element = document.getElementById("navbarNavDropdown");
-   if (element) element.classList.remove("in");
-      this.router.navigate([url]);
-   }
+    if (element) element.classList.remove("in");
+    this.router.navigate([url]);
+  }
 
-  onClickingAnalyticsSubMenu(event: Event) { 
+  onClickingAnalyticsSubMenu(event: Event) {
     if (!this.userUtil.isUserOnMobile()) return;
     event.stopPropagation();
     let element = document.getElementById("navbarNavDropdown");
-     element.classList.remove("in"); 
+    element.classList.remove("in");
+  }
+
+  closeNavbar(event) {
+    const el = event.path[0].classList.value == "dropdown-toggle";
+    let element = document.getElementById("navbarNavDropdown");
+    if (!el && element) {
+      element.classList.remove("in");
+    }
   }
 
   initializedIsProduction() {
@@ -256,5 +268,4 @@ export class HomeHeaderComponent implements OnInit {
       observer.observe(target);
     });
   }
-} 
-
+}

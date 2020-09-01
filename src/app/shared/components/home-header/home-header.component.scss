@@ -200,6 +200,7 @@ nav.navbar {
     }
     li {
       background: rgba(1, 49, 79, 0.9);
+      width: 100%; 
       a {
         font-weight: 400;
         font-size: 0.8vw !important;
@@ -340,8 +341,8 @@ nav.navbar-1st-row {
   }
 
   .nav-ul {
-    width: 70%;
-    background-image: linear-gradient(to right, #095169, #059b9a);
+    width: 100%;
+    // background-image: linear-gradient(to right, #095169, #059b9a);
     position: absolute;
     top: 26px;
     height: 100vh;
@@ -376,6 +377,7 @@ nav.navbar-1st-row {
   .navbar-2nd-row li {
     border-bottom: 1px solid #9a9999;
     box-shadow: 0px 3px 2px 0px #00000045;
+    width: 70%;
   }
   .d-b-lg {
     display: block;
