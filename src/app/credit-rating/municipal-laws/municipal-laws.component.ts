@@ -8,6 +8,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
 import { MapUtil } from 'src/app/util/map/mapUtil';
+import { UserUtility } from 'src/app/util/user/user';
 
 import { AuthService } from '../../../app/auth/auth.service';
 import { DialogComponent } from '../../../app/shared/components/dialog/dialog.component';
@@ -17,7 +18,7 @@ import { CommonService } from '../../../app/shared/services/common.service';
 @Component({
   selector: "app-municipal-laws",
   templateUrl: "./municipal-laws.component.html",
-  styleUrls: ["./municipal-laws.component.scss"],
+  styleUrls: ["./municipal-laws.component.scss"]
 })
 export class MunicipalLawsComponent implements OnInit {
   constructor(
@@ -58,7 +59,7 @@ export class MunicipalLawsComponent implements OnInit {
     "specialAudit",
     "performanceReports",
     "mediumTermFiscalPlan",
-    "publicDisclosure",
+    "publicDisclosure"
   ];
   messages: {};
   structure: {};
@@ -72,7 +73,7 @@ export class MunicipalLawsComponent implements OnInit {
 
   stateColors = {
     unselected: "#E5E5E5",
-    selected: "#059b9a",
+    selected: "#059b9a"
   };
 
   slides: { imgUrl: string; caption: string; states: string[] }[] = [];
@@ -83,10 +84,10 @@ export class MunicipalLawsComponent implements OnInit {
         text: "Proceed to Login",
         callback: () => {
           this.router.navigate(["/", "login"]);
-        },
+        }
       },
-      cancel: { text: "Cancel" },
-    },
+      cancel: { text: "Cancel" }
+    }
   };
 
   nationalLevelMap: L.Map;
@@ -96,7 +97,7 @@ export class MunicipalLawsComponent implements OnInit {
   currentSlideIndex = 0;
 
   ngOnInit() {
-    this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
+    this.geoService.loadConvertedIndiaGeoData().subscribe(data => {
       try {
         this.mapGeoData = data;
         setTimeout(() => {
@@ -107,7 +108,7 @@ export class MunicipalLawsComponent implements OnInit {
         console.error(error);
       }
     });
-    this.commonService.states.subscribe((res) => {
+    this.commonService.states.subscribe(res => {
       this.states = res;
     });
     this.commonService.loadStates(true);
@@ -130,6 +131,38 @@ export class MunicipalLawsComponent implements OnInit {
     this.createNationalLevelMap(this.mapGeoData, "finance-law-map");
   }
 
+  calculateVH(vh: number) {
+    const h = Math.max(
+      document.documentElement.clientHeight,
+      window.innerHeight || 0
+    );
+    return (vh * h) / 100;
+  }
+
+  calculateMapZoomLevel() {
+    let zoom: number;
+    const userUtil = new UserUtility();
+    if (userUtil.isUserOnMobile()) {
+      zoom = 3.8 + (window.devicePixelRatio - 2) / 10;
+      if (window.innerHeight < 600) zoom = 3.6;
+      const valueOf1vh = this.calculateVH(1);
+      if (valueOf1vh < 5) zoom = 3;
+      else if (valueOf1vh < 7) zoom = zoom - 0.2;
+      return zoom;
+    }
+
+    const defaultZoomLevel = 4.7 - (window.devicePixelRatio - 1);
+    try {
+      zoom = localStorage.getItem("mapZoomLevel")
+        ? +localStorage.getItem("mapZoomLevel")
+        : defaultZoomLevel;
+    } catch (error) {
+      zoom = defaultZoomLevel;
+    }
+
+    return zoom;
+  }
+
   createNationalLevelMap(
     geoData: FeatureCollection<
       Geometry,
@@ -139,9 +172,19 @@ export class MunicipalLawsComponent implements OnInit {
     >,
     containerId: string
   ) {
+    const zoom = this.calculateMapZoomLevel();
+
     const configuration = {
       containerId,
       geoData,
+      options: {
+        zoom,
+        minZoom: zoom,
+        attributionControl: false,
+        doubleClickZoom: false,
+        dragging: false,
+        tap: false
+      }
     };
     let map;
 
@@ -150,14 +193,13 @@ export class MunicipalLawsComponent implements OnInit {
     ));
 
     this.nationalLevelMap = map;
-    console.log("createNationalLevelMap");
 
-    this.statesLayer.eachLayer((layer) => {
+    this.statesLayer.eachLayer(layer => {
       (layer as any).bringToBack();
       (layer as any).on({
         click: (args: ILeafletStateClickEvent) => {
           this.onClickingStateOnMap(args);
-        },
+        }
       });
     });
   }
@@ -165,9 +207,9 @@ export class MunicipalLawsComponent implements OnInit {
   onClickingStateOnMap(stateLayer: ILeafletStateClickEvent) {
     const stateName = MapUtil.getStateName(stateLayer).toLowerCase();
     // const stateList = this.slides[this.currentSlideIndex].states;
-    const list = this.slides.find((slide) => {
+    const list = this.slides.find(slide => {
       const slideHasState = !!slide.states.find(
-        (name) => name.toLowerCase() === stateName
+        name => name.toLowerCase() === stateName
       );
       return slideHasState;
     });
@@ -194,10 +236,10 @@ export class MunicipalLawsComponent implements OnInit {
     // if (!statesLayer) {
     //   return;
     // }
-    statesLayer.eachLayer((layer) => {
+    statesLayer.eachLayer(layer => {
       const stateName = MapUtil.getStateName(layer).toLowerCase();
       const stateFound = !!stateNames.find(
-        (name) => name.toLowerCase() == stateName
+        name => name.toLowerCase() == stateName
       );
 
       if (stateFound) {
@@ -250,8 +292,8 @@ export class MunicipalLawsComponent implements OnInit {
           "sikkim",
           "tamil nadu",
           "uttar pradesh",
-          "west bengal",
-        ],
+          "west bengal"
+        ]
       },
       {
         imgUrl: "/assets/images/maps/sc2.PNG",
@@ -265,8 +307,8 @@ export class MunicipalLawsComponent implements OnInit {
           "madhya pradesh",
           "maharashtra",
           "odisha",
-          "tamil nadu",
-        ],
+          "tamil nadu"
+        ]
       },
       {
         imgUrl: "/assets/images/maps/sc3.PNG",
@@ -279,13 +321,13 @@ export class MunicipalLawsComponent implements OnInit {
           "karnataka",
           "kerala",
           "odisha",
-          "rajasthan",
-        ],
+          "rajasthan"
+        ]
       },
       {
         imgUrl: "/assets/images/maps/sc4.PNG",
         caption: "Scope for Public Suggestion in Budgets",
-        states: ["criteria", "bihar", "haryana", "karnataka", "tamil nadu"],
+        states: ["criteria", "bihar", "haryana", "karnataka", "tamil nadu"]
       },
       {
         imgUrl: "/assets/images/maps/sc5.PNG",
@@ -302,8 +344,8 @@ export class MunicipalLawsComponent implements OnInit {
           "punjab",
           "rajasthan",
           "sikkim",
-          "west bengal",
-        ],
+          "west bengal"
+        ]
       },
       {
         imgUrl: "/assets/images/maps/sc6.PNG",
@@ -327,9 +369,9 @@ export class MunicipalLawsComponent implements OnInit {
           "punjab",
           "tamil nadu",
           "uttar pradesh",
-          "west bengal",
-        ],
-      },
+          "west bengal"
+        ]
+      }
     ];
   }
 
@@ -337,7 +379,7 @@ export class MunicipalLawsComponent implements OnInit {
     const isUserLoggedIn = this._authService.loggedIn();
     if (!isUserLoggedIn) {
       const dailogboxx = this._dialog.open(DialogComponent, {
-        data: this.defaultDailogConfiuration,
+        data: this.defaultDailogConfiuration
       });
       return;
     }
@@ -348,7 +390,7 @@ export class MunicipalLawsComponent implements OnInit {
     const stateList = item.states;
     this.selectedStates = ["criteria"];
 
-    this.states.forEach((state) => {
+    this.states.forEach(state => {
       if (
         stateList.indexOf(state.name.toLowerCase()) > -1 &&
         (stateToShow ? stateToShow == state.name.toLowerCase() : true)
@@ -365,7 +407,7 @@ export class MunicipalLawsComponent implements OnInit {
 
   compareAllStates() {
     this.selectedStates = ["criteria"];
-    this.states.forEach((state) => {
+    this.states.forEach(state => {
       this.addToCompare(state);
     });
 
@@ -376,7 +418,7 @@ export class MunicipalLawsComponent implements OnInit {
 
   addToCompareByStateName(stateName) {
     const stName = stateName;
-    this.states.forEach((state) => {
+    this.states.forEach(state => {
       if (state.name.toLowerCase() == stName) {
         this.addToCompare(state);
       }
@@ -443,7 +485,7 @@ export class MunicipalLawsComponent implements OnInit {
 
   backToStateSelection() {
     this.compareState = 1;
-    this.states.forEach((state) => {
+    this.states.forEach(state => {
       state["selected"] = false;
     });
     this.selectedStates = ["criteria"];
@@ -451,7 +493,7 @@ export class MunicipalLawsComponent implements OnInit {
 
   showStateSelectionSection() {
     this.selectedStates = ["criteria"];
-    this.states.forEach((state) => {
+    this.states.forEach(state => {
       state.selected = false;
     });
     this.compareState = 1;
@@ -475,12 +517,12 @@ export class MunicipalLawsComponent implements OnInit {
   prepareData() {
     this.tempStates = {};
     let lastCriteria = "";
-    this.states.forEach((state) => {
+    this.states.forEach(state => {
       const stateName = state.name.toLowerCase();
 
       const temp = {};
       this.list.forEach((item, index) => {
-        Object.entries(this.messages).forEach((key) => {
+        Object.entries(this.messages).forEach(key => {
           if (item.criteria == this.messages[key[0]] && item[stateName]) {
             lastCriteria = key[0];
 
@@ -489,14 +531,14 @@ export class MunicipalLawsComponent implements OnInit {
               temp[key[0]] = { titleThenCaptions: [] };
 
               const lines = msg.split("]");
-              lines.forEach((line) => {
+              lines.forEach(line => {
                 if (line && line.indexOf("[") > -1) {
                   const _title = line.substring(line.indexOf("["), -1);
                   const _caption = line.substring(line.indexOf("[")) + "]";
 
                   temp[key[0]].titleThenCaptions.push({
                     title: _title,
-                    caption: _caption,
+                    caption: _caption
                   });
                 }
               });
@@ -504,14 +546,14 @@ export class MunicipalLawsComponent implements OnInit {
               temp[key[0]] = { titleWithCaptions: [] };
 
               const lines = msg.split(")");
-              lines.forEach((line) => {
+              lines.forEach(line => {
                 if (line && line.indexOf("(") > -1) {
                   const _title = line.substring(line.indexOf("("), -1);
                   const _caption = line.substring(line.indexOf("(")) + ")";
 
                   temp[key[0]].titleWithCaptions.push({
                     title: _title,
-                    caption: _caption,
+                    caption: _caption
                   });
                 }
               });
@@ -663,7 +705,7 @@ export class MunicipalLawsComponent implements OnInit {
         "What information needs to be publicly disclosed?",
       publicDisclosureMannerOfDisclosure:
         "What is the manner of public disclosure prescribed",
-      anyOtherUniqueObservations: "Any Other Unique Observations",
+      anyOtherUniqueObservations: "Any Other Unique Observations"
     };
   }
 
@@ -673,7 +715,7 @@ export class MunicipalLawsComponent implements OnInit {
       systemOfAccounting: [
         "sysAccountingPrescribed",
         "sysBudgetingPrescribed",
-        "refToManuals",
+        "refToManuals"
       ],
       budget: [
         "constitute",
@@ -688,21 +730,21 @@ export class MunicipalLawsComponent implements OnInit {
         "budgetUtilizationReviewTimelines",
         "budgetRsponsibleForUtilizationReview",
         "provisionForBudgetaryControl",
-        "whyOutcomeBudget",
+        "whyOutcomeBudget"
       ],
       accounts: [
         "accountsContents",
         "accountsResponsible",
         "accountsPreparedTill",
         "accountsSubmittedTo",
-        "accountsAuthorityToApprove",
+        "accountsAuthorityToApprove"
       ],
       assets: [
         "fixedAssetRegisterPrescribed",
         "physicalVerificationAssetsPrescribed",
         "assetsConditionsPrescribedAroundInvestment",
         "assetsStateGovtApprovalRequired",
-        "assetsLimitOnClosingCashBalance",
+        "assetsLimitOnClosingCashBalance"
       ],
       liabilities: [
         "isBorrowingPermitted",
@@ -713,7 +755,7 @@ export class MunicipalLawsComponent implements OnInit {
         "conditionsForBorrowing",
         "maxLoanRepaymentPeriod",
         "provisionsOfGuarantees",
-        "conditionsAroundMortgage",
+        "conditionsAroundMortgage"
       ],
       annualReport: [
         "annualReportName",
@@ -721,19 +763,19 @@ export class MunicipalLawsComponent implements OnInit {
         "annualReportResponsible",
         "annualReportPreparedTill",
         "annualReportSubmittedTo",
-        "annualReportCopyRequiredToStateGovt",
+        "annualReportCopyRequiredToStateGovt"
       ],
       inYearFinancialReporting: [
         "iyfrReportPrepared",
         "iyfrSubmittedTo",
-        "iyfrSubmittedTill",
+        "iyfrSubmittedTill"
       ],
       externalAudit: [
         "externalAuditAuditor",
         "externalAuditAuditedTill",
         "externalAuditReportSubmittedTo",
         "externalAuditActionAfterAudit",
-        "externalAuditPenalClausesForNonCompliance",
+        "externalAuditPenalClausesForNonCompliance"
       ],
       internalAudit: [
         "isInternalAuditRequired",
@@ -743,30 +785,30 @@ export class MunicipalLawsComponent implements OnInit {
         "internalAuditReportSubmittedTo",
         "internalAuditActionAfterAudit",
         "riskBasedAuditBasedOnSamplingTechniquePrescribed",
-        "internalAuditPenalClausesForNonCompliance",
+        "internalAuditPenalClausesForNonCompliance"
       ],
       specialAudit: [
         "specialAuditPowerToConductSpecialAudit",
         "specialAuditCriteria",
-        "specialAuditInitiatedBy",
+        "specialAuditInitiatedBy"
       ],
       performanceReports: [
         "isPerformanceReportsPrescribed",
         "performanceReportsContents",
         "performanceReportsFrequencyForSubmission",
         "performanceReportsSubmittedTo",
-        "performanceReportsPenalClausesForNonSubmission",
+        "performanceReportsPenalClausesForNonSubmission"
       ],
       mediumTermFiscalPlan: [
         "isMediumTermFiscalPlanRequired",
-        "provisionRelatingToLinkageBetweenMTFTandAnnualBudget",
+        "provisionRelatingToLinkageBetweenMTFTandAnnualBudget"
       ],
       publicDisclosure: [
         "isPublicDisclosureRequired",
         "publicDisclosureInfoToBeDisclosed",
-        "publicDisclosureMannerOfDisclosure",
+        "publicDisclosureMannerOfDisclosure"
       ],
-      anyOtherUniqueObservations: ["anyOtherUniqueObservations"],
+      anyOtherUniqueObservations: ["anyOtherUniqueObservations"]
     };
   }
 
