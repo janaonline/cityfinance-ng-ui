@@ -9,18 +9,20 @@ export class MapUtil {
     weight: 1,
     opacity: 1,
     color: "#403f3f",
-    fillOpacity: 1,
+    fillOpacity: 1
   };
 
   private static readonly defaultMapConfiguration = {
     scrollWheelZoom: false,
     fadeAnimation: true,
-    dragging: false,
     minZoom: (Math.max(document.documentElement.clientWidth) - 1366) / 1366 + 4,
     maxZoom: (Math.max(document.documentElement.clientWidth) - 1366) / 1366 + 4,
     zoomControl: false,
-    doubleClickZoom: false,
     keyboard: false,
+    attributionControl: false,
+    doubleClickZoom: false,
+    dragging: false,
+    tap: false
   };
 
   /**
@@ -35,7 +37,7 @@ export class MapUtil {
     Goa: { lat: 15.441705, lng: 74.699032 },
     Haryana: { lat: 29.501121, lng: 76.180837 },
     Delhi: { lat: 28.689453, lng: 77.814074 },
-    "Himachal Pradesh": { lat: 31.747344, lng: 78.364865 },
+    "Himachal Pradesh": { lat: 31.747344, lng: 78.364865 }
   };
 
   public static getStateName(layer: ILeafletStateClickEvent | L.Layer): string {
@@ -51,7 +53,7 @@ export class MapUtil {
   }
 
   public static colorIndiaMap(map: L.Map, fillColor: string) {
-    return map.eachLayer((layer) => {
+    return map.eachLayer(layer => {
       MapUtil.colorStateLayer(layer, fillColor);
     });
   }
@@ -64,7 +66,7 @@ export class MapUtil {
       {
         fillOpacity: 1,
         fillColor,
-        weight: -1,
+        weight: -1
       },
       true
     );
@@ -114,11 +116,11 @@ export class MapUtil {
   ) {
     if (style) {
       return L.geoJSON(geoData, {
-        style: { ...MapUtil.defaultStateLayerStyle, ...style },
+        style: { ...MapUtil.defaultStateLayerStyle, ...style }
       });
     }
     return L.geoJSON(geoData, {
-      style: MapUtil.defaultStateLayerStyle,
+      style: MapUtil.defaultStateLayerStyle
     });
   }
 
@@ -126,7 +128,7 @@ export class MapUtil {
     return map.fitBounds(stateLayers.getBounds(), {
       paddingBottomRight: [0, 0],
       padding: [0, 0],
-      maxZoom: 8,
+      maxZoom: 8
     });
   }
 }
