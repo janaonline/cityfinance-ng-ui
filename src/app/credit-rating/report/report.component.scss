@@ -31,18 +31,25 @@ table {
 .tableWrapper {
   height: 55vh;
 }
-
-@media (min-width: 768px) {
-  .dashboard-wrapper {
-    #mapidd {
-      height: 55vh;
-      min-height: 410px;
-    }
+.dashboard-wrapper {
+  #mapidd {
+    height: 55vh;
+    min-height: 410px;
   }
 }
 
+// @media (min-width: 768px) {
+//   .dashboard-wrapper {
+//     #mapidd {
+//       height: 55vh;
+//       min-height: 410px;
+//     }
+//   }
+// }
+
 .map-container {
   height: 100%;
+
   .fil2 {
     fill: #fff;
   }
@@ -256,7 +263,7 @@ div.arrow:after {
   width: fit-content;
   margin-left: 30%;
 
-  @media screen and (max-width:468px){
+  @media screen and (max-width: 468px) {
     position: relative;
   }
 }
@@ -308,23 +315,24 @@ div.arrow:after {
   }
 }
 
-
 .header-btn-style {
   border: 0;
   background: 0;
   color: #059b9a;
   margin-right: 10px;
 }
-.btn-style-none{
-  background:none;
-  border:none;
+.btn-style-none {
+  background: none;
+  border: none;
 }
 
-.btn-style-none:focus, .btn-style-none:hover, .glyphicon, .header-btn-style {
-  background:none;
+.btn-style-none:focus,
+.btn-style-none:hover,
+.glyphicon,
+.header-btn-style {
+  background: none;
   outline: 0;
-  border:none;
+  border: none;
 }
-@media screen and (max-width:468px){
-
+@media screen and (max-width: 468px) {
 }
