@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row mt-2">
     <div style="text-align: center; margin-bottom: 25px">
-      <h3 *ngIf="!viewMode">Upload Annual Accounts:</h3>
-      <h3 *ngIf="viewMode">Annual Accounts Details:</h3>
+      <h3 *ngIf="!viewMode">Upload Annual Accounts</h3>
+      <h3 *ngIf="viewMode">Annual Accounts Details</h3>
     </div>
     <form [formGroup]="validateForm">
       <div>
@@ -106,7 +106,7 @@
               />
             </div>
             <span
-              *ngIf="validateForm.controls.person.errors?.pattern"
+              *ngIf="(validateForm.controls.person?.errors || {})['pattern']"
               style="color: red"
               >Please enter valid name.</span
             >
@@ -122,7 +122,9 @@
               />
             </div>
             <span
-              *ngIf="validateForm.controls.designation.errors?.pattern"
+              *ngIf="
+                (validateForm.controls.designation?.errors || {})['pattern']
+              "
               style="color: red"
               >Please enter valid designation.</span
             >
@@ -138,7 +140,7 @@
               />
             </div>
             <span
-              *ngIf="validateForm.controls.email.errors?.pattern"
+              *ngIf="(validateForm.controls.email?.errors || {})['pattern']"
               style="color: red"
               >Please enter valid email.</span
             >
@@ -146,7 +148,10 @@
         </div>
       </div>
 
-      <div class="instructions-layout">
+      <div
+        class="instructions-layout"
+        *ngIf="viewMode ? anyDocumentUploaded : true"
+      >
         <h4>
           Please read the following instructions and upload the documents:
         </h4>
@@ -514,7 +519,7 @@
               ((validateForm.value.parastatalName == null ||
                 validateForm.value.parastatalName == '') &&
                 validateForm.value.ulb == null) ||
-              disabledsubmit
+              disableSubmit
             "
           >
             Submit

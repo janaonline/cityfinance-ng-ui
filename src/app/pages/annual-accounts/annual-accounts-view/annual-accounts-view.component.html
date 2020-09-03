@@ -14,6 +14,9 @@
             style="background: #059b9a; color: white; border: 0px"
             class="sortable-headers"
           >
+            <th>
+              Sr No
+            </th>
             <th class="">
               State
               <!-- <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i> -->
@@ -35,6 +38,7 @@
         </thead>
         <tbody *ngIf="!isApiInProgress">
           <tr>
+            <td></td>
             <td>
               <div class="input-group">
                 <select #state class="form-control" placeholder="State">
@@ -107,6 +111,9 @@
               index as i
             "
           >
+            <td>
+              {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+            </td>
             <td>{{ data.stateName }}</td>
             <td>{{ data.bodyType | titlecase }}</td>
             <td>{{ data.ulbName }}</td>
@@ -197,7 +204,7 @@
       <!-- <div class="col-md-6"> -->
       <div class="container">
         <div class="row mb-2">
-          <div class="col-md-12">
+          <div class="col-md-12" *ngIf="anyDcoumentUploaded">
             <h3>Documents:</h3>
             <div
               *ngIf="
