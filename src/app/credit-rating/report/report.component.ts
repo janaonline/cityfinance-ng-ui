@@ -11,6 +11,7 @@ import { AssetsService } from 'src/app/shared/services/assets/assets.service';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
 import { MapUtil } from 'src/app/util/map/mapUtil';
 import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
+import { UserUtility } from 'src/app/util/user/user';
 
 import { AuthService } from '../../../app/auth/auth.service';
 import { DialogComponent } from '../../../app/shared/components/dialog/dialog.component';
@@ -25,7 +26,7 @@ import { ULBRatings } from './ratings';
 @Component({
   selector: "app-report",
   templateUrl: "./report.component.html",
-  styleUrls: ["./report.component.scss"],
+  styleUrls: ["./report.component.scss"]
 })
 export class ReportComponent implements OnInit, OnDestroy {
   constructor(
@@ -39,9 +40,9 @@ export class ReportComponent implements OnInit, OnDestroy {
     private _activatedRoute: ActivatedRoute
   ) {
     this._activatedRoute.queryParams.subscribe(
-      (params) => (this.queryParams = params)
+      params => (this.queryParams = params)
     );
-    this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
+    this.geoService.loadConvertedIndiaGeoData().subscribe(data => {
       this.createNationalLevelMap(data, "mapidd");
     });
   }
@@ -95,17 +96,17 @@ export class ReportComponent implements OnInit, OnDestroy {
         text: "Proceed to Login",
         callback: () => {
           this.router.navigate(["/", "login"]);
-        },
+        }
       },
-      cancel: { text: "Cancel" },
-    },
+      cancel: { text: "Cancel" }
+    }
   };
 
   stateLayerSelectonMap: ILeafletStateClickEvent;
 
   stateColors = {
     unselected: "#efefef",
-    selected: "#059b9a",
+    selected: "#059b9a"
   };
 
   queryParams: { state?: string; minRating?: "BBB-" | "A" } = {};
@@ -117,13 +118,21 @@ export class ReportComponent implements OnInit, OnDestroy {
   stateLayerToAutoSelect: L.Layer;
 
   onClearRatingFilter() {
-    this.router.navigate(["/credit-rating/report"]).then((res) => {
+    this.router.navigate(["/credit-rating/report"]).then(res => {
       let stateToSelect: string;
       if (this.stateLayerSelectonMap) {
         stateToSelect = MapUtil.getStateName(this.stateLayerSelectonMap);
       }
       this.showCreditInfoByState(stateToSelect);
     });
+  }
+
+  calculateVH(vh: number) {
+    const h = Math.max(
+      document.documentElement.clientHeight,
+      window.innerHeight || 0
+    );
+    return (vh * h) / 100;
   }
 
   createNationalLevelMap(
@@ -138,6 +147,14 @@ export class ReportComponent implements OnInit, OnDestroy {
     let zoom = 4.32;
 
     zoom += 1 - window.devicePixelRatio;
+    const userUtil = new UserUtility();
+    if (userUtil.isUserOnMobile()) {
+      zoom = 3.8 + (window.devicePixelRatio - 2) / 10;
+      if (window.innerHeight < 600) zoom = 3.6;
+      const valueOf1vh = this.calculateVH(1);
+      if (valueOf1vh < 5) zoom = 3;
+      else if (valueOf1vh < 7) zoom = zoom - 0.2;
+    }
 
     const configuration: IMapCreationConfig = {
       containerId,
@@ -145,18 +162,18 @@ export class ReportComponent implements OnInit, OnDestroy {
       options: {
         zoom,
         maxZoom: zoom,
-        minZoom: zoom,
+        minZoom: zoom
       },
       layerOptions: {
-        fillColor: this.stateColors.selected,
-      },
+        fillColor: this.stateColors.selected
+      }
     };
     const { stateLayers, map } = MapUtil.createDefaultNationalMap(
       configuration
     );
     this.nationalLevelMap = map;
 
-    stateLayers.eachLayer((layer) => {
+    stateLayers.eachLayer(layer => {
       if (this.queryParams.state) {
         if (MapUtil.getStateName(layer) === this.queryParams.state) {
           this.stateLayerToAutoSelect = layer;
@@ -164,7 +181,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       }
       (layer as any).bringToBack();
       (layer as any).on({
-        click: (args: ILeafletStateClickEvent) => this.onClickingState(args),
+        click: (args: ILeafletStateClickEvent) => this.onClickingState(args)
       });
     });
 
@@ -216,7 +233,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     this.ulbSearchFormControl.valueChanges
       .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((res) =>
+      .subscribe(res =>
         this.searchDropdownItemSelected(this.ulbSearchFormControl, "ulb")
       );
   }
@@ -225,7 +242,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     const isUserLoggedIn = this._authService.loggedIn();
     if (!isUserLoggedIn) {
       this._dialog.open(DialogComponent, {
-        data: this.defaultDailogConfiuration,
+        data: this.defaultDailogConfiuration
       });
       return;
     }
@@ -261,8 +278,8 @@ export class ReportComponent implements OnInit, OnDestroy {
         "C-": 0,
         "D+": 0,
         D: 0,
-        "D-": 0,
-      },
+        "D-": 0
+      }
     };
   }
 
@@ -317,14 +334,14 @@ export class ReportComponent implements OnInit, OnDestroy {
     if (!this.queryParams || !this.queryParams.minRating) return true;
     const minBound = 0;
     const upperBound = ULBRatings.findIndex(
-      (rating) => rating === this.queryParams.minRating
+      rating => rating === this.queryParams.minRating
     );
 
     // If the upper bound is invalid, then allow all the ratings.
     if (upperBound < 0) return true;
 
     const indexFound = ULBRatings.findIndex(
-      (rating) => rating === ratingToEvaluate
+      rating => rating === ratingToEvaluate
     );
 
     if (minBound <= indexFound && indexFound <= upperBound) return true;
@@ -336,23 +353,23 @@ export class ReportComponent implements OnInit, OnDestroy {
   openUlbInfo(info, template: TemplateRef<any>) {
     this.ulbInfo = [];
 
-    this.ulbInfo = this.detailedList.filter((item) => {
+    this.ulbInfo = this.detailedList.filter(item => {
       return item.ulb == info.ulb;
     });
-    this.ulbInfo.forEach((ulb) => {
+    this.ulbInfo.forEach(ulb => {
       ulb = this.addRatingDesc(ulb);
     });
     this.modalRef = this.modalService.show(template, {
-      class: "modal-lg modal-center",
+      class: "modal-lg modal-center"
     });
   }
 
   getUlbInfo(info) {
     this.ulbInfo = [];
-    this.ulbInfo = this.detailedList.filter((item) => {
+    this.ulbInfo = this.detailedList.filter(item => {
       return item.ulb == info.ulb;
     });
-    this.ulbInfo.forEach((ulb) => {
+    this.ulbInfo.forEach(ulb => {
       ulb = this.addRatingDesc(ulb);
     });
   }
@@ -388,14 +405,14 @@ export class ReportComponent implements OnInit, OnDestroy {
     if (!this.search) {
       this.list = this.originalList;
     } else {
-      this.list = this.originalList.filter((item) => {
+      this.list = this.originalList.filter(item => {
         return item.ulb.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
       });
     }
   }
 
   sortAsc(list, header) {
-    return list.sort(function (a, b) {
+    return list.sort(function(a, b) {
       // if(header == 'date'){
       //   var d1 = new Date(a[header]);
       //   var d2 = new Date(b[header]);
@@ -417,7 +434,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   sortDesc(list, header) {
-    return list.sort(function (a, b) {
+    return list.sort(function(a, b) {
       if (header == "amount") {
         return parseInt(b[header]) - parseInt(a[header]);
       }
@@ -449,7 +466,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   openModal(ModalRef: TemplateRef<any>, grade) {
     this.dialogData = this.list.filter(
-      (ulb) =>
+      ulb =>
         (this.selectedStates[0].length
           ? this.selectedStates[0]
               .toLowerCase()
@@ -463,34 +480,34 @@ export class ReportComponent implements OnInit, OnDestroy {
   private generateDropDownData() {
     this.dropdownFiltersData.states = this.commonService
       .getUniqueArrayByKey(this.list, "state")
-      .map((state) => {
+      .map(state => {
         return {
           id: state,
-          name: state,
+          name: state
         };
       });
     this.dropdownFiltersData.agencies = this.commonService
       .getUniqueArrayByKey(this.list, "agency")
-      .map((agency) => {
+      .map(agency => {
         return {
           id: agency,
-          name: agency,
+          name: agency
         };
       });
     this.dropdownFiltersData.creditRatings = this.commonService
       .getUniqueArrayByKey(this.list, "creditrating")
-      .map((creditrating) => {
+      .map(creditrating => {
         return {
           id: creditrating,
-          name: creditrating,
+          name: creditrating
         };
       });
     this.dropdownFiltersData.statusRatings = this.commonService
       .getUniqueArrayByKey(this.list, "status")
-      .map((status) => {
+      .map(status => {
         return {
           id: status,
-          name: status,
+          name: status
         };
       });
   }
@@ -523,14 +540,14 @@ export class ReportComponent implements OnInit, OnDestroy {
         if (filter === "ulb") {
           ids = formControl.value.toLowerCase();
         } else {
-          ids = formControl.value.map((el) => el.id);
+          ids = formControl.value.map(el => el.id);
         }
         if (filter === "ulb") {
-          this.list = this.list.filter((ulb) =>
+          this.list = this.list.filter(ulb =>
             ulb[filter].toLowerCase().includes(ids)
           );
         } else {
-          this.list = this.list.filter((ulb) => ids.includes(ulb[filter]));
+          this.list = this.list.filter(ulb => ids.includes(ulb[filter]));
         }
       }
     }
@@ -542,8 +559,8 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.stateSearchFormControl,
       this.agencySearchFormControl,
       this.creditSearchFormControl,
-      this.statusSearchFormControl,
-    ].forEach((formControl) => formControl.reset());
+      this.statusSearchFormControl
+    ].forEach(formControl => formControl.reset());
     this.list = this.originalList;
   }
 

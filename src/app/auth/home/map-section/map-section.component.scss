@@ -245,6 +245,10 @@
 .mapWrapper {
   grid-area: m;
 
+  @media screen and (max-width:468px) {
+    width: 100%;
+    overflow: hidden;
+  }
   @media screen  and (max-width:480px) and (max-width:470px) {
     grid-area:  2 / 1 / 8 / 5 !important;
     width: 100%;

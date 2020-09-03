@@ -31,18 +31,25 @@ table {
 .tableWrapper {
   height: 55vh;
 }
-
-@media (min-width: 768px) {
-  .dashboard-wrapper {
-    #mapidd {
-      height: 55vh;
-      min-height: 410px;
-    }
+.dashboard-wrapper {
+  #mapidd {
+    height: 55vh;
+    min-height: 410px;
   }
 }
 
+// @media (min-width: 768px) {
+//   .dashboard-wrapper {
+//     #mapidd {
+//       height: 55vh;
+//       min-height: 410px;
+//     }
+//   }
+// }
+
 .map-container {
   height: 100%;
+
   .fil2 {
     fill: #fff;
   }

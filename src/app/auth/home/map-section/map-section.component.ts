@@ -256,7 +256,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
         element.innerText = `${target}`;
       }
     });
-  };
+  }
 
   private fetchDataForMapColoring() {
     this.commonService
