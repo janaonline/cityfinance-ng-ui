@@ -14,6 +14,16 @@ import { AnnualAccountsService } from '../annual-accounts.service';
   styleUrls: ["./annual-accounts-create.component.scss"]
 })
 export class AnnualAccountsCreateComponent implements OnInit {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private annualAccountsService: AnnualAccountsService,
+    private dataEntryService: DataEntryService,
+    private _commonService: CommonService,
+    public snackBar: MatSnackBar
+  ) {
+    this.fetchStateList();
+  }
   @Input() viewData;
   @ViewChild("pdf15_16") pdf15_16: ElementRef;
   @ViewChild("excel15_16") excel15_16: ElementRef;
@@ -71,16 +81,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
     }
   };
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private annualAccountsService: AnnualAccountsService,
-    private dataEntryService: DataEntryService,
-    private _commonService: CommonService,
-    public snackBar: MatSnackBar
-  ) {
-    this.fetchStateList();
-  }
+  anyDocumentUploaded = false;
 
   ngOnInit() {
     if (this.viewData != undefined) {
@@ -119,7 +120,6 @@ export class AnnualAccountsCreateComponent implements OnInit {
       this.setSelectedData();
       this.fetchUlbList(this.viewData.state);
     }
-    console.log(this.validateForm);
   }
 
   setSelectedData() {
@@ -132,6 +132,17 @@ export class AnnualAccountsCreateComponent implements OnInit {
       person: this.viewData.person,
       designation: this.viewData.designation,
       email: this.viewData.email
+    });
+    this.anyDocumentUploaded = this.hasUserUploadedAnyDocumnet();
+  }
+
+  hasUserUploadedAnyDocumnet() {
+    const documents = { ...this.viewData.documents };
+    return Object.keys(documents).some(FinancialYear => {
+      const pdf = documents[FinancialYear].pdf || [];
+      const excel = documents[FinancialYear].excel || [];
+      if (pdf.length || excel.length) return true;
+      return false;
     });
   }
 
@@ -182,7 +193,6 @@ export class AnnualAccountsCreateComponent implements OnInit {
       .createAnnualAccounts(this.validateForm.value)
       .subscribe(
         response => {
-          console.log(response);
           this.snackBar.open("Annual Accounts Updated", "Success!", {
             duration: 3000
           });
@@ -191,7 +201,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
         },
         error => {
           this.disableSubmit = false;
-          console.log(error);
+          console.error(error);
         }
       );
   }
@@ -208,14 +218,11 @@ export class AnnualAccountsCreateComponent implements OnInit {
     ) {
       const selectedType = fileType == "application/pdf" ? "pdf" : "excel";
 
-      console.log("it is included", selectedType);
       const size = event.target.files[0].size / (1024 * 1024);
-      console.log(size, "MB");
 
       if (selectedType == type && size < 50) {
         this.loader[year][type] = true;
         this.loader[year]["name"][type] = fileName;
-        console.log(this.loader);
 
         this.dataEntryService.getURLForFileUpload(fileName, fileType).subscribe(
           response => {
@@ -233,13 +240,13 @@ export class AnnualAccountsCreateComponent implements OnInit {
                   }
                 },
                 error => {
-                  console.log(error);
+                  console.error(error);
                   this.loader[year][type] = false;
                 }
               );
           },
           error => {
-            console.log(error);
+            console.error(error);
             this.loader[year][type] = false;
           }
         );

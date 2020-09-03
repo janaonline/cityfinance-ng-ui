@@ -106,7 +106,7 @@
               />
             </div>
             <span
-              *ngIf="validateForm.controls.person.errors['pattern']"
+              *ngIf="(validateForm.controls.person?.errors || {})['pattern']"
               style="color: red"
               >Please enter valid name.</span
             >
@@ -122,7 +122,9 @@
               />
             </div>
             <span
-              *ngIf="validateForm.controls.designation.errors['pattern']"
+              *ngIf="
+                (validateForm.controls.designation?.errors || {})['pattern']
+              "
               style="color: red"
               >Please enter valid designation.</span
             >
@@ -138,7 +140,7 @@
               />
             </div>
             <span
-              *ngIf="validateForm.controls.email.errors['pattern']"
+              *ngIf="(validateForm.controls.email?.errors || {})['pattern']"
               style="color: red"
               >Please enter valid email.</span
             >
@@ -146,8 +148,11 @@
         </div>
       </div>
 
-      <div class="instructions-layout">
-        <h4 class="bold">
+      <div
+        class="instructions-layout"
+        *ngIf="viewMode ? anyDocumentUploaded : true"
+      >
+        <h4>
           Please read the following instructions and upload the documents:
         </h4>
         <p>
@@ -513,7 +518,8 @@
               !validateForm.valid ||
               ((validateForm.value.parastatalName == null ||
                 validateForm.value.parastatalName == '') &&
-                validateForm.value.ulb == null)
+                validateForm.value.ulb == null) ||
+              disableSubmit
             "
           >
             Submit
