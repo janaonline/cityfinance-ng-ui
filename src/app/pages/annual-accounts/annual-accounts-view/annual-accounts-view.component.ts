@@ -28,6 +28,8 @@ export class AnnualAccountsViewComponent implements OnInit {
 
   stateList: IStateULBCovered[] = [];
 
+  isApiInProgress = false;
+
   constructor(
     private annualAccountsService: AnnualAccountsService,
     private _commonService: CommonService
@@ -39,10 +41,12 @@ export class AnnualAccountsViewComponent implements OnInit {
   }
 
   getAnnualAccountsList(body) {
+    this.isApiInProgress = true;
     const util = new JSONUtility();
     body.filter = util.filterEmptyValue(body.filter);
     this.annualAccountsService.getAnnualAccounts(body).subscribe(
       (response) => {
+        this.isApiInProgress = false;
         this.dataSource = response["data"];
         if (response.hasOwnProperty("total")) {
           this.tableDefaultOptions.totalCount = response["total"];
@@ -60,8 +64,15 @@ export class AnnualAccountsViewComponent implements OnInit {
     });
   }
 
-  filterData(state, bodyType, skip) {
-    const body = { state: state, bodyType: bodyType };
+  filterData(state, bodyType, ulbName, parastatalName, skip) {
+    console.log(ulbName, parastatalName);
+
+    const body = {
+      state: state,
+      bodyType: bodyType,
+      ulbName: ulbName,
+      parastatalName: parastatalName,
+    };
     this.listFetchOption.filter = body;
     this.listFetchOption.skip =
       skip || skip === 0 ? skip : this.listFetchOption.skip;
