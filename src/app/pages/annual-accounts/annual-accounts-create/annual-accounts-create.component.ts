@@ -1,16 +1,17 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
-import { AnnualAccountsService } from "../annual-accounts.service";
-import { IStateULBCovered } from "src/app/shared/models/stateUlbConvered";
-import { CommonService } from "src/app/shared/services/common.service";
-import { Router } from "@angular/router";
-import { MatSnackBar } from "@angular/material";
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
+import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
+import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
+import { CommonService } from 'src/app/shared/services/common.service';
+
+import { AnnualAccountsService } from '../annual-accounts.service';
 
 @Component({
   selector: "app-annual-accounts-create",
   templateUrl: "./annual-accounts-create.component.html",
-  styleUrls: ["./annual-accounts-create.component.scss"],
+  styleUrls: ["./annual-accounts-create.component.scss"]
 })
 export class AnnualAccountsCreateComponent implements OnInit {
   @Input() viewData;
@@ -29,45 +30,45 @@ export class AnnualAccountsCreateComponent implements OnInit {
   documents = {
     financial_year_2015_16: {
       pdf: [],
-      excel: [],
+      excel: []
     },
     financial_year_2016_17: {
       pdf: [],
-      excel: [],
+      excel: []
     },
     financial_year_2017_18: {
       pdf: [],
-      excel: [],
+      excel: []
     },
     financial_year_2018_19: {
       pdf: [],
-      excel: [],
-    },
+      excel: []
+    }
   };
   viewMode = false;
   ulb: any;
-  disableSubmit: boolean = false;
+  disableSubmit = false;
   loader = {
     financial_year_2015_16: {
       pdf: false,
       excel: false,
-      name: { pdf: null, excel: null },
+      name: { pdf: null, excel: null }
     },
     financial_year_2016_17: {
       pdf: false,
       excel: false,
-      name: { pdf: null, excel: null },
+      name: { pdf: null, excel: null }
     },
     financial_year_2017_18: {
       pdf: false,
       excel: false,
-      name: { pdf: null, excel: null },
+      name: { pdf: null, excel: null }
     },
     financial_year_2018_19: {
       pdf: false,
       excel: false,
-      name: { pdf: null, excel: null },
-    },
+      name: { pdf: null, excel: null }
+    }
   };
 
   constructor(
@@ -89,27 +90,30 @@ export class AnnualAccountsCreateComponent implements OnInit {
     this.validateForm = this.fb.group({
       state: [{ value: null, disabled: this.viewMode }, [Validators.required]],
       bodyType: [
-        { value: 'parastatal', disabled: this.viewMode },
-        [Validators.required],
+        { value: "parastatal", disabled: this.viewMode },
+        [Validators.required]
       ],
       ulb: [{ value: null, disabled: this.viewMode }],
       ulbType: [{ value: null, disabled: "true" }],
-      parastatalName: [{ value: null, disabled: this.viewMode }],
+      parastatalName: [
+        { value: null, disabled: this.viewMode },
+        [Validators.pattern(".*?[a-zA-Z]+")]
+      ],
       person: [
         { value: null, disabled: this.viewMode },
-        [Validators.required, Validators.pattern(".*?[a-zA-Z]+")],
+        [Validators.required, Validators.pattern(".*?[a-zA-Z]+")]
       ],
       designation: [
         { value: null, disabled: this.viewMode },
-        [Validators.required, Validators.pattern(".*?[a-zA-Z]+")],
+        [Validators.required, Validators.pattern(".*?[a-zA-Z]+")]
       ],
       email: [
         { value: null, disabled: this.viewMode },
         [
           Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),
-          Validators.required,
-        ],
-      ],
+          Validators.required
+        ]
+      ]
     });
     if (this.viewMode) {
       this.setSelectedData();
@@ -127,19 +131,19 @@ export class AnnualAccountsCreateComponent implements OnInit {
       parastatalName: this.viewData.parastatalName,
       person: this.viewData.person,
       designation: this.viewData.designation,
-      email: this.viewData.email,
+      email: this.viewData.email
     });
   }
 
   fetchStateList() {
-    this._commonService.getStateUlbCovered().subscribe((res) => {
+    this._commonService.getStateUlbCovered().subscribe(res => {
       this.stateList = res.data;
     });
   }
 
   fetchUlbList(stateId) {
     this.ulbList = [];
-    this._commonService.getULBByStateCode(stateId).subscribe((res) => {
+    this._commonService.getULBByStateCode(stateId).subscribe(res => {
       if (res["data"]) {
         res["data"] = res["data"].sort((stateA, stateB) =>
           stateA.name > stateB.name ? 1 : -1
@@ -153,12 +157,12 @@ export class AnnualAccountsCreateComponent implements OnInit {
     this.fetchUlbList(event.target.value);
     this.validateForm.patchValue({
       ulbType: null,
-      ulb: null,
+      ulb: null
     });
   }
 
   updateUlbType(event) {
-    this.ulb = this.ulbList.find((item) => item._id == event.target.value);
+    this.ulb = this.ulbList.find(item => item._id == event.target.value);
     this.validateForm.patchValue({ ulbType: this.ulb.ulbType.name });
   }
 
@@ -166,7 +170,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
     this.validateForm.patchValue({
       ulbType: null,
       ulb: null,
-      parastatalName: null,
+      parastatalName: null
     });
   }
 
@@ -177,15 +181,15 @@ export class AnnualAccountsCreateComponent implements OnInit {
     this.annualAccountsService
       .createAnnualAccounts(this.validateForm.value)
       .subscribe(
-        (response) => {
+        response => {
           console.log(response);
           this.snackBar.open("Annual Accounts Updated", "Success!", {
-            duration: 3000,
+            duration: 3000
           });
           this.router.navigate(["/home"]);
           this.validateForm.reset();
         },
-        (error) => {
+        error => {
           this.disableSubmit = false;
           console.log(error);
         }
@@ -214,27 +218,27 @@ export class AnnualAccountsCreateComponent implements OnInit {
         console.log(this.loader);
 
         this.dataEntryService.getURLForFileUpload(fileName, fileType).subscribe(
-          (response) => {
+          response => {
             const s3Url = response["data"][0].url;
             const finalUrl = response["data"][0].file_alias;
             this.dataEntryService
               .uploadFileToS3(event.target.files[0], s3Url)
               .subscribe(
-                (response) => {
+                response => {
                   if (response["body"]) {
                     this.documents[year][type] = [
-                      { name: fileName, url: finalUrl },
+                      { name: fileName, url: finalUrl }
                     ];
                     this.loader[year][type] = false;
                   }
                 },
-                (error) => {
+                error => {
                   console.log(error);
                   this.loader[year][type] = false;
                 }
               );
           },
-          (error) => {
+          error => {
             console.log(error);
             this.loader[year][type] = false;
           }
@@ -244,14 +248,14 @@ export class AnnualAccountsCreateComponent implements OnInit {
           `Please select ${type} file and size should be less than 50mb`,
           "Error",
           {
-            duration: 3000,
+            duration: 3000
           }
         );
         this.updateSelecteFile(year, type);
       }
     } else {
       this.snackBar.open("Invalid File type", "Error", {
-        duration: 3000,
+        duration: 3000
       });
       this.updateSelecteFile(year, type);
     }
