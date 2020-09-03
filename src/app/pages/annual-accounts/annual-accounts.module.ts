@@ -14,6 +14,7 @@ import {
   MatTableModule,
   MatSortModule,
   MatSnackBarModule,
+  MatProgressSpinnerModule,
 } from "@angular/material";
 import { NgxPaginationModule } from "ngx-pagination";
 
@@ -31,6 +32,7 @@ import { NgxPaginationModule } from "ngx-pagination";
     MatSortModule,
     NgxPaginationModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
   ],
   declarations: [AnnualAccountsCreateComponent],
   exports: [AnnualAccountsCreateComponent],

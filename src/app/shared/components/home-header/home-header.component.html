@@ -99,14 +99,17 @@
   >
     <span
       style="
-        width: 70%;
+        width: 65%;
         height: 100%;
-        /* background: red; */
         position: absolute;
         background-image: linear-gradient(to right, #095169, #059b9a);
       "
     ></span>
-    <li [routerLink]="['/']" class="navbar-brand d-n-sm">
+    <li
+      [routerLink]="['/']"
+      class="navbar-brand d-n-sm"
+      style="position: absolute; left: 20px"
+    >
       <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
     </li>
     <li routerLinkActive="active">

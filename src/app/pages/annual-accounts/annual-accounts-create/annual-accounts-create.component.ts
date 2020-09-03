@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, ViewChild, ElementRef } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { AnnualAccountsService } from "../annual-accounts.service";
@@ -14,9 +14,18 @@ import { MatSnackBar } from "@angular/material";
 })
 export class AnnualAccountsCreateComponent implements OnInit {
   @Input() viewData;
+  @ViewChild("pdf15_16") pdf15_16: ElementRef;
+  @ViewChild("excel15_16") excel15_16: ElementRef;
+  @ViewChild("pdf16_17") pdf16_17: ElementRef;
+  @ViewChild("excel16_17") excel16_17: ElementRef;
+  @ViewChild("pdf17_18") pdf17_18: ElementRef;
+  @ViewChild("excel17_18") excel17_18: ElementRef;
+  @ViewChild("pdf18_19") pdf18_19: ElementRef;
+  @ViewChild("excel18_19") excel18_19: ElementRef;
+
   validateForm!: FormGroup;
   stateList: IStateULBCovered[] = [];
-  ulbList: any[];
+  ulbList: any[] = [];
   documents = {
     financial_year_2015_16: {
       pdf: [],
@@ -37,6 +46,29 @@ export class AnnualAccountsCreateComponent implements OnInit {
   };
   viewMode = false;
   ulb: any;
+  disableSubmit: boolean = false;
+  loader = {
+    financial_year_2015_16: {
+      pdf: false,
+      excel: false,
+      name: { pdf: null, excel: null },
+    },
+    financial_year_2016_17: {
+      pdf: false,
+      excel: false,
+      name: { pdf: null, excel: null },
+    },
+    financial_year_2017_18: {
+      pdf: false,
+      excel: false,
+      name: { pdf: null, excel: null },
+    },
+    financial_year_2018_19: {
+      pdf: false,
+      excel: false,
+      name: { pdf: null, excel: null },
+    },
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -57,20 +89,33 @@ export class AnnualAccountsCreateComponent implements OnInit {
     this.validateForm = this.fb.group({
       state: [{ value: null, disabled: this.viewMode }, [Validators.required]],
       bodyType: [
-        { value: null, disabled: this.viewMode },
+        { value: 'parastatal', disabled: this.viewMode },
         [Validators.required],
       ],
       ulb: [{ value: null, disabled: this.viewMode }],
       ulbType: [{ value: null, disabled: "true" }],
       parastatalName: [{ value: null, disabled: this.viewMode }],
-      person: [{ value: null, disabled: this.viewMode }],
-      designation: [{ value: null, disabled: this.viewMode }],
-      email: [{ value: null, disabled: this.viewMode }, [Validators.email]],
+      person: [
+        { value: null, disabled: this.viewMode },
+        [Validators.required, Validators.pattern(".*?[a-zA-Z]+")],
+      ],
+      designation: [
+        { value: null, disabled: this.viewMode },
+        [Validators.required, Validators.pattern(".*?[a-zA-Z]+")],
+      ],
+      email: [
+        { value: null, disabled: this.viewMode },
+        [
+          Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),
+          Validators.required,
+        ],
+      ],
     });
     if (this.viewMode) {
       this.setSelectedData();
       this.fetchUlbList(this.viewData.state);
     }
+    console.log(this.validateForm);
   }
 
   setSelectedData() {
@@ -93,7 +138,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
   }
 
   fetchUlbList(stateId) {
-    this.ulbList = null;
+    this.ulbList = [];
     this._commonService.getULBByStateCode(stateId).subscribe((res) => {
       if (res["data"]) {
         res["data"] = res["data"].sort((stateA, stateB) =>
@@ -105,11 +150,15 @@ export class AnnualAccountsCreateComponent implements OnInit {
   }
 
   loadUlb(event) {
-    this.fetchUlbList(event.value);
+    this.fetchUlbList(event.target.value);
+    this.validateForm.patchValue({
+      ulbType: null,
+      ulb: null,
+    });
   }
 
   updateUlbType(event) {
-    this.ulb = this.ulbList.find((item) => item._id == event.value);
+    this.ulb = this.ulbList.find((item) => item._id == event.target.value);
     this.validateForm.patchValue({ ulbType: this.ulb.ulbType.name });
   }
 
@@ -122,6 +171,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
   }
 
   submitForm(): void {
+    this.disableSubmit = true;
     this.validateForm.value["documents"] = this.documents;
 
     this.annualAccountsService
@@ -132,9 +182,11 @@ export class AnnualAccountsCreateComponent implements OnInit {
           this.snackBar.open("Annual Accounts Updated", "Success!", {
             duration: 3000,
           });
+          this.router.navigate(["/home"]);
           this.validateForm.reset();
         },
         (error) => {
+          this.disableSubmit = false;
           console.log(error);
         }
       );
@@ -143,29 +195,119 @@ export class AnnualAccountsCreateComponent implements OnInit {
     const fileName = event.target.files[0].name;
     const fileType = event.target.files[0].type;
 
-    this.dataEntryService.getURLForFileUpload(fileName, fileType).subscribe(
-      (response) => {
-        const s3Url = response["data"][0].url;
-        const finalUrl = response["data"][0].file_alias;
-        this.dataEntryService
-          .uploadFileToS3(event.target.files[0], s3Url)
-          .subscribe(
-            (response) => {
-              if (response["body"]) {
-                this.documents[year][type] = [
-                  { name: fileName, url: finalUrl },
-                ];
-                console.log(this.documents);
-              }
-            },
-            (error) => {
-              console.log(error);
-            }
-          );
-      },
-      (error) => {
-        console.log(error);
+    if (
+      fileType.includes(
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ) ||
+      fileType.includes("application/vnd.ms-excel") ||
+      fileType.includes(type)
+    ) {
+      const selectedType = fileType == "application/pdf" ? "pdf" : "excel";
+
+      console.log("it is included", selectedType);
+      const size = event.target.files[0].size / (1024 * 1024);
+      console.log(size, "MB");
+
+      if (selectedType == type && size < 50) {
+        this.loader[year][type] = true;
+        this.loader[year]["name"][type] = fileName;
+        console.log(this.loader);
+
+        this.dataEntryService.getURLForFileUpload(fileName, fileType).subscribe(
+          (response) => {
+            const s3Url = response["data"][0].url;
+            const finalUrl = response["data"][0].file_alias;
+            this.dataEntryService
+              .uploadFileToS3(event.target.files[0], s3Url)
+              .subscribe(
+                (response) => {
+                  if (response["body"]) {
+                    this.documents[year][type] = [
+                      { name: fileName, url: finalUrl },
+                    ];
+                    this.loader[year][type] = false;
+                  }
+                },
+                (error) => {
+                  console.log(error);
+                  this.loader[year][type] = false;
+                }
+              );
+          },
+          (error) => {
+            console.log(error);
+            this.loader[year][type] = false;
+          }
+        );
+      } else {
+        this.snackBar.open(
+          `Please select ${type} file and size should be less than 50mb`,
+          "Error",
+          {
+            duration: 3000,
+          }
+        );
+        this.updateSelecteFile(year, type);
       }
-    );
+    } else {
+      this.snackBar.open("Invalid File type", "Error", {
+        duration: 3000,
+      });
+      this.updateSelecteFile(year, type);
+    }
+  }
+
+  remove(year, type) {
+    if (year == "year_15_16") {
+      type == "pdf"
+        ? ((this.documents.financial_year_2015_16.pdf = []),
+          (this.pdf15_16.nativeElement.value = ""))
+        : ((this.documents.financial_year_2015_16.excel = []),
+          (this.excel15_16.nativeElement.value = ""));
+    }
+    if (year == "year_16_17") {
+      type == "pdf"
+        ? ((this.documents.financial_year_2016_17.pdf = []),
+          (this.pdf16_17.nativeElement.value = ""))
+        : ((this.documents.financial_year_2016_17.excel = []),
+          (this.excel16_17.nativeElement.value = ""));
+    }
+    if (year == "year_17_18") {
+      type == "pdf"
+        ? ((this.documents.financial_year_2017_18.pdf = []),
+          (this.pdf17_18.nativeElement.value = ""))
+        : ((this.documents.financial_year_2017_18.excel = []),
+          (this.excel17_18.nativeElement.value = ""));
+    }
+    if (year == "year_18_19") {
+      type == "pdf"
+        ? ((this.documents.financial_year_2018_19.pdf = []),
+          (this.pdf18_19.nativeElement.value = ""))
+        : ((this.documents.financial_year_2018_19.excel = []),
+          (this.excel18_19.nativeElement.value = ""));
+    }
+  }
+
+  updateSelecteFile(year, type) {
+    if (year == "financial_year_2015_16") {
+      type == "pdf"
+        ? (this.pdf15_16.nativeElement.value = "")
+        : (this.excel15_16.nativeElement.value = "");
+    }
+    if (year == "financial_year_2016_17") {
+      type == "pdf"
+        ? (this.pdf16_17.nativeElement.value = "")
+        : (this.excel16_17.nativeElement.value = "");
+    }
+    if (year == "financial_year_2017_18") {
+      type == "pdf"
+        ? (this.pdf17_18.nativeElement.value = "")
+        : (this.excel17_18.nativeElement.value = "");
+    }
+    if (year == "financial_year_2018_19") {
+      type == "pdf"
+        ? (this.pdf18_19.nativeElement.value = "")
+        : (this.excel18_19.nativeElement.value = "");
+    }
   }
 }
