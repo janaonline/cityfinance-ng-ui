@@ -213,15 +213,16 @@
                 *ngIf="documents.financial_year_2015_16.pdf.length > 0"
                 style="overflow-wrap: break-word"
               >
+                &nbsp;{{ documents.financial_year_2015_16.pdf[0].name }} &nbsp;
+
                 <a>
                   <i
                     class="fa fa-trash icon-layout"
                     aria-hidden="true"
                     title="Remove File"
                     (click)="remove('year_15_16', 'pdf')"
-                  ></i></a
-                >&nbsp;
-                {{ documents.financial_year_2015_16.pdf[0].name }}
+                  ></i
+                ></a>
               </span>
             </div>
             <div class="col-sm-6 button-layout">
@@ -253,16 +254,18 @@
                 *ngIf="documents.financial_year_2015_16.excel.length > 0"
                 style="overflow-wrap: break-word"
               >
+                &nbsp;{{
+                  documents.financial_year_2015_16.excel[0].name
+                }}
+                &nbsp;
                 <a>
                   <i
                     class="fa fa-trash icon-layout"
                     aria-hidden="true"
                     title="Remove File"
                     (click)="remove('year_15_16', 'excel')"
-                  ></i></a
-                >&nbsp;
-                {{ documents.financial_year_2015_16.excel[0].name }}</span
-              >
+                  ></i> </a
+              ></span>
             </div>
           </div>
           <label
@@ -298,15 +301,16 @@
               <span
                 *ngIf="documents.financial_year_2016_17.pdf.length > 0"
                 style="overflow-wrap: break-word"
-                ><a>
+              >
+                &nbsp;{{ documents.financial_year_2016_17.pdf[0].name }}&nbsp;
+                <a>
                   <i
                     class="fa fa-trash icon-layout"
                     aria-hidden="true"
                     title="Remove File"
                     (click)="remove('year_16_17', 'pdf')"
                   ></i></a
-                >&nbsp; {{ documents.financial_year_2016_17.pdf[0].name }}</span
-              >
+              ></span>
             </div>
             <div class="col-sm-6 button-layout">
               <label>Upload Excel:</label>&nbsp;
@@ -336,16 +340,17 @@
               <span
                 *ngIf="documents.financial_year_2016_17.excel.length > 0"
                 style="overflow-wrap: break-word"
-                ><a>
+              >
+                &nbsp;{{ documents.financial_year_2016_17.excel[0].name }}&nbsp;
+                <a>
                   <i
                     class="fa fa-trash icon-layout"
                     aria-hidden="true"
                     title="Remove File"
                     (click)="remove('year_16_17', 'excel')"
-                  ></i></a
-                >&nbsp;
-                {{ documents.financial_year_2016_17.excel[0].name }}</span
-              >
+                  ></i
+                ></a>
+              </span>
             </div>
           </div>
           <label
@@ -381,15 +386,17 @@
               <span
                 *ngIf="documents.financial_year_2017_18.pdf.length > 0"
                 style="overflow-wrap: break-word"
-                ><a>
+              >
+                &nbsp;{{ documents.financial_year_2017_18.pdf[0].name }}&nbsp;
+                <a>
                   <i
                     class="fa fa-trash icon-layout"
                     aria-hidden="true"
                     title="Remove File"
                     (click)="remove('year_17_18', 'pdf')"
-                  ></i></a
-                >&nbsp; {{ documents.financial_year_2017_18.pdf[0].name }}</span
-              >
+                  ></i
+                ></a>
+              </span>
             </div>
             <div class="col-sm-6 button-layout">
               <label>Upload Excel:</label>&nbsp;
@@ -419,16 +426,20 @@
               <span
                 *ngIf="documents.financial_year_2017_18.excel.length > 0"
                 style="overflow-wrap: break-word"
-                ><a>
+              >
+                &nbsp;{{
+                  documents.financial_year_2017_18.excel[0].name
+                }}
+                &nbsp;
+                <a>
                   <i
                     class="fa fa-trash icon-layout"
                     aria-hidden="true"
                     title="Remove File"
                     (click)="remove('year_17_18', 'excel')"
-                  ></i></a
-                >&nbsp;
-                {{ documents.financial_year_2017_18.excel[0].name }}</span
-              >
+                  ></i
+                ></a>
+              </span>
             </div>
           </div>
           <label
@@ -464,15 +475,18 @@
               <span
                 *ngIf="documents.financial_year_2018_19.pdf.length > 0"
                 style="overflow-wrap: break-word"
-                ><a>
+              >
+                &nbsp;{{ documents.financial_year_2018_19.pdf[0].name }} &nbsp;
+
+                <a>
                   <i
                     class="fa fa-trash icon-layout"
                     aria-hidden="true"
                     title="Remove File"
                     (click)="remove('year_18_19', 'pdf')"
-                  ></i></a
-                >&nbsp; {{ documents.financial_year_2018_19.pdf[0].name }}</span
-              >
+                  ></i
+                ></a>
+              </span>
             </div>
             <div class="col-sm-6 button-layout">
               <label>Upload Excel:</label>&nbsp;
@@ -502,16 +516,21 @@
               <span
                 *ngIf="documents.financial_year_2018_19.excel.length > 0"
                 style="overflow-wrap: break-word"
-                ><a>
+              >
+                &nbsp;{{
+                  documents.financial_year_2018_19.excel[0].name
+                }}
+                &nbsp;
+
+                <a>
                   <i
                     class="fa fa-trash icon-layout"
                     aria-hidden="true"
                     title="Remove File"
                     (click)="remove('year_18_19', 'excel')"
-                  ></i></a
-                >&nbsp;
-                {{ documents.financial_year_2018_19.excel[0].name }}</span
-              >
+                  ></i
+                ></a>
+              </span>
             </div>
           </div>
           <br /><br />
