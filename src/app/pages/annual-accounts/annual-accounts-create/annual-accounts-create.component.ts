@@ -98,15 +98,15 @@ export class AnnualAccountsCreateComponent implements OnInit {
       ulbType: [{ value: null, disabled: "true" }],
       parastatalName: [
         { value: null, disabled: this.viewMode },
-        [Validators.pattern(".*?[a-zA-Z]+")]
+        [Validators.pattern(".*?[a-zA-Z]+.*")]
       ],
       person: [
         { value: null, disabled: this.viewMode },
-        [Validators.required, Validators.pattern(".*?[a-zA-Z]+")]
+        [Validators.required, Validators.pattern(".*?[a-zA-Z]+.*")]
       ],
       designation: [
         { value: null, disabled: this.viewMode },
-        [Validators.required, Validators.pattern(".*?[a-zA-Z]+")]
+        [Validators.required, Validators.pattern(".*?[a-zA-Z]+.*")]
       ],
       email: [
         { value: null, disabled: this.viewMode },
@@ -205,18 +205,31 @@ export class AnnualAccountsCreateComponent implements OnInit {
         }
       );
   }
-  upload(event, type, year) {
-    const fileName = event.target.files[0].name;
-    const fileType = event.target.files[0].type;
-    console.log(`fileType `, fileType);
+
+  isFileValid(file: File) {
+    const fileName = file.name;
+    const fileType = file.type;
+    const fileExtension = fileName.split(".").pop();
+    if (fileExtension === "csv") return false;
+    if (fileName.split(".").length > 2) return false;
 
     if (
       fileType.includes(
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ) ||
-      fileType.includes("application/vnd.ms-excel") ||
-      fileType.includes(type)
+      fileType.includes("application/vnd.ms-excel")
     ) {
+      return true;
+    }
+    return false;
+  }
+
+  upload(event, type, year) {
+    const fileName = event.target.files[0].name;
+    const fileType = event.target.files[0].type;
+    console.log(`fileType `, fileType);
+
+    if (this.isFileValid(event.target.files[0])) {
       const selectedType = fileType == "application/pdf" ? "pdf" : "excel";
 
       const size = event.target.files[0].size / (1024 * 1024);

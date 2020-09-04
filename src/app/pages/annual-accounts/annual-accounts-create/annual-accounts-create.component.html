@@ -22,7 +22,7 @@
             </option>
           </select>
         </div>
-        <div class="form-field-layout" style="margin-bottom: 8px">
+        <div class="form-field-layout">
           <label>2. Type of Body*</label>
           <mat-radio-group
             class="radio-group"
@@ -37,7 +37,7 @@
             </mat-radio-button>
           </mat-radio-group>
         </div>
-        <div>
+        <div class="form-field-layout">
           <label
             >3. Name of the
             <span *ngIf="validateForm.controls['bodyType'].value == 'ulb'"
@@ -69,7 +69,8 @@
               <div class="col-sm-8">
                 <div class="form-group">
                   <div class="row" style="display: flex">
-                    <span style="margin-top: 3px; margin-left: 15px"
+                    <span
+                      style="margin-top: 3px; margin-left: 15px; font-weight: 600;"
                       >ULB Type : </span
                     >&nbsp;
                     <input
@@ -101,7 +102,7 @@
             >
           </div>
         </div>
-        <div class="row">
+        <div class="row " style="margin-top:5px">
           <div class="col-md-4 form-field-layout">
             <label>4. Name of the Person*</label><br />
             <div class="form-group">
@@ -254,9 +255,7 @@
                 *ngIf="documents.financial_year_2015_16.excel.length > 0"
                 style="overflow-wrap: break-word"
               >
-                &nbsp;{{
-                  documents.financial_year_2015_16.excel[0].name
-                }}
+                &nbsp;{{ documents.financial_year_2015_16.excel[0].name }}
                 &nbsp;
                 <a>
                   <i
@@ -427,9 +426,7 @@
                 *ngIf="documents.financial_year_2017_18.excel.length > 0"
                 style="overflow-wrap: break-word"
               >
-                &nbsp;{{
-                  documents.financial_year_2017_18.excel[0].name
-                }}
+                &nbsp;{{ documents.financial_year_2017_18.excel[0].name }}
                 &nbsp;
                 <a>
                   <i
@@ -517,9 +514,7 @@
                 *ngIf="documents.financial_year_2018_19.excel.length > 0"
                 style="overflow-wrap: break-word"
               >
-                &nbsp;{{
-                  documents.financial_year_2018_19.excel[0].name
-                }}
+                &nbsp;{{ documents.financial_year_2018_19.excel[0].name }}
                 &nbsp;
 
                 <a>
