@@ -4,10 +4,11 @@
       <a href=""><span class="glyphicon glyphicon-arrow-left"></span></a>
     </div>
     <div class="head-content">
-      <h5>Analytics </h5>
+      <h5>Analytics / {{ tabIndexes[tabIndex] }}</h5>
     </div>
   </div>
-</div> <!-- w-100 end -->
+</div>
+<!-- w-100 end -->
 
 <div class="b-sm web-search search-style-sm">
   <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
@@ -16,399 +17,8 @@
 <!-- search container for mobile view start here -->
 <div class="b-sm">
   <ng-template #yearSelect>
-    <div class="mt-2 col-md-8 b-sm" [formGroup]="yearForm" style="display: flex; align-items: center;">
-      <mat-form-field style="
-          display: inline-block;
-          width: 160px;
-          margin-right: 1rem;
-          line-height: 0.225;
-        " appearance="outline" *ngIf="ulbsOfSelectedState">
-        <input #autoCompleteInput type="text" placeholder="Search ULB" aria-label="text" matInput
-          [formControl]="ulbFilterControl" [matAutocomplete]="auto" />
-
-        <mat-autocomplete #auto="matAutocomplete" class="tesinng">
-          <mat-option *ngIf="!filteredULBStateAndULBDataMerged" disabled>
-            No ULB matched
-          </mat-option>
-          <div *ngIf="filteredULBStateAndULBDataMerged">
-            <mat-optgroup *ngFor="
-                let stateId of object.keys(filteredULBStateAndULBDataMerged)
-              " [label]="filteredULBStateAndULBDataMerged[stateId].name">
-              <mat-option *ngIf="
-                  !filteredULBStateAndULBDataMerged[stateId].ulbs ||
-                  !filteredULBStateAndULBDataMerged[stateId].ulbs.length
-                " disabled>
-                No ULB available.
-              </mat-option>
-              <mat-option *ngFor="let ulb of filteredULBStateAndULBDataMerged[stateId].ulbs"
-                (click)="onSelectingULBFromDropdown(ulb._id, stateId)" [value]="ulb.name" [title]="ulb.name">
-                {{ ulb.name }}
-              </mat-option>
-            </mat-optgroup>
-          </div>
-        </mat-autocomplete>
-      </mat-form-field>
-      <angular2-multiselect classes="" formControlName="years"
-        style="display: inline-block; width: 160px; margin-right: 2%;" [data]="yearLookup"
-        [settings]="yearsDropdownSettings" (onSelect)="onDropdownSelect($event)"
-        (onGroupDeSelect)="onDropdownDeSelect($event)" (onDeSelect)="onDropdownDeSelect($event)"
-        (onFilterDeSelectAll)="onDropdownDeSelect($event)" (onSelectAll)="onDropDownSelectAll($event)"
-        (onDeSelectAll)="resetPopupValues()">
-      </angular2-multiselect>
-      <button title="Apply" (click)="onDropdownClose()" style="
-          background-color: #333333;
-          color: white;
-          border: none;
-          outline: none;
-          padding: 9px 15px;
-          min-width: fit-content;
-        ">
-        Apply
-      </button>
-    </div>
-  </ng-template>
-</div>
-<!-- search container for mobile view end  here -->
-<!--  Tab end  -->
-<mat-tab-group dynamicHeight="false" (selectedIndexChange)="tabIndexChangeHandler($event)" [selectedIndex]="tabIndex"
-  class="mt-1" animationDuration="100ms" (animationDone)="onTabChangeAnimationComplete()">
-  <mat-tab [disabled]="loading" label="Own Revenues">
-    <ng-template matTabContent>
-      <div class="col-sm-12 col-md-12 col-lg-5" *ngIf="tabIndex === 0">
-        <app-re-useable-heat-map (isProcessingCompleted)="setMapProcessingState($event)" [yearSelected]="selectedYears"
-          [ulbSelected]="selectedUlb" (stateSelected)="filterDataStateWise($event)"
-          (ulbsClicked)="fetchUlBsData($event)">
-        </app-re-useable-heat-map>
-      </div>
-      <div class="col-sm-12 col-md-12 col-lg-7">
-        <ng-container *ngTemplateOutlet="table"></ng-container>
-      </div>
-    </ng-template>
-  </mat-tab>
-
-  <mat-tab [disabled]="loading" [label]="'Revenue Sources'">
-    <ng-template matTabContent>
-      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 1">
-        <app-re-useable-heat-map (isProcessingCompleted)="setMapProcessingState($event)" [yearSelected]="selectedYears"
-          (stateSelected)="filterDataStateWise($event)" [ulbSelected]="selectedUlb"
-          (ulbsClicked)="fetchUlBsData($event)"></app-re-useable-heat-map>
-      </div>
-      <ng-container *ngTemplateOutlet="pieChart"></ng-container>
-    </ng-template>
-  </mat-tab>
-
-  <!--  <mat-tab  [disabled]="loading" [label]="'Revenue Expenditure'">-->
-  <!--    <ng-template matTabContent>-->
-  <!--      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 2">-->
-  <!--        <app-re-useable-heat-map
-          (isProcessingCompleted)="isMapInProcessing  = $event"-->
-  <!--          [yearSelected]="selectedYears"-->
-  <!--          [ulbSelected]="selectedUlb"-->
-  <!--          (stateSelected)="filterDataStateWise($event)"-->
-  <!--          (ulbsClicked)="fetchUlBsData($event)"-->
-  <!--        >-->
-  <!--        </app-re-useable-heat-map>-->
-  <!--      </div>-->
-  <!--      <ng-container *ngTemplateOutlet="pieChart"></ng-container>-->
-  <!--    </ng-template>-->
-  <!--  </mat-tab>-->
-
-  <mat-tab [disabled]="loading" [label]="'Revenue Expenditure'">
-    <ng-template matTabContent>
-      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 2">
-        <app-re-useable-heat-map (isProcessingCompleted)="setMapProcessingState($event)" [yearSelected]="selectedYears"
-          (stateSelected)="filterDataStateWise($event)" [ulbSelected]="selectedUlb"
-          (ulbsClicked)="fetchUlBsData($event)"></app-re-useable-heat-map>
-      </div>
-      <ng-container *ngTemplateOutlet="pieChart"></ng-container>
-    </ng-template>
-  </mat-tab>
-
-  <mat-tab [disabled]="loading" [label]="'Cash and Bank Balance'">
-    <ng-template matTabContent>
-      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 3">
-        <app-re-useable-heat-map (isProcessingCompleted)="setMapProcessingState($event)" [yearSelected]="selectedYears"
-          (stateSelected)="filterDataStateWise($event)" [ulbSelected]="selectedUlb"
-          (ulbsClicked)="fetchUlBsData($event)">
-        </app-re-useable-heat-map>
-      </div>
-      <div class="col-sm-12 col-md-7">
-        <ng-container *ngTemplateOutlet="table"></ng-container>
-      </div>
-    </ng-template>
-  </mat-tab>
-
-  <mat-tab [disabled]="loading" [label]="'Outstanding Debt'">
-    <ng-template matTabContent>
-      <div class="col-sm-12 col-md-4" *ngIf="tabIndex === 4">
-        <app-re-useable-heat-map (isProcessingCompleted)="setMapProcessingState($event)" [yearSelected]="selectedYears"
-          (stateSelected)="filterDataStateWise($event)" [ulbSelected]="selectedUlb"
-          (ulbsClicked)="fetchUlBsData($event)">
-        </app-re-useable-heat-map>
-      </div>
-      <div class="col-sm-12 col-md-8">
-        <ng-container *ngTemplateOutlet="table"></ng-container>
-      </div>
-    </ng-template>
-  </mat-tab>
-</mat-tab-group>
-
-<!-- Tab end   -->
-
-<ng-template #table>
-  <ng-container *ngIf="loading == false; else loadingSkeleton" [style.height.px]="400" style="width: 100%;"
-    [formGroup]="yearForm">
-    <div class="row d-flex">
-     
-    <div class="n-sm year-web-search ">
-      <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
-    </div>
-      <button mat-raised-button class="mt-2" (click)="downloadTable('table-main')" title="Download" style="
-          float: right;
-          right: 1rem;
-          position: absolute;
-          background-color: #333333;
-          color: white;
-          min-width: min-content;
-          border: none;
-          outline: none;
-        ">
-        <mat-icon>arrow_downward</mat-icon>
-      </button>
-
-      <!--    <button title="Download"
-                  style="background: black; position: absolute; right: 1rem ;color: white">
-            <i class="material-icons">arrow_downward</i></button>-->
-    </div>
-    <div class="row mt-2">
-      <div class="col-sm-12 table-responsive table-container-main">
-        <table id="table-main" [style.minWidth]="commonTableHeaders.length * 110 + 'px'"
-          *ngIf="commonTableDataDisplay?.length; else noData" class="table mr-1" style="margin-bottom: 1px;">
-          <thead class="m-bg-n">
-            <tr>
-              <th style="
-                  position: sticky;
-                  width: 200px;
-                  background: white;
-                  top: -1px;
-                " [attr.data-text]="
-                  header.title + ' \r\n ' + (header?.description || ' ')
-                " [attr.data-text_align]="
-                  header?.id != 'populationCategory' ? 'center' : ' '
-                " [attr.data-bold]="true" class="px-1 border-bottom-0" [ngClass]="
-                  header?.id != 'populationCategory' ? 'text-center' : ''
-                " *ngFor="let header of commonTableHeaders; let j = index">
-                <div class="d-flex" [ngClass]="j != 0 ? 'justify-content-center' : ''">
-                  <div class="d-flex flex-column p-0">
-                    {{ header.title }}
-                    <span class="font-weight-light" *ngIf="header.description">
-                      {{ header.description }}</span>
-                  </div>
-                  <!--   <i style="position: absolute;   right: -1rem"
-                    *ngIf="!header.hasOwnProperty('status'); else icon"
-                    (click)="sortHeader(header)"
-                    class="fa fa-sort px-1"
-                    aria-hidden="true"
-                 ></i>
-                 <ng-template #icon>
-                   <i style="position: absolute;   right: -1rem"
-                      *ngIf="header.status"
-                      (click)="sortHeader(header)"
-                      class="fa fa-sort-asc px-1"
-                      aria-hidden="true"
-                   ></i>
-                   <i style="position: absolute;   right: -1rem"
-                      *ngIf="!header.status"
-                      (click)="sortHeader(header)"
-                      class="fa fa-sort-desc  px-1"
-                      aria-hidden="true"
-                   ></i>
-                 </ng-template>-->
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container *ngFor="let tr of commonTableDataDisplay">
-              <tr>
-                <td [attr.data-text]="tr.year" [attr.data-text_align]="'center'"
-                  [attr.data-background_color]="'FFffc500'" [attr.data-bold]="true" class="text-center"
-                  [colSpan]="commonTableHeaders.length" [style.background]="'#ffc500'">
-                  <b>{{ tr?.year }}</b>
-                </td>
-              </tr>
-              <tr *ngFor="let row of tr.data; let i = index">
-                <td [ngClass]="
-                    col?.id != 'populationCategory' ? 'text-center' : ''
-                  " [attr.data-text]="
-                    ((row[col?.id]
-                      | roundoff: { config: col }
-                      | rupeeConverter) || ' ') +
-                    (row[col?.id] ? col.suffix || '' : ' ') +
-                    (col?.id == 'numOfUlb' && row['audited'] !== undefined
-                      ? ' (Audited : ' +
-                        row['audited'] +
-                        ', Unaudited: ' +
-                        row['unaudited'] +
-                        ')'
-                      : '')
-                  " [attr.data-text_align]="
-                    col?.id != 'populationCategory'
-                      ? 'center'
-                      : row[col?.id] == 'Total'
-                      ? 'right'
-                      : ' '
-                  " [attr.data-bold]="i == tr?.data.length - 1" *ngFor="let col of commonTableHeaders; let j = index">
-                  <span [matTooltip]="
-                      (row[col?.id] | typeof) === 'object'
-                        ? row[col?.id].name
-                        : (row[col?.id]
-                          | rupeeConverter
-                            : {
-                                showInr: col?.showInr,
-                                row: row,
-                                colId: col?.id
-                              })
-                    " matTooltipPosition="above" [matTooltipDisabled]="!col?.showInr"
-                    [ngClass]="i == tr?.data.length - 1 ? 'text-bold' : ''" *ngIf="!col?.click; else clickableCol">{{
-                      col.id == "audited"
-                        ? (row["audited"]
-                          | auditStatusText
-                            : {
-                                row: row,
-                                colId: col.id
-                              })
-                        : (row[col?.id]
-                          | roundoff: { config: col }
-                          | rupeeConverter)
-                    }}</span>
-                  <ng-template #clickableCol>
-                    <a *ngIf="i != tr?.data.length - 1"
-                      (click)="openModal(UlbModal, row, [tr.year])">{{ row[col?.id] }}</a>
-                    <span [ngClass]="i == tr?.data.length - 1 ? 'text-bold' : ''"
-                      *ngIf="i == tr?.data.length - 1">{{ row[col?.id] }}</span>
-                  </ng-template>
-                </td>
-              </tr>
-              <tr *ngIf="!tr.data.length">
-                <td [attr.data-text]="'Data not available'" [attr.data-text_align]="'center'" class="text-center"
-                  [colSpan]="commonTableHeaders.length">
-                  <span>Data not available</span>
-                </td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
-        <ng-template #noData>
-          <h3 class="text-center">No data available</h3>
-        </ng-template>
-      </div>
-    </div>
-  </ng-container>
-</ng-template>
-
-<ng-template #UlbModal class="modal-main-container">
-  <div class="modal-body">
-    <div class="modal-btn-body">
-      <button mat-raised-button (click)="downloadTable('table')" title="Download" class="modal-download-btn">
-        <mat-icon>arrow_downward</mat-icon>
-      </button>
-      <button (click)="modalService.hide(1)" mat-raised-button title="Close" type="button" data-dismiss="modal"
-        aria-label="Close" class="modal-close-btn">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-    <div class="table-responsive border-1" style="max-height: 90vh; overflow-x: scroll;">
-      <table id="table" *ngIf="modalTableData && modalTableHeaders.length; else loadingSkeleton" class="table">
-        <thead>
-          <tr>
-            <th [attr.data-text]="
-                header.title + ' \r\n ' + (header?.description || ' ')
-              " [attr.data-text_align]="'center'" [attr.data-bold]="true"
-              style="position: sticky; top: 0; background: white;" class="text-center border-bottom-0"
-              *ngFor="let header of modalTableHeaders; let j = index">
-              <div class="d-flex px-1" [ngClass]="
-                  j != 0 ? 'justify-content-center' : 'justify-content-center'
-                ">
-                <div class="d-flex flex-column p-0">
-                  {{ header.title }}
-                  <span class="font-weight-light" *ngIf="header.description">
-                    {{ header.description }}</span>
-                </div>
-                <i style="position: absolute; right: -0.5rem;" *ngIf="!header.hasOwnProperty('status'); else icon"
-                  (click)="sortDialogHeader(header)" class="fa fa-sort px-1" aria-hidden="true"></i>
-                <ng-template #icon>
-                  <i style="position: absolute; right: -0.5rem;" *ngIf="header.status"
-                    (click)="sortDialogHeader(header)" class="fa fa-sort-asc px-1" aria-hidden="true"></i>
-                  <i style="position: absolute; right: -0.5rem;" *ngIf="!header.status"
-                    (click)="sortDialogHeader(header)" class="fa fa-sort-desc px-1" aria-hidden="true"></i>
-                </ng-template>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td [attr.data-text]="modalTableData.year" [attr.data-text_align]="'center'"
-              [attr.data-background_color]="'FFffc500'" class="text-center" [colSpan]="modalTableHeaders.length"
-              [style.background]="'#ffc500'">
-              <b>{{ modalTableData.year }}</b>
-            </td>
-          </tr>
-          <tr *ngFor="let row of modalTableData.data; let i = index">
-            <td [ngStyle]="
-                i == modalTableData.data.length - 1
-                  ? { position: 'sticky', bottom: '0', background: 'white' }
-                  : {}
-              " [ngClass]="col.id != 'name' ? 'text-center' : 'text-center'" [attr.data-text]="
-                ((row[col?.id] | roundoff: { config: col } | rupeeConverter) ||
-                  ' ') + (row[col?.id] ? col.suffix || '' : ' ')
-              " [attr.data-text_align]="
-                row[col?.id] == 'Total' ? 'right' : 'center'
-              " [attr.data-bold]="i == modalTableData?.data?.length - 1" *ngFor="let col of modalTableHeaders">
-              <span [matTooltipDisabled]="!col?.showInr" [matTooltip]="
-                  (row[col?.id] | typeof) === 'object'
-                    ? row[col?.id].name
-                    : (row[col?.id] | rupeeConverter: { showInr: col?.showInr })
-                " [ngClass]="
-                  i == modalTableData?.data?.length - 1 ? 'text-bold' : ''
-                " *ngIf="!col?.click; else clickableCol">
-                {{
-                  col.id == "audited"
-                    ? (row["audited"]
-                      | auditStatusText
-                        : {
-                            row: row,
-                            colId: col.id
-                          })
-                    : (row[col?.id]
-                      | roundoff: { config: col }
-                      | rupeeConverter)
-                }}
-                {{ row[col?.id] ? col.suffix || "" : null }}</span>
-              <ng-template #clickableCol>
-                <a *ngIf="i != modalTableData?.data?.length - 1"
-                  (click)="modalItemClicked(row._id, row)">{{ row[col?.id] | rupeeConverter }}</a>
-                <span *ngIf="i == modalTableData?.data?.length - 1"
-                  class="text-bold">{{ row[col?.id] | rupeeConverter }}</span>
-              </ng-template>
-            </td>
-          </tr>
-          <!--      </ng-container>-->
-        </tbody>
-      </table>
-      <ng-template #noData>
-        <h3 class="text-center">No data available</h3>
-      </ng-template>
-    </div>
-  </div>
-</ng-template>
- 
-<!-- search container for mobile view start here -->
-  
-  <ng-template #yearSelect> 
     <div
-      class="mt-2 col-md-8  "
+      class="mt-2 col-md-8 b-sm"
       [formGroup]="yearForm"
       style="display: flex; align-items: center;"
     >
@@ -431,7 +41,7 @@
           [formControl]="ulbFilterControl"
           [matAutocomplete]="auto"
         />
-  
+
         <mat-autocomplete #auto="matAutocomplete" class="tesinng">
           <mat-option *ngIf="!filteredULBStateAndULBDataMerged" disabled>
             No ULB matched
@@ -453,7 +63,9 @@
                 No ULB available.
               </mat-option>
               <mat-option
-                *ngFor="let ulb of filteredULBStateAndULBDataMerged[stateId].ulbs"
+                *ngFor="
+                  let ulb of filteredULBStateAndULBDataMerged[stateId].ulbs
+                "
                 (click)="onSelectingULBFromDropdown(ulb._id, stateId)"
                 [value]="ulb.name"
                 [title]="ulb.name"
@@ -492,8 +104,582 @@
       >
         Apply
       </button>
-    </div> 
+    </div>
   </ng-template>
+</div>
+<!-- search container for mobile view end  here -->
+<!--  Tab end  -->
+<mat-tab-group
+  dynamicHeight="false"
+  (selectedIndexChange)="tabIndexChangeHandler($event)"
+  [selectedIndex]="tabIndex"
+  class="mt-1"
+  animationDuration="100ms"
+  (animationDone)="onTabChangeAnimationComplete()"
+>
+  <mat-tab [disabled]="loading" label="Own Revenues">
+    <ng-template matTabContent>
+      <div class="col-sm-12 col-md-12 col-lg-5" *ngIf="tabIndex === 0">
+        <app-re-useable-heat-map
+          (isProcessingCompleted)="setMapProcessingState($event)"
+          [yearSelected]="selectedYears"
+          [ulbSelected]="selectedUlb"
+          (stateSelected)="filterDataStateWise($event)"
+          (ulbsClicked)="fetchUlBsData($event)"
+        >
+        </app-re-useable-heat-map>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-7">
+        <ng-container *ngTemplateOutlet="table"></ng-container>
+      </div>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab [disabled]="loading" [label]="'Revenue Sources'">
+    <ng-template matTabContent>
+      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 1">
+        <app-re-useable-heat-map
+          (isProcessingCompleted)="setMapProcessingState($event)"
+          [yearSelected]="selectedYears"
+          (stateSelected)="filterDataStateWise($event)"
+          [ulbSelected]="selectedUlb"
+          (ulbsClicked)="fetchUlBsData($event)"
+        ></app-re-useable-heat-map>
+      </div>
+      <ng-container *ngTemplateOutlet="pieChart"></ng-container>
+    </ng-template>
+  </mat-tab>
+
+  <!--  <mat-tab  [disabled]="loading" [label]="'Revenue Expenditure'">-->
+  <!--    <ng-template matTabContent>-->
+  <!--      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 2">-->
+  <!--        <app-re-useable-heat-map
+          (isProcessingCompleted)="isMapInProcessing  = $event"-->
+  <!--          [yearSelected]="selectedYears"-->
+  <!--          [ulbSelected]="selectedUlb"-->
+  <!--          (stateSelected)="filterDataStateWise($event)"-->
+  <!--          (ulbsClicked)="fetchUlBsData($event)"-->
+  <!--        >-->
+  <!--        </app-re-useable-heat-map>-->
+  <!--      </div>-->
+  <!--      <ng-container *ngTemplateOutlet="pieChart"></ng-container>-->
+  <!--    </ng-template>-->
+  <!--  </mat-tab>-->
+
+  <mat-tab [disabled]="loading" [label]="'Revenue Expenditure'">
+    <ng-template matTabContent>
+      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 2">
+        <app-re-useable-heat-map
+          (isProcessingCompleted)="setMapProcessingState($event)"
+          [yearSelected]="selectedYears"
+          (stateSelected)="filterDataStateWise($event)"
+          [ulbSelected]="selectedUlb"
+          (ulbsClicked)="fetchUlBsData($event)"
+        ></app-re-useable-heat-map>
+      </div>
+      <ng-container *ngTemplateOutlet="pieChart"></ng-container>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab [disabled]="loading" [label]="'Cash and Bank Balance'">
+    <ng-template matTabContent>
+      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 3">
+        <app-re-useable-heat-map
+          (isProcessingCompleted)="setMapProcessingState($event)"
+          [yearSelected]="selectedYears"
+          (stateSelected)="filterDataStateWise($event)"
+          [ulbSelected]="selectedUlb"
+          (ulbsClicked)="fetchUlBsData($event)"
+        >
+        </app-re-useable-heat-map>
+      </div>
+      <div class="col-sm-12 col-md-7">
+        <ng-container *ngTemplateOutlet="table"></ng-container>
+      </div>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab [disabled]="loading" [label]="'Outstanding Debt'">
+    <ng-template matTabContent>
+      <div class="col-sm-12 col-md-4" *ngIf="tabIndex === 4">
+        <app-re-useable-heat-map
+          (isProcessingCompleted)="setMapProcessingState($event)"
+          [yearSelected]="selectedYears"
+          (stateSelected)="filterDataStateWise($event)"
+          [ulbSelected]="selectedUlb"
+          (ulbsClicked)="fetchUlBsData($event)"
+        >
+        </app-re-useable-heat-map>
+      </div>
+      <div class="col-sm-12 col-md-8">
+        <ng-container *ngTemplateOutlet="table"></ng-container>
+      </div>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+<!-- Tab end   -->
+
+<ng-template #table>
+  <ng-container
+    *ngIf="loading == false; else loadingSkeleton"
+    [style.height.px]="400"
+    style="width: 100%;"
+    [formGroup]="yearForm"
+  >
+    <div class="row d-flex">
+      <div class="n-sm year-web-search ">
+        <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
+      </div>
+      <button
+        mat-raised-button
+        class="mt-2"
+        (click)="downloadTable('table-main')"
+        title="Download"
+        style="
+          float: right;
+          right: 1rem;
+          position: absolute;
+          background-color: #333333;
+          color: white;
+          min-width: min-content;
+          border: none;
+          outline: none;
+        "
+      >
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+
+      <!--    <button title="Download"
+                  style="background: black; position: absolute; right: 1rem ;color: white">
+            <i class="material-icons">arrow_downward</i></button>-->
+    </div>
+    <div class="row mt-2">
+      <div class="col-sm-12 table-responsive table-container-main">
+        <table
+          id="table-main"
+          [style.minWidth]="commonTableHeaders.length * 110 + 'px'"
+          *ngIf="commonTableDataDisplay?.length; else noData"
+          class="table mr-1"
+          style="margin-bottom: 1px;"
+        >
+          <thead class="m-bg-n">
+            <tr>
+              <th
+                style="
+                  position: sticky;
+                  width: 200px;
+                  background: white;
+                  top: -1px;
+                "
+                [attr.data-text]="
+                  header.title + ' \r\n ' + (header?.description || ' ')
+                "
+                [attr.data-text_align]="
+                  header?.id != 'populationCategory' ? 'center' : ' '
+                "
+                [attr.data-bold]="true"
+                class="px-1 border-bottom-0"
+                [ngClass]="
+                  header?.id != 'populationCategory' ? 'text-center' : ''
+                "
+                *ngFor="let header of commonTableHeaders; let j = index"
+              >
+                <div
+                  class="d-flex"
+                  [ngClass]="j != 0 ? 'justify-content-center' : ''"
+                >
+                  <div class="d-flex flex-column p-0">
+                    {{ header.title }}
+                    <span class="font-weight-light" *ngIf="header.description">
+                      {{ header.description }}</span
+                    >
+                  </div>
+                  <!--   <i style="position: absolute;   right: -1rem"
+                    *ngIf="!header.hasOwnProperty('status'); else icon"
+                    (click)="sortHeader(header)"
+                    class="fa fa-sort px-1"
+                    aria-hidden="true"
+                 ></i>
+                 <ng-template #icon>
+                   <i style="position: absolute;   right: -1rem"
+                      *ngIf="header.status"
+                      (click)="sortHeader(header)"
+                      class="fa fa-sort-asc px-1"
+                      aria-hidden="true"
+                   ></i>
+                   <i style="position: absolute;   right: -1rem"
+                      *ngIf="!header.status"
+                      (click)="sortHeader(header)"
+                      class="fa fa-sort-desc  px-1"
+                      aria-hidden="true"
+                   ></i>
+                 </ng-template>-->
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let tr of commonTableDataDisplay">
+              <tr>
+                <td
+                  [attr.data-text]="tr.year"
+                  [attr.data-text_align]="'center'"
+                  [attr.data-background_color]="'FFffc500'"
+                  [attr.data-bold]="true"
+                  class="text-center"
+                  [colSpan]="commonTableHeaders.length"
+                  [style.background]="'#ffc500'"
+                >
+                  <b>{{ tr?.year }}</b>
+                </td>
+              </tr>
+              <tr *ngFor="let row of tr.data; let i = index">
+                <td
+                  [ngClass]="
+                    col?.id != 'populationCategory' ? 'text-center' : ''
+                  "
+                  [attr.data-text]="
+                    ((row[col?.id]
+                      | roundoff: { config: col }
+                      | rupeeConverter) || ' ') +
+                    (row[col?.id] ? col.suffix || '' : ' ') +
+                    (col?.id == 'numOfUlb' && row['audited'] !== undefined
+                      ? ' (Audited : ' +
+                        row['audited'] +
+                        ', Unaudited: ' +
+                        row['unaudited'] +
+                        ')'
+                      : '')
+                  "
+                  [attr.data-text_align]="
+                    col?.id != 'populationCategory'
+                      ? 'center'
+                      : row[col?.id] == 'Total'
+                      ? 'right'
+                      : ' '
+                  "
+                  [attr.data-bold]="i == tr?.data.length - 1"
+                  *ngFor="let col of commonTableHeaders; let j = index"
+                >
+                  <span
+                    [matTooltip]="
+                      (row[col?.id] | typeof) === 'object'
+                        ? row[col?.id].name
+                        : (row[col?.id]
+                          | rupeeConverter
+                            : {
+                                showInr: col?.showInr,
+                                row: row,
+                                colId: col?.id
+                              })
+                    "
+                    matTooltipPosition="above"
+                    [matTooltipDisabled]="!col?.showInr"
+                    [ngClass]="i == tr?.data.length - 1 ? 'text-bold' : ''"
+                    *ngIf="!col?.click; else clickableCol"
+                    >{{
+                      col.id == "audited"
+                        ? (row["audited"]
+                          | auditStatusText
+                            : {
+                                row: row,
+                                colId: col.id
+                              })
+                        : (row[col?.id]
+                          | roundoff: { config: col }
+                          | rupeeConverter)
+                    }}</span
+                  >
+                  <ng-template #clickableCol>
+                    <a
+                      *ngIf="i != tr?.data.length - 1"
+                      (click)="openModal(UlbModal, row, [tr.year])"
+                      >{{ row[col?.id] }}</a
+                    >
+                    <span
+                      [ngClass]="i == tr?.data.length - 1 ? 'text-bold' : ''"
+                      *ngIf="i == tr?.data.length - 1"
+                      >{{ row[col?.id] }}</span
+                    >
+                  </ng-template>
+                </td>
+              </tr>
+              <tr *ngIf="!tr.data.length">
+                <td
+                  [attr.data-text]="'Data not available'"
+                  [attr.data-text_align]="'center'"
+                  class="text-center"
+                  [colSpan]="commonTableHeaders.length"
+                >
+                  <span>Data not available</span>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+        <ng-template #noData>
+          <h3 class="text-center">No data available</h3>
+        </ng-template>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #UlbModal class="modal-main-container">
+  <div class="modal-body">
+    <div class="modal-btn-body">
+      <button
+        mat-raised-button
+        (click)="downloadTable('table')"
+        title="Download"
+        class="modal-download-btn"
+      >
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+      <button
+        (click)="modalService.hide(1)"
+        mat-raised-button
+        title="Close"
+        type="button"
+        data-dismiss="modal"
+        aria-label="Close"
+        class="modal-close-btn"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div
+      class="table-responsive border-1"
+      style="max-height: 90vh; overflow-x: scroll;"
+    >
+      <table
+        id="table"
+        *ngIf="modalTableData && modalTableHeaders.length; else loadingSkeleton"
+        class="table"
+      >
+        <thead>
+          <tr>
+            <th
+              [attr.data-text]="
+                header.title + ' \r\n ' + (header?.description || ' ')
+              "
+              [attr.data-text_align]="'center'"
+              [attr.data-bold]="true"
+              style="position: sticky; top: 0; background: white;"
+              class="text-center border-bottom-0"
+              *ngFor="let header of modalTableHeaders; let j = index"
+            >
+              <div
+                class="d-flex px-1"
+                [ngClass]="
+                  j != 0 ? 'justify-content-center' : 'justify-content-center'
+                "
+              >
+                <div class="d-flex flex-column p-0">
+                  {{ header.title }}
+                  <span class="font-weight-light" *ngIf="header.description">
+                    {{ header.description }}</span
+                  >
+                </div>
+                <i
+                  style="position: absolute; right: -0.5rem;"
+                  *ngIf="!header.hasOwnProperty('status'); else icon"
+                  (click)="sortDialogHeader(header)"
+                  class="fa fa-sort px-1"
+                  aria-hidden="true"
+                ></i>
+                <ng-template #icon>
+                  <i
+                    style="position: absolute; right: -0.5rem;"
+                    *ngIf="header.status"
+                    (click)="sortDialogHeader(header)"
+                    class="fa fa-sort-asc px-1"
+                    aria-hidden="true"
+                  ></i>
+                  <i
+                    style="position: absolute; right: -0.5rem;"
+                    *ngIf="!header.status"
+                    (click)="sortDialogHeader(header)"
+                    class="fa fa-sort-desc px-1"
+                    aria-hidden="true"
+                  ></i>
+                </ng-template>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td
+              [attr.data-text]="modalTableData.year"
+              [attr.data-text_align]="'center'"
+              [attr.data-background_color]="'FFffc500'"
+              class="text-center"
+              [colSpan]="modalTableHeaders.length"
+              [style.background]="'#ffc500'"
+            >
+              <b>{{ modalTableData.year }}</b>
+            </td>
+          </tr>
+          <tr *ngFor="let row of modalTableData.data; let i = index">
+            <td
+              [ngStyle]="
+                i == modalTableData.data.length - 1
+                  ? { position: 'sticky', bottom: '0', background: 'white' }
+                  : {}
+              "
+              [ngClass]="col.id != 'name' ? 'text-center' : 'text-center'"
+              [attr.data-text]="
+                ((row[col?.id] | roundoff: { config: col } | rupeeConverter) ||
+                  ' ') + (row[col?.id] ? col.suffix || '' : ' ')
+              "
+              [attr.data-text_align]="
+                row[col?.id] == 'Total' ? 'right' : 'center'
+              "
+              [attr.data-bold]="i == modalTableData?.data?.length - 1"
+              *ngFor="let col of modalTableHeaders"
+            >
+              <span
+                [matTooltipDisabled]="!col?.showInr"
+                [matTooltip]="
+                  (row[col?.id] | typeof) === 'object'
+                    ? row[col?.id].name
+                    : (row[col?.id] | rupeeConverter: { showInr: col?.showInr })
+                "
+                [ngClass]="
+                  i == modalTableData?.data?.length - 1 ? 'text-bold' : ''
+                "
+                *ngIf="!col?.click; else clickableCol"
+              >
+                {{
+                  col.id == "audited"
+                    ? (row["audited"]
+                      | auditStatusText
+                        : {
+                            row: row,
+                            colId: col.id
+                          })
+                    : (row[col?.id]
+                      | roundoff: { config: col }
+                      | rupeeConverter)
+                }}
+                {{ row[col?.id] ? col.suffix || "" : null }}</span
+              >
+              <ng-template #clickableCol>
+                <a
+                  *ngIf="i != modalTableData?.data?.length - 1"
+                  (click)="modalItemClicked(row._id, row)"
+                  >{{ row[col?.id] | rupeeConverter }}</a
+                >
+                <span
+                  *ngIf="i == modalTableData?.data?.length - 1"
+                  class="text-bold"
+                  >{{ row[col?.id] | rupeeConverter }}</span
+                >
+              </ng-template>
+            </td>
+          </tr>
+          <!--      </ng-container>-->
+        </tbody>
+      </table>
+      <ng-template #noData>
+        <h3 class="text-center">No data available</h3>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>
+
+<!-- search container for mobile view start here -->
+
+<ng-template #yearSelect>
+  <div
+    class="mt-2 col-md-8  "
+    [formGroup]="yearForm"
+    style="display: flex; align-items: center;"
+  >
+    <mat-form-field
+      style="
+          display: inline-block;
+          width: 160px;
+          margin-right: 1rem;
+          line-height: 0.225;
+        "
+      appearance="outline"
+      *ngIf="ulbsOfSelectedState"
+    >
+      <input
+        #autoCompleteInput
+        type="text"
+        placeholder="Search ULB"
+        aria-label="text"
+        matInput
+        [formControl]="ulbFilterControl"
+        [matAutocomplete]="auto"
+      />
+
+      <mat-autocomplete #auto="matAutocomplete" class="tesinng">
+        <mat-option *ngIf="!filteredULBStateAndULBDataMerged" disabled>
+          No ULB matched
+        </mat-option>
+        <div *ngIf="filteredULBStateAndULBDataMerged">
+          <mat-optgroup
+            *ngFor="
+              let stateId of object.keys(filteredULBStateAndULBDataMerged)
+            "
+            [label]="filteredULBStateAndULBDataMerged[stateId].name"
+          >
+            <mat-option
+              *ngIf="
+                !filteredULBStateAndULBDataMerged[stateId].ulbs ||
+                !filteredULBStateAndULBDataMerged[stateId].ulbs.length
+              "
+              disabled
+            >
+              No ULB available.
+            </mat-option>
+            <mat-option
+              *ngFor="let ulb of filteredULBStateAndULBDataMerged[stateId].ulbs"
+              (click)="onSelectingULBFromDropdown(ulb._id, stateId)"
+              [value]="ulb.name"
+              [title]="ulb.name"
+            >
+              {{ ulb.name }}
+            </mat-option>
+          </mat-optgroup>
+        </div>
+      </mat-autocomplete>
+    </mat-form-field>
+    <angular2-multiselect
+      classes=""
+      formControlName="years"
+      style="display: inline-block; width: 160px; margin-right: 2%;"
+      [data]="yearLookup"
+      [settings]="yearsDropdownSettings"
+      (onSelect)="onDropdownSelect($event)"
+      (onGroupDeSelect)="onDropdownDeSelect($event)"
+      (onDeSelect)="onDropdownDeSelect($event)"
+      (onFilterDeSelectAll)="onDropdownDeSelect($event)"
+      (onSelectAll)="onDropDownSelectAll($event)"
+      (onDeSelectAll)="resetPopupValues()"
+    >
+    </angular2-multiselect>
+    <button
+      title="Apply"
+      (click)="onDropdownClose()"
+      style="
+          background-color: #333333;
+          color: white;
+          border: none;
+          outline: none;
+          padding: 9px 15px;
+          min-width: fit-content;
+        "
+    >
+      Apply
+    </button>
+  </div>
+</ng-template>
 
 <!-- search container for mobile view end  here -->
 <ng-template #loadingSkeleton>
@@ -503,7 +689,7 @@
 </ng-template>
 
 <ng-template #pieChart>
-  <div class="col-sm-12 col-md-7"> 
+  <div class="col-sm-12 col-md-7">
     <div class="row n-sm ">
       <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
     </div>
@@ -517,29 +703,51 @@
           </div>
 
           <div class="row">
-            <div class="pie-chart-container px-1 col-md-4 col-sm-12 col-xs-12" *ngFor="let row of data.data; let i = index">
-              <div class="d-flex align-items-center justify-content-center w-100">
-                <span><b>Population <span *ngIf="!singleULBView"></span>:</b></span>
-                <a *ngIf="!singleULBView" (click)="openModal(UlbModal, row, [data.year])" class="p-1">{{
+            <div
+              class="pie-chart-container px-1 col-md-4 col-sm-12 col-xs-12"
+              *ngFor="let row of data.data; let i = index"
+            >
+              <div
+                class="d-flex align-items-center justify-content-center w-100"
+              >
+                <span
+                  ><b>Population <span *ngIf="!singleULBView"></span>:</b></span
+                >
+                <a
+                  *ngIf="!singleULBView"
+                  (click)="openModal(UlbModal, row, [data.year])"
+                  class="p-1"
+                  >{{
                     singleULBView
                       ? row["population"]
                       : row["populationCategory"]
-                  }}</a>
-                <span *ngIf="singleULBView">{{ row["population"] | rupeeConverter }}
+                  }}</a
+                >
+                <span *ngIf="singleULBView"
+                  >{{ row["population"] | rupeeConverter }}
                 </span>
               </div>
 
-              <canvas class="p-1" [ngClass]="'myChart-' + data.year" width="400px" height="400px"
-                [id]="'canvas--' + data.year + '--' + i"></canvas>
+              <canvas
+                class="p-1"
+                [ngClass]="'myChart-' + data.year"
+                width="400px"
+                height="400px"
+                [id]="'canvas--' + data.year + '--' + i"
+              ></canvas>
               <ul class="p-0" *ngIf="row['totalUlb'] && row['numOfUlb']">
                 <li>
                   Total number of ULBs : <b>{{ +row["totalUlb"] }}</b>
                 </li>
                 <li>
                   Number of ULBs with Data:
-                  <b [matTooltipDisabled]="row['audited'] == undefined" matTooltipPosition="above"
-                    [matTooltip]="'Audited: ' + row['audited']">
-                    {{ +row["numOfUlb"] }}</b>
+                  <b
+                    [matTooltipDisabled]="row['audited'] == undefined"
+                    matTooltipPosition="above"
+                    [matTooltip]="'Audited: ' + row['audited']"
+                  >
+                    {{ +row["numOfUlb"] }}</b
+                  >
                 </li>
               </ul>
             </div>
@@ -548,7 +756,11 @@
               <h4 *ngIf="!data.data.length">Data not Available</h4>
             </div>
           </div>
-          <ul [ngClass]="'legend-' + data?.year" [id]="data?.year" class="p-0 pie-chart-legend"></ul>
+          <ul
+            [ngClass]="'legend-' + data?.year"
+            [id]="data?.year"
+            class="p-0 pie-chart-legend"
+          ></ul>
           <h4 *ngIf="singleULBView" class="text-center">
             Audit Status:
             {{ data.data[0] | auditStatusText: { row: data.data[0] } }}
