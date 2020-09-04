@@ -4,18 +4,20 @@
       <a href=""><span class="glyphicon glyphicon-arrow-left"></span></a>
     </div>
     <div class="head-content">
-      <h5> Municipal Bond Issuances</h5>
+      <h5>Municipal Bond Issuances</h5>
     </div>
   </div>
-</div> <!-- w-100 end -->
+</div>
+<!-- w-100 end -->
 <div class="common-container">
   <div class="container municipal-bonds">
-
-
     <h3 class="page-title text-center n-sm">
       Municipal Bond Issuances
     </h3>
-    <div class="row" style="position: relative; display: flex; align-items: center; margin-bottom: 0.5%; ">
+    <div
+      class="row"
+      style="position: relative; display: flex; align-items: center; margin-bottom: 0.5%; "
+    >
       <div *ngIf="!bondIssuerItemData" style="display: block; width: 80vw;">
         <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
         <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
@@ -24,9 +26,16 @@
     </div>
 
     <div class="row" *ngIf="paginatedbondIssuerItem">
-      <div style="  width: 100%;  position: relative; display: flex;  align-items: center; margin-bottom: 1%; ">
-        <form class="" *ngIf="bondIssuerItemData && bondIssuerItemData.length" [formGroup]="filterForm"
-          (ngSubmit)="onSubmittingFilterForm()" class="filterForm w-100">
+      <div
+        style="  width: 100%;  position: relative; display: flex;  align-items: center; margin-bottom: 1%; "
+      >
+        <form
+          class=""
+          *ngIf="bondIssuerItemData && bondIssuerItemData.length"
+          [formGroup]="filterForm"
+          (ngSubmit)="onSubmittingFilterForm()"
+          class="filterForm w-100"
+        >
           <!--  <angular2-multiselect
               style="width: 70%; margin-right: 2%;"
               formControlName="states"
@@ -35,56 +44,93 @@
               (onDeSelectAll)="filterForm.patchValue({ states: [] })">
             </angular2-multiselect>-->
 
-          <div class="row w-100 m-0 p-0">
+          <div class="row w-100 m-0 p-0 filterContainer">
             <div class="col-sm-12 col-md-5 col-lg-5">
               <div class="drop-down-bond">
-                <angular2-multiselect *ngIf="stateList" style="width: 66%; margin-right: 2%;" formControlName="states"
-                  [data]="stateList" [settings]="stateDropdownConfiguration" (onClose)="onStateDropdownClose()"
-                  (onDeSelectAll)="filterForm.patchValue({ states: [] })">
+                <angular2-multiselect
+                  *ngIf="stateList"
+                  style="width: 66%; margin-right: 2%;"
+                  formControlName="states"
+                  [data]="stateList"
+                  [settings]="stateDropdownConfiguration"
+                  (onClose)="onStateDropdownClose()"
+                  (onDeSelectAll)="filterForm.patchValue({ states: [] })"
+                >
                 </angular2-multiselect>
 
-                <angular2-multiselect *ngIf="ulbFilteredByName" style="width: 90%; margin-right: 2%;"
-                  formControlName="ulbs" [data]="ulbFilteredByName" [settings]="ulbDropdownConfiguration"
-                  (onClose)="onULBDropdownClose()" (onDeSelectAll)="filterForm.patchValue({ ulbs: [] })">
+                <angular2-multiselect
+                  *ngIf="ulbFilteredByName"
+                  style="width: 90%; margin-right: 2%;"
+                  formControlName="ulbs"
+                  [data]="ulbFilteredByName"
+                  [settings]="ulbDropdownConfiguration"
+                  (onClose)="onULBDropdownClose()"
+                  (onDeSelectAll)="filterForm.patchValue({ ulbs: [] })"
+                >
                 </angular2-multiselect>
 
-                <angular2-multiselect style="width: 48%; margin-right: 2%;" formControlName="years"
-                  [data]="yearsAvailable" (onClose)="onyearSelected()" [settings]="yearsDropdownSettings">
+                <angular2-multiselect
+                  style="width: 48%; margin-right: 2%;"
+                  formControlName="years"
+                  [data]="yearsAvailable"
+                  (onClose)="onyearSelected()"
+                  [settings]="yearsDropdownSettings"
+                >
                 </angular2-multiselect>
               </div>
             </div>
             <div class="col-sm-12 col-md-4 col-lg-4">
               <div class="bond-btn-top">
-              <input type="submit" value="Search" class="btn btn-primary" />
-              <button class="  btn btn-danger" (click)="resetFilters()" style="margin-left: 1%;">
-                Clear All
-              </button>
-              <button class="  btn btn-primary" (click)="onClickDownload()" style="margin-left: 1%;">
-                Download
-              </button>
-            </div>
+                <input type="submit" value="Search" class="btn btn-primary" />
+                <button
+                  class="  btn btn-danger"
+                  (click)="resetFilters()"
+                  style="margin-left: 1%;"
+                >
+                  Clear All
+                </button>
+                <button
+                  class="  btn btn-primary"
+                  (click)="onClickDownload()"
+                  style="margin-left: 1%;"
+                >
+                  Download
+                </button>
+              </div>
             </div>
             <div class="col-sm-12 col-md-3 col-lg-3">
               <div class="pagination-top">
-                <pagination-controls *ngIf="bondIssuerItemData && bondIssuerItemData.length" id="foo"
-                  (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous"
-                  nextLabel="Next" maxSize="4" response="true" screenReaderPaginationLabel="Pagination"
-                  screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+                <pagination-controls
+                  *ngIf="bondIssuerItemData && bondIssuerItemData.length"
+                  id="foo"
+                  (pageChange)="setPage($event)"
+                  directionLinks="true"
+                  autoHide="false"
+                  previousLabel="Previous"
+                  nextLabel="Next"
+                  maxSize="4"
+                  response="true"
+                  screenReaderPaginationLabel="Pagination"
+                  screenReaderPageLabel="page"
+                  screenReaderCurrentLabel="You're on page"
+                >
                 </pagination-controls>
               </div>
             </div>
           </div>
-
-
-
-        </form> <!-- form end -->
+        </form>
+        <!-- form end -->
       </div>
 
-      <div class="col-md-12 municipal-bond" style="padding-right: 0px; padding-left: 0px;">
+      <div
+        class="col-md-12 municipal-bond"
+        style="padding-right: 0px; padding-left: 0px;"
+      >
         <table accordion-heading id="tableHeadings">
           <thead>
             <th>Issuer</th>
-            <th *ngFor="
+            <th
+              *ngFor="
                 let bondIsuuerItem of paginatedbondIssuerItem
                   | paginate
                     : {
@@ -94,15 +140,19 @@
                         totalItems: totalCount
                       };
                 index as i
-              ">
+              "
+            >
               {{ bondIsuuerItem.ulb }}
             </th>
           </thead>
         </table>
 
         <accordion [closeOthers]="true" class="fixed-header" *ngIf="mainRows">
-          <accordion-group class="table-responsive" *ngFor="let row of object.keys(mainRows); let i = index"
-            [isOpen]="i === 0 ? true : false">
+          <accordion-group
+            class="table-responsive"
+            *ngFor="let row of object.keys(mainRows); let i = index"
+            [isOpen]="i === 0 ? true : false"
+          >
             <h4 accordion-heading class="text-capitalize">
               {{ formattedNamesMapping[row] }}
               <span class="fa fa-angle-down"></span>
@@ -112,10 +162,13 @@
                 <td class="text-capitalize somepadding">
                   {{ formattedNamesMapping[subRow] }}
                 </td>
-                <td *ngFor="
+                <td
+                  *ngFor="
                     let bondIsssuerItem of paginatedbondIssuerItem;
                     let i = index
-                  " #i>
+                  "
+                  #i
+                >
                   {{ bondIsssuerItem[subRow] | linkConverter: "Click here":i }}
                 </td>
               </tr>
@@ -123,10 +176,21 @@
           </accordion-group>
         </accordion>
       </div>
-      <pagination-controls style="float: right; position: relative;"
-        *ngIf="bondIssuerItemData && bondIssuerItemData.length" id="foo" (pageChange)="setPage($event)"
-        directionLinks="true" autoHide="false" maxSize="4" response="true" previousLabel="Previous" nextLabel="Next"
-        screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+      <pagination-controls
+        style="float: right; position: relative;"
+        *ngIf="bondIssuerItemData && bondIssuerItemData.length"
+        id="foo"
+        (pageChange)="setPage($event)"
+        directionLinks="true"
+        autoHide="false"
+        maxSize="4"
+        response="true"
+        previousLabel="Previous"
+        nextLabel="Next"
+        screenReaderPaginationLabel="Pagination"
+        screenReaderPageLabel="page"
+        screenReaderCurrentLabel="You're on page"
+      >
       </pagination-controls>
     </div>
   </div>
