@@ -98,15 +98,15 @@ export class AnnualAccountsCreateComponent implements OnInit {
       ulbType: [{ value: null, disabled: "true" }],
       parastatalName: [
         { value: null, disabled: this.viewMode },
-        [Validators.pattern(".*?[a-zA-Z]+")]
+        [Validators.pattern(".*?[a-zA-Z]+.*")]
       ],
       person: [
         { value: null, disabled: this.viewMode },
-        [Validators.required, Validators.pattern(".*?[a-zA-Z]+")]
+        [Validators.required, Validators.pattern(".*?[a-zA-Z]+.*")]
       ],
       designation: [
         { value: null, disabled: this.viewMode },
-        [Validators.required, Validators.pattern(".*?[a-zA-Z]+")]
+        [Validators.required, Validators.pattern(".*?[a-zA-Z]+.*")]
       ],
       email: [
         { value: null, disabled: this.viewMode },
