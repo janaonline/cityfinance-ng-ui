@@ -208,6 +208,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
   upload(event, type, year) {
     const fileName = event.target.files[0].name;
     const fileType = event.target.files[0].type;
+    console.log(`fileType `, fileType);
 
     if (
       fileType.includes(
