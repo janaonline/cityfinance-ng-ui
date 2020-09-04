@@ -92,6 +92,13 @@
                 placeholder="Enter parastatal"
               />
             </div>
+            <span
+              *ngIf="
+                (validateForm.controls.parastatalName?.errors || {})['pattern']
+              "
+              style="color: red"
+              >Please enter valid Parastatal Name.</span
+            >
           </div>
         </div>
         <div class="row">
@@ -152,7 +159,7 @@
         class="instructions-layout"
         *ngIf="viewMode ? anyDocumentUploaded : true"
       >
-        <h4>
+        <h4 style="font-weight: 600;">
           Please read the following instructions and upload the documents:
         </h4>
         <p>
