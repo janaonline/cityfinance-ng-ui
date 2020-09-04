@@ -90,7 +90,7 @@ export class HomeTabViewComponent implements OnInit {
   };
 
   tabIndexes = {
-    0: "Own Revenue",
+    0: "Own Revenues",
     1: "Revenue Sources",
     2: "Revenue Expenditure",
     3: "Cash and Bank Balance",
