@@ -92,6 +92,13 @@
                 placeholder="Enter parastatal"
               />
             </div>
+            <span
+              *ngIf="
+                (validateForm.controls.parastatalName?.errors || {})['pattern']
+              "
+              style="color: red"
+              >Please enter valid Parastatal Name.</span
+            >
           </div>
         </div>
         <div class="row">
