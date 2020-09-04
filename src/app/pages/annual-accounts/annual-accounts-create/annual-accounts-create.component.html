@@ -22,7 +22,7 @@
             </option>
           </select>
         </div>
-        <div class="form-field-layout" style="margin-bottom: 8px">
+        <div class="form-field-layout">
           <label>2. Type of Body*</label>
           <mat-radio-group
             class="radio-group"
@@ -37,7 +37,7 @@
             </mat-radio-button>
           </mat-radio-group>
         </div>
-        <div>
+        <div class="form-field-layout">
           <label
             >3. Name of the
             <span *ngIf="validateForm.controls['bodyType'].value == 'ulb'"
@@ -102,7 +102,7 @@
             >
           </div>
         </div>
-        <div class="row">
+        <div class="row " style="margin-top:5px">
           <div class="col-md-4 form-field-layout">
             <label>4. Name of the Person*</label><br />
             <div class="form-group">
