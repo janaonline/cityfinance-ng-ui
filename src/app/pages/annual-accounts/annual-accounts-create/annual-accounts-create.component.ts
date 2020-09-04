@@ -211,7 +211,6 @@ export class AnnualAccountsCreateComponent implements OnInit {
     const fileType = file.type;
     const fileExtension = fileName.split(".").pop();
     if (fileExtension === "csv") return false;
-    if (fileName.split(".").length > 2) return false;
 
     if (
       fileType.includes(

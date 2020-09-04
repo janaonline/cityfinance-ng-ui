@@ -72,12 +72,12 @@
     }
   }
 
-  pagination-controls {
-    font-size: 12px;
-    // @media screen and (max-width:468px){
-    //   font-size: 3.8em;
-    // }
-  }
+  // pagination-controls {
+  //   // font-size: 12px;
+  //   // @media screen and (max-width:468px){
+  //   //   font-size: 3.8em;
+  //   // }
+  // }
 
   .btn {
     font-size: 12px;
@@ -238,10 +238,18 @@
     }
   }
 }
+@media (min-width: 512px) {
+  .filterContainer {
+    display: flex;
+    align-items: center;
+  }
+}
 
 .pagination-top {
   right: 0px;
-  position: absolute;
+  @media (max-width: 512px) {
+    position: absolute;
+  }
   @media screen and (max-width: 1000px) and (min-width: 560px) {
     top: -35px;
   }
