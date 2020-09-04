@@ -217,10 +217,12 @@ export class AnnualAccountsCreateComponent implements OnInit {
       fileType.includes(
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ) ||
-      fileType.includes("application/vnd.ms-excel")
+      fileType.includes("application/vnd.ms-excel") ||
+      fileExtension === "pdf"
     ) {
       return true;
     }
+
     return false;
   }
 
