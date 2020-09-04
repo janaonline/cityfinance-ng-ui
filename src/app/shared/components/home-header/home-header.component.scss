@@ -30,11 +30,17 @@
   margin-left: auto;
 }
 
+@media (min-width: 768px) {
+  .sidebar-for-mobile {
+    display: none;
+  }
+}
+
 .navbar-right > li:first-child {
   position: absolute;
   bottom: 0;
   left: 20px;
-  @media screen and (max-width:800px) and (min-width:770px){
+  @media screen and (max-width: 800px) and (min-width: 770px) {
     top: 5px;
   }
   @media screen and (max-width: 468px) {
@@ -110,7 +116,7 @@ li.navbar-brand {
   }
   &:hover {
     // border: 1px solid green;
-    box-shadow: 1px 1px 5px gray; 
+    box-shadow: 1px 1px 5px gray;
     transform: scale(1.1);
   }
 }
@@ -149,18 +155,18 @@ nav.navbar {
     // padding: 10px 15px;
 
     font-size: 1vw;
-    @media screen and (max-width:800px) and (min-width:770px){
-      font-size: 10px; 
+    @media screen and (max-width: 800px) and (min-width: 770px) {
+      font-size: 10px;
     }
-    @media screen and (max-width:768px) and (min-width:555px){
+    @media screen and (max-width: 768px) and (min-width: 555px) {
       font-size: 12px;
       padding: 10px 15px 10px 23px;
       font-weight: 400;
     }
-    @media screen and (max-width:551px) and (min-width:470px){
+    @media screen and (max-width: 551px) and (min-width: 470px) {
       padding: 5px 10px;
-    font-size: 12px;
-    font-weight: 400;
+      font-size: 12px;
+      font-weight: 400;
     }
     @media screen and (max-width: 468px) {
       padding: 10px 15px 10px 23px;
@@ -195,26 +201,25 @@ nav.navbar {
   }
   .dropdown-menu {
     background: transparent;
-    @media screen and (max-width:768px){
-      width: 100%; 
+    @media screen and (max-width: 768px) {
+      width: 100%;
     }
     li {
       background: rgba(1, 49, 79, 0.9);
-      width: 100%; 
+      width: 100%;
       a {
         font-weight: 400;
         font-size: 0.8vw !important;
-        @media screen and (max-width:1024px) and (min-width:780px){ 
-          font-size: 10px !important; 
+        @media screen and (max-width: 1024px) and (min-width: 780px) {
+          font-size: 10px !important;
         }
-        @media screen and (max-width:768px) and (min-width:550px){ 
+        @media screen and (max-width: 768px) and (min-width: 550px) {
           font-size: 12px !important;
           font-weight: 400;
         }
-        @media screen and (max-width:480px) and (min-width:470px){
+        @media screen and (max-width: 480px) and (min-width: 470px) {
           font-size: 10px !important;
           font-weight: 400;
-
         }
         @media screen and (max-width: 468px) {
           font-size: 10px !important;
@@ -227,19 +232,19 @@ nav.navbar {
 span.indian-emblem-wrapper.navbar-brand {
   font-size: 12px !important;
 
-  @media screen and (max-width:550px) and (min-width:470px) {
+  @media screen and (max-width: 550px) and (min-width: 470px) {
     font-size: 10px !important;
   }
   @media screen and (max-width: 468px) {
     font-size: 1.2vh !important;
   }
-  @media screen and (max-width:411px) and (min-width:360px) {
-    font-size: 8px!important;
+  @media screen and (max-width: 411px) and (min-width: 360px) {
+    font-size: 8px !important;
   }
   @media screen and (max-width: 375px) {
-    font-size: 7px!important;
+    font-size: 7px !important;
   }
-  @media screen and (max-width:330px){
+  @media screen and (max-width: 330px) {
     font-size: 6px !important;
   }
   @media screen and (max-width: 280px) {
@@ -287,11 +292,11 @@ nav.navbar-1st-row {
 //     right: 30px;
 //     opacity: 1;
 // }
-@media screen and (max-width: 768px)  {
+@media screen and (max-width: 768px) {
   .navbar-toggler {
     display: block;
     float: left;
-    border: 0; 
+    border: 0;
     background: none;
   }
   .navbar span {
@@ -353,7 +358,7 @@ nav.navbar-1st-row {
     transition: all 0.4s ease;
     &.in {
       transform: translateX(0);
-    } 
+    }
   }
   .navbar-1st-row {
     background-image: linear-gradient(to right, #095169, #059b9a);
@@ -395,12 +400,12 @@ nav.navbar-1st-row {
   }
   .d-b-lg-menu {
     display: block;
-  } 
-  .navbar-nav>li { 
+  }
+  .navbar-nav > li {
     float: none !important;
   }
 }
-// max- 768px 
+// max- 768px
 @media screen and (max-width: 551px) {
   .analytics-sub-menu {
     transform: translateX(15px);
@@ -409,5 +414,5 @@ nav.navbar-1st-row {
     top: 0px;
   }
 }
- 
+
 // responsive max-width 468px css end
