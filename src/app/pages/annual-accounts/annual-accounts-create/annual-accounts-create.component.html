@@ -37,42 +37,43 @@
             </mat-radio-button>
           </mat-radio-group>
         </div>
-        <div class="form-field-layout">
-          <label
-            >3. Name of the
-            <span *ngIf="validateForm.controls['bodyType'].value == 'ulb'"
-              >Urban Local Body*</span
-            ><span
-              *ngIf="validateForm.controls['bodyType'].value == 'parastatal'"
-              >Parastatal*</span
-            ></label
-          >
-          <div *ngIf="validateForm.controls['bodyType'].value == 'ulb'">
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <select
-                    class="form-control"
-                    formControlName="ulb"
-                    (change)="updateUlbType($event)"
-                  >
-                    <option value="null">Select ULB</option>
-                    <option *ngIf="ulbList.length == 0" disabled>
-                      No ULB available for selected State
-                    </option>
-                    <option *ngFor="let ulb of ulbList" [value]="ulb._id">
-                      {{ ulb.name }}
-                    </option>
-                  </select>
+        <div class="row">
+          <div class="form-field-layout col-sm-4">
+            <label
+              >3. Name of the
+              <span *ngIf="validateForm.controls['bodyType'].value == 'ulb'"
+                >Urban Local Body*</span
+              ><span
+                *ngIf="validateForm.controls['bodyType'].value == 'parastatal'"
+                >Parastatal Agency*</span
+              ></label
+            >
+            <div *ngIf="validateForm.controls['bodyType'].value == 'ulb'">
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <select
+                      class="form-control"
+                      formControlName="ulb"
+                      (change)="updateUlbType($event)"
+                    >
+                      <option value="null">Select ULB</option>
+                      <option *ngIf="ulbList.length == 0" disabled>
+                        No ULB available for selected State
+                      </option>
+                      <option *ngFor="let ulb of ulbList" [value]="ulb._id">
+                        {{ ulb.name }}
+                      </option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div class="col-sm-8">
+                <!-- <div class="col-sm-8">
                 <div class="form-group">
                   <div class="row" style="display: flex">
                     <span
                       style="margin-top: 3px; margin-left: 15px; font-weight: 600;"
                       >ULB Type : </span
-                    >&nbsp;
+                    ><br />
                     <input
                       class="form-control"
                       type="text"
@@ -81,27 +82,52 @@
                     />
                   </div>
                 </div>
+              </div> -->
               </div>
             </div>
+            <div
+              *ngIf="validateForm.controls['bodyType'].value == 'parastatal'"
+            >
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  type="text"
+                  formControlName="parastatalName"
+                  placeholder="Enter parastatal"
+                />
+              </div>
+              <span
+                *ngIf="
+                  (validateForm.controls.parastatalName?.errors || {})[
+                    'pattern'
+                  ]
+                "
+                style="color: red"
+                >Please enter valid Parastatal Name.</span
+              >
+            </div>
           </div>
-          <div *ngIf="validateForm.controls['bodyType'].value == 'parastatal'">
+          <div
+            class="col-md-4 form-field-layout"
+            *ngIf="(validateForm?.controls)['bodyType']?.value == 'ulb'"
+          >
+            <label>ULB Type</label><br />
             <div class="form-group">
               <input
                 class="form-control"
                 type="text"
-                formControlName="parastatalName"
-                placeholder="Enter parastatal"
+                formControlName="ulbType"
+                readonly
               />
             </div>
             <span
-              *ngIf="
-                (validateForm.controls.parastatalName?.errors || {})['pattern']
-              "
+              *ngIf="(validateForm.controls.person?.errors || {})['pattern']"
               style="color: red"
-              >Please enter valid Parastatal Name.</span
+              >Please enter valid name.</span
             >
           </div>
         </div>
+
         <div class="row " style="margin-top:5px">
           <div class="col-md-4 form-field-layout">
             <label>4. Name of the Person*</label><br />
@@ -160,7 +186,7 @@
         class="instructions-layout"
         *ngIf="viewMode ? anyDocumentUploaded : true"
       >
-        <h4 style="font-weight: 600;">
+        <h4 style="font-weight: 600;margin-top: 3%;">
           Please read the following instructions and upload the documents:
         </h4>
         <p>
