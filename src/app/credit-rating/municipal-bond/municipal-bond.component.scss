@@ -13,6 +13,10 @@
   @media (min-width: 1080px) and (max-width: 1300px) {
     font-size: 1.2vw;
   }
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
   min-width: 80vw !important;
   width: fit-content;
   max-width: 92vw !important;

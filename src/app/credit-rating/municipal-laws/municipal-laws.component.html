@@ -14,7 +14,7 @@
     <!-- {{tempStates | json}} -->
     <!-- {{keys | json}} -->
     <!-- {{list | json}}  -->
-    <div class="row m-1" [ngClass]="{ 'hide-container': compareState }">
+    <div class="row m-1" [ngClass]="{ 'hide-container' : compareState }">
       <div class="col-md-6 mt-2" style="min-height: 50vh;">
         <carousel class="municipal-law-carousel" [noPause]="false" (activeSlideChange)="onSlideChaning($event)">
           <slide *ngFor="let item of slides" title="Click to compare states">
@@ -120,9 +120,9 @@
       <!-- {{selectedStates | json}} -->
     </div>
 
-    <div class="row container m-auto" *ngIf="compareState == 2">
+    <div class="row container accordion-full-m m-auto" *ngIf="compareState == 2">
      
-      <div class="col-md-10 col-sm-12" >
+      <div class="col-md-10 col-sm-12 accordion-full-m" >
         <!-- <h3>State comparision -->
        
         <!-- <a class="back-link" style="margin-top: 100px;" (click)="backToStateSelection()">Back</a> -->

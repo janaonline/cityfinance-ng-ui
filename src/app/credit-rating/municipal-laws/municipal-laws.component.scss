@@ -165,3 +165,10 @@ table {
     overflow: scroll;
 }
 }  
+
+
+@media only screen and (max-width:551px) {
+  .accordion-full-m{
+    padding:0;
+  }
+}
