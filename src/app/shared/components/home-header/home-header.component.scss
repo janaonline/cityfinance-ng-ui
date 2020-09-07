@@ -230,28 +230,31 @@ nav.navbar {
   }
 }
 span.indian-emblem-wrapper.navbar-brand {
-  font-size: 12px !important;
+  // font-size: 12px !important;
+  @media (max-width: 768px) {
+    font-size: 2vw !important;
+  }
 
   @media screen and (max-width: 550px) and (min-width: 470px) {
-    font-size: 10px !important;
+    // font-size: 10px !important;
   }
   @media screen and (max-width: 468px) {
-    font-size: 1.2vh !important;
+    // font-size: 1.2vh !important;
   }
   @media screen and (max-width: 411px) and (min-width: 360px) {
-    font-size: 8px !important;
+    // font-size: 8px !important;
   }
   @media screen and (max-width: 375px) {
-    font-size: 7px !important;
+    // font-size: 7px !important;
   }
   @media screen and (max-width: 330px) {
-    font-size: 6px !important;
+    // font-size: 6px !important;
   }
   @media screen and (max-width: 280px) {
-    font-size: 5px !important;
+    // font-size: 5px !important;
   }
   @media screen and (max-width: 240px) {
-    font-size: 4px !important;
+    // font-size: 4px !important;
   }
   .indian-emblem {
     display: inline-block;
