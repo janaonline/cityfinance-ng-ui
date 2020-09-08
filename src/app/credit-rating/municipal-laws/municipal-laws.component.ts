@@ -151,7 +151,8 @@ export class MunicipalLawsComponent implements OnInit {
       return zoom;
     }
 
-    const defaultZoomLevel = 4.7 - (window.devicePixelRatio - 1);
+    const defaultZoomLevel =
+      (Math.max(document.documentElement.clientWidth) - 1366) / 1366 + 4;
     try {
       zoom = localStorage.getItem("mapZoomLevel")
         ? +localStorage.getItem("mapZoomLevel")
