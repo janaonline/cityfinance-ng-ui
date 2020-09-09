@@ -146,10 +146,12 @@
       </ul>
     </li>
     <li routerLinkActive="active" class="dropdown">
-      <a (click)="navigateTo('/dashboard/report')">Financial Statements</a>
+      <a (click)="navigateTo('/financial-statement/report')"
+        >Financial Statements</a
+      >
     </li>
     <li routerLinkActive="active">
-      <a (click)="navigateTo('/credit-rating/laws')">Municipal Laws</a>
+      <a (click)="navigateTo('/municipal-law')">Municipal Laws</a>
     </li>
     <li class="d-n-sm">
       <a
@@ -163,33 +165,31 @@
       </a>
       <ul class="dropdown-menu dropdown-menu-left">
         <li routerLinkActive="active">
-          <a (click)="navigateTo('/credit-rating/municipal-bond')"
+          <a (click)="navigateTo('/borrowings/municipal-bond')"
             >Municipal Bonds</a
           >
         </li>
         <li routerLinkActive="active">
-          <a (click)="navigateTo('/credit-rating/report')">Credit Rating</a>
+          <a (click)="navigateTo('/borrowings/credit-rating')">Credit Rating</a>
         </li>
       </ul>
     </li>
 
     <li routerLinkActive="active" class="d-b-lg-menu">
-      <a (click)="navigateTo('/credit-rating/municipal-bond')"
-        >Municipal Bonds</a
-      >
+      <a (click)="navigateTo('/borrowings/municipal-bond')">Municipal Bonds</a>
     </li>
     <li routerLinkActive="active" class="d-b-lg-menu">
-      <a (click)="navigateTo('/credit-rating/report')">Credit Rating</a>
+      <a (click)="navigateTo('/borrowings/report')">Credit Rating</a>
     </li>
 
     <!-- <li routerLinkActive="active">
-      <a [routerLink]="['/credit-rating/report']">Credit Rating</a>
+      <a [routerLink]="['/borrowings/report']">Credit Rating</a>
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['/credit-rating/municipal-bond']"> Municipal Bonds</a>
+      <a [routerLink]="['/borrowings/municipal-bond']"> Municipal Bonds</a>
     </li> -->
     <li routerLinkActive="active">
-      <a (click)="navigateTo('/files')"> Resources </a>
+      <a (click)="navigateTo('/resources')"> Resources </a>
     </li>
     <li routerLinkActive="active" class="d-n-sm">
       <!-- <a

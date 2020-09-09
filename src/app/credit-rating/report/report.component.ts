@@ -21,7 +21,7 @@ import { CommonService } from '../../shared/services/common.service';
 import { CreditScale, ratingGrades } from '../../util/creditReportUtil';
 import { ULBRatings } from './ratings';
 
-// import { CreditRatingJson } from './credit-rating.json';
+// import { CreditRatingJson } from './borrowings.json';
 
 @Component({
   selector: "app-report",
@@ -118,7 +118,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   stateLayerToAutoSelect: L.Layer;
 
   onClearRatingFilter() {
-    this.router.navigate(["/credit-rating/report"]).then(res => {
+    this.router.navigate(["/borrowings/credit-rating"]).then(res => {
       let stateToSelect: string;
       if (this.stateLayerSelectonMap) {
         stateToSelect = MapUtil.getStateName(this.stateLayerSelectonMap);

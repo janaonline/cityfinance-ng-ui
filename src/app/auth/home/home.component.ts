@@ -17,10 +17,10 @@ interface Link {
       useValue: {
         interval: 4000,
         noPause: true,
-        showIndicators: true,
-      },
-    },
-  ],
+        showIndicators: true
+      }
+    }
+  ]
 })
 export class HomeComponent implements OnInit {
   isProduction = !(
@@ -35,21 +35,21 @@ export class HomeComponent implements OnInit {
       caption: "ULB Statistics",
       chartClass: "text-warning bg-warning",
       containerClass: "col-md-3",
-      hasChart: false,
+      hasChart: false
     },
     {
       title: "States Covered",
       caption: "18 / 28",
       chartClass: "text-warning bg-warning",
       containerClass: "col-md-3",
-      hasChart: true,
+      hasChart: true
     },
     {
       title: "No of ULBs",
       caption: "522",
       chartClass: "text-warning bg-warning",
       containerClass: "col-md-3",
-      hasChart: true,
+      hasChart: true
     },
 
     {
@@ -57,81 +57,81 @@ export class HomeComponent implements OnInit {
       caption: "93",
       chartClass: "text-warning bg-warning",
       containerClass: "col-md-3",
-      hasChart: true,
+      hasChart: true
     },
     {
       title: "",
       caption: "Municipal Finance Laws",
       chartClass: "text-primary bg-primary",
       containerClass: "col-md-3",
-      hasChart: false,
+      hasChart: false
     },
     {
       title: "States",
       caption: "28",
       chartClass: "text-primary bg-primary",
       containerClass: "col-md-3",
-      hasChart: true,
+      hasChart: true
     },
     {
       title: "ULB laws",
       caption: "108",
       chartClass: "text-primary bg-primary",
       containerClass: "col-md-3",
-      hasChart: true,
+      hasChart: true
     },
     {
       title: "Criteria",
       caption: "71",
       chartClass: "text-primary bg-primary",
       containerClass: "col-md-3",
-      hasChart: true,
+      hasChart: true
     },
     {
       title: "",
       caption: "Status",
       chartClass: "text-danger bg-danger",
       containerClass: "col-md-3",
-      hasChart: false,
+      hasChart: false
     },
     {
       title: "Financial Statements",
       caption: "900",
       chartClass: "text-danger bg-danger",
       containerClass: "col-md-3",
-      hasChart: true,
+      hasChart: true
     },
     {
       title: "Audit Status",
       caption: "100%",
       chartClass: "text-danger bg-danger",
       containerClass: "col-md-3",
-      hasChart: true,
+      hasChart: true
     },
     {
       title: "Unaudited Status",
       caption: "0%",
       chartClass: "text-danger bg-danger",
       containerClass: "col-md-3",
-      hasChart: true,
-    },
+      hasChart: true
+    }
   ];
 
   importantLinks: Link[] = [
     {
       text: "Audited/Unaudited Annual Accounts of ULBs",
-      link: "/dashboard/report/basic",
+      link: "/financial-statement/report/basic"
     },
     {
       text: "Municipal Bonds and Pooled Debt Obligations",
-      link: "/credit-rating/municipal-bond",
+      link: "/borrowings/municipal-bond"
     },
     {
       text: "Credit Rating of all ULBs to date",
-      link: "/credit-rating/report",
+      link: "/borrowings/credit-rating"
     },
     {
-      text: "Database of finance related provisions",
+      text: "Database of finance related provisions"
     },
     { text: "Fiscal Ranking of ULBs" },
     { text: "Service Level Benchmarks vs Actuals" },
@@ -145,7 +145,7 @@ export class HomeComponent implements OnInit {
     { text: "Index on quality of input data" },
     { text: "Best practice compilation and discussion forums" },
     { text: "Model documents/How To kits for RFPs" },
-    { text: "XBRL for input of data directly by ULBs/States" },
+    { text: "XBRL for input of data directly by ULBs/States" }
   ];
 
   constructor() {}
