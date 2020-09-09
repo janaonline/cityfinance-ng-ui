@@ -10,8 +10,14 @@
       <li routerLinkActive="active"><a [routerLink]="['/home']">Home</a></li>
       <!-- <li routerLinkActive="active"><a [routerLink]="['/home']">About Cityfinance.in</a></li> -->
       <li routerLinkActive="active" class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown"  role="button"  aria-haspopup="true"  aria-expanded="false" >Urban Finances &nbsp;<span class="caret">
-          </span></a>
+        <a
+          class="dropdown-toggle"
+          data-toggle="dropdown"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+          >Urban Finances &nbsp;<span class="caret"> </span
+        ></a>
         <ul class="dropdown-menu">
           <li routerLinkActive="active">
             <a (click)="goToReportPage()">Annual Financial Statements</a>
@@ -29,13 +35,13 @@
         </ul>
       </li>
       <li routerLinkActive="active">
-        <a [routerLink]="['/credit-rating/laws']">Municipal Finance Laws</a>
+        <a [routerLink]="['/borrowings/laws']">Municipal Finance Laws</a>
       </li>
       <li routerLinkActive="active">
-        <a [routerLink]="['/credit-rating/report']">Credit Rating</a>
+        <a [routerLink]="['/borrowings/report']">Credit Rating</a>
       </li>
       <li routerLinkActive="active">
-        <a [routerLink]="['/credit-rating/municipal-bond']">Municipal Bonds</a>
+        <a [routerLink]="['/borrowings/municipal-bond']">Municipal Bonds</a>
       </li>
       <li routerLinkActive="active" *ngIf="!isLoggedIn">
         <a [routerLink]="['/login']">Login</a>
@@ -62,9 +68,9 @@
       <!-- <li class="dropdown">
         <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ulb Credit Rating &nbsp;<span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a [routerLink]="['/credit-rating/report']">Credit Rating Report</a></li>
-          <li><a [routerLink]="['/credit-rating/laws']">Municipal Laws</a></li>
-          <li><a [routerLink]="['/credit-rating/municipal-bond']">Municipal Bond Issuances</a></li>
+          <li><a [routerLink]="['/borrowings/report']">Credit Rating Report</a></li>
+          <li><a [routerLink]="['/borrowings/laws']">Municipal Laws</a></li>
+          <li><a [routerLink]="['/borrowings/municipal-bond']">Municipal Bond Issuances</a></li>
         </ul>
       </li>
       <li><a [routerLink]="['/dashboard/data-tracker']">Data Tracker</a></li>

@@ -22,8 +22,8 @@ export class HeaderComponent implements OnInit {
   }
 
   goToReportPage() {
-    if (!window.location.pathname.includes("/dashboard/report")) {
-      this.router.navigate(["/dashboard", "report"]);
+    if (!window.location.pathname.includes("/financial-statement/report")) {
+      this.router.navigate(["/financial-statement", "report"]);
     }
   }
 
