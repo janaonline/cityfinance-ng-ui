@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CreditRatingComponent } from './credit-rating.component';
 import { MunicipalBondComponent } from './municipal-bond/municipal-bond.component';
-import { MunicipalLawsComponent } from './municipal-laws/municipal-laws.component';
 import { ReportComponent } from './report/report.component';
 import { ScaleComponent } from './scale/scale.component';
 
@@ -21,8 +20,7 @@ export const creditRatingRouter: Routes = [
       { path: "", redirectTo: "report", pathMatch: "full" },
       { path: "credit-rating", component: ReportComponent },
       { path: "scale", component: ScaleComponent },
-      { path: "municipal-bond", component: MunicipalBondComponent },
-      { path: "laws", component: MunicipalLawsComponent }
+      { path: "municipal-bond", component: MunicipalBondComponent }
     ]
   }
 ];

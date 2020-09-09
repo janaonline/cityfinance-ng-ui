@@ -164,7 +164,7 @@ export class HomeHeaderComponent implements OnInit {
   //  //  if (this.userUtil.isUserOnMobile()) return;
   //  let element = document.getElementById("navbarNavDropdown");
   //  element.classList.remove("in");
-  //    this.router.navigate(["/borrowings/laws"]);
+  //    this.router.navigate(["/municipal-law"]);
   //  }
 
   //  navigateToMunicipalBond() {

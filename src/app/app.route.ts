@@ -48,6 +48,11 @@ export const appRouter: Routes = [
   },
 
   {
+    path: "municipal-law",
+    loadChildren: "./municipal-law/municipal-law.module#MunicipalLawModule"
+  },
+
+  {
     path: "financial-statement",
     loadChildren: "./dashboard/dashboard.module#DashboardModule"
   },
