@@ -1,29 +1,7 @@
 <div class="testing"></div>
 
 <div class="col-sm-12 stateMapContainer">
-  <!-- <p class="text-center national-map-click-guide">
-    <span *ngIf="!currentStateInView && nationalLevelMap">
-      Click on any state to view state and ULB related data</span
-    >
-    <span *ngIf="currentStateInView">
-      Click on any ULB to view it's data or click on India map to go back</span
-    >
-  </p> -->
-
-  <div
-    style="
-      position: absolute;
-      z-index: 9;
-      margin-left: 2%;
-      text-decoration: underline;
-      font-weight: 500;
-      display: inherit;
-      margin-top: 3.8rem;
-      width: 18vw;
-      top: 0;
-      left: 0;
-    "
-  >
+  <div class="selectedEntity">
     <span
       *ngIf="currentStateInView && currentStateInView.name"
       style="display: inline-block; min-width: fit-content;"
