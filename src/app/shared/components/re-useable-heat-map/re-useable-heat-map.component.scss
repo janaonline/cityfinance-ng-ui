@@ -62,6 +62,7 @@ div.miniMap {
 }
 #districtMapContainer {
   padding: 0px;
+  width: 100%;
   position: absolute;
   border-radius: inherit;
   border-left: inherit;
@@ -123,6 +124,26 @@ div.miniMap {
 .ulbDetails {
   transform: scale(0.8);
   margin-top: -10%;
+
+  & > span {
+    display: block;
+  }
+}
+
+.selectedEntity {
+  position: absolute;
+  z-index: 9;
+  margin-left: 2%;
+  text-decoration: underline;
+  font-weight: 500;
+  display: inherit;
+  margin-top: 3.8rem;
+  width: 100%;
+  top: 0;
+  left: 0;
+  @media screen and (max-width: 768px) {
+    margin-top: 0.5rem;
+  }
 }
 
 .bold {
@@ -341,6 +362,9 @@ div.miniMap {
     position: absolute;
     bottom: 1px;
     font-size: 0.8vw;
+    @media screen and (max-width: 768px) {
+      font-size: 2.8vw;
+    }
   }
   .map-click-guide {
     right: 5vw;
