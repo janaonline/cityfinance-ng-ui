@@ -385,12 +385,10 @@
         </a>
       </div>
       <br />
-      <div class="col-md-12 credit-rating-report">
-        <div
-          class="credit-rating-header table-responsive"
-          style="background: #059b9a; color: #fff"
-        >
-          <table style="width: 100%" class="table">
+      <div class="col-md-12 credit-rating-report accordion-full-m">
+
+        <div class="table-responsive">
+          <table style="width: 100%; background: #059b9a; color: #fff;" class="table table-hover">
             <tr>
               <th
                 style="width: 25%; padding: 10px 6px"
@@ -443,8 +441,7 @@
                 ></span> -->
               </th>
             </tr>
-          </table>
-        </div>
+          </table>  <!-- table header end -->
 
         <div class="n-sm">
           <table class="table mb-0">
@@ -632,9 +629,8 @@
               </td>
             </tr>
           </table>
-        </div>
-        <!-- table-responsive div end-->
-        <accordion [closeOthers]="true" class="table-responsive">
+        </div>  <!-- table filter end and display none in mobile view -->
+        <accordion [closeOthers]="true" class="accordionc-rating">
           <ng-container *ngFor="let item of list">
             <accordion-group (click)="getUlbInfo(item)" class="credit-r-m">
               <table
@@ -666,10 +662,9 @@
               </table>
 
               <div class="row">
-                <div class="col-md-12">
-                  <div class="table-responsive">
-                    <table
-                      class="table table-striped table-hover"
+                <div class="col-md-12 scrolling outer">
+                  <div class="inner">
+                    <table class="table table-striped table-hover"
                       style="width: 100%"
                     >
                       <tr class="warning">
@@ -741,6 +736,9 @@
             </accordion-group>
           </ng-container>
         </accordion>
+        </div> <!-- table responsive div end --> 
+         
+       
       </div>
     </div>
   </div>

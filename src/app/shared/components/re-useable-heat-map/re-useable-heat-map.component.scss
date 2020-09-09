@@ -248,6 +248,7 @@ div.miniMap {
   color: #8bd2f0;
 }
 
+
 // ::ng-deep .mat-option-text {
 //   font-size: 1.2rem;
 // }
@@ -366,3 +367,10 @@ div.miniMap {
 //     color: red;
 //   }
 // }
+
+
+@media screen and (max-width:768px){
+  ::ng-deep .mat-option-text {
+    white-space: nowrap;
+  }  
+}

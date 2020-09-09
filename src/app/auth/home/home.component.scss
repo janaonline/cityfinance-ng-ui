@@ -995,12 +995,13 @@ img.background {
   animation-name: fadeIn;
   animation: fadeIn 0.5s ease-in-out;
 }
-.benifitHeading {
+.benifitHeading { 
   text-align: center;
   position: relative;
   margin: 2% auto;
   width: fit-content;
   width: 35%;
+  margin-top: 70px !important;
   @media screen and (max-width:468px){
     width: 100%;
   }
