@@ -1,7 +1,9 @@
 <div class="w-100 b-sm">
   <div class="inner-head">
     <div class="back-icon">
-      <a href=""><span class="glyphicon glyphicon-arrow-left"></span></a>
+      <a (click)="window.history.back()"
+        ><span class="glyphicon glyphicon-arrow-left"></span
+      ></a>
     </div>
     <div class="head-content">
       <h5>Analytics / {{ tabIndexes[tabIndex] }}</h5>
@@ -232,6 +234,7 @@
         <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
       </div>
       <button
+        *ngIf="commonTableData?.length"
         mat-raised-button
         class="mt-2 show-up"
         (click)="downloadTable('table-main')"
