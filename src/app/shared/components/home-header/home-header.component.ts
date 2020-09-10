@@ -43,6 +43,8 @@ export class HomeHeaderComponent implements OnInit {
   isCreditRatingActive = false;
   private accessChecker = new AccessChecker();
 
+  isAnalyticsPageActive = false;
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -56,6 +58,8 @@ export class HomeHeaderComponent implements OnInit {
     this.initializeAccessChecking();
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
+        this.isAnalyticsPageActive = event.url.includes(`analytics`);
+
         if (event.url.includes(`/borrowings/credit-rating`)) {
           this.isCreditRatingActive = true;
         } else if (event.url.includes(`municipal-bond`)) {
@@ -137,6 +141,15 @@ export class HomeHeaderComponent implements OnInit {
     // }, 1111);
   }
 
+  onClickingNavbarDropdown() {
+    const element = document.getElementById("analyticsDropdown");
+    if (!element) return;
+    if (!this.isAnalyticsPageActive) return;
+    setTimeout(() => {
+      element.classList.add("open");
+    }, 0);
+  }
+
   navigateToAnalytics() {
     this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
     if (this.userUtil.isUserOnMobile()) return;
@@ -191,7 +204,7 @@ export class HomeHeaderComponent implements OnInit {
   //  }
 
   navigateTo(url: string) {
-    let element = document.getElementById("navbarNavDropdown");
+    const element = document.getElementById("navbarNavDropdown");
     if (element) element.classList.remove("in");
     this.router.navigate([url]);
   }
@@ -199,13 +212,13 @@ export class HomeHeaderComponent implements OnInit {
   onClickingAnalyticsSubMenu(event: Event) {
     if (!this.userUtil.isUserOnMobile()) return;
     event.stopPropagation();
-    let element = document.getElementById("navbarNavDropdown");
+    const element = document.getElementById("navbarNavDropdown");
     element.classList.remove("in");
   }
 
   closeNavbar(event) {
     const el = event.path[0].classList.value == "dropdown-toggle";
-    let element = document.getElementById("navbarNavDropdown");
+    const element = document.getElementById("navbarNavDropdown");
     if (!el && element) {
       element.classList.remove("in");
     }

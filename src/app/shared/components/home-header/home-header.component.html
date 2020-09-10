@@ -78,6 +78,7 @@
 
 <div class="navbar navbar-expand-lg nav-m container-fluid navbar-2nd-row">
   <button
+    (click)="onClickingNavbarDropdown()"
     class="navbar-toggler"
     type="button"
     data-toggle="collapse"
@@ -116,7 +117,7 @@
     <li routerLinkActive="active">
       <a (click)="navigateTo('/home')">Home</a>
     </li>
-    <li routerLinkActive="active">
+    <li id="analyticsDropdown" routerLinkActive="active" class="test">
       <span class="down-icon"></span>
       <a
         class="dropdown-toggle"
@@ -126,7 +127,7 @@
         aria-expanded="false"
         (click)="navigateToAnalytics()"
         id="id"
-        >Analytics
+        >Analytics, {{ isAnalyticsPageActive }}
       </a>
       <ul class="dropdown-menu dropdown-menu-left">
         <li
