@@ -88,7 +88,7 @@ export class HomeTabViewComponent implements OnInit {
       cancel: { text: "Cancel" }
     }
   };
-
+  window = window;
   tabIndexes = {
     0: "Own Revenues",
     1: "Revenue Sources",
