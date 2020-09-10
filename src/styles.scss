@@ -642,7 +642,7 @@ img.align-center {
   .c-list .c-token {
     background-color: #059b9a;
     color: white;
-    width: max-content;
+    width: max-content; 
   }
 }
 
@@ -1041,9 +1041,14 @@ img.align-center {
   .selected-list .countplaceholder {
     right: 20px !important;
   }
+  .c-token{
+    width: auto !important;
+  }
 }
 
 // max width 551px
+
+ 
 
 // max- width 414px start
 @media screen and (max-width: 480px) and (min-width: 300px) {
