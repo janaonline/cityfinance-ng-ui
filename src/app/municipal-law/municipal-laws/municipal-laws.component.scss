@@ -40,10 +40,6 @@
     &:hover {
       background-color: #ffc500;
       color: #fff;
-      @media screen and (max-width:551px){
-        background-color: #aaa;
-      color: #000;
-      }
     }
   }
   .btn-selected {

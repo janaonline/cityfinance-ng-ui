@@ -91,7 +91,7 @@
         </h3>
         <br />
       </div>
-      <div class="clear-all-btn">
+      <div class="col-md-12">
         <button *ngIf="selectedStates.length > 1" (click)="clearSelectedStates()" class="btn btn-sm btn-danger">
           Clear All
         </button>
@@ -255,13 +255,13 @@
       style="margin-left: 2%;">
       <span aria-hidden="true">&times;</span>
     </button>
-    <button type="button" class="btn btn-warning pull-right mt-1" stlye="margin-right:2% !important;"
+    <button type="button" class="btn btn-warning pull-right" stlye="margin-right:2% !important;"
       (click)="clearSelectedStates()">
       Clear All
     </button>
   </div>
   <div class="modal-body">
-    <div class="mv-65 row">
+    <div class="mv-65">
     <div *ngFor="let state of states" class="col-sm-6 col-xs-12 col-md-3 col-lg-3 state-list" (click)="addToCompare(state)">
       <div class="btn" [ngClass]="{ 'btn-selected': state.selected }">
         {{ state.name }}
