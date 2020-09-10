@@ -934,6 +934,10 @@ img.background {
 
 ::ng-deep {
   .dashboard-wrapper {
+
+    @media screen and (max-width:551px){
+      padding: 0;
+    }
     .carousel-indicators {
       z-index: 1;
     }

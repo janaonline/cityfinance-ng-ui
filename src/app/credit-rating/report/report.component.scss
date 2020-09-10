@@ -32,6 +32,10 @@ table {
   height: 55vh;
 }
 .dashboard-wrapper {
+ @media screen and (max-width:551px){
+      padding: 0;
+      overflow: hidden;
+    }
   #mapidd {
     height: 55vh;
     min-height: 410px;

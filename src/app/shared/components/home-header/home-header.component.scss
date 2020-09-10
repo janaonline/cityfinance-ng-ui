@@ -412,11 +412,11 @@ nav.navbar-1st-row {
 // max- 768px
 @media screen and (max-width: 551px) {
   .analytics-sub-menu {
-    transform: translateX(15px);
+    transform: translateX(0px);
   }
   .nav-ul {
     top: 0px;
-  }
+  } 
 }
 
 // responsive max-width 468px css end
