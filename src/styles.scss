@@ -645,7 +645,9 @@ img.align-center {
     width: max-content; 
   }
 }
-
+.c-token{
+  width: auto !important;
+}
 //bootstrap short class
 
 .d-flex {
@@ -1040,10 +1042,7 @@ img.align-center {
   }
   .selected-list .countplaceholder {
     right: 20px !important;
-  }
-  .c-token{
-    width: auto !important;
-  }
+  } 
 }
 
 // max width 551px

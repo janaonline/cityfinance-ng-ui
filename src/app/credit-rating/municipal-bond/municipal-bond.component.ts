@@ -96,7 +96,7 @@ export class MunicipalBondComponent implements OnInit {
   };
 
   queryParams = {};
-
+  window = window; 
   constructor(
     private _formBuilder: FormBuilder,
     private _bondService: MunicipalBondsService,
@@ -481,3 +481,4 @@ export class MunicipalBondComponent implements OnInit {
     });
   }
 }
+

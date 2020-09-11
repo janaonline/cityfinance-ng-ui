@@ -8,6 +8,7 @@ import { PublicFile } from '../models/fileList';
   templateUrl: "./file.component.html",
   styleUrls: ["./file.component.scss"],
 })
+
 export class FileComponent implements OnInit {
   files: PublicFile[];
 
@@ -21,4 +22,6 @@ export class FileComponent implements OnInit {
       );
     });
   }
-}
+};
+
+//window = window;

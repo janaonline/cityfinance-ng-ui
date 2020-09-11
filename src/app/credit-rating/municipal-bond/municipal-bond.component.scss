@@ -266,21 +266,20 @@
   display: flex;
   flex-wrap: nowrap;
   margin: 10px 0px;
-  @media screen and (max-width: 468px) {
+  @media screen and (max-width: 551px) {
     position: relative;
   }
 }
 .bond-btn-top {
   margin: 10px 0px;
-  @media screen and (max-width: 468px) {
+  @media screen and (max-width: 768px) {
     position: relative;
     text-align: center;
   }
 }
 
-@media screen and (max-width: 468px) {
-  .pagination-top pagination-controls {
-    font-size: 1.1em;
+@media screen and (max-width: 551px) {
+  .pagination-top pagination-controls { 
     float: right;
   }
 }
@@ -312,4 +311,11 @@
 .accordion-body-table tbody tr td:first-child {
   left: 0;
   z-index: 1;
+}
+
+@media screen and (max-width:1024px){
+
+}
+.pagination-bottom, .pagination-top{
+  font-size: 14px !important;
 }
