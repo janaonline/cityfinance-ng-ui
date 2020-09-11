@@ -205,6 +205,7 @@ export class MunicipalLawsComponent implements OnInit {
     });
   }
 
+  window = window; 
   onClickingStateOnMap(stateLayer: ILeafletStateClickEvent) {
     const stateName = MapUtil.getStateName(stateLayer).toLowerCase();
     // const stateList = this.slides[this.currentSlideIndex].states;

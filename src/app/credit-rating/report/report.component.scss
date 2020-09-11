@@ -346,5 +346,15 @@ div.arrow:after {
   outline: 0;
   border: none;
 }
-@media screen and (max-width: 468px) {
+@media screen and (max-width: 768px) {
+  .credit-r-m{
+    min-width: fit-content;
+  }
+  .accordionc-rating{
+    min-width: fit-content;
+  }
+  .modal-content{
+    overflow: inherit !important;
+  }
 }
+

@@ -248,7 +248,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
     window.open("/assets/files/CreditRating.xlsx");
   }
-
+  window = window; 
   setDefaultAbsCreditInfo() {
     this.absCreditInfo = {
       title: "",
