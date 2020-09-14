@@ -11,7 +11,7 @@ import { PublicFile } from '../models/fileList';
 
 export class FileComponent implements OnInit {
   files: PublicFile[];
-
+  window = window;
   constructor(private commonService: CommonService) {}
 
   ngOnInit() {
@@ -24,4 +24,4 @@ export class FileComponent implements OnInit {
   }
 };
 
-//window = window;
+ 
