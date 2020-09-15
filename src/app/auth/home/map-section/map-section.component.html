@@ -103,7 +103,7 @@
       <a
         class="btn btn-explore"
         *ngIf="dataForVisualization?.financialStatements"
-        [routerLink]="['/dashboard/report/basic']"
+        [routerLink]="['/financial-statement/report/basic']"
         >Explore</a
       >
     </div>
@@ -149,7 +149,7 @@
             : creditRating.total
         "
         class="btn btn-explore"
-        [routerLink]="['/borrowings/report']"
+        [routerLink]="['/borrowings/credit-rating']"
         [queryParams]="{ state: stateSelected ? stateSelected.name : null }"
         >Explore</a
       >
@@ -180,7 +180,7 @@
       <a
         *ngIf="creditRatingAboveBBB_Minus"
         class="btn btn-explore"
-        [routerLink]="['/borrowings/report']"
+        [routerLink]="['/borrowings/credit-rating']"
         [queryParams]="{
           state: stateSelected ? stateSelected.name : null,
           minRating: 'BBB-'
@@ -203,7 +203,7 @@
       <a
         *ngIf="creditRatingAboveA"
         class="btn btn-explore"
-        [routerLink]="['/borrowings/report']"
+        [routerLink]="['/borrowings/credit-rating']"
         [queryParams]="{
           state: stateSelected ? stateSelected.name : null,
           minRating: 'A'
