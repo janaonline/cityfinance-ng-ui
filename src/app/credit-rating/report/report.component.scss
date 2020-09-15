@@ -85,6 +85,12 @@ table {
     padding: 0 !important;
   }
 
+  .filtered-message {
+    @media screen and (max-width: 768px) {
+      margin-bottom: 15px;
+    }
+  }
+
   .modal-center {
     display: flex;
     align-items: center;
