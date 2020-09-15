@@ -89,9 +89,7 @@ div.miniMap {
   position: absolute;
   right: -3.5%;
   top: 11%;
-  @media screen and (max-width: 768px) {
-    top: 0%;
-  }
+
   width: 50%;
   background: transparent;
   max-width: 259.199px;
