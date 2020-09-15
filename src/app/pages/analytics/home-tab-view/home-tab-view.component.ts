@@ -1,26 +1,39 @@
-import 'chartjs-plugin-labels';
+import "chartjs-plugin-labels";
 
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog, MatSnackBar } from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Chart } from 'chart.js';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { forkJoin, Observable, Subject } from 'rxjs';
-import { debounceTime, delay, map, takeUntil } from 'rxjs/operators';
-import { AuthService } from 'src/app/auth/auth.service';
-import { AnalyticsTabs, IAnalyticsTabs } from 'src/app/shared/components/home-header/tabs';
+import { Component, OnInit, TemplateRef } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { MatDialog, MatSnackBar } from "@angular/material";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Chart } from "chart.js";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { forkJoin, Observable, Subject } from "rxjs";
+import { debounceTime, delay, map, takeUntil } from "rxjs/operators";
+import { AuthService } from "src/app/auth/auth.service";
+import {
+  AnalyticsTabs,
+  IAnalyticsTabs
+} from "src/app/shared/components/home-header/tabs";
 
-import { IDialogConfiguration } from '../../../../app/shared/components/dialog/models/dialogConfiguration';
-import { IStateWithULBS } from '../../../../app/shared/components/re-useable-heat-map/models/stateWithULBS';
-import { IStateULBCovered, IStateULBCoveredResponse } from '../../../../app/shared/models/stateUlbConvered';
-import { IULBWithPopulationResponse, ULBWithMapData } from '../../../../app/shared/models/ulbsForMapResponse';
-import { CommonService } from '../../../../app/shared/services/common.service';
-import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
-import { ModalTableHeader, modalTableHeaders, tableHeaders } from '../../../shared/components/home-header/tableHeaders';
-import { DashboardService } from '../../../shared/services/dashboard/dashboard.service';
-import { TableDownloader } from '../../../shared/util/tableDownload/genericTableDownload';
-import { TableDowloadOptions } from '../../../shared/util/tableDownload/models/options';
+import { IDialogConfiguration } from "../../../../app/shared/components/dialog/models/dialogConfiguration";
+import { IStateWithULBS } from "../../../../app/shared/components/re-useable-heat-map/models/stateWithULBS";
+import {
+  IStateULBCovered,
+  IStateULBCoveredResponse
+} from "../../../../app/shared/models/stateUlbConvered";
+import {
+  IULBWithPopulationResponse,
+  ULBWithMapData
+} from "../../../../app/shared/models/ulbsForMapResponse";
+import { CommonService } from "../../../../app/shared/services/common.service";
+import { DialogComponent } from "../../../shared/components/dialog/dialog.component";
+import {
+  ModalTableHeader,
+  modalTableHeaders,
+  tableHeaders
+} from "../../../shared/components/home-header/tableHeaders";
+import { DashboardService } from "../../../shared/services/dashboard/dashboard.service";
+import { TableDownloader } from "../../../shared/util/tableDownload/genericTableDownload";
+import { TableDowloadOptions } from "../../../shared/util/tableDownload/models/options";
 
 // import 'chartjs-plugin-title-click';
 
@@ -338,6 +351,8 @@ export class HomeTabViewComponent implements OnInit {
     this.selectedState = stateFound;
     this.updateULBDropdownList({ stateId: stateId });
     this.fetchUlBsData([ulbId]);
+
+    (document.activeElement as HTMLElement).blur();
   }
 
   updateULBDropdownList(options: { ulbName?: string; stateId?: string }) {
