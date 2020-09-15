@@ -53,7 +53,7 @@
             *ngIf="absCreditInfo.title"
           >
             <div class="row">
-              <div class="col-sm-12">
+              <div class="col-sm-12 filtered-message">
                 <h2
                   *ngIf="queryParams?.minRating"
                   class="text-center mb-1 text-primary"
@@ -771,7 +771,7 @@
 
 <ng-template #modal>
   <button
-    style="background-color: #333333; min-width: min-content; float: right"
+    style="background-color: #333333; min-width: min-content; float: right; z-index: 1;"
     (click)="modalService.hide(1)"
     mat-raised-button
     title="Close"

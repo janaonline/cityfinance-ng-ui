@@ -262,12 +262,42 @@
   }
 }
 
+.state-dropdown {
+  width: 66%;
+  margin-right: 2%;
+}
+
+.ulbDropdown {
+  width: 90%;
+  margin-right: 2%;
+}
+
+.dropdown-year {
+  width: 48%;
+  margin-right: 2%;
+}
+
+@media (max-width: 558px) {
+  .state-dropdown.state-dropdown.state-dropdown {
+    width: 34% !important;
+    margin-right: 2%;
+  }
+  .ulbDropdown {
+    width: 60% !important;
+  }
+
+  .dropdown-year {
+    margin-top: 4%;
+  }
+}
+
 .drop-down-bond {
   display: flex;
   flex-wrap: nowrap;
   margin: 10px 0px;
   @media screen and (max-width: 551px) {
     position: relative;
+    flex-wrap: wrap;
   }
 }
 .bond-btn-top {
@@ -279,18 +309,18 @@
 }
 
 @media screen and (max-width: 551px) {
-  .pagination-top pagination-controls { 
+  .pagination-top pagination-controls {
     float: right;
   }
 }
 
-::ng-deep .dropdown-year {
-  @media screen and (max-width: 551px) {
-    .list-area {
-      transform: translateX(-50%);
-    }
-  }
-}
+// ::ng-deep .dropdown-year {
+//   @media screen and (max-width: 551px) {
+//     .list-area {
+//       transform: translateX(-50%);
+//     }
+//   }
+// }
 
 .municipal-bond table {
   position: relative;
@@ -313,9 +343,9 @@
   z-index: 1;
 }
 
-@media screen and (max-width:1024px){
-
+@media screen and (max-width: 1024px) {
 }
-.pagination-bottom, .pagination-top{
+.pagination-bottom,
+.pagination-top {
   font-size: 14px !important;
 }

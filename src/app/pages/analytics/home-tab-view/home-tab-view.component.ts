@@ -43,6 +43,22 @@ import { TableDowloadOptions } from "../../../shared/util/tableDownload/models/o
   styleUrls: ["./home-tab-view.component.scss"]
 })
 export class HomeTabViewComponent implements OnInit {
+  constructor(
+    protected formBuilder: FormBuilder,
+    protected dashboardService: DashboardService,
+    public modalService: BsModalService,
+    protected _commonService: CommonService,
+    protected _snacbar: MatSnackBar,
+    private _dialog: MatDialog,
+    protected _authService: AuthService,
+    protected router: Router,
+    private activateRoute: ActivatedRoute
+  ) {
+    this.yearForm = formBuilder.group({
+      years: [[this.yearLookup[1]]]
+    });
+    this.selectedYears = [this.yearLookup[1].id];
+  }
   tabIndex: any = 0;
   yearLookup = [
     { id: "2015-16", itemName: "2015-16" },
@@ -113,18 +129,33 @@ export class HomeTabViewComponent implements OnInit {
   isMapProcessingCompleted = true;
   object = Object;
 
+  urllTabMapping = {
+    0: "own-revenues",
+    1: "revenue-sources",
+    2: "revenue-expenditure",
+    3: "cash-bank-balance",
+    4: "outstanding-debt"
+  };
+
   setMapProcessingState(value: boolean) {
     this.isMapProcessingCompleted = value;
   }
 
   tabIndexChangeHandler(event): void {
-    this.setMapProcessingState(false);
-    this.tabIndex = event;
-    this.singleULBView = false;
-    this.selectedUlb = "";
-    this.loading = true;
-    this.selectedState = null;
-    this.updateULBDropdownList({});
+    this.router.navigate([`../${this.urllTabMapping[event]}`], {
+      relativeTo: this.activateRoute
+    });
+    // this.setMapProcessingState(false);
+    // this.tabIndex = event;
+    // this.singleULBView = false;
+    // this.selectedUlb = "";
+    // this.loading = true;
+    // this.selectedState = null;
+    // this.updateULBDropdownList({});
+    // window.history.pushState(
+    //   { html: "", pageTitle: "" },
+    //   "https://www.google.com/search?q=js+update+url&oq=js+update+url&aqs=chrome..69i57j0l7.7588j0j7&sourceid=chrome&ie=UTF-8"
+    // );
 
     // if (!this.tabData[event] && this.selectedState.length > 0) {
     // this.selectedState = {};
@@ -136,29 +167,12 @@ export class HomeTabViewComponent implements OnInit {
     // }
   }
   onTabChangeAnimationComplete() {
-    this.loading = true;
+    // this.loading = true;
     if (Chart.instances) {
       Chart.instances = {};
     }
     this.selectedState = {};
-    this.fetchData();
-  }
-
-  constructor(
-    protected formBuilder: FormBuilder,
-    protected dashboardService: DashboardService,
-    public modalService: BsModalService,
-    protected _commonService: CommonService,
-    protected _snacbar: MatSnackBar,
-    private _dialog: MatDialog,
-    protected _authService: AuthService,
-    protected router: Router,
-    private activateRoute: ActivatedRoute
-  ) {
-    this.yearForm = formBuilder.group({
-      years: [[this.yearLookup[1]]]
-    });
-    this.selectedYears = [this.yearLookup[1].id];
+    // this.fetchData();
   }
 
   ngOnInit() {
@@ -395,8 +409,17 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   onDropdownClose(event: any) {
-    this.tabData = [];
+    if (!this.selectedYears.length) {
+      return this._dialog.open(DialogComponent, {
+        width: "fit-content",
+        maxWidth: "40vw",
+        data: {
+          message: "You need to select atleast for 1 year."
+        }
+      });
+    }
     this.selectedYears = [...this.selectedYears];
+    this.tabData = [];
     if (this.selectedYears.length > 1) {
       this._dialog.open(DialogComponent, {
         width: "fit-content",
@@ -424,7 +447,6 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   fetchUlBsData(ulbIdsArray: string[]) {
-    console.log(`ulbs from map `, ulbIdsArray);
     if (ulbIdsArray.length) {
       this.modalItemClicked(ulbIdsArray[ulbIdsArray.length - 1]);
     } else {
@@ -1078,6 +1100,8 @@ export class HomeTabViewComponent implements OnInit {
         stateId: ulbFound.state
       });
     }
+
+    console.log("model item");
 
     this.selectedUlb = rowClickedId;
     this.loading = true;

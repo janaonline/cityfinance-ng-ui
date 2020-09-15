@@ -51,7 +51,7 @@
               <div class="drop-down-bond">
                 <angular2-multiselect
                   *ngIf="stateList"
-                  style="width: 66%; margin-right: 2%;"
+                  class="state-form-control"
                   formControlName="states"
                   [data]="stateList"
                   [settings]="stateDropdownConfiguration"
@@ -61,8 +61,8 @@
                 </angular2-multiselect>
 
                 <angular2-multiselect
+                  class="ulb-form-control"
                   *ngIf="ulbFilteredByName"
-                  style="width: 90%; margin-right: 2%;"
                   formControlName="ulbs"
                   [data]="ulbFilteredByName"
                   [settings]="ulbDropdownConfiguration"
@@ -72,7 +72,7 @@
                 </angular2-multiselect>
 
                 <angular2-multiselect
-                  style="width: 48%; margin-right: 2%;"
+                  class="year-form-control"
                   formControlName="years"
                   [data]="yearsAvailable"
                   (onClose)="onyearSelected()"
