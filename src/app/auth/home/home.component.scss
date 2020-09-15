@@ -84,15 +84,41 @@
   }
 }
 .fdc-form {
+  // transform: scale(1.5);
+  background: #059696;
   display: block;
   margin: auto;
+  padding: 0.5% 1%;
   text-align: center;
+  width: fit-content;
+  position: relative;
+  border-radius: 2%;
+  animation: popup 2.5s infinite ease-in-out;
+  img {
+    position: absolute;
+    width: 12%;
+    right: 0px;
+    top: 0px;
+    // transform: scale(1.2);
+  }
   a {
-    color: red;
+    color: white;
   }
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+@keyframes popup {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 
