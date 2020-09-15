@@ -139,7 +139,7 @@
 
   <mat-tab [disabled]="loading" [label]="'Revenue Sources'">
     <ng-template matTabContent>
-      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 1">
+      <div class="col-sm-12 col-md-5 map-container" *ngIf="tabIndex === 1">
         <app-re-useable-heat-map
           (isProcessingCompleted)="setMapProcessingState($event)"
           [yearSelected]="selectedYears"
@@ -170,7 +170,7 @@
 
   <mat-tab [disabled]="loading" [label]="'Revenue Expenditure'">
     <ng-template matTabContent>
-      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 2">
+      <div class="col-sm-12 col-md-5 map-container" *ngIf="tabIndex === 2">
         <app-re-useable-heat-map
           (isProcessingCompleted)="setMapProcessingState($event)"
           [yearSelected]="selectedYears"
@@ -185,7 +185,7 @@
 
   <mat-tab [disabled]="loading" [label]="'Cash and Bank Balance'">
     <ng-template matTabContent>
-      <div class="col-sm-12 col-md-5" *ngIf="tabIndex === 3">
+      <div class="col-sm-12 col-md-5 map-container" *ngIf="tabIndex === 3">
         <app-re-useable-heat-map
           (isProcessingCompleted)="setMapProcessingState($event)"
           [yearSelected]="selectedYears"
@@ -229,7 +229,7 @@
     style="width: 100%;"
     [formGroup]="yearForm"
   >
-    <div class="row d-flex">
+    <div class="row d-flex year-dropdown-cotnainer">
       <div class="n-sm year-web-search ">
         <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
       </div>
