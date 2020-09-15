@@ -83,6 +83,18 @@
     }
   }
 }
+.fdc-form {
+  display: block;
+  margin: auto;
+  text-align: center;
+  a {
+    color: red;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
 
 @media (max-width: 768px) {
   .about {
