@@ -30,7 +30,7 @@ import { ULBRatings } from './ratings';
 })
 export class ReportComponent implements OnInit, OnDestroy {
   constructor(
-    private modalService: BsModalService,
+    public modalService: BsModalService,
     public commonService: CommonService,
     private _dialog: MatDialog,
     protected _authService: AuthService,
@@ -116,6 +116,7 @@ export class ReportComponent implements OnInit, OnDestroy {
    * state will be set to it. Use this layer for further process.
    */
   stateLayerToAutoSelect: L.Layer;
+  window = window;
 
   onClearRatingFilter() {
     this.router.navigate(["/borrowings/credit-rating"]).then(res => {
@@ -248,7 +249,6 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
     window.open("/assets/files/CreditRating.xlsx");
   }
-  window = window; 
   setDefaultAbsCreditInfo() {
     this.absCreditInfo = {
       title: "",
@@ -474,7 +474,7 @@ export class ReportComponent implements OnInit, OnDestroy {
           : true) && ulb.creditrating === grade
     );
 
-    this.modalService.show(ModalRef, { class: "modal-mdl modal-center" });
+    this.modalService.show(ModalRef, { class: " modal-center" });
   }
 
   private generateDropDownData() {
