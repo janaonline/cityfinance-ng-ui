@@ -84,6 +84,16 @@
   }
 }
 
+@media (max-width: 768px) {
+  .about {
+    padding-top: 5vw !important;
+  }
+
+  .benifitHeading {
+    margin: 7vw auto 2vw auto !important;
+  }
+}
+
 .about {
   padding: 3vw 0;
   background-color: #fafafa;
