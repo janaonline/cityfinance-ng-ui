@@ -32,10 +32,10 @@ table {
   height: 55vh;
 }
 .dashboard-wrapper {
- @media screen and (max-width:551px){
-      padding: 0;
-      overflow: hidden;
-    }
+  @media screen and (max-width: 551px) {
+    padding: 0;
+    overflow: hidden;
+  }
   #mapidd {
     height: 55vh;
     min-height: 410px;
@@ -89,6 +89,18 @@ table {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .myCustomTable {
+    @media (max-width: 768px) {
+      width: 170vw;
+    }
+  }
+
+  .mobileContainer {
+    @media (max-width: 768px) {
+      overflow: scroll;
+    }
   }
 
   .modal-mdl {
@@ -294,7 +306,7 @@ div.arrow:after {
     margin-left: 20%;
   }
   .map-info-state {
-   // margin-left: 23%;
+    // margin-left: 23%;
     text-align: center;
   }
 }
@@ -304,8 +316,8 @@ div.arrow:after {
     margin-left: 24%;
   }
   .map-info-state {
-  //  margin-left: 27%;
-  text-align: center;
+    //  margin-left: 27%;
+    text-align: center;
   }
 }
 
@@ -314,8 +326,8 @@ div.arrow:after {
     margin-left: 28%;
   }
   .map-info-state {
-   // margin-left: 31%;
-   text-align: center;
+    // margin-left: 31%;
+    text-align: center;
   }
 }
 
@@ -347,14 +359,13 @@ div.arrow:after {
   border: none;
 }
 @media screen and (max-width: 768px) {
-  .credit-r-m{
+  .credit-r-m {
     min-width: fit-content;
   }
-  .accordionc-rating{
+  .accordionc-rating {
     min-width: fit-content;
   }
-  .modal-content{
+  .modal-content {
     overflow: inherit !important;
   }
 }
-
