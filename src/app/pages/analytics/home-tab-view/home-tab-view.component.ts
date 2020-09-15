@@ -395,8 +395,17 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   onDropdownClose(event: any) {
-    this.tabData = [];
+    if (!this.selectedYears.length) {
+      return this._dialog.open(DialogComponent, {
+        width: "fit-content",
+        maxWidth: "40vw",
+        data: {
+          message: "You need to select atleast for 1 year."
+        }
+      });
+    }
     this.selectedYears = [...this.selectedYears];
+    this.tabData = [];
     if (this.selectedYears.length > 1) {
       this._dialog.open(DialogComponent, {
         width: "fit-content",
