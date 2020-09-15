@@ -1,7 +1,7 @@
 <div class="w-100 b-sm">
   <div class="inner-head">
     <div class="back-icon">
-      <a href=""><span class="glyphicon glyphicon-arrow-left"></span></a>
+      <a (click)="window.history.back()"><span class="glyphicon glyphicon-arrow-left"></span></a>
     </div>
     <div class="head-content">
       <h5>Municipal Bond Issuances</h5>
@@ -176,6 +176,7 @@
           </accordion-group>
         </accordion>
       </div>
+      <div class="pagination-bottom">
       <pagination-controls
         style="float: right; position: relative;"
         *ngIf="bondIssuerItemData && bondIssuerItemData.length"
@@ -192,6 +193,7 @@
         screenReaderCurrentLabel="You're on page"
       >
       </pagination-controls>
+    </div> <!-- pagination bottom-->
     </div>
   </div>
 </div>
