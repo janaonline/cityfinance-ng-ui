@@ -63,10 +63,14 @@ div.miniMap {
 #districtMapContainer {
   padding: 0px;
   width: 100%;
+  margin-top: 9%;
+  @media (max-width: 768px) {
+    margin-top: 0%;
+  }
   position: absolute;
   border-radius: inherit;
   border-left: inherit;
-  transform: translateY(9%);
+  // transform: translateY(9%);
 }
 
 ::ng-deep div.preLoaderWrapper[_ngcontent-c7] {
@@ -85,6 +89,9 @@ div.miniMap {
   position: absolute;
   right: -3.5%;
   top: 11%;
+  @media screen and (max-width: 768px) {
+    top: 0%;
+  }
   width: 50%;
   background: transparent;
   max-width: 259.199px;
@@ -269,7 +276,6 @@ div.miniMap {
   color: #8bd2f0;
 }
 
-
 // ::ng-deep .mat-option-text {
 //   font-size: 1.2rem;
 // }
@@ -392,9 +398,8 @@ div.miniMap {
 //   }
 // }
 
-
-@media screen and (max-width:768px){
+@media screen and (max-width: 768px) {
   ::ng-deep .mat-option-text {
     white-space: nowrap;
-  }  
+  }
 }
