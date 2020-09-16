@@ -282,7 +282,7 @@
                   header?.id != 'populationCategory' ? 'center' : ' '
                 "
                 [attr.data-bold]="true"
-                class="px-1 border-bottom-0"
+                class="px-1 border-bottom-0 table-heading-for-years"
                 [ngClass]="
                   header?.id != 'populationCategory' ? 'text-center' : ''
                 "
@@ -334,7 +334,7 @@
                   [colSpan]="commonTableHeaders.length"
                   [style.background]="'#ffc500'"
                 >
-                  <b>{{ tr?.year }}</b>
+                  <b class="year-text">{{ tr?.year }}</b>
                 </td>
               </tr>
               <tr *ngFor="let row of tr.data; let i = index">

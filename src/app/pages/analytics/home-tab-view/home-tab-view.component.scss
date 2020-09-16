@@ -10,6 +10,18 @@
     overflow: hidden;
   }
 
+  .year-text {
+    position: sticky;
+    left: 5%;
+    right: 5%;
+  }
+
+  .table-heading-for-years {
+    @media screen and (max-width: 768px) {
+      z-index: 1;
+    }
+  }
+
   .modal-uq {
     min-width: 70vw !important;
   }
