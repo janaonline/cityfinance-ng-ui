@@ -94,6 +94,12 @@ export class MapUtil {
     ).addTo(map);
 
     map = MapUtil.centerMap(map, stateLayers);
+    map.touchZoom.disable();
+    map.doubleClickZoom.disable();
+    map.scrollWheelZoom.disable();
+    map.boxZoom.disable();
+    map.keyboard.disable();
+    map.dragging.disable();
 
     return { map, stateLayers };
   }
