@@ -206,7 +206,7 @@ export class HomeHeaderComponent implements OnInit {
   /**
    * @description Closed sidebar menu on mobile.
    */
-  closeSidebarMenu(url: string) {
+  closeSidebarMenu() {
     const element = document.getElementById("navbarNavDropdown");
     if (element) element.classList.remove("in");
   }
