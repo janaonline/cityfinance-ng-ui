@@ -881,6 +881,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         dragging: false,
         tap: false
       }).setView([options.center.lat, options.center.lng], 4);
+      districtMap.touchZoom.disable();
+      districtMap.doubleClickZoom.disable();
+      districtMap.scrollWheelZoom.disable();
+      districtMap.boxZoom.disable();
+      districtMap.keyboard.disable();
+      districtMap.dragging.disable();
 
       const districtLayer = L.geoJSON(districtGeoJSON, {
         style: this.stateColorStyle
