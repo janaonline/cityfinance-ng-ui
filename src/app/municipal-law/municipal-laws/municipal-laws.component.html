@@ -1,7 +1,7 @@
 <div class="w-100 b-sm">
   <div class="inner-head">
     <div class="back-icon">
-      <a (click)="window.history.back()"><span class="glyphicon glyphicon-arrow-left"></span></a>
+      <a (click)="backhome()"  class="sldlsd"><span class="glyphicon glyphicon-arrow-left"></span></a>
     </div>
     <div class="head-content">
       <h5> Municipal Laws  </h5>
@@ -33,7 +33,7 @@
       </div>
 
       <div class="col-md-6 mt-2">
-        <button class="btn btn-primary" (click)="showStateSelectionSection()">
+        <button class="btn btn-primary mobile-btn-center" (click)="showStateSelectionSection()">
           Compare States
         </button>
 
@@ -88,10 +88,9 @@
           Comparison of Municipal Finance Provisions
           <a *ngIf="compareState > 0" class="back-link n-sm back-btns" style="margin-right: 0px;"
             (click)="compareState = 0">Back</a>
-        </h3>
-        <br />
+        </h3> 
       </div>
-      <div class="col-md-12">
+      <div class="col-md-12 n-sm">
         <button *ngIf="selectedStates.length > 1" (click)="clearSelectedStates()" class="btn btn-sm btn-danger">
           Clear All
         </button>
@@ -103,17 +102,22 @@
         </div>
       </div>
     </div>
-      <div class="col-md-12 ">
+      <div class="col-md-12 sm-p0 ">
         <br />
-        <div class="col-md-3 col-md-offset-3  col-xs-6 mb-2">
-          <button class="btn btn-primary col-md-12" (click)="showComparisionPage()"
+        <div class="col-md-3 col-md-offset-3  col-xs-4 mb-2">
+          <button class="btn btn-primary f10-sm" (click)="showComparisionPage()"
             [tooltipEnable]="selectedStates.length < 2" tooltip="Select atleast 1 states">
             View and Compare
           </button>
         </div>
-        <div class="col-md-3 col-xs-6 mb-2">
-          <button class="btn btn-danger col-md-12" (click)="compareAllStates()">
+        <div class="col-md-3 col-xs-4 mb-2">
+          <button class="btn btn-danger col-md-12 f10-sm m-l20sm" (click)="compareAllStates()">
             Compare All
+          </button>
+        </div>
+        <div class="col-md-3 col-xs-4 mb-2">
+          <button *ngIf="selectedStates.length > 1" (click)="clearSelectedStates()" class="btn btn-danger f10-sm">
+            Clear All 
           </button>
         </div>
       </div>
