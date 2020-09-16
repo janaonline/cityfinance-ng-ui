@@ -114,8 +114,13 @@
     >
       <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
     </li>
-    <li routerLinkActive="active">
-      <a (click)="navigateTo('/home')">Home</a>
+    <li>
+      <a
+        routerLinkActive="active"
+        routerLink="/home"
+        (click)="closeSidebarMenu()"
+        >Home</a
+      >
     </li>
     <li id="analyticsDropdown" routerLinkActive="active" class="test">
       <span class="down-icon"></span>
@@ -146,13 +151,21 @@
         </li>
       </ul>
     </li>
-    <li routerLinkActive="active" class="dropdown">
-      <a (click)="navigateTo('/financial-statement/report')"
+    <li class="dropdown">
+      <a
+        routerLinkActive="active"
+        routerLink="/financial-statement/report"
+        (click)="closeSidebarMenu()"
         >Financial Statements</a
       >
     </li>
-    <li routerLinkActive="active">
-      <a (click)="navigateTo('/municipal-law')">Municipal Laws</a>
+    <li>
+      <a
+        [routerLink]="['/municipal-law']"
+        (click)="closeSidebarMenu()"
+        routerLinkActive="active"
+        >Municipal Laws</a
+      >
     </li>
     <li class="d-n-sm">
       <a
@@ -165,22 +178,40 @@
         >Borrowings
       </a>
       <ul class="dropdown-menu dropdown-menu-left">
-        <li routerLinkActive="active">
-          <a (click)="navigateTo('/borrowings/municipal-bond')"
+        <li>
+          <a
+            routerLink="/borrowings/municipal-bond"
+            routerLinkActive="active"
+            (click)="closeSidebarMenu()"
             >Municipal Bonds</a
           >
         </li>
-        <li routerLinkActive="active">
-          <a (click)="navigateTo('/borrowings/credit-rating')">Credit Rating</a>
+        <li>
+          <a
+            routerLink="/borrowings/credit-rating"
+            routerLinkActive="active"
+            (click)="closeSidebarMenu()"
+            >Credit Rating</a
+          >
         </li>
       </ul>
     </li>
 
-    <li routerLinkActive="active" class="d-b-lg-menu">
-      <a (click)="navigateTo('/borrowings/municipal-bond')">Municipal Bonds</a>
+    <li class="d-b-lg-menu">
+      <a
+        routerLinkActive="active"
+        routerLink="/borrowings/municipal-bond"
+        (click)="closeSidebarMenu()"
+        >Municipal Bonds</a
+      >
     </li>
-    <li routerLinkActive="active" class="d-b-lg-menu">
-      <a (click)="navigateTo('/borrowings/credit-rating')">Credit Rating</a>
+    <li class="d-b-lg-menu">
+      <a
+        routerLinkActive="active"
+        routerLink="/borrowings/credit-rating"
+        (click)="closeSidebarMenu()"
+        >Credit Rating</a
+      >
     </li>
 
     <!-- <li routerLinkActive="active">
@@ -189,8 +220,14 @@
     <li routerLinkActive="active">
       <a [routerLink]="['/borrowings/municipal-bond']"> Municipal Bonds</a>
     </li> -->
-    <li routerLinkActive="active">
-      <a (click)="navigateTo('/resources')"> Resources </a>
+    <li>
+      <a
+        routerLinkActive="active"
+        routerLink="/resources"
+        (click)="closeSidebarMenu()"
+      >
+        Resources
+      </a>
     </li>
     <li routerLinkActive="active" class="d-n-sm">
       <!-- <a

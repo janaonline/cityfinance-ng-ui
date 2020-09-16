@@ -203,10 +203,12 @@ export class HomeHeaderComponent implements OnInit {
   //    this.router.navigate(["/files"]);
   //  }
 
-  navigateTo(url: string) {
+  /**
+   * @description Closed sidebar menu on mobile.
+   */
+  closeSidebarMenu(url: string) {
     const element = document.getElementById("navbarNavDropdown");
     if (element) element.classList.remove("in");
-    this.router.navigate([url]);
   }
 
   onClickingAnalyticsSubMenu(event: Event) {
