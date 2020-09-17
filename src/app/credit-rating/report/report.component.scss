@@ -31,18 +31,29 @@ table {
 .tableWrapper {
   height: 55vh;
 }
-
-@media (min-width: 768px) {
-  .dashboard-wrapper {
-    #mapidd {
-      height: 55vh;
-      min-height: 410px;
-    }
+.dashboard-wrapper {
+  @media screen and (max-width: 551px) {
+    padding: 0;
+    overflow: hidden;
+  }
+  #mapidd {
+    height: 55vh;
+    min-height: 410px;
   }
 }
 
+// @media (min-width: 768px) {
+//   .dashboard-wrapper {
+//     #mapidd {
+//       height: 55vh;
+//       min-height: 410px;
+//     }
+//   }
+// }
+
 .map-container {
   height: 100%;
+
   .fil2 {
     fill: #fff;
   }
@@ -74,10 +85,29 @@ table {
     padding: 0 !important;
   }
 
+  .filtered-message {
+    @media screen and (max-width: 768px) {
+      margin-bottom: 15px;
+    }
+  }
+
   .modal-center {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .myCustomTable {
+    @media (max-width: 768px) {
+      width: 170vw;
+    }
+  }
+
+  .mobileContainer {
+    @media (max-width: 768px) {
+      overflow: scroll;
+      overflow-y: auto;
+    }
   }
 
   .modal-mdl {
@@ -233,6 +263,10 @@ div.arrow:after {
   }
 }
 
+.filter-layout {
+  margin: 15px;
+}
+
 @media (max-width: 943px) {
   .ulbDetails {
     width: 100% !important;
@@ -256,13 +290,22 @@ div.arrow:after {
   width: fit-content;
   margin-left: 30%;
 
-  @media screen and (max-width:468px){
-    position: relative;
+  @media screen and (max-width: 468px) {
+    top: 0px;
+    left: 0;
   }
 }
 .map-info-state {
   z-index: 2;
   margin-top: 1%;
+  @media screen and (max-width: 551px) {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    margin: auto;
+    display: block;
+    width: 100%;
+  } 
 }
 
 @media (max-width: 1074px) {
@@ -270,7 +313,8 @@ div.arrow:after {
     margin-left: 10%;
   }
   .map-info-state {
-    margin-left: 14%;
+    // margin-left: 14%;
+    text-align: center;
   }
 }
 @media (min-width: 1075px) and (max-width: 1358px) {
@@ -278,7 +322,8 @@ div.arrow:after {
     margin-left: 20%;
   }
   .map-info-state {
-    margin-left: 23%;
+    // margin-left: 23%;
+    text-align: center;
   }
 }
 
@@ -287,7 +332,8 @@ div.arrow:after {
     margin-left: 24%;
   }
   .map-info-state {
-    margin-left: 27%;
+    //  margin-left: 27%;
+    text-align: center;
   }
 }
 
@@ -296,7 +342,8 @@ div.arrow:after {
     margin-left: 28%;
   }
   .map-info-state {
-    margin-left: 31%;
+    // margin-left: 31%;
+    text-align: center;
   }
 }
 
@@ -308,23 +355,33 @@ div.arrow:after {
   }
 }
 
-
 .header-btn-style {
   border: 0;
   background: 0;
   color: #059b9a;
   margin-right: 10px;
 }
-.btn-style-none{
-  background:none;
-  border:none;
+.btn-style-none {
+  background: none;
+  border: none;
 }
 
-.btn-style-none:focus, .btn-style-none:hover, .glyphicon, .header-btn-style {
-  background:none;
+.btn-style-none:focus,
+.btn-style-none:hover,
+.glyphicon,
+.header-btn-style {
+  background: none;
   outline: 0;
-  border:none;
+  border: none;
 }
-@media screen and (max-width:468px){
-
+@media screen and (max-width: 768px) {
+  .credit-r-m {
+    min-width: fit-content;
+  }
+  .accordionc-rating {
+    min-width: fit-content;
+  }
+  .modal-content {
+    overflow: inherit !important;
+  }
 }

@@ -13,7 +13,7 @@ import { AnalyticsTabs, IAnalyticsTabs } from './tabs';
 @Component({
   selector: "app-home-header",
   templateUrl: "./home-header.component.html",
-  styleUrls: ["./home-header.component.scss"],
+  styleUrls: ["./home-header.component.scss"]
 })
 export class HomeHeaderComponent implements OnInit {
   isProduction: boolean;
@@ -43,6 +43,8 @@ export class HomeHeaderComponent implements OnInit {
   isCreditRatingActive = false;
   private accessChecker = new AccessChecker();
 
+  isAnalyticsPageActive = false;
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -50,13 +52,15 @@ export class HomeHeaderComponent implements OnInit {
     private renderer: Renderer2,
     private _ngZone: NgZone
   ) {
-    Object.values(AnalyticsTabs).forEach((tab) => {
+    Object.values(AnalyticsTabs).forEach(tab => {
       this.tabs.push(tab);
     });
     this.initializeAccessChecking();
-    this.router.events.subscribe((event) => {
+    this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        if (event.url.includes(`/credit-rating/report`)) {
+        this.isAnalyticsPageActive = event.url.includes(`analytics`);
+
+        if (event.url.includes(`/borrowings/credit-rating`)) {
           this.isCreditRatingActive = true;
         } else if (event.url.includes(`municipal-bond`)) {
           this.isMunicipalBondActive = true;
@@ -79,52 +83,52 @@ export class HomeHeaderComponent implements OnInit {
   private initializeAccessChecking() {
     this.canViewUploadData = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
-      action: ACTIONS.VIEW,
+      action: ACTIONS.VIEW
     });
 
     this.canEditOwnProfile = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.SELF_PROFILE,
-      action: ACTIONS.EDIT,
+      action: ACTIONS.EDIT
     });
 
     this.canViewMoHUAList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.MoHUA,
-      action: ACTIONS.VIEW,
+      action: ACTIONS.VIEW
     });
 
     this.canViewPartnerList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.PARTNER,
-      action: ACTIONS.VIEW,
+      action: ACTIONS.VIEW
     });
 
     this.canViewStateList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.STATE,
-      action: ACTIONS.VIEW,
+      action: ACTIONS.VIEW
     });
 
     this.canViewULBSingUpListing = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.ULB_SIGNUP_REQUEST,
-      action: ACTIONS.VIEW,
+      action: ACTIONS.VIEW
     });
 
     this.canViewUserList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.USERLIST,
-      action: ACTIONS.VIEW,
+      action: ACTIONS.VIEW
     });
 
     this.canViewQuestionnaireList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE_LIST,
-      action: ACTIONS.VIEW,
+      action: ACTIONS.VIEW
     });
 
     this.canViewQuestionnaireForm =
       this.accessChecker.hasAccess({
         moduleName: MODULES_NAME.STATE_PROPERTY_TAX_QUESTIONNAIRE,
-        action: ACTIONS.VIEW,
+        action: ACTIONS.VIEW
       }) ||
       this.accessChecker.hasAccess({
         moduleName: MODULES_NAME.ULB_LEVEL_PROPERTY_TAX_QUESTIONNAIRE,
-        action: ACTIONS.VIEW,
+        action: ACTIONS.VIEW
       });
   }
 
@@ -137,14 +141,21 @@ export class HomeHeaderComponent implements OnInit {
     // }, 1111);
   }
 
+  onClickingNavbarDropdown() {
+    const element = document.getElementById("analyticsDropdown");
+    if (!element) return;
+    if (!this.isAnalyticsPageActive) return;
+    setTimeout(() => {
+      element.classList.add("open");
+    }, 0);
+  }
+
   navigateToAnalytics() {
     this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
     if (this.userUtil.isUserOnMobile()) return;
     this.router.navigate(["analytics/own-revenues"]);
   }
 
-  
-  
   // navigateToHome() {
   //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
   //  //  if (this.userUtil.isUserOnMobile()) return;
@@ -158,33 +169,33 @@ export class HomeHeaderComponent implements OnInit {
   // //  if (this.userUtil.isUserOnMobile()) return;
   // let element = document.getElementById("navbarNavDropdown");
   // element.classList.remove("in");
-  //   this.router.navigate(["/dashboard/report"]);
+  //   this.router.navigate(["/financial-statement/report"]);
   // }
 
-  // navigateToMunicipalLaw() { 
+  // navigateToMunicipalLaw() {
   //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
   //  //  if (this.userUtil.isUserOnMobile()) return;
   //  let element = document.getElementById("navbarNavDropdown");
   //  element.classList.remove("in");
-  //    this.router.navigate(["/credit-rating/laws"]);
+  //    this.router.navigate(["/municipal-law"]);
   //  }
 
-  //  navigateToMunicipalBond() { 
+  //  navigateToMunicipalBond() {
   //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
   //  //  if (this.userUtil.isUserOnMobile()) return;
   //  let element = document.getElementById("navbarNavDropdown");
   //  element.classList.remove("in");
-  //    this.router.navigate(["/credit-rating/municipal-bond"]);
+  //    this.router.navigate(["/borrowings/municipal-bond"]);
   //  }
-  //  navigateToCreditRating() { 
+  //  navigateToCreditRating() {
   //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
   //  //  if (this.userUtil.isUserOnMobile()) return;
   //  let element = document.getElementById("navbarNavDropdown");
   //  element.classList.remove("in");
-  //    this.router.navigate(["/credit-rating/report"]);
+  //    this.router.navigate(["/borrowings/credit-rating"]);
   //  }
 
-  //  navigateToResources() { 
+  //  navigateToResources() {
   //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
   //  //  if (this.userUtil.isUserOnMobile()) return;
   //  let element = document.getElementById("navbarNavDropdown");
@@ -192,17 +203,27 @@ export class HomeHeaderComponent implements OnInit {
   //    this.router.navigate(["/files"]);
   //  }
 
-   navigateTo(url: string){
-    let element = document.getElementById("navbarNavDropdown");
-   if (element) element.classList.remove("in");
-      this.router.navigate([url]);
-   }
+  /**
+   * @description Closed sidebar menu on mobile.
+   */
+  closeSidebarMenu() {
+    const element = document.getElementById("navbarNavDropdown");
+    if (element) element.classList.remove("in");
+  }
 
-  onClickingAnalyticsSubMenu(event: Event) { 
+  onClickingAnalyticsSubMenu(event: Event) {
     if (!this.userUtil.isUserOnMobile()) return;
     event.stopPropagation();
-    let element = document.getElementById("navbarNavDropdown");
-     element.classList.remove("in"); 
+    const element = document.getElementById("navbarNavDropdown");
+    element.classList.remove("in");
+  }
+
+  closeNavbar(event) {
+    const el = event.path[0].classList.value == "dropdown-toggle";
+    const element = document.getElementById("navbarNavDropdown");
+    if (!el && element) {
+      element.classList.remove("in");
+    }
   }
 
   initializedIsProduction() {
@@ -214,8 +235,8 @@ export class HomeHeaderComponent implements OnInit {
   }
 
   goToReportPage() {
-    if (!window.location.pathname.includes("/dashboard/report")) {
-      this.router.navigate(["/dashboard", "report"]);
+    if (!window.location.pathname.includes("/financial-statement/report")) {
+      this.router.navigate(["/financial-statement", "report"]);
     }
   }
 
@@ -249,12 +270,11 @@ export class HomeHeaderComponent implements OnInit {
       const options: IntersectionObserverInit = {
         root: null,
         rootMargin: "0px",
-        threshold: [0, 0.1, 0.2, 0.25, 0.4, 0.75, 1],
+        threshold: [0, 0.1, 0.2, 0.25, 0.4, 0.75, 1]
       };
-      const observer = new IntersectionObserver((event) => {}, options);
+      const observer = new IntersectionObserver(event => {}, options);
       const target = document.getElementById("carousel");
       observer.observe(target);
     });
   }
-} 
-
+}

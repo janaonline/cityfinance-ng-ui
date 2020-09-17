@@ -1,39 +1,69 @@
 <nav class="navbar container-fluid navbar-1st-row" id="1stNavbarRow">
-  <div class="navbar-header" style="flex: 1; display: flex; align-items: center;">
-    <span [routerLink]="['/']" class="navbar-brand d-flex align-items-center indian-emblem-wrapper"
-      style="outline: none;">
-      <img src="/assets/images/emblem-of-india.svg" alt="Emblem of India" srcset="" class="indian-emblem" />
+  <div
+    class="navbar-header"
+    style="flex: 1; display: flex; align-items: center"
+  >
+    <span
+      [routerLink]="['/']"
+      class="navbar-brand d-flex align-items-center indian-emblem-wrapper"
+      style="outline: none"
+    >
+      <img
+        src="/assets/images/emblem-of-india.svg"
+        alt="Emblem of India"
+        srcset=""
+        class="indian-emblem"
+      />
       &nbsp;&nbsp;An initiative of Ministry of Housing and Urban Affairs &nbsp;
-      |&nbsp; Government of India</span>
+      |&nbsp; Government of India</span
+    >
 
     <ul class="nav navbar-nav login-and-profile">
       <li *ngIf="!isLoggedIn">
-        <a [routerLink]="['/login']" routerLinkActive="active" class="login-link">Login / Register
+        <a
+          [routerLink]="['/login']"
+          routerLinkActive="active"
+          class="login-link"
+          >Login / Register
         </a>
       </li>
-      <li routerLinkActive="active" class="dropdown" style="
+      <li
+        routerLinkActive="active"
+        class="dropdown"
+        style="
           /* position: absolute;
           right: 5px;
           display: flex; */
           align-self: center;
           z-index: 8888;
-        " *ngIf="isLoggedIn">
-        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-          style="padding: 6px 15px;">
-          <i class="fa fa-user-circle" style="font-size: 2rem;"></i>&nbsp;</a>
-        <div class="dropdown-menu" style="">
+        "
+        *ngIf="isLoggedIn"
+      >
+        <a
+          class="dropdown-toggle"
+          data-toggle="dropdown"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+          style="padding: 6px 15px"
+        >
+          <i class="fa fa-user-circle" style="font-size: 2rem"></i>&nbsp;</a
+        >
+        <div class="dropdown-menu">
           <div class="user-dropdown">
-            <div class="user-avt" style="font-size: 3rem;">
+            <div class="user-avt" style="font-size: 3rem">
               <i class="fa fa-user-circle"></i>
             </div>
             <div>{{ user?.name }}</div>
-            <div class="mat-card-subtitle" style="font-size: 0.9rem;">
+            <div class="mat-card-subtitle" style="font-size: 0.9rem">
               {{ user?.email }}
             </div>
             <mat-divider></mat-divider>
             <mat-list dense>
               <ng-container *ngIf="canEditOwnProfile">
-                <mat-list-item [routerLink]="['user', 'profile', 'view']">Profile</mat-list-item>
+                <mat-list-item [routerLink]="['user', 'profile', 'view']"
+                  >Profile</mat-list-item
+                >
                 <mat-divider></mat-divider>
               </ng-container>
 
@@ -47,67 +77,161 @@
 </nav>
 
 <div class="navbar navbar-expand-lg nav-m container-fluid navbar-2nd-row">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+  <button
+    (click)="onClickingNavbarDropdown()"
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
     <span class="navbar-toggler-icon"></span>
   </button>
+
   <li [routerLink]="['/']" class="navbar-brand d-b-lg">
     <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
   </li>
-  <ul class="nav navbar-nav navbar-right nav-ul collapse navbar-collapse" id="navbarNavDropdown">
-    <li [routerLink]="['/']" class="navbar-brand d-n-sm">
+  <ul
+    class="nav navbar-nav navbar-right nav-ul collapse navbar-collapse"
+    id="navbarNavDropdown"
+    (click)="closeNavbar($event)"
+  >
+    <span
+      class="sidebar-for-mobile"
+      style="
+        width: 65%;
+        height: 100%;
+        position: absolute;
+        background-image: linear-gradient(to right, #095169, #059b9a);
+      "
+    ></span>
+    <li
+      [routerLink]="['/']"
+      class="navbar-brand d-n-sm"
+      style="position: absolute; left: 20px"
+    >
       <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
     </li>
-    <li routerLinkActive="active">
-      <a (click)="navigateTo('/home')">Home</a>
+    <li>
+      <a
+        routerLinkActive="active"
+        routerLink="/home"
+        (click)="closeSidebarMenu()"
+        >Home</a
+      >
     </li>
-    <li routerLinkActive="active">
+    <li id="analyticsDropdown" routerLinkActive="active" class="test">
       <span class="down-icon"></span>
-      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-        (click)="navigateToAnalytics()">Analytics
+      <a
+        class="dropdown-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        (click)="navigateToAnalytics()"
+        id="id"
+        >Analytics
+        <i
+          class="fa fa-caret-down custom-fa"
+          style="margin-left: 1rem;"
+          [ngClass]="{ 'rotate-180deg': showAnalyticsSubMenu }"
+          aria-hidden="true"
+        ></i>
       </a>
       <ul class="dropdown-menu dropdown-menu-left">
-        <li routerLinkActive="active" *ngFor="let tab of tabs" (click)="onClickingAnalyticsSubMenu($event)">
-          <a [routerLink]="[tab.url]" class="analytics-sub-menu" (click)="onClickingAnalyticsSubMenu($event)">
-            {{ tab.name }}</a>
+        <li
+          style="width: auto"
+          routerLinkActive="active"
+          *ngFor="let tab of tabs"
+          (click)="onClickingAnalyticsSubMenu($event)"
+        >
+          <a
+            [routerLink]="[tab.url]"
+            class="analytics-sub-menu"
+            (click)="onClickingAnalyticsSubMenu($event)"
+          >
+            {{ tab.name }}</a
+          >
         </li>
       </ul>
     </li>
-    <li routerLinkActive="active" class="dropdown">
-      <a (click)="navigateTo('/dashboard/report')">Financial Statements</a>
+    <li class="dropdown">
+      <a
+        routerLinkActive="active"
+        routerLink="/financial-statement/report"
+        (click)="closeSidebarMenu()"
+        >Financial Statements</a
+      >
     </li>
-    <li routerLinkActive="active">
-      <a (click)="navigateTo('/credit-rating/laws')">Municipal Laws</a>
+    <li>
+      <a
+        [routerLink]="['/municipal-law']"
+        (click)="closeSidebarMenu()"
+        routerLinkActive="active"
+        >Municipal Laws</a
+      >
     </li>
     <li class="d-n-sm">
-      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-        [ngClass]="{ active: isCreditRatingActive || isMunicipalBondActive }">Borrowings
+      <a
+        class="dropdown-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        [ngClass]="{ active: isCreditRatingActive || isMunicipalBondActive }"
+        >Borrowings
       </a>
       <ul class="dropdown-menu dropdown-menu-left">
-        <li routerLinkActive="active">
-          <a (click)="navigateTo('/credit-rating/municipal-bond')">Municipal Bonds</a>
+        <li>
+          <a
+            routerLink="/borrowings/municipal-bond"
+            routerLinkActive="active"
+            (click)="closeSidebarMenu()"
+            >Municipal Bonds</a
+          >
         </li>
-        <li routerLinkActive="active">
-          <a (click)="navigateTo('/credit-rating/report')">Credit Rating</a>
+        <li>
+          <a
+            routerLink="/borrowings/credit-rating"
+            routerLinkActive="active"
+            (click)="closeSidebarMenu()"
+            >Credit Rating</a
+          >
         </li>
       </ul>
     </li>
 
-    <li routerLinkActive="active" class="d-b-lg-menu">
-      <a (click)="navigateTo('/credit-rating/municipal-bond')">Municipal Bonds</a>
+    <li class="d-b-lg-menu">
+      <a
+        routerLinkActive="active"
+        routerLink="/borrowings/municipal-bond"
+        (click)="closeSidebarMenu()"
+        >Municipal Bonds</a
+      >
     </li>
-    <li routerLinkActive="active" class="d-b-lg-menu">
-      <a (click)="navigateTo('/credit-rating/report')">Credit Rating</a>
+    <li class="d-b-lg-menu">
+      <a
+        routerLinkActive="active"
+        routerLink="/borrowings/credit-rating"
+        (click)="closeSidebarMenu()"
+        >Credit Rating</a
+      >
     </li>
 
     <!-- <li routerLinkActive="active">
-      <a [routerLink]="['/credit-rating/report']">Credit Rating</a>
+      <a [routerLink]="['/borrowings/report']">Credit Rating</a>
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['/credit-rating/municipal-bond']"> Municipal Bonds</a>
+      <a [routerLink]="['/borrowings/municipal-bond']"> Municipal Bonds</a>
     </li> -->
-    <li routerLinkActive="active">
-      <a (click)="navigateTo('/files')">
+    <li>
+      <a
+        routerLinkActive="active"
+        routerLink="/resources"
+        (click)="closeSidebarMenu()"
+      >
         Resources
       </a>
     </li>
@@ -118,11 +242,14 @@
       >
         Questionnaireeeee
       </a> -->
-      <a [routerLink]="['/questionnaires/list']" *ngIf="
+      <a
+        [routerLink]="['/questionnaires/list']"
+        *ngIf="
           isLoggedIn
             ? canViewQuestionnaireList || canViewQuestionnaireForm
             : true
-        ">
+        "
+      >
         Questionnaire
       </a>
     </li>

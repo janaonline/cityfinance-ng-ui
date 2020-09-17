@@ -29,6 +29,10 @@
   padding: 0px;
   position: relative;
   min-height: 66vh;
+
+  @media (max-width: 600px) {
+    min-height: 390px;
+  }
   // border: 1px solid rgb(212, 212, 212);
   border-radius: 5px;
   padding-top: 1%;
@@ -58,10 +62,15 @@ div.miniMap {
 }
 #districtMapContainer {
   padding: 0px;
+  width: 100%;
+  margin-top: 9%;
+  @media (max-width: 768px) {
+    margin-top: 0%;
+  }
   position: absolute;
   border-radius: inherit;
   border-left: inherit;
-  transform: translateY(9%);
+  // transform: translateY(9%);
 }
 
 ::ng-deep div.preLoaderWrapper[_ngcontent-c7] {
@@ -80,6 +89,7 @@ div.miniMap {
   position: absolute;
   right: -3.5%;
   top: 11%;
+
   width: 50%;
   background: transparent;
   max-width: 259.199px;
@@ -119,6 +129,26 @@ div.miniMap {
 .ulbDetails {
   transform: scale(0.8);
   margin-top: -10%;
+
+  & > span {
+    display: block;
+  }
+}
+
+.selectedEntity {
+  position: absolute;
+  z-index: 9;
+  margin-left: 2%;
+  text-decoration: underline;
+  font-weight: 500;
+  display: inherit;
+  margin-top: 3.8rem;
+  width: 100%;
+  top: 0;
+  left: 0;
+  @media screen and (max-width: 768px) {
+    margin-top: 0.5rem;
+  }
 }
 
 .bold {
@@ -274,7 +304,7 @@ div.miniMap {
   .leaflet-bottom {
     transform: scale(0.55);
     width: 155px;
-    font-size: 0.7vw; 
+    font-size: 0.7vw;
   }
 
   .leaflet-control {
@@ -283,17 +313,24 @@ div.miniMap {
     position: absolute;
     bottom: 0px;
     background: transparent;
-    @media screen and (max-width:1024px) and (min-width:560px){
+    @media screen and (max-width: 1024px) and (min-width: 560px) {
       font-size: 12px;
     }
-    @media screen and (max-width:551px){
+    @media screen and (max-width: 551px) {
       font-size: 10px;
-    width: 100%;
-    margin: 0 0;
-    left: -80px;
-    padding: 0;
-    margin-left: 0 !important;
+      width: 100%;
+      margin: 0 0;
+      left: -68px;
+      padding: 0;
+      margin-left: 0 !important;
     }
+    @media screen and (max-width: 405px) and (min-width:320px) {
+      font-size: 8px;
+      width: 75%;
+      }
+      @media screen and (max-width: 319px) {
+        display:none
+      }
   }
 }
 
@@ -322,10 +359,10 @@ div.miniMap {
     margin-top: 2%;
     bottom: 1px;
     font-size: 1vw;
-    @media screen and (max-width:1024px) and (min-width:560px) {
+    @media screen and (max-width: 1024px) and (min-width: 560px) {
       font-size: 12px;
-       }
-    @media screen and (max-width:551px){
+    }
+    @media screen and (max-width: 551px) {
       font-size: 12px;
       margin: auto;
     }
@@ -337,6 +374,9 @@ div.miniMap {
     position: absolute;
     bottom: 1px;
     font-size: 0.8vw;
+    @media screen and (max-width: 768px) {
+      font-size: 2.8vw;
+    }
   }
   .map-click-guide {
     right: 5vw;
@@ -362,3 +402,9 @@ div.miniMap {
 //     color: red;
 //   }
 // }
+
+@media screen and (max-width: 768px) {
+  ::ng-deep .mat-option-text {
+    white-space: nowrap;
+  }
+}

@@ -1,16 +1,16 @@
 .back-link {
-  float: left;  
+  float: left;
   font-size: 14px;
   // line-height: 3;
   cursor: pointer;
-  margin-right: 15px; 
+  margin-right: 15px;
   margin-bottom: 10px;
-  font-weight: 500; 
-  @media screen and (max-width:468px){ 
+  font-weight: 500;
+  @media screen and (max-width: 468px) {
     margin-right: 10px;
   }
 }
-.back-btns{
+.back-btns {
   float: right;
 }
 
@@ -40,11 +40,15 @@
     &:hover {
       background-color: #ffc500;
       color: #fff;
+      @media screen and (max-width: 551px) {
+        background-color: #aaa;
+        color: #000;
+      }
     }
   }
   .btn-selected {
-    background-color: #ffc500;
-    color: black;
+    background-color: #ffc500 !important;
+    color: black !important;
   }
 }
 
@@ -97,7 +101,7 @@ table {
 .fixed-header {
   height: calc(100vh - 200px);
 
-  @media screen and (max-width:468px){
+  @media screen and (max-width: 468px) {
     height: calc(100vh - 290px);
   }
 }
@@ -142,26 +146,43 @@ table {
     position: absolute;
     opacity: 0;
     z-index: -1;
+    max-height: 0px;
+    overflow: hidden;
   }
 }
-@media screen and (max-width:800px) and (min-width:560px){
+@media screen and (max-width: 800px) and (min-width: 560px) {
   .m-law-container {
     height: 65vh;
     overflow: scroll;
+  }
 }
 
-}
-
-@media screen and (max-width: 551px){
-    .m-law .btn{
-      white-space: break-spaces;
-    }
-    .m-law-container {
-      height: 59vh;
-      overflow: scroll;
+@media screen and (max-width: 551px) {
+  .m-law .btn {
+    white-space: break-spaces;
+  }
+  .m-law-container {
+    height: 59vh;
+    overflow: scroll;
   }
   .mv-65 {
     height: 65vh;
     overflow: scroll;
+  }
 }
-}  
+
+@media only screen and (max-width: 551px) {
+  .accordion-full-m {
+    padding: 0;
+  }
+  .mobile-btn-center{
+    margin:auto;
+    display: block;
+  }
+  // .m-l20sm{
+  //   margin-left: 15px;
+  // }
+  .law-page{
+    min-height: auto;
+  }
+}

@@ -1,4 +1,15 @@
-<div class="common-container">
+<div class="w-100 b-sm">
+  <div class="inner-head">
+    <div class="back-icon">
+      <a href="/home" class="sldlsd"><span class="glyphicon glyphicon-arrow-left"></span></a>
+    </div>
+    <div class="head-content">
+      <h5> financial statement </h5>
+    </div>
+  </div>
+</div> <!-- w-100 end -->
+
+<div class="common-container mt-2">
   <form [formGroup]="reportForm" (ngSubmit)="search()">
     <div class="container-fluid">
       <div class="col-md-2">
@@ -149,7 +160,7 @@
             <br /><br />
             <a
               style="float: right; text-decoration: underline;"
-              (click)="routerTo('/dashboard/data-tracker')"
+              (click)="routerTo('/financial-statement/data-tracker')"
               >Download Source Files</a
             >
           </div>
