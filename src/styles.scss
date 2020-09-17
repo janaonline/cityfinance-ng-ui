@@ -904,6 +904,7 @@ img.align-center {
 
 .inner-head {
   background: #ffc500;
+  padding: 3px 0px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -915,6 +916,7 @@ img.align-center {
 }
 .head-content {
   margin: auto;
+  text-transform: uppercase;
 }
 .list-area {
   width: max-content;
@@ -1043,6 +1045,10 @@ img.align-center {
   .selected-list .countplaceholder {
     right: 20px !important;
   } 
+  .sm-p0{
+    padding: 0;
+  }
+  
 }
 
 // max width 551px

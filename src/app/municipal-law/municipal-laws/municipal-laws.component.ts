@@ -205,7 +205,12 @@ export class MunicipalLawsComponent implements OnInit {
     });
   }
 
-  window = window; 
+  // window = window;
+  backhome(){ 
+    const homePagePath = '/home'
+    window.location.pathname = homePagePath;
+  }
+  
   onClickingStateOnMap(stateLayer: ILeafletStateClickEvent) {
     const stateName = MapUtil.getStateName(stateLayer).toLowerCase();
     // const stateList = this.slides[this.currentSlideIndex].states;
@@ -818,3 +823,6 @@ export class MunicipalLawsComponent implements OnInit {
     this.modalRef = this.modalService.show(template, { class: "modal-xlg" });
   }
 }
+
+
+

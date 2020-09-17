@@ -116,8 +116,11 @@ export class ReportComponent implements OnInit, OnDestroy {
    * state will be set to it. Use this layer for further process.
    */
   stateLayerToAutoSelect: L.Layer;
-  window = window;
-
+  //window = window;
+  backhome(){ 
+    const homePagePath = '/home'
+    window.location.pathname = homePagePath;
+  }
   onClearRatingFilter() {
     this.router.navigate(["/borrowings/credit-rating"]).then(res => {
       let stateToSelect: string;
