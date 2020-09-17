@@ -87,10 +87,12 @@
   // transform: scale(1.5);
   background: #059696;
   display: block;
+  font-size: 1.2em;
   margin: auto;
   padding: 0.5% 1%;
   @media screen and (max-width: 768px) {
     padding-right: 6%;
+    margin-top: 2%;
   }
   padding-right: 2%;
 
