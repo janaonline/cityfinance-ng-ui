@@ -223,7 +223,7 @@ export class MunicipalLawsComponent implements OnInit {
       const slideHasState = !!slide.states.find(
         name => name.toLowerCase() === stateName
       );
-      return slideHasState;
+      return slideHasState; 
     });
 
     if (!list) {
