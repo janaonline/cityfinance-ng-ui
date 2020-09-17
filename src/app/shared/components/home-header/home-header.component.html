@@ -133,6 +133,12 @@
         (click)="navigateToAnalytics()"
         id="id"
         >Analytics
+        <i
+          class="fa fa-caret-down custom-fa"
+          style="margin-left: 1rem;"
+          [ngClass]="{ 'rotate-180deg': showAnalyticsSubMenu }"
+          aria-hidden="true"
+        ></i>
       </a>
       <ul class="dropdown-menu dropdown-menu-left">
         <li

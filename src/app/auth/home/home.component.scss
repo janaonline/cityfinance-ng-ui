@@ -135,7 +135,7 @@
   }
 
   .benifitHeading {
-    margin: 7vw auto 2vw auto !important;
+    margin: 7vw auto 5vw auto !important;
   }
 }
 
@@ -188,6 +188,9 @@
     .about-heading {
       text-align: center;
       margin: 0px 0px 3vw 0px;
+      @media (max-width: 768px) {
+        margin-bottom: 5vw;
+      }
 
       span {
         display: inline-block;
@@ -213,6 +216,9 @@
     .left {
       grid-area: l;
       font-size: 1em;
+      @media screen and (max-width: 768px) {
+        margin-bottom: 6%;
+      }
       @media screen and (max-width: 480px) and (min-width: 470px) {
         grid-area: 1 / 12 / auto / 12;
         font-size: 3em;
@@ -303,6 +309,9 @@
         flex-direction: column;
         color: white;
         font-size: 0.95em;
+        @media (max-width: 768px) {
+          margin-top: 7%;
+        }
         @media screen and (max-width: 885px) and (min-width: 500px) {
           font-size: 12px;
         }
