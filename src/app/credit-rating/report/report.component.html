@@ -79,7 +79,7 @@
                 </button>
               </div>
             </div>
-            <div class="tableWrapper">
+            <div class="mb-2">
               <table class="table fixed-table">
                 <thead>
                   <tr>
@@ -170,19 +170,19 @@
       <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
-          <div class="modal-header">
+          <!-- <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">
               &times;
-            </button>
-
-            <h4 class="modal-title">Edit Filter</h4>
-          </div>
+            </button> 
+          </div> -->
           <div class="modal-body">
-            <div class="filter-layout" style="float: right">
-              <button class="btn btn-danger" (click)="clearFilters()">
-                Clear Filters
-              </button>
-            </div>
+            <h4 class="modal-title" style="float: left">Edit Filter</h4>
+            <button class="btn btn-danger mb-2 " (click)="clearFilters()" style="float: right">
+              Clear Filters
+            </button>
+            <!-- <div class="filter-layout" style="float: right">
+              
+            </div> -->
             <div class="filter-field-container">
               <div class="filter-layout">
                 <input
@@ -353,9 +353,9 @@
               </div>
             </div>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer text-left">
             <button type="button" class="btn btn-default" data-dismiss="modal">
-              Close
+              Next
             </button>
           </div>
         </div>
