@@ -290,12 +290,21 @@ div.arrow:after {
   margin-left: 30%;
 
   @media screen and (max-width: 468px) {
-    position: relative;
+    top: 0px;
+    left: 0;
   }
 }
 .map-info-state {
   z-index: 2;
   margin-top: 1%;
+  @media screen and (max-width: 551px) {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    margin: auto;
+    display: block;
+    width: 100%;
+  } 
 }
 
 @media (max-width: 1074px) {

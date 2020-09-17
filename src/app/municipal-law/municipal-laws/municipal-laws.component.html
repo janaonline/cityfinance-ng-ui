@@ -14,7 +14,7 @@
     <!-- {{tempStates | json}} -->
     <!-- {{keys | json}} -->
     <!-- {{list | json}}  -->
-    <div class="row m-1" [ngClass]="{ 'hide-container' : compareState }">
+    <div class="row m-1 mb-2" [ngClass]="{ 'hide-container' : compareState }">
       <div class="col-md-6 mt-2" style="min-height: 50vh;">
         <carousel class="municipal-law-carousel" [noPause]="false" (activeSlideChange)="onSlideChaning($event)">
           <slide *ngFor="let item of slides" title="Click to compare states">
@@ -88,10 +88,10 @@
           Comparison of Municipal Finance Provisions
           <a *ngIf="compareState > 0" class="back-link n-sm back-btns" style="margin-right: 0px;"
             (click)="compareState = 0">Back</a>
-        </h3> 
+        </h3>  
       </div>
-      <div class="col-md-12 n-sm">
-        <button *ngIf="selectedStates.length > 1" (click)="clearSelectedStates()" class="btn btn-sm btn-danger">
+      <div class="col-md-12 sm-p0">
+        <button *ngIf="selectedStates.length > 1" (click)="clearSelectedStates()" class="btn btn-sm mb-1 btn-danger">
           Clear All
         </button>
       </div>
@@ -104,22 +104,22 @@
     </div>
       <div class="col-md-12 sm-p0 ">
         <br />
-        <div class="col-md-3 col-md-offset-3  col-xs-4 mb-2">
+        <div class="col-md-3 col-md-offset-3  col-xs-6 mb-2">
           <button class="btn btn-primary f10-sm" (click)="showComparisionPage()"
             [tooltipEnable]="selectedStates.length < 2" tooltip="Select atleast 1 states">
             View and Compare
           </button>
         </div>
-        <div class="col-md-3 col-xs-4 mb-2">
+        <div class="col-md-3 col-xs-6 mb-2">
           <button class="btn btn-danger col-md-12 f10-sm m-l20sm" (click)="compareAllStates()">
             Compare All
           </button>
         </div>
-        <div class="col-md-3 col-xs-4 mb-2">
+        <!-- <div class="col-md-3 col-xs-4 mb-2">
           <button *ngIf="selectedStates.length > 1" (click)="clearSelectedStates()" class="btn btn-danger f10-sm">
             Clear All 
           </button>
-        </div>
+        </div>  -->
       </div>
       <!-- {{selectedStates | json}} -->
     </div>
