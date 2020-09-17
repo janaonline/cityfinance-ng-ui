@@ -320,11 +320,15 @@ img.align-center {
 
   @media screen and (max-width: 551px) {
     padding: 0px;
+    min-height: auto;
   }
 }
 
 .app-wrapper {
   min-height: 100vh;
+  @media screen and (max-width: 551px) { 
+    min-height: auto;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -1004,7 +1008,7 @@ img.align-center {
   }
   .selected-list .c-angle-down,
   .selected-list .c-angle-up {
-    right: 2px !important;
+    right: 10px !important;
   }
   .credit-rating-report {
     padding: 0px 5px;
@@ -1048,7 +1052,6 @@ img.align-center {
   .sm-p0{
     padding: 0;
   }
-  
 }
 
 // max width 551px

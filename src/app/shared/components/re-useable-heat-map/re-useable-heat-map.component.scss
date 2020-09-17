@@ -324,6 +324,13 @@ div.miniMap {
       padding: 0;
       margin-left: 0 !important;
     }
+    @media screen and (max-width: 405px) and (min-width:320px) {
+      font-size: 8px;
+      width: 75%;
+      }
+      @media screen and (max-width: 319px) {
+        display:none
+      }
   }
 }
 
