@@ -5,13 +5,16 @@
 <div class="w-100 b-sm">
   <div class="inner-head">
     <div class="back-icon">
-      <a href="/home"><span class="glyphicon glyphicon-arrow-left"></span></a>
+      <a routerLink="/home"
+        ><span class="glyphicon glyphicon-arrow-left"></span
+      ></a>
     </div>
     <div class="head-content">
-      <h5>Resources  </h5>
+      <h5>Resources</h5>
     </div>
   </div>
-</div> <!-- w-100 end -->
+</div>
+<!-- w-100 end -->
 
 <div class="files-wrapper">
   <div *ngFor="let file of files" class="file">
