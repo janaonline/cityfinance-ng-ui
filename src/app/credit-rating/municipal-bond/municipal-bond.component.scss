@@ -279,15 +279,16 @@
 
 @media (max-width: 558px) {
   .state-dropdown.state-dropdown.state-dropdown {
-    width: 34% !important;
+    width: 28% !important;
     margin-right: 2%;
   }
   .ulbDropdown {
-    width: 60% !important;
+    width: 40% !important;
   }
 
   .dropdown-year {
-    margin-top: 4%;
+    width: 26%;
+    // margin-top: 4%;
   }
 }
 
