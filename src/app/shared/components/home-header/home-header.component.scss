@@ -230,6 +230,17 @@ nav.navbar {
     }
   }
 }
+.custom-fa {
+  transition: all 0.5s;
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: inline-block;
+  }
+}
+
+.rotate-180deg {
+  transform: rotate(180deg);
+}
 span.indian-emblem-wrapper.navbar-brand {
   // font-size: 12px !important;
   @media (max-width: 768px) {
@@ -416,7 +427,7 @@ nav.navbar-1st-row {
   }
   .nav-ul {
     top: 0px;
-  } 
+  }
 }
 
 // responsive max-width 468px css end
