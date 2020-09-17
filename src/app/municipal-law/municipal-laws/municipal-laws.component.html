@@ -105,7 +105,7 @@
           >
         </h3>
       </div>
-      <div class="col-md-12 sm-p0">
+      <div class="col-md-12 n-sm">
         <button
           *ngIf="selectedStates.length > 1"
           (click)="clearSelectedStates()"
@@ -127,9 +127,9 @@
       </div>
       <div class="col-md-12 sm-p0 ">
         <br />
-        <div class="col-md-3 col-md-offset-3  col-xs-6 mb-2">
+        <div class="col-md-3 col-md-offset-3  col-xs-4 mb-2">
           <button
-            class="btn btn-primary f10-sm"
+            class="btn btn-primary f10-sm btn-sm"
             (click)="showComparisionPage()"
             [tooltipEnable]="selectedStates.length < 2"
             tooltip="Select atleast 1 states"
@@ -139,17 +139,21 @@
         </div>
         <div class="col-md-3 col-xs-6 mb-2">
           <button
-            class="btn btn-danger col-md-12 f10-sm m-l20sm"
+            class="btn btn-danger btn-sm col-md-12 f10-sm center"
             (click)="compareAllStates()"
           >
             Compare All
           </button>
         </div>
-        <!-- <div class="col-md-3 col-xs-4 mb-2">
-          <button *ngIf="selectedStates.length > 1" (click)="clearSelectedStates()" class="btn btn-danger f10-sm">
-            Clear All 
-          </button>
-        </div>  -->
+        <div class="col-md-3 col-xs-2 mb-2 b-sm">
+          <button
+          *ngIf="selectedStates.length > 1"
+          (click)="clearSelectedStates()"
+          class="btn btn-sm mb-1 btn-danger right"
+        >
+          Clear All
+        </button>
+        </div>   
       </div>
       <!-- {{selectedStates | json}} -->
     </div>
@@ -337,7 +341,7 @@
     </button>
     <button
       type="button"
-      class="btn btn-warning pull-right"
+      class="btn btn-warning pull-right n-sm"
       stlye="margin-right:2% !important;"
       (click)="clearSelectedStates()"
     >
@@ -357,7 +361,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12">
+      <div class="col-md-6 col-xs-6">
         <br />
         <button
           [tooltipEnable]="selectedStates.length > 1"
@@ -367,6 +371,17 @@
         >
           Apply Selection
         </button>
+      </div>
+      <div class="col-md-6 col-xs-6 b-sm">
+        <br />
+        <button
+      type="button"
+      class="btn btn-warning center b-sm"
+      stlye="margin-right:2% !important;"
+      (click)="clearSelectedStates()"
+    >
+      Clear All
+    </button>
       </div>
     </div>
     <!-- row end -->
