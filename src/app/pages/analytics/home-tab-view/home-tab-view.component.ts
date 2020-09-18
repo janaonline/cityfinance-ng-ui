@@ -1,39 +1,26 @@
-import "chartjs-plugin-labels";
+import 'chartjs-plugin-labels';
 
-import { Component, OnInit, TemplateRef } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { MatDialog, MatSnackBar } from "@angular/material";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Chart } from "chart.js";
-import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { forkJoin, Observable, Subject } from "rxjs";
-import { debounceTime, delay, map, takeUntil } from "rxjs/operators";
-import { AuthService } from "src/app/auth/auth.service";
-import {
-  AnalyticsTabs,
-  IAnalyticsTabs
-} from "src/app/shared/components/home-header/tabs";
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Chart } from 'chart.js';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { forkJoin, Observable, Subject } from 'rxjs';
+import { debounceTime, delay, map, takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/auth.service';
+import { AnalyticsTabs, IAnalyticsTabs } from 'src/app/shared/components/home-header/tabs';
 
-import { IDialogConfiguration } from "../../../../app/shared/components/dialog/models/dialogConfiguration";
-import { IStateWithULBS } from "../../../../app/shared/components/re-useable-heat-map/models/stateWithULBS";
-import {
-  IStateULBCovered,
-  IStateULBCoveredResponse
-} from "../../../../app/shared/models/stateUlbConvered";
-import {
-  IULBWithPopulationResponse,
-  ULBWithMapData
-} from "../../../../app/shared/models/ulbsForMapResponse";
-import { CommonService } from "../../../../app/shared/services/common.service";
-import { DialogComponent } from "../../../shared/components/dialog/dialog.component";
-import {
-  ModalTableHeader,
-  modalTableHeaders,
-  tableHeaders
-} from "../../../shared/components/home-header/tableHeaders";
-import { DashboardService } from "../../../shared/services/dashboard/dashboard.service";
-import { TableDownloader } from "../../../shared/util/tableDownload/genericTableDownload";
-import { TableDowloadOptions } from "../../../shared/util/tableDownload/models/options";
+import { IDialogConfiguration } from '../../../../app/shared/components/dialog/models/dialogConfiguration';
+import { IStateWithULBS } from '../../../../app/shared/components/re-useable-heat-map/models/stateWithULBS';
+import { IStateULBCovered, IStateULBCoveredResponse } from '../../../../app/shared/models/stateUlbConvered';
+import { IULBWithPopulationResponse, ULBWithMapData } from '../../../../app/shared/models/ulbsForMapResponse';
+import { CommonService } from '../../../../app/shared/services/common.service';
+import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
+import { ModalTableHeader, modalTableHeaders, tableHeaders } from '../../../shared/components/home-header/tableHeaders';
+import { DashboardService } from '../../../shared/services/dashboard/dashboard.service';
+import { TableDownloader } from '../../../shared/util/tableDownload/genericTableDownload';
+import { TableDowloadOptions } from '../../../shared/util/tableDownload/models/options';
 
 // import 'chartjs-plugin-title-click';
 
@@ -142,20 +129,21 @@ export class HomeTabViewComponent implements OnInit {
   }
 
   tabIndexChangeHandler(event): void {
-    this.router.navigate([`../${this.urllTabMapping[event]}`], {
-      relativeTo: this.activateRoute
-    });
+    // if (Chart.instances) {
+    //   Chart.instances = {};
+    // }
+    // this.selectedState = {};
+
+    // this.router.navigate([`../${this.urllTabMapping[event]}`], {
+    //   relativeTo: this.activateRoute
+    // });
     // this.setMapProcessingState(false);
-    // this.tabIndex = event;
+    this.tabIndex = event;
     // this.singleULBView = false;
     // this.selectedUlb = "";
     // this.loading = true;
     // this.selectedState = null;
     // this.updateULBDropdownList({});
-    // window.history.pushState(
-    //   { html: "", pageTitle: "" },
-    //   "https://www.google.com/search?q=js+update+url&oq=js+update+url&aqs=chrome..69i57j0l7.7588j0j7&sourceid=chrome&ie=UTF-8"
-    // );
 
     // if (!this.tabData[event] && this.selectedState.length > 0) {
     // this.selectedState = {};
@@ -168,11 +156,14 @@ export class HomeTabViewComponent implements OnInit {
   }
   onTabChangeAnimationComplete() {
     // this.loading = true;
-    if (Chart.instances) {
-      Chart.instances = {};
-    }
-    this.selectedState = {};
+    // if (Chart.instances) {
+    //   Chart.instances = {};
+    // }
+    // this.selectedState = {};
     // this.fetchData();
+    this.router.navigate([`../${this.urllTabMapping[this.tabIndex]}`], {
+      relativeTo: this.activateRoute
+    });
   }
 
   ngOnInit() {
@@ -391,7 +382,7 @@ export class HomeTabViewComponent implements OnInit {
     this.commonTableData = [];
     this.commonTableDataDisplay = [];
     this.loading = false;
-  };
+  }
 
   resetPopupValues() {
     this.selectedYears = [];
@@ -519,7 +510,7 @@ export class HomeTabViewComponent implements OnInit {
     if (this.tabIndex == 1 || this.tabIndex == 2) {
       this.renderCharts();
     }
-  };
+  }
 
   private fetchTableDataSuccess = (response: any) => {
     this.commonTableDataDisplay = [];
@@ -528,6 +519,9 @@ export class HomeTabViewComponent implements OnInit {
       delete row["status"];
       return row;
     });
+
+
+
     if (response["success"]) {
       if (this.singleULBView) {
         this.modalItemClicked(this.selectedUlb);
@@ -543,7 +537,7 @@ export class HomeTabViewComponent implements OnInit {
       this.tabData[this.tabIndex] = response;
       this.loading = false;
     }
-  };
+  }
 
   private callAPi(callback, args) {
     callback(args);
@@ -1101,7 +1095,6 @@ export class HomeTabViewComponent implements OnInit {
       });
     }
 
-    console.log("model item");
 
     this.selectedUlb = rowClickedId;
     this.loading = true;
