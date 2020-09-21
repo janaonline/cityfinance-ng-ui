@@ -18,6 +18,16 @@
   color: #059b9a;
   padding: 0px 15px;
 }
+.skeleton-wrapper {
+  width: 100vw;
+  display: block;
+  app-pre-loader {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+  }
+}
 
 .files-wrapper {
   display: flex;
@@ -26,6 +36,7 @@
   width: 95%;
   margin: auto;
   overflow: hidden;
+
   @media screen and (max-width: 480px) {
     margin-top: 15px;
     margin-bottom: 3%;
