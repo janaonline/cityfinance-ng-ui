@@ -36,9 +36,8 @@
   width: 95%;
   margin: auto;
   overflow: hidden;
-
-  @media screen and (max-width: 480px) {
-    margin-top: 15px;
+  @media screen and (max-width: 551px) {
+    margin-top: 20px;
     margin-bottom: 3%;
     display: flex;
     flex-wrap: wrap;
