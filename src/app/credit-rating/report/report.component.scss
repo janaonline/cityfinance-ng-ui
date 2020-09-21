@@ -409,3 +409,17 @@ div.arrow:after {
     overflow: inherit !important;
   }
 }
+
+@media screen and (max-width:551px){
+  .table-mf-header{
+    max-height: 80vh;
+    overflow: scroll;
+  }
+  .table-mf-header .table-mf{
+    position: sticky;
+    left: 0;
+    top: 0;
+  } 
+}
+
+// 551 media screen end

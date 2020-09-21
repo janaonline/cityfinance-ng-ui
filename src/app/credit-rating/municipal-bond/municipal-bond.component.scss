@@ -356,4 +356,16 @@
   .pagination-top  pagination-controls{
     margin: 10px 0px !important;
   }
-} 
+  .table-mf-header{
+    max-height: 80vh;
+    overflow: scroll;
+  }
+  .table-mf-header .table-mf{
+    position: sticky;
+    left: 0;
+    z-index: 9;
+    top: 0;
+  } 
+}  
+
+// 551 media screen end
