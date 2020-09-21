@@ -32,6 +32,13 @@ i.glyphicon-sort.glyphicon-sort.glyphicon-sort:hover {
   color: red;
 }
 
+@media (max-width: 767px) {
+  .navbar-nav .open .dropdown-menu .dropdown-header,
+  .navbar-nav .open .dropdown-menu > li > a {
+    padding: 10px 15px 10px 35px;
+  }
+}
+
 .success-message {
   display: block;
   margin-top: 2%;
@@ -320,13 +327,13 @@ img.align-center {
 
   @media screen and (max-width: 551px) {
     padding: 0px;
-   // min-height: auto;
+    // min-height: auto;
   }
 }
 
 .app-wrapper {
   min-height: 100vh;
-  @media screen and (max-width: 551px) { 
+  @media screen and (max-width: 551px) {
     min-height: auto;
   }
 }
@@ -646,10 +653,10 @@ img.align-center {
   .c-list .c-token {
     background-color: #059b9a;
     color: white;
-    width: max-content; 
+    width: max-content;
   }
 }
-.c-token{
+.c-token {
   width: auto !important;
 }
 //bootstrap short class
@@ -922,9 +929,9 @@ img.align-center {
   margin: auto;
   text-transform: uppercase;
 }
-.head-content h5{ 
+.head-content h5 {
   font-size: 16px;
-} 
+}
 .list-area {
   width: max-content;
   @media screen and (max-width: 551px) {
@@ -1051,15 +1058,13 @@ img.align-center {
   }
   .selected-list .countplaceholder {
     right: 20px !important;
-  } 
-  .sm-p0{
+  }
+  .sm-p0 {
     padding: 0;
   }
 }
 
 // max width 551px
-
- 
 
 // max- width 414px start
 @media screen and (max-width: 480px) and (min-width: 300px) {
