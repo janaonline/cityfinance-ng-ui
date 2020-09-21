@@ -17,6 +17,11 @@
 <!-- w-100 end -->
 
 <div class="files-wrapper">
+  <div class="skeleton-wrapper" *ngIf="!files">
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+  </div>
   <div *ngFor="let file of files" class="file">
     <img [src]="file.imageUrl" [alt]="file.name" />
     <div class="details">
