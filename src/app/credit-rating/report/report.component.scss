@@ -420,6 +420,14 @@ div.arrow:after {
     left: 0;
     top: 0;
   } 
+
+  .hide-container .map-container{
+    display: none;
+  }
 }
 
 // 551 media screen end
+
+.table-hover>tbody>tr:hover {
+  background-color: #059b9a;
+}
