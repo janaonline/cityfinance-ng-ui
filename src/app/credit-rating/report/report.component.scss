@@ -199,6 +199,20 @@ table {
 ::-webkit-scrollbar-thumb:hover {
   background: #f0ad4e;
 }
+@media (max-width: 768px) {
+  .map-info-state .arrow {
+    display: none;
+  }
+  .arrow-on-mobile {
+    display: inline;
+  }
+}
+
+@media (min-width: 769px) {
+  .arrow-on-mobile {
+    display: none;
+  }
+}
 div.arrow {
   width: 11px;
   height: 11px;
@@ -246,6 +260,10 @@ div.arrow:after {
   border-width: 0 1px 1px 0;
   display: inline-block;
   padding: 3px;
+
+  @media screen and (max-width: 768px) {
+    border: none;
+  }
 }
 
 #nationalLevelButton:hover div.arrow::after {
@@ -291,8 +309,10 @@ div.arrow:after {
   margin-left: 30%;
 
   @media screen and (max-width: 468px) {
-    top: 0px;
-    left: 0;
+    top: 10%;
+    right: 11%;
+
+    width: 30vw !important;
   }
 }
 .map-info-state {
@@ -300,12 +320,16 @@ div.arrow:after {
   margin-top: 1%;
   @media screen and (max-width: 551px) {
     position: absolute;
-    left: 0;
-    top: 10px;
-    margin: auto;
-    display: block;
-    width: 100%;
-  } 
+    top: 10%;
+    right: 11%;
+
+    width: 30vw !important;
+    // left: 0;
+    // top: 10px;
+    // margin: auto;
+    // display: block;
+    // width: 100%;
+  }
 }
 
 @media (max-width: 1074px) {
@@ -384,4 +408,26 @@ div.arrow:after {
   .modal-content {
     overflow: inherit !important;
   }
+}
+
+@media screen and (max-width:551px){
+  .table-mf-header{
+    max-height: 80vh;
+    overflow: scroll;
+  }
+  .table-mf-header .table-mf{
+    position: sticky;
+    left: 0;
+    top: 0;
+  } 
+
+  .hide-container .map-container{
+    display: none;
+  }
+}
+
+// 551 media screen end
+
+.table-hover>tbody>tr:hover {
+  background-color: #059b9a;
 }

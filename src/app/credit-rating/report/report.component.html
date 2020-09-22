@@ -30,6 +30,10 @@
               (click)="resetMapToNationalView()"
             >
               <div class="arrow"></div>
+              <div class="arrow-on-mobile">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+
+              </div>
               View National Level Data
             </a>
           </div>
@@ -176,8 +180,8 @@
             </button> 
           </div> -->
           <div class="modal-body">
-            <h4 class="modal-title" style="float: left;     margin: 20px 0px 0px 15px;">Edit Filter</h4>
-            <button class="btn btn-danger mb-2 " (click)="clearFilters()" style="float: right; margin:15px;">
+            <h4 class="modal-title" style="float: left">Edit Filter</h4>
+            <button class="btn btn-danger mb-2 " (click)="clearFilters()" style="float: right">
               Clear Filters
             </button>
             <!-- <div class="filter-layout" style="float: right">
@@ -354,8 +358,8 @@
             </div>
           </div>
           <div class="modal-footer text-left">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">
-              Next>>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Next
             </button>
           </div>
         </div>
@@ -364,7 +368,7 @@
 
     <!-- mobile filter popup end here -->
 
-    <div class="row mobileContainer " *ngIf="page == 2">
+    <div class="row mobileContainer" *ngIf="page == 2">
       <!-- <div class="col-md-12">
         <ag-grid-angular style="width: 100%; height: 450px;" class="ag-theme-balham" [columnDefs]="columnDefs" [rowData]="list" [enableSorting]="true" [enableFilter]="true" [pagination]="true" [paginationAutoPageSize]="true" [enableColResize]="true" (firstDataRendered)="onFirstDataRendered($event)">
         </ag-grid-angular>
@@ -388,11 +392,11 @@
         </a>
       </div>
       <br />
-      <div class="col-md-12 credit-rating-report accordion-full-m sm-p0">
-        <div class="table-responsive myCustomTable">
+      <div class="col-md-12 credit-rating-report accordion-full-m">
+        <div class="table-responsive myCustomTable table-mf-header">
           <table
             style="width: 100%; background: #059b9a; color: #fff;"
-            class="table table-hover"
+            class="table table-hover table-mf"
           >
             <tr>
               <th
@@ -639,7 +643,7 @@
                 </td>
                 <td width="15%">
                   <button
-                    style="height: 40px;"
+                    style="height: 40px"
                     class="btn btn-danger"
                     (click)="clearFilters()"
                   >
@@ -683,8 +687,8 @@
                   </tr>
                 </table>
 
-                <div class="rowss">
-                  <div class="col-md-12 scrolling outer sm-p0" style="width:100%;">
+                <div class="row">
+                  <div class="col-md-12 scrolling outer">
                     <div class="inner">
                       <table
                         class="table table-striped table-hover"

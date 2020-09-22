@@ -299,6 +299,7 @@
   @media screen and (max-width: 551px) {
     position: relative;
     flex-wrap: wrap;
+    margin: 20px 0px;
   }
 }
 .bond-btn-top {
@@ -350,3 +351,21 @@
 .pagination-top {
   font-size: 14px !important;
 }
+
+@media screen and (max-width: 551px) {
+  .pagination-top pagination-controls {
+    margin: 10px 0px !important;
+  }
+  .table-mf-header {
+    max-height: 80vh;
+    overflow: scroll;
+  }
+  .table-mf-header .table-mf {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    top: 0;
+  }
+}
+
+// 551 media screen end
