@@ -1070,7 +1070,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private clearDistrictMapContainer() {
-    const height = this.userUtil.isUserOnMobile() ? `51vh` : "57vh";
+    const height = this.userUtil.isUserOnMobile() ? `100%` : "57vh";
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
