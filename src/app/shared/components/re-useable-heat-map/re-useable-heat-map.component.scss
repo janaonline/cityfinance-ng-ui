@@ -66,6 +66,7 @@ div.miniMap {
   margin-top: 9%;
   @media (max-width: 768px) {
     margin-top: 0%;
+    height: 100%;
   }
   position: absolute;
   border-radius: inherit;
@@ -324,13 +325,13 @@ div.miniMap {
       padding: 0;
       margin-left: 0 !important;
     }
-    @media screen and (max-width: 405px) and (min-width:320px) {
+    @media screen and (max-width: 405px) and (min-width: 320px) {
       font-size: 8px;
       width: 75%;
-      }
-      @media screen and (max-width: 319px) {
-        display:none
-      }
+    }
+    @media screen and (max-width: 319px) {
+      display: none;
+    }
   }
 }
 
