@@ -1070,11 +1070,12 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private clearDistrictMapContainer() {
+    const height = this.userUtil.isUserOnMobile() ? `51vh` : "57vh";
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
-    class="h-60 col-sm-12"
-    style="background: transparent;z-index: 8; display: inline-block; width: 99%;height: 57vh;"
+    class=" col-sm-12"
+    style="background: transparent;z-index: 8; display: inline-block; width: 99%;height: ${height};"
   > <p class="text-center state-map-click-guide" >
     Click on any ULB to view it's data or click on India map to go back
   </p>
