@@ -22,6 +22,10 @@
   max-height: 100%;
   transition: all 0.8s;
   padding-top: 2%;
+
+  @media screen and (max-width: 768px) {
+    width: 100vw;
+  }
   // border-left: inherit;
 }
 
@@ -325,6 +329,11 @@ div.miniMap {
       padding: 0;
       margin-left: 0 !important;
     }
+    @media screen and (min-width: 410px) and (max-width: 415px) {
+      width: 65%;
+      left: -40px;
+    }
+
     @media screen and (max-width: 405px) and (min-width: 320px) {
       font-size: 8px;
       width: 51%;
