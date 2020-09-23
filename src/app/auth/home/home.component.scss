@@ -598,6 +598,9 @@
   background: none;
   //  transform: translateY(1rem);
   transition: transform 0.5s ease 0s;
+  @media (max-width: 768px) {
+    font-weight: bold;
+  }
   @media screen and (max-width: 860px) and (min-width: 770px) {
     font-size: 12px;
   }
