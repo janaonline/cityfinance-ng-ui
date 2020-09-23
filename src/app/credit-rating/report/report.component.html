@@ -5,11 +5,12 @@
       <div class="w-100 b-sm">
         <div class="inner-head">
           <div class="back-icon">
-            <a (click)="backhome()"><span class="glyphicon glyphicon-arrow-left"></span
+            <a (click)="backhome()"
+              ><span class="glyphicon glyphicon-arrow-left"></span
             ></a>
           </div>
           <div class="head-content">
-            <h5>Credit ratings  </h5>
+            <h5>Credit ratings</h5>
           </div>
         </div>
       </div>
@@ -32,7 +33,6 @@
               <div class="arrow"></div>
               <div class="arrow-on-mobile">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
-
               </div>
               View National Level Data
             </a>
@@ -59,10 +59,13 @@
               <div class="col-sm-12 filtered-message">
                 <h2
                   *ngIf="queryParams?.minRating"
-                  class="text-center mb-1 text-primary"
-                  style="margin-bottom: 1.2vw"
+                  class="text-primary"
+                  style="margin-bottom: 1vw"
                 >
-                  ULBs with rating {{ queryParams.minRating }} and Above
+                  <span class="ulb-custom-text"
+                    >ULBs with rating {{ queryParams.minRating }} and
+                    Above</span
+                  >
                   <button
                     class="btn btn-warning right"
                     (click)="onClearRatingFilter()"
@@ -181,7 +184,11 @@
           </div> -->
           <div class="modal-body">
             <h4 class="modal-title" style="float: left">Edit Filter</h4>
-            <button class="btn btn-danger mb-2 " (click)="clearFilters()" style="float: right">
+            <button
+              class="btn btn-danger mb-2 "
+              (click)="clearFilters()"
+              style="float: right"
+            >
               Clear Filters
             </button>
             <!-- <div class="filter-layout" style="float: right">

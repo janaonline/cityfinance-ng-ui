@@ -1,3 +1,11 @@
+.ulb-custom-text {
+  float: left;
+  font-size: 16px;
+  @media screen and (max-width: 768px) {
+    width: 73%;
+  }
+}
+
 table {
   th.changeinrating {
     width: 160px;
@@ -86,8 +94,9 @@ table {
   }
 
   .filtered-message {
+    margin-bottom: 15px;
     @media screen and (max-width: 768px) {
-      margin-bottom: 15px;
+      margin-bottom: 38px;
     }
   }
 
@@ -410,16 +419,16 @@ div.arrow:after {
   }
 }
 
-@media screen and (max-width:551px){
-  .table-mf-header{
+@media screen and (max-width: 551px) {
+  .table-mf-header {
     max-height: 80vh;
     overflow: scroll;
   }
-  .table-mf-header .table-mf{
+  .table-mf-header .table-mf {
     position: sticky;
     left: 0;
     top: 0;
-  } 
+  }
 }
 
 // 551 media screen end
