@@ -1,37 +1,41 @@
-import { Component, OnInit } from "@angular/core";
-import { AnnualAccountsService } from "../annual-accounts.service";
-import { CommonService } from "src/app/shared/services/common.service";
-import { IStateULBCovered } from "src/app/shared/models/stateUlbConvered";
-import { JSONUtility } from "src/app/util/jsonUtil";
+import { Component, OnInit } from '@angular/core';
+import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
+import { CommonService } from 'src/app/shared/services/common.service';
+import { JSONUtility } from 'src/app/util/jsonUtil';
+
+import { AnnualAccountsService } from '../annual-accounts.service';
 
 @Component({
   selector: "app-annual-accounts-view",
   templateUrl: "./annual-accounts-view.component.html",
-  styleUrls: ["./annual-accounts-view.component.scss"],
+  styleUrls: ["./annual-accounts-view.component.scss"]
 })
 export class AnnualAccountsViewComponent implements OnInit {
+  constructor(
+    private annualAccountsService: AnnualAccountsService,
+    private _commonService: CommonService
+  ) {}
   dataSource;
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
-    totalCount: null,
+    totalCount: null
   };
   listFetchOption = {
     filter: null,
     // sort: null,
     // role: null,
     skip: 0,
-    limit: this.tableDefaultOptions.itemPerPage,
+    limit: this.tableDefaultOptions.itemPerPage
   };
   canOpen = false;
   filteredData: any;
 
   stateList: IStateULBCovered[] = [];
 
-  constructor(
-    private annualAccountsService: AnnualAccountsService,
-    private _commonService: CommonService
-  ) {}
+  isApiInProgress = false;
+
+  anyDcoumentUploaded = false;
 
   ngOnInit() {
     this.getAnnualAccountsList(this.listFetchOption);
@@ -39,29 +43,46 @@ export class AnnualAccountsViewComponent implements OnInit {
   }
 
   getAnnualAccountsList(body) {
+    this.isApiInProgress = true;
     const util = new JSONUtility();
     body.filter = util.filterEmptyValue(body.filter);
     this.annualAccountsService.getAnnualAccounts(body).subscribe(
-      (response) => {
+      response => {
+        this.isApiInProgress = false;
         this.dataSource = response["data"];
         if (response.hasOwnProperty("total")) {
           this.tableDefaultOptions.totalCount = response["total"];
         }
       },
-      (error) => {
-        console.log(error);
+      error => {
+        console.error(error);
       }
     );
   }
 
+  hasUserUploadedAnyDocumnet() {
+    const documents = { ...this.filteredData.documents };
+    return Object.keys(documents).some(FinancialYear => {
+      const pdf = documents[FinancialYear].pdf || [];
+      const excel = documents[FinancialYear].excel || [];
+      if (pdf.length || excel.length) return true;
+      return false;
+    });
+  }
+
   fetchStateList() {
-    this._commonService.getStateUlbCovered().subscribe((res) => {
+    this._commonService.getStateUlbCovered().subscribe(res => {
       this.stateList = res.data;
     });
   }
 
-  filterData(state, bodyType, skip) {
-    const body = { state: state, bodyType: bodyType };
+  filterData(state, bodyType, ulbName, parastatalName, skip) {
+    const body = {
+      state: state,
+      bodyType: bodyType,
+      ulbName: ulbName,
+      parastatalName: parastatalName
+    };
     this.listFetchOption.filter = body;
     this.listFetchOption.skip =
       skip || skip === 0 ? skip : this.listFetchOption.skip;
@@ -78,8 +99,9 @@ export class AnnualAccountsViewComponent implements OnInit {
   openModal(id) {
     this.filteredData = null;
     this.canOpen = true;
-    const data = this.dataSource.find((item) => item._id == id);
+    const data = this.dataSource.find(item => item._id == id);
     this.filteredData = data;
+    this.anyDcoumentUploaded = this.hasUserUploadedAnyDocumnet();
   }
   onClosingModal(event?) {
     if (event.keyCode == 27 || event.type == "click") {

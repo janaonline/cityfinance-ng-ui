@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <h3>
-        <span style="margin-left: 6px;"> Annual Accounts List</span>
+        <span style="margin-left: 6px"> Annual Accounts List</span>
       </h3>
     </div>
   </div>
@@ -11,9 +11,12 @@
       <table class="table">
         <thead>
           <tr
-            style="background: #059b9a; color: white; border: 0px;"
+            style="background: #059b9a; color: white; border: 0px"
             class="sortable-headers"
           >
+            <th>
+              Sr No
+            </th>
             <th class="">
               State
               <!-- <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i> -->
@@ -33,14 +36,13 @@
             <th class="text-center">Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="!isApiInProgress">
           <tr>
+            <td></td>
             <td>
               <div class="input-group">
                 <select #state class="form-control" placeholder="State">
-                  <option value="" selected>
-                    All States
-                  </option>
+                  <option value="" selected>All States</option>
                   <option *ngFor="let state of stateList" [value]="state._id">
                     {{ state.name }}
                   </option>
@@ -50,27 +52,47 @@
             <td>
               <div class="input-group">
                 <select #bodyType class="form-control" placeholder="Body Type">
-                  <option value="" selected>
-                    All Body Types
-                  </option>
-                  <option value="ulb">
-                    ULB
-                  </option>
-                  <option value="parastatal">
-                    Parastatal
-                  </option>
+                  <option value="" selected>All Body Types</option>
+                  <option value="ulb">ULB</option>
+                  <option value="parastatal">Parastatal</option>
                 </select>
               </div>
             </td>
 
-            <td></td>
+            <td>
+              <div class="input-group">
+                <input
+                  #ulbName
+                  placeholder="ULB Name"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </td>
 
-            <td></td>
+            <td>
+              <div class="input-group">
+                <input
+                  #parastatalName
+                  placeholder="Parastatal Agency"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </td>
             <td>
               <button
                 class="btn btn-primary m-auto"
-                style="display: block;"
-                (click)="filterData(state.value, bodyType.value, 0)"
+                style="display: block"
+                (click)="
+                  filterData(
+                    state.value,
+                    bodyType.value,
+                    ulbName.value,
+                    parastatalName.value,
+                    0
+                  )
+                "
               >
                 Search
               </button>
@@ -89,6 +111,9 @@
               index as i
             "
           >
+            <td>
+              {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+            </td>
             <td>{{ data.stateName }}</td>
             <td>{{ data.bodyType | titlecase }}</td>
             <td>{{ data.ulbName }}</td>
@@ -105,10 +130,30 @@
               </a>
             </td>
           </tr>
+          <tr *ngIf="dataSource && !dataSource.length">
+            <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
+          </tr>
         </tbody>
       </table>
+      <div
+        *ngIf="isApiInProgress"
+        style="
+          background: white;
+          z-index: 99999999;
+          left: 0px;
+          right: 0px;
+          top: 0px;
+          bottom: 0px;
+        "
+      >
+        <app-pre-loader></app-pre-loader>
+        <app-pre-loader></app-pre-loader>
+        <app-pre-loader></app-pre-loader>
+        <app-pre-loader></app-pre-loader>
+      </div>
+
       <pagination-controls
-        style="float: right; position: relative;"
+        style="float: right; position: relative"
         id="foo"
         (pageChange)="setPage($event)"
         directionLinks="true"
@@ -147,7 +192,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div style="margin-left: 2%;">
+      <div style="margin-left: 2%">
         <div class="row">
           <div class="col-md-12">
             <app-annual-accounts-create
@@ -159,7 +204,7 @@
       <!-- <div class="col-md-6"> -->
       <div class="container">
         <div class="row mb-2">
-          <div class="col-md-12">
+          <div class="col-md-12" *ngIf="anyDcoumentUploaded">
             <h3>Documents:</h3>
             <div
               *ngIf="

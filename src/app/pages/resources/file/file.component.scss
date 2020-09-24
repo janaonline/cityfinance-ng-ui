@@ -6,7 +6,7 @@
   text-align: center;
   text-transform: uppercase;
   width: 50%;
-  @media screen and (max-width:468px){
+  @media screen and (max-width: 468px) {
     font-size: 3.6vw;
     margin-top: 20px;
   }
@@ -18,6 +18,16 @@
   color: #059b9a;
   padding: 0px 15px;
 }
+.skeleton-wrapper {
+  width: 100vw;
+  display: block;
+  app-pre-loader {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+  }
+}
 
 .files-wrapper {
   display: flex;
@@ -26,8 +36,9 @@
   width: 95%;
   margin: auto;
   overflow: hidden;
-  @media screen and (max-width:480px){
-    margin-top: 15px;
+  @media screen and (max-width: 551px) {
+    margin-top: 20px;
+    margin-bottom: 3%;
     display: flex;
     flex-wrap: wrap;
     width: 100%;
@@ -48,7 +59,7 @@
     border-radius: 5px;
 
     overflow: hidden;
-    @media screen and (max-width:480px){
+    @media screen and (max-width: 480px) {
       margin: 15px 10px;
     }
     img {
@@ -79,7 +90,7 @@
           padding-top: 2%;
           padding-bottom: 2%;
 
-          @media screen and (max-width:768px) and (min-width:550px){
+          @media screen and (max-width: 768px) and (min-width: 550px) {
             font-size: 12px;
           }
         }
@@ -125,34 +136,28 @@
     }
   }
 }
-@media screen and (max-width:480px) and (min-width:470px){
-  .file{
-   min-height: 230px !important;
-   min-width: 210px !important;
+@media screen and (max-width: 480px) and (min-width: 470px) {
+  .file {
+    min-height: 230px !important;
+    min-width: 210px !important;
   }
-  .details td{
-   font-size: 12px !important;
+  .details td {
+    font-size: 12px !important;
   }
   .file .fa-cloud-download {
-   font-size: 5.5vw !important;
- }
- }
- 
- 
- 
- 
-@media screen and (max-width:468px){
- .file{
-  min-height: 190px !important;
-  min-width: 160px !important;
- }
- .details td{
-  font-size: 10px !important;
- }
- .file .fa-cloud-download {
-  font-size: 3.5vw !important;
-}
+    font-size: 5.5vw !important;
+  }
 }
 
-
- 
+@media screen and (max-width: 468px) {
+  .file {
+    min-height: 190px !important;
+    min-width: 160px !important;
+  }
+  .details td {
+    font-size: 10px !important;
+  }
+  .file .fa-cloud-download {
+    font-size: 3.5vw !important;
+  }
+}
