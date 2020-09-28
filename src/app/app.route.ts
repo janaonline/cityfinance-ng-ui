@@ -57,7 +57,7 @@ export const appRouter: Routes = [
     loadChildren: "./dashboard/dashboard.module#DashboardModule"
   },
   {
-    path: "annual-accounts",
+    path: "upload-annual-accounts",
     loadChildren:
       "./pages/annual-accounts/annual-accounts.module#AnnualAccountsModule"
   },
