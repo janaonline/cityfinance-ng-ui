@@ -1,0 +1,17 @@
+<mat-horizontal-stepper
+  id="stepper"
+  [ngClass]="{ 'block-steeper-top-navigation': !userHasAlreadyFilledForm }"
+>
+  <mat-step label="Water Supply & Waste-Water Management"> </mat-step>
+  <mat-step label="Solid Waste Management"> </mat-step>
+  <mat-step label="Million Plus Cities Only"> </mat-step>
+
+  <mat-step label="Submit">
+    <!-- <app-completed
+          [submitted]="userHasAlreadyFilledForm"
+          (showOld)="showPropertyTax()"
+          (submit)="uploadCompletedQuestionnaireData()"
+          (previous)="stepper.previous()"
+        ></app-completed> -->
+  </mat-step>
+</mat-horizontal-stepper>
