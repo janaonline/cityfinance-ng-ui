@@ -3,7 +3,16 @@
   [ngClass]="{ 'block-steeper-top-navigation': !userHasAlreadyFilledForm }"
 >
   <mat-step label="Water Supply & Waste-Water Management"> </mat-step>
-  <mat-step label="Solid Waste Management"> </mat-step>
+  <mat-step label="Solid Waste Management">
+    <app-solid-waste-management
+      [userType]="USER_TYPE.ULB"
+      [documents]="documentData"
+      [canUploadFile]="true"
+      (outputValues)="onSolidWasteEmit($event)"
+      (previous)="stepper.previous()"
+      (saveAsDraft)="saveAsDraft()"
+    ></app-solid-waste-management>
+  </mat-step>
   <mat-step label="Million Plus Cities Only"> </mat-step>
 
   <mat-step label="Submit">
