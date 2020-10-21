@@ -1,5 +1,5 @@
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChange } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
@@ -10,9 +10,9 @@ import { IQuestionnaireDocumentsCollection } from 'src/app/pages/questionnaires/
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
 
-import { SolidWasteManagementDocuments } from '../../models/financial-data.interface';
-import { ISolidWasteQuestion, SolidWasteEmitValue } from '../../models/solid-waste-questions.interface';
-import { QuestionsIdMapping, solidWasteForm } from '../configs/solid-waste-management';
+import { MillionPlusCitiesDocuments, SolidWasteManagementDocuments } from '../../models/financial-data.interface';
+import { FinancialUploadQuestion } from '../../models/financial-upload-question';
+import { SolidWasteEmitValue } from '../../models/solid-waste-questions.interface';
 
 /**
  * These are thew question ids that are mapped to files that user select and the question.
@@ -40,13 +40,18 @@ type IFileUploadTracking = {
 };
 
 @Component({
-  selector: "app-solid-waste-management",
-  templateUrl: "./solid-waste-management.component.html",
-  styleUrls: ["./solid-waste-management.component.scss"],
+  selector: "app-documents-upload",
+  templateUrl: "./documents-upload.component.html",
+  styleUrls: ["./documents-upload.component.scss"],
 })
-export class SolidWasteManagementComponent implements OnInit {
+export class DocumentsUploadComponent<T>
+  implements OnInit, OnChanges, OnDestroy {
   @Input()
   documents: IQuestionnaireDocumentsCollection;
+
+  @Input()
+  form: FormGroup;
+
   @Input()
   canUploadFile = true;
   @Input()
@@ -55,10 +60,22 @@ export class SolidWasteManagementComponent implements OnInit {
   @Input()
   userType: USER_TYPE;
 
+  @Input()
+  questions: FinancialUploadQuestion<
+    SolidWasteManagementDocuments | MillionPlusCitiesDocuments
+  >[];
+
   @Output()
-  outputValues = new EventEmitter<SolidWasteEmitValue>();
+  outputValues = new EventEmitter<
+    SolidWasteEmitValue | MillionPlusCitiesDocuments
+  >();
+
+  @Output() showNext = new EventEmitter<boolean>();
+
   @Output()
-  saveAsDraft = new EventEmitter<SolidWasteEmitValue>();
+  saveAsDraft = new EventEmitter<
+    SolidWasteEmitValue | MillionPlusCitiesDocuments
+  >();
 
   @Output()
   previous = new EventEmitter<boolean>();
@@ -76,9 +93,8 @@ export class SolidWasteManagementComponent implements OnInit {
    */
   fileUploadTracker: IFileUploadTracking = {};
 
+  // This will keep track how many files are in upload procees at any given time.
   NoOfFileInProgress = 0;
-
-  questions: ISolidWasteQuestion[];
 
   fileExnetsionAllowed = ["pdf"];
 
@@ -106,6 +122,8 @@ export class SolidWasteManagementComponent implements OnInit {
   USER_TYPE = USER_TYPE;
 
   MaxFileSize = 20 * 1024 * 1024; // 20 MB. Always keep it in MB since in other places, we are dealing in MB only.
+
+  noOfFilesAllowedPerQuestion = 1;
 
   constructor(
     private dataEntryService: DataEntryService,
@@ -186,18 +204,37 @@ export class SolidWasteManagementComponent implements OnInit {
       this.filterInvalidFiles(event.target["files"], key)
     );
 
-    if (this.userSelectedFiles[key]) {
-      this.userSelectedFiles[key].push(...filteredFiles);
-    } else {
-      this.userSelectedFiles[key] = filteredFiles;
+    if (this.isMaximumFileAlreadySelected(key)) {
+      console.warn("maximum no of files allowed is already selected. ");
+      return false;
     }
+
+    this.updateUserFileSelection(key, filteredFiles);
 
     this.startUpload({ [key]: filteredFiles });
   }
 
+  private updateUserFileSelection(key: fileKeys, files: File[]) {
+    if (this.userSelectedFiles[key]) {
+      this.userSelectedFiles[key].push(...files);
+    } else {
+      this.userSelectedFiles[key] = files;
+    }
+  }
+
+  private isMaximumFileAlreadySelected(key: fileKeys) {
+    if (!this.userSelectedFiles) return false;
+    if (!this.userSelectedFiles[key]) return false;
+    if (!this.userSelectedFiles[key].length) return false;
+    if (this.userSelectedFiles[key].length < this.noOfFilesAllowedPerQuestion) {
+      return false;
+    }
+    return true;
+  }
+
   startUpload(filesToUpload: userSelectedFile) {
     Object.keys(filesToUpload).forEach((fieldKey: fileKeys) => {
-      const files = <File[]>filesToUpload[fieldKey];
+      const files = filesToUpload[fieldKey];
       this.NoOfFileInProgress += files.length;
       for (let index = 0; index < files.length; index++) {
         const file = files[index];
@@ -225,7 +262,11 @@ export class SolidWasteManagementComponent implements OnInit {
         }
         this.fileUploadTracker[fieldKey][
           file.name
-        ].subscription = subs.subscribe();
+        ].subscription = subs.subscribe(
+          (res) => {},
+          (err) => {},
+          () => this.onUploadButtonClick() // Once the file is uploaded completely, then emit the values.
+        );
       }
     });
   }
@@ -235,7 +276,6 @@ export class SolidWasteManagementComponent implements OnInit {
     const maxLimit = list.length > 10 ? 10 : list.length;
     for (let index = 0; index < maxLimit; index++) {
       const file = list[index];
-      console.log(file);
       if (file.size > this.MaxFileSize) continue;
       const noOfFileAlreadySelect = this.fileUploadTracker[key]
         ? Object.keys(this.fileUploadTracker[key]).length
@@ -406,16 +446,6 @@ export class SolidWasteManagementComponent implements OnInit {
   }
 
   private initializeQuestionMapping() {
-    this.questions = [
-      {
-        key: "garbageFreeCities",
-        question: QuestionsIdMapping["garbageFreeCities"],
-      },
-      {
-        key: "waterSupplyCoverage",
-        question: QuestionsIdMapping["garbageFreeCities"],
-      },
-    ];
-    this.documentForm = solidWasteForm;
+    this.documentForm = this.form;
   }
 }

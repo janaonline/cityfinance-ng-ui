@@ -4,23 +4,37 @@
 >
   <mat-step label="Water Supply & Waste-Water Management"> </mat-step>
   <mat-step label="Solid Waste Management">
-    <app-solid-waste-management
+    <app-documents-upload
       [userType]="USER_TYPE.ULB"
+      [form]="solidWasteForm"
       [documents]="documentData"
       [canUploadFile]="true"
+      [questions]="solidWasteQuestions"
       (outputValues)="onSolidWasteEmit($event)"
+      (showNext)="stepper.next()"
       (previous)="stepper.previous()"
       (saveAsDraft)="saveAsDraft()"
-    ></app-solid-waste-management>
+    ></app-documents-upload>
   </mat-step>
-  <mat-step label="Million Plus Cities Only"> </mat-step>
+  <mat-step label="Million Plus Cities Only">
+    <app-documents-upload
+      [userType]="USER_TYPE.ULB"
+      [form]="millionPlusCitiesForm"
+      [documents]="documentData"
+      [canUploadFile]="true"
+      [questions]="millionPlusCitiesQuestions"
+      (outputValues)="onMilionPlusCitiesEmitValue($event)"
+      (showNext)="stepper.next()"
+      (previous)="stepper.previous()"
+      (saveAsDraft)="saveAsDraft()"
+    ></app-documents-upload>
+  </mat-step>
 
   <mat-step label="Submit">
-    <!-- <app-completed
-          [submitted]="userHasAlreadyFilledForm"
-          (showOld)="showPropertyTax()"
-          (submit)="uploadCompletedQuestionnaireData()"
-          (previous)="stepper.previous()"
-        ></app-completed> -->
+    <app-completed
+      [submitted]="userHasAlreadyFilledForm"
+      (submit)="uploadCompletedQuestionnaireData()"
+      (previous)="stepper.previous()"
+    ></app-completed>
   </mat-step>
 </mat-horizontal-stepper>

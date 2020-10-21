@@ -5,10 +5,12 @@ import { MatStepperModule } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CompletedComponent } from 'src/app/pages/questionnaires/components/completed/completed.component';
 
 import { AngularMaterialModule } from '../../angular-material.module';
 import { SharedModule } from '../../shared/shared.module';
 import { BulkEntryComponent } from './bulk-entry/bulk-entry.component';
+import { DocumentsUploadComponent } from './components/documents-upload/documents-upload.component';
 import { FinancialUploadsComponent } from './components/financial-uploads/financial-uploads.component';
 import { MillionPlusCitiesComponent } from './components/million-plus-cities/million-plus-cities.component';
 import { SolidWasteManagementComponent } from './components/solid-waste-management/solid-waste-management.component';
@@ -42,7 +44,9 @@ const routes: Routes = [
     FinancialUploadsComponent,
     SolidWasteManagementComponent,
     WasteWaterManagementComponent,
+    DocumentsUploadComponent,
     MillionPlusCitiesComponent,
+    CompletedComponent,
   ],
 })
 export class DataUploadRoutingModule {}
