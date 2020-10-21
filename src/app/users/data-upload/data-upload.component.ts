@@ -210,7 +210,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       }
     }
     this.loading = false;
-  };
+  }
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -276,12 +276,12 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  };
+  }
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  };
+  }
 
   getAddedFilterCount() {
     let count = 0;
@@ -434,29 +434,29 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       ...this.auditStatusDropdownSettings,
       disabled: true,
     };
-    this.fileFormGroupKeys.forEach((formGroupKey) => {
-      const formGroupDataObject = this.uploadObject[formGroupKey];
-      const formGroupItem = this.fileFormGroup.get([formGroupKey]);
-      formGroupItem.get("message").setValue(formGroupDataObject["message"]);
-      const { excelUrl, pdfUrl } = formGroupDataObject;
-      formGroupItem.get("pdfUrl").setValue(pdfUrl);
-      formGroupItem.get("excelUrl").setValue(excelUrl);
-      const { completeness, correctness } = formGroupDataObject;
-      if (status === UPLOAD_STATUS.REJECTED) {
-        if (
-          completeness === UPLOAD_STATUS.REJECTED ||
-          completeness === UPLOAD_STATUS.NA ||
-          correctness === UPLOAD_STATUS.REJECTED ||
-          correctness === UPLOAD_STATUS.NA
-        ) {
-          formGroupItem.enable();
-        } else {
-          this.disableFormGroups(formGroupItem, formGroupDataObject);
-        }
-      } else {
-        this.disableFormGroups(formGroupItem, formGroupDataObject);
-      }
-    });
+    // this.fileFormGroupKeys.forEach((formGroupKey) => {
+    //   const formGroupDataObject = this.uploadObject[formGroupKey];
+    //   const formGroupItem = this.fileFormGroup.get([formGroupKey]);
+    //   formGroupItem.get("message").setValue(formGroupDataObject["message"]);
+    //   const { excelUrl, pdfUrl } = formGroupDataObject;
+    //   formGroupItem.get("pdfUrl").setValue(pdfUrl);
+    //   formGroupItem.get("excelUrl").setValue(excelUrl);
+    //   const { completeness, correctness } = formGroupDataObject;
+    //   if (status === UPLOAD_STATUS.REJECTED) {
+    //     if (
+    //       completeness === UPLOAD_STATUS.REJECTED ||
+    //       completeness === UPLOAD_STATUS.NA ||
+    //       correctness === UPLOAD_STATUS.REJECTED ||
+    //       correctness === UPLOAD_STATUS.NA
+    //     ) {
+    //       formGroupItem.enable();
+    //     } else {
+    //       this.disableFormGroups(formGroupItem, formGroupDataObject);
+    //     }
+    //   } else {
+    //     this.disableFormGroups(formGroupItem, formGroupDataObject);
+    //   }
+    // });
   }
 
   disableFormGroups(formGroupItem, formGroupDataObject) {

@@ -1,3 +1,57 @@
-<p>
-  waste-water-management works!
-</p>
+<form [formGroup]="waterWasteManagementForm">
+  <table>
+    <thead>
+      <th>Service Level Indicators</th>
+      <th>Benchmark</th>
+      <th *ngFor="let column of targets">{{ column.name }}</th>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let service of services">
+        <td>{{ service.name }}</td>
+        <td>{{ service.benchmark }}</td>
+        <td *ngFor="let year of targets">
+          <div class="input-group">
+            <input
+              [id]="service.key + year.key"
+              type="text"
+              class="form-control"
+            />
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td *ngFor="let column of targets.slice(0, -3)"></td>
+        <td colspan="2">
+          <button
+            *ngIf="canUploadFile"
+            class="btn btn-primary btn-upload mt-3"
+            style="float: right; margin-right: 2%"
+            (click)="previous.emit(true)"
+          >
+            Previous
+          </button>
+          <button
+            class="btn btn-primary btn-upload mt-3"
+            style="float: right; margin-right: 2%"
+            [disabled]="NoOfFileInProgress !== 0"
+            (click)="onSaveAsDraftClick()"
+          >
+            Save as draft
+          </button>
+        </td>
+        <td>
+          <button
+            class="btn btn-primary btn-upload mt-3"
+            (click)="showNext.emit(true)"
+            [disabled]="NoOfFileInProgress !== 0"
+          >
+            Next
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>

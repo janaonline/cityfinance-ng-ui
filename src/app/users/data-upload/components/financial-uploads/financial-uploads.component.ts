@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatHorizontalStepper } from '@angular/material';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { IQuestionnaireResponse } from 'src/app/pages/questionnaires/model/questionnaireResponse.interface';
@@ -7,8 +7,14 @@ import { propertyTaxForm } from 'src/app/pages/questionnaires/state/configs/prop
 import { userChargesForm } from 'src/app/pages/questionnaires/state/configs/user-charges.config';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
+import { FinancialDataService } from 'src/app/users/services/financial-data.service';
+import { UserUtility } from 'src/app/util/user/user';
 
-import { IFinancialData, MillionPlusCitiesDocuments } from '../../models/financial-data.interface';
+import {
+  IFinancialData,
+  MillionPlusCitiesDocuments,
+  SolidWasteManagementDocuments,
+} from '../../models/financial-data.interface';
 import { SolidWasteEmitValue } from '../../models/solid-waste-questions.interface';
 import { milliomPlusCitiesForm, millionPlusCitiesQuestions } from '../configs/million-plus-cities';
 import { solidWasteForm, solidWasterQuestions } from '../configs/solid-waste-management';
@@ -18,17 +24,26 @@ import { solidWasteForm, solidWasterQuestions } from '../configs/solid-waste-man
   templateUrl: "./financial-uploads.component.html",
   styleUrls: ["./financial-uploads.component.scss"],
 })
-export class FinancialUploadsComponent implements OnInit {
-  constructor(private _matDialog: MatDialog) {}
+export class FinancialUploadsComponent implements OnInit, OnDestroy {
+  constructor(
+    private _matDialog: MatDialog,
+    private financialDataService: FinancialDataService
+  ) {}
+
+  @Input()
+  financialData: IFinancialData;
+
+  @ViewChild("savingPopup") savingPopup: TemplateRef<any>;
+
   USER_TYPE = USER_TYPE;
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
 
   documentData: IQuestionnaireResponse["data"][0]["documents"];
 
-  financialData: IFinancialData;
-
   millionPlusCitiesQuestions = millionPlusCitiesQuestions;
   solidWasteQuestions = solidWasterQuestions;
+  solidWasteProfilledAnswers: SolidWasteManagementDocuments;
+  millionPlusCitiesAnswers: MillionPlusCitiesDocuments;
 
   solidWasteForm = solidWasteForm;
   millionPlusCitiesForm = milliomPlusCitiesForm;
@@ -41,14 +56,60 @@ export class FinancialUploadsComponent implements OnInit {
     },
   };
 
-  saveAsDraftFailMessge;
+  saveAsDraftFailMessge: string;
+
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  draftSavingInProgess = false;
 
   ngOnInit() {}
 
-  saveAsDraft() {}
+  ngOnChanges() {
+    if (this.financialData) this.populateFormDatas(this.financialData);
+  }
 
-  onFileUploaded(event) {
-    console.log(event);
+  private populateFormDatas(data: IFinancialData) {
+    console.log({ ...this.financialData });
+
+    solidWasteForm.patchValue({ ...data.solidWasteManagement.documents });
+    this.solidWasteProfilledAnswers = {
+      ...data.solidWasteManagement.documents,
+    };
+    milliomPlusCitiesForm.patchValue({ ...data.millionPlusCities.documents });
+    this.millionPlusCitiesAnswers = {
+      ...data.millionPlusCities.documents,
+    };
+
+    console.log(solidWasteForm);
+  }
+
+  saveAsDraft() {
+    this.saveAsDraftFailMessge = null;
+    this.draftSavingInProgess = true;
+
+    const body = {
+      ulb: this.loggedInUserDetails.ulb,
+      ...this.financialData,
+      isCompleted: false,
+    };
+    console.log(body);
+    this._matDialog.open(this.savingPopup, {
+      width: "35vw",
+      height: "fit-content",
+      disableClose: true,
+    });
+    this.financialDataService.uploadFinancialData(body).subscribe(
+      (res) => {
+        this.draftSavingInProgess = false;
+        setTimeout(() => this._matDialog.closeAll(), 3000);
+      },
+      (err) => {
+        this.saveAsDraftFailMessge =
+          err.error.message ||
+          err.error.msg ||
+          "Fail to save data. Please try after some time.";
+        setTimeout(() => this._matDialog.closeAll(), 3000);
+      }
+    );
   }
 
   onSolidWasteEmit(event: SolidWasteEmitValue) {
@@ -144,5 +205,9 @@ export class FinancialUploadsComponent implements OnInit {
       width: "25vw",
     });
     throw message;
+  }
+
+  ngOnDestroy() {
+    this._matDialog.closeAll();
   }
 }

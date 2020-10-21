@@ -12,13 +12,12 @@ import {
   MatProgressSpinnerModule,
   MatRadioModule,
   MatStepperModule,
-  MatTabsModule
+  MatTabsModule,
 } from '@angular/material';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from 'src/app/shared/shared.module';
 
-import { CompletedComponent } from './components/completed/completed.component';
 import { DocumentSubmitComponent } from './components/document-submit/document-submit.component';
 import { IntroductionComponent } from './components/introduction/introduction.component';
 import { PreviewComponent } from './components/preview/preview.component';
@@ -58,7 +57,6 @@ import { ULBQuestionnaireComponent } from './ulb/questionnaire/questionnaire.com
     IntroductionComponent,
     PropertyTaxComponent,
     UserChargesComponent,
-    CompletedComponent,
     SubmittedFormComponent,
     DocumentSubmitComponent,
     PreviewComponent,

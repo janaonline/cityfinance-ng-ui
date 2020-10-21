@@ -1,16 +1,16 @@
 <ng-container *ngIf="id; else noId">
-  <div class="row" style="margin-left: 9%;">
+  <div class="row" style="margin-left: 9%">
     <div class="col mt-3">
       <button
         (click)="location.back()"
         class="back_button"
-        style="transform: unset;"
+        style="transform: unset"
       >
         Back
       </button>
     </div>
     <ng-container *ngIf="id === 'upload-form'">
-     <app-financial-uploads></app-financial-uploads>
+      <app-financial-uploads [financialData]="uploadObject"></app-financial-uploads>
     </ng-container>
   </div>
 </ng-container>
@@ -36,21 +36,19 @@
       <div class="row">
         <div class="col-md-12">
           <h3>
-            <span>
-              ULB Data
-            </span>
+            <span> ULB Data </span>
             <button
               role="menuitem"
-              *ngIf="isAccessible"
+              *ngIf="isAccessible && (!dataUploadList || !dataUploadList.length)"
               [routerLink]="['/user/data-upload/upload-form']"
               class="btn btn-primary"
-              style="border-radius: 5px; float: right; margin-right: 6px;"
+              style="border-radius: 5px; float: right; margin-right: 6px"
             >
               Upload Data
             </button>
             <button
               class="btn btn-primary"
-              style="float: right; margin-right: 6px;"
+              style="float: right; margin-right: 6px"
               (click)="downloadList()"
             >
               Download List
@@ -66,7 +64,7 @@
         <div class="col-sm-12">
           <table class="table" *ngIf="!loading; else loader">
             <thead>
-              <tr style="background: #059b9a; color: white;">
+              <tr style="background: #059b9a; color: white">
                 <th class="text-center">S.No.</th>
                 <th
                   [attr.width]="100 / tableHeaders.length + '%'"
@@ -117,8 +115,9 @@
                       <option
                         [value]="option.id"
                         *ngFor="let option of financialYearDropdown"
-                        >{{ option?.itemName }}</option
                       >
+                        {{ option?.itemName }}
+                      </option>
                     </select>
                   </div>
 
@@ -138,8 +137,9 @@
                       <option
                         [value]="option.id"
                         *ngFor="let option of auditStatusDropdown"
-                        >{{ option?.itemName }}</option
                       >
+                        {{ option?.itemName }}
+                      </option>
                     </select>
                   </div>
                 </td>
@@ -155,8 +155,9 @@
                       <option
                         [value]="option.id"
                         *ngFor="let option of uploadCheckStatusDropDown"
-                        >{{ option?.itemName }}</option
                       >
+                        {{ option?.itemName }}
+                      </option>
                     </select>
                   </div>
                 </td>
@@ -171,7 +172,7 @@
               </tr>
               <ng-container *ngIf="dataUploadList.length; else noData">
                 <tr
-                  style="background: #e7e7e7; border-bottom: 5px solid white;"
+                  style="background: #e7e7e7; border-bottom: 5px solid white"
                   *ngFor="
                     let row of dataUploadList
                       | paginate
@@ -312,9 +313,7 @@
                     class="text-center"
                     [attr.colspan]="tableHeaders.length + 1"
                   >
-                    <h3>
-                      No Data Available
-                    </h3>
+                    <h3>No Data Available</h3>
                   </td>
                 </tr>
               </ng-template>
@@ -322,7 +321,7 @@
           </table>
           <pagination-controls
             *ngIf="tableDefaultOptions.totalCount"
-            style="float: right; position: relative;"
+            style="float: right; position: relative"
             id="upload-pagination"
             (pageChange)="setPage($event)"
             directionLinks="true"
@@ -337,7 +336,7 @@
           <ng-template #loader>
             <div
               class="d-flex w-100 justify-content-center align-items-center"
-              style="height: 70vh;"
+              style="height: 70vh"
             >
               <mat-spinner></mat-spinner>
             </div>
@@ -351,10 +350,10 @@
 <ng-template #historyModal>
   <div class="modal-body">
     <div
-      style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end;"
+      style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end"
     >
       <button
-        style="min-width: min-content;"
+        style="min-width: min-content"
         (click)="modalService.hide(1)"
         class="btn btn-danger"
         title="Close"
@@ -362,7 +361,7 @@
         data-dismiss="modal"
         aria-label="Close"
       >
-        <i class="fa fa-times" style="color: white;"></i>
+        <i class="fa fa-times" style="color: white"></i>
       </button>
     </div>
     <div class="modal-title">
@@ -371,29 +370,29 @@
     <div
       *ngIf="modalTableData.length; else noData"
       class="table-responsive border-1"
-      style="max-height: 50vh; overflow-y: auto;"
+      style="max-height: 50vh; overflow-y: auto"
     >
       <table class="table">
         <thead>
           <tr>
             <th
-              style="position: sticky; top: 0; background: white;"
+              style="position: sticky; top: 0; background: white"
               class="text-center"
             ></th>
             <th
-              style="position: sticky; top: 0; background: white;"
+              style="position: sticky; top: 0; background: white"
               class="text-center"
             >
               Sr. No
             </th>
             <th
-              style="position: sticky; top: 0; background: white;"
+              style="position: sticky; top: 0; background: white"
               class="text-center"
             >
               Action
             </th>
             <th
-              style="position: sticky; top: 0; background: white;"
+              style="position: sticky; top: 0; background: white"
               class="text-center"
             >
               Data

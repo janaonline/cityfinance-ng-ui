@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
-import { IQuestionnaireDocumentsCollection } from 'src/app/pages/questionnaires/model/document-collection.interface';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
 
@@ -47,7 +46,7 @@ type IFileUploadTracking = {
 export class DocumentsUploadComponent<T>
   implements OnInit, OnChanges, OnDestroy {
   @Input()
-  documents: IQuestionnaireDocumentsCollection;
+  documents: SolidWasteEmitValue;
 
   @Input()
   form: FormGroup;
@@ -126,8 +125,8 @@ export class DocumentsUploadComponent<T>
   noOfFilesAllowedPerQuestion = 1;
 
   constructor(
-    private dataEntryService: DataEntryService,
-    private _dialog: MatDialog
+    protected dataEntryService: DataEntryService,
+    protected _dialog: MatDialog
   ) {}
   ngOnChanges(changes: {
     documents: SimpleChange;
@@ -197,6 +196,8 @@ export class DocumentsUploadComponent<T>
 
     // Remove the file from file Tracker.
     delete this.fileUploadTracker[questionKey][fileNameToFilter];
+
+    this.onUploadButtonClick();
   }
 
   fileChangeEvent(event: Event, key: fileKeys) {

@@ -2,12 +2,14 @@
   id="stepper"
   [ngClass]="{ 'block-steeper-top-navigation': !userHasAlreadyFilledForm }"
 >
-  <mat-step label="Water Supply & Waste-Water Management"> </mat-step>
+  <mat-step label="Water Supply & Waste-Water Management">
+    <app-waste-water-management></app-waste-water-management>
+  </mat-step>
   <mat-step label="Solid Waste Management">
     <app-documents-upload
       [userType]="USER_TYPE.ULB"
       [form]="solidWasteForm"
-      [documents]="documentData"
+      [documents]="solidWasteProfilledAnswers"
       [canUploadFile]="true"
       [questions]="solidWasteQuestions"
       (outputValues)="onSolidWasteEmit($event)"
@@ -20,7 +22,7 @@
     <app-documents-upload
       [userType]="USER_TYPE.ULB"
       [form]="millionPlusCitiesForm"
-      [documents]="documentData"
+      [documents]="millionPlusCitiesAnswers"
       [canUploadFile]="true"
       [questions]="millionPlusCitiesQuestions"
       (outputValues)="onMilionPlusCitiesEmitValue($event)"
@@ -38,3 +40,24 @@
     ></app-completed>
   </mat-step>
 </mat-horizontal-stepper>
+
+<ng-template #savingPopup>
+  <mat-spinner style="margin: auto" *ngIf="draftSavingInProgess"></mat-spinner>
+  <h2 class="text-center" *ngIf="draftSavingInProgess">Saving...</h2>
+
+  <app-tick-icon
+    class="tick"
+    *ngIf="!draftSavingInProgess && !saveAsDraftFailMessge"
+  ></app-tick-icon>
+  <div class="d-flex justify-content-center" *ngIf="saveAsDraftFailMessge">
+    <i
+      class="fa fa-exclamation-circle"
+      style="transform: scale(3.5); color: red"
+      aria-hidden="true"
+    ></i>
+  </div>
+
+  <h2 class="text-center" *ngIf="!draftSavingInProgess">
+    {{ saveAsDraftFailMessge || "Saved as draft" }}
+  </h2>
+</ng-template>

@@ -5,7 +5,6 @@ import { MatStepperModule } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { CompletedComponent } from 'src/app/pages/questionnaires/components/completed/completed.component';
 
 import { AngularMaterialModule } from '../../angular-material.module';
 import { SharedModule } from '../../shared/shared.module';
@@ -46,7 +45,6 @@ const routes: Routes = [
     WasteWaterManagementComponent,
     DocumentsUploadComponent,
     MillionPlusCitiesComponent,
-    CompletedComponent,
   ],
 })
 export class DataUploadRoutingModule {}
