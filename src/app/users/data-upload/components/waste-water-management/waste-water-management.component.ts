@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { debounceTime } from 'rxjs/operators';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 
 import { WaterManagement } from '../../models/financial-data.interface';
@@ -29,11 +30,26 @@ export class WasteWaterManagementComponent
     protected _dialog: MatDialog
   ) {
     super(dataEntryService, _dialog);
+    this.initializeForm();
   }
 
   ngOnInit() {
-    console.log(this.waterWasteManagementForm);
+    console.log(`waterWasteManagementForm`, this.waterWasteManagementForm);
   }
 
-  private initializeForm() {}
+  onSaveAsDraftClick() {
+    // const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
+
+    // this.documentForm.reset();
+
+    // this.documentForm.patchValue({ ...valueToEmit });
+
+    this.saveAsDraft.emit(waterWasteManagementForm.value);
+  }
+
+  private initializeForm() {
+    this.waterWasteManagementForm.valueChanges
+      .pipe(debounceTime(100))
+      .subscribe((values) => this.outputValues.emit(values));
+  }
 }

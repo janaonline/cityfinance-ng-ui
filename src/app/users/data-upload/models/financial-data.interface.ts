@@ -5,6 +5,7 @@ export interface IFinancialData {
   waterManagement: WaterManagement;
   solidWasteManagement: SolidWasteManagement;
   millionPlusCities: MillionPlusCities;
+  isCompleted?: boolean;
 }
 
 export interface MillionPlusCities {

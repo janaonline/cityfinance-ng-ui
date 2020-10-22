@@ -23,6 +23,12 @@ input.is-invalid,
   color: red;
 }
 
+.custom-warning-popup {
+  .mat-dialog-container {
+    border-radius: 5px;
+  }
+}
+
 i.glyphicon-sort.glyphicon-sort.glyphicon-sort:hover {
   color: unset;
 }

@@ -3,14 +3,18 @@
   [ngClass]="{ 'block-steeper-top-navigation': !userHasAlreadyFilledForm }"
 >
   <mat-step label="Water Supply & Waste-Water Management">
-    <app-waste-water-management></app-waste-water-management>
+    <app-waste-water-management
+      (showNext)="stepper.next()"
+      (saveAsDraft)="saveAsDraft()"
+      (outputValues)="onWaterWasteManagementEmitValue($event)"
+    ></app-waste-water-management>
   </mat-step>
   <mat-step label="Solid Waste Management">
     <app-documents-upload
       [userType]="USER_TYPE.ULB"
       [form]="solidWasteForm"
       [documents]="solidWasteProfilledAnswers"
-      [canUploadFile]="true"
+      [canUploadFile]="canUploadFile"
       [questions]="solidWasteQuestions"
       (outputValues)="onSolidWasteEmit($event)"
       (showNext)="stepper.next()"
@@ -23,7 +27,7 @@
       [userType]="USER_TYPE.ULB"
       [form]="millionPlusCitiesForm"
       [documents]="millionPlusCitiesAnswers"
-      [canUploadFile]="true"
+      [canUploadFile]="canUploadFile"
       [questions]="millionPlusCitiesQuestions"
       (outputValues)="onMilionPlusCitiesEmitValue($event)"
       (showNext)="stepper.next()"

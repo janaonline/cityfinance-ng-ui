@@ -1,26 +1,59 @@
 <form [formGroup]="waterWasteManagementForm">
-  <table>
+  <!-- <p class="question-instruction">
+    <strong>NOTE:</strong><br />
+    1. All questions are mandatory<br />
+    2. Only files wih extensions <strong>{{ fileExnetsionAllowed }}</strong> are
+    allowed. Other type of files will be filtered out.<br />
+    3. Only {{ noOfFilesAllowedPerQuestion }} file can be selected per
+    question.<br />
+  </p> -->
+  <table aria-describedby="Water Waste Management Form">
     <thead>
-      <th>Service Level Indicators</th>
-      <th>Benchmark</th>
-      <th *ngFor="let column of targets">{{ column.name }}</th>
+      <th scope="col">Service Level Indicators</th>
+      <th scope="col">Benchmark</th>
+      <th scope="col">Baseline Indicator 2020-21</th>
+
+      <th *ngFor="let column of targets" scope="col">{{ column.name }}</th>
     </thead>
 
     <tbody>
-      <tr *ngFor="let service of services">
-        <td>{{ service.name }}</td>
+      <tr *ngFor="let service of services" [formGroupName]="service.key">
+        <td>
+          {{ service.name }}
+          <span
+            *ngIf="
+              waterWasteManagementForm?.controls[service.key].validator({})[
+                'required'
+              ]
+            "
+            class="mandatory"
+            >*</span
+          >
+        </td>
         <td>{{ service.benchmark }}</td>
-        <td *ngFor="let year of targets">
+        <td formGroupName="baseline">
+          <div class="input-group">
+            <input
+              [id]="service.key + 'baseline'"
+              type="text"
+              class="form-control"
+              formControlName="2021"
+            />
+          </div>
+        </td>
+        <td *ngFor="let year of targets" formGroupName="target">
           <div class="input-group">
             <input
               [id]="service.key + year.key"
               type="text"
               class="form-control"
+              [formControlName]="year.key"
             />
           </div>
         </td>
       </tr>
       <tr>
+        <td></td>
         <td></td>
         <td></td>
         <td *ngFor="let column of targets.slice(0, -3)"></td>
