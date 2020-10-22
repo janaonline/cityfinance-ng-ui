@@ -127,3 +127,25 @@
     align-items: center;
   }
 }
+
+:host {
+  table tbody td,
+  table thead th {
+    padding: 1%;
+    text-align: center;
+
+    .form-control {
+      border-radius: 10px !important;
+      height: 40px;
+    }
+  }
+  table tbody tr td:nth-child(1),
+  table thead th:nth-child(1) {
+    text-align: left !important;
+  }
+
+  table tbody tr td:nth-child(2),
+  table thead th:nth-child(2) {
+    width: 10%;
+  }
+}

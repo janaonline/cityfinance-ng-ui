@@ -14,10 +14,12 @@ import {
   IFinancialData,
   MillionPlusCitiesDocuments,
   SolidWasteManagementDocuments,
+  WaterManagement,
 } from '../../models/financial-data.interface';
 import { SolidWasteEmitValue } from '../../models/solid-waste-questions.interface';
 import { milliomPlusCitiesForm, millionPlusCitiesQuestions } from '../configs/million-plus-cities';
 import { solidWasteForm, solidWasterQuestions } from '../configs/solid-waste-management';
+import { waterWasteManagementForm } from '../configs/water-waste-management';
 
 @Component({
   selector: "app-financial-uploads",
@@ -130,6 +132,10 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
     console.log(this.millionPlusCitiesForm);
   }
 
+  onWaterWasteManagementEmitValue(value: WaterManagement) {
+    if (!this.financialData) this.financialData = {} as IFinancialData;
+    this.financialData.waterManagement = { ...value };
+  }
   uploadCompletedQuestionnaireData() {
     this.saveAsDraftFailMessge = null;
     if (this.userHasAlreadyFilledForm) {
@@ -182,11 +188,23 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
 
   validatorQuestionnaireForms() {
     let message = "";
-    if (solidWasteForm.valid && milliomPlusCitiesForm.valid) {
+    if (
+      solidWasteForm.valid &&
+      milliomPlusCitiesForm.valid &&
+      waterWasteManagementForm.valid
+    ) {
       return true;
     }
+
+    if (!waterWasteManagementForm.valid) {
+      message = "All questions must be answered in Water Waste Management";
+      this.stepper.selectedIndex = 0;
+    }
+
     if (!solidWasteForm.valid) {
-      message = "All questions must be answered in Solid Waste Management";
+      message += message
+        ? " and Solid Waste Management."
+        : "All questions must be answered in Solid Waste Management";
       this.stepper.selectedIndex = 1;
     }
 
