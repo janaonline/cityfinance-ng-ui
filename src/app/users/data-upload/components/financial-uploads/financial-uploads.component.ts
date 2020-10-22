@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatHorizontalStepper } from '@angular/material';
+import { Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { IQuestionnaireResponse } from 'src/app/pages/questionnaires/model/questionnaireResponse.interface';
 import { documentForm } from 'src/app/pages/questionnaires/state/configs/document.config';
@@ -8,6 +9,9 @@ import { userChargesForm } from 'src/app/pages/questionnaires/state/configs/user
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
 import { FinancialDataService } from 'src/app/users/services/financial-data.service';
+import { AccessChecker } from 'src/app/util/access/accessChecker';
+import { ACTIONS } from 'src/app/util/access/actions';
+import { MODULES_NAME } from 'src/app/util/access/modules';
 import { UserUtility } from 'src/app/util/user/user';
 
 import {
@@ -29,7 +33,9 @@ import { waterWasteManagementForm } from '../configs/water-waste-management';
 export class FinancialUploadsComponent implements OnInit, OnDestroy {
   constructor(
     private _matDialog: MatDialog,
-    private financialDataService: FinancialDataService
+    private financialDataService: FinancialDataService,
+    public accessUtil: AccessChecker,
+    private _router: Router
   ) {}
 
   @Input()
@@ -65,10 +71,35 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
 
   canUploadFile = true;
 
+  hasAccessToUploadData = false;
+  hasAccessToViewData = false;
+
   ngOnInit() {}
+
+  private initializeAccessCheck() {
+    this.hasAccessToUploadData = this.accessUtil.hasAccess({
+      moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
+      action: ACTIONS.UPLOAD,
+    });
+    this.hasAccessToViewData = this.accessUtil.hasAccess({
+      moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
+      action: ACTIONS.VIEW,
+    });
+
+    console.log(this.hasAccessToUploadData);
+
+    if (!this.hasAccessToViewData) return this._router.navigate(["/home"]);
+    if (!this.hasAccessToUploadData) this.setStateToReadMode();
+  }
+
+  private setStateToReadMode() {
+    waterWasteManagementForm.disable();
+    this.canUploadFile = false;
+  }
 
   ngOnChanges() {
     if (this.financialData) this.populateFormDatas(this.financialData);
+    this.initializeAccessCheck();
   }
 
   private populateFormDatas(data: IFinancialData) {
@@ -85,10 +116,7 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
 
     waterWasteManagementForm.patchValue({ ...data.waterManagement });
 
-    if (this.financialData.isCompleted) {
-      waterWasteManagementForm.disable();
-      this.canUploadFile = false;
-    }
+    if (this.financialData.isCompleted) this.setStateToReadMode();
   }
 
   saveAsDraft() {

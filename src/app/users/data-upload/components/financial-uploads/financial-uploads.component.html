@@ -36,7 +36,7 @@
     ></app-documents-upload>
   </mat-step>
 
-  <mat-step label="Submit">
+  <mat-step label="Submit" *ngIf="!financialData?.isCompleted">
     <app-completed
       [submitted]="userHasAlreadyFilledForm"
       (submit)="uploadCompletedQuestionnaireData()"
