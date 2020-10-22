@@ -35,20 +35,60 @@
           <div class="input-group">
             <input
               [id]="service.key + 'baseline'"
-              type="text"
+              type="number"
               class="form-control"
               formControlName="2021"
+              [ngClass]="{
+                'is-invalid':
+                  isSubmitButtonClick &&
+                  waterWasteManagementForm.controls[service.key].controls[
+                    'baseline'
+                  ].invalid
+              }"
             />
+
+            <span class="input-group-addon"
+              ><i class="glyphicon" style="font-weight: 600">
+                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+              </i></span
+            >
           </div>
+
+          <span
+            *ngIf="
+              waterWasteManagementForm.controls[service.key].controls[
+                'baseline'
+              ].controls['2021']?.errors?.pattern as error
+            "
+          >
+            Only numeric values are allowed.
+
+            <!-- {{
+            waterWasteManagementForm.controls[service.key].controls["baseline"]
+              .controls["2021"].errors | json
+          }} -->
+          </span>
         </td>
         <td *ngFor="let year of targets" formGroupName="target">
           <div class="input-group">
             <input
               [id]="service.key + year.key"
-              type="text"
+              type="number"
               class="form-control"
               [formControlName]="year.key"
+              [ngClass]="{
+                'is-invalid':
+                  isSubmitButtonClick &&
+                  waterWasteManagementForm.controls[service.key].controls[
+                    'target'
+                  ].controls[year.key].invalid
+              }"
             />
+            <span class="input-group-addon"
+              ><i class="glyphicon" style="font-weight: 600">
+                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+              </i></span
+            >
           </div>
         </td>
       </tr>
@@ -67,6 +107,7 @@
             Previous
           </button>
           <button
+            *ngIf="waterWasteManagementForm.enabled"
             class="btn btn-primary btn-upload mt-3"
             style="float: right; margin-right: 2%"
             [disabled]="NoOfFileInProgress !== 0"

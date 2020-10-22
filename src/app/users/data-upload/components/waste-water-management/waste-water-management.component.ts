@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { debounceTime } from 'rxjs/operators';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
@@ -15,6 +15,8 @@ import { DocumentsUploadComponent } from '../documents-upload/documents-upload.c
 export class WasteWaterManagementComponent
   extends DocumentsUploadComponent<any>
   implements OnInit {
+  @Input()
+  isSubmitButtonClick = false;
   targets = targets;
 
   services: {
@@ -33,9 +35,7 @@ export class WasteWaterManagementComponent
     this.initializeForm();
   }
 
-  ngOnInit() {
-    console.log(`waterWasteManagementForm`, this.waterWasteManagementForm);
-  }
+  ngOnInit() {}
 
   onSaveAsDraftClick() {
     // const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);

@@ -44,11 +44,17 @@ services.forEach((service) => {
   // Dynamically create controls for each target.
   const targetControls = _fb.group({});
   targets.forEach((tg) =>
-    targetControls.addControl(tg.key, new FormControl("", Validators.required))
+    targetControls.addControl(
+      tg.key,
+      new FormControl("", [Validators.required, Validators.pattern("^\\d*$")])
+    )
   );
   // Create Baseline control.
   const baselineControl = _fb.group({
-    "2021": ["", Validators.required],
+    "2021": [
+      "",
+      [Validators.required, Validators.pattern("^\\d*$")], // Add this for limiting decimal points (.{0,1}\\d+){0,1}
+    ],
   });
   const serviceLevelGroup = _fb.group(
     {

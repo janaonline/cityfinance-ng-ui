@@ -4,6 +4,7 @@
 >
   <mat-step label="Water Supply & Waste-Water Management">
     <app-waste-water-management
+      [isSubmitButtonClick]="isSubmitButtonClicked"
       (showNext)="stepper.next()"
       (saveAsDraft)="saveAsDraft()"
       (outputValues)="onWaterWasteManagementEmitValue($event)"
@@ -62,6 +63,6 @@
   </div>
 
   <h2 class="text-center" *ngIf="!draftSavingInProgess">
-    {{ saveAsDraftFailMessge || "Saved as draft" }}
+    {{ saveAsDraftFailMessge || successMessage }}
   </h2>
 </ng-template>

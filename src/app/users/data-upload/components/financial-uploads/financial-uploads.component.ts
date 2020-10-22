@@ -3,9 +3,6 @@ import { MatDialog, MatHorizontalStepper } from '@angular/material';
 import { Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { IQuestionnaireResponse } from 'src/app/pages/questionnaires/model/questionnaireResponse.interface';
-import { documentForm } from 'src/app/pages/questionnaires/state/configs/document.config';
-import { propertyTaxForm } from 'src/app/pages/questionnaires/state/configs/property-tax.cofig';
-import { userChargesForm } from 'src/app/pages/questionnaires/state/configs/user-charges.config';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
 import { FinancialDataService } from 'src/app/users/services/financial-data.service';
@@ -74,6 +71,9 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
   hasAccessToUploadData = false;
   hasAccessToViewData = false;
 
+  successMessage: string;
+  isSubmitButtonClicked = false;
+
   ngOnInit() {}
 
   private initializeAccessCheck() {
@@ -120,8 +120,7 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
   }
 
   saveAsDraft() {
-    this.saveAsDraftFailMessge = null;
-    this.draftSavingInProgess = true;
+    this.resetMessages();
 
     const body = {
       ulb: this.loggedInUserDetails.ulb,
@@ -139,6 +138,7 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
     this.financialDataService.uploadFinancialData(body).subscribe(
       (res) => {
         this.draftSavingInProgess = false;
+        this.successMessage = "Saved as Draft";
         setTimeout(() => this._matDialog.closeAll(), 3000);
       },
       (err) => {
@@ -169,8 +169,15 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
     if (!this.financialData) this.financialData = {} as IFinancialData;
     this.financialData.waterManagement = { ...value };
   }
+
+  private resetMessages() {
+    this.saveAsDraftFailMessge = null;
+    this.draftSavingInProgess = true;
+    this.successMessage = null;
+  }
   uploadCompletedQuestionnaireData() {
     this.saveAsDraftFailMessge = null;
+    this.isSubmitButtonClicked = true;
     if (this.userHasAlreadyFilledForm) {
       return;
     }
@@ -180,43 +187,35 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
       console.error(error);
       return;
     }
+    this.resetMessages();
 
-    const obj = {
-      documents: documentForm.value,
-      propertyTax: propertyTaxForm.value,
-      userCharges: userChargesForm.value,
+    const body = {
+      ulb: this.loggedInUserDetails.ulb,
+      ...this.financialData,
       isCompleted: true,
     };
+    this._matDialog.open(this.savingPopup, {
+      width: "35vw",
+      height: "fit-content",
+      panelClass: "custom-warning-popup",
+      disableClose: true,
+    });
 
-    // if (this.userData.role !== USER_TYPE.STATE) {
-    //   obj["state"] = this.currentStateId;
-    // }
-    // this._matDialog.open(this.savingPopup, {
-    //   width: "35vw",
-    //   height: "fit-content",
-    //   disableClose: true,
-    // });
-
-    // this._questionnaireService.saveStateQuestionnaireData(obj).subscribe(
-    //   (res) => {
-    //     this._matDialog.closeAll();
-    //     this.userHasAlreadyFilledForm = true;
-    //     this.editable = false;
-    //     this.setComponentStateToAlreadyFilled(
-    //       {
-    //         ...obj,
-    //         stateName: this.stateName,
-    //       },
-    //       false
-    //     );
-    //   },
-    //   (err: HttpErrorResponse) => {
-    //     this.saveAsDraftFailMessge =
-    //       err.error.message ||
-    //       "Failed to save data. Please try after some time";
-    //     console.error(err);
-    //   }
-    // );
+    this.financialDataService.uploadFinancialData(body).subscribe(
+      (res) => {
+        this.draftSavingInProgess = false;
+        this.successMessage = "Data Upload Complete.";
+        this._router.navigate(["user/data-upload/list"]);
+        setTimeout(() => this._matDialog.closeAll(), 3000);
+      },
+      (err) => {
+        this.saveAsDraftFailMessge =
+          err.error.message ||
+          err.error.msg ||
+          "Fail to save data. Please try after some time.";
+        setTimeout(() => this._matDialog.closeAll(), 3000);
+      }
+    );
   }
 
   validatorQuestionnaireForms() {
