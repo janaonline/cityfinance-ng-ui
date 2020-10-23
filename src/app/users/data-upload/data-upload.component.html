@@ -230,8 +230,20 @@
                               <i class="fa fa-eye" aria-hidden="true"></i>
                             </a>
                           </ng-container>
+                           <ng-container *ngSwitchDefault>
+                            <a
+                              (click)="navigateTo(row)"
+                              title="View"
+                              [routerLink]="[
+                                '/user/data-upload/upload-form',
+                                row?._id
+                              ]"
+                            >
+                              <i class="fa fa-eye" aria-hidden="true"></i>
+                            </a>
+                          </ng-container>
 
-                          <ng-container *ngSwitchDefault>
+                          <!-- <ng-container *ngSwitchDefault>
                             <a
                               [routerLink]="[
                                 '/user/data-upload/action',
@@ -256,7 +268,7 @@
                               class="btn btn-primary"
                               >Take {{ header.title }}</a
                             >
-                          </ng-container>
+                          </ng-container> -->
                         </ng-container>
                       </ng-container>
                       <span *ngSwitchCase="'audited'">
