@@ -1,12 +1,12 @@
 <div class="document-wrapper">
-  <p class="question-instruction">
+  <!-- <p class="question-instruction">
     <strong>NOTE:</strong><br />
     1. All questions are mandatory<br />
     2. Only files wih extensions <strong>{{ fileExnetsionAllowed }}</strong> are
     allowed. Other type of files will be filtered out.<br />
     3. Only {{ noOfFilesAllowedPerQuestion }} file can be selected per
     question.<br />
-  </p>
+  </p> -->
   <table class="question-table">
     <tbody>
       <tr *ngFor="let question of questions; let i = index">
@@ -121,7 +121,7 @@
             title="Select File/s"
             [disabled]="!canUploadFile"
           >
-            Select File/s {{ canUploadFile }}
+            Select File/s
             <input
               title="Select File/s"
               id="fileinput"

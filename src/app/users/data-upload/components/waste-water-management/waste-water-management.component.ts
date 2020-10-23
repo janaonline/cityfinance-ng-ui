@@ -1,22 +1,48 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { debounceTime } from 'rxjs/operators';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
+import { USER_TYPE } from 'src/app/models/user/userType';
 
-import { WaterManagement } from '../../models/financial-data.interface';
-import { services, targets, waterWasteManagementForm } from '../configs/water-waste-management';
-import { DocumentsUploadComponent } from '../documents-upload/documents-upload.component';
+import { WaterManagement, WaterManagementDocuments } from '../../models/financial-data.interface';
+import {
+  services,
+  targets,
+  wasteWaterDucmentQuestions,
+  waterWasteManagementForm,
+} from '../configs/water-waste-management';
 
 @Component({
   selector: "app-waste-water-management",
   templateUrl: "./waste-water-management.component.html",
   styleUrls: ["./waste-water-management.component.scss"],
 })
-export class WasteWaterManagementComponent
-  extends DocumentsUploadComponent<any>
-  implements OnInit {
+export class WasteWaterManagementComponent implements OnInit, OnChanges {
+  constructor(
+    protected dataEntryService: DataEntryService,
+    protected _dialog: MatDialog
+  ) {
+    // super(dataEntryService, _dialog);
+    this.initializeForm();
+  }
   @Input()
   isSubmitButtonClick = false;
+
+  @Input()
+  isDataPrefilled = false;
+
+  @Output()
+  saveAsDraft = new EventEmitter<WaterManagement>();
+  @Output()
+  outputValues = new EventEmitter<WaterManagement>();
+
+  @Output()
+  showNext = new EventEmitter<WaterManagement>();
+  @Output()
+  previous = new EventEmitter<WaterManagement>();
+
+  USER_TYPE = USER_TYPE;
+
   targets = targets;
 
   services: {
@@ -27,24 +53,27 @@ export class WasteWaterManagementComponent
 
   waterWasteManagementForm = waterWasteManagementForm;
 
-  constructor(
-    protected dataEntryService: DataEntryService,
-    protected _dialog: MatDialog
-  ) {
-    super(dataEntryService, _dialog);
-    this.initializeForm();
-  }
+  wasterWaterQuestion = wasteWaterDucmentQuestions;
+
+  prefilledDocuments: WaterManagementDocuments;
 
   ngOnInit() {}
 
+  ngOnChanges(changes) {
+    if (this.isDataPrefilled) this.populateFormDatas();
+  }
+
   onSaveAsDraftClick() {
-    // const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
-
-    // this.documentForm.reset();
-
-    // this.documentForm.patchValue({ ...valueToEmit });
-
     this.saveAsDraft.emit(waterWasteManagementForm.value);
+  }
+
+  onSolidWasteEmit(value: WaterManagementDocuments) {
+    waterWasteManagementForm.controls.documents.patchValue({ ...value });
+  }
+
+  private populateFormDatas() {
+    if (!this.isDataPrefilled) return;
+    this.prefilledDocuments = waterWasteManagementForm.getRawValue().documents;
   }
 
   private initializeForm() {

@@ -1,13 +1,8 @@
 <form [formGroup]="waterWasteManagementForm">
-  <!-- <p class="question-instruction">
-    <strong>NOTE:</strong><br />
-    1. All questions are mandatory<br />
-    2. Only files wih extensions <strong>{{ fileExnetsionAllowed }}</strong> are
-    allowed. Other type of files will be filtered out.<br />
-    3. Only {{ noOfFilesAllowedPerQuestion }} file can be selected per
-    question.<br />
-  </p> -->
-  <table aria-describedby="Water Waste Management Form">
+  <table
+    aria-describedby="Water Waste Management Form"
+    style="margin-bottom: 5%"
+  >
     <thead>
       <th scope="col">Service Level Indicators</th>
       <th scope="col">Benchmark</th>
@@ -92,7 +87,7 @@
           </div>
         </td>
       </tr>
-      <tr>
+      <!-- <tr>
         <td></td>
         <td></td>
         <td></td>
@@ -125,7 +120,19 @@
             Next
           </button>
         </td>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
+
+  <app-documents-upload
+    [userType]="USER_TYPE.ULB"
+    [form]="waterWasteManagementForm"
+    [documents]="prefilledDocuments"
+    [canUploadFile]="waterWasteManagementForm.enabled"
+    [questions]="wasterWaterQuestion"
+    (outputValues)="onSolidWasteEmit($event)"
+    (showNext)="showNext.emit()"
+    (previous)="previous.emit()"
+    (saveAsDraft)="onSaveAsDraftClick()"
+  ></app-documents-upload>
 </form>

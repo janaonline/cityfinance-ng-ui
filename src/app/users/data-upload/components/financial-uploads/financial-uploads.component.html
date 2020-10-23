@@ -1,9 +1,17 @@
+<p class="question-instruction">
+  <strong>NOTE:</strong><br />
+  1. All questions are mandatory<br />
+  2. Only files wih extensions <strong>pdf</strong> are allowed. Other type of
+  files will be filtered out.<br />
+  3. Only 1 file can be selected per question.<br />
+</p>
 <mat-horizontal-stepper
   id="stepper"
   [ngClass]="{ 'block-steeper-top-navigation': !userHasAlreadyFilledForm }"
 >
   <mat-step label="Water Supply & Waste-Water Management">
     <app-waste-water-management
+      [isDataPrefilled]="!!solidWasteProfilledAnswers"
       [isSubmitButtonClick]="isSubmitButtonClicked"
       (showNext)="stepper.next()"
       (saveAsDraft)="saveAsDraft()"
