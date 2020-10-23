@@ -3,8 +3,9 @@
   margin: auto;
 }
 
-::ng-deep .question-instruction {
+:host ::ng-deep .question-instruction {
   font-style: italic;
+  margin-top: 2%;
 }
 
 ::ng-deep .mandatory {
