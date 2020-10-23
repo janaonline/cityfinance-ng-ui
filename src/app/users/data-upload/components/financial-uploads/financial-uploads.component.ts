@@ -246,11 +246,11 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
         : "All questions must be answered in Million Plus Cities section.";
     }
     if (!waterWasteManagementForm.valid) {
-      this.stepper.selectedIndex = 0;
-    } else if (!solidWasteForm.valid) {
       this.stepper.selectedIndex = 1;
-    } else {
+    } else if (!solidWasteForm.valid) {
       this.stepper.selectedIndex = 2;
+    } else {
+      this.stepper.selectedIndex = 3;
     }
 
     message += " Kindly submit the form once completed.";
@@ -264,5 +264,8 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._matDialog.closeAll();
+    waterWasteManagementForm.reset();
+    solidWasteForm.reset();
+    milliomPlusCitiesForm.reset();
   }
 }

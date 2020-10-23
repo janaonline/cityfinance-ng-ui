@@ -1,5 +1,5 @@
 <ng-container *ngIf="id; else noId">
-  <div class="row" style="margin-left: 5%">
+  <div class="row" style="margin-left: 2%">
     <div class="col mt-3">
       <button
         (click)="location.back()"
@@ -10,7 +10,9 @@
       </button>
     </div>
     <ng-container *ngIf="id === 'upload-form'">
-      <app-financial-uploads [financialData]="uploadObject"></app-financial-uploads>
+      <app-financial-uploads
+        [financialData]="uploadObject"
+      ></app-financial-uploads>
     </ng-container>
   </div>
 </ng-container>
@@ -39,7 +41,9 @@
             <span> ULB Data </span>
             <button
               role="menuitem"
-              *ngIf="isAccessible && (!dataUploadList || !dataUploadList.length)"
+              *ngIf="
+                isAccessible && (!dataUploadList || !dataUploadList.length)
+              "
               [routerLink]="['/user/data-upload/upload-form']"
               class="btn btn-primary"
               style="border-radius: 5px; float: right; margin-right: 6px"
@@ -230,7 +234,7 @@
                               <i class="fa fa-eye" aria-hidden="true"></i>
                             </a>
                           </ng-container>
-                           <ng-container *ngSwitchDefault>
+                          <ng-container *ngSwitchDefault>
                             <a
                               (click)="navigateTo(row)"
                               title="View"
