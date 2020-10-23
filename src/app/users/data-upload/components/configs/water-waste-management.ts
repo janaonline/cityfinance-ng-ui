@@ -1,6 +1,7 @@
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { WaterManagement } from '../../models/financial-data.interface';
+import { WaterManagement, WaterManagementDocuments } from '../../models/financial-data.interface';
+import { FinancialUploadQuestion } from '../../models/financial-upload-question';
 
 const _fb = new FormBuilder();
 const waterWasteManagementForm: FormGroup = _fb.group({});
@@ -69,4 +70,24 @@ services.forEach((service) => {
   waterWasteManagementForm.addControl(service.key, serviceLevelGroup);
 });
 
-export { waterWasteManagementForm, services, targets };
+const documents = _fb.group({
+  wasteWaterPlan: ["", Validators.required],
+});
+
+waterWasteManagementForm.addControl("documents", documents);
+
+const wasteWaterDucmentQuestions: FinancialUploadQuestion<
+  WaterManagementDocuments
+>[] = [
+  {
+    key: "wasteWaterPlan",
+    question: "Waste Water Managemnet Plan",
+  },
+];
+
+export {
+  waterWasteManagementForm,
+  services,
+  targets,
+  wasteWaterDucmentQuestions,
+};
