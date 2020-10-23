@@ -1,0 +1,65 @@
+::ng-deep .mat-horizontal-stepper-header-container {
+  width: 100% !important;
+  margin: auto;
+}
+
+::ng-deep .question-instruction {
+  font-style: italic;
+}
+
+::ng-deep .mandatory {
+  color: red;
+}
+
+// ::ng-deep .block-steeper-top-navigation .mat-horizontal-stepper-header {
+//   pointer-events: none !important;
+// }
+::ng-deep .mat-step-header[ng-reflect-selected="true"] .mat-step-icon,
+::ng-deep .mat-step-header[aria-selected="true"] .mat-step-icon {
+  background: #009a00;
+}
+
+::ng-deep .mat-step-header[ng-reflect-selected="false"] .mat-step-icon,
+::ng-deep .mat-step-header[aria-selected="false"] .mat-step-icon {
+  background: #059b9a;
+}
+
+button {
+  outline: none;
+}
+
+::ng-deep .mat-horizontal-content-container {
+  margin-top: 1%;
+}
+
+::ng-deep .mat-calendar-controls {
+  .mat-button {
+    background: transparent !important;
+    color: gray;
+  }
+}
+::ng-deep .mat-step-header.cdk-program-focused {
+  background: transparent !important;
+}
+
+::ng-deep {
+  mat-radio-group.is-invalid {
+    .mat-radio-outer-circle {
+      border-color: red;
+    }
+    .preview-wrapper {
+      .back_button {
+        position: absolute;
+        z-index: 2;
+        width: fit-content;
+        padding: 9px 33px;
+      }
+    }
+  }
+}
+
+app-tick-icon {
+  display: block;
+  width: 24%;
+  margin: auto;
+}

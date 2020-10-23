@@ -1,184 +1,16 @@
 <ng-container *ngIf="id; else noId">
-  <div class="row" style="margin-left: 9%;">
+  <div class="row" style="margin-left: 5%">
     <div class="col mt-3">
       <button
         (click)="location.back()"
         class="back_button"
-        style="transform: unset;"
+        style="transform: unset"
       >
         Back
       </button>
     </div>
     <ng-container *ngIf="id === 'upload-form'">
-      <div class="mt-2">
-        <h3>Financial Data Upload</h3>
-      </div>
-      <div [formGroup]="fileFormGroup" class="row mt-4">
-        <div class="col-sm-8">
-          <div class="row">
-            <div class="col-sm-6">
-              <label for="financial_year"
-                >Financial Year <span class="text-danger">*</span></label
-              >
-              <angular2-multiselect
-                formControlName="financialYear"
-                id="financial_year"
-                name="financial_year"
-                [settings]="financialYearDropdownSettings"
-                [data]="financialYearDropdown"
-              >
-              </angular2-multiselect>
-              <app-finance-data-upload-input
-                [config]="{
-                  formGroup: fileFormGroup,
-                  disabled: this.fileUpload.uploading,
-                  formGroupName: 'balanceSheet',
-                  title: 'Balance Sheet',
-                  required: true
-                }"
-              >
-              </app-finance-data-upload-input>
-            </div>
-
-            <div class="col-sm-6">
-              <label for="audit_status"
-                >Status <span class="text-danger">*</span></label
-              >
-              <angular2-multiselect
-                title="Select Year"
-                formControlName="auditStatus"
-                id="audit_status"
-                (onSelect)="auditStatusDropdownHandler()"
-                (onDeSelect)="auditStatusDropdownHandler()"
-                [settings]="auditStatusDropdownSettings"
-                [data]="auditStatusDropdown"
-              ></angular2-multiselect>
-              <app-finance-data-upload-input
-                [config]="{
-                  formGroup: fileFormGroup,
-                  disabled: this.fileUpload.uploading,
-                  formGroupName: 'schedulesToBalanceSheet',
-                  title: 'Schedules to Balance Sheet',
-                  required: false,
-                  canRemoveFile:
-                    userUtil.getUserType() !== 'STATE' &&
-                    uploadId !== null &&
-                    (completenessStatus === 'REJECTED' ||
-                      correctnessStatus === 'REJECTED')
-                }"
-              >
-              </app-finance-data-upload-input>
-            </div>
-          </div>
-
-          <div class="row">
-            <div formGroupName="incomeAndExpenditure" class="col-sm-6">
-              <app-finance-data-upload-input
-                [config]="{
-                  formGroup: fileFormGroup,
-                  disabled: this.fileUpload.uploading,
-                  formGroupName: 'incomeAndExpenditure',
-                  title: 'Income and Expenditure ',
-                  required: true
-                }"
-              >
-              </app-finance-data-upload-input>
-            </div>
-
-            <div
-              formGroupName="schedulesToIncomeAndExpenditure"
-              class="col-sm-6"
-            >
-              <app-finance-data-upload-input
-                [config]="{
-                  formGroup: fileFormGroup,
-                  formGroupName: 'schedulesToIncomeAndExpenditure',
-                  title: 'Schedules to Income and Expenditure',
-                  required: false,
-                  canRemoveFile:
-                    userUtil.getUserType() !== 'STATE' &&
-                    uploadId !== null &&
-                    (completenessStatus === 'REJECTED' ||
-                      correctnessStatus === 'REJECTED')
-                }"
-              >
-              </app-finance-data-upload-input>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-sm-6">
-              <app-finance-data-upload-input
-                [config]="{
-                  formGroup: fileFormGroup,
-                  disabled: this.fileUpload.uploading,
-                  formGroupName: 'trialBalance',
-                  title: 'Trial Balance',
-                  required: true
-                }"
-              >
-              </app-finance-data-upload-input>
-            </div>
-
-            <div class="col-sm-6">
-              <app-finance-data-upload-input
-                *ngIf="
-                  fileFormGroup.get('auditStatus').value &&
-                  fileFormGroup.get('auditStatus').value[0] &&
-                  fileFormGroup.get('auditStatus').value[0].id == true
-                "
-                [config]="{
-                  formGroup: fileFormGroup,
-                  disabled: this.fileUpload.uploading,
-                  formGroupName: 'auditReport',
-                  title: 'Audited Report',
-                  required: true
-                }"
-              >
-              </app-finance-data-upload-input>
-            </div>
-          </div>
-
-          <div class="row mt-4 mb-4">
-            <div class="col-sm-12">
-              <button
-                #submitButton
-                *ngIf="userUtil.getUserType() !== 'STATE' && uploadId == null"
-                [disabled]="
-                  fileFormGroup.invalid ||
-                  fileFormGroup.disabled ||
-                  isApiInProgress
-                "
-                class="btn btn-primary"
-                (click)="submitClickHandler(submitButton)"
-              >
-                {{ fileUpload.uploading ? "Please Wait.." : "Submit" }}
-              </button>
-              <div
-                *ngIf="fileUpload.uploading"
-                class="alert alert-success mt-1"
-              >
-                Uploading : {{ fileUpload.currentUploadedFiles }} out of
-                {{ fileUpload.totalFiles }} files
-              </div>
-              <button
-                #updateButton
-                *ngIf="
-                  userUtil.getUserType() !== 'STATE' &&
-                  uploadId !== null &&
-                  (completenessStatus === 'REJECTED' ||
-                    correctnessStatus === 'REJECTED')
-                "
-                [disabled]="fileFormGroup.invalid || isApiInProgress"
-                class="btn btn-primary"
-                (click)="checkRejectFields(updateButton)"
-              >
-                {{ fileUpload.uploading ? "Please Wait.." : "Update" }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <app-financial-uploads [financialData]="uploadObject"></app-financial-uploads>
     </ng-container>
   </div>
 </ng-container>
@@ -204,21 +36,19 @@
       <div class="row">
         <div class="col-md-12">
           <h3>
-            <span>
-              ULB Data
-            </span>
+            <span> ULB Data </span>
             <button
               role="menuitem"
-              *ngIf="isAccessible"
+              *ngIf="isAccessible && (!dataUploadList || !dataUploadList.length)"
               [routerLink]="['/user/data-upload/upload-form']"
               class="btn btn-primary"
-              style="border-radius: 5px; float: right; margin-right: 6px;"
+              style="border-radius: 5px; float: right; margin-right: 6px"
             >
               Upload Data
             </button>
             <button
               class="btn btn-primary"
-              style="float: right; margin-right: 6px;"
+              style="float: right; margin-right: 6px"
               (click)="downloadList()"
             >
               Download List
@@ -234,7 +64,7 @@
         <div class="col-sm-12">
           <table class="table" *ngIf="!loading; else loader">
             <thead>
-              <tr style="background: #059b9a; color: white;">
+              <tr style="background: #059b9a; color: white">
                 <th class="text-center">S.No.</th>
                 <th
                   [attr.width]="100 / tableHeaders.length + '%'"
@@ -285,8 +115,9 @@
                       <option
                         [value]="option.id"
                         *ngFor="let option of financialYearDropdown"
-                        >{{ option?.itemName }}</option
                       >
+                        {{ option?.itemName }}
+                      </option>
                     </select>
                   </div>
 
@@ -306,8 +137,9 @@
                       <option
                         [value]="option.id"
                         *ngFor="let option of auditStatusDropdown"
-                        >{{ option?.itemName }}</option
                       >
+                        {{ option?.itemName }}
+                      </option>
                     </select>
                   </div>
                 </td>
@@ -323,8 +155,9 @@
                       <option
                         [value]="option.id"
                         *ngFor="let option of uploadCheckStatusDropDown"
-                        >{{ option?.itemName }}</option
                       >
+                        {{ option?.itemName }}
+                      </option>
                     </select>
                   </div>
                 </td>
@@ -339,7 +172,7 @@
               </tr>
               <ng-container *ngIf="dataUploadList.length; else noData">
                 <tr
-                  style="background: #e7e7e7; border-bottom: 5px solid white;"
+                  style="background: #e7e7e7; border-bottom: 5px solid white"
                   *ngFor="
                     let row of dataUploadList
                       | paginate
@@ -480,9 +313,7 @@
                     class="text-center"
                     [attr.colspan]="tableHeaders.length + 1"
                   >
-                    <h3>
-                      No Data Available
-                    </h3>
+                    <h3>No Data Available</h3>
                   </td>
                 </tr>
               </ng-template>
@@ -490,7 +321,7 @@
           </table>
           <pagination-controls
             *ngIf="tableDefaultOptions.totalCount"
-            style="float: right; position: relative;"
+            style="float: right; position: relative"
             id="upload-pagination"
             (pageChange)="setPage($event)"
             directionLinks="true"
@@ -505,7 +336,7 @@
           <ng-template #loader>
             <div
               class="d-flex w-100 justify-content-center align-items-center"
-              style="height: 70vh;"
+              style="height: 70vh"
             >
               <mat-spinner></mat-spinner>
             </div>
@@ -519,10 +350,10 @@
 <ng-template #historyModal>
   <div class="modal-body">
     <div
-      style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end;"
+      style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end"
     >
       <button
-        style="min-width: min-content;"
+        style="min-width: min-content"
         (click)="modalService.hide(1)"
         class="btn btn-danger"
         title="Close"
@@ -530,7 +361,7 @@
         data-dismiss="modal"
         aria-label="Close"
       >
-        <i class="fa fa-times" style="color: white;"></i>
+        <i class="fa fa-times" style="color: white"></i>
       </button>
     </div>
     <div class="modal-title">
@@ -539,29 +370,29 @@
     <div
       *ngIf="modalTableData.length; else noData"
       class="table-responsive border-1"
-      style="max-height: 50vh; overflow-y: auto;"
+      style="max-height: 50vh; overflow-y: auto"
     >
       <table class="table">
         <thead>
           <tr>
             <th
-              style="position: sticky; top: 0; background: white;"
+              style="position: sticky; top: 0; background: white"
               class="text-center"
             ></th>
             <th
-              style="position: sticky; top: 0; background: white;"
+              style="position: sticky; top: 0; background: white"
               class="text-center"
             >
               Sr. No
             </th>
             <th
-              style="position: sticky; top: 0; background: white;"
+              style="position: sticky; top: 0; background: white"
               class="text-center"
             >
               Action
             </th>
             <th
-              style="position: sticky; top: 0; background: white;"
+              style="position: sticky; top: 0; background: white"
               class="text-center"
             >
               Data

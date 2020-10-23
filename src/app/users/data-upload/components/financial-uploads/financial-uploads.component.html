@@ -1,0 +1,68 @@
+<mat-horizontal-stepper
+  id="stepper"
+  [ngClass]="{ 'block-steeper-top-navigation': !userHasAlreadyFilledForm }"
+>
+  <mat-step label="Water Supply & Waste-Water Management">
+    <app-waste-water-management
+      [isSubmitButtonClick]="isSubmitButtonClicked"
+      (showNext)="stepper.next()"
+      (saveAsDraft)="saveAsDraft()"
+      (outputValues)="onWaterWasteManagementEmitValue($event)"
+    ></app-waste-water-management>
+  </mat-step>
+  <mat-step label="Solid Waste Management">
+    <app-documents-upload
+      [userType]="USER_TYPE.ULB"
+      [form]="solidWasteForm"
+      [documents]="solidWasteProfilledAnswers"
+      [canUploadFile]="canUploadFile"
+      [questions]="solidWasteQuestions"
+      (outputValues)="onSolidWasteEmit($event)"
+      (showNext)="stepper.next()"
+      (previous)="stepper.previous()"
+      (saveAsDraft)="saveAsDraft()"
+    ></app-documents-upload>
+  </mat-step>
+  <mat-step label="Million Plus Cities Only">
+    <app-documents-upload
+      [userType]="USER_TYPE.ULB"
+      [form]="millionPlusCitiesForm"
+      [documents]="millionPlusCitiesAnswers"
+      [canUploadFile]="canUploadFile"
+      [questions]="millionPlusCitiesQuestions"
+      (outputValues)="onMilionPlusCitiesEmitValue($event)"
+      (showNext)="stepper.next()"
+      (previous)="stepper.previous()"
+      (saveAsDraft)="saveAsDraft()"
+    ></app-documents-upload>
+  </mat-step>
+
+  <mat-step label="Submit" *ngIf="!financialData?.isCompleted">
+    <app-completed
+      [submitted]="userHasAlreadyFilledForm"
+      (submit)="uploadCompletedQuestionnaireData()"
+      (previous)="stepper.previous()"
+    ></app-completed>
+  </mat-step>
+</mat-horizontal-stepper>
+
+<ng-template #savingPopup>
+  <mat-spinner style="margin: auto" *ngIf="draftSavingInProgess"></mat-spinner>
+  <h2 class="text-center" *ngIf="draftSavingInProgess">Saving...</h2>
+
+  <app-tick-icon
+    class="tick"
+    *ngIf="!draftSavingInProgess && !saveAsDraftFailMessge"
+  ></app-tick-icon>
+  <div class="d-flex justify-content-center" *ngIf="saveAsDraftFailMessge">
+    <i
+      class="fa fa-exclamation-circle"
+      style="transform: scale(3.5); color: red"
+      aria-hidden="true"
+    ></i>
+  </div>
+
+  <h2 class="text-center" *ngIf="!draftSavingInProgess">
+    {{ saveAsDraftFailMessge || successMessage }}
+  </h2>
+</ng-template>

@@ -59,7 +59,6 @@ export class DataEntryService {
 
   getURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
     const headers = new HttpHeaders();
-    console.log(`getURLForFileUpload for: ${fileName}`);
 
     return this.http.post<S3FileURLResponse>(
       `${environment.api.url}/getSignedUrl`,

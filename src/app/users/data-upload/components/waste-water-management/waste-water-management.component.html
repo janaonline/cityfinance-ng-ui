@@ -1,0 +1,131 @@
+<form [formGroup]="waterWasteManagementForm">
+  <!-- <p class="question-instruction">
+    <strong>NOTE:</strong><br />
+    1. All questions are mandatory<br />
+    2. Only files wih extensions <strong>{{ fileExnetsionAllowed }}</strong> are
+    allowed. Other type of files will be filtered out.<br />
+    3. Only {{ noOfFilesAllowedPerQuestion }} file can be selected per
+    question.<br />
+  </p> -->
+  <table aria-describedby="Water Waste Management Form">
+    <thead>
+      <th scope="col">Service Level Indicators</th>
+      <th scope="col">Benchmark</th>
+      <th scope="col">Baseline Indicator 2020-21</th>
+
+      <th *ngFor="let column of targets" scope="col">{{ column.name }}</th>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let service of services" [formGroupName]="service.key">
+        <td>
+          {{ service.name }}
+          <span
+            *ngIf="
+              waterWasteManagementForm?.controls[service.key].validator({})[
+                'required'
+              ]
+            "
+            class="mandatory"
+            >*</span
+          >
+        </td>
+        <td>{{ service.benchmark }}</td>
+        <td formGroupName="baseline">
+          <div class="input-group">
+            <input
+              [id]="service.key + 'baseline'"
+              type="number"
+              class="form-control"
+              formControlName="2021"
+              [ngClass]="{
+                'is-invalid':
+                  isSubmitButtonClick &&
+                  waterWasteManagementForm.controls[service.key].controls[
+                    'baseline'
+                  ].invalid
+              }"
+            />
+
+            <span class="input-group-addon"
+              ><i class="glyphicon" style="font-weight: 600">
+                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+              </i></span
+            >
+          </div>
+
+          <span
+            *ngIf="
+              waterWasteManagementForm.controls[service.key].controls[
+                'baseline'
+              ].controls['2021']?.errors?.pattern as error
+            "
+          >
+            Only numeric values are allowed.
+
+            <!-- {{
+            waterWasteManagementForm.controls[service.key].controls["baseline"]
+              .controls["2021"].errors | json
+          }} -->
+          </span>
+        </td>
+        <td *ngFor="let year of targets" formGroupName="target">
+          <div class="input-group">
+            <input
+              [id]="service.key + year.key"
+              type="number"
+              class="form-control"
+              [formControlName]="year.key"
+              [ngClass]="{
+                'is-invalid':
+                  isSubmitButtonClick &&
+                  waterWasteManagementForm.controls[service.key].controls[
+                    'target'
+                  ].controls[year.key].invalid
+              }"
+            />
+            <span class="input-group-addon"
+              ><i class="glyphicon" style="font-weight: 600">
+                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+              </i></span
+            >
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td *ngFor="let column of targets.slice(0, -3)"></td>
+        <td colspan="2">
+          <button
+            *ngIf="canUploadFile"
+            class="btn btn-primary btn-upload mt-3"
+            style="float: right; margin-right: 2%"
+            (click)="previous.emit(true)"
+          >
+            Previous
+          </button>
+          <button
+            *ngIf="waterWasteManagementForm.enabled"
+            class="btn btn-primary btn-upload mt-3"
+            style="float: right; margin-right: 2%"
+            [disabled]="NoOfFileInProgress !== 0"
+            (click)="onSaveAsDraftClick()"
+          >
+            Save as draft
+          </button>
+        </td>
+        <td>
+          <button
+            class="btn btn-primary btn-upload mt-3"
+            (click)="showNext.emit(true)"
+            [disabled]="NoOfFileInProgress !== 0"
+          >
+            Next
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>

@@ -1,6 +1,13 @@
 import { USER_TYPE } from '../../models/user/userType';
 
 export class UserUtility {
+  getLoggedInUserDetails() {
+    try {
+      return JSON.parse(localStorage.getItem("userData"));
+    } catch (error) {
+      return null;
+    }
+  }
   getUserType(): USER_TYPE {
     let userData = localStorage.getItem("userData");
     if (!userData) {
