@@ -140,6 +140,7 @@
         <td></td>
         <td>
           <button
+            id="previous"
             class="btn btn-primary btn-upload mt-3"
             style="float: right; margin-right: 2%"
             (click)="previous.emit(true)"
@@ -147,6 +148,7 @@
             Previous
           </button>
           <button
+            id="save-as-Draft"
             *ngIf="canUploadFile && !documentForm.disabled"
             class="btn btn-primary btn-upload mt-3"
             style="float: right; margin-right: 2%"
@@ -158,6 +160,7 @@
         </td>
         <td colspan="2">
           <button
+            id="next"
             class="btn btn-primary btn-upload mt-3"
             (click)="showNext.emit(true)"
             [disabled]="NoOfFileInProgress !== 0"

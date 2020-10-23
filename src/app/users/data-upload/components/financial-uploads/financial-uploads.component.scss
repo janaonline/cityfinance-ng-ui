@@ -12,6 +12,20 @@
   color: red;
 }
 
+:host {
+  a {
+    display: block;
+    margin-top: 2%;
+    width: fit-content;
+  }
+}
+
+:host ::ng-deep .documentCompleted {
+  button[id="next"] {
+    display: none !important;
+  }
+}
+
 // ::ng-deep .block-steeper-top-navigation .mat-horizontal-stepper-header {
 //   pointer-events: none !important;
 // }
