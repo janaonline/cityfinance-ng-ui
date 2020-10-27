@@ -81,12 +81,12 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.UPLOAD,
     });
+
+    console.log("hasAccessToUploadData", this.hasAccessToUploadData);
     this.hasAccessToViewData = this.accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.VIEW,
     });
-
-    console.log(this.hasAccessToUploadData);
 
     if (!this.hasAccessToViewData) return this._router.navigate(["/home"]);
     if (!this.hasAccessToUploadData) this.setStateToReadMode();
@@ -103,8 +103,6 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
   }
 
   private populateFormDatas(data: IFinancialData) {
-    console.log(`data`, data);
-
     solidWasteForm.patchValue({ ...data.solidWasteManagement.documents });
     this.solidWasteProfilledAnswers = {
       ...data.solidWasteManagement.documents,
@@ -115,6 +113,7 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
     };
 
     waterWasteManagementForm.patchValue({ ...data.waterManagement });
+    // this.financialData.isCompleted = false;
 
     if (this.financialData.isCompleted) this.setStateToReadMode();
   }
@@ -142,6 +141,8 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
         setTimeout(() => this._matDialog.closeAll(), 3000);
       },
       (err) => {
+        this.draftSavingInProgess = false;
+
         this.saveAsDraftFailMessge =
           err.error.message ||
           err.error.msg ||
@@ -209,6 +210,7 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
         setTimeout(() => this._matDialog.closeAll(), 3000);
       },
       (err) => {
+        this.draftSavingInProgess = false;
         this.saveAsDraftFailMessge =
           err.error.message ||
           err.error.msg ||
