@@ -72,6 +72,7 @@
   </mat-step>
   <mat-step label="Solid Waste Management">
     <app-documents-upload
+      [isSubmitButtonClick]="isSubmitButtonClicked"
       [userType]="USER_TYPE.ULB"
       [form]="solidWasteForm"
       [documents]="solidWasteProfilledAnswers"
@@ -90,6 +91,7 @@
   <mat-step label="Million Plus Cities Only">
     <app-documents-upload
       [ngClass]="{ documentCompleted: financialData?.isCompleted }"
+      [isSubmitButtonClick]="isSubmitButtonClicked"
       [userType]="USER_TYPE.ULB"
       [form]="millionPlusCitiesForm"
       [documents]="millionPlusCitiesAnswers"

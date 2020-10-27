@@ -64,6 +64,9 @@ export class DocumentsUploadComponent<T>
     SolidWasteManagementDocuments | MillionPlusCitiesDocuments
   >[];
 
+  @Input()
+  isSubmitButtonClick = false;
+
   @Output()
   outputValues = new EventEmitter<
     SolidWasteEmitValue | MillionPlusCitiesDocuments
