@@ -45,7 +45,6 @@ export class RegisterComponent implements OnInit {
     private _coomonService: CommonService
   ) {
     this._activatedRoute.params.subscribe((param) => {
-      console.log(param);
       if (param.type.trim()) {
         this.registrationType = param.type;
         this.initializeForm();
@@ -111,7 +110,7 @@ export class RegisterComponent implements OnInit {
         }
       },
       (err) => {
-        console.log(err);
+        console.error(err);
 
         this.respone.errorMessage = err.error.message || "Server Error";
       }
