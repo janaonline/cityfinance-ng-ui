@@ -125,13 +125,12 @@
             Select File/s
             <input
               title="Select File/s"
-              id="fileinput"
+              [id]="'fileUpload' + question.key"
               *ngIf="canUploadFile"
               [disabled]="!canUploadFile"
               type="file"
               multiple
               (change)="fileChangeEvent($event, question.key)"
-              onmouseover=""
             />
           </button>
         </td>

@@ -197,6 +197,12 @@ export class DocumentsUploadComponent<T>
     // Remove the file from file Tracker.
     delete this.fileUploadTracker[questionKey][fileNameToFilter];
 
+    // Clear the input="file" value if selected any.
+    const element = document.getElementById(`fileUpload${questionKey}`) as any;
+    if (element) {
+      element.value = null;
+    }
+
     this.onUploadButtonClick();
   }
 
@@ -283,6 +289,7 @@ export class DocumentsUploadComponent<T>
         : 0;
 
       const isFileAlreadySelected = this.isFileAlreadySelected(file, key);
+      console.log(file.name, isFileAlreadySelected);
 
       if (
         this.isValidFile(file) &&
