@@ -28,6 +28,7 @@ import { FinancialDataChartComponent } from './components/financial-data-chart/f
 import { HomeHeaderComponent } from './components/home-header/home-header.component';
 import { PreLoaderComponent } from './components/pre-loader/pre-loader.component';
 import { ReUseableHeatMapComponent } from './components/re-useable-heat-map/re-useable-heat-map.component';
+import { UserTypeConfirmationComponent } from './components/user-type-confirmation/user-type-confirmation.component';
 import { AuditStatusTextPipe } from './pipes/audit-status-text.pipe';
 import { RoundoffPipe } from './pipes/roundoff/roundoff.pipe';
 import { RupeeConverterPipe } from './pipes/rupee-converter.pipe';
@@ -66,6 +67,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     TickIconComponent,
     InrCurrencyPipe,
     CompletedComponent,
+    UserTypeConfirmationComponent,
   ],
   exports: [
     PreLoaderComponent,
@@ -82,6 +84,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     TickIconComponent,
     InrCurrencyPipe,
     CompletedComponent,
+    UserTypeConfirmationComponent,
   ],
   providers: [FinancialDataService],
 })
