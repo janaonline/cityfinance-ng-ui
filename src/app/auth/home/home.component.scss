@@ -117,6 +117,40 @@
   }
 }
 
+.ulb-registration {
+  position: absolute;
+  right: 5%;
+
+  top: 0px;
+  background: #059696;
+  display: block;
+  font-size: 1.2em;
+  margin: auto;
+  padding: 0.5% 1%;
+  @media screen and (max-width: 768px) {
+    position: relative;
+    right: 0%;
+    margin-top: 2%;
+  }
+
+  text-align: center;
+  width: fit-content;
+  border-radius: 2%;
+  img {
+    position: absolute;
+    width: 12%;
+    right: 0px;
+    top: 0px;
+  }
+  a {
+    color: white;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 @keyframes popup {
   0% {
     transform: scale(1);
@@ -1109,5 +1143,13 @@ img.background {
   }
   .sector-info-hidden {
     opacity: 1;
+  }
+}
+
+:host {
+  @media (max-width: 768px) {
+    .mid-wrapper {
+      flex-direction: column;
+    }
   }
 }
