@@ -289,7 +289,6 @@ export class DocumentsUploadComponent<T>
         : 0;
 
       const isFileAlreadySelected = this.isFileAlreadySelected(file, key);
-      console.log(file.name, isFileAlreadySelected);
 
       if (
         this.isValidFile(file) &&
@@ -324,7 +323,8 @@ export class DocumentsUploadComponent<T>
   ): SolidWasteEmitValue {
     const output: SolidWasteEmitValue = {};
     Object.keys(tracker).forEach((questionId) => {
-      if (!tracker[questionId]) {
+      if (!tracker[questionId] || !Object.keys(tracker[questionId]).length) {
+        output[questionId] = null;
         return;
       }
       Object.values(tracker[questionId]).forEach(
