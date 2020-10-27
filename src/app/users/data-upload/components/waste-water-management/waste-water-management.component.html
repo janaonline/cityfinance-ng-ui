@@ -129,6 +129,7 @@
   <h2>Upload Documents</h2>
 
   <app-documents-upload
+    [isSubmitButtonClick]="isSubmitButtonClick"
     [userType]="USER_TYPE.ULB"
     [form]="waterWasteManagementForm.controls.documents"
     [documents]="prefilledDocuments"

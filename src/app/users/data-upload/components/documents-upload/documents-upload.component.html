@@ -16,7 +16,12 @@
             {{ i + 1 }}.
           </p>
         </td>
-        <td>
+        <td
+          [ngClass]="{
+            'documents-required':
+              documentForm.controls[question.key].invalid && isSubmitButtonClick
+          }"
+        >
           <p class="question">
             <span [innerHTML]="question.question"></span>
             <span
