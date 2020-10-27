@@ -54,7 +54,7 @@ services.forEach((service) => {
   const baselineControl = _fb.group({
     "2021": [
       "",
-      [Validators.required, Validators.pattern("^\\d*$")], // Add this for limiting decimal points (.{0,1}\\d+){0,1}
+      [Validators.required, Validators.pattern("^\\d*(.{0,1}\\d{2,2}){0,1}$")], // Add this for limiting decimal points (.{0,1}\\d+){0,1}
     ],
   });
   const serviceLevelGroup = _fb.group(
