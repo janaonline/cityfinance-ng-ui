@@ -197,6 +197,12 @@ export class DocumentsUploadComponent<T>
     // Remove the file from file Tracker.
     delete this.fileUploadTracker[questionKey][fileNameToFilter];
 
+    // Clear the input="file" value if selected any.
+    const element = document.getElementById(`fileUpload${questionKey}`) as any;
+    if (element) {
+      element.value = null;
+    }
+
     this.onUploadButtonClick();
   }
 
@@ -317,7 +323,8 @@ export class DocumentsUploadComponent<T>
   ): SolidWasteEmitValue {
     const output: SolidWasteEmitValue = {};
     Object.keys(tracker).forEach((questionId) => {
-      if (!tracker[questionId]) {
+      if (!tracker[questionId] || !Object.keys(tracker[questionId]).length) {
+        output[questionId] = null;
         return;
       }
       Object.values(tracker[questionId]).forEach(

@@ -30,7 +30,7 @@
           <div class="input-group">
             <input
               [id]="service.key + 'baseline'"
-              type="number"
+              type="text"
               class="form-control"
               formControlName="2021"
               [ngClass]="{
@@ -50,13 +50,15 @@
           </div>
 
           <span
+            class="error-message"
             *ngIf="
               waterWasteManagementForm.controls[service.key].controls[
                 'baseline'
               ].controls['2021']?.errors?.pattern as error
             "
           >
-            Only numeric values are allowed.
+            Only numeric values are allowed. Decimal Values must be of 2 digit
+            place.
 
             <!-- {{
             waterWasteManagementForm.controls[service.key].controls["baseline"]
@@ -68,7 +70,7 @@
           <div class="input-group">
             <input
               [id]="service.key + year.key"
-              type="number"
+              type="text"
               class="form-control"
               [formControlName]="year.key"
               [ngClass]="{
@@ -128,7 +130,7 @@
 
   <app-documents-upload
     [userType]="USER_TYPE.ULB"
-    [form]="waterWasteManagementForm"
+    [form]="waterWasteManagementForm.controls.documents"
     [documents]="prefilledDocuments"
     [canUploadFile]="waterWasteManagementForm.enabled"
     [questions]="wasterWaterQuestion"

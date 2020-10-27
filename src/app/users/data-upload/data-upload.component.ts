@@ -186,9 +186,11 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     if (this.uploadId) {
       this.uploadObject = response.data;
 
-      this.setRejectedFields(this.uploadObject);
+      if (this.uploadObject) {
+        this.setRejectedFields(this.uploadObject);
 
-      this.updateFormControls();
+        this.updateFormControls();
+      }
     } else {
       this.dataUploadList = response.data;
       if ("total" in response) {
@@ -210,7 +212,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       }
     }
     this.loading = false;
-  }
+  };
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -276,12 +278,12 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  }
+  };
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  }
+  };
 
   getAddedFilterCount() {
     let count = 0;
