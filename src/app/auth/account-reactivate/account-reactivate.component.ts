@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { USER_TYPE } from 'src/app/models/user/userType';
 
 import { AccountReactivateService } from './service/account-reactivate.service';
 
@@ -15,6 +16,9 @@ export class AccountReactivateComponent implements OnInit {
   successMessage;
   urlMessage: string;
 
+  userTypeSelected: USER_TYPE;
+  USER_TYPE = USER_TYPE;
+
   constructor(
     private _reactrivateService: AccountReactivateService,
     private _fb: FormBuilder,
@@ -24,6 +28,10 @@ export class AccountReactivateComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  onSelectingUserType(value: USER_TYPE) {
+    this.userTypeSelected = value;
+  }
 
   onFormSubmit() {
     this.resetMessages();

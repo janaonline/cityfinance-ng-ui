@@ -18,7 +18,7 @@
 
     flex-direction: column;
     align-items: center;
-    transition: all 1s;
+    transition: all 0.5s;
 
     &:hover {
       background: transparent;
@@ -30,7 +30,7 @@
 
     i {
       font-size: 6rem;
-      transition: all 1s;
+      transition: all 0.5s;
     }
   }
 }

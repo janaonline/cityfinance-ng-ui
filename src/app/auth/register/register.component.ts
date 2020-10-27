@@ -45,20 +45,20 @@ export class RegisterComponent implements OnInit {
     private _coomonService: CommonService
   ) {
     this._activatedRoute.params.subscribe((param) => {
-      if (param.type) {
+      console.log(param);
+      if (param.type.trim()) {
         this.registrationType = param.type;
-      }
+        this.initializeForm();
+
+        this.authService.badCredentials.subscribe((res) => {
+          this.badCredentials = res;
+        });
+      } else this.registrationType = null;
     });
     this.fetchStateList();
   }
 
-  ngOnInit() {
-    this.initializeForm();
-
-    this.authService.badCredentials.subscribe((res) => {
-      this.badCredentials = res;
-    });
-  }
+  ngOnInit() {}
 
   canSubmitForm() {
     if (this.registrationType === "user") {
@@ -116,6 +116,18 @@ export class RegisterComponent implements OnInit {
         this.respone.errorMessage = err.error.message || "Server Error";
       }
     );
+  }
+
+  onSelectionUserType(userTypeSelect: USER_TYPE) {
+    switch (userTypeSelect) {
+      case USER_TYPE.ULB:
+        return this.router.navigate(["../ulb"], {
+          relativeTo: this._activatedRoute,
+        });
+      // return (this.registrationType = "ulb");
+      default:
+        this.router.navigate(["../user"], { relativeTo: this._activatedRoute });
+    }
   }
 
   public GetFormControlErrors(controlName: string) {

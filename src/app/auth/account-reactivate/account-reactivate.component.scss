@@ -34,3 +34,10 @@ re-captcha {
   display: block;
   margin-top: 1%;
 }
+
+:host {
+  app-user-type-confirmation {
+    display: block;
+    margin: 3% auto;
+  }
+}

@@ -10,6 +10,12 @@
     <div class="col-xs-12 card-body">
       <div class="col-xs-12">
         <div class="row">
+          <h3 *ngIf="!registrationType">Select User Type</h3>
+          <app-user-type-confirmation
+            *ngIf="!registrationType"
+            (userTypeSelected)="onSelectionUserType($event)"
+          ></app-user-type-confirmation>
+
           <form
             *ngIf="registrationType === 'user'"
             [formGroup]="registrationForm"
@@ -34,9 +40,7 @@
               *ngIf="GetFormControlErrors('name') as error"
               class="form-field-error-message"
             >
-              <span *ngIf="error?.required">
-                User name cannot be empty.
-              </span>
+              <span *ngIf="error?.required"> User name cannot be empty. </span>
               <span *ngIf="error?.pattern">
                 User name must of only Alphabet characters only and 1st letter
                 must be capital.</span
@@ -61,9 +65,7 @@
               *ngIf="GetFormControlErrors('email') as error"
               class="form-field-error-message"
             >
-              <span *ngIf="error?.required">
-                Email ID cannot be empty.
-              </span>
+              <span *ngIf="error?.required"> Email ID cannot be empty. </span>
               <span *ngIf="error?.email === false"> Email Id is not valid</span>
             </small>
 
@@ -85,9 +87,7 @@
               *ngIf="GetFormControlErrors('mobile') as error"
               class="form-field-error-message"
             >
-              <span *ngIf="error?.required">
-                Mobile No cannot be empty.
-              </span>
+              <span *ngIf="error?.required"> Mobile No cannot be empty. </span>
               <span *ngIf="error?.pattern === false">
                 Mobile No must start with either 6 / 7 / 8 / 9, and of 10 digits
                 only.
@@ -195,7 +195,7 @@
             <p *ngIf="formError">
               <span
                 *ngFor="let error of formError; let i = index"
-                style="display: block; color: red;"
+                style="display: block; color: red"
               >
                 {{ i + 1 }}. {{ error }}
               </span>
@@ -248,9 +248,7 @@
                     formSubmitted && registrationForm?.controls?.state.errors
                 }"
               >
-                <option value="" selected disabled>
-                  State*
-                </option>
+                <option value="" selected disabled>State*</option>
                 <option *ngFor="let state of stateList" [value]="state._id">
                   {{ state.name }}
                 </option>
@@ -272,9 +270,7 @@
                     formSubmitted && registrationForm?.controls?.name.errors
                 }"
               >
-                <option value="" selected disabled>
-                  ULB*
-                </option>
+                <option value="" selected disabled>ULB*</option>
                 <option
                   value=""
                   *ngIf="ulbList && !ulbList.length"
@@ -371,9 +367,7 @@
               "
               class="form-field-error-message"
             >
-              <span *ngIf="error?.required">
-                Mobile No cannot be empty.
-              </span>
+              <span *ngIf="error?.required"> Mobile No cannot be empty. </span>
               <span *ngIf="error?.pattern === false">
                 Mobile No must start with either 6 / 7 / 8 / 9, and of 10 digits
                 only.
@@ -399,9 +393,7 @@
               *ngIf="GetFormControlErrors('commissionerEmail') as error"
               class="form-field-error-message"
             >
-              <span *ngIf="error?.required">
-                Email ID cannot be empty.
-              </span>
+              <span *ngIf="error?.required"> Email ID cannot be empty. </span>
               <span *ngIf="error?.email === false"> Email Id is not valid</span>
             </small>
             <p class="input_info">
@@ -458,9 +450,7 @@
               *ngIf="GetFormControlErrors('accountantConatactNumber') as error"
               class="form-field-error-message"
             >
-              <span *ngIf="error?.required">
-                Contact No cannot be empty.
-              </span>
+              <span *ngIf="error?.required"> Contact No cannot be empty. </span>
               <span *ngIf="error?.pattern === false">
                 Contact No must start with either 6 / 7 / 8 / 9, and of 10
                 digits only.
@@ -486,16 +476,14 @@
               *ngIf="GetFormControlErrors('accountantEmail') as error"
               class="form-field-error-message"
             >
-              <span *ngIf="error?.required">
-                Email ID cannot be empty.
-              </span>
+              <span *ngIf="error?.required"> Email ID cannot be empty. </span>
               <span *ngIf="error?.email === false"> Email Id is not valid</span>
             </small>
 
             <p *ngIf="formError">
               <span
                 *ngFor="let error of formError; let i = index"
-                style="display: block; color: red;"
+                style="display: block; color: red"
               >
                 {{ i + 1 }}. {{ error }}
               </span>
