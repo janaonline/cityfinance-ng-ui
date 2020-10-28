@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { PasswordValidator } from 'src/app/util/passwordValidator';
 
 import { environment } from './../../../environments/environment';
@@ -35,6 +36,11 @@ export class PasswordComponent implements OnInit {
     siteKey: environment.reCaptcha.siteKey,
     userGeneratedKey: null,
   };
+
+  USER_TYPE = USER_TYPE;
+
+  userTypeSelected: USER_TYPE;
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -54,6 +60,24 @@ export class PasswordComponent implements OnInit {
 
   get lf() {
     return this.passwordRequestForm.controls;
+  }
+
+  onSelectingUserType(value: USER_TYPE) {
+    this.userTypeSelected = value;
+    switch (value) {
+      case USER_TYPE.ULB:
+        return this.passwordRequestForm.controls["email"].setValidators([
+          Validators.required,
+        ]);
+
+      default:
+        this.passwordRequestForm.controls["email"].setValidators([
+          Validators.required,
+          Validators.email,
+        ]);
+
+        break;
+    }
   }
 
   private resetCaptcha() {

@@ -186,9 +186,11 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     if (this.uploadId) {
       this.uploadObject = response.data;
 
-      this.setRejectedFields(this.uploadObject);
+      if (this.uploadObject) {
+        this.setRejectedFields(this.uploadObject);
 
-      this.updateFormControls();
+        this.updateFormControls();
+      }
     } else {
       this.dataUploadList = response.data;
       if ("total" in response) {
@@ -434,29 +436,29 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       ...this.auditStatusDropdownSettings,
       disabled: true,
     };
-    this.fileFormGroupKeys.forEach((formGroupKey) => {
-      const formGroupDataObject = this.uploadObject[formGroupKey];
-      const formGroupItem = this.fileFormGroup.get([formGroupKey]);
-      formGroupItem.get("message").setValue(formGroupDataObject["message"]);
-      const { excelUrl, pdfUrl } = formGroupDataObject;
-      formGroupItem.get("pdfUrl").setValue(pdfUrl);
-      formGroupItem.get("excelUrl").setValue(excelUrl);
-      const { completeness, correctness } = formGroupDataObject;
-      if (status === UPLOAD_STATUS.REJECTED) {
-        if (
-          completeness === UPLOAD_STATUS.REJECTED ||
-          completeness === UPLOAD_STATUS.NA ||
-          correctness === UPLOAD_STATUS.REJECTED ||
-          correctness === UPLOAD_STATUS.NA
-        ) {
-          formGroupItem.enable();
-        } else {
-          this.disableFormGroups(formGroupItem, formGroupDataObject);
-        }
-      } else {
-        this.disableFormGroups(formGroupItem, formGroupDataObject);
-      }
-    });
+    // this.fileFormGroupKeys.forEach((formGroupKey) => {
+    //   const formGroupDataObject = this.uploadObject[formGroupKey];
+    //   const formGroupItem = this.fileFormGroup.get([formGroupKey]);
+    //   formGroupItem.get("message").setValue(formGroupDataObject["message"]);
+    //   const { excelUrl, pdfUrl } = formGroupDataObject;
+    //   formGroupItem.get("pdfUrl").setValue(pdfUrl);
+    //   formGroupItem.get("excelUrl").setValue(excelUrl);
+    //   const { completeness, correctness } = formGroupDataObject;
+    //   if (status === UPLOAD_STATUS.REJECTED) {
+    //     if (
+    //       completeness === UPLOAD_STATUS.REJECTED ||
+    //       completeness === UPLOAD_STATUS.NA ||
+    //       correctness === UPLOAD_STATUS.REJECTED ||
+    //       correctness === UPLOAD_STATUS.NA
+    //     ) {
+    //       formGroupItem.enable();
+    //     } else {
+    //       this.disableFormGroups(formGroupItem, formGroupDataObject);
+    //     }
+    //   } else {
+    //     this.disableFormGroups(formGroupItem, formGroupDataObject);
+    //   }
+    // });
   }
 
   disableFormGroups(formGroupItem, formGroupDataObject) {

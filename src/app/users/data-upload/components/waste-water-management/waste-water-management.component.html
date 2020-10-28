@@ -1,0 +1,160 @@
+<form [formGroup]="waterWasteManagementForm">
+  <table
+    aria-describedby="Water Waste Management Form"
+    style="margin-bottom: 5%"
+  >
+    <thead>
+      <th scope="col">Service Level Indicators</th>
+      <th scope="col">Benchmark</th>
+      <th scope="col">Baseline Indicator 2020-21</th>
+
+      <th *ngFor="let column of targets" scope="col">{{ column.name }}</th>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let service of services" [formGroupName]="service.key">
+        <td>
+          {{ service.name }}
+          <span
+            *ngIf="
+              waterWasteManagementForm?.controls[service.key].validator({})[
+                'required'
+              ]
+            "
+            class="mandatory"
+            >*</span
+          >
+        </td>
+        <td>{{ service.benchmark }}</td>
+        <td formGroupName="baseline">
+          <div class="input-group">
+            <input
+              [id]="service.key + 'baseline'"
+              type="text"
+              class="form-control"
+              formControlName="2021"
+              [ngClass]="{
+                'is-invalid':
+                  isSubmitButtonClick &&
+                  waterWasteManagementForm.controls[service.key].controls[
+                    'baseline'
+                  ].invalid
+              }"
+            />
+
+            <span class="input-group-addon"
+              ><i class="glyphicon" style="font-weight: 600">
+                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+              </i></span
+            >
+          </div>
+
+          <span
+            class="error-message"
+            *ngIf="
+              waterWasteManagementForm.controls[service.key].controls[
+                'baseline'
+              ].controls['2021']?.errors as error
+            "
+          >
+            <span *ngIf="error.pattern">
+              Only numeric values are allowed and must be greater than or equal
+              to 0. Decimal Values must be of 2 digit place.</span
+            >
+            <span *ngIf="error.max"> {{ error.max }} </span>
+
+            <!-- {{
+            waterWasteManagementForm.controls[service.key].controls["baseline"]
+              .controls["2021"].errors | json
+          }} -->
+          </span>
+        </td>
+        <td *ngFor="let year of targets" formGroupName="target">
+          <div class="input-group">
+            <input
+              [id]="service.key + year.key"
+              type="text"
+              class="form-control"
+              [formControlName]="year.key"
+              [ngClass]="{
+                'is-invalid':
+                  isSubmitButtonClick &&
+                  waterWasteManagementForm.controls[service.key].controls[
+                    'target'
+                  ].controls[year.key].invalid
+              }"
+            />
+            <span class="input-group-addon"
+              ><i class="glyphicon" style="font-weight: 600">
+                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+              </i></span
+            >
+          </div>
+          <span
+            class="error-message"
+            *ngIf="
+              waterWasteManagementForm.controls[service.key].controls['target']
+                .controls[year.key]?.errors as error
+            "
+          >
+            <span *ngIf="error.pattern">
+              Only numeric values are allowed. Decimal Values must be of 2 digit
+              place.</span
+            >
+            <span *ngIf="error.max"> {{ error.max }} </span></span
+          >
+        </td>
+      </tr>
+      <!-- <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td *ngFor="let column of targets.slice(0, -3)"></td>
+        <td colspan="2">
+          <button
+            *ngIf="canUploadFile"
+            class="btn btn-primary btn-upload mt-3"
+            style="float: right; margin-right: 2%"
+            (click)="previous.emit(true)"
+          >
+            Previous
+          </button>
+          <button
+            *ngIf="waterWasteManagementForm.enabled"
+            class="btn btn-primary btn-upload mt-3"
+            style="float: right; margin-right: 2%"
+            [disabled]="NoOfFileInProgress !== 0"
+            (click)="onSaveAsDraftClick()"
+          >
+            Save as draft
+          </button>
+        </td>
+        <td>
+          <button
+            class="btn btn-primary btn-upload mt-3"
+            (click)="showNext.emit(true)"
+            [disabled]="NoOfFileInProgress !== 0"
+          >
+            Next
+          </button>
+        </td>
+      </tr> -->
+    </tbody>
+  </table>
+
+  <h2>Upload Documents</h2>
+
+  <app-documents-upload
+    [isSubmitButtonClick]="isSubmitButtonClick"
+    [userType]="USER_TYPE.ULB"
+    [form]="waterWasteManagementForm.controls.documents"
+    [documents]="prefilledDocuments"
+    [canUploadFile]="waterWasteManagementForm.enabled"
+    [questions]="wasterWaterQuestion"
+    (outputValues)="onSolidWasteEmit($event)"
+    (showNext)="showNext.emit()"
+    (previous)="previous.emit()"
+    (saveAsDraft)="onSaveAsDraftClick()"
+  >
+  </app-documents-upload>
+</form>

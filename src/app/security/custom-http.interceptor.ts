@@ -44,14 +44,15 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     this._router.events
       .pipe(
         filter(
-          event => event instanceof ResolveEnd || event instanceof NavigationEnd
+          (event) =>
+            event instanceof ResolveEnd || event instanceof NavigationEnd
         ),
         filter((event: ResolveEnd | NavigationEnd) => {
           return (
             event.url.split("?")[0] !== event.urlAfterRedirects.split("?")[0]
           );
         }),
-        filter(event => event instanceof NavigationEnd)
+        filter((event) => event instanceof NavigationEnd)
       )
       .subscribe(this.routerNavigationSuccess);
   }
@@ -72,17 +73,21 @@ export class CustomHttpInterceptor implements HttpInterceptor {
       case 440:
         this.clearLocalStorage();
         this.router.navigate(["login"], {
-          queryParams: { message: "Session Expired. Kindly login again." }
+          queryParams: { message: "Session Expired. Kindly login again." },
         });
         break;
       case 441:
         this.clearLocalStorage();
         this.router.navigate(["login"], {
           queryParams: {
-            message: "Password Expired. Kindly reset your password."
-          }
+            message: "Password Expired. Kindly reset your password.",
+          },
         });
         break;
+      case 0:
+        return throwError({
+          error: { message: "Failed to connect with Server" },
+        });
     }
     return throwError(err);
   };

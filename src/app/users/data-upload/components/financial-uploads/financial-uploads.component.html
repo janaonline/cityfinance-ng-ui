@@ -1,0 +1,141 @@
+<p class="question-instruction" *ngIf="isULBMillionPlus !== undefined">
+  <strong>NOTE:</strong><br />
+  1. All questions are mandatory<br />
+  2. Only files wih extensions <strong>pdf</strong> are allowed. Other type of
+  files will be filtered out.<br />
+  3. Only 1 file can be selected per question.<br />
+</p>
+<mat-horizontal-stepper
+  *ngIf="isULBMillionPlus !== undefined"
+  id="stepper"
+  [ngClass]="{ 'block-steeper-top-navigation': !userHasAlreadyFilledForm }"
+>
+  <mat-step label="Introduction">
+    <p>
+      Welcome to the 15th FC Grants Module of cityfinance.in. Here you will be
+      able to submit required data and documents for establishing your grant
+      eligibility for 15th FC grants, access information relating to grant
+      releases, and upload Utilization Certificates.
+    </p>
+    <p>
+      The 15th Finance Commission (15th FC) report for the year 2020-21 has
+      divided the grants into untied and tied grants. Tied grants are related to
+      water supply and solid waste management functions. The 15th FC has
+      mandated Ministry of Housing and Urban Affairs (MoHUA) to develop
+      city-wise and year-wise targets, in consultation with the State
+      Governments, for 2020-25 and recommend disbursal of grants. Accordingly,
+      MoHUA has issued Marking Scheme guidelines which prescribe the mandatory
+      conditions, service level indicators, targets and scoring mechanism for
+      tied grants.
+    </p>
+    <p>
+      Urban Local Bodies are required to submit data and upload documents to
+      meet the mandatory conditions and to identify whether the targets are met
+      for the service level indicators as prescribed or fixed. This portal
+      facilitates the submission of data and uploading of documents as required.
+      Technical Assistance will be available for ULBs facing issues while
+      submitting data and uploading documents.
+    </p>
+
+    <p>
+      Kindly note that the last date for submitting baseline, targets and other
+      required documents for 2020-21 grants is
+      <span style="font-weight: 600">31 December 2020</span>.
+      <a>Click here for accessing the 15 FC Grant User Manual</a>
+      <a href="http://">Click here for accessing the 15FC tool kit</a>
+      <a href="/src/assets/files/XV FC Operational Guidelines.pdf"
+        >Click here for accessing XV Operational Guidelines</a
+      >
+      <a href="/src/assets/files/XV FC Marking Scheme Guidelines.pdf"
+        >Click here for accessing XV Marking Scheme Guidelines</a
+      >
+      <a href="/src/assets/files/XV FC Report.pdf" target="_blank"
+        >Click here for accessing XV Commission Report</a
+      >
+    </p>
+    <button
+      style="float: right"
+      class="btn btn-primary btn-upload mt-3"
+      (click)="stepper.next()"
+    >
+      Next
+    </button>
+  </mat-step>
+  <mat-step label="Water Supply & Waste-Water Management">
+    <app-waste-water-management
+      [isDataPrefilled]="!!solidWasteProfilledAnswers"
+      [isSubmitButtonClick]="isSubmitButtonClicked"
+      (showNext)="stepper.next()"
+      (saveAsDraft)="saveAsDraft()"
+      (outputValues)="onWaterWasteManagementEmitValue($event)"
+      (previous)="stepper.previous()"
+    ></app-waste-water-management>
+  </mat-step>
+  <mat-step label="Solid Waste Management">
+    <app-documents-upload
+      [isSubmitButtonClick]="isSubmitButtonClicked"
+      [userType]="USER_TYPE.ULB"
+      [form]="solidWasteForm"
+      [documents]="solidWasteProfilledAnswers"
+      [canUploadFile]="canUploadFile"
+      [questions]="solidWasteQuestions"
+      (outputValues)="onSolidWasteEmit($event)"
+      (showNext)="stepper.next()"
+      (previous)="stepper.previous()"
+      (saveAsDraft)="saveAsDraft()"
+    ></app-documents-upload>
+    <p>
+      <span class="mandatory">**</span> Upload GAP analysis report and project
+      identified for bridging the gap as a single document.
+    </p>
+  </mat-step>
+  <mat-step label="Million Plus Cities Only" *ngIf="isULBMillionPlus">
+    <app-documents-upload
+      [ngClass]="{ documentCompleted: financialData?.isCompleted }"
+      [isSubmitButtonClick]="isSubmitButtonClicked"
+      [userType]="USER_TYPE.ULB"
+      [form]="millionPlusCitiesForm"
+      [documents]="millionPlusCitiesAnswers"
+      [canUploadFile]="canUploadFile"
+      [questions]="millionPlusCitiesQuestions"
+      (outputValues)="onMilionPlusCitiesEmitValue($event)"
+      (showNext)="stepper.next()"
+      (previous)="stepper.previous()"
+      (saveAsDraft)="saveAsDraft()"
+    ></app-documents-upload>
+  </mat-step>
+
+  <mat-step label="Submit" *ngIf="!financialData?.isCompleted && canUploadFile">
+    <app-completed
+      [submitted]="userHasAlreadyFilledForm"
+      (submit)="uploadCompletedQuestionnaireData()"
+      (previous)="stepper.previous()"
+    ></app-completed>
+  </mat-step>
+</mat-horizontal-stepper>
+
+<ng-template #savingPopup>
+  <mat-spinner style="margin: auto" *ngIf="draftSavingInProgess"></mat-spinner>
+  <h2 class="text-center" *ngIf="draftSavingInProgess">Saving...</h2>
+
+  <app-tick-icon
+    class="tick"
+    *ngIf="!draftSavingInProgess && !saveAsDraftFailMessge"
+  ></app-tick-icon>
+  <div class="d-flex justify-content-center" *ngIf="saveAsDraftFailMessge">
+    <i
+      class="fa fa-exclamation-circle"
+      style="transform: scale(3.5); color: red"
+      aria-hidden="true"
+    ></i>
+  </div>
+
+  <h2 class="text-center" *ngIf="!draftSavingInProgess">
+    {{ saveAsDraftFailMessge || successMessage }}
+  </h2>
+</ng-template>
+
+<div *ngIf="isULBMillionPlus === undefined">
+  <app-pre-loader></app-pre-loader><app-pre-loader></app-pre-loader
+  ><app-pre-loader></app-pre-loader><app-pre-loader></app-pre-loader>
+</div>
