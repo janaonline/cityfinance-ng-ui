@@ -185,7 +185,7 @@ export class RegisterComponent implements OnInit {
             return of(response);
           }
 
-          if (ulbFound.code !== code && ulbFound.sbCode !== code) {
+          if (ulbFound.censusCode !== code && ulbFound.sbCode !== code) {
             return of(response);
           }
           response.isValid = true;

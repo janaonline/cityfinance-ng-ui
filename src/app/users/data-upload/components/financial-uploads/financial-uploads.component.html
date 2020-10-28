@@ -1,4 +1,4 @@
-<p class="question-instruction">
+<p class="question-instruction" *ngIf="isULBMillionPlus !== undefined">
   <strong>NOTE:</strong><br />
   1. All questions are mandatory<br />
   2. Only files wih extensions <strong>pdf</strong> are allowed. Other type of
@@ -6,6 +6,7 @@
   3. Only 1 file can be selected per question.<br />
 </p>
 <mat-horizontal-stepper
+  *ngIf="isULBMillionPlus !== undefined"
   id="stepper"
   [ngClass]="{ 'block-steeper-top-navigation': !userHasAlreadyFilledForm }"
 >
@@ -88,7 +89,7 @@
       identified for bridging the gap as a single document.
     </p>
   </mat-step>
-  <mat-step label="Million Plus Cities Only">
+  <mat-step label="Million Plus Cities Only" *ngIf="isULBMillionPlus">
     <app-documents-upload
       [ngClass]="{ documentCompleted: financialData?.isCompleted }"
       [isSubmitButtonClick]="isSubmitButtonClicked"
@@ -133,3 +134,8 @@
     {{ saveAsDraftFailMessge || successMessage }}
   </h2>
 </ng-template>
+
+<div *ngIf="isULBMillionPlus === undefined">
+  <app-pre-loader></app-pre-loader><app-pre-loader></app-pre-loader
+  ><app-pre-loader></app-pre-loader><app-pre-loader></app-pre-loader>
+</div>

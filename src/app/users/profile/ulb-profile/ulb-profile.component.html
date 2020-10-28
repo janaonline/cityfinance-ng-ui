@@ -16,9 +16,7 @@
       Reason for Rejection: {{ profileData.rejectReason }}
     </p>
   </div>
-  <h1 *ngIf="!profileData">
-    Create ULB
-  </h1>
+  <h1 *ngIf="!profileData">Create ULB</h1>
   <!-- <h1>{{ profileData ? "Edit Profile" : "Create ULB" }}</h1> -->
 
   <form [formGroup]="profile" *ngIf="profile" (ngSubmit)="submitForm(profile)">
@@ -38,7 +36,7 @@
       />
     </div>
 
-    <div formGroupName="ulb" style="display: inline;">
+    <div formGroupName="ulb" style="display: inline">
       <div class="input-group" formGroupName="ulbType">
         <label for="type"
           >ULB Type
@@ -63,17 +61,33 @@
 
     <div class="input-group" formGroupName="ulb">
       <label for="code"
-        >ULB Code
+        >ULB Census Code
         <span class="asterik">*</span>
       </label>
       <input
         id="code"
         type="text"
-        formControlName="code"
+        formControlName="censusCode"
         class="form-control"
         [ngClass]="{
           'is-invalid':
-            formSubmitted && profile.controls.ulb.controls.code.errors
+            formSubmitted && profile.controls.ulb.controls.censusCode.errors
+        }"
+      />
+    </div>
+    <div class="input-group" formGroupName="ulb">
+      <label for="sbCode"
+        >Swatch Bharat Code
+        <span class="asterik">*</span>
+      </label>
+      <input
+        id="sbCode"
+        type="text"
+        formControlName="sbCode"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid':
+            formSubmitted && profile.controls.ulb.controls.sbCode.errors
         }"
       />
     </div>
@@ -334,7 +348,7 @@
       </div>
     </div>
 
-    <p *ngIf="formErrorMessage" style="display: block; color: red;">
+    <p *ngIf="formErrorMessage" style="display: block; color: red">
       <span *ngFor="let error of formErrorMessage; let i = index">
         {{ i + 1 }}. {{ error }}
       </span>
@@ -394,7 +408,7 @@
 
 <ng-template #rejectSignupPopup>
   <div class="">
-    <h3 style="margin: 3% auto; text-align: center;">
+    <h3 style="margin: 3% auto; text-align: center">
       Reason for Signup Rejection
     </h3>
 
@@ -406,7 +420,7 @@
     ></textarea>
 
     <div
-      style="display: flex; width: 100%; justify-content: center;"
+      style="display: flex; width: 100%; justify-content: center"
       class="mt-4"
     >
       <button
@@ -418,7 +432,7 @@
             rejectReason: SignupRejectReason.value
           }) || SignupRejectReason.setValue(null)
         "
-        style="margin-right: 2%;"
+        style="margin-right: 2%"
         [disabled]="!SignupRejectReason.valid"
       >
         Confirm Rejection

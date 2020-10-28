@@ -123,7 +123,7 @@ export class DocumentsUploadComponent<T>
   documentForm: FormGroup;
   USER_TYPE = USER_TYPE;
 
-  MaxFileSize = 20 * 1024 * 1024; // 20 MB. Always keep it in MB since in other places, we are dealing in MB only.
+  MaxFileSize = 50 * 1024 * 1024; // 20 MB. Always keep it in MB since in other places, we are dealing in MB only.
 
   noOfFilesAllowedPerQuestion = 1;
 
@@ -213,6 +213,17 @@ export class DocumentsUploadComponent<T>
     const filteredFiles = <any>(
       this.filterInvalidFiles(event.target["files"], key)
     );
+
+    if (event.target["files"].length !== filteredFiles) {
+      const message = `Only ${this.fileExnetsionAllowed.join(
+        ","
+      )} file is allowed and maximum size of ${
+        this.MaxFileSize / (1024 * 1024)
+      } MB. <br/> Only ${
+        this.noOfFilesAllowedPerQuestion
+      } file can be selected per question.`;
+      this.showErrorDialog(message);
+    }
 
     if (this.isMaximumFileAlreadySelected(key)) {
       console.warn("maximum no of files allowed is already selected. ");
@@ -349,15 +360,15 @@ export class DocumentsUploadComponent<T>
     return output;
   }
 
-  showconfirmationDialog() {
+  showconfirmationDialog(message: string) {
     const dailogboxx = this._dialog.open(DialogComponent, {
-      data: this.defaultDailogConfiuration,
+      data: { ...this.defaultDailogConfiuration, message },
     });
   }
 
-  showErrorDialog() {
+  showErrorDialog(message: string) {
     const dailogboxx = this._dialog.open(DialogComponent, {
-      data: this.defaultErrorMessageConfiguration,
+      data: { ...this.defaultErrorMessageConfiguration, message },
     });
   }
 

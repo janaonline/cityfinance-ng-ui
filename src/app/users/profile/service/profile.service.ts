@@ -63,8 +63,6 @@ export class ProfileService {
     status: IULBProfileData["status"];
     rejectReason?: string;
   }) {
-    console.log(body);
-
     return this._htttp.put(
       `${environment.api.url}user/ulb-status/${body._id}`,
       body

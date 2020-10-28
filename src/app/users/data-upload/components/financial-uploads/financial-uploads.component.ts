@@ -5,6 +5,7 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { IQuestionnaireResponse } from 'src/app/pages/questionnaires/model/questionnaireResponse.interface';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
+import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { FinancialDataService } from 'src/app/users/services/financial-data.service';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
@@ -32,8 +33,11 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
     private _matDialog: MatDialog,
     private financialDataService: FinancialDataService,
     public accessUtil: AccessChecker,
-    private _router: Router
+    private _router: Router,
+    private _profileService: ProfileService
   ) {}
+
+  isULBMillionPlus = undefined;
 
   @Input()
   financialData: IFinancialData;
@@ -82,7 +86,6 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
       action: ACTIONS.UPLOAD,
     });
 
-    console.log("hasAccessToUploadData", this.hasAccessToUploadData);
     this.hasAccessToViewData = this.accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.VIEW,
@@ -100,6 +103,23 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
   ngOnChanges() {
     if (this.financialData) this.populateFormDatas(this.financialData);
     this.initializeAccessCheck();
+    this.checkULBMilionPlusStatus();
+  }
+
+  checkULBMilionPlusStatus() {
+    let ulbId: string;
+    if (this.financialData) ulbId = this.financialData.ulb;
+    else {
+      ulbId = this.loggedInUserDetails.ulb;
+    }
+    this._profileService.getULBGeneralData({ id: ulbId }).subscribe((res) => {
+      try {
+        this.isULBMillionPlus = res["data"][0].isMillionPlus;
+      } catch (error) {
+        console.error(error);
+        this.isULBMillionPlus = false;
+      }
+    });
   }
 
   private populateFormDatas(data: IFinancialData) {
@@ -242,7 +262,7 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
       // this.stepper.selectedIndex = 1;
     }
 
-    if (!milliomPlusCitiesForm.valid) {
+    if (this.isULBMillionPlus && !milliomPlusCitiesForm.valid) {
       message += message
         ? " and Million Plus Cities sections."
         : "All questions must be answered in Million Plus Cities section.";
@@ -251,7 +271,7 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
       this.stepper.selectedIndex = 1;
     } else if (!solidWasteForm.valid) {
       this.stepper.selectedIndex = 2;
-    } else {
+    } else if (this.isULBMillionPlus && !milliomPlusCitiesForm.valid) {
       this.stepper.selectedIndex = 3;
     }
 
