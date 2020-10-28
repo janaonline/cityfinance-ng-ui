@@ -214,7 +214,7 @@ export class DocumentsUploadComponent<T>
       this.filterInvalidFiles(event.target["files"], key)
     );
 
-    if (event.target["files"].length !== filteredFiles) {
+    if (event.target["files"].length !== filteredFiles.length) {
       const message = `Only ${this.fileExnetsionAllowed.join(
         ","
       )} file is allowed and maximum size of ${
