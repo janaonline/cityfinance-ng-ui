@@ -237,7 +237,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
    * disabled.
    */
   private disableNonEditableFields() {
-    (<FormGroup>this.profile.controls.ulb).controls.code.disable();
+    (<FormGroup>this.profile.controls.ulb).controls.censusCode.disable();
     (<FormGroup>this.profile.controls.ulb).controls.sbCode.disable();
     (<FormGroup>this.profile.controls.ulb).controls.ulbType.disable();
     (<FormGroup>this.profile.controls.ulb).controls.name.disable();

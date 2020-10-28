@@ -61,17 +61,17 @@
 
     <div class="input-group" formGroupName="ulb">
       <label for="code"
-        >ULB Code
+        >ULB Census Code
         <span class="asterik">*</span>
       </label>
       <input
         id="code"
         type="text"
-        formControlName="code"
+        formControlName="censusCode"
         class="form-control"
         [ngClass]="{
           'is-invalid':
-            formSubmitted && profile.controls.ulb.controls.code.errors
+            formSubmitted && profile.controls.ulb.controls.censusCode.errors
         }"
       />
     </div>

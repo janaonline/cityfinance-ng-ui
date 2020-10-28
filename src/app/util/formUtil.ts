@@ -105,7 +105,7 @@ export class FormUtil {
     return this.fb.group({
       ...baseForm.controls,
       ulb: this.fb.group({
-        code: ["", [Validators.required]],
+        censusCode: ["", [Validators.required]],
         sbCode: [""],
         wards: [
           "",
