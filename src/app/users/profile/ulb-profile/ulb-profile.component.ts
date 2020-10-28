@@ -233,11 +233,14 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   }
 
   /**
-   * @description ULB's code and state cannot be changed, therefore they should stay
+   * @description The Following fields cannot be changed, therefore they should stay
    * disabled.
    */
   private disableNonEditableFields() {
     (<FormGroup>this.profile.controls.ulb).controls.code.disable();
+    (<FormGroup>this.profile.controls.ulb).controls.sbCode.disable();
+    (<FormGroup>this.profile.controls.ulb).controls.ulbType.disable();
+    (<FormGroup>this.profile.controls.ulb).controls.name.disable();
     this.profile.controls.state.disable();
   }
 }

@@ -7,7 +7,7 @@ import {
   customPasswordValidator,
   mobileNoValidator,
   nonEmptyValidator,
-  PartnerFormEmailValidations as setPartnerFormEmailValidations
+  PartnerFormEmailValidations as setPartnerFormEmailValidations,
 } from './reactiveFormValidators';
 
 export class FormUtil {
@@ -106,6 +106,7 @@ export class FormUtil {
       ...baseForm.controls,
       ulb: this.fb.group({
         code: ["", [Validators.required]],
+        sbCode: [""],
         wards: [
           "",
           [
