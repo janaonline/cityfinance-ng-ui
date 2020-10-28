@@ -1,8 +1,8 @@
-import { USER_TYPE } from "../models/user/userType";
-import { ILink } from "../shared/side-menu/side-menu.component";
-import { AccessChecker } from "../util/access/accessChecker";
-import { ACTIONS } from "../util/access/actions";
-import { MODULES_NAME } from "../util/access/modules";
+import { USER_TYPE } from '../models/user/userType';
+import { ILink } from '../shared/side-menu/side-menu.component';
+import { AccessChecker } from '../util/access/accessChecker';
+import { ACTIONS } from '../util/access/actions';
+import { MODULES_NAME } from '../util/access/modules';
 
 const accessChecker = new AccessChecker();
 
@@ -11,7 +11,7 @@ export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
     title: "ULB DATA",
     subMenus: [
       {
-        title: "Financial Statements",
+        title: "XV Finance Commission Grants",
         type: "link",
         route: ["/user/data-upload/list"],
       },
@@ -178,7 +178,7 @@ export const sideMenuForStateUser: { title: string; subMenus: ILink[] }[] = [
     title: "ULB DATA",
     subMenus: [
       {
-        title: "Financial Statements",
+        title: "XV Finance Commission Grants",
         type: "link",
         route: ["/user/data-upload/list"],
       },
@@ -299,7 +299,7 @@ export const sideMenuForULBUser: { title: string; subMenus: ILink[] }[] = [
     title: "ULB DATA",
     subMenus: [
       {
-        title: "Financial Statements",
+        title: "XV Finance Commission Grants",
         type: "link",
         route: ["/user/data-upload/list"],
       },
