@@ -1,40 +1,27 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
-import { MatDialog, MatHorizontalStepper } from "@angular/material";
-import { Router } from "@angular/router";
-import { USER_TYPE } from "src/app/models/user/userType";
-import { IQuestionnaireResponse } from "src/app/pages/questionnaires/model/questionnaireResponse.interface";
-import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
-import { IDialogConfiguration } from "src/app/shared/components/dialog/models/dialogConfiguration";
-import { ProfileService } from "src/app/users/profile/service/profile.service";
-import { FinancialDataService } from "src/app/users/services/financial-data.service";
-import { AccessChecker } from "src/app/util/access/accessChecker";
-import { ACTIONS } from "src/app/util/access/actions";
-import { MODULES_NAME } from "src/app/util/access/modules";
-import { UserUtility } from "src/app/util/user/user";
+import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog, MatHorizontalStepper } from '@angular/material';
+import { Router } from '@angular/router';
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { IQuestionnaireResponse } from 'src/app/pages/questionnaires/model/questionnaireResponse.interface';
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
+import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
+import { ProfileService } from 'src/app/users/profile/service/profile.service';
+import { FinancialDataService } from 'src/app/users/services/financial-data.service';
+import { AccessChecker } from 'src/app/util/access/accessChecker';
+import { ACTIONS } from 'src/app/util/access/actions';
+import { MODULES_NAME } from 'src/app/util/access/modules';
+import { UserUtility } from 'src/app/util/user/user';
 
 import {
   IFinancialData,
   MillionPlusCitiesDocuments,
   SolidWasteManagementDocuments,
   WaterManagement,
-} from "../../models/financial-data.interface";
-import { SolidWasteEmitValue } from "../../models/solid-waste-questions.interface";
-import {
-  milliomPlusCitiesForm,
-  millionPlusCitiesQuestions,
-} from "../configs/million-plus-cities";
-import {
-  solidWasteForm,
-  solidWasterQuestions,
-} from "../configs/solid-waste-management";
-import { waterWasteManagementForm } from "../configs/water-waste-management";
+} from '../../models/financial-data.interface';
+import { SolidWasteEmitValue } from '../../models/solid-waste-questions.interface';
+import { milliomPlusCitiesForm, millionPlusCitiesQuestions } from '../configs/million-plus-cities';
+import { solidWasteForm, solidWasterQuestions } from '../configs/solid-waste-management';
+import { waterWasteManagementForm } from '../configs/water-waste-management';
 
 @Component({
   selector: "app-financial-uploads",
@@ -299,8 +286,11 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._matDialog.closeAll();
+    waterWasteManagementForm.enable();
     waterWasteManagementForm.reset();
     solidWasteForm.reset();
+    solidWasteForm.enable();
     milliomPlusCitiesForm.reset();
+    milliomPlusCitiesForm.enable();
   }
 }
