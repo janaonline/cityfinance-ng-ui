@@ -286,12 +286,17 @@
                             *ngSwitchCase="uploadStatus.PENDING"
                             (click)="openModal(row, historyModal)"
                           >
-                            {{
-                              row["completeness"] == uploadStatus.PENDING &&
-                              row["correctness"] == uploadStatus.PENDING
-                                ? "Requested By ULB"
-                                : "Under Review"
-                            }}
+                            <span *ngIf="!row.isCompleted">
+                              Saved as Draft</span
+                            >
+                            <span
+                              *ngIf="
+                                row.isCompleted &&
+                                row.status === uploadStatus.PENDING
+                              "
+                            >
+                              Under Review</span
+                            >
                           </a>
                           <a
                             *ngSwitchCase="uploadStatus.APPROVED"
