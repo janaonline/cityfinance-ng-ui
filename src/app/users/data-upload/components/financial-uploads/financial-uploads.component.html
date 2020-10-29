@@ -74,7 +74,9 @@
   <mat-step label="Solid Waste Management">
     <app-documents-upload
       [ngClass]="{
-        documentCompleted: financialData?.isCompleted && !isULBMillionPlus
+        documentCompleted:
+          (financialData?.isCompleted && !isULBMillionPlus) ||
+          (!isULBMillionPlus && !canUploadFile)
       }"
       [isSubmitButtonClick]="isSubmitButtonClicked"
       [userType]="USER_TYPE.ULB"
@@ -89,12 +91,14 @@
     ></app-documents-upload>
     <p>
       <span class="mandatory">**</span> Upload GAP analysis report and project
-      identified for bridging the gap as a single document.
+      identified for bridging the gap as a single document. {{ canUploadFile }}
     </p>
   </mat-step>
   <mat-step label="Million Plus Cities Only" *ngIf="isULBMillionPlus">
     <app-documents-upload
-      [ngClass]="{ documentCompleted: financialData?.isCompleted }"
+      [ngClass]="{
+        documentCompleted: financialData?.isCompleted || !canUploadFile
+      }"
       [isSubmitButtonClick]="isSubmitButtonClicked"
       [userType]="USER_TYPE.ULB"
       [form]="millionPlusCitiesForm"
