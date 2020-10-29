@@ -15,7 +15,7 @@
             <a
               [routerLink]="['../password', 'request']"
               class="pointer"
-              style="color: white;"
+              style="color: white"
               >Forgot Password?</a
             >
           </div>
@@ -35,15 +35,16 @@
               <div class="error-text col-xs-12" *ngIf="badCredentials">
                 <p class="text-danger">Invalid Email or Password!!</p>
               </div>
-              <div class="error-text col-xs-12" *ngIf="formError">
+              <!-- <div class="error-text col-xs-12" *ngIf="formError">
                 <p class="text-danger">Email and Password is mandatory!</p>
-              </div>
+              </div> -->
               <div class="input-group">
                 <span class="input-group-addon"
                   ><i class="glyphicon glyphicon-user"></i
                 ></span>
                 <input
                   type="text"
+                  placeholder="Enter Email ID or Swatch Bharat Code / Census Code"
                   formControlName="email"
                   class="form-control"
                   [ngClass]="{ 'is-invalid': submitted && lf.email.errors }"
@@ -53,7 +54,7 @@
                   class="invalid-feedback"
                 >
                   <div *ngIf="lf.email.errors['required']">
-                    Email is required
+                    Email ID or Swatch Bharat Code / Census Code is required
                   </div>
                 </div>
               </div>
@@ -63,6 +64,7 @@
                 ></span>
                 <input
                   type="password"
+                  placeholder="Password"
                   formControlName="password"
                   class="form-control"
                   [ngClass]="{ 'is-invalid': submitted && lf.password.errors }"
@@ -104,7 +106,7 @@
                   <a
                     [routerLink]="['../account-reactivate']"
                     class="pointer"
-                    style="float: right;"
+                    style="float: right"
                     >Activate Account</a
                   >
                 </p>

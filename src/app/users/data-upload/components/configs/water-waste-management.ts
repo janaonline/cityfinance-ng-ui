@@ -61,14 +61,17 @@ services.forEach((service) => {
         tg.key,
         new FormControl("", [
           Validators.required,
-          Validators.pattern("^\\d*$"),
+          Validators.pattern("^\\d*(.{0,1}\\d{2,2}){0,1}$"),
           service.customValidator,
         ])
       );
     } else {
       targetControls.addControl(
         tg.key,
-        new FormControl("", [Validators.required, Validators.pattern("^\\d*$")])
+        new FormControl("", [
+          Validators.required,
+          Validators.pattern("^\\d*(.{0,1}\\d{2,2}){0,1}$"),
+        ])
       );
     }
   });
