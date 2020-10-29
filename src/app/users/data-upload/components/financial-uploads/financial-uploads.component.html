@@ -73,6 +73,9 @@
   </mat-step>
   <mat-step label="Solid Waste Management">
     <app-documents-upload
+      [ngClass]="{
+        documentCompleted: financialData?.isCompleted && !isULBMillionPlus
+      }"
       [isSubmitButtonClick]="isSubmitButtonClicked"
       [userType]="USER_TYPE.ULB"
       [form]="solidWasteForm"
