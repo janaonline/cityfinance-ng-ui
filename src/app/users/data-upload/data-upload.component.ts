@@ -17,6 +17,7 @@ import { UPLOAD_STATUS } from '../../util/enums';
 import { FileUpload } from '../../util/fileUpload';
 import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
+import { IFinancialData } from './models/financial-data.interface';
 
 @Component({
   selector: "app-data-upload",
@@ -84,7 +85,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     "auditReport",
   ];
   fileFormGroup: FormGroup;
-  dataUploadList = [];
+  dataUploadList: Array<IFinancialData & { canTakeAction?: boolean }> = [];
   isAccessible: boolean;
   financialYearDropdownSettings: any = {
     singleSelection: true,
@@ -182,7 +183,32 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
-  handleResponseSuccess = (response) => {
+  canTakeAction(request?: IFinancialData) {
+    const canTake = this.accessUtil.hasAccess({
+      action: ACTIONS.APPROVE,
+      moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
+    });
+    if (!canTake) return false;
+    if (!request) return canTake;
+    const loggedInUserType = this.userUtil.getUserType();
+    switch (loggedInUserType) {
+      case USER_TYPE.STATE: {
+        if (request.actionTakenByUserRole !== USER_TYPE.ULB) return false;
+        if (!request.isCompleted) return false;
+        return true;
+      }
+      case USER_TYPE.MoHUA: {
+        if (request.actionTakenByUserRole !== USER_TYPE.STATE) return false;
+        if (!request.isCompleted) return false;
+        return true;
+      }
+      default:
+        return false;
+    }
+  }
+
+  handleResponseSuccess = (response: any) => {
+    this.canTakeAction();
     if (this.uploadId) {
       this.uploadObject = response.data;
 
@@ -192,7 +218,10 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         this.updateFormControls();
       }
     } else {
-      this.dataUploadList = response.data;
+      this.dataUploadList = response.data.map((req) => ({
+        ...req,
+        canTakeAction: this.canTakeAction(req),
+      }));
       if ("total" in response) {
         this.tableDefaultOptions = {
           ...this.tableDefaultOptions,

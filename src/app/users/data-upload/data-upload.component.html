@@ -61,17 +61,19 @@
           </h3>
         </div>
       </div>
-      <!--    <div class="col">-->
-      <!--      <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>-->
-      <!--    </div>-->
 
       <div class="row">
         <div class="col-sm-12">
-          <table class="table" *ngIf="!loading; else loader">
+          <table
+            aria-describedby="ULB List"
+            class="table"
+            *ngIf="!loading; else loader"
+          >
             <thead>
               <tr style="background: #059b9a; color: white">
-                <th class="text-center">S.No.</th>
+                <th id="S.No" class="text-center">S.No.</th>
                 <th
+                  [id]="header.id"
                   [attr.width]="100 / tableHeaders.length + '%'"
                   [ngClass]="header.id == 'action' ? 'text-center' : ''"
                   *ngFor="let header of tableHeaders"
@@ -195,10 +197,9 @@
                   >
                     <ng-container [ngSwitch]="header.id">
                       <ng-container *ngSwitchCase="'action'">
-                        <ng-container [ngSwitch]="userUtil.getUserType()">
-                          <ng-container *ngSwitchCase="'ULB'">
+                        <ng-container [ngSwitch]="row.canTakeAction">
+                          <ng-container *ngSwitchCase="true">
                             <a
-                              *ngIf="row['status'] === uploadStatus.REJECTED"
                               class="btn btn-primary"
                               (click)="navigateTo(row)"
                               title="Edit"
@@ -208,20 +209,9 @@
                               ]"
                               >Take {{ header.title }}
                             </a>
-                            <a
-                              *ngIf="row['status'] !== uploadStatus.REJECTED"
-                              (click)="navigateTo(row)"
-                              title="View"
-                              [routerLink]="[
-                                '/user/data-upload/upload-form',
-                                row?._id
-                              ]"
-                            >
-                              <i class="fa fa-eye" aria-hidden="true"></i>
-                            </a>
                           </ng-container>
 
-                          <ng-container *ngSwitchCase="'STATE'">
+                          <ng-container *ngSwitchCase="false">
                             <a
                               (click)="navigateTo(row)"
                               title="View"
@@ -233,45 +223,6 @@
                               <i class="fa fa-eye" aria-hidden="true"></i>
                             </a>
                           </ng-container>
-                          <ng-container *ngSwitchDefault>
-                            <a
-                              (click)="navigateTo(row)"
-                              title="View"
-                              [routerLink]="[
-                                '/user/data-upload/upload-form',
-                                row?._id
-                              ]"
-                            >
-                              <i class="fa fa-eye" aria-hidden="true"></i>
-                            </a>
-                          </ng-container>
-
-                          <!-- <ng-container *ngSwitchDefault>
-                            <a
-                              [routerLink]="[
-                                '/user/data-upload/action',
-                                row?._id
-                              ]"
-                              (click)="
-                                navigateTo('/user/data-upload/action', row?._id)
-                              "
-                            >
-                              <i
-                                *ngIf="row['status'] !== uploadStatus.PENDING"
-                                class="fa fa-eye"
-                              ></i>
-                            </a>
-                            <a
-                              *ngIf="row['status'] === uploadStatus.PENDING"
-                              [routerLink]="[
-                                '/user/data-upload/action',
-                                row?._id
-                              ]"
-                              (click)="navigateTo(row)"
-                              class="btn btn-primary"
-                              >Take {{ header.title }}</a
-                            >
-                          </ng-container> -->
                         </ng-container>
                       </ng-container>
                       <span *ngSwitchCase="'audited'">
@@ -287,16 +238,17 @@
                             (click)="openModal(row, historyModal)"
                           >
                             <span *ngIf="!row.isCompleted">
-                              Saved as Draft</span
-                            >
+                              Saved as Draft
+                            </span>
+
                             <span
                               *ngIf="
                                 row.isCompleted &&
                                 row.status === uploadStatus.PENDING
                               "
                             >
-                              Under Review</span
-                            >
+                              Under Review
+                            </span>
                           </a>
                           <a
                             *ngSwitchCase="uploadStatus.APPROVED"
@@ -316,12 +268,7 @@
                           </a>
                         </ng-container>
                       </ng-container>
-                      <!--
-                                      <a (click)="openModal(row,historyModal)" *ngSwitchCase="'ad'">{{
-                                        row['status'] === 'APPROVED' ?
-                                          'Approved By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
-                                          : row['completeness'] === 'REJECTED' || row['correctness'] === 'REJECTED' ? 'Rejected By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
-                                          : 'Requested By ULB'}}</a>-->
+
                       <span *ngSwitchDefault>{{ row[header.id] }}</span>
                     </ng-container>
                   </td>
