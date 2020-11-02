@@ -78,3 +78,17 @@ app-tick-icon {
   width: 24%;
   margin: auto;
 }
+
+:host ::ng-deep {
+  .mat-horizontal-content-container {
+    padding: 0px;
+    overflow: visible;
+  }
+}
+
+:host ::ng-deep {
+  .action-required {
+    background: linear-gradient(45deg, #ff8181, white);
+    transition: all 1s;
+  }
+}

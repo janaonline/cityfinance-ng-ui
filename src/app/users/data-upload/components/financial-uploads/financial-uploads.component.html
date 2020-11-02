@@ -63,8 +63,12 @@
   </mat-step>
   <mat-step label="Water Supply & Waste-Water Management">
     <app-waste-water-management
+      [form]="waterWasteManagementForm"
+      [canSeeApproveActionTaken]="canTakeApproveRejectAction"
+      [canTakeApproveAction]="canTakeApproveRejectAction"
       [isDataPrefilled]="!!solidWasteProfilledAnswers"
       [isSubmitButtonClick]="isSubmitButtonClicked"
+      [canUploadFile]="canUploadFile"
       (showNext)="stepper.next()"
       (saveAsDraft)="saveAsDraft()"
       (outputValues)="onWaterWasteManagementEmitValue($event)"
@@ -73,14 +77,16 @@
   </mat-step>
   <mat-step label="Solid Waste Management">
     <app-documents-upload
+      *ngIf="solidWasteManagementForm"
       [ngClass]="{
         documentCompleted:
-          (financialData?.isCompleted && !isULBMillionPlus) ||
-          (!isULBMillionPlus && !canUploadFile)
+          ((financialData?.isCompleted && !isULBMillionPlus) ||
+            (!isULBMillionPlus && !canUploadFile)) &&
+          !canTakeApproveRejectAction
       }"
       [isSubmitButtonClick]="isSubmitButtonClicked"
       [userType]="USER_TYPE.ULB"
-      [form]="solidWasteForm"
+      [form]="solidWasteManagementForm"
       [documents]="solidWasteProfilledAnswers"
       [canUploadFile]="canUploadFile"
       [questions]="solidWasteQuestions"
@@ -96,6 +102,7 @@
   </mat-step>
   <mat-step label="Million Plus Cities Only" *ngIf="isULBMillionPlus">
     <app-documents-upload
+      *ngIf="millionPlusCitiesForm"
       [ngClass]="{
         documentCompleted: financialData?.isCompleted || !canUploadFile
       }"
@@ -116,6 +123,14 @@
     <app-completed
       [submitted]="userHasAlreadyFilledForm"
       (submit)="uploadCompletedQuestionnaireData()"
+      (previous)="stepper.previous()"
+    ></app-completed>
+  </mat-step>
+
+  <mat-step label="Submit Actions" *ngIf="canTakeApproveRejectAction">
+    <app-completed
+      [submitted]="userHasAlreadyFilledForm"
+      (submit)="onSubmitApprovalActions()"
       (previous)="stepper.previous()"
     ></app-completed>
   </mat-step>

@@ -136,6 +136,7 @@ export class DocumentsUploadComponent<T>
     canUploadFile: SimpleChange;
   }): void {
     this.initializeQuestionMapping();
+    console.log("form", this.form);
 
     if (changes.documents && changes.documents.currentValue) {
       if (changes.canUploadFile && !changes.canUploadFile.currentValue) {

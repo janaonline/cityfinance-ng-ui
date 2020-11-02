@@ -129,19 +129,30 @@
 }
 
 :host {
+  table {
+    width: 110%;
+    transform: translateX(-5%);
+  }
   table tbody td,
   table thead th {
     padding: 1%;
     text-align: center;
-
-    // .form-control {
-    //   border-radius: 10px !important;
-    //   height: 40px;
-    // }
   }
   table tbody tr td:nth-child(1),
   table thead th:nth-child(1) {
     text-align: left !important;
+  }
+
+  table thead th:last-child,
+  table tbody td:last-child {
+    // background: red;
+    width: 17%;
+  }
+
+  .actions {
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-around;
   }
 
   table tbody tr td:nth-child(2),

@@ -13,9 +13,23 @@ const QuestionsIdMapping: { [key in fileKeys]: string } = {
 let solidWasteForm: FormGroup;
 const _fb = new FormBuilder();
 
+const newControl = _fb.group({
+  name: [null, [Validators.required]],
+  url: [null, [Validators.required]],
+  status: [null],
+  rejectReason: [null],
+});
+const constrolgarbageFreeCitiesArray = _fb.array([{ ...newControl.controls }]);
+const constrolwaterSupplyCoverageArray = _fb.array([
+  { ...newControl.controls },
+]);
+
 solidWasteForm = _fb.group({
-  garbageFreeCities: [null, [Validators.required]],
-  waterSupplyCoverage: [null, [Validators.required]],
+  garbageFreeCities: [constrolgarbageFreeCitiesArray, [Validators.required]],
+  waterSupplyCoverage: [
+    constrolwaterSupplyCoverageArray,
+    [Validators.required],
+  ],
 });
 
 const solidWasterQuestions: FinancialUploadQuestion<

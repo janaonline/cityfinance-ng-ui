@@ -1,16 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { debounceTime } from 'rxjs/operators';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { ACTIONS } from 'src/app/util/access/actions';
 
 import { WaterManagement, WaterManagementDocuments } from '../../models/financial-data.interface';
-import {
-  services,
-  targets,
-  wasteWaterDucmentQuestions,
-  waterWasteManagementForm,
-} from '../configs/water-waste-management';
+import { services, targets, wasteWaterDucmentQuestions } from '../configs/water-waste-management';
 
 @Component({
   selector: "app-waste-water-management",
@@ -23,13 +20,25 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
     protected _dialog: MatDialog
   ) {
     // super(dataEntryService, _dialog);
-    this.initializeForm();
   }
+
+  @Input()
+  form: FormGroup;
+
   @Input()
   isSubmitButtonClick = false;
 
   @Input()
   isDataPrefilled = false;
+
+  @Input()
+  canTakeApproveAction = false;
+
+  @Input()
+  canSeeApproveActionTaken = false;
+
+  @Input()
+  canUploadFile = false;
 
   @Output()
   saveAsDraft = new EventEmitter<WaterManagement>();
@@ -43,6 +52,9 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
 
   USER_TYPE = USER_TYPE;
 
+  approveAction = ACTIONS.APPROVE;
+  rejectAction = ACTIONS.REJECT;
+
   targets = targets;
 
   services: {
@@ -51,7 +63,8 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
     benchmark: string;
   }[] = services;
 
-  waterWasteManagementForm = waterWasteManagementForm;
+  APPROVE_ACTION = ACTIONS.APPROVE;
+  REJECT_ACTION = ACTIONS.REJECT;
 
   wasterWaterQuestion = wasteWaterDucmentQuestions;
 
@@ -61,23 +74,24 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes) {
     if (this.isDataPrefilled) this.populateFormDatas();
+    if (this.form) this.initializeForm();
   }
 
   onSaveAsDraftClick() {
-    this.saveAsDraft.emit(waterWasteManagementForm.value);
+    this.saveAsDraft.emit(this.form.value);
   }
 
   onSolidWasteEmit(value: WaterManagementDocuments) {
-    waterWasteManagementForm.controls.documents.patchValue({ ...value });
+    this.form.controls.documents.patchValue({ ...value });
   }
 
   private populateFormDatas() {
     if (!this.isDataPrefilled) return;
-    this.prefilledDocuments = waterWasteManagementForm.getRawValue().documents;
+    this.prefilledDocuments = this.form.getRawValue().documents;
   }
 
   private initializeForm() {
-    this.waterWasteManagementForm.valueChanges
+    this.form.valueChanges
       .pipe(debounceTime(100))
       .subscribe((values) => this.outputValues.emit(values));
   }

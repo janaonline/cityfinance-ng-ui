@@ -18,13 +18,16 @@ import { FileUpload } from '../../util/fileUpload';
 import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
 import { IFinancialData } from './models/financial-data.interface';
+import { UploadDataUtility } from './util/upload-data.util';
 
 @Component({
   selector: "app-data-upload",
   templateUrl: "./data-upload.component.html",
   styleUrls: ["./data-upload.component.scss"],
 })
-export class DataUploadComponent implements OnInit, OnDestroy {
+export class DataUploadComponent
+  extends UploadDataUtility
+  implements OnInit, OnDestroy {
   constructor(
     public activatedRoute: ActivatedRoute,
     public router: Router,
@@ -38,6 +41,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar,
     public _matDialog: MatDialog
   ) {
+    super();
     this.isAccessible = accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.UPLOAD,
@@ -183,30 +187,6 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
-  canTakeAction(request?: IFinancialData) {
-    const canTake = this.accessUtil.hasAccess({
-      action: ACTIONS.APPROVE,
-      moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
-    });
-    if (!canTake) return false;
-    if (!request) return canTake;
-    const loggedInUserType = this.userUtil.getUserType();
-    switch (loggedInUserType) {
-      case USER_TYPE.STATE: {
-        if (request.actionTakenByUserRole !== USER_TYPE.ULB) return false;
-        if (!request.isCompleted) return false;
-        return true;
-      }
-      case USER_TYPE.MoHUA: {
-        if (request.actionTakenByUserRole !== USER_TYPE.STATE) return false;
-        if (!request.isCompleted) return false;
-        return true;
-      }
-      default:
-        return false;
-    }
-  }
-
   handleResponseSuccess = (response: any) => {
     this.canTakeAction();
     if (this.uploadId) {
@@ -241,7 +221,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       }
     }
     this.loading = false;
-  };
+  }
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -307,12 +287,12 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  };
+  }
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  };
+  }
 
   getAddedFilterCount() {
     let count = 0;

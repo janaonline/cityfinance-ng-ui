@@ -19,23 +19,29 @@ import {
   WaterManagement,
 } from '../../models/financial-data.interface';
 import { SolidWasteEmitValue } from '../../models/solid-waste-questions.interface';
-import { milliomPlusCitiesForm, millionPlusCitiesQuestions } from '../configs/million-plus-cities';
-import { solidWasteForm, solidWasterQuestions } from '../configs/solid-waste-management';
-import { waterWasteManagementForm } from '../configs/water-waste-management';
+import { UploadDataUtility } from '../../util/upload-data.util';
+import { millionPlusCitiesQuestions } from '../configs/million-plus-cities';
+import { solidWasterQuestions } from '../configs/solid-waste-management';
+
+// import { this.waterWasteManagementForm } from '../configs/water-waste-management';
 
 @Component({
   selector: "app-financial-uploads",
   templateUrl: "./financial-uploads.component.html",
   styleUrls: ["./financial-uploads.component.scss"],
 })
-export class FinancialUploadsComponent implements OnInit, OnDestroy {
+export class FinancialUploadsComponent
+  extends UploadDataUtility
+  implements OnInit, OnDestroy {
   constructor(
     private _matDialog: MatDialog,
     private financialDataService: FinancialDataService,
     public accessUtil: AccessChecker,
     private _router: Router,
     private _profileService: ProfileService
-  ) {}
+  ) {
+    super();
+  }
 
   isULBMillionPlus = undefined;
 
@@ -54,8 +60,6 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
   solidWasteProfilledAnswers: SolidWasteManagementDocuments;
   millionPlusCitiesAnswers: MillionPlusCitiesDocuments;
 
-  solidWasteForm = solidWasteForm;
-  millionPlusCitiesForm = milliomPlusCitiesForm;
   userHasAlreadyFilledForm = false;
 
   defaultDailogConfiuration: IDialogConfiguration = {
@@ -74,6 +78,7 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
 
   hasAccessToUploadData = false;
   hasAccessToViewData = false;
+  canTakeApproveRejectAction = false;
 
   successMessage: string;
   isSubmitButtonClicked = false;
@@ -91,16 +96,23 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
       action: ACTIONS.VIEW,
     });
 
+    this.canTakeApproveRejectAction = this.accessUtil.hasAccess({
+      moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
+      action: ACTIONS.APPROVE,
+    });
+
     if (!this.hasAccessToViewData) return this._router.navigate(["/home"]);
     if (!this.hasAccessToUploadData) this.setStateToReadMode();
+    if (this.canTakeApproveRejectAction) this.setFormToTakeActionMode();
   }
 
   private setStateToReadMode() {
-    waterWasteManagementForm.disable();
+    this.waterWasteManagementForm.disable();
     this.canUploadFile = false;
   }
 
   ngOnChanges() {
+    this.createDataForms(this.financialData);
     if (this.financialData) this.populateFormDatas(this.financialData);
     this.initializeAccessCheck();
     this.checkULBMilionPlusStatus();
@@ -123,16 +135,21 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
   }
 
   private populateFormDatas(data: IFinancialData) {
-    solidWasteForm.patchValue({ ...data.solidWasteManagement.documents });
+    // this.solidWasteManagementForm.patchValue({
+    //   ...data.solidWasteManagement.documents,
+    // });
+
     this.solidWasteProfilledAnswers = {
       ...data.solidWasteManagement.documents,
     };
-    milliomPlusCitiesForm.patchValue({ ...data.millionPlusCities.documents });
+    // this.millionPlusCitiesForm.patchValue({
+    //   ...data.millionPlusCities.documents,
+    // });
     this.millionPlusCitiesAnswers = {
       ...data.millionPlusCities.documents,
     };
 
-    waterWasteManagementForm.patchValue({ ...data.waterManagement });
+    // this.waterWasteManagementForm.patchValue({ ...data.waterManagement });
     // this.financialData.isCompleted = false;
 
     if (this.financialData.isCompleted) this.setStateToReadMode();
@@ -240,38 +257,58 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * @description This method must be called only if the LoggedIn User has
+   * access to APPORVE/REJECT form.
+   */
+  onSubmitApprovalActions() {
+    this.saveAsDraftFailMessge = null;
+    this.isSubmitButtonClicked = true;
+    console.log("solidWaste", this.solidWasteManagementForm);
+
+    try {
+      this.validateUserApprovalAction();
+    } catch (error) {
+      return console.error(error);
+    }
+  }
+
+  /**
+   * @description Validate whether the ULB has filled all the questions or not.
+   * If not, then a popup will be show with the message.
+   */
   validatorQuestionnaireForms() {
     let message = "";
     if (
-      solidWasteForm.valid &&
-      (this.isULBMillionPlus ? milliomPlusCitiesForm.valid : true) &&
-      waterWasteManagementForm.valid
+      this.solidWasteManagementForm.valid &&
+      (this.isULBMillionPlus ? this.millionPlusCitiesForm.valid : true) &&
+      this.waterWasteManagementForm.valid
     ) {
       return true;
     }
 
-    if (!waterWasteManagementForm.valid) {
+    if (!this.waterWasteManagementForm.valid) {
       message = "All questions must be answered in Water Waste Management";
       this.stepper.selectedIndex = 0;
     }
 
-    if (!solidWasteForm.valid) {
+    if (!this.solidWasteManagementForm.valid) {
       message += message
         ? ", Solid Waste Management"
         : "All questions must be answered in Solid Waste Management";
       // this.stepper.selectedIndex = 1;
     }
 
-    if (this.isULBMillionPlus && !milliomPlusCitiesForm.valid) {
+    if (this.isULBMillionPlus && !this.millionPlusCitiesForm.valid) {
       message += message
         ? " and Million Plus Cities sections."
         : "All questions must be answered in Million Plus Cities section.";
     }
-    if (!waterWasteManagementForm.valid) {
+    if (!this.waterWasteManagementForm.valid) {
       this.stepper.selectedIndex = 1;
-    } else if (!solidWasteForm.valid) {
+    } else if (!this.solidWasteManagementForm.valid) {
       this.stepper.selectedIndex = 2;
-    } else if (this.isULBMillionPlus && !milliomPlusCitiesForm.valid) {
+    } else if (this.isULBMillionPlus && !this.millionPlusCitiesForm.valid) {
       this.stepper.selectedIndex = 3;
     }
 
@@ -284,13 +321,61 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
     throw message;
   }
 
+  /**
+   * @description Validate whether the User (User who has access to APPROVE/REJECt form), has taken
+   * action on all requried fields. If not, then a popup will be show with the message.
+   */
+  validateUserApprovalAction() {
+    let message: string;
+    if (
+      this.waterWasteManagementForm.valid &&
+      this.solidWasteManagementForm.valid &&
+      this.millionPlusCitiesForm.valid
+    ) {
+      return true;
+    }
+    if (this.waterWasteManagementForm.invalid) {
+      message =
+        "You need to take approval action on all the questions in Water Waste Management";
+      this.stepper.selectedIndex = 1;
+    }
+    if (this.solidWasteManagementForm.invalid) {
+      if (!message) {
+        message =
+          "You need to take action on all the questions in Solid Waste Management";
+        this.stepper.selectedIndex = 2;
+      } else {
+        message += " & Solid Waste Management";
+      }
+    }
+
+    if (this.millionPlusCitiesForm.invalid) {
+      if (!message) {
+        message =
+          "You need to take action on all the questions in Million Plus Cities";
+        this.stepper.selectedIndex = 3;
+      } else {
+        message += " & Solid Waste Management";
+      }
+    }
+
+    message +=
+      ". Also It is mandatory to provide reason for every REJECTED field. Kindly submit the form once completed.";
+    this._matDialog.open(DialogComponent, {
+      data: { ...this.defaultDailogConfiuration, message },
+      width: "45vw",
+      panelClass: "custom-warning-popup",
+    });
+    throw message;
+  }
+
   ngOnDestroy() {
     this._matDialog.closeAll();
-    waterWasteManagementForm.enable();
-    waterWasteManagementForm.reset();
-    solidWasteForm.reset();
-    solidWasteForm.enable();
-    milliomPlusCitiesForm.reset();
-    milliomPlusCitiesForm.enable();
+    this.waterWasteManagementForm.enable();
+    this.waterWasteManagementForm.reset();
+    this.solidWasteManagementForm.reset();
+    this.solidWasteManagementForm.enable();
+    this.millionPlusCitiesForm.reset();
+    this.millionPlusCitiesForm.enable();
   }
 }

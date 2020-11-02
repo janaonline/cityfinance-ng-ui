@@ -105,6 +105,8 @@ services.forEach((service) => {
     {
       target: targetControls,
       baseline: baselineControl,
+      status: [null],
+      rejectReason: [null],
     },
     {
       validator: [Validators.required],
