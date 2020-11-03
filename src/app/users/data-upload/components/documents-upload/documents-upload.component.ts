@@ -8,6 +8,7 @@ import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.servic
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
+import { ACTIONS } from 'src/app/util/access/actions';
 
 import { MillionPlusCitiesDocuments, SolidWasteManagementDocuments } from '../../models/financial-data.interface';
 import { FinancialUploadQuestion } from '../../models/financial-upload-question';
@@ -66,6 +67,9 @@ export class DocumentsUploadComponent<T>
 
   @Input()
   isSubmitButtonClick = false;
+
+  @Input()
+  canTakeApproveAction = true;
 
   @Output()
   outputValues = new EventEmitter<
@@ -126,6 +130,8 @@ export class DocumentsUploadComponent<T>
   MaxFileSize = 50 * 1024 * 1024; // 20 MB. Always keep it in MB since in other places, we are dealing in MB only.
 
   noOfFilesAllowedPerQuestion = 1;
+  approveAction = ACTIONS.APPROVE;
+  rejectAction = ACTIONS.REJECT;
 
   constructor(
     protected dataEntryService: DataEntryService,
@@ -136,7 +142,6 @@ export class DocumentsUploadComponent<T>
     canUploadFile: SimpleChange;
   }): void {
     this.initializeQuestionMapping();
-    console.log("form", this.form);
 
     if (changes.documents && changes.documents.currentValue) {
       if (changes.canUploadFile && !changes.canUploadFile.currentValue) {
@@ -463,12 +468,11 @@ export class DocumentsUploadComponent<T>
     );
   }
 
+  private initializeQuestionMapping() {
+    this.documentForm = this.form;
+  }
   ngOnDestroy(): void {
     // documentForm.reset();
     // documentForm.enable();
-  }
-
-  private initializeQuestionMapping() {
-    this.documentForm = this.form;
   }
 }

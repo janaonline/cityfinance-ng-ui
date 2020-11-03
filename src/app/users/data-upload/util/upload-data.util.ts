@@ -1,4 +1,4 @@
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
@@ -60,12 +60,12 @@ export class UploadDataUtility {
   }
 
   private setWasteWaterToTakeActionMode() {
-    console.log(this.waterWasteManagementForm);
     Object.keys(this.waterWasteManagementForm.controls).forEach(
       (controlKey) => {
         const service = this.waterWasteManagementForm.controls[
           controlKey
         ] as FormGroup;
+
         const statusControl = service.controls["status"];
         const rejectReasonControl = service.controls["rejectReason"];
         if (!statusControl) return;
@@ -82,22 +82,32 @@ export class UploadDataUtility {
         rejectReasonControl.enable();
       }
     );
+
+    // this.waterWasteManagementForm.controls.documents.enable();
+    const formArray = (this.waterWasteManagementForm.controls
+      .documents as FormGroup).controls.wasteWaterPlan as FormArray;
+    formArray.controls.forEach((question: FormGroup) => {
+      const statusControl = question.controls["status"];
+      const rejectReasonControl = question.controls["rejectReason"];
+      statusControl.setValidators([
+        Validators.required,
+        Validators.pattern(`${ACTIONS.APPROVE}|${ACTIONS.REJECT}`),
+      ]);
+      rejectReasonControl.setValidators(this.addRejectValidator(statusControl));
+
+      statusControl.enable();
+      rejectReasonControl.enable();
+    });
   }
 
   private setSolidWasteManagementToTakeActionMode() {
-    // console.log("solidWaste", this.solidWasteManagementForm);
+    console.log("solidWaste", this.solidWasteManagementForm);
   }
 
   private setMillionPlusToTakeActionMode() {}
 
   addRejectValidator(statusControl: AbstractControl) {
     return (control: AbstractControl) => {
-      console.log(
-        "statusControl control",
-        statusControl.value,
-        `reject cotnrol`,
-        control.value
-      );
       if (statusControl.value !== ACTIONS.REJECT) return null;
       if (control.value && control.value.trim()) return null;
       return { required: true };

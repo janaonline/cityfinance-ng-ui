@@ -132,4 +132,16 @@
   .documents-required {
     background: linear-gradient(45deg, #ff8181, white);
   }
+
+  .actionsContainer {
+    width: 32%;
+    display: inline-block;
+    margin-left: 5%;
+  }
+
+  .actions {
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-around;
+  }
 }

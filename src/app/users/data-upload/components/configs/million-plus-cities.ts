@@ -5,13 +5,10 @@ import { FinancialUploadQuestion } from '../../models/financial-upload-question'
 
 type fileKeys = keyof MillionPlusCitiesDocuments;
 
-// const QuestionsIdMapping: { [key in fileKeys]: string } = {
-//   cityPlan: "Garbage free star rating of the cities",
-//   waterBalancePlan: "",
-//   serviceLevelPlan: "",
-//   solidWastePlan: "",
-// };
-
+/**
+ * @description his form is not meant to be used directly.
+ * Instead use it through UploadDataUtility class.
+ */
 let milliomPlusCitiesForm: FormGroup;
 const _fb = new FormBuilder();
 
@@ -42,14 +39,5 @@ const millionPlusCitiesQuestions: FinancialUploadQuestion<
     question: "Solid Waste Management Plan",
   },
 ];
-
-// export type TT = {
-//   key: fileKeys
-//   question: string
-// }[];
-
-// let bb:TT;
-
-// bb = [{key: 'cityPlan', question: 'adsas'}];
 
 export { milliomPlusCitiesForm, millionPlusCitiesQuestions };

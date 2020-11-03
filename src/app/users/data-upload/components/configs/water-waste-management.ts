@@ -4,6 +4,11 @@ import { WaterManagement, WaterManagementDocuments } from '../../models/financia
 import { FinancialUploadQuestion } from '../../models/financial-upload-question';
 
 const _fb = new FormBuilder();
+
+/**
+ * @description his form is not meant to be used directly.
+ * Instead use it through UploadDataUtility class.
+ */
 const waterWasteManagementForm: FormGroup = _fb.group({});
 
 const targets = [
@@ -116,8 +121,17 @@ services.forEach((service) => {
   waterWasteManagementForm.addControl(service.key, serviceLevelGroup);
 });
 
+const fileGroupArray = _fb.array([
+  _fb.group({
+    name: [null, [Validators.required]],
+    url: [null, [Validators.required]],
+    status: [null],
+    rejectReason: [null],
+  }),
+]);
+
 const documents = _fb.group({
-  wasteWaterPlan: ["", Validators.required],
+  wasteWaterPlan: fileGroupArray,
 });
 
 waterWasteManagementForm.addControl("documents", documents);
