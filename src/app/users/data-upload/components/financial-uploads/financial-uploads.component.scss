@@ -5,7 +5,7 @@
 
 :host ::ng-deep .question-instruction {
   font-style: italic;
-  margin-top: 2%;
+  margin-top: -1%;
 }
 
 ::ng-deep .mandatory {
@@ -45,6 +45,7 @@ button {
 
 ::ng-deep .mat-horizontal-content-container {
   margin-top: 1%;
+  padding-left: 0px !important;
 }
 
 ::ng-deep .mat-calendar-controls {

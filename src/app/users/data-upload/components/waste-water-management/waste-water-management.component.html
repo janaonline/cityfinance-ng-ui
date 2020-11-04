@@ -35,7 +35,10 @@
               formControlName="2021"
               [ngClass]="{
                 'is-invalid':
-                  isSubmitButtonClick &&
+                  (isSubmitButtonClick ||
+                    waterWasteManagementForm.controls[service.key].controls[
+                      'baseline'
+                    ].touched) &&
                   waterWasteManagementForm.controls[service.key].controls[
                     'baseline'
                   ].invalid
@@ -59,8 +62,8 @@
           >
             <span *ngIf="error.pattern">
               Only numeric values are allowed and must be greater than or equal
-              to 0. Decimal Values must be of 2 digit place.</span
-            >
+              to 0.
+            </span>
             <span *ngIf="error.max"> {{ error.max }} </span>
 
             <!-- {{
@@ -78,7 +81,10 @@
               [formControlName]="year.key"
               [ngClass]="{
                 'is-invalid':
-                  isSubmitButtonClick &&
+                  (isSubmitButtonClick ||
+                    waterWasteManagementForm.controls[service.key].controls[
+                      'target'
+                    ].touched) &&
                   waterWasteManagementForm.controls[service.key].controls[
                     'target'
                   ].controls[year.key].invalid
@@ -98,9 +104,8 @@
             "
           >
             <span *ngIf="error.pattern">
-              Only numeric values are allowed. Decimal Values must be of 2 digit
-              place.</span
-            >
+              Only numeric values are allowed.
+            </span>
             <span *ngIf="error.max"> {{ error.max }} </span></span
           >
         </td>

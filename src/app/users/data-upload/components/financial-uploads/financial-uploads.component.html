@@ -1,10 +1,3 @@
-<p class="question-instruction" *ngIf="isULBMillionPlus !== undefined">
-  <strong>NOTE:</strong><br />
-  1. All questions are mandatory<br />
-  2. Only files wih extensions <strong>pdf</strong> are allowed. Other type of
-  files will be filtered out.<br />
-  3. Only 1 file can be selected per question.<br />
-</p>
 <mat-horizontal-stepper
   *ngIf="isULBMillionPlus !== undefined"
   id="stepper"
@@ -53,6 +46,7 @@
         >Click here for accessing XV Commission Report</a
       >
     </p>
+    <ng-content> </ng-content>
     <button
       style="float: right"
       class="btn btn-primary btn-upload mt-3"
@@ -91,7 +85,7 @@
     ></app-documents-upload>
     <p>
       <span class="mandatory">**</span> Upload GAP analysis report and project
-      identified for bridging the gap as a single document. {{ canUploadFile }}
+      identified for bridging the gap as a single document.
     </p>
   </mat-step>
   <mat-step label="Million Plus Cities Only" *ngIf="isULBMillionPlus">
@@ -120,6 +114,13 @@
     ></app-completed>
   </mat-step>
 </mat-horizontal-stepper>
+<p class="question-instruction" *ngIf="isULBMillionPlus !== undefined">
+  <strong>NOTE:</strong><br />
+  1. All questions are mandatory<br />
+  2. Only files wih extensions <strong>pdf</strong> are allowed. Other type of
+  files will be filtered out.<br />
+  3. Only 1 file can be selected per question.<br />
+</p>
 
 <ng-template #savingPopup>
   <mat-spinner style="margin: auto" *ngIf="draftSavingInProgess"></mat-spinner>
