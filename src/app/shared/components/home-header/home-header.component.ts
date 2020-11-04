@@ -13,7 +13,7 @@ import { AnalyticsTabs, IAnalyticsTabs } from './tabs';
 @Component({
   selector: "app-home-header",
   templateUrl: "./home-header.component.html",
-  styleUrls: ["./home-header.component.scss"]
+  styleUrls: ["./home-header.component.scss"],
 })
 export class HomeHeaderComponent implements OnInit {
   isProduction: boolean;
@@ -41,6 +41,7 @@ export class HomeHeaderComponent implements OnInit {
 
   isMunicipalBondActive = false;
   isCreditRatingActive = false;
+  isResourceTabActive = false;
   private accessChecker = new AccessChecker();
 
   isAnalyticsPageActive = false;
@@ -52,11 +53,11 @@ export class HomeHeaderComponent implements OnInit {
     private renderer: Renderer2,
     private _ngZone: NgZone
   ) {
-    Object.values(AnalyticsTabs).forEach(tab => {
+    Object.values(AnalyticsTabs).forEach((tab) => {
       this.tabs.push(tab);
     });
     this.initializeAccessChecking();
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isAnalyticsPageActive = event.url.includes(`analytics`);
 
@@ -64,9 +65,12 @@ export class HomeHeaderComponent implements OnInit {
           this.isCreditRatingActive = true;
         } else if (event.url.includes(`municipal-bond`)) {
           this.isMunicipalBondActive = true;
+        } else if (event.url.includes(`resources`)) {
+          this.isResourceTabActive = true;
         } else {
           this.isCreditRatingActive = false;
           this.isMunicipalBondActive = false;
+          this.isResourceTabActive = false;
         }
       }
       this.isLoggedIn = this.authService.loggedIn();
@@ -83,52 +87,52 @@ export class HomeHeaderComponent implements OnInit {
   private initializeAccessChecking() {
     this.canViewUploadData = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canEditOwnProfile = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.SELF_PROFILE,
-      action: ACTIONS.EDIT
+      action: ACTIONS.EDIT,
     });
 
     this.canViewMoHUAList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.MoHUA,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewPartnerList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.PARTNER,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewStateList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.STATE,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewULBSingUpListing = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.ULB_SIGNUP_REQUEST,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewUserList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.USERLIST,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewQuestionnaireList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE_LIST,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewQuestionnaireForm =
       this.accessChecker.hasAccess({
         moduleName: MODULES_NAME.STATE_PROPERTY_TAX_QUESTIONNAIRE,
-        action: ACTIONS.VIEW
+        action: ACTIONS.VIEW,
       }) ||
       this.accessChecker.hasAccess({
         moduleName: MODULES_NAME.ULB_LEVEL_PROPERTY_TAX_QUESTIONNAIRE,
-        action: ACTIONS.VIEW
+        action: ACTIONS.VIEW,
       });
   }
 
@@ -270,9 +274,9 @@ export class HomeHeaderComponent implements OnInit {
       const options: IntersectionObserverInit = {
         root: null,
         rootMargin: "0px",
-        threshold: [0, 0.1, 0.2, 0.25, 0.4, 0.75, 1]
+        threshold: [0, 0.1, 0.2, 0.25, 0.4, 0.75, 1],
       };
-      const observer = new IntersectionObserver(event => {}, options);
+      const observer = new IntersectionObserver((event) => {}, options);
       const target = document.getElementById("carousel");
       observer.observe(target);
     });
