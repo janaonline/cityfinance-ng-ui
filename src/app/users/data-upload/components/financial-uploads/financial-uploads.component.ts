@@ -226,7 +226,8 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
       (res) => {
         this.draftSavingInProgess = false;
         this.successMessage = "Data Upload Complete.";
-        this._router.navigate(["user/data-upload/list"]);
+        window.history.back();
+        // this._router.navigate(["user/data-upload/list"]);
         setTimeout(() => this._matDialog.closeAll(), 3000);
       },
       (err) => {

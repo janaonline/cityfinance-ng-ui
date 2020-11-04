@@ -55,6 +55,9 @@
           <span
             class="error-message"
             *ngIf="
+              !waterWasteManagementForm.controls[service.key].controls[
+                'baseline'
+              ].controls['2021']?.errors?.required &&
               waterWasteManagementForm.controls[service.key].controls[
                 'baseline'
               ].controls['2021']?.errors as error
@@ -84,7 +87,7 @@
                   (isSubmitButtonClick ||
                     waterWasteManagementForm.controls[service.key].controls[
                       'target'
-                    ].touched) &&
+                    ].controls[year.key].dirty) &&
                   waterWasteManagementForm.controls[service.key].controls[
                     'target'
                   ].controls[year.key].invalid
@@ -99,6 +102,8 @@
           <span
             class="error-message"
             *ngIf="
+              !waterWasteManagementForm.controls[service.key].controls['target']
+                .controls[year.key]?.errors?.required &&
               waterWasteManagementForm.controls[service.key].controls['target']
                 .controls[year.key]?.errors as error
             "

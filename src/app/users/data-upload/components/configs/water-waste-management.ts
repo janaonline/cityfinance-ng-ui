@@ -141,6 +141,8 @@ const wasteWaterDucmentQuestions: FinancialUploadQuestion<
   },
 ];
 
+console.log(waterWasteManagementForm);
+
 export {
   waterWasteManagementForm,
   services,

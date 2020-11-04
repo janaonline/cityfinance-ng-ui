@@ -1,0 +1,16 @@
+:host {
+  a {
+    display: block;
+    width: fit-content;
+  }
+
+  .button-wrapper {
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
+
+    .btn {
+      margin: 1%;
+    }
+  }
+}

@@ -16,6 +16,10 @@ export const appRouter: Routes = [
   //   loadChildren: "./pages/resources/public-files.module#PublicFilesModule"
   // },
   {
+    path: "fc_grant",
+    loadChildren: "./pages/fc-grant/fc-grant.module#FcGrantModule",
+  },
+  {
     path: "questionnaires",
     loadChildren:
       "./pages/questionnaires/questionnaires.module#QuestionnairesModule",
