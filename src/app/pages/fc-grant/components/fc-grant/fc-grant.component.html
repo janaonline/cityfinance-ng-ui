@@ -55,6 +55,7 @@
       >SignUp</a
     >
   </div>
+
   <div
     *ngIf="loggedInUser && financialData"
     class="d-flex justify-content-center flex-column align-items-center"
@@ -81,6 +82,13 @@
       routerLink="/login"
       >Fill Remaining Entries</a
     > -->
+  </div>
+
+  <div
+    class="preloader-wrapper"
+    *ngIf="loggedInUser && financialData === undefined"
+  >
+    <app-pre-loader></app-pre-loader>
   </div>
 
   <div
