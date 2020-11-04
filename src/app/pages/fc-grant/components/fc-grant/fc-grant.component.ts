@@ -32,6 +32,9 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       case USER_TYPE.MoHUA:
       case USER_TYPE.ADMIN:
         return this._router.navigate(["/user/data-upload/list"]);
+      case undefined:
+      case null:
+        return;
       default:
         return this._router.navigate(["/home"]);
     }

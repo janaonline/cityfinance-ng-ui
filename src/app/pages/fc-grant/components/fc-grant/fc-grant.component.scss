@@ -1,4 +1,10 @@
 :host {
+  @media (max-width: 768px) {
+    .container {
+      margin-bottom: 10%;
+    }
+  }
+
   a {
     display: block;
     width: fit-content;
