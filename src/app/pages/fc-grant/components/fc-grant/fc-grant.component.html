@@ -45,14 +45,17 @@
   </p>
 
   <div class="button-wrapper" *ngIf="!loggedInUser">
-    <a id="login" class="btn btn-primary btn-upload mt-3" routerLink="/login"
+    <a
+      id="login"
+      class="btn btn-primary btn-upload mt-3"
+      (click)="onClickingLoginButton()"
       >LOGIN</a
     >
     <a
       id="signup"
       class="btn btn-primary btn-upload mt-3"
-      routerLink="/register"
-      >SIGNUP</a
+      routerLink="/register/ulb"
+      >SIGNUP AS ULB</a
     >
   </div>
 

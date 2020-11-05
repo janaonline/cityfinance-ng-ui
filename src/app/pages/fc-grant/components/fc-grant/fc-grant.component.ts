@@ -40,6 +40,11 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
     }
   }
 
+  onClickingLoginButton() {
+    sessionStorage.setItem("postLoginNavigation", this._router.url);
+    this._router.navigate(["/login"]);
+  }
+
   fetchFinancialDataUpload() {
     this._financialService.fetchFinancialDataList().subscribe((res) => {
       try {
