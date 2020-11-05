@@ -295,16 +295,16 @@ export const sideMenuForStateUser: { title: string; subMenus: ILink[] }[] = [
 ];
 
 export const sideMenuForULBUser: { title: string; subMenus: ILink[] }[] = [
-  {
-    title: "ULB DATA",
-    subMenus: [
-      {
-        title: "XV Finance Commission Grants",
-        type: "link",
-        route: ["/user/data-upload/list"],
-      },
-    ],
-  },
+  // {
+  //   title: "ULB DATA",
+  //   subMenus: [
+  //     {
+  //       title: "XV Finance Commission Grants",
+  //       type: "link",
+  //       route: ["/user/data-upload/list"],
+  //     },
+  //   ],
+  // },
   {
     title: "ULB Profile",
     subMenus: [
