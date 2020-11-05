@@ -436,12 +436,7 @@
             <td class="text-center">{{ i + 1 }}</td>
             <ng-container [ngSwitch]="row['status']">
               <td class="text-center" *ngSwitchCase="uploadStatus.PENDING">
-                {{
-                  row["completeness"] == uploadStatus.PENDING &&
-                  row["correctness"] == uploadStatus.PENDING
-                    ? "Requested By ULB"
-                    : "Under Review"
-                }}
+                {{ row.isCompleted ? "Under Review" : "Saved as Draft" }}
               </td>
               <td class="text-center" *ngSwitchCase="uploadStatus.APPROVED">
                 Approved By :{{ row["actionTakenByUserName"] }} ({{
