@@ -17,6 +17,7 @@ import { UPLOAD_STATUS } from '../../util/enums';
 import { FileUpload } from '../../util/fileUpload';
 import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
+import { SidebarUtil } from '../utils/sidebar.util';
 
 @Component({
   selector: "app-data-upload",
@@ -37,6 +38,10 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar,
     public _matDialog: MatDialog
   ) {
+    if (this.userUtil.getUserType() === USER_TYPE.ULB) {
+      SidebarUtil.hideSidebar();
+    }
+
     this.isAccessible = accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.UPLOAD,
@@ -212,7 +217,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       }
     }
     this.loading = false;
-  };
+  }
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -278,12 +283,12 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  };
+  }
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  };
+  }
 
   getAddedFilterCount() {
     let count = 0;
@@ -589,7 +594,6 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         : this.uploadObject[key].excelUrl;
     });
 
-    console.log({ urlObject });
     this.financialDataService
       .upDateFinancialData(this.uploadId, urlObject)
       .subscribe(

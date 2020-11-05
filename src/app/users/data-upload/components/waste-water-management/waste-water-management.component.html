@@ -29,6 +29,13 @@
         <td formGroupName="baseline">
           <div class="input-group">
             <input
+              (blur)="
+                onBlur(
+                  waterWasteManagementForm.controls[service.key].controls[
+                    'baseline'
+                  ].controls['2021']
+                )
+              "
               [id]="service.key + 'baseline'"
               type="text"
               class="form-control"
@@ -78,6 +85,13 @@
         <td *ngFor="let year of targets" formGroupName="target">
           <div class="input-group">
             <input
+              (blur)="
+                onBlur(
+                  waterWasteManagementForm.controls[service.key].controls[
+                    'target'
+                  ].controls[year.key]
+                )
+              "
               [id]="service.key + year.key"
               type="text"
               class="form-control"
@@ -109,7 +123,8 @@
             "
           >
             <span *ngIf="error.pattern">
-              Only numeric values are allowed.
+              Only numeric values are allowed and must be greater than or equal
+              to 0.
             </span>
             <span *ngIf="error.max"> {{ error.max }} </span></span
           >

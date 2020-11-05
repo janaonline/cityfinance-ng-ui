@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { IFinancialData } from 'src/app/users/data-upload/models/financial-data.interface';
 import { FinancialDataService } from 'src/app/users/services/financial-data.service';
+import { SidebarUtil } from 'src/app/users/utils/sidebar.util';
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 
 @Component({
@@ -17,32 +18,37 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
     private _financialService: FinancialDataService
   ) {
     super();
-  }
-
-  ngOnInit() {
-    if (this.loggedInUser === USER_TYPE.ULB) {
-      this.fetchFinancialDataUpload();
-    }
-
     switch (this.loggedInUser) {
       case USER_TYPE.ULB:
-        return this.fetchFinancialDataUpload();
+        this.fetchFinancialDataUpload();
+        break;
       case USER_TYPE.STATE:
       case USER_TYPE.PARTNER:
       case USER_TYPE.MoHUA:
       case USER_TYPE.ADMIN:
-        return this._router.navigate(["/user/data-upload/list"]);
+        this._router.navigate(["/user/data-upload/list"]);
+        break;
       case undefined:
       case null:
         return;
       default:
-        return this._router.navigate(["/home"]);
+        this._router.navigate(["/home"]);
+        break;
     }
   }
+
+  ngOnInit() {}
 
   onClickingLoginButton() {
     sessionStorage.setItem("postLoginNavigation", this._router.url);
     this._router.navigate(["/login"]);
+  }
+
+  goToFormView(url: string) {
+    if (this.loggedInUser === USER_TYPE.ULB) {
+      SidebarUtil.hideSidebar();
+    } else SidebarUtil.showSidebar();
+    this._router.navigate([url]);
   }
 
   fetchFinancialDataUpload() {
