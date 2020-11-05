@@ -1,8 +1,14 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { NavigationEnd, ResolveEnd, Router } from '@angular/router';
-import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, filter } from 'rxjs/operators';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+} from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { NavigationEnd, ResolveEnd, Router } from "@angular/router";
+import { Observable, Subject, throwError } from "rxjs";
+import { catchError, filter } from "rxjs/operators";
 
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
@@ -62,12 +68,10 @@ export class CustomHttpInterceptor implements HttpInterceptor {
      * @description 401 means usre need to be logged in to access this api. Therefore, redirect the user
      * to login page
      */
-    // if (err.status === 401) {
-    //   this.router.navigate(["login"]);
-    // }
-    console.log(`interceptor error: `, err);
+
     switch (err.status) {
       case 401:
+        this.clearLocalStorage();
         this.router.navigate(["login"]);
         break;
       case 440:

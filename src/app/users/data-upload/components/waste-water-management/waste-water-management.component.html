@@ -29,13 +29,23 @@
         <td formGroupName="baseline">
           <div class="input-group">
             <input
+              (blur)="
+                onBlur(
+                  waterWasteManagementForm.controls[service.key].controls[
+                    'baseline'
+                  ].controls['2021']
+                )
+              "
               [id]="service.key + 'baseline'"
               type="text"
               class="form-control"
               formControlName="2021"
               [ngClass]="{
                 'is-invalid':
-                  isSubmitButtonClick &&
+                  (isSubmitButtonClick ||
+                    waterWasteManagementForm.controls[service.key].controls[
+                      'baseline'
+                    ].touched) &&
                   waterWasteManagementForm.controls[service.key].controls[
                     'baseline'
                   ].invalid
@@ -52,6 +62,9 @@
           <span
             class="error-message"
             *ngIf="
+              !waterWasteManagementForm.controls[service.key].controls[
+                'baseline'
+              ].controls['2021']?.errors?.required &&
               waterWasteManagementForm.controls[service.key].controls[
                 'baseline'
               ].controls['2021']?.errors as error
@@ -59,8 +72,8 @@
           >
             <span *ngIf="error.pattern">
               Only numeric values are allowed and must be greater than or equal
-              to 0. Decimal Values must be of 2 digit place.</span
-            >
+              to 0.
+            </span>
             <span *ngIf="error.max"> {{ error.max }} </span>
 
             <!-- {{
@@ -72,13 +85,23 @@
         <td *ngFor="let year of targets" formGroupName="target">
           <div class="input-group">
             <input
+              (blur)="
+                onBlur(
+                  waterWasteManagementForm.controls[service.key].controls[
+                    'target'
+                  ].controls[year.key]
+                )
+              "
               [id]="service.key + year.key"
               type="text"
               class="form-control"
               [formControlName]="year.key"
               [ngClass]="{
                 'is-invalid':
-                  isSubmitButtonClick &&
+                  (isSubmitButtonClick ||
+                    waterWasteManagementForm.controls[service.key].controls[
+                      'target'
+                    ].controls[year.key].dirty) &&
                   waterWasteManagementForm.controls[service.key].controls[
                     'target'
                   ].controls[year.key].invalid
@@ -93,14 +116,16 @@
           <span
             class="error-message"
             *ngIf="
+              !waterWasteManagementForm.controls[service.key].controls['target']
+                .controls[year.key]?.errors?.required &&
               waterWasteManagementForm.controls[service.key].controls['target']
                 .controls[year.key]?.errors as error
             "
           >
             <span *ngIf="error.pattern">
-              Only numeric values are allowed. Decimal Values must be of 2 digit
-              place.</span
-            >
+              Only numeric values are allowed and must be greater than or equal
+              to 0.
+            </span>
             <span *ngIf="error.max"> {{ error.max }} </span></span
           >
         </td>

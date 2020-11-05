@@ -1,0 +1,112 @@
+<div class="container">
+  <h3 style="text-align: center">
+    15<sup style="text-transform: capitalize">th</sup> FC Grants Module
+  </h3>
+  <p>
+    Welcome to the 15th FC Grants Module of cityfinance.in. Here you will be
+    able to submit required data and documents for establishing your grant
+    eligibility for 15th FC grants, access information relating to grant
+    releases, and upload Utilization Certificates.
+  </p>
+  <p>
+    The 15th Finance Commission (15th FC) report for the year 2020-21 has
+    divided the grants into untied and tied grants. Tied grants are related to
+    water supply and solid waste management functions. The 15th FC has mandated
+    Ministry of Housing and Urban Affairs (MoHUA) to develop city-wise and
+    year-wise targets, in consultation with the State Governments, for 2020-25
+    and recommend disbursal of grants. Accordingly, MoHUA has issued Marking
+    Scheme guidelines which prescribe the mandatory conditions, service level
+    indicators, targets and scoring mechanism for tied grants.
+  </p>
+  <p>
+    Urban Local Bodies are required to submit data and upload documents to meet
+    the mandatory conditions and to identify whether the targets are met for the
+    service level indicators as prescribed or fixed. This portal facilitates the
+    submission of data and uploading of documents as required. Technical
+    Assistance will be available for ULBs facing issues while submitting data
+    and uploading documents.
+  </p>
+
+  <p>
+    Kindly note that the last date for submitting baseline, targets and other
+    required documents for 2020-21 grants is
+    <span style="font-weight: 600">31 December 2020</span>.
+    <span class="d-block"
+      ><a class="d-inline"
+        >Click here for accessing the 15 FC Grant User Manual</a
+      >
+      - TBD</span
+    >
+    <span class="d-block"
+      ><a>Click here for accessing the 15FC tool kit </a>- TBD</span
+    >
+    <a class="d-block" href="/src/assets/files/XV FC Operational Guidelines.pdf"
+      >Click here for accessing XV Operational Guidelines</a
+    >
+    <a
+      class="d-block"
+      href="/src/assets/files/XV FC Marking Scheme Guidelines.pdf"
+      >Click here for accessing XV Marking Scheme Guidelines</a
+    >
+    <a class="d-block" href="/src/assets/files/XV FC Report.pdf" target="_blank"
+      >Click here for accessing XV Commission Report</a
+    >
+  </p>
+
+  <div class="button-wrapper" *ngIf="!loggedInUser">
+    <a
+      id="login"
+      class="btn btn-primary btn-upload mt-3"
+      (click)="onClickingLoginButton()"
+      >LOGIN</a
+    >
+    <a
+      id="signup"
+      class="btn btn-primary btn-upload mt-3"
+      routerLink="/register/ulb"
+      >SIGNUP AS ULB</a
+    >
+  </div>
+
+  <div
+    *ngIf="loggedInUser && financialData"
+    class="d-flex justify-content-center flex-column align-items-center"
+  >
+    <span
+      ><span style="font-weight: 600; display: inline">FORM STATUS:</span>
+      {{ financialData.customStatusMessage }}</span
+    >
+    <a
+      id="login"
+      class="btn btn-primary btn-upload mt-1"
+      (click)="
+        goToFormView('/user/data-upload/upload-form/' + financialData._id)
+      "
+    >
+      {{
+        financialData.isCompleted
+          ? "View Uploaded Data"
+          : "Fill Remaining Entries"
+      }}
+    </a>
+  </div>
+
+  <div
+    class="preloader-wrapper"
+    *ngIf="loggedInUser && financialData === undefined"
+  >
+    <app-pre-loader></app-pre-loader>
+  </div>
+
+  <div
+    *ngIf="financialData === null"
+    class="d-flex justify-content-center flex-column align-items-center"
+  >
+    <a
+      id="login"
+      class="btn btn-primary btn-upload mt-1"
+      (click)="goToFormView('/user/data-upload/upload-form')"
+      >Upload Financial Grant Data</a
+    >
+  </div>
+</div>

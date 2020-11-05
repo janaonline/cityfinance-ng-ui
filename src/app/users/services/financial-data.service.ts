@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { environment } from '../../../environments/environment';
 
@@ -7,10 +8,11 @@ import { environment } from '../../../environments/environment';
   providedIn: "root",
 })
 export class FinancialDataService {
+  constructor(private httpClient: HttpClient) {}
   public selectedFinancialRequest = null;
   public financialYears = null;
 
-  constructor(private httpClient: HttpClient) {}
+  jsonUtil = new JSONUtility();
 
   fetchFinancialDataList(params = {}, body = {}) {
     let queryParams = new HttpParams(params);
@@ -55,10 +57,11 @@ export class FinancialDataService {
     );
   }
 
-  uploadFinancialData(data) {
+  uploadFinancialData(data: any) {
+    const newData = this.jsonUtil.convert(data);
     return this.httpClient.post(
       `${environment.api.url}ulb-financial-data`,
-      JSON.stringify(data)
+      JSON.stringify(newData)
     );
   }
 

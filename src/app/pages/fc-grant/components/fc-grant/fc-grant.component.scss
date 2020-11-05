@@ -1,0 +1,27 @@
+:host {
+  @media (max-width: 768px) {
+    .container {
+      margin-bottom: 10%;
+    }
+  }
+
+  a {
+    width: fit-content;
+  }
+
+  .button-wrapper {
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
+
+    .btn {
+      margin: 1%;
+    }
+  }
+
+  .preloader-wrapper {
+    width: 50%;
+    display: block;
+    margin: auto;
+  }
+}
