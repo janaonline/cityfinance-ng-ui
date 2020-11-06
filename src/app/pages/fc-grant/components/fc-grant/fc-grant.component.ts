@@ -67,7 +67,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   }
 
   calculateFormStatus(data: IFinancialData) {
-    if (!data.isCompleted) return "Saved as Draft";
+    if (!data.isCompleted) return "Incomplete (Saved as Draft)";
     switch (data.status) {
       case "PENDING": {
         const message = "Under Review by ";
