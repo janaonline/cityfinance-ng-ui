@@ -31,7 +31,7 @@ const millionPlusCitiesQuestions: FinancialUploadQuestion<
   },
   {
     key: "waterBalancePlan",
-    question: "Water Balance Plan.",
+    question: "Water Balance Plan",
   },
   {
     key: "serviceLevelPlan",

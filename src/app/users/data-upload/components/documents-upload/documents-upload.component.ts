@@ -214,6 +214,8 @@ export class DocumentsUploadComponent<T>
       this.filterInvalidFiles(event.target["files"], key)
     );
 
+    console.log(`filteredfiles`, filteredFiles);
+
     if (event.target["files"].length !== filteredFiles.length) {
       const message = `Only ${this.fileExnetsionAllowed.join(
         ","
@@ -226,8 +228,10 @@ export class DocumentsUploadComponent<T>
     }
 
     if (this.isMaximumFileAlreadySelected(key)) {
+      this.cancelFileUpload(key, this.userSelectedFiles[key][0].name);
+      console.log(this.userSelectedFiles);
       console.warn("maximum no of files allowed is already selected. ");
-      return false;
+      // return false;
     }
 
     this.updateUserFileSelection(key, filteredFiles);

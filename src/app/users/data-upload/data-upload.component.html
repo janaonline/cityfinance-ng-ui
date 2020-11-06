@@ -83,7 +83,11 @@
                   *ngFor="let header of tableHeaders"
                 >
                   <ng-container [ngSwitch]="!!header.click">
-                    <span (click)="sortById(header.id)" *ngSwitchCase="true">
+                    <span
+                      (click)="sortById(header.id)"
+                      class="cursor-pointer"
+                      *ngSwitchCase="true"
+                    >
                       {{ header.title }} <i class="glyphicon glyphicon-sort"></i
                     ></span>
                     <span *ngSwitchCase="false">{{ header.title }}</span>
@@ -114,44 +118,9 @@
                     />
                   </div>
                 </td>
-                <!-- <td>
-                  <div class="input-group">
-                    <label for="financialYear"></label>
-                    <select
-                      id="financialYear"
-                      class="form-control"
-                      formControlName="financialYear"
-                    >
-                      <option value="" selected>All years</option>
-                      <option
-                        [value]="option.id"
-                        *ngFor="let option of financialYearDropdown"
-                      >
-                        {{ option?.itemName }}
-                      </option>
-                    </select>
-                  </div>
-
-                
-                </td> -->
-                <!-- <td>
-                  <div class="input-group">
-                    <label for="auditStatus"></label>
-                    <select
-                      id="auditStatus"
-                      class="form-control"
-                      formControlName="auditStatus"
-                    >
-                      <option value="" selected>All Audit Status</option>
-                      <option
-                        [value]="option.id"
-                        *ngFor="let option of auditStatusDropdown"
-                      >
-                        {{ option?.itemName }}
-                      </option>
-                    </select>
-                  </div>
-                </td> -->
+                <td></td>
+                <td></td>
+              
                 <td>
                   <div class="input-group">
                     <label for="uploadStatus"></label>

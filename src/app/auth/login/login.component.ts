@@ -32,6 +32,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
+    if (!localStorage.getItem("userData")) {
+      this.router.navigate(["/home"]);
+      return;
+    }
     this.activatedRoute.queryParams.subscribe((param) => {
       if (param.message) {
         this.emailVerificationMessage = param.message;

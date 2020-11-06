@@ -59,7 +59,7 @@
               />
             </div>
           </div>
-          <h4>
+          <!-- <h4>
             STATUS:
             <span
               [ngClass]="{
@@ -72,7 +72,7 @@
               style="display: inline"
               >{{ request.status }}</span
             >
-          </h4>
+          </h4> -->
 
           <table style="width: 70%">
             <thead>
@@ -421,7 +421,11 @@
           *ngIf="requestList && loggedInUserType === userTypes.ULB"
           style="width: 100%"
         >
-          <table aria-describedby="Ulb Requests List" class="table listing-table" *ngIf="!isApiInProgress">
+          <table
+            aria-describedby="Ulb Requests List"
+            class="table listing-table"
+            *ngIf="!isApiInProgress"
+          >
             <thead>
               <tr
                 class="sortable-headers"
@@ -436,10 +440,10 @@
                   Request Created On
                   <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
                 </th>
-                <th class="text-center" (click)="sortListBy('status')">
+                <!-- <th class="text-center" (click)="sortListBy('status')">
                   Status
                   <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
-                </th>
+                </th> -->
                 <th class="text-center">Action</th>
               </tr>
             </thead>
@@ -448,7 +452,7 @@
                 <td></td>
                 <td></td>
 
-                <td>
+                <!-- <td>
                   <div class="input-group m-auto">
                     <select
                       name="ulb"
@@ -465,15 +469,9 @@
                         {{ status.value }}
                       </option>
                     </select>
-                    <!-- <input
-                id="email"
-                type="text"
-                class="form-control"
-                [formControl]="registrationForm.controls['name']"
-                placeholder="ULB Name"
-              /> -->
+                  
                   </div>
-                </td>
+                </td> -->
                 <td>
                   <button
                     class="btn btn-primary m-auto d-block"
@@ -507,7 +505,7 @@
                 <td class="text-center">
                   {{ request.createdAt | date: "longDate" }}
                 </td>
-                <td class="text-center">{{ request.status }}</td>
+                <!-- <td class="text-center">{{ request.status }}</td> -->
                 <td class="text-center">
                   <a
                     [routerLink]="['./']"
@@ -553,7 +551,6 @@
             <app-pre-loader></app-pre-loader>
             <app-pre-loader></app-pre-loader>
           </div>
-
         </div>
 
         <pagination-controls
@@ -572,7 +569,11 @@
         </pagination-controls>
 
         <div *ngIf="requestList && canViewULBSignUpList" style="width: 100%">
-          <table aria-describedby="Ulb Requests List" class="table listing-table" *ngIf="!isApiInProgress">
+          <table
+            aria-describedby="Ulb Requests List"
+            class="table listing-table"
+            *ngIf="!isApiInProgress"
+          >
             <thead>
               <tr
                 class="sortable-headers"
@@ -768,11 +769,10 @@
             <app-pre-loader></app-pre-loader>
             <app-pre-loader></app-pre-loader>
           </div>
-
         </div>
 
         <pagination-controls
-        *ngIf="requestList && canViewULBSignUpList"
+          *ngIf="requestList && canViewULBSignUpList"
           style="float: right; position: relative"
           id="foo"
           (pageChange)="setPage($event)"
