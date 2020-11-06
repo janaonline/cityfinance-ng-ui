@@ -10,6 +10,7 @@ export interface IFinancialData {
   isCompleted?: boolean;
   status?: string;
   actionTakenByUserRole: USER_TYPE;
+  ulbName: string;
 }
 
 export interface MillionPlusCities {

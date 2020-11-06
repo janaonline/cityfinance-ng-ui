@@ -62,7 +62,7 @@ services.forEach((service) => {
         new FormControl("", {
           validators: [
             Validators.required,
-            Validators.pattern("^\\d*.{0,1}\\d*$"),
+            Validators.pattern("^\\d*\\.{0,1}\\d*$"),
             service.customValidator,
           ],
           updateOn: "blur",
@@ -74,7 +74,7 @@ services.forEach((service) => {
         new FormControl("", {
           validators: [
             Validators.required,
-            Validators.pattern("^\\d*.{0,1}\\d*$"),
+            Validators.pattern("^\\d*\\.{0,1}\\d*$"),
           ],
           updateOn: "blur",
         })
@@ -90,7 +90,7 @@ services.forEach((service) => {
         {
           validators: [
             Validators.required,
-            Validators.pattern("^\\d*.{0,1}\\d*$"),
+            Validators.pattern("^\\d*\\.{0,1}\\d*$"),
             service.customValidator,
           ],
           updateOn: "blur",
@@ -105,7 +105,7 @@ services.forEach((service) => {
         {
           validators: [
             Validators.required,
-            Validators.pattern("^\\d*.{0,1}\\d*$"),
+            Validators.pattern("^\\d*\\.{0,1}\\d*$"),
           ],
           updateOn: "blur",
         },

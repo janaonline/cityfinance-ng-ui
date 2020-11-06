@@ -1,3 +1,10 @@
+<!-- <button
+  style="float: right; margin-right: 2.5%; outline: none"
+  class="btn btn-primary btn-upload"
+  (click)="showPreview()"
+>
+  Preview
+</button> -->
 <mat-horizontal-stepper
   *ngIf="isULBMillionPlus !== undefined"
   id="stepper"
@@ -141,6 +148,13 @@
   <h2 class="text-center" *ngIf="!draftSavingInProgess">
     {{ saveAsDraftFailMessge || successMessage }}
   </h2>
+</ng-template>
+
+<ng-template #previewPopup>
+  <app-preview
+    [data]="financialData"
+    [isULBMillionPlus]="isULBMillionPlus"
+  ></app-preview>
 </ng-template>
 
 <div *ngIf="isULBMillionPlus === undefined">

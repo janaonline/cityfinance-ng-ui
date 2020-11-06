@@ -43,6 +43,7 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
   financialData: IFinancialData;
 
   @ViewChild("savingPopup") savingPopup: TemplateRef<any>;
+  @ViewChild("previewPopup") previewPopup: TemplateRef<any>;
 
   USER_TYPE = USER_TYPE;
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
@@ -136,6 +137,19 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
     // this.financialData.isCompleted = false;
 
     if (this.financialData.isCompleted) this.setStateToReadMode();
+  }
+
+  showPreview() {
+    console.log(solidWasteForm.value);
+    console.log(waterWasteManagementForm.value);
+    this._matDialog.open(this.previewPopup, {
+      width: "85vw",
+      maxHeight: "95vh",
+      height: "fit-content",
+      panelClass: "custom-warning-popup",
+
+      disableClose: false,
+    });
   }
 
   saveAsDraft() {
