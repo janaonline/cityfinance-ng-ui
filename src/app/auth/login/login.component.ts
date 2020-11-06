@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    if (!localStorage.getItem("userData")) {
+    if (localStorage.getItem("userData")) {
       this.router.navigate(["/home"]);
       return;
     }
