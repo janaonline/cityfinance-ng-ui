@@ -301,7 +301,7 @@ export class DocumentsUploadComponent<T>
     const maxLimit = list.length > 10 ? 10 : list.length;
     for (let index = 0; index < maxLimit; index++) {
       const file = list[index];
-      if (file.size > this.MaxFileSize) continue;
+      if (file.size > this.MaxFileSize || file.size === 0) continue;
       const noOfFileAlreadySelect = this.fileUploadTracker[key]
         ? Object.keys(this.fileUploadTracker[key]).length
         : 0;
