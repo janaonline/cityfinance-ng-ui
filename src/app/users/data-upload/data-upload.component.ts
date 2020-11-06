@@ -139,6 +139,8 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   uploadStatusFormControl: FormControl = new FormControl("");
   ulbNameSearchFormControl: FormControl = new FormControl();
   ulbCodeSearchFormControl: FormControl = new FormControl();
+  censusCode: FormControl = new FormControl();
+  sbCode: FormControl = new FormControl();
 
   rejectFields = {};
 
@@ -217,7 +219,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       }
     }
     this.loading = false;
-  }
+  };
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -283,12 +285,12 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  }
+  };
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  }
+  };
 
   getAddedFilterCount() {
     let count = 0;
@@ -651,6 +653,8 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         audited: this.fileFormGroup.get(filterKeys[1]).value.length
           ? this.fileFormGroup.get(filterKeys[1]).value == "true"
           : "",
+        censusCode: this.censusCode.value,
+        sbCode: this.sbCode.value,
         status: this.uploadStatusFormControl.value,
       },
     };
