@@ -1,13 +1,6 @@
 <div class="document-wrapper">
   <ng-content></ng-content>
-  <!-- <p class="question-instruction">
-    <strong>NOTE:</strong><br />
-    1. All questions are mandatory<br />
-    2. Only files wih extensions <strong>{{ fileExnetsionAllowed }}</strong> are
-    allowed. Other type of files will be filtered out.<br />
-    3. Only {{ noOfFilesAllowedPerQuestion }} file can be selected per
-    question.<br />
-  </p> -->
+
   <table class="question-table">
     <tbody>
       <tr *ngFor="let question of questions; let i = index">
@@ -134,7 +127,7 @@
               *ngIf="canUploadFile"
               [disabled]="!canUploadFile"
               type="file"
-              accept="application/pdf"
+              accept=".pdf"
               [multiple]="noOfFilesAllowedPerQuestion > 1"
               (change)="fileChangeEvent($event, question.key)"
             />
@@ -143,35 +136,38 @@
       </tr>
       <tr>
         <td></td>
-        <td>
-          <button
-            id="previous"
-            class="btn btn-primary btn-upload mt-3"
-            style="float: right; margin-right: 2%"
-            (click)="previous.emit(true)"
-          >
-            Previous
-          </button>
-          <button
-            id="save-as-Draft"
-            *ngIf="canUploadFile && !documentForm.disabled"
-            class="btn btn-primary btn-upload mt-3"
-            style="float: right; margin-right: 2%"
-            [disabled]="NoOfFileInProgress !== 0"
-            (click)="onSaveAsDraftClick()"
-          >
-            Save as draft
-          </button>
-        </td>
+        <!-- <td colspan="3">
+       
+        </td> -->
         <td colspan="2">
-          <button
-            id="next"
-            class="btn btn-primary btn-upload mt-3"
-            (click)="showNext.emit(true)"
-            [disabled]="NoOfFileInProgress !== 0"
-          >
-            Next
-          </button>
+          <div class="d-inline-flex justify-content-end" style="width: 100%">
+            <button
+              id="previous"
+              class="btn btn-primary btn-upload mt-3"
+              style="margin-right: 2%"
+              (click)="previous.emit(true)"
+            >
+              Previous
+            </button>
+            <button
+              id="save-as-Draft"
+              *ngIf="canUploadFile && !documentForm.disabled"
+              class="btn btn-primary btn-upload mt-3"
+              style="margin-right: 2%"
+              [disabled]="NoOfFileInProgress !== 0"
+              (click)="onSaveAsDraftClick()"
+            >
+              Save as draft
+            </button>
+            <button
+              id="next"
+              class="btn btn-primary btn-upload mt-3"
+              (click)="showNext.emit(true)"
+              [disabled]="NoOfFileInProgress !== 0"
+            >
+              Next
+            </button>
+          </div>
         </td>
       </tr>
     </tbody>

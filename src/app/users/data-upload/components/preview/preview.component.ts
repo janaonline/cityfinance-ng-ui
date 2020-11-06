@@ -50,11 +50,11 @@ export class PreviewComponent implements OnInit {
     }
 
     table thead th {
-      font-size: .6rem
+      font-size: .5rem
     }
 
     table tbody td, li {
-      font-size: .6rem
+      font-size: .5rem
     }
 
     .td-width {
@@ -77,7 +77,11 @@ export class PreviewComponent implements OnInit {
     this.showLoader = true;
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
-        this.downloadFile(res.slice(0), "pdf", "Questionnaire.pdf");
+        this.downloadFile(
+          res.slice(0),
+          "pdf",
+          `XV_FC_Grant ${this.data.ulbName}.pdf`
+        );
         this.showLoader = false;
       },
       (err) => {

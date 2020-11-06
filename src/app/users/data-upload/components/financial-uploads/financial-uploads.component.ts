@@ -113,6 +113,7 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
     else {
       ulbId = this.loggedInUserDetails.ulb;
     }
+    console.log(`checking ulb million plus`, this.financialData);
     this._profileService.getULBGeneralData({ id: ulbId }).subscribe((res) => {
       try {
         this.isULBMillionPlus = res["data"][0].isMillionPlus;
