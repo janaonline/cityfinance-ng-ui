@@ -1,11 +1,20 @@
-<button
-  *ngIf="isULBMillionPlus !== undefined"
-  style="float: right; margin-right: 2.5%; outline: none"
-  class="btn btn-primary btn-upload"
-  (click)="showPreview()"
->
-  Preview
-</button>
+<div *ngIf="isULBMillionPlus !== undefined">
+  <h3 style="position: relative; text-align: center">
+    <span *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
+      ULB: {{ financialData?.ulbName }}</span
+    >
+    <button
+      [style.position]="
+        loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
+      "
+      style="right: 0px; float: right; margin-right: 2.5%; outline: none"
+      class="btn btn-primary btn-upload"
+      (click)="showPreview()"
+    >
+      Preview
+    </button>
+  </h3>
+</div>
 <mat-horizontal-stepper
   *ngIf="isULBMillionPlus !== undefined"
   id="stepper"

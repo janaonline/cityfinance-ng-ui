@@ -91,11 +91,7 @@
         goToFormView('/user/data-upload/upload-form/' + financialData._id)
       "
     >
-      {{
-        financialData.isCompleted
-          ? "View Uploaded Data"
-          : "Fill Remaining Entries"
-      }}
+      {{ financialData.isCompleted ? "View Response" : "Fill Remaining Data" }}
     </a>
   </div>
 
@@ -110,11 +106,15 @@
     *ngIf="financialData === null"
     class="d-flex justify-content-center flex-column align-items-center"
   >
+    <span
+      ><span style="font-weight: 600; display: inline">FORM STATUS:</span> Not
+      Filled</span
+    >
     <a
       id="login"
       class="btn btn-primary btn-upload mt-1"
       (click)="goToFormView('/user/data-upload/upload-form')"
-      >Upload Financial Grant Data</a
+      >Fill Up 15th FC Form</a
     >
   </div>
 </div>
