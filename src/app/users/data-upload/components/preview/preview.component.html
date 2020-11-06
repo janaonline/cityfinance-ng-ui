@@ -60,7 +60,10 @@
 
   <h3 style="text-align: center">Solid Waste Management</h3>
   <ol>
-    <li *ngFor="let question of solidWasteQuestions">
+    <li
+      *ngFor="let question of solidWasteQuestions"
+      style="margin-bottom: 1.5%"
+    >
       {{ question.question }}
       <br />
       <a
@@ -75,7 +78,10 @@
   <div *ngIf="isULBMillionPlus">
     <h3 style="text-align: center">Million Plus Cities Only</h3>
     <ol>
-      <li *ngFor="let question of millionPlusCitiesQuestions">
+      <li
+        *ngFor="let question of millionPlusCitiesQuestions"
+        style="margin-bottom: 1.5%"
+      >
         {{ question.question }} <br />
         <a
           *ngIf="

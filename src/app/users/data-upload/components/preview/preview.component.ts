@@ -64,6 +64,14 @@ export class PreviewComponent implements OnInit {
     button {
       display: none;
     }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+  }
 </style>`;
 
   constructor(private _questionnaireService: QuestionnaireService) {}
