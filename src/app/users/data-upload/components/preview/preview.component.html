@@ -50,7 +50,7 @@
     <li *ngFor="let question of wasteWaterDucmentQuestions; let i = index">
       {{ question.question }} <br />
       <a
-        [href]="data.waterManagement.documents.wasteWaterPlan[i].name"
+        [href]="data.waterManagement.documents.wasteWaterPlan[i].url"
         target="_blank"
       >
         {{ data.waterManagement.documents.wasteWaterPlan[i].name }}</a
