@@ -648,13 +648,17 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     const filterObject = {
       filter: {
         [filterKeys[0]]: this.fileFormGroup.get(filterKeys[0]).value,
-        ulbName: this.ulbNameSearchFormControl.value,
-        ulbCode: this.ulbCodeSearchFormControl.value,
+        ulbName: this.ulbNameSearchFormControl.value
+          ? this.ulbNameSearchFormControl.value.trim()
+          : "",
+        ulbCode: this.ulbCodeSearchFormControl.value
+          ? this.ulbCodeSearchFormControl.value.trim()
+          : "",
         audited: this.fileFormGroup.get(filterKeys[1]).value.length
           ? this.fileFormGroup.get(filterKeys[1]).value == "true"
           : "",
-        censusCode: this.censusCode.value,
-        sbCode: this.sbCode.value,
+        censusCode: this.censusCode.value ? this.censusCode.value.trim() : "",
+        sbCode: this.sbCode.value ? this.sbCode.value.trim() : "",
         status: this.uploadStatusFormControl.value,
       },
     };
