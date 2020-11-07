@@ -31,6 +31,20 @@ export class AccountReactivateComponent implements OnInit {
 
   onSelectingUserType(value: USER_TYPE) {
     this.userTypeSelected = value;
+    switch (value) {
+      case USER_TYPE.ULB: {
+        return this.form.controls.email.setValidators([
+          Validators.required,
+          Validators.pattern("(?!.*@).*"),
+        ]);
+      }
+      default: {
+        return this.form.controls.email.setValidators([
+          Validators.required,
+          Validators.email,
+        ]);
+      }
+    }
   }
 
   onFormSubmit() {
