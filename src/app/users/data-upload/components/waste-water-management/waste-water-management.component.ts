@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { debounceTime } from 'rxjs/operators';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { WaterManagement, WaterManagementDocuments } from '../../models/financial-data.interface';
 import {
@@ -57,6 +59,8 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
 
   prefilledDocuments: WaterManagementDocuments;
 
+  jsonUtil = new JSONUtility();
+
   ngOnInit() {}
 
   ngOnChanges(changes) {
@@ -69,6 +73,12 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
 
   onSolidWasteEmit(value: WaterManagementDocuments) {
     waterWasteManagementForm.controls.documents.patchValue({ ...value });
+  }
+
+  onBlur(control: AbstractControl) {
+    if (!control) return;
+    const newValue = this.jsonUtil.convert(control.value);
+    control.patchValue(newValue);
   }
 
   private populateFormDatas() {

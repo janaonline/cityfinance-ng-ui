@@ -133,11 +133,21 @@
   table thead th {
     padding: 1%;
     text-align: center;
-
-    // .form-control {
-    //   border-radius: 10px !important;
-    //   height: 40px;
-    // }
+    position: relative;
+    .error-message {
+      padding: 1%;
+      border-radius: 5px;
+      z-index: 11;
+      position: absolute;
+      width: 120%;
+      font-size: 1rem;
+      background: rgb(87, 87, 87);
+      left: 0px;
+      top: 0px;
+      color: white !important;
+      opacity: 0;
+      animation: bottom-to-top 1s forwards;
+    }
   }
   table tbody tr td:nth-child(1),
   table thead th:nth-child(1) {
@@ -151,5 +161,15 @@
 
   .input-group-addon {
     padding: 6px 4px;
+  }
+}
+
+@keyframes bottom-to-top {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-103%);
   }
 }

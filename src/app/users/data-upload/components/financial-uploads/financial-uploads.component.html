@@ -1,16 +1,29 @@
-<p class="question-instruction" *ngIf="isULBMillionPlus !== undefined">
-  <strong>NOTE:</strong><br />
-  1. All questions are mandatory<br />
-  2. Only files wih extensions <strong>pdf</strong> are allowed. Other type of
-  files will be filtered out.<br />
-  3. Only 1 file can be selected per question.<br />
-</p>
+<div *ngIf="isULBMillionPlus !== undefined">
+  <h3 style="position: relative; text-align: center">
+    <span *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
+      ULB: {{ financialData?.ulbName }}</span
+    >
+    <button
+      [style.position]="
+        loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
+      "
+      style="right: 0px; float: right; margin-right: 2.5%; outline: none"
+      class="btn btn-primary btn-upload"
+      (click)="showPreview()"
+    >
+      Preview
+    </button>
+  </h3>
+</div>
 <mat-horizontal-stepper
   *ngIf="isULBMillionPlus !== undefined"
   id="stepper"
   [ngClass]="{ 'block-steeper-top-navigation': !userHasAlreadyFilledForm }"
 >
-  <mat-step label="Introduction">
+  <mat-step>
+    <ng-template matStepLabel>
+      <span title="Introduction">Introduction</span>
+    </ng-template>
     <p>
       Welcome to the 15th FC Grants Module of cityfinance.in. Here you will be
       able to submit required data and documents for establishing your grant
@@ -41,27 +54,50 @@
       Kindly note that the last date for submitting baseline, targets and other
       required documents for 2020-21 grants is
       <span style="font-weight: 600">31 December 2020</span>.
-      <a>Click here for accessing the 15 FC Grant User Manual</a>
-      <a href="http://">Click here for accessing the 15FC tool kit</a>
-      <a href="/src/assets/files/XV FC Operational Guidelines.pdf"
+      <span class="d-block"
+        ><a class="d-inline"
+          >Click here for accessing the 15 FC Grant User Manual</a
+        >
+        - <span style="color: red">Upcoming Soon</span>
+      </span>
+      <span class="d-block"
+        ><a>Click here for accessing the 15FC tool kit </a>-
+        <span style="color: red">Upcoming Soon</span>
+      </span>
+      <a
+        class="d-block"
+        href="../../../../../assets/files/XV FC Operational Guidelines.pdf"
+        target="_blank"
         >Click here for accessing XV Operational Guidelines</a
       >
-      <a href="/src/assets/files/XV FC Marking Scheme Guidelines.pdf"
+      <a
+        class="d-block"
+        href="../../../../../assets/files/XV FC Marking Scheme Guidelines.pdf"
+        target="_blank"
         >Click here for accessing XV Marking Scheme Guidelines</a
       >
-      <a href="/src/assets/files/XV FC Report.pdf" target="_blank"
+      <a
+        class="d-block"
+        href="../../../../../assets/files/XV FC Report.pdf"
+        target="_blank"
         >Click here for accessing XV Commission Report</a
       >
     </p>
     <button
       style="float: right"
-      class="btn btn-primary btn-upload mt-3"
+      class="btn btn-primary btn-upload"
       (click)="stepper.next()"
     >
       Next
     </button>
+    <ng-content> </ng-content>
   </mat-step>
-  <mat-step label="Water Supply & Waste-Water Management">
+  <mat-step>
+    <ng-template matStepLabel>
+      <span title="Water Supply & Waste-Water Management"
+        >Water Supply & Waste-Water Management</span
+      >
+    </ng-template>
     <app-waste-water-management
       [isDataPrefilled]="!!solidWasteProfilledAnswers"
       [isSubmitButtonClick]="isSubmitButtonClicked"
@@ -71,7 +107,10 @@
       (previous)="stepper.previous()"
     ></app-waste-water-management>
   </mat-step>
-  <mat-step label="Solid Waste Management">
+  <mat-step>
+    <ng-template matStepLabel>
+      <span title="Solid Waste Management">Solid Waste Management</span>
+    </ng-template>
     <app-documents-upload
       [ngClass]="{
         documentCompleted:
@@ -91,10 +130,13 @@
     ></app-documents-upload>
     <p>
       <span class="mandatory">**</span> Upload GAP analysis report and project
-      identified for bridging the gap as a single document. {{ canUploadFile }}
+      identified for bridging the gap as a single document.
     </p>
   </mat-step>
   <mat-step label="Million Plus Cities Only" *ngIf="isULBMillionPlus">
+    <ng-template matStepLabel>
+      <span title="Million Plus Cities Only">Million Plus Cities Only</span>
+    </ng-template>
     <app-documents-upload
       [ngClass]="{
         documentCompleted: financialData?.isCompleted || !canUploadFile
@@ -117,9 +159,25 @@
       [submitted]="userHasAlreadyFilledForm"
       (submit)="uploadCompletedQuestionnaireData()"
       (previous)="stepper.previous()"
-    ></app-completed>
+    >
+      <button
+        class="btn btn-primary"
+        style="outline: none"
+        style="margin-right: 2%"
+        (click)="showPreview()"
+      >
+        Show Preview
+      </button>
+    </app-completed>
   </mat-step>
 </mat-horizontal-stepper>
+<p class="question-instruction" *ngIf="isULBMillionPlus !== undefined">
+  <strong>NOTE:</strong><br />
+  1. All questions are mandatory<br />
+  2. Only files wih extensions <strong>pdf</strong> are allowed. Other type of
+  files will be filtered out.<br />
+  3. Only 1 file can be selected per question.<br />
+</p>
 
 <ng-template #savingPopup>
   <mat-spinner style="margin: auto" *ngIf="draftSavingInProgess"></mat-spinner>
@@ -140,6 +198,13 @@
   <h2 class="text-center" *ngIf="!draftSavingInProgess">
     {{ saveAsDraftFailMessge || successMessage }}
   </h2>
+</ng-template>
+
+<ng-template #previewPopup>
+  <app-preview
+    [data]="financialData"
+    [isULBMillionPlus]="isULBMillionPlus"
+  ></app-preview>
 </ng-template>
 
 <div *ngIf="isULBMillionPlus === undefined">

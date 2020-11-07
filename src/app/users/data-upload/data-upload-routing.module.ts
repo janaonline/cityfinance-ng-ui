@@ -12,6 +12,7 @@ import { BulkEntryComponent } from './bulk-entry/bulk-entry.component';
 import { DocumentsUploadComponent } from './components/documents-upload/documents-upload.component';
 import { FinancialUploadsComponent } from './components/financial-uploads/financial-uploads.component';
 import { MillionPlusCitiesComponent } from './components/million-plus-cities/million-plus-cities.component';
+import { PreviewComponent } from './components/preview/preview.component';
 import { SolidWasteManagementComponent } from './components/solid-waste-management/solid-waste-management.component';
 import { WasteWaterManagementComponent } from './components/waste-water-management/waste-water-management.component';
 import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
@@ -45,6 +46,7 @@ const routes: Routes = [
     WasteWaterManagementComponent,
     DocumentsUploadComponent,
     MillionPlusCitiesComponent,
+    PreviewComponent,
   ],
 })
 export class DataUploadRoutingModule {}

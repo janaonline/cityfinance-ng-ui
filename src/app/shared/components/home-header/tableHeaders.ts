@@ -314,6 +314,8 @@ export const creditRatingModalHeaders: ModalTableHeader[][] = [
 export const ulbUploadList: ModalTableHeader[] = [
   { id: "ulbName", click: true, title: "ULB Name" },
   { id: "ulbCode", click: true, title: "ULB Code" },
+  { id: "censusCode", click: true, title: "Census Code" },
+  { id: "sbCode", click: true, title: "Swatcha Bharat Code" },
   // { id: "financialYear", click: true, title: "Financial Year" },
   // { id: "audited", click: true, title: "Audit Status" },
   { id: "status", title: "Status" },

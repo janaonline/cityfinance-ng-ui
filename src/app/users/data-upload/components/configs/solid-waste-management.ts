@@ -27,7 +27,7 @@ const solidWasterQuestions: FinancialUploadQuestion<
   },
   {
     key: "waterSupplyCoverage",
-    question: "Coverage of water supply for public/community toilets.",
+    question: "Coverage of water supply for public/community toilets",
   },
 ];
 

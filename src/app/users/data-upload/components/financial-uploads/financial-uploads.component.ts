@@ -43,6 +43,7 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
   financialData: IFinancialData;
 
   @ViewChild("savingPopup") savingPopup: TemplateRef<any>;
+  @ViewChild("previewPopup") previewPopup: TemplateRef<any>;
 
   USER_TYPE = USER_TYPE;
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
@@ -112,6 +113,7 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
     else {
       ulbId = this.loggedInUserDetails.ulb;
     }
+    console.log(`checking ulb million plus`, this.financialData);
     this._profileService.getULBGeneralData({ id: ulbId }).subscribe((res) => {
       try {
         this.isULBMillionPlus = res["data"][0].isMillionPlus;
@@ -136,6 +138,19 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
     // this.financialData.isCompleted = false;
 
     if (this.financialData.isCompleted) this.setStateToReadMode();
+  }
+
+  showPreview() {
+    console.log(solidWasteForm.value);
+    console.log(waterWasteManagementForm.value);
+    this._matDialog.open(this.previewPopup, {
+      width: "85vw",
+      maxHeight: "95vh",
+      height: "fit-content",
+      panelClass: "custom-warning-popup",
+
+      disableClose: false,
+    });
   }
 
   saveAsDraft() {
@@ -226,7 +241,8 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
       (res) => {
         this.draftSavingInProgess = false;
         this.successMessage = "Data Upload Complete.";
-        this._router.navigate(["user/data-upload/list"]);
+        window.history.back();
+        // this._router.navigate(["user/data-upload/list"]);
         setTimeout(() => this._matDialog.closeAll(), 3000);
       },
       (err) => {
