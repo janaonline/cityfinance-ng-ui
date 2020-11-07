@@ -1,19 +1,25 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { USER_TYPE } from 'src/app/models/user/userType';
-import { AccessChecker } from 'src/app/util/access/accessChecker';
-import { ACTIONS } from 'src/app/util/access/actions';
-import { MODULES_NAME } from 'src/app/util/access/modules';
-import { ULBSIGNUPSTATUS } from 'src/app/util/enums';
-import { JSONUtility } from 'src/app/util/jsonUtil';
+import { HttpErrorResponse } from "@angular/common/http";
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  TemplateRef,
+} from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { MatDialog } from "@angular/material";
+import { BsModalService } from "ngx-bootstrap/modal";
+import { USER_TYPE } from "src/app/models/user/userType";
+import { AccessChecker } from "src/app/util/access/accessChecker";
+import { ACTIONS } from "src/app/util/access/actions";
+import { MODULES_NAME } from "src/app/util/access/modules";
+import { ULBSIGNUPSTATUS } from "src/app/util/enums";
+import { JSONUtility } from "src/app/util/jsonUtil";
 
-import { ulbType } from '../../../dashboard/report/report/ulbTypes';
-import { FormUtil } from '../../../util/formUtil';
-import { IULBProfileData } from '../model/ulb-profile';
-import { ProfileService } from '../service/profile.service';
+import { ulbType } from "../../../dashboard/report/report/ulbTypes";
+import { FormUtil } from "../../../util/formUtil";
+import { IULBProfileData } from "../model/ulb-profile";
+import { ProfileService } from "../service/profile.service";
 
 @Component({
   selector: "app-ulb-profile",
@@ -83,7 +89,6 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
     // upload files and their value
     const updatedFields = this.getUpdatedFieldsOnly(form);
-    console.log("updatedFields", updatedFields);
 
     if (!updatedFields || !Object.keys(updatedFields).length) {
       this.onUpdatingProfileSuccess({
@@ -136,7 +141,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   enableProfileEdit() {
     this.profile.enable();
-    this.disableNonEditableFields();
+    this.disableNonEditableFields(false);
   }
   disableProfileEdit() {
     this.profile.disable({ emitEvent: false });
@@ -222,7 +227,9 @@ export class UlbProfileComponent implements OnInit, OnChanges {
         this.profile.disable({ emitEvent: false, onlySelf: true });
       }
 
-      this.disableNonEditableFields();
+      this.disableNonEditableFields(
+        this.editable && this.loggedInUserType === USER_TYPE.ULB
+      );
     }
   }
 
@@ -242,11 +249,15 @@ export class UlbProfileComponent implements OnInit, OnChanges {
    * @description The Following fields cannot be changed, therefore they should stay
    * disabled.
    */
-  private disableNonEditableFields() {
-    (<FormGroup>this.profile.controls.ulb).controls.censusCode.disable();
-    (<FormGroup>this.profile.controls.ulb).controls.sbCode.disable();
-    (<FormGroup>this.profile.controls.ulb).controls.ulbType.disable();
-    (<FormGroup>this.profile.controls.ulb).controls.name.disable();
+  private disableNonEditableFields(all = true) {
     this.profile.controls.state.disable();
+    (<FormGroup>this.profile.controls.ulb).controls.ulbType.disable();
+
+    if (this.loggedInUserType === USER_TYPE.ULB || all) {
+      (<FormGroup>this.profile.controls.ulb).controls.censusCode.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.sbCode.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.name.disable();
+      return;
+    }
   }
 }
