@@ -1,25 +1,19 @@
-import { HttpErrorResponse } from "@angular/common/http";
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  TemplateRef,
-} from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog } from "@angular/material";
-import { BsModalService } from "ngx-bootstrap/modal";
-import { USER_TYPE } from "src/app/models/user/userType";
-import { AccessChecker } from "src/app/util/access/accessChecker";
-import { ACTIONS } from "src/app/util/access/actions";
-import { MODULES_NAME } from "src/app/util/access/modules";
-import { ULBSIGNUPSTATUS } from "src/app/util/enums";
-import { JSONUtility } from "src/app/util/jsonUtil";
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { AccessChecker } from 'src/app/util/access/accessChecker';
+import { ACTIONS } from 'src/app/util/access/actions';
+import { MODULES_NAME } from 'src/app/util/access/modules';
+import { ULBSIGNUPSTATUS } from 'src/app/util/enums';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 
-import { ulbType } from "../../../dashboard/report/report/ulbTypes";
-import { FormUtil } from "../../../util/formUtil";
-import { IULBProfileData } from "../model/ulb-profile";
-import { ProfileService } from "../service/profile.service";
+import { ulbType } from '../../../dashboard/report/report/ulbTypes';
+import { FormUtil } from '../../../util/formUtil';
+import { IULBProfileData } from '../model/ulb-profile';
+import { ProfileService } from '../service/profile.service';
 
 @Component({
   selector: "app-ulb-profile",
@@ -27,6 +21,13 @@ import { ProfileService } from "../service/profile.service";
   styleUrls: ["./ulb-profile.component.scss"],
 })
 export class UlbProfileComponent implements OnInit, OnChanges {
+  constructor(
+    private _profileService: ProfileService,
+    public modalService: BsModalService,
+    public dialogBox: MatDialog
+  ) {
+    this.fetchDatas();
+  }
   @Input() profileData: IULBProfileData;
   @Input() editable = false;
 
@@ -49,13 +50,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   window = window;
   SIGNUP_STATUS = ULBSIGNUPSTATUS;
 
-  constructor(
-    private _profileService: ProfileService,
-    public modalService: BsModalService,
-    public dialogBox: MatDialog
-  ) {
-    this.fetchDatas();
-  }
+  apiInProgress = false;
 
   ngOnChanges(changes) {}
 
@@ -72,15 +67,18 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   }
 
   submitForm(form: FormGroup) {
+    console.log("this.can", this.canSubmitForm);
     if (!this.canSubmitForm) {
       return;
     }
+
     this.resetResponseMessage();
 
     this.formSubmitted = true;
 
     const errors = this.checkFieldsForError(form);
     this.formErrorMessage = errors;
+    console.log("errors", errors);
 
     if (errors) {
       console.error(`errors`, errors);
@@ -89,6 +87,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
     // upload files and their value
     const updatedFields = this.getUpdatedFieldsOnly(form);
+
+    console.log("updatedFields", updatedFields);
 
     if (!updatedFields || !Object.keys(updatedFields).length) {
       this.onUpdatingProfileSuccess({
@@ -109,6 +109,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     }
 
     this.profile.disable({ onlySelf: true, emitEvent: false });
+    this.respone.successMessage = "Updating....";
+    this.apiInProgress = true;
 
     this._profileService.createULBUpdateRequest(flatten).subscribe(
       (res) => this.onUpdatingProfileSuccess(res),
@@ -161,11 +163,13 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   private onUpdatingProfileSuccess(res) {
     this.respone.successMessage = res.message || "Profile Updated Successfully";
+    this.apiInProgress = false;
   }
 
   private onUpdatingProfileError(err: HttpErrorResponse) {
     this.respone.errorMessage =
       err.error.message || "Failed to updated profile.";
+    this.apiInProgress = false;
   }
 
   private resetResponseMessage() {

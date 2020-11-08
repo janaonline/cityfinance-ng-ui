@@ -1,4 +1,4 @@
-<div *ngIf="data" id="preview" #preview style="position: relative">
+<div id="preview" #preview style="position: relative">
   <button
     id="donwloadButton"
     style="float: right; position: absolute; right: 0%; outline: none"
@@ -7,7 +7,9 @@
   >
     Download as pdf
   </button>
-  <h2 style="text-align: center">ULB: {{ data.ulbName }}</h2>
+  <h2 style="text-align: center">
+    ULB: {{ data?.ulbName || userDetails.name }}
+  </h2>
 
   <h3 style="text-align: center">Water Supply & Waste-Water Management</h3>
 
@@ -29,15 +31,23 @@
           {{ service.name }}
         </td>
         <td style="padding: 1%">
-          {{ data.waterManagement[service.key]["baseline"]["2021"] }}
-          <i class="glyphicon" style="font-weight: 600">
+          {{ data?.waterManagement[service.key]["baseline"]["2021"] }}
+          <i
+            class="glyphicon"
+            style="font-weight: 600"
+            *ngIf="data?.waterManagement[service.key]['baseline']['2021']"
+          >
             {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
           </i>
         </td>
         <td style="padding: 1%" *ngFor="let year of targets">
-          {{ data.waterManagement[service.key]["target"][year.key] }}
+          {{ data?.waterManagement[service.key]["target"][year.key] }}
 
-          <i class="glyphicon" style="font-weight: 600">
+          <i
+            class="glyphicon"
+            style="font-weight: 600"
+            *ngIf="data?.waterManagement[service.key]['target'][year.key]"
+          >
             {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
           </i>
         </td>
@@ -50,11 +60,11 @@
     <li *ngFor="let question of wasteWaterDucmentQuestions; let i = index">
       {{ question.question }} <br />
       <a
-        *ngIf="data.waterManagement.documents.wasteWaterPlan[i]"
-        [href]="data.waterManagement.documents.wasteWaterPlan[i].url"
+        *ngIf="data?.waterManagement.documents.wasteWaterPlan[i]"
+        [href]="data?.waterManagement.documents.wasteWaterPlan[i].url"
         target="_blank"
       >
-        {{ data.waterManagement.documents.wasteWaterPlan[i].name }}</a
+        {{ data?.waterManagement.documents.wasteWaterPlan[i].name }}</a
       >
     </li>
   </ol>
@@ -68,11 +78,11 @@
       {{ question.question }}
       <br />
       <a
-        *ngIf="data.solidWasteManagement.documents[question.key][0]"
-        [href]="data.solidWasteManagement.documents[question.key][0].url"
+        *ngIf="data?.solidWasteManagement?.documents[question.key][0]"
+        [href]="data?.solidWasteManagement?.documents[question.key][0].url"
         target="_blank"
       >
-        {{ data.solidWasteManagement.documents[question.key][0].name }}</a
+        {{ data?.solidWasteManagement?.documents[question.key][0].name }}</a
       >
     </li>
   </ol>
@@ -87,13 +97,13 @@
         {{ question.question }} <br />
         <a
           *ngIf="
-            data.millionPlusCities.documents[question.key][0] &&
-            data.millionPlusCities.documents[question.key][0] as fileData
+            data?.millionPlusCities?.documents[question.key][0] &&
+            data?.millionPlusCities?.documents[question.key][0] as fileData
           "
-          [href]="fileData.url"
+          [href]="fileData?.url"
           target="_blank"
         >
-          {{ fileData.name }}</a
+          {{ fileData?.name }}</a
         >
       </li>
     </ol>
