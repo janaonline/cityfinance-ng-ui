@@ -1,6 +1,9 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { IState } from 'src/app/models/state/state';
 import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
 import { defaultDailogConfiuration } from 'src/app/pages/questionnaires/ulb/configs/common.config';
+import { CommonService } from 'src/app/shared/services/common.service';
+import { UserUtility } from 'src/app/util/user/user';
 
 import { IFinancialData, WaterManagement } from '../../models/financial-data.interface';
 import { millionPlusCitiesQuestions } from '../configs/million-plus-cities';
@@ -32,6 +35,8 @@ export class PreviewComponent implements OnInit {
   millionPlusCitiesQuestions = millionPlusCitiesQuestions;
 
   showLoader = false;
+
+  userDetails = new UserUtility().getLoggedInUserDetails();
 
   styleForPDF = `<style>
   :root {
@@ -74,9 +79,21 @@ export class PreviewComponent implements OnInit {
   }
 </style>`;
 
-  constructor(private _questionnaireService: QuestionnaireService) {}
+  states: { [stateId: string]: IState };
+
+  constructor(
+    private _questionnaireService: QuestionnaireService,
+    private _commonService: CommonService
+  ) {}
 
   ngOnInit() {}
+
+  private fetchStateList() {
+    this._commonService.fetchStateList().subscribe((res) => {
+      this.states = {};
+      res.forEach((state) => (this.states[state._id] = state));
+    });
+  }
 
   downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
@@ -88,7 +105,9 @@ export class PreviewComponent implements OnInit {
         this.downloadFile(
           res.slice(0),
           "pdf",
-          `XV_FC_Grant ${this.data.ulbName}.pdf`
+          `XV_FC_Grant ${
+            this.data ? this.data.ulbName : this.userDetails.name
+          }.pdf`
         );
         this.showLoader = false;
       },
