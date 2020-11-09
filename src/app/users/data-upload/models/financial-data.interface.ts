@@ -13,6 +13,7 @@ export interface IFinancialData {
   actionTakenByUserRole?: USER_TYPE;
   actionTakenByUserName?: string;
   ulbName: string;
+  customStatusText?: string;
 }
 
 export interface MillionPlusCities {

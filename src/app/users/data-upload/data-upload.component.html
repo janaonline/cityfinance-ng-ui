@@ -225,41 +225,12 @@
                         row[header.id]
                       }}</span>
                       <ng-container *ngSwitchCase="'status'">
-                        <ng-container [ngSwitch]="row['status']">
-                          <a
-                            *ngSwitchCase="uploadStatus.PENDING"
+                        <a
+                         
                             (click)="openModal(row, historyModal)"
                           >
-                            <span *ngIf="!row.isCompleted">
-                              Saved as Draft
-                            </span>
-
-                            <span
-                              *ngIf="
-                                row.isCompleted &&
-                                row.status === uploadStatus.PENDING
-                              "
-                            >
-                              Under Review
-                            </span>
+                            {{row.customStatusText}}
                           </a>
-                          <a
-                            *ngSwitchCase="uploadStatus.APPROVED"
-                            (click)="openModal(row, historyModal)"
-                          >
-                            Approved By :{{ row["actionTakenByUserName"] }} ({{
-                              row["actionTakenByUserRole"]
-                            }})
-                          </a>
-                          <a
-                            *ngSwitchCase="uploadStatus.REJECTED"
-                            (click)="openModal(row, historyModal)"
-                          >
-                            Rejected By :{{ row["actionTakenByUserName"] }} ({{
-                              row["actionTakenByUserRole"]
-                            }})
-                          </a>
-                        </ng-container>
                       </ng-container>
 
                       <span *ngSwitchDefault>{{ row[header.id] }}</span>

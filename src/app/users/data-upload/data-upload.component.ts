@@ -19,6 +19,14 @@ import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
 import { SidebarUtil } from '../utils/sidebar.util';
 import { IFinancialData } from './models/financial-data.interface';
+import {
+  APPROVAL_COMPLETED,
+  REJECT_BY_MoHUA,
+  REJECT_BY_STATE,
+  SAVED_AS_DRAFT,
+  UNDER_REVIEW_BY_MoHUA,
+  UNDER_REVIEW_BY_STATE,
+} from './util/request-status';
 import { UploadDataUtility } from './util/upload-data.util';
 
 @Component({
@@ -109,18 +117,12 @@ export class DataUploadComponent
     text: "Status",
   };
   uploadCheckStatusDropDown: any = [
-    {
-      id: UPLOAD_STATUS.PENDING,
-      itemName: "Pending",
-    },
-    {
-      id: UPLOAD_STATUS.APPROVED,
-      itemName: "Approved",
-    },
-    {
-      id: UPLOAD_STATUS.REJECTED,
-      itemName: "Rejected",
-    },
+    SAVED_AS_DRAFT,
+    UNDER_REVIEW_BY_MoHUA,
+    UNDER_REVIEW_BY_STATE,
+    REJECT_BY_STATE,
+    REJECT_BY_MoHUA,
+    APPROVAL_COMPLETED,
   ];
 
   completenessStatus = UPLOAD_STATUS.PENDING;
@@ -194,6 +196,47 @@ export class DataUploadComponent
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
+
+  private formatResponse(req: IFinancialData) {
+         if (!req.isCompleted) {
+           return {
+             ...req,
+             customStatusText: SAVED_AS_DRAFT.itemName,
+             canTakeAction: this.canTakeAction(req),
+           };
+         }
+
+         let customStatusText;
+         switch (req.actionTakenByUserRole) {
+           case USER_TYPE.ULB:
+             customStatusText = UNDER_REVIEW_BY_STATE.itemName;
+             break;
+           case USER_TYPE.STATE:
+             if (req.status === UPLOAD_STATUS.REJECTED) {
+               customStatusText = REJECT_BY_STATE.itemName;
+             } else {
+               customStatusText = UNDER_REVIEW_BY_MoHUA.itemName;
+             }
+
+             break;
+           case USER_TYPE.MoHUA:
+             if (req.status === UPLOAD_STATUS.REJECTED) {
+               customStatusText = REJECT_BY_MoHUA.itemName;
+             } else {
+               customStatusText = APPROVAL_COMPLETED.itemName;
+             }
+             break;
+           default:
+             customStatusText = "N/A";
+         }
+
+         return {
+           ...req,
+           customStatusText,
+           canTakeAction: this.canTakeAction(req),
+         };
+  }
+
   handleResponseSuccess = (response: any) => {
     this.canTakeAction();
     if (this.uploadId) {
@@ -205,10 +248,7 @@ export class DataUploadComponent
         this.updateFormControls();
       }
     } else {
-      this.dataUploadList = response.data.map((req) => ({
-        ...req,
-        canTakeAction: this.canTakeAction(req),
-      }));
+      this.dataUploadList = response.data.map((req: IFinancialData) => this.formatResponse(req));
       if ("total" in response) {
         this.tableDefaultOptions = {
           ...this.tableDefaultOptions,
