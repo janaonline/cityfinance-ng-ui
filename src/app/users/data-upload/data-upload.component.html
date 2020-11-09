@@ -225,12 +225,9 @@
                         row[header.id]
                       }}</span>
                       <ng-container *ngSwitchCase="'status'">
-                        <a
-                         
-                            (click)="openModal(row, historyModal)"
-                          >
-                            {{row.customStatusText}}
-                          </a>
+                        <a (click)="openModal(row, historyModal)">
+                          {{ row.customStatusText }}
+                        </a>
                       </ng-container>
 
                       <span *ngSwitchDefault>{{ row[header.id] }}</span>
@@ -339,29 +336,7 @@
               ></i>
             </td>
             <td class="text-center">{{ i + 1 }}</td>
-            <ng-container [ngSwitch]="row['status']">
-              <td class="text-center" *ngSwitchCase="uploadStatus.PENDING">
-                {{ row.isCompleted ? "Under Review" : "Saved as Draft" }}
-              </td>
-              <td class="text-center" *ngSwitchCase="uploadStatus.APPROVED">
-                Approved By :{{ row["actionTakenByUserName"] }} ({{
-                  row["actionTakenByUserRole"]
-                }})
-              </td>
-              <td class="text-center" *ngSwitchCase="uploadStatus.REJECTED">
-                Rejected By :{{ row["actionTakenByUserName"] }} ({{
-                  row["actionTakenByUserRole"]
-                }})
-              </td>
-              <!--            <td class="text-center">{{
-                          (row['completeness'] == uploadStatus.PENDING ||
-                            row['correctness'] == uploadStatus.PENDING ? 'Requested BY ULB' :
-                              (row['completeness'] == uploadStatus.REJECTED ||
-                                row['correctness'] == uploadStatus.REJECTED) ?
-                                'REjected By :' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
-                                : 'APPROVED By :' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
-                          )}}</td>-->
-            </ng-container>
+            <td>{{ row.customStatusText }}</td>
             <td class="text-center">
               {{ row["modifiedAt"] | date: "medium":"+0000" }}
             </td>

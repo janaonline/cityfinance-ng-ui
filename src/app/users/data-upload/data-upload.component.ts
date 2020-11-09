@@ -118,8 +118,8 @@ export class DataUploadComponent
   };
   uploadCheckStatusDropDown: any = [
     SAVED_AS_DRAFT,
-    UNDER_REVIEW_BY_MoHUA,
     UNDER_REVIEW_BY_STATE,
+    UNDER_REVIEW_BY_MoHUA,
     REJECT_BY_STATE,
     REJECT_BY_MoHUA,
     APPROVAL_COMPLETED,
@@ -196,45 +196,44 @@ export class DataUploadComponent
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
-
   private formatResponse(req: IFinancialData) {
-         if (!req.isCompleted) {
-           return {
-             ...req,
-             customStatusText: SAVED_AS_DRAFT.itemName,
-             canTakeAction: this.canTakeAction(req),
-           };
-         }
+    if (!req.isCompleted) {
+      return {
+        ...req,
+        customStatusText: SAVED_AS_DRAFT.itemName,
+        canTakeAction: this.canTakeAction(req),
+      };
+    }
 
-         let customStatusText;
-         switch (req.actionTakenByUserRole) {
-           case USER_TYPE.ULB:
-             customStatusText = UNDER_REVIEW_BY_STATE.itemName;
-             break;
-           case USER_TYPE.STATE:
-             if (req.status === UPLOAD_STATUS.REJECTED) {
-               customStatusText = REJECT_BY_STATE.itemName;
-             } else {
-               customStatusText = UNDER_REVIEW_BY_MoHUA.itemName;
-             }
+    let customStatusText;
+    switch (req.actionTakenByUserRole) {
+      case USER_TYPE.ULB:
+        customStatusText = UNDER_REVIEW_BY_STATE.itemName;
+        break;
+      case USER_TYPE.STATE:
+        if (req.status === UPLOAD_STATUS.REJECTED) {
+          customStatusText = REJECT_BY_STATE.itemName;
+        } else {
+          customStatusText = UNDER_REVIEW_BY_MoHUA.itemName;
+        }
 
-             break;
-           case USER_TYPE.MoHUA:
-             if (req.status === UPLOAD_STATUS.REJECTED) {
-               customStatusText = REJECT_BY_MoHUA.itemName;
-             } else {
-               customStatusText = APPROVAL_COMPLETED.itemName;
-             }
-             break;
-           default:
-             customStatusText = "N/A";
-         }
+        break;
+      case USER_TYPE.MoHUA:
+        if (req.status === UPLOAD_STATUS.REJECTED) {
+          customStatusText = REJECT_BY_MoHUA.itemName;
+        } else {
+          customStatusText = APPROVAL_COMPLETED.itemName;
+        }
+        break;
+      default:
+        customStatusText = "N/A";
+    }
 
-         return {
-           ...req,
-           customStatusText,
-           canTakeAction: this.canTakeAction(req),
-         };
+    return {
+      ...req,
+      customStatusText,
+      canTakeAction: this.canTakeAction(req),
+    };
   }
 
   handleResponseSuccess = (response: any) => {
@@ -248,7 +247,9 @@ export class DataUploadComponent
         this.updateFormControls();
       }
     } else {
-      this.dataUploadList = response.data.map((req: IFinancialData) => this.formatResponse(req));
+      this.dataUploadList = response.data.map((req: IFinancialData) =>
+        this.formatResponse(req)
+      );
       if ("total" in response) {
         this.tableDefaultOptions = {
           ...this.tableDefaultOptions,
@@ -268,7 +269,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  }
+  };
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -334,12 +335,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  }
+  };
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  }
+  };
 
   getAddedFilterCount() {
     let count = 0;
@@ -722,6 +723,7 @@ export class DataUploadComponent
     this.loading = true;
     this.listFetchOption = this.setLIstFetchOptions();
     const { skip } = this.listFetchOption;
+    console.log(this.listFetchOption);
     this.financialDataService
       .fetchFinancialDataList({ skip, limit: 10 }, this.listFetchOption)
       .subscribe(
@@ -820,7 +822,9 @@ export class DataUploadComponent
     this.financialDataService.fetchFinancialDataHistory(row._id).subscribe(
       (result: HttpResponse<any>) => {
         if (result["success"]) {
-          this.modalTableData = result["data"];
+          this.modalTableData = result["data"].map((data) =>
+            this.formatResponse(data)
+          );
           this.modalTableData = this.modalTableData
             .filter((row) => typeof row["actionTakenBy"] != "string")
             .reverse();
