@@ -31,22 +31,32 @@
           {{ service.name }}
         </td>
         <td style="padding: 1%">
-          {{ data?.waterManagement[service.key]["baseline"]["2021"] }}
-          <i
+          <span *ngIf="data?.waterManagement[service.key]?.baseline">
+            {{ data?.waterManagement[service.key]?.baseline["2021"] }}
+          </span>
+          <em
             class="glyphicon"
             style="font-weight: 600"
-            *ngIf="data?.waterManagement[service.key]['baseline']['2021']"
+            *ngIf="
+              data?.waterManagement[service.key]?.baseline &&
+              data?.waterManagement[service.key]?.baseline['2021']
+            "
           >
             {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-          </i>
+          </em>
         </td>
         <td style="padding: 1%" *ngFor="let year of targets">
-          {{ data?.waterManagement[service.key]["target"][year.key] }}
+          <span *ngIf="data?.waterManagement[service.key]?.target">
+            {{ data?.waterManagement[service.key]?.target[year.key] }}
+          </span>
 
           <i
             class="glyphicon"
             style="font-weight: 600"
-            *ngIf="data?.waterManagement[service.key]['target'][year.key]"
+            *ngIf="
+              data?.waterManagement[service.key]?.target &&
+              data?.waterManagement[service.key]?.target[year.key]
+            "
           >
             {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
           </i>
@@ -78,7 +88,10 @@
       {{ question.question }}
       <br />
       <a
-        *ngIf="data?.solidWasteManagement?.documents[question.key][0]"
+        *ngIf="
+          data?.solidWasteManagement?.documents[question.key] &&
+          data?.solidWasteManagement?.documents[question.key][0]
+        "
         [href]="data?.solidWasteManagement?.documents[question.key][0].url"
         target="_blank"
       >
@@ -97,6 +110,7 @@
         {{ question.question }} <br />
         <a
           *ngIf="
+            data?.millionPlusCities?.documents[question.key] &&
             data?.millionPlusCities?.documents[question.key][0] &&
             data?.millionPlusCities?.documents[question.key][0] as fileData
           "
