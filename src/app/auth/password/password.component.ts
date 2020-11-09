@@ -68,6 +68,7 @@ export class PasswordComponent implements OnInit {
       case USER_TYPE.ULB:
         return this.passwordRequestForm.controls["email"].setValidators([
           Validators.required,
+          Validators.pattern("(?!.*@).*"),
         ]);
 
       default:

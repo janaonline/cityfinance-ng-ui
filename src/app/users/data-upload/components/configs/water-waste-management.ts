@@ -64,19 +64,25 @@ services.forEach((service) => {
     if (service.customValidator) {
       targetControls.addControl(
         tg.key,
-        new FormControl("", [
-          Validators.required,
-          Validators.pattern("^\\d*(.{0,1}\\d{2,2}){0,1}$"),
-          service.customValidator,
-        ])
+        new FormControl("", {
+          validators: [
+            Validators.required,
+            Validators.pattern("^\\d+\\.{0,1}\\d*$"),
+            service.customValidator,
+          ],
+          updateOn: "blur",
+        })
       );
     } else {
       targetControls.addControl(
         tg.key,
-        new FormControl("", [
-          Validators.required,
-          Validators.pattern("^\\d*(.{0,1}\\d{2,2}){0,1}$"),
-        ])
+        new FormControl("", {
+          validators: [
+            Validators.required,
+            Validators.pattern("^\\d+\\.{0,1}\\d*$"),
+          ],
+          updateOn: "blur",
+        })
       );
     }
   });
@@ -86,11 +92,14 @@ services.forEach((service) => {
     baselineControl = _fb.group({
       "2021": [
         "",
-        [
-          Validators.required,
-          Validators.pattern("^\\d*(.{0,1}\\d{2,2}){0,1}$"),
-          service.customValidator,
-        ], // Add this for limiting decimal points (.{0,1}\\d+){0,1}
+        {
+          validators: [
+            Validators.required,
+            Validators.pattern("^\\d+\\.{0,1}\\d*$"),
+            service.customValidator,
+          ],
+          updateOn: "blur",
+        },
       ],
     });
   } else {
@@ -98,10 +107,13 @@ services.forEach((service) => {
     baselineControl = _fb.group({
       "2021": [
         "",
-        [
-          Validators.required,
-          Validators.pattern("^\\d*(.{0,1}\\d{2,2}){0,1}$"),
-        ], // Add this for limiting decimal points (.{0,1}\\d+){0,1}
+        {
+          validators: [
+            Validators.required,
+            Validators.pattern("^\\d+\\.{0,1}\\d*$"),
+          ],
+          updateOn: "blur",
+        },
       ],
     });
   }
@@ -144,6 +156,8 @@ const wasteWaterDucmentQuestions: FinancialUploadQuestion<
     question: "Waste Water Managemnet Plan",
   },
 ];
+
+console.log(waterWasteManagementForm);
 
 export {
   waterWasteManagementForm,

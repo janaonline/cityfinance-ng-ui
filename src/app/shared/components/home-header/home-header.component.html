@@ -19,14 +19,14 @@
     >
 
     <ul class="nav navbar-nav login-and-profile">
-      <li *ngIf="!isLoggedIn">
+      <!-- <li *ngIf="!isLoggedIn">
         <a
           [routerLink]="['/login']"
           routerLinkActive="active"
           class="login-link"
           >Login / Register
         </a>
-      </li>
+      </li> -->
       <li
         routerLinkActive="active"
         class="dropdown"
@@ -135,7 +135,7 @@
         >Analytics
         <i
           class="fa fa-caret-down custom-fa"
-          style="margin-left: 1rem;"
+          style="margin-left: 1rem"
           [ngClass]="{ 'rotate-180deg': showAnalyticsSubMenu }"
           aria-hidden="true"
         ></i>
@@ -180,7 +180,10 @@
         role="button"
         aria-haspopup="true"
         aria-expanded="false"
-        [ngClass]="{ active: isCreditRatingActive || isMunicipalBondActive }"
+        [ngClass]="{
+          active:
+            isCreditRatingActive || isMunicipalBondActive || isResourceTabActive
+        }"
         >Borrowings
       </a>
       <ul class="dropdown-menu dropdown-menu-left">
@@ -198,6 +201,14 @@
             routerLinkActive="active"
             (click)="closeSidebarMenu()"
             >Credit Rating</a
+          >
+        </li>
+        <li>
+          <a
+            routerLinkActive="active"
+            routerLink="/borrowings/resources"
+            (click)="closeSidebarMenu()"
+            >Resources</a
           >
         </li>
       </ul>
@@ -219,6 +230,14 @@
         >Credit Rating</a
       >
     </li>
+    <li class="d-b-lg-menu">
+      <a
+        routerLinkActive="active"
+        routerLink="/borrowings/resources"
+        (click)="closeSidebarMenu()"
+        >Resource</a
+      >
+    </li>
 
     <!-- <li routerLinkActive="active">
       <a [routerLink]="['/borrowings/report']">Credit Rating</a>
@@ -229,10 +248,10 @@
     <li>
       <a
         routerLinkActive="active"
-        routerLink="/resources"
+        routerLink="/fc_grant"
         (click)="closeSidebarMenu()"
       >
-        Resources
+        15<sup style="text-transform: capitalize">th</sup> FC Grants
       </a>
     </li>
     <li routerLinkActive="active" class="d-n-sm">

@@ -1,19 +1,29 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatHorizontalStepper } from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
-import { USER_TYPE } from 'src/app/models/user/userType';
-import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
-import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
-import { ProfileService } from 'src/app/users/profile/service/profile.service';
-import { AccessChecker } from 'src/app/util/access/accessChecker';
-import { ACTIONS } from 'src/app/util/access/actions';
-import { MODULES_NAME } from 'src/app/util/access/modules';
-import { JSONUtility } from 'src/app/util/jsonUtil';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatHorizontalStepper,
+} from "@angular/material";
+import { ActivatedRoute, Router } from "@angular/router";
+import { USER_TYPE } from "src/app/models/user/userType";
+import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
+import { IDialogConfiguration } from "src/app/shared/components/dialog/models/dialogConfiguration";
+import { ProfileService } from "src/app/users/profile/service/profile.service";
+import { AccessChecker } from "src/app/util/access/accessChecker";
+import { ACTIONS } from "src/app/util/access/actions";
+import { MODULES_NAME } from "src/app/util/access/modules";
+import { JSONUtility } from "src/app/util/jsonUtil";
 
-import { IQuestionnaireResponse } from '../../model/questionnaireResponse.interface';
-import { QuestionnaireService } from '../../service/questionnaire.service';
-import { documentForm } from '../configs/document.config';
-import { userChargesForm } from '../configs/user-charges.config';
+import { IQuestionnaireResponse } from "../../model/questionnaireResponse.interface";
+import { QuestionnaireService } from "../../service/questionnaire.service";
+import { documentForm } from "../configs/document.config";
+import { userChargesForm } from "../configs/user-charges.config";
 
 @Component({
   selector: "app-questionnaire",
@@ -27,9 +37,7 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
     private _profileService: ProfileService,
     private router: Router,
     private _matDialog: MatDialog
-  ) {
-    console.log("ubl questionnaire");
-  }
+  ) {}
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
   @ViewChild("savingAsDraft") savingAsDraftPopup: TemplateRef<any>;
   draftSavingInProgess = false;

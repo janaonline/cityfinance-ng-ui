@@ -363,6 +363,7 @@
 
     <div class="input-group" *ngIf="profile.disabled && canSubmitForm">
       <button
+        [disabled]="apiInProgress"
         type="button"
         class="btn btn-primary"
         (click)="enableProfileEdit()"

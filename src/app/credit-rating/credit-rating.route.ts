@@ -20,9 +20,14 @@ export const creditRatingRouter: Routes = [
       { path: "", redirectTo: "report", pathMatch: "full" },
       { path: "credit-rating", component: ReportComponent },
       { path: "scale", component: ScaleComponent },
-      { path: "municipal-bond", component: MunicipalBondComponent }
-    ]
-  }
+      { path: "municipal-bond", component: MunicipalBondComponent },
+      {
+        path: "resources",
+        loadChildren:
+          "../pages/resources/public-files.module#PublicFilesModule",
+      },
+    ],
+  },
 ];
 
 export const CreditRatingRouter: ModuleWithProviders = RouterModule.forChild(

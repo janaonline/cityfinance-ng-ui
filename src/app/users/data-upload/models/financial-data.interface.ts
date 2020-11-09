@@ -3,6 +3,7 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { UPLOAD_STATUS } from 'src/app/util/enums';
 
 export interface IFinancialData {
+  _id?: string;
   ulb: string;
   waterManagement: WaterManagement;
   solidWasteManagement: SolidWasteManagement;
@@ -11,6 +12,7 @@ export interface IFinancialData {
   status?: UPLOAD_STATUS;
   actionTakenByUserRole?: USER_TYPE;
   actionTakenByUserName?: string;
+  ulbName: string;
 }
 
 export interface MillionPlusCities {

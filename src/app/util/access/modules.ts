@@ -1,6 +1,6 @@
-import { USER_TYPE } from 'src/app/models/user/userType';
+import { USER_TYPE } from "src/app/models/user/userType";
 
-import { ACTIONS } from './actions';
+import { ACTIONS } from "./actions";
 
 export enum MODULES_NAME {
   FINANCIAL_DATA_UPLOAD = "FINANCIAL_DATA_UPLOAD",
@@ -135,9 +135,10 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
         USER_TYPE.ADMIN,
         USER_TYPE.PARTNER,
         USER_TYPE.MoHUA,
+        USER_TYPE.STATE,
         USER_TYPE.ULB,
       ],
-      [ACTIONS.DELETE]: [USER_TYPE.ADMIN],
+      // [ACTIONS.  DELETE]: [USER_TYPE.ADMIN],
     },
   },
 

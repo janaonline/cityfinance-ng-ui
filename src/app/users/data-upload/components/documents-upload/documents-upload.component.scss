@@ -13,7 +13,7 @@
     }
     tbody tr td:nth-child(3) {
       padding: 0.5% 0.1%;
-      width: 15%;
+      width: 35%;
     }
     .question {
       width: 83%;
@@ -80,7 +80,7 @@
 
   .file-list {
     margin: 1%;
-    width: 85%;
+    width: 95%;
     display: flex;
     // justify-content: space-between;
     align-items: center;
@@ -96,7 +96,7 @@
 
   .progress {
     display: inline-block;
-    width: 35%;
+    width: 65%;
     margin-bottom: 0%;
     margin-left: 2%;
   }

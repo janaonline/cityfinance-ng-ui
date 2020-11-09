@@ -17,6 +17,7 @@ import { UPLOAD_STATUS } from '../../util/enums';
 import { FileUpload } from '../../util/fileUpload';
 import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
+import { SidebarUtil } from '../utils/sidebar.util';
 import { IFinancialData } from './models/financial-data.interface';
 import { UploadDataUtility } from './util/upload-data.util';
 
@@ -42,6 +43,10 @@ export class DataUploadComponent
     public _matDialog: MatDialog
   ) {
     super();
+    if (this.userUtil.getUserType() === USER_TYPE.ULB) {
+      SidebarUtil.hideSidebar();
+    }
+
     this.isAccessible = accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.UPLOAD,
@@ -139,6 +144,8 @@ export class DataUploadComponent
   uploadStatusFormControl: FormControl = new FormControl("");
   ulbNameSearchFormControl: FormControl = new FormControl();
   ulbCodeSearchFormControl: FormControl = new FormControl();
+  censusCode: FormControl = new FormControl();
+  sbCode: FormControl = new FormControl();
 
   rejectFields = {};
 
@@ -598,7 +605,6 @@ export class DataUploadComponent
         : this.uploadObject[key].excelUrl;
     });
 
-    console.log({ urlObject });
     this.financialDataService
       .upDateFinancialData(this.uploadId, urlObject)
       .subscribe(
@@ -651,11 +657,17 @@ export class DataUploadComponent
     const filterObject = {
       filter: {
         [filterKeys[0]]: this.fileFormGroup.get(filterKeys[0]).value,
-        ulbName: this.ulbNameSearchFormControl.value,
-        ulbCode: this.ulbCodeSearchFormControl.value,
+        ulbName: this.ulbNameSearchFormControl.value
+          ? this.ulbNameSearchFormControl.value.trim()
+          : "",
+        ulbCode: this.ulbCodeSearchFormControl.value
+          ? this.ulbCodeSearchFormControl.value.trim()
+          : "",
         audited: this.fileFormGroup.get(filterKeys[1]).value.length
           ? this.fileFormGroup.get(filterKeys[1]).value == "true"
           : "",
+        censusCode: this.censusCode.value ? this.censusCode.value.trim() : "",
+        sbCode: this.sbCode.value ? this.sbCode.value.trim() : "",
         status: this.uploadStatusFormControl.value,
       },
     };

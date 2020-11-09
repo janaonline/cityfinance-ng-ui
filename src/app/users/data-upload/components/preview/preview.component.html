@@ -1,0 +1,125 @@
+<div id="preview" #preview style="position: relative">
+  <button
+    id="donwloadButton"
+    style="float: right; position: absolute; right: 0%; outline: none"
+    class="btn btn-primary btn-upload"
+    (click)="downloadAsPDF()"
+  >
+    Download as pdf
+  </button>
+  <h2 style="text-align: center">
+    ULB: {{ data?.ulbName || userDetails.name }}
+  </h2>
+
+  <h3 style="text-align: center">Water Supply & Waste-Water Management</h3>
+
+  <table
+    aria-describedby="Water Waste Management Form"
+    style="margin-bottom: 5%; width: 100%"
+  >
+    <thead>
+      <th style="padding: 1%" scope="col">Service Level Indicators</th>
+      <th style="padding: 1%" scope="col">Baseline Indicator 2020-21</th>
+      <th style="padding: 1%" *ngFor="let column of targets" scope="col">
+        {{ column.name }}
+      </th>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let service of services; let i = index">
+        <td style="padding: 1%" class="td-width">
+          {{ service.name }}
+        </td>
+        <td style="padding: 1%">
+          <span *ngIf="data?.waterManagement[service.key]?.baseline">
+            {{ data?.waterManagement[service.key]?.baseline["2021"] }}
+          </span>
+          <em
+            class="glyphicon"
+            style="font-weight: 600"
+            *ngIf="
+              data?.waterManagement[service.key]?.baseline &&
+              data?.waterManagement[service.key]?.baseline['2021']
+            "
+          >
+            {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+          </em>
+        </td>
+        <td style="padding: 1%" *ngFor="let year of targets">
+          <span *ngIf="data?.waterManagement[service.key]?.target">
+            {{ data?.waterManagement[service.key]?.target[year.key] }}
+          </span>
+
+          <i
+            class="glyphicon"
+            style="font-weight: 600"
+            *ngIf="
+              data?.waterManagement[service.key]?.target &&
+              data?.waterManagement[service.key]?.target[year.key]
+            "
+          >
+            {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+          </i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="text-align: center">Upload Documents</h4>
+  <ol>
+    <li *ngFor="let question of wasteWaterDucmentQuestions; let i = index">
+      {{ question.question }} <br />
+      <a
+        *ngIf="data?.waterManagement.documents.wasteWaterPlan[i]"
+        [href]="data?.waterManagement.documents.wasteWaterPlan[i].url"
+        target="_blank"
+      >
+        {{ data?.waterManagement.documents.wasteWaterPlan[i].name }}</a
+      >
+    </li>
+  </ol>
+
+  <h3 style="text-align: center">Solid Waste Management</h3>
+  <ol>
+    <li
+      *ngFor="let question of solidWasteQuestions"
+      style="margin-bottom: 1.5%"
+    >
+      {{ question.question }}
+      <br />
+      <a
+        *ngIf="
+          data?.solidWasteManagement?.documents[question.key] &&
+          data?.solidWasteManagement?.documents[question.key][0]
+        "
+        [href]="data?.solidWasteManagement?.documents[question.key][0].url"
+        target="_blank"
+      >
+        {{ data?.solidWasteManagement?.documents[question.key][0].name }}</a
+      >
+    </li>
+  </ol>
+
+  <div *ngIf="isULBMillionPlus">
+    <h3 style="text-align: center">Million Plus Cities Only</h3>
+    <ol>
+      <li
+        *ngFor="let question of millionPlusCitiesQuestions"
+        style="margin-bottom: 1.5%"
+      >
+        {{ question.question }} <br />
+        <a
+          *ngIf="
+            data?.millionPlusCities?.documents[question.key] &&
+            data?.millionPlusCities?.documents[question.key][0] &&
+            data?.millionPlusCities?.documents[question.key][0] as fileData
+          "
+          [href]="fileData?.url"
+          target="_blank"
+        >
+          {{ fileData?.name }}</a
+        >
+      </li>
+    </ol>
+  </div>
+</div>

@@ -1,12 +1,11 @@
-<div class="container-fluid" style="padding-bottom: 5%;">
+<div class="container-fluid" style="padding-bottom: 5%">
   <div class="row d-flex">
-    <div class="col-sm-2 mt-2 mr-2">
-      <app-side-menu
-        [content]="SideBarContents"
-        *ngIf="loggedInUserType !== userTypes.USER"
-      ></app-side-menu>
+    <div class="col-sm-2 mt-2 mr-2" *ngIf="showSidebar">
+      <app-side-menu [content]="SideBarContents"></app-side-menu>
     </div>
-    <div class="col-sm-9">
+    <div
+      [ngClass]="{ 'col-sm-9': showSidebar, 'col-sm-11 m-auto': !showSidebar }"
+    >
       <h3 class="text-center mt-2" *ngIf="loggedInUserType !== userTypes.USER">
         Welcome: {{ userLoggedInDetails.name }},
         <span

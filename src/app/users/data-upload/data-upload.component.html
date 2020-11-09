@@ -1,18 +1,24 @@
 <ng-container *ngIf="id; else noId">
   <div class="row" style="margin-left: 2%">
     <div class="col mt-3">
-      <button
+      <!-- <button
         (click)="location.back()"
         class="back_button"
         style="transform: unset"
       >
         Back
-      </button>
+      </button> -->
     </div>
     <ng-container *ngIf="id === 'upload-form'">
-      <app-financial-uploads
-        [financialData]="uploadObject"
-      ></app-financial-uploads>
+      <app-financial-uploads [financialData]="uploadObject">
+        <button
+          (click)="location.back()"
+          class="btn btn-primary btn-upload"
+          style="transform: unset"
+        >
+          Back
+        </button>
+      </app-financial-uploads>
     </ng-container>
   </div>
 </ng-container>
@@ -79,7 +85,11 @@
                   *ngFor="let header of tableHeaders"
                 >
                   <ng-container [ngSwitch]="!!header.click">
-                    <span (click)="sortById(header.id)" *ngSwitchCase="true">
+                    <span
+                      (click)="sortById(header.id)"
+                      class="cursor-pointer"
+                      *ngSwitchCase="true"
+                    >
                       {{ header.title }} <i class="glyphicon glyphicon-sort"></i
                     ></span>
                     <span *ngSwitchCase="false">{{ header.title }}</span>
@@ -110,44 +120,27 @@
                     />
                   </div>
                 </td>
-                <!-- <td>
+                <td>
                   <div class="input-group">
-                    <label for="financialYear"></label>
-                    <select
-                      id="financialYear"
+                    <input
+                      placeholder="Census Code"
+                      type="text"
+                      [formControl]="censusCode"
                       class="form-control"
-                      formControlName="financialYear"
-                    >
-                      <option value="" selected>All years</option>
-                      <option
-                        [value]="option.id"
-                        *ngFor="let option of financialYearDropdown"
-                      >
-                        {{ option?.itemName }}
-                      </option>
-                    </select>
+                    />
                   </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="Swatcha Bharat Code"
+                      type="text"
+                      [formControl]="sbCode"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
 
-                
-                </td> -->
-                <!-- <td>
-                  <div class="input-group">
-                    <label for="auditStatus"></label>
-                    <select
-                      id="auditStatus"
-                      class="form-control"
-                      formControlName="auditStatus"
-                    >
-                      <option value="" selected>All Audit Status</option>
-                      <option
-                        [value]="option.id"
-                        *ngFor="let option of auditStatusDropdown"
-                      >
-                        {{ option?.itemName }}
-                      </option>
-                    </select>
-                  </div>
-                </td> -->
                 <td>
                   <div class="input-group">
                     <label for="uploadStatus"></label>
@@ -377,12 +370,7 @@
             <td class="text-center">{{ i + 1 }}</td>
             <ng-container [ngSwitch]="row['status']">
               <td class="text-center" *ngSwitchCase="uploadStatus.PENDING">
-                {{
-                  row["completeness"] == uploadStatus.PENDING &&
-                  row["correctness"] == uploadStatus.PENDING
-                    ? "Requested By ULB"
-                    : "Under Review"
-                }}
+                {{ row.isCompleted ? "Under Review" : "Saved as Draft" }}
               </td>
               <td class="text-center" *ngSwitchCase="uploadStatus.APPROVED">
                 Approved By :{{ row["actionTakenByUserName"] }} ({{

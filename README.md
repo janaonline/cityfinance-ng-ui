@@ -1,27 +1,11 @@
-# PerfectAngular
+# CITY FINANCE
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.1.
+## FAQs
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+1. How does the re-direction logic works in Questionnaire and 15th FC Grand modules?  
+   Ans: When user logged in, we check for key `postLoginNavigation` in `SessionStorage`. If it exists, then
+   the user is redirected to that particular page. Otherwise, they are redirected to `/home`.  
+   **In case of Questionnaire**, When a User cliccks on the Questionanaire tab, that module internally validates few things (user is logged in or not,user-access, type of user etc). If it is found that user is not logged in, then it set `postLoginNavigation` value to itself.  
+   **In case of 15th FC Grant Modules**, the module set the `postLoginNavigation` value to itselgf before redirecting to login page.
+   ### NOTE
+   This needs to be changed. The implementation done above is not scalable enough to be used in every modules / pages, and not easy to maintain for long term.

@@ -54,7 +54,11 @@
                 {{ successMessage }}
               </p>
               <div class="input-group">
-                <button type="submit" class="btn btn-primary">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  [disabled]="form.invalid"
+                >
                   Send Reactivation Email
                 </button>
                 <br />
