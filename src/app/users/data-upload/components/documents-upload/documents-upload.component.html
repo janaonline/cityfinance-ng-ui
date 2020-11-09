@@ -118,6 +118,7 @@
                 <div
                   class="actionsContainer"
                   *ngIf="
+                    (canSeeApproveActionTaken || canTakeApproveAction) &&
                     documentForm.controls[question.key].controls &&
                     documentForm.controls[question.key].controls[controlIndex]
                   "

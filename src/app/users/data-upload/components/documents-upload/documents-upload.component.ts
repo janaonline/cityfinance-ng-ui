@@ -71,6 +71,9 @@ export class DocumentsUploadComponent<T>
   @Input()
   canTakeApproveAction = true;
 
+  @Input()
+  canSeeApproveActionTaken = false;
+
   @Output()
   outputValues = new EventEmitter<
     SolidWasteEmitValue | MillionPlusCitiesDocuments
