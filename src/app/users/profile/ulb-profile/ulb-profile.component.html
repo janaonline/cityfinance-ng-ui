@@ -6,11 +6,11 @@
   >
     Back
   </button>
-  <h1 *ngIf="profileData">
+  <h3 *ngIf="profileData">
     <span *ngIf="profile.disabled">View</span>
     <span *ngIf="profile.enabled">Edit</span>
     Profile
-  </h1>
+  </h3>
   <div *ngIf="profileData && profileData.status === SIGNUP_STATUS.REJECTED">
     <p class="error-message">
       Reason for Rejection: {{ profileData.rejectReason }}
