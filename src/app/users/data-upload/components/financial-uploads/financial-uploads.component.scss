@@ -26,9 +26,13 @@
   }
 }
 
-// ::ng-deep .block-steeper-top-navigation .mat-horizontal-stepper-header {
-//   pointer-events: none !important;
-// }
+:host {
+  ::ng-deep {
+    mat-step-header[tabIndex="0"] {
+      padding-left: 0px;
+    }
+  }
+}
 ::ng-deep .mat-step-header[ng-reflect-selected="true"] .mat-step-icon,
 ::ng-deep .mat-step-header[aria-selected="true"] .mat-step-icon {
   background: #009a00;
