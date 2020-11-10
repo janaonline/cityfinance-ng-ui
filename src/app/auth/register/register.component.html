@@ -264,7 +264,7 @@
                 id="ulb"
                 [formControl]="registrationForm.controls['name']"
                 class="form-control"
-                placeholder="Urban Local Body"
+                placeholder="Urban Local Body*"
                 [ngClass]="{
                   'is-invalid':
                     formSubmitted && registrationForm?.controls?.name.errors
@@ -294,7 +294,7 @@
                 type="text"
                 class="form-control"
                 [formControl]="registrationForm.controls['ulb']"
-                placeholder="Swatch Bharat Code/ULB Code*"
+                placeholder="Census Code/ULB Code*"
               />
               <i
                 class="fa fa-spinner fa-spin ulbSpinner"
@@ -391,7 +391,7 @@
             </small>
             <p class="input_info">
               <i class="fa fa-info-circle" aria-hidden="true"></i>
-              Use official email Id of Commissioner
+              Use official email Id of Municipal Commissioner/Executive Officer
             </p>
 
             <div class="input-group">
@@ -433,7 +433,7 @@
                 [formControl]="
                   registrationForm.controls['accountantConatactNumber']
                 "
-                placeholder="Accountant Contact No *"
+                placeholder="XV FC Nodal Officer Contact No *"
                 [ngClass]="{
                   'is-invalid': GetFormControlErrors('accountantConatactNumber')
                 }"

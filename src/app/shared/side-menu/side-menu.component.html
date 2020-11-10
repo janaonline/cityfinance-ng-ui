@@ -32,9 +32,8 @@
       [attr.data-target]="'#collapse' + i"
       aria-expanded="true"
       aria-controls="collapseOne"
-    >
-      {{ link.title }}
-    </div>
+      [innerHTML]="link.title"
+    ></div>
 
     <div
       [id]="'collapse' + i"
