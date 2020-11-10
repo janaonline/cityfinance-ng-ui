@@ -8,10 +8,11 @@ const accessChecker = new AccessChecker();
 
 export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
   {
-    title: "15th XV Grant",
+    title:
+      "<span>15<sup style='text-transform: capitalize'>th</sup>XV Grant</span>",
     subMenus: [
       {
-        title: "Filled Up Form Tracker",
+        title: "Filled Up Forms Tracker",
         type: "link",
         route: ["/user/data-upload/list"],
       },
@@ -54,27 +55,32 @@ export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
         },
       },
       {
-        title: "ULBs",
-        type: "other",
-        subMenus: [
-          {
-            title: "Profile Update Request",
-            type: "link",
-            route: ["/user/profile/request"],
-          },
-          {
-            title: "Sign Up Request",
-            type: "link",
-            route: [`/user/list/${USER_TYPE.ULB}`],
-            condition: () => {
-              return accessChecker.hasAccess({
-                action: ACTIONS.VIEW,
-                moduleName: MODULES_NAME.ULB,
-              });
-            },
-          },
-        ],
+        title: "ULB Sign Up List",
+        type: "link",
+        route: [`/user/list/${USER_TYPE.ULB}`],
       },
+      // {
+      //   title: "ULBs",
+      //   type: "other",
+      //   subMenus: [
+      //     {
+      //       title: "Profile Update Request",
+      //       type: "link",
+      //       route: ["/user/profile/request"],
+      //     },
+      //     {
+      //       title: "Sign Up Request",
+      //       type: "link",
+      //       route: [`/user/list/${USER_TYPE.ULB}`],
+      //       condition: () => {
+      //         return accessChecker.hasAccess({
+      //           action: ACTIONS.VIEW,
+      //           moduleName: MODULES_NAME.ULB,
+      //         });
+      //       },
+      //     },
+      //   ],
+      // },
 
       {
         title: "Users",
@@ -175,10 +181,11 @@ export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
 
 export const sideMenuForStateUser: { title: string; subMenus: ILink[] }[] = [
   {
-    title: "15th XV Grant",
+    title:
+      "<span>15<sup style='text-transform: capitalize'>th</sup>XV Grant</span>",
     subMenus: [
       {
-        title: "Filled Up Form Tracker",
+        title: "Filled Up Forms Tracker",
         type: "link",
         route: ["/user/data-upload/list"],
       },
