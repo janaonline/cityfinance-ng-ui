@@ -9,10 +9,10 @@ const accessChecker = new AccessChecker();
 export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
   {
     title:
-      "<span>15<sup style='text-transform: capitalize'>th</sup>XV Grant</span>",
+      "<span>15<sup style='text-transform: capitalize'>th</sup> FC GRANTS</span>",
     subMenus: [
       {
-        title: "Filled Up Forms Tracker",
+        title: "ULB Data Upload Tracker",
         type: "link",
         route: ["/user/data-upload/list"],
       },
@@ -33,7 +33,7 @@ export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
         },
       },
       {
-        title: "Partner",
+        title: "Partners",
         type: "link",
         route: [`/user/list/${USER_TYPE.PARTNER}`],
         condition: () => {
@@ -55,7 +55,7 @@ export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
         },
       },
       {
-        title: "ULB Sign Up List",
+        title: "ULBs",
         type: "link",
         route: [`/user/list/${USER_TYPE.ULB}`],
       },
@@ -185,7 +185,7 @@ export const sideMenuForStateUser: { title: string; subMenus: ILink[] }[] = [
       "<span>15<sup style='text-transform: capitalize'>th</sup>XV Grant</span>",
     subMenus: [
       {
-        title: "Filled Up Forms Tracker",
+        title: "ULB Data Upload Tracker",
         type: "link",
         route: ["/user/data-upload/list"],
       },
