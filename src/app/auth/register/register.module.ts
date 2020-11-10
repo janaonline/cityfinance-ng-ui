@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material';
 import { RecaptchaModule } from 'ng-recaptcha';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -15,6 +16,7 @@ import { RegisterComponent } from './register.component';
     RegisterRoutingModule,
     SharedModule,
     RecaptchaModule,
+    MatProgressSpinnerModule,
   ],
   declarations: [RegisterComponent],
 })

@@ -275,15 +275,15 @@ export class FormUtil {
       ? accountantEmail.trim()
       : accountantEmail;
 
-    if (
-      accountantEmail.trim() &&
-      commissionerEmail.trim() &&
-      accountantEmail == commissionerEmail
-    ) {
-      errors.push(
-        "Commisionar Email ID and Accountant Email ID cannot be same"
-      );
-    }
+    // if (
+    //   accountantEmail.trim() &&
+    //   commissionerEmail.trim() &&
+    //   accountantEmail == commissionerEmail
+    // ) {
+    //   errors.push(
+    //     "Commisionar Email ID and Accountant Email ID cannot be same"
+    //   );
+    // }
     Object.keys(form.controls).forEach((controlName) => {
       const control = form.controls[controlName];
       if (!control.valid) {
@@ -330,11 +330,11 @@ export class FormUtil {
         ? accountantEmail.trim()
         : accountantEmail;
 
-      if (accountantEmail == commissionerEmail) {
-        errors.push(
-          "Commisionar Email ID and Accountant Email ID cannot be same"
-        );
-      }
+      // if (accountantEmail == commissionerEmail) {
+      //   errors.push(
+      //     "Commisionar Email ID and Accountant Email ID cannot be same"
+      //   );
+      // }
     }
 
     Object.keys(form.controls).forEach((Name) => {

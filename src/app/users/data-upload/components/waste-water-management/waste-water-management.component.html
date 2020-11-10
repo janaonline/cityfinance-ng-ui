@@ -6,9 +6,14 @@
     <thead>
       <th scope="col">Service Level Indicators</th>
       <th scope="col">Benchmark</th>
-      <th scope="col">Baseline Indicator 2020-21</th>
+      <th scope="col">
+        Baseline Indicator <br />
+        2020-21
+      </th>
 
-      <th *ngFor="let column of targets" scope="col">{{ column.name }}</th>
+      <th *ngFor="let column of targets" scope="col">
+        <span [innerHTML]="column.name"></span>
+      </th>
     </thead>
 
     <tbody>
