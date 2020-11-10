@@ -31,7 +31,7 @@
             <input
               (blur)="
                 onBlur(
-                  form.controls[service.key].controls['baseline'].controls[
+                  form.controls[service.key]['controls']['baseline'].controls[
                     '2021'
                   ]
                 )
@@ -42,29 +42,29 @@
               formControlName="2021"
               [ngClass]="{
                 'is-invalid':
-                  isSubmitButtonClick &&
-                  form.controls[service.key].controls['baseline'].invalid(
-                    isSubmitButtonClick ||
-                      form.controls[service.key].controls['baseline'].touched
-                  ) &&
-                  form.controls[service.key].controls['baseline'].invalid
+                  (isSubmitButtonClick &&
+                    form.controls[service.key].controls['baseline']?.invalid) ||
+                  (form.controls[service.key].controls['baseline']?.touched &&
+                    form.controls[service.key].controls['baseline']?.invalid)
               }"
             />
 
             <span class="input-group-addon"
-              ><i class="glyphicon" style="font-weight: 600">
+              ><em class="glyphicon" style="font-weight: 600">
                 {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-              </i></span
+              </em></span
             >
           </div>
 
           <span
             class="error-message"
             *ngIf="
-              !form.controls[service.key].controls['baseline'].controls['2021']
-                ?.errors?.required &&
-              form.controls[service.key].controls['baseline'].controls['2021']
-                ?.errors as error
+              !form.controls[service.key]['controls']['baseline'].controls[
+                '2021'
+              ]?.errors?.required &&
+              form.controls[service.key]['controls']['baseline'].controls[
+                '2021'
+              ]?.errors as error
             "
           >
             <span *ngIf="error.pattern">
@@ -84,7 +84,7 @@
             <input
               (blur)="
                 onBlur(
-                  form.controls[service.key].controls['target'].controls[
+                  form.controls[service.key]['controls']['target'].controls[
                     year.key
                   ]
                 )
@@ -105,18 +105,20 @@
               }"
             />
             <span class="input-group-addon"
-              ><i class="glyphicon" style="font-weight: 600">
+              ><em class="glyphicon" style="font-weight: 600">
                 {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-              </i></span
+              </em></span
             >
           </div>
           <span
             class="error-message"
             *ngIf="
-              !form.controls[service.key].controls['target'].controls[year.key]
-                ?.errors?.required &&
-              form.controls[service.key].controls['target'].controls[year.key]
-                ?.errors as error
+              !form.controls[service.key]['controls']['target'].controls[
+                year.key
+              ]?.errors?.required &&
+              form.controls[service.key]['controls']['target'].controls[
+                year.key
+              ]?.errors as error
             "
           >
             <span *ngIf="error.pattern">
@@ -141,14 +143,10 @@
                   type="radio"
                   [value]="approveAction"
                   formControlName="status"
-                  [ngClass]="{
-                    'is-invalid':
-                      isSubmitButtonClick &&
-                      form.controls[service.key].controls['status'].invalid
-                  }"
                 />
                 <span>
                   {{ approveAction }}
+
                 </span>
               </label>
             </div>
@@ -167,8 +165,8 @@
           <div
             class="input-group"
             *ngIf="
-              form.controls[service.key].controls['status'].value ===
-              REJECT_ACTION
+              form.controls[service.key]['controls']['status'].value ===
+              rejectAction
             "
           >
             <textarea

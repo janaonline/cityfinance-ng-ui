@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material';
 import { debounceTime } from 'rxjs/operators';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
-import { ACTIONS } from 'src/app/util/access/actions';
+import { UPLOAD_STATUS } from 'src/app/util/enums';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { WaterManagement, WaterManagementDocuments } from '../../models/financial-data.interface';
@@ -53,8 +53,8 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
 
   USER_TYPE = USER_TYPE;
 
-  approveAction = ACTIONS.APPROVE;
-  rejectAction = ACTIONS.REJECT;
+  approveAction = UPLOAD_STATUS.APPROVED;
+  rejectAction = UPLOAD_STATUS.REJECTED;
 
   targets = targets;
 
@@ -63,9 +63,6 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
     name: string;
     benchmark: string;
   }[] = services;
-
-  APPROVE_ACTION = ACTIONS.APPROVE;
-  REJECT_ACTION = ACTIONS.REJECT;
 
   wasterWaterQuestion = wasteWaterDucmentQuestions;
 

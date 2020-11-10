@@ -104,7 +104,9 @@ export class FinancialUploadsComponent
 
     if (!this.hasAccessToViewData) return this._router.navigate(["/home"]);
     if (!this.hasAccessToUploadData) this.setStateToReadMode();
-    if (this.canTakeApproveRejectAction) this.setFormToTakeActionMode();
+    if (this.canTakeApproveRejectAction) {
+      this.setFormToTakeActionMode(this.isULBMillionPlus);
+    }
   }
 
   private setStateToReadMode() {
@@ -115,7 +117,6 @@ export class FinancialUploadsComponent
   ngOnChanges() {
     this.createDataForms(this.financialData);
     if (this.financialData) this.populateFormDatas(this.financialData);
-    this.initializeAccessCheck();
     this.checkULBMilionPlusStatus();
   }
 
@@ -125,13 +126,14 @@ export class FinancialUploadsComponent
     else {
       ulbId = this.loggedInUserDetails.ulb;
     }
-    console.log(`checking ulb million plus`, this.financialData);
     this._profileService.getULBGeneralData({ id: ulbId }).subscribe((res) => {
       try {
         this.isULBMillionPlus = res["data"][0].isMillionPlus;
+        this.initializeAccessCheck();
       } catch (error) {
         console.error(error);
         this.isULBMillionPlus = false;
+        this.initializeAccessCheck();
       }
     });
   }
@@ -147,9 +149,11 @@ export class FinancialUploadsComponent
     // this.millionPlusCitiesForm.patchValue({
     //   ...data.millionPlusCities.documents,
     // });
-    this.millionPlusCitiesAnswers = {
-      ...data.millionPlusCities.documents,
-    };
+    this.millionPlusCitiesAnswers = data.millionPlusCities
+      ? {
+          ...data.millionPlusCities.documents,
+        }
+      : null;
 
     // this.waterWasteManagementForm.patchValue({ ...data.waterManagement });
     // this.financialData.isCompleted = false;
@@ -278,13 +282,50 @@ export class FinancialUploadsComponent
   onSubmitApprovalActions() {
     this.saveAsDraftFailMessge = null;
     this.isSubmitButtonClicked = true;
-    console.log("solidWaste", this.solidWasteManagementForm);
 
     try {
       this.validateUserApprovalAction();
     } catch (error) {
       return console.error(error);
     }
+
+    this.resetMessages();
+
+    const body = {
+      ulb: this.financialData.ulb,
+      millionPlusCities: this.isULBMillionPlus
+        ? { documents: this.millionPlusCitiesForm.getRawValue() }
+        : null,
+      solidWasteManagement: {
+        documents: this.solidWasteManagementForm.getRawValue(),
+      },
+      waterManagement: this.waterWasteManagementForm.getRawValue(),
+      isCompleted: true,
+    };
+    this._matDialog.open(this.savingPopup, {
+      width: "35vw",
+      height: "fit-content",
+      panelClass: "custom-warning-popup",
+      disableClose: true,
+    });
+
+    this.financialDataService
+      .updateActionOnFinancialData(body, this.financialData._id)
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this._matDialog.closeAll();
+        },
+
+        (err) => {
+          this.draftSavingInProgess = false;
+          this.saveAsDraftFailMessge =
+            err.error.message ||
+            err.error.msg ||
+            "Fail to save data. Please try after some time.";
+          setTimeout(() => this._matDialog.closeAll(), 3000);
+        }
+      );
   }
 
   /**
@@ -340,14 +381,24 @@ export class FinancialUploadsComponent
    * action on all requried fields. If not, then a popup will be show with the message.
    */
   validateUserApprovalAction() {
+    this.waterWasteManagementForm.updateValueAndValidity({
+      onlySelf: false,
+      emitEvent: true,
+    });
+
+    // console.log(`waterForm`, this.waterWasteManagementForm);
+    // console.log(`solid`, this.solidWasteManagementForm);
+    // console.log(`million`, this.millionPlusCitiesForm);
+
     let message: string;
     if (
       this.waterWasteManagementForm.valid &&
       this.solidWasteManagementForm.valid &&
-      this.millionPlusCitiesForm.valid
+      (this.isULBMillionPlus ? this.millionPlusCitiesForm.valid : true)
     ) {
       return true;
     }
+
     if (this.waterWasteManagementForm.invalid) {
       message =
         "You need to take approval action on all the questions in Water Waste Management";
@@ -363,13 +414,13 @@ export class FinancialUploadsComponent
       }
     }
 
-    if (this.millionPlusCitiesForm.invalid) {
+    if (this.isULBMillionPlus && this.millionPlusCitiesForm.invalid) {
       if (!message) {
         message =
           "You need to take action on all the questions in Million Plus Cities";
         this.stepper.selectedIndex = 3;
       } else {
-        message += " & Solid Waste Management";
+        message += " & Million Plus Cities";
       }
     }
 

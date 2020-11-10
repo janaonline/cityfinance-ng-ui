@@ -1,6 +1,8 @@
 <div class="document-wrapper" *ngIf="form && documentForm">
   <ng-content></ng-content>
 
+  isSubmitButtonClick {{ isSubmitButtonClick }}
+
   <form [formGroup]="documentForm">
     <table class="question-table">
       <tbody>
@@ -131,8 +133,8 @@
                     [ngClass]="{
                       'action-required':
                         isSubmitButtonClick &&
-                        documentForm.controls[service.key].controls['status']
-                          .invalid
+                        documentForm.controls[question.key].controls['status']
+                          ?.invalid
                     }"
                   >
                     <div class="action">
