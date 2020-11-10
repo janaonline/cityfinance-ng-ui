@@ -44,7 +44,7 @@
       <div class="row">
         <div class="col-md-12">
           <h3>
-            <span> ULB Upload Status </span>
+            <span> ULB Data Upload Tracker </span>
             <button
               role="menuitem"
               *ngIf="
@@ -83,9 +83,13 @@
                 <th scope="S.No" class="text-center">S.No.</th>
                 <th
                   scope=""
-                  [attr.width]="100 / tableHeaders.length + '%'"
                   [ngClass]="header.id == 'action' ? 'text-center' : ''"
                   *ngFor="let header of tableHeaders"
+                  [attr.width]="
+                    header.width
+                      ? header.width
+                      : 100 / tableHeaders.length + '%'
+                  "
                 >
                   <ng-container [ngSwitch]="!!header.click">
                     <span
@@ -104,6 +108,24 @@
             <tbody>
               <tr [formGroup]="fileFormGroup">
                 <td></td>
+                <td>
+                  <div class="input-group">
+                  <select
+                    name="State"
+                    id="state"
+                    [formControl]="stateNameControl"
+                    class="form-control"
+                    placeholder="State"
+                  >
+                    <option value="" selected>
+                      All States
+                    </option>
+                    <option *ngFor="let state of stateList" [value]="state.name">
+                      {{ state.name }}
+                    </option>
+                  </select>
+                </div>
+                </td>
                 <td *ngIf="userUtil.getUserType() != 'ULB'">
                   <div class="input-group">
                     <input
@@ -114,16 +136,7 @@
                     />
                   </div>
                 </td>
-                <td>
-                  <div class="input-group">
-                    <input
-                      placeholder="State Name"
-                      type="text"
-                      [formControl]="stateNameControl"
-                      class="form-control"
-                    />
-                  </div>
-                </td>
+
                 <td *ngIf="userUtil.getUserType() != 'ULB'">
                   <div class="input-group">
                     <input
