@@ -173,7 +173,10 @@
     </app-completed>
   </mat-step>
 </mat-horizontal-stepper>
-<p class="question-instruction" *ngIf="isULBMillionPlus !== undefined">
+<p
+  class="question-instruction"
+  *ngIf="isULBMillionPlus !== undefined && stepper?.selectedIndex > 0"
+>
   <strong>NOTE:</strong><br />
   1. All questions are mandatory<br />
   2. Only files wih extensions <strong>pdf</strong> are allowed. Other type of

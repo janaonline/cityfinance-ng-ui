@@ -17,9 +17,11 @@
   }
 }
 
-.common-container {
-  .container {
-    width: 95%;
+:host {
+  .common-container {
+    .container {
+      width: 106%;
+    }
   }
 }
 
