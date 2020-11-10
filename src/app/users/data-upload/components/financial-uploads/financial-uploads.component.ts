@@ -80,6 +80,7 @@ export class FinancialUploadsComponent
   hasAccessToUploadData = false;
   hasAccessToViewData = false;
   canTakeApproveRejectAction = false;
+  canViewActionTaken = false;
 
   successMessage: string;
   isSubmitButtonClicked = false;
@@ -97,20 +98,34 @@ export class FinancialUploadsComponent
       action: ACTIONS.VIEW,
     });
 
-    this.canTakeApproveRejectAction = this.accessUtil.hasAccess({
+    console.log(`hasAccessToUploadData`, this.hasAccessToUploadData);
+
+    if (!this.hasAccessToViewData) return this._router.navigate(["/home"]);
+    if (!this.hasAccessToUploadData) this.setStateToReadMode();
+    this.canViewActionTaken = true;
+    if (this.hasAccessToUploadData) {
+      this.setFormToCorrectionMode(this.financialData);
+    }
+
+    const hasAccessToTakeAction = this.accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.APPROVE,
     });
 
-    if (!this.hasAccessToViewData) return this._router.navigate(["/home"]);
-    if (!this.hasAccessToUploadData) this.setStateToReadMode();
-    if (this.canTakeApproveRejectAction) {
+    console.log("hasAccessToTakeAction", hasAccessToTakeAction);
+
+    if (!hasAccessToTakeAction) return;
+
+    if (this.canTakeAction(this.financialData)) {
       this.setFormToTakeActionMode(this.isULBMillionPlus);
+      this.canTakeApproveRejectAction = true;
     }
   }
 
   private setStateToReadMode() {
     this.waterWasteManagementForm.disable();
+    this.solidWasteManagementForm.disable();
+    this.millionPlusCitiesForm.disable();
     this.canUploadFile = false;
   }
 
@@ -139,26 +154,16 @@ export class FinancialUploadsComponent
   }
 
   private populateFormDatas(data: IFinancialData) {
-    // this.solidWasteManagementForm.patchValue({
-    //   ...data.solidWasteManagement.documents,
-    // });
-
     this.solidWasteProfilledAnswers = {
       ...data.solidWasteManagement.documents,
     };
-    // this.millionPlusCitiesForm.patchValue({
-    //   ...data.millionPlusCities.documents,
-    // });
     this.millionPlusCitiesAnswers = data.millionPlusCities
       ? {
           ...data.millionPlusCities.documents,
         }
       : null;
 
-    // this.waterWasteManagementForm.patchValue({ ...data.waterManagement });
-    // this.financialData.isCompleted = false;
-
-    if (this.financialData.isCompleted) this.setStateToReadMode();
+    // if (this.financialData.isCompleted) this.setStateToReadMode();
   }
 
   showPreview() {

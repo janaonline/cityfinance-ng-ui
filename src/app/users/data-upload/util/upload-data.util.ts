@@ -35,6 +35,7 @@ export class UploadDataUtility {
       action: ACTIONS.APPROVE,
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
     });
+
     if (!canTake) return false;
     if (!request) return canTake;
     const loggedInUserType = this.userUtil.getUserType();
@@ -47,6 +48,7 @@ export class UploadDataUtility {
       case USER_TYPE.MoHUA: {
         if (request.actionTakenByUserRole !== USER_TYPE.STATE) return false;
         if (!request.isCompleted) return false;
+        if (request.status === UPLOAD_STATUS.REJECTED) return false;
         return true;
       }
       default:
@@ -55,15 +57,26 @@ export class UploadDataUtility {
   }
 
   setFormToTakeActionMode(isULBMillionPlus: boolean) {
+    console.log("setFormToTakeActionMode");
     this.setWasteWaterToTakeActionMode();
     this.setSolidWasteManagementToTakeActionMode();
     this.setMillionPlusToTakeActionMode(isULBMillionPlus);
   }
 
+  public setFormToCorrectionMode(data: IFinancialData) {
+    if (data.status !== UPLOAD_STATUS.REJECTED) {
+      return console.error(
+        "Form data must be rejected to set in correction mode"
+      );
+    }
+    this.setWasteWaterToCorrectionMode();
+  }
+
+  private setWasteWaterToCorrectionMode() {
+    console.log(this.waterWasteManagementForm);
+  }
+
   private setWasteWaterToTakeActionMode() {
-    // this.waterWasteManagementForm.valueChanges.subscribe((value) => {
-    //   console.log(this.waterWasteManagementForm);
-    // });
     Object.keys(this.waterWasteManagementForm.controls).forEach(
       (controlKey) => {
         const service = this.waterWasteManagementForm.controls[
