@@ -140,9 +140,29 @@ export class HomeHeaderComponent implements OnInit {
     this.isLoggedIn = this.authService.loggedIn();
     this.initializedIsProduction();
     this.setTopRowSticky();
-    // setTimeout(() => {
-    //   this.initializeTranparenceyHandler();
-    // }, 1111);
+
+    // const element = document.getElementById("1stNavbarRow");
+    // if (element) {
+    //   const mutationObserver = new MutationObserver((ev) => {
+    //     console.log(`ev`, ev);
+
+    //     const row = document.getElementById("firstRowNavbar");
+    //     if (!row) return;
+    //     const options: IntersectionObserverInit = {
+    //       root: null,
+    //       rootMargin: "0px",
+    //       threshold: [0.75],
+    //     };
+    //     const intersectionObserver = new IntersectionObserver((ev) => {
+    //       const profileMenu = document.getElementById("profileMenu");
+    //       if (!profileMenu) return;
+    //       // profileMenu.style.display = "none";
+    //     }, options);
+
+    //     intersectionObserver.observe(row);
+    //   });
+    //   mutationObserver.observe(element, { childList: true, subtree: true });
+    // }
   }
 
   onClickingNavbarDropdown() {
@@ -264,8 +284,7 @@ export class HomeHeaderComponent implements OnInit {
       return;
     }
     const topPosition = -element.offsetHeight + "px";
-
-    this.renderer.setStyle(this._elementRef.nativeElement, "top", topPosition);
+    this.renderer.setStyle(this._elementRef.nativeElement, "top", 0);
   }
 
   private initializeTranparenceyHandler() {

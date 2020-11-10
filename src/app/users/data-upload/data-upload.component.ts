@@ -139,6 +139,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   uploadStatusFormControl: FormControl = new FormControl("");
   ulbNameSearchFormControl: FormControl = new FormControl();
   ulbCodeSearchFormControl: FormControl = new FormControl();
+  stateNameControl = new FormControl();
   censusCode: FormControl = new FormControl();
   sbCode: FormControl = new FormControl();
 
@@ -660,6 +661,9 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         censusCode: this.censusCode.value ? this.censusCode.value.trim() : "",
         sbCode: this.sbCode.value ? this.sbCode.value.trim() : "",
         status: this.uploadStatusFormControl.value,
+        stateName: this.stateNameControl.value
+          ? this.stateNameControl.value.trim()
+          : "",
       },
     };
     return {
