@@ -182,7 +182,7 @@ export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
 export const sideMenuForStateUser: { title: string; subMenus: ILink[] }[] = [
   {
     title:
-      "<span>15<sup style='text-transform: capitalize'>th</sup>XV Grant</span>",
+      "<span>15<sup style='text-transform: capitalize'>th</sup> FC GRANTS</span>",
     subMenus: [
       {
         title: "ULB Data Upload Tracker",
