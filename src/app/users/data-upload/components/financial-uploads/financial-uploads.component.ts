@@ -89,7 +89,7 @@ export class FinancialUploadsComponent
   ngOnInit() {}
 
   private initializeAccessCheck() {
-    console.log(`data`, this.financialData);
+    console.log("data", this.financialData);
     this.hasAccessToUploadData = this.accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.UPLOAD,
@@ -104,27 +104,25 @@ export class FinancialUploadsComponent
 
     if (!this.hasAccessToViewData) return this._router.navigate(["/home"]);
 
-    // Check if user's with access can upload data or not.
-    if (!this.hasAccessToUploadData) {
-      this.setStateToReadMode();
-    }
+    /**
+     * Check if user has acccess to upload data or not.
+     */
+    if (!this.hasAccessToUploadData) this.setStateToReadMode();
 
-    if (
-      this.financialData &&
-      this.financialData.status === UPLOAD_STATUS.PENDING
-    ) {
-      this.setStateToReadMode();
-    } else if (
+    if (this.financialData) {
+      /**
+       * Check if user has access to upload, then can he still upload the data.
+       */
+      if (this.financialData.actionTakenByUserRole === USER_TYPE.ULB) {
+        this.setStateToReadMode();
+      }
 
-      // NOTE
-    ) {
+      if (this.financialData.status === UPLOAD_STATUS.REJECTED) {
+        this.canViewActionTaken = true;
+        this.setFormToCorrectionMode(this.financialData);
 
-    this.canViewActionTaken =
-      this.financialData.actionTakenByUserRole === USER_TYPE.STATE ||
-      this.financialData.actionTakenByUserRole === USER_TYPE.MoHUA;
- }
-    if (this.hasAccessToUploadData) {
-      this.setFormToCorrectionMode(this.financialData);
+        console.warn("now set form to correct mode");
+      }
     }
 
     const hasAccessToTakeAction = this.accessUtil.hasAccess({
@@ -134,11 +132,17 @@ export class FinancialUploadsComponent
 
     console.log("hasAccessToTakeAction", hasAccessToTakeAction);
 
-    if (!hasAccessToTakeAction) return;
+    // Check here for taking actions
+    if (!hasAccessToTakeAction) {
+      this.canViewActionTaken = false;
+      return;
+    }
 
     if (this.canTakeAction(this.financialData)) {
       this.setFormToTakeActionMode(this.isULBMillionPlus);
       this.canTakeApproveRejectAction = true;
+    } else {
+      this.canTakeApproveRejectAction = false;
     }
   }
 
@@ -340,6 +344,7 @@ export class FinancialUploadsComponent
         (res) => {
           console.log(res);
           this._matDialog.closeAll();
+          window.history.back();
         },
 
         (err) => {

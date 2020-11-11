@@ -64,16 +64,19 @@ export class UploadDataUtility {
   }
 
   public setFormToCorrectionMode(data: IFinancialData) {
+    if (!data) return;
     if (data.status !== UPLOAD_STATUS.REJECTED) {
       return console.error(
         "Form data must be rejected to set in correction mode"
       );
     }
-    this.setWasteWaterToCorrectionMode();
+    this.setWasteWaterToCorrectionMode(data);
   }
 
-  private setWasteWaterToCorrectionMode() {
-    console.log(this.waterWasteManagementForm);
+  private setWasteWaterToCorrectionMode(data: IFinancialData) {
+    if (!data || !data.waterManagement) return;
+
+    console.log(data.waterManagement);
   }
 
   private setWasteWaterToTakeActionMode() {
