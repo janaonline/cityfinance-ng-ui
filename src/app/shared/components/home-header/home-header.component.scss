@@ -201,6 +201,7 @@ nav.navbar {
     color: var(--multi-dropdown-color);
   }
   .dropdown-menu {
+    border: 0px;
     background: transparent;
     @media screen and (max-width: 768px) {
       width: 100%;
