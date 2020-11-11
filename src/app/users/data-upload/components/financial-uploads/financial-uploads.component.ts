@@ -10,6 +10,7 @@ import { FinancialDataService } from 'src/app/users/services/financial-data.serv
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
+import { UPLOAD_STATUS } from 'src/app/util/enums';
 import { UserUtility } from 'src/app/util/user/user';
 
 import {
@@ -88,6 +89,7 @@ export class FinancialUploadsComponent
   ngOnInit() {}
 
   private initializeAccessCheck() {
+    console.log(`data`, this.financialData);
     this.hasAccessToUploadData = this.accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.UPLOAD,
@@ -101,10 +103,26 @@ export class FinancialUploadsComponent
     console.log(`hasAccessToUploadData`, this.hasAccessToUploadData);
 
     if (!this.hasAccessToViewData) return this._router.navigate(["/home"]);
-    if (!this.hasAccessToUploadData) this.setStateToReadMode();
+
+    // Check if user's with access can upload data or not.
+    if (!this.hasAccessToUploadData) {
+      this.setStateToReadMode();
+    }
+
+    if (
+      this.financialData &&
+      this.financialData.status === UPLOAD_STATUS.PENDING
+    ) {
+      this.setStateToReadMode();
+    } else if (
+
+      // NOTE
+    ) {
+
     this.canViewActionTaken =
       this.financialData.actionTakenByUserRole === USER_TYPE.STATE ||
       this.financialData.actionTakenByUserRole === USER_TYPE.MoHUA;
+ }
     if (this.hasAccessToUploadData) {
       this.setFormToCorrectionMode(this.financialData);
     }
