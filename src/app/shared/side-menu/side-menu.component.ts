@@ -22,7 +22,7 @@ export class SideMenuComponent implements OnInit, OnChanges {
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    const menus = this.filterOutContents(this.contents);
+    const menus = this.filterOutContents(changes.contents.currentValue);
     this.contents = menus;
   }
 
@@ -32,10 +32,13 @@ export class SideMenuComponent implements OnInit, OnChanges {
 
   filterOutContents(list: IMenus[]) {
     if (!list.length) return list;
-    return list.filter((menu) => {
-      menu.subMenus = this.filterInaccesssibleMenus(menu.subMenus);
-      return !!menu.subMenus.length;
-    });
+    return list
+      .map((menu) => {
+        const old = { ...menu };
+        old.subMenus = this.filterInaccesssibleMenus([...menu.subMenus]);
+        return old;
+      })
+      .filter((data) => data.subMenus.length);
   }
 
   filterInaccesssibleMenus(list: ILink[]) {
