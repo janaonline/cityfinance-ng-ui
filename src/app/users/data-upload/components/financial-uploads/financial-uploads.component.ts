@@ -102,7 +102,9 @@ export class FinancialUploadsComponent
 
     if (!this.hasAccessToViewData) return this._router.navigate(["/home"]);
     if (!this.hasAccessToUploadData) this.setStateToReadMode();
-    this.canViewActionTaken = true;
+    this.canViewActionTaken =
+      this.financialData.actionTakenByUserRole === USER_TYPE.STATE ||
+      this.financialData.actionTakenByUserRole === USER_TYPE.MoHUA;
     if (this.hasAccessToUploadData) {
       this.setFormToCorrectionMode(this.financialData);
     }
