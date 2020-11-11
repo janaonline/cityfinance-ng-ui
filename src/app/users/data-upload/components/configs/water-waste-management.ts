@@ -12,10 +12,10 @@ const _fb = new FormBuilder();
 const waterWasteManagementForm: FormGroup = _fb.group({});
 
 const targets = [
-  { key: "2122", name: "Target 2021-22" },
-  { key: "2223", name: "Target 2022-23" },
-  { key: "2324", name: "Target 2023-24" },
-  { key: "2425", name: "Target 2024-25" },
+  { key: "2122", name: "Target <br> 2021-22" },
+  { key: "2223", name: "Target <br> 2022-23" },
+  { key: "2324", name: "Target <br> 2023-24" },
+  { key: "2425", name: "Target<br> 2024-25" },
 ];
 
 const maxValidator = (control: AbstractControl) => {

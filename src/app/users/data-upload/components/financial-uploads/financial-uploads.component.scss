@@ -27,6 +27,9 @@
 }
 
 :host {
+  ol > li {
+    padding-left: 0.3%;
+  }
   ::ng-deep {
     mat-step-header[ng-reflect-index="0"] {
       padding-left: 0px;

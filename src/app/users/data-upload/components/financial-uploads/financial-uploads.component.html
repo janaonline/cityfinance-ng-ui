@@ -24,67 +24,51 @@
     <ng-template matStepLabel>
       <span title="Introduction">Introduction</span>
     </ng-template>
-    <p>
-      Welcome to the 15th FC Grants Module of cityfinance.in. Here you will be
-      able to submit required data and documents for establishing your grant
-      eligibility for 15th FC grants, access information relating to grant
-      releases, and upload Utilization Certificates.
-    </p>
-    <p>
-      The 15th Finance Commission (15th FC) report for the year 2020-21 has
-      divided the grants into untied and tied grants. Tied grants are related to
-      water supply and solid waste management functions. The 15th FC has
-      mandated Ministry of Housing and Urban Affairs (MoHUA) to develop
-      city-wise and year-wise targets, in consultation with the State
-      Governments, for 2020-25 and recommend disbursal of grants. Accordingly,
-      MoHUA has issued Marking Scheme guidelines which prescribe the mandatory
-      conditions, service level indicators, targets and scoring mechanism for
-      tied grants.
-    </p>
-    <p>
-      Urban Local Bodies are required to submit data and upload documents to
-      meet the mandatory conditions and to identify whether the targets are met
-      for the service level indicators as prescribed or fixed. This portal
-      facilitates the submission of data and uploading of documents as required.
-      Technical Assistance will be available for ULBs facing issues while
-      submitting data and uploading documents.
-    </p>
-
-    <p style="margin-bottom: 2%; display: block">
-      <span style="display: block; margin-bottom: 1%">
-        Kindly note that the last date for submitting baseline, targets and
-        other required documents for 2020-21 grants is
-        <span style="font-weight: 600">31 December 2020</span>.
-      </span>
-      <span class="d-block"
-        ><a class="d-inline"
-          >Click here for accessing the 15 FC Grant User Manual</a
-        >
-        - <span style="color: red">Upcoming Soon</span>
-      </span>
-      <span class="d-block"
-        ><a>Click here for accessing the 15FC tool kit </a>-
-        <span style="color: red">Upcoming Soon</span>
-      </span>
-      <a
-        class="d-block"
-        href="../../../../../assets/files/XV FC Operational Guidelines.pdf"
-        target="_blank"
-        >Click here for accessing XV Operational Guidelines</a
-      >
-      <a
-        class="d-block"
-        href="../../../../../assets/files/XV FC Marking Scheme Guidelines.pdf"
-        target="_blank"
-        >Click here for accessing XV Marking Scheme Guidelines</a
-      >
-      <a
-        class="d-block"
-        href="../../../../../assets/files/XV FC Report.pdf"
-        target="_blank"
-        >Click here for accessing XV Commission Report</a
-      >
-    </p>
+    <div style="margin-bottom: 2%">
+      <h4 style="font-weight: 600" class="mb-2">
+        Guidelines to Urban Local Bodies (ULBs):
+      </h4>
+      <ol>
+        <li>
+          ULBs need enter data and upload documents appropriately. Targets for
+          service level indicators and required documents must be uploaded after
+          taking due approval from Municipal commissioner/ Executive officer of
+          ULB.
+        </li>
+        <li>
+          Only one PDF document can be uploaded against each requirement. If
+          more than one document needs to be uploaded for a requirement, you
+          need to merge the file and then upload.
+        </li>
+        <li>
+          Data validation are built in the cell where you need to enter data.
+          Please enter data in required format
+        </li>
+        <li>Refer the resources when you have any doubt.</li>
+        <li>
+          ULBs can enter data and upload documents at your convenience i.e. at
+          one go or in several sessions by saving it as draft.
+        </li>
+        <li>
+          It would be easier for ULBs to put all the documents that are required
+          to be entered and uploaded in a single folder before start entering or
+          uploading.
+        </li>
+        <li>
+          You need to name the documents to be uploaded in the following format
+          “Document Name_State Name_ULB Name.
+        </li>
+        <li>
+          ULBs may see the preview of the data entered and documents uploaded
+          before submitting it.
+        </li>
+        <li>
+          ULBs would be able to take a print out of the data entered for their
+          future reference.
+        </li>
+        <li>ULBs would not be able to edit the form after submitting it.</li>
+      </ol>
+    </div>
     <button
       style="float: right"
       class="btn btn-primary btn-upload"
@@ -193,7 +177,10 @@
     ></app-completed>
   </mat-step>
 </mat-horizontal-stepper>
-<p class="question-instruction" *ngIf="isULBMillionPlus !== undefined">
+<p
+  class="question-instruction"
+  *ngIf="isULBMillionPlus !== undefined && stepper?.selectedIndex > 0"
+>
   <strong>NOTE:</strong><br />
   1. All questions are mandatory<br />
   2. Only files wih extensions <strong>pdf</strong> are allowed. Other type of

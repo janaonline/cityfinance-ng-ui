@@ -55,7 +55,9 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
     this._financialService.fetchFinancialDataList().subscribe((res) => {
       try {
         this.financialData = res["data"][0] || null;
-        if (!this.financialData) return;
+        if (!this.financialData) {
+          return this._router.navigate(["/user/data-upload/upload-form"]);
+        }
       } catch (error) {
         console.error(error);
         return;

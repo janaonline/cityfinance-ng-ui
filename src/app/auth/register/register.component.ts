@@ -18,6 +18,24 @@ import { AuthService } from './../auth.service';
   styleUrls: ["./register.component.scss"],
 })
 export class RegisterComponent implements OnInit {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private _activatedRoute: ActivatedRoute,
+    private _coomonService: CommonService
+  ) {
+    this._activatedRoute.params.subscribe((param) => {
+      if (param.type.trim()) {
+        this.registrationType = param.type;
+        this.initializeForm();
+
+        this.authService.badCredentials.subscribe((res) => {
+          this.badCredentials = res;
+        });
+      } else this.registrationType = null;
+    });
+    this.fetchStateList();
+  }
   public registrationForm: FormGroup;
   public registrationType: "user" | "ulb";
   private formUtility = new FormUtil();
@@ -38,24 +56,7 @@ export class RegisterComponent implements OnInit {
     userGeneratedKey: null,
   };
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private _activatedRoute: ActivatedRoute,
-    private _coomonService: CommonService
-  ) {
-    this._activatedRoute.params.subscribe((param) => {
-      if (param.type.trim()) {
-        this.registrationType = param.type;
-        this.initializeForm();
-
-        this.authService.badCredentials.subscribe((res) => {
-          this.badCredentials = res;
-        });
-      } else this.registrationType = null;
-    });
-    this.fetchStateList();
-  }
+  apiInProgress = false;
 
   ngOnInit() {}
 
@@ -77,6 +78,7 @@ export class RegisterComponent implements OnInit {
   }
 
   signup(form: FormGroup) {
+    this.apiInProgress = false;
     let errors: string[];
     this.resetResponseMessage();
     const body = form.value;
@@ -93,8 +95,10 @@ export class RegisterComponent implements OnInit {
     if (errors) {
       return;
     }
+    this.apiInProgress = true;
     this.authService.signup(body).subscribe(
       (res) => {
+        this.apiInProgress = false;
         if (!res["success"]) {
           this.formError = [res["msg"]];
           return;
@@ -110,6 +114,7 @@ export class RegisterComponent implements OnInit {
         }
       },
       (err) => {
+        this.apiInProgress = false;
         console.error(err);
 
         this.respone.errorMessage = err.error.message || "Server Error";

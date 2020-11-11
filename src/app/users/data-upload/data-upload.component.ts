@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { CommonService } from 'src/app/shared/services/common.service';
 import swal from 'sweetalert';
 
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
@@ -48,7 +49,8 @@ export class DataUploadComponent
     public userUtil: UserUtility,
     public fileUpload: FileUpload,
     private _snackBar: MatSnackBar,
-    public _matDialog: MatDialog
+    public _matDialog: MatDialog,
+    private _commonService: CommonService
   ) {
     super();
     if (this.userUtil.getUserType() === USER_TYPE.ULB) {
@@ -146,6 +148,7 @@ export class DataUploadComponent
   uploadStatusFormControl: FormControl = new FormControl("");
   ulbNameSearchFormControl: FormControl = new FormControl();
   ulbCodeSearchFormControl: FormControl = new FormControl();
+  stateNameControl = new FormControl("");
   censusCode: FormControl = new FormControl();
   sbCode: FormControl = new FormControl();
 
@@ -164,8 +167,11 @@ export class DataUploadComponent
 
   isPopupOpen = false;
 
+  stateList = [];
+
   ngOnInit() {
     this.fetchFinancialYears();
+    this.fetchStateList();
     if (!this.id) {
       this.getFinancialDataList(
         { skip: this.listFetchOption.skip, limit: 10 },
@@ -181,6 +187,15 @@ export class DataUploadComponent
     this.financialDataService
       .fetFinancialData(this.uploadId)
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
+  }
+
+  private fetchStateList() {
+    this._commonService.getStateUlbCovered().subscribe((res) => {
+      this.stateList = res.data;
+      // res.data.forEach((state) => {
+      //   this.statesByID[state._id] = state;
+      // });
+    });
   }
 
   getFinancialDataList(params = {}, body = {}) {
@@ -710,6 +725,9 @@ export class DataUploadComponent
         censusCode: this.censusCode.value ? this.censusCode.value.trim() : "",
         sbCode: this.sbCode.value ? this.sbCode.value.trim() : "",
         status: this.uploadStatusFormControl.value,
+        stateName: this.stateNameControl.value
+          ? this.stateNameControl.value.trim()
+          : "",
       },
     };
     return {
