@@ -141,8 +141,6 @@ export class FinancialUploadsComponent implements OnInit, OnDestroy {
   }
 
   showPreview() {
-    console.log(solidWasteForm.value);
-    console.log(waterWasteManagementForm.value);
     this._matDialog.open(this.previewPopup, {
       width: "85vw",
       maxHeight: "95vh",
