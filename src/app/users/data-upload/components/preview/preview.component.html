@@ -19,10 +19,16 @@
   >
     <thead>
       <th style="padding: 1%" scope="col">Service Level Indicators</th>
-      <th style="padding: 1%" scope="col">Baseline Indicator 2020-21</th>
-      <th style="padding: 1%" *ngFor="let column of targets" scope="col">
-        {{ column.name }}
+      <th style="padding: 1%; text-align: center" scope="col">
+        Baseline Indicator <br />
+        2020-21
       </th>
+      <th
+        style="padding: 1%; text-align: center"
+        *ngFor="let column of targets"
+        scope="col"
+        [innerHTML]="column.name"
+      ></th>
     </thead>
 
     <tbody>
@@ -30,7 +36,7 @@
         <td style="padding: 1%" class="td-width">
           {{ service.name }}
         </td>
-        <td style="padding: 1%">
+        <td style="padding: 1%; text-align: center">
           <span *ngIf="data?.waterManagement[service.key]?.baseline">
             {{ data?.waterManagement[service.key]?.baseline["2021"] }}
           </span>
@@ -45,7 +51,10 @@
             {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
           </em>
         </td>
-        <td style="padding: 1%" *ngFor="let year of targets">
+        <td
+          style="padding: 1%; text-align: center"
+          *ngFor="let year of targets"
+        >
           <span *ngIf="data?.waterManagement[service.key]?.target">
             {{ data?.waterManagement[service.key]?.target[year.key] }}
           </span>
