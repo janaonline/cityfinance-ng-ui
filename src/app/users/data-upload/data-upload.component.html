@@ -12,6 +12,7 @@
     <ng-container *ngIf="id === 'upload-form'">
       <app-financial-uploads [financialData]="uploadObject">
         <button
+          *ngIf="uploadObject"
           (click)="location.back()"
           class="btn btn-primary btn-upload"
           style="transform: unset"
