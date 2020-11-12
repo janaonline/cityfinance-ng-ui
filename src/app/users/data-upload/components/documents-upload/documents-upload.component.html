@@ -25,9 +25,7 @@
                 >*</span
               >
             </p>
-            canSeeApproveActionTaken
-            {{ canSeeApproveActionTaken }} canTakeApproveAction
-            {{ canTakeApproveAction }}
+
             <div *ngIf="canUploadFile && form.controls[question.key].enabled">
               <div
                 class="file-list"
@@ -114,7 +112,7 @@
                         .status === UPLOAD_STATUS.REJECTED && canUploadFile
                   }"
                 >
-                  {{ doc.name }} ss
+                  {{ doc.name }}
                 </span>
 
                 <a
@@ -164,7 +162,7 @@
                           [formControlName]="'status'"
                         />
                         <span>
-                          {{ approveAction }}
+                          {{ actionNames[approveAction] }}
                         </span>
                       </label>
                     </div>
@@ -175,7 +173,7 @@
                           [value]="rejectAction"
                           [formControlName]="'status'"
                         />
-                        <span> {{ rejectAction }} </span>
+                        <span> {{ actionNames[rejectAction] }} </span>
                       </label>
                     </div>
                   </div>
@@ -221,7 +219,16 @@
         </tr>
         <tr>
           <td></td>
-          <td>
+          <td colspan="3">
+            <button
+              id="next"
+              class="btn btn-primary btn-upload mt-3"
+              style="float: right; margin-right: 2%"
+              (click)="showNext.emit(true)"
+              [disabled]="NoOfFileInProgress !== 0"
+            >
+              Next
+            </button>
             <button
               id="previous"
               class="btn btn-primary btn-upload mt-3"
@@ -241,16 +248,9 @@
               Save as draft
             </button>
           </td>
-          <td colspan="2">
-            <button
-              id="next"
-              class="btn btn-primary btn-upload mt-3"
-              (click)="showNext.emit(true)"
-              [disabled]="NoOfFileInProgress !== 0"
-            >
-              Next
-            </button>
-          </td>
+          <!-- <td colspan="2">
+           
+          </td> -->
         </tr>
       </tbody>
     </table>

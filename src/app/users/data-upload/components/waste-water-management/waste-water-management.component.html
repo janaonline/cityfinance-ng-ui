@@ -1,4 +1,10 @@
-<form [formGroup]="form" *ngIf="form">
+<form
+  [formGroup]="form"
+  *ngIf="form"
+  [ngClass]="{
+    'non-ulb-view-table': canSeeApproveActionTaken || canTakeApproveAction
+  }"
+>
   <table
     aria-describedby="Water Waste Management Form"
     style="margin-bottom: 5%"
@@ -19,16 +25,20 @@
     <tbody>
       <tr *ngFor="let service of services" [formGroupName]="service.key">
         <td>
-          {{ service.name }}
-          <span
-            *ngIf="form?.controls[service.key].validator({})['required']"
-            class="mandatory"
-            >*</span
+          <span class="service-name"
+            >{{ service.name }}
+            <span
+              *ngIf="form?.controls[service.key].validator({})['required']"
+              class="mandatory"
+              >*</span
+            ></span
           >
         </td>
-        <td>{{ service.benchmark }}</td>
+        <td>
+          <span class="benchamark-cell">{{ service.benchmark }}</span>
+        </td>
         <td formGroupName="baseline">
-          <div class="input-group">
+          <div class="input-group data-input">
             <input
               (blur)="
                 onBlur(
@@ -81,7 +91,7 @@
           </span>
         </td>
         <td *ngFor="let year of targets" formGroupName="target">
-          <div class="input-group">
+          <div class="input-group data-input">
             <input
               (blur)="
                 onBlur(
@@ -146,7 +156,7 @@
                   formControlName="status"
                 />
                 <span>
-                  {{ approveAction }}
+                  {{ actionNames[approveAction] }}
                 </span>
               </label>
             </div>
@@ -157,7 +167,7 @@
                   [value]="rejectAction"
                   formControlName="status"
                 />
-                <span> {{ rejectAction }} </span>
+                <span> {{ actionNames[rejectAction] }} </span>
               </label>
             </div>
           </div>

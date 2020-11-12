@@ -135,6 +135,12 @@ export class DocumentsUploadComponent<T>
   noOfFilesAllowedPerQuestion = 1;
   approveAction = UPLOAD_STATUS.APPROVED;
   rejectAction = UPLOAD_STATUS.REJECTED;
+
+  actionNames = {
+    [this.approveAction]: "Approve",
+    [this.rejectAction]: "Reject",
+  };
+
   UPLOAD_STATUS = UPLOAD_STATUS;
 
   constructor(

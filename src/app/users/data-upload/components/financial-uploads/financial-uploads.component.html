@@ -85,7 +85,6 @@
       >
     </ng-template>
 
-    canViewActionTaken {{ canViewActionTaken }}
     <app-waste-water-management
       [form]="waterWasteManagementForm"
       [canSeeApproveActionTaken]="canViewActionTaken"
@@ -174,12 +173,20 @@
   </mat-step>
 
   <mat-step label="Submit Actions" *ngIf="canTakeApproveRejectAction">
-    canTakeApproveRejectAction {{ canTakeApproveRejectAction }}
     <app-completed
       [submitted]="userHasAlreadyFilledForm"
       (submit)="onSubmitApprovalActions()"
       (previous)="stepper.previous()"
-    ></app-completed>
+    >
+      <button
+        class="btn btn-primary"
+        style="outline: none"
+        style="margin-right: 2%"
+        (click)="showPreview()"
+      >
+        Show Preview
+      </button>
+    </app-completed>
   </mat-step>
 </mat-horizontal-stepper>
 <p

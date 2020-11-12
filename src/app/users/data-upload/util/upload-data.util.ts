@@ -57,6 +57,7 @@ export class UploadDataUtility {
   }
 
   setFormToTakeActionMode(isULBMillionPlus: boolean) {
+    console.warn("setting form to TakeAction Mode");
     this.setWasteWaterToTakeActionMode();
     this.setSolidWasteManagementToTakeActionMode();
     this.setMillionPlusToTakeActionMode(isULBMillionPlus);
@@ -159,9 +160,9 @@ export class UploadDataUtility {
         ]);
 
         if (statusControl.value === UPLOAD_STATUS.APPROVED) {
-             statusControl.disable();
-             rejectReasonControl.disable();
-             return;
+          statusControl.disable();
+          rejectReasonControl.disable();
+          return;
         }
         statusControl.enable();
         rejectReasonControl.enable();
@@ -183,11 +184,11 @@ export class UploadDataUtility {
         this.addRejectValidator(statusControl, rejectReasonControl),
       ]);
 
-       if (statusControl.value === UPLOAD_STATUS.APPROVED) {
-         statusControl.disable();
-         rejectReasonControl.disable();
-         return;
-       }
+      if (statusControl.value === UPLOAD_STATUS.APPROVED) {
+        statusControl.disable();
+        rejectReasonControl.disable();
+        return;
+      }
 
       statusControl.enable();
       rejectReasonControl.enable();
@@ -212,11 +213,11 @@ export class UploadDataUtility {
           rejectReasonControl.setValidators([
             this.addRejectValidator(statusControl, rejectReasonControl),
           ]);
-           if (statusControl.value === UPLOAD_STATUS.APPROVED) {
-             statusControl.disable();
-             rejectReasonControl.disable();
-             return;
-           }
+          if (statusControl.value === UPLOAD_STATUS.APPROVED) {
+            statusControl.disable();
+            rejectReasonControl.disable();
+            return;
+          }
 
           statusControl.enable();
           rejectReasonControl.enable();

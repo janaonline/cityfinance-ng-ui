@@ -56,6 +56,11 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
   approveAction = UPLOAD_STATUS.APPROVED;
   rejectAction = UPLOAD_STATUS.REJECTED;
 
+  actionNames = {
+    [this.approveAction]: "Approve",
+    [this.rejectAction]: "Reject",
+  };
+
   targets = targets;
 
   services: {

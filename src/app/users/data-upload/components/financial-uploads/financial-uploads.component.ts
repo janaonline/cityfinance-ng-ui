@@ -102,8 +102,6 @@ export class FinancialUploadsComponent
       action: ACTIONS.VIEW,
     });
 
-    console.log(`hasAccessToViewData`, this.hasAccessToViewData);
-
     if (!this.hasAccessToViewData) return this._router.navigate(["/home"]);
 
     /**
@@ -119,13 +117,14 @@ export class FinancialUploadsComponent
         this.setStateToReadMode();
       }
 
-      console.log("assaaaaa");
       if (this.financialData.status === UPLOAD_STATUS.REJECTED) {
         this.canViewActionTaken = true;
         this.setFormToCorrectionMode(this.financialData);
 
         console.warn("now set form to correct mode");
         return;
+      } else {
+        this.setStateToReadMode();
       }
     }
 
@@ -142,8 +141,6 @@ export class FinancialUploadsComponent
       return;
     }
 
-    console.log("asdas");
-
     if (this.canTakeAction(this.financialData)) {
       this.setFormToTakeActionMode(this.isULBMillionPlus);
       this.canTakeApproveRejectAction = true;
@@ -153,6 +150,7 @@ export class FinancialUploadsComponent
   }
 
   private setStateToReadMode() {
+    console.warn("setting form to readME mode");
     this.waterWasteManagementForm.disable();
     this.solidWasteManagementForm.disable();
     this.millionPlusCitiesForm.disable();
