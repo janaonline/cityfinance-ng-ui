@@ -1,15 +1,13 @@
 <div class="document-wrapper" *ngIf="form && documentForm">
   <ng-content></ng-content>
 
-  isSubmitButtonClick {{ isSubmitButtonClick }}
-
   <form [formGroup]="documentForm">
     <table class="question-table">
       <tbody>
         <tr *ngFor="let question of questions; let i = index">
           <td>
             <p style="position: absolute; top: 1px; padding-top: 11px">
-              {{ i + 1 }}.
+              {{ i + 1 }}
             </p>
           </td>
           <td
@@ -27,7 +25,10 @@
                 >*</span
               >
             </p>
-            <div *ngIf="canUploadFile">
+            canSeeApproveActionTaken
+            {{ canSeeApproveActionTaken }} canTakeApproveAction
+            {{ canTakeApproveAction }}
+            <div *ngIf="canUploadFile && form.controls[question.key].enabled">
               <div
                 class="file-list"
                 *ngFor="
@@ -97,7 +98,7 @@
               </div>
             </div>
 
-            <div *ngIf="documents && !canUploadFile">
+            <div *ngIf="documents">
               <div
                 class="file-list showList"
                 *ngFor="
@@ -105,11 +106,27 @@
                   let controlIndex = index
                 "
               >
-                <span class="file-tracker-name">
-                  {{ doc.name }}
+                <span
+                  class="file-tracker-name"
+                  [ngClass]="{
+                    invisible:
+                      form?.controls[question.key]?.getRawValue()[controlIndex]
+                        .status === UPLOAD_STATUS.REJECTED && canUploadFile
+                  }"
+                >
+                  {{ doc.name }} ss
                 </span>
 
-                <a [href]="doc.url" class="download-link-icon" target="_blank">
+                <a
+                  [ngClass]="{
+                    invisible:
+                      form?.controls[question.key]?.getRawValue()[controlIndex]
+                        .status === UPLOAD_STATUS.REJECTED && canUploadFile
+                  }"
+                  [href]="doc.url"
+                  class="download-link-icon"
+                  target="_blank"
+                >
                   <i
                     title="Download"
                     class="fa fa-cloud-download"
@@ -117,10 +134,12 @@
                   ></i>
                 </a>
 
+                <!-- canSeeApproveActionTaken {{ canSeeApproveActionTaken }} -->
+
                 <div
                   class="actionsContainer"
                   *ngIf="
-                    (canSeeApproveActionTaken || canTakeApproveAction) &&
+                    (canTakeApproveAction || canSeeApproveActionTaken) &&
                     documentForm.controls[question.key].controls &&
                     documentForm.controls[question.key].controls[controlIndex]
                   "
@@ -182,7 +201,7 @@
 
           <td>
             <button
-              *ngIf="canUploadFile"
+              *ngIf="canUploadFile && form.controls[question.key].enabled"
               class="myFile btn btn-primary"
               title="Select File/s"
               [disabled]="!canUploadFile"

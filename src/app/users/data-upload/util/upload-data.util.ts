@@ -57,7 +57,6 @@ export class UploadDataUtility {
   }
 
   setFormToTakeActionMode(isULBMillionPlus: boolean) {
-    console.log("setFormToTakeActionMode");
     this.setWasteWaterToTakeActionMode();
     this.setSolidWasteManagementToTakeActionMode();
     this.setMillionPlusToTakeActionMode(isULBMillionPlus);
@@ -70,16 +69,75 @@ export class UploadDataUtility {
         "Form data must be rejected to set in correction mode"
       );
     }
+    console.warn("settig to correct mode");
     this.setWasteWaterToCorrectionMode(data);
+    this.setSolidWasteToCorrectionMode(data);
+    this.setMillionToCorrectionMode(data);
   }
 
   private setWasteWaterToCorrectionMode(data: IFinancialData) {
     if (!data || !data.waterManagement) return;
 
-    console.log(data.waterManagement);
+    Object.keys(data.waterManagement).forEach((key) => {
+      if (!data.waterManagement[key].status) return;
+      if (data.waterManagement[key].status === UPLOAD_STATUS.APPROVED) {
+        this.waterWasteManagementForm.controls[key].disable();
+        return;
+      }
+      if (!this.waterWasteManagementForm.controls[key]) return;
+
+      (this.waterWasteManagementForm.controls[
+        key
+      ] as FormGroup).controls.status.disable();
+      (this.waterWasteManagementForm.controls[
+        key
+      ] as FormGroup).controls.rejectReason.disable();
+    });
+
+    (this.waterWasteManagementForm.controls.documents as FormArray).controls[
+      "wasteWaterPlan"
+    ].controls.forEach((fileControl: FormGroup) => {
+      const status = fileControl.controls.status;
+      if (status.value === UPLOAD_STATUS.REJECTED) {
+        status.disable();
+        fileControl.controls.rejectReason.disable();
+        return;
+      }
+      fileControl.disable();
+    });
+  }
+
+  private setSolidWasteToCorrectionMode(data: IFinancialData) {
+    if (!data || !data.solidWasteManagement) return;
+    Object.keys(this.solidWasteManagementForm.controls).forEach((key) => {
+      const question = this.solidWasteManagementForm.controls[key] as FormArray;
+      question.controls.forEach((fileControl: FormGroup) => {
+        if (fileControl.controls.status.value === UPLOAD_STATUS.REJECTED) {
+          fileControl.controls.status.disable();
+          fileControl.controls.rejectReason.disable();
+          return;
+        }
+        fileControl.disable();
+      });
+    });
+  }
+
+  private setMillionToCorrectionMode(data: IFinancialData) {
+    if (!data || !data.millionPlusCities) return;
+    Object.keys(this.millionPlusCitiesForm.controls).forEach((key) => {
+      const question = this.millionPlusCitiesForm.controls[key] as FormArray;
+      question.controls.forEach((fileControl: FormGroup) => {
+        if (fileControl.controls.status.value === UPLOAD_STATUS.REJECTED) {
+          return;
+        }
+        fileControl.disable();
+      });
+    });
   }
 
   private setWasteWaterToTakeActionMode() {
+    console.log(`dattttttt`, this.waterWasteManagementForm.getRawValue());
+
     Object.keys(this.waterWasteManagementForm.controls).forEach(
       (controlKey) => {
         const service = this.waterWasteManagementForm.controls[
@@ -100,6 +158,11 @@ export class UploadDataUtility {
           this.addRejectValidator(statusControl, rejectReasonControl),
         ]);
 
+        if (statusControl.value === UPLOAD_STATUS.APPROVED) {
+             statusControl.disable();
+             rejectReasonControl.disable();
+             return;
+        }
         statusControl.enable();
         rejectReasonControl.enable();
       }
@@ -119,6 +182,12 @@ export class UploadDataUtility {
       rejectReasonControl.setValidators([
         this.addRejectValidator(statusControl, rejectReasonControl),
       ]);
+
+       if (statusControl.value === UPLOAD_STATUS.APPROVED) {
+         statusControl.disable();
+         rejectReasonControl.disable();
+         return;
+       }
 
       statusControl.enable();
       rejectReasonControl.enable();
@@ -143,6 +212,11 @@ export class UploadDataUtility {
           rejectReasonControl.setValidators([
             this.addRejectValidator(statusControl, rejectReasonControl),
           ]);
+           if (statusControl.value === UPLOAD_STATUS.APPROVED) {
+             statusControl.disable();
+             rejectReasonControl.disable();
+             return;
+           }
 
           statusControl.enable();
           rejectReasonControl.enable();

@@ -103,11 +103,14 @@
     <ng-template matStepLabel>
       <span title="Solid Waste Management">Solid Waste Management</span>
     </ng-template>
+
     <app-documents-upload
       *ngIf="solidWasteManagementForm"
       [ngClass]="{
         documentCompleted:
-          ((financialData?.isCompleted && !isULBMillionPlus) ||
+          ((financialData?.isCompleted &&
+            !isULBMillionPlus &&
+            !canUploadFile) ||
             (!isULBMillionPlus && !canUploadFile)) &&
           !canTakeApproveRejectAction
       }"
@@ -153,7 +156,7 @@
     ></app-documents-upload>
   </mat-step>
 
-  <mat-step label="Submit" *ngIf="!financialData?.isCompleted && canUploadFile">
+  <mat-step label="Submit" *ngIf="canUploadFile">
     <app-completed
       [submitted]="userHasAlreadyFilledForm"
       (submit)="uploadCompletedQuestionnaireData()"
@@ -213,7 +216,8 @@
 
 <ng-template #previewPopup>
   <app-preview
-    [data]="financialData"
+    *ngIf="previewData"
+    [data]="previewData"
     [isULBMillionPlus]="isULBMillionPlus"
   ></app-preview>
 </ng-template>

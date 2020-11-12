@@ -135,6 +135,7 @@ export class DocumentsUploadComponent<T>
   noOfFilesAllowedPerQuestion = 1;
   approveAction = UPLOAD_STATUS.APPROVED;
   rejectAction = UPLOAD_STATUS.REJECTED;
+  UPLOAD_STATUS = UPLOAD_STATUS;
 
   constructor(
     protected dataEntryService: DataEntryService,
@@ -167,15 +168,11 @@ export class DocumentsUploadComponent<T>
             url: file.url,
             status: "completed",
           };
-
-          //      fileName?: string;
-          // percentage?: number;
-          // status?: "in-process" | "completed";
-          // url?: string;
-          // subscription?: Subscription;
         });
       });
     }
+
+    console.log(this.questions, this.form);
   }
 
   ngOnInit() {}
@@ -193,6 +190,7 @@ export class DocumentsUploadComponent<T>
     }
 
     if (!this.fileUploadTracker || !this.fileUploadTracker[questionKey]) {
+      console.warn(this.fileUploadTracker, questionKey);
       return false;
     }
 
@@ -330,6 +328,7 @@ export class DocumentsUploadComponent<T>
 
   onUploadButtonClick() {
     const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
+    console.log(`valueToEmit`, valueToEmit, this.fileUploadTracker);
     this.documentForm.patchValue({ ...valueToEmit });
 
     this.outputValues.emit(valueToEmit);
@@ -351,7 +350,7 @@ export class DocumentsUploadComponent<T>
     const output: SolidWasteEmitValue = {};
     Object.keys(tracker).forEach((questionId) => {
       if (!tracker[questionId] || !Object.keys(tracker[questionId]).length) {
-        output[questionId] = null;
+        output[questionId] = [{ name: "", url: "" }];
         return;
       }
       Object.values(tracker[questionId]).forEach(

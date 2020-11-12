@@ -86,6 +86,8 @@ export class FinancialUploadsComponent
   successMessage: string;
   isSubmitButtonClicked = false;
 
+  previewData: Partial<IFinancialData>;
+
   ngOnInit() {}
 
   private initializeAccessCheck() {
@@ -100,7 +102,7 @@ export class FinancialUploadsComponent
       action: ACTIONS.VIEW,
     });
 
-    console.log(`hasAccessToUploadData`, this.hasAccessToUploadData);
+    console.log(`hasAccessToViewData`, this.hasAccessToViewData);
 
     if (!this.hasAccessToViewData) return this._router.navigate(["/home"]);
 
@@ -117,11 +119,13 @@ export class FinancialUploadsComponent
         this.setStateToReadMode();
       }
 
+      console.log("assaaaaa");
       if (this.financialData.status === UPLOAD_STATUS.REJECTED) {
         this.canViewActionTaken = true;
         this.setFormToCorrectionMode(this.financialData);
 
         console.warn("now set form to correct mode");
+        return;
       }
     }
 
@@ -137,6 +141,8 @@ export class FinancialUploadsComponent
       this.canViewActionTaken = false;
       return;
     }
+
+    console.log("asdas");
 
     if (this.canTakeAction(this.financialData)) {
       this.setFormToTakeActionMode(this.isULBMillionPlus);
@@ -191,6 +197,19 @@ export class FinancialUploadsComponent
   }
 
   showPreview() {
+    this.solidWasteManagementForm.getRawValue();
+
+    this.previewData = {
+      ulb: this.loggedInUserDetails.ulb,
+      millionPlusCities: {
+        documents: this.millionPlusCitiesForm.getRawValue(),
+      },
+      solidWasteManagement: {
+        documents: this.solidWasteManagementForm.getRawValue(),
+      },
+      waterManagement: this.waterWasteManagementForm.getRawValue(),
+    };
+
     this._matDialog.open(this.previewPopup, {
       width: "85vw",
       maxHeight: "95vh",
@@ -201,12 +220,33 @@ export class FinancialUploadsComponent
     });
   }
 
+  onSolidWasteEmit(event: SolidWasteEmitValue) {
+    if (!this.financialData) this.financialData = {} as IFinancialData;
+    this.financialData.solidWasteManagement = {
+      documents: event as Required<SolidWasteEmitValue>,
+    };
+  }
+
+  onMilionPlusCitiesEmitValue(values: MillionPlusCitiesDocuments) {
+    if (!this.financialData) this.financialData = {} as IFinancialData;
+    this.financialData.millionPlusCities = {
+      documents: values,
+    };
+  }
+
+  onWaterWasteManagementEmitValue(value: WaterManagement) {
+    if (!this.financialData) this.financialData = {} as IFinancialData;
+    this.financialData.waterManagement = { ...value };
+  }
+
   saveAsDraft() {
     this.resetMessages();
 
     const body = {
       ulb: this.loggedInUserDetails.ulb,
-      ...this.financialData,
+      millionPlusCities: this.financialData.millionPlusCities,
+      solidWasteManagement: this.financialData.solidWasteManagement,
+      waterManagement: this.financialData.waterManagement,
       isCompleted: false,
     };
     this._matDialog.open(this.savingPopup, {
@@ -235,30 +275,12 @@ export class FinancialUploadsComponent
     );
   }
 
-  onSolidWasteEmit(event: SolidWasteEmitValue) {
-    if (!this.financialData) this.financialData = {} as IFinancialData;
-    this.financialData.solidWasteManagement = {
-      documents: event as Required<SolidWasteEmitValue>,
-    };
-  }
-
-  onMilionPlusCitiesEmitValue(values: MillionPlusCitiesDocuments) {
-    if (!this.financialData) this.financialData = {} as IFinancialData;
-    this.financialData.millionPlusCities = {
-      documents: values,
-    };
-  }
-
-  onWaterWasteManagementEmitValue(value: WaterManagement) {
-    if (!this.financialData) this.financialData = {} as IFinancialData;
-    this.financialData.waterManagement = { ...value };
-  }
-
   private resetMessages() {
     this.saveAsDraftFailMessge = null;
     this.draftSavingInProgess = true;
     this.successMessage = null;
   }
+
   uploadCompletedQuestionnaireData() {
     this.saveAsDraftFailMessge = null;
     this.isSubmitButtonClicked = true;
@@ -275,9 +297,26 @@ export class FinancialUploadsComponent
 
     const body = {
       ulb: this.loggedInUserDetails.ulb,
-      ...this.financialData,
+      millionPlusCities: {
+        documents: {
+          ...this.millionPlusCitiesForm.getRawValue(),
+          ...this.millionPlusCitiesForm.value,
+        },
+      },
+      solidWasteManagement: {
+        documents: {
+          ...this.solidWasteManagementForm.getRawValue(),
+          ...this.solidWasteManagementForm.value,
+        },
+      },
+      waterManagement: {
+        ...this.waterWasteManagementForm.getRawValue(),
+        ...this.waterWasteManagementForm.value,
+      },
       isCompleted: true,
     };
+    console.log(body);
+
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
       height: "fit-content",
@@ -342,7 +381,6 @@ export class FinancialUploadsComponent
       .updateActionOnFinancialData(body, this.financialData._id)
       .subscribe(
         (res) => {
-          console.log(res);
           this._matDialog.closeAll();
           window.history.back();
         },
@@ -415,10 +453,6 @@ export class FinancialUploadsComponent
       onlySelf: false,
       emitEvent: true,
     });
-
-    // console.log(`waterForm`, this.waterWasteManagementForm);
-    // console.log(`solid`, this.solidWasteManagementForm);
-    // console.log(`million`, this.millionPlusCitiesForm);
 
     let message: string;
     if (
