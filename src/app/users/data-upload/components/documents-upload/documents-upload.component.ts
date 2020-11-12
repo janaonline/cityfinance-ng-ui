@@ -8,6 +8,7 @@ import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.servic
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
+import { UPLOAD_STATUS } from 'src/app/util/enums';
 
 import { MillionPlusCitiesDocuments, SolidWasteManagementDocuments } from '../../models/financial-data.interface';
 import { FinancialUploadQuestion } from '../../models/financial-upload-question';
@@ -66,6 +67,12 @@ export class DocumentsUploadComponent<T>
 
   @Input()
   isSubmitButtonClick = false;
+
+  @Input()
+  canTakeApproveAction = true;
+
+  @Input()
+  canSeeApproveActionTaken = false;
 
   @Output()
   outputValues = new EventEmitter<
@@ -126,6 +133,15 @@ export class DocumentsUploadComponent<T>
   MaxFileSize = 50 * 1024 * 1024; // 20 MB. Always keep it in MB since in other places, we are dealing in MB only.
 
   noOfFilesAllowedPerQuestion = 1;
+  approveAction = UPLOAD_STATUS.APPROVED;
+  rejectAction = UPLOAD_STATUS.REJECTED;
+
+  actionNames = {
+    [this.approveAction]: "Approve",
+    [this.rejectAction]: "Reject",
+  };
+
+  UPLOAD_STATUS = UPLOAD_STATUS;
 
   constructor(
     protected dataEntryService: DataEntryService,
@@ -158,15 +174,11 @@ export class DocumentsUploadComponent<T>
             url: file.url,
             status: "completed",
           };
-
-          //      fileName?: string;
-          // percentage?: number;
-          // status?: "in-process" | "completed";
-          // url?: string;
-          // subscription?: Subscription;
         });
       });
     }
+
+    console.log(this.questions, this.form);
   }
 
   ngOnInit() {}
@@ -184,6 +196,7 @@ export class DocumentsUploadComponent<T>
     }
 
     if (!this.fileUploadTracker || !this.fileUploadTracker[questionKey]) {
+      console.warn(this.fileUploadTracker, questionKey);
       return false;
     }
 
@@ -321,6 +334,7 @@ export class DocumentsUploadComponent<T>
 
   onUploadButtonClick() {
     const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
+    console.log(`valueToEmit`, valueToEmit, this.fileUploadTracker);
     this.documentForm.patchValue({ ...valueToEmit });
 
     this.outputValues.emit(valueToEmit);
@@ -342,7 +356,7 @@ export class DocumentsUploadComponent<T>
     const output: SolidWasteEmitValue = {};
     Object.keys(tracker).forEach((questionId) => {
       if (!tracker[questionId] || !Object.keys(tracker[questionId]).length) {
-        output[questionId] = null;
+        output[questionId] = [{ name: "", url: "" }];
         return;
       }
       Object.values(tracker[questionId]).forEach(
@@ -466,12 +480,11 @@ export class DocumentsUploadComponent<T>
     );
   }
 
+  private initializeQuestionMapping() {
+    this.documentForm = this.form;
+  }
   ngOnDestroy(): void {
     // documentForm.reset();
     // documentForm.enable();
-  }
-
-  private initializeQuestionMapping() {
-    this.documentForm = this.form;
   }
 }
