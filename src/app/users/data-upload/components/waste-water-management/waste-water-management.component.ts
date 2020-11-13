@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { debounceTime } from 'rxjs/operators';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { UPLOAD_STATUS } from 'src/app/util/enums';
@@ -78,7 +77,10 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges(changes) {
-    if (this.isDataPrefilled) this.populateFormDatas();
+    console.log("waterWaste changed", changes);
+    if (this.isDataPrefilled && changes.isDataPrefilled) {
+      this.populateFormDatas();
+    }
     if (this.form) this.initializeForm();
   }
 
@@ -87,23 +89,51 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
   }
 
   onSolidWasteEmit(value: WaterManagementDocuments) {
-    this.form.controls.documents.patchValue({ ...value });
+    console.log("onUploadDocument", value);
+    console.log(`prefilledDocuments`, this.prefilledDocuments);
+    let patchValue;
+    if (this.prefilledDocuments) {
+      patchValue = { ...this.prefilledDocuments };
+      if (patchValue.wasteWaterPlan) {
+        patchValue.wasteWaterPlan[0] = {
+          ...patchValue.wasteWaterPlan[0],
+          ...value.wasteWaterPlan[0],
+        };
+      } else {
+        patchValue.wasteWaterPlan = value.wasteWaterPlan;
+      }
+    } else {
+      this.prefilledDocuments = { ...value };
+    }
+    this.form.controls.documents.reset();
+    this.form.controls.documents.patchValue({ ...patchValue });
+    this.emitValues(this.form.getRawValue());
   }
 
   onBlur(control: AbstractControl) {
     if (!control) return;
     const newValue = this.jsonUtil.convert(control.value);
     control.patchValue(newValue);
+    this.emitValues(this.form.getRawValue());
   }
 
   private populateFormDatas() {
     if (!this.isDataPrefilled) return;
-    this.prefilledDocuments = this.form.getRawValue().documents;
+    console.log("setting prefilledDocuments", this.form.getRawValue());
+    this.prefilledDocuments = {
+      wasteWaterPlan: this.jsonUtil.filterOutEmptyArray(
+        this.form.getRawValue().documents.wasteWaterPlan
+      ),
+    };
+  }
+
+  private emitValues(values) {
+    this.outputValues.emit(values);
   }
 
   private initializeForm() {
-    this.form.valueChanges
-      .pipe(debounceTime(100))
-      .subscribe((values) => this.outputValues.emit(values));
+    // this.form.valueChanges
+    //   .pipe(debounceTime(100))
+    //   .subscribe((values) => this.outputValues.emit(values));
   }
 }

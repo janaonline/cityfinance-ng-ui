@@ -108,10 +108,9 @@
                   class="file-tracker-name"
                   [ngClass]="{
                     invisible:
-                      (canUploadFile && loggedInUser === USER_TYPE.ULB) ||
-                      (form?.controls[question.key]?.getRawValue()[controlIndex]
-                        .status === UPLOAD_STATUS.REJECTED &&
-                        canUploadFile)
+                      doc.url &&
+                      canUploadFile &&
+                      form.controls[question.key].enabled
                   }"
                 >
                   {{ doc.name }}
@@ -120,17 +119,16 @@
                 <a
                   [ngClass]="{
                     invisible:
-                      (canUploadFile && loggedInUser === USER_TYPE.ULB) ||
-                      (form?.controls[question.key]?.getRawValue()[controlIndex]
-                        .status === UPLOAD_STATUS.REJECTED &&
-                        canUploadFile)
+                      doc.url &&
+                      canUploadFile &&
+                      form.controls[question.key].enabled
                   }"
                   [href]="doc.url"
                   class="download-link-icon"
                   target="_blank"
                 >
                   <i
-                    title="Download"
+                    title="Download tttt"
                     class="fa fa-cloud-download"
                     aria-hidden="true"
                   ></i>
@@ -215,7 +213,8 @@
                 *ngIf="canUploadFile"
                 [disabled]="!canUploadFile"
                 type="file"
-                multiple
+                accept=".pdf"
+                [multiple]="noOfFilesAllowedPerQuestion > 1"
                 (change)="fileChangeEvent($event, question.key)"
               />
             </button>

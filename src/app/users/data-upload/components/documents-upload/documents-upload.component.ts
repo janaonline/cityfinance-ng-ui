@@ -10,6 +10,7 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 import { UPLOAD_STATUS } from 'src/app/util/enums';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { MillionPlusCitiesDocuments, SolidWasteManagementDocuments } from '../../models/financial-data.interface';
 import { FinancialUploadQuestion } from '../../models/financial-upload-question';
@@ -145,6 +146,8 @@ export class DocumentsUploadComponent
 
   UPLOAD_STATUS = UPLOAD_STATUS;
 
+  jsonUtil = new JSONUtility();
+
   constructor(
     protected dataEntryService: DataEntryService,
     protected _dialog: MatDialog
@@ -157,13 +160,17 @@ export class DocumentsUploadComponent
   }): void {
     this.initializeQuestionMapping();
 
-    if (changes.documents && changes.documents.currentValue) {
+    if (
+      changes.documents &&
+      this.jsonUtil.filterEmptyValue(changes.documents.currentValue, true)
+    ) {
       if (changes.canUploadFile && !changes.canUploadFile.currentValue) {
         return;
       }
       this.documentForm.patchValue(changes.documents.currentValue);
 
       this.userSelectedFiles = { ...changes.documents.currentValue };
+
       Object.keys(this.userSelectedFiles).forEach((questiopnId) => {
         if (!this.userSelectedFiles[questiopnId]) {
           return;
@@ -181,8 +188,6 @@ export class DocumentsUploadComponent
         });
       });
     }
-
-    console.log(this.questions, this.form);
   }
 
   ngOnInit() {}
@@ -231,8 +236,6 @@ export class DocumentsUploadComponent
       this.filterInvalidFiles(event.target["files"], key)
     );
 
-    console.log(`filteredfiles`, filteredFiles);
-
     if (event.target["files"].length !== filteredFiles.length) {
       const message = `Only ${this.fileExnetsionAllowed.join(
         ","
@@ -246,7 +249,7 @@ export class DocumentsUploadComponent
 
     if (this.isMaximumFileAlreadySelected(key)) {
       this.cancelFileUpload(key, this.userSelectedFiles[key][0].name);
-      console.log(this.userSelectedFiles);
+
       console.warn("maximum no of files allowed is already selected. ");
       // return false;
     }
