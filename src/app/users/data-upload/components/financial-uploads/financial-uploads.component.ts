@@ -113,7 +113,10 @@ export class FinancialUploadsComponent
       /**
        * Check if user has access to upload, then can he still upload the data.
        */
-      if (this.financialData.actionTakenByUserRole === USER_TYPE.ULB) {
+      if (
+        this.financialData.actionTakenByUserRole === USER_TYPE.ULB &&
+        this.financialData.isCompleted
+      ) {
         this.setStateToReadMode();
       }
 
@@ -124,7 +127,12 @@ export class FinancialUploadsComponent
         console.warn("now set form to correct mode");
         return;
       } else {
-        this.setStateToReadMode();
+        if (
+          this.financialData.actionTakenByUserRole === USER_TYPE.ULB &&
+          this.financialData.isCompleted
+        ) {
+          this.setStateToReadMode();
+        }
       }
     }
 
@@ -190,8 +198,6 @@ export class FinancialUploadsComponent
           ...data.millionPlusCities.documents,
         }
       : null;
-
-    // if (this.financialData.isCompleted) this.setStateToReadMode();
   }
 
   showPreview() {
