@@ -35,7 +35,7 @@
                 "
               >
                 <span class="file-tracker-name">
-                  {{ file.name }} file nae
+                  {{ file.name }}
                 </span>
                 <div
                   class="progress"
@@ -96,8 +96,6 @@
               </div>
             </div>
 
-            documents {{ documents | json }}
-
             <div *ngIf="documents">
               <div
                 class="file-list showList"
@@ -110,24 +108,18 @@
                   class="file-tracker-name"
                   [ngClass]="{
                     invisible:
-                      (canUploadFile && loggedInUser === USER_TYPE.ULB) ||
-                      (form?.controls[question.key]?.getRawValue()[controlIndex]
-                        .status === UPLOAD_STATUS.REJECTED &&
-                        canUploadFile)
+                      canUploadFile && form.controls[question.key].enabled
                   }"
                 >
-                  {{ doc.name }} fileName
+                  {{ doc.name }}
                 </span>
 
                 <a
                   [ngClass]="{
                     invisible:
-                      (doc.url &&
-                        canUploadFile &&
-                        loggedInUser === USER_TYPE.ULB) ||
-                      (form?.controls[question.key]?.getRawValue()[controlIndex]
-                        .status === UPLOAD_STATUS.REJECTED &&
-                        canUploadFile)
+                      doc.url &&
+                      canUploadFile &&
+                      form.controls[question.key].enabled
                   }"
                   [href]="doc.url"
                   class="download-link-icon"

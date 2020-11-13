@@ -427,13 +427,17 @@ export class FinancialUploadsComponent
     console.log(`waterWaste`, this.waterWasteManagementForm);
     let message = "";
     if (
-      (this.solidWasteManagementForm.disabled ||
-        this.solidWasteManagementForm.valid) &&
+      (this.solidWasteManagementForm.disabled
+        ? true
+        : this.solidWasteManagementForm.valid) &&
       (this.isULBMillionPlus
-        ? this.millionPlusCitiesForm.disabled ||
-          this.millionPlusCitiesForm.valid
+        ? this.millionPlusCitiesForm.disabled
+          ? true
+          : this.millionPlusCitiesForm.valid
         : true) &&
-      this.waterWasteManagementForm.valid
+      this.waterWasteManagementForm.disabled
+        ? true
+        : this.waterWasteManagementForm.valid
     ) {
       return true;
     }
@@ -481,12 +485,23 @@ export class FinancialUploadsComponent
       onlySelf: false,
       emitEvent: true,
     });
+    console.log("water management", this.waterWasteManagementForm);
+    console.log("solid management", this.solidWasteManagementForm);
+    console.log("million plus ", this.millionPlusCitiesForm);
 
     let message: string;
     if (
-      this.waterWasteManagementForm.valid &&
-      this.solidWasteManagementForm.valid &&
-      (this.isULBMillionPlus ? this.millionPlusCitiesForm.valid : true)
+      (this.waterWasteManagementForm.disabled
+        ? true
+        : this.waterWasteManagementForm.valid) &&
+      (this.solidWasteManagementForm.disabled
+        ? true
+        : this.solidWasteManagementForm.valid) &&
+      (this.isULBMillionPlus
+        ? this.millionPlusCitiesForm.disabled
+          ? true
+          : this.millionPlusCitiesForm.valid
+        : true)
     ) {
       return true;
     }
