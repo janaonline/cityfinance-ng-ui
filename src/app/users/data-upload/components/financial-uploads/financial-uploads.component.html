@@ -191,7 +191,12 @@
 </mat-horizontal-stepper>
 <p
   class="question-instruction"
-  *ngIf="isULBMillionPlus !== undefined && stepper?.selectedIndex > 0"
+  *ngIf="
+    isULBMillionPlus !== undefined &&
+    stepper?.selectedIndex > 0 &&
+    ((isULBMillionPlus && stepper?.selectedIndex !== 4) ||
+      (isULBMillionPlus === false && stepper.selectedIndex !== 3))
+  "
 >
   <strong>NOTE:</strong><br />
   1. All questions are mandatory<br />
