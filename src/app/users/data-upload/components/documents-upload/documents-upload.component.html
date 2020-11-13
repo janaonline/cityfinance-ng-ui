@@ -108,7 +108,9 @@
                   class="file-tracker-name"
                   [ngClass]="{
                     invisible:
-                      canUploadFile && form.controls[question.key].enabled
+                      doc.url &&
+                      canUploadFile &&
+                      form.controls[question.key].enabled
                   }"
                 >
                   {{ doc.name }}
