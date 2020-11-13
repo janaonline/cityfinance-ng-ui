@@ -341,7 +341,6 @@ export class DocumentsUploadComponent
 
   onUploadButtonClick() {
     const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
-    console.log(`valueToEmit`, valueToEmit, this.fileUploadTracker);
     this.documentForm.patchValue({ ...valueToEmit });
 
     this.outputValues.emit(valueToEmit);
