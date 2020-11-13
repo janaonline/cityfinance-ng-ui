@@ -108,8 +108,10 @@
                   class="file-tracker-name"
                   [ngClass]="{
                     invisible:
-                      form?.controls[question.key]?.getRawValue()[controlIndex]
-                        .status === UPLOAD_STATUS.REJECTED && canUploadFile
+                      (canUploadFile && loggedInUser === USER_TYPE.ULB) ||
+                      (form?.controls[question.key]?.getRawValue()[controlIndex]
+                        .status === UPLOAD_STATUS.REJECTED &&
+                        canUploadFile)
                   }"
                 >
                   {{ doc.name }}
@@ -118,8 +120,10 @@
                 <a
                   [ngClass]="{
                     invisible:
-                      form?.controls[question.key]?.getRawValue()[controlIndex]
-                        .status === UPLOAD_STATUS.REJECTED && canUploadFile
+                      (canUploadFile && loggedInUser === USER_TYPE.ULB) ||
+                      (form?.controls[question.key]?.getRawValue()[controlIndex]
+                        .status === UPLOAD_STATUS.REJECTED &&
+                        canUploadFile)
                   }"
                   [href]="doc.url"
                   class="download-link-icon"

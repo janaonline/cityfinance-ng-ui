@@ -8,6 +8,7 @@ import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.servic
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
+import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 import { UPLOAD_STATUS } from 'src/app/util/enums';
 
 import { MillionPlusCitiesDocuments, SolidWasteManagementDocuments } from '../../models/financial-data.interface';
@@ -44,7 +45,8 @@ type IFileUploadTracking = {
   templateUrl: "./documents-upload.component.html",
   styleUrls: ["./documents-upload.component.scss"],
 })
-export class DocumentsUploadComponent<T>
+export class DocumentsUploadComponent
+  extends BaseComponent
   implements OnInit, OnChanges, OnDestroy {
   @Input()
   documents: SolidWasteEmitValue;
@@ -146,7 +148,9 @@ export class DocumentsUploadComponent<T>
   constructor(
     protected dataEntryService: DataEntryService,
     protected _dialog: MatDialog
-  ) {}
+  ) {
+    super();
+  }
   ngOnChanges(changes: {
     documents: SimpleChange;
     canUploadFile: SimpleChange;
