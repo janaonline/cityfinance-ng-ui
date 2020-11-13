@@ -103,6 +103,8 @@
       <span title="Solid Waste Management">Solid Waste Management</span>
     </ng-template>
 
+    {{ solidWasteProfilledAnswers | json }}
+
     <app-documents-upload
       *ngIf="solidWasteManagementForm"
       [ngClass]="{

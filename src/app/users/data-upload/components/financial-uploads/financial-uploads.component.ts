@@ -11,6 +11,7 @@ import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
 import { UPLOAD_STATUS } from 'src/app/util/enums';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 import { UserUtility } from 'src/app/util/user/user';
 
 import {
@@ -91,7 +92,13 @@ export class FinancialUploadsComponent
   ngOnInit() {}
 
   private initializeAccessCheck() {
-    console.log("data", this.financialData);
+    console.log("data", { ...this.financialData });
+
+    // if (this.financialData) {
+    //   if (!this.financialData.waterManagement.documents.wasteWaterPlan.length) {
+    //     this.financialData.waterManagement.documents.wasteWaterPlan = null;
+    //   }
+    // }
     this.hasAccessToUploadData = this.accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.UPLOAD,
@@ -128,8 +135,8 @@ export class FinancialUploadsComponent
         return;
       } else {
         if (
-          this.financialData.actionTakenByUserRole === USER_TYPE.ULB &&
-          this.financialData.isCompleted
+          this.financialData.actionTakenByUserRole === USER_TYPE.STATE &&
+          this.financialData.status === UPLOAD_STATUS.APPROVED
         ) {
           this.setStateToReadMode();
         }
@@ -155,6 +162,10 @@ export class FinancialUploadsComponent
     } else {
       this.canTakeApproveRejectAction = false;
     }
+
+    // this.waterWasteManagementForm.valueChanges.subscribe((value) => {
+    //   console.log(this.waterWasteManagementForm);
+    // });
   }
 
   private setStateToReadMode() {
@@ -226,6 +237,7 @@ export class FinancialUploadsComponent
 
   onSolidWasteEmit(event: SolidWasteEmitValue) {
     if (!this.financialData) this.financialData = {} as IFinancialData;
+    console.log("onSolidWasteEmit", event);
     this.financialData.solidWasteManagement = {
       documents: event as Required<SolidWasteEmitValue>,
     };
@@ -239,6 +251,7 @@ export class FinancialUploadsComponent
   }
 
   onWaterWasteManagementEmitValue(value: WaterManagement) {
+    console.log(`onWaterWasteManagementEmitValue`, value);
     if (!this.financialData) this.financialData = {} as IFinancialData;
     this.financialData.waterManagement = { ...value };
   }
@@ -246,13 +259,17 @@ export class FinancialUploadsComponent
   saveAsDraft() {
     this.resetMessages();
 
-    const body = {
+    let body = {
       ulb: this.loggedInUserDetails.ulb,
       millionPlusCities: this.financialData.millionPlusCities,
       solidWasteManagement: this.financialData.solidWasteManagement,
       waterManagement: this.financialData.waterManagement,
       isCompleted: false,
     };
+
+    body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
+    console.log(body);
+
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
       height: "fit-content",
@@ -299,7 +316,7 @@ export class FinancialUploadsComponent
     }
     this.resetMessages();
 
-    const body = {
+    let body = {
       ulb: this.loggedInUserDetails.ulb,
       millionPlusCities: {
         documents: {
@@ -319,7 +336,6 @@ export class FinancialUploadsComponent
       },
       isCompleted: true,
     };
-    console.log(body);
 
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
@@ -327,6 +343,9 @@ export class FinancialUploadsComponent
       panelClass: "custom-warning-popup",
       disableClose: true,
     });
+    body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
+    body.isCompleted = true;
+    console.log(`final`, body);
 
     this.financialDataService.uploadFinancialData(body).subscribe(
       (res) => {
@@ -405,10 +424,15 @@ export class FinancialUploadsComponent
    * If not, then a popup will be show with the message.
    */
   validatorQuestionnaireForms() {
+    console.log(`waterWaste`, this.waterWasteManagementForm);
     let message = "";
     if (
-      this.solidWasteManagementForm.valid &&
-      (this.isULBMillionPlus ? this.millionPlusCitiesForm.valid : true) &&
+      (this.solidWasteManagementForm.disabled ||
+        this.solidWasteManagementForm.valid) &&
+      (this.isULBMillionPlus
+        ? this.millionPlusCitiesForm.disabled ||
+          this.millionPlusCitiesForm.valid
+        : true) &&
       this.waterWasteManagementForm.valid
     ) {
       return true;
