@@ -53,6 +53,7 @@ export class DataUploadComponent
     private _commonService: CommonService
   ) {
     super();
+
     if (this.userUtil.getUserType() === USER_TYPE.ULB) {
       SidebarUtil.hideSidebar();
     }
@@ -170,7 +171,7 @@ export class DataUploadComponent
   stateList = [];
 
   ngOnInit() {
-    this.fetchFinancialYears();
+    // this.fetchFinancialYears();
     this.fetchStateList();
     if (!this.id) {
       this.getFinancialDataList(
@@ -178,9 +179,34 @@ export class DataUploadComponent
         this.listFetchOption
       );
     }
+
     if (this.uploadId) {
       this.getFinancialData();
+    } else {
+      if (this.userUtil.getUserType() === USER_TYPE.ULB) {
+        this.gettingULBDats();
+      }
     }
+  }
+
+  private gettingULBDats(params = {}, body = {}) {
+    this.loading = true;
+    const { skip } = this.listFetchOption;
+    const newParams = {
+      skip,
+      limit: 10,
+      ...params,
+    };
+    this.financialDataService
+      .fetchFinancialDataList(newParams, body)
+      .subscribe((res) => {
+        if (res["data"] && res["data"].length) {
+          this.router.navigate([
+            "/user/data-upload/upload-form",
+            res["data"][0]._id,
+          ]);
+        }
+      });
   }
 
   getFinancialData() {
@@ -741,7 +767,6 @@ export class DataUploadComponent
     this.loading = true;
     this.listFetchOption = this.setLIstFetchOptions();
     const { skip } = this.listFetchOption;
-    console.log(this.listFetchOption);
     this.financialDataService
       .fetchFinancialDataList({ skip, limit: 10 }, this.listFetchOption)
       .subscribe(

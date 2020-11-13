@@ -92,8 +92,6 @@ export class FinancialUploadsComponent
   ngOnInit() {}
 
   private initializeAccessCheck() {
-    console.log("data", { ...this.financialData });
-
     // if (this.financialData) {
     //   if (!this.financialData.waterManagement.documents.wasteWaterPlan.length) {
     //     this.financialData.waterManagement.documents.wasteWaterPlan = null;
@@ -148,8 +146,6 @@ export class FinancialUploadsComponent
       action: ACTIONS.APPROVE,
     });
 
-    console.log("hasAccessToTakeAction", hasAccessToTakeAction);
-
     // Check here for taking actions
     if (!hasAccessToTakeAction) {
       this.canViewActionTaken = false;
@@ -162,10 +158,6 @@ export class FinancialUploadsComponent
     } else {
       this.canTakeApproveRejectAction = false;
     }
-
-    // this.waterWasteManagementForm.valueChanges.subscribe((value) => {
-    //   console.log(this.waterWasteManagementForm);
-    // });
   }
 
   private setStateToReadMode() {
@@ -216,6 +208,7 @@ export class FinancialUploadsComponent
 
     this.previewData = {
       ulb: this.loggedInUserDetails.ulb,
+      ulbName: this.financialData ? this.financialData.ulbName : null,
       millionPlusCities: {
         documents: this.millionPlusCitiesForm.getRawValue(),
       },
@@ -237,7 +230,6 @@ export class FinancialUploadsComponent
 
   onSolidWasteEmit(event: SolidWasteEmitValue) {
     if (!this.financialData) this.financialData = {} as IFinancialData;
-    console.log("onSolidWasteEmit", event);
     this.financialData.solidWasteManagement = {
       documents: event as Required<SolidWasteEmitValue>,
     };
@@ -251,7 +243,6 @@ export class FinancialUploadsComponent
   }
 
   onWaterWasteManagementEmitValue(value: WaterManagement) {
-    console.log(`onWaterWasteManagementEmitValue`, value);
     if (!this.financialData) this.financialData = {} as IFinancialData;
     this.financialData.waterManagement = { ...value };
   }
@@ -268,7 +259,6 @@ export class FinancialUploadsComponent
     };
 
     body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
-    console.log(body);
 
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
@@ -345,7 +335,6 @@ export class FinancialUploadsComponent
     });
     body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
     body.isCompleted = true;
-    console.log(`final`, body);
 
     this.financialDataService.uploadFinancialData(body).subscribe(
       (res) => {
@@ -424,7 +413,6 @@ export class FinancialUploadsComponent
    * If not, then a popup will be show with the message.
    */
   validatorQuestionnaireForms() {
-    console.log(`waterWaste`, this.waterWasteManagementForm);
     let message = "";
     if (
       (this.solidWasteManagementForm.disabled
@@ -485,9 +473,6 @@ export class FinancialUploadsComponent
       onlySelf: false,
       emitEvent: true,
     });
-    console.log("water management", this.waterWasteManagementForm);
-    console.log("solid management", this.solidWasteManagementForm);
-    console.log("million plus ", this.millionPlusCitiesForm);
 
     let message: string;
     if (

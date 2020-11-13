@@ -77,7 +77,6 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges(changes) {
-    console.log("waterWaste changed", changes);
     if (this.isDataPrefilled && changes.isDataPrefilled) {
       this.populateFormDatas();
     }
@@ -89,8 +88,6 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
   }
 
   onSolidWasteEmit(value: WaterManagementDocuments) {
-    console.log("onUploadDocument", value);
-    console.log(`prefilledDocuments`, this.prefilledDocuments);
     let patchValue;
     if (this.prefilledDocuments) {
       patchValue = { ...this.prefilledDocuments };
@@ -119,7 +116,6 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
 
   private populateFormDatas() {
     if (!this.isDataPrefilled) return;
-    console.log("setting prefilledDocuments", this.form.getRawValue());
     this.prefilledDocuments = {
       wasteWaterPlan: this.jsonUtil.filterOutEmptyArray(
         this.form.getRawValue().documents.wasteWaterPlan
