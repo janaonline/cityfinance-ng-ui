@@ -2,7 +2,9 @@
   [formGroup]="form"
   *ngIf="form"
   [ngClass]="{
-    'non-ulb-view-table': canSeeApproveActionTaken || canTakeApproveAction
+    'non-ulb-view-table': canSeeApproveActionTaken || canTakeApproveAction,
+    'ulb-view-table':
+      (canSeeApproveActionTaken || canTakeApproveAction) && canUploadFile
   }"
 >
   <table
