@@ -89,6 +89,8 @@ export class FinancialUploadsComponent
 
   previewData: Partial<IFinancialData>;
 
+  jsonUtil = new JSONUtility();
+
   ngOnInit() {}
 
   private initializeAccessCheck() {
@@ -125,6 +127,12 @@ export class FinancialUploadsComponent
         this.setStateToReadMode();
       }
 
+      if (
+        this.financialData.status === UPLOAD_STATUS.APPROVED &&
+        this.financialData.actionTakenByUserRole === USER_TYPE.MoHUA
+      ) {
+        this.setStateToReadMode();
+      }
       if (this.financialData.status === UPLOAD_STATUS.REJECTED) {
         this.canViewActionTaken = true;
         this.setFormToCorrectionMode(this.financialData);
@@ -231,14 +239,16 @@ export class FinancialUploadsComponent
   onSolidWasteEmit(event: SolidWasteEmitValue) {
     if (!this.financialData) this.financialData = {} as IFinancialData;
     this.financialData.solidWasteManagement = {
-      documents: event as Required<SolidWasteEmitValue>,
+      documents: this.jsonUtil.filterEmptyValue(event, true) as Required<
+        SolidWasteEmitValue
+      >,
     };
   }
 
   onMilionPlusCitiesEmitValue(values: MillionPlusCitiesDocuments) {
     if (!this.financialData) this.financialData = {} as IFinancialData;
     this.financialData.millionPlusCities = {
-      documents: values,
+      documents: this.jsonUtil.filterEmptyValue(values, true) as typeof values,
     };
   }
 
@@ -420,44 +430,45 @@ export class FinancialUploadsComponent
    */
   validatorQuestionnaireForms() {
     let message = "";
-    if (
-      (this.solidWasteManagementForm.disabled
+
+    const isWasteWaterValid = this.waterWasteManagementForm.disabled
+      ? true
+      : this.waterWasteManagementForm.valid;
+    const isSolidWasteValid = this.solidWasteManagementForm.disabled
+      ? true
+      : this.solidWasteManagementForm.valid;
+    const isMillionPlusValid = this.isULBMillionPlus
+      ? this.millionPlusCitiesForm.disabled
         ? true
-        : this.solidWasteManagementForm.valid) &&
-      (this.isULBMillionPlus
-        ? this.millionPlusCitiesForm.disabled
-          ? true
-          : this.millionPlusCitiesForm.valid
-        : true) &&
-      this.waterWasteManagementForm.disabled
-        ? true
-        : this.waterWasteManagementForm.valid
-    ) {
+        : this.millionPlusCitiesForm.valid
+      : true;
+
+    if (isWasteWaterValid && isSolidWasteValid && isMillionPlusValid) {
       return true;
     }
 
-    if (!this.waterWasteManagementForm.valid) {
+    if (!isWasteWaterValid) {
       message = "All questions must be answered in Water Waste Management";
       this.stepper.selectedIndex = 0;
     }
 
-    if (!this.solidWasteManagementForm.valid) {
+    if (!isSolidWasteValid) {
       message += message
         ? ", Solid Waste Management"
         : "All questions must be answered in Solid Waste Management";
       // this.stepper.selectedIndex = 1;
     }
 
-    if (this.isULBMillionPlus && !this.millionPlusCitiesForm.valid) {
+    if (!isMillionPlusValid) {
       message += message
         ? " and Million Plus Cities sections."
         : "All questions must be answered in Million Plus Cities section.";
     }
-    if (!this.waterWasteManagementForm.valid) {
+    if (!isWasteWaterValid) {
       this.stepper.selectedIndex = 1;
-    } else if (!this.solidWasteManagementForm.valid) {
+    } else if (!isSolidWasteValid) {
       this.stepper.selectedIndex = 2;
-    } else if (this.isULBMillionPlus && !this.millionPlusCitiesForm.valid) {
+    } else if (!isMillionPlusValid) {
       this.stepper.selectedIndex = 3;
     }
 
@@ -467,6 +478,7 @@ export class FinancialUploadsComponent
       width: "45vw",
       panelClass: "custom-warning-popup",
     });
+
     throw message;
   }
 

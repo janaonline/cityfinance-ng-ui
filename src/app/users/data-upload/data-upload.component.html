@@ -363,14 +363,17 @@
           <tr *ngFor="let row of modalTableData; let i = index">
             <td class="text-center">
               <em
-                *ngIf="row['status'] == uploadStatus.APPROVED"
+                *ngIf="
+                  row['status'] == uploadStatus.APPROVED &&
+                  row.actionTakenByUserRole === userTypes.MoHUA
+                "
                 class="fa fa-check-circle text-success"
               ></em>
             </td>
             <td class="text-center">{{ i + 1 }}</td>
             <td>{{ row.customStatusText }}</td>
             <td class="text-center">
-              {{ row["modifiedAt"] | date: "mediumDate" }}
+              {{ row["modifiedAt"] | date: "MMM d, y, h:mm a":"GMT" }}
             </td>
           </tr>
         </tbody>
