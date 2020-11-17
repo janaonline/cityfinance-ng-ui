@@ -84,9 +84,14 @@
         >Water Supply & Waste-Water Management</span
       >
     </ng-template>
+
     <app-waste-water-management
+      [form]="waterWasteManagementForm"
+      [canSeeApproveActionTaken]="canViewActionTaken"
+      [canTakeApproveAction]="canTakeApproveRejectAction"
       [isDataPrefilled]="!!solidWasteProfilledAnswers"
       [isSubmitButtonClick]="isSubmitButtonClicked"
+      [canUploadFile]="canUploadFile"
       (showNext)="stepper.next()"
       (saveAsDraft)="saveAsDraft()"
       (outputValues)="onWaterWasteManagementEmitValue($event)"
@@ -97,18 +102,25 @@
     <ng-template matStepLabel>
       <span title="Solid Waste Management">Solid Waste Management</span>
     </ng-template>
+
     <app-documents-upload
+      *ngIf="solidWasteManagementForm"
       [ngClass]="{
         documentCompleted:
-          (financialData?.isCompleted && !isULBMillionPlus) ||
-          (!isULBMillionPlus && !canUploadFile)
+          ((financialData?.isCompleted &&
+            !isULBMillionPlus &&
+            !canUploadFile) ||
+            (!isULBMillionPlus && !canUploadFile)) &&
+          !canTakeApproveRejectAction
       }"
       [isSubmitButtonClick]="isSubmitButtonClicked"
       [userType]="USER_TYPE.ULB"
-      [form]="solidWasteForm"
+      [form]="solidWasteManagementForm"
       [documents]="solidWasteProfilledAnswers"
       [canUploadFile]="canUploadFile"
       [questions]="solidWasteQuestions"
+      [canSeeApproveActionTaken]="canViewActionTaken"
+      [canTakeApproveAction]="canTakeApproveRejectAction"
       (outputValues)="onSolidWasteEmit($event)"
       (showNext)="stepper.next()"
       (previous)="stepper.previous()"
@@ -124,6 +136,7 @@
       <span title="Million Plus Cities Only">Million Plus Cities Only</span>
     </ng-template>
     <app-documents-upload
+      *ngIf="millionPlusCitiesForm"
       [ngClass]="{
         documentCompleted: financialData?.isCompleted || !canUploadFile
       }"
@@ -133,6 +146,8 @@
       [documents]="millionPlusCitiesAnswers"
       [canUploadFile]="canUploadFile"
       [questions]="millionPlusCitiesQuestions"
+      [canSeeApproveActionTaken]="canViewActionTaken"
+      [canTakeApproveAction]="canTakeApproveRejectAction"
       (outputValues)="onMilionPlusCitiesEmitValue($event)"
       (showNext)="stepper.next()"
       (previous)="stepper.previous()"
@@ -140,7 +155,7 @@
     ></app-documents-upload>
   </mat-step>
 
-  <mat-step label="Submit" *ngIf="!financialData?.isCompleted && canUploadFile">
+  <mat-step label="Submit" *ngIf="canUploadFile">
     <app-completed
       [submitted]="userHasAlreadyFilledForm"
       (submit)="uploadCompletedQuestionnaireData()"
@@ -156,10 +171,32 @@
       </button>
     </app-completed>
   </mat-step>
+
+  <mat-step label="Submit Actions" *ngIf="canTakeApproveRejectAction">
+    <app-completed
+      [submitted]="userHasAlreadyFilledForm"
+      (submit)="onSubmitApprovalActions()"
+      (previous)="stepper.previous()"
+    >
+      <button
+        class="btn btn-primary"
+        style="outline: none"
+        style="margin-right: 2%"
+        (click)="showPreview()"
+      >
+        Show Preview
+      </button>
+    </app-completed>
+  </mat-step>
 </mat-horizontal-stepper>
 <p
   class="question-instruction"
-  *ngIf="isULBMillionPlus !== undefined && stepper?.selectedIndex > 0"
+  *ngIf="
+    isULBMillionPlus !== undefined &&
+    stepper?.selectedIndex > 0 &&
+    ((isULBMillionPlus && stepper?.selectedIndex !== 4) ||
+      (isULBMillionPlus === false && stepper.selectedIndex !== 3))
+  "
 >
   <strong>NOTE:</strong><br />
   1. All questions are mandatory<br />
@@ -191,7 +228,8 @@
 
 <ng-template #previewPopup>
   <app-preview
-    [data]="financialData"
+    *ngIf="previewData"
+    [data]="previewData"
     [isULBMillionPlus]="isULBMillionPlus"
   ></app-preview>
 </ng-template>

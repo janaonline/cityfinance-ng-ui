@@ -45,6 +45,13 @@ export class FinancialDataService {
     return `${environment.api.url}ulb-financial-data/all?${params}`;
   }
 
+  updateActionOnFinancialData(data: { [key: string]: any }, requestId: string) {
+    return this.httpClient.post(
+      `${environment.api.url}ulb-financial-data/action/${requestId}`,
+      data
+    );
+  }
+
   fetFinancialData(id: string) {
     return this.httpClient.get(
       `${environment.api.url}ulb-financial-data/details/${id}`

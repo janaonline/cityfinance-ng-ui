@@ -19,13 +19,25 @@ import { FileUpload } from '../../util/fileUpload';
 import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
 import { SidebarUtil } from '../utils/sidebar.util';
+import { IFinancialData } from './models/financial-data.interface';
+import {
+  APPROVAL_COMPLETED,
+  REJECT_BY_MoHUA,
+  REJECT_BY_STATE,
+  SAVED_AS_DRAFT,
+  UNDER_REVIEW_BY_MoHUA,
+  UNDER_REVIEW_BY_STATE,
+} from './util/request-status';
+import { UploadDataUtility } from './util/upload-data.util';
 
 @Component({
   selector: "app-data-upload",
   templateUrl: "./data-upload.component.html",
   styleUrls: ["./data-upload.component.scss"],
 })
-export class DataUploadComponent implements OnInit, OnDestroy {
+export class DataUploadComponent
+  extends UploadDataUtility
+  implements OnInit, OnDestroy {
   constructor(
     public activatedRoute: ActivatedRoute,
     public router: Router,
@@ -40,6 +52,8 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     public _matDialog: MatDialog,
     private _commonService: CommonService
   ) {
+    super();
+
     if (this.userUtil.getUserType() === USER_TYPE.ULB) {
       SidebarUtil.hideSidebar();
     }
@@ -91,7 +105,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     "auditReport",
   ];
   fileFormGroup: FormGroup;
-  dataUploadList = [];
+  dataUploadList: Array<IFinancialData & { canTakeAction?: boolean }> = [];
   isAccessible: boolean;
   financialYearDropdownSettings: any = {
     singleSelection: true,
@@ -106,18 +120,12 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     text: "Status",
   };
   uploadCheckStatusDropDown: any = [
-    {
-      id: UPLOAD_STATUS.PENDING,
-      itemName: "Pending",
-    },
-    {
-      id: UPLOAD_STATUS.APPROVED,
-      itemName: "Approved",
-    },
-    {
-      id: UPLOAD_STATUS.REJECTED,
-      itemName: "Rejected",
-    },
+    SAVED_AS_DRAFT,
+    UNDER_REVIEW_BY_STATE,
+    UNDER_REVIEW_BY_MoHUA,
+    REJECT_BY_STATE,
+    REJECT_BY_MoHUA,
+    APPROVAL_COMPLETED,
   ];
 
   completenessStatus = UPLOAD_STATUS.PENDING;
@@ -163,7 +171,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   stateList = [];
 
   ngOnInit() {
-    this.fetchFinancialYears();
+    // this.fetchFinancialYears();
     this.fetchStateList();
     if (!this.id) {
       this.getFinancialDataList(
@@ -171,9 +179,34 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         this.listFetchOption
       );
     }
+
     if (this.uploadId) {
       this.getFinancialData();
+    } else {
+      if (this.userUtil.getUserType() === USER_TYPE.ULB) {
+        this.gettingULBDats();
+      }
     }
+  }
+
+  private gettingULBDats(params = {}, body = {}) {
+    this.loading = true;
+    const { skip } = this.listFetchOption;
+    const newParams = {
+      skip,
+      limit: 10,
+      ...params,
+    };
+    this.financialDataService
+      .fetchFinancialDataList(newParams, body)
+      .subscribe((res) => {
+        if (res["data"] && res["data"].length) {
+          this.router.navigate([
+            "/user/data-upload/upload-form",
+            res["data"][0]._id,
+          ]);
+        }
+      });
   }
 
   getFinancialData() {
@@ -204,7 +237,48 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
-  handleResponseSuccess = (response) => {
+  private formatResponse(req: IFinancialData) {
+    if (!req.isCompleted) {
+      return {
+        ...req,
+        customStatusText: SAVED_AS_DRAFT.itemName,
+        canTakeAction: this.canTakeAction(req),
+      };
+    }
+
+    let customStatusText;
+    switch (req.actionTakenByUserRole) {
+      case USER_TYPE.ULB:
+        customStatusText = UNDER_REVIEW_BY_STATE.itemName;
+        break;
+      case USER_TYPE.STATE:
+        if (req.status === UPLOAD_STATUS.REJECTED) {
+          customStatusText = REJECT_BY_STATE.itemName;
+        } else {
+          customStatusText = UNDER_REVIEW_BY_MoHUA.itemName;
+        }
+
+        break;
+      case USER_TYPE.MoHUA:
+        if (req.status === UPLOAD_STATUS.REJECTED) {
+          customStatusText = REJECT_BY_MoHUA.itemName;
+        } else {
+          customStatusText = APPROVAL_COMPLETED.itemName;
+        }
+        break;
+      default:
+        customStatusText = "N/A";
+    }
+
+    return {
+      ...req,
+      customStatusText,
+      canTakeAction: this.canTakeAction(req),
+    };
+  }
+
+  handleResponseSuccess = (response: any) => {
+    this.canTakeAction();
     if (this.uploadId) {
       this.uploadObject = response.data;
 
@@ -214,7 +288,9 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         this.updateFormControls();
       }
     } else {
-      this.dataUploadList = response.data;
+      this.dataUploadList = response.data.map((req: IFinancialData) =>
+        this.formatResponse(req)
+      );
       if ("total" in response) {
         this.tableDefaultOptions = {
           ...this.tableDefaultOptions,
@@ -789,7 +865,9 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     this.financialDataService.fetchFinancialDataHistory(row._id).subscribe(
       (result: HttpResponse<any>) => {
         if (result["success"]) {
-          this.modalTableData = result["data"];
+          this.modalTableData = result["data"].map((data) =>
+            this.formatResponse(data)
+          );
           this.modalTableData = this.modalTableData
             .filter((row) => typeof row["actionTakenBy"] != "string")
             .reverse();

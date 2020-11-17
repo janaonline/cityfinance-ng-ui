@@ -75,9 +75,14 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
         USER_TYPE.ADMIN,
       ],
       [ACTIONS.UPLOAD]: [USER_TYPE.ULB],
-      [ACTIONS.APPROVE]: [USER_TYPE.PARTNER, USER_TYPE.MoHUA, USER_TYPE.ADMIN],
-      [ACTIONS.REJECT]: [USER_TYPE.PARTNER, USER_TYPE.MoHUA, USER_TYPE.ADMIN],
+      [ACTIONS.APPROVE]: [USER_TYPE.STATE, USER_TYPE.MoHUA],
+      [ACTIONS.REJECT]: [USER_TYPE.STATE, USER_TYPE.MoHUA],
     },
+
+    /**
+     * Currently I a User can approve the request, then he can also reject  the request.
+     * There is no need to make a seperate acess for these.
+     */
   },
 
   [MODULES_NAME.ULB_SIGNUP_REQUEST]: {

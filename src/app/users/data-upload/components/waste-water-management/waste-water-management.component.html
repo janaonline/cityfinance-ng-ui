@@ -1,4 +1,12 @@
-<form [formGroup]="waterWasteManagementForm">
+<form
+  [formGroup]="form"
+  *ngIf="form"
+  [ngClass]="{
+    'non-ulb-view-table': canSeeApproveActionTaken || canTakeApproveAction,
+    'ulb-view-table':
+      (canSeeApproveActionTaken || canTakeApproveAction) && canUploadFile
+  }"
+>
   <table
     aria-describedby="Water Waste Management Form"
     style="margin-bottom: 5%"
@@ -19,26 +27,26 @@
     <tbody>
       <tr *ngFor="let service of services" [formGroupName]="service.key">
         <td>
-          {{ service.name }}
-          <span
-            *ngIf="
-              waterWasteManagementForm?.controls[service.key].validator({})[
-                'required'
-              ]
-            "
-            class="mandatory"
-            >*</span
+          <span class="service-name"
+            >{{ service.name }}
+            <span
+              *ngIf="form?.controls[service.key].validator({})['required']"
+              class="mandatory"
+              >*</span
+            ></span
           >
         </td>
-        <td>{{ service.benchmark }}</td>
+        <td>
+          <span class="benchamark-cell">{{ service.benchmark }}</span>
+        </td>
         <td formGroupName="baseline">
-          <div class="input-group">
+          <div class="input-group data-input">
             <input
               (blur)="
                 onBlur(
-                  waterWasteManagementForm.controls[service.key].controls[
-                    'baseline'
-                  ].controls['2021']
+                  form.controls[service.key]['controls']['baseline'].controls[
+                    '2021'
+                  ]
                 )
               "
               [id]="service.key + 'baseline'"
@@ -47,32 +55,29 @@
               formControlName="2021"
               [ngClass]="{
                 'is-invalid':
-                  (isSubmitButtonClick ||
-                    waterWasteManagementForm.controls[service.key].controls[
-                      'baseline'
-                    ].touched) &&
-                  waterWasteManagementForm.controls[service.key].controls[
-                    'baseline'
-                  ].invalid
+                  (isSubmitButtonClick &&
+                    form.controls[service.key].controls['baseline']?.invalid) ||
+                  (form.controls[service.key].controls['baseline']?.touched &&
+                    form.controls[service.key].controls['baseline']?.invalid)
               }"
             />
 
             <span class="input-group-addon"
-              ><i class="glyphicon" style="font-weight: 600">
+              ><em class="glyphicon" style="font-weight: 600">
                 {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-              </i></span
+              </em></span
             >
           </div>
 
           <span
             class="error-message"
             *ngIf="
-              !waterWasteManagementForm.controls[service.key].controls[
-                'baseline'
-              ].controls['2021']?.errors?.required &&
-              waterWasteManagementForm.controls[service.key].controls[
-                'baseline'
-              ].controls['2021']?.errors as error
+              !form.controls[service.key]['controls']['baseline'].controls[
+                '2021'
+              ]?.errors?.required &&
+              form.controls[service.key]['controls']['baseline'].controls[
+                '2021'
+              ]?.errors as error
             "
           >
             <span *ngIf="error.pattern">
@@ -82,19 +87,19 @@
             <span *ngIf="error.max"> {{ error.max }} </span>
 
             <!-- {{
-            waterWasteManagementForm.controls[service.key].controls["baseline"]
+            form.controls[service.key].controls["baseline"]
               .controls["2021"].errors | json
           }} -->
           </span>
         </td>
         <td *ngFor="let year of targets" formGroupName="target">
-          <div class="input-group">
+          <div class="input-group data-input">
             <input
               (blur)="
                 onBlur(
-                  waterWasteManagementForm.controls[service.key].controls[
-                    'target'
-                  ].controls[year.key]
+                  form.controls[service.key]['controls']['target'].controls[
+                    year.key
+                  ]
                 )
               "
               [id]="service.key + year.key"
@@ -104,27 +109,29 @@
               [ngClass]="{
                 'is-invalid':
                   (isSubmitButtonClick ||
-                    waterWasteManagementForm.controls[service.key].controls[
-                      'target'
-                    ].controls[year.key].dirty) &&
-                  waterWasteManagementForm.controls[service.key].controls[
-                    'target'
-                  ].controls[year.key].invalid
+                    form.controls[service.key].controls['target'].controls[
+                      year.key
+                    ].dirty) &&
+                  form.controls[service.key].controls['target'].controls[
+                    year.key
+                  ].invalid
               }"
             />
             <span class="input-group-addon"
-              ><i class="glyphicon" style="font-weight: 600">
+              ><em class="glyphicon" style="font-weight: 600">
                 {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-              </i></span
+              </em></span
             >
           </div>
           <span
             class="error-message"
             *ngIf="
-              !waterWasteManagementForm.controls[service.key].controls['target']
-                .controls[year.key]?.errors?.required &&
-              waterWasteManagementForm.controls[service.key].controls['target']
-                .controls[year.key]?.errors as error
+              !form.controls[service.key]['controls']['target'].controls[
+                year.key
+              ]?.errors?.required &&
+              form.controls[service.key]['controls']['target'].controls[
+                year.key
+              ]?.errors as error
             "
           >
             <span *ngIf="error.pattern">
@@ -134,41 +141,60 @@
             <span *ngIf="error.max"> {{ error.max }} </span></span
           >
         </td>
+        <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
+          <div
+            class="actions"
+            [ngClass]="{
+              'action-required':
+                isSubmitButtonClick &&
+                form.controls[service.key].controls['status'].invalid
+            }"
+          >
+            <div class="action">
+              <label>
+                <input
+                  type="radio"
+                  [value]="approveAction"
+                  formControlName="status"
+                />
+                <span>
+                  {{ actionNames[approveAction] }}
+                </span>
+              </label>
+            </div>
+            <div class="action">
+              <label>
+                <input
+                  type="radio"
+                  [value]="rejectAction"
+                  formControlName="status"
+                />
+                <span> {{ actionNames[rejectAction] }} </span>
+              </label>
+            </div>
+          </div>
+
+          <div
+            class="input-group"
+            *ngIf="
+              form.controls[service.key]['controls']['status'].value ===
+              rejectAction
+            "
+          >
+            <textarea
+              class="form-control"
+              formControlName="rejectReason"
+              placeholder="Reason for Reject"
+              [ngClass]="{
+                'is-invalid':
+                  isSubmitButtonClick &&
+                  form.controls[service.key].controls['rejectReason'].invalid
+              }"
+            >
+            </textarea>
+          </div>
+        </td>
       </tr>
-      <!-- <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td *ngFor="let column of targets.slice(0, -3)"></td>
-        <td colspan="2">
-          <button
-            *ngIf="canUploadFile"
-            class="btn btn-primary btn-upload mt-3"
-            style="float: right; margin-right: 2%"
-            (click)="previous.emit(true)"
-          >
-            Previous
-          </button>
-          <button
-            *ngIf="waterWasteManagementForm.enabled"
-            class="btn btn-primary btn-upload mt-3"
-            style="float: right; margin-right: 2%"
-            [disabled]="NoOfFileInProgress !== 0"
-            (click)="onSaveAsDraftClick()"
-          >
-            Save as draft
-          </button>
-        </td>
-        <td>
-          <button
-            class="btn btn-primary btn-upload mt-3"
-            (click)="showNext.emit(true)"
-            [disabled]="NoOfFileInProgress !== 0"
-          >
-            Next
-          </button>
-        </td>
-      </tr> -->
     </tbody>
   </table>
 
@@ -177,10 +203,12 @@
   <app-documents-upload
     [isSubmitButtonClick]="isSubmitButtonClick"
     [userType]="USER_TYPE.ULB"
-    [form]="waterWasteManagementForm.controls.documents"
+    [form]="form.controls.documents"
     [documents]="prefilledDocuments"
-    [canUploadFile]="waterWasteManagementForm.enabled"
+    [canUploadFile]="canUploadFile"
     [questions]="wasterWaterQuestion"
+    [canSeeApproveActionTaken]="canSeeApproveActionTaken"
+    [canTakeApproveAction]="canTakeApproveAction"
     (outputValues)="onSolidWasteEmit($event)"
     (showNext)="showNext.emit()"
     (previous)="previous.emit()"

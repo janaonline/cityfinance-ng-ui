@@ -31,7 +31,7 @@
     padding-left: 0.3%;
   }
   ::ng-deep {
-    mat-step-header[tabIndex="0"] {
+    mat-step-header[ng-reflect-index="0"] {
       padding-left: 0px;
     }
   }
@@ -85,4 +85,18 @@ app-tick-icon {
   display: block;
   width: 24%;
   margin: auto;
+}
+
+:host ::ng-deep {
+  .mat-horizontal-content-container {
+    padding: 0px;
+    overflow: visible;
+  }
+}
+
+:host ::ng-deep {
+  .action-required {
+    background: linear-gradient(45deg, #ff8181, white);
+    transition: all 1s;
+  }
 }

@@ -281,7 +281,7 @@ export class FormUtil {
     //   accountantEmail == commissionerEmail
     // ) {
     //   errors.push(
-    //     "Commisionar Email ID and Accountant Email ID cannot be same"
+    //     "Commisionar Email ID and XV FC Nodal Officer Email ID cannot be same"
     //   );
     // }
     Object.keys(form.controls).forEach((controlName) => {
@@ -332,7 +332,7 @@ export class FormUtil {
 
       // if (accountantEmail == commissionerEmail) {
       //   errors.push(
-      //     "Commisionar Email ID and Accountant Email ID cannot be same"
+      //     "Commisionar Email ID and XV FC Nodal Officer Email ID cannot be same"
       //   );
       // }
     }

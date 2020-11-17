@@ -1,7 +1,13 @@
 :host {
+  // .invisible {
+  //   background: red;
+  // }
   .question-table {
     width: 100%;
     margin-bottom: 3%;
+    td {
+      transition: all 2s;
+    }
     tr:not(:last-child) td {
       padding: 1% 1%;
       border-bottom: 0.5px solid rgb(224, 224, 224);
@@ -124,12 +130,24 @@
   .showList {
     margin: 1%;
     display: flex;
-    align-items: center;
+    align-items: start;
   }
 }
 
 :host {
   .documents-required {
     background: linear-gradient(45deg, #ff8181, white);
+  }
+
+  .actionsContainer {
+    width: 32%;
+    display: inline-block;
+    margin-left: 5%;
+  }
+
+  .actions {
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-around;
   }
 }

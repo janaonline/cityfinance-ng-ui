@@ -235,7 +235,6 @@ export class SolidWasteManagementComponent implements OnInit {
     const maxLimit = list.length > 10 ? 10 : list.length;
     for (let index = 0; index < maxLimit; index++) {
       const file = list[index];
-      console.log(file);
       if (file.size > this.MaxFileSize) continue;
       const noOfFileAlreadySelect = this.fileUploadTracker[key]
         ? Object.keys(this.fileUploadTracker[key]).length

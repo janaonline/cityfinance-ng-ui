@@ -28,7 +28,7 @@ export class JSONUtility {
    * const original = { a: 34, b: null, c: undefined, d: '' };
    * filterEmptyValue(original) // return { a: 34}
    */
-  public filterEmptyValue(obj: any) {
+  public filterEmptyValue(obj: any, deepFilter = false) {
     if (!obj) {
       return null;
     }
@@ -42,12 +42,41 @@ export class JSONUtility {
       }
       if (typeof obj[key] === "string") {
         value[key] = obj[key].trim();
+      } else if (deepFilter) {
+        if (Array.isArray(obj[key])) {
+          const newArray = this.filterOutEmptyArray(obj[key], true);
+          if (!newArray) return;
+
+          value[key] = [...newArray];
+          return;
+        } else if (typeof obj[key] === "object") {
+          const newObj = this.filterEmptyValue(obj[key], true);
+          if (!newObj) return;
+
+          value[key] = { ...newObj };
+          return;
+        }
       } else {
         value[key] = obj[key];
       }
     });
 
     return Object.keys(value).length ? value : null;
+  }
+
+  filterOutEmptyArray(data: any[], deepFilter = true) {
+    const newArray = [];
+    data.forEach((obj) => {
+      if (obj === null || obj === undefined) return;
+      if (typeof obj === "object") {
+        const newObj = this.filterEmptyValue(obj, deepFilter);
+        if (!newObj || !Object.keys(newObj).length) return;
+        return newArray.push(newObj);
+      }
+
+      newArray.push(obj);
+    });
+    return newArray.length ? newArray : null;
   }
 
   /**

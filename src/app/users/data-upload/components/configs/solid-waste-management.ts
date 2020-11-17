@@ -10,12 +10,36 @@ const QuestionsIdMapping: { [key in fileKeys]: string } = {
   waterSupplyCoverage: "",
 };
 
+/**
+ * @description his form is not meant to be used directly.
+ * Instead use it through UploadDataUtility class.
+ */
 let solidWasteForm: FormGroup;
 const _fb = new FormBuilder();
 
+/**
+ * @description  Each file group will have the following controls.
+ */
+const constrolgarbageFreeCitiesArray = _fb.array([
+  _fb.group({
+    name: [null, [Validators.required]],
+    url: [null, [Validators.required]],
+    status: [null],
+    rejectReason: [null],
+  }),
+]);
+const constrolwaterSupplyCoverageArray = _fb.array([
+  _fb.group({
+    name: [null, [Validators.required]],
+    url: [null, [Validators.required]],
+    status: [null],
+    rejectReason: [null],
+  }),
+]);
+
 solidWasteForm = _fb.group({
-  garbageFreeCities: [null, [Validators.required]],
-  waterSupplyCoverage: [null, [Validators.required]],
+  garbageFreeCities: constrolgarbageFreeCitiesArray,
+  waterSupplyCoverage: constrolwaterSupplyCoverageArray,
 });
 
 const solidWasterQuestions: FinancialUploadQuestion<

@@ -8,6 +8,9 @@ import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.servic
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
+import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
+import { UPLOAD_STATUS } from 'src/app/util/enums';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { MillionPlusCitiesDocuments, SolidWasteManagementDocuments } from '../../models/financial-data.interface';
 import { FinancialUploadQuestion } from '../../models/financial-upload-question';
@@ -43,7 +46,8 @@ type IFileUploadTracking = {
   templateUrl: "./documents-upload.component.html",
   styleUrls: ["./documents-upload.component.scss"],
 })
-export class DocumentsUploadComponent<T>
+export class DocumentsUploadComponent
+  extends BaseComponent
   implements OnInit, OnChanges, OnDestroy {
   @Input()
   documents: SolidWasteEmitValue;
@@ -66,6 +70,12 @@ export class DocumentsUploadComponent<T>
 
   @Input()
   isSubmitButtonClick = false;
+
+  @Input()
+  canTakeApproveAction = true;
+
+  @Input()
+  canSeeApproveActionTaken = false;
 
   @Output()
   outputValues = new EventEmitter<
@@ -126,24 +136,41 @@ export class DocumentsUploadComponent<T>
   MaxFileSize = 50 * 1024 * 1024; // 20 MB. Always keep it in MB since in other places, we are dealing in MB only.
 
   noOfFilesAllowedPerQuestion = 1;
+  approveAction = UPLOAD_STATUS.APPROVED;
+  rejectAction = UPLOAD_STATUS.REJECTED;
+
+  actionNames = {
+    [this.approveAction]: "Approve",
+    [this.rejectAction]: "Reject",
+  };
+
+  UPLOAD_STATUS = UPLOAD_STATUS;
+
+  jsonUtil = new JSONUtility();
 
   constructor(
     protected dataEntryService: DataEntryService,
     protected _dialog: MatDialog
-  ) {}
+  ) {
+    super();
+  }
   ngOnChanges(changes: {
     documents: SimpleChange;
     canUploadFile: SimpleChange;
   }): void {
     this.initializeQuestionMapping();
 
-    if (changes.documents && changes.documents.currentValue) {
+    if (
+      changes.documents &&
+      this.jsonUtil.filterEmptyValue(changes.documents.currentValue, true)
+    ) {
       if (changes.canUploadFile && !changes.canUploadFile.currentValue) {
         return;
       }
       this.documentForm.patchValue(changes.documents.currentValue);
 
       this.userSelectedFiles = { ...changes.documents.currentValue };
+
       Object.keys(this.userSelectedFiles).forEach((questiopnId) => {
         if (!this.userSelectedFiles[questiopnId]) {
           return;
@@ -158,12 +185,6 @@ export class DocumentsUploadComponent<T>
             url: file.url,
             status: "completed",
           };
-
-          //      fileName?: string;
-          // percentage?: number;
-          // status?: "in-process" | "completed";
-          // url?: string;
-          // subscription?: Subscription;
         });
       });
     }
@@ -184,6 +205,7 @@ export class DocumentsUploadComponent<T>
     }
 
     if (!this.fileUploadTracker || !this.fileUploadTracker[questionKey]) {
+      console.warn(this.fileUploadTracker, questionKey);
       return false;
     }
 
@@ -214,8 +236,6 @@ export class DocumentsUploadComponent<T>
       this.filterInvalidFiles(event.target["files"], key)
     );
 
-    console.log(`filteredfiles`, filteredFiles);
-
     if (event.target["files"].length !== filteredFiles.length) {
       const message = `Only ${this.fileExnetsionAllowed.join(
         ","
@@ -229,7 +249,7 @@ export class DocumentsUploadComponent<T>
 
     if (this.isMaximumFileAlreadySelected(key)) {
       this.cancelFileUpload(key, this.userSelectedFiles[key][0].name);
-      console.log(this.userSelectedFiles);
+
       console.warn("maximum no of files allowed is already selected. ");
       // return false;
     }
@@ -342,7 +362,7 @@ export class DocumentsUploadComponent<T>
     const output: SolidWasteEmitValue = {};
     Object.keys(tracker).forEach((questionId) => {
       if (!tracker[questionId] || !Object.keys(tracker[questionId]).length) {
-        output[questionId] = null;
+        output[questionId] = [{ name: "", url: "" }];
         return;
       }
       Object.values(tracker[questionId]).forEach(
@@ -466,12 +486,11 @@ export class DocumentsUploadComponent<T>
     );
   }
 
+  private initializeQuestionMapping() {
+    this.documentForm = this.form;
+  }
   ngOnDestroy(): void {
     // documentForm.reset();
     // documentForm.enable();
-  }
-
-  private initializeQuestionMapping() {
-    this.documentForm = this.form;
   }
 }

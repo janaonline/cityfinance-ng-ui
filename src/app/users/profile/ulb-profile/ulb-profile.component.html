@@ -6,7 +6,7 @@
   >
     Back
   </button>
-  <h3 *ngIf="profileData">
+  <h3 *ngIf="profileData" style="width: 100%;">
     <span *ngIf="profile.disabled">View</span>
     <span *ngIf="profile.enabled">Edit</span>
     Profile
@@ -192,7 +192,7 @@
     <div class="d-flex flex-wrap">
       <div class="input-group">
         <label for="commisionerName"
-          >Commisioner Name
+          >Municipal Commissioner/Executive Officer Name
           <span class="asterik">*</span>
         </label>
         <input
@@ -208,7 +208,7 @@
           *ngIf="profile?.controls.commissionerName?.errors as comError"
           class="form-field-error-message"
         >
-          Commisioner Name
+          Municipal Commissioner/Executive Officer Name
           <span *ngIf="comError?.required"> cannot be empty </span>
           <span *ngIf="comError?.pattern">
             must be of only Alphabet characters only and 1st letter must be
@@ -219,7 +219,7 @@
 
       <div class="input-group">
         <label for="commisionerEmailID"
-          >Commisioner Email ID
+          >Municipal Commissioner/Executive Officer Email ID
           <span class="asterik">*</span>
         </label>
         <input
@@ -235,7 +235,7 @@
           *ngIf="profile?.controls.commissionerEmail?.errors as comEmailError"
           class="form-field-error-message"
         >
-          Commisioner Email ID
+          Municipal Commissioner/Executive Officer Email ID
           <span *ngIf="comEmailError?.required"> cannot be empty </span>
           <span *ngIf="comEmailError?.email === false">
             is not a valid email id.
@@ -245,7 +245,7 @@
 
       <div class="input-group">
         <label for="commisionerContactNo"
-          >Commisioner Contact No
+          >Municipal Commissioner/Executive Officer Contact No
           <span class="asterik">*</span>
         </label>
         <input
@@ -272,7 +272,7 @@
     <div class="d-flex flex-wrap">
       <div class="input-group">
         <label for="accountantName"
-          >Accountant Name
+          >XV FC Nodal Officer Name
           <span class="asterik">*</span>
         </label>
         <input
@@ -288,7 +288,7 @@
           *ngIf="profile?.controls.accountantName.errors as nameError"
           class="form-field-error-message"
         >
-          Accountant Name
+          XV FC Nodal Officer Name
           <span *ngIf="nameError?.required"> cannot be empty </span>
           <span *ngIf="nameError?.pattern">
             must be of only Alphabet characters only and 1st letter must be
@@ -299,7 +299,7 @@
 
       <div class="input-group">
         <label for="accountantEmailID"
-          >Accountant Email ID
+          >XV FC Nodal Officer Email ID
           <span class="asterik">*</span>
         </label>
         <input
@@ -315,7 +315,7 @@
           *ngIf="profile?.controls.accountantEmail.errors as EmailError"
           class="form-field-error-message"
         >
-          Accountant Email ID
+          XV FC Nodal Officer Email ID
           <span *ngIf="EmailError?.required"> cannot be empty </span>
           <span *ngIf="EmailError?.email === false">
             is not a valid email id.
@@ -325,7 +325,7 @@
 
       <div class="input-group">
         <label for="accountantContactNo"
-          >Accountant Contact No
+          >XV FC Nodal Officer Contact No
           <span class="asterik">*</span>
         </label>
         <input
