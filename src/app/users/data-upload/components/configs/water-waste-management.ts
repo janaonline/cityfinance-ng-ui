@@ -153,7 +153,7 @@ const wasteWaterDucmentQuestions: FinancialUploadQuestion<
 >[] = [
   {
     key: "wasteWaterPlan",
-    question: "Waste Water Managemnet Plan",
+    question: "Waste Water Management Plan",
   },
 ];
 
