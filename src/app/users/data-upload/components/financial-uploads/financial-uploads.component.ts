@@ -89,6 +89,8 @@ export class FinancialUploadsComponent
 
   previewData: Partial<IFinancialData>;
 
+  jsonUtil = new JSONUtility();
+
   ngOnInit() {}
 
   private initializeAccessCheck() {
@@ -237,14 +239,16 @@ export class FinancialUploadsComponent
   onSolidWasteEmit(event: SolidWasteEmitValue) {
     if (!this.financialData) this.financialData = {} as IFinancialData;
     this.financialData.solidWasteManagement = {
-      documents: event as Required<SolidWasteEmitValue>,
+      documents: this.jsonUtil.filterEmptyValue(event, true) as Required<
+        SolidWasteEmitValue
+      >,
     };
   }
 
   onMilionPlusCitiesEmitValue(values: MillionPlusCitiesDocuments) {
     if (!this.financialData) this.financialData = {} as IFinancialData;
     this.financialData.millionPlusCities = {
-      documents: values,
+      documents: this.jsonUtil.filterEmptyValue(values, true) as typeof values,
     };
   }
 
