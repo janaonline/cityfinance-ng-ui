@@ -348,7 +348,7 @@ export class FinancialUploadsComponent
     body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
     body.isCompleted = true;
 
-    return console.log(body);
+     console.log(body);
 
     this.financialDataService.uploadFinancialData(body).subscribe(
       (res) => {
