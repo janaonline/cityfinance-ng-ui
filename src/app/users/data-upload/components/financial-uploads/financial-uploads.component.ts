@@ -125,6 +125,9 @@ export class FinancialUploadsComponent
         this.setStateToReadMode();
       }
 
+      if (this.financialData.status === UPLOAD_STATUS.APPROVED) {
+        this.setStateToReadMode();
+      }
       if (this.financialData.status === UPLOAD_STATUS.REJECTED) {
         this.canViewActionTaken = true;
         this.setFormToCorrectionMode(this.financialData);
@@ -342,6 +345,8 @@ export class FinancialUploadsComponent
     body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
     body.isCompleted = true;
 
+    return console.log(body);
+
     this.financialDataService.uploadFinancialData(body).subscribe(
       (res) => {
         this.draftSavingInProgess = false;
@@ -420,6 +425,7 @@ export class FinancialUploadsComponent
    */
   validatorQuestionnaireForms() {
     let message = "";
+
     if (
       (this.solidWasteManagementForm.disabled
         ? true
@@ -429,9 +435,9 @@ export class FinancialUploadsComponent
           ? true
           : this.millionPlusCitiesForm.valid
         : true) &&
-      this.waterWasteManagementForm.disabled
+      (this.waterWasteManagementForm.disabled
         ? true
-        : this.waterWasteManagementForm.valid
+        : this.waterWasteManagementForm.valid)
     ) {
       return true;
     }
@@ -467,6 +473,7 @@ export class FinancialUploadsComponent
       width: "45vw",
       panelClass: "custom-warning-popup",
     });
+
     throw message;
   }
 
