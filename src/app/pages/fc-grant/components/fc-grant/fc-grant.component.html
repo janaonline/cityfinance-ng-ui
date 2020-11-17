@@ -110,7 +110,13 @@
         goToFormView('/user/data-upload/upload-form/' + financialData._id)
       "
     >
-      {{ financialData.isCompleted ? "View Response" : "Fill Remaining Data" }}
+      {{
+        financialData.isCompleted
+          ? financialData.status === uploadStatus.REJECTED
+            ? "Update Rejected Data"
+            : "View Filled Data"
+          : "Fill Remaining Data"
+      }}
     </a>
   </div>
 
