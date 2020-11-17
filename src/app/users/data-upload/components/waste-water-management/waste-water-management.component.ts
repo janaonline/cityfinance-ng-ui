@@ -6,7 +6,7 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { UPLOAD_STATUS } from 'src/app/util/enums';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
-import { WaterManagement, WaterManagementDocuments } from '../../models/financial-data.interface';
+import { IFinancialData, WaterManagement, WaterManagementDocuments } from '../../models/financial-data.interface';
 import { services, targets, wasteWaterDucmentQuestions } from '../configs/water-waste-management';
 
 @Component({
@@ -101,9 +101,12 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
       }
     } else {
       this.prefilledDocuments = { ...value };
+      patchValue = { ...this.prefilledDocuments };
     }
     this.form.controls.documents.reset();
     this.form.controls.documents.patchValue({ ...patchValue });
+    console.log(`patchValue`, patchValue);
+    console.log(`documetValue`, value);
     this.emitValues(this.form.getRawValue());
   }
 
@@ -123,7 +126,16 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
     };
   }
 
-  private emitValues(values) {
+  private emitValues(values: IFinancialData["waterManagement"]) {
+    if (values) {
+      if (
+        values.documents.wasteWaterPlan &&
+        !this.jsonUtil.filterOutEmptyArray(values.documents.wasteWaterPlan)
+      ) {
+        values.documents.wasteWaterPlan = [];
+      }
+    }
+    console.log("value emitting by waste water", values);
     this.outputValues.emit(values);
   }
 

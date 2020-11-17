@@ -250,15 +250,21 @@ export class FinancialUploadsComponent
   saveAsDraft() {
     this.resetMessages();
 
-    let body = {
+    const body = {
       ulb: this.loggedInUserDetails.ulb,
-      millionPlusCities: this.financialData.millionPlusCities,
-      solidWasteManagement: this.financialData.solidWasteManagement,
-      waterManagement: this.financialData.waterManagement,
+      millionPlusCities: this.financialData
+        ? this.financialData.millionPlusCities
+        : null,
+      solidWasteManagement: this.financialData
+        ? this.financialData.solidWasteManagement
+        : null,
+      waterManagement: this.financialData
+        ? this.financialData.waterManagement
+        : null,
       isCompleted: false,
     };
 
-    body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
+    // body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
 
     this._matDialog.open(this.savingPopup, {
       width: "35vw",

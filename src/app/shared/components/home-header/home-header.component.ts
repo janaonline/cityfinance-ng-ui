@@ -62,18 +62,38 @@ export class HomeHeaderComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isAnalyticsPageActive = event.url.includes(`analytics`);
-        console.log(event.url);
 
         if (event.url.includes(`/borrowings/credit-rating`)) {
           this.isCreditRatingActive = true;
+          this.isMunicipalBondActive = false;
+          this.isResourceTabActive = false;
+          this.isFcGrantPageActive = false;
+          this.isQuestionnaireActive = false;
         } else if (event.url.includes(`municipal-bond`)) {
           this.isMunicipalBondActive = true;
+          this.isResourceTabActive = false;
+          this.isFcGrantPageActive = false;
+          this.isQuestionnaireActive = false;
+
+          this.isCreditRatingActive = false;
         } else if (event.url.includes(`resources`)) {
           this.isResourceTabActive = true;
+          this.isFcGrantPageActive = false;
+          this.isCreditRatingActive = false;
+          this.isMunicipalBondActive = false;
+          this.isQuestionnaireActive = false;
         } else if (event.url.includes(`data-upload`)) {
           this.isFcGrantPageActive = true;
+          this.isCreditRatingActive = false;
+          this.isMunicipalBondActive = false;
+          this.isResourceTabActive = false;
+          this.isQuestionnaireActive = false;
         } else if (event.url.includes(`questionnaires`)) {
           this.isQuestionnaireActive = true;
+          this.isFcGrantPageActive = false;
+          this.isCreditRatingActive = false;
+          this.isMunicipalBondActive = false;
+          this.isResourceTabActive = false;
         } else {
           this.isFcGrantPageActive = false;
           this.isCreditRatingActive = false;
@@ -92,6 +112,8 @@ export class HomeHeaderComponent implements OnInit {
       }
     });
   }
+
+  private resetActiveClass(exccept?: string) {}
 
   private initializeAccessChecking() {
     this.canViewUploadData = this.accessChecker.hasAccess({
