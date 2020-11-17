@@ -209,7 +209,13 @@
                     index as i
                   "
                 >
-                  <td class="text-center">{{ i + 1 }}</td>
+                  <td class="text-center">
+                    {{
+                      (tableDefaultOptions?.currentPage - 1) *
+                        tableDefaultOptions.itemPerPage +
+                        (i + 1)
+                    }}
+                  </td>
                   <td
                     [ngClass]="header.id == 'action' ? 'text-center' : ''"
                     *ngFor="let header of tableHeaders"
