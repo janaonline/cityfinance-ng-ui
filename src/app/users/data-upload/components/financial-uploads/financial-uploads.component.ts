@@ -125,7 +125,10 @@ export class FinancialUploadsComponent
         this.setStateToReadMode();
       }
 
-      if (this.financialData.status === UPLOAD_STATUS.APPROVED) {
+      if (
+        this.financialData.status === UPLOAD_STATUS.APPROVED &&
+        this.financialData.actionTakenByUserRole === USER_TYPE.MoHUA
+      ) {
         this.setStateToReadMode();
       }
       if (this.financialData.status === UPLOAD_STATUS.REJECTED) {

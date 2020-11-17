@@ -81,6 +81,7 @@ export class DataUploadComponent
   Object = Object;
 
   uploadStatus = UPLOAD_STATUS;
+  userTypes = USER_TYPE;
   id = null;
   uploadId = null;
   uploadObject = null;
@@ -310,7 +311,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  };
+  }
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -376,12 +377,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  };
+  }
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  };
+  }
 
   getAddedFilterCount() {
     let count = 0;

@@ -363,7 +363,7 @@
           <tr *ngFor="let row of modalTableData; let i = index">
             <td class="text-center">
               <em
-                *ngIf="row['status'] == uploadStatus.APPROVED"
+                *ngIf="row['status'] == uploadStatus.APPROVED && row.actionTakenByUserRole === userTypes.MoHUA"
                 class="fa fa-check-circle text-success"
               ></em>
             </td>
