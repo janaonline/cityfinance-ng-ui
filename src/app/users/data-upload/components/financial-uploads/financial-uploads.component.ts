@@ -348,8 +348,6 @@ export class FinancialUploadsComponent
     body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
     body.isCompleted = true;
 
-    return console.log(body);
-
     this.financialDataService.uploadFinancialData(body).subscribe(
       (res) => {
         this.draftSavingInProgess = false;
@@ -429,44 +427,44 @@ export class FinancialUploadsComponent
   validatorQuestionnaireForms() {
     let message = "";
 
-    if (
-      (this.solidWasteManagementForm.disabled
+    const isWasteWaterValid = this.waterWasteManagementForm.disabled
+      ? true
+      : this.waterWasteManagementForm.valid;
+    const isSolidWasteValid = this.solidWasteManagementForm.disabled
+      ? true
+      : this.solidWasteManagementForm.valid;
+    const isMillionPlusValid = this.isULBMillionPlus
+      ? this.millionPlusCitiesForm.disabled
         ? true
-        : this.solidWasteManagementForm.valid) &&
-      (this.isULBMillionPlus
-        ? this.millionPlusCitiesForm.disabled
-          ? true
-          : this.millionPlusCitiesForm.valid
-        : true) &&
-      (this.waterWasteManagementForm.disabled
-        ? true
-        : this.waterWasteManagementForm.valid)
-    ) {
+        : this.millionPlusCitiesForm.valid
+      : true;
+
+    if (isWasteWaterValid && isSolidWasteValid && isMillionPlusValid) {
       return true;
     }
 
-    if (!this.waterWasteManagementForm.valid) {
+    if (!isWasteWaterValid) {
       message = "All questions must be answered in Water Waste Management";
       this.stepper.selectedIndex = 0;
     }
 
-    if (!this.solidWasteManagementForm.valid) {
+    if (!isSolidWasteValid) {
       message += message
         ? ", Solid Waste Management"
         : "All questions must be answered in Solid Waste Management";
       // this.stepper.selectedIndex = 1;
     }
 
-    if (this.isULBMillionPlus && !this.millionPlusCitiesForm.valid) {
+    if (!isMillionPlusValid) {
       message += message
         ? " and Million Plus Cities sections."
         : "All questions must be answered in Million Plus Cities section.";
     }
-    if (!this.waterWasteManagementForm.valid) {
+    if (!isWasteWaterValid) {
       this.stepper.selectedIndex = 1;
-    } else if (!this.solidWasteManagementForm.valid) {
+    } else if (!isSolidWasteValid) {
       this.stepper.selectedIndex = 2;
-    } else if (this.isULBMillionPlus && !this.millionPlusCitiesForm.valid) {
+    } else if (!isMillionPlusValid) {
       this.stepper.selectedIndex = 3;
     }
 
