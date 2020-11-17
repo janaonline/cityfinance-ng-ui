@@ -138,7 +138,9 @@
     <app-documents-upload
       *ngIf="millionPlusCitiesForm"
       [ngClass]="{
-        documentCompleted: financialData?.isCompleted || !canUploadFile
+        documentCompleted:
+          ((financialData?.isCompleted && !canUploadFile) || !canUploadFile) &&
+          !canTakeApproveRejectAction
       }"
       [isSubmitButtonClick]="isSubmitButtonClicked"
       [userType]="USER_TYPE.ULB"

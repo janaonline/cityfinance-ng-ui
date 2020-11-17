@@ -129,6 +129,8 @@ export class UploadDataUtility {
       const question = this.millionPlusCitiesForm.controls[key] as FormArray;
       question.controls.forEach((fileControl: FormGroup) => {
         if (fileControl.controls.status.value === UPLOAD_STATUS.REJECTED) {
+          fileControl.controls.status.disable();
+          fileControl.controls.rejectReason.disable();
           return;
         }
         fileControl.disable();
@@ -137,8 +139,6 @@ export class UploadDataUtility {
   }
 
   private setWasteWaterToTakeActionMode() {
-    console.log(`dattttttt`, this.waterWasteManagementForm.getRawValue());
-
     Object.keys(this.waterWasteManagementForm.controls).forEach(
       (controlKey) => {
         const service = this.waterWasteManagementForm.controls[
@@ -231,6 +231,33 @@ export class UploadDataUtility {
       this.millionPlusCitiesForm.clearValidators();
       this.millionPlusCitiesForm.clearAsyncValidators();
     }
+
+    Object.keys(this.millionPlusCitiesForm.controls).forEach((controlKey) => {
+      const formArray = this.millionPlusCitiesForm.controls[
+        controlKey
+      ] as FormArray;
+      formArray.controls.forEach((fileGroup: FormGroup) => {
+        const statusControl = fileGroup.controls.status;
+        const rejectReasonControl = fileGroup.controls["rejectReason"];
+        statusControl.setValidators([
+          Validators.required,
+          Validators.pattern(
+            `${UPLOAD_STATUS.APPROVED}|${UPLOAD_STATUS.REJECTED}`
+          ),
+        ]);
+        rejectReasonControl.setValidators([
+          this.addRejectValidator(statusControl, rejectReasonControl),
+        ]);
+        if (statusControl.value === UPLOAD_STATUS.APPROVED) {
+          statusControl.disable();
+          rejectReasonControl.disable();
+          return;
+        }
+
+        statusControl.enable();
+        rejectReasonControl.enable();
+      });
+    });
   }
 
   addRejectValidator(statusControl: AbstractControl, rejectControl?: any) {
@@ -278,7 +305,7 @@ export class UploadDataUtility {
       ...milliomPlusCitiesForm.controls,
     });
     if (!data) return newForm;
-    newForm.patchValue({ ...data.millionPlusCities });
+    newForm.patchValue({ ...data.millionPlusCities.documents });
 
     return newForm;
   }
