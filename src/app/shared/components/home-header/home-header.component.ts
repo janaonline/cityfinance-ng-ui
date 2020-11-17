@@ -42,6 +42,8 @@ export class HomeHeaderComponent implements OnInit {
   isMunicipalBondActive = false;
   isCreditRatingActive = false;
   isResourceTabActive = false;
+  isFcGrantPageActive = false;
+  isQuestionnaireActive = false;
   private accessChecker = new AccessChecker();
 
   isAnalyticsPageActive = false;
@@ -60,6 +62,7 @@ export class HomeHeaderComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isAnalyticsPageActive = event.url.includes(`analytics`);
+        console.log(event.url);
 
         if (event.url.includes(`/borrowings/credit-rating`)) {
           this.isCreditRatingActive = true;
@@ -67,10 +70,16 @@ export class HomeHeaderComponent implements OnInit {
           this.isMunicipalBondActive = true;
         } else if (event.url.includes(`resources`)) {
           this.isResourceTabActive = true;
+        } else if (event.url.includes(`data-upload`)) {
+          this.isFcGrantPageActive = true;
+        } else if (event.url.includes(`questionnaires`)) {
+          this.isQuestionnaireActive = true;
         } else {
+          this.isFcGrantPageActive = false;
           this.isCreditRatingActive = false;
           this.isMunicipalBondActive = false;
           this.isResourceTabActive = false;
+          this.isQuestionnaireActive = false;
         }
       }
       this.isLoggedIn = this.authService.loggedIn();
