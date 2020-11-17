@@ -203,7 +203,8 @@ export class RegisterComponent implements OnInit {
           this.registrationForm.enable({ emitEvent: false });
           this.isCheckingULBCode = false;
           if (!res.isValid) {
-            this.ulbCodeError = "ULB Code and Name does not match.";
+            this.ulbCodeError =
+              "Census Code/ULB Code and ULB Name does not match.";
             this.disableImportantULBFields(this.registrationForm);
             return;
           }
@@ -215,7 +216,8 @@ export class RegisterComponent implements OnInit {
   }
 
   private onGettingULBValidationError(err: HttpErrorResponse) {
-    this.ulbCodeError = err.error.msg || "ULB Code and Name does not match.";
+    this.ulbCodeError =
+      err.error.msg || "Census Code/ULB Code and ULB Name does not match.";
     this.registrationForm.enable({ emitEvent: false });
     this.disableImportantULBFields(this.registrationForm);
     this.isCheckingULBCode = false;
