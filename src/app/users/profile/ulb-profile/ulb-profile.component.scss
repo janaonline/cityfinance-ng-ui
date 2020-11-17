@@ -44,3 +44,9 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+:host {
+  .back-button {
+    padding: 0.5% 3%;
+  }
+}
