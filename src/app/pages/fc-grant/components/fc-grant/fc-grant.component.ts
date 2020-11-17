@@ -5,6 +5,7 @@ import { IFinancialData } from 'src/app/users/data-upload/models/financial-data.
 import { FinancialDataService } from 'src/app/users/services/financial-data.service';
 import { SidebarUtil } from 'src/app/users/utils/sidebar.util';
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
+import { UPLOAD_STATUS } from 'src/app/util/enums';
 
 @Component({
   selector: "app-fc-grant",
@@ -13,6 +14,7 @@ import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 })
 export class FcGrantComponent extends BaseComponent implements OnInit {
   financialData: IFinancialData & { customStatusMessage: string };
+  uploadStatus = UPLOAD_STATUS;
   constructor(
     private _router: Router,
     private _financialService: FinancialDataService
