@@ -222,12 +222,21 @@ export class FinancialUploadsComponent
       ulb: this.loggedInUserDetails.ulb,
       ulbName: this.financialData ? this.financialData.ulbName : null,
       millionPlusCities: {
-        documents: this.millionPlusCitiesForm.getRawValue(),
+        documents:
+          this.financialData && this.financialData.millionPlusCities
+            ? this.financialData.millionPlusCities.documents
+            : this.millionPlusCitiesForm.getRawValue(),
       },
       solidWasteManagement: {
-        documents: this.solidWasteManagementForm.getRawValue(),
+        documents:
+          this.financialData && this.financialData.solidWasteManagement
+            ? this.financialData.solidWasteManagement.documents
+            : this.solidWasteManagementForm.getRawValue(),
       },
-      waterManagement: this.waterWasteManagementForm.getRawValue(),
+      waterManagement:
+        this.financialData && this.financialData.waterManagement
+          ? this.financialData.waterManagement
+          : this.waterWasteManagementForm.getRawValue(),
     };
 
     this._matDialog.open(this.previewPopup, {
