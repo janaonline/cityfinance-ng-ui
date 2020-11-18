@@ -73,11 +73,11 @@
         <div class="col-sm-12">
           <table
             aria-describedby="ULB Singup List"
-            class="table"
+            class="table upldate-table"
             *ngIf="!loading; else loader"
           >
             <thead>
-              <tr style="background: #059b9a; color: white">
+              <tr class="" style="color: white">
                 <th scope="S.No" class="text-center">S.No.</th>
                 <th
                   scope=""
@@ -329,24 +329,16 @@
     </div>
     <div
       *ngIf="modalTableData.length; else noData"
-      class="table-responsive border-1"
+      class="table-responsive"
       style="max-height: 50vh; overflow-y: auto"
     >
       <table class="table tracking-history-table">
         <thead>
           <tr>
-            <th
-              style="position: sticky; top: 0; background: white"
-              class="text-center"
-            ></th>
-            <th
-              style="position: sticky; top: 0; background: white"
-              class="text-center"
-            >
-              Sr. No
-            </th>
-            <th style="position: sticky; top: 0; background: white">Action</th>
-            <th style="position: sticky; top: 0; background: white">Date</th>
+            <th style="position: sticky; top: 0" class="text-center"></th>
+            <th style="position: sticky; top: 0" class="text-center">Sr. No</th>
+            <th style="position: sticky; top: 0">Action</th>
+            <th style="position: sticky; top: 0">Date</th>
           </tr>
         </thead>
         <tbody>
