@@ -341,7 +341,8 @@ export class DocumentsUploadComponent
 
   onUploadButtonClick() {
     const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
-    this.documentForm.patchValue({ ...valueToEmit });
+    console.log(`valueToEmit`, valueToEmit);
+    // this.documentForm.patchValue({ ...valueToEmit });
 
     this.outputValues.emit(valueToEmit);
   }
@@ -349,9 +350,11 @@ export class DocumentsUploadComponent
   onSaveAsDraftClick() {
     const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
 
-    this.documentForm.reset();
+    // this.documentForm.reset();
 
-    this.documentForm.patchValue({ ...valueToEmit });
+    // this.documentForm.patchValue({ ...valueToEmit });
+
+    console.log("clicked on saveAsDraft", valueToEmit);
 
     this.saveAsDraft.emit(valueToEmit);
   }

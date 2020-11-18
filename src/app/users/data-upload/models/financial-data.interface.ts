@@ -30,6 +30,8 @@ export interface MillionPlusCitiesDocuments {
 export interface CityPlan {
   url: string;
   name: string;
+  status?: UPLOAD_STATUS;
+  rejectReason?: string;
 }
 
 export enum URL {
