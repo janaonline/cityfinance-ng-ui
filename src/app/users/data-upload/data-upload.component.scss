@@ -18,6 +18,10 @@
 }
 
 .tracking-history-table {
+  thead tr {
+    background: #047474;
+    color: white;
+  }
   tbody tr:nth-child(even) {
     background: #dbdbdb;
   }
@@ -25,8 +29,8 @@
 
 :host {
   --greenish: #047474;
-  button.btn-primary {
-    background: var(--greenish) !important;
+  .upldate-table thead tr {
+    background: var(--greenish);
   }
 
   button.btn-primary:hover {
