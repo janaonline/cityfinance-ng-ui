@@ -121,6 +121,7 @@
                 </span>
 
                 <a
+                  *ngIf="doc?.name"
                   [ngClass]="{
                     invisible:
                       canUploadFile && form.controls[question.key].enabled

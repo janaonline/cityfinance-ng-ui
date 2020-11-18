@@ -17,7 +17,40 @@
   }
 }
 
+.tracking-history-table {
+  tbody tr:nth-child(even) {
+    background: #dbdbdb;
+  }
+}
+
 :host {
+  --greenish: #047474;
+  button.btn-primary {
+    background: var(--greenish) !important;
+  }
+
+  button.btn-primary:hover {
+    color: white !important;
+  }
+
+  ::ng-deep {
+    i.fa-cloud-download,
+    em.fa-cloud-download {
+      color: var(--greenish) !important;
+    }
+  }
+
+  ::ng-deep {
+    button.btn-primary,
+    button[id="previous"] {
+      background: var(--greenish) !important;
+    }
+
+    button.btn-primary:hover {
+      color: white !important;
+    }
+  }
+
   .common-container {
     .container {
       width: 106%;
