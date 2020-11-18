@@ -305,7 +305,9 @@ export class UploadDataUtility {
       ...milliomPlusCitiesForm.controls,
     });
     if (!data) return newForm;
-    newForm.patchValue({ ...data.millionPlusCities.documents });
+    if (data.millionPlusCities && data.millionPlusCities.documents) {
+      newForm.patchValue({ ...data.millionPlusCities.documents });
+    }
 
     return newForm;
   }
