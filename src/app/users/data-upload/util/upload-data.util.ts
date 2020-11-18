@@ -65,7 +65,10 @@ export class UploadDataUtility {
 
   public setFormToCorrectionMode(data: IFinancialData) {
     if (!data) return;
-    if (data.status !== UPLOAD_STATUS.REJECTED) {
+    if (
+      data.status !== UPLOAD_STATUS.REJECTED &&
+      !JSON.stringify(data).includes(`${UPLOAD_STATUS.REJECTED}`)
+    ) {
       return console.error(
         "Form data must be rejected to set in correction mode"
       );

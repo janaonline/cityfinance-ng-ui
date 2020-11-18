@@ -133,7 +133,11 @@ export class FinancialUploadsComponent
       ) {
         this.setStateToReadMode();
       }
-      if (this.financialData.status === UPLOAD_STATUS.REJECTED) {
+
+      if (
+        this.financialData.status === UPLOAD_STATUS.REJECTED ||
+        JSON.stringify(this.financialData).includes(`${UPLOAD_STATUS.REJECTED}`)
+      ) {
         this.canViewActionTaken = true;
         this.setFormToCorrectionMode(this.financialData);
 
@@ -238,17 +242,59 @@ export class FinancialUploadsComponent
 
   onSolidWasteEmit(event: SolidWasteEmitValue) {
     if (!this.financialData) this.financialData = {} as IFinancialData;
+    if (this.financialData.solidWasteManagement) {
+      solidWasterQuestions.forEach((question) => {
+        const oldValue = this.financialData.solidWasteManagement.documents[
+          question.key
+        ];
+        if (!oldValue) return;
+        const isFileRemoved = !event[question.key][0].name;
+        if (isFileRemoved) {
+          event[question.key][0]["status"] = oldValue[0].status;
+          event[question.key][0]["rejectReason"] = oldValue[0].rejectReason;
+        } else {
+          event[question.key][0]["status"] = oldValue[0].status;
+          event[question.key][0]["rejectReason"] = oldValue[0].rejectReason;
+        }
+      });
+    }
+
     this.financialData.solidWasteManagement = {
       documents: this.jsonUtil.filterEmptyValue(event, true) as Required<
         SolidWasteEmitValue
       >,
     };
+    this.solidWasteManagementForm.patchValue(
+      this.jsonUtil.filterEmptyValue(event, true)
+    );
   }
 
-  onMilionPlusCitiesEmitValue(values: MillionPlusCitiesDocuments) {
+  onMilionPlusCitiesEmitValue(event: MillionPlusCitiesDocuments) {
     if (!this.financialData) this.financialData = {} as IFinancialData;
+
+    if (this.financialData.millionPlusCities) {
+      millionPlusCitiesQuestions.forEach((question) => {
+        const oldValue = this.financialData.millionPlusCities.documents[
+          question.key
+        ];
+        if (!oldValue) return;
+        const isFileRemoved = !event[question.key][0].name;
+        if (isFileRemoved) {
+          event[question.key][0]["status"] = oldValue[0].status;
+          event[question.key][0]["rejectReason"] = oldValue[0].rejectReason;
+        } else {
+          event[question.key][0]["status"] = oldValue[0].status;
+          event[question.key][0]["rejectReason"] = oldValue[0].rejectReason;
+        }
+      });
+    }
+
+    this.millionPlusCitiesForm.patchValue(
+      this.jsonUtil.filterEmptyValue(event, true)
+    );
+
     this.financialData.millionPlusCities = {
-      documents: this.jsonUtil.filterEmptyValue(values, true) as typeof values,
+      documents: this.jsonUtil.filterEmptyValue(event, true) as typeof event,
     };
   }
 
@@ -276,6 +322,7 @@ export class FinancialUploadsComponent
 
     // body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
 
+    console.log(body);
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
       height: "fit-content",
@@ -311,6 +358,7 @@ export class FinancialUploadsComponent
   uploadCompletedQuestionnaireData() {
     this.saveAsDraftFailMessge = null;
     this.isSubmitButtonClicked = true;
+    console.log(this.waterWasteManagementForm);
     if (this.userHasAlreadyFilledForm) {
       return;
     }

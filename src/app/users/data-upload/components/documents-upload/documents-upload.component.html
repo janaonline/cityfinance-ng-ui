@@ -37,9 +37,11 @@
                 <span class="file-tracker-name">
                   {{ file.name }}
                 </span>
+
                 <div
                   class="progress"
                   *ngIf="
+                    file.name &&
                     fileUploadTracker[question.key] &&
                     fileUploadTracker[question.key][file.name]
                   "
@@ -61,7 +63,8 @@
                 </div>
                 <a
                   *ngIf="
-                    (documents &&
+                    (file.name &&
+                      documents &&
                       documents[question.key] &&
                       documents[question.key][i]?.url) ||
                     (fileUploadTracker &&
@@ -84,7 +87,7 @@
 
                 <span
                   style="float: right; margin-left: 2%"
-                  *ngIf="canUploadFile && !documentForm.disabled"
+                  *ngIf="canUploadFile && !documentForm.disabled && file.name"
                 >
                   <i
                     class="fa fa-times"
@@ -104,6 +107,7 @@
                   let controlIndex = index
                 "
               >
+                <!-- document, {{ controlIndex }} -->
                 <span
                   class="file-tracker-name"
                   [ngClass]="{
@@ -132,7 +136,9 @@
                   ></i>
                 </a>
 
-                <!-- canSeeApproveActionTaken {{ canSeeApproveActionTaken }} -->
+                <!-- canSeeApproveActionTaken
+                {{ canSeeApproveActionTaken }} documents:
+                {{ (documentForm ? documentForm.value : "No data") | json }} -->
 
                 <div
                   class="actionsContainer"
