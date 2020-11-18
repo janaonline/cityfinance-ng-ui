@@ -256,14 +256,23 @@ export class FinancialUploadsComponent
         const oldValue = this.financialData.solidWasteManagement.documents[
           question.key
         ];
-        if (!oldValue) return;
-        const isFileRemoved = !event[question.key][0].name;
+        if (!oldValue || !oldValue.length) return;
+
+        const isFileRemoved =
+          event[question.key] && !event[question.key][0].name;
         if (isFileRemoved) {
           event[question.key][0]["status"] = oldValue[0].status;
           event[question.key][0]["rejectReason"] = oldValue[0].rejectReason;
         } else {
-          event[question.key][0]["status"] = oldValue[0].status;
-          event[question.key][0]["rejectReason"] = oldValue[0].rejectReason;
+          if (!event[question.key]) {
+            return;
+          }
+          event[question.key][0]["status"] = oldValue.length
+            ? oldValue[0].status
+            : "";
+          event[question.key][0]["rejectReason"] = oldValue.length
+            ? oldValue[0].rejectReason
+            : "";
         }
       });
     }
@@ -274,7 +283,7 @@ export class FinancialUploadsComponent
       >,
     };
     this.solidWasteManagementForm.patchValue(
-      this.jsonUtil.filterEmptyValue(event, true)
+      this.jsonUtil.filterEmptyValue(event, true) || {}
     );
   }
 
@@ -286,20 +295,29 @@ export class FinancialUploadsComponent
         const oldValue = this.financialData.millionPlusCities.documents[
           question.key
         ];
-        if (!oldValue) return;
-        const isFileRemoved = !event[question.key][0].name;
+        if (!oldValue || !oldValue.length) return;
+
+        const isFileRemoved =
+          event[question.key] && !event[question.key][0].name;
         if (isFileRemoved) {
           event[question.key][0]["status"] = oldValue[0].status;
           event[question.key][0]["rejectReason"] = oldValue[0].rejectReason;
         } else {
-          event[question.key][0]["status"] = oldValue[0].status;
-          event[question.key][0]["rejectReason"] = oldValue[0].rejectReason;
+          if (!event[question.key]) {
+            return;
+          }
+          event[question.key][0]["status"] = oldValue.length
+            ? oldValue[0].status
+            : null;
+          event[question.key][0]["rejectReason"] = oldValue.length
+            ? oldValue[0].rejectReason
+            : "";
         }
       });
     }
 
     this.millionPlusCitiesForm.patchValue(
-      this.jsonUtil.filterEmptyValue(event, true)
+      this.jsonUtil.filterEmptyValue(event, true) || {}
     );
 
     this.financialData.millionPlusCities = {
@@ -331,7 +349,6 @@ export class FinancialUploadsComponent
 
     // body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
 
-    console.log(body);
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
       height: "fit-content",
@@ -367,7 +384,6 @@ export class FinancialUploadsComponent
   uploadCompletedQuestionnaireData() {
     this.saveAsDraftFailMessge = null;
     this.isSubmitButtonClicked = true;
-    console.log(this.waterWasteManagementForm);
     if (this.userHasAlreadyFilledForm) {
       return;
     }
