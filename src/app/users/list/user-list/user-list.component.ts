@@ -246,6 +246,8 @@ export class UserListComponent extends BaseComponent implements OnInit {
       ulbCode: [null],
       status: [""],
       state: [""],
+      censusCode: [null],
+      sbCode: [null],
     });
   }
 
