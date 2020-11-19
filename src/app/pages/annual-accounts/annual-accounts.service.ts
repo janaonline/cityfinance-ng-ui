@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { environment } from "src/environments/environment";
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: "root",
@@ -30,4 +30,22 @@ export class AnnualAccountsService {
 
     return this.http.get(`${environment.api.url}dataCollectionForm?${params}`);
   };
+
+  getAnnualAccountsApi(body = {}) {
+    body["token"] = localStorage
+      .getItem("id_token")
+      .replace('"', "")
+      .replace('"', "");
+    body["csv"] = true;
+    let params = new HttpParams();
+    Object.keys(body).forEach((key) => {
+      if (typeof body[key] === "object") {
+        const value = JSON.stringify(body[key]);
+        params = params.append(key, value);
+      } else {
+        params = params.append(key, body[key]);
+      }
+    });
+    return `${environment.api.url}dataCollectionForm?${params}`;
+  }
 }

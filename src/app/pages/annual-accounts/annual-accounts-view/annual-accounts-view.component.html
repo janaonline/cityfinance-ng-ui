@@ -2,7 +2,14 @@
   <div class="row">
     <div class="col-md-12">
       <h3>
-        <span style="margin-left: 6px;"> Annual Accounts List</span>
+        <span style="margin-left: 6px"> Annual Accounts List</span>
+        <button
+          class="btn btn-primary"
+          style="float: right; margin-right: 6px"
+          (click)="downloadList()"
+        >
+          Download List
+        </button>
       </h3>
     </div>
   </div>
@@ -11,7 +18,7 @@
       <table class="table">
         <thead>
           <tr
-            style="background: #059b9a; color: white; border: 0px;"
+            style="background: #059b9a; color: white; border: 0px"
             class="sortable-headers"
           >
             <th class="">
@@ -38,9 +45,7 @@
             <td>
               <div class="input-group">
                 <select #state class="form-control" placeholder="State">
-                  <option value="" selected>
-                    All States
-                  </option>
+                  <option value="" selected>All States</option>
                   <option *ngFor="let state of stateList" [value]="state._id">
                     {{ state.name }}
                   </option>
@@ -50,15 +55,9 @@
             <td>
               <div class="input-group">
                 <select #bodyType class="form-control" placeholder="Body Type">
-                  <option value="" selected>
-                    All Body Types
-                  </option>
-                  <option value="ulb">
-                    ULB
-                  </option>
-                  <option value="parastatal">
-                    Parastatal
-                  </option>
+                  <option value="" selected>All Body Types</option>
+                  <option value="ulb">ULB</option>
+                  <option value="parastatal">Parastatal</option>
                 </select>
               </div>
             </td>
@@ -69,7 +68,7 @@
             <td>
               <button
                 class="btn btn-primary m-auto"
-                style="display: block;"
+                style="display: block"
                 (click)="filterData(state.value, bodyType.value, 0)"
               >
                 Search
@@ -108,7 +107,7 @@
         </tbody>
       </table>
       <pagination-controls
-        style="float: right; position: relative;"
+        style="float: right; position: relative"
         id="foo"
         (pageChange)="setPage($event)"
         directionLinks="true"
@@ -147,7 +146,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div style="margin-left: 2%;">
+      <div style="margin-left: 2%">
         <div class="row">
           <div class="col-md-12">
             <app-annual-accounts-create

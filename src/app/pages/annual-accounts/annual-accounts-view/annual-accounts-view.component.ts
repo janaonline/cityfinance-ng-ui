@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
-import { AnnualAccountsService } from "../annual-accounts.service";
-import { CommonService } from "src/app/shared/services/common.service";
-import { IStateULBCovered } from "src/app/shared/models/stateUlbConvered";
-import { JSONUtility } from "src/app/util/jsonUtil";
+import { Component, OnInit } from '@angular/core';
+import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
+import { CommonService } from 'src/app/shared/services/common.service';
+import { JSONUtility } from 'src/app/util/jsonUtil';
+
+import { AnnualAccountsService } from '../annual-accounts.service';
 
 @Component({
   selector: "app-annual-accounts-view",
@@ -86,5 +87,11 @@ export class AnnualAccountsViewComponent implements OnInit {
       this.filteredData = null;
       this.canOpen = false;
     }
+  }
+
+  downloadList() {
+    const filterOptions = { ...this.listFetchOption, download: true };
+    const url = this.annualAccountsService.getAnnualAccountsApi(filterOptions);
+    return window.open(url);
   }
 }
