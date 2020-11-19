@@ -21,6 +21,7 @@
             style="background: #059b9a; color: white; border: 0px"
             class="sortable-headers"
           >
+            <th>Sr No</th>
             <th class="">
               State
               <!-- <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i> -->
@@ -40,8 +41,9 @@
             <th class="text-center">Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="!isApiInProgress">
           <tr>
+            <td></td>
             <td>
               <div class="input-group">
                 <select #state class="form-control" placeholder="State">
@@ -62,14 +64,40 @@
               </div>
             </td>
 
-            <td></td>
+            <td>
+              <div class="input-group">
+                <input
+                  #ulbName
+                  placeholder="ULB Name"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </td>
 
-            <td></td>
+            <td>
+              <div class="input-group">
+                <input
+                  #parastatalName
+                  placeholder="Parastatal Agency"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </td>
             <td>
               <button
                 class="btn btn-primary m-auto"
                 style="display: block"
-                (click)="filterData(state.value, bodyType.value, 0)"
+                (click)="
+                  filterData(
+                    state.value,
+                    bodyType.value,
+                    ulbName.value,
+                    parastatalName.value,
+                    0
+                  )
+                "
               >
                 Search
               </button>
@@ -88,6 +116,9 @@
               index as i
             "
           >
+            <td>
+              {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+            </td>
             <td>{{ data.stateName }}</td>
             <td>{{ data.bodyType | titlecase }}</td>
             <td>{{ data.ulbName }}</td>
@@ -104,8 +135,28 @@
               </a>
             </td>
           </tr>
+          <tr *ngIf="dataSource && !dataSource.length">
+            <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
+          </tr>
         </tbody>
       </table>
+      <div
+        *ngIf="isApiInProgress"
+        style="
+          background: white;
+          z-index: 99999999;
+          left: 0px;
+          right: 0px;
+          top: 0px;
+          bottom: 0px;
+        "
+      >
+        <app-pre-loader></app-pre-loader>
+        <app-pre-loader></app-pre-loader>
+        <app-pre-loader></app-pre-loader>
+        <app-pre-loader></app-pre-loader>
+      </div>
+
       <pagination-controls
         style="float: right; position: relative"
         id="foo"
@@ -158,7 +209,7 @@
       <!-- <div class="col-md-6"> -->
       <div class="container">
         <div class="row mb-2">
-          <div class="col-md-12">
+          <div class="col-md-12" *ngIf="anyDcoumentUploaded">
             <h3>Documents:</h3>
             <div
               *ngIf="
