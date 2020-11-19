@@ -143,6 +143,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   enableProfileEdit() {
     this.profile.enable();
+    this.resetResponseMessage();
     this.disableNonEditableFields(false);
   }
   disableProfileEdit() {
