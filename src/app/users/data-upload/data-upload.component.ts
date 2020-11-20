@@ -53,6 +53,7 @@ export class DataUploadComponent
     private _commonService: CommonService
   ) {
     super();
+    SidebarUtil.hideSidebar();
 
     if (this.userUtil.getUserType() === USER_TYPE.ULB) {
       SidebarUtil.hideSidebar();
@@ -311,7 +312,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  }
+  };
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -377,12 +378,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  }
+  };
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  }
+  };
 
   getAddedFilterCount() {
     let count = 0;

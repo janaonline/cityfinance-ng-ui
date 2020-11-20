@@ -28,6 +28,122 @@
 }
 
 :host {
+  table > thead > tr > th {
+    padding: 1.2% 0.5%;
+  }
+  .card-container {
+    width: 100%;
+    flex-wrap: wrap;
+    display: inline-flex;
+  }
+  .nested-card-container {
+    width: 300px;
+    flex-wrap: wrap;
+    .card {
+      margin-bottom: 8%;
+      padding: 4% 4.5%;
+    }
+  }
+  .card {
+    font-family: "Roboto";
+    font-weight: 500;
+    font-size: 1.5rem;
+    width: 300px;
+    height: 170px;
+    padding: 1% 1.5%;
+    border-radius: 5px;
+    color: white;
+    box-shadow: 0px 3px 6px #00000029;
+    position: relative;
+    margin: 0 2% 2% 0;
+    hr {
+      // width: 90%;
+      margin-top: 7px;
+      margin-bottom: 7px;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    img {
+      position: absolute;
+      width: 20%;
+      right: 6%;
+      top: 6%;
+    }
+
+    .categories {
+      .category {
+        font-size: 0.8em;
+        text-align: center;
+
+        .category-heading {
+          display: block;
+        }
+      }
+    }
+    .categories-values {
+      justify-content: space-around;
+      margin-bottom: 2.3%;
+
+      .category-value {
+        font-size: 1.5em;
+        font-weight: 600;
+      }
+    }
+
+    .view-list {
+      float: right;
+      font-size: 0.7em;
+      text-decoration: underline;
+      font-weight: 400;
+      cursor: pointer;
+    }
+
+    .heading {
+      margin-bottom: 4px;
+    }
+
+    .card-main-value {
+      font-size: 1.5em;
+    }
+  }
+
+  div.card.blue {
+    background: linear-gradient(to top, #22bcee, #58d3fc);
+  }
+
+  div.card.pink {
+    background: linear-gradient(to top, #e71368, #ff428e);
+  }
+
+  div.card.green {
+    background: linear-gradient(to top, #62b446, #81d465);
+  }
+
+  div.card.yellow {
+    background: linear-gradient(to top, #fcc415, #ffd44d);
+  }
+
+  div.card.brown {
+    background: linear-gradient(to top, #f16831, #f79168);
+  }
+
+  div.card.dark-green {
+    background: linear-gradient(to top, #43844c, #5baa66);
+  }
+
+  .ulb-list {
+    table tbody tr:nth-child(odd) {
+      background: #e7e7e7;
+    }
+    table tbody tr:nth-child(even),
+    table tbody tr:nth-child(1) {
+      background: white;
+    }
+    table > thead > tr > th {
+      padding: 1.2% 0.5%;
+    }
+  }
+
   --greenish: #047474;
   .upldate-table thead tr {
     background: var(--greenish);

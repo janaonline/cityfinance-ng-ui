@@ -4,7 +4,7 @@
       <app-side-menu [content]="SideBarContents"></app-side-menu>
     </div>
     <div
-      [ngClass]="{ 'col-sm-9': showSidebar, 'col-sm-11 m-auto': !showSidebar }"
+      [ngClass]="{ 'col-sm-9': showSidebar, 'col-sm-12 m-auto': !showSidebar }"
     >
       <h3 class="text-center mt-2" *ngIf="loggedInUserType !== userTypes.USER">
         Welcome: {{ userLoggedInDetails.name }},
