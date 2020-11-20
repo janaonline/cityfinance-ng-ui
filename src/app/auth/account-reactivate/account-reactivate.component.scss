@@ -1,43 +1,207 @@
-.credit-rating-btn,
-.data-tracker-btn {
-  float: right;
-  background-color: rgb(110, 110, 2);
-  color: white;
-  border: none;
-  margin: 0px 5px;
+// .credit-rating-btn,
+// .data-tracker-btn {
+//   float: right;
+//   background-color: rgb(110, 110, 2);
+//   color: white;
+//   border: none;
+//   margin: 0px 5px;
+// }
+// .card {
+//   position: absolute;
+//   top: 45%;
+//   transform: translateY(-50%);
+//   -webkit-box-shadow: 0px 10px 26px 6px rgba(176, 169, 176, 1);
+//   -moz-box-shadow: 0px 10px 26px 6px rgba(176, 169, 176, 1);
+//   box-shadow: 0px 10px 26px 6px rgba(176, 169, 176, 1);
+// }
+// .card .header {
+//   background: #0000ff;
+//   padding: 10px 15px 0px;
+//   color: #ffffff;
+// }
+// .card-body {
+//   background: #ffffff;
+// }
+// .card-body .input-group {
+//   margin-top: 15px;
+// }
+// .card-footer p span {
+//   color: #0000ff;
+// }
+// re-captcha {
+//   display: block;
+//   margin-top: 1%;
+// }
+// :host {
+//   app-user-type-confirmation {
+//     display: block;
+//     margin: 3% auto;
+//   }
+// }
+.container {
+    overflow-y: hidden;
+    margin-left: -1vw;
+    height: 1000px;
 }
 
-.card {
-  position: absolute;
-  top: 45%;
-  transform: translateY(-50%);
-  -webkit-box-shadow: 0px 10px 26px 6px rgba(176, 169, 176, 1);
-  -moz-box-shadow: 0px 10px 26px 6px rgba(176, 169, 176, 1);
-  box-shadow: 0px 10px 26px 6px rgba(176, 169, 176, 1);
-}
-.card .header {
-  background: #0000ff;
-  padding: 10px 15px 0px;
-  color: #ffffff;
-}
-.card-body {
-  background: #ffffff;
-}
-.card-body .input-group {
-  margin-top: 15px;
-}
-.card-footer p span {
-  color: #0000ff;
+// .container::-webkit-scrollbar {
+//     display: none;
+//     overflow: -moz-scrollbars-none;
+// }
+.A svg {
+    margin-left: -7vw;
+    padding-left: 0vw;
+    overflow-y: hidden;
 }
 
-re-captcha {
-  display: block;
-  margin-top: 1%;
+.B img {
+    width: 550px;
+    height: 470px;
+    position: absolute;
+    top: 18%;
+    right: 4%;
 }
 
-:host {
-  app-user-type-confirmation {
+.C {
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    top: 28%;
+    left: 6%;
+    border: 1px solid #C4C4C4;
+    background-color: white;
+    border-radius: 5px;
+    // padding: 10px;
+}
+
+.inputbox {
+    height: 50px;
+    padding: 10px;
+    width: 300px;
     display: block;
-    margin: 3% auto;
-  }
+    margin: auto;
+    border: 1px solid #C4C4C4;
+    border-radius: 5px;
+}
+
+.D C {
+    width: 100px;
+    height: 350px
+}
+
+.forget {
+    color: black;
+    font-size: 12px;
+    position: absolute;
+    padding-left: 250px;
+}
+
+.E {
+    width: 550px;
+    height: 550px;
+    top: 91%;
+    position: absolute;
+    right: 4%;
+    margin-bottom: 30px;
+    font-size: 15px;
+    font-weight: 200;
+    font-style: bold;
+    text-align: center;
+    text-decoration: none;
+    font: normal normal normal 14px/17px Roboto;
+    letter-spacing: 0px;
+    color: #06868C;
+}
+
+.buttontype {
+    width: 300px;
+    height: 45px;
+    top: 65%;
+    display: block;
+    margin: auto;
+    background-color: #06868C;
+    color: white;
+    border: 1px solid #C4C4C4;
+    border-radius: 4px;
+}
+
+.activateaccount {
+    padding-left: 48px;
+    padding-bottom: 50px;
+    bottom: 30px;
+}
+
+@media (max-width: 375px) {
+    .container {
+        margin-left: -5vw;
+        top: 15%;
+        width: 100%;
+        height: 70%;
+    }
+    .A svg {
+        margin-left: -20vw;
+        padding-left: 0vw;
+    }
+    .B img {
+        width: 550px;
+        height: 300px;
+        position: absolute;
+        top: 105%;
+        right: 1%;
+    }
+    .C {
+        width: 320px;
+        height: 320px;
+        position: absolute;
+        top: 28%;
+        left: 4%;
+        border: 1px solid #C4C4C4;
+        background-color: white;
+        border-radius: 5px;
+        // padding: 10px;
+    }
+    .inputbox {
+        height: 50px;
+        padding: 10px;
+        width: 300px;
+        display: block;
+        margin: auto;
+        border: 1px solid #C4C4C4;
+        border-radius: 5px;
+    }
+    .D C {
+        width: 100px;
+        height: 350px
+    }
+    .E {
+        width: 350px;
+        height: 550px;
+        top: 92%;
+        position: absolute;
+        margin-bottom: 30px;
+        font-size: 15px;
+        font-weight: 200;
+        font-style: bold;
+        text-decoration: none;
+        font: normal normal normal 14px/17px Roboto;
+        letter-spacing: 0px;
+        color: #06868C;
+    }
+    .buttontype {
+        width: 300px;
+        height: 45px;
+        top: 65%;
+        display: block;
+        margin: auto;
+        background-color: #06868C;
+        color: white;
+        border: 1px solid #C4C4C4;
+        border-radius: 4px;
+        bottom: 25px;
+    }
+    .activateaccount {
+        padding-left: 48px;
+        padding-bottom: 50px;
+        bottom: 30px;
+    }
 }
