@@ -39,23 +39,11 @@
 }
 
 .B img {
-    width: 550px;
-    height: 420px;
-    position: absolute;
-    top: 15%;
-    right: 4%;
-}
-
-.C {
-    width: 400px;
+    width: 480px;
     height: 400px;
     position: absolute;
-    top: 15%;
-    left: 4%;
-    border: 1px solid black;
-    background-color: blanchedalmond;
-    border-radius: 5px;
-    text-align: center;
+    top: 21%;
+    right: 9%;
 }
 
 .D {
@@ -65,6 +53,10 @@
     top: 12%;
     left: 2%;
     color: white;
+}
+
+h3 D {
+    padding-top: 10px;
 }
 
 .E {
@@ -100,16 +92,34 @@ td {
     text-align: center;
 }
 
+.list {
+    display: inline;
+}
+
+.list ul {
+    list-style-type: bullet;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.list ul li {
+    display: inline;
+    color: yellow;
+    font-size: 12px;
+    padding: 3px;
+}
+
 .button {
     background-color: #06868C;
     color: white;
     border: 1px solid #FFFFFF;
     border-radius: 5px;
-    width: 120px;
-    height: 40px;
+    width: 115px;
+    height: 35px;
     top: 80%;
     position: absolute;
-    right: 320px;
+    right: 380px;
     float: right;
     text-align: center;
     font-size: 16px;
@@ -120,11 +130,11 @@ td {
     color: white;
     border: 1px solid #FFFFFF;
     border-radius: 5px;
-    width: 120px;
-    height: 40px;
+    width: 115px;
+    height: 35px;
     top: 80%;
     position: absolute;
-    right: 172px;
+    right: 230px;
     float: right;
     text-align: center;
     font-size: 16px;
@@ -176,7 +186,6 @@ td {
         margin-left: -5vw;
         top: 15%;
         width: 100%;
-        height: 500%;
     }
     .A svg {
         margin-left: -20vw;
@@ -184,32 +193,180 @@ td {
         height: 100%;
     }
     .D {
-        top: 10%;
+        top: 8%;
         width: 90%;
+        font-size: 10px;
         height: 200%;
         left: 3%;
         overflow-x: auto;
     }
     .B img {
-        width: 100%;
-        height: 320px;
+        width: 280;
+        height: 300px;
         position: absolute;
-        top: 93%;
+        top: 97%;
         left: 1%;
         background-size: cover;
     }
+    .list {
+        display: inline;
+        background-color: #06868C;
+        padding: 0px;
+    }
+    .list ul {
+        list-style-type: bullet;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #06868C;
+    }
+    .list ul li {
+        display: inline;
+        color: yellow;
+        font-size: 12px;
+        padding: 3px;
+        background-color: #06868C;
+    }
     .button {
-        top: 144%;
+        top: 152%;
         left: 12%;
     }
     .button1 {
         right: 10%;
-        top: 144%;
+        top: 152%;
     }
     .E {
         width: 350px;
         height: 550px;
         top: 155%;
-        left: 3px;
+        left: 19px;
+    }
+}
+
+@media (max-width: 414px) {
+    .container {
+        margin-left: -5vw;
+        top: 15%;
+        width: 100%;
+    }
+    .A svg {
+        margin-left: -20vw;
+        padding-left: 0vw;
+        height: 100%;
+    }
+    .D {
+        top: 6%;
+        width: 90%;
+        height: 200%;
+        font-size: 12px;
+        left: 3%;
+        overflow-x: auto;
+    }
+    .B img {
+        width: 230;
+        height: 250px;
+        position: absolute;
+        top: 106%;
+        left: 1%;
+        background-size: cover;
+    }
+    .button {
+        top: 147%;
+        left: 12%;
+    }
+    .button1 {
+        right: 10%;
+        top: 147%;
+    }
+    .E {
+        width: 350px;
+        height: 550px;
+        top: 155%;
+        left: 20px;
+    }
+}
+
+@media (max-width: 360px) {
+    .container {
+        margin-left: -5vw;
+        top: 15%;
+        width: 100%;
+    }
+    .A svg {
+        margin-left: -20vw;
+        padding-left: 0vw;
+        height: 100%;
+    }
+    .D {
+        top: 3%;
+        width: 90%;
+        height: 200%;
+        font-size: 12px;
+        left: 3%;
+        overflow-x: auto;
+    }
+    .B img {
+        width: 210;
+        height: 250px;
+        position: absolute;
+        top: 119%;
+        left: 1%;
+        background-size: cover;
+    }
+    .button {
+        top: 161%;
+        left: 12%;
+    }
+    .button1 {
+        right: 10%;
+        top: 161%;
+    }
+    .E {
+        width: 350px;
+        height: 550px;
+        top: 170%;
+        left: 20px;
+    }
+}
+
+@media (max-width: 320px) {
+    .container {
+        margin-left: -5vw;
+        top: 15%;
+        width: 100%;
+    }
+    .A svg {
+        margin-left: -20vw;
+        padding-left: 0vw;
+        height: 100%;
+    }
+    .D {
+        top: 6%;
+        width: 90%;
+        height: 200%;
+        font-size: 11px;
+        left: 3%;
+        overflow-x: auto;
+    }
+    .B img {
+        width: 210;
+        height: 250px;
+        position: absolute;
+        top: 135%;
+        left: 1%;
+        background-size: cover;
+    }
+    .button {
+        top: 182%;
+        left: 12%;
+    }
+    .button1 {
+        right: 10%;
+        top: 182%;
+    }
+    .E {
+        width: 280px;
+        top: 192%;
+        left: 12px;
     }
 }
