@@ -48,7 +48,9 @@
         <div class="card blue">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
           <p class="heading">Total number of ULBs</p>
-          <span class="card-main-value">200</span>
+          <span class="card-main-value">
+            {{ cardData?.totalULB?.sum }}
+          </span>
           <hr />
 
           <div
@@ -69,13 +71,19 @@
           </div>
           <div class="categories d-flex categories-values align-items-center">
             <span class="category">
-              <span class="category-heading category-value">200</span>
+              <span class="category-heading category-value">
+                {{ cardData?.totalULB["Municipal Corporation"] }}
+              </span>
             </span>
             <span class="category">
-              <span class="category-heading category-value">200</span>
+              <span class="category-heading category-value">{{
+                cardData?.totalULB["Municipality"]
+              }}</span>
             </span>
             <span class="category">
-              <span class="category-heading category-value">200</span>
+              <span class="category-heading category-value">
+                {{ cardData?.totalULB["Town Panchayat"] }}
+              </span>
             </span>
           </div>
 
@@ -85,7 +93,9 @@
         <div class="card pink">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
           <p class="heading">No of ULBs Registered</p>
-          <span class="card-main-value">200</span>
+          <span class="card-main-value">
+            {{ cardData?.registeredUlb?.sum }}
+          </span>
           <hr />
 
           <div
@@ -106,13 +116,19 @@
           </div>
           <div class="categories d-flex categories-values align-items-center">
             <span class="category">
-              <span class="category-heading category-value">200</span>
+              <span class="category-heading category-value">
+                {{ cardData?.registeredUlb["Municipal Corporation"] }}</span
+              >
             </span>
             <span class="category">
-              <span class="category-heading category-value">200</span>
+              <span class="category-heading category-value">
+                {{ cardData?.registeredUlb["Municipality"] }}</span
+              >
             </span>
             <span class="category">
-              <span class="category-heading category-value">200</span>
+              <span class="category-heading category-value">
+                {{ cardData?.registeredUlb["Town Panchayat"] }}</span
+              >
             </span>
           </div>
 
@@ -122,7 +138,9 @@
         <div class="card green">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
           <p class="heading">Million Plus Cities(Registered)</p>
-          <span class="card-main-value">200</span>
+          <span class="card-main-value">
+            {{ cardData?.registeredMillionPlus?.sum }}
+          </span>
           <hr />
 
           <div
@@ -143,13 +161,19 @@
           </div>
           <div class="categories d-flex categories-values align-items-center">
             <span class="category">
-              <span class="category-heading category-value">200</span>
+              <span class="category-heading category-value">{{
+                cardData?.registeredMillionPlus["Municipal Corporation"]
+              }}</span>
             </span>
             <span class="category">
-              <span class="category-heading category-value">200</span>
+              <span class="category-heading category-value">{{
+                cardData?.registeredMillionPlus["Municipality"]
+              }}</span>
             </span>
             <span class="category">
-              <span class="category-heading category-value">200</span>
+              <span class="category-heading category-value">{{
+                cardData?.registeredMillionPlus["Town Panchayat"]
+              }}</span>
             </span>
           </div>
 
@@ -159,7 +183,9 @@
         <div class="card yellow">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
           <p class="heading">Non-Million Plus Cities(Registered)</p>
-          <span class="card-main-value">200</span>
+          <span class="card-main-value">
+            {{ cardData?.registeredNonMillionPlus["sum"] }}
+          </span>
           <hr />
 
           <div
@@ -180,13 +206,19 @@
           </div>
           <div class="categories d-flex categories-values align-items-center">
             <span class="category">
-              <span class="category-heading category-value">200</span>
+              <span class="category-heading category-value">{{
+                cardData?.registeredNonMillionPlus["Municipal Corporation"]
+              }}</span>
             </span>
             <span class="category">
-              <span class="category-heading category-value">200</span>
+              <span class="category-heading category-value">{{
+                cardData?.registeredNonMillionPlus["Municipality"]
+              }}</span>
             </span>
             <span class="category">
-              <span class="category-heading category-value">200</span>
+              <span class="category-heading category-value">{{
+                cardData?.registeredNonMillionPlus["Town Panchayat"]
+              }}</span>
             </span>
           </div>
 
@@ -197,7 +229,9 @@
           <div class="card brown">
             <img src="../../../assets/images/card-icons/team.png" alt="Team" />
             <p class="heading">Million Plus Cities(Total)</p>
-            <span class="card-main-value">200</span>
+            <span class="card-main-value">
+              {{ cardData?.totalMillionPlus["sum"] }}
+            </span>
             <hr />
 
             <div
@@ -218,23 +252,31 @@
             </div>
             <div class="categories d-flex categories-values align-items-center">
               <span class="category">
-                <span class="category-heading category-value">200</span>
+                <span class="category-heading category-value">{{
+                  cardData?.totalMillionPlus["Municipal Corporation"]
+                }}</span>
               </span>
               <span class="category">
-                <span class="category-heading category-value">200</span>
+                <span class="category-heading category-value">{{
+                  cardData?.totalMillionPlus["Municipality"]
+                }}</span>
               </span>
               <span class="category">
-                <span class="category-heading category-value">200</span>
+                <span class="category-heading category-value">{{
+                  cardData?.totalMillionPlus["Town Panchayat"]
+                }}</span>
               </span>
             </div>
 
             <div class="view-list">View List</div>
           </div>
 
-          <div class="card dark-green">
+          <div class="card dark-green" style="margin-bottom: 0px">
             <img src="../../../assets/images/card-icons/team.png" alt="Team" />
             <p class="heading">Non-Million Plus Cities(Total)</p>
-            <span class="card-main-value">200</span>
+            <span class="card-main-value">{{
+              cardData?.totalNonMillionPlus["sum"]
+            }}</span>
             <hr />
 
             <div
@@ -255,18 +297,29 @@
             </div>
             <div class="categories d-flex categories-values align-items-center">
               <span class="category">
-                <span class="category-heading category-value">200</span>
+                <span class="category-heading category-value">{{
+                  cardData?.totalMillionPlus["Municipal Corporation"]
+                }}</span>
               </span>
               <span class="category">
-                <span class="category-heading category-value">200</span>
+                <span class="category-heading category-value">{{
+                  cardData?.totalMillionPlus["Municipality"]
+                }}</span>
               </span>
               <span class="category">
-                <span class="category-heading category-value">200</span>
+                <span class="category-heading category-value">{{
+                  cardData?.totalMillionPlus["Town Panchayat"]
+                }}</span>
               </span>
             </div>
 
             <div class="view-list">View List</div>
           </div>
+        </div>
+
+        <div class="chart-container">
+          <p class="heading">15<sup>th</sup> FC Form Data Upload Status</p>
+          <canvas id="canvas" width="150" height="43"></canvas>
         </div>
       </div>
 
@@ -275,6 +328,199 @@
           <h3>
             <span> ULB List </span>
 
+            <button
+              *ngIf="dataUploadList && dataUploadList.length"
+              class="btn btn-primary"
+              style="float: right; margin-right: 6px"
+              (click)="downloadList()"
+            >
+              Download List
+            </button>
+          </h3>
+        </div>
+
+        <div class="col-sm-12" style="padding-left: 0px">
+          <table
+            aria-describedby="ULB Singup List"
+            class="table upldate-table"
+            *ngIf="ulbList; else loader"
+          >
+            <thead>
+              <tr class="" style="color: white">
+                <th scope="S.No" class="text-center">S.No.</th>
+                <th scope="S.No" class="text-center">State Name</th>
+                <th scope="S.No" class="text-center">ULB Name</th>
+                <th scope="S.No" class="text-center">ULB Type</th>
+                <th scope="S.No" class="text-center">Census Code</th>
+                <th scope="S.No" class="text-center">Swatch Bharat Code</th>
+                <th scope="S.No" class="text-center">Email Id</th>
+                <th scope="S.No" class="text-center">Mobile Number</th>
+                <th scope="S.No" class="text-center">Registered</th>
+                <th scope="S.No" class="text-center">Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr [formGroup]="fileFormGroup">
+                <td></td>
+                <td></td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="ULB Name"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="ULB Type"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="Census Code"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="Swatcha Bharat Code"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="Email Id"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="Mobile Number"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <select
+                      name="registered"
+                      id="registered"
+                      class="form-control"
+                      placeholder="Registered"
+                    >
+                      <option value="Both" selected>Both</option>
+                      <option value="Yes" selected>Yes</option>
+                      <option value="No" selected>No</option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <select
+                      name="population"
+                      id="population"
+                      class="form-control"
+                      placeholder="Population"
+                    >
+                      <option value="Both" selected>Both</option>
+                      <option value="Yes" selected>Million Plus</option>
+                      <option value="No" selected>Non Million</option>
+                    </select>
+                  </div>
+                </td>
+              </tr>
+              <ng-container *ngIf="ulbList?.length; else noData">
+                <tr
+                  *ngFor="
+                    let row of ulbList
+                      | paginate
+                        : {
+                            id: 'ulblist-pagination',
+                            itemsPerPage: ulbtableDefaultOptions.itemPerPage,
+                            currentPage: ulbtableDefaultOptions.currentPage,
+                            totalItems: ulbtableDefaultOptions.totalCount
+                          };
+                    index as i
+                  "
+                >
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ row.ulbName }}</td>
+                  <td></td>
+                  <td>{{ row.censusCode }}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </ng-container>
+              <ng-template #noData>
+                <tr>
+                  <td class="text-center" [attr.colspan]="6">
+                    <h3>No Data Available</h3>
+                  </td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+          <pagination-controls
+            *ngIf="ulbtableDefaultOptions.totalCount"
+            style="float: right; position: relative"
+            id="ulblist-pagination"
+            (pageChange)="setulbPage($event)"
+            directionLinks="true"
+            autoHide="true"
+            previousLabel="Previous"
+            nextLabel="Next"
+            screenReaderPaginationLabel="Pagination"
+            screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page"
+          >
+          </pagination-controls>
+          <ng-template #loader>
+            <div
+              class="d-flex w-100 justify-content-center align-items-center"
+              style="height: 70vh"
+            >
+              <mat-spinner></mat-spinner>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="data-upload-container">
+        <div class="col-md-12" style="padding-left: 0px">
+          <h3>
+            <span> ULB Data Upload Tracker </span>
+            <button
+              role="menuitem"
+              *ngIf="
+                isAccessible && (!dataUploadList || !dataUploadList.length)
+              "
+              [routerLink]="['/user/data-upload/upload-form']"
+              class="btn btn-primary"
+              style="border-radius: 5px; float: right; margin-right: 6px"
+            >
+              Upload Data
+            </button>
             <button
               *ngIf="dataUploadList && dataUploadList.length"
               class="btn btn-primary"
@@ -412,7 +658,7 @@
               </tr>
               <ng-container *ngIf="dataUploadList.length; else noData">
                 <tr
-                  style=" border-bottom: 5px solid white"
+                  style="background: #e7e7e7; border-bottom: 5px solid white"
                   *ngFor="
                     let row of dataUploadList
                       | paginate
@@ -518,257 +764,6 @@
             </div>
           </ng-template>
         </div>
-      </div>
-
-      <div class="col-md-12" style="padding-left: 0px">
-        <h3>
-          <span> ULB Data Upload Tracker </span>
-          <button
-            role="menuitem"
-            *ngIf="isAccessible && (!dataUploadList || !dataUploadList.length)"
-            [routerLink]="['/user/data-upload/upload-form']"
-            class="btn btn-primary"
-            style="border-radius: 5px; float: right; margin-right: 6px"
-          >
-            Upload Data
-          </button>
-          <button
-            *ngIf="dataUploadList && dataUploadList.length"
-            class="btn btn-primary"
-            style="float: right; margin-right: 6px"
-            (click)="downloadList()"
-          >
-            Download List
-          </button>
-        </h3>
-      </div>
-
-      <div class="col-sm-12" style="padding-left: 0px">
-        <table
-          aria-describedby="ULB Singup List"
-          class="table upldate-table"
-          *ngIf="!loading; else loader"
-        >
-          <thead>
-            <tr class="" style="color: white">
-              <th scope="S.No" class="text-center">S.No.</th>
-              <th
-                scope=""
-                [ngClass]="header.id == 'action' ? 'text-center' : ''"
-                *ngFor="let header of tableHeaders"
-                [attr.width]="
-                  header.width ? header.width : 100 / tableHeaders.length + '%'
-                "
-              >
-                <ng-container [ngSwitch]="!!header.click">
-                  <span
-                    (click)="sortById(header.id)"
-                    class="cursor-pointer"
-                    *ngSwitchCase="true"
-                  >
-                    {{ header.title }}<em class="glyphicon glyphicon-sort"></em
-                  ></span>
-                  <span *ngSwitchCase="false">{{ header.title }}</span>
-                </ng-container>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr [formGroup]="fileFormGroup">
-              <td></td>
-              <td>
-                <div class="input-group">
-                  <select
-                    name="State"
-                    id="state"
-                    [formControl]="stateNameControl"
-                    class="form-control"
-                    placeholder="State"
-                  >
-                    <option value="" selected>All States</option>
-                    <option
-                      *ngFor="let state of stateList"
-                      [value]="state.name"
-                    >
-                      {{ state.name }}
-                    </option>
-                  </select>
-                </div>
-              </td>
-              <td *ngIf="userUtil.getUserType() != 'ULB'">
-                <div class="input-group">
-                  <input
-                    placeholder="ULB Name"
-                    type="text"
-                    [formControl]="ulbNameSearchFormControl"
-                    class="form-control"
-                  />
-                </div>
-              </td>
-
-              <td *ngIf="userUtil.getUserType() != 'ULB'">
-                <div class="input-group">
-                  <input
-                    placeholder="ULB Code"
-                    type="text"
-                    [formControl]="ulbCodeSearchFormControl"
-                    class="form-control"
-                  />
-                </div>
-              </td>
-              <td>
-                <div class="input-group">
-                  <input
-                    placeholder="Census Code"
-                    type="text"
-                    [formControl]="censusCode"
-                    class="form-control"
-                  />
-                </div>
-              </td>
-              <td>
-                <div class="input-group">
-                  <input
-                    placeholder="Swatcha Bharat Code"
-                    type="text"
-                    [formControl]="sbCode"
-                    class="form-control"
-                  />
-                </div>
-              </td>
-
-              <td>
-                <div class="input-group">
-                  <label for="uploadStatus"></label>
-                  <select
-                    id="uploadStatus"
-                    class="form-control"
-                    [formControl]="uploadStatusFormControl"
-                  >
-                    <option value="" selected>All Status</option>
-                    <option
-                      [value]="option.id"
-                      *ngFor="let option of uploadCheckStatusDropDown"
-                    >
-                      {{ option?.itemName }}
-                    </option>
-                  </select>
-                </div>
-              </td>
-              <td>
-                <button
-                  class="btn btn-primary m-auto d-block"
-                  (click)="applyFilterClicked()"
-                >
-                  Search
-                </button>
-              </td>
-            </tr>
-            <ng-container *ngIf="dataUploadList.length; else noData">
-              <tr
-                style="background: #e7e7e7; border-bottom: 5px solid white"
-                *ngFor="
-                  let row of dataUploadList
-                    | paginate
-                      : {
-                          id: 'upload-pagination',
-                          itemsPerPage: tableDefaultOptions.itemPerPage,
-                          currentPage: tableDefaultOptions.currentPage,
-                          totalItems: tableDefaultOptions.totalCount
-                        };
-                  index as i
-                "
-              >
-                <td class="text-center">
-                  {{
-                    (tableDefaultOptions?.currentPage - 1) *
-                      tableDefaultOptions.itemPerPage +
-                      (i + 1)
-                  }}
-                </td>
-                <td
-                  [ngClass]="header.id == 'action' ? 'text-center' : ''"
-                  *ngFor="let header of tableHeaders"
-                >
-                  <ng-container [ngSwitch]="header.id">
-                    <ng-container *ngSwitchCase="'action'">
-                      <ng-container [ngSwitch]="row.canTakeAction">
-                        <ng-container *ngSwitchCase="true">
-                          <a
-                            class="btn btn-primary"
-                            (click)="navigateTo(row)"
-                            title="Edit"
-                            [routerLink]="[
-                              '/user/data-upload/upload-form',
-                              row?._id
-                            ]"
-                            >Take {{ header.title }}
-                          </a>
-                        </ng-container>
-
-                        <ng-container *ngSwitchCase="false">
-                          <a
-                            (click)="navigateTo(row)"
-                            title="View"
-                            [routerLink]="[
-                              '/user/data-upload/upload-form',
-                              row?._id
-                            ]"
-                          >
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                          </a>
-                        </ng-container>
-                      </ng-container>
-                    </ng-container>
-                    <span *ngSwitchCase="'audited'">
-                      {{ row[header.id] ? "Audited" : "Unaudited" }}
-                    </span>
-                    <span *ngSwitchCase="'ulbName'">{{ row[header.id] }}</span>
-                    <ng-container *ngSwitchCase="'status'">
-                      <a (click)="openModal(row, historyModal)">
-                        {{ row.customStatusText }}
-                      </a>
-                    </ng-container>
-
-                    <span *ngSwitchDefault>{{ row[header.id] }}</span>
-                  </ng-container>
-                </td>
-              </tr>
-            </ng-container>
-            <ng-template #noData>
-              <tr>
-                <td
-                  class="text-center"
-                  [attr.colspan]="tableHeaders.length + 1"
-                >
-                  <h3>No Data Available</h3>
-                </td>
-              </tr>
-            </ng-template>
-          </tbody>
-        </table>
-        <pagination-controls
-          *ngIf="tableDefaultOptions.totalCount"
-          style="float: right; position: relative"
-          id="upload-pagination"
-          (pageChange)="setPage($event)"
-          directionLinks="true"
-          autoHide="true"
-          previousLabel="Previous"
-          nextLabel="Next"
-          screenReaderPaginationLabel="Pagination"
-          screenReaderPageLabel="page"
-          screenReaderCurrentLabel="You're on page"
-        >
-        </pagination-controls>
-        <ng-template #loader>
-          <div
-            class="d-flex w-100 justify-content-center align-items-center"
-            style="height: 70vh"
-          >
-            <mat-spinner></mat-spinner>
-          </div>
-        </ng-template>
       </div>
     </div>
   </div>

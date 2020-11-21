@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { services, targets } from 'src/app/users/data-upload/components/configs/water-waste-management';
 import { IFinancialData } from 'src/app/users/data-upload/models/financial-data.interface';
 import { FinancialDataService } from 'src/app/users/services/financial-data.service';
 import { SidebarUtil } from 'src/app/users/utils/sidebar.util';
@@ -15,6 +16,8 @@ import { UPLOAD_STATUS } from 'src/app/util/enums';
 export class FcGrantComponent extends BaseComponent implements OnInit {
   financialData: IFinancialData & { customStatusMessage: string };
   uploadStatus = UPLOAD_STATUS;
+
+  formCompletedPercentage;
   constructor(
     private _router: Router,
     private _financialService: FinancialDataService
@@ -67,7 +70,86 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       this.financialData.customStatusMessage = this.calculateFormStatus(
         this.financialData
       );
+
+      this.formCompletedPercentage = this.calculatePercentageCompleted();
     });
+  }
+
+  calculatePercentageCompleted() {
+    let completed = 0;
+
+    if (!this.financialData) return completed;
+    if (
+      this.financialData.millionPlusCities &&
+      this.financialData.millionPlusCities.documents
+    ) {
+      Object.keys(this.financialData.millionPlusCities.documents).forEach(
+        (key) => {
+          const question = this.financialData.millionPlusCities.documents[key];
+          if (
+            !question ||
+            !question.length ||
+            question[0].name === null ||
+            question[0].name === undefined ||
+            question[0].name.trim() === ""
+          ) {
+            return;
+          }
+          completed++;
+        }
+      );
+    }
+
+    if (
+      this.financialData.solidWasteManagement &&
+      this.financialData.solidWasteManagement.documents
+    ) {
+      Object.keys(this.financialData.solidWasteManagement.documents).forEach(
+        (key) => {
+          const question = this.financialData.solidWasteManagement.documents[
+            key
+          ];
+          if (
+            !question ||
+            !question.length ||
+            question[0].name === null ||
+            question[0].name === undefined ||
+            question[0].name.trim() === ""
+          ) {
+            return;
+          }
+          completed++;
+        }
+      );
+    }
+
+    if (
+      this.financialData.waterManagement &&
+      this.financialData.waterManagement.documents.wasteWaterPlan
+    ) {
+      const doc = this.financialData.waterManagement.documents
+        .wasteWaterPlan[0];
+      if (doc && doc.name) {
+        completed++;
+      }
+    }
+
+    services.forEach((question) => {
+      const serviceLevel = this.financialData.waterManagement[question.key];
+      try {
+        if (serviceLevel["baseline"][2021]) {
+          completed++;
+        }
+
+        targets.forEach((year) => {
+          if (serviceLevel["target"][year.key]) {
+            completed++;
+          }
+        });
+      } catch (error) {}
+    });
+
+    return (completed / 27) * 100;
   }
 
   calculateFormStatus(data: IFinancialData) {

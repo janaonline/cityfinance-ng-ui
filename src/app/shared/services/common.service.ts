@@ -187,6 +187,18 @@ export class CommonService {
     return { ...ulb.ulb, type: ulb.ulbtypes.name };
   }
 
+  fetchDashboardCardData() {
+    return this.http.get(
+      `${environment.api.url}/ulb-financial-data/fc-grant/dashboard-card`
+    );
+  }
+
+  fetchDashboardChartData() {
+    return this.http.get(
+      `${environment.api.url}/ulb-financial-data/fc-grant/dashboard-chart`
+    );
+  }
+
   getULBsStatistics() {
     return this.http
       .post<NewULBStructureResponse>(
@@ -280,7 +292,10 @@ export class CommonService {
       );
   }
 
-  getULBSWithPopulationAndCoordinates(body?: { year: string[] }) {
+  getULBSWithPopulationAndCoordinates(body?: {
+    year: string[];
+    [key: string]: any;
+  }) {
     return this.http
       .post<IULBWithPopulationResponse>(`${environment.api.url}/ulb-list`, body)
       .pipe(
