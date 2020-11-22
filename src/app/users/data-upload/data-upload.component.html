@@ -1,14 +1,6 @@
 <ng-container *ngIf="id; else noId">
   <div class="row" style="margin-left: 2%">
-    <div class="col mt-3">
-      <!-- <button
-        (click)="location.back()"
-        class="back_button"
-        style="transform: unset"
-      >
-        Back
-      </button> -->
-    </div>
+    <div class="col mt-3"></div>
     <ng-container *ngIf="id === 'upload-form'">
       <app-financial-uploads [financialData]="uploadObject">
         <button
@@ -87,7 +79,7 @@
             </span>
           </div>
 
-          <div class="view-list">View List</div>
+          <div class="view-list" (click)="onclickTotalNoOfULB()">View List</div>
         </div>
 
         <div class="card pink">
@@ -132,7 +124,9 @@
             </span>
           </div>
 
-          <div class="view-list">View List</div>
+          <div class="view-list" (click)="onClickingOtherCards()">
+            View List
+          </div>
         </div>
 
         <div class="card green">
@@ -177,7 +171,14 @@
             </span>
           </div>
 
-          <div class="view-list">View List</div>
+          <div
+            class="view-list"
+            (click)="
+              onClickingOtherCards({ isMillionPlus: 'Yes', registered: 'Yes' })
+            "
+          >
+            View List
+          </div>
         </div>
 
         <div class="card yellow">
@@ -222,7 +223,14 @@
             </span>
           </div>
 
-          <div class="view-list">View List</div>
+          <div
+            class="view-list"
+            (click)="
+              onClickingOtherCards({ isMillionPlus: 'No', registered: 'Yes' })
+            "
+          >
+            View List
+          </div>
         </div>
 
         <div class="nested-card-container d-flex">
@@ -268,7 +276,12 @@
               </span>
             </div>
 
-            <div class="view-list">View List</div>
+            <div
+              class="view-list"
+              (click)="onClickingOtherCards({ isMillionPlus: 'Yes' })"
+            >
+              View List
+            </div>
           </div>
 
           <div class="card dark-green" style="margin-bottom: 0px">
@@ -313,17 +326,24 @@
               </span>
             </div>
 
-            <div class="view-list">View List</div>
+            <div
+              class="view-list"
+              (click)="onClickingOtherCards({ isMillionPlus: 'No' })"
+            >
+              View List
+            </div>
           </div>
         </div>
 
         <div class="chart-container">
-          <p class="heading">15<sup>th</sup> FC Form Data Upload Status</p>
+          <p class="heading" style="font-size: 1.6rem">
+            15<sup>th</sup> FC Form Data Upload Status
+          </p>
           <canvas id="canvas" width="150" height="43"></canvas>
         </div>
       </div>
 
-      <div class="ulb-list">
+      <div class="ulb-list" id="ulb-list">
         <div class="col-md-12" style="padding-left: 0px">
           <h3>
             <span> ULB List </span>
@@ -360,12 +380,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr [formGroup]="fileFormGroup">
+              <tr [formGroup]="ulbFilter">
                 <td></td>
                 <td></td>
                 <td>
                   <div class="input-group">
                     <input
+                      formControlName="ulbName"
                       placeholder="ULB Name"
                       type="text"
                       class="form-control"
@@ -375,6 +396,7 @@
                 <td>
                   <div class="input-group">
                     <input
+                      formControlName="ulbType"
                       placeholder="ULB Type"
                       type="text"
                       class="form-control"
@@ -384,6 +406,7 @@
                 <td>
                   <div class="input-group">
                     <input
+                      formControlName="censusCode"
                       placeholder="Census Code"
                       type="text"
                       class="form-control"
@@ -393,6 +416,7 @@
                 <td>
                   <div class="input-group">
                     <input
+                      formControlName="sbCode"
                       placeholder="Swatcha Bharat Code"
                       type="text"
                       class="form-control"
@@ -402,6 +426,7 @@
                 <td>
                   <div class="input-group">
                     <input
+                      formControlName="email"
                       placeholder="Email Id"
                       type="text"
                       class="form-control"
@@ -411,6 +436,7 @@
                 <td>
                   <div class="input-group">
                     <input
+                      formControlName="mobile"
                       placeholder="Mobile Number"
                       type="text"
                       class="form-control"
@@ -422,26 +448,28 @@
                     <select
                       name="registered"
                       id="registered"
+                      formControlName="registration"
                       class="form-control"
                       placeholder="Registered"
                     >
-                      <option value="Both" selected>Both</option>
-                      <option value="Yes" selected>Yes</option>
-                      <option value="No" selected>No</option>
+                      <option value="" selected>Both</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
                     </select>
                   </div>
                 </td>
                 <td>
                   <div class="input-group">
                     <select
+                      formControlName="isMillionPlus"
                       name="population"
                       id="population"
                       class="form-control"
                       placeholder="Population"
                     >
                       <option value="Both" selected>Both</option>
-                      <option value="Yes" selected>Million Plus</option>
-                      <option value="No" selected>Non Million</option>
+                      <option value="Yes">Million Plus</option>
+                      <option value="No">Non Million</option>
                     </select>
                   </div>
                 </td>
@@ -461,20 +489,27 @@
                   "
                 >
                   <td>{{ i + 1 }}</td>
+                  <td>{{ row.stateName }}</td>
                   <td>{{ row.ulbName }}</td>
-                  <td></td>
+
+                  <td>{{ row.ulbType }}</td>
                   <td>{{ row.censusCode }}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{{ row.sbCode }}</td>
+                  <td>{{ row.email }}</td>
+                  <td>{{ row.mobile }}</td>
+                  <td>{{ row.registration }}</td>
+                  <td>
+                    {{
+                      row.isMillionPlus === "Yes"
+                        ? "Million Plus Cities"
+                        : "Non-Million Plus Cities"
+                    }}
+                  </td>
                 </tr>
               </ng-container>
               <ng-template #noData>
                 <tr>
-                  <td class="text-center" [attr.colspan]="6">
+                  <td class="text-center" [attr.colspan]="10">
                     <h3>No Data Available</h3>
                   </td>
                 </tr>

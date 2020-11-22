@@ -6,6 +6,7 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Chart from 'chart.js';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CommonService } from 'src/app/shared/services/common.service';
 import swal from 'sweetalert';
 
@@ -76,6 +77,7 @@ export class DataUploadComponent
     this.createForms();
     this.setTableHeaderByUserType();
     this.modalService.onHide.subscribe(() => (this.isPopupOpen = false));
+    this.initializeULBFormGroup();
     this.fetchULBList();
     this.fetchChartData();
     this.fetchCardData();
@@ -245,6 +247,8 @@ export class DataUploadComponent
     // },
   };
 
+  ulbFilter: FormGroup;
+
   ngOnInit() {
     // this.fetchFinancialYears();
     this.fetchStateList();
@@ -262,6 +266,38 @@ export class DataUploadComponent
         this.gettingULBDats();
       }
     }
+  }
+
+  onclickTotalNoOfULB() {
+    this.ulbFilter.reset();
+    const element = document.getElementById("ulb-list");
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+
+  onClickingOtherCards(body) {
+    this.ulbFilter.reset(body);
+    const element = document.getElementById("ulb-list");
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+
+  initializeULBFormGroup() {
+    this.ulbFilter = this.formBuilder.group({
+      ulbName: [],
+      stateName: [],
+      ulbType: [],
+      censusCode: [],
+      sbCode: [],
+      email: [],
+      mobile: [],
+      isMillionPlus: [],
+      registration: [],
+    });
+
+    this.ulbFilter.valueChanges
+      .pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe((newValue) => {
+        this.fetchULBList(newValue);
+      });
   }
 
   fetchChartData() {
@@ -333,7 +369,7 @@ export class DataUploadComponent
     });
   }
 
-  private fetchULBList(params = {}, body = {}) {
+  private fetchULBList(params = {}) {
     this.ulbList = undefined;
     const { skip } = this.ulblistFetchOption;
     const newParams = {
@@ -341,23 +377,16 @@ export class DataUploadComponent
       limit: 10,
       ...params,
     };
-    this.financialDataService
-      .fetchFinancialDataList(newParams, body)
-      .subscribe((response) => {
-        this.ulbList = response["data"];
-        if ("total" in response) {
-          this.ulbtableDefaultOptions = {
-            ...this.ulbtableDefaultOptions,
-            totalCount: response["total"] || 0,
-          };
-        } else {
-        }
-      }, this.handleResponseFailure);
-    // this._commonService
-    //   .getULBSWithPopulationAndCoordinates(this.tableDefaultOptions as unknown as any)
-    //   .subscribe((res) => {
-
-    //   });
+    this._commonService.fetchULBList(newParams).subscribe((res) => {
+      console.log(res);
+      this.ulbList = res["data"];
+      if ("total" in res) {
+        this.ulbtableDefaultOptions = {
+          ...this.ulbtableDefaultOptions,
+          totalCount: res["total"] || 0,
+        };
+      }
+    });
   }
 
   private gettingULBDats(params = {}, body = {}) {
@@ -992,7 +1021,7 @@ export class DataUploadComponent
     this.ulblistFetchOption.skip =
       (pageNoClick - 1) * this.ulbtableDefaultOptions.itemPerPage;
     const { skip } = this.ulblistFetchOption;
-    this.fetchULBList({ skip, limit: 10 }, this.ulblistFetchOption);
+    this.fetchULBList({ skip, limit: 10 });
   }
 
   sortById(id: string) {
@@ -1098,6 +1127,12 @@ export class DataUploadComponent
     const url = this.financialDataService.getFinancialDataListApi(
       filterOptions
     );
+    return window.open(url);
+  }
+
+  downloadULBList() {
+    const filterOptions = { ...this.ulbFilter.value, csv: true };
+    const url = this._commonService.getULBListApi(filterOptions);
     return window.open(url);
   }
 
