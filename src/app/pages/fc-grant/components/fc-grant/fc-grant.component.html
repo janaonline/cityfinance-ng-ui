@@ -252,9 +252,19 @@
     <div class="B">
       <img src="../assets/images/Group 13309.png" />
 
-      <input type="submit" class="button" value="LOGIN" />
+      <input
+        type="submit"
+        class="button"
+        (click)="onClickingLoginButton()"
+        value="LOGIN"
+      />
 
-      <input type="submit" class="button1" value="SIGN AS ULB" />
+      <input
+        type="submit"
+        class="button1"
+        routerLink="/register/ulb"
+        value="SIGN AS ULB"
+      />
     </div>
     <div class="E">
       <div>
