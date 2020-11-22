@@ -12,9 +12,9 @@
 //   transform: translateY(-50%);
 //   -webkit-box-shadow: 0 10px 26px 6px rgba(0, 0, 0, 0.078);
 //   -moz-box-shadow: 0 10px 26px 6px rgba(0, 0, 0, 0.078);
-//   box-shadow: 0 10px 26px 6px rgba(0, 0, 0, 0.078); 
-//   @media screen and (max-width:768px){ 
-//     width: calc(100% - 6%);  
+//   box-shadow: 0 10px 26px 6px rgba(0, 0, 0, 0.078);
+//   @media screen and (max-width:768px){
+//     width: calc(100% - 6%);
 //     left: 3%;
 //     right: 3%;
 //   }
@@ -38,289 +38,300 @@
 //   margin-top: 1%;
 // }
 .container {
-    overflow-y: hidden;
-    margin-left: -1vw;
-    height: 1000px;
+  overflow-y: hidden;
+  margin-left: -1vw;
+  height: 1000px;
 }
 
 .A svg {
-    margin-left: -7vw;
-    padding-left: 0vw;
-    overflow-y: hidden;
+  margin-left: -7vw;
+  padding-left: 0vw;
+  overflow-y: hidden;
 }
 
 .B img {
-    width: 480px;
-    height: 400px;
-    position: absolute;
-    top: 21%;
-    right: 9%;
+  width: 480px;
+  height: 400px;
+  position: absolute;
+  top: 21%;
+  right: 9%;
 }
 
 .C {
-    width: 400px;
-    height: 400px;
-    position: absolute;
-    top: 28%;
-    left: 6%;
-    border: 1px solid #C4C4C4;
-    background-color: white;
-    border-radius: 5px;
+  width: 400px;
+  //   height: 400px;
+  position: absolute;
+  top: 28%;
+  left: 6%;
+  border: 1px solid #c4c4c4;
+  background-color: white;
+  border-radius: 5px;
 }
 
 .inputbox {
-    height: 50px;
-    padding: 10px;
-    width: 300px;
-    display: block;
-    margin: auto;
-    border: 1px solid #C4C4C4;
-    border-radius: 5px;
+  height: 50px;
+  padding: 10px;
+  width: 300px;
+  display: block;
+  margin: auto;
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
 }
 
 .D C {
-    width: 100px;
-    height: 350px
+  width: 100px;
+  height: 350px;
 }
 
 .forget {
-    color: black;
-    font-size: 12px;
-    position: absolute;
-    padding-left: 250px;
+  color: black;
+  font-size: 12px;
+  margin-bottom: 4%;
+  //   position: absolute;
+  padding-left: 250px;
 }
 
 .E {
-    width: 550px;
-    height: 550px;
-    top: 92%;
-    position: absolute;
-    right: 4%;
-    margin-bottom: 30px;
-    font-size: 15px;
-    font-weight: 200;
-    font-style: bold;
-    text-align: center;
-    text-decoration: none;
-    font: normal normal normal 14px/17px Roboto;
-    letter-spacing: 0px;
-    color: #06868C;
+  width: 550px;
+  height: 550px;
+  top: 92%;
+  position: absolute;
+  right: 4%;
+  margin-bottom: 30px;
+  font-size: 15px;
+  font-weight: 200;
+  font-style: bold;
+  text-align: center;
+  text-decoration: none;
+  font: normal normal normal 14px/17px Roboto;
+  letter-spacing: 0px;
+  color: #06868c;
 }
 
 .buttontype {
-    width: 300px;
-    height: 45px;
-    top: 65%;
-    display: block;
-    margin: auto;
-    background-color: #06868C;
-    color: white;
-    border: 1px solid #C4C4C4;
-    border-radius: 4px;
+  width: 300px;
+  height: 45px;
+  top: 65%;
+  display: block;
+  margin: auto;
+  background-color: #06868c;
+  color: white;
+  border: 1px solid #c4c4c4;
+  border-radius: 4px;
 }
 
 .activateaccount {
-    padding-left: 48px;
-    padding-bottom: 50px;
-    bottom: 30px;
+  padding-left: 48px;
+  //   padding-bottom: 50px;
+  //   bottom: 30px;
 }
 
 @media (max-width: 375px) {
-    .container {
-        margin-left: -5vw;
-        top: 15%;
-        width: 100%;
-        height: 50%;
-    }
-    .A svg {
-        margin-left: -20vw;
-        padding-left: 0vw;
-    }
-    .B img {
-        width: 430px;
-        height: 250px;
-        position: absolute;
-        top: 95%;
-        right: 1px;
-    }
-    .C {
-        width: 320px;
-        height: 400px;
-        position: absolute;
-        top: 22%;
-        left: 4%;
-        border: 1px solid #C4C4C4;
-        background-color: white;
-        border-radius: 5px;
-    }
-    .inputbox {
-        height: 50px;
-        padding: 10px;
-        width: 89%;
-        display: block;
-        margin: auto;
-        border: 1px solid #C4C4C4;
-        border-radius: 5px;
-    }
-    .D C {
-        width: 100px;
-        height: 350px
-    }
-    .forget {
-        color: black;
-        font-size: 12px;
-        position: absolute;
-        padding-left: 195px;
-    }
-    .E {
-        width: 350px;
-        height: 550px;
-        top: 132%;
-        position: absolute;
-    }
-    .buttontype {
-        width: 300px;
-        height: 45px;
-        top: 65%;
-    }
-    .activateaccount {
-        padding-left: 10px;
-        bottom: 30px;
-    }
+  .container {
+    margin-left: -5vw;
+    top: 15%;
+    width: 100%;
+    height: 50%;
+  }
+  .A svg {
+    margin-left: -20vw;
+    padding-left: 0vw;
+  }
+  .B img {
+    width: 430px;
+    height: 250px;
+    position: absolute;
+    top: 95%;
+    right: 1px;
+  }
+  .C {
+    width: 320px;
+    height: 400px;
+    position: absolute;
+    top: 22%;
+    left: 4%;
+    border: 1px solid #c4c4c4;
+    background-color: white;
+    border-radius: 5px;
+  }
+  .inputbox {
+    height: 50px;
+    padding: 10px;
+    width: 89%;
+    display: block;
+    margin: auto;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+  }
+  .D C {
+    width: 100px;
+    height: 350px;
+  }
+  .forget {
+    color: black;
+    font-size: 12px;
+    position: absolute;
+    padding-left: 195px;
+  }
+  .E {
+    width: 350px;
+    height: 550px;
+    top: 132%;
+    position: absolute;
+  }
+  .buttontype {
+    width: 300px;
+    height: 45px;
+    top: 65%;
+  }
+  .activateaccount {
+    padding-left: 10px;
+    bottom: 30px;
+  }
 }
 
 @media (max-width: 360px) {
-    .container {
-        margin-left: -6vw;
-        top: 18%;
-        width: 100%;
-        height: 50%;
-    }
-    .A svg {
-        margin-left: -18vw;
-        padding-left: 0vw;
-    }
-    .B img {
-        width: 250px;
-        height: 250px;
-        top: 400%;
-        right: 1px;
-    }
-    .C {
-        width: 100px;
-        height: 400px;
-        top: 22%;
-        left: 3%;
-    }
-    .inputbox {
-        height: 50px;
-        padding: 10px;
-        width: 89%;
-        display: block;
-        margin: auto;
-        border: 1px solid #C4C4C4;
-        border-radius: 5px;
-    }
-    .D C {
-        width: 100px;
-        height: 350px
-    }
-    .forget {
-        color: black;
-        font-size: 12px;
-        position: absolute;
-        padding-left: 195px;
-    }
-    .E {
-        top: 165%;
-    }
+  .container {
+    margin-left: -6vw;
+    top: 18%;
+    width: 100%;
+    height: 50%;
+  }
+  .A svg {
+    margin-left: -18vw;
+    padding-left: 0vw;
+  }
+  .B img {
+    width: 250px;
+    height: 250px;
+    top: 400%;
+    right: 1px;
+  }
+  .C {
+    width: 100px;
+    height: 400px;
+    top: 22%;
+    left: 3%;
+  }
+  .inputbox {
+    height: 50px;
+    padding: 10px;
+    width: 89%;
+    display: block;
+    margin: auto;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+  }
+  .D C {
+    width: 100px;
+    height: 350px;
+  }
+  .forget {
+    color: black;
+    font-size: 12px;
+    position: absolute;
+    padding-left: 195px;
+  }
+  .E {
+    top: 165%;
+  }
 }
 
 @media (max-width: 414px) {
-    .container {
-        margin-left: -10vw;
-        top: 18%;
-        width: 100%;
-        height: 50%;
-    }
-    .B img {
-        width: 89%;
-        height: 250px;
-        top: 105%;
-        right: 1px;
-    }
-    .activateaccount {
-        padding-left: 8px;
-        bottom: 30px;
-    }
-    .forget {
-        color: black;
-        font-size: 12px;
-        position: absolute;
-        padding-left: 195px;
-    }
-    .C {
-        width: 320px;
-        height: 400px;
-        top: 22%;
-        left: 4%;
-    }
-    .E {
-        width: 350px;
-        height: 550px;
-        top: 144%;
-        position: absolute;
-    }
+  .container {
+    margin-left: -10vw;
+    top: 18%;
+    width: 100%;
+    height: 50%;
+  }
+  .B img {
+    width: 89%;
+    height: 250px;
+    top: 105%;
+    right: 1px;
+  }
+  .activateaccount {
+    padding-left: 8px;
+    bottom: 30px;
+  }
+  .forget {
+    color: black;
+    font-size: 12px;
+    position: absolute;
+    padding-left: 195px;
+  }
+  .C {
+    width: 320px;
+    height: 400px;
+    top: 22%;
+    left: 4%;
+  }
+  .E {
+    width: 350px;
+    height: 550px;
+    top: 144%;
+    position: absolute;
+  }
 }
 
 @media (max-width: 320px) {
-    .container {
-        margin-left: -10vw;
-        top: 18%;
-        width: 100%;
-        height: 50%;
-    }
-    .B img {
-        width: 300px;
-        height: 250px;
-        top: 135%;
-        right: 1px;
-    }
-    .activateaccount {
-        padding-left: 35px;
-        bottom: 30px;
-    }
-    .inputbox {
-        height: 50px;
-        padding: 10px;
-        width: 250px;
-        display: block;
-        margin: auto;
-        border: 1px solid #C4C4C4;
-        border-radius: 5px;
-    }
-    .forget {
-        color: black;
-        font-size: 12px;
-        position: absolute;
-        padding-left: 155px;
-    }
-    .buttontype {
-        width: 200px;
-        height: 45px;
-        top: 65%;
-    }
-    .C {
-        width: 260px;
-        height: 400px;
-        top: 30%;
-        left: 4%;
-    }
-    .E {
-        width: 250px;
-        height: 550px;
-        top: 185%;
-        left: 8%;
-        position: absolute;
-    }
+  .container {
+    margin-left: -10vw;
+    top: 18%;
+    width: 100%;
+    height: 50%;
+  }
+  .B img {
+    width: 300px;
+    height: 250px;
+    top: 135%;
+    right: 1px;
+  }
+  .activateaccount {
+    padding-left: 35px;
+    bottom: 30px;
+  }
+  .inputbox {
+    height: 50px;
+    padding: 10px;
+    width: 250px;
+    display: block;
+    margin: auto;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+  }
+  .forget {
+    color: black;
+    font-size: 12px;
+    position: absolute;
+    padding-left: 155px;
+  }
+  .buttontype {
+    width: 200px;
+    height: 45px;
+    top: 65%;
+  }
+  .C {
+    width: 260px;
+    height: 400px;
+    top: 30%;
+    left: 4%;
+  }
+  .E {
+    width: 250px;
+    height: 550px;
+    top: 185%;
+    left: 8%;
+    position: absolute;
+  }
+}
+
+:host {
+  .error-message {
+    display: block;
+    width: 75%;
+    margin: auto;
+    margin-bottom: 3%;
+    margin-top: -4%;
+  }
 }
