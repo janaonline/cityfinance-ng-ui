@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
+    console.log("login button is called");
     this.loginError = null;
     this.submitted = true;
     if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {

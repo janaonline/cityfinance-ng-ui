@@ -1,27 +1,373 @@
-:host {
-  @media (max-width: 768px) {
-    .container {
-      margin-bottom: 10%;
-    }
-  }
+// :host {
+//   @media (max-width: 768px) {
+//     .container {
+//       margin-bottom: 10%;
+//     }
+//   }
+//   a {
+//     width: fit-content;
+//   }
+//   .button-wrapper {
+//     display: inline-flex;
+//     justify-content: center;
+//     width: 100%;
+//     .btn {
+//       margin: 1%;
+//     }
+//   }
+//   .preloader-wrapper {
+//     width: 50%;
+//     display: block;
+//     margin: auto;
+//   }
+// }
+.container {
+  overflow-y: hidden;
+  margin-left: -1vw;
+  // height: 1000px;
+}
 
-  a {
-    width: fit-content;
-  }
+.container::-webkit-scrollbar {
+  display: none;
+  overflow: -moz-scrollbars-none;
+}
 
-  .button-wrapper {
-    display: inline-flex;
-    justify-content: center;
+.A svg {
+  margin-left: -5vw;
+  padding-left: 0vw;
+  overflow-y: hidden;
+}
+
+.B img {
+  width: 480px;
+  height: 400px;
+  position: absolute;
+  top: 21%;
+  right: 9%;
+}
+
+.D {
+  width: 550px;
+  //   height: 700px;
+  position: absolute;
+  top: 12%;
+  left: 2%;
+  color: white;
+}
+
+h3 D {
+  padding-top: 10px;
+}
+
+.E {
+  width: 550px;
+  //   height: 550px;
+  top: 91%;
+  position: absolute;
+  right: 4%;
+  margin-bottom: 30px;
+  font-size: 15px;
+  font-weight: 200;
+  font-style: bold;
+  text-align: center;
+  text-decoration: none;
+  font: normal normal normal 14px/17px Roboto;
+  letter-spacing: 0px;
+  color: #06868c;
+}
+
+table {
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  width: 620px;
+}
+
+table td {
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+}
+
+td {
+  padding: 15px;
+  text-align: center;
+}
+
+.list {
+  display: inline;
+}
+
+.list ul {
+  list-style-type: bullet;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.list ul li {
+  display: inline;
+  color: yellow;
+  font-size: 12px;
+  padding: 3px;
+}
+
+.button {
+  background-color: #06868c;
+  outline: none;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 115px;
+  height: 35px;
+  top: 80%;
+  position: absolute;
+  right: 380px;
+  float: right;
+  text-align: center;
+  font-size: 16px;
+}
+
+.button1 {
+  background-color: #06868c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 115px;
+  height: 35px;
+  top: 80%;
+  position: absolute;
+  right: 230px;
+  float: right;
+  text-align: center;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin-left: -4vw;
+    top: 10%;
     width: 100%;
-
-    .btn {
-      margin: 1%;
-    }
   }
+  .A svg {
+    margin-left: -5vw;
+    padding-left: 0vw;
+  }
+  .D {
+    width: 80%;
+    height: 500px;
+    position: absolute;
+    left: 2%;
+    color: white;
+    left: 20px;
+  }
+  .B img {
+    width: 550px;
+    height: 450px;
+    position: absolute;
+    top: 78%;
+    right: 18%;
+  }
+  .button {
+    top: 124%;
+    left: 200px;
+  }
+  .button1 {
+    right: 280px;
+    top: 124%;
+  }
+  .E {
+    width: 550px;
+    height: 550px;
+    top: 131%;
+    right: 18%;
+  }
+}
 
-  .preloader-wrapper {
-    width: 50%;
-    display: block;
-    margin: auto;
+@media (max-width: 375px) {
+  .container {
+    margin-left: -5vw;
+    top: 15%;
+    width: 100%;
+  }
+  .A svg {
+    margin-left: -20vw;
+    padding-left: 0vw;
+    height: 100%;
+  }
+  .D {
+    top: 8%;
+    width: 90%;
+    font-size: 10px;
+    height: 200%;
+    left: 3%;
+    overflow-x: auto;
+  }
+  .B img {
+    width: 280;
+    height: 300px;
+    position: absolute;
+    top: 97%;
+    left: 1%;
+    background-size: cover;
+  }
+  .list {
+    display: inline;
+    background-color: #06868c;
+    padding: 0px;
+  }
+  .list ul {
+    list-style-type: bullet;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #06868c;
+  }
+  .list ul li {
+    display: inline;
+    color: yellow;
+    font-size: 12px;
+    padding: 3px;
+    background-color: #06868c;
+  }
+  .button {
+    top: 152%;
+    left: 12%;
+  }
+  .button1 {
+    right: 10%;
+    top: 152%;
+  }
+  .E {
+    width: 350px;
+    height: 550px;
+    top: 155%;
+    left: 19px;
+  }
+}
+
+@media (max-width: 414px) {
+  .container {
+    margin-left: -5vw;
+    top: 15%;
+    width: 100%;
+  }
+  .A svg {
+    margin-left: -20vw;
+    padding-left: 0vw;
+    height: 100%;
+  }
+  .D {
+    top: 6%;
+    width: 90%;
+    height: 200%;
+    font-size: 12px;
+    left: 3%;
+    overflow-x: auto;
+  }
+  .B img {
+    width: 230;
+    height: 250px;
+    position: absolute;
+    top: 106%;
+    left: 1%;
+    background-size: cover;
+  }
+  .button {
+    top: 147%;
+    left: 12%;
+  }
+  .button1 {
+    right: 10%;
+    top: 147%;
+  }
+  .E {
+    width: 350px;
+    height: 550px;
+    top: 155%;
+    left: 20px;
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    margin-left: -5vw;
+    top: 15%;
+    width: 100%;
+  }
+  .A svg {
+    margin-left: -20vw;
+    padding-left: 0vw;
+    height: 100%;
+  }
+  .D {
+    top: 3%;
+    width: 90%;
+    height: 200%;
+    font-size: 12px;
+    left: 3%;
+    overflow-x: auto;
+  }
+  .B img {
+    width: 210;
+    height: 250px;
+    position: absolute;
+    top: 119%;
+    left: 1%;
+    background-size: cover;
+  }
+  .button {
+    top: 161%;
+    left: 12%;
+  }
+  .button1 {
+    right: 10%;
+    top: 161%;
+  }
+  .E {
+    width: 350px;
+    height: 550px;
+    top: 170%;
+    left: 20px;
+  }
+}
+
+@media (max-width: 320px) {
+  .container {
+    margin-left: -5vw;
+    top: 15%;
+    width: 100%;
+  }
+  .A svg {
+    margin-left: -20vw;
+    padding-left: 0vw;
+    height: 100%;
+  }
+  .D {
+    top: 6%;
+    width: 90%;
+    height: 200%;
+    font-size: 11px;
+    left: 3%;
+    overflow-x: auto;
+  }
+  .B img {
+    width: 210;
+    height: 250px;
+    position: absolute;
+    top: 135%;
+    left: 1%;
+    background-size: cover;
+  }
+  .button {
+    top: 182%;
+    left: 12%;
+  }
+  .button1 {
+    right: 10%;
+    top: 182%;
+  }
+  .E {
+    width: 280px;
+    top: 192%;
+    left: 12px;
   }
 }

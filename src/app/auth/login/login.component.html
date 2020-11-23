@@ -1,7 +1,7 @@
 <!-- <app-header></app-header>  -->
 
 <!-- <a href="{{creditRatingReportUrl}}"><button class="credit-rating-btn">Download Credit Rating Report</button></a> -->
-<div class="common-container">
+<!-- <div class="common-container">
   <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 col-xs-12 card">
     <div class="row">
       <div class="col-xs-12 header">
@@ -20,9 +20,9 @@
             >
           </div>
         </div>
-      </div>
-      <!-- header -->
-      <div class="col-xs-12 card-body">
+      </div>-->
+<!-- header -->
+<!-- <div class="col-xs-12 card-body">
         <div class="col-xs-12">
           <div class="row">
             <h4
@@ -34,19 +34,20 @@
             <form [formGroup]="loginForm" (ngSubmit)="login()">
               <div class="error-text col-xs-12" *ngIf="badCredentials">
                 <p class="text-danger">Invalid Email or Password!!</p>
-              </div>
-              <!-- <div class="error-text col-xs-12" *ngIf="formError">
+              </div>-->
+<!-- <div class="error-text col-xs-12" *ngIf="formError">
                 <p class="text-danger">Email and Password is mandatory!</p>
               </div> -->
-              <div class="input-group">
+<!--<div class="input-group">
                 <span class="input-group-addon"
                   ><i class="glyphicon glyphicon-user"></i
                 ></span>
                 <input
                   type="text"
                   placeholder="Enter Email ID or Swatch Bharat Code / Census Code"
-                  formControlName="email"
+                  
                   class="form-control"
+                  formControlName="email"
                   [ngClass]="{ 'is-invalid': submitted && lf.email.errors }"
                 />
                 <div
@@ -65,9 +66,8 @@
                 <input
                   type="password"
                   placeholder="Password"
-                  formControlName="password"
                   class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && lf.password.errors }"
+                  
                 />
                 <div
                   *ngIf="submitted && lf.password.errors"
@@ -114,6 +114,125 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="container">
+  <div class="A">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      width="1153.251"
+      height="680.913"
+      viewBox="0 0 1153.251 680.913"
+    >
+      <defs>
+        <style>
+          .a {
+            fill: url(#a);
+          }
+        </style>
+        <linearGradient
+          id="a"
+          x1="0.256"
+          y1="0.277"
+          x2="0.5"
+          y2="1"
+          gradientUnits="objectBoundingBox"
+        >
+          <stop offset="0" stop-color="#09526a" />
+          <stop offset="1" stop-color="#059a99" />
+        </linearGradient>
+      </defs>
+      <path
+        class="a"
+        d="M518.159,153.575S658.4,168.916,702.339,510.552s355.488,323.776,355.488,323.776H-37.156S-103.127,629.864-94.678,578.1-107.5,317.386-5.113,153.575Z"
+        transform="translate(95.425 -153.575)"
+      />
+    </svg>
+
+    <div class="B">
+      <img src="../assets/images/Group 13309.png" />
+    </div>
+    <div class="E">
+      <div>
+        <span
+          >If you have any query or stuck with anything please email us at</span
+        >
+      </div>
+      <div><span>15fcgrant@cityfinance.in</span></div>
+      <div><span>We will get back to you within 16 hours</span></div>
+    </div>
+    <div class="C">
+      <div class="D">
+        <form class="mt-3">
+          <h3
+            style="
+              text-align: center;
+              font-style: bold;
+              top: 20px;
+              font-family: Roboto;
+            "
+          >
+            Sign In
+          </h3>
+          <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div>
+              <br />
+              <input
+                type="email"
+                class="inputbox"
+                placeholder="Enter username"
+                formControlName="email"
+                [ngClass]="{ 'is-invalid': submitted && lf.email.errors }"
+              />
+            </div>
+            <div>
+              <br />
+              <br />
+              <input
+                type="password"
+                class="inputbox"
+                placeholder="Enter password"
+                formControlName="password"
+                [ngClass]="{ 'is-invalid': submitted && lf.password.errors }"
+              />
+            </div>
+            <br />
+            <div class="forget">
+              <a [routerLink]="['../password', 'request']"
+                ><span>Forgot password?</span></a
+              >
+            </div>
+
+            <re-captcha
+              *ngIf="reCaptcha.show"
+              (resolved)="resolveCaptcha($event)"
+              [siteKey]="reCaptcha.siteKey"
+            ></re-captcha>
+
+            <p *ngIf="loginError" class="error-message">
+              {{ loginError }}
+            </p>
+
+            <div>
+              <button type="submit" class="buttontype">LOGIN</button>
+            </div>
+          </form>
+
+          <br />
+          <div class="activateaccount mb-4">
+            <a [routerLink]="['../account-reactivate']"
+              ><span>Activate Account</span></a
+            >
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a [routerLink]="['../register']"><span>Sign up here</span></a>
+          </div>
+        </form>
       </div>
     </div>
   </div>
