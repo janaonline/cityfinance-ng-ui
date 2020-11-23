@@ -2,10 +2,13 @@ import { Location } from '@angular/common';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSlideToggleChange, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as Chart from 'chart.js';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 import swal from 'sweetalert';
 
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
@@ -53,10 +56,9 @@ export class DataUploadComponent
     private _commonService: CommonService
   ) {
     super();
+    SidebarUtil.hideSidebar();
 
-    if (this.userUtil.getUserType() === USER_TYPE.ULB) {
-      SidebarUtil.hideSidebar();
-    }
+
 
     this.isAccessible = accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
@@ -74,11 +76,17 @@ export class DataUploadComponent
     this.createForms();
     this.setTableHeaderByUserType();
     this.modalService.onHide.subscribe(() => (this.isPopupOpen = false));
+    this.initializeULBFormGroup();
+    this.fetchULBList();
+    this.fetchChartData();
+    this.fetchCardData();
   }
   @ViewChild("updateWithoutChangeWarning")
   updateWithoutChangeWarning: TemplateRef<any>;
 
   Object = Object;
+
+  ulbList: any[];
 
   uploadStatus = UPLOAD_STATUS;
   userTypes = USER_TYPE;
@@ -171,6 +179,85 @@ export class DataUploadComponent
 
   stateList = [];
 
+  ulbtableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null,
+  };
+  ulbcurrentSort = 1;
+
+  ulblistFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0,
+  };
+
+  cardData: any;
+
+  defaultChartOptions = {
+    responsive: true,
+    legend: {
+      display: false,
+      position: "top",
+      labels: {
+        boxWidth: 2,
+      },
+    },
+
+    scales: {
+      yAxes: [
+        {
+          gridLines: {
+            color: "white",
+            drawBorder: false,
+            display: true,
+          },
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+      xAxes: [
+        {
+          ticks: {
+            maxRotation: 0,
+            minRotation: 0,
+            autoSkip: false,
+            fontSize: 11,
+            padding: 5,
+          },
+          barPercentage: 0.5,
+          categoryPercentage: 1,
+          gridLines: {
+            color: "white",
+            drawBorder: false,
+            display: true,
+            offsetGridLines: false,
+          },
+        },
+      ],
+    },
+    // onClick: function (c, i) {
+    //   e = i[0];
+    //   var x_value = this.data.labels[e._index];
+    //   // var y_value = this.data.datasets[0].data[e._index]; // For getting value of selected bar chart ..
+    //   getData(x_value);
+    // },
+  };
+
+  ulbFilter: FormGroup;
+
+  showNotRegisteredULBsInChart = false;
+
+  chartData;
+
+  notRegisteredUlbBarData;
+
+  currentChart;
+
+  jsonUtil = new JSONUtility();
+
   ngOnInit() {
     // this.fetchFinancialYears();
     this.fetchStateList();
@@ -188,6 +275,163 @@ export class DataUploadComponent
         this.gettingULBDats();
       }
     }
+  }
+
+  onChangingShowULBInChart(event: MatSlideToggleChange) {
+    this.showNotRegisteredULBsInChart = event.checked;
+
+    const indexOfNoRegisteredULB = this.chartData.labels.findIndex(
+      (label) => label === "Not Registered"
+    );
+
+    const newChartData = this.jsonUtil.deepCopy(this.chartData);
+
+    if (!event.checked) {
+      newChartData.labels = this.chartData.labels.filter(
+        (label, index) => index !== indexOfNoRegisteredULB
+      );
+      newChartData.datasets[0].data = this.chartData.datasets[0].data.filter(
+        (label, index) => index !== indexOfNoRegisteredULB
+      );
+      newChartData.datasets[0].backgroundColor = this.chartData.datasets[0].backgroundColor.filter(
+        (label, index) => index !== indexOfNoRegisteredULB
+      );
+    }
+
+    this.createChart(newChartData);
+  }
+
+  onclickTotalNoOfULB() {
+    this.ulbFilter.reset();
+    this.scrollToElement("ulb-list");
+  }
+
+  onClickingOtherCards(body) {
+    this.ulbFilter.reset(body);
+    this.scrollToElement("ulb-list");
+  }
+
+  scrollToElement(elementId: string) {
+    const element = document.getElementById(`${elementId}`);
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+
+  initializeULBFormGroup() {
+    this.ulbFilter = this.formBuilder.group({
+      ulbName: [],
+      stateName: [""],
+      ulbType: [],
+      censusCode: [],
+      sbCode: [],
+      email: [],
+      mobile: [],
+      isMillionPlus: [""],
+      registration: [""],
+    });
+
+    this.ulbFilter.valueChanges
+      .pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe((newValue) => {
+        this.fetchULBList(newValue);
+      });
+  }
+
+  fetchChartData() {
+    this._commonService.fetchDashboardChartData().subscribe((res) => {
+      this.chartData = res["data"];
+      this.chartData.labels = this.chartData.labels.map((text: string) =>
+        !text.includes("By")
+          ? text
+          : [text.split("By")[0] + "By", text.split("By")[1]]
+      );
+
+      // this.createChart({ ...this.chartData });
+      this.onChangingShowULBInChart({ checked: false, source: null });
+    });
+  }
+
+  createChart(chartData) {
+    if (this.currentChart) {
+      this.currentChart.destroy();
+    }
+
+    chartData.type = "bar";
+    const canvasElement = document.getElementById(
+      `canvas`
+    ) as HTMLCanvasElement;
+
+    const ctx = canvasElement.getContext("2d");
+
+    this.currentChart = new Chart(ctx, {
+      type: "bar",
+      data: { ...chartData },
+      options: { ...this.defaultChartOptions },
+      plugins: [
+        {
+          beforeInit: function (chart) {
+            chart.data.labels.forEach(function (e, i, a) {
+              if (/\n/.test(e)) {
+                a[i] = e.split(/\n/);
+              }
+            });
+          },
+        },
+      ],
+    });
+  }
+
+  fetchCardData() {
+    this._commonService.fetchDashboardCardData().subscribe((res) => {
+      this.cardData = res["data"];
+      this.cardData.totalULB.sum =
+        this.cardData.totalULB["Municipal Corporation"] +
+        this.cardData.totalULB["Municipality"] +
+        this.cardData.totalULB["Town Panchayat"];
+
+      this.cardData.registeredMillionPlus.sum =
+        this.cardData.registeredMillionPlus["Municipal Corporation"] +
+        this.cardData.registeredMillionPlus["Municipality"] +
+        this.cardData.registeredMillionPlus["Town Panchayat"];
+
+      this.cardData.registeredNonMillionPlus.sum =
+        this.cardData.registeredNonMillionPlus["Municipal Corporation"] +
+        this.cardData.registeredNonMillionPlus["Municipality"] +
+        this.cardData.registeredNonMillionPlus["Town Panchayat"];
+
+      this.cardData.registeredUlb.sum =
+        this.cardData.registeredUlb["Municipal Corporation"] +
+        this.cardData.registeredUlb["Municipality"] +
+        this.cardData.registeredUlb["Town Panchayat"];
+
+      this.cardData.totalMillionPlus.sum =
+        this.cardData.totalMillionPlus["Municipal Corporation"] +
+        this.cardData.totalMillionPlus["Municipality"] +
+        this.cardData.totalMillionPlus["Town Panchayat"];
+
+      this.cardData.totalNonMillionPlus.sum =
+        this.cardData.totalNonMillionPlus["Municipal Corporation"] +
+        this.cardData.totalNonMillionPlus["Municipality"] +
+        this.cardData.totalNonMillionPlus["Town Panchayat"];
+    });
+  }
+
+  private fetchULBList(params = {}) {
+    this.ulbList = undefined;
+    const { skip } = this.ulblistFetchOption;
+    const newParams = {
+      skip,
+      limit: 10,
+      ...params,
+    };
+    this._commonService.fetchULBList(newParams).subscribe((res) => {
+      this.ulbList = res["data"];
+      if ("total" in res) {
+        this.ulbtableDefaultOptions = {
+          ...this.ulbtableDefaultOptions,
+          totalCount: res["total"] || 0,
+        };
+      }
+    });
   }
 
   private gettingULBDats(params = {}, body = {}) {
@@ -787,12 +1031,42 @@ export class DataUploadComponent
       );
   }
 
+  ulbapplyFilterClicked() {
+    this.ulbList = undefined;
+    this.ulblistFetchOption = this.setLIstFetchOptions();
+    const { skip } = this.ulblistFetchOption;
+    this.financialDataService
+      .fetchFinancialDataList({ skip, limit: 10 }, this.ulblistFetchOption)
+      .subscribe(
+        (result) => {
+          this.handleResponseSuccess(result);
+        },
+        (response: HttpErrorResponse) => {
+          this._snackBar.open(
+            response.error.errors.message ||
+              response.error.message ||
+              "Some Error Occurred",
+            null,
+            { duration: 6600 }
+          );
+        }
+      );
+  }
+
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     const { skip } = this.listFetchOption;
     this.getFinancialDataList({ skip, limit: 10 }, this.listFetchOption);
+  }
+
+  setulbPage(pageNoClick: number) {
+    this.ulbtableDefaultOptions.currentPage = pageNoClick;
+    this.ulblistFetchOption.skip =
+      (pageNoClick - 1) * this.ulbtableDefaultOptions.itemPerPage;
+    const { skip } = this.ulblistFetchOption;
+    this.fetchULBList({ skip, limit: 10 });
   }
 
   sortById(id: string) {
@@ -898,6 +1172,12 @@ export class DataUploadComponent
     const url = this.financialDataService.getFinancialDataListApi(
       filterOptions
     );
+    return window.open(url);
+  }
+
+  downloadULBList() {
+    const filterOptions = { ...this.ulbFilter.value, csv: true };
+    const url = this._commonService.getULBListApi(filterOptions);
     return window.open(url);
   }
 

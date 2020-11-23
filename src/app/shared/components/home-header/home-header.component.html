@@ -275,6 +275,14 @@
         Questionnaire
       </a>
     </li>
+    <li routerLinkActive="active">
+      <a
+        [routerLink]="['/user/list/ULB']"
+        *ngIf="isLoggedIn && (canViewUserList || canViewULBSingUpListing)"
+      >
+        User Management
+      </a>
+    </li>
     <!-- <li *ngIf="isLoggedIn && canViewUploadData">
       <a [routerLink]="['user', 'data-upload', 'list']" class="pointer"
         >Data upload</a

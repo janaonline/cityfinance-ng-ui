@@ -1,12 +1,18 @@
 <div class="container">
-  <div class="user" (click)="userTypeSelected.emit(USER_TYPE.USER)">
-    <i class="fa fa-user" aria-hidden="true"></i>
+  <div class="row" style="width: 100%">
+    <div class="col-sm-6">
+      <div class="user" (click)="userTypeSelected.emit(USER_TYPE.USER)">
+        <i class="fa fa-user" aria-hidden="true"></i>
 
-    USER
-  </div>
+        USER
+      </div>
+    </div>
 
-  <div class="user" (click)="userTypeSelected.emit(USER_TYPE.ULB)">
-    <i class="fa fa-user" aria-hidden="true"></i>
-    ULB
+    <div class="col-sm-6">
+      <div class="user" (click)="userTypeSelected.emit(USER_TYPE.ULB)">
+        <i class="fa fa-user" aria-hidden="true"></i>
+        ULB
+      </div>
+    </div>
   </div>
 </div>

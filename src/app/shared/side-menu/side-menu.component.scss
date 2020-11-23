@@ -1,17 +1,17 @@
 .side-menu-wrapper {
   border-radius: 1rem;
   background: #333;
-  overflow: auto;
-  max-height: 83vh;
-  height: 83vh;
+  // overflow: auto;
+  // max-height: 83vh;
+  // height: 83vh;
   display: flex;
   flex-direction: column;
   color: white;
-  border: 0.1rem solid lightgray;
-  border-right: 0px;
+  border: 1px solid lightgray;
+  // border-right: 0px;
 
   & .side-menu-content {
-    background: lightgray;
+    background: #fff;
     color: #333;
     flex: 1;
 

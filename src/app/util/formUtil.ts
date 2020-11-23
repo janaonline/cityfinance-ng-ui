@@ -70,20 +70,20 @@ export class FormUtil {
     const baseForm = this.fb.group({
       state: ["", [Validators.required]],
       ulb: ["", [Validators.required]],
-      commissionerName: [
-        "",
-        [Validators.required, Validators.pattern(this.regexForUserName)],
-      ],
-      commissionerConatactNumber: [
-        "",
-        [Validators.required, mobileNoValidator],
-      ],
+      // commissionerName: [
+      //   "",
+      //   [Validators.required, Validators.pattern(this.regexForUserName)],
+      // ],
+      // commissionerConatactNumber: [
+      //   "",
+      //   [Validators.required, mobileNoValidator],
+      // ],
       name: ["", [Validators.required, nonEmptyValidator]],
 
-      commissionerEmail: [
-        "",
-        [Validators.required, Validators.email, customEmailValidator],
-      ],
+      // commissionerEmail: [
+      //   "",
+      //   [Validators.required, Validators.email, customEmailValidator],
+      // ],
       accountantName: [
         "",
         [Validators.required, Validators.pattern(this.regexForUserName)],

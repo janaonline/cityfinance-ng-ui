@@ -1,145 +1,228 @@
-<div class="container" style="position: relative">
-  <div
-    *ngIf="!loggedInUser ? false : financialData === undefined"
-    style="
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      background: white;
-      z-index: 1;
-    "
-  >
-    <app-pre-loader></app-pre-loader>
-    <app-pre-loader></app-pre-loader>
-    <app-pre-loader></app-pre-loader>
-    <app-pre-loader></app-pre-loader>
-    <app-pre-loader></app-pre-loader>
-  </div>
-  <h3 style="text-align: center">
-    15<sup style="text-transform: capitalize">th</sup> FC Grants Module
-  </h3>
-  <p>
-    Welcome to the 15th FC Grants Module of cityfinance.in. Here you will be
-    able to submit required data and documents for establishing your grant
-    eligibility for 15th FC grants, access information relating to grant
-    releases, and upload Utilization Certificates.
-  </p>
-  <p>
-    The 15th Finance Commission (15th FC) report for the year 2020-21 has
-    divided the grants into untied and tied grants. Tied grants are related to
-    water supply and solid waste management functions. The 15th FC has mandated
-    Ministry of Housing and Urban Affairs (MoHUA) to develop city-wise and
-    year-wise targets, in consultation with the State Governments, for 2020-25
-    and recommend disbursal of grants. Accordingly, MoHUA has issued Marking
-    Scheme guidelines which prescribe the mandatory conditions, service level
-    indicators, targets and scoring mechanism for tied grants.
-  </p>
-  <p>
-    Urban Local Bodies are required to submit data and upload documents to meet
-    the mandatory conditions and to identify whether the targets are met for the
-    service level indicators as prescribed or fixed. This portal facilitates the
-    submission of data and uploading of documents as required. Technical
-    Assistance will be available for ULBs facing issues while submitting data
-    and uploading documents.
-  </p>
+<div
+  class="fc-grant-2"
+  *ngIf="!loggedInUserType || loggedInUserType === USER_TYPE.ULB"
+>
+  <div class="container-fluid">
+    <div class="align-items-center d-flex flex-wrap">
+      <div class="col-xs-12 col-sm-12 col-md-6">
+        <h1>15th FC Grants Module</h1>
+        <p>
+          Welcome to the XV FC grants management module of cityfinance.in.
+          <br />
+          The Fifteenth Finance Commission (FC-XV) was constituted by the
+          President on November 27, 2017 and was, inter-alia, <br />
+          mandated to recommend measures needed to augment the consolidated fund
+          of States to supplement the resources of Panchayats and Municipalities
+          during 2020-25. <br /><br />
+          Commission has recommended a total grant of Rs. 29,250 crore for Urban
+          Local bodies (ULBs) in 2020-21. The commission <br />
+          have divided urban local bodies into two categories: <br /><br />
+          a) Fify Million-Plus urban agglomerations/cities excluding Delhi &
+          Srinagar: Grant of Rs. 9,229 crore for the Million-Plus cities
+          comprising Rs. 4,400 crore allocated for Ambient Air Quality and Rs.
+          4829 crore for Solid Waste Management and Sanitation. <br /><br />
+          b) All other cities and towns with less than one million population:
+          Grant of Rs. 20,021 crore, 50% of which will be basic (untied) and the
+          remaining 50% as tied grant for Drinking Water and Solid Waste
+          Management <br /><br />
+          The Ministry of Housing and Urban Affairs (MoHUA) is the nodal
+          ministry for recommending tied grants related to Solid Waste
+          Management, Drinking Water and Sanitation. MoHUA is using Cityfinance
+          portal for managing activities related to XV FC grant to ULBs. This
+          portal facilitates the submission of data and uploading of documents
+          as required by ULBs and further verification and checking by Urban
+          development departments of respective States.
+        </p>
+        <h4 class="text-white">
+          Features of XV FC grants management module on Cityfinance:
+        </h4>
+        <table class="table table-bordered">
+          <tr>
+            <td>Preparing/uploading information/ claims by ULBs</td>
+            <td>
+              Online Verification of eligibility/ claims, submitted by ULBs, by
+              State UDD
+            </td>
+          </tr>
+          <tr>
+            <td>Online submission of claims to MoHUA by State UDD</td>
+            <td>Verification of eligibility at MoHUA</td>
+          </tr>
+          <tr>
+            <td>Approval of final list by MoHUA</td>
+            <td></td>
+          </tr>
+        </table>
 
-  <p>
-    <span style="margin-bottom: 1%; display: block">
-      Kindly note that the last date for submitting baseline, targets and other
-      required documents for 2020-21 grants is
-      <span style="font-weight: 600">31 December 2020</span>.
-    </span>
+        <h4 class="text-white">Click here for accessing the:-</h4>
+        <ul class="list-group list-inline">
+          <li>
+            <i class="fa fa-circle" aria-hidden="true"></i> 15 FC Grant User
+            Manual
+          </li>
+          <li>
+            <i class="fa fa-circle" aria-hidden="true"></i> 15 FC tool kit
+          </li>
+          <li>
+            <i class="fa fa-circle" aria-hidden="true"></i> XV Operational
+            Guidelines
+          </li>
+          <li>
+            <i class="fa fa-circle" aria-hidden="true"></i> XV Marking Schema
+            Guidelines
+          </li>
+          <li>
+            <i class="fa fa-circle" aria-hidden="true"></i> XV Commission Report
+          </li>
+        </ul>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 text-center image-side">
+        <div *ngIf="!loggedInUserType">
+          <div class="img-wrapper text-center">
+            <img
+              src="../assets/images/Group 13309.png"
+              class="img-responsive m-auto"
+              alt="Back img 2"
+            />
+          </div>
+          <input
+            type="submit"
+            class="btn btn-primary"
+            (click)="onClickingLoginButton()"
+            value="LOGIN AS ULB/OTHERS"
+          />
+          <input
+            type="submit"
+            class="btn btn-primary"
+            routerLink="/register/ulb"
+            value="SIGN AS ULB"
+          />
+          <P
+            >If you have any query or stuck with anything please email us at
+            <br />
+            <a href="mailto:15fcgrant@cityfinance.in"
+              >15fcgrant@cityfinance.in</a
+            >. <br /><br />
+            We will get back to you within 16 hours.</P
+          >
+        </div>
 
-    <span class="d-block"
-      ><a class="d-inline"
-        >Click here for accessing the 15 FC Grant User Manual</a
-      >
-      - <span style="color: red">Upcoming Soon</span>
-    </span>
-    <span class="d-block"
-      ><a>Click here for accessing the 15FC tool kit </a>-
-      <span style="color: red">Upcoming Soon</span>
-    </span>
-    <a
-      class="d-block"
-      href="../../../../../assets/files/XV FC Operational Guidelines.pdf"
-      target="_blank"
-      >Click here for accessing XV Operational Guidelines</a
-    >
-    <a
-      class="d-block"
-      href="../../../../../assets/files/XV FC Marking Scheme Guidelines.pdf"
-      target="_blank"
-      >Click here for accessing XV Marking Scheme Guidelines</a
-    >
-    <a
-      class="d-block"
-      href="../../../../../assets/files/XV FC Report.pdf"
-      target="_blank"
-      >Click here for accessing XV Commission Report</a
-    >
-  </p>
+        <div
+          *ngIf="loggedInUserType && financialData"
+          class="d-flex justify-content-center flex-column align-items-center"
+          style="margin-top: -25%"
+        >
+          <span
+            ><span style="font-weight: 600; display: inline">FORM STATUS:</span>
+            {{ financialData.customStatusMessage }}</span
+          >
 
-  <div class="button-wrapper" *ngIf="!loggedInUser">
-    <a
-      id="login"
-      class="btn btn-primary btn-upload mt-3"
-      (click)="onClickingLoginButton()"
-      >LOGIN</a
-    >
-    <a
-      id="signup"
-      class="btn btn-primary btn-upload mt-3"
-      routerLink="/register/ulb"
-      >SIGNUP AS ULB</a
-    >
-  </div>
+          <div class="progress">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              [ngStyle]="{
+                'width.%': formCompletedPercentage
+              }"
+              aria-valuenow="25"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              {{ formCompletedPercentage }}
+              %
+            </div>
+          </div>
+          <a
+            id="login"
+            class="btn btn-primary btn-upload mt-1"
+            (click)="
+              goToFormView('/user/data-upload/upload-form/' + financialData._id)
+            "
+          >
+            {{
+              financialData.isCompleted
+                ? financialData.status === uploadStatus.REJECTED
+                  ? "Update Rejected Data"
+                  : "View Filled Data"
+                : "Fill Remaining Data"
+            }}
+          </a>
 
-  <div
-    *ngIf="loggedInUser && financialData"
-    class="d-flex justify-content-center flex-column align-items-center"
-  >
-    <span
-      ><span style="font-weight: 600; display: inline">FORM STATUS:</span>
-      {{ financialData.customStatusMessage }}</span
-    >
-    <a
-      id="login"
-      class="btn btn-primary btn-upload mt-1"
-      (click)="
-        goToFormView('/user/data-upload/upload-form/' + financialData._id)
-      "
-    >
-      {{
-        financialData.isCompleted
-          ? financialData.status === uploadStatus.REJECTED
-            ? "Update Rejected Data"
-            : "View Filled Data"
-          : "Fill Remaining Data"
-      }}
-    </a>
-  </div>
+          <a
+            (click)="openModal(financialData, historyModal)"
+            class="mt-1"
+            style="text-decoration: underline; cursor: pointer; color: #059b9a"
+          >
+            View Histroy
+          </a>
+        </div>
 
-  <div
-    class="preloader-wrapper"
-    *ngIf="loggedInUser && financialData === undefined"
-  >
-    <app-pre-loader></app-pre-loader>
-  </div>
+        <div
+          class="preloader-wrapper"
+          *ngIf="loggedInUserType && financialData === undefined"
+        >
+          <app-pre-loader></app-pre-loader>
+        </div>
 
-  <div
-    *ngIf="financialData === null"
-    class="d-flex justify-content-center flex-column align-items-center"
-  >
-    <span
-      ><span style="font-weight: 600; display: inline">FORM STATUS:</span> Not
-      Filled</span
-    >
-    <a
-      id="login"
-      class="btn btn-primary btn-upload mt-1"
-      (click)="goToFormView('/user/data-upload/upload-form')"
-      >Fill Up 15th FC Form</a
-    >
+        <div
+          *ngIf="financialData === null"
+          class="d-flex justify-content-center flex-column align-items-center"
+        >
+          <span
+            ><span style="font-weight: 600; display: inline">FORM STATUS:</span>
+            Not Filled</span
+          >
+          <a
+            id="login"
+            class="btn btn-primary btn-upload mt-1"
+            (click)="goToFormView('/user/data-upload/upload-form')"
+            >Fill Up 15th FC Form</a
+          >
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<div *ngIf="loggedInUserType && loggedInUserType !== USER_TYPE.ULB">
+  <app-pre-loader></app-pre-loader>
+  <app-pre-loader></app-pre-loader>
+  <app-pre-loader></app-pre-loader>
+</div>
+
+<ng-template #historyModal>
+  <div class="modal-body">
+    <div
+      style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end"
+    >
+      <button
+        style="min-width: min-content"
+        (click)="closePopUp()"
+        class="btn btn-danger"
+        title="Close"
+        type="button"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
+        <em class="fa fa-times" style="color: white"></em>
+      </button>
+    </div>
+
+    <div *ngIf="!formHistoricalData || !formHistoricalData.length">
+      <app-pre-loader></app-pre-loader>
+      <app-pre-loader></app-pre-loader>
+    </div>
+
+    <app-formhistory
+      *ngIf="formHistoricalData?.length"
+      [data]="formHistoricalData"
+    ></app-formhistory>
+  </div>
+  <ng-template #noData>
+    <div class="row">
+      <div class="col-sm-12">
+        <h4 class="text-center">Nothing to show</h4>
+      </div>
+    </div>
+  </ng-template>
+</ng-template>

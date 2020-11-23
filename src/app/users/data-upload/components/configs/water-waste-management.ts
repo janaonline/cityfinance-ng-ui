@@ -44,13 +44,13 @@ const services: {
   },
   {
     key: "houseHoldCoveredWithSewerage",
-    name: "Household Covered with sewerage/septage services",
+    name: "% of Household Covered with sewerage/septage services",
     benchmark: "100%",
     customValidator: maxValidator,
   },
   {
     key: "houseHoldCoveredPipedSupply",
-    name: "Household Covered Piped Water Supply",
+    name: "% of Household Covered Piped Water Supply",
     benchmark: "100%",
     customValidator: maxValidator,
   },

@@ -1,81 +1,47 @@
-<!-- <app-header></app-header>  -->
+<div class="fc-grant">
+  <div class="container-fluid">
+    <div class="align-items-center d-flex flex-wrap">
+      <div class="col-xs-12 col-sm-12 col-md-6">
+        <div class="card bg-white sign-in">
+          <div class="card-body border">
+            <h4>Sign In</h4>
 
-<!-- <a href="{{creditRatingReportUrl}}"><button class="credit-rating-btn">Download Credit Rating Report</button></a> -->
-<div class="common-container">
-  <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 col-xs-12 card">
-    <div class="row">
-      <div class="col-xs-12 header">
-        <div class="col-xs-6">
-          <div class="row">
-            <p class="pointer">Sign In</p>
-          </div>
-        </div>
-        <div class="col-xs-6 text-right">
-          <div class="row">
-            <a
-              [routerLink]="['../password', 'request']"
-              class="pointer"
-              style="color: white"
-              >Forgot Password?</a
-            >
-          </div>
-        </div>
-      </div>
-      <!-- header -->
-      <div class="col-xs-12 card-body">
-        <div class="col-xs-12">
-          <div class="row">
-            <h4
-              *ngIf="emailVerificationMessage"
-              class="success-message text-center"
-            >
-              {{ emailVerificationMessage }}
-            </h4>
             <form [formGroup]="loginForm" (ngSubmit)="login()">
-              <div class="error-text col-xs-12" *ngIf="badCredentials">
-                <p class="text-danger">Invalid Email or Password!!</p>
-              </div>
-              <!-- <div class="error-text col-xs-12" *ngIf="formError">
-                <p class="text-danger">Email and Password is mandatory!</p>
-              </div> -->
-              <div class="input-group">
-                <span class="input-group-addon"
-                  ><i class="glyphicon glyphicon-user"></i
-                ></span>
+              <mat-form-field appearance="outline">
+                <mat-label>User ID </mat-label>
                 <input
-                  type="text"
-                  placeholder="Enter Email ID or Swatch Bharat Code / Census Code"
+                  matInput
+                  type="email"
+                  placeholder="Enter username"
                   formControlName="email"
-                  class="form-control"
                   [ngClass]="{ 'is-invalid': submitted && lf.email.errors }"
                 />
-                <div
-                  *ngIf="submitted && lf.email.errors"
-                  class="invalid-feedback"
-                >
-                  <div *ngIf="lf.email.errors['required']">
-                    Email ID or Swatch Bharat Code / Census Code is required
-                  </div>
-                </div>
-              </div>
-              <div class="input-group">
-                <span class="input-group-addon"
-                  ><i class="glyphicon glyphicon-lock"></i
-                ></span>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  formControlName="password"
-                  class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && lf.password.errors }"
-                />
-                <div
-                  *ngIf="submitted && lf.password.errors"
-                  class="invalid-feedback"
-                >
-                  <div *ngIf="lf.password.errors['required']">
-                    Password is required
-                  </div>
+                <i
+                  class="fa fa-exclamation-circle"
+                  matTooltip="User ID for ULB is census code/ ULB Code. User ID for state is email id of Nodal officer. In case you are unable to recall the Census Code/ ULB Code please contact Nodal officer of your state."
+                  aria-hidden="true"
+                  style="z-index: 9999999; position: absolute; right: 2%"
+                ></i>
+              </mat-form-field>
+              <br />
+              <div class="forget-password">
+                <mat-form-field appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <input
+                    matInput
+                    type="password"
+                    placeholder="Enter password"
+                    formControlName="password"
+                    [ngClass]="{
+                      'is-invalid': submitted && lf.password.errors
+                    }"
+                  />
+                </mat-form-field>
+
+                <div class="forget text-right">
+                  <a [routerLink]="['../password', 'request']"
+                    ><span>Forgot password?</span></a
+                  >
                 </div>
               </div>
 
@@ -83,37 +49,51 @@
                 *ngIf="reCaptcha.show"
                 (resolved)="resolveCaptcha($event)"
                 [siteKey]="reCaptcha.siteKey"
-              ></re-captcha>
+              >
+              </re-captcha>
 
-              <p *ngIf="loginError" class="error-message">
+              <p *ngIf="loginError" class="error-message mt-1">
                 {{ loginError }}
               </p>
 
-              <div class="input-group">
-                <button type="submit" class="btn btn-primary">Login</button>
+              <div>
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block login-btn"
+                >
+                  LOGIN
+                </button>
               </div>
+              <p class="text-dark last-para">
+                Don't have an account?
+                <a routerLink="/register">Sign up here</a> if you are nodal
+                officer from ULB, in case of state please email us at
+                <a href="mailto:15fcgrant@cityfinance.in"
+                  >15fcgrant@cityfinance.in</a
+                >
+              </p>
+              <a [routerLink]="['/account-reactivate']"
+                ><span>Activate Account</span></a
+              >
             </form>
           </div>
-          <div class="row">
-            <div class="col-xs-12 card-footer">
-              <div class="row">
-                <p>
-                  Don't have an Account!
-                  <a [routerLink]="['../register']" class="pointer"
-                    >Sign Up Here</a
-                  >
-
-                  <a
-                    [routerLink]="['../account-reactivate']"
-                    class="pointer"
-                    style="float: right"
-                    >Activate Account</a
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 text-center image-side">
+        <div class="img-wrapper text-center">
+          <img
+            src="../assets/images/Group 13309.png"
+            class="img-responsive m-auto"
+          />
+        </div>
+
+        <P
+          >If you have any query or stuck with anything please email us at
+          <br />
+          <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a
+          >. <br /><br />
+          We will get back to you within 16 hours.</P
+        >
       </div>
     </div>
   </div>
