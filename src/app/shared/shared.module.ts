@@ -9,6 +9,8 @@ import {
   MatInputModule,
   MatListModule,
   MatProgressSpinnerModule,
+  MatSlideToggle,
+  MatSlideToggleModule,
   MatSnackBarModule,
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
@@ -52,6 +54,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     MatCardModule,
     AngularMaterialModule,
     MatExpansionModule,
+    MatSlideToggleModule,
   ],
   declarations: [
     PreLoaderComponent,
@@ -88,6 +91,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     CompletedComponent,
     UserTypeConfirmationComponent,
     FormhistoryComponent,
+    MatSlideToggle,
   ],
   providers: [FinancialDataService],
 })

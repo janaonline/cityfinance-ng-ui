@@ -419,6 +419,11 @@
         <div class="chart-container">
           <p class="heading" style="font-size: 1.6rem">
             15<sup>th</sup> FC Form Data Upload Status
+            <mat-slide-toggle
+              style="float: right"
+              (change)="onChangingShowULBInChart($event)"
+              >Show Not Registered ULBs</mat-slide-toggle
+            >
           </p>
           <canvas id="canvas" width="150" height="43"></canvas>
           <div
