@@ -149,7 +149,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       } catch (error) {}
     });
 
-    return (completed / 27) * 100;
+    return Number.parseInt((completed / 27) * 100 + "");
   }
 
   calculateFormStatus(data: IFinancialData) {
