@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit,ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 
@@ -62,7 +62,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    console.log("login button is called");
     this.loginError = null;
     this.submitted = true;
     if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {

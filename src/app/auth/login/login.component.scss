@@ -1,45 +1,44 @@
-
-.fc-grant{
-  background-image: url('../../../assets/images/backgrounds/Path.png');
+.fc-grant {
+  background-image: url("../../../assets/images/backgrounds/Path.png");
   background-repeat: no-repeat;
   background-position: left;
   min-height: 100vh;
   max-height: auto;
   // background-size: contain;
   background-size: 81% 100%;
-  .text-white{
+  .text-white {
     color: #ffffff;
   }
-  h1{
+  h1 {
     color: #ffffff;
     font-family: "Roboto", sans-serif;
     padding: 20px 0;
   }
-  table{
-        border-radius: 12px;
-        border-collapse: separate;
-        tr {
+  table {
+    border-radius: 12px;
+    border-collapse: separate;
+    tr {
+      &:first-child {
+        td {
           &:first-child {
-            td {
-              &:first-child {
-                border-top-left-radius: 10px;
-              }
-              &:last-child {
-                border-top-right-radius: 10px;
-              }
-            }
+            border-top-left-radius: 10px;
           }
           &:last-child {
-            td {
-              &:first-child {
-                border-bottom-left-radius: 10px;
-              }
-              &:last-child {
-                border-bottom-right-radius: 10px;
-              }
-            }
+            border-top-right-radius: 10px;
           }
-      td{
+        }
+      }
+      &:last-child {
+        td {
+          &:first-child {
+            border-bottom-left-radius: 10px;
+          }
+          &:last-child {
+            border-bottom-right-radius: 10px;
+          }
+        }
+      }
+      td {
         color: #fff;
         font-size: 14px;
         padding: 15px;
@@ -48,42 +47,42 @@
     }
   }
 
- 
-  
-  h4{
-    margin-bottom: 20px;;
+  h4 {
+    margin-bottom: 20px;
   }
-  ul{
+  ul {
     list-style-type: disc;
-    li{
+    li {
       color: #c3cb24;
     }
   }
   .image-side {
-    p,a{
-      color: #06868C;
+    p,
+    a {
+      color: #06868c;
       font-size: 14px;
       font-weight: 500;
     }
-    p a{
+    p a {
       text-decoration: underline;
     }
-    .btn{
+    .btn {
       margin: 40px 15px 32px;
       padding: 10px 20px;
       color: #ffffff;
       box-shadow: 0px 3px 5px #b5b5b5;
     }
   }
-  .flex-wrap{
+  .flex-wrap {
     flex-wrap: wrap;
   }
   .bg-white {
     background: #fff;
-}
-.selected-list, .mat-form-field-flex {
-  border: none!important;
-}
+  }
+  .selected-list,
+  .mat-form-field-flex {
+    border: none !important;
+  }
 }
 
 .sign-in {
@@ -95,50 +94,50 @@
   .mat-form-field-infix {
     max-width: 100% !important;
     min-width: 300px;
-}
-.forget span{
-  color: #2c2c2c;
-}
-.sign-in .mat-form-field:last-child .mat-form-field-wrapper {
-  padding-bottom: 0!important;
-}
-.login-btn{
-  margin: 20px 0;
-}
-.text-dark{
-  color: #2c2c2c;
-}
-.last-para{
-  font-size: 16px;
-  font-weight: 400;
-}
-.last-para a{
-  color: #ffc70a;
-}
-.forget-password{
-  position: relative;
-}
-.forget {
-  position: absolute;
-  right: 0;
-  bottom: -5px;
-}
+  }
+  .forget span {
+    color: #2c2c2c;
+  }
+  .sign-in .mat-form-field:last-child .mat-form-field-wrapper {
+    padding-bottom: 0 !important;
+  }
+  .login-btn {
+    margin: 20px 0;
+  }
+  .text-dark {
+    color: #2c2c2c;
+  }
+  .last-para {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .last-para a {
+    color: #ffc70a;
+  }
+  .forget-password {
+    position: relative;
+  }
+  .forget {
+    position: absolute;
+    right: 0;
+    bottom: -5px;
+  }
 }
 
-
-@media only screen and (min-width:300px) and (max-width:1024px){
-  .fc-grant{
-     height: auto;
+@media only screen and (min-width: 300px) and (max-width: 1024px) {
+  .fc-grant {
+    height: auto;
     background-size: cover;
   }
-  
-  .image-side p, .image-side a{
-    color: #fff!important;
+
+  .image-side p,
+  .image-side a {
+    color: #fff !important;
     font-size: 14px;
     font-weight: 500;
   }
-  .image-side .btn{
-    margin: 20px 5px!important;
+  .image-side .btn {
+    margin: 20px 5px !important;
     padding: 10px 20px;
     color: #ffffff;
   }
@@ -153,4 +152,15 @@
 .container::-webkit-scrollbar {
   display: none;
   overflow: -moz-scrollbars-none;
+}
+
+:host {
+  .card-body {
+    overflow: hidden !important;
+    overflow-y: hidden !important;
+  }
+
+  .error-message {
+    margin-top: 2%;
+  }
 }
