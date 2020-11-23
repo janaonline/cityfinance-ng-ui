@@ -77,7 +77,7 @@
         </ul>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 text-center image-side">
-        <div *ngIf="!loggedInUser">
+        <div *ngIf="!loggedInUserType">
           <div class="img-wrapper text-center">
             <img
               src="../assets/images/Group 13309.png"
@@ -108,7 +108,7 @@
         </div>
 
         <div
-          *ngIf="loggedInUser && financialData"
+          *ngIf="loggedInUserType && financialData"
           class="d-flex justify-content-center flex-column align-items-center"
           style="margin-top: -25%"
         >
@@ -159,7 +159,7 @@
 
         <div
           class="preloader-wrapper"
-          *ngIf="loggedInUser && financialData === undefined"
+          *ngIf="loggedInUserType && financialData === undefined"
         >
           <app-pre-loader></app-pre-loader>
         </div>

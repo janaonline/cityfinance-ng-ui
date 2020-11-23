@@ -276,7 +276,10 @@
       </a>
     </li>
     <li routerLinkActive="active" class="d-n-sm">
-      <a [routerLink]="['/user/list/USER']" *ngIf="isLoggedIn">
+      <a
+        [routerLink]="['/user/list/ULB']"
+        *ngIf="isLoggedIn && (canViewUserList || canViewULBSingUpListing)"
+      >
         Users Management
       </a>
     </li>

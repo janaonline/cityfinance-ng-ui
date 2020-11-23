@@ -210,7 +210,7 @@ export const sideMenuForStateUser: { title: string; subMenus: ILink[] }[] = [
       //   route: ["/user/profile/request"],
       // },
       {
-        title: "ULB Sign Up List",
+        title: "ULBs",
         type: "link",
         route: [`/user/list/${USER_TYPE.ULB}`],
       },
