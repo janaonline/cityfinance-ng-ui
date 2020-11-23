@@ -89,6 +89,10 @@ i.glyphicon-sort.glyphicon-sort.glyphicon-sort:hover {
   border-radius: 0px;
 }
 
+button.btn {
+  outline: none !important;
+}
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #f0ad4e;
