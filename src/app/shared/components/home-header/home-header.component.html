@@ -275,6 +275,11 @@
         Questionnaire
       </a>
     </li>
+    <li routerLinkActive="active" class="d-n-sm">
+      <a [routerLink]="['/user/list/USER']" *ngIf="isLoggedIn">
+        Users Management
+      </a>
+    </li>
     <!-- <li *ngIf="isLoggedIn && canViewUploadData">
       <a [routerLink]="['user', 'data-upload', 'list']" class="pointer"
         >Data upload</a
