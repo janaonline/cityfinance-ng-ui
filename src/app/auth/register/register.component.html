@@ -15,6 +15,7 @@
                 ></app-user-type-confirmation>
 
                 <form
+                  class="registration-form"
                   *ngIf="registrationType === 'user'"
                   [formGroup]="registrationForm"
                   (ngSubmit)="signup(registrationForm)"
@@ -294,6 +295,7 @@
                 </form>
 
                 <form
+                  class="registration-form"
                   [formGroup]="registrationForm"
                   (ngSubmit)="signup(registrationForm)"
                   *ngIf="registrationType === 'ulb'"
@@ -664,13 +666,7 @@
             class="img-responsive m-auto"
           />
         </div>
-        <input type="submit" class="btn btn-primary invisible" value="LOGIN" />
-        <input
-          type="submit"
-          class="btn btn-primary invisible"
-          routerLink="/register/ulb"
-          value="SIGN AS ULB"
-        />
+
         <P
           >If you have any query or stuck with anything please email us at
           <br />
