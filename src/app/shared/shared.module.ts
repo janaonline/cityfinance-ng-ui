@@ -17,6 +17,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { AngularMaterialModule } from '../angular-material.module';
 import { InrCurrencyPipe } from '../dashboard/report/inr-currency.pipe';
 import { CompletedComponent } from '../pages/questionnaires/components/completed/completed.component';
+import { FormhistoryComponent } from '../users/data-upload/components/formhistory/formhistory.component';
 import { FinancialDataService } from '../users/services/financial-data.service';
 import {
   FileStatusCheckerInputComponent,
@@ -68,6 +69,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     InrCurrencyPipe,
     CompletedComponent,
     UserTypeConfirmationComponent,
+    FormhistoryComponent,
   ],
   exports: [
     PreLoaderComponent,
@@ -85,6 +87,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     InrCurrencyPipe,
     CompletedComponent,
     UserTypeConfirmationComponent,
+    FormhistoryComponent,
   ],
   providers: [FinancialDataService],
 })

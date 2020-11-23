@@ -146,6 +146,7 @@
           </a>
 
           <a
+            (click)="openModal(financialData, historyModal)"
             class="mt-1"
             style="text-decoration: underline; cursor: pointer; color: #059b9a"
           >
@@ -179,3 +180,40 @@
     </div>
   </div>
 </div>
+
+<ng-template #historyModal>
+  <div class="modal-body">
+    <div
+      style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end"
+    >
+      <button
+        style="min-width: min-content"
+        (click)="closePopUp()"
+        class="btn btn-danger"
+        title="Close"
+        type="button"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
+        <em class="fa fa-times" style="color: white"></em>
+      </button>
+    </div>
+
+    <div *ngIf="!formHistoricalData || !formHistoricalData.length">
+      <app-pre-loader></app-pre-loader>
+      <app-pre-loader></app-pre-loader>
+    </div>
+
+    <app-formhistory
+      *ngIf="formHistoricalData?.length"
+      [data]="formHistoricalData"
+    ></app-formhistory>
+  </div>
+  <ng-template #noData>
+    <div class="row">
+      <div class="col-sm-12">
+        <h4 class="text-center">Nothing to show</h4>
+      </div>
+    </div>
+  </ng-template>
+</ng-template>

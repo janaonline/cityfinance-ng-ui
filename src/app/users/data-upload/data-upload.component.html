@@ -930,43 +930,7 @@
         <i class="fa fa-times" style="color: white"></i>
       </button>
     </div>
-    <div class="modal-title">
-      <h3>Tracking</h3>
-    </div>
-    <div
-      *ngIf="modalTableData.length; else noData"
-      class="table-responsive"
-      style="max-height: 50vh; overflow-y: auto"
-    >
-      <table class="table tracking-history-table">
-        <thead>
-          <tr>
-            <th style="position: sticky; top: 0" class="text-center"></th>
-            <th style="position: sticky; top: 0" class="text-center">Sr. No</th>
-            <th style="position: sticky; top: 0">Action</th>
-            <th style="position: sticky; top: 0">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of modalTableData; let i = index">
-            <td class="text-center">
-              <em
-                *ngIf="
-                  row['status'] == uploadStatus.APPROVED &&
-                  row.actionTakenByUserRole === userTypes.MoHUA
-                "
-                class="fa fa-check-circle text-success"
-              ></em>
-            </td>
-            <td class="text-center">{{ i + 1 }}</td>
-            <td>{{ row.customStatusText }}</td>
-            <td>
-              {{ row["modifiedAt"] | date: "MMM d, y, h:mm a":"GMT" }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <app-formhistory [data]="modalTableData"></app-formhistory>
   </div>
   <ng-template #noData>
     <div class="row">
