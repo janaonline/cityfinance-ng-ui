@@ -3,10 +3,15 @@
     background-image: url('../../../assets/images/backgrounds/Path.png');
     background-repeat: no-repeat;
     background-position: left;
-    min-height: 100vh;
-    max-height: auto;
+    height: calc(100vh - 89px);
+    // max-height: auto;
     // background-size: contain;
     background-size: 81% 100%;
+    display: flex;
+
+    & > .container-fluid{
+      align-self: center;
+    }
     .text-white{
       color: #ffffff;
     }
@@ -89,7 +94,7 @@
   .sign-in {
     width: 60%;
     margin: auto;
-    text-align: center;
+    // text-align: center;
     padding: 25px;
     border-radius: 10px;
     .mat-form-field-infix {
@@ -124,10 +129,31 @@
     bottom: -5px;
   }
   }
-  .card-body{
+  .scroll{
     max-height: 450px;
+    overflow-x: hidden;
     overflow-y: scroll;
-}
+
+    /* width */
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+    }
+    
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #888; 
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: #555; 
+    }
+  }
 .sign-up::-webkit-scrollbar {
     display: none;
 }
@@ -168,7 +194,7 @@
   }
   
   .container::-webkit-scrollbar {
-    display: none;
-    overflow: -moz-scrollbars-none;
+    // display: none;
+    // overflow: -moz-scrollbars-none;
   }
   
