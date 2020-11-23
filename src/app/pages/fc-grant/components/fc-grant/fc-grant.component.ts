@@ -32,7 +32,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) {
     super();
-    switch (this.loggedInUser) {
+    switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
         this.fetchFinancialDataUpload();
         break;
@@ -66,7 +66,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   }
 
   goToFormView(url: string) {
-    if (this.loggedInUser === USER_TYPE.ULB) {
+    if (this.loggedInUserType === USER_TYPE.ULB) {
       SidebarUtil.hideSidebar();
     } else SidebarUtil.showSidebar();
     this._router.navigate([url]);

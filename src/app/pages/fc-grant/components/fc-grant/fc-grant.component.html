@@ -1,4 +1,7 @@
-<div class="fc-grant">
+<div
+  class="fc-grant"
+  *ngIf="!loggedInUserType || loggedInUserType === USER_TYPE.ULB"
+>
   <div class="container-fluid">
     <div class="align-items-center d-flex flex-wrap">
       <div class="col-xs-12 col-sm-12 col-md-6">
@@ -179,6 +182,12 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="loggedInUserType && loggedInUserType !== USER_TYPE.ULB">
+  <app-pre-loader></app-pre-loader>
+  <app-pre-loader></app-pre-loader>
+  <app-pre-loader></app-pre-loader>
 </div>
 
 <ng-template #historyModal>
