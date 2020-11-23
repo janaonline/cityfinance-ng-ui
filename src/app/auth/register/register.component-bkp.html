@@ -1,0 +1,409 @@
+<!-- <div class="container_3 card">
+    <div class="row" style="position: relative">
+        <div class="col-xs-12 header">
+            <div class="col-xs-6">
+                <div class="row">
+                    <p class="pointer">Sign up</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 card-body">
+            <div class="col-xs-12">
+                <div class="row">
+                    <h3 *ngIf="!registrationType">Select User Type</h3>
+                    <app-user-type-confirmation *ngIf="!registrationType" (userTypeSelected)="onSelectionUserType($event)"></app-user-type-confirmation>
+
+                    <form *ngIf="registrationType === 'user'" [formGroup]="registrationForm" (ngSubmit)="signup(registrationForm)">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i
+              ></span>
+                            <input id="name" autocomplete="username" class="form-control" [formControl]="registrationForm.controls['name']" placeholder="User name*" [ngClass]="{
+                  'is-invalid': GetFormControlErrors('name')
+                }" />
+                        </div>
+                        <small *ngIf="GetFormControlErrors('name') as error" class="form-field-error-message">
+              <span *ngIf="error?.required"> User name cannot be empty. </span>
+              <span *ngIf="error?.pattern">
+                User name must of only Alphabet characters only and 1st letter
+                must be capital.</span
+              >
+            </small>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope"></i
+              ></span>
+                            <input id="email" class="form-control" [formControl]="registrationForm.controls['email']" placeholder="Email ID*" [ngClass]="{
+                  'is-invalid': GetFormControlErrors('email')
+                }" />
+                        </div>
+                        <small *ngIf="GetFormControlErrors('email') as error" class="form-field-error-message">
+              <span *ngIf="error?.required"> Email ID cannot be empty. </span>
+              <span *ngIf="error?.email === false"> Email Id is not valid</span>
+            </small>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i
+              ></span>
+                            <input id="mobile" class="form-control" [formControl]="registrationForm.controls['mobile']" placeholder="Mobile No*" [ngClass]="{
+                  'is-invalid': GetFormControlErrors('mobile')
+                }" />
+                        </div>
+                        <small *ngIf="GetFormControlErrors('mobile') as error" class="form-field-error-message">
+              <span *ngIf="error?.required"> Mobile No cannot be empty. </span>
+              <span *ngIf="error?.pattern === false">
+                Mobile No must start with either 6 / 7 / 8 / 9, and of 10 digits
+                only.
+              </span>
+            </small>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i
+              ></span>
+                            <input id="designation" class="form-control" [formControl]="registrationForm.controls['designation']" placeholder="Designation*" [ngClass]="{
+                  'is-invalid': GetFormControlErrors('designation')
+                }" />
+                        </div>
+                        <small *ngIf="GetFormControlErrors('designation') as error" class="form-field-error-message">
+              <span *ngIf="error?.required">
+                Designation cannot be empty.
+              </span>
+            </small>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-university"></i
+              ></span>
+                            <input id="organization" class="form-control" [formControl]="registrationForm.controls['organization']" placeholder="Organisation/Instituition Name*" [ngClass]="{
+                  'is-invalid': GetFormControlErrors('organization')
+                }" />
+                        </div>
+                        <small *ngIf="GetFormControlErrors('organization') as error" class="form-field-error-message">
+              <span *ngIf="error?.required">
+                Organisation/Instituition Name cannot be empty.
+              </span>
+            </small>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i
+              ></span>
+                            <input id="password" type="password" class="form-control" [formControl]="registrationForm.controls['password']" placeholder="Password*" [ngClass]="{
+                  'is-invalid': GetFormControlErrors('password')
+                }" />
+                        </div>
+                        <small *ngIf="GetFormControlErrors('password') as error" class="form-field-error-message">
+              <span *ngIf="error?.password">
+                {{ error.password }}
+              </span>
+            </small>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i
+              ></span>
+                            <input id="password" type="password" class="form-control" [formControl]="registrationForm.controls['confirmPassword']" placeholder="Confirm Password*" [ngClass]="{
+                  'is-invalid': GetFormControlErrors('confirmPassword')
+                }" />
+                        </div>
+                        <small *ngIf="GetFormControlErrors('confirmPassword') as error" class="form-field-error-message">
+              <span *ngIf="error?.passwordMisMatch">
+                {{ error.passwordMisMatch }}
+              </span>
+
+              <span *ngIf="error?.required">
+                Confirm Password is required -->
+<!-- </span>
+            </small>
+
+                        <p *ngIf="formError">
+                            <span *ngFor="let error of formError; let i = index" style="display: block; color: red">
+                {{ i + 1 }}. {{ error }}
+              </span>
+                        </p>
+                        <p *ngIf="respone.errorMessage" class="error-message">
+                            {{ respone.errorMessage }}
+                        </p>
+                        <p *ngIf="respone.successMessage" class="success-message">
+                            {{ respone.successMessage }}
+                        </p>
+
+                        <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey"></re-captcha>
+
+                        <div class="input-group">
+                            <button type="submit" class="btn btn-primary" [disabled]="!registrationForm.valid">
+                Sign up
+              </button>
+                        </div>
+                    </form>
+
+                    <form [formGroup]="registrationForm" (ngSubmit)="signup(registrationForm)" *ngIf="registrationType === 'ulb'">
+                        <div class="error-text col-xs-12" *ngIf="badCredentials">
+                            <p class="text-danger">Invalid Username or Password!!</p>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><em class="glyphicon glyphicon-user"></em
+              ></span>
+                            <select name="State*" id="state" formControlName="state" class="form-control" placeholder="State*" [ngClass]="{
+                  'is-invalid':
+                    formSubmitted && registrationForm?.controls?.state.errors
+                }">
+                <option value="" selected disabled>State*</option>
+                <option *ngFor="let state of stateList" [value]="state._id">
+                  {{ state.name }}
+                </option>
+              </select>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><em class="glyphicon glyphicon-lock"></em
+              ></span>
+                            <select name="ulb" id="ulb" [formControl]="registrationForm.controls['name']" class="form-control" placeholder="Urban Local Body*" [ngClass]="{
+                  'is-invalid':
+                    formSubmitted && registrationForm?.controls?.name.errors
+                }">
+                <option value="" selected disabled>Urban Local Body</option>
+                <option
+                  value=""
+                  *ngIf="ulbList && !ulbList.length"
+                  selected
+                  disabled
+                >
+                  NO Urban Local Body Available
+                </option>
+                <option *ngFor="let ulb of ulbList" [value]="ulb.name">
+                  {{ ulb.name }}
+                </option>
+              </select>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><em class="glyphicon glyphicon-lock"></em
+              ></span>
+                            <input id="ulb_code" type="text" class="form-control" [formControl]="registrationForm.controls['ulb']" placeholder="Census Code/ULB Code*" />
+                            <i class="fa fa-spinner fa-spin ulbSpinner" aria-hidden="true" [hidden]="!isCheckingULBCode"></i>
+                        </div>
+
+                        <small *ngIf="ulbCodeError" class="form-field-error-message">
+              {{ ulbCodeError }}
+            </small>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><em class="glyphicon glyphicon-user"></em
+              ></span>
+                            <input id="commissionerName" type="text" class="form-control" [formControl]="registrationForm.controls['commissionerName']" placeholder="Municipal Commissioner/Executive Officer Name *" [ngClass]="{
+                  'is-invalid': GetFormControlErrors('commissionerName')
+                }" />
+                        </div>
+                        <small *ngIf="GetFormControlErrors('commissionerName') as error" class="form-field-error-message">
+              <span *ngIf="error?.required">
+                Municipal Commissioner/Executive Officer Name cannot be empty.
+              </span>
+              <span *ngIf="error?.pattern">
+                Municipal Commissioner/Executive Officer Name must of only
+                Alphabet characters only and 1st letter must be capital.</span
+              >
+            </small>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><em class="glyphicon glyphicon-phone"></em
+              ></span>
+                            <input id="commissionerConatactNumber" type="tel" class="form-control" [formControl]="
+                  registrationForm.controls['commissionerConatactNumber']
+                " placeholder="Municipal Commissioner/Executive Officer Contact No*" [ngClass]="{
+                  'is-invalid': GetFormControlErrors(
+                    'commissionerConatactNumber'
+                  )
+                }" />
+                        </div>
+                        <small *ngIf="
+                GetFormControlErrors('commissionerConatactNumber') as error
+              " class="form-field-error-message">
+              <span *ngIf="error?.required"> Mobile No cannot be empty. </span>
+              <span *ngIf="error?.pattern === false">
+                Mobile No must start with either 6 / 7 / 8 / 9, and of 10 digits
+                only.
+              </span>
+            </small>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope"></i
+              ></span>
+                            <input id="commissionerEmail" type="email" class="form-control" [formControl]="registrationForm.controls['commissionerEmail']" placeholder="Municipal Commissioner/Executive Officer Email ID*" [ngClass]="{
+                  'is-invalid': GetFormControlErrors('commissionerEmail')
+                }" />
+                        </div>
+                        <small *ngIf="GetFormControlErrors('commissionerEmail') as error" class="form-field-error-message">
+              <span *ngIf="error?.required"> Email ID cannot be empty. </span>
+              <span *ngIf="error?.email === false"> Email Id is not valid</span>
+            </small>
+                        <p class="input_info">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i> Use official email Id of Municipal Commissioner/Executive Officer
+                        </p>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i
+              ></span>
+                            <input id="designation" type="text" class="form-control" [formControl]="registrationForm.controls['accountantName']" placeholder="XV FC Nodal Officer Name *" [ngClass]="{
+                  'is-invalid': GetFormControlErrors('accountantName')
+                }" />
+                        </div>
+                        <small *ngIf="GetFormControlErrors('accountantName') as error" class="form-field-error-message">
+              <span *ngIf="error?.required">
+                XV FC Nodal Officer Name cannot be empty.
+              </span>
+              <span *ngIf="error?.pattern">
+                XV FC Nodal Officer Name must of only Alphabet characters only
+                and 1st letter must be capital.</span
+              >
+            </small>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><em class="glyphicon glyphicon-phone"></em
+              ></span>
+                            <input id="accountantConatactNumber" type="tel" class="form-control" [formControl]="
+                  registrationForm.controls['accountantConatactNumber']
+                " placeholder="XV FC Nodal Officer Contact No *" [ngClass]="{
+                  'is-invalid': GetFormControlErrors('accountantConatactNumber')
+                }" />
+                        </div>
+                        <small *ngIf="GetFormControlErrors('accountantConatactNumber') as error" class="form-field-error-message">
+              <span *ngIf="error?.required"> Contact No cannot be empty. </span>
+              <span *ngIf="error?.pattern === false">
+                Contact No must start with either 6 / 7 / 8 / 9, and of 10
+                digits only.
+              </span>
+            </small>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><em class="fa fa-envelope"></em
+              ></span>
+                            <input id="accountantEmail" type="email" class="form-control" [formControl]="registrationForm.controls['accountantEmail']" placeholder="XV FC Nodal Officer Email ID *" [ngClass]="{
+                  'is-invalid': GetFormControlErrors('accountantEmail')
+                }" />
+                        </div>
+                        <small *ngIf="GetFormControlErrors('accountantEmail') as error" class="form-field-error-message">
+              <span *ngIf="error?.required"> Email ID cannot be empty. </span>
+              <span *ngIf="error?.email === false"> Email Id is not valid</span>
+            </small>
+
+                        <p *ngIf="formError">
+                            <span *ngFor="let error of formError; let i = index" style="display: block; color: red">
+                {{ i + 1 }}. {{ error }}
+              </span>
+                        </p>
+
+                        <p *ngIf="respone.errorMessage" class="error-message">
+                            {{ respone.errorMessage }}
+                        </p>
+                        <p *ngIf="respone.successMessage" class="success-message">
+                            {{ respone.successMessage }}
+                        </p>
+                        <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey"></re-captcha>
+
+                        <div class="input-group">
+                            <button type="submit" class="btn btn-primary" [disabled]="!canSubmitForm()">
+                Sign up
+              </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 card-footer">
+                        <div class="row">
+                            <p>
+                                Already have an Account!
+                                <a [routerLink]="['../../login']" class="pointer">Sign In Here</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="apiInProgress"
+      class="d-flex w-100 justify-content-center align-items-center"
+      style="
+        height: 100%;
+        z-index: 3;
+        position: absolute;
+        background: #ffffff69;
+      "
+    >
+      <mat-spinner></mat-spinner>
+    </div>
+  </div -->
+
+
+<div class="container">
+    <div class="A">
+
+
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1153.251" height="680.913" viewBox="0 0 1153.251 680.913"><defs><style>.a{fill:url(#a);}</style><linearGradient id="a" x1="0.256" y1="0.277" x2="0.5" y2="1" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#09526a"/><stop offset="1" stop-color="#059a99"/></linearGradient></defs><path class="a" d="M518.159,153.575S658.4,168.916,702.339,510.552s355.488,323.776,355.488,323.776H-37.156S-103.127,629.864-94.678,578.1-107.5,317.386-5.113,153.575Z" transform="translate(95.425 -153.575)"/></svg>
+
+
+        <div class="B">
+            <img src="../assets/images/Group 13309.png">
+        </div>
+        <div class="E">
+            <div><span>If you have any query or stuck with anything please email us at</span></div>
+            <div><span>15fcgrant@cityfinance.in</span></div>
+            <div><span>We will get back to you within 16 hours</span></div>
+        </div>
+        <div class="C">
+
+            <div class="D">
+                <form class="mt-2">
+                    <h3 style="text-align: center;font-style: bold;top:32px;font-family: Roboto;">Sign Up</h3>
+                    <div>
+                        <br>
+
+                        <input type="text" class="inputbox" placeholder="Enter the State" required>
+                    </div>
+                    <div>
+                        <br>
+                        <br>
+                        <input type="text" class="inputbox" placeholder="Urban Local Body" required>
+                    </div>
+                    <div>
+                        <br>
+                        <br>
+                        <input type="text" class="inputbox" placeholder="Census Code/ULB Code" required>
+                    </div>
+                    <div>
+                        <br>
+                        <br>
+                        <input type="text" class="inputbox" placeholder="Muncipal Commissioner/Executive Officer Name" required>
+                    </div>
+                    <div>
+                        <br>
+                        <br>
+                        <input type="text" class="inputbox" placeholder="Muncipal Commissioner/Executive Officer Contact No." required>
+                    </div>
+                    <div>
+                        <br>
+                        <br>
+                        <input type="text" class="inputbox" placeholder="XV FC Nodal Officer Name" required>
+                    </div>
+                    <div>
+                        <br>
+                        <br>
+                        <input type="email" class="inputbox" placeholder="XV FC Nodal Officer Email ID" required>
+                    </div>
+                    <br>
+                    <br>
+
+                    <div>
+                        <button type="submit" class="buttontype">Signup</button>
+
+                    </div>
+
+                    <br>
+                    <div class="activateaccount mb-3">
+                        <a><span>Already have an account?</span></a>&nbsp;
+                        <a><span>Login here</span></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
