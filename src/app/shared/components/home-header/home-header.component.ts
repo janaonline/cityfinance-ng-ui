@@ -1,6 +1,7 @@
 import { Component, ElementRef, NgZone, OnInit, Renderer2 } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { UserProfile } from 'src/app/users/profile/model/user-profile';
+import { UserUtility } from 'src/app/util/user/user';
 
 import { ACTIONS } from '../../../../app/util/access/actions';
 import { MODULES_NAME } from '../../../../app/util/access/modules';
@@ -16,6 +17,9 @@ import { AnalyticsTabs, IAnalyticsTabs } from './tabs';
 })
 export class HomeHeaderComponent implements OnInit {
   isProduction: boolean;
+
+  userUtil = new UserUtility();
+  showAnalyticsSubMenu = !this.userUtil.isUserOnMobile();
 
   isLoggedIn = false;
   user: UserProfile = null;
@@ -34,7 +38,15 @@ export class HomeHeaderComponent implements OnInit {
   tabs: IAnalyticsTabs[] = [];
 
   USER_TYPE = USER_TYPE;
+
+  isMunicipalBondActive = false;
+  isCreditRatingActive = false;
+  isResourceTabActive = false;
+  isFcGrantPageActive = false;
+  isQuestionnaireActive = false;
   private accessChecker = new AccessChecker();
+
+  isAnalyticsPageActive = false;
 
   constructor(
     private router: Router,
@@ -48,6 +60,48 @@ export class HomeHeaderComponent implements OnInit {
     });
     this.initializeAccessChecking();
     this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.isAnalyticsPageActive = event.url.includes(`analytics`);
+
+        if (event.url.includes(`/borrowings/credit-rating`)) {
+          this.isCreditRatingActive = true;
+          this.isMunicipalBondActive = false;
+          this.isResourceTabActive = false;
+          this.isFcGrantPageActive = false;
+          this.isQuestionnaireActive = false;
+        } else if (event.url.includes(`municipal-bond`)) {
+          this.isMunicipalBondActive = true;
+          this.isResourceTabActive = false;
+          this.isFcGrantPageActive = false;
+          this.isQuestionnaireActive = false;
+
+          this.isCreditRatingActive = false;
+        } else if (event.url.includes(`resources`)) {
+          this.isResourceTabActive = true;
+          this.isFcGrantPageActive = false;
+          this.isCreditRatingActive = false;
+          this.isMunicipalBondActive = false;
+          this.isQuestionnaireActive = false;
+        } else if (event.url.includes(`data-upload`)) {
+          this.isFcGrantPageActive = true;
+          this.isCreditRatingActive = false;
+          this.isMunicipalBondActive = false;
+          this.isResourceTabActive = false;
+          this.isQuestionnaireActive = false;
+        } else if (event.url.includes(`questionnaires`)) {
+          this.isQuestionnaireActive = true;
+          this.isFcGrantPageActive = false;
+          this.isCreditRatingActive = false;
+          this.isMunicipalBondActive = false;
+          this.isResourceTabActive = false;
+        } else {
+          this.isFcGrantPageActive = false;
+          this.isCreditRatingActive = false;
+          this.isMunicipalBondActive = false;
+          this.isResourceTabActive = false;
+          this.isQuestionnaireActive = false;
+        }
+      }
       this.isLoggedIn = this.authService.loggedIn();
       this.user = this.isLoggedIn ? this.user : null;
 
@@ -58,6 +112,8 @@ export class HomeHeaderComponent implements OnInit {
       }
     });
   }
+
+  private resetActiveClass(exccept?: string) {}
 
   private initializeAccessChecking() {
     this.canViewUploadData = this.accessChecker.hasAccess({
@@ -100,19 +156,129 @@ export class HomeHeaderComponent implements OnInit {
       action: ACTIONS.VIEW,
     });
 
-    this.canViewQuestionnaireForm = this.accessChecker.hasAccess({
-      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
-      action: ACTIONS.VIEW,
-    });
+    this.canViewQuestionnaireForm =
+      this.accessChecker.hasAccess({
+        moduleName: MODULES_NAME.STATE_PROPERTY_TAX_QUESTIONNAIRE,
+        action: ACTIONS.VIEW,
+      }) ||
+      this.accessChecker.hasAccess({
+        moduleName: MODULES_NAME.ULB_LEVEL_PROPERTY_TAX_QUESTIONNAIRE,
+        action: ACTIONS.VIEW,
+      });
   }
 
   ngOnInit() {
     this.isLoggedIn = this.authService.loggedIn();
     this.initializedIsProduction();
     this.setTopRowSticky();
-    // setTimeout(() => {
-    //   this.initializeTranparenceyHandler();
-    // }, 1111);
+
+    // const element = document.getElementById("1stNavbarRow");
+    // if (element) {
+    //   const mutationObserver = new MutationObserver((ev) => {
+    //     console.log(`ev`, ev);
+
+    //     const row = document.getElementById("firstRowNavbar");
+    //     if (!row) return;
+    //     const options: IntersectionObserverInit = {
+    //       root: null,
+    //       rootMargin: "0px",
+    //       threshold: [0.75],
+    //     };
+    //     const intersectionObserver = new IntersectionObserver((ev) => {
+    //       const profileMenu = document.getElementById("profileMenu");
+    //       if (!profileMenu) return;
+    //       // profileMenu.style.display = "none";
+    //     }, options);
+
+    //     intersectionObserver.observe(row);
+    //   });
+    //   mutationObserver.observe(element, { childList: true, subtree: true });
+    // }
+  }
+
+  onClickingNavbarDropdown() {
+    const element = document.getElementById("analyticsDropdown");
+    if (!element) return;
+    if (!this.isAnalyticsPageActive) return;
+    setTimeout(() => {
+      element.classList.add("open");
+    }, 0);
+  }
+
+  navigateToAnalytics() {
+    this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+    if (this.userUtil.isUserOnMobile()) return;
+    this.router.navigate(["analytics/own-revenues"]);
+  }
+
+  // navigateToHome() {
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/home"]);
+  //  }
+
+  // navigateToFinancial() {
+  //  // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  // //  if (this.userUtil.isUserOnMobile()) return;
+  // let element = document.getElementById("navbarNavDropdown");
+  // element.classList.remove("in");
+  //   this.router.navigate(["/financial-statement/report"]);
+  // }
+
+  // navigateToMunicipalLaw() {
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/municipal-law"]);
+  //  }
+
+  //  navigateToMunicipalBond() {
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/borrowings/municipal-bond"]);
+  //  }
+  //  navigateToCreditRating() {
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/borrowings/credit-rating"]);
+  //  }
+
+  //  navigateToResources() {
+  //   // this.showAnalyticsSubMenu = !this.showAnalyticsSubMenu;
+  //  //  if (this.userUtil.isUserOnMobile()) return;
+  //  let element = document.getElementById("navbarNavDropdown");
+  //  element.classList.remove("in");
+  //    this.router.navigate(["/files"]);
+  //  }
+
+  /**
+   * @description Closed sidebar menu on mobile.
+   */
+  closeSidebarMenu() {
+    const element = document.getElementById("navbarNavDropdown");
+    if (element) element.classList.remove("in");
+  }
+
+  onClickingAnalyticsSubMenu(event: Event) {
+    if (!this.userUtil.isUserOnMobile()) return;
+    event.stopPropagation();
+    const element = document.getElementById("navbarNavDropdown");
+    element.classList.remove("in");
+  }
+
+  closeNavbar(event) {
+    const el = event.path[0].classList.value == "dropdown-toggle";
+    const element = document.getElementById("navbarNavDropdown");
+    if (!el && element) {
+      element.classList.remove("in");
+    }
   }
 
   initializedIsProduction() {
@@ -124,8 +290,8 @@ export class HomeHeaderComponent implements OnInit {
   }
 
   goToReportPage() {
-    if (!window.location.pathname.includes("/dashboard/report")) {
-      this.router.navigate(["/dashboard", "report"]);
+    if (!window.location.pathname.includes("/financial-statement/report")) {
+      this.router.navigate(["/financial-statement", "report"]);
     }
   }
 
@@ -149,8 +315,7 @@ export class HomeHeaderComponent implements OnInit {
       return;
     }
     const topPosition = -element.offsetHeight + "px";
-
-    this.renderer.setStyle(this._elementRef.nativeElement, "top", topPosition);
+    this.renderer.setStyle(this._elementRef.nativeElement, "top", 0);
   }
 
   private initializeTranparenceyHandler() {

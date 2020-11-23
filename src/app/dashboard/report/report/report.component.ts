@@ -26,9 +26,19 @@ interface CustomArray<T> {
 @Component({
   selector: "app-report",
   templateUrl: "./report.component.html",
-  styleUrls: ["./report.component.scss"],
+  styleUrls: ["./report.component.scss"]
 })
 export class ReportComponent implements OnInit, OnDestroy {
+  constructor(
+    private formBuilder: FormBuilder,
+    private _loaderService: GlobalLoaderService,
+    private commonService: CommonService,
+    private modalService: BsModalService,
+    private reportService: ReportService,
+    private router: Router,
+    private _dialog: MatDialog,
+    private authService: AuthService
+  ) {}
   // get lf() {
   //   return this.reportForm.controls;
   // }
@@ -45,7 +55,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   ulbForm = {
     ulbFilter: "",
     ulbPopulationFilter: [],
-    ulbTypeFilter: [],
+    ulbTypeFilter: []
   };
   submitted = false;
   isFormInvalid = false;
@@ -54,15 +64,14 @@ export class ReportComponent implements OnInit, OnDestroy {
     { id: "2015-16", itemName: "2015-16" },
     { id: "2016-17", itemName: "2016-17" },
     { id: "2017-18", itemName: "2017-18" },
+    { id: "2018-19", itemName: "2018-19" },
+    { id: "2019-20", itemName: "2019-20" }
   ];
   ulbTypeLookup = [
     { itemName: "All Municipal Corporation", id: "Municipal Corporation" },
     { itemName: "All Municipality", id: "Municipality" },
-    { itemName: "All Town Panchayat", id: "Town Panchayat" },
+    { itemName: "All Town Panchayat", id: "Town Panchayat" }
   ];
-
-  // ulbsToHide = ['AP008', 'AP018', 'AP019', 'AP025', 'AP053', 'AP081', 'AP083', 'KL012', 'TS033', 'UP010', 'AP010', 'AP011', 'AP012', 'AP023', 'AP035', 'AP062', 'AP082', 'CG005', 'CG006', 'JH002', 'JH004', 'JH005', 'JH008', 'JH009', 'JH015', 'JH018', 'JH020', 'JH021', 'JH022', 'JH023', 'JH024', 'JH025', 'JH029', 'JH036', 'JH037', 'KA012', 'KA013', 'KA021', 'KA028', 'KA041', 'KA050', 'KA051', 'KA053', 'KA082', 'KA095', 'KA128', 'KA139', 'KA165', 'KA174', 'KA179', 'KL003', 'MP001', 'MZ001', 'PB005', 'RJ003', 'RJ012', 'RJ018', 'RJ024', 'RJ031', 'RJ032', 'RJ035', 'RJ037', 'RJ039', 'RJ047', 'RJ048', 'RJ051', 'RJ052', 'RJ054', 'RJ060', 'RJ061', 'RJ062', 'RJ074', 'RJ080', 'RJ088', 'RJ090', 'RJ099', 'RJ111', 'RJ117', 'RJ118', 'RJ135', 'RJ138', 'RJ139', 'RJ146', 'RJ155', 'RJ157', 'RJ174', 'RJ177', 'RJ187', 'RJ192', 'TS016', 'TS019', 'TS031', 'UP001', 'UP002', 'UP003', 'UP005', 'UP006', 'UP008', 'CG001', 'CG002', 'CG003', 'GJ001', 'JH003', 'JH013', 'JH035', 'JH038', 'KA003', 'KA008', 'KA029', 'KA032', 'KA069', 'KA076', 'KA101', 'KA102', 'KA126', 'KA127', 'KA152', 'KA168', 'KA181', 'KL002', 'MP002', 'OD001', 'OD002', 'OD003', 'OD005', 'PB003', 'RJ020', 'RJ022', 'RJ025', 'RJ041', 'RJ070', 'RJ078', 'RJ079', 'RJ093', 'RJ101', 'RJ113', 'RJ115', 'RJ121', 'RJ150', 'RJ151', 'RJ154', 'RJ161', 'RJ163', 'RJ179', 'TN001', 'WB001'];
-  // reportType = ["Summary", "Detailed", "Comparative Summary", "Comparative Detailed", "Comparative Summary ULB", "Comparative Detailed ULB", "Common Size Summary", "Common Size Detailed", "Common Size Summary ULB", "Common Size Detailed ULB"];
 
   populationData = [];
 
@@ -102,22 +111,13 @@ export class ReportComponent implements OnInit, OnDestroy {
         text: "Proceed to Login",
         callback: () => {
           this.router.navigate(["/", "login"]);
-        },
+        }
       },
-      cancel: { text: "Cancel" },
-    },
+      cancel: { text: "Cancel" }
+    }
   };
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private _loaderService: GlobalLoaderService,
-    private commonService: CommonService,
-    private modalService: BsModalService,
-    private reportService: ReportService,
-    private router: Router,
-    private _dialog: MatDialog,
-    private authService: AuthService
-  ) {}
+  clickedOnGenerateReport = false;
 
   ngOnInit() {
     for (let i = 65; i <= 90; i++) {
@@ -127,7 +127,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       { id: 1, itemName: "Zero to 1 Lakh", min: 0, max: 100000 },
       { id: 2, itemName: "1 Lakh to 10 Lakhs", min: 100000, max: 1000000 },
       { id: 3, itemName: "10 Lakhs to 1 Crore", min: 1000000, max: 10000000 },
-      { id: 4, itemName: "Above 1 Crore", min: 10000000, max: 100000000 },
+      { id: 4, itemName: "Above 1 Crore", min: 10000000, max: 100000000 }
     ];
     this.populationDropdownSettings = this.reportService.getMultiSelectDropdownSetting(
       "id",
@@ -149,23 +149,25 @@ export class ReportComponent implements OnInit, OnDestroy {
       isComparative: [false, []],
       type: ["Summary", Validators.required],
       years: [[]],
-      yearList: [[], [Validators.required]],
+      yearList: [[this.yearLookup[0]], [Validators.required]],
       reportGroup: ["Income & Expenditure Statement", Validators.required],
       ulbList: [this.selectedUlbs, [Validators.required]],
       ulbIds: [],
-      valueType: ["absolute"],
+      valueType: ["absolute"]
     });
 
     // HERE
     this._loaderService.showLoader();
-    this.commonService.getULBSByYears().subscribe(
+    this.commonService.getULBSByYears([this.yearLookup[0].id]).subscribe(
       (response: IULBResponse) => {
-        Object.values(response.data).forEach((state) => {
+        Object.values(response.data).forEach(state => {
           state.ulbs = state.ulbs.sort((a, b) => (b.name > a.name ? -1 : 0));
         });
         this.originalUlbList = response;
         this.ulbs = JSON.parse(JSON.stringify(this.originalUlbList));
-        this.resetPopupValues();
+
+        this.setPopupDefaultView();
+
         this._loaderService.stopLoader();
       },
       () => {}
@@ -178,7 +180,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     const isUserLoggedIn = this.authService.loggedIn();
     if (!isUserLoggedIn) {
       const dailogboxx = this._dialog.open(DialogComponent, {
-        data: this.defaultDailogConfiuration,
+        data: this.defaultDailogConfiuration
       });
       return;
     }
@@ -189,16 +191,16 @@ export class ReportComponent implements OnInit, OnDestroy {
   private listenToFormGroups() {
     this.searchByNameControl.valueChanges
       .pipe(debounce(() => interval(400)))
-      .subscribe((newText) => {
+      .subscribe(newText => {
         this.ulbFilteredByName = [];
         const newULBS = this.filterULBByFilters("");
-        Object.keys(newULBS.data).forEach((stateCode) => {
+        Object.keys(newULBS.data).forEach(stateCode => {
           const state = newULBS.data[stateCode];
           const filteredULBS = state.ulbs
-            .filter((ulb) =>
+            .filter(ulb =>
               ulb.name.toLowerCase().includes(newText.toLowerCase())
             )
-            .map((ulb) => ({ ...ulb, stateCode }));
+            .map(ulb => ({ ...ulb, stateCode }));
           if (filteredULBS.length) {
             this.ulbFilteredByName = this.ulbFilteredByName.concat(
               filteredULBS
@@ -229,36 +231,41 @@ export class ReportComponent implements OnInit, OnDestroy {
       });
 
     this.reportForm.controls["isComparative"].valueChanges.subscribe(
-      (isComparative) => {
+      isComparative => {
         if (isComparative) {
           this.showAlertBoxForComparativeReport();
+          this.clearPopupValues();
+          this.ulbTypeInView = null;
+        } else {
+          this.clearPopupValues([this.yearLookup[0]]);
         }
-        this.clearPopupValues();
+
         this.selectedUlbs = null;
         this.StateULBTypeMapping = {};
         this.baseULBSelected = null;
         this.ulbForm = {
           ulbFilter: "",
           ulbPopulationFilter: [],
-          ulbTypeFilter: [],
+          ulbTypeFilter: []
         };
+        console.log(this.currentStateInView);
+        console.log(this.ulbTypeInView);
         this.searchByNameControl.setValue("");
         this.baseULBSelected = null;
         this.currentStateInView = null;
-        this.setULBTypeOfState(null);
-        // this.setPopupDefaultValues();
-        this.setULBType(
-          isComparative ? null : "other",
-          this.baseULBSelected ? true : false,
-          this.reportForm.controls.isComparative.value
-        );
+        // this.setULBTypeOfState(null);
+        // // this.setPopupDefaultValues();
+        // this.setULBType(
+        //   isComparative ? null : "other",
+        //   this.baseULBSelected ? true : false,
+        //   this.reportForm.controls.isComparative.value
+        // );
       }
     );
 
-    this.reportForm.controls["yearList"].valueChanges.subscribe((list) => {
-      if (this.reportForm.value.isComparative) {
-        this.getNewULBByDate(list.map((year) => year.id));
-      }
+    this.reportForm.controls["yearList"].valueChanges.subscribe(list => {
+      this.getNewULBByDate(list.map(year => year.id));
+
       if (
         list.length === 1 &&
         !this.ulbTypeSelected &&
@@ -270,7 +277,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     this.reportForm.controls["ulbList"].valueChanges.subscribe(
       (newList: IULB[]) => {
-        const ulbIds = newList.map((ulb) => ulb["_id"] || "");
+        const ulbIds = newList.map(ulb => ulb["_id"] || "");
         if (this.reportForm.controls.isComparative && this.baseULBSelected) {
           ulbIds.push(this.baseULBSelected._id);
         }
@@ -281,22 +288,64 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   getNewULBByDate(years: string[]) {
     this._loaderService.showLoader();
-    this.commonService.getULBSByYears(years).subscribe((response) => {
+    this.commonService.getULBSByYears(years).subscribe(response => {
       this.originalUlbList = response;
       const newULBS = this.filterULBByFilters("");
       this.ulbs = { ...newULBS };
-      if (!this.currentStateInView) {
+
+      if (
+        this.currentStateInView &&
+        !response.data[this.currentStateInView.key]
+      ) {
+        this.currentStateInView = null;
+      }
+
+      if (!this.currentStateInView && !this.reportForm.value.isComparative) {
         const firstStateKey = Object.keys(this.originalUlbList.data).sort()[0];
         const firstState = this.originalUlbList.data[firstStateKey];
         this.currentStateInView = {
           key: firstStateKey,
-          value: { ...firstState },
+          value: { ...firstState }
         };
       }
 
-      this.showState({ ...this.currentStateInView });
+      if (!this.reportForm.value.isComparative) {
+        this.showState({ ...this.currentStateInView });
+        this.ulbTypeSelected = "other";
+      }
+
+      this.filterSelectedULBs();
       this._loaderService.stopLoader();
     });
+  }
+
+  /**
+   * @description It will filter out the selected ulbs which
+   * are not currently present in the List.
+   */
+  private filterSelectedULBs() {
+    if (!this.StateULBTypeMapping) return;
+    const selectedULB = { ...this.StateULBTypeMapping };
+
+    Object.keys(selectedULB).forEach(stateKey => {
+      const ulbsInState = Object.values(selectedULB[stateKey]);
+      const ulbs = (<any>ulbsInState.map(ulb => Object.values(ulb))).flat();
+
+      ulbs.forEach(ulb => {
+        const exists = this.doesULBExistInState(stateKey, ulb);
+
+        if (!exists) {
+          this.onULBClick(stateKey, { type: ulb.type }, ulb);
+        }
+      });
+    });
+  }
+
+  private doesULBExistInState(stateCode: string, ulbToSearch: IULB) {
+    const stateFound = this.originalUlbList.data[stateCode];
+    if (!stateFound) return false;
+    if (!stateFound.ulbs) return false;
+    return !!stateFound.ulbs.find(ulb => ulb._id === ulbToSearch._id);
   }
 
   /**
@@ -311,7 +360,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 `;
     return this._dialog.open(DialogComponent, {
       width: "40vw",
-      data: { message },
+      data: { message }
     });
   }
 
@@ -339,7 +388,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     const stateToSet = this.ulbs.data[options.stateCode];
     this.currentStateInView = {
       key: options.stateCode,
-      value: { ...stateToSet },
+      value: { ...stateToSet }
     };
     this.setULBTypeOfState({ type: options.ulbType });
     if (options.ulb) {
@@ -359,12 +408,12 @@ export class ReportComponent implements OnInit, OnDestroy {
     const newULBS: IULBResponse = {
       data: {},
       msg: this.originalUlbList.msg,
-      success: this.originalUlbList.success,
+      success: this.originalUlbList.success
     };
-    Object.keys(this.originalUlbList.data).forEach((stateKey) => {
+    Object.keys(this.originalUlbList.data).forEach(stateKey => {
       let filteredULBS = (<IULB[]>(
         this.originalUlbList.data[stateKey].ulbs
-      )).filter((ulb) =>
+      )).filter(ulb =>
         textToSeatch && textToSeatch.trim()
           ? ulb.name.toLowerCase().includes(textToSeatch.toLowerCase())
           : true
@@ -377,7 +426,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       if (filteredULBS.length) {
         newULBS.data[stateKey] = {
           state: this.originalUlbList.data[stateKey].state,
-          ulbs: filteredULBS,
+          ulbs: filteredULBS
         };
       }
     });
@@ -420,6 +469,7 @@ export class ReportComponent implements OnInit, OnDestroy {
    * This methond is executed whenever user is clicking on the ULB Type (Municipality / Town Panchayat / Municipal Corporation)
    */
   setULBTypeOfState(type: { type: ulbType }) {
+    console.log(`setULBTypeOfState`);
     this.ulbTypeInView = type;
     this.showState(this.currentStateInView);
   }
@@ -429,26 +479,28 @@ export class ReportComponent implements OnInit, OnDestroy {
       return (this.currentStateInView = null);
     }
     if (!this.ulbTypeInView) {
+      console.log(`showState`);
+
       this.ulbTypeInView = { type: this.ULBTYPES[0].type };
     }
 
     const originalState = {
-      ...this.originalUlbList.data[state.key],
+      ...this.originalUlbList.data[state.key]
     };
+
     const filteredByPopulation = this.filterULBByPopulation(originalState.ulbs);
     originalState.ulbs = filteredByPopulation;
     this.filteredULBTypes = this.filterEmptyULBForState(originalState);
 
     this.ulbTypeInView = this.filteredULBTypes.some(
-      (uType) => uType.type === this.ulbTypeInView.type
+      uType => uType.type === this.ulbTypeInView.type
     )
       ? this.ulbTypeInView
       : this.filteredULBTypes[0];
-
     const stateFound = this.ulbs.data[state.key];
     const newState = { key: state.key, value: { ...stateFound } };
     const fitlerULB = newState.value.ulbs
-      ? newState.value.ulbs.filter((ulb) => {
+      ? newState.value.ulbs.filter(ulb => {
           return ulb.type === this.ulbTypeInView.type;
         })
       : [];
@@ -456,10 +508,9 @@ export class ReportComponent implements OnInit, OnDestroy {
     newState.value.ulbs = fitlerULB;
 
     if (this.ulbForm.ulbPopulationFilter.length) {
-      newState.value.ulbs = newState.value.ulbs.filter((ulb) => {
+      newState.value.ulbs = newState.value.ulbs.filter(ulb => {
         const canShowULB = this.ulbForm.ulbPopulationFilter.some(
-          (option) =>
-            option.min <= ulb.population && option.max >= ulb.population
+          option => option.min <= ulb.population && option.max >= ulb.population
         );
         return canShowULB;
       });
@@ -468,30 +519,46 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   filterEmptyULBForState(originalState: { state: string; ulbs: IULB[] }) {
-    return this.ULBTYPES.filter((ulbType) =>
-      originalState.ulbs.some((ulb) => ulb.type === ulbType.type)
+    return this.ULBTYPES.filter(ulbType =>
+      originalState.ulbs.some(ulb => ulb.type === ulbType.type)
     );
   }
 
-  resetPopupValues() {
+  resetPopupValues(defaultYearSelect?: { id: string; itemName: string }) {
     this.clearPopupValues();
-    this.setPopupDefaultValues();
+    this.setPopupDefaultView();
   }
 
-  clearPopupValues() {
+  clearPopupValues(defaultYearSet?: { id: string; itemName: string }[]) {
     this.reportForm.patchValue({
-      yearList: [],
+      // yearList: [defaultYearSet ? defaultYearSet : []],
       ulbList: [],
-      year: [],
+      year: []
     });
-    this.reportForm.controls.yearList.setValue([]);
+    console.log(`clearPopupValues`, defaultYearSet);
+    const preSelectedYear: { id: string; itemName: string }[] = this.reportForm
+      .controls.yearList.value;
+    if (!defaultYearSet) {
+      this.reportForm.controls.yearList.setValue([]);
+    } else if (defaultYearSet.length !== preSelectedYear.length) {
+      this.reportForm.controls.yearList.setValue([]);
+    } else {
+      const allAreEqual = defaultYearSet.every(
+        year =>
+          !!preSelectedYear.find(currentYear => currentYear.id === year.id)
+      );
+      if (!allAreEqual) {
+        this.reportForm.controls.yearList.setValue([]);
+      }
+    }
+
     this.selectedUlbs = null;
     this.StateULBTypeMapping = {};
     this.baseULBSelected = null;
     this.ulbForm = {
       ulbFilter: "",
       ulbPopulationFilter: [],
-      ulbTypeFilter: [],
+      ulbTypeFilter: []
     };
     this.searchByNameControl.setValue("");
     this.baseULBSelected = null;
@@ -499,8 +566,11 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.setULBTypeOfState(null);
   }
 
-  setPopupDefaultValues() {
+  setPopupDefaultView() {
     this.reportForm.controls["isComparative"].setValue(false);
+    // if (this.reportForm.controls["isComparative"].value !== false) {
+    //   this.reportForm.controls["isComparative"].setValue(false);
+    // }
     if (
       this.originalUlbList &&
       this.originalUlbList.data &&
@@ -510,7 +580,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       const firstState = this.originalUlbList.data[firstStateKey];
       this.currentStateInView = {
         key: firstStateKey,
-        value: { ...firstState },
+        value: { ...firstState }
       };
       this.ulbTypeSelected = "other";
       this.setULBTypeOfState(this.ULBTYPES[0]);
@@ -521,7 +591,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   resetPage() {
-    this.resetPopupValues();
+    // this.resetPopupValues();
     // this.reportForm.reset();
     this.reportForm.patchValue({
       type: "Summary",
@@ -529,7 +599,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       yearList: [],
       ulbList: [],
       reportGroup: "Income & Expenditure Statement",
-      valueType: "absolute",
+      valueType: "absolute"
     });
     this.baseULBSelected = null;
     this.activeGroup = "IE";
@@ -569,6 +639,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     );
   }
 
+  onYearSelectionClose() {}
+
   /**
    * This method is executed whenever the report is needed to generate (generally when Generate Report button is clicked);
    */
@@ -601,7 +673,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       }
 
       return this._dialog.open(DialogComponent, {
-        data: { message: alertMessage },
+        data: { message: alertMessage }
       });
     }
 
@@ -619,7 +691,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     ) {
       this.reportForm.value.ulbList = [
         { ...this.baseULBSelected },
-        ...this.reportForm.value.ulbList,
+        ...this.reportForm.value.ulbList
       ];
     }
 
@@ -632,7 +704,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     ) {
       const message = "Please select different ULBs to compare";
       return this._dialog.open(DialogComponent, {
-        data: { message },
+        data: { message }
       });
     } else if (
       this.reportForm.value.ulb &&
@@ -640,12 +712,12 @@ export class ReportComponent implements OnInit, OnDestroy {
         "Municipal Corporation",
         "Municipality",
         "Town Panchayat",
-        "All",
+        "All"
       ].indexOf(this.reportForm.value.ulb.value) > -1
     ) {
       this.reportForm.value.ulbList = [];
       const ulbType = this.reportForm.value.ulb.value;
-      this.ulbs.forEach((ulb) => {
+      this.ulbs.forEach(ulb => {
         if (ulbType == "All" || ulb.type == ulbType) {
           this.reportForm.value.ulbList.push(ulb.code);
         }
@@ -654,7 +726,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       if (this.reportForm.value.ulbList.length == 0) {
         const message = "No Ulbs available under current selection";
         return this._dialog.open(DialogComponent, {
-          data: { message },
+          data: { message }
         });
         return false;
       }
@@ -669,45 +741,46 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     this.modalRef.hide();
     this._loaderService.showLoader();
+    this.clickedOnGenerateReport = true;
 
     if (
       this.reportForm.value.ulbList.length == 1 &&
       !this.reportForm.value.isComparative
     ) {
-      this.router.navigate(["/dashboard/report/basic"]);
+      this.router.navigate(["/financial-statement/report/basic"]);
     } else if (
       this.reportForm.value.ulbList.length > 1 ||
       this.reportForm.value.yearList.length > 1
     ) {
-      this.router.navigate(["/dashboard/report/comparative-ulb"]);
+      this.router.navigate(["/financial-statement/report/comparative-ulb"]);
     } else if (
       ["Common Size Detailed ULB", "Common Size Summary ULB"].indexOf(
         this.reportForm.value.type
       ) > -1
     ) {
-      this.router.navigate(["/dashboard/report/common-size-ulb"]);
+      this.router.navigate(["/financial-statement/report/common-size-ulb"]);
     } else if (
       ["Common Size Detailed", "Common Size Summary"].indexOf(
         this.reportForm.value.type
       ) > -1
     ) {
-      this.router.navigate(["/dashboard/report/common-size"]);
+      this.router.navigate(["/financial-statement/report/common-size"]);
     } else if (
       ["detailed", "summary"].indexOf(this.reportForm.value.type) > -1
     ) {
-      this.router.navigate(["/dashboard/report/basic"]);
+      this.router.navigate(["/financial-statement/report/basic"]);
     } else if (
       ["Comparative Detailed", "Comparative Summary"].indexOf(
         this.reportForm.value.type
       ) > -1
     ) {
-      this.router.navigate(["/dashboard/report/comparative"]);
+      this.router.navigate(["/financial-statement/report/comparative"]);
     } else if (
       ["Comparative Detailed ULB", "Comparative Summary ULB"].indexOf(
         this.reportForm.value.type
       ) > -1
     ) {
-      this.router.navigate(["/dashboard/report/comparative-ulb"]);
+      this.router.navigate(["/financial-statement/report/comparative-ulb"]);
     } else {
       alert("Something went wrong!");
     }
@@ -722,7 +795,10 @@ export class ReportComponent implements OnInit, OnDestroy {
     } else {
       this.ulbTypeSelected = "other";
     }
-    this.modalRef = this.modalService.show(template, { class: "modal-lg" });
+    this.modalRef = this.modalService.show(template, {
+      class: "modal-lg"
+      // backdrop: "static",
+    });
   }
 
   // Click event on parent checkbox
@@ -755,11 +831,11 @@ export class ReportComponent implements OnInit, OnDestroy {
     ulbs: IULB[];
   }) {
     this.selectedUlbs = this.selectedUlbs.filter(
-      (ulb) => ulb.state !== state.state
+      ulb => ulb.state !== state.state
     );
 
     this.reportForm.controls.ulbList.setValue([...this.selectedUlbs]);
-    state.ulbs = state.ulbs.map((ulb) => ({ ...ulb, isSelected: false }));
+    state.ulbs = state.ulbs.map(ulb => ({ ...ulb, isSelected: false }));
   }
 
   // // Click event on child checkbox
@@ -805,19 +881,19 @@ export class ReportComponent implements OnInit, OnDestroy {
       if (stateToShow) {
         this.filteredULBTypes = this.filterEmptyULBForState(stateToShow);
         this.ulbTypeInView = this.filteredULBTypes.some(
-          (uType) => uType.type === this.ulbTypeInView.type
+          uType => uType.type === this.ulbTypeInView.type
         )
           ? this.ulbTypeInView
           : this.filteredULBTypes[0];
-        stateToShow.ulbs = stateToShow.ulbs.filter((ulb) =>
+        stateToShow.ulbs = stateToShow.ulbs.filter(ulb =>
           this.ulbTypeInView ? ulb.type === this.ulbTypeInView.type : true
         );
         this.currentStateInView = {
           key: this.currentStateInView.key,
-          value: { ...stateToShow },
+          value: { ...stateToShow }
         };
         const originalState = {
-          ...this.originalUlbList.data[this.currentStateInView.key],
+          ...this.originalUlbList.data[this.currentStateInView.key]
         };
       } else {
         this.currentStateInView = null;
@@ -826,12 +902,12 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   filterULBByPopulation(ulbList: IULB[]) {
-    return ulbList.filter((ulb) => {
+    return ulbList.filter(ulb => {
       if (!this.ulbForm.ulbPopulationFilter.length) {
         return true;
       }
       const canShowULB = this.ulbForm.ulbPopulationFilter.some(
-        (option) => option.min <= ulb.population && option.max >= ulb.population
+        option => option.min <= ulb.population && option.max >= ulb.population
       );
       return canShowULB;
     });
@@ -920,12 +996,13 @@ export class ReportComponent implements OnInit, OnDestroy {
   //   delete this.StateULBTypeMapping[stateCode];
   // }
 
-  onULBClick(stateCode: string, ulbType: { type: string }, ulb: IULB) {
+  onULBClick(stateCode: string, ulbType: { type: IULB["type"] }, ulb: IULB) {
     const ulbCode = ulb.code;
+
     if (!this.StateULBTypeMapping[stateCode]) {
       this.StateULBTypeMapping = {
         ...this.StateULBTypeMapping,
-        [stateCode]: { [ulbType.type]: { [ulbCode]: ulb } },
+        [stateCode]: { [ulbType.type]: { [ulbCode]: ulb } }
       };
     } else if (!this.StateULBTypeMapping[stateCode][ulbType.type]) {
       this.StateULBTypeMapping[stateCode][ulbType.type] = { [ulb.code]: ulb };
@@ -937,7 +1014,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
     this.updateSelectedULBSFromMapping();
     const allULBAreSameType = this.reportForm.controls.ulbList.value.every(
-      (formULB) =>
+      formULB =>
         this.reportForm.controls.ulbList.value.length
           ? formULB.type === this.reportForm.controls.ulbList.value[0].type
           : true
@@ -959,7 +1036,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   checkAlertForDifferentULB(latestULB: IULB) {
     if (!this.isAlertForDifferentULBShown) {
       const allULBAreSameType = this.reportForm.controls.ulbList.value.every(
-        (formULB) => formULB.type === latestULB.type
+        formULB => formULB.type === latestULB.type
       );
       if (!allULBAreSameType) {
         const alreadySelectULB: IULB = this.reportForm.controls.ulbList
@@ -968,7 +1045,7 @@ export class ReportComponent implements OnInit, OnDestroy {
         this.isAlertForDifferentULBShown = true;
 
         return this._dialog.open(DialogComponent, {
-          data: { message },
+          data: { message }
         });
       }
     }
@@ -980,12 +1057,10 @@ export class ReportComponent implements OnInit, OnDestroy {
   updateSelectedULBSFromMapping() {
     let myArray = [];
 
-    Object.keys(this.StateULBTypeMapping).forEach((newStateCode) => {
-      Object.values(this.StateULBTypeMapping[newStateCode]).forEach(
-        (option) => {
-          myArray.push(Object.values(option));
-        }
-      );
+    Object.keys(this.StateULBTypeMapping).forEach(newStateCode => {
+      Object.values(this.StateULBTypeMapping[newStateCode]).forEach(option => {
+        myArray.push(Object.values(option));
+      });
     });
 
     myArray = ((myArray as any) as CustomArray<IULB[]>).flat();
@@ -993,7 +1068,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     if (myArray) {
       this.selectedUlbs = myArray;
       const areAllSameULBS = this.selectedUlbs.every(
-        (ulb) => ulb.type === myArray[0].type
+        ulb => ulb.type === myArray[0].type
       );
       if (areAllSameULBS) {
         this.isAlertForDifferentULBShown = false;
@@ -1059,8 +1134,8 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     if (!ulbTypeToSearch || !ulbTypeToSearch.type) {
       Object.values(this.StateULBTypeMapping[stateCodeToSearch]).forEach(
-        (ulbType) => {
-          Object.values(ulbType).forEach((ulb) => total++);
+        ulbType => {
+          Object.values(ulbType).forEach(ulb => total++);
         }
       );
     } else {
@@ -1083,11 +1158,12 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.ulbForm = {
       ulbFilter: "",
       ulbPopulationFilter: [],
-      ulbTypeFilter: [],
+      ulbTypeFilter: []
     };
 
-    Object.assign(this.ulbs, this.originalUlbList);
+    // Object.assign(this.ulbs, this.originalUlbList);
     this.resetPage();
+    this.clickedOnGenerateReport = false;
   }
 
   /**
@@ -1100,7 +1176,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   filterULBIfExists(ulbTypeToCheck: ulbType) {
     return this.currentStateInView.value.ulbs.some(
-      (ulb) => ulb.type === ulbTypeToCheck
+      ulb => ulb.type === ulbTypeToCheck
     );
   }
 

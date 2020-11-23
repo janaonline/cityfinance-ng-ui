@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatHorizontalStepper } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,8 +22,15 @@ import { userChargesForm } from '../configs/user-charges.config';
   styleUrls: ["./state-questionnaires.component.scss"],
 })
 export class StateQuestionnairesComponent implements OnInit, OnDestroy {
+  constructor(
+    private _questionnaireService: QuestionnaireService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private _matDialog: MatDialog
+  ) {}
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
   @ViewChild("savingAsDraft") savingAsDraftPopup: TemplateRef<any>;
+  @ViewChild("savingPopup") savingPopup: TemplateRef<any>;
   draftSavingInProgess = false;
   introductionCompleted = false;
   propertyTaxData: IQuestionnaireResponse["data"][0]["propertyTax"];
@@ -69,17 +77,15 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     height: "70vh",
   };
 
-  constructor(
-    private _questionnaireService: QuestionnaireService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private _matDialog: MatDialog
-  ) {}
+  saveAsDraftFailMessge: string;
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params) => {
       try {
         this.userData = JSON.parse(localStorage.getItem("userData"));
+        if (!this.userData) {
+          return this.router.navigate(["/login"]);
+        }
         const id =
           params && params.stateId ? params.stateId : this.userData.state;
         this.currentStateId = id;
@@ -91,29 +97,31 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
   }
 
   fetchQuestionnaireData(stateId: string) {
-    this._questionnaireService.getQuestionnaireData(stateId).subscribe(
-      (res) => {
-        this.stateName = res ? res.stateName : "Not Available";
-        this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
+    this._questionnaireService
+      .getStateQuestionnaireData({ state: stateId })
+      .subscribe(
+        (res) => {
+          this.stateName = res ? res.stateName : "Not Available";
+          this.userHasAlreadyFilledForm = this.hasUserAlreadyFilledForm(res);
 
-        if (this.userHasAlreadyFilledForm) {
-          this.setComponentStateToAlreadyFilled(res, true);
-        } else {
-          this.propertyTaxData = res.propertyTax;
-          this.UserChargesData = res.userCharges;
-          this.documentData = res.documents;
+          if (this.userHasAlreadyFilledForm) {
+            this.setComponentStateToAlreadyFilled(res, true);
+          } else {
+            this.propertyTaxData = res.propertyTax;
+            this.UserChargesData = res.userCharges;
+            this.documentData = res.documents;
+          }
+
+          this.validateQuestionnaireFillAccess();
+          this.showLoader = false;
+        },
+        (error) => {
+          this.showLoader = false;
+          setTimeout(() => {
+            this.stepper.selectedIndex = 3;
+          }, 222);
         }
-
-        this.validateQuestionnaireFillAccess();
-        this.showLoader = false;
-      },
-      (error) => {
-        this.showLoader = false;
-        setTimeout(() => {
-          this.stepper.selectedIndex = 3;
-        }, 222);
-      }
-    );
+      );
   }
 
   setIntroductionCompleted(value: boolean) {
@@ -141,6 +149,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
   }
 
   saveAsDraft() {
+    this.saveAsDraftFailMessge = null;
     this.draftSavingInProgess = true;
     if (this.userHasAlreadyFilledForm) return false;
     const obj = {
@@ -157,21 +166,30 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
       width: "35vw",
       height: "fit-content",
     });
-    this._questionnaireService.saveQuestionnaireData(obj).subscribe((res) => {
-      this.draftSavingInProgess = false;
-      setTimeout(() => {
-        this._matDialog.closeAll();
-      }, 3000);
-    });
+    this._questionnaireService.saveStateQuestionnaireData(obj).subscribe(
+      (res) => {
+        this.draftSavingInProgess = false;
+        setTimeout(() => {
+          this._matDialog.closeAll();
+        }, 3000);
+      },
+      (err) => {
+        this.draftSavingInProgess = false;
+        this.saveAsDraftFailMessge =
+          err.error.message || err.error.msg || "Server Error";
+      }
+    );
   }
 
   uploadCompletedQuestionnaireData() {
+    this.saveAsDraftFailMessge = null;
     if (this.userHasAlreadyFilledForm) {
       return;
     }
     try {
       this.validatorQuestionnaireForms();
     } catch (error) {
+      console.error(error);
       return;
     }
 
@@ -181,21 +199,36 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
       userCharges: userChargesForm.value,
       isCompleted: true,
     };
+
     if (this.userData.role !== USER_TYPE.STATE) {
       obj["state"] = this.currentStateId;
     }
-    this.userHasAlreadyFilledForm = true;
-    this.editable = false;
-    this.setComponentStateToAlreadyFilled(
-      {
-        ...obj,
-        stateName: this.stateName,
+    this._matDialog.open(this.savingPopup, {
+      width: "35vw",
+      height: "fit-content",
+      disableClose: true,
+    });
+
+    this._questionnaireService.saveStateQuestionnaireData(obj).subscribe(
+      (res) => {
+        this._matDialog.closeAll();
+        this.userHasAlreadyFilledForm = true;
+        this.editable = false;
+        this.setComponentStateToAlreadyFilled(
+          {
+            ...obj,
+            stateName: this.stateName,
+          },
+          false
+        );
       },
-      false
+      (err: HttpErrorResponse) => {
+        this.saveAsDraftFailMessge =
+          err.error.message ||
+          "Failed to save data. Please try after some time";
+        console.error(err);
+      }
     );
-    this._questionnaireService
-      .saveQuestionnaireData(obj)
-      .subscribe((res) => {}, console.error);
   }
 
   validatorQuestionnaireForms() {
@@ -241,21 +274,26 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
   private validateUserAccess(params: { stateId: string }) {
     const userRole: USER_TYPE = this.userData.role;
-
     const canUserFillQuestionnaireForm = this.accessValidator.hasAccess({
-      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
+      moduleName: MODULES_NAME.STATE_PROPERTY_TAX_QUESTIONNAIRE,
       action: ACTIONS.FORM_FILL,
     });
 
     const canUserViewFilledQuestionnaireForm = this.accessValidator.hasAccess({
-      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
+      moduleName: MODULES_NAME.STATE_PROPERTY_TAX_QUESTIONNAIRE,
       action: ACTIONS.VIEW,
     });
+
+    if (!canUserViewFilledQuestionnaireForm) {
+      console.error(`Access denied!`);
+      return this.router.navigate(["/home"]);
+    }
+
     if (userRole !== USER_TYPE.STATE && (!params || !params.stateId)) {
       if (canUserViewFilledQuestionnaireForm) {
         return this.router.navigate(["/questionnaires/states"]);
       }
-      console.error(`access denied!`);
+      console.error(`Access denied!`);
 
       return this.router.navigate(["/home"]);
     }
@@ -267,7 +305,7 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
 
   private validateQuestionnaireFillAccess() {
     const canUserFillQuestionnaireForm = this.accessValidator.hasAccess({
-      moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE,
+      moduleName: MODULES_NAME.STATE_PROPERTY_TAX_QUESTIONNAIRE,
       action: ACTIONS.FORM_FILL,
     });
 
@@ -307,5 +345,9 @@ export class StateQuestionnairesComponent implements OnInit, OnDestroy {
     //   : false;
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    propertyTaxForm.reset();
+    documentForm.reset();
+    userChargesForm.reset();
+  }
 }

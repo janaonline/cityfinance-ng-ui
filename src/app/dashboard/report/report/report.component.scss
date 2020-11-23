@@ -37,6 +37,24 @@
 .ulbTypeSelected {
   background: rgb(192, 192, 192);
 }
+.disable-state-link {
+  cursor: not-allowed;
+  opacity: 0.5;
+  // background: red;
+  position: relative;
+  pointer-events: none;
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    // background: green;
+    cursor: not-allowed;
+  }
+  // pointer-events: visible;
+}
 
 .stateULBSelected,
 .stateULBSelected:hover {
@@ -48,11 +66,16 @@
 .ulbTabActive,
 .activeState {
   background: #216278;
-  color: white;
+  background-color: #216278 !important;
+  color: white !important;
 }
 
 .activeState > a {
   color: white;
+}
+
+a {
+  color: #216278;
 }
 
 .stateULBSelected > a {
@@ -183,16 +206,16 @@ a.inactive-tab:hover {
 }
 
 /* When the input is focused */
-::ng-deep .container {
-  .mat-form-field-outline,
-  .mat-form-field-empty.mat-form-field-label,
-  .mat-form-field-label,
-  .mat-form-field-underline,
-  .mat-input-element,
-  ::placeholder {
-    color: rgb(235, 8, 8) !important;
-  }
-}
+// ::ng-deep .container {
+//   .mat-form-field-outline,
+//   .mat-form-field-empty.mat-form-field-label,
+//   .mat-form-field-label,
+//   .mat-form-field-underline,
+//   .mat-input-element,
+//   ::placeholder {
+//     color: rgb(235, 8, 8) !important;
+//   }
+// }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
   border-radius: 0px !important;
@@ -266,7 +289,8 @@ a.inactive-tab:hover {
   margin-left: 0px;
 }
 
-a {
-  color: #216278;
-  text-decoration: none;
+.finance-statement-popup {
+  .nav-tabs > li.active > a {
+    background: grey;
+  }
 }

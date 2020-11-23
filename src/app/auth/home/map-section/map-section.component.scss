@@ -4,21 +4,26 @@
   display: grid;
   grid-gap: 15px;
 }
-
+@media screen and (max-width: 768px) {
+  .heading {
+    margin: 7vw auto 4vw auto !important;
+  }
+}
 @media (min-width: 1060px) {
   .wrapper {
     font-size: 1vw;
 
-    grid-template: repeat(4, 15vh) / repeat(17, 1fr);
+    grid-template: repeat(4, 15vh) / repeat(19, 1fr);
     grid-template-areas:
-      ". . . . . . . . . m m m m m m m m"
-      "s s s s s s s s s m m m m m m m m"
-      "v v v v . . . . . m m m m m m m m"
-      "v v v v . . . . . m m m m m m m m";
+      "m m m m m m m m m s s s s s s s s s s"
+      "m m m m m m m m m v v v v v v v v v v"
+      "m m m m m m m m m v v v v v v v v v v"
+      "m m m m m m m m m v v v v v v v v v v";
+    grid-template-rows: auto 3vh 1fr 1fr;
   }
 }
 
-@media (max-width: 1059px) {
+@media (max-width: 1059px) and (min-width: 900px) {
   .wrapper {
     font-size: 1.5vw;
     grid-template: repeat(6, 15vh) / repeat(4, 1fr);
@@ -32,13 +37,26 @@
 
 .selectPart {
   grid-area: s;
-
+  font-weight: 500;
+  margin-left: 1.4%;
   color: var(--multi-dropdown-color);
+  form {
+    @media screen and (max-width: 551px) {
+      float: left;
+      margin-right: 10px;
+    }
+  }
+  @media screen and (max-width: 885px) and (min-width: 500px) {
+    grid-area: 1 / 1 / 7 / 6;
+  }
+  @media screen and (max-width: 468px) {
+    grid-area: 1 / 5 / auto / 1;
+  }
 }
 @media (max-width: 1958px) {
   .selectPart {
     // font-size: 1.3vw;
-    font-size: 1.3em;
+    font-size: 1.1em;
   }
 }
 
@@ -48,11 +66,30 @@
   }
 }
 
+@media (max-width: 250px) {
+  .selectPart {
+    // font-size: 1.3vw;
+    font-size: 8px;
+  }
+}
+
 .visualization {
   grid-area: v;
+  // background: green;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   margin-top: 5px;
   color: var(--multi-dropdown-color);
   font-size: 1.2em;
+  @media screen and (max-width: 480px) and (max-width: 470px) {
+    grid-area: 36 / 1 / 7 / 6;
+    font-size: 14px;
+  }
+  @media screen and (max-width: 468px) {
+    grid-area: 36 / 1 / 7 / 6;
+    font-size: 14px;
+  }
   table {
     // width: 100%;
     tbody tr {
@@ -69,6 +106,137 @@
       }
     }
   }
+
+  .card {
+    // background: red;
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1%;
+    padding: 2%;
+    width: 31%;
+    height: 200px;
+    border-radius: 7px;
+    box-shadow: 3px 3px 9px #a0a0a0;
+    font-size: 0.8em;
+    padding: 4% 3%;
+    text-align: center;
+    @media screen and (max-width: 551px) {
+      width: 46%;
+      min-height: 230px;
+    }
+    @media screen and (max-width: 468px) {
+      min-height: 200px;
+    }
+    .data-point-value {
+      font-size: 1.8em;
+      display: block;
+      width: 100%;
+      @media screen and (max-width: 280px) {
+        font-size: 10px;
+      }
+    }
+    .data-point-name {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+    transition: all 0.1s;
+    .btn-explore {
+      background: transparent;
+      border: 0px solid white;
+      border-radius: 5px;
+      outline: none;
+      transition: all 0.5s;
+      opacity: 0;
+      transform: translateY(+100%);
+
+      @media screen and (max-width: 551px) {
+        opacity: 1;
+        border: 1px solid #fff;
+        color: #fff;
+        transform: translateY(+60%);
+      }
+    }
+
+    &:hover {
+      .btn-explore {
+        opacity: 1;
+        transform: translateY(+10%);
+      }
+    }
+  }
+
+  #card1 {
+    background: rgb(34, 188, 238);
+
+    &:hover {
+      background: white;
+      color: rgb(34, 188, 238);
+      .btn-explore {
+        color: white;
+        background: rgb(34, 188, 238);
+      }
+    }
+  }
+  #card2 {
+    background: rgb(231, 19, 104);
+    &:hover {
+      background: white;
+      color: rgb(231, 19, 104);
+      .btn-explore {
+        color: white;
+        background: rgb(231, 19, 104);
+      }
+    }
+  }
+  #card3 {
+    background: rgb(98, 180, 70);
+    &:hover {
+      background: white;
+      color: rgb(98, 180, 70);
+      .btn-explore {
+        color: white;
+        background: rgb(98, 180, 70);
+      }
+    }
+  }
+  #card4 {
+    background: rgb(241, 104, 49);
+    &:hover {
+      background: white;
+      color: rgb(241, 104, 49);
+      .btn-explore {
+        color: white;
+        background: rgb(241, 104, 49);
+      }
+    }
+  }
+  #card5 {
+    background: rgb(67, 132, 76);
+    &:hover {
+      background: white;
+      color: rgb(67, 132, 76);
+      .btn-explore {
+        color: white;
+        background: rgb(67, 132, 76);
+      }
+    }
+  }
+  #card6 {
+    background: rgb(252, 196, 21);
+    &:hover {
+      background: white;
+      color: rgb(252, 196, 21);
+      .btn-explore {
+        color: white;
+        background: rgb(252, 196, 21);
+      }
+    }
+  }
 }
 
 @media (max-width: 1059px) {
@@ -79,6 +247,23 @@
 
 .mapWrapper {
   grid-area: m;
+
+  @media screen and (max-width: 468px) {
+    width: 100%;
+    overflow: hidden;
+  }
+  @media screen and (max-width: 480px) and (max-width: 470px) {
+    grid-area: 2 / 1 / 8 / 5 !important;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  @media screen and (max-width: 468px) {
+    grid-area: 2 / 1 / 8 / 5 !important;
+    width: 100%;
+    overflow: hidden;
+  }
+  // background: red;
   #mapid {
     border-radius: inherit;
     left: 5px;
@@ -91,11 +276,18 @@
     max-height: 100%;
     transition: all 0.8s;
     font-size: 0.7em;
+
+    @media screen and (max-width: 885px) and (min-width: 500px) {
+      font-size: 6px;
+    }
+    @media screen and (max-width: 468px) {
+      left: 6vw;
+    }
   }
 }
 
 form {
-  width: 45%;
+  width: 30%;
   display: inline-block;
 }
 
@@ -160,15 +352,15 @@ form {
 
 ::ng-deep .ml-0 {
   max-width: 140px;
-  transform: translateX(-5%);
-  margin-bottom: 5vh !important;
+  transform: translateX(-35%);
+  margin-bottom: 3vh !important;
   overflow: visible;
-  font-size: 0.6vw;
+  // font-size: 0.6vw;
 }
 
 @media (max-width: 1060px) {
   ::ng-deep .ml-0 {
-    font-size: 1em;
+    font-size: 10px;
   }
 }
 
@@ -182,4 +374,116 @@ form {
 
 .loading-value {
   opacity: 0.1;
+}
+
+:host {
+  ::ng-deep {
+    .selected-list .c-angle-down,
+    .selected-list .c-angle-up {
+      top: 50%;
+      transform: translateY(-55%);
+    }
+  }
+
+  .heading {
+    width: 35%;
+    display: block;
+    margin-top: 70px;
+    margin: 2vw auto;
+    // margin-bottom: 2%;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
+    color: #059b9a;
+    position: relative;
+    text-align: center;
+    span {
+      display: inline-block;
+      background: #fafafa;
+      z-index: 1;
+      position: relative;
+      padding: 1% 3%;
+    }
+  }
+
+  .heading::after {
+    content: "";
+    display: inline-block;
+    background: #059b9a;
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    z-index: 0;
+  }
+}
+
+@media screen and (max-width: 480px) and (min-width: 470px) {
+  .wrapper {
+    font-size: 12px;
+    grid-template: repeat(6, 8vh) / repeat(4, 1fr);
+  }
+  .selectPart {
+    grid-area: 1/8 / auto/1;
+  }
+  .selectPart form {
+    float: left;
+    margin-right: 10px;
+  }
+  .homepage-stateList {
+    font-size: 14px !important;
+  }
+  .mapWrapper {
+    grid-area: 2 / 8 / 6 / 1 !important;
+    width: 100%;
+    overflow: hidden;
+  }
+  .visualization {
+    grid-area: 20 / 1 / 6 / 8;
+    font-size: 14px;
+  }
+  .visualization .card {
+    min-height: 210px !important;
+  }
+} // 480px - 470
+
+@media screen and (max-width: 1024px) and (min-width: 500px) {
+  .visualization {
+    //   grid-area: 5 / 1 / 5 / 6;
+  }
+  .wrapper {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(3, minmax(40px, auto));
+    grid-template-areas:
+      "s s s"
+      "m m m"
+      "v v v";
+  }
+  .mapWrapper #mapid {
+    min-height: 350px;
+  }
+}
+@media screen and (max-width: 600px) and (min-width: 555px) {
+  .selectPart {
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 468px) {
+  .wrapper {
+    grid-template: repeat(6, 8vh) / repeat(4, 1fr);
+  }
+
+  .btn {
+    padding: 3px 14px;
+  }
+}
+@media screen and (max-width: 240px) {
+  //   .wrapper {
+  // grid-template: repeat(6, 14vh)/repeat(4, 1fr);
+  //   }
+  // .mapWrapper[_ngcontent-c8] {
+  //   grid-area: 2 / 1 / 8 / 5 !important;
+  // }
 }

@@ -1,38 +1,33 @@
-import {Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
-import {Chart} from 'chart.js';
-import {FormControl} from '@angular/forms';
-import {FinancialDataService} from '../../../users/services/financial-data.service';
-import {element} from 'protractor';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Chart } from 'chart.js';
+import { element } from 'protractor';
+
+import { FinancialDataService } from '../../../users/services/financial-data.service';
 
 @Component({
-  selector: 'app-financial-data-chart',
-  templateUrl: './financial-data-chart.component.html',
-  styleUrls: ['./financial-data-chart.component.scss']
+  selector: "app-financial-data-chart",
+  templateUrl: "./financial-data-chart.component.html",
+  styleUrls: ["./financial-data-chart.component.scss"],
 })
 export class FinancialDataChartComponent implements OnInit, OnChanges {
-
   @Input() financialYears: any[];
   chart = null;
-  financialYearFormControl: FormControl = new FormControl('2015-16');
+  financialYearFormControl: FormControl = new FormControl("2015-16");
 
+  constructor(private financialDataService: FinancialDataService) {}
 
-  constructor(private financialDataService: FinancialDataService) {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   ngOnInit() {
     this.fetchData();
-
-
   }
 
   renderChart(data) {
-    let labels = data.map(element => element.name);
+    let labels = data.map((element) => element.name);
     let barChartData = {
       labels,
-      datasets: this.prepareDatasets(data)
+      datasets: this.prepareDatasets(data),
     };
     if (!this.chart) {
       this.initializeChart(barChartData);
@@ -45,25 +40,24 @@ export class FinancialDataChartComponent implements OnInit, OnChanges {
   }
 
   prepareDatasets(data) {
-
     let underReview = {
       barThickness: 15,
-      label: 'Request Under Review',
-      backgroundColor: data.map(element => 'rgb(252,131,228)'),
-      data: data.map(element => element.pending)
+      label: "Request Under Review",
+      backgroundColor: data.map((element) => "rgb(252,131,228)"),
+      data: data.map((element) => element.pending),
     };
     let rejected = {
       ...underReview,
-      label: ' Rejected By Admin',
-      backgroundColor: data.map(element => 'rgb(131,201,252)'),
+      label: " Rejected By Admin",
+      backgroundColor: data.map((element) => "rgb(131,201,252)"),
 
-      data: data.map(element => element.rejected)
+      data: data.map((element) => element.rejected),
     };
     let approved = {
       ...rejected,
-      label: ' Approved By Admin',
-      backgroundColor: data.map(element => 'rgb(131,252,131)'),
-      data: data.map(element => element.approved)
+      label: " Approved By Admin",
+      backgroundColor: data.map((element) => "rgb(131,252,131)"),
+      data: data.map((element) => element.approved),
     };
     return [underReview, approved, rejected];
   }
@@ -72,46 +66,53 @@ export class FinancialDataChartComponent implements OnInit, OnChanges {
     chart.data.labels = labels;
     chart.data.datasets = datasets;
     chart.update();
-
   }
 
   private fetchData() {
-    this.financialDataService.getChartData(this.financialYearFormControl.value).subscribe(response => {
-      if (response['success']) {
-        this.renderChart(response['data']);
-      }
-    }, error => {
-    });
+    this.financialDataService
+      .getChartData(this.financialYearFormControl.value)
+      .subscribe(
+        (response) => {
+          if (response["success"]) {
+            this.renderChart(response["data"]);
+          }
+        },
+        (error) => {}
+      );
   }
 
   private initializeChart(data) {
-    let id = <HTMLCanvasElement>document.getElementById('chart');
+    let id = <HTMLCanvasElement>document.getElementById("chart");
     this.chart = new Chart(id, {
-      type: 'bar',
+      type: "bar",
       data: data,
       options: {
         title: {
           display: true,
-          text: 'ULB DATA UPLOAD'
+          text: "ULB DATA UPLOAD",
         },
         tooltips: {
-          mode: 'index',
-          intersect: false
+          mode: "index",
+          intersect: false,
         },
         legend: {
-          position: 'bottom'
+          position: "bottom",
         },
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          xAxes: [{
-            stacked: true,
-          }],
-          yAxes: [{
-            stacked: true
-          }]
-        }
-      }
+          xAxes: [
+            {
+              stacked: true,
+            },
+          ],
+          yAxes: [
+            {
+              stacked: true,
+            },
+          ],
+        },
+      },
     });
   }
 }

@@ -1,116 +1,72 @@
-import {Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Location} from '@angular/common';
-import {ulbUploadList} from '../../shared/components/home-header/tableHeaders';
-import {Form, FormControl, FormGroup, Validators} from '@angular/forms';
-import {DataEntryService} from '../../dashboard/data-entry/data-entry.service';
-import {FinancialDataService} from '../services/financial-data.service';
-import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {AccessChecker} from '../../util/access/accessChecker';
-import {MODULES_NAME} from '../../util/access/modules';
-import {ACTIONS} from '../../util/access/actions';
-import {UserUtility} from '../../util/user/user';
-import {MatSnackBar} from '@angular/material';
+import { Location } from '@angular/common';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as Chart from 'chart.js';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { CommonService } from 'src/app/shared/services/common.service';
 import swal from 'sweetalert';
-import {USER_TYPE} from '../../models/user/userType';
-import {BsModalService} from 'ngx-bootstrap/modal';
-import {UPLOAD_STATUS} from '../../util/enums';
-import {FileUpload} from '../../util/fileUpload';
+
+import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
+import { USER_TYPE } from '../../models/user/userType';
+import { ulbUploadList } from '../../shared/components/home-header/tableHeaders';
+import { AccessChecker } from '../../util/access/accessChecker';
+import { ACTIONS } from '../../util/access/actions';
+import { MODULES_NAME } from '../../util/access/modules';
+import { UPLOAD_STATUS } from '../../util/enums';
+import { FileUpload } from '../../util/fileUpload';
+import { UserUtility } from '../../util/user/user';
+import { FinancialDataService } from '../services/financial-data.service';
+import { SidebarUtil } from '../utils/sidebar.util';
+import { IFinancialData } from './models/financial-data.interface';
+import {
+  APPROVAL_COMPLETED,
+  REJECT_BY_MoHUA,
+  REJECT_BY_STATE,
+  SAVED_AS_DRAFT,
+  UNDER_REVIEW_BY_MoHUA,
+  UNDER_REVIEW_BY_STATE,
+} from './util/request-status';
+import { UploadDataUtility } from './util/upload-data.util';
 
 @Component({
-  selector: 'app-data-upload',
-  templateUrl: './data-upload.component.html',
-  styleUrls: ['./data-upload.component.scss']
+  selector: "app-data-upload",
+  templateUrl: "./data-upload.component.html",
+  styleUrls: ["./data-upload.component.scss"],
 })
-export class DataUploadComponent implements OnInit, OnDestroy {
+export class DataUploadComponent
+  extends UploadDataUtility
+  implements OnInit, OnDestroy {
+  constructor(
+    public activatedRoute: ActivatedRoute,
+    public router: Router,
+    public location: Location,
+    public dataUploadService: DataEntryService,
+    private financialDataService: FinancialDataService,
+    private modalService: BsModalService,
+    public accessUtil: AccessChecker,
+    public userUtil: UserUtility,
+    public fileUpload: FileUpload,
+    private _snackBar: MatSnackBar,
+    public _matDialog: MatDialog,
+    private _commonService: CommonService
+  ) {
+    super();
+    SidebarUtil.hideSidebar();
 
-  uploadStatus = UPLOAD_STATUS;
-  id = null;
-  uploadId = null;
-  uploadObject = null;
-  tableHeaders = ulbUploadList;
-  financialYearDropdown = [];
-  auditStatusDropdown = [{
-    id: true,
-    itemName: 'Audited'
-  }, {
-    id: false,
-    itemName: 'Unaudited'
-  }];
-  fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance', 'auditReport'];
-  fileFormGroup: FormGroup;
-  dataUploadList = [];
-  isAccessible: boolean;
-  financialYearDropdownSettings: any = {
-    singleSelection: true,
-    text: 'Select Year'
-  };
-  auditStatusDropdownSettings: any = {
-    singleSelection: true,
-    text: 'Audit Status'
-  };
-  uploadCheckStatusDropDownSettings: any = {
-    singleSelection: true,
-    text: 'Status'
-  };
-  uploadCheckStatusDropDown: any = [
-    {
-      id: UPLOAD_STATUS.PENDING,
-      itemName: 'Pending'
-    },
-    {
-      id: UPLOAD_STATUS.APPROVED,
-      itemName: 'Approved'
-    },
-    {
-      id: UPLOAD_STATUS.REJECTED,
-      itemName: 'Rejected'
+    if (this.userUtil.getUserType() === USER_TYPE.ULB) {
+      SidebarUtil.hideSidebar();
     }
-  ];
 
-  completenessStatus = UPLOAD_STATUS.PENDING;
-  correctnessStatus = UPLOAD_STATUS.PENDING;
-  @ViewChild('searchFinancialYear') searchFinancialYear: ElementRef;
-  tableDefaultOptions = {
-    itemPerPage: 10,
-    currentPage: 1,
-    totalCount: null
-  };
-  currentSort = 1;
-
-  listFetchOption = {
-    filter: null,
-    sort: null,
-    role: null,
-    skip: 0
-  };
-  modalTableData: any[] = [];
-  loading = false;
-
-  /*  fileUpload = {
-      uploading: false,
-      currentUploadedFiles: 0,
-      totalFiles: 0,
-      reset: function () {
-        this.uploading = false;
-        this.currentUploadedFiles = 0;
-        this.totalFiles = 0;
-      }
-    };*/
-
-  constructor(public activatedRoute: ActivatedRoute,
-              public router: Router,
-              public location: Location,
-              public dataUploadService: DataEntryService,
-              private financialDataService: FinancialDataService,
-              private modalService: BsModalService,
-              public accessUtil: AccessChecker,
-              public userUtil: UserUtility,
-              public fileUpload: FileUpload,
-              private _snackBar: MatSnackBar) {
-    this.isAccessible = accessUtil.hasAccess({moduleName: MODULES_NAME.ULB_DATA_UPLOAD, action: ACTIONS.UPLOAD});
-    this.activatedRoute.params.subscribe(val => {
-      const {id, uploadId} = val;
+    this.isAccessible = accessUtil.hasAccess({
+      moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
+      action: ACTIONS.UPLOAD,
+    });
+    this.activatedRoute.params.subscribe((val) => {
+      const { id, uploadId } = val;
       if (id) {
         this.id = id;
       }
@@ -120,75 +76,520 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     });
     this.createForms();
     this.setTableHeaderByUserType();
+    this.modalService.onHide.subscribe(() => (this.isPopupOpen = false));
+    this.initializeULBFormGroup();
+    this.fetchULBList();
+    this.fetchChartData();
+    this.fetchCardData();
   }
+  @ViewChild("updateWithoutChangeWarning")
+  updateWithoutChangeWarning: TemplateRef<any>;
+
+  Object = Object;
+
+  ulbList: any[];
+
+  uploadStatus = UPLOAD_STATUS;
+  userTypes = USER_TYPE;
+  id = null;
+  uploadId = null;
+  uploadObject = null;
+  tableHeaders = ulbUploadList;
+  financialYearDropdown = [];
+  auditStatusDropdown = [
+    {
+      id: true,
+      itemName: "Audited",
+    },
+    {
+      id: false,
+      itemName: "Unaudited",
+    },
+  ];
+  fileFormGroupKeys = [
+    "balanceSheet",
+    "schedulesToBalanceSheet",
+    "incomeAndExpenditure",
+    "schedulesToIncomeAndExpenditure",
+    "trialBalance",
+    "auditReport",
+  ];
+  fileFormGroup: FormGroup;
+  dataUploadList: Array<IFinancialData & { canTakeAction?: boolean }> = [];
+  isAccessible: boolean;
+  financialYearDropdownSettings: any = {
+    singleSelection: true,
+    text: "Select Year",
+  };
+  auditStatusDropdownSettings: any = {
+    singleSelection: true,
+    text: "Audit Status",
+  };
+  uploadCheckStatusDropDownSettings: any = {
+    singleSelection: true,
+    text: "Status",
+  };
+  uploadCheckStatusDropDown: any = [
+    SAVED_AS_DRAFT,
+    UNDER_REVIEW_BY_STATE,
+    UNDER_REVIEW_BY_MoHUA,
+    REJECT_BY_STATE,
+    REJECT_BY_MoHUA,
+    APPROVAL_COMPLETED,
+  ];
+
+  completenessStatus = UPLOAD_STATUS.PENDING;
+  correctnessStatus = UPLOAD_STATUS.PENDING;
+  @ViewChild("searchFinancialYear") searchFinancialYear: ElementRef;
+  tableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null,
+  };
+  currentSort = 1;
+
+  listFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0,
+  };
+  modalTableData: any[] = [];
+  loading = false;
+  uploadStatusFormControl: FormControl = new FormControl("");
+  ulbNameSearchFormControl: FormControl = new FormControl();
+  ulbCodeSearchFormControl: FormControl = new FormControl();
+  stateNameControl = new FormControl("");
+  censusCode: FormControl = new FormControl();
+  sbCode: FormControl = new FormControl();
+
+  rejectFields = {};
+
+  isApiInProgress = false;
+
+  FieldsKeyAndText = {
+    auditReport: "Audit Report",
+    incomeAndExpenditure: "Income and Expenditure",
+    trialBalance: "Trial Balance",
+    balanceSheet: "Balance Sheet",
+    schedulesToBalanceSheet: "Schedules To Balance Sheet",
+    schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
+  };
+
+  isPopupOpen = false;
+
+  stateList = [];
+
+  ulbtableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null,
+  };
+  ulbcurrentSort = 1;
+
+  ulblistFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0,
+  };
+
+  cardData: any;
+
+  defaultChartOptions = {
+    responsive: true,
+    legend: {
+      display: false,
+      position: "top",
+      labels: {
+        boxWidth: 2,
+      },
+    },
+
+    scales: {
+      yAxes: [
+        {
+          gridLines: {
+            color: "white",
+            drawBorder: false,
+            display: true,
+          },
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+      xAxes: [
+        {
+          ticks: {
+            maxRotation: 0,
+            minRotation: 0,
+            autoSkip: false,
+            fontSize: 11,
+            padding: 5,
+          },
+          barPercentage: 0.5,
+          categoryPercentage: 1,
+          gridLines: {
+            color: "white",
+            drawBorder: false,
+            display: true,
+            offsetGridLines: false,
+          },
+        },
+      ],
+    },
+    // onClick: function (c, i) {
+    //   e = i[0];
+    //   var x_value = this.data.labels[e._index];
+    //   // var y_value = this.data.datasets[0].data[e._index]; // For getting value of selected bar chart ..
+    //   getData(x_value);
+    // },
+  };
+
+  ulbFilter: FormGroup;
 
   ngOnInit() {
-    this.fetchFinancialYears();
+    // this.fetchFinancialYears();
+    this.fetchStateList();
     if (!this.id) {
-      this.getFinancialDataList({skip: this.listFetchOption.skip, limit: 10}, this.listFetchOption);
+      this.getFinancialDataList(
+        { skip: this.listFetchOption.skip, limit: 10 },
+        this.listFetchOption
+      );
     }
+
     if (this.uploadId) {
       this.getFinancialData();
+    } else {
+      if (this.userUtil.getUserType() === USER_TYPE.ULB) {
+        this.gettingULBDats();
+      }
     }
+  }
+
+  onclickTotalNoOfULB() {
+    this.ulbFilter.reset();
+    const element = document.getElementById("ulb-list");
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+
+  onClickingOtherCards(body) {
+    this.ulbFilter.reset(body);
+    const element = document.getElementById("ulb-list");
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+
+  initializeULBFormGroup() {
+    this.ulbFilter = this.formBuilder.group({
+      ulbName: [],
+      stateName: [],
+      ulbType: [],
+      censusCode: [],
+      sbCode: [],
+      email: [],
+      mobile: [],
+      isMillionPlus: [],
+      registration: [],
+    });
+
+    this.ulbFilter.valueChanges
+      .pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe((newValue) => {
+        this.fetchULBList(newValue);
+      });
+  }
+
+  fetchChartData() {
+    this._commonService.fetchDashboardChartData().subscribe((res) => {
+      const barChartData = res["data"];
+      barChartData.labels = barChartData.labels.map((text: string) =>
+        !text.includes("By")
+          ? text
+          : [text.split("By")[0] + "By", text.split("By")[1]]
+      );
+      barChartData.type = "bar";
+      const canvasElement = document.getElementById(
+        `canvas`
+      ) as HTMLCanvasElement;
+
+      const ctx = canvasElement.getContext("2d");
+
+      const myBar = new Chart(ctx, {
+        type: "bar",
+        data: barChartData,
+        options: { ...this.defaultChartOptions },
+        plugins: [
+          {
+            beforeInit: function (chart) {
+              chart.data.labels.forEach(function (e, i, a) {
+                if (/\n/.test(e)) {
+                  a[i] = e.split(/\n/);
+                }
+              });
+            },
+          },
+        ],
+      });
+    });
+  }
+
+  fetchCardData() {
+    this._commonService.fetchDashboardCardData().subscribe((res) => {
+      this.cardData = res["data"];
+      this.cardData.totalULB.sum =
+        this.cardData.totalULB["Municipal Corporation"] +
+        this.cardData.totalULB["Municipality"] +
+        this.cardData.totalULB["Town Panchayat"];
+
+      this.cardData.registeredMillionPlus.sum =
+        this.cardData.registeredMillionPlus["Municipal Corporation"] +
+        this.cardData.registeredMillionPlus["Municipality"] +
+        this.cardData.registeredMillionPlus["Town Panchayat"];
+
+      this.cardData.registeredNonMillionPlus.sum =
+        this.cardData.registeredNonMillionPlus["Municipal Corporation"] +
+        this.cardData.registeredNonMillionPlus["Municipality"] +
+        this.cardData.registeredNonMillionPlus["Town Panchayat"];
+
+      this.cardData.registeredUlb.sum =
+        this.cardData.registeredUlb["Municipal Corporation"] +
+        this.cardData.registeredUlb["Municipality"] +
+        this.cardData.registeredUlb["Town Panchayat"];
+
+      this.cardData.totalMillionPlus.sum =
+        this.cardData.totalMillionPlus["Municipal Corporation"] +
+        this.cardData.totalMillionPlus["Municipality"] +
+        this.cardData.totalMillionPlus["Town Panchayat"];
+
+      this.cardData.totalNonMillionPlus.sum =
+        this.cardData.totalNonMillionPlus["Municipal Corporation"] +
+        this.cardData.totalNonMillionPlus["Municipality"] +
+        this.cardData.totalNonMillionPlus["Town Panchayat"];
+    });
+  }
+
+  private fetchULBList(params = {}) {
+    this.ulbList = undefined;
+    const { skip } = this.ulblistFetchOption;
+    const newParams = {
+      skip,
+      limit: 10,
+      ...params,
+    };
+    this._commonService.fetchULBList(newParams).subscribe((res) => {
+      console.log(res);
+      this.ulbList = res["data"];
+      if ("total" in res) {
+        this.ulbtableDefaultOptions = {
+          ...this.ulbtableDefaultOptions,
+          totalCount: res["total"] || 0,
+        };
+      }
+    });
+  }
+
+  private gettingULBDats(params = {}, body = {}) {
+    this.loading = true;
+    const { skip } = this.listFetchOption;
+    const newParams = {
+      skip,
+      limit: 10,
+      ...params,
+    };
+    this.financialDataService
+      .fetchFinancialDataList(newParams, body)
+      .subscribe((res) => {
+        if (res["data"] && res["data"].length) {
+          this.router.navigate([
+            "/user/data-upload/upload-form",
+            res["data"][0]._id,
+          ]);
+        }
+      });
   }
 
   getFinancialData() {
-    this.financialDataService.fetFinancialData(this.uploadId)
+    this.financialDataService
+      .fetFinancialData(this.uploadId)
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
+  }
+
+  private fetchStateList() {
+    this._commonService.getStateUlbCovered().subscribe((res) => {
+      this.stateList = res.data;
+      // res.data.forEach((state) => {
+      //   this.statesByID[state._id] = state;
+      // });
+    });
   }
 
   getFinancialDataList(params = {}, body = {}) {
     this.loading = true;
-    const {skip} = this.listFetchOption;
+    const { skip } = this.listFetchOption;
     const newParams = {
       skip,
       limit: 10,
-      ...params
+      ...params,
     };
     this.financialDataService
       .fetchFinancialDataList(newParams, body)
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
-  handleResponseSuccess = (response) => {
-    this.loading = false;
+  private formatResponse(req: IFinancialData) {
+    if (!req.isCompleted) {
+      return {
+        ...req,
+        customStatusText: SAVED_AS_DRAFT.itemName,
+        canTakeAction: this.canTakeAction(req),
+      };
+    }
+
+    let customStatusText;
+    switch (req.actionTakenByUserRole) {
+      case USER_TYPE.ULB:
+        customStatusText = UNDER_REVIEW_BY_STATE.itemName;
+        break;
+      case USER_TYPE.STATE:
+        if (req.status === UPLOAD_STATUS.REJECTED) {
+          customStatusText = REJECT_BY_STATE.itemName;
+        } else {
+          customStatusText = UNDER_REVIEW_BY_MoHUA.itemName;
+        }
+
+        break;
+      case USER_TYPE.MoHUA:
+        if (req.status === UPLOAD_STATUS.REJECTED) {
+          customStatusText = REJECT_BY_MoHUA.itemName;
+        } else {
+          customStatusText = APPROVAL_COMPLETED.itemName;
+        }
+        break;
+      default:
+        customStatusText = "N/A";
+    }
+
+    return {
+      ...req,
+      customStatusText,
+      canTakeAction: this.canTakeAction(req),
+    };
+  }
+
+  handleResponseSuccess = (response: any) => {
+    this.canTakeAction();
     if (this.uploadId) {
       this.uploadObject = response.data;
-      this.updateFormControls();
-    } else {
-      this.dataUploadList = response.data;
-      if (!this.listFetchOption.sort) {
-        this.dataUploadList = this.dataUploadList.sort((a, b) => {
-          let c1 = a['status'][2];
-          let c2 = b['status'][2];
-          console.log(c1, c2);
-          if (c1 > c2) {
-            return 1;
-          } else {
-            return -1;
-          }
-        });
+
+      if (this.uploadObject) {
+        this.setRejectedFields(this.uploadObject);
+
+        this.updateFormControls();
       }
-      if ('total' in response) {
-        this.tableDefaultOptions.totalCount = response['total'];
+    } else {
+      this.dataUploadList = response.data.map((req: IFinancialData) =>
+        this.formatResponse(req)
+      );
+      if ("total" in response) {
+        this.tableDefaultOptions = {
+          ...this.tableDefaultOptions,
+          totalCount: response["total"] || 0,
+        };
+      }
+      if (!this.listFetchOption.sort) {
+        // this.dataUploadList = this.dataUploadList.sort((a, b) => {
+        //   const c1 = a["status"][2];
+        //   const c2 = b["status"][2];
+        //   if (c1 > c2) {
+        //     return 1;
+        //   } else {
+        //     return -1;
+        //   }
+        // });
       }
     }
+    this.loading = false;
   };
+
+  setRejectedFields = (uploadObject) => {
+    if (
+      uploadObject.auditReport &&
+      (uploadObject.auditReport.completeness === "REJECTED" ||
+        uploadObject.auditReport.correctness === "REJECTED")
+    ) {
+      this.rejectFields = { ...this.rejectFields, auditReport: `Audit Report` };
+    }
+
+    if (
+      uploadObject.incomeAndExpenditure &&
+      (uploadObject.incomeAndExpenditure.completeness === "REJECTED" ||
+        uploadObject.incomeAndExpenditure.correctness === "REJECTED")
+    ) {
+      this.rejectFields = {
+        ...this.rejectFields,
+        incomeAndExpenditure: "Income and Expenditure",
+      };
+    }
+
+    if (
+      uploadObject.trialBalance &&
+      (uploadObject.trialBalance.completeness === "REJECTED" ||
+        uploadObject.trialBalance.correctness === "REJECTED")
+    ) {
+      this.rejectFields = {
+        ...this.rejectFields,
+        trialBalance: "Trial Balance",
+      };
+    }
+
+    if (
+      uploadObject.balanceSheet &&
+      (uploadObject.balanceSheet.completeness === "REJECTED" ||
+        uploadObject.balanceSheet.correctness === "REJECTED")
+    ) {
+      this.rejectFields = {
+        ...this.rejectFields,
+        balanceSheet: "Balance Sheet",
+      };
+    }
+
+    if (
+      uploadObject.schedulesToBalanceSheet &&
+      (uploadObject.schedulesToBalanceSheet.completeness === "REJECTED" ||
+        uploadObject.schedulesToBalanceSheet.correctness === "REJECTED")
+    ) {
+      this.rejectFields = {
+        ...this.rejectFields,
+        schedulesToBalanceSheet: "Schedules To Balance Sheet",
+      };
+    }
+
+    if (
+      uploadObject.schedulesToIncomeAndExpenditure &&
+      (uploadObject.schedulesToIncomeAndExpenditure.completeness ===
+        "REJECTED" ||
+        uploadObject.schedulesToIncomeAndExpenditure.correctness === "REJECTED")
+    ) {
+      this.rejectFields = {
+        ...this.rejectFields,
+        schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
+      };
+    }
+  };
+
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
   };
-  uploadStatusFormControl: FormControl = new FormControl('');
-  ulbNameSearchFormControl: FormControl = new FormControl();
-  ulbCodeSearchFormControl: FormControl = new FormControl();
 
   getAddedFilterCount() {
     let count = 0;
-    for (let parentFormGroup of this.fileFormGroupKeys) {
+    for (const parentFormGroup of this.fileFormGroupKeys) {
       const formGroup = this.fileFormGroup.get(parentFormGroup);
       const files = formGroup.value;
-      for (let fileKey in files) {
-        let fileUrlKey = fileKey.includes('pdf') ? 'pdfUrl' : 'excelUrl';
+      for (const fileKey in files) {
+        const fileUrlKey = fileKey.includes("pdf") ? "pdfUrl" : "excelUrl";
         if (files[fileKey]) {
           count++;
         }
@@ -198,81 +599,98 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   async submitClickHandler(event) {
+    if (this.isApiInProgress) return;
     this.fileFormGroup.disable();
     event.disabled = true;
     const urlObject = {};
+    this.isApiInProgress = true;
     this.fileUpload.totalFiles = this.getAddedFilterCount();
     this.fileUpload.uploading = true;
-    for (let parentFormGroup of this.fileFormGroupKeys) {
-      if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReport') {
+    for (const parentFormGroup of this.fileFormGroupKeys) {
+      if (
+        this.fileFormGroup.get(parentFormGroup) instanceof FormGroup ||
+        parentFormGroup === "auditReport"
+      ) {
         const formGroup = this.fileFormGroup.get(parentFormGroup);
         urlObject[parentFormGroup] = {};
         const files = formGroup.value;
-        for (let fileKey of ['file_pdf', 'file_excel']) {
-          const fileUrlKey = fileKey.includes('pdf') ? 'pdfUrl' : 'excelUrl';
-          urlObject[parentFormGroup][fileUrlKey] = '';
+        for (const fileKey of ["file_pdf", "file_excel"]) {
+          const fileUrlKey = fileKey.includes("pdf") ? "pdfUrl" : "excelUrl";
+          urlObject[parentFormGroup][fileUrlKey] = "";
           const formControl = formGroup.get(fileKey);
           if (files[fileKey]) {
             try {
-              let {name, type} = files[fileKey];
-              const urlResponse: any = await this.dataUploadService.getURLForFileUpload(name, type).toPromise();
+              const { name, type } = files[fileKey];
+              const urlResponse: any = await this.dataUploadService
+                .getURLForFileUpload(name, type)
+                .toPromise();
               if (urlResponse.success) {
-                let {url, file_alias} = urlResponse.data[0];
-                urlObject[parentFormGroup][fileUrlKey] = urlResponse.data[0].file_alias;
-                console.log(fileUrlKey, file_alias, urlObject);
-                url = url.replace('admin/', '');
-                let fileUploadResponse = await this.dataUploadService.uploadFileToS3(files[fileKey], url).toPromise();
+                let { url, file_alias } = urlResponse.data[0];
+                urlObject[parentFormGroup][fileUrlKey] =
+                  urlResponse.data[0].file_alias;
+                url = url.replace("admin/", "");
+                const fileUploadResponse = await this.dataUploadService
+                  .uploadFileToS3(files[fileKey], url)
+                  .toPromise();
                 this.fileUpload.currentUploadedFiles++;
               }
             } catch (e) {
               event.disabled = false;
               this.fileFormGroup.enable();
               this.fileUpload.reset();
-              formControl.setErrors(['File Upload Error']);
+              formControl.setErrors(["File Upload Error"]);
             }
           } else if (formControl && formControl.validator) {
             event.disabled = false;
             this.fileFormGroup.enable();
             this.fileUpload.reset();
-            formControl.setErrors(['Please select file']);
+            formControl.setErrors(["Please select file"]);
           }
         }
       }
     }
-    let responseObject = {
+    const responseObject = {
       ...urlObject,
-      financialYear: this.fileFormGroup.controls['financialYear'].value[0].id,
-      audited: this.fileFormGroup.controls['auditStatus'].value[0].id
+      financialYear: this.fileFormGroup.controls["financialYear"].value[0].id,
+      audited: this.fileFormGroup.controls["auditStatus"].value[0].id,
     };
-    this.financialDataService.uploadFinancialData(responseObject).subscribe((response: any) => {
+    this.financialDataService.uploadFinancialData(responseObject).subscribe(
+      (response: any) => {
+        this.fileUpload.uploading = false;
         if (response.success) {
           event.disabled = false;
           this.fileFormGroup.enable();
           this.fileUpload.reset();
+
           swal({
-            title: 'Successfully Uploaded',
-            text: `Reference No: ${response['data']['referenceCode']}`,
-            icon: 'success',
+            title: "Successfully Uploaded",
+            text: `Reference No: ${response["data"]["referenceCode"]}`,
+            icon: "success",
             // @ts-ignore
-            button: 'Okay'
+            button: "Okay",
           }).then((result) => {
             if (result) {
-              this.router.navigate(['/user/data-upload/list']);
+              this.router.navigate(["/user/data-upload/list"]);
             }
           });
         }
-      }, (error: HttpErrorResponse) => {
+        this.isApiInProgress = false;
+      },
+      (error: HttpErrorResponse) => {
         event.disabled = false;
+        this.fileUpload.uploading = false;
         this.fileUpload.reset();
         this.fileFormGroup.enable();
         this.handlerError(error);
+        this.isApiInProgress = false;
       }
     );
   }
 
   removeAuditReportFromFIleKeys() {
-    this.fileFormGroupKeys = this.fileFormGroupKeys.filter(key => !['auditReport'].includes(key));
-
+    this.fileFormGroupKeys = this.fileFormGroupKeys.filter(
+      (key) => !["auditReport"].includes(key)
+    );
   }
 
   navigateTo(row: any) {
@@ -280,41 +698,65 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   private updateFormControls() {
-    const {financialYear, audited, completeness: completenessOverAll, correctness: correctnessOverAll, status} = this.uploadObject;
+    const {
+      financialYear,
+      audited,
+      completeness: completenessOverAll,
+      correctness: correctnessOverAll,
+      status,
+    } = this.uploadObject;
     this.completenessStatus = completenessOverAll;
     this.correctnessStatus = correctnessOverAll;
-    const selectedFinancialYearObject = this.financialYearDropdown.filter((item) => item.id === financialYear);
+    const selectedFinancialYearObject = this.financialYearDropdown.filter(
+      (item) => item.id === financialYear
+    );
     if (selectedFinancialYearObject) {
-      this.fileFormGroup.get('financialYear').setValue(selectedFinancialYearObject);
-      this.fileFormGroup.get('financialYear').disable();
-      this.financialYearDropdownSettings = {...this.financialYearDropdownSettings, disabled: true};
+      this.fileFormGroup
+        .get("financialYear")
+        .setValue(selectedFinancialYearObject);
+      this.fileFormGroup.get("financialYear").disable();
+      this.financialYearDropdownSettings = {
+        ...this.financialYearDropdownSettings,
+        disabled: true,
+      };
     }
     if (audited) {
-      this.fileFormGroup.get(['auditStatus']).setValue([this.auditStatusDropdown[0]]);
+      this.fileFormGroup
+        .get(["auditStatus"])
+        .setValue([this.auditStatusDropdown[0]]);
     } else {
       this.removeAuditReportFromFIleKeys();
-      this.fileFormGroup.get(['auditStatus']).setValue([this.auditStatusDropdown[1]]);
+      this.fileFormGroup
+        .get(["auditStatus"])
+        .setValue([this.auditStatusDropdown[1]]);
     }
-    this.auditStatusDropdownSettings = {...this.auditStatusDropdownSettings, disabled: true};
-    this.fileFormGroupKeys.forEach(formGroupKey => {
-      let formGroupDataObject = this.uploadObject[formGroupKey];
-      let formGroupItem = this.fileFormGroup.get([formGroupKey]);
-      formGroupItem.get('message').setValue(formGroupDataObject['message']);
-      const {excelUrl, pdfUrl} = formGroupDataObject;
-      formGroupItem.get('pdfUrl').setValue(pdfUrl);
-      formGroupItem.get('excelUrl').setValue(excelUrl);
-      const {completeness, correctness} = formGroupDataObject;
-      if (status === UPLOAD_STATUS.REJECTED) {
-        if (completeness === UPLOAD_STATUS.REJECTED || completeness === UPLOAD_STATUS.NA || correctness === UPLOAD_STATUS.REJECTED || correctness === UPLOAD_STATUS.NA) {
-          formGroupItem.enable();
-        } else {
-          this.disableFormGroups(formGroupItem, formGroupDataObject);
-        }
-      } else {
-        this.disableFormGroups(formGroupItem, formGroupDataObject);
-      }
-    });
-    console.log(this.fileFormGroup);
+    this.auditStatusDropdownSettings = {
+      ...this.auditStatusDropdownSettings,
+      disabled: true,
+    };
+    // this.fileFormGroupKeys.forEach((formGroupKey) => {
+    //   const formGroupDataObject = this.uploadObject[formGroupKey];
+    //   const formGroupItem = this.fileFormGroup.get([formGroupKey]);
+    //   formGroupItem.get("message").setValue(formGroupDataObject["message"]);
+    //   const { excelUrl, pdfUrl } = formGroupDataObject;
+    //   formGroupItem.get("pdfUrl").setValue(pdfUrl);
+    //   formGroupItem.get("excelUrl").setValue(excelUrl);
+    //   const { completeness, correctness } = formGroupDataObject;
+    //   if (status === UPLOAD_STATUS.REJECTED) {
+    //     if (
+    //       completeness === UPLOAD_STATUS.REJECTED ||
+    //       completeness === UPLOAD_STATUS.NA ||
+    //       correctness === UPLOAD_STATUS.REJECTED ||
+    //       correctness === UPLOAD_STATUS.NA
+    //     ) {
+    //       formGroupItem.enable();
+    //     } else {
+    //       this.disableFormGroups(formGroupItem, formGroupDataObject);
+    //     }
+    //   } else {
+    //     this.disableFormGroups(formGroupItem, formGroupDataObject);
+    //   }
+    // });
   }
 
   disableFormGroups(formGroupItem, formGroupDataObject) {
@@ -324,60 +766,145 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   }
 
   getFileName(url) {
-    return url.split('/').reverse()[0];
+    return url.split("/").reverse()[0];
+  }
+
+  updateRejectedFields() {
+    const values = this.fileFormGroup.value;
+
+    Object.keys(this.FieldsKeyAndText).forEach((key) => {
+      if (!this.uploadObject[key]) {
+        return false;
+      }
+
+      const isFieldREJECTED =
+        this.uploadObject[key] &&
+        (this.uploadObject[key].completeness === "REJECTED" ||
+          this.uploadObject[key].correctness === "REJECTED")
+          ? true
+          : false;
+
+      if (
+        isFieldREJECTED &&
+        (values[key].file_pdf ||
+          values[key].file_excel ||
+          this.uploadObject[key].excelUrl !== values[key].excelUrl ||
+          this.uploadObject[key].pdfUrl !== values[key].pdfUrl)
+      ) {
+        delete this.rejectFields[key];
+      } else {
+        if (isFieldREJECTED) {
+          this.rejectFields[key] = this.FieldsKeyAndText[key];
+        }
+      }
+    });
+  }
+
+  checkRejectFields(updateButton: HTMLButtonElement) {
+    this.updateRejectedFields();
+    if (Object.keys(this.rejectFields).length) {
+      this._matDialog.open(this.updateWithoutChangeWarning, {
+        width: "31vw",
+        height: "fit-content",
+      });
+      return;
+    }
+    this.updateClickHandler(updateButton);
   }
 
   async updateClickHandler(updateButton: HTMLButtonElement) {
     updateButton.disabled = true;
     this.fileUpload.totalFiles = this.getAddedFilterCount();
     this.fileUpload.uploading = true;
-    let urlObject = {};
-    for (let parentFormGroup of this.fileFormGroupKeys) {
-      if (this.fileFormGroup.get(parentFormGroup) instanceof FormGroup || parentFormGroup === 'auditReport') {
+    const urlObject = {};
+    this.isApiInProgress = true;
+    let total = 0;
+    for (const parentFormGroup of this.fileFormGroupKeys) {
+      if (
+        this.fileFormGroup.get(parentFormGroup) instanceof FormGroup ||
+        parentFormGroup === "auditReport"
+      ) {
+        const formGroup = this.fileFormGroup.get(parentFormGroup);
+        if (!formGroup.disabled) {
+          if (formGroup.value.file_excel) total++;
+          if (formGroup.value.file_pdf) total++;
+        }
+      }
+    }
+    this.fileUpload.totalFiles = total;
+    for (const parentFormGroup of this.fileFormGroupKeys) {
+      if (
+        this.fileFormGroup.get(parentFormGroup) instanceof FormGroup ||
+        parentFormGroup === "auditReport"
+      ) {
         const formGroup = this.fileFormGroup.get(parentFormGroup);
         if (!formGroup.disabled) {
           urlObject[parentFormGroup] = {};
+
           const files = formGroup.value;
-          for (let fileKey of ['file_pdf', 'file_excel']) {
-            let fileUrlKey = fileKey.includes('pdf') ? 'pdfUrl' : 'excelUrl';
-            urlObject[parentFormGroup][fileUrlKey] = '';
+          for (const fileKey of ["file_pdf", "file_excel"]) {
+            const fileUrlKey = fileKey.includes("pdf") ? "pdfUrl" : "excelUrl";
+            urlObject[parentFormGroup][fileUrlKey] = "";
             const formControl = formGroup.get(fileKey);
             if (files[fileKey]) {
               try {
-                let {name, type} = files[fileKey];
-                let urlResponse: any = await this.dataUploadService.getURLForFileUpload(name, type).toPromise();
+                const { name, type } = files[fileKey];
+                const urlResponse: any = await this.dataUploadService
+                  .getURLForFileUpload(name, type)
+                  .toPromise();
                 if (urlResponse.success) {
-                  let {url, file_alias} = urlResponse.data[0];
+                  let { url, file_alias } = urlResponse.data[0];
                   urlObject[parentFormGroup][fileUrlKey] = file_alias;
-                  url = url.replace('admin/', '');
-                  let fileUploadResponse = await this.dataUploadService.uploadFileToS3(files[fileKey], url).toPromise();
+                  url = url.replace("admin/", "");
+                  const fileUploadResponse = await this.dataUploadService
+                    .uploadFileToS3(files[fileKey], url)
+                    .toPromise();
                   this.fileUpload.currentUploadedFiles++;
                 }
               } catch (e) {
                 this.fileFormGroup.enable();
                 updateButton.disabled = false;
                 this.fileUpload.reset();
-                formControl.setErrors(['File Upload Error']);
+                formControl.setErrors(["File Upload Error"]);
               }
             } else if (formControl && formControl.validator) {
               this.fileFormGroup.enable();
               updateButton.disabled = false;
               this.fileUpload.reset();
-              formControl.setErrors(['Please select file']);
+              formControl.setErrors(["Please select file"]);
             }
           }
         }
       }
     }
-    this.financialDataService.upDateFinancialData(this.uploadId, urlObject).subscribe((result) => {
-      if (result['success']) {
-        this.router.navigate(['/user/data-upload/list']);
-      }
-    }, error => {
-      updateButton.disabled = false;
-      this.fileUpload.reset();
-      this.handlerError(error);
+
+    Object.keys(urlObject).forEach((key) => {
+      urlObject[key].pdfUrl = urlObject[key].pdfUrl
+        ? urlObject[key].pdfUrl
+        : this.uploadObject[key].pdfUrl;
+      urlObject[key].excelUrl = urlObject[key].excelUrl
+        ? urlObject[key].excelUrl
+        : this.uploadObject[key].excelUrl;
     });
+
+    this.financialDataService
+      .upDateFinancialData(this.uploadId, urlObject)
+      .subscribe(
+        (result) => {
+          this.fileUpload.uploading = false;
+          this.isApiInProgress = false;
+          if (result["success"]) {
+            this.router.navigate(["/user/data-upload/list"]);
+          }
+        },
+        (error) => {
+          updateButton.disabled = false;
+          this.fileUpload.reset();
+          this.fileUpload.uploading = false;
+          this.isApiInProgress = false;
+          this.handlerError(error);
+        }
+      );
   }
 
   private listenToSearchEvents() {
@@ -385,185 +912,254 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     // fields.forEach(inputField => {
     //   let eventSubject = fromEvent(inputField, 'input').pipe(
     //     map((e: KeyboardEvent) => {
-    //       console.log(e);
     //     })s
     //   );
     // });
-
   }
 
   private fetchFinancialYears() {
-    this.financialDataService.getFinancialYears().subscribe(result => {
-      if (result['success']) {
-        this.financialYearDropdown = result['data'];
-        this.financialYearDropdown = this.financialYearDropdown.map(year => {
+    this.financialDataService.getFinancialYears().subscribe((result) => {
+      if (result["success"]) {
+        this.financialYearDropdown = result["data"];
+        this.financialYearDropdown = this.financialYearDropdown.map((year) => {
           return {
             id: year.name,
-            itemName: year.name
+            itemName: year.name,
           };
         });
-        this.financialYearDropdown = this.financialYearDropdown.filter(year => !['2014-15', '2020-21'].includes(year.itemName));
+        this.financialYearDropdown = this.financialYearDropdown.filter(
+          (year) => !["2014-15", "2020-21"].includes(year.itemName)
+        );
       }
     });
   }
 
   setLIstFetchOptions(config = {}) {
-    let filterKeys = ['financialYear', 'auditStatus'];
-    let filterObject = {
+    const filterKeys = ["financialYear", "auditStatus"];
+    const filterObject = {
       filter: {
         [filterKeys[0]]: this.fileFormGroup.get(filterKeys[0]).value,
-        'ulbName': this.ulbNameSearchFormControl.value,
-        'ulbCode': this.ulbCodeSearchFormControl.value,
-        'audited': this.fileFormGroup.get(filterKeys[1]).value.length ? this
-          .fileFormGroup.get(filterKeys[1]).value == 'true' : '',
-        'status': this.uploadStatusFormControl.value
-      }
+        ulbName: this.ulbNameSearchFormControl.value
+          ? this.ulbNameSearchFormControl.value.trim()
+          : "",
+        ulbCode: this.ulbCodeSearchFormControl.value
+          ? this.ulbCodeSearchFormControl.value.trim()
+          : "",
+        audited: this.fileFormGroup.get(filterKeys[1]).value.length
+          ? this.fileFormGroup.get(filterKeys[1]).value == "true"
+          : "",
+        censusCode: this.censusCode.value ? this.censusCode.value.trim() : "",
+        sbCode: this.sbCode.value ? this.sbCode.value.trim() : "",
+        status: this.uploadStatusFormControl.value,
+        stateName: this.stateNameControl.value
+          ? this.stateNameControl.value.trim()
+          : "",
+      },
     };
     return {
       ...this.listFetchOption,
       ...filterObject,
-      ...config
+      ...config,
     };
   }
 
   applyFilterClicked() {
     this.loading = true;
     this.listFetchOption = this.setLIstFetchOptions();
-    const {skip} = this.listFetchOption;
-    this.financialDataService.fetchFinancialDataList({skip, limit: 10}, this.listFetchOption).subscribe(result => {
-      this.handleResponseSuccess(result);
-    }, (response: HttpErrorResponse) => {
-      this.loading = false;
-      this._snackBar.open(response.error.errors.message || response.error.message || 'Some Error Occurred', null, {duration: 1600});
-    });
+    const { skip } = this.listFetchOption;
+    this.financialDataService
+      .fetchFinancialDataList({ skip, limit: 10 }, this.listFetchOption)
+      .subscribe(
+        (result) => {
+          this.handleResponseSuccess(result);
+        },
+        (response: HttpErrorResponse) => {
+          this.loading = false;
+          this._snackBar.open(
+            response.error.errors.message ||
+              response.error.message ||
+              "Some Error Occurred",
+            null,
+            { duration: 6600 }
+          );
+        }
+      );
+  }
+
+  ulbapplyFilterClicked() {
+    this.ulbList = undefined;
+    this.ulblistFetchOption = this.setLIstFetchOptions();
+    const { skip } = this.ulblistFetchOption;
+    this.financialDataService
+      .fetchFinancialDataList({ skip, limit: 10 }, this.ulblistFetchOption)
+      .subscribe(
+        (result) => {
+          this.handleResponseSuccess(result);
+        },
+        (response: HttpErrorResponse) => {
+          this._snackBar.open(
+            response.error.errors.message ||
+              response.error.message ||
+              "Some Error Occurred",
+            null,
+            { duration: 6600 }
+          );
+        }
+      );
   }
 
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;
-    this.listFetchOption.skip = (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
-    const {skip} = this.listFetchOption;
-    this.getFinancialDataList({skip, limit: 10}, this.listFetchOption);
+    this.listFetchOption.skip =
+      (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+    const { skip } = this.listFetchOption;
+    this.getFinancialDataList({ skip, limit: 10 }, this.listFetchOption);
+  }
 
-
+  setulbPage(pageNoClick: number) {
+    this.ulbtableDefaultOptions.currentPage = pageNoClick;
+    this.ulblistFetchOption.skip =
+      (pageNoClick - 1) * this.ulbtableDefaultOptions.itemPerPage;
+    const { skip } = this.ulblistFetchOption;
+    this.fetchULBList({ skip, limit: 10 });
   }
 
   sortById(id: string) {
     this.currentSort = this.currentSort > 0 ? -1 : 1;
     this.listFetchOption = {
       ...this.listFetchOption,
-      sort: {[id]: this.currentSort},
+      sort: { [id]: this.currentSort },
     };
     this.getFinancialDataList({}, this.listFetchOption);
   }
 
   private createForms() {
     this.fileFormGroup = new FormGroup({
-      financialYear: new FormControl('', [Validators.required]),
+      financialYear: new FormControl("", [Validators.required]),
       balanceSheet: new FormGroup({
         file_pdf: new FormControl(null, [Validators.required]),
         file_excel: new FormControl(null, [Validators.required]),
-        excelUrl: new FormControl(''),
-        pdfUrl: new FormControl(''),
-        message: new FormControl('')
+        excelUrl: new FormControl(""),
+        pdfUrl: new FormControl(""),
+        message: new FormControl(""),
       }),
       schedulesToBalanceSheet: new FormGroup({
         file_pdf: new FormControl(),
         file_excel: new FormControl(),
-        message: new FormControl(''),
-        excelUrl: new FormControl(''),
-        pdfUrl: new FormControl('')
-
+        message: new FormControl(""),
+        excelUrl: new FormControl(""),
+        pdfUrl: new FormControl(""),
       }),
       incomeAndExpenditure: new FormGroup({
         file_pdf: new FormControl(null, [Validators.required]),
         file_excel: new FormControl(null, [Validators.required]),
-        message: new FormControl(''),
-        excelUrl: new FormControl(''),
-        pdfUrl: new FormControl('')
-
+        message: new FormControl(""),
+        excelUrl: new FormControl(""),
+        pdfUrl: new FormControl(""),
       }),
       schedulesToIncomeAndExpenditure: new FormGroup({
         file_pdf: new FormControl(),
         file_excel: new FormControl(),
-        message: new FormControl(''),
-        excelUrl: new FormControl(''),
-        pdfUrl: new FormControl('')
-
+        message: new FormControl(""),
+        excelUrl: new FormControl(""),
+        pdfUrl: new FormControl(""),
       }),
       trialBalance: new FormGroup({
         file_pdf: new FormControl(null, [Validators.required]),
         file_excel: new FormControl(null, [Validators.required]),
-        message: new FormControl(''),
-        excelUrl: new FormControl(''),
-        pdfUrl: new FormControl('')
-
+        message: new FormControl(""),
+        excelUrl: new FormControl(""),
+        pdfUrl: new FormControl(""),
       }),
       auditReport: new FormGroup({
         file_pdf: new FormControl(),
-        message: new FormControl(''),
-        excelUrl: new FormControl(''),
-        pdfUrl: new FormControl('')
+        message: new FormControl(""),
+        excelUrl: new FormControl(""),
+        pdfUrl: new FormControl(""),
       }),
-      auditStatus: new FormControl('', [Validators.required])
+      auditStatus: new FormControl("", [Validators.required]),
     });
-
   }
 
   private setTableHeaderByUserType() {
     if (this.userUtil.getUserType() === USER_TYPE.ULB) {
-      this.tableHeaders = this.tableHeaders.filter((header) => !['ulbName', 'ulbCode'].includes(header.id));
+      this.tableHeaders = this.tableHeaders.filter(
+        (header) => !["ulbName", "ulbCode"].includes(header.id)
+      );
     }
   }
-
   openModal(row: any, historyModal: TemplateRef<any>) {
+    if (this.isPopupOpen) return;
     this.modalTableData = [];
-    this.financialDataService.fetchFinancialDataHistory(row._id).subscribe((result: HttpResponse<any>) => {
-      if (result['success']) {
-        this.modalTableData = result['data'];
-        this.modalTableData = this.modalTableData.filter(row => typeof row['actionTakenBy'] != 'string').reverse();
-        this.modalService.show(historyModal, {});
-      }
-    }, error => this.handlerError(error));
-
+    this.isPopupOpen = true;
+    this.financialDataService.fetchFinancialDataHistory(row._id).subscribe(
+      (result: HttpResponse<any>) => {
+        if (result["success"]) {
+          this.modalTableData = result["data"].map((data) =>
+            this.formatResponse(data)
+          );
+          this.modalTableData = this.modalTableData
+            .filter((row) => typeof row["actionTakenBy"] != "string")
+            .reverse();
+          this.modalService.show(historyModal, {});
+        }
+      },
+      (error) => this.handlerError(error)
+    );
   }
 
   private handlerError(response: any) {
-    let string = 'Some Error Occurred';
-    const {message, error} = response;
+    let string = "Some Error Occurred";
+    const { message, error } = response;
     if (error) {
-      let errorMessage = error.message;
+      const errorMessage = error.message;
       if (errorMessage) {
         string = errorMessage;
       } else {
         string = message;
       }
     }
-    this._snackBar.open(string, null, {duration: 1600});
+    this._snackBar.open(string, null, { duration: 6600 });
   }
 
-
   downloadList() {
-    let filterOptions = this.setLIstFetchOptions({download: true});
-    let url = this.financialDataService.getFinancialDataListApi(filterOptions);
+    const filterOptions = this.setLIstFetchOptions({ download: true });
+    const url = this.financialDataService.getFinancialDataListApi(
+      filterOptions
+    );
     return window.open(url);
+  }
 
+  downloadULBList() {
+    const filterOptions = { ...this.ulbFilter.value, csv: true };
+    const url = this._commonService.getULBListApi(filterOptions);
+    return window.open(url);
   }
 
   auditStatusDropdownHandler() {
-    this.fileFormGroupKeys = ['balanceSheet', 'schedulesToBalanceSheet', 'incomeAndExpenditure', 'schedulesToIncomeAndExpenditure', 'trialBalance', 'auditReport'];
-    if (this.fileFormGroup.get('auditStatus').value) {
-      if (this.fileFormGroup.get('auditStatus').value.length) {
-        if (this.fileFormGroup.get('auditStatus').value[0].id) {
-          return this.fileFormGroup.get(['auditReport', 'file_pdf']).setValidators([Validators.required]);
+    this.fileFormGroupKeys = [
+      "balanceSheet",
+      "schedulesToBalanceSheet",
+      "incomeAndExpenditure",
+      "schedulesToIncomeAndExpenditure",
+      "trialBalance",
+      "auditReport",
+    ];
+    if (this.fileFormGroup.get("auditStatus").value) {
+      if (this.fileFormGroup.get("auditStatus").value.length) {
+        if (this.fileFormGroup.get("auditStatus").value[0].id) {
+          return this.fileFormGroup
+            .get(["auditReport", "file_pdf"])
+            .setValidators([Validators.required]);
         }
       }
     }
     this.removeAuditReportFromFIleKeys();
-    this.fileFormGroup.get(['auditReport', 'file_pdf']).setValidators(null);
-    this.fileFormGroup.get(['auditReport', 'file_pdf']).updateValueAndValidity();
+    this.fileFormGroup.get(["auditReport", "file_pdf"]).setValidators(null);
+    this.fileFormGroup
+      .get(["auditReport", "file_pdf"])
+      .updateValueAndValidity();
   }
 
-  ngOnDestroy(): void {
-
-  }
+  ngOnDestroy(): void {}
 }

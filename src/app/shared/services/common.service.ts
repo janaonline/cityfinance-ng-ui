@@ -8,6 +8,7 @@ import { NewULBStructure, NewULBStructureResponse } from 'src/app/models/newULBS
 import { IStateListResponse } from 'src/app/models/state/state-response';
 import { ULBsStatistics } from 'src/app/models/statistics/ulbsStatistics';
 import { IULB } from 'src/app/models/ulb';
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { HttpUtility } from 'src/app/util/httpUtil';
 
 import { IStateULBCoveredResponse } from '../models/stateUlbConvered';
@@ -29,6 +30,12 @@ export class CommonService {
   // private states: any = [];
   constructor(private http: HttpClient) {}
 
+  public getWebsiteVisitCount() {
+    return this.http
+      .get(`${environment.api.url}visit_count`)
+      .pipe(map((res) => (res && res["data"] ? res["data"] : 0)));
+  }
+
   // we are loading states while loading dashboard
   public loadStates(doLoadFromServer: boolean) {
     if (this.stateArr.length > 0 && !doLoadFromServer) {
@@ -37,6 +44,13 @@ export class CommonService {
     this.http.get(environment.api.url + "/state").subscribe((res) => {
       this.stateArr = res["data"];
       this.states.next(this.stateArr);
+    });
+  }
+
+  public getBondIssuerItemAmount(state?: string) {
+    const params = this.httpUtil.convertToHttpParams({ state });
+    return this.http.get(`${environment.api.url}BondIssuerItem/amount`, {
+      params,
     });
   }
 
@@ -174,6 +188,64 @@ export class CommonService {
     return { ...ulb.ulb, type: ulb.ulbtypes.name };
   }
 
+  fetchULBList(body) {
+    if (body.registration === "Yes") {
+      body.role = USER_TYPE.ULB;
+    }
+    const skip = body.skip;
+    const limit = body.limit;
+    delete body.skip;
+    delete body.limit;
+    // delete body.registration;
+    console.log(body);
+    const params = this.httpUtil.convertToHttpParams({
+      filter: JSON.stringify(body),
+      skip,
+      limit,
+    });
+    return this.http.get(
+      `${environment.api.url}ulb-financial-data/fc-grant/ulbList`,
+      { params }
+    );
+  }
+
+  getULBListApi(body) {
+    body["token"] = localStorage
+      .getItem("id_token")
+      .replace('"', "")
+      .replace('"', "");
+    body["csv"] = true;
+    let params = new HttpParams();
+    if (body.registration === "Yes") {
+      body.role = USER_TYPE.ULB;
+    }
+    const skip = body.skip;
+    const limit = body.limit;
+    delete body.skip;
+    delete body.limit;
+    Object.keys(body).forEach((key) => {
+      if (typeof body[key] === "object") {
+        const value = JSON.stringify(body[key]);
+        params = params.append(key, value);
+      } else {
+        params = params.append(key, body[key]);
+      }
+    });
+    return `${environment.api.url}ulb-financial-data/fc-grant/ulbList?${params}`;
+  }
+
+  fetchDashboardCardData() {
+    return this.http.get(
+      `${environment.api.url}/ulb-financial-data/fc-grant/dashboard-card`
+    );
+  }
+
+  fetchDashboardChartData() {
+    return this.http.get(
+      `${environment.api.url}/ulb-financial-data/fc-grant/dashboard-chart`
+    );
+  }
+
   getULBsStatistics() {
     return this.http
       .post<NewULBStructureResponse>(
@@ -267,7 +339,10 @@ export class CommonService {
       );
   }
 
-  getULBSWithPopulationAndCoordinates(body?: { year: string[] }) {
+  getULBSWithPopulationAndCoordinates(body?: {
+    year: string[];
+    [key: string]: any;
+  }) {
     return this.http
       .post<IULBWithPopulationResponse>(`${environment.api.url}/ulb-list`, body)
       .pipe(

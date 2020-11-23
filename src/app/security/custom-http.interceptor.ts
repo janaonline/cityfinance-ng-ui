@@ -1,8 +1,14 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { NavigationEnd, ResolveEnd, Router } from '@angular/router';
-import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, filter } from 'rxjs/operators';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+} from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { NavigationEnd, ResolveEnd, Router } from "@angular/router";
+import { Observable, Subject, throwError } from "rxjs";
+import { catchError, filter } from "rxjs/operators";
 
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
@@ -62,9 +68,35 @@ export class CustomHttpInterceptor implements HttpInterceptor {
      * @description 401 means usre need to be logged in to access this api. Therefore, redirect the user
      * to login page
      */
-    if (err.status === 401) {
-      this.router.navigate(["login"]);
+
+    switch (err.status) {
+      case 401:
+        this.clearLocalStorage();
+        this.router.navigate(["login"]);
+        break;
+      case 440:
+        this.clearLocalStorage();
+        this.router.navigate(["login"], {
+          queryParams: { message: "Session Expired. Kindly login again." },
+        });
+        break;
+      case 441:
+        this.clearLocalStorage();
+        this.router.navigate(["login"], {
+          queryParams: {
+            message: "Password Expired. Kindly reset your password.",
+          },
+        });
+        break;
+      case 0:
+        return throwError({
+          error: { message: "Failed to connect with Server" },
+        });
     }
     return throwError(err);
   };
+
+  private clearLocalStorage() {
+    localStorage.clear();
+  }
 }

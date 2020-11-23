@@ -39,6 +39,15 @@ export class UserProfileComponent implements OnInit {
     this.initializeUserType();
   }
 
+  public GetFormControlErrors(controlName: string) {
+    return !!(
+      this.profileForm.controls[controlName].dirty &&
+      this.profileForm.controls[controlName].errors
+    )
+      ? this.profileForm.controls[controlName].errors
+      : null;
+  }
+
   private initializeUserType() {
     this.loggedInUserType = this._profileService.getLoggedInUserType();
   }

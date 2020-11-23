@@ -10,8 +10,8 @@
       position: relative;
     "
   >
-    <!-- <img class="align-center" src="/assets/images/cityfinance-logo.png" />
-    <br /> -->
+    <!-- <img class="align-center" src="/assets/images/cityfinance-logo.png" /> -->
+    <br />
 
     <form
       [ngClass]="{ 'disable-form': reportReq.valueType === 'per_capita' }"
@@ -35,7 +35,7 @@
       >
       </angular2-multiselect>
     </form>
-    <p class="text-center">
+    <p class="text-center" style="font-size: 1vw;">
       {{ reportReq.type }} {{ reportReq.reportGroup }}
       <span *ngIf="reportReq.valueType === 'per_capita'">(Per Capita)</span>
     </p>
@@ -99,8 +99,22 @@
           <th class="text-center" *ngFor="let yr of years">{{ yr.caption }}</th>
         </tr>
         <tr>
-          <th></th>
-          <th></th>
+          <th
+            style="
+              position: sticky;
+              left: 0px;
+              background: white;
+              border-right: inherit solid #868686;
+            "
+          ></th>
+          <th
+            style="
+              position: sticky;
+              left: 103px;
+              background: white;
+              border-right: inherit solid #868686;
+            "
+          ></th>
           <th class="text-center" *ngFor="let yr of years">
             <span *ngIf="yr.population !== undefined && yr.population !== null"
               >Population:

@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
 
 import { environment } from '../../../../environments/environment';
 import { IULBTypeListResponse } from '../../../models/ulbs/type';
@@ -35,6 +36,18 @@ export class ProfileService {
     return userData["role"] ? userData["role"] : null;
   }
 
+  getUserLoggedInDetails(): IUserLoggedInDetails {
+    let userData: any = localStorage.getItem("userData");
+    if (!userData) return null;
+    try {
+      userData = <IUserLoggedInDetails>JSON.parse(userData);
+    } catch (error) {
+      console.error(`FAiled to parse userData from  localStorage.\n`, error);
+      return null;
+    }
+    return userData;
+  }
+
   getULBTypeList() {
     return this._htttp.get<IULBTypeListResponse>(
       `${environment.api.url}UlbType`
@@ -50,8 +63,6 @@ export class ProfileService {
     status: IULBProfileData["status"];
     rejectReason?: string;
   }) {
-    console.log(body);
-
     return this._htttp.put(
       `${environment.api.url}user/ulb-status/${body._id}`,
       body
@@ -148,5 +159,9 @@ export class ProfileService {
       `${environment.api.url}ulb-update-request/action/${params.id}`,
       { status: params.status }
     );
+  }
+
+  public getULBGeneralData(param: { [key: string]: any }) {
+    return this._htttp.get(`${environment.api.url}ulb/${param.id}`);
   }
 }

@@ -1,31 +1,39 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-import {UsersComponent} from './users.component';
+import { UsersComponent } from "./users.component";
+import { AnnualAccountsViewComponent } from "../pages/annual-accounts/annual-accounts-view/annual-accounts-view.component";
 
 const routes: Routes = [
   {
-    path: '', component: UsersComponent,
+    path: "",
+    component: UsersComponent,
     children: [
-      {path: 'ulbs', loadChildren: './ulbs/ulbs.module#UlbsModule'},
-      {path: 'profile', loadChildren: './profile/profile.module#ProfileModule'},
+      { path: "ulbs", loadChildren: "./ulbs/ulbs.module#UlbsModule" },
       {
-        path: 'states',
-        loadChildren: './state-list/state-list.module#StateListModule'
+        path: "profile",
+        loadChildren: "./profile/profile.module#ProfileModule",
       },
       {
-        path: 'data-upload',
-        loadChildren: './data-upload/data-upload.module#DataUploadModule'
+        path: "states",
+        loadChildren: "./state-list/state-list.module#StateListModule",
       },
-      {path: 'list', loadChildren: './list/list.module#ListModule'},
-      {path: 'reports', loadChildren: './reports/reports.module#ReportsModule'}
-    ]
-  }
+      {
+        path: "data-upload",
+        loadChildren: "./data-upload/data-upload.module#DataUploadModule",
+      },
+      { path: "list", loadChildren: "./list/list.module#ListModule" },
+      {
+        path: "reports",
+        loadChildren: "./reports/reports.module#ReportsModule",
+      },
+      { path: "annual-accounts/view", component: AnnualAccountsViewComponent },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class UsersRoutingModule {
-}
+export class UsersRoutingModule {}

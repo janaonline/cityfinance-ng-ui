@@ -12,3 +12,8 @@ form {
   display: flex;
   flex-wrap: wrap;
 }
+
+.error-message,
+.success-message {
+  width: 100%;
+}

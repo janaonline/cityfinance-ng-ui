@@ -5,11 +5,11 @@ import { RegisterComponent } from './register.component';
 
 const routes: Routes = [
   { path: ":type", component: RegisterComponent },
-  { path: "**", redirectTo: "user" }
+  { path: "**", redirectTo: "  " },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class RegisterRoutingModule {}

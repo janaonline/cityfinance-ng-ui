@@ -1,0 +1,861 @@
+<button class="btn btn-primary download-buttom" (click)="downloadForm()">
+  <i class="fa fa-cloud-download" aria-hidden="true"></i> Download as PDF
+</button>
+
+<div class="wrapper" id="preview" #preview>
+  <ng-content select=".header" class="text-center"> </ng-content>
+
+  <!-- PROPERTY TAX-->
+  <section class="property-tax" id="property-tax" *ngIf="propertyTaxForm">
+    <h3 class="tab-heading text-center">Property Tax</h3>
+    <p class="main-section-header">
+      A. Notification of floor rates linked to prevailing circle rates
+    </p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <span
+              class="question-number top-11"
+              [innerHTML]="propertyTaxQuestion.Act_Linking_PT_A.number"
+            ></span>
+          </td>
+          <td rowspan="2">
+            <span
+              class="question"
+              [innerHTML]="propertyTaxQuestion.Act_Linking_PT_A.question"
+            ></span>
+            <br />
+            <strong>Ans:</strong> {{ propertyTaxForm.value.Act_Linking_PT_A }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table
+      *ngIf="propertyTaxForm.value.Act_Linking_PT_A === 'Yes'"
+      style="width: 94%; margin: auto;"
+    >
+      <tbody>
+        <tr>
+          <td>
+            <span
+              class="question-number"
+              [innerHTML]="propertyTaxQuestion.Existing_Status_PT_A.number"
+            ></span>
+          </td>
+          <td>
+            <span
+              class="question"
+              [innerHTML]="propertyTaxQuestion.Existing_Status_PT_A.question"
+            ></span>
+            <br />
+            <strong>Ans:</strong>
+            {{ propertyTaxForm.value.Existing_Status_PT_A }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span
+              class="question-number"
+              [innerHTML]="
+                propertyTaxQuestion.Relevent_Sections_Yes_PT_A.number
+              "
+            ></span>
+          </td>
+          <td>
+            <span
+              class="question"
+              [innerHTML]="
+                propertyTaxQuestion.Relevent_Sections_Yes_PT_A.question
+              "
+            ></span>
+            <br />
+            <strong>Ans:</strong>
+            {{ propertyTaxForm.value.Relevent_Sections_Yes_PT_A }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="propertyTaxForm.value.Act_Linking_PT_A === 'No'">
+      <h4 class="action-plan">Action Plan</h4>
+      <table style="width: 94%; margin: auto;">
+        <tbody>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="
+                  propertyTaxQuestion.Legislative_Changes_PT_A.number
+                "
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="
+                  propertyTaxQuestion.Legislative_Changes_PT_A.question
+                "
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ propertyTaxForm.value.Legislative_Changes_PT_A }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="propertyTaxQuestion.Action_Date_PT_A.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="propertyTaxQuestion.Action_Date_PT_A.question"
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ propertyTaxForm.value.Action_Date_PT_A | date: "longDate" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="propertyTaxForm.value.Act_Linking_PT_A === 'No'">
+      <h4 class="implementation-plan">Implementation Plan</h4>
+      <table style="width: 94%; margin: auto;">
+        <tbody>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="
+                  propertyTaxQuestion.Relevent_Sections_No_PT_A.number
+                "
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="
+                  propertyTaxQuestion.Relevent_Sections_No_PT_A.question
+                "
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ propertyTaxForm.value.Relevent_Sections_No_PT_A }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="propertyTaxQuestion.Adoption_Plan_PT_A.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="propertyTaxQuestion.Adoption_Plan_PT_A.question"
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ propertyTaxForm.value.Adoption_Plan_PT_A }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="propertyTaxQuestion.Implement_Date_PT_A.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="propertyTaxQuestion.Implement_Date_PT_A.question"
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ propertyTaxForm.value.Implement_Date_PT_A | date: "longDate" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="main-section-header">
+      B. Periodic increase of floor rates in line with price increase
+    </p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <span
+              class="question-number top-11"
+              [innerHTML]="propertyTaxQuestion.Periodic_Increase_PT_B.number"
+            ></span>
+          </td>
+          <td rowspan="2">
+            <span
+              class="question"
+              [innerHTML]="propertyTaxQuestion.Periodic_Increase_PT_B.question"
+            ></span>
+            <br />
+            <strong>Ans:</strong>
+            {{ propertyTaxForm.value.Periodic_Increase_PT_B }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table
+      *ngIf="propertyTaxForm.value.Periodic_Increase_PT_B === 'Yes'"
+      style="width: 94%; margin: auto;"
+    >
+      <tbody>
+        <tr>
+          <td>
+            <span
+              class="question-number"
+              [innerHTML]="propertyTaxQuestion.Existing_Status_Yes_PT_B.number"
+            ></span>
+          </td>
+          <td>
+            <span
+              class="question"
+              [innerHTML]="
+                propertyTaxQuestion.Existing_Status_Yes_PT_B.question
+              "
+            ></span>
+            <br />
+            <strong>Ans:</strong>
+            {{ propertyTaxForm.value.Existing_Status_Yes_PT_B }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span
+              class="question-number"
+              [innerHTML]="propertyTaxQuestion.Relevent_Sections_PT_B.number"
+            ></span>
+          </td>
+          <td>
+            <span
+              class="question"
+              [innerHTML]="propertyTaxQuestion.Relevent_Sections_PT_B.question"
+            ></span>
+            <br />
+            <strong>Ans:</strong>
+            {{ propertyTaxForm.value.Relevent_Sections_PT_B }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="propertyTaxForm.value.Periodic_Increase_PT_B === 'No'">
+      <h4 class="action-plan">Action Plan</h4>
+      <table style="width: 94%; margin: auto;">
+        <tbody>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="
+                  propertyTaxQuestion.Legislative_Changes_PT_B.number
+                "
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="
+                  propertyTaxQuestion.Legislative_Changes_PT_B.question
+                "
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ propertyTaxForm.value.Legislative_Changes_PT_B }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="propertyTaxQuestion.Action_Date_PT_B.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="propertyTaxQuestion.Action_Date_PT_B.question"
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ propertyTaxForm.value.Action_Date_PT_B | date: "longDate" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="propertyTaxForm.value.Periodic_Increase_PT_B === 'No'">
+      <h4 class="implementation-plan">Implementation Plan</h4>
+      <table style="width: 94%; margin: auto;">
+        <tbody>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="propertyTaxQuestion.Existing_Status_No_PT_B.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="
+                  propertyTaxQuestion.Existing_Status_No_PT_B.question
+                "
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ propertyTaxForm.value.Existing_Status_No_PT_B }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="propertyTaxQuestion.Implement_Plan_PT_B.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="propertyTaxQuestion.Implement_Plan_PT_B.question"
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ propertyTaxForm.value.Implement_Plan_PT_B }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="propertyTaxQuestion.Implement_Date_PT_B.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="propertyTaxQuestion.Implement_Date_PT_B.question"
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ propertyTaxForm.value.Implement_Date_PT_B | date: "longDate" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- USER CHARGES-->
+  <section class="user-charges" id="user-charges" *ngIf="userChargesForm">
+    <h3 class="tab-heading text-center">User Charges</h3>
+    <p class="main-section-header">
+      A. Notification of floor rates linked to current cost
+    </p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <span
+              class="question-number top-11"
+              [innerHTML]="userChargesQuestion.Byelaws_UC_A.number"
+            ></span>
+          </td>
+          <td rowspan="2">
+            <span
+              class="question"
+              [innerHTML]="userChargesQuestion.Byelaws_UC_A.question"
+            ></span>
+            <br />
+            <strong>Ans:</strong> {{ userChargesForm.value.Byelaws_UC_A }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table
+      *ngIf="userChargesForm.value.Byelaws_UC_A === 'Yes'"
+      style="width: 94%; margin: auto;"
+    >
+      <tbody>
+        <tr>
+          <td>
+            <span
+              class="question-number"
+              [innerHTML]="userChargesQuestion.Existing_Status_Yes_UC_A.number"
+            ></span>
+          </td>
+          <td>
+            <span
+              class="question"
+              [innerHTML]="
+                userChargesQuestion.Existing_Status_Yes_UC_A.question
+              "
+            ></span>
+            <br />
+            <strong>Ans:</strong>
+            {{ userChargesForm.value.Existing_Status_Yes_UC_A }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span
+              class="question-number"
+              [innerHTML]="userChargesQuestion.Relevant_Section_UC_A.number"
+            ></span>
+          </td>
+          <td>
+            <span
+              class="question"
+              [innerHTML]="userChargesQuestion.Relevant_Section_UC_A.question"
+            ></span>
+            <br />
+            <strong>Ans:</strong>
+            {{ userChargesForm.value.Relevant_Section_UC_A }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="userChargesForm.value.Byelaws_UC_A === 'No'">
+      <h4 class="action-plan">Action Plan</h4>
+      <table style="width: 94%; margin: auto;">
+        <tbody>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="userChargesQuestion.State_Approval_UC_A.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="userChargesQuestion.State_Approval_UC_A.question"
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ userChargesForm.value.State_Approval_UC_A }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="userChargesQuestion.Action_Date_UC_A.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="userChargesQuestion.Action_Date_UC_A.question"
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ userChargesForm.value.Action_Date_UC_A | date: "longDate" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="userChargesForm.value.Byelaws_UC_A === 'No'">
+      <h4 class="implementation-plan">Implementation Plan</h4>
+      <table style="width: 94%; margin: auto;">
+        <tbody>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="userChargesQuestion.Existing_Status_No_UC_A.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="
+                  userChargesQuestion.Existing_Status_No_UC_A.question
+                "
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ userChargesForm.value.Existing_Status_No_UC_A }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="userChargesQuestion.Implement_Plan_UC_A.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="userChargesQuestion.Implement_Plan_UC_A.question"
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ userChargesForm.value.Implement_Plan_UC_A }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="userChargesQuestion.Implement_Date_UC_A.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="userChargesQuestion.Implement_Date_UC_A.question"
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ userChargesForm.value.Implement_Date_UC_A | date: "longDate" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="main-section-header">
+      B. Periodic increase of floor rates in line with price increase
+    </p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <span
+              class="question-number top-11"
+              [innerHTML]="userChargesQuestion.Periodic_Increase_UC_B.number"
+            ></span>
+          </td>
+          <td rowspan="2">
+            <span
+              class="question"
+              [innerHTML]="userChargesQuestion.Periodic_Increase_UC_B.question"
+            ></span>
+            <br />
+            <strong>Ans:</strong>
+            {{ userChargesForm.value.Periodic_Increase_UC_B }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table
+      *ngIf="userChargesForm.value.Periodic_Increase_UC_B === 'Yes'"
+      style="width: 94%; margin: auto;"
+    >
+      <tbody>
+        <tr>
+          <td>
+            <span
+              class="question-number"
+              [innerHTML]="userChargesQuestion.Existing_Status_Yes_UC_B.number"
+            ></span>
+          </td>
+          <td>
+            <span
+              class="question"
+              [innerHTML]="
+                userChargesQuestion.Existing_Status_Yes_UC_B.question
+              "
+            ></span>
+            <br />
+            <strong>Ans:</strong>
+            {{ userChargesForm.value.Existing_Status_Yes_UC_B }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span
+              class="question-number"
+              [innerHTML]="userChargesQuestion.Relevant_Section_UC_B.number"
+            ></span>
+          </td>
+          <td>
+            <span
+              class="question"
+              [innerHTML]="userChargesQuestion.Relevant_Section_UC_B.question"
+            ></span>
+            <br />
+            <strong>Ans:</strong>
+            {{ userChargesForm.value.Relevant_Section_UC_B }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="userChargesForm.value.Periodic_Increase_UC_B === 'No'">
+      <h4 class="action-plan">Action Plan</h4>
+      <table style="width: 94%; margin: auto;">
+        <tbody>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="userChargesQuestion.State_Approval_UC_B.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="userChargesQuestion.State_Approval_UC_B.question"
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ userChargesForm.value.State_Approval_UC_B }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="userChargesQuestion.Action_Date_UC_B.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="userChargesQuestion.Action_Date_UC_B.question"
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ userChargesForm.value.Action_Date_UC_B | date: "longDate" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="userChargesForm.value.Periodic_Increase_UC_B === 'No'">
+      <h4 class="implementation-plan">Implementation Plan</h4>
+      <table style="width: 94%; margin: auto;">
+        <tbody>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="userChargesQuestion.Existing_Status_No_UC_B.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="
+                  userChargesQuestion.Existing_Status_No_UC_B.question
+                "
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ userChargesForm.value.Existing_Status_No_UC_B }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span
+                class="question-number"
+                [innerHTML]="userChargesQuestion.Implement_Plan_UC_B.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="userChargesQuestion.Implement_Plan_UC_B.question"
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ userChargesForm.value.Implement_Plan_UC_B }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span
+                class="question"
+                class="question-number"
+                [innerHTML]="userChargesQuestion.Implement_Date_UC_B.number"
+              ></span>
+            </td>
+            <td>
+              <span
+                class="question"
+                [innerHTML]="userChargesQuestion.Implement_Date_UC_B.question"
+              ></span>
+              <br />
+              <strong>Ans:</strong>
+              {{ userChargesForm.value.Implement_Date_UC_B | date: "longDate" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- DOCUMENTS -->
+  <section class="upload-documnets" id="upload-documnets" *ngIf="documentForm">
+    <h3 class="tab-heading text-center">Documents</h3>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <span class="question-number">1.</span>
+          </td>
+          <td>
+            <span
+              class="question"
+              [innerHTML]="documentQuestions.State_Acts_Doc"
+            ></span>
+            <br />
+            <strong></strong>
+            <a
+              class="download-link"
+              *ngFor="
+                let file of documentForm.value.State_Acts_Doc;
+                let i = index;
+                last as isLast
+              "
+              [href]="file.url"
+              target="_blank"
+            >
+              {{ file.name }} <span *ngIf="!isLast">,</span>
+            </a>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <span class="question-number">2.</span>
+          </td>
+          <td>
+            <span
+              class="question"
+              [innerHTML]="documentQuestions.State_Rules_Doc"
+            ></span>
+            <br />
+            <strong></strong>
+            <a
+              class="download-link"
+              *ngFor="
+                let file of documentForm.value.State_Rules_Doc;
+                let i = index;
+                last as isLast
+              "
+              [href]="file.url"
+              target="_blank"
+            >
+              {{ file.name }} <span *ngIf="!isLast">,</span>
+            </a>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <span class="question-number">3.</span>
+          </td>
+          <td>
+            <span
+              class="question"
+              [innerHTML]="documentQuestions.Admin_Doc"
+            ></span>
+            <br />
+            <strong></strong>
+            <a
+              class="download-link"
+              *ngFor="
+                let file of documentForm.value.Admin_Doc;
+                let i = index;
+                last as isLast
+              "
+              [href]="file.url"
+              target="_blank"
+            >
+              {{ file.name }} <span *ngIf="!isLast">,</span>
+            </a>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <span class="question-number">4.</span>
+          </td>
+          <td>
+            <span
+              class="question"
+              [innerHTML]="documentQuestions.Implement_Doc"
+            ></span>
+            <br />
+            <strong></strong>
+            <a
+              class="download-link"
+              *ngFor="
+                let file of documentForm.value.Implement_Doc;
+                let i = index;
+                last as isLast
+              "
+              [href]="file.url"
+              target="_blank"
+            >
+              {{ file.name }} <span *ngIf="!isLast">,</span>
+            </a>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <span class="question-number">5.</span>
+          </td>
+          <td>
+            <span
+              class="question"
+              [innerHTML]="documentQuestions.Other_Doc"
+            ></span>
+            <br />
+            <strong></strong>
+            <a
+              class="download-link"
+              *ngFor="
+                let file of documentForm.value.Other_Doc;
+                let i = index;
+                last as isLast
+              "
+              [href]="file.url"
+              target="_blank"
+            >
+              {{ file.name }} <span *ngIf="!isLast">,</span>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <h3></h3>
+</div>
+
+<div class="loader" *ngIf="showLoader">
+  <mat-spinner style="margin: auto;"></mat-spinner>
+</div>

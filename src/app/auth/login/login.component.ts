@@ -20,6 +20,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public loginError: string;
   public emailVerificationMessage: string;
+  public reCaptcha = {
+    show: false,
+    siteKey: environment.reCaptcha.siteKey,
+    userGeneratedKey: null,
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -27,6 +32,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
+    if (localStorage.getItem("userData")) {
+      this.router.navigate(["/home"]);
+      return;
+    }
     this.activatedRoute.queryParams.subscribe((param) => {
       if (param.message) {
         this.emailVerificationMessage = param.message;
@@ -44,8 +53,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.badCredentials = res;
     });
 
-    console.log(window.history.state);
-
     // this.router.
   }
 
@@ -54,31 +61,59 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
+    console.log("login button is called");
     this.loginError = null;
     this.submitted = true;
+    if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
+      this.loginError = "Login Failed. You must validate that you are human.";
+      return;
+    }
+
     if (this.loginForm.valid) {
-      this.authService.signin(this.loginForm.value).subscribe(
-        (res) => {
-          if (res && res["token"]) {
-            localStorage.setItem("id_token", JSON.stringify(res["token"]));
-            localStorage.setItem("userData", JSON.stringify(res["user"]));
-            const postLoginRoute =
-              sessionStorage.getItem("postLoginNavigation") || "home";
-            this.router.navigate([postLoginRoute]);
-          } else {
-            localStorage.removeItem("id_token");
-          }
-        },
-        (error) => {
-          this.loginError = error.error["message"] || "Server Error";
-        }
+      const body = { ...this.loginForm.value };
+      body["email"] = body["email"].trim();
+      this.authService.signin(body).subscribe(
+        (res) => this.onSuccessfullLogin(res),
+        (error) => this.onLoginError(error)
       );
     } else {
       this.formError = true;
     }
   }
 
-  ngOnDestroy(): void {
+  private onSuccessfullLogin(res) {
+    if (res && res["token"]) {
+      localStorage.setItem("id_token", JSON.stringify(res["token"]));
+      localStorage.setItem("userData", JSON.stringify(res["user"]));
+      const postLoginRoute =
+        sessionStorage.getItem("postLoginNavigation") || "home";
+      this.router.navigate([postLoginRoute]);
+    } else {
+      localStorage.removeItem("id_token");
+    }
+  }
+
+  private onLoginError(error) {
+    this.loginError = error.error["message"] || "Server Error";
+    if (error.error.errors && error.error.errors.loginAttempts >= 3) {
+      this.reCaptcha.show = true;
+    }
+  }
+
+  resolveCaptcha(keyGenerated: string) {
+    this.reCaptcha.userGeneratedKey = keyGenerated;
+    this.authService.verifyCaptcha(keyGenerated).subscribe((res) => {
+      if (!res["success"]) {
+        this.reCaptcha.show = false;
+        this.reCaptcha.userGeneratedKey = null;
+        setTimeout(() => {
+          this.reCaptcha.show = true;
+        }, 500);
+      }
+    });
+  }
+
+  ngOnDestroy() {
     sessionStorage.removeItem("postLoginNavigation");
   }
 }

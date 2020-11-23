@@ -3,28 +3,30 @@
     <div class="row">
       <div class="col-md-12">
         <h3>
-          <span *ngIf="listType === userTypes.STATE" style="margin-left: 6px;">
+          <span *ngIf="listType === userTypes.STATE" style="margin-left: 6px">
             State List</span
           >
           <span
             *ngIf="listType === userTypes.PARTNER"
-            style="margin-left: 0.5%;"
+            style="margin-left: 0.5%"
           >
             Partner List</span
           >
-          <span *ngIf="listType === userTypes.USER" style="margin-left: 0.5%;">
+          <span *ngIf="listType === userTypes.USER" style="margin-left: 0.5%">
             User List</span
           >
-          <span *ngIf="listType === userTypes.ULB" style="margin-left: 0.5%;">
-            ULB Signup List</span
+          <span *ngIf="listType === userTypes.ULB" style="margin-left: 0.5%">
+            ULB
+            <span *ngIf="loggedInType === userTypes.STATE">Sign Up</span>
+            List</span
           >
-          <span *ngIf="listType === userTypes.MoHUA" style="margin-left: 0.5%;">
+          <span *ngIf="listType === userTypes.MoHUA" style="margin-left: 0.5%">
             MoHUA List</span
           >
           <a
             *ngIf="listType === userTypes.STATE"
             class="btn btn-primary"
-            style="float: right; margin-right: 6px;"
+            style="float: right; margin-right: 6px"
             [routerLink]="['/', 'user', 'profile', 'create']"
             [queryParams]="{ role: userTypes.STATE }"
             >Create State</a
@@ -33,7 +35,7 @@
           <a
             *ngIf="listType === userTypes.PARTNER"
             class="btn btn-primary"
-            style="float: right; margin-right: 6px;"
+            style="float: right; margin-right: 6px"
             [routerLink]="['/', 'user', 'profile', 'create']"
             [queryParams]="{ role: userTypes.PARTNER }"
             >Create Partner</a
@@ -42,14 +44,14 @@
           <a
             *ngIf="listType === userTypes.MoHUA"
             class="btn btn-primary"
-            style="float: right; margin-right: 6px;"
+            style="float: right; margin-right: 6px"
             [routerLink]="['/', 'user', 'profile', 'create']"
             [queryParams]="{ role: userTypes.MoHUA }"
             >Create MoHUA</a
           >
           <button
             class="btn btn-primary"
-            style="float: right; margin-right: 6px;"
+            style="float: right; margin-right: 6px"
             (click)="downloadList()"
           >
             Download List
@@ -60,14 +62,14 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table" *ngIf="listType === userTypes.USER">
+        <table
+          aria-describedby="USers List"
+          class="table"
+          *ngIf="listType === userTypes.USER && !isApiInProgress"
+        >
           <thead>
             <tr
-              style="
-                background: #059b9a;
-                color: white;
-                border: 5px solid white;
-              "
+              style="background: #059b9a; color: white; border: 0px"
               class="sortable-headers"
             >
               <th class="text-center">S.No.</th>
@@ -142,7 +144,7 @@
               <td>
                 <button
                   class="btn btn-primary"
-                  (click)="searchUsersBy(filterForm.value)"
+                  (click)="searchUsersBy(filterForm.value, 0)"
                 >
                   Search
                 </button>
@@ -160,7 +162,6 @@
                       };
                 index as i
               "
-              style="background: #e7e7e7; border: 5px solid white;"
             >
               <td class="text-center">
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
@@ -195,31 +196,38 @@
           </tbody>
         </table>
 
-        <table class="table table-striped" *ngIf="listType === userTypes.ULB">
+        <table
+          aria-describedby="ULB List"
+          class="table"
+          *ngIf="listType === userTypes.ULB && !isApiInProgress"
+        >
           <thead>
             <tr
               class="sortable-headers"
+              style="background: #059b9a; color: white; border: 0px"
             >
-              <th class="text-center">S.No.</th>
+              <th class="text-center" scope="Serial No">S.No.</th>
               <th
-                class=""
+                scope="State No"
                 (click)="sortListBy('stateName')"
                 *ngIf="loggedInType !== userTypes.STATE"
               >
-                State <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+                State <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
               </th>
-              <th class="" (click)="sortListBy('name')">
+              <th scope="ULB Name" (click)="sortListBy('name')">
                 ULB Name
-                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+                <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
               </th>
-              <th class="" (click)="sortListBy('ulbCode')">
+              <th scope="ULB Code"  (click)="sortListBy('ulbCode')">
                 ULB Code
-                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+                <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
               </th>
-              <th class="" (click)="sortListBy('status')">
+              <th scope="Census Code"  (click)="sortListBy('censusCode')">Census Code <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em></th>
+              <th scope="SB Code" (click)="sortListBy('sbCode')">Swatch Bharat Code <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em></th>
+              <!-- <th class="" (click)="sortListBy('status')">
                 Status <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
-              </th>
-              <th class="text-center">Action</th>
+              </th> -->
+              <th scope="Take Action" class="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -235,9 +243,7 @@
                     class="form-control"
                     placeholder="State"
                   >
-                    <option value="" selected>
-                      All States
-                    </option>
+                    <option value="" selected>All States</option>
                     <option *ngFor="let state of stateList" [value]="state._id">
                       {{ state.name }}
                     </option>
@@ -266,8 +272,28 @@
                   />
                 </div>
               </td>
-
               <td>
+                <div class="input-group">
+                  <input
+                    placeholder="Census Code"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.censusCode"
+                  />
+                </div>
+              </td>
+              <td>
+                <div class="input-group">
+                  <input
+                    placeholder="Swatch Bharat Code"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.sbCode"
+                  />
+                </div>
+              </td>
+
+              <!-- <td>
                 <div class="input-group">
                   <select
                     name="ulb"
@@ -276,9 +302,7 @@
                     class="form-control"
                     placeholder="STATUS"
                   >
-                    <option value="">
-                      All Status
-                    </option>
+                    <option value="">All Status</option>
                     <option
                       *ngFor="let status of requestStatusTypeList"
                       [value]="status.value"
@@ -287,12 +311,12 @@
                     </option>
                   </select>
                 </div>
-              </td>
+              </td> -->
               <td>
                 <button
                   class="btn btn-primary m-auto"
-                  style="display: block;"
-                  (click)="searchUsersBy(filterForm.value)"
+                  style="display: block"
+                  (click)="searchUsersBy(filterForm.value, 0)"
                 >
                   Search
                 </button>
@@ -311,13 +335,17 @@
                 index as i
               "
             >
-              <td class="text-center">{{ i + 1 }}</td>
+              <td class="text-center">
+                {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+              </td>
               <td class="" *ngIf="loggedInType !== userTypes.STATE">
                 {{ ulb["stateName"] }}
               </td>
               <td class="">{{ ulb["name"] }}</td>
               <td class="">{{ ulb["ulbCode"] }}</td>
-              <td class="">
+              <td>{{ ulb.censusCode }}</td>
+              <td>{{ ulb.sbCode }}</td>
+              <!-- <td class="">
                 <span
                   (click)="showUserRejectReason(ulb)"
                   [ngClass]="{
@@ -326,9 +354,44 @@
                 >
                   {{ ulb.status }}
                 </span>
-              </td>
+              </td> -->
               <td class="text-center d-flex actionCell">
                 <a
+                  *ngIf="ulb.status === SINGPUP_STATUS.PENDING"
+                  class="btn btn-primary"
+                  title="Edit"
+                  [routerLink]="['/', 'user', 'profile', 'view']"
+                  [queryParams]="{ id: ulb._id, role: 'ULB' }"
+                  >Take Action
+                </a>
+                <ng-container *ngIf="ulb.status !== SINGPUP_STATUS.PENDING">
+                  <a
+                    [routerLink]="['/', 'user', 'profile', 'view']"
+                    [queryParams]="{ id: ulb._id, role: 'ULB' }"
+                  >
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                  </a>
+                  <a
+                    *ngIf="
+                      ulb.status === SINGPUP_STATUS.APPROVED && canEditProfile
+                    "
+                    [routerLink]="['/', 'user', 'profile', 'view']"
+                    [queryParams]="{ id: ulb._id, role: 'ULB', edit: true }"
+                  >
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </a>
+                  <a *ngIf="canDeleteUser">
+                    <i
+                      class="fa fa-trash"
+                      aria-hidden="true"
+                      title="Delete User"
+                      (click)="
+                        openUserDeleteConfirmationBox(userDeletePopup, ulb)
+                      "
+                    ></i
+                  ></a>
+                </ng-container>
+                <!-- <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: ulb._id, role: 'ULB' }"
                   class="p-2"
@@ -353,7 +416,7 @@
                       openUserDeleteConfirmationBox(userDeletePopup, ulb)
                     "
                   ></i
-                ></a>
+                ></a> -->
               </td>
             </tr>
             <tr *ngIf="userList && !userList.length">
@@ -362,22 +425,22 @@
           </tbody>
         </table>
 
-        <table class="table" *ngIf="listType === userTypes.STATE">
+        <table
+          aria-describedby="States List"
+          class="table"
+          *ngIf="listType === userTypes.STATE && !isApiInProgress"
+        >
           <thead>
             <tr
               class="sortable-headers"
-              style="
-                background: #059b9a;
-                color: white;
-                border: 5px solid white;
-              "
+              style="background: #059b9a; color: white; border: 0px"
             >
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('stateName')">
                 State <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="" (click)="sortListBy('name')">
-                Username
+                User Name
                 <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="" (click)="sortListBy('email')">
@@ -389,7 +452,7 @@
                 <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="" (click)="sortListBy('departmentName')">
-                Department
+                Department Name
                 <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="text-center">Action</th>
@@ -408,9 +471,7 @@
                     class="form-control"
                     placeholder="State"
                   >
-                    <option value="" selected>
-                      All States
-                    </option>
+                    <option value="" selected>All States</option>
                     <option *ngFor="let state of stateList" [value]="state._id">
                       {{ state.name }}
                     </option>
@@ -463,8 +524,8 @@
               <td>
                 <button
                   class="btn btn-primary m-auto"
-                  style="display: block;"
-                  (click)="searchUsersBy(filterForm.value)"
+                  style="display: block"
+                  (click)="searchUsersBy(filterForm.value, 0)"
                 >
                   Search
                 </button>
@@ -472,7 +533,6 @@
             </tr>
 
             <tr
-              style="background: #e7e7e7; border: 5px solid white;"
               *ngFor="
                 let user of userList
                   | paginate
@@ -485,7 +545,9 @@
                 index as i
               "
             >
-              <td class="text-center">{{ i + 1 }}</td>
+              <td class="text-center">
+                {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+              </td>
               <td class="">
                 {{ user["stateName"] }}
               </td>
@@ -524,19 +586,19 @@
           </tbody>
         </table>
 
-        <table class="table" *ngIf="listType === userTypes.PARTNER">
+        <table
+          aria-describedby="Partners List"
+          class="table"
+          *ngIf="listType === userTypes.PARTNER && !isApiInProgress"
+        >
           <thead>
             <tr
               class="sortable-headers"
-              style="
-                background: #059b9a;
-                color: white;
-                border: 5px solid white;
-              "
+              style="background: #059b9a; color: white; border: 0px"
             >
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('name')">
-                Username
+                User Name
                 <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="" (click)="sortListBy('email')">
@@ -548,7 +610,7 @@
                 <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="" (click)="sortListBy('departmentName')">
-                Department
+                Department Name
                 <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="text-center">Action</th>
@@ -603,8 +665,8 @@
               <td>
                 <button
                   class="btn btn-primary m-auto"
-                  style="display: block;"
-                  (click)="searchUsersBy(filterForm.value)"
+                  style="display: block"
+                  (click)="searchUsersBy(filterForm.value, 0)"
                 >
                   Search
                 </button>
@@ -612,7 +674,6 @@
             </tr>
 
             <tr
-              style="background: #e7e7e7; border: 5px solid white;"
               *ngFor="
                 let user of userList
                   | paginate
@@ -625,7 +686,9 @@
                 index as i
               "
             >
-              <td class="text-center">{{ i + 1 }}</td>
+              <td class="text-center">
+                {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+              </td>
 
               <td class="">{{ user["name"] }}</td>
               <td class="">{{ user["email"] }}</td>
@@ -662,19 +725,19 @@
           </tbody>
         </table>
 
-        <table class="table" *ngIf="listType === userTypes.MoHUA">
+        <table
+          aria-describedby="MoHUA List"
+          class="table"
+          *ngIf="listType === userTypes.MoHUA && !isApiInProgress"
+        >
           <thead>
             <tr
               class="sortable-headers"
-              style="
-                background: #059b9a;
-                color: white;
-                border: 5px solid white;
-              "
+              style="background: #059b9a; color: white; border: 0px"
             >
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('name')">
-                Username
+                User Name
                 <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
               <th class="" (click)="sortListBy('email')">
@@ -727,8 +790,8 @@
               <td>
                 <button
                   class="btn btn-primary m-auto"
-                  style="display: block;"
-                  (click)="searchUsersBy(filterForm.value)"
+                  style="display: block"
+                  (click)="searchUsersBy(filterForm.value, 0)"
                 >
                   Search
                 </button>
@@ -736,7 +799,6 @@
             </tr>
 
             <tr
-              style="background: #e7e7e7; border: 5px solid white;"
               *ngFor="
                 let user of userList
                   | paginate
@@ -749,7 +811,9 @@
                 index as i
               "
             >
-              <td class="text-center">{{ i + 1 }}</td>
+              <td class="text-center">
+                {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+              </td>
 
               <td class="">{{ user["name"] }}</td>
               <td class="">{{ user["email"] }}</td>
@@ -787,43 +851,57 @@
           </tbody>
         </table>
 
-        <pagination-controls
-          style="float: right; position: relative;"
-          id="foo"
-          (pageChange)="setPage($event)"
-          directionLinks="true"
-          autoHide="false"
-          previousLabel="Previous"
-          nextLabel="Next"
-          screenReaderPaginationLabel="Pagination"
-          screenReaderPageLabel="page"
-          screenReaderCurrentLabel="You're on page"
+        <div
+          *ngIf="isApiInProgress"
+          style="
+            background: white;
+            z-index: 99999999;
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+          "
         >
-        </pagination-controls>
+          <app-pre-loader></app-pre-loader>
+          <app-pre-loader></app-pre-loader>
+          <app-pre-loader></app-pre-loader>
+          <app-pre-loader></app-pre-loader>
+        </div>
       </div>
+      <pagination-controls
+        style="float: right; position: relative"
+        id="foo"
+        (pageChange)="setPage($event)"
+        directionLinks="true"
+        autoHide="false"
+        previousLabel="Previous"
+        nextLabel="Next"
+        screenReaderPaginationLabel="Pagination"
+        screenReaderPageLabel="page"
+        screenReaderCurrentLabel="You're on page"
+      >
+      </pagination-controls>
     </div>
   </div>
 </div>
 
 <ng-template #userDeletePopup>
   <div class="modal-body">
-    <p style="margin: 3% auto; text-align: center;">
+    <p style="margin: 3% auto; text-align: center">
       Are you sure you want to delete user
       <strong> {{ userToDelete["name"] }}</strong> ?
     </p>
 
-    <div style="display: flex; width: 100%; justify-content: center;">
+    <div style="display: flex; width: 100%; justify-content: center">
       <button
         class="btn btn-primary"
-        style="margin-right: 2%;"
+        style="margin-right: 2%"
         (click)="deleteUser(userToDelete['_id'])"
       >
         Yes
       </button>
 
-      <button class="btn btn-primary" (click)="_dialog.closeAll()">
-        No
-      </button>
+      <button class="btn btn-primary" (click)="_dialog.closeAll()">No</button>
     </div>
     <p *ngIf="respone.errorMessage" class="error-message text-center mt-1">
       {{ respone.errorMessage }}

@@ -1,7 +1,20 @@
-<!--  -->
 <div class="container-fluid">
   <div class="common-container credit-rating-container">
-    <div class="row" *ngIf="page == 1">
+    <div class="row" [ngClass]="{ 'hide-container': page !== 1 }">
+      <!--  -->
+      <div class="w-100 b-sm">
+        <div class="inner-head">
+          <div class="back-icon">
+            <a (click)="backhome()"
+              ><span class="glyphicon glyphicon-arrow-left"></span
+            ></a>
+          </div>
+          <div class="head-content">
+            <h5>Credit ratings</h5>
+          </div>
+        </div>
+      </div>
+      <!-- w-100 end -->
       <div class="col-md-12 dashboard-wrapper">
         <div class="col-md-6 col-sm-12 col-xl-12 map-container">
           <div id="mapidd"></div>
@@ -18,11 +31,14 @@
               (click)="resetMapToNationalView()"
             >
               <div class="arrow"></div>
+              <div class="arrow-on-mobile">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+              </div>
               View National Level Data
             </a>
           </div>
           <p
-            class="map-info"
+            class="map-info mb-2"
             *ngIf="
               !selectedStates || !selectedStates[0] || !selectedStates[0].length
             "
@@ -31,24 +47,46 @@
           </p>
         </div>
 
-        <div class="col-md-6 abs-credit-info">
+        <div class="col-md-6 abs-credit-info" *ngIf="absCreditInfo">
           <p class="click-info" *ngIf="!absCreditInfo.title">
             Click state on the map to get credit information
           </p>
-          <div class="col-sm-8 ulbDetails" *ngIf="absCreditInfo.title">
+          <div
+            class="col-sm-8 col-lg-8 col-md-12 ulbDetails"
+            *ngIf="absCreditInfo.title"
+          >
             <div class="row">
-              <div class="col-sm-6">
-                <h3 class="text-primary" style="margin-top: 0;">
+              <div class="col-sm-12 filtered-message">
+                <h2
+                  *ngIf="queryParams?.minRating"
+                  class="text-primary"
+                  style="margin-bottom: 1vw"
+                >
+                  <span class="ulb-custom-text"
+                    >ULBs with rating {{ queryParams.minRating }} and
+                    Above</span
+                  >
+                  <button
+                    class="btn btn-warning right"
+                    (click)="onClearRatingFilter()"
+                  >
+                    Show All
+                  </button>
+                </h2>
+              </div>
+
+              <div class="col-sm-6 col-xs-6">
+                <h3 class="text-primary" style="margin-top: 0">
                   {{ absCreditInfo.title | titlecase }}
                 </h3>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-6 col-xs-6">
                 <button class="btn btn-warning right" (click)="page = 2">
                   Explore Credit Rating Reports
                 </button>
               </div>
             </div>
-            <div class="tableWrapper">
+            <div class="mb-2">
               <table class="table fixed-table">
                 <thead>
                   <tr>
@@ -88,15 +126,256 @@
     </div>
 
     <div class="row" *ngIf="page == 2">
-      <div class="col-md-6">
-        <h3 style="margin-top: 0px;">Credit Rating Report</h3>
+      <!--  -->
+      <div class="w-100 b-sm">
+        <div class="inner-head">
+          <div class="back-icon">
+            <a (click)="setPage(1)"
+              ><span class="glyphicon glyphicon-arrow-left"></span
+            ></a>
+          </div>
+          <div class="head-content">
+            <h5>Credit ratings report</h5>
+          </div>
+          <div class="download">
+            <a>
+              <button
+                class="btn-download-report header-btn-style"
+                (click)="download()"
+              >
+                <span class="glyphicon glyphicon-download-alt"></span>
+              </button>
+            </a>
+          </div>
+          <div class="table-filter">
+            <a>
+              <button
+                class="table-filter-btn header-btn-style btn-style-none"
+                type="button"
+                data-toggle="modal"
+                data-target="#table-filter"
+              >
+                <span class="glyphicon glyphicon-filter"></span>
+              </button>
+            </a>
+          </div>
+        </div>
       </div>
-      <div class="col-md-6">
+      <!-- w-100 end -->
+      <div class="col-md-6 n-sm">
+        <h3 style="margin-top: 0px">Credit Rating Report</h3>
+      </div>
+      <div class="col-md-6 n-sm">
         <a class="right" (click)="setPage(1)">Back</a>
       </div>
     </div>
 
-    <div class="row" *ngIf="page == 2">
+    <!-- Mobile filter popup start here -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="table-filter" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <!-- <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button> 
+          </div> -->
+          <div class="modal-body">
+            <h4 class="modal-title" style="float: left">Edit Filter</h4>
+            <button
+              class="btn btn-danger mb-2 "
+              (click)="clearFilters()"
+              style="float: right"
+            >
+              Clear Filters
+            </button>
+            <!-- <div class="filter-layout" style="float: right">
+              
+            </div> -->
+            <div class="filter-field-container">
+              <div class="filter-layout">
+                <input
+                  type="text"
+                  placeholder="Search by ULB's"
+                  aria-label="Number"
+                  matInput
+                  class="form-control"
+                  [formControl]="ulbSearchFormControl"
+                  [matAutocomplete]="auto"
+                  style="
+                    min-height: 39px;
+                    padding: 5px;
+                    border-radius: 0;
+                    font-size: 13px;
+                    border: 1px solid rgb(153, 153, 153) !important;
+                  "
+                />
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option
+                    (click)="ulbDropdownSelected(option)"
+                    *ngFor="let option of list"
+                    [value]="option.ulb"
+                  >
+                    {{ option.ulb }}
+                  </mat-option>
+                </mat-autocomplete>
+              </div>
+              <div class="filter-layout">
+                <angular2-multiselect
+                  (onSelect)="
+                    searchDropdownItemSelected(stateSearchFormControl, 'state')
+                  "
+                  (onDeSelect)="
+                    searchDropdownItemSelected(stateSearchFormControl, 'state')
+                  "
+                  (onSelectAll)="
+                    searchDropdownItemSelected(stateSearchFormControl, 'state')
+                  "
+                  (onDeSelectAll)="
+                    searchDropdownItemSelected(stateSearchFormControl, 'state')
+                  "
+                  [formControl]="stateSearchFormControl"
+                  [settings]="{
+                    primaryKey: 'id',
+                    singleSelection: false,
+                    text: 'States',
+                    labelKey: 'name',
+                    badgeShowLimit: 1,
+                    maxHeight: '150'
+                  }"
+                  [data]="dropdownFiltersData.states"
+                ></angular2-multiselect>
+              </div>
+              <div class="filter-layout">
+                <angular2-multiselect
+                  (onSelect)="
+                    searchDropdownItemSelected(
+                      agencySearchFormControl,
+                      'agency'
+                    )
+                  "
+                  (onDeSelect)="
+                    searchDropdownItemSelected(
+                      agencySearchFormControl,
+                      'agency'
+                    )
+                  "
+                  (onSelectAll)="
+                    searchDropdownItemSelected(
+                      agencySearchFormControl,
+                      'agency'
+                    )
+                  "
+                  (onDeSelectAll)="
+                    searchDropdownItemSelected(
+                      agencySearchFormControl,
+                      'agency'
+                    )
+                  "
+                  [formControl]="agencySearchFormControl"
+                  [settings]="{
+                    primaryKey: 'id',
+                    singleSelection: false,
+                    text: 'Agency',
+                    labelKey: 'name',
+                    badgeShowLimit: 1,
+                    maxHeight: '150'
+                  }"
+                  [data]="dropdownFiltersData.agencies"
+                ></angular2-multiselect>
+              </div>
+              <div class="filter-layout">
+                <angular2-multiselect
+                  (onSelect)="
+                    searchDropdownItemSelected(
+                      creditSearchFormControl,
+                      'creditrating'
+                    )
+                  "
+                  (onDeSelect)="
+                    searchDropdownItemSelected(
+                      creditSearchFormControl,
+                      'creditrating'
+                    )
+                  "
+                  (onSelectAll)="
+                    searchDropdownItemSelected(
+                      creditSearchFormControl,
+                      'creditrating'
+                    )
+                  "
+                  (onDeSelectAll)="
+                    searchDropdownItemSelected(
+                      creditSearchFormControl,
+                      'creditrating'
+                    )
+                  "
+                  [formControl]="creditSearchFormControl"
+                  [settings]="{
+                    primaryKey: 'id',
+                    singleSelection: false,
+                    text: 'Credit Rating',
+                    labelKey: 'name',
+                    badgeShowLimit: 1,
+                    maxHeight: '150'
+                  }"
+                  [data]="dropdownFiltersData.creditRatings"
+                ></angular2-multiselect>
+              </div>
+              <div class="filter-layout">
+                <angular2-multiselect
+                  (onSelect)="
+                    searchDropdownItemSelected(
+                      statusSearchFormControl,
+                      'status'
+                    )
+                  "
+                  (onDeSelect)="
+                    searchDropdownItemSelected(
+                      statusSearchFormControl,
+                      'status'
+                    )
+                  "
+                  (onSelectAll)="
+                    searchDropdownItemSelected(
+                      statusSearchFormControl,
+                      'status'
+                    )
+                  "
+                  (onDeSelectAll)="
+                    searchDropdownItemSelected(
+                      statusSearchFormControl,
+                      'status'
+                    )
+                  "
+                  [formControl]="statusSearchFormControl"
+                  [settings]="{
+                    primaryKey: 'id',
+                    singleSelection: false,
+                    text: 'Status Rating',
+                    labelKey: 'name',
+                    badgeShowLimit: 1,
+                    maxHeight: '150'
+                  }"
+                  [data]="dropdownFiltersData.statusRatings"
+                ></angular2-multiselect>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer text-left">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- mobile filter popup end here -->
+
+    <div class="row mobileContainer" *ngIf="page == 2">
       <!-- <div class="col-md-12">
         <ag-grid-angular style="width: 100%; height: 450px;" class="ag-theme-balham" [columnDefs]="columnDefs" [rowData]="list" [enableSorting]="true" [enableFilter]="true" [pagination]="true" [paginationAutoPageSize]="true" [enableColResize]="true" (firstDataRendered)="onFirstDataRendered($event)">
         </ag-grid-angular>
@@ -112,7 +391,7 @@
         <!--        />-->
         <br />
       </div>
-      <div class="col-md-9 mb-2">
+      <div class="col-md-9 mb-2 n-sm">
         <a>
           <button class="right btn btn-primary" (click)="download()">
             Download
@@ -120,15 +399,15 @@
         </a>
       </div>
       <br />
-      <div class="col-md-12 credit-rating-report">
-        <div
-          class="credit-rating-header"
-          style="background: #059b9a; color: #fff;"
-        >
-          <table style="width: 100%;">
+      <div class="col-md-12 credit-rating-report accordion-full-m">
+        <div class="table-responsive myCustomTable table-mf-header">
+          <table
+            style="width: 100%; background: #059b9a; color: #fff;"
+            class="table table-hover table-mf"
+          >
             <tr>
               <th
-                style="width: 25%; padding: 10px 6px;"
+                style="width: 25%; padding: 10px 6px"
                 class="sortable"
                 (click)="sortBy('ulb')"
               >
@@ -136,7 +415,7 @@
                 <span class="glyphicon glyphicon-sort"></span>
               </th>
               <th
-                style="width: 15%; padding: 10px 6px;"
+                style="width: 15%; padding: 10px 6px"
                 class="sortable"
                 (click)="sortBy('state')"
               >
@@ -144,7 +423,7 @@
                 <span class="glyphicon glyphicon-sort"></span>
               </th>
               <th
-                style="width: 15%; padding: 10px 6px;"
+                style="width: 15%; padding: 10px 6px"
                 class="sortable"
                 (click)="sortBy('agency')"
               >
@@ -152,7 +431,7 @@
                 <span class="glyphicon glyphicon-sort"></span>
               </th>
               <th
-                style="width: 15%; padding: 10px 6px;"
+                style="width: 15%; padding: 10px 6px"
                 (click)="sortBy('creditrating')"
                 class="changeinrating sortable"
               >
@@ -160,7 +439,7 @@
                 <span class="glyphicon glyphicon-sort"></span>
               </th>
               <th
-                style="width: 15%; padding: 10px 6px;"
+                style="width: 15%; padding: 10px 6px"
                 (click)="sortBy('status')"
                 class="updatedcreditrating sortable"
               >
@@ -168,7 +447,7 @@
                 <span class="glyphicon glyphicon-sort"></span>
               </th>
               <th
-                style="width: 15%; padding: 10px 6px;"
+                style="width: 15%; padding: 10px 6px"
                 class="outlookdate text-right-imp"
               >
                 Date
@@ -179,256 +458,292 @@
               </th>
             </tr>
           </table>
-        </div>
 
-        <table class="table mb-0">
-          <tr>
-            <td width="25%">
-              <input
-                type="text"
-                placeholder="Search by ULB's"
-                aria-label="Number"
-                matInput
-                class="form-control"
-                [formControl]="ulbSearchFormControl"
-                [matAutocomplete]="auto"
-                style="
-                  min-height: 39px;
-                  border-radius: 0;
-                  font-size: 13px;
-                  border: 1px solid rgb(153, 153, 153) !important;
-                "
-              />
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option
-                  (click)="ulbDropdownSelected(option)"
-                  *ngFor="let option of list"
-                  [value]="option.ulb"
+          <!-- table header end -->
+
+          <div class="n-sm">
+            <table class="table mb-0">
+              <tr>
+                <td width="25%">
+                  <input
+                    type="text"
+                    placeholder="Search by ULB's"
+                    aria-label="Number"
+                    matInput
+                    class="form-control"
+                    [formControl]="ulbSearchFormControl"
+                    [matAutocomplete]="auto"
+                    style="
+                    min-height: 39px;
+                    border-radius: 0;
+                    font-size: 13px;
+                    border: 1px solid rgb(153, 153, 153) !important;
+                  "
+                  />
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option
+                      (click)="ulbDropdownSelected(option)"
+                      *ngFor="let option of list"
+                      [value]="option.ulb"
+                    >
+                      {{ option.ulb }}
+                    </mat-option>
+                  </mat-autocomplete>
+
+                  <!--              <input-->
+                  <!--                type="text"-->
+                  <!--                placeholder="Search by ULB's"-->
+                  <!--                (keyup)=" searchDropdownItemSelected(ulbSearchFormControl, 'ulb')-->
+                  <!--                "-->
+                  <!--                [formControl]="ulbSearchFormControl"-->
+                  <!--                class="form-control"-->
+                  <!--                style="padding: 18px 12px;"-->
+                  <!--              />-->
+                </td>
+                <td width="15%">
+                  <angular2-multiselect
+                    (onSelect)="
+                      searchDropdownItemSelected(
+                        stateSearchFormControl,
+                        'state'
+                      )
+                    "
+                    (onDeSelect)="
+                      searchDropdownItemSelected(
+                        stateSearchFormControl,
+                        'state'
+                      )
+                    "
+                    (onSelectAll)="
+                      searchDropdownItemSelected(
+                        stateSearchFormControl,
+                        'state'
+                      )
+                    "
+                    (onDeSelectAll)="
+                      searchDropdownItemSelected(
+                        stateSearchFormControl,
+                        'state'
+                      )
+                    "
+                    [formControl]="stateSearchFormControl"
+                    [settings]="{
+                      primaryKey: 'id',
+                      singleSelection: false,
+                      text: 'States',
+                      labelKey: 'name',
+                      badgeShowLimit: 1
+                    }"
+                    [data]="dropdownFiltersData.states"
+                  ></angular2-multiselect>
+                </td>
+                <td width="15%">
+                  <angular2-multiselect
+                    (onSelect)="
+                      searchDropdownItemSelected(
+                        agencySearchFormControl,
+                        'agency'
+                      )
+                    "
+                    (onDeSelect)="
+                      searchDropdownItemSelected(
+                        agencySearchFormControl,
+                        'agency'
+                      )
+                    "
+                    (onSelectAll)="
+                      searchDropdownItemSelected(
+                        agencySearchFormControl,
+                        'agency'
+                      )
+                    "
+                    (onDeSelectAll)="
+                      searchDropdownItemSelected(
+                        agencySearchFormControl,
+                        'agency'
+                      )
+                    "
+                    [formControl]="agencySearchFormControl"
+                    [settings]="{
+                      primaryKey: 'id',
+                      singleSelection: false,
+                      text: 'Agency',
+                      labelKey: 'name',
+                      badgeShowLimit: 1
+                    }"
+                    [data]="dropdownFiltersData.agencies"
+                  ></angular2-multiselect>
+                </td>
+                <td width="15%">
+                  <angular2-multiselect
+                    (onSelect)="
+                      searchDropdownItemSelected(
+                        creditSearchFormControl,
+                        'creditrating'
+                      )
+                    "
+                    (onDeSelect)="
+                      searchDropdownItemSelected(
+                        creditSearchFormControl,
+                        'creditrating'
+                      )
+                    "
+                    (onSelectAll)="
+                      searchDropdownItemSelected(
+                        creditSearchFormControl,
+                        'creditrating'
+                      )
+                    "
+                    (onDeSelectAll)="
+                      searchDropdownItemSelected(
+                        creditSearchFormControl,
+                        'creditrating'
+                      )
+                    "
+                    [formControl]="creditSearchFormControl"
+                    [settings]="{
+                      primaryKey: 'id',
+                      singleSelection: false,
+                      text: 'Credit Rating',
+                      labelKey: 'name',
+                      badgeShowLimit: 1
+                    }"
+                    [data]="dropdownFiltersData.creditRatings"
+                  ></angular2-multiselect>
+                </td>
+                <td width="15%">
+                  <angular2-multiselect
+                    (onSelect)="
+                      searchDropdownItemSelected(
+                        statusSearchFormControl,
+                        'status'
+                      )
+                    "
+                    (onDeSelect)="
+                      searchDropdownItemSelected(
+                        statusSearchFormControl,
+                        'status'
+                      )
+                    "
+                    (onSelectAll)="
+                      searchDropdownItemSelected(
+                        statusSearchFormControl,
+                        'status'
+                      )
+                    "
+                    (onDeSelectAll)="
+                      searchDropdownItemSelected(
+                        statusSearchFormControl,
+                        'status'
+                      )
+                    "
+                    [formControl]="statusSearchFormControl"
+                    [settings]="{
+                      primaryKey: 'id',
+                      singleSelection: false,
+                      text: 'Status Rating',
+                      labelKey: 'name',
+                      badgeShowLimit: 1
+                    }"
+                    [data]="dropdownFiltersData.statusRatings"
+                  ></angular2-multiselect>
+                </td>
+                <td width="15%">
+                  <button
+                    style="height: 40px"
+                    class="btn btn-danger"
+                    (click)="clearFilters()"
+                  >
+                    Clear Filters
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <!-- table filter end and display none in mobile view -->
+          <accordion [closeOthers]="true" class="accordionc-rating">
+            <ng-container *ngFor="let item of list">
+              <accordion-group (click)="getUlbInfo(item)" class="credit-r-m">
+                <table
+                  style="width: 100%"
+                  accordion-heading
+                  class="credit-r-report-table"
                 >
-                  {{ option.ulb }}
-                </mat-option>
-              </mat-autocomplete>
+                  <tr>
+                    <td style="width: 25%; padding: 10px 6px">
+                      {{ item.ulb }}
+                    </td>
+                    <td style="width: 15%; padding: 10px 6px">
+                      {{ item.state }}
+                    </td>
+                    <td style="width: 15%; padding: 10px 6px">
+                      {{ item.agency }}
+                    </td>
+                    <td style="width: 15%; padding: 10px 6px">
+                      {{ item.creditrating }}
+                    </td>
+                    <td style="width: 15%; padding: 10px 6px">
+                      {{ item.status }}
+                    </td>
+                    <td
+                      style="width: 15%; padding: 10px 6px"
+                      class="text-right-imp"
+                    >
+                      {{ item.date }}
+                    </td>
+                  </tr>
+                </table>
 
-              <!--              <input-->
-              <!--                type="text"-->
-              <!--                placeholder="Search by ULB's"-->
-              <!--                (keyup)=" searchDropdownItemSelected(ulbSearchFormControl, 'ulb')-->
-              <!--                "-->
-              <!--                [formControl]="ulbSearchFormControl"-->
-              <!--                class="form-control"-->
-              <!--                style="padding: 18px 12px;"-->
-              <!--              />-->
-            </td>
-            <td width="15%">
-              <angular2-multiselect
-                (onSelect)="
-                  searchDropdownItemSelected(stateSearchFormControl, 'state')
-                "
-                (onDeSelect)="
-                  searchDropdownItemSelected(stateSearchFormControl, 'state')
-                "
-                (onSelectAll)="
-                  searchDropdownItemSelected(stateSearchFormControl, 'state')
-                "
-                (onDeSelectAll)="
-                  searchDropdownItemSelected(stateSearchFormControl, 'state')
-                "
-                [formControl]="stateSearchFormControl"
-                [settings]="{
-                  primaryKey: 'id',
-                  singleSelection: false,
-                  text: 'States',
-                  labelKey: 'name',
-                  badgeShowLimit: 1
-                }"
-                [data]="dropdownFiltersData.states"
-              ></angular2-multiselect>
-            </td>
-            <td width="15%">
-              <angular2-multiselect
-                (onSelect)="
-                  searchDropdownItemSelected(agencySearchFormControl, 'agency')
-                "
-                (onDeSelect)="
-                  searchDropdownItemSelected(agencySearchFormControl, 'agency')
-                "
-                (onSelectAll)="
-                  searchDropdownItemSelected(agencySearchFormControl, 'agency')
-                "
-                (onDeSelectAll)="
-                  searchDropdownItemSelected(agencySearchFormControl, 'agency')
-                "
-                [formControl]="agencySearchFormControl"
-                [settings]="{
-                  primaryKey: 'id',
-                  singleSelection: false,
-                  text: 'Agency',
-                  labelKey: 'name',
-                  badgeShowLimit: 1
-                }"
-                [data]="dropdownFiltersData.agencies"
-              ></angular2-multiselect>
-            </td>
-            <td width="15%">
-              <angular2-multiselect
-                (onSelect)="
-                  searchDropdownItemSelected(
-                    creditSearchFormControl,
-                    'creditrating'
-                  )
-                "
-                (onDeSelect)="
-                  searchDropdownItemSelected(
-                    creditSearchFormControl,
-                    'creditrating'
-                  )
-                "
-                (onSelectAll)="
-                  searchDropdownItemSelected(
-                    creditSearchFormControl,
-                    'creditrating'
-                  )
-                "
-                (onDeSelectAll)="
-                  searchDropdownItemSelected(
-                    creditSearchFormControl,
-                    'creditrating'
-                  )
-                "
-                [formControl]="creditSearchFormControl"
-                [settings]="{
-                  primaryKey: 'id',
-                  singleSelection: false,
-                  text: 'Credit Rating',
-                  labelKey: 'name',
-                  badgeShowLimit: 1
-                }"
-                [data]="dropdownFiltersData.creditRatings"
-              ></angular2-multiselect>
-            </td>
-            <td width="15%">
-              <angular2-multiselect
-                (onSelect)="
-                  searchDropdownItemSelected(statusSearchFormControl, 'status')
-                "
-                (onDeSelect)="
-                  searchDropdownItemSelected(statusSearchFormControl, 'status')
-                "
-                (onSelectAll)="
-                  searchDropdownItemSelected(statusSearchFormControl, 'status')
-                "
-                (onDeSelectAll)="
-                  searchDropdownItemSelected(statusSearchFormControl, 'status')
-                "
-                [formControl]="statusSearchFormControl"
-                [settings]="{
-                  primaryKey: 'id',
-                  singleSelection: false,
-                  text: 'Status Rating',
-                  labelKey: 'name',
-                  badgeShowLimit: 1
-                }"
-                [data]="dropdownFiltersData.statusRatings"
-              ></angular2-multiselect>
-            </td>
-            <td width="15%">
-              <button
-                style="height: 40px;"
-                class="btn btn-danger"
-                (click)="clearFilters()"
-              >
-                Clear Filters
-              </button>
-            </td>
-          </tr>
-        </table>
-
-        <accordion [closeOthers]="true">
-          <ng-container *ngFor="let item of list">
-            <accordion-group (click)="getUlbInfo(item)">
-              <table style="width: 100%;" accordion-heading>
-                <tr>
-                  <td style="width: 25%; padding: 10px 6px;">{{ item.ulb }}</td>
-                  <td style="width: 15%; padding: 10px 6px;">
-                    {{ item.state }}
-                  </td>
-                  <td style="width: 15%; padding: 10px 6px;">
-                    {{ item.agency }}
-                  </td>
-                  <td style="width: 15%; padding: 10px 6px;">
-                    {{ item.creditrating }}
-                  </td>
-                  <td style="width: 15%; padding: 10px 6px;">
-                    {{ item.status }}
-                  </td>
-                  <td
-                    style="width: 15%; padding: 10px 6px;"
-                    class="text-right-imp"
-                  >
-                    {{ item.date }}
-                  </td>
-                </tr>
-              </table>
-
-              <div class="row">
-                <div class="col-md-12">
-                  <table
-                    class="table table-striped table-hover"
-                    style="width: 100%;"
-                  >
-                    <tr class="warning">
-                      <!-- <th>ULB</th> -->
-                      <th (click)="sortByUlbInfo('agency')" style="width: 15%;">
-                        Agency
-                      </th>
-                      <th
-                        (click)="sortByUlbInfo('creditRating')"
-                        style="width: 15%;"
+                <div class="row">
+                  <div class="col-md-12 scrolling outer">
+                    <div class="inner">
+                      <table
+                        class="table table-striped table-hover"
+                        style="width: 100%"
                       >
-                        Credit Rating
-                      </th>
-                      <th
-                        (click)="sortByUlbInfo('outlook')"
-                        style="width: 15%;"
-                      >
-                        Outlook
-                      </th>
-                      <th (click)="sortByUlbInfo('type')" style="width: 15%;">
-                        Type
-                      </th>
-                      <th
-                        (click)="sortByUlbInfo('amount')"
-                        style="width: 15%;"
-                        class="text-right-imp"
-                      >
-                        Amount (Rs. Cr.)
-                      </th>
-                      <th
-                        (click)="sortByUlbInfo('date')"
-                        style="width: 15%;"
-                        class="text-right-imp"
-                      >
-                        Date
-                      </th>
-                      <th style="width: 10%;" class="text-right-imp">Link</th>
-                    </tr>
-                    <tr *ngFor="let ulb of ulbInfo">
-                      <!-- <td>{{ulb.ulb}}</td> -->
-                      <td>{{ ulb.agency }}</td>
-                      <td>{{ ulb.creditRating }}</td>
-                      <td>{{ ulb.outlook }}</td>
-                      <td>{{ ulb.type }}</td>
-                      <td class="text-right-imp">{{ ulb.amount }}</td>
-                      <td class="text-right-imp">{{ ulb.date }}</td>
-                      <td class="text-right-imp">
-                        <a [href]="ulb.link">Report Link</a>
-                      </td>
-                    </tr>
-                  </table>
+                        <tr class="warning">
+                          <!-- <th>ULB</th> -->
+                          <th (click)="sortByUlbInfo('agency')">Agency</th>
+                          <th (click)="sortByUlbInfo('creditRating')">
+                            Credit Rating
+                          </th>
+                          <th (click)="sortByUlbInfo('outlook')">Outlook</th>
+                          <th (click)="sortByUlbInfo('type')">Type</th>
+                          <th
+                            (click)="sortByUlbInfo('amount')"
+                            class="text-right-imp"
+                          >
+                            Amount (Rs. Cr.)
+                          </th>
+                          <th
+                            (click)="sortByUlbInfo('date')"
+                            class="text-right-imp"
+                          >
+                            Date
+                          </th>
+                          <th style="width: 10%" class="text-right-imp">
+                            Link
+                          </th>
+                        </tr>
+                        <tr *ngFor="let ulb of ulbInfo">
+                          <!-- <td>{{ulb.ulb}}</td> -->
+                          <td>{{ ulb.agency }}</td>
+                          <td>{{ ulb.creditRating }}</td>
+                          <td>{{ ulb.outlook }}</td>
+                          <td>{{ ulb.type }}</td>
+                          <td class="text-right-imp">{{ ulb.amount }}</td>
+                          <td class="text-right-imp">{{ ulb.date }}</td>
+                          <td class="text-right-imp">
+                            <a [href]="ulb.link">Report Link</a>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <!-- table-responsive div end-->
+                  </div>
                 </div>
-              </div>
 
-              <!-- <div class="row">
+                <!-- <div class="row">
                 <div class="col-md-12" *ngFor="let ulb of ulbInfo">
                   <p class="btn-info" style="padding: 5px; margin-top: 15px;"><b>{{ulb.creditRating}}</b> rating by <b>{{ulb.agency}}</b>
                   </p>
@@ -446,17 +761,19 @@
                 </div>
               </div> -->
 
-              <hr />
-              <i style="font-size: 12px; color: #666;"
-                >The agency may apply ‘+’ or ‘-‘ signs for ratings to reflect
-                comparative standing within the category. A plus (+) sign puts
-                the rating of a security at a relatively higher position when
-                compared to a rating of a security with a minus (-) sign within
-                the same category.</i
-              >
-            </accordion-group>
-          </ng-container>
-        </accordion>
+                <hr />
+                <i style="font-size: 12px; color: #666"
+                  >The agency may apply ‘+’ or ‘-‘ signs for ratings to reflect
+                  comparative standing within the category. A plus (+) sign puts
+                  the rating of a security at a relatively higher position when
+                  compared to a rating of a security with a minus (-) sign
+                  within the same category.</i
+                >
+              </accordion-group>
+            </ng-container>
+          </accordion>
+        </div>
+        <!-- table responsive div end -->
       </div>
     </div>
   </div>
@@ -464,7 +781,7 @@
 
 <ng-template #modal>
   <button
-    style="background-color: #333333; min-width: min-content; float: right;"
+    style="background-color: #333333; min-width: min-content; float: right; z-index: 1;"
     (click)="modalService.hide(1)"
     mat-raised-button
     title="Close"
@@ -475,7 +792,7 @@
     <mat-icon>close</mat-icon>
   </button>
   <div class="modal-body">
-    <div class="table-responsive border-1" style="max-height: 70vh;">
+    <div class="table-responsive border-1 " style="max-height: 70vh">
       <table class="table table-hover">
         <thead>
           <tr>

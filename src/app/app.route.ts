@@ -11,9 +11,13 @@ export const appRouter: Routes = [
     path: "analytics",
     loadChildren: "./pages/analytics/analytics.module#AnalyticsModule",
   },
+  // {
+  //   path: "resources",
+  //   loadChildren: "./pages/resources/public-files.module#PublicFilesModule"
+  // },
   {
-    path: "files",
-    loadChildren: "./pages/resources/public-files.module#PublicFilesModule",
+    path: "fc_grant",
+    loadChildren: "./pages/fc-grant/fc-grant.module#FcGrantModule",
   },
   {
     path: "questionnaires",
@@ -38,13 +42,28 @@ export const appRouter: Routes = [
     loadChildren: "./auth/password/password.module#PasswordModule",
   },
   {
-    path: "credit-rating",
+    path: "account-reactivate",
+    loadChildren:
+      "./auth/account-reactivate/account-reactivate.module#AccountReactivateModule",
+  },
+  {
+    path: "borrowings",
     loadChildren: "./credit-rating/credit-rating.module#CreditRatingModule",
   },
 
   {
-    path: "dashboard",
+    path: "municipal-law",
+    loadChildren: "./municipal-law/municipal-law.module#MunicipalLawModule",
+  },
+
+  {
+    path: "financial-statement",
     loadChildren: "./dashboard/dashboard.module#DashboardModule",
+  },
+  {
+    path: "upload-annual-accounts",
+    loadChildren:
+      "./pages/annual-accounts/annual-accounts.module#AnnualAccountsModule",
   },
 
   {

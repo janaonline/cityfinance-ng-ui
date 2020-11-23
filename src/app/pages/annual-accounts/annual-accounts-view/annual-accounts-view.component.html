@@ -1,0 +1,327 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>
+        <span style="margin-left: 6px"> Annual Accounts List</span>
+      </h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table">
+        <thead>
+          <tr
+            style="background: #059b9a; color: white; border: 0px"
+            class="sortable-headers"
+          >
+            <th>
+              Sr No
+            </th>
+            <th class="">
+              State
+              <!-- <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i> -->
+            </th>
+            <th class="">
+              Body Type
+              <!-- <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i> -->
+            </th>
+            <th class="">
+              ULB Name
+              <!-- <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i> -->
+            </th>
+            <th class="">
+              Parastatal Agency
+              <!-- <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i> -->
+            </th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="!isApiInProgress">
+          <tr>
+            <td></td>
+            <td>
+              <div class="input-group">
+                <select #state class="form-control" placeholder="State">
+                  <option value="" selected>All States</option>
+                  <option *ngFor="let state of stateList" [value]="state._id">
+                    {{ state.name }}
+                  </option>
+                </select>
+              </div>
+            </td>
+            <td>
+              <div class="input-group">
+                <select #bodyType class="form-control" placeholder="Body Type">
+                  <option value="" selected>All Body Types</option>
+                  <option value="ulb">ULB</option>
+                  <option value="parastatal">Parastatal</option>
+                </select>
+              </div>
+            </td>
+
+            <td>
+              <div class="input-group">
+                <input
+                  #ulbName
+                  placeholder="ULB Name"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </td>
+
+            <td>
+              <div class="input-group">
+                <input
+                  #parastatalName
+                  placeholder="Parastatal Agency"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </td>
+            <td>
+              <button
+                class="btn btn-primary m-auto"
+                style="display: block"
+                (click)="
+                  filterData(
+                    state.value,
+                    bodyType.value,
+                    ulbName.value,
+                    parastatalName.value,
+                    0
+                  )
+                "
+              >
+                Search
+              </button>
+            </td>
+          </tr>
+          <tr
+            *ngFor="
+              let data of dataSource
+                | paginate
+                  : {
+                      id: 'foo',
+                      itemsPerPage: tableDefaultOptions.itemPerPage,
+                      currentPage: tableDefaultOptions.currentPage,
+                      totalItems: tableDefaultOptions.totalCount
+                    };
+              index as i
+            "
+          >
+            <td>
+              {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
+            </td>
+            <td>{{ data.stateName }}</td>
+            <td>{{ data.bodyType | titlecase }}</td>
+            <td>{{ data.ulbName }}</td>
+            <td>{{ data.parastatalName | titlecase }}</td>
+            <td>
+              <a>
+                <i
+                  class="fa fa-eye"
+                  aria-hidden="true"
+                  data-toggle="modal"
+                  data-target=".bd-example-modal-lg"
+                  (click)="openModal(data._id)"
+                ></i>
+              </a>
+            </td>
+          </tr>
+          <tr *ngIf="dataSource && !dataSource.length">
+            <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
+          </tr>
+        </tbody>
+      </table>
+      <div
+        *ngIf="isApiInProgress"
+        style="
+          background: white;
+          z-index: 99999999;
+          left: 0px;
+          right: 0px;
+          top: 0px;
+          bottom: 0px;
+        "
+      >
+        <app-pre-loader></app-pre-loader>
+        <app-pre-loader></app-pre-loader>
+        <app-pre-loader></app-pre-loader>
+        <app-pre-loader></app-pre-loader>
+      </div>
+
+      <pagination-controls
+        style="float: right; position: relative"
+        id="foo"
+        (pageChange)="setPage($event)"
+        directionLinks="true"
+        autoHide="false"
+        previousLabel="Previous"
+        nextLabel="Next"
+        screenReaderPaginationLabel="Pagination"
+        screenReaderPageLabel="page"
+        screenReaderCurrentLabel="You're on page"
+      >
+      </pagination-controls>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="canOpen"
+  class="modal fade bd-example-modal-lg"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myLargeModalLabel"
+  aria-hidden="true"
+  data-backdrop="static"
+  (keyup)="onClosingModal($event)"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="onClosingModal($event)"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div style="margin-left: 2%">
+        <div class="row">
+          <div class="col-md-12">
+            <app-annual-accounts-create
+              [viewData]="filteredData"
+            ></app-annual-accounts-create>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-md-6"> -->
+      <div class="container">
+        <div class="row mb-2">
+          <div class="col-md-12" *ngIf="anyDcoumentUploaded">
+            <h3>Documents:</h3>
+            <div
+              *ngIf="
+                filteredData.documents.financial_year_2015_16?.pdf.length > 0 ||
+                filteredData.documents.financial_year_2015_16?.excel.length > 0
+              "
+            >
+              <label>Financial year 2015-16:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+              <a
+                *ngIf="
+                  filteredData.documents.financial_year_2015_16.pdf.length > 0
+                "
+                [href]="
+                  filteredData.documents.financial_year_2015_16.pdf[0].url
+                "
+                target="_blank"
+                ><b>view pdf</b></a
+              >&nbsp;&nbsp;&nbsp;&nbsp;
+              <a
+                *ngIf="
+                  filteredData.documents.financial_year_2015_16.excel.length > 0
+                "
+                [href]="
+                  filteredData.documents.financial_year_2015_16.excel[0].url
+                "
+                target="_blank"
+                ><b>view excel</b></a
+              >
+            </div>
+            <div
+              *ngIf="
+                filteredData.documents.financial_year_2016_17?.pdf.length > 0 ||
+                filteredData.documents.financial_year_2016_17?.excel.length > 0
+              "
+            >
+              <label>Financial year 2016-17:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+              <a
+                *ngIf="
+                  filteredData.documents.financial_year_2016_17.pdf.length > 0
+                "
+                [href]="
+                  filteredData.documents.financial_year_2016_17.pdf[0].url
+                "
+                target="_blank"
+                ><b>view pdf</b></a
+              >&nbsp;&nbsp;&nbsp;&nbsp;
+              <a
+                *ngIf="
+                  filteredData.documents.financial_year_2016_17.excel.length > 0
+                "
+                [href]="
+                  filteredData.documents.financial_year_2016_17.excel[0].url
+                "
+                target="_blank"
+                ><b>view excel</b></a
+              >
+            </div>
+            <div
+              *ngIf="
+                filteredData.documents.financial_year_2017_18?.pdf.length > 0 ||
+                filteredData.documents.financial_year_2017_18?.excel.length > 0
+              "
+            >
+              <label>Financial year 2017-18:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+              <a
+                *ngIf="
+                  filteredData.documents.financial_year_2017_18.pdf.length > 0
+                "
+                [href]="
+                  filteredData.documents.financial_year_2017_18.pdf[0].url
+                "
+                target="_blank"
+                ><b>view pdf</b></a
+              >&nbsp;&nbsp;&nbsp;&nbsp;
+              <a
+                *ngIf="
+                  filteredData.documents.financial_year_2017_18.excel.length > 0
+                "
+                [href]="
+                  filteredData.documents.financial_year_2017_18.excel[0].url
+                "
+                target="_blank"
+                ><b>view excel</b></a
+              >
+            </div>
+            <div
+              *ngIf="
+                filteredData.documents.financial_year_2018_19?.pdf.length > 0 ||
+                filteredData.documents.financial_year_2018_19?.excel.length > 0
+              "
+            >
+              <label>Financial year 2018-19:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+              <a
+                *ngIf="
+                  filteredData.documents.financial_year_2018_19.pdf.length > 0
+                "
+                [href]="
+                  filteredData.documents.financial_year_2018_19.pdf[0].url
+                "
+                target="_blank"
+                ><b>view pdf</b></a
+              >&nbsp;&nbsp;&nbsp;&nbsp;
+              <a
+                *ngIf="
+                  filteredData.documents.financial_year_2018_19.excel.length > 0
+                "
+                [href]="
+                  filteredData.documents.financial_year_2018_19.excel[0].url
+                "
+                target="_blank"
+                ><b>view excel</b></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->

@@ -1,0 +1,21 @@
+.td-width {
+  width: 25%;
+}
+
+:host {
+  button {
+    background: #047474;
+  }
+  li a {
+    margin-top: 1%;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+  }
+}

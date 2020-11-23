@@ -1,4 +1,4 @@
-<div class="side-menu-wrapper">
+<!-- <div class="side-menu-wrapper">
   <h4 class="text-center">Menu</h4>
   <div class="side-menu-content">
     <mat-list role="option" class="p-0" *ngIf="contents.length">
@@ -21,4 +21,73 @@
     </mat-list>
   </div>
 </div>
+ -->
 
+<div class="accordion">
+  <div class="card" *ngFor="let link of contents; let i = index">
+    <div
+      class="card-header"
+      id="headingOne"
+      data-toggle="collapse"
+      [attr.data-target]="'#collapse' + i"
+      aria-expanded="true"
+      aria-controls="collapseOne"
+      [innerHTML]="link.title"
+    ></div>
+
+    <div
+      [id]="'collapse' + i"
+      class="collapse"
+      [ngClass]="{ show: i === 0 || i === 1 }"
+      aria-labelledby="headingOne"
+      data-parent="#accordionExample"
+    >
+      <div class="card-body">
+        <div *ngFor="let subLink of link.subMenus; let j = index">
+          <a
+            class="link"
+            *ngIf="subLink.type === 'link'"
+            [routerLink]="subLink.route"
+            routerLinkActive="active"
+          >
+            {{ subLink.title }}</a
+          >
+
+          <div *ngIf="subLink.type === 'other'">
+            <div
+              class="nested-accordian link heading"
+              id="headingOne"
+              data-toggle="collapse"
+              [attr.data-target]="'#collapse' + i + j"
+              aria-expanded="true"
+              aria-controls="collapseOne"
+            >
+              {{ subLink.title }}
+            </div>
+
+            <div
+              [id]="'collapse' + i + j"
+              class="collapse nested-links"
+              [ngClass]="{ show: j === 0 }"
+              aria-labelledby="headingOne"
+              data-parent="#accordionExample"
+            >
+              <div class="card-body">
+                <div *ngFor="let KthsubLink of subLink.subMenus; let k = index">
+                  <a
+                    class="link"
+                    *ngIf="KthsubLink.type === 'link'"
+                    [routerLink]="KthsubLink.route"
+                    routerLinkActive="active"
+                  >
+                    {{ KthsubLink.title }}</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

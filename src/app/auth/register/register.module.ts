@@ -1,9 +1,12 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RegisterRoutingModule} from './register-routing.module';
-import {RegisterComponent} from './register.component';
-import {SharedModule} from '../../shared/shared.module';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material';
+import { RecaptchaModule } from 'ng-recaptcha';
+
+import { SharedModule } from '../../shared/shared.module';
+import { RegisterRoutingModule } from './register-routing.module';
+import { RegisterComponent } from './register.component';
 
 @NgModule({
   imports: [
@@ -12,8 +15,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     ReactiveFormsModule,
     RegisterRoutingModule,
     SharedModule,
+    RecaptchaModule,
+    MatProgressSpinnerModule,
   ],
-  declarations: [RegisterComponent]
+  declarations: [RegisterComponent],
 })
-export class RegisterModule {
-}
+export class RegisterModule {}

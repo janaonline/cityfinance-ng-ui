@@ -21,6 +21,13 @@ import { ProfileService } from '../service/profile.service';
   styleUrls: ["./ulb-profile.component.scss"],
 })
 export class UlbProfileComponent implements OnInit, OnChanges {
+  constructor(
+    private _profileService: ProfileService,
+    public modalService: BsModalService,
+    public dialogBox: MatDialog
+  ) {
+    this.fetchDatas();
+  }
   @Input() profileData: IULBProfileData;
   @Input() editable = false;
 
@@ -43,13 +50,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   window = window;
   SIGNUP_STATUS = ULBSIGNUPSTATUS;
 
-  constructor(
-    private _profileService: ProfileService,
-    public modalService: BsModalService,
-    public dialogBox: MatDialog
-  ) {
-    this.fetchDatas();
-  }
+  apiInProgress = false;
 
   ngOnChanges(changes) {}
 
@@ -66,15 +67,18 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   }
 
   submitForm(form: FormGroup) {
+    console.log("this.can", this.canSubmitForm);
     if (!this.canSubmitForm) {
       return;
     }
+
     this.resetResponseMessage();
 
     this.formSubmitted = true;
 
     const errors = this.checkFieldsForError(form);
     this.formErrorMessage = errors;
+    console.log("errors", errors);
 
     if (errors) {
       console.error(`errors`, errors);
@@ -84,7 +88,14 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     // upload files and their value
     const updatedFields = this.getUpdatedFieldsOnly(form);
 
+    console.log("updatedFields", updatedFields);
+
     if (!updatedFields || !Object.keys(updatedFields).length) {
+      this.onUpdatingProfileSuccess({
+        message: "Profile Updated Successfully",
+      });
+      this.profile.disable({ onlySelf: true, emitEvent: false });
+
       return;
     }
 
@@ -98,6 +109,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     }
 
     this.profile.disable({ onlySelf: true, emitEvent: false });
+    this.respone.successMessage = "Updating....";
+    this.apiInProgress = true;
 
     this._profileService.createULBUpdateRequest(flatten).subscribe(
       (res) => this.onUpdatingProfileSuccess(res),
@@ -114,6 +127,9 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
     this._profileService.updateULBSingUPStatus(status).subscribe(
       (res) => {
+        if (status.rejectReason) {
+          this.profileData.rejectReason = status.rejectReason;
+        }
         this.profileData.status = status.status;
         this.respone.successMessage = "ULB Singup updated successfully.";
         this.canSubmitForm = status.status === "REJECTED" ? false : true;
@@ -127,7 +143,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   enableProfileEdit() {
     this.profile.enable();
-    this.disableNonEditableFields();
+    this.resetResponseMessage();
+    this.disableNonEditableFields(false);
   }
   disableProfileEdit() {
     this.profile.disable({ emitEvent: false });
@@ -147,11 +164,13 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   private onUpdatingProfileSuccess(res) {
     this.respone.successMessage = res.message || "Profile Updated Successfully";
+    this.apiInProgress = false;
   }
 
   private onUpdatingProfileError(err: HttpErrorResponse) {
     this.respone.errorMessage =
       err.error.message || "Failed to updated profile.";
+    this.apiInProgress = false;
   }
 
   private resetResponseMessage() {
@@ -213,7 +232,9 @@ export class UlbProfileComponent implements OnInit, OnChanges {
         this.profile.disable({ emitEvent: false, onlySelf: true });
       }
 
-      this.disableNonEditableFields();
+      this.disableNonEditableFields(
+        this.editable && this.loggedInUserType === USER_TYPE.ULB
+      );
     }
   }
 
@@ -230,11 +251,18 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   }
 
   /**
-   * @description ULB's code and state cannot be changed, therefore they should stay
+   * @description The Following fields cannot be changed, therefore they should stay
    * disabled.
    */
-  private disableNonEditableFields() {
-    (<FormGroup>this.profile.controls.ulb).controls.code.disable();
+  private disableNonEditableFields(all = true) {
     this.profile.controls.state.disable();
+    (<FormGroup>this.profile.controls.ulb).controls.ulbType.disable();
+
+    if (this.loggedInUserType === USER_TYPE.ULB || all) {
+      (<FormGroup>this.profile.controls.ulb).controls.censusCode.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.sbCode.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.name.disable();
+      return;
+    }
   }
 }

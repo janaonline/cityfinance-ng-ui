@@ -1,284 +1,862 @@
 <ng-container *ngIf="id; else noId">
-  <div class="row">
-    <div class="col mt-3">
-      <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>
-    </div>
-    <ng-container *ngIf="id==='upload-form';else editForm">
-      <div class="mt-2">
-        <h3>Financial Data Upload</h3>
-      </div>
-      <div [formGroup]="fileFormGroup" class="row mt-4">
-        <div class="col-sm-8">
-          <div class="row">
-            <div class="col-sm-6">
-              <label for="financial_year">Financial Year <span class="text-danger">*</span></label>
-              <angular2-multiselect formControlName="financialYear" id="financial_year" name="financial_year"
-                                    [settings]="financialYearDropdownSettings"
-                                    [data]="financialYearDropdown">
-              </angular2-multiselect>
-              <app-finance-data-upload-input
-                [config]="{formGroup:fileFormGroup,disabled:this.fileUpload.uploading, formGroupName:'balanceSheet',title:'Balance Sheet',required:true}">
-              </app-finance-data-upload-input>
-
-            </div>
-
-            <div class="col-sm-6">
-              <label for="audit_status">Status <span class="text-danger">*</span></label>
-              <angular2-multiselect title="Select Year" formControlName="auditStatus" id="audit_status"
-                                    (onSelect)="auditStatusDropdownHandler()"
-                                    (onDeSelect)="auditStatusDropdownHandler()"
-                                    [settings]="auditStatusDropdownSettings"
-                                    [data]="auditStatusDropdown"></angular2-multiselect>
-              <app-finance-data-upload-input
-                [config]="{formGroup:fileFormGroup,disabled:this.fileUpload.uploading,  formGroupName:'schedulesToBalanceSheet',title:'Schedules to balance sheet',required:false}">
-              </app-finance-data-upload-input>
-            </div>
-          </div>
-
-          <div class="row">
-            {{fileFormGroup.get('incomeAndExpenditure').disabled}}
-            <div formGroupName="incomeAndExpenditure" class="col-sm-6">
-              <app-finance-data-upload-input
-                [config]="{formGroup:fileFormGroup,disabled:this.fileUpload.uploading,  formGroupName:'incomeAndExpenditure',title:'Income and Expenditure ',required:true}">
-              </app-finance-data-upload-input>
-            </div>
-
-            <div formGroupName="schedulesToIncomeAndExpenditure" class="col-sm-6">
-              <app-finance-data-upload-input
-                [config]="{formGroup:fileFormGroup,formGroupName:'schedulesToIncomeAndExpenditure',title:'Schedules to Income and Expenditure',required:false}">
-              </app-finance-data-upload-input>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-sm-6">
-              <app-finance-data-upload-input
-                [config]="{formGroup:fileFormGroup,disabled:this.fileUpload.uploading,  formGroupName:'trialBalance',title:'Trial Balance',required:true}">
-              </app-finance-data-upload-input>
-            </div>
-
-            <div class="col-sm-6">
-              <app-finance-data-upload-input
-                *ngIf="(fileFormGroup.get('auditStatus').value &&fileFormGroup.get('auditStatus').value[0])&&fileFormGroup.get('auditStatus').value[0].id==true"
-                [config]="{formGroup:fileFormGroup,disabled:this.fileUpload.uploading,  formGroupName:'auditReport',title:'Audited Report',required:true}">
-              </app-finance-data-upload-input>
-            </div>
-          </div>
-          <div class="row mt-4 mb-4">
-            <div class="col-sm-12">
-              <button #submitButton *ngIf="userUtil.getUserType()!=='STATE'&& uploadId==null"
-                      [disabled]="fileFormGroup.invalid" class="btn btn-primary"
-                      (click)="submitClickHandler(submitButton)">{{fileUpload.uploading ? 'Please Wait..' : 'Submit'}}
-              </button>
-              <div *ngIf="fileUpload.uploading" class="alert alert-success mt-1">Uploading
-                : {{fileUpload.currentUploadedFiles}} out
-                of {{fileUpload.totalFiles}} files
-              </div>
-              <button #updateButton
-                      *ngIf="userUtil.getUserType()!=='STATE' && (uploadId!==null &&  (completenessStatus==='REJECTED'||correctnessStatus ==='REJECTED'))"
-                      [disabled]="fileFormGroup.invalid "
-                      class="btn btn-primary"
-                      (click)="updateClickHandler(updateButton)">{{fileUpload.uploading ? 'Please Wait..' : 'Update'}}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="row" style="margin-left: 2%">
+    <div class="col mt-3"></div>
+    <ng-container *ngIf="id === 'upload-form'">
+      <app-financial-uploads [financialData]="uploadObject">
+        <button
+          *ngIf="uploadObject"
+          (click)="location.back()"
+          class="btn btn-primary btn-upload"
+          style="transform: unset"
+        >
+          Back
+        </button>
+      </app-financial-uploads>
     </ng-container>
   </div>
 </ng-container>
-
 
 <ng-template class="" #noId>
   <div class="common-container">
     <div class="container">
       <div class="row">
-        <div class="col-sm-12" *ngIf="!(userUtil.getUserType()=='ULB' || userUtil.getUserType()=='STATE')">
-          <app-financial-data-chart [financialYears]="financialYearDropdown"></app-financial-data-chart>
+        <div
+          class="col-sm-12"
+          *ngIf="
+            !(
+              userUtil.getUserType() == 'ULB' ||
+              userUtil.getUserType() == 'STATE'
+            )
+          "
+        >
+          <!-- <app-financial-data-chart
+            [financialYears]="financialYearDropdown"
+          ></app-financial-data-chart> -->
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <h3>
-            <span>
-              ULB Data
+
+      <!-- Cards -->
+      <div class="card-container">
+        <div class="card blue">
+          <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+          <p class="heading">Total number of ULBs</p>
+          <span
+            class="card-main-value"
+            [ngClass]="{ 'loading-value': !cardData }"
+          >
+            {{ cardData?.totalULB?.sum || "0" }}
+          </span>
+          <hr />
+
+          <div
+            class="categories d-flex justify-content-evenly align-items-center"
+          >
+            <span class="category">
+              <span class="category-heading">Corporation</span>
             </span>
-            <button role="menuitem" *ngIf="isAccessible" [routerLink]="['/user/data-upload/upload-form']"
-                    class="btn btn-primary "
-                    style="border-radius: 5px;float: right;margin-right: 6px">
-              Upload Data
-            </button>
-            <button class="btn btn-primary"
-                    style="float: right; margin-right: 6px;"
-                    (click)="downloadList()">
+            <span class="category">
+              <span class="category-heading">Municipality</span>
+            </span>
+            <span class="category">
+              <span class="category-heading"
+                >Town <br />
+                Punchayat</span
+              >
+            </span>
+          </div>
+          <div class="categories d-flex categories-values align-items-center">
+            <span class="category">
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+              >
+                {{ cardData?.totalULB["Municipal Corporation"] || 0 }}
+              </span>
+            </span>
+            <span class="category">
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+                >{{ cardData?.totalULB["Municipality"] || 0 }}</span
+              >
+            </span>
+            <span class="category">
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+              >
+                {{ cardData?.totalULB["Town Panchayat"] || 0 }}
+              </span>
+            </span>
+          </div>
+
+          <div class="view-list" (click)="onclickTotalNoOfULB()">View List</div>
+        </div>
+
+        <div class="card pink">
+          <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+          <p class="heading">No of ULBs Registered</p>
+          <span
+            class="card-main-value"
+            [ngClass]="{ 'loading-value': !cardData }"
+          >
+            {{ cardData?.registeredUlb?.sum || 0 }}
+          </span>
+          <hr />
+
+          <div
+            class="categories d-flex justify-content-evenly align-items-center"
+          >
+            <span class="category">
+              <span class="category-heading">Corporation</span>
+            </span>
+            <span class="category">
+              <span class="category-heading">Municipality</span>
+            </span>
+            <span class="category">
+              <span class="category-heading"
+                >Town <br />
+                Punchayat</span
+              >
+            </span>
+          </div>
+          <div class="categories d-flex categories-values align-items-center">
+            <span class="category">
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+              >
+                {{
+                  cardData?.registeredUlb["Municipal Corporation"] || 0
+                }}</span
+              >
+            </span>
+            <span class="category">
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+              >
+                {{ cardData?.registeredUlb["Municipality"] || 0 }}</span
+              >
+            </span>
+            <span class="category">
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+              >
+                {{ cardData?.registeredUlb["Town Panchayat"] || 0 }}</span
+              >
+            </span>
+          </div>
+
+          <div class="view-list" (click)="onClickingOtherCards()">
+            View List
+          </div>
+        </div>
+
+        <div class="card green">
+          <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+          <p class="heading">Million Plus Cities(Registered)</p>
+          <span
+            class="card-main-value"
+            [ngClass]="{ 'loading-value': !cardData }"
+          >
+            {{ cardData?.registeredMillionPlus?.sum || 0 }}
+          </span>
+          <hr />
+
+          <div
+            class="categories d-flex justify-content-evenly align-items-center"
+          >
+            <span class="category">
+              <span class="category-heading">Corporation</span>
+            </span>
+            <span class="category">
+              <span class="category-heading">Municipality</span>
+            </span>
+            <span class="category">
+              <span class="category-heading"
+                >Town <br />
+                Punchayat</span
+              >
+            </span>
+          </div>
+          <div class="categories d-flex categories-values align-items-center">
+            <span class="category">
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+                >{{
+                  cardData?.registeredMillionPlus["Municipal Corporation"] || 0
+                }}</span
+              >
+            </span>
+            <span class="category">
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+                >{{
+                  cardData?.registeredMillionPlus["Municipality"] || 0
+                }}</span
+              >
+            </span>
+            <span class="category">
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+                >{{
+                  cardData?.registeredMillionPlus["Town Panchayat"] || 0
+                }}</span
+              >
+            </span>
+          </div>
+
+          <div
+            class="view-list"
+            (click)="
+              onClickingOtherCards({ isMillionPlus: 'Yes', registered: 'Yes' })
+            "
+          >
+            View List
+          </div>
+        </div>
+
+        <div class="card yellow">
+          <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+          <p class="heading">Non-Million Plus Cities(Registered)</p>
+          <span
+            class="card-main-value"
+            [ngClass]="{ 'loading-value': !cardData }"
+          >
+            {{ cardData?.registeredNonMillionPlus["sum"] || 0 }}
+          </span>
+          <hr />
+
+          <div
+            class="categories d-flex justify-content-evenly align-items-center"
+          >
+            <span class="category">
+              <span class="category-heading">Corporation</span>
+            </span>
+            <span class="category">
+              <span class="category-heading">Municipality</span>
+            </span>
+            <span class="category">
+              <span class="category-heading"
+                >Town <br />
+                Punchayat</span
+              >
+            </span>
+          </div>
+          <div class="categories d-flex categories-values align-items-center">
+            <span class="category">
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+                >{{
+                  cardData?.registeredNonMillionPlus["Municipal Corporation"] ||
+                    0
+                }}</span
+              >
+            </span>
+            <span class="category">
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+                >{{
+                  cardData?.registeredNonMillionPlus["Municipality"] || 0
+                }}</span
+              >
+            </span>
+            <span class="category">
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+                >{{
+                  cardData?.registeredNonMillionPlus["Town Panchayat"] || 0
+                }}</span
+              >
+            </span>
+          </div>
+
+          <div
+            class="view-list"
+            (click)="
+              onClickingOtherCards({ isMillionPlus: 'No', registered: 'Yes' })
+            "
+          >
+            View List
+          </div>
+        </div>
+
+        <div class="nested-card-container d-flex">
+          <div class="card brown">
+            <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+            <p class="heading">Million Plus Cities(Total)</p>
+            <span
+              class="card-main-value"
+              [ngClass]="{ 'loading-value': !cardData }"
+            >
+              {{ cardData?.totalMillionPlus["sum"] || 0 }}
+            </span>
+            <hr />
+
+            <div
+              class="categories d-flex justify-content-evenly align-items-center"
+            >
+              <span class="category">
+                <span class="category-heading">Corporation</span>
+              </span>
+              <span class="category">
+                <span class="category-heading">Municipality</span>
+              </span>
+              <span class="category">
+                <span class="category-heading"
+                  >Town <br />
+                  Punchayat</span
+                >
+              </span>
+            </div>
+            <div class="categories d-flex categories-values align-items-center">
+              <span class="category">
+                <span
+                  class="category-heading category-value"
+                  [ngClass]="{ 'loading-value': !cardData }"
+                  >{{
+                    cardData?.totalMillionPlus["Municipal Corporation"] || 0
+                  }}</span
+                >
+              </span>
+              <span class="category">
+                <span
+                  class="category-heading category-value"
+                  [ngClass]="{ 'loading-value': !cardData }"
+                  >{{ cardData?.totalMillionPlus["Municipality"] || 0 }}</span
+                >
+              </span>
+              <span class="category">
+                <span
+                  class="category-heading category-value"
+                  [ngClass]="{ 'loading-value': !cardData }"
+                  >{{ cardData?.totalMillionPlus["Town Panchayat"] || 0 }}</span
+                >
+              </span>
+            </div>
+
+            <div
+              class="view-list"
+              (click)="onClickingOtherCards({ isMillionPlus: 'Yes' })"
+            >
+              View List
+            </div>
+          </div>
+
+          <div class="card dark-green" style="margin-bottom: 0px">
+            <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+            <p class="heading">Non-Million Plus Cities(Total)</p>
+            <span
+              class="card-main-value"
+              [ngClass]="{ 'loading-value': !cardData }"
+              >{{ cardData?.totalNonMillionPlus["sum"] || 0 }}</span
+            >
+            <hr />
+
+            <div
+              class="categories d-flex justify-content-evenly align-items-center"
+            >
+              <span class="category">
+                <span class="category-heading">Corporation</span>
+              </span>
+              <span class="category">
+                <span class="category-heading">Municipality</span>
+              </span>
+              <span class="category">
+                <span class="category-heading"
+                  >Town <br />
+                  Punchayat</span
+                >
+              </span>
+            </div>
+            <div class="categories d-flex categories-values align-items-center">
+              <span class="category">
+                <span
+                  class="category-heading category-value"
+                  [ngClass]="{ 'loading-value': !cardData }"
+                  >{{
+                    cardData?.totalMillionPlus["Municipal Corporation"] || 0
+                  }}</span
+                >
+              </span>
+              <span class="category">
+                <span
+                  class="category-heading category-value"
+                  [ngClass]="{ 'loading-value': !cardData }"
+                  >{{ cardData?.totalMillionPlus["Municipality"] || 0 }}</span
+                >
+              </span>
+              <span class="category">
+                <span
+                  class="category-heading category-value"
+                  [ngClass]="{ 'loading-value': !cardData }"
+                  >{{ cardData?.totalMillionPlus["Town Panchayat"] || 0 }}</span
+                >
+              </span>
+            </div>
+
+            <div
+              class="view-list"
+              (click)="onClickingOtherCards({ isMillionPlus: 'No' })"
+            >
+              View List
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <p class="heading" style="font-size: 1.6rem">
+            15<sup>th</sup> FC Form Data Upload Status
+          </p>
+          <canvas id="canvas" width="150" height="43"></canvas>
+        </div>
+      </div>
+
+      <div class="ulb-list" id="ulb-list">
+        <div class="col-md-12" style="padding-left: 0px">
+          <h3>
+            <span> ULB List </span>
+
+            <button
+              *ngIf="dataUploadList && dataUploadList.length"
+              class="btn btn-primary"
+              style="float: right; margin-right: 6px"
+              (click)="downloadULBList()"
+            >
               Download List
             </button>
           </h3>
         </div>
-      </div>
-      <!--    <div class="col">-->
-      <!--      <button (click)="location.back()" class="back_button" style="transform: unset">Back</button>-->
-      <!--    </div>-->
 
-      <div class="row">
-        <div class="col-sm-12">
-          <table class="table" *ngIf="!loading;else loader">
+        <div class="col-sm-12" style="padding-left: 0px">
+          <table
+            aria-describedby="ULB Singup List"
+            class="table upldate-table"
+            *ngIf="ulbList; else loader"
+          >
             <thead>
-            <tr style="background: #059b9a;color: white">
-              <th class="text-center">S.No.</th>
-              <th [attr.width]="100/(tableHeaders.length)+'%'" [ngClass]="header.id=='action'?'text-center':''"
-                  *ngFor="let header of tableHeaders">
-                <ng-container [ngSwitch]="!!header.click">
-                <span (click)="sortById(header.id)" *ngSwitchCase="true">
-                  {{header.title}} <i class="glyphicon glyphicon-sort"></i></span>
-                  <span *ngSwitchCase="false">{{header.title}}</span>
-                </ng-container>
-              </th>
-            </tr>
+              <tr class="" style="color: white">
+                <th scope="S.No" class="text-center">S.No.</th>
+                <th scope="S.No" class="text-center">State Name</th>
+                <th scope="S.No" class="text-center">ULB Name</th>
+                <th scope="S.No" class="text-center">ULB Type</th>
+                <th scope="S.No" class="text-center">Census Code</th>
+                <th scope="S.No" class="text-center">Swatch Bharat Code</th>
+                <th scope="S.No" class="text-center">Email Id</th>
+                <th scope="S.No" class="text-center">Mobile Number</th>
+                <th scope="S.No" class="text-center">Registered</th>
+                <th scope="S.No" class="text-center">Type</th>
+              </tr>
             </thead>
             <tbody>
-            <tr [formGroup]="fileFormGroup">
-              <td></td>
-              <td *ngIf="userUtil.getUserType()!='ULB'">
-                <div class="input-group">
-                  <input placeholder="ULB Name" type="text" [formControl]="ulbNameSearchFormControl"
-                         class="form-control">
-                </div>
-              </td>
-              <td *ngIf="userUtil.getUserType()!='ULB'">
-                <div class="input-group">
-                  <input placeholder="ULB Code" type="text" [formControl]="ulbCodeSearchFormControl"
-                         class="form-control">
-                </div>
-              </td>
-              <td>
-                <div class="input-group">
-                  <label for="financialYear"></label>
-                  <select id="financialYear" class="form-control" formControlName="financialYear">
-                    <option value="" selected>All years</option>
-                    <option [value]="option.id"
-                            *ngFor="let option of financialYearDropdown">{{option?.itemName}}</option>
-
-                  </select>
-                </div>
-
-                <!--                  formControlName="financialYear"-->
-                <!--                  [settings]="financialYearDropdownSettings"-->
-                <!--                  [data]="financialYearDropdown"></angular2-multiselect>-->
-              </td>
-              <td>
-                <div class="input-group">
-                  <label for="auditStatus"></label>
-                  <select id="auditStatus" class="form-control" formControlName="auditStatus">
-                    <option value="" selected>All Audit Status</option>
-                    <option [value]="option.id"
-                            *ngFor="let option of auditStatusDropdown">{{option?.itemName}}</option>
-                  </select>
-                </div>
-              </td>
-              <td>
-                <div class="input-group">
-                  <label for="uploadStatus"></label>
-                  <select id="uploadStatus" class="form-control" [formControl]="uploadStatusFormControl">
-                    <option value="" selected>All Status</option>
-                    <option [value]="option.id"
-                            *ngFor="let option of uploadCheckStatusDropDown">{{option?.itemName}}</option>
-                  </select>
-                </div>
-              </td>
-              <td>
-                <button class="btn btn-primary m-auto d-block" (click)="applyFilterClicked()">Search</button>
-              </td>
-            </tr>
-            <ng-container *ngIf="dataUploadList.length;else noData">
-              <tr style="background: 	#e7e7e7 ;border-bottom: 5px solid white" *ngFor="let row of dataUploadList | paginate
-                    : {
-                        id: 'foo',
-                        itemsPerPage: tableDefaultOptions.itemPerPage,
-                        currentPage: tableDefaultOptions.currentPage,
-                        totalItems: tableDefaultOptions.totalCount
-                      };
-                index as i">
-                <td class="text-center">{{i + 1}}</td>
-                <td [ngClass]="header.id=='action'?'text-center':''" *ngFor="let header of tableHeaders">
-                  <ng-container [ngSwitch]="header.id">
-                    <ng-container *ngSwitchCase="'action'">
-                      <ng-container [ngSwitch]="userUtil.getUserType()">
-                        <ng-container *ngSwitchCase="'ULB'">
-                          <a *ngIf="row['status']===uploadStatus.REJECTED"
-                             class="btn btn-primary"
-                             (click)="navigateTo(row)" title="Edit"
-                             [routerLink]="['/user/data-upload/upload-form',row?._id]">Take {{header.title}}
-                          </a>
-                          <a *ngIf="row['status']!==uploadStatus.REJECTED"
-                             (click)="navigateTo(row)" title="View"
-                             [routerLink]="['/user/data-upload/upload-form',row?._id]">
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                          </a>
-                        </ng-container>
-
-                        <ng-container *ngSwitchCase="'STATE'">
-                          <a (click)="navigateTo(row)" title="View"
-                             [routerLink]="['/user/data-upload/upload-form',row?._id]">
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                          </a>
-                        </ng-container>
-
-                        <ng-container *ngSwitchDefault>
-                          <a [routerLink]="['/user/data-upload/action',row?._id]"
-                             (click)="navigateTo(row)">
-                            <i *ngIf="row['status']!==uploadStatus.PENDING" class="fa fa-eye"></i>
-                          </a>
-                          <a *ngIf="row['status']===uploadStatus.PENDING"
-                             [routerLink]="['/user/data-upload/action',row?._id]"
-                             (click)="navigateTo(row)"
-                             class="btn btn-primary">Take {{header.title}}</a>
-                        </ng-container>
-                      </ng-container>
-                    </ng-container>
-                    <span *ngSwitchCase="'audited'">
-                      {{row[header.id] ? 'Audited' : 'Unaudited'}}
-                    </span>
-                    <span *ngSwitchCase="'ulbName'">{{row[header.id]}}</span>
-                    <ng-container *ngSwitchCase="'status'">
-                      <ng-container [ngSwitch]="row['status']">
-                        <a *ngSwitchCase="uploadStatus.PENDING" (click)="openModal(row,historyModal)">
-                          {{row['completeness'] == uploadStatus.PENDING && row['correctness'] == uploadStatus.PENDING ? 'Requested By ULB' : 'Under Review'}}
-                        </a>
-                        <a *ngSwitchCase="uploadStatus.APPROVED" (click)="openModal(row,historyModal)">
-                          Approved By :{{ row['actionTakenByUserName']}}
-                          ({{row['actionTakenByUserRole']}})
-                        </a>
-                        <a *ngSwitchCase="uploadStatus.REJECTED" (click)="openModal(row,historyModal)">
-                          Rejected By :{{ row['actionTakenByUserName']}}
-                          ({{row['actionTakenByUserRole']}})
-                        </a>
-                      </ng-container>
-                    </ng-container>
-                    <!--
-                                      <a (click)="openModal(row,historyModal)" *ngSwitchCase="'ad'">{{
-                                        row['status'] === 'APPROVED' ?
-                                          'Approved By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
-                                          : row['completeness'] === 'REJECTED' || row['correctness'] === 'REJECTED' ? 'Rejected By ' + row['actionTakenByUserName'] + '(' + row['actionTakenByUserRole'] + ')'
-                                          : 'Requested By ULB'}}</a>-->
-                    <span *ngSwitchDefault>{{row[header.id]}}</span>
-                  </ng-container>
-              </tr>
-            </ng-container>
-            <ng-template #noData>
-              <tr>
-                <td class="text-center" [attr.colspan]="tableHeaders.length+1">
-                  <h3>
-                    No Data Available
-                  </h3>
+              <tr [formGroup]="ulbFilter">
+                <td></td>
+                <td></td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      formControlName="ulbName"
+                      placeholder="ULB Name"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      formControlName="ulbType"
+                      placeholder="ULB Type"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      formControlName="censusCode"
+                      placeholder="Census Code"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      formControlName="sbCode"
+                      placeholder="Swatcha Bharat Code"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      formControlName="email"
+                      placeholder="Email Id"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      formControlName="mobile"
+                      placeholder="Mobile Number"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <select
+                      name="registered"
+                      id="registered"
+                      formControlName="registration"
+                      class="form-control"
+                      placeholder="Registered"
+                    >
+                      <option value="" selected>Both</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <select
+                      formControlName="isMillionPlus"
+                      name="population"
+                      id="population"
+                      class="form-control"
+                      placeholder="Population"
+                    >
+                      <option value="Both" selected>Both</option>
+                      <option value="Yes">Million Plus</option>
+                      <option value="No">Non Million</option>
+                    </select>
+                  </div>
                 </td>
               </tr>
-            </ng-template>
+              <ng-container *ngIf="ulbList?.length; else noData">
+                <tr
+                  *ngFor="
+                    let row of ulbList
+                      | paginate
+                        : {
+                            id: 'ulblist-pagination',
+                            itemsPerPage: ulbtableDefaultOptions.itemPerPage,
+                            currentPage: ulbtableDefaultOptions.currentPage,
+                            totalItems: ulbtableDefaultOptions.totalCount
+                          };
+                    index as i
+                  "
+                >
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ row.stateName }}</td>
+                  <td>{{ row.ulbName }}</td>
+
+                  <td>{{ row.ulbType }}</td>
+                  <td>{{ row.censusCode }}</td>
+                  <td>{{ row.sbCode }}</td>
+                  <td>{{ row.email }}</td>
+                  <td>{{ row.mobile }}</td>
+                  <td>{{ row.registration }}</td>
+                  <td>
+                    {{
+                      row.isMillionPlus === "Yes"
+                        ? "Million Plus Cities"
+                        : "Non-Million Plus Cities"
+                    }}
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-template #noData>
+                <tr>
+                  <td class="text-center" [attr.colspan]="10">
+                    <h3>No Data Available</h3>
+                  </td>
+                </tr>
+              </ng-template>
             </tbody>
           </table>
           <pagination-controls
-            style="float: right; position: relative;"
-            id="foo"
+            *ngIf="ulbtableDefaultOptions.totalCount"
+            style="float: right; position: relative"
+            id="ulblist-pagination"
+            (pageChange)="setulbPage($event)"
+            directionLinks="true"
+            autoHide="true"
+            previousLabel="Previous"
+            nextLabel="Next"
+            screenReaderPaginationLabel="Pagination"
+            screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page"
+          >
+          </pagination-controls>
+          <ng-template #loader>
+            <div
+              class="d-flex w-100 justify-content-center align-items-center"
+              style="height: 70vh"
+            >
+              <mat-spinner></mat-spinner>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="data-upload-container">
+        <div class="col-md-12" style="padding-left: 0px">
+          <h3>
+            <span> ULB Data Upload Tracker </span>
+            <button
+              role="menuitem"
+              *ngIf="
+                isAccessible && (!dataUploadList || !dataUploadList.length)
+              "
+              [routerLink]="['/user/data-upload/upload-form']"
+              class="btn btn-primary"
+              style="border-radius: 5px; float: right; margin-right: 6px"
+            >
+              Upload Data
+            </button>
+            <button
+              *ngIf="dataUploadList && dataUploadList.length"
+              class="btn btn-primary"
+              style="float: right; margin-right: 6px"
+              (click)="downloadList()"
+            >
+              Download List
+            </button>
+          </h3>
+        </div>
+
+        <div class="col-sm-12" style="padding-left: 0px">
+          <table
+            aria-describedby="ULB Singup List"
+            class="table upldate-table"
+            *ngIf="!loading; else loader"
+          >
+            <thead>
+              <tr class="" style="color: white">
+                <th scope="S.No" class="text-center">S.No.</th>
+                <th
+                  scope=""
+                  [ngClass]="header.id == 'action' ? 'text-center' : ''"
+                  *ngFor="let header of tableHeaders"
+                  [attr.width]="
+                    header.width
+                      ? header.width
+                      : 100 / tableHeaders.length + '%'
+                  "
+                >
+                  <ng-container [ngSwitch]="!!header.click">
+                    <span
+                      (click)="sortById(header.id)"
+                      class="cursor-pointer"
+                      *ngSwitchCase="true"
+                    >
+                      {{ header.title
+                      }}<em class="glyphicon glyphicon-sort"></em
+                    ></span>
+                    <span *ngSwitchCase="false">{{ header.title }}</span>
+                  </ng-container>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr [formGroup]="fileFormGroup">
+                <td></td>
+                <td>
+                  <div class="input-group">
+                    <select
+                      name="State"
+                      id="state"
+                      [formControl]="stateNameControl"
+                      class="form-control"
+                      placeholder="State"
+                    >
+                      <option value="" selected>All States</option>
+                      <option
+                        *ngFor="let state of stateList"
+                        [value]="state.name"
+                      >
+                        {{ state.name }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td *ngIf="userUtil.getUserType() != 'ULB'">
+                  <div class="input-group">
+                    <input
+                      placeholder="ULB Name"
+                      type="text"
+                      [formControl]="ulbNameSearchFormControl"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+
+                <!-- <td *ngIf="userUtil.getUserType() != 'ULB'">
+                  <div class="input-group">
+                    <input
+                      placeholder="ULB Code"
+                      type="text"
+                      [formControl]="ulbCodeSearchFormControl"
+                      class="form-control"
+                    />
+                  </div>
+                </td> -->
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="Census Code"
+                      type="text"
+                      [formControl]="censusCode"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input
+                      placeholder="Swatcha Bharat Code"
+                      type="text"
+                      [formControl]="sbCode"
+                      class="form-control"
+                    />
+                  </div>
+                </td>
+
+                <td>
+                  <div class="input-group">
+                    <label for="uploadStatus"></label>
+                    <select
+                      id="uploadStatus"
+                      class="form-control"
+                      [formControl]="uploadStatusFormControl"
+                    >
+                      <option value="" selected>All Status</option>
+                      <option
+                        [value]="option.id"
+                        *ngFor="let option of uploadCheckStatusDropDown"
+                      >
+                        {{ option?.itemName }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-primary m-auto d-block"
+                    (click)="applyFilterClicked()"
+                  >
+                    Search
+                  </button>
+                </td>
+              </tr>
+              <ng-container *ngIf="dataUploadList.length; else noData">
+                <tr
+                  style="background: #e7e7e7; border-bottom: 5px solid white"
+                  *ngFor="
+                    let row of dataUploadList
+                      | paginate
+                        : {
+                            id: 'upload-pagination',
+                            itemsPerPage: tableDefaultOptions.itemPerPage,
+                            currentPage: tableDefaultOptions.currentPage,
+                            totalItems: tableDefaultOptions.totalCount
+                          };
+                    index as i
+                  "
+                >
+                  <td class="text-center">
+                    {{
+                      (tableDefaultOptions?.currentPage - 1) *
+                        tableDefaultOptions.itemPerPage +
+                        (i + 1)
+                    }}
+                  </td>
+                  <td
+                    [ngClass]="header.id == 'action' ? 'text-center' : ''"
+                    *ngFor="let header of tableHeaders"
+                  >
+                    <ng-container [ngSwitch]="header.id">
+                      <ng-container *ngSwitchCase="'action'">
+                        <ng-container [ngSwitch]="row.canTakeAction">
+                          <ng-container *ngSwitchCase="true">
+                            <a
+                              class="btn btn-primary"
+                              (click)="navigateTo(row)"
+                              title="Edit"
+                              [routerLink]="[
+                                '/user/data-upload/upload-form',
+                                row?._id
+                              ]"
+                              >Take {{ header.title }}
+                            </a>
+                          </ng-container>
+
+                          <ng-container *ngSwitchCase="false">
+                            <a
+                              (click)="navigateTo(row)"
+                              title="View"
+                              [routerLink]="[
+                                '/user/data-upload/upload-form',
+                                row?._id
+                              ]"
+                            >
+                              <i class="fa fa-eye" aria-hidden="true"></i>
+                            </a>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
+                      <span *ngSwitchCase="'audited'">
+                        {{ row[header.id] ? "Audited" : "Unaudited" }}
+                      </span>
+                      <span *ngSwitchCase="'ulbName'">{{
+                        row[header.id]
+                      }}</span>
+                      <ng-container *ngSwitchCase="'status'">
+                        <a (click)="openModal(row, historyModal)">
+                          {{ row.customStatusText }}
+                        </a>
+                      </ng-container>
+
+                      <span *ngSwitchDefault>{{ row[header.id] }}</span>
+                    </ng-container>
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-template #noData>
+                <tr>
+                  <td
+                    class="text-center"
+                    [attr.colspan]="tableHeaders.length + 1"
+                  >
+                    <h3>No Data Available</h3>
+                  </td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+          <pagination-controls
+            *ngIf="tableDefaultOptions.totalCount"
+            style="float: right; position: relative"
+            id="upload-pagination"
             (pageChange)="setPage($event)"
             directionLinks="true"
             autoHide="true"
@@ -290,11 +868,13 @@
           >
           </pagination-controls>
           <ng-template #loader>
-            <div class="d-flex w-100 justify-content-center align-items-center " style="height: 70vh">
+            <div
+              class="d-flex w-100 justify-content-center align-items-center"
+              style="height: 70vh"
+            >
               <mat-spinner></mat-spinner>
             </div>
           </ng-template>
-
         </div>
       </div>
     </div>
@@ -303,59 +883,55 @@
 
 <ng-template #historyModal>
   <div class="modal-body">
-    <div style="margin-bottom: .5rem; display: flex;justify-content: flex-end">
+    <div
+      style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end"
+    >
       <button
-        style="min-width: min-content;"
+        style="min-width: min-content"
         (click)="modalService.hide(1)"
         class="btn btn-danger"
         title="Close"
         type="button"
         data-dismiss="modal"
         aria-label="Close"
-      ><i class="fa fa-times" style="color:white"></i>
+      >
+        <i class="fa fa-times" style="color: white"></i>
       </button>
     </div>
     <div class="modal-title">
       <h3>Tracking</h3>
     </div>
-    <div *ngIf="modalTableData.length; else noData" class="table-responsive border-1"
-         style="max-height: 50vh ; overflow-y: auto">
-      <table class="table ">
+    <div
+      *ngIf="modalTableData.length; else noData"
+      class="table-responsive"
+      style="max-height: 50vh; overflow-y: auto"
+    >
+      <table class="table tracking-history-table">
         <thead>
-        <tr>
-          <th style="position: sticky;top: 0;background: white" class=" text-center "></th>
-          <th style="position: sticky;top: 0;background: white" class="  text-center ">Sr. No</th>
-          <th style="position: sticky;top: 0;background: white" class="text-center ">Action</th>
-          <th style="position: sticky;top: 0;;background: white" class="text-center ">Data</th>
-        </tr>
+          <tr>
+            <th style="position: sticky; top: 0" class="text-center"></th>
+            <th style="position: sticky; top: 0" class="text-center">Sr. No</th>
+            <th style="position: sticky; top: 0">Action</th>
+            <th style="position: sticky; top: 0">Date</th>
+          </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let row of modalTableData;let i=index">
-          <td class="text-center">
-            <i *ngIf="row['status']==uploadStatus.APPROVED" class="fa fa-check-circle text-success"></i>
-          </td>
-          <td class="text-center">{{i + 1}}</td>
-          <ng-container [ngSwitch]="row['status']">
-            <td class="text-center" *ngSwitchCase="uploadStatus.PENDING">
-              {{row['completeness'] == uploadStatus.PENDING && row['correctness'] == uploadStatus.PENDING ? 'Requested By ULB' : 'Under Review'}}
+          <tr *ngFor="let row of modalTableData; let i = index">
+            <td class="text-center">
+              <em
+                *ngIf="
+                  row['status'] == uploadStatus.APPROVED &&
+                  row.actionTakenByUserRole === userTypes.MoHUA
+                "
+                class="fa fa-check-circle text-success"
+              ></em>
             </td>
-            <td class="text-center" *ngSwitchCase="uploadStatus.APPROVED">Approved By :{{ row['actionTakenByUserName']}}
-              ({{row['actionTakenByUserRole']}})
+            <td class="text-center">{{ i + 1 }}</td>
+            <td>{{ row.customStatusText }}</td>
+            <td>
+              {{ row["modifiedAt"] | date: "MMM d, y, h:mm a":"GMT" }}
             </td>
-            <td class="text-center" *ngSwitchCase="uploadStatus.REJECTED">Rejected By :{{ row['actionTakenByUserName']}}
-              ({{row['actionTakenByUserRole']}})
-            </td>
-            <!--            <td class="text-center">{{
-                          (row['completeness'] == uploadStatus.PENDING ||
-                            row['correctness'] == uploadStatus.PENDING ? 'Requested BY ULB' :
-                              (row['completeness'] == uploadStatus.REJECTED ||
-                                row['correctness'] == uploadStatus.REJECTED) ?
-                                'REjected By :' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
-                                : 'APPROVED By :' + row['actionTakenBy'].name + '(' + row['actionTakenBy'].role + ')'
-                          )}}</td>-->
-          </ng-container>
-          <td class="text-center">{{row['modifiedAt'] | date : 'medium'}}</td>
-        </tr>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -367,4 +943,31 @@
       </div>
     </div>
   </ng-template>
+</ng-template>
+
+<ng-template #updateWithoutChangeWarning>
+  <div>
+    <p class="text-center">
+      The following fields were rejected but you are updating without making any
+      changes.
+    </p>
+    <ol *ngIf="Object.keys(rejectFields) as keys">
+      <li *ngFor="let key of keys">{{ rejectFields[key] }}</li>
+    </ol>
+    <p class="text-center font-weight-bold">
+      <strong>Are you sure you want to update?</strong>
+    </p>
+    <div class="d-flex justify-content-center">
+      <button
+        #updateButton
+        class="btn btn-primary mr-1"
+        (click)="_matDialog.closeAll() || updateClickHandler(updateButton)"
+      >
+        Yes
+      </button>
+      <button class="btn btn-primary ml-1" (click)="_matDialog.closeAll()">
+        No
+      </button>
+    </div>
+  </div>
 </ng-template>

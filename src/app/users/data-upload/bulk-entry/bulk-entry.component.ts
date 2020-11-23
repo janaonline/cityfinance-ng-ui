@@ -9,11 +9,11 @@ import { DataEntryService } from '../../../dashboard/data-entry/data-entry.servi
 @Component({
   selector: "app-bulk-entry",
   templateUrl: "./bulk-entry.component.html",
-  styleUrls: ["./bulk-entry.component.scss"]
+  styleUrls: ["./bulk-entry.component.scss"],
 })
 export class BulkEntryComponent implements OnInit {
   submitted = false;
-  years: string[] = ["2015-16", "2016-17", "2017-18"];
+  years: string[] = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20"];
   bulkEntryForm: FormGroup;
   filesToUpload: Array<File> = [];
 
@@ -46,7 +46,7 @@ export class BulkEntryComponent implements OnInit {
 
   ngOnInit() {
     this.bulkEntryForm = this.formBuilder.group({
-      year: [this.years[0], Validators.required]
+      year: [this.years[0], Validators.required],
     });
   }
 
@@ -69,7 +69,7 @@ export class BulkEntryComponent implements OnInit {
 
   uploadFile(file: File, fileIndex: number) {
     this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
-      s3Response => {
+      (s3Response) => {
         const fileAlias = s3Response["data"][0]["file_alias"];
         const s3URL = s3Response["data"][0].url;
         this.uploadFileToS3(
@@ -80,10 +80,10 @@ export class BulkEntryComponent implements OnInit {
           fileIndex
         );
       },
-      err => {
+      (err) => {
         if (!this.fileUploadTracker[fileIndex]) {
           this.fileUploadTracker[fileIndex] = {
-            status: "FAILED"
+            status: "FAILED",
           };
         } else {
           this.fileUploadTracker[fileIndex].status = "FAILED";
@@ -108,11 +108,11 @@ export class BulkEntryComponent implements OnInit {
       //   )
       // )
       .subscribe(
-        res => {
+        (res) => {
           if (res.type === HttpEventType.Response) {
             this.dataEntryService
               .sendUploadFileForProcessing(fileAlias, financialYear)
-              .subscribe(res => {
+              .subscribe((res) => {
                 this.startFileProcessTracking(
                   file,
                   res["data"]["_id"],
@@ -121,7 +121,7 @@ export class BulkEntryComponent implements OnInit {
               });
           }
         },
-        err => {
+        (err) => {
           this.fileUploadTracker[fileIndex].status = "FAILED";
         }
       );
@@ -138,7 +138,7 @@ export class BulkEntryComponent implements OnInit {
       this.fileUploadTracker[fileIndex] = {
         percentage: percentDone,
         alias: fileAlias,
-        status: percentDone < 100 ? "in-process" : "completed"
+        status: percentDone < 100 ? "in-process" : "completed",
       };
     }
     return event;
@@ -158,13 +158,13 @@ export class BulkEntryComponent implements OnInit {
   ) {
     this.fileProcessingTracker[_fileIndex] = {
       status: "in-process",
-      message: "Processing"
+      message: "Processing",
     };
 
     this.dataEntryService
       .getFileProcessingStatus(fileId)
       .pipe(
-        map(response => {
+        map((response) => {
           this.fileProcessingTracker[_fileIndex].message = response.message;
           if (!response.completed && response.status !== "FAILED") {
             /**
@@ -177,15 +177,15 @@ export class BulkEntryComponent implements OnInit {
           }
           return response;
         }),
-        retryWhen(err => err.pipe(delay(2000)))
+        retryWhen((err) => err.pipe(delay(2000)))
       )
       .subscribe(
-        response => {
+        (response) => {
           this.fileProcessingTracker[_fileIndex].message = response.message;
           this.fileProcessingTracker[_fileIndex].status =
             response.status === "FAILED" ? "FAILED" : "completed";
         },
-        err => {
+        (err) => {
           if (!this.fileProcessingTracker[_fileIndex]) {
             this.fileProcessingTracker[fileId].status = "FAILED";
             this.fileProcessingTracker[fileId].message =

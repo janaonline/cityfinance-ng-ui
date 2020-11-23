@@ -10,6 +10,7 @@ export interface ModalTableHeader extends Object {
   colSpan?: number;
   rowSpan?: number;
   status?: string;
+  width?: string;
 }
 
 export const tableHeaders: any = [
@@ -312,10 +313,13 @@ export const creditRatingModalHeaders: ModalTableHeader[][] = [
 ];
 
 export const ulbUploadList: ModalTableHeader[] = [
+  { id: "stateName", click: true, title: "State Name", width: "14%" },
   { id: "ulbName", click: true, title: "ULB Name" },
-  { id: "ulbCode", click: true, title: "ULB Code" },
-  { id: "financialYear", click: true, title: "Financial Year" },
-  { id: "audited", click: true, title: "Audit Status" },
+  // { id: "ulbCode", click: true, title: "ULB Code" },
+  { id: "censusCode", click: true, title: "Census Code" },
+  { id: "sbCode", click: true, title: "Swatcha Bharat Code", width: "17%" },
+  // { id: "financialYear", click: true, title: "Financial Year" },
+  // { id: "audited", click: true, title: "Audit Status" },
   { id: "status", title: "Status" },
   { id: "action", title: "Action" },
 ];
@@ -355,7 +359,7 @@ export const stateWiseReportSub: ModalTableHeader[] = [...overAllSubHeader];
 
 export const ulbWiseReportMain: ModalTableHeader[] = [
   { id: "state", title: "State", rowSpan: 2 },
-  { id: "name", title: "ULB", rowSpan: 2 },
+  { id: "name", title: "ULB Type", rowSpan: 2 },
   { id: "total", title: "Total ULBs", rowSpan: 2 },
   { title: "ULB Uploaded", id: "count", colSpan: 2 },
   { title: "Total ULBs Not Uploaded", id: "count", colSpan: 2 },

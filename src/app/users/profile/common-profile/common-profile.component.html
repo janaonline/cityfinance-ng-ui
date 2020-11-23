@@ -62,7 +62,9 @@
     >
       <span *ngIf="error.required">Email ID canot be empty</span>
       <span *ngIf="error.email === false">Email ID is not valid</span>
-      {{ error | json }}
+      <span *ngIf="error?.sameEmail === true"
+        >Email ID and Department Email Id cannot be same</span
+      >
     </small>
   </div>
 
@@ -155,7 +157,7 @@
 
   <div class="input-group">
     <label for="departmentEmail"
-      >Department Email ID
+      >Department Email ID :
       <span
         class="asterik"
         *ngIf="profileForm.controls.departmentEmail.validator({})['required']"
@@ -241,7 +243,7 @@
     </small>
   </div>
 
-  <p *ngIf="formErrors">
+  <p *ngIf="formErrors" class="error-message">
     <span
       *ngFor="let error of formErrors; let i = index"
       style="display: block; color: red;"
@@ -252,9 +254,6 @@
 
   <p *ngIf="respone.errorMessage" class="error-message">
     {{ respone.errorMessage }}
-  </p>
-  <p *ngIf="respone.successMessage" class="success-message">
-    {{ respone.successMessage }}
   </p>
 
   <div
@@ -279,6 +278,7 @@
     >
       {{ profileData ? "Update Profile" : "Create" }}
     </button>
+
     <!-- <button
       *ngIf="profileData"
       type="button"
@@ -288,4 +288,7 @@
       Cancel
     </button> -->
   </div>
+  <p *ngIf="respone.successMessage" class="success-message">
+    {{ respone.successMessage }}
+  </p>
 </form>

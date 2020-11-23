@@ -9,6 +9,7 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
+import { BaseComponent } from 'src/app/util/baseComponent';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { IFullULBProfileRequest, IULBProfileRequest } from '../../../../models/ulbs/ulb-request-update';
@@ -20,7 +21,7 @@ import { ProfileService } from '../../service/profile.service';
   templateUrl: "./profile-request.component.html",
   styleUrls: ["./profile-request.component.scss"],
 })
-export class ProfileRequestComponent implements OnInit {
+export class ProfileRequestComponent extends BaseComponent implements OnInit {
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _profileService: ProfileService,
@@ -28,6 +29,7 @@ export class ProfileRequestComponent implements OnInit {
     public _fb: FormBuilder,
     private _commonService: CommonService
   ) {
+    super();
     this.initializeAccessCheck();
     this.fetchStateList();
     this.createRequestStatusTypeList();
@@ -93,9 +95,13 @@ export class ProfileRequestComponent implements OnInit {
     this.request = null;
   }
 
-  public searchUsersBy(filterForm: {}) {
+  public searchUsersBy(filterForm: {}, skip?: number) {
     // this.resetListFetchOptionsToDefeault();
     this.listFetchOption.filter = filterForm;
+
+    if (skip !== undefined && skip !== null) {
+      this.listFetchOption.skip = skip;
+    }
 
     this.fetchRequestList({ ...(<any>this.listFetchOption) });
   }
@@ -146,12 +152,14 @@ export class ProfileRequestComponent implements OnInit {
     const util = new JSONUtility();
     body.filter = util.filterEmptyValue(body.filter);
 
+    this.isApiInProgress = true;
     this._profileService
       .getULBProfileUpdateRequestList(body)
       .subscribe((res) => {
-        if (res.total) {
+        if (res.total || res.total === 0) {
           this.tableDefaultOptions.totalCount = res.total;
         }
+        this.isApiInProgress = false;
 
         this.requestList = res.data;
       });
@@ -191,6 +199,7 @@ export class ProfileRequestComponent implements OnInit {
 
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;
+
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     this.searchUsersBy(this.filterForm.value);
@@ -224,7 +233,7 @@ export class ProfileRequestComponent implements OnInit {
   private initializeListFetchParams() {
     this.listFetchOption = {
       filter: this.filterForm ? this.filterForm.value : {},
-      sort: null,
+      sort: this.loggedInUserType === USER_TYPE.ULB ? { createdAt: 1 } : null,
       skip: 0,
       limit: this.tableDefaultOptions.itemPerPage,
     };

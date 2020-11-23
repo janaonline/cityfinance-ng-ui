@@ -1,4 +1,3 @@
-// import 'leaflet-extra-markers';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import * as L from 'leaflet';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
@@ -6,6 +5,7 @@ import { MapUtil } from 'src/app/util/map/mapUtil';
 
 import { RankingService } from '../../../shared/services/ranking.service';
 
+// import 'leaflet-extra-markers';
 declare const $: any;
 
 @Component({

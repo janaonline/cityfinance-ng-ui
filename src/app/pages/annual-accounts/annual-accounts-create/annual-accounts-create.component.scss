@@ -1,0 +1,66 @@
+.container {
+  width: 95%;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: row;
+  //   margin: 10px 0;
+  margin-left: 12px;
+}
+
+.radio-button {
+  margin: 3px;
+}
+.instructions-layout {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.myFile input[type="file"] {
+  display: block;
+  position: absolute;
+  top: -10px;
+  opacity: 0;
+  font-size: 100px;
+  filter: alpha(opacity=0);
+  cursor: pointer;
+  width: 94px;
+  height: 38px;
+  left: 100px;
+}
+.myFile input[type="file"]:disabled {
+  cursor: not-allowed;
+}
+
+.myFile:disabled {
+  cursor: not-allowed !important;
+}
+
+.form-control {
+  width: 210px;
+}
+
+.form-group {
+  margin-bottom: 0;
+}
+
+.form-field-layout {
+  margin-top: 15px;
+}
+
+.button-layout {
+  margin-bottom: 10px;
+}
+
+.icon-layout {
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+.spinner-layout {
+  display: flex;
+  span {
+    margin: 3px;
+  }
+}

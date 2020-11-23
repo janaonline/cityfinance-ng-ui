@@ -25,6 +25,13 @@ table > tbody > tr > {
   border-bottom: 5px solid white;
 }
 
+table tbody tr:nth-child(even) {
+  background: rgb(236, 236, 236);
+}
+table tbody tr:nth-child(odd) {
+  background: white;
+}
+
 .tableContainer {
   height: 71vh;
   overflow: auto;

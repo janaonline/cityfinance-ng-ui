@@ -31,14 +31,63 @@
 }
 
 .bg-black {
-  background: #e8e8e8;
-  color: #111;
+  background: #216278;
+  color: white;
+}
+
+:host {
+  .accordion {
+    border-top-left-radius: 14px;
+    overflow: hidden;
+    border-top-right-radius: 14px;
+  }
+  .card {
+    overflow: hidden;
+    font-size: 0.9vw;
+    // background: rgb(45, 104, 45);
+    .card-header {
+      font-size: 1em;
+      color: white;
+      padding: 4% 2%;
+      text-align: center;
+      cursor: pointer;
+      background: #022727;
+      border-bottom: 0.1px solid white;
+    }
+
+    .card-body {
+      padding: 1% 0% 1% 0%;
+      background: rgb(199, 198, 198);
+      .link {
+        width: 100%;
+        display: block;
+        padding: 4%;
+        transition: all 0.3s;
+        color: black;
+
+        &:hover {
+          text-decoration: none;
+          // background: white;
+        }
+      }
+
+      .nested-links {
+        padding-left: 8%;
+      }
+      div.link.heading {
+        cursor: pointer;
+        // padding-bottom: 0%;
+        background: gray;
+      }
+    }
+  }
 }
 
 .active {
   background: white;
   color: black;
   border-left: 0.4rem solid #059b9a;
+  text-decoration: none;
 }
 
 ::-webkit-scrollbar {

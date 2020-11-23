@@ -1,4 +1,15 @@
-<div class="common-container">
+<div class="w-100 b-sm">
+  <div class="inner-head">
+    <div class="back-icon">
+      <a href="/home" class="sldlsd"><span class="glyphicon glyphicon-arrow-left"></span></a>
+    </div>
+    <div class="head-content">
+      <h5> financial statement </h5>
+    </div>
+  </div>
+</div> <!-- w-100 end -->
+
+<div class="common-container mt-3">
   <form [formGroup]="reportForm" (ngSubmit)="search()">
     <div class="container-fluid">
       <div class="col-md-2">
@@ -117,7 +128,7 @@
             <button
               type="button"
               for=""
-              class="btn btn-warning btn-block"
+              class="btn btn-primary btn-block"
               (click)="openUlbModal(UlbModal)"
             >
               Select State / ULB <i class="text-danger">*</i></button
@@ -149,7 +160,7 @@
             <br /><br />
             <a
               style="float: right; text-decoration: underline;"
-              (click)="routerTo('/dashboard/data-tracker')"
+              (click)="routerTo('/financial-statement/data-tracker')"
               >Download Source Files</a
             >
           </div>
@@ -157,10 +168,7 @@
       </div>
 
       <div class="col-md-10">
-        <div
-          class="financial-tab-text"
-          *ngIf="!reportForm?.value?.ulbList?.length"
-        >
+        <div class="financial-tab-text" *ngIf="!clickedOnGenerateReport">
           <h3>
             View and download annual financial statements of Urban Local Bodies
             (ULBs)
@@ -208,7 +216,7 @@
     </button>
   </div> -->
 
-  <div>
+  <div class="finance-statement-popup">
     <div
       class="modal-header col-md-12"
       style="display: inline-flex; align-items: center;"
@@ -349,7 +357,7 @@
                 reportForm.controls['isComparative'].value
               )
             "
-            >Base ULB
+            >Base ULB {{ ulbTypeSelected }}
             <i
               class="fa fa-info-circle"
               aria-hidden="true"
@@ -395,10 +403,18 @@
                   getTotalULBSelectedBy(state.key)) ||
                 (ulbTypeSelected === 'base' &&
                   baseULBSelected?.state === state?.value?.state),
-              activeState: currentStateInView?.key === state?.key
+              activeState:
+                currentStateInView && currentStateInView?.key === state?.key
             }"
           >
-            <a data-toggle="tab" class="active" (click)="showState(state)">
+            <a
+              data-toggle="tab"
+              class="active"
+              (click)="showState(state)"
+              [ngClass]="{
+                'disable-state-link': !reportForm.value.yearList.length
+              }"
+            >
               <input
                 #stateClear
                 *ngIf="ulbTypeSelected === 'other'"
