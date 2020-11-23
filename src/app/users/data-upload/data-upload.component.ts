@@ -270,27 +270,30 @@ export class DataUploadComponent
 
   onclickTotalNoOfULB() {
     this.ulbFilter.reset();
-    const element = document.getElementById("ulb-list");
-    element.scrollIntoView({ behavior: "smooth" });
+    this.scrollToElement("ulb-list");
   }
 
   onClickingOtherCards(body) {
     this.ulbFilter.reset(body);
-    const element = document.getElementById("ulb-list");
+    this.scrollToElement("ulb-list");
+  }
+
+  scrollToElement(elementId: string) {
+    const element = document.getElementById(`${elementId}`);
     element.scrollIntoView({ behavior: "smooth" });
   }
 
   initializeULBFormGroup() {
     this.ulbFilter = this.formBuilder.group({
       ulbName: [],
-      stateName: [],
+      stateName: [""],
       ulbType: [],
       censusCode: [],
       sbCode: [],
       email: [],
       mobile: [],
-      isMillionPlus: [],
-      registration: [],
+      isMillionPlus: [""],
+      registration: [""],
     });
 
     this.ulbFilter.valueChanges
@@ -314,6 +317,7 @@ export class DataUploadComponent
       ) as HTMLCanvasElement;
 
       const ctx = canvasElement.getContext("2d");
+      const backgroundColor = barChartData["backgroundColor"];
 
       const myBar = new Chart(ctx, {
         type: "bar",
