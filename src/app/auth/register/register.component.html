@@ -3,23 +3,17 @@
     <div class="align-items-center d-flex flex-wrap">
       <div class="col-xs-12 col-sm-12 col-md-6">
         <div class="card">
-          <div class="card-body border sign-up sign-in bg-white">
-            <h4 class="text-left">Sign Up</h4>
+          <div class="card-body border register bg-white">
+            <h5 class="text-left"><b>Sign Up</b></h5>
 
             <div class="col-xs-12 mb-2">
               <div class="row">
                 <h3 *ngIf="!registrationType">Select User Type</h3>
-                <app-user-type-confirmation
-                  *ngIf="!registrationType"
-                  (userTypeSelected)="onSelectionUserType($event)"
-                ></app-user-type-confirmation>
+                <app-user-type-confirmation *ngIf="!registrationType" (userTypeSelected)="onSelectionUserType($event)">
+                </app-user-type-confirmation>
 
-                <form
-                  class="registration-form"
-                  *ngIf="registrationType === 'user'"
-                  [formGroup]="registrationForm"
-                  (ngSubmit)="signup(registrationForm)"
-                >
+                <form class="registration-form" *ngIf="registrationType === 'user'" [formGroup]="registrationForm"
+                  (ngSubmit)="signup(registrationForm)">
                   <!-- <div class="input-group">
                     <input
                       id="name"
@@ -32,30 +26,18 @@
                       }"
                     />
                   </div> -->
-                  <mat-form-field
-                    class="example-full-width"
-                    appearance="outline"
-                  >
-                    <mat-label
-                      >User name<span style="color: red">*</span></mat-label
-                    >
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label class="text-gray">User name<span style="color: red">*</span></mat-label>
 
-                    <input
-                      [formControl]="registrationForm.controls['name']"
-                      matInput
-                    />
+                    <input [formControl]="registrationForm.controls['name']" matInput />
                   </mat-form-field>
-                  <small
-                    *ngIf="GetFormControlErrors('name') as error"
-                    class="form-field-error-message"
-                  >
+                  <small *ngIf="GetFormControlErrors('name') as error" class="form-field-error-message">
                     <span *ngIf="error?.required">
                       User name cannot be empty.
                     </span>
                     <span *ngIf="error?.pattern">
                       User name must of only Alphabet characters only and 1st
-                      letter must be capital.</span
-                    >
+                      letter must be capital.</span>
                   </small>
 
                   <!-- <div class="input-group">
@@ -69,29 +51,17 @@
                       }"
                     />
                   </div> -->
-                  <mat-form-field
-                    class="example-full-width"
-                    appearance="outline"
-                  >
-                    <mat-label
-                      >Email ID<span style="color: red">*</span></mat-label
-                    >
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label class="text-gray">Email ID<span style="color: red">*</span></mat-label>
 
-                    <input
-                      [formControl]="registrationForm.controls['email']"
-                      matInput
-                    />
+                    <input [formControl]="registrationForm.controls['email']" matInput />
                   </mat-form-field>
-                  <small
-                    *ngIf="GetFormControlErrors('email') as error"
-                    class="form-field-error-message"
-                  >
+                  <small *ngIf="GetFormControlErrors('email') as error" class="form-field-error-message">
                     <span *ngIf="error?.required">
                       Email ID cannot be empty.
                     </span>
                     <span *ngIf="error?.email === false">
-                      Email Id is not valid</span
-                    >
+                      Email Id is not valid</span>
                   </small>
 
                   <!-- <div class="input-group">
@@ -105,23 +75,12 @@
                       }"
                     />
                   </div> -->
-                  <mat-form-field
-                    class="example-full-width"
-                    appearance="outline"
-                  >
-                    <mat-label
-                      >Mobile No<span style="color: red">*</span></mat-label
-                    >
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label class="text-gray">Mobile No<span style="color: red">*</span></mat-label>
 
-                    <input
-                      [formControl]="registrationForm.controls['mobile']"
-                      matInput
-                    />
+                    <input [formControl]="registrationForm.controls['mobile']" matInput />
                   </mat-form-field>
-                  <small
-                    *ngIf="GetFormControlErrors('mobile') as error"
-                    class="form-field-error-message"
-                  >
+                  <small *ngIf="GetFormControlErrors('mobile') as error" class="form-field-error-message">
                     <span *ngIf="error?.required">
                       Mobile No cannot be empty.
                     </span>
@@ -142,23 +101,12 @@
                       }"
                     />
                   </div> -->
-                  <mat-form-field
-                    class="example-full-width"
-                    appearance="outline"
-                  >
-                    <mat-label
-                      >Designation<span style="color: red">*</span></mat-label
-                    >
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label class="text-gray">Designation<span style="color: red">*</span></mat-label>
 
-                    <input
-                      [formControl]="registrationForm.controls['designation']"
-                      matInput
-                    />
+                    <input [formControl]="registrationForm.controls['designation']" matInput />
                   </mat-form-field>
-                  <small
-                    *ngIf="GetFormControlErrors('designation') as error"
-                    class="form-field-error-message"
-                  >
+                  <small *ngIf="GetFormControlErrors('designation') as error" class="form-field-error-message">
                     <span *ngIf="error?.required">
                       Designation cannot be empty.
                     </span>
@@ -175,25 +123,12 @@
                       }"
                     />
                   </div> -->
-                  <mat-form-field
-                    class="example-full-width"
-                    appearance="outline"
-                  >
-                    <mat-label
-                      >Organisation/Instituition Name<span style="color: red"
-                        >*</span
-                      ></mat-label
-                    >
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label class="text-gray">Organisation/Instituition Name<span style="color: red">*</span></mat-label>
 
-                    <input
-                      [formControl]="registrationForm.controls['organization']"
-                      matInput
-                    />
+                    <input [formControl]="registrationForm.controls['organization']" matInput />
                   </mat-form-field>
-                  <small
-                    *ngIf="GetFormControlErrors('organization') as error"
-                    class="form-field-error-message"
-                  >
+                  <small *ngIf="GetFormControlErrors('organization') as error" class="form-field-error-message">
                     <span *ngIf="error?.required">
                       Organisation/Instituition Name cannot be empty.
                     </span>
@@ -211,24 +146,12 @@
                       }"
                     />
                   </div> -->
-                  <mat-form-field
-                    class="example-full-width"
-                    appearance="outline"
-                  >
-                    <mat-label
-                      >Password<span style="color: red">*</span></mat-label
-                    >
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label class="text-gray">Password<span style="color: red">*</span></mat-label>
 
-                    <input
-                      type="password"
-                      [formControl]="registrationForm.controls['password']"
-                      matInput
-                    />
+                    <input type="password" [formControl]="registrationForm.controls['password']" matInput />
                   </mat-form-field>
-                  <small
-                    *ngIf="GetFormControlErrors('password') as error"
-                    class="form-field-error-message"
-                  >
+                  <small *ngIf="GetFormControlErrors('password') as error" class="form-field-error-message">
                     <span *ngIf="error?.password">
                       {{ error.password }}
                     </span>
@@ -248,28 +171,14 @@
                       }"
                     />
                   </div> -->
-                  <mat-form-field
-                    class="example-full-width"
-                    appearance="outline"
-                  >
-                    <mat-label
-                      >Confirm Password<span style="color: red"
-                        >*</span
-                      ></mat-label
-                    >
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label class="text-gray">Confirm Password<span style="color: red">*</span></mat-label>
 
-                    <input
-                      type="password"
-                      [formControl]="
+                    <input type="password" [formControl]="
                         registrationForm.controls['confirmPassword']
-                      "
-                      matInput
-                    />
+                      " matInput />
                   </mat-form-field>
-                  <small
-                    *ngIf="GetFormControlErrors('confirmPassword') as error"
-                    class="form-field-error-message"
-                  >
+                  <small *ngIf="GetFormControlErrors('confirmPassword') as error" class="form-field-error-message">
                     <span *ngIf="error?.passwordMisMatch">
                       {{ error.passwordMisMatch }}
                     </span>
@@ -280,10 +189,7 @@
                   </small>
 
                   <p *ngIf="formError">
-                    <span
-                      *ngFor="let error of formError; let i = index"
-                      style="display: block; color: red"
-                    >
+                    <span *ngFor="let error of formError; let i = index" style="display: block; color: red">
                       {{ i + 1 }}. {{ error }}
                     </span>
                   </p>
@@ -294,30 +200,19 @@
                     {{ respone.successMessage }}
                   </p>
 
-                  <re-captcha
-                    *ngIf="reCaptcha.show"
-                    (resolved)="resolveCaptcha($event)"
-                    [siteKey]="reCaptcha.siteKey"
-                  ></re-captcha>
+                  <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey">
+                  </re-captcha>
 
                   <div class="input-group mt-2" style="width: 100%">
-                    <button
-                      style="width: 100%"
-                      type="submit"
-                      class="btn btn-primary"
-                      [disabled]="!registrationForm.valid"
-                    >
+                    <button style="width: 100%" type="submit" class="btn btn-primary"
+                      [disabled]="!registrationForm.valid">
                       Sign up
                     </button>
                   </div>
                 </form>
 
-                <form
-                  class="registration-form"
-                  [formGroup]="registrationForm"
-                  (ngSubmit)="signup(registrationForm)"
-                  *ngIf="registrationType === 'ulb'"
-                >
+                <form class="registration-form" [formGroup]="registrationForm" (ngSubmit)="signup(registrationForm)"
+                  *ngIf="registrationType === 'ulb'">
                   <div class="error-text col-xs-12" *ngIf="badCredentials">
                     <p class="text-danger">Invalid Username or Password!!</p>
                   </div>
@@ -346,14 +241,10 @@
                   </div> -->
 
                   <mat-form-field appearance="outline">
-                    <mat-label
-                      >State<span style="color: red">*</span>
+                    <mat-label class="text-gray">State<span style="color: red">*</span>
                     </mat-label>
                     <mat-select formControlName="state">
-                      <mat-option
-                        *ngFor="let state of stateList"
-                        [value]="state._id"
-                      >
+                      <mat-option *ngFor="let state of stateList" [value]="state._id">
                         {{ state.name }}
                       </mat-option>
                     </mat-select>
@@ -390,24 +281,12 @@
                   </div> -->
 
                   <mat-form-field appearance="outline">
-                    <mat-label
-                      >Urban Local Body<span style="color: red"
-                        >*</span
-                      ></mat-label
-                    >
+                    <mat-label class="text-gray">Urban Local Body<span style="color: red">*</span></mat-label>
                     <mat-select formControlName="name">
-                      <mat-option
-                        value=""
-                        *ngIf="ulbList && !ulbList.length"
-                        selected
-                        disabled
-                      >
+                      <mat-option value="" *ngIf="ulbList && !ulbList.length" selected disabled>
                         NO Urban Local Body Available
                       </mat-option>
-                      <mat-option
-                        *ngFor="let ulb of ulbList"
-                        [value]="ulb.name"
-                      >
+                      <mat-option *ngFor="let ulb of ulbList" [value]="ulb.name">
                         {{ ulb.name }}
                       </mat-option>
                     </mat-select>
@@ -428,20 +307,10 @@
                     ></i>
                   </div> -->
 
-                  <mat-form-field
-                    class="example-full-width"
-                    appearance="outline"
-                  >
-                    <mat-label
-                      >Census Code/ULB Code<span style="color: red"
-                        >*</span
-                      ></mat-label
-                    >
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label class="text-gray">Census Code/ULB Code<span style="color: red">*</span></mat-label>
 
-                    <input
-                      [formControl]="registrationForm.controls['ulb']"
-                      matInput
-                    />
+                    <input [formControl]="registrationForm.controls['ulb']" matInput />
                   </mat-form-field>
 
                   <small *ngIf="ulbCodeError" class="form-field-error-message">
@@ -525,35 +394,21 @@
                     />
                   </div> -->
 
-                  <mat-form-field
-                    class="example-full-width"
-                    appearance="outline"
-                  >
-                    <mat-label
-                      >XV FC Nodal Officer Name<span style="color: red"
-                        >*</span
-                      ></mat-label
-                    >
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label class="text-gray">XV FC Nodal Officer Name<span style="color: red">*</span></mat-label>
 
-                    <input
-                      [formControl]="
+                    <input [formControl]="
                         registrationForm.controls['accountantName']
-                      "
-                      matInput
-                    />
+                      " matInput />
                   </mat-form-field>
 
-                  <small
-                    *ngIf="GetFormControlErrors('accountantName') as error"
-                    class="form-field-error-message"
-                  >
+                  <small *ngIf="GetFormControlErrors('accountantName') as error" class="form-field-error-message">
                     <span *ngIf="error?.required">
                       XV FC Nodal Officer Name cannot be empty.
                     </span>
                     <span *ngIf="error?.pattern">
                       XV FC Nodal Officer Name must of only Alphabet characters
-                      only and 1st letter must be capital.</span
-                    >
+                      only and 1st letter must be capital.</span>
                   </small>
                   <!-- 
                   <div class="input-group">
@@ -573,30 +428,17 @@
                     />
                   </div> -->
 
-                  <mat-form-field
-                    class="example-full-width"
-                    appearance="outline"
-                  >
-                    <mat-label
-                      >XV FC Nodal Officer Contact No<span style="color: red"
-                        >*</span
-                      ></mat-label
-                    >
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label class="text-gray">XV FC Nodal Officer Contact No<span style="color: red">*</span></mat-label>
 
-                    <input
-                      [formControl]="
+                    <input [formControl]="
                         registrationForm.controls['accountantConatactNumber']
-                      "
-                      matInput
-                    />
+                      " matInput />
                   </mat-form-field>
 
-                  <small
-                    *ngIf="
+                  <small *ngIf="
                       GetFormControlErrors('accountantConatactNumber') as error
-                    "
-                    class="form-field-error-message"
-                  >
+                    " class="form-field-error-message">
                     <span *ngIf="error?.required">
                       Contact No cannot be empty.
                     </span>
@@ -621,41 +463,24 @@
                     />
                   </div> -->
 
-                  <mat-form-field
-                    class="example-full-width"
-                    appearance="outline"
-                  >
-                    <mat-label
-                      >XV FC Nodal Officer Email ID<span style="color: red"
-                        >*</span
-                      ></mat-label
-                    >
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label class="text-gray">XV FC Nodal Officer Email ID<span style="color: red">*</span></mat-label>
 
-                    <input
-                      [formControl]="
+                    <input [formControl]="
                         registrationForm.controls['accountantEmail']
-                      "
-                      matInput
-                    />
+                      " matInput />
                   </mat-form-field>
 
-                  <small
-                    *ngIf="GetFormControlErrors('accountantEmail') as error"
-                    class="form-field-error-message"
-                  >
+                  <small *ngIf="GetFormControlErrors('accountantEmail') as error" class="form-field-error-message">
                     <span *ngIf="error?.required">
                       Email ID cannot be empty.
                     </span>
                     <span *ngIf="error?.email === false">
-                      Email Id is not valid</span
-                    >
+                      Email Id is not valid</span>
                   </small>
 
                   <p *ngIf="formError">
-                    <span
-                      *ngFor="let error of formError; let i = index"
-                      style="display: block; color: red"
-                    >
+                    <span *ngFor="let error of formError; let i = index" style="display: block; color: red">
                       {{ i + 1 }}. {{ error }}
                     </span>
                   </p>
@@ -666,19 +491,11 @@
                   <p *ngIf="respone.successMessage" class="success-message">
                     {{ respone.successMessage }}
                   </p>
-                  <re-captcha
-                    *ngIf="reCaptcha.show"
-                    (resolved)="resolveCaptcha($event)"
-                    [siteKey]="reCaptcha.siteKey"
-                  ></re-captcha>
+                  <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey">
+                  </re-captcha>
 
                   <div class="input-group mt-1" style="width: 100%">
-                    <button
-                      style="width: 100%"
-                      type="submit"
-                      class="btn btn-primary"
-                      [disabled]="!canSubmitForm()"
-                    >
+                    <button style="width: 100%" type="submit" class="btn btn-primary" [disabled]="!canSubmitForm()">
                       Sign up
                     </button>
                   </div>
@@ -689,8 +506,7 @@
               <p class="text-dark last-para" style="text-align: center">
                 <span class="mt-1">
                   Already have an Account!
-                  <a routerLink="/login">Sign in here</a></span
-                >
+                  <a routerLink="/login">Sign in here</a></span>
               </p>
             </div>
           </div>
@@ -698,19 +514,14 @@
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 text-center image-side">
         <div class="img-wrapper text-center">
-          <img
-            src="../assets/images/Group 13309.png"
-            class="img-responsive m-auto"
-          />
+          <img src="../assets/images/Group 13309.png" class="img-responsive m-auto" />
         </div>
 
-        <P
-          >If you have any query or stuck with anything please email us at
+        <P class="support-text">If you have any query or stuck with anything please email us at
           <br />
-          <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a
-          >. <br /><br />
-          We will get back to you within 16 hours.</P
-        >
+          <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a>.
+          </P>
+          <p>We will get back to you within 16 hours.</p>
       </div>
     </div>
   </div>
