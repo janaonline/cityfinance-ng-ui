@@ -2,8 +2,7 @@
   background-image: url("../../../../../assets/images/backgrounds/Path.png");
   background-repeat: no-repeat;
   background-position: left;
-  min-height: 100vh;
-  max-height: auto;
+  min-height: calc(100vh - 92px);
   // background-size: contain;
   background-size: 81% 100%;
   .text-white {
@@ -13,7 +12,7 @@
     font-size: 13px;
     font-family: "Roboto", sans-serif;
     color: #ffffff;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   h1 {
     color: #ffffff;
@@ -58,6 +57,9 @@
   }
   ul {
     list-style-type: disc;
+    li{
+      font-size: 13px;
+    }
     li,
     li > * {
       color: #c3cb24;
@@ -68,13 +70,12 @@
     a {
       color: #06868c;
       font-size: 14px;
-      font-weight: 500;
     }
     p a {
       text-decoration: underline;
     }
     .btn {
-      margin: 40px 15px 5px;
+      margin: 30px 15px 30px;
       padding: 10px 20px;
       color: #ffffff;
       box-shadow: 0px 3px 5px #b5b5b5;
@@ -82,6 +83,116 @@
   }
   .flex-wrap {
     flex-wrap: wrap;
+  }
+  .support-text{
+    margin-bottom: 5px;
+  }
+
+}
+
+.form-field-error-message {
+  margin-bottom: 20px!important;
+}
+/*form styles*/
+#msform {
+	width: 500px;
+	margin: 20px auto;
+	text-align: center;
+  position: relative;
+  max-width: 100%;
+}
+
+/*progressbar*/
+.progressbar {
+	overflow: hidden;
+	/*CSS counters to number the steps*/
+  counter-reset: step;
+  padding: 0;
+  margin-bottom: 0;
+}
+.progressbar li {
+	list-style-type: none;
+	color:#585858!important;
+	text-transform: uppercase;
+	font-size: 12px;
+  width: 20%;
+	float: left;
+	position: relative;
+}
+.progressbar li:before {
+	content: counter(step);
+	counter-increment: step;
+  width: 24px;
+  line-height: 24px;
+	display: block;
+	font-size: 10px;
+	color: #fff;
+	// background: white;
+  border-radius: 50%;
+  margin: 0 auto 5px auto;
+  border: 1px solid #808080;
+}
+/*progressbar connectors*/
+.progressbar li:after {
+	content: '';
+	width: 100%;
+	height: 3px;
+	background: #dad6d6;
+	position: absolute;
+	left: -50%;
+	top: 9px;
+	z-index: -1; /*put it behind the numbers*/
+}
+.progressbar li:first-child:after {
+	/*connector not needed before the first step*/
+	content: none; 
+}
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+// .progressbar li.active:before,  .progressbar li.active:after{
+// 	background: #27AE60;
+// 	color: white;
+// }
+// .progressbar li.active:before,  .progressbar li.active:after{
+// 	background: #27AE60;
+// 	color: white;
+// }
+
+// .completed:before, .completed:after{
+// 	background: #91ec95;
+// }
+.completed[_ngcontent-c5]:before {
+  background: #91ec95;
+  content: '\f00c'!important;
+  font-family: 'FontAwesome';
+}
+
+.active:before, .active:after{
+	background: #fdea74;
+}
+.pending:before, .pending:after{
+	background: #A3A2A2;
+}
+
+
+
+.container {
+  overflow-y: hidden;
+  margin-left: -1vw;
+  // height: 1000px;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+  overflow: -moz-scrollbars-none;
+}
+
+:host {
+  .progress {
+    width: 27vw;
+    border: 1px solid #d1d1d1;
+    background: #cbcbcb;
+    margin: 1% 0 1% 0;
   }
 }
 
@@ -102,24 +213,7 @@
   .container-fluid{
     padding: 0;
   }
-}
-
-.container {
-  overflow-y: hidden;
-  margin-left: -1vw;
-  // height: 1000px;
-}
-
-.container::-webkit-scrollbar {
-  display: none;
-  overflow: -moz-scrollbars-none;
-}
-
-:host {
-  .progress {
-    width: 27vw;
-    border: 1px solid #d1d1d1;
-    background: #cbcbcb;
-    margin: 1% 0 1% 0;
+  .login-wrapper{
+    margin: 50px 0;
   }
 }
