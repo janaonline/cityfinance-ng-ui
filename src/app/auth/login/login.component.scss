@@ -96,10 +96,6 @@
   text-align: center;
   padding: 25px;
   border-radius: 10px;
-  .mat-form-field-infix {
-    max-width: 100% !important;
-    min-width: 300px;
-  }
   .forget span {
     color: #2c2c2c;
   }
@@ -127,12 +123,16 @@
     right: 0;
     bottom: -5px;
   }
+  .mat-form-field {
+    width: 100%;
+}
 }
 
 @media only screen and (min-width: 300px) and (max-width: 1024px) {
   .fc-grant {
     height: auto;
     background-size: cover;
+    background-color: #067882;
   }
 
   .image-side p,
@@ -148,10 +148,7 @@
   }
   .sign-in {
     width: 100%;
-}
-.sign-in .mat-form-field-infix {
-    max-width: 100% !important;
-    min-width: 100%;
+    margin-top: 50px;
 }
 }
 
