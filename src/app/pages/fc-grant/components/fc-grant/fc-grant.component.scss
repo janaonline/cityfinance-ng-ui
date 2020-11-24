@@ -86,23 +86,20 @@
 
 @media only screen and (min-width: 300px) and (max-width: 1024px) {
   .fc-grant-2 {
-    height: auto;
-    background-image: none;
     background-size: cover;
-    background-color: #ffffff;
-  }
-
-  .image-side p,
-  .image-side a {
-    color: #000 !important;
-    font-size: 14px;
-    font-weight: 500;
-  }
+}
   .image-side .btn {
     color: #ffffff;
   }
-  .text-white,p,h1,td {
-    color: #2d2d2d!important;
+  .image-side{
+    background-color: #ffffff;
+    padding: 0;
+  }
+  .image-side .img-wrapper, .image-side p{
+    padding: 0 15px;
+  }
+  .container-fluid{
+    padding: 0;
   }
 }
 
