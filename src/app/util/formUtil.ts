@@ -3,6 +3,8 @@ import { of } from 'rxjs';
 
 import { PasswordValidator } from './passwordValidator';
 import {
+  CommisionormobileNoValidator,
+  CommissionercustomEmailValidator,
   customEmailValidator,
   customPasswordValidator,
   mobileNoValidator,
@@ -70,20 +72,14 @@ export class FormUtil {
     const baseForm = this.fb.group({
       state: ["", [Validators.required]],
       ulb: ["", [Validators.required]],
-      // commissionerName: [
-      //   "",
-      //   [Validators.required, Validators.pattern(this.regexForUserName)],
-      // ],
-      // commissionerConatactNumber: [
-      //   "",
-      //   [Validators.required, mobileNoValidator],
-      // ],
+      commissionerName: ["", [Validators.pattern(this.regexForUserName)]],
+      commissionerConatactNumber: ["", [CommisionormobileNoValidator]],
       name: ["", [Validators.required, nonEmptyValidator]],
 
-      // commissionerEmail: [
-      //   "",
-      //   [Validators.required, Validators.email, customEmailValidator],
-      // ],
+      commissionerEmail: [
+        "",
+        [Validators.email, CommissionercustomEmailValidator],
+      ],
       accountantName: [
         "",
         [Validators.required, Validators.pattern(this.regexForUserName)],
@@ -265,12 +261,12 @@ export class FormUtil {
    */
   public validateULBSignUPForm(form: FormGroup) {
     const errors: string[] = [];
-    let commissionerEmail: string = form.controls.commissionerEmail.value;
+    // let commissionerEmail: string = form.controls.commissionerEmail.value;
     let accountantEmail: string = form.controls.accountantEmail.value;
 
-    commissionerEmail = commissionerEmail
-      ? commissionerEmail.trim()
-      : commissionerEmail;
+    // commissionerEmail = commissionerEmail
+    //   ? commissionerEmail.trim()
+    //   : commissionerEmail;
     accountantEmail = accountantEmail
       ? accountantEmail.trim()
       : accountantEmail;
@@ -288,6 +284,7 @@ export class FormUtil {
       const control = form.controls[controlName];
       if (!control.valid) {
         const newControlName = controlName.split(/(?=[A-Z])/).join(" ");
+        console.log("newControlName", newControlName);
         if (control.errors && control.errors.required) {
           return errors.push(
             `${
