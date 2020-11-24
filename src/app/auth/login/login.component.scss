@@ -146,6 +146,13 @@
     padding: 10px 20px;
     color: #ffffff;
   }
+  .sign-in {
+    width: 100%;
+}
+.sign-in .mat-form-field-infix {
+    max-width: 100% !important;
+    min-width: 100%;
+}
 }
 
 .container {
@@ -168,4 +175,13 @@
   .error-message {
     margin-top: 1rem;
   }
+}
+.img-wrapper {
+  margin-bottom: 30px;
+}
+.user {
+  margin-bottom: 20px;
+}
+.user {
+  margin-bottom: 20px;
 }

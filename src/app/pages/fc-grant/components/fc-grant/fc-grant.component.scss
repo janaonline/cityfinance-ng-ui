@@ -58,7 +58,8 @@
   }
   ul {
     list-style-type: disc;
-    li {
+    li,
+    li > * {
       color: #c3cb24;
     }
   }
