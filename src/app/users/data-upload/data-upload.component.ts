@@ -75,7 +75,13 @@ export class DataUploadComponent
     this.setTableHeaderByUserType();
     this.modalService.onHide.subscribe(() => (this.isPopupOpen = false));
     this.initializeULBFormGroup();
-    this.fetchULBList();
+    if (this.loggedInUserData.role !== USER_TYPE.STATE) {
+      this.fetchULBList();
+    } else {
+      this.tableHeaders = this.tableHeaders.filter(
+        (header) => header.id !== "stateName"
+      );
+    }
     this.fetchChartData();
     this.fetchCardData();
   }
@@ -256,9 +262,12 @@ export class DataUploadComponent
 
   jsonUtil = new JSONUtility();
 
+  loggedInUserData = new UserUtility().getLoggedInUserDetails();
+
   ngOnInit() {
     // this.fetchFinancialYears();
     this.fetchStateList();
+    if (this.loggedInUserData.role === USER_TYPE.STATE) return;
     if (!this.id) {
       this.getFinancialDataList(
         { skip: this.listFetchOption.skip, limit: 10 },
@@ -300,13 +309,23 @@ export class DataUploadComponent
   }
 
   onclickTotalNoOfULB() {
-    this.ulbFilter.reset();
+    const stateName =
+      this.loggedInUserData.role === USER_TYPE.STATE
+        ? this.ulbFilter.value.stateName
+        : null;
+    this.ulbFilter.reset({ stateName, isMillionPlus: "", registration: "" });
     this.scrollToElement("ulb-list");
   }
 
   onClickingOtherCards(body) {
     console.log("body", body);
-    this.ulbFilter.reset(body);
+    const stateName =
+      this.loggedInUserData.role === USER_TYPE.STATE
+        ? this.ulbFilter.value.stateName
+        : null;
+    if (!body) body = { stateName };
+    body = { isMillionPlus: "", registration: "", ...body, stateName };
+    this.ulbFilter.reset({ ...body });
     this.scrollToElement("ulb-list");
   }
 
@@ -461,10 +480,14 @@ export class DataUploadComponent
 
   private fetchStateList() {
     this._commonService.getStateUlbCovered().subscribe((res) => {
-      this.stateList = res.data;
-      // res.data.forEach((state) => {
-      //   this.statesByID[state._id] = state;
-      // });
+      if (this.loggedInUserData.role === USER_TYPE.STATE) {
+        this.stateList = res.data.filter(
+          (state) => state._id === this.loggedInUserData.state
+        );
+        this.ulbFilter.controls.stateName.patchValue(this.stateList[0].name);
+        this.stateNameControl.patchValue(this.stateList[0].name);
+        this.applyFilterClicked();
+      } else this.stateList = res.data;
     });
   }
 

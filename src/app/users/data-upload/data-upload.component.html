@@ -149,7 +149,10 @@
             </span>
           </div>
 
-          <div class="view-list" (click)="onClickingOtherCards()">
+          <div
+            class="view-list"
+            (click)="onClickingOtherCards({ registration: 'Yes' })"
+          >
             View List
           </div>
         </div>
@@ -432,7 +435,7 @@
               >Show Not Registered ULBs</mat-slide-toggle
             >
           </p>
-          <canvas id="canvas" width="150" height="43"></canvas>
+          <canvas id="canvas" width="150" height="49"></canvas>
           <div
             class="view-list"
             (click)="scrollToElement('data-upload-tracker-list')"
@@ -467,7 +470,12 @@
             <thead>
               <tr class="" style="color: white">
                 <th scope="S.No" class="text-center">S.No.</th>
-                <th scope="State Name" class="text-center" style="width: 9%">
+                <th
+                  *ngIf="loggedInUserData.role !== userTypes.STATE"
+                  scope="State Name"
+                  class="text-center"
+                  style="width: 9%"
+                >
                   State Name
                 </th>
                 <th scope="ULB Name" class="text-center">ULB Name</th>
@@ -485,7 +493,7 @@
             <tbody>
               <tr [formGroup]="ulbFilter">
                 <td></td>
-                <td>
+                <td *ngIf="loggedInUserData.role !== userTypes.STATE">
                   <div class="input-group">
                     <select
                       name="State"
@@ -612,7 +620,9 @@
                   <td>
                     {{ (ulbtableDefaultOptions?.currentPage - 1) * 10 + i + 1 }}
                   </td>
-                  <td>{{ row.stateName }}</td>
+                  <td *ngIf="loggedInUserData.role !== userTypes.STATE">
+                    {{ row.stateName }}
+                  </td>
                   <td>{{ row.ulbName }}</td>
 
                   <td>{{ row.ulbType }}</td>
@@ -726,7 +736,7 @@
             <tbody>
               <tr [formGroup]="fileFormGroup">
                 <td></td>
-                <td>
+                <td *ngIf="loggedInUserData.role !== userTypes.STATE">
                   <div class="input-group">
                     <select
                       name="State"
