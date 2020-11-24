@@ -161,6 +161,7 @@ export class DataUploadComponent
   loading = false;
   uploadStatusFormControl: FormControl = new FormControl("");
   ulbNameSearchFormControl: FormControl = new FormControl();
+  ulbTypeSearchFormControl: FormControl = new FormControl("");
   ulbCodeSearchFormControl: FormControl = new FormControl();
   stateNameControl = new FormControl("");
   censusCode: FormControl = new FormControl();
@@ -312,8 +313,13 @@ export class DataUploadComponent
     const stateName =
       this.loggedInUserData.role === USER_TYPE.STATE
         ? this.ulbFilter.value.stateName
-        : null;
-    this.ulbFilter.reset({ stateName, isMillionPlus: "", registration: "" });
+        : "";
+    this.ulbFilter.reset({
+      stateName,
+      isMillionPlus: "",
+      registration: "",
+      ulbType: "",
+    });
     this.scrollToElement("ulb-list");
   }
 
@@ -322,9 +328,15 @@ export class DataUploadComponent
     const stateName =
       this.loggedInUserData.role === USER_TYPE.STATE
         ? this.ulbFilter.value.stateName
-        : null;
+        : "";
     if (!body) body = { stateName };
-    body = { isMillionPlus: "", registration: "", ...body, stateName };
+    body = {
+      isMillionPlus: "",
+      registration: "",
+      ulbType: "",
+      ...body,
+      stateName,
+    };
     this.ulbFilter.reset({ ...body });
     this.scrollToElement("ulb-list");
   }
@@ -338,7 +350,7 @@ export class DataUploadComponent
     this.ulbFilter = this.formBuilder.group({
       ulbName: [],
       stateName: [""],
-      ulbType: [],
+      ulbType: [""],
       censusCode: [],
       sbCode: [],
       email: [],
@@ -583,7 +595,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  };
+  }
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -649,12 +661,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  };
+  }
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  };
+  }
 
   getAddedFilterCount() {
     let count = 0;
@@ -1027,6 +1039,7 @@ export class DataUploadComponent
         stateName: this.stateNameControl.value
           ? this.stateNameControl.value.trim()
           : "",
+        ulbType: this.ulbTypeSearchFormControl.value,
       },
     };
     return {
