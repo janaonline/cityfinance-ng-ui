@@ -350,6 +350,8 @@ export class DataUploadComponent
     this.ulbFilter.valueChanges
       .pipe(debounceTime(1000), distinctUntilChanged())
       .subscribe((newValue) => {
+        this.ulblistFetchOption.skip = 0;
+        this.ulbtableDefaultOptions.currentPage = 1;
         this.fetchULBList(newValue);
       });
   }
@@ -504,7 +506,7 @@ export class DataUploadComponent
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
-  private formatResponse(req: IFinancialData) {
+  private formatResponse(req: IFinancialData, history = false) {
     if (!req.isCompleted) {
       return {
         ...req,
@@ -516,13 +518,17 @@ export class DataUploadComponent
     let customStatusText;
     switch (req.actionTakenByUserRole) {
       case USER_TYPE.ULB:
-        customStatusText = UNDER_REVIEW_BY_STATE.itemName;
+        customStatusText = history
+          ? "Submitted By ULB"
+          : UNDER_REVIEW_BY_STATE.itemName;
         break;
       case USER_TYPE.STATE:
         if (req.status === UPLOAD_STATUS.REJECTED) {
           customStatusText = REJECT_BY_STATE.itemName;
         } else {
-          customStatusText = UNDER_REVIEW_BY_MoHUA.itemName;
+          customStatusText = history
+            ? "Approved by State"
+            : UNDER_REVIEW_BY_MoHUA.itemName;
         }
 
         break;
@@ -1163,7 +1169,7 @@ export class DataUploadComponent
       (result: HttpResponse<any>) => {
         if (result["success"]) {
           this.modalTableData = result["data"].map((data) =>
-            this.formatResponse(data)
+            this.formatResponse(data, true)
           );
           this.modalTableData = this.modalTableData
             .filter((row) => typeof row["actionTakenBy"] != "string")

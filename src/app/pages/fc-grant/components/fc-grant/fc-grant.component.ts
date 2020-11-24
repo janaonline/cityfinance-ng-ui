@@ -198,7 +198,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       (result: HttpResponse<any>) => {
         if (result["success"]) {
           this.formHistoricalData = result["data"].map((data) =>
-            this.formatResponse(data)
+            this.formatResponse(data, true)
           );
           this.formHistoricalData = this.formHistoricalData
             .filter((row) => typeof row["actionTakenBy"] != "string")
@@ -214,7 +214,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
     this.isPopupOpen = false;
   }
 
-  private formatResponse(req: IFinancialData) {
+  private formatResponse(req: IFinancialData, history = false) {
     if (!req.isCompleted) {
       return {
         ...req,
@@ -225,13 +225,17 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
     let customStatusText;
     switch (req.actionTakenByUserRole) {
       case USER_TYPE.ULB:
-        customStatusText = UNDER_REVIEW_BY_STATE.itemName;
+        customStatusText = history
+          ? "Submitted by ULB"
+          : UNDER_REVIEW_BY_STATE.itemName;
         break;
       case USER_TYPE.STATE:
         if (req.status === UPLOAD_STATUS.REJECTED) {
           customStatusText = REJECT_BY_STATE.itemName;
         } else {
-          customStatusText = UNDER_REVIEW_BY_MoHUA.itemName;
+          customStatusText = history
+            ? "Approved by STate"
+            : UNDER_REVIEW_BY_MoHUA.itemName;
         }
 
         break;
