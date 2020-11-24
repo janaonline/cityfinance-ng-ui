@@ -1,421 +1,3 @@
-// .credit-rating-btn,
-// .data-tracker-btn {
-//   float: right;
-//   background-color: rgb(110, 110, 2);
-//   color: white;
-//   border: none;
-//   margin: 0px 5px;
-// }
-// .card {
-//   position: absolute;
-//   top: 45%;
-//   transform: translateY(-50%);
-//   -webkit-box-shadow: 0px 10px 26px 6px rgba(176, 169, 176, 1);
-//   -moz-box-shadow: 0px 10px 26px 6px rgba(176, 169, 176, 1);
-//   box-shadow: 0px 10px 26px 6px rgba(176, 169, 176, 1);
-// }
-// .card .header {
-//   background: #0000ff;
-//   padding: 10px 15px 0px;
-//   color: #ffffff;
-// }
-// .card-body {
-//   background: #ffffff;
-// }
-// .card-body .input-group {
-//   margin-top: 15px;
-// }
-// .card-footer p span {
-//   color: #0000ff;
-// }
-// re-captcha {
-//   display: block;
-//   margin-top: 1%;
-// }
-// :host {
-//   app-user-type-confirmation {
-//     display: block;
-//     margin: 3% auto;
-//   }
-// }
-.container {
-  overflow-y: hidden;
-  margin-left: -1vw;
-  height: calc(100vh - 92px);
-
-  // height: 1000px;
-}
-
-// .container::-webkit-scrollbar {
-//     display: none;
-//     overflow: -moz-scrollbars-none;
-// }
-.A svg {
-  margin-left: -7vw;
-  padding-left: 0vw;
-  overflow-y: hidden;
-}
-
-.B img {
-  width: 480px;
-  height: 400px;
-  position: absolute;
-  top: 21%;
-  right: 9%;
-}
-
-.C {
-  width: 400px;
-  height: 400px;
-  position: absolute;
-  top: 28%;
-  left: 6%;
-  border: 1px solid #c4c4c4;
-  background-color: white;
-  border-radius: 5px;
-  // padding: 10px;
-}
-
-.inputbox {
-  height: 50px;
-  padding: 10px;
-  width: 300px;
-  display: block;
-  margin: auto;
-  border: 1px solid #c4c4c4;
-  border-radius: 5px;
-}
-
-.D C {
-  width: 100px;
-  height: 350px;
-}
-
-.forget {
-  color: black;
-  font-size: 12px;
-  position: absolute;
-  padding-left: 250px;
-}
-
-.E {
-  width: 550px;
-  // height: 550px;
-  top: 91%;
-  position: absolute;
-  right: 4%;
-  margin-bottom: 30px;
-  font-size: 15px;
-  font-weight: 200;
-  font-style: bold;
-  text-align: center;
-  text-decoration: none;
-  font: normal normal normal 14px/17px Roboto;
-  letter-spacing: 0px;
-  color: #06868c;
-}
-
-.buttontype {
-  width: 300px;
-  height: 45px;
-  top: 65%;
-  display: block;
-  margin: auto;
-  background-color: #06868c;
-  color: white;
-  border: 1px solid #c4c4c4;
-  border-radius: 4px;
-}
-
-.accountreactive {
-  text-align: center;
-  // padding-left: 110px;
-  // padding-top: 15px;
-  font-size: 23px;
-  padding-bottom: 4px;
-  font-family: Roboto;
-}
-
-.forgotpass {
-  padding-right: 8px;
-}
-
-.selectuser h3 {
-  // padding-left: 110px;
-  font-size: 20px;
-  padding-bottom: 13px;
-}
-
-.activateaccount {
-  padding-left: 48px;
-  padding-bottom: 50px;
-  bottom: 30px;
-}
-
-@media (max-width: 375px) {
-  .container {
-    margin-left: -5vw;
-    top: 15%;
-    width: 100%;
-    height: 70%;
-  }
-  .A svg {
-    margin-left: -20vw;
-    padding-left: 0vw;
-  }
-  .B img {
-    width: 550px;
-    height: 300px;
-    position: absolute;
-    top: 105%;
-    right: 1%;
-  }
-  .C {
-    width: 320px;
-    height: 320px;
-    position: absolute;
-    top: 28%;
-    left: 4%;
-    border: 1px solid #c4c4c4;
-    background-color: white;
-    border-radius: 5px;
-    // padding: 10px;
-  }
-  .inputbox {
-    height: 50px;
-    padding: 10px;
-    width: 300px;
-    display: block;
-    margin: auto;
-    border: 1px solid #c4c4c4;
-    border-radius: 5px;
-  }
-  .D C {
-    width: 100px;
-    height: 350px;
-  }
-  .E {
-    width: 350px;
-    height: 550px;
-    top: 92%;
-    position: absolute;
-    margin-bottom: 30px;
-    font-size: 15px;
-    font-weight: 200;
-    font-style: bold;
-    text-decoration: none;
-    font: normal normal normal 14px/17px Roboto;
-    letter-spacing: 0px;
-    color: #06868c;
-  }
-  .buttontype {
-    width: 300px;
-    height: 45px;
-    top: 65%;
-    display: block;
-    margin: auto;
-    background-color: #06868c;
-    color: white;
-    border: 1px solid #c4c4c4;
-    border-radius: 4px;
-    bottom: 25px;
-  }
-  .activateaccount {
-    padding-left: 48px;
-    padding-bottom: 50px;
-    bottom: 30px;
-  }
-}
-
-@media (max-width: 414px) {
-  .container {
-    margin-left: -5vw;
-    top: 15%;
-    width: 100%;
-    height: 70%;
-  }
-  .A svg {
-    margin-left: -20vw;
-    padding-left: 0vw;
-  }
-  .B img {
-    width: 350px;
-    height: 250px;
-    position: absolute;
-    top: 105%;
-    left: 5%;
-  }
-  .accountreactive {
-    padding-left: 60px;
-    padding-top: 20px;
-    font-size: 23px;
-  }
-  .forgotpass {
-    padding-right: 8px;
-  }
-  .selectuser h3 {
-    padding-left: 70px;
-    font-size: 20px;
-    padding-bottom: 13px;
-  }
-  .C {
-    width: 320px;
-    height: 320px;
-    position: absolute;
-    top: 28%;
-    left: 7%;
-    border: 1px solid #c4c4c4;
-    background-color: white;
-    border-radius: 5px;
-    // padding: 10px;
-  }
-  .E {
-    width: 350px;
-    height: 550px;
-    top: 143%;
-    left: 17px;
-    position: absolute;
-    margin-bottom: 30px;
-    font-size: 15px;
-    font-weight: 200;
-    font-style: bold;
-    text-decoration: none;
-    font: normal normal normal 14px/17px Roboto;
-    letter-spacing: 0px;
-    color: #06868c;
-  }
-}
-
-@media (max-width: 360px) {
-  .container {
-    margin-left: -5vw;
-    top: 15%;
-    width: 100%;
-    height: 70%;
-  }
-  .A svg {
-    margin-left: -20vw;
-    padding-left: 0vw;
-  }
-  .B img {
-    width: 350px;
-    height: 250px;
-    position: absolute;
-    top: 120%;
-    left: 3%;
-  }
-  .accountreactive {
-    padding-left: 60px;
-    padding-top: 20px;
-    font-size: 23px;
-  }
-  .forgotpass {
-    padding-right: 8px;
-  }
-  .selectuser h3 {
-    padding-left: 70px;
-    font-size: 20px;
-    padding-bottom: 13px;
-  }
-  .C {
-    width: 320px;
-    height: 320px;
-    position: absolute;
-    top: 28%;
-    left: 3%;
-    border: 1px solid #c4c4c4;
-    background-color: white;
-    border-radius: 5px;
-    // padding: 10px;
-  }
-  .E {
-    width: 350px;
-    height: 550px;
-    top: 162%;
-    left: 14px;
-    position: absolute;
-    margin-bottom: 30px;
-    font-size: 15px;
-    font-weight: 200;
-    font-style: bold;
-    text-decoration: none;
-    font: normal normal normal 14px/17px Roboto;
-    letter-spacing: 0px;
-    color: #06868c;
-  }
-}
-
-@media (max-width: 320px) {
-  .container {
-    margin-left: -5vw;
-    top: 25%;
-    width: 100%;
-    height: 70%;
-  }
-  .A svg {
-    margin-left: -20vw;
-    padding-left: 0vw;
-  }
-  .B img {
-    width: 290px;
-    height: 270px;
-    position: absolute;
-    top: 135%;
-    left: 5%;
-  }
-  .accountreactive {
-    padding-left: 60px;
-    padding-top: 20px;
-    font-size: 23px;
-  }
-  .forgotpass {
-    padding-right: 8px;
-  }
-  .selectuser h3 {
-    padding-left: 70px;
-    font-size: 20px;
-    padding-bottom: 13px;
-  }
-  .C {
-    width: 280px;
-    height: 320px;
-    position: absolute;
-    top: 28%;
-    left: 3%;
-    border: 1px solid #c4c4c4;
-    background-color: white;
-    border-radius: 5px;
-    // padding: 10px;
-  }
-  .E {
-    width: 280px;
-    height: 550px;
-    top: 188%;
-    left: 14px;
-    position: absolute;
-    margin-bottom: 30px;
-    font-size: 8px;
-    font-weight: 200;
-    font-style: bold;
-    text-decoration: none;
-    font: normal normal normal 14px/17px Roboto;
-    letter-spacing: 0px;
-    color: #06868c;
-  }
-}
-
-:host {
-  ::ng-deep {
-    .mat-form-field-flex {
-      border: 0px solid black !important;
-    }
-  }
-}
-
-
-
-
-
 .fc-grant {
   background-image: url("../../../assets/images/backgrounds/Path.png");
   background-repeat: no-repeat;
@@ -514,10 +96,6 @@
   text-align: center;
   padding: 25px;
   border-radius: 10px;
-  .mat-form-field-infix {
-    max-width: 100% !important;
-    min-width: 300px;
-  }
   .forget span {
     color: #2c2c2c;
   }
@@ -545,20 +123,17 @@
     right: 0;
     bottom: -5px;
   }
+  .mat-form-field {
+    width: 100%;
+  }
 }
 
 @media only screen and (min-width: 300px) and (max-width: 1024px) {
   .fc-grant {
-    height: auto;
     background-size: cover;
+    height: auto;
   }
 
-  .image-side p,
-  .image-side a {
-    color: #fff !important;
-    font-size: 14px;
-    font-weight: 500;
-  }
   .image-side .btn {
     margin: 20px 5px !important;
     padding: 10px 20px;
@@ -566,11 +141,22 @@
   }
   .sign-in {
     width: 100%;
-}
-.sign-in .mat-form-field-infix {
-    max-width: 100% !important;
-    min-width: 100%;
-}
+    margin: 50px 0;
+  }
+  .image-side .btn {
+    color: #ffffff;
+  }
+  .image-side {
+    background-color: #ffffff;
+    padding: 0;
+  }
+  .image-side .img-wrapper,
+  .image-side p {
+    padding: 15px 15px;
+  }
+  .container-fluid {
+    padding: 0;
+  }
 }
 
 .container {
@@ -585,13 +171,15 @@
 }
 
 :host {
-  
+  .card-body {
+    overflow: hidden !important;
+    overflow-y: hidden !important;
+  }
 
   .error-message {
     margin-top: 1rem;
   }
 }
-
 .img-wrapper {
   margin-bottom: 30px;
 }

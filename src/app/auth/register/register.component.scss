@@ -2,14 +2,14 @@
   background-image: url("../../../assets/images/backgrounds/Path.png");
   background-repeat: no-repeat;
   background-position: left;
-  height: calc(100vh - 89px);
-  // max-height: auto;
+  height: calc(100vh - 92px);
   // background-size: contain;
   background-size: 81% 100%;
   display: flex;
 
   & > .container-fluid {
     align-self: center;
+    width: 100%;
   }
   .text-white {
     color: #ffffff;
@@ -93,13 +93,9 @@
 .sign-in {
   width: 60%;
   margin: auto;
-  // text-align: center;
+  text-align: center;
   padding: 25px;
   border-radius: 10px;
-  .mat-form-field-infix {
-    max-width: 100% !important;
-    min-width: 300px;
-  }
   .forget span {
     color: #2c2c2c;
   }
@@ -127,51 +123,17 @@
     right: 0;
     bottom: -5px;
   }
+  .mat-form-field {
+    width: 100%;
 }
-.scroll {
-  max-height: 450px;
-  overflow-x: hidden;
-  overflow-y: scroll;
-
-  /* width */
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  /* Track */
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: #888;
-  }
-
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-}
-.sign-up::-webkit-scrollbar {
-  display: none;
-}
-.sign-in::-webkit-scrollbar {
-  display: none;
 }
 
 @media only screen and (min-width: 300px) and (max-width: 1024px) {
   .fc-grant {
-    height: auto;
     background-size: cover;
+    height: auto;
   }
 
-  .image-side p,
-  .image-side a {
-    color: #fff !important;
-    font-size: 14px;
-    font-weight: 500;
-  }
   .image-side .btn {
     margin: 20px 5px !important;
     padding: 10px 20px;
@@ -179,10 +141,21 @@
   }
   .sign-in {
     width: 100%;
+    margin: 50px 0;
   }
-  .sign-in .mat-form-field-infix {
-    max-width: 100% !important;
-    min-width: 100%;
+  .image-side .btn {
+    color: #ffffff;
+  }
+  .image-side {
+    background-color: #ffffff;
+    padding: 0;
+  }
+  .image-side .img-wrapper,
+  .image-side p {
+    padding: 15px 15px;
+  }
+  .container-fluid {
+    padding: 0;
   }
 }
 
@@ -193,8 +166,28 @@
 }
 
 .container::-webkit-scrollbar {
-  // display: none;
-  // overflow: -moz-scrollbars-none;
+  display: none;
+  overflow: -moz-scrollbars-none;
+}
+
+:host {
+  .card-body {
+    overflow: hidden !important;
+    overflow-y: hidden !important;
+  }
+
+  .error-message {
+    margin-top: 1rem;
+  }
+}
+.img-wrapper {
+  margin-bottom: 30px;
+}
+.user {
+  margin-bottom: 20px;
+}
+.user {
+  margin-bottom: 20px;
 }
 .registration-form {
   padding-top: 2%;

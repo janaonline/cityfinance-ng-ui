@@ -96,10 +96,6 @@
   text-align: center;
   padding: 25px;
   border-radius: 10px;
-  .mat-form-field-infix {
-    max-width: 100% !important;
-    min-width: 300px;
-  }
   .forget span {
     color: #2c2c2c;
   }
@@ -127,20 +123,17 @@
     right: 0;
     bottom: -5px;
   }
+  .mat-form-field {
+    width: 100%;
+}
 }
 
 @media only screen and (min-width: 300px) and (max-width: 1024px) {
   .fc-grant {
-    height: auto;
     background-size: cover;
+    height: auto;
   }
 
-  .image-side p,
-  .image-side a {
-    color: #fff !important;
-    font-size: 14px;
-    font-weight: 500;
-  }
   .image-side .btn {
     margin: 20px 5px !important;
     padding: 10px 20px;
@@ -148,11 +141,22 @@
   }
   .sign-in {
     width: 100%;
-}
-.sign-in .mat-form-field-infix {
-    max-width: 100% !important;
-    min-width: 100%;
-}
+    margin: 50px 0;
+  }
+  .image-side .btn {
+    color: #ffffff;
+  }
+  .image-side {
+    background-color: #ffffff;
+    padding: 0;
+  }
+  .image-side .img-wrapper,
+  .image-side p {
+    padding: 15px 15px;
+  }
+  .container-fluid {
+    padding: 0;
+  }
 }
 
 .container {

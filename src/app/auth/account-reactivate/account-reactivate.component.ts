@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ViewEncapsulation} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
@@ -9,6 +9,8 @@ import { AccountReactivateService } from './service/account-reactivate.service';
   selector: "app-account-reactivate",
   templateUrl: "./account-reactivate.component.html",
   styleUrls: ["./account-reactivate.component.scss"],
+  encapsulation: ViewEncapsulation.None,
+
 })
 export class AccountReactivateComponent implements OnInit {
   form: FormGroup;

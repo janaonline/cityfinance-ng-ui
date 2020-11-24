@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -13,6 +13,7 @@ import { PasswordService } from './service/password.service';
   selector: "app-password",
   templateUrl: "./password.component.html",
   styleUrls: ["./password.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class PasswordComponent implements OnInit {
   public passwordRequestForm: FormGroup;
