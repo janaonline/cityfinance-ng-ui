@@ -532,14 +532,19 @@
                   </div>
                 </td>
                 <td>
-                  <div class="input-group">
-                    <input
-                      formControlName="ulbType"
-                      placeholder="ULB Type"
-                      type="text"
-                      class="form-control"
-                    />
-                  </div>
+                  <select
+                    name="Type"
+                    id="state"
+                    class="form-control"
+                    formControlName="ulbType"
+                  >
+                    <option value="" selected>All Types</option>
+                    <option value="Municipality">Municipality</option>
+                    <option value="Municipal Corporation">
+                      Municipal Corporation
+                    </option>
+                    <option value="Town Panchayat">Town Panchayat</option>
+                  </select>
                 </td>
                 <td>
                   <div class="input-group">
@@ -713,7 +718,9 @@
           >
             <thead>
               <tr class="" style="color: white">
-                <th scope="S.No" class="text-center">S.No.</th>
+                <th scope="S.No" class="text-center" style="width: 5%">
+                  S.No.
+                </th>
                 <th
                   scope=""
                   [ngClass]="header.id == 'action' ? 'text-center' : ''"
@@ -769,6 +776,22 @@
                       class="form-control"
                     />
                   </div>
+                </td>
+                <td>
+                  <select
+                    name="Type"
+                    id="state"
+                    class="form-control"
+                    placeholder="State"
+                    [formControl]="ulbTypeSearchFormControl"
+                  >
+                    <option value="" selected>All Types</option>
+                    <option value="Municipality">Municipality</option>
+                    <option value="Municipal Corporation">
+                      Municipal Corporation
+                    </option>
+                    <option value="Town Panchayat">Town Panchayat</option>
+                  </select>
                 </td>
 
                 <!-- <td *ngIf="userUtil.getUserType() != 'ULB'">
