@@ -17,7 +17,7 @@
                 <br>
                 <div class="forget-password">
               <mat-form-field appearance="outline" >
-                <mat-label>Password</mat-label>
+                  <mat-label>Password</mat-label>
                 <input matInput type="password" placeholder="Enter password" formControlName="password"
                   [ngClass]="{ 'is-invalid': submitted && lf.password.errors }">
               </mat-form-field>
@@ -37,7 +37,7 @@
               <div>
                 <button type="submit" class="btn btn-primary btn-block login-btn">LOGIN</button>
               </div>
-              <p class="text-dark last-para">Don't have an account? <a href="/register/ulb">Sign up here</a></p>
+              <p class="text-dark last-para">Don't have an account? <a href="/register/ulb" class="ml-2">Sign up here</a></p>
             </form>
           </div>
         </div>

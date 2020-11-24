@@ -1,77 +1,80 @@
 <div class="fc-grant">
   <div class="container-fluid">
     <div class="align-items-center d-flex flex-wrap">
-      <div class="col-xs-12 col-sm-12 col-md-6">
+      <div class="col-md-6">
         <div class="card">
           <div class="card-body border sign-up sign-in  bg-white">
-            <h4 class="text-left">Sign Up</h4>
+            <div class="scroll">
+              <h4 class="text-left">Sign Up</h4>
+  
+              <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <mat-form-field appearance="outline">
+                  <mat-label>State</mat-label>
+                  <input matInput type="text" class="inputbox" placeholder="Enter the State" required>
+                </mat-form-field>
 
-            <form [formGroup]="loginForm" (ngSubmit)="login()">
-              <mat-form-field appearance="outline">
-                <mat-label>State</mat-label>
-                <input matInput type="text" class="inputbox" placeholder="Enter the State" required>
-              </mat-form-field>
-              <br />
-              <mat-form-field appearance="outline">
-                <mat-label>Urban Local Body</mat-label>
-                <input matInput type="text" class="inputbox" placeholder="Urban Local Body" required>
-              </mat-form-field>
-              <br />
-              <mat-form-field appearance="outline">
-                <mat-label>Census Code/ULB Code*</mat-label>
-                <input matInput type="text" class="inputbox" placeholder="Census Code/ULB Code*" required>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Municipal Commissioner/ Executive Officer Name</mat-label>
-                <input matInput type="text" class="inputbox" placeholder="Municipal Commissioner/ Executive Officer Name" required>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Municipal Commissioner/ Executive Officer Contact No.</mat-label>
-                <input matInput type="text" class="inputbox" placeholder="Municipal Commissioner/ Executive Officer Contact No.*" required>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>XV FC Nodal Officer Name</mat-label>
-                <input matInput type="text" class="inputbox" placeholder="XV FC Nodal Officer Name" required>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>XV FC Nodal Officer Name</mat-label>
-                <input matInput type="text" class="inputbox" placeholder="XV FC Nodal Officer Name" required>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>XV FC Nodal Officer Name</mat-label>
-                <input matInput type="text" class="inputbox" placeholder="XV FC Nodal Officer Name" required>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>XV FC Nodal Officer Email ID</mat-label>
-                <input matInput type="text" class="inputbox" placeholder="XV FC Nodal Officer Email ID" required>
-              </mat-form-field>
-
-              <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey">
-              </re-captcha>
-
-              <p *ngIf="loginError" class="error-message">
-                {{ loginError }}
-              </p>
-
-              <div class="text-right">
-                <button type="submit" class="btn btn-primary login-btn">
-                  SIGN UP
-                </button>
-              </div>
-              
-            </form>
+                <mat-form-field appearance="outline">
+                  <mat-label>Urban Local Body</mat-label>
+                  <input matInput type="text" class="inputbox" placeholder="Urban Local Body" required>
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline">
+                  <mat-label>Census Code/ULB Code*</mat-label>
+                  <input matInput type="text" class="inputbox" placeholder="Census Code/ULB Code*" required>
+                </mat-form-field>
+  
+                <mat-form-field appearance="outline">
+                  <mat-label>Municipal Commissioner/ Executive Officer Name</mat-label>
+                  <input matInput type="text" class="inputbox" placeholder="Municipal Commissioner/ Executive Officer Name" required>
+                </mat-form-field>
+  
+                <mat-form-field appearance="outline">
+                  <mat-label>Municipal Commissioner/ Executive Officer Contact No.</mat-label>
+                  <input matInput type="text" class="inputbox" placeholder="Municipal Commissioner/ Executive Officer Contact No.*" required>
+                </mat-form-field>
+  
+                <mat-form-field appearance="outline">
+                  <mat-label>XV FC Nodal Officer Name</mat-label>
+                  <input matInput type="text" class="inputbox" placeholder="XV FC Nodal Officer Name" required>
+                </mat-form-field>
+  
+                <mat-form-field appearance="outline">
+                  <mat-label>XV FC Nodal Officer Name</mat-label>
+                  <input matInput type="text" class="inputbox" placeholder="XV FC Nodal Officer Name" required>
+                </mat-form-field>
+  
+                <mat-form-field appearance="outline">
+                  <mat-label>XV FC Nodal Officer Name</mat-label>
+                  <input matInput type="text" class="inputbox" placeholder="XV FC Nodal Officer Name" required>
+                </mat-form-field>
+  
+                <mat-form-field appearance="outline">
+                  <mat-label>XV FC Nodal Officer Email ID</mat-label>
+                  <input matInput type="text" class="inputbox" placeholder="XV FC Nodal Officer Email ID" required>
+                </mat-form-field>
+  
+                <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey">
+                </re-captcha>
+  
+                <p *ngIf="loginError" class="error-message">
+                  {{ loginError }}
+                </p>
+  
+                <div class="text-right" style="padding-right: 30px;">
+                  <button type="submit" class="btn btn-primary login-btn">
+                    SIGN UP
+                  </button>
+                </div>
+                
+              </form>
+            </div>
             <div class="card-footer ">
               <p class="text-dark last-para">
                 Don't have an account? <a href="/login">Sign in here</a>
               </p>
             </div>
           </div>
+
           
         </div>
       </div>
