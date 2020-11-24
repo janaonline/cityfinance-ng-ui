@@ -58,8 +58,6 @@ export class DataUploadComponent
     super();
     SidebarUtil.hideSidebar();
 
-
-
     this.isAccessible = accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.UPLOAD,
@@ -307,6 +305,7 @@ export class DataUploadComponent
   }
 
   onClickingOtherCards(body) {
+    console.log("body", body);
     this.ulbFilter.reset(body);
     this.scrollToElement("ulb-list");
   }
@@ -555,7 +554,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  }
+  };
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -621,12 +620,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  }
+  };
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  }
+  };
 
   getAddedFilterCount() {
     let count = 0;

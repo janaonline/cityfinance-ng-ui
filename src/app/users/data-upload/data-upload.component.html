@@ -214,7 +214,10 @@
           <div
             class="view-list"
             (click)="
-              onClickingOtherCards({ isMillionPlus: 'Yes', registered: 'Yes' })
+              onClickingOtherCards({
+                isMillionPlus: 'Yes',
+                registration: 'Yes'
+              })
             "
           >
             View List
@@ -282,7 +285,7 @@
           <div
             class="view-list"
             (click)="
-              onClickingOtherCards({ isMillionPlus: 'No', registered: 'Yes' })
+              onClickingOtherCards({ isMillionPlus: 'No', registration: 'Yes' })
             "
           >
             View List
@@ -345,7 +348,9 @@
 
             <div
               class="view-list"
-              (click)="onClickingOtherCards({ isMillionPlus: 'Yes' })"
+              (click)="
+                onClickingOtherCards({ isMillionPlus: 'Yes', registration: '' })
+              "
             >
               View List
             </div>
@@ -409,7 +414,9 @@
 
             <div
               class="view-list"
-              (click)="onClickingOtherCards({ isMillionPlus: 'No' })"
+              (click)="
+                onClickingOtherCards({ isMillionPlus: 'No', registration: '' })
+              "
             >
               View List
             </div>
@@ -560,8 +567,8 @@
                 <td>
                   <div class="input-group">
                     <select
-                      name="registered"
-                      id="registered"
+                      name="registration"
+                      id="registration"
                       formControlName="registration"
                       class="form-control"
                       placeholder="Registered"
@@ -602,7 +609,9 @@
                     index as i
                   "
                 >
-                  <td>{{ i + 1 }}</td>
+                  <td>
+                    {{ (ulbtableDefaultOptions?.currentPage - 1) * 10 + i + 1 }}
+                  </td>
                   <td>{{ row.stateName }}</td>
                   <td>{{ row.ulbName }}</td>
 
@@ -631,7 +640,7 @@
             </tbody>
           </table>
           <pagination-controls
-            *ngIf="ulbtableDefaultOptions.totalCount"
+            *ngIf="ulbtableDefaultOptions.totalCount && ulbList"
             style="float: right; position: relative"
             id="ulblist-pagination"
             (pageChange)="setulbPage($event)"
