@@ -89,6 +89,10 @@ i.glyphicon-sort.glyphicon-sort.glyphicon-sort:hover {
   border-radius: 0px;
 }
 
+button.btn {
+  outline: none !important;
+}
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #f0ad4e;
@@ -216,7 +220,6 @@ img.align-center {
     text-decoration: none;
     background-color: #ffc500 !important;
     background: #ffc500 !important;
-    color: #000 !important;
   }
 }
 
@@ -346,12 +349,12 @@ img.align-center {
   }
 }
 
-@media (min-width: 1200px) {
-  .container {
-    width: 80%;
-    max-width: 1350px;
-  }
-}
+// @media (min-width: 1200px) {
+//   .container {
+//     width: 80%;
+//     max-width: 1350px;
+//   }
+// }
 
 @media screen and (max-width: 468px) {
   .container {

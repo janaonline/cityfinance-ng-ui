@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 import { PasswordRoutingModule } from './account-reactivate-routing.module';
@@ -12,6 +13,8 @@ import { AccountReactivateComponent } from './account-reactivate.component';
     FormsModule,
     ReactiveFormsModule,
     PasswordRoutingModule,
+    MatFormFieldModule,
+    MatInputModule,
     SharedModule,
   ],
   declarations: [AccountReactivateComponent],

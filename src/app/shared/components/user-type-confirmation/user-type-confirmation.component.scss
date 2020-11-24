@@ -1,6 +1,11 @@
 :host {
   .container {
-    margin-top: 2%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    // margin-top: 2%;
+    width: 100%;
+    margin: auto;
   }
 
   .user {

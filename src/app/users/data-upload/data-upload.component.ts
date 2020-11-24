@@ -2,12 +2,13 @@ import { Location } from '@angular/common';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSlideToggleChange, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Chart from 'chart.js';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 import swal from 'sweetalert';
 
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
@@ -57,9 +58,7 @@ export class DataUploadComponent
     super();
     SidebarUtil.hideSidebar();
 
-    if (this.userUtil.getUserType() === USER_TYPE.ULB) {
-      SidebarUtil.hideSidebar();
-    }
+
 
     this.isAccessible = accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
@@ -249,6 +248,16 @@ export class DataUploadComponent
 
   ulbFilter: FormGroup;
 
+  showNotRegisteredULBsInChart = false;
+
+  chartData;
+
+  notRegisteredUlbBarData;
+
+  currentChart;
+
+  jsonUtil = new JSONUtility();
+
   ngOnInit() {
     // this.fetchFinancialYears();
     this.fetchStateList();
@@ -268,29 +277,56 @@ export class DataUploadComponent
     }
   }
 
+  onChangingShowULBInChart(event: MatSlideToggleChange) {
+    this.showNotRegisteredULBsInChart = event.checked;
+
+    const indexOfNoRegisteredULB = this.chartData.labels.findIndex(
+      (label) => label === "Not Registered"
+    );
+
+    const newChartData = this.jsonUtil.deepCopy(this.chartData);
+
+    if (!event.checked) {
+      newChartData.labels = this.chartData.labels.filter(
+        (label, index) => index !== indexOfNoRegisteredULB
+      );
+      newChartData.datasets[0].data = this.chartData.datasets[0].data.filter(
+        (label, index) => index !== indexOfNoRegisteredULB
+      );
+      newChartData.datasets[0].backgroundColor = this.chartData.datasets[0].backgroundColor.filter(
+        (label, index) => index !== indexOfNoRegisteredULB
+      );
+    }
+
+    this.createChart(newChartData);
+  }
+
   onclickTotalNoOfULB() {
     this.ulbFilter.reset();
-    const element = document.getElementById("ulb-list");
-    element.scrollIntoView({ behavior: "smooth" });
+    this.scrollToElement("ulb-list");
   }
 
   onClickingOtherCards(body) {
     this.ulbFilter.reset(body);
-    const element = document.getElementById("ulb-list");
+    this.scrollToElement("ulb-list");
+  }
+
+  scrollToElement(elementId: string) {
+    const element = document.getElementById(`${elementId}`);
     element.scrollIntoView({ behavior: "smooth" });
   }
 
   initializeULBFormGroup() {
     this.ulbFilter = this.formBuilder.group({
       ulbName: [],
-      stateName: [],
+      stateName: [""],
       ulbType: [],
       censusCode: [],
       sbCode: [],
       email: [],
       mobile: [],
-      isMillionPlus: [],
-      registration: [],
+      isMillionPlus: [""],
+      registration: [""],
     });
 
     this.ulbFilter.valueChanges
@@ -302,35 +338,45 @@ export class DataUploadComponent
 
   fetchChartData() {
     this._commonService.fetchDashboardChartData().subscribe((res) => {
-      const barChartData = res["data"];
-      barChartData.labels = barChartData.labels.map((text: string) =>
+      this.chartData = res["data"];
+      this.chartData.labels = this.chartData.labels.map((text: string) =>
         !text.includes("By")
           ? text
           : [text.split("By")[0] + "By", text.split("By")[1]]
       );
-      barChartData.type = "bar";
-      const canvasElement = document.getElementById(
-        `canvas`
-      ) as HTMLCanvasElement;
 
-      const ctx = canvasElement.getContext("2d");
+      // this.createChart({ ...this.chartData });
+      this.onChangingShowULBInChart({ checked: false, source: null });
+    });
+  }
 
-      const myBar = new Chart(ctx, {
-        type: "bar",
-        data: barChartData,
-        options: { ...this.defaultChartOptions },
-        plugins: [
-          {
-            beforeInit: function (chart) {
-              chart.data.labels.forEach(function (e, i, a) {
-                if (/\n/.test(e)) {
-                  a[i] = e.split(/\n/);
-                }
-              });
-            },
+  createChart(chartData) {
+    if (this.currentChart) {
+      this.currentChart.destroy();
+    }
+
+    chartData.type = "bar";
+    const canvasElement = document.getElementById(
+      `canvas`
+    ) as HTMLCanvasElement;
+
+    const ctx = canvasElement.getContext("2d");
+
+    this.currentChart = new Chart(ctx, {
+      type: "bar",
+      data: { ...chartData },
+      options: { ...this.defaultChartOptions },
+      plugins: [
+        {
+          beforeInit: function (chart) {
+            chart.data.labels.forEach(function (e, i, a) {
+              if (/\n/.test(e)) {
+                a[i] = e.split(/\n/);
+              }
+            });
           },
-        ],
-      });
+        },
+      ],
     });
   }
 
@@ -378,7 +424,6 @@ export class DataUploadComponent
       ...params,
     };
     this._commonService.fetchULBList(newParams).subscribe((res) => {
-      console.log(res);
       this.ulbList = res["data"];
       if ("total" in res) {
         this.ulbtableDefaultOptions = {
@@ -510,7 +555,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  };
+  }
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -576,12 +621,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  };
+  }
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  };
+  }
 
   getAddedFilterCount() {
     let count = 0;

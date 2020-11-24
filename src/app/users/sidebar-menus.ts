@@ -7,17 +7,17 @@ import { MODULES_NAME } from '../util/access/modules';
 const accessChecker = new AccessChecker();
 
 export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
-  {
-    title:
-      "<span>15<sup style='text-transform: capitalize'>th</sup> FC Grants</span>",
-    subMenus: [
-      {
-        title: "ULB Data Upload Tracker",
-        type: "link",
-        route: ["/user/data-upload/list"],
-      },
-    ],
-  },
+  // {
+  //   title:
+  //     "<span>15<sup style='text-transform: capitalize'>th</sup> FC Grants</span>",
+  //   subMenus: [
+  //     {
+  //       title: "ULB Data Upload Tracker",
+  //       type: "link",
+  //       route: ["/user/data-upload/list"],
+  //     },
+  //   ],
+  // },
   {
     title: "User Management",
     subMenus: [
@@ -180,17 +180,17 @@ export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
 ];
 
 export const sideMenuForStateUser: { title: string; subMenus: ILink[] }[] = [
-  {
-    title:
-      "<span>15<sup style='text-transform: capitalize'>th</sup> FC Grants</span>",
-    subMenus: [
-      {
-        title: "ULB Data Upload Tracker",
-        type: "link",
-        route: ["/user/data-upload/list"],
-      },
-    ],
-  },
+  // {
+  //   title:
+  //     "<span>15<sup style='text-transform: capitalize'>th</sup> FC Grants</span>",
+  //   subMenus: [
+  //     {
+  //       title: "ULB Data Upload Tracker",
+  //       type: "link",
+  //       route: ["/user/data-upload/list"],
+  //     },
+  //   ],
+  // },
   // {
   //   title: "State Profile",
   //   subMenus: [
@@ -210,7 +210,7 @@ export const sideMenuForStateUser: { title: string; subMenus: ILink[] }[] = [
       //   route: ["/user/profile/request"],
       // },
       {
-        title: "ULB Sign Up List",
+        title: "ULBs",
         type: "link",
         route: [`/user/list/${USER_TYPE.ULB}`],
       },

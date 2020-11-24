@@ -1,8 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { services, targets } from 'src/app/users/data-upload/components/configs/water-waste-management';
 import { IFinancialData } from 'src/app/users/data-upload/models/financial-data.interface';
+import {
+  APPROVAL_COMPLETED,
+  REJECT_BY_MoHUA,
+  REJECT_BY_STATE,
+  SAVED_AS_DRAFT,
+  UNDER_REVIEW_BY_MoHUA,
+  UNDER_REVIEW_BY_STATE,
+} from 'src/app/users/data-upload/util/request-status';
 import { FinancialDataService } from 'src/app/users/services/financial-data.service';
 import { SidebarUtil } from 'src/app/users/utils/sidebar.util';
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
@@ -14,16 +25,14 @@ import { UPLOAD_STATUS } from 'src/app/util/enums';
   styleUrls: ["./fc-grant.component.scss"],
 })
 export class FcGrantComponent extends BaseComponent implements OnInit {
-  financialData: IFinancialData & { customStatusMessage: string };
-  uploadStatus = UPLOAD_STATUS;
-
-  formCompletedPercentage;
   constructor(
     private _router: Router,
-    private _financialService: FinancialDataService
+    private _financialService: FinancialDataService,
+    private modalService: BsModalService,
+    private _snackBar: MatSnackBar
   ) {
     super();
-    switch (this.loggedInUser) {
+    switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
         this.fetchFinancialDataUpload();
         break;
@@ -41,6 +50,13 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
         break;
     }
   }
+  financialData: IFinancialData & { customStatusMessage: string };
+  uploadStatus = UPLOAD_STATUS;
+
+  formCompletedPercentage;
+
+  isPopupOpen = false;
+  formHistoricalData;
 
   ngOnInit() {}
 
@@ -50,7 +66,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   }
 
   goToFormView(url: string) {
-    if (this.loggedInUser === USER_TYPE.ULB) {
+    if (this.loggedInUserType === USER_TYPE.ULB) {
       SidebarUtil.hideSidebar();
     } else SidebarUtil.showSidebar();
     this._router.navigate([url]);
@@ -149,7 +165,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       } catch (error) {}
     });
 
-    return (completed / 27) * 100;
+    return Number.parseInt((completed / 27) * 100 + "");
   }
 
   calculateFormStatus(data: IFinancialData) {
@@ -171,5 +187,82 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       default:
         return null;
     }
+  }
+
+  openModal(row: any, historyModal: TemplateRef<any>) {
+    if (this.isPopupOpen) return;
+    this.formHistoricalData = [];
+    this.isPopupOpen = true;
+    this.modalService.show(historyModal, {});
+    this._financialService.fetchFinancialDataHistory(row._id).subscribe(
+      (result: HttpResponse<any>) => {
+        if (result["success"]) {
+          this.formHistoricalData = result["data"].map((data) =>
+            this.formatResponse(data)
+          );
+          this.formHistoricalData = this.formHistoricalData
+            .filter((row) => typeof row["actionTakenBy"] != "string")
+            .reverse();
+        }
+      },
+      (error) => this.handlerError(error)
+    );
+  }
+
+  closePopUp() {
+    this.modalService.hide(1);
+    this.isPopupOpen = false;
+  }
+
+  private formatResponse(req: IFinancialData) {
+    if (!req.isCompleted) {
+      return {
+        ...req,
+        customStatusText: SAVED_AS_DRAFT.itemName,
+      };
+    }
+
+    let customStatusText;
+    switch (req.actionTakenByUserRole) {
+      case USER_TYPE.ULB:
+        customStatusText = UNDER_REVIEW_BY_STATE.itemName;
+        break;
+      case USER_TYPE.STATE:
+        if (req.status === UPLOAD_STATUS.REJECTED) {
+          customStatusText = REJECT_BY_STATE.itemName;
+        } else {
+          customStatusText = UNDER_REVIEW_BY_MoHUA.itemName;
+        }
+
+        break;
+      case USER_TYPE.MoHUA:
+        if (req.status === UPLOAD_STATUS.REJECTED) {
+          customStatusText = REJECT_BY_MoHUA.itemName;
+        } else {
+          customStatusText = APPROVAL_COMPLETED.itemName;
+        }
+        break;
+      default:
+        customStatusText = "N/A";
+    }
+
+    return {
+      ...req,
+      customStatusText,
+    };
+  }
+
+  private handlerError(response: any) {
+    let string = "Some Error Occurred";
+    const { message, error } = response;
+    if (error) {
+      const errorMessage = error.message;
+      if (errorMessage) {
+        string = errorMessage;
+      } else {
+        string = message;
+      }
+    }
+    this._snackBar.open(string, null, { duration: 6600 });
   }
 }

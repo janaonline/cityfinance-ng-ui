@@ -223,7 +223,7 @@
 
         <div class="card yellow">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">Non-Million Plus Cities(Registered)</p>
+          <p class="heading">Non-Million Cities(Registered)</p>
           <span
             class="card-main-value"
             [ngClass]="{ 'loading-value': !cardData }"
@@ -353,7 +353,7 @@
 
           <div class="card dark-green" style="margin-bottom: 0px">
             <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-            <p class="heading">Non-Million Plus Cities(Total)</p>
+            <p class="heading">Non-Million Cities(Total)</p>
             <span
               class="card-main-value"
               [ngClass]="{ 'loading-value': !cardData }"
@@ -383,7 +383,7 @@
                   class="category-heading category-value"
                   [ngClass]="{ 'loading-value': !cardData }"
                   >{{
-                    cardData?.totalMillionPlus["Municipal Corporation"] || 0
+                    cardData?.totalNonMillionPlus["Municipal Corporation"] || 0
                   }}</span
                 >
               </span>
@@ -391,14 +391,18 @@
                 <span
                   class="category-heading category-value"
                   [ngClass]="{ 'loading-value': !cardData }"
-                  >{{ cardData?.totalMillionPlus["Municipality"] || 0 }}</span
+                  >{{
+                    cardData?.totalNonMillionPlus["Municipality"] || 0
+                  }}</span
                 >
               </span>
               <span class="category">
                 <span
                   class="category-heading category-value"
                   [ngClass]="{ 'loading-value': !cardData }"
-                  >{{ cardData?.totalMillionPlus["Town Panchayat"] || 0 }}</span
+                  >{{
+                    cardData?.totalNonMillionPlus["Town Panchayat"] || 0
+                  }}</span
                 >
               </span>
             </div>
@@ -415,8 +419,19 @@
         <div class="chart-container">
           <p class="heading" style="font-size: 1.6rem">
             15<sup>th</sup> FC Form Data Upload Status
+            <mat-slide-toggle
+              style="float: right"
+              (change)="onChangingShowULBInChart($event)"
+              >Show Not Registered ULBs</mat-slide-toggle
+            >
           </p>
           <canvas id="canvas" width="150" height="43"></canvas>
+          <div
+            class="view-list"
+            (click)="scrollToElement('data-upload-tracker-list')"
+          >
+            View List
+          </div>
         </div>
       </div>
 
@@ -445,21 +460,43 @@
             <thead>
               <tr class="" style="color: white">
                 <th scope="S.No" class="text-center">S.No.</th>
-                <th scope="S.No" class="text-center">State Name</th>
-                <th scope="S.No" class="text-center">ULB Name</th>
-                <th scope="S.No" class="text-center">ULB Type</th>
-                <th scope="S.No" class="text-center">Census Code</th>
-                <th scope="S.No" class="text-center">Swatch Bharat Code</th>
-                <th scope="S.No" class="text-center">Email Id</th>
-                <th scope="S.No" class="text-center">Mobile Number</th>
-                <th scope="S.No" class="text-center">Registered</th>
-                <th scope="S.No" class="text-center">Type</th>
+                <th scope="State Name" class="text-center" style="width: 9%">
+                  State Name
+                </th>
+                <th scope="ULB Name" class="text-center">ULB Name</th>
+                <th scope="ULB Type" class="text-center">ULB Type</th>
+                <th scope="Census Code" class="text-center">Census Code</th>
+                <th scope="ULB Code" class="text-center">ULB Code</th>
+                <th scope="Email Id" class="text-center">Email Id</th>
+                <!-- <th scope="S.No" class="text-center">Mobile Number</th> -->
+                <th scope="Registered" class="text-center" style="width: 9%">
+                  Registered
+                </th>
+                <th scope="Type" class="text-center">Type</th>
               </tr>
             </thead>
             <tbody>
               <tr [formGroup]="ulbFilter">
                 <td></td>
-                <td></td>
+                <td>
+                  <div class="input-group">
+                    <select
+                      name="State"
+                      id="state"
+                      formControlName="stateName"
+                      class="form-control"
+                      placeholder="State"
+                    >
+                      <option value="" selected>All States</option>
+                      <option
+                        *ngFor="let state of stateList"
+                        [value]="state.name"
+                      >
+                        {{ state.name }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
                 <td>
                   <div class="input-group">
                     <input
@@ -494,7 +531,7 @@
                   <div class="input-group">
                     <input
                       formControlName="sbCode"
-                      placeholder="Swatcha Bharat Code"
+                      placeholder="ULB Code"
                       type="text"
                       class="form-control"
                     />
@@ -510,7 +547,7 @@
                     />
                   </div>
                 </td>
-                <td>
+                <!-- <td>
                   <div class="input-group">
                     <input
                       formControlName="mobile"
@@ -519,7 +556,7 @@
                       class="form-control"
                     />
                   </div>
-                </td>
+                </td> -->
                 <td>
                   <div class="input-group">
                     <select
@@ -535,7 +572,7 @@
                     </select>
                   </div>
                 </td>
-                <td>
+                <td style="width: 15%">
                   <div class="input-group">
                     <select
                       formControlName="isMillionPlus"
@@ -544,7 +581,7 @@
                       class="form-control"
                       placeholder="Population"
                     >
-                      <option value="Both" selected>Both</option>
+                      <option value="" selected>Both</option>
                       <option value="Yes">Million Plus</option>
                       <option value="No">Non Million</option>
                     </select>
@@ -573,13 +610,13 @@
                   <td>{{ row.censusCode }}</td>
                   <td>{{ row.sbCode }}</td>
                   <td>{{ row.email }}</td>
-                  <td>{{ row.mobile }}</td>
-                  <td>{{ row.registration }}</td>
+                  <!-- <td>{{ row.mobile }}</td> -->
+                  <td class="text-center">{{ row.registration }}</td>
                   <td>
                     {{
                       row.isMillionPlus === "Yes"
                         ? "Million Plus Cities"
-                        : "Non-Million Plus Cities"
+                        : "Non-Million Cities"
                     }}
                   </td>
                 </tr>
@@ -618,7 +655,7 @@
         </div>
       </div>
 
-      <div class="data-upload-container">
+      <div class="data-upload-container" id="data-upload-tracker-list">
         <div class="col-md-12" style="padding-left: 0px">
           <h3>
             <span> ULB Data Upload Tracker </span>
@@ -898,43 +935,7 @@
         <i class="fa fa-times" style="color: white"></i>
       </button>
     </div>
-    <div class="modal-title">
-      <h3>Tracking</h3>
-    </div>
-    <div
-      *ngIf="modalTableData.length; else noData"
-      class="table-responsive"
-      style="max-height: 50vh; overflow-y: auto"
-    >
-      <table class="table tracking-history-table">
-        <thead>
-          <tr>
-            <th style="position: sticky; top: 0" class="text-center"></th>
-            <th style="position: sticky; top: 0" class="text-center">Sr. No</th>
-            <th style="position: sticky; top: 0">Action</th>
-            <th style="position: sticky; top: 0">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of modalTableData; let i = index">
-            <td class="text-center">
-              <em
-                *ngIf="
-                  row['status'] == uploadStatus.APPROVED &&
-                  row.actionTakenByUserRole === userTypes.MoHUA
-                "
-                class="fa fa-check-circle text-success"
-              ></em>
-            </td>
-            <td class="text-center">{{ i + 1 }}</td>
-            <td>{{ row.customStatusText }}</td>
-            <td>
-              {{ row["modifiedAt"] | date: "MMM d, y, h:mm a":"GMT" }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <app-formhistory [data]="modalTableData"></app-formhistory>
   </div>
   <ng-template #noData>
     <div class="row">

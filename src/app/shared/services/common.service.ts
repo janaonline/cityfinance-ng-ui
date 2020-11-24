@@ -197,7 +197,7 @@ export class CommonService {
     delete body.skip;
     delete body.limit;
     // delete body.registration;
-    console.log(body);
+    console.log(`params: `, body);
     const params = this.httpUtil.convertToHttpParams({
       filter: JSON.stringify(body),
       skip,

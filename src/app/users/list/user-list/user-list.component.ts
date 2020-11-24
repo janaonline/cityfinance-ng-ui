@@ -18,6 +18,7 @@ import { UserService } from '../../../dashboard/user/user.service';
 import { IULBProfileData } from '../../profile/model/ulb-profile';
 import { UserProfile } from '../../profile/model/user-profile';
 import { ProfileService } from '../../profile/service/profile.service';
+import { SidebarUtil } from '../../utils/sidebar.util';
 
 @Component({
   selector: "app-user-list",
@@ -35,6 +36,8 @@ export class UserListComponent extends BaseComponent implements OnInit {
     public _dialog: MatDialog
   ) {
     super();
+    SidebarUtil.showSidebar();
+
     this.createRequestStatusTypeList();
     this._activatedRoute.params.subscribe((params) => {
       this.resetTableOption();
