@@ -109,7 +109,7 @@
   color: #2c2c2c;
 }
 .last-para{
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
 }
 .last-para a{
@@ -142,6 +142,13 @@
     padding: 10px 20px;
     color: #ffffff;
   }
+  .sign-in {
+    width: 100%;
+}
+.sign-in .mat-form-field-infix {
+    max-width: 100% !important;
+    min-width: 100%;
+}
 }
 
 .container {
