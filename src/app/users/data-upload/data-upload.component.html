@@ -149,7 +149,10 @@
             </span>
           </div>
 
-          <div class="view-list" (click)="onClickingOtherCards()">
+          <div
+            class="view-list"
+            (click)="onClickingOtherCards({ registration: 'Yes' })"
+          >
             View List
           </div>
         </div>
@@ -214,7 +217,10 @@
           <div
             class="view-list"
             (click)="
-              onClickingOtherCards({ isMillionPlus: 'Yes', registered: 'Yes' })
+              onClickingOtherCards({
+                isMillionPlus: 'Yes',
+                registration: 'Yes'
+              })
             "
           >
             View List
@@ -282,7 +288,7 @@
           <div
             class="view-list"
             (click)="
-              onClickingOtherCards({ isMillionPlus: 'No', registered: 'Yes' })
+              onClickingOtherCards({ isMillionPlus: 'No', registration: 'Yes' })
             "
           >
             View List
@@ -345,7 +351,9 @@
 
             <div
               class="view-list"
-              (click)="onClickingOtherCards({ isMillionPlus: 'Yes' })"
+              (click)="
+                onClickingOtherCards({ isMillionPlus: 'Yes', registration: '' })
+              "
             >
               View List
             </div>
@@ -409,7 +417,9 @@
 
             <div
               class="view-list"
-              (click)="onClickingOtherCards({ isMillionPlus: 'No' })"
+              (click)="
+                onClickingOtherCards({ isMillionPlus: 'No', registration: '' })
+              "
             >
               View List
             </div>
@@ -425,7 +435,7 @@
               >Show Not Registered ULBs</mat-slide-toggle
             >
           </p>
-          <canvas id="canvas" width="150" height="43"></canvas>
+          <canvas id="canvas" width="150" height="49"></canvas>
           <div
             class="view-list"
             (click)="scrollToElement('data-upload-tracker-list')"
@@ -460,7 +470,12 @@
             <thead>
               <tr class="" style="color: white">
                 <th scope="S.No" class="text-center">S.No.</th>
-                <th scope="State Name" class="text-center" style="width: 9%">
+                <th
+                  *ngIf="loggedInUserData.role !== userTypes.STATE"
+                  scope="State Name"
+                  class="text-center"
+                  style="width: 9%"
+                >
                   State Name
                 </th>
                 <th scope="ULB Name" class="text-center">ULB Name</th>
@@ -478,7 +493,7 @@
             <tbody>
               <tr [formGroup]="ulbFilter">
                 <td></td>
-                <td>
+                <td *ngIf="loggedInUserData.role !== userTypes.STATE">
                   <div class="input-group">
                     <select
                       name="State"
@@ -560,8 +575,8 @@
                 <td>
                   <div class="input-group">
                     <select
-                      name="registered"
-                      id="registered"
+                      name="registration"
+                      id="registration"
                       formControlName="registration"
                       class="form-control"
                       placeholder="Registered"
@@ -602,14 +617,18 @@
                     index as i
                   "
                 >
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ row.stateName }}</td>
+                  <td>
+                    {{ (ulbtableDefaultOptions?.currentPage - 1) * 10 + i + 1 }}
+                  </td>
+                  <td *ngIf="loggedInUserData.role !== userTypes.STATE">
+                    {{ row.stateName }}
+                  </td>
                   <td>{{ row.ulbName }}</td>
 
                   <td>{{ row.ulbType }}</td>
                   <td>{{ row.censusCode }}</td>
                   <td>{{ row.sbCode }}</td>
-                  <td>{{ row.email }}</td>
+                  <td>{{ row.email || "Not Available" }}</td>
                   <!-- <td>{{ row.mobile }}</td> -->
                   <td class="text-center">{{ row.registration }}</td>
                   <td>
@@ -631,7 +650,7 @@
             </tbody>
           </table>
           <pagination-controls
-            *ngIf="ulbtableDefaultOptions.totalCount"
+            *ngIf="ulbtableDefaultOptions.totalCount && ulbList"
             style="float: right; position: relative"
             id="ulblist-pagination"
             (pageChange)="setulbPage($event)"
@@ -717,7 +736,7 @@
             <tbody>
               <tr [formGroup]="fileFormGroup">
                 <td></td>
-                <td>
+                <td *ngIf="loggedInUserData.role !== userTypes.STATE">
                   <div class="input-group">
                     <select
                       name="State"

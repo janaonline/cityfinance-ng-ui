@@ -39,33 +39,33 @@
     margin-bottom: 3%;
   }
   .nested-card-container {
-    width: 300px;
+    width: 315px;
     flex-wrap: wrap;
-    margin-right: 2%;
+    margin-right: 1%;
     .card {
       margin-bottom: 8%;
       padding: 4% 4.5%;
     }
   }
   .card {
-    animation: card-animation 2s ease-out forwards;
-    opacity: 0;
+    // animation: card-animation 2s ease-out forwards;
+    // opacity: 0;
     font-family: "Roboto";
     font-weight: 500;
     font-size: 1.5rem;
     width: 22.1vw;
-    height: 170px;
+    height: 200px;
     padding: 1% 1.5%;
     border-radius: 5px;
     color: white;
     box-shadow: 0px 3px 6px #00000029;
     position: relative;
     margin: 0 2% 2% 0;
-    transform: translateX(-10%);
+    // transform: translateX(-10%);
     hr {
       // width: 90%;
-      margin-top: 7px;
-      margin-bottom: 7px;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
       border-color: rgba(255, 255, 255, 0.4);
     }
 
@@ -82,7 +82,7 @@
 
     .categories {
       .category {
-        font-size: 0.8em;
+        font-size: 1em;
         text-align: center;
 
         .category-heading {
@@ -149,7 +149,7 @@
   .chart-container {
     padding: 2% 2% 0% 3%;
     display: block;
-    width: 73%;
+    width: 70%;
     box-shadow: 0px 3px 6px #00000029;
     border: 1px solid #70707033;
     border-radius: 5px;
