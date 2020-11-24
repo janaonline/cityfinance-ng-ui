@@ -2,8 +2,7 @@
   background-image: url("../../../../../assets/images/backgrounds/Path.png");
   background-repeat: no-repeat;
   background-position: left;
-  min-height: 100vh;
-  max-height: auto;
+  min-height: calc(100vh - 92px);
   // background-size: contain;
   background-size: 81% 100%;
   .text-white {
@@ -59,7 +58,7 @@
   ul {
     list-style-type: disc;
     li{
-      font-size: 10px;
+      font-size: 13px;
     }
     li,
     li > * {

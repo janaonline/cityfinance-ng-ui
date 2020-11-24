@@ -98,7 +98,7 @@
 .register {
   width: 75%;
   text-align: center;
-  padding: 25px;
+  padding: 10px 25px;
   border-radius: 10px;
 
   .forget span {
@@ -169,7 +169,8 @@
 }
 .form-field-error-message{
   margin-bottom: 20px;
-  text-align: right;
+  text-align: left;
+  margin-top: -14px;
 }
 .container {
   overflow-y: hidden;
@@ -178,8 +179,8 @@
 }
 
 .registration-form::-webkit-scrollbar {
-  display: none;
-  overflow: -moz-scrollbars-none;
+  // display: none;
+  // overflow: -moz-scrollbars-none;
 }
 
 :host {
