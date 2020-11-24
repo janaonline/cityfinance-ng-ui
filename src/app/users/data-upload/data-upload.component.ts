@@ -1065,7 +1065,7 @@ export class DataUploadComponent
     this.ulblistFetchOption.skip =
       (pageNoClick - 1) * this.ulbtableDefaultOptions.itemPerPage;
     const { skip } = this.ulblistFetchOption;
-    this.fetchULBList({ skip, limit: 10 });
+    this.fetchULBList({ ...this.ulbFilter.value });
   }
 
   sortById(id: string) {
