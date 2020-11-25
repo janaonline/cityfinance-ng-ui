@@ -11,6 +11,9 @@
   ::ng-deep .selected-list,::ng-deep .mat-form-field-flex {
     border: none!important;
 }
+::ng-deep label {
+  font-size: 13px!important;
+}
 .fc-grant {
   background-image: url("../../../assets/images/backgrounds/Path.png");
   background-repeat: no-repeat;
@@ -110,9 +113,9 @@
 
 .register {
   width: 85%;
-    text-align: center;
-    padding: 5px 25px;
-    border-radius: 10px;
+  text-align: center;
+  padding: 5px 25px 10px;
+  border-radius: 10px;
 
   .forget span {
     color: #2c2c2c;
@@ -125,7 +128,7 @@
     color: #2c2c2c;
   }
   .last-para {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
   }
   .last-para a {
@@ -223,12 +226,15 @@
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
+  margin:10px;
+ 
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
   box-shadow: inset 5px 5px 5px rgb(219, 219, 219);
   border-radius: 5px;
+  
 }
 
 /* Handle */
@@ -246,4 +252,8 @@
 }
 .user {
   margin-bottom: 20px;
+}
+.m-1{
+  margin-bottom: 20px;
+  margin-top: 0;;
 }

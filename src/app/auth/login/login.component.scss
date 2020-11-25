@@ -11,13 +11,20 @@
 ::ng-deep .selected-list,::ng-deep .mat-form-field-flex {
   border: none!important;
 }
+::ng-deep .mat-form-field-prefix .mat-icon,::ng-deep .mat-form-field-suffix .mat-icon {
+  font-size: 16px;
+  line-height: 1.125;
+}
+::ng-deep label {
+  font-size: 13px!important;
+}
 .fc-grant {
   background-image: url("../../../assets/images/backgrounds/Path.png");
   background-repeat: no-repeat;
   background-position: left;
   height: calc(100vh - 95px);
   // background-size: contain;
-  background-size: 81% 100%;
+  background-size: 74% 100%;
   display: flex;
 
   & > .container-fluid {
@@ -31,6 +38,9 @@
     color: #ffffff;
     font-family: "Roboto", sans-serif;
     padding: 20px 0;
+  }
+  h5{
+    font-family: Poppins;
   }
   table {
     border-radius: 12px;
@@ -105,22 +115,23 @@
 .sign-in {
   width: 85%;
   text-align: center;
-  padding: 25px;
+  padding: 5px 25px 10px;
   border-radius: 10px;
   .forget span {
     color: #2c2c2c;
+    font-size: 14px;
   }
   .sign-in .mat-form-field:last-child .mat-form-field-wrapper {
     padding-bottom: 0 !important;
   }
   .login-btn {
-    margin: 20px 0;
+    margin: 30px 0 30px;
   }
   .text-dark {
     color: #2c2c2c;
   }
   .last-para {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
   }
   .last-para a {
