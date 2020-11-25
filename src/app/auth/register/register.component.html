@@ -4,7 +4,7 @@
       <div class="col-xs-12 col-sm-12 col-md-6">
         <div class="card">
           <div class="card-body border register bg-white">
-            <h5 class="text-left"><b>Sign Up</b></h5>
+            <h5 class="text-center"><b>Sign Up</b></h5>
 
             <div class="col-xs-12 mb-2">
               <div class="row">
@@ -26,7 +26,7 @@
                       }"
                     />
                   </div> -->
-                  <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-form-field class="example-full-width" appearance="outline" style="border: none;">
                     <mat-label class="text-gray">User name<span style="color: red">*</span></mat-label>
 
                     <input [formControl]="registrationForm.controls['name']" matInput />
@@ -505,7 +505,7 @@
             <div class="card-footer">
               <p class="text-dark last-para" style="text-align: center">
                 <span class="mt-1">
-                  Already have an Account!
+                  Already have an Account?
                   <a routerLink="/login">Sign in here</a></span>
               </p>
             </div>
@@ -517,7 +517,7 @@
           <img src="../assets/images/Group 13309.png" class="img-responsive m-auto" />
         </div>
 
-        <P class="support-text">If you have any query or stuck with anything please email us at
+        <P>If you have any query or stuck with anything please email us at
           <br />
           <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a>.
           </P>

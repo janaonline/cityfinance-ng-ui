@@ -7,27 +7,25 @@
             <div class="">
               <div class="row" style="padding: 1% 5%">
                 <div>
-                  <div class="accountreactive"><h3>Account Re-activation</h3></div>
-        
+                  <div class="accountreactive">
+                    <h3>Account Re-activation</h3>
+                  </div>
+
                   <div class="col-xs-6 text-right">
                     <div class="row">
-                      <a [routerLink]="['/login']" class="pointer" style="color: white"
-                        >Sign In</a
-                      >
+                      <a [routerLink]="['/login']" class="pointer" style="color: white">Sign In</a>
                     </div>
                   </div>
                 </div>
-        
+
                 <div class="col-xs-12 card-body">
                   <div>
                     <div class="selectuser">
                       <h3 *ngIf="!userTypeSelected">Select User Type</h3>
                     </div>
-        
-                    <app-user-type-confirmation
-                      *ngIf="!userTypeSelected"
-                      (userTypeSelected)="onSelectingUserType($event)"
-                    ></app-user-type-confirmation>
+
+                    <app-user-type-confirmation *ngIf="!userTypeSelected"
+                      (userTypeSelected)="onSelectingUserType($event)"></app-user-type-confirmation>
                     <div class="row" *ngIf="userTypeSelected">
                       <h4 *ngIf="urlMessage" class="success-message text-center">
                         {{ urlMessage }}
@@ -55,44 +53,30 @@
                               ? "Email Id"
                               : "Swatch Bharat Code/Census Code"
                           }}</mat-label>
-                          <input
-                            matInput
-                            type="email"
-                            name="email"
-                            [placeholder]="
+                          <input matInput type="email" name="email" [placeholder]="
                               userTypeSelected === USER_TYPE.USER
                                 ? 'Email ID'
                                 : 'Swatch Bharat Code/Census Code'
-                            "
-                            formControlName="email"
-                          />
+                            " formControlName="email" />
                         </mat-form-field>
-        
+
                         <p *ngIf="errorMessage" class="error-message">
                           {{ errorMessage }}
                         </p>
-        
+
                         <p *ngIf="successMessage" class="success-message">
                           {{ successMessage }}
                         </p>
                         <div class="input-group" style="width: 100%">
-                          <button
-                            style="width: 100%"
-                            type="submit"
-                            class="btn btn-primary"
-                            [disabled]="form.invalid"
-                          >
+                          <button style="width: 100%" type="submit" class="btn btn-primary" [disabled]="form.invalid">
                             Send Reactivation Email
                           </button>
-                          <div
-                            class="forgotpass"
-                            style="
+                          <div class="forgotpass" style="
                               text-decoration: underline;
                               float: right;
                               font-weight: bold;
-                            "
-                          ></div>
-        
+                            "></div>
+
                           <br />
                           <br />
                         </div>
@@ -111,19 +95,14 @@
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 text-center image-side">
         <div class="img-wrapper text-center">
-          <img
-            src="../assets/images/Group 13309.png"
-            class="img-responsive m-auto"
-          />
+          <img src="../assets/images/Group 13309.png" class="img-responsive m-auto" />
         </div>
 
-        <P
-          >If you have any query or stuck with anything please email us at
+        <P>If you have any query or stuck with anything please email us at
           <br />
-          <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a
-          >. <br /><br />
-          We will get back to you within 16 hours.</P
-        >
+          <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a>.
+        </P>
+        <p>We will get back to you within 16 hours.</p>
       </div>
     </div>
   </div>

@@ -1,10 +1,23 @@
+::ng-deep .register .mat-form-field:last-child .mat-form-field-wrapper {
+    padding-bottom: 0 !important;
+  }
+  ::ng-deep .form-field-error-message{
+    margin-bottom: 20px;
+    text-align: right;
+  }
+  ::ng-deep .mat-form-field-disabled .mat-form-field-outline {
+    background: #eaeaea;
+  }
+  ::ng-deep .selected-list,::ng-deep .mat-form-field-flex {
+    border: none!important;
+}
 .fc-grant {
   background-image: url("../../../assets/images/backgrounds/Path.png");
   background-repeat: no-repeat;
   background-position: left;
   height: calc(100vh - 92px);
   // background-size: contain;
-  background-size: 70% 100%;
+  background-size: 74% 100%;
   display: flex;
 
   & > .container-fluid {
@@ -96,17 +109,15 @@
 }
 
 .register {
-  width: 75%;
-  text-align: center;
-  padding: 10px 25px;
-  border-radius: 10px;
+  width: 85%;
+    text-align: center;
+    padding: 5px 25px;
+    border-radius: 10px;
 
   .forget span {
     color: #2c2c2c;
   }
-  .register .mat-form-field:last-child .mat-form-field-wrapper {
-    padding-bottom: 0 !important;
-  }
+  
   .login-btn {
     margin: 20px 0;
   }
@@ -235,7 +246,4 @@
 }
 .user {
   margin-bottom: 20px;
-}
-.mat-form-field-disabled .mat-form-field-outline {
-  background: #eaeaea;
 }
