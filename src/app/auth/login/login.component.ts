@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     siteKey: environment.reCaptcha.siteKey,
     userGeneratedKey: null,
   };
-  private hide = true;
+  public hide = true;
 
   constructor(
     private fb: FormBuilder,
