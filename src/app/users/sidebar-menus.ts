@@ -156,27 +156,27 @@ export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
   //     },
   //   ],
   // },
-  // {
-  //   title: "Temporary Links",
-  //   subMenus: [
-  //     {
-  //       title: "ULB Bulk Upload",
-  //       type: "link",
-  //       route: ["/user/data-upload/bulk-upload"],
-  //       condition: () => {
-  //         return accessChecker.hasAccess({
-  //           action: ACTIONS.UPLOAD,
-  //           moduleName: MODULES_NAME.ULBDataBULKEntry,
-  //         });
-  //       },
-  //     },
-  //     {
-  //       title: "Annual Accounts",
-  //       type: "link",
-  //       route: ["/user/annual-accounts/view"],
-  //     },
-  //   ],
-  // },
+  {
+    title: "Temporary Links",
+    subMenus: [
+      {
+        title: "ULB Bulk Upload",
+        type: "link",
+        route: ["/user/data-upload/bulk-upload"],
+        condition: () => {
+          return accessChecker.hasAccess({
+            action: ACTIONS.UPLOAD,
+            moduleName: MODULES_NAME.ULBDataBULKEntry,
+          });
+        },
+      },
+      {
+        title: "Annual Accounts",
+        type: "link",
+        route: ["/user/annual-accounts/view"],
+      },
+    ],
+  },
 ];
 
 export const sideMenuForStateUser: { title: string; subMenus: ILink[] }[] = [
