@@ -153,7 +153,7 @@ const wasteWaterDucmentQuestions: FinancialUploadQuestion<
 >[] = [
   {
     key: "wasteWaterPlan",
-    question: "Waste Water Management Plan",
+    question: "Evidence for benchmark and target for service level indicators",
   },
 ];
 
