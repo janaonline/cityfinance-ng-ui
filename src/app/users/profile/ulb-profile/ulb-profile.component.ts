@@ -12,6 +12,7 @@ import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { ulbType } from '../../../dashboard/report/report/ulbTypes';
 import { FormUtil } from '../../../util/formUtil';
+import { SidebarUtil } from '../../utils/sidebar.util';
 import { IULBProfileData } from '../model/ulb-profile';
 import { ProfileService } from '../service/profile.service';
 
@@ -27,6 +28,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     public dialogBox: MatDialog
   ) {
     this.fetchDatas();
+    SidebarUtil.showSidebar();
   }
   @Input() profileData: IULBProfileData;
   @Input() editable = false;
