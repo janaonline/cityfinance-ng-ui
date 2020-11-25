@@ -6,6 +6,7 @@
   .cursor-pointer {
     cursor: pointer;
   }
+  scroll-behavior: smooth;
 
   .c-remove,
   .clear-all {
@@ -17,17 +18,198 @@
   }
 }
 
-.tracking-history-table {
-  thead tr {
-    background: #047474;
-    color: white;
-  }
-  tbody tr:nth-child(even) {
-    background: #dbdbdb;
-  }
-}
-
 :host {
+  @keyframes card-animation {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  table > thead > tr > th {
+    padding: 1.2% 0.5%;
+  }
+  .card-container {
+    width: 100%;
+    flex-wrap: wrap;
+    display: inline-flex;
+    margin-bottom: 3%;
+  }
+  .nested-card-container {
+    width: 315px;
+    flex-wrap: wrap;
+    margin-right: 1%;
+    .card {
+      margin-bottom: 8%;
+      padding: 4% 4.5%;
+    }
+  }
+  .card {
+    animation: card-animation 1s ease-out forwards;
+    opacity: 0;
+    font-family: "Roboto";
+    font-weight: 500;
+    font-size: 1.5rem;
+    width: 22.1vw;
+    height: 200px;
+    padding: 1% 1.5%;
+    border-radius: 5px;
+    color: white;
+    box-shadow: 0px 3px 6px #00000029;
+    position: relative;
+    margin: 0 2% 2% 0;
+    transform: translateX(-20%);
+    hr {
+      // width: 90%;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    img {
+      position: absolute;
+      width: 20%;
+      right: 6%;
+      top: 6%;
+    }
+
+    .loading-value {
+      opacity: 0.3;
+    }
+
+    .categories {
+      .category {
+        font-size: 1em;
+        text-align: center;
+
+        .category-heading {
+          display: block;
+        }
+      }
+    }
+    .categories-values {
+      justify-content: space-around;
+      margin-bottom: 2.3%;
+
+      .category-value {
+        font-size: 1.5em;
+        font-weight: 600;
+      }
+    }
+
+    .view-list {
+      float: right;
+      font-size: 0.7em;
+      text-decoration: underline;
+      font-weight: 400;
+      cursor: pointer;
+    }
+
+    .heading {
+      margin-bottom: 4px;
+    }
+
+    .card-main-value {
+      font-size: 1.5em;
+    }
+  }
+
+  div.card.blue {
+    background: linear-gradient(to top, #22bcee, #58d3fc);
+  }
+
+  div.card.pink {
+    background: linear-gradient(to top, #e71368, #ff428e);
+    animation-delay: 200ms;
+  }
+
+  div.card.green {
+    background: linear-gradient(to top, #62b446, #81d465);
+    animation-delay: 400ms;
+  }
+
+  div.card.yellow {
+    background: linear-gradient(to top, #fcc415, #ffd44d);
+    animation-delay: 600ms;
+  }
+
+  div.card.brown {
+    background: linear-gradient(to top, #f16831, #f79168);
+    animation-delay: 800ms;
+  }
+
+  div.card.dark-green {
+    background: linear-gradient(to top, #43844c, #5baa66);
+    animation-delay: 1000ms;
+  }
+
+  .chart-container {
+    padding: 2% 2% 0% 3%;
+    display: block;
+    width: 70%;
+    box-shadow: 0px 3px 6px #00000029;
+    border: 1px solid #70707033;
+    border-radius: 5px;
+    // transform: translateX(10%);
+    // animation: card-animation 1s ease-out forwards;
+    .heading {
+      font-weight: bold;
+    }
+
+    .view-list {
+      width: fit-content;
+      float: right;
+      text-decoration: underline;
+      color: gray;
+      cursor: pointer;
+    }
+  }
+
+  .ulb-list {
+    table tbody tr:nth-child(odd) {
+      background: #e7e7e7;
+    }
+    table tbody tr:nth-child(even),
+    table tbody tr:nth-child(1) {
+      background: white;
+    }
+    table > thead > tr > th {
+      padding: 1.2% 0.5%;
+    }
+  }
+
+  .ulb-list,
+  .data-upload-container {
+    display: block;
+    padding: 1% 2%;
+    height: fit-content;
+    box-shadow: 0px 3px 6px #00000029;
+    border: 1px solid #70707047;
+    border-radius: 5px;
+    width: 98%;
+    overflow: hidden;
+    margin-bottom: 3%;
+
+    table tbody tr:last-child {
+      border-bottom: 1px solid #cfcfcf;
+    }
+
+    table tbody tr td:nth-child(1) {
+      border-left: 1px solid #cfcfcf;
+    }
+
+    table tbody tr td:last-child {
+      border-right: 1px solid #cfcfcf;
+    }
+    table tbody tr:nth-child(1) td {
+      border: 1px solid white;
+      border-bottom: 1px solid #cfcfcf;
+    }
+  }
+
   --greenish: #047474;
   .upldate-table thead tr {
     background: var(--greenish);

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, of } from 'rxjs';
@@ -16,6 +16,7 @@ import { AuthService } from './../auth.service';
   selector: "app-register",
   templateUrl: "./register.component.html",
   styleUrls: ["./register.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class RegisterComponent implements OnInit {
   constructor(
@@ -64,12 +65,12 @@ export class RegisterComponent implements OnInit {
     if (this.registrationType === "user") {
       return true;
     }
-    if (
-      !this.registrationForm ||
-      this.registrationForm.controls.commissionerName.disabled
-    ) {
-      return false;
-    }
+    // if (
+    //   !this.registrationForm ||
+    //   this.registrationForm.controls.commissionerName.disabled
+    // ) {
+    //   return false;
+    // }
 
     if (!this.reCaptcha.userGeneratedKey) {
       return false;
@@ -110,7 +111,7 @@ export class RegisterComponent implements OnInit {
             "User Registration successful. Kindly check your email for further information.";
         } else {
           this.respone.successMessage =
-            "ULB registered successfully. Kindly check your email for further information";
+            "ULB registered successfully. Please check your email for setting up password. Please check spam in case email is not found.";
         }
       },
       (err) => {
@@ -224,9 +225,9 @@ export class RegisterComponent implements OnInit {
   }
 
   private disableImportantULBFields(form: FormGroup) {
-    form.controls.commissionerName.disable({ emitEvent: false });
-    form.controls.commissionerConatactNumber.disable({ emitEvent: false });
-    form.controls.commissionerEmail.disable({ emitEvent: false });
+    // form.controls.commissionerName.disable({ emitEvent: false });
+    // form.controls.commissionerConatactNumber.disable({ emitEvent: false });
+    // form.controls.commissionerEmail.disable({ emitEvent: false });
     form.controls.accountantName.disable({ emitEvent: false });
     form.controls.accountantConatactNumber.disable({ emitEvent: false });
     form.controls.accountantEmail.disable({ emitEvent: false });
