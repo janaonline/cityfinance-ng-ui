@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -9,7 +9,6 @@ import { environment } from './../../../environments/environment';
   selector: "app-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.scss"],
-  encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent implements OnInit, OnDestroy {
   public loginForm: FormGroup;
