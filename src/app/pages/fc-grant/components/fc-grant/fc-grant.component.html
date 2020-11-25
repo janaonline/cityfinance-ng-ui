@@ -146,7 +146,9 @@
                 <li
                   [ngClass]="{
                     completed: evidencePercentageCompleted === 100,
-                    active: evidencePercentageCompleted > 0,
+                    active:
+                      evidencePercentageCompleted > 0 &&
+                      evidencePercentageCompleted !== 100,
                     pending: evidencePercentageCompleted === 0
                   }"
                 >
@@ -155,7 +157,9 @@
                 <li
                   [ngClass]="{
                     completed: solidWastePercentageCompleted === 100,
-                    active: solidWastePercentageCompleted > 0,
+                    active:
+                      solidWastePercentageCompleted > 0 &&
+                      solidWastePercentageCompleted !== 100,
                     pending: solidWastePercentageCompleted === 0
                   }"
                 >
@@ -165,7 +169,9 @@
                   *ngIf="isULBMillionPlus"
                   [ngClass]="{
                     completed: millionPlusCitiesCompleted === 100,
-                    active: millionPlusCitiesCompleted > 0,
+                    active:
+                      millionPlusCitiesCompleted > 0 &&
+                      millionPlusCitiesCompleted !== 100,
                     pending: millionPlusCitiesCompleted === 0
                   }"
                 >
