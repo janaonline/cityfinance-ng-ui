@@ -14,6 +14,7 @@ import {
   UNDER_REVIEW_BY_MoHUA,
   UNDER_REVIEW_BY_STATE,
 } from 'src/app/users/data-upload/util/request-status';
+import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { FinancialDataService } from 'src/app/users/services/financial-data.service';
 import { SidebarUtil } from 'src/app/users/utils/sidebar.util';
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
@@ -29,7 +30,8 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
     private _router: Router,
     private _financialService: FinancialDataService,
     private modalService: BsModalService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private _profileService: ProfileService
   ) {
     super();
     switch (this.loggedInUserType) {
@@ -58,6 +60,12 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   isPopupOpen = false;
   formHistoricalData;
 
+  solidWastePercentageCompleted = 0;
+  millionPlusCitiesCompleted = 0;
+  evidencePercentageCompleted = 0;
+
+  isULBMillionPlus: boolean;
+
   ngOnInit() {}
 
   onClickingLoginButton() {
@@ -79,9 +87,22 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
         if (!this.financialData) {
           return this._router.navigate(["/user/data-upload/upload-form"]);
         }
+        this.checkULBMilionPlusStatus();
       } catch (error) {
         console.error(error);
         return;
+      }
+    });
+  }
+
+  checkULBMilionPlusStatus() {
+    const ulbId = this.financialData.ulb;
+    this._profileService.getULBGeneralData({ id: ulbId }).subscribe((res) => {
+      try {
+        this.isULBMillionPlus = res["data"][0].isMillionPlus;
+      } catch (error) {
+        console.error(error);
+        this.isULBMillionPlus = false;
       }
       this.financialData.customStatusMessage = this.calculateFormStatus(
         this.financialData
@@ -96,6 +117,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
 
     if (!this.financialData) return completed;
     if (
+      this.isULBMillionPlus &&
       this.financialData.millionPlusCities &&
       this.financialData.millionPlusCities.documents
     ) {
@@ -111,9 +133,19 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
           ) {
             return;
           }
+          this.millionPlusCitiesCompleted++;
           completed++;
         }
       );
+      if (this.millionPlusCitiesCompleted) {
+        this.millionPlusCitiesCompleted = Number.parseInt(
+          (this.millionPlusCitiesCompleted /
+            Object.keys(this.financialData.millionPlusCities.documents)
+              .length) *
+            100 +
+            ""
+        );
+      }
     }
 
     if (
@@ -135,8 +167,18 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
             return;
           }
           completed++;
+          this.solidWastePercentageCompleted++;
         }
       );
+      if (this.solidWastePercentageCompleted) {
+        this.solidWastePercentageCompleted = Number.parseInt(
+          (this.solidWastePercentageCompleted /
+            Object.keys(this.financialData.solidWasteManagement.documents)
+              .length) *
+            100 +
+            ""
+        );
+      }
     }
 
     if (
@@ -147,6 +189,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
         .wasteWaterPlan[0];
       if (doc && doc.name) {
         completed++;
+        this.evidencePercentageCompleted++;
       }
     }
 
@@ -155,17 +198,27 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       try {
         if (serviceLevel["baseline"][2021]) {
           completed++;
+          this.evidencePercentageCompleted++;
         }
 
         targets.forEach((year) => {
           if (serviceLevel["target"][year.key]) {
             completed++;
+            this.evidencePercentageCompleted++;
           }
         });
       } catch (error) {}
     });
 
-    return Number.parseInt((completed / 27) * 100 + "");
+    if (this.evidencePercentageCompleted) {
+      this.evidencePercentageCompleted = Number.parseInt(
+        (this.evidencePercentageCompleted / 21) * 100 + ""
+      );
+    }
+
+    return Number.parseInt(
+      (completed / (this.isULBMillionPlus ? 27 : 23)) * 100 + ""
+    );
   }
 
   calculateFormStatus(data: IFinancialData) {

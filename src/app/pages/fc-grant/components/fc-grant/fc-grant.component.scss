@@ -57,7 +57,7 @@
   }
   ul {
     list-style-type: disc;
-    li{
+    li {
       font-size: 13px;
     }
     li,
@@ -84,68 +84,69 @@
   .flex-wrap {
     flex-wrap: wrap;
   }
-  .support-text{
+  .support-text {
     margin-bottom: 5px;
   }
-
 }
 
 .form-field-error-message {
-  margin-bottom: 20px!important;
+  margin-bottom: 20px !important;
 }
 /*form styles*/
 #msform {
-	width: 500px;
-	margin: 20px auto;
-	text-align: center;
+  width: 500px;
+  margin: 20px auto;
+  text-align: center;
   position: relative;
   max-width: 100%;
 }
 
 /*progressbar*/
 .progressbar {
-	overflow: hidden;
-	/*CSS counters to number the steps*/
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  /*CSS counters to number the steps*/
   counter-reset: step;
   padding: 0;
   margin-bottom: 0;
 }
 .progressbar li {
-	list-style-type: none;
-	color:#585858!important;
-	text-transform: uppercase;
-	font-size: 12px;
+  list-style-type: none;
+  color: #585858 !important;
+  text-transform: uppercase;
+  font-size: 12px;
   width: 20%;
-	float: left;
-	position: relative;
+  float: left;
+  position: relative;
 }
 .progressbar li:before {
-	content: counter(step);
-	counter-increment: step;
+  content: counter(step);
+  counter-increment: step;
   width: 24px;
   line-height: 24px;
-	display: block;
-	font-size: 10px;
-	color: #fff;
-	// background: white;
+  display: block;
+  font-size: 10px;
+  color: #fff;
+  // background: white;
   border-radius: 50%;
   margin: 0 auto 5px auto;
   border: 1px solid #808080;
 }
 /*progressbar connectors*/
 .progressbar li:after {
-	content: '';
-	width: 100%;
-	height: 3px;
-	background: #dad6d6;
-	position: absolute;
-	left: -50%;
-	top: 9px;
-	z-index: -1; /*put it behind the numbers*/
+  content: "";
+  width: 100%;
+  height: 3px;
+  background: #dad6d6;
+  position: absolute;
+  left: -50%;
+  top: 9px;
+  z-index: -1; /*put it behind the numbers*/
 }
 .progressbar li:first-child:after {
-	/*connector not needed before the first step*/
-	content: none; 
+  /*connector not needed before the first step*/
+  content: none;
 }
 /*marking active/completed steps green*/
 /*The number of the step and the connector before it = green*/
@@ -163,18 +164,18 @@
 // }
 .completed[_ngcontent-c5]:before {
   background: #91ec95;
-  content: '\f00c'!important;
-  font-family: 'FontAwesome';
+  content: "\f00c" !important;
+  font-family: "FontAwesome";
 }
 
-.active:before, .active:after{
-	background: #fdea74;
+.active:before,
+.active:after {
+  background: #fdea74;
 }
-.pending:before, .pending:after{
-	background: #A3A2A2;
+.pending:before,
+.pending:after {
+  background: #a3a2a2;
 }
-
-
 
 .container {
   overflow-y: hidden;
@@ -199,21 +200,22 @@
 @media only screen and (min-width: 300px) and (max-width: 1024px) {
   .fc-grant-2 {
     background-size: cover;
-}
+  }
   .image-side .btn {
     color: #ffffff;
   }
-  .image-side{
+  .image-side {
     background-color: #ffffff;
     padding: 0;
   }
-  .image-side .img-wrapper, .image-side p{
+  .image-side .img-wrapper,
+  .image-side p {
     padding: 0 15px;
   }
-  .container-fluid{
+  .container-fluid {
     padding: 0;
   }
-  .login-wrapper{
+  .login-wrapper {
     margin: 50px 0;
   }
 }
