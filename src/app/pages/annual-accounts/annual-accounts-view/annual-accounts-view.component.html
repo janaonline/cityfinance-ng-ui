@@ -3,6 +3,13 @@
     <div class="col-md-12">
       <h3>
         <span style="margin-left: 6px"> Annual Accounts List</span>
+        <button
+          class="btn btn-primary"
+          style="float: right; margin-right: 6px"
+          (click)="downloadList()"
+        >
+          Download List
+        </button>
       </h3>
     </div>
   </div>
@@ -14,9 +21,7 @@
             style="background: #059b9a; color: white; border: 0px"
             class="sortable-headers"
           >
-            <th>
-              Sr No
-            </th>
+            <th style="width: 7%">Sr No</th>
             <th class="">
               State
               <!-- <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i> -->
