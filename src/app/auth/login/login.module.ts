@@ -6,6 +6,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
 
 import { SharedModule } from '../../shared/shared.module';
 import { LoginRoutingModule } from './login-routing.module';
+import {MatIconModule} from '@angular/material/icon';
 import { LoginComponent } from './login.component';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { LoginComponent } from './login.component';
     RecaptchaModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
   ],
   declarations: [LoginComponent],
 })
