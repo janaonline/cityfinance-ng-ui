@@ -1,4 +1,7 @@
-<div class="fc-grant-2" *ngIf="!loggedInUserType || loggedInUserType === USER_TYPE.ULB">
+<div
+  class="fc-grant-2"
+  *ngIf="!loggedInUserType || loggedInUserType === USER_TYPE.ULB"
+>
   <div class="container-fluid">
     <div class="align-items-center d-flex flex-wrap">
       <div class="col-xs-12 col-sm-12 col-md-6">
@@ -61,93 +64,192 @@
             <i class="fa fa-circle" aria-hidden="true"></i> 15 FC tool kit
           </li>
           <li>
-            <a href="../../../../../assets/files/XV FC Operational Guidelines.pdf" target="_blank">
+            <a
+              href="../../../../../assets/files/XV FC Operational Guidelines.pdf"
+              target="_blank"
+            >
               <i class="fa fa-circle" aria-hidden="true"></i> 15 Operational
               Guidelines
             </a>
           </li>
           <li>
-            <a href="../../../../../assets/files/XV FC Marking Scheme Guidelines.pdf" target="_blank">
+            <a
+              href="../../../../../assets/files/XV FC Marking Scheme Guidelines.pdf"
+              target="_blank"
+            >
               <i class="fa fa-circle" aria-hidden="true"></i> 15 Marking Schema
               Guidelines
             </a>
           </li>
           <li>
-            <a href="../../../../../assets/files/XV FC Report.pdf" target="_blank">
+            <a
+              href="../../../../../assets/files/XV FC Report.pdf"
+              target="_blank"
+            >
               <i class="fa fa-circle" aria-hidden="true"></i> 15 Commission
-              Report</a>
+              Report</a
+            >
           </li>
         </ul>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 text-center image-side">
         <div *ngIf="!loggedInUserType">
           <div class="img-wrapper text-center">
-            <img src="../assets/images/Group 13309.png" class="img-responsive m-auto" alt="Back img 2" />
+            <img
+              src="../assets/images/Group 13309.png"
+              class="img-responsive m-auto"
+              alt="Back img 2"
+            />
           </div>
-          <input type="submit" class="btn btn-primary" (click)="onClickingLoginButton()" value="LOGIN AS ULB/OTHERS" />
-          <input type="submit" class="btn btn-primary" routerLink="/register/ulb" value="SIGN UP AS ULB" />
-          <P class="support-text">If you have any query or stuck with anything please email us at
+          <input
+            type="submit"
+            class="btn btn-primary"
+            (click)="onClickingLoginButton()"
+            value="LOGIN AS ULB/OTHERS"
+          />
+          <input
+            type="submit"
+            class="btn btn-primary"
+            routerLink="/register/ulb"
+            value="SIGN UP AS ULB"
+          />
+          <P class="support-text"
+            >If you have any query or stuck with anything please email us at
             <br />
-            <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a>.
-           </P>
-           <p> We will get back to you within 16 hours.</p>
+            <a href="mailto:15fcgrant@cityfinance.in"
+              >15fcgrant@cityfinance.in</a
+            >.
+          </P>
+          <p>We will get back to you within 16 hours.</p>
         </div>
 
         <div class="col-xs-12 col-sm-12 col-md-12">
-          <div *ngIf="loggedInUserType && financialData"
-          class="d-flex justify-content-center flex-column align-items-center login-wrapper">
-          <span><span style="font-weight: 600; display: inline">FORM STATUS:</span>
-            {{ financialData.customStatusMessage }}</span>
+          <div
+            *ngIf="
+              loggedInUserType &&
+                financialData &&
+                isULBMillionPlus !== null &&
+                isULBMillionPlus !== undefined;
+              else progress_loader
+            "
+            class="d-flex justify-content-center flex-column align-items-center login-wrapper"
+          >
+            <span
+              ><span style="font-weight: 600; display: inline"
+                >FORM STATUS:</span
+              >
+              {{ financialData.customStatusMessage }}</span
+            >
 
-          <!-- multistep form -->
-          <div id="msform">
-            <!-- progressbar -->
-            <ul class="progressbar">
-              <li class="completed">100%</li>
-              <li class="active">25%</li>
-              <li class="active">50%</li>
-              <li class="pending">0%</li>
-              <li class="pending">0%</li>
-            </ul>
-            <!-- fieldsets -->
-          </div>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" [ngStyle]="{
-                'width.%': formCompletedPercentage
-              }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-              {{ formCompletedPercentage }}
-              %
+            <!-- multistep form -->
+            <div
+              id="msform"
+              *ngIf="
+                isULBMillionPlus !== undefined && isULBMillionPlus !== null
+              "
+            >
+              <!-- progressbar -->
+              <ul class="progressbar">
+                <li
+                  [ngClass]="{
+                    completed: evidencePercentageCompleted === 100,
+                    active: evidencePercentageCompleted > 0,
+                    pending: evidencePercentageCompleted === 0
+                  }"
+                >
+                  {{ evidencePercentageCompleted }}%
+                </li>
+                <li
+                  [ngClass]="{
+                    completed: solidWastePercentageCompleted === 100,
+                    active: solidWastePercentageCompleted > 0,
+                    pending: solidWastePercentageCompleted === 0
+                  }"
+                >
+                  {{ solidWastePercentageCompleted }}%
+                </li>
+                <li
+                  *ngIf="isULBMillionPlus"
+                  [ngClass]="{
+                    completed: millionPlusCitiesCompleted === 100,
+                    active: millionPlusCitiesCompleted > 0,
+                    pending: millionPlusCitiesCompleted === 0
+                  }"
+                >
+                  {{ millionPlusCitiesCompleted }}%
+                </li>
+              </ul>
+              <!-- fieldsets -->
             </div>
+
+            <div class="progress">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                [ngStyle]="{
+                  'width.%': formCompletedPercentage
+                }"
+                aria-valuenow="25"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                {{ formCompletedPercentage }}
+                %
+              </div>
+            </div>
+            <a
+              style="margin-bottom: 1%"
+              id="login"
+              class="btn btn-primary btn-upload mt-1"
+              (click)="
+                goToFormView(
+                  '/user/data-upload/upload-form/' + financialData._id
+                )
+              "
+            >
+              {{
+                financialData.isCompleted
+                  ? financialData.status === uploadStatus.REJECTED
+                    ? "Update Rejected Data"
+                    : "View Filled Data"
+                  : "Fill Remaining Data"
+              }}
+            </a>
+
+            <a
+              (click)="openModal(financialData, historyModal)"
+              class="mt-1"
+              style="
+                text-decoration: underline;
+                cursor: pointer;
+                color: #059b9a;
+              "
+            >
+              View Histroy
+            </a>
           </div>
-          <a id="login" class="btn btn-primary btn-upload mt-1" (click)="
-              goToFormView('/user/data-upload/upload-form/' + financialData._id)
-            ">
-            {{
-              financialData.isCompleted
-                ? financialData.status === uploadStatus.REJECTED
-                  ? "Update Rejected Data"
-                  : "View Filled Data"
-                : "Fill Remaining Data"
-            }}
-          </a>
-
-          <a (click)="openModal(financialData, historyModal)" class="mt-1"
-            style="text-decoration: underline; cursor: pointer; color: #059b9a">
-            View Histroy
-          </a>
-        </div>
-        </div>
-        
-
-        <div class="preloader-wrapper" *ngIf="loggedInUserType && financialData === undefined">
-          <app-pre-loader></app-pre-loader>
         </div>
 
-        <div *ngIf="financialData === null" class="d-flex justify-content-center flex-column align-items-center">
-          <span><span style="font-weight: 600; display: inline">FORM STATUS:</span>
-            Not Filled</span>
-          <a id="login" class="btn btn-primary btn-upload mt-1"
-            (click)="goToFormView('/user/data-upload/upload-form')">Fill Up 15th FC Form</a>
+        <ng-template #progress_loader>
+          <div class="preloader-wrapper">
+            <app-pre-loader></app-pre-loader>
+          </div>
+        </ng-template>
+
+        <div
+          *ngIf="financialData === null"
+          class="d-flex justify-content-center flex-column align-items-center"
+        >
+          <span
+            ><span style="font-weight: 600; display: inline">FORM STATUS:</span>
+            Not Filled</span
+          >
+          <a
+            id="login"
+            class="btn btn-primary btn-upload mt-1"
+            (click)="goToFormView('/user/data-upload/upload-form')"
+            >Fill Up 15th FC Form</a
+          >
         </div>
       </div>
     </div>
@@ -162,9 +264,18 @@
 
 <ng-template #historyModal>
   <div class="modal-body">
-    <div style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end">
-      <button style="min-width: min-content" (click)="closePopUp()" class="btn btn-danger" title="Close" type="button"
-        data-dismiss="modal" aria-label="Close">
+    <div
+      style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end"
+    >
+      <button
+        style="min-width: min-content"
+        (click)="closePopUp()"
+        class="btn btn-danger"
+        title="Close"
+        type="button"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
         <em class="fa fa-times" style="color: white"></em>
       </button>
     </div>
@@ -174,7 +285,10 @@
       <app-pre-loader></app-pre-loader>
     </div>
 
-    <app-formhistory *ngIf="formHistoricalData?.length" [data]="formHistoricalData"></app-formhistory>
+    <app-formhistory
+      *ngIf="formHistoricalData?.length"
+      [data]="formHistoricalData"
+    ></app-formhistory>
   </div>
   <ng-template #noData>
     <div class="row">
