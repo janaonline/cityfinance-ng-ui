@@ -479,7 +479,7 @@
                       Email Id is not valid</span>
                   </small>
 
-                  <p *ngIf="formError">
+                  <p *ngIf="formError" style="text-align: left;">
                     <span *ngFor="let error of formError; let i = index" style="display: block; color: red">
                       {{ i + 1 }}. {{ error }}
                     </span>
