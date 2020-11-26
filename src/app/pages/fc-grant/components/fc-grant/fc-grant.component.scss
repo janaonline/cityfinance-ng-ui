@@ -165,7 +165,7 @@
 // .completed:before, .completed:after{
 // 	background: #91ec95;
 // }
-.completed[_ngcontent-c5]:before {
+#msform li.completed:before {
   background: #91ec95;
   content: "\f00c" !important;
   font-family: "FontAwesome";
@@ -203,7 +203,6 @@
 @media only screen and (min-width: 300px) and (max-width: 1024px) {
   .fc-grant-2 {
     background-size: cover;
-  
   }
   .image-side .btn {
     color: #ffffff;
@@ -223,14 +222,14 @@
     margin: 50px 0;
   }
 }
-.text-nowrap{
+.text-nowrap {
   white-space: normal;
 }
 @media only screen and (min-width: 1024px) {
-  .pr-lg-4{
+  .pr-lg-4 {
     padding-right: 60px;
   }
-  .text-nowrap{
+  .text-nowrap {
     white-space: nowrap;
   }
 }
