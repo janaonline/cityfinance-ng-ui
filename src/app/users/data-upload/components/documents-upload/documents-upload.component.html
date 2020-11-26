@@ -24,6 +24,14 @@
                 class="mandatory"
                 >*</span
               >
+
+              <span *ngIf="question.hint" style="margin-left: 2%">
+                <i
+                  class="fa fa-exclamation-circle"
+                  [matTooltip]="question.hint"
+                  aria-hidden="true"
+                ></i>
+              </span>
             </p>
 
             <div *ngIf="canUploadFile && form.controls[question.key].enabled">

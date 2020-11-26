@@ -61,6 +61,8 @@ const millionPlusCitiesQuestions: FinancialUploadQuestion<
   {
     key: "cityPlan",
     question: "City Plan DPR",
+    hint:
+      "City plan/DPR including year wise targets for 2020-26 to be prepared by each city in consultation with respective States.",
   },
   {
     key: "waterBalancePlan",
@@ -69,10 +71,14 @@ const millionPlusCitiesQuestions: FinancialUploadQuestion<
   {
     key: "serviceLevelPlan",
     question: "Service Level Improvement Plan",
+    hint:
+      "Service Level Improvement Plans (SLIPs), with reference to baseline year 2020-21 for water supply including universal coverage, water security by means of water conservation, recovery of user charges, decrease in non-revenue water, and reuse of treated water.",
   },
   {
     key: "solidWastePlan",
     question: "Solid Waste Management Plan",
+    hint:
+      "Solid Waste Management, the cities shall prepare a plan for environmentally sustainable 100% collection with segregation and recycling of solid waste to achieve garbage free cities.",
   },
 ];
 
