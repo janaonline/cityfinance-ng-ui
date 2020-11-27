@@ -116,6 +116,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
     let completed = 0;
 
     if (!this.financialData) return completed;
+
     if (
       this.isULBMillionPlus &&
       this.financialData.millionPlusCities &&
@@ -138,12 +139,11 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
         }
       );
       if (this.millionPlusCitiesCompleted) {
-        this.millionPlusCitiesCompleted = Number.parseInt(
+        this.millionPlusCitiesCompleted = Math.round(
           (this.millionPlusCitiesCompleted /
             Object.keys(this.financialData.millionPlusCities.documents)
               .length) *
-            100 +
-            ""
+            100
         );
       }
     }
@@ -171,12 +171,11 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
         }
       );
       if (this.solidWastePercentageCompleted) {
-        this.solidWastePercentageCompleted = Number.parseInt(
+        this.solidWastePercentageCompleted = Math.round(
           (this.solidWastePercentageCompleted /
             Object.keys(this.financialData.solidWasteManagement.documents)
               .length) *
-            100 +
-            ""
+            100
         );
       }
     }
@@ -190,35 +189,41 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       if (doc && doc.name) {
         completed++;
         this.evidencePercentageCompleted++;
+        console.log("got the doc");
       }
     }
 
     services.forEach((question) => {
       const serviceLevel = this.financialData.waterManagement[question.key];
       try {
-        if (serviceLevel["baseline"][2021]) {
+        if (serviceLevel["baseline"] && serviceLevel["baseline"][2021]) {
           completed++;
           this.evidencePercentageCompleted++;
         }
 
         targets.forEach((year) => {
-          if (serviceLevel["target"][year.key]) {
+          if (serviceLevel["target"] && serviceLevel["target"][year.key]) {
             completed++;
             this.evidencePercentageCompleted++;
           }
         });
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      }
     });
 
     if (this.evidencePercentageCompleted) {
-      this.evidencePercentageCompleted = Number.parseInt(
-        (this.evidencePercentageCompleted / 21) * 100 + ""
+      this.evidencePercentageCompleted = Math.round(
+        (this.evidencePercentageCompleted / 21) * 100
       );
     }
 
-    return Number.parseInt(
-      (completed / (this.isULBMillionPlus ? 27 : 23)) * 100 + ""
+    console.log(
+      "evidencePercentageCompleted",
+      this.evidencePercentageCompleted
     );
+
+    return Math.round((completed / (this.isULBMillionPlus ? 27 : 23)) * 100);
   }
 
   calculateFormStatus(data: IFinancialData) {

@@ -76,12 +76,13 @@ export class AnnualAccountsViewComponent implements OnInit {
     });
   }
 
-  filterData(state, bodyType, ulbName, parastatalName, skip) {
+  filterData(state, bodyType, ulbName, parastatalName, skip, ulbType) {
     const body = {
       state: state,
       bodyType: bodyType,
       ulbName: ulbName,
       parastatalName: parastatalName,
+      ulbType,
     };
     this.listFetchOption.filter = body;
     this.listFetchOption.skip =

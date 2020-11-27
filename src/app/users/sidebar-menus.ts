@@ -12,7 +12,7 @@ export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
   //     "<span>15<sup style='text-transform: capitalize'>th</sup> FC Grants</span>",
   //   subMenus: [
   //     {
-  //       title: "ULB Data Upload Tracker",
+  //       title: "ULB 15th FC Form Status",
   //       type: "link",
   //       route: ["/user/data-upload/list"],
   //     },
@@ -185,7 +185,7 @@ export const sideMenuForStateUser: { title: string; subMenus: ILink[] }[] = [
   //     "<span>15<sup style='text-transform: capitalize'>th</sup> FC Grants</span>",
   //   subMenus: [
   //     {
-  //       title: "ULB Data Upload Tracker",
+  //       title: "ULB 15th FC Form Status",
   //       type: "link",
   //       route: ["/user/data-upload/list"],
   //     },

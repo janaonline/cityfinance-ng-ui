@@ -53,14 +53,14 @@
     font-family: "Roboto";
     font-weight: 500;
     font-size: 1.5rem;
-    width: 22.1vw;
+    width: 23.1vw;
     height: 200px;
-    padding: 1% 1.5%;
+    padding: 1% 1%;
     border-radius: 5px;
     color: white;
     box-shadow: 0px 3px 6px #00000029;
     position: relative;
-    margin: 0 2% 2% 0;
+    margin: 0 1% 1% 0;
     transform: translateX(-20%);
     hr {
       // width: 90%;
@@ -147,6 +147,7 @@
   }
 
   .chart-container {
+    position: relative;
     padding: 2% 2% 0% 3%;
     display: block;
     width: 70%;
@@ -157,6 +158,18 @@
     // animation: card-animation 1s ease-out forwards;
     .heading {
       font-weight: bold;
+    }
+
+    .take-action {
+      width: fit-content;
+      display: inline-block;
+      margin: auto;
+      text-decoration: underline;
+      color: red;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
     }
 
     .view-list {
@@ -189,7 +202,7 @@
     box-shadow: 0px 3px 6px #00000029;
     border: 1px solid #70707047;
     border-radius: 5px;
-    width: 98%;
+    width: 94vw;
     overflow: hidden;
     margin-bottom: 3%;
 

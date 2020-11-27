@@ -8,36 +8,35 @@
         <div class="pr-lg-4">
           <h1>15th FC Grants Module</h1>
           <p>
-            Welcome to the 15 FC grants management module of cityfinance.in.
-            The Fifteenth Finance Commission (FC-15) was constituted by the
-            President on November 27, 2017 and was, inter-alia,
-            mandated to recommend measures needed to augment the consolidated fund
-            of States to supplement the resources of Panchayats and Municipalities
-            during 2020-25.
-            Commission has recommended a total grant of Rs. 29,250 crore for Urban
-            Local bodies (ULBs) in 2020-21. The commission 
-            have divided urban local bodies into two categories:
+            Welcome to the 15 FC grants management module of cityfinance.in. The
+            Fifteenth Finance Commission (FC-15) was constituted by the
+            President on November 27, 2017 and was, inter-alia, mandated to
+            recommend measures needed to augment the consolidated fund of States
+            to supplement the resources of Panchayats and Municipalities during
+            2020-25. Commission has recommended a total grant of Rs. 29,250
+            crore for Urban Local bodies (ULBs) in 2020-21. The commission have
+            divided urban local bodies into two categories:
           </p>
           <p>
             a) Fify Million-Plus urban agglomerations/cities excluding Delhi &
             Srinagar: Grant of Rs. 9,229 crore for the Million-Plus cities
             comprising Rs. 4,400 crore allocated for Ambient Air Quality and Rs.
-            4829 crore for Solid Waste Management and Sanitation. 
+            4829 crore for Solid Waste Management and Sanitation.
           </p>
           <p>
             b) All other cities and towns with less than one million population:
-            Grant of Rs. 20,021 crore, 50% of which will be basic (untied) and the
-            remaining 50% as tied grant for Drinking Water and Solid Waste
+            Grant of Rs. 20,021 crore, 50% of which will be basic (untied) and
+            the remaining 50% as tied grant for Drinking Water and Solid Waste
             Management
           </p>
           <p>
             The Ministry of Housing and Urban Affairs (MoHUA) is the nodal
             ministry for recommending tied grants related to Solid Waste
-            Management, Drinking Water and Sanitation. MoHUA is using Cityfinance
-            portal for managing activities related to 15 FC grant to ULBs. This
-            portal facilitates the submission of data and uploading of documents
-            as required by ULBs and further verification and checking by Urban
-            development departments of respective States.
+            Management, Drinking Water and Sanitation. MoHUA is using
+            Cityfinance portal for managing activities related to 15 FC grant to
+            ULBs. This portal facilitates the submission of data and uploading
+            of documents as required by ULBs and further verification and
+            checking by Urban development departments of respective States.
           </p>
           <p class="text-white">
             Features of 15 FC grants management module on Cityfinance:
@@ -64,24 +63,37 @@
         <p class="text-white">Reference Documents:-</p>
         <ul class="list-group list-inline text-nowrap">
           <li>
-            <i class="fa fa-circle" aria-hidden="true"></i> Grant Module User Module
+            <i class="fa fa-circle" aria-hidden="true"></i> Grant Module User
+            Module
           </li>
           <!-- <li>
             <i class="fa fa-circle" aria-hidden="true"></i> 15 FC tool kit
           </li> -->
           <li>
-            <a href="../../../../../assets/files/XV FC Operational Guidelines.pdf" target="_blank">
-              <i class="fa fa-circle" aria-hidden="true"></i> Grant Module User Module
+            <a
+              href="../../../../../assets/files/XV FC Operational Guidelines.pdf"
+              target="_blank"
+            >
+              <i class="fa fa-circle" aria-hidden="true"></i> Grant Module User
+              Module
             </a>
           </li>
           <li>
-            <a href="../../../../../assets/files/XV FC Marking Scheme Guidelines.pdf" target="_blank">
-              <i class="fa fa-circle" aria-hidden="true"></i> MoHUA Marking Scheme
+            <a
+              href="../../../../../assets/files/XV FC Marking Scheme Guidelines.pdf"
+              target="_blank"
+            >
+              <i class="fa fa-circle" aria-hidden="true"></i> MoHUA Marking
+              Scheme
             </a>
           </li>
           <li>
-            <a href="../../../../../assets/files/XV FC Report.pdf" target="_blank">
-              <i class="fa fa-circle" aria-hidden="true"></i> 15th FC Report</a>
+            <a
+              href="../../../../../assets/files/XV FC Report.pdf"
+              target="_blank"
+            >
+              <i class="fa fa-circle" aria-hidden="true"></i> 15th FC Report</a
+            >
           </li>
         </ul>
       </div>
@@ -120,10 +132,9 @@
           <div
             *ngIf="
               loggedInUserType &&
-                financialData &&
-                isULBMillionPlus !== null &&
-                isULBMillionPlus !== undefined;
-              else progress_loader
+              financialData &&
+              isULBMillionPlus !== null &&
+              isULBMillionPlus !== undefined
             "
             class="d-flex justify-content-center flex-column align-items-center login-wrapper"
           >
@@ -152,7 +163,8 @@
                     pending: evidencePercentageCompleted === 0
                   }"
                 >
-                  {{ evidencePercentageCompleted }}%
+                  {{ evidencePercentageCompleted }}% <br />Evidence for
+                  benchmark and target for service level indicators
                 </li>
                 <li
                   [ngClass]="{
@@ -163,7 +175,8 @@
                     pending: solidWastePercentageCompleted === 0
                   }"
                 >
-                  {{ solidWastePercentageCompleted }}%
+                  {{ solidWastePercentageCompleted }}% <br />Solid Waste
+                  Management
                 </li>
                 <li
                   *ngIf="isULBMillionPlus"
@@ -175,7 +188,8 @@
                     pending: millionPlusCitiesCompleted === 0
                   }"
                 >
-                  {{ millionPlusCitiesCompleted }}%
+                  {{ millionPlusCitiesCompleted }}%<br />
+                  Million Plus Cities Only
                 </li>
               </ul>
               <!-- fieldsets -->
@@ -192,8 +206,7 @@
                 aria-valuemin="0"
                 aria-valuemax="100"
               >
-                {{ formCompletedPercentage }}
-                %
+                {{ formCompletedPercentage }}%
               </div>
             </div>
             <a
@@ -229,11 +242,12 @@
           </div>
         </div>
 
-        <ng-template #progress_loader>
-          <div class="preloader-wrapper">
-            <app-pre-loader></app-pre-loader>
-          </div>
-        </ng-template>
+        <div
+          class="preloader-wrapper"
+          *ngIf="loggedInUserType && !financialData"
+        >
+          <app-pre-loader></app-pre-loader>
+        </div>
 
         <div
           *ngIf="financialData === null"
