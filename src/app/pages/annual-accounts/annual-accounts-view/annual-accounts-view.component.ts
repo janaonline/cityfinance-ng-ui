@@ -8,7 +8,7 @@ import { AnnualAccountsService } from '../annual-accounts.service';
 @Component({
   selector: "app-annual-accounts-view",
   templateUrl: "./annual-accounts-view.component.html",
-  styleUrls: ["./annual-accounts-view.component.scss"]
+  styleUrls: ["./annual-accounts-view.component.scss"],
 })
 export class AnnualAccountsViewComponent implements OnInit {
   constructor(
@@ -19,14 +19,14 @@ export class AnnualAccountsViewComponent implements OnInit {
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
-    totalCount: null
+    totalCount: null,
   };
   listFetchOption = {
     filter: null,
     // sort: null,
     // role: null,
     skip: 0,
-    limit: this.tableDefaultOptions.itemPerPage
+    limit: this.tableDefaultOptions.itemPerPage,
   };
   canOpen = false;
   filteredData: any;
@@ -47,14 +47,14 @@ export class AnnualAccountsViewComponent implements OnInit {
     const util = new JSONUtility();
     body.filter = util.filterEmptyValue(body.filter);
     this.annualAccountsService.getAnnualAccounts(body).subscribe(
-      response => {
+      (response) => {
         this.isApiInProgress = false;
         this.dataSource = response["data"];
         if (response.hasOwnProperty("total")) {
           this.tableDefaultOptions.totalCount = response["total"];
         }
       },
-      error => {
+      (error) => {
         console.error(error);
       }
     );
@@ -62,7 +62,7 @@ export class AnnualAccountsViewComponent implements OnInit {
 
   hasUserUploadedAnyDocumnet() {
     const documents = { ...this.filteredData.documents };
-    return Object.keys(documents).some(FinancialYear => {
+    return Object.keys(documents).some((FinancialYear) => {
       const pdf = documents[FinancialYear].pdf || [];
       const excel = documents[FinancialYear].excel || [];
       if (pdf.length || excel.length) return true;
@@ -71,7 +71,7 @@ export class AnnualAccountsViewComponent implements OnInit {
   }
 
   fetchStateList() {
-    this._commonService.getStateUlbCovered().subscribe(res => {
+    this._commonService.getStateUlbCovered().subscribe((res) => {
       this.stateList = res.data;
     });
   }
@@ -81,7 +81,7 @@ export class AnnualAccountsViewComponent implements OnInit {
       state: state,
       bodyType: bodyType,
       ulbName: ulbName,
-      parastatalName: parastatalName
+      parastatalName: parastatalName,
     };
     this.listFetchOption.filter = body;
     this.listFetchOption.skip =
@@ -99,7 +99,7 @@ export class AnnualAccountsViewComponent implements OnInit {
   openModal(id) {
     this.filteredData = null;
     this.canOpen = true;
-    const data = this.dataSource.find(item => item._id == id);
+    const data = this.dataSource.find((item) => item._id == id);
     this.filteredData = data;
     this.anyDcoumentUploaded = this.hasUserUploadedAnyDocumnet();
   }
@@ -108,5 +108,13 @@ export class AnnualAccountsViewComponent implements OnInit {
       this.filteredData = null;
       this.canOpen = false;
     }
+  }
+
+  downloadList() {
+    const filterOptions = { ...this.listFetchOption, download: true };
+
+    const url = this.annualAccountsService.getAnnualAccountsApi(filterOptions);
+
+    return window.open(url);
   }
 }

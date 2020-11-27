@@ -595,7 +595,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  }
+  };
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -661,12 +661,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  }
+  };
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  }
+  };
 
   getAddedFilterCount() {
     let count = 0;
@@ -1217,7 +1217,7 @@ export class DataUploadComponent
   }
 
   downloadULBList() {
-    const filterOptions = { ...this.ulbFilter.value, csv: true };
+    const filterOptions = { filter: { ...this.ulbFilter.value }, csv: true };
     const url = this._commonService.getULBListApi(filterOptions);
     return window.open(url);
   }

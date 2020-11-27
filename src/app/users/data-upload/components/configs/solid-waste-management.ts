@@ -47,11 +47,15 @@ const solidWasterQuestions: FinancialUploadQuestion<
 >[] = [
   {
     key: "garbageFreeCities",
-    question: "Garbage free star rating of the cities",
+    question: "Plan for garbage free star rating of the cities.",
+    hint:
+      "Cities will complete the gap analysis and identify the projects for bridging the gap.",
   },
   {
     key: "waterSupplyCoverage",
-    question: "Coverage of water supply for public/community toilets",
+    question: "Plan for coverage of water supply for public/community toilets",
+    hint:
+      "Cities will complete the gap analysis and identify the projects for bridging the gap.",
   },
 ];
 

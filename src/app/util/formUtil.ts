@@ -229,6 +229,7 @@ export class FormUtil {
       }
       if (!control.valid) {
         const newControlName = controlName.split(/(?=[A-Z])/).join(" ");
+
         if (control.errors && control.errors.required) {
           return errors.push(
             `${
@@ -237,10 +238,17 @@ export class FormUtil {
           );
         }
         if (control.errors && control.errors.pattern) {
+          console.log(`newControlName`, newControlName);
+
+          if (controlName == "accountant Name") {
+            return errors.push(
+              `XV FC Nodal Officer Name should be alphabetic only`
+            );
+          }
           return errors.push(
             `${
               newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
-            } should alphabetic only`
+            } should be alphabetic only`
           );
         }
         errors.push(
@@ -283,8 +291,14 @@ export class FormUtil {
     Object.keys(form.controls).forEach((controlName) => {
       const control = form.controls[controlName];
       if (!control.valid) {
-        const newControlName = controlName.split(/(?=[A-Z])/).join(" ");
+        let newControlName = controlName.split(/(?=[A-Z])/).join(" ");
         console.log("newControlName", newControlName);
+        if (newControlName.includes("accountant")) {
+          newControlName = newControlName.replace(
+            "accountant",
+            "XV FC Nodal Officer"
+          );
+        }
         if (control.errors && control.errors.required) {
           return errors.push(
             `${
@@ -296,7 +310,7 @@ export class FormUtil {
           return errors.push(
             `${
               newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
-            } should alphabetic only`
+            } should be alphabetic only`
           );
         }
         errors.push(
@@ -387,7 +401,7 @@ export class FormUtil {
           return errors.push(
             `${
               newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
-            } should alphabetic only`
+            } should be alphabetic only`
           );
         }
         errors.push(
