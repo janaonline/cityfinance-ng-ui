@@ -69,6 +69,13 @@ export class DataUploadComponent
       }
       if (uploadId) {
         this.uploadId = uploadId;
+        this.getFinancialData();
+      } else {
+        this.fetchStateList();
+
+        this.fetchULBList();
+        this.fetchChartData();
+        this.fetchCardData();
       }
     });
     this.createForms();
@@ -76,14 +83,11 @@ export class DataUploadComponent
     this.modalService.onHide.subscribe(() => (this.isPopupOpen = false));
     this.initializeULBFormGroup();
     if (this.loggedInUserData.role !== USER_TYPE.STATE) {
-      this.fetchULBList();
     } else {
       this.tableHeaders = this.tableHeaders.filter(
         (header) => header.id !== "stateName"
       );
     }
-    this.fetchChartData();
-    this.fetchCardData();
   }
   @ViewChild("updateWithoutChangeWarning")
   updateWithoutChangeWarning: TemplateRef<any>;
@@ -267,7 +271,6 @@ export class DataUploadComponent
 
   ngOnInit() {
     // this.fetchFinancialYears();
-    this.fetchStateList();
     if (this.loggedInUserData.role === USER_TYPE.STATE) return;
     if (!this.id) {
       this.getFinancialDataList(
@@ -324,7 +327,6 @@ export class DataUploadComponent
   }
 
   onClickingOtherCards(body) {
-    console.log("body", body);
     const stateName =
       this.loggedInUserData.role === USER_TYPE.STATE
         ? this.ulbFilter.value.stateName
@@ -362,6 +364,7 @@ export class DataUploadComponent
     this.ulbFilter.valueChanges
       .pipe(debounceTime(1000), distinctUntilChanged())
       .subscribe((newValue) => {
+        if (this.uploadId) return;
         this.ulblistFetchOption.skip = 0;
         this.ulbtableDefaultOptions.currentPage = 1;
         this.fetchULBList(newValue);
@@ -391,6 +394,8 @@ export class DataUploadComponent
     const canvasElement = document.getElementById(
       `canvas`
     ) as HTMLCanvasElement;
+
+    if (!canvasElement) return;
 
     const ctx = canvasElement.getContext("2d");
 
