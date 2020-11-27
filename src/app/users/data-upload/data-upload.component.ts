@@ -247,12 +247,6 @@ export class DataUploadComponent
         },
       ],
     },
-    // onClick: function (c, i) {
-    //   e = i[0];
-    //   var x_value = this.data.labels[e._index];
-    //   // var y_value = this.data.datasets[0].data[e._index]; // For getting value of selected bar chart ..
-    //   getData(x_value);
-    // },
   };
 
   ulbFilter: FormGroup;
@@ -268,6 +262,9 @@ export class DataUploadComponent
   jsonUtil = new JSONUtility();
 
   loggedInUserData = new UserUtility().getLoggedInUserDetails();
+
+
+  haveRequestToTakeAction = false;
 
   ngOnInit() {
     // this.fetchFinancialYears();
@@ -374,13 +371,31 @@ export class DataUploadComponent
   fetchChartData() {
     this._commonService.fetchDashboardChartData().subscribe((res) => {
       this.chartData = res["data"];
+      let textToTakeAction;
+      switch (this.loggedInUserData.role) {
+        case USER_TYPE.STATE: {
+          textToTakeAction = "Under Review By State";
+          break;
+        }
+        case USER_TYPE.MoHUA: {
+          textToTakeAction = "Under Review By MoHUA";
+          break;
+        }
+      }
+      console.log(this.loggedInUserData);
+      if (textToTakeAction) {
+        const indexOfSearchText = this.chartData.labels.findIndex(
+          (label) => label === textToTakeAction
+        );
+       this.haveRequestToTakeAction =  this.chartData.datasets[0].data[indexOfSearchText] > 0;
+        this.chartData.datasets[0].backgroundColor[indexOfSearchText] = "red";
+      }
       this.chartData.labels = this.chartData.labels.map((text: string) =>
         !text.includes("By")
           ? text
           : [text.split("By")[0] + "By", text.split("By")[1]]
       );
 
-      // this.createChart({ ...this.chartData });
       this.onChangingShowULBInChart({ checked: false, source: null });
     });
   }
@@ -396,6 +411,15 @@ export class DataUploadComponent
     ) as HTMLCanvasElement;
 
     if (!canvasElement) return;
+
+    switch (this.loggedInUserData.role) {
+      case USER_TYPE.STATE: {
+        break;
+      }
+      case USER_TYPE.MoHUA: {
+        break;
+      }
+    }
 
     const ctx = canvasElement.getContext("2d");
 

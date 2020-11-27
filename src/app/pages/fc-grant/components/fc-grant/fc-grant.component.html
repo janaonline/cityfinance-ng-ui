@@ -163,7 +163,8 @@
                     pending: evidencePercentageCompleted === 0
                   }"
                 >
-                  {{ evidencePercentageCompleted }}%
+                  {{ evidencePercentageCompleted }}% <br />Evidence for
+                  benchmark and target for service level indicators
                 </li>
                 <li
                   [ngClass]="{
@@ -174,7 +175,8 @@
                     pending: solidWastePercentageCompleted === 0
                   }"
                 >
-                  {{ solidWastePercentageCompleted }}%
+                  {{ solidWastePercentageCompleted }}% <br />Solid Waste
+                  Management
                 </li>
                 <li
                   *ngIf="isULBMillionPlus"
@@ -186,7 +188,8 @@
                     pending: millionPlusCitiesCompleted === 0
                   }"
                 >
-                  {{ millionPlusCitiesCompleted }}%
+                  {{ millionPlusCitiesCompleted }}%<br />
+                  Million Plus Cities Only
                 </li>
               </ul>
               <!-- fieldsets -->
@@ -243,7 +246,6 @@
           class="preloader-wrapper"
           *ngIf="loggedInUserType && !financialData"
         >
-          111
           <app-pre-loader></app-pre-loader>
         </div>
 
@@ -268,7 +270,6 @@
 </div>
 
 <div *ngIf="loggedInUserType && loggedInUserType !== USER_TYPE.ULB">
-  ;oader
   <app-pre-loader></app-pre-loader>
   <app-pre-loader></app-pre-loader>
   <app-pre-loader></app-pre-loader>
@@ -293,7 +294,6 @@
     </div>
 
     <div *ngIf="!formHistoricalData || !formHistoricalData.length">
-      load
       <app-pre-loader></app-pre-loader>
       <app-pre-loader></app-pre-loader>
     </div>

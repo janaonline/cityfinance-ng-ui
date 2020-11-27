@@ -147,6 +147,7 @@
   }
 
   .chart-container {
+    position: relative;
     padding: 2% 2% 0% 3%;
     display: block;
     width: 70%;
@@ -157,6 +158,18 @@
     // animation: card-animation 1s ease-out forwards;
     .heading {
       font-weight: bold;
+    }
+
+    .take-action {
+      width: fit-content;
+      display: inline-block;
+      margin: auto;
+      text-decoration: underline;
+      color: red;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
     }
 
     .view-list {

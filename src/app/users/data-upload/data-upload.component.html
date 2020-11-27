@@ -458,6 +458,17 @@
           </p>
           <canvas id="canvas" width="150" height="49"></canvas>
           <div
+            *ngIf="
+              haveRequestToTakeAction &&
+              (loggedInUserData?.role === userTypes.MoHUA ||
+                loggedInUserData?.role === userTypes.STATE)
+            "
+            class="take-action"
+            (click)="scrollToElement('data-upload-tracker-list')"
+          >
+            Take Action Pending Data
+          </div>
+          <div
             class="view-list"
             (click)="scrollToElement('data-upload-tracker-list')"
           >
