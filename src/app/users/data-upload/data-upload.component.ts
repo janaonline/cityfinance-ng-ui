@@ -1051,8 +1051,11 @@ export class DataUploadComponent
 
   applyFilterClicked() {
     this.loading = true;
+    this.listFetchOption.skip = 0;
+    this.tableDefaultOptions.currentPage = 1;
     this.listFetchOption = this.setLIstFetchOptions();
     const { skip } = this.listFetchOption;
+
     this.financialDataService
       .fetchFinancialDataList({ skip, limit: 10 }, this.listFetchOption)
       .subscribe(
