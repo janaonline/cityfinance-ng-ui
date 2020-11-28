@@ -199,4 +199,8 @@ export class ProfileService {
   public getULBGeneralData(param: { [key: string]: any }) {
     return this._htttp.get(`${environment.api.url}ulb/${param.id}`);
   }
+
+  getTokenToChangePassword() {
+    return this._htttp.get(`${environment.api.url}change_password`);
+  }
 }

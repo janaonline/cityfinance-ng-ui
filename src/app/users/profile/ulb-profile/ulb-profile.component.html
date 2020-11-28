@@ -373,7 +373,7 @@
       {{ respone.successMessage }}
     </p>
 
-    <div class="input-group" *ngIf="profile.disabled && canSubmitForm">
+    <div *ngIf="profile.disabled && canSubmitForm" class="mt-2">
       <button
         [disabled]="apiInProgress"
         type="button"
@@ -382,17 +382,26 @@
       >
         Edit
       </button>
+      <button
+        *ngIf="loggedInUserType === USER_TYPE.ULB"
+        class="btn btn-primary"
+        style="float: right; margin-right: 3%"
+        (click)="onClickingChangePassword($event)"
+      >
+        Change Password
+      </button>
     </div>
 
     <div *ngIf="profile.enabled && canSubmitForm" class="mt-2">
       <button type="submit" class="btn btn-primary mr-2">Update Profile</button>
-      <!-- <button
-        type="button"
-        class="btn btn-primary"
-        (click)="disableProfileEdit()"
+      <button
+        *ngIf="loggedInUserType === USER_TYPE.ULB"
+        class="btn btn-primary mr-2"
+        style="float: right"
+        (click)="onClickingChangePassword($event)"
       >
-        Cancel
-      </button> -->
+        Change Password
+      </button>
     </div>
 
     <div *ngIf="profileData.status === 'PENDING'" class="mt-2">

@@ -1,6 +1,7 @@
 import { Component, ElementRef, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { UserProfile } from 'src/app/users/profile/model/user-profile';
+import { Login_Logout } from 'src/app/util/logout.util';
 import { UserUtility } from 'src/app/util/user/user';
 
 import { ACTIONS } from '../../../../app/util/access/actions';
@@ -171,29 +172,14 @@ export class HomeHeaderComponent implements OnInit {
     this.isLoggedIn = this.authService.loggedIn();
     this.initializedIsProduction();
     this.setTopRowSticky();
-
-    // const element = document.getElementById("1stNavbarRow");
-    // if (element) {
-    //   const mutationObserver = new MutationObserver((ev) => {
-    //     console.log(`ev`, ev);
-
-    //     const row = document.getElementById("firstRowNavbar");
-    //     if (!row) return;
-    //     const options: IntersectionObserverInit = {
-    //       root: null,
-    //       rootMargin: "0px",
-    //       threshold: [0.75],
-    //     };
-    //     const intersectionObserver = new IntersectionObserver((ev) => {
-    //       const profileMenu = document.getElementById("profileMenu");
-    //       if (!profileMenu) return;
-    //       // profileMenu.style.display = "none";
-    //     }, options);
-
-    //     intersectionObserver.observe(row);
-    //   });
-    //   mutationObserver.observe(element, { childList: true, subtree: true });
-    // }
+    Login_Logout.getListenToLogoutEvent().subscribe((res) => {
+      console.log("res", res);
+      localStorage.clear();
+      this.isLoggedIn = false;
+      if (res && res.redirectLink) {
+        this.router.navigate([`${res.redirectLink || "/"}`]);
+      }
+    });
   }
 
   onClickingNavbarDropdown() {
@@ -296,9 +282,7 @@ export class HomeHeaderComponent implements OnInit {
   }
 
   logout() {
-    localStorage.clear();
-    this.router.navigate(["/"]);
-    this.isLoggedIn = false;
+    Login_Logout.logout({ redirectLink: "/" });
   }
 
   /**
