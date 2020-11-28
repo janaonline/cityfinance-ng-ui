@@ -278,11 +278,16 @@
           formControlName="accountantName"
           class="form-control"
           [ngClass]="{
-            'is-invalid': profile?.controls.accountantName.errors
+            'is-invalid':
+              (profile?.controls.accountantName.touched || formErrorMessage) &&
+              profile?.controls.accountantName.errors
           }"
         />
         <small
-          *ngIf="profile?.controls.accountantName.errors as nameError"
+          *ngIf="
+            (profile?.controls.accountantName.touched || formErrorMessage) &&
+            profile?.controls.accountantName.errors as nameError
+          "
           class="form-field-error-message"
         >
           XV FC Nodal Officer Name
@@ -305,11 +310,16 @@
           formControlName="accountantEmail"
           class="form-control"
           [ngClass]="{
-            'is-invalid': profile?.controls.accountantEmail.errors
+            'is-invalid':
+              (profile?.controls.accountantEmail.touched || formErrorMessage) &&
+              profile?.controls.accountantEmail.errors
           }"
         />
         <small
-          *ngIf="profile?.controls.accountantEmail.errors as EmailError"
+          *ngIf="
+            (profile?.controls.accountantEmail.touched || formErrorMessage) &&
+            profile?.controls.accountantEmail.errors as EmailError
+          "
           class="form-field-error-message"
         >
           XV FC Nodal Officer Email ID
@@ -331,11 +341,16 @@
           formControlName="accountantConatactNumber"
           class="form-control"
           [ngClass]="{
-            'is-invalid': profile?.controls.accountantConatactNumber.errors
+            'is-invalid':
+              (profile?.controls.accountantConatactNumber.touched ||
+                formErrorMessage) &&
+              profile?.controls.accountantConatactNumber.errors
           }"
         />
         <small
           *ngIf="
+            (profile?.controls.accountantConatactNumber.touched ||
+              formErrorMessage) &&
             profile?.controls.accountantConatactNumber.errors as ContactError
           "
           class="form-field-error-message"
@@ -345,11 +360,11 @@
       </div>
     </div>
 
-    <p *ngIf="formErrorMessage" style="display: block; color: red">
+    <!-- <p *ngIf="formErrorMessage" style="display: block; color: red">
       <span *ngFor="let error of formErrorMessage; let i = index">
         {{ i + 1 }}. {{ error }}
       </span>
-    </p>
+    </p> -->
 
     <p *ngIf="respone.errorMessage" class="error-message">
       {{ respone.errorMessage }}

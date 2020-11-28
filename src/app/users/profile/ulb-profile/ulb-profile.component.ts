@@ -90,8 +90,6 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     // upload files and their value
     const updatedFields = this.getUpdatedFieldsOnly(form);
 
-    console.log("updatedFields", updatedFields);
-
     if (!updatedFields || !Object.keys(updatedFields).length) {
       this.onUpdatingProfileSuccess({
         message: "Profile Updated Successfully",
