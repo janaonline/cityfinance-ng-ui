@@ -23,8 +23,43 @@ export class ProfileService {
   }
 
   public getUserProfile(queryParams: {}) {
+    console.log("params", queryParams);
     const params = this.httpUtil.convertToHttpParams(queryParams);
     return this._htttp.get(`${environment.api.url}user/profile`, { params });
+  }
+
+  isULBProfileCompleted() {
+    return this.getUserProfile({}).pipe(
+      map((res) => {
+        const profile = res["data"];
+        console.log("profile", profile);
+        if (!profile.ulb) return false;
+        const ulb = profile.ulb;
+        if (ulb.area === null || ulb.area === undefined) return false;
+        if (ulb.population === null || ulb.population === undefined) {
+          return false;
+        }
+        if (ulb.wards === null || ulb.wards === undefined) return false;
+
+        // Either sbCode or censusCode must exits since they are used for login.
+        if (!ulb.censusCode && !ulb.sbCode) return false;
+
+        if (ulb.wards === null || ulb.wards === undefined) return false;
+        if (
+          !profile.accountantConatactNumber ||
+          !profile.accountantConatactNumber.trim()
+        ) {
+          return false;
+        }
+        if (!profile.accountantName || !profile.accountantName.trim()) {
+          return false;
+        }
+        if (!profile.accountantEmail || !profile.accountantEmail.trim()) {
+          return false;
+        }
+        return true;
+      })
+    );
   }
 
   getLoggedInUserType(): USER_TYPE {

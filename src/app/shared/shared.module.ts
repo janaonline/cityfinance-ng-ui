@@ -34,6 +34,7 @@ import { FinancialDataChartComponent } from './components/financial-data-chart/f
 import { HomeHeaderComponent } from './components/home-header/home-header.component';
 import { PreLoaderComponent } from './components/pre-loader/pre-loader.component';
 import { ReUseableHeatMapComponent } from './components/re-useable-heat-map/re-useable-heat-map.component';
+import { IncompleteProfileComponent } from './components/ulb/incomplete-profile/incomplete-profile.component';
 import { UserTypeConfirmationComponent } from './components/user-type-confirmation/user-type-confirmation.component';
 import { AuditStatusTextPipe } from './pipes/audit-status-text.pipe';
 import { RoundoffPipe } from './pipes/roundoff/roundoff.pipe';
@@ -77,6 +78,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     CompletedComponent,
     UserTypeConfirmationComponent,
     FormhistoryComponent,
+    IncompleteProfileComponent,
   ],
   exports: [
     PreLoaderComponent,
@@ -98,6 +100,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     MatSlideToggle,
     MatSelect,
     MatOption,
+    IncompleteProfileComponent,
   ],
   providers: [FinancialDataService],
 })
