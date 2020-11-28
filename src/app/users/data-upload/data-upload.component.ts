@@ -136,6 +136,10 @@ export class DataUploadComponent
     singleSelection: true,
     text: "Status",
   };
+
+  UNDER_REVIEW_BY_STATE = UNDER_REVIEW_BY_STATE;
+  UNDER_REVIEW_BY_MoHUA = UNDER_REVIEW_BY_MoHUA;
+
   uploadCheckStatusDropDown: any = [
     SAVED_AS_DRAFT,
     UNDER_REVIEW_BY_STATE,
@@ -263,7 +267,6 @@ export class DataUploadComponent
 
   loggedInUserData = new UserUtility().getLoggedInUserDetails();
 
-
   haveRequestToTakeAction = false;
 
   ngOnInit() {
@@ -345,6 +348,12 @@ export class DataUploadComponent
     element.scrollIntoView({ behavior: "smooth" });
   }
 
+  onClickCharTakeAction(something) {
+    this.uploadStatusFormControl.setValue(something);
+    this.applyFilterClicked();
+    this.scrollToElement("data-upload-tracker-list");
+  }
+
   initializeULBFormGroup() {
     this.ulbFilter = this.formBuilder.group({
       ulbName: [],
@@ -387,7 +396,8 @@ export class DataUploadComponent
         const indexOfSearchText = this.chartData.labels.findIndex(
           (label) => label === textToTakeAction
         );
-       this.haveRequestToTakeAction =  this.chartData.datasets[0].data[indexOfSearchText] > 0;
+        this.haveRequestToTakeAction =
+          this.chartData.datasets[0].data[indexOfSearchText] > 0;
         this.chartData.datasets[0].backgroundColor[indexOfSearchText] = "red";
       }
       this.chartData.labels = this.chartData.labels.map((text: string) =>

@@ -165,11 +165,24 @@
       display: inline-block;
       margin: auto;
       text-decoration: underline;
-      color: red;
+      // color: red;
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
+      animation: popup2 2.5s infinite ease-in-out;
+
       cursor: pointer;
+    }
+    @keyframes popup2 {
+      0% {
+        transform: translateX(-50%) scale(1);
+      }
+      50% {
+        transform: translateX(-50%) scale(1.1);
+      }
+      100% {
+        transform: translateX(-50%) scale(1);
+      }
     }
 
     .view-list {
