@@ -180,18 +180,18 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       }
     }
 
-    if (
-      this.financialData.waterManagement &&
-      this.financialData.waterManagement.documents.wasteWaterPlan
-    ) {
-      const doc = this.financialData.waterManagement.documents
-        .wasteWaterPlan[0];
-      if (doc && doc.name) {
-        completed++;
-        this.evidencePercentageCompleted++;
-        console.log("got the doc");
-      }
-    }
+    // if (
+    //   this.financialData.waterManagement &&
+    //   this.financialData.waterManagement.documents.wasteWaterPlan
+    // ) {
+    //   const doc = this.financialData.waterManagement.documents
+    //     .wasteWaterPlan[0];
+    //   if (doc && doc.name) {
+    //     completed++;
+    //     this.evidencePercentageCompleted++;
+    //     console.log("got the doc");
+    //   }
+    // }
 
     services.forEach((question) => {
       const serviceLevel = this.financialData.waterManagement[question.key];

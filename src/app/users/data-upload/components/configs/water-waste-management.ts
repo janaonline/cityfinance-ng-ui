@@ -1,7 +1,6 @@
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { WaterManagement, WaterManagementDocuments } from '../../models/financial-data.interface';
-import { FinancialUploadQuestion } from '../../models/financial-upload-question';
+import { WaterManagement } from '../../models/financial-data.interface';
 
 const _fb = new FormBuilder();
 
@@ -142,24 +141,24 @@ const fileGroupArray = _fb.array([
   }),
 ]);
 
-const documents = _fb.group({
-  wasteWaterPlan: fileGroupArray,
-});
+// const documents = _fb.group({
+//   wasteWaterPlan: fileGroupArray,
+// });
 
-waterWasteManagementForm.addControl("documents", documents);
+// waterWasteManagementForm.addControl("documents", documents);
 
-const wasteWaterDucmentQuestions: FinancialUploadQuestion<
-  WaterManagementDocuments
->[] = [
-  {
-    key: "wasteWaterPlan",
-    question: "Evidence for benchmark and target for service level indicators",
-  },
-];
+// const wasteWaterDucmentQuestions: FinancialUploadQuestion<
+//   WaterManagementDocuments
+// >[] = [
+//   {
+//     key: "wasteWaterPlan",
+//     question: "Evidence for benchmark and target for service level indicators",
+//   },
+// ];
 
 export {
   waterWasteManagementForm,
   services,
   targets,
-  wasteWaterDucmentQuestions,
+  // wasteWaterDucmentQuestions,
 };
