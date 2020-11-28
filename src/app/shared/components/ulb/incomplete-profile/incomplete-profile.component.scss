@@ -1,0 +1,37 @@
+:host {
+  .container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      border-radius: 5px;
+      height: 50vh;
+      width: 50vw;
+      margin-top: 5%;
+      box-shadow: 0px 3px 6px #00000029;
+      border: 1px solid #70707047;
+      padding: 2%;
+      text-align: center;
+      transform: translateY(20%);
+      opacity: 0;
+      animation: bottom-to-top 1s forwards;
+    }
+  }
+
+  @keyframes bottom-to-top {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

@@ -8,7 +8,7 @@ import { UserUtility } from 'src/app/util/user/user';
 import { IFinancialData, WaterManagement } from '../../models/financial-data.interface';
 import { millionPlusCitiesQuestions } from '../configs/million-plus-cities';
 import { solidWasterQuestions } from '../configs/solid-waste-management';
-import { services, targets, wasteWaterDucmentQuestions } from '../configs/water-waste-management';
+import { services, targets } from '../configs/water-waste-management';
 
 @Component({
   selector: "app-preview",
@@ -30,7 +30,7 @@ export class PreviewComponent implements OnInit {
     benchmark: string;
   }[] = services;
 
-  wasteWaterDucmentQuestions = wasteWaterDucmentQuestions;
+  // wasteWaterDucmentQuestions = wasteWaterDucmentQuestions;
   solidWasteQuestions = solidWasterQuestions;
   millionPlusCitiesQuestions = millionPlusCitiesQuestions;
 

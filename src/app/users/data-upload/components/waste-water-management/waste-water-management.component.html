@@ -197,10 +197,38 @@
       </tr>
     </tbody>
   </table>
+  <div class="d-flex justify-content-end">
+    <button
+      id="save-as-Draft"
+      *ngIf="canUploadFile"
+      class="btn btn-primary btn-upload mt-2"
+      style="float: right; margin-right: 2%"
+      (click)="onSaveAsDraftClick()"
+    >
+      Save as draft
+    </button>
+    <button
+      id="previous"
+      class="btn btn-primary btn-upload mt-2"
+      style="float: right; margin-right: 2%"
+      (click)="previous.emit(true)"
+    >
+      Previous
+    </button>
 
-  <h3>Upload Documents</h3>
+    <button
+      id="next"
+      class="btn btn-primary btn-upload mt-2"
+      style="float: right; margin-right: 2%"
+      (click)="showNext.emit(true)"
+    >
+      Next
+    </button>
+  </div>
 
-  <app-documents-upload
+  <!-- <h3>Upload Documents</h3> -->
+
+  <!-- <app-documents-upload
     [isSubmitButtonClick]="isSubmitButtonClick"
     [userType]="USER_TYPE.ULB"
     [form]="form.controls.documents"
@@ -214,5 +242,5 @@
     (previous)="previous.emit()"
     (saveAsDraft)="onSaveAsDraftClick()"
   >
-  </app-documents-upload>
+  </app-documents-upload> -->
 </form>

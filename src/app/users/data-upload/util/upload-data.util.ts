@@ -98,17 +98,17 @@ export class UploadDataUtility {
       ] as FormGroup).controls.rejectReason.disable();
     });
 
-    (this.waterWasteManagementForm.controls.documents as FormArray).controls[
-      "wasteWaterPlan"
-    ].controls.forEach((fileControl: FormGroup) => {
-      const status = fileControl.controls.status;
-      if (status.value === UPLOAD_STATUS.REJECTED) {
-        status.disable();
-        fileControl.controls.rejectReason.disable();
-        return;
-      }
-      fileControl.disable();
-    });
+    // (this.waterWasteManagementForm.controls.documents as FormArray).controls[
+    //   "wasteWaterPlan"
+    // ].controls.forEach((fileControl: FormGroup) => {
+    //   const status = fileControl.controls.status;
+    //   if (status.value === UPLOAD_STATUS.REJECTED) {
+    //     status.disable();
+    //     fileControl.controls.rejectReason.disable();
+    //     return;
+    //   }
+    //   fileControl.disable();
+    // });
   }
 
   private setSolidWasteToCorrectionMode(data: IFinancialData) {
@@ -172,30 +172,30 @@ export class UploadDataUtility {
       }
     );
 
-    const formArray = (this.waterWasteManagementForm.controls
-      .documents as FormGroup).controls.wasteWaterPlan as FormArray;
-    formArray.controls.forEach((question: FormGroup) => {
-      const statusControl = question.controls["status"];
-      const rejectReasonControl = question.controls["rejectReason"];
-      statusControl.setValidators([
-        Validators.required,
-        Validators.pattern(
-          `${UPLOAD_STATUS.APPROVED}|${UPLOAD_STATUS.REJECTED}`
-        ),
-      ]);
-      rejectReasonControl.setValidators([
-        this.addRejectValidator(statusControl, rejectReasonControl),
-      ]);
+    // const formArray = (this.waterWasteManagementForm.controls
+    //   .documents as FormGroup).controls.wasteWaterPlan as FormArray;
+    // formArray.controls.forEach((question: FormGroup) => {
+    //   const statusControl = question.controls["status"];
+    //   const rejectReasonControl = question.controls["rejectReason"];
+    //   statusControl.setValidators([
+    //     Validators.required,
+    //     Validators.pattern(
+    //       `${UPLOAD_STATUS.APPROVED}|${UPLOAD_STATUS.REJECTED}`
+    //     ),
+    //   ]);
+    //   rejectReasonControl.setValidators([
+    //     this.addRejectValidator(statusControl, rejectReasonControl),
+    //   ]);
 
-      if (statusControl.value === UPLOAD_STATUS.APPROVED) {
-        statusControl.disable();
-        rejectReasonControl.disable();
-        return;
-      }
+    //   if (statusControl.value === UPLOAD_STATUS.APPROVED) {
+    //     statusControl.disable();
+    //     rejectReasonControl.disable();
+    //     return;
+    //   }
 
-      statusControl.enable();
-      rejectReasonControl.enable();
-    });
+    //   statusControl.enable();
+    //   rejectReasonControl.enable();
+    // });
   }
 
   private setSolidWasteManagementToTakeActionMode() {

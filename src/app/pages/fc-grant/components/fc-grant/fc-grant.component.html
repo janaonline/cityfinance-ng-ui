@@ -1,8 +1,11 @@
 <div
-  class="fc-grant-2"
-  *ngIf="!loggedInUserType || loggedInUserType === USER_TYPE.ULB"
+  [ngClass]="{ 'fc-grant-2': !(isULBProfileCompleted === false) }"
+  *ngIf="
+    !loggedInUserType || loggedInUserType === USER_TYPE.ULB;
+    else showLoader
+  "
 >
-  <div class="container-fluid">
+  <div class="container-fluid" *ngIf="!(isULBProfileCompleted === false)">
     <div class="align-items-center d-flex flex-wrap">
       <div class="col-xs-12 col-sm-12 col-md-6">
         <div class="pr-lg-4">
@@ -251,13 +254,19 @@
       </div>
     </div>
   </div>
+
+  <app-incomplete-profile
+    *ngIf="isULBProfileCompleted === false"
+  ></app-incomplete-profile>
 </div>
 
-<div *ngIf="loggedInUserType && loggedInUserType !== USER_TYPE.ULB">
-  <app-pre-loader></app-pre-loader>
-  <app-pre-loader></app-pre-loader>
-  <app-pre-loader></app-pre-loader>
-</div>
+<ng-template #showLoader>
+  <div>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+    <app-pre-loader></app-pre-loader>
+  </div>
+</ng-template>
 
 <ng-template #historyModal>
   <div class="modal-body">

@@ -463,15 +463,18 @@
               (loggedInUserData?.role === userTypes.MoHUA ||
                 loggedInUserData?.role === userTypes.STATE)
             "
-            class="take-action"
-            (click)="scrollToElement('data-upload-tracker-list')"
+            class="take-action btn btn-primary"
+            (click)="
+              onClickCharTakeAction(
+                loggedInUserData?.role === userTypes.STATE
+                  ? UNDER_REVIEW_BY_STATE.id
+                  : UNDER_REVIEW_BY_MoHUA.id
+              )
+            "
           >
-            Take Action Pending Data
+            Take Action on Pending Data
           </div>
-          <div
-            class="view-list"
-            (click)="scrollToElement('data-upload-tracker-list')"
-          >
+          <div class="view-list" (click)="onClickCharTakeAction('')">
             View List
           </div>
         </div>
@@ -515,7 +518,7 @@
                 <th scope="ULB Code">ULB Code</th>
                 <th scope="Email Id">Email Id</th>
                 <th scope="Registered" style="width: 9%">Registered</th>
-                <th scope="Type">Type</th>
+                <th scope="Type">Population Type</th>
               </tr>
             </thead>
             <tbody>
