@@ -109,4 +109,10 @@ export class AnnualAccountsViewComponent implements OnInit {
       this.canOpen = false;
     }
   }
+
+  downloadList() {
+    const filterOptions = { ...this.listFetchOption, download: true };
+    const url = this.annualAccountsService.getAnnualAccountsApi(filterOptions);
+    return window.open(url);
+  }
 }
