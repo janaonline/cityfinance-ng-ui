@@ -17,10 +17,18 @@ export class FinancialDataService {
   fetchFinancialDataList(params = {}, body = {}) {
     let queryParams = new HttpParams(params);
     for (const key in params) {
-      queryParams = queryParams.set(key, params[key]);
+      queryParams = queryParams.set(
+        key,
+        typeof params[key] === "string" ? params[key].trim() : params[key]
+      );
     }
     for (const key in body) {
-      queryParams = queryParams.set(key, JSON.stringify(body[key]));
+      queryParams = queryParams.set(
+        key,
+        JSON.stringify(
+          typeof body[key] === "string" ? body[key].trim() : body[key]
+        )
+      );
     }
     return this.httpClient.get(`${environment.api.url}ulb-financial-data/all`, {
       params: queryParams,
