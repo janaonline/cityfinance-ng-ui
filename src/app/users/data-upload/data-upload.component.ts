@@ -69,6 +69,13 @@ export class DataUploadComponent
       }
       if (uploadId) {
         this.uploadId = uploadId;
+        this.getFinancialData();
+      } else {
+        this.fetchStateList();
+
+        this.fetchULBList();
+        this.fetchChartData();
+        this.fetchCardData();
       }
     });
     this.createForms();
@@ -76,14 +83,11 @@ export class DataUploadComponent
     this.modalService.onHide.subscribe(() => (this.isPopupOpen = false));
     this.initializeULBFormGroup();
     if (this.loggedInUserData.role !== USER_TYPE.STATE) {
-      this.fetchULBList();
     } else {
       this.tableHeaders = this.tableHeaders.filter(
         (header) => header.id !== "stateName"
       );
     }
-    this.fetchChartData();
-    this.fetchCardData();
   }
   @ViewChild("updateWithoutChangeWarning")
   updateWithoutChangeWarning: TemplateRef<any>;
@@ -243,12 +247,6 @@ export class DataUploadComponent
         },
       ],
     },
-    // onClick: function (c, i) {
-    //   e = i[0];
-    //   var x_value = this.data.labels[e._index];
-    //   // var y_value = this.data.datasets[0].data[e._index]; // For getting value of selected bar chart ..
-    //   getData(x_value);
-    // },
   };
 
   ulbFilter: FormGroup;
@@ -265,9 +263,11 @@ export class DataUploadComponent
 
   loggedInUserData = new UserUtility().getLoggedInUserDetails();
 
+
+  haveRequestToTakeAction = false;
+
   ngOnInit() {
     // this.fetchFinancialYears();
-    this.fetchStateList();
     if (this.loggedInUserData.role === USER_TYPE.STATE) return;
     if (!this.id) {
       this.getFinancialDataList(
@@ -324,7 +324,6 @@ export class DataUploadComponent
   }
 
   onClickingOtherCards(body) {
-    console.log("body", body);
     const stateName =
       this.loggedInUserData.role === USER_TYPE.STATE
         ? this.ulbFilter.value.stateName
@@ -362,6 +361,7 @@ export class DataUploadComponent
     this.ulbFilter.valueChanges
       .pipe(debounceTime(1000), distinctUntilChanged())
       .subscribe((newValue) => {
+        if (this.uploadId) return;
         this.ulblistFetchOption.skip = 0;
         this.ulbtableDefaultOptions.currentPage = 1;
         this.fetchULBList(newValue);
@@ -371,13 +371,31 @@ export class DataUploadComponent
   fetchChartData() {
     this._commonService.fetchDashboardChartData().subscribe((res) => {
       this.chartData = res["data"];
+      let textToTakeAction;
+      switch (this.loggedInUserData.role) {
+        case USER_TYPE.STATE: {
+          textToTakeAction = "Under Review By State";
+          break;
+        }
+        case USER_TYPE.MoHUA: {
+          textToTakeAction = "Under Review By MoHUA";
+          break;
+        }
+      }
+      console.log(this.loggedInUserData);
+      if (textToTakeAction) {
+        const indexOfSearchText = this.chartData.labels.findIndex(
+          (label) => label === textToTakeAction
+        );
+       this.haveRequestToTakeAction =  this.chartData.datasets[0].data[indexOfSearchText] > 0;
+        this.chartData.datasets[0].backgroundColor[indexOfSearchText] = "red";
+      }
       this.chartData.labels = this.chartData.labels.map((text: string) =>
         !text.includes("By")
           ? text
           : [text.split("By")[0] + "By", text.split("By")[1]]
       );
 
-      // this.createChart({ ...this.chartData });
       this.onChangingShowULBInChart({ checked: false, source: null });
     });
   }
@@ -391,6 +409,17 @@ export class DataUploadComponent
     const canvasElement = document.getElementById(
       `canvas`
     ) as HTMLCanvasElement;
+
+    if (!canvasElement) return;
+
+    switch (this.loggedInUserData.role) {
+      case USER_TYPE.STATE: {
+        break;
+      }
+      case USER_TYPE.MoHUA: {
+        break;
+      }
+    }
 
     const ctx = canvasElement.getContext("2d");
 
@@ -1051,8 +1080,11 @@ export class DataUploadComponent
 
   applyFilterClicked() {
     this.loading = true;
+    this.listFetchOption.skip = 0;
+    this.tableDefaultOptions.currentPage = 1;
     this.listFetchOption = this.setLIstFetchOptions();
     const { skip } = this.listFetchOption;
+
     this.financialDataService
       .fetchFinancialDataList({ skip, limit: 10 }, this.listFetchOption)
       .subscribe(

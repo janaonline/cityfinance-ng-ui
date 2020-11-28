@@ -4,8 +4,16 @@
     <ng-container *ngIf="id === 'upload-form'">
       <app-financial-uploads [financialData]="uploadObject">
         <button
-          *ngIf="uploadObject"
+          *ngIf="uploadObject && loggedInUserData?.role !== userTypes.ULB"
           (click)="location.back()"
+          class="btn btn-primary btn-upload"
+          style="transform: unset"
+        >
+          Back
+        </button>
+        <button
+          *ngIf="uploadObject && loggedInUserData?.role == userTypes.ULB"
+          routerLink="/fc_grant"
           class="btn btn-primary btn-upload"
           style="transform: unset"
         >
@@ -49,18 +57,18 @@
           <hr />
 
           <div
-            class="categories d-flex justify-content-evenly align-items-center"
+            class="categories d-flex justify-content-between align-items-center"
           >
             <span class="category">
-              <span class="category-heading">Corporation</span>
+              <span class="category-heading">Municipal<br />Corporations</span>
             </span>
             <span class="category">
-              <span class="category-heading">Municipality</span>
+              <span class="category-heading">Municipalities</span>
             </span>
             <span class="category">
               <span class="category-heading"
                 >Town <br />
-                Punchayat</span
+                Punchayats</span
               >
             </span>
           </div>
@@ -105,18 +113,18 @@
           <hr />
 
           <div
-            class="categories d-flex justify-content-evenly align-items-center"
+            class="categories d-flex justify-content-between align-items-center"
           >
             <span class="category">
-              <span class="category-heading">Corporation</span>
+              <span class="category-heading">Municipal<br />Corporations</span>
             </span>
             <span class="category">
-              <span class="category-heading">Municipality</span>
+              <span class="category-heading">Municipalities</span>
             </span>
             <span class="category">
               <span class="category-heading"
                 >Town <br />
-                Punchayat</span
+                Punchayats</span
               >
             </span>
           </div>
@@ -169,18 +177,18 @@
           <hr />
 
           <div
-            class="categories d-flex justify-content-evenly align-items-center"
+            class="categories d-flex justify-content-between align-items-center"
           >
             <span class="category">
-              <span class="category-heading">Corporation</span>
+              <span class="category-heading">Municipal<br />Corporations</span>
             </span>
             <span class="category">
-              <span class="category-heading">Municipality</span>
+              <span class="category-heading">Municipalities</span>
             </span>
             <span class="category">
               <span class="category-heading"
                 >Town <br />
-                Punchayat</span
+                Punchayats</span
               >
             </span>
           </div>
@@ -239,18 +247,18 @@
           <hr />
 
           <div
-            class="categories d-flex justify-content-evenly align-items-center"
+            class="categories d-flex justify-content-between align-items-center"
           >
             <span class="category">
-              <span class="category-heading">Corporation</span>
+              <span class="category-heading">Municipal<br />Corporations</span>
             </span>
             <span class="category">
-              <span class="category-heading">Municipality</span>
+              <span class="category-heading">Municipalities</span>
             </span>
             <span class="category">
               <span class="category-heading"
                 >Town <br />
-                Punchayat</span
+                Punchayats</span
               >
             </span>
           </div>
@@ -311,13 +319,15 @@
             <hr />
 
             <div
-              class="categories d-flex justify-content-evenly align-items-center"
+              class="categories d-flex justify-content-between align-items-center"
             >
               <span class="category">
-                <span class="category-heading">Corporation</span>
+                <span class="category-heading"
+                  >Municipal<br />Corporations</span
+                >
               </span>
               <span class="category">
-                <span class="category-heading">Municipality</span>
+                <span class="category-heading">Municipalities</span>
               </span>
               <span class="category">
                 <span class="category-heading"
@@ -376,13 +386,15 @@
             <hr />
 
             <div
-              class="categories d-flex justify-content-evenly align-items-center"
+              class="categories d-flex justify-content-between align-items-center"
             >
               <span class="category">
-                <span class="category-heading">Corporation</span>
+                <span class="category-heading"
+                  >Municipal<br />Corporations</span
+                >
               </span>
               <span class="category">
-                <span class="category-heading">Municipality</span>
+                <span class="category-heading">Municipalities</span>
               </span>
               <span class="category">
                 <span class="category-heading"
@@ -446,6 +458,17 @@
           </p>
           <canvas id="canvas" width="150" height="49"></canvas>
           <div
+            *ngIf="
+              haveRequestToTakeAction &&
+              (loggedInUserData?.role === userTypes.MoHUA ||
+                loggedInUserData?.role === userTypes.STATE)
+            "
+            class="take-action"
+            (click)="scrollToElement('data-upload-tracker-list')"
+          >
+            Take Action Pending Data
+          </div>
+          <div
             class="view-list"
             (click)="scrollToElement('data-upload-tracker-list')"
           >
@@ -478,25 +501,21 @@
           >
             <thead>
               <tr class="" style="color: white">
-                <th scope="S.No" class="text-center">S.No.</th>
+                <th scope="Sr.No" style="width: 5%">Sr.No.</th>
                 <th
                   *ngIf="loggedInUserData.role !== userTypes.STATE"
                   scope="State Name"
-                  class="text-center"
                   style="width: 9%"
                 >
                   State Name
                 </th>
-                <th scope="ULB Name" class="text-center">ULB Name</th>
-                <th scope="ULB Type" class="text-center">ULB Type</th>
-                <th scope="Census Code" class="text-center">Census Code</th>
-                <th scope="ULB Code" class="text-center">ULB Code</th>
-                <th scope="Email Id" class="text-center">Email Id</th>
-                <!-- <th scope="S.No" class="text-center">Mobile Number</th> -->
-                <th scope="Registered" class="text-center" style="width: 9%">
-                  Registered
-                </th>
-                <th scope="Type" class="text-center">Type</th>
+                <th scope="ULB Name">ULB Name</th>
+                <th scope="ULB Type">ULB Type</th>
+                <th scope="Census Code">Census Code</th>
+                <th scope="ULB Code">ULB Code</th>
+                <th scope="Email Id">Email Id</th>
+                <th scope="Registered" style="width: 9%">Registered</th>
+                <th scope="Type">Type</th>
               </tr>
             </thead>
             <tbody>
@@ -687,7 +706,7 @@
       <div class="data-upload-container" id="data-upload-tracker-list">
         <div class="col-md-12" style="padding-left: 0px">
           <h3>
-            <span> ULB Data Upload Tracker </span>
+            <span> ULB 15th FC Form Status </span>
             <button
               role="menuitem"
               *ngIf="
@@ -817,7 +836,7 @@
                 <td>
                   <div class="input-group">
                     <input
-                      placeholder="Swatcha Bharat Code"
+                      placeholder="ULB Code"
                       type="text"
                       [formControl]="sbCode"
                       class="form-control"
