@@ -10,7 +10,7 @@
     <thead>
       <tr>
         <th style="position: sticky; top: 0" class="text-center"></th>
-        <th style="position: sticky; top: 0" class="text-center">Sr. No</th>
+        <th style="position: sticky; top: 0">Sr. No</th>
         <th style="position: sticky; top: 0">Action</th>
         <th style="position: sticky; top: 0">Date</th>
       </tr>
@@ -26,7 +26,7 @@
             class="fa fa-check-circle text-success"
           ></em>
         </td>
-        <td class="text-center">{{ i + 1 }}</td>
+        <td>{{ i + 1 }}</td>
         <td>{{ row.customStatusText }}</td>
         <td>
           {{ row["modifiedAt"] | date: "MMM d, y, h:mm a":"GMT" }}
