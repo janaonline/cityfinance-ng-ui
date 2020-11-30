@@ -298,7 +298,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
           customStatusText = REJECT_BY_STATE.itemName;
         } else {
           customStatusText = history
-            ? "Approved by STate"
+            ? "Approved by STATE"
             : UNDER_REVIEW_BY_MoHUA.itemName;
         }
 

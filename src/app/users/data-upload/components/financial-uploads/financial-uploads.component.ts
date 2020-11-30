@@ -219,6 +219,7 @@ export class FinancialUploadsComponent
     this.solidWasteManagementForm.getRawValue();
 
     this.previewData = {
+      ...this.financialData,
       ulb: this.loggedInUserDetails.ulb,
       ulbName: this.financialData ? this.financialData.ulbName : null,
       millionPlusCities: {

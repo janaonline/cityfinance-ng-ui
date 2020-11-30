@@ -14,6 +14,7 @@ export interface IFinancialData {
   actionTakenByUserName?: string;
   ulbName: string;
   customStatusText?: string;
+  createdAt: string;
 }
 
 export interface MillionPlusCities {

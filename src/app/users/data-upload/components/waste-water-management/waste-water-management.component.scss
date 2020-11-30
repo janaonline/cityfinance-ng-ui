@@ -224,7 +224,10 @@
   .actions {
     width: 100%;
     display: inline-flex;
-    justify-content: space-around;
+    justify-content: flex-start;
+    .action {
+      margin-right: 20%;
+    }
   }
 
   table tbody tr td:nth-child(2),
@@ -240,5 +243,16 @@
   100% {
     opacity: 1;
     transform: translateY(-103%);
+  }
+}
+
+.rejected-row {
+  .input-group-addon {
+    background: red;
+    border: 1px solid red;
+  }
+
+  input.form-control {
+    border-color: red;
   }
 }
