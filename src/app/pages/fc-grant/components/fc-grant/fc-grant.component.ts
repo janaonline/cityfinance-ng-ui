@@ -229,7 +229,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       );
     }
 
-    return Math.round((completed / (this.isULBMillionPlus ? 27 : 22)) * 100);
+    return Math.round((completed / (this.isULBMillionPlus ? 26 : 22)) * 100);
   }
 
   calculateFormStatus(data: IFinancialData) {

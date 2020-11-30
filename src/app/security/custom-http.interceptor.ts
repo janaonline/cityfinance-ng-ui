@@ -1,14 +1,10 @@
-import {
-  HttpErrorResponse,
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest,
-} from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { NavigationEnd, ResolveEnd, Router } from "@angular/router";
-import { Observable, Subject, throwError } from "rxjs";
-import { catchError, filter } from "rxjs/operators";
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { NavigationEnd, ResolveEnd, Router } from '@angular/router';
+import { Observable, Subject, throwError } from 'rxjs';
+import { catchError, filter } from 'rxjs/operators';
+
+import { Login_Logout } from '../util/logout.util';
 
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
@@ -98,5 +94,6 @@ export class CustomHttpInterceptor implements HttpInterceptor {
 
   private clearLocalStorage() {
     localStorage.clear();
+    Login_Logout.logout();
   }
 }
