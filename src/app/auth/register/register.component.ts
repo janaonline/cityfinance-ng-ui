@@ -26,7 +26,8 @@ export class RegisterComponent implements OnInit {
   ) {
     this._activatedRoute.params.subscribe((param) => {
       if (param.type.trim()) {
-        this.registrationType = param.type;
+        // this.registrationType = param.type;
+        this.registrationType = "user";
         this.initializeForm();
 
         this.authService.badCredentials.subscribe((res) => {
