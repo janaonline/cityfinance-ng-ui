@@ -42,9 +42,7 @@
                   let i = index
                 "
               >
-                <span class="file-tracker-name">
-                  {{ file.name }}
-                </span>
+                <span class="file-tracker-name"> {{ file.name }} </span>
 
                 <div
                   class="progress"
@@ -115,14 +113,11 @@
                   let controlIndex = index
                 "
               >
-                <!-- document, {{ controlIndex }} -->
                 <span
                   class="file-tracker-name"
                   [ngClass]="{
                     invisible:
-                      doc.url &&
-                      canUploadFile &&
-                      form.controls[question.key].enabled
+                      canUploadFile && form.controls[question.key].enabled
                   }"
                 >
                   {{ doc.name }}
