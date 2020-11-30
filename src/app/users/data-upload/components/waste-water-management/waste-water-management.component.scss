@@ -224,7 +224,10 @@
   .actions {
     width: 100%;
     display: inline-flex;
-    justify-content: space-around;
+    justify-content: flex-start;
+    .action {
+      margin-right: 20%;
+    }
   }
 
   table tbody tr td:nth-child(2),

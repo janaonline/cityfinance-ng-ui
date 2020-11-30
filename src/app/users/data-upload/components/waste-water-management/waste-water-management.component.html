@@ -150,7 +150,14 @@
                 form.controls[service.key].controls['status'].invalid
             }"
           >
-            <div class="action">
+            <div
+              class="action"
+              *ngIf="
+                form.controls[service.key]['controls']['status'].enabled ||
+                form.controls[service.key]['controls']['status'].value ===
+                  approveAction
+              "
+            >
               <label>
                 <input
                   type="radio"
@@ -158,18 +165,35 @@
                   formControlName="status"
                 />
                 <span>
-                  {{ actionNames[approveAction] }}
+                  {{
+                    form.controls[service.key]["controls"]["status"].disabled
+                      ? "Approved"
+                      : actionNames[approveAction]
+                  }}
                 </span>
               </label>
             </div>
-            <div class="action">
+            <div
+              class="action"
+              *ngIf="
+                form.controls[service.key]['controls']['status'].enabled ||
+                form.controls[service.key]['controls']['status'].value ===
+                  rejectAction
+              "
+            >
               <label>
                 <input
                   type="radio"
                   [value]="rejectAction"
                   formControlName="status"
                 />
-                <span> {{ actionNames[rejectAction] }} </span>
+                <span>
+                  {{
+                    form.controls[service.key]["controls"]["status"].disabled
+                      ? "Rejected"
+                      : actionNames[rejectAction]
+                  }}
+                </span>
               </label>
             </div>
           </div>

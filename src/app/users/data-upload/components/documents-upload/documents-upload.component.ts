@@ -491,6 +491,7 @@ export class DocumentsUploadComponent
 
   private initializeQuestionMapping() {
     this.documentForm = this.form;
+    console.log(this.documentForm);
   }
   ngOnDestroy(): void {
     // documentForm.reset();
