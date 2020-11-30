@@ -87,15 +87,8 @@ export class PreviewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.userDetails, this.data);
+    console.log("data", this.data);
   }
-
-  // private fetchStateList() {
-  //   this._commonService.fetchStateList().subscribe((res) => {
-  //     this.states = {};
-  //     res.forEach((state) => (this.states[state._id] = state));
-  //   });
-  // }
 
   downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;

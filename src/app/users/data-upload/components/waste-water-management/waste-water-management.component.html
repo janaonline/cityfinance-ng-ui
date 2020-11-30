@@ -25,7 +25,15 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let service of services" [formGroupName]="service.key">
+      <tr
+        *ngFor="let service of services"
+        [formGroupName]="service.key"
+        [ngClass]="{
+          'rejected-row':
+            form.controls[service.key]['controls']['status'].value ===
+            rejectAction
+        }"
+      >
         <td>
           <span class="service-name"
             >{{ service.name }}

@@ -245,3 +245,14 @@
     transform: translateY(-103%);
   }
 }
+
+.rejected-row {
+  .input-group-addon {
+    background: red;
+    border: 1px solid red;
+  }
+
+  input.form-control {
+    border-color: red;
+  }
+}
