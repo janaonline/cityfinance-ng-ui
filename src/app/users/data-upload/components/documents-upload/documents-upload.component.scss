@@ -135,6 +135,13 @@
 }
 
 :host {
+  .document-rejected {
+    color: red;
+    i.fa-cloud-download,
+    em.fa-cloud-download {
+      color: red !important;
+    }
+  }
   .documents-required {
     background: linear-gradient(45deg, #ff8181, white);
   }

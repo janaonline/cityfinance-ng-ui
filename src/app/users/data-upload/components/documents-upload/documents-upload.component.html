@@ -4,7 +4,14 @@
   <form [formGroup]="documentForm">
     <table class="question-table">
       <tbody>
-        <tr *ngFor="let question of questions; let i = index">
+        <tr
+          *ngFor="let question of questions; let i = index"
+          [ngClass]="{
+            'document-rejected':
+              documentForm.controls[question.key]?.value[i]?.status ===
+              rejectAction
+          }"
+        >
           <td>
             <p style="position: absolute; top: 1px; padding-top: 11px">
               {{ i + 1 }}
