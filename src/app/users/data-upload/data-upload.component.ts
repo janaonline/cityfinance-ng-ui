@@ -578,7 +578,7 @@ export class DataUploadComponent
           customStatusText = REJECT_BY_STATE.itemName;
         } else {
           customStatusText = history
-            ? "Approved by State"
+            ? "Approved by STATE"
             : UNDER_REVIEW_BY_MoHUA.itemName;
         }
 
