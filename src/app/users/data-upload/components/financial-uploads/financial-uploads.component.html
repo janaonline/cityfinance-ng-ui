@@ -24,51 +24,140 @@
     <ng-template matStepLabel>
       <span title="Introduction">Introduction</span>
     </ng-template>
-    <div style="margin-bottom: 2%">
-      <h4 style="font-weight: 600" class="mb-2">
-        Guidelines to Urban Local Bodies (ULBs):
-      </h4>
-      <ol>
-        <li>
-          ULBs need enter data and upload documents appropriately. Targets for
-          service level indicators and required documents must be uploaded after
-          taking due approval from Municipal commissioner/ Executive officer of
-          ULB.
-        </li>
-        <li>
-          Only one PDF document can be uploaded against each requirement. If
-          more than one document needs to be uploaded for a requirement, you
-          need to merge the file and then upload.
-        </li>
-        <li>
-          Data validation are built in the cell where you need to enter data.
-          Please enter data in required format
-        </li>
-        <li>Refer the resources when you have any doubt.</li>
-        <li>
-          ULBs can enter data and upload documents at their convenience i.e. at
-          one go or in several sessions by saving it as draft.
-        </li>
-        <li>
-          It would be easier for ULBs to put all the documents that are required
-          to be entered and uploaded in a single folder before start entering or
-          uploading.
-        </li>
-        <li>
-          You need to name the documents to be uploaded in the following format
-          “Document Name_State Name_ULB Name.
-        </li>
-        <li>
-          ULBs may see the preview of the data entered and documents uploaded
-          before submitting it.
-        </li>
-        <li>
-          ULBs would be able to take a print out of the data entered for their
-          future reference.
-        </li>
-        <li>ULBs would not be able to edit the form after submitting it.</li>
-      </ol>
-    </div>
+
+    <ng-container [ngSwitch]="loggedInUserDetails?.role">
+      <div class="guidelines" *ngSwitchCase="USER_TYPE.ULB">
+        <h4 style="font-weight: 600" class="mb-2">
+          Guidelines to Urban Local Bodies (ULBs):
+        </h4>
+        <ol>
+          <li>
+            ULBs need enter data and upload documents appropriately. Targets for
+            service level indicators and required documents must be uploaded
+            after taking due approval from Municipal commissioner/ Executive
+            officer of ULB.
+          </li>
+          <li>
+            Only one PDF document can be uploaded against each requirement. If
+            more than one document needs to be uploaded for a requirement, you
+            need to merge the file and then upload.
+          </li>
+          <li>
+            Data validation are built in the cell where you need to enter data.
+            Please enter data in required format
+          </li>
+          <li>Refer the resources when you have any doubt.</li>
+          <li>
+            ULBs can enter data and upload documents at their convenience i.e.
+            at one go or in several sessions by saving it as draft.
+          </li>
+          <li>
+            It would be easier for ULBs to put all the documents that are
+            required to be entered and uploaded in a single folder before start
+            entering or uploading.
+          </li>
+          <li>
+            You need to name the documents to be uploaded in the following
+            format “Document Name_State Name_ULB Name.
+          </li>
+          <li>
+            ULBs may see the preview of the data entered and documents uploaded
+            before submitting it.
+          </li>
+          <li>
+            ULBs would be able to take a print out of the data entered for their
+            future reference.
+          </li>
+          <li>ULBs would not be able to edit the form after submitting it.</li>
+        </ol>
+      </div>
+      <div class="guidelines" *ngSwitchCase="USER_TYPE.STATE">
+        <h4 style="font-weight: 600" class="mb-2">
+          Guidelines for Nodal officer from State:
+        </h4>
+        <ol>
+          <li>
+            The Nodal officer from the state for the 15th FC Grant for ULBs is
+            required to evaluate/ review the baseline & targets for service
+            level benchmarks and required documents for 15th FC Grant. The Nodal
+            officer will Approve/ Reject the claims based on the evaluation.
+          </li>
+          <li>
+            If submission by ULB is in order, the Approve button shall be
+            ticked. Each submission/ document by ULB has to be approved/
+            rejected.
+          </li>
+          <li>
+            After approval the submissions by ULBs will be forwarded to the
+            Ministry of Housing and Urban Affairs (MoHUA) for final approval.
+          </li>
+          <li>
+            If submission by ULB is not in order, then the Reject button shall
+            be ticked and the accompanying reason for rejection must be entered.
+          </li>
+          <li>
+            If one or more submissions made by the ULB are rejected, the form
+            will be sent back to the ULB for correction and re-submission.
+          </li>
+          <li>
+            Nodal officer will not be able to enter any data or submit any
+            documents on behalf of the ULBs.
+          </li>
+          <li>Refer the user manual in case of any doubt.</li>
+          <li>
+            Nodal officer may see the preview of the Approve/ Reject decisions
+            recorded before final submission.
+          </li>
+          <li>
+            Nodal officer will be able to take a print out of the decisions
+            recorded for future reference from the preview page.
+          </li>
+          <li>
+            States/ nodal officer will not be able to edit the form after
+            submitting it.
+          </li>
+        </ol>
+      </div>
+      <div class="guidelines" *ngSwitchDefault>
+        <h4 style="font-weight: 600" class="mb-2">Guidelines to MoHUA:</h4>
+        <ol>
+          <li>
+            MoHUA is required to evaluate/ review the submissions by the ULBs
+            after approval of the State as per guidelines for 15th FC grant for
+            ULBs.
+          </li>
+          <li>
+            If MoHUA is satisfied with the submissions made by the ULB, the
+            Approve button shall be ticked.
+          </li>
+          <li>
+            If MoHUA is not satisfied with the submissions made by the ULB, the
+            Reject button shall be ticked and the accompanying reason for
+            rejection must be entered.
+          </li>
+          <li>
+            If one or more claims made by the ULB are rejected, the form will be
+            sent back to the ULB for correction and re-submission. The
+            resubmitted claims will need to be first approved by the State
+            before it arrives for MoHUA’s decision.
+          </li>
+          <li>
+            MoHUA will not be able to enter any data or submit any documents on
+            behalf of the ULBs.
+          </li>
+          <li>
+            MoHUA may see the preview of the Approve/ Reject decisions recorded
+            before submitting it.
+          </li>
+          <li>
+            MoHUA will be able to take a print out of the decisions recorded for
+            their future reference.
+          </li>
+          <li>MoHUA will not be able to edit the form after submitting it.</li>
+        </ol>
+      </div>
+    </ng-container>
+
     <button
       style="float: right; margin-right: 2.5%"
       class="btn btn-primary btn-upload"
@@ -128,7 +217,7 @@
       (saveAsDraft)="saveAsDraft()"
     ></app-documents-upload>
     <p>
-      <span class="mandatory">**</span> Upload GAP analysis report and project
+      <span class="mandatory">*</span> Upload GAP analysis report and project
       identified for bridging the gap as a single document.
     </p>
   </mat-step>
@@ -206,6 +295,28 @@
   2. Only files with <strong>pdf</strong> extension are allowed. Other type of
   files will be filtered out.<br />
   3. Only 1 file can be selected per question.<br />
+  4.Reference documents:
+  <a>
+    Grant Module User Module <span style="color: red">(Upcoming Soon)</span> </a
+  >,
+  <a
+    href="../../../../../assets/files/XV FC Operational Guidelines.pdf"
+    target="_blank"
+  >
+    MoF Operational Guidelines </a
+  >,
+  <a
+    href="../../../../../assets/files/XV FC Marking Scheme Guidelines.pdf"
+    target="_blank"
+  >
+    MoHUA Marking Scheme </a
+  >,
+  <a href="../../../../../assets/files/XV FC Report.pdf" target="_blank">
+    15th FC Report</a
+  ><br />
+  5. For clarifications/ questions, please email us at
+  <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a>. We
+  will respond to you within 24 hours.
 </p>
 
 <ng-template #savingPopup>

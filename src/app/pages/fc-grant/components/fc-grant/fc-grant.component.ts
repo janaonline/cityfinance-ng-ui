@@ -36,7 +36,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
     super();
     switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
-        this.fetchFinancialDataUpload();
+        this.checkULBProfileCompleteStatus();
         break;
       case USER_TYPE.STATE:
       case USER_TYPE.PARTNER:
@@ -58,6 +58,8 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   formCompletedPercentage;
 
   isPopupOpen = false;
+
+  isULBProfileCompleted: boolean;
   formHistoricalData;
 
   solidWastePercentageCompleted = 0;
@@ -78,6 +80,15 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       SidebarUtil.hideSidebar();
     } else SidebarUtil.showSidebar();
     this._router.navigate([url]);
+  }
+
+  checkULBProfileCompleteStatus() {
+    this._profileService.isULBProfileCompleted().subscribe((res) => {
+      console.log("isULBProfileCompleted", res);
+      this.isULBProfileCompleted = res;
+      if (!res) return;
+      this.fetchFinancialDataUpload();
+    });
   }
 
   fetchFinancialDataUpload() {
@@ -180,18 +191,18 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       }
     }
 
-    if (
-      this.financialData.waterManagement &&
-      this.financialData.waterManagement.documents.wasteWaterPlan
-    ) {
-      const doc = this.financialData.waterManagement.documents
-        .wasteWaterPlan[0];
-      if (doc && doc.name) {
-        completed++;
-        this.evidencePercentageCompleted++;
-        console.log("got the doc");
-      }
-    }
+    // if (
+    //   this.financialData.waterManagement &&
+    //   this.financialData.waterManagement.documents.wasteWaterPlan
+    // ) {
+    //   const doc = this.financialData.waterManagement.documents
+    //     .wasteWaterPlan[0];
+    //   if (doc && doc.name) {
+    //     completed++;
+    //     this.evidencePercentageCompleted++;
+    //     console.log("got the doc");
+    //   }
+    // }
 
     services.forEach((question) => {
       const serviceLevel = this.financialData.waterManagement[question.key];
@@ -214,16 +225,11 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
 
     if (this.evidencePercentageCompleted) {
       this.evidencePercentageCompleted = Math.round(
-        (this.evidencePercentageCompleted / 21) * 100
+        (this.evidencePercentageCompleted / 20) * 100
       );
     }
 
-    console.log(
-      "evidencePercentageCompleted",
-      this.evidencePercentageCompleted
-    );
-
-    return Math.round((completed / (this.isULBMillionPlus ? 27 : 23)) * 100);
+    return Math.round((completed / (this.isULBMillionPlus ? 26 : 22)) * 100);
   }
 
   calculateFormStatus(data: IFinancialData) {
@@ -292,7 +298,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
           customStatusText = REJECT_BY_STATE.itemName;
         } else {
           customStatusText = history
-            ? "Approved by STate"
+            ? "Approved by STATE"
             : UNDER_REVIEW_BY_MoHUA.itemName;
         }
 

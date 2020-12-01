@@ -7,9 +7,11 @@
   >
     Download as PDF
   </button>
-  <h2 style="text-align: center">
-    ULB: {{ data?.ulbName || userDetails.name }}
-  </h2>
+  <h2 style="text-align: center">15th FC Form</h2>
+
+  <h3 style="text-align: center">
+    {{ data?.ulbName || userDetails.name }}
+  </h3>
 
   <h3 style="text-align: center">
     Evidence for benchmark and target for service level indicators
@@ -76,7 +78,7 @@
     </tbody>
   </table>
 
-  <h4 style="padding-left: 1%">Upload Documents</h4>
+  <!-- <h4 style="padding-left: 1%">Upload Documents</h4>
   <ol>
     <li *ngFor="let question of wasteWaterDucmentQuestions; let i = index">
       {{ question.question }} <br />
@@ -91,7 +93,7 @@
         {{ data?.waterManagement.documents.wasteWaterPlan[i].name }}</a
       >
     </li>
-  </ol>
+  </ol> -->
 
   <h3 style="text-align: center">Solid Waste Management</h3>
   <ol>
@@ -136,4 +138,10 @@
       </li>
     </ol>
   </div>
+  <h5 class="mt-4" style="padding-left: 3%">
+    Form First Submitted On:
+    <span style="font-weight: normal">
+      {{ data["createdAt"] | date: "MMMM d, y, h:mm a" }}</span
+    >
+  </h5>
 </div>

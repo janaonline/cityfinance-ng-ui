@@ -92,7 +92,7 @@
     }
     .categories-values {
       justify-content: space-around;
-      margin-bottom: 2.3%;
+      margin-bottom: 0.3%;
 
       .category-value {
         font-size: 1.5em;
@@ -147,9 +147,10 @@
   }
 
   .chart-container {
+    position: relative;
     padding: 2% 2% 0% 3%;
     display: block;
-    width: 70%;
+    width: 71%;
     box-shadow: 0px 3px 6px #00000029;
     border: 1px solid #70707033;
     border-radius: 5px;
@@ -157,6 +158,30 @@
     // animation: card-animation 1s ease-out forwards;
     .heading {
       font-weight: bold;
+    }
+
+    .take-action {
+      width: fit-content;
+      display: inline-block;
+      margin: auto;
+      // color: red;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: popup2 2.5s infinite ease-in-out;
+
+      cursor: pointer;
+    }
+    @keyframes popup2 {
+      0% {
+        transform: translateX(-50%) scale(1);
+      }
+      50% {
+        transform: translateX(-50%) scale(1.1);
+      }
+      100% {
+        transform: translateX(-50%) scale(1);
+      }
     }
 
     .view-list {
@@ -189,7 +214,7 @@
     box-shadow: 0px 3px 6px #00000029;
     border: 1px solid #70707047;
     border-radius: 5px;
-    width: 98%;
+    width: 94vw;
     overflow: hidden;
     margin-bottom: 3%;
 

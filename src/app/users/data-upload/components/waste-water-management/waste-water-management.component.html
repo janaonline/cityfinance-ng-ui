@@ -25,7 +25,15 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let service of services" [formGroupName]="service.key">
+      <tr
+        *ngFor="let service of services"
+        [formGroupName]="service.key"
+        [ngClass]="{
+          'rejected-row':
+            form.controls[service.key]['controls']['status'].value ===
+            rejectAction
+        }"
+      >
         <td>
           <span class="service-name"
             >{{ service.name }}
@@ -150,7 +158,14 @@
                 form.controls[service.key].controls['status'].invalid
             }"
           >
-            <div class="action">
+            <div
+              class="action"
+              *ngIf="
+                form.controls[service.key]['controls']['status'].enabled ||
+                form.controls[service.key]['controls']['status'].value ===
+                  approveAction
+              "
+            >
               <label>
                 <input
                   type="radio"
@@ -158,18 +173,35 @@
                   formControlName="status"
                 />
                 <span>
-                  {{ actionNames[approveAction] }}
+                  {{
+                    form.controls[service.key]["controls"]["status"].disabled
+                      ? "Approved"
+                      : actionNames[approveAction]
+                  }}
                 </span>
               </label>
             </div>
-            <div class="action">
+            <div
+              class="action"
+              *ngIf="
+                form.controls[service.key]['controls']['status'].enabled ||
+                form.controls[service.key]['controls']['status'].value ===
+                  rejectAction
+              "
+            >
               <label>
                 <input
                   type="radio"
                   [value]="rejectAction"
                   formControlName="status"
                 />
-                <span> {{ actionNames[rejectAction] }} </span>
+                <span>
+                  {{
+                    form.controls[service.key]["controls"]["status"].disabled
+                      ? "Rejected"
+                      : actionNames[rejectAction]
+                  }}
+                </span>
               </label>
             </div>
           </div>
@@ -197,10 +229,38 @@
       </tr>
     </tbody>
   </table>
+  <div class="d-flex justify-content-end">
+    <button
+      id="save-as-Draft"
+      *ngIf="canUploadFile"
+      class="btn btn-primary btn-upload mt-2"
+      style="float: right; margin-right: 2%"
+      (click)="onSaveAsDraftClick()"
+    >
+      Save as draft
+    </button>
+    <button
+      id="previous"
+      class="btn btn-primary btn-upload mt-2"
+      style="float: right; margin-right: 2%"
+      (click)="previous.emit(true)"
+    >
+      Previous
+    </button>
 
-  <h3>Upload Documents</h3>
+    <button
+      id="next"
+      class="btn btn-primary btn-upload mt-2"
+      style="float: right; margin-right: 2%"
+      (click)="showNext.emit(true)"
+    >
+      Next
+    </button>
+  </div>
 
-  <app-documents-upload
+  <!-- <h3>Upload Documents</h3> -->
+
+  <!-- <app-documents-upload
     [isSubmitButtonClick]="isSubmitButtonClick"
     [userType]="USER_TYPE.ULB"
     [form]="form.controls.documents"
@@ -214,5 +274,5 @@
     (previous)="previous.emit()"
     (saveAsDraft)="onSaveAsDraftClick()"
   >
-  </app-documents-upload>
+  </app-documents-upload> -->
 </form>

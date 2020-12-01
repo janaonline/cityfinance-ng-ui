@@ -9,6 +9,12 @@
 :root {
   --multi-dropdown-color: #059b9a;
 }
+
+.nav .open > a,
+.nav .open > a:focus,
+.nav .open > a:hover {
+  background: #ffc500;
+}
 input.is-invalid,
 .is-invalid {
   border-color: red !important;

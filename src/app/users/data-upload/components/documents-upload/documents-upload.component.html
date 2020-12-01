@@ -42,9 +42,7 @@
                   let i = index
                 "
               >
-                <span class="file-tracker-name">
-                  {{ file.name }}
-                </span>
+                <span class="file-tracker-name"> {{ file.name }} </span>
 
                 <div
                   class="progress"
@@ -115,14 +113,11 @@
                   let controlIndex = index
                 "
               >
-                <!-- document, {{ controlIndex }} -->
                 <span
                   class="file-tracker-name"
                   [ngClass]="{
                     invisible:
-                      doc.url &&
-                      canUploadFile &&
-                      form.controls[question.key].enabled
+                      canUploadFile && form.controls[question.key].enabled
                   }"
                 >
                   {{ doc.name }}
@@ -169,7 +164,17 @@
                           ?.invalid
                     }"
                   >
-                    <div class="action">
+                    <div
+                      class="action"
+                      *ngIf="
+                        documentForm.controls[question.key].controls[
+                          controlIndex
+                        ].controls['status'].enabled ||
+                        documentForm.controls[question.key].controls[
+                          controlIndex
+                        ].controls['status'].value === approveAction
+                      "
+                    >
                       <label>
                         <input
                           type="radio"
@@ -177,18 +182,42 @@
                           [formControlName]="'status'"
                         />
                         <span>
-                          {{ actionNames[approveAction] }}
+                          {{
+                            documentForm.controls[question.key].controls[
+                              controlIndex
+                            ].controls["status"].disabled
+                              ? "Approved"
+                              : actionNames[approveAction]
+                          }}
                         </span>
                       </label>
                     </div>
-                    <div class="action">
+                    <div
+                      class="action"
+                      *ngIf="
+                        documentForm.controls[question.key].controls[
+                          controlIndex
+                        ].controls['status'].enabled ||
+                        documentForm.controls[question.key].controls[
+                          controlIndex
+                        ].controls['status'].value === rejectAction
+                      "
+                    >
                       <label>
                         <input
                           type="radio"
                           [value]="rejectAction"
                           [formControlName]="'status'"
                         />
-                        <span> {{ actionNames[rejectAction] }} </span>
+                        <span>
+                          {{
+                            documentForm.controls[question.key].controls[
+                              controlIndex
+                            ].controls["status"].disabled
+                              ? "Rejected"
+                              : actionNames[rejectAction]
+                          }}
+                        </span>
                       </label>
                     </div>
                   </div>

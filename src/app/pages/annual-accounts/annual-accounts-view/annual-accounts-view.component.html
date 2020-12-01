@@ -31,17 +31,15 @@
               <!-- <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i> -->
             </th>
             <th class="">
-              ULB Name
+              ULB Name/Parastatal Agency
               <!-- <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i> -->
             </th>
-            <th class="">
-              Parastatal Agency
-              <!-- <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i> -->
-            </th>
+            <th class="">ULB Type</th>
+
             <th class="text-center">Action</th>
           </tr>
         </thead>
-        <tbody *ngIf="!isApiInProgress">
+        <tbody>
           <tr>
             <td></td>
             <td>
@@ -68,23 +66,25 @@
               <div class="input-group">
                 <input
                   #ulbName
-                  placeholder="ULB Name"
+                  placeholder="ULB Name/Parastatal Agency"
                   type="text"
                   class="form-control"
                 />
+              </div>
+            </td>
+            <td>
+              <div class="input-group">
+                <select #ulbType class="form-control" placeholder="Body Type">
+                  <option value="" selected>All ULB Types</option>
+                  <option value="Municipality">Municipality</option>
+                  <option value="Municipal Corporation">
+                    Municipal Corporation
+                  </option>
+                  <option value="Town Panchayat">Town Panchayat</option>
+                </select>
               </div>
             </td>
 
-            <td>
-              <div class="input-group">
-                <input
-                  #parastatalName
-                  placeholder="Parastatal Agency"
-                  type="text"
-                  class="form-control"
-                />
-              </div>
-            </td>
             <td>
               <button
                 class="btn btn-primary m-auto"
@@ -94,8 +94,9 @@
                     state.value,
                     bodyType.value,
                     ulbName.value,
-                    parastatalName.value,
-                    0
+                    ulbName.value,
+                    0,
+                    ulbType.value
                   )
                 "
               >
@@ -121,8 +122,8 @@
             </td>
             <td>{{ data.stateName }}</td>
             <td>{{ data.bodyType | titlecase }}</td>
-            <td>{{ data.ulbName }}</td>
-            <td>{{ data.parastatalName | titlecase }}</td>
+            <td>{{ data.ulbName || data.parastatalName }}</td>
+            <td>{{ data.ulbType }}</td>
             <td>
               <a>
                 <i
@@ -149,6 +150,7 @@
           right: 0px;
           top: 0px;
           bottom: 0px;
+          position: absolute;
         "
       >
         <app-pre-loader></app-pre-loader>

@@ -2,13 +2,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
+import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
 import { ULBSIGNUPSTATUS } from 'src/app/util/enums';
 import { JSONUtility } from 'src/app/util/jsonUtil';
+import { Login_Logout } from 'src/app/util/logout.util';
 
 import { ulbType } from '../../../dashboard/report/report/ulbTypes';
 import { FormUtil } from '../../../util/formUtil';
@@ -25,7 +29,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   constructor(
     private _profileService: ProfileService,
     public modalService: BsModalService,
-    public dialogBox: MatDialog
+    public dialogBox: MatDialog,
+    private router: Router
   ) {
     this.fetchDatas();
     SidebarUtil.showSidebar();
@@ -68,8 +73,35 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.initializeLogginUserType();
   }
 
+  onClickingChangePassword(event: Event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    const defaultDailogConfiuration: IDialogConfiguration = {
+      message:
+        "<div class='text-center'>You will be logged out for changing password. <br>Are you sure you want to continue?</div>",
+      buttons: {
+        confirm: {
+          text: "Yes",
+          callback: () => {
+            this._profileService.getTokenToChangePassword().subscribe((res) => {
+              Login_Logout.logout();
+              this.router.navigate(["/password/request"], {
+                queryParams: { token: res["token"] },
+              });
+            });
+          },
+        },
+        cancel: { text: "No" },
+      },
+    };
+
+    this.dialogBox.open(DialogComponent, {
+      data: defaultDailogConfiuration,
+    });
+  }
   submitForm(form: FormGroup) {
-    console.log("this.can", this.canSubmitForm);
     if (!this.canSubmitForm) {
       return;
     }
@@ -80,7 +112,6 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
     const errors = this.checkFieldsForError(form);
     this.formErrorMessage = errors;
-    console.log("errors", errors);
 
     if (errors) {
       console.error(`errors`, errors);
@@ -89,8 +120,6 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
     // upload files and their value
     const updatedFields = this.getUpdatedFieldsOnly(form);
-
-    console.log("updatedFields", updatedFields);
 
     if (!updatedFields || !Object.keys(updatedFields).length) {
       this.onUpdatingProfileSuccess({

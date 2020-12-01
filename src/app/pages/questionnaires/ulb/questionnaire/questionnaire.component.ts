@@ -1,29 +1,19 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
-import {
-  MatDialog,
-  MatDialogConfig,
-  MatHorizontalStepper,
-} from "@angular/material";
-import { ActivatedRoute, Router } from "@angular/router";
-import { USER_TYPE } from "src/app/models/user/userType";
-import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
-import { IDialogConfiguration } from "src/app/shared/components/dialog/models/dialogConfiguration";
-import { ProfileService } from "src/app/users/profile/service/profile.service";
-import { AccessChecker } from "src/app/util/access/accessChecker";
-import { ACTIONS } from "src/app/util/access/actions";
-import { MODULES_NAME } from "src/app/util/access/modules";
-import { JSONUtility } from "src/app/util/jsonUtil";
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatHorizontalStepper } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
+import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
+import { ProfileService } from 'src/app/users/profile/service/profile.service';
+import { AccessChecker } from 'src/app/util/access/accessChecker';
+import { ACTIONS } from 'src/app/util/access/actions';
+import { MODULES_NAME } from 'src/app/util/access/modules';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 
-import { IQuestionnaireResponse } from "../../model/questionnaireResponse.interface";
-import { QuestionnaireService } from "../../service/questionnaire.service";
-import { documentForm } from "../configs/document.config";
-import { userChargesForm } from "../configs/user-charges.config";
+import { IQuestionnaireResponse } from '../../model/questionnaireResponse.interface';
+import { QuestionnaireService } from '../../service/questionnaire.service';
+import { documentForm } from '../configs/document.config';
+import { userChargesForm } from '../configs/user-charges.config';
 
 @Component({
   selector: "app-questionnaire",
@@ -88,6 +78,7 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
   };
 
   saveAsDraftFailMessge: string;
+  isULBProfileCompleted: boolean;
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params) => {
@@ -99,10 +90,19 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
 
         const id = params && params.ulbId ? params.ulbId : this.userData.ulb;
         this.currentULBId = id;
-        this.validateUserAccess({ ulbId: id });
+        this.checkULBProfileCompleteStatus();
       } catch (error) {
         console.error(error);
       }
+    });
+  }
+
+  checkULBProfileCompleteStatus() {
+    this._profileService.isULBProfileCompleted().subscribe((res) => {
+      console.log("isULBProfileCompleted", res);
+      this.isULBProfileCompleted = res;
+      if (!res) return;
+      this.validateUserAccess({ ulbId: this.currentULBId });
     });
   }
 

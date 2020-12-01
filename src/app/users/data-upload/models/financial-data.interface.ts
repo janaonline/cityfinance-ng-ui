@@ -14,6 +14,7 @@ export interface IFinancialData {
   actionTakenByUserName?: string;
   ulbName: string;
   customStatusText?: string;
+  createdAt: string;
 }
 
 export interface MillionPlusCities {
@@ -54,12 +55,12 @@ export interface WaterManagement {
   waterSuppliedPerDay: HouseHoldCoveredPipedSupply;
   reduction: HouseHoldCoveredPipedSupply;
   houseHoldCoveredWithSewerage: HouseHoldCoveredPipedSupply;
-  documents: WaterManagementDocuments;
+  // documents: WaterManagementDocuments;
 }
 
-export interface WaterManagementDocuments {
-  wasteWaterPlan: CityPlan[];
-}
+// export interface WaterManagementDocuments {
+//   wasteWaterPlan: CityPlan[];
+// }
 
 export interface HouseHoldCoveredPipedSupply {
   benchmark: string;
