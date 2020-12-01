@@ -138,10 +138,24 @@
       </li>
     </ol>
   </div>
-  <h5 class="mt-4" style="padding-left: 3%">
-    Form First Submitted On:
-    <span style="font-weight: normal">
-      {{ data["createdAt"] | date: "MMMM d, y, h:mm a" }}</span
-    >
-  </h5>
+  <div class="mt-4" style="padding-left: 3%; float: right">
+    <h5>
+      Form First Submitted On:
+      <span style="font-weight: normal">
+        {{
+          (data["firstSubmitedAt"] | date: "MMMM d, y, h:mm a") ||
+            "Not Submitted"
+        }}</span
+      >
+    </h5>
+    <h5>
+      Form Last Rejected On:
+      <span style="font-weight: normal">
+        {{
+          (data["firstSubmitedAt"] | date: "MMMM d, y, h:mm a") ||
+            "No Reject Found"
+        }}</span
+      >
+    </h5>
+  </div>
 </div>

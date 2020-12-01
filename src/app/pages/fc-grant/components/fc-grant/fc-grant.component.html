@@ -254,7 +254,16 @@
               >15fcgrant@cityfinance.in</a
             >.
           </P>
-          <p>We will respond to you within 24 hours.</p>
+          <p
+            *ngIf="
+              loggedInUserType &&
+              financialData &&
+              isULBMillionPlus !== null &&
+              isULBMillionPlus !== undefined
+            "
+          >
+            We will respond to you within 24 hours.
+          </p>
         </div>
 
         <div
