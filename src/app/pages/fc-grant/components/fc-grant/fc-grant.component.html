@@ -240,14 +240,30 @@
               View Histroy
             </a>
           </div>
-          <P class="support-text mt-3"
+          <P
+            class="support-text mt-3"
+            *ngIf="
+              loggedInUserType &&
+              financialData &&
+              isULBMillionPlus !== null &&
+              isULBMillionPlus !== undefined
+            "
             >For clarifications/ questions, please email us at
             <br />
             <a href="mailto:15fcgrant@cityfinance.in"
               >15fcgrant@cityfinance.in</a
             >.
           </P>
-          <p>We will respond to you within 24 hours.</p>
+          <p
+            *ngIf="
+              loggedInUserType &&
+              financialData &&
+              isULBMillionPlus !== null &&
+              isULBMillionPlus !== undefined
+            "
+          >
+            We will respond to you within 24 hours.
+          </p>
         </div>
 
         <div
