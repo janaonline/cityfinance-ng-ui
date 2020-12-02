@@ -105,6 +105,7 @@
       <br />
       <a
         *ngIf="
+          data?.solidWasteManagement?.documents &&
           data?.solidWasteManagement?.documents[question.key] &&
           data?.solidWasteManagement?.documents[question.key][0]
         "
