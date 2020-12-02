@@ -33,7 +33,10 @@ export class RegisterComponent implements OnInit {
         this.authService.badCredentials.subscribe((res) => {
           this.badCredentials = res;
         });
-      } else this.registrationType = null;
+      } else {
+        this.registrationType = "user";
+        this.initializeForm();
+      }
     });
     this.fetchStateList();
   }

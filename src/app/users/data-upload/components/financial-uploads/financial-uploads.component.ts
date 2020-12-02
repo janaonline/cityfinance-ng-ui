@@ -479,12 +479,30 @@ export class FinancialUploadsComponent
       disableClose: true,
     });
 
+    const postActionMessage = this.getPostActionTakenMessage(
+      body ? JSON.stringify(body).includes(`${UPLOAD_STATUS.REJECTED}`) : false
+    );
+
+    const defaultDailogConfiuration: IDialogConfiguration = {
+      message: postActionMessage,
+      buttons: {
+        confirm: {
+          text: "OK",
+          callback: () => {
+            window.history.back();
+          },
+        },
+      },
+    };
+
     this.financialDataService
       .updateActionOnFinancialData(body, this.financialData._id)
       .subscribe(
         (res) => {
           this._matDialog.closeAll();
-          window.history.back();
+          return this._matDialog.open(DialogComponent, {
+            data: defaultDailogConfiuration,
+          });
         },
 
         (err) => {
@@ -496,6 +514,22 @@ export class FinancialUploadsComponent
           setTimeout(() => this._matDialog.closeAll(), 3000);
         }
       );
+  }
+
+  getPostActionTakenMessage(rejectedAnyField: boolean) {
+    let message;
+    switch (this.loggedInUserDetails.role) {
+      case USER_TYPE.STATE:
+        message =
+          `Intimation over email has been sent to the ULB` +
+          (rejectedAnyField ? "." : " & MoHUA.");
+        break;
+      case USER_TYPE.MoHUA:
+        message = `Intimation over email has been sent to the ULB & State`;
+        break;
+    }
+
+    return `<span style="fon-size: 1.5rem">${message}</span>`;
   }
 
   /**
