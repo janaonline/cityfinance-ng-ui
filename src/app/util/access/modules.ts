@@ -1,6 +1,6 @@
-import { USER_TYPE } from "src/app/models/user/userType";
+import { USER_TYPE } from 'src/app/models/user/userType';
 
-import { ACTIONS } from "./actions";
+import { ACTIONS } from './actions';
 
 export enum MODULES_NAME {
   FINANCIAL_DATA_UPLOAD = "FINANCIAL_DATA_UPLOAD",
@@ -288,13 +288,8 @@ export const MODULES: { [key in MODULES_NAME]: IModules } = {
   [MODULES_NAME.ULB_LEVEL_PROPERTY_TAX_QUESTIONNAIRE]: {
     name: MODULES_NAME.ULB_LEVEL_PROPERTY_TAX_QUESTIONNAIRE,
     access: {
-      [ACTIONS.FORM_FILL]: [USER_TYPE.ULB],
-      [ACTIONS.VIEW]: [
-        USER_TYPE.ULB,
-        USER_TYPE.PARTNER,
-        USER_TYPE.MoHUA,
-        USER_TYPE.ADMIN,
-      ],
+      [ACTIONS.FORM_FILL]: [],
+      [ACTIONS.VIEW]: [],
     },
   },
 

@@ -212,21 +212,22 @@
                 (click)="sortListBy('stateName')"
                 *ngIf="loggedInType !== userTypes.STATE"
               >
-                State <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
+                State
+                <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
               </th>
               <th scope="ULB Name" (click)="sortListBy('name')">
                 ULB Name
                 <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
               </th>
-              <th scope="ULB Code"  (click)="sortListBy('ulbCode')">
+              <th scope="SB Code" (click)="sortListBy('sbCode')">
                 ULB Code
                 <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
               </th>
-              <th scope="Census Code"  (click)="sortListBy('censusCode')">Census Code <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em></th>
-              <th scope="SB Code" (click)="sortListBy('sbCode')">Swatch Bharat Code <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em></th>
-              <!-- <th class="" (click)="sortListBy('status')">
-                Status <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
-              </th> -->
+              <th scope="Census Code" (click)="sortListBy('censusCode')">
+                Census Code
+                <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
+              </th>
+
               <th scope="Take Action" class="text-center">Action</th>
             </tr>
           </thead>
@@ -268,7 +269,7 @@
                     placeholder="ULB Code"
                     type="text"
                     class="form-control"
-                    [formControl]="filterForm.controls.ulbCode"
+                    [formControl]="filterForm.controls.sbCode"
                   />
                 </div>
               </td>
@@ -279,16 +280,6 @@
                     type="text"
                     class="form-control"
                     [formControl]="filterForm.controls.censusCode"
-                  />
-                </div>
-              </td>
-              <td>
-                <div class="input-group">
-                  <input
-                    placeholder="Swatch Bharat Code"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.sbCode"
                   />
                 </div>
               </td>
@@ -342,9 +333,8 @@
                 {{ ulb["stateName"] }}
               </td>
               <td class="">{{ ulb["name"] }}</td>
-              <td class="">{{ ulb["ulbCode"] }}</td>
-              <td>{{ ulb.censusCode }}</td>
               <td>{{ ulb.sbCode }}</td>
+              <td>{{ ulb.censusCode }}</td>
               <!-- <td class="">
                 <span
                   (click)="showUserRejectReason(ulb)"
