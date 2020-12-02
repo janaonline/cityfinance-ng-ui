@@ -1,18 +1,21 @@
-<div id="preview" #preview style="position: relative">
+<div style="background: #047474; color: white; padding: 4% 0% 1% 0%">
+  <h2 style="text-align: center; margin-top: 0px">15th FC Form</h2>
+
+  <h3 style="text-align: center">
+    {{ data?.ulbName || userDetails.name }}
+  </h3>
+</div>
+<div class="d-flex justify-content-end mt-2">
   <button
     id="donwloadButton"
-    style="float: right; position: absolute; right: 0%; outline: none"
+    style="right: 0%; outline: none; margin-right: 2%"
     class="btn btn-primary btn-upload"
     (click)="downloadAsPDF()"
   >
     Download as PDF
   </button>
-  <h2 style="text-align: center">15th FC Form</h2>
-
-  <h3 style="text-align: center">
-    {{ data?.ulbName || userDetails.name }}
-  </h3>
-
+</div>
+<div id="preview" #preview style="position: relative; padding: 1% 2%">
   <h3 style="text-align: center">
     Benchmark and target for service level indicators
   </h3>

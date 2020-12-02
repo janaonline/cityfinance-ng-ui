@@ -244,7 +244,7 @@ export class FinancialUploadsComponent
       width: "85vw",
       maxHeight: "95vh",
       height: "fit-content",
-      panelClass: "custom-warning-popup",
+      panelClass: "XVfc-preview",
 
       disableClose: false,
     });
