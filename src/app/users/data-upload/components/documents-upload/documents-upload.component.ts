@@ -341,7 +341,6 @@ export class DocumentsUploadComponent
 
   onUploadButtonClick() {
     const valueToEmit = this.mapFileTrackerToEmitValues(this.fileUploadTracker);
-    console.log(`valueToEmit`, valueToEmit);
     // this.documentForm.patchValue({ ...valueToEmit });
 
     this.outputValues.emit(valueToEmit);
@@ -353,8 +352,6 @@ export class DocumentsUploadComponent
     // this.documentForm.reset();
 
     // this.documentForm.patchValue({ ...valueToEmit });
-
-    console.log("clicked on saveAsDraft", valueToEmit);
 
     this.saveAsDraft.emit(valueToEmit);
   }
@@ -491,7 +488,7 @@ export class DocumentsUploadComponent
 
   private initializeQuestionMapping() {
     this.documentForm = this.form;
-    console.log(this.documentForm);
+    console.log(`form `, this.documentForm);
   }
   ngOnDestroy(): void {
     // documentForm.reset();

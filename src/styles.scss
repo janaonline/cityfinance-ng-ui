@@ -10,6 +10,13 @@
   --multi-dropdown-color: #059b9a;
 }
 
+.XVfc-preview {
+  mat-dialog-container.mat-dialog-container {
+    padding: 0px 0px 3% 0px !important;
+    overflow-y: hidden;
+  }
+}
+
 .nav .open > a,
 .nav .open > a:focus,
 .nav .open > a:hover {

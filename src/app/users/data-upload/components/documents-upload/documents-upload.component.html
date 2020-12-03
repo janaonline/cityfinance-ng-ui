@@ -8,8 +8,8 @@
           *ngFor="let question of questions; let i = index"
           [ngClass]="{
             'document-rejected':
-              documentForm.controls[question.key]?.value[i]?.status ===
-              rejectAction
+              documentForm?.controls[question.key]?.controls[0]?.controls
+                ?.status?.value === rejectAction
           }"
         >
           <td>
