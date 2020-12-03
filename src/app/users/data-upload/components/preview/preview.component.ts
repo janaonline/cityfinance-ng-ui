@@ -6,7 +6,7 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { UPLOAD_STATUS } from 'src/app/util/enums';
 import { UserUtility } from 'src/app/util/user/user';
 
-import { IFinancialData, WaterManagement } from '../../models/financial-data.interface';
+import { WaterManagement } from '../../models/financial-data.interface';
 import { millionPlusCitiesQuestions } from '../configs/million-plus-cities';
 import { solidWasterQuestions } from '../configs/solid-waste-management';
 import { services, targets } from '../configs/water-waste-management';
@@ -18,7 +18,7 @@ import { services, targets } from '../configs/water-waste-management';
 })
 export class PreviewComponent implements OnInit {
   @Input()
-  data: IFinancialData;
+  data: any;
 
   @Input()
   isULBMillionPlus = false;
