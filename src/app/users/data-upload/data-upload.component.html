@@ -480,6 +480,157 @@
         </div>
       </div>
 
+      <div class="ulb-list">
+        <div *ngIf="stateFcGrantDocuments === undefined">
+          <app-pre-loader></app-pre-loader>
+          <app-pre-loader></app-pre-loader>
+        </div>
+
+        <ng-container [ngSwitch]="loggedInUserData.role">
+          <ng-container *ngSwitchCase="userTypes.STATE">
+            <span style="font-weight: 700">Files for State to Upload</span>
+
+            <app-file-upload
+              *ngIf="stateFcGrantDocuments !== undefined"
+              [questions]="questionForState"
+              (outputValues)="filesToSaveForState($event)"
+              [documents]="stateFcGrantDocuments"
+            ></app-file-upload>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            <span style="font-weight: 700">Files Uploaded by State</span>
+            <table
+              aria-describedby="ULB Singup List"
+              class="table upldate-table"
+              *ngIf="ulbList; else loader"
+            >
+              <thead>
+                <tr class="" style="color: white">
+                  <th scope="Sr.No" style="width: 5%">Sr.No.</th>
+                  <th
+                    *ngIf="loggedInUserData.role !== userTypes.STATE"
+                    scope="State Name"
+                    style="width: 9%"
+                  >
+                    State Name
+                  </th>
+                  <th scope="files">{{ questionForState[0].question }}</th>
+                  <th scope="files">{{ questionForState[1].question }}</th>
+                  <th scope="files">{{ questionForState[2].question }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr [formGroup]="ulbFilter">
+                  <td></td>
+                  <td *ngIf="loggedInUserData.role !== userTypes.STATE">
+                    <!-- <div class="input-group">
+                      <select
+                        name="State"
+                        id="state"
+                        formControlName="stateName"
+                        class="form-control"
+                        placeholder="State"
+                      >
+                        <option value="" selected>All States</option>
+                        <option
+                          *ngFor="let state of stateList"
+                          [value]="state.name"
+                        >
+                          {{ state.name }}
+                        </option>
+                      </select>
+                    </div> -->
+                  </td>
+                  <td></td>
+                </tr>
+                <ng-container
+                  *ngIf="stateFcGrantDocuments?.length; else noData"
+                >
+                  <tr
+                    *ngFor="
+                      let row of stateFcGrantDocuments
+                        | paginate
+                          : {
+                              id: 'stateDocuments-pagination',
+                              itemsPerPage: stateDocumentstableDefaultOptions.itemPerPage,
+                              currentPage: stateDocumentstableDefaultOptions.currentPage,
+                              totalItems: stateDocumentstableDefaultOptions.totalCount
+                            };
+                      index as i
+                    "
+                  >
+                    <td>
+                      {{
+                        (ulbtableDefaultOptions?.currentPage - 1) * 10 + i + 1
+                      }}
+                    </td>
+                    <td *ngIf="loggedInUserData.role !== userTypes.STATE">
+                      {{ row.stateName || row.state.name }}
+                    </td>
+                    <td>
+                      <span
+                        *ngIf="
+                          row[questionForState[0].key] &&
+                            row[questionForState[0].key][0] as file;
+                          else nofile
+                        "
+                      >
+                        <a [href]="file.url" target="_blank">{{ file.name }}</a>
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        *ngIf="
+                          row[questionForState[1].key] &&
+                            row[questionForState[1].key][0] as file;
+                          else nofile
+                        "
+                      >
+                        <a [href]="file.url" target="_blank">{{ file.name }}</a>
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        *ngIf="
+                          row[questionForState[2].key] &&
+                            row[questionForState[2].key][0] as file;
+                          else nofile
+                        "
+                      >
+                        <a [href]="file.url" target="_blank">{{ file.name }}</a>
+                      </span>
+                      <ng-template #nofile> N/A</ng-template>
+                    </td>
+                  </tr>
+                </ng-container>
+                <ng-template #noData>
+                  <tr>
+                    <td class="text-center" [attr.colspan]="3">
+                      <h3>No Data Available</h3>
+                    </td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </table>
+            <pagination-controls
+              *ngIf="ulbtableDefaultOptions.totalCount && ulbList"
+              style="float: right; position: relative"
+              id="stateDocuments-pagination"
+              (pageChange)="setulbPage($event)"
+              directionLinks="true"
+              autoHide="true"
+              previousLabel="Previous"
+              nextLabel="Next"
+              screenReaderPaginationLabel="Pagination"
+              screenReaderPageLabel="page"
+              screenReaderCurrentLabel="You're on page"
+            >
+            </pagination-controls>
+          </ng-container>
+        </ng-container>
+      </div>
+
       <div class="ulb-list" id="ulb-list">
         <div class="col-md-12" style="padding-left: 0px">
           <h3>

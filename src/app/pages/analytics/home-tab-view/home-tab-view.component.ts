@@ -27,7 +27,7 @@ import { TableDowloadOptions } from '../../../shared/util/tableDownload/models/o
 @Component({
   selector: "app-home-tab-view",
   templateUrl: "./home-tab-view.component.html",
-  styleUrls: ["./home-tab-view.component.scss"]
+  styleUrls: ["./home-tab-view.component.scss"],
 })
 export class HomeTabViewComponent implements OnInit {
   constructor(
@@ -42,7 +42,7 @@ export class HomeTabViewComponent implements OnInit {
     private activateRoute: ActivatedRoute
   ) {
     this.yearForm = formBuilder.group({
-      years: [[this.yearLookup[1]]]
+      years: [[this.yearLookup[1]]],
     });
     this.selectedYears = [this.yearLookup[1].id];
   }
@@ -50,12 +50,12 @@ export class HomeTabViewComponent implements OnInit {
   yearLookup = [
     { id: "2015-16", itemName: "2015-16" },
     { id: "2016-17", itemName: "2016-17" },
-    { id: "2017-18", itemName: "2017-18" }
+    { id: "2017-18", itemName: "2017-18" },
   ];
   yearsDropdownSettings = {
     text: "Select Years",
     primaryKey: "id",
-    badgeShowLimit: 1
+    badgeShowLimit: 1,
   };
 
   commonTableHeaders: any[] = tableHeaders[0];
@@ -93,16 +93,23 @@ export class HomeTabViewComponent implements OnInit {
   ulbListForAutoCompletion: IULBWithPopulationResponse["data"];
 
   defaultDailogConfiuration: IDialogConfiguration = {
-    message: "You need to be Login to download the data.",
+    message:
+      "<p class='text-center'>You need to be Login to download the data.</p>",
     buttons: {
+      signup: {
+        text: "Signup",
+        callback: () => {
+          this.router.navigate(["register/user"]);
+        },
+      },
       confirm: {
         text: "Proceed to Login",
         callback: () => {
           this.router.navigate(["/", "login"]);
-        }
+        },
       },
-      cancel: { text: "Cancel" }
-    }
+      cancel: { text: "Cancel" },
+    },
   };
   window = window;
   tabIndexes = {
@@ -110,7 +117,7 @@ export class HomeTabViewComponent implements OnInit {
     1: "Revenue Sources",
     2: "Revenue Expenditure",
     3: "Cash and Bank Balance",
-    4: "Outstanding Debt"
+    4: "Outstanding Debt",
   };
 
   isMapProcessingCompleted = true;
@@ -121,7 +128,7 @@ export class HomeTabViewComponent implements OnInit {
     1: "revenue-sources",
     2: "revenue-expenditure",
     3: "cash-bank-balance",
-    4: "outstanding-debt"
+    4: "outstanding-debt",
   };
 
   setMapProcessingState(value: boolean) {
@@ -162,7 +169,7 @@ export class HomeTabViewComponent implements OnInit {
     // this.selectedState = {};
     // this.fetchData();
     this.router.navigate([`../${this.urllTabMapping[this.tabIndex]}`], {
-      relativeTo: this.activateRoute
+      relativeTo: this.activateRoute,
     });
   }
 
@@ -170,7 +177,7 @@ export class HomeTabViewComponent implements OnInit {
     this.activateRoute.params.subscribe(
       (param: { tab: IAnalyticsTabs["url"] }) => {
         const tabFound = Object.values(AnalyticsTabs).find(
-          tab => tab.url === this.router.url.split("?")[0]
+          (tab) => tab.url === this.router.url.split("?")[0]
         );
         if (!tabFound) {
           this.router.navigate(["/home"]);
@@ -178,13 +185,13 @@ export class HomeTabViewComponent implements OnInit {
         }
         this.tabIndex = tabFound.id;
         this.fetchData();
-        this.initiatedDropdownDataFetchingProcess().subscribe(res => {});
+        this.initiatedDropdownDataFetchingProcess().subscribe((res) => {});
         this.ulbFilterControl.valueChanges
           .pipe(debounceTime(100))
-          .subscribe(textToSearch => {
+          .subscribe((textToSearch) => {
             this.updateULBDropdownList({
               ulbName: textToSearch,
-              stateId: this.selectedState ? this.selectedState._id : null
+              stateId: this.selectedState ? this.selectedState._id : null,
             });
           });
       }
@@ -204,7 +211,7 @@ export class HomeTabViewComponent implements OnInit {
     if (options.stateId) {
       if (this.stateAndULBDataMerged[options.stateId].ulbs.length) {
         filteredULBAndState = {
-          [options.stateId]: { ...this.stateAndULBDataMerged[options.stateId] }
+          [options.stateId]: { ...this.stateAndULBDataMerged[options.stateId] },
         };
       }
     }
@@ -215,7 +222,7 @@ export class HomeTabViewComponent implements OnInit {
         : { ...this.stateAndULBDataMerged };
     } else {
       Object.keys(filteredULBAndState || this.stateAndULBDataMerged).forEach(
-        stateId => {
+        (stateId) => {
           const stateFound = { ...this.stateAndULBDataMerged[stateId] };
           const ulbList = this.filteredULBBy(
             { ulbName: options.ulbName },
@@ -243,7 +250,7 @@ export class HomeTabViewComponent implements OnInit {
     let filteredULBS: ULBWithMapData[] = [];
     if (options.ulbName && options.ulbName.trim()) {
       filteredULBS = filteredULBS.concat(
-        ulbList.filter(ulb =>
+        ulbList.filter((ulb) =>
           ulb.name.toLowerCase().includes(options.ulbName.toLowerCase())
         )
       );
@@ -264,13 +271,13 @@ export class HomeTabViewComponent implements OnInit {
     subscriptions.push(
       this._commonService
         .getStateUlbCovered(body)
-        .pipe(map(res => this.onGettingStateULBCoveredSuccess(res)))
+        .pipe(map((res) => this.onGettingStateULBCoveredSuccess(res)))
     );
 
     subscriptions.push(
       this._commonService
         .getULBSWithPopulationAndCoordinates(body)
-        .pipe(map(res => this.onGettingULBWithPopulationSuccess(res)))
+        .pipe(map((res) => this.onGettingULBWithPopulationSuccess(res)))
     );
     return forkJoin(subscriptions);
   }
@@ -324,7 +331,7 @@ export class HomeTabViewComponent implements OnInit {
     }
 
     const newObj = {};
-    Object.keys(data).forEach(stateKey => {
+    Object.keys(data).forEach((stateKey) => {
       if (data[stateKey].ulbs && data[stateKey].ulbs.length) {
         newObj[stateKey] = { ...data[stateKey] };
       }
@@ -340,11 +347,11 @@ export class HomeTabViewComponent implements OnInit {
       [stateId: string]: IStateULBCovered & { ulbs: ULBWithMapData[] };
     } = {};
     states
-      .map(state => ({
+      .map((state) => ({
         ...state,
-        ulbs: ulbStates.filter(ulb => ulb.state === state._id)
+        ulbs: ulbStates.filter((ulb) => ulb.state === state._id),
       }))
-      .forEach(merged => (newStateObj[merged._id] = merged));
+      .forEach((merged) => (newStateObj[merged._id] = merged));
 
     return newStateObj;
   }
@@ -378,11 +385,11 @@ export class HomeTabViewComponent implements OnInit {
     );
   }
 
-  handleError = e => {
+  handleError = (e) => {
     this.commonTableData = [];
     this.commonTableDataDisplay = [];
     this.loading = false;
-  }
+  };
 
   resetPopupValues() {
     this.selectedYears = [];
@@ -392,7 +399,7 @@ export class HomeTabViewComponent implements OnInit {
 
   onDropdownDeSelect(event: any) {
     this.selectedYears.splice(
-      this.selectedYears.findIndex(year => event.id == year),
+      this.selectedYears.findIndex((year) => event.id == year),
       1
     );
     // this.selectedYears = [...this.selectedYears];
@@ -405,8 +412,8 @@ export class HomeTabViewComponent implements OnInit {
         width: "fit-content",
         maxWidth: "40vw",
         data: {
-          message: "You need to select atleast for 1 year."
-        }
+          message: "You need to select atleast for 1 year.",
+        },
       });
     }
     this.selectedYears = [...this.selectedYears];
@@ -417,18 +424,18 @@ export class HomeTabViewComponent implements OnInit {
         maxWidth: "40vw",
         data: {
           message:
-            "Only ULBs with data for all of the selected years will be displayed."
-        }
+            "Only ULBs with data for all of the selected years will be displayed.",
+        },
       });
     }
     this.commonTableDataDisplay = [];
     this.commonTableData = [];
-    this.commonTableHeaders = tableHeaders[this.tabIndex].map(row => {
+    this.commonTableHeaders = tableHeaders[this.tabIndex].map((row) => {
       delete row["status"];
       return row;
     });
     this.loading = true;
-    this.initiatedDropdownDataFetchingProcess().subscribe(res => {
+    this.initiatedDropdownDataFetchingProcess().subscribe((res) => {
       if (this.selectedState) {
         this.updateULBDropdownList({ stateId: this.selectedState._id });
 
@@ -459,7 +466,7 @@ export class HomeTabViewComponent implements OnInit {
           if (year.data.length) {
             const newDataRow = this.getTotalRow(year.data);
             const yearHasPopurationTotal = !!year.data.find(
-              obj => obj.populationCategory === "Total"
+              (obj) => obj.populationCategory === "Total"
             );
             if (!yearHasPopurationTotal) {
               year.data.push(newDataRow);
@@ -470,7 +477,7 @@ export class HomeTabViewComponent implements OnInit {
     }
   }
 
-  fetchSingleUlbDataSuccess = response => {
+  fetchSingleUlbDataSuccess = (response) => {
     this.loading = false;
     const newYears = [];
     const data = response["data"];
@@ -478,7 +485,7 @@ export class HomeTabViewComponent implements OnInit {
       for (const year of data) {
         try {
           const dataIndex = year.data.findIndex(
-            data => data.ulbs && data.ulbs.length
+            (data) => data.ulbs && data.ulbs.length
           );
           //  if (
           //   year.data[dataIndex]["ulbs"] &&
@@ -487,7 +494,7 @@ export class HomeTabViewComponent implements OnInit {
           if (dataIndex > -1) {
             const newYear = {
               year: year.year,
-              data: year.data[dataIndex]["ulbs"]
+              data: year.data[dataIndex]["ulbs"],
             };
             newYears.push(newYear);
           } else {
@@ -510,17 +517,15 @@ export class HomeTabViewComponent implements OnInit {
     if (this.tabIndex == 1 || this.tabIndex == 2) {
       this.renderCharts();
     }
-  }
+  };
 
   private fetchTableDataSuccess = (response: any) => {
     this.commonTableDataDisplay = [];
     this.commonTableData = [];
-    this.commonTableHeaders = tableHeaders[this.tabIndex].map(row => {
+    this.commonTableHeaders = tableHeaders[this.tabIndex].map((row) => {
       delete row["status"];
       return row;
     });
-
-
 
     if (response["success"]) {
       if (this.singleULBView) {
@@ -537,7 +542,7 @@ export class HomeTabViewComponent implements OnInit {
       this.tabData[this.tabIndex] = response;
       this.loading = false;
     }
-  }
+  };
 
   private callAPi(callback, args) {
     callback(args);
@@ -547,7 +552,7 @@ export class HomeTabViewComponent implements OnInit {
     this.loading = true;
     this.commonTableDataDisplay = [];
     this.commonTableData = [];
-    this.commonTableHeaders = tableHeaders[this.tabIndex].map(row => {
+    this.commonTableHeaders = tableHeaders[this.tabIndex].map((row) => {
       delete row["status"];
       return row;
     });
@@ -616,7 +621,7 @@ export class HomeTabViewComponent implements OnInit {
 
   onDropDownSelectAll(event) {
     this.yearForm.controls["years"].setValue(event);
-    this.selectedYears = event.map(e => e.id);
+    this.selectedYears = event.map((e) => e.id);
     //  this.filterDisplayDataTableYearWise();
   }
 
@@ -679,7 +684,7 @@ export class HomeTabViewComponent implements OnInit {
         const row = yearRow.data[index];
         const elementId = `${elementIdPrefix}--${index}`;
         // let labels: any[] = Object.keys(row).filter(key => (typeof row[key] == 'number') || !isNaN(Number(row[key])));
-        let labels: any[] = Object.keys(row).filter(key => {
+        let labels: any[] = Object.keys(row).filter((key) => {
           if (typeof row[key] == "number" || !isNaN(Number(row[key]))) {
             return true;
           }
@@ -692,7 +697,7 @@ export class HomeTabViewComponent implements OnInit {
         });
         labels = labels
           .filter(
-            label =>
+            (label) =>
               ![
                 "numOfUlb",
                 "total",
@@ -704,14 +709,14 @@ export class HomeTabViewComponent implements OnInit {
                 "totalUlb",
                 "taxRevenue",
                 "rentalIncome",
-                "feesAndUserCharges"
+                "feesAndUserCharges",
               ].includes(label)
           )
-          .map(label => {
+          .map((label) => {
             const titleObj: { data?: number; name?: string } = {};
             try {
               titleObj.name = this.commonTableHeaders.find(
-                header => header.id == label
+                (header) => header.id == label
               ).title;
               if (typeof row[label] === "string") {
                 try {
@@ -724,13 +729,13 @@ export class HomeTabViewComponent implements OnInit {
               console.error(e, row, label);
               return {
                 name: "Label not available",
-                data: Number(row[label].replace("%", "")) || 0
+                data: Number(row[label].replace("%", "")) || 0,
               };
             }
             return titleObj;
           });
-        const data = labels.map(l => l.data);
-        const chartLabels = labels.map(l => l.name);
+        const data = labels.map((l) => l.data);
+        const chartLabels = labels.map((l) => l.name);
         const chartTitle = row[this.commonTableHeaders[0].id];
         setTimeout(() => {
           const c = this.renderPieChart({
@@ -744,7 +749,7 @@ export class HomeTabViewComponent implements OnInit {
               plugins: {
                 labels: {
                   position: "border",
-                  fontColor: data => {
+                  fontColor: (data) => {
                     if (data.dataset.backgroundColor[data.index]) {
                       const rgb = this.hexToRgb(
                         data.dataset.backgroundColor[data.index]
@@ -756,14 +761,14 @@ export class HomeTabViewComponent implements OnInit {
                     }
                     return "black";
                   },
-                  render: args => {
+                  render: (args) => {
                     if (args.value > 4) {
                       return args.value + "%";
                     }
-                  }
-                }
-              }
-            }
+                  },
+                },
+              },
+            },
           });
           yearWiseCharts.push(c);
           if (!legendGenerated) {
@@ -789,7 +794,7 @@ export class HomeTabViewComponent implements OnInit {
             }
 
             for (let i = 0; i < legendItems.length; i++) {
-              yearWiseCharts[0].chart.getDatasetMeta(0).data.forEach(meta => {
+              yearWiseCharts[0].chart.getDatasetMeta(0).data.forEach((meta) => {
                 if (meta._index == i) {
                   legendItems[i].style.display = "flex";
                   // legendItems[i].style.fontSize = '1.1rem';
@@ -838,7 +843,7 @@ export class HomeTabViewComponent implements OnInit {
       ? {
           r: parseInt(result[1], 16),
           g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16)
+          b: parseInt(result[3], 16),
         }
       : null;
   }
@@ -850,7 +855,7 @@ export class HomeTabViewComponent implements OnInit {
     chartTitle,
     elementId,
     legend = true,
-    options = {}
+    options = {},
   }) {
     return new Chart(elementId, {
       type,
@@ -865,7 +870,7 @@ export class HomeTabViewComponent implements OnInit {
               "rgba(255, 206, 86, 1)",
               "rgba(75, 192, 192, 1)",
               "rgba(153, 102, 255, 1)",
-              "rgba(255, 159, 64, 1)"
+              "rgba(255, 159, 64, 1)",
             ],
             borderColor: [
               "rgba(255, 99, 132, 0.2)",
@@ -873,16 +878,16 @@ export class HomeTabViewComponent implements OnInit {
               "rgba(255, 206, 86, 0.2)",
               "rgba(75, 192, 192, 0.2)",
               "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)"
+              "rgba(255, 159, 64, 0.2)",
             ],
-            borderWidth: 1
-          }
-        ]
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         title: {
           display: false,
-          text: chartTitle
+          text: chartTitle,
         },
         tooltips: {
           callbacks: {
@@ -890,18 +895,13 @@ export class HomeTabViewComponent implements OnInit {
               const title = data.labels[tooltipItem[0].index];
               if (title.split(" ").length > 3) {
                 return [
-                  [
-                    title
-                      .split(" ")
-                      .slice(0, 3)
-                      .join(" ")
-                  ],
+                  [title.split(" ").slice(0, 3).join(" ")],
                   [
                     title
                       .split(" ")
                       .slice(3, title.split(" ").length)
-                      .join(" ")
-                  ]
+                      .join(" "),
+                  ],
                 ];
               }
               return title;
@@ -912,22 +912,22 @@ export class HomeTabViewComponent implements OnInit {
               // if (!this.singleULBView) {
               return label + "%";
               // }
-            }
-          }
+            },
+          },
         },
         legend: {
           display: legend,
-          position: "bottom"
+          position: "bottom",
         },
         responsive: true,
-        ...options
-      }
+        ...options,
+      },
     });
   }
 
   sortHeader(header) {
     const { id } = header;
-    this.commonTableDataDisplay = this.commonTableDataDisplay.map(year => {
+    this.commonTableDataDisplay = this.commonTableDataDisplay.map((year) => {
       const totalArray = year.data[year.data.length - 1];
       year.data = year.data
         .slice(0, year.data.length - 1)
@@ -939,7 +939,7 @@ export class HomeTabViewComponent implements OnInit {
       header.status = false;
     } else {
       header.status = true;
-      this.commonTableDataDisplay = this.commonTableDataDisplay.map(year => {
+      this.commonTableDataDisplay = this.commonTableDataDisplay.map((year) => {
         const totalArray = year.data[year.data.length - 1];
         year.data = year.data.slice(0, year.data.length - 1).reverse();
         year.data = [...year.data, totalArray];
@@ -988,7 +988,7 @@ export class HomeTabViewComponent implements OnInit {
     let subscription: Observable<any>;
     this.modalTableHeaders = modalTableHeaders[this.tabIndex];
     this.modalRef = this.modalService.show(UlbModal, {
-      class: "modal-uq"
+      class: "modal-uq",
     });
 
     switch (this.tabIndex) {
@@ -1048,12 +1048,12 @@ export class HomeTabViewComponent implements OnInit {
         break;
     }
 
-    subscription.pipe(delay(1000)).subscribe(res => {
+    subscription.pipe(delay(1000)).subscribe((res) => {
       range.ulbs = res["data"];
       const totalRow = this.getTotalRow(range.ulbs, this.modalTableHeaders);
       totalRow["name"] = "Total";
       const ORPcolumn = this.modalTableHeaders.find(
-        col => col.id === "ownRevenuePercentage"
+        (col) => col.id === "ownRevenuePercentage"
       );
       if (ORPcolumn) {
         totalRow["ownRevenuePercentage"] =
@@ -1069,7 +1069,7 @@ export class HomeTabViewComponent implements OnInit {
           .reverse()
           .concat([totalRow]),
         year,
-        populationCategory: range["populationCategory"]
+        populationCategory: range["populationCategory"],
       };
       this.modalTableHeaders[0].click = true;
       this.modalTableHeaders = this.modalTableHeaders.map((modal: any) => {
@@ -1078,23 +1078,22 @@ export class HomeTabViewComponent implements OnInit {
       });
     }, this.handleError);
 
-    this.modalService.onHide.subscribe(res => {
+    this.modalService.onHide.subscribe((res) => {
       this.modalTableData = null;
     });
     return;
   }
 
   modalItemClicked(rowClickedId, row: any = {}) {
-    const ulbFound = this.allULBSList.find(ulb => ulb._id === rowClickedId);
+    const ulbFound = this.allULBSList.find((ulb) => ulb._id === rowClickedId);
     if (!ulbFound) {
       console.error(`ULB clicked not found in dropdown ulb list`);
     } else {
       this.selectedState = this.stateAndULBDataMerged[ulbFound.state];
       this.updateULBDropdownList({
-        stateId: ulbFound.state
+        stateId: ulbFound.state,
       });
     }
-
 
     this.selectedUlb = rowClickedId;
     this.loading = true;
@@ -1194,7 +1193,7 @@ export class HomeTabViewComponent implements OnInit {
       const populationCategoryObj = {
         "< 1 Lakh": 0,
         "1 Lakh to 10 Lakhs": 1,
-        "> 10 Lakhs": 2
+        "> 10 Lakhs": 2,
       };
       aVal = populationCategoryObj[aVal];
       bVal = populationCategoryObj[bVal];
@@ -1237,7 +1236,8 @@ export class HomeTabViewComponent implements OnInit {
     const isUserLoggedIn = this._authService.loggedIn();
     if (!isUserLoggedIn) {
       const dailogboxx = this._dialog.open(DialogComponent, {
-        data: this.defaultDailogConfiuration
+        data: this.defaultDailogConfiuration,
+        width: "28vw",
       });
       return;
     }
@@ -1248,7 +1248,7 @@ export class HomeTabViewComponent implements OnInit {
       "Revenue Expenditure",
       "Cash and Bank Balance",
 
-      "Outstanding Debt"
+      "Outstanding Debt",
     ];
 
     const tableElement = <HTMLTableElement>document.getElementById(elementId);
@@ -1281,9 +1281,9 @@ export class HomeTabViewComponent implements OnInit {
                   colSpan:
                     elementId == "table"
                       ? this.modalTableHeaders.length
-                      : this.commonTableHeaders.length
-                }
-              ]
+                      : this.commonTableHeaders.length,
+                },
+              ],
             },
             {
               columns: [
@@ -1295,11 +1295,11 @@ export class HomeTabViewComponent implements OnInit {
                   colSpan:
                     elementId == "table"
                       ? this.modalTableHeaders.length
-                      : this.commonTableHeaders.length
-                }
-              ]
-            }
-          ]
+                      : this.commonTableHeaders.length,
+                },
+              ],
+            },
+          ],
         },
         atBottom: {
           rows: [
@@ -1313,18 +1313,18 @@ export class HomeTabViewComponent implements OnInit {
                   colSpan:
                     elementId == "table"
                       ? this.modalTableHeaders.length
-                      : this.commonTableHeaders.length
-                }
-              ]
-            }
-          ]
-        }
-      }
+                      : this.commonTableHeaders.length,
+                },
+              ],
+            },
+          ],
+        },
+      },
     };
     if (tableElement) {
       const tableDownloader = TableDownloader.getInstance();
       tableDownloader.downloadTable(tableElement, {
-        ...options
+        ...options,
       });
     }
   }

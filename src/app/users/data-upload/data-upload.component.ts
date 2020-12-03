@@ -78,6 +78,7 @@ export class DataUploadComponent
         this.fetchCardData();
       }
     });
+
     this.createForms();
     this.setTableHeaderByUserType();
     this.modalService.onHide.subscribe(() => (this.isPopupOpen = false));
@@ -89,6 +90,23 @@ export class DataUploadComponent
       );
     }
   }
+  questionForState = [
+    {
+      question:
+        "Grant transfer certificate signed by Principal secretary/ secretary(UD)",
+      key: "grantTransferCertificate",
+    },
+    {
+      question:
+        "Utilization report signed by Principal secretary/ secretary (UD)",
+      key: "utilizationReport",
+    },
+    {
+      question:
+        "Letter signed by Principal secretary/ secretary (UD) confirming submission of service level benchmarks by all ULBs",
+      key: "serviceLevelBenchmarks",
+    },
+  ];
   @ViewChild("updateWithoutChangeWarning")
   updateWithoutChangeWarning: TemplateRef<any>;
 
@@ -197,6 +215,12 @@ export class DataUploadComponent
     currentPage: 1,
     totalCount: null,
   };
+
+  stateDocumentstableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null,
+  };
   ulbcurrentSort = 1;
 
   ulblistFetchOption = {
@@ -269,9 +293,14 @@ export class DataUploadComponent
 
   haveRequestToTakeAction = false;
 
+  stateFcGrantDocuments = null;
+
   ngOnInit() {
-    // this.fetchFinancialYears();
-    if (this.loggedInUserData.role === USER_TYPE.STATE) return;
+    this.getStateFcDocments();
+
+    if (this.loggedInUserData.role === USER_TYPE.STATE) {
+      return;
+    }
     if (!this.id) {
       this.getFinancialDataList(
         { skip: this.listFetchOption.skip, limit: 10 },
@@ -286,6 +315,33 @@ export class DataUploadComponent
         this.gettingULBDats();
       }
     }
+  }
+
+  getStateFcDocments() {
+    this.financialDataService.getStateFCDocuments().subscribe((res) => {
+      console.log(`state FC Grant Documents`, res);
+      if (this.loggedInUserData.role === this.userTypes.STATE) {
+        if (res && res["data"] && res["data"].length) {
+          this.stateFcGrantDocuments = res["data"][0];
+        } else this.stateFcGrantDocuments = null;
+      } else {
+        if (res && res["data"] && res["data"].length) {
+          this.stateFcGrantDocuments = res["data"];
+        } else this.stateFcGrantDocuments = null;
+      }
+    });
+  }
+
+  filesToSaveForState(values) {
+    let body = {
+      [this.questionForState[0].key]: null,
+      [this.questionForState[1].key]: null,
+      [this.questionForState[2].key]: null,
+    };
+    body = { ...body, ...values };
+    this.financialDataService.saveStateFCDocuments(body).subscribe((res) => {
+      console.log(res);
+    });
   }
 
   onChangingShowULBInChart(event: MatSlideToggleChange) {
