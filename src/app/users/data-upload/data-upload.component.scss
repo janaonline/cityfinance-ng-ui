@@ -253,11 +253,13 @@
 
   ::ng-deep {
     button.btn-primary,
-    button[id="previous"] {
+    button[id="previous"],
+    a.btn {
       background: var(--greenish) !important;
     }
 
-    button.btn-primary:hover {
+    button.btn-primary:hover,
+    a.btn {
       color: white !important;
     }
   }

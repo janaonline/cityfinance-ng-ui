@@ -676,12 +676,13 @@
           <span
             style="display: inline-flex; width: 50%; margin-left: 3%"
             *ngIf="
-              data?.solidWasteManagement?.documents[question.key][0]?.status
+              data?.solidWasteManagement?.documents && data?.solidWasteManagement?.documents[question.key][0]?.status
             "
           >
             <span>
               <svg
                 *ngIf="
+                 data?.solidWasteManagement?.documents &&
                   data?.solidWasteManagement?.documents[question.key][0]
                     ?.status === uploadSTATUS.APPROVED
                 "
@@ -737,6 +738,7 @@
 
               <svg
                 *ngIf="
+                data?.solidWasteManagement?.documents &&
                   data?.solidWasteManagement?.documents[question.key][0]
                     ?.status === uploadSTATUS.REJECTED
                 "
@@ -820,12 +822,13 @@
             <span
               style="display: inline-flex; width: 50%; margin-left: 3%"
               *ngIf="
-                data?.millionPlusCities?.documents[question.key][0]?.status
+                data?.millionPlusCities?.documents && data?.millionPlusCities?.documents[question.key][0]?.status
               "
             >
               <span>
                 <svg
                   *ngIf="
+                   data?.millionPlusCities?.documents &&
                     data?.millionPlusCities?.documents[question.key][0]
                       ?.status === uploadSTATUS.APPROVED
                   "
@@ -881,6 +884,7 @@
 
                 <svg
                   *ngIf="
+                   data?.millionPlusCities?.documents &&
                     data?.solidWasteManagement?.documents[question.key][0]
                       ?.status === uploadSTATUS.REJECTED
                   "
@@ -924,6 +928,7 @@
               <span
                 style="padding-left: 2%; position: relative"
                 *ngIf="
+                 data?.millionPlusCities?.documents &&
                   data?.millionPlusCities?.documents[question.key][0]
                     ?.status === uploadSTATUS.REJECTED
                 "

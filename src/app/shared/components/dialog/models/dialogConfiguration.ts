@@ -3,6 +3,7 @@ export interface IDialogConfiguration {
   buttons?: {
     confirm?: IButtonConfiguration;
     cancel?: IButtonConfiguration;
+    [key: string]: IButtonConfiguration;
   };
 }
 

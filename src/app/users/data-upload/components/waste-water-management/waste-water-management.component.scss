@@ -1,6 +1,12 @@
 :host {
   --greenish: #047474;
 
+  textarea:disabled {
+    border: none;
+
+    // background: transparent;
+  }
+
   .input-group-addon {
     background: var(--greenish);
     color: white;
@@ -172,7 +178,7 @@
       }
       th,
       td {
-        padding: 1.5% 1%;
+        padding: 1% 1%;
       }
       tbody td:nth-child(1) {
         width: 21%;

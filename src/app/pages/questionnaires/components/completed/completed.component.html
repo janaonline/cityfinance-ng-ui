@@ -27,6 +27,8 @@
       <button class="btn btn-primary" (click)="previous.emit(true)">
         Cancel
       </button>
+      <ng-content select=".atEnd"> </ng-content>
+
       <!-- <button
         style="margin-left: 2%;"
         class="btn btn-primary"
