@@ -3,12 +3,20 @@
 }
 
 :host {
+  .scrol {
+    height: 62vh;
+    overflow-y: scroll;
+  }
   button {
     background: #047474;
   }
-  li a {
-    margin-top: 1%;
+
+  table tbody tr:nth-child(even) {
+    background: #007c7c14;
   }
+  // table tbody tr {
+  //   border: 5% solid red;
+  // }
 
   h1,
   h2,

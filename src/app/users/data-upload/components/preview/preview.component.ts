@@ -3,6 +3,7 @@ import { IState } from 'src/app/models/state/state';
 import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
 import { defaultDailogConfiuration } from 'src/app/pages/questionnaires/ulb/configs/common.config';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { UPLOAD_STATUS } from 'src/app/util/enums';
 import { UserUtility } from 'src/app/util/user/user';
 
 import { IFinancialData, WaterManagement } from '../../models/financial-data.interface';
@@ -30,6 +31,8 @@ export class PreviewComponent implements OnInit {
     benchmark: string;
   }[] = services;
 
+  uploadSTATUS = UPLOAD_STATUS;
+
   // wasteWaterDucmentQuestions = wasteWaterDucmentQuestions;
   solidWasteQuestions = solidWasterQuestions;
   millionPlusCitiesQuestions = millionPlusCitiesQuestions;
@@ -42,6 +45,15 @@ export class PreviewComponent implements OnInit {
   :root {
     font-size: 14px;
   }
+  table tbody tr {
+    border: 100px solid black;
+  }
+    table tbody tr:nth-child(even) {
+    background: #d7ebeb;
+  }
+   table tbody tr:nth-child(even) td {
+    border:1px solid #d7ebeb;
+  }
     h2 {
       font-size: 1.25rem;
     }
@@ -52,6 +64,9 @@ export class PreviewComponent implements OnInit {
 
      h4 {
       font-size: .7rem;
+    }
+       h5 {
+      font-size: .5rem;
     }
 
     table thead th {
@@ -77,6 +92,8 @@ export class PreviewComponent implements OnInit {
   h6 {
     font-weight: 700;
   }
+
+
 </style>`;
 
   states: { [stateId: string]: IState };
@@ -90,10 +107,25 @@ export class PreviewComponent implements OnInit {
     console.log("data", this.data);
   }
 
+  replaceAllOccurence(
+    originalText: string,
+    textToSearch: string,
+    newText: string
+  ) {
+    const text = originalText.replace(textToSearch, newText);
+    if (text.includes(textToSearch)) {
+      return this.replaceAllOccurence(text, textToSearch, newText);
+    }
+    return text;
+  }
+
   downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
 
-    const html = this.styleForPDF + elementToAddPDFInString;
+    let html = this.styleForPDF + elementToAddPDFInString;
+    html = this.replaceAllOccurence(html, 'width="15.932"', 'width="7.932"');
+    html = this.replaceAllOccurence(html, 'height="15.932"', 'height="7.932"');
+    console.log(html);
     this.showLoader = true;
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
