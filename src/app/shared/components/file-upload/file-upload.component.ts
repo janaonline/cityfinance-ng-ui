@@ -182,7 +182,7 @@ export class FileUploadComponent implements OnInit, OnDestroy, OnChanges {
       this.filterInvalidFiles(event.target["files"], key)
     );
 
-    if (this.userSelectedFiles[key]) {
+    if (this.userSelectedFiles[key] && this.userSelectedFiles[key].length) {
       this.cancelFileUpload(key, this.userSelectedFiles[key][0].name);
       this.userSelectedFiles[key].push(...filteredFiles);
     } else {
