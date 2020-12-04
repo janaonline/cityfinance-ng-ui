@@ -485,6 +485,10 @@
       }
     }
   }
+  .about-title {
+    overflow: hidden;
+    // Do not remove this. Remove it will create a scroll on homepage due to the map.
+  }
 
   .about-title h2 {
     position: relative;
@@ -1147,6 +1151,8 @@ img.background {
 }
 
 :host {
+  overflow: hidden;
+
   .container {
     margin: auto;
   }
