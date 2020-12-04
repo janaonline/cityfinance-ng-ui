@@ -66,6 +66,18 @@ export class FinancialDataService {
     );
   }
 
+  saveStateFCDocuments(body) {
+    return this.httpClient.post(
+      `${environment.api.url}ulb-financial-data//fc-grant/stateForm`,
+      body
+    );
+  }
+  getStateFCDocuments() {
+    return this.httpClient.get(
+      `${environment.api.url}ulb-financial-data/fc-grant/stateForm`
+    );
+  }
+
   fetchFinancialDataHistory(id) {
     return this.httpClient.get(
       `${environment.api.url}ulb-financial-data/history/${id}`

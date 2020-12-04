@@ -1,3 +1,5 @@
+import 'chartjs-plugin-labels';
+
 import { Location } from '@angular/common';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
@@ -78,6 +80,7 @@ export class DataUploadComponent
         this.fetchCardData();
       }
     });
+
     this.createForms();
     this.setTableHeaderByUserType();
     this.modalService.onHide.subscribe(() => (this.isPopupOpen = false));
@@ -89,6 +92,23 @@ export class DataUploadComponent
       );
     }
   }
+  questionForState = [
+    {
+      question:
+        "Grant transfer certificate signed by Principal secretary/ secretary(UD)",
+      key: "grantTransferCertificate",
+    },
+    {
+      question:
+        "Utilization report signed by Principal secretary/ secretary (UD)",
+      key: "utilizationReport",
+    },
+    {
+      question:
+        "Letter signed by Principal secretary/ secretary (UD) confirming submission of service level benchmarks by all ULBs",
+      key: "serviceLevelBenchmarks",
+    },
+  ];
   @ViewChild("updateWithoutChangeWarning")
   updateWithoutChangeWarning: TemplateRef<any>;
 
@@ -197,6 +217,12 @@ export class DataUploadComponent
     currentPage: 1,
     totalCount: null,
   };
+
+  stateDocumentstableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null,
+  };
   ulbcurrentSort = 1;
 
   ulblistFetchOption = {
@@ -228,6 +254,7 @@ export class DataUploadComponent
           },
           ticks: {
             beginAtZero: true,
+            stepSize: 1,
           },
         },
       ],
@@ -269,9 +296,14 @@ export class DataUploadComponent
 
   haveRequestToTakeAction = false;
 
+  stateFcGrantDocuments = null;
+
   ngOnInit() {
-    // this.fetchFinancialYears();
-    if (this.loggedInUserData.role === USER_TYPE.STATE) return;
+    this.getStateFcDocments();
+
+    if (this.loggedInUserData.role === USER_TYPE.STATE) {
+      return;
+    }
     if (!this.id) {
       this.getFinancialDataList(
         { skip: this.listFetchOption.skip, limit: 10 },
@@ -286,6 +318,39 @@ export class DataUploadComponent
         this.gettingULBDats();
       }
     }
+  }
+
+  getStateFcDocments() {
+    this.financialDataService.getStateFCDocuments().subscribe((res) => {
+      if (this.loggedInUserData.role === this.userTypes.STATE) {
+        if (res && res["data"] && res["data"].length) {
+          this.stateFcGrantDocuments = {
+            [this.questionForState[0].key]:
+              res["data"][0][this.questionForState[0].key],
+            [this.questionForState[1].key]:
+              res["data"][0][this.questionForState[1].key],
+            [this.questionForState[2].key]:
+              res["data"][0][this.questionForState[2].key],
+          };
+        } else this.stateFcGrantDocuments = null;
+      } else {
+        if (res && res["data"] && res["data"].length) {
+          this.stateFcGrantDocuments = res["data"];
+        } else this.stateFcGrantDocuments = null;
+      }
+    });
+  }
+
+  filesToSaveForState(values) {
+    let body = {
+      [this.questionForState[0].key]: null,
+      [this.questionForState[1].key]: null,
+      [this.questionForState[2].key]: null,
+    };
+    body = { ...body, ...values };
+    this.financialDataService.saveStateFCDocuments(body).subscribe((res) => {
+      console.log(res);
+    });
   }
 
   onChangingShowULBInChart(event: MatSlideToggleChange) {
@@ -391,7 +456,6 @@ export class DataUploadComponent
           break;
         }
       }
-      console.log(this.loggedInUserData);
       if (textToTakeAction) {
         const indexOfSearchText = this.chartData.labels.findIndex(
           (label) => label === textToTakeAction
@@ -432,11 +496,47 @@ export class DataUploadComponent
     }
 
     const ctx = canvasElement.getContext("2d");
+    let maxValue;
+    chartData.datasets[0].data.forEach((value) => {
+      if (maxValue === undefined || maxValue === null) maxValue = value;
+      if (value > maxValue) maxValue = value;
+    });
+    console.log(chartData);
+    console.log("maxValue", maxValue);
+
+    if (maxValue < 3) maxValue = 3;
+    this.defaultChartOptions.scales.yAxes[0].ticks["max"] = maxValue + 2;
 
     this.currentChart = new Chart(ctx, {
       type: "bar",
       data: { ...chartData },
-      options: { ...this.defaultChartOptions },
+      options: {
+        ...this.defaultChartOptions,
+
+        plugins: {
+          labels: {
+            position: "border",
+            fontColor: (data) => {
+              // if (data.dataset.backgroundColor[data.index]) {
+              //   const rgb = this.hexToRgb(
+              //     data.dataset.backgroundColor[data.index]
+              //   );
+              //   const threshold = 140;
+              //   const luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
+              //   return luminance > threshold ? "black" : "white";
+              // }
+              return "grey";
+            },
+            render: (args) => {
+              return args.value;
+              // console.log("args", args);
+              // if (args.value > 4) {
+              //   return args.value + "%";
+              // }
+            },
+          },
+        },
+      },
       plugins: [
         {
           beforeInit: function (chart) {
@@ -449,6 +549,19 @@ export class DataUploadComponent
         },
       ],
     });
+  }
+
+  hexToRgb(colorString) {
+    const result = colorString
+      .substring(colorString.indexOf("(") + 1, colorString.lastIndexOf(")"))
+      .split(/,\s*/);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
+      : null;
   }
 
   fetchCardData() {

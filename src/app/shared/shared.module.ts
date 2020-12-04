@@ -27,6 +27,7 @@ import { FinancialDataService } from '../users/services/financial-data.service';
 import {
   FileStatusCheckerInputComponent,
 } from './components/file-status-checker-input/file-status-checker-input.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import {
   FinanceDataUploadInputComponent,
 } from './components/finance-data-upload-input/finance-data-upload-input.component';
@@ -79,6 +80,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     UserTypeConfirmationComponent,
     FormhistoryComponent,
     IncompleteProfileComponent,
+    FileUploadComponent,
   ],
   exports: [
     PreLoaderComponent,
@@ -101,6 +103,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     MatSelect,
     MatOption,
     IncompleteProfileComponent,
+    FileUploadComponent,
   ],
   providers: [FinancialDataService],
 })

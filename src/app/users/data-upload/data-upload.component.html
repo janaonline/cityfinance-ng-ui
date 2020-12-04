@@ -60,20 +60,8 @@
             class="categories d-flex justify-content-between align-items-center"
           >
             <span class="category">
-              <span class="category-heading">Municipal<br />Corporations</span>
-            </span>
-            <span class="category">
-              <span class="category-heading">Municipalities</span>
-            </span>
-            <span class="category">
-              <span class="category-heading"
-                >Town <br />
-                Punchayats</span
-              >
-            </span>
-          </div>
-          <div class="categories d-flex categories-values align-items-center">
-            <span class="category">
+              <span class="category-heading">Municipal<br />Corporations</span
+              ><br />
               <span
                 class="category-heading category-value"
                 [ngClass]="{ 'loading-value': !cardData }"
@@ -82,13 +70,21 @@
               </span>
             </span>
             <span class="category">
+              <span class="category-heading">Municipalities</span>
+              <br />
               <span
                 class="category-heading category-value"
                 [ngClass]="{ 'loading-value': !cardData }"
-                >{{ cardData?.totalULB["Municipality"] || 0 }}</span
               >
+                {{ cardData?.totalULB["Municipality"] || 0 }}
+              </span>
             </span>
             <span class="category">
+              <span class="category-heading"
+                >Town <br />
+                Punchayats</span
+              >
+              <br />
               <span
                 class="category-heading category-value"
                 [ngClass]="{ 'loading-value': !cardData }"
@@ -103,7 +99,7 @@
 
         <div class="card pink">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">No of ULBs Registered</p>
+          <p class="heading">No of ULBs Submitted</p>
           <span
             class="card-main-value"
             [ngClass]="{ 'loading-value': !cardData }"
@@ -117,43 +113,36 @@
           >
             <span class="category">
               <span class="category-heading">Municipal<br />Corporations</span>
+              <br />
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+              >
+                {{ cardData?.registeredUlb["Municipal Corporation"] || 0 }}
+              </span>
             </span>
             <span class="category">
               <span class="category-heading">Municipalities</span>
+              <br />
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+              >
+                {{ cardData?.registeredUlb["Municipalities"] || 0 }}
+              </span>
             </span>
             <span class="category">
               <span class="category-heading"
                 >Town <br />
                 Punchayats</span
               >
-            </span>
-          </div>
-          <div class="categories d-flex categories-values align-items-center">
-            <span class="category">
+              <br />
               <span
                 class="category-heading category-value"
                 [ngClass]="{ 'loading-value': !cardData }"
               >
-                {{
-                  cardData?.registeredUlb["Municipal Corporation"] || 0
-                }}</span
-              >
-            </span>
-            <span class="category">
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-              >
-                {{ cardData?.registeredUlb["Municipality"] || 0 }}</span
-              >
-            </span>
-            <span class="category">
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-              >
-                {{ cardData?.registeredUlb["Town Panchayat"] || 0 }}</span
-              >
+                {{ cardData?.registeredUlb["Town Panchayat"] || 0 }}
+              </span>
             </span>
           </div>
 
@@ -181,44 +170,38 @@
           >
             <span class="category">
               <span class="category-heading">Municipal<br />Corporations</span>
+              <br />
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+              >
+                {{
+                  cardData?.registeredMillionPlus["Municipal Corporation"] || 0
+                }}
+              </span>
             </span>
             <span class="category">
               <span class="category-heading">Municipalities</span>
+              <br />
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+              >
+                {{ cardData?.registeredMillionPlus["Municipalities"] || 0 }}
+              </span>
             </span>
             <span class="category">
               <span class="category-heading"
                 >Town <br />
                 Punchayats</span
               >
-            </span>
-          </div>
-          <div class="categories d-flex categories-values align-items-center">
-            <span class="category">
+              <br />
               <span
                 class="category-heading category-value"
                 [ngClass]="{ 'loading-value': !cardData }"
-                >{{
-                  cardData?.registeredMillionPlus["Municipal Corporation"] || 0
-                }}</span
               >
-            </span>
-            <span class="category">
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-                >{{
-                  cardData?.registeredMillionPlus["Municipality"] || 0
-                }}</span
-              >
-            </span>
-            <span class="category">
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-                >{{
-                  cardData?.registeredMillionPlus["Town Panchayat"] || 0
-                }}</span
-              >
+                {{ cardData?.registeredMillionPlus["Town Punchayat"] || 0 }}
+              </span>
             </span>
           </div>
 
@@ -251,45 +234,39 @@
           >
             <span class="category">
               <span class="category-heading">Municipal<br />Corporations</span>
+              <br />
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+              >
+                {{
+                  cardData?.registeredNonMillionPlus["Municipal Corporation"] ||
+                    0
+                }}
+              </span>
             </span>
             <span class="category">
               <span class="category-heading">Municipalities</span>
+              <br />
+              <span
+                class="category-heading category-value"
+                [ngClass]="{ 'loading-value': !cardData }"
+              >
+                {{ cardData?.registeredNonMillionPlus["Municipalities"] || 0 }}
+              </span>
             </span>
             <span class="category">
               <span class="category-heading"
                 >Town <br />
                 Punchayats</span
               >
-            </span>
-          </div>
-          <div class="categories d-flex categories-values align-items-center">
-            <span class="category">
+              <br />
               <span
                 class="category-heading category-value"
                 [ngClass]="{ 'loading-value': !cardData }"
-                >{{
-                  cardData?.registeredNonMillionPlus["Municipal Corporation"] ||
-                    0
-                }}</span
               >
-            </span>
-            <span class="category">
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-                >{{
-                  cardData?.registeredNonMillionPlus["Municipality"] || 0
-                }}</span
-              >
-            </span>
-            <span class="category">
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-                >{{
-                  cardData?.registeredNonMillionPlus["Town Panchayat"] || 0
-                }}</span
-              >
+                {{ cardData?.registeredNonMillionPlus["Town Punchayat"] || 0 }}
+              </span>
             </span>
           </div>
 
@@ -325,19 +302,7 @@
                 <span class="category-heading"
                   >Municipal<br />Corporations</span
                 >
-              </span>
-              <span class="category">
-                <span class="category-heading">Municipalities</span>
-              </span>
-              <span class="category">
-                <span class="category-heading"
-                  >Town <br />
-                  Punchayat</span
-                >
-              </span>
-            </div>
-            <div class="categories d-flex categories-values align-items-center">
-              <span class="category">
+                <br />
                 <span
                   class="category-heading category-value"
                   [ngClass]="{ 'loading-value': !cardData }"
@@ -347,17 +312,23 @@
                 >
               </span>
               <span class="category">
+                <span class="category-heading">Municipalities</span> <br />
                 <span
                   class="category-heading category-value"
                   [ngClass]="{ 'loading-value': !cardData }"
-                  >{{ cardData?.totalMillionPlus["Municipality"] || 0 }}</span
+                  >{{ cardData?.totalMillionPlus["Municipalities"] || 0 }}</span
                 >
               </span>
               <span class="category">
+                <span class="category-heading"
+                  >Town <br />
+                  Punchayats</span
+                >
+                <br />
                 <span
                   class="category-heading category-value"
                   [ngClass]="{ 'loading-value': !cardData }"
-                  >{{ cardData?.totalMillionPlus["Town Panchayat"] || 0 }}</span
+                  >{{ cardData?.totalMillionPlus["Town Punchayat"] || 0 }}</span
                 >
               </span>
             </div>
@@ -392,19 +363,7 @@
                 <span class="category-heading"
                   >Municipal<br />Corporations</span
                 >
-              </span>
-              <span class="category">
-                <span class="category-heading">Municipalities</span>
-              </span>
-              <span class="category">
-                <span class="category-heading"
-                  >Town <br />
-                  Punchayat</span
-                >
-              </span>
-            </div>
-            <div class="categories d-flex categories-values align-items-center">
-              <span class="category">
+                <br />
                 <span
                   class="category-heading category-value"
                   [ngClass]="{ 'loading-value': !cardData }"
@@ -414,20 +373,27 @@
                 >
               </span>
               <span class="category">
+                <span class="category-heading">Municipalities</span>
+                <br />
                 <span
                   class="category-heading category-value"
                   [ngClass]="{ 'loading-value': !cardData }"
                   >{{
-                    cardData?.totalNonMillionPlus["Municipality"] || 0
+                    cardData?.totalNonMillionPlus["Municipalities"] || 0
                   }}</span
                 >
               </span>
               <span class="category">
+                <span class="category-heading"
+                  >Town <br />
+                  Punchayat</span
+                >
+                <br />
                 <span
                   class="category-heading category-value"
                   [ngClass]="{ 'loading-value': !cardData }"
                   >{{
-                    cardData?.totalNonMillionPlus["Town Panchayat"] || 0
+                    cardData?.totalNonMillionPlus["Town Punchayat"] || 0
                   }}</span
                 >
               </span>
@@ -450,11 +416,11 @@
         <div class="chart-container">
           <p class="heading" style="font-size: 1.6rem">
             15<sup>th</sup> FC Form Status
-            <mat-slide-toggle
+            <!-- <mat-slide-toggle
               style="float: right"
               (change)="onChangingShowULBInChart($event)"
               >Show Not Registered ULBs</mat-slide-toggle
-            >
+            > -->
           </p>
           <canvas id="canvas" width="150" height="49"></canvas>
           <div
@@ -478,6 +444,167 @@
             View List
           </div>
         </div>
+      </div>
+
+      <div class="ulb-list">
+        <div *ngIf="stateFcGrantDocuments === undefined">
+          <app-pre-loader></app-pre-loader>
+          <app-pre-loader></app-pre-loader>
+        </div>
+
+        <ng-container [ngSwitch]="loggedInUserData.role">
+          <ng-container *ngSwitchCase="userTypes.STATE">
+            <span style="font-weight: 700"
+              >Files for State to Upload
+              <span
+                class="error-message"
+                style="display: inline; font-style: italic"
+                >(Maximum 50Mb file size is allowed)</span
+              >
+            </span>
+
+            <app-file-upload
+              *ngIf="stateFcGrantDocuments !== undefined"
+              [questions]="questionForState"
+              (outputValues)="filesToSaveForState($event)"
+              [documents]="stateFcGrantDocuments"
+            ></app-file-upload>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            <span style="font-weight: 700">Files Uploaded by State</span>
+            <table
+              aria-describedby="ULB Singup List"
+              class="table upldate-table"
+              *ngIf="ulbList; else loader"
+            >
+              <thead>
+                <tr class="" style="color: white">
+                  <th scope="Sr.No" style="width: 5%">Sr.No.</th>
+                  <th
+                    *ngIf="loggedInUserData.role !== userTypes.STATE"
+                    scope="State Name"
+                    style="width: 9%"
+                  >
+                    State Name
+                  </th>
+                  <th scope="files">{{ questionForState[0].question }}</th>
+                  <th scope="files">{{ questionForState[1].question }}</th>
+                  <th scope="files">{{ questionForState[2].question }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr [formGroup]="ulbFilter">
+                  <td></td>
+                  <td *ngIf="loggedInUserData.role !== userTypes.STATE">
+                    <!-- <div class="input-group">
+                      <select
+                        name="State"
+                        id="state"
+                        formControlName="stateName"
+                        class="form-control"
+                        placeholder="State"
+                      >
+                        <option value="" selected>All States</option>
+                        <option
+                          *ngFor="let state of stateList"
+                          [value]="state.name"
+                        >
+                          {{ state.name }}
+                        </option>
+                      </select>
+                    </div> -->
+                  </td>
+                  <td></td>
+                </tr>
+                <ng-container
+                  *ngIf="stateFcGrantDocuments?.length; else noData"
+                >
+                  <tr
+                    *ngFor="
+                      let row of stateFcGrantDocuments
+                        | paginate
+                          : {
+                              id: 'stateDocuments-pagination',
+                              itemsPerPage:
+                                stateDocumentstableDefaultOptions.itemPerPage,
+                              currentPage:
+                                stateDocumentstableDefaultOptions.currentPage,
+                              totalItems:
+                                stateDocumentstableDefaultOptions.totalCount
+                            };
+                      index as i
+                    "
+                  >
+                    <td>
+                      {{
+                        (ulbtableDefaultOptions?.currentPage - 1) * 10 + i + 1
+                      }}
+                    </td>
+                    <td *ngIf="loggedInUserData.role !== userTypes.STATE">
+                      {{ row.stateName || row.state.name }}
+                    </td>
+                    <td>
+                      <span
+                        *ngIf="
+                          row[questionForState[0].key] &&
+                            row[questionForState[0].key][0] as file;
+                          else nofile
+                        "
+                      >
+                        <a [href]="file.url" target="_blank">{{ file.name }}</a>
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        *ngIf="
+                          row[questionForState[1].key] &&
+                            row[questionForState[1].key][0] as file;
+                          else nofile
+                        "
+                      >
+                        <a [href]="file.url" target="_blank">{{ file.name }}</a>
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        *ngIf="
+                          row[questionForState[2].key] &&
+                            row[questionForState[2].key][0] as file;
+                          else nofile
+                        "
+                      >
+                        <a [href]="file.url" target="_blank">{{ file.name }}</a>
+                      </span>
+                      <ng-template #nofile> N/A</ng-template>
+                    </td>
+                  </tr>
+                </ng-container>
+                <ng-template #noData>
+                  <tr>
+                    <td class="text-center" [attr.colspan]="3">
+                      <h3>No Data Available</h3>
+                    </td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </table>
+            <pagination-controls
+              *ngIf="ulbtableDefaultOptions.totalCount && ulbList"
+              style="float: right; position: relative"
+              id="stateDocuments-pagination"
+              (pageChange)="setulbPage($event)"
+              directionLinks="true"
+              autoHide="true"
+              previousLabel="Previous"
+              nextLabel="Next"
+              screenReaderPaginationLabel="Pagination"
+              screenReaderPageLabel="page"
+              screenReaderCurrentLabel="You're on page"
+            >
+            </pagination-controls>
+          </ng-container>
+        </ng-container>
       </div>
 
       <div class="ulb-list" id="ulb-list">

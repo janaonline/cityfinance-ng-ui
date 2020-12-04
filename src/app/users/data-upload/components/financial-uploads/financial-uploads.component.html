@@ -260,6 +260,17 @@
       >
         Show Preview
       </button>
+      <a
+        *ngIf="loggedInUserDetails.role === USER_TYPE.ULB"
+        class="btn btn-primary atEnd"
+        style="outline: none"
+        style="margin-left: 2%"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSeL1IKrRU5RT7mNWgWsrIt_hN86uQXEIj0khCNqQLkGQXG8iQ/viewform"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Submit Feedback
+      </a>
     </app-completed>
   </mat-step>
 

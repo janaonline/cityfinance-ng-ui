@@ -103,15 +103,6 @@ div.miniMap {
   justify-content: center;
 }
 
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
-  border-radius: 0px !important;
-  border: 0px !important;
-}
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
-  border-radius: 0px !important;
-  border: 0px !important;
-}
-
 .regionalDetails {
   min-width: 197px;
   width: 92%;
@@ -163,13 +154,6 @@ div.miniMap {
 #details > p {
   background: white;
 }
-
-// mat-form-field {
-//   transform: scale(0.81);
-//   margin-top: 0.2rem;
-// }
-
-// ::ng-deep
 
 .overlay {
   display: block;
@@ -348,11 +332,10 @@ div.miniMap {
   .leaflet-control-attribution {
     display: none;
   }
-  .mat-form-field-flex {
-    // border: 1px solid #999;
-    border: 1.2px solid #3a3939;
-    border-radius: 0px;
-  }
+  // .mat-form-field-flex {
+  //   border: 1.2px solid #3a3939;
+  //   border-radius: 0px;
+  // }
 
   .cuppa-dropdown {
     position: relative;
