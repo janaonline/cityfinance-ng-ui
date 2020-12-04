@@ -5,6 +5,7 @@ import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
 
 import { USER_TYPE } from '../../models/user/userType';
+import { SidebarUtil } from '../utils/sidebar.util';
 import { IBaseProfileData } from './model/base-profile';
 import { ProfileService } from './service/profile.service';
 
@@ -19,17 +20,6 @@ interface IQueryParamOption {
   styleUrls: ["./profile.component.scss"],
 })
 export class ProfileComponent implements OnInit {
-  USER_TYPE = USER_TYPE;
-  // userType: USER_TYPE;
-
-  profileData: IBaseProfileData = null;
-  // showProfileComponent = false;
-  profileType: USER_TYPE;
-
-  profileMode: "view" | "create";
-
-  editable = false;
-
   constructor(
     private _profileService: ProfileService,
     private _activatedRoute: ActivatedRoute
@@ -43,6 +33,17 @@ export class ProfileComponent implements OnInit {
       );
     });
   }
+  USER_TYPE = USER_TYPE;
+  // userType: USER_TYPE;
+
+  profileData: IBaseProfileData = null;
+  // showProfileComponent = false;
+  profileType: USER_TYPE;
+
+  profileMode: "view" | "create";
+
+  editable = false;
+  isSideHidden = false;
 
   ngOnInit() {}
 
@@ -54,6 +55,13 @@ export class ProfileComponent implements OnInit {
 
   private onGettingQueryParams(queryParams: IQueryParamOption) {
     this.profileType = queryParams.role;
+    if (!queryParams.id) {
+      SidebarUtil.hideSidebar();
+      this.isSideHidden = true;
+    } else {
+      this.isSideHidden = false;
+    }
+
     this.editable = queryParams.edit === "true" ? true : false;
     let hasAccess: boolean;
     if (this.profileMode === "create") {
