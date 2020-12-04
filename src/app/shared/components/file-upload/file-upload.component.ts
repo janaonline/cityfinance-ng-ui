@@ -100,7 +100,7 @@ export class FileUploadComponent implements OnInit, OnDestroy, OnChanges {
   documentForm: FormGroup;
   USER_TYPE = USER_TYPE;
 
-  MaxFileSize = 20 * 1024 * 1024; // 20 MB. Always keep it in MB since in other places, we are dealing in MB only.
+  MaxFileSize = 50 * 1024 * 1024; // 20 MB. Always keep it in MB since in other places, we are dealing in MB only.
 
   constructor(
     private dataEntryService: DataEntryService,

@@ -454,7 +454,14 @@
 
         <ng-container [ngSwitch]="loggedInUserData.role">
           <ng-container *ngSwitchCase="userTypes.STATE">
-            <span style="font-weight: 700">Files for State to Upload</span>
+            <span style="font-weight: 700"
+              >Files for State to Upload
+              <span
+                class="error-message"
+                style="display: inline; font-style: italic"
+                >(Maximum 50Mb file size is allowed)</span
+              >
+            </span>
 
             <app-file-upload
               *ngIf="stateFcGrantDocuments !== undefined"

@@ -1,3 +1,5 @@
+import 'chartjs-plugin-labels';
+
 import { Location } from '@angular/common';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
@@ -252,6 +254,7 @@ export class DataUploadComponent
           },
           ticks: {
             beginAtZero: true,
+            stepSize: 1,
           },
         },
       ],
@@ -319,7 +322,6 @@ export class DataUploadComponent
 
   getStateFcDocments() {
     this.financialDataService.getStateFCDocuments().subscribe((res) => {
-      console.log(`state FC Grant Documents`, res);
       if (this.loggedInUserData.role === this.userTypes.STATE) {
         if (res && res["data"] && res["data"].length) {
           this.stateFcGrantDocuments = {
@@ -454,7 +456,6 @@ export class DataUploadComponent
           break;
         }
       }
-      console.log(this.loggedInUserData);
       if (textToTakeAction) {
         const indexOfSearchText = this.chartData.labels.findIndex(
           (label) => label === textToTakeAction
@@ -495,11 +496,47 @@ export class DataUploadComponent
     }
 
     const ctx = canvasElement.getContext("2d");
+    let maxValue;
+    chartData.datasets[0].data.forEach((value) => {
+      if (maxValue === undefined || maxValue === null) maxValue = value;
+      if (value > maxValue) maxValue = value;
+    });
+    console.log(chartData);
+    console.log("maxValue", maxValue);
+
+    if (maxValue < 3) maxValue = 3;
+    this.defaultChartOptions.scales.yAxes[0].ticks["max"] = maxValue;
 
     this.currentChart = new Chart(ctx, {
       type: "bar",
       data: { ...chartData },
-      options: { ...this.defaultChartOptions },
+      options: {
+        ...this.defaultChartOptions,
+
+        plugins: {
+          labels: {
+            position: "border",
+            fontColor: (data) => {
+              // if (data.dataset.backgroundColor[data.index]) {
+              //   const rgb = this.hexToRgb(
+              //     data.dataset.backgroundColor[data.index]
+              //   );
+              //   const threshold = 140;
+              //   const luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
+              //   return luminance > threshold ? "black" : "white";
+              // }
+              return "grey";
+            },
+            render: (args) => {
+              return args.value;
+              // console.log("args", args);
+              // if (args.value > 4) {
+              //   return args.value + "%";
+              // }
+            },
+          },
+        },
+      },
       plugins: [
         {
           beforeInit: function (chart) {
@@ -512,6 +549,19 @@ export class DataUploadComponent
         },
       ],
     });
+  }
+
+  hexToRgb(colorString) {
+    const result = colorString
+      .substring(colorString.indexOf("(") + 1, colorString.lastIndexOf(")"))
+      .split(/,\s*/);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
+      : null;
   }
 
   fetchCardData() {
