@@ -81,12 +81,20 @@
     }
 
     .categories {
+      height: 45%;
       .category {
         font-size: 1em;
         text-align: center;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        width: 100%;
 
         .category-heading {
           display: block;
+          width: 100%;
         }
       }
     }
