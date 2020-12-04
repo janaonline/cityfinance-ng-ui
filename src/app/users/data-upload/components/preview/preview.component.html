@@ -677,6 +677,7 @@
             style="display: inline-flex; width: 50%; margin-left: 3%"
             *ngIf="
               data?.solidWasteManagement?.documents &&
+              data?.solidWasteManagement?.documents[question.key] &&
               data?.solidWasteManagement?.documents[question.key][0]?.status
             "
           >
@@ -684,6 +685,7 @@
               <svg
                 *ngIf="
                   data?.solidWasteManagement?.documents &&
+                  data?.solidWasteManagement?.documents[question.key] &&
                   data?.solidWasteManagement?.documents[question.key][0]
                     ?.status === uploadSTATUS.APPROVED
                 "
@@ -740,6 +742,7 @@
               <svg
                 *ngIf="
                   data?.solidWasteManagement?.documents &&
+                  data?.solidWasteManagement?.documents[question.key] &&
                   data?.solidWasteManagement?.documents[question.key][0]
                     ?.status === uploadSTATUS.REJECTED
                 "
@@ -783,6 +786,8 @@
             <span
               style="padding-left: 2%; position: relative"
               *ngIf="
+                data?.solidWasteManagement?.documents &&
+                data?.solidWasteManagement?.documents[question.key] &&
                 data?.solidWasteManagement?.documents[question.key][0]
                   ?.status === uploadSTATUS.REJECTED
               "
@@ -824,6 +829,7 @@
               style="display: inline-flex; width: 50%; margin-left: 3%"
               *ngIf="
                 data?.millionPlusCities?.documents &&
+                data?.millionPlusCities?.documents[question.key] &&
                 data?.millionPlusCities?.documents[question.key][0]?.status
               "
             >
@@ -831,6 +837,7 @@
                 <svg
                   *ngIf="
                     data?.millionPlusCities?.documents &&
+                    data?.millionPlusCities?.documents[question.key] &&
                     data?.millionPlusCities?.documents[question.key][0]
                       ?.status === uploadSTATUS.APPROVED
                   "
@@ -887,6 +894,7 @@
                 <svg
                   *ngIf="
                     data?.millionPlusCities?.documents &&
+                    data?.solidWasteManagement?.documents[question.key] &&
                     data?.solidWasteManagement?.documents[question.key][0]
                       ?.status === uploadSTATUS.REJECTED
                   "
@@ -931,6 +939,7 @@
                 style="padding-left: 2%; position: relative"
                 *ngIf="
                   data?.millionPlusCities?.documents &&
+                  data?.millionPlusCities?.documents[question.key] &&
                   data?.millionPlusCities?.documents[question.key][0]
                     ?.status === uploadSTATUS.REJECTED
                 "

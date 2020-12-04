@@ -505,7 +505,7 @@ export class DataUploadComponent
     console.log("maxValue", maxValue);
 
     if (maxValue < 3) maxValue = 3;
-    this.defaultChartOptions.scales.yAxes[0].ticks["max"] = maxValue;
+    this.defaultChartOptions.scales.yAxes[0].ticks["max"] = maxValue + 2;
 
     this.currentChart = new Chart(ctx, {
       type: "bar",
