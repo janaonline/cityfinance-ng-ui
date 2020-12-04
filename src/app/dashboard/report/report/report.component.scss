@@ -123,18 +123,6 @@ button:disabled {
   min-height: 90vh;
 }
 
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 8px;
-}
-
-.stateULBName > * {
-  // background: rgb(175, 175, 175);
-  // color: white;
-  // border-top-left-radius: 5px;
-  // border-top-right-radius: 5px;
-  // text-align: center;
-}
-
 .stateULBName {
   padding-right: 0px;
   max-width: 214px;
@@ -149,8 +137,11 @@ button:disabled {
   font-size: 0.8vw;
 }
 
-::ng-deep .mat-form-field-wrapper {
-  margin: 0px !important;
+// redo
+.finance-statement-popup {
+  ::ng-deep .mat-form-field-wrapper {
+    margin: 0px !important;
+  }
 }
 
 ::ng-deep .modal .modal-header {
@@ -189,8 +180,11 @@ a.inactive-tab:hover {
   background: #f0ad4e;
 }
 
-::ng-deep .mat-form-field-wrapper {
-  padding-bottom: 0px;
+// redo
+.finance-statement-popup {
+  ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0px;
+  }
 }
 
 ::ng-deep .modal .modal-header {
@@ -205,26 +199,17 @@ a.inactive-tab:hover {
   color: red !important;
 }
 
-/* When the input is focused */
-// ::ng-deep .container {
-//   .mat-form-field-outline,
-//   .mat-form-field-empty.mat-form-field-label,
-//   .mat-form-field-label,
-//   .mat-form-field-underline,
-//   .mat-input-element,
-//   ::placeholder {
-//     color: rgb(235, 8, 8) !important;
-//   }
-// }
+// redo
+.finance-statement-popup {
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+    border-radius: 0px !important;
+    border: 0px !important;
+  }
 
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
-  border-radius: 0px !important;
-  border: 0px !important;
-}
-
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
-  border-radius: 0px !important;
-  border: 0px !important;
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+    border-radius: 0px !important;
+    border: 0px !important;
+  }
 }
 
 .financial-tab-text {

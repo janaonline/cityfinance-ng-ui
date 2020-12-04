@@ -103,7 +103,7 @@
 
         <div class="card pink">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">No of ULBs Registered</p>
+          <p class="heading">No of ULBs Submitted</p>
           <span
             class="card-main-value"
             [ngClass]="{ 'loading-value': !cardData }"
@@ -553,9 +553,12 @@
                         | paginate
                           : {
                               id: 'stateDocuments-pagination',
-                              itemsPerPage: stateDocumentstableDefaultOptions.itemPerPage,
-                              currentPage: stateDocumentstableDefaultOptions.currentPage,
-                              totalItems: stateDocumentstableDefaultOptions.totalCount
+                              itemsPerPage:
+                                stateDocumentstableDefaultOptions.itemPerPage,
+                              currentPage:
+                                stateDocumentstableDefaultOptions.currentPage,
+                              totalItems:
+                                stateDocumentstableDefaultOptions.totalCount
                             };
                       index as i
                     "
