@@ -17,38 +17,6 @@ import { AnalyticsTabs, IAnalyticsTabs } from './tabs';
   styleUrls: ["./home-header.component.scss"],
 })
 export class HomeHeaderComponent implements OnInit {
-  isProduction: boolean;
-
-  userUtil = new UserUtility();
-  showAnalyticsSubMenu = !this.userUtil.isUserOnMobile();
-
-  isLoggedIn = false;
-  user: UserProfile = null;
-
-  canViewUploadData = false;
-  canViewULBSingUpListing = false;
-  canViewUserList = false;
-  canViewStateList = false;
-  canViewPartnerList = false;
-  canViewMoHUAList = false;
-  canEditOwnProfile = false;
-
-  canViewQuestionnaireForm = false;
-  canViewQuestionnaireList = false;
-
-  tabs: IAnalyticsTabs[] = [];
-
-  USER_TYPE = USER_TYPE;
-
-  isMunicipalBondActive = false;
-  isCreditRatingActive = false;
-  isResourceTabActive = false;
-  isFcGrantPageActive = false;
-  isQuestionnaireActive = false;
-  private accessChecker = new AccessChecker();
-
-  isAnalyticsPageActive = false;
-
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -113,6 +81,39 @@ export class HomeHeaderComponent implements OnInit {
       }
     });
   }
+  isProduction: boolean;
+
+  userUtil = new UserUtility();
+  showAnalyticsSubMenu = !this.userUtil.isUserOnMobile();
+
+  isLoggedIn = false;
+  user: UserProfile = null;
+
+  canViewUploadData = false;
+  canViewULBSingUpListing = false;
+  canViewUserList = false;
+  canViewStateList = false;
+  canViewPartnerList = false;
+  canViewMoHUAList = false;
+  canEditOwnProfile = false;
+
+  canViewQuestionnaireForm = false;
+  canViewQuestionnaireList = false;
+
+  tabs: IAnalyticsTabs[] = [];
+
+  USER_TYPE = USER_TYPE;
+
+  isMunicipalBondActive = false;
+  isCreditRatingActive = false;
+  isResourceTabActive = false;
+  isFcGrantPageActive = false;
+  isQuestionnaireActive = false;
+  private accessChecker = new AccessChecker();
+
+  isAnalyticsPageActive = false;
+
+  canViewFcGRantModule = false;
 
   private resetActiveClass(exccept?: string) {}
 
@@ -166,6 +167,12 @@ export class HomeHeaderComponent implements OnInit {
         moduleName: MODULES_NAME.ULB_LEVEL_PROPERTY_TAX_QUESTIONNAIRE,
         action: ACTIONS.VIEW,
       });
+
+    if (this.userUtil.getUserType() === USER_TYPE.USER) {
+      this.canViewFcGRantModule = false;
+    } else {
+      this.canViewFcGRantModule = true;
+    }
   }
 
   ngOnInit() {
