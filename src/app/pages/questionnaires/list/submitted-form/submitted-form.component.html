@@ -2,14 +2,14 @@
   <!-- State Tab-->
   <mat-tab label="States Tracker">
     <div class="tableWrapper">
+      <button
+        class="btn btn-primary fill-questionnaire"
+        (click)="openStateSelectPopup()"
+      >
+        Fill Questionnaire
+      </button>
       <h3 class="text-center table-heading">
         Tracker for state responses on MoF questionnaire
-        <button
-          class="btn btn-primary fill-questionnaire"
-          (click)="openStateSelectPopup()"
-        >
-          Fill Questionnaire
-        </button>
       </h3>
       <div class="loader-wrapper" *ngIf="!stateList">
         <app-pre-loader style="display: block; width: 100%"></app-pre-loader>

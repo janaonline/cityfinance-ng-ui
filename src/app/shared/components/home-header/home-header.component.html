@@ -246,7 +246,7 @@
     <li routerLinkActive="active">
       <a [routerLink]="['/borrowings/municipal-bond']"> Municipal Bonds</a>
     </li> -->
-    <li>
+    <li *ngIf="isLoggedIn ? canViewFcGRantModule : true">
       <a
         routerLinkActive="active"
         routerLink="/fc_grant"

@@ -256,7 +256,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
         element.innerText = `${target}`;
       }
     });
-  };
+  }
 
   private fetchDataForMapColoring() {
     this.commonService
@@ -294,7 +294,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
       return zoom;
     }
 
-    const defaultZoomLevel = 4.7 - (window.devicePixelRatio - 1);
+    const defaultZoomLevel = 4.6 - (window.devicePixelRatio - 1);
     try {
       zoom = localStorage.getItem("mapZoomLevel")
         ? +localStorage.getItem("mapZoomLevel")

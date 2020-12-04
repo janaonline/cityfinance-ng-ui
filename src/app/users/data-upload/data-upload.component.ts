@@ -322,7 +322,14 @@ export class DataUploadComponent
       console.log(`state FC Grant Documents`, res);
       if (this.loggedInUserData.role === this.userTypes.STATE) {
         if (res && res["data"] && res["data"].length) {
-          this.stateFcGrantDocuments = res["data"][0];
+          this.stateFcGrantDocuments = {
+            [this.questionForState[0].key]:
+              res["data"][0][this.questionForState[0].key],
+            [this.questionForState[1].key]:
+              res["data"][0][this.questionForState[1].key],
+            [this.questionForState[2].key]:
+              res["data"][0][this.questionForState[2].key],
+          };
         } else this.stateFcGrantDocuments = null;
       } else {
         if (res && res["data"] && res["data"].length) {

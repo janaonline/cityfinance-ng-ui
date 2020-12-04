@@ -110,13 +110,32 @@
   border-radius: 0px;
 }
 
-::ng-deep .mat-form-field-wrapper {
-  padding-bottom: 0px;
+:host {
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+    border-radius: 0px !important;
+    border: 0px !important;
+    padding-bottom: 0px !important;
+  }
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+    border-radius: 0px !important;
+    border: 0px !important;
+    padding-bottom: 0px !important;
+  }
+
+  ::ng-deep {
+    .mat-form-field-wrapper {
+      padding-bottom: 0px;
+    }
+  }
 }
 
-:ng-deep mat-form-field.mat-form-field {
-  line-height: 0.325;
-}
+// ::ng-deep .mat-form-field-wrapper {
+//   padding-bottom: 0px;
+// }
+
+// :ng-deep mat-form-field.mat-form-field {
+//   line-height: 0.325;
+// }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
