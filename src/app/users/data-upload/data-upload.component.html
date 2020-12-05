@@ -146,12 +146,7 @@
             </span>
           </div>
 
-          <div
-            class="view-list"
-            (click)="
-              onClickCharTakeAction('')
-            "
-          >
+          <div class="view-list" (click)="onClickCharTakeAction('')">
             View List
           </div>
         </div>
@@ -207,12 +202,7 @@
             </span>
           </div>
 
-          <div
-            class="view-list"
-            (click)="
-              onClickCharTakeAction('')
-            "
-          >
+          <div class="view-list" (click)="onClickCharTakeAction('')">
             View List
           </div>
         </div>
@@ -332,12 +322,7 @@
               </span>
             </div>
 
-            <div
-              class="view-list"
-              (click)="
-                onClickCharTakeAction('')
-              "
-            >
+            <div class="view-list" (click)="onClickCharTakeAction('')">
               View List
             </div>
           </div>
@@ -442,7 +427,7 @@
         </div>
       </div>
 
-      <div class="ulb-list">
+      <!-- <div class="ulb-list">
         <div *ngIf="stateFcGrantDocuments === undefined">
           <app-pre-loader></app-pre-loader>
           <app-pre-loader></app-pre-loader>
@@ -493,23 +478,7 @@
                 <tr [formGroup]="ulbFilter">
                   <td></td>
                   <td *ngIf="loggedInUserData.role !== userTypes.STATE">
-                    <!-- <div class="input-group">
-                      <select
-                        name="State"
-                        id="state"
-                        formControlName="stateName"
-                        class="form-control"
-                        placeholder="State"
-                      >
-                        <option value="" selected>All States</option>
-                        <option
-                          *ngFor="let state of stateList"
-                          [value]="state.name"
-                        >
-                          {{ state.name }}
-                        </option>
-                      </select>
-                    </div> -->
+               
                   </td>
                   <td></td>
                 </tr>
@@ -601,7 +570,7 @@
             </pagination-controls>
           </ng-container>
         </ng-container>
-      </div>
+      </div> -->
 
       <div class="ulb-list" id="ulb-list">
         <div class="col-md-12" style="padding-left: 0px">
