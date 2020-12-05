@@ -202,7 +202,7 @@
             </span>
           </div>
 
-          <div class="view-list" (click)="onClickCharTakeAction('')">
+          <div class="view-list" (click)="onClickCharTakeAction('', 'Yes')">
             View List
           </div>
         </div>
@@ -261,12 +261,7 @@
 
           <div
             class="view-list"
-            (click)="
-              onClickingOtherCards({
-                isMillionPlus: 'Non Million',
-                registration: 'Yes'
-              })
-            "
+            (click)="onClickCharTakeAction('', 'No')"
           >
             View List
           </div>
@@ -322,7 +317,15 @@
               </span>
             </div>
 
-            <div class="view-list" (click)="onClickCharTakeAction('')">
+            <div
+              class="view-list"
+              (click)="
+                onClickingOtherCards({
+                  isMillionPlus: 'Non Million',
+                  registration: ''
+                })
+              "
+            >
               View List
             </div>
           </div>
@@ -907,17 +910,20 @@
                     <option value="Town Panchayat">Town Panchayat</option>
                   </select>
                 </td>
+                <td>
+                  <select
+                    name="Type"
+                    id="population"
+                    class="form-control"
+                    placeholder="Population Type"
+                    [formControl]="populationTypeSearchFormControl"
+                  >
+                    <option value="" selected>Both</option>
+                    <option value="No">Non Million</option>
+                    <option value="Yes">Million Plus</option>
+                  </select>
+                </td>
 
-                <!-- <td *ngIf="userUtil.getUserType() != 'ULB'">
-                  <div class="input-group">
-                    <input
-                      placeholder="ULB Code"
-                      type="text"
-                      [formControl]="ulbCodeSearchFormControl"
-                      class="form-control"
-                    />
-                  </div>
-                </td> -->
                 <td>
                   <div class="input-group">
                     <input
