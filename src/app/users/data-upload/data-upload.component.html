@@ -128,7 +128,7 @@
                 class="category-heading category-value"
                 [ngClass]="{ 'loading-value': !cardData }"
               >
-                {{ cardData?.registeredUlb["Municipalities"] || 0 }}
+                {{ cardData?.registeredUlb["Municipality"] || 0 }}
               </span>
             </span>
             <span class="category">
@@ -146,17 +146,14 @@
             </span>
           </div>
 
-          <div
-            class="view-list"
-            (click)="onClickingOtherCards({ registration: 'Yes' })"
-          >
+          <div class="view-list" (click)="onClickCharTakeAction('')">
             View List
           </div>
         </div>
 
         <div class="card green">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">Million Plus Cities(Registered)</p>
+          <p class="heading">Million Plus Cities(Submitted)</p>
           <span
             class="card-main-value"
             [ngClass]="{ 'loading-value': !cardData }"
@@ -187,7 +184,7 @@
                 class="category-heading category-value"
                 [ngClass]="{ 'loading-value': !cardData }"
               >
-                {{ cardData?.registeredMillionPlus["Municipalities"] || 0 }}
+                {{ cardData?.registeredMillionPlus["Municipality"] || 0 }}
               </span>
             </span>
             <span class="category">
@@ -200,27 +197,19 @@
                 class="category-heading category-value"
                 [ngClass]="{ 'loading-value': !cardData }"
               >
-                {{ cardData?.registeredMillionPlus["Town Punchayat"] || 0 }}
+                {{ cardData?.registeredMillionPlus["Town Panchayat"] || 0 }}
               </span>
             </span>
           </div>
 
-          <div
-            class="view-list"
-            (click)="
-              onClickingOtherCards({
-                isMillionPlus: 'Milion Plus',
-                registration: 'Yes'
-              })
-            "
-          >
+          <div class="view-list" (click)="onClickCharTakeAction('')">
             View List
           </div>
         </div>
 
         <div class="card yellow">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">Non-Million Cities(Registered)</p>
+          <p class="heading">Non-Million Cities(Submitted)</p>
           <span
             class="card-main-value"
             [ngClass]="{ 'loading-value': !cardData }"
@@ -252,7 +241,7 @@
                 class="category-heading category-value"
                 [ngClass]="{ 'loading-value': !cardData }"
               >
-                {{ cardData?.registeredNonMillionPlus["Municipalities"] || 0 }}
+                {{ cardData?.registeredNonMillionPlus["Municipality"] || 0 }}
               </span>
             </span>
             <span class="category">
@@ -265,7 +254,7 @@
                 class="category-heading category-value"
                 [ngClass]="{ 'loading-value': !cardData }"
               >
-                {{ cardData?.registeredNonMillionPlus["Town Punchayat"] || 0 }}
+                {{ cardData?.registeredNonMillionPlus["Town Panchayat"] || 0 }}
               </span>
             </span>
           </div>
@@ -316,7 +305,7 @@
                 <span
                   class="category-heading category-value"
                   [ngClass]="{ 'loading-value': !cardData }"
-                  >{{ cardData?.totalMillionPlus["Municipalities"] || 0 }}</span
+                  >{{ cardData?.totalMillionPlus["Municipality"] || 0 }}</span
                 >
               </span>
               <span class="category">
@@ -328,20 +317,12 @@
                 <span
                   class="category-heading category-value"
                   [ngClass]="{ 'loading-value': !cardData }"
-                  >{{ cardData?.totalMillionPlus["Town Punchayat"] || 0 }}</span
+                  >{{ cardData?.totalMillionPlus["Town Panchayat"] || 0 }}</span
                 >
               </span>
             </div>
 
-            <div
-              class="view-list"
-              (click)="
-                onClickingOtherCards({
-                  isMillionPlus: 'Milion Plus',
-                  registration: ''
-                })
-              "
-            >
+            <div class="view-list" (click)="onClickCharTakeAction('')">
               View List
             </div>
           </div>
@@ -379,21 +360,21 @@
                   class="category-heading category-value"
                   [ngClass]="{ 'loading-value': !cardData }"
                   >{{
-                    cardData?.totalNonMillionPlus["Municipalities"] || 0
+                    cardData?.totalNonMillionPlus["Municipality"] || 0
                   }}</span
                 >
               </span>
               <span class="category">
                 <span class="category-heading"
                   >Town <br />
-                  Punchayat</span
+                  Panchayat</span
                 >
                 <br />
                 <span
                   class="category-heading category-value"
                   [ngClass]="{ 'loading-value': !cardData }"
                   >{{
-                    cardData?.totalNonMillionPlus["Town Punchayat"] || 0
+                    cardData?.totalNonMillionPlus["Town Panchayat"] || 0
                   }}</span
                 >
               </span>
@@ -446,7 +427,7 @@
         </div>
       </div>
 
-      <div class="ulb-list">
+      <!-- <div class="ulb-list">
         <div *ngIf="stateFcGrantDocuments === undefined">
           <app-pre-loader></app-pre-loader>
           <app-pre-loader></app-pre-loader>
@@ -497,23 +478,7 @@
                 <tr [formGroup]="ulbFilter">
                   <td></td>
                   <td *ngIf="loggedInUserData.role !== userTypes.STATE">
-                    <!-- <div class="input-group">
-                      <select
-                        name="State"
-                        id="state"
-                        formControlName="stateName"
-                        class="form-control"
-                        placeholder="State"
-                      >
-                        <option value="" selected>All States</option>
-                        <option
-                          *ngFor="let state of stateList"
-                          [value]="state.name"
-                        >
-                          {{ state.name }}
-                        </option>
-                      </select>
-                    </div> -->
+               
                   </td>
                   <td></td>
                 </tr>
@@ -605,7 +570,7 @@
             </pagination-controls>
           </ng-container>
         </ng-container>
-      </div>
+      </div> -->
 
       <div class="ulb-list" id="ulb-list">
         <div class="col-md-12" style="padding-left: 0px">
@@ -644,7 +609,7 @@
                 <th scope="Census Code">Census Code</th>
                 <th scope="ULB Code">ULB Code</th>
                 <th scope="Email Id">Email Id</th>
-                <th scope="Registered" style="width: 9%">Registered</th>
+                <th scope="Registered" style="width: 10%">Profile Updated</th>
                 <th scope="Type">Population Type</th>
               </tr>
             </thead>
