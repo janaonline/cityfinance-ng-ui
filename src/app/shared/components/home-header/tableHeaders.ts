@@ -316,6 +316,7 @@ export const ulbUploadList: ModalTableHeader[] = [
   { id: "stateName", click: true, title: "State Name", width: "14%" },
   { id: "ulbName", click: true, title: "ULB Name" },
   { id: "ulbType", click: true, title: "ULB Type" },
+  { id: "isMillionPlus", click: true, title: "Population Type" },
   // { id: "ulbCode", click: true, title: "ULB Code" },
   { id: "censusCode", click: true, title: "Census Code" },
   { id: "sbCode", click: true, title: "ULB Code", width: "17%" },

@@ -190,6 +190,7 @@ export class DataUploadComponent
   uploadStatusFormControl: FormControl = new FormControl("");
   ulbNameSearchFormControl: FormControl = new FormControl();
   ulbTypeSearchFormControl: FormControl = new FormControl("");
+  populationTypeSearchFormControl: FormControl = new FormControl("");
   ulbCodeSearchFormControl: FormControl = new FormControl();
   stateNameControl = new FormControl("");
   censusCode: FormControl = new FormControl();
@@ -413,7 +414,8 @@ export class DataUploadComponent
     element.scrollIntoView({ behavior: "smooth" });
   }
 
-  onClickCharTakeAction(something) {
+  onClickCharTakeAction(something, isMillionPlus?: "Yes" | "No") {
+    this.populationTypeSearchFormControl.setValue(isMillionPlus || "");
     this.uploadStatusFormControl.setValue(something);
     this.applyFilterClicked();
     this.scrollToElement("data-upload-tracker-list");
@@ -1192,6 +1194,7 @@ export class DataUploadComponent
           ? this.stateNameControl.value.trim()
           : "",
         ulbType: this.ulbTypeSearchFormControl.value,
+        isMillionPlus: this.populationTypeSearchFormControl.value,
       },
     };
     return {
