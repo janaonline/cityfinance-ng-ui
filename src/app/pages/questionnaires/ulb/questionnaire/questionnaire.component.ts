@@ -27,9 +27,7 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
     private _profileService: ProfileService,
     private router: Router,
     private _matDialog: MatDialog
-  ) {
-    console.log("ubl questionnaire");
-  }
+  ) {}
   @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
   @ViewChild("savingAsDraft") savingAsDraftPopup: TemplateRef<any>;
   draftSavingInProgess = false;
@@ -80,6 +78,7 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
   };
 
   saveAsDraftFailMessge: string;
+  isULBProfileCompleted: boolean;
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params) => {
@@ -91,10 +90,19 @@ export class ULBQuestionnaireComponent implements OnInit, OnDestroy {
 
         const id = params && params.ulbId ? params.ulbId : this.userData.ulb;
         this.currentULBId = id;
-        this.validateUserAccess({ ulbId: id });
+        this.checkULBProfileCompleteStatus();
       } catch (error) {
         console.error(error);
       }
+    });
+  }
+
+  checkULBProfileCompleteStatus() {
+    this._profileService.isULBProfileCompleted().subscribe((res) => {
+      console.log("isULBProfileCompleted", res);
+      this.isULBProfileCompleted = res;
+      if (!res) return;
+      this.validateUserAccess({ ulbId: this.currentULBId });
     });
   }
 

@@ -30,11 +30,34 @@ export const mobileNoValidator = (control: AbstractControl) => {
   return null;
 };
 
+export const CommisionormobileNoValidator = (control: AbstractControl) => {
+  const pattern = /^[6-9]\d{9}$/g;
+  if (!control.value || !control.value.trim()) {
+    return null;
+  }
+  if (!control.value.match(pattern)) {
+    return { pattern: false };
+  }
+  return null;
+};
+
 export const customEmailValidator = (control: AbstractControl) => {
   const pattern = /^.*\.[a-z]{2,3}/g;
   const email = false;
   if (!control.value || !control.value.trim()) {
     return { required: true };
+  }
+  if (!control.value.match(pattern)) {
+    return { email };
+  }
+  return null;
+};
+
+export const CommissionercustomEmailValidator = (control: AbstractControl) => {
+  const pattern = /^.*\.[a-z]{2,3}/g;
+  const email = false;
+  if (!control.value || !control.value.trim()) {
+    return null;
   }
   if (!control.value.match(pattern)) {
     return { email };

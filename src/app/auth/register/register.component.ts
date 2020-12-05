@@ -18,6 +18,28 @@ import { AuthService } from './../auth.service';
   styleUrls: ["./register.component.scss"],
 })
 export class RegisterComponent implements OnInit {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private _activatedRoute: ActivatedRoute,
+    private _coomonService: CommonService
+  ) {
+    this._activatedRoute.params.subscribe((param) => {
+      if (param.type.trim()) {
+        // this.registrationType = param.type;
+        this.registrationType = "user";
+        this.initializeForm();
+
+        this.authService.badCredentials.subscribe((res) => {
+          this.badCredentials = res;
+        });
+      } else {
+        this.registrationType = "user";
+        this.initializeForm();
+      }
+    });
+    this.fetchStateList();
+  }
   public registrationForm: FormGroup;
   public registrationType: "user" | "ulb";
   private formUtility = new FormUtil();
@@ -38,38 +60,20 @@ export class RegisterComponent implements OnInit {
     userGeneratedKey: null,
   };
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private _activatedRoute: ActivatedRoute,
-    private _coomonService: CommonService
-  ) {
-    this._activatedRoute.params.subscribe((param) => {
-      if (param.type) {
-        this.registrationType = param.type;
-      }
-    });
-    this.fetchStateList();
-  }
+  apiInProgress = false;
 
-  ngOnInit() {
-    this.initializeForm();
-
-    this.authService.badCredentials.subscribe((res) => {
-      this.badCredentials = res;
-    });
-  }
+  ngOnInit() {}
 
   canSubmitForm() {
     if (this.registrationType === "user") {
       return true;
     }
-    if (
-      !this.registrationForm ||
-      this.registrationForm.controls.commissionerName.disabled
-    ) {
-      return false;
-    }
+    // if (
+    //   !this.registrationForm ||
+    //   this.registrationForm.controls.commissionerName.disabled
+    // ) {
+    //   return false;
+    // }
 
     if (!this.reCaptcha.userGeneratedKey) {
       return false;
@@ -78,6 +82,7 @@ export class RegisterComponent implements OnInit {
   }
 
   signup(form: FormGroup) {
+    this.apiInProgress = false;
     let errors: string[];
     this.resetResponseMessage();
     const body = form.value;
@@ -94,8 +99,10 @@ export class RegisterComponent implements OnInit {
     if (errors) {
       return;
     }
+    this.apiInProgress = true;
     this.authService.signup(body).subscribe(
       (res) => {
+        this.apiInProgress = false;
         if (!res["success"]) {
           this.formError = [res["msg"]];
           return;
@@ -107,15 +114,28 @@ export class RegisterComponent implements OnInit {
             "User Registration successful. Kindly check your email for further information.";
         } else {
           this.respone.successMessage =
-            "ULB registered successfully. Kindly check your email for further information";
+            "ULB registered successfully. Please check your email for setting up password. Please check spam in case email is not found.";
         }
       },
       (err) => {
-        console.log(err);
+        this.apiInProgress = false;
+        console.error(err);
 
         this.respone.errorMessage = err.error.message || "Server Error";
       }
     );
+  }
+
+  onSelectionUserType(userTypeSelect: USER_TYPE) {
+    switch (userTypeSelect) {
+      case USER_TYPE.ULB:
+        return this.router.navigate(["../ulb"], {
+          relativeTo: this._activatedRoute,
+        });
+      // return (this.registrationType = "ulb");
+      default:
+        this.router.navigate(["../user"], { relativeTo: this._activatedRoute });
+    }
   }
 
   public GetFormControlErrors(controlName: string) {
@@ -174,7 +194,7 @@ export class RegisterComponent implements OnInit {
             return of(response);
           }
 
-          if (ulbFound.code !== code) {
+          if (ulbFound.censusCode !== code && ulbFound.sbCode !== code) {
             return of(response);
           }
           response.isValid = true;
@@ -187,7 +207,8 @@ export class RegisterComponent implements OnInit {
           this.registrationForm.enable({ emitEvent: false });
           this.isCheckingULBCode = false;
           if (!res.isValid) {
-            this.ulbCodeError = "ULB Code and Name does not match.";
+            this.ulbCodeError =
+              "Census Code/ULB Code and ULB Name does not match.";
             this.disableImportantULBFields(this.registrationForm);
             return;
           }
@@ -199,16 +220,17 @@ export class RegisterComponent implements OnInit {
   }
 
   private onGettingULBValidationError(err: HttpErrorResponse) {
-    this.ulbCodeError = err.error.msg || "ULB Code and Name does not match.";
+    this.ulbCodeError =
+      err.error.msg || "Census Code/ULB Code and ULB Name does not match.";
     this.registrationForm.enable({ emitEvent: false });
     this.disableImportantULBFields(this.registrationForm);
     this.isCheckingULBCode = false;
   }
 
   private disableImportantULBFields(form: FormGroup) {
-    form.controls.commissionerName.disable({ emitEvent: false });
-    form.controls.commissionerConatactNumber.disable({ emitEvent: false });
-    form.controls.commissionerEmail.disable({ emitEvent: false });
+    // form.controls.commissionerName.disable({ emitEvent: false });
+    // form.controls.commissionerConatactNumber.disable({ emitEvent: false });
+    // form.controls.commissionerEmail.disable({ emitEvent: false });
     form.controls.accountantName.disable({ emitEvent: false });
     form.controls.accountantConatactNumber.disable({ emitEvent: false });
     form.controls.accountantEmail.disable({ emitEvent: false });

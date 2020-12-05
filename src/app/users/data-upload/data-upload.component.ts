@@ -1,10 +1,16 @@
+import 'chartjs-plugin-labels';
+
 import { Location } from '@angular/common';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSlideToggleChange, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as Chart from 'chart.js';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { CommonService } from 'src/app/shared/services/common.service';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 import swal from 'sweetalert';
 
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
@@ -17,13 +23,26 @@ import { UPLOAD_STATUS } from '../../util/enums';
 import { FileUpload } from '../../util/fileUpload';
 import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
+import { SidebarUtil } from '../utils/sidebar.util';
+import { IFinancialData } from './models/financial-data.interface';
+import {
+  APPROVAL_COMPLETED,
+  REJECT_BY_MoHUA,
+  REJECT_BY_STATE,
+  SAVED_AS_DRAFT,
+  UNDER_REVIEW_BY_MoHUA,
+  UNDER_REVIEW_BY_STATE,
+} from './util/request-status';
+import { UploadDataUtility } from './util/upload-data.util';
 
 @Component({
   selector: "app-data-upload",
   templateUrl: "./data-upload.component.html",
   styleUrls: ["./data-upload.component.scss"],
 })
-export class DataUploadComponent implements OnInit, OnDestroy {
+export class DataUploadComponent
+  extends UploadDataUtility
+  implements OnInit, OnDestroy {
   constructor(
     public activatedRoute: ActivatedRoute,
     public router: Router,
@@ -35,8 +54,12 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     public userUtil: UserUtility,
     public fileUpload: FileUpload,
     private _snackBar: MatSnackBar,
-    public _matDialog: MatDialog
+    public _matDialog: MatDialog,
+    private _commonService: CommonService
   ) {
+    super();
+    SidebarUtil.hideSidebar();
+
     this.isAccessible = accessUtil.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.UPLOAD,
@@ -48,18 +71,53 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       }
       if (uploadId) {
         this.uploadId = uploadId;
+        this.getFinancialData();
+      } else {
+        this.fetchStateList();
+
+        this.fetchULBList();
+        this.fetchChartData();
+        this.fetchCardData();
       }
     });
+
     this.createForms();
     this.setTableHeaderByUserType();
     this.modalService.onHide.subscribe(() => (this.isPopupOpen = false));
+    this.initializeULBFormGroup();
+    if (this.loggedInUserData.role !== USER_TYPE.STATE) {
+    } else {
+      this.tableHeaders = this.tableHeaders.filter(
+        (header) => header.id !== "stateName"
+      );
+    }
   }
+  questionForState = [
+    {
+      question:
+        "Grant transfer certificate signed by Principal secretary/ secretary(UD)",
+      key: "grantTransferCertificate",
+    },
+    {
+      question:
+        "Utilization report signed by Principal secretary/ secretary (UD)",
+      key: "utilizationReport",
+    },
+    {
+      question:
+        "Letter signed by Principal secretary/ secretary (UD) confirming submission of service level benchmarks by all ULBs",
+      key: "serviceLevelBenchmarks",
+    },
+  ];
   @ViewChild("updateWithoutChangeWarning")
   updateWithoutChangeWarning: TemplateRef<any>;
 
   Object = Object;
 
+  ulbList: any[];
+
   uploadStatus = UPLOAD_STATUS;
+  userTypes = USER_TYPE;
   id = null;
   uploadId = null;
   uploadObject = null;
@@ -84,7 +142,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     "auditReport",
   ];
   fileFormGroup: FormGroup;
-  dataUploadList = [];
+  dataUploadList: Array<IFinancialData & { canTakeAction?: boolean }> = [];
   isAccessible: boolean;
   financialYearDropdownSettings: any = {
     singleSelection: true,
@@ -98,19 +156,17 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     singleSelection: true,
     text: "Status",
   };
+
+  UNDER_REVIEW_BY_STATE = UNDER_REVIEW_BY_STATE;
+  UNDER_REVIEW_BY_MoHUA = UNDER_REVIEW_BY_MoHUA;
+
   uploadCheckStatusDropDown: any = [
-    {
-      id: UPLOAD_STATUS.PENDING,
-      itemName: "Pending",
-    },
-    {
-      id: UPLOAD_STATUS.APPROVED,
-      itemName: "Approved",
-    },
-    {
-      id: UPLOAD_STATUS.REJECTED,
-      itemName: "Rejected",
-    },
+    SAVED_AS_DRAFT,
+    UNDER_REVIEW_BY_STATE,
+    UNDER_REVIEW_BY_MoHUA,
+    REJECT_BY_STATE,
+    REJECT_BY_MoHUA,
+    APPROVAL_COMPLETED,
   ];
 
   completenessStatus = UPLOAD_STATUS.PENDING;
@@ -133,7 +189,12 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   loading = false;
   uploadStatusFormControl: FormControl = new FormControl("");
   ulbNameSearchFormControl: FormControl = new FormControl();
+  ulbTypeSearchFormControl: FormControl = new FormControl("");
+  populationTypeSearchFormControl: FormControl = new FormControl("");
   ulbCodeSearchFormControl: FormControl = new FormControl();
+  stateNameControl = new FormControl("");
+  censusCode: FormControl = new FormControl();
+  sbCode: FormControl = new FormControl();
 
   rejectFields = {};
 
@@ -150,23 +211,452 @@ export class DataUploadComponent implements OnInit, OnDestroy {
 
   isPopupOpen = false;
 
+  stateList = [];
+
+  ulbtableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null,
+  };
+
+  stateDocumentstableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null,
+  };
+  ulbcurrentSort = 1;
+
+  ulblistFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0,
+  };
+
+  cardData: any;
+
+  defaultChartOptions = {
+    responsive: true,
+    legend: {
+      display: false,
+      position: "top",
+      labels: {
+        boxWidth: 2,
+      },
+    },
+
+    scales: {
+      yAxes: [
+        {
+          gridLines: {
+            color: "white",
+            drawBorder: false,
+            display: true,
+          },
+          ticks: {
+            beginAtZero: true,
+            stepSize: 1,
+          },
+        },
+      ],
+      xAxes: [
+        {
+          ticks: {
+            maxRotation: 0,
+            minRotation: 0,
+            autoSkip: false,
+            fontSize: 11,
+            padding: 5,
+          },
+          barPercentage: 0.5,
+          categoryPercentage: 1,
+          gridLines: {
+            color: "white",
+            drawBorder: false,
+            display: true,
+            offsetGridLines: false,
+          },
+        },
+      ],
+    },
+  };
+
+  ulbFilter: FormGroup;
+
+  showNotRegisteredULBsInChart = false;
+
+  chartData;
+
+  notRegisteredUlbBarData;
+
+  currentChart;
+
+  jsonUtil = new JSONUtility();
+
+  loggedInUserData = new UserUtility().getLoggedInUserDetails();
+
+  haveRequestToTakeAction = false;
+
+  stateFcGrantDocuments = null;
+
   ngOnInit() {
-    this.fetchFinancialYears();
+    this.getStateFcDocments();
+
+    if (this.loggedInUserData.role === USER_TYPE.STATE) {
+      return;
+    }
     if (!this.id) {
       this.getFinancialDataList(
         { skip: this.listFetchOption.skip, limit: 10 },
         this.listFetchOption
       );
     }
+
     if (this.uploadId) {
       this.getFinancialData();
+    } else {
+      if (this.userUtil.getUserType() === USER_TYPE.ULB) {
+        this.gettingULBDats();
+      }
     }
+  }
+
+  getStateFcDocments() {
+    this.financialDataService.getStateFCDocuments().subscribe((res) => {
+      if (this.loggedInUserData.role === this.userTypes.STATE) {
+        if (res && res["data"] && res["data"].length) {
+          this.stateFcGrantDocuments = {
+            [this.questionForState[0].key]:
+              res["data"][0][this.questionForState[0].key],
+            [this.questionForState[1].key]:
+              res["data"][0][this.questionForState[1].key],
+            [this.questionForState[2].key]:
+              res["data"][0][this.questionForState[2].key],
+          };
+        } else this.stateFcGrantDocuments = null;
+      } else {
+        if (res && res["data"] && res["data"].length) {
+          this.stateFcGrantDocuments = res["data"];
+        } else this.stateFcGrantDocuments = null;
+      }
+    });
+  }
+
+  filesToSaveForState(values) {
+    let body = {
+      [this.questionForState[0].key]: null,
+      [this.questionForState[1].key]: null,
+      [this.questionForState[2].key]: null,
+    };
+    body = { ...body, ...values };
+    this.financialDataService.saveStateFCDocuments(body).subscribe((res) => {
+      console.log(res);
+    });
+  }
+
+  onChangingShowULBInChart(event: MatSlideToggleChange) {
+    this.showNotRegisteredULBsInChart = event.checked;
+
+    const indexOfNoRegisteredULB = this.chartData.labels.findIndex(
+      (label) => label === "Not Registered"
+    );
+
+    const newChartData = this.jsonUtil.deepCopy(this.chartData);
+
+    if (!event.checked) {
+      newChartData.labels = this.chartData.labels.filter(
+        (label, index) => index !== indexOfNoRegisteredULB
+      );
+      newChartData.datasets[0].data = this.chartData.datasets[0].data.filter(
+        (label, index) => index !== indexOfNoRegisteredULB
+      );
+      newChartData.datasets[0].backgroundColor = this.chartData.datasets[0].backgroundColor.filter(
+        (label, index) => index !== indexOfNoRegisteredULB
+      );
+    }
+
+    this.createChart(newChartData);
+  }
+
+  onclickTotalNoOfULB() {
+    const stateName =
+      this.loggedInUserData.role === USER_TYPE.STATE
+        ? this.ulbFilter.value.stateName
+        : "";
+    this.ulbFilter.reset({
+      stateName,
+      isMillionPlus: "",
+      registration: "",
+      ulbType: "",
+    });
+    this.scrollToElement("ulb-list");
+  }
+
+  onClickingOtherCards(body) {
+    const stateName =
+      this.loggedInUserData.role === USER_TYPE.STATE
+        ? this.ulbFilter.value.stateName
+        : "";
+    if (!body) body = { stateName };
+    body = {
+      isMillionPlus: "",
+      registration: "",
+      ulbType: "",
+      ...body,
+      stateName,
+    };
+    this.ulbFilter.reset({ ...body });
+    this.scrollToElement("ulb-list");
+  }
+
+  scrollToElement(elementId: string) {
+    const element = document.getElementById(`${elementId}`);
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+
+  onClickCharTakeAction(something, isMillionPlus?: "Yes" | "No") {
+    this.populationTypeSearchFormControl.setValue(isMillionPlus || "");
+    this.uploadStatusFormControl.setValue(something);
+    this.applyFilterClicked();
+    this.scrollToElement("data-upload-tracker-list");
+  }
+
+  initializeULBFormGroup() {
+    this.ulbFilter = this.formBuilder.group({
+      ulbName: [],
+      stateName: [""],
+      ulbType: [""],
+      censusCode: [],
+      sbCode: [],
+      email: [],
+      mobile: [],
+      isMillionPlus: [""],
+      registration: [""],
+    });
+
+    this.ulbFilter.valueChanges
+      .pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe((newValue) => {
+        if (this.uploadId) return;
+        this.ulblistFetchOption.skip = 0;
+        this.ulbtableDefaultOptions.currentPage = 1;
+        this.fetchULBList(newValue);
+      });
+  }
+
+  fetchChartData() {
+    this._commonService.fetchDashboardChartData().subscribe((res) => {
+      this.chartData = res["data"];
+      let textToTakeAction;
+      switch (this.loggedInUserData.role) {
+        case USER_TYPE.STATE: {
+          textToTakeAction = "Under Review By State";
+          break;
+        }
+        case USER_TYPE.MoHUA: {
+          textToTakeAction = "Under Review By MoHUA";
+          break;
+        }
+      }
+      if (textToTakeAction) {
+        const indexOfSearchText = this.chartData.labels.findIndex(
+          (label) => label === textToTakeAction
+        );
+        this.haveRequestToTakeAction =
+          this.chartData.datasets[0].data[indexOfSearchText] > 0;
+        this.chartData.datasets[0].backgroundColor[indexOfSearchText] = "red";
+      }
+      this.chartData.labels = this.chartData.labels.map((text: string) =>
+        !text.includes("By")
+          ? text
+          : [text.split("By")[0] + "By", text.split("By")[1]]
+      );
+
+      this.onChangingShowULBInChart({ checked: false, source: null });
+    });
+  }
+
+  createChart(chartData) {
+    if (this.currentChart) {
+      this.currentChart.destroy();
+    }
+
+    chartData.type = "bar";
+    const canvasElement = document.getElementById(
+      `canvas`
+    ) as HTMLCanvasElement;
+
+    if (!canvasElement) return;
+
+    switch (this.loggedInUserData.role) {
+      case USER_TYPE.STATE: {
+        break;
+      }
+      case USER_TYPE.MoHUA: {
+        break;
+      }
+    }
+
+    const ctx = canvasElement.getContext("2d");
+    let maxValue;
+    chartData.datasets[0].data.forEach((value) => {
+      if (maxValue === undefined || maxValue === null) maxValue = value;
+      if (value > maxValue) maxValue = value;
+    });
+    console.log(chartData);
+    console.log("maxValue", maxValue);
+
+    if (maxValue < 3) maxValue = 3;
+    this.defaultChartOptions.scales.yAxes[0].ticks["max"] = maxValue + 2;
+
+    this.currentChart = new Chart(ctx, {
+      type: "bar",
+      data: { ...chartData },
+      options: {
+        ...this.defaultChartOptions,
+
+        plugins: {
+          labels: {
+            position: "border",
+            fontColor: (data) => {
+              // if (data.dataset.backgroundColor[data.index]) {
+              //   const rgb = this.hexToRgb(
+              //     data.dataset.backgroundColor[data.index]
+              //   );
+              //   const threshold = 140;
+              //   const luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
+              //   return luminance > threshold ? "black" : "white";
+              // }
+              return "grey";
+            },
+            render: (args) => {
+              return args.value;
+              // console.log("args", args);
+              // if (args.value > 4) {
+              //   return args.value + "%";
+              // }
+            },
+          },
+        },
+      },
+      plugins: [
+        {
+          beforeInit: function (chart) {
+            chart.data.labels.forEach(function (e, i, a) {
+              if (/\n/.test(e)) {
+                a[i] = e.split(/\n/);
+              }
+            });
+          },
+        },
+      ],
+    });
+  }
+
+  hexToRgb(colorString) {
+    const result = colorString
+      .substring(colorString.indexOf("(") + 1, colorString.lastIndexOf(")"))
+      .split(/,\s*/);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
+      : null;
+  }
+
+  fetchCardData() {
+    this._commonService.fetchDashboardCardData().subscribe((res) => {
+      this.cardData = res["data"];
+      this.cardData.totalULB.sum =
+        this.cardData.totalULB["Municipal Corporation"] +
+        this.cardData.totalULB["Municipality"] +
+        this.cardData.totalULB["Town Panchayat"];
+
+      this.cardData.registeredMillionPlus.sum =
+        this.cardData.registeredMillionPlus["Municipal Corporation"] +
+        this.cardData.registeredMillionPlus["Municipality"] +
+        this.cardData.registeredMillionPlus["Town Panchayat"];
+
+      this.cardData.registeredNonMillionPlus.sum =
+        this.cardData.registeredNonMillionPlus["Municipal Corporation"] +
+        this.cardData.registeredNonMillionPlus["Municipality"] +
+        this.cardData.registeredNonMillionPlus["Town Panchayat"];
+
+      this.cardData.registeredUlb.sum =
+        this.cardData.registeredUlb["Municipal Corporation"] +
+        this.cardData.registeredUlb["Municipality"] +
+        this.cardData.registeredUlb["Town Panchayat"];
+
+      this.cardData.totalMillionPlus.sum =
+        this.cardData.totalMillionPlus["Municipal Corporation"] +
+        this.cardData.totalMillionPlus["Municipality"] +
+        this.cardData.totalMillionPlus["Town Panchayat"];
+
+      this.cardData.totalNonMillionPlus.sum =
+        this.cardData.totalNonMillionPlus["Municipal Corporation"] +
+        this.cardData.totalNonMillionPlus["Municipality"] +
+        this.cardData.totalNonMillionPlus["Town Panchayat"];
+    });
+  }
+
+  private fetchULBList(params = {}) {
+    this.ulbList = undefined;
+    const { skip } = this.ulblistFetchOption;
+    const newParams = {
+      skip,
+      limit: 10,
+      ...params,
+    };
+    this._commonService.fetchULBList(newParams).subscribe((res) => {
+      this.ulbList = res["data"];
+      if ("total" in res) {
+        this.ulbtableDefaultOptions = {
+          ...this.ulbtableDefaultOptions,
+          totalCount: res["total"] || 0,
+        };
+      }
+    });
+  }
+
+  private gettingULBDats(params = {}, body = {}) {
+    this.loading = true;
+    const { skip } = this.listFetchOption;
+    const newParams = {
+      skip,
+      limit: 10,
+      ...params,
+    };
+    this.financialDataService
+      .fetchFinancialDataList(newParams, body)
+      .subscribe((res) => {
+        if (res["data"] && res["data"].length) {
+          this.router.navigate([
+            "/user/data-upload/upload-form",
+            res["data"][0]._id,
+          ]);
+        }
+      });
   }
 
   getFinancialData() {
     this.financialDataService
       .fetFinancialData(this.uploadId)
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
+  }
+
+  private fetchStateList() {
+    this._commonService.getStateUlbCovered().subscribe((res) => {
+      if (this.loggedInUserData.role === USER_TYPE.STATE) {
+        this.stateList = res.data.filter(
+          (state) => state._id === this.loggedInUserData.state
+        );
+        this.ulbFilter.controls.stateName.patchValue(this.stateList[0].name);
+        this.stateNameControl.patchValue(this.stateList[0].name);
+        this.applyFilterClicked();
+      } else this.stateList = res.data;
+    });
   }
 
   getFinancialDataList(params = {}, body = {}) {
@@ -182,15 +672,64 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
-  handleResponseSuccess = (response) => {
+  private formatResponse(req: IFinancialData, history = false) {
+    if (!req.isCompleted) {
+      return {
+        ...req,
+        customStatusText: SAVED_AS_DRAFT.itemName,
+        canTakeAction: this.canTakeAction(req),
+      };
+    }
+
+    let customStatusText;
+    switch (req.actionTakenByUserRole) {
+      case USER_TYPE.ULB:
+        customStatusText = history
+          ? "Submitted By ULB"
+          : UNDER_REVIEW_BY_STATE.itemName;
+        break;
+      case USER_TYPE.STATE:
+        if (req.status === UPLOAD_STATUS.REJECTED) {
+          customStatusText = REJECT_BY_STATE.itemName;
+        } else {
+          customStatusText = history
+            ? "Approved by STATE"
+            : UNDER_REVIEW_BY_MoHUA.itemName;
+        }
+
+        break;
+      case USER_TYPE.MoHUA:
+        if (req.status === UPLOAD_STATUS.REJECTED) {
+          customStatusText = REJECT_BY_MoHUA.itemName;
+        } else {
+          customStatusText = APPROVAL_COMPLETED.itemName;
+        }
+        break;
+      default:
+        customStatusText = "N/A";
+    }
+
+    return {
+      ...req,
+      customStatusText,
+      canTakeAction: this.canTakeAction(req),
+    };
+  }
+
+  handleResponseSuccess = (response: any) => {
+    this.canTakeAction();
     if (this.uploadId) {
       this.uploadObject = response.data;
 
-      this.setRejectedFields(this.uploadObject);
+      if (this.uploadObject) {
+        this.setRejectedFields(this.uploadObject);
 
-      this.updateFormControls();
+        this.updateFormControls();
+      }
     } else {
-      this.dataUploadList = response.data;
+      this.dataUploadList = response.data.map((req: IFinancialData) =>
+        this.formatResponse(req)
+      );
       if ("total" in response) {
         this.tableDefaultOptions = {
           ...this.tableDefaultOptions,
@@ -434,29 +973,29 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       ...this.auditStatusDropdownSettings,
       disabled: true,
     };
-    this.fileFormGroupKeys.forEach((formGroupKey) => {
-      const formGroupDataObject = this.uploadObject[formGroupKey];
-      const formGroupItem = this.fileFormGroup.get([formGroupKey]);
-      formGroupItem.get("message").setValue(formGroupDataObject["message"]);
-      const { excelUrl, pdfUrl } = formGroupDataObject;
-      formGroupItem.get("pdfUrl").setValue(pdfUrl);
-      formGroupItem.get("excelUrl").setValue(excelUrl);
-      const { completeness, correctness } = formGroupDataObject;
-      if (status === UPLOAD_STATUS.REJECTED) {
-        if (
-          completeness === UPLOAD_STATUS.REJECTED ||
-          completeness === UPLOAD_STATUS.NA ||
-          correctness === UPLOAD_STATUS.REJECTED ||
-          correctness === UPLOAD_STATUS.NA
-        ) {
-          formGroupItem.enable();
-        } else {
-          this.disableFormGroups(formGroupItem, formGroupDataObject);
-        }
-      } else {
-        this.disableFormGroups(formGroupItem, formGroupDataObject);
-      }
-    });
+    // this.fileFormGroupKeys.forEach((formGroupKey) => {
+    //   const formGroupDataObject = this.uploadObject[formGroupKey];
+    //   const formGroupItem = this.fileFormGroup.get([formGroupKey]);
+    //   formGroupItem.get("message").setValue(formGroupDataObject["message"]);
+    //   const { excelUrl, pdfUrl } = formGroupDataObject;
+    //   formGroupItem.get("pdfUrl").setValue(pdfUrl);
+    //   formGroupItem.get("excelUrl").setValue(excelUrl);
+    //   const { completeness, correctness } = formGroupDataObject;
+    //   if (status === UPLOAD_STATUS.REJECTED) {
+    //     if (
+    //       completeness === UPLOAD_STATUS.REJECTED ||
+    //       completeness === UPLOAD_STATUS.NA ||
+    //       correctness === UPLOAD_STATUS.REJECTED ||
+    //       correctness === UPLOAD_STATUS.NA
+    //     ) {
+    //       formGroupItem.enable();
+    //     } else {
+    //       this.disableFormGroups(formGroupItem, formGroupDataObject);
+    //     }
+    //   } else {
+    //     this.disableFormGroups(formGroupItem, formGroupDataObject);
+    //   }
+    // });
   }
 
   disableFormGroups(formGroupItem, formGroupDataObject) {
@@ -587,7 +1126,6 @@ export class DataUploadComponent implements OnInit, OnDestroy {
         : this.uploadObject[key].excelUrl;
     });
 
-    console.log({ urlObject });
     this.financialDataService
       .upDateFinancialData(this.uploadId, urlObject)
       .subscribe(
@@ -640,12 +1178,23 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     const filterObject = {
       filter: {
         [filterKeys[0]]: this.fileFormGroup.get(filterKeys[0]).value,
-        ulbName: this.ulbNameSearchFormControl.value,
-        ulbCode: this.ulbCodeSearchFormControl.value,
+        ulbName: this.ulbNameSearchFormControl.value
+          ? this.ulbNameSearchFormControl.value.trim()
+          : "",
+        ulbCode: this.ulbCodeSearchFormControl.value
+          ? this.ulbCodeSearchFormControl.value.trim()
+          : "",
         audited: this.fileFormGroup.get(filterKeys[1]).value.length
           ? this.fileFormGroup.get(filterKeys[1]).value == "true"
           : "",
+        censusCode: this.censusCode.value ? this.censusCode.value.trim() : "",
+        sbCode: this.sbCode.value ? this.sbCode.value.trim() : "",
         status: this.uploadStatusFormControl.value,
+        stateName: this.stateNameControl.value
+          ? this.stateNameControl.value.trim()
+          : "",
+        ulbType: this.ulbTypeSearchFormControl.value,
+        isMillionPlus: this.populationTypeSearchFormControl.value,
       },
     };
     return {
@@ -657,8 +1206,11 @@ export class DataUploadComponent implements OnInit, OnDestroy {
 
   applyFilterClicked() {
     this.loading = true;
+    this.listFetchOption.skip = 0;
+    this.tableDefaultOptions.currentPage = 1;
     this.listFetchOption = this.setLIstFetchOptions();
     const { skip } = this.listFetchOption;
+
     this.financialDataService
       .fetchFinancialDataList({ skip, limit: 10 }, this.listFetchOption)
       .subscribe(
@@ -678,12 +1230,42 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       );
   }
 
+  ulbapplyFilterClicked() {
+    this.ulbList = undefined;
+    this.ulblistFetchOption = this.setLIstFetchOptions();
+    const { skip } = this.ulblistFetchOption;
+    this.financialDataService
+      .fetchFinancialDataList({ skip, limit: 10 }, this.ulblistFetchOption)
+      .subscribe(
+        (result) => {
+          this.handleResponseSuccess(result);
+        },
+        (response: HttpErrorResponse) => {
+          this._snackBar.open(
+            response.error.errors.message ||
+              response.error.message ||
+              "Some Error Occurred",
+            null,
+            { duration: 6600 }
+          );
+        }
+      );
+  }
+
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     const { skip } = this.listFetchOption;
     this.getFinancialDataList({ skip, limit: 10 }, this.listFetchOption);
+  }
+
+  setulbPage(pageNoClick: number) {
+    this.ulbtableDefaultOptions.currentPage = pageNoClick;
+    this.ulblistFetchOption.skip =
+      (pageNoClick - 1) * this.ulbtableDefaultOptions.itemPerPage;
+    const { skip } = this.ulblistFetchOption;
+    this.fetchULBList({ ...this.ulbFilter.value });
   }
 
   sortById(id: string) {
@@ -757,7 +1339,9 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     this.financialDataService.fetchFinancialDataHistory(row._id).subscribe(
       (result: HttpResponse<any>) => {
         if (result["success"]) {
-          this.modalTableData = result["data"];
+          this.modalTableData = result["data"].map((data) =>
+            this.formatResponse(data, true)
+          );
           this.modalTableData = this.modalTableData
             .filter((row) => typeof row["actionTakenBy"] != "string")
             .reverse();
@@ -787,6 +1371,12 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     const url = this.financialDataService.getFinancialDataListApi(
       filterOptions
     );
+    return window.open(url);
+  }
+
+  downloadULBList() {
+    const filterOptions = { filter: { ...this.ulbFilter.value }, csv: true };
+    const url = this._commonService.getULBListApi(filterOptions);
     return window.open(url);
   }
 

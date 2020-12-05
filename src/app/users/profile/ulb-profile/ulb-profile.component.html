@@ -6,19 +6,17 @@
   >
     Back
   </button>
-  <h1 *ngIf="profileData">
+  <h3 *ngIf="profileData" style="width: 100%">
     <span *ngIf="profile.disabled">View</span>
     <span *ngIf="profile.enabled">Edit</span>
     Profile
-  </h1>
+  </h3>
   <div *ngIf="profileData && profileData.status === SIGNUP_STATUS.REJECTED">
     <p class="error-message">
       Reason for Rejection: {{ profileData.rejectReason }}
     </p>
   </div>
-  <h1 *ngIf="!profileData">
-    Create ULB
-  </h1>
+  <h1 *ngIf="!profileData">Create ULB</h1>
   <!-- <h1>{{ profileData ? "Edit Profile" : "Create ULB" }}</h1> -->
 
   <form [formGroup]="profile" *ngIf="profile" (ngSubmit)="submitForm(profile)">
@@ -38,7 +36,7 @@
       />
     </div>
 
-    <div formGroupName="ulb" style="display: inline;">
+    <div formGroupName="ulb" style="display: inline">
       <div class="input-group" formGroupName="ulbType">
         <label for="type"
           >ULB Type
@@ -62,18 +60,34 @@
     </div>
 
     <div class="input-group" formGroupName="ulb">
-      <label for="code"
-        >ULB Code
+      <label for="code">
+        Census Code
         <span class="asterik">*</span>
       </label>
       <input
         id="code"
         type="text"
-        formControlName="code"
+        formControlName="censusCode"
         class="form-control"
         [ngClass]="{
           'is-invalid':
-            formSubmitted && profile.controls.ulb.controls.code.errors
+            formSubmitted && profile.controls.ulb.controls.censusCode.errors
+        }"
+      />
+    </div>
+    <div class="input-group" formGroupName="ulb">
+      <label for="sbCode"
+        >ULB Code
+        <span class="asterik">*</span>
+      </label>
+      <input
+        id="sbCode"
+        type="text"
+        formControlName="sbCode"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid':
+            formSubmitted && profile.controls.ulb.controls.sbCode.errors
         }"
       />
     </div>
@@ -178,8 +192,7 @@
     <div class="d-flex flex-wrap">
       <div class="input-group">
         <label for="commisionerName"
-          >Commisioner Name
-          <span class="asterik">*</span>
+          >Municipal Commissioner/Executive Officer Name
         </label>
         <input
           id="commisionerName"
@@ -194,7 +207,7 @@
           *ngIf="profile?.controls.commissionerName?.errors as comError"
           class="form-field-error-message"
         >
-          Commisioner Name
+          Municipal Commissioner/Executive Officer Name
           <span *ngIf="comError?.required"> cannot be empty </span>
           <span *ngIf="comError?.pattern">
             must be of only Alphabet characters only and 1st letter must be
@@ -205,8 +218,7 @@
 
       <div class="input-group">
         <label for="commisionerEmailID"
-          >Commisioner Email ID
-          <span class="asterik">*</span>
+          >Municipal Commissioner/Executive Officer Email ID
         </label>
         <input
           id="commisionerEmailID"
@@ -221,7 +233,7 @@
           *ngIf="profile?.controls.commissionerEmail?.errors as comEmailError"
           class="form-field-error-message"
         >
-          Commisioner Email ID
+          Municipal Commissioner/Executive Officer Email ID
           <span *ngIf="comEmailError?.required"> cannot be empty </span>
           <span *ngIf="comEmailError?.email === false">
             is not a valid email id.
@@ -231,8 +243,7 @@
 
       <div class="input-group">
         <label for="commisionerContactNo"
-          >Commisioner Contact No
-          <span class="asterik">*</span>
+          >Municipal Commissioner/Executive Officer Contact No
         </label>
         <input
           id="commisionerContactNo"
@@ -258,7 +269,7 @@
     <div class="d-flex flex-wrap">
       <div class="input-group">
         <label for="accountantName"
-          >Accountant Name
+          >XV FC Nodal Officer Name
           <span class="asterik">*</span>
         </label>
         <input
@@ -267,14 +278,19 @@
           formControlName="accountantName"
           class="form-control"
           [ngClass]="{
-            'is-invalid': profile?.controls.accountantName.errors
+            'is-invalid':
+              (profile?.controls.accountantName.touched || formErrorMessage) &&
+              profile?.controls.accountantName.errors
           }"
         />
         <small
-          *ngIf="profile?.controls.accountantName.errors as nameError"
+          *ngIf="
+            (profile?.controls.accountantName.touched || formErrorMessage) &&
+            profile?.controls.accountantName.errors as nameError
+          "
           class="form-field-error-message"
         >
-          Accountant Name
+          XV FC Nodal Officer Name
           <span *ngIf="nameError?.required"> cannot be empty </span>
           <span *ngIf="nameError?.pattern">
             must be of only Alphabet characters only and 1st letter must be
@@ -285,7 +301,7 @@
 
       <div class="input-group">
         <label for="accountantEmailID"
-          >Accountant Email ID
+          >XV FC Nodal Officer Email ID
           <span class="asterik">*</span>
         </label>
         <input
@@ -294,14 +310,19 @@
           formControlName="accountantEmail"
           class="form-control"
           [ngClass]="{
-            'is-invalid': profile?.controls.accountantEmail.errors
+            'is-invalid':
+              (profile?.controls.accountantEmail.touched || formErrorMessage) &&
+              profile?.controls.accountantEmail.errors
           }"
         />
         <small
-          *ngIf="profile?.controls.accountantEmail.errors as EmailError"
+          *ngIf="
+            (profile?.controls.accountantEmail.touched || formErrorMessage) &&
+            profile?.controls.accountantEmail.errors as EmailError
+          "
           class="form-field-error-message"
         >
-          Accountant Email ID
+          XV FC Nodal Officer Email ID
           <span *ngIf="EmailError?.required"> cannot be empty </span>
           <span *ngIf="EmailError?.email === false">
             is not a valid email id.
@@ -311,7 +332,7 @@
 
       <div class="input-group">
         <label for="accountantContactNo"
-          >Accountant Contact No
+          >XV FC Nodal Officer Contact No
           <span class="asterik">*</span>
         </label>
         <input
@@ -320,11 +341,16 @@
           formControlName="accountantConatactNumber"
           class="form-control"
           [ngClass]="{
-            'is-invalid': profile?.controls.accountantConatactNumber.errors
+            'is-invalid':
+              (profile?.controls.accountantConatactNumber.touched ||
+                formErrorMessage) &&
+              profile?.controls.accountantConatactNumber.errors
           }"
         />
         <small
           *ngIf="
+            (profile?.controls.accountantConatactNumber.touched ||
+              formErrorMessage) &&
             profile?.controls.accountantConatactNumber.errors as ContactError
           "
           class="form-field-error-message"
@@ -334,11 +360,11 @@
       </div>
     </div>
 
-    <p *ngIf="formErrorMessage" style="display: block; color: red;">
+    <!-- <p *ngIf="formErrorMessage" style="display: block; color: red">
       <span *ngFor="let error of formErrorMessage; let i = index">
         {{ i + 1 }}. {{ error }}
       </span>
-    </p>
+    </p> -->
 
     <p *ngIf="respone.errorMessage" class="error-message">
       {{ respone.errorMessage }}
@@ -347,25 +373,35 @@
       {{ respone.successMessage }}
     </p>
 
-    <div class="input-group" *ngIf="profile.disabled && canSubmitForm">
+    <div *ngIf="profile.disabled && canSubmitForm" class="mt-2">
       <button
+        [disabled]="apiInProgress"
         type="button"
         class="btn btn-primary"
         (click)="enableProfileEdit()"
       >
         Edit
       </button>
+      <button
+        *ngIf="loggedInUserType === USER_TYPE.ULB"
+        class="btn btn-primary"
+        style="float: right; margin-right: 3%"
+        (click)="onClickingChangePassword($event)"
+      >
+        Change Password
+      </button>
     </div>
 
     <div *ngIf="profile.enabled && canSubmitForm" class="mt-2">
       <button type="submit" class="btn btn-primary mr-2">Update Profile</button>
-      <!-- <button
-        type="button"
-        class="btn btn-primary"
-        (click)="disableProfileEdit()"
+      <button
+        *ngIf="loggedInUserType === USER_TYPE.ULB"
+        class="btn btn-primary mr-2"
+        style="float: right"
+        (click)="onClickingChangePassword($event)"
       >
-        Cancel
-      </button> -->
+        Change Password
+      </button>
     </div>
 
     <div *ngIf="profileData.status === 'PENDING'" class="mt-2">
@@ -394,7 +430,7 @@
 
 <ng-template #rejectSignupPopup>
   <div class="">
-    <h3 style="margin: 3% auto; text-align: center;">
+    <h3 style="margin: 3% auto; text-align: center">
       Reason for Signup Rejection
     </h3>
 
@@ -406,7 +442,7 @@
     ></textarea>
 
     <div
-      style="display: flex; width: 100%; justify-content: center;"
+      style="display: flex; width: 100%; justify-content: center"
       class="mt-4"
     >
       <button
@@ -418,7 +454,7 @@
             rejectReason: SignupRejectReason.value
           }) || SignupRejectReason.setValue(null)
         "
-        style="margin-right: 2%;"
+        style="margin-right: 2%"
         [disabled]="!SignupRejectReason.valid"
       >
         Confirm Rejection

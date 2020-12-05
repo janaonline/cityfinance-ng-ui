@@ -48,8 +48,15 @@ export class BasicComponent implements OnInit, OnDestroy {
     .currencryConversionInUse.type;
 
   defaultDailogConfiuration: IDialogConfiguration = {
-    message: "You need to be Login to download the data.",
+    message:
+      "<p class='text-center'>You need to be Login to download the data.</p>",
     buttons: {
+      signup: {
+        text: "Signup",
+        callback: () => {
+          this.router.navigate(["register/user"]);
+        },
+      },
       confirm: {
         text: "Proceed to Login",
         callback: () => {
@@ -295,6 +302,7 @@ export class BasicComponent implements OnInit, OnDestroy {
     if (!isUserLoggedIn) {
       const dailogboxx = this._dialog.open(DialogComponent, {
         data: this.defaultDailogConfiuration,
+        width: "28vw",
       });
       return;
     }

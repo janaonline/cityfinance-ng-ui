@@ -1,6 +1,7 @@
 import { Component, ElementRef, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { UserProfile } from 'src/app/users/profile/model/user-profile';
+import { Login_Logout } from 'src/app/util/logout.util';
 import { UserUtility } from 'src/app/util/user/user';
 
 import { ACTIONS } from '../../../../app/util/access/actions';
@@ -13,9 +14,73 @@ import { AnalyticsTabs, IAnalyticsTabs } from './tabs';
 @Component({
   selector: "app-home-header",
   templateUrl: "./home-header.component.html",
-  styleUrls: ["./home-header.component.scss"]
+  styleUrls: ["./home-header.component.scss"],
 })
 export class HomeHeaderComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private _elementRef: ElementRef,
+    private renderer: Renderer2,
+    private _ngZone: NgZone
+  ) {
+    Object.values(AnalyticsTabs).forEach((tab) => {
+      this.tabs.push(tab);
+    });
+    this.initializeAccessChecking();
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.isAnalyticsPageActive = event.url.includes(`analytics`);
+
+        if (event.url.includes(`/borrowings/credit-rating`)) {
+          this.isCreditRatingActive = true;
+          this.isMunicipalBondActive = false;
+          this.isResourceTabActive = false;
+          this.isFcGrantPageActive = false;
+          this.isQuestionnaireActive = false;
+        } else if (event.url.includes(`municipal-bond`)) {
+          this.isMunicipalBondActive = true;
+          this.isResourceTabActive = false;
+          this.isFcGrantPageActive = false;
+          this.isQuestionnaireActive = false;
+
+          this.isCreditRatingActive = false;
+        } else if (event.url.includes(`resources`)) {
+          this.isResourceTabActive = true;
+          this.isFcGrantPageActive = false;
+          this.isCreditRatingActive = false;
+          this.isMunicipalBondActive = false;
+          this.isQuestionnaireActive = false;
+        } else if (event.url.includes(`data-upload`)) {
+          this.isFcGrantPageActive = true;
+          this.isCreditRatingActive = false;
+          this.isMunicipalBondActive = false;
+          this.isResourceTabActive = false;
+          this.isQuestionnaireActive = false;
+        } else if (event.url.includes(`questionnaires`)) {
+          this.isQuestionnaireActive = true;
+          this.isFcGrantPageActive = false;
+          this.isCreditRatingActive = false;
+          this.isMunicipalBondActive = false;
+          this.isResourceTabActive = false;
+        } else {
+          this.isFcGrantPageActive = false;
+          this.isCreditRatingActive = false;
+          this.isMunicipalBondActive = false;
+          this.isResourceTabActive = false;
+          this.isQuestionnaireActive = false;
+        }
+      }
+      this.isLoggedIn = this.authService.loggedIn();
+      this.user = this.isLoggedIn ? this.user : null;
+
+      this.initializeAccessChecking();
+
+      if (this.isLoggedIn) {
+        this.user = this.authService.decodeToken();
+      }
+    });
+  }
   isProduction: boolean;
 
   userUtil = new UserUtility();
@@ -41,104 +106,87 @@ export class HomeHeaderComponent implements OnInit {
 
   isMunicipalBondActive = false;
   isCreditRatingActive = false;
+  isResourceTabActive = false;
+  isFcGrantPageActive = false;
+  isQuestionnaireActive = false;
   private accessChecker = new AccessChecker();
 
   isAnalyticsPageActive = false;
 
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-    private _elementRef: ElementRef,
-    private renderer: Renderer2,
-    private _ngZone: NgZone
-  ) {
-    Object.values(AnalyticsTabs).forEach(tab => {
-      this.tabs.push(tab);
-    });
-    this.initializeAccessChecking();
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.isAnalyticsPageActive = event.url.includes(`analytics`);
+  canViewFcGRantModule = false;
 
-        if (event.url.includes(`/borrowings/credit-rating`)) {
-          this.isCreditRatingActive = true;
-        } else if (event.url.includes(`municipal-bond`)) {
-          this.isMunicipalBondActive = true;
-        } else {
-          this.isCreditRatingActive = false;
-          this.isMunicipalBondActive = false;
-        }
-      }
-      this.isLoggedIn = this.authService.loggedIn();
-      this.user = this.isLoggedIn ? this.user : null;
-
-      this.initializeAccessChecking();
-
-      if (this.isLoggedIn) {
-        this.user = this.authService.decodeToken();
-      }
-    });
-  }
+  private resetActiveClass(exccept?: string) {}
 
   private initializeAccessChecking() {
     this.canViewUploadData = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canEditOwnProfile = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.SELF_PROFILE,
-      action: ACTIONS.EDIT
+      action: ACTIONS.EDIT,
     });
 
     this.canViewMoHUAList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.MoHUA,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewPartnerList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.PARTNER,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewStateList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.STATE,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewULBSingUpListing = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.ULB_SIGNUP_REQUEST,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewUserList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.USERLIST,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewQuestionnaireList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.PROPERTY_TAX_QUESTIONNAIRE_LIST,
-      action: ACTIONS.VIEW
+      action: ACTIONS.VIEW,
     });
 
     this.canViewQuestionnaireForm =
       this.accessChecker.hasAccess({
         moduleName: MODULES_NAME.STATE_PROPERTY_TAX_QUESTIONNAIRE,
-        action: ACTIONS.VIEW
+        action: ACTIONS.VIEW,
       }) ||
       this.accessChecker.hasAccess({
         moduleName: MODULES_NAME.ULB_LEVEL_PROPERTY_TAX_QUESTIONNAIRE,
-        action: ACTIONS.VIEW
+        action: ACTIONS.VIEW,
       });
+
+    if (this.userUtil.getUserType() === USER_TYPE.USER) {
+      this.canViewFcGRantModule = false;
+    } else {
+      this.canViewFcGRantModule = true;
+    }
   }
 
   ngOnInit() {
     this.isLoggedIn = this.authService.loggedIn();
     this.initializedIsProduction();
     this.setTopRowSticky();
-    // setTimeout(() => {
-    //   this.initializeTranparenceyHandler();
-    // }, 1111);
+    Login_Logout.getListenToLogoutEvent().subscribe((res) => {
+      console.log("res", res);
+      localStorage.clear();
+      this.isLoggedIn = false;
+      if (res && res.redirectLink) {
+        this.router.navigate([`${res.redirectLink || "/"}`]);
+      }
+    });
   }
 
   onClickingNavbarDropdown() {
@@ -241,9 +289,7 @@ export class HomeHeaderComponent implements OnInit {
   }
 
   logout() {
-    localStorage.clear();
-    this.router.navigate(["/"]);
-    this.isLoggedIn = false;
+    Login_Logout.logout({ redirectLink: "/" });
   }
 
   /**
@@ -260,8 +306,7 @@ export class HomeHeaderComponent implements OnInit {
       return;
     }
     const topPosition = -element.offsetHeight + "px";
-
-    this.renderer.setStyle(this._elementRef.nativeElement, "top", topPosition);
+    this.renderer.setStyle(this._elementRef.nativeElement, "top", 0);
   }
 
   private initializeTranparenceyHandler() {
@@ -270,9 +315,9 @@ export class HomeHeaderComponent implements OnInit {
       const options: IntersectionObserverInit = {
         root: null,
         rootMargin: "0px",
-        threshold: [0, 0.1, 0.2, 0.25, 0.4, 0.75, 1]
+        threshold: [0, 0.1, 0.2, 0.25, 0.4, 0.75, 1],
       };
-      const observer = new IntersectionObserver(event => {}, options);
+      const observer = new IntersectionObserver((event) => {}, options);
       const target = document.getElementById("carousel");
       observer.observe(target);
     });

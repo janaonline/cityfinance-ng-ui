@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule,MatFormFieldModule, MatInputModule } from '@angular/material';
 import { RecaptchaModule } from 'ng-recaptcha';
 
 import { SharedModule } from '../../shared/shared.module';
 import { RegisterRoutingModule } from './register-routing.module';
 import { RegisterComponent } from './register.component';
+
 
 @NgModule({
   imports: [
@@ -15,6 +17,8 @@ import { RegisterComponent } from './register.component';
     RegisterRoutingModule,
     SharedModule,
     RecaptchaModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule, MatInputModule
   ],
   declarations: [RegisterComponent],
 })

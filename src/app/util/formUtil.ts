@@ -3,11 +3,13 @@ import { of } from 'rxjs';
 
 import { PasswordValidator } from './passwordValidator';
 import {
+  CommisionormobileNoValidator,
+  CommissionercustomEmailValidator,
   customEmailValidator,
   customPasswordValidator,
   mobileNoValidator,
   nonEmptyValidator,
-  PartnerFormEmailValidations as setPartnerFormEmailValidations
+  PartnerFormEmailValidations as setPartnerFormEmailValidations,
 } from './reactiveFormValidators';
 
 export class FormUtil {
@@ -70,19 +72,13 @@ export class FormUtil {
     const baseForm = this.fb.group({
       state: ["", [Validators.required]],
       ulb: ["", [Validators.required]],
-      commissionerName: [
-        "",
-        [Validators.required, Validators.pattern(this.regexForUserName)],
-      ],
-      commissionerConatactNumber: [
-        "",
-        [Validators.required, mobileNoValidator],
-      ],
+      commissionerName: ["", [Validators.pattern(this.regexForUserName)]],
+      commissionerConatactNumber: ["", [CommisionormobileNoValidator]],
       name: ["", [Validators.required, nonEmptyValidator]],
 
       commissionerEmail: [
         "",
-        [Validators.required, Validators.email, customEmailValidator],
+        [Validators.email, CommissionercustomEmailValidator],
       ],
       accountantName: [
         "",
@@ -105,7 +101,8 @@ export class FormUtil {
     return this.fb.group({
       ...baseForm.controls,
       ulb: this.fb.group({
-        code: ["", [Validators.required]],
+        censusCode: ["", [Validators.required]],
+        sbCode: [""],
         wards: [
           "",
           [
@@ -232,6 +229,7 @@ export class FormUtil {
       }
       if (!control.valid) {
         const newControlName = controlName.split(/(?=[A-Z])/).join(" ");
+
         if (control.errors && control.errors.required) {
           return errors.push(
             `${
@@ -240,10 +238,17 @@ export class FormUtil {
           );
         }
         if (control.errors && control.errors.pattern) {
+          console.log(`newControlName`, newControlName);
+
+          if (controlName == "accountant Name") {
+            return errors.push(
+              `XV FC Nodal Officer Name should be alphabetic only`
+            );
+          }
           return errors.push(
             `${
               newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
-            } should alphabetic only`
+            } should be alphabetic only`
           );
         }
         errors.push(
@@ -264,29 +269,36 @@ export class FormUtil {
    */
   public validateULBSignUPForm(form: FormGroup) {
     const errors: string[] = [];
-    let commissionerEmail: string = form.controls.commissionerEmail.value;
+    // let commissionerEmail: string = form.controls.commissionerEmail.value;
     let accountantEmail: string = form.controls.accountantEmail.value;
 
-    commissionerEmail = commissionerEmail
-      ? commissionerEmail.trim()
-      : commissionerEmail;
+    // commissionerEmail = commissionerEmail
+    //   ? commissionerEmail.trim()
+    //   : commissionerEmail;
     accountantEmail = accountantEmail
       ? accountantEmail.trim()
       : accountantEmail;
 
-    if (
-      accountantEmail.trim() &&
-      commissionerEmail.trim() &&
-      accountantEmail == commissionerEmail
-    ) {
-      errors.push(
-        "Commisionar Email ID and Accountant Email ID cannot be same"
-      );
-    }
+    // if (
+    //   accountantEmail.trim() &&
+    //   commissionerEmail.trim() &&
+    //   accountantEmail == commissionerEmail
+    // ) {
+    //   errors.push(
+    //     "Commisionar Email ID and XV FC Nodal Officer Email ID cannot be same"
+    //   );
+    // }
     Object.keys(form.controls).forEach((controlName) => {
       const control = form.controls[controlName];
       if (!control.valid) {
-        const newControlName = controlName.split(/(?=[A-Z])/).join(" ");
+        let newControlName = controlName.split(/(?=[A-Z])/).join(" ");
+        console.log("newControlName", newControlName);
+        if (newControlName.includes("accountant")) {
+          newControlName = newControlName.replace(
+            "accountant",
+            "XV FC Nodal Officer"
+          );
+        }
         if (control.errors && control.errors.required) {
           return errors.push(
             `${
@@ -298,7 +310,7 @@ export class FormUtil {
           return errors.push(
             `${
               newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
-            } should alphabetic only`
+            } should be alphabetic only`
           );
         }
         errors.push(
@@ -329,11 +341,11 @@ export class FormUtil {
         ? accountantEmail.trim()
         : accountantEmail;
 
-      if (accountantEmail == commissionerEmail) {
-        errors.push(
-          "Commisionar Email ID and Accountant Email ID cannot be same"
-        );
-      }
+      // if (accountantEmail == commissionerEmail) {
+      //   errors.push(
+      //     "Commisionar Email ID and XV FC Nodal Officer Email ID cannot be same"
+      //   );
+      // }
     }
 
     Object.keys(form.controls).forEach((Name) => {
@@ -389,7 +401,7 @@ export class FormUtil {
           return errors.push(
             `${
               newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
-            } should alphabetic only`
+            } should be alphabetic only`
           );
         }
         errors.push(

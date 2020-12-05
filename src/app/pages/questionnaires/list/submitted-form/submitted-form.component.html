@@ -2,25 +2,25 @@
   <!-- State Tab-->
   <mat-tab label="States Tracker">
     <div class="tableWrapper">
+      <button
+        class="btn btn-primary fill-questionnaire"
+        (click)="openStateSelectPopup()"
+      >
+        Fill Questionnaire
+      </button>
       <h3 class="text-center table-heading">
         Tracker for state responses on MoF questionnaire
-        <button
-          class="btn btn-primary fill-questionnaire"
-          (click)="openStateSelectPopup()"
-        >
-          Fill Questionnaire
-        </button>
       </h3>
       <div class="loader-wrapper" *ngIf="!stateList">
-        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
-        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
-        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
-        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
       </div>
       <table class="table" *ngIf="stateList">
         <thead>
           <tr
-            style="background: #059b9a; color: white; border: 5px solid white;"
+            style="background: #059b9a; color: white; border: 5px solid white"
             class="sortable-headers"
           >
             <th class="text-center">S.No.</th>
@@ -63,9 +63,7 @@
                   class="form-control"
                   placeholder="State"
                 >
-                  <option value="" selected>
-                    All Forms
-                  </option>
+                  <option value="" selected>All Forms</option>
                   <option
                     *ngFor="let formStatus of formStatusList"
                     [value]="formStatus.value"
@@ -78,7 +76,7 @@
             <td>
               <button
                 class="btn btn-primary m-auto"
-                style="display: block;"
+                style="display: block"
                 (click)="searchUsersBy(filterForm.value)"
               >
                 Search
@@ -97,7 +95,7 @@
                     };
               index as i
             "
-            style="background: #e7e7e7; border: 5px solid white;"
+            style="background: #e7e7e7; border: 5px solid white"
           >
             <td class="text-center">
               {{ (stateTableConfig.currentPage - 1) * 10 + i + 1 }}
@@ -125,7 +123,7 @@
       </table>
       <pagination-controls
         *ngIf="stateList"
-        style="float: right; position: relative;"
+        style="float: right; position: relative"
         id="stateTablePagination"
         (pageChange)="setPage($event)"
         directionLinks="true"
@@ -142,17 +140,10 @@
 
   <!-- ULB Tab-->
 
-  <mat-tab label="ULBs Tracker">
+  <!-- <mat-tab label="ULBs Tracker">
     <div class="tableWrapper">
       <h3 class="text-center table-heading">
         Tracker for ulb responses on MoF questionnaire
-
-        <!-- <button
-          class="btn btn-primary fill-questionnaire"
-          (click)="openULBSelectPopup()"
-        >
-          Fill Questionnaire
-        </button> -->
       </h3>
       <div class="loader-wrapper" *ngIf="!ulbsFilledQuestionnaireList">
         <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
@@ -285,20 +276,20 @@
       >
       </pagination-controls>
     </div>
-  </mat-tab>
+  </mat-tab> -->
 </mat-tab-group>
 
 <ng-template #stateQuestionnairePopup>
   <div
     class="d-flex align-items-center flex-column justify-content-center"
-    style="flex-wrap: wrap;"
+    style="flex-wrap: wrap"
   >
-    <small style="margin-bottom: 2%;">
-      <span style="color: red;">*</span> NOTE: States for which Questionnaire is
+    <small style="margin-bottom: 2%">
+      <span style="color: red">*</span> NOTE: States for which Questionnaire is
       either completed or in draft mode, will not be listed here.
     </small>
     <angular2-multiselect
-      style="width: 70%;"
+      style="width: 70%"
       [(ngModel)]="stateSelectToFillQuestionnaire"
       [data]="statesWithoutQuestionnaire"
       [settings]="stateDropdownConfiguration"
@@ -308,7 +299,7 @@
     <div>
       <button
         class="btn btn-primary mt-2"
-        style="margin-right: 1em;"
+        style="margin-right: 1em"
         (click)="
           navigateToStateQuestionnaireForm(
             stateSelectToFillQuestionnaire[0]._id
@@ -319,7 +310,7 @@
       </button>
       <button
         class="btn btn-primary mt-2"
-        style="margin-left: 1em;"
+        style="margin-left: 1em"
         (click)="matdialog.closeAll()"
       >
         Cancel

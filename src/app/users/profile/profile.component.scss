@@ -1,6 +1,6 @@
 .profile_wrapper {
   background-attachment: rgb(140, 215, 245);
-  margin-left: 10%;
+  margin-left: 0%;
 
   .input-group {
     width: 50%;
@@ -10,4 +10,9 @@
       border-radius: 4px;
     }
   }
+}
+
+.self-profile {
+  width: 60vw;
+  margin: auto;
 }

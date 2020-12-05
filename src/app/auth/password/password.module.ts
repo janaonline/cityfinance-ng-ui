@@ -6,6 +6,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
 import { SharedModule } from '../../shared/shared.module';
 import { PasswordRoutingModule } from './password-routing.module';
 import { PasswordComponent } from './password.component';
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { PasswordComponent } from './password.component';
     PasswordRoutingModule,
     SharedModule,
     RecaptchaModule,
+    MatFormFieldModule, MatInputModule
   ],
   declarations: [PasswordComponent],
 })

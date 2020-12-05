@@ -1,0 +1,37 @@
+<div class="modal-title">
+  <h3>Tracking</h3>
+</div>
+<div
+  *ngIf="data.length"
+  class="table-responsive"
+  style="max-height: 50vh; overflow-y: auto"
+>
+  <table class="table tracking-history-table">
+    <thead>
+      <tr>
+        <th style="position: sticky; top: 0" class="text-center"></th>
+        <th style="position: sticky; top: 0">Sr. No</th>
+        <th style="position: sticky; top: 0">Action</th>
+        <th style="position: sticky; top: 0">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of data; let i = index">
+        <td class="text-center">
+          <em
+            *ngIf="
+              row['status'] == uploadStatus.APPROVED &&
+              row.actionTakenByUserRole === userTypes.MoHUA
+            "
+            class="fa fa-check-circle text-success"
+          ></em>
+        </td>
+        <td>{{ i + 1 }}</td>
+        <td>{{ row.customStatusText }}</td>
+        <td>
+          {{ row["modifiedAt"] | date: "MMM d, y, h:mm a":"GMT" }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

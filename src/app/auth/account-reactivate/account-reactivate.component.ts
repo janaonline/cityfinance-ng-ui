@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ViewEncapsulation} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { USER_TYPE } from 'src/app/models/user/userType';
 
 import { AccountReactivateService } from './service/account-reactivate.service';
 
@@ -8,12 +9,17 @@ import { AccountReactivateService } from './service/account-reactivate.service';
   selector: "app-account-reactivate",
   templateUrl: "./account-reactivate.component.html",
   styleUrls: ["./account-reactivate.component.scss"],
+  encapsulation: ViewEncapsulation.None,
+
 })
 export class AccountReactivateComponent implements OnInit {
   form: FormGroup;
   errorMessage;
   successMessage;
   urlMessage: string;
+
+  userTypeSelected: USER_TYPE;
+  USER_TYPE = USER_TYPE;
 
   constructor(
     private _reactrivateService: AccountReactivateService,
@@ -24,6 +30,24 @@ export class AccountReactivateComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  onSelectingUserType(value: USER_TYPE) {
+    this.userTypeSelected = value;
+    switch (value) {
+      case USER_TYPE.ULB: {
+        return this.form.controls.email.setValidators([
+          Validators.required,
+          Validators.pattern("(?!.*@).*"),
+        ]);
+      }
+      default: {
+        return this.form.controls.email.setValidators([
+          Validators.required,
+          Validators.email,
+        ]);
+      }
+    }
+  }
 
   onFormSubmit() {
     this.resetMessages();

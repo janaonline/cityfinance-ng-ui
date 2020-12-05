@@ -20,6 +20,7 @@ export class DialogComponent implements OnInit {
     if (buttonClicked === "ok") {
       return this.dialogRef.close({ buttonClicked });
     }
+
     if (this.data.buttons && this.data.buttons[buttonClicked].callback) {
       this.data.buttons[buttonClicked].callback();
     }

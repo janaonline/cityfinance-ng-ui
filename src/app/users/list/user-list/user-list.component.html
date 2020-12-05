@@ -3,28 +3,30 @@
     <div class="row">
       <div class="col-md-12">
         <h3>
-          <span *ngIf="listType === userTypes.STATE" style="margin-left: 6px;">
+          <span *ngIf="listType === userTypes.STATE" style="margin-left: 6px">
             State List</span
           >
           <span
             *ngIf="listType === userTypes.PARTNER"
-            style="margin-left: 0.5%;"
+            style="margin-left: 0.5%"
           >
             Partner List</span
           >
-          <span *ngIf="listType === userTypes.USER" style="margin-left: 0.5%;">
+          <span *ngIf="listType === userTypes.USER" style="margin-left: 0.5%">
             User List</span
           >
-          <span *ngIf="listType === userTypes.ULB" style="margin-left: 0.5%;">
-            ULB Signup List</span
+          <span *ngIf="listType === userTypes.ULB" style="margin-left: 0.5%">
+            ULB
+            <span *ngIf="loggedInType === userTypes.STATE">Sign Up</span>
+            List</span
           >
-          <span *ngIf="listType === userTypes.MoHUA" style="margin-left: 0.5%;">
+          <span *ngIf="listType === userTypes.MoHUA" style="margin-left: 0.5%">
             MoHUA List</span
           >
           <a
             *ngIf="listType === userTypes.STATE"
             class="btn btn-primary"
-            style="float: right; margin-right: 6px;"
+            style="float: right; margin-right: 6px"
             [routerLink]="['/', 'user', 'profile', 'create']"
             [queryParams]="{ role: userTypes.STATE }"
             >Create State</a
@@ -33,7 +35,7 @@
           <a
             *ngIf="listType === userTypes.PARTNER"
             class="btn btn-primary"
-            style="float: right; margin-right: 6px;"
+            style="float: right; margin-right: 6px"
             [routerLink]="['/', 'user', 'profile', 'create']"
             [queryParams]="{ role: userTypes.PARTNER }"
             >Create Partner</a
@@ -42,14 +44,14 @@
           <a
             *ngIf="listType === userTypes.MoHUA"
             class="btn btn-primary"
-            style="float: right; margin-right: 6px;"
+            style="float: right; margin-right: 6px"
             [routerLink]="['/', 'user', 'profile', 'create']"
             [queryParams]="{ role: userTypes.MoHUA }"
             >Create MoHUA</a
           >
           <button
             class="btn btn-primary"
-            style="float: right; margin-right: 6px;"
+            style="float: right; margin-right: 6px"
             (click)="downloadList()"
           >
             Download List
@@ -61,12 +63,13 @@
     <div class="row">
       <div class="col-md-12">
         <table
+          aria-describedby="USers List"
           class="table"
           *ngIf="listType === userTypes.USER && !isApiInProgress"
         >
           <thead>
             <tr
-              style="background: #059b9a; color: white; border: 0px;"
+              style="background: #059b9a; color: white; border: 0px"
               class="sortable-headers"
             >
               <th class="text-center">S.No.</th>
@@ -194,34 +197,38 @@
         </table>
 
         <table
+          aria-describedby="ULB List"
           class="table"
           *ngIf="listType === userTypes.ULB && !isApiInProgress"
         >
           <thead>
             <tr
               class="sortable-headers"
-              style="background: #059b9a; color: white; border: 0px;"
+              style="background: #059b9a; color: white; border: 0px"
             >
-              <th class="text-center">S.No.</th>
+              <th class="text-center" scope="Serial No">S.No.</th>
               <th
-                class=""
+                scope="State No"
                 (click)="sortListBy('stateName')"
                 *ngIf="loggedInType !== userTypes.STATE"
               >
-                State <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+                State
+                <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
               </th>
-              <th class="" (click)="sortListBy('name')">
+              <th scope="ULB Name" (click)="sortListBy('name')">
                 ULB Name
-                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+                <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
               </th>
-              <th class="" (click)="sortListBy('ulbCode')">
+              <th scope="SB Code" (click)="sortListBy('sbCode')">
                 ULB Code
-                <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+                <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
               </th>
-              <th class="" (click)="sortListBy('status')">
-                Status <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
+              <th scope="Census Code" (click)="sortListBy('censusCode')">
+                Census Code
+                <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
               </th>
-              <th class="text-center">Action</th>
+
+              <th scope="Take Action" class="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -237,9 +244,7 @@
                     class="form-control"
                     placeholder="State"
                   >
-                    <option value="" selected>
-                      All States
-                    </option>
+                    <option value="" selected>All States</option>
                     <option *ngFor="let state of stateList" [value]="state._id">
                       {{ state.name }}
                     </option>
@@ -264,12 +269,22 @@
                     placeholder="ULB Code"
                     type="text"
                     class="form-control"
-                    [formControl]="filterForm.controls.ulbCode"
+                    [formControl]="filterForm.controls.sbCode"
+                  />
+                </div>
+              </td>
+              <td>
+                <div class="input-group">
+                  <input
+                    placeholder="Census Code"
+                    type="text"
+                    class="form-control"
+                    [formControl]="filterForm.controls.censusCode"
                   />
                 </div>
               </td>
 
-              <td>
+              <!-- <td>
                 <div class="input-group">
                   <select
                     name="ulb"
@@ -278,9 +293,7 @@
                     class="form-control"
                     placeholder="STATUS"
                   >
-                    <option value="">
-                      All Status
-                    </option>
+                    <option value="">All Status</option>
                     <option
                       *ngFor="let status of requestStatusTypeList"
                       [value]="status.value"
@@ -289,11 +302,11 @@
                     </option>
                   </select>
                 </div>
-              </td>
+              </td> -->
               <td>
                 <button
                   class="btn btn-primary m-auto"
-                  style="display: block;"
+                  style="display: block"
                   (click)="searchUsersBy(filterForm.value, 0)"
                 >
                   Search
@@ -320,8 +333,9 @@
                 {{ ulb["stateName"] }}
               </td>
               <td class="">{{ ulb["name"] }}</td>
-              <td class="">{{ ulb["ulbCode"] }}</td>
-              <td class="">
+              <td>{{ ulb.sbCode }}</td>
+              <td>{{ ulb.censusCode }}</td>
+              <!-- <td class="">
                 <span
                   (click)="showUserRejectReason(ulb)"
                   [ngClass]="{
@@ -330,7 +344,7 @@
                 >
                   {{ ulb.status }}
                 </span>
-              </td>
+              </td> -->
               <td class="text-center d-flex actionCell">
                 <a
                   *ngIf="ulb.status === SINGPUP_STATUS.PENDING"
@@ -370,6 +384,7 @@
                 <!-- <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
                   [queryParams]="{ id: ulb._id, role: 'ULB' }"
+                  class="p-2"
                 >
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
@@ -401,13 +416,14 @@
         </table>
 
         <table
+          aria-describedby="States List"
           class="table"
           *ngIf="listType === userTypes.STATE && !isApiInProgress"
         >
           <thead>
             <tr
               class="sortable-headers"
-              style="background: #059b9a; color: white; border: 0px;"
+              style="background: #059b9a; color: white; border: 0px"
             >
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('stateName')">
@@ -445,9 +461,7 @@
                     class="form-control"
                     placeholder="State"
                   >
-                    <option value="" selected>
-                      All States
-                    </option>
+                    <option value="" selected>All States</option>
                     <option *ngFor="let state of stateList" [value]="state._id">
                       {{ state.name }}
                     </option>
@@ -500,7 +514,7 @@
               <td>
                 <button
                   class="btn btn-primary m-auto"
-                  style="display: block;"
+                  style="display: block"
                   (click)="searchUsersBy(filterForm.value, 0)"
                 >
                   Search
@@ -563,13 +577,14 @@
         </table>
 
         <table
+          aria-describedby="Partners List"
           class="table"
           *ngIf="listType === userTypes.PARTNER && !isApiInProgress"
         >
           <thead>
             <tr
               class="sortable-headers"
-              style="background: #059b9a; color: white; border: 0px;"
+              style="background: #059b9a; color: white; border: 0px"
             >
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('name')">
@@ -640,7 +655,7 @@
               <td>
                 <button
                   class="btn btn-primary m-auto"
-                  style="display: block;"
+                  style="display: block"
                   (click)="searchUsersBy(filterForm.value, 0)"
                 >
                   Search
@@ -701,13 +716,14 @@
         </table>
 
         <table
+          aria-describedby="MoHUA List"
           class="table"
           *ngIf="listType === userTypes.MoHUA && !isApiInProgress"
         >
           <thead>
             <tr
               class="sortable-headers"
-              style="background: #059b9a; color: white; border: 0px;"
+              style="background: #059b9a; color: white; border: 0px"
             >
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('name')">
@@ -764,7 +780,7 @@
               <td>
                 <button
                   class="btn btn-primary m-auto"
-                  style="display: block;"
+                  style="display: block"
                   (click)="searchUsersBy(filterForm.value, 0)"
                 >
                   Search
@@ -843,7 +859,7 @@
         </div>
       </div>
       <pagination-controls
-        style="float: right; position: relative;"
+        style="float: right; position: relative"
         id="foo"
         (pageChange)="setPage($event)"
         directionLinks="true"
@@ -861,23 +877,21 @@
 
 <ng-template #userDeletePopup>
   <div class="modal-body">
-    <p style="margin: 3% auto; text-align: center;">
+    <p style="margin: 3% auto; text-align: center">
       Are you sure you want to delete user
       <strong> {{ userToDelete["name"] }}</strong> ?
     </p>
 
-    <div style="display: flex; width: 100%; justify-content: center;">
+    <div style="display: flex; width: 100%; justify-content: center">
       <button
         class="btn btn-primary"
-        style="margin-right: 2%;"
+        style="margin-right: 2%"
         (click)="deleteUser(userToDelete['_id'])"
       >
         Yes
       </button>
 
-      <button class="btn btn-primary" (click)="_dialog.closeAll()">
-        No
-      </button>
+      <button class="btn btn-primary" (click)="_dialog.closeAll()">No</button>
     </div>
     <p *ngIf="respone.errorMessage" class="error-message text-center mt-1">
       {{ respone.errorMessage }}

@@ -117,6 +117,40 @@
   }
 }
 
+.ulb-registration {
+  position: absolute;
+  right: 2%;
+
+  top: 0px;
+  background: #059696;
+  display: block;
+  font-size: 1.2em;
+  margin: auto;
+  padding: 0.5% 1%;
+  @media screen and (max-width: 768px) {
+    position: relative;
+    right: 0%;
+    margin-top: 2%;
+  }
+
+  text-align: center;
+  width: fit-content;
+  border-radius: 2%;
+  img {
+    position: absolute;
+    width: 12%;
+    right: 0px;
+    top: 0px;
+  }
+  a {
+    color: white;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 @keyframes popup {
   0% {
     transform: scale(1);
@@ -147,14 +181,11 @@
   .about-intro {
     color: #707070;
     font-size: 1.2em;
-    // font-size: 1.2vw;
-    // letter-spacing: 1px;
-    // margin: 30px 0 40px;
-    // text-align: center;
   }
   .about-wrapper {
     font-size: 1vw;
     display: grid;
+    /* autoprefixer: off */
     grid-template: repeat(auto-fit, minmax(3vh, auto)) / repeat(8, 1fr);
     grid-template-areas:
       "l l l . . . . ."
@@ -239,6 +270,7 @@
       grid-area: r;
       background-image: linear-gradient(to top, #095169, #059b9a);
       display: grid;
+      /* autoprefixer: off */
       grid-template: repeat(auto-fit, minmax(3vh, 7vh)) / repeat(7, 1fr);
       grid-template-areas:
         ". . t t t t t"
@@ -265,11 +297,13 @@
       }
       @media screen and (max-width: 480px) and (min-width: 470px) {
         grid-area: 2 / 12 / 2 / 12;
+        /* autoprefixer: off */
         grid-template: repeat(auto-fit, minmax(3vh, 14vh)) / repeat(7, 1fr);
         height: max-content !important;
       }
       @media screen and (max-width: 468px) {
         grid-area: 2 / 12 / 2 / 12;
+        /* autoprefixer: off */
         grid-template: repeat(auto-fit, minmax(3vh, 14vh)) / repeat(7, 1fr);
         height: max-content !important;
       }
@@ -450,6 +484,10 @@
         color: white;
       }
     }
+  }
+  .about-title {
+    overflow: hidden;
+    // Do not remove this. Remove it will create a scroll on homepage due to the map.
   }
 
   .about-title h2 {
@@ -1109,5 +1147,18 @@ img.background {
   }
   .sector-info-hidden {
     opacity: 1;
+  }
+}
+
+:host {
+  overflow: hidden;
+
+  .container {
+    margin: auto;
+  }
+  @media (max-width: 768px) {
+    .mid-wrapper {
+      flex-direction: column;
+    }
   }
 }

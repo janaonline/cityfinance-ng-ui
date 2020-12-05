@@ -10,6 +10,7 @@ export interface ModalTableHeader extends Object {
   colSpan?: number;
   rowSpan?: number;
   status?: string;
+  width?: string;
 }
 
 export const tableHeaders: any = [
@@ -312,10 +313,15 @@ export const creditRatingModalHeaders: ModalTableHeader[][] = [
 ];
 
 export const ulbUploadList: ModalTableHeader[] = [
+  { id: "stateName", click: true, title: "State Name", width: "14%" },
   { id: "ulbName", click: true, title: "ULB Name" },
-  { id: "ulbCode", click: true, title: "ULB Code" },
-  { id: "financialYear", click: true, title: "Financial Year" },
-  { id: "audited", click: true, title: "Audit Status" },
+  { id: "ulbType", click: true, title: "ULB Type" },
+  { id: "isMillionPlus", click: true, title: "Population Type" },
+  // { id: "ulbCode", click: true, title: "ULB Code" },
+  { id: "censusCode", click: true, title: "Census Code" },
+  { id: "sbCode", click: true, title: "ULB Code", width: "17%" },
+  // { id: "financialYear", click: true, title: "Financial Year" },
+  // { id: "audited", click: true, title: "Audit Status" },
   { id: "status", title: "Status" },
   { id: "action", title: "Action" },
 ];

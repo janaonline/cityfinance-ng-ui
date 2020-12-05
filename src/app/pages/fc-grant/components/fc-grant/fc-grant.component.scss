@@ -1,0 +1,236 @@
+.fc-grant-2 {
+  background-image: url("../../../../../assets/images/backgrounds/Path.png");
+  background-repeat: no-repeat;
+  background-position: left;
+  // min-height: calc(100vh - 92px);
+  // background-size: contain;
+  background-size: 74% 100%;
+  .text-white {
+    color: #ffffff;
+  }
+  p {
+    font-size: 13px;
+    font-family: "Roboto", sans-serif;
+    color: #ffffff;
+    margin-bottom: 10px;
+  }
+  h1 {
+    color: #ffffff;
+    font-family: "Roboto", sans-serif;
+    padding: 18px 0;
+    margin: 0;
+    font-size: 35px;
+  }
+  table {
+    border-radius: 12px;
+    border-collapse: separate;
+    tr {
+      &:first-child {
+        td {
+          &:first-child {
+            border-top-left-radius: 10px;
+          }
+          &:last-child {
+            border-top-right-radius: 10px;
+          }
+        }
+      }
+      &:last-child {
+        td {
+          &:first-child {
+            border-bottom-left-radius: 10px;
+          }
+          &:last-child {
+            border-bottom-right-radius: 10px;
+          }
+        }
+      }
+      td {
+        color: #fff;
+        font-size: 14px;
+        padding: 15px;
+        font-family: "Roboto", sans-serif;
+      }
+    }
+  }
+
+  h4 {
+    margin-bottom: 20px;
+  }
+  ul {
+    list-style-type: disc;
+    li {
+      font-size: 13px;
+    }
+    li,
+    li > * {
+      color: #c3cb24;
+    }
+  }
+  .image-side {
+    p,
+    a {
+      color: #06868c;
+      font-size: 14px;
+    }
+    p a {
+      text-decoration: underline;
+    }
+    .btn {
+      margin: 30px 15px 30px;
+      padding: 10px 20px;
+      color: #ffffff;
+      box-shadow: 0px 3px 5px #b5b5b5;
+      font-size: 14px;
+    }
+  }
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
+  .support-text {
+    margin-bottom: 5px;
+  }
+}
+
+.form-field-error-message {
+  margin-bottom: 20px !important;
+}
+/*form styles*/
+#msform {
+  width: 582px;
+  margin: 20px auto;
+  text-align: center;
+  position: relative;
+  // max-width: 100%;
+  display: flex;
+}
+
+/*progressbar*/
+.progressbar {
+  overflow: hidden;
+  display: inline-flex;
+  justify-content: space-evenly;
+  /*CSS counters to number the steps*/
+  counter-reset: step;
+  padding: 0;
+  margin-bottom: 0;
+}
+.progressbar li {
+  list-style-type: none;
+  color: #585858 !important;
+  text-transform: uppercase;
+  // font-size: 1.4rem !important;
+  width: 18vw;
+  float: left;
+  position: relative;
+}
+.progressbar li:before {
+  content: counter(step);
+  counter-increment: step;
+  width: 24px;
+  line-height: 24px;
+  display: block;
+  font-size: 10px;
+  color: #fff;
+  // background: white;
+  border-radius: 50%;
+  margin: 0 auto 5px auto;
+  border: 1px solid #808080;
+}
+/*progressbar connectors*/
+.progressbar li:after {
+  content: "";
+  width: 100%;
+  height: 3px;
+  background: #dad6d6;
+  position: absolute;
+  left: -50%;
+  top: 9px;
+  z-index: -1; /*put it behind the numbers*/
+}
+.progressbar li:first-child:after {
+  /*connector not needed before the first step*/
+  content: none;
+}
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+// .progressbar li.active:before,  .progressbar li.active:after{
+// 	background: #27AE60;
+// 	color: white;
+// }
+// .progressbar li.active:before,  .progressbar li.active:after{
+// 	background: #27AE60;
+// 	color: white;
+// }
+
+// .completed:before, .completed:after{
+// 	background: #91ec95;
+// }
+#msform li.completed:before {
+  background: #91ec95;
+  content: "\f00c" !important;
+  font-family: "FontAwesome";
+}
+
+.active:before,
+.active:after {
+  background: #fdea74;
+}
+.pending:before,
+.pending:after {
+  background: #a3a2a2;
+}
+
+.container {
+  overflow-y: hidden;
+  margin-left: -1vw;
+  // height: 1000px;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+  overflow: -moz-scrollbars-none;
+}
+
+:host {
+  .progress {
+    width: 27vw;
+    border: 1px solid #d1d1d1;
+    background: #cbcbcb;
+    margin: 1% 0 1% 0;
+  }
+}
+
+@media only screen and (min-width: 300px) and (max-width: 1024px) {
+  .fc-grant-2 {
+    background-size: cover;
+  }
+  .image-side .btn {
+    color: #ffffff;
+  }
+  .image-side {
+    background-color: #ffffff;
+    padding: 0;
+  }
+  .image-side .img-wrapper,
+  .image-side p {
+    padding: 0 15px;
+  }
+  .container-fluid {
+    padding: 0;
+  }
+  .login-wrapper {
+    margin: 50px 0;
+  }
+}
+.text-nowrap {
+  white-space: normal;
+}
+@media only screen and (min-width: 1024px) {
+  .pr-lg-4 {
+    padding-right: 60px;
+  }
+  .text-nowrap {
+    white-space: nowrap;
+  }
+}

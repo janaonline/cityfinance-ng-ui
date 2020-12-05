@@ -2,16 +2,21 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
+import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
 import { ULBSIGNUPSTATUS } from 'src/app/util/enums';
 import { JSONUtility } from 'src/app/util/jsonUtil';
+import { Login_Logout } from 'src/app/util/logout.util';
 
 import { ulbType } from '../../../dashboard/report/report/ulbTypes';
 import { FormUtil } from '../../../util/formUtil';
+import { SidebarUtil } from '../../utils/sidebar.util';
 import { IULBProfileData } from '../model/ulb-profile';
 import { ProfileService } from '../service/profile.service';
 
@@ -21,6 +26,15 @@ import { ProfileService } from '../service/profile.service';
   styleUrls: ["./ulb-profile.component.scss"],
 })
 export class UlbProfileComponent implements OnInit, OnChanges {
+  constructor(
+    private _profileService: ProfileService,
+    public modalService: BsModalService,
+    public dialogBox: MatDialog,
+    private router: Router
+  ) {
+    this.fetchDatas();
+    SidebarUtil.showSidebar();
+  }
   @Input() profileData: IULBProfileData;
   @Input() editable = false;
 
@@ -43,13 +57,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   window = window;
   SIGNUP_STATUS = ULBSIGNUPSTATUS;
 
-  constructor(
-    private _profileService: ProfileService,
-    public modalService: BsModalService,
-    public dialogBox: MatDialog
-  ) {
-    this.fetchDatas();
-  }
+  apiInProgress = false;
 
   ngOnChanges(changes) {}
 
@@ -65,10 +73,39 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.initializeLogginUserType();
   }
 
+  onClickingChangePassword(event: Event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    const defaultDailogConfiuration: IDialogConfiguration = {
+      message:
+        "<div class='text-center'>You will be logged out for changing password. <br>Are you sure you want to continue?</div>",
+      buttons: {
+        confirm: {
+          text: "Yes",
+          callback: () => {
+            this._profileService.getTokenToChangePassword().subscribe((res) => {
+              Login_Logout.logout();
+              this.router.navigate(["/password/request"], {
+                queryParams: { token: res["token"] },
+              });
+            });
+          },
+        },
+        cancel: { text: "No" },
+      },
+    };
+
+    this.dialogBox.open(DialogComponent, {
+      data: defaultDailogConfiuration,
+    });
+  }
   submitForm(form: FormGroup) {
     if (!this.canSubmitForm) {
       return;
     }
+
     this.resetResponseMessage();
 
     this.formSubmitted = true;
@@ -85,6 +122,11 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     const updatedFields = this.getUpdatedFieldsOnly(form);
 
     if (!updatedFields || !Object.keys(updatedFields).length) {
+      this.onUpdatingProfileSuccess({
+        message: "Profile Updated Successfully",
+      });
+      this.profile.disable({ onlySelf: true, emitEvent: false });
+
       return;
     }
 
@@ -98,6 +140,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     }
 
     this.profile.disable({ onlySelf: true, emitEvent: false });
+    this.respone.successMessage = "Updating....";
+    this.apiInProgress = true;
 
     this._profileService.createULBUpdateRequest(flatten).subscribe(
       (res) => this.onUpdatingProfileSuccess(res),
@@ -130,7 +174,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   enableProfileEdit() {
     this.profile.enable();
-    this.disableNonEditableFields();
+    this.resetResponseMessage();
+    this.disableNonEditableFields(false);
   }
   disableProfileEdit() {
     this.profile.disable({ emitEvent: false });
@@ -150,11 +195,13 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   private onUpdatingProfileSuccess(res) {
     this.respone.successMessage = res.message || "Profile Updated Successfully";
+    this.apiInProgress = false;
   }
 
   private onUpdatingProfileError(err: HttpErrorResponse) {
     this.respone.errorMessage =
       err.error.message || "Failed to updated profile.";
+    this.apiInProgress = false;
   }
 
   private resetResponseMessage() {
@@ -216,7 +263,9 @@ export class UlbProfileComponent implements OnInit, OnChanges {
         this.profile.disable({ emitEvent: false, onlySelf: true });
       }
 
-      this.disableNonEditableFields();
+      this.disableNonEditableFields(
+        this.editable && this.loggedInUserType === USER_TYPE.ULB
+      );
     }
   }
 
@@ -233,11 +282,18 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   }
 
   /**
-   * @description ULB's code and state cannot be changed, therefore they should stay
+   * @description The Following fields cannot be changed, therefore they should stay
    * disabled.
    */
-  private disableNonEditableFields() {
-    (<FormGroup>this.profile.controls.ulb).controls.code.disable();
+  private disableNonEditableFields(all = true) {
     this.profile.controls.state.disable();
+    (<FormGroup>this.profile.controls.ulb).controls.ulbType.disable();
+
+    if (this.loggedInUserType === USER_TYPE.ULB || all) {
+      (<FormGroup>this.profile.controls.ulb).controls.censusCode.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.sbCode.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.name.disable();
+      return;
+    }
   }
 }

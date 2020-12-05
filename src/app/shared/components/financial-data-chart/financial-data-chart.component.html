@@ -2,10 +2,10 @@
   <mat-card class="chart-container">
     <div class="row">
       <div class="cols-sm-12 d-flex justify-content-end">
-        <select (change)="fetchData()" *ngIf="financialYears.length" [formControl]="financialYearFormControl">
+        <!-- <select (change)="fetchData()" *ngIf="financialYears.length" [formControl]="financialYearFormControl">
           <option selected value="">All years</option>
           <option selected [value]="year.itemName" *ngFor="let year of financialYears">{{year?.itemName}}</option>
-        </select>
+        </select> -->
       </div>
     </div>
     <div style="height: 100%">
