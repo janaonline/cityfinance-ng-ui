@@ -113,9 +113,7 @@ export class AnnualAccountsViewComponent implements OnInit {
 
   downloadList() {
     const filterOptions = { ...this.listFetchOption, download: true };
-
     const url = this.annualAccountsService.getAnnualAccountsApi(filterOptions);
-
     return window.open(url);
   }
 }
