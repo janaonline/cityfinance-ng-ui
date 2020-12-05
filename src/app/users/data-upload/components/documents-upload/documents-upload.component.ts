@@ -236,7 +236,10 @@ export class DocumentsUploadComponent
       this.filterInvalidFiles(event.target["files"], key)
     );
 
+    console.log(event, filteredFiles);
+
     if (event.target["files"].length !== filteredFiles.length) {
+      console.log('no show popup');
       const message = `Only ${this.fileExnetsionAllowed.join(
         ","
       )} file is allowed and maximum size of ${
