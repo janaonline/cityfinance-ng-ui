@@ -252,7 +252,10 @@ export class FinancialUploadsComponent
 
   onSolidWasteEmit(event: SolidWasteEmitValue) {
     if (!this.financialData) this.financialData = {} as IFinancialData;
-    if (this.financialData.solidWasteManagement) {
+    if (
+      this.financialData.solidWasteManagement &&
+      this.financialData.solidWasteManagement.documents
+    ) {
       solidWasterQuestions.forEach((question) => {
         const oldValue = this.financialData.solidWasteManagement.documents[
           question.key
@@ -291,7 +294,10 @@ export class FinancialUploadsComponent
   onMilionPlusCitiesEmitValue(event: MillionPlusCitiesDocuments) {
     if (!this.financialData) this.financialData = {} as IFinancialData;
 
-    if (this.financialData.millionPlusCities) {
+    if (
+      this.financialData.millionPlusCities &&
+      this.financialData.millionPlusCities.documents
+    ) {
       millionPlusCitiesQuestions.forEach((question) => {
         const oldValue = this.financialData.millionPlusCities.documents[
           question.key
@@ -317,13 +323,12 @@ export class FinancialUploadsComponent
       });
     }
 
-    this.millionPlusCitiesForm.patchValue(
-      this.jsonUtil.filterEmptyValue(event, true) || {}
-    );
-
     this.financialData.millionPlusCities = {
       documents: this.jsonUtil.filterEmptyValue(event, true) as typeof event,
     };
+    this.millionPlusCitiesForm.patchValue(
+      this.jsonUtil.filterEmptyValue(event, true) || {}
+    );
   }
 
   onWaterWasteManagementEmitValue(value: WaterManagement) {
