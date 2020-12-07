@@ -22,7 +22,7 @@
 >
   <mat-step>
     <ng-template matStepLabel>
-      <span title="Introduction">Introduction</span>
+      <span title="Introduction">Guidelines</span>
     </ng-template>
 
     <ng-container [ngSwitch]="loggedInUserDetails?.role">
@@ -204,7 +204,7 @@
     ></app-documents-upload>
   </mat-step>
 
-  <mat-step label="Submit" *ngIf="canUploadFile">
+  <mat-step label="Submit Application" *ngIf="canUploadFile">
     <app-completed
       [submitted]="userHasAlreadyFilledForm"
       (submit)="uploadCompletedQuestionnaireData()"
