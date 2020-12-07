@@ -1,28 +1,30 @@
 ::ng-deep .register .mat-form-field:last-child .mat-form-field-wrapper {
   padding-bottom: 0 !important;
 }
-::ng-deep .form-field-error-message{
+::ng-deep .form-field-error-message {
   margin-bottom: 20px;
   text-align: right;
 }
 ::ng-deep .mat-form-field-disabled .mat-form-field-outline {
   background: #eaeaea;
 }
-::ng-deep .selected-list,::ng-deep .mat-form-field-flex {
-  border: none!important;
+::ng-deep .selected-list,
+::ng-deep .mat-form-field-flex {
+  border: none !important;
 }
-::ng-deep .mat-form-field-prefix .mat-icon,::ng-deep .mat-form-field-suffix .mat-icon {
+::ng-deep .mat-form-field-prefix .mat-icon,
+::ng-deep .mat-form-field-suffix .mat-icon {
   font-size: 16px;
   line-height: 1.125;
 }
 ::ng-deep label {
-  font-size: 13px!important;
+  font-size: 13px !important;
 }
 .fc-grant {
   background-image: url("../../../assets/images/backgrounds/Path.png");
   background-repeat: no-repeat;
   background-position: left;
-  height: calc(100vh - 95px);
+  height: calc(100vh - 1px);
   // background-size: contain;
   background-size: 74% 100%;
   display: flex;
@@ -39,7 +41,7 @@
     font-family: "Roboto", sans-serif;
     padding: 20px 0;
   }
-  h5{
+  h5 {
     font-family: Poppins, "Roboto", sans-serif;
   }
   table {
@@ -147,7 +149,7 @@
   }
   .mat-form-field {
     width: 100%;
-}
+  }
 }
 
 @media only screen and (min-width: 300px) and (max-width: 1024px) {
