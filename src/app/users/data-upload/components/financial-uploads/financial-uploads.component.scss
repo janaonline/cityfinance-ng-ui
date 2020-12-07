@@ -13,9 +13,22 @@
 }
 
 :host {
+  .text-italic {
+    font-style: italic;
+  }
+  .text-underline {
+    text-decoration: underline;
+  }
   .guidelines {
     margin-bottom: 2%;
     width: 90vw;
+    font-size: 1.6rem;
+    h4 {
+      font-size: 1.5em;
+    }
+    li {
+      padding-bottom: 0.5%;
+    }
   }
   a {
     // display: block;

@@ -90,8 +90,22 @@ export class FinancialUploadsComponent
   previewData: Partial<IFinancialData>;
 
   jsonUtil = new JSONUtility();
+  completedMessage: string;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initializeCompletedMessage();
+  }
+
+  private initializeCompletedMessage() {
+    switch (this.loggedInUserDetails.role) {
+      case USER_TYPE.ULB:
+        this.completedMessage = `This is the last step. After submitting this application, you will not be able to change your response. Do you want to submit?`;
+        break;
+      case USER_TYPE.ADMIN:
+      case USER_TYPE.STATE:
+        this.completedMessage = `This is the last step. After submitting this review, you will not be able to change your response. Do you want to submit?`;
+    }
+  }
 
   private initializeAccessCheck() {
     // if (this.financialData) {
@@ -561,21 +575,21 @@ export class FinancialUploadsComponent
     }
 
     if (!isWasteWaterValid) {
-      message = "All questions must be answered in Water Waste Management";
+      message = "All questions must be answered in Service Level Indicators";
       this.stepper.selectedIndex = 0;
     }
 
     if (!isSolidWasteValid) {
       message += message
-        ? ", Solid Waste Management"
-        : "All questions must be answered in Solid Waste Management";
+        ? ", Upload Plans"
+        : "All questions must be answered in Upload Plans";
       // this.stepper.selectedIndex = 1;
     }
 
     if (!isMillionPlusValid) {
       message += message
-        ? " and Million Plus Cities sections."
-        : "All questions must be answered in Million Plus Cities section.";
+        ? " and Upload Plans(Million+ City) sections."
+        : "All questions must be answered in Upload Plans(Million+ City) section.";
     }
     if (!isWasteWaterValid) {
       this.stepper.selectedIndex = 1;

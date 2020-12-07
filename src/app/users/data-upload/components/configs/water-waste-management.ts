@@ -32,7 +32,7 @@ const services: {
 }[] = [
   {
     key: "waterSuppliedPerDay",
-    name: "Water Supplied in litre per day(lpcd)",
+    name: "Water supplied in litre per day(lpcd)",
     benchmark: "135 LPCD",
   },
   {
@@ -43,13 +43,13 @@ const services: {
   },
   {
     key: "houseHoldCoveredWithSewerage",
-    name: "% of Household Covered with sewerage/septage services",
+    name: "% of households covered with sewerage/septage services",
     benchmark: "100%",
     customValidator: maxValidator,
   },
   {
     key: "houseHoldCoveredPipedSupply",
-    name: "% of Household Covered Piped Water Supply",
+    name: "% of households covered with piped water supply",
     benchmark: "100%",
     customValidator: maxValidator,
   },
@@ -152,7 +152,7 @@ const fileGroupArray = _fb.array([
 // >[] = [
 //   {
 //     key: "wasteWaterPlan",
-//     question: "Benchmark and target for service level indicators",
+//     question: "Service Level Indicators",
 //   },
 // ];
 

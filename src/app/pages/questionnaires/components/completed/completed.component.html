@@ -11,8 +11,11 @@
 
   <div class="box" *ngIf="!submitted" style="flex-wrap: wrap">
     <p style="width: 100%">
-      This is the last step. After submitting the form, you will not be able to
-      change the response. Do you want to submit?
+      <span *ngIf="customMessage" [innerHTML]="customMessage"></span>
+      <span *ngIf="!customMessage">
+        This is the last step. After submitting the form, you will not be able
+        to change the response. Do you want to submit?
+      </span>
     </p>
 
     <p style="width: 100%; display: flex; justify-content: center">

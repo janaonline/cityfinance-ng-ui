@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class CompletedComponent implements OnInit {
   @Input() submitted = false;
+  @Input() customMessage: string;
   @Output()
   showOld = new EventEmitter();
   @Output() previous: EventEmitter<boolean> = new EventEmitter();
