@@ -2,14 +2,14 @@
   background-image: url("../../../../../assets/images/backgrounds/Path.png");
   background-repeat: no-repeat;
   background-position: left;
-  // min-height: calc(100vh - 92px);
+  min-height: 100%;
   // background-size: contain;
   background-size: 74% 100%;
   .text-white {
     color: #ffffff;
   }
   p {
-    font-size: 13px;
+    font-size: 16px;
     font-family: "Roboto", sans-serif;
     color: #ffffff;
     margin-bottom: 10px;
@@ -60,7 +60,7 @@
   ul {
     list-style-type: disc;
     li {
-      font-size: 13px;
+      font-size: 16px;
     }
     li,
     li > * {
@@ -77,8 +77,8 @@
       text-decoration: underline;
     }
     .btn {
-      margin: 30px 15px 30px;
-      padding: 10px 20px;
+      margin: 10px 15px 10px;
+      padding: 10px 30px;
       color: #ffffff;
       box-shadow: 0px 3px 5px #b5b5b5;
       font-size: 14px;
@@ -95,12 +95,17 @@
 .form-field-error-message {
   margin-bottom: 20px !important;
 }
+
+.progress-container {
+  transform: translateY(18%);
+}
 /*form styles*/
-#msform {
+div#msform {
   width: 582px;
   margin: 20px auto;
   text-align: center;
   position: relative;
+  justify-content: center;
   // max-width: 100%;
   display: flex;
 }
@@ -119,6 +124,7 @@
   list-style-type: none;
   color: #585858 !important;
   text-transform: uppercase;
+  font-size: 13px !important;
   // font-size: 1.4rem !important;
   width: 18vw;
   float: left;
@@ -198,6 +204,12 @@
     border: 1px solid #d1d1d1;
     background: #cbcbcb;
     margin: 1% 0 1% 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-fluid {
+    height: 88vh;
   }
 }
 

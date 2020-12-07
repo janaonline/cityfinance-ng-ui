@@ -14,62 +14,29 @@
             Grants Management System
           </h4>
           <p>
-            Welcome to the 15th FC Grants Management Module of cityfinance.in.
             The Fifteenth Finance Commission (15th FC), in its latest report for
-            the year 2020-21, has recommended measures needed to augment the
-            consolidated funds of States to supplement the resources of
-            Panchayats and Municipalities during the years 2020-25. The 15th FC
-            has recommended total grants of Rs. 29,250 crore for Urban Local
-            bodies (ULBs) for 2020-21, divided among two categories of ULBs:
+            the year 2020-21, has recommended total grants of Rs. 29,250 crore
+            for Urban Local bodies (ULBs).
           </p>
           <p>
-            1) “Million-Plus” ULBs - Eligible for Grants totalling Rs. 9,229
-            crore
+            The Ministry of Housing and Urban Affairs (MoHUA), Government of
+            India, is the nodal ministry for administering the 15th FC grants to
+            the ULBs.
           </p>
           <p>
-            2) All other ULBs (<1 Million population) - Eligible for Grants
-            totalling Rs. 20,021 crore
+            This Grant Management System streamlines the process between ULBs,
+            State Urban Development Departments (UDDs), and MoHUA, and
+            facilitates seamless submission and flow of required information
+            from ULBs to State UDDs and further to MoHUA.
           </p>
           <p>
-            The Ministry of Housing and Urban Affairs (MoHUA) is the nodal
-            ministry for administering the 15th FC grants to the ULBs.
-          </p>
-          <p>
-            This Grant Management System aims to integrate and streamline the
-            activities of ULBs, State Urban Development Departments (UDDs), and
-            MoHUA, with respect to claim processing for 15th FC grants, and
-            facilitate the submission of data and uploading of documents as
-            required by ULBs, and further verification and checking by UDDs of
-            respective States.
-          </p>
-          <p class="text-white">
-            The following step-wise features are covered in this 15th FC Grants
-            Management Module:
+            We thank you for your patronage and we hope you have an enjoyable
+            experience using this grant management system.
           </p>
         </div>
-        <table class="table table-bordered">
-          <tr>
-            <td>Step 1: Preparing/uploading information/ claims by ULBs</td>
-            <td>
-              Step 2: Online Verification of eligibility/ claims, submitted by
-              ULBs, by State UDDs
-            </td>
-          </tr>
-          <tr>
-            <td>Step 3: Online submission of claims to MoHUA by State UDDs</td>
-            <td>Step 4: Review/Verification of eligibility by MoHUA</td>
-          </tr>
-          <tr>
-            <td>
-              Step 5: Approval of final list and recommendation by MoHUA to DoE,
-              MoF
-            </td>
-            <td></td>
-          </tr>
-        </table>
-
+        <br />
         <p class="text-white">Reference Documents:-</p>
-        <ul class="list-group list-inline text-nowrap d-none">
+        <ul class="list-group list-inline d-none">
           <li>
             <i class="fa fa-circle" aria-hidden="true"></i> Grant Module User
             Module <span style="color: red">(Upcoming Soon)</span>
@@ -116,7 +83,7 @@
             type="submit"
             class="btn btn-primary"
             (click)="onClickingLoginButton()"
-            value="LOGIN AS ULB/OTHERS"
+            value="LOGIN"
           />
 
           <P class="support-text"
@@ -129,7 +96,7 @@
           <p>We will respond to you within 24 hours.</p>
         </div>
 
-        <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="col-xs-12 col-sm-12 col-md-12 progress-container">
           <div
             *ngIf="
               loggedInUserType &&
@@ -141,7 +108,7 @@
           >
             <span
               ><span style="font-weight: 600; display: inline"
-                >FORM STATUS:</span
+                >APPLICATION STATUS:</span
               >
               {{ financialData.customStatusMessage }}</span
             >
@@ -165,7 +132,7 @@
                   }"
                 >
                   {{ evidencePercentageCompleted }}% <br />
-                  Benchmark and target for service level indicators
+                  Service Level Indicators
                 </li>
                 <li
                   [ngClass]="{
@@ -176,8 +143,7 @@
                     pending: solidWastePercentageCompleted === 0
                   }"
                 >
-                  {{ solidWastePercentageCompleted }}% <br />Solid Waste
-                  Management
+                  {{ solidWastePercentageCompleted }}% <br />Upload Plans
                 </li>
                 <li
                   *ngIf="isULBMillionPlus"
@@ -190,7 +156,7 @@
                   }"
                 >
                   {{ millionPlusCitiesCompleted }}%<br />
-                  Million Plus Cities Only
+                  Upload Plans(Million+ City)
                 </li>
               </ul>
             </div>
@@ -224,7 +190,7 @@
                   ? financialData.status === uploadStatus.REJECTED
                     ? "Update Rejected Data"
                     : "View Filled Data"
-                  : "Fill Remaining Data"
+                  : "Complete Application"
               }}
             </a>
 
@@ -278,7 +244,9 @@
           class="d-flex justify-content-center flex-column align-items-center"
         >
           <span
-            ><span style="font-weight: 600; display: inline">FORM STATUS:</span>
+            ><span style="font-weight: 600; display: inline"
+              >APPLICATION STATUS:</span
+            >
             Not Filled</span
           >
           <a
