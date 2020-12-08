@@ -255,7 +255,6 @@ export class DataUploadComponent
           },
           ticks: {
             beginAtZero: true,
-            stepSize: 1,
           },
         },
       ],
@@ -503,11 +502,11 @@ export class DataUploadComponent
       if (maxValue === undefined || maxValue === null) maxValue = value;
       if (value > maxValue) maxValue = value;
     });
-    console.log(chartData);
-    console.log("maxValue", maxValue);
 
-    if (maxValue < 3) maxValue = 3;
-    this.defaultChartOptions.scales.yAxes[0].ticks["max"] = maxValue + 2;
+    if (maxValue < 10) maxValue = 10;
+    this.defaultChartOptions.scales.yAxes[0].ticks["max"] = Number.parseInt(
+      maxValue + maxValue / 20
+    );
 
     this.currentChart = new Chart(ctx, {
       type: "bar",
@@ -519,22 +518,10 @@ export class DataUploadComponent
           labels: {
             position: "border",
             fontColor: (data) => {
-              // if (data.dataset.backgroundColor[data.index]) {
-              //   const rgb = this.hexToRgb(
-              //     data.dataset.backgroundColor[data.index]
-              //   );
-              //   const threshold = 140;
-              //   const luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
-              //   return luminance > threshold ? "black" : "white";
-              // }
               return "grey";
             },
             render: (args) => {
               return args.value;
-              // console.log("args", args);
-              // if (args.value > 4) {
-              //   return args.value + "%";
-              // }
             },
           },
         },
