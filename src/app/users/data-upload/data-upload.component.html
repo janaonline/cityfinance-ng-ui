@@ -459,7 +459,7 @@
             <table
               aria-describedby="ULB Singup List"
               class="table upldate-table"
-              *ngIf="ulbList; else loader"
+              *ngIf="stateFcGrantDocuments !== undefined; else loader"
             >
               <thead>
                 <tr class="" style="color: white">
