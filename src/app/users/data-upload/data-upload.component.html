@@ -259,10 +259,7 @@
             </span>
           </div>
 
-          <div
-            class="view-list"
-            (click)="onClickCharTakeAction('', 'No')"
-          >
+          <div class="view-list" (click)="onClickCharTakeAction('', 'No')">
             View List
           </div>
         </div>
@@ -430,7 +427,7 @@
         </div>
       </div>
 
-      <!-- <div class="ulb-list">
+      <div class="ulb-list">
         <div *ngIf="stateFcGrantDocuments === undefined">
           <app-pre-loader></app-pre-loader>
           <app-pre-loader></app-pre-loader>
@@ -456,7 +453,9 @@
           </ng-container>
 
           <ng-container *ngSwitchDefault>
-            <span style="font-weight: 700">Files Uploaded by State</span>
+            <h3>
+              <span style="font-weight: 700">Files Uploaded by State</span>
+            </h3>
             <table
               aria-describedby="ULB Singup List"
               class="table upldate-table"
@@ -480,9 +479,7 @@
               <tbody>
                 <tr [formGroup]="ulbFilter">
                   <td></td>
-                  <td *ngIf="loggedInUserData.role !== userTypes.STATE">
-               
-                  </td>
+                  <td *ngIf="loggedInUserData.role !== userTypes.STATE"></td>
                   <td></td>
                 </tr>
                 <ng-container
@@ -550,7 +547,7 @@
                 </ng-container>
                 <ng-template #noData>
                   <tr>
-                    <td class="text-center" [attr.colspan]="3">
+                    <td class="text-center" [attr.colspan]="5">
                       <h3>No Data Available</h3>
                     </td>
                   </tr>
@@ -573,7 +570,7 @@
             </pagination-controls>
           </ng-container>
         </ng-container>
-      </div> -->
+      </div>
 
       <div class="ulb-list" id="ulb-list">
         <div class="col-md-12" style="padding-left: 0px">
