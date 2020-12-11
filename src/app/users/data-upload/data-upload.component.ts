@@ -508,9 +508,9 @@ export class DataUploadComponent
       maxValue + maxValue / 20
     );
     if (maxValue > 5) {
-    this.defaultChartOptions.scales.yAxes[0].ticks[
-      "stepSize"
-    ] = Number.parseInt((maxValue + maxValue / 20) / 5 + "");
+      this.defaultChartOptions.scales.yAxes[0].ticks[
+        "stepSize"
+      ] = Number.parseInt((maxValue + maxValue / 20) / 5 + "");
     }
 
     this.currentChart = new Chart(ctx, {
@@ -741,7 +741,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  }
+  };
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -807,12 +807,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  }
+  };
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  }
+  };
 
   getAddedFilterCount() {
     let count = 0;
