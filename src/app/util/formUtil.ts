@@ -242,7 +242,7 @@ export class FormUtil {
 
           if (controlName == "accountant Name") {
             return errors.push(
-              `XV FC Nodal Officer Name should be alphabetic only`
+              `ULB Nodal Officer Name should be alphabetic only`
             );
           }
           return errors.push(
@@ -285,7 +285,7 @@ export class FormUtil {
     //   accountantEmail == commissionerEmail
     // ) {
     //   errors.push(
-    //     "Commisionar Email ID and XV FC Nodal Officer Email ID cannot be same"
+    //     "Commisionar Email ID and ULB Nodal Officer Email ID cannot be same"
     //   );
     // }
     Object.keys(form.controls).forEach((controlName) => {
@@ -296,7 +296,7 @@ export class FormUtil {
         if (newControlName.includes("accountant")) {
           newControlName = newControlName.replace(
             "accountant",
-            "XV FC Nodal Officer"
+            "ULB Nodal Officer"
           );
         }
         if (control.errors && control.errors.required) {
@@ -343,7 +343,7 @@ export class FormUtil {
 
       // if (accountantEmail == commissionerEmail) {
       //   errors.push(
-      //     "Commisionar Email ID and XV FC Nodal Officer Email ID cannot be same"
+      //     "Commisionar Email ID and ULB Nodal Officer Email ID cannot be same"
       //   );
       // }
     }
