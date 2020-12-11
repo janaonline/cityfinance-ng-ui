@@ -15,7 +15,7 @@ if (
   url = "https://cityfinance.in/api/v1/";
   GoogleTagID = "UA-171288029-1";
 }
-// url = "http://cityfinance.in/api/v1/";
+// url = "https://cityfinance.in/api/v1/";
 export const environment = {
   production: false,
   api: {
