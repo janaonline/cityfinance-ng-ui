@@ -181,7 +181,12 @@ export class FileUploadComponent implements OnInit, OnDestroy, OnChanges {
     const filteredFiles = <any>(
       this.filterInvalidFiles(event.target["files"], key)
     );
-
+    if (!filteredFiles || !filteredFiles.length) {
+      this.showErrorDialog(
+        "Only PDF file and maximum 50MB file size is allowed"
+      );
+      return console.warn("show invalid error");
+    }
     if (this.userSelectedFiles[key] && this.userSelectedFiles[key].length) {
       this.cancelFileUpload(key, this.userSelectedFiles[key][0].name);
       this.userSelectedFiles[key].push(...filteredFiles);
@@ -302,9 +307,13 @@ export class FileUploadComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  showErrorDialog() {
+  showErrorDialog(message?: string) {
+    const config = { ...this.defaultErrorMessageConfiguration };
+    if (message) {
+      config.message = message;
+    }
     const dailogboxx = this._dialog.open(DialogComponent, {
-      data: this.defaultErrorMessageConfiguration,
+      data: config,
     });
   }
 

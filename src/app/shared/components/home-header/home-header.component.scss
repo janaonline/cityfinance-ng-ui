@@ -431,4 +431,14 @@ nav.navbar-1st-row {
   }
 }
 
+:host {
+  img.new {
+    position: absolute;
+    width: 19%;
+    right: 0px;
+    top: 0px;
+    // transform: scale(1.2);
+  }
+}
+
 // responsive max-width 468px css end

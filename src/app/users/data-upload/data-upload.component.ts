@@ -507,6 +507,11 @@ export class DataUploadComponent
     this.defaultChartOptions.scales.yAxes[0].ticks["max"] = Number.parseInt(
       maxValue + maxValue / 20
     );
+    if (maxValue > 5) {
+      this.defaultChartOptions.scales.yAxes[0].ticks[
+        "stepSize"
+      ] = Number.parseInt((maxValue + maxValue / 20) / 5 + "");
+    }
 
     this.currentChart = new Chart(ctx, {
       type: "bar",

@@ -204,7 +204,7 @@
     ></app-documents-upload>
   </mat-step>
 
-  <mat-step label="Submit Application" *ngIf="canUploadFile">
+  <mat-step label="Preview & Submit" *ngIf="canUploadFile">
     <app-completed
       [submitted]="userHasAlreadyFilledForm"
       (submit)="uploadCompletedQuestionnaireData()"
