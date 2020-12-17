@@ -103,9 +103,7 @@ export class PreviewComponent implements OnInit {
     private _commonService: CommonService
   ) {}
 
-  ngOnInit() {
-    console.log("data", this.data);
-  }
+  ngOnInit() {}
 
   replaceAllOccurence(
     originalText: string,
@@ -125,7 +123,6 @@ export class PreviewComponent implements OnInit {
     let html = this.styleForPDF + elementToAddPDFInString;
     html = this.replaceAllOccurence(html, 'width="15.932"', 'width="7.932"');
     html = this.replaceAllOccurence(html, 'height="15.932"', 'height="7.932"');
-    console.log(html);
     this.showLoader = true;
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
