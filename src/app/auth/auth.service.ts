@@ -36,6 +36,9 @@ export class AuthService {
     return localStorage.getItem("id_token");
   }
 
+  /**
+   * @description Checks if user is logged in or not.
+   */
   loggedIn() {
     return !this.helper.isTokenExpired(this.getToken());
   }
