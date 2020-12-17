@@ -149,13 +149,14 @@ export class FinancialUploadsComponent
       }
 
       if (
-        this.financialData.status === UPLOAD_STATUS.REJECTED ||
-        JSON.stringify(this.financialData).includes(`${UPLOAD_STATUS.REJECTED}`)
+        (this.financialData.status === UPLOAD_STATUS.REJECTED ||
+          JSON.stringify(this.financialData).includes(
+            `${UPLOAD_STATUS.REJECTED}`
+          )) &&
+        this.loggedInUserDetails.role === USER_TYPE.ULB
       ) {
         this.canViewActionTaken = true;
         this.setFormToCorrectionMode(this.financialData);
-
-        console.warn("now set form to correct mode");
         return;
       } else {
         if (
@@ -300,6 +301,7 @@ export class FinancialUploadsComponent
         SolidWasteEmitValue
       >,
     };
+
     this.solidWasteManagementForm.patchValue(
       this.jsonUtil.filterEmptyValue(event, true) || {}
     );
@@ -367,8 +369,6 @@ export class FinancialUploadsComponent
       isCompleted: false,
     };
 
-    // body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
-
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
       height: "fit-content",
@@ -401,6 +401,10 @@ export class FinancialUploadsComponent
     this.successMessage = null;
   }
 
+  /**
+   * @description This method is called when ULB has completed filling / correcting
+   * the data, and doing final submit.
+   */
   uploadCompletedQuestionnaireData() {
     this.saveAsDraftFailMessge = null;
     this.isSubmitButtonClicked = true;
@@ -417,18 +421,30 @@ export class FinancialUploadsComponent
 
     let body = {
       ulb: this.loggedInUserDetails.ulb,
-      millionPlusCities: {
-        documents: {
-          ...this.millionPlusCitiesForm.getRawValue(),
-          ...this.millionPlusCitiesForm.value,
-        },
-      },
-      solidWasteManagement: {
-        documents: {
-          ...this.solidWasteManagementForm.getRawValue(),
-          ...this.solidWasteManagementForm.value,
-        },
-      },
+      millionPlusCities:
+        this.financialData &&
+        this.financialData.millionPlusCities &&
+        this.financialData._id
+          ? { ...this.financialData.millionPlusCities }
+          : this.financialData.millionPlusCities && this.financialData._id
+          ? { ...this.financialData.millionPlusCities }
+          : {
+              documents: {
+                ...this.millionPlusCitiesForm.getRawValue(),
+                ...this.millionPlusCitiesForm.value,
+              },
+            },
+      solidWasteManagement:
+        this.financialData &&
+        this.financialData.solidWasteManagement &&
+        this.financialData._id
+          ? { ...this.financialData.solidWasteManagement }
+          : {
+              documents: {
+                ...this.solidWasteManagementForm.getRawValue(),
+                ...this.solidWasteManagementForm.value,
+              },
+            },
       waterManagement: {
         ...this.waterWasteManagementForm.getRawValue(),
         ...this.waterWasteManagementForm.value,
@@ -436,14 +452,15 @@ export class FinancialUploadsComponent
       isCompleted: true,
     };
 
+    body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
+    body.isCompleted = true;
+    this.removeRejectionFromData(body as IFinancialData);
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
       height: "fit-content",
       panelClass: "custom-warning-popup",
       disableClose: true,
     });
-    body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
-    body.isCompleted = true;
 
     this.financialDataService.uploadFinancialData(body).subscribe(
       (res) => {
@@ -462,6 +479,26 @@ export class FinancialUploadsComponent
         setTimeout(() => this._matDialog.closeAll(), 3000);
       }
     );
+  }
+
+  removeRejectionFromData(data: IFinancialData) {
+    Object.keys(data.millionPlusCities.documents).forEach((questionKey) => {
+      data.millionPlusCities.documents[questionKey].forEach((document) => {
+        if (document.status === UPLOAD_STATUS.REJECTED) {
+          document.status = null;
+          document.rejectReason = null;
+        }
+      });
+    });
+
+    Object.keys(data.solidWasteManagement.documents).forEach((questionKey) => {
+      data.solidWasteManagement.documents[questionKey].forEach((document) => {
+        if (document.status === UPLOAD_STATUS.REJECTED) {
+          document.status = null;
+          document.rejectReason = null;
+        }
+      });
+    });
   }
 
   /**

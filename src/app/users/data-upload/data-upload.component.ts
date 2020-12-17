@@ -348,9 +348,7 @@ export class DataUploadComponent
       [this.questionForState[2].key]: null,
     };
     body = { ...body, ...values };
-    this.financialDataService.saveStateFCDocuments(body).subscribe((res) => {
-      console.log(res);
-    });
+    this.financialDataService.saveStateFCDocuments(body).subscribe((res) => {});
   }
 
   onChangingShowULBInChart(event: MatSlideToggleChange) {
