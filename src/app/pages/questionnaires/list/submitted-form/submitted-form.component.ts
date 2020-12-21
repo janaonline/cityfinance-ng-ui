@@ -168,7 +168,7 @@ export class SubmittedFormComponent implements OnInit {
 
   openStateSelectPopup() {
     this.matdialog.open(this.stateQuestionnairePopup, {
-      height: "25vh",
+      height: "fit-content",
       width: "35vw",
       panelClass: "state-without-questionnaire-popup",
     });
