@@ -511,6 +511,8 @@ export class DataUploadComponent
       ] = Number.parseInt((maxValue + maxValue / 20) / 5 + "");
     }
 
+    this.defaultChartOptions.scales.yAxes[0].ticks["maxTicksLimit"] = 5;
+
     this.currentChart = new Chart(ctx, {
       type: "bar",
       data: { ...chartData },
