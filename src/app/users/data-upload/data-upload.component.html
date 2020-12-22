@@ -395,7 +395,7 @@
         </div>
 
         <div class="chart-container">
-          <p class="heading" style="font-size: 1.6rem">
+          <p class="heading mb-2" style="font-size: 1.6rem">
             15<sup>th</sup> FC Form Status
             <!-- <mat-slide-toggle
               style="float: right"
@@ -600,17 +600,49 @@
                 <th
                   *ngIf="loggedInUserData.role !== userTypes.STATE"
                   scope="State Name"
-                  style="width: 9%"
+                  style="width: 10%"
+                  (click)="sortByIdULBList('stateName')"
                 >
                   State Name
+                  <em class="glyphicon glyphicon-sort"></em>
                 </th>
-                <th scope="ULB Name">ULB Name</th>
-                <th scope="ULB Type">ULB Type</th>
-                <th scope="Census Code">Census Code</th>
-                <th scope="ULB Code">ULB Code</th>
-                <th scope="Email Id">Email Id</th>
-                <th scope="Registered" style="width: 10%">Profile Updated</th>
-                <th scope="Type">Population Type</th>
+                <th scope="ULB Name" (click)="sortByIdULBList('ulbName')">
+                  ULB Name<em class="glyphicon glyphicon-sort"></em>
+                </th>
+                <th
+                  scope="ULB Type"
+                  style="width: 10%"
+                  (click)="sortByIdULBList('ulbType')"
+                >
+                  ULB Type <em class="glyphicon glyphicon-sort"></em>
+                </th>
+                <th
+                  scope="Census Code"
+                  style="width: 11%"
+                  (click)="sortByIdULBList('censusCode')"
+                >
+                  Census Code <em class="glyphicon glyphicon-sort"></em>
+                </th>
+                <th
+                  scope="ULB Code"
+                  style="width: 11%"
+                  (click)="sortByIdULBList('sbCode')"
+                >
+                  ULB Code <em class="glyphicon glyphicon-sort"></em>
+                </th>
+                <th scope="Email Id" (click)="sortByIdULBList('email')">
+                  Email Id <em class="glyphicon glyphicon-sort"></em>
+                </th>
+                <th
+                  scope="Registered"
+                  style="width: 13%"
+                  (click)="sortByIdULBList('registration')"
+                >
+                  Profile Updated <em class="glyphicon glyphicon-sort"></em>
+                </th>
+                <th scope="Type" (click)="sortByIdULBList('isMillionPlus')">
+                  Population Type <em class="glyphicon glyphicon-sort"></em>
+                </th>
               </tr>
             </thead>
             <tbody>

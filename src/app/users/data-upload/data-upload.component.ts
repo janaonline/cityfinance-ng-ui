@@ -178,6 +178,7 @@ export class DataUploadComponent
     totalCount: null,
   };
   currentSort = 1;
+  currentULBListSort = 1;
 
   listFetchOption = {
     filter: null,
@@ -315,6 +316,7 @@ export class DataUploadComponent
       this.getFinancialData();
     } else {
       if (this.userUtil.getUserType() === USER_TYPE.ULB) {
+        return this.router.navigate(["/home"]);
         this.gettingULBDats();
       }
     }
@@ -593,25 +595,6 @@ export class DataUploadComponent
     });
   }
 
-  private fetchULBList(params = {}) {
-    this.ulbList = undefined;
-    const { skip } = this.ulblistFetchOption;
-    const newParams = {
-      skip,
-      limit: 10,
-      ...params,
-    };
-    this._commonService.fetchULBList(newParams).subscribe((res) => {
-      this.ulbList = res["data"];
-      if ("total" in res) {
-        this.ulbtableDefaultOptions = {
-          ...this.ulbtableDefaultOptions,
-          totalCount: res["total"] || 0,
-        };
-      }
-    });
-  }
-
   private gettingULBDats(params = {}, body = {}) {
     this.loading = true;
     const { skip } = this.listFetchOption;
@@ -648,6 +631,29 @@ export class DataUploadComponent
         this.stateNameControl.patchValue(this.stateList[0].name);
         this.applyFilterClicked();
       } else this.stateList = res.data;
+    });
+  }
+
+  private fetchULBList(params = {}) {
+    this.ulbList = undefined;
+    const { skip } = this.ulblistFetchOption;
+    const newParams = {
+      skip,
+      limit: 10,
+      ...params,
+    };
+    const sort = this.ulblistFetchOption.sort
+      ? { ...this.ulblistFetchOption.sort }
+      : null;
+
+    this._commonService.fetchULBList(newParams, sort).subscribe((res) => {
+      this.ulbList = res["data"];
+      if ("total" in res) {
+        this.ulbtableDefaultOptions = {
+          ...this.ulbtableDefaultOptions,
+          totalCount: res["total"] || 0,
+        };
+      }
     });
   }
 
@@ -1267,6 +1273,15 @@ export class DataUploadComponent
       sort: { [id]: this.currentSort },
     };
     this.getFinancialDataList({}, this.listFetchOption);
+  }
+
+  sortByIdULBList(id: string) {
+    this.currentULBListSort = this.currentULBListSort > 0 ? -1 : 1;
+    this.ulblistFetchOption = {
+      ...this.ulblistFetchOption,
+      sort: { [id]: this.currentULBListSort },
+    };
+    this.fetchULBList({});
   }
 
   private createForms() {
