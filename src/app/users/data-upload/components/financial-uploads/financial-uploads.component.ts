@@ -301,10 +301,26 @@ export class FinancialUploadsComponent
         SolidWasteEmitValue
       >,
     };
+    console.log("event", event);
+    if (
+      !event.garbageFreeCities ||
+      !event.garbageFreeCities.length ||
+      !event.garbageFreeCities[0].name
+    ) {
+      this.solidWasteManagementForm.controls.garbageFreeCities.reset();
+    }
+    if (
+      !event.waterSupplyCoverage ||
+      !event.waterSupplyCoverage.length ||
+      !event.waterSupplyCoverage[0].name
+    ) {
+      this.solidWasteManagementForm.controls.waterSupplyCoverage.reset();
+    }
 
     this.solidWasteManagementForm.patchValue(
       this.jsonUtil.filterEmptyValue(event, true) || {}
     );
+    console.log(this.solidWasteManagementForm.value);
   }
 
   onMilionPlusCitiesEmitValue(event: MillionPlusCitiesDocuments) {
@@ -337,6 +353,32 @@ export class FinancialUploadsComponent
             : "";
         }
       });
+    }
+    if (!event.cityPlan || !event.cityPlan.length || !event.cityPlan[0].name) {
+      this.solidWasteManagementForm.controls.cityPlan.reset();
+    }
+    if (
+      !event.serviceLevelPlan ||
+      !event.serviceLevelPlan.length ||
+      !event.serviceLevelPlan[0].name
+    ) {
+      this.solidWasteManagementForm.controls.serviceLevelPlan.reset();
+    }
+
+    if (
+      !event.solidWastePlan ||
+      !event.solidWastePlan.length ||
+      !event.solidWastePlan[0].name
+    ) {
+      this.solidWasteManagementForm.controls.solidWastePlan.reset();
+    }
+
+    if (
+      !event.waterBalancePlan ||
+      !event.waterBalancePlan.length ||
+      !event.waterBalancePlan[0].name
+    ) {
+      this.solidWasteManagementForm.controls.waterBalancePlan.reset();
     }
 
     this.financialData.millionPlusCities = {
@@ -455,6 +497,7 @@ export class FinancialUploadsComponent
     body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
     body.isCompleted = true;
     this.removeRejectionFromData(body as IFinancialData);
+    return console.log(body);
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
       height: "fit-content",
@@ -618,6 +661,7 @@ export class FinancialUploadsComponent
       message = "All questions must be answered in Service Level Indicators";
       this.stepper.selectedIndex = 0;
     }
+    console.log(`isSolidWasteValid: `, this.solidWasteManagementForm);
 
     if (!isSolidWasteValid) {
       message += message
