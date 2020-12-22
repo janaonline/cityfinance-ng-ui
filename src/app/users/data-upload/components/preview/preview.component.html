@@ -48,8 +48,9 @@
           <td>
             <svg
               *ngIf="
-                data?.waterManagement[service.key]?.status ===
-                uploadSTATUS.APPROVED
+              (  data?.waterManagement[service.key]?.status ===
+                uploadSTATUS.APPROVED) ||
+               ( data.status === uploadSTATUS.APPROVED)
               "
               xmlns="http://www.w3.org/2000/svg"
               width="15.932"
@@ -200,8 +201,9 @@
           <td>
             <svg
               *ngIf="
-                data?.waterManagement[service.key]?.status ===
-                uploadSTATUS.APPROVED
+                (data?.waterManagement[service.key]?.status ===
+                uploadSTATUS.APPROVED) ||
+               ( data.status === uploadSTATUS.APPROVED)
               "
               xmlns="http://www.w3.org/2000/svg"
               width="15.932"
@@ -352,8 +354,9 @@
           <td>
             <svg
               *ngIf="
-                data?.waterManagement[service.key]?.status ===
-                uploadSTATUS.APPROVED
+                (data?.waterManagement[service.key]?.status ===
+                uploadSTATUS.APPROVED) ||
+               ( data.status === uploadSTATUS.APPROVED)
               "
               xmlns="http://www.w3.org/2000/svg"
               width="15.932"
@@ -504,8 +507,9 @@
           <td>
             <svg
               *ngIf="
-                data?.waterManagement[service.key]?.status ===
-                uploadSTATUS.APPROVED
+               ( data?.waterManagement[service.key]?.status ===
+                uploadSTATUS.APPROVED) ||
+               ( data.status === uploadSTATUS.APPROVED)
               "
               xmlns="http://www.w3.org/2000/svg"
               width="15.932"
@@ -682,10 +686,11 @@
             <span>
               <svg
                 *ngIf="
-                  data?.solidWasteManagement?.documents &&
+                 ( data?.solidWasteManagement?.documents &&
                   data?.solidWasteManagement?.documents[question.key] &&
                   data?.solidWasteManagement?.documents[question.key][0]
-                    ?.status === uploadSTATUS.APPROVED
+                    ?.status === uploadSTATUS.APPROVED) ||
+               ( data.status === uploadSTATUS.APPROVED)
                 "
                 xmlns="http://www.w3.org/2000/svg"
                 width="15.932"
@@ -834,10 +839,11 @@
               <span>
                 <svg
                   *ngIf="
-                    data?.millionPlusCities?.documents &&
+                   ( data?.millionPlusCities?.documents &&
                     data?.millionPlusCities?.documents[question.key] &&
                     data?.millionPlusCities?.documents[question.key][0]
-                      ?.status === uploadSTATUS.APPROVED
+                      ?.status === uploadSTATUS.APPROVED) ||
+               ( data.status === uploadSTATUS.APPROVED)
                   "
                   xmlns="http://www.w3.org/2000/svg"
                   width="15.932"
@@ -958,7 +964,7 @@
         Form First Submitted On:
         <span style="font-weight: normal">
           {{
-            (data["firstSubmitedAt"] | date: "MMMM d, y, h:mm a") ||
+            (data["firstSubmitedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
               "Not Submitted"
           }}</span
         >
@@ -967,7 +973,7 @@
         Form Last Rejected On:
         <span style="font-weight: normal">
           {{
-            (data["rejectedAt"] | date: "MMMM d, y, h:mm a") ||
+            (data["rejectedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
               "No Reject Found"
           }}</span
         >

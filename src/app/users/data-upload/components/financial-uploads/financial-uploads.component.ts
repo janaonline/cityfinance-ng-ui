@@ -482,6 +482,9 @@ export class FinancialUploadsComponent
   }
 
   removeRejectionFromData(data: IFinancialData) {
+    if (!data) return;
+    if (!data.millionPlusCities) return;
+    if (!data.millionPlusCities.documents) return;
     Object.keys(data.millionPlusCities.documents).forEach((questionKey) => {
       data.millionPlusCities.documents[questionKey].forEach((document) => {
         if (document.status === UPLOAD_STATUS.REJECTED) {

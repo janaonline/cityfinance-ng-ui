@@ -103,6 +103,12 @@ export class PreviewComponent implements OnInit {
     private _commonService: CommonService
   ) {}
 
+  ngOnChanges() {
+    if (this.data) {
+      console.log(this.data);
+    }
+  }
+
   ngOnInit() {}
 
   replaceAllOccurence(
