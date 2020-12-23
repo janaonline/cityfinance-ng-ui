@@ -657,6 +657,10 @@ export class DataUploadComponent
           totalCount: res["total"] || 0,
         };
       }
+      const ulbLisTable = document.getElementById("ulb-list");
+      if (ulbLisTable) {
+        ulbLisTable.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
     });
   }
 
