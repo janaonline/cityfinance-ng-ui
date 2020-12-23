@@ -186,6 +186,17 @@ export class FormUtil {
       ],
       departmentContactNumber: ["", [Validators.required, mobileNoValidator]],
     });
+    form.controls.email.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((newValue) => {
+        form.controls.departmentEmail.updateValueAndValidity();
+      });
+    form.controls.departmentEmail.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((newValue) => {
+        form.controls.email.updateValueAndValidity();
+      });
+
     return form;
   }
 
