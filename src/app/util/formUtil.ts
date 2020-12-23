@@ -137,15 +137,27 @@ export class FormUtil {
   public getStateForm() {
     const form = this.fb.group({
       state: ["", Validators.required],
-      name: ["", [Validators.required, nonEmptyValidator]],
+      name: [
+        "",
+        [Validators.required, nonEmptyValidator, atLeast1AplhabetRequired],
+      ],
       email: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
-      designation: ["", [Validators.required, nonEmptyValidator]],
-      address: ["", [Validators.required, nonEmptyValidator]],
-      departmentName: ["", [Validators.required, nonEmptyValidator]],
+      designation: [
+        "",
+        [Validators.required, nonEmptyValidator, atLeast1AplhabetRequired],
+      ],
+      address: [
+        "",
+        [Validators.required, nonEmptyValidator, atLeast1AplhabetRequired],
+      ],
+      departmentName: [
+        "",
+        [Validators.required, nonEmptyValidator, atLeast1AplhabetRequired],
+      ],
       departmentEmail: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
@@ -177,9 +189,18 @@ export class FormUtil {
         [Validators.required, Validators.email, customEmailValidator],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
-      designation: ["", [Validators.required, nonEmptyValidator]],
-      address: ["", [Validators.required, nonEmptyValidator]],
-      departmentName: ["MoHUA", [Validators.required, nonEmptyValidator]],
+      designation: [
+        "",
+        [Validators.required, nonEmptyValidator, atLeast1AplhabetRequired],
+      ],
+      address: [
+        "",
+        [Validators.required, nonEmptyValidator, atLeast1AplhabetRequired],
+      ],
+      departmentName: [
+        "MoHUA",
+        [Validators.required, nonEmptyValidator, atLeast1AplhabetRequired],
+      ],
       departmentEmail: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
@@ -202,15 +223,27 @@ export class FormUtil {
 
   public getPartnerForm() {
     const form = this.fb.group({
-      name: ["", [Validators.required, nonEmptyValidator]],
+      name: [
+        "",
+        [Validators.required, nonEmptyValidator, atLeast1AplhabetRequired],
+      ],
       email: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
-      designation: ["", [Validators.required, nonEmptyValidator]],
-      address: ["", [Validators.required, nonEmptyValidator]],
-      departmentName: ["", [Validators.required, nonEmptyValidator]],
+      designation: [
+        "",
+        [Validators.required, nonEmptyValidator, atLeast1AplhabetRequired],
+      ],
+      address: [
+        "",
+        [Validators.required, nonEmptyValidator, atLeast1AplhabetRequired],
+      ],
+      departmentName: [
+        "",
+        [Validators.required, nonEmptyValidator, atLeast1AplhabetRequired],
+      ],
       departmentEmail: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
