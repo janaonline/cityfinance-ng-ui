@@ -147,7 +147,14 @@ export class FinancialUploadsComponent
       ) {
         this.setStateToReadMode();
       }
-
+      console.warn("setting canViewActionTaken to true");
+      if (
+        this.financialData.status === UPLOAD_STATUS.REJECTED ||
+        JSON.stringify(this.financialData).includes(`${UPLOAD_STATUS.REJECTED}`)
+      ) {
+        console.warn("setting canViewActionTaken to true");
+        this.canViewActionTaken = true;
+      }
       if (
         (this.financialData.status === UPLOAD_STATUS.REJECTED ||
           JSON.stringify(this.financialData).includes(
@@ -155,7 +162,6 @@ export class FinancialUploadsComponent
           )) &&
         this.loggedInUserDetails.role === USER_TYPE.ULB
       ) {
-        this.canViewActionTaken = true;
         this.setFormToCorrectionMode(this.financialData);
         return;
       } else {
@@ -175,6 +181,8 @@ export class FinancialUploadsComponent
 
     // Check here for taking actions
     if (!hasAccessToTakeAction) {
+      console.warn("setting canViewActionTaken to false");
+
       this.canViewActionTaken = false;
       return;
     }
@@ -188,7 +196,6 @@ export class FinancialUploadsComponent
   }
 
   private setStateToReadMode() {
-    console.warn("setting form to readME mode");
     this.waterWasteManagementForm.disable();
     this.solidWasteManagementForm.disable();
     this.millionPlusCitiesForm.disable();
