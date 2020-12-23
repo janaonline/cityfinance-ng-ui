@@ -48,9 +48,10 @@
           <td>
             <svg
               *ngIf="
-              (  data?.waterManagement[service.key]?.status ===
-                uploadSTATUS.APPROVED) ||
-               ( data.status === uploadSTATUS.APPROVED)
+                data?.waterManagement[service.key]?.status ===
+                  uploadSTATUS.APPROVED ||
+                (data.status === uploadSTATUS.APPROVED &&
+                  data.actionTakenBy === USER_TYPES.MoHUA)
               "
               xmlns="http://www.w3.org/2000/svg"
               width="15.932"
@@ -201,9 +202,10 @@
           <td>
             <svg
               *ngIf="
-                (data?.waterManagement[service.key]?.status ===
-                uploadSTATUS.APPROVED) ||
-               ( data.status === uploadSTATUS.APPROVED)
+                data?.waterManagement[service.key]?.status ===
+                  uploadSTATUS.APPROVED ||
+                (data.status === uploadSTATUS.APPROVED &&
+                  data.actionTakenBy === USER_TYPES.MoHUA)
               "
               xmlns="http://www.w3.org/2000/svg"
               width="15.932"
@@ -354,9 +356,10 @@
           <td>
             <svg
               *ngIf="
-                (data?.waterManagement[service.key]?.status ===
-                uploadSTATUS.APPROVED) ||
-               ( data.status === uploadSTATUS.APPROVED)
+                data?.waterManagement[service.key]?.status ===
+                  uploadSTATUS.APPROVED ||
+                (data.status === uploadSTATUS.APPROVED &&
+                  data.actionTakenBy === USER_TYPES.MoHUA)
               "
               xmlns="http://www.w3.org/2000/svg"
               width="15.932"
@@ -507,9 +510,10 @@
           <td>
             <svg
               *ngIf="
-               ( data?.waterManagement[service.key]?.status ===
-                uploadSTATUS.APPROVED) ||
-               ( data.status === uploadSTATUS.APPROVED)
+                data?.waterManagement[service.key]?.status ===
+                  uploadSTATUS.APPROVED ||
+                (data.status === uploadSTATUS.APPROVED &&
+                  data.actionTakenBy === USER_TYPES.MoHUA)
               "
               xmlns="http://www.w3.org/2000/svg"
               width="15.932"
@@ -686,11 +690,12 @@
             <span>
               <svg
                 *ngIf="
-                 ( data?.solidWasteManagement?.documents &&
-                  data?.solidWasteManagement?.documents[question.key] &&
-                  data?.solidWasteManagement?.documents[question.key][0]
-                    ?.status === uploadSTATUS.APPROVED) ||
-               ( data.status === uploadSTATUS.APPROVED)
+                  (data?.solidWasteManagement?.documents &&
+                    data?.solidWasteManagement?.documents[question.key] &&
+                    data?.solidWasteManagement?.documents[question.key][0]
+                      ?.status === uploadSTATUS.APPROVED) ||
+                  (data.status === uploadSTATUS.APPROVED &&
+                    data.actionTakenBy === USER_TYPES.MoHUA)
                 "
                 xmlns="http://www.w3.org/2000/svg"
                 width="15.932"
@@ -839,11 +844,12 @@
               <span>
                 <svg
                   *ngIf="
-                   ( data?.millionPlusCities?.documents &&
-                    data?.millionPlusCities?.documents[question.key] &&
-                    data?.millionPlusCities?.documents[question.key][0]
-                      ?.status === uploadSTATUS.APPROVED) ||
-               ( data.status === uploadSTATUS.APPROVED)
+                    (data?.millionPlusCities?.documents &&
+                      data?.millionPlusCities?.documents[question.key] &&
+                      data?.millionPlusCities?.documents[question.key][0]
+                        ?.status === uploadSTATUS.APPROVED) ||
+                    (data.status === uploadSTATUS.APPROVED &&
+                      data.actionTakenBy === USER_TYPES.MoHUA)
                   "
                   xmlns="http://www.w3.org/2000/svg"
                   width="15.932"

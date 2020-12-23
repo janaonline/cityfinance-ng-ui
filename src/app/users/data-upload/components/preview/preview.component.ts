@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { IState } from 'src/app/models/state/state';
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
 import { defaultDailogConfiuration } from 'src/app/pages/questionnaires/ulb/configs/common.config';
 import { CommonService } from 'src/app/shared/services/common.service';
@@ -38,6 +39,8 @@ export class PreviewComponent implements OnInit {
   millionPlusCitiesQuestions = millionPlusCitiesQuestions;
 
   showLoader = false;
+
+  USER_TYPES = USER_TYPE;
 
   userDetails = new UserUtility().getLoggedInUserDetails();
 
