@@ -29,9 +29,7 @@
           'is-invalid': profileForm?.controls?.state.errors
         }"
       >
-        <option value="" selected disabled>
-          State
-        </option>
+        <option value="" selected disabled>State</option>
         <option *ngFor="let state of stateList" [value]="state._id">
           {{ state.name }}
         </option>
@@ -264,10 +262,10 @@
     </div>
   </div>
 
-  <p *ngIf="formErrors" style="width: 100%;">
+  <p *ngIf="formErrors" style="width: 100%">
     <span
       *ngFor="let error of formErrors; let i = index"
-      style="display: block; color: red;"
+      style="display: block; color: red"
     >
       {{ i + 1 }}. {{ error }}
     </span>
@@ -280,18 +278,18 @@
   <div
     class="input-group d-block"
     *ngIf="profileForm.disabled"
-    style="display: block;"
+    style="display: block"
   >
     <button type="button" class="btn btn-primary" (click)="enableProfileEdit()">
       Edit
     </button>
   </div>
 
-  <div *ngIf="profileForm.enabled" class="mt-2" style="display: block;">
+  <div *ngIf="profileForm.enabled" class="mt-2" style="display: block">
     <button
       type="submit"
       class="btn btn-primary mr-2"
-      [disabled]="!profileForm.valid"
+      [disabled]="!profileForm.valid || profileForm.disabled"
     >
       {{ profileData ? "Update Profile" : "Create" }}
     </button>

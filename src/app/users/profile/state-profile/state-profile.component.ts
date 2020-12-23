@@ -27,6 +27,7 @@ export class StateProfileComponent implements OnInit, OnChanges {
   respone = { successMessage: null, errorMessage: null };
   formSubmitted = false;
   window = window;
+  isApiInProgress = false;
 
   constructor(
     private _commonService: CommonService,
@@ -76,16 +77,21 @@ export class StateProfileComponent implements OnInit, OnChanges {
     const body = form.value;
     body.role = USER_TYPE.STATE;
     body.password = "";
+    form.disable();
 
     this._profileService.createUser(body).subscribe(
       (res) => {
         form.reset();
+        form.enable();
+
         this.formSubmitted = false;
 
         this.respone.successMessage = "Profile created successfully";
       },
-      (err: HttpErrorResponse) =>
-        (this.respone.errorMessage = err.error.message || "Server Error")
+      (err: HttpErrorResponse) => {
+        this.respone.errorMessage = err.error.message || "Server Error";
+        form.enable();
+      }
     );
   }
 

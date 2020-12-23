@@ -73,16 +73,20 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
     const body = form.value;
     body.role = USER_TYPE.MoHUA;
     body.password = "";
+    form.disable();
 
     this._profileService.createUser(body).subscribe(
       (res) => {
         form.reset();
         this.formSubmitted = false;
+        form.enable();
 
         this.respone.successMessage = "Profile created successfully";
       },
-      (err: HttpErrorResponse) =>
-        (this.respone.errorMessage = err.error.message || "Server Error")
+      (err: HttpErrorResponse) => {
+        this.respone.errorMessage = err.error.message || "Server Error";
+        form.enable();
+      }
     );
   }
 
