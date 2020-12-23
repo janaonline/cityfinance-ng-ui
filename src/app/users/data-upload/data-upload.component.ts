@@ -316,7 +316,10 @@ export class DataUploadComponent
       this.getFinancialData();
     } else {
       if (this.userUtil.getUserType() === USER_TYPE.ULB) {
-        return this.router.navigate(["/home"]);
+        if (this.router.url.includes(`data-upload/list`)) {
+          return this.router.navigate(["/home"]);
+        }
+
         this.gettingULBDats();
       }
     }
