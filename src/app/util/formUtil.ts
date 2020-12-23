@@ -1,8 +1,10 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { of } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { PasswordValidator } from './passwordValidator';
 import {
+  atLeast1AplhabetRequired,
   CommisionormobileNoValidator,
   CommissionercustomEmailValidator,
   customEmailValidator,
@@ -151,12 +153,25 @@ export class FormUtil {
       departmentContactNumber: ["", [Validators.required, mobileNoValidator]],
     });
 
+    form.controls.email.valueChanges
+      .pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe((newValue) => {
+        form.controls.departmentEmail.updateValueAndValidity();
+      });
+
+    form.controls.departmentEmail.valueChanges.subscribe((newValue) => {
+      form.controls.email.updateValueAndValidity();
+    });
+
     return form;
   }
 
   public getMoHUAForm() {
     const form = this.fb.group({
-      name: ["", [Validators.required, nonEmptyValidator]],
+      name: [
+        "",
+        [Validators.required, nonEmptyValidator, atLeast1AplhabetRequired],
+      ],
       email: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
@@ -403,6 +418,18 @@ export class FormUtil {
               newControlName.charAt(0).toUpperCase() + newControlName.substr(1)
             } should be alphabetic only`
           );
+        }
+
+        console.warn(newControlName);
+        if (
+          newControlName === "email" ||
+          newControlName === "department Email"
+        ) {
+          if (
+            form.controls.email.value == form.controls.departmentEmail.value
+          ) {
+            return;
+          }
         }
         errors.push(
           `${
