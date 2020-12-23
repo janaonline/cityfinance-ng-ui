@@ -82,6 +82,7 @@ export class DataUploadComponent
     });
 
     this.createForms();
+
     this.setTableHeaderByUserType();
     this.modalService.onHide.subscribe(() => (this.isPopupOpen = false));
     this.initializeULBFormGroup();
@@ -92,6 +93,7 @@ export class DataUploadComponent
       );
     }
   }
+
   questionForState = [
     {
       question:
@@ -196,6 +198,7 @@ export class DataUploadComponent
   stateNameControl = new FormControl("");
   censusCode: FormControl = new FormControl();
   sbCode: FormControl = new FormControl();
+  populationTypeFilterForChart = new FormControl("");
 
   rejectFields = {};
 
@@ -302,6 +305,7 @@ export class DataUploadComponent
 
   ngOnInit() {
     this.getStateFcDocments();
+    this.initializeChartFilter();
 
     if (this.loggedInUserData.role === USER_TYPE.STATE) {
       return;
@@ -324,6 +328,13 @@ export class DataUploadComponent
         this.gettingULBDats();
       }
     }
+  }
+
+  initializeChartFilter() {
+    this.populationTypeFilterForChart.valueChanges.subscribe((newValue) => {
+      console.log("value");
+      this.fetchChartData(newValue);
+    });
   }
 
   getStateFcDocments() {
@@ -449,8 +460,9 @@ export class DataUploadComponent
       });
   }
 
-  fetchChartData() {
-    this._commonService.fetchDashboardChartData().subscribe((res) => {
+  fetchChartData(filter?: {}) {
+    this.chartData = null;
+    this._commonService.fetchDashboardChartData(filter).subscribe((res) => {
       this.chartData = res["data"];
       let textToTakeAction;
       switch (this.loggedInUserData.role) {
@@ -760,7 +772,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  };
+  }
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -826,12 +838,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  };
+  }
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  };
+  }
 
   getAddedFilterCount() {
     let count = 0;

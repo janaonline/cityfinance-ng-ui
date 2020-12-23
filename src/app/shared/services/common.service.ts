@@ -248,9 +248,11 @@ export class CommonService {
     );
   }
 
-  fetchDashboardChartData() {
+  fetchDashboardChartData(queryParams) {
+    const params = this.httpUtil.convertToHttpParams(queryParams);
     return this.http.get(
-      `${environment.api.url}/ulb-financial-data/fc-grant/dashboard-chart`
+      `${environment.api.url}/ulb-financial-data/fc-grant/dashboard-chart`,
+      { params }
     );
   }
 

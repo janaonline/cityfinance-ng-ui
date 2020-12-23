@@ -400,11 +400,7 @@
             style="font-size: 1.6rem; display: inline-block"
           >
             15<sup>th</sup> FC Form Status
-            <!-- <mat-slide-toggle
-              style="float: right"
-              (change)="onChangingShowULBInChart($event)"
-              >Show Not Registered ULBs</mat-slide-toggle
-            > -->
+          
           </p>
           <div class="input-group" style="float: right">
             <select
@@ -412,11 +408,31 @@
               id="state"
               class="form-control"
               placeholder="State"
+              [formControl]="populationTypeFilterForChart"
             >
               <option value="" selected>Total ULBs</option>
+              <option value="million" selected>Million Plus</option>
+              <option value="non-million" selected>Non Million</option>
             </select>
           </div>
-          <canvas id="canvas" width="150" height="49"></canvas>
+          <div style="position: relative">
+            <canvas id="canvas" width="150" height="49"></canvas>
+            <div
+              *ngIf="!chartData"
+              style="
+                position: absolute;
+                top: 0px;
+                z-index: 5;
+                width: 105%;
+                height: 100%;
+                background: white;
+              "
+            >
+              <app-pre-loader></app-pre-loader>
+              <app-pre-loader></app-pre-loader>
+              <app-pre-loader></app-pre-loader>
+            </div>
+          </div>
           <div
             *ngIf="
               haveRequestToTakeAction &&
