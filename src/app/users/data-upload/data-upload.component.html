@@ -400,20 +400,24 @@
             style="font-size: 1.6rem; display: inline-block"
           >
             15<sup>th</sup> FC Form Status
-          
           </p>
-          <div class="input-group" style="float: right">
-            <select
-              name="State"
-              id="state"
-              class="form-control"
-              placeholder="State"
-              [formControl]="populationTypeFilterForChart"
+          <div style="float: right; display: inline-flex; align-items: center">
+            <b style="display: inline-block" class="mr-1"
+              >Filter by Population Type:</b
             >
-              <option value="" selected>Total ULBs</option>
-              <option value="million" selected>Million Plus</option>
-              <option value="non-million" selected>Non Million</option>
-            </select>
+            <div class="input-group" style="display: inline-block">
+              <select
+                name="State"
+                id="state"
+                class="form-control"
+                placeholder="State"
+                [formControl]="populationTypeFilterForChart"
+              >
+                <option value="" selected>Total ULBs</option>
+                <option value="true" selected>Million Plus</option>
+                <option value="false" selected>Non Million</option>
+              </select>
+            </div>
           </div>
           <div style="position: relative">
             <canvas id="canvas" width="150" height="49"></canvas>

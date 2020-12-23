@@ -332,8 +332,13 @@ export class DataUploadComponent
 
   initializeChartFilter() {
     this.populationTypeFilterForChart.valueChanges.subscribe((newValue) => {
-      console.log("value");
-      this.fetchChartData(newValue);
+      console.log("value", newValue, typeof newValue);
+      let filter;
+      if (newValue) {
+        filter =
+          newValue === "true" ? { millionPlus: true } : { nonMillion: true };
+      }
+      this.fetchChartData(filter);
     });
   }
 
@@ -772,7 +777,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  }
+  };
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -838,12 +843,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  }
+  };
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  }
+  };
 
   getAddedFilterCount() {
     let count = 0;
