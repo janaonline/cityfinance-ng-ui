@@ -497,7 +497,6 @@ export class FinancialUploadsComponent
     body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
     body.isCompleted = true;
     this.removeRejectionFromData(body as IFinancialData);
-    return console.log(body);
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
       height: "fit-content",
