@@ -298,6 +298,7 @@ export class DataUploadComponent
   haveRequestToTakeAction = false;
 
   stateFcGrantDocuments = null;
+  scrollToULBTable = false;
 
   ngOnInit() {
     this.getStateFcDocments();
@@ -413,7 +414,9 @@ export class DataUploadComponent
 
   scrollToElement(elementId: string) {
     const element = document.getElementById(`${elementId}`);
-    element.scrollIntoView({ behavior: "smooth" });
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   }
 
   onClickCharTakeAction(something, isMillionPlus?: "Yes" | "No") {
@@ -657,10 +660,13 @@ export class DataUploadComponent
           totalCount: res["total"] || 0,
         };
       }
-      const ulbLisTable = document.getElementById("ulb-list");
-      if (ulbLisTable) {
-        ulbLisTable.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (this.scrollToULBTable) {
+        this.scrollToElement("ulb-list");
       }
+      // const ulbLisTable = document.getElementById("ulb-list");
+      // if (ulbLisTable && ) {
+      //   ulbLisTable.scrollIntoView({ behavior: "smooth", block: "center" });
+      // }
     });
   }
 
@@ -1266,6 +1272,7 @@ export class DataUploadComponent
   }
 
   setulbPage(pageNoClick: number) {
+    this.scrollToULBTable = true;
     this.ulbtableDefaultOptions.currentPage = pageNoClick;
     this.ulblistFetchOption.skip =
       (pageNoClick - 1) * this.ulbtableDefaultOptions.itemPerPage;

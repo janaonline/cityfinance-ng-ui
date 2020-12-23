@@ -395,7 +395,10 @@
         </div>
 
         <div class="chart-container">
-          <p class="heading mb-2" style="font-size: 1.6rem">
+          <p
+            class="heading mb-2"
+            style="font-size: 1.6rem; display: inline-block"
+          >
             15<sup>th</sup> FC Form Status
             <!-- <mat-slide-toggle
               style="float: right"
@@ -403,6 +406,16 @@
               >Show Not Registered ULBs</mat-slide-toggle
             > -->
           </p>
+          <div class="input-group" style="float: right">
+            <select
+              name="State"
+              id="state"
+              class="form-control"
+              placeholder="State"
+            >
+              <option value="" selected>Total ULBs</option>
+            </select>
+          </div>
           <canvas id="canvas" width="150" height="49"></canvas>
           <div
             *ngIf="
