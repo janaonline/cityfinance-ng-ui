@@ -1213,21 +1213,25 @@
 
 <ng-template #FCFormMultiApproval>
   <div id="multiApprovalModal">
-    <h3 class="text-center">Multi FC Form Approval</h3>
-    <p style="color: red">
-      *NOTE: <br />1. Only those ULBs will be shown whose FC GRant Form is under
-      review by MoHUA <br />2. Only <b>APPROVAL Action</b> can be taken on ULBs
-    </p>
+    <h3 class="text-center">15<sup>th</sup> FC Form Multi Approval</h3>
+
     <p class="states-selection">
       <span><b>Select States:</b></span>
       <angular2-multiselect
+        *ngIf="statesForULBUnderMoHUAApproval"
         [formControl]="multiStatesForApprovalControl"
         style="display: inline-block; width: 70%; margin-left: 2%"
-        [data]="stateList"
+        [data]="statesForULBUnderMoHUAApproval"
         [settings]="multiSelectStates"
         (onClose)="onSelectingMultipleStateForApproval($event)"
       >
       </angular2-multiselect>
+        <span
+          *ngIf="!statesForULBUnderMoHUAApproval"
+          style="display: inline-block; width: 50%; height: 5vh"
+        >
+          <app-pre-loader></app-pre-loader>
+        </span>
     </p>
     <p
       class="states"
@@ -1247,25 +1251,64 @@
           >
           </angular2-multiselect>
         </span>
-        <span *ngIf="!state.ulbs" style="display: inline-block;
-    width: 50%;
-    height: 5vh;">
+        <span
+          *ngIf="!state.ulbs"
+          style="display: inline-block; width: 50%; height: 5vh"
+        >
           <app-pre-loader></app-pre-loader>
         </span>
       </span>
     </p>
   </div>
 
+  <div style="color: red" *ngIf="errorsInMultiSelectULBApproval?.length">
+    <span
+      ><b
+        >Approval for following ULB's
+        {{
+          errorsInMultiSelectULBApproval?.length > 1
+            ? "Applications"
+            : "Application"
+        }}
+        have failed:</b
+      ></span
+    ><br />
+    <ol>
+      <li *ngFor="let error of errorsInMultiSelectULBApproval">
+        {{ error }}
+      </li>
+    </ol>
+  </div>
+
+  <p
+    style="width: 100%"
+    *ngIf="showMultiSelectULBApprovalCompletionMessage"
+    class="text-center"
+  >
+    <b style="color: green"> APPROVAL ACTION COMPLETED</b>
+  </p>
+
   <div class="row justify-content-center d-flex Approvalbuttons">
     <button
       class="btn btn-primary"
-      [disabled]="!multiStatesForApprovalControl?.value?.length"
+      [disabled]="
+        !multiStatesForApprovalControl?.value?.length ||
+        totalUlbApprovalInProgress
+      "
       (click)="approveMultipleSelectedULBS()"
     >
-      APPROVE ULBS Submission
+      APPROVE ULB's Applications
     </button>
-    <button class="btn btn-primary" (click)="_matDialog.closeAll()">
+    <button
+      class="btn btn-primary"
+      (click)="_matDialog.closeAll()"
+      [disabled]="totalUlbApprovalInProgress"
+    >
       Cancel
     </button>
   </div>
+  <p style="color: red">
+    *NOTE: <br />1. Only those ULBs will be shown whose FC GRant Form is under
+    review by MoHUA <br />2. Only <b>APPROVAL Action</b> can be taken on ULBs
+  </p>
 </ng-template>

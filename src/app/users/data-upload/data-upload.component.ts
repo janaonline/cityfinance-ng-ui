@@ -324,6 +324,12 @@ export class DataUploadComponent
   };
 
   multiStatesForApprovalControl = new FormControl();
+  totalUlbApprovalInProgress;
+  errorsInMultiSelectULBApproval = [];
+
+  showMultiSelectULBApprovalCompletionMessage = false;
+
+  statesForULBUnderMoHUAApproval: any[];
 
   ngOnInit() {
     this.getStateFcDocments();
@@ -354,7 +360,6 @@ export class DataUploadComponent
 
   initializeChartFilter() {
     this.populationTypeFilterForChart.valueChanges.subscribe((newValue) => {
-      console.log("value", newValue, typeof newValue);
       let filter;
       if (newValue) {
         filter =
@@ -1413,17 +1418,29 @@ export class DataUploadComponent
   }
 
   openSecondModal(historyModal: TemplateRef<any>) {
+    this.totalUlbApprovalInProgress = 0;
+    this.errorsInMultiSelectULBApproval = [];
+    this.financialDataService.fetStateForULBUnderMoHUA().subscribe((data) => {
+      console.log(data);
+      this.statesForULBUnderMoHUAApproval = data["data"];
+    });
     this._matDialog.open(historyModal, {
       panelClass: "multiApprovalModal",
       width: "80vw",
       height: "90vh",
       disableClose: true,
     });
-    // this.modalService.show(historyModal, { class: "multiApprovalModal" });
+    this._matDialog.afterAllClosed.subscribe((data) => {
+      this.showMultiSelectULBApprovalCompletionMessage = false;
+      if (!this.multiStatesForApprovalControl.value) return;
+      this.multiStatesForApprovalControl.value.forEach((state) => {
+        state.ULBFormControl.reset();
+      });
+      this.multiStatesForApprovalControl.reset();
+    });
   }
 
   onSelectingMultipleStateForApproval(stateList) {
-    console.log(this.multiStatesForApprovalControl.value);
     if (!this.multiStatesForApprovalControl.value) return;
     this.multiStatesForApprovalControl.value.forEach((state) => {
       if (state.ulbs) return;
@@ -1454,11 +1471,26 @@ export class DataUploadComponent
   }
 
   approveMultipleSelectedULBS() {
-    const ulbsIds = [];
+    this.totalUlbApprovalInProgress = 0;
+    this.errorsInMultiSelectULBApproval = [];
     this.multiStatesForApprovalControl.value.forEach((state) => {
       if (!state.ULBFormControl || !state.ULBFormControl.value) return;
       state.ULBFormControl.value.forEach((ulbForm) => {
-        console.log(state.name, ulbForm);
+        this.totalUlbApprovalInProgress++;
+        this.financialDataService.approveMultiSelectULBs(ulbForm._id).subscribe(
+          (res) => {
+            this.totalUlbApprovalInProgress--;
+            if (this.totalUlbApprovalInProgress === 0) {
+              this.showMultiSelectULBApprovalCompletionMessage = true;
+            }
+          },
+          (error) => {
+            this.errorsInMultiSelectULBApproval.push(
+              `${state.name}: ${ulbForm.ulbName}`
+            );
+            this.totalUlbApprovalInProgress--;
+          }
+        );
       });
     });
   }

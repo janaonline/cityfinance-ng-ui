@@ -35,6 +35,20 @@ export class FinancialDataService {
     });
   }
 
+  fetStateForULBUnderMoHUA() {
+    return this.httpClient.get(
+      `${environment.api.url}ulb-financial-data/state
+`
+    );
+  }
+
+  approveMultiSelectULBs(documentId: string) {
+    return this.httpClient.post(
+      `${environment.api.url}ulb-financial-data/multiple-approve-action/${documentId}`,
+      { testing: "" }
+    );
+  }
+
   getFinancialDataListApi(body = {}) {
     body["token"] = localStorage
       .getItem("id_token")
