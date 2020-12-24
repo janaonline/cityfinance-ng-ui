@@ -308,3 +308,41 @@ table .input-group {
   color: white;
   z-index: 9;
 }
+
+.multiApprovalModal {
+  .modal-content {
+    background: red;
+  }
+}
+
+#multiApprovalModal {
+  display: flex;
+  align-items: center;
+  // padding: 3% 2% 5% 2%;
+  flex-wrap: wrap;
+
+  h3,
+  p {
+    display: block;
+    width: 100%;
+  }
+  .states-selection {
+    display: flex;
+    align-items: center;
+  }
+  .states {
+    display: block;
+    width: 100%;
+    padding-left: 2%;
+    .stateName {
+      display: inline-block;
+      width: 24%;
+    }
+  }
+}
+
+.Approvalbuttons {
+  button {
+    margin: 2%;
+  }
+}

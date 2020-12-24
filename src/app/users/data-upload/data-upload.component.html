@@ -878,6 +878,15 @@
             >
               Upload Data
             </button>
+
+            <button
+              *ngIf="dataUploadList && dataUploadList.length"
+              class="btn btn-primary"
+              style="float: right; margin-right: 6px"
+              (click)="openSecondModal(FCFormMultiApproval)"
+            >
+              Multi Select Approval
+            </button>
             <button
               *ngIf="dataUploadList && dataUploadList.length"
               class="btn btn-primary"
@@ -1199,5 +1208,64 @@
         No
       </button>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #FCFormMultiApproval>
+  <div id="multiApprovalModal">
+    <h3 class="text-center">Multi FC Form Approval</h3>
+    <p style="color: red">
+      *NOTE: <br />1. Only those ULBs will be shown whose FC GRant Form is under
+      review by MoHUA <br />2. Only <b>APPROVAL Action</b> can be taken on ULBs
+    </p>
+    <p class="states-selection">
+      <span><b>Select States:</b></span>
+      <angular2-multiselect
+        [formControl]="multiStatesForApprovalControl"
+        style="display: inline-block; width: 70%; margin-left: 2%"
+        [data]="stateList"
+        [settings]="multiSelectStates"
+        (onClose)="onSelectingMultipleStateForApproval($event)"
+      >
+      </angular2-multiselect>
+    </p>
+    <p
+      class="states"
+      *ngFor="let state of multiStatesForApprovalControl?.value; let i = index"
+    >
+      <span class="stateName"
+        ><b> {{ i + 1 }}. {{ state.name }}: </b></span
+      >
+      <span>
+        <span *ngIf="state.ulbs">
+          <angular2-multiselect
+            [formControl]="state.ULBFormControl"
+            classes="ml-5"
+            style="display: inline-block; width: 70%"
+            [data]="state.ulbs"
+            [settings]="multiSelectStatesULBs"
+          >
+          </angular2-multiselect>
+        </span>
+        <span *ngIf="!state.ulbs" style="display: inline-block;
+    width: 50%;
+    height: 5vh;">
+          <app-pre-loader></app-pre-loader>
+        </span>
+      </span>
+    </p>
+  </div>
+
+  <div class="row justify-content-center d-flex Approvalbuttons">
+    <button
+      class="btn btn-primary"
+      [disabled]="!multiStatesForApprovalControl?.value?.length"
+      (click)="approveMultipleSelectedULBS()"
+    >
+      APPROVE ULBS Submission
+    </button>
+    <button class="btn btn-primary" (click)="_matDialog.closeAll()">
+      Cancel
+    </button>
   </div>
 </ng-template>

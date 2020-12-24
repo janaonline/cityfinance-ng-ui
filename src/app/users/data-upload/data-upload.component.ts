@@ -303,6 +303,28 @@ export class DataUploadComponent
   stateFcGrantDocuments = null;
   scrollToULBTable = false;
 
+  multiSelectStates = {
+    primaryKey: "_id",
+    singleSelection: false,
+    text: "Select States",
+    enableSearchFilter: true,
+    labelKey: "name",
+    showCheckbox: true,
+    noDataLabel: "No Data available",
+  };
+
+  multiSelectStatesULBs = {
+    primaryKey: "_id",
+    singleSelection: false,
+    text: "Select ULBs",
+    enableSearchFilter: true,
+    labelKey: "ulbName",
+    showCheckbox: true,
+    noDataLabel: "No Data available",
+  };
+
+  multiStatesForApprovalControl = new FormControl();
+
   ngOnInit() {
     this.getStateFcDocments();
     this.initializeChartFilter();
@@ -1388,6 +1410,57 @@ export class DataUploadComponent
       },
       (error) => this.handlerError(error)
     );
+  }
+
+  openSecondModal(historyModal: TemplateRef<any>) {
+    this._matDialog.open(historyModal, {
+      panelClass: "multiApprovalModal",
+      width: "80vw",
+      height: "90vh",
+      disableClose: true,
+    });
+    // this.modalService.show(historyModal, { class: "multiApprovalModal" });
+  }
+
+  onSelectingMultipleStateForApproval(stateList) {
+    console.log(this.multiStatesForApprovalControl.value);
+    if (!this.multiStatesForApprovalControl.value) return;
+    this.multiStatesForApprovalControl.value.forEach((state) => {
+      if (state.ulbs) return;
+      state.ULBFormControl = new FormControl();
+      this.financialDataService
+        .fetchFinancialDataList(
+          // Currently limit = 0 is not working. So to bypass that, setting random value.
+          { skip: 0, limit: 99999999 },
+          {
+            filter: {
+              stateName: state.name,
+              financialYear: "",
+              ulbName: "",
+              ulbCode: "",
+              audited: "",
+              censusCode: "",
+              sbCode: "",
+              status: UNDER_REVIEW_BY_MoHUA.id,
+              ulbType: "",
+              isMillionPlus: "",
+            },
+          }
+        )
+        .subscribe((list) => {
+          state.ulbs = list["data"];
+        });
+    });
+  }
+
+  approveMultipleSelectedULBS() {
+    const ulbsIds = [];
+    this.multiStatesForApprovalControl.value.forEach((state) => {
+      if (!state.ULBFormControl || !state.ULBFormControl.value) return;
+      state.ULBFormControl.value.forEach((ulbForm) => {
+        console.log(state.name, ulbForm);
+      });
+    });
   }
 
   private handlerError(response: any) {
