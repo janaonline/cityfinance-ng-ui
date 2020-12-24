@@ -880,7 +880,7 @@
             </button>
 
             <button
-              *ngIf="dataUploadList && dataUploadList.length"
+              *ngIf="dataUploadList && dataUploadList.length && loggedInUserData?.role === userTypes.MoHUA"
               class="btn btn-primary"
               style="float: right; margin-right: 6px"
               (click)="openSecondModal(FCFormMultiApproval)"
