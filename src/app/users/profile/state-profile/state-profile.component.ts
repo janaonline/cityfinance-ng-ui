@@ -77,6 +77,9 @@ export class StateProfileComponent implements OnInit, OnChanges {
     const body = form.value;
     body.role = USER_TYPE.STATE;
     body.password = "";
+    if (form.disabled) {
+      return;
+    }
     form.disable();
 
     this._profileService.createUser(body).subscribe(
@@ -100,6 +103,9 @@ export class StateProfileComponent implements OnInit, OnChanges {
       ...form.value,
       _id: this.profileData._id,
     };
+    if (form.disabled) {
+      return;
+    }
 
     form.disable();
     return this._profileService.updateUserProfileData(body).subscribe(
@@ -116,7 +122,6 @@ export class StateProfileComponent implements OnInit, OnChanges {
 
   private initializeForm() {
     this.profileForm = this.formUtil.getStateForm();
-    console.log(this.profileForm);
 
     if (this.profileData) {
       if (this.profileData.role !== USER_TYPE.STATE) {

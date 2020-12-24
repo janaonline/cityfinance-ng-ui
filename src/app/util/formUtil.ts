@@ -34,15 +34,25 @@ export class FormUtil {
     let form = this.fb.group({
       name: [
         "",
-        [Validators.required, Validators.pattern(this.regexForUserName)],
+        [
+          Validators.required,
+          Validators.pattern(this.regexForUserName),
+          atLeast1AplhabetRequired,
+        ],
       ],
       mobile: ["", [Validators.required, mobileNoValidator]],
       email: [
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
-      designation: ["", [Validators.required, nonEmptyValidator]],
-      organization: ["", [Validators.required, nonEmptyValidator]],
+      designation: [
+        "",
+        [Validators.required, nonEmptyValidator, atLeast1AplhabetRequired],
+      ],
+      organization: [
+        "",
+        [Validators.required, nonEmptyValidator, atLeast1AplhabetRequired],
+      ],
     });
     if (purpose === "CREATION") {
       form = this.fb.group({

@@ -65,14 +65,12 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
   }
 
   private createProfile(form: FormGroup) {
-    // this.formSubmitted = true;
-    // this.formErrors = this.formUtil.validateStateForm(form);
-    // if (this.formErrors && this.formErrors.length) {
-    //   return;
-    // }
     const body = form.value;
     body.role = USER_TYPE.MoHUA;
     body.password = "";
+    if (form.disabled) {
+      return;
+    }
     form.disable();
 
     this._profileService.createUser(body).subscribe(
@@ -95,6 +93,9 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
       ...form.value,
       _id: this.profileData._id,
     };
+    if (form.disabled) {
+      return;
+    }
     form.disable();
     return this._profileService.updateUserProfileData(body).subscribe(
       (res) => {

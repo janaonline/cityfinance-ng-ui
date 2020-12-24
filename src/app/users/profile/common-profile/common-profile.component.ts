@@ -69,6 +69,9 @@ export class CommonProfileComponent implements OnInit, OnChanges {
     const body = form.value;
     body.role = USER_TYPE.PARTNER;
     body.password = "";
+    if (form.disabled) {
+      return;
+    }
     form.disable();
 
     this._profileService.createUser(body).subscribe(
@@ -91,6 +94,9 @@ export class CommonProfileComponent implements OnInit, OnChanges {
       ...form.value,
       _id: this.profileData._id,
     };
+    if (form.disabled) {
+      return;
+    }
 
     form.disable({ emitEvent: false });
     return this._profileService.updateUserProfileData(body).subscribe(
