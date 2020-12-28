@@ -110,10 +110,10 @@ export class FormUtil {
       });
     }
 
-    return this.fb.group({
+    const updationForm = this.fb.group({
       ...baseForm.controls,
       ulb: this.fb.group({
-        censusCode: ["", [Validators.required]],
+        censusCode: [""],
         sbCode: [""],
         wards: [
           "",
@@ -139,9 +139,57 @@ export class FormUtil {
         ulbType: this.fb.group({
           _id: ["", [Validators.required]],
         }),
-        name: ["", [Validators.required]],
+        name: ["", [Validators.required, atLeast1AplhabetRequired]],
       }),
     });
+
+    (updationForm.controls.ulb as FormGroup).controls.censusCode.setValidators([
+      (control) => {
+        const censusCode = control.value ? control.value.trim() : null;
+        let sbCode = (updationForm.controls.ulb as FormGroup).controls.sbCode
+          .value;
+        sbCode = sbCode ? sbCode.trim() : null;
+        if (!sbCode && !censusCode) return { required: "ERRRRRRR" };
+        return null;
+      },
+    ]);
+    (updationForm.controls.ulb as FormGroup).controls.sbCode.setValidators([
+      (control) => {
+        const sbCode = control.value ? control.value.trim() : null;
+        let censusCode = (updationForm.controls.ulb as FormGroup).controls
+          .censusCode.value;
+        censusCode = censusCode ? censusCode.trim() : null;
+        if (!sbCode && !censusCode) return { required: "sbCode" };
+        return null;
+      },
+    ]);
+
+    (updationForm.controls.ulb as FormGroup).controls.censusCode.valueChanges
+      .pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe((newValue) => {
+        (updationForm.controls
+          .ulb as FormGroup).controls.censusCode.updateValueAndValidity({
+          onlySelf: true,
+        });
+        (updationForm.controls
+          .ulb as FormGroup).controls.sbCode.updateValueAndValidity({
+          onlySelf: true,
+        });
+      });
+    (updationForm.controls.ulb as FormGroup).controls.sbCode.valueChanges
+      .pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe((newValue) => {
+        (updationForm.controls
+          .ulb as FormGroup).controls.sbCode.updateValueAndValidity({
+          onlySelf: true,
+        });
+        (updationForm.controls
+          .ulb as FormGroup).controls.censusCode.updateValueAndValidity({
+          onlySelf: true,
+        });
+      });
+
+    return updationForm;
   }
 
   public getStateForm() {
@@ -307,8 +355,6 @@ export class FormUtil {
           );
         }
         if (control.errors && control.errors.pattern) {
-          console.log(`newControlName`, newControlName);
-
           if (controlName == "accountant Name") {
             return errors.push(
               `ULB Nodal Officer Name should be alphabetic only`
@@ -361,7 +407,6 @@ export class FormUtil {
       const control = form.controls[controlName];
       if (!control.valid) {
         let newControlName = controlName.split(/(?=[A-Z])/).join(" ");
-        console.log("newControlName", newControlName);
         if (newControlName.includes("accountant")) {
           newControlName = newControlName.replace(
             "accountant",
@@ -398,6 +443,16 @@ export class FormUtil {
    */
   public validationULBProfileUpdateForm(form: FormGroup) {
     let errors: string[] = [];
+    if (form.controls.ulb) {
+      let censusCode = (form.controls.ulb as FormGroup).controls.censusCode
+        .value;
+      censusCode = censusCode ? censusCode.trim() : null;
+      let ulbCode = (form.controls.ulb as FormGroup).controls.sbCode.value;
+      ulbCode = ulbCode ? ulbCode.trim() : null;
+      if (!censusCode && !ulbCode) {
+        errors.push("Either Census Code or ULB Code must be entered.");
+      }
+    }
 
     if (form.controls.commissionerEmail && form.controls.accountantEmail) {
       let commissionerEmail: string = form.controls.commissionerEmail.value;
