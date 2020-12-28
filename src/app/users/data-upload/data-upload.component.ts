@@ -144,7 +144,7 @@ export class DataUploadComponent
     "auditReport",
   ];
   fileFormGroup: FormGroup;
-  dataUploadList: Array<IFinancialData & { canTakeAction?: boolean }> = [];
+  dataUploadList: Array<IFinancialData & { canTakeAction?: boolean }>;
   isAccessible: boolean;
   financialYearDropdownSettings: any = {
     singleSelection: true,
@@ -791,20 +791,9 @@ export class DataUploadComponent
           totalCount: response["total"] || 0,
         };
       }
-      if (!this.listFetchOption.sort) {
-        // this.dataUploadList = this.dataUploadList.sort((a, b) => {
-        //   const c1 = a["status"][2];
-        //   const c2 = b["status"][2];
-        //   if (c1 > c2) {
-        //     return 1;
-        //   } else {
-        //     return -1;
-        //   }
-        // });
-      }
     }
     this.loading = false;
-  };
+  }
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -870,12 +859,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  };
+  }
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  };
+  }
 
   getAddedFilterCount() {
     let count = 0;

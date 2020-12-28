@@ -880,7 +880,11 @@
             </button>
 
             <button
-              *ngIf="dataUploadList && dataUploadList.length && loggedInUserData?.role === userTypes.MoHUA"
+              *ngIf="
+                dataUploadList &&
+                dataUploadList.length &&
+                loggedInUserData?.role === userTypes.MoHUA
+              "
               class="btn btn-primary"
               style="float: right; margin-right: 6px"
               (click)="openSecondModal(FCFormMultiApproval)"
@@ -1043,7 +1047,7 @@
                   </button>
                 </td>
               </tr>
-              <ng-container *ngIf="dataUploadList.length; else noData">
+              <ng-container *ngIf="dataUploadList?.length; else noData">
                 <tr
                   style="background: #e7e7e7; border-bottom: 5px solid white"
                   *ngFor="
@@ -1122,7 +1126,14 @@
                     class="text-center"
                     [attr.colspan]="tableHeaders.length + 1"
                   >
-                    <h3>No Data Available</h3>
+                    <div *ngIf="!dataUploadList">
+                      length {{ tableHeaders.length }}
+
+                      <app-pre-loader></app-pre-loader>
+                    </div>
+                    <h3 *ngIf="dataUploadList?.length == 0">
+                      No Data Available
+                    </h3>
                   </td>
                 </tr>
               </ng-template>
@@ -1226,12 +1237,12 @@
         (onClose)="onSelectingMultipleStateForApproval($event)"
       >
       </angular2-multiselect>
-        <span
-          *ngIf="!statesForULBUnderMoHUAApproval"
-          style="display: inline-block; width: 50%; height: 5vh"
-        >
-          <app-pre-loader></app-pre-loader>
-        </span>
+      <span
+        *ngIf="!statesForULBUnderMoHUAApproval"
+        style="display: inline-block; width: 50%; height: 5vh"
+      >
+        <app-pre-loader></app-pre-loader>
+      </span>
     </p>
     <p
       class="states"

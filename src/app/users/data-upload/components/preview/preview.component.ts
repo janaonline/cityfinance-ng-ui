@@ -7,7 +7,15 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { UPLOAD_STATUS } from 'src/app/util/enums';
 import { UserUtility } from 'src/app/util/user/user';
 
-import { WaterManagement } from '../../models/financial-data.interface';
+import { IFinancialData, WaterManagement } from '../../models/financial-data.interface';
+import {
+  APPROVAL_COMPLETED,
+  REJECT_BY_MoHUA,
+  REJECT_BY_STATE,
+  SAVED_AS_DRAFT,
+  UNDER_REVIEW_BY_MoHUA,
+  UNDER_REVIEW_BY_STATE,
+} from '../../util/request-status';
 import { millionPlusCitiesQuestions } from '../configs/million-plus-cities';
 import { solidWasterQuestions } from '../configs/solid-waste-management';
 import { services, targets } from '../configs/water-waste-management';
@@ -96,6 +104,12 @@ export class PreviewComponent implements OnInit {
     font-weight: 700;
   }
 
+  .form-status {
+    font-size: 10px;
+    
+
+  }
+
 
 </style>`;
 
@@ -112,7 +126,9 @@ export class PreviewComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.data = this.formatResponse(this.data);
+  }
 
   replaceAllOccurence(
     originalText: string,
@@ -159,6 +175,49 @@ export class PreviewComponent implements OnInit {
     option.message = message;
     this.showLoader = false;
     // this._matDialog.open(DialogComponent, { data: option });
+  }
+
+  private formatResponse(req: IFinancialData, history = false) {
+    console.log("adding custom text", req);
+    if (!req.isCompleted) {
+      return {
+        ...req,
+        customStatusText: SAVED_AS_DRAFT.itemName,
+      };
+    }
+
+    let customStatusText;
+    switch (req.actionTakenByUserRole) {
+      case USER_TYPE.ULB:
+        customStatusText = history
+          ? "Submitted By ULB"
+          : UNDER_REVIEW_BY_STATE.itemName;
+        break;
+      case USER_TYPE.STATE:
+        if (req.status === UPLOAD_STATUS.REJECTED) {
+          customStatusText = REJECT_BY_STATE.itemName;
+        } else {
+          customStatusText = history
+            ? "Approved by STATE"
+            : UNDER_REVIEW_BY_MoHUA.itemName;
+        }
+
+        break;
+      case USER_TYPE.MoHUA:
+        if (req.status === UPLOAD_STATUS.REJECTED) {
+          customStatusText = REJECT_BY_MoHUA.itemName;
+        } else {
+          customStatusText = APPROVAL_COMPLETED.itemName;
+        }
+        break;
+      default:
+        customStatusText = "N/A";
+    }
+
+    return {
+      ...req,
+      customStatusText,
+    };
   }
 
   private downloadFile(blob: any, type: string, filename: string): string {
