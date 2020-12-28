@@ -243,7 +243,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
         return message + USER_TYPE.MoHUA;
       }
       case "REJECTED": {
-        return `Reject by ${data.actionTakenByUserRole}`;
+        return `Rejected by ${data.actionTakenByUserRole}`;
       }
       case "APPROVED": {
         return `Approved by ${data.actionTakenByUserRole}`;
