@@ -14,6 +14,12 @@ import { ProfileService } from '../service/profile.service';
   styleUrls: ["./state-profile.component.scss"],
 })
 export class StateProfileComponent implements OnInit, OnChanges {
+  constructor(
+    private _commonService: CommonService,
+    private _profileService: ProfileService
+  ) {
+    this.fetchStateList();
+  }
   @Input()
   profileData: any;
   @Input() editable = false;
@@ -29,12 +35,7 @@ export class StateProfileComponent implements OnInit, OnChanges {
   window = window;
   isApiInProgress = false;
 
-  constructor(
-    private _commonService: CommonService,
-    private _profileService: ProfileService
-  ) {
-    this.fetchStateList();
-  }
+  is;
 
   ngOnInit() {}
   ngOnChanges() {
@@ -74,6 +75,7 @@ export class StateProfileComponent implements OnInit, OnChanges {
   }
 
   private createProfile(form: FormGroup) {
+    if (this.isApiInProgress) return;
     const body = form.value;
     body.role = USER_TYPE.STATE;
     body.password = "";
@@ -81,11 +83,13 @@ export class StateProfileComponent implements OnInit, OnChanges {
       return;
     }
     form.disable();
+    this.isApiInProgress = true;
 
     this._profileService.createUser(body).subscribe(
       (res) => {
         form.reset();
         form.enable();
+        this.isApiInProgress = false;
 
         this.formSubmitted = false;
 
@@ -94,6 +98,7 @@ export class StateProfileComponent implements OnInit, OnChanges {
       (err: HttpErrorResponse) => {
         this.respone.errorMessage = err.error.message || "Server Error";
         form.enable();
+        this.isApiInProgress = false;
       }
     );
   }

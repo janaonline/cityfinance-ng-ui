@@ -263,7 +263,7 @@
     <button
       type="submit"
       class="btn btn-primary mr-2"
-      [disabled]="profileForm.invalid || profileForm.disabled"
+      [disabled]="profileForm.invalid || isApiInProcess"
     >
       {{ profileData ? "Update Profile" : "Create" }}
     </button>

@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
@@ -46,9 +47,9 @@ export class UserListComponent extends BaseComponent implements OnInit {
       this.initializeListFetchParams();
 
       this.loggedInType = this._profileService.getLoggedInUserType();
-      if (this.loggedInType === USER_TYPE.ULB) {
-        return this.fetchULBProfileUpdateRequest();
-      }
+      // if (this.loggedInType === USER_TYPE.ULB) {
+      //   return this.fetchULBProfileUpdateRequest();
+      // }
       this.initializeAccessChecks();
       this.fetchList(this.listFetchOption);
     });
@@ -97,6 +98,8 @@ export class UserListComponent extends BaseComponent implements OnInit {
   // ACCESS
   canDeleteUser = false;
   canEditProfile = false;
+
+  userListSubscription: Subscription;
 
   ngOnInit() {}
   openUserDeleteConfirmationBox(template: TemplateRef<any>, user: any) {
@@ -190,18 +193,23 @@ export class UserListComponent extends BaseComponent implements OnInit {
     this.isApiInProgress = true;
     const util = new JSONUtility();
     body.filter = util.filterEmptyValue(body.filter);
+    if (this.userListSubscription) {
+      this.userListSubscription.unsubscribe();
+    }
 
-    this._userService.getUsers(body).subscribe((res) => {
-      this.isApiInProgress = false;
-      if (res.hasOwnProperty("total")) {
-        this.tableDefaultOptions.totalCount = res["total"];
-      }
-      if (res["success"]) {
-        this.userList = res["data"];
-      } else {
-        alert("Failed");
-      }
-    });
+    this.userListSubscription = this._userService
+      .getUsers(body)
+      .subscribe((res) => {
+        this.isApiInProgress = false;
+        if (res.hasOwnProperty("total")) {
+          this.tableDefaultOptions.totalCount = res["total"];
+        }
+        if (res["success"]) {
+          this.userList = res["data"];
+        } else {
+          alert("Failed");
+        }
+      });
   }
 
   private initializeFilterForm() {
