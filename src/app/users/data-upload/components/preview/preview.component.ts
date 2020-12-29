@@ -106,7 +106,7 @@ export class PreviewComponent implements OnInit {
 
   .form-status {
     font-size: 10px;
-    
+
 
   }
 
@@ -178,7 +178,12 @@ export class PreviewComponent implements OnInit {
   }
 
   private formatResponse(req: IFinancialData, history = false) {
-    console.log("adding custom text", req);
+    if (!req._id) {
+      return {
+        ...req,
+        customStatusText: "Not Submitted",
+      };
+    }
     if (!req.isCompleted) {
       return {
         ...req,
