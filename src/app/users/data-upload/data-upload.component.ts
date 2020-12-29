@@ -8,6 +8,7 @@ import { MatDialog, MatSlideToggleChange, MatSnackBar } from '@angular/material'
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Chart from 'chart.js';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { JSONUtility } from 'src/app/util/jsonUtil';
@@ -331,6 +332,8 @@ export class DataUploadComponent
 
   statesForULBUnderMoHUAApproval: any[];
 
+  fcFormListSubscription: Subscription;
+
   ngOnInit() {
     this.getStateFcDocments();
     this.initializeChartFilter();
@@ -465,6 +468,9 @@ export class DataUploadComponent
   onClickCharTakeAction(something, isMillionPlus?: "Yes" | "No") {
     this.populationTypeSearchFormControl.setValue(isMillionPlus || "");
     this.uploadStatusFormControl.setValue(something);
+    if (this.fcFormListSubscription) {
+      this.fcFormListSubscription.unsubscribe();
+    }
     this.applyFilterClicked();
     this.scrollToElement("data-upload-tracker-list");
   }
@@ -679,7 +685,14 @@ export class DataUploadComponent
         );
         this.ulbFilter.controls.stateName.patchValue(this.stateList[0].name);
         this.stateNameControl.patchValue(this.stateList[0].name);
-        this.applyFilterClicked();
+
+        /**
+         * @description IF the FC Form data is already fetched, then dont
+         * fetch it again.
+         */
+        if (!this.fcFormListSubscription) {
+          this.applyFilterClicked();
+        }
       } else this.stateList = res.data;
     });
   }
@@ -793,7 +806,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  }
+  };
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -859,12 +872,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  }
+  };
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  }
+  };
 
   getAddedFilterCount() {
     let count = 0;
@@ -1254,13 +1267,14 @@ export class DataUploadComponent
     this.tableDefaultOptions.currentPage = 1;
     this.listFetchOption = this.setLIstFetchOptions();
     const { skip } = this.listFetchOption;
+    if (this.fcFormListSubscription) {
+      this.fcFormListSubscription.unsubscribe();
+    }
 
-    this.financialDataService
+    this.fcFormListSubscription = this.financialDataService
       .fetchFinancialDataList({ skip, limit: 10 }, this.listFetchOption)
       .subscribe(
-        (result) => {
-          this.handleResponseSuccess(result);
-        },
+        (result) => this.handleResponseSuccess(result),
         (response: HttpErrorResponse) => {
           this.loading = false;
           this._snackBar.open(
@@ -1410,7 +1424,6 @@ export class DataUploadComponent
     this.totalUlbApprovalInProgress = 0;
     this.errorsInMultiSelectULBApproval = [];
     this.financialDataService.fetStateForULBUnderMoHUA().subscribe((data) => {
-      console.log(data);
       this.statesForULBUnderMoHUAApproval = data["data"];
     });
     this._matDialog.open(historyModal, {
