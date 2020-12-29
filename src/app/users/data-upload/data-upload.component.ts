@@ -8,7 +8,7 @@ import { MatDialog, MatSlideToggleChange, MatSnackBar } from '@angular/material'
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Chart from 'chart.js';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { JSONUtility } from 'src/app/util/jsonUtil';
@@ -335,6 +335,9 @@ export class DataUploadComponent
   fcFormListSubscription: Subscription;
 
   chartDataSubscription: Subscription;
+  totalNumberOfULBsSelectedForMultiApproval = 0;
+
+  allSubscripts: Subscription[];
 
   ngOnInit() {
     this.getStateFcDocments();
@@ -1437,6 +1440,7 @@ export class DataUploadComponent
       panelClass: "multiApprovalModal",
       width: "80vw",
       height: "90vh",
+      id: "multiApprovalModalPopup",
       disableClose: true,
     });
     this._matDialog.afterAllClosed.subscribe((data) => {
@@ -1451,9 +1455,12 @@ export class DataUploadComponent
 
   onSelectingMultipleStateForApproval(stateList) {
     if (!this.multiStatesForApprovalControl.value) return;
+    this.allSubscripts = [];
     this.multiStatesForApprovalControl.value.forEach((state) => {
       if (state.ulbs) return;
       state.ULBFormControl = new FormControl();
+      this.allSubscripts.push(state.ULBFormControl.valueChanges);
+
       this.financialDataService
         .fetchFinancialDataList(
           // Currently limit = 0 is not working. So to bypass that, setting random value.
@@ -1476,6 +1483,25 @@ export class DataUploadComponent
         .subscribe((list) => {
           state.ulbs = list["data"];
         });
+    });
+
+    // concat(this.allSubscripts).subscribe((newList) => {
+    //   console.log(`concat newList`, newList);
+    // });
+    // forkJoin(this.allSubscripts).subscribe((newList) => {
+    //   console.log(`join newList`, newList);
+    // });
+
+    // merge(this.allSubscripts).subscribe((newList) => {
+    //   console.log(`merge newList`, newList);
+    // });
+    combineLatest(this.allSubscripts).subscribe((newList: any[]) => {
+      const filteredList = newList.filter((value) =>
+        value ? !!value.length : false
+      );
+      this.totalNumberOfULBsSelectedForMultiApproval = filteredList
+        ? filteredList.length
+        : 0;
     });
   }
 

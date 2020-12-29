@@ -1221,15 +1221,24 @@
 </ng-template>
 
 <ng-template #FCFormMultiApproval>
-  <div id="multiApprovalModal">
+   <header>
+      <i
+      class="fa fa-times"
+      aria-hidden="true"
+      (click)="_matDialog.closeAll()"
+    ></i>
+
     <h3 class="text-center">15<sup>th</sup> FC Form Multi Approval</h3>
+   </header>
+  <div id="multiApprovalModal">
+  
 
     <p class="states-selection">
-      <span><b>Select States:</b></span>
+      <span class="stateName"><b>Select States:</b></span>
       <angular2-multiselect
         *ngIf="statesForULBUnderMoHUAApproval"
         [formControl]="multiStatesForApprovalControl"
-        style="display: inline-block; width: 70%; margin-left: 2%"
+        style="display: inline-block; width: 70%"
         [data]="statesForULBUnderMoHUAApproval"
         [settings]="multiSelectStates"
         (onClose)="onSelectingMultipleStateForApproval($event)"
@@ -1242,6 +1251,7 @@
         <app-pre-loader></app-pre-loader>
       </span>
     </p>
+    <hr />
     <p
       class="states"
       *ngFor="let state of multiStatesForApprovalControl?.value; let i = index"
@@ -1294,7 +1304,7 @@
     *ngIf="showMultiSelectULBApprovalCompletionMessage"
     class="text-center"
   >
-    <b style="color: green"> APPROVAL ACTION COMPLETED</b>
+    <b style="color: green"> Approval ACTION COMPLETED</b>
   </p>
 
   <div class="row justify-content-center d-flex Approvalbuttons">
@@ -1306,18 +1316,19 @@
       "
       (click)="approveMultipleSelectedULBS()"
     >
-      APPROVE ULB's Applications
+      Approve ULB's {{totalNumberOfULBsSelectedForMultiApproval > 1 ? 'Applications': 'Application'}}
     </button>
-    <button
+    <!-- <button
       class="btn btn-primary"
       (click)="_matDialog.closeAll()"
       [disabled]="totalUlbApprovalInProgress"
     >
       Cancel
-    </button>
+    </button> -->
   </div>
-  <p style="color: red">
-    *NOTE: <br />1. Only those ULBs will be shown whose FC GRant Form is under
-    review by MoHUA <br />2. Only <b>APPROVAL Action</b> can be taken on ULBs
+  <p class="note">
+    <span style="font-size: 1.3em">NOTE:</span> <br />1. Only those ULBs will be
+    shown whose FC GRant Form is under review by MoHUA <br />2. Only
+    <b>Approval Action</b> can be taken on ULBs
   </p>
 </ng-template>
