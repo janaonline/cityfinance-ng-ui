@@ -1127,8 +1127,6 @@
                     [attr.colspan]="tableHeaders.length + 1"
                   >
                     <div *ngIf="!dataUploadList">
-                      length {{ tableHeaders.length }}
-
                       <app-pre-loader></app-pre-loader>
                     </div>
                     <h3 *ngIf="dataUploadList?.length == 0">

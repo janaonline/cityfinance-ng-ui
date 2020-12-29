@@ -106,6 +106,7 @@ export class PreviewComponent implements OnInit {
 
   .form-status {
     font-size: 10px;
+    margin-top: 10px;
 
 
   }
@@ -149,6 +150,7 @@ export class PreviewComponent implements OnInit {
     html = this.replaceAllOccurence(html, 'width="15.932"', 'width="7.932"');
     html = this.replaceAllOccurence(html, 'height="15.932"', 'height="7.932"');
     this.showLoader = true;
+    console.log(html);
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
         this.downloadFile(
