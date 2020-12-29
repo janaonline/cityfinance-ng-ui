@@ -1506,6 +1506,13 @@ export class DataUploadComponent
   }
 
   approveMultipleSelectedULBS() {
+    /**
+     * @description If the api is already in aprogress, then dont allow
+     * more ulbs approval.
+     */
+    if (this.totalUlbApprovalInProgress) {
+      return;
+    }
     this.totalUlbApprovalInProgress = 0;
     this.errorsInMultiSelectULBApproval = [];
     this.multiStatesForApprovalControl.value.forEach((state) => {

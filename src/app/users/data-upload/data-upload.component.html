@@ -1221,18 +1221,16 @@
 </ng-template>
 
 <ng-template #FCFormMultiApproval>
-   <header>
-      <i
+  <header>
+    <i
       class="fa fa-times"
       aria-hidden="true"
       (click)="_matDialog.closeAll()"
     ></i>
 
     <h3 class="text-center">15<sup>th</sup> FC Form Multi Approval</h3>
-   </header>
+  </header>
   <div id="multiApprovalModal">
-  
-
     <p class="states-selection">
       <span class="stateName"><b>Select States:</b></span>
       <angular2-multiselect
@@ -1304,7 +1302,7 @@
     *ngIf="showMultiSelectULBApprovalCompletionMessage"
     class="text-center"
   >
-    <b style="color: green"> Approval ACTION COMPLETED</b>
+    <b style="color: green"> Approval Action Completed</b>
   </p>
 
   <div class="row justify-content-center d-flex Approvalbuttons">
@@ -1312,11 +1310,17 @@
       class="btn btn-primary"
       [disabled]="
         !multiStatesForApprovalControl?.value?.length ||
-        totalUlbApprovalInProgress
+        totalUlbApprovalInProgress ||
+        totalNumberOfULBsSelectedForMultiApproval == 0
       "
       (click)="approveMultipleSelectedULBS()"
     >
-      Approve ULB's {{totalNumberOfULBsSelectedForMultiApproval > 1 ? 'Applications': 'Application'}}
+      Approve ULB's
+      {{
+        totalNumberOfULBsSelectedForMultiApproval > 1
+          ? "Applications"
+          : "Application"
+      }}
     </button>
     <!-- <button
       class="btn btn-primary"
