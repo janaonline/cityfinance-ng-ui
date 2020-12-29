@@ -334,6 +334,8 @@ export class DataUploadComponent
 
   fcFormListSubscription: Subscription;
 
+  chartDataSubscription: Subscription;
+
   ngOnInit() {
     this.getStateFcDocments();
     this.initializeChartFilter();
@@ -500,35 +502,40 @@ export class DataUploadComponent
 
   fetchChartData(filter?: {}) {
     this.chartData = null;
-    this._commonService.fetchDashboardChartData(filter).subscribe((res) => {
-      this.chartData = res["data"];
-      let textToTakeAction;
-      switch (this.loggedInUserData.role) {
-        case USER_TYPE.STATE: {
-          textToTakeAction = "Under Review By State";
-          break;
+    if (this.chartDataSubscription) {
+      this.chartDataSubscription.unsubscribe();
+    }
+    this.chartDataSubscription = this._commonService
+      .fetchDashboardChartData(filter)
+      .subscribe((res) => {
+        this.chartData = res["data"];
+        let textToTakeAction;
+        switch (this.loggedInUserData.role) {
+          case USER_TYPE.STATE: {
+            textToTakeAction = "Under Review By State";
+            break;
+          }
+          case USER_TYPE.MoHUA: {
+            textToTakeAction = "Under Review By MoHUA";
+            break;
+          }
         }
-        case USER_TYPE.MoHUA: {
-          textToTakeAction = "Under Review By MoHUA";
-          break;
+        if (textToTakeAction) {
+          const indexOfSearchText = this.chartData.labels.findIndex(
+            (label) => label === textToTakeAction
+          );
+          this.haveRequestToTakeAction =
+            this.chartData.datasets[0].data[indexOfSearchText] > 0;
+          this.chartData.datasets[0].backgroundColor[indexOfSearchText] = "red";
         }
-      }
-      if (textToTakeAction) {
-        const indexOfSearchText = this.chartData.labels.findIndex(
-          (label) => label === textToTakeAction
+        this.chartData.labels = this.chartData.labels.map((text: string) =>
+          !text.includes("By")
+            ? text
+            : [text.split("By")[0] + "By", text.split("By")[1]]
         );
-        this.haveRequestToTakeAction =
-          this.chartData.datasets[0].data[indexOfSearchText] > 0;
-        this.chartData.datasets[0].backgroundColor[indexOfSearchText] = "red";
-      }
-      this.chartData.labels = this.chartData.labels.map((text: string) =>
-        !text.includes("By")
-          ? text
-          : [text.split("By")[0] + "By", text.split("By")[1]]
-      );
 
-      this.onChangingShowULBInChart({ checked: false, source: null });
-    });
+        this.onChangingShowULBInChart({ checked: false, source: null });
+      });
   }
 
   createChart(chartData) {
