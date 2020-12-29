@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { IState } from 'src/app/models/state/state';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
@@ -111,6 +112,10 @@ export class PreviewComponent implements OnInit {
 
   }
 
+  .fa-times {
+    display: none;
+  }
+
 
 </style>`;
 
@@ -118,14 +123,11 @@ export class PreviewComponent implements OnInit {
 
   constructor(
     private _questionnaireService: QuestionnaireService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    public _matDialog: MatDialog
   ) {}
 
-  ngOnChanges() {
-    if (this.data) {
-      console.log(this.data);
-    }
-  }
+  ngOnChanges() {}
 
   ngOnInit() {
     this.data = this.formatResponse(this.data);
