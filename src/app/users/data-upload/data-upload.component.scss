@@ -315,6 +315,11 @@ table .input-group {
   position: relative;
   // padding: 3% 2% 5% 2%;
   flex-wrap: wrap;
+  ::ng-deep {
+    .dropdown-list {
+      width: fit-content;
+    }
+  }
 
   h3,
   p {

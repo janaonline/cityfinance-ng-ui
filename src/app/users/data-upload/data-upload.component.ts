@@ -242,6 +242,7 @@ export class DataUploadComponent
 
   defaultChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     legend: {
       display: false,
       position: "top",
