@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    if (localStorage.getItem("userData")) {
+    if (this.authService.loggedIn()) {
       this.router.navigate(["/home"]);
       return;
     }
@@ -116,5 +116,4 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     sessionStorage.removeItem("postLoginNavigation");
   }
- 
 }

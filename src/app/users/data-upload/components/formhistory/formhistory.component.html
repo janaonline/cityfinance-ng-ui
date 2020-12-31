@@ -29,7 +29,7 @@
         <td>{{ i + 1 }}</td>
         <td>{{ row.customStatusText }}</td>
         <td>
-          {{ row["modifiedAt"] | date: "MMM d, y, h:mm a":"GMT" }}
+          {{ row["modifiedAt"] | date: "MMM d, y, h:mm a":"+00" }}
         </td>
       </tr>
     </tbody>

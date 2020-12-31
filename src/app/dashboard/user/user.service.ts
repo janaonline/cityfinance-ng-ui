@@ -6,7 +6,7 @@ import { UserProfile } from '../../users/profile/model/user-profile';
 import { environment } from './../../../environments/environment';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class UserService {
   private httpUtil = new HttpUtility();
@@ -32,7 +32,7 @@ export class UserService {
       body.sort = {};
     }
     let params = new HttpParams();
-    Object.keys(body).forEach(key => {
+    Object.keys(body).forEach((key) => {
       if (typeof body[key] === "object") {
         const value = JSON.stringify(body[key]);
 
@@ -41,8 +41,6 @@ export class UserService {
         params = params.append(key, body[key]);
       }
     });
-    console.log(params);
-    
 
     return this.http.get<UserProfile[]>(
       environment.api.url + `user/all?${params}`
@@ -66,7 +64,7 @@ export class UserService {
     let params = new HttpParams();
     console.log(body, params);
 
-    Object.keys(body).forEach(key => {
+    Object.keys(body).forEach((key) => {
       if (typeof body[key] === "object") {
         const value = JSON.stringify(body[key]);
 

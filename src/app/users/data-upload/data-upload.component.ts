@@ -8,6 +8,7 @@ import { MatDialog, MatSlideToggleChange, MatSnackBar } from '@angular/material'
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Chart from 'chart.js';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { combineLatest, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { JSONUtility } from 'src/app/util/jsonUtil';
@@ -82,6 +83,7 @@ export class DataUploadComponent
     });
 
     this.createForms();
+
     this.setTableHeaderByUserType();
     this.modalService.onHide.subscribe(() => (this.isPopupOpen = false));
     this.initializeULBFormGroup();
@@ -92,6 +94,7 @@ export class DataUploadComponent
       );
     }
   }
+
   questionForState = [
     {
       question:
@@ -142,7 +145,7 @@ export class DataUploadComponent
     "auditReport",
   ];
   fileFormGroup: FormGroup;
-  dataUploadList: Array<IFinancialData & { canTakeAction?: boolean }> = [];
+  dataUploadList: Array<IFinancialData & { canTakeAction?: boolean }>;
   isAccessible: boolean;
   financialYearDropdownSettings: any = {
     singleSelection: true,
@@ -178,6 +181,7 @@ export class DataUploadComponent
     totalCount: null,
   };
   currentSort = 1;
+  currentULBListSort = 1;
 
   listFetchOption = {
     filter: null,
@@ -195,6 +199,7 @@ export class DataUploadComponent
   stateNameControl = new FormControl("");
   censusCode: FormControl = new FormControl();
   sbCode: FormControl = new FormControl();
+  populationTypeFilterForChart = new FormControl("");
 
   rejectFields = {};
 
@@ -237,6 +242,7 @@ export class DataUploadComponent
 
   defaultChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     legend: {
       display: false,
       position: "top",
@@ -297,9 +303,46 @@ export class DataUploadComponent
   haveRequestToTakeAction = false;
 
   stateFcGrantDocuments = null;
+  scrollToULBTable = false;
+
+  multiSelectStates = {
+    primaryKey: "_id",
+    singleSelection: false,
+    text: "Select States",
+    enableSearchFilter: true,
+    labelKey: "name",
+    showCheckbox: true,
+    noDataLabel: "No Data available",
+  };
+
+  multiSelectStatesULBs = {
+    primaryKey: "_id",
+    singleSelection: false,
+    text: "Select ULBs",
+    enableSearchFilter: true,
+    labelKey: "ulbName",
+    showCheckbox: true,
+    noDataLabel: "No Data available",
+  };
+
+  multiStatesForApprovalControl = new FormControl();
+  totalUlbApprovalInProgress;
+  errorsInMultiSelectULBApproval = [];
+
+  showMultiSelectULBApprovalCompletionMessage = false;
+
+  statesForULBUnderMoHUAApproval: any[];
+
+  fcFormListSubscription: Subscription;
+
+  chartDataSubscription: Subscription;
+  totalNumberOfULBsSelectedForMultiApproval = 0;
+
+  allSubscripts: Subscription[];
 
   ngOnInit() {
     this.getStateFcDocments();
+    this.initializeChartFilter();
 
     if (this.loggedInUserData.role === USER_TYPE.STATE) {
       return;
@@ -315,9 +358,24 @@ export class DataUploadComponent
       this.getFinancialData();
     } else {
       if (this.userUtil.getUserType() === USER_TYPE.ULB) {
+        if (this.router.url.includes(`data-upload/list`)) {
+          return this.router.navigate(["/home"]);
+        }
+
         this.gettingULBDats();
       }
     }
+  }
+
+  initializeChartFilter() {
+    this.populationTypeFilterForChart.valueChanges.subscribe((newValue) => {
+      let filter;
+      if (newValue) {
+        filter =
+          newValue === "true" ? { millionPlus: true } : { nonMillion: true };
+      }
+      this.fetchChartData(filter);
+    });
   }
 
   getStateFcDocments() {
@@ -348,9 +406,7 @@ export class DataUploadComponent
       [this.questionForState[2].key]: null,
     };
     body = { ...body, ...values };
-    this.financialDataService.saveStateFCDocuments(body).subscribe((res) => {
-      console.log(res);
-    });
+    this.financialDataService.saveStateFCDocuments(body).subscribe((res) => {});
   }
 
   onChangingShowULBInChart(event: MatSlideToggleChange) {
@@ -410,12 +466,17 @@ export class DataUploadComponent
 
   scrollToElement(elementId: string) {
     const element = document.getElementById(`${elementId}`);
-    element.scrollIntoView({ behavior: "smooth" });
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   }
 
   onClickCharTakeAction(something, isMillionPlus?: "Yes" | "No") {
     this.populationTypeSearchFormControl.setValue(isMillionPlus || "");
     this.uploadStatusFormControl.setValue(something);
+    if (this.fcFormListSubscription) {
+      this.fcFormListSubscription.unsubscribe();
+    }
     this.applyFilterClicked();
     this.scrollToElement("data-upload-tracker-list");
   }
@@ -443,36 +504,42 @@ export class DataUploadComponent
       });
   }
 
-  fetchChartData() {
-    this._commonService.fetchDashboardChartData().subscribe((res) => {
-      this.chartData = res["data"];
-      let textToTakeAction;
-      switch (this.loggedInUserData.role) {
-        case USER_TYPE.STATE: {
-          textToTakeAction = "Under Review By State";
-          break;
+  fetchChartData(filter?: {}) {
+    this.chartData = null;
+    if (this.chartDataSubscription) {
+      this.chartDataSubscription.unsubscribe();
+    }
+    this.chartDataSubscription = this._commonService
+      .fetchDashboardChartData(filter)
+      .subscribe((res) => {
+        this.chartData = res["data"];
+        let textToTakeAction;
+        switch (this.loggedInUserData.role) {
+          case USER_TYPE.STATE: {
+            textToTakeAction = "Under Review By State";
+            break;
+          }
+          case USER_TYPE.MoHUA: {
+            textToTakeAction = "Under Review By MoHUA";
+            break;
+          }
         }
-        case USER_TYPE.MoHUA: {
-          textToTakeAction = "Under Review By MoHUA";
-          break;
+        if (textToTakeAction) {
+          const indexOfSearchText = this.chartData.labels.findIndex(
+            (label) => label === textToTakeAction
+          );
+          this.haveRequestToTakeAction =
+            this.chartData.datasets[0].data[indexOfSearchText] > 0;
+          this.chartData.datasets[0].backgroundColor[indexOfSearchText] = "red";
         }
-      }
-      if (textToTakeAction) {
-        const indexOfSearchText = this.chartData.labels.findIndex(
-          (label) => label === textToTakeAction
+        this.chartData.labels = this.chartData.labels.map((text: string) =>
+          !text.includes("By")
+            ? text
+            : [text.split("By")[0] + "By", text.split("By")[1]]
         );
-        this.haveRequestToTakeAction =
-          this.chartData.datasets[0].data[indexOfSearchText] > 0;
-        this.chartData.datasets[0].backgroundColor[indexOfSearchText] = "red";
-      }
-      this.chartData.labels = this.chartData.labels.map((text: string) =>
-        !text.includes("By")
-          ? text
-          : [text.split("By")[0] + "By", text.split("By")[1]]
-      );
 
-      this.onChangingShowULBInChart({ checked: false, source: null });
-    });
+        this.onChangingShowULBInChart({ checked: false, source: null });
+      });
   }
 
   createChart(chartData) {
@@ -512,6 +579,8 @@ export class DataUploadComponent
         "stepSize"
       ] = Number.parseInt((maxValue + maxValue / 20) / 5 + "");
     }
+
+    this.defaultChartOptions.scales.yAxes[0].ticks["maxTicksLimit"] = 5;
 
     this.currentChart = new Chart(ctx, {
       type: "bar",
@@ -593,25 +662,6 @@ export class DataUploadComponent
     });
   }
 
-  private fetchULBList(params = {}) {
-    this.ulbList = undefined;
-    const { skip } = this.ulblistFetchOption;
-    const newParams = {
-      skip,
-      limit: 10,
-      ...params,
-    };
-    this._commonService.fetchULBList(newParams).subscribe((res) => {
-      this.ulbList = res["data"];
-      if ("total" in res) {
-        this.ulbtableDefaultOptions = {
-          ...this.ulbtableDefaultOptions,
-          totalCount: res["total"] || 0,
-        };
-      }
-    });
-  }
-
   private gettingULBDats(params = {}, body = {}) {
     this.loading = true;
     const { skip } = this.listFetchOption;
@@ -646,8 +696,45 @@ export class DataUploadComponent
         );
         this.ulbFilter.controls.stateName.patchValue(this.stateList[0].name);
         this.stateNameControl.patchValue(this.stateList[0].name);
-        this.applyFilterClicked();
+
+        /**
+         * @description IF the FC Form data is already fetched, then dont
+         * fetch it again.
+         */
+        if (!this.fcFormListSubscription) {
+          this.applyFilterClicked();
+        }
       } else this.stateList = res.data;
+    });
+  }
+
+  private fetchULBList(params = {}) {
+    this.ulbList = undefined;
+    const { skip } = this.ulblistFetchOption;
+    const newParams = {
+      skip,
+      limit: 10,
+      ...params,
+    };
+    const sort = this.ulblistFetchOption.sort
+      ? { ...this.ulblistFetchOption.sort }
+      : null;
+
+    this._commonService.fetchULBList(newParams, sort).subscribe((res) => {
+      this.ulbList = res["data"];
+      if ("total" in res) {
+        this.ulbtableDefaultOptions = {
+          ...this.ulbtableDefaultOptions,
+          totalCount: res["total"] || 0,
+        };
+      }
+      if (this.scrollToULBTable) {
+        this.scrollToElement("ulb-list");
+      }
+      // const ulbLisTable = document.getElementById("ulb-list");
+      // if (ulbLisTable && ) {
+      //   ulbLisTable.scrollIntoView({ behavior: "smooth", block: "center" });
+      // }
     });
   }
 
@@ -727,17 +814,6 @@ export class DataUploadComponent
           ...this.tableDefaultOptions,
           totalCount: response["total"] || 0,
         };
-      }
-      if (!this.listFetchOption.sort) {
-        // this.dataUploadList = this.dataUploadList.sort((a, b) => {
-        //   const c1 = a["status"][2];
-        //   const c2 = b["status"][2];
-        //   if (c1 > c2) {
-        //     return 1;
-        //   } else {
-        //     return -1;
-        //   }
-        // });
       }
     }
     this.loading = false;
@@ -1202,13 +1278,14 @@ export class DataUploadComponent
     this.tableDefaultOptions.currentPage = 1;
     this.listFetchOption = this.setLIstFetchOptions();
     const { skip } = this.listFetchOption;
+    if (this.fcFormListSubscription) {
+      this.fcFormListSubscription.unsubscribe();
+    }
 
-    this.financialDataService
+    this.fcFormListSubscription = this.financialDataService
       .fetchFinancialDataList({ skip, limit: 10 }, this.listFetchOption)
       .subscribe(
-        (result) => {
-          this.handleResponseSuccess(result);
-        },
+        (result) => this.handleResponseSuccess(result),
         (response: HttpErrorResponse) => {
           this.loading = false;
           this._snackBar.open(
@@ -1253,6 +1330,7 @@ export class DataUploadComponent
   }
 
   setulbPage(pageNoClick: number) {
+    this.scrollToULBTable = true;
     this.ulbtableDefaultOptions.currentPage = pageNoClick;
     this.ulblistFetchOption.skip =
       (pageNoClick - 1) * this.ulbtableDefaultOptions.itemPerPage;
@@ -1267,6 +1345,15 @@ export class DataUploadComponent
       sort: { [id]: this.currentSort },
     };
     this.getFinancialDataList({}, this.listFetchOption);
+  }
+
+  sortByIdULBList(id: string) {
+    this.currentULBListSort = this.currentULBListSort > 0 ? -1 : 1;
+    this.ulblistFetchOption = {
+      ...this.ulblistFetchOption,
+      sort: { [id]: this.currentULBListSort },
+    };
+    this.fetchULBList({});
   }
 
   private createForms() {
@@ -1342,6 +1429,113 @@ export class DataUploadComponent
       },
       (error) => this.handlerError(error)
     );
+  }
+
+  openSecondModal(historyModal: TemplateRef<any>) {
+    this.totalUlbApprovalInProgress = 0;
+    this.errorsInMultiSelectULBApproval = [];
+    this.financialDataService.fetStateForULBUnderMoHUA().subscribe((data) => {
+      this.statesForULBUnderMoHUAApproval = data["data"];
+    });
+    this._matDialog.open(historyModal, {
+      panelClass: "multiApprovalModal",
+      width: "80vw",
+      height: "90vh",
+      id: "multiApprovalModalPopup",
+      disableClose: true,
+    });
+    this._matDialog.afterAllClosed.subscribe((data) => {
+      this.showMultiSelectULBApprovalCompletionMessage = false;
+      if (!this.multiStatesForApprovalControl.value) return;
+      this.multiStatesForApprovalControl.value.forEach((state) => {
+        state.ULBFormControl.reset();
+      });
+      this.multiStatesForApprovalControl.reset();
+    });
+  }
+
+  onSelectingMultipleStateForApproval(stateList) {
+    if (!this.multiStatesForApprovalControl.value) return;
+    this.allSubscripts = [];
+    this.multiStatesForApprovalControl.value.forEach((state) => {
+      if (state.ulbs) return;
+      state.ULBFormControl = new FormControl();
+      this.allSubscripts.push(state.ULBFormControl.valueChanges);
+
+      this.financialDataService
+        .fetchFinancialDataList(
+          // Currently limit = 0 is not working. So to bypass that, setting random value.
+          { skip: 0, limit: 99999999 },
+          {
+            filter: {
+              stateName: state.name,
+              financialYear: "",
+              ulbName: "",
+              ulbCode: "",
+              audited: "",
+              censusCode: "",
+              sbCode: "",
+              status: UNDER_REVIEW_BY_MoHUA.id,
+              ulbType: "",
+              isMillionPlus: "",
+            },
+          }
+        )
+        .subscribe((list) => {
+          state.ulbs = list["data"];
+        });
+    });
+
+    // concat(this.allSubscripts).subscribe((newList) => {
+    //   console.log(`concat newList`, newList);
+    // });
+    // forkJoin(this.allSubscripts).subscribe((newList) => {
+    //   console.log(`join newList`, newList);
+    // });
+
+    // merge(this.allSubscripts).subscribe((newList) => {
+    //   console.log(`merge newList`, newList);
+    // });
+    combineLatest(this.allSubscripts).subscribe((newList: any[]) => {
+      const filteredList = newList.filter((value) =>
+        value ? !!value.length : false
+      );
+      this.totalNumberOfULBsSelectedForMultiApproval = filteredList
+        ? filteredList.length
+        : 0;
+    });
+  }
+
+  approveMultipleSelectedULBS() {
+    /**
+     * @description If the api is already in aprogress, then dont allow
+     * more ulbs approval.
+     */
+    if (this.totalUlbApprovalInProgress) {
+      return;
+    }
+    this.totalUlbApprovalInProgress = 0;
+    this.errorsInMultiSelectULBApproval = [];
+    this.multiStatesForApprovalControl.value.forEach((state) => {
+      if (!state.ULBFormControl || !state.ULBFormControl.value) return;
+      state.ULBFormControl.value.forEach((ulbForm) => {
+        this.totalUlbApprovalInProgress++;
+        this.financialDataService.approveMultiSelectULBs(ulbForm._id).subscribe(
+          (res) => {
+            this.totalUlbApprovalInProgress--;
+            if (this.totalUlbApprovalInProgress === 0) {
+              this.showMultiSelectULBApprovalCompletionMessage = true;
+            }
+          },
+          (error) => {
+            this.errorsInMultiSelectULBApproval.push(
+              `${state.name}: ${ulbForm.ulbName}`
+            );
+            this.totalUlbApprovalInProgress--;
+          }
+        );
+      });
+    });
   }
 
   private handlerError(response: any) {

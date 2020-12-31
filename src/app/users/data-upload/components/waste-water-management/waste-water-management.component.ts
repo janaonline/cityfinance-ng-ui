@@ -135,7 +135,7 @@ export class WasteWaterManagementComponent implements OnInit, OnChanges {
     //     values.documents.wasteWaterPlan = [];
     //   }
     // }
-    console.log("value emitting by waste water", values);
+    // console.log("value emitting by waste water", values);
     this.outputValues.emit(values);
   }
 

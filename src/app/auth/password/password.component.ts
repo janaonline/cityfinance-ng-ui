@@ -41,6 +41,9 @@ export class PasswordComponent implements OnInit {
 
   userTypeSelected: USER_TYPE;
 
+  mainPassword = true;
+  confirmPassword = true;
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,

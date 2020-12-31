@@ -27,6 +27,8 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
   window = window;
   USER_TYPE = USER_TYPE;
 
+  isApiInProcess = false;
+
   constructor(
     private _commonService: CommonService,
     private _profileService: ProfileService
@@ -65,24 +67,30 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
   }
 
   private createProfile(form: FormGroup) {
-    // this.formSubmitted = true;
-    // this.formErrors = this.formUtil.validateStateForm(form);
-    // if (this.formErrors && this.formErrors.length) {
-    //   return;
-    // }
+    if (this.isApiInProcess) return;
     const body = form.value;
     body.role = USER_TYPE.MoHUA;
     body.password = "";
+    if (form.disabled) {
+      return;
+    }
+    form.disable();
+    this.isApiInProcess = true;
 
     this._profileService.createUser(body).subscribe(
       (res) => {
         form.reset();
         this.formSubmitted = false;
+        form.enable();
+        this.isApiInProcess = false;
 
         this.respone.successMessage = "Profile created successfully";
       },
-      (err: HttpErrorResponse) =>
-        (this.respone.errorMessage = err.error.message || "Server Error")
+      (err: HttpErrorResponse) => {
+        this.respone.errorMessage = err.error.message || "Server Error";
+        form.enable();
+        this.isApiInProcess = false;
+      }
     );
   }
 
@@ -91,6 +99,9 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
       ...form.value,
       _id: this.profileData._id,
     };
+    if (form.disabled) {
+      return;
+    }
     form.disable();
     return this._profileService.updateUserProfileData(body).subscribe(
       (res) => {

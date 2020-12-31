@@ -57,10 +57,6 @@ export class CommonProfileComponent implements OnInit, OnChanges {
   public onFormSubmit(form: FormGroup) {
     this.resetResponseMessage();
     this.formSubmitted = true;
-    // this.formErrors = this.formUtil.validateStateForm(form);
-    // if (this.formErrors) {
-    //   return;
-    // }
 
     if (this.profileData) {
       return this.updateProfile(form);
@@ -70,24 +66,26 @@ export class CommonProfileComponent implements OnInit, OnChanges {
   }
 
   private createProfile(form: FormGroup) {
-    // this.formSubmitted = true;
-    // this.formErrors = this.formUtil.validateStateForm(form);
-    // if (this.formErrors && this.formErrors.length) {
-    //   return;
-    // }
     const body = form.value;
     body.role = USER_TYPE.PARTNER;
     body.password = "";
+    if (form.disabled) {
+      return;
+    }
+    form.disable();
 
     this._profileService.createUser(body).subscribe(
       (res) => {
         form.reset();
+        form.enable();
         this.formSubmitted = false;
 
         this.respone.successMessage = "Profile created successfully";
       },
-      (err: HttpErrorResponse) =>
-        (this.respone.errorMessage = err.error.message || "Server Error")
+      (err: HttpErrorResponse) => {
+        this.respone.errorMessage = err.error.message || "Server Error";
+        form.enable();
+      }
     );
   }
 
@@ -96,6 +94,9 @@ export class CommonProfileComponent implements OnInit, OnChanges {
       ...form.value,
       _id: this.profileData._id,
     };
+    if (form.disabled) {
+      return;
+    }
 
     form.disable({ emitEvent: false });
     return this._profileService.updateUserProfileData(body).subscribe(

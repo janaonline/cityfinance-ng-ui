@@ -318,7 +318,7 @@
               class="view-list"
               (click)="
                 onClickingOtherCards({
-                  isMillionPlus: 'Non Million',
+                  isMillionPlus: 'Milion Plus',
                   registration: ''
                 })
               "
@@ -395,15 +395,48 @@
         </div>
 
         <div class="chart-container">
-          <p class="heading" style="font-size: 1.6rem">
+          <p
+            class="heading mb-2"
+            style="font-size: 1.6rem; display: inline-block"
+          >
             15<sup>th</sup> FC Form Status
-            <!-- <mat-slide-toggle
-              style="float: right"
-              (change)="onChangingShowULBInChart($event)"
-              >Show Not Registered ULBs</mat-slide-toggle
-            > -->
           </p>
-          <canvas id="canvas" width="150" height="49"></canvas>
+          <div style="float: right; display: inline-flex; align-items: center">
+            <b style="display: inline-block" class="mr-1"
+              >Filter by Population Type:</b
+            >
+            <div class="input-group" style="display: inline-block">
+              <select
+                name="State"
+                id="state"
+                class="form-control"
+                placeholder="State"
+                [formControl]="populationTypeFilterForChart"
+              >
+                <option value="" selected>Total ULBs</option>
+                <option value="true" selected>Million Plus</option>
+                <option value="false" selected>Non Million</option>
+              </select>
+            </div>
+          </div>
+          <div style="position: relative">
+            <canvas id="canvas" width="870" height="300"></canvas>
+            <div
+              *ngIf="!chartData"
+              style="
+                position: absolute;
+                top: 0px;
+                z-index: 5;
+                width: 105%;
+                height: 100%;
+                background: white;
+              "
+            >
+              <app-pre-loader></app-pre-loader>
+              <app-pre-loader></app-pre-loader>
+              <app-pre-loader></app-pre-loader>
+            </div>
+          </div>
           <div
             *ngIf="
               haveRequestToTakeAction &&
@@ -600,17 +633,49 @@
                 <th
                   *ngIf="loggedInUserData.role !== userTypes.STATE"
                   scope="State Name"
-                  style="width: 9%"
+                  style="width: 10%"
+                  (click)="sortByIdULBList('stateName')"
                 >
                   State Name
+                  <em class="glyphicon glyphicon-sort"></em>
                 </th>
-                <th scope="ULB Name">ULB Name</th>
-                <th scope="ULB Type">ULB Type</th>
-                <th scope="Census Code">Census Code</th>
-                <th scope="ULB Code">ULB Code</th>
-                <th scope="Email Id">Email Id</th>
-                <th scope="Registered" style="width: 10%">Profile Updated</th>
-                <th scope="Type">Population Type</th>
+                <th scope="ULB Name" (click)="sortByIdULBList('ulbName')">
+                  ULB Name<em class="glyphicon glyphicon-sort"></em>
+                </th>
+                <th
+                  scope="ULB Type"
+                  style="width: 10%"
+                  (click)="sortByIdULBList('ulbType')"
+                >
+                  ULB Type <em class="glyphicon glyphicon-sort"></em>
+                </th>
+                <th
+                  scope="Census Code"
+                  style="width: 11%"
+                  (click)="sortByIdULBList('censusCode')"
+                >
+                  Census Code <em class="glyphicon glyphicon-sort"></em>
+                </th>
+                <th
+                  scope="ULB Code"
+                  style="width: 11%"
+                  (click)="sortByIdULBList('sbCode')"
+                >
+                  ULB Code <em class="glyphicon glyphicon-sort"></em>
+                </th>
+                <th scope="Email Id" (click)="sortByIdULBList('email')">
+                  Email Id <em class="glyphicon glyphicon-sort"></em>
+                </th>
+                <th
+                  scope="Registered"
+                  style="width: 13%"
+                  (click)="sortByIdULBList('registration')"
+                >
+                  Profile Updated <em class="glyphicon glyphicon-sort"></em>
+                </th>
+                <th scope="Type" (click)="sortByIdULBList('isMillionPlus')">
+                  Population Type <em class="glyphicon glyphicon-sort"></em>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -813,6 +878,19 @@
             >
               Upload Data
             </button>
+
+            <button
+              *ngIf="
+                dataUploadList &&
+                dataUploadList.length &&
+                loggedInUserData?.role === userTypes.MoHUA
+              "
+              class="btn btn-primary"
+              style="float: right; margin-right: 6px"
+              (click)="openSecondModal(FCFormMultiApproval)"
+            >
+              Multi Select Approval
+            </button>
             <button
               *ngIf="dataUploadList && dataUploadList.length"
               class="btn btn-primary"
@@ -969,7 +1047,7 @@
                   </button>
                 </td>
               </tr>
-              <ng-container *ngIf="dataUploadList.length; else noData">
+              <ng-container *ngIf="dataUploadList?.length; else noData">
                 <tr
                   style="background: #e7e7e7; border-bottom: 5px solid white"
                   *ngFor="
@@ -1048,7 +1126,12 @@
                     class="text-center"
                     [attr.colspan]="tableHeaders.length + 1"
                   >
-                    <h3>No Data Available</h3>
+                    <div *ngIf="!dataUploadList">
+                      <app-pre-loader></app-pre-loader>
+                    </div>
+                    <h3 *ngIf="dataUploadList?.length == 0">
+                      No Data Available
+                    </h3>
                   </td>
                 </tr>
               </ng-template>
@@ -1135,4 +1218,121 @@
       </button>
     </div>
   </div>
+</ng-template>
+
+<ng-template #FCFormMultiApproval>
+  <header>
+    <i
+      class="fa fa-times"
+      aria-hidden="true"
+      (click)="_matDialog.closeAll()"
+    ></i>
+
+    <h3 class="text-center">15<sup>th</sup> FC Form Multi Approval</h3>
+  </header>
+  <div id="multiApprovalModal">
+    <p class="states-selection">
+      <span class="stateName"><b>Select States:</b></span>
+      <angular2-multiselect
+        *ngIf="statesForULBUnderMoHUAApproval"
+        [formControl]="multiStatesForApprovalControl"
+        style="display: inline-block; width: 70%"
+        [data]="statesForULBUnderMoHUAApproval"
+        [settings]="multiSelectStates"
+        (onClose)="onSelectingMultipleStateForApproval($event)"
+      >
+      </angular2-multiselect>
+      <span
+        *ngIf="!statesForULBUnderMoHUAApproval"
+        style="display: inline-block; width: 50%; height: 5vh"
+      >
+        <app-pre-loader></app-pre-loader>
+      </span>
+    </p>
+    <hr />
+    <p
+      class="states"
+      *ngFor="let state of multiStatesForApprovalControl?.value; let i = index"
+    >
+      <span class="stateName"
+        ><b> {{ i + 1 }}. {{ state.name }}: </b></span
+      >
+      <span>
+        <span *ngIf="state.ulbs">
+          <angular2-multiselect
+            [formControl]="state.ULBFormControl"
+            classes="ml-5"
+            style="display: inline-block; width: 70%"
+            [data]="state.ulbs"
+            [settings]="multiSelectStatesULBs"
+          >
+          </angular2-multiselect>
+        </span>
+        <span
+          *ngIf="!state.ulbs"
+          style="display: inline-block; width: 50%; height: 5vh"
+        >
+          <app-pre-loader></app-pre-loader>
+        </span>
+      </span>
+    </p>
+  </div>
+
+  <div style="color: red" *ngIf="errorsInMultiSelectULBApproval?.length">
+    <span
+      ><b
+        >Approval for following ULB's
+        {{
+          errorsInMultiSelectULBApproval?.length > 1
+            ? "Applications"
+            : "Application"
+        }}
+        have failed:</b
+      ></span
+    ><br />
+    <ol>
+      <li *ngFor="let error of errorsInMultiSelectULBApproval">
+        {{ error }}
+      </li>
+    </ol>
+  </div>
+
+  <p
+    style="width: 100%"
+    *ngIf="showMultiSelectULBApprovalCompletionMessage"
+    class="text-center"
+  >
+    <b style="color: green"> Approval Action Completed</b>
+  </p>
+
+  <div class="row justify-content-center d-flex Approvalbuttons">
+    <button
+      class="btn btn-primary"
+      [disabled]="
+        !multiStatesForApprovalControl?.value?.length ||
+        totalUlbApprovalInProgress ||
+        totalNumberOfULBsSelectedForMultiApproval == 0
+      "
+      (click)="approveMultipleSelectedULBS()"
+    >
+      Approve ULB(s)
+      {{
+        totalNumberOfULBsSelectedForMultiApproval > 1
+          ? "Applications"
+          : "Application"
+      }}
+    </button>
+    <!-- <button
+      class="btn btn-primary"
+      (click)="_matDialog.closeAll()"
+      [disabled]="totalUlbApprovalInProgress"
+    >
+      Cancel
+    </button> -->
+  </div>
+  <p class="note">
+    <span style="font-size: 1.3em">NOTE:</span> <br />1. Only those ULBs will be
+    shown whose FC GRant Form is under review by MoHUA <br />2. Only
+    <b>Approval Action</b> can be taken on ULBs
+  </p>
 </ng-template>

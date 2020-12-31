@@ -70,11 +70,11 @@
         formControlName="censusCode"
         class="form-control"
         [ngClass]="{
-          'is-invalid':
-            formSubmitted && profile.controls.ulb.controls.censusCode.errors
+          'is-invalid': profile.controls.ulb.controls.censusCode.errors
         }"
       />
     </div>
+
     <div class="input-group" formGroupName="ulb">
       <label for="sbCode"
         >ULB Code
@@ -86,8 +86,7 @@
         formControlName="sbCode"
         class="form-control"
         [ngClass]="{
-          'is-invalid':
-            formSubmitted && profile.controls.ulb.controls.sbCode.errors
+          'is-invalid': profile.controls.ulb.controls.sbCode.errors
         }"
       />
     </div>
@@ -365,6 +364,12 @@
         {{ i + 1 }}. {{ error }}
       </span>
     </p> -->
+    <p
+      *ngIf="profile.controls.ulb.controls?.sbCode?.errors as error"
+      class="form-field-error-message"
+    >
+      Either ULB Code or Census Code must be entered
+    </p>
 
     <p *ngIf="respone.errorMessage" class="error-message">
       {{ respone.errorMessage }}
