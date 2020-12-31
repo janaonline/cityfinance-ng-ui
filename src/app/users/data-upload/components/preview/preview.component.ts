@@ -1,12 +1,22 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { IState } from 'src/app/models/state/state';
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
 import { defaultDailogConfiuration } from 'src/app/pages/questionnaires/ulb/configs/common.config';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { UPLOAD_STATUS } from 'src/app/util/enums';
 import { UserUtility } from 'src/app/util/user/user';
 
-import { WaterManagement } from '../../models/financial-data.interface';
+import { IFinancialData, WaterManagement } from '../../models/financial-data.interface';
+import {
+  APPROVAL_COMPLETED,
+  REJECT_BY_MoHUA,
+  REJECT_BY_STATE,
+  SAVED_AS_DRAFT,
+  UNDER_REVIEW_BY_MoHUA,
+  UNDER_REVIEW_BY_STATE,
+} from '../../util/request-status';
 import { millionPlusCitiesQuestions } from '../configs/million-plus-cities';
 import { solidWasterQuestions } from '../configs/solid-waste-management';
 import { services, targets } from '../configs/water-waste-management';
@@ -38,6 +48,8 @@ export class PreviewComponent implements OnInit {
   millionPlusCitiesQuestions = millionPlusCitiesQuestions;
 
   showLoader = false;
+
+  USER_TYPES = USER_TYPE;
 
   userDetails = new UserUtility().getLoggedInUserDetails();
 
@@ -93,6 +105,17 @@ export class PreviewComponent implements OnInit {
     font-weight: 700;
   }
 
+  .form-status {
+    font-size: 10px;
+    margin-top: 10px;
+
+
+  }
+
+  .fa-times {
+    display: none;
+  }
+
 
 </style>`;
 
@@ -100,11 +123,14 @@ export class PreviewComponent implements OnInit {
 
   constructor(
     private _questionnaireService: QuestionnaireService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    public _matDialog: MatDialog
   ) {}
 
+  ngOnChanges() {}
+
   ngOnInit() {
-    console.log("data", this.data);
+    this.data = this.formatResponse(this.data);
   }
 
   replaceAllOccurence(
@@ -125,8 +151,8 @@ export class PreviewComponent implements OnInit {
     let html = this.styleForPDF + elementToAddPDFInString;
     html = this.replaceAllOccurence(html, 'width="15.932"', 'width="7.932"');
     html = this.replaceAllOccurence(html, 'height="15.932"', 'height="7.932"');
-    console.log(html);
     this.showLoader = true;
+    console.log(html);
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
         this.downloadFile(
@@ -153,6 +179,54 @@ export class PreviewComponent implements OnInit {
     option.message = message;
     this.showLoader = false;
     // this._matDialog.open(DialogComponent, { data: option });
+  }
+
+  private formatResponse(req: IFinancialData, history = false) {
+    if (!req._id) {
+      return {
+        ...req,
+        customStatusText: "Not Submitted",
+      };
+    }
+    if (!req.isCompleted) {
+      return {
+        ...req,
+        customStatusText: SAVED_AS_DRAFT.itemName,
+      };
+    }
+
+    let customStatusText;
+    switch (req.actionTakenByUserRole) {
+      case USER_TYPE.ULB:
+        customStatusText = history
+          ? "Submitted By ULB"
+          : UNDER_REVIEW_BY_STATE.itemName;
+        break;
+      case USER_TYPE.STATE:
+        if (req.status === UPLOAD_STATUS.REJECTED) {
+          customStatusText = REJECT_BY_STATE.itemName;
+        } else {
+          customStatusText = history
+            ? "Approved by STATE"
+            : UNDER_REVIEW_BY_MoHUA.itemName;
+        }
+
+        break;
+      case USER_TYPE.MoHUA:
+        if (req.status === UPLOAD_STATUS.REJECTED) {
+          customStatusText = REJECT_BY_MoHUA.itemName;
+        } else {
+          customStatusText = APPROVAL_COMPLETED.itemName;
+        }
+        break;
+      default:
+        customStatusText = "N/A";
+    }
+
+    return {
+      ...req,
+      customStatusText,
+    };
   }
 
   private downloadFile(blob: any, type: string, filename: string): string {

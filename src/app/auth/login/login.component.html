@@ -56,7 +56,7 @@
               </re-captcha>
 
               <p *ngIf="loginError" class="error-message mt-1 text-left">
-                {{ loginError }}
+                <span [innerHtml]="loginError"></span>
               </p>
 
               <div>

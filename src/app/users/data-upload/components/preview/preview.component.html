@@ -1,12 +1,23 @@
 <div id="preview" #preview>
-  <div style="background: #047474; color: white; padding: 2% 0% 1% 0%">
+  <div style="background: #047474; color: white; padding: 2% 0% 1% 0%; position: relative;">
     <h2 style="text-align: center; margin-top: 0px">15th FC Form</h2>
 
     <h3 style="text-align: center; margin-top: 3px">
       {{ data?.ulbName || userDetails.name }}
     </h3>
+    <i
+      style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;"
+      class="fa fa-times"
+      aria-hidden="true"
+      (click)="_matDialog.closeAll()"
+    ></i>
   </div>
-  <div class="d-flex justify-content-end mt-2">
+
+  <div class="d-flex justify-content-between mt-2" style="padding-left: 2%">
+    <p class="form-status">
+      <b>Application Current Status:</b> {{ data?.customStatusText }}
+    </p>
+
     <button
       id="donwloadButton"
       style="right: 0%; outline: none; margin-right: 2%"
@@ -49,7 +60,9 @@
             <svg
               *ngIf="
                 data?.waterManagement[service.key]?.status ===
-                uploadSTATUS.APPROVED
+                  uploadSTATUS.APPROVED ||
+                (data.status === uploadSTATUS.APPROVED &&
+                  data.actionTakenBy === USER_TYPES.MoHUA)
               "
               xmlns="http://www.w3.org/2000/svg"
               width="15.932"
@@ -201,7 +214,9 @@
             <svg
               *ngIf="
                 data?.waterManagement[service.key]?.status ===
-                uploadSTATUS.APPROVED
+                  uploadSTATUS.APPROVED ||
+                (data.status === uploadSTATUS.APPROVED &&
+                  data.actionTakenBy === USER_TYPES.MoHUA)
               "
               xmlns="http://www.w3.org/2000/svg"
               width="15.932"
@@ -353,7 +368,9 @@
             <svg
               *ngIf="
                 data?.waterManagement[service.key]?.status ===
-                uploadSTATUS.APPROVED
+                  uploadSTATUS.APPROVED ||
+                (data.status === uploadSTATUS.APPROVED &&
+                  data.actionTakenBy === USER_TYPES.MoHUA)
               "
               xmlns="http://www.w3.org/2000/svg"
               width="15.932"
@@ -505,7 +522,9 @@
             <svg
               *ngIf="
                 data?.waterManagement[service.key]?.status ===
-                uploadSTATUS.APPROVED
+                  uploadSTATUS.APPROVED ||
+                (data.status === uploadSTATUS.APPROVED &&
+                  data.actionTakenBy === USER_TYPES.MoHUA)
               "
               xmlns="http://www.w3.org/2000/svg"
               width="15.932"
@@ -682,10 +701,12 @@
             <span>
               <svg
                 *ngIf="
-                  data?.solidWasteManagement?.documents &&
-                  data?.solidWasteManagement?.documents[question.key] &&
-                  data?.solidWasteManagement?.documents[question.key][0]
-                    ?.status === uploadSTATUS.APPROVED
+                  (data?.solidWasteManagement?.documents &&
+                    data?.solidWasteManagement?.documents[question.key] &&
+                    data?.solidWasteManagement?.documents[question.key][0]
+                      ?.status === uploadSTATUS.APPROVED) ||
+                  (data.status === uploadSTATUS.APPROVED &&
+                    data.actionTakenBy === USER_TYPES.MoHUA)
                 "
                 xmlns="http://www.w3.org/2000/svg"
                 width="15.932"
@@ -834,10 +855,12 @@
               <span>
                 <svg
                   *ngIf="
-                    data?.millionPlusCities?.documents &&
-                    data?.millionPlusCities?.documents[question.key] &&
-                    data?.millionPlusCities?.documents[question.key][0]
-                      ?.status === uploadSTATUS.APPROVED
+                    (data?.millionPlusCities?.documents &&
+                      data?.millionPlusCities?.documents[question.key] &&
+                      data?.millionPlusCities?.documents[question.key][0]
+                        ?.status === uploadSTATUS.APPROVED) ||
+                    (data.status === uploadSTATUS.APPROVED &&
+                      data.actionTakenBy === USER_TYPES.MoHUA)
                   "
                   xmlns="http://www.w3.org/2000/svg"
                   width="15.932"
@@ -892,8 +915,8 @@
                 <svg
                   *ngIf="
                     data?.millionPlusCities?.documents &&
-                    data?.solidWasteManagement?.documents[question.key] &&
-                    data?.solidWasteManagement?.documents[question.key][0]
+                    data?.millionPlusCities?.documents[question.key] &&
+                    data?.millionPlusCities?.documents[question.key][0]
                       ?.status === uploadSTATUS.REJECTED
                   "
                   xmlns="http://www.w3.org/2000/svg"
@@ -958,7 +981,7 @@
         Form First Submitted On:
         <span style="font-weight: normal">
           {{
-            (data["firstSubmitedAt"] | date: "MMMM d, y, h:mm a") ||
+            (data["firstSubmitedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
               "Not Submitted"
           }}</span
         >
@@ -967,7 +990,7 @@
         Form Last Rejected On:
         <span style="font-weight: normal">
           {{
-            (data["rejectedAt"] | date: "MMMM d, y, h:mm a") ||
+            (data["rejectedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
               "No Reject Found"
           }}</span
         >

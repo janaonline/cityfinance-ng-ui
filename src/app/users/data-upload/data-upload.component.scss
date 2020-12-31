@@ -39,7 +39,7 @@
     margin-bottom: 3%;
   }
   .nested-card-container {
-    width: 315px;
+    width: 23vw;
     flex-wrap: wrap;
     margin-right: 1%;
     .card {
@@ -162,6 +162,7 @@
     box-shadow: 0px 3px 6px #00000029;
     border: 1px solid #70707033;
     border-radius: 5px;
+    overflow: hidden;
     // transform: translateX(10%);
     // animation: card-animation 1s ease-out forwards;
     .heading {
@@ -306,4 +307,89 @@ table .input-group {
   background-color: black;
   color: white;
   z-index: 9;
+}
+
+#multiApprovalModal {
+  display: flex;
+  align-items: center;
+  position: relative;
+  // padding: 3% 2% 5% 2%;
+  flex-wrap: wrap;
+  ::ng-deep {
+    .dropdown-list {
+      width: fit-content;
+    }
+  }
+
+  h3,
+  p {
+    display: block;
+    width: 100%;
+  }
+  .states-selection {
+    display: flex;
+    align-items: center;
+    padding-left: 2%;
+    margin-bottom: 0px;
+  }
+  .stateName {
+    display: inline-block;
+    width: 24%;
+  }
+  .states {
+    display: block;
+    width: 100%;
+    padding-left: 2%;
+  }
+}
+
+.Approvalbuttons {
+  width: 100%;
+  button {
+    margin: 2%;
+  }
+}
+
+::ng-deep {
+  #multiApprovalModalPopup {
+    position: relative;
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    header {
+      position: relative;
+      margin-bottom: 5%;
+      background-color: #047474;
+      color: white;
+      padding: 3% 2% 3% 2%;
+      h3 {
+        margin-top: 0px;
+      }
+    }
+    .fa {
+      transform: scale(1.5);
+      float: right !important;
+      position: relative;
+      right: 3%;
+      position: absolute;
+      top: 18%;
+      cursor: pointer;
+    }
+    hr {
+      display: block;
+      width: 75vw;
+      margin: auto;
+      margin-top: 2%;
+      margin-bottom: 2%;
+      border-top: 1px solid #aaa;
+    }
+    .note {
+      position: absolute;
+      bottom: 2%;
+      color: red;
+      background: rgb(255, 255, 255);
+      width: 95%;
+      left: 2%;
+    }
+  }
 }

@@ -14,6 +14,12 @@ import { ProfileService } from '../service/profile.service';
   styleUrls: ["./state-profile.component.scss"],
 })
 export class StateProfileComponent implements OnInit, OnChanges {
+  constructor(
+    private _commonService: CommonService,
+    private _profileService: ProfileService
+  ) {
+    this.fetchStateList();
+  }
   @Input()
   profileData: any;
   @Input() editable = false;
@@ -27,13 +33,9 @@ export class StateProfileComponent implements OnInit, OnChanges {
   respone = { successMessage: null, errorMessage: null };
   formSubmitted = false;
   window = window;
+  isApiInProgress = false;
 
-  constructor(
-    private _commonService: CommonService,
-    private _profileService: ProfileService
-  ) {
-    this.fetchStateList();
-  }
+  is;
 
   ngOnInit() {}
   ngOnChanges() {
@@ -73,19 +75,31 @@ export class StateProfileComponent implements OnInit, OnChanges {
   }
 
   private createProfile(form: FormGroup) {
+    if (this.isApiInProgress) return;
     const body = form.value;
     body.role = USER_TYPE.STATE;
     body.password = "";
+    if (form.disabled) {
+      return;
+    }
+    form.disable();
+    this.isApiInProgress = true;
 
     this._profileService.createUser(body).subscribe(
       (res) => {
         form.reset();
+        form.enable();
+        this.isApiInProgress = false;
+
         this.formSubmitted = false;
 
         this.respone.successMessage = "Profile created successfully";
       },
-      (err: HttpErrorResponse) =>
-        (this.respone.errorMessage = err.error.message || "Server Error")
+      (err: HttpErrorResponse) => {
+        this.respone.errorMessage = err.error.message || "Server Error";
+        form.enable();
+        this.isApiInProgress = false;
+      }
     );
   }
 
@@ -94,6 +108,9 @@ export class StateProfileComponent implements OnInit, OnChanges {
       ...form.value,
       _id: this.profileData._id,
     };
+    if (form.disabled) {
+      return;
+    }
 
     form.disable();
     return this._profileService.updateUserProfileData(body).subscribe(
@@ -110,7 +127,6 @@ export class StateProfileComponent implements OnInit, OnChanges {
 
   private initializeForm() {
     this.profileForm = this.formUtil.getStateForm();
-    console.log(this.profileForm);
 
     if (this.profileData) {
       if (this.profileData.role !== USER_TYPE.STATE) {

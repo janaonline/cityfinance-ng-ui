@@ -147,15 +147,22 @@ export class FinancialUploadsComponent
       ) {
         this.setStateToReadMode();
       }
-
+      console.warn("setting canViewActionTaken to true");
       if (
         this.financialData.status === UPLOAD_STATUS.REJECTED ||
         JSON.stringify(this.financialData).includes(`${UPLOAD_STATUS.REJECTED}`)
       ) {
+        console.warn("setting canViewActionTaken to true");
         this.canViewActionTaken = true;
+      }
+      if (
+        (this.financialData.status === UPLOAD_STATUS.REJECTED ||
+          JSON.stringify(this.financialData).includes(
+            `${UPLOAD_STATUS.REJECTED}`
+          )) &&
+        this.loggedInUserDetails.role === USER_TYPE.ULB
+      ) {
         this.setFormToCorrectionMode(this.financialData);
-
-        console.warn("now set form to correct mode");
         return;
       } else {
         if (
@@ -174,6 +181,8 @@ export class FinancialUploadsComponent
 
     // Check here for taking actions
     if (!hasAccessToTakeAction) {
+      console.warn("setting canViewActionTaken to false");
+
       this.canViewActionTaken = false;
       return;
     }
@@ -187,7 +196,6 @@ export class FinancialUploadsComponent
   }
 
   private setStateToReadMode() {
-    console.warn("setting form to readME mode");
     this.waterWasteManagementForm.disable();
     this.solidWasteManagementForm.disable();
     this.millionPlusCitiesForm.disable();
@@ -300,9 +308,26 @@ export class FinancialUploadsComponent
         SolidWasteEmitValue
       >,
     };
+    console.log("event", event);
+    if (
+      !event.garbageFreeCities ||
+      !event.garbageFreeCities.length ||
+      !event.garbageFreeCities[0].name
+    ) {
+      this.solidWasteManagementForm.controls.garbageFreeCities.reset();
+    }
+    if (
+      !event.waterSupplyCoverage ||
+      !event.waterSupplyCoverage.length ||
+      !event.waterSupplyCoverage[0].name
+    ) {
+      this.solidWasteManagementForm.controls.waterSupplyCoverage.reset();
+    }
+
     this.solidWasteManagementForm.patchValue(
       this.jsonUtil.filterEmptyValue(event, true) || {}
     );
+    console.log(this.solidWasteManagementForm.value);
   }
 
   onMilionPlusCitiesEmitValue(event: MillionPlusCitiesDocuments) {
@@ -336,6 +361,32 @@ export class FinancialUploadsComponent
         }
       });
     }
+    if (!event.cityPlan || !event.cityPlan.length || !event.cityPlan[0].name) {
+      this.solidWasteManagementForm.controls.cityPlan.reset();
+    }
+    if (
+      !event.serviceLevelPlan ||
+      !event.serviceLevelPlan.length ||
+      !event.serviceLevelPlan[0].name
+    ) {
+      this.solidWasteManagementForm.controls.serviceLevelPlan.reset();
+    }
+
+    if (
+      !event.solidWastePlan ||
+      !event.solidWastePlan.length ||
+      !event.solidWastePlan[0].name
+    ) {
+      this.solidWasteManagementForm.controls.solidWastePlan.reset();
+    }
+
+    if (
+      !event.waterBalancePlan ||
+      !event.waterBalancePlan.length ||
+      !event.waterBalancePlan[0].name
+    ) {
+      this.solidWasteManagementForm.controls.waterBalancePlan.reset();
+    }
 
     this.financialData.millionPlusCities = {
       documents: this.jsonUtil.filterEmptyValue(event, true) as typeof event,
@@ -366,8 +417,6 @@ export class FinancialUploadsComponent
         : null,
       isCompleted: false,
     };
-
-    // body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
 
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
@@ -401,6 +450,10 @@ export class FinancialUploadsComponent
     this.successMessage = null;
   }
 
+  /**
+   * @description This method is called when ULB has completed filling / correcting
+   * the data, and doing final submit.
+   */
   uploadCompletedQuestionnaireData() {
     this.saveAsDraftFailMessge = null;
     this.isSubmitButtonClicked = true;
@@ -417,18 +470,30 @@ export class FinancialUploadsComponent
 
     let body = {
       ulb: this.loggedInUserDetails.ulb,
-      millionPlusCities: {
-        documents: {
-          ...this.millionPlusCitiesForm.getRawValue(),
-          ...this.millionPlusCitiesForm.value,
-        },
-      },
-      solidWasteManagement: {
-        documents: {
-          ...this.solidWasteManagementForm.getRawValue(),
-          ...this.solidWasteManagementForm.value,
-        },
-      },
+      millionPlusCities:
+        this.financialData &&
+        this.financialData.millionPlusCities &&
+        this.financialData._id
+          ? { ...this.financialData.millionPlusCities }
+          : this.financialData.millionPlusCities && this.financialData._id
+          ? { ...this.financialData.millionPlusCities }
+          : {
+              documents: {
+                ...this.millionPlusCitiesForm.getRawValue(),
+                ...this.millionPlusCitiesForm.value,
+              },
+            },
+      solidWasteManagement:
+        this.financialData &&
+        this.financialData.solidWasteManagement &&
+        this.financialData._id
+          ? { ...this.financialData.solidWasteManagement }
+          : {
+              documents: {
+                ...this.solidWasteManagementForm.getRawValue(),
+                ...this.solidWasteManagementForm.value,
+              },
+            },
       waterManagement: {
         ...this.waterWasteManagementForm.getRawValue(),
         ...this.waterWasteManagementForm.value,
@@ -436,14 +501,15 @@ export class FinancialUploadsComponent
       isCompleted: true,
     };
 
+    body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
+    body.isCompleted = true;
+    this.removeRejectionFromData(body as IFinancialData);
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
       height: "fit-content",
       panelClass: "custom-warning-popup",
       disableClose: true,
     });
-    body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
-    body.isCompleted = true;
 
     this.financialDataService.uploadFinancialData(body).subscribe(
       (res) => {
@@ -462,6 +528,30 @@ export class FinancialUploadsComponent
         setTimeout(() => this._matDialog.closeAll(), 3000);
       }
     );
+  }
+
+  removeRejectionFromData(data: IFinancialData) {
+    if (!data) return;
+    if (!data.solidWasteManagement) return;
+    if (!data.solidWasteManagement.documents) return;
+    Object.keys(data.solidWasteManagement.documents).forEach((questionKey) => {
+      data.solidWasteManagement.documents[questionKey].forEach((document) => {
+        if (document.status === UPLOAD_STATUS.REJECTED) {
+          document.status = null;
+          document.rejectReason = null;
+        }
+      });
+    });
+    if (!data.millionPlusCities) return;
+    if (!data.millionPlusCities.documents) return;
+    Object.keys(data.millionPlusCities.documents).forEach((questionKey) => {
+      data.millionPlusCities.documents[questionKey].forEach((document) => {
+        if (document.status === UPLOAD_STATUS.REJECTED) {
+          document.status = null;
+          document.rejectReason = null;
+        }
+      });
+    });
   }
 
   /**
@@ -578,6 +668,7 @@ export class FinancialUploadsComponent
       message = "All questions must be answered in Service Level Indicators";
       this.stepper.selectedIndex = 0;
     }
+    console.log(`isSolidWasteValid: `, this.solidWasteManagementForm);
 
     if (!isSolidWasteValid) {
       message += message

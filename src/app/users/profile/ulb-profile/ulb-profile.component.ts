@@ -202,6 +202,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.respone.errorMessage =
       err.error.message || "Failed to updated profile.";
     this.apiInProgress = false;
+    this.respone.successMessage = null;
   }
 
   private resetResponseMessage() {

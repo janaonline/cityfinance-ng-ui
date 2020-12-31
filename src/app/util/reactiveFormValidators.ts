@@ -91,6 +91,19 @@ export const nonEmptyValidator = (control: AbstractControl) => {
   return null;
 };
 
+export const atLeast1AplhabetRequired = (control: AbstractControl) => {
+  const value = <string>control.value;
+  if (!value || !value.trim()) {
+    return null;
+  }
+
+  if (value.search(/[a-zA-Z]/) < 0) {
+    return { alphabet_required: "Atleast 1 alphabet is required" };
+  }
+
+  return null;
+};
+
 export const PartnerFormEmailValidations = (
   emailControl: AbstractControl,
   departmentEmailControl: AbstractControl

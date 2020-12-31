@@ -188,7 +188,7 @@ export class CommonService {
     return { ...ulb.ulb, type: ulb.ulbtypes.name };
   }
 
-  fetchULBList(body) {
+  fetchULBList(body, sort?: {}) {
     if (body.registration === "Yes") {
       body.role = USER_TYPE.ULB;
     }
@@ -202,11 +202,15 @@ export class CommonService {
       });
     }
 
-    const params = this.httpUtil.convertToHttpParams({
+    let params = this.httpUtil.convertToHttpParams({
       filter: JSON.stringify(body),
       skip,
       limit,
     });
+    if (sort) {
+      params = params.append("sort", JSON.stringify(sort));
+    }
+
     return this.http.get(
       `${environment.api.url}ulb-financial-data/fc-grant/ulbList`,
       { params }
@@ -244,9 +248,11 @@ export class CommonService {
     );
   }
 
-  fetchDashboardChartData() {
+  fetchDashboardChartData(queryParams) {
+    const params = this.httpUtil.convertToHttpParams(queryParams);
     return this.http.get(
-      `${environment.api.url}/ulb-financial-data/fc-grant/dashboard-chart`
+      `${environment.api.url}/ulb-financial-data/fc-grant/dashboard-chart`,
+      { params }
     );
   }
 
