@@ -1431,12 +1431,18 @@ export class DataUploadComponent
     );
   }
 
-  openSecondModal(historyModal: TemplateRef<any>) {
-    this.totalUlbApprovalInProgress = 0;
-    this.errorsInMultiSelectULBApproval = [];
+  fetchStatesForMultiApproval() {
+    this.statesForULBUnderMoHUAApproval = null;
     this.financialDataService.fetStateForULBUnderMoHUA().subscribe((data) => {
       this.statesForULBUnderMoHUAApproval = data["data"];
     });
+  }
+
+  openSecondModal(historyModal: TemplateRef<any>) {
+    this.totalUlbApprovalInProgress = 0;
+    this.errorsInMultiSelectULBApproval = [];
+    this.fetchStatesForMultiApproval();
+
     this._matDialog.open(historyModal, {
       panelClass: "multiApprovalModal",
       width: "80vw",
@@ -1486,16 +1492,6 @@ export class DataUploadComponent
         });
     });
 
-    // concat(this.allSubscripts).subscribe((newList) => {
-    //   console.log(`concat newList`, newList);
-    // });
-    // forkJoin(this.allSubscripts).subscribe((newList) => {
-    //   console.log(`join newList`, newList);
-    // });
-
-    // merge(this.allSubscripts).subscribe((newList) => {
-    //   console.log(`merge newList`, newList);
-    // });
     combineLatest(this.allSubscripts).subscribe((newList: any[]) => {
       const filteredList = newList.filter((value) =>
         value ? !!value.length : false
@@ -1525,6 +1521,9 @@ export class DataUploadComponent
             this.totalUlbApprovalInProgress--;
             if (this.totalUlbApprovalInProgress === 0) {
               this.showMultiSelectULBApprovalCompletionMessage = true;
+              this.multiStatesForApprovalControl.reset();
+              this.fetchStatesForMultiApproval();
+              this.applyFilterClicked();
             }
           },
           (error) => {

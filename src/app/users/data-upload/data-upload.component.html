@@ -47,7 +47,7 @@
       <div class="card-container">
         <div class="card blue">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">Total number of ULBs</p>
+          <p class="heading">Total Number of ULBs</p>
           <span
             class="card-main-value"
             [ngClass]="{ 'loading-value': !cardData }"
@@ -153,7 +153,7 @@
 
         <div class="card green">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">Million Plus Cities(Submitted)</p>
+          <p class="heading">Million Plus Cities (Submitted)</p>
           <span
             class="card-main-value"
             [ngClass]="{ 'loading-value': !cardData }"
@@ -209,7 +209,7 @@
 
         <div class="card yellow">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">Non-Million Cities(Submitted)</p>
+          <p class="heading">Non-Million Cities (Submitted)</p>
           <span
             class="card-main-value"
             [ngClass]="{ 'loading-value': !cardData }"
@@ -267,7 +267,7 @@
         <div class="nested-card-container d-flex">
           <div class="card brown">
             <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-            <p class="heading">Million Plus Cities(Total)</p>
+            <p class="heading">Million Plus Cities (Total)</p>
             <span
               class="card-main-value"
               [ngClass]="{ 'loading-value': !cardData }"
@@ -329,7 +329,7 @@
 
           <div class="card dark-green" style="margin-bottom: 0px">
             <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-            <p class="heading">Non-Million Cities(Total)</p>
+            <p class="heading">Non-Million Cities (Total)</p>
             <span
               class="card-main-value"
               [ngClass]="{ 'loading-value': !cardData }"
@@ -1244,7 +1244,12 @@
       </angular2-multiselect>
       <span
         *ngIf="!statesForULBUnderMoHUAApproval"
-        style="display: inline-block; width: 50%; height: 5vh"
+        style="
+          display: inline-block;
+          width: 50%;
+          height: 15vh;
+          overflow: hidden;
+        "
       >
         <app-pre-loader></app-pre-loader>
       </span>
