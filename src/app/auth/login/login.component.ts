@@ -72,6 +72,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.loginForm.valid) {
       const body = { ...this.loginForm.value };
       body["email"] = body["email"].trim();
+      this.loginForm.disable();
+      // setTimeout(() => {
+      //   // this.loginForm.enable();
+      // }, 3000);
+      // return;
       this.authService.signin(body).subscribe(
         (res) => this.onSuccessfullLogin(res),
         (error) => this.onLoginError(error)
@@ -94,6 +99,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private onLoginError(error) {
+    this.loginForm.enable();
     this.loginError = error.error["message"] || "Server Error";
     if (error.error.errors && error.error.errors.loginAttempts >= 3) {
       this.reCaptcha.show = true;
