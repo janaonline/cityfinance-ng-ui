@@ -515,8 +515,12 @@ export class FinancialUploadsComponent
       (res) => {
         this.draftSavingInProgess = false;
         this.successMessage = "Data Upload Complete.";
-        window.history.back();
-        // this._router.navigate(["user/data-upload/list"]);
+        if (this.loggedInUserDetails.role === USER_TYPE.ULB) {
+          this._router.navigate(["/fc_grant"]);
+        } else {
+          this._router.navigate(["user/data-upload/list"]);
+        }
+        // window.history.back();
         setTimeout(() => this._matDialog.closeAll(), 3000);
       },
       (err) => {
