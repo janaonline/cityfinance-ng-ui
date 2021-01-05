@@ -3,8 +3,10 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 
 import { FormUtil } from '../../../util/formUtil';
+import { UserProfile } from '../model/user-profile';
 import { ProfileService } from '../service/profile.service';
 
 @Component({
@@ -12,7 +14,9 @@ import { ProfileService } from '../service/profile.service';
   templateUrl: "./mohua-profile.component.html",
   styleUrls: ["./mohua-profile.component.scss"],
 })
-export class MohuaProfileComponent implements OnInit, OnChanges {
+export class MohuaProfileComponent
+  extends BaseComponent
+  implements OnInit, OnChanges {
   @Input()
   profileData: any;
   @Input() editable = false;
@@ -32,7 +36,9 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
   constructor(
     private _commonService: CommonService,
     private _profileService: ProfileService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {}
   ngOnChanges() {
@@ -106,6 +112,7 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
     return this._profileService.updateUserProfileData(body).subscribe(
       (res) => {
         form.enable();
+        this.updateLoggedInLocalData(body);
         this.respone.successMessage = "Profile Updated successfully";
       },
       (err: HttpErrorResponse) => {
@@ -113,6 +120,12 @@ export class MohuaProfileComponent implements OnInit, OnChanges {
         this.respone.errorMessage = err.error.message || "Server Error";
       }
     );
+  }
+
+  private updateLoggedInLocalData(newData: UserProfile) {
+    if (this.userUtil.getUserType() !== USER_TYPE.MoHUA) return;
+    const newValues = { email: newData.email, name: newData.name };
+    this.userUtil.updateUserDataInRealTime(newValues);
   }
 
   private initializeForm() {

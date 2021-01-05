@@ -250,7 +250,6 @@ export class MunicipalLawsComponent implements OnInit {
    * as default.
    */
   reColorStates(stateNames: string[], statesLayer: L.GeoJSON<any>) {
-    console.log(`reColorStates `, statesLayer);
 
     // if (!statesLayer) {
     //   return;

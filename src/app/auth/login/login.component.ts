@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
+import { UserUtility } from 'src/app/util/user/user';
 
 import { environment } from './../../../environments/environment';
 
@@ -89,7 +90,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   private onSuccessfullLogin(res) {
     if (res && res["token"]) {
       localStorage.setItem("id_token", JSON.stringify(res["token"]));
-      localStorage.setItem("userData", JSON.stringify(res["user"]));
+      const userUtil = new UserUtility();
+      userUtil.updateUserDataInRealTime(res["user"]);
+      // localStorage.setItem("userData", JSON.stringify(res["user"]));
       const postLoginRoute =
         sessionStorage.getItem("postLoginNavigation") || "home";
       this.router.navigate([postLoginRoute]);
