@@ -30,6 +30,14 @@ export class AppComponent implements OnDestroy {
     this.addCustomScripts();
   }
 
+  /**
+   * @description Why we are adding script like this instead off adding
+   * it in the index.html?
+   *
+   * It is because the GoogleTagId is different for developement and
+   * production use, and we cannot writing dynamic values in index.html
+   * as of now.
+   */
   private addCustomScripts() {
     const id = environment.GoogleTagID;
     if (!id) return false;
