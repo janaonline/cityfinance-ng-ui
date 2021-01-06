@@ -36,6 +36,7 @@
     width: 100%;
     flex-wrap: wrap;
     display: inline-flex;
+    justify-content: space-between;
     margin-bottom: 3%;
   }
   .nested-card-container {
@@ -53,7 +54,7 @@
     font-family: "Roboto";
     font-weight: 500;
     font-size: 1.5rem;
-    width: 23.1vw;
+    width: 22.1vw;
     height: 200px;
     padding: 1% 1%;
     border-radius: 5px;
@@ -142,6 +143,7 @@
   div.card.yellow {
     background: linear-gradient(to top, #fcc415, #ffd44d);
     animation-delay: 600ms;
+    margin-right: 0px;
   }
 
   div.card.brown {
@@ -158,7 +160,7 @@
     position: relative;
     padding: 2% 2% 0% 3%;
     display: block;
-    width: 71%;
+    width: 74.3%;
     box-shadow: 0px 3px 6px #00000029;
     border: 1px solid #70707033;
     border-radius: 5px;
@@ -223,7 +225,7 @@
     box-shadow: 0px 3px 6px #00000029;
     border: 1px solid #70707047;
     border-radius: 5px;
-    width: 94vw;
+    width: 100%;
     overflow: hidden;
     margin-bottom: 3%;
 
@@ -275,7 +277,7 @@
 
   .common-container {
     .container {
-      width: 106%;
+      width: 100%;
     }
   }
 }

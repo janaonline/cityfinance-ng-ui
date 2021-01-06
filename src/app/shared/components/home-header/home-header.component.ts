@@ -308,7 +308,7 @@ export class HomeHeaderComponent extends BaseComponent implements OnInit {
       return;
     }
     const topPosition = -element.offsetHeight + "px";
-    this.renderer.setStyle(this._elementRef.nativeElement, "top", 0);
+    this.renderer.setStyle(this._elementRef.nativeElement, "top", topPosition);
   }
 
   private initializeTranparenceyHandler() {
