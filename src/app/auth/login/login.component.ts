@@ -16,8 +16,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   public badCredentials: boolean;
   public submitted = false;
   public formError: boolean;
-  public creditRatingReportUrl =
-    environment.api.url + "assets/credit_rating.xlsx";
 
   public loginError: string;
   public emailVerificationMessage: string;
@@ -54,8 +52,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
-
-    // this.router.
   }
 
   get lf() {
@@ -74,10 +70,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       const body = { ...this.loginForm.value };
       body["email"] = body["email"].trim();
       this.loginForm.disable();
-      // setTimeout(() => {
-      //   // this.loginForm.enable();
-      // }, 3000);
-      // return;
+
       this.authService.signin(body).subscribe(
         (res) => this.onSuccessfullLogin(res),
         (error) => this.onLoginError(error)
@@ -92,13 +85,52 @@ export class LoginComponent implements OnInit, OnDestroy {
       localStorage.setItem("id_token", JSON.stringify(res["token"]));
       const userUtil = new UserUtility();
       userUtil.updateUserDataInRealTime(res["user"]);
-      // localStorage.setItem("userData", JSON.stringify(res["user"]));
-      const postLoginRoute =
-        sessionStorage.getItem("postLoginNavigation") || "home";
-      this.router.navigate([postLoginRoute]);
+      this.routeToProperLocation();
     } else {
       localStorage.removeItem("id_token");
     }
+  }
+
+  /**
+   * @description Route to appropiate location post login.
+   * NOTE: This method must be called only post login.
+   */
+  routeToProperLocation() {
+    const rawPostLoginRoute =
+      sessionStorage.getItem("postLoginNavigation") || "home";
+    const formattedUrl = this.formatURL(rawPostLoginRoute);
+    if (typeof formattedUrl === "string") {
+      this.router.navigate([formattedUrl]);
+    } else {
+      this.router.navigate([formattedUrl.url], {
+        queryParams: { ...formattedUrl.queryParams },
+      });
+    }
+  }
+
+  /**
+   * @description Format string url into proper url that can be used with `Router`.
+   *
+   * @example
+   *
+   * 1. url = '/some/details'; return '/some/details'
+   * 2. url = '/some/details?param=1'
+   *          return {url: '/some/details', queryParams: {param: 1}}
+   */
+  private formatURL(url: string) {
+    if (!url.includes(`?`)) return url;
+    const [ulrPart, queryParamsInString] = url.split("?");
+    const queryParams = {};
+    queryParamsInString
+      .split("&")
+      .map(
+        (keyValue) =>
+          (queryParams[keyValue.split("=")[0]] = keyValue.split("=")[1])
+      );
+    return {
+      url: ulrPart,
+      queryParams,
+    };
   }
 
   private onLoginError(error) {

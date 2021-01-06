@@ -105,6 +105,7 @@ export class HomeTabViewComponent implements OnInit {
       confirm: {
         text: "Proceed to Login",
         callback: () => {
+          sessionStorage.setItem("postLoginNavigation", this.router.url);
           this.router.navigate(["/", "login"]);
         },
       },
@@ -389,7 +390,7 @@ export class HomeTabViewComponent implements OnInit {
     this.commonTableData = [];
     this.commonTableDataDisplay = [];
     this.loading = false;
-  }
+  };
 
   resetPopupValues() {
     this.selectedYears = [];
@@ -517,7 +518,7 @@ export class HomeTabViewComponent implements OnInit {
     if (this.tabIndex == 1 || this.tabIndex == 2) {
       this.renderCharts();
     }
-  }
+  };
 
   private fetchTableDataSuccess = (response: any) => {
     this.commonTableDataDisplay = [];
@@ -542,7 +543,7 @@ export class HomeTabViewComponent implements OnInit {
       this.tabData[this.tabIndex] = response;
       this.loading = false;
     }
-  }
+  };
 
   private callAPi(callback, args) {
     callback(args);

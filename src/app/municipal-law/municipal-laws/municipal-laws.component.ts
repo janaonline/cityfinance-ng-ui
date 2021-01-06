@@ -90,6 +90,7 @@ export class MunicipalLawsComponent implements OnInit {
       confirm: {
         text: "Proceed to Login",
         callback: () => {
+          sessionStorage.setItem("postLoginNavigation", this.router.url);
           this.router.navigate(["/", "login"]);
         },
       },
@@ -250,7 +251,6 @@ export class MunicipalLawsComponent implements OnInit {
    * as default.
    */
   reColorStates(stateNames: string[], statesLayer: L.GeoJSON<any>) {
-
     // if (!statesLayer) {
     //   return;
     // }
