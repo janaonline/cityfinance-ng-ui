@@ -5,7 +5,6 @@ import { MapUtil } from 'src/app/util/map/mapUtil';
 
 import { RankingService } from '../../../shared/services/ranking.service';
 
-// import 'leaflet-extra-markers';
 declare const $: any;
 
 @Component({
