@@ -181,9 +181,8 @@ export class FinancialUploadsComponent
 
     // Check here for taking actions
     if (!hasAccessToTakeAction) {
-      console.warn("setting canViewActionTaken to false");
-
-      this.canViewActionTaken = false;
+      // console.warn("setting canViewActionTaken to false");
+      // this.canViewActionTaken = false;
       return;
     }
 
