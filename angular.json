@@ -31,7 +31,8 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/chart.js/dist/Chart.js"
+              "node_modules/chart.js/dist/Chart.js",
+              "node_modules/sweetalert/dist/sweetalert.min.js"
             ]
           },
           "configurations": {
@@ -82,7 +83,7 @@
               "node_modules/leaflet/dist/leaflet.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": ["node_modules/sweetalert/dist/sweetalert.min.js"],
             "assets": ["src/favicon.ico", "src/assets"]
           }
         },

@@ -1,7 +1,7 @@
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { throwError as observableThrowError } from 'rxjs';
 import { delay, map, retryWhen } from 'rxjs/operators';
 
 import { DataEntryService } from '../../../dashboard/data-entry/data-entry.service';
@@ -173,7 +173,7 @@ export class BulkEntryComponent implements OnInit {
              * file is completed or not. Once it is completed or FAILED, then we stop
              * calling the api for that file.
              */
-            Observable.throw("throw any error here");
+            observableThrowError("throw any error here");
           }
           return response;
         }),

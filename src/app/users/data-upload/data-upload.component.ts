@@ -12,7 +12,7 @@ import { combineLatest, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { JSONUtility } from 'src/app/util/jsonUtil';
-import swal from 'sweetalert';
+import { SweetAlert } from 'sweetalert/typings/core';
 
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
 import { USER_TYPE } from '../../models/user/userType';
@@ -36,6 +36,7 @@ import {
 } from './util/request-status';
 import { UploadDataUtility } from './util/upload-data.util';
 
+const swal: SweetAlert = require('sweetalert');
 @Component({
   selector: "app-data-upload",
   templateUrl: "./data-upload.component.html",
@@ -817,7 +818,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  };
+  }
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -883,12 +884,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  };
+  }
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  };
+  }
 
   getAddedFilterCount() {
     let count = 0;
