@@ -1,10 +1,8 @@
-import {Routes, RouterModule} from '@angular/router';
-import {ModuleWithProviders} from '@angular/core';
+import { ModuleWithProviders } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
+export const authRouter: Routes = [];
 
-export const authRouter: Routes = [
-
-
-];
-
-export const AuthRouter: ModuleWithProviders = RouterModule.forChild(authRouter);
+export const AuthRouter: ModuleWithProviders<RouterModule> = RouterModule.forChild(
+  authRouter
+);

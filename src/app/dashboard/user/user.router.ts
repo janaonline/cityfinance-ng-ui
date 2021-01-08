@@ -10,6 +10,6 @@ export const userRouter: Routes = [
   { path: "", redirectTo: "profile", pathMatch: "full" },
 ];
 
-export const UserRouter: ModuleWithProviders = RouterModule.forChild(
+export const UserRouter: ModuleWithProviders<RouterModule> = RouterModule.forChild(
   userRouter
 );

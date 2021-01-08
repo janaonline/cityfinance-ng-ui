@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { IDetailedReportResponse } from 'src/app/models/detailedReport/detailedReportResponse';
 import { IReportType } from 'src/app/models/reportType';

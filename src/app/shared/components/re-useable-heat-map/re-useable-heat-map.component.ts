@@ -10,7 +10,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatAutocompleteTrigger, MatSnackBar } from '@angular/material';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { FeatureCollection, Geometry } from 'geojson';
 import * as L from 'leaflet';

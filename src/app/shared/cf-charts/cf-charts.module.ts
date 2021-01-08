@@ -1,14 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CfChartsComponent } from './cf-charts.component';
+import { NgModule } from '@angular/core';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
+import { CfChartsComponent } from './cf-charts.component';
+
 @NgModule({
-  imports: [
-    CommonModule,
-    ChartsModule
-  ],
+  imports: [CommonModule, ChartsModule],
   declarations: [CfChartsComponent],
-  exports: [CfChartsComponent]
+  exports: [CfChartsComponent],
 })
-export class CfChartsModule { }
+export class CfChartsModule {}

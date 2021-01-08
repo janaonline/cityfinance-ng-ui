@@ -6,10 +6,10 @@ import { MunicipalLawsComponent } from './municipal-laws/municipal-laws.componen
 export const municipalLawRouter: Routes = [
   {
     path: "",
-    component: MunicipalLawsComponent
-  }
+    component: MunicipalLawsComponent,
+  },
 ];
 
-export const MunicipalLawRouter: ModuleWithProviders = RouterModule.forChild(
+export const MunicipalLawRouter: ModuleWithProviders<RouterModule> = RouterModule.forChild(
   municipalLawRouter
 );

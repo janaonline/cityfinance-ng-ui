@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { UPLOAD_STATUS } from 'src/app/util/enums';

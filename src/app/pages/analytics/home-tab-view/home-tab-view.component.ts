@@ -2,7 +2,8 @@ import 'chartjs-plugin-labels';
 
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Chart } from 'chart.js';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';

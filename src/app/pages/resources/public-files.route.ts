@@ -10,4 +10,6 @@ export const routes: Routes = [
   },
 ];
 
-export const FileRoutes: ModuleWithProviders = RouterModule.forChild(routes);
+export const FileRoutes: ModuleWithProviders<RouterModule> = RouterModule.forChild(
+  routes
+);

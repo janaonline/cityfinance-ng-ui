@@ -1,21 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  MatAutocompleteModule,
-  MatCardModule,
-  MatExpansionModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatListModule,
-  MatOption,
-  MatProgressSpinnerModule,
-  MatSelect,
-  MatSelectModule,
-  MatSlideToggle,
-  MatSlideToggleModule,
-  MatSnackBarModule,
-} from '@angular/material';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { MatOption } from '@angular/material/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
+import { MatSlideToggle, MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 

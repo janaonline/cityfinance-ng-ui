@@ -9,23 +9,23 @@ const routes: Routes = [
     path: "",
     component: UsersComponent,
     children: [
-      { path: "ulbs", loadChildren: "./ulbs/ulbs.module#UlbsModule" },
+      { path: "ulbs", loadChildren: () => import('./ulbs/ulbs.module').then(m => m.UlbsModule) },
       {
         path: "profile",
-        loadChildren: "./profile/profile.module#ProfileModule",
+        loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
       },
       {
         path: "states",
-        loadChildren: "./state-list/state-list.module#StateListModule",
+        loadChildren: () => import('./state-list/state-list.module').then(m => m.StateListModule),
       },
       {
         path: "data-upload",
-        loadChildren: "./data-upload/data-upload.module#DataUploadModule",
+        loadChildren: () => import('./data-upload/data-upload.module').then(m => m.DataUploadModule),
       },
-      { path: "list", loadChildren: "./list/list.module#ListModule" },
+      { path: "list", loadChildren: () => import('./list/list.module').then(m => m.ListModule) },
       {
         path: "reports",
-        loadChildren: "./reports/reports.module#ReportsModule",
+        loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule),
       },
       { path: "annual-accounts/view", component: AnnualAccountsViewComponent },
     ],

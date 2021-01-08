@@ -15,33 +15,41 @@ export const dashboardRouter: Routes = [
       { path: "", redirectTo: "user", pathMatch: "full" },
       {
         path: "user",
-        loadChildren: "./user/user.module#UserModule",
-        canActivate: [AuthGuard]
+        loadChildren: () =>
+          import("./user/user.module").then((m) => m.UserModule),
+        canActivate: [AuthGuard],
       },
       {
         path: "entry",
-        loadChildren: "./data-entry/data-entry.module#DataEntryModule",
-        canActivate: [AuthGuard]
+        loadChildren: () =>
+          import("./data-entry/data-entry.module").then(
+            (m) => m.DataEntryModule
+          ),
+        canActivate: [AuthGuard],
       },
       {
         path: "report",
-        loadChildren: "./report/report.module#ReportModule"
+        loadChildren: () =>
+          import("./report/report.module").then((m) => m.ReportModule),
       },
       {
         path: "ranking",
-        loadChildren: "./ranking/ranking.module#RankingModule"
+        loadChildren: () =>
+          import("./ranking/ranking.module").then((m) => m.RankingModule),
       },
       {
         path: "financial-information",
-        loadChildren:
-          "./financial-information/financial-information.module#FinancialInformationModule"
+        loadChildren: () =>
+          import("./financial-information/financial-information.module").then(
+            (m) => m.FinancialInformationModule
+          ),
       },
-      { path: "data-tracker", component: DataTrackerComponent }
+      { path: "data-tracker", component: DataTrackerComponent },
       // { path: 'test', component: TestComponent}
-    ]
-  }
+    ],
+  },
 ];
 
-export const DashboardRouter: ModuleWithProviders = RouterModule.forChild(
+export const DashboardRouter: ModuleWithProviders<RouterModule> = RouterModule.forChild(
   dashboardRouter
 );

@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatHorizontalStepper } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatHorizontalStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';

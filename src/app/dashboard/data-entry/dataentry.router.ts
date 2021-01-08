@@ -7,9 +7,9 @@ import { LedgerComponent } from './ledger/ledger.component';
 export const dataEntryRouter: Routes = [
   { path: "", redirectTo: "list", pathMatch: "full" },
   { path: "list", component: LedgerListComponent },
-  { path: "ledger", component: LedgerComponent }
+  { path: "ledger", component: LedgerComponent },
 ];
 
-export const DataEntryRouter: ModuleWithProviders = RouterModule.forChild(
+export const DataEntryRouter: ModuleWithProviders<RouterModule> = RouterModule.forChild(
   dataEntryRouter
 );

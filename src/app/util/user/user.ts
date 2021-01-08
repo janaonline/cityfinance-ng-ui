@@ -1,9 +1,10 @@
-import { OnDestroy } from '@angular/core';
+import { OnDestroy, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
 
 import { USER_TYPE } from '../../models/user/userType';
 
+@Injectable()
 export class UserUtility implements OnDestroy {
   private static readonly loggedInDetails = new BehaviorSubject<
     IUserLoggedInDetails

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatStepperModule } from '@angular/material';
+import { MatStepperModule } from '@angular/material/stepper';
 import { RouterModule, Routes } from '@angular/router';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { NgxPaginationModule } from 'ngx-pagination';

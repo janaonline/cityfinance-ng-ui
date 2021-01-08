@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { MatDialog, MatHorizontalStepper } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatHorizontalStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { IQuestionnaireResponse } from 'src/app/pages/questionnaires/model/questionnaireResponse.interface';

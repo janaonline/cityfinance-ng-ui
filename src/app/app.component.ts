@@ -49,9 +49,9 @@ export class AppComponent implements OnDestroy {
   }
 
   onGoogleTagLoad = () => {
-    (<any>window).dataLayer = (<any>window).dataLayer || [];
+    (window as any).dataLayer = (<any>window).dataLayer || [];
     function gtag(...args: any[]) {
-      (<any>dataLayer).push(arguments);
+      dataLayer.push(arguments);
     }
     gtag("js", new Date());
 

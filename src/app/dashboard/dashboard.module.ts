@@ -10,7 +10,7 @@ import {AgGridModule} from 'ag-grid-angular';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthModule} from '../auth/auth.module';
 import {SharedModule} from '../shared/shared.module';
-import {MatListModule} from '@angular/material';
+import { MatListModule } from '@angular/material/list';
 import {AngularMaterialModule} from '../angular-material.module';
 
 @NgModule({

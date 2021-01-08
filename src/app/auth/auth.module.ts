@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  MatAutocompleteModule,
-  MatDialogModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatTooltipModule
-} from '@angular/material';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 import { AngularMaterialModule } from '../angular-material.module';
