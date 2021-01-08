@@ -1177,3 +1177,26 @@ div.new-links {
     align-items: center;
   }
 }
+
+#animate-pm-quote,
+.minister-name {
+  display: inline-block;
+  position: relative;
+  background: linear-gradient(to right, white, transparent, transparent);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 600% 100%;
+  background-position: 0% 100%;
+  animation: width-animate 3s ease-in-out 0.2s forwards;
+}
+
+@keyframes width-animate {
+  0% {
+    background-position: 100%;
+  }
+
+  100% {
+    background-position: 0% 100%;
+  }
+}
