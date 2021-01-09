@@ -1,19 +1,24 @@
 <div class="common-container">
   <div class="container">
-
     <div class="row">
       <div class="col-md-6">
-        <h3>Urban Finance </h3> <h4>The list of files available on city finance. </h4>
+        <h3>Urban Finance</h3>
+        <h4>The list of files available on city finance.</h4>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <ag-grid-angular style="width: 100%; height: calc(100vh - 230px);" class="ag-theme-balham"
-                         [columnDefs]="columnDefs"
-                         (cellClicked)="onDownloadClicked($event,fileDownloadModal)"
-                         [rowData]="ledgerLogs" [enableColResize]="true" [enableSorting]="true" [enableFilter]="true"
-                         [pagination]="true"
-                         [paginationAutoPageSize]="true" (gridReady)="onFirstDataRendered($event)">
+        <ag-grid-angular
+          style="width: 100%; height: calc(100vh - 230px)"
+          class="ag-theme-balham"
+          [columnDefs]="columnDefs"
+          (cellClicked)="onDownloadClicked($event, fileDownloadModal)"
+          [rowData]="ledgerLogs"
+          [gridOptions]="gridOptions"
+          [pagination]="true"
+          [paginationAutoPageSize]="true"
+          (gridReady)="onFirstDataRendered($event)"
+        >
         </ag-grid-angular>
       </div>
     </div>
@@ -22,46 +27,58 @@
 
 <ng-template #fileDownloadModal>
   <div class="modal-body">
-    <div style="margin-bottom: .5rem; display: flex;justify-content: flex-end">
+    <div
+      style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end"
+    >
       <button
-        style="min-width: min-content;"
+        style="min-width: min-content"
         (click)="modalService.hide(1)"
         class="btn btn-danger"
         title="Close"
         type="button"
         data-dismiss="modal"
         aria-label="Close"
-      ><i class="fa fa-times" style="color:white"></i>
+      >
+        <i class="fa fa-times" style="color: white"></i>
       </button>
     </div>
     <div class="modal-title">
       <h3>Download Files</h3>
     </div>
     <div class="modal-body">
-      <div class="row" *ngIf="fileList?.pdf&& fileList?.pdf?.length">
-        <h4 class="pl-1"> PDF</h4>
+      <div class="row" *ngIf="fileList?.pdf && fileList?.pdf?.length">
+        <h4 class="pl-1">PDF</h4>
         <div class="list-group">
-          <a [href]="file.url" target="_blank" class="list-group-item" *ngFor="let file of fileList.pdf"
-             download="true">{{file.name}}
+          <a
+            [href]="file.url"
+            target="_blank"
+            class="list-group-item"
+            *ngFor="let file of fileList.pdf"
+            download="true"
+            >{{ file.name }}
             <span class="badge" style="background: transparent">
-            <mat-icon color="primary">arrow_downward</mat-icon>
-        </span>
+              <mat-icon color="primary">arrow_downward</mat-icon>
+            </span>
           </a>
         </div>
       </div>
-      <div class="row" *ngIf="fileList?.excel&& fileList?.excel?.length">
-        <h4 class="pl-1"> EXCEL</h4>
+      <div class="row" *ngIf="fileList?.excel && fileList?.excel?.length">
+        <h4 class="pl-1">EXCEL</h4>
         <div class="list-group">
-          <a [href]="file.url" target="_blank" class="list-group-item" *ngFor="let file of fileList.excel"
-             download="true">{{file.name}}
+          <a
+            [href]="file.url"
+            target="_blank"
+            class="list-group-item"
+            *ngFor="let file of fileList.excel"
+            download="true"
+            >{{ file.name }}
             <span class="badge" style="background: transparent">
-            <mat-icon color="primary">arrow_downward</mat-icon>
-        </span>
+              <mat-icon color="primary">arrow_downward</mat-icon>
+            </span>
           </a>
         </div>
       </div>
     </div>
-
   </div>
   <ng-template #noData>
     <div class="row">

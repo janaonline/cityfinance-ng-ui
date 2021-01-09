@@ -629,7 +629,7 @@ export class HomeTabViewComponent implements OnInit {
 
   private renderCharts() {
     if (Chart.instances) {
-      Chart.instances = {};
+      // Chart.instances = {};
     }
     let dataArr = this.commonTableData;
     if (this.singleULBView) {
@@ -776,7 +776,9 @@ export class HomeTabViewComponent implements OnInit {
           yearWiseCharts.push(c);
           if (!legendGenerated) {
             const legendClass = `.legend-${yearRow.year}`;
-            document.querySelector(legendClass).innerHTML = c.generateLegend();
+            document.querySelector(
+              legendClass
+            ).innerHTML = c.generateLegend() as string;
             const legendItems = document
               .querySelector(legendClass)
               .getElementsByTagName("li");
@@ -895,9 +897,11 @@ export class HomeTabViewComponent implements OnInit {
         tooltips: {
           callbacks: {
             title: (tooltipItem, data) => {
-              const title = data.labels[tooltipItem[0].index];
+              const title = (data.labels[
+                tooltipItem[0].index
+              ] as unknown) as string;
               if (title.split(" ").length > 3) {
-                return [
+                return ([
                   [title.split(" ").slice(0, 3).join(" ")],
                   [
                     title
@@ -905,7 +909,7 @@ export class HomeTabViewComponent implements OnInit {
                       .slice(3, title.split(" ").length)
                       .join(" "),
                   ],
-                ];
+                ] as unknown) as string;
               }
               return title;
             },

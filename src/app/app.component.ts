@@ -49,7 +49,7 @@ export class AppComponent implements OnDestroy {
   }
 
   onGoogleTagLoad = () => {
-    (window as any).dataLayer = (<any>window).dataLayer || [];
+    const dataLayer = (<any>window).dataLayer || [];
     function gtag(...args: any[]) {
       dataLayer.push(arguments);
     }

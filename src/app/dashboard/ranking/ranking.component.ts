@@ -4,7 +4,6 @@ import { Chart, ChartOptions } from 'chart.js';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import * as XLSX from 'xlsx';
 
 import { RankingService } from '../../shared/services/ranking.service';
 
@@ -1070,14 +1069,14 @@ export class RankingComponent implements OnInit {
   }
 
   downloadTableData() {
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
-      this.reportTable.nativeElement
-    );
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    // const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
+    //   this.reportTable.nativeElement
+    // );
+    // const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    // XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
 
-    /* save to file */
-    XLSX.writeFile(wb, "Ulb-score-report.xlsx");
+    // /* save to file */
+    // XLSX.writeFile(wb, "Ulb-score-report.xlsx");
   }
 
   resetTableData() {

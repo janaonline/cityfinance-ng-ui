@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as Chart from 'chart.js';
+import { Chart, PositionType } from 'chart.js';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { combineLatest, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -38,7 +38,7 @@ import {
 } from './util/request-status';
 import { UploadDataUtility } from './util/upload-data.util';
 
-const swal: SweetAlert = require('sweetalert');
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-data-upload",
   templateUrl: "./data-upload.component.html",
@@ -248,7 +248,7 @@ export class DataUploadComponent
     maintainAspectRatio: false,
     legend: {
       display: false,
-      position: "top",
+      position: "top" as PositionType,
       labels: {
         boxWidth: 2,
       },
@@ -607,8 +607,9 @@ export class DataUploadComponent
         {
           beforeInit: function (chart) {
             chart.data.labels.forEach(function (e, i, a) {
+              e = e.toString();
               if (/\n/.test(e)) {
-                a[i] = e.split(/\n/);
+                a[i] = ((e as unknown) as string).split(/\n/);
               }
             });
           },
@@ -820,7 +821,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  }
+  };
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -886,12 +887,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  }
+  };
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  }
+  };
 
   getAddedFilterCount() {
     let count = 0;
