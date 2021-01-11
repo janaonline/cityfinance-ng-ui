@@ -601,7 +601,7 @@ export class FinancialUploadsComponent
         confirm: {
           text: "OK",
           callback: () => {
-            window.history.back();
+            this._router.navigate(["/user/data-upload/list"]);
           },
         },
       },
