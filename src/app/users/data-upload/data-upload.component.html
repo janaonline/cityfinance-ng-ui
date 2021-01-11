@@ -1295,7 +1295,7 @@
             ? "Applications"
             : "Application"
         }}
-       is not submitted:</b
+        is not submitted:</b
       ></span
     ><br />
     <ol>
@@ -1310,7 +1310,12 @@
     *ngIf="showMultiSelectULBApprovalCompletionMessage"
     class="text-center"
   >
-    <b style="color: green"> Approval Action Completed</b>
+    <b style="color: green">
+      Approval Action Completed <br />
+      <span *ngIf="showIntimationMessage"
+        >Intimation over email has been sent to the ULB & State</span
+      >
+    </b>
   </p>
 
   <div class="row justify-content-center d-flex Approvalbuttons">

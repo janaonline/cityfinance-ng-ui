@@ -340,6 +340,8 @@ export class DataUploadComponent
 
   allSubscripts: Subscription[];
 
+  showIntimationMessage: boolean;
+
   ngOnInit() {
     this.getStateFcDocments();
     this.initializeChartFilter();
@@ -1510,12 +1512,15 @@ export class DataUploadComponent
     if (this.totalUlbApprovalInProgress) {
       return;
     }
+    let totalULBsSelected = 0;
     this.totalUlbApprovalInProgress = 0;
     this.errorsInMultiSelectULBApproval = [];
+    this.showIntimationMessage = false;
     this.multiStatesForApprovalControl.value.forEach((state) => {
       if (!state.ULBFormControl || !state.ULBFormControl.value) return;
       state.ULBFormControl.value.forEach((ulbForm) => {
         this.totalUlbApprovalInProgress++;
+        totalULBsSelected++;
         this.financialDataService.approveMultiSelectULBs(ulbForm._id).subscribe(
           (res) => {
             this.totalUlbApprovalInProgress--;
@@ -1524,6 +1529,12 @@ export class DataUploadComponent
               this.multiStatesForApprovalControl.reset();
               this.fetchStatesForMultiApproval();
               this.applyFilterClicked();
+              if (this.errorsInMultiSelectULBApproval) {
+                if (
+                  this.errorsInMultiSelectULBApproval.length < totalULBsSelected
+                )
+                  this.showIntimationMessage = true;
+              }
             }
           },
           (error) => {
@@ -1536,6 +1547,10 @@ export class DataUploadComponent
               this.multiStatesForApprovalControl.reset();
               this.fetchStatesForMultiApproval();
               this.applyFilterClicked();
+              if (
+                this.errorsInMultiSelectULBApproval.length < totalULBsSelected
+              )
+                this.showIntimationMessage = true;
             }
           }
         );
