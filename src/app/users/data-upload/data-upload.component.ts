@@ -1531,6 +1531,12 @@ export class DataUploadComponent
               `${state.name}: ${ulbForm.ulbName}`
             );
             this.totalUlbApprovalInProgress--;
+            if (this.totalUlbApprovalInProgress === 0) {
+              this.showMultiSelectULBApprovalCompletionMessage = true;
+              this.multiStatesForApprovalControl.reset();
+              this.fetchStatesForMultiApproval();
+              this.applyFilterClicked();
+            }
           }
         );
       });
