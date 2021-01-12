@@ -29,7 +29,7 @@
     "ag-grid-angular": "^25.0.0",
     "ag-grid-community": "^25.0.0",
     "angular2-multiselect-dropdown": "^4.6.3",
-    "bootstrap": "^4.5.3",
+    "bootstrap": "^3.3.7",
     "chart.js": "^2.9.3",
     "chartjs-plugin-annotation": "^0.5.7",
     "chartjs-plugin-labels": "^1.1.0",
