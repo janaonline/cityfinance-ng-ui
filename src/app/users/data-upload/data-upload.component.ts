@@ -819,7 +819,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  };
+  }
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -885,12 +885,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  };
+  }
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  };
+  }
 
   getAddedFilterCount() {
     let count = 0;
@@ -1532,8 +1532,9 @@ export class DataUploadComponent
               if (this.errorsInMultiSelectULBApproval) {
                 if (
                   this.errorsInMultiSelectULBApproval.length < totalULBsSelected
-                )
+                ) {
                   this.showIntimationMessage = true;
+                }
               }
             }
           },
@@ -1549,8 +1550,9 @@ export class DataUploadComponent
               this.applyFilterClicked();
               if (
                 this.errorsInMultiSelectULBApproval.length < totalULBsSelected
-              )
+              ) {
                 this.showIntimationMessage = true;
+              }
             }
           }
         );
@@ -1583,6 +1585,18 @@ export class DataUploadComponent
   downloadULBList() {
     const filterOptions = { filter: { ...this.ulbFilter.value }, csv: true };
     const url = this._commonService.getULBListApi(filterOptions);
+    return window.open(url);
+  }
+
+  downloadFilesUploadedByStatesList() {
+    const body = {};
+        body["token"] = localStorage
+          .getItem("id_token")
+          .replace('"', "")
+          .replace('"', "");
+        body["csv"] = true;
+    const url = this.financialDataService.getStateFCDocumentApi(body);
+    console.log(url);
     return window.open(url);
   }
 
