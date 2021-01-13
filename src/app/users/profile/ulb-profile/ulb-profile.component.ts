@@ -306,7 +306,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   /**
    * @description The Following fields cannot be changed, therefore they should stay
-   * disabled.
+   * disabled. If loggedIn User is ULB or all = true, then disable all fields.
+   *
    */
   private disableNonEditableFields(all = true) {
     this.profile.controls.state.disable();
