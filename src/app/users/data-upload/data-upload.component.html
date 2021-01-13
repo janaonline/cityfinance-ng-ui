@@ -1291,23 +1291,45 @@
     </p>
   </div>
 
-  <div
+    <div
     style="color: red; padding: 2%"
-    *ngIf="errorsInMultiSelectULBApproval?.length"
+    *ngIf="errorsInMultiSelectULBApprovalDueToAlreadyApproval?.length"
   >
     <span
       ><b
         >Approval for following ULB's
         {{
-          errorsInMultiSelectULBApproval?.length > 1
-            ? "Applications"
-            : "Application"
+          errorsInMultiSelectULBApprovalDefault?.length > 1
+            ? "Applications are"
+            : "Application is"
         }}
-        is not submitted:</b
+        already approved:</b
       ></span
     ><br />
     <ol>
-      <li *ngFor="let error of errorsInMultiSelectULBApproval">
+      <li *ngFor="let error of errorsInMultiSelectULBApprovalDueToAlreadyApproval">
+        {{ error }}
+      </li>
+    </ol>
+  </div>
+
+  <div
+    style="color: red; padding: 2%"
+    *ngIf="errorsInMultiSelectULBApprovalDefault?.length"
+  >
+    <span
+      ><b
+        >Approval for following ULB's
+        {{
+          errorsInMultiSelectULBApprovalDefault?.length > 1
+            ? "Applications have"
+            : "Application has"
+        }}
+       failed:</b
+      ></span
+    ><br />
+    <ol>
+      <li *ngFor="let error of errorsInMultiSelectULBApprovalDefault">
         {{ error }}
       </li>
     </ol>

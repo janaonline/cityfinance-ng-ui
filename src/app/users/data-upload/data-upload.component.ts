@@ -327,7 +327,8 @@ export class DataUploadComponent
 
   multiStatesForApprovalControl = new FormControl();
   totalUlbApprovalInProgress;
-  errorsInMultiSelectULBApproval = [];
+  errorsInMultiSelectULBApprovalDefault = [];
+  errorsInMultiSelectULBApprovalDueToAlreadyApproval = [];
 
   showMultiSelectULBApprovalCompletionMessage = false;
 
@@ -819,7 +820,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  }
+  };
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -885,12 +886,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  }
+  };
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  }
+  };
 
   getAddedFilterCount() {
     let count = 0;
@@ -1442,7 +1443,8 @@ export class DataUploadComponent
 
   openSecondModal(historyModal: TemplateRef<any>) {
     this.totalUlbApprovalInProgress = 0;
-    this.errorsInMultiSelectULBApproval = [];
+    this.errorsInMultiSelectULBApprovalDefault = [];
+    this.errorsInMultiSelectULBApprovalDueToAlreadyApproval = [];
     this.fetchStatesForMultiApproval();
 
     this._matDialog.open(historyModal, {
@@ -1514,7 +1516,8 @@ export class DataUploadComponent
     }
     let totalULBsSelected = 0;
     this.totalUlbApprovalInProgress = 0;
-    this.errorsInMultiSelectULBApproval = [];
+    this.errorsInMultiSelectULBApprovalDefault = [];
+    this.errorsInMultiSelectULBApprovalDueToAlreadyApproval = [];
     this.showIntimationMessage = false;
     this.multiStatesForApprovalControl.value.forEach((state) => {
       if (!state.ULBFormControl || !state.ULBFormControl.value) return;
@@ -1529,30 +1532,48 @@ export class DataUploadComponent
               this.multiStatesForApprovalControl.reset();
               this.fetchStatesForMultiApproval();
               this.applyFilterClicked();
-              if (this.errorsInMultiSelectULBApproval) {
-                if (
-                  this.errorsInMultiSelectULBApproval.length < totalULBsSelected
-                ) {
-                  this.showIntimationMessage = true;
-                }
+              let totalULBFailed = 0;
+              totalULBFailed += this.errorsInMultiSelectULBApprovalDefault
+                ? this.errorsInMultiSelectULBApprovalDefault.length
+                : 0;
+
+              totalULBFailed += this
+                .errorsInMultiSelectULBApprovalDueToAlreadyApproval
+                ? this.errorsInMultiSelectULBApprovalDueToAlreadyApproval.length
+                : 0;
+
+              if (totalULBFailed < totalULBsSelected) {
+                this.showIntimationMessage = true;
               }
             }
           },
-          (error) => {
-            this.errorsInMultiSelectULBApproval.push(
-              `${state.name}: ${ulbForm.ulbName}`
-            );
+          (error: HttpErrorResponse) => {
+            console.log(error);
+            if (error.status === 400) {
+              this.errorsInMultiSelectULBApprovalDueToAlreadyApproval.push(
+                `${state.name}: ${ulbForm.ulbName}`
+              );
+            } else {
+              this.errorsInMultiSelectULBApprovalDefault.push(
+                `${state.name}: ${ulbForm.ulbName}`
+              );
+            }
+
             this.totalUlbApprovalInProgress--;
             if (this.totalUlbApprovalInProgress === 0) {
               this.showMultiSelectULBApprovalCompletionMessage = true;
               this.multiStatesForApprovalControl.reset();
               this.fetchStatesForMultiApproval();
               this.applyFilterClicked();
-              if (
-                this.errorsInMultiSelectULBApproval.length < totalULBsSelected
-              ) {
-                this.showIntimationMessage = true;
-              }
+              let totalULBFailed = 0;
+              totalULBFailed += this.errorsInMultiSelectULBApprovalDefault
+                ? this.errorsInMultiSelectULBApprovalDefault.length
+                : 0;
+
+              totalULBFailed += this
+                .errorsInMultiSelectULBApprovalDueToAlreadyApproval
+                ? this.errorsInMultiSelectULBApprovalDueToAlreadyApproval.length
+                : 0;
             }
           }
         );
@@ -1590,11 +1611,11 @@ export class DataUploadComponent
 
   downloadFilesUploadedByStatesList() {
     const body = {};
-        body["token"] = localStorage
-          .getItem("id_token")
-          .replace('"', "")
-          .replace('"', "");
-        body["csv"] = true;
+    body["token"] = localStorage
+      .getItem("id_token")
+      .replace('"', "")
+      .replace('"', "");
+    body["csv"] = true;
     const url = this.financialDataService.getStateFCDocumentApi(body);
     console.log(url);
     return window.open(url);
