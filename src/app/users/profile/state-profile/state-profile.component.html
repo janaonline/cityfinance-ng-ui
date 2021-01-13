@@ -59,6 +59,9 @@
         class="form-field-error-message"
       >
         <span *ngIf="nameError?.required"> User name cannot be empty. </span>
+        <span *ngIf="nameError?.alphabet_required">
+          {{ nameError["alphabet_required"] }}
+        </span>
       </small>
     </div>
 
