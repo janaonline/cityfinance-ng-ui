@@ -1,0 +1,169 @@
+:host {
+  .all-container {
+    display: flex;
+    flex-wrap: wrap;
+    // justify-content: space-around;
+  }
+  .form-container {
+    margin-top: 2%;
+
+    // background: rgb(243, 119, 119);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 60vh;
+    transition: all 1s;
+    &.form-on-left {
+      width: 22%;
+      transition: all 1s;
+      // justify-content: flex-start;
+      height: fit-content;
+      margin-left: 1%;
+      form {
+        width: 100%;
+      }
+      .year {
+        margin: 1% 3% !important;
+      }
+      input[type="submit"] {
+        margin: 3% auto;
+      }
+
+      .ulb-list-container {
+        margin-top: 2%;
+        width: 100%;
+        .ulb {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
+    }
+    font-size: 1.5rem;
+
+    form {
+      transition: all 1s;
+      width: 50%;
+      display: flex;
+      flex-wrap: wrap;
+      margin: 1%;
+      angular2-multiselect {
+        width: 100%;
+        ::ng-deep {
+          .c-btn {
+            span {
+              font-size: 2em;
+            }
+            .c-remove {
+              display: none;
+            }
+          }
+          .countplaceholder {
+            display: none;
+          }
+          .dropdown-list {
+            width: fit-content;
+          }
+        }
+      }
+      small {
+        color: #024e69;
+        margin: 1% 0% 2% 1%;
+        cursor: pointer;
+        font-size: 1em;
+      }
+
+      .years-container {
+        display: flex;
+        width: 100%;
+
+        .year {
+          margin: 1% 0.5% 2% 0.5%;
+          border-radius: 3px;
+          padding: 1% 2%;
+          transition: all 0.5s;
+          cursor: pointer;
+          background: rgb(189, 189, 189);
+          color: gray;
+
+          &.selected {
+            background: #059b9a;
+            color: white;
+            box-shadow: 2px 2px 3px 2px #949292;
+          }
+        }
+      }
+
+      input[type="submit"] {
+        width: 100%;
+        padding: 1.5% 2%;
+        outline: none;
+        // font-size: 1.5em;
+      }
+    }
+
+    .ulb-list-container {
+      width: 50%;
+      transition: all 1s;
+      display: flex;
+      flex-wrap: wrap;
+      border: 1px solid #c8c8c8;
+      background: #f3f3f3;
+      padding: 1%;
+      border-radius: 3px;
+      max-height: 55vh;
+      // overflow-y: scroll;
+      h5 {
+        color: gray;
+      }
+      .ulb {
+        display: block;
+        width: 100%;
+        padding: 1% 2% 1% 0;
+        transition: all 0.1s;
+
+        &:hover {
+          background: #dddddd;
+        }
+
+        .fa-trash {
+          float: right;
+          color: red;
+          transition: all 0.2s;
+          cursor: pointer;
+
+          &:hover {
+            transform: scale(1.5);
+          }
+        }
+      }
+    }
+  }
+
+  .report-container {
+    background: green;
+    display: inline-block;
+    width: 70%;
+
+    form {
+      background: gray;
+      .left {
+        display: inline;
+        background: red;
+        .reportType {
+          margin-right: 2%;
+          padding: 1%;
+
+          display: inline-block;
+
+          &.selected {
+            background: #059b9a !important;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}

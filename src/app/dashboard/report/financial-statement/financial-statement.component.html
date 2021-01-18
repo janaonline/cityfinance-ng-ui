@@ -1,0 +1,91 @@
+<div class="all-container">
+  <div class="form-container" [ngClass]="{ 'form-on-left': showReport }">
+    <form [formGroup]="filterForm" *ngIf="filterForm" (ngSubmit)="showData()">
+      <angular2-multiselect
+        formControlName="ulbs"
+        [data]="originalUlbList"
+        [settings]="multiSelectStates"
+        (onClose)="onClosingULBSelection()"
+      >
+      </angular2-multiselect>
+      <small>or select from list</small>
+
+      <div class="years-container">
+        <span
+          class="year"
+          [ngClass]="{ selected: filterForm?.controls?.years?.at(i).value }"
+          *ngFor="let year of commonYears; let i = index"
+          (click)="onClickingYear(i)"
+        >
+          {{ year }}
+        </span>
+
+        <p
+          *ngIf="
+            yearListUpdate &&
+            !commonYears?.length &&
+            filterForm?.controls.ulbs?.value?.length
+          "
+          class="text-center warning"
+          style="width: 100%; color: red"
+        >
+          Selected ULBs do not have any common year with data
+        </p>
+
+        <!-- <span class="year selected">2015-19</span>
+      <span class="year ">2015-19</span>
+      <span class="year not-selected">2015-19</span> -->
+      </div>
+
+      <input
+        class="btn btn-primary ng-star-inserted"
+        type="submit"
+        value="View Report"
+        [disabled]="!commonYears || !commonYears.length"
+      />
+
+      <p
+        *ngIf="formInvalidMessage"
+        class="text-center"
+        style="width: 100%; color: red; margin-top: 1%"
+      >
+        {{ formInvalidMessage }}
+      </p>
+    </form>
+
+    <div
+      class="ulb-list-container"
+      *ngIf="filterForm?.value?.ulbs?.length"
+      [ngStyle]="{
+        'overflow-y': filterForm?.value?.ulbs?.length > 7 ? 'scroll' : hidden
+      }"
+    >
+      <h5>Selected ULBs</h5>
+      <div
+        class="ulb"
+        *ngFor="let ulb of filterForm?.value?.ulbs; let i = index"
+      >
+        {{ ulb.name }}
+
+        <i
+          class="fa fa-trash"
+          aria-hidden="true"
+          (click)="removeSelectedULBAt(i)"
+        ></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="report-container" *ngIf="showReport">
+    <form [formGroup]="filterForm">
+      <div class="left">
+        <span class="reportType">Income & Expenditure</span>
+        <span class="reportType">Balance Sheet</span>
+      </div>
+      <div class="right">
+        <span class="reportType">Income & Expenditure</span>
+        <span class="reportType">Balance Sheet</span>
+      </div>
+    </form>
+  </div>
+</div>

@@ -117,6 +117,18 @@ export class CommonService {
     return this.NewULBStructureResponseCache[yearsAsString];
   }
 
+  getNewULBLegdersList(years: string[] = []) {
+    // const cachedResponse = this.getCachedResponse(years);
+    // if (cachedResponse) {
+    //   return of(cachedResponse);
+    // }
+
+    return this.http.post<NewULBStructureResponse>(
+      `${environment.api.url}/ledger/getAllLegders`,
+      { year: years }
+    );
+  }
+
   getULBSByYears(years: string[] = []) {
     const cachedResponse = this.getCachedResponse(years);
     if (cachedResponse) {
@@ -133,6 +145,7 @@ export class CommonService {
           const formattedResponse = this.convertULBStaticticsToIULBResponse(
             response
           );
+
           const yearsAsString = !years.length
             ? "NoYear"
             : years.reduce((a, b) => a + b);
@@ -170,22 +183,33 @@ export class CommonService {
       }
 
       const convertedULB = this.convertNewULBStructureToIULB(ulb);
-      if (
-        newObj.data[ulb.state.code].ulbs.every(
-          (ulb) => ulb.code !== convertedULB.code
-        )
-      ) {
+      const index = newObj.data[ulb.state.code].ulbs.findIndex(
+        (newULB) => newULB.code === convertedULB.code
+      );
+
+      if (index === -1) {
         newObj.data[ulb.state.code].ulbs.push({
           ...this.convertNewULBStructureToIULB(ulb),
           state: ulb.state.name,
         });
+      } else {
+        if (!newObj.data[ulb.state.code].ulbs[index].allYears) {
+          newObj.data[ulb.state.code].ulbs[index].allYears = [];
+        }
+        newObj.data[ulb.state.code].ulbs[index].allYears.push(
+          convertedULB.financialYear
+        );
       }
     });
     return newObj;
   }
 
   convertNewULBStructureToIULB(ulb: NewULBStructure): IULB {
-    return { ...ulb.ulb, type: ulb.ulbtypes.name };
+    return {
+      ...ulb.ulb,
+      type: ulb.ulbtypes.name,
+      financialYear: ulb.financialYear,
+    };
   }
 
   fetchULBList(body, sort?: {}) {
@@ -268,10 +292,6 @@ export class CommonService {
   getCount(ulbList: NewULBStructure[]): ULBsStatistics {
     const newObj: ULBsStatistics = {};
     ulbList.forEach((ulb) => {
-      // if (ulb.ulb.amrut == undefined) {
-      //   console.log(ulb.ulb.name);
-      // }
-
       if (!ulb.state._id) {
         return;
       }
@@ -316,7 +336,6 @@ export class CommonService {
         ulb.ulb.amrut == "No" || ulb.ulb.amrut == undefined ? 1 : 0;
       // newObj[ulb.state._id].ulbsByYears[ulb.financialYear].push({ ...ulb });
     });
-    // console.log('newObj',newObj);
 
     return { ...newObj };
   }
