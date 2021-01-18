@@ -2,8 +2,11 @@ import { Component, OnDestroy } from '@angular/core';
 import { delay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
+import { IUserLoggedInDetails } from './models/login/userLoggedInDetails';
 import { GlobalLoaderService } from './shared/services/loaders/global-loader.service';
 import { SessionService } from './shared/services/session/session.service';
+import { ProfileService } from './users/profile/service/profile.service';
+import { UserUtility } from './util/user/user';
 
 @Component({
   selector: "app-root",
@@ -18,7 +21,8 @@ export class AppComponent implements OnDestroy {
 
   constructor(
     public globalLoader: GlobalLoaderService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private profileService: ProfileService
   ) {
     this.startSession();
     this.globalLoader
@@ -28,6 +32,16 @@ export class AppComponent implements OnDestroy {
         this.showLoader = loadingStatus;
       });
     this.addCustomScripts();
+    let userData: any = localStorage.getItem("userData");
+    if (!userData) return;
+    try {
+      userData = JSON.parse(userData) as IUserLoggedInDetails;
+      this.profileService.getUserProfile({}).subscribe((response) => {
+        const name = response["data"]["name"];
+        userData["name"] = name;
+        new UserUtility().updateUserDataInRealTime(userData);
+      });
+    } catch (error) {}
   }
 
   /**
