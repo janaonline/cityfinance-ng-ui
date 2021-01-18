@@ -112,6 +112,15 @@
       >
         ULB Name cannot be empty
       </small>
+      <small
+        *ngIf="
+          profile.controls.ulb.controls?.name?.errors
+            ?.alphabet_required as errors
+        "
+        class="form-field-error-message"
+      >
+        {{ errors }}
+      </small>
     </div>
 
     <div formGroupName="ulb" class="form-group">
