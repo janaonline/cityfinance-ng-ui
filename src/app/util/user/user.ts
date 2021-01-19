@@ -1,6 +1,45 @@
+import { OnDestroy } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
+
 import { USER_TYPE } from '../../models/user/userType';
 
-export class UserUtility {
+export class UserUtility implements OnDestroy {
+  private static readonly loggedInDetails = new BehaviorSubject<
+    IUserLoggedInDetails
+  >(null);
+
+  static getUserLoggedInData() {
+    return UserUtility.loggedInDetails;
+  }
+
+  constructor() {
+    let data = localStorage.getItem("userData") as any;
+    data = (data ? JSON.parse(data) : null) as IUserLoggedInDetails;
+    if (data) {
+    }
+    UserUtility.loggedInDetails.next(data);
+  }
+  ngOnDestroy(): void {
+    UserUtility.loggedInDetails.complete();
+  }
+
+  /**
+   *
+   * @description Updates the user logged in details in real time.
+   * NOTE: This updates is only to client side and not on server.
+   * If you want ot reflect this change to server side also, you will need
+   * to do so using apis defined in ProfileService. Also the chagnes wil lbe reflect
+   * where userSubscription is being used;
+   */
+  updateUserDataInRealTime(newValues: Partial<IUserLoggedInDetails>) {
+    const currentValue = (UserUtility.loggedInDetails.getValue() ||
+      {}) as IUserLoggedInDetails;
+    const newValue = { ...currentValue, ...newValues };
+    UserUtility.loggedInDetails.next(newValue);
+    localStorage.setItem("userData", JSON.stringify(newValue));
+  }
+
   getLoggedInUserDetails() {
     try {
       return JSON.parse(localStorage.getItem("userData"));
@@ -8,6 +47,7 @@ export class UserUtility {
       return null;
     }
   }
+
   getUserType(): USER_TYPE {
     let userData = localStorage.getItem("userData");
     if (!userData) {
@@ -18,7 +58,7 @@ export class UserUtility {
     return userData["role"] ? userData["role"] : null;
   }
 
-  public isUserOnMobile() {
+  isUserOnMobile() {
     let check = false;
     (function (a) {
       if (

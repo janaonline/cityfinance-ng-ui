@@ -89,8 +89,10 @@
           </picture>
 
           <div class="quotes-left">
-            "It’s our mission to strengthen our cities to meet the challenges of
-            21st century"<br />
+            <span id="animate-pm-quote"
+              >"It’s our mission to strengthen our cities to meet the challenges
+              of 21st century"</span
+            ><br />
             -
             <i class="minister-name">Narendra Modi, Prime Minister of India</i>
           </div>
@@ -188,7 +190,7 @@
   <!-- <app-heat-map *ngIf="!isProduction"></app-heat-map> -->
 
   <div class="header-marquee">
-    <div id="marquee-horizontal" aria-hidden="true">
+    <div id="marquee-horizontal">
       <marquee
         scrollamount="10"
         onmouseover="this.stop();"
@@ -199,6 +201,7 @@
         aria-hidden="true"
       >
         <a
+          rel="noreferrer noopener"
           [routerLink]="['/questionnaires/list']"
           title="Report of XV Finance Commission for the year 2020-21"
           tabindex="154"
@@ -209,6 +212,7 @@
           </span>
         </a>
         <a
+          rel="noreferrer noopener"
           href=" https://www.sebi.gov.in/media/press-releases/feb-2020/sebi-constitutes-municipal-bonds-development-committee-_45988.html"
           title="SEBI constitutes 'Municipal Bonds Development Committee'"
           tabindex="154"
@@ -219,6 +223,7 @@
           </span>
         </a>
         <a
+          rel="noreferrer noopener"
           rel="noopener noreferrer"
           href="https://www.sebi.gov.in/legal/regulations/sep-2019/securities-and-exchange-board-of-india-issue-and-listing-of-debt-securities-by-municipalities-amendment-regulations-2019_44519.html"
           title="SEBI Regulations on Municipal Bonds"
@@ -645,7 +650,7 @@
             <div class="imp-partner">Conceived and Managed by</div>
             <div>
               <a href="http://www.janaagraha.org/" target="_new">
-                <img src="assets/images/logo-for-web1.png" alt="janaagraha" />
+                <img src="assets/images/logo-for-web1.png" alt="Janaagraha" />
               </a>
             </div>
           </div>
@@ -658,7 +663,7 @@
                 <img
                   src="assets/images/mgc-logo.png"
                   style="width: 61%"
-                  alt="mgc-logo"
+                  alt="MAGC"
                 />
               </a>
             </div>
@@ -692,7 +697,10 @@
               </a>
 
               <a href="https://www.gatesfoundation.org/" target="_new">
-                <img src="assets/images/BMGF.png" alt="BMGF" />
+                <img
+                  src="assets/images/BMGF.png"
+                  alt="Bill and Milanda Gates Foundation"
+                />
               </a>
 
               <a href="https://shaktifoundation.in/" target="_new">

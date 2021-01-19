@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
@@ -13,6 +14,7 @@ import { MODULES_NAME } from 'src/app/util/access/modules';
 import { ULBSIGNUPSTATUS } from 'src/app/util/enums';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 import { Login_Logout } from 'src/app/util/logout.util';
+import { UserUtility } from 'src/app/util/user/user';
 
 import { ulbType } from '../../../dashboard/report/report/ulbTypes';
 import { FormUtil } from '../../../util/formUtil';
@@ -58,6 +60,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   SIGNUP_STATUS = ULBSIGNUPSTATUS;
 
   apiInProgress = false;
+
+  userUtil = new UserUtility();
 
   ngOnChanges(changes) {}
 
@@ -144,7 +148,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.apiInProgress = true;
 
     this._profileService.createULBUpdateRequest(flatten).subscribe(
-      (res) => this.onUpdatingProfileSuccess(res),
+      (res) => this.onUpdatingProfileSuccess(res, flatten as IULBProfileData),
       (err) => this.onUpdatingProfileError(err)
     );
   }
@@ -193,9 +197,26 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.modalService.hide(1);
   }
 
-  private onUpdatingProfileSuccess(res) {
+  private onUpdatingProfileSuccess(res, dataUpdated?: IULBProfileData) {
     this.respone.successMessage = res.message || "Profile Updated Successfully";
     this.apiInProgress = false;
+    this.updateLocalLoggedInData(dataUpdated);
+  }
+
+  private updateLocalLoggedInData(dataUpdated: IULBProfileData) {
+    if (this.userUtil.getUserType() !== USER_TYPE.ULB) return;
+    let newData: Partial<IUserLoggedInDetails>;
+    if (dataUpdated.accountantEmail) {
+      newData = { email: dataUpdated.accountantEmail };
+    }
+
+    if (dataUpdated.name) {
+      if (!newData) newData = {};
+      newData.name = dataUpdated.name;
+    }
+
+    if (!newData) return;
+    this.userUtil.updateUserDataInRealTime(newData);
   }
 
   private onUpdatingProfileError(err: HttpErrorResponse) {
@@ -284,14 +305,15 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   /**
    * @description The Following fields cannot be changed, therefore they should stay
-   * disabled.
+   * disabled. If loggedIn User is ULB or all = true, then disable all fields.
+   *
    */
   private disableNonEditableFields(all = true) {
     this.profile.controls.state.disable();
-    (<FormGroup>this.profile.controls.ulb).controls.ulbType.disable();
 
     if (this.loggedInUserType === USER_TYPE.ULB || all) {
       (<FormGroup>this.profile.controls.ulb).controls.censusCode.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.ulbType.disable();
       (<FormGroup>this.profile.controls.ulb).controls.sbCode.disable();
       (<FormGroup>this.profile.controls.ulb).controls.name.disable();
       return;

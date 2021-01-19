@@ -244,7 +244,7 @@ export class DocumentsUploadComponent
       } MB. <br/> Only ${
         this.noOfFilesAllowedPerQuestion
       } file can be selected per question.`;
-      this.showErrorDialog(message);
+      return this.showErrorDialog(message);
     }
 
     if (this.isMaximumFileAlreadySelected(key)) {

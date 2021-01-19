@@ -19,6 +19,7 @@ import { IDialogConfiguration } from '../../../app/shared/components/dialog/mode
 import { creditRatingModalHeaders } from '../../shared/components/home-header/tableHeaders';
 import { CommonService } from '../../shared/services/common.service';
 import { CreditScale, ratingGrades } from '../../util/creditReportUtil';
+import { QueryParams } from './models/queryParams.interface';
 import { ULBRatings } from './ratings';
 
 // import { CreditRatingJson } from './borrowings.json';
@@ -39,9 +40,10 @@ export class ReportComponent implements OnInit, OnDestroy {
     private assetService: AssetsService,
     private _activatedRoute: ActivatedRoute
   ) {
-    this._activatedRoute.queryParams.subscribe(
-      (params) => (this.queryParams = params)
-    );
+    this._activatedRoute.queryParams.subscribe((params) => {
+      this.queryParams = params;
+      this.page = params.page || this.page;
+    });
     this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
       this.createNationalLevelMap(data, "mapidd");
     });
@@ -102,6 +104,10 @@ export class ReportComponent implements OnInit, OnDestroy {
       confirm: {
         text: "Proceed to Login",
         callback: () => {
+          sessionStorage.setItem(
+            "postLoginNavigation",
+            this.router.url + `?page=${this.page}`
+          );
           this.router.navigate(["/", "login"]);
         },
       },
@@ -116,7 +122,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     selected: "#059b9a",
   };
 
-  queryParams: { state?: string; minRating?: "BBB-" | "A" } = {};
+  queryParams: QueryParams = {};
 
   /**
    * @description When the queryParams has any state id to auto select, then the layer of that

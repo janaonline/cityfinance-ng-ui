@@ -2,10 +2,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { UserUtility } from 'src/app/util/user/user';
 
 import { IStateULBCovered } from '../../../shared/models/stateUlbConvered';
 import { CommonService } from '../../../shared/services/common.service';
 import { FormUtil } from '../../../util/formUtil';
+import { UserProfile } from '../model/user-profile';
 import { ProfileService } from '../service/profile.service';
 
 @Component({
@@ -35,7 +37,7 @@ export class StateProfileComponent implements OnInit, OnChanges {
   window = window;
   isApiInProgress = false;
 
-  is;
+  userUtil = new UserUtility();
 
   ngOnInit() {}
   ngOnChanges() {
@@ -116,6 +118,7 @@ export class StateProfileComponent implements OnInit, OnChanges {
     return this._profileService.updateUserProfileData(body).subscribe(
       (res) => {
         form.enable();
+        this.updateLoggedInLocalData(body);
         this.respone.successMessage = "Profile Updated successfully";
       },
       (err: HttpErrorResponse) => {
@@ -123,6 +126,12 @@ export class StateProfileComponent implements OnInit, OnChanges {
         this.respone.errorMessage = err.error.message || "Server Error";
       }
     );
+  }
+
+  private updateLoggedInLocalData(newData: UserProfile) {
+    if (this.userUtil.getUserType() !== USER_TYPE.STATE) return;
+    const newValues = { email: newData.email, name: newData.name };
+    this.userUtil.updateUserDataInRealTime(newValues);
   }
 
   private initializeForm() {

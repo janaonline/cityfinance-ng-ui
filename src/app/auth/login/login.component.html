@@ -59,10 +59,11 @@
                 <span [innerHtml]="loginError"></span>
               </p>
 
-              <div>
+              <div class="signbtn-wrapper">
                 <button
                   type="submit"
                   class="btn btn-primary btn-block login-btn"
+                  [ngClass]="{ 'loading-button': loginForm.disabled }"
                 >
                   LOGIN
                 </button>

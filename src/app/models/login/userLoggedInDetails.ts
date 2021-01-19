@@ -1,3 +1,4 @@
+import { ObjectID } from '../document.type';
 import { USER_TYPE } from '../user/userType';
 
 export interface IUserLoggedInDetails {
@@ -5,4 +6,6 @@ export interface IUserLoggedInDetails {
   isActive: boolean;
   name: string;
   role: USER_TYPE;
+  state?: ObjectID;
+  ulb?: ObjectID;
 }
