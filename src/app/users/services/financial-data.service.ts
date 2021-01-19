@@ -43,6 +43,11 @@ export class FinancialDataService {
   }
 
   approveMultiSelectULBs(documentId: string) {
+    // For testing. This will throw error 'Action already taken on form'
+    // return this.httpClient.post(
+    //   `https://democityfinanceapi.dhwaniris.in/api/v1/ulb-financial-data/multiple-approve-action/5fe447716783372717fa2e3e`,
+    //   {}
+    // );
     return this.httpClient.post(
       `${environment.api.url}ulb-financial-data/multiple-approve-action/${documentId}`,
       { testing: "" }
@@ -87,9 +92,20 @@ export class FinancialDataService {
     );
   }
   getStateFCDocuments() {
-    return this.httpClient.get(
-      `${environment.api.url}ulb-financial-data/fc-grant/stateForm`
-    );
+    return this.httpClient.get(this.getStateFCDocumentApi());
+  }
+
+  getStateFCDocumentApi(queryParams: { [key: string]: any } = {}) {
+    let params = new HttpParams();
+    Object.keys(queryParams).forEach((key) => {
+      if (typeof queryParams[key] === "object") {
+        const value = JSON.stringify(queryParams[key]);
+        params = params.append(key, value);
+      } else {
+        params = params.append(key, queryParams[key]);
+      }
+    });
+    return `${environment.api.url}ulb-financial-data/fc-grant/stateForm?${params}`;
   }
 
   fetchFinancialDataHistory(id) {

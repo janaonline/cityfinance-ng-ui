@@ -35,6 +35,9 @@
       class="form-field-error-message"
     >
       <span *ngIf="error.required">User Name canot be empty</span>
+      <span *ngIf="error?.alphabet_required">
+        {{ error["alphabet_required"] }}
+      </span>
     </small>
   </div>
 
@@ -90,9 +93,7 @@
       *ngIf="GetFormControlErrors('mobile') as error"
       class="form-field-error-message"
     >
-      <span *ngIf="error?.required">
-        Mobile No cannot be empty.
-      </span>
+      <span *ngIf="error?.required"> Mobile No cannot be empty. </span>
       <span *ngIf="error?.pattern === false">
         Mobile No must start with either 6 / 7 / 8 / 9, and of 10 digits only.
       </span>
@@ -121,9 +122,7 @@
       *ngIf="GetFormControlErrors('designation') as error"
       class="form-field-error-message"
     >
-      <span *ngIf="error?.required">
-        Designation cannot be empty.
-      </span>
+      <span *ngIf="error?.required"> Designation cannot be empty. </span>
     </small>
   </div>
 
@@ -149,9 +148,7 @@
       *ngIf="GetFormControlErrors('departmentName') as error"
       class="form-field-error-message"
     >
-      <span *ngIf="error?.required">
-        Department Name cannot be empty.
-      </span>
+      <span *ngIf="error?.required"> Department Name cannot be empty. </span>
     </small>
   </div>
 
@@ -206,9 +203,7 @@
       *ngIf="GetFormControlErrors('departmentContactNumber') as error"
       class="form-field-error-message"
     >
-      <span *ngIf="error?.required">
-        Contant No cannot be empty.
-      </span>
+      <span *ngIf="error?.required"> Contant No cannot be empty. </span>
       <span *ngIf="error?.pattern === false">
         Contant No must start with either 6 / 7 / 8 / 9, and of 10 digits only.
       </span>
@@ -237,16 +232,14 @@
       *ngIf="GetFormControlErrors('address') as error"
       class="form-field-error-message"
     >
-      <span *ngIf="error?.required">
-        Address cannot be empty.
-      </span>
+      <span *ngIf="error?.required"> Address cannot be empty. </span>
     </small>
   </div>
 
   <p *ngIf="formErrors" class="error-message">
     <span
       *ngFor="let error of formErrors; let i = index"
-      style="display: block; color: red;"
+      style="display: block; color: red"
     >
       {{ i + 1 }}. {{ error }}
     </span>
@@ -259,7 +252,7 @@
   <div
     class="input-group d-block"
     *ngIf="profileForm.disabled"
-    style="display: block;"
+    style="display: block"
   >
     <button type="button" class="btn btn-primary" (click)="enableProfileEdit()">
       Edit
@@ -269,7 +262,7 @@
   <div
     *ngIf="profileForm.enabled"
     class="mt-2"
-    style="display: block; width: 100%;"
+    style="display: block; width: 100%"
   >
     <button
       type="submit"

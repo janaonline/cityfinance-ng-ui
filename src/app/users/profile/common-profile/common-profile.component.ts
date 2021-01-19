@@ -3,8 +3,10 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 import { FormUtil } from 'src/app/util/formUtil';
 
+import { UserProfile } from '../model/user-profile';
 import { ProfileService } from '../service/profile.service';
 
 @Component({
@@ -12,7 +14,9 @@ import { ProfileService } from '../service/profile.service';
   templateUrl: "./common-profile.component.html",
   styleUrls: ["./common-profile.component.scss"],
 })
-export class CommonProfileComponent implements OnInit, OnChanges {
+export class CommonProfileComponent
+  extends BaseComponent
+  implements OnInit, OnChanges {
   /***************************
    *
    *
@@ -38,7 +42,9 @@ export class CommonProfileComponent implements OnInit, OnChanges {
   constructor(
     private _commonService: CommonService,
     private _profileService: ProfileService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {}
   ngOnChanges() {
@@ -103,6 +109,7 @@ export class CommonProfileComponent implements OnInit, OnChanges {
       (res) => {
         // form.enable({ emitEvent: false });
         this.respone.successMessage = "Profile Updated successfully";
+        this.updateLoggedInLocalData(body);
       },
       (err: HttpErrorResponse) => {
         form.enable({ emitEvent: false });
@@ -110,6 +117,12 @@ export class CommonProfileComponent implements OnInit, OnChanges {
         this.respone.errorMessage = err.error.message || "Server Error";
       }
     );
+  }
+
+  private updateLoggedInLocalData(newData: UserProfile) {
+    if (this.userUtil.getUserType() !== USER_TYPE.PARTNER) return;
+    const newValues = { email: newData.email, name: newData.name };
+    this.userUtil.updateUserDataInRealTime(newValues);
   }
 
   private initializeForm() {

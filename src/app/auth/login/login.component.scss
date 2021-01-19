@@ -13,7 +13,40 @@
   ::ng-deep .mat-form-field-flex {
     border: none !important;
   }
+
+  .signbtn-wrapper {
+    margin: 30px 0 30px;
+  }
+
+  button.loading-button {
+    transition: all 0.5s;
+    margin: auto !important;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border-left: 4px solid #059b9a;
+    border-top: 4px solid #059b9a;
+    border-right: 4px solid white;
+    border-bottom: 4px solid white;
+    background: white !important;
+    pointer-events: none;
+    animation: 1s linear rotate-clockwise infinite;
+    animation-delay: 0.5s;
+    font-size: 0px;
+  }
 }
+
+@keyframes rotate-clockwise {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 ::ng-deep .mat-form-field-prefix .mat-icon,
 ::ng-deep .mat-form-field-suffix .mat-icon {
   font-size: 16px;
@@ -204,6 +237,16 @@
 
   .error-message {
     margin-top: 1rem;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+  }
+  input:-webkit-autofill:disabled {
+    -webkit-box-shadow: 0 0 0 30px #eaeaea inset !important;
   }
 }
 .img-wrapper {

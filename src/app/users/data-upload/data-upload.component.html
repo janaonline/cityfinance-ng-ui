@@ -47,7 +47,7 @@
       <div class="card-container">
         <div class="card blue">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">Total number of ULBs</p>
+          <p class="heading">Total Number of ULBs</p>
           <span
             class="card-main-value"
             [ngClass]="{ 'loading-value': !cardData }"
@@ -153,7 +153,7 @@
 
         <div class="card green">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">Million Plus Cities(Submitted)</p>
+          <p class="heading">Million Plus Cities (Submitted)</p>
           <span
             class="card-main-value"
             [ngClass]="{ 'loading-value': !cardData }"
@@ -209,7 +209,7 @@
 
         <div class="card yellow">
           <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">Non-Million Cities(Submitted)</p>
+          <p class="heading">Non-Million Cities (Submitted)</p>
           <span
             class="card-main-value"
             [ngClass]="{ 'loading-value': !cardData }"
@@ -267,7 +267,7 @@
         <div class="nested-card-container d-flex">
           <div class="card brown">
             <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-            <p class="heading">Million Plus Cities(Total)</p>
+            <p class="heading">Million Plus Cities (Total)</p>
             <span
               class="card-main-value"
               [ngClass]="{ 'loading-value': !cardData }"
@@ -329,7 +329,7 @@
 
           <div class="card dark-green" style="margin-bottom: 0px">
             <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-            <p class="heading">Non-Million Cities(Total)</p>
+            <p class="heading">Non-Million Cities (Total)</p>
             <span
               class="card-main-value"
               [ngClass]="{ 'loading-value': !cardData }"
@@ -487,7 +487,15 @@
 
           <ng-container *ngSwitchDefault>
             <h3>
-              <span style="font-weight: 700">Files Uploaded by State</span>
+              <span style="font-weight: 500">Files Uploaded by State</span>
+              <button
+                *ngIf="stateFcGrantDocuments && stateFcGrantDocuments.length"
+                class="btn btn-primary"
+                style="float: right; margin-right: 6px"
+                (click)="downloadFilesUploadedByStatesList()"
+              >
+                Download List
+              </button>
             </h3>
             <table
               aria-describedby="ULB Singup List"
@@ -1244,7 +1252,12 @@
       </angular2-multiselect>
       <span
         *ngIf="!statesForULBUnderMoHUAApproval"
-        style="display: inline-block; width: 50%; height: 5vh"
+        style="
+          display: inline-block;
+          width: 50%;
+          height: 15vh;
+          overflow: hidden;
+        "
       >
         <app-pre-loader></app-pre-loader>
       </span>
@@ -1278,20 +1291,47 @@
     </p>
   </div>
 
-  <div style="color: red" *ngIf="errorsInMultiSelectULBApproval?.length">
+  <div
+    style="color: red; padding: 2%"
+    *ngIf="errorsInMultiSelectULBApprovalDueToAlreadyApproval?.length"
+  >
     <span
       ><b
         >Approval for following ULB's
         {{
-          errorsInMultiSelectULBApproval?.length > 1
-            ? "Applications"
-            : "Application"
+          errorsInMultiSelectULBApprovalDefault?.length > 1
+            ? "Applications are"
+            : "Application is"
         }}
-        have failed:</b
+        already approved:</b
       ></span
     ><br />
     <ol>
-      <li *ngFor="let error of errorsInMultiSelectULBApproval">
+      <li
+        *ngFor="let error of errorsInMultiSelectULBApprovalDueToAlreadyApproval"
+      >
+        {{ error }}
+      </li>
+    </ol>
+  </div>
+
+  <div
+    style="color: red; padding: 2%"
+    *ngIf="errorsInMultiSelectULBApprovalDefault?.length"
+  >
+    <span
+      ><b
+        >Approval for following ULB's
+        {{
+          errorsInMultiSelectULBApprovalDefault?.length > 1
+            ? "Applications have"
+            : "Application has"
+        }}
+        failed:</b
+      ></span
+    ><br />
+    <ol>
+      <li *ngFor="let error of errorsInMultiSelectULBApprovalDefault">
         {{ error }}
       </li>
     </ol>
@@ -1302,7 +1342,12 @@
     *ngIf="showMultiSelectULBApprovalCompletionMessage"
     class="text-center"
   >
-    <b style="color: green"> Approval Action Completed</b>
+    <b style="color: green">
+      Approval Action Completed <br />
+      <span *ngIf="showIntimationMessage"
+        >Intimation over email has been sent to the ULB & State</span
+      >
+    </b>
   </p>
 
   <div class="row justify-content-center d-flex Approvalbuttons">

@@ -1,6 +1,7 @@
 import { Component, ElementRef, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { UserProfile } from 'src/app/users/profile/model/user-profile';
+import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
+import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 import { Login_Logout } from 'src/app/util/logout.util';
 import { UserUtility } from 'src/app/util/user/user';
 
@@ -16,7 +17,7 @@ import { AnalyticsTabs, IAnalyticsTabs } from './tabs';
   templateUrl: "./home-header.component.html",
   styleUrls: ["./home-header.component.scss"],
 })
-export class HomeHeaderComponent implements OnInit {
+export class HomeHeaderComponent extends BaseComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -24,6 +25,7 @@ export class HomeHeaderComponent implements OnInit {
     private renderer: Renderer2,
     private _ngZone: NgZone
   ) {
+    super();
     Object.values(AnalyticsTabs).forEach((tab) => {
       this.tabs.push(tab);
     });
@@ -77,7 +79,9 @@ export class HomeHeaderComponent implements OnInit {
       this.initializeAccessChecking();
 
       if (this.isLoggedIn) {
-        this.user = this.authService.decodeToken();
+        UserUtility.getUserLoggedInData().subscribe((value) => {
+          this.user = value;
+        });
       }
     });
   }
@@ -87,7 +91,7 @@ export class HomeHeaderComponent implements OnInit {
   showAnalyticsSubMenu = !this.userUtil.isUserOnMobile();
 
   isLoggedIn = false;
-  user: UserProfile = null;
+  user: IUserLoggedInDetails = null;
 
   canViewUploadData = false;
   canViewULBSingUpListing = false;
@@ -114,8 +118,6 @@ export class HomeHeaderComponent implements OnInit {
   isAnalyticsPageActive = false;
 
   canViewFcGRantModule = false;
-
-  private resetActiveClass(exccept?: string) {}
 
   private initializeAccessChecking() {
     this.canViewUploadData = this.accessChecker.hasAccess({
@@ -306,7 +308,7 @@ export class HomeHeaderComponent implements OnInit {
       return;
     }
     const topPosition = -element.offsetHeight + "px";
-    this.renderer.setStyle(this._elementRef.nativeElement, "top", 0);
+    this.renderer.setStyle(this._elementRef.nativeElement, "top", topPosition);
   }
 
   private initializeTranparenceyHandler() {

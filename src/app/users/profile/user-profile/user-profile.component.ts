@@ -5,6 +5,7 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { AccessChecker } from 'src/app/util/access/accessChecker';
 import { ACTIONS } from 'src/app/util/access/actions';
 import { MODULES_NAME } from 'src/app/util/access/modules';
+import { UserUtility } from 'src/app/util/user/user';
 
 import { FormUtil } from '../../../util/formUtil';
 import { UserProfile } from '../model/user-profile';
@@ -30,6 +31,8 @@ export class UserProfileComponent implements OnInit {
   canEditProfile = false;
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
+
+  userUtil = new UserUtility();
 
   constructor(private _profileService: ProfileService) {}
 
@@ -66,10 +69,17 @@ export class UserProfileComponent implements OnInit {
 
     this._profileService.updateUserProfileData(form.value).subscribe(
       (res) => {
+        this.updateLoggedInLocalData(form.value);
         this.response.successMessage = "Profile Updated successfully";
       },
       (error) => this.onGettingResponseError(error)
     );
+  }
+
+  private updateLoggedInLocalData(newData: UserProfile) {
+    if (this.userUtil.getUserType() !== USER_TYPE.USER) return;
+    const newValues = { email: newData.email, name: newData.name };
+    this.userUtil.updateUserDataInRealTime(newValues);
   }
 
   private resetResponseMessages() {

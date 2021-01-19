@@ -1,5 +1,5 @@
 .fc-grant-2 {
-  background-image: url("../../../../../assets/images/backgrounds/Path.png");
+  background-image: url("../../../../../assets/images/backgrounds/Path-compressed.png");
   background-repeat: no-repeat;
   background-position: left;
   min-height: 100%;
@@ -210,6 +210,9 @@ div#msform {
 @media (min-width: 1024px) {
   .container-fluid {
     height: 88vh;
+  }
+  .image-side {
+    margin-top: 5rem;
   }
 }
 

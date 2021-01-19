@@ -72,6 +72,12 @@ export class CustomHttpInterceptor implements HttpInterceptor {
         break;
       case 440:
         this.clearLocalStorage();
+        const url = !["/", ""].includes(this.router.url)
+          ? this.router.url
+          : location.pathname + location.search + location.hash;
+        if (!url.includes("login")) {
+          sessionStorage.setItem("postLoginNavigation", url);
+        }
         this.router.navigate(["login"], {
           queryParams: { message: "Session Expired. Kindly login again." },
         });
