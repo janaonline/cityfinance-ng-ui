@@ -2,11 +2,11 @@
 <div class="row" *ngIf="isProcessed && reportKeys.length > 0">
   <div
     style="
-      background: #333;
+      background: #059b9a;
       color: white;
       display: block;
       padding: 1%;
-      max-width: 98%;
+      max-width: 100%;
       position: relative;
     "
   >
@@ -35,7 +35,7 @@
       >
       </angular2-multiselect>
     </form>
-    <p class="text-center" style="font-size: 1vw;">
+    <p class="text-center" style="font-size: 1vw">
       {{ reportReq.type }} {{ reportReq.reportGroup }}
       <span *ngIf="reportReq.valueType === 'per_capita'">(Per Capita)</span>
     </p>
@@ -43,7 +43,7 @@
   <div
     class="col-md-12"
     style="
-      max-width: 98%;
+      max-width: 100%;
       overflow: auto;
       padding: 0px;
       border-right: 1px solid #e2e2e2;
@@ -58,7 +58,7 @@
           <th
             class="text-center yearssss"
             colspan="2"
-            style="position: sticky; left: 0px; background: white; width: 30vw;"
+            style="position: sticky; left: 0px; background: white; width: 30vw"
           >
             Year(s)
           </th>
@@ -76,7 +76,7 @@
           <th
             class="text-center"
             [attr.rowspan]="headerGroup.accRowspan"
-            style="position: sticky; left: 0px; background: white;"
+            style="position: sticky; left: 0px; background: white"
           >
             Account Code
           </th>
@@ -137,7 +137,7 @@
         >
           <td
             class="text-center sticky"
-            style="position: sticky; left: 0px; background: white;"
+            style="position: sticky; left: 0px; background: white"
           >
             {{ report[key] ? report[key].code : "" }}
           </td>

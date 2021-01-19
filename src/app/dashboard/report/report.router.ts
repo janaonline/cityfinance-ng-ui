@@ -1,6 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { BasicComponent } from './basic/basic.component';
 import { ComparativeUlbComponent } from './comparative-ulb/comparative-ulb.component';
 import { FinancialStatementComponent } from './financial-statement/financial-statement.component';
 
@@ -22,8 +23,8 @@ export const reportRouter: Routes = [
       // { path: 'common-size', component: CommonSizeComponent },
       // { path: 'common', component: CommonComponent },
       // { path: 'common-size-ulb', component: CommonSizeUlbComponent },
-      //   { path: "basic", component: BasicComponent },
-      { path: "basic", component: FinancialStatementComponent },
+      { path: "basic", component: BasicComponent },
+      // { path: "basic", component: FinancialStatementComponent },
       // { path: 'comparative', component: ComparativeComponent },
       { path: "comparative-ulb", component: ComparativeUlbComponent },
     ],

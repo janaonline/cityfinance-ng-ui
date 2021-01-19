@@ -8,6 +8,20 @@
   padding: 5px;
 }
 
+:host {
+  ::ng-deep {
+    .selected-list,
+    .mat-form-field-flex {
+      border: 1px solid white !important;
+      border-radius: 5px;
+      outline: none;
+      .c-btn {
+        outline: none;
+      }
+    }
+  }
+}
+
 .sub-heading {
   background-color: rgba(0, 0, 0, 0.05);
 }

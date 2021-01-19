@@ -1,9 +1,9 @@
 <div class="all-container">
-  <div class="form-container" [ngClass]="{ 'form-on-left': showReport }">
+  <div class="form-container" [ngClass]="{ 'form-on-left': shiftFormToLeft }">
     <form [formGroup]="filterForm" *ngIf="filterForm" (ngSubmit)="showData()">
       <angular2-multiselect
-        formControlName="ulbs"
-        [data]="originalUlbList"
+        formControlName="ulbList"
+        [data]="NeworiginalUlbList"
         [settings]="multiSelectStates"
         (onClose)="onClosingULBSelection()"
       >
@@ -31,16 +31,12 @@
         >
           Selected ULBs do not have any common year with data
         </p>
-
-        <!-- <span class="year selected">2015-19</span>
-      <span class="year ">2015-19</span>
-      <span class="year not-selected">2015-19</span> -->
       </div>
 
       <input
         class="btn btn-primary ng-star-inserted"
         type="submit"
-        value="View Report"
+        value="View Financial Statements"
         [disabled]="!commonYears || !commonYears.length"
       />
 
@@ -55,15 +51,15 @@
 
     <div
       class="ulb-list-container"
-      *ngIf="filterForm?.value?.ulbs?.length"
+      *ngIf="filterForm?.value?.ulbList?.length"
       [ngStyle]="{
-        'overflow-y': filterForm?.value?.ulbs?.length > 7 ? 'scroll' : hidden
+        'overflow-y': filterForm?.value?.ulbList?.length > 7 ? 'scroll' : hidden
       }"
     >
       <h5>Selected ULBs</h5>
       <div
         class="ulb"
-        *ngFor="let ulb of filterForm?.value?.ulbs; let i = index"
+        *ngFor="let ulb of filterForm?.value?.ulbList; let i = index"
       >
         {{ ulb.name }}
 
@@ -79,13 +75,71 @@
   <div class="report-container" *ngIf="showReport">
     <form [formGroup]="filterForm">
       <div class="left">
-        <span class="reportType">Income & Expenditure</span>
-        <span class="reportType">Balance Sheet</span>
+        <span
+          class="reportType"
+          [ngClass]="{
+            selected:
+              filterForm?.controls?.reportGroup.value ===
+              'Income & Expenditure Statement'
+          }"
+          (click)="
+            filterForm?.controls?.reportGroup?.setValue(
+              'Income & Expenditure Statement'
+            )
+          "
+          >Income & Expenditure</span
+        >
+        <span
+          class="reportType"
+          [ngClass]="{
+            selected:
+              filterForm?.controls?.reportGroup.value === 'Balance Sheet'
+          }"
+          (click)="filterForm?.controls?.reportGroup?.setValue('Balance Sheet')"
+          >Balance Sheet</span
+        >
       </div>
-      <div class="right">
-        <span class="reportType">Income & Expenditure</span>
-        <span class="reportType">Balance Sheet</span>
+      <div style="display: inline-flex">
+        <div class="right mr-2">
+          <label for="" class="">Report Type </label><br />
+          <label class="radio-inline">
+            <input
+              type="radio"
+              name="type"
+              formControlName="type"
+              value="Summary"
+              checked
+            />Summary
+          </label>
+          <label class="radio-inline">
+            <input
+              type="radio"
+              name="type"
+              formControlName="type"
+              value="Detailed"
+            />Detailed
+          </label>
+        </div>
+        <div class="right">
+          <label for="" class="">Value Format </label><br />
+          <label class="radio-inline">
+            <input
+              type="radio"
+              formControlName="valueType"
+              value="absolute"
+              checked
+            />Absolute
+          </label>
+          <label class="radio-inline">
+            <input
+              type="radio"
+              formControlName="valueType"
+              value="per_capita"
+            />Per Capita
+          </label>
+        </div>
       </div>
     </form>
+    <router-outlet *ngIf="showReport"></router-outlet>
   </div>
 </div>

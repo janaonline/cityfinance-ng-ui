@@ -2,10 +2,12 @@
   .all-container {
     display: flex;
     flex-wrap: wrap;
-    // justify-content: space-around;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    justify-content: flex-start;
   }
   .form-container {
-    margin-top: 2%;
+    // margin-top: 2%;
 
     // background: rgb(243, 119, 119);
     display: flex;
@@ -16,7 +18,7 @@
     height: 60vh;
     transition: all 1s;
     &.form-on-left {
-      width: 22%;
+      width: 20%;
       transition: all 1s;
       // justify-content: flex-start;
       height: fit-content;
@@ -52,9 +54,16 @@
       angular2-multiselect {
         width: 100%;
         ::ng-deep {
+          .c-label {
+            font-size: 1.3em;
+          }
+
+          span {
+            font-size: 1em;
+          }
           .c-btn {
             span {
-              font-size: 2em;
+              font-size: 1.3em;
             }
             .c-remove {
               display: none;
@@ -143,18 +152,22 @@
   }
 
   .report-container {
-    background: green;
     display: inline-block;
-    width: 70%;
+    width: 73%;
+    margin-left: 2%;
 
     form {
-      background: gray;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
       .left {
-        display: inline;
-        background: red;
+        display: inline-block;
+        width: 30%;
         .reportType {
           margin-right: 2%;
-          padding: 1%;
+          padding: 3%;
+          cursor: pointer;
+          transition: all 0.2s;
 
           display: inline-block;
 

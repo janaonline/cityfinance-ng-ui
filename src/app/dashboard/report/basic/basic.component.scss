@@ -9,6 +9,20 @@
   padding: 5px;
 }
 
+:host {
+  ::ng-deep {
+    .selected-list,
+    .mat-form-field-flex {
+      border: 1px solid white !important;
+      border-radius: 5px;
+      outline: none;
+      .c-btn {
+        outline: none;
+      }
+    }
+  }
+}
+
 .sub-heading {
   background-color: rgba(0, 0, 0, 0.05);
 }
@@ -23,8 +37,10 @@
   fill: white !important;
 }
 
-::ng-deep angular2-multiselect span {
-  font-size: 1.2em;
+:host {
+  ::ng-deep angular2-multiselect span {
+    font-size: 1.2em;
+  }
 }
 
 ::ng-deep .disable-form {

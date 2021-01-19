@@ -10,6 +10,7 @@ import { AuthService } from '../../../../app/auth/auth.service';
 import { GlobalLoaderService } from '../../../../app/shared/services/loaders/global-loader.service';
 import { CommonService } from '../../../shared/services/common.service';
 import { ReportService } from '../report.service';
+import { ReportComponent } from '../report/report.component';
 
 interface CustomArray<T> {
   flat(): Array<T>;
@@ -22,17 +23,30 @@ interface CustomArray<T> {
   templateUrl: "./financial-statement.component.html",
   styleUrls: ["./financial-statement.component.scss"],
 })
-export class FinancialStatementComponent implements OnInit, OnDestroy {
+export class FinancialStatementComponent
+  extends ReportComponent
+  implements OnInit, OnDestroy {
   constructor(
-    private formBuilder: FormBuilder,
-    private _loaderService: GlobalLoaderService,
-    private commonService: CommonService,
-    private modalService: BsModalService,
-    private reportService: ReportService,
-    private router: Router,
-    private _dialog: MatDialog,
-    private authService: AuthService
-  ) {}
+    protected formBuilder: FormBuilder,
+    protected _loaderService: GlobalLoaderService,
+    protected commonService: CommonService,
+    protected modalService: BsModalService,
+    protected reportService: ReportService,
+    protected router: Router,
+    protected _dialog: MatDialog,
+    protected authService: AuthService
+  ) {
+    super(
+      formBuilder,
+      _loaderService,
+      commonService,
+      modalService,
+      reportService,
+      router,
+      _dialog,
+      authService
+    );
+  }
   multiSelectStates: Partial<DropdownSettings> = {
     primaryKey: "_id",
     singleSelection: false,
@@ -45,7 +59,7 @@ export class FinancialStatementComponent implements OnInit, OnDestroy {
     badgeShowLimit: 1,
   };
 
-  originalUlbList: IULBResponse["data"]["ss"]["ulbs"];
+  NeworiginalUlbList: IULBResponse["data"]["ss"]["ulbs"];
 
   ulbListForDropdown: IULBResponse["data"]["ss"]["ulbs"];
 
@@ -65,35 +79,45 @@ export class FinancialStatementComponent implements OnInit, OnDestroy {
 
   formInvalidMessage: string;
   showReport = false;
+  shiftFormToLeft = false;
   ngOnInit(): void {
     this.initializeFilterForm();
     this.fetchULBList();
   }
 
-  private initializeFilterForm() {
+  protected initializeFilterForm() {
     this.filterForm = this.formBuilder.group({
-      ulbs: [""],
+      ulbList: [""],
+      ulbIds: [],
       years: this.formBuilder.array([]),
+      yearList: [],
+      type: ["Summary"],
+      valueType: ["absolute"],
+      reportGroup: ["Income & Expenditure Statement"],
     });
 
-    console.log(this.filterForm);
-
-    this.filterForm.controls.ulbs.valueChanges.subscribe(
+    this.filterForm.controls.ulbList.valueChanges.subscribe(
       (newValue) => (this.yearListUpdate = false)
     );
   }
 
-  private fetchULBList() {
+  protected fetchULBList() {
     this._loaderService.showLoader();
     this.commonService.getULBSByYears([]).subscribe(
       (response: IULBResponse) => {
-        this.originalUlbList = [];
+        this.NeworiginalUlbList = [];
         Object.values(response.data).forEach((value) => {
           if (!value.ulbs) return;
-          this.originalUlbList.push(...value.ulbs);
+          value.ulbs.forEach((ulb) => {
+            // console.log(ulb);
+            if (ulb.name == "Kannivadi-Dindugal Town Panchayat") {
+              console.log(ulb);
+            }
+          });
+          this.NeworiginalUlbList.push(...value.ulbs);
         });
 
-        this.ulbListForDropdown = [...this.originalUlbList];
+        this.ulbListForDropdown = [...this.NeworiginalUlbList];
 
         this._loaderService.stopLoader();
       },
@@ -104,8 +128,12 @@ export class FinancialStatementComponent implements OnInit, OnDestroy {
   onClosingULBSelection() {
     this.commonYears = [];
     const ulbs: IULBResponse["data"]["ss"]["ulbs"] = this.filterForm.controls
-      .ulbs.value;
+      .ulbList.value;
+
+    (this.filterForm.controls.years as FormArray).reset();
+    if (!ulbs || !ulbs.length) return;
     const ulbToCompare = ulbs[0];
+    this.filterForm.controls.ulbIds.setValue(ulbs.map((ulb) => ulb._id));
 
     ulbToCompare.allYears.forEach((yearToSearch) => {
       const yearExitsInAllULB = ulbs.every((ulb) =>
@@ -138,10 +166,16 @@ export class FinancialStatementComponent implements OnInit, OnDestroy {
     );
 
     if (yearControl.value) {
+      (this.filterForm.controls.yearList as FormArray)
+        .at(indexOfYearSelected)
+        .setValue(null);
       return (this.filterForm.controls.years as FormArray)
         .at(indexOfYearSelected)
         .setValue(null);
     }
+    (this.filterForm.controls.years as FormArray)
+      .at(indexOfYearSelected)
+      .setValue(this.commonYears[indexOfYearSelected]);
 
     yearControl.setValue(this.commonYears[indexOfYearSelected]);
   }
@@ -150,13 +184,21 @@ export class FinancialStatementComponent implements OnInit, OnDestroy {
     this.formInvalidMessage = this.validateFormError();
 
     if (this.formInvalidMessage) return;
-    this.showReport = true;
+    this.shiftFormToLeft = true;
+    setTimeout(() => {
+      this.showReport = true;
+    }, 1000);
+    const value = { ...this.filterForm.value };
+    value.years = value.years ? value.years.filter((year) => year) : null;
+    console.log(value);
+    this.reportForm.patchValue(value);
+    this.search();
   }
 
-  private validateFormError() {
+  protected validateFormError() {
     let errorMessage;
     errorMessage = null;
-    const ulbList = this.filterForm.value.ulbs;
+    const ulbList = this.filterForm.value.ulbList;
     if (!ulbList || !ulbList.length) {
       errorMessage = "Atleat 1 ULB ";
     }
@@ -168,6 +210,10 @@ export class FinancialStatementComponent implements OnInit, OnDestroy {
         errorMessage = "Atleast 1 Year must be selected ";
       }
     }
+    this.filterForm.controls.yearList.setValue(
+      yearList.map((year) => ({ id: year, itemName: year }))
+    );
+    // this.filterForm.controls.years.setValue(yearList);
     return errorMessage;
   }
 
