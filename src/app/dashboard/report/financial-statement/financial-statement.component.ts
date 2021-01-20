@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { DropdownSettings } from 'angular2-multiselect-dropdown/lib/multiselect.interface';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { merge } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 
 import { AuthService } from '../../../../app/auth/auth.service';
@@ -65,11 +67,13 @@ export class FinancialStatementComponent
 
   tempData = [];
 
-  // These are the years that aare common to all selected ULBs
+  /**
+   * @description These are the years that are common to all selected ULBs
+   */
   commonYears: string[];
 
   /**
-   * Flag to denote whether the year is update after selecting ulbs.
+   * @description Flag to denote whether the year is update after selecting ulbs.
    * It set to False if a new ulb is selected or removed, and set to true
    * when the year list is processed.
    */
@@ -99,6 +103,20 @@ export class FinancialStatementComponent
     this.filterForm.controls.ulbList.valueChanges.subscribe(
       (newValue) => (this.yearListUpdate = false)
     );
+
+    merge(
+      this.filterForm.controls.type.valueChanges,
+      this.filterForm.controls.valueType.valueChanges,
+      this.filterForm.controls.reportGroup.valueChanges
+    )
+      .pipe(debounceTime(1000))
+      .subscribe((newValues) => {
+        this.showData();
+      });
+  }
+
+  updateReportGroup(newValue: string) {
+    this.filterForm.controls.reportGroup.setValue(newValue);
   }
 
   protected fetchULBList() {
@@ -108,12 +126,6 @@ export class FinancialStatementComponent
         this.NeworiginalUlbList = [];
         Object.values(response.data).forEach((value) => {
           if (!value.ulbs) return;
-          value.ulbs.forEach((ulb) => {
-            // console.log(ulb);
-            if (ulb.name == "Kannivadi-Dindugal Town Panchayat") {
-              console.log(ulb);
-            }
-          });
           this.NeworiginalUlbList.push(...value.ulbs);
         });
 
@@ -130,10 +142,25 @@ export class FinancialStatementComponent
     const ulbs: IULBResponse["data"]["ss"]["ulbs"] = this.filterForm.controls
       .ulbList.value;
 
-    (this.filterForm.controls.years as FormArray).reset();
     if (!ulbs || !ulbs.length) return;
-    const ulbToCompare = ulbs[0];
     this.filterForm.controls.ulbIds.setValue(ulbs.map((ulb) => ulb._id));
+    this.createYearCotnrols(ulbs, true);
+  }
+
+  createYearCotnrols(
+    ulbs: IULBResponse["data"]["ss"]["ulbs"],
+    keepPreviousValues = false
+  ) {
+    const yearsSelected = this.filterForm.controls.years.value.filter(
+      (year) => year
+    );
+    const yearControl = this.filterForm.controls.years as FormArray;
+
+    while (yearControl.controls.length) {
+      yearControl.removeAt(0);
+    }
+
+    const ulbToCompare = ulbs[0];
 
     ulbToCompare.allYears.forEach((yearToSearch) => {
       const yearExitsInAllULB = ulbs.every((ulb) =>
@@ -142,18 +169,25 @@ export class FinancialStatementComponent
 
       if (yearExitsInAllULB) {
         this.commonYears.push(yearToSearch);
-        (this.filterForm.controls.years as FormArray).push(
-          this.formBuilder.control(null)
-        );
+        yearControl.push(this.formBuilder.control(null));
       }
     });
     this.yearListUpdate = true;
+
+    if (!keepPreviousValues) return;
+
+    // Set the previous selected year if present in the new year list
+    yearsSelected.forEach((year, index) => {
+      if (!this.commonYears.includes(year)) return;
+      yearControl.at(index).setValue(year);
+    });
   }
 
   removeSelectedULBAt(index: number) {
     const allULBs: IULBResponse["data"]["ss"]["ulbs"] = this.filterForm.value
-      .ulbs;
+      .ulbList;
     allULBs.splice(index, 1);
+
     this.onClosingULBSelection();
   }
 
@@ -166,9 +200,9 @@ export class FinancialStatementComponent
     );
 
     if (yearControl.value) {
-      (this.filterForm.controls.yearList as FormArray)
-        .at(indexOfYearSelected)
-        .setValue(null);
+      // (this.filterForm.controls.years as FormArray)
+      //   .at(indexOfYearSelected)
+      //   .setValue(null);
       return (this.filterForm.controls.years as FormArray)
         .at(indexOfYearSelected)
         .setValue(null);
@@ -189,9 +223,10 @@ export class FinancialStatementComponent
       this.showReport = true;
     }, 1000);
     const value = { ...this.filterForm.value };
+
     value.years = value.years ? value.years.filter((year) => year) : null;
-    console.log(value);
     this.reportForm.patchValue(value);
+
     this.search();
   }
 

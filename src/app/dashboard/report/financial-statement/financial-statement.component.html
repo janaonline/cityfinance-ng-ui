@@ -83,9 +83,8 @@
               'Income & Expenditure Statement'
           }"
           (click)="
-            filterForm?.controls?.reportGroup?.setValue(
-              'Income & Expenditure Statement'
-            )
+            updateReportGroup('Income & Expenditure Statement') ||
+              (activeGroup = 'IE')
           "
           >Income & Expenditure</span
         >
@@ -95,7 +94,7 @@
             selected:
               filterForm?.controls?.reportGroup.value === 'Balance Sheet'
           }"
-          (click)="filterForm?.controls?.reportGroup?.setValue('Balance Sheet')"
+          (click)="updateReportGroup('Balance Sheet') || (activeGroup = 'BS')"
           >Balance Sheet</span
         >
       </div>

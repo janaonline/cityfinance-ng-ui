@@ -75,9 +75,22 @@
             bold: report[key] && report[key].isBold,
             hidden: !report[key],
             backgroundHighlight:
-              report[key] &&
-              report[key].isBold &&
-              report[key].line_item.includes('Total')
+              (report[key] &&
+                report[key].line_item &&
+                report[key].line_item.includes('Total')) ||
+              (report[key] &&
+                report[key].line_item &&
+                report[key].line_item.includes('Net')) ||
+              (report[key] &&
+                report[key].line_item &&
+                report[key].line_item.includes('Gross') &&
+                key !== '410') ||
+              (report[key] &&
+                report[key].line_item &&
+                report[key].line_item.includes('Net Surplus')) ||
+              (report[key] &&
+                report[key].line_item &&
+                report[key].line_item.includes('Surplus/(Deficit) (C) (A-B)'))
           }"
         >
           <td class="text-center">{{ report[key] ? report[key].code : "" }}</td>
