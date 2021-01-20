@@ -10,6 +10,25 @@
 }
 
 :host {
+  table {
+    thead tr:not(:last-child) {
+      background: #e2e2e2;
+      th,
+      td {
+        background: #e2e2e2;
+      }
+    }
+
+    tbody tr:nth-last-child(2),
+    tbody tr:nth-last-child(1),
+    tr.backgroundHighlight {
+      background: #f4f4f4;
+      th,
+      td {
+        background: #f4f4f4;
+      }
+    }
+  }
   ::ng-deep {
     .selected-list,
     .mat-form-field-flex {

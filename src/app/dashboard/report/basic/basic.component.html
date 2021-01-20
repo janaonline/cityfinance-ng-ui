@@ -37,16 +37,6 @@
       {{ reportReq.type }} {{ reportReq.reportGroup }}
       <span *ngIf="reportReq.valueType === 'per_capita'">(Per Capita)</span>
     </p>
-    <!-- <span
-      *ngIf="currencyTypeInUser"
-      style="color: white; position: absolute; bottom: 1%; left: 1%; font-style: italic;"
-      id="currencyWarning"
-    > -->
-    <!-- Do not change the id of above span. we fetch this text dynamically from html using this id.-->
-    <!-- <span style="color: red;">*</span> The following data is in
-      {{ (currenyConversionForm?.value?.type)[0].name }} format. There could be
-      some rounding off differences. -->
-    <!-- </span> -->
   </div>
 
   <div style="max-width: 100%">
@@ -69,7 +59,6 @@
                 | inrCurrency: { currencyTypeInUser: null }
             }}
           </th>
-          <!-- <td>{{ reportReq.ulbList[0].state }}</td> -->
         </tr>
         <tr>
           <th class="text-center">Account Code</th>
@@ -84,7 +73,11 @@
           *ngFor="let key of reportKeys"
           [ngClass]="{
             bold: report[key] && report[key].isBold,
-            hidden: !report[key]
+            hidden: !report[key],
+            backgroundHighlight:
+              report[key] &&
+              report[key].isBold &&
+              report[key].line_item.includes('Total')
           }"
         >
           <td class="text-center">{{ report[key] ? report[key].code : "" }}</td>
@@ -179,16 +172,6 @@
 
           <!--<td *ngIf="'Comparative' == reportReq.type" class="text-right">{{ aggregate.Revenue['percentChange'] }}</td>-->
         </tr>
-
-        <!-- <tr *ngFor="let item of report | keyvalue">
-          <td class="text-center">{{ item.value.code }}</td>
-          <td>{{ item.value.line_item }} - {{item.value.head_of_account}}</td>
-          <td class="text-right" *ngFor="let yr of years">
-            <span *ngIf="item.value[yr.title]">{{ item.value[yr.title] | inrCurrency}}</span>
-            <span *ngIf="!item.value[yr.title]">0</span>
-            <span *ngIf="yr.isComparative">%</span>
-          </td>
-        </tr> -->
       </tbody>
     </table>
   </div>

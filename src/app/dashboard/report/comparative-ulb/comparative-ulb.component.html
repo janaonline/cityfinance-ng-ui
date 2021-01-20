@@ -58,7 +58,7 @@
           <th
             class="text-center yearssss"
             colspan="2"
-            style="position: sticky; left: 0px; background: white; width: 30vw"
+            style="position: sticky; left: 0px; width: 30vw"
           >
             Year(s)
           </th>
@@ -76,7 +76,7 @@
           <th
             class="text-center"
             [attr.rowspan]="headerGroup.accRowspan"
-            style="position: sticky; left: 0px; background: white"
+            style="position: sticky; left: 0px"
           >
             Account Code
           </th>
@@ -86,7 +86,6 @@
             style="
               position: sticky;
               left: 103px;
-              background: white;
               border-right: inherit solid #868686;
             "
           >
@@ -132,13 +131,14 @@
           *ngFor="let key of reportKeys"
           [ngClass]="{
             bold: report[key] && report[key].isBold,
-            hidden: !report[key]
+            hidden: !report[key],
+            backgroundHighlight:
+              report[key] &&
+              report[key].isBold &&
+              report[key].line_item.includes('Total')
           }"
         >
-          <td
-            class="text-center sticky"
-            style="position: sticky; left: 0px; background: white"
-          >
+          <td class="text-center sticky" style="position: sticky; left: 0px">
             {{ report[key] ? report[key].code : "" }}
           </td>
           <td
