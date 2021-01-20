@@ -11,6 +11,7 @@ import { IULBResponse } from 'src/app/models/IULBResponse';
 import { AuthService } from '../../../../app/auth/auth.service';
 import { GlobalLoaderService } from '../../../../app/shared/services/loaders/global-loader.service';
 import { CommonService } from '../../../shared/services/common.service';
+import { IBasicLedgerData } from '../models/basicLedgerData.interface';
 import { ReportService } from '../report.service';
 import { ReportComponent } from '../report/report.component';
 
@@ -61,7 +62,7 @@ export class FinancialStatementComponent
     badgeShowLimit: 1,
   };
 
-  NeworiginalUlbList: IULBResponse["data"]["ss"]["ulbs"];
+  NeworiginalUlbList: IBasicLedgerData["data"];
 
   ulbListForDropdown: IULBResponse["data"]["ss"]["ulbs"];
 
@@ -121,20 +122,23 @@ export class FinancialStatementComponent
 
   protected fetchULBList() {
     this._loaderService.showLoader();
-    this.commonService.getULBSByYears([]).subscribe(
-      (response: IULBResponse) => {
-        this.NeworiginalUlbList = [];
-        Object.values(response.data).forEach((value) => {
-          if (!value.ulbs) return;
-          this.NeworiginalUlbList.push(...value.ulbs);
-        });
+    this.commonService.fetchBasicLedgerData().subscribe((res) => {
+      this.NeworiginalUlbList = res.data;
+      this._loaderService.stopLoader();
+    });
+    // this.commonService.getULBSByYears([]).subscribe(
+    //   (response: IULBResponse) => {
+    //     this.NeworiginalUlbList = [];
+    //     Object.values(response.data).forEach((value) => {
+    //       if (!value.ulbs) return;
+    //       this.NeworiginalUlbList.push(...value.ulbs);
+    //     });
 
-        this.ulbListForDropdown = [...this.NeworiginalUlbList];
+    //     // this.ulbListForDropdown = [...this.NeworiginalUlbList];
 
-        this._loaderService.stopLoader();
-      },
-      () => {}
-    );
+    //   },
+    //   () => {}
+    // );
   }
 
   onClosingULBSelection() {

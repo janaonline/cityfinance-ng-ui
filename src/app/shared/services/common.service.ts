@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { a } from '@angular/core/src/render3';
 import { Observable, of, Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { IBasicLedgerData } from 'src/app/dashboard/report/models/basicLedgerData.interface';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 import { NewULBStructure, NewULBStructureResponse } from 'src/app/models/newULBStructure';
 import { IStateListResponse } from 'src/app/models/state/state-response';
@@ -126,6 +127,12 @@ export class CommonService {
     return this.http.post<NewULBStructureResponse>(
       `${environment.api.url}/ledger/getAllLegders`,
       { year: years }
+    );
+  }
+
+  fetchBasicLedgerData() {
+    return this.http.get<IBasicLedgerData>(
+      `${environment.api.url}/ledger/getOverAllUlbLegders`
     );
   }
 

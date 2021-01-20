@@ -1,13 +1,13 @@
 <div class="all-container">
   <div class="form-container" [ngClass]="{ 'form-on-left': shiftFormToLeft }">
     <form [formGroup]="filterForm" *ngIf="filterForm" (ngSubmit)="showData()">
-      <angular2-multiselect
+      <!-- <angular2-multiselect
         formControlName="ulbList"
         [data]="NeworiginalUlbList"
         [settings]="multiSelectStates"
         (onClose)="onClosingULBSelection()"
       >
-      </angular2-multiselect>
+      </angular2-multiselect> -->
       <small>or select from list</small>
 
       <div class="years-container">
