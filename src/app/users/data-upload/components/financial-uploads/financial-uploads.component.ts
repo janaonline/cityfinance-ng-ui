@@ -510,6 +510,8 @@ export class FinancialUploadsComponent
       disableClose: true,
     });
 
+    return console.log(body);
+
     this.financialDataService.uploadFinancialData(body).subscribe(
       (res) => {
         this.draftSavingInProgess = false;
