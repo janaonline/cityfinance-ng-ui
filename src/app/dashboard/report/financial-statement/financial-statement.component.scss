@@ -1,4 +1,18 @@
+a.ulbTabActive {
+  background: #056262 !important;
+  color: white !important;
+}
+#myTabContent,
+ul[id="myTabContent"] {
+  max-height: 60vh;
+  overflow-y: scroll;
+  min-height: 40vh;
+}
 :host {
+  .popup-cotnainer-2 {
+    min-height: 40vh;
+  }
+
   ::ng-deep {
     .mat-form-field-appearance-outline .mat-form-field-outline-end,
     .mat-form-field-outline-start {

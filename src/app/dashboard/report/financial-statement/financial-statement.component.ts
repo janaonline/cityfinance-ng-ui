@@ -14,6 +14,7 @@ import { CommonService } from '../../../shared/services/common.service';
 import { Datum, IBasicLedgerData } from '../models/basicLedgerData.interface';
 import { ReportService } from '../report.service';
 import { ReportComponent } from '../report/report.component';
+import { ulbType } from '../report/ulbTypes';
 
 interface CustomArray<T> {
   flat(): Array<T>;
@@ -67,6 +68,8 @@ export class FinancialStatementComponent
 
   ulbListForDropdown: IULBResponse["data"]["ss"]["ulbs"];
 
+  ulbListForPopup: IBasicLedgerData["data"][0]["ulbList"];
+
   tempData = [];
 
   /**
@@ -83,13 +86,21 @@ export class FinancialStatementComponent
 
   filterForm: FormGroup;
   ulbFilterControl: FormControl;
+  stateSelectToFilterULB = new FormControl();
 
   formInvalidMessage: string;
   showReport = false;
   shiftFormToLeft = false;
+
+  newULBTypes: ulbType[] = [
+    ulbType.municipalCorporation,
+    ulbType.municipality,
+    ulbType.townPanchayat,
+  ];
   ngOnInit(): void {
     this.initializeFilterForm();
     this.fetchULBList();
+    this.ulbTypeInView.type = this.newULBTypes[0];
   }
 
   protected initializeFilterForm() {
@@ -145,30 +156,62 @@ export class FinancialStatementComponent
   protected fetchULBList() {
     this._loaderService.showLoader();
     this.commonService.fetchBasicLedgerData().subscribe((res) => {
-      this.NeworiginalUlbList = res.data;
+      this._loaderService.showLoader();
+      this.NeworiginalUlbList = res.data.sort((a, b) =>
+        a._id.name.localeCompare(b._id.name)
+      );
       this.filteredULBList = res.data;
       this._loaderService.stopLoader();
+      this.stateSelectToFilterULB.setValue(
+        this.NeworiginalUlbList[0]._id.state
+      );
+      this.showULBOfState(this.NeworiginalUlbList[0]._id.state);
     });
-    // this.commonService.getULBSByYears([]).subscribe(
-    //   (response: IULBResponse) => {
-    //     this.NeworiginalUlbList = [];
-    //     Object.values(response.data).forEach((value) => {
-    //       if (!value.ulbs) return;
-    //       this.NeworiginalUlbList.push(...value.ulbs);
-    //     });
+    this.commonService.getULBSByYears([this.yearLookup[0].id]).subscribe(
+      (response: IULBResponse) => {
+        Object.values(response.data).forEach((state) => {
+          state.ulbs = state.ulbs.sort((a, b) => (b.name > a.name ? -1 : 0));
+        });
+        this.originalUlbList = response;
+        this.ulbs = JSON.parse(JSON.stringify(this.originalUlbList));
 
-    //     // this.ulbListForDropdown = [...this.NeworiginalUlbList];
+        this.setPopupDefaultView();
 
-    //   },
-    //   () => {}
-    // );
+        this._loaderService.stopLoader();
+      },
+      () => {}
+    );
   }
 
-  selectULB(ulb: IBasicLedgerData["data"][0]) {
+  showULBOfState(stateId: IBasicLedgerData["data"][0]["_id"]["state"]) {
+    console.log(`new state selected: `, stateId);
+    const stateFound = this.NeworiginalUlbList.find(
+      (state) => state._id.state === stateId
+    );
+    if (!stateFound) return console.warn("State not Found");
+    this.ulbListForPopup = stateFound.ulbList.filter(
+      (ulb) => ulb.ulbType === this.ulbTypeInView.type
+    );
+
+    console.log(`new ULB List: `, this.ulbListForPopup);
+  }
+
+  onSelectingULBType(type: ulbType) {
+    if (this.ulbTypeInView.type === type) return;
+    this.ulbTypeInView.type = type;
+    this.showULBOfState(this.stateSelectToFilterULB.value);
+  }
+
+  selectULB(ulb: IBasicLedgerData["data"][0], removeIfFound = false) {
+    console.log("selecting ulb");
     const oldULBS: IBasicLedgerData["data"] = this.filterForm.controls.ulbList
       .value;
-    const alreadyExist = oldULBS.find((oldulb) => oldulb._id === ulb._id);
-    if (alreadyExist) return;
+    const indexFound = oldULBS.findIndex((oldulb) => oldulb._id === ulb._id);
+    if (indexFound > -1) {
+      if (removeIfFound) {
+        oldULBS.splice(indexFound, 1);
+      } else return;
+    }
     oldULBS.push(ulb);
     this.filterForm.controls.ulbList.setValue(oldULBS);
     this.onClosingULBSelection();

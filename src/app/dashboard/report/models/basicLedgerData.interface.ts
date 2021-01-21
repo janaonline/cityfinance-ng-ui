@@ -18,6 +18,8 @@ export interface UlbList {
   financialYear: Array<FinancialYear | null>;
   ulb: string;
   name: string;
+  ulbType: string;
+  code: string;
 }
 
 export enum FinancialYear {
