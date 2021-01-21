@@ -164,10 +164,12 @@ export class FinancialStatementComponent
     // );
   }
 
-  selectULB(ulb: any) {
-    const oldULBS: any[] = this.filterForm.controls.ulbList.value;
+  selectULB(ulb: IBasicLedgerData["data"][0]) {
+    const oldULBS: IBasicLedgerData["data"] = this.filterForm.controls.ulbList
+      .value;
+    const alreadyExist = oldULBS.find((oldulb) => oldulb._id === ulb._id);
+    if (alreadyExist) return;
     oldULBS.push(ulb);
-    console.log("ulb to select", ulb);
     this.filterForm.controls.ulbList.setValue(oldULBS);
     this.onClosingULBSelection();
   }
