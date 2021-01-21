@@ -1,4 +1,33 @@
 :host {
+  ::ng-deep {
+    .mat-form-field-appearance-outline .mat-form-field-outline-end,
+    .mat-form-field-outline-start {
+      background: #f1f1f1 !important;
+    }
+  }
+  mat-form-field {
+    display: block;
+    width: 100%;
+    i {
+      position: absolute;
+      right: 1%;
+      color: #989898;
+    }
+    ::ng-deep {
+      input {
+        width: 89%;
+        display: inline-block;
+      }
+      .selected-list,
+      .mat-form-field-flex {
+        border: none !important;
+      }
+      .mat-form-field-wrapper {
+        padding-bottom: 0.1em;
+        // background: #f1f1f1;
+      }
+    }
+  }
   .all-container {
     display: flex;
     flex-wrap: wrap;
@@ -33,14 +62,23 @@
         margin: 3% auto;
       }
 
+      .last-container {
+        width: 100%;
+      }
+
       .ulb-list-container {
         margin-top: 2%;
         width: 100%;
+        padding: 1% 4%;
         .ulb {
           display: flex;
           align-items: center;
           justify-content: space-between;
         }
+      }
+
+      .source-file-wrapper {
+        width: 100%;
       }
     }
     font-size: 1.5rem;
@@ -79,7 +117,7 @@
       }
       small {
         color: #024e69;
-        margin: 1% 0% 2% 1%;
+        margin: 0 0% 2% 1%;
         cursor: pointer;
         font-size: 1em;
       }
@@ -113,8 +151,12 @@
       }
     }
 
-    .ulb-list-container {
+    .last-container {
       width: 50%;
+    }
+
+    .ulb-list-container {
+      width: 100%;
       transition: all 1s;
       display: flex;
       flex-wrap: wrap;
@@ -149,6 +191,10 @@
         }
       }
     }
+  }
+
+  .source-file-wrapper {
+    width: 100%;
   }
 
   .report-container {

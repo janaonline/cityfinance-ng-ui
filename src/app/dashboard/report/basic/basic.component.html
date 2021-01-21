@@ -191,10 +191,18 @@
 </div>
 
 <br />
+
 <button
   (click)="download()"
   *ngIf="isProcessed && reportKeys.length > 0"
   class="btn btn-primary right"
 >
   Download
+</button>
+
+<button
+  class="btn btn-primary right source-file-download mr-2"
+  (click)="routerTo()"
+>
+  Download Source File
 </button>

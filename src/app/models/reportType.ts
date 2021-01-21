@@ -7,5 +7,6 @@ export interface IReportType {
   yearList: any[];
   reportGroup: string;
   ulbList: IULB[];
+  ulbIds: string[];
   valueType: "absolute" | "per_capita";
 }

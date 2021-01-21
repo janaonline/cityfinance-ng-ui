@@ -121,17 +121,15 @@ export class ReportComponent implements OnInit, OnDestroy {
     buttons: {
       signup: {
         text: "Signup",
+      },
+      confirm: {
+        text: "Proceed to Login",
         callback: () => {
           sessionStorage.setItem(
             "postLoginNavigation",
             "/financial-statement/data-tracker"
           );
           this.router.navigate(["register/user"]);
-        },
-      },
-      confirm: {
-        text: "Proceed to Login",
-        callback: () => {
           this.router.navigate(["/", "login"]);
         },
       },
@@ -187,8 +185,10 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.listenToFormGroups();
   }
 
-  routerTo(url: string) {
+  routerTo(url: string, downloadFilteredULBs = false) {
     const isUserLoggedIn = this.authService.loggedIn();
+    const ulbIds = this.reportForm.value.ulbIds;
+    const years = this.reportForm.value.years;
     if (!isUserLoggedIn) {
       const dailogboxx = this._dialog.open(DialogComponent, {
         data: this.defaultDailogConfiuration,
@@ -197,7 +197,11 @@ export class ReportComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate([url]);
+    if (!downloadFilteredULBs) {
+      return this.router.navigate([url]);
+    }
+
+    this.router.navigate([url], { queryParams: { ulbIds, years } });
   }
 
   protected listenToFormGroups() {

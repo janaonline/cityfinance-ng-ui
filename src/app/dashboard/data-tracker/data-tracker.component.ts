@@ -1,44 +1,51 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {DataEntryService} from '../data-entry/data-entry.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { BsModalService } from 'ngx-bootstrap/modal';
+
+import { DataEntryService } from '../data-entry/data-entry.service';
 
 @Component({
-  selector: 'app-data-tracker',
-  templateUrl: './data-tracker.component.html',
-  styleUrls: ['./data-tracker.component.scss']
+  selector: "app-data-tracker",
+  templateUrl: "./data-tracker.component.html",
+  styleUrls: ["./data-tracker.component.scss"],
 })
 export class DataTrackerComponent implements OnInit {
-
   ledgerLogs = [];
   fileList = {};
   columnDefs = [
-    {headerName: 'State', field: 'stateName'},
-    {headerName: 'ULB Name', field: 'ulbName'},
-    {headerName: 'Year', field: 'financialYear'},
+    { headerName: "State", field: "stateName" },
+    { headerName: "ULB Name", field: "ulbName" },
+    { headerName: "Year", field: "financialYear" },
     {
-      headerName: 'Audit Status', field: 'audited',
-      cellRenderer: ({data}) => data.audited ? 'Audited' : 'Unaudited'
+      headerName: "Audit Status",
+      field: "audited",
+      cellRenderer: ({ data }) => (data.audited ? "Audited" : "Unaudited"),
     },
     {
-      headerName: 'Download', field: 'ulb_code_year',
-      cellRenderer: function ({data}) {
+      headerName: "Download",
+      field: "ulb_code_year",
+      cellRenderer: function ({ data }) {
         return `<button (click)="openModal" class="btn btn-xs">Download</button>`;
-      }
+      },
     },
   ];
 
-  constructor(private dataEntryService: DataEntryService,
-              private modalService: BsModalService,
-  ) {
-  }
+  constructor(
+    private dataEntryService: DataEntryService,
+    private modalService: BsModalService,
+    private _activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.dataEntryService.getLedgerLogs({}).subscribe(res => {
-      if (res['success']) {
-        this.ledgerLogs = res['data'];
-      } else {
-        alert('Failed');
-      }
+    this._activatedRoute.queryParams.subscribe((queryParams) => {
+      console.log(queryParams);
+      this.dataEntryService.getLedgerLogs(queryParams).subscribe((res) => {
+        if (res["success"]) {
+          this.ledgerLogs = res["data"];
+        } else {
+          alert("Failed");
+        }
+      });
     });
   }
 
@@ -46,10 +53,10 @@ export class DataTrackerComponent implements OnInit {
     params.api.sizeColumnsToFit();
   }
 
-  onDownloadClicked({data}, ref: TemplateRef<any>) {
+  onDownloadClicked({ data }, ref: TemplateRef<any>) {
     this.fileList = [];
-    this.dataEntryService.getFileList(data._id).subscribe(result => {
-      this.fileList = result['data'];
+    this.dataEntryService.getFileList(data._id).subscribe((result) => {
+      this.fileList = result["data"];
     });
     this.modalService.show(ref);
   }

@@ -1,17 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { DropdownSettings } from 'angular2-multiselect-dropdown/lib/multiselect.interface';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { merge } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, distinct } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 
 import { AuthService } from '../../../../app/auth/auth.service';
 import { GlobalLoaderService } from '../../../../app/shared/services/loaders/global-loader.service';
 import { CommonService } from '../../../shared/services/common.service';
-import { IBasicLedgerData } from '../models/basicLedgerData.interface';
+import { Datum, IBasicLedgerData } from '../models/basicLedgerData.interface';
 import { ReportService } from '../report.service';
 import { ReportComponent } from '../report/report.component';
 
@@ -63,6 +63,7 @@ export class FinancialStatementComponent
   };
 
   NeworiginalUlbList: IBasicLedgerData["data"];
+  filteredULBList: IBasicLedgerData["data"];
 
   ulbListForDropdown: IULBResponse["data"]["ss"]["ulbs"];
 
@@ -81,6 +82,7 @@ export class FinancialStatementComponent
   yearListUpdate = false;
 
   filterForm: FormGroup;
+  ulbFilterControl: FormControl;
 
   formInvalidMessage: string;
   showReport = false;
@@ -92,14 +94,34 @@ export class FinancialStatementComponent
 
   protected initializeFilterForm() {
     this.filterForm = this.formBuilder.group({
-      ulbList: [""],
-      ulbIds: [],
+      ulbList: [[]],
+      ulbIds: [[]],
       years: this.formBuilder.array([]),
       yearList: [],
       type: ["Summary"],
       valueType: ["absolute"],
       reportGroup: ["Income & Expenditure Statement"],
     });
+    this.ulbFilterControl = this.formBuilder.control("");
+    this.ulbFilterControl.valueChanges
+      .pipe(debounceTime(100), distinct())
+      .subscribe((textToSearch: string) => {
+        if (!textToSearch || !textToSearch.trim()) {
+          return (this.filteredULBList = [...this.NeworiginalUlbList]);
+        }
+
+        const newList: Datum[] = [];
+        this.NeworiginalUlbList.forEach((state) => {
+          const newULBList = state.ulbList.filter((ulb) =>
+            ulb.name.toLowerCase().includes(textToSearch.toLowerCase())
+          );
+          if (!newList || !newULBList.length) return;
+          newList.push({ ...state, ulbList: newULBList });
+        });
+
+        this.filteredULBList = [...newList];
+        console.log(this.filteredULBList);
+      });
 
     this.filterForm.controls.ulbList.valueChanges.subscribe(
       (newValue) => (this.yearListUpdate = false)
@@ -124,6 +146,7 @@ export class FinancialStatementComponent
     this._loaderService.showLoader();
     this.commonService.fetchBasicLedgerData().subscribe((res) => {
       this.NeworiginalUlbList = res.data;
+      this.filteredULBList = res.data;
       this._loaderService.stopLoader();
     });
     // this.commonService.getULBSByYears([]).subscribe(
@@ -141,18 +164,26 @@ export class FinancialStatementComponent
     // );
   }
 
+  selectULB(ulb: any) {
+    const oldULBS: any[] = this.filterForm.controls.ulbList.value;
+    oldULBS.push(ulb);
+    console.log("ulb to select", ulb);
+    this.filterForm.controls.ulbList.setValue(oldULBS);
+    this.onClosingULBSelection();
+  }
+
   onClosingULBSelection() {
     this.commonYears = [];
-    const ulbs: IULBResponse["data"]["ss"]["ulbs"] = this.filterForm.controls
-      .ulbList.value;
+    const ulbs: IBasicLedgerData["data"][0]["ulbList"] = this.filterForm
+      .controls.ulbList.value;
 
     if (!ulbs || !ulbs.length) return;
-    this.filterForm.controls.ulbIds.setValue(ulbs.map((ulb) => ulb._id));
+    this.filterForm.controls.ulbIds.setValue(ulbs.map((ulb) => ulb.ulb));
     this.createYearCotnrols(ulbs, true);
   }
 
   createYearCotnrols(
-    ulbs: IULBResponse["data"]["ss"]["ulbs"],
+    ulbs: IBasicLedgerData["data"][0]["ulbList"],
     keepPreviousValues = false
   ) {
     const yearsSelected = this.filterForm.controls.years.value.filter(
@@ -166,9 +197,11 @@ export class FinancialStatementComponent
 
     const ulbToCompare = ulbs[0];
 
-    ulbToCompare.allYears.forEach((yearToSearch) => {
+    ulbToCompare.financialYear.forEach((yearToSearch) => {
       const yearExitsInAllULB = ulbs.every((ulb) =>
-        ulb.allYears.length ? ulb.allYears.includes(yearToSearch) : true
+        ulb.financialYear.length
+          ? ulb.financialYear.includes(yearToSearch)
+          : true
       );
 
       if (yearExitsInAllULB) {
@@ -204,9 +237,6 @@ export class FinancialStatementComponent
     );
 
     if (yearControl.value) {
-      // (this.filterForm.controls.years as FormArray)
-      //   .at(indexOfYearSelected)
-      //   .setValue(null);
       return (this.filterForm.controls.years as FormArray)
         .at(indexOfYearSelected)
         .setValue(null);
@@ -252,7 +282,6 @@ export class FinancialStatementComponent
     this.filterForm.controls.yearList.setValue(
       yearList.map((year) => ({ id: year, itemName: year }))
     );
-    // this.filterForm.controls.years.setValue(yearList);
     return errorMessage;
   }
 

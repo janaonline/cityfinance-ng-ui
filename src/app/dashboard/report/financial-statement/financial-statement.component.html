@@ -8,6 +8,51 @@
         (onClose)="onClosingULBSelection()"
       >
       </angular2-multiselect> -->
+
+      <mat-form-field appearance="outline">
+        <input
+          #autoCompleteInput
+          type="text"
+          placeholder="Search ULB"
+          aria-label="text"
+          matInput
+          [formControl]="ulbFilterControl"
+          [matAutocomplete]="auto"
+        />
+        <i class="fa fa-search" aria-hidden="true"></i>
+
+        <mat-autocomplete #auto="matAutocomplete" class="tesinng">
+          <mat-option *ngIf="!filteredULBList" disabled>
+            No ULB matched
+          </mat-option>
+          <div *ngIf="filteredULBList">
+            <mat-optgroup
+              *ngFor="let state of filteredULBList"
+              [label]="state._id.name"
+            >
+              <mat-option
+                *ngIf="!state.ulbList || !state.ulbList.length"
+                disabled
+              >
+                No ULB available.
+              </mat-option>
+              <mat-option
+                *ngFor="let ulb of state.ulbList"
+                [value]="ulb.name"
+                [title]="ulb.name"
+                (click)="selectULB(ulb)"
+                [disabled]="!ulb?.financialYear"
+              >
+                {{ ulb.name }}
+                <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
+                  (No Financial Year Found)
+                </span>
+              </mat-option>
+            </mat-optgroup>
+          </div>
+        </mat-autocomplete>
+      </mat-form-field>
+
       <small>or select from list</small>
 
       <div class="years-container">
@@ -49,25 +94,36 @@
       </p>
     </form>
 
-    <div
-      class="ulb-list-container"
-      *ngIf="filterForm?.value?.ulbList?.length"
-      [ngStyle]="{
-        'overflow-y': filterForm?.value?.ulbList?.length > 7 ? 'scroll' : hidden
-      }"
-    >
-      <h5>Selected ULBs</h5>
+    <div class="last-container">
       <div
-        class="ulb"
-        *ngFor="let ulb of filterForm?.value?.ulbList; let i = index"
+        class="ulb-list-container"
+        *ngIf="filterForm?.value?.ulbList?.length"
+        [ngStyle]="{
+          'overflow-y':
+            filterForm?.value?.ulbList?.length > 7 ? 'scroll' : hidden
+        }"
       >
-        {{ ulb.name }}
+        <h5>Selected ULBs</h5>
+        <div
+          class="ulb"
+          *ngFor="let ulb of filterForm?.value?.ulbList; let i = index"
+        >
+          {{ ulb.name }}
 
-        <i
-          class="fa fa-trash"
-          aria-hidden="true"
-          (click)="removeSelectedULBAt(i)"
-        ></i>
+          <i
+            class="fa fa-trash"
+            aria-hidden="true"
+            (click)="removeSelectedULBAt(i)"
+          ></i>
+        </div>
+      </div>
+
+      <div class="source-file-wrapper mt-2">
+        <a
+          style="float: right; text-decoration: underline"
+          (click)="routerTo('/financial-statement/data-tracker')"
+          >Download Source Files</a
+        >
       </div>
     </div>
   </div>
@@ -139,6 +195,10 @@
         </div>
       </div>
     </form>
-    <router-outlet *ngIf="showReport"></router-outlet>
+    <router-outlet *ngIf="showReport">
+      <button class="btn btn-primary right source-file-download">
+        Download
+      </button>
+    </router-outlet>
   </div>
 </div>

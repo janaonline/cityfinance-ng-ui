@@ -131,9 +131,28 @@ export class CommonService {
   }
 
   fetchBasicLedgerData() {
-    return this.http.get<IBasicLedgerData>(
-      `${environment.api.url}/ledger/getOverAllUlbLegders`
-    );
+    return this.http
+      .get<IBasicLedgerData>(
+        `${environment.api.url}/ledger/getOverAllUlbLegders`
+      )
+      .pipe(
+        map((res) => ({
+          ...res,
+          data: res.data.map((state) => ({
+            ...state,
+            ulbList: state.ulbList.map((ulb) => ({
+              ...ulb,
+              _id: ulb.ulb,
+              financialYear:
+                !ulb.financialYear ||
+                !ulb.financialYear.length ||
+                !ulb.financialYear[0]
+                  ? null
+                  : ulb.financialYear,
+            })),
+          })),
+        }))
+      );
   }
 
   getULBSByYears(years: string[] = []) {
