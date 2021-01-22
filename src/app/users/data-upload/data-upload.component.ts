@@ -1657,6 +1657,9 @@ export class DataUploadComponent
     if (this.totalUlbApprovalInProgress) {
       return;
     }
+
+    this.multiStatesForRejectControl.disable();
+
     let totalULBsSelected = 0;
     this.totalUlbApprovalInProgress = 0;
     this.errorsInMultiSelectULBRejectDefault = [];
@@ -1667,66 +1670,74 @@ export class DataUploadComponent
       state.ULBFormControl.value.forEach((ulbForm) => {
         this.totalUlbApprovalInProgress++;
         totalULBsSelected++;
-        return console.warn("Api not integrated for rejection");
-        this.financialDataService.approveMultiSelectULBs(ulbForm._id).subscribe(
-          (res) => {
-            this.totalUlbApprovalInProgress--;
-            if (this.totalUlbApprovalInProgress === 0) {
-              this.reasonForMultiSelectRejection.setValue("");
-              this.showMultiSelectULBRejectionCompletionMessage = true;
-              this.multiStatesForApprovalControl.reset();
-              this.fetchStatesForMultiApproval();
-              this.applyFilterClicked();
-              let totalULBFailed = 0;
-              totalULBFailed += this.errorsInMultiSelectULBApprovalDefault
-                ? this.errorsInMultiSelectULBApprovalDefault.length
-                : 0;
+        this.financialDataService
+          .rejectMultiSelectULBs(
+            ulbForm._id,
+            this.reasonForMultiSelectRejection.value
+          )
+          .subscribe(
+            (res) => {
+              this.totalUlbApprovalInProgress--;
+              if (this.totalUlbApprovalInProgress === 0) {
+                this.reasonForMultiSelectRejection.setValue("");
+                this.reasonForMultiSelectRejection.enable();
 
-              totalULBFailed += this
-                .errorsInMultiSelectULBRejectDueToAlreadyApproval
-                ? this.errorsInMultiSelectULBRejectDueToAlreadyApproval.length
-                : 0;
+                this.showMultiSelectULBRejectionCompletionMessage = true;
+                this.multiStatesForApprovalControl.reset();
+                this.fetchStatesForMultiApproval();
+                this.applyFilterClicked();
+                let totalULBFailed = 0;
+                totalULBFailed += this.errorsInMultiSelectULBApprovalDefault
+                  ? this.errorsInMultiSelectULBApprovalDefault.length
+                  : 0;
 
-              if (totalULBFailed < totalULBsSelected) {
-                this.showIntimationMessage = true;
+                totalULBFailed += this
+                  .errorsInMultiSelectULBRejectDueToAlreadyApproval
+                  ? this.errorsInMultiSelectULBRejectDueToAlreadyApproval.length
+                  : 0;
+
+                if (totalULBFailed < totalULBsSelected) {
+                  this.showIntimationMessage = true;
+                }
+              }
+            },
+            (error: HttpErrorResponse) => {
+              console.log(error);
+              if (error.status === 400) {
+                this.errorsInMultiSelectULBRejectDueToAlreadyApproval.push(
+                  `${state.name}: ${ulbForm.ulbName}`
+                );
+              } else {
+                this.errorsInMultiSelectULBApprovalDefault.push(
+                  `${state.name}: ${ulbForm.ulbName}`
+                );
+              }
+
+              this.totalUlbApprovalInProgress--;
+              if (this.totalUlbApprovalInProgress === 0) {
+                this.reasonForMultiSelectRejection.enable();
+
+                this.reasonForMultiSelectRejection.setValue("");
+
+                this.showMultiSelectULBRejectionCompletionMessage = true;
+                this.multiStatesForRejectControl.reset();
+                this.fetchStatesForMultiApproval();
+                this.applyFilterClicked();
+                let totalULBFailed = 0;
+                totalULBFailed += this.errorsInMultiSelectULBRejectDefault
+                  ? this.errorsInMultiSelectULBRejectDefault.length
+                  : 0;
+
+                totalULBFailed += this
+                  .errorsInMultiSelectULBRejectDueToAlreadyApproval
+                  ? this.errorsInMultiSelectULBRejectDueToAlreadyApproval.length
+                  : 0;
+                if (totalULBFailed < totalULBsSelected) {
+                  this.showIntimationMessage = true;
+                }
               }
             }
-          },
-          (error: HttpErrorResponse) => {
-            console.log(error);
-            if (error.status === 400) {
-              this.errorsInMultiSelectULBRejectDueToAlreadyApproval.push(
-                `${state.name}: ${ulbForm.ulbName}`
-              );
-            } else {
-              this.errorsInMultiSelectULBApprovalDefault.push(
-                `${state.name}: ${ulbForm.ulbName}`
-              );
-            }
-
-            this.totalUlbApprovalInProgress--;
-            if (this.totalUlbApprovalInProgress === 0) {
-              this.reasonForMultiSelectRejection.setValue("");
-
-              this.showMultiSelectULBRejectionCompletionMessage = true;
-              this.multiStatesForRejectControl.reset();
-              this.fetchStatesForMultiApproval();
-              this.applyFilterClicked();
-              let totalULBFailed = 0;
-              totalULBFailed += this.errorsInMultiSelectULBRejectDefault
-                ? this.errorsInMultiSelectULBRejectDefault.length
-                : 0;
-
-              totalULBFailed += this
-                .errorsInMultiSelectULBRejectDueToAlreadyApproval
-                ? this.errorsInMultiSelectULBRejectDueToAlreadyApproval.length
-                : 0;
-              if (totalULBFailed < totalULBsSelected) {
-                this.showIntimationMessage = true;
-              }
-            }
-          }
-        );
+          );
       });
     });
   }
