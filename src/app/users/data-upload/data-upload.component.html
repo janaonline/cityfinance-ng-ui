@@ -897,7 +897,7 @@
               style="float: right; margin-right: 6px"
               (click)="openSecondModal(FCFormMultiApproval)"
             >
-              Multi Select Approval
+              Multi ULB Actions
             </button>
             <button
               *ngIf="dataUploadList && dataUploadList.length"
@@ -1236,148 +1236,328 @@
       (click)="_matDialog.closeAll()"
     ></i>
 
-    <h3 class="text-center">15<sup>th</sup> FC Form Multi Approval</h3>
+    <h3 class="text-center">15<sup>th</sup> FC Form Multi-Ulb Actions</h3>
   </header>
-  <div id="multiApprovalModal">
-    <p class="states-selection">
-      <span class="stateName"><b>Select States:</b></span>
-      <angular2-multiselect
-        *ngIf="statesForULBUnderMoHUAApproval"
-        [formControl]="multiStatesForApprovalControl"
-        style="display: inline-block; width: 70%"
-        [data]="statesForULBUnderMoHUAApproval"
-        [settings]="multiSelectStates"
-        (onClose)="onSelectingMultipleStateForApproval($event)"
-      >
-      </angular2-multiselect>
-      <span
-        *ngIf="!statesForULBUnderMoHUAApproval"
-        style="
-          display: inline-block;
-          width: 50%;
-          height: 15vh;
-          overflow: hidden;
-        "
-      >
-        <app-pre-loader></app-pre-loader>
-      </span>
-    </p>
-    <hr />
-    <p
-      class="states"
-      *ngFor="let state of multiStatesForApprovalControl?.value; let i = index"
-    >
-      <span class="stateName"
-        ><b> {{ i + 1 }}. {{ state.name }}: </b></span
-      >
-      <span>
-        <span *ngIf="state.ulbs">
-          <angular2-multiselect
-            [formControl]="state.ULBFormControl"
-            classes="ml-5"
-            style="display: inline-block; width: 70%"
-            [data]="state.ulbs"
-            [settings]="multiSelectStatesULBs"
+
+  <mat-tab-group
+    dynamicHeight="false"
+    class="mt-2 approve-reject-tab"
+    animationDuration="100ms"
+  >
+    <mat-tab [label]="'Approve ULBs'" [disabled]="!!totalUlbApprovalInProgress">
+      <div class="approve">
+        <div id="multiApprovalModal">
+          <p class="states-selection">
+            <span class="stateName"><strong>Select States:</strong></span>
+            <angular2-multiselect
+              *ngIf="statesForULBUnderMoHUAApproval"
+              [formControl]="multiStatesForApprovalControl"
+              style="display: inline-block; width: 70%"
+              [data]="statesForULBUnderMoHUARejection"
+              [settings]="multiSelectStates"
+              (onClose)="onSelectingMultipleStateForApproval($event)"
+            >
+            </angular2-multiselect>
+            <span
+              *ngIf="!statesForULBUnderMoHUAApproval"
+              style="
+                display: inline-block;
+                width: 50%;
+                height: 15vh;
+                overflow: hidden;
+              "
+            >
+              <app-pre-loader></app-pre-loader>
+            </span>
+          </p>
+          <hr />
+          <p
+            class="states"
+            *ngFor="
+              let state of multiStatesForApprovalControl?.value;
+              let i = index
+            "
           >
-          </angular2-multiselect>
-        </span>
-        <span
-          *ngIf="!state.ulbs"
-          style="display: inline-block; width: 50%; height: 5vh"
+            <span class="stateName"
+              ><b> {{ i + 1 }}. {{ state.name }}: </b></span
+            >
+            <span>
+              <span *ngIf="state.ulbs">
+                <angular2-multiselect
+                  [formControl]="state.ULBFormControl"
+                  classes="ml-5"
+                  style="display: inline-block; width: 70%"
+                  [data]="state.ulbs"
+                  [settings]="multiSelectStatesULBs"
+                >
+                </angular2-multiselect>
+              </span>
+              <span
+                *ngIf="!state.ulbs"
+                style="
+                  display: inline-block;
+                  width: 50%;
+                  height: 7vh;
+                  overflow: hidden;
+                "
+              >
+                <app-pre-loader></app-pre-loader>
+              </span>
+            </span>
+          </p>
+        </div>
+
+        <div
+          style="color: red; padding: 2%"
+          *ngIf="errorsInMultiSelectULBApprovalDueToAlreadyApproval?.length"
         >
-          <app-pre-loader></app-pre-loader>
-        </span>
-      </span>
-    </p>
-  </div>
+          <span
+            ><b
+              >Approval for following ULB's
+              {{
+                errorsInMultiSelectULBApprovalDefault?.length > 1
+                  ? "Applications are"
+                  : "Application is"
+              }}
+              already approved:</b
+            ></span
+          ><br />
+          <ol>
+            <li
+              *ngFor="
+                let error of errorsInMultiSelectULBApprovalDueToAlreadyApproval
+              "
+            >
+              {{ error }}
+            </li>
+          </ol>
+        </div>
 
-  <div
-    style="color: red; padding: 2%"
-    *ngIf="errorsInMultiSelectULBApprovalDueToAlreadyApproval?.length"
-  >
-    <span
-      ><b
-        >Approval for following ULB's
-        {{
-          errorsInMultiSelectULBApprovalDefault?.length > 1
-            ? "Applications are"
-            : "Application is"
-        }}
-        already approved:</b
-      ></span
-    ><br />
-    <ol>
-      <li
-        *ngFor="let error of errorsInMultiSelectULBApprovalDueToAlreadyApproval"
-      >
-        {{ error }}
-      </li>
-    </ol>
-  </div>
+        <div
+          style="color: red; padding: 2%"
+          *ngIf="errorsInMultiSelectULBApprovalDefault?.length"
+        >
+          <span
+            ><b
+              >Approval for following ULB's
+              {{
+                errorsInMultiSelectULBApprovalDefault?.length > 1
+                  ? "Applications have"
+                  : "Application has"
+              }}
+              failed:</b
+            ></span
+          ><br />
+          <ol>
+            <li *ngFor="let error of errorsInMultiSelectULBApprovalDefault">
+              {{ error }}
+            </li>
+          </ol>
+        </div>
 
-  <div
-    style="color: red; padding: 2%"
-    *ngIf="errorsInMultiSelectULBApprovalDefault?.length"
-  >
-    <span
-      ><b
-        >Approval for following ULB's
-        {{
-          errorsInMultiSelectULBApprovalDefault?.length > 1
-            ? "Applications have"
-            : "Application has"
-        }}
-        failed:</b
-      ></span
-    ><br />
-    <ol>
-      <li *ngFor="let error of errorsInMultiSelectULBApprovalDefault">
-        {{ error }}
-      </li>
-    </ol>
-  </div>
+        <p
+          style="width: 100%"
+          *ngIf="showMultiSelectULBApprovalCompletionMessage"
+          class="text-center"
+        >
+          <b style="color: green">
+            Approval Action Completed <br />
+            <span *ngIf="showIntimationMessage"
+              >Intimation over email has been sent to the ULB & State</span
+            >
+          </b>
+        </p>
 
-  <p
-    style="width: 100%"
-    *ngIf="showMultiSelectULBApprovalCompletionMessage"
-    class="text-center"
-  >
-    <b style="color: green">
-      Approval Action Completed <br />
-      <span *ngIf="showIntimationMessage"
-        >Intimation over email has been sent to the ULB & State</span
-      >
-    </b>
-  </p>
+        <div class="justify-content-center d-flex Approvalbuttons">
+          <button
+            class="btn btn-primary"
+            [disabled]="
+              !multiStatesForApprovalControl?.value?.length ||
+              totalUlbApprovalInProgress ||
+              totalNumberOfULBsSelectedForMultiApproval == 0
+            "
+            (click)="approveMultipleSelectedULBS()"
+          >
+            Approve ULB(s)
+            {{
+              totalNumberOfULBsSelectedForMultiApproval > 1
+                ? "Applications"
+                : "Application"
+            }}
+          </button>
+          <p class="note">
+            <span style="font-size: 1.3em">NOTE:</span> <br />1. Only those ULBs
+            will be shown whose FC Grant Form is under review by MoHUA <br />
+          </p>
+        </div>
+      </div>
+    </mat-tab>
 
-  <div class="row justify-content-center d-flex Approvalbuttons">
-    <button
-      class="btn btn-primary"
-      [disabled]="
-        !multiStatesForApprovalControl?.value?.length ||
-        totalUlbApprovalInProgress ||
-        totalNumberOfULBsSelectedForMultiApproval == 0
-      "
-      (click)="approveMultipleSelectedULBS()"
-    >
-      Approve ULB(s)
-      {{
-        totalNumberOfULBsSelectedForMultiApproval > 1
-          ? "Applications"
-          : "Application"
-      }}
-    </button>
-    <!-- <button
-      class="btn btn-primary"
-      (click)="_matDialog.closeAll()"
-      [disabled]="totalUlbApprovalInProgress"
-    >
-      Cancel
-    </button> -->
-  </div>
-  <p class="note">
-    <span style="font-size: 1.3em">NOTE:</span> <br />1. Only those ULBs will be
-    shown whose FC GRant Form is under review by MoHUA <br />2. Only
-    <b>Approval Action</b> can be taken on ULBs
-  </p>
+    <mat-tab [label]="'Reject ULBs'" [disabled]="!!totalUlbApprovalInProgress">
+      <div class="approve">
+        <div id="multiApprovalModal">
+          <p class="states-selection">
+            <span class="stateName"><strong>Select States:</strong></span>
+            <angular2-multiselect
+              *ngIf="statesForULBUnderMoHUAApproval"
+              [formControl]="multiStatesForRejectControl"
+              style="display: inline-block; width: 70%"
+              [data]="statesForULBUnderMoHUAApproval"
+              [settings]="multiSelectStates"
+              (onClose)="onSelectingMultipleStateForRejection($event)"
+            >
+            </angular2-multiselect>
+            <span
+              *ngIf="!statesForULBUnderMoHUAApproval"
+              style="
+                display: inline-block;
+                width: 50%;
+                height: 15vh;
+                overflow: hidden;
+              "
+            >
+              <app-pre-loader></app-pre-loader>
+            </span>
+          </p>
+          <hr />
+          <p
+            class="states"
+            *ngFor="
+              let state of multiStatesForRejectControl?.value;
+              let i = index
+            "
+          >
+            <span class="stateName"
+              ><b> {{ i + 1 }}. {{ state.name }}: </b></span
+            >
+            <span>
+              <span *ngIf="state.ulbs">
+                <angular2-multiselect
+                  [formControl]="state.ULBFormControl"
+                  classes="ml-5"
+                  style="display: inline-block; width: 70%"
+                  [data]="state.ulbs"
+                  [settings]="multiSelectStatesULBs"
+                >
+                </angular2-multiselect>
+              </span>
+              <span
+                *ngIf="!state.ulbs"
+                style="
+                  display: inline-block;
+                  width: 50%;
+                  height: 7vh;
+                  overflow: hidden;
+                "
+              >
+                <app-pre-loader></app-pre-loader>
+              </span>
+            </span>
+          </p>
+
+          <p class="states" style="display: flex">
+            <span class="stateName"
+              ><strong> Reason For Rejection: </strong></span
+            >
+            <span style="width: 70%">
+              <span>
+                <textarea
+                  [formControl]="reasonForMultiSelectRejection"
+                  rows="3"
+                  style="width: 100%"
+                  class="form-control"
+                >
+                </textarea>
+              </span>
+            </span>
+          </p>
+        </div>
+
+        <div
+          style="color: red; padding: 2%"
+          *ngIf="errorsInMultiSelectULBRejectDueToAlreadyApproval?.length"
+        >
+          <span
+            ><b
+              >Rejection for following ULB's
+              {{
+                errorsInMultiSelectULBRejectDefault?.length > 1
+                  ? "Applications are"
+                  : "Application is"
+              }}
+              already approved:</b
+            ></span
+          ><br />
+          <ol>
+            <li
+              *ngFor="
+                let error of errorsInMultiSelectULBRejectDueToAlreadyApproval
+              "
+            >
+              {{ error }}
+            </li>
+          </ol>
+        </div>
+
+        <div
+          style="color: red; padding: 2%"
+          *ngIf="errorsInMultiSelectULBRejectDefault?.length"
+        >
+          <span
+            ><b
+              >Rejection for following ULB's
+              {{
+                errorsInMultiSelectULBRejectDefault?.length > 1
+                  ? "Applications have"
+                  : "Application has"
+              }}
+              failed:</b
+            ></span
+          ><br />
+          <ol>
+            <li *ngFor="let error of errorsInMultiSelectULBRejectDefault">
+              {{ error }}
+            </li>
+          </ol>
+        </div>
+
+        <p
+          style="width: 100%"
+          *ngIf="showMultiSelectULBRejectionCompletionMessage"
+          class="text-center"
+        >
+          <b style="color: green">
+            Rejection Action Completed <br />
+            <span *ngIf="showIntimationMessage"
+              >Intimation over email has been sent to the ULB & State</span
+            >
+          </b>
+        </p>
+
+        <div class="justify-content-center d-flex Approvalbuttons">
+          <button
+            class="btn btn-primary"
+            [disabled]="
+              !multiStatesForRejectControl?.value?.length ||
+              totalUlbApprovalInProgress ||
+              totalNumberOfULBsSelectedForMultiRejection == 0
+            "
+            (click)="rejectMultipleSelectedULBS()"
+          >
+            Reject ULB(s)
+            {{
+              totalNumberOfULBsSelectedForMultiRejection > 1
+                ? "Applications"
+                : "Application"
+            }}
+          </button>
+          <p class="note">
+            <span style="font-size: 1.3em">NOTE:</span> <br />1. Only those ULBs
+            will be shown whose FC Grant Form is under review by MoHUA <br />2.
+            All selected ulbs will be have same rejection reason.
+          </p>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </ng-template>
