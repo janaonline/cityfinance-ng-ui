@@ -1289,6 +1289,7 @@
                   style="display: inline-block; width: 70%"
                   [data]="state.ulbs"
                   [settings]="multiSelectStatesULBs"
+                  (onClose)="updateCountOfULBs()"
                 >
                 </angular2-multiselect>
               </span>
@@ -1385,12 +1386,12 @@
                 : "Application"
             }}
           </button>
-          <p class="note">
-            <span style="font-size: 1.3em">NOTE:</span> <br />1. Only those ULBs
-            will be shown whose FC Grant Form is under review by MoHUA <br />
-          </p>
         </div>
       </div>
+      <p class="note" style="padding-left: 2%">
+        <span style="font-size: 1.3em">NOTE:</span> <br />1. Only those ULBs
+        will be shown whose FC Grant Form is under review by MoHUA <br />
+      </p>
     </mat-tab>
 
     <mat-tab [label]="'Reject ULBs'" [disabled]="!!totalUlbApprovalInProgress">
@@ -1438,7 +1439,7 @@
                   style="display: inline-block; width: 70%"
                   [data]="state.ulbs"
                   [settings]="multiSelectStatesULBs"
-                  (onClose)="updateCountOfULBs()"
+                  (onClose)="updateCountOfULBsForReject()"
                 >
                 </angular2-multiselect>
               </span>

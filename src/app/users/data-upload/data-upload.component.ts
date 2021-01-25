@@ -832,7 +832,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  }
+  };
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -898,12 +898,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  }
+  };
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  }
+  };
 
   getAddedFilterCount() {
     let count = 0;
@@ -1559,16 +1559,24 @@ export class DataUploadComponent
           state.ulbs = list["data"];
         });
     });
-
-
   }
 
-  updateCountOfULBs() {
+  updateCountOfULBsForReject() {
     this.totalNumberOfULBsSelectedForMultiRejection = 0;
     this.multiStatesForRejectControl.value.forEach((state) => {
       if (!state.ULBFormControl) return;
       if (!state.ULBFormControl.value) return;
       this.totalNumberOfULBsSelectedForMultiRejection +=
+        state.ULBFormControl.value.length;
+    });
+  }
+
+  updateCountOfULBs() {
+    this.totalNumberOfULBsSelectedForMultiApproval = 0;
+    this.multiStatesForApprovalControl.value.forEach((state) => {
+      if (!state.ULBFormControl) return;
+      if (!state.ULBFormControl.value) return;
+      this.totalNumberOfULBsSelectedForMultiApproval +=
         state.ULBFormControl.value.length;
     });
   }
