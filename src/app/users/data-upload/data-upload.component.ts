@@ -831,7 +831,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  };
+  }
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -897,12 +897,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  };
+  }
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  };
+  }
 
   getAddedFilterCount() {
     let count = 0;
@@ -1687,7 +1687,7 @@ export class DataUploadComponent
                 this.reasonForMultiSelectRejection.enable();
 
                 this.showMultiSelectULBRejectionCompletionMessage = true;
-                this.multiStatesForApprovalControl.reset();
+                this.multiStatesForRejectControl.reset();
                 this.fetchStatesForMultiApproval();
                 this.applyFilterClicked();
                 let totalULBFailed = 0;
