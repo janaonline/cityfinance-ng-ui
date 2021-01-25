@@ -1,10 +1,17 @@
 ::ng-deep {
   .approve-reject-tab {
+    .mat-tab-body-content {
+      overflow: visible;
+    }
+    .mat-tab-body.mat-tab-body-active {
+      overflow: visible;
+    }
     .mat-tab-label {
       border: none;
     }
     .mat-tab-body-wrapper {
       min-height: 50vh;
+      overflow: visible;
 
       .approve {
         min-height: 51vh;
@@ -245,7 +252,7 @@
     border: 1px solid #70707047;
     border-radius: 5px;
     width: 100%;
-    overflow: hidden;
+    // overflow: hidden;
     margin-bottom: 3%;
 
     table tbody tr:last-child {
