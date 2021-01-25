@@ -12,6 +12,7 @@ import { combineLatest, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { JSONUtility } from 'src/app/util/jsonUtil';
+import { atLeast1AplhabetRequired, nonEmptyValidator } from 'src/app/util/reactiveFormValidators';
 import swal from 'sweetalert';
 
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
@@ -327,7 +328,10 @@ export class DataUploadComponent
 
   multiStatesForApprovalControl = new FormControl();
   multiStatesForRejectControl = new FormControl();
-  reasonForMultiSelectRejection = new FormControl();
+  reasonForMultiSelectRejection = new FormControl(null, [
+    nonEmptyValidator,
+    atLeast1AplhabetRequired,
+  ]);
   totalUlbApprovalInProgress;
   errorsInMultiSelectULBApprovalDefault = [];
   errorsInMultiSelectULBRejectDefault = [];

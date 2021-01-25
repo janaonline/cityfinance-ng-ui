@@ -1457,7 +1457,9 @@
 
           <p class="states" style="display: flex">
             <span class="stateName"
-              ><strong> Reason For Rejection: </strong></span
+              ><strong>
+                Reason For Rejection <span style="color: red">*</span> :
+              </strong></span
             >
             <span style="width: 70%">
               <span>
@@ -1538,6 +1540,7 @@
           <button
             class="btn btn-primary"
             [disabled]="
+            reasonForMultiSelectRejection?.invalid ||
               !multiStatesForRejectControl?.value?.length ||
               totalUlbApprovalInProgress ||
               totalNumberOfULBsSelectedForMultiRejection == 0
