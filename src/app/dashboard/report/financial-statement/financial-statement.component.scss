@@ -5,9 +5,32 @@ a.ulbTabActive {
 #myTabContent,
 ul[id="myTabContent"] {
   max-height: 60vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   min-height: 40vh;
+  display: flex;
+  flex-wrap: wrap;
 }
+
+::ng-deep {
+  .stateDropdown {
+    .mat-form-field-flex {
+      border: none !important;
+    }
+  }
+}
+
+li.disabled-ulb {
+  background: transparent !important;
+  color: gray !important;
+  height: fit-content;
+
+  label {
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+}
+
 :host {
   .popup-cotnainer-2 {
     min-height: 40vh;
@@ -38,7 +61,6 @@ ul[id="myTabContent"] {
       }
       .mat-form-field-wrapper {
         padding-bottom: 0.1em;
-        // background: #f1f1f1;
       }
     }
   }

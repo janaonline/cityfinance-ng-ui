@@ -209,7 +209,22 @@
       class="modal-header col-md-12"
       style="display: inline-flex; align-items: center"
     >
-      <select
+      <mat-form-field appearance="outline" class="stateDropdown">
+        <mat-label class="text-gray">State </mat-label>
+        <mat-select
+          [formControl]="stateSelectToFilterULB"
+          (selectionChange)="showULBOfState(stateSelectToFilterULB.value)"
+        >
+          <mat-option
+            *ngFor="let state of NeworiginalUlbList"
+            [value]="state._id.state"
+          >
+            {{ state._id.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- <select
         [formControl]="stateSelectToFilterULB"
         (change)="showULBOfState(stateSelectToFilterULB.value)"
       >
@@ -217,9 +232,10 @@
           *ngFor="let state of NeworiginalUlbList"
           [value]="state._id.state"
         >
-          {{ state._id.name }}
+                  {{ state._id.name }}
+
         </option>
-      </select>
+      </select> -->
     </div>
   </div>
 
@@ -314,6 +330,7 @@
                       border: none;
                     "
                     [id]="ulb.ulb"
+                    [ngClass]="{ 'disabled-ulb': !ulb.financialYear }"
                   >
                     <label>
                       <input
@@ -365,18 +382,18 @@
                       <small *ngIf="!ulb.financialYear" style="color: #ef6e6e">
                         (No Financial Year Found)
                       </small>
-                      <span
+                      <!-- <span
                         *ngIf="
                           baseULBSelected && baseULBSelected.code === ulb.code
                         "
                         >(selected as base)
-                      </span>
+                      </span> -->
                     </label>
                   </li>
 
                   <h2
                     *ngIf="!ulbListForPopup?.length"
-                    style="text-align: center"
+                    style="text-align: center; width: 100%"
                   >
                     ULB not available
                   </h2>
