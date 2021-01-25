@@ -1438,6 +1438,7 @@
                   style="display: inline-block; width: 70%"
                   [data]="state.ulbs"
                   [settings]="multiSelectStatesULBs"
+                  (onClose)="updateCountOfULBs()"
                 >
                 </angular2-multiselect>
               </span>
@@ -1547,7 +1548,6 @@
             "
             (click)="rejectMultipleSelectedULBS()"
           >
-            {{ totalNumberOfULBsSelectedForMultiRejection }}
             Reject ULB(s)
             {{
               totalNumberOfULBsSelectedForMultiRejection > 1

@@ -832,7 +832,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  };
+  }
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -898,12 +898,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  };
+  }
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  };
+  }
 
   getAddedFilterCount() {
     let count = 0;
@@ -1533,6 +1533,7 @@ export class DataUploadComponent
     this.multiStatesForRejectControl.value.forEach((state) => {
       if (state.ulbs) return;
       state.ULBFormControl = new FormControl();
+
       this.allRejectSubsciption.push(state.ULBFormControl.valueChanges);
 
       this.financialDataService
@@ -1559,13 +1560,16 @@ export class DataUploadComponent
         });
     });
 
-    combineLatest(...this.allRejectSubsciption).subscribe((newList: any[]) => {
-      const filteredList = newList.filter((value) =>
-        value ? !!value.length : false
-      );
-      this.totalNumberOfULBsSelectedForMultiRejection = filteredList
-        ? filteredList.length
-        : 0;
+
+  }
+
+  updateCountOfULBs() {
+    this.totalNumberOfULBsSelectedForMultiRejection = 0;
+    this.multiStatesForRejectControl.value.forEach((state) => {
+      if (!state.ULBFormControl) return;
+      if (!state.ULBFormControl.value) return;
+      this.totalNumberOfULBsSelectedForMultiRejection +=
+        state.ULBFormControl.value.length;
     });
   }
 
@@ -1704,7 +1708,7 @@ export class DataUploadComponent
               }
             },
             (error: HttpErrorResponse) => {
-              console.log(error);
+              console.error(error);
               if (error.status === 400) {
                 this.errorsInMultiSelectULBRejectDueToAlreadyApproval.push(
                   `${state.name}: ${ulbForm.ulbName}`
