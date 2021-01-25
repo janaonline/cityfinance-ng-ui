@@ -8,7 +8,7 @@ import { MatDialog, MatSlideToggleChange, MatSnackBar } from '@angular/material'
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Chart from 'chart.js';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { JSONUtility } from 'src/app/util/jsonUtil';
@@ -351,6 +351,7 @@ export class DataUploadComponent
   totalNumberOfULBsSelectedForMultiRejection = 0;
 
   allSubscripts: Subscription[];
+  allRejectSubsciption: Observable<any>[];
 
   showIntimationMessage: boolean;
 
@@ -831,7 +832,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  }
+  };
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -897,12 +898,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  }
+  };
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  }
+  };
 
   getAddedFilterCount() {
     let count = 0;
@@ -1452,9 +1453,6 @@ export class DataUploadComponent
       this.statesForULBUnderMoHUAApproval = jsonUtil.deepCopy(data["data"]);
       this.statesForULBUnderMoHUARejection = jsonUtil.deepCopy(data["data"]);
     });
-    // this.financialDataService.fetStateForULBUnderMoHUA().subscribe((data) => {
-    //   this.statesForULBUnderMoHUARejection = [...data["data"]];
-    // });
   }
 
   openSecondModal(historyModal: TemplateRef<any>) {
@@ -1531,11 +1529,11 @@ export class DataUploadComponent
 
   onSelectingMultipleStateForRejection(stateList) {
     if (!this.multiStatesForRejectControl.value) return;
-    this.allSubscripts = [];
+    this.allRejectSubsciption = [];
     this.multiStatesForRejectControl.value.forEach((state) => {
       if (state.ulbs) return;
       state.ULBFormControl = new FormControl();
-      this.allSubscripts.push(state.ULBFormControl.valueChanges);
+      this.allRejectSubsciption.push(state.ULBFormControl.valueChanges);
 
       this.financialDataService
         .fetchFinancialDataList(
@@ -1561,7 +1559,7 @@ export class DataUploadComponent
         });
     });
 
-    combineLatest(this.allSubscripts).subscribe((newList: any[]) => {
+    combineLatest(...this.allRejectSubsciption).subscribe((newList: any[]) => {
       const filteredList = newList.filter((value) =>
         value ? !!value.length : false
       );

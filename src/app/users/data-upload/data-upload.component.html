@@ -1540,13 +1540,14 @@
           <button
             class="btn btn-primary"
             [disabled]="
-            reasonForMultiSelectRejection?.invalid ||
+              reasonForMultiSelectRejection?.invalid ||
               !multiStatesForRejectControl?.value?.length ||
               totalUlbApprovalInProgress ||
               totalNumberOfULBsSelectedForMultiRejection == 0
             "
             (click)="rejectMultipleSelectedULBS()"
           >
+            {{ totalNumberOfULBsSelectedForMultiRejection }}
             Reject ULB(s)
             {{
               totalNumberOfULBsSelectedForMultiRejection > 1
