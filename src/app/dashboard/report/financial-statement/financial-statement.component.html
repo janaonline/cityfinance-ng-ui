@@ -40,7 +40,7 @@
                 *ngFor="let ulb of state.ulbList"
                 [value]="ulb.name"
                 [title]="ulb.name"
-                (click)="selectULB(ulb)"
+                (click)="selectULB(ulb, false, state._id.state)"
                 [disabled]="!ulb?.financialYear"
               >
                 {{ ulb.name }}
@@ -240,14 +240,14 @@
   </div>
 
   <div class="modal-body">
-    <div *ngIf="!(ulbs && ulbs.data)" style="display: block; width: 80vw">
+    <div *ngIf="!NeworiginalUlbList" style="display: block; width: 80vw">
       <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
       <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
       <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
     </div>
-    <div class="row popup-cotnainer-2" *ngIf="ulbs && ulbs.data">
+    <div class="row popup-cotnainer-2" *ngIf="NeworiginalUlbList">
       <div class="col-sm-12 ulb-list-container">
-        <ul class="list-group" *ngIf="currentStateInView">
+        <ul class="list-group" *ngIf="stateSelectToFilterULB?.value">
           <li
             class="list-group-item level-one col-md-12"
             style="display: block; border: none"
@@ -272,7 +272,7 @@
                           ulbTypeInView && ulbTypeInView?.type === type,
                         stateULBSelected:
                           ulbTypeSelected === 'other' &&
-                          getTotalULBSelectedBy(currentStateInView.key, {
+                          getTotalULBSelectedBy(stateSelectToFilterULB?.value, {
                             type: type
                           })
                       }"
@@ -284,18 +284,21 @@
                         type="checkbox"
                         class="ng-untouched ng-pristine ng-valid"
                         [checked]="
-                          getTotalULBSelectedBy(currentStateInView.key, {
+                          getTotalULBSelectedBy(stateSelectToFilterULB?.value, {
                             type: type
                           })
                         "
                         [disabled]="
-                          !getTotalULBSelectedBy(currentStateInView.key, {
-                            type: type
-                          })
+                          !getTotalULBSelectedBy(
+                            stateSelectToFilterULB?.value,
+                            {
+                              type: type
+                            }
+                          )
                         "
                         (click)="
                           removeAllSelectedULB(
-                            currentStateInView.key,
+                            stateSelectToFilterULB?.value,
                             type,
                             ulbType
                           )
@@ -305,13 +308,13 @@
                       <span
                         *ngIf="
                           ulbTypeSelected === 'other' &&
-                          getTotalULBSelectedBy(currentStateInView.key, {
+                          getTotalULBSelectedBy(stateSelectToFilterULB?.value, {
                             type: type
                           })
                         "
                       >
                         ({{
-                          getTotalULBSelectedBy(currentStateInView.key, {
+                          getTotalULBSelectedBy(stateSelectToFilterULB?.value, {
                             type: type
                           })
                         }})
@@ -319,6 +322,7 @@
                     </a>
                   </li>
                 </ul>
+
                 <ul class="nav nav-tabs" id="myTabContent" role="tablist">
                   <li
                     *ngFor="let ulb of ulbListForPopup"
@@ -338,13 +342,13 @@
                         *ngIf="ulbTypeSelected === 'other'"
                         type="checkbox"
                         [checked]="
-                          StateULBTypeMapping[currentStateInView.key] &&
-                          StateULBTypeMapping[currentStateInView.key][
+                          StateULBTypeMapping[stateSelectToFilterULB?.value] &&
+                          StateULBTypeMapping[stateSelectToFilterULB?.value][
                             ulbTypeInView.type
                           ] &&
-                          StateULBTypeMapping[currentStateInView.key][
+                          StateULBTypeMapping[stateSelectToFilterULB?.value][
                             ulbTypeInView.type
-                          ][ulb.ulb]
+                          ][ulb.code]
                             ? true
                             : false
                         "
@@ -352,15 +356,11 @@
                         value="ulb.value.code"
                         class="ng-untouched ng-pristine ng-valid"
                         (click)="
-                          onULBClick(
-                            currentStateInView.key,
-                            ulbTypeInView,
-                            ulb
-                          ) || selectULB(ulb, true)
+                          selectULB(ulb, true, stateSelectToFilterULB?.value)
                         "
                       />
 
-                      <input
+                      <!-- <input
                         name="list_name_ulb"
                         style="margin-left: -20px"
                         type="radio"
@@ -373,10 +373,12 @@
                         "
                         class="ng-untouched ng-pristine ng-valid"
                         (click)="
-                          onSelectingBaseULB(ulb, currentStateInView.key) &&
-                            selectULB(ulb, true)
+                          onSelectingBaseULB(
+                            ulb,
+                            stateSelectToFilterULB?.value
+                          ) && selectULB(ulb, true)
                         "
-                      />
+                      /> -->
                       {{ ulb.name }}
                       <br />
                       <small *ngIf="!ulb.financialYear" style="color: #ef6e6e">

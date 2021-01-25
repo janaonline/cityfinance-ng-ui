@@ -7,6 +7,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { merge } from 'rxjs';
 import { debounceTime, distinct } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
+import { IULB } from 'src/app/models/ulb';
 
 import { AuthService } from '../../../../app/auth/auth.service';
 import { GlobalLoaderService } from '../../../../app/shared/services/loaders/global-loader.service';
@@ -157,9 +158,15 @@ export class FinancialStatementComponent
     this._loaderService.showLoader();
     this.commonService.fetchBasicLedgerData().subscribe((res) => {
       this._loaderService.showLoader();
-      this.NeworiginalUlbList = res.data.sort((a, b) =>
-        a._id.name.localeCompare(b._id.name)
-      );
+      this.NeworiginalUlbList = res.data.sort((stateA, stateB) => {
+        stateA.ulbList = stateA.ulbList.sort((ulbA, ulbB) =>
+          ulbA.name.localeCompare(ulbB.name)
+        );
+        stateB.ulbList = stateB.ulbList.sort((ulbA, ulbB) =>
+          ulbA.name.localeCompare(ulbB.name)
+        );
+        return stateA._id.name.localeCompare(stateB._id.name);
+      });
       this.filteredULBList = res.data;
       this._loaderService.stopLoader();
       this.stateSelectToFilterULB.setValue(
@@ -167,20 +174,20 @@ export class FinancialStatementComponent
       );
       this.showULBOfState(this.NeworiginalUlbList[0]._id.state);
     });
-    this.commonService.getULBSByYears([this.yearLookup[0].id]).subscribe(
-      (response: IULBResponse) => {
-        Object.values(response.data).forEach((state) => {
-          state.ulbs = state.ulbs.sort((a, b) => (b.name > a.name ? -1 : 0));
-        });
-        this.originalUlbList = response;
-        this.ulbs = JSON.parse(JSON.stringify(this.originalUlbList));
+    // this.commonService.getULBSByYears([this.yearLookup[0].id]).subscribe(
+    //   (response: IULBResponse) => {
+    //     Object.values(response.data).forEach((state) => {
+    //       state.ulbs = state.ulbs.sort((a, b) => (b.name > a.name ? -1 : 0));
+    //     });
+    //     this.originalUlbList = response;
+    //     this.ulbs = JSON.parse(JSON.stringify(this.originalUlbList));
 
-        this.setPopupDefaultView();
+    //     this.setPopupDefaultView();
 
-        this._loaderService.stopLoader();
-      },
-      () => {}
-    );
+    //     this._loaderService.stopLoader();
+    //   },
+    //   () => {}
+    // );
   }
 
   showULBOfState(stateId: IBasicLedgerData["data"][0]["_id"]["state"]) {
@@ -202,19 +209,32 @@ export class FinancialStatementComponent
     this.showULBOfState(this.stateSelectToFilterULB.value);
   }
 
-  selectULB(ulb: IBasicLedgerData["data"][0], removeIfFound = false) {
-    console.log("selecting ulb");
-    const oldULBS: IBasicLedgerData["data"] = this.filterForm.controls.ulbList
-      .value;
-    const indexFound = oldULBS.findIndex((oldulb) => oldulb._id === ulb._id);
+  selectULB(
+    ulb: IBasicLedgerData["data"][0]["ulbList"][0],
+    removeIfFound = false,
+    stateId?: string
+  ) {
+    if (stateId) {
+      this.onULBClick(stateId, { type: ulb.ulbType }, (ulb as any) as IULB);
+    }
+
+    const oldULBS: IBasicLedgerData["data"][0]["ulbList"] = this.filterForm
+      .controls.ulbList.value;
+    const indexFound = oldULBS.findIndex((oldulb) => oldulb.ulb === ulb.ulb);
     if (indexFound > -1) {
+      console.log(`removeIfFound: ${removeIfFound}`);
+      console.log(`indexFound: ${indexFound}`);
+
       if (removeIfFound) {
         oldULBS.splice(indexFound, 1);
       } else return;
     }
     oldULBS.push(ulb);
     this.filterForm.controls.ulbList.setValue(oldULBS);
+    console.log(this.filterForm.controls.ulbList.value);
     this.onClosingULBSelection();
+
+    // console.log(`mapping: \n`, this.StateULBTypeMapping);
   }
 
   onClosingULBSelection() {

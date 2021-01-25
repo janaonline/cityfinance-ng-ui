@@ -1,3 +1,5 @@
+import { IULB } from 'src/app/models/ulb';
+
 export interface IBasicLedgerData {
   success: boolean;
   msg: string;
@@ -18,7 +20,7 @@ export interface UlbList {
   financialYear: Array<FinancialYear | null>;
   ulb: string;
   name: string;
-  ulbType: string;
+  ulbType: IULB["type"];
   code: string;
 }
 
