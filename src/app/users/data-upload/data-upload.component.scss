@@ -4,7 +4,8 @@
       overflow: visible;
     }
     .mat-tab-body.mat-tab-body-active {
-      overflow: visible;
+      overflow-y: visible;
+      overflow-x: inherit;
     }
     .mat-tab-label {
       border: none;
