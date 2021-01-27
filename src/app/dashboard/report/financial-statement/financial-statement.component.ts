@@ -139,7 +139,6 @@ export class FinancialStatementComponent
               return ulb.name.match(new RegExp(textToSearch, "gi"));
             })
             .map((oldULB) => {
-              return oldULB;
               const ulb = { ...oldULB };
               const matchedText = ulb.name.match(
                 new RegExp(textToSearch, "gi")
@@ -147,7 +146,7 @@ export class FinancialStatementComponent
 
               new Set(matchedText).forEach((text) => {
                 ulb.name = ulb.name.replace(
-                  new RegExp(text, "g"),
+                  new RegExp(text + "(?!([^<]+)?>+)", "g"),
                   `<span class="search-text-matched">${text}</span>`
                 );
               });
