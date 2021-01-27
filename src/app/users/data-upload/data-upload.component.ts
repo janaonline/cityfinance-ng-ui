@@ -6,6 +6,7 @@ import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatSlideToggleChange, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DropdownSettings } from 'angular2-multiselect-dropdown/lib/multiselect.interface';
 import * as Chart from 'chart.js';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { combineLatest, Observable, Subscription } from 'rxjs';
@@ -306,23 +307,26 @@ export class DataUploadComponent
   stateFcGrantDocuments = null;
   scrollToULBTable = false;
 
-  multiSelectStates = {
+  multiSelectStates: Partial<DropdownSettings> = {
     primaryKey: "_id",
     singleSelection: false,
     text: "Select States",
     enableSearchFilter: true,
     labelKey: "name",
     showCheckbox: true,
+    position: "bottom",
     noDataLabel: "No Data available",
   };
 
-  multiSelectStatesULBs = {
+  multiSelectStatesULBs: Partial<DropdownSettings> = {
     primaryKey: "_id",
     singleSelection: false,
     text: "Select ULBs",
     enableSearchFilter: true,
     labelKey: "ulbName",
     showCheckbox: true,
+    position: "bottom",
+
     noDataLabel: "No Data available",
   };
 
@@ -832,7 +836,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  };
+  }
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -898,12 +902,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  };
+  }
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  };
+  }
 
   getAddedFilterCount() {
     let count = 0;
