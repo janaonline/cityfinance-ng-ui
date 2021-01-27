@@ -54,6 +54,18 @@ export class FinancialDataService {
     );
   }
 
+  rejectMultiSelectULBs(documentId: string, rejectReason: string) {
+    // For testing. This will throw error 'Action already taken on form'
+    // return this.httpClient.post(
+    //   `https://democityfinanceapi.dhwaniris.in/api/v1/ulb-financial-data/multiple-approve-action/5fe447716783372717fa2e3e`,
+    //   {}
+    // );
+    return this.httpClient.post(
+      `${environment.api.url}ulb-financial-data/multiple-reject-action/${documentId}`,
+      { rejectReason }
+    );
+  }
+
   getFinancialDataListApi(body = {}) {
     body["token"] = localStorage
       .getItem("id_token")

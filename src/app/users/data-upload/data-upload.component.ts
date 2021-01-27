@@ -6,12 +6,14 @@ import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatSlideToggleChange, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DropdownSettings } from 'angular2-multiselect-dropdown/lib/multiselect.interface';
 import * as Chart from 'chart.js';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { JSONUtility } from 'src/app/util/jsonUtil';
+import { atLeast1AplhabetRequired, nonEmptyValidator } from 'src/app/util/reactiveFormValidators';
 import swal from 'sweetalert';
 
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
@@ -305,41 +307,55 @@ export class DataUploadComponent
   stateFcGrantDocuments = null;
   scrollToULBTable = false;
 
-  multiSelectStates = {
+  multiSelectStates: Partial<DropdownSettings> = {
     primaryKey: "_id",
     singleSelection: false,
     text: "Select States",
     enableSearchFilter: true,
     labelKey: "name",
     showCheckbox: true,
+    position: "bottom",
     noDataLabel: "No Data available",
   };
 
-  multiSelectStatesULBs = {
+  multiSelectStatesULBs: Partial<DropdownSettings> = {
     primaryKey: "_id",
     singleSelection: false,
     text: "Select ULBs",
     enableSearchFilter: true,
     labelKey: "ulbName",
     showCheckbox: true,
+    position: "bottom",
+
     noDataLabel: "No Data available",
   };
 
   multiStatesForApprovalControl = new FormControl();
+  multiStatesForRejectControl = new FormControl();
+  reasonForMultiSelectRejection = new FormControl(null, [
+    nonEmptyValidator,
+    atLeast1AplhabetRequired,
+  ]);
   totalUlbApprovalInProgress;
   errorsInMultiSelectULBApprovalDefault = [];
+  errorsInMultiSelectULBRejectDefault = [];
   errorsInMultiSelectULBApprovalDueToAlreadyApproval = [];
+  errorsInMultiSelectULBRejectDueToAlreadyApproval = [];
 
   showMultiSelectULBApprovalCompletionMessage = false;
+  showMultiSelectULBRejectionCompletionMessage = false;
 
   statesForULBUnderMoHUAApproval: any[];
+  statesForULBUnderMoHUARejection: any[];
 
   fcFormListSubscription: Subscription;
 
   chartDataSubscription: Subscription;
   totalNumberOfULBsSelectedForMultiApproval = 0;
+  totalNumberOfULBsSelectedForMultiRejection = 0;
 
   allSubscripts: Subscription[];
+  allRejectSubsciption: Observable<any>[];
 
   showIntimationMessage: boolean;
 
@@ -1436,30 +1452,39 @@ export class DataUploadComponent
 
   fetchStatesForMultiApproval() {
     this.statesForULBUnderMoHUAApproval = null;
+    const jsonUtil = new JSONUtility();
     this.financialDataService.fetStateForULBUnderMoHUA().subscribe((data) => {
-      this.statesForULBUnderMoHUAApproval = data["data"];
+      this.statesForULBUnderMoHUAApproval = jsonUtil.deepCopy(data["data"]);
+      this.statesForULBUnderMoHUARejection = jsonUtil.deepCopy(data["data"]);
     });
   }
 
   openSecondModal(historyModal: TemplateRef<any>) {
     this.totalUlbApprovalInProgress = 0;
     this.errorsInMultiSelectULBApprovalDefault = [];
+    this.errorsInMultiSelectULBRejectDefault = [];
     this.errorsInMultiSelectULBApprovalDueToAlreadyApproval = [];
+    this.errorsInMultiSelectULBRejectDueToAlreadyApproval = [];
     this.fetchStatesForMultiApproval();
 
     this._matDialog.open(historyModal, {
       panelClass: "multiApprovalModal",
       width: "80vw",
-      height: "90vh",
+      height: "96vh",
       id: "multiApprovalModalPopup",
       disableClose: true,
     });
     this._matDialog.afterAllClosed.subscribe((data) => {
       this.showMultiSelectULBApprovalCompletionMessage = false;
+      if (!this.multiStatesForRejectControl.value) return;
       if (!this.multiStatesForApprovalControl.value) return;
+      this.multiStatesForRejectControl.value.forEach((state) => {
+        state.ULBFormControl.reset();
+      });
       this.multiStatesForApprovalControl.value.forEach((state) => {
         state.ULBFormControl.reset();
       });
+      this.multiStatesForRejectControl.reset();
       this.multiStatesForApprovalControl.reset();
     });
   }
@@ -1506,6 +1531,60 @@ export class DataUploadComponent
     });
   }
 
+  onSelectingMultipleStateForRejection(stateList) {
+    if (!this.multiStatesForRejectControl.value) return;
+    this.allRejectSubsciption = [];
+    this.multiStatesForRejectControl.value.forEach((state) => {
+      if (state.ulbs) return;
+      state.ULBFormControl = new FormControl();
+
+      this.allRejectSubsciption.push(state.ULBFormControl.valueChanges);
+
+      this.financialDataService
+        .fetchFinancialDataList(
+          // Currently limit = 0 is not working. So to bypass that, setting random value.
+          { skip: 0, limit: 99999999 },
+          {
+            filter: {
+              stateName: state.name,
+              financialYear: "",
+              ulbName: "",
+              ulbCode: "",
+              audited: "",
+              censusCode: "",
+              sbCode: "",
+              status: UNDER_REVIEW_BY_MoHUA.id,
+              ulbType: "",
+              isMillionPlus: "",
+            },
+          }
+        )
+        .subscribe((list) => {
+          state.ulbs = list["data"];
+        });
+    });
+  }
+
+  updateCountOfULBsForReject() {
+    this.totalNumberOfULBsSelectedForMultiRejection = 0;
+    this.multiStatesForRejectControl.value.forEach((state) => {
+      if (!state.ULBFormControl) return;
+      if (!state.ULBFormControl.value) return;
+      this.totalNumberOfULBsSelectedForMultiRejection +=
+        state.ULBFormControl.value.length;
+    });
+  }
+
+  updateCountOfULBs() {
+    this.totalNumberOfULBsSelectedForMultiApproval = 0;
+    this.multiStatesForApprovalControl.value.forEach((state) => {
+      if (!state.ULBFormControl) return;
+      if (!state.ULBFormControl.value) return;
+      this.totalNumberOfULBsSelectedForMultiApproval +=
+        state.ULBFormControl.value.length;
+    });
+  }
+
   approveMultipleSelectedULBS() {
     /**
      * @description If the api is already in aprogress, then dont allow
@@ -1548,7 +1627,7 @@ export class DataUploadComponent
             }
           },
           (error: HttpErrorResponse) => {
-            console.log(error);
+            console.error(error);
             if (error.status === 400) {
               this.errorsInMultiSelectULBApprovalDueToAlreadyApproval.push(
                 `${state.name}: ${ulbForm.ulbName}`
@@ -1577,6 +1656,106 @@ export class DataUploadComponent
             }
           }
         );
+      });
+    });
+  }
+
+  resetMultiSelectRejectionTab() {
+    this.reasonForMultiSelectRejection.setValue("");
+
+    this.showMultiSelectULBRejectionCompletionMessage = false;
+    this.multiStatesForRejectControl.reset();
+  }
+
+  rejectMultipleSelectedULBS() {
+    /**
+     * @description If the api is already in aprogress, then dont allow
+     * more ulbs approval.
+     */
+    if (this.totalUlbApprovalInProgress) {
+      return;
+    }
+
+    this.multiStatesForRejectControl.disable();
+
+    let totalULBsSelected = 0;
+    this.totalUlbApprovalInProgress = 0;
+    this.errorsInMultiSelectULBRejectDefault = [];
+    this.errorsInMultiSelectULBRejectDueToAlreadyApproval = [];
+    this.showIntimationMessage = false;
+    this.multiStatesForRejectControl.value.forEach((state) => {
+      if (!state.ULBFormControl || !state.ULBFormControl.value) return;
+      state.ULBFormControl.value.forEach((ulbForm) => {
+        this.totalUlbApprovalInProgress++;
+        totalULBsSelected++;
+        this.financialDataService
+          .rejectMultiSelectULBs(
+            ulbForm._id,
+            this.reasonForMultiSelectRejection.value
+          )
+          .subscribe(
+            (res) => {
+              this.totalUlbApprovalInProgress--;
+              if (this.totalUlbApprovalInProgress === 0) {
+                this.reasonForMultiSelectRejection.setValue("");
+                this.reasonForMultiSelectRejection.enable();
+
+                this.showMultiSelectULBRejectionCompletionMessage = true;
+                this.multiStatesForRejectControl.reset();
+                this.fetchStatesForMultiApproval();
+                this.applyFilterClicked();
+                let totalULBFailed = 0;
+                totalULBFailed += this.errorsInMultiSelectULBApprovalDefault
+                  ? this.errorsInMultiSelectULBApprovalDefault.length
+                  : 0;
+
+                totalULBFailed += this
+                  .errorsInMultiSelectULBRejectDueToAlreadyApproval
+                  ? this.errorsInMultiSelectULBRejectDueToAlreadyApproval.length
+                  : 0;
+
+                if (totalULBFailed < totalULBsSelected) {
+                  this.showIntimationMessage = true;
+                }
+              }
+            },
+            (error: HttpErrorResponse) => {
+              console.error(error);
+              if (error.status === 400) {
+                this.errorsInMultiSelectULBRejectDueToAlreadyApproval.push(
+                  `${state.name}: ${ulbForm.ulbName}`
+                );
+              } else {
+                this.errorsInMultiSelectULBApprovalDefault.push(
+                  `${state.name}: ${ulbForm.ulbName}`
+                );
+              }
+
+              this.totalUlbApprovalInProgress--;
+              if (this.totalUlbApprovalInProgress === 0) {
+                this.reasonForMultiSelectRejection.enable();
+
+                this.reasonForMultiSelectRejection.setValue("");
+
+                this.showMultiSelectULBRejectionCompletionMessage = true;
+                this.multiStatesForRejectControl.reset();
+                this.fetchStatesForMultiApproval();
+                this.applyFilterClicked();
+                let totalULBFailed = 0;
+                totalULBFailed += this.errorsInMultiSelectULBRejectDefault
+                  ? this.errorsInMultiSelectULBRejectDefault.length
+                  : 0;
+
+                totalULBFailed += this
+                  .errorsInMultiSelectULBRejectDueToAlreadyApproval
+                  ? this.errorsInMultiSelectULBRejectDueToAlreadyApproval.length
+                  : 0;
+                if (totalULBFailed < totalULBsSelected) {
+                  this.showIntimationMessage = true;
+                }
+              }
+            }
+          );
       });
     });
   }
@@ -1617,7 +1796,6 @@ export class DataUploadComponent
       .replace('"', "");
     body["csv"] = true;
     const url = this.financialDataService.getStateFCDocumentApi(body);
-    console.log(url);
     return window.open(url);
   }
 
