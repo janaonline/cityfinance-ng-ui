@@ -1,4 +1,30 @@
 ::ng-deep {
+  .approve-reject-tab {
+    .mat-tab-body-content {
+      overflow: visible;
+    }
+    .mat-tab-body.mat-tab-body-active {
+      overflow-y: visible;
+      overflow-x: inherit;
+    }
+    .mat-tab-label {
+      border: none;
+    }
+    .mat-tab-body-wrapper {
+      min-height: 50vh;
+      overflow: visible;
+
+      .approve {
+        min-height: 42vh;
+        // overflow-y: auto;
+        // background: red;
+      }
+    }
+    .mat-tab-body {
+      padding-top: 2%;
+    }
+  }
+
   .selected-list .c-btn {
     font-size: 1.3rem !important;
   }
@@ -347,6 +373,7 @@ table .input-group {
 }
 
 .Approvalbuttons {
+  flex-wrap: wrap;
   button {
     margin: 2%;
   }
@@ -386,12 +413,13 @@ table .input-group {
       border-top: 1px solid #aaa;
     }
     .note {
-      position: absolute;
+      // position: absolute;
       bottom: 2%;
       color: red;
       background: rgb(255, 255, 255);
       width: 95%;
       left: 2%;
+      padding-left: 2%;
     }
   }
 }
