@@ -43,7 +43,7 @@
                 (click)="selectULB(ulb, false, state._id.state)"
                 [disabled]="!ulb?.financialYear"
               >
-                {{ ulb.name }}
+                <span [innerHTML]="ulb.name"></span>
                 <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
                   (No Financial Year Found)
                 </span>

@@ -134,9 +134,26 @@ export class FinancialStatementComponent
 
         const newList: Datum[] = [];
         this.NeworiginalUlbList.forEach((state) => {
-          const newULBList = state.ulbList.filter((ulb) =>
-            ulb.name.match(new RegExp(textToSearch, "gi"))
-          );
+          const newULBList = state.ulbList
+            .filter((ulb) => {
+              return ulb.name.match(new RegExp(textToSearch, "gi"));
+            })
+            .map((oldULB) => {
+              return oldULB;
+              const ulb = { ...oldULB };
+              const matchedText = ulb.name.match(
+                new RegExp(textToSearch, "gi")
+              );
+
+              new Set(matchedText).forEach((text) => {
+                ulb.name = ulb.name.replace(
+                  new RegExp(text, "g"),
+                  `<span class="search-text-matched">${text}</span>`
+                );
+              });
+
+              return ulb;
+            });
           if (!newList || !newULBList.length) return;
           newList.push({ ...state, ulbList: newULBList });
         });
@@ -198,8 +215,6 @@ export class FinancialStatementComponent
     this.ulbListForPopup = stateFound.ulbList.filter(
       (ulb) => ulb.ulbType === this.ulbTypeInView.type
     );
-
-    console.log(`new ULB List: `, this.ulbListForPopup);
   }
 
   onSelectingULBType(type: ulbType) {
