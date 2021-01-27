@@ -361,14 +361,18 @@ export class FinancialUploadsComponent
       });
     }
     if (!event.cityPlan || !event.cityPlan.length || !event.cityPlan[0].name) {
-      this.solidWasteManagementForm.controls.cityPlan.reset();
+      if (this.solidWasteManagementForm.controls.cityPlan) {
+        this.solidWasteManagementForm.controls.cityPlan.reset();
+      }
     }
     if (
       !event.serviceLevelPlan ||
       !event.serviceLevelPlan.length ||
       !event.serviceLevelPlan[0].name
     ) {
-      this.solidWasteManagementForm.controls.serviceLevelPlan.reset();
+      if (this.solidWasteManagementForm.controls.serviceLevelPlan) {
+        this.solidWasteManagementForm.controls.serviceLevelPlan.reset();
+      }
     }
 
     if (
@@ -376,7 +380,9 @@ export class FinancialUploadsComponent
       !event.solidWastePlan.length ||
       !event.solidWastePlan[0].name
     ) {
-      this.solidWasteManagementForm.controls.solidWastePlan.reset();
+      if (this.solidWasteManagementForm.controls.solidWastePlan) {
+        this.solidWasteManagementForm.controls.solidWastePlan.reset();
+      }
     }
 
     if (
@@ -384,7 +390,9 @@ export class FinancialUploadsComponent
       !event.waterBalancePlan.length ||
       !event.waterBalancePlan[0].name
     ) {
-      this.solidWasteManagementForm.controls.waterBalancePlan.reset();
+      if (this.solidWasteManagementForm.controls.waterBalancePlan) {
+        this.solidWasteManagementForm.controls.waterBalancePlan.reset();
+      }
     }
 
     this.financialData.millionPlusCities = {
