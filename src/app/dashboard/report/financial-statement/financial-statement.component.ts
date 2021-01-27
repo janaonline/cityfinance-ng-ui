@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { DropdownSettings } from 'angular2-multiselect-dropdown/lib/multiselect.interface';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { merge } from 'rxjs';
-import { debounceTime, distinct } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 import { IULB } from 'src/app/models/ulb';
 
@@ -115,30 +115,41 @@ export class FinancialStatementComponent
       reportGroup: ["Income & Expenditure Statement"],
     });
     this.ulbFilterControl = this.formBuilder.control("");
+    this.initializeULBSearch();
+
+    this.filterForm.controls.ulbList.valueChanges.subscribe(
+      (newValue) => (this.yearListUpdate = false)
+    );
+    this.initializeReportTypeChangeDetection();
+  }
+
+  private initializeULBSearch() {
     this.ulbFilterControl.valueChanges
-      .pipe(debounceTime(100), distinct())
+      .pipe(debounceTime(300))
       .subscribe((textToSearch: string) => {
-        if (!textToSearch || !textToSearch.trim()) {
+        textToSearch = textToSearch ? textToSearch.trim() : null;
+        if (!textToSearch) {
           return (this.filteredULBList = [...this.NeworiginalUlbList]);
         }
 
         const newList: Datum[] = [];
         this.NeworiginalUlbList.forEach((state) => {
           const newULBList = state.ulbList.filter((ulb) =>
-            ulb.name.toLowerCase().includes(textToSearch.toLowerCase())
+            ulb.name.match(new RegExp(textToSearch, "gi"))
           );
           if (!newList || !newULBList.length) return;
           newList.push({ ...state, ulbList: newULBList });
         });
 
         this.filteredULBList = [...newList];
-        console.log(this.filteredULBList);
       });
+  }
 
-    this.filterForm.controls.ulbList.valueChanges.subscribe(
-      (newValue) => (this.yearListUpdate = false)
-    );
-
+  /**
+   * @description Whenever the value in these controls changes,
+   * we need to re-calculate the values for table.
+   */
+  private initializeReportTypeChangeDetection() {
     merge(
       this.filterForm.controls.type.valueChanges,
       this.filterForm.controls.valueType.valueChanges,
@@ -158,6 +169,8 @@ export class FinancialStatementComponent
     this._loaderService.showLoader();
     this.commonService.fetchBasicLedgerData().subscribe((res) => {
       this._loaderService.showLoader();
+
+      // Sort State and ULBs alphabetically.
       this.NeworiginalUlbList = res.data.sort((stateA, stateB) => {
         stateA.ulbList = stateA.ulbList.sort((ulbA, ulbB) =>
           ulbA.name.localeCompare(ulbB.name)
@@ -174,20 +187,6 @@ export class FinancialStatementComponent
       );
       this.showULBOfState(this.NeworiginalUlbList[0]._id.state);
     });
-    // this.commonService.getULBSByYears([this.yearLookup[0].id]).subscribe(
-    //   (response: IULBResponse) => {
-    //     Object.values(response.data).forEach((state) => {
-    //       state.ulbs = state.ulbs.sort((a, b) => (b.name > a.name ? -1 : 0));
-    //     });
-    //     this.originalUlbList = response;
-    //     this.ulbs = JSON.parse(JSON.stringify(this.originalUlbList));
-
-    //     this.setPopupDefaultView();
-
-    //     this._loaderService.stopLoader();
-    //   },
-    //   () => {}
-    // );
   }
 
   showULBOfState(stateId: IBasicLedgerData["data"][0]["_id"]["state"]) {
