@@ -836,7 +836,7 @@ export class DataUploadComponent
       }
     }
     this.loading = false;
-  }
+  };
 
   setRejectedFields = (uploadObject) => {
     if (
@@ -902,12 +902,12 @@ export class DataUploadComponent
         schedulesToIncomeAndExpenditure: "Schedules To Income and Expenditure",
       };
     }
-  }
+  };
 
   handleResponseFailure = (error) => {
     this.loading = false;
     this.handlerError(error);
-  }
+  };
 
   getAddedFilterCount() {
     let count = 0;
@@ -1470,7 +1470,7 @@ export class DataUploadComponent
     this._matDialog.open(historyModal, {
       panelClass: "multiApprovalModal",
       width: "80vw",
-      height: "90vh",
+      height: "96vh",
       id: "multiApprovalModalPopup",
       disableClose: true,
     });

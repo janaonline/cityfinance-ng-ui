@@ -1242,7 +1242,7 @@
   <mat-tab-group
     dynamicHeight="false"
     class="mt-2 approve-reject-tab"
-    animationDuration="100ms"
+    animationDuration="0ms"
   >
     <mat-tab [label]="'Approve ULBs'" [disabled]="!!totalUlbApprovalInProgress">
       <div class="approve">
@@ -1388,7 +1388,7 @@
           </button>
         </div>
       </div>
-      <p class="note" style="padding-left: 2%">
+      <p class="note" >
         <span style="font-size: 1.3em">NOTE:</span> <br />1. Only those ULBs
         will be shown whose FC Grant Form is under review by MoHUA <br />
       </p>
@@ -1556,13 +1556,14 @@
                 : "Application"
             }}
           </button>
-          <p class="note">
+        
+        </div>
+      </div>
+        <p class="note">
             <span style="font-size: 1.3em">NOTE:</span> <br />1. Only those ULBs
             will be shown whose FC Grant Form is under review by MoHUA <br />2.
             All selected ULBs will be have same rejection reason.
           </p>
-        </div>
-      </div>
     </mat-tab>
   </mat-tab-group>
 </ng-template>
