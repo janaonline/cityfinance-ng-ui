@@ -409,20 +409,29 @@ export class FinancialUploadsComponent
 
   saveAsDraft() {
     this.resetMessages();
-
-    const body = {
-      ulb: this.loggedInUserDetails.ulb,
-      millionPlusCities: this.financialData
-        ? this.financialData.millionPlusCities
-        : null,
-      solidWasteManagement: this.financialData
-        ? this.financialData.solidWasteManagement
-        : null,
-      waterManagement: this.financialData
-        ? this.financialData.waterManagement
-        : null,
-      isCompleted: false,
-    };
+    console.log(this.financialData);
+    let body: Partial<IFinancialData>;
+    if (this.canUploadFile) {
+      body = {
+        ulb: this.financialData.ulb,
+        millionPlusCities: this.financialData
+          ? this.financialData.millionPlusCities
+          : null,
+        solidWasteManagement: this.financialData
+          ? this.financialData.solidWasteManagement
+          : null,
+        waterManagement: this.financialData
+          ? this.financialData.waterManagement
+          : null,
+        isCompleted: false,
+      };
+    } else if (this.canTakeApproveRejectAction) {
+      body = this.createDataForApprovalInDraftMode();
+    } else {
+      return console.error(
+        "LoggedIn user has neither acccess to Form Filling nor access to take action on form."
+      );
+    }
 
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
@@ -431,6 +440,8 @@ export class FinancialUploadsComponent
 
       disableClose: true,
     });
+
+    return console.log(body);
 
     this.financialDataService.uploadFinancialData(body).subscribe(
       (res) => {
@@ -475,7 +486,7 @@ export class FinancialUploadsComponent
     this.resetMessages();
 
     let body = {
-      ulb: this.loggedInUserDetails.ulb,
+      ulb: this.financialData.ulb,
       millionPlusCities:
         this.financialData &&
         this.financialData.millionPlusCities &&
@@ -564,6 +575,20 @@ export class FinancialUploadsComponent
     });
   }
 
+  private createDataForApprovalInDraftMode() {
+    return {
+      ulb: this.financialData.ulb,
+      millionPlusCities: this.isULBMillionPlus
+        ? { documents: this.millionPlusCitiesForm.getRawValue() }
+        : null,
+      solidWasteManagement: {
+        documents: this.solidWasteManagementForm.getRawValue(),
+      },
+      waterManagement: this.waterWasteManagementForm.getRawValue(),
+      isCompleted: true,
+    };
+  }
+
   /**
    * @description This method must be called only if the LoggedIn User has
    * access to APPORVE/REJECT form.
@@ -580,17 +605,7 @@ export class FinancialUploadsComponent
 
     this.resetMessages();
 
-    const body = {
-      ulb: this.financialData.ulb,
-      millionPlusCities: this.isULBMillionPlus
-        ? { documents: this.millionPlusCitiesForm.getRawValue() }
-        : null,
-      solidWasteManagement: {
-        documents: this.solidWasteManagementForm.getRawValue(),
-      },
-      waterManagement: this.waterWasteManagementForm.getRawValue(),
-      isCompleted: true,
-    };
+    const body = this.createDataForApprovalInDraftMode();
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
       height: "fit-content",
