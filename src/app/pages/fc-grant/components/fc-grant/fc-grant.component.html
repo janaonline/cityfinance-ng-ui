@@ -199,13 +199,23 @@
                 )
               "
             >
-              {{
-                financialData.isCompleted
-                  ? financialData.status === uploadStatus.REJECTED
-                    ? "Update Rejected Data"
-                    : "View Filled Data"
-                  : "Complete Application"
-              }}
+              <ng-container [ngSwitch]="financialData.isCompleted">
+                <span *ngSwitchCase="true">
+                  {{
+                    financialData.status === uploadStatus.REJECTED
+                      ? "Update
+                  Rejected Data"
+                      : "View Filled Data"
+                  }}
+                </span>
+                <span *ngSwitchCase="false">
+                  {{
+                    financialData.actionTakenByUserRole === USER_TYPE.ULB
+                      ? "Complete Application"
+                      : "View Filled Data"
+                  }}
+                </span>
+              </ng-container>
             </a>
 
             <a
