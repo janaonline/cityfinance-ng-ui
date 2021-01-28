@@ -41,15 +41,37 @@ export class UploadDataUtility {
     const loggedInUserType = this.userUtil.getUserType();
     switch (loggedInUserType) {
       case USER_TYPE.STATE: {
-        if (request.actionTakenByUserRole !== USER_TYPE.ULB) return false;
-        if (!request.isCompleted) return false;
-        return true;
+        if (request.status === UPLOAD_STATUS.REJECTED) return false;
+
+        // When ULB has Final Submitted.
+        if (request.actionTakenByUserRole === USER_TYPE.ULB) {
+          return request.isCompleted;
+        }
+        if (request.actionTakenByUserRole === USER_TYPE.STATE) {
+          return !request.isCompleted;
+        }
+        console.warn("reached at Final State");
+
+        return false;
       }
       case USER_TYPE.MoHUA: {
-        if (request.actionTakenByUserRole !== USER_TYPE.STATE) return false;
-        if (!request.isCompleted) return false;
         if (request.status === UPLOAD_STATUS.REJECTED) return false;
-        return true;
+
+        // When State has either taken Action or Drafted the data.
+        if (request.actionTakenByUserRole === USER_TYPE.STATE) {
+          return (
+            request.isCompleted && request.status === UPLOAD_STATUS.APPROVED
+          );
+        }
+
+        if (request.actionTakenByUserRole === USER_TYPE.MoHUA) {
+          if (request.isCompleted) return false;
+          return true;
+        }
+
+        console.warn("reached at Final MoHUA");
+
+        return false;
       }
       default:
         return false;

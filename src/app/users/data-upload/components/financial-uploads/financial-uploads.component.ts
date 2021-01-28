@@ -181,8 +181,6 @@ export class FinancialUploadsComponent
 
     // Check here for taking actions
     if (!hasAccessToTakeAction) {
-      // console.warn("setting canViewActionTaken to false");
-      // this.canViewActionTaken = false;
       return;
     }
 
@@ -409,30 +407,6 @@ export class FinancialUploadsComponent
 
   saveAsDraft() {
     this.resetMessages();
-    console.log(this.financialData);
-    let body: Partial<IFinancialData>;
-    if (this.canUploadFile) {
-      body = {
-        ulb: this.financialData.ulb,
-        millionPlusCities: this.financialData
-          ? this.financialData.millionPlusCities
-          : null,
-        solidWasteManagement: this.financialData
-          ? this.financialData.solidWasteManagement
-          : null,
-        waterManagement: this.financialData
-          ? this.financialData.waterManagement
-          : null,
-        isCompleted: false,
-      };
-    } else if (this.canTakeApproveRejectAction) {
-      body = this.createDataForApprovalInDraftMode();
-    } else {
-      return console.error(
-        "LoggedIn user has neither acccess to Form Filling nor access to take action on form."
-      );
-    }
-
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
       height: "fit-content",
@@ -440,10 +414,55 @@ export class FinancialUploadsComponent
 
       disableClose: true,
     });
+    if (this.canUploadFile) {
+      this.initiateDraftByULB();
+    } else if (this.canTakeApproveRejectAction) {
+      this.initiateDraftByStateAndMoHUA();
+    } else {
+      return console.error(
+        "LoggedIn user has neither acccess to Form Filling nor access to take action on form."
+      );
+    }
+  }
 
-    return console.log(body);
+  private initiateDraftByStateAndMoHUA() {
+    const body = this.createDataForApprovalInDraftMode();
+    return this.financialDataService
+      .updateActionOnFinancialData(body, this.financialData._id)
+      .subscribe(
+        (res) => {
+          this.draftSavingInProgess = false;
+          this.successMessage = "Saved as Draft";
+          setTimeout(() => this._matDialog.closeAll(), 3000);
+        },
+        (err) => {
+          this.draftSavingInProgess = false;
 
-    this.financialDataService.uploadFinancialData(body).subscribe(
+          this.saveAsDraftFailMessge =
+            err.error.message ||
+            err.error.msg ||
+            "Fail to save data. Please try after some time.";
+          setTimeout(() => this._matDialog.closeAll(), 3000);
+        }
+      );
+  }
+
+  private initiateDraftByULB() {
+    const body: Partial<IFinancialData> = {
+      ulb: this.financialData.ulb,
+      millionPlusCities: this.financialData
+        ? this.financialData.millionPlusCities
+        : null,
+      solidWasteManagement: this.financialData
+        ? this.financialData.solidWasteManagement
+        : null,
+      waterManagement: this.financialData
+        ? this.financialData.waterManagement
+        : null,
+      isCompleted: false,
+    };
+
+    return this.financialDataService.uploadFinancialData(body).subscribe(
       (res) => {
         this.draftSavingInProgess = false;
         this.successMessage = "Saved as Draft";
@@ -585,7 +604,7 @@ export class FinancialUploadsComponent
         documents: this.solidWasteManagementForm.getRawValue(),
       },
       waterManagement: this.waterWasteManagementForm.getRawValue(),
-      isCompleted: true,
+      isCompleted: false,
     };
   }
 
@@ -606,6 +625,7 @@ export class FinancialUploadsComponent
     this.resetMessages();
 
     const body = this.createDataForApprovalInDraftMode();
+    body.isCompleted = true;
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
       height: "fit-content",
