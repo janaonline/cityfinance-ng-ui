@@ -1325,7 +1325,8 @@
           *ngIf="errorsInMultiSelectULBApprovalDueToAlreadyApproval?.length"
         >
           <span
-            ><b
+            >
+            <!-- <b
               >Approval for following ULB's
               {{
                 errorsInMultiSelectULBApprovalDefault?.length > 1
@@ -1333,7 +1334,16 @@
                   : "Application is"
               }}
               already approved:</b
-            ></span
+            > -->
+
+               <b
+              >Action has already been taken on the following   {{
+                errorsInMultiSelectULBApprovalDefault?.length > 1
+                  ? "ULBs"
+                  : "ULB"
+              }}:</b
+            >
+            </span
           ><br />
           <ol>
             <li
@@ -1506,7 +1516,8 @@
           *ngIf="errorsInMultiSelectULBRejectDueToAlreadyApproval?.length"
         >
           <span
-            ><b
+            >
+            <!-- <b
               >Rejection for following ULB's
               {{
                 errorsInMultiSelectULBRejectDefault?.length > 1
@@ -1514,7 +1525,16 @@
                   : "Application is"
               }}
               already approved:</b
-            ></span
+            > -->
+
+             <b
+              >Action has already been taken on the following   {{
+                errorsInMultiSelectULBRejectDefault?.length > 1
+                  ? "ULBs"
+                  : "ULB"
+              }}:</b
+            >
+            </span
           ><br />
           <ol>
             <li
