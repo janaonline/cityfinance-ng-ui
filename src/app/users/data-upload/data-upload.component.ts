@@ -347,6 +347,29 @@ export class DataUploadComponent
 
   statesForULBUnderMoHUAApproval: any[];
   statesForULBUnderMoHUARejection: any[];
+  formStatusListForMultiAction = [
+    { name: "All", key: "" },
+    { name: `Draft By ${USER_TYPE.MoHUA}`, key: "draft-by-MoHUA" },
+    {
+      name: `Under Review By ${USER_TYPE.MoHUA}`,
+      key: "under-review-by-MoHUA",
+    },
+  ];
+
+  formStatusSelectionConfig: Partial<DropdownSettings> = {
+    primaryKey: "key",
+    singleSelection: true,
+    enableSearchFilter: false,
+    labelKey: "name",
+    showCheckbox: true,
+    position: "bottom",
+  };
+  formStatusForApprovalControl = new FormControl([
+    this.formStatusListForMultiAction[0],
+  ]);
+  formStatusForRejectControl = new FormControl([
+    this.formStatusListForMultiAction[0],
+  ]);
 
   fcFormListSubscription: Subscription;
 
@@ -1458,13 +1481,29 @@ export class DataUploadComponent
     );
   }
 
-  fetchStatesForMultiApproval() {
+  fetchStatesForMultiApproval(formStatus?: string) {
     this.statesForULBUnderMoHUAApproval = null;
-    const jsonUtil = new JSONUtility();
-    this.financialDataService.fetStateForULBUnderMoHUA().subscribe((data) => {
-      this.statesForULBUnderMoHUAApproval = jsonUtil.deepCopy(data["data"]);
-      this.statesForULBUnderMoHUARejection = jsonUtil.deepCopy(data["data"]);
-    });
+    this.multiStatesForApprovalControl.reset();
+    this.financialDataService
+      .fetStateForULBUnderMoHUA(formStatus)
+      .subscribe((data) => {
+        this.statesForULBUnderMoHUAApproval = this.jsonUtil.deepCopy(
+          data["data"]
+        );
+      });
+  }
+
+  fetchStatesForMultiRejection(formStatus?: string) {
+    this.statesForULBUnderMoHUARejection = null;
+    this.multiStatesForRejectControl.reset();
+
+    this.financialDataService
+      .fetStateForULBUnderMoHUA(formStatus)
+      .subscribe((data) => {
+        this.statesForULBUnderMoHUARejection = this.jsonUtil.deepCopy(
+          data["data"]
+        );
+      });
   }
 
   openSecondModal(historyModal: TemplateRef<any>) {
@@ -1474,6 +1513,7 @@ export class DataUploadComponent
     this.errorsInMultiSelectULBApprovalDueToAlreadyApproval = [];
     this.errorsInMultiSelectULBRejectDueToAlreadyApproval = [];
     this.fetchStatesForMultiApproval();
+    this.fetchStatesForMultiRejection();
 
     this._matDialog.open(historyModal, {
       panelClass: "multiApprovalModal",
@@ -1481,6 +1521,15 @@ export class DataUploadComponent
       height: "96vh",
       id: "multiApprovalModalPopup",
       disableClose: true,
+    });
+    this.formStatusForApprovalControl.valueChanges.subscribe((newValue) => {
+      const status = newValue[0].key;
+      this.fetchStatesForMultiApproval(status);
+    });
+
+    this.formStatusForRejectControl.valueChanges.subscribe((newValue) => {
+      const status = newValue[0].key;
+      this.fetchStatesForMultiRejection(status);
     });
     this._matDialog.afterAllClosed.subscribe((data) => {
       this.showMultiSelectULBApprovalCompletionMessage = false;

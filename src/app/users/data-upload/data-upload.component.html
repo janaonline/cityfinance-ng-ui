@@ -1247,13 +1247,25 @@
     <mat-tab [label]="'Approve ULBs'" [disabled]="!!totalUlbApprovalInProgress">
       <div class="approve">
         <div id="multiApprovalModal">
+          <p class="states-selection" style="margin-bottom: 2%">
+            <span class="stateName"
+              ><strong>Select Form Status Type:</strong></span
+            >
+            <angular2-multiselect
+              [formControl]="formStatusForApprovalControl"
+              style="display: inline-block; width: 70%"
+              [data]="formStatusListForMultiAction"
+              [settings]="formStatusSelectionConfig"
+            >
+            </angular2-multiselect>
+          </p>
           <p class="states-selection">
             <span class="stateName"><strong>Select States:</strong></span>
             <angular2-multiselect
               *ngIf="statesForULBUnderMoHUAApproval"
               [formControl]="multiStatesForApprovalControl"
               style="display: inline-block; width: 70%"
-              [data]="statesForULBUnderMoHUARejection"
+              [data]="statesForULBUnderMoHUAApproval"
               [settings]="multiSelectStates"
               (onClose)="onSelectingMultipleStateForApproval($event)"
             >
@@ -1388,7 +1400,7 @@
           </button>
         </div>
       </div>
-      <p class="note" >
+      <p class="note">
         <span style="font-size: 1.3em">NOTE:</span> <br />1. Only those ULBs
         will be shown whose FC Grant Form is under review by MoHUA <br />
       </p>
@@ -1397,13 +1409,25 @@
     <mat-tab [label]="'Reject ULBs'" [disabled]="!!totalUlbApprovalInProgress">
       <div class="approve">
         <div id="multiApprovalModal">
+          <p class="states-selection" style="margin-bottom: 2%">
+            <span class="stateName"
+              ><strong>Select Form Status Type:</strong></span
+            >
+            <angular2-multiselect
+              [formControl]="formStatusForRejectControl"
+              style="display: inline-block; width: 70%"
+              [data]="formStatusListForMultiAction"
+              [settings]="formStatusSelectionConfig"
+            >
+            </angular2-multiselect>
+          </p>
           <p class="states-selection">
             <span class="stateName"><strong>Select States:</strong></span>
             <angular2-multiselect
-              *ngIf="statesForULBUnderMoHUAApproval"
+              *ngIf="statesForULBUnderMoHUARejection"
               [formControl]="multiStatesForRejectControl"
               style="display: inline-block; width: 70%"
-              [data]="statesForULBUnderMoHUAApproval"
+              [data]="statesForULBUnderMoHUARejection"
               [settings]="multiSelectStates"
               (onClose)="onSelectingMultipleStateForRejection($event)"
             >
@@ -1556,14 +1580,13 @@
                 : "Application"
             }}
           </button>
-        
         </div>
       </div>
-        <p class="note">
-            <span style="font-size: 1.3em">NOTE:</span> <br />1. Only those ULBs
-            will be shown whose FC Grant Form is under review by MoHUA <br />2.
-            All selected ULBs will be have same rejection reason.
-          </p>
+      <p class="note">
+        <span style="font-size: 1.3em">NOTE:</span> <br />1. Only those ULBs
+        will be shown whose FC Grant Form is under review by MoHUA <br />2. All
+        selected ULBs will be have same rejection reason.
+      </p>
     </mat-tab>
   </mat-tab-group>
 </ng-template>
