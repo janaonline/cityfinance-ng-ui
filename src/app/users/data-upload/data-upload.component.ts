@@ -1756,6 +1756,7 @@ export class DataUploadComponent
               this.totalUlbApprovalInProgress--;
               if (this.totalUlbApprovalInProgress === 0) {
                 this.resetMultiSelectRejectionTab();
+                this.showMultiSelectULBRejectionCompletionMessage = true;
 
                 this.fetchStatesForMultiRejection(
                   this.formStatusForRejectControl.value[0].key
@@ -1791,6 +1792,7 @@ export class DataUploadComponent
               this.totalUlbApprovalInProgress--;
               if (this.totalUlbApprovalInProgress === 0) {
                 this.resetMultiSelectRejectionTab();
+                this.showMultiSelectULBRejectionCompletionMessage = true;
 
                 this.fetchStatesForMultiApproval(
                   this.formStatusForRejectControl.value
