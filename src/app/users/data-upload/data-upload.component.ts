@@ -347,6 +347,29 @@ export class DataUploadComponent
 
   statesForULBUnderMoHUAApproval: any[];
   statesForULBUnderMoHUARejection: any[];
+  formStatusListForMultiAction = [
+    { name: "All", key: "" },
+    { name: `Draft By ${USER_TYPE.MoHUA}`, key: "draft-by-MoHUA" },
+    {
+      name: `Under Review By ${USER_TYPE.MoHUA}`,
+      key: "under-review-by-MoHUA",
+    },
+  ];
+
+  formStatusSelectionConfig: Partial<DropdownSettings> = {
+    primaryKey: "key",
+    singleSelection: true,
+    enableSearchFilter: false,
+    labelKey: "name",
+    showCheckbox: true,
+    position: "bottom",
+  };
+  formStatusForApprovalControl = new FormControl([
+    this.formStatusListForMultiAction[0],
+  ]);
+  formStatusForRejectControl = new FormControl([
+    this.formStatusListForMultiAction[0],
+  ]);
 
   fcFormListSubscription: Subscription;
 
@@ -772,9 +795,17 @@ export class DataUploadComponent
 
   private formatResponse(req: IFinancialData, history = false) {
     if (!req.isCompleted) {
+      let customStatusText;
+      if (req.actionTakenByUserRole === USER_TYPE.ULB) {
+        customStatusText = SAVED_AS_DRAFT.itemName;
+      } else if (req.actionTakenByUserRole === USER_TYPE.STATE) {
+        customStatusText = UNDER_REVIEW_BY_STATE.itemName;
+      } else {
+        customStatusText = UNDER_REVIEW_BY_MoHUA.itemName;
+      }
       return {
         ...req,
-        customStatusText: SAVED_AS_DRAFT.itemName,
+        customStatusText,
         canTakeAction: this.canTakeAction(req),
       };
     }
@@ -1450,13 +1481,25 @@ export class DataUploadComponent
     );
   }
 
-  fetchStatesForMultiApproval() {
+  fetchStatesForMultiApproval(formStatus?: string) {
     this.statesForULBUnderMoHUAApproval = null;
-    const jsonUtil = new JSONUtility();
-    this.financialDataService.fetStateForULBUnderMoHUA().subscribe((data) => {
-      this.statesForULBUnderMoHUAApproval = jsonUtil.deepCopy(data["data"]);
-      this.statesForULBUnderMoHUARejection = jsonUtil.deepCopy(data["data"]);
-    });
+    this.multiStatesForApprovalControl.reset();
+    this.financialDataService
+      .fetStateForULBUnderMoHUA(formStatus)
+      .subscribe((data) => {
+        this.statesForULBUnderMoHUAApproval = data["data"];
+      });
+  }
+
+  fetchStatesForMultiRejection(formStatus?: string) {
+    this.statesForULBUnderMoHUARejection = null;
+    this.multiStatesForRejectControl.reset();
+
+    this.financialDataService
+      .fetStateForULBUnderMoHUA(formStatus)
+      .subscribe((data) => {
+        this.statesForULBUnderMoHUARejection = data["data"];
+      });
   }
 
   openSecondModal(historyModal: TemplateRef<any>) {
@@ -1466,6 +1509,7 @@ export class DataUploadComponent
     this.errorsInMultiSelectULBApprovalDueToAlreadyApproval = [];
     this.errorsInMultiSelectULBRejectDueToAlreadyApproval = [];
     this.fetchStatesForMultiApproval();
+    this.fetchStatesForMultiRejection();
 
     this._matDialog.open(historyModal, {
       panelClass: "multiApprovalModal",
@@ -1473,6 +1517,15 @@ export class DataUploadComponent
       height: "96vh",
       id: "multiApprovalModalPopup",
       disableClose: true,
+    });
+    this.formStatusForApprovalControl.valueChanges.subscribe((newValue) => {
+      const status = newValue[0].key;
+      this.fetchStatesForMultiApproval(status);
+    });
+
+    this.formStatusForRejectControl.valueChanges.subscribe((newValue) => {
+      const status = newValue[0].key;
+      this.fetchStatesForMultiRejection(status);
     });
     this._matDialog.afterAllClosed.subscribe((data) => {
       this.showMultiSelectULBApprovalCompletionMessage = false;
@@ -1609,7 +1662,9 @@ export class DataUploadComponent
             if (this.totalUlbApprovalInProgress === 0) {
               this.showMultiSelectULBApprovalCompletionMessage = true;
               this.multiStatesForApprovalControl.reset();
-              this.fetchStatesForMultiApproval();
+              this.fetchStatesForMultiApproval(
+                this.formStatusForApprovalControl.value[0].key
+              );
               this.applyFilterClicked();
               let totalULBFailed = 0;
               totalULBFailed += this.errorsInMultiSelectULBApprovalDefault
@@ -1642,7 +1697,9 @@ export class DataUploadComponent
             if (this.totalUlbApprovalInProgress === 0) {
               this.showMultiSelectULBApprovalCompletionMessage = true;
               this.multiStatesForApprovalControl.reset();
-              this.fetchStatesForMultiApproval();
+              this.fetchStatesForMultiApproval(
+                this.formStatusForApprovalControl.value
+              );
               this.applyFilterClicked();
               let totalULBFailed = 0;
               totalULBFailed += this.errorsInMultiSelectULBApprovalDefault
@@ -1662,6 +1719,7 @@ export class DataUploadComponent
 
   resetMultiSelectRejectionTab() {
     this.reasonForMultiSelectRejection.setValue("");
+    this.reasonForMultiSelectRejection.enable();
 
     this.showMultiSelectULBRejectionCompletionMessage = false;
     this.multiStatesForRejectControl.reset();
@@ -1697,12 +1755,12 @@ export class DataUploadComponent
             (res) => {
               this.totalUlbApprovalInProgress--;
               if (this.totalUlbApprovalInProgress === 0) {
-                this.reasonForMultiSelectRejection.setValue("");
-                this.reasonForMultiSelectRejection.enable();
-
+                this.resetMultiSelectRejectionTab();
                 this.showMultiSelectULBRejectionCompletionMessage = true;
-                this.multiStatesForRejectControl.reset();
-                this.fetchStatesForMultiApproval();
+
+                this.fetchStatesForMultiRejection(
+                  this.formStatusForRejectControl.value[0].key
+                );
                 this.applyFilterClicked();
                 let totalULBFailed = 0;
                 totalULBFailed += this.errorsInMultiSelectULBApprovalDefault
@@ -1733,13 +1791,12 @@ export class DataUploadComponent
 
               this.totalUlbApprovalInProgress--;
               if (this.totalUlbApprovalInProgress === 0) {
-                this.reasonForMultiSelectRejection.enable();
-
-                this.reasonForMultiSelectRejection.setValue("");
-
+                this.resetMultiSelectRejectionTab();
                 this.showMultiSelectULBRejectionCompletionMessage = true;
-                this.multiStatesForRejectControl.reset();
-                this.fetchStatesForMultiApproval();
+
+                this.fetchStatesForMultiApproval(
+                  this.formStatusForRejectControl.value
+                );
                 this.applyFilterClicked();
                 let totalULBFailed = 0;
                 totalULBFailed += this.errorsInMultiSelectULBRejectDefault

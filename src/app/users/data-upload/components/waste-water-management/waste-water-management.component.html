@@ -904,7 +904,7 @@
   <div class="d-flex justify-content-end">
     <button
       id="save-as-Draft"
-      *ngIf="canUploadFile"
+      *ngIf="canUploadFile || canTakeApproveAction"
       class="btn btn-primary btn-upload mt-2"
       style="float: right; margin-right: 2%"
       (click)="onSaveAsDraftClick()"
