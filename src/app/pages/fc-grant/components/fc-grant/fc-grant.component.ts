@@ -84,7 +84,6 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
 
   checkULBProfileCompleteStatus() {
     this._profileService.isULBProfileCompleted().subscribe((res) => {
-      console.log("isULBProfileCompleted", res);
       this.isULBProfileCompleted = res;
       if (!res) return;
       this.fetchFinancialDataUpload();
@@ -191,19 +190,6 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       }
     }
 
-    // if (
-    //   this.financialData.waterManagement &&
-    //   this.financialData.waterManagement.documents.wasteWaterPlan
-    // ) {
-    //   const doc = this.financialData.waterManagement.documents
-    //     .wasteWaterPlan[0];
-    //   if (doc && doc.name) {
-    //     completed++;
-    //     this.evidencePercentageCompleted++;
-    //     console.log("got the doc");
-    //   }
-    // }
-
     services.forEach((question) => {
       const serviceLevel = this.financialData.waterManagement[question.key];
       try {
@@ -233,14 +219,13 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   }
 
   calculateFormStatus(data: IFinancialData) {
-    if (!data.isCompleted) return "Incomplete (Saved as Draft)";
+    if (!data.isCompleted && data.actionTakenByUserRole === USER_TYPE.ULB) {
+      return "Incomplete (Saved as Draft)";
+    }
+
     switch (data.status) {
       case "PENDING": {
-        const message = "Under Review by ";
-        if (data.actionTakenByUserRole === USER_TYPE.ULB) {
-          return message + USER_TYPE.STATE;
-        }
-        return message + USER_TYPE.MoHUA;
+        return "Under Review by " + data.actionTakenByUserRole;
       }
       case "REJECTED": {
         return `Rejected by ${data.actionTakenByUserRole}`;

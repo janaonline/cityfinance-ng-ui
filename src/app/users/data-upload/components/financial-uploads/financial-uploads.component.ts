@@ -181,8 +181,6 @@ export class FinancialUploadsComponent
 
     // Check here for taking actions
     if (!hasAccessToTakeAction) {
-      // console.warn("setting canViewActionTaken to false");
-      // this.canViewActionTaken = false;
       return;
     }
 
@@ -307,7 +305,6 @@ export class FinancialUploadsComponent
         SolidWasteEmitValue
       >,
     };
-    console.log("event", event);
     if (
       !event.garbageFreeCities ||
       !event.garbageFreeCities.length ||
@@ -326,7 +323,6 @@ export class FinancialUploadsComponent
     this.solidWasteManagementForm.patchValue(
       this.jsonUtil.filterEmptyValue(event, true) || {}
     );
-    console.log(this.solidWasteManagementForm.value);
   }
 
   onMilionPlusCitiesEmitValue(event: MillionPlusCitiesDocuments) {
@@ -360,6 +356,7 @@ export class FinancialUploadsComponent
         }
       });
     }
+
     if (!event.cityPlan || !event.cityPlan.length || !event.cityPlan[0].name) {
       if (this.solidWasteManagementForm.controls.cityPlan) {
         this.solidWasteManagementForm.controls.cityPlan.reset();
@@ -410,9 +407,49 @@ export class FinancialUploadsComponent
 
   saveAsDraft() {
     this.resetMessages();
+    this._matDialog.open(this.savingPopup, {
+      width: "35vw",
+      height: "fit-content",
+      panelClass: "custom-warning-popup",
 
-    const body = {
-      ulb: this.loggedInUserDetails.ulb,
+      disableClose: true,
+    });
+    if (this.canUploadFile) {
+      this.initiateDraftByULB();
+    } else if (this.canTakeApproveRejectAction) {
+      this.initiateDraftByStateAndMoHUA();
+    } else {
+      return console.error(
+        "LoggedIn user has neither acccess to Form Filling nor access to take action on form."
+      );
+    }
+  }
+
+  private initiateDraftByStateAndMoHUA() {
+    const body = this.createDataForApprovalInDraftMode();
+    return this.financialDataService
+      .updateActionOnFinancialData(body, this.financialData._id)
+      .subscribe(
+        (res) => {
+          this.draftSavingInProgess = false;
+          this.successMessage = "Saved as Draft";
+          setTimeout(() => this._matDialog.closeAll(), 3000);
+        },
+        (err) => {
+          this.draftSavingInProgess = false;
+
+          this.saveAsDraftFailMessge =
+            err.error.message ||
+            err.error.msg ||
+            "Fail to save data. Please try after some time.";
+          setTimeout(() => this._matDialog.closeAll(), 3000);
+        }
+      );
+  }
+
+  private initiateDraftByULB() {
+    const body: Partial<IFinancialData> = {
+      ulb: this.financialData.ulb,
       millionPlusCities: this.financialData
         ? this.financialData.millionPlusCities
         : null,
@@ -425,15 +462,7 @@ export class FinancialUploadsComponent
       isCompleted: false,
     };
 
-    this._matDialog.open(this.savingPopup, {
-      width: "35vw",
-      height: "fit-content",
-      panelClass: "custom-warning-popup",
-
-      disableClose: true,
-    });
-
-    this.financialDataService.uploadFinancialData(body).subscribe(
+    return this.financialDataService.uploadFinancialData(body).subscribe(
       (res) => {
         this.draftSavingInProgess = false;
         this.successMessage = "Saved as Draft";
@@ -476,7 +505,7 @@ export class FinancialUploadsComponent
     this.resetMessages();
 
     let body = {
-      ulb: this.loggedInUserDetails.ulb,
+      ulb: this.financialData.ulb,
       millionPlusCities:
         this.financialData &&
         this.financialData.millionPlusCities &&
@@ -565,6 +594,20 @@ export class FinancialUploadsComponent
     });
   }
 
+  private createDataForApprovalInDraftMode() {
+    return {
+      ulb: this.financialData.ulb,
+      millionPlusCities: this.isULBMillionPlus
+        ? { documents: this.millionPlusCitiesForm.getRawValue() }
+        : null,
+      solidWasteManagement: {
+        documents: this.solidWasteManagementForm.getRawValue(),
+      },
+      waterManagement: this.waterWasteManagementForm.getRawValue(),
+      isCompleted: false,
+    };
+  }
+
   /**
    * @description This method must be called only if the LoggedIn User has
    * access to APPORVE/REJECT form.
@@ -581,17 +624,8 @@ export class FinancialUploadsComponent
 
     this.resetMessages();
 
-    const body = {
-      ulb: this.financialData.ulb,
-      millionPlusCities: this.isULBMillionPlus
-        ? { documents: this.millionPlusCitiesForm.getRawValue() }
-        : null,
-      solidWasteManagement: {
-        documents: this.solidWasteManagementForm.getRawValue(),
-      },
-      waterManagement: this.waterWasteManagementForm.getRawValue(),
-      isCompleted: true,
-    };
+    const body = this.createDataForApprovalInDraftMode();
+    body.isCompleted = true;
     this._matDialog.open(this.savingPopup, {
       width: "35vw",
       height: "fit-content",
@@ -679,7 +713,6 @@ export class FinancialUploadsComponent
       message = "All questions must be answered in Service Level Indicators";
       this.stepper.selectedIndex = 0;
     }
-    console.log(`isSolidWasteValid: `, this.solidWasteManagementForm);
 
     if (!isSolidWasteValid) {
       message += message

@@ -45,6 +45,11 @@
 }
 
 :host {
+  #state {
+    &:focus {
+      z-index: 2;
+    }
+  }
   @keyframes card-animation {
     0% {
       opacity: 0;
