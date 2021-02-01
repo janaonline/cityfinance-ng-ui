@@ -22,6 +22,7 @@ export interface UlbList {
   name: string;
   ulbType: IULB["type"];
   code: string;
+  searchedName?: string;
 }
 
 export enum FinancialYear {

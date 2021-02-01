@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { DropdownSettings } from 'angular2-multiselect-dropdown/lib/multiselect.interface';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { merge } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, filter, tap } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 import { IULB } from 'src/app/models/ulb';
 
@@ -98,6 +98,9 @@ export class FinancialStatementComponent
     ulbType.municipality,
     ulbType.townPanchayat,
   ];
+
+  isULBSearchingInProgress = false;
+
   ngOnInit(): void {
     this.initializeFilterForm();
     this.fetchULBList();
@@ -117,19 +120,27 @@ export class FinancialStatementComponent
     this.ulbFilterControl = this.formBuilder.control("");
     this.initializeULBSearch();
 
-    this.filterForm.controls.ulbList.valueChanges.subscribe(
-      (newValue) => (this.yearListUpdate = false)
-    );
+    this.filterForm.controls.ulbList.valueChanges.subscribe((newValue) => {
+      this.yearListUpdate = false;
+      if (!this.shiftFormToLeft) return;
+    });
     this.initializeReportTypeChangeDetection();
   }
 
   private initializeULBSearch() {
     this.ulbFilterControl.valueChanges
-      .pipe(debounceTime(300))
+      .pipe(
+        filter((value) => (value ? value.length >= 2 : true)),
+        debounceTime(300),
+        tap((data) => (this.isULBSearchingInProgress = true))
+      )
       .subscribe((textToSearch: string) => {
+        this.filteredULBList = null;
         textToSearch = textToSearch ? textToSearch.trim() : null;
         if (!textToSearch) {
-          return (this.filteredULBList = [...this.NeworiginalUlbList]);
+          this.isULBSearchingInProgress = false;
+
+          return (this.filteredULBList = this.getDefaultAutocompleteList());
         }
 
         const newList: Datum[] = [];
@@ -145,7 +156,7 @@ export class FinancialStatementComponent
               );
 
               new Set(matchedText).forEach((text) => {
-                ulb.name = ulb.name.replace(
+                ulb["searchedName"] = ulb.name.replace(
                   new RegExp(text + "(?!([^<]+)?>+)", "g"),
                   `<span class="search-text-matched">${text}</span>`
                 );
@@ -158,7 +169,17 @@ export class FinancialStatementComponent
         });
 
         this.filteredULBList = [...newList];
+        this.isULBSearchingInProgress = false;
       });
+  }
+
+  /**
+   * @description This List will be shown in auto-complete
+   * ulb search.
+   */
+  private getDefaultAutocompleteList() {
+    if (!this.NeworiginalUlbList || !this.NeworiginalUlbList.length) return [];
+    return [...this.NeworiginalUlbList.slice(0, 2)];
   }
 
   /**
@@ -196,7 +217,7 @@ export class FinancialStatementComponent
         );
         return stateA._id.name.localeCompare(stateB._id.name);
       });
-      this.filteredULBList = res.data;
+      this.filteredULBList = this.getDefaultAutocompleteList();
       this._loaderService.stopLoader();
       this.stateSelectToFilterULB.setValue(
         this.NeworiginalUlbList[0]._id.state
@@ -235,16 +256,12 @@ export class FinancialStatementComponent
       .controls.ulbList.value;
     const indexFound = oldULBS.findIndex((oldulb) => oldulb.ulb === ulb.ulb);
     if (indexFound > -1) {
-      console.log(`removeIfFound: ${removeIfFound}`);
-      console.log(`indexFound: ${indexFound}`);
-
       if (removeIfFound) {
         oldULBS.splice(indexFound, 1);
       } else return;
     }
     oldULBS.push(ulb);
     this.filterForm.controls.ulbList.setValue(oldULBS);
-    console.log(this.filterForm.controls.ulbList.value);
     this.onClosingULBSelection();
 
     // console.log(`mapping: \n`, this.StateULBTypeMapping);
@@ -303,6 +320,7 @@ export class FinancialStatementComponent
       .ulbList;
     allULBs.splice(index, 1);
 
+    this.filterForm.controls.ulbList.updateValueAndValidity();
     this.onClosingULBSelection();
   }
 

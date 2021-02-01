@@ -1,14 +1,6 @@
 <div class="all-container">
   <div class="form-container" [ngClass]="{ 'form-on-left': shiftFormToLeft }">
     <form [formGroup]="filterForm" *ngIf="filterForm" (ngSubmit)="showData()">
-      <!-- <angular2-multiselect
-        formControlName="ulbList"
-        [data]="NeworiginalUlbList"
-        [settings]="multiSelectStates"
-        (onClose)="onClosingULBSelection()"
-      >
-      </angular2-multiselect> -->
-
       <mat-form-field appearance="outline">
         <input
           #autoCompleteInput
@@ -22,38 +14,49 @@
         <i class="fa fa-search" aria-hidden="true"></i>
 
         <mat-autocomplete #auto="matAutocomplete" class="tesinng">
-          <mat-option *ngIf="!filteredULBList" disabled>
-            No ULB matched
+          <mat-option
+            *ngIf="!filteredULBList && !isULBSearchingInProgress"
+            disabled
+          >
+            No ULB Found
           </mat-option>
           <div *ngIf="filteredULBList">
-            <mat-optgroup
-              *ngFor="let state of filteredULBList"
-              [label]="state._id.name"
-            >
-              <mat-option
-                *ngIf="!state.ulbList || !state.ulbList.length"
-                disabled
+            <cdk-virtual-scroll-viewport itemSize="1" class="viewport">
+              <mat-optgroup
+                *cdkVirtualFor="let state of filteredULBList"
+                [label]="state._id.name"
               >
-                No ULB available.
-              </mat-option>
-              <mat-option
-                *ngFor="let ulb of state.ulbList"
-                [value]="ulb.name"
-                [title]="ulb.name"
-                (click)="selectULB(ulb, false, state._id.state)"
-                [disabled]="!ulb?.financialYear"
-              >
-                <span [innerHTML]="ulb.name"></span>
-                <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
-                  (No Financial Year Found)
-                </span>
-              </mat-option>
-            </mat-optgroup>
+                <mat-option
+                  *ngIf="!state.ulbList || !state.ulbList.length"
+                  disabled
+                >
+                  No ULB available.
+                </mat-option>
+
+                <mat-option
+                  *ngFor="let ulb of state.ulbList"
+                  [value]="ulb.name"
+                  [title]="ulb.name"
+                  (click)="selectULB(ulb, false, state._id.state)"
+                  [disabled]="!ulb?.financialYear"
+                >
+                  <span [innerHTML]="ulb.searchedName || ulb.name"></span>
+                  <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
+                    (No Financial Year Found)
+                  </span>
+                </mat-option>
+              </mat-optgroup>
+            </cdk-virtual-scroll-viewport>
           </div>
         </mat-autocomplete>
       </mat-form-field>
+      <small class="search-condition">
+        <em>Minimum 2 characters required for searching</em> </small
+      ><br />
 
-      <small (click)="openUlbModal(UlbModal)">or select from list</small>
+      <small class="popup" (click)="openUlbModal(UlbModal)"
+        >or select from list</small
+      >
 
       <div class="years-container">
         <span

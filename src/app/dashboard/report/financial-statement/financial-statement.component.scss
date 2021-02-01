@@ -2,6 +2,15 @@ a.ulbTabActive {
   background: #056262 !important;
   color: white !important;
 }
+
+.viewport {
+  height: 200px;
+  width: 100%;
+  // background: red;
+  // background: #c4bbb8;
+  // margin: 2em 8em 8em;
+  // box-shadow: 1px 1px 1px grey;
+}
 #myTabContent,
 ul[id="myTabContent"] {
   max-height: 60vh;
@@ -151,7 +160,12 @@ li.disabled-ulb {
           }
         }
       }
-      small {
+      small.search-condition {
+        color: gray;
+        width: 100%;
+        margin: 0 0 0 1%;
+      }
+      small.popup {
         color: #024e69;
         margin: 0 0% 2% 1%;
         cursor: pointer;
@@ -239,6 +253,11 @@ li.disabled-ulb {
     margin-left: 2%;
 
     form {
+      z-index: 0 !important;
+      > * {
+        z-index: 0 !important;
+      }
+
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
