@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DropdownSettings } from 'angular2-multiselect-dropdown/lib/multiselect.interface';
 import { BsModalService } from 'ngx-bootstrap/modal';
