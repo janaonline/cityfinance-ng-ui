@@ -236,7 +236,7 @@ export class DocumentsUploadComponent
       this.filterInvalidFiles(event.target["files"], key)
     );
 
-    if (event.target["files"].length !== filteredFiles.length) {
+    if (!filteredFiles.length) {
       const message = `Only ${this.fileExnetsionAllowed.join(
         ","
       )} file is allowed and maximum size of ${
@@ -244,7 +244,7 @@ export class DocumentsUploadComponent
       } MB. <br/> Only ${
         this.noOfFilesAllowedPerQuestion
       } file can be selected per question.`;
-      this.showErrorDialog(message);
+      return this.showErrorDialog(message);
     }
 
     if (this.isMaximumFileAlreadySelected(key)) {
@@ -471,7 +471,7 @@ export class DocumentsUploadComponent
   }
 
   private isValidFile(file: File) {
-    const fileExtends = file.name.split(".").pop();
+    const fileExtends = file.name.split(".").pop().toLowerCase();
 
     return this.fileExnetsionAllowed.includes(fileExtends);
   }

@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { BasicComponent } from './basic/basic.component';
 import { ComparativeUlbComponent } from './comparative-ulb/comparative-ulb.component';
-import { ReportComponent } from './report/report.component';
+import { FinancialStatementComponent } from './financial-statement/financial-statement.component';
 
 // import { IncomeExpenditureComponent } from './income-expenditure/income-expenditure.component';
 // import { IncomeExpenditureSummaryComponent } from './income-expenditure-summary/income-expenditure-summary.component';
@@ -14,7 +14,7 @@ import { ReportComponent } from './report/report.component';
 export const reportRouter: Routes = [
   {
     path: "",
-    component: ReportComponent,
+    component: FinancialStatementComponent,
     children: [
       { path: "", redirectTo: "basic", pathMatch: "full" },
       // { path: 'income-expenditure', component: IncomeExpenditureComponent },
@@ -24,6 +24,7 @@ export const reportRouter: Routes = [
       // { path: 'common', component: CommonComponent },
       // { path: 'common-size-ulb', component: CommonSizeUlbComponent },
       { path: "basic", component: BasicComponent },
+      // { path: "basic", component: FinancialStatementComponent },
       // { path: 'comparative', component: ComparativeComponent },
       { path: "comparative-ulb", component: ComparativeUlbComponent },
     ],

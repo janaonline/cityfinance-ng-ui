@@ -12,4 +12,6 @@ export interface IULB {
   wards: number;
   state: string;
   stateCode?: string;
+  financialYear: string;
+  allYears?: string[]; // Years in which  ULB has data
 }

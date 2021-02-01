@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { HttpUtility } from 'src/app/util/httpUtil';
 
 import { environment } from '../../../environments/environment';
 import { S3FileURLResponse } from '../../models/s3Responses/fileURLResponse';
@@ -11,6 +12,8 @@ import { S3FileURLResponse } from '../../models/s3Responses/fileURLResponse';
 })
 export class DataEntryService {
   constructor(private http: HttpClient) {}
+
+  httpUtil = new HttpUtility();
 
   bulkEntry(files) {
     const httpOptions = {
@@ -35,8 +38,10 @@ export class DataEntryService {
   }
 
   getLedgerLogs(criteria) {
+    const params = this.httpUtil.convertToHttpParams(criteria);
     return this.http.get(
-      environment.api.url + "ulb-financial-data/approved-records"
+      environment.api.url + "ulb-financial-data/approved-records",
+      { params }
     );
   }
 

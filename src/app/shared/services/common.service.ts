@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { IBasicLedgerData } from 'src/app/dashboard/report/models/basicLedgerData.interface';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 import { NewULBStructure, NewULBStructureResponse } from 'src/app/models/newULBStructure';
 import { IStateListResponse } from 'src/app/models/state/state-response';
@@ -116,6 +117,43 @@ export class CommonService {
     return this.NewULBStructureResponseCache[yearsAsString];
   }
 
+  getNewULBLegdersList(years: string[] = []) {
+    // const cachedResponse = this.getCachedResponse(years);
+    // if (cachedResponse) {
+    //   return of(cachedResponse);
+    // }
+
+    return this.http.post<NewULBStructureResponse>(
+      `${environment.api.url}/ledger/getAllLegders`,
+      { year: years }
+    );
+  }
+
+  fetchBasicLedgerData() {
+    return this.http
+      .get<IBasicLedgerData>(
+        `${environment.api.url}/ledger/getOverAllUlbLegders`
+      )
+      .pipe(
+        map((res) => ({
+          ...res,
+          data: res.data.map((state) => ({
+            ...state,
+            ulbList: state.ulbList.map((ulb) => ({
+              ...ulb,
+              _id: ulb.ulb,
+              financialYear:
+                !ulb.financialYear ||
+                !ulb.financialYear.length ||
+                !ulb.financialYear[0]
+                  ? null
+                  : ulb.financialYear,
+            })),
+          })),
+        }))
+      );
+  }
+
   getULBSByYears(years: string[] = []) {
     const cachedResponse = this.getCachedResponse(years);
     if (cachedResponse) {
@@ -132,6 +170,7 @@ export class CommonService {
           const formattedResponse = this.convertULBStaticticsToIULBResponse(
             response
           );
+
           const yearsAsString = !years.length
             ? "NoYear"
             : years.reduce((a, b) => a + b);
@@ -169,22 +208,33 @@ export class CommonService {
       }
 
       const convertedULB = this.convertNewULBStructureToIULB(ulb);
-      if (
-        newObj.data[ulb.state.code].ulbs.every(
-          (ulb) => ulb.code !== convertedULB.code
-        )
-      ) {
+      const index = newObj.data[ulb.state.code].ulbs.findIndex(
+        (newULB) => newULB.code === convertedULB.code
+      );
+
+      if (index === -1) {
         newObj.data[ulb.state.code].ulbs.push({
           ...this.convertNewULBStructureToIULB(ulb),
           state: ulb.state.name,
         });
+      } else {
+        if (!newObj.data[ulb.state.code].ulbs[index].allYears) {
+          newObj.data[ulb.state.code].ulbs[index].allYears = [];
+        }
+        newObj.data[ulb.state.code].ulbs[index].allYears.push(
+          convertedULB.financialYear
+        );
       }
     });
     return newObj;
   }
 
   convertNewULBStructureToIULB(ulb: NewULBStructure): IULB {
-    return { ...ulb.ulb, type: ulb.ulbtypes.name };
+    return {
+      ...ulb.ulb,
+      type: ulb.ulbtypes.name,
+      financialYear: ulb.financialYear,
+    };
   }
 
   fetchULBList(body, sort?: {}) {
@@ -267,10 +317,6 @@ export class CommonService {
   getCount(ulbList: NewULBStructure[]): ULBsStatistics {
     const newObj: ULBsStatistics = {};
     ulbList.forEach((ulb) => {
-      // if (ulb.ulb.amrut == undefined) {
-      //   console.log(ulb.ulb.name);
-      // }
-
       if (!ulb.state._id) {
         return;
       }
@@ -315,7 +361,6 @@ export class CommonService {
         ulb.ulb.amrut == "No" || ulb.ulb.amrut == undefined ? 1 : 0;
       // newObj[ulb.state._id].ulbsByYears[ulb.financialYear].push({ ...ulb });
     });
-    // console.log('newObj',newObj);
 
     return { ...newObj };
   }

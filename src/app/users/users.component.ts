@@ -7,6 +7,7 @@ import { USER_TYPE } from '../models/user/userType';
 import { CommonService } from '../shared/services/common.service';
 import { ILink } from '../shared/side-menu/side-menu.component';
 import { AccessChecker } from '../util/access/accessChecker';
+import { UserUtility } from '../util/user/user';
 import { ProfileService } from './profile/service/profile.service';
 import { defaultSideBarContents, sideMenuForStateUser, sideMenuForULBUser } from './sidebar-menus';
 import { SidebarUtil } from './utils/sidebar.util';
@@ -73,7 +74,10 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   private initializeLoggedInUserDataFetch() {
-    this.userLoggedInDetails = this.profileService.getUserLoggedInDetails();
+    //  = this.profileService.getUserLoggedInDetails();
+    UserUtility.getUserLoggedInData().subscribe((data) => {
+      this.userLoggedInDetails = data;
+    });
     if (!this.userLoggedInDetails) {
       return this._router.navigate(["/login"]);
     }

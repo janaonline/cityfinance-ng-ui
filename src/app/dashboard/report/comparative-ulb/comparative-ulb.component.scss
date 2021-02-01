@@ -8,6 +8,39 @@
   padding: 5px;
 }
 
+:host {
+  table {
+    thead tr:not(:last-child) {
+      background: #e2e2e2;
+      th,
+      td {
+        background: #e2e2e2;
+      }
+    }
+
+    tbody tr:nth-last-child(1),
+    tr.backgroundHighlight {
+      background: #f4f4f4;
+      th,
+      td {
+        background: #f4f4f4;
+      }
+    }
+  }
+
+  ::ng-deep {
+    .selected-list,
+    .mat-form-field-flex {
+      border: 1px solid white !important;
+      border-radius: 5px;
+      outline: none;
+      .c-btn {
+        outline: none;
+      }
+    }
+  }
+}
+
 .sub-heading {
   background-color: rgba(0, 0, 0, 0.05);
 }
@@ -79,13 +112,13 @@ tr > td:nth-child(2) {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #f0ad4e;
+  background: #adadad;
   border-radius: 5px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #f0ad4e;
+  background: #adadad;
 }
 
 ::ng-deep .lazyContainer > * {

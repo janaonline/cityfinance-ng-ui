@@ -189,9 +189,17 @@ export class PreviewComponent implements OnInit {
       };
     }
     if (!req.isCompleted) {
+      let customStatusText;
+      if (req.actionTakenByUserRole === USER_TYPE.ULB) {
+        customStatusText = SAVED_AS_DRAFT.itemName;
+      } else if (req.actionTakenByUserRole === USER_TYPE.STATE) {
+        customStatusText = UNDER_REVIEW_BY_STATE.itemName;
+      } else {
+        customStatusText = UNDER_REVIEW_BY_MoHUA.itemName;
+      }
       return {
         ...req,
-        customStatusText: SAVED_AS_DRAFT.itemName,
+        customStatusText,
       };
     }
 

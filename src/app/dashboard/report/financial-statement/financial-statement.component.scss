@@ -1,0 +1,264 @@
+a.ulbTabActive {
+  background: #056262 !important;
+  color: white !important;
+}
+#myTabContent,
+ul[id="myTabContent"] {
+  max-height: 60vh;
+  overflow-y: auto;
+  min-height: 40vh;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+::ng-deep {
+  .stateDropdown {
+    .mat-form-field-flex {
+      border: none !important;
+    }
+  }
+}
+
+li.disabled-ulb {
+  background: transparent !important;
+  color: gray !important;
+  height: fit-content;
+
+  label {
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+}
+
+:host {
+  .popup-cotnainer-2 {
+    min-height: 40vh;
+  }
+
+  ::ng-deep {
+    .mat-form-field-appearance-outline .mat-form-field-outline-end,
+    .mat-form-field-outline-start {
+      background: #f1f1f1 !important;
+    }
+  }
+  mat-form-field {
+    display: block;
+    width: 100%;
+    i {
+      position: absolute;
+      right: 1%;
+      color: #989898;
+    }
+    ::ng-deep {
+      input {
+        width: 89%;
+        display: inline-block;
+      }
+      .selected-list,
+      .mat-form-field-flex {
+        border: none !important;
+      }
+      .mat-form-field-wrapper {
+        padding-bottom: 0.1em;
+      }
+    }
+  }
+  .all-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    justify-content: flex-start;
+  }
+  .form-container {
+    // margin-top: 2%;
+
+    // background: rgb(243, 119, 119);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 60vh;
+    transition: all 1s;
+    &.form-on-left {
+      width: 20%;
+      transition: all 1s;
+      // justify-content: flex-start;
+      height: fit-content;
+      margin-left: 1%;
+      form {
+        width: 100%;
+      }
+      .year {
+        margin: 1% 3% !important;
+      }
+      input[type="submit"] {
+        margin: 3% auto;
+      }
+
+      .last-container {
+        width: 100%;
+      }
+
+      .ulb-list-container {
+        margin-top: 2%;
+        width: 100%;
+        padding: 1% 4%;
+        .ulb {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
+
+      .source-file-wrapper {
+        width: 100%;
+      }
+    }
+    font-size: 1.5rem;
+
+    form {
+      transition: all 1s;
+      width: 50%;
+      display: flex;
+      flex-wrap: wrap;
+      margin: 1%;
+      angular2-multiselect {
+        width: 100%;
+        ::ng-deep {
+          .c-label {
+            font-size: 1.3em;
+          }
+
+          span {
+            font-size: 1em;
+          }
+          .c-btn {
+            span {
+              font-size: 1.3em;
+            }
+            .c-remove {
+              display: none;
+            }
+          }
+          .countplaceholder {
+            display: none;
+          }
+          .dropdown-list {
+            width: fit-content;
+          }
+        }
+      }
+      small {
+        color: #024e69;
+        margin: 0 0% 2% 1%;
+        cursor: pointer;
+        font-size: 1em;
+      }
+
+      .years-container {
+        display: flex;
+        width: 100%;
+
+        .year {
+          margin: 1% 0.5% 2% 0.5%;
+          border-radius: 3px;
+          padding: 1% 2%;
+          transition: all 0.5s;
+          cursor: pointer;
+          background: rgb(189, 189, 189);
+          color: gray;
+
+          &.selected {
+            background: #059b9a;
+            color: white;
+            box-shadow: 2px 2px 3px 2px #949292;
+          }
+        }
+      }
+
+      input[type="submit"] {
+        width: 100%;
+        padding: 1.5% 2%;
+        outline: none;
+        // font-size: 1.5em;
+      }
+    }
+
+    .last-container {
+      width: 50%;
+    }
+
+    .ulb-list-container {
+      width: 100%;
+      transition: all 1s;
+      display: flex;
+      flex-wrap: wrap;
+      border: 1px solid #c8c8c8;
+      background: #f3f3f3;
+      padding: 1%;
+      border-radius: 3px;
+      max-height: 55vh;
+      // overflow-y: scroll;
+      h5 {
+        color: gray;
+      }
+      .ulb {
+        display: block;
+        width: 100%;
+        padding: 1% 2% 1% 0;
+        transition: all 0.1s;
+
+        &:hover {
+          background: #dddddd;
+        }
+
+        .fa-trash {
+          float: right;
+          color: red;
+          transition: all 0.2s;
+          cursor: pointer;
+
+          &:hover {
+            transform: scale(1.5);
+          }
+        }
+      }
+    }
+  }
+
+  .source-file-wrapper {
+    width: 100%;
+  }
+
+  .report-container {
+    display: inline-block;
+    width: 73%;
+    margin-left: 2%;
+
+    form {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      .left {
+        display: inline-block;
+        width: 30%;
+        .reportType {
+          margin-right: 2%;
+          padding: 3%;
+          cursor: pointer;
+          transition: all 0.2s;
+
+          display: inline-block;
+
+          &.selected {
+            background: #059b9a !important;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}

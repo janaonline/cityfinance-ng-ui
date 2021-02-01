@@ -30,15 +30,26 @@ interface CustomArray<T> {
 })
 export class ReportComponent implements OnInit, OnDestroy {
   constructor(
-    private formBuilder: FormBuilder,
-    private _loaderService: GlobalLoaderService,
-    private commonService: CommonService,
-    private modalService: BsModalService,
-    private reportService: ReportService,
-    private router: Router,
-    private _dialog: MatDialog,
-    private authService: AuthService
-  ) {}
+    protected formBuilder: FormBuilder,
+    protected _loaderService: GlobalLoaderService,
+    protected commonService: CommonService,
+    protected modalService: BsModalService,
+    protected reportService: ReportService,
+    protected router: Router,
+    protected _dialog: MatDialog,
+    protected authService: AuthService
+  ) {
+    this.reportForm = this.formBuilder.group({
+      isComparative: [false, []],
+      type: ["Summary", Validators.required],
+      years: [[]],
+      yearList: [[this.yearLookup[0]], [Validators.required]],
+      reportGroup: ["Income & Expenditure Statement", Validators.required],
+      ulbList: [this.selectedUlbs, [Validators.required]],
+      ulbIds: [],
+      valueType: ["absolute"],
+    });
+  }
   // get lf() {
   //   return this.reportForm.controls;
   // }
@@ -110,17 +121,14 @@ export class ReportComponent implements OnInit, OnDestroy {
     buttons: {
       signup: {
         text: "Signup",
+      },
+      confirm: {
+        text: "Proceed to Login",
         callback: () => {
           sessionStorage.setItem(
             "postLoginNavigation",
             "/financial-statement/data-tracker"
           );
-          this.router.navigate(["register/user"]);
-        },
-      },
-      confirm: {
-        text: "Proceed to Login",
-        callback: () => {
           this.router.navigate(["/", "login"]);
         },
       },
@@ -156,17 +164,6 @@ export class ReportComponent implements OnInit, OnDestroy {
       "Filter ULBs"
     );
 
-    this.reportForm = this.formBuilder.group({
-      isComparative: [false, []],
-      type: ["Summary", Validators.required],
-      years: [[]],
-      yearList: [[this.yearLookup[0]], [Validators.required]],
-      reportGroup: ["Income & Expenditure Statement", Validators.required],
-      ulbList: [this.selectedUlbs, [Validators.required]],
-      ulbIds: [],
-      valueType: ["absolute"],
-    });
-
     // HERE
     this._loaderService.showLoader();
     this.commonService.getULBSByYears([this.yearLookup[0].id]).subscribe(
@@ -187,8 +184,10 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.listenToFormGroups();
   }
 
-  routerTo(url: string) {
+  routerTo(url: string, downloadFilteredULBs = false) {
     const isUserLoggedIn = this.authService.loggedIn();
+    const ulbIds = this.reportForm.value.ulbIds;
+    const years = this.reportForm.value.years;
     if (!isUserLoggedIn) {
       const dailogboxx = this._dialog.open(DialogComponent, {
         data: this.defaultDailogConfiuration,
@@ -197,10 +196,14 @@ export class ReportComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate([url]);
+    if (!downloadFilteredULBs) {
+      return this.router.navigate([url]);
+    }
+
+    this.router.navigate([url], { queryParams: { ulbIds, years } });
   }
 
-  private listenToFormGroups() {
+  protected listenToFormGroups() {
     this.searchByNameControl.valueChanges
       .pipe(debounce(() => interval(400)))
       .subscribe((newText) => {
@@ -260,8 +263,7 @@ export class ReportComponent implements OnInit, OnDestroy {
           ulbPopulationFilter: [],
           ulbTypeFilter: [],
         };
-        console.log(this.currentStateInView);
-        console.log(this.ulbTypeInView);
+
         this.searchByNameControl.setValue("");
         this.baseULBSelected = null;
         this.currentStateInView = null;
@@ -335,7 +337,7 @@ export class ReportComponent implements OnInit, OnDestroy {
    * @description It will filter out the selected ulbs which
    * are not currently present in the List.
    */
-  private filterSelectedULBs() {
+  protected filterSelectedULBs() {
     if (!this.StateULBTypeMapping) return;
     const selectedULB = { ...this.StateULBTypeMapping };
 
@@ -353,7 +355,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     });
   }
 
-  private doesULBExistInState(stateCode: string, ulbToSearch: IULB) {
+  protected doesULBExistInState(stateCode: string, ulbToSearch: IULB) {
     const stateFound = this.originalUlbList.data[stateCode];
     if (!stateFound) return false;
     if (!stateFound.ulbs) return false;
@@ -747,12 +749,15 @@ export class ReportComponent implements OnInit, OnDestroy {
       // this.reportForm.value.reportGroup = 'Income & Expenditure Statement';
       this.reportService.getAggregate(this.reportForm.value);
     } else if (this.activeGroup == "IE") {
+      console.log(`final report value  `, this.reportForm.value);
       this.reportService.ieDetailed(this.reportForm.value);
     } else {
       this.reportService.BSDetailed(this.reportForm.value);
     }
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
 
-    this.modalRef.hide();
     this._loaderService.showLoader();
     this.clickedOnGenerateReport = true;
 
@@ -760,6 +765,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.reportForm.value.ulbList.length == 1 &&
       !this.reportForm.value.isComparative
     ) {
+      console.log("baisc");
       this.router.navigate(["/financial-statement/report/basic"]);
     } else if (
       this.reportForm.value.ulbList.length > 1 ||

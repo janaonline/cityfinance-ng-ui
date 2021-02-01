@@ -14,6 +14,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { BasicComponent } from './basic/basic.component';
 import { ComparativeUlbComponent } from './comparative-ulb/comparative-ulb.component';
 import { ExcelService } from './excel.service';
+import { FinancialStatementComponent } from './financial-statement/financial-statement.component';
 import { ReportFooterComponent } from './report-footer/report-footer.component';
 import { ReportRouter } from './report.router';
 import { ReportService } from './report.service';
@@ -44,13 +45,10 @@ import { ReportComponent } from './report/report.component';
     ModalModule.forRoot(),
   ],
   declarations: [
-    // InrCurrencyPipe,
-
     ReportComponent,
-
+    FinancialStatementComponent,
     ReportFooterComponent,
     BasicComponent,
-
     ComparativeUlbComponent,
   ],
   //   exports: [InrCurrencyPipe],

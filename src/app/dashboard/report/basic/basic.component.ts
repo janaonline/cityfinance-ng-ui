@@ -60,6 +60,10 @@ export class BasicComponent implements OnInit, OnDestroy {
       confirm: {
         text: "Proceed to Login",
         callback: () => {
+          sessionStorage.setItem(
+            "postLoginNavigation",
+            `/financial-statement/report/basic`
+          );
           this.router.navigate(["/", "login"]);
         },
       },
@@ -295,6 +299,48 @@ export class BasicComponent implements OnInit, OnDestroy {
     }
 
     this.isProcessed = true;
+  }
+
+  routerTo() {
+    const ulbs: string[] = this.reportReq.ulbIds;
+    const years: string[] = this.reportReq.years;
+    const query = `ulbs=${ulbs.toString()}&year=${years.toString()}`;
+
+    const isUserLoggedIn = this._authService.loggedIn();
+    console.log(isUserLoggedIn);
+    if (!isUserLoggedIn) {
+      const dailogboxx = this._dialog.open(DialogComponent, {
+        data: {
+          message:
+            "<p class='text-center'>You need to be Login to download the data.</p>",
+          buttons: {
+            signup: {
+              text: "Signup",
+              callback: () => {
+                this.router.navigate(["register/user"]);
+              },
+            },
+            confirm: {
+              text: "Proceed to Login",
+              callback: () => {
+                sessionStorage.setItem(
+                  "postLoginNavigation",
+                  `/financial-statement/data-tracker?${query}`
+                );
+                this.router.navigate(["/", "login"]);
+              },
+            },
+            cancel: { text: "Cancel" },
+          },
+        },
+        width: "28vw",
+      });
+      return;
+    }
+
+    this.router.navigate(["/financial-statement/data-tracker"], {
+      queryParams: { ulb: ulbs, year: years.toString() },
+    });
   }
 
   download() {

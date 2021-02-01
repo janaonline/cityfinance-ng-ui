@@ -146,7 +146,6 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.profile.disable({ onlySelf: true, emitEvent: false });
     this.respone.successMessage = "Updating....";
     this.apiInProgress = true;
-    console.log(flatten);
 
     this._profileService.createULBUpdateRequest(flatten).subscribe(
       (res) => this.onUpdatingProfileSuccess(res, flatten as IULBProfileData),
@@ -306,14 +305,15 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   /**
    * @description The Following fields cannot be changed, therefore they should stay
-   * disabled.
+   * disabled. If loggedIn User is ULB or all = true, then disable all fields.
+   *
    */
   private disableNonEditableFields(all = true) {
     this.profile.controls.state.disable();
-    (<FormGroup>this.profile.controls.ulb).controls.ulbType.disable();
 
     if (this.loggedInUserType === USER_TYPE.ULB || all) {
       (<FormGroup>this.profile.controls.ulb).controls.censusCode.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.ulbType.disable();
       (<FormGroup>this.profile.controls.ulb).controls.sbCode.disable();
       (<FormGroup>this.profile.controls.ulb).controls.name.disable();
       return;

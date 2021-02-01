@@ -1,0 +1,419 @@
+<div class="all-container">
+  <div class="form-container" [ngClass]="{ 'form-on-left': shiftFormToLeft }">
+    <form [formGroup]="filterForm" *ngIf="filterForm" (ngSubmit)="showData()">
+      <!-- <angular2-multiselect
+        formControlName="ulbList"
+        [data]="NeworiginalUlbList"
+        [settings]="multiSelectStates"
+        (onClose)="onClosingULBSelection()"
+      >
+      </angular2-multiselect> -->
+
+      <mat-form-field appearance="outline">
+        <input
+          #autoCompleteInput
+          type="text"
+          placeholder="Search ULB"
+          aria-label="text"
+          matInput
+          [formControl]="ulbFilterControl"
+          [matAutocomplete]="auto"
+        />
+        <i class="fa fa-search" aria-hidden="true"></i>
+
+        <mat-autocomplete #auto="matAutocomplete" class="tesinng">
+          <mat-option *ngIf="!filteredULBList" disabled>
+            No ULB matched
+          </mat-option>
+          <div *ngIf="filteredULBList">
+            <mat-optgroup
+              *ngFor="let state of filteredULBList"
+              [label]="state._id.name"
+            >
+              <mat-option
+                *ngIf="!state.ulbList || !state.ulbList.length"
+                disabled
+              >
+                No ULB available.
+              </mat-option>
+              <mat-option
+                *ngFor="let ulb of state.ulbList"
+                [value]="ulb.name"
+                [title]="ulb.name"
+                (click)="selectULB(ulb, false, state._id.state)"
+                [disabled]="!ulb?.financialYear"
+              >
+                <span [innerHTML]="ulb.name"></span>
+                <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
+                  (No Financial Year Found)
+                </span>
+              </mat-option>
+            </mat-optgroup>
+          </div>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <small (click)="openUlbModal(UlbModal)">or select from list</small>
+
+      <div class="years-container">
+        <span
+          class="year"
+          [ngClass]="{ selected: filterForm?.controls?.years?.at(i).value }"
+          *ngFor="let year of commonYears; let i = index"
+          (click)="onClickingYear(i)"
+        >
+          {{ year }}
+        </span>
+
+        <p
+          *ngIf="
+            yearListUpdate &&
+            !commonYears?.length &&
+            filterForm?.controls.ulbList?.value?.length
+          "
+          class="text-center warning"
+          style="width: 100%; color: red"
+        >
+          Selected ULBs do not have any common year with data
+        </p>
+      </div>
+
+      <input
+        class="btn btn-primary ng-star-inserted"
+        type="submit"
+        value="View Financial Statements"
+        [disabled]="!commonYears || !commonYears.length"
+      />
+
+      <p
+        *ngIf="formInvalidMessage"
+        class="text-center"
+        style="width: 100%; color: red; margin-top: 1%"
+      >
+        {{ formInvalidMessage }}
+      </p>
+    </form>
+
+    <div class="last-container">
+      <div
+        class="ulb-list-container"
+        *ngIf="filterForm?.value?.ulbList?.length"
+        [ngStyle]="{
+          'overflow-y':
+            filterForm?.value?.ulbList?.length > 7 ? 'scroll' : hidden
+        }"
+      >
+        <h5>Selected ULBs</h5>
+        <div
+          class="ulb"
+          *ngFor="let ulb of filterForm?.value?.ulbList; let i = index"
+        >
+          {{ ulb.name }}
+
+          <i
+            class="fa fa-trash"
+            aria-hidden="true"
+            (click)="removeSelectedULBAt(i)"
+          ></i>
+        </div>
+      </div>
+
+      <div class="source-file-wrapper mt-2" *ngIf="shiftFormToLeft">
+        <a
+          style="float: right; text-decoration: underline"
+          (click)="routerTo('/financial-statement/data-tracker')"
+          >Download Source Files</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="report-container" *ngIf="showReport">
+    <form [formGroup]="filterForm">
+      <div class="left">
+        <span
+          class="reportType"
+          [ngClass]="{
+            selected:
+              filterForm?.controls?.reportGroup.value ===
+              'Income & Expenditure Statement'
+          }"
+          (click)="
+            updateReportGroup('Income & Expenditure Statement') ||
+              (activeGroup = 'IE')
+          "
+          >Income & Expenditure</span
+        >
+        <span
+          class="reportType"
+          [ngClass]="{
+            selected:
+              filterForm?.controls?.reportGroup.value === 'Balance Sheet'
+          }"
+          (click)="updateReportGroup('Balance Sheet') || (activeGroup = 'BS')"
+          >Balance Sheet</span
+        >
+      </div>
+      <div style="display: inline-flex">
+        <div class="right mr-2">
+          <label for="" class="">Report Type </label><br />
+          <label class="radio-inline">
+            <input
+              type="radio"
+              name="type"
+              formControlName="type"
+              value="Summary"
+              checked
+            />Summary
+          </label>
+          <label class="radio-inline">
+            <input
+              type="radio"
+              name="type"
+              formControlName="type"
+              value="Detailed"
+            />Detailed
+          </label>
+        </div>
+        <div class="right">
+          <label for="" class="">Value Format </label><br />
+          <label class="radio-inline">
+            <input
+              type="radio"
+              formControlName="valueType"
+              value="absolute"
+              checked
+            />Absolute
+          </label>
+          <label class="radio-inline">
+            <input
+              type="radio"
+              formControlName="valueType"
+              value="per_capita"
+            />Per Capita
+          </label>
+        </div>
+      </div>
+    </form>
+    <router-outlet *ngIf="showReport">
+      <button class="btn btn-primary right source-file-download">
+        Download
+      </button>
+    </router-outlet>
+  </div>
+</div>
+
+<ng-template #UlbModal>
+  <div class="finance-statement-popup" style="display: block; min-height: 10vh">
+    <div
+      class="modal-header col-md-12"
+      style="display: inline-flex; align-items: center"
+    >
+      <mat-form-field appearance="outline" class="stateDropdown">
+        <mat-label class="text-gray">State </mat-label>
+        <mat-select
+          [formControl]="stateSelectToFilterULB"
+          (selectionChange)="showULBOfState(stateSelectToFilterULB.value)"
+        >
+          <mat-option
+            *ngFor="let state of NeworiginalUlbList"
+            [value]="state._id.state"
+          >
+            {{ state._id.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- <select
+        [formControl]="stateSelectToFilterULB"
+        (change)="showULBOfState(stateSelectToFilterULB.value)"
+      >
+        <option
+          *ngFor="let state of NeworiginalUlbList"
+          [value]="state._id.state"
+        >
+                  {{ state._id.name }}
+
+        </option>
+      </select> -->
+    </div>
+  </div>
+
+  <div class="modal-body">
+    <div *ngIf="!NeworiginalUlbList" style="display: block; width: 80vw">
+      <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+      <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+      <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+    </div>
+    <div class="row popup-cotnainer-2" *ngIf="NeworiginalUlbList">
+      <div class="col-sm-12 ulb-list-container">
+        <ul class="list-group" *ngIf="stateSelectToFilterULB?.value">
+          <li
+            class="list-group-item level-one col-md-12"
+            style="display: block; border: none"
+          >
+            <div class="row">
+              <div class="col-md-12">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li
+                    class="nav-item ulb-category"
+                    *ngFor="let type of newULBTypes"
+                    (click)="onSelectingULBType(type)"
+                  >
+                    <a
+                      class="nav-link active"
+                      data-toggle="tab"
+                      role="tab"
+                      aria-controls="home"
+                      aria-selected="true"
+                      [id]="type"
+                      [ngClass]="{
+                        ulbTabActive:
+                          ulbTypeInView && ulbTypeInView?.type === type,
+                        stateULBSelected:
+                          ulbTypeSelected === 'other' &&
+                          getTotalULBSelectedBy(stateSelectToFilterULB?.value, {
+                            type: type
+                          })
+                      }"
+                    >
+                      <input
+                        #ulbType
+                        *ngIf="ulbTypeSelected === 'other'"
+                        name="list_name_state"
+                        type="checkbox"
+                        class="ng-untouched ng-pristine ng-valid"
+                        [checked]="
+                          getTotalULBSelectedBy(stateSelectToFilterULB?.value, {
+                            type: type
+                          })
+                        "
+                        [disabled]="
+                          !getTotalULBSelectedBy(
+                            stateSelectToFilterULB?.value,
+                            {
+                              type: type
+                            }
+                          )
+                        "
+                        (click)="
+                          removeAllSelectedULB(
+                            stateSelectToFilterULB?.value,
+                            type,
+                            ulbType
+                          )
+                        "
+                      />
+                      {{ type }}
+                      <span
+                        *ngIf="
+                          ulbTypeSelected === 'other' &&
+                          getTotalULBSelectedBy(stateSelectToFilterULB?.value, {
+                            type: type
+                          })
+                        "
+                      >
+                        ({{
+                          getTotalULBSelectedBy(stateSelectToFilterULB?.value, {
+                            type: type
+                          })
+                        }})
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+
+                <ul class="nav nav-tabs" id="myTabContent" role="tablist">
+                  <li
+                    *ngFor="let ulb of ulbListForPopup"
+                    class="list-group-item level-two checkbox col-md-4"
+                    style="
+                      margin: 0px;
+                      max-width: 300px;
+                      width: 19%;
+                      border: none;
+                    "
+                    [id]="ulb.ulb"
+                    [ngClass]="{ 'disabled-ulb': !ulb.financialYear }"
+                  >
+                    <label>
+                      <input
+                        name="list_name_ulb"
+                        *ngIf="ulbTypeSelected === 'other'"
+                        type="checkbox"
+                        [checked]="
+                          StateULBTypeMapping[stateSelectToFilterULB?.value] &&
+                          StateULBTypeMapping[stateSelectToFilterULB?.value][
+                            ulbTypeInView.type
+                          ] &&
+                          StateULBTypeMapping[stateSelectToFilterULB?.value][
+                            ulbTypeInView.type
+                          ][ulb.code]
+                            ? true
+                            : false
+                        "
+                        [disabled]="!ulb.financialYear"
+                        value="ulb.value.code"
+                        class="ng-untouched ng-pristine ng-valid"
+                        (click)="
+                          selectULB(ulb, true, stateSelectToFilterULB?.value)
+                        "
+                      />
+
+                      <!-- <input
+                        name="list_name_ulb"
+                        style="margin-left: -20px"
+                        type="radio"
+                        [disabled]="!ulb.financialYear"
+                        [checked]="
+                          baseULBSelected && baseULBSelected.code == ulb.code
+                        "
+                        [value]="
+                          baseULBSelected && baseULBSelected.code == ulb.code
+                        "
+                        class="ng-untouched ng-pristine ng-valid"
+                        (click)="
+                          onSelectingBaseULB(
+                            ulb,
+                            stateSelectToFilterULB?.value
+                          ) && selectULB(ulb, true)
+                        "
+                      /> -->
+                      {{ ulb.name }}
+                      <br />
+                      <small *ngIf="!ulb.financialYear" style="color: #ef6e6e">
+                        (No Financial Year Found)
+                      </small>
+                      <!-- <span
+                        *ngIf="
+                          baseULBSelected && baseULBSelected.code === ulb.code
+                        "
+                        >(selected as base)
+                      </span> -->
+                    </label>
+                  </li>
+
+                  <h2
+                    *ngIf="!ulbListForPopup?.length"
+                    style="text-align: center; width: 100%"
+                  >
+                    ULB not available
+                  </h2>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div>
+          <button
+            class="btn btn-primary close-btn"
+            style="float: right; right: 5px"
+            (click)="modalRef.hide()"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
