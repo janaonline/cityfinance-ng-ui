@@ -1,14 +1,15 @@
+import { TAddKey } from 'src/app/models/addKey.type';
 import { IULB } from 'src/app/models/ulb';
 
 export interface IBasicLedgerData {
   success: boolean;
   msg: string;
-  data: Datum[];
+  data: LedgerState[];
 }
 
-export interface Datum {
+export interface LedgerState {
   _id: ID;
-  ulbList: UlbList[];
+  ulbList: LedgerULB[];
 }
 
 export interface ID {
@@ -16,13 +17,12 @@ export interface ID {
   name: string;
 }
 
-export interface UlbList {
+export interface LedgerULB {
   financialYear: Array<FinancialYear | null>;
   ulb: string;
   name: string;
   ulbType: IULB["type"];
   code: string;
-  searchedName?: string;
 }
 
 export enum FinancialYear {
@@ -32,3 +32,5 @@ export enum FinancialYear {
   The201819 = "2018-19",
   The201920 = "2019-20",
 }
+
+export type TSearchedULB = TAddKey<"searchedName", LedgerULB>;

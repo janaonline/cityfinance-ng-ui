@@ -12,16 +12,10 @@ import { IULB } from 'src/app/models/ulb';
 import { AuthService } from '../../../../app/auth/auth.service';
 import { GlobalLoaderService } from '../../../../app/shared/services/loaders/global-loader.service';
 import { CommonService } from '../../../shared/services/common.service';
-import { Datum, IBasicLedgerData } from '../models/basicLedgerData.interface';
+import { IBasicLedgerData, LedgerState, TSearchedULB } from '../models/basicLedgerData.interface';
 import { ReportService } from '../report.service';
 import { ReportComponent } from '../report/report.component';
 import { ulbType } from '../report/ulbTypes';
-
-interface CustomArray<T> {
-  flat(): Array<T>;
-
-  flatMap(func: (x: T) => T): Array<T>;
-}
 
 @Component({
   selector: "app-report",
@@ -143,20 +137,20 @@ export class FinancialStatementComponent
           return (this.filteredULBList = this.getDefaultAutocompleteList());
         }
 
-        const newList: Datum[] = [];
+        const newList: LedgerState[] = [];
         this.NeworiginalUlbList.forEach((state) => {
           const newULBList = state.ulbList
             .filter((ulb) => {
               return ulb.name.match(new RegExp(textToSearch, "gi"));
             })
-            .map((oldULB) => {
+            .map((oldULB: TSearchedULB) => {
               const ulb = { ...oldULB };
               const matchedText = ulb.name.match(
                 new RegExp(textToSearch, "gi")
               );
 
               new Set(matchedText).forEach((text) => {
-                ulb["searchedName"] = ulb.name.replace(
+                ulb.searchedName = ulb.name.replace(
                   new RegExp(text + "(?!([^<]+)?>+)", "g"),
                   `<span class="search-text-matched">${text}</span>`
                 );
