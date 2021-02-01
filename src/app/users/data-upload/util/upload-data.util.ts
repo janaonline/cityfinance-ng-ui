@@ -41,15 +41,37 @@ export class UploadDataUtility {
     const loggedInUserType = this.userUtil.getUserType();
     switch (loggedInUserType) {
       case USER_TYPE.STATE: {
-        if (request.actionTakenByUserRole !== USER_TYPE.ULB) return false;
-        if (!request.isCompleted) return false;
-        return true;
+        if (request.status === UPLOAD_STATUS.REJECTED) return false;
+
+        // When ULB has Final Submitted.
+        if (request.actionTakenByUserRole === USER_TYPE.ULB) {
+          return request.isCompleted;
+        }
+        if (request.actionTakenByUserRole === USER_TYPE.STATE) {
+          return !request.isCompleted;
+        }
+        console.warn("reached at Final State");
+
+        return false;
       }
       case USER_TYPE.MoHUA: {
-        if (request.actionTakenByUserRole !== USER_TYPE.STATE) return false;
-        if (!request.isCompleted) return false;
         if (request.status === UPLOAD_STATUS.REJECTED) return false;
-        return true;
+
+        // When State has either taken Action or Drafted the data.
+        if (request.actionTakenByUserRole === USER_TYPE.STATE) {
+          return (
+            request.isCompleted && request.status === UPLOAD_STATUS.APPROVED
+          );
+        }
+
+        if (request.actionTakenByUserRole === USER_TYPE.MoHUA) {
+          if (request.isCompleted) return false;
+          return true;
+        }
+
+        console.warn("reached at Final MoHUA");
+
+        return false;
       }
       default:
         return false;
@@ -57,7 +79,6 @@ export class UploadDataUtility {
   }
 
   setFormToTakeActionMode(isULBMillionPlus: boolean) {
-    console.warn("setting form to TakeAction Mode");
     this.setWasteWaterToTakeActionMode();
     this.setSolidWasteManagementToTakeActionMode();
     this.setMillionPlusToTakeActionMode(isULBMillionPlus);
@@ -97,18 +118,6 @@ export class UploadDataUtility {
         key
       ] as FormGroup).controls.rejectReason.disable();
     });
-
-    // (this.waterWasteManagementForm.controls.documents as FormArray).controls[
-    //   "wasteWaterPlan"
-    // ].controls.forEach((fileControl: FormGroup) => {
-    //   const status = fileControl.controls.status;
-    //   if (status.value === UPLOAD_STATUS.REJECTED) {
-    //     status.disable();
-    //     fileControl.controls.rejectReason.disable();
-    //     return;
-    //   }
-    //   fileControl.disable();
-    // });
   }
 
   private setSolidWasteToCorrectionMode(data: IFinancialData) {
@@ -163,39 +172,18 @@ export class UploadDataUtility {
         ]);
 
         if (statusControl.value === UPLOAD_STATUS.APPROVED) {
-          statusControl.disable();
-          rejectReasonControl.disable();
-          return;
+          /**
+           * State / MoHUA can change the status of already approved fields.
+           * If we have to restrict it, then uncomment the following code.
+           */
+          // statusControl.disable();
+          // rejectReasonControl.disable();
+          // return;
         }
         statusControl.enable();
         rejectReasonControl.enable();
       }
     );
-
-    // const formArray = (this.waterWasteManagementForm.controls
-    //   .documents as FormGroup).controls.wasteWaterPlan as FormArray;
-    // formArray.controls.forEach((question: FormGroup) => {
-    //   const statusControl = question.controls["status"];
-    //   const rejectReasonControl = question.controls["rejectReason"];
-    //   statusControl.setValidators([
-    //     Validators.required,
-    //     Validators.pattern(
-    //       `${UPLOAD_STATUS.APPROVED}|${UPLOAD_STATUS.REJECTED}`
-    //     ),
-    //   ]);
-    //   rejectReasonControl.setValidators([
-    //     this.addRejectValidator(statusControl, rejectReasonControl),
-    //   ]);
-
-    //   if (statusControl.value === UPLOAD_STATUS.APPROVED) {
-    //     statusControl.disable();
-    //     rejectReasonControl.disable();
-    //     return;
-    //   }
-
-    //   statusControl.enable();
-    //   rejectReasonControl.enable();
-    // });
   }
 
   private setSolidWasteManagementToTakeActionMode() {
@@ -216,11 +204,16 @@ export class UploadDataUtility {
           rejectReasonControl.setValidators([
             this.addRejectValidator(statusControl, rejectReasonControl),
           ]);
-          if (statusControl.value === UPLOAD_STATUS.APPROVED) {
-            statusControl.disable();
-            rejectReasonControl.disable();
-            return;
-          }
+
+          /**
+           * State / MoHUA can change the status of already approved fields.
+           * If we have to restrict it, then uncomment the following code.
+           */
+          // if (statusControl.value === UPLOAD_STATUS.APPROVED) {
+          //   statusControl.disable();
+          //   rejectReasonControl.disable();
+          //   return;
+          // }
 
           statusControl.enable();
           rejectReasonControl.enable();
@@ -251,11 +244,16 @@ export class UploadDataUtility {
         rejectReasonControl.setValidators([
           this.addRejectValidator(statusControl, rejectReasonControl),
         ]);
-        if (statusControl.value === UPLOAD_STATUS.APPROVED) {
-          statusControl.disable();
-          rejectReasonControl.disable();
-          return;
-        }
+
+        /**
+         * State / MoHUA can change the status of already approved fields.
+         * If we have to restrict it, then uncomment the following code.
+         */
+        // if (statusControl.value === UPLOAD_STATUS.APPROVED) {
+        //   statusControl.disable();
+        //   rejectReasonControl.disable();
+        //   return;
+        // }
 
         statusControl.enable();
         rejectReasonControl.enable();

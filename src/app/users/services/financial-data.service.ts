@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpUtility } from 'src/app/util/httpUtil';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { environment } from '../../../environments/environment';
@@ -13,6 +14,8 @@ export class FinancialDataService {
   public financialYears = null;
 
   jsonUtil = new JSONUtility();
+
+  httpUtil = new HttpUtility();
 
   fetchFinancialDataList(params = {}, body = {}) {
     let queryParams = new HttpParams(params);
@@ -35,10 +38,12 @@ export class FinancialDataService {
     });
   }
 
-  fetStateForULBUnderMoHUA() {
+  fetStateForULBUnderMoHUA(formStatus?: string) {
+    const params = this.httpUtil.convertToHttpParams({ formStatus });
     return this.httpClient.get(
       `${environment.api.url}ulb-financial-data/state
-`
+`,
+      { params }
     );
   }
 
@@ -51,6 +56,18 @@ export class FinancialDataService {
     return this.httpClient.post(
       `${environment.api.url}ulb-financial-data/multiple-approve-action/${documentId}`,
       { testing: "" }
+    );
+  }
+
+  rejectMultiSelectULBs(documentId: string, rejectReason: string) {
+    // For testing. This will throw error 'Action already taken on form'
+    // return this.httpClient.post(
+    //   `https://democityfinanceapi.dhwaniris.in/api/v1/ulb-financial-data/multiple-approve-action/5fe447716783372717fa2e3e`,
+    //   {}
+    // );
+    return this.httpClient.post(
+      `${environment.api.url}ulb-financial-data/multiple-reject-action/${documentId}`,
+      { rejectReason }
     );
   }
 

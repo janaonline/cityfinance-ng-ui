@@ -129,7 +129,6 @@ export class ReportComponent implements OnInit, OnDestroy {
             "postLoginNavigation",
             "/financial-statement/data-tracker"
           );
-          this.router.navigate(["register/user"]);
           this.router.navigate(["/", "login"]);
         },
       },
