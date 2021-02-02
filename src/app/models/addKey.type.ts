@@ -10,7 +10,7 @@
  *
  */
 export type TAddKey<T extends string, U> = {
-  [P in T]: O | string;
+  [P in T]: string;
 } &
   {
     [P in keyof U]: U[P];
