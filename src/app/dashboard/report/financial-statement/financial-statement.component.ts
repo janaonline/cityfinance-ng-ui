@@ -45,6 +45,22 @@ export class FinancialStatementComponent
       _dialog,
       authService
     );
+
+    // this.commonService.getULBSByYears([this.yearLookup[0].id]).subscribe(
+    //   (response: IULBResponse) => {
+    //     Object.values(response.data).forEach((state) => {
+    //       state.ulbs = state.ulbs.sort((a, b) => (b.name > a.name ? -1 : 0));
+    //     });
+    //     const tt = response;
+    //     console.log(response);
+    //     //  const tt = JSON.parse(JSON.stringify(this.originalUlbList));
+
+    //     this.setPopupDefaultView();
+
+    //     this._loaderService.stopLoader();
+    //   },
+    //   () => {}
+    // );
   }
   multiSelectStates: Partial<DropdownSettings> = {
     primaryKey: "_id",
@@ -203,12 +219,12 @@ export class FinancialStatementComponent
 
       // Sort State and ULBs alphabetically.
       this.NeworiginalUlbList = res.data.sort((stateA, stateB) => {
-        stateA.ulbList = stateA.ulbList.sort((ulbA, ulbB) =>
-          ulbA.name.localeCompare(ulbB.name)
-        );
-        stateB.ulbList = stateB.ulbList.sort((ulbA, ulbB) =>
-          ulbA.name.localeCompare(ulbB.name)
-        );
+        stateA.ulbList = stateA.ulbList
+          .sort((ulbA, ulbB) => ulbA.name.localeCompare(ulbB.name))
+          .map((ulb) => ({ ...ulb, state: stateA._id.name }));
+        stateB.ulbList = stateB.ulbList
+          .sort((ulbA, ulbB) => ulbA.name.localeCompare(ulbB.name))
+          .map((ulb) => ({ ...ulb, state: stateA._id.name }));
         return stateA._id.name.localeCompare(stateB._id.name);
       });
       this.filteredULBList = this.getDefaultAutocompleteList();
