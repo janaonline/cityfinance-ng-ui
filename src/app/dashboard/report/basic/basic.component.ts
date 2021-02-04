@@ -106,6 +106,7 @@ export class BasicComponent implements OnInit, OnDestroy {
       this.initializeCurrencyConversion(reportCriteria);
       this.initializeForm(reportCriteria);
       this.loaderService.showLoader();
+      console.log("got criteria", reportCriteria);
 
       this.reportReq = reportCriteria;
 

@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatInput } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { DropdownSettings } from 'angular2-multiselect-dropdown/lib/multiselect.interface';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -8,11 +9,12 @@ import { merge } from 'rxjs';
 import { debounceTime, filter, tap } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 import { IULB } from 'src/app/models/ulb';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { AuthService } from '../../../../app/auth/auth.service';
 import { GlobalLoaderService } from '../../../../app/shared/services/loaders/global-loader.service';
 import { CommonService } from '../../../shared/services/common.service';
-import { IBasicLedgerData, LedgerState, TSearchedULB } from '../models/basicLedgerData.interface';
+import { IBasicLedgerData, LedgerState, LedgerULB, TSearchedULB } from '../models/basicLedgerData.interface';
 import { ReportService } from '../report.service';
 import { ReportComponent } from '../report/report.component';
 import { ulbType } from '../report/ulbTypes';
@@ -45,22 +47,6 @@ export class FinancialStatementComponent
       _dialog,
       authService
     );
-
-    // this.commonService.getULBSByYears([this.yearLookup[0].id]).subscribe(
-    //   (response: IULBResponse) => {
-    //     Object.values(response.data).forEach((state) => {
-    //       state.ulbs = state.ulbs.sort((a, b) => (b.name > a.name ? -1 : 0));
-    //     });
-    //     const tt = response;
-    //     console.log(response);
-    //     //  const tt = JSON.parse(JSON.stringify(this.originalUlbList));
-
-    //     this.setPopupDefaultView();
-
-    //     this._loaderService.stopLoader();
-    //   },
-    //   () => {}
-    // );
   }
   multiSelectStates: Partial<DropdownSettings> = {
     primaryKey: "_id",
@@ -96,7 +82,7 @@ export class FinancialStatementComponent
   yearListUpdate = false;
 
   filterForm: FormGroup;
-  ulbFilterControl: FormControl;
+  ulbSearchControl: FormControl;
   stateSelectToFilterULB = new FormControl();
 
   formInvalidMessage: string;
@@ -110,6 +96,11 @@ export class FinancialStatementComponent
   ];
 
   isULBSearchingInProgress = false;
+
+  @ViewChild("autoCompleteInput", { static: false })
+  autoCompleteInput: MatInput;
+
+  jsonUtil = new JSONUtility();
 
   ngOnInit(): void {
     this.initializeFilterForm();
@@ -127,7 +118,7 @@ export class FinancialStatementComponent
       valueType: ["absolute"],
       reportGroup: ["Income & Expenditure Statement"],
     });
-    this.ulbFilterControl = this.formBuilder.control("");
+    this.ulbSearchControl = this.formBuilder.control("");
     this.initializeULBSearch();
 
     this.filterForm.controls.ulbList.valueChanges.subscribe((newValue) => {
@@ -138,7 +129,7 @@ export class FinancialStatementComponent
   }
 
   private initializeULBSearch() {
-    this.ulbFilterControl.valueChanges
+    this.ulbSearchControl.valueChanges
       .pipe(
         filter((value) => (value ? value.length >= 2 : true)),
         debounceTime(300),
@@ -221,10 +212,18 @@ export class FinancialStatementComponent
       this.NeworiginalUlbList = res.data.sort((stateA, stateB) => {
         stateA.ulbList = stateA.ulbList
           .sort((ulbA, ulbB) => ulbA.name.localeCompare(ulbB.name))
-          .map((ulb) => ({ ...ulb, state: stateA._id.name }));
+          .map((ulb) => ({
+            ...ulb,
+            state: stateA._id.name,
+            stateId: stateA._id.state,
+          }));
         stateB.ulbList = stateB.ulbList
           .sort((ulbA, ulbB) => ulbA.name.localeCompare(ulbB.name))
-          .map((ulb) => ({ ...ulb, state: stateA._id.name }));
+          .map((ulb) => ({
+            ...ulb,
+            state: stateB._id.name,
+            stateId: stateB._id.state,
+          }));
         return stateA._id.name.localeCompare(stateB._id.name);
       });
       this.filteredULBList = this.getDefaultAutocompleteList();
@@ -237,7 +236,6 @@ export class FinancialStatementComponent
   }
 
   showULBOfState(stateId: IBasicLedgerData["data"][0]["_id"]["state"]) {
-    console.log(`new state selected: `, stateId);
     const stateFound = this.NeworiginalUlbList.find(
       (state) => state._id.state === stateId
     );
@@ -258,6 +256,7 @@ export class FinancialStatementComponent
     removeIfFound = false,
     stateId?: string
   ) {
+    if (!ulb.financialYear) return;
     if (stateId) {
       this.onULBClick(stateId, { type: ulb.ulbType }, (ulb as any) as IULB);
     }
@@ -270,11 +269,25 @@ export class FinancialStatementComponent
         oldULBS.splice(indexFound, 1);
       } else return;
     }
-    oldULBS.push(ulb);
+    if (indexFound == -1) oldULBS.push(ulb);
     this.filterForm.controls.ulbList.setValue(oldULBS);
+    this.filterForm.controls.ulbList.updateValueAndValidity();
     this.onClosingULBSelection();
+    this.ulbSearchControl.setValue("");
+    /**
+     * When user the typed in search box and select a ulb,
+     * we need to unfocus the auto-complete input to show new
+     * lists.
+     */
+    (document.activeElement as HTMLElement).blur();
+  }
 
-    // console.log(`mapping: \n`, this.StateULBTypeMapping);
+  resetPage() {
+    this.initializeFilterForm();
+    this.shiftFormToLeft = false;
+    this.showReport = false;
+    this.commonYears = null;
+    this.formInvalidMessage = null;
   }
 
   onClosingULBSelection() {
@@ -282,12 +295,15 @@ export class FinancialStatementComponent
     const ulbs: IBasicLedgerData["data"][0]["ulbList"] = this.filterForm
       .controls.ulbList.value;
 
-    if (!ulbs || !ulbs.length) return;
+    if (!ulbs || !ulbs.length) {
+      this.filterForm.controls.years.reset();
+      return;
+    }
     this.filterForm.controls.ulbIds.setValue(ulbs.map((ulb) => ulb.ulb));
-    this.createYearCotnrols(ulbs, true);
+    this.createYearControls(ulbs, true);
   }
 
-  createYearCotnrols(
+  createYearControls(
     ulbs: IBasicLedgerData["data"][0]["ulbList"],
     keepPreviousValues = false
   ) {
@@ -326,8 +342,9 @@ export class FinancialStatementComponent
   }
 
   removeSelectedULBAt(index: number) {
-    const allULBs: IULBResponse["data"]["ss"]["ulbs"] = this.filterForm.value
-      .ulbList;
+    const allULBs: LedgerULB[] = this.filterForm.value.ulbList;
+    return this.selectULB(allULBs[index], true, allULBs[index]["stateId"]);
+
     allULBs.splice(index, 1);
 
     this.filterForm.controls.ulbList.updateValueAndValidity();
@@ -352,6 +369,7 @@ export class FinancialStatementComponent
       .setValue(this.commonYears[indexOfYearSelected]);
 
     yearControl.setValue(this.commonYears[indexOfYearSelected]);
+    this.formInvalidMessage = null;
   }
 
   showData() {
@@ -362,8 +380,7 @@ export class FinancialStatementComponent
     setTimeout(() => {
       this.showReport = true;
     }, 1000);
-    const value = { ...this.filterForm.value };
-
+    const value = this.jsonUtil.deepCopy({ ...this.filterForm.value });
     value.years = value.years ? value.years.filter((year) => year) : null;
     this.reportForm.patchValue(value);
 

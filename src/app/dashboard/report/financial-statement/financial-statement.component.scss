@@ -39,8 +39,15 @@ li.disabled-ulb {
     }
   }
 }
+::ng-deep {
+  mat-option.mat-option[aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+}
 
 :host {
+  .reset {
+  }
   .popup-cotnainer-2 {
     min-height: 40vh;
   }

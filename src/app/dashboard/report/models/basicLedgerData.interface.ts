@@ -23,6 +23,8 @@ export interface LedgerULB {
   name: string;
   ulbType: IULB["type"];
   code: string;
+  state: string;
+  stateId: string;
 }
 
 export enum FinancialYear {
