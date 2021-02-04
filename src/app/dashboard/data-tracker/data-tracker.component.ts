@@ -38,7 +38,7 @@ export class DataTrackerComponent implements OnInit {
 
   constructor(
     private dataEntryService: DataEntryService,
-    private modalService: BsModalService,
+    public modalService: BsModalService,
     private _activatedRoute: ActivatedRoute
   ) {}
 
