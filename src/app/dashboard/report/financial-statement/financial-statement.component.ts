@@ -186,7 +186,7 @@ export class FinancialStatementComponent
       this.filterForm.controls.valueType.valueChanges,
       this.filterForm.controls.reportGroup.valueChanges
     )
-      .pipe(debounceTime(1000))
+      .pipe(debounceTime(200))
       .subscribe((newValues) => {
         this.showData();
       });
