@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 
 import { DataEntryService } from '../data-entry/data-entry.service';
 
@@ -39,18 +40,20 @@ export class DataTrackerComponent implements OnInit {
   constructor(
     private dataEntryService: DataEntryService,
     public modalService: BsModalService,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private _loaderSerivce: GlobalLoaderService
   ) {}
 
   ngOnInit() {
+    this._loaderSerivce.showLoader();
     this._activatedRoute.queryParams.subscribe((queryParams) => {
-      console.log(queryParams);
       this.dataEntryService.getLedgerLogs(queryParams).subscribe((res) => {
         if (res["success"]) {
           this.ledgerLogs = res["data"];
         } else {
           alert("Failed");
         }
+        this._loaderSerivce.stopLoader();
       });
     });
   }
