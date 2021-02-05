@@ -6,6 +6,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouteReuseStrategy } from '@angular/router';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -22,6 +23,7 @@ import { AuthGuard } from './security/auth-guard.service';
 import { DialogComponent } from './shared/components/dialog/dialog.component';
 import { AppCommonModule } from './shared/modules/app-common/app-common.module';
 import { SharedModule } from './shared/shared.module';
+import { CustomRouteReuseStrategy } from './util/router/reuse-strategy';
 
 @NgModule({
   entryComponents: [DialogComponent],
@@ -52,6 +54,8 @@ import { SharedModule } from './shared/shared.module';
       useClass: CustomHttpInterceptor,
       multi: true,
     },
+    { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
+
     AuthService,
     AuthGuard,
   ],

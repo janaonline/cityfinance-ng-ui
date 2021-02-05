@@ -19,6 +19,8 @@ export class DataTrackerComponent implements OnInit {
     enableSorting: true,
     enableFilter: true,
   };
+
+  window = window;
   columnDefs = [
     { headerName: "State", field: "stateName" },
     { headerName: "ULB Name", field: "ulbName" },
@@ -44,9 +46,12 @@ export class DataTrackerComponent implements OnInit {
     private _loaderSerivce: GlobalLoaderService
   ) {}
 
+  routeBack: string;
+
   ngOnInit() {
     this._loaderSerivce.showLoader();
     this._activatedRoute.queryParams.subscribe((queryParams) => {
+      this.routeBack = queryParams.backRoute;
       this.dataEntryService.getLedgerLogs(queryParams).subscribe((res) => {
         if (res["success"]) {
           this.ledgerLogs = res["data"];

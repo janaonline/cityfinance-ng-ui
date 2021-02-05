@@ -47,6 +47,7 @@ li.disabled-ulb {
 
 :host {
   .reset {
+    margin-top: 3em;
   }
   .popup-cotnainer-2 {
     min-height: 40vh;
@@ -88,9 +89,6 @@ li.disabled-ulb {
     justify-content: flex-start;
   }
   .form-container {
-    // margin-top: 2%;
-
-    // background: rgb(243, 119, 119);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -101,14 +99,16 @@ li.disabled-ulb {
     &.form-on-left {
       width: 20%;
       transition: all 1s;
-      // justify-content: flex-start;
       height: fit-content;
-      margin-left: 1%;
+      margin-left: 2%;
       form {
         width: 100%;
       }
       .year {
         margin: 1% 3% !important;
+        &:nth-child(1) {
+          margin-left: 0px !important;
+        }
       }
       input[type="submit"] {
         margin: 3% auto;
@@ -181,9 +181,22 @@ li.disabled-ulb {
 
       .years-container {
         display: flex;
-        width: 100%;
+        width: 150%;
+        overflow-x: hidden;
+        overflow-y: visible;
+        position: relative;
+        scroll-behavior: smooth;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        // background: red;
+
+        ::-webkit-scrollbar {
+          width: 0px;
+          height: 0px;
+        }
 
         .year {
+          min-width: 70px;
           margin: 1% 0.5% 2% 0.5%;
           border-radius: 3px;
           padding: 1% 2%;
@@ -272,7 +285,8 @@ li.disabled-ulb {
         display: inline-block;
         width: 30%;
         .reportType {
-          margin-right: 2%;
+          background: rgb(211, 211, 211);
+          // margin-right: 2%;
           padding: 3%;
           cursor: pointer;
           transition: all 0.2s;
@@ -287,4 +301,32 @@ li.disabled-ulb {
       }
     }
   }
+}
+
+.custom-slider-main {
+  display: flex;
+  overflow: hidden;
+  scroll-behavior: smooth;
+}
+
+.info-box {
+  width: 50px;
+  height: 50px;
+}
+
+.arrow-right,
+.arrow-left {
+  height: fit-content;
+  display: inline-flex;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  z-index: 9999;
+  font-size: 4rem;
+
+  color: gray;
+}
+.arrow-right {
+  margin-left: 0.1em;
 }

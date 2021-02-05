@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInput } from '@angular/material/input';
@@ -101,6 +101,9 @@ export class FinancialStatementComponent
   autoCompleteInput: MatInput;
 
   jsonUtil = new JSONUtility();
+  @ViewChild("widgetsContent") widgetsContent: ElementRef;
+
+  showArrow = false;
 
   ngOnInit(): void {
     this.initializeFilterForm();
@@ -208,24 +211,7 @@ export class FinancialStatementComponent
     this.commonService.fetchBasicLedgerData().subscribe((res) => {
       this._loaderService.showLoader();
 
-      // Sort State and ULBs alphabetically.
-      this.NeworiginalUlbList = res.data.sort((stateA, stateB) => {
-        stateA.ulbList = stateA.ulbList
-          .sort((ulbA, ulbB) => ulbA.name.localeCompare(ulbB.name))
-          .map((ulb) => ({
-            ...ulb,
-            state: stateA._id.name,
-            stateId: stateA._id.state,
-          }));
-        stateB.ulbList = stateB.ulbList
-          .sort((ulbA, ulbB) => ulbA.name.localeCompare(ulbB.name))
-          .map((ulb) => ({
-            ...ulb,
-            state: stateB._id.name,
-            stateId: stateB._id.state,
-          }));
-        return stateA._id.name.localeCompare(stateB._id.name);
-      });
+      this.NeworiginalUlbList = res.data;
       this.filteredULBList = this.getDefaultAutocompleteList();
       this._loaderService.stopLoader();
       this.stateSelectToFilterULB.setValue(
@@ -233,6 +219,14 @@ export class FinancialStatementComponent
       );
       this.showULBOfState(this.NeworiginalUlbList[0]._id.state);
     });
+  }
+
+  scrollLeft() {
+    this.widgetsContent.nativeElement.scrollLeft = -200;
+  }
+
+  scrollRight() {
+    this.widgetsContent.nativeElement.scrollLeft = 200;
   }
 
   showULBOfState(stateId: IBasicLedgerData["data"][0]["_id"]["state"]) {
@@ -288,6 +282,7 @@ export class FinancialStatementComponent
     this.showReport = false;
     this.commonYears = null;
     this.formInvalidMessage = null;
+    this.showArrow = false;
   }
 
   onClosingULBSelection() {
@@ -297,10 +292,31 @@ export class FinancialStatementComponent
 
     if (!ulbs || !ulbs.length) {
       this.filterForm.controls.years.reset();
+      this.showArrow = false;
       return;
     }
     this.filterForm.controls.ulbIds.setValue(ulbs.map((ulb) => ulb.ulb));
     this.createYearControls(ulbs, true);
+    if (!this.shiftFormToLeft) return;
+
+    setTimeout(() => this.calculateArrowVisibility(), 0);
+  }
+
+  calculateArrowVisibility() {
+    const elements = document.getElementsByClassName("year");
+    if (!elements) {
+      this.showArrow = false;
+      return;
+    }
+    let widthOfAllYear = 0;
+    for (let index = 0; index < elements.length; index++) {
+      const element = elements[index];
+      widthOfAllYear += element.clientWidth;
+    }
+    const container = document.getElementById("years-container");
+    if (widthOfAllYear > container.clientWidth) {
+      this.showArrow = true;
+    } else this.showArrow = false;
   }
 
   createYearControls(
@@ -385,6 +401,9 @@ export class FinancialStatementComponent
     this.reportForm.patchValue(value);
 
     this.search();
+    setTimeout(() => {
+      this.calculateArrowVisibility();
+    }, 1500);
   }
 
   protected validateFormError() {

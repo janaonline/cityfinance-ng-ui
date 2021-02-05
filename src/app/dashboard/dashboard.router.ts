@@ -2,7 +2,6 @@ import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from '../security/auth-guard.service';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { DataTrackerComponent } from './data-tracker/data-tracker.component';
 
 // import { TestComponent } from './test/test.component';
@@ -10,7 +9,6 @@ import { DataTrackerComponent } from './data-tracker/data-tracker.component';
 export const dashboardRouter: Routes = [
   {
     path: "",
-    component: DashboardComponent,
     children: [
       { path: "", redirectTo: "user", pathMatch: "full" },
       {
@@ -31,6 +29,7 @@ export const dashboardRouter: Routes = [
         path: "report",
         loadChildren: () =>
           import("./report/report.module").then((m) => m.ReportModule),
+          data: {reuse:  true}
       },
       {
         path: "ranking",

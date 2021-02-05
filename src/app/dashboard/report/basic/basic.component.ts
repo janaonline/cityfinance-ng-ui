@@ -303,9 +303,12 @@ export class BasicComponent implements OnInit, OnDestroy {
   }
 
   routerTo() {
+    // console.log(this.router.)
     const ulbs: string[] = this.reportReq.ulbIds;
     const years: string[] = this.reportReq.years;
-    const query = `ulbs=${ulbs.toString()}&year=${years.toString()}`;
+    const query = `ulb=${ulbs.toString()}&year=${years.toString()}&backRoute=${
+      window.location.pathname
+    }`;
 
     const isUserLoggedIn = this._authService.loggedIn();
     console.log(isUserLoggedIn);
@@ -340,7 +343,11 @@ export class BasicComponent implements OnInit, OnDestroy {
     }
 
     this.router.navigate(["/financial-statement/data-tracker"], {
-      queryParams: { ulb: ulbs, year: years.toString() },
+      queryParams: {
+        ulb: ulbs,
+        year: years.toString(),
+        backRoute: window.location.pathname,
+      },
     });
   }
 

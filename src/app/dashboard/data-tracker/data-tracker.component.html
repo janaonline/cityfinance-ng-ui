@@ -5,6 +5,16 @@
         <h3>Urban Finance</h3>
         <h4>The list of files available on city finance.</h4>
       </div>
+      <div class="col-md-6 d-flex justify-content-end">
+        <a
+          *ngIf="routeBack"
+          [routerLink]="routeBack"
+          class="btn btn-primary"
+          style="margin-right: 6px; height: fit-content"
+        >
+          Back
+        </a>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-12">
