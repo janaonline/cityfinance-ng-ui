@@ -6,11 +6,11 @@
     "ng": "ng",
     "start": "ng serve",
     "test": "ng test",
+    "build": "npx ng build --prod && npx gzipper compress --level=9 ./dist",
     "CITest": "ng test --watch=false  --browsers ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "analyze": "ng build --prod --stats-json && webpack-bundle-analyzer ./dist/PerfectAngular/stats.json",
-    "build-gzip": "npx ng build --prod && npx gzipper compress --level=9 ./dist"
+    "analyze": "ng build --prod --stats-json && webpack-bundle-analyzer ./dist/PerfectAngular/stats.json"
   },
   "private": true,
   "dependencies": {
