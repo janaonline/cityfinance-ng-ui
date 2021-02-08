@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "analyze": "ng build --prod --stats-json && webpack-bundle-analyzer ./dist/PerfectAngular/stats.json",
-    "build-gzip": "ng build --prod && gzipper compress --level=9 ./dist"
+    "build-gzip": "npx ng build --prod && npx gzipper compress --level=9 ./dist"
   },
   "private": true,
   "dependencies": {
