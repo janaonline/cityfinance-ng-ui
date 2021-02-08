@@ -45,8 +45,16 @@
         <tr></tr>
 
         <tr>
-          <th class="text-center" colspan="2">Years</th>
-          <th class="text-center" *ngFor="let yr of years">{{ yr.title }}</th>
+          <th class="text-center" style="background: white" colspan="2">
+            Years
+          </th>
+          <th
+            class="text-center"
+            style="background: white"
+            *ngFor="let yr of years"
+          >
+            {{ yr.title }}
+          </th>
         </tr>
         <tr>
           <th class="text-center">{{ reportReq.ulbList[0].state }}</th>
@@ -197,7 +205,7 @@
   *ngIf="isProcessed && reportKeys.length > 0"
   class="btn btn-primary right"
 >
-  Download
+  Download XLS
 </button>
 
 <button

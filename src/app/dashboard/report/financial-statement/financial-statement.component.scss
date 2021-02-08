@@ -46,6 +46,18 @@ li.disabled-ulb {
 }
 
 :host {
+  .radio-inline {
+    font-weight: 500;
+  }
+
+  ::ng-deep {
+    input#search-ulb::placeholder {
+      color: rgb(78, 78, 78);
+    }
+  }
+}
+
+:host {
   .reset {
     margin-top: 3em;
   }

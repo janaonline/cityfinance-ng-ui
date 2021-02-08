@@ -10,7 +10,8 @@
 
 :host {
   table {
-    thead tr:not(:last-child) {
+    thead tr:not(:nth-child(1)),
+    thead tr:not(:nth-child(2)) {
       background: #e2e2e2;
       th,
       td {
@@ -25,6 +26,10 @@
       td {
         background: #f4f4f4;
       }
+    }
+    tbody,
+    thead {
+      color: #333333;
     }
   }
 

@@ -58,11 +58,12 @@
           <th
             class="text-center yearssss"
             colspan="2"
-            style="position: sticky; left: 0px; width: 30vw"
+            style="position: sticky; left: 0px; width: 30vw; background: white"
           >
-            Year(s)
+            Year(s)sss
           </th>
           <th
+            style="background: white"
             class="text-center yyy"
             [attr.colspan]="headerGroup.yearColspan"
             *ngFor="let yr of reportReq.years"
@@ -273,7 +274,7 @@
   *ngIf="isProcessed && reportKeys.length > 0"
   class="btn btn-primary right mt-2"
 >
-  Download
+  Download XLS
 </button>
 <button
   class="btn btn-primary right source-file-download mr-2 mt-2"
