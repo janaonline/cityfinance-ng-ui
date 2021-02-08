@@ -80,6 +80,13 @@ export const appRouter: Routes = [
       import("./dashboard/dashboard.module").then((m) => m.DashboardModule),
   },
   {
+    path: "data-tracker",
+    loadChildren: () =>
+      import("./pages/data-tracker/data-tracker.module").then(
+        (m) => m.DataTrackerModule
+      ),
+  },
+  {
     path: "upload-annual-accounts",
     loadChildren: () =>
       import("./pages/annual-accounts/annual-accounts.module").then(

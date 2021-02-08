@@ -496,7 +496,7 @@ export class ComparativeUlbComponent implements OnInit {
               callback: () => {
                 sessionStorage.setItem(
                   "postLoginNavigation",
-                  `/financial-statement/data-tracker?${query}`
+                  `/data-tracker?${query}`
                 );
                 this.router.navigate(["/", "login"]);
               },
@@ -509,7 +509,7 @@ export class ComparativeUlbComponent implements OnInit {
       return;
     }
 
-    this.router.navigate(["/financial-statement/data-tracker"], {
+    this.router.navigate(["/data-tracker"], {
       queryParams: {
         ulb: ulbs.toString(),
         year: years.toString(),

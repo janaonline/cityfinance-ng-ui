@@ -125,10 +125,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       confirm: {
         text: "Proceed to Login",
         callback: () => {
-          sessionStorage.setItem(
-            "postLoginNavigation",
-            "/financial-statement/data-tracker"
-          );
+          sessionStorage.setItem("postLoginNavigation", "/data-tracker");
           this.router.navigate(["/", "login"]);
         },
       },

@@ -329,7 +329,7 @@ export class BasicComponent implements OnInit, OnDestroy {
               callback: () => {
                 sessionStorage.setItem(
                   "postLoginNavigation",
-                  `/financial-statement/data-tracker?${query}`
+                  `/data-tracker?${query}`
                 );
                 this.router.navigate(["/", "login"]);
               },
@@ -342,7 +342,7 @@ export class BasicComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate(["/financial-statement/data-tracker"], {
+    this.router.navigate(["/data-tracker"], {
       queryParams: {
         ulb: ulbs,
         year: years.toString(),

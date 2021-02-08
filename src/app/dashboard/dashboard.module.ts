@@ -10,7 +10,6 @@ import { CommonService } from '../shared/services/common.service';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardRouter } from './dashboard.router';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DataTrackerComponent } from './data-tracker/data-tracker.component';
 import { HeaderComponent } from './header/header.component';
 
 // import { TestComponent } from './test/test.component';
@@ -26,6 +25,6 @@ import { HeaderComponent } from './header/header.component';
     AngularMaterialModule,
   ],
   providers: [CommonService],
-  declarations: [HeaderComponent, DashboardComponent, DataTrackerComponent],
+  declarations: [HeaderComponent, DashboardComponent],
 })
 export class DashboardModule {}

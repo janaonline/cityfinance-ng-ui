@@ -2,7 +2,6 @@ import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from '../security/auth-guard.service';
-import { DataTrackerComponent } from './data-tracker/data-tracker.component';
 
 // import { TestComponent } from './test/test.component';
 
@@ -29,7 +28,7 @@ export const dashboardRouter: Routes = [
         path: "report",
         loadChildren: () =>
           import("./report/report.module").then((m) => m.ReportModule),
-          data: {reuse:  true}
+        data: { reuse: true },
       },
       {
         path: "ranking",
@@ -43,10 +42,10 @@ export const dashboardRouter: Routes = [
             (m) => m.FinancialInformationModule
           ),
       },
-      { path: "data-tracker", component: DataTrackerComponent },
       // { path: 'test', component: TestComponent}
     ],
   },
+  // { path: "data-tracker", component: DataTrackerComponent },
 ];
 
 export const DashboardRouter: ModuleWithProviders<RouterModule> = RouterModule.forChild(

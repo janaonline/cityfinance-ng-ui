@@ -1,9 +1,8 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
-
-import { DataEntryService } from '../data-entry/data-entry.service';
 
 @Component({
   selector: "app-data-tracker",
