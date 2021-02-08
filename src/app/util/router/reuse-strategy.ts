@@ -19,16 +19,11 @@ export class CustomRouteReuseStrategy extends RouteReuseStrategy {
   }
   store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
     this.cachedRoute[this.getPathFromRoot(route)] = handle;
-    console.group(`Store: ${this.getPathFromRoot(route)}`);
-    console.log(route, handle);
-    console.groupEnd();
   }
   shouldAttach(route: ActivatedRouteSnapshot): boolean {
     return !!this.cachedRoute[this.getPathFromRoot(route)];
   }
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
-    // console.log("retreive", this.getPathFromRoot(route));
-    // console.log(this.cachedRoute["financial-statement/report/basic"]);
     return this.cachedRoute[this.getPathFromRoot(route)];
   }
 
@@ -40,26 +35,25 @@ export class CustomRouteReuseStrategy extends RouteReuseStrategy {
      * Due to how Financial Statement is structured, we cannot return false from here
      */
 
+    this.navigatingWithinFinancialStatementModule(curr, future);
+
     return future.routeConfig === curr.routeConfig;
   }
 
-  private getChildPath(route: ActivatedRouteSnapshot) {
-    let child = route;
-    let path = "";
-    while (child) {
-      path += child?.routeConfig?.path || "";
-      if (child?.routeConfig?.path) {
-        path += "/";
-      }
-      child = child.children[0];
-    }
-    return path;
-  }
-
   private getPathFromRoot(route: ActivatedRouteSnapshot) {
-    // return this.getChildPath(route);
     return (route["_urlSegment"]["segments"] as UrlSegment[])
       .map((seg) => seg.path)
       .join("/");
+  }
+
+  private navigatingWithinFinancialStatementModule(
+    current: ActivatedRouteSnapshot,
+    future: ActivatedRouteSnapshot
+  ) {
+    const currentPath = this.getPathFromRoot(current);
+    const futurePath = this.getPathFromRoot(future);
+    if (!currentPath?.trim() && !futurePath.trim()) {
+      return true;
+    }
   }
 }
