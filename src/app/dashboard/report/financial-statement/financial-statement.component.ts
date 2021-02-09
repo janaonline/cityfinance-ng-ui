@@ -134,6 +134,7 @@ export class FinancialStatementComponent
   private initializeULBSearch() {
     this.ulbSearchControl.valueChanges
       .pipe(
+        tap((data) => (this.formInvalidMessage = null)),
         filter((value) => (value ? value.length >= 2 : true)),
         debounceTime(300),
         tap((data) => (this.isULBSearchingInProgress = true))
@@ -258,15 +259,6 @@ export class FinancialStatementComponent
     const oldULBS: IBasicLedgerData["data"][0]["ulbList"] = this.filterForm
       .controls.ulbList.value;
     const indexFound = oldULBS.findIndex((oldulb) => oldulb.ulb === ulb.ulb);
-    if (indexFound > -1) {
-      if (removeIfFound) {
-        oldULBS.splice(indexFound, 1);
-      } else return;
-    }
-    if (indexFound == -1) oldULBS.push(ulb);
-    this.filterForm.controls.ulbList.setValue(oldULBS);
-    this.filterForm.controls.ulbList.updateValueAndValidity();
-    this.onClosingULBSelection();
     this.ulbSearchControl.setValue("");
     /**
      * When user the typed in search box and select a ulb,
@@ -274,6 +266,18 @@ export class FinancialStatementComponent
      * lists.
      */
     (document.activeElement as HTMLElement).blur();
+    if (indexFound > -1) {
+      if (removeIfFound) {
+        oldULBS.splice(indexFound, 1);
+      } else {
+        this.formInvalidMessage = `${oldULBS[indexFound].name} is already selected.`;
+        return;
+      }
+    }
+    if (indexFound == -1) oldULBS.push(ulb);
+    this.filterForm.controls.ulbList.setValue(oldULBS);
+    this.filterForm.controls.ulbList.updateValueAndValidity();
+    this.onClosingULBSelection();
   }
 
   resetPage() {

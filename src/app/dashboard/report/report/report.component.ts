@@ -125,7 +125,10 @@ export class ReportComponent implements OnInit, OnDestroy {
       confirm: {
         text: "Proceed to Login",
         callback: () => {
-          sessionStorage.setItem("postLoginNavigation", "/data-tracker");
+           const query = `backRoute=${
+             window.location.pathname
+           }`;
+          sessionStorage.setItem("postLoginNavigation", `/data-tracker?${query}`);
           this.router.navigate(["/", "login"]);
         },
       },
@@ -194,10 +197,14 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
 
     if (!downloadFilteredULBs) {
-      return this.router.navigate([url]);
+      return this.router.navigate([url], {
+        queryParams: { backRoute: window.location.pathname },
+      });
     }
 
-    this.router.navigate([url], { queryParams: { ulbIds, years } });
+    this.router.navigate([url], {
+      queryParams: { ulbIds, years, backRoute: window.location.pathname },
+    });
   }
 
   protected listenToFormGroups() {
@@ -452,7 +459,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     b: KeyValue<number, { name: string }>
   ): number => {
     return a.value.name > b.value.name ? 1 : -1;
-  };
+  }
 
   /**
    * This method is executed whenever user click on Base ULB Tab or ULB For Comparison Tab.
