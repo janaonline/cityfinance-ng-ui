@@ -1,7 +1,9 @@
 <div class="w-100 b-sm">
   <div class="inner-head">
     <div class="back-icon">
-      <a routerLink="/home"><span class="glyphicon glyphicon-arrow-left"></span></a>
+      <a routerLink="/home"
+        ><span class="glyphicon glyphicon-arrow-left"></span
+      ></a>
     </div>
     <div class="head-content">
       <h5>Analytics / {{ tabIndexes[tabIndex] }}</h5>
@@ -20,7 +22,7 @@
     <div
       class="mt-2 col-md-8 b-sm"
       [formGroup]="yearForm"
-      style="display: flex; align-items: center;"
+      style="display: flex; align-items: center"
     >
       <mat-form-field
         style="
@@ -79,7 +81,7 @@
       <angular2-multiselect
         classes=""
         formControlName="years"
-        style="display: inline-block; width: 160px; margin-right: 2%;"
+        style="display: inline-block; width: 350px; margin-right: 2%"
         [data]="yearLookup"
         [settings]="yearsDropdownSettings"
         (onSelect)="onDropdownSelect($event)"
@@ -224,11 +226,11 @@
   <ng-container
     *ngIf="loading == false; else loadingSkeleton"
     [style.height.px]="400"
-    style="width: 100%;"
+    style="width: 100%"
     [formGroup]="yearForm"
   >
     <div class="row d-flex year-dropdown-cotnainer">
-      <div class="n-sm year-web-search ">
+      <div class="n-sm year-web-search">
         <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
       </div>
       <button
@@ -262,7 +264,7 @@
           [style.minWidth]="commonTableHeaders.length * 110 + 'px'"
           *ngIf="commonTableDataDisplay?.length; else noData"
           class="table mr-1"
-          style="margin-bottom: 1px;"
+          style="margin-bottom: 1px"
         >
           <thead class="m-bg-n">
             <tr>
@@ -452,7 +454,7 @@
     </div>
     <div
       class="table-responsive border-1"
-      style="max-height: 90vh; overflow-x: scroll;"
+      style="max-height: 90vh; overflow-x: scroll"
     >
       <table
         id="table"
@@ -467,7 +469,7 @@
               "
               [attr.data-text_align]="'center'"
               [attr.data-bold]="true"
-              style="position: sticky; top: 0; background: white;"
+              style="position: sticky; top: 0; background: white"
               class="text-center border-bottom-0"
               *ngFor="let header of modalTableHeaders; let j = index"
             >
@@ -484,7 +486,7 @@
                   >
                 </div>
                 <i
-                  style="position: absolute; right: -0.5rem;"
+                  style="position: absolute; right: -0.5rem"
                   *ngIf="!header.hasOwnProperty('status'); else icon"
                   (click)="sortDialogHeader(header)"
                   class="fa fa-sort px-1"
@@ -492,14 +494,14 @@
                 ></i>
                 <ng-template #icon>
                   <i
-                    style="position: absolute; right: -0.5rem;"
+                    style="position: absolute; right: -0.5rem"
                     *ngIf="header.status"
                     (click)="sortDialogHeader(header)"
                     class="fa fa-sort-asc px-1"
                     aria-hidden="true"
                   ></i>
                   <i
-                    style="position: absolute; right: -0.5rem;"
+                    style="position: absolute; right: -0.5rem"
                     *ngIf="!header.status"
                     (click)="sortDialogHeader(header)"
                     class="fa fa-sort-desc px-1"
@@ -595,17 +597,17 @@
 
 <ng-template #yearSelect>
   <div
-    class="mt-2 col-md-8  "
+    class="mt-2 col-md-8"
     [formGroup]="yearForm"
-    style="display: flex; align-items: center;"
+    style="display: flex; align-items: center"
   >
     <mat-form-field
       style="
-          display: inline-block;
-          width: 160px;
-          margin-right: 1rem;
-          line-height: 0.225;
-        "
+        display: inline-block;
+        width: 160px;
+        margin-right: 1rem;
+        line-height: 0.225;
+      "
       appearance="outline"
       *ngIf="ulbsOfSelectedState"
     >
@@ -654,7 +656,7 @@
     <angular2-multiselect
       classes=""
       formControlName="years"
-      style="display: inline-block; width: 335px; margin-right: 2%;"
+      style="display: inline-block; width: 335px; margin-right: 2%"
       [data]="yearLookup"
       [settings]="yearsDropdownSettings"
       (onSelect)="onDropdownSelect($event)"
@@ -669,13 +671,13 @@
       title="Apply"
       (click)="onDropdownClose()"
       style="
-          background-color: #333333;
-          color: white;
-          border: none;
-          outline: none;
-          padding: 9px 15px;
-          min-width: fit-content;
-        "
+        background-color: #333333;
+        color: white;
+        border: none;
+        outline: none;
+        padding: 9px 15px;
+        min-width: fit-content;
+      "
     >
       Apply
     </button>
@@ -691,7 +693,7 @@
 
 <ng-template #pieChart>
   <div class="col-sm-12 col-md-7">
-    <div class="row n-sm ">
+    <div class="row n-sm">
       <ng-container *ngTemplateOutlet="yearSelect"></ng-container>
     </div>
     <div *ngIf="loading == false; else loadingSkeleton" class="row">
