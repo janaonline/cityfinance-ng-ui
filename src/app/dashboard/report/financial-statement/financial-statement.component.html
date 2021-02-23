@@ -1,9 +1,8 @@
 <div class="all-container">
   <div class="form-container" [ngClass]="{ 'form-on-left': shiftFormToLeft }">
     <form [formGroup]="filterForm" *ngIf="filterForm" (ngSubmit)="showData()">
-      <h4 class="mb-2 text-center" *ngIf="!shiftFormToLeft">
-        Select the following parameters to view and download annual financial
-        statements of Urban Local Bodies (ULBs)
+      <h4 class="mb-2 text-center" style="width: 100%" *ngIf="!shiftFormToLeft">
+        Select the following parameters to view Financial Summary
       </h4>
       <mat-form-field appearance="outline">
         <input
@@ -42,7 +41,7 @@
                   *ngFor="let ulb of state.ulbList"
                   [value]="ulb.name"
                   [title]="ulb.name"
-                  (click)="selectULB(ulb, false, state._id.state)"
+                  (click)="selectBaseULB(ulb, false, state._id.state)"
                   [disabled]="!ulb?.financialYear"
                 >
                   <span [innerHTML]="ulb.searchedName || ulb.name"></span>
@@ -60,7 +59,7 @@
       ><br />
 
       <small class="popup" (click)="openUlbModal(UlbModal)"
-        >or select from list</small
+        >or Select from State Wise ULB List</small
       >
 
       <div
@@ -76,11 +75,16 @@
         <div class="years-container" id="years-container" #widgetsContent>
           <span
             class="year"
-            [ngClass]="{ selected: filterForm?.controls?.years?.at(i).value }"
-            *ngFor="let year of commonYears; let i = index"
+            *ngFor="let year of allFinancialYears; let i = index"
+            [ngClass]="{
+              selected: year.selected,
+              disabled: !year.isSelectable
+            }"
             (click)="onClickingYear(i)"
           >
-            {{ year }}
+            {{ year.value }}
+
+            <!-- (click)="onClickingYear(i)" -->
           </span>
 
           <p
@@ -110,14 +114,14 @@
         *ngIf="filterForm?.value?.ulbList?.length"
       >
         <small (click)="resetPage()" class="popup reset">
-          <i class="fa fa-refresh" aria-hidden="true"></i> Reset</small
+          <i class="fa fa-refresh" aria-hidden="true"></i> Clear All</small
         >
       </div>
 
       <input
         class="btn btn-primary ng-star-inserted"
         type="submit"
-        value="View Financial Statements"
+        value="View Financial Summary"
         [disabled]="!commonYears || !commonYears.length"
       />
 

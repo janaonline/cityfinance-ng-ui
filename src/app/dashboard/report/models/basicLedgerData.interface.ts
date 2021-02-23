@@ -18,7 +18,7 @@ export interface ID {
 }
 
 export interface LedgerULB {
-  financialYear: Array<FinancialYear | null>;
+  financialYear?: string[];
   ulb: string;
   name: string;
   ulbType: IULB["type"];

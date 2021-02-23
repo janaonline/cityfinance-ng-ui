@@ -105,17 +105,36 @@ export class FinancialStatementComponent
 
   showArrow = false;
 
+  allFinancialYears: {
+    value: string;
+    isSelectable: boolean;
+    selected: boolean;
+  }[];
+
+  ulbListForComparision: LedgerState[];
+
   ngOnInit(): void {
     this.initializeFilterForm();
     this.fetchULBList();
+    this.fetchAllFinancialYears();
     this.ulbTypeInView.type = this.newULBTypes[0];
+  }
+
+  private fetchAllFinancialYears() {
+    this.reportService.getFinancialYearBasedOnData().subscribe((res) => {
+      this.allFinancialYears = res["data"].map((value) => ({
+        value,
+        isSelectable: false,
+        selected: false,
+      }));
+    });
   }
 
   protected initializeFilterForm() {
     this.filterForm = this.formBuilder.group({
       ulbList: [[]],
       ulbIds: [[]],
-      years: this.formBuilder.array([]),
+      years: [[]],
       yearList: [],
       type: ["Summary"],
       valueType: ["absolute"],
@@ -142,6 +161,7 @@ export class FinancialStatementComponent
       .subscribe((textToSearch: string) => {
         this.filteredULBList = null;
         textToSearch = textToSearch ? textToSearch.trim() : null;
+
         if (!textToSearch) {
           this.isULBSearchingInProgress = false;
 
@@ -176,6 +196,20 @@ export class FinancialStatementComponent
         this.filteredULBList = [...newList];
         this.isULBSearchingInProgress = false;
       });
+  }
+
+  private initializeULBListForComparision() {
+    const yearsAvailable = this.allFinancialYears
+      .filter((year) => year.isSelectable)
+      .map((year) => year.value);
+    this.NeworiginalUlbList.forEach((state) => {
+      const filteredULBs = state.ulbList.filter((ulb) =>
+        ulb.financialYear?.some((year) => yearsAvailable.includes(year))
+      );
+      if (!filteredULBs.length) return;
+
+      console.log(state._id.name, filteredULBs);
+    });
   }
 
   /**
@@ -246,6 +280,59 @@ export class FinancialStatementComponent
     this.showULBOfState(this.stateSelectToFilterULB.value);
   }
 
+  selectBaseULB(
+    ulb: IBasicLedgerData["data"][0]["ulbList"][0],
+    removeIfFound = false,
+    stateId?: string
+  ) {
+    if (!ulb.financialYear) return;
+    if (stateId) {
+      this.onULBClick(stateId, { type: ulb.ulbType }, (ulb as any) as IULB);
+    }
+
+    const baseULB: IBasicLedgerData["data"][0]["ulbList"][0] = this.filterForm
+      .controls.ulbList.value[0];
+
+    /**
+     * When user the typed in search box and select a ulb,
+     * we need to unfocus the auto-complete input to show new
+     * lists.
+     */
+    (document.activeElement as HTMLElement).blur();
+    if (baseULB?.ulb === ulb.ulb) {
+      this.formInvalidMessage = `${baseULB.name} is already selected.`;
+      return;
+    }
+
+    this.filterForm.controls.ulbList.reset();
+
+    this.filterForm.controls.ulbList.setValue([ulb]);
+    this.filterForm.controls.ulbList.updateValueAndValidity();
+    this.onClosingULBSelection();
+    this.ulbSearchControl.setValue("");
+
+    this.updateFinancialYearSelection();
+    this.initializeULBListForComparision();
+  }
+
+  private updateFinancialYearSelection() {
+    const baseULB: LedgerULB = this.filterForm.controls.ulbList.value[0];
+    const preSelectedYears = [];
+    this.allFinancialYears.forEach((year) => {
+      if (baseULB.financialYear?.includes(year.value)) {
+        year.isSelectable = true;
+        if (year.selected) {
+          preSelectedYears.push(year.value);
+        }
+        return;
+      }
+
+      year.isSelectable = false;
+      year.selected = false;
+    });
+    this.filterForm.controls.years.setValue(preSelectedYears);
+  }
+
   selectULB(
     ulb: IBasicLedgerData["data"][0]["ulbList"][0],
     removeIfFound = false,
@@ -277,7 +364,7 @@ export class FinancialStatementComponent
     if (indexFound == -1) oldULBS.push(ulb);
     this.filterForm.controls.ulbList.setValue(oldULBS);
     this.filterForm.controls.ulbList.updateValueAndValidity();
-    this.onClosingULBSelection();
+    // this.onClosingULBSelection();
   }
 
   resetPage() {
@@ -287,6 +374,11 @@ export class FinancialStatementComponent
     this.commonYears = null;
     this.formInvalidMessage = null;
     this.showArrow = false;
+
+    this.allFinancialYears.forEach((year) => {
+      year.isSelectable = false;
+      year.selected = false;
+    });
   }
 
   onClosingULBSelection() {
@@ -300,7 +392,7 @@ export class FinancialStatementComponent
       return;
     }
     this.filterForm.controls.ulbIds.setValue(ulbs.map((ulb) => ulb.ulb));
-    this.createYearControls(ulbs, true);
+    // this.createYearControls(ulbs, true);
     if (!this.shiftFormToLeft) return;
 
     setTimeout(() => this.calculateArrowVisibility(), 0);
@@ -327,15 +419,6 @@ export class FinancialStatementComponent
     ulbs: IBasicLedgerData["data"][0]["ulbList"],
     keepPreviousValues = false
   ) {
-    const yearsSelected = this.filterForm.controls.years.value.filter(
-      (year) => year
-    );
-    const yearControl = this.filterForm.controls.years as FormArray;
-
-    while (yearControl.controls.length) {
-      yearControl.removeAt(0);
-    }
-
     const ulbToCompare = ulbs[0];
 
     ulbToCompare.financialYear.forEach((yearToSearch) => {
@@ -347,10 +430,19 @@ export class FinancialStatementComponent
 
       if (yearExitsInAllULB) {
         this.commonYears.push(yearToSearch);
-        yearControl.push(this.formBuilder.control(null));
       }
     });
     this.yearListUpdate = true;
+
+    return;
+    const yearsSelected = this.filterForm.controls.years.value.filter(
+      (year) => year
+    );
+    const yearControl = this.filterForm.controls.years as FormArray;
+
+    while (yearControl.controls.length) {
+      yearControl.removeAt(0);
+    }
 
     if (!keepPreviousValues) return;
 
@@ -375,21 +467,29 @@ export class FinancialStatementComponent
    * @description Toggle year selection. Index must be from common year list.
    */
   onClickingYear(indexOfYearSelected: number) {
-    const yearControl = (this.filterForm.controls.years as FormArray).at(
-      indexOfYearSelected
-    );
-
-    if (yearControl.value) {
-      return (this.filterForm.controls.years as FormArray)
-        .at(indexOfYearSelected)
-        .setValue(null);
+    const yearClicked = this.allFinancialYears[indexOfYearSelected];
+    if (!yearClicked || !yearClicked.isSelectable) {
+      this.updateFinancialYearSelection();
+      return;
     }
-    (this.filterForm.controls.years as FormArray)
-      .at(indexOfYearSelected)
-      .setValue(this.commonYears[indexOfYearSelected]);
+    yearClicked.selected = !yearClicked.selected;
+    this.updateFinancialYearSelection();
 
-    yearControl.setValue(this.commonYears[indexOfYearSelected]);
-    this.formInvalidMessage = null;
+    // const yearControl = (this.filterForm.controls.years as FormArray).at(
+    //   indexOfYearSelected
+    // );
+
+    // if (yearControl.value) {
+    //   return (this.filterForm.controls.years as FormArray)
+    //     .at(indexOfYearSelected)
+    //     .setValue(null);
+    // }
+    // (this.filterForm.controls.years as FormArray)
+    //   .at(indexOfYearSelected)
+    //   .setValue(this.commonYears[indexOfYearSelected]);
+
+    // yearControl.setValue(this.commonYears[indexOfYearSelected]);
+    // this.formInvalidMessage = null;
   }
 
   showData() {
