@@ -63,7 +63,7 @@
                 >
                   <span [innerHTML]="ulb.searchedName || ulb.name"></span>
                   <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
-                    (No Financial Data Found)
+                    (Financial Summary Upcoming)
                   </span>
                 </mat-option>
               </mat-optgroup>
@@ -272,7 +272,7 @@
                   >
                     <span [innerHTML]="ulb.searchedName || ulb.name"></span>
                     <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
-                      (No Financial Data Found)
+                      (Financial Summary Upcoming)
                     </span>
                   </mat-option>
                 </mat-optgroup>
@@ -593,7 +593,7 @@
                       {{ ulb.name }}
                       <br />
                       <small *ngIf="!ulb.financialYear" style="color: #ef6e6e">
-                        (No Financial Data Found)
+                        (Financial Summary Upcoming)
                       </small>
                       <!-- <span
                         *ngIf="
