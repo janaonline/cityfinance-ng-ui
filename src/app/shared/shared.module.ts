@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatOption } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -57,6 +58,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     MatExpansionModule,
     MatSlideToggleModule,
     MatSelectModule,
+    MatCheckboxModule,
   ],
   declarations: [
     PreLoaderComponent,
@@ -100,6 +102,7 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     MatOption,
     IncompleteProfileComponent,
     FileUploadComponent,
+    MatCheckboxModule,
   ],
   providers: [FinancialDataService],
 })
