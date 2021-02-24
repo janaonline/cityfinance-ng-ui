@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInput } from '@angular/material/input';
 import { Router } from '@angular/router';
@@ -359,19 +359,23 @@ export class FinancialStatementComponent
    * replaced with the actual implementation if they implement such feature
    * in the future.
    */
-  handleClose(event: MatAutocompleteSelectedEvent) {
-    const parent = document.getElementById("mat-autocomplete-0");
+  handleClose(id: string, trigger: MatAutocompleteTrigger) {
+    let parent = document.getElementById(id);
+
     const parentPreviousScrollPosition = parent.scrollTop;
 
     requestAnimationFrame(() => {
-      this.trigger.openPanel();
+      trigger.openPanel();
       setTimeout(() => {
-        const parent = document.getElementById("mat-autocomplete-0");
+        parent = document.getElementById(id);
         parent.scrollTop = parentPreviousScrollPosition;
       }, 0);
     });
   }
 
+  /**
+   * @description Handle the scrolling pagination on Select ULB dropdown.
+   */
   intializeObserver() {
     if (
       this.fisrtAutoCompleteConfig.currentStateIndex >=
@@ -522,7 +526,7 @@ export class FinancialStatementComponent
     const oldULBS: IBasicLedgerData["data"][0]["ulbList"] = this.filterForm
       .controls.ulbList.value;
     const indexFound = oldULBS.findIndex((oldulb) => oldulb.ulb === ulb.ulb);
-    this.baseUlbSearchControl.setValue("");
+    this.ulbSearchControl.setValue("");
     /**
      * When user the typed in search box and select a ulb,
      * we need to unfocus the auto-complete input to show new

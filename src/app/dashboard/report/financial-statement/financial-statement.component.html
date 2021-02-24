@@ -39,7 +39,7 @@
           #baseauto="matAutocomplete"
           class="tesinng"
           id="cdk-1"
-          (optionSelected)="handleClose($event)"
+          (optionSelected)="handleClose('mat-autocomplete-0', trigger)"
         >
           <mat-option
             *ngIf="!filteredULBList && !isULBSearchingInProgress"
@@ -255,6 +255,7 @@
             matInput
             [formControl]="ulbSearchControl"
             [matAutocomplete]="auto"
+            #trigger2="matAutocompleteTrigger"
             id="search-ulb"
           />
           <i class="fa fa-search" aria-hidden="true"></i>
@@ -267,40 +268,39 @@
               No ULB Found
             </mat-option>
             <div *ngIf="ulbListForComparision">
-              <cdk-virtual-scroll-viewport
-                itemSize="1"
-                class="viewport comparision-ulbs"
+              <mat-optgroup
+                *ngFor="let state of ulbListForComparision"
+                [label]="state._id.name"
               >
-                <mat-optgroup
-                  *cdkVirtualFor="let state of ulbListForComparision"
-                  [label]="state._id.name"
+                <mat-option
+                  *ngIf="!state.ulbList || !state.ulbList.length"
+                  disabled
                 >
-                  <mat-option
-                    *ngIf="!state.ulbList || !state.ulbList.length"
-                    disabled
-                  >
-                    No ULB available.
-                  </mat-option>
+                  No ULB available.
+                </mat-option>
 
-                  <mat-option
-                    *ngFor="let ulb of state.ulbList"
-                    [value]="ulb.name"
-                    [title]="ulb.name"
-                    (click)="selectULB(ulb, false, state._id.state)"
+                <mat-option
+                  *ngFor="let ulb of state.ulbList"
+                  [value]="ulb.name"
+                  [title]="ulb.name"
+                  (click)="
+                    trigger2.openPanel();
+                    selectULB(ulb, false, state._id.state);
+                    handleClose('mat-autocomplete-1', trigger2)
+                  "
+                  [disabled]="!ulb?.financialYear"
+                >
+                  <mat-checkbox
+                    class="mr-1"
                     [disabled]="!ulb?.financialYear"
-                  >
-                    <mat-checkbox
-                      class="mr-1"
-                      [disabled]="!ulb?.financialYear"
-                      [checked]="ulbSelectedMapping[ulb.ulb]"
-                    ></mat-checkbox>
-                    <span [innerHTML]="ulb.searchedName || ulb.name"></span>
-                    <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
-                      (Financial Summary Upcoming)
-                    </span>
-                  </mat-option>
-                </mat-optgroup>
-              </cdk-virtual-scroll-viewport>
+                    [checked]="ulbSelectedMapping[ulb.ulb]"
+                  ></mat-checkbox>
+                  <span [innerHTML]="ulb.searchedName || ulb.name"></span>
+                  <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
+                    (Financial Summary Upcoming)
+                  </span>
+                </mat-option>
+              </mat-optgroup>
             </div>
           </mat-autocomplete>
         </mat-form-field>
