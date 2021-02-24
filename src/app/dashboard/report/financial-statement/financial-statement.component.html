@@ -175,61 +175,7 @@
           <i class="fa fa-refresh" aria-hidden="true"></i> Clear All</small
         >
       </div>
-      <div
-        class="ulb-list-container"
-        *ngIf="filterForm?.value?.ulbList?.length"
-        [ngStyle]="{
-          'overflow-y':
-            filterForm?.value?.ulbList?.length > 7 ? 'scroll' : hidden
-        }"
-      >
-        <h5>Selected ULBs</h5>
-        <div
-          class="ulb"
-          *ngFor="let ulb of filterForm?.value?.ulbList; let i = index"
-        >
-          {{ ulb.name }}
-
-          <i
-            class="fa fa-trash"
-            aria-hidden="true"
-            (click)="removeSelectedULBAt(i)"
-          ></i>
-        </div>
-      </div>
-
-      <input
-        class="btn btn-primary mt-1"
-        type="submit"
-        value="View Financial Summary"
-        [disabled]="!filterForm?.value?.ulbList?.length"
-        [ngClass]="{
-          'col-sm-12': shiftFormToLeft,
-          'col-sm-5': !shiftFormToLeft
-        }"
-      />
-      <div class="col-sm-1"></div>
-      <input
-        class="btn btn-primary mt-1"
-        type="button"
-        value="Compare"
-        [disabled]="!filterForm?.value?.ulbList?.length"
-        [ngClass]="{
-          'col-sm-12': shiftFormToLeft,
-          'col-sm-6': !shiftFormToLeft
-        }"
-        (click)="showULBsForComparision = true"
-      />
-
-      <small
-        *ngIf="formInvalidMessage"
-        class="text-center"
-        style="width: 100%; color: red; margin-top: 1%; font-size: 1em"
-      >
-        {{ formInvalidMessage }}
-      </small>
-
-      <div class="mt-2" style="width: 100%" *ngIf="showULBsForComparision">
+        <div class="mt-2" style="width: 100%" *ngIf="showULBsForComparision">
         <div
           [ngClass]="{
             'col-sm-12': shiftFormToLeft,
@@ -304,10 +250,63 @@
             </div>
           </mat-autocomplete>
         </mat-form-field>
-        <!-- <small class="search-condition">
-          <em>Minimum 2 characters required for searching</em> </small
-        ><br /> -->
+        
       </div>
+      <div
+        class="ulb-list-container"
+        *ngIf="filterForm?.value?.ulbList?.length"
+        [ngStyle]="{
+          'overflow-y':
+            filterForm?.value?.ulbList?.length > 7 ? 'scroll' : hidden
+        }"
+      >
+        <h5>Selected ULBs</h5>
+        <div
+          class="ulb"
+          *ngFor="let ulb of filterForm?.value?.ulbList; let i = index"
+        >
+          {{ ulb.name }}
+
+          <i
+            class="fa fa-trash"
+            aria-hidden="true"
+            (click)="removeSelectedULBAt(i)"
+          ></i>
+        </div>
+      </div>
+
+      <input
+        class="btn btn-primary mt-1"
+        type="submit"
+        value="View Financial Summary"
+        [disabled]="!filterForm?.value?.ulbList?.length"
+        [ngClass]="{
+          'col-sm-12': shiftFormToLeft,
+          'col-sm-5': !shiftFormToLeft
+        }"
+      />
+      <div class="col-sm-1"></div>
+      <input
+        class="btn btn-primary mt-1"
+        type="button"
+        value="Compare"
+        [disabled]="!filterForm?.value?.ulbList?.length"
+        [ngClass]="{
+          'col-sm-12': shiftFormToLeft,
+          'col-sm-6': !shiftFormToLeft
+        }"
+        (click)="showULBsForComparision = true"
+      />
+
+      <small
+        *ngIf="formInvalidMessage"
+        class="text-center"
+        style="width: 100%; color: red; margin-top: 1%; font-size: 1em"
+      >
+        {{ formInvalidMessage }}
+      </small>
+
+    
     </form>
 
     <div
