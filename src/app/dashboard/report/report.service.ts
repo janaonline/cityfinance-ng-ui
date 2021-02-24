@@ -39,7 +39,6 @@ export class ReportService {
 
   ieDetailed(criteria: IReportType) {
     this.setReportRequest(criteria);
-    console.log(`criteria`, criteria);
 
     this.http
       .post<IDetailedReportResponse>(

@@ -2,22 +2,39 @@
   <div class="form-container" [ngClass]="{ 'form-on-left': shiftFormToLeft }">
     <form [formGroup]="filterForm" *ngIf="filterForm" (ngSubmit)="showData()">
       <h4 class="mb-2 text-center" style="width: 100%" *ngIf="!shiftFormToLeft">
-        Select the following parameters to view Financial Summary
+        Select following parameters to view Financial Summary
       </h4>
-      <mat-form-field appearance="outline">
+
+      <div
+        [ngClass]="{
+          'col-sm-6 ': !shiftFormToLeft,
+          'col-sm-12': shiftFormToLeft
+        }"
+        style="display: flex; align-items: center"
+      >
+        Select ULB:
+      </div>
+
+      <mat-form-field
+        [ngClass]="{
+          'col-sm-6 ': !shiftFormToLeft,
+          'col-sm-12': shiftFormToLeft
+        }"
+        appearance="outline"
+      >
         <input
           #autoCompleteInput
           type="text"
           placeholder="Search ULB"
           aria-label="text"
           matInput
-          [formControl]="ulbSearchControl"
-          [matAutocomplete]="auto"
+          [formControl]="baseUlbSearchControl"
+          [matAutocomplete]="baseauto"
           id="search-ulb"
         />
         <i class="fa fa-search" aria-hidden="true"></i>
 
-        <mat-autocomplete #auto="matAutocomplete" class="tesinng">
+        <mat-autocomplete #baseauto="matAutocomplete" class="tesinng">
           <mat-option
             *ngIf="!filteredULBList && !isULBSearchingInProgress"
             disabled
@@ -54,24 +71,46 @@
           </div>
         </mat-autocomplete>
       </mat-form-field>
-      <small class="search-condition">
-        <em>Minimum 2 characters required for searching</em> </small
-      ><br />
 
-      <small class="popup" (click)="openUlbModal(UlbModal)"
-        >or Select from State Wise ULB List</small
+      <div *ngIf="!shiftFormToLeft" class="col-sm-6"></div>
+      <span
+        class="text-center"
+        [ngClass]="{
+          'col-sm-6 ': !shiftFormToLeft,
+          'col-sm-12': shiftFormToLeft
+        }"
       >
+        OR <br />
+        <small class="popup" (click)="openUlbModal(UlbModal)">
+          Select from State wise ULB List</small
+        >
+      </span>
 
       <div
-        style="position: relative; width: 100%; overflow-y: visible"
+        [ngClass]="{
+          'col-sm-6': !shiftFormToLeft,
+          'col-sm-12 mt-2': shiftFormToLeft
+        }"
+        style="display: flex; align-items: center"
+      >
+        Select Year(s):
+      </div>
+
+      <div
+        style="position: relative; overflow-y: visible"
         class="d-flex align-items-center justify-content-between"
+        [ngClass]="{
+          'col-sm-6 mt-1': !shiftFormToLeft,
+          'col-sm-12': shiftFormToLeft
+        }"
       >
         <i
-          *ngIf="shiftFormToLeft && showArrow"
+          *ngIf="showArrow"
           class="fa fa-caret-left arrow-left"
           aria-hidden="true"
           (click)="scrollLeft()"
         ></i>
+
         <div class="years-container" id="years-container" #widgetsContent>
           <span
             class="year"
@@ -101,7 +140,7 @@
         </div>
 
         <i
-          *ngIf="shiftFormToLeft && showArrow"
+          *ngIf="showArrow"
           class="fa fa-caret-right arrow-right"
           (click)="scrollRight()"
           aria-hidden="true"
@@ -117,24 +156,6 @@
           <i class="fa fa-refresh" aria-hidden="true"></i> Clear All</small
         >
       </div>
-
-      <input
-        class="btn btn-primary ng-star-inserted"
-        type="submit"
-        value="View Financial Summary"
-        [disabled]="!commonYears || !commonYears.length"
-      />
-
-      <small
-        *ngIf="formInvalidMessage"
-        class="text-center"
-        style="width: 100%; color: red; margin-top: 1%; font-size: 1em"
-      >
-        {{ formInvalidMessage }}
-      </small>
-    </form>
-
-    <div class="last-container">
       <div
         class="ulb-list-container"
         *ngIf="filterForm?.value?.ulbList?.length"
@@ -158,12 +179,179 @@
         </div>
       </div>
 
-      <div class="source-file-wrapper mt-2" *ngIf="shiftFormToLeft">
-        <a
-          style="float: right; text-decoration: underline"
-          (click)="routerTo('/data-tracker')"
-          >Download Source Files</a
+      <input
+        class="btn btn-primary mt-1"
+        type="submit"
+        value="View Financial Summary"
+        [disabled]="!filterForm?.value?.ulbList?.length"
+        [ngClass]="{
+          'col-sm-12': shiftFormToLeft,
+          'col-sm-5': !shiftFormToLeft
+        }"
+      />
+      <div class="col-sm-1"></div>
+      <input
+        class="btn btn-primary mt-1"
+        type="button"
+        value="Compare"
+        [disabled]="!filterForm?.value?.ulbList?.length"
+        [ngClass]="{
+          'col-sm-12': shiftFormToLeft,
+          'col-sm-6': !shiftFormToLeft
+        }"
+        (click)="showULBsForComparision = true"
+      />
+
+      <small
+        *ngIf="formInvalidMessage"
+        class="text-center"
+        style="width: 100%; color: red; margin-top: 1%; font-size: 1em"
+      >
+        {{ formInvalidMessage }}
+      </small>
+
+      <div class="mt-2" style="width: 100%" *ngIf="showULBsForComparision">
+        <div
+          [ngClass]="{
+            'col-sm-12': shiftFormToLeft,
+            'col-sm-6': !shiftFormToLeft
+          }"
+          style="padding: 0px"
         >
+          Select ULB(s) For Comparision:
+        </div>
+        <mat-form-field
+          appearance="outline"
+          style="padding: 0px"
+          [ngClass]="{
+            'col-sm-12': shiftFormToLeft,
+            'col-sm-6': !shiftFormToLeft
+          }"
+        >
+          <input
+            #autoCompleteInput
+            type="text"
+            placeholder="Search ULB(s)"
+            aria-label="text"
+            matInput
+            [formControl]="ulbSearchControl"
+            [matAutocomplete]="auto"
+            id="search-ulb"
+          />
+          <i class="fa fa-search" aria-hidden="true"></i>
+
+          <mat-autocomplete #auto="matAutocomplete" class="tesinng">
+            <mat-option
+              *ngIf="!ulbListForComparision && !isULBSearchingInProgress"
+              disabled
+            >
+              No ULB Found
+            </mat-option>
+            <div *ngIf="ulbListForComparision">
+              <cdk-virtual-scroll-viewport
+                itemSize="1"
+                class="viewport comparision-ulbs"
+              >
+                <mat-optgroup
+                  *cdkVirtualFor="let state of ulbListForComparision"
+                  [label]="state._id.name"
+                >
+                  <mat-option
+                    *ngIf="!state.ulbList || !state.ulbList.length"
+                    disabled
+                  >
+                    No ULB available.
+                  </mat-option>
+
+                  <mat-option
+                    *ngFor="let ulb of state.ulbList"
+                    [value]="ulb.name"
+                    [title]="ulb.name"
+                    (click)="selectULB(ulb, false, state._id.state)"
+                    [disabled]="!ulb?.financialYear"
+                  >
+                    <span [innerHTML]="ulb.searchedName || ulb.name"></span>
+                    <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
+                      (No Financial Data Found)
+                    </span>
+                  </mat-option>
+                </mat-optgroup>
+              </cdk-virtual-scroll-viewport>
+            </div>
+          </mat-autocomplete>
+        </mat-form-field>
+        <!-- <small class="search-condition">
+          <em>Minimum 2 characters required for searching</em> </small
+        ><br /> -->
+      </div>
+    </form>
+    <div
+      *ngIf="
+        NeworiginalUlbList && !shiftFormToLeft && homePageSubscription | async;
+        let data
+      "
+      class="no-report-right"
+    >
+      <div class="data-point-1">
+        <span class="text">
+          <strong> {{ data.coveredUlbCount | inrCurrency }}</strong> (out of
+          {{ data.totalULB | inrCurrency }}) ULBs with Financial Data</span
+        >
+        <img
+          src="../../../../assets/images/PlaceholderFor_Data_1.png"
+          alt="Financial Data"
+        />
+      </div>
+      <div class="data-point-2">
+        <span class="text">
+          <strong>{{ data.financialStatements | inrCurrency }}</strong>
+          Financial Statements for FYs {{ allFinancialYears[0]?.value }} to
+          {{ allFinancialYears[allFinancialYears?.length - 1].value }}
+        </span>
+        <img
+          src="../../../../assets/images/PlaceholderFor_Data_2.png"
+          alt="Financial Statement"
+        />
+      </div>
+
+      <img
+        class="calculator"
+        src="../../../../assets/images/calculator.jpg"
+        alt="Background"
+      />
+    </div>
+
+    <div class="last-container">
+      <!-- <div
+        class="ulb-list-container"
+        *ngIf="filterForm?.value?.ulbList?.length"
+        [ngStyle]="{
+          'overflow-y':
+            filterForm?.value?.ulbList?.length > 7 ? 'scroll' : hidden
+        }"
+      >
+        <h5>Selected ULBs</h5>
+        <div
+          class="ulb"
+          *ngFor="let ulb of filterForm?.value?.ulbList; let i = index"
+        >
+          {{ ulb.name }}
+
+          <i
+            class="fa fa-trash"
+            aria-hidden="true"
+            (click)="removeSelectedULBAt(i)"
+          ></i>
+        </div>
+      </div> -->
+
+      <div class="source-file-wrapper mt-2" *ngIf="shiftFormToLeft">
+        <button
+          class="btn btn-primary right source-file-download mr-2 mt-2"
+          (click)="routerTo()"
+        >
+          Download Source File
+        </button>
       </div>
     </div>
   </div>

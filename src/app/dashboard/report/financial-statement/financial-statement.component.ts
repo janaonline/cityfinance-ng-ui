@@ -5,13 +5,14 @@ import { MatInput } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { DropdownSettings } from 'angular2-multiselect-dropdown/lib/multiselect.interface';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { merge } from 'rxjs';
+import { merge, Observable } from 'rxjs';
 import { debounceTime, filter, tap } from 'rxjs/operators';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 import { IULB } from 'src/app/models/ulb';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 
 import { AuthService } from '../../../../app/auth/auth.service';
+import { DialogComponent } from '../../../../app/shared/components/dialog/dialog.component';
 import { GlobalLoaderService } from '../../../../app/shared/services/loaders/global-loader.service';
 import { CommonService } from '../../../shared/services/common.service';
 import { IBasicLedgerData, LedgerState, LedgerULB, TSearchedULB } from '../models/basicLedgerData.interface';
@@ -83,6 +84,7 @@ export class FinancialStatementComponent
 
   filterForm: FormGroup;
   ulbSearchControl: FormControl;
+  baseUlbSearchControl: FormControl;
   stateSelectToFilterULB = new FormControl();
 
   formInvalidMessage: string;
@@ -113,11 +115,68 @@ export class FinancialStatementComponent
 
   ulbListForComparision: LedgerState[];
 
+  showULBsForComparision = false;
+
+  homePageSubscription: Observable<any>;
+
   ngOnInit(): void {
     this.initializeFilterForm();
     this.fetchULBList();
     this.fetchAllFinancialYears();
     this.ulbTypeInView.type = this.newULBTypes[0];
+    this.fetchHomepageData();
+  }
+
+  routerTo(url: string, downloadFilteredULBs = false) {
+    const criteria = this.reportService.getNewReportRequest().value;
+    const ulbs: string[] = criteria.ulbIds;
+    const years: string[] = criteria.years;
+    const query = `ulb=${ulbs.toString()}&year=${years.toString()}&backRoute=${
+      window.location.pathname
+    }`;
+
+    const isUserLoggedIn = this.authService.loggedIn();
+    if (!isUserLoggedIn) {
+      const dailogboxx = this._dialog.open(DialogComponent, {
+        data: {
+          message:
+            "<p class='text-center'>You need to be Login to download the data.</p>",
+          buttons: {
+            signup: {
+              text: "Signup",
+              callback: () => {
+                this.router.navigate(["register/user"]);
+              },
+            },
+            confirm: {
+              text: "Proceed to Login",
+              callback: () => {
+                sessionStorage.setItem(
+                  "postLoginNavigation",
+                  `/data-tracker?${query}`
+                );
+                this.router.navigate(["/", "login"]);
+              },
+            },
+            cancel: { text: "Cancel" },
+          },
+        },
+        width: "28vw",
+      });
+      return;
+    }
+
+    return this.router.navigate(["/data-tracker"], {
+      queryParams: {
+        ulb: ulbs.toString(),
+        year: years.toString(),
+        backRoute: window.location.pathname,
+      },
+    });
+  }
+
+  private fetchHomepageData() {
+    this.homePageSubscription = this.commonService.fetchDataForHomepageMap();
   }
 
   private fetchAllFinancialYears() {
@@ -127,6 +186,9 @@ export class FinancialStatementComponent
         isSelectable: false,
         selected: false,
       }));
+      setTimeout(() => {
+        this.calculateArrowVisibility();
+      }, 0);
     });
   }
 
@@ -140,6 +202,7 @@ export class FinancialStatementComponent
       valueType: ["absolute"],
       reportGroup: ["Income & Expenditure Statement"],
     });
+    this.baseUlbSearchControl = this.formBuilder.control("");
     this.ulbSearchControl = this.formBuilder.control("");
     this.initializeULBSearch();
 
@@ -151,7 +214,7 @@ export class FinancialStatementComponent
   }
 
   private initializeULBSearch() {
-    this.ulbSearchControl.valueChanges
+    this.baseUlbSearchControl.valueChanges
       .pipe(
         tap((data) => (this.formInvalidMessage = null)),
         filter((value) => (value ? value.length >= 2 : true)),
@@ -202,14 +265,15 @@ export class FinancialStatementComponent
     const yearsAvailable = this.allFinancialYears
       .filter((year) => year.isSelectable)
       .map((year) => year.value);
+    const list: LedgerState[] = [];
     this.NeworiginalUlbList.forEach((state) => {
       const filteredULBs = state.ulbList.filter((ulb) =>
         ulb.financialYear?.some((year) => yearsAvailable.includes(year))
       );
       if (!filteredULBs.length) return;
-
-      console.log(state._id.name, filteredULBs);
+      list.push({ ...state, ulbList: filteredULBs });
     });
+    this.ulbListForComparision = list;
   }
 
   /**
@@ -290,8 +354,10 @@ export class FinancialStatementComponent
       this.onULBClick(stateId, { type: ulb.ulbType }, (ulb as any) as IULB);
     }
 
-    const baseULB: IBasicLedgerData["data"][0]["ulbList"][0] = this.filterForm
-      .controls.ulbList.value[0];
+    const oldULBS: IBasicLedgerData["data"][0]["ulbList"] = this.filterForm
+      .controls.ulbList.value;
+    const indexFound = oldULBS.findIndex((oldulb) => oldulb.ulb === ulb.ulb);
+    this.baseUlbSearchControl.setValue("");
 
     /**
      * When user the typed in search box and select a ulb,
@@ -299,27 +365,31 @@ export class FinancialStatementComponent
      * lists.
      */
     (document.activeElement as HTMLElement).blur();
-    if (baseULB?.ulb === ulb.ulb) {
-      this.formInvalidMessage = `${baseULB.name} is already selected.`;
-      return;
+    if (indexFound > -1) {
+      if (removeIfFound) {
+        oldULBS.splice(indexFound, 1);
+      } else {
+        this.formInvalidMessage = `${oldULBS[indexFound].name} is already selected.`;
+        return;
+      }
     }
-
-    this.filterForm.controls.ulbList.reset();
-
-    this.filterForm.controls.ulbList.setValue([ulb]);
+    if (indexFound == -1) oldULBS.push(ulb);
+    this.filterForm.controls.ulbList.setValue(oldULBS);
     this.filterForm.controls.ulbList.updateValueAndValidity();
     this.onClosingULBSelection();
-    this.ulbSearchControl.setValue("");
-
+    this.baseUlbSearchControl.setValue("");
     this.updateFinancialYearSelection();
     this.initializeULBListForComparision();
   }
 
   private updateFinancialYearSelection() {
-    const baseULB: LedgerULB = this.filterForm.controls.ulbList.value[0];
+    const ulbList: LedgerULB[] = this.filterForm.controls.ulbList.value;
     const preSelectedYears = [];
     this.allFinancialYears.forEach((year) => {
-      if (baseULB.financialYear?.includes(year.value)) {
+      const yearExistInAllSelectedULB = ulbList.every((ulb) =>
+        ulb.financialYear?.includes(year.value)
+      );
+      if (yearExistInAllSelectedULB) {
         year.isSelectable = true;
         if (year.selected) {
           preSelectedYears.push(year.value);
@@ -346,7 +416,7 @@ export class FinancialStatementComponent
     const oldULBS: IBasicLedgerData["data"][0]["ulbList"] = this.filterForm
       .controls.ulbList.value;
     const indexFound = oldULBS.findIndex((oldulb) => oldulb.ulb === ulb.ulb);
-    this.ulbSearchControl.setValue("");
+    this.baseUlbSearchControl.setValue("");
     /**
      * When user the typed in search box and select a ulb,
      * we need to unfocus the auto-complete input to show new
@@ -364,7 +434,7 @@ export class FinancialStatementComponent
     if (indexFound == -1) oldULBS.push(ulb);
     this.filterForm.controls.ulbList.setValue(oldULBS);
     this.filterForm.controls.ulbList.updateValueAndValidity();
-    // this.onClosingULBSelection();
+    this.onClosingULBSelection();
   }
 
   resetPage() {
@@ -373,12 +443,17 @@ export class FinancialStatementComponent
     this.showReport = false;
     this.commonYears = null;
     this.formInvalidMessage = null;
-    this.showArrow = false;
+
+    this.showULBsForComparision = false;
 
     this.allFinancialYears.forEach((year) => {
       year.isSelectable = false;
       year.selected = false;
     });
+
+    setTimeout(() => {
+      this.calculateArrowVisibility();
+    }, 0);
   }
 
   onClosingULBSelection() {

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { FinancialYear, IBasicLedgerData } from 'src/app/dashboard/report/models/basicLedgerData.interface';
+import { IBasicLedgerData } from 'src/app/dashboard/report/models/basicLedgerData.interface';
 import { IULBResponse } from 'src/app/models/IULBResponse';
 import { NewULBStructure, NewULBStructureResponse } from 'src/app/models/newULBStructure';
 import { IStateListResponse } from 'src/app/models/state/state-response';
@@ -189,7 +189,7 @@ export class CommonService {
    * years = ['2016-17', '2017-18'];
    * sortedYear = ['2017-18', '2016-17']
    */
-  private sortFinancialYear(years: FinancialYear[]) {
+  private sortFinancialYear(years: string[]) {
     return years?.sort((A, B) => +B.split("-")[0] - +A.split("-")[0]);
   }
 
