@@ -530,11 +530,12 @@ export class FinancialStatementComponent
 
   removeSelectedULBAt(index: number) {
     const allULBs: LedgerULB[] = this.filterForm.value.ulbList;
-    return this.selectULB(allULBs[index], true, allULBs[index]["stateId"]);
+    // return this.selectULB(allULBs[index], true, allULBs[index]["stateId"]);
 
     allULBs.splice(index, 1);
 
     this.filterForm.controls.ulbList.updateValueAndValidity();
+    this.updateFinancialYearSelection();
     this.onClosingULBSelection();
   }
 
