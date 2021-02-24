@@ -482,9 +482,10 @@ export class FinancialStatementComponent
     }
     if (indexFound == -1) {
       oldULBS.push(ulb);
+      this.ulbSelectedMapping = {};
       this.ulbSelectedMapping[ulb.ulb] = ulb;
     }
-    this.filterForm.controls.ulbList.setValue(oldULBS);
+    this.filterForm.controls.ulbList.setValue([ulb]);
     this.filterForm.controls.ulbList.updateValueAndValidity();
     this.onClosingULBSelection();
     this.baseUlbSearchControl.setValue("");
@@ -549,6 +550,9 @@ export class FinancialStatementComponent
     this.filterForm.controls.ulbList.setValue(oldULBS);
     this.filterForm.controls.ulbList.updateValueAndValidity();
     this.onClosingULBSelection();
+    if (!this.filterForm.controls.ulbList.value?.length) {
+      requestAnimationFrame(() => this.updateFinancialYearSelection());
+    }
   }
 
   resetPage() {
@@ -559,6 +563,7 @@ export class FinancialStatementComponent
     this.formInvalidMessage = null;
 
     this.showULBsForComparision = false;
+    this.ulbSelectedMapping = {};
 
     this.allFinancialYears.forEach((year) => {
       year.isSelectable = false;

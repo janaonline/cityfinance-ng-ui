@@ -39,8 +39,9 @@
           #baseauto="matAutocomplete"
           class="tesinng"
           id="cdk-1"
-          (optionSelected)="handleClose('mat-autocomplete-0', trigger)"
         >
+          <!-- (optionSelected)="handleClose('mat-autocomplete-0', trigger)" -->
+
           <mat-option
             *ngIf="!filteredULBList && !isULBSearchingInProgress"
             disabled
@@ -67,11 +68,6 @@
                 (click)="selectBaseULB(ulb, false, state._id.state, $event)"
                 [disabled]="!ulb?.financialYear"
               >
-                <mat-checkbox
-                  class="mr-1"
-                  [disabled]="!ulb?.financialYear"
-                  [checked]="ulbSelectedMapping[ulb.ulb]"
-                ></mat-checkbox>
                 <span [innerHTML]="ulb.searchedName || ulb.name"></span>
                 <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
                   (Financial Summary Upcoming)
@@ -139,10 +135,11 @@
               disabled: !year.isSelectable
             }"
             (click)="onClickingYear(i)"
+            [title]="
+              year?.isSelectable ? year.value : '(Financial Summary Upcoming)'
+            "
           >
             {{ year.value }}
-
-            <!-- (click)="onClickingYear(i)" -->
           </span>
 
           <p
@@ -166,20 +163,25 @@
         ></i>
       </div>
 
-      <div
-        class="d-flex justify-content-end"
-        style="width: 100%; margin-top: 0.3rem"
-        *ngIf="filterForm?.value?.ulbList?.length"
-      >
-        <small (click)="resetPage()" class="popup reset">
-          <i class="fa fa-refresh" aria-hidden="true"></i> Clear All</small
-        >
-      </div>
-        <div class="mt-2" style="width: 100%" *ngIf="showULBsForComparision">
+      <input
+        class="btn btn-primary mt-1"
+        type="button"
+        value="Compare"
+        [disabled]="!filterForm?.value?.ulbList?.length"
+        [ngClass]="{
+          'col-sm-12': shiftFormToLeft || showULBsForComparision,
+          'col-sm-5': !shiftFormToLeft && !showULBsForComparision,
+          active: showULBsForComparision
+        }"
+        (click)="showULBsForComparision = !showULBsForComparision"
+      />
+      <div class="col-sm-1"></div>
+      <div class="mt-2" style="width: 100%" *ngIf="showULBsForComparision">
         <div
           [ngClass]="{
             'col-sm-12': shiftFormToLeft,
-            'col-sm-6': !shiftFormToLeft
+            'col-sm-6': !shiftFormToLeft,
+            'comparision-label': !shiftFormToLeft
           }"
           style="padding: 0px"
         >
@@ -231,7 +233,7 @@
                   [title]="ulb.name"
                   (click)="
                     trigger2.openPanel();
-                    selectULB(ulb, false, state._id.state);
+                    selectULB(ulb, true, state._id.state);
                     handleClose('mat-autocomplete-1', trigger2)
                   "
                   [disabled]="!ulb?.financialYear"
@@ -250,10 +252,38 @@
             </div>
           </mat-autocomplete>
         </mat-form-field>
-        
       </div>
+
+      <input
+        class="btn btn-primary mt-1"
+        type="submit"
+        value="View Financial Summary"
+        [disabled]="!filterForm?.value?.ulbList?.length"
+        [ngClass]="{
+          'col-sm-12': shiftFormToLeft || showULBsForComparision,
+          'col-sm-6': !shiftFormToLeft && !showULBsForComparision
+        }"
+      />
+
       <div
-        class="ulb-list-container"
+        class="d-flex justify-content-end"
+        style="width: 100%; margin-top: 0.3rem"
+        *ngIf="filterForm?.value?.ulbList?.length"
+      >
+        <small (click)="resetPage()" class="popup reset">
+          <i class="fa fa-refresh" aria-hidden="true"></i> Clear All</small
+        >
+      </div>
+
+      <small
+        *ngIf="formInvalidMessage"
+        class="text-center"
+        style="width: 100%; color: red; margin-top: 1%; font-size: 1em"
+      >
+        {{ formInvalidMessage }}
+      </small>
+      <div
+        class="ulb-list-container mt-2"
         *ngIf="filterForm?.value?.ulbList?.length"
         [ngStyle]="{
           'overflow-y':
@@ -274,39 +304,6 @@
           ></i>
         </div>
       </div>
-
-      <input
-        class="btn btn-primary mt-1"
-        type="submit"
-        value="View Financial Summary"
-        [disabled]="!filterForm?.value?.ulbList?.length"
-        [ngClass]="{
-          'col-sm-12': shiftFormToLeft,
-          'col-sm-5': !shiftFormToLeft
-        }"
-      />
-      <div class="col-sm-1"></div>
-      <input
-        class="btn btn-primary mt-1"
-        type="button"
-        value="Compare"
-        [disabled]="!filterForm?.value?.ulbList?.length"
-        [ngClass]="{
-          'col-sm-12': shiftFormToLeft,
-          'col-sm-6': !shiftFormToLeft
-        }"
-        (click)="showULBsForComparision = true"
-      />
-
-      <small
-        *ngIf="formInvalidMessage"
-        class="text-center"
-        style="width: 100%; color: red; margin-top: 1%; font-size: 1em"
-      >
-        {{ formInvalidMessage }}
-      </small>
-
-    
     </form>
 
     <div
@@ -371,7 +368,7 @@
 
       <div class="source-file-wrapper mt-2" *ngIf="shiftFormToLeft">
         <button
-          class="btn btn-primary right source-file-download mr-2 mt-2"
+          class="btn btn-primary right source-file-download"
           (click)="routerTo()"
         >
           Download Source File

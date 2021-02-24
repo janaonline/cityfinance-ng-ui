@@ -16,7 +16,6 @@ a.ulbTabActive {
   &.comparision-ulbs {
     overflow-x: hidden;
   }
-  // background: red;
   // background: #c4bbb8;
   // margin: 2em 8em 8em;
   // box-shadow: 1px 1px 1px grey;
@@ -122,7 +121,7 @@ li.disabled-ulb {
   .form-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: space-around;
     // flex-direction: column;
     align-items: flex-start;
     width: 100%;
@@ -221,7 +220,6 @@ li.disabled-ulb {
         scroll-behavior: smooth;
         padding-top: 1%;
         padding-bottom: 1%;
-        // background: red;
 
         ::-webkit-scrollbar {
           width: 0px;
@@ -376,7 +374,7 @@ li.disabled-ulb {
   // background: red;
   position: relative;
   overflow: hidden;
-  width: 62%;
+  width: 54%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -449,5 +447,19 @@ mat-option.loader-wrapper {
       height: 100px;
       margin: auto;
     }
+  }
+}
+
+:host {
+  form {
+    input[type="button"].active {
+      background: #ffc500 !important;
+    }
+  }
+
+  .comparision-label {
+    display: flex;
+    align-items: center;
+    height: 100%;
   }
 }
