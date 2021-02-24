@@ -39,6 +39,7 @@
           #baseauto="matAutocomplete"
           class="tesinng"
           id="cdk-1"
+          (optionSelected)="handleClose($event)"
         >
           <mat-option
             *ngIf="!filteredULBList && !isULBSearchingInProgress"
@@ -63,9 +64,14 @@
                 *ngFor="let ulb of state.ulbList"
                 [value]="ulb.name"
                 [title]="ulb.name"
-                (click)="selectBaseULB(ulb, false, state._id.state)"
+                (click)="selectBaseULB(ulb, false, state._id.state, $event)"
                 [disabled]="!ulb?.financialYear"
               >
+                <mat-checkbox
+                  class="mr-1"
+                  [disabled]="!ulb?.financialYear"
+                  [checked]="ulbSelectedMapping[ulb.ulb]"
+                ></mat-checkbox>
                 <span [innerHTML]="ulb.searchedName || ulb.name"></span>
                 <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
                   (Financial Summary Upcoming)
@@ -283,6 +289,11 @@
                     (click)="selectULB(ulb, false, state._id.state)"
                     [disabled]="!ulb?.financialYear"
                   >
+                    <mat-checkbox
+                      class="mr-1"
+                      [disabled]="!ulb?.financialYear"
+                      [checked]="ulbSelectedMapping[ulb.ulb]"
+                    ></mat-checkbox>
                     <span [innerHTML]="ulb.searchedName || ulb.name"></span>
                     <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
                       (Financial Summary Upcoming)

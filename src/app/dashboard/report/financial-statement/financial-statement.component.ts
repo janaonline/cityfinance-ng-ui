@@ -8,6 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInput } from '@angular/material/input';
 import { Router } from '@angular/router';
@@ -136,6 +137,9 @@ export class FinancialStatementComponent
   };
 
   observer1: IntersectionObserver;
+
+  ulbSelectedMapping: { [ulbId: string]: LedgerULB } = {};
+  @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
 
   ngOnInit(): void {
     this.initializeFilterForm();
@@ -348,8 +352,27 @@ export class FinancialStatementComponent
     });
   }
 
+  /**
+   *
+   * @description Currently, Material UI does not expose any api to keep the
+   * dropdown open. Therefore, we have to implement this hack. It should be
+   * replaced with the actual implementation if they implement such feature
+   * in the future.
+   */
+  handleClose(event: MatAutocompleteSelectedEvent) {
+    const parent = document.getElementById("mat-autocomplete-0");
+    const parentPreviousScrollPosition = parent.scrollTop;
+
+    requestAnimationFrame(() => {
+      this.trigger.openPanel();
+      setTimeout(() => {
+        const parent = document.getElementById("mat-autocomplete-0");
+        parent.scrollTop = parentPreviousScrollPosition;
+      }, 0);
+    });
+  }
+
   intializeObserver() {
-    return;
     if (
       this.fisrtAutoCompleteConfig.currentStateIndex >=
       this.NeworiginalUlbList.length
@@ -422,8 +445,12 @@ export class FinancialStatementComponent
   selectBaseULB(
     ulb: IBasicLedgerData["data"][0]["ulbList"][0],
     removeIfFound = false,
-    stateId?: string
+    stateId?: string,
+    event?: Event
   ) {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (!ulb.financialYear) return;
     if (stateId) {
       this.onULBClick(stateId, { type: ulb.ulbType }, (ulb as any) as IULB);
@@ -443,12 +470,16 @@ export class FinancialStatementComponent
     if (indexFound > -1) {
       if (removeIfFound) {
         oldULBS.splice(indexFound, 1);
+        this.ulbSelectedMapping[oldULBS[indexFound].ulb] = null;
       } else {
         this.formInvalidMessage = `${oldULBS[indexFound].name} is already selected.`;
         return;
       }
     }
-    if (indexFound == -1) oldULBS.push(ulb);
+    if (indexFound == -1) {
+      oldULBS.push(ulb);
+      this.ulbSelectedMapping[ulb.ulb] = ulb;
+    }
     this.filterForm.controls.ulbList.setValue(oldULBS);
     this.filterForm.controls.ulbList.updateValueAndValidity();
     this.onClosingULBSelection();
@@ -501,12 +532,16 @@ export class FinancialStatementComponent
     if (indexFound > -1) {
       if (removeIfFound) {
         oldULBS.splice(indexFound, 1);
+        this.ulbSelectedMapping[ulb.ulb] = null;
       } else {
         this.formInvalidMessage = `${oldULBS[indexFound].name} is already selected.`;
         return;
       }
     }
-    if (indexFound == -1) oldULBS.push(ulb);
+    if (indexFound == -1) {
+      oldULBS.push(ulb);
+      this.ulbSelectedMapping[ulb.ulb] = ulb;
+    }
     this.filterForm.controls.ulbList.setValue(oldULBS);
     this.filterForm.controls.ulbList.updateValueAndValidity();
     this.onClosingULBSelection();
@@ -560,7 +595,7 @@ export class FinancialStatementComponent
       widthOfAllYear += element.clientWidth;
     }
     const container = document.getElementById("years-container");
-    this.showArrow = widthOfAllYear > container.clientWidth;
+    this.showArrow = widthOfAllYear > container?.clientWidth;
   }
 
   createYearControls(
@@ -605,6 +640,7 @@ export class FinancialStatementComponent
     const allULBs: LedgerULB[] = this.filterForm.value.ulbList;
     // return this.selectULB(allULBs[index], true, allULBs[index]["stateId"]);
 
+    this.ulbSelectedMapping[allULBs[index]?.ulb] = null;
     allULBs.splice(index, 1);
 
     this.filterForm.controls.ulbList.updateValueAndValidity();
