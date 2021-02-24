@@ -1,4 +1,12 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInput } from '@angular/material/input';
@@ -24,6 +32,7 @@ import { ulbType } from '../report/ulbTypes';
   selector: "app-report",
   templateUrl: "./financial-statement.component.html",
   styleUrls: ["./financial-statement.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FinancialStatementComponent
   extends ReportComponent
@@ -36,7 +45,8 @@ export class FinancialStatementComponent
     protected reportService: ReportService,
     protected router: Router,
     protected _dialog: MatDialog,
-    protected authService: AuthService
+    protected authService: AuthService,
+    private changeDetector: ChangeDetectorRef
   ) {
     super(
       formBuilder,
@@ -105,7 +115,7 @@ export class FinancialStatementComponent
   jsonUtil = new JSONUtility();
   @ViewChild("widgetsContent") widgetsContent: ElementRef;
 
-  showArrow = false;
+  showArrow = true;
 
   allFinancialYears: {
     value: string;
@@ -118,6 +128,14 @@ export class FinancialStatementComponent
   showULBsForComparision = false;
 
   homePageSubscription: Observable<any>;
+
+  fisrtAutoCompleteConfig = {
+    currentStateIndex: 1,
+    isVisible: false,
+    canLoadMore: true,
+  };
+
+  observer1: IntersectionObserver;
 
   ngOnInit(): void {
     this.initializeFilterForm();
@@ -186,6 +204,7 @@ export class FinancialStatementComponent
         isSelectable: false,
         selected: false,
       }));
+      this.changeDetector.detectChanges();
       setTimeout(() => {
         this.calculateArrowVisibility();
       }, 0);
@@ -228,7 +247,12 @@ export class FinancialStatementComponent
         if (!textToSearch) {
           this.isULBSearchingInProgress = false;
 
-          return (this.filteredULBList = this.getDefaultAutocompleteList());
+          this.filteredULBList = this.getDefaultAutocompleteList();
+          this.fisrtAutoCompleteConfig.canLoadMore =
+            this.filteredULBList.length < this.NeworiginalUlbList.length;
+          this.changeDetector.detectChanges();
+
+          return;
         }
 
         const newList: LedgerState[] = [];
@@ -257,7 +281,9 @@ export class FinancialStatementComponent
         });
 
         this.filteredULBList = [...newList];
+        this.fisrtAutoCompleteConfig.canLoadMore = false;
         this.isULBSearchingInProgress = false;
+        this.changeDetector.detectChanges();
       });
   }
 
@@ -312,12 +338,61 @@ export class FinancialStatementComponent
 
       this.NeworiginalUlbList = res.data;
       this.filteredULBList = this.getDefaultAutocompleteList();
+      // this.intializeObserver();
       this._loaderService.stopLoader();
       this.stateSelectToFilterULB.setValue(
         this.NeworiginalUlbList[0]._id.state
       );
       this.showULBOfState(this.NeworiginalUlbList[0]._id.state);
+      this.changeDetector.detectChanges();
     });
+  }
+
+  intializeObserver() {
+    return;
+    if (
+      this.fisrtAutoCompleteConfig.currentStateIndex >=
+      this.NeworiginalUlbList.length
+    ) {
+      return;
+    }
+    if (this.observer1) return;
+    setTimeout(() => {
+      const parent = document.getElementById("mat-autocomplete-0");
+      const options: IntersectionObserverInit = {
+        threshold: 0.1,
+        root: parent,
+      };
+
+      this.observer1 = new IntersectionObserver((event) => {
+        const noOfStateToAdd = 2;
+        this.fisrtAutoCompleteConfig.isVisible = false;
+        if (!event[0].isIntersecting) return;
+        this.fisrtAutoCompleteConfig.isVisible = true;
+
+        if (
+          this.fisrtAutoCompleteConfig.currentStateIndex >=
+          this.NeworiginalUlbList.length
+        ) {
+          this.observer1.disconnect();
+          this.fisrtAutoCompleteConfig.canLoadMore = false;
+          return;
+        }
+        const newStatesToAdd = this.NeworiginalUlbList.slice(
+          this.fisrtAutoCompleteConfig.currentStateIndex,
+          this.fisrtAutoCompleteConfig.currentStateIndex + noOfStateToAdd
+        );
+        const parentPreviousScrollPosition = parent.scrollTop;
+        this.filteredULBList.push(...newStatesToAdd);
+        // this.filteredULBList = this.filteredULBList.concat(newStatesToAdd);
+        this.fisrtAutoCompleteConfig.currentStateIndex += noOfStateToAdd;
+        this.changeDetector.detectChanges();
+        setTimeout(() => {
+          parent.scrollTop = parentPreviousScrollPosition;
+        }, 500);
+      }, options);
+      this.observer1.observe(document.getElementById("scroll-bottom"));
+    }, 1000);
   }
 
   scrollLeft() {
@@ -386,9 +461,9 @@ export class FinancialStatementComponent
     const ulbList: LedgerULB[] = this.filterForm.controls.ulbList.value;
     const preSelectedYears = [];
     this.allFinancialYears.forEach((year) => {
-      const yearExistInAllSelectedULB = ulbList.every((ulb) =>
-        ulb.financialYear?.includes(year.value)
-      );
+      const yearExistInAllSelectedULB = !ulbList?.length
+        ? false
+        : ulbList.every((ulb) => ulb.financialYear?.includes(year.value));
       if (yearExistInAllSelectedULB) {
         year.isSelectable = true;
         if (year.selected) {
@@ -463,7 +538,7 @@ export class FinancialStatementComponent
 
     if (!ulbs || !ulbs.length) {
       this.filterForm.controls.years.reset();
-      this.showArrow = false;
+      // this.showArrow = false;
       return;
     }
     this.filterForm.controls.ulbIds.setValue(ulbs.map((ulb) => ulb.ulb));
@@ -485,9 +560,7 @@ export class FinancialStatementComponent
       widthOfAllYear += element.clientWidth;
     }
     const container = document.getElementById("years-container");
-    if (widthOfAllYear > container.clientWidth) {
-      this.showArrow = true;
-    } else this.showArrow = false;
+    this.showArrow = widthOfAllYear > container.clientWidth;
   }
 
   createYearControls(
@@ -575,6 +648,7 @@ export class FinancialStatementComponent
     this.shiftFormToLeft = true;
     setTimeout(() => {
       this.showReport = true;
+      this.changeDetector.detectChanges();
     }, 1000);
     const value = this.jsonUtil.deepCopy({ ...this.filterForm.value });
     value.years = value.years ? value.years.filter((year) => year) : null;

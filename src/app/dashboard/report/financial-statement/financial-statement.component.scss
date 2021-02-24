@@ -441,3 +441,13 @@ li.disabled-ulb {
     }
   }
 }
+
+mat-option.loader-wrapper {
+  height: 120px;
+  #scroll-bottom {
+    mat-spinner {
+      height: 100px;
+      margin: auto;
+    }
+  }
+}

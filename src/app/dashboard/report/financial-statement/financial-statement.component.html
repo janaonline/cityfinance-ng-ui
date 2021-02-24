@@ -31,10 +31,15 @@
           [formControl]="baseUlbSearchControl"
           [matAutocomplete]="baseauto"
           id="search-ulb"
+          (focus)="intializeObserver()"
         />
         <i class="fa fa-search" aria-hidden="true"></i>
 
-        <mat-autocomplete #baseauto="matAutocomplete" class="tesinng">
+        <mat-autocomplete
+          #baseauto="matAutocomplete"
+          class="tesinng"
+          id="cdk-1"
+        >
           <mat-option
             *ngIf="!filteredULBList && !isULBSearchingInProgress"
             disabled
@@ -42,32 +47,40 @@
             No ULB Found
           </mat-option>
           <div *ngIf="filteredULBList">
-            <cdk-virtual-scroll-viewport itemSize="1" class="viewport">
-              <mat-optgroup
-                *cdkVirtualFor="let state of filteredULBList"
-                [label]="state._id.name"
+            <mat-optgroup
+              class="viewport"
+              *ngFor="let state of filteredULBList"
+              [label]="state._id.name"
+            >
+              <mat-option
+                *ngIf="!state.ulbList || !state.ulbList.length"
+                disabled
               >
-                <mat-option
-                  *ngIf="!state.ulbList || !state.ulbList.length"
-                  disabled
-                >
-                  No ULB available.
-                </mat-option>
+                No ULB available.
+              </mat-option>
 
-                <mat-option
-                  *ngFor="let ulb of state.ulbList"
-                  [value]="ulb.name"
-                  [title]="ulb.name"
-                  (click)="selectBaseULB(ulb, false, state._id.state)"
-                  [disabled]="!ulb?.financialYear"
-                >
-                  <span [innerHTML]="ulb.searchedName || ulb.name"></span>
-                  <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
-                    (Financial Summary Upcoming)
-                  </span>
-                </mat-option>
-              </mat-optgroup>
-            </cdk-virtual-scroll-viewport>
+              <mat-option
+                *ngFor="let ulb of state.ulbList"
+                [value]="ulb.name"
+                [title]="ulb.name"
+                (click)="selectBaseULB(ulb, false, state._id.state)"
+                [disabled]="!ulb?.financialYear"
+              >
+                <span [innerHTML]="ulb.searchedName || ulb.name"></span>
+                <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
+                  (Financial Summary Upcoming)
+                </span>
+              </mat-option>
+            </mat-optgroup>
+            <mat-option
+              class="loader-wrapper"
+              disabled
+              *ngIf="fisrtAutoCompleteConfig?.canLoadMore"
+            >
+              <div id="scroll-bottom">
+                <mat-spinner></mat-spinner>
+              </div>
+            </mat-option>
           </div>
         </mat-autocomplete>
       </mat-form-field>
@@ -285,6 +298,7 @@
         ><br /> -->
       </div>
     </form>
+
     <div
       *ngIf="
         NeworiginalUlbList && !shiftFormToLeft && homePageSubscription | async;
