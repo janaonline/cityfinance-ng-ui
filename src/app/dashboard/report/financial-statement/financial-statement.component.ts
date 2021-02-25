@@ -600,7 +600,7 @@ export class FinancialStatementComponent
     this.filterForm.controls.ulbList.updateValueAndValidity();
     this.onClosingULBSelection();
     this.baseUlbSearchControl.setValue("");
-    this.resetFinancialYearSelection();
+    this.updateFinancialYearSelection(false);
     this.initializeULBListForComparision();
   }
 
@@ -620,8 +620,10 @@ export class FinancialStatementComponent
         : ulbList.every((ulb) => ulb.financialYear?.includes(year.value));
       if (yearExistInAllSelectedULB) {
         year.isSelectable = true;
-        if (year.selected) {
+        if (year.selected && keepPreviousSelection) {
           preSelectedYears.push(year.value);
+        } else {
+          year.selected = false;
         }
         return;
       }
