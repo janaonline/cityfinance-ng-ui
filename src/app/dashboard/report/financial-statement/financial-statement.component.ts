@@ -5,7 +5,7 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -35,8 +35,7 @@ import { ulbType } from '../report/ulbTypes';
   styleUrls: ["./financial-statement.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FinancialStatementComponent
-  extends ReportComponent
+export class FinancialStatementComponent extends ReportComponent
   implements OnInit, OnDestroy {
   constructor(
     protected formBuilder: FormBuilder,
@@ -412,13 +411,13 @@ export class FinancialStatementComponent
   }
 
   private initializeULBListForComparision() {
-    const yearsAvailable = this.allFinancialYears
+    const yearsSelected = this.allFinancialYears
       .filter((year) => year.isSelectable && year.selected)
       .map((year) => year.value);
     const list: LedgerState[] = [];
     this.NeworiginalUlbList.forEach((state) => {
       const filteredULBs = state.ulbList.filter((ulb) =>
-        ulb.financialYear?.some((year) => yearsAvailable.includes(year))
+        yearsSelected.every((year) => ulb.financialYear?.includes(year))
       );
       if (!filteredULBs.length) return;
       list.push({ ...state, ulbList: filteredULBs });
@@ -865,7 +864,10 @@ export class FinancialStatementComponent
   showData() {
     this.formInvalidMessage = this.validateFormError();
 
-    if (this.formInvalidMessage) return;
+    if (this.formInvalidMessage) {
+      setTimeout(() => (this.formInvalidMessage = null), 5000);
+      return;
+    }
     this.shiftFormToLeft = true;
     setTimeout(() => {
       this.showReport = true;

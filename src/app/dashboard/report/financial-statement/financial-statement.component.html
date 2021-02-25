@@ -1,7 +1,11 @@
 <div class="all-container">
   <div class="form-container" [ngClass]="{ 'form-on-left': shiftFormToLeft }">
     <form [formGroup]="filterForm" *ngIf="filterForm" (ngSubmit)="showData()">
-      <h4 class="mb-2 text-center" style="width: 100%" *ngIf="!shiftFormToLeft">
+      <h4
+        class="mb-2 text-center"
+        style="width: 100%;"
+        *ngIf="!shiftFormToLeft"
+      >
         Select following parameters to view Financial Summary
       </h4>
 
@@ -10,7 +14,7 @@
           'col-sm-6 ': !shiftFormToLeft,
           'col-sm-12': shiftFormToLeft
         }"
-        style="display: flex; align-items: center"
+        style="display: flex; align-items: center;"
       >
         Select ULB:
       </div>
@@ -69,7 +73,7 @@
                 [disabled]="!ulb?.financialYear"
               >
                 <span [innerHTML]="ulb.searchedName || ulb.name"></span>
-                <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
+                <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e;">
                   (Financial Summary Upcoming)
                 </span>
               </mat-option>
@@ -106,13 +110,13 @@
           'col-sm-6': !shiftFormToLeft,
           'col-sm-12 mt-2': shiftFormToLeft
         }"
-        style="display: flex; align-items: center"
+        style="display: flex; align-items: center;"
       >
         Select Year(s):
       </div>
 
       <div
-        style="position: relative; overflow-y: visible"
+        style="position: relative; overflow-y: visible;"
         class="d-flex align-items-center justify-content-between"
         [ngClass]="{
           'col-sm-6 mt-1': !shiftFormToLeft,
@@ -149,7 +153,7 @@
               filterForm?.controls.ulbList?.value?.length
             "
             class="text-center warning"
-            style="width: 100%; color: red"
+            style="width: 100%; color: red;"
           >
             Selected ULBs do not have any common year with data
           </p>
@@ -162,8 +166,6 @@
           aria-hidden="true"
         ></i>
       </div>
-
-      
 
       <input
         class="btn btn-primary mt-1"
@@ -181,20 +183,20 @@
         (click)="showULBsForComparision = !showULBsForComparision"
       />
       <div class="col-sm-1"></div>
-      <div class="mt-2" style="width: 100%" *ngIf="showULBsForComparision">
+      <div class="mt-2" style="width: 100%;" *ngIf="showULBsForComparision">
         <div
           [ngClass]="{
             'col-sm-12': shiftFormToLeft,
             'col-sm-6': !shiftFormToLeft,
             'comparision-label': !shiftFormToLeft
           }"
-          style="padding: 0px"
+          style="padding: 0px;"
         >
           Select ULB(s) For Comparision:
         </div>
         <mat-form-field
           appearance="outline"
-          style="padding: 0px"
+          style="padding: 0px;"
           [ngClass]="{
             'col-sm-12': shiftFormToLeft,
             'col-sm-6': !shiftFormToLeft
@@ -252,7 +254,8 @@
                     [checked]="ulbSelectedMapping[ulb.ulb]"
                   ></mat-checkbox>
                   <span [innerHTML]="ulb.searchedName || ulb.name"></span>
-                  <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e">
+                  {{ ulb.financialYear | json }}
+                  <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e;">
                     (Financial Summary Upcoming)
                   </span>
                 </mat-option>
@@ -284,7 +287,7 @@
 
       <div
         class="d-flex justify-content-end"
-        style="width: 100%; margin-top: 0.3rem"
+        style="width: 100%; margin-top: 0.3rem;"
         *ngIf="filterForm?.value?.ulbList?.length"
       >
         <small (click)="resetPage()" class="popup reset">
@@ -295,7 +298,7 @@
       <small
         *ngIf="formInvalidMessage"
         class="text-center"
-        style="width: 100%; color: red; margin-top: 1%; font-size: 1em"
+        style="width: 100%; color: red; margin-top: 1%; font-size: 1em;"
       >
         {{ formInvalidMessage }}
       </small>
@@ -307,7 +310,7 @@
             filterForm?.value?.ulbList?.length > 7 ? 'scroll' : hidden
         }"
       >
-        <h5 style="padding-left: 1%">Selected ULBs</h5>
+        <h5 style="padding-left: 1%;">Selected ULBs</h5>
         <div
           class="ulb"
           *ngFor="let ulb of filterForm?.value?.ulbList; let i = index"
@@ -422,7 +425,7 @@
           >Balance Sheet</span
         >
       </div>
-      <div style="display: inline-flex">
+      <div style="display: inline-flex;">
         <div class="right mr-2">
           <label for="" class="">Report Type </label><br />
           <label class="radio-inline">
@@ -468,10 +471,13 @@
 </div>
 
 <ng-template #UlbModal>
-  <div class="finance-statement-popup" style="display: block; min-height: 10vh">
+  <div
+    class="finance-statement-popup"
+    style="display: block; min-height: 10vh;"
+  >
     <div
       class="modal-header col-md-12"
-      style="display: inline-flex; align-items: center"
+      style="display: inline-flex; align-items: center;"
     >
       <mat-form-field appearance="outline" class="stateDropdown">
         <mat-label class="text-gray">State </mat-label>
@@ -491,17 +497,17 @@
   </div>
 
   <div class="modal-body">
-    <div *ngIf="!NeworiginalUlbList" style="display: block; width: 80vw">
-      <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
-      <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
-      <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+    <div *ngIf="!NeworiginalUlbList" style="display: block; width: 80vw;">
+      <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+      <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+      <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
     </div>
     <div class="row popup-cotnainer-2" *ngIf="NeworiginalUlbList">
       <div class="col-sm-12 ulb-list-container">
         <ul class="list-group" *ngIf="stateSelectToFilterULB?.value">
           <li
             class="list-group-item level-one col-md-12"
-            style="display: block; border: none"
+            style="display: block; border: none;"
           >
             <div class="row">
               <div class="col-md-12">
@@ -632,7 +638,7 @@
                       /> -->
                       {{ ulb.name }}
                       <br />
-                      <small *ngIf="!ulb.financialYear" style="color: #ef6e6e">
+                      <small *ngIf="!ulb.financialYear" style="color: #ef6e6e;">
                         (Financial Summary Upcoming)
                       </small>
                       <!-- <span
@@ -646,7 +652,7 @@
 
                   <h2
                     *ngIf="!ulbListForPopup?.length"
-                    style="text-align: center; width: 100%"
+                    style="text-align: center; width: 100%;"
                   >
                     ULB not available
                   </h2>
@@ -658,7 +664,7 @@
         <div>
           <button
             class="btn btn-primary close-btn"
-            style="float: right; right: 5px"
+            style="float: right; right: 5px;"
             (click)="modalRef.hide()"
           >
             Close
