@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -17,6 +17,7 @@ import { ReportService } from '../report.service';
   selector: "app-comparative-ulb",
   templateUrl: "./comparative-ulb.component.html",
   styleUrls: ["./comparative-ulb.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class ComparativeUlbComponent implements OnInit {
   report: any = [];
@@ -65,7 +66,8 @@ export class ComparativeUlbComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _authService: AuthService,
     private _dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   private initializeCurrencyConversion(reportCriteria: IReportType) {
@@ -129,6 +131,7 @@ export class ComparativeUlbComponent implements OnInit {
           this.isProcessed = true;
 
           this.setDataNotAvailable();
+          this.changeDetector.detectChanges();
         },
         () => {
           this._loaderService.stopLoader();

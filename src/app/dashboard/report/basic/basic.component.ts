@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ import { currencryConversionOptions, currencryConversionType, ICurrencryConversi
   selector: "app-basic",
   templateUrl: "./basic.component.html",
   styleUrls: ["./basic.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class BasicComponent implements OnInit, OnDestroy {
   report: any = {};
@@ -79,8 +80,11 @@ export class BasicComponent implements OnInit, OnDestroy {
     private _formBuilder: FormBuilder,
     private _dialog: MatDialog,
     private router: Router,
-    private _authService: AuthService
-  ) {}
+    private _authService: AuthService,
+    private changeDetector: ChangeDetectorRef
+  ) {
+    this.changeDetector.reattach();
+  }
 
   private initializeCurrencyConversion(reportCriteria: IReportType) {
     this.currencyTypeInUser =
@@ -128,6 +132,7 @@ export class BasicComponent implements OnInit, OnDestroy {
 
           this.loaderService.stopLoader();
           this.setDataNotAvailable();
+          this.changeDetector.detectChanges();
         },
         (err) => {
           this.loaderService.stopLoader();
