@@ -152,7 +152,7 @@ li.disabled-ulb {
       .ulb-list-container {
         margin-top: 2%;
         width: 100%;
-        padding: 1% 4%;
+        padding: 1% 0%;
         .ulb {
           display: flex;
           align-items: center;
@@ -271,7 +271,7 @@ li.disabled-ulb {
       flex-wrap: wrap;
       border: 1px solid #c8c8c8;
       background: #f3f3f3;
-      padding: 1%;
+      padding: 1% 0%;
       border-radius: 3px;
       max-height: 55vh;
       // overflow-y: scroll;
@@ -281,7 +281,7 @@ li.disabled-ulb {
       .ulb {
         display: block;
         width: 100%;
-        padding: 1% 2% 1% 0;
+        padding: 1% 2% 1% 1%;
         transition: all 0.1s;
 
         &:hover {
@@ -461,5 +461,10 @@ mat-option.loader-wrapper {
     display: flex;
     align-items: center;
     height: 100%;
+  }
+
+  .base-ulb {
+    background: #909090;
+    color: white;
   }
 }

@@ -141,6 +141,8 @@ export class FinancialStatementComponent
   ulbSelectedMapping: { [ulbId: string]: LedgerULB } = {};
   @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
 
+  baseULB: LedgerULB;
+
   ngOnInit(): void {
     this.initializeFilterForm();
     this.fetchULBList();
@@ -480,11 +482,14 @@ export class FinancialStatementComponent
         return;
       }
     }
+    this.baseULBSelected;
     if (indexFound == -1) {
+      this.baseULB = ulb;
       oldULBS.push(ulb);
       this.ulbSelectedMapping = {};
       this.ulbSelectedMapping[ulb.ulb] = ulb;
     }
+    this.showULBsForComparision = false;
     this.filterForm.controls.ulbList.setValue([ulb]);
     this.filterForm.controls.ulbList.updateValueAndValidity();
     this.onClosingULBSelection();

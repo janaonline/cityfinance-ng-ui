@@ -239,11 +239,11 @@
                     selectULB(ulb, true, state._id.state);
                     handleClose('mat-autocomplete-1', trigger2)
                   "
-                  [disabled]="!ulb?.financialYear"
+                  [disabled]="!ulb?.financialYear || ulb.ulb === baseULB?.ulb"
                 >
                   <mat-checkbox
                     class="mr-1"
-                    [disabled]="!ulb?.financialYear"
+                    [disabled]="!ulb?.financialYear || ulb.ulb === baseULB?.ulb"
                     [checked]="ulbSelectedMapping[ulb.ulb]"
                   ></mat-checkbox>
                   <span [innerHTML]="ulb.searchedName || ulb.name"></span>
@@ -293,14 +293,16 @@
             filterForm?.value?.ulbList?.length > 7 ? 'scroll' : hidden
         }"
       >
-        <h5>Selected ULBs</h5>
+        <h5 style="padding-left: 1%">Selected ULBs</h5>
         <div
           class="ulb"
           *ngFor="let ulb of filterForm?.value?.ulbList; let i = index"
+          [ngClass]="{ 'base-ulb': baseULB?.ulb === ulb.ulb }"
         >
           {{ ulb.name }}
 
           <i
+            *ngIf="baseULB?.ulb !== ulb.ulb"
             class="fa fa-trash"
             aria-hidden="true"
             (click)="removeSelectedULBAt(i)"
