@@ -235,6 +235,13 @@ export class FinancialStatementComponent
       this.yearListUpdate = false;
       if (!this.shiftFormToLeft) return;
     });
+
+    /**
+     * @description If no year is selected then comparison part should not be show.
+     */
+    this.filterForm.controls.years.valueChanges.subscribe((newValue) => {
+      if (!newValue?.length) this.showULBsForComparision = false;
+    });
     this.initializeReportTypeChangeDetection();
   }
 
@@ -295,7 +302,7 @@ export class FinancialStatementComponent
 
   private initializeULBListForComparision() {
     const yearsAvailable = this.allFinancialYears
-      .filter((year) => year.isSelectable)
+      .filter((year) => year.isSelectable && year.selected)
       .map((year) => year.value);
     const list: LedgerState[] = [];
     this.NeworiginalUlbList.forEach((state) => {
@@ -673,22 +680,7 @@ export class FinancialStatementComponent
     }
     yearClicked.selected = !yearClicked.selected;
     this.updateFinancialYearSelection();
-
-    // const yearControl = (this.filterForm.controls.years as FormArray).at(
-    //   indexOfYearSelected
-    // );
-
-    // if (yearControl.value) {
-    //   return (this.filterForm.controls.years as FormArray)
-    //     .at(indexOfYearSelected)
-    //     .setValue(null);
-    // }
-    // (this.filterForm.controls.years as FormArray)
-    //   .at(indexOfYearSelected)
-    //   .setValue(this.commonYears[indexOfYearSelected]);
-
-    // yearControl.setValue(this.commonYears[indexOfYearSelected]);
-    // this.formInvalidMessage = null;
+    this.initializeULBListForComparision();
   }
 
   showData() {
