@@ -60,7 +60,8 @@ li.disabled-ulb {
   }
 
   ::ng-deep {
-    input#search-ulb::placeholder {
+    input#search-ulb::placeholder,
+    input#search-ulb-2::placeholder {
       color: rgb(78, 78, 78);
     }
   }
@@ -442,7 +443,8 @@ li.disabled-ulb {
 
 mat-option.loader-wrapper {
   height: 120px;
-  #scroll-bottom {
+  #scroll-bottom,
+  #scroll-bottom-2 {
     mat-spinner {
       height: 100px;
       margin: auto;

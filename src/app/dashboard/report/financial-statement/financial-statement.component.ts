@@ -125,6 +125,7 @@ export class FinancialStatementComponent
   }[];
 
   ulbListForComparision: LedgerState[];
+  paginatedULBListForComparison: LedgerState[];
 
   showULBsForComparision = false;
 
@@ -136,7 +137,14 @@ export class FinancialStatementComponent
     canLoadMore: true,
   };
 
+  ComparisionAutoCompleteConfig = {
+    currentStateIndex: 1,
+    isVisible: false,
+    canLoadMore: true,
+  };
+
   observer1: IntersectionObserver;
+  observer2: IntersectionObserver;
 
   ulbSelectedMapping: { [ulbId: string]: LedgerULB } = {};
   @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
@@ -313,6 +321,7 @@ export class FinancialStatementComponent
       list.push({ ...state, ulbList: filteredULBs });
     });
     this.ulbListForComparision = list;
+    this.paginatedULBListForComparison = this.ulbListForComparision.slice(0, 1);
   }
 
   /**
@@ -351,7 +360,6 @@ export class FinancialStatementComponent
 
       this.NeworiginalUlbList = res.data;
       this.filteredULBList = this.getDefaultAutocompleteList();
-      // this.intializeObserver();
       this._loaderService.stopLoader();
       this.stateSelectToFilterULB.setValue(
         this.NeworiginalUlbList[0]._id.state
@@ -392,9 +400,12 @@ export class FinancialStatementComponent
     ) {
       return;
     }
-    if (this.observer1) return;
+    this.observer1?.disconnect();
     setTimeout(() => {
       const parent = document.getElementById("mat-autocomplete-0");
+      if (!parent) {
+        return console.warn("dropdown closed too quickly.");
+      }
       const options: IntersectionObserverInit = {
         threshold: 0.1,
         root: parent,
@@ -420,7 +431,6 @@ export class FinancialStatementComponent
         );
         const parentPreviousScrollPosition = parent.scrollTop;
         this.filteredULBList.push(...newStatesToAdd);
-        // this.filteredULBList = this.filteredULBList.concat(newStatesToAdd);
         this.fisrtAutoCompleteConfig.currentStateIndex += noOfStateToAdd;
         this.changeDetector.detectChanges();
         setTimeout(() => {
@@ -428,6 +438,58 @@ export class FinancialStatementComponent
         }, 500);
       }, options);
       this.observer1.observe(document.getElementById("scroll-bottom"));
+    }, 1000);
+  }
+
+  /**
+   * @description Handle the scrolling pagination on Select ULB dropdown.
+   */
+  intializeObserverForComparision() {
+    if (
+      this.ComparisionAutoCompleteConfig.currentStateIndex >=
+      this.ulbListForComparision.length
+    ) {
+      return;
+    }
+    this.observer2?.disconnect();
+
+    setTimeout(() => {
+      const parent = document.getElementById("mat-autocomplete-1");
+      if (!parent) {
+        return console.warn("dropdown closed too quickly");
+      }
+      const options: IntersectionObserverInit = {
+        threshold: 0.1,
+        root: parent,
+      };
+
+      this.observer2 = new IntersectionObserver((event) => {
+        const noOfStateToAdd = 2;
+        this.ComparisionAutoCompleteConfig.isVisible = false;
+        if (!event[0].isIntersecting) return;
+        this.ComparisionAutoCompleteConfig.isVisible = true;
+
+        if (
+          this.ComparisionAutoCompleteConfig.currentStateIndex >=
+          this.ulbListForComparision.length
+        ) {
+          this.observer2.disconnect();
+          this.ComparisionAutoCompleteConfig.canLoadMore = false;
+          return;
+        }
+        const newStatesToAdd = this.ulbListForComparision.slice(
+          this.ComparisionAutoCompleteConfig.currentStateIndex,
+          this.ComparisionAutoCompleteConfig.currentStateIndex + noOfStateToAdd
+        );
+        const parentPreviousScrollPosition = parent.scrollTop;
+        this.paginatedULBListForComparison.push(...newStatesToAdd);
+        this.ComparisionAutoCompleteConfig.currentStateIndex += noOfStateToAdd;
+        this.changeDetector.detectChanges();
+        setTimeout(() => {
+          parent.scrollTop = parentPreviousScrollPosition;
+        }, 500);
+      }, options);
+      this.observer2.observe(document.getElementById("scroll-bottom-2"));
     }, 1000);
   }
 

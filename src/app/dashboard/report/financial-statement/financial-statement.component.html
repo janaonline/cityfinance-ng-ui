@@ -163,6 +163,8 @@
         ></i>
       </div>
 
+      
+
       <input
         class="btn btn-primary mt-1"
         type="button"
@@ -207,20 +209,23 @@
             [formControl]="ulbSearchControl"
             [matAutocomplete]="auto"
             #trigger2="matAutocompleteTrigger"
-            id="search-ulb"
+            id="search-ulb-2"
+            (focus)="intializeObserverForComparision()"
           />
           <i class="fa fa-search" aria-hidden="true"></i>
 
           <mat-autocomplete #auto="matAutocomplete" class="tesinng">
             <mat-option
-              *ngIf="!ulbListForComparision && !isULBSearchingInProgress"
+              *ngIf="
+                !paginatedULBListForComparison && !isULBSearchingInProgress
+              "
               disabled
             >
               No ULB Found
             </mat-option>
-            <div *ngIf="ulbListForComparision">
+            <div *ngIf="paginatedULBListForComparison">
               <mat-optgroup
-                *ngFor="let state of ulbListForComparision"
+                *ngFor="let state of paginatedULBListForComparison"
                 [label]="state._id.name"
               >
                 <mat-option
@@ -252,6 +257,15 @@
                   </span>
                 </mat-option>
               </mat-optgroup>
+              <mat-option
+                class="loader-wrapper"
+                disabled
+                *ngIf="ComparisionAutoCompleteConfig?.canLoadMore"
+              >
+                <div id="scroll-bottom-2">
+                  <mat-spinner></mat-spinner>
+                </div>
+              </mat-option>
             </div>
           </mat-autocomplete>
         </mat-form-field>
