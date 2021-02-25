@@ -30,6 +30,26 @@ export class CommonService {
   // private states: any = [];
   constructor(private http: HttpClient) {}
 
+  getFinancialYearBasedOnData() {
+    return this.http
+      .get(`${environment.api.url}dynamic-financial-year`)
+      .pipe(
+        map((res) => ({ ...res, data: this.sortFinancialYears(res["data"]) }))
+      );
+  }
+  /**
+   * @description Sort the Financial Years only.
+   *
+   * @example
+   * list = ["2015-16", "2014-15", "2018-19"]
+   * sorted = ["2014-15", "2015-16", "2018-19"]
+   */
+  private sortFinancialYears(years: string[]) {
+    return years.sort(
+      (yearA, yearB) => +yearA.split("-")[0] - +yearB.split("-")[0]
+    );
+  }
+
   public getWebsiteVisitCount() {
     return this.http
       .get(`${environment.api.url}visit_count`)
