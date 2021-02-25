@@ -159,6 +159,34 @@ export class FinancialStatementComponent
     this.fetchHomepageData();
   }
 
+  showFormResetWarning() {
+    // const selectionResult = new Subject<boolean>();
+    const selectionResult = new Promise<boolean>((resolve, reject) => {
+      const dailogboxx = this._dialog.open(DialogComponent, {
+        data: {
+          message: `<p class='text-center'>By changing the ULB, all the previously selected year(s) and ULB(s) will be removed. <br /> <p class="text-center">Do you want to conitue? </p></p>`,
+          buttons: {
+            signup: {
+              text: "Contiue",
+              callback: () => {
+                resolve(true);
+              },
+            },
+            cancel: {
+              text: "Cancel",
+              callback: () => {
+                reject();
+              },
+            },
+          },
+        },
+        width: "43vw",
+      });
+    });
+
+    return selectionResult;
+  }
+
   routerTo(url: string, downloadFilteredULBs = false) {
     const criteria = this.reportService.getNewReportRequest().value;
     const ulbs: string[] = criteria.ulbIds;
@@ -248,7 +276,9 @@ export class FinancialStatementComponent
      * @description If no year is selected then comparison part should not be show.
      */
     this.filterForm.controls.years.valueChanges.subscribe((newValue) => {
-      if (!newValue?.length) this.showULBsForComparision = false;
+      if (!newValue?.length) {
+        this.showULBsForComparision = false;
+      } else this.formInvalidMessage = null;
     });
     this.initializeReportTypeChangeDetection();
   }
@@ -517,7 +547,7 @@ export class FinancialStatementComponent
     this.showULBOfState(this.stateSelectToFilterULB.value);
   }
 
-  selectBaseULB(
+  async selectBaseULB(
     ulb: IBasicLedgerData["data"][0]["ulbList"][0],
     removeIfFound = false,
     stateId?: string,
@@ -551,7 +581,14 @@ export class FinancialStatementComponent
         return;
       }
     }
-    this.baseULBSelected;
+
+    /**
+     *
+     */
+    if (oldULBS?.length || this.filterForm.value.years?.length) {
+      const shouldContainue = await this.showFormResetWarning();
+      if (!shouldContainue) return;
+    }
     if (indexFound == -1) {
       this.baseULB = ulb;
       oldULBS.push(ulb);
@@ -563,11 +600,18 @@ export class FinancialStatementComponent
     this.filterForm.controls.ulbList.updateValueAndValidity();
     this.onClosingULBSelection();
     this.baseUlbSearchControl.setValue("");
-    this.updateFinancialYearSelection();
+    this.resetFinancialYearSelection();
     this.initializeULBListForComparision();
   }
 
-  private updateFinancialYearSelection() {
+  private resetFinancialYearSelection() {
+    this.allFinancialYears.forEach((year) => {
+      year.isSelectable = false;
+      year.selected = false;
+    });
+  }
+
+  private updateFinancialYearSelection(keepPreviousSelection = true) {
     const ulbList: LedgerULB[] = this.filterForm.controls.ulbList.value;
     const preSelectedYears = [];
     this.allFinancialYears.forEach((year) => {
@@ -624,9 +668,9 @@ export class FinancialStatementComponent
     this.filterForm.controls.ulbList.setValue(oldULBS);
     this.filterForm.controls.ulbList.updateValueAndValidity();
     this.onClosingULBSelection();
-    if (!this.filterForm.controls.ulbList.value?.length) {
-      requestAnimationFrame(() => this.updateFinancialYearSelection());
-    }
+    // if (!this.filterForm.controls.ulbList.value?.length) {
+    //   requestAnimationFrame(() => this.updateFinancialYearSelection());
+    // }
   }
 
   resetPage() {
@@ -639,10 +683,7 @@ export class FinancialStatementComponent
     this.showULBsForComparision = false;
     this.ulbSelectedMapping = {};
 
-    this.allFinancialYears.forEach((year) => {
-      year.isSelectable = false;
-      year.selected = false;
-    });
+    this.resetFinancialYearSelection();
 
     setTimeout(() => {
       this.calculateArrowVisibility();
@@ -721,13 +762,12 @@ export class FinancialStatementComponent
 
   removeSelectedULBAt(index: number) {
     const allULBs: LedgerULB[] = this.filterForm.value.ulbList;
-    // return this.selectULB(allULBs[index], true, allULBs[index]["stateId"]);
 
     this.ulbSelectedMapping[allULBs[index]?.ulb] = null;
     allULBs.splice(index, 1);
 
     this.filterForm.controls.ulbList.updateValueAndValidity();
-    this.updateFinancialYearSelection();
+    // this.updateFinancialYearSelection();
     this.onClosingULBSelection();
   }
 
