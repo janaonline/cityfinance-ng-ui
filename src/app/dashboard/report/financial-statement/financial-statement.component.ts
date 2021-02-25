@@ -73,6 +73,7 @@ export class FinancialStatementComponent
   };
 
   NeworiginalUlbList: IBasicLedgerData["data"];
+
   filteredULBList: IBasicLedgerData["data"];
 
   ulbListForDropdown: IULBResponse["data"]["ss"]["ulbs"];
@@ -124,6 +125,10 @@ export class FinancialStatementComponent
     selected: boolean;
   }[];
 
+  /**
+   * @description These are the ULBs which are filtered by Year Selection.
+   * Only these ulbs must be show in Comparision dropdown.
+   */
   ulbListForComparision: LedgerState[];
   paginatedULBListForComparison: LedgerState[];
 
@@ -131,12 +136,19 @@ export class FinancialStatementComponent
 
   homePageSubscription: Observable<any>;
 
+  /**
+   * @description Configuration used for scroll pagination for Search ULB.
+   */
   fisrtAutoCompleteConfig = {
     currentStateIndex: 1,
     isVisible: false,
     canLoadMore: true,
   };
 
+  /**
+   * @description Configuration used for scroll pagination on ULB list for
+   * comparision
+   */
   ComparisionAutoCompleteConfig = {
     currentStateIndex: 1,
     isVisible: false,
@@ -266,6 +278,7 @@ export class FinancialStatementComponent
     this.baseUlbSearchControl = this.formBuilder.control("");
     this.ulbSearchControl = this.formBuilder.control("");
     this.initializeULBSearch();
+    this.initializeComparisionULBSearch();
 
     this.filterForm.controls.ulbList.valueChanges.subscribe((newValue) => {
       this.yearListUpdate = false;
@@ -298,11 +311,13 @@ export class FinancialStatementComponent
         if (!textToSearch) {
           this.isULBSearchingInProgress = false;
 
-          this.filteredULBList = this.getDefaultAutocompleteList();
+          this.filteredULBList = this.getDefaultAutocompleteList(
+            this.NeworiginalUlbList
+          );
           this.fisrtAutoCompleteConfig.canLoadMore =
             this.filteredULBList.length < this.NeworiginalUlbList.length;
           this.changeDetector.detectChanges();
-
+          this.intializeObserver();
           return;
         }
 
@@ -338,6 +353,64 @@ export class FinancialStatementComponent
       });
   }
 
+  private initializeComparisionULBSearch() {
+    this.ulbSearchControl.valueChanges
+      .pipe(
+        filter((value) => (value ? value.length >= 2 : true)),
+        debounceTime(300),
+        tap((data) => (this.isULBSearchingInProgress = true))
+      )
+      .subscribe((textToSearch: string) => {
+        this.paginatedULBListForComparison = null;
+        textToSearch = textToSearch?.trim() || null;
+
+        if (!textToSearch) {
+          this.isULBSearchingInProgress = false;
+
+          this.paginatedULBListForComparison = this.getDefaultAutocompleteList(
+            this.ulbListForComparision
+          );
+          this.ComparisionAutoCompleteConfig.canLoadMore =
+            this.paginatedULBListForComparison.length <
+            this.ulbListForComparision.length;
+          this.changeDetector.detectChanges();
+          this.intializeObserverForComparision();
+
+          return;
+        }
+
+        const newList: LedgerState[] = [];
+        this.ulbListForComparision.forEach((state) => {
+          const newULBList = state.ulbList
+            .filter((ulb) => {
+              return ulb.name.match(new RegExp(textToSearch, "gi"));
+            })
+            .map((oldULB: TSearchedULB) => {
+              const ulb = { ...oldULB };
+              const matchedText = ulb.name.match(
+                new RegExp(textToSearch, "gi")
+              );
+
+              new Set(matchedText).forEach((text) => {
+                ulb.searchedName = ulb.name.replace(
+                  new RegExp(text + "(?!([^<]+)?>+)", "g"),
+                  `<span class="search-text-matched">${text}</span>`
+                );
+              });
+
+              return ulb;
+            });
+          if (!newList || !newULBList.length) return;
+          newList.push({ ...state, ulbList: newULBList });
+        });
+
+        this.paginatedULBListForComparison = [...newList];
+        this.ComparisionAutoCompleteConfig.canLoadMore = false;
+        this.isULBSearchingInProgress = false;
+        this.changeDetector.detectChanges();
+      });
+  }
+
   private initializeULBListForComparision() {
     const yearsAvailable = this.allFinancialYears
       .filter((year) => year.isSelectable && year.selected)
@@ -358,9 +431,9 @@ export class FinancialStatementComponent
    * @description This List will be shown in auto-complete
    * ulb search.
    */
-  private getDefaultAutocompleteList() {
-    if (!this.NeworiginalUlbList || !this.NeworiginalUlbList.length) return [];
-    return [...this.NeworiginalUlbList.slice(0, 2)];
+  private getDefaultAutocompleteList(list: LedgerState[]) {
+    if (!list || !list.length) return [];
+    return [...list.slice(0, 2)];
   }
 
   /**
@@ -389,7 +462,9 @@ export class FinancialStatementComponent
       this._loaderService.showLoader();
 
       this.NeworiginalUlbList = res.data;
-      this.filteredULBList = this.getDefaultAutocompleteList();
+      this.filteredULBList = this.getDefaultAutocompleteList(
+        this.NeworiginalUlbList
+      );
       this._loaderService.stopLoader();
       this.stateSelectToFilterULB.setValue(
         this.NeworiginalUlbList[0]._id.state
@@ -472,7 +547,7 @@ export class FinancialStatementComponent
   }
 
   /**
-   * @description Handle the scrolling pagination on Select ULB dropdown.
+   * @description Handle the scrolling pagination on Select ULB for Comparison dropdown.
    */
   intializeObserverForComparision() {
     if (
