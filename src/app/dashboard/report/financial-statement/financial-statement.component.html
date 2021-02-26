@@ -214,7 +214,11 @@
           />
           <i class="fa fa-search" aria-hidden="true"></i>
 
-          <mat-autocomplete #auto="matAutocomplete" class="tesinng">
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            class="tesinng"
+            (optionSelected)="handleClose('mat-autocomplete-1', trigger2)"
+          >
             <mat-option
               *ngIf="
                 !paginatedULBListForComparison && !isULBSearchingInProgress
@@ -240,9 +244,7 @@
                   [value]="ulb.name"
                   [title]="ulb.name"
                   (click)="
-                    trigger2.openPanel();
-                    selectULB(ulb, true, state._id.state);
-                    handleClose('mat-autocomplete-1', trigger2)
+                    trigger2.openPanel(); selectULB(ulb, true, state._id.state)
                   "
                   [disabled]="!ulb?.financialYear || ulb.ulb === baseULB?.ulb"
                 >

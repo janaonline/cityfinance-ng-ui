@@ -522,6 +522,7 @@ export class FinancialStatementComponent extends ReportComponent
       trigger.openPanel();
       setTimeout(() => {
         parent = document.getElementById(id);
+
         parent.scrollTop = parentPreviousScrollPosition;
       }, 0);
     });
