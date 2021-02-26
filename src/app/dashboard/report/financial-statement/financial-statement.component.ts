@@ -669,7 +669,7 @@ export class FinancialStatementComponent extends ReportComponent
     /**
      *
      */
-    if (oldULBS?.length || this.filterForm.value.years?.length) {
+    if (oldULBS?.length > 1 || this.filterForm.value.years?.length) {
       const shouldContainue = await this.showFormResetWarning();
       if (!shouldContainue) return;
     }
@@ -764,6 +764,8 @@ export class FinancialStatementComponent extends ReportComponent
     this.showReport = false;
     this.commonYears = null;
     this.formInvalidMessage = null;
+    this.baseULB = null;
+    this.StateULBTypeMapping = {};
 
     this.showULBsForComparision = false;
     this.ulbSelectedMapping = {};
