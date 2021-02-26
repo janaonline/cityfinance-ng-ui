@@ -668,7 +668,7 @@ export class FinancialStatementComponent extends ReportComponent
 
     const oldULBS: IBasicLedgerData["data"][0]["ulbList"] = this.filterForm
       .controls.ulbList.value;
-    const indexFound = oldULBS.findIndex((oldulb) => oldulb.ulb === ulb.ulb);
+    const indexFound = this.baseULB?.ulb === ulb?.ulb ? 0 : -1;
     this.baseUlbSearchControl.setValue("");
 
     /**
