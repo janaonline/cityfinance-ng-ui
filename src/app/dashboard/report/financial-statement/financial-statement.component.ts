@@ -689,6 +689,9 @@ export class FinancialStatementComponent extends ReportComponent
         this.ulbSelectedMapping[oldULBS[indexFound].ulb] = null;
       } else {
         this.formInvalidMessage = `${oldULBS[indexFound].name} is already selected.`;
+        setTimeout(() => {
+          this.formInvalidMessage = null;
+        }, 3000);
         return;
       }
     }
