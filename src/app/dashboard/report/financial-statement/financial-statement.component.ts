@@ -729,10 +729,21 @@ export class FinancialStatementComponent extends ReportComponent
     if (reInitialize) {
       this.allFinancialYears.forEach((year) => {
         year.isSelectable = this.baseULB?.financialYear?.includes(year?.value);
-
         year.selected = false;
       });
     }
+
+    this.allFinancialYears = this.allFinancialYears.sort((yearA, yearB) => {
+      if (
+        (yearA.isSelectable && yearB.isSelectable) ||
+        (!yearA.isSelectable && !yearB.isSelectable)
+      ) {
+        return +yearA.value - +yearB.value;
+      }
+
+      if (yearA.isSelectable) return -1;
+      return 1;
+    });
 
     preSelectedYears = this.allFinancialYears
       .filter((year) => year.isSelectable && year.selected)
