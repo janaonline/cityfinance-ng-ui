@@ -183,94 +183,102 @@
       <div class="col-sm-1"></div>
       <div class="mt-2" style="width: 100%;" *ngIf="showULBsForComparision">
         <div
-          [ngClass]="{
-            'col-sm-12': shiftFormToLeft,
-            'col-sm-6': !shiftFormToLeft,
-            'comparision-label': !shiftFormToLeft
-          }"
-          style="padding: 0px;"
+          class="row"
+          style="display: flex; align-items: center; margin: 0px;"
         >
-          Select ULB(s) For Comparision:
-        </div>
-        <mat-form-field
-          appearance="outline"
-          style="padding: 0px;"
-          [ngClass]="{
-            'col-sm-12': shiftFormToLeft,
-            'col-sm-6': !shiftFormToLeft
-          }"
-        >
-          <input
-            #autoCompleteInput
-            type="text"
-            placeholder="Search ULB(s)"
-            aria-label="text"
-            matInput
-            [formControl]="ulbSearchControl"
-            [matAutocomplete]="auto"
-            #trigger2="matAutocompleteTrigger"
-            id="search-ulb-2"
-            (focus)="intializeObserverForComparision()"
-          />
-          <i class="fa fa-search" aria-hidden="true"></i>
-
-          <mat-autocomplete
-            #auto="matAutocomplete"
-            class="testing2"
-            (optionSelected)="handleClose('testing2', trigger2)"
+          <div
+            [ngClass]="{
+              'col-sm-12': shiftFormToLeft,
+              'col-sm-6': !shiftFormToLeft,
+              'comparision-label': !shiftFormToLeft
+            }"
+            style="padding: 0px;"
           >
-            <mat-option
-              *ngIf="
-                !paginatedULBListForComparison && !isULBSearchingInProgress
-              "
-              disabled
-            >
-              No ULB Found
-            </mat-option>
-            <div *ngIf="paginatedULBListForComparison">
-              <mat-optgroup
-                *ngFor="let state of paginatedULBListForComparison"
-                [label]="state._id.name"
-              >
-                <mat-option
-                  *ngIf="!state.ulbList || !state.ulbList.length"
-                  disabled
-                >
-                  No ULB available.
-                </mat-option>
+            Select ULB(s) For Comparision:
+          </div>
+          <mat-form-field
+            appearance="outline"
+            style="padding: 0px;"
+            [ngClass]="{
+              'col-sm-12': shiftFormToLeft,
+              'col-sm-6': !shiftFormToLeft
+            }"
+          >
+            <input
+              #autoCompleteInput
+              type="text"
+              placeholder="Search ULB(s)"
+              aria-label="text"
+              matInput
+              [formControl]="ulbSearchControl"
+              [matAutocomplete]="auto"
+              #trigger2="matAutocompleteTrigger"
+              id="search-ulb-2"
+              (focus)="intializeObserverForComparision()"
+            />
+            <i class="fa fa-search" aria-hidden="true"></i>
 
-                <mat-option
-                  *ngFor="let ulb of state.ulbList"
-                  [value]="ulb.name"
-                  [title]="ulb.name"
-                  (click)="
-                    trigger2.openPanel(); selectULB(ulb, true, state._id.state)
-                  "
-                  [disabled]="!ulb?.financialYear || ulb.ulb === baseULB?.ulb"
-                >
-                  <mat-checkbox
-                    class="mr-1 disabled-mat-box"
-                    [disabled]="!ulb?.financialYear || ulb.ulb === baseULB?.ulb"
-                    [checked]="ulbSelectedMapping[ulb.ulb]"
-                  ></mat-checkbox>
-                  <span [innerHTML]="ulb?.searchedName || ulb.name"></span>
-                  <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e;">
-                    (Financial Summary Upcoming)
-                  </span>
-                </mat-option>
-              </mat-optgroup>
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              class="testing2"
+              (optionSelected)="handleClose('testing2', trigger2)"
+            >
               <mat-option
-                class="loader-wrapper"
+                *ngIf="
+                  !paginatedULBListForComparison && !isULBSearchingInProgress
+                "
                 disabled
-                *ngIf="ComparisionAutoCompleteConfig?.canLoadMore"
               >
-                <div id="scroll-bottom-2">
-                  <mat-spinner></mat-spinner>
-                </div>
+                No ULB Found
               </mat-option>
-            </div>
-          </mat-autocomplete>
-        </mat-form-field>
+              <div *ngIf="paginatedULBListForComparison">
+                <mat-optgroup
+                  *ngFor="let state of paginatedULBListForComparison"
+                  [label]="state._id.name"
+                >
+                  <mat-option
+                    *ngIf="!state.ulbList || !state.ulbList.length"
+                    disabled
+                  >
+                    No ULB available.
+                  </mat-option>
+
+                  <mat-option
+                    *ngFor="let ulb of state.ulbList"
+                    [value]="ulb.name"
+                    [title]="ulb.name"
+                    (click)="
+                      trigger2.openPanel();
+                      selectULB(ulb, true, state._id.state)
+                    "
+                    [disabled]="!ulb?.financialYear || ulb.ulb === baseULB?.ulb"
+                  >
+                    <mat-checkbox
+                      class="mr-1 disabled-mat-box"
+                      [disabled]="
+                        !ulb?.financialYear || ulb.ulb === baseULB?.ulb
+                      "
+                      [checked]="ulbSelectedMapping[ulb.ulb]"
+                    ></mat-checkbox>
+                    <span [innerHTML]="ulb?.searchedName || ulb.name"></span>
+                    <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e;">
+                      (Financial Summary Upcoming)
+                    </span>
+                  </mat-option>
+                </mat-optgroup>
+                <mat-option
+                  class="loader-wrapper"
+                  disabled
+                  *ngIf="ComparisionAutoCompleteConfig?.canLoadMore"
+                >
+                  <div id="scroll-bottom-2">
+                    <mat-spinner></mat-spinner>
+                  </div>
+                </mat-option>
+              </div>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
         <div *ngIf="!shiftFormToLeft" class="col-sm-6"></div>
         <span
           class="text-center"
