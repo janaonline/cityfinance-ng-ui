@@ -5,6 +5,7 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
+  TemplateRef,
   ViewChild
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -639,12 +640,34 @@ export class FinancialStatementComponent extends ReportComponent
     this.widgetsContent.nativeElement.scrollLeft = 200;
   }
 
+  openUlbModal(
+    template: TemplateRef<any>,
+    type: "base" | "comparision" = "base"
+  ) {
+    this.modelOpenForType = type;
+    if (this.reportForm.value.isComparative) {
+      this.ulbTypeSelected = "base";
+    } else {
+      this.ulbTypeSelected = "other";
+    }
+    this.modalRef = this.modalService.show(template, {
+      class: "modal-lg",
+    });
+    this.showULBOfState(
+      this.stateSelectToFilterULB.value,
+      this.modelOpenForType === "base"
+        ? this.NeworiginalUlbList
+        : this.ulbListForComparision
+    );
+  }
+
   showULBOfState(
     stateId: IBasicLedgerData["data"][0]["_id"]["state"],
     list: LedgerState[]
   ) {
     const stateFound = list.find((state) => state._id.state === stateId);
     if (!stateFound) return console.warn("State not Found");
+    console.log(list, stateFound);
     this.ulbListForPopup = stateFound.ulbList.filter(
       (ulb) => ulb.ulbType === this.ulbTypeInView.type
     );
