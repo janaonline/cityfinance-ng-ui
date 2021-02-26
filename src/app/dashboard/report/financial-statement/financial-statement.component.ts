@@ -198,6 +198,33 @@ export class FinancialStatementComponent extends ReportComponent
     return selectionResult;
   }
 
+  private showWarning(message: string, width?: string) {
+    const selectionResult = new Promise<boolean>((resolve, reject) => {
+      const dailogboxx = this._dialog.open(DialogComponent, {
+        data: {
+          message,
+          buttons: {
+            signup: {
+              text: "Contiue",
+              callback: () => {
+                resolve(true);
+              },
+            },
+            cancel: {
+              text: "Cancel",
+              callback: () => {
+                reject();
+              },
+            },
+          },
+        },
+        width: width || "43vw",
+      });
+    });
+
+    return selectionResult;
+  }
+
   routerTo(url: string, downloadFilteredULBs = false) {
     const criteria = this.reportService.getNewReportRequest().value;
     const ulbs: string[] = criteria.ulbIds;
@@ -423,7 +450,6 @@ export class FinancialStatementComponent extends ReportComponent
       list.push({ ...state, ulbList: filteredULBs });
     });
     this.ulbListForComparision = list;
-    console.log("reintiializing second list");
 
     this.paginatedULBListForComparison = this.ulbListForComparision.slice(0, 1);
   }
@@ -670,7 +696,8 @@ export class FinancialStatementComponent extends ReportComponent
      *
      */
     if (oldULBS?.length > 1 || this.filterForm.value.years?.length) {
-      const shouldContainue = await this.showFormResetWarning();
+      const message = `<p class='text-center'>By changing the ULB, all the previously selected year(s) and ULB(s) will be removed. <br /> <p class="text-center">Do you want to conitue? </p></p>`;
+      const shouldContainue = await this.showWarning(message);
       if (!shouldContainue) return;
     }
     if (indexFound == -1) {
@@ -714,7 +741,6 @@ export class FinancialStatementComponent extends ReportComponent
   }
 
   preventEventProp(event: Event) {
-    console.log(event);
     event.stopPropagation();
     event.preventDefault();
   }
@@ -860,16 +886,22 @@ export class FinancialStatementComponent extends ReportComponent
   /**
    * @description Toggle year selection. Index must be from common year list.
    */
-  onClickingYear(indexOfYearSelected: number) {
+  async onClickingYear(indexOfYearSelected: number) {
     const yearClicked = this.allFinancialYears[indexOfYearSelected];
     if (!yearClicked || !yearClicked.isSelectable) {
       this.updateFinancialYearSelection();
       return;
     }
+    if (this.filterForm.value.ulbList?.length > 1) {
+      const message = `<p class='text-center'>By changing the Year, all ULB(s) selected for comparision will be removed. <br /> <p class="text-center">Do you want to conitue? </p></p>`;
+      const shouldContainue = await this.showWarning(message, "30vw");
+      if (!shouldContainue) return;
+    }
     yearClicked.selected = !yearClicked.selected;
     this.updateFinancialYearSelection();
     this.initializeULBListForComparision();
     this.updatedSelectedULBs();
+    this.changeDetector.detectChanges();
   }
 
   private updatedSelectedULBs() {
