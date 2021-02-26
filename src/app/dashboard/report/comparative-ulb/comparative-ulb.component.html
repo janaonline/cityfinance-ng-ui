@@ -35,7 +35,7 @@
       >
       </angular2-multiselect>
     </form>
-    <p class="text-center" style="font-size: 1vw">
+    <p class="text-center" style="font-size: 1vw;">
       {{ reportReq.type }} {{ reportReq.reportGroup }}
       <span *ngIf="reportReq.valueType === 'per_capita'">(Per Capita)</span>
     </p>
@@ -58,12 +58,12 @@
           <th
             class="text-center yearssss"
             colspan="2"
-            style="position: sticky; left: 0px; width: 30vw; background: white"
+            style="position: sticky; left: 0px; width: 30vw; background: white;"
           >
             Year(s)
           </th>
           <th
-            style="background: white"
+            style="background: white;"
             class="text-center yyy"
             [attr.colspan]="headerGroup.yearColspan"
             *ngFor="let yr of reportReq.years"
@@ -77,7 +77,7 @@
           <th
             class="text-center"
             [attr.rowspan]="headerGroup.accRowspan"
-            style="position: sticky; left: 0px"
+            style="position: sticky; left: 0px;"
           >
             Account Code
           </th>
@@ -140,7 +140,7 @@
                 report[key].line_item.includes('Surplus/(Deficit) (C) (A-B)'))
           }"
         >
-          <td class="text-center sticky" style="position: sticky; left: 0px">
+          <td class="text-center sticky" style="position: sticky; left: 0px;">
             {{ report[key] ? report[key].code : "" }}
           </td>
           <td
@@ -272,7 +272,11 @@
   *ngIf="isProcessed && reportKeys.length > 0"
   class="btn btn-primary right mt-2"
 >
-  <i class="fa fa-file-text" aria-hidden="true"></i>
+  <i
+    class="fa fa-file-excel-o"
+    aria-hidden="true"
+    style="color: white; margin-right: 2%;"
+  ></i>
   Download XLS
 </button>
 <!-- <button
