@@ -761,6 +761,7 @@ export class FinancialStatementComponent extends ReportComponent
       .controls.ulbList.value;
     const indexFound = oldULBS.findIndex((oldulb) => oldulb.ulb === ulb.ulb);
     this.ulbSearchControl.setValue("");
+
     /**
      * When user the typed in search box and select a ulb,
      * we need to unfocus the auto-complete input to show new
@@ -783,6 +784,16 @@ export class FinancialStatementComponent extends ReportComponent
     this.filterForm.controls.ulbList.setValue(oldULBS);
     this.filterForm.controls.ulbList.updateValueAndValidity();
     this.onClosingULBSelection();
+  }
+
+  private reInitializeULBMapping() {
+    const { ulbList }: { ulbList: LedgerULB[] } = this.filterForm.value;
+    this.ulbSelectedMapping = {};
+    this.StateULBTypeMapping = {};
+    ulbList.forEach((ulb) => {
+      this.ulbSelectedMapping[ulb.ulb] = ulb;
+      this.onULBClick(ulb.stateId, { type: ulb.ulbType }, (ulb as any) as IULB);
+    });
   }
 
   resetPage() {
@@ -900,6 +911,7 @@ export class FinancialStatementComponent extends ReportComponent
     this.updateFinancialYearSelection();
     this.initializeULBListForComparision();
     this.updatedSelectedULBs();
+    this.reInitializeULBMapping();
     this.changeDetector.detectChanges();
   }
 
@@ -908,9 +920,11 @@ export class FinancialStatementComponent extends ReportComponent
     const NewList = ulbList.filter((ulb) => {
       if (ulb.ulb === this.baseULB?.ulb) return true;
 
-      return yearsSelected.every((year) =>
-        ulb.financialYear.find((ulbYear) => ulbYear == year)
-      );
+      return yearsSelected?.length
+        ? yearsSelected.every((year) =>
+            ulb.financialYear.find((ulbYear) => ulbYear == year)
+          )
+        : false;
     });
     this.filterForm.controls.ulbList.setValue(NewList);
   }
