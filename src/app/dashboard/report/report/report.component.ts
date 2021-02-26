@@ -125,10 +125,11 @@ export class ReportComponent implements OnInit, OnDestroy {
       confirm: {
         text: "Proceed to Login",
         callback: () => {
-           const query = `backRoute=${
-             window.location.pathname
-           }`;
-          sessionStorage.setItem("postLoginNavigation", `/data-tracker?${query}`);
+          const query = `backRoute=${window.location.pathname}`;
+          sessionStorage.setItem(
+            "postLoginNavigation",
+            `/data-tracker?${query}`
+          );
           this.router.navigate(["/", "login"]);
         },
       },
@@ -137,6 +138,8 @@ export class ReportComponent implements OnInit, OnDestroy {
   };
 
   clickedOnGenerateReport = false;
+
+  modelOpenForType: "base" | "comparision" = "base";
 
   ngOnInit() {
     for (let i = 65; i <= 90; i++) {
@@ -459,7 +462,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     b: KeyValue<number, { name: string }>
   ): number => {
     return a.value.name > b.value.name ? 1 : -1;
-  }
+  };
 
   /**
    * This method is executed whenever user click on Base ULB Tab or ULB For Comparison Tab.
@@ -809,10 +812,11 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * This method is executed to open the popup for selecting ULB.
-   */
-  openUlbModal(template: TemplateRef<any>) {
+  openUlbModal(
+    template: TemplateRef<any>,
+    type: "base" | "comparision" = "base"
+  ) {
+    this.modelOpenForType = type;
     if (this.reportForm.value.isComparative) {
       this.ulbTypeSelected = "base";
     } else {
@@ -820,7 +824,6 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
     this.modalRef = this.modalService.show(template, {
       class: "modal-lg",
-      // backdrop: "static",
     });
   }
 

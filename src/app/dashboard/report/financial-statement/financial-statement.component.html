@@ -44,8 +44,6 @@
           class="tesinng"
           id="cdk-1"
         >
-          <!-- (optionSelected)="handleClose('mat-autocomplete-0', trigger)" -->
-
           <mat-option
             *ngIf="!filteredULBList && !isULBSearchingInProgress"
             disabled
@@ -100,7 +98,7 @@
         }"
       >
         OR <br />
-        <small class="popup" (click)="openUlbModal(UlbModal)">
+        <small class="popup" (click)="openUlbModal(UlbModal, 'base')">
           Select from State wise ULB List</small
         >
       </span>
@@ -253,8 +251,7 @@
                     [disabled]="!ulb?.financialYear || ulb.ulb === baseULB?.ulb"
                     [checked]="ulbSelectedMapping[ulb.ulb]"
                   ></mat-checkbox>
-                  <span [innerHTML]="ulb.searchedName || ulb.name"></span>
-                  {{ ulb.financialYear | json }}
+                  <span [innerHTML]="ulb?.searchedName || ulb.name"></span>
                   <span *ngIf="!ulb?.financialYear" style="color: #ef6e6e;">
                     (Financial Summary Upcoming)
                   </span>
@@ -272,6 +269,19 @@
             </div>
           </mat-autocomplete>
         </mat-form-field>
+        <div *ngIf="!shiftFormToLeft" class="col-sm-6"></div>
+        <span
+          class="text-center"
+          [ngClass]="{
+            'col-sm-6 ': !shiftFormToLeft,
+            'col-sm-12': shiftFormToLeft
+          }"
+        >
+          OR <br />
+          <small class="popup" (click)="openUlbModal(UlbModal, 'comparision')">
+            Select from State wise ULB List</small
+          >
+        </span>
       </div>
 
       <input
@@ -307,7 +317,7 @@
         *ngIf="filterForm?.value?.ulbList?.length"
         [ngStyle]="{
           'overflow-y':
-            filterForm?.value?.ulbList?.length > 7 ? 'scroll' : hidden
+            filterForm?.value?.ulbList?.length > 7 ? 'scroll' : 'hidden'
         }"
       >
         <h5 style="padding-left: 1%;">Selected ULBs</h5>
@@ -483,7 +493,14 @@
         <mat-label class="text-gray">State </mat-label>
         <mat-select
           [formControl]="stateSelectToFilterULB"
-          (selectionChange)="showULBOfState(stateSelectToFilterULB.value)"
+          (selectionChange)="
+            showULBOfState(
+              stateSelectToFilterULB.value,
+              modelOpenForType === 'base'
+                ? NeworiginalUlbList
+                : ulbListForComparision
+            )
+          "
         >
           <mat-option
             *ngFor="let state of NeworiginalUlbList"
@@ -534,48 +551,70 @@
                           })
                       }"
                     >
-                      <input
-                        #ulbType
-                        *ngIf="ulbTypeSelected === 'other'"
-                        name="list_name_state"
-                        type="checkbox"
-                        class="ng-untouched ng-pristine ng-valid"
-                        [checked]="
-                          getTotalULBSelectedBy(stateSelectToFilterULB?.value, {
-                            type: type
-                          })
-                        "
-                        [disabled]="
-                          !getTotalULBSelectedBy(
-                            stateSelectToFilterULB?.value,
-                            {
-                              type: type
-                            }
-                          )
-                        "
-                        (click)="
-                          removeAllSelectedULB(
-                            stateSelectToFilterULB?.value,
-                            type,
-                            ulbType
-                          )
-                        "
-                      />
-                      {{ type }}
-                      <span
-                        *ngIf="
-                          ulbTypeSelected === 'other' &&
-                          getTotalULBSelectedBy(stateSelectToFilterULB?.value, {
-                            type: type
-                          })
-                        "
-                      >
-                        ({{
-                          getTotalULBSelectedBy(stateSelectToFilterULB?.value, {
-                            type: type
-                          })
-                        }})
-                      </span>
+                      <div *ngIf="modelOpenForType === 'comparision'">
+                        <input
+                          #ulbType
+                          *ngIf="ulbTypeSelected === 'other'"
+                          name="list_name_state"
+                          type="checkbox"
+                          class="ng-untouched ng-pristine ng-valid"
+                          [checked]="
+                            getTotalULBSelectedBy(
+                              stateSelectToFilterULB?.value,
+                              {
+                                type: type
+                              }
+                            )
+                          "
+                          [disabled]="
+                            !getTotalULBSelectedBy(
+                              stateSelectToFilterULB?.value,
+                              {
+                                type: type
+                              }
+                            )
+                          "
+                          (click)="
+                            removeAllSelectedULB(
+                              stateSelectToFilterULB?.value,
+                              type,
+                              ulbType
+                            )
+                          "
+                        />
+                        {{ type }}
+                        <span
+                          *ngIf="
+                            ulbTypeSelected === 'other' &&
+                            getTotalULBSelectedBy(
+                              stateSelectToFilterULB?.value,
+                              {
+                                type: type
+                              }
+                            )
+                          "
+                        >
+                          ({{
+                            getTotalULBSelectedBy(
+                              stateSelectToFilterULB?.value,
+                              {
+                                type: type
+                              }
+                            )
+                          }})
+                        </span>
+                      </div>
+
+                      <div *ngIf="modelOpenForType !== 'comparision'">
+                        <input
+                          #ulbType
+                          *ngIf="ulbTypeSelected === 'other'"
+                          name="list_name_state"
+                          type="checkbox"
+                          class="ng-untouched ng-pristine ng-valid"
+                        />
+                        {{ type }}
+                      </div>
                     </a>
                   </li>
                 </ul>
@@ -591,15 +630,19 @@
                       border: none;
                     "
                     [id]="ulb.ulb"
-                    [ngClass]="{ 'disabled-ulb': !ulb.financialYear }"
+                    [ngClass]="{
+                      'disabled-ulb':
+                        !ulb.financialYear || baseULB?.ulb === ulb.ulb
+                    }"
                   >
                     <label>
                       <input
                         name="list_name_ulb"
-                        *ngIf="ulbTypeSelected === 'other'"
+                        *ngIf="modelOpenForType === 'comparision'"
                         type="checkbox"
                         [checked]="
-                          StateULBTypeMapping[stateSelectToFilterULB?.value] &&
+                          baseULB.ulb === ulb.ulb ||
+                          (StateULBTypeMapping[stateSelectToFilterULB?.value] &&
                           StateULBTypeMapping[stateSelectToFilterULB?.value][
                             ulbTypeInView.type
                           ] &&
@@ -607,9 +650,11 @@
                             ulbTypeInView.type
                           ][ulb.code]
                             ? true
-                            : false
+                            : false)
                         "
-                        [disabled]="!ulb.financialYear"
+                        [disabled]="
+                          !ulb.financialYear || baseULB?.ulb === ulb.ulb
+                        "
                         value="ulb.value.code"
                         class="ng-untouched ng-pristine ng-valid"
                         (click)="
@@ -617,36 +662,28 @@
                         "
                       />
 
-                      <!-- <input
+                      <input
                         name="list_name_ulb"
-                        style="margin-left: -20px"
+                        *ngIf="modelOpenForType !== 'comparision'"
                         type="radio"
+                        [checked]="baseULB?.ulb === ulb.ulb"
                         [disabled]="!ulb.financialYear"
-                        [checked]="
-                          baseULBSelected && baseULBSelected.code == ulb.code
-                        "
-                        [value]="
-                          baseULBSelected && baseULBSelected.code == ulb.code
-                        "
+                        value="ulb.value.code"
                         class="ng-untouched ng-pristine ng-valid"
                         (click)="
-                          onSelectingBaseULB(
+                          selectBaseULB(
                             ulb,
+                            true,
                             stateSelectToFilterULB?.value
-                          ) && selectULB(ulb, true)
+                          )
                         "
-                      /> -->
+                      />
+
                       {{ ulb.name }}
                       <br />
                       <small *ngIf="!ulb.financialYear" style="color: #ef6e6e;">
                         (Financial Summary Upcoming)
                       </small>
-                      <!-- <span
-                        *ngIf="
-                          baseULBSelected && baseULBSelected.code === ulb.code
-                        "
-                        >(selected as base)
-                      </span> -->
                     </label>
                   </li>
 

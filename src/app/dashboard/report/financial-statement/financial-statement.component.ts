@@ -468,7 +468,12 @@ export class FinancialStatementComponent extends ReportComponent
       this.stateSelectToFilterULB.setValue(
         this.NeworiginalUlbList[0]._id.state
       );
-      this.showULBOfState(this.NeworiginalUlbList[0]._id.state);
+      this.showULBOfState(
+        this.NeworiginalUlbList[0]._id.state,
+        this.modelOpenForType === "base"
+          ? this.NeworiginalUlbList
+          : this.ulbListForComparision
+      );
       this.changeDetector.detectChanges();
     });
   }
@@ -605,10 +610,12 @@ export class FinancialStatementComponent extends ReportComponent
     this.widgetsContent.nativeElement.scrollLeft = 200;
   }
 
-  showULBOfState(stateId: IBasicLedgerData["data"][0]["_id"]["state"]) {
-    const stateFound = this.NeworiginalUlbList.find(
-      (state) => state._id.state === stateId
-    );
+  showULBOfState(
+    stateId: IBasicLedgerData["data"][0]["_id"]["state"],
+    list: LedgerState[]
+  ) {
+    console.log(list);
+    const stateFound = list.find((state) => state._id.state === stateId);
     if (!stateFound) return console.warn("State not Found");
     this.ulbListForPopup = stateFound.ulbList.filter(
       (ulb) => ulb.ulbType === this.ulbTypeInView.type
@@ -618,7 +625,12 @@ export class FinancialStatementComponent extends ReportComponent
   onSelectingULBType(type: ulbType) {
     if (this.ulbTypeInView.type === type) return;
     this.ulbTypeInView.type = type;
-    this.showULBOfState(this.stateSelectToFilterULB.value);
+    this.showULBOfState(
+      this.stateSelectToFilterULB.value,
+      this.modelOpenForType === "base"
+        ? this.NeworiginalUlbList
+        : this.ulbListForComparision
+    );
   }
 
   async selectBaseULB(
@@ -627,13 +639,10 @@ export class FinancialStatementComponent extends ReportComponent
     stateId?: string,
     event?: Event
   ) {
-    event.preventDefault();
-    event.stopPropagation();
+    event?.preventDefault();
+    event?.stopPropagation();
 
     if (!ulb.financialYear) return;
-    if (stateId) {
-      this.onULBClick(stateId, { type: ulb.ulbType }, (ulb as any) as IULB);
-    }
 
     const oldULBS: IBasicLedgerData["data"][0]["ulbList"] = this.filterForm
       .controls.ulbList.value;
@@ -646,6 +655,7 @@ export class FinancialStatementComponent extends ReportComponent
      * lists.
      */
     (document.activeElement as HTMLElement).blur();
+    console.log({ indexFound });
     if (indexFound > -1) {
       if (removeIfFound) {
         oldULBS.splice(indexFound, 1);
@@ -671,6 +681,8 @@ export class FinancialStatementComponent extends ReportComponent
     }
     this.showULBsForComparision = false;
     this.filterForm.controls.ulbList.setValue([ulb]);
+    console.log(this.filterForm.value);
+
     this.filterForm.controls.ulbList.updateValueAndValidity();
     this.onClosingULBSelection();
     this.baseUlbSearchControl.setValue("");
@@ -714,6 +726,7 @@ export class FinancialStatementComponent extends ReportComponent
     stateId?: string
   ) {
     if (!ulb.financialYear) return;
+    if (ulb.ulb === this.baseULB?.ulb) return;
     if (stateId) {
       this.onULBClick(stateId, { type: ulb.ulbType }, (ulb as any) as IULB);
     }
