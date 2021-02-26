@@ -810,11 +810,9 @@ export class FinancialStatementComponent extends ReportComponent
 
     if (!ulbs || !ulbs.length) {
       this.filterForm.controls.years.reset();
-      // this.showArrow = false;
       return;
     }
     this.filterForm.controls.ulbIds.setValue(ulbs.map((ulb) => ulb.ulb));
-    // this.createYearControls(ulbs, true);
     if (!this.shiftFormToLeft) return;
 
     setTimeout(() => this.calculateArrowVisibility(), 0);

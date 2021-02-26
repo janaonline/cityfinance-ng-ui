@@ -162,7 +162,7 @@
           <div class="col-md-12">
             <br /><br />
             <a
-              style="float: right; text-decoration: underline"
+              style="float: right; text-decoration: underline;"
               (click)="routerTo('/data-tracker')"
               >Download Source Files</a
             >
@@ -213,16 +213,10 @@
 </div>
 
 <ng-template #UlbModal>
-  <!-- <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div> -->
-
   <div class="finance-statement-popup">
     <div
       class="modal-header col-md-12"
-      style="display: inline-flex; align-items: center"
+      style="display: inline-flex; align-items: center;"
     >
       <form
         [formGroup]="reportForm"
@@ -247,7 +241,7 @@
         ></i>
 
         <angular2-multiselect
-          style="display: inline-block; width: 208px; margin-left: 2%"
+          style="display: inline-block; width: 208px; margin-left: 2%;"
           formControlName="yearList"
           [data]="yearLookup"
           [settings]="yearsDropdownSettings"
@@ -260,7 +254,7 @@
       </form>
 
       <angular2-multiselect
-        style="width: 18%; display: inline-block; padding-bottom: 0px"
+        style="width: 18%; display: inline-block; padding-bottom: 0px;"
         [data]="populationData"
         [settings]="populationDropdownSettings"
         [(ngModel)]="ulbForm.ulbPopulationFilter"
@@ -270,7 +264,7 @@
       >
       </angular2-multiselect>
 
-      <mat-form-field class="col-md-3" appearance="outline" style="width: 20%">
+      <mat-form-field class="col-md-3" appearance="outline" style="width: 20%;">
         <input
           type="text"
           placeholder="Search ULB"
@@ -301,7 +295,7 @@
       <button
         type="button"
         class="close1 btn"
-        style="background: #f0ad4e; color: white; font-size: 0.7vw"
+        style="background: #f0ad4e; color: white; font-size: 0.7vw;"
         (click)="resetPopupValues()"
       >
         Clear All
@@ -309,7 +303,7 @@
 
       <button
         class="btn btn-primary"
-        style="position: absolute; right: 5px; font-size: 0.8vw"
+        style="position: absolute; right: 5px; font-size: 0.8vw;"
         (click)="search()"
       >
         Generate Report
@@ -321,10 +315,10 @@
   </div>
 
   <div class="modal-body">
-    <div *ngIf="!(ulbs && ulbs.data)" style="display: block; width: 80vw">
-      <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
-      <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
-      <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+    <div *ngIf="!(ulbs && ulbs.data)" style="display: block; width: 80vw;">
+      <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+      <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+      <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
     </div>
     <div class="row popup-cotnainer-2" *ngIf="ulbs && ulbs.data">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -336,7 +330,7 @@
         <li
           class="nav-item"
           *ngIf="reportForm.controls['isComparative']?.value"
-          style="width: 18%; max-width: 214px"
+          style="width: 18%; max-width: 214px;"
         >
           <a
             class="nav-link"
@@ -361,12 +355,12 @@
             <i
               class="fa fa-info-circle"
               aria-hidden="true"
-              style="margin-left: 5px"
+              style="margin-left: 5px;"
               title="Base ULB for Comparison"
             ></i>
           </a>
         </li>
-        <li class="nav-item" style="width: 18%; max-width: 214px">
+        <li class="nav-item" style="width: 18%; max-width: 214px;">
           <a
             class="nav-link active"
             [ngClass]="{
@@ -447,7 +441,7 @@
             _ngcontent-c4=""
             class="list-group-item level-one col-md-12"
             id="Chhattisgarh"
-            style="display: block"
+            style="display: block;"
           >
             <div _ngcontent-c4="" class="row">
               <div _ngcontent-c4="" class="col-md-12">
@@ -526,7 +520,7 @@
                         | keyvalue: valueAscOrder
                     "
                     class="list-group-item level-two checkbox col-md-4"
-                    style="margin: 0px; max-width: 300px; width: 27%"
+                    style="margin: 0px; max-width: 300px; width: 27%;"
                     [id]="ulb['value']['code']"
                   >
                     <label _ngcontent-c4="">
@@ -564,7 +558,7 @@
 
                       <input
                         name="list_name_ulb"
-                        style="margin-left: -20px"
+                        style="margin-left: -20px;"
                         type="radio"
                         [disabled]="!reportForm.value.yearList.length"
                         [checked]="
@@ -593,7 +587,7 @@
 
                   <h2
                     *ngIf="!currentStateInView.value.ulbs.length"
-                    style="text-align: center"
+                    style="text-align: center;"
                   >
                     ULB not available
                   </h2>
