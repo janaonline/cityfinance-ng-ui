@@ -41,7 +41,7 @@
 
         <mat-autocomplete
           #baseauto="matAutocomplete"
-          class="tesinng"
+          class="tesinng1"
           id="cdk-1"
         >
           <mat-option
@@ -216,8 +216,8 @@
 
           <mat-autocomplete
             #auto="matAutocomplete"
-            class="tesinng"
-            (optionSelected)="handleClose('mat-autocomplete-1', trigger2)"
+            class="testing2"
+            (optionSelected)="handleClose('testing2', trigger2)"
           >
             <mat-option
               *ngIf="
@@ -249,7 +249,7 @@
                   [disabled]="!ulb?.financialYear || ulb.ulb === baseULB?.ulb"
                 >
                   <mat-checkbox
-                    class="mr-1"
+                    class="mr-1 disabled-mat-box"
                     [disabled]="!ulb?.financialYear || ulb.ulb === baseULB?.ulb"
                     [checked]="ulbSelectedMapping[ulb.ulb]"
                   ></mat-checkbox>
@@ -666,11 +666,12 @@
 
                       <input
                         name="list_name_ulb"
+                        [id]="'ulb' + ulb.ulb"
                         *ngIf="modelOpenForType !== 'comparision'"
                         type="radio"
                         [checked]="baseULB?.ulb === ulb.ulb"
                         [disabled]="!ulb.financialYear"
-                        value="ulb.value.code"
+                        [value]="ulb.code"
                         class="ng-untouched ng-pristine ng-valid"
                         (click)="
                           selectBaseULB(

@@ -171,34 +171,6 @@ export class FinancialStatementComponent extends ReportComponent
     this.fetchHomepageData();
   }
 
-  showFormResetWarning() {
-    // const selectionResult = new Subject<boolean>();
-    const selectionResult = new Promise<boolean>((resolve, reject) => {
-      const dailogboxx = this._dialog.open(DialogComponent, {
-        data: {
-          message: `<p class='text-center'>By changing the ULB, all the previously selected year(s) and ULB(s) will be removed. <br /> <p class="text-center">Do you want to conitue? </p></p>`,
-          buttons: {
-            signup: {
-              text: "Contiue",
-              callback: () => {
-                resolve(true);
-              },
-            },
-            cancel: {
-              text: "Cancel",
-              callback: () => {
-                reject();
-              },
-            },
-          },
-        },
-        width: "43vw",
-      });
-    });
-
-    return selectionResult;
-  }
-
   private showWarning(message: string, width?: string) {
     const selectionResult = new Promise<boolean>((resolve, reject) => {
       const dailogboxx = this._dialog.open(DialogComponent, {
@@ -214,7 +186,7 @@ export class FinancialStatementComponent extends ReportComponent
             cancel: {
               text: "Cancel",
               callback: () => {
-                reject();
+                resolve(false);
               },
             },
           },
@@ -514,15 +486,15 @@ export class FinancialStatementComponent extends ReportComponent
    * replaced with the actual implementation if they implement such feature
    * in the future.
    */
-  handleClose(id: string, trigger: MatAutocompleteTrigger) {
-    let parent = document.getElementById(id);
+  handleClose(className: string, trigger: MatAutocompleteTrigger) {
+    let parent = document.getElementsByClassName(className)[0];
 
     const parentPreviousScrollPosition = parent.scrollTop;
 
     requestAnimationFrame(() => {
       trigger.openPanel();
       setTimeout(() => {
-        parent = document.getElementById(id);
+        parent = document.getElementsByClassName(className)[0];
 
         parent.scrollTop = parentPreviousScrollPosition;
       }, 0);
@@ -667,7 +639,6 @@ export class FinancialStatementComponent extends ReportComponent
   ) {
     const stateFound = list.find((state) => state._id.state === stateId);
     if (!stateFound) return console.warn("State not Found");
-    console.log(list, stateFound);
     this.ulbListForPopup = stateFound.ulbList.filter(
       (ulb) => ulb.ulbType === this.ulbTypeInView.type
     );
@@ -714,6 +685,8 @@ export class FinancialStatementComponent extends ReportComponent
         this.formInvalidMessage = `${oldULBS[indexFound].name} is already selected.`;
         setTimeout(() => {
           this.formInvalidMessage = null;
+
+          this.changeDetector.detectChanges();
         }, 3000);
         return;
       }
@@ -725,7 +698,12 @@ export class FinancialStatementComponent extends ReportComponent
     if (oldULBS?.length > 1 || this.filterForm.value.years?.length) {
       const message = `<p class='text-center'>By changing the ULB, all the previously selected year(s) and ULB(s) will be removed. <br /> <p class="text-center">Do you want to conitue? </p></p>`;
       const shouldContainue = await this.showWarning(message);
-      if (!shouldContainue) return;
+      if (!shouldContainue) {
+        const radioButton = document.getElementById("ulb" + ulb.ulb);
+        if (!radioButton) return;
+        radioButton["checked"] = false;
+        return;
+      }
     }
     if (indexFound == -1) {
       this.baseULB = ulb;
@@ -811,6 +789,10 @@ export class FinancialStatementComponent extends ReportComponent
         this.ulbSelectedMapping[ulb.ulb] = null;
       } else {
         this.formInvalidMessage = `${oldULBS[indexFound].name} is already selected.`;
+        setTimeout(() => {
+          this.formInvalidMessage = null;
+          this.changeDetector.detectChanges();
+        }, 3000);
         return;
       }
     }
@@ -821,6 +803,7 @@ export class FinancialStatementComponent extends ReportComponent
     this.filterForm.controls.ulbList.setValue(oldULBS);
     this.filterForm.controls.ulbList.updateValueAndValidity();
     this.onClosingULBSelection();
+    this.changeDetector.detectChanges();
   }
 
   private reInitializeULBMapping() {
