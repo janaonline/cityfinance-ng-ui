@@ -10,7 +10,7 @@ import { SweetAlert } from 'sweetalert/typings/core';
 
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
 import { USER_TYPE } from '../../models/user/userType';
-import { ulbUploadList } from '../../shared/components/home-header/tableHeaders';
+import { ulbUploadListForDataUpload } from '../../shared/components/home-header/tableHeaders';
 import { AccessChecker } from '../../util/access/accessChecker';
 import { ACTIONS } from '../../util/access/actions';
 import { MODULES_NAME } from '../../util/access/modules';
@@ -66,7 +66,7 @@ export class DataUploadComponent implements OnInit, OnDestroy {
   id = null;
   uploadId = null;
   uploadObject = null;
-  tableHeaders = ulbUploadList;
+  tableHeaders = ulbUploadListForDataUpload;
   financialYearDropdown = [];
   auditStatusDropdown = [
     {
@@ -189,11 +189,9 @@ export class DataUploadComponent implements OnInit, OnDestroy {
     if (this.uploadId) {
       this.uploadObject = response.data;
 
-      if (this.uploadObject) {
-        this.setRejectedFields(this.uploadObject);
+      this.setRejectedFields(this.uploadObject);
 
-        this.updateFormControls();
-      }
+      this.updateFormControls();
     } else {
       this.dataUploadList = response.data;
       if ("total" in response) {
@@ -439,29 +437,29 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       ...this.auditStatusDropdownSettings,
       disabled: true,
     };
-    // this.fileFormGroupKeys.forEach((formGroupKey) => {
-    //   const formGroupDataObject = this.uploadObject[formGroupKey];
-    //   const formGroupItem = this.fileFormGroup.get([formGroupKey]);
-    //   formGroupItem.get("message").setValue(formGroupDataObject["message"]);
-    //   const { excelUrl, pdfUrl } = formGroupDataObject;
-    //   formGroupItem.get("pdfUrl").setValue(pdfUrl);
-    //   formGroupItem.get("excelUrl").setValue(excelUrl);
-    //   const { completeness, correctness } = formGroupDataObject;
-    //   if (status === UPLOAD_STATUS.REJECTED) {
-    //     if (
-    //       completeness === UPLOAD_STATUS.REJECTED ||
-    //       completeness === UPLOAD_STATUS.NA ||
-    //       correctness === UPLOAD_STATUS.REJECTED ||
-    //       correctness === UPLOAD_STATUS.NA
-    //     ) {
-    //       formGroupItem.enable();
-    //     } else {
-    //       this.disableFormGroups(formGroupItem, formGroupDataObject);
-    //     }
-    //   } else {
-    //     this.disableFormGroups(formGroupItem, formGroupDataObject);
-    //   }
-    // });
+    this.fileFormGroupKeys.forEach((formGroupKey) => {
+      const formGroupDataObject = this.uploadObject[formGroupKey];
+      const formGroupItem = this.fileFormGroup.get([formGroupKey]);
+      formGroupItem.get("message").setValue(formGroupDataObject["message"]);
+      const { excelUrl, pdfUrl } = formGroupDataObject;
+      formGroupItem.get("pdfUrl").setValue(pdfUrl);
+      formGroupItem.get("excelUrl").setValue(excelUrl);
+      const { completeness, correctness } = formGroupDataObject;
+      if (status === UPLOAD_STATUS.REJECTED) {
+        if (
+          completeness === UPLOAD_STATUS.REJECTED ||
+          completeness === UPLOAD_STATUS.NA ||
+          correctness === UPLOAD_STATUS.REJECTED ||
+          correctness === UPLOAD_STATUS.NA
+        ) {
+          formGroupItem.enable();
+        } else {
+          this.disableFormGroups(formGroupItem, formGroupDataObject);
+        }
+      } else {
+        this.disableFormGroups(formGroupItem, formGroupDataObject);
+      }
+    });
   }
 
   disableFormGroups(formGroupItem, formGroupDataObject) {

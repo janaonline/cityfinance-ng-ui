@@ -326,6 +326,13 @@ export const ulbUploadList: ModalTableHeader[] = [
   { id: "action", title: "Action" },
 ];
 
+export const ulbUploadListForDataUpload: ModalTableHeader[] = [
+  { id: "ulbName", click: true, title: "ULB Name" },
+  { id: "ulbCode", click: true, title: "ULB Code" },
+  { id: "status", title: "Status" },
+  { id: "action", title: "Action" },
+];
+
 export const overAllReportMain: ModalTableHeader[] = [
   { title: "State", id: "state", rowSpan: 2 },
   { title: "Total ULBs", id: "total", rowSpan: 2 },

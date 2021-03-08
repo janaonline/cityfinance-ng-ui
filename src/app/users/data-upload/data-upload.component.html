@@ -1,5 +1,5 @@
 <ng-container *ngIf="id; else noId">
-  <div class="row" style="margin-left: 2%">
+  <div class="row" style="margin-left: 9%">
     <div class="col mt-3">
       <button
         (click)="location.back()"
@@ -10,9 +10,175 @@
       </button>
     </div>
     <ng-container *ngIf="id === 'upload-form'">
-      <app-financial-uploads
-        [financialData]="uploadObject"
-      ></app-financial-uploads>
+      <div class="mt-2">
+        <h3>Financial Data Upload</h3>
+      </div>
+      <div [formGroup]="fileFormGroup" class="row mt-4">
+        <div class="col-sm-8">
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="financial_year"
+                >Financial Year <span class="text-danger">*</span></label
+              >
+              <angular2-multiselect
+                formControlName="financialYear"
+                id="financial_year"
+                name="financial_year"
+                [settings]="financialYearDropdownSettings"
+                [data]="financialYearDropdown"
+              >
+              </angular2-multiselect>
+              <app-finance-data-upload-input
+                [config]="{
+                  formGroup: fileFormGroup,
+                  disabled: this.fileUpload.uploading,
+                  formGroupName: 'balanceSheet',
+                  title: 'Balance Sheet',
+                  required: true
+                }"
+              >
+              </app-finance-data-upload-input>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="audit_status"
+                >Status <span class="text-danger">*</span></label
+              >
+              <angular2-multiselect
+                title="Select Year"
+                formControlName="auditStatus"
+                id="audit_status"
+                (onSelect)="auditStatusDropdownHandler()"
+                (onDeSelect)="auditStatusDropdownHandler()"
+                [settings]="auditStatusDropdownSettings"
+                [data]="auditStatusDropdown"
+              ></angular2-multiselect>
+              <app-finance-data-upload-input
+                [config]="{
+                  formGroup: fileFormGroup,
+                  disabled: this.fileUpload.uploading,
+                  formGroupName: 'schedulesToBalanceSheet',
+                  title: 'Schedules to Balance Sheet',
+                  required: false,
+                  canRemoveFile:
+                    userUtil.getUserType() !== 'STATE' &&
+                    uploadId !== null &&
+                    (completenessStatus === 'REJECTED' ||
+                      correctnessStatus === 'REJECTED')
+                }"
+              >
+              </app-finance-data-upload-input>
+            </div>
+          </div>
+
+          <div class="row">
+            <div formGroupName="incomeAndExpenditure" class="col-sm-6">
+              <app-finance-data-upload-input
+                [config]="{
+                  formGroup: fileFormGroup,
+                  disabled: this.fileUpload.uploading,
+                  formGroupName: 'incomeAndExpenditure',
+                  title: 'Income and Expenditure ',
+                  required: true
+                }"
+              >
+              </app-finance-data-upload-input>
+            </div>
+
+            <div
+              formGroupName="schedulesToIncomeAndExpenditure"
+              class="col-sm-6"
+            >
+              <app-finance-data-upload-input
+                [config]="{
+                  formGroup: fileFormGroup,
+                  formGroupName: 'schedulesToIncomeAndExpenditure',
+                  title: 'Schedules to Income and Expenditure',
+                  required: false,
+                  canRemoveFile:
+                    userUtil.getUserType() !== 'STATE' &&
+                    uploadId !== null &&
+                    (completenessStatus === 'REJECTED' ||
+                      correctnessStatus === 'REJECTED')
+                }"
+              >
+              </app-finance-data-upload-input>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <app-finance-data-upload-input
+                [config]="{
+                  formGroup: fileFormGroup,
+                  disabled: this.fileUpload.uploading,
+                  formGroupName: 'trialBalance',
+                  title: 'Trial Balance',
+                  required: true
+                }"
+              >
+              </app-finance-data-upload-input>
+            </div>
+
+            <div class="col-sm-6">
+              <app-finance-data-upload-input
+                *ngIf="
+                  fileFormGroup.get('auditStatus').value &&
+                  fileFormGroup.get('auditStatus').value[0] &&
+                  fileFormGroup.get('auditStatus').value[0].id == true
+                "
+                [config]="{
+                  formGroup: fileFormGroup,
+                  disabled: this.fileUpload.uploading,
+                  formGroupName: 'auditReport',
+                  title: 'Audited Report',
+                  required: true
+                }"
+              >
+              </app-finance-data-upload-input>
+            </div>
+          </div>
+
+          <div class="row mt-4 mb-4">
+            <div class="col-sm-12">
+              <button
+                #submitButton
+                *ngIf="userUtil.getUserType() !== 'STATE' && uploadId == null"
+                [disabled]="
+                  fileFormGroup.invalid ||
+                  fileFormGroup.disabled ||
+                  isApiInProgress
+                "
+                class="btn btn-primary"
+                (click)="submitClickHandler(submitButton)"
+              >
+                {{ fileUpload.uploading ? "Please Wait.." : "Submit" }}
+              </button>
+              <div
+                *ngIf="fileUpload.uploading"
+                class="alert alert-success mt-1"
+              >
+                Uploading : {{ fileUpload.currentUploadedFiles }} out of
+                {{ fileUpload.totalFiles }} files
+              </div>
+              <button
+                #updateButton
+                *ngIf="
+                  userUtil.getUserType() !== 'STATE' &&
+                  uploadId !== null &&
+                  (completenessStatus === 'REJECTED' ||
+                    correctnessStatus === 'REJECTED')
+                "
+                [disabled]="fileFormGroup.invalid || isApiInProgress"
+                class="btn btn-primary"
+                (click)="checkRejectFields(updateButton)"
+              >
+                {{ fileUpload.uploading ? "Please Wait.." : "Update" }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </ng-container>
   </div>
 </ng-container>
@@ -41,9 +207,7 @@
             <span> ULB Data </span>
             <button
               role="menuitem"
-              *ngIf="
-                isAccessible && (!dataUploadList || !dataUploadList.length)
-              "
+              *ngIf="isAccessible"
               [routerLink]="['/user/data-upload/upload-form']"
               class="btn btn-primary"
               style="border-radius: 5px; float: right; margin-right: 6px"
@@ -119,13 +283,12 @@
                       <option
                         [value]="option.id"
                         *ngFor="let option of financialYearDropdown"
+                        >{{ option?.itemName }}</option
                       >
-                        {{ option?.itemName }}
-                      </option>
                     </select>
                   </div>
 
-                
+                  
                 </td> -->
                 <!-- <td>
                   <div class="input-group">
@@ -139,9 +302,8 @@
                       <option
                         [value]="option.id"
                         *ngFor="let option of auditStatusDropdown"
+                        >{{ option?.itemName }}</option
                       >
-                        {{ option?.itemName }}
-                      </option>
                     </select>
                   </div>
                 </td> -->
@@ -232,20 +394,8 @@
                               <i class="fa fa-eye" aria-hidden="true"></i>
                             </a>
                           </ng-container>
-                          <ng-container *ngSwitchDefault>
-                            <a
-                              (click)="navigateTo(row)"
-                              title="View"
-                              [routerLink]="[
-                                '/user/data-upload/upload-form',
-                                row?._id
-                              ]"
-                            >
-                              <i class="fa fa-eye" aria-hidden="true"></i>
-                            </a>
-                          </ng-container>
 
-                          <!-- <ng-container *ngSwitchDefault>
+                          <ng-container *ngSwitchDefault>
                             <a
                               [routerLink]="[
                                 '/user/data-upload/action',
@@ -270,7 +420,7 @@
                               class="btn btn-primary"
                               >Take {{ header.title }}</a
                             >
-                          </ng-container> -->
+                          </ng-container>
                         </ng-container>
                       </ng-container>
                       <span *ngSwitchCase="'audited'">
