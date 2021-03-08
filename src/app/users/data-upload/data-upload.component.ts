@@ -2,10 +2,11 @@ import { Location } from '@angular/common';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import swal from 'sweetalert';
+import { SweetAlert } from 'sweetalert/typings/core';
 
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
 import { USER_TYPE } from '../../models/user/userType';
@@ -17,6 +18,8 @@ import { UPLOAD_STATUS } from '../../util/enums';
 import { FileUpload } from '../../util/fileUpload';
 import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
+
+const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: "app-data-upload",

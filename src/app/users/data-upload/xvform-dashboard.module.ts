@@ -10,9 +10,9 @@ import { FileUpload } from '../../util/fileUpload';
 import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
 import { BulkEntryComponent } from './bulk-entry/bulk-entry.component';
-import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
 import { DataUploadRoutingModule } from './xvform-routing.module';
 
+// import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -23,6 +23,6 @@ import { DataUploadRoutingModule } from './xvform-routing.module';
     SharedModule,
   ],
   providers: [AccessChecker, FileUpload, UserUtility, FinancialDataService],
-  declarations: [DataUploadActionComponent, BulkEntryComponent],
+  declarations: [BulkEntryComponent],
 })
 export class XVFormDashboard {}

@@ -15,14 +15,14 @@ import { MillionPlusCitiesComponent } from './components/million-plus-cities/mil
 import { PreviewComponent } from './components/preview/preview.component';
 import { SolidWasteManagementComponent } from './components/solid-waste-management/solid-waste-management.component';
 import { WasteWaterManagementComponent } from './components/waste-water-management/waste-water-management.component';
-import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
 import { DataUploadComponent } from './xvform-dashboard.component';
 
+// import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
 const routes: Routes = [
   { path: "list", component: DataUploadComponent },
   { path: "bulk-upload", component: BulkEntryComponent },
-  { path: "action", component: DataUploadActionComponent },
-  { path: "action/:id", component: DataUploadActionComponent },
+  // { path: "action", component: DataUploadActionComponent },
+  // { path: "action/:id", component: DataUploadActionComponent },
   { path: ":id", component: DataUploadComponent },
   { path: ":id/:uploadId", component: DataUploadComponent },
 ];

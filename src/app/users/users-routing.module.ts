@@ -36,6 +36,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: "data-upload",
+        loadChildren: () =>
+          import("./data-upload/data-upload.module").then(
+            (m) => m.DataUploadModule
+          ),
+      },
+      {
         path: "list",
         loadChildren: () =>
           import("./list/list.module").then((m) => m.ListModule),
