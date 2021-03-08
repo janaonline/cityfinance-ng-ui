@@ -36,18 +36,17 @@ import {
   REJECT_BY_STATE,
   SAVED_AS_DRAFT,
   UNDER_REVIEW_BY_MoHUA,
-  UNDER_REVIEW_BY_STATE,
+  UNDER_REVIEW_BY_STATE
 } from './util/request-status';
 import { UploadDataUtility } from './util/upload-data.util';
 
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-data-upload",
-  templateUrl: "./data-upload.component.html",
-  styleUrls: ["./data-upload.component.scss"],
+  templateUrl: "./xvform-dashboard.component.html",
+  styleUrls: ["./xvform-dashboard.component.scss"],
 })
-export class DataUploadComponent
-  extends UploadDataUtility
+export class DataUploadComponent extends UploadDataUtility
   implements OnInit, OnDestroy {
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -721,7 +720,7 @@ export class DataUploadComponent
       .subscribe((res) => {
         if (res["data"] && res["data"].length) {
           this.router.navigate([
-            "/user/data-upload/upload-form",
+            "/user/xvform/upload-form",
             res["data"][0]._id,
           ]);
         }
@@ -1031,7 +1030,7 @@ export class DataUploadComponent
             button: "Okay",
           }).then((result) => {
             if (result) {
-              this.router.navigate(["/user/data-upload/list"]);
+              this.router.navigate(["/user/xvform/list"]);
             }
           });
         }
@@ -1255,7 +1254,7 @@ export class DataUploadComponent
           this.fileUpload.uploading = false;
           this.isApiInProgress = false;
           if (result["success"]) {
-            this.router.navigate(["/user/data-upload/list"]);
+            this.router.navigate(["/user/xvform/list"]);
           }
         },
         (error) => {

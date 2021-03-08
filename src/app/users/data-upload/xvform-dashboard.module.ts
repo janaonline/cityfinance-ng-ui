@@ -11,7 +11,7 @@ import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
 import { BulkEntryComponent } from './bulk-entry/bulk-entry.component';
 import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
-import { DataUploadRoutingModule } from './data-upload-routing.module';
+import { DataUploadRoutingModule } from './xvform-routing.module';
 
 @NgModule({
   imports: [
@@ -25,4 +25,4 @@ import { DataUploadRoutingModule } from './data-upload-routing.module';
   providers: [AccessChecker, FileUpload, UserUtility, FinancialDataService],
   declarations: [DataUploadActionComponent, BulkEntryComponent],
 })
-export class DataUploadModule {}
+export class XVFormDashboard {}

@@ -16,7 +16,7 @@ import { PreviewComponent } from './components/preview/preview.component';
 import { SolidWasteManagementComponent } from './components/solid-waste-management/solid-waste-management.component';
 import { WasteWaterManagementComponent } from './components/waste-water-management/waste-water-management.component';
 import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
-import { DataUploadComponent } from './data-upload.component';
+import { DataUploadComponent } from './xvform-dashboard.component';
 
 const routes: Routes = [
   { path: "list", component: DataUploadComponent },

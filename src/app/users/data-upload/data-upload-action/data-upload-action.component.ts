@@ -189,12 +189,12 @@ export class DataUploadActionComponent extends BaseComponent implements OnInit {
           const { data } = result;
           if (data) {
             if (data.completeness === UPLOAD_STATUS.REJECTED) {
-              return this.router.navigate(["/user/data-upload/list"]);
+              return this.router.navigate(["/user/xvform/list"]);
             }
           }
           if (result["success"]) {
             this.fetchFinancialDataById();
-            // this.router.navigate(['/user/data-upload/list']);
+            // this.router.navigate(['/user/xvform/list']);
           }
           this.isApiInProgress = false;
         },
@@ -220,7 +220,7 @@ export class DataUploadActionComponent extends BaseComponent implements OnInit {
         (result) => {
           this.isApiInProgress = false;
           if (result["success"]) {
-            this.router.navigate(["/user/data-upload/list"]);
+            this.router.navigate(["/user/xvform/list"]);
           }
         },
         (error) => {

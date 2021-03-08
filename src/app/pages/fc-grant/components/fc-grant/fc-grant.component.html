@@ -9,7 +9,7 @@
     <div class="align-items-center d-flex flex-wrap">
       <div class="col-xs-12 col-sm-12 col-md-6">
         <div class="pr-lg-4">
-          <h4 style="color: white; font-size: 3rem">
+          <h4 style="color: white; font-size: 3rem;">
             15th Finance Commission<br />
             Grants Management System
           </h4>
@@ -121,7 +121,7 @@
             class="d-flex justify-content-center flex-column align-items-center login-wrapper"
           >
             <span
-              ><span style="font-weight: 600; display: inline"
+              ><span style="font-weight: 600; display: inline;"
                 >APPLICATION STATUS:</span
               >
               {{ financialData.customStatusMessage }}</span
@@ -190,13 +190,11 @@
               </div>
             </div>
             <a
-              style="margin-bottom: 1%"
+              style="margin-bottom: 1%;"
               id="login"
               class="btn btn-primary btn-upload mt-1"
               (click)="
-                goToFormView(
-                  '/user/data-upload/upload-form/' + financialData._id
-                )
+                goToFormView('/user/xvform/upload-form/' + financialData._id)
               "
             >
               <ng-container [ngSwitch]="financialData.isCompleted">
@@ -268,7 +266,7 @@
           class="d-flex justify-content-center flex-column align-items-center"
         >
           <span
-            ><span style="font-weight: 600; display: inline"
+            ><span style="font-weight: 600; display: inline;"
               >APPLICATION STATUS:</span
             >
             Not Filled</span
@@ -276,7 +274,7 @@
           <a
             id="login"
             class="btn btn-primary btn-upload mt-1"
-            (click)="goToFormView('/user/data-upload/upload-form')"
+            (click)="goToFormView('/user/xvform/upload-form')"
             >Fill Up 15th FC Form</a
           >
         </div>
@@ -300,10 +298,10 @@
 <ng-template #historyModal>
   <div class="modal-body">
     <div
-      style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end"
+      style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end;"
     >
       <button
-        style="min-width: min-content"
+        style="min-width: min-content;"
         (click)="closePopUp()"
         class="btn btn-danger"
         title="Close"
@@ -311,7 +309,7 @@
         data-dismiss="modal"
         aria-label="Close"
       >
-        <em class="fa fa-times" style="color: white"></em>
+        <em class="fa fa-times" style="color: white;"></em>
       </button>
     </div>
 

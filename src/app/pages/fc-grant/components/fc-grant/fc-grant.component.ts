@@ -12,7 +12,7 @@ import {
   REJECT_BY_STATE,
   SAVED_AS_DRAFT,
   UNDER_REVIEW_BY_MoHUA,
-  UNDER_REVIEW_BY_STATE,
+  UNDER_REVIEW_BY_STATE
 } from 'src/app/users/data-upload/util/request-status';
 import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { FinancialDataService } from 'src/app/users/services/financial-data.service';
@@ -42,7 +42,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       case USER_TYPE.PARTNER:
       case USER_TYPE.MoHUA:
       case USER_TYPE.ADMIN:
-        this._router.navigate(["/user/data-upload/list"]);
+        this._router.navigate(["/user/xvform/list"]);
         break;
       case undefined:
       case null:
@@ -95,7 +95,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
       try {
         this.financialData = res["data"][0] || null;
         if (!this.financialData) {
-          return this._router.navigate(["/user/data-upload/upload-form"]);
+          return this._router.navigate(["/user/xvform/upload-form"]);
         }
         this.checkULBMilionPlusStatus();
       } catch (error) {
