@@ -271,7 +271,7 @@
                     />
                   </div>
                 </td>
-                <!-- <td>
+                <td>
                   <div class="input-group">
                     <label for="financialYear"></label>
                     <select
@@ -283,14 +283,13 @@
                       <option
                         [value]="option.id"
                         *ngFor="let option of financialYearDropdown"
-                        >{{ option?.itemName }}</option
                       >
+                        {{ option?.itemName }}
+                      </option>
                     </select>
                   </div>
-
-                  
-                </td> -->
-                <!-- <td>
+                </td>
+                <td>
                   <div class="input-group">
                     <label for="auditStatus"></label>
                     <select
@@ -302,11 +301,12 @@
                       <option
                         [value]="option.id"
                         *ngFor="let option of auditStatusDropdown"
-                        >{{ option?.itemName }}</option
                       >
+                        {{ option?.itemName }}
+                      </option>
                     </select>
                   </div>
-                </td> -->
+                </td>
                 <td>
                   <div class="input-group">
                     <label for="uploadStatus"></label>
