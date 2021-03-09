@@ -36,7 +36,7 @@ import {
   REJECT_BY_STATE,
   SAVED_AS_DRAFT,
   UNDER_REVIEW_BY_MoHUA,
-  UNDER_REVIEW_BY_STATE
+  UNDER_REVIEW_BY_STATE,
 } from './util/request-status';
 import { UploadDataUtility } from './util/upload-data.util';
 
@@ -46,7 +46,8 @@ const swal: SweetAlert = require("sweetalert");
   templateUrl: "./xvform-dashboard.component.html",
   styleUrls: ["./xvform-dashboard.component.scss"],
 })
-export class DataUploadComponent extends UploadDataUtility
+export class DataUploadComponent
+  extends UploadDataUtility
   implements OnInit, OnDestroy {
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -729,7 +730,7 @@ export class DataUploadComponent extends UploadDataUtility
 
   getFinancialData() {
     this.financialDataService
-      .fetFinancialData(this.uploadId)
+      .fetchXVFormDataList(this.uploadId)
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
@@ -792,7 +793,7 @@ export class DataUploadComponent extends UploadDataUtility
       ...params,
     };
     this.financialDataService
-      .fetchFinancialDataList(newParams, body)
+      .fetchXVFormDataList(newParams, body)
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 
@@ -1336,7 +1337,7 @@ export class DataUploadComponent extends UploadDataUtility
     }
 
     this.fcFormListSubscription = this.financialDataService
-      .fetchFinancialDataList({ skip, limit: 10 }, this.listFetchOption)
+      .fetchXVFormDataList({ skip, limit: 10 }, this.listFetchOption)
       .subscribe(
         (result) => this.handleResponseSuccess(result),
         (response: HttpErrorResponse) => {
@@ -1357,7 +1358,7 @@ export class DataUploadComponent extends UploadDataUtility
     this.ulblistFetchOption = this.setLIstFetchOptions();
     const { skip } = this.ulblistFetchOption;
     this.financialDataService
-      .fetchFinancialDataList({ skip, limit: 10 }, this.ulblistFetchOption)
+      .fetchXVFormDataList({ skip, limit: 10 }, this.ulblistFetchOption)
       .subscribe(
         (result) => {
           this.handleResponseSuccess(result);
@@ -1468,7 +1469,7 @@ export class DataUploadComponent extends UploadDataUtility
     if (this.isPopupOpen) return;
     this.modalTableData = [];
     this.isPopupOpen = true;
-    this.financialDataService.fetchFinancialDataHistory(row._id).subscribe(
+    this.financialDataService.fetchXVFcFormDataHistory(row._id).subscribe(
       (result: HttpResponse<any>) => {
         if (result["success"]) {
           this.modalTableData = result["data"].map((data) =>
@@ -1836,9 +1837,7 @@ export class DataUploadComponent extends UploadDataUtility
 
   downloadList() {
     const filterOptions = this.setLIstFetchOptions({ download: true });
-    const url = this.financialDataService.getFinancialDataListApi(
-      filterOptions
-    );
+    const url = this.financialDataService.getXVFcFormDataListApi(filterOptions);
     return window.open(url);
   }
 

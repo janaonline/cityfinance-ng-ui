@@ -19,7 +19,7 @@ import {
   IFinancialData,
   MillionPlusCitiesDocuments,
   SolidWasteManagementDocuments,
-  WaterManagement
+  WaterManagement,
 } from '../../models/financial-data.interface';
 import { SolidWasteEmitValue } from '../../models/solid-waste-questions.interface';
 import { UploadDataUtility } from '../../util/upload-data.util';
@@ -33,7 +33,8 @@ import { solidWasterQuestions } from '../configs/solid-waste-management';
   templateUrl: "./financial-uploads.component.html",
   styleUrls: ["./financial-uploads.component.scss"],
 })
-export class FinancialUploadsComponent extends UploadDataUtility
+export class FinancialUploadsComponent
+  extends UploadDataUtility
   implements OnInit, OnDestroy {
   constructor(
     private _matDialog: MatDialog,
@@ -428,7 +429,7 @@ export class FinancialUploadsComponent extends UploadDataUtility
   private initiateDraftByStateAndMoHUA() {
     const body = this.createDataForApprovalInDraftMode();
     return this.financialDataService
-      .updateActionOnFinancialData(body, this.financialData._id)
+      .updateActionOnXVFcFormData(body, this.financialData._id)
       .subscribe(
         (res) => {
           this.draftSavingInProgess = false;
@@ -462,7 +463,7 @@ export class FinancialUploadsComponent extends UploadDataUtility
       isCompleted: false,
     };
 
-    return this.financialDataService.uploadFinancialData(body).subscribe(
+    return this.financialDataService.uploadXVFcFormData(body).subscribe(
       (res) => {
         this.draftSavingInProgess = false;
         this.successMessage = "Saved as Draft";
@@ -547,7 +548,7 @@ export class FinancialUploadsComponent extends UploadDataUtility
       disableClose: true,
     });
 
-    this.financialDataService.uploadFinancialData(body).subscribe(
+    this.financialDataService.uploadXVFcFormData(body).subscribe(
       (res) => {
         this.draftSavingInProgess = false;
         this.successMessage = "Data Upload Complete.";

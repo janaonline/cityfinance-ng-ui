@@ -38,6 +38,27 @@ export class FinancialDataService {
     });
   }
 
+  fetchXVFormDataList(params = {}, body = {}) {
+    let queryParams = new HttpParams(params);
+    for (const key in params) {
+      queryParams = queryParams.set(
+        key,
+        typeof params[key] === "string" ? params[key].trim() : params[key]
+      );
+    }
+    for (const key in body) {
+      queryParams = queryParams.set(
+        key,
+        JSON.stringify(
+          typeof body[key] === "string" ? body[key].trim() : body[key]
+        )
+      );
+    }
+    return this.httpClient.get(`${environment.api.url}xv-fc-form/all`, {
+      params: queryParams,
+    });
+  }
+
   fetStateForULBUnderMoHUA(formStatus?: string) {
     const params = this.httpUtil.convertToHttpParams({ formStatus });
     return this.httpClient.get(
@@ -89,7 +110,32 @@ export class FinancialDataService {
     return `${environment.api.url}ulb-financial-data/all?${params}`;
   }
 
+  getXVFcFormDataListApi(body = {}) {
+    body["token"] = localStorage
+      .getItem("id_token")
+      .replace('"', "")
+      .replace('"', "");
+    body["csv"] = true;
+    let params = new HttpParams();
+    Object.keys(body).forEach((key) => {
+      if (typeof body[key] === "object") {
+        const value = JSON.stringify(body[key]);
+        params = params.append(key, value);
+      } else {
+        params = params.append(key, body[key]);
+      }
+    });
+    return `${environment.api.url}xv-fc-form/all?${params}`;
+  }
+
   updateActionOnFinancialData(data: { [key: string]: any }, requestId: string) {
+    return this.httpClient.post(
+      `${environment.api.url}ulb-financial-data/action/${requestId}`,
+      data
+    );
+  }
+
+  updateActionOnXVFcFormData(data: { [key: string]: any }, requestId: string) {
     return this.httpClient.post(
       `${environment.api.url}ulb-financial-data/action/${requestId}`,
       data
@@ -122,12 +168,26 @@ export class FinancialDataService {
         params = params.append(key, queryParams[key]);
       }
     });
-    return `${environment.api.url}ulb-financial-data/fc-grant/stateForm?${params}`;
+    return `${environment.api.url}xv-fc-form/fc-grant/stateForm?${params}`;
+  }
+
+  fetchXVFcFormDataHistory(id) {
+    return this.httpClient.get(
+      `${environment.api.url}xv-fc-form/history/${id}`
+    );
   }
 
   fetchFinancialDataHistory(id) {
     return this.httpClient.get(
       `${environment.api.url}ulb-financial-data/history/${id}`
+    );
+  }
+
+  uploadXVFcFormData(data: any) {
+    const newData = this.jsonUtil.convert(data);
+    return this.httpClient.post(
+      `${environment.api.url}xv-fc-form`,
+      JSON.stringify(newData)
     );
   }
 

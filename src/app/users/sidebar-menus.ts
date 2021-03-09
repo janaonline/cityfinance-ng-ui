@@ -8,11 +8,10 @@ const accessChecker = new AccessChecker();
 
 export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
   {
-    title:
-      "<span>15<sup style='text-transform: capitalize'>th</sup> FC Grants</span>",
+    title: "Data Upload",
     subMenus: [
       {
-        title: "ULB 15th FC Form Status",
+        title: "ULB Data Upload",
         type: "link",
         route: ["/user/data-upload/list"],
       },

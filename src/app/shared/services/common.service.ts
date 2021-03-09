@@ -319,10 +319,9 @@ export class CommonService {
       params = params.append("sort", JSON.stringify(sort));
     }
 
-    return this.http.get(
-      `${environment.api.url}ulb-financial-data/fc-grant/ulbList`,
-      { params }
-    );
+    return this.http.get(`${environment.api.url}xv-fc-form/fc-grant/ulbList`, {
+      params,
+    });
   }
 
   getULBListApi(body) {
@@ -347,19 +346,19 @@ export class CommonService {
         params = params.append(key, body[key]);
       }
     });
-    return `${environment.api.url}ulb-financial-data/fc-grant/ulbList?${params}`;
+    return `${environment.api.url}xv-fc-form/fc-grant/ulbList?${params}`;
   }
 
   fetchDashboardCardData() {
     return this.http.get(
-      `${environment.api.url}/ulb-financial-data/fc-grant/dashboard-card`
+      `${environment.api.url}xv-fc-form/fc-grant/dashboard-card`
     );
   }
 
   fetchDashboardChartData(queryParams) {
     const params = this.httpUtil.convertToHttpParams(queryParams);
     return this.http.get(
-      `${environment.api.url}/ulb-financial-data/fc-grant/dashboard-chart`,
+      `${environment.api.url}xv-fc-form/fc-grant/dashboard-chart`,
       { params }
     );
   }
