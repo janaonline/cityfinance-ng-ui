@@ -99,8 +99,14 @@ export const appRouter: Routes = [
     loadChildren: () =>
       import("./not-found/not-found.module").then((m) => m.NotFoundModule),
   },
+  {
+    path: "ulb-location-visualize",
+    loadChildren: () =>
+      import("./pages/ulbs-visualization/ulbs-visualization.module").then(
+        (m) => m.UlbsVisualizationModule
+      ),
+  },
 
-  { path: "**", redirectTo: "" },
   { path: "**", redirectTo: "" },
 ];
 
