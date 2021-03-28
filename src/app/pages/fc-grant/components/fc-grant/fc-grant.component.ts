@@ -12,7 +12,7 @@ import {
   REJECT_BY_STATE,
   SAVED_AS_DRAFT,
   UNDER_REVIEW_BY_MoHUA,
-  UNDER_REVIEW_BY_STATE
+  UNDER_REVIEW_BY_STATE,
 } from 'src/app/users/data-upload/util/request-status';
 import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { FinancialDataService } from 'src/app/users/services/financial-data.service';
@@ -91,7 +91,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   }
 
   fetchFinancialDataUpload() {
-    this._financialService.fetchFinancialDataList().subscribe((res) => {
+    this._financialService.fetchXVFormDataList().subscribe((res) => {
       try {
         this.financialData = res["data"][0] || null;
         if (!this.financialData) {
