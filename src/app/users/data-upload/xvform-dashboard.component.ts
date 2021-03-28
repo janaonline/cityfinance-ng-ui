@@ -730,7 +730,7 @@ export class DataUploadComponent
 
   getFinancialData() {
     this.financialDataService
-      .fetchXVFormDataList(this.uploadId)
+      .fetchXVFormDetails(this.uploadId)
       .subscribe(this.handleResponseSuccess, this.handleResponseFailure);
   }
 

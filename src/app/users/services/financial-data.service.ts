@@ -39,7 +39,7 @@ export class FinancialDataService {
   }
 
   fetchXVFormDataList(params = {}, body = {}) {
-    let queryParams = new HttpParams(params);
+    let queryParams = new HttpParams();
     for (const key in params) {
       queryParams = queryParams.set(
         key,
@@ -54,6 +54,7 @@ export class FinancialDataService {
         )
       );
     }
+
     return this.httpClient.get(`${environment.api.url}xv-fc-form/all`, {
       params: queryParams,
     });
@@ -125,6 +126,7 @@ export class FinancialDataService {
         params = params.append(key, body[key]);
       }
     });
+
     return `${environment.api.url}xv-fc-form/all?${params}`;
   }
 
@@ -145,6 +147,12 @@ export class FinancialDataService {
   fetFinancialData(id: string) {
     return this.httpClient.get(
       `${environment.api.url}ulb-financial-data/details/${id}`
+    );
+  }
+
+  fetchXVFormDetails(formId: string) {
+    return this.httpClient.get(
+      `${environment.api.url}xv-fc-form/details/${formId}`
     );
   }
 
