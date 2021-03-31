@@ -468,11 +468,6 @@
       </div>
 
       <div class="ulb-list">
-        <div *ngIf="stateFcGrantDocuments === undefined">
-          <app-pre-loader></app-pre-loader>
-          <app-pre-loader></app-pre-loader>
-        </div>
-
         <ng-container [ngSwitch]="loggedInUserData.role">
           <ng-container *ngSwitchCase="userTypes.STATE">
             <span style="font-weight: 700;"
@@ -551,7 +546,10 @@
                   >
                     <td>
                       {{
-                        (ulbtableDefaultOptions?.currentPage - 1) * 10 + i + 1
+                        (stateDocumentstableDefaultOptions?.currentPage - 1) *
+                          10 +
+                          i +
+                          1
                       }}
                     </td>
                     <td *ngIf="loggedInUserData.role !== userTypes.STATE">
@@ -606,7 +604,7 @@
               *ngIf="ulbtableDefaultOptions.totalCount && ulbList"
               style="float: right; position: relative;"
               id="stateDocuments-pagination"
-              (pageChange)="setulbPage($event)"
+              (pageChange)="setMoreStateForms($event)"
               directionLinks="true"
               autoHide="true"
               previousLabel="Previous"

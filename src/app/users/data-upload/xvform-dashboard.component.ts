@@ -36,7 +36,7 @@ import {
   REJECT_BY_STATE,
   SAVED_AS_DRAFT,
   UNDER_REVIEW_BY_MoHUA,
-  UNDER_REVIEW_BY_STATE,
+  UNDER_REVIEW_BY_STATE
 } from './util/request-status';
 import { UploadDataUtility } from './util/upload-data.util';
 
@@ -46,8 +46,7 @@ const swal: SweetAlert = require("sweetalert");
   templateUrl: "./xvform-dashboard.component.html",
   styleUrls: ["./xvform-dashboard.component.scss"],
 })
-export class DataUploadComponent
-  extends UploadDataUtility
+export class DataUploadComponent extends UploadDataUtility
   implements OnInit, OnDestroy {
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -243,6 +242,13 @@ export class DataUploadComponent
     skip: 0,
   };
 
+  stateFormlistFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0,
+  };
+
   cardData: any;
 
   defaultChartOptions = {
@@ -424,24 +430,27 @@ export class DataUploadComponent
   }
 
   getStateFcDocments() {
-    this.financialDataService.getStateFCDocuments().subscribe((res) => {
-      if (this.loggedInUserData.role === this.userTypes.STATE) {
-        if (res && res["data"] && res["data"].length) {
-          this.stateFcGrantDocuments = {
-            [this.questionForState[0].key]:
-              res["data"][0][this.questionForState[0].key],
-            [this.questionForState[1].key]:
-              res["data"][0][this.questionForState[1].key],
-            [this.questionForState[2].key]:
-              res["data"][0][this.questionForState[2].key],
-          };
-        } else this.stateFcGrantDocuments = null;
-      } else {
-        if (res && res["data"] && res["data"].length) {
-          this.stateFcGrantDocuments = res["data"];
-        } else this.stateFcGrantDocuments = null;
-      }
-    });
+    this.stateFcGrantDocuments = undefined;
+    this.financialDataService
+      .getStateFCDocuments(this.stateFormlistFetchOption)
+      .subscribe((res) => {
+        if (this.loggedInUserData.role === this.userTypes.STATE) {
+          if (res && res["data"] && res["data"].length) {
+            this.stateFcGrantDocuments = {
+              [this.questionForState[0].key]:
+                res["data"][0][this.questionForState[0].key],
+              [this.questionForState[1].key]:
+                res["data"][0][this.questionForState[1].key],
+              [this.questionForState[2].key]:
+                res["data"][0][this.questionForState[2].key],
+            };
+          } else this.stateFcGrantDocuments = null;
+        } else {
+          if (res && res["data"] && res["data"].length) {
+            this.stateFcGrantDocuments = res["data"];
+          } else this.stateFcGrantDocuments = null;
+        }
+      });
   }
 
   filesToSaveForState(values) {
@@ -1390,6 +1399,14 @@ export class DataUploadComponent
       (pageNoClick - 1) * this.ulbtableDefaultOptions.itemPerPage;
     const { skip } = this.ulblistFetchOption;
     this.fetchULBList({ ...this.ulbFilter.value });
+  }
+
+  setMoreStateForms(pageNoClick: number) {
+    this.scrollToULBTable = true;
+    this.stateDocumentstableDefaultOptions.currentPage = pageNoClick;
+    this.stateFormlistFetchOption.skip =
+      (pageNoClick - 1) * this.stateDocumentstableDefaultOptions.itemPerPage;
+    this.getStateFcDocments();
   }
 
   sortById(id: string) {
