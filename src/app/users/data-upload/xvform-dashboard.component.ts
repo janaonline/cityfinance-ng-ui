@@ -448,6 +448,9 @@ export class DataUploadComponent extends UploadDataUtility
         } else {
           if (res && res["data"] && res["data"].length) {
             this.stateFcGrantDocuments = res["data"];
+            if (res.hasOwnProperty("total")) {
+              this.stateDocumentstableDefaultOptions.totalCount = res["total"];
+            }
           } else this.stateFcGrantDocuments = null;
         }
       });
