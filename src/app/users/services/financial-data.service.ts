@@ -108,8 +108,8 @@ export class FinancialDataService {
       body
     );
   }
-  getStateFCDocuments() {
-    return this.httpClient.get(this.getStateFCDocumentApi());
+  getStateFCDocuments(param: { [key: string]: any }) {
+    return this.httpClient.get(this.getStateFCDocumentApi(param));
   }
 
   getStateFCDocumentApi(queryParams: { [key: string]: any } = {}) {
