@@ -221,6 +221,11 @@
 Test
 </a>
                                 </li>
+                                <li routerLinkActive="active" class="d-n-sm" (click)="closeSidebarMenu()">
+                                    <a [routerLink]="['/entry-level']">
+Test
+</a>
+                                </li>
                                 <li routerLinkActive="active" class="d-n-sm">
                                     <a [routerLink]="['/questionnaires/list']" [ngClass]="{ active: isQuestionnaireActive }" *ngIf="
           isLoggedIn
