@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MatAutocompleteModule, MatInputModule, MatGridListModule,MatSidenavModule,MatMenuModule,MatListModule,
+  MatIconModule} from '@angular/material';
+import {MatCardModule} from '@angular/material/card';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
@@ -24,6 +25,14 @@ import { DialogComponent } from './shared/components/dialog/dialog.component';
 import { AppCommonModule } from './shared/modules/app-common/app-common.module';
 import { SharedModule } from './shared/shared.module';
 import { CustomRouteReuseStrategy } from './util/router/reuse-strategy';
+import { EntryLevelComponent } from './pages/entry-level/entry-level.component';
+import { EntryListComponent } from './pages/entry-level/entry-list/entry-list.component';
+import { EntryList1Component } from './pages/entry-level/entry-list1/entry-list1.component';
+import { EntryList2Component } from './pages/entry-level/entry-list2/entry-list2.component';
+import { EntryList3Component } from './pages/entry-level/entry-list3/entry-list3.component';
+import { EntryList4Component } from './pages/entry-level/entry-list4/entry-list4.component';
+import { EntryList5Component } from './pages/entry-level/entry-list5/entry-list5.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
   entryComponents: [DialogComponent],
@@ -37,6 +46,7 @@ import { CustomRouteReuseStrategy } from './util/router/reuse-strategy';
     ModalModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
+    // FormControl,
     SharedModule,
     // CfChartsModule,
     AngularMaterialModule,
@@ -44,6 +54,13 @@ import { CustomRouteReuseStrategy } from './util/router/reuse-strategy';
     AngularMultiSelectModule,
     MatAutocompleteModule,
     MatInputModule,
+    MatGridListModule,
+    MatSidenavModule,
+    MatMenuModule,
+    MatListModule,
+    MatIconModule,
+    MatCardModule,
+    MatFormFieldModule,
 
     CarouselModule.forRoot(),
   ],
@@ -65,6 +82,13 @@ import { CustomRouteReuseStrategy } from './util/router/reuse-strategy';
     HomeComponent,
     MapSectionComponent,
     HeatMapComponent,
+    EntryLevelComponent,
+    EntryListComponent,
+    EntryList1Component,
+    EntryList2Component,
+    EntryList3Component,
+    EntryList4Component,
+    EntryList5Component,
     // InrCurrencyPipe,
   ],
   exports: [],

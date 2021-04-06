@@ -1,0 +1,226 @@
+<!-- <div class="container-fluid">
+    <div class="row">
+        <div class="col-sm">
+          <div class="header">
+
+        </div>
+        </div>
+
+    </div>
+</div> -->
+<div class="container">
+    <form [formGroup]="utilizationReport" (ngSubmit)="onSubmit()">
+        <div class="">
+            <div class="row header">
+                <div class="col header1" style="text-align: center;">Welcome Agra Municipality, Uttar Pradesh</div>
+                <div class="col-sm-12">
+                    <div class="header2">Detailed Utilization Report</div>
+                    <div class="prevBtnDiv">
+                        <button type="button" class="btn btn-primary" id="prevBtn">PREVIEW</button>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="header3">
+                        <p>Utilization report in respect of 15th finance commission tied grants for year</p>
+                        <select class="btnYear d-input">
+                   <option value="2020-21" disabled selected>2020-21</option>
+                 </select>
+
+                        <p>(To be submitted by State in case of Million Plus Cities/UAS and by cities/ ULBs through State in case of Non Million Plus Cities )</p>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- <mat-form-field appearance="fill">
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <input matInput>
+        </mat-form-field> -->
+            <!-- <mat-card>
+        </mat-card>  -->
+            <div class="card" style="background-color: #F7F7F7;">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control d-input" formControlName="stateNameLabel">
+
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control d-input" formControlName="stateName">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control d-input" formControlName="mpcLabel">
+
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control d-input" formControlName="mpcName">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control d-input" formControlName="grantTypeLabel">
+
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control d-input" formControlName="grantType">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card" style="background-color: #F7F7F7;">
+                <div class="card-body">
+                    <p style="margin-left: 5px;">15th FC Tied Grant Position during the year</p>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control d-input" disabled placeholder="i. Unutilized from previous installments">
+
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control inputfield d-input">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control d-input" disabled placeholder="ii. Tied Grant received during the year">
+
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control inputfield">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control d-input" disabled placeholder="iii. Expenditure incurred during the year">
+
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control inputfield">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control clrInput" disabled value="Closing balance at the end of year ( i + ii - iii )">
+
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control clrInput">
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="card" style="background-color: #F7F7F7;">
+                <div class="card-body" style="margin-bottom: 20px;">
+                    <p style="margin-left: 5px;">Component Wise Utilization of Tied grants</p>
+
+                    <table class="table">
+                        <thead>
+                            <tr class="thHeader">
+                                <th scope="col">S.No</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Name of the Project</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Capacity</th>
+                                <th scope="col">Upload Images</th>
+                                <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
+                                <th scope="col">Project Cost</th>
+                                <th scope="col">Expenditure</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="text-align: center;">
+                                <td>1</td>
+                                <td>
+                                    <select style="margin-top: 10px;">
+                                          <option value="" disabled selected>Category</option>
+                                     </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control">
+                                </td>
+                                <td>
+                                    <a href="#">
+                                        <mat-icon aria-hidden="false">
+                                            <img src="../../../../assets/form-icon/Icon feather-upload.svg">
+                                        </mat-icon>
+                                    </a>
+                                </td>
+                                <td style="display: inline-flex;">
+                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control">
+                                </td>
+                                <td>
+                                    <a href="#">
+                                        <mat-icon aria-hidden="false">
+                                            <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                        </mat-icon>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="text-right tableFooterDiv">
+                        <span class="tableFooter">Total</span>
+                        <span class="tableFooter">50000</span>
+                        <span class="tableFooter">25000</span>
+                    </div>
+                    <div class="addMoreDiv text-right">
+                        <button type="button" class="btn" id="addmoreBtn">
+                          <span class="material-icons text-center" style="font-size: 12px; margin-right: 3px;">
+                            add_circle_outline
+                      </span>Add more</button>
+                    </div>
+                    <div class="form-group row formfooter">
+                        <label for="name" class="col-sm-2 col-form-label" style="margin-top: 10px; ">Name :</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <label for="designation" class="col-sm-2 col-form-label" style="margin-top: 10px;">Designation :</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="designation">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="footerBtnDiv text-right">
+                <button type="button" class="btn btn-secondary backbtn" disabled id="">BACK</button>
+                <button type="button" class="btn footerBtn" id="">SAVE AS DRAFT</button>
+                <button type="button" class="btn footerBtn" id="">SAVE AND NEXT</button>
+
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<!-- </mat-sidenav-content>
+</mat-sidenav-container> -->

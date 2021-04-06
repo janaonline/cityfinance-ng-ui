@@ -2,6 +2,13 @@ import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './auth/home/home.component';
+import { EntryLevelComponent } from './pages/entry-level/entry-level.component';
+import { EntryListComponent } from './pages/entry-level/entry-list/entry-list.component';
+import { EntryList1Component } from './pages/entry-level/entry-list1/entry-list1.component';
+import { EntryList2Component } from './pages/entry-level/entry-list2/entry-list2.component';
+import { EntryList3Component } from './pages/entry-level/entry-list3/entry-list3.component';
+import { EntryList4Component } from './pages/entry-level/entry-list4/entry-list4.component';
+import { EntryList5Component } from './pages/entry-level/entry-list5/entry-list5.component';
 
 export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -22,6 +29,31 @@ export const appRouter: Routes = [
     path: "fc_grant",
     loadChildren: () =>
       import("./pages/fc-grant/fc-grant.module").then((m) => m.FcGrantModule),
+  },
+  {
+    path: "entry-level",
+    component: EntryLevelComponent,
+    children:[
+      {
+        path:"entry-list" , component: EntryListComponent
+      },
+      {
+        path:"entry-list1" , component: EntryList1Component
+      },
+      {
+        path:"entry-list2" , component: EntryList2Component
+      },
+      {
+        path:"entry-list3" , component: EntryList3Component
+      },
+      {
+        path:"entry-list4" , component: EntryList4Component
+      },
+      {
+        path:"entry-list5" , component: EntryList5Component
+      }
+
+    ]
   },
   {
     path: "questionnaires",
