@@ -16,7 +16,7 @@
                 <div class="col-sm-12">
                     <div class="header2">Detailed Utilization Report</div>
                     <div class="prevBtnDiv">
-                        <button type="button" class="btn btn-primary" id="prevBtn">PREVIEW</button>
+                        <button type="button" class="btn btn-primary" id="prevBtn" (click)="onPreview()">PREVIEW</button>
                     </div>
                 </div>
 
@@ -24,10 +24,12 @@
                     <div class="header3">
                         <p>Utilization report in respect of 15th finance commission tied grants for year</p>
                         <select class="btnYear d-input">
-                   <option value="2020-21" disabled selected>2020-21</option>
+                   <option  formControlName="grantsYear">2020-21</option>
                  </select>
 
-                        <p>(To be submitted by State in case of Million Plus Cities/UAS and by cities/ ULBs through State in case of Non Million Plus Cities )</p>
+                        <p>
+                            (To be submitted by State in case of Million Plus Cities/UAS and by cities/ ULBs through State in case of Non Million Plus Cities )
+                        </p>
                     </div>
                 </div>
 
@@ -84,40 +86,40 @@
 
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" disabled placeholder="i. Unutilized from previous installments">
+                            <input type="text" class="form-control d-input" formControlName="prevInstallLabel">
 
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control inputfield d-input">
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" disabled placeholder="ii. Tied Grant received during the year">
-
-                        </div>
-                        <div class="col-lg-6">
-                            <input type="text" class="form-control inputfield">
+                            <input type="text" class="form-control inputfield d-input" formControlName="prevInstallInput">
                         </div>
 
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" disabled placeholder="iii. Expenditure incurred during the year">
+                            <input type="text" class="form-control d-input" formControlName="grantRecLabel">
 
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control inputfield">
+                            <input type="text" class="form-control inputfield" formControlName="grantRecInput">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control d-input" formControlName="expendLabel">
+
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control inputfield" formControlName="expendInput">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="text" class="form-control clrInput" disabled value="Closing balance at the end of year ( i + ii - iii )">
+                            <input type="text" class="form-control clrInput" formControlName="closeBalLabel">
 
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control clrInput">
+                            <input type="text" class="form-control clrInput" formControlName="closeBalInput">
                         </div>
 
                     </div>
@@ -144,21 +146,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style="text-align: center;">
-                                <td>1</td>
+                            <tr style="text-align: center; vertical-align: inherit;">
                                 <td>
-                                    <select style="margin-top: 10px;">
-                                          <option value="" disabled selected>Category</option>
+                                    1
+                                </td>
+                                <td>
+                                    <select>
+                                          <option value="" selected formControlName="tdcatInput">Category</option>
                                      </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" formControlName="tdProjectName">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" formControlName="tdDesc">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" formControlName="tdCap">
                                 </td>
                                 <td>
                                     <a href="#">
@@ -168,14 +172,14 @@
                                     </a>
                                 </td>
                                 <td style="display: inline-flex;">
-                                    <input type="text" class="form-control">
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" formControlName="tdLat">
+                                    <input type="text" class="form-control" formControlName="tdLong">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" formControlName="tdProjCost">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" formControlName="tdExpend">
                                 </td>
                                 <td>
                                     <a href="#">
@@ -201,11 +205,11 @@
                     <div class="form-group row formfooter">
                         <label for="name" class="col-sm-2 col-form-label" style="margin-top: 10px; ">Name :</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="name">
+                            <input type="text" class="form-control" id="name" formControlName="name">
                         </div>
                         <label for="designation" class="col-sm-2 col-form-label" style="margin-top: 10px;">Designation :</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="designation">
+                            <input type="text" class="form-control" id="designation" formControlName="desi">
                         </div>
                     </div>
 
@@ -214,7 +218,7 @@
             <div class="footerBtnDiv text-right">
                 <button type="button" class="btn btn-secondary backbtn" disabled id="">BACK</button>
                 <button type="button" class="btn footerBtn" id="">SAVE AS DRAFT</button>
-                <button type="button" class="btn footerBtn" id="">SAVE AND NEXT</button>
+                <button type="submit" class="btn footerBtn" id="">SAVE AND NEXT</button>
 
             </div>
 

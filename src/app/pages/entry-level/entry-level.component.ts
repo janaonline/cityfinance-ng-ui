@@ -11,7 +11,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 export class EntryLevelComponent implements OnInit {
-   opened="true"
+   opened="true";
 
   constructor() { }
 
