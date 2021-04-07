@@ -19,7 +19,7 @@ import {
   IFinancialData,
   MillionPlusCitiesDocuments,
   SolidWasteManagementDocuments,
-  WaterManagement,
+  WaterManagement
 } from '../../models/financial-data.interface';
 import { SolidWasteEmitValue } from '../../models/solid-waste-questions.interface';
 import { UploadDataUtility } from '../../util/upload-data.util';
@@ -33,8 +33,7 @@ import { solidWasterQuestions } from '../configs/solid-waste-management';
   templateUrl: "./financial-uploads.component.html",
   styleUrls: ["./financial-uploads.component.scss"],
 })
-export class FinancialUploadsComponent
-  extends UploadDataUtility
+export class FinancialUploadsComponent extends UploadDataUtility
   implements OnInit, OnDestroy {
   constructor(
     private _matDialog: MatDialog,
@@ -651,7 +650,7 @@ export class FinancialUploadsComponent
     };
 
     this.financialDataService
-      .updateActionOnFinancialData(body, this.financialData._id)
+      .updateActionOnXVFcFormData(body, this.financialData._id)
       .subscribe(
         (res) => {
           this._matDialog.closeAll();
