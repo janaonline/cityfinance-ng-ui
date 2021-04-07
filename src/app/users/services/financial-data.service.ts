@@ -139,7 +139,7 @@ export class FinancialDataService {
 
   updateActionOnXVFcFormData(data: { [key: string]: any }, requestId: string) {
     return this.httpClient.post(
-      `${environment.api.url}ulb-financial-data/action/${requestId}`,
+      `${environment.api.url}xv-fc-form/action/${requestId}`,
       data
     );
   }
