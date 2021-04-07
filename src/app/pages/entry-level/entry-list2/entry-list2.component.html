@@ -1,55 +1,39 @@
-<!-- <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm">
-          <div class="header">
-
-        </div>
-        </div>
-
-    </div>
-</div> -->
 <div class="container">
-    <form [formGroup]="utilizationReport" (ngSubmit)="onSubmit()">
-        <div class="">
-            <div class="row header">
-                <div class="col header1" style="text-align: center;">Welcome Agra Municipality, Uttar Pradesh</div>
-                <div class="col-sm-12">
-                    <div class="header2">Detailed Utilization Report</div>
-                    <div class="prevBtnDiv">
-                        <button type="button" class="btn btn-primary" id="prevBtn" (click)="onPreview()">PREVIEW</button>
-                    </div>
-                </div>
 
-                <div class="col-sm-12">
-                    <div class="header3">
-                        <p>Utilization report in respect of 15th finance commission tied grants for year</p>
-                        <select class="btnYear d-input">
-                   <option  formControlName="grantsYear">2020-21</option>
+    <div class="row header">
+        <div class="col header1" style="text-align: center;">Welcome Agra Municipality, Uttar Pradesh</div>
+        <div class="col-sm-12">
+            <div class="header2">Detailed Utilization Report</div>
+            <div class="prevBtnDiv">
+                <button type="button" class="btn btn-primary" id="prevBtn" (click)="onPreview()">PREVIEW</button>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="header3">
+                <p>Utilization report in respect of 15th finance commission tied grants for year</p>
+                <select class="btnYear d-input" style="border-radius: 4px;">
+                  <!-- formControlName="grantsYear" -->
+                   <option value="2020-21">2020-21</option>
                  </select>
 
-                        <p>
-                            (To be submitted by State in case of Million Plus Cities/UAS and by cities/ ULBs through State in case of Non Million Plus Cities )
-                        </p>
-                    </div>
-                </div>
-
-
+                <p>
+                    (To be submitted by State in case of Million Plus Cities/UAS and by cities/ ULBs through State in case of Non Million Plus Cities )
+                </p>
             </div>
+        </div>
 
-            <!-- <mat-form-field appearance="fill">
-            <input matInput>
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-            <input matInput>
-        </mat-form-field> -->
-            <!-- <mat-card>
-        </mat-card>  -->
+
+    </div>
+    <form [formGroup]="utilizationReport" (ngSubmit)="onSubmit()">
+        <div class="form-group">
             <div class="card" style="background-color: #F7F7F7;">
                 <div class="card-body">
 
-                    <div class="row">
+                    <div class="row" style="vertical-align: inherit;">
                         <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" formControlName="stateNameLabel">
+                            <label for="" class="labelField">State Name</label>
+                            <!-- <input type="text" class="form-control d-input" formControlName="stateNameLabel"> -->
 
                         </div>
                         <div class="col-lg-6">
@@ -59,7 +43,8 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" formControlName="mpcLabel">
+                            <label for="" class="labelField">Name of MPC/UA/NMPC</label>
+                            <!-- <input type="text" class="form-control d-input" formControlName="mpcLabel"> -->
 
                         </div>
                         <div class="col-lg-6">
@@ -69,7 +54,8 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" formControlName="grantTypeLabel">
+                            <label for="" class="labelField">Type of grant</label>
+                            <!-- <input type="text" class="form-control d-input" formControlName="grantTypeLabel"> -->
 
                         </div>
                         <div class="col-lg-6">
@@ -86,7 +72,8 @@
 
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" formControlName="prevInstallLabel">
+                            <label for="" class="labelField">i. Unutilized from previous installments</label>
+                            <!-- <input type="text" class="form-control d-input" formControlName="prevInstallLabel"> -->
 
                         </div>
                         <div class="col-lg-6">
@@ -96,7 +83,8 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" formControlName="grantRecLabel">
+                            <label for="" class="labelField">ii. Tied Grant received during the year</label>
+                            <!-- <input type="text" class="form-control d-input" formControlName="grantRecLabel"> -->
 
                         </div>
                         <div class="col-lg-6">
@@ -106,7 +94,8 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" formControlName="expendLabel">
+                            <label for="" class="labelField">iii. Expenditure incurred during the year</label>
+                            <!-- <input type="text" class="form-control d-input" formControlName="expendLabel"> -->
 
                         </div>
                         <div class="col-lg-6">
@@ -115,7 +104,9 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="text" class="form-control clrInput" formControlName="closeBalLabel">
+                            <label for="" class="labelField" style="background-color: #26A1A1;
+                            color: #ffff;">Closing balance at the end of year ( i + ii - iii ) </label>
+                            <!-- <input type="text" class="form-control clrInput" formControlName="closeBalLabel"> -->
 
                         </div>
                         <div class="col-lg-6">
@@ -145,14 +136,15 @@
                                 <th scope="col"></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr style="text-align: center; vertical-align: inherit;">
+                        <tbody formArrayName="utilizationTabel">
+                            <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
+                            <tr *ngFor="let item of tabelRows.controls; let i=index" [formGroupName]="i" style="text-align: center; vertical-align: inherit;">
                                 <td>
-                                    1
+                                    <span>{{1+i}}</span>
                                 </td>
                                 <td>
-                                    <select>
-                                          <option value="" selected formControlName="tdcatInput">Category</option>
+                                    <select formControlName="tdcatInput">
+                                          <option selected>Category</option>
                                      </select>
                                 </td>
                                 <td>
@@ -182,7 +174,7 @@
                                     <input type="text" class="form-control" formControlName="tdExpend">
                                 </td>
                                 <td>
-                                    <a href="#">
+                                    <a (click)="deleteRow(i)">
                                         <mat-icon aria-hidden="false">
                                             <img src="../../../../assets/form-icon/Icon material-delete.svg">
                                         </mat-icon>
@@ -190,14 +182,28 @@
                                 </td>
                             </tr>
                         </tbody>
+                        <tbody>
+                            <tr class="tableFooterDiv" style="text-align: center; vertical-align: inherit;">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><span>Total</span></td>
+                                <td><span>500000</span></td>
+                                <td> <span>250000</span></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
                     </table>
-                    <div class="text-right tableFooterDiv">
+                    <!-- <div class="text-right tableFooterDiv">
                         <span class="tableFooter">Total</span>
                         <span class="tableFooter">50000</span>
                         <span class="tableFooter">25000</span>
-                    </div>
+                    </div> -->
                     <div class="addMoreDiv text-right">
-                        <button type="button" class="btn" id="addmoreBtn">
+                        <button type="button" class="btn" (click)="addRow()" id="addmoreBtn">
                           <span class="material-icons text-center" style="font-size: 12px; margin-right: 3px;">
                             add_circle_outline
                       </span>Add more</button>
