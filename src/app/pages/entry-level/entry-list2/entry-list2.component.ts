@@ -57,7 +57,7 @@ export class EntryList2Component implements OnInit {
   }
 
   onPreview(){
-    const dialogRef = this.dialog.open(EntryList2Component);
+    const dialogRef = this.dialog.open(previewContent);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -88,4 +88,4 @@ export class EntryList2Component implements OnInit {
 
 }
 
-
+export class previewContent {}
