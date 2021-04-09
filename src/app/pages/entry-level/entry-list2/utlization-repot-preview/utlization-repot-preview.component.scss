@@ -1,0 +1,91 @@
+.header {
+    background-color: #047474;
+    height: 120px;
+    display: inline-block;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.mat-dialog-content {
+    padding: 0 0 0 0;
+    max-width: 100vw;
+    max-height: 100vw;
+}
+
+.listitem_head {
+    margin-top: 5px;
+    padding: 5px 5px;
+    font-size: 22px;
+    font-family: Roboto;
+    font-weight: normal;
+    display: inline-block;
+}
+
+.listitem_grantYear {
+    display: inline-block;
+    font-weight: normal;
+    width: 100px;
+    height: 30px;
+    color: #3D3D3D;
+    margin-left: 10px;
+    background-color: aliceblue;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.listitem_subHead {
+    font-size: 16px;
+    font-weight: normal;
+    font-family: Roboto;
+    padding: 5px 5px;
+}
+
+.dnDiv {
+    margin-top: 10px;
+    margin-right: 5%;
+}
+
+.dnldBtn {
+    background-color: #26A1A1;
+    color: #FFFFFF;
+    font-weight: normal;
+}
+
+.card2Div {
+    margin-top: 5px;
+    padding: 2px 2px;
+}
+
+.mat-dialog-container {
+    padding: 0;
+}
+
+.mat-card2 {
+    padding: 5px 10px;
+    margin: 10px 40px;
+    background-color: #EBF5F5;
+}
+
+.card2 {
+    width: 50%;
+    font-weight: normal;
+    padding: 2px 5px;
+}
+
+.crd-ls-div {
+    margin-bottom: 15px;
+}
+
+.c-2-d {
+    margin-left: 15px;
+}
+
+.card3 {
+    width: 50%;
+    font-weight: 500;
+    padding: 2px 5px;
+}
+
+label {
+    font-weight: normal;
+}

@@ -2,17 +2,23 @@ import { Component, OnInit } from '@angular/core';
 
 import {  FormArray, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { UtlizationRepotPreviewComponent } from './utlization-repot-preview/utlization-repot-preview.component';
+// import { utilizationreportpreview } from './utilization-report-preview';
+
 
 @Component({
   selector: 'app-entry-list2',
   templateUrl: './entry-list2.component.html',
   styleUrls: ['./entry-list2.component.scss']
 })
+
+
 export class EntryList2Component implements OnInit {
 
   constructor(private fb: FormBuilder, public dialog: MatDialog) { }
   utilizationReport: FormGroup;
+   hidden = true;
 
   ngOnInit() {
 
@@ -57,12 +63,15 @@ export class EntryList2Component implements OnInit {
   }
 
   onPreview(){
-    const dialogRef = this.dialog.open(previewContent);
-
-    dialogRef.afterClosed().subscribe(result => {
+    const dialogRef = this.dialog.open(UtlizationRepotPreviewComponent, {data: this.utilizationReport,
+      height: '100%', width: '100%',} );
+     this.hidden = false;
+     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
+      this.hidden = true;
     });
   }
+
  addRow(){
   this.tabelRows.push(this.fb.group({
 
@@ -88,4 +97,4 @@ export class EntryList2Component implements OnInit {
 
 }
 
-export class previewContent {}
+

@@ -1,0 +1,98 @@
+<mat-dialog-content class="mat-typography" style="margin-top: 0;">
+    <mat-card class="header">
+
+        <label class="listitem_head" style="margin-top: 8px;">
+              Utilization report in respect of 15th finance commission tied grants for year</label>
+        <label class="listitem_grantYear">2020-21</label>
+        <label class="listitem_subHead">
+              (To be submitted by State in case of Million Plus Cities/UAS and by cities/ ULBs through State in case of Non Million Plus Cities )
+            </label>
+
+    </mat-card>
+    <div class="text-right dnDiv">
+        <button mat-button class="dnldBtn">Download as PDF</button>
+    </div>
+
+    <mat-card class="mat-card2">
+        <div class="card2Div">
+            <label for="" class="card2">1. State Name</label>
+            <label for="" class="card2">{{data.controls.stateName.value}} </label>
+        </div>
+        <div>
+            <label for="" class="card2">2. Name of MPC/UA/NMPC</label>
+            <label for="" class="card2">{{data.controls.mpcName.value}}  </label>
+        </div>
+        <div>
+            <label for="" class="card2">3. Type of grant</label>
+            <label for="" class="card2">{{data.controls.grantType.value}}  </label>
+        </div>
+
+    </mat-card>
+    <mat-card class="mat-card2">
+        <div class="card2Div">
+            <label>4. 15th FC Tied Grant Position during the year :</label>
+        </div>
+        <div class="c-2-d">
+            <label for="" class="card2">(i) Unutilized from previous installments</label>
+            <label for="" class="card2">{{data.controls.prevInstallInput.value}} </label>
+        </div>
+        <div class="c-2-d">
+            <label for="" class="card2">(ii) Tied Grant received during the year</label>
+            <label for="" class="card2">{{data.controls.grantRecInput.value}}  </label>
+        </div>
+        <div class="c-2-d">
+            <label for="" class="card2">(iii) Expenditure incurred during the year</label>
+            <label for="" class="card2">{{data.controls.expendInput.value}}  </label>
+        </div>
+        <div class="crd-ls-div c-2-d">
+            <label for="" class="card3"> <b>(vi) Closing balance at the end of year (2(i)+2(ii)-2(iii))</b> </label>
+            <label for="" class="card3"> <b>{{data.controls.closeBalInput.value}} </b>  </label>
+        </div>
+
+    </mat-card>
+    <mat-card class="mat-card2">
+        <div class="card2Div">
+            <label>5. Component Wise Utilization of Tied grants (break-up of expenditure incurred in 2(iii) :</label>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr class="thHeader">
+                    <th scope="col">S.No</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Name of the Project</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Capacity</th>
+                    <th scope="col">Upload Images</th>
+                    <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
+                    <th scope="col">Project Cost</th>
+                    <th scope="col">Expenditure</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of data.controls.utilizationTabel.controls; let i=index" style="text-align: center; vertical-align: inherit;">
+                    <td>{{1+i}}</td>
+                    <td>{{data.controls.utilizationTabel.tdcatInput.controls[i]}}</td>
+                    <td>{{data.controls.utilizationTabel.tdProjectName}}</td>
+                    <td>{{data.controls.utilizationTabel.tdDesc}}</td>
+                    <td>{{data.controls.utilizationTabel.tdCap}}</td>
+                    <td>{{data.controls.utilizationTabel.tdLat}}</td>
+                    <td>{{data.controls.utilizationTabel.tdLong}}</td>
+                    <td>{{data.controls.utilizationTabel.tdProjCost}}</td>
+                    <td>{{data.controls.utilizationTabel.tdExpend}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-card>
+
+
+
+
+
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Save</button>
+</mat-dialog-actions>
