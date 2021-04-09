@@ -1,10 +1,18 @@
 <mat-dialog-content class="mat-typography" style="margin-top: 0;">
     <mat-card class="header">
+        <div class="text-right">
+            <a mat-dialog-close>
+                <mat-icon aria-hidden="false">
+                    <img src="../../../../../assets/form-icon/Icon material-close.svg">
+                </mat-icon>
+            </a>
+        </div>
 
-        <label class="listitem_head" style="margin-top: 8px;">
+
+        <label class="listitem_head">
               Utilization report in respect of 15th finance commission tied grants for year</label>
         <label class="listitem_grantYear">2020-21</label>
-        <label class="listitem_subHead">
+        <label class="listitem_subHead" style="margin-bottom: 2px;">
               (To be submitted by State in case of Million Plus Cities/UAS and by cities/ ULBs through State in case of Non Million Plus Cities )
             </label>
 
@@ -16,15 +24,15 @@
     <mat-card class="mat-card2">
         <div class="card2Div">
             <label for="" class="card2">1. State Name</label>
-            <label for="" class="card2">{{data.controls.stateName.value}} </label>
+            <label for="" class="card2">{{data[0].stateName}} </label>
         </div>
         <div>
             <label for="" class="card2">2. Name of MPC/UA/NMPC</label>
-            <label for="" class="card2">{{data.controls.mpcName.value}}  </label>
+            <label for="" class="card2">{{data[0].mpcName}}  </label>
         </div>
         <div>
             <label for="" class="card2">3. Type of grant</label>
-            <label for="" class="card2">{{data.controls.grantType.value}}  </label>
+            <label for="" class="card2">{{data[0].grantType}}  </label>
         </div>
 
     </mat-card>
@@ -34,19 +42,19 @@
         </div>
         <div class="c-2-d">
             <label for="" class="card2">(i) Unutilized from previous installments</label>
-            <label for="" class="card2">{{data.controls.prevInstallInput.value}} </label>
+            <label for="" class="card2">{{data[0].prevInstallInput}} </label>
         </div>
         <div class="c-2-d">
             <label for="" class="card2">(ii) Tied Grant received during the year</label>
-            <label for="" class="card2">{{data.controls.grantRecInput.value}}  </label>
+            <label for="" class="card2">{{data[0].grantRecInput}}  </label>
         </div>
         <div class="c-2-d">
             <label for="" class="card2">(iii) Expenditure incurred during the year</label>
-            <label for="" class="card2">{{data.controls.expendInput.value}}  </label>
+            <label for="" class="card2">{{data[0].expendInput}}  </label>
         </div>
         <div class="crd-ls-div c-2-d">
             <label for="" class="card3"> <b>(vi) Closing balance at the end of year (2(i)+2(ii)-2(iii))</b> </label>
-            <label for="" class="card3"> <b>{{data.controls.closeBalInput.value}} </b>  </label>
+            <label for="" class="card3"> <b>{{data[1]}} </b>  </label>
         </div>
 
     </mat-card>
@@ -71,19 +79,43 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of data.controls.utilizationTabel.controls; let i=index" style="text-align: center; vertical-align: inherit;">
+                <tr *ngFor="let item of data[0].utilizationTabel; let i=index" style="text-align: center; vertical-align: inherit;">
                     <td>{{1+i}}</td>
-                    <td>{{data.controls.utilizationTabel.tdcatInput.controls[i]}}</td>
-                    <td>{{data.controls.utilizationTabel.tdProjectName}}</td>
-                    <td>{{data.controls.utilizationTabel.tdDesc}}</td>
-                    <td>{{data.controls.utilizationTabel.tdCap}}</td>
-                    <td>{{data.controls.utilizationTabel.tdLat}}</td>
-                    <td>{{data.controls.utilizationTabel.tdLong}}</td>
-                    <td>{{data.controls.utilizationTabel.tdProjCost}}</td>
-                    <td>{{data.controls.utilizationTabel.tdExpend}}</td>
+                    <td>{{data[0].utilizationTabel[i].tdcatInput}}</td>
+                    <td>{{data[0].utilizationTabel[i].tdProjectName}}</td>
+                    <td>{{data[0].utilizationTabel[i].tdDesc}}</td>
+                    <td>{{data[0].utilizationTabel[i].tdCap}}</td>
+                    <td>
+                        <!-- {{data[0].utilizationTabel[0][i].imgUpload}} -->
+                    </td>
+                    <td>
+                        <label for="" class="bor-in-l">{{data[0].utilizationTabel[i].tdLat}}</label>
+                        <label for="" class="bor-in-l" style="margin-left: 5px;">{{data[0].utilizationTabel[i].tdLong}}</label>
+
+                    </td>
+                    <td> <label class="bor-in-l" for="">{{data[0].utilizationTabel[i].tdProjCost}}</label></td>
+                    <td> <label for="" class="bor-in-l">{{data[0].utilizationTabel[i].tdExpend}}</label> </td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr class="tableFooterDiv" style="text-align: center; vertical-align: inherit;">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><span>Total</span></td>
+                    <td><span>500000</span></td>
+                    <td> <span>250000</span></td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
+        <div style="margin-left: 73%;">
+            <p class="f-d-n "><b>Name : {{data[0].name}} </b></p>
+            <p class="f-d-n "><b>Designation : {{data[0].desi}} </b></p>
+        </div>
     </mat-card>
 
 
@@ -92,7 +124,3 @@
 
 
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Save</button>
-</mat-dialog-actions>

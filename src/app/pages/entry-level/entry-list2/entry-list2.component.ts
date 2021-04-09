@@ -19,6 +19,7 @@ export class EntryList2Component implements OnInit {
   constructor(private fb: FormBuilder, public dialog: MatDialog) { }
   utilizationReport: FormGroup;
    hidden = true;
+   closeBalInput:Number;
 
   ngOnInit() {
 
@@ -26,29 +27,31 @@ export class EntryList2Component implements OnInit {
     this.utilizationReport = this.fb.group({
       //  'grantsYear' : new FormControl({value:'', disabled: true}),
 
-       'stateName': new FormControl({value: 'Uttar Pradesh', disabled: true}, Validators.required),
-       'mpcName': new FormControl( {value: 'Agra Municipality', disabled: true}, Validators.required),
-       'grantType': new FormControl( {value: 'Tied', disabled: true}, Validators.required),
-       'prevInstallInput': new FormControl( {value: '', disabled: false}, Validators.required),
-       'grantRecInput': new FormControl( {value: '', disabled: false}, Validators.required),
-       'expendInput': new FormControl( {value: '', disabled: false}, Validators.required),
-       'closeBalInput': new FormControl( {value: '', disabled: false}, Validators.required),
+       'stateName': new FormControl( 'Uttar Pradesh', Validators.required),
+       'mpcName': new FormControl( 'Agra Municipality', Validators.required),
+       'grantType': new FormControl('Tied', Validators.required),
+       prevInstallInput: new FormControl( {value: '', disabled: false}, Validators.required),
+       grantRecInput: new FormControl( {value: '', disabled: false}, Validators.required),
+       expendInput: new FormControl( {value: '', disabled: false}, Validators.required),
+      //  'closeBalInput': new FormControl( {value: '', disabled: false}, Validators.required),
 
       // -------tabel-input----
       utilizationTabel: this.fb.array([this.fb.group({
-        'tdcatInput': new FormControl( {value: 'Category', disabled: true}, Validators.required),
+        'tdcatInput': new FormControl( {value: 'Category', disabled: false}, Validators.required),
         'tdProjectName': new FormControl( {value: '', disabled: false}, Validators.required),
         'tdDesc': new FormControl( {value: '', disabled: false}, Validators.required),
+        'imgUpload' : new FormControl(''),
         'tdCap': new FormControl( {value: '', disabled: false}, Validators.required),
         'tdLat': new FormControl( {value: '', disabled: false}, Validators.required),
         'tdLong': new FormControl( {value: '', disabled: false}, Validators.required),
         'tdProjCost': new FormControl( {value: '', disabled: false}, Validators.required),
         'tdExpend': new FormControl( {value: '', disabled: false}, Validators.required),
-
+        // name: new FormControl('', [Validators.required, Validators.minLength(3)]),
       })]),
 
       'name': new FormControl( {value: '', disabled: false}, Validators.required),
-      'desi': new FormControl( {value: '', disabled: false}, Validators.required)
+      'desi': new FormControl( {value: '', disabled: false}, Validators.required),
+
     });
 
 
@@ -56,6 +59,12 @@ export class EntryList2Component implements OnInit {
   get tabelRows() {
     return this.utilizationReport.get('utilizationTabel') as FormArray;
   }
+  calAmount(){
+    // alert("hello")
+    this.closeBalInput = Number(this.utilizationReport.controls.prevInstallInput.value) +
+    Number(this.utilizationReport.controls.grantRecInput.value) - Number(this.utilizationReport.controls.expendInput.value);
+  }
+
 
   onSubmit(){
     alert("Submit and Next?")
@@ -63,7 +72,7 @@ export class EntryList2Component implements OnInit {
   }
 
   onPreview(){
-    const dialogRef = this.dialog.open(UtlizationRepotPreviewComponent, {data: this.utilizationReport,
+    const dialogRef = this.dialog.open(UtlizationRepotPreviewComponent, {data: [this.utilizationReport.value, this.closeBalInput],
       height: '100%', width: '100%',} );
      this.hidden = false;
      dialogRef.afterClosed().subscribe(result => {
@@ -75,7 +84,7 @@ export class EntryList2Component implements OnInit {
  addRow(){
   this.tabelRows.push(this.fb.group({
 
-    'tdcatInput': new FormControl( {value: 'Category', disabled: true}, Validators.required),
+    'tdcatInput': new FormControl( {value: 'Category', disabled: false}, Validators.required),
     'tdProjectName': new FormControl( {value: '', disabled: false}, Validators.required),
     'tdDesc': new FormControl( {value: '', disabled: false}, Validators.required),
     'tdCap': new FormControl( {value: '', disabled: false}, Validators.required),

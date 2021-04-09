@@ -37,7 +37,7 @@
 
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" formControlName="stateName">
+                            <input type="text" class="form-control d-input" disabled formControlName="stateName">
                         </div>
 
                     </div>
@@ -48,7 +48,7 @@
 
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" formControlName="mpcName">
+                            <input type="text" class="form-control d-input" disabled formControlName="mpcName">
                         </div>
 
                     </div>
@@ -59,7 +59,7 @@
 
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" formControlName="grantType">
+                            <input type="text" class="form-control d-input" disabled formControlName="grantType">
                         </div>
                     </div>
 
@@ -77,7 +77,7 @@
 
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control inputfield d-input" formControlName="prevInstallInput">
+                            <input type="number" class="form-control inputfield d-input" (change)="calAmount()" formControlName="prevInstallInput">
                         </div>
 
                     </div>
@@ -88,7 +88,7 @@
 
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control inputfield" formControlName="grantRecInput">
+                            <input type="number" class="form-control inputfield" (change)="calAmount()" formControlName="grantRecInput">
                         </div>
 
                     </div>
@@ -99,7 +99,7 @@
 
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control inputfield" formControlName="expendInput">
+                            <input type="number" class="form-control inputfield" (change)="calAmount()" formControlName="expendInput">
                         </div>
                     </div>
                     <div class="row">
@@ -110,8 +110,9 @@
 
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control clrInput" formControlName="closeBalInput">
-
+                            <!-- <input type="text" class="form-control clrInput" formControlName="closeBalInput"> -->
+                            <label for="" class="labelField" style="background-color: #26A1A1;
+                            color: #ffff; height: 28px; padding: 4px 10px;">{{closeBalInput}}</label>
                         </div>
 
                     </div>
@@ -158,10 +159,12 @@
                                     <input type="text" class="form-control" formControlName="tdCap">
                                 </td>
                                 <td>
-                                    <a href="#">
+                                    <a>
+
                                         <mat-icon aria-hidden="false">
                                             <img src="../../../../assets/form-icon/Icon feather-upload.svg">
                                         </mat-icon>
+
                                     </a>
                                 </td>
                                 <td style="display: inline-flex;">
