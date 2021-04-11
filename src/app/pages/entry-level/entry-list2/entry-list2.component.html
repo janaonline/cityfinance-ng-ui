@@ -172,10 +172,10 @@
                                     <input type="text" class="form-control" formControlName="tdLong">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" formControlName="tdProjCost">
+                                    <input type="text" class="form-control" (change)="totalProCost(i)" formControlName="tdProjCost">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" formControlName="tdExpend">
+                                    <input type="text" class="form-control" (change)="totalExpCost(i)" formControlName="tdExpend">
                                 </td>
                                 <td>
                                     <a (click)="deleteRow(i)">
@@ -194,9 +194,9 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td><span>Total</span></td>
-                                <td><span>500000</span></td>
-                                <td> <span>250000</span></td>
+                                <td><span><b> Total </b> </span></td>
+                                <td><span> <b> {{projectCost}}</b></span></td>
+                                <td> <span> <b> {{projectExp}}</b> </span></td>
                                 <td></td>
                             </tr>
                         </tbody>

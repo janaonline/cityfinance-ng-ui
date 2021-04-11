@@ -19,8 +19,9 @@ export class EntryList2Component implements OnInit {
   constructor(private fb: FormBuilder, public dialog: MatDialog) { }
   utilizationReport: FormGroup;
    hidden = true;
-   closeBalInput:Number;
-
+   closeBalInput:Number = 0;
+   projectCost = 0;
+   projectExp = 0;
   ngOnInit() {
 
 
@@ -44,8 +45,8 @@ export class EntryList2Component implements OnInit {
         'tdCap': new FormControl( {value: '', disabled: false}, Validators.required),
         'tdLat': new FormControl( {value: '', disabled: false}, Validators.required),
         'tdLong': new FormControl( {value: '', disabled: false}, Validators.required),
-        'tdProjCost': new FormControl( {value: '', disabled: false}, Validators.required),
-        'tdExpend': new FormControl( {value: '', disabled: false}, Validators.required),
+        tdProjCost: new FormControl( {value: '', disabled: false}, Validators.required),
+        tdExpend: new FormControl( {value: '', disabled: false}, Validators.required),
         // name: new FormControl('', [Validators.required, Validators.minLength(3)]),
       })]),
 
@@ -65,6 +66,21 @@ export class EntryList2Component implements OnInit {
     Number(this.utilizationReport.controls.grantRecInput.value) - Number(this.utilizationReport.controls.expendInput.value);
   }
 
+   totalProCost(i){
+     this.projectCost =0;
+    for(let j=0; j < this.tabelRows.length; j++){
+     // console.log(this.projectCost + +this.utilizationReport.controls.utilizationTabel.value[j].tdProjCost)
+      this.projectCost = this.projectCost + +this.utilizationReport.controls.utilizationTabel.value[j].tdProjCost;
+
+    }
+ }
+  totalExpCost(i) {
+    this.projectExp =0;
+    for(let j=0; j < this.tabelRows.length; j++){
+    this.projectExp = this.projectExp + Number(this.utilizationReport.controls.utilizationTabel.value[j].tdExpend);
+   // console.log(this.projectExp);
+    }
+  }
 
   onSubmit(){
     alert("Submit and Next?")
@@ -72,7 +88,8 @@ export class EntryList2Component implements OnInit {
   }
 
   onPreview(){
-    const dialogRef = this.dialog.open(UtlizationRepotPreviewComponent, {data: [this.utilizationReport.value, this.closeBalInput],
+    const dialogRef = this.dialog.open(UtlizationRepotPreviewComponent,
+       {data: [this.utilizationReport.value, this.closeBalInput,this.projectCost,this.projectExp],
       height: '100%', width: '100%',} );
      this.hidden = false;
      dialogRef.afterClosed().subscribe(result => {
@@ -102,6 +119,8 @@ export class EntryList2Component implements OnInit {
 
   deleteRow(i){
     this.tabelRows.removeAt(i);
+    this.totalProCost(i);
+    this.totalExpCost(i);
   }
 
 }

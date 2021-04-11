@@ -1,4 +1,4 @@
-<mat-drawer-container class="sideNav-container">
+<!-- <mat-drawer-container class="sideNav-container">
     <mat-drawer class="sideNav" mode="side" [(opened)]="opened">
         <ul class="heading" style="background-color: #124A55;">
             <mat-icon aria-hidden="false">
@@ -16,7 +16,7 @@
             <mat-icon aria-hidden="false">
 
                 <img src="../../../assets/form-icon/Icon awesome-certificate.svg">
-                <!-- <i class="icon-certificate"></i> -->
+
             </mat-icon>
             <a routerLink="entry-list1">Grant Transfer Certificate</a>
         </ul>
@@ -46,12 +46,12 @@
             <mat-icon aria-hidden="false">
                 <img src="../../../assets/form-icon/Group 13409.svg">
             </mat-icon>
-            <!-- <a routerLink="entry-list5">SLB's for Water Supply and Sanitation</a> -->
+
             <a routerLink="entry-list5">Service Level Benchmarks (SLBs)</a>
 
-        </ul>
+        </ul> -->
 
-        <!-- <ul class="links">
+<!-- <ul class="links">
             <mat-icon aria-hidden="false">
                 <img src="../../../assets/form-icon/Group 13408.svg">
             </mat-icon>
@@ -63,9 +63,9 @@
             </mat-icon>
             <a routerLink="entry-list5">SLB's for Water Conservation</a>
         </ul> -->
-        <ul class="heading" style="background-color: #124A55;">
+<!-- <ul class="heading" style="background-color: #124A55;">
             <mat-icon aria-hidden="false">
-                <img src="../../../assets/form-icon/Icon feather-upload.svg">
+                <img src="../../../assets/form-icon/file_upload_white_18dp.svg">
             </mat-icon>
             <h5>Upload Plans</h5>
         </ul>
@@ -74,56 +74,114 @@
                 <img src="../../../assets/form-icon/Icon awesome-file-alt.svg">
             </mat-icon>
             <a routerLink="entry-list5">Plans for Water and Sanitation</a>
-        </ul>
-        <!--  <mat-menu #elCond="matMenu">
+        </ul> -->
+<!--  <mat-menu #elCond="matMenu">
             <ul><a routerLinkActive="active" routerLink="/">Grant Transfer Certificate</a></ul>
             <ul><a routerLinkActive="active" routerLink="/">Plans for Water Rejuvination and Recycling</a></ul>
             <ul><a routerLinkActive="active" routerLink="/">Action Plan for SLBs</a></ul>
         </mat-menu> -->
-        <div class="subBtnDiv" style="text-align: center;">
+<!-- <div class="subBtnDiv" style="text-align: center;">
             <div>
                 <button mat-raised-button class="subBtn">Submit</button>
             </div>
             <div>
                 <button mat-raised-button class="subBtn">Preview and download</button>
             </div>
-        </div>
+        </div> -->
 
 
-    </mat-drawer>
+<!-- </mat-drawer>
     <mat-drawer-content style="background-color: #FFFFFF;">
-        <!-- main-container -->
+
         <router-outlet></router-outlet>
     </mat-drawer-content>
-</mat-drawer-container>
+</mat-drawer-container> -->
 
 
 <!-- ---------Using bootstrap-------------------- -->
-<!-- <div class="container-fluid">
-     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Features</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-    <div class="row">
-        <div class="col ">
+
+<div class="container-fluid">
+    <div class="row ">
+        <div class="col-sm-12 col-md-3 col-lg-3 sideNav " style="margin-top: 4px; width: 22%; margin-left: 1%;">
+            <ul class="heading " style="background-color: #124A55; ">
+                <mat-icon aria-hidden="false ">
+                    <img src="../../../assets/form-icon/Icon open-data-transfer-download (1).svg ">
+                </mat-icon>
+                <h5>Entry Level Conditions</h5>
+            </ul>
+            <ul class="links " routerLinkActive="active ">
+                <mat-icon aria-hidden="false ">
+                    <img src="../../../assets/form-icon/Icon awesome-network-wired.svg ">
+                </mat-icon>
+                <a routerLink="entry-list">Linking of PFMS Account</a>
+            </ul>
+            <ul class="links" routerLinkActive="active ">
+                <mat-icon aria-hidden="false ">
+
+                    <img src="../../../assets/form-icon/Icon awesome-certificate.svg ">
+                    <!-- <i class="icon-certificate "></i> -->
+                </mat-icon>
+                <a routerLink="entry-list1">Grant Transfer Certificate</a>
+            </ul>
+            <ul class="links " routerLinkActive="active ">
+                <mat-icon aria-hidden="false ">
+                    <img src="../../../assets/form-icon/Icon awesome-file-alt.svg ">
+                </mat-icon>
+                <a routerLink="entry-list2">Detailed Utilisation Report</a>
+            </ul>
+            <ul class="links " routerLinkActive="active ">
+                <mat-icon aria-hidden="false ">
+                    <img src="../../../assets/form-icon/Icon material-supervisor-account.svg ">
+                </mat-icon>
+                <a routerLink="entry-list3">Annual Accounts</a>
+            </ul>
+            <ul class="links " routerLinkActive="active ">
+                <mat-icon aria-hidden="false ">library_books</mat-icon>
+                <a routerLink="entry-list4 ">Publication of SLBs</a>
+            </ul>
+            <ul class="heading " style="background-color: #124A55; ">
+                <mat-icon aria-hidden="false ">
+                    <img src="../../../assets/form-icon/Icon awesome-money-check.svg ">
+                </mat-icon>
+                <h5> Municipal Challenge Fund</h5>
+            </ul>
+            <ul class="links " routerLinkActive="active ">
+                <mat-icon aria-hidden="false ">
+                    <img src="../../../assets/form-icon/Group 13409.svg ">
+                </mat-icon>
+                <!-- <a routerLink="entry-list5 ">SLB's for Water Supply and Sanitation</a> -->
+                <a routerLink="entry-list5 ">Service Level Benchmarks (SLBs)</a>
+
+            </ul>
+
+
+            <ul class="heading " style="background-color: #124A55; ">
+                <mat-icon aria-hidden="false ">
+                    <img src="../../../assets/form-icon/file_upload_white_18dp.svg ">
+                </mat-icon>
+                <h5>Upload Plans</h5>
+            </ul>
+            <ul class="links " routerLinkActive="active ">
+                <mat-icon aria-hidden="false ">
+                    <img src="../../../assets/form-icon/Icon awesome-file-alt.svg ">
+                </mat-icon>
+                <a routerLink="entry-list5 ">Plans for Water and Sanitation</a>
+            </ul>
+
+            <div class="subBtnDiv " style="text-align: center; margin-bottom: 40px;">
+                <div>
+                    <button mat-raised-button class="subBtn ">Submit</button>
+                </div>
+                <div>
+                    <button mat-raised-button class="subBtn ">Preview and download</button>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="col-sm-12 col-md-9 col-lg-9 " style="background-color: #FFFFFF; ">
+            <router-outlet></router-outlet>
         </div>
     </div>
-</div> -->
+</div>
