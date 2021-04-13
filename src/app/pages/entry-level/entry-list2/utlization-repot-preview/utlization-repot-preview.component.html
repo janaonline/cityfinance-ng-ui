@@ -28,7 +28,7 @@
         </div>
         <div>
             <label for="" class="card2">2. Name of MPC/UA/NMPC</label>
-            <label for="" class="card2">{{data[0].mpcName}}  </label>
+            <label for="" class="card2">{{data[0].ulb}}  </label>
         </div>
         <div>
             <label for="" class="card2">3. Type of grant</label>
@@ -42,15 +42,15 @@
         </div>
         <div class="c-2-d">
             <label for="" class="card2">(i) Unutilized from previous installments</label>
-            <label for="" class="card2">{{data[0].prevInstallInput}} </label>
+            <label for="" class="card2">{{data[0].unUtilizedPrevYr}} </label>
         </div>
         <div class="c-2-d">
             <label for="" class="card2">(ii) Tied Grant received during the year</label>
-            <label for="" class="card2">{{data[0].grantRecInput}}  </label>
+            <label for="" class="card2">{{data[0].receivedDuringYr}}  </label>
         </div>
         <div class="c-2-d">
             <label for="" class="card2">(iii) Expenditure incurred during the year</label>
-            <label for="" class="card2">{{data[0].expendInput}}  </label>
+            <label for="" class="card2">{{data[0].expDuringYr}}  </label>
         </div>
         <div class="crd-ls-div c-2-d">
             <label for="" class="card3"> <b>(vi) Closing balance at the end of year (2(i)+2(ii)-2(iii))</b> </label>
@@ -81,20 +81,20 @@
             <tbody>
                 <tr *ngFor="let item of data[0].utilizationTabel; let i=index" style="text-align: center; vertical-align: inherit;">
                     <td>{{1+i}}</td>
-                    <td>{{data[0].utilizationTabel[i].tdcatInput}}</td>
-                    <td>{{data[0].utilizationTabel[i].tdProjectName}}</td>
-                    <td>{{data[0].utilizationTabel[i].tdDesc}}</td>
-                    <td>{{data[0].utilizationTabel[i].tdCap}}</td>
+                    <td>{{data[0].utilizationTabel[i].category}}</td>
+                    <td>{{data[0].utilizationTabel[i].project_name}}</td>
+                    <td>{{data[0].utilizationTabel[i].desctiption}}</td>
+                    <td>{{data[0].utilizationTabel[i].capacity}}</td>
                     <td>
                         <!-- {{data[0].utilizationTabel[0][i].imgUpload}} -->
                     </td>
                     <td>
-                        <label for="" class="bor-in-l">{{data[0].utilizationTabel[i].tdLat}}</label>
-                        <label for="" class="bor-in-l" style="margin-left: 5px;">{{data[0].utilizationTabel[i].tdLong}}</label>
+                        <label for="" class="bor-in-l">{{data[0].utilizationTabel[i].lat}}</label>
+                        <label for="" class="bor-in-l" style="margin-left: 5px;">{{data[0].utilizationTabel[i].long}}</label>
 
                     </td>
-                    <td> <label class="bor-in-l" for="">{{data[0].utilizationTabel[i].tdProjCost}}</label></td>
-                    <td> <label for="" class="bor-in-l">{{data[0].utilizationTabel[i].tdExpend}}</label> </td>
+                    <td> <label class="bor-in-l" for="">{{data[0].utilizationTabel[i].project_cost}}</label></td>
+                    <td> <label for="" class="bor-in-l">{{data[0].utilizationTabel[i].expenditure}}</label> </td>
                 </tr>
             </tbody>
             <tbody>
@@ -114,7 +114,7 @@
         </table>
         <div style="margin-left: 73%;">
             <p class="f-d-n "><b>Name : {{data[0].name}} </b></p>
-            <p class="f-d-n "><b>Designation : {{data[0].desi}} </b></p>
+            <p class="f-d-n "><b>Designation : {{data[0].designation}} </b></p>
         </div>
     </mat-card>
 

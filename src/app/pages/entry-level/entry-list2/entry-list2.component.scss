@@ -77,8 +77,7 @@ th {
 }
 
 .card {
-    margin-right: 200px;
-    padding: 3px 5px;
+    padding: 5px 6px;
     margin-bottom: 25px;
 }
 
@@ -128,7 +127,7 @@ label {
 }
 
 .footerBtnDiv {
-    margin-right: 250px;
+    margin-right: 10px;
 }
 
 .footerBtn {
@@ -155,5 +154,21 @@ label {
 .table>tfoot>tr>th,
 .table>thead>tr>td,
 .table>thead>tr>th {
-    vertical-align: inherit
+    vertical-align: inherit;
+    text-align: center;
+}
+
+.image-upload>input {
+    display: none;
+}
+
+.image-upload img {
+    cursor: pointer;
+}
+
+.t-i {
+    font-size: 12px;
+    color: #51504F;
+    text-align: center;
+    height: 26px;
 }
