@@ -2,7 +2,7 @@
 
     <div class="row header">
         <!-- <div class="col header1" style="text-align: center;">Welcome Agra Municipality, Uttar Pradesh</div> -->
-        <div col header1>
+        <div class="col header1">
             <h3 class="text-center" style="text-align: center;" *ngIf="loggedInUserType !== userTypes.USER;">
                 Welcome {{ userLoggedInDetails.name }},
                 <span *ngIf="
@@ -24,30 +24,34 @@
                 <ng-template #other_content>Welcome.....</ng-template>
             </h3> -->
         </div>
-        <div class="col-sm-12">
-            <div class="header2">Detailed Utilization Report</div>
-            <div class="prevBtnDiv">
+        <div class="row">
+            <div class="col-sm-8 col-lg-8 col-md-8 header2">Detailed Utilization Report</div>
+
+            <div class="col-sm-3 col-md-3 col-lg-3 prevBtnDiv text-right">
                 <button type="button" class="btn btn-primary" id="prevBtn" (click)="onPreview()">PREVIEW</button>
             </div>
         </div>
 
         <div class="col-sm-12">
             <div class="header3">
-                <p>Utilization report in respect of 15th finance commission tied grants for year</p>
+                <p style="color: #000000;
+                font-weight: 600;">
+                    Utilization report in respect of 15th finance commission tied grants for year
+                </p>
                 <select class="btnYear d-input" style="border-radius: 4px;">
                   <!-- formControlName="grantsYear" -->
                    <option value="2020-21">2020-21</option>
                  </select>
 
-                <p>
+                <!-- <p>
                     (To be submitted by State in case of Million Plus Cities/UAS and by cities/ ULBs through State in case of Non Million Plus Cities )
-                </p>
+                </p> -->
             </div>
         </div>
 
 
     </div>
-    <form [formGroup]="utilizationReport" (ngSubmit)="onSubmit()">
+    <form *ngIf="utilizationReport" [formGroup]="utilizationReport" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <div class="card" style="background-color: #F7F7F7;">
                 <div class="card-body">
@@ -99,7 +103,7 @@
 
                         </div>
                         <div class="col-lg-6">
-                            <input pattern="/^\d*\.?\d{0,2}$/g" class="form-control inputfield d-input" (change)="calAmount()" formControlName="unUtilizedPrevYr">
+                            <input class="form-control inputfield d-input" (change)="calAmount()" formControlName="unUtilizedPrevYr" appTwoDigitDecimaNumber>
                             <span class="validity"></span>
                         </div>
 
@@ -111,7 +115,7 @@
 
                         </div>
                         <div class="col-lg-6">
-                            <input type="number" class="form-control inputfield" (change)="calAmount()" formControlName="receivedDuringYr">
+                            <input class="form-control inputfield" (change)="calAmount()" formControlName="receivedDuringYr" appTwoDigitDecimaNumber>
                         </div>
 
                     </div>
@@ -122,7 +126,7 @@
 
                         </div>
                         <div class="col-lg-6">
-                            <input type="number" class="form-control inputfield" (change)="calAmount()" formControlName="expDuringYr">
+                            <input class="form-control inputfield" (change)="calAmount()" formControlName="expDuringYr" appTwoDigitDecimaNumber>
                         </div>
                     </div>
                     <div class="row">
@@ -135,7 +139,7 @@
                         <div class="col-lg-6">
                             <!-- <input type="text" class="form-control clrInput" formControlName="closing_bal"> -->
                             <label for="" class="labelField" style="background-color: #26A1A1;
-                            color: #ffff; height: 28px; padding: 4px 10px;" #f>{{closingBal}}</label>
+                            color: #ffff; height: 28px; padding: 4px 10px;" #f>{{closingBal |  number : '.0-2' }}</label>
                             <div class="invalid-feedback" *ngIf="closingBal < 0;" style="margin-left: 8px; color: red;">
                                 Value should be greater than 0.
                             </div>
@@ -203,8 +207,8 @@
                                     </div>
                                 </td>
                                 <td style="display: inline-flex;">
-                                    <input type="number" class="t-i form-control" formControlName="lat">
-                                    <input type="number" class="t-i form-control" formControlName="long">
+                                    <input type="number" class="t-i form-control" appSixDigitDecimaNumber formControlName="lat">
+                                    <input type="number" class="t-i form-control" formControlName="long" appSixDigitDecimaNumber>
                                 </td>
                                 <td class="t-i">
                                     <input type="number" class="t-i form-control" (change)="totalProCost(i)" formControlName="project_cost">
@@ -261,9 +265,9 @@
                 </div>
             </div>
             <div class="footerBtnDiv text-right">
-                <button type="button" class="btn btn-secondary backbtn" disabled id="">BACK</button>
-                <button type="button" class="btn footerBtn" id="">SAVE AS DRAFT</button>
-                <button type="button" class="btn footerBtn" id="">SAVE AND NEXT</button>
+                <button type="button" class="btn btn-secondary backbtn" disabled id="back">BACK</button>
+                <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button>
+                <button type="button" class="btn footerBtn" id="saveNext" (click)="saveAndNext()">SAVE AND NEXT</button>
 
             </div>
 

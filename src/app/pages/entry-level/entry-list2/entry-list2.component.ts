@@ -9,10 +9,11 @@ import { UserUtility } from '../../../util/user/user';
 import { ProfileService } from '../../../users/profile/service/profile.service';
 import { IState } from '../../../models/state/state';
 import { MatDialog } from '@angular/material/dialog';
-import { fileURLToPath } from 'url';
+
 import { UtlizationRepotPreviewComponent } from './utlization-repot-preview/utlization-repot-preview.component';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { Router } from '@angular/router';
+import { state } from '@angular/animations';
 // import { utilizationreportpreview } from './utilization-report-preview';
 
 
@@ -51,6 +52,7 @@ export class EntryList2Component implements OnInit {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
       res.forEach((state) => (this.states[state._id] = state));
+      this.initializeReport();
     });
   }
 
@@ -80,14 +82,17 @@ export class EntryList2Component implements OnInit {
 
   ngOnInit() {
 
+     console.log(this.states);
 
+  }
+  public initializeReport(){
     this.utilizationReport = this.fb.group({
       //  'grantsYear' : new FormControl({value:'', disabled: true}),
 
-      stateName : new FormControl( 'Uttar Pradesh', Validators.required),
-      ulb : new FormControl( 'Agra Municipality', Validators.required),
+      stateName : new FormControl(this.states[this.userLoggedInDetails.state]?.name, Validators.required),
+      ulb : new FormControl( this.userLoggedInDetails.name, Validators.required),
       grantType : new FormControl('Tied', Validators.required),
-      unUtilizedPrevYr: new FormControl( {value: '', disabled: false}, [Validators.required, Validators.pattern(/^\d*\.?\d{0,2}$/g)]),
+      unUtilizedPrevYr: new FormControl( {value: '', disabled: false}, Validators.required),
       receivedDuringYr: new FormControl( {value: '', disabled: false}, Validators.required),
       expDuringYr: new FormControl( {value: '', disabled: false}, Validators.required),
       //  'closingBal': new FormControl( {value: '', disabled: false}, Validators.required),
@@ -111,8 +116,6 @@ export class EntryList2Component implements OnInit {
       designation: new FormControl( {value: '', disabled: false}, Validators.required),
 
     });
-
-
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
@@ -150,7 +153,8 @@ export class EntryList2Component implements OnInit {
   onPreview(){
     const dialogRef = this.dialog.open(UtlizationRepotPreviewComponent,
        {data: [this.utilizationReport.value, this.closingBal,this.projectCost,this.projectExp],
-      height: '100%', width: '100%',} );
+      height: '100%', width: '100%',
+      panelClass: 'no-padding-dialog' } );
      this.hidden = false;
      dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -196,6 +200,13 @@ export class EntryList2Component implements OnInit {
       case USER_TYPE.ULB:
         return this.fetchStateList();
     }
+  }
+
+  saveAsDraft(){
+    console.log(this.utilizationReport);
+  }
+  saveAndNext(){
+    console.log(this.utilizationReport.value);
   }
 
 }

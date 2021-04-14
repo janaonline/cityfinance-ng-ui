@@ -56,6 +56,13 @@ export const appRouter: Routes = [
     ]
   },
   {
+    path: "ulbform",
+    loadChildren: () =>
+      import("./pages/ulbform/ulbform.module").then(
+        (m) => m.UlbformModule
+      ),
+  },
+  {
     path: "questionnaires",
     loadChildren: () =>
       import("./pages/questionnaires/questionnaires.module").then(

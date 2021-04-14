@@ -41,6 +41,7 @@ import { EntryList5Component } from './pages/entry-level/entry-list5/entry-list5
 import {MatFormFieldModule} from '@angular/material/form-field';
 
 import { UtlizationRepotPreviewComponent } from './pages/entry-level/entry-list2/utlization-repot-preview/utlization-repot-preview.component';
+import { TwoDigitDecimaNumberDirective,SixDigitDecimaNumberDirective } from './pages/entry-level/decimal.directive';
 
 @NgModule({
   entryComponents: [DialogComponent,UtlizationRepotPreviewComponent],
@@ -98,6 +99,8 @@ import { UtlizationRepotPreviewComponent } from './pages/entry-level/entry-list2
     EntryList4Component,
     EntryList5Component,
     UtlizationRepotPreviewComponent,
+    TwoDigitDecimaNumberDirective,
+    SixDigitDecimaNumberDirective,
 
 
     // InrCurrencyPipe,
