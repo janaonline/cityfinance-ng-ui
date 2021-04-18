@@ -159,7 +159,7 @@
                 <mat-icon aria-hidden="false ">
                     <img src="../../../assets/form-icon/file_upload_white_18dp.svg ">
                 </mat-icon>
-                <h5>Upload Plans</h5>
+                <h5 style="margin-left: 4px;">Upload Plans</h5>
             </ul>
             <ul class="links" routerLinkActive="active">
                 <mat-icon aria-hidden="false ">
@@ -181,7 +181,31 @@
 
         </div>
         <div class="col-sm-9 col-md-9 col-lg-9 " style="background-color: #FFFFFF; ">
-            <router-outlet></router-outlet>
+            <div class="container-fluid">
+                <div class="col header1">
+                    <h3 class="text-center" style="text-align: center;" *ngIf="loggedInUserType !== userTypes.USER;">
+                        Welcome {{ userLoggedInDetails.name }},
+                        <span *ngIf="
+                loggedInUserType === userTypes.ADMIN ||
+                loggedInUserType === userTypes.MoHUA ||
+                loggedInUserType === userTypes.PARTNER
+              ">
+              {{ userLoggedInDetails.role }}
+            </span>
+                        <span *ngIf="
+                states &&
+                (loggedInUserType === userTypes.STATE ||
+                  loggedInUserType === userTypes.ULB)
+              ">
+              {{ states[userLoggedInDetails["state"]]?.name }}
+            </span>
+                    </h3>
+                    <!-- <h3>
+                <ng-template #other_content>Welcome.....</ng-template>
+            </h3> -->
+                </div>
+                <router-outlet></router-outlet>
+            </div>
         </div>
     </div>
 </div>

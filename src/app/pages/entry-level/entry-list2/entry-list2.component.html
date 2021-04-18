@@ -1,160 +1,138 @@
-<div class="container-fluid">
+<div class="row header">
+    <!-- <div class="col header1" style="text-align: center;">Welcome Agra Municipality, Uttar Pradesh</div> -->
 
-    <div class="row header">
-        <!-- <div class="col header1" style="text-align: center;">Welcome Agra Municipality, Uttar Pradesh</div> -->
-        <div class="col header1">
-            <h3 class="text-center" style="text-align: center;" *ngIf="loggedInUserType !== userTypes.USER;">
-                Welcome {{ userLoggedInDetails.name }},
-                <span *ngIf="
-                loggedInUserType === userTypes.ADMIN ||
-                loggedInUserType === userTypes.MoHUA ||
-                loggedInUserType === userTypes.PARTNER
-              ">
-              {{ userLoggedInDetails.role }}
-            </span>
-                <span *ngIf="
-                states &&
-                (loggedInUserType === userTypes.STATE ||
-                  loggedInUserType === userTypes.ULB)
-              ">
-              {{ states[userLoggedInDetails["state"]]?.name }}
-            </span>
-            </h3>
-            <!-- <h3>
-                <ng-template #other_content>Welcome.....</ng-template>
-            </h3> -->
+    <div class="row">
+        <div class="col-sm-8 col-lg-8 col-md-8 header2">Detailed Utilization Report</div>
+
+        <div class="col-sm-3 col-md-3 col-lg-3 prevBtnDiv text-right">
+            <button type="button" class="btn btn-primary" id="prevBtn" (click)="onPreview()">PREVIEW</button>
         </div>
-        <div class="row">
-            <div class="col-sm-8 col-lg-8 col-md-8 header2">Detailed Utilization Report</div>
+    </div>
 
-            <div class="col-sm-3 col-md-3 col-lg-3 prevBtnDiv text-right">
-                <button type="button" class="btn btn-primary" id="prevBtn" (click)="onPreview()">PREVIEW</button>
-            </div>
-        </div>
-
-        <div class="col-sm-12">
-            <div class="header3">
-                <p style="color: #000000;
+    <div class="col-sm-12">
+        <div class="header3">
+            <p style="color: #000000;
                 font-weight: 600;">
-                    Utilization report in respect of 15th finance commission tied grants for year
-                </p>
-                <select class="btnYear d-input" style="border-radius: 4px;">
+                Utilization report in respect of 15th finance commission tied grants for year
+            </p>
+            <select class="btnYear d-input" style="border-radius: 4px;">
                   <!-- formControlName="grantsYear" -->
                    <option value="2020-21">2020-21</option>
                  </select>
 
-                <!-- <p>
+            <!-- <p>
                     (To be submitted by State in case of Million Plus Cities/UAS and by cities/ ULBs through State in case of Non Million Plus Cities )
                 </p> -->
+        </div>
+    </div>
+
+
+</div>
+<form *ngIf="utilizationReport" [formGroup]="utilizationReport" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <div class="card" style="background-color: #F7F7F7;">
+            <div class="card-body">
+
+                <div class="row" style="vertical-align: inherit;">
+                    <div class="col-lg-6">
+                        <label for="" class="labelField">State Name</label>
+                        <!-- <input type="text" class="form-control d-input" formControlName="stateNameLabel"> -->
+
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control d-input" disabled formControlName="stateName">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="" class="labelField">Name of MPC/UA/NMPC</label>
+                        <!-- <input type="text" class="form-control d-input" formControlName="mpcLabel"> -->
+
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control d-input" disabled formControlName="ulb">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="" class="labelField">Type of grant</label>
+                        <!-- <input type="text" class="form-control d-input" formControlName="grantTypeLabel"> -->
+
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control d-input" disabled formControlName="grantType">
+                    </div>
+                </div>
+
             </div>
         </div>
 
+        <div class="card" style="background-color: #F7F7F7;">
+            <div class="card-body">
+                <p style="margin-left: 5px;">15th FC Tied Grant Position during the year</p>
 
-    </div>
-    <form *ngIf="utilizationReport" [formGroup]="utilizationReport" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <div class="card" style="background-color: #F7F7F7;">
-                <div class="card-body">
-
-                    <div class="row" style="vertical-align: inherit;">
-                        <div class="col-lg-6">
-                            <label for="" class="labelField">State Name</label>
-                            <!-- <input type="text" class="form-control d-input" formControlName="stateNameLabel"> -->
-
-                        </div>
-                        <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" disabled formControlName="stateName">
-                        </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="" class="labelField">i. Unutilized from previous installments (INR in lakhs)</label>
+                        <!-- <input type="text" class="form-control d-input" formControlName="prevInstallLabel"> -->
 
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <label for="" class="labelField">Name of MPC/UA/NMPC</label>
-                            <!-- <input type="text" class="form-control d-input" formControlName="mpcLabel"> -->
-
-                        </div>
-                        <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" disabled formControlName="ulb">
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <label for="" class="labelField">Type of grant</label>
-                            <!-- <input type="text" class="form-control d-input" formControlName="grantTypeLabel"> -->
-
-                        </div>
-                        <div class="col-lg-6">
-                            <input type="text" class="form-control d-input" disabled formControlName="grantType">
-                        </div>
+                    <div class="col-lg-6">
+                        <input class="form-control inputfield d-input" (change)="calAmount()" formControlName="unUtilizedPrevYr" appTwoDigitDecimaNumber>
+                        <span class="validity"></span>
                     </div>
 
                 </div>
-            </div>
-
-            <div class="card" style="background-color: #F7F7F7;">
-                <div class="card-body">
-                    <p style="margin-left: 5px;">15th FC Tied Grant Position during the year</p>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <label for="" class="labelField">i. Unutilized from previous installments</label>
-                            <!-- <input type="text" class="form-control d-input" formControlName="prevInstallLabel"> -->
-
-                        </div>
-                        <div class="col-lg-6">
-                            <input class="form-control inputfield d-input" (change)="calAmount()" formControlName="unUtilizedPrevYr" appTwoDigitDecimaNumber>
-                            <span class="validity"></span>
-                        </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="" class="labelField">ii. Tied Grant received during the year (INR in lakhs)</label>
+                        <!-- <input type="text" class="form-control d-input" formControlName="grantRecLabel"> -->
 
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <label for="" class="labelField">ii. Tied Grant received during the year</label>
-                            <!-- <input type="text" class="form-control d-input" formControlName="grantRecLabel"> -->
+                    <div class="col-lg-6">
+                        <input class="form-control inputfield" (change)="calAmount()" formControlName="receivedDuringYr" appTwoDigitDecimaNumber>
+                    </div>
 
-                        </div>
-                        <div class="col-lg-6">
-                            <input class="form-control inputfield" (change)="calAmount()" formControlName="receivedDuringYr" appTwoDigitDecimaNumber>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="" class="labelField">iii. Expenditure incurred during the year (INR in lakhs)</label>
+                        <!-- <input type="text" class="form-control d-input" formControlName="expendLabel"> -->
 
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <label for="" class="labelField">iii. Expenditure incurred during the year</label>
-                            <!-- <input type="text" class="form-control d-input" formControlName="expendLabel"> -->
-
-                        </div>
-                        <div class="col-lg-6">
-                            <input class="form-control inputfield" (change)="calAmount()" formControlName="expDuringYr" appTwoDigitDecimaNumber>
-                        </div>
+                    <div class="col-lg-6">
+                        <input class="form-control inputfield" (change)="calAmount()" formControlName="expDuringYr" appTwoDigitDecimaNumber>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <label for="" class="labelField" style="background-color: #26A1A1;
-                            color: #ffff;">Closing balance at the end of year ( i + ii - iii ) </label>
-                            <!-- <input type="text" class="form-control clrInput" formControlName="closing_bal"> -->
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="" class="labelField" style="background-color: #26A1A1;
+                            color: #ffff;">Closing balance at the end of year (INR in lakhs)( i + ii - iii ) </label>
+                        <!-- <input type="text" class="form-control clrInput" formControlName="closing_bal"> -->
 
-                        </div>
-                        <div class="col-lg-6">
-                            <!-- <input type="text" class="form-control clrInput" formControlName="closing_bal"> -->
-                            <label for="" class="labelField" style="background-color: #26A1A1;
+                    </div>
+                    <div class="col-lg-6">
+                        <!-- <input type="text" class="form-control clrInput" formControlName="closing_bal"> -->
+                        <label for="" class="labelField" style="background-color: #26A1A1;
                             color: #ffff; height: 28px; padding: 4px 10px;" #f>{{closingBal |  number : '.0-2' }}</label>
-                            <div class="invalid-feedback" *ngIf="closingBal < 0;" style="margin-left: 8px; color: red;">
-                                Value should be greater than 0.
-                            </div>
+                        <div class="invalid-feedback" *ngIf="closingBal < 0;" style="margin-left: 8px; color: red;">
+                            Value should be greater than 0.
                         </div>
-
-                        <!-- <span *ngIf=>fi</span> -->
-
                     </div>
 
-                </div>
-            </div>
-            <div class="card" style="background-color: #F7F7F7;">
-                <div class="card-body" style="margin-bottom: 20px;">
-                    <p style="margin-left: 5px;">Component Wise Utilization of Tied grants</p>
+                    <!-- <span *ngIf=>fi</span> -->
 
+                </div>
+
+            </div>
+        </div>
+        <div class="card" style="background-color: #F7F7F7;">
+
+            <div class="card-body" style="margin-bottom: 20px;">
+                <p style="margin-left: 5px;">Component Wise Utilization of Tied grants</p>
+                <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr class="thHeader">
@@ -177,31 +155,32 @@
                                     <span>{{1+i}}</span>
                                 </td>
                                 <td>
-                                    <select class="t-i" formControlName="category">
-                                          <option selected>Category</option>
-                                     </select>
+                                    <select class="t-i" *ngIf="categories" formControlName="category" style="width: 10rem;">
+                                        <option *ngFor="let item of categories; let j=index; "[value]="item._id">
+                                          {{item.name}}</option>
+                                   </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="t-i form-control" formControlName="project_name">
+                                    <input type="text" class="t-i form-control" formControlName="project_name" style="width: 10rem;">
                                 </td>
                                 <td>
-                                    <input type="text" class="t-i form-control" formControlName="desctiption">
+                                    <input type="text" class="t-i form-control" formControlName="desctiption" style="width: 14rem;">
                                 </td>
                                 <td>
-                                    <input type="number" class="t-i form-control" formControlName="capacity">
+                                    <input type="text" class="t-i form-control" formControlName="capacity" style="width: 6rem;">
                                 </td>
                                 <td>
                                     <!-- <a>
 
-                                        <mat-icon aria-hidden="false">
-                                            <img src="../../../../assets/form-icon/Icon feather-upload.svg">
-                                        </mat-icon>
+                                      <mat-icon aria-hidden="false">
+                                          <img src="../../../../assets/form-icon/Icon feather-upload.svg">
+                                      </mat-icon>
 
-                                    </a> -->
+                                  </a> -->
                                     <div class="image-upload">
                                         <label for="file-input">
-                                        <img src="../../../../assets/form-icon/Icon feather-upload.svg">
-                                      </label>
+                                      <img src="../../../../assets/form-icon/Icon feather-upload.svg">
+                                    </label>
 
                                         <input id="file-input" type="file" (change)="onFileChange($event)" multiple/>
                                     </div>
@@ -240,37 +219,41 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div class="text-right tableFooterDiv">
+                </div>
+
+                <!-- <div class="text-right tableFooterDiv">
                         <span class="tableFooter">Total</span>
                         <span class="tableFooter">50000</span>
                         <span class="tableFooter">25000</span>
                     </div> -->
-                    <div class="addMoreDiv text-right">
-                        <button type="button" class="btn" (click)="addRow()" id="addmoreBtn">
+                <div class="addMoreDiv text-right">
+                    <button type="button" class="btn" (click)="addRow()" id="addmoreBtn">
                           <span class="material-icons text-center" style="font-size: 12px; margin-right: 3px;">
                             add_circle_outline
                       </span>Add more</button>
-                    </div>
-                    <div class="form-group row formfooter">
-                        <label for="name" class="col-sm-2 col-form-label" style="margin-top: 10px; ">Name :</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="name" formControlName="name">
-                        </div>
-                        <label for="designation" class="col-sm-2 col-form-label" style="margin-top: 10px;">Designation :</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="designation" formControlName="designation">
-                        </div>
-                    </div>
-
                 </div>
-            </div>
-            <div class="footerBtnDiv text-right">
-                <button type="button" class="btn btn-secondary backbtn" disabled id="back">BACK</button>
-                <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button>
-                <button type="button" class="btn footerBtn" id="saveNext" (click)="saveAndNext()">SAVE AND NEXT</button>
+                <div class="form-group row formfooter">
+                    <label for="name" class="col-sm-2 col-form-label" style="margin-top: 10px; ">Name :</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="name" formControlName="name">
+                    </div>
+                    <label for="designation" class="col-sm-2 col-form-label" style="margin-top: 10px;">Designation :</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="designation" formControlName="designation">
+                    </div>
+                </div>
 
             </div>
-
         </div>
-    </form>
-</div>
+        <div class="row footerBtnDiv">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <button type="button" class="btn btn-secondary backbtn" (click)="backClicked()" id="back">BACK</button>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+                <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
+                <button type="button" class="btn footerBtn" id="saveNext" (click)="saveAndNext()">SAVE AND NEXT</button>
+            </div>
+        </div>
+
+    </div>
+</form>

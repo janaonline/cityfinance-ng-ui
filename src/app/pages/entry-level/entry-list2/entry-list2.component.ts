@@ -1,6 +1,6 @@
 import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-
+import { Location } from '@angular/common';
 import {  FormArray, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { IUserLoggedInDetails } from '../../../models/login/userLoggedInDetails';
@@ -15,7 +15,8 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { Router } from '@angular/router';
 import { state } from '@angular/animations';
 // import { utilizationreportpreview } from './utilization-report-preview';
-
+import { HttpClient } from '@angular/common/http';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-entry-list2',
@@ -26,8 +27,11 @@ import { state } from '@angular/animations';
 
 export class EntryList2Component implements OnInit {
 
+
   constructor(private fb: FormBuilder, public dialog: MatDialog, private cd: ChangeDetectorRef,
-    private _commonService: CommonService,private profileService: ProfileService,private _router: Router) {
+    private _commonService: CommonService,private profileService: ProfileService,private _router: Router,
+    private http: HttpClient,
+    private _location: Location) {
     this.initializeUserType();
 
     this.fetchStateList();
@@ -42,12 +46,12 @@ export class EntryList2Component implements OnInit {
    projectCost = 0;
    projectExp = 0;
    photos:any;
-
+   unUtiValue;
    states: { [staeId: string]: IState };
    userLoggedInDetails: IUserLoggedInDetails;
    loggedInUserType: USER_TYPE;
    userTypes = USER_TYPE;
-
+   categories;
    private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
@@ -82,7 +86,6 @@ export class EntryList2Component implements OnInit {
 
   ngOnInit() {
 
-     console.log(this.states);
 
   }
   public initializeReport(){
@@ -92,14 +95,14 @@ export class EntryList2Component implements OnInit {
       stateName : new FormControl(this.states[this.userLoggedInDetails.state]?.name, Validators.required),
       ulb : new FormControl( this.userLoggedInDetails.name, Validators.required),
       grantType : new FormControl('Tied', Validators.required),
-      unUtilizedPrevYr: new FormControl( {value: '', disabled: false}, Validators.required),
+      unUtilizedPrevYr: new FormControl( '', Validators.required),
       receivedDuringYr: new FormControl( {value: '', disabled: false}, Validators.required),
       expDuringYr: new FormControl( {value: '', disabled: false}, Validators.required),
       //  'closingBal': new FormControl( {value: '', disabled: false}, Validators.required),
 
       // -------tabel-input----
       utilizationTabel: this.fb.array([this.fb.group({
-        category: new FormControl( {value: 'Category', disabled: false}, Validators.required),
+        category: new FormControl( '',  Validators.required),
         project_name: new FormControl( {value: '', disabled: false}, Validators.required),
         desctiption: new FormControl( {value: '', disabled: false}, Validators.required),
        // 'imgUpload' : new FormControl(''),
@@ -116,6 +119,7 @@ export class EntryList2Component implements OnInit {
       designation: new FormControl( {value: '', disabled: false}, Validators.required),
 
     });
+    this.getConfig();
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
@@ -127,7 +131,15 @@ export class EntryList2Component implements OnInit {
     // alert("hello")
     this.closingBal = Number(this.utilizationReport.controls.unUtilizedPrevYr.value) +
     Number(this.utilizationReport.controls.receivedDuringYr.value) - Number(this.utilizationReport.controls.expDuringYr.value);
+    this.unUtiValue = (+this.utilizationReport.controls.unUtilizedPrevYr.value).toFixed(2);
+    console.log(this.unUtiValue);
+    this.setValue();
   }
+  setValue() {
+    this.utilizationReport.controls.unUtilizedPrevYr.setValue(this.unUtiValue);
+    console.log("hi");
+  }
+
 
    totalProCost(i){
      this.projectCost =0;
@@ -167,7 +179,7 @@ export class EntryList2Component implements OnInit {
   console.log(this.photos);
   this.tabelRows.push(this.fb.group({
 
-    category : new FormControl( {value: 'Category', disabled: false}, Validators.required),
+    category : new FormControl( {value: '', disabled: false}, Validators.required),
     project_name: new FormControl( {value: '', disabled: false}, Validators.required),
     desctiption: new FormControl( {value: '', disabled: false}, Validators.required),
     file: [{ value: this.photos}, Validators.required],
@@ -187,8 +199,11 @@ export class EntryList2Component implements OnInit {
     this.totalProCost(i);
     this.totalExpCost(i);
   }
+  backClicked() {
+    this._location.back;
+  }
   private initializeLoggedInUserDataFetch() {
-    //  = this.profileService.getUserLoggedInDetails();
+    //  = this.profileService.gtUserLoggedInDetails();
     UserUtility.getUserLoggedInData().subscribe((data) => {
       this.userLoggedInDetails = data;
     });
@@ -206,8 +221,22 @@ export class EntryList2Component implements OnInit {
     console.log(this.utilizationReport);
   }
   saveAndNext(){
+
     console.log(this.utilizationReport.value);
   }
+
+
+
+getConfig() {
+
+   let configUrl = 'https://democityfinanceapi.dhwaniris.in/api/v1/category';
+
+   this.http.get(configUrl).subscribe(responceData =>{
+     console.log(responceData);
+     this.categories = responceData;
+   });
+  console.log(this.categories);
+}
 
 }
 
