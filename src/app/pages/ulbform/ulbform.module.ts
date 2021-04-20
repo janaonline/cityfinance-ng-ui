@@ -16,13 +16,19 @@ import { PreviewUtiFormComponent } from './utilisation-report/preview-uti-form/p
 
 import {MatDialogModule} from '@angular/material/dialog';
 import { WaterSanitationComponent } from './water-sanitation/water-sanitation.component';
+import { SixDigitDecimaNumberDirective, TwoDigitDecimaNumberDirective } from './utilisation-report/decimal.directive';
+import { GrantTraCertiComponent } from './grant-tra-certi/grant-tra-certi.component';
 @NgModule({
   entryComponents: [PreviewUtiFormComponent],
   declarations: [
      UtilisationReportComponent,
      UlbformComponent,
      PreviewUtiFormComponent,
-     WaterSanitationComponent],
+     WaterSanitationComponent,
+     TwoDigitDecimaNumberDirective,
+     SixDigitDecimaNumberDirective,
+     GrantTraCertiComponent
+    ],
   imports: [
     CommonModule,
     UlbformRoutingModule,

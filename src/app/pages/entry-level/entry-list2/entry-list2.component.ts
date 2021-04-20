@@ -47,6 +47,8 @@ export class EntryList2Component implements OnInit {
    projectExp = 0;
    photos:any;
    unUtiValue;
+   recValue;
+   expValue;
    states: { [staeId: string]: IState };
    userLoggedInDetails: IUserLoggedInDetails;
    loggedInUserType: USER_TYPE;
@@ -96,8 +98,8 @@ export class EntryList2Component implements OnInit {
       ulb : new FormControl( this.userLoggedInDetails.name, Validators.required),
       grantType : new FormControl('Tied', Validators.required),
       unUtilizedPrevYr: new FormControl( '', Validators.required),
-      receivedDuringYr: new FormControl( {value: '', disabled: false}, Validators.required),
-      expDuringYr: new FormControl( {value: '', disabled: false}, Validators.required),
+      receivedDuringYr: new FormControl( '', Validators.required),
+      expDuringYr: new FormControl('', Validators.required),
       //  'closingBal': new FormControl( {value: '', disabled: false}, Validators.required),
 
       // -------tabel-input----
@@ -132,12 +134,16 @@ export class EntryList2Component implements OnInit {
     this.closingBal = Number(this.utilizationReport.controls.unUtilizedPrevYr.value) +
     Number(this.utilizationReport.controls.receivedDuringYr.value) - Number(this.utilizationReport.controls.expDuringYr.value);
     this.unUtiValue = (+this.utilizationReport.controls.unUtilizedPrevYr.value).toFixed(2);
-    console.log(this.unUtiValue);
+    this.recValue =(+this.utilizationReport.controls.receivedDuringYr.value).toFixed(2);
+    this.expValue =(+this.utilizationReport.controls.expDuringYr.value).toFixed(2)
+   // console.log(this.unUtiValue);
     this.setValue();
   }
   setValue() {
     this.utilizationReport.controls.unUtilizedPrevYr.setValue(this.unUtiValue);
-    console.log("hi");
+    this.utilizationReport.controls.receivedDuringYr.setValue(this.recValue);
+    this.utilizationReport.controls.expDuringYr.setValue(this.expValue);
+
   }
 
 

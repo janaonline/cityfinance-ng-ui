@@ -17,7 +17,7 @@
             </p>
             <select class="btnYear d-input" style="border-radius: 4px;">
                 <!-- formControlName="grantsYear" -->
-                 <option value="2020-21">2020-21</option>
+                 <option value="2021-22">2021-22</option>
                </select>
 
             <!-- <p>
@@ -28,49 +28,54 @@
 
 
 </div>
-<form *ngIf="utilizationReport" [formGroup]="utilizationReport" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-        <div class="card" style="background-color: #F7F7F7;">
-            <div class="card-body">
 
-                <div class="row" style="vertical-align: inherit;">
-                    <div class="col-lg-6">
-                        <label for="" class="labelField">State Name</label>
-                        <!-- <input type="text" class="form-control d-input" formControlName="stateNameLabel"> -->
+<div class="card" style="background-color: #F7F7F7;">
+    <form [formGroup]="utilizationForm" *ngIf="utilizationForm">
+        <div class="card-body form-group">
 
-                    </div>
-                    <div class="col-lg-6">
-                        <input type="text" class="form-control d-input" disabled formControlName="stateName">
-                    </div>
+            <div class="row" style="vertical-align: inherit;">
+                <div class="col-lg-6">
+                    <label for="" class="labelField">State Name</label>
+                    <!-- <input type="text" class="form-control d-input" formControlName="stateNameLabel"> -->
 
                 </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <label for="" class="labelField">Name of MPC/UA/NMPC</label>
-                        <!-- <input type="text" class="form-control d-input" formControlName="mpcLabel"> -->
-
-                    </div>
-                    <div class="col-lg-6">
-                        <input type="text" class="form-control d-input" disabled formControlName="ulb">
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <label for="" class="labelField">Type of grant</label>
-                        <!-- <input type="text" class="form-control d-input" formControlName="grantTypeLabel"> -->
-
-                    </div>
-                    <div class="col-lg-6">
-                        <input type="text" class="form-control d-input" disabled formControlName="grantType">
-                    </div>
+                <div class="col-lg-6">
+                    <input type="text" class="form-control d-input" disabled formControlName="stateName">
                 </div>
 
             </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <label for="" class="labelField">Name of MPC/UA/NMPC</label>
+                    <!-- <input type="text" class="form-control d-input" formControlName="mpcLabel"> -->
+
+                </div>
+                <div class="col-lg-6">
+                    <input type="text" class="form-control d-input" disabled formControlName="ulb">
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <label for="" class="labelField">Type of grant</label>
+                    <!-- <input type="text" class="form-control d-input" formControlName="grantTypeLabel"> -->
+
+                </div>
+                <div class="col-lg-6">
+                    <input type="text" class="form-control d-input" disabled formControlName="grantType">
+                </div>
+            </div>
+
         </div>
+    </form>
+</div>
+<form *ngIf="utilizationReport" [formGroup]="utilizationReport" (ngSubmit)="onSubmit()">
+    <div class="form-group">
 
         <div class="card" style="background-color: #F7F7F7;">
-            <div class="card-body">
+            <div class="card-body" formGroupName="grantPosition">
                 <p style="margin-left: 5px;">15th FC Tied Grant Position during the year</p>
 
                 <div class="row">
@@ -80,8 +85,12 @@
 
                     </div>
                     <div class="col-lg-6">
-                        <input class="form-control inputfield d-input" (change)="calAmount()" formControlName="unUtilizedPrevYr" appTwoDigitDecimaNumber>
-                        <span class="validity"></span>
+                        <input class="form-control inputfield d-input" (change)="calAmount('unUtilizedPrevYr')" formControlName="unUtilizedPrevYr" appTwoDigitDecimaNumber>
+                        <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.touched || submitted) &&
+                        utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required" style="margin-left: 10px;">
+                                  Required*
+                            </span>
+
                     </div>
 
                 </div>
@@ -92,7 +101,12 @@
 
                     </div>
                     <div class="col-lg-6">
-                        <input class="form-control inputfield" (change)="calAmount()" formControlName="receivedDuringYr" appTwoDigitDecimaNumber>
+                        <input class="form-control inputfield" (change)="calAmount('receivedDuringYr')" formControlName="receivedDuringYr" appTwoDigitDecimaNumber>
+                        <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.receivedDuringYr.touched || submitted) &&
+                       utiReportFormControl.grantPosition.controls.receivedDuringYr.errors?.required" style="margin-left: 10px;">
+                                 Required*
+                           </span>
+
                     </div>
 
                 </div>
@@ -103,7 +117,11 @@
 
                     </div>
                     <div class="col-lg-6">
-                        <input class="form-control inputfield" (change)="calAmount()" formControlName="expDuringYr" appTwoDigitDecimaNumber>
+                        <input class="form-control inputfield" (change)="calAmount('expDuringYr')" formControlName="expDuringYr" appTwoDigitDecimaNumber>
+                        <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.expDuringYr.touched || submitted) &&
+                       utiReportFormControl.grantPosition.controls.expDuringYr.errors?.required" style="margin-left: 10px;">
+                                 Required*
+                           </span>
                     </div>
                 </div>
                 <div class="row">
@@ -116,9 +134,9 @@
                     <div class="col-lg-6">
                         <!-- <input type="text" class="form-control clrInput" formControlName="closing_bal"> -->
                         <label for="" class="labelField" style="background-color: #26A1A1;
-                          color: #ffff; height: 28px; padding: 4px 10px;" #f>{{closingBal |  number : '.0-2' }}</label>
-                        <div class="invalid-feedback" *ngIf="closingBal < 0;" style="margin-left: 8px; color: red;">
-                            Value should be greater than 0.
+                          color: #ffff; height: 28px; padding: 4px 10px;" #f>{{totalclosingBal |  number : '.0-2' }}</label>
+                        <div class="invalid-feedback" *ngIf="totalclosingBal < 0;" style="margin-left: 8px; color: red;">
+                            Closing Balance should be greater than 0.
                         </div>
                     </div>
 
@@ -143,12 +161,12 @@
                                 <th scope="col">Capacity</th>
                                 <th scope="col">Upload Images</th>
                                 <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
-                                <th scope="col">Project Cost</th>
-                                <th scope="col">Expenditure</th>
+                                <th scope="col">Project Cost<br>(INR in lakhs)</th>
+                                <th scope="col">Expenditure<br>(INR in lakhs)</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
-                        <tbody formArrayName="utilizationTabel">
+                        <tbody formArrayName="projects">
                             <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
                             <tr *ngFor="let item of tabelRows.controls; let i=index" [formGroupName]="i" style="text-align: center; vertical-align: inherit;">
                                 <td class="t-i">
@@ -156,15 +174,22 @@
                                 </td>
                                 <td>
                                     <select class="t-i" *ngIf="categories" formControlName="category" style="width: 10rem;">
-                                      <option *ngFor="let item of categories; let j=index; "[value]="item._id">
+                                      <option *ngFor="let item of categories; let j=index;"
+                                       [value]="item._id">
                                         {{item.name}}</option>
                                  </select>
+                                    <br>
+                                    <span class="text-danger" *ngIf="(utiReportFormControl.projects.controls[i].controls.category.touched || submitted)
+                                      && utiReportFormControl.projects.controls[i].controls.category.errors?.required">
+                               Project category required*
+                            </span>
+
                                 </td>
                                 <td>
-                                    <input type="text" class="t-i form-control" formControlName="project_name" style="width: 10rem;">
+                                    <input type="text" class="t-i form-control" formControlName="name" style="width: 10rem;">
                                 </td>
                                 <td>
-                                    <input type="text" class="t-i form-control" formControlName="desctiption" style="width: 14rem;">
+                                    <input type="text" class="t-i form-control" formControlName="description" style="width: 14rem;">
                                 </td>
                                 <td>
                                     <input type="text" class="t-i form-control" formControlName="capacity" style="width: 6rem;">
@@ -177,7 +202,7 @@
                                     </mat-icon>
 
                                 </a> -->
-                                    <div class="image-upload">
+                                    <div class="image-upload" fromGroupName="photos">
                                         <label for="file-input">
                                     <img src="../../../../assets/form-icon/Icon feather-upload.svg">
                                   </label>
@@ -185,12 +210,13 @@
                                         <input id="file-input" type="file" (change)="onFileChange($event)" multiple/>
                                     </div>
                                 </td>
-                                <td style="display: inline-flex;">
-                                    <input type="number" class="t-i form-control" appSixDigitDecimaNumber formControlName="lat">
-                                    <input type="number" class="t-i form-control" formControlName="long" appSixDigitDecimaNumber>
+                                <td style="display: inline-flex;" formGroupName="location">
+                                    <input type="text" class="t-i form-control" appSixDigitDecimaNumber formControlName="lat">
+                                    <input type="text" class="t-i form-control" formControlName="long" appSixDigitDecimaNumber>
+                                    <!-- <span id="mapCon" style="width: 30px; height: 18px; border: 1px solid black; margin-top: 8px;"></span> -->
                                 </td>
                                 <td class="t-i">
-                                    <input type="number" class="t-i form-control" (change)="totalProCost(i)" formControlName="project_cost">
+                                    <input type="number" class="t-i form-control" (change)="totalProCost(i)" formControlName="cost">
                                 </td>
                                 <td>
                                     <input type="number" class="t-i form-control" (change)="totalExpCost(i)" formControlName="expenditure">
@@ -212,7 +238,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td><span><b> Total </b> </span></td>
+                                <td><span><b> Total(INR in lakhs) </b> </span></td>
                                 <td><span> <b> {{projectCost}}</b></span></td>
                                 <td> <span> <b> {{projectExp}}</b> </span></td>
                                 <td></td>
@@ -236,10 +262,26 @@
                     <label for="name" class="col-sm-2 col-form-label" style="margin-top: 10px; ">Name :</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="name" formControlName="name">
+                        <!-- <div *ngIf="utiReportFormControl.name.invalid &&
+                        (utiReportFormControl.dirty || utiReportFormControl.touched)" class="alert alert-danger">
+
+                            <div *ngIf="utiReportFormControl.name.errors.required">
+                                Name is required.
+                            </div>
+                        </div> -->
+                        <span class="text-danger" *ngIf="(utiReportFormControl.name.touched || submitted) &&
+                                 utiReportFormControl.name.errors?.required" style="margin-left: 10px;">
+                                Name is required*
+                            </span>
+
                     </div>
                     <label for="designation" class="col-sm-2 col-form-label" style="margin-top: 10px;">Designation :</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="designation" formControlName="designation">
+                        <span class="text-danger" *ngIf="(utiReportFormControl.designation.touched || submitted) &&
+                                 utiReportFormControl.designation.errors?.required" style="margin-left: 10px;">
+                                 Designation is required*
+                            </span>
                     </div>
                 </div>
 
@@ -247,7 +289,7 @@
         </div>
         <div class="row footerBtnDiv">
             <div class="col-lg-6 col-md-6 col-sm-6">
-                <button type="button" class="btn btn-secondary backbtn" (click)="backClicked()" id="back">BACK</button>
+                <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../grant-tra-certi']">BACK</a>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 text-right">
                 <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->

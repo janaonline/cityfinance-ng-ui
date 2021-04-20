@@ -11,10 +11,29 @@ export class UtiReportService {
 
   constructor(private http: HttpClient) { }
 
-  getConfig() {
+  getCategory() {
 
-    let configUrl = 'https://democityfinanceapi.dhwaniris.in/api/v1/category';
+    let catUrl = 'https://democityfinanceapi.dhwaniris.in/api/v1/category';
 
-     return  this.http.get(configUrl)
+     return  this.http.get(catUrl)
  }
+
+
+ createAndStorePost( fd ){
+     console.log(fd)
+
+    return  this.http.post('https://democityfinanceapi.dhwaniris.in/api/v1/utilization-report',
+    fd
+     );
+ }
+ fetchPosts(){
+
+  return this.http.get('https://democityfinanceapi.dhwaniris.in/api/v1/utilization-report/5ea036c2d6f1c5ee2e702e9e');
+
 }
+
+}
+
+
+
+

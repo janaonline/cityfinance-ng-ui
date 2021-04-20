@@ -42,19 +42,19 @@
         </div>
         <div class="c-2-d">
             <label for="" class="card2">(i) Unutilized from previous installments</label>
-            <label for="" class="card2">{{data[0].unUtilizedPrevYr}} </label>
+            <label for="" class="card2">{{data[1].grantPosition.unUtilizedPrevYr}} </label>
         </div>
         <div class="c-2-d">
             <label for="" class="card2">(ii) Tied Grant received during the year</label>
-            <label for="" class="card2">{{data[0].receivedDuringYr}}  </label>
+            <label for="" class="card2">{{data[1].grantPosition.receivedDuringYr}}  </label>
         </div>
         <div class="c-2-d">
             <label for="" class="card2">(iii) Expenditure incurred during the year</label>
-            <label for="" class="card2">{{data[0].expDuringYr}}  </label>
+            <label for="" class="card2">{{data[1].grantPosition.expDuringYr}}  </label>
         </div>
         <div class="crd-ls-div c-2-d">
             <label for="" class="card3"> <b>(vi) Closing balance at the end of year (2(i)+2(ii)-2(iii))</b> </label>
-            <label for="" class="card3"> <b>{{data[1]}} </b>  </label>
+            <label for="" class="card3"> <b>{{data[2]}} </b>  </label>
         </div>
 
     </mat-card>
@@ -79,22 +79,22 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of data[0].utilizationTabel; let i=index" style="text-align: center; vertical-align: inherit;">
+                <tr *ngFor="let item of data[1].projects; let i=index" style="text-align: center; vertical-align: inherit;">
                     <td>{{1+i}}</td>
-                    <td>{{data[0].utilizationTabel[i].category}}</td>
-                    <td>{{data[0].utilizationTabel[i].project_name}}</td>
-                    <td>{{data[0].utilizationTabel[i].desctiption}}</td>
-                    <td>{{data[0].utilizationTabel[i].capacity}}</td>
+                    <td>{{data[1].projects[i].category}}</td>
+                    <td>{{data[1].projects[i].project_name}}</td>
+                    <td>{{data[1].projects[i].desctiption}}</td>
+                    <td>{{data[1].projects[i].capacity}}</td>
                     <td>
                         <!-- {{data[0].utilizationTabel[0][i].imgUpload}} -->
                     </td>
                     <td>
-                        <label for="" class="bor-in-l">{{data[0].utilizationTabel[i].lat}}</label>
-                        <label for="" class="bor-in-l" style="margin-left: 5px;">{{data[0].utilizationTabel[i].long}}</label>
+                        <label for="" class="bor-in-l">{{data[1].projects[i].location.lat}}</label>
+                        <label for="" class="bor-in-l" style="margin-left: 5px;">{{data[1].projects[i].location.long}}</label>
 
                     </td>
-                    <td> <label class="bor-in-l" for="">{{data[0].utilizationTabel[i].project_cost}}</label></td>
-                    <td> <label for="" class="bor-in-l">{{data[0].utilizationTabel[i].expenditure}}</label> </td>
+                    <td> <label class="bor-in-l" for="">{{data[1].projects[i].project_cost}}</label></td>
+                    <td> <label for="" class="bor-in-l">{{data[1].projects[i].expenditure}}</label> </td>
                 </tr>
             </tbody>
             <tbody>
@@ -106,15 +106,15 @@
                     <td></td>
                     <td></td>
                     <td><span>Total</span></td>
-                    <td><span>{{data[2]}}</span></td>
-                    <td> <span>{{data[3]}}</span></td>
+                    <td><span>{{data[3]}}</span></td>
+                    <td> <span>{{data[4]}}</span></td>
                     <td></td>
                 </tr>
             </tbody>
         </table>
         <div style="margin-left: 73%;">
-            <p class="f-d-n "><b>Name : {{data[0].name}} </b></p>
-            <p class="f-d-n "><b>Designation : {{data[0].designation}} </b></p>
+            <p class="f-d-n "><b>Name : {{data[1].name}} </b></p>
+            <p class="f-d-n "><b>Designation : {{data[1].designation}} </b></p>
         </div>
     </mat-card>
 
