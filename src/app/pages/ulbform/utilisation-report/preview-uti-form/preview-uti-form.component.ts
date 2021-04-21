@@ -11,7 +11,10 @@ export class PreviewUtiFormComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any ) { }
 
   ngOnInit(): void {
-    console.log(this.data);
+console.log(this.data)
   }
 
+downloadAsPdf(){
+
+    }
 }

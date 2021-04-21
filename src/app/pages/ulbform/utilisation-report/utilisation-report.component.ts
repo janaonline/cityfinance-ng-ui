@@ -17,6 +17,10 @@ import { Router } from '@angular/router';
 import { state } from '@angular/animations';
 import { PreviewUtiFormComponent } from './preview-uti-form/preview-uti-form.component';
 import { textChangeRangeIsUnchanged } from 'typescript';
+import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
+import { HttpEventType } from '@angular/common/http';
+import { delay, map, retryWhen } from 'rxjs/operators';
+import { ImagePreviewComponent } from './image-preview/image-preview.component';
 @Component({
   selector: 'app-utilisation-report',
   templateUrl: './utilisation-report.component.html',
@@ -27,7 +31,7 @@ export class UtilisationReportComponent implements OnInit {
 
   constructor(private fb: FormBuilder, public dialog: MatDialog, private cd: ChangeDetectorRef,
     private _commonService: CommonService,private profileService: ProfileService,private _router: Router,
-    private UtiReportService: UtiReportService ) {
+    private UtiReportService: UtiReportService, private dataEntryService: DataEntryService ) {
     this.initializeUserType();
 
    // this.fetchStateList();
@@ -48,6 +52,7 @@ export class UtilisationReportComponent implements OnInit {
    selectedFile;
    categories;
    editable;
+   photoUrl:any =[];
  formDataResponce;
    states: { [staeId: string]: IState };
    userLoggedInDetails: IUserLoggedInDetails;
@@ -132,9 +137,11 @@ export class UtilisationReportComponent implements OnInit {
         name: ['', Validators.required],
         description: ['', Validators.required],
        // 'imgUpload' : new FormControl(''),
-        photos: this.fb.group({
-          url: ['']
-        }),
+       photos:this.fb.array( [
+        // this.fb.group({
+        //   url: ['']
+        // })
+      ]) ,
         capacity: ['', Validators.required],
         location: this.fb.group({
           lat: ['', Validators.required],
@@ -184,7 +191,7 @@ if(  !isNaN(controlValue) ) {
  this.utilizationReport.controls['grantPosition']['controls'][setFormControl].patchValue(controlValue);
 }
 else{
- this.utilizationReport.controls['grantPosition']['controls'][setFormControl].setValue('');
+ this.utilizationReport.controls['grantPosition']['controls'][setFormControl].patchValue('');
 }
 
   //  this.utilizationReport.controls['grantPosition']['controls']['receivedDuringYr'].setValue(this.recValue);
@@ -215,18 +222,36 @@ else{
 
 
   onPreview(){
+
   let  formdata= {
       state_name  : this.utilizationForm.controls.stateName.value,
       ulbName  : this.utilizationForm.controls.ulb.value,
       grntType  : this.utilizationForm.controls.grantType.value,
-      unUtiPreYear : this.utilizationReport.controls['grantPosition']['controls']['unUtilizedPrevYr'].value,
-      abc  : this.utilizationReport.controls['grantPosition']['controls']['receivedDuringYr'].value,
-      bcd : this.utilizationReport.controls['grantPosition']['controls']['expDuringYr'].value,
-      total_bal : this.totalclosingBal
+      grantPosition:{
+        unUtilizedPrevYr : this.utilizationReport.controls['grantPosition']['controls']['unUtilizedPrevYr'].value,
+        receivedDuringYr  : this.utilizationReport.controls['grantPosition']['controls']['receivedDuringYr'].value,
+        expDuringYr : this.utilizationReport.controls['grantPosition']['controls']['expDuringYr'].value,
+        closingBal : this.totalclosingBal
+      },
+      projects: this.utilizationReport.getRawValue().projects,
+
+     name: this.utilizationReport.controls.name.value,
+     designation: this.utilizationReport.controls.designation.value,
+     totalProCost: this.projectCost,
+     totalExpCost: this.projectExp
  }
  console.log(formdata);
+   for(let i=0; i<formdata.projects.length; i++){
+     console.log(formdata.projects[i].category);
+     for(let j=0; j< this.categories.length; j++){
+      if(this.categories[j]._id == formdata.projects[i].category){
+        formdata.projects[i].category = this.categories[j].name;
+        console.log(formdata.projects[i].category);
+       }
+     }
+   }
     const dialogRef = this.dialog.open(PreviewUtiFormComponent,
-       {data: [this.utilizationForm.value, this.utilizationReport.value, this.totalclosingBal,this.projectCost,this.projectExp],
+       {data: formdata,
       height: '100%', width: '100%',
       panelClass: 'no-padding-dialog' } );
     // this.hidden = false;
@@ -243,9 +268,11 @@ else{
     category : ['', Validators.required],
     name: ['',[Validators.required, Validators.maxLength(50)]],
     description: ['',[Validators.required, Validators.maxLength(200)]],
-    photos: this.fb.group({
-      url: ['']
-    }),
+    photos:this.fb.array( [
+      // this.fb.group({
+      //   url: ['']
+      // })
+    ]) ,
     capacity: ['', Validators.required],
     location: this.fb.group({
       lat: ['', Validators.required],
@@ -257,13 +284,16 @@ else{
 
   }
   addPreFilledRow(data){
+    console.log("data", data, data.photos)
+    console.log(this.tabelRows);
     this.tabelRows.push(this.fb.group({
       category : [data.category, Validators.required],
       name: [data.name,[Validators.required, Validators.maxLength(50)]],
       description: [data.description,[Validators.required, Validators.maxLength(200)]],
-      photos: this.fb.group({
-        url: ['']
-      }),
+
+      photos:this.fb.array( [
+
+      ]),
       capacity: [data.capacity, Validators.required],
       location: this.fb.group({
         lat: [data.location.lat, Validators.required],
@@ -272,9 +302,28 @@ else{
       cost: [data.cost, Validators.required],
       expenditure: [data.expenditure, Validators.required],
          }));
+         this.totalProCost(this.tabelRows.length);
+         this.totalExpCost(this.tabelRows.length);
+         this.addPhotosUrl(data.photos, this.tabelRows.length-1);
       if(!this.editable)
       this.tabelRows.disable();
   }
+  setUrlGroup(url) {
+    return this.fb.group({
+    url: [url]
+    });
+    }
+
+    addPhotosUrl(photos, i) {
+    const control = <FormArray>this.tabelRows.controls[i]['controls']['photos'];
+    photos.forEach(element => {
+    let url = element.url
+    const urlObject = this.setUrlGroup(url);
+    control.push(urlObject);
+    })
+
+    }
+
 
   deleteRow(i){
     this.tabelRows.removeAt(i);
@@ -331,9 +380,207 @@ else{
                      console.log(this.errMessage);
                   });
   }
-  onFileChange(event){
-    this.selectedFile =<File>event.target;
-    console.log(this.selectedFile);
+ // myFiles:string [] = [];
+  filesToUpload: Array<File> = [];
+
+  fileUploadTracker: {
+    [fileIndex: number]: {
+      alias?: string;
+      percentage?: number;
+      status: "in-process" | "FAILED" | "completed";
+    };
+  } = {};
+
+  fileProcessingTracker: {
+    [fileIndex: number]: {
+      status: "in-process" | "completed" | "FAILED";
+      message: string;
+    };
+  } = {};
+
+  /* This is to keep track of which indexed which file is already either in data processing state
+   * or in file Upload state
+   */
+  filesAlreadyInProcess: number[] = [];
+  onFileChange(event, i, projectIndex){
+
+    this.resetFileTracker();
+    const filesSelected = <Array<File>>event.target["files"];
+    this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
+  //   for (let i = 0; i < event.target.files.length; i++) {
+  //     this.filesToUpload.push(event.target.files[i]);
+
+  // }
+  console.log(this.filesToUpload);
+  console.log(projectIndex, i)
+
+  this.upload(projectIndex);
+  }
+  resetFileTracker() {
+    this.filesToUpload = [];
+    this.filesAlreadyInProcess = [];
+    this.fileProcessingTracker = {};
+    this.submitted = false;
+    this.fileUploadTracker = {};
+  }
+  filterInvalidFilesForUpload(filesSelected: File[]) {
+    const validFiles = [];
+    for (let i = 0; i < filesSelected.length; i++) {
+      const file = filesSelected[i];
+      const fileExtension = file.name.split(`.`).pop();
+      if (fileExtension === "pdf" || fileExtension === "xlsx" || fileExtension == "png"
+      || fileExtension == "jpg" || fileExtension == "jpeg") {
+        validFiles.push(file);
+      }
+    }
+    return validFiles;
+  }
+
+
+ async upload(urlIndex) {
+   // this.submitted = true;
+
+    const formData: FormData = new FormData();
+    const files: Array<File> = this.filesToUpload;
+   // formData.append("year", this.bulkEntryForm.get("year").value);
+    for (let i = 0; i < files.length; i++) {
+      if (this.filesAlreadyInProcess.length > i) {
+        continue;
+      }
+      this.filesAlreadyInProcess.push(i);
+    await this.uploadFile(files[i], i, urlIndex);
+    }
+    if(files.length)
+    this.addPhotosUrl(this.photoUrl, urlIndex);
+  }
+
+
+  uploadFile(file: File, fileIndex: number, urlIndex) {
+    return new Promise((resolve, reject) => {
+    this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+      (s3Response) => {
+        const fileAlias = s3Response["data"][0]["file_alias"];
+       //  this.photoUrl = this.tabelRows['controls'][urlIndex]['controls']['photos'].value;
+
+        this.photoUrl.push({url: fileAlias})
+
+    //  this.tabelRows['controls'][urlIndex].patchValue({
+    //    photos: photoUrl
+    //  })
+      const s3URL = s3Response["data"][0].url;
+        this.uploadFileToS3(
+          file,
+          s3URL,
+          fileAlias,
+          fileIndex
+        );
+        resolve("success")
+      },
+      (err) => {
+        if (!this.fileUploadTracker[fileIndex]) {
+          this.fileUploadTracker[fileIndex] = {
+            status: "FAILED",
+          };
+        } else {
+          this.fileUploadTracker[fileIndex].status = "FAILED";
+        }
+      }
+    );
+  })
+  }
+
+  private uploadFileToS3(
+    file: File,
+    s3URL: string,
+    fileAlias: string,
+  //  financialYear: string,
+    fileIndex: number
+  ) {
+    this.dataEntryService
+      .uploadFileToS3(file, s3URL)
+      // Currently we are not tracking file upload progress. If it is need, uncomment the below code.
+      // .pipe(
+      //   map((response: HttpEvent<any>) =>
+      //     this.logUploadProgess(response, file, fileAlias, fileIndex)
+      //   )
+      // )
+      .subscribe(
+        (res) => {
+          if (res.type === HttpEventType.Response) {
+            // this.dataEntryService
+            //   .sendUploadFileForProcessing(fileAlias)
+              // .subscribe((res) => {
+              //   this.startFileProcessTracking(
+              //     file,
+              //     res["data"]["_id"],
+              //     fileIndex
+              //   );
+              // });
+          }
+        },
+        (err) => {
+          this.fileUploadTracker[fileIndex].status = "FAILED";
+        }
+      );
+  }
+  private startFileProcessTracking(
+    file: File,
+    fileId: string,
+    _fileIndex: number
+  ) {
+    this.fileProcessingTracker[_fileIndex] = {
+      status: "in-process",
+      message: "Processing",
+    };
+
+    this.dataEntryService
+      .getFileProcessingStatus(fileId)
+      .pipe(
+        map((response) => {
+          this.fileProcessingTracker[_fileIndex].message = response.message;
+          if (!response.completed && response.status !== "FAILED") {
+            /**
+             * We are throwing error because we need to call the api again
+             * after some time (2s right now) to check if processing of
+             * file is completed or not. Once it is completed or FAILED, then we stop
+             * calling the api for that file.
+             */
+            observableThrowError("throw any error here");
+          }
+          return response;
+        }),
+        retryWhen((err) => err.pipe(delay(2000)))
+      )
+      .subscribe(
+        (response) => {
+          this.fileProcessingTracker[_fileIndex].message = response.message;
+          this.fileProcessingTracker[_fileIndex].status =
+            response.status === "FAILED" ? "FAILED" : "completed";
+        },
+        (err) => {
+          if (!this.fileProcessingTracker[_fileIndex]) {
+            this.fileProcessingTracker[fileId].status = "FAILED";
+            this.fileProcessingTracker[fileId].message =
+              "Server failed to process data.";
+          }
+        }
+      );
+  }
+
+
+  imgPreview(){
+    let dialogRef = this.dialog.open(ImagePreviewComponent, {
+      height: '400px',
+      width: '600px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
 }
+
+function observableThrowError(arg0: string) {
+  throw new Error('Function not implemented.');
+}
+

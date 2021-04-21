@@ -168,9 +168,9 @@
                         </thead>
                         <tbody formArrayName="projects">
                             <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
-                            <tr *ngFor="let item of tabelRows.controls; let i=index" [formGroupName]="i" style="text-align: center; vertical-align: inherit;">
+                            <tr *ngFor="let projectRow of tabelRows.controls; let projectIndex=index" [formGroupName]="projectIndex" style="text-align: center; vertical-align: inherit;">
                                 <td class="t-i">
-                                    <span>{{1+i}}</span>
+                                    <span>{{1+projectIndex}}</span>
                                 </td>
                                 <td>
                                     <select class="t-i" *ngIf="categories" formControlName="category" style="width: 10rem;">
@@ -179,8 +179,8 @@
                                         {{item.name}}</option>
                                  </select>
                                     <br>
-                                    <span class="text-danger" *ngIf="(utiReportFormControl.projects.controls[i].controls.category.touched || submitted)
-                                      && utiReportFormControl.projects.controls[i].controls.category.errors?.required">
+                                    <span class="text-danger" *ngIf="(utiReportFormControl.projects.controls[projectIndex].controls.category.touched || submitted)
+                                      && utiReportFormControl.projects.controls[projectIndex].controls.category.errors?.required">
                                Project category required*
                             </span>
 
@@ -202,13 +202,20 @@
                                     </mat-icon>
 
                                 </a> -->
-                                    <div class="image-upload" fromGroupName="photos">
-                                        <label for="file-input">
+                                    <!-- <img class="ml-2" [src]="imgUrl.url" alt="" width="30px" *ngFor="let imgUrl
+                                 of projectRow?.value?.photos"> -->
+                                    <div class="image-upload" fromGroupName="photos" style="display: inline-block;">
+                                        <label [attr.for]="projectIndex">
                                     <img src="../../../../assets/form-icon/Icon feather-upload.svg">
-                                  </label>
 
-                                        <input id="file-input" type="file" (change)="onFileChange($event)" multiple/>
+                                  </label>
+                                        <input [attr.id]="projectIndex" type="file" (change)="onFileChange($event, projectRow,
+                                         projectIndex)" multiple/>
                                     </div>
+                                    <a (click)="imgPreview()"> <span class="material-icons" style="font-size: 14px; margin-left: 4px; padding: 2px;">
+                                      collections
+                                      </span></a>
+
                                 </td>
                                 <td style="display: inline-flex;" formGroupName="location">
                                     <input type="text" class="t-i form-control" appSixDigitDecimaNumber formControlName="lat">
@@ -216,13 +223,13 @@
                                     <!-- <span id="mapCon" style="width: 30px; height: 18px; border: 1px solid black; margin-top: 8px;"></span> -->
                                 </td>
                                 <td class="t-i">
-                                    <input type="number" class="t-i form-control" (change)="totalProCost(i)" formControlName="cost">
+                                    <input class="t-i form-control" (change)="totalProCost(projectIndex)" formControlName="cost" appTwoDigitDecimaNumber>
                                 </td>
                                 <td>
-                                    <input type="number" class="t-i form-control" (change)="totalExpCost(i)" formControlName="expenditure">
+                                    <input class="t-i form-control" (change)="totalExpCost(projectIndex)" formControlName="expenditure" appTwoDigitDecimaNumber>
                                 </td>
                                 <td>
-                                    <a (click)="deleteRow(i)">
+                                    <a (click)="deleteRow(projectIndex)">
                                         <mat-icon aria-hidden="false">
                                             <img src="../../../../assets/form-icon/Icon material-delete.svg">
                                         </mat-icon>

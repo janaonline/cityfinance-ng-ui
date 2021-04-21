@@ -18,8 +18,9 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { WaterSanitationComponent } from './water-sanitation/water-sanitation.component';
 import { SixDigitDecimaNumberDirective, TwoDigitDecimaNumberDirective } from './utilisation-report/decimal.directive';
 import { GrantTraCertiComponent } from './grant-tra-certi/grant-tra-certi.component';
+import { ImagePreviewComponent } from './utilisation-report/image-preview/image-preview.component';
 @NgModule({
-  entryComponents: [PreviewUtiFormComponent],
+  entryComponents: [PreviewUtiFormComponent, ImagePreviewComponent],
   declarations: [
      UtilisationReportComponent,
      UlbformComponent,
@@ -27,7 +28,8 @@ import { GrantTraCertiComponent } from './grant-tra-certi/grant-tra-certi.compon
      WaterSanitationComponent,
      TwoDigitDecimaNumberDirective,
      SixDigitDecimaNumberDirective,
-     GrantTraCertiComponent
+     GrantTraCertiComponent,
+     ImagePreviewComponent
     ],
   imports: [
     CommonModule,
