@@ -8,7 +8,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AngularMaterialModule } from '../../angular-material.module';
 import { SharedModule } from '../../shared/shared.module';
-import { BulkEntryComponent } from './bulk-entry/bulk-entry.component';
 import { DocumentsUploadComponent } from './components/documents-upload/documents-upload.component';
 import { FinancialUploadsComponent } from './components/financial-uploads/financial-uploads.component';
 import { MillionPlusCitiesComponent } from './components/million-plus-cities/million-plus-cities.component';
@@ -20,7 +19,7 @@ import { DataUploadComponent } from './xvform-dashboard.component';
 // import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
 const routes: Routes = [
   { path: "list", component: DataUploadComponent },
-  { path: "bulk-upload", component: BulkEntryComponent },
+  // { path: "bulk-upload", component: BulkEntryComponent },
   // { path: "action", component: DataUploadActionComponent },
   // { path: "action/:id", component: DataUploadActionComponent },
   { path: ":id", component: DataUploadComponent },
