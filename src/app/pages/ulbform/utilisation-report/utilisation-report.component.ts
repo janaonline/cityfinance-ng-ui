@@ -21,6 +21,7 @@ import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.servic
 import { HttpEventType } from '@angular/common/http';
 import { delay, map, retryWhen } from 'rxjs/operators';
 import { ImagePreviewComponent } from './image-preview/image-preview.component';
+import { url } from 'inspector';
 @Component({
   selector: 'app-utilisation-report',
   templateUrl: './utilisation-report.component.html',
@@ -568,14 +569,39 @@ else{
   }
 
 
-  imgPreview(){
+  imgPreview(index){
+  //  console.log(index, this.tabelRows);
+  //  let photographs = this.tabelRows.value[index].photos;
+  //  console.log("phoyos", photographs)
     let dialogRef = this.dialog.open(ImagePreviewComponent, {
+      data: this.tabelRows.value[index].photos,
       height: '400px',
-      width: '600px',
+      width: '500px',
+      panelClass: 'no-padding-dialog'
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+  imgDelete(Index){
+    console.log(Index, this.tabelRows,this.tabelRows['controls'][Index]['controls'].photos)
+
+    let mess = window.confirm("Do you want delete all photos");
+    if(mess){
+      let removeUrl =  this.tabelRows['controls'][Index]['controls'].photos.value;
+      console.log(removeUrl)
+      removeUrl.forEach((element, i) => {
+           this.removePhotos(Index, i);
+      });
+      }
+
+
+
+  }
+  removePhotos(Index, i: number)
+   {
+      const control = <FormArray>this.tabelRows.controls[Index]['controls']['photos'];
+      control.clear();
   }
 
 }

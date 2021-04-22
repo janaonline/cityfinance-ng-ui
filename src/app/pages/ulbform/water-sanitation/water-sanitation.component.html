@@ -31,19 +31,15 @@
 
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 15px; display: flex;">
-                        <label for="" style="margin-right: 15px; font-weight: normal;" *ngIf="">{{fileName}}</label>
-                        <div *ngIf="">
-                            <div class="progress-bar" role="progressbar" style="width: 100%; border-radius: 3px;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                                {{ progress }}% </div>
-                        </div>
+                        <label for="" style="margin-right: 15px; font-weight: normal;" *ngIf="fileName">{{fileName}}</label>
 
-                        <!-- <div *ngIf="currentFile" class="progress my-3">
-                            <div class="progress-bar progress-bar-info progress-bar-striped"
-                            role="progressbar" attr.aria-valuenow="{{ progress }}" aria-valuemin="0"
-                            aria-valuemax="100" [ngStyle]="{ width: progress + '%' }">
-                                {{ progress }}%
+
+                        <!-- <div *ngIf="filesToUpload" class="progress my-3">
+                            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: progress + '%' }">
+                                {{ fileUploadTracker.percentage }}%
                             </div>
                         </div> -->
+
                         <a href="">
                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 4px; height: 19px;">
 

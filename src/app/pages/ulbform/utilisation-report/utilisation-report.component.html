@@ -212,10 +212,13 @@
                                         <input [attr.id]="projectIndex" type="file" (change)="onFileChange($event, projectRow,
                                          projectIndex)" multiple/>
                                     </div>
-                                    <a (click)="imgPreview()"> <span class="material-icons" style="font-size: 14px; margin-left: 4px; padding: 2px;">
+                                    <a (click)="imgPreview(projectIndex)"> <span class="material-icons" style="font-size: 14px; margin-left: 4px; padding: 2px;">
                                       collections
                                       </span></a>
-
+                                    <a (click)="imgDelete(projectIndex)">
+                                        <span class="material-icons" style="font-size: 14px; padding: 2px; color: red;">
+                                            delete_forever
+                                        </span></a>
                                 </td>
                                 <td style="display: inline-flex;" formGroupName="location">
                                     <input type="text" class="t-i form-control" appSixDigitDecimaNumber formControlName="lat">
