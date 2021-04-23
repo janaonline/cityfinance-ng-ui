@@ -1,0 +1,27 @@
+.btnUpload {
+    background-color: #0cc5c5;
+    width: 113px;
+    height: 27px;
+    //  padding: 2px;
+    color: #FFFFFF;
+    font-size: 12px;
+}
+
+.card-body {
+    padding: 5px 8px;
+}
+
+.card {
+    border: 1px #00000029;
+    margin-left: 20px;
+    box-shadow: 1px 1px 1px 3px #00000029;
+    padding: 10px 10px;
+}
+
+.image-upload>input {
+    display: none;
+}
+
+.image-upload img {
+    cursor: pointer;
+}
