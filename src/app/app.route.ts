@@ -9,6 +9,7 @@ import { EntryList2Component } from './pages/entry-level/entry-list2/entry-list2
 import { EntryList3Component } from './pages/entry-level/entry-list3/entry-list3.component';
 import { EntryList4Component } from './pages/entry-level/entry-list4/entry-list4.component';
 import { EntryList5Component } from './pages/entry-level/entry-list5/entry-list5.component';
+import {UlbNotRegisteredComponent} from "./auth/ulb-not-registered/ulb-not-registered.component"
 
 export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -144,6 +145,9 @@ export const appRouter: Routes = [
       import("./pages/ulbs-visualization/ulbs-visualization.module").then(
         (m) => m.UlbsVisualizationModule
       ),
+  },{
+    path: "ulb-not-registered",
+    component:UlbNotRegisteredComponent
   },
 
   { path: "**", redirectTo: "" },

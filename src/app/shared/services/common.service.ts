@@ -491,4 +491,8 @@ export class CommonService {
       .get(`${environment.api.url}resource/all`)
       .pipe(map((res) => res["data"]["data"]));
   }
+
+  getNodalOfficer(state){
+    return this.http.get(`${environment.api.url}user/nodal/${state}`)
+  }
 }

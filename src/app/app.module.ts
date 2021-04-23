@@ -42,6 +42,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 
 import { UtlizationRepotPreviewComponent } from './pages/entry-level/entry-list2/utlization-repot-preview/utlization-repot-preview.component';
 import { TwoDigitDecimaNumberDirective,SixDigitDecimaNumberDirective } from './pages/entry-level/decimal.directive';
+import { UlbNotRegisteredComponent } from './auth/ulb-not-registered/ulb-not-registered.component';
 
 @NgModule({
   entryComponents: [DialogComponent,UtlizationRepotPreviewComponent],
@@ -101,8 +102,7 @@ import { TwoDigitDecimaNumberDirective,SixDigitDecimaNumberDirective } from './p
     UtlizationRepotPreviewComponent,
     TwoDigitDecimaNumberDirective,
     SixDigitDecimaNumberDirective,
-
-
+    UlbNotRegisteredComponent,
     // InrCurrencyPipe,
   ],
   exports: [],
