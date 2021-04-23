@@ -103,7 +103,7 @@ export class DataEntryService {
    *
    * @param alias Here fileAlias is the file_alias key that is returned from getting s3URL api call.
    */
-  sendUploadFileForProcessing(alias: string, financialYear: string="") {
+  sendUploadFileForProcessing(alias: string, financialYear: string) {
     return this.http.post(`${environment.api.url}/processData`, {
       alias,
       financialYear,
