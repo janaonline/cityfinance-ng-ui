@@ -1,10 +1,18 @@
 .btnUpload {
     background-color: #0cc5c5;
     width: 113px;
-    height: 27px;
+    height: 30px;
     //  padding: 2px;
     color: #FFFFFF;
     font-size: 12px;
+}
+
+a:hover {
+    background-color: #ffc500;
+}
+
+a:active {
+    background-color: #ffc500;
 }
 
 .card-body {
@@ -24,4 +32,21 @@
 
 .image-upload img {
     cursor: pointer;
+}
+
+.saveBtn {
+    margin-right: 10px;
+    width: 106px;
+    height: 36px;
+    background-color: #26A1A1;
+    color: #FFFFFF;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.backbtn {
+    background-color: #CFCFCF;
+    color: #FFFFFF;
+    width: 106px;
+    height: 36px;
 }

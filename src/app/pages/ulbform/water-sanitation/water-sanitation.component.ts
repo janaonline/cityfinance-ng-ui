@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UploadPlansService } from 'src/app/pages/ulbform/water-sanitation/upload-plans.service';
+import { Router } from '@angular/router';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
 import { delay, map, retryWhen } from 'rxjs/operators';
-
+import { WaterSanitationService } from './water-sanitation.service'
+import { PathLocationStrategy } from '@angular/common';
 @Component({
   selector: 'app-water-sanitation',
   templateUrl: './water-sanitation.component.html',
@@ -15,6 +16,7 @@ import { delay, map, retryWhen } from 'rxjs/operators';
 export class WaterSanitationComponent implements OnInit {
 
   filesToUpload: Array<File> = [];
+  waterAndSanitation: FormGroup;
   fileUploadTracker: {
     [fileIndex: number]: {
       alias?: string;
@@ -29,25 +31,110 @@ fileProcessingTracker: {
       message: string;
     };
   } = {};
-  fileName;
-
+  fileName = '';
+  fileNameSanitation= '';
+  fileNameWater = '';
+  sanitationProgress;
+  waterProgress;
+  err ='';
+  submitted = false;
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
    */
   filesAlreadyInProcess: number[] = [];
 
-  constructor(private formBuilder: FormBuilder,
-    private dataEntryService: DataEntryService) { }
-
+  constructor(private fb: FormBuilder,
+    private dataEntryService: DataEntryService, private wsService : WaterSanitationService) { }
+    uploadedFiles;
+    waterFileUrl ='';
+    sanitationFileUrl ='';
   ngOnInit(): void {
+    this.wsService.getFiles()
+    .subscribe((res) => {
+      console.log()
+       if(res['plans']['sanitation'].url != '' && res['plans']['sanitation'].remarks != '' ){
+        this.fileNameSanitation = res['plans']['sanitation'].remarks;
+        this.sanitationProgress= 100;
+        this.sanitationFileUrl = res['plans']['sanitation'].url;
+       }
+       if(res['plans']['water'].url != '' && res['plans']['water'].remarks != '' ){
+       this.fileNameWater = res['plans']['water'].remarks;
 
+       this.waterFileUrl = res['plans']['water'].url;
+       this.waterProgress = 100;
+       }
+   },
+   error =>{
+      alert("An error occured.")
+      this.err = error.message;
+      console.log(this.err);
+   });
 
+  }
+
+  // public initializePlanWS(){
+
+  //   this.waterAndSanitation = this.fb.group({
+  //     plan_water :['', Validators.required],
+  //     plan_sanitation: ['', Validators.required]
+  //   })
+  // }
+  onSubmit(){
+
+  }
+  saveForm(){
+    this.submitted = true;
+    this.uploadedFiles = {
+      designYear:"5ea036c2d6f1c5ee2e702e9e",
+      plans:
+       {
+         water:
+          {
+              url: this.waterFileUrl,
+               remarks: this.fileNameWater
+           },
+      sanitation:
+        {
+           url: this.sanitationFileUrl,
+           remarks: this.fileNameSanitation
+        }
+      },
+      'isDraft': false
+    };
+    if(this.waterFileUrl != '' && this.sanitationFileUrl != ''){
+
+      this.wsService.sendRequest(this.uploadedFiles)
+          .subscribe((res) => {
+            console.log(res);
+            alert('Files uploaded successfully.')
+         },
+         error =>{
+            alert("An error occured.")
+            this.err = error.message;
+            console.log(this.err);
+         });
+  }else{
+    alert('Please upload the files')
+  }
+}
+  clearFiles(fileName){
+    if(fileName == 'fileNameWater' )
+       {
+         this.waterProgress= '';
+         this.fileNameWater = '';
+         this.waterFileUrl= ''
+       }
+       if(fileName == 'fileNameSanitation'){
+          this.sanitationProgress = '';
+          this.fileNameSanitation='';
+          this.sanitationFileUrl ='';
+       }
   }
 
 
 
-  fileChangeEvent(event){
-
+  fileChangeEvent(event, progessType, fileName){
+    this.submitted = false;
     this.resetFileTracker();
     const filesSelected = <Array<File>>event.target["files"];
     this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
@@ -59,7 +146,7 @@ fileProcessingTracker: {
   console.log(this.filesToUpload);
 
 
-  this.upload();
+  this.upload(progessType, fileName);
   }
   resetFileTracker() {
     this.filesToUpload = [];
@@ -82,46 +169,51 @@ fileProcessingTracker: {
   }
 
 
- async upload() {
+ async upload(progessType, fileName) {
    // this.submitted = true;
 
     const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
+    this[fileName] = files[0].name;
+     this[progessType] = 10;
 
-
-   // formData.append("year", this.bulkEntryForm.get("year").value);
     for (let i = 0; i < files.length; i++) {
       if (this.filesAlreadyInProcess.length > i) {
         continue;
       }
       this.filesAlreadyInProcess.push(i);
-    await this.uploadFile(files[i], i);
+    await this.uploadFile(files[i], i, progessType, fileName);
     }
+
+
 
   }
 
 
-  uploadFile(file: File, fileIndex: number) {
+  uploadFile(file: File, fileIndex: number, progessType, fileName) {
+   // console.log('percentage',this.fileUploadTracker[''][file.name]?.percentage)
     return new Promise((resolve, reject) => {
     this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
       (s3Response) => {
         const fileAlias = s3Response["data"][0]["file_alias"];
-       //  this.photoUrl = this.tabelRows['controls'][urlIndex]['controls']['photos'].value;
-       this.fileName = file.name;
-//        this.photoUrl.push({url: fileAlias})
 
-    //  this.tabelRows['controls'][urlIndex].patchValue({
-    //    photos: photoUrl
-    //  })
+       //this.fileName = file.name;
+       this[progessType] =Math.floor(Math.random() * 90) + 10;
+
       const s3URL = s3Response["data"][0].url;
+
         this.uploadFileToS3(
           file,
           s3URL,
           fileAlias,
-          fileIndex
+          fileIndex,
+          progessType
+
         );
         resolve("success")
+
         console.log('file url', fileAlias)
+
 
       },
       (err) => {
@@ -142,7 +234,8 @@ fileProcessingTracker: {
     s3URL: string,
     fileAlias: string,
   //  financialYear: string,
-    fileIndex: number
+    fileIndex: number,
+    progressType: string=''
   ) {
     this.dataEntryService
       .uploadFileToS3(file, s3URL)
@@ -155,6 +248,15 @@ fileProcessingTracker: {
       .subscribe(
         (res) => {
           if (res.type === HttpEventType.Response) {
+            this[progressType] =100;
+
+            if(progressType == 'waterProgress'){
+              this.waterFileUrl = fileAlias;
+            }
+            else{
+              this.sanitationFileUrl = fileAlias;
+            }
+            console.log('hi.....',progressType, this.waterFileUrl, this.sanitationFileUrl)
             // this.dataEntryService
             //   .sendUploadFileForProcessing(fileAlias)
               // .subscribe((res) => {

@@ -4,7 +4,7 @@ import { QuestionnaireService } from '../../../questionnaires/service/questionna
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
 
-import * as jspdf from 'jspdf';
+//import * as jspdf from 'jspdf';
 @Component({
   selector: 'app-preview-uti-form',
   templateUrl: './preview-uti-form.component.html',
@@ -25,28 +25,24 @@ export class PreviewUtiFormComponent implements OnInit {
 console.log(this.data)
   }
 
-makePdf() {
-  let showMagicDisplay = document.querySelectorAll('[class*="pdf-hide"]');
-showMagicDisplay.forEach((item) => {
-item.classList.add("d-none");
-});
-
-
-  let doc = new jsPDF('1' , 'mm' , 'a4');
-//   const content = this._html.nativeElement;
-// doc.fromHTML(content.innerHTML, 15, 15, {
-// width: 190
+// makePdf() {
+//   let showMagicDisplay = document.querySelectorAll('[class*="pdf-hide"]');
+// showMagicDisplay.forEach((item) => {
+// item.classList.add("d-none");
 // });
-//doc.save("obrz.pdf");
- doc.addHTML(this._html.nativeElement, function() {
-  doc.save("utilization-report.pdf");
-  showMagicDisplay.forEach((item) => {
-    item.classList.remove("d-none");
-     });
-  });
 
 
-  }
+//   let doc = new jsPDF('1' , 'mm' , 'a4');
+
+//  doc.addHTML(this._html.nativeElement, function() {
+//   doc.save("utilization-report.pdf");
+//   showMagicDisplay.forEach((item) => {
+//     item.classList.remove("d-none");
+//      });
+//   });
+
+
+//   }
 
 
     downloadForm() {
