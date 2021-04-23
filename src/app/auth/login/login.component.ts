@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "src/app/auth/auth.service";
 import { UserUtility } from "src/app/util/user/user";
-import { USER_TYPE } from 'src/app/models/user/userType';
+import { USER_TYPE } from "src/app/models/user/userType";
 
 import { timer, Subscription } from "rxjs";
 import { Pipe, PipeTransform } from "@angular/core";
@@ -35,11 +35,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   counter = 60;
   tick = 1000;
   counterTimer = false;
-  otpCreads:any = {}
-  loginSet: any ={}
-  ulbCode = ""
+  otpCreads: any = {};
+  loginSet: any = {};
+  ulbCode = "";
   public isOtpLogin = false;
-  selectedUserType=""
+  selectedUserType = "";
   public loginForm: FormGroup;
   public badCredentials: boolean;
   public submitted = false;
@@ -73,11 +73,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     this.loginForm = this.fb.group({
       email: ["", Validators.required],
       password: ["", Validators.required],
-      otp:[""],
+      otp: [""],
     });
 
     this.authService.badCredentials.subscribe((res) => {
@@ -90,7 +89,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    
     this.loginError = null;
     this.submitted = true;
     if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
@@ -191,7 +189,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   onSelectingUserType(value: USER_TYPE) {
     this.selectedUserType = value;
-    this.loginSet = this.loginDetails.find(item => item.role == this.selectedUserType)
+    this.loginSet = this.loginDetails.find(
+      (item) => item.role == this.selectedUserType
+    );
     switch (value) {
       case USER_TYPE.ULB:
         return this.loginForm.controls["email"].setValidators([
@@ -207,17 +207,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  otpLogin(){
+  otpLogin() {
     this.isOtpLogin = true;
     const body = { ...this.loginForm.value };
     body["email"] = body["email"].trim();
-    this.ulbCode = body["email"]
-    this.authService.otpSignIn(body).subscribe(res =>{
-      this.otpCreads = res;      
-    })
+    this.ulbCode = body["email"];
+    this.authService.otpSignIn(body).subscribe((res) => {
+      this.otpCreads = res;
+    });
   }
 
-  otpLoginSubmit(){
+  otpLoginSubmit() {
     if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
       this.loginError = "Login Failed. You must validate that you are human.";
       return;
@@ -226,35 +226,34 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.otpCreads.otp = body["otp"];
     this.authService.otpVerify(this.otpCreads).subscribe(
       (res) => this.onSuccessfullLogin(res),
-        (error) => this.onLoginError(error)
-    )
+      (error) => this.onLoginError(error)
+    );
   }
 
-  change(){
+  change() {
     this.isOtpLogin = false;
   }
 
-  startCountDown(){
-    if(this.countDown){
-      return true
+  startCountDown() {
+    if (this.countDown) {
+      return true;
     }
-    this.counterTimer = true
+    this.counterTimer = true;
     this.countDown = timer(0, this.tick).subscribe(() => {
       if (this.counter != 0) {
         --this.counter;
       } else {
         this.countDown = null;
-    this.counterTimer = false
-
+        this.counterTimer = false;
+        this.counter = 60;
       }
     });
-    this.otpLogin()
+    this.otpLogin();
   }
 }
 
-
 @Pipe({
-  name: "formatTime"
+  name: "formatTime",
 })
 export class FormatTimePipe implements PipeTransform {
   transform(value: number): string {

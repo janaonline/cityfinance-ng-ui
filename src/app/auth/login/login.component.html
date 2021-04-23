@@ -81,7 +81,7 @@
                 <div class="strike">
                   <span>Or</span>
                 </div>
-                <button class="btn-block login-btn" (click)="otpLogin()">
+                <button class="btn-block login-btn" (click)="startCountDown()">
                   Get OTP on your phone and email
                 </button>
               </div>
@@ -104,7 +104,7 @@
                   ><b
                     >An OTP has been sent to {{ otpCreads?.mobile }} and
                     {{ otpCreads?.email }} </b
-                  ><a (click)="change()">Change?</a></span
+                  ><a [routerLink]="['/ulb-not-registered']">Change?</a></span
                 >
               </div>
               <div *ngIf="selectedUserType === 'ULB'">

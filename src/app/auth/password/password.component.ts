@@ -147,7 +147,7 @@ export class PasswordComponent implements OnInit {
       (res) => {
         this.otpCreads = res;
         console.log(res);
-        
+
         form.value["token"] = res["token"];
         this.verified = true;
         this.resetPass(form);
@@ -193,7 +193,7 @@ export class PasswordComponent implements OnInit {
 
   private onGettingResponseError(error: HttpErrorResponse, form: FormGroup) {
     this.errorMessage = error.error.message;
-    this.successMessage = '';
+    this.successMessage = "";
     form.enable();
     this.resetCaptcha();
   }
@@ -288,8 +288,8 @@ export class PasswordComponent implements OnInit {
       (res) => {
         this.otpCreads = res;
         form.enable();
-        this.errorMessage = ''
-        this.successMessage = res['message'];
+        this.errorMessage = "";
+        this.successMessage = res["message"];
         this.counterTimer = true;
         this.countDown = timer(0, this.tick).subscribe(() => {
           if (this.counter != 0 && this.counterTimer) {
@@ -297,6 +297,7 @@ export class PasswordComponent implements OnInit {
           } else {
             this.countDown.unsubscribe();
             this.counterTimer = false;
+            this.counter = 60;
           }
         });
       },
@@ -311,15 +312,13 @@ export class PasswordComponent implements OnInit {
     this.sendOtp(form);
   }
 
-  changePasswordRequest(){
-    this.errorMessage = '';
-    this.successMessage = '';
-    this.uiType = 'request';
-    this.countDown.unsubscribe() 
-    this.countDown = null; 
+  changePasswordRequest() {
+    this.errorMessage = "";
+    this.successMessage = "";
+    this.uiType = "request";
+    this.countDown.unsubscribe();
+    this.countDown = null;
     this.counter = 60;
     this.counterTimer = false;
   }
-
-  
 }
