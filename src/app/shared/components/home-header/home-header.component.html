@@ -1,6 +1,14 @@
 <nav class="navbar container-fluid navbar-1st-row" id="1stNavbarRow">
-    <div class="navbar-header" id="firstRowNavbar" style="flex: 1; display: flex; align-items: center">
-        <span [routerLink]="['/']" class="navbar-brand d-flex align-items-center indian-emblem-wrapper" style="outline: none">
+  <div
+    class="navbar-header"
+    id="firstRowNavbar"
+    style="flex: 1; display: flex; align-items: center"
+  >
+    <span
+      [routerLink]="['/']"
+      class="navbar-brand d-flex align-items-center indian-emblem-wrapper"
+      style="outline: none"
+    >
       <img
         src="/assets/images/emblem-of-india.svg"
         alt="Emblem of India"
@@ -81,25 +89,44 @@
     aria-label="Toggle navigation"
   >
     <span class="navbar-toggler-icon"></span>
-        </button>
+  </button>
 
-        <ol>
-            <li [routerLink]="['/']" class="navbar-brand d-b-lg">
-                <img src="/assets/images/cityfinance-logo.png" class="web-logo" alt="City Finance Logo" />
-            </li>
-        </ol>
-        <ul class="nav navbar-nav navbar-right nav-ul collapse navbar-collapse" id="navbarNavDropdown" (click)="closeNavbar($event)">
-            <span class="sidebar-for-mobile" style="
+  <ol>
+    <li [routerLink]="['/']" class="navbar-brand d-b-lg">
+      <img
+        src="/assets/images/cityfinance-logo.png"
+        class="web-logo"
+        alt="City Finance Logo"
+      />
+    </li>
+  </ol>
+  <ul
+    class="nav navbar-nav navbar-right nav-ul collapse navbar-collapse"
+    id="navbarNavDropdown"
+    (click)="closeNavbar($event)"
+  >
+    <span
+      class="sidebar-for-mobile"
+      style="
         width: 65%;
         height: 100%;
         position: absolute;
         background-image: linear-gradient(to right, #095169, #059b9a);
-      "></span>
-            <li [routerLink]="['/']" class="navbar-brand d-n-sm" style="position: absolute; left: 20px">
-                <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
-            </li>
-            <li>
-                <a routerLinkActive="active" routerLink="/home" (click)="closeSidebarMenu()">Home</a
+      "
+    ></span>
+    <li
+      [routerLink]="['/']"
+      class="navbar-brand d-n-sm"
+      style="position: absolute; left: 20px"
+    >
+      <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
+    </li>
+    <li>
+      <a
+        routerLinkActive="active"
+        routerLink="/home"
+        (click)="closeSidebarMenu()"
+        >Home</a
       >
     </li>
     <li id="analyticsDropdown" routerLinkActive="active" class="test">
@@ -120,9 +147,18 @@
           aria-hidden="true"
         ></i>
       </a>
-                <ul class="dropdown-menu dropdown-menu-left">
-                    <li style="width: auto" routerLinkActive="active" *ngFor="let tab of tabs" (click)="onClickingAnalyticsSubMenu($event)">
-                        <a [routerLink]="[tab.url]" class="analytics-sub-menu" (click)="onClickingAnalyticsSubMenu($event)">
+      <ul class="dropdown-menu dropdown-menu-left">
+        <li
+          style="width: auto"
+          routerLinkActive="active"
+          *ngFor="let tab of tabs"
+          (click)="onClickingAnalyticsSubMenu($event)"
+        >
+          <a
+            [routerLink]="[tab.url]"
+            class="analytics-sub-menu"
+            (click)="onClickingAnalyticsSubMenu($event)"
+          >
             {{ tab.name }}</a
           >
         </li>
@@ -157,9 +193,13 @@
         }"
         >Borrowings
       </a>
-                        <ul class="dropdown-menu dropdown-menu-left">
-                            <li>
-                                <a routerLink="/borrowings/municipal-bond" routerLinkActive="active" (click)="closeSidebarMenu()">Municipal Bonds</a
+      <ul class="dropdown-menu dropdown-menu-left">
+        <li>
+          <a
+            routerLink="/borrowings/municipal-bond"
+            routerLinkActive="active"
+            (click)="closeSidebarMenu()"
+            >Municipal Bonds</a
           >
         </li>
         <li>
@@ -180,7 +220,8 @@
         </li>
       </ul>
     </li>
-  <li class="d-b-lg-menu">
+
+    <li class="d-b-lg-menu">
       <a
         routerLinkActive="active"
         routerLink="/borrowings/municipal-bond"
@@ -207,46 +248,51 @@
 
     <!-- <li routerLinkActive="active">
       <a [routerLink]="['/borrowings/report']">Credit Rating</a>
-                            </li>
-                            <li routerLinkActive="active">
-                                <a [routerLink]="['/borrowings/municipal-bond']"> Municipal Bonds</a>
-                            </li> -->
-                            <li *ngIf="isLoggedIn ? canViewFcGRantModule : true" style="background: #02dd76 !important">
-                                <a routerLinkActive="active" routerLink="/fc_grant" (click)="closeSidebarMenu()">
-                                    <img src="/assets/images/new.png" alt="New" class="new" /> 15
-                                    <sup style="text-transform: capitalize">th</sup> FC Grants
-                                </a>
-                                <li routerLinkActive="active" class="d-b-lg-menu" (click)="closeSidebarMenu()">
-                                    <a [routerLink]="['/entry-level']">
-Test
-</a>
-                                </li>
-                                <li routerLinkActive="active" class="d-n-sm" (click)="closeSidebarMenu()">
-                                    <a [routerLink]="['/entry-level']">
-Test
-</a>
-                                </li>
-                                <li routerLinkActive="active" class="d-n-sm">
-                                    <a [routerLink]="['/questionnaires/list']" [ngClass]="{ active: isQuestionnaireActive }" *ngIf="
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/borrowings/municipal-bond']"> Municipal Bonds</a>
+    </li> -->
+    <li
+      *ngIf="isLoggedIn ? canViewFcGRantModule : true"
+      style="background: #02dd76 !important"
+    >
+      <a
+        routerLinkActive="active"
+        routerLink="/fc_grant"
+        (click)="closeSidebarMenu()"
+      >
+        <img src="/assets/images/new.png" alt="New" class="new" />
+        15<sup style="text-transform: capitalize">th</sup> FC Grants
+      </a>
+    </li>
+    <li routerLinkActive="active" class="d-n-sm">
+      <a
+        [routerLink]="['/questionnaires/list']"
+        [ngClass]="{ active: isQuestionnaireActive }"
+        *ngIf="
           isLoggedIn
             ? canViewQuestionnaireList || canViewQuestionnaireForm
             : true
-        ">
+        "
+      >
         Questionnaire
       </a>
-                                </li>
-                                <li routerLinkActive="active">
-                                    <a [routerLink]="['/user/list/ULB']" *ngIf="isLoggedIn && (canViewUserList || canViewULBSingUpListing)">
+    </li>
+    <li routerLinkActive="active">
+      <a
+        [routerLink]="['/user/list/ULB']"
+        *ngIf="isLoggedIn && (canViewUserList || canViewULBSingUpListing)"
+      >
         Users
       </a>
-                                </li>
-                                <!-- <li *ngIf="isLoggedIn && canViewUploadData">
+    </li>
+    <!-- <li *ngIf="isLoggedIn && canViewUploadData">
       <a [routerLink]="['user', 'data-upload', 'list']" class="pointer"
         >Data upload</a
       >
     </li> -->
 
-                                <!-- <li
+    <!-- <li
       routerLinkActive="active"
       class="dropdown"
       style="
@@ -299,5 +345,5 @@ Test
         </div>
       </div>
     </li> -->
-                        </ul>
-    </div>
+  </ul>
+</div>
