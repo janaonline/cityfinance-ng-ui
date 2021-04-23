@@ -54,14 +54,14 @@ fileProcessingTracker: {
       console.log()
        if(res['plans']['sanitation'].url != '' && res['plans']['sanitation'].remarks != '' ){
         this.fileNameSanitation = res['plans']['sanitation'].remarks;
-        this.sanitationProgress= 100;
+        // this.sanitationProgress= 100;
         this.sanitationFileUrl = res['plans']['sanitation'].url;
        }
        if(res['plans']['water'].url != '' && res['plans']['water'].remarks != '' ){
        this.fileNameWater = res['plans']['water'].remarks;
 
        this.waterFileUrl = res['plans']['water'].url;
-       this.waterProgress = 100;
+      //  this.waterProgress = 100;
        }
    },
    error =>{
