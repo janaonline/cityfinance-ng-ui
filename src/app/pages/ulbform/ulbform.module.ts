@@ -19,6 +19,7 @@ import { WaterSanitationComponent } from './water-sanitation/water-sanitation.co
 import { SixDigitDecimaNumberDirective, TwoDigitDecimaNumberDirective } from './utilisation-report/decimal.directive';
 import { GrantTraCertiComponent } from './grant-tra-certi/grant-tra-certi.component';
 import { ImagePreviewComponent } from './utilisation-report/image-preview/image-preview.component';
+import { SlbsComponent } from './slbs/slbs.component';
 @NgModule({
   entryComponents: [PreviewUtiFormComponent, ImagePreviewComponent],
   declarations: [
@@ -29,7 +30,8 @@ import { ImagePreviewComponent } from './utilisation-report/image-preview/image-
      TwoDigitDecimaNumberDirective,
      SixDigitDecimaNumberDirective,
      GrantTraCertiComponent,
-     ImagePreviewComponent
+     ImagePreviewComponent,
+     SlbsComponent
     ],
   imports: [
     CommonModule,

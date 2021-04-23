@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { GrantTraCertiComponent } from './grant-tra-certi/grant-tra-certi.component';
+import { SlbsComponent } from './slbs/slbs.component';
 import { UlbformComponent } from './ulbform.component';
 import { UtilisationReportComponent } from './utilisation-report/utilisation-report.component';
 import { WaterSanitationComponent } from './water-sanitation/water-sanitation.component';
@@ -18,6 +19,9 @@ const routes: Routes = [
   },
   {
     path:"grant-tra-certi" , component: GrantTraCertiComponent
+  },
+  {
+    path:"slbs" , component: SlbsComponent
   }
 ]
  }
