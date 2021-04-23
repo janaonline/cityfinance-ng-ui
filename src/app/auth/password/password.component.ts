@@ -193,6 +193,7 @@ export class PasswordComponent implements OnInit {
 
   private onGettingResponseError(error: HttpErrorResponse, form: FormGroup) {
     this.errorMessage = error.error.message;
+    this.successMessage = '';
     form.enable();
     this.resetCaptcha();
   }
@@ -287,6 +288,17 @@ export class PasswordComponent implements OnInit {
       (res) => {
         this.otpCreads = res;
         form.enable();
+        this.errorMessage = ''
+        this.successMessage = res['message'];
+        this.counterTimer = true;
+        this.countDown = timer(0, this.tick).subscribe(() => {
+          if (this.counter != 0 && this.counterTimer) {
+            --this.counter;
+          } else {
+            this.countDown.unsubscribe();
+            this.counterTimer = false;
+          }
+        });
       },
       (error) => this.onGettingResponseError(error, form)
     );
@@ -296,15 +308,18 @@ export class PasswordComponent implements OnInit {
     if (this.countDown) {
       return true;
     }
-    this.counterTimer = true;
-    this.countDown = timer(0, this.tick).subscribe(() => {
-      if (this.counter != 0) {
-        --this.counter;
-      } else {
-        this.countDown = null;
-        this.counterTimer = false;
-      }
-    });
     this.sendOtp(form);
   }
+
+  changePasswordRequest(){
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.uiType = 'request';
+    this.countDown.unsubscribe() 
+    this.countDown = null; 
+    this.counter = 60;
+    this.counterTimer = false;
+  }
+
+  
 }
