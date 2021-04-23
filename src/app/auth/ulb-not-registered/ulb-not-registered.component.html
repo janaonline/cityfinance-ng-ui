@@ -1,0 +1,71 @@
+<div class="fc-grant">
+  <div class="container-fluid">
+    <div class="align-items-center d-flex flex-wrap" class="overall-container">
+      <div class="col-xs-12 col-sm-12 col-md-6">
+        <div class="card bg-white sign-in">
+          <div class="card-body border">
+            <h4 class="text-center"><b>ULB not registered with us!</b></h4>
+            <hr class="Sepline" />
+            <div class="row">
+              <div class="col-md-6">
+                <span><b>Please select the state you belong to </b></span>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="fill">
+                  <mat-select
+                    placeholder="State"
+                    (selectionChange)="setNodalOfficer($event)"
+                  >
+                    <mat-option *ngFor="let state of states" [value]="state">
+                      {{ state.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <br />
+            </div>
+            <div *ngIf="stateName">
+              <span class="row"
+                ><b>*Please contact {{ stateName }} Nodal Officer at</b><br
+              /></span>
+              <span class="row"
+                ><b>{{ nodalOfficer.email }}</b></span
+              >
+              <span *ngIf="nodalOfficer.number" class="row"><b>(Or)</b></span>
+              <span *ngIf="nodalOfficer.number" class="row"
+                ><b>{{ nodalOfficer.number }}</b></span
+              >
+            </div>
+            <div class="pull-left">
+              <i class="material-icons">keyboard_backspace</i>
+              <a [routerLink]="['/login']"> Back to Login Screen</a>
+            </div>
+            <br />
+            <hr class="Sepline" />
+            <span class="text-center"
+              >If your state Nodal Officer has not been reachable in last 7 days
+              <br />
+              Write to us at 15fcgrant@cityfinance.in
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 text-center image-side">
+        <div class="img-wrapper text-center">
+          <img
+            src="../assets/images/Group 13309.png"
+            class="img-responsive m-auto"
+          />
+        </div>
+
+        <P
+          >For clarifications/ questions, please email us at
+          <br />
+          <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a
+          >.
+        </P>
+        <p>We will respond to you within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</div>
