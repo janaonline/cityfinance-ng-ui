@@ -52,4 +52,10 @@ export class AuthService {
   logout() {
     localStorage.clear();
   }
+  otpSignIn(body){
+    return this.http.post(`${environment.api.url}sendOtp`,body)
+  }
+  otpVerify(body){
+    return this.http.post(`${environment.api.url}verifyOtp`,body)
+  }
 }
