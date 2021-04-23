@@ -1,0 +1,16 @@
+<div class="text-right ">
+    <a mat-dialog-close style="margin-right: 4%;">
+        <mat-icon aria-hidden="false">
+            <img src="../../../../../assets/form-icon/close-red-icon.png" style="color: red;">
+        </mat-icon>
+    </a>
+</div>
+<div class="card" *ngFor="let imgUrl
+of data" style="display: inline-block; margin: 3px 3px; width: 200px; height: 200px;">
+    <div class="card-body">
+        <img class="ml-2" [src]="imgUrl.url" alt="" width="200px" height="200px">
+    </div>
+</div>
+<!-- <div style="display: block; margin-top: 15px;">
+    <button mat-dialog-close>Close</button>
+</div> -->

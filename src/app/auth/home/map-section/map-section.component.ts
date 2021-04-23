@@ -300,6 +300,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   }
 
   calculateMapZoomLevel() {
+
     let zoom: number;
     const userUtil = new UserUtility();
     if (userUtil.isUserOnMobile()) {

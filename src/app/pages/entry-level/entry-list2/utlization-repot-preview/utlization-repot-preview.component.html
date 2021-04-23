@@ -1,0 +1,126 @@
+<mat-dialog-content style="margin-top: 0;">
+    <mat-card class="header" style="text-align: center; padding: 5px 5px;">
+        <div class="text-right">
+            <a mat-dialog-close style="margin-right: 4%;">
+                <mat-icon aria-hidden="false">
+                    <img src="../../../../../assets/form-icon/Icon material-close.svg">
+                </mat-icon>
+            </a>
+        </div>
+
+
+        <label class="listitem_head">
+              Utilization report in respect of 15th finance commission tied grants for year</label>
+        <label class="listitem_grantYear">2020-21</label>
+        <label class="listitem_subHead" style="margin-bottom: 2px;">
+              (To be submitted by State in case of Million Plus Cities/UAS and by cities/ ULBs through State in case of Non Million Plus Cities )
+            </label>
+
+    </mat-card>
+    <div class="text-right dnDiv">
+        <button mat-button class="dnldBtn">Download as PDF</button>
+    </div>
+
+    <mat-card class="mat-card2">
+        <div class="card2Div">
+            <label for="" class="card2">1. State Name</label>
+            <label for="" class="card2">{{data[0].stateName}} </label>
+        </div>
+        <div>
+            <label for="" class="card2">2. Name of MPC/UA/NMPC</label>
+            <label for="" class="card2">{{data[0].ulb}}  </label>
+        </div>
+        <div>
+            <label for="" class="card2">3. Type of grant</label>
+            <label for="" class="card2">{{data[0].grantType}}  </label>
+        </div>
+
+    </mat-card>
+    <mat-card class="mat-card2">
+        <div class="card2Div">
+            <label>4. 15th FC Tied Grant Position during the year :</label>
+        </div>
+        <div class="c-2-d">
+            <label for="" class="card2">(i) Unutilized from previous installments</label>
+            <label for="" class="card2">{{data[0].unUtilizedPrevYr}} </label>
+        </div>
+        <div class="c-2-d">
+            <label for="" class="card2">(ii) Tied Grant received during the year</label>
+            <label for="" class="card2">{{data[0].receivedDuringYr}}  </label>
+        </div>
+        <div class="c-2-d">
+            <label for="" class="card2">(iii) Expenditure incurred during the year</label>
+            <label for="" class="card2">{{data[0].expDuringYr}}  </label>
+        </div>
+        <div class="crd-ls-div c-2-d">
+            <label for="" class="card3"> <b>(vi) Closing balance at the end of year (2(i)+2(ii)-2(iii))</b> </label>
+            <label for="" class="card3"> <b>{{data[1]}} </b>  </label>
+        </div>
+
+    </mat-card>
+    <mat-card class="mat-card2">
+        <div class="card2Div">
+            <label>5. Component Wise Utilization of Tied grants (break-up of expenditure incurred in 2(iii) :</label>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr class="thHeader">
+                    <th scope="col">S.No</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Name of the Project</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Capacity</th>
+                    <th scope="col">Upload Images</th>
+                    <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
+                    <th scope="col">Project Cost</th>
+                    <th scope="col">Expenditure</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of data[0].utilizationTabel; let i=index" style="text-align: center; vertical-align: inherit;">
+                    <td>{{1+i}}</td>
+                    <td>{{data[0].utilizationTabel[i].category}}</td>
+                    <td>{{data[0].utilizationTabel[i].project_name}}</td>
+                    <td>{{data[0].utilizationTabel[i].desctiption}}</td>
+                    <td>{{data[0].utilizationTabel[i].capacity}}</td>
+                    <td>
+                        <!-- {{data[0].utilizationTabel[0][i].imgUpload}} -->
+                    </td>
+                    <td>
+                        <label for="" class="bor-in-l">{{data[0].utilizationTabel[i].lat}}</label>
+                        <label for="" class="bor-in-l" style="margin-left: 5px;">{{data[0].utilizationTabel[i].long}}</label>
+
+                    </td>
+                    <td> <label class="bor-in-l" for="">{{data[0].utilizationTabel[i].project_cost}}</label></td>
+                    <td> <label for="" class="bor-in-l">{{data[0].utilizationTabel[i].expenditure}}</label> </td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr class="tableFooterDiv" style="text-align: center; vertical-align: inherit;">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><span>Total</span></td>
+                    <td><span>{{data[2]}}</span></td>
+                    <td> <span>{{data[3]}}</span></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="margin-left: 73%;">
+            <p class="f-d-n "><b>Name : {{data[0].name}} </b></p>
+            <p class="f-d-n "><b>Designation : {{data[0].designation}} </b></p>
+        </div>
+    </mat-card>
+
+
+
+
+
+
+</mat-dialog-content>

@@ -1,0 +1,108 @@
+.mat-drawer-content {
+    position: relative;
+    z-index: 1;
+    display: block;
+    height: 120rem;
+    overflow: auto;
+}
+
+.container-fluid {
+    // margin-left: 20px;
+    background-color: #FFFFFF;
+}
+
+.header1 {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 24px;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+.sideNav {
+    background-color: #F2F2F2;
+    //  margin-left: 8px;
+}
+
+h5 {
+    display: inline-block;
+    color: white;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: Segoe UI;
+}
+
+.subBtnDiv {
+    margin-top: 20px;
+}
+
+.subBtn {
+    background-color: #124A55;
+    font-size: 12px;
+    font-weight: normal;
+    font-family: Segoe UI;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+// .mat-raised-button {
+//     position: relative;
+//     font-size: 12px;
+//     font-weight: normal;
+//     font-family: Segoe UI;
+//     border-radius: 3px;
+//     opacity: 1;
+//     // padding: 3px 3px 3px 3px;
+//     width: 63px;
+//     height: 35px;
+// }
+ul {
+    margin-left: 6px;
+    margin-right: 6px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-size: 12px;
+}
+
+// ul:hover {
+//     background-color: #ffc500;
+//     color: #ffff;
+// }
+// ul>a:focus,
+// ul>a:hover,
+// ul.active,
+// a.active {
+//     text-decoration: none;
+//     background-color: #ffc500 !important;
+//     background: #ffc500 !important;
+// }
+ul.active {
+    background-color: #ffc500;
+    margin-left: 6px;
+    margin-right: 6px;
+    color: #ffff;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+    opacity: 1;
+    font-weight: 600;
+}
+
+a:hover,
+ul:hover {
+    background-color: #ffc500;
+    margin-left: 6px;
+    margin-right: 6px;
+    color: #ffff;
+}
+
+.mat-icon {
+    width: 20px;
+    height: 0px;
+}
+
+.material-icons {
+    font-size: 12px;
+}
