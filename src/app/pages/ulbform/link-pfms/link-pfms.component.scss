@@ -1,0 +1,40 @@
+.tabHead{
+    margin: auto;
+    text-align: center;
+ 
+}
+
+.heading{
+    background-color: rgb(202, 202, 202);
+    margin-top: 5px;
+    margin-left: 10px;
+    border-radius: 2px;
+    padding: 7px 4px;
+}
+.question{
+    width:100%;
+    border-radius: 5px;
+    height: auto;
+margin-top:5rem;
+background-color:rgb(245, 245, 245);
+box-shadow: 2px 4px 5px #cecece;
+padding:5px 6px;
+}
+
+.heading:hover{
+    background-color: rgb(0, 70, 75);
+    color: white
+}
+
+.btn{
+   margin-top: 2rem;
+    background-color: #CFCFCF;
+    width: 106px;
+    height: 36px;
+   
+}
+
+.btn:hover{
+    background-color: yellow;
+    font-weight: bold;
+}
