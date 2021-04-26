@@ -90,7 +90,19 @@
                 [routerLink]="['/ulb-not-registered']"
                 ><span>Not Registered?</span></a
               >
-              <a *ngIf="selectedUserType === 'USER'"><span>Need Help?</span></a>
+              <a *ngIf="selectedUserType === 'USER'" (click)="help = true"
+                ><span>Need Help?</span></a
+              >
+              <div
+                *ngIf="help"
+                style="display: grid"
+                matTooltip="Please write to us at 15fcgrant@cityfinance.in"
+                class="row"
+              >
+                <a>Not Registered?</a>
+                <a>Update Email ID?</a>
+                <a>Can not Access 15th FC Module?</a>
+              </div>
             </div>
           </div>
           <div *ngIf="isOtpLogin">
@@ -104,7 +116,12 @@
                   ><b
                     >An OTP has been sent to {{ otpCreads?.mobile }} and
                     {{ otpCreads?.email }} </b
-                  ><a [routerLink]="['/ulb-not-registered']">Change?</a></span
+                  ><a
+                    [routerLink]="['/ulb-not-registered']"
+                    [onclick]="onChangeNumber()"
+                    *ngIf="selectedUserType === 'ULB'"
+                    >Change?</a
+                  ></span
                 >
               </div>
               <div *ngIf="selectedUserType === 'ULB'">

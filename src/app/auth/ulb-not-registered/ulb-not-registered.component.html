@@ -4,40 +4,69 @@
       <div class="col-xs-12 col-sm-12 col-md-6">
         <div class="card bg-white sign-in">
           <div class="card-body border">
-            <h4 class="text-center"><b>ULB not registered with us!</b></h4>
+            <h4 class="text-center" *ngIf="!changeNumber.state">
+              <b>ULB not registered with us!</b>
+            </h4>
+            <h4 class="text-center" *ngIf="changeNumber.state">
+              <b>Want to change your Email Id or Phone Number ?</b>
+            </h4>
             <hr class="Sepline" />
-            <div class="row">
-              <div class="col-md-6">
-                <span><b>Please select the state you belong to </b></span>
+            <div>
+              <div *ngIf="!changeNumber.state" class="row">
+                <div class="col-md-6">
+                  <span><b>Please select the state you belong to </b></span>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field appearance="fill">
+                    <mat-select
+                      placeholder="State"
+                      (selectionChange)="setNodalOfficer($event)"
+                    >
+                      <mat-option *ngFor="let state of states" [value]="state">
+                        {{ state.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <br />
               </div>
-              <div class="col-md-4">
-                <mat-form-field appearance="fill">
-                  <mat-select
-                    placeholder="State"
-                    (selectionChange)="setNodalOfficer($event)"
+              <div *ngIf="changeNumber.state">
+                <span class="row"
+                  ><b
+                    >Dear {{ changeNumber.name }}, {{ changeNumber.state }}</b
+                  ></span
+                >
+                <span class="row" *ngIf="changeNumber.ulb"
+                  >Census Code/ ULB Code-{{ changeNumber.ulb }}
+                  <a [routerLink]="['/login']">Change?</a></span
+                >
+              </div>
+              <div *ngIf="stateName">
+                <span class="row"
+                  ><b>*Please contact {{ stateName }} Nodal Officer at</b><br
+                /></span>
+                <span *ngIf="nodalOfficer.email || nodalOfficer.number">
+                  <span class="row"
+                    ><b>{{ nodalOfficer.email }}</b></span
                   >
-                    <mat-option *ngFor="let state of states" [value]="state">
-                      {{ state.name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+                  <span *ngIf="nodalOfficer.number" class="row"
+                    ><b>(Or)</b></span
+                  >
+                  <span *ngIf="nodalOfficer.number" class="row"
+                    ><b>{{ nodalOfficer.number }}</b></span
+                  >
+                </span>
+                <span
+                  *ngIf="!nodalOfficer.email || !nodalOfficer.number"
+                  class="row"
+                  ><b>Not Available</b></span
+                >
               </div>
-              <br />
-            </div>
-            <div *ngIf="stateName">
-              <span class="row"
-                ><b>*Please contact {{ stateName }} Nodal Officer at</b><br
-              /></span>
-              <span class="row"
-                ><b>{{ nodalOfficer.email }}</b></span
-              >
-              <span *ngIf="nodalOfficer.number" class="row"><b>(Or)</b></span>
-              <span *ngIf="nodalOfficer.number" class="row"
-                ><b>{{ nodalOfficer.number }}</b></span
-              >
             </div>
             <div class="pull-left">
-              <i class="material-icons">keyboard_backspace</i>
+              <i style="vertical-align: bottom" class="material-icons"
+                >keyboard_backspace</i
+              >
               <a [routerLink]="['/login']"> Back to Login Screen</a>
             </div>
             <br />

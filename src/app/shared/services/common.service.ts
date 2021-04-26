@@ -422,6 +422,14 @@ export class CommonService {
 
     return { ...newObj };
   }
+  stateRegister:any = {}
+  setGetStateRegister(set, data = null): Observable<any> {
+    if(set){
+      this.stateRegister = data
+    }else{
+      return this.stateRegister ;
+    }
+  }
 
   loadStatesAgg(): Observable<any> {
     return this.http.get("/assets/files/homeDashboardStateAggData.json");

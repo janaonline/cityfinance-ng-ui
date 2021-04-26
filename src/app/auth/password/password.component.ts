@@ -9,6 +9,8 @@ import { PasswordValidator } from "src/app/util/passwordValidator";
 import { environment } from "./../../../environments/environment";
 import { timer, Subscription } from "rxjs";
 import { PasswordService } from "./service/password.service";
+import { Pipe, PipeTransform } from "@angular/core";
+import { CommonService } from "src/app/shared/services/common.service";
 
 @Component({
   selector: "app-password",
@@ -54,7 +56,9 @@ export class PasswordComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private _activatedRoute: ActivatedRoute,
-    private _passwordService: PasswordService
+    private _passwordService: PasswordService,
+    private commonService: CommonService
+
   ) {
     this.initializeForms();
     this.validateUrl();
@@ -287,6 +291,7 @@ export class PasswordComponent implements OnInit {
     this.authService.otpSignIn(form.value).subscribe(
       (res) => {
         this.otpCreads = res;
+        this.otpCreads.ulbCode = form.value?.email
         form.enable();
         this.errorMessage = "";
         this.successMessage = res["message"];
@@ -295,7 +300,7 @@ export class PasswordComponent implements OnInit {
           if (this.counter != 0 && this.counterTimer) {
             --this.counter;
           } else {
-            this.countDown.unsubscribe();
+            this.countDown = null;
             this.counterTimer = false;
             this.counter = 60;
           }
@@ -320,5 +325,22 @@ export class PasswordComponent implements OnInit {
     this.countDown = null;
     this.counter = 60;
     this.counterTimer = false;
+  }
+
+  onChangeNumber(){
+    this.commonService.setGetStateRegister(true,this.otpCreads);
+  }
+}
+@Pipe({
+  name: "formatTime",
+})
+export class FormatTimePipe implements PipeTransform {
+  transform(value: number): string {
+    const minutes: number = Math.floor(value / 60);
+    return (
+      ("00" + minutes).slice(-2) +
+      ":" +
+      ("00" + Math.floor(value - minutes * 60)).slice(-2)
+    );
   }
 }

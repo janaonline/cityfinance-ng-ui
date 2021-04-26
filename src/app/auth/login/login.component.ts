@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   counter = 60;
   tick = 1000;
   counterTimer = false;
+  help = false;
   otpCreads: any = {};
   loginSet: any = {};
   ulbCode = "";
@@ -249,6 +250,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
     });
     this.otpLogin();
+  }
+
+  onChangeNumber(){
+    this.commonService.setGetStateRegister(true,this.otpCreads);
   }
 }
 
