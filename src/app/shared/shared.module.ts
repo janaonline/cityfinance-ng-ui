@@ -40,7 +40,11 @@ import { RupeeConverterPipe } from './pipes/rupee-converter.pipe';
 import { TypeofPipe } from './pipes/typeof.pipe';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { TickIconComponent } from './tick-icon/tick-icon.component';
-
+import { MapDialogComponent } from './components/map-dialog/map-dialog.component';
+import { GoogleMapComponent } from './components/google-map/google-map.component';
+//G-Mpas
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+import { AgmCoreModule } from "@agm/core";
 @NgModule({
   imports: [
     RouterModule,
@@ -59,6 +63,12 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     MatSlideToggleModule,
     MatSelectModule,
     MatCheckboxModule,
+    GooglePlaceModule,
+    AgmCoreModule.forRoot({
+      apiKey : 'AIzaSyBum81Liii93xQ3JerXGozwDmNSutlZHro&libraries',
+      libraries : ['places']
+    }),
+    MatCardModule
   ],
   declarations: [
     PreLoaderComponent,
@@ -79,6 +89,8 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     FormhistoryComponent,
     IncompleteProfileComponent,
     FileUploadComponent,
+    MapDialogComponent,
+    GoogleMapComponent,
   ],
   exports: [
     PreLoaderComponent,

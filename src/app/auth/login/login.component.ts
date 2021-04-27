@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   tick = 1000;
   counterTimer = false;
   help = false;
+  noCodeError = false
   otpCreads: any = {};
   loginSet: any = {};
   ulbCode = "";
@@ -235,10 +236,21 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isOtpLogin = false;
   }
 
-  startCountDown() {
+  startCountDown(form = null) {
     if (this.countDown) {
       return true;
     }
+
+    if (form.controls.email.value === "") {
+      this.noCodeError = true;
+
+      setTimeout(() => {
+        this.noCodeError = false;
+      }, 1500);
+
+      return true;
+    }
+
     this.counterTimer = true;
     this.countDown = timer(0, this.tick).subscribe(() => {
       if (this.counter != 0) {

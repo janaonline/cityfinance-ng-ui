@@ -31,6 +31,7 @@
                     style="z-index: 9999999; position: absolute; right: 2%"
                   ></i>
                 </mat-form-field>
+                <span *ngIf="noCodeError" class="text-danger">{{loginSet.loginName }}</span>
                 <br />
                 <div class="forget-password">
                   <mat-form-field appearance="outline">
@@ -81,7 +82,7 @@
                 <div class="strike">
                   <span>Or</span>
                 </div>
-                <button class="btn-block login-btn" (click)="startCountDown()">
+                <button class="btn-block login-btn" (click)="startCountDown(loginForm)">
                   Get OTP on your phone and email
                 </button>
               </div>
