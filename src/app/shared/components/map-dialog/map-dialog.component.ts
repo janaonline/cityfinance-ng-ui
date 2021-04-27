@@ -16,4 +16,7 @@ export class MapDialogComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
+  getLocation(e){
+    console.log(e);
+  }
 }

@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   tick = 1000;
   counterTimer = false;
   help = false;
-  noCodeError = false
+  noCodeError = false;
   otpCreads: any = {};
   loginSet: any = {};
   ulbCode = "";
@@ -210,16 +210,25 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   otpLogin() {
-    this.isOtpLogin = true;
+    this.loginError = null;
     const body = { ...this.loginForm.value };
     body["email"] = body["email"].trim();
     this.ulbCode = body["email"];
-    this.authService.otpSignIn(body).subscribe((res) => {
-      this.otpCreads = res;
-    });
+    this.authService.otpSignIn(body).subscribe(
+      (res) => {
+        this.otpCreads = res;
+    this.isOtpLogin = true;
+
+      },
+      (error) => {
+        this.onLoginError(error)
+        this.countDown = null;
+      }
+    );
   }
 
   otpLoginSubmit() {
+    this.loginError = null;
     if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
       this.loginError = "Login Failed. You must validate that you are human.";
       return;
@@ -234,6 +243,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   change() {
     this.isOtpLogin = false;
+    this.countDown = null;
   }
 
   startCountDown(form = null) {
@@ -241,7 +251,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       return true;
     }
 
-    if (form.controls.email.value === "") {
+    if (form?.controls.email.value === "") {
       this.noCodeError = true;
 
       setTimeout(() => {
@@ -253,6 +263,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.counterTimer = true;
     this.countDown = timer(0, this.tick).subscribe(() => {
+      console.log(this.tick);
+      
       if (this.counter != 0) {
         --this.counter;
       } else {
@@ -264,8 +276,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.otpLogin();
   }
 
-  onChangeNumber(){
-    this.commonService.setGetStateRegister(true,this.otpCreads);
+  onChangeNumber() {
+    this.commonService.setGetStateRegister(true, this.otpCreads);
   }
 }
 

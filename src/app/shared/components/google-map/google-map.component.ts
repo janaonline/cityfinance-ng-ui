@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import {  EventEmitter, Output } from '@angular/core';
+
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
@@ -7,7 +9,11 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
   templateUrl: './google-map.component.html',
   styleUrls: ['./google-map.component.scss']
 })
+
 export class GoogleMapComponent implements OnInit {
+
+  @Output()
+  locationSelected = new EventEmitter<Object>();
 
   title = 'angular-maps';
   @ViewChild("placesRef") placesRef : GooglePlaceDirective;
@@ -16,6 +22,10 @@ export class GoogleMapComponent implements OnInit {
     componentRestrictions: { country: 'IN' }
   }
 
+  location:any = {
+    latitude:{},
+    longitude:{}
+  }
   title_add;
   latitude;
   longitude;
@@ -43,5 +53,16 @@ export class GoogleMapComponent implements OnInit {
   chooseLocation(e){
     this.latitude = e.coords.lat;
     this.longitude = e.coords.lng
+  }
+
+  onSubmit(){
+    this.location.latitude = this.latitude;
+    this.location.longitude = this.longitude;
+    this.locationSelected.emit(this.location);
+  }
+
+  onDrag(e){
+    this.latitude = e.coords.lat;
+    this.longitude = e.coords.lng;
   }
 }

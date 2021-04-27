@@ -615,7 +615,7 @@ export class UtilisationReportComponent implements OnInit {
     control.clear();
   }
 
-  openDialog(): void {
+  openDialog(form): void {
     const dialogRef = this.dialog.open(MapDialogComponent, {
       width: "60%",
       height: "65%",

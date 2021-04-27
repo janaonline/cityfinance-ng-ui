@@ -31,7 +31,6 @@
                     style="z-index: 9999999; position: absolute; right: 2%"
                   ></i>
                 </mat-form-field>
-                <span *ngIf="noCodeError" class="text-danger">{{loginSet.loginName }}</span>
                 <br />
                 <div class="forget-password">
                   <mat-form-field appearance="outline">
@@ -63,7 +62,7 @@
                   [siteKey]="reCaptcha.siteKey"
                 >
                 </re-captcha>
-
+                <span *ngIf="noCodeError" class="text-danger">{{loginSet.loginName }}</span>
                 <p *ngIf="loginError" class="error-message mt-1 text-left">
                   <span [innerHtml]="loginError"></span>
                 </p>
@@ -119,7 +118,7 @@
                     {{ otpCreads?.email }} </b
                   ><a
                     [routerLink]="['/ulb-not-registered']"
-                    [onclick]="onChangeNumber()"
+                    [click]="onChangeNumber()"
                     *ngIf="selectedUserType === 'ULB'"
                     >Change?</a
                   ></span

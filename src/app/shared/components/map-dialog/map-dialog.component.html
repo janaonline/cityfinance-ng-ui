@@ -1,6 +1,7 @@
 <div class="text-center">
     <span ><b>ENTER PROJECT LOCATION</b></span>
-    <app-google-map>
+    <app-google-map
+    (locationSelected)="getLocation($event)"
+    >
     </app-google-map>
-    <button class="btn-primary pull-right p3" style="margin-top: 1pc;">Submit</button>
 </div>
