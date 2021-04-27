@@ -26,6 +26,11 @@ export const appRouter: Routes = [
       import("./pages/fc-grant/fc-grant.module").then((m) => m.FcGrantModule),
   },
   {
+    path: "fc-home-page",
+    loadChildren: () =>
+      import("./pages/fc-grant-home/fc-grant-home.module").then((m) => m.FcGrantHomeModule),
+  },
+  {
     path: "ulbform",
     loadChildren: () =>
       import("./pages/ulbform/ulbform.module").then(
