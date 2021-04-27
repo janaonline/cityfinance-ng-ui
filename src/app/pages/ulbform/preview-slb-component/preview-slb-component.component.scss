@@ -1,0 +1,30 @@
+.td-width {
+    width: 25%;
+  }
+  
+  :host {
+    .scrol {
+      height: 62vh;
+      overflow-y: scroll;
+    }
+    button {
+      background: #047474;
+    }
+  
+    table tbody tr:nth-child(even) {
+      background: #007c7c14;
+    }
+    // table tbody tr {
+    //   border: 5% solid red;
+    // }
+  
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-weight: 700;
+    }
+  }
+  
