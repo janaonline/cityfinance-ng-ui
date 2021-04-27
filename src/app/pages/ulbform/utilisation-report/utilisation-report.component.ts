@@ -135,8 +135,8 @@ export class UtilisationReportComponent implements OnInit {
 
    projects: this.fb.array([this.fb.group({
         category: ['', Validators.required],
-        name: ['', Validators.required],
-        description: ['', Validators.required],
+        name: ['',[Validators.required, Validators.maxLength(50)]],
+        description: ['',[Validators.required, Validators.maxLength(200)]],
        // 'imgUpload' : new FormControl(''),
        photos:this.fb.array( [
         // this.fb.group({
@@ -159,10 +159,24 @@ export class UtilisationReportComponent implements OnInit {
 
     });
    // this.utilizationReport.disable();
+   console.log('hi',this.utilizationReport);
   }
 
   get utiReportFormControl() {
     return this.utilizationReport.controls;
+  }
+  public whiteSpaceRem(controlName){
+    if(controlName == 'name'){
+      let name = this.utilizationReport.controls.name.value;
+      name = name.trim();
+      this.utilizationReport.controls.name.patchValue(name);
+    }
+    if(controlName == 'designation'){
+      let designation = this.utilizationReport.controls.designation.value;
+     designation = designation.trim();
+      this.utilizationReport.controls.designation.patchValue(designation);
+    }
+   // console.log('hi...2',(this.utilizationReport.controls.designation.value).trim());
   }
 
   private initializeUserType() {
@@ -174,25 +188,35 @@ export class UtilisationReportComponent implements OnInit {
 
   }
   calAmount(setFormControl){
-    // alert("hello")
+
+    let controlValue = +this.utilizationReport.value.grantPosition[setFormControl]
+    if(!isNaN(controlValue) || controlValue != 0){
+      controlValue.toFixed(2);
+    }
+
+      this.patchValue(controlValue, setFormControl);
+
+    this.toatalSum();
+
+  }
+  toatalSum(){
     this.totalclosingBal = Number(this.utilizationReport.value.grantPosition.unUtilizedPrevYr) +
     Number(this.utilizationReport.value.grantPosition.receivedDuringYr) -
     Number(this.utilizationReport.value.grantPosition.expDuringYr);
-
-    let controlValue = (+this.utilizationReport.value.grantPosition[setFormControl]).toFixed(2);
-  //  this.unUtiValue = (+this.utilizationReport.value.grantPosition.unUtilizedPrevYr).toFixed(2);
-
-    this.patchValue(controlValue, setFormControl);
   }
 
   patchValue(controlValue, setFormControl) {
-   console.log(controlValue);
-   console.log(typeof(controlValue));
-if(  !isNaN(controlValue) ) {
- this.utilizationReport.controls['grantPosition']['controls'][setFormControl].patchValue(controlValue);
+//console.log(controlValue);
+if(  !isNaN(controlValue)) {
+  if(controlValue == 0){
+    this.utilizationReport.controls['grantPosition']['controls'][setFormControl].patchValue('');
+  }else{
+    this.utilizationReport.controls['grantPosition']['controls'][setFormControl].patchValue(controlValue);
+  }
+
 }
 else{
- this.utilizationReport.controls['grantPosition']['controls'][setFormControl].patchValue('');
+  this.utilizationReport.controls['grantPosition']['controls'][setFormControl].patchValue('');
 }
 
   //  this.utilizationReport.controls['grantPosition']['controls']['receivedDuringYr'].setValue(this.recValue);
@@ -204,15 +228,34 @@ else{
      this.projectCost =0;
     for(let j=0; j < this.tabelRows.length; j++){
      // console.log(this.projectCost + +this.utilizationReport.controls.projects.value[j].cost)
+     if(!isNaN(this.utilizationReport.controls.projects.value[j].cost)){
       this.projectCost = this.projectCost + +this.utilizationReport.controls.projects.value[j].cost;
+     }else{
+      this.projectCost = this.projectCost + 0;
+      console.log(this.utilizationReport)
+     }
+     if( isNaN(this.utilizationReport.controls.projects.value[j].cost)){
 
+      this.utilizationReport.controls.projects['controls'][j]['controls']['cost'].patchValue('')
     }
+    }
+
  }
   totalExpCost(i) {
     this.projectExp =0;
     for(let j=0; j < this.tabelRows.length; j++){
-    this.projectExp = this.projectExp + Number(this.utilizationReport.controls.projects.value[j].expenditure);
+  //  this.projectExp = this.projectExp + Number(this.utilizationReport.controls.projects.value[j].expenditure);
    // console.log(this.projectExp);
+   if(!isNaN(this.utilizationReport.controls.projects.value[j].expenditure)){
+    this.projectExp = this.projectExp + Number(this.utilizationReport.controls.projects.value[j].expenditure);
+   }else{
+    this.projectExp = this.projectExp + 0;
+
+   }
+   if( isNaN(this.utilizationReport.controls.projects.value[j].expenditure)){
+
+    this.utilizationReport.controls.projects['controls'][j]['controls']['expenditure'].patchValue('')
+  }
     }
   }
 
@@ -241,13 +284,13 @@ else{
      totalProCost: this.projectCost,
      totalExpCost: this.projectExp
  }
- console.log(formdata);
+// console.log(formdata);
    for(let i=0; i<formdata.projects.length; i++){
-     console.log(formdata.projects[i].category);
+    // console.log(formdata.projects[i].category);
      for(let j=0; j< this.categories.length; j++){
       if(this.categories[j]._id == formdata.projects[i].category){
         formdata.projects[i].category = this.categories[j].name;
-        console.log(formdata.projects[i].category);
+      //  console.log(formdata.projects[i].category);
        }
      }
    }
@@ -257,7 +300,7 @@ else{
       panelClass: 'no-padding-dialog' } );
     // this.hidden = false;
      dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+     // console.log(`Dialog result: ${result}`);
    //   this.hidden = true;
 
     });
@@ -285,8 +328,8 @@ else{
 
   }
   addPreFilledRow(data){
-    console.log("data", data, data.photos)
-    console.log(this.tabelRows);
+   // console.log("data", data, data.photos)
+   // console.log(this.tabelRows);
     this.tabelRows.push(this.fb.group({
       category : [data.category, Validators.required],
       name: [data.name,[Validators.required, Validators.maxLength(50)]],
@@ -358,8 +401,8 @@ else{
 
   saveAndNext(){
     this.submitted = true;
-    console.log(this.utilizationReport);
-    console.log(this.utilizationReport.value);
+  //  console.log(this.utilizationReport);
+  //  console.log(this.utilizationReport.value);
 
     let fd = this.utilizationReport.value;
         fd.isDraft = true;
@@ -372,7 +415,7 @@ else{
 
     this.UtiReportService.createAndStorePost(fd)
                   .subscribe((res) => {
-                     console.log(res);
+                   //  console.log(res);
                      alert('Record submitted successfully.')
                   },
                   error =>{
@@ -412,8 +455,8 @@ else{
   //     this.filesToUpload.push(event.target.files[i]);
 
   // }
-  console.log(this.filesToUpload);
-  console.log(projectIndex, i)
+ // console.log(this.filesToUpload);
+ // console.log(projectIndex, i)
 
   this.upload(projectIndex);
   }
@@ -429,7 +472,7 @@ else{
     for (let i = 0; i < filesSelected.length; i++) {
       const file = filesSelected[i];
       const fileExtension = file.name.split(`.`).pop();
-      if (fileExtension === "pdf" || fileExtension === "xlsx" || fileExtension == "png"
+      if (fileExtension === "pdf" || fileExtension === "gif" || fileExtension == "png"
       || fileExtension == "jpg" || fileExtension == "jpeg") {
         validFiles.push(file);
       }

@@ -66,7 +66,7 @@ export class SlbsComponent implements OnInit {
 
   postSlbData(value){
     let data = {
-      design_year: "2019-20",
+      design_year: "2021-22",
       waterManagement:
         { ...value.waterManagement },
       waterPotability: {

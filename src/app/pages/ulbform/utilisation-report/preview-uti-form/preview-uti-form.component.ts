@@ -17,8 +17,82 @@ export class PreviewUtiFormComponent implements OnInit {
   showLoader;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any ,private _questionnaireService: QuestionnaireService,private _matDialog: MatDialog) { }
   styleForPDF=`<style>
-.pdf-hide{
-  display: none;
+  .card {
+    background-color: #EBF5F5;
+
+    margin-bottom: 10px;
+
+}
+
+.listitem_head {
+    font-size: 1rem;
+    font-family: Roboto;
+    font-weight: normal;
+    display: inline-block;
+}
+
+.listitem_grantYear {
+    display: inline-block;
+    font-weight: normal;
+    color: #3D3D3D;
+    margin-left: 10px;
+    background-color: #E5E6E6;
+    border-radius: 3px;
+
+}
+
+.dnDiv {
+    margin-top: 10px;
+    margin-right: 5%;
+    margin-bottom: 3px;
+}
+
+.dnldBtn {
+    background-color: #26A1A1;
+    color: #FFFFFF;
+    font-weight: normal;
+}
+
+.thHeader {
+    background-color: #E9E9E9;
+    color: #047474;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+label {
+    font-weight: normal;
+}
+
+.thHeader {
+    background-color: #E9E9E9;
+    color: #047474;
+    font-size: 15px;
+    font-weight: normal;
+}
+
+th {
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    vertical-align: middle;
+    padding: 10px 6px;
+}
+
+
+
+
+
+.d-none {
+    display: none;
 }
   </style>`
   ngOnInit(): void {
