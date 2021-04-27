@@ -25,11 +25,11 @@ export class PreviewUtiFormComponent implements OnInit {
 console.log(this.data)
   }
 
-makePdf() {
-  let showMagicDisplay = document.querySelectorAll('[class*="pdf-hide"]');
-showMagicDisplay.forEach((item) => {
-item.classList.add("d-none");
-});
+// makePdf() {
+//   let showMagicDisplay = document.querySelectorAll('[class*="pdf-hide"]');
+// showMagicDisplay.forEach((item) => {
+// item.classList.add("d-none");
+// });
 
 
   // let doc = new jspdf('1' , 'mm' , 'a4');
@@ -45,8 +45,15 @@ item.classList.add("d-none");
 //      });
 //   });
 
+//  doc.addHTML(this._html.nativeElement, function() {
+//   doc.save("utilization-report.pdf");
+//   showMagicDisplay.forEach((item) => {
+//     item.classList.remove("d-none");
+//      });
+//   });
 
-  }
+
+//   }
 
 
     downloadForm() {
