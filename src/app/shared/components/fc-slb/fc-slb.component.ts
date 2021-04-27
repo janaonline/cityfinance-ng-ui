@@ -26,6 +26,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
     // super(dataEntryService, _dialog);
   }
 
+  focusTargetKey:any = {}
+
   @Input()
   form: FormGroup;
 
@@ -101,7 +103,23 @@ export class FcSlbComponent implements OnInit, OnChanges {
   showPublishedUpload: boolean = false;
 
   ngOnInit() {
-    console.log("tt", this.form)
+    
+    this.services.forEach(data => {
+      this.focusTargetKey[data.key+'baseline'] = false
+    this.targets.forEach(item => {
+      this.focusTargetKey[data.key+item.key] = false
+    })
+  })
+  console.log("tt", this.form, this.focusTargetKey)
+  }
+
+  setFocusTarget(focusTarget = ''){
+    // this.focusTargetKey[focusTarget] =true
+    for(let obj in this.focusTargetKey){
+      this.focusTargetKey[obj] =false;
+      if(obj == focusTarget)
+      this.focusTargetKey[obj] =true;
+  }
   }
 
   ngOnChanges(changes) {
@@ -152,6 +170,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   // }
 
   onBlur(control: AbstractControl) {
+    this.setFocusTarget()
     if (!control) return;
     const newValue = this.jsonUtil.convert(control.value);
     control.patchValue(newValue);

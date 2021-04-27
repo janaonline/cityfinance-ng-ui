@@ -57,6 +57,7 @@
                   ]
                 )
               "
+              (mouseover)="setFocusTarget(service.key+'baseline')"
               [id]="service.key + 'baseline'"
               type="text"
               class="form-control"
@@ -79,7 +80,7 @@
 
           <span
             class="error-message"
-            *ngIf="
+            *ngIf="focusTargetKey[service.key+'baseline'] &&
               !form.controls[service.key]['controls']['baseline'].controls[
                 '2021'
               ]?.errors?.required &&
@@ -108,8 +109,9 @@
                   form.controls[service.key]['controls']['target'].controls[
                     year.key
                   ]
-                )
+                );
               "
+              (mouseover)="setFocusTarget(service.key+year.key)"
               [id]="service.key + year.key"
               type="text"
               class="form-control"
@@ -133,7 +135,7 @@
           </div>
           <span
             class="error-message"
-            *ngIf="
+            *ngIf="focusTargetKey[service.key+year.key] &&
               !form.controls[service.key]['controls']['target'].controls[
                 year.key
               ]?.errors?.required &&
@@ -275,6 +277,7 @@
                   ]
                 )
               "
+              (mouseover)="setFocusTarget(service.key+'baseline')"
               [id]="service.key + 'baseline'"
               type="text"
               class="form-control"
@@ -297,7 +300,7 @@
 
           <span
             class="error-message"
-            *ngIf="
+            *ngIf="focusTargetKey[service.key+'baseline'] &&
               !form.controls[service.key]['controls']['baseline'].controls[
                 '2021'
               ]?.errors?.required &&
@@ -328,6 +331,7 @@
                   ]
                 )
               "
+              (mouseover)="setFocusTarget(service.key+year.key)"
               [id]="service.key + year.key"
               type="text"
               class="form-control"
@@ -351,7 +355,7 @@
           </div>
           <span
             class="error-message"
-            *ngIf="
+            *ngIf="focusTargetKey[service.key+year.key] &&
               !form.controls[service.key]['controls']['target'].controls[
                 year.key
               ]?.errors?.required &&
@@ -494,6 +498,7 @@
                   ]
                 )
               "
+              (mouseover)="setFocusTarget(service.key+'baseline')"
               [id]="service.key + 'baseline'"
               type="text"
               class="form-control"
@@ -516,7 +521,7 @@
 
           <span
             class="error-message"
-            *ngIf="
+            *ngIf="focusTargetKey[service.key+'baseline'] &&
               !form.controls[service.key]['controls']['baseline'].controls[
                 '2021'
               ]?.errors?.required &&
@@ -547,6 +552,7 @@
                   ]
                 )
               "
+              (mouseover)="setFocusTarget(service.key+year.key)"
               [id]="service.key + year.key"
               type="text"
               class="form-control"
@@ -570,7 +576,7 @@
           </div>
           <span
             class="error-message"
-            *ngIf="
+            *ngIf="focusTargetKey[service.key+year.key] &&
               !form.controls[service.key]['controls']['target'].controls[
                 year.key
               ]?.errors?.required &&
@@ -713,6 +719,7 @@
                   ]
                 )
               "
+              (mouseover)="setFocusTarget(service.key+'baseline')"
               [id]="service.key + 'baseline'"
               type="text"
               class="form-control"
@@ -735,7 +742,7 @@
 
           <span
             class="error-message"
-            *ngIf="
+            *ngIf="focusTargetKey[service.key+'baseline'] &&
               !form.controls[service.key]['controls']['baseline'].controls[
                 '2021'
               ]?.errors?.required &&
@@ -766,6 +773,7 @@
                   ]
                 )
               "
+              (mouseover)="setFocusTarget(service.key+year.key)"
               [id]="service.key + year.key"
               type="text"
               class="form-control"
@@ -789,7 +797,7 @@
           </div>
           <span
             class="error-message"
-            *ngIf="
+            *ngIf="focusTargetKey[service.key+year.key] &&
               !form.controls[service.key]['controls']['target'].controls[
                 year.key
               ]?.errors?.required &&
