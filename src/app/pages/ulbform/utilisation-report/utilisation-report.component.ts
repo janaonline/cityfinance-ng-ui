@@ -470,6 +470,7 @@ else{
     this.fileProcessingTracker = {};
     this.submitted = false;
     this.fileUploadTracker = {};
+    this.photoUrl = [];
   }
   filterInvalidFilesForUpload(filesSelected: File[]) {
     const validFiles = [];
@@ -494,6 +495,14 @@ else{
     for (let i = 0; i < files.length; i++) {
       if (this.filesAlreadyInProcess.length > i) {
         continue;
+      }
+      console.log('pht', this.photoUrl)
+      const control = <FormArray>this.tabelRows.controls[urlIndex]['controls']['photos'];
+      let fileLength = control.length + this.photoUrl.length;
+      if( fileLength > 4 || files.length > 5){
+
+        alert("Maximum 5 files are allowed")
+        break;
       }
       this.filesAlreadyInProcess.push(i);
     await this.uploadFile(files[i], i, urlIndex);
@@ -617,9 +626,9 @@ else{
 
 
   imgPreview(index){
-  //  console.log(index, this.tabelRows);
-  //  let photographs = this.tabelRows.value[index].photos;
-  //  console.log("phoyos", photographs)
+   console.log(index, this.tabelRows);
+   let photographs = this.tabelRows.value[index].photos;
+   console.log("photos", photographs)
     let dialogRef = this.dialog.open(ImagePreviewComponent, {
       data: this.tabelRows.value[index].photos,
       height: '400px',
