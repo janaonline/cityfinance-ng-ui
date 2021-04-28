@@ -59,8 +59,8 @@ export class UtilisationReportComponent implements OnInit {
    userLoggedInDetails: IUserLoggedInDetails;
    loggedInUserType: USER_TYPE;
    userTypes = USER_TYPE;
-
    errMessage;
+   errorDisplay= false;
 
    private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
@@ -70,6 +70,10 @@ export class UtilisationReportComponent implements OnInit {
      this.getResponse();
     });
   }
+  // errorShow(){
+  //     this.errorDisplay = true;
+  //     console.log('hello')
+  // }
 
    ngOnInit() {
 

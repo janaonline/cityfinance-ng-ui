@@ -20,6 +20,7 @@ import { SixDigitDecimaNumberDirective, TwoDigitDecimaNumberDirective } from './
 import { GrantTraCertiComponent } from './grant-tra-certi/grant-tra-certi.component';
 import { ImagePreviewComponent } from './utilisation-report/image-preview/image-preview.component';
 import { SlbsComponent } from './slbs/slbs.component';
+import { OverviewComponent } from './overview/overview.component';
 @NgModule({
   entryComponents: [PreviewUtiFormComponent, ImagePreviewComponent],
   declarations: [
@@ -31,7 +32,8 @@ import { SlbsComponent } from './slbs/slbs.component';
      SixDigitDecimaNumberDirective,
      GrantTraCertiComponent,
      ImagePreviewComponent,
-     SlbsComponent
+     SlbsComponent,
+     OverviewComponent
     ],
   imports: [
     CommonModule,

@@ -5,7 +5,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 })
 export class TwoDigitDecimaNumberDirective {
   // Allow decimal numbers and negative values
-  private regex: RegExp = new RegExp(/^\d*\.?\d{0,2}$/g);
+  private regex: RegExp = new RegExp(/^\d{1,7}\.?\d{0,2}$/g);
   // Allow key codes for special events. Reflect :
   // Backspace, tab, end, home
   private specialKeys: Array<string> = ['Backspace', 'Tab', 'End', 'Home', '-', 'ArrowLeft', 'ArrowRight', 'Del', 'Delete'];
@@ -45,7 +45,7 @@ export class TwoDigitDecimaNumberDirective {
 
 export class SixDigitDecimaNumberDirective {
   // Allow decimal numbers and negative values
-  private regex: RegExp = new RegExp(/^\d*\.?\d{0,5}$/g);
+  private regex: RegExp = new RegExp(/^\d\.?\d{0,5}$/g);
   // Allow key codes for special events. Reflect :
   // Backspace, tab, end, home
   private specialKeys: Array<string> = ['Backspace', 'Tab', 'End', 'Home', '-', 'ArrowLeft', 'ArrowRight', 'Del', 'Delete'];
