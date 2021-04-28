@@ -57,23 +57,22 @@ export class UtilisationReportComponent implements OnInit {
   // tabularProject:any = [{
   //   id : 0
   // }];
-  totalclosingBal: Number = 0;
-  projectCost = 0;
-  projectExp = 0;
-  selectedFile;
-  categories;
-  editable;
-  photoUrl: any = [];
-  setLocation
-  formDataResponce;
-  states: { [staeId: string]: IState };
-  userLoggedInDetails: IUserLoggedInDetails;
-  loggedInUserType: USER_TYPE;
-  userTypes = USER_TYPE;
-
-  errMessage;
-
-  private fetchStateList() {
+   totalclosingBal:Number = 0;
+   projectCost = 0;
+   projectExp = 0;
+   selectedFile;
+   categories;
+   editable;
+   photoUrl:any =[];
+ formDataResponce;
+   states: { [staeId: string]: IState };
+   userLoggedInDetails: IUserLoggedInDetails;
+   loggedInUserType: USER_TYPE;
+   userTypes = USER_TYPE;
+   errMessage;
+   errorDisplay= false;
+   setLocation;
+   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
       res.forEach((state) => (this.states[state._id] = state));
@@ -81,6 +80,10 @@ export class UtilisationReportComponent implements OnInit {
       this.getResponse();
     });
   }
+  // errorShow(){
+  //     this.errorDisplay = true;
+  //     console.log('hello')
+  // }
 
   ngOnInit() {
     this.UtiReportService.getCategory().subscribe((resdata) => {

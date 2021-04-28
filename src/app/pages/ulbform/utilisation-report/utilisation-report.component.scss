@@ -186,3 +186,7 @@ label {
 .alert {
     padding: 0;
 }
+
+.ng-invalid.ng-touched {
+    border-color: red;
+}

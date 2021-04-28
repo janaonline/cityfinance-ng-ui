@@ -20,6 +20,7 @@ import { SixDigitDecimaNumberDirective, TwoDigitDecimaNumberDirective } from './
 import { GrantTraCertiComponent } from './grant-tra-certi/grant-tra-certi.component';
 import { ImagePreviewComponent } from './utilisation-report/image-preview/image-preview.component';
 import { SlbsComponent } from './slbs/slbs.component';
+import { OverviewComponent } from './overview/overview.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PreviewSlbComponentComponent } from './preview-slb-component/preview-slb-component.component';
 import { LinkPFMSComponent } from './link-pfms/link-pfms.component';
@@ -35,6 +36,7 @@ import { LinkPFMSComponent } from './link-pfms/link-pfms.component';
      GrantTraCertiComponent,
      ImagePreviewComponent,
      SlbsComponent,
+     OverviewComponent,
      PreviewSlbComponentComponent,
      LinkPFMSComponent
     ],
