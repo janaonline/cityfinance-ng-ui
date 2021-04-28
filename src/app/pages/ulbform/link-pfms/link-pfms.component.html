@@ -1,0 +1,31 @@
+<!-- <input type="button" value="set background" ng-click="myStyle={'background-color':rgb(68, 255, 99)}"> -->
+<div class="row">
+
+    <div class="col-sm-8 col-lg-8 col-md-8 header2">Linking of PFMS Account</div>
+    <div class=" question" style="margin-top: 8rem;" *ngIf="showQuestion1">
+        {{questions[0]}}
+        <div>
+            <!-- [ngStyle]="{'background-color':
+                account === 'yes' ?'rgb(68, 255, 99)': '#CFCFCF' }" -->
+
+                <!-- [ngStyle]="{'background-color':
+            account === 'no' ?'rgb(68, 255, 99)': '#CFCFCF' }" -->
+            <button class="btn btn-primary" style="margin-left: 2rem;" (click)="onClickYes()" >Yes</button>
+            <button class=" btn btn-secondary" style="margin-left: 5rem;" (click)="onClickNo()" >No</button>
+        </div>
+    </div>
+    <div class="question" *ngIf="showQuestion2">
+        {{questions[1]}}
+        <div>
+            <!-- [ngStyle]="{'background-color':
+           linked ==='yes' ?'rgb(68, 255, 99)': '#CFCFCF' }" -->
+           <!-- [ngStyle]="{'background-color':
+            linked === 'no' ?'rgb(68, 255, 99)': '#CFCFCF' }" -->
+            <button class="btn btn-primary" style="margin-left: 2rem;" (click)="onClickYES()" >Yes</button>
+            <button class=" btn btn-secondary" style="margin-left: 5rem;" (click)="onClickNO()" >No</button>
+        </div>
+    </div>
+    <button class="backButton">BACK</button>
+
+    <button class="save" (click)="saveAndNext()">SAVE AND NEXT</button>
+</div>
