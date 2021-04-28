@@ -5,24 +5,19 @@
     <div class=" question" style="margin-top: 8rem;" *ngIf="showQuestion1">
         {{questions[0]}}
         <div>
-            <!-- [ngStyle]="{'background-color':
-                account === 'yes' ?'rgb(68, 255, 99)': '#CFCFCF' }" -->
-
-                <!-- [ngStyle]="{'background-color':
-            account === 'no' ?'rgb(68, 255, 99)': '#CFCFCF' }" -->
-            <button class="btn btn-primary" style="margin-left: 2rem;" (click)="onClickYes()" >Yes</button>
-            <button class=" btn btn-secondary" style="margin-left: 5rem;" (click)="onClickNo()" >No</button>
+            <button class="btn" style="margin-left: 2rem;" (click)="onClickYes()" [ngStyle]="{'background-color':
+                account === 'yes' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">Yes</button>
+            <button class=" btn" style="margin-left: 5rem;" (click)="onClickNo()" [ngStyle]="{'background-color':
+            account === 'no' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">No</button>
         </div>
     </div>
     <div class="question" *ngIf="showQuestion2">
         {{questions[1]}}
         <div>
-            <!-- [ngStyle]="{'background-color':
-           linked ==='yes' ?'rgb(68, 255, 99)': '#CFCFCF' }" -->
-           <!-- [ngStyle]="{'background-color':
-            linked === 'no' ?'rgb(68, 255, 99)': '#CFCFCF' }" -->
-            <button class="btn btn-primary" style="margin-left: 2rem;" (click)="onClickYES()" >Yes</button>
-            <button class=" btn btn-secondary" style="margin-left: 5rem;" (click)="onClickNO()" >No</button>
+            <button class="btn" style="margin-left: 2rem;" (click)="onClickYES()" [ngStyle]="{'background-color':
+           linked ==='yes' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">Yes</button>
+            <button class=" btn" style="margin-left: 5rem;" (click)="onClickNO()" [ngStyle]="{'background-color':
+            linked === 'no' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">No</button>
         </div>
     </div>
     <button class="backButton">BACK</button>
