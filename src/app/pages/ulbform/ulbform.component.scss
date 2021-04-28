@@ -57,11 +57,12 @@ h5 {
 //     height: 35px;
 // }
 ul {
-    margin-left: 6px;
-    margin-right: 6px;
+    margin-left: 3px;
+    margin-right: 3px;
     padding-top: 3px;
     padding-bottom: 3px;
     font-size: 12px;
+    padding-left: 8px;
 }
 
 // ul:hover {
@@ -78,8 +79,11 @@ ul {
 // }
 ul.active {
     background-color: #ffc500;
-    margin-left: 6px;
-    margin-right: 6px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 8px;
     color: #ffff;
 }
 
@@ -93,8 +97,11 @@ a {
 a:hover,
 ul:hover {
     background-color: #ffc500;
-    margin-left: 6px;
-    margin-right: 6px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 8px;
     color: #ffff;
 }
 

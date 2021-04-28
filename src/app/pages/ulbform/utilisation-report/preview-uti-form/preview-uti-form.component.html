@@ -1,4 +1,4 @@
-<mat-dialog-content style="margin-top: 0;" id="previewUti" #previewUti>
+<!-- <mat-dialog-content style="margin-top: 0;" id="previewUti" #previewUti>
     <mat-card class="header" style="text-align: center; padding: 5px 5px;display: block;">
         <div class="text-right pdf-hide">
             <a mat-dialog-close style="margin-right: 4%;">
@@ -12,9 +12,9 @@
         <label class="listitem_head">
             Utilization report in respect of 15th finance commission tied grants for year</label>
         <label class="listitem_grantYear">2020-21</label>
-        <!-- <label class="listitem_subHead" style="margin-bottom: 2px;">
+        <label class="listitem_subHead" style="margin-bottom: 2px;">
             (To be submitted by State in case of Million Plus Cities/UAS and by cities/ ULBs through State in case of Non Million Plus Cities )
-          </label> -->
+          </label>
 
     </mat-card>
     <div class="text-right dnDiv pdf-hide">
@@ -88,7 +88,7 @@
                     <td>
                         <img class="ml-2" [src]="imgUrl.url" alt="" width="40px" height="40px" *ngFor="let imgUrl
                       of data.projects[i].photos">
-                        <!-- {{data[0].utilizationTabel[0][i].imgUpload}} -->
+
                     </td>
                     <td>
                         <label for="" class="bor-in-l">{{data.projects[i].location.lat}}</label>
@@ -125,4 +125,176 @@
 
 
 
-</mat-dialog-content>
+</mat-dialog-content> -->
+<div class="container-fluid" id="previewUti" #previewUti>
+    <div class="row">
+        <div class="col">
+            <div class="row" style="background-color: #047474; padding: 2rem 2rem;">
+                <div class="text-right d-none" style="margin-right: 2rem;">
+                    <a mat-dialog-close>
+                        <img src="../../../../../assets/form-icon/Icon material-close.svg">
+                    </a>
+
+                </div>
+                <div class="text-center">
+                    <label class="listitem_head" style="color: #FFFFFF;">
+        Utilization report in respect of 15th finance commission tied grants for year</label>
+                    <label class="listitem_grantYear">2021-22</label>
+                </div>
+            </div>
+
+            <div class="text-right dnDiv pdf-hide">
+                <button mat-button class="dnldBtn d-none" (click)="downloadForm()">Download as PDF</button>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row pd-div">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            1. State Name
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            {{data.state_name}}
+                        </div>
+                    </div>
+                    <div class="row pd-div">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            2. Name of MPC/UA/NMPC
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            {{data.ulbName}}
+                        </div>
+                    </div>
+                    <div class="row pd-div">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            3. Type of grant
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            {{data.grntType}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row pd-div">
+                        <div class="col-sm-12">
+                            4. 15th FC Tied Grant Position during the year :
+                        </div>
+                    </div>
+                    <div class="row pd-div" style="margin-left: 2%;">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            (i) Unutilized from previous installments
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            {{data.grantPosition.unUtilizedPrevYr}}
+                        </div>
+                    </div>
+                    <div class="row pd-div" style="margin-left: 2%;">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            (ii) Tied Grant received during the year
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            {{data.grantPosition.receivedDuringYr}}
+                        </div>
+                    </div>
+                    <div class="row pd-div" style="margin-left: 2%;">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            (iii) Expenditure incurred during the year
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            {{data.grantPosition.expDuringYr}}
+                        </div>
+                    </div>
+                    <div class="row pd-div" style="margin-left: 2%;">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <b>(vi) Closing balance at the end of year (2(i)+2(ii)-2(iii))</b>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <b>{{data.grantPosition.closingBal}} </b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            5. Component Wise Utilization of Tied grants (break-up of expenditure incurred in 2(iii) :
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class="thHeader">
+                                            <th scope="col">S.No</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Name of the Project</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Capacity</th>
+                                            <th scope="col">Upload Images</th>
+                                            <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
+                                            <th scope="col">Project Cost</th>
+                                            <th scope="col">Expenditure</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of data.projects; let i=index" style="text-align: center; vertical-align: inherit;">
+                                            <td>{{1+i}}</td>
+                                            <td>{{data.projects[i].category}}</td>
+                                            <td>{{data.projects[i].name}}</td>
+                                            <td>{{data.projects[i].description}}</td>
+                                            <td>{{data.projects[i].capacity}}</td>
+                                            <td>
+                                                <img class="ml-2" [src]="imgUrl.url" alt="" width="40px" height="40px" *ngFor="let imgUrl
+                                            of data.projects[i].photos">
+
+                                            </td>
+                                            <td>
+                                                <label for="" class="bor-in-l">{{data.projects[i].location.lat}}</label>
+                                                <label for="" class="bor-in-l" style="margin-left: 5px;">{{data.projects[i].location.long}}</label>
+
+                                            </td>
+                                            <td> <label class="bor-in-l" for="">{{data.projects[i].cost}}</label></td>
+                                            <td> <label for="" class="bor-in-l">{{data.projects[i].expenditure}}</label> </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody>
+                                        <tr class="tableFooterDiv" style="text-align: center; vertical-align: inherit;">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><span>Total</span></td>
+                                            <td><span>{{data.totalProCost}}</span></td>
+                                            <td> <span>{{data.totalExpCost}}</span></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="f-d-n">
+                                <b>Name : {{data.name}} </b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="f-d-n">
+                                    <b>Designation : {{data.designation}} </b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>

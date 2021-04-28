@@ -1,1 +1,30 @@
-<p>slbs works!</p>
+<div col-sm-12 mb-2>
+    <h3 style="position: relative; text-align: center">
+        <span class="col-sm-6 text-left">{{slbTitleText}}</span>
+      <span class="col-sm-2" *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
+        ULB: {{ financialData?.ulbName }}</span
+      >
+      
+      <button
+        [style.position]="
+          loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
+        "
+        style="right: 0px; float: right; margin-right: 2.5%; outline: none"
+        class="btn btn-primary btn-upload"
+        (click)="showPreview()"
+      >
+        Preview
+      </button>
+    </h3>
+  </div>
+<app-fc-slb
+      [form]="waterWasteManagementForm"
+      (outputValues)="onWaterWasteManagementEmitValue($event)"
+      [waterPotability]="waterPotability"
+    ></app-fc-slb>
+
+    <ng-template #previewPopup>
+        <app-preview-slb-component
+          [data]="previewData"
+        ></app-preview-slb-component>
+      </ng-template>

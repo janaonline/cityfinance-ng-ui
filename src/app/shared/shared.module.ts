@@ -45,6 +45,8 @@ import { GoogleMapComponent } from './components/google-map/google-map.component
 //G-Mpas
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { AgmCoreModule } from "@agm/core";
+import { FcSlbComponent } from './components/fc-slb/fc-slb.component';
+
 @NgModule({
   imports: [
     RouterModule,
@@ -91,6 +93,7 @@ import { AgmCoreModule } from "@agm/core";
     FileUploadComponent,
     MapDialogComponent,
     GoogleMapComponent,
+    FcSlbComponent,
   ],
   exports: [
     PreLoaderComponent,
@@ -115,6 +118,7 @@ import { AgmCoreModule } from "@agm/core";
     IncompleteProfileComponent,
     FileUploadComponent,
     MatCheckboxModule,
+    FcSlbComponent
   ],
   providers: [FinancialDataService],
 })

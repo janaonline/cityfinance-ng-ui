@@ -1,28 +1,33 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { IBasicLedgerData } from 'src/app/dashboard/report/models/basicLedgerData.interface';
-import { IULBResponse } from 'src/app/models/IULBResponse';
-import { NewULBStructure, NewULBStructureResponse } from 'src/app/models/newULBStructure';
-import { IStateListResponse } from 'src/app/models/state/state-response';
-import { ULBsStatistics } from 'src/app/models/statistics/ulbsStatistics';
-import { IULB } from 'src/app/models/ulb';
-import { USER_TYPE } from 'src/app/models/user/userType';
-import { HttpUtility } from 'src/app/util/httpUtil';
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable, of, Subject } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
+import { IBasicLedgerData } from "src/app/dashboard/report/models/basicLedgerData.interface";
+import { IULBResponse } from "src/app/models/IULBResponse";
+import {
+  NewULBStructure,
+  NewULBStructureResponse,
+} from "src/app/models/newULBStructure";
+import { IStateListResponse } from "src/app/models/state/state-response";
+import { ULBsStatistics } from "src/app/models/statistics/ulbsStatistics";
+import { IULB } from "src/app/models/ulb";
+import { USER_TYPE } from "src/app/models/user/userType";
+import { HttpUtility } from "src/app/util/httpUtil";
 
-import { IStateULBCoveredResponse } from '../models/stateUlbConvered';
-import { IULBWithPopulationResponse } from '../models/ulbsForMapResponse';
-import { environment } from './../../../environments/environment';
+import { IStateULBCoveredResponse } from "../models/stateUlbConvered";
+import { IULBWithPopulationResponse } from "../models/ulbsForMapResponse";
+import { environment } from "./../../../environments/environment";
+import { JSONUtility } from "src/app/util/jsonUtil";
 
 @Injectable({
   providedIn: "root",
 })
 export class CommonService {
-  userType:string
+  userType: string;
   private stateArr = [];
   public states: Subject<any> = new Subject<any>();
   private httpUtil = new HttpUtility();
+  jsonUtil = new JSONUtility();
 
   private NewULBStructureResponseCache: {
     [datesAsString: string]: IULBResponse;
@@ -423,12 +428,12 @@ export class CommonService {
 
     return { ...newObj };
   }
-  stateRegister:any = {}
+  stateRegister: any = {};
   setGetStateRegister(set, data = null): Observable<any> {
-    if(set){
-      this.stateRegister = data
-    }else{
-      return this.stateRegister ;
+    if (set) {
+      this.stateRegister = data;
+    } else {
+      return this.stateRegister;
     }
   }
 
@@ -501,14 +506,33 @@ export class CommonService {
       .pipe(map((res) => res["data"]["data"]));
   }
 
-  getNodalOfficer(state){
-    return this.http.get(`${environment.api.url}user/nodal/${state}`)
+  getNodalOfficer(state) {
+    return this.http.get(`${environment.api.url}user/nodal/${state}`);
   }
 
-  setUser(get,user=null){
-    if(get){
+  setUser(get, user = null) {
+    if (get) {
       return this.userType;
     }
-    this.userType = user
+    this.userType = user;
+  }
+  fetchSlbData() {
+    return this.http.get(`${environment.api.url}xv-fc-form`);
+  }
+
+  postSlbData(data: any) {
+    const newData = this.jsonUtil.convert(data);
+    return this.http.post(
+      `${environment.api.url}xv-fc-form`,
+      JSON.stringify(newData)
+    );
+  }
+
+  updateSlbData(data: any, id) {
+    const newData = this.jsonUtil.convert(data);
+    return this.http.put(
+      `${environment.api.url}xv-fc-form/${id}`,
+      JSON.stringify(newData)
+    );
   }
 }
