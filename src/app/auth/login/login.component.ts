@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "src/app/auth/auth.service";
 import { UserUtility } from "src/app/util/user/user";
-import { USER_TYPE } from 'src/app/models/user/userType';
+import { USER_TYPE } from "src/app/models/user/userType";
 
 import { timer, Subscription } from "rxjs";
 import { Pipe, PipeTransform } from "@angular/core";
@@ -35,11 +35,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   counter = 60;
   tick = 1000;
   counterTimer = false;
-  otpCreads:any = {}
-  loginSet: any ={}
-  ulbCode = ""
+  help = false;
+  noCodeError = false;
+  otpCreads: any = {};
+  loginSet: any = {};
+  ulbCode = "";
+  perFillUser;
   public isOtpLogin = false;
-  selectedUserType=""
+  selectedUserType = "";
   public loginForm: FormGroup;
   public badCredentials: boolean;
   public submitted = false;
@@ -47,6 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public loginError: string;
   public emailVerificationMessage: string;
+  otpVerificationMessage:boolean = false
   public reCaptcha = {
     show: false,
     siteKey: environment.reCaptcha.siteKey,
@@ -67,22 +71,28 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     this.activatedRoute.queryParams.subscribe((param) => {
       if (param.message) {
+        this.otpVerificationMessage = true
+        setTimeout(() => {
+          this.otpVerificationMessage = false
+        }, 2500);
         this.emailVerificationMessage = param.message;
       }
     });
   }
 
   ngOnInit() {
-
     this.loginForm = this.fb.group({
       email: ["", Validators.required],
       password: ["", Validators.required],
-      otp:[""],
+      otp: [""],
     });
-
     this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
+    this.perFillUser = this.commonService.setUser(true);
+    if (this.perFillUser !== null) {
+      this.onSelectingUserType(this.perFillUser);
+    }
   }
 
   get lf() {
@@ -90,7 +100,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    
     this.loginError = null;
     this.submitted = true;
     if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
@@ -191,7 +200,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   onSelectingUserType(value: USER_TYPE) {
     this.selectedUserType = value;
-    this.loginSet = this.loginDetails.find(item => item.role == this.selectedUserType)
+    this.loginSet = this.loginDetails.find(
+      (item) => item.role == this.selectedUserType
+    );
     switch (value) {
       case USER_TYPE.ULB:
         return this.loginForm.controls["email"].setValidators([
@@ -207,17 +218,25 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  otpLogin(){
-    this.isOtpLogin = true;
+  otpLogin() {
+    this.loginError = null;
     const body = { ...this.loginForm.value };
     body["email"] = body["email"].trim();
-    this.ulbCode = body["email"]
-    this.authService.otpSignIn(body).subscribe(res =>{
-      this.otpCreads = res;      
-    })
+    this.ulbCode = body["email"];
+    this.authService.otpSignIn(body).subscribe(
+      (res) => {
+        this.otpCreads = res;
+        this.isOtpLogin = true;
+      },
+      (error) => {
+        this.onLoginError(error);
+        this.countDown = null;
+      }
+    );
   }
 
-  otpLoginSubmit(){
+  otpLoginSubmit() {
+    this.loginError = null;
     if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
       this.loginError = "Login Failed. You must validate that you are human.";
       return;
@@ -226,35 +245,56 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.otpCreads.otp = body["otp"];
     this.authService.otpVerify(this.otpCreads).subscribe(
       (res) => this.onSuccessfullLogin(res),
-        (error) => this.onLoginError(error)
-    )
+      (error) => this.onLoginError(error)
+    );
   }
 
-  change(){
+  change() {
     this.isOtpLogin = false;
+    this.countDown = null;
   }
 
-  startCountDown(){
-    if(this.countDown){
-      return true
+  startCountDown(form = null) {
+    if (this.countDown) {
+      return true;
     }
-    this.counterTimer = true
+
+    if (form?.controls.email.value === "") {
+      this.noCodeError = true;
+
+      setTimeout(() => {
+        this.noCodeError = false;
+      }, 1500);
+
+      return true;
+    }
+
+    this.counterTimer = true;
     this.countDown = timer(0, this.tick).subscribe(() => {
+      console.log(this.tick);
+
       if (this.counter != 0) {
         --this.counter;
       } else {
         this.countDown = null;
-    this.counterTimer = false
-
+        this.counterTimer = false;
+        this.counter = 60;
       }
     });
-    this.otpLogin()
+    this.otpLogin();
+  }
+
+  onChangeNumber() {
+    this.commonService.setGetStateRegister(true, this.otpCreads);
+  }
+
+  passwordUser(user) {
+    this.commonService.setUser(false, user);
   }
 }
 
-
 @Pipe({
-  name: "formatTime"
+  name: "formatTime",
 })
 export class FormatTimePipe implements PipeTransform {
   transform(value: number): string {

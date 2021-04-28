@@ -1102,3 +1102,7 @@ img.align-center {
 .box-shadow{
 box-shadow: 0px 0px 10px 0px #cfcfcf;
 }
+.pac-container{
+    z-index: 99999 !important;
+    position: fixed !important;
+  }
