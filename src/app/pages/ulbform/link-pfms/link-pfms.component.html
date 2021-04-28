@@ -1,27 +1,26 @@
+<!-- <input type="button" value="set background" ng-click="myStyle={'background-color':rgb(68, 255, 99)}"> -->
 <div class="row">
-    <div class="tabHead">
-        <div class="col-sm-5 col-lg-5 col-md-5 heading  ">
-            {{tabHeadings[0]}}
-        </div>
-        <div class=" col-sm-2 col-lg-2 col-md-2">
 
-        </div>
-        <div class=" col-sm-5 col-md-5 col-lg-5 heading">{{tabHeadings[1]}}</div>
-    </div>
-
-    <div class="question" style="margin-top: 8rem;">
+    <div class="col-sm-8 col-lg-8 col-md-8 header2">Linking of PFMS Account</div>
+    <div class=" question" style="margin-top: 8rem;" *ngIf="showQuestion1">
         {{questions[0]}}
         <div>
-            <button class="btn" style="margin-left: 2rem;">Yes</button>
-            <button class="btn" style="margin-left: 5rem;">No</button>
+            <button class="btn" style="margin-left: 2rem;" (click)="onClickYes()" [ngStyle]="{'background-color':
+                account === 'yes' ?'rgb(68, 255, 99)': '#CFCFCF' }">Yes</button>
+            <button class=" btn" style="margin-left: 5rem;" (click)="onClickNo()" [ngStyle]="{'background-color':
+            account === 'no' ?'rgb(68, 255, 99)': '#CFCFCF' }">No</button>
         </div>
-
     </div>
-    <div class="question">
+    <div class="question" *ngIf="showQuestion2">
         {{questions[1]}}
         <div>
-            <button class="btn" style="margin-left: 2rem;">Yes</button>
-            <button class=" btn" style="margin-left: 5rem;">No</button>
+            <button class="btn" style="margin-left: 2rem;" (click)="onClickYES()" [ngStyle]="{'background-color':
+           linked ==='yes' ?'rgb(68, 255, 99)': '#CFCFCF' }">Yes</button>
+            <button class=" btn" style="margin-left: 5rem;" (click)="onClickNO()" [ngStyle]="{'background-color':
+            linked === 'no' ?'rgb(68, 255, 99)': '#CFCFCF' }">No</button>
         </div>
     </div>
+    <button class="backButton">BACK</button>
+
+    <button class="save" (click)="saveAndNext()">SAVE AND NEXT</button>
 </div>
