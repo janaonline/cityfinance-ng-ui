@@ -14,6 +14,7 @@ import { HttpUtility } from 'src/app/util/httpUtil';
 import { IStateULBCoveredResponse } from '../models/stateUlbConvered';
 import { IULBWithPopulationResponse } from '../models/ulbsForMapResponse';
 import { environment } from './../../../environments/environment';
+import { JSONUtility } from 'src/app/util/jsonUtil';
 
 @Injectable({
   providedIn: "root",
@@ -22,6 +23,7 @@ export class CommonService {
   private stateArr = [];
   public states: Subject<any> = new Subject<any>();
   private httpUtil = new HttpUtility();
+  jsonUtil = new JSONUtility();
 
   private NewULBStructureResponseCache: {
     [datesAsString: string]: IULBResponse;
@@ -494,5 +496,27 @@ export class CommonService {
 
   getNodalOfficer(state){
     return this.http.get(`${environment.api.url}user/nodal/${state}`)
+  }
+
+  fetchSlbData(){
+      return this.http.get(
+        `${environment.api.url}xv-fc-form`
+      );
+  }
+
+  postSlbData(data: any) {
+    const newData = this.jsonUtil.convert(data);
+    return this.http.post(
+      `${environment.api.url}xv-fc-form`,
+      JSON.stringify(newData)
+    );
+  }
+
+  updateSlbData(data: any, id) {
+    const newData = this.jsonUtil.convert(data);
+    return this.http.put(
+      `${environment.api.url}xv-fc-form/${id}`,
+      JSON.stringify(newData)
+    );
   }
 }
