@@ -64,6 +64,7 @@ export class UtilisationReportComponent implements OnInit {
   categories;
   editable;
   photoUrl: any = [];
+  setLocation
   formDataResponce;
   states: { [staeId: string]: IState };
   userLoggedInDetails: IUserLoggedInDetails;
@@ -615,14 +616,22 @@ export class UtilisationReportComponent implements OnInit {
     control.clear();
   }
 
-  openDialog(form): void {
+  openDialog(index): void {    
+    // console.log(this.tabelRows.value[index].location);
+    if(this.tabelRows.value[index].location.lat !== "" && this.tabelRows.value[index].location.long !== ""){
+      this.UtiReportService.setLocation(this.tabelRows.value[index].location)
+    }
     const dialogRef = this.dialog.open(MapDialogComponent, {
       width: "60%",
       height: "65%",
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("The dialog was closed");
+      this.setLocation = this.UtiReportService.getLocation();
+      if(this.setLocation !== null){
+        this.tabelRows.controls[index]['controls'].location.controls.lat.patchValue(this.setLocation.lat)
+        this.tabelRows.controls[index]['controls'].location.controls.long.patchValue(this.setLocation.lng)
+        }
     });
   }
 }

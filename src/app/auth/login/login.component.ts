@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   otpCreads: any = {};
   loginSet: any = {};
   ulbCode = "";
+  perFillUser;
   public isOtpLogin = false;
   selectedUserType = "";
   public loginForm: FormGroup;
@@ -49,6 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public loginError: string;
   public emailVerificationMessage: string;
+  otpVerificationMessage:boolean = false
   public reCaptcha = {
     show: false,
     siteKey: environment.reCaptcha.siteKey,
@@ -69,6 +71,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     this.activatedRoute.queryParams.subscribe((param) => {
       if (param.message) {
+        this.otpVerificationMessage = true
+        setTimeout(() => {
+          this.otpVerificationMessage = false
+        }, 2500);
         this.emailVerificationMessage = param.message;
       }
     });
@@ -80,10 +86,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: ["", Validators.required],
       otp: [""],
     });
-
     this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
+    this.perFillUser = this.commonService.setUser(true);
+    if (this.perFillUser !== null) {
+      this.onSelectingUserType(this.perFillUser);
+    }
   }
 
   get lf() {
@@ -217,11 +226,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.otpSignIn(body).subscribe(
       (res) => {
         this.otpCreads = res;
-    this.isOtpLogin = true;
-
+        this.isOtpLogin = true;
       },
       (error) => {
-        this.onLoginError(error)
+        this.onLoginError(error);
         this.countDown = null;
       }
     );
@@ -264,7 +272,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.counterTimer = true;
     this.countDown = timer(0, this.tick).subscribe(() => {
       console.log(this.tick);
-      
+
       if (this.counter != 0) {
         --this.counter;
       } else {
@@ -278,6 +286,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onChangeNumber() {
     this.commonService.setGetStateRegister(true, this.otpCreads);
+  }
+
+  passwordUser(user) {
+    this.commonService.setUser(false, user);
   }
 }
 

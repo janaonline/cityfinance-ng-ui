@@ -1098,3 +1098,8 @@ img.align-center {
     padding: 0;
     margin-top: 7px;
 }
+
+.pac-container{
+    z-index: 99999 !important;
+    position: fixed !important;
+  }

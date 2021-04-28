@@ -19,6 +19,7 @@ import { environment } from './../../../environments/environment';
   providedIn: "root",
 })
 export class CommonService {
+  userType:string
   private stateArr = [];
   public states: Subject<any> = new Subject<any>();
   private httpUtil = new HttpUtility();
@@ -502,5 +503,12 @@ export class CommonService {
 
   getNodalOfficer(state){
     return this.http.get(`${environment.api.url}user/nodal/${state}`)
+  }
+
+  setUser(get,user=null){
+    if(get){
+      return this.userType;
+    }
+    this.userType = user
   }
 }

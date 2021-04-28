@@ -47,7 +47,7 @@ export class PasswordComponent implements OnInit {
   USER_TYPE = USER_TYPE;
   verified = false;
   userTypeSelected: USER_TYPE;
-
+  inComingUser;
   mainPassword = true;
   confirmPassword = true;
 
@@ -58,7 +58,6 @@ export class PasswordComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _passwordService: PasswordService,
     private commonService: CommonService
-
   ) {
     this.initializeForms();
     this.validateUrl();
@@ -68,6 +67,10 @@ export class PasswordComponent implements OnInit {
     this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
+    this.inComingUser = this.commonService.setUser(true);
+    if (this.inComingUser !== null) {
+      this.onSelectingUserType(this.inComingUser);
+    }
   }
 
   get lf() {
@@ -150,8 +153,6 @@ export class PasswordComponent implements OnInit {
     this.authService.otpVerify(form.value).subscribe(
       (res) => {
         this.otpCreads = res;
-        console.log(res);
-
         form.value["token"] = res["token"];
         this.verified = true;
         this.resetPass(form);
@@ -186,7 +187,6 @@ export class PasswordComponent implements OnInit {
             confirmPassword: "",
           });
           form.enable();
-
           this.router.navigate(["login"], {
             queryParams: { message: "Password Successfully Updated." },
           });
@@ -282,7 +282,9 @@ export class PasswordComponent implements OnInit {
             queryParams: { message: "Password Successfully Updated." },
           });
         },
-        (error) => this.onGettingResponseError(error, form)
+        (error) => {
+          this.onGettingResponseError(error, form);
+        }
       );
   }
 
@@ -291,7 +293,7 @@ export class PasswordComponent implements OnInit {
     this.authService.otpSignIn(form.value).subscribe(
       (res) => {
         this.otpCreads = res;
-        this.otpCreads.ulbCode = form.value?.email
+        this.otpCreads.ulbCode = form.value?.email;
         form.enable();
         this.errorMessage = "";
         this.successMessage = res["message"];
@@ -327,8 +329,12 @@ export class PasswordComponent implements OnInit {
     this.counterTimer = false;
   }
 
-  onChangeNumber(){
-    this.commonService.setGetStateRegister(true,this.otpCreads);
+  onChangeNumber() {
+    this.commonService.setGetStateRegister(true, this.otpCreads);
+  }
+
+  redirectLoginUser(user) {
+    this.commonService.setUser(false, user);
   }
 }
 @Pipe({

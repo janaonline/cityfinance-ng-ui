@@ -51,7 +51,8 @@
 
                   <div class="forget text-right">
                     <a [routerLink]="['../password', 'request']"
-                      ><span>Forgot password?</span></a
+                    (click) = "passwordUser(selectedUserType)"
+                      >Forgot password?</a
                     >
                   </div>
                 </div>
@@ -63,6 +64,7 @@
                 >
                 </re-captcha>
                 <span *ngIf="noCodeError" class="text-danger">{{loginSet.loginName }}</span>
+                <span *ngIf="otpVerificationMessage" class="text-primary">{{emailVerificationMessage }}</span>
                 <p *ngIf="loginError" class="error-message mt-1 text-left">
                   <span [innerHtml]="loginError"></span>
                 </p>

@@ -221,9 +221,9 @@
                                         </span></a>
                                 </td>
                                 <td style="display: inline-flex;" formGroupName="location">
-                                    <input type="text" class="t-i form-control" appSixDigitDecimaNumber formControlName="lat">
-                                    <input type="text" class="t-i form-control" formControlName="long" appSixDigitDecimaNumber>
-                                    <span id="mapCon" (click)="openDialog()" style="width: 30px; height: 18px; border: 1px solid black; margin-top: 8px;"></span>
+                                    <input type="text" class="t-i form-control"  formControlName="lat">
+                                    <input type="text" class="t-i form-control" formControlName="long" >
+                                    <span id="mapCon" (click)="openDialog(projectIndex)" style="width: 30px; height: 18px; border: 1px solid black; margin-top: 8px;"></span>
                                 </td>
                                 <td class="t-i">
                                     <input class="t-i form-control" (change)="totalProCost(projectIndex)" formControlName="cost" appTwoDigitDecimaNumber>
