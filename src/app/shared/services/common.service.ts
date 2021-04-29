@@ -20,6 +20,7 @@ import { JSONUtility } from 'src/app/util/jsonUtil';
   providedIn: "root",
 })
 export class CommonService {
+  userType:string
   private stateArr = [];
   public states: Subject<any> = new Subject<any>();
   private httpUtil = new HttpUtility();
@@ -424,6 +425,14 @@ export class CommonService {
 
     return { ...newObj };
   }
+  stateRegister:any = {}
+  setGetStateRegister(set, data = null): Observable<any> {
+    if(set){
+      this.stateRegister = data
+    }else{
+      return this.stateRegister ;
+    }
+  }
 
   loadStatesAgg(): Observable<any> {
     return this.http.get("/assets/files/homeDashboardStateAggData.json");
@@ -518,5 +527,11 @@ export class CommonService {
       `${environment.api.url}xv-fc-form/${id}`,
       JSON.stringify(newData)
     );
+  }
+  setUser(get,user=null){
+    if(get){
+      return this.userType;
+    }
+    this.userType = user
   }
 }

@@ -9,6 +9,8 @@ import { PasswordValidator } from "src/app/util/passwordValidator";
 import { environment } from "./../../../environments/environment";
 import { timer, Subscription } from "rxjs";
 import { PasswordService } from "./service/password.service";
+import { Pipe, PipeTransform } from "@angular/core";
+import { CommonService } from "src/app/shared/services/common.service";
 
 @Component({
   selector: "app-password",
@@ -45,7 +47,7 @@ export class PasswordComponent implements OnInit {
   USER_TYPE = USER_TYPE;
   verified = false;
   userTypeSelected: USER_TYPE;
-
+  inComingUser;
   mainPassword = true;
   confirmPassword = true;
 
@@ -54,7 +56,8 @@ export class PasswordComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private _activatedRoute: ActivatedRoute,
-    private _passwordService: PasswordService
+    private _passwordService: PasswordService,
+    private commonService: CommonService
   ) {
     this.initializeForms();
     this.validateUrl();
@@ -64,6 +67,10 @@ export class PasswordComponent implements OnInit {
     this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
+    this.inComingUser = this.commonService.setUser(true);
+    if (this.inComingUser !== null) {
+      this.onSelectingUserType(this.inComingUser);
+    }
   }
 
   get lf() {
@@ -146,8 +153,6 @@ export class PasswordComponent implements OnInit {
     this.authService.otpVerify(form.value).subscribe(
       (res) => {
         this.otpCreads = res;
-        console.log(res);
-        
         form.value["token"] = res["token"];
         this.verified = true;
         this.resetPass(form);
@@ -182,7 +187,6 @@ export class PasswordComponent implements OnInit {
             confirmPassword: "",
           });
           form.enable();
-
           this.router.navigate(["login"], {
             queryParams: { message: "Password Successfully Updated." },
           });
@@ -193,7 +197,7 @@ export class PasswordComponent implements OnInit {
 
   private onGettingResponseError(error: HttpErrorResponse, form: FormGroup) {
     this.errorMessage = error.error.message;
-    this.successMessage = '';
+    this.successMessage = "";
     form.enable();
     this.resetCaptcha();
   }
@@ -278,7 +282,9 @@ export class PasswordComponent implements OnInit {
             queryParams: { message: "Password Successfully Updated." },
           });
         },
-        (error) => this.onGettingResponseError(error, form)
+        (error) => {
+          this.onGettingResponseError(error, form);
+        }
       );
   }
 
@@ -287,16 +293,18 @@ export class PasswordComponent implements OnInit {
     this.authService.otpSignIn(form.value).subscribe(
       (res) => {
         this.otpCreads = res;
+        this.otpCreads.ulbCode = form.value?.email;
         form.enable();
-        this.errorMessage = ''
-        this.successMessage = res['message'];
+        this.errorMessage = "";
+        this.successMessage = res["message"];
         this.counterTimer = true;
         this.countDown = timer(0, this.tick).subscribe(() => {
           if (this.counter != 0 && this.counterTimer) {
             --this.counter;
           } else {
-            this.countDown.unsubscribe();
+            this.countDown = null;
             this.counterTimer = false;
+            this.counter = 60;
           }
         });
       },
@@ -311,15 +319,34 @@ export class PasswordComponent implements OnInit {
     this.sendOtp(form);
   }
 
-  changePasswordRequest(){
-    this.errorMessage = '';
-    this.successMessage = '';
-    this.uiType = 'request';
-    this.countDown.unsubscribe() 
-    this.countDown = null; 
+  changePasswordRequest() {
+    this.errorMessage = "";
+    this.successMessage = "";
+    this.uiType = "request";
+    this.countDown.unsubscribe();
+    this.countDown = null;
     this.counter = 60;
     this.counterTimer = false;
   }
 
-  
+  onChangeNumber() {
+    this.commonService.setGetStateRegister(true, this.otpCreads);
+  }
+
+  redirectLoginUser(user) {
+    this.commonService.setUser(false, user);
+  }
+}
+@Pipe({
+  name: "formatTime",
+})
+export class FormatTimePipe implements PipeTransform {
+  transform(value: number): string {
+    const minutes: number = Math.floor(value / 60);
+    return (
+      ("00" + minutes).slice(-2) +
+      ":" +
+      ("00" + Math.floor(value - minutes * 60)).slice(-2)
+    );
+  }
 }
