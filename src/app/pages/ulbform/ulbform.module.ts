@@ -23,6 +23,9 @@ import { SlbsComponent } from './slbs/slbs.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PreviewSlbComponentComponent } from './preview-slb-component/preview-slb-component.component';
 import { LinkPFMSComponent } from './link-pfms/link-pfms.component';
+
+import { AnnualAccountsComponent } from './annual-accounts/annual-accounts.component';
+
 @NgModule({
   entryComponents: [PreviewUtiFormComponent, ImagePreviewComponent],
   declarations: [
@@ -36,7 +39,8 @@ import { LinkPFMSComponent } from './link-pfms/link-pfms.component';
      ImagePreviewComponent,
      SlbsComponent,
      PreviewSlbComponentComponent,
-     LinkPFMSComponent
+     LinkPFMSComponent,
+     AnnualAccountsComponent
     ],
   imports: [
     CommonModule,
@@ -48,8 +52,7 @@ import { LinkPFMSComponent } from './link-pfms/link-pfms.component';
     MatDialogModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SharedModule
-
+    SharedModule,
 
   ]
 })

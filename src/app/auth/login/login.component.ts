@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginDetails = [
     {
       role: "ULB",
-      loginName: "Please Enter Census Code",
-      loginPlaceHolder: "Please Enter Census Code",
+      loginName: "Please Enter Census Code/ULB Code",
+      loginPlaceHolder: "Please Enter Census Code/ULB Code",
       loginValidation: "censusValidation",
     },
     {
@@ -207,7 +207,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       case USER_TYPE.ULB:
         return this.loginForm.controls["email"].setValidators([
           Validators.required,
-          Validators.pattern("(?!.*@).*"),
+          Validators.pattern("^\\d+\\.{0,1}\\d*$"),
         ]);
       default:
         this.loginForm.controls["email"].setValidators([
