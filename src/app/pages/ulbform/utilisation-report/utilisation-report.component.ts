@@ -57,23 +57,22 @@ export class UtilisationReportComponent implements OnInit {
   // tabularProject:any = [{
   //   id : 0
   // }];
-  totalclosingBal: Number = 0;
-  projectCost = 0;
-  projectExp = 0;
-  selectedFile;
-  categories;
-  editable;
-  photoUrl: any = [];
-  setLocation
-  formDataResponce;
-  states: { [staeId: string]: IState };
-  userLoggedInDetails: IUserLoggedInDetails;
-  loggedInUserType: USER_TYPE;
-  userTypes = USER_TYPE;
-
-  errMessage;
-
-  private fetchStateList() {
+   totalclosingBal:Number = 0;
+   projectCost = 0;
+   projectExp = 0;
+   selectedFile;
+   categories;
+   editable;
+   photoUrl:any =[];
+ formDataResponce;
+   states: { [staeId: string]: IState };
+   userLoggedInDetails: IUserLoggedInDetails;
+   loggedInUserType: USER_TYPE;
+   userTypes = USER_TYPE;
+   errMessage;
+   errorDisplay= false;
+   setLocation;
+   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
       res.forEach((state) => (this.states[state._id] = state));
@@ -81,6 +80,10 @@ export class UtilisationReportComponent implements OnInit {
       this.getResponse();
     });
   }
+  // errorShow(){
+  //     this.errorDisplay = true;
+  //     console.log('hello')
+  // }
 
   ngOnInit() {
     this.UtiReportService.getCategory().subscribe((resdata) => {
@@ -135,40 +138,38 @@ export class UtilisationReportComponent implements OnInit {
 
     this.utilizationReport = this.fb.group({
       grantPosition: this.fb.group({
-      unUtilizedPrevYr: ['', Validators.required],
-      receivedDuringYr: ['', Validators.required],
-      expDuringYr: ['', Validators.required],
-      closingBal : []
-      })
-      ,
-      
-      projects: this.fb.array([this.fb.group({
-      category: ['', Validators.required],
-      name: ['',[Validators.required, Validators.maxLength(50)]],
-      description: ['',[Validators.required, Validators.maxLength(200)]],
-      // 'imgUpload' : new FormControl(''),
-      photos:this.fb.array( [
-      // this.fb.group({
-      // url: ['']
-      // })
-      ]) ,
-      capacity: ['', Validators.required],
-      location: this.fb.group({
-      lat: ['', Validators.required],
-      long : ['', Validators.required],
+        unUtilizedPrevYr: ["", Validators.required],
+        receivedDuringYr: ["", Validators.required],
+        expDuringYr: ["", Validators.required],
+        closingBal: [],
       }),
-      
-      cost: ['', Validators.required],
-      expenditure: ['', Validators.required],
-      // name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      })]),
-      
-      name: ['', Validators.required],
-      designation: ['', Validators.required]
-      
-      });
-   // this.utilizationReport.disable();
-   console.log('hi',this.utilizationReport);
+      projects: this.fb.array([
+        this.fb.group({
+          category: ["", Validators.required],
+          name: ["", Validators.required],
+          description: ["", Validators.required],
+          // 'imgUpload' : new FormControl(''),
+          photos: this.fb.array([
+            // this.fb.group({
+            //   url: ['']
+            // })
+          ]),
+          capacity: ["", Validators.required],
+          location: this.fb.group({
+            lat: ["", Validators.required],
+            long: ["", Validators.required],
+          }),
+
+          cost: ["", Validators.required],
+          expenditure: ["", Validators.required],
+          // name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        }),
+      ]),
+
+      name: ["", Validators.required],
+      designation: ["", Validators.required],
+    });
+    // this.utilizationReport.disable();
   }
 
   get utiReportFormControl() {

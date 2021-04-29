@@ -510,14 +510,10 @@ export class CommonService {
     return this.http.get(`${environment.api.url}user/nodal/${state}`);
   }
 
-  setUser(get, user = null) {
-    if (get) {
-      return this.userType;
-    }
-    this.userType = user;
-  }
-  fetchSlbData() {
-    return this.http.get(`${environment.api.url}xv-fc-form`);
+  fetchSlbData(){
+      return this.http.get(
+        `${environment.api.url}xv-fc-form`
+      );
   }
 
   postSlbData(data: any) {
@@ -534,5 +530,11 @@ export class CommonService {
       `${environment.api.url}xv-fc-form/${id}`,
       JSON.stringify(newData)
     );
+  }
+  setUser(get,user=null){
+    if(get){
+      return this.userType;
+    }
+    this.userType = user
   }
 }

@@ -40,13 +40,13 @@ import { RupeeConverterPipe } from './pipes/rupee-converter.pipe';
 import { TypeofPipe } from './pipes/typeof.pipe';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { TickIconComponent } from './tick-icon/tick-icon.component';
+import { FcSlbComponent } from './components/fc-slb/fc-slb.component';
+
 import { MapDialogComponent } from './components/map-dialog/map-dialog.component';
 import { GoogleMapComponent } from './components/google-map/google-map.component';
 //G-Mpas
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { AgmCoreModule } from "@agm/core";
-import { FcSlbComponent } from './components/fc-slb/fc-slb.component';
-
 @NgModule({
   imports: [
     RouterModule,
@@ -91,9 +91,9 @@ import { FcSlbComponent } from './components/fc-slb/fc-slb.component';
     FormhistoryComponent,
     IncompleteProfileComponent,
     FileUploadComponent,
+    FcSlbComponent,
     MapDialogComponent,
     GoogleMapComponent,
-    FcSlbComponent,
   ],
   exports: [
     PreLoaderComponent,

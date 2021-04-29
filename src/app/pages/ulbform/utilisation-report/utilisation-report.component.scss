@@ -24,7 +24,7 @@
 #mapCon:hover {
     width: 100px;
     height: 100px;
-    background-color: #177A27;
+    background-color: #e4eae5;
 }
 
 .btnYear {
@@ -185,4 +185,8 @@ label {
 
 .alert {
     padding: 0;
+}
+
+.ng-invalid.ng-touched {
+    border-color: red;
 }
