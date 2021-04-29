@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UlbformRoutingModule } from './ulbform-routing.module';
 import { UtilisationReportComponent } from './utilisation-report/utilisation-report.component';
@@ -50,7 +51,8 @@ import { LinkPFMSComponent } from './link-pfms/link-pfms.component';
     MatDialogModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    MatTooltipModule
 
 
   ]

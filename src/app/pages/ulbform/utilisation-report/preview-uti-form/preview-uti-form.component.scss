@@ -1,13 +1,15 @@
-.container-fluid {
-    overflow-x: hidden;
+.header {
+    background-color: #047474;
+    height: 120px;
+    display: inline-block;
+    color: #FFFFFF;
+    text-align: center;
 }
 
-.card {
-    background-color: #EBF5F5;
-    margin-left: 4rem;
-    margin-right: 4rem;
-    margin-bottom: 10px;
-    padding: 1rem;
+.mat-dialog-content {
+    padding: 0 0 0 0;
+    max-width: 100vw;
+    max-height: 100vw;
 }
 
 .listitem_head {
@@ -30,10 +32,16 @@
     padding: 4px;
 }
 
+.listitem_subHead {
+    font-size: 16px;
+    font-weight: normal;
+    font-family: Roboto;
+    padding: 2px 2px;
+}
+
 .dnDiv {
     margin-top: 10px;
     margin-right: 5%;
-    margin-bottom: 3px;
 }
 
 .dnldBtn {
@@ -42,15 +50,39 @@
     font-weight: normal;
 }
 
-.pd-div {
-    padding: 1rem 1rem;
+.card2Div {
+    margin-top: 5px;
+    padding: 2px 2px;
 }
 
-.thHeader {
-    background-color: #E9E9E9;
-    color: #047474;
-    font-size: 15px;
+.mat-dialog-container {
+    padding: 0;
+}
+
+.mat-card2 {
+    padding: 5px 10px;
+    margin: 10px 40px;
+    background-color: #EBF5F5;
+}
+
+.card2 {
+    width: 50%;
     font-weight: normal;
+    padding: 2px 5px;
+}
+
+.crd-ls-div {
+    margin-bottom: 15px;
+}
+
+.c-2-d {
+    margin-left: 15px;
+}
+
+.card3 {
+    width: 50%;
+    font-weight: 500;
+    padding: 2px 5px;
 }
 
 label {
@@ -104,17 +136,20 @@ th {
     padding: 7px 8px;
 }
 
-// .header {
-//     background-color: #047474;
-//     height: 120px;
-//     display: inline-block;
-//     color: #FFFFFF;
-//     text-align: center;
+.d-none {
+    display: none;
+}
+
+// bootstrap css------
+// .container-fluid {
+//     overflow-x: hidden;
 // }
-// .mat-dialog-content {
-//     padding: 0 0 0 0;
-//     max-width: 100vw;
-//     max-height: 100vw;
+// .card {
+//     background-color: #EBF5F5;
+//     margin-left: 4rem;
+//     margin-right: 4rem;
+//     margin-bottom: 10px;
+//     padding: 1rem;
 // }
 // .listitem_head {
 //     padding: 2px 2px;
@@ -134,48 +169,24 @@ th {
 //     border-radius: 3px;
 //     padding: 4px;
 // }
-// .listitem_subHead {
-//     font-size: 16px;
-//     font-weight: normal;
-//     font-family: Roboto;
-//     padding: 2px 2px;
-// }
 // .dnDiv {
 //     margin-top: 10px;
 //     margin-right: 5%;
+//     margin-bottom: 3px;
 // }
 // .dnldBtn {
 //     background-color: #26A1A1;
 //     color: #FFFFFF;
 //     font-weight: normal;
 // }
-// .card2Div {
-//     margin-top: 5px;
-//     padding: 2px 2px;
+// .pd-div {
+//     padding: 1rem 1rem;
 // }
-// .mat-dialog-container {
-//     padding: 0;
-// }
-// .mat-card2 {
-//     padding: 5px 10px;
-//     margin: 10px 40px;
-//     background-color: #EBF5F5;
-// }
-// .card2 {
-//     width: 50%;
+// .thHeader {
+//     background-color: #E9E9E9;
+//     color: #047474;
+//     font-size: 15px;
 //     font-weight: normal;
-//     padding: 2px 5px;
-// }
-// .crd-ls-div {
-//     margin-bottom: 15px;
-// }
-// .c-2-d {
-//     margin-left: 15px;
-// }
-// .card3 {
-//     width: 50%;
-//     font-weight: 500;
-//     padding: 2px 5px;
 // }
 // label {
 //     font-weight: normal;
@@ -221,6 +232,75 @@ th {
 //     height: 35px;
 //     padding: 7px 8px;
 // }
-// .d-none {
-//     display: none;
+//A4 css
+//.cont {
+//     width: 794px;
+//     background-color: #FFFFFF;
+//     display: inline-block;
+// }
+// .container {
+//     padding-left: 0;
+//     padding-right: 0;
+// }
+// .header {
+//     height: 90px;
+//     text-align: center;
+//     background-color: #047474;
+// }
+// .listitem_head {
+//     color: #FFFFFF;
+//     padding: 2px 2px;
+//     font-size: 18px;
+//     font-family: Roboto;
+//     font-weight: normal;
+//     // margin-top: 26px;
+//     text-align: center;
+//     display: inline-block;
+// }
+// .listitem_grantYear {
+//     display: inline-block;
+//     font-weight: normal;
+//     width: 90px;
+//     height: 28px;
+//     color: #3D3D3D;
+//     margin-left: 10px;
+//     background-color: #E5E6E6;
+//     border-radius: 3px;
+//     padding: 3px;
+// }
+// .card {
+//     margin-left: 4rem;
+//     margin-right: 4rem;
+//     margin-bottom: 10px;
+//     padding: 1rem;
+//     background-color: #EBF5F5;
+// }
+// .card .div {
+//     display: inline-block;
+// }
+// .i-d {
+//     display: inline-block;
+//     margin-left: 15px;
+// }
+// .i-d-m {
+//     display: inline-block;
+//     margin-left: 40%;
+// }
+// .table>tbody>tr>td,
+// .table>tbody>tr>th,
+// .table>tfoot>tr>td,
+// .table>tfoot>tr>th,
+// .table>thead>tr>td,
+// .table>thead>tr>th {
+//     vertical-align: middle;
+//     padding: 4px 0px;
+// }
+// .dnDiv {
+//     margin-top: 10px;
+//     margin-right: 5%;
+// }
+// .dnldBtn {
+//     background-color: #26A1A1;
+//     color: #FFFFFF;
+//     font-weight: normal;
 // }

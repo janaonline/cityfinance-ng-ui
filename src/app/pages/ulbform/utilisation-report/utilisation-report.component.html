@@ -186,27 +186,30 @@
 
                                 </td>
                                 <td>
-                                    <input type="text" class="t-i form-control" placeholder="Max 50 Characters" (mouseover)="errorDisplay=true" (mouseout)="errorDisplay=false" formControlName="name" style="width: 10rem;" required>
-                                    <div *ngIf="errorDisplay && utiReportFormControl.projects.controls[projectIndex].controls.name.invalid &&
-                                     (utiReportFormControl.projects.controls[projectIndex].controls.name.dirty ||
-                                     utiReportFormControl.projects.controls[projectIndex].controls.name.touched)" class="alert alert-danger">
-                                        <span style="font-size: 10px;" *ngIf=" errorDisplay && utiReportFormControl.projects.controls[projectIndex].controls.name.errors.required">
-                                            Name is required.
-                                        </span>
-                                        <span style="font-size: 10px;" *ngIf="errorDisplay && utiReportFormControl.projects.controls[projectIndex].controls.name.errors.maxlength">
-                                            Name should be less than 50 character.
-                                        </span>
+                                    <input type="text" data-toggle="tooltip" data-placement="top" class="t-i form-control" placeholder="Max 50 Characters" (mouseover)="errorDisplayName=true" (mouseout)="errorDisplayName=false" formControlName="name" style="width: 10rem;" required>
+                                    <div class="bs-tooltip-top" role="tooltip" *ngIf="errorDisplayName && utiReportFormControl.projects.controls[projectIndex].controls.name.invalid &&
+                              (utiReportFormControl.projects.controls[projectIndex].controls.name.dirty ||
+                              utiReportFormControl.projects.controls[projectIndex].controls.name.touched)">
+
+                                        <span class="tooltip-inner" style="font-size: 10px;" *ngIf=" errorDisplayName && utiReportFormControl.projects.controls[projectIndex].controls.name.errors.required">
+                                   Name is required.
+                                 </span>
+                                        <span class="tooltip-inner" style="font-size: 10px;" *ngIf="errorDisplayName
+                                   && utiReportFormControl.projects.controls[projectIndex].controls.name.errors.maxlength">
+                                   Name less than 50 char.
+                                 </span>
+
                                     </div>
                                 </td>
                                 <td>
-                                    <input type="text" class="t-i form-control" (mouseover)="errorDisplay=true" (mouseout)="errorDisplay=false" placeholder="Max 200 Characters" formControlName="description" style="width: 14rem;" required>
-                                    <div *ngIf="errorDisplay && utiReportFormControl.projects.controls[projectIndex].controls.description.invalid &&
+                                    <input type="text" data-toggle="tooltip" data-placement="top" class="t-i form-control" (mouseover)="errorDisplayDesi=true" (mouseout)="errorDisplayDesi=false" placeholder="Max 200 Characters" formControlName="description" style="width: 14rem;" required>
+                                    <div class="bs-tooltip-top" role="tooltip" *ngIf="errorDisplayDesi && utiReportFormControl.projects.controls[projectIndex].controls.description.invalid &&
                                     (utiReportFormControl.projects.controls[projectIndex].controls.description.dirty ||
-                                    utiReportFormControl.projects.controls[projectIndex].controls.description.touched)" class="alert alert-danger">
-                                        <span style="font-size: 10px;" *ngIf="utiReportFormControl.projects.controls[projectIndex].controls.description.errors.required && errorDisplay">
+                                    utiReportFormControl.projects.controls[projectIndex].controls.description.touched)">
+                                        <span class="tooltip-inner" style="font-size: 10px;" *ngIf="utiReportFormControl.projects.controls[projectIndex].controls.description.errors.required && errorDisplayDesi">
                                             Description is required.
                                         </span>
-                                        <span style="font-size: 10px;" *ngIf="utiReportFormControl.projects.controls[projectIndex].controls.description.errors.maxlength && errorDisplay">
+                                        <span class="tooltip-inner" style="font-size: 10px;" *ngIf="utiReportFormControl.projects.controls[projectIndex].controls.description.errors.maxlength && errorDisplayDesi">
                                             Description should be less than 200 character.
                                         </span>
                                     </div>

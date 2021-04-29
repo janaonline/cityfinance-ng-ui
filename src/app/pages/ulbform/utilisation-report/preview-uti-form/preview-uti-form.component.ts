@@ -17,23 +17,50 @@ export class PreviewUtiFormComponent implements OnInit {
   showLoader;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any ,private _questionnaireService: QuestionnaireService,private _matDialog: MatDialog) { }
   styleForPDF=`<style>
-  .card {
-    background-color: #EBF5F5;
+  .cont {
+    width: 794px;
+    background-color: #FFFFFF;
+    display: inline-block;
+}
 
-    margin-bottom: 10px;
+.container {
+    padding-left: 0;
+    padding-right: 0;
+}
 
+.header {
+    height: 90px;
+    text-align: center;
+    background-color: #047474;
 }
 
 .listitem_head {
-    font-size: 1rem;
+    color: #FFFFFF;
+    font-size: 14px !important:
     font-family: Roboto;
     font-weight: normal;
+    text-align: center;
     display: inline-block;
+    margin-top: 26px;
 }
-
-.listitem_grantYear {
+.qus-i{
+  font-size: 12px !important;
+}
+.qus-div{
+  width: 40%;
+  font-size:12px;
+}
+.ans-div{
+  width: 50% !important;
+}
+.q-h-fc{
+  font-size: 12px !important;
+}
+  .listitem_grantYear {
     display: inline-block;
     font-weight: normal;
+    width: 90px;
+    height: 28px;
     color: #3D3D3D;
     margin-left: 10px;
     background-color: #E5E6E6;
@@ -41,40 +68,24 @@ export class PreviewUtiFormComponent implements OnInit {
 
 }
 
-.dnDiv {
-    margin-top: 10px;
-    margin-right: 5%;
-    margin-bottom: 3px;
+.card {
+    margin-bottom: 10px;
+    padding: 1rem;
+    background-color: #EBF5F5;
 }
 
-.dnldBtn {
-    background-color: #26A1A1;
-    color: #FFFFFF;
-    font-weight: normal;
+.card .div {
+    display: inline-block;
 }
 
-.thHeader {
-    background-color: #E9E9E9;
-    color: #047474;
-    font-size: 12px;
-    font-weight: normal;
+.i-d {
+    display: inline-block;
+    margin-left: 15px;
 }
 
-label {
-    font-weight: normal;
-}
-
-.thHeader {
-    background-color: #E9E9E9;
-    color: #047474;
-    font-size: 15px;
-    font-weight: normal;
-}
-
-th {
-    font-weight: normal;
-    vertical-align: middle;
-    text-align: center;
+.i-d-m {
+    display: inline-block;
+    margin-left: 40%;
 }
 
 .table>tbody>tr>td,
@@ -84,9 +95,28 @@ th {
 .table>thead>tr>td,
 .table>thead>tr>th {
     vertical-align: middle;
-    padding: 10px 6px;
+    padding: 4px 0px;
+    font-size: 12px
 }
+.dnDiv {
+    margin-top: 10px;
+    margin-right: 5%;
+}
+.dnldBtn {
+    background-color: #26A1A1;
+    color: #FFFFFF;
+    font-weight: normal;
+}
+tr{
+  font-size:12px;
 
+}
+th{
+  font-size:12px;
+}
+td{
+  font-size: 12px
+}
 
 
 
