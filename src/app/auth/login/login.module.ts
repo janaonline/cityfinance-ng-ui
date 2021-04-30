@@ -10,6 +10,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { LoginRoutingModule } from './login-routing.module';
 import {MatIconModule} from '@angular/material/icon';
 import { LoginComponent } from './login.component';
+import { MdePopoverModule } from '@material-extended/mde';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { LoginComponent } from './login.component';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MdePopoverModule
   ],
   declarations: [LoginComponent],
 })

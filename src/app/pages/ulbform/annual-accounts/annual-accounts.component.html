@@ -1,0 +1,138 @@
+<div class="row header">
+  <div class="row">
+    <div class="col-sm-8 col-lg-8 col-md-8 header2">Annual Accounts</div>
+  </div>
+</div>
+
+<div class="row">
+  <div id="checkboxes">
+    <input type="radio" name="rGroup" value="1" id="r1" checked="checked" />
+    <label class="col-sm-6 square header1 text-center" for="r1">
+      <span style="vertical-align: sub;">
+        Provisional Accounts for
+        2020-21
+      </span>
+    </label>
+    <input type="radio" name="rGroup" value="2" id="r2" />
+    <label class="col-sm-6 square header1 text-center" for="r2">
+      <span style="vertical-align: sub;">
+        Audited Accounts for
+        2019-20
+      </span>
+    </label>
+  </div>
+
+  <div class="col-md-12 mat-card card-body">
+    <div class="mat-card-content" style="margin-top: 2rem;">
+      <span>(A) Do you wish to submit Provisional Accounts for 2019-20 ?</span>
+      <div class="row center">
+        <div id="checkboxes">
+          <input type="radio" name="btnYesNo" value="1" id="btn-1" [disabled]="quesTwoAnswer"
+            (change)="answer('q1',true)" />
+          <label class="btn qbtn" for="btn-1">
+            Yes
+          </label>
+          <input type="radio" name="btnYesNo" value="2" id="btn-2" 
+            (change)="answer('q1',false)" />
+          <label class="btn qbtn" style="    margin-left: 7pc;" for="btn-2">
+            No
+          </label>
+        </div>
+      </div>
+      <div *ngIf="quesOneAnswer" class="row center">
+        <div class="col-md-12">
+          <span class="col-md-6">Balance Sheet.</span>
+          <button class="col-md-2 btn btn2">Upload PDF
+            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
+          </button>
+          <button class="col-md-2 btn btn2">Upload EXCEL</button>
+        </div>
+        <div class="col-md-12">
+          <span class="col-md-6">Balance Sheet Schedule</span>
+          <button class="col-md-2 btn btn2">Upload PDF
+            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
+          </button>
+          <button class="col-md-2 btn btn2">Upload EXCEL</button>
+        </div>
+        <div class="col-md-12">
+          <span class="col-md-6">Income Expenditure</span>
+          <button class="col-md-2 btn btn2">Upload PDF
+            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
+          </button>
+          <button class="col-md-2 btn btn2">Upload EXCEL</button>
+        </div>
+        <div class="col-md-12">
+          <span class="col-md-6">Income Expenditure Schedule</span>
+          <button class="col-md-2 btn btn2">Upload PDF
+            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
+          </button>
+          <button class="col-md-2 btn btn2">Upload EXCEL</button>
+        </div>
+        <div class="col-md-12">
+          <span class="col-md-6">Cash flow Statement</span>
+          <button class="col-md-2 btn btn2">Upload PDF
+            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
+          </button>
+          <button class="col-md-2 btn btn2">Upload EXCEL</button>
+        </div>
+        <div class="col-md-12">
+          <span class="col-md-6">Cash Flow Statement Schedules</span>
+          <button class="col-md-2 btn btn2">Upload PDF
+            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
+          </button>
+          <button class="col-md-2 btn btn2">Upload EXCEL</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 mat-card card-body">
+    <div class="mat-card-content" style="margin-top: 2rem;">
+      <span>(B) Do you wish to submit financials in standardized format for 2019-20 ?</span>
+      <div class="row center">
+        <div id="checkboxes">
+          <input type="radio" name="btnYesNo2" value="1" id="btn-3" [disabled]="quesOneAnswer"
+            (change)="answer('q2',true)" />
+          <label class="btn qbtn" for="btn-3">
+            Yes
+          </label>
+          <input type="radio" name="btnYesNo2" value="2" (change)="answer('q2',false)" id="btn-4" />
+          <label class="btn qbtn" style="margin-left: 7pc;" for="btn-4">
+            No
+          </label>
+        </div>
+      </div>
+      <div *ngIf="quesTwoAnswer">
+        <div class="row">
+          <button class="allBtn btn btn2">
+            Download Template
+          </button>
+        </div>
+        <div class="row">
+          <span class="col-md-12">(i) Auditors’ Certificate on Financial Statements ?</span>
+          <br>
+          <button class="allBtn btn btn2">
+            Upload EXCEL
+            <span class="iconify" data-icon="mdi-file-excel" data-inline="false"
+              style="color:#007822; vertical-align: sub;" data-width="23" data-height="16"></span>
+          </button>
+        </div>
+        <div class="row">
+          <span class="col-md-12">(ii) Auditors’ Registration Number ?</span>
+          <br>
+          <input class="allBtn btn btninput" placeholder="Enter value" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="row footerBtnDiv">
+  <div class="col-lg-6 col-md-6 col-sm-6">
+    <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../grant-tra-certi']">BACK</a>
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+    <button type="button" class="btn footerBtn" id="saveNext">SAVE AND NEXT</button>
+  </div>
+</div>
