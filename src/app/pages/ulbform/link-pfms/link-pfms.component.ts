@@ -1,19 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,TemplateRef  } from '@angular/core';
 import { LinkPFMSAccount } from './link-pfms.service'
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Router } from "@angular/router";
 @Component({
   selector: 'app-link-pfms',
   templateUrl: './link-pfms.component.html',
   styleUrls: ['./link-pfms.component.scss']
 })
 export class LinkPFMSComponent implements OnInit {
-
-  constructor(private LinkPFMSAccount: LinkPFMSAccount) {
+  modalRef: BsModalRef;
+  constructor(private LinkPFMSAccount: LinkPFMSAccount, private modalService: BsModalService,private _router: Router,) {
 
   }
 
   receivedData = {}
   account = 'no';
   linked = 'no';
+  // openModal(template: TemplateRef<any>) {
+  //   this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  // }
+
+  // confirm(){
+  //   this.modalRef.hide();
+  //   return this._router.navigate(["ulbform/grant-tra-certi"]);
+  // }
+
+  // decline(): void {
+  //   this.modalRef.hide();
+  // }
   ngOnInit() {
     this.LinkPFMSAccount.getData('606aaf854dff55e6c075d219')
       .subscribe((res) => {
@@ -85,4 +99,5 @@ export class LinkPFMSComponent implements OnInit {
           console.log(error, this.errMessage);
         });
   }
+
 }

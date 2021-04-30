@@ -166,8 +166,8 @@ export class UtilisationReportComponent implements OnInit {
         }),
       ]),
 
-      name: ["", Validators.required],
-      designation: ["", Validators.required],
+      name: ["", [Validators.required, Validators.maxLength(50), Validators.pattern('[a-zA-Z ]*')]],
+      designation: ["", [Validators.required, Validators.maxLength(200), Validators.pattern('[a-zA-Z ]*')]],
     });
     // this.utilizationReport.disable();
   }
@@ -322,8 +322,8 @@ else{
 
   this.tabelRows.push(this.fb.group({
     category : ['', Validators.required],
-    name: ['',[Validators.required, Validators.maxLength(50)]],
-    description: ['',[Validators.required, Validators.maxLength(200)]],
+    name: ['',[Validators.required, Validators.maxLength(50), Validators.pattern('[a-zA-Z]*')]],
+    description: ['',[Validators.required, Validators.maxLength(200), Validators.pattern('[a-zA-Z]*')]],
     photos:this.fb.array( [
       // this.fb.group({
       //   url: ['']

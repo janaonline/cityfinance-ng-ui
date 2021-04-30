@@ -25,6 +25,9 @@ import { OverviewComponent } from './overview/overview.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PreviewSlbComponentComponent } from './preview-slb-component/preview-slb-component.component';
 import { LinkPFMSComponent } from './link-pfms/link-pfms.component';
+//ngx-bootstrap
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 @NgModule({
   entryComponents: [PreviewUtiFormComponent, ImagePreviewComponent],
   declarations: [
@@ -52,7 +55,9 @@ import { LinkPFMSComponent } from './link-pfms/link-pfms.component';
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ModalModule.forRoot(),
+    TooltipModule.forRoot()
 
 
   ]

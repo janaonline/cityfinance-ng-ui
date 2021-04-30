@@ -202,17 +202,23 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <input type="text" data-toggle="tooltip" data-placement="top" class="t-i form-control" (mouseover)="errorDisplayDesi=true" (mouseout)="errorDisplayDesi=false" placeholder="Max 200 Characters" formControlName="description" style="width: 14rem;" required>
-                                    <div class="bs-tooltip-top" role="tooltip" *ngIf="errorDisplayDesi && utiReportFormControl.projects.controls[projectIndex].controls.description.invalid &&
-                                    (utiReportFormControl.projects.controls[projectIndex].controls.description.dirty ||
-                                    utiReportFormControl.projects.controls[projectIndex].controls.description.touched)">
-                                        <span class="tooltip-inner" style="font-size: 10px;" *ngIf="utiReportFormControl.projects.controls[projectIndex].controls.description.errors.required && errorDisplayDesi">
-                                            Description is required.
-                                        </span>
-                                        <span class="tooltip-inner" style="font-size: 10px;" *ngIf="utiReportFormControl.projects.controls[projectIndex].controls.description.errors.maxlength && errorDisplayDesi">
-                                            Description should be less than 200 character.
-                                        </span>
-                                    </div>
+                                    <input type="text" [tooltip]="tolTemplate" triggers="hover:click" class="t-i form-control" placeholder="Max 200 Characters" formControlName="description" style="width: 14rem;" required>
+
+                                    <ng-template *ngIf="utiReportFormControl.projects.controls[projectIndex].controls.description.invalid
+                                    &&
+                                  (utiReportFormControl.projects.controls[projectIndex].controls.description.dirty ||
+                                  utiReportFormControl.projects.controls[projectIndex].controls.description.touched)" #tolTemplate>
+                                        <span class="tooltip-inner" style="font-size: 10px;" *ngIf="utiReportFormControl.projects.controls[projectIndex].controls.description.errors.required">
+                                        Description is required.
+                                    </span>
+                                        <span class="tooltip-inner" style="font-size: 10px;" *ngIf="utiReportFormControl.projects.controls[projectIndex].controls.description.errors.maxlength">
+                                        Description should be less than 200 character.
+                                    </span>
+                                    </ng-template>
+
+
+
+
                                 </td>
                                 <td>
                                     <input type="text" class="t-i form-control" formControlName="capacity" style="width: 6rem;">
@@ -244,9 +250,17 @@
                                         </span></a>
                                 </td>
                                 <td style="display: inline-flex;" formGroupName="location">
-                                    <input type="text" class="t-i form-control"  formControlName="lat">
-                                    <input type="text" class="t-i form-control" formControlName="long" >
-                                    <span id="mapCon" (click)="openDialog(projectIndex)" class="fa fa-map-marker" style="width: 30px; height: 18px; margin-top: 1rem;color:#3b8e91"></span>
+                                    <input type="text" class="t-i form-control" formControlName="lat">
+                                    <input type="text" class="t-i form-control" formControlName="long">
+                                    <!-- <span id="mapCon"
+                                    (click)="openDialog(projectIndex)"
+                                     class="fa fa-map-marker"
+                                     style="width: 30px; height: 18px; margin-top: 1rem;color:#3b8e91"></span> -->
+                                    <a (click)="openDialog(projectIndex)">
+                                        <mat-icon aria-hidden="false">
+                                            <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
+                                        </mat-icon>
+                                    </a>
                                 </td>
                                 <td class="t-i">
                                     <input class="t-i form-control" (change)="totalProCost(projectIndex)" formControlName="cost" appTwoDigitDecimaNumber>
@@ -294,7 +308,7 @@
                 <div class="form-group row formfooter">
                     <label for="name" class="col-sm-2 col-form-label" style="margin-top: 10px; ">Name :</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="name" (change)="whiteSpaceRem('name')" formControlName="name">
+                        <input pattern="[a-zA-Z ]*" class="form-control" id="name" (change)="whiteSpaceRem('name')" formControlName="name">
                         <!-- <div *ngIf="utiReportFormControl.name.invalid &&
                         (utiReportFormControl.dirty || utiReportFormControl.touched)" class="alert alert-danger">
 
@@ -305,7 +319,9 @@
                         <span class="text-danger" *ngIf="(utiReportFormControl.name.touched || submitted) &&
                                  utiReportFormControl.name.errors?.required" style="margin-left: 10px;">
                                 Name is required*
-                            </span>
+                         </span>
+                        <span class="text-danger" *ngIf="utiReportFormControl.name.errors?.pattern" style="margin-left: 10px;">
+                         Only Alphabets are allowed*</span>
 
                     </div>
                     <label for="designation" class="col-sm-2 col-form-label" style="margin-top: 10px;">Designation :</label>
@@ -315,6 +331,8 @@
                                  utiReportFormControl.designation.errors?.required" style="margin-left: 10px;">
                                  Designation is required*
                             </span>
+                        <span class="text-danger" *ngIf="utiReportFormControl.designation.errors?.pattern" style="margin-left: 10px;">
+                         Only Alphabets are allowed*</span>
                     </div>
                 </div>
 

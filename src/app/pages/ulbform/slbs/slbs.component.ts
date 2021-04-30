@@ -51,7 +51,7 @@ export class SlbsComponent implements OnInit {
   getSlbData(){
     return new Promise((resolve, reject) => {
       this.commonService.fetchSlbData().subscribe(res => {
-        
+
         this.preFilledWaterManagement = res['data'] && res['data'][0] ? res['data'][0] : {};
         let waterPotability = res['data'] && res['data'][0] && res['data'][0]['waterPotability']['documents']['waterPotabilityPlan']? res['data'][0]['waterPotability']['documents']['waterPotabilityPlan'][0] : {}
 
@@ -103,7 +103,7 @@ export class SlbsComponent implements OnInit {
 
 
   showPreview() {
-
+  console.log(this.waterPotability);
     this.previewData = {
       ...this.preFilledWaterManagement,
       ulb: this.loggedInUserDetails.ulb,
