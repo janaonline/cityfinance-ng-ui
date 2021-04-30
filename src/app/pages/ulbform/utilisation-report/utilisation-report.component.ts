@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef } from "@angular/core";
 
 import { ChangeDetectorRef } from "@angular/core";
 
@@ -28,13 +28,14 @@ import { delay, map, retryWhen } from "rxjs/operators";
 import { ImagePreviewComponent } from "./image-preview/image-preview.component";
 import { url } from "inspector";
 import { MapDialogComponent } from "../../../shared/components/map-dialog/map-dialog.component";
-
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 @Component({
   selector: "app-utilisation-report",
   templateUrl: "./utilisation-report.component.html",
   styleUrls: ["./utilisation-report.component.scss"],
 })
 export class UtilisationReportComponent implements OnInit {
+  modalRef: BsModalRef;
   constructor(
     private fb: FormBuilder,
     public dialog: MatDialog,
@@ -43,7 +44,8 @@ export class UtilisationReportComponent implements OnInit {
     private profileService: ProfileService,
     private _router: Router,
     private UtiReportService: UtiReportService,
-    private dataEntryService: DataEntryService
+    private dataEntryService: DataEntryService,
+    private modalService: BsModalService,
   ) {
     this.initializeUserType();
 
@@ -64,6 +66,7 @@ export class UtilisationReportComponent implements OnInit {
    categories;
    editable;
    photoUrl:any =[];
+   fd;
  formDataResponce;
    states: { [staeId: string]: IState };
    userLoggedInDetails: IUserLoggedInDetails;
@@ -166,8 +169,8 @@ export class UtilisationReportComponent implements OnInit {
         }),
       ]),
 
-      name: ["", [Validators.required, Validators.maxLength(50), Validators.pattern('[a-zA-Z ]*')]],
-      designation: ["", [Validators.required, Validators.maxLength(200), Validators.pattern('[a-zA-Z ]*')]],
+      name: ["", [Validators.required, Validators.maxLength(50)]],
+      designation: ["", [Validators.required, Validators.maxLength(50)]]
     });
     // this.utilizationReport.disable();
   }
@@ -406,31 +409,60 @@ else{
   // saveAsDraft(){
   //   console.log(this.utilizationReport);
   // }
+  apiCall(fd){
+    this.UtiReportService.createAndStorePost(fd)
+    .subscribe((res) => {
+     //  console.log(res);
+       alert('Record submitted successfully.')
+    },
+    error =>{
+       alert("An error occured.")
+       this.errMessage = error.message;
+       console.log(this.errMessage);
+    });
+  }
 
-  saveAndNext() {
+  saveAndNext(template) {
     this.submitted = true;
   //  console.log(this.utilizationReport);
   //  console.log(this.utilizationReport.value);
 
-    let fd = this.utilizationReport.value;
-        fd.isDraft = true;
-        fd.financialYear = '5ea036c2d6f1c5ee2e702e9e';
-        fd.designYear ='5ea036c2d6f1c5ee2e702e9e';
-        fd.grantType = 'Tied';
-        fd.grantPosition.closingBal = this.totalclosingBal;
+        this.fd = this.utilizationReport.value;
+        this.fd.isDraft = true;
+        this.fd.financialYear = '5ea036c2d6f1c5ee2e702e9e';
+        this.fd.designYear ='5ea036c2d6f1c5ee2e702e9e';
+        this.fd.grantType = 'Tied';
+        this.fd.grantPosition.closingBal = this.totalclosingBal;
+
+        if (this.utilizationReport.valid) {
+          this.apiCall(this.fd);
+          console.log('form submitted');
+          return this._router.navigate(["ulbform/annual_acc"]);
 
 
+        } else {
+          this.openModal(template);
+        }
 
-    this.UtiReportService.createAndStorePost(fd)
-                  .subscribe((res) => {
-                   //  console.log(res);
-                     alert('Record submitted successfully.')
-                  },
-                  error =>{
-                     alert("An error occured.")
-                     this.errMessage = error.message;
-                     console.log(this.errMessage);
-                  });
+
+  }
+   openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+  }
+
+  stay(){
+    this.modalRef.hide();
+
+  }
+
+  proceed() {
+    this.modalRef.hide();
+    console.log(this.fd);
+    this.apiCall(this.fd)
+    return this._router.navigate(["ulbform/annual_acc"]);
+  }
+  alertClose(){
+    this.modalRef.hide();
   }
  // myFiles:string [] = [];
   filesToUpload: Array<File> = [];
