@@ -23,77 +23,161 @@ export class PreviewUtiFormComponent implements OnInit {
     margin-bottom: 10px;
 
 }
+.header{
+  word-break: break-all;
+}
 
+td, th{
+  word-break: break-all;
+  font-size: 9px !important;
+  padding: 5px 1px !important;
+}
+
+.header {
+  background-color: #047474;
+  height: 50px;
+  display: inline-block;
+  color: #FFFFFF;
+  text-align: center;
+  font-weight:
+}
+.mat-dialog-content {
+  padding: 0 0 0 0;
+  max-width: 100vw;
+  max-height: 100vw;
+}
 .listitem_head {
-    font-size: 1rem;
-    font-family: Roboto;
-    font-weight: normal;
-    display: inline-block;
+  padding: 2px 2px;
+  font-size: 12px !important;
+  font-family: Roboto;
+  font-weight: normal;
+  display: inline-block;
 }
-
 .listitem_grantYear {
-    display: inline-block;
-    font-weight: normal;
-    color: #3D3D3D;
-    margin-left: 10px;
-    background-color: #E5E6E6;
-    border-radius: 3px;
-
+  display: inline-block;
+  font-weight: normal;
+  width: 50px !important;
+  height: 10px !important;
+  color: #3D3D3D;
+  margin-left: 10px;
+  background-color: #E5E6E6;
+  border-radius: 3px;
+  padding: 4px;
 }
-
+.listitem_subHead {
+  margin-top: 5px;
+  font-size: 16px;
+  font-weight: normal;
+  font-family: Roboto;
+  padding: 2px 2px;
+  display: inline-block;
+}
 .dnDiv {
-    margin-top: 10px;
-    margin-right: 5%;
-    margin-bottom: 3px;
+  margin-top: 10px;
+  margin-right: 5%;
 }
-
 .dnldBtn {
-    background-color: #26A1A1;
-    color: #FFFFFF;
-    font-weight: normal;
+  background-color: #26A1A1;
+  color: #FFFFFF;
+  font-weight: normal;
 }
-
-.thHeader {
-    background-color: #E9E9E9;
-    color: #047474;
-    font-size: 12px;
-    font-weight: normal;
+.card2Div {
+  margin-top: 5px;
+  padding: 2px 2px;
 }
-
+.mat-dialog-container {
+  padding: 0;
+}
+.mat-card2 {
+  padding: 5px 2px;
+  margin-top: 10px;
+  // margin: 10px 40px;
+  background-color: #EBF5F5;
+  display: block;
+}
+.card2 {
+  width: 50%;
+  font-weight: normal;
+  padding: 2px 5px;
+}
+.crd-ls-div {
+  margin-bottom: 15px;
+}
+.c-2-d {
+  margin-left: 15px;
+}
+.card3 {
+  width: 50%;
+  font-weight: 500;
+  padding: 2px 5px;
+}
 label {
-    font-weight: normal;
+  font-weight: normal;
 }
-
 .thHeader {
-    background-color: #E9E9E9;
-    color: #047474;
-    font-size: 15px;
-    font-weight: normal;
+  background-color: #E9E9E9;
+  color: #047474;
+  font-size: 15px;
+  font-weight: normal;
 }
-
 th {
-    font-weight: normal;
-    vertical-align: middle;
-    text-align: center;
+  font-weight: normal;
+  vertical-align: middle;
+  text-align: center;
 }
-
 .table>tbody>tr>td,
 .table>tbody>tr>th,
 .table>tfoot>tr>td,
 .table>tfoot>tr>th,
 .table>thead>tr>td,
 .table>thead>tr>th {
-    vertical-align: middle;
-    padding: 10px 6px;
+  vertical-align: middle;
+  padding: 10px 6px;
 }
-
-
-
-
-
+.bor-in-l {
+  word-break: break-all;
+  color: #51504F;
+}
+.tableFooterDiv {
+  background-color: #E7E7E7;
+  color: #000000;
+  font-size: 16px;
+}
+.f-d-n {
+  background-color: #CFCFCF;
+  width: 235px;
+  height: 35px;
+  padding: 7px 8px;
+  height: 15px !important;
+}
 .d-none {
-    display: none;
+  display: none;
 }
+label{
+  font-size: 9px !important;
+}
+.font-9{
+  font-size: 9px !important;
+}
+.pdf-hide{
+  display: none;
+}
+.w-5{
+width: 5% !important;
+}
+.w-10{
+  width: 10% !important;
+}
+.w-11{
+  width: 11% !important;
+}
+.w-12{
+  width: 12% !important;
+}
+.w-15{
+  width: 15% !important;
+}
+
   </style>`
   ngOnInit(): void {
 console.log(this.data)
