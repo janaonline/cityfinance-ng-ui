@@ -5,63 +5,39 @@
         <div class="card bg-white sign-in">
           <div *ngIf="!isOtpLogin">
             <ng-template #userType>
-              <app-user-type-confirmation
-                (userTypeSelected)="onSelectingUserType($event)"
-              ></app-user-type-confirmation>
+              <app-user-type-confirmation (userTypeSelected)="onSelectingUserType($event)"></app-user-type-confirmation>
             </ng-template>
-            <div
-              class="card-body border"
-              *ngIf="selectedUserType; else userType"
-            >
+            <div class="card-body border" *ngIf="selectedUserType; else userType">
               <h5 class="text-center"><b>Sign In</b></h5>
               <form [formGroup]="loginForm" (ngSubmit)="login()">
                 <mat-form-field appearance="outline">
                   <mat-label>{{ loginSet.loginName }}</mat-label>
-                  <input
-                    matInput
-                    type="email"
-                    placeholder="{{ loginSet.loginName }}"
-                    formControlName="email"
-                    [ngClass]="{ 'is-invalid': submitted && lf.email.errors }"
-                  />
-                  <i
-                    class="fa fa-exclamation-circle"
+                  <input matInput type="email" placeholder="{{ loginSet.loginName }}" formControlName="email"
+                    [ngClass]="{ 'is-invalid': submitted && lf.email.errors }" />
+                  <i class="fa fa-exclamation-circle"
                     matTooltip="User ID for ULB is census code/ ULB Code. User ID for state is email id of Nodal officer. In case you are unable to recall the Census Code/ ULB Code please contact Nodal officer of your state."
-                    aria-hidden="true"
-                    style="z-index: 9999999; position: absolute; right: 2%"
-                  ></i>
+                    aria-hidden="true" style="z-index: 9999999; position: absolute; right: 2%"></i>
                 </mat-form-field>
                 <br />
                 <div class="forget-password">
                   <mat-form-field appearance="outline">
                     <mat-label>Password</mat-label>
-                    <input
-                      matInput
-                      [type]="hide ? 'password' : 'text'"
-                      placeholder="Enter password"
-                      formControlName="password"
-                      [ngClass]="{
+                    <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter password"
+                      formControlName="password" [ngClass]="{
                         'is-invalid': submitted && lf.password.errors
-                      }"
-                    />
+                      }" />
                     <mat-icon matSuffix (click)="hide = !hide">{{
                       hide ? "visibility" : "visibility_off"
                     }}</mat-icon>
                   </mat-form-field>
 
                   <div class="forget text-right">
-                    <a [routerLink]="['../password', 'request']"
-                    (click) = "passwordUser(selectedUserType)"
-                      >Forgot password?</a
-                    >
+                    <a [routerLink]="['../password', 'request']" (click)="passwordUser(selectedUserType)">Forgot
+                      password?</a>
                   </div>
                 </div>
 
-                <re-captcha
-                  *ngIf="reCaptcha.show"
-                  (resolved)="resolveCaptcha($event)"
-                  [siteKey]="reCaptcha.siteKey"
-                >
+                <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey">
                 </re-captcha>
                 <span *ngIf="noCodeError" class="text-danger">{{loginSet.loginName }}</span>
                 <span *ngIf="otpVerificationMessage" class="text-primary">{{emailVerificationMessage }}</span>
@@ -70,11 +46,8 @@
                 </p>
 
                 <div class="signbtn-wrapper">
-                  <button
-                    type="submit"
-                    class="btn btn-primary btn-block login-btn"
-                    [ngClass]="{ 'loading-button': loginForm.disabled }"
-                  >
+                  <button type="submit" class="btn btn-primary btn-block login-btn"
+                    [ngClass]="{ 'loading-button': loginForm.disabled }">
                     Sign In
                   </button>
                 </div>
@@ -87,23 +60,27 @@
                   Get OTP on your phone and email
                 </button>
               </div>
-              <a
-                *ngIf="selectedUserType === 'ULB'"
-                [routerLink]="['/ulb-not-registered']"
-                ><span>Not Registered?</span></a
-              >
-              <a *ngIf="selectedUserType === 'USER'" (click)="help = true"
-                ><span>Need Help?</span></a
-              >
-              <div
-                *ngIf="help"
-                style="display: grid"
-                matTooltip="Please write to us at 15fcgrant@cityfinance.in"
-                class="row"
-              >
-                <a>Not Registered?</a>
-                <a>Update Email ID?</a>
-                <a>Can not Access 15th FC Module?</a>
+              <a *ngIf="selectedUserType === 'ULB'" [routerLink]="['/ulb-not-registered']"><span>Not
+                  Registered?</span></a>
+              <a *ngIf="selectedUserType === 'USER'"  (click)="help = true" mat-raised-button color="primary"
+                [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger">
+                Need Help?
+              </a>
+
+              <mde-popover mdePopoverOffsetX="19" mdePopoverOffsetY="-55"  #appPopover="mdePopover"  [mdePopoverOverlapTrigger]="false"  >
+                <div class="mat-card" >
+                  <div class="mat-card-content" style="max-width: 300px">
+                    Please write to us at 15fcgrant@cityfinance.in
+                  </div>
+                </div>
+              </mde-popover>
+
+              <br>
+              <div *ngIf="help" style="display: grid" matTooltip="Please write to us at 15fcgrant@cityfinance.in"
+                class="col-md-12 text-center">
+                <a class="row" style="margin-left: 1ch;">Not Registered?</a>
+                <a class="row" style="margin-left: 1pc;">Update Email ID?</a>
+                <a class="row" style="margin-left: 8em;;">Can not Access 15th FC Module?</a>
               </div>
             </div>
           </div>
@@ -114,39 +91,22 @@
               </h4>
               <hr class="Sepline" />
               <div>
-                <span
-                  ><b
-                    >An OTP has been sent to {{ otpCreads?.mobile }} and
-                    {{ otpCreads?.email }} </b
-                  ><a
-                    [routerLink]="['/ulb-not-registered']"
-                    [click]="onChangeNumber()"
-                    *ngIf="selectedUserType === 'ULB'"
-                    >Change?</a
-                  ></span
-                >
+                <span><b>An OTP has been sent to {{ otpCreads?.mobile }} and
+                    {{ otpCreads?.email }} </b><a [routerLink]="['/ulb-not-registered']" [click]="onChangeNumber()"
+                    *ngIf="selectedUserType === 'ULB'">Change?</a></span>
               </div>
               <div *ngIf="selectedUserType === 'ULB'">
-                <span
-                  ><b>Census Code/ ULB Code-{{ ulbCode }} </b
-                  ><a (click)="change()">Change?</a></span
-                >
+                <span><b>Census Code/ ULB Code-{{ ulbCode }} </b><a (click)="change()">Change?</a></span>
               </div>
               <br />
               <form [formGroup]="loginForm" (ngSubmit)="otpLoginSubmit()">
                 <div class="forget-password">
-                  <a class="pull-right" (click)="startCountDown()"
-                    >Resend OTP?
+                  <a class="pull-right" (click)="startCountDown()">Resend OTP?
                     <a *ngIf="counterTimer">{{ counter }} Sec</a>
                   </a>
                   <mat-form-field appearance="outline">
                     <mat-label>Enter OTP</mat-label>
-                    <input
-                      matInput
-                      type="text"
-                      formControlName="otp"
-                      placeholder="Enter OTP"
-                    />
+                    <input matInput type="text" formControlName="otp" placeholder="Enter OTP" />
                   </mat-form-field>
                 </div>
 
@@ -155,10 +115,7 @@
                 </p>
 
                 <div class="signbtn-wrapper">
-                  <button
-                    type="submit"
-                    class="btn btn-primary btn-block login-btn"
-                  >
+                  <button type="submit" class="btn btn-primary btn-block login-btn">
                     Sign In
                   </button>
                 </div>
@@ -177,17 +134,12 @@
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 text-center image-side">
         <div class="img-wrapper text-center">
-          <img
-            src="../assets/images/Group 13309.png"
-            class="img-responsive m-auto"
-          />
+          <img src="../assets/images/Group 13309.png" class="img-responsive m-auto" />
         </div>
 
-        <P
-          >For clarifications/ questions, please email us at
+        <P>For clarifications/ questions, please email us at
           <br />
-          <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a
-          >.
+          <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a>.
         </P>
         <p>We will respond to you within 24 hours.</p>
       </div>
