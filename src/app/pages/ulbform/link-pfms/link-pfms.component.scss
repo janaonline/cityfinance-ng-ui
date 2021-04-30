@@ -19,6 +19,26 @@
     background-color: #FFFFFF;
     box-shadow: 2px 4px 5px #cecece;
     padding: 10px 6px;
+    margin: auto;
+    text-align: center;
+}
+
+.heading {
+    background-color: rgb(202, 202, 202);
+    margin-top: 5px;
+    margin-left: 10px;
+    border-radius: 2px;
+    padding: 7px 4px;
+}
+
+.question {
+    width: 100%;
+    border-radius: 5px;
+    height: auto;
+    margin-bottom: 4rem;
+    background-color: rgb(245, 245, 245);
+    box-shadow: 2px 4px 5px #cecece;
+    padding: 10px 6px;
 }
 
 .header2 {
@@ -68,6 +88,50 @@
     background-color: #CFCFCF;
     width: 72px;
     height: 30px;
+}
+
+.myClass {
+    background-color: rgb(68, 255, 99);
+}
+
+.btn:hover {
+    background-color: #ffc500;
+    font-weight: bold;
+}
+
+.save {
+    margin-right: 15px;
+    width: 135px;
+    height: 36px;
+    background-color: #26A1A1;
+    color: #FFFFFF;
+    font-weight: normal;
+    font-size: 12px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: inline-block;
+}
+
+.backButton {
+    margin-right: 48rem;
+    background-color: #CFCFCF;
+    color: #FFFFFF;
+    width: 106px;
+    height: 36px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: inline-block;
+}
+
+.btn {
+    margin-top: 2rem;
+    background-color: #CFCFCF;
+    width: 106px;
+    height: 36px;
 }
 
 .myClass {

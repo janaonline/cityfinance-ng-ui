@@ -28,6 +28,10 @@ import { LinkPFMSComponent } from './link-pfms/link-pfms.component';
 //ngx-bootstrap
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { AnnualAccountsComponent } from './annual-accounts/annual-accounts.component';
+
+
+
 @NgModule({
   entryComponents: [PreviewUtiFormComponent, ImagePreviewComponent],
   declarations: [
@@ -42,7 +46,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
      SlbsComponent,
      OverviewComponent,
      PreviewSlbComponentComponent,
-     LinkPFMSComponent
+     LinkPFMSComponent,
+     AnnualAccountsComponent
     ],
   imports: [
     CommonModule,
