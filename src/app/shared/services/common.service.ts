@@ -511,8 +511,11 @@ export class CommonService {
   }
 
   fetchSlbData(){
-      return this.http.get(
-        `${environment.api.url}xv-fc-form`
+    let data = {design_year: '606aaf854dff55e6c075d219'}
+    const newData = this.jsonUtil.convert(data);
+      return this.http.post(
+        `${environment.api.url}xv-fc-form`,
+        JSON.stringify(newData)
       );
   }
 

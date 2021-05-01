@@ -33,97 +33,161 @@ export class PreviewUtiFormComponent implements OnInit {
     text-align: center;
     background-color: #047474;
 }
+.header{
+  word-break: break-all;
+}
 
+td, th{
+  word-break: break-all;
+  font-size: 9px !important;
+  padding: 5px 1px !important;
+}
+
+.header {
+  background-color: #047474;
+  height: 50px;
+  display: inline-block;
+  color: #FFFFFF;
+  text-align: center;
+  font-weight:
+}
+.mat-dialog-content {
+  padding: 0 0 0 0;
+  max-width: 100vw;
+  max-height: 100vw;
+}
 .listitem_head {
-    color: #FFFFFF;
-    font-size: 14px !important:
-    font-family: Roboto;
-    font-weight: normal;
-    text-align: center;
-    display: inline-block;
-    margin-top: 26px;
-}
-.qus-i{
+  padding: 2px 2px;
   font-size: 12px !important;
+  font-family: Roboto;
+  font-weight: normal;
+  display: inline-block;
 }
-.qus-div{
-  width: 40%;
-  font-size:12px;
+.listitem_grantYear {
+  display: inline-block;
+  font-weight: normal;
+  width: 50px !important;
+  height: 10px !important;
+  color: #3D3D3D;
+  margin-left: 10px;
+  background-color: #E5E6E6;
+  border-radius: 3px;
+  padding: 4px;
 }
-.ans-div{
-  width: 50% !important;
+.listitem_subHead {
+  margin-top: 5px;
+  font-size: 16px;
+  font-weight: normal;
+  font-family: Roboto;
+  padding: 2px 2px;
+  display: inline-block;
 }
-.q-h-fc{
-  font-size: 12px !important;
+.dnDiv {
+  margin-top: 10px;
+  margin-right: 5%;
 }
-  .listitem_grantYear {
-    display: inline-block;
-    font-weight: normal;
-    width: 90px;
-    height: 28px;
-    color: #3D3D3D;
-    margin-left: 10px;
-    background-color: #E5E6E6;
-    border-radius: 3px;
-
+.dnldBtn {
+  background-color: #26A1A1;
+  color: #FFFFFF;
+  font-weight: normal;
 }
-
-.card {
-    margin-bottom: 10px;
-    padding: 1rem;
-    background-color: #EBF5F5;
+.card2Div {
+  margin-top: 5px;
+  padding: 2px 2px;
 }
-
-.card .div {
-    display: inline-block;
+.mat-dialog-container {
+  padding: 0;
 }
-
-.i-d {
-    display: inline-block;
-    margin-left: 15px;
+.mat-card2 {
+  padding: 5px 2px;
+  margin-top: 10px;
+  // margin: 10px 40px;
+  background-color: #EBF5F5;
+  display: block;
 }
-
-.i-d-m {
-    display: inline-block;
-    margin-left: 40%;
+.card2 {
+  width: 50%;
+  font-weight: normal;
+  padding: 2px 5px;
 }
-
+.crd-ls-div {
+  margin-bottom: 15px;
+}
+.c-2-d {
+  margin-left: 15px;
+}
+.card3 {
+  width: 50%;
+  font-weight: 500;
+  padding: 2px 5px;
+}
+label {
+  font-weight: normal;
+}
+.thHeader {
+  background-color: #E9E9E9;
+  color: #047474;
+  font-size: 15px;
+  font-weight: normal;
+}
+th {
+  font-weight: normal;
+  vertical-align: middle;
+  text-align: center;
+}
 .table>tbody>tr>td,
 .table>tbody>tr>th,
 .table>tfoot>tr>td,
 .table>tfoot>tr>th,
 .table>thead>tr>td,
 .table>thead>tr>th {
-    vertical-align: middle;
-    padding: 4px 0px;
-    font-size: 12px
+  vertical-align: middle;
+  padding: 10px 6px;
 }
-.dnDiv {
-    margin-top: 10px;
-    margin-right: 5%;
+.bor-in-l {
+  word-break: break-all;
+  color: #51504F;
 }
-.dnldBtn {
-    background-color: #26A1A1;
-    color: #FFFFFF;
-    font-weight: normal;
+.tableFooterDiv {
+  background-color: #E7E7E7;
+  color: #000000;
+  font-size: 16px;
 }
-tr{
-  font-size:12px;
-
+.f-d-n {
+  background-color: #CFCFCF;
+  width: 235px;
+  height: 35px;
+  padding: 7px 8px;
+  height: 15px !important;
 }
-th{
-  font-size:12px;
-}
-td{
-  font-size: 12px
-}
-
-
-
-
 .d-none {
-    display: none;
+  display: none;
 }
+label{
+  font-size: 9px !important;
+}
+.font-9{
+  font-size: 9px !important;
+}
+.pdf-hide{
+  display: none;
+}
+.w-5{
+width: 5% !important;
+}
+.w-10{
+  width: 10% !important;
+}
+.w-11{
+  width: 11% !important;
+}
+.w-12{
+  width: 12% !important;
+}
+.w-15{
+  width: 15% !important;
+}
+
   </style>`
   ngOnInit(): void {
 console.log(this.data)
