@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-sm-12 col-lg-12 col-md-12">
         <div class=" question" style="margin-top: 2rem;" *ngIf="showQuestion1">
-            {{questions[0]}}
+            <span>{{questions[0]}}</span>
             <div>
                 <button class="btn" style="margin-left: 2rem;" (click)="onClickYes()" [ngStyle]="{'background-color':
                 account === 'yes' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">Yes</button>
@@ -18,10 +18,10 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" style="margin-top: 4rem;">
     <div class="col-sm-12 col-lg-12 col-md-12">
         <div class="question" *ngIf="showQuestion2">
-            {{questions[1]}}
+            <span>{{questions[1]}}</span>
             <div>
                 <button class="btn" style="margin-left: 2rem;" (click)="onClickYES()" [ngStyle]="{'background-color':
            linked ==='yes' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">Yes</button>
@@ -34,7 +34,7 @@
 
 
 
-<div class="row">
+<div class="row" style="margin-top: 5rem;">
     <div class="col-sm-6 col-md-6 col-lg-6">
         <button class="backButton" [routerLink]="['../overview']">BACK</button>
     </div>

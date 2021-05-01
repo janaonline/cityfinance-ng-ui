@@ -91,7 +91,8 @@ export class UtilisationReportComponent implements OnInit {
   ngOnInit() {
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;
-      console.log(resdata);
+    //  console.log('res', resdata);
+       this.categories = this.categories.sort((a,b) => a.name.localeCompare(b.name))
     });
   }
   public getResponse() {

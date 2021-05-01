@@ -202,3 +202,34 @@ label {
 .m-btn {
     width: 90px;
 }
+
+.custom-position {
+    td {
+        position: relative;
+    }
+}
+
+.custom-position {
+    input {
+        position: relative;
+    }
+}
+
+.custom-position {
+    select {
+        position: relative;
+    }
+}
+
+.custom-position {
+    .bs-tooltip-top {
+        position: absolute;
+        top: -1rem;
+        //   left: 1rem;
+        width: max-content;
+    }
+}
+
+.tooltip-inner {
+    margin-left: 1rem;
+}
