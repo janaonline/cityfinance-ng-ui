@@ -21,17 +21,68 @@ export class OverviewComponent implements OnInit {
     'Million Plus City Challenge Fund',
     'Plans for Water and Sanitation'
   ]
-
+  p = '45';
+  position = 0;
   resourceNames = ['Testing Manual']
   colors = [
-    'linear-gradient(#73C557, #3A632C);',
-    'linear-gradient(#42C9F6, #21657B);',
-    'linear-gradient(#F16831, #793419);',
-    'linear-gradient(#549D5E, #2A4F2F);',
-    'linear-gradient(#FDCB2E, #7F6617);',
-    'linear-gradient(#E71368, #740A34);',
-    'linear-gradient(#9D198B, #4F0D46);',
+    '#73C557, #3A632C',
+    '#42C9F6, #21657B',
+    '#F16831, #793419',
+    '#549D5E, #2A4F2F',
+    '#FDCB2E, #7F6617',
+    '#E71368, #740A34',
+    '#9D198B, #4F0D46',
   ]
 
   imageUrls = ['https://images.unsplash.com/photo-1532375810709-75b1da00537c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1055&q=80']
+  message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
+  hover = false
+  i = 8098987
+
+  onUnhover() {
+    this.hover = false
+
+  }
+  onHover1() {
+    this.p = '45';
+    this.hover = true;
+    this.i = 1;
+    this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
+  }
+  onHover2() {
+    this.p = '165';
+    this.hover = true;
+    this.i = 2;
+    this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
+  }
+  onHover3() {
+    this.p = '285';
+    this.hover = true;
+    this.i = 3;
+    this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
+  }
+  onHover4() {
+    this.p = '405';
+    this.hover = true;
+    this.i = 4;
+    this.message = "ULBs to upload provisional annual accounts for previous year and audited annual accounts for year previous year w.r.t. award year."
+  }
+  onHover5() {
+    this.p = '525';
+    this.hover = true;
+    this.i = 5;
+    this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
+  }
+  onHover6() {
+    this.p = '645';
+    this.hover = true;
+    this.i = 6;
+    this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
+  }
+  onHover7() {
+    this.p = '765';
+    this.hover = true;
+    this.i = 7;
+    this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
+  }
 }

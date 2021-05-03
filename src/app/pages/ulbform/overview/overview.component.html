@@ -2,7 +2,7 @@
     <div>
         {{headertext}}
     </div>
-    <button class="demoBtn">View Demo</button>
+    <!-- <button class="demoBtn">View Demo</button> -->
 </div>
 <div class="header2">
     <div class="h1">Conditions for 15th FC Grants</div>
@@ -15,62 +15,79 @@
     </div>
 
     <div class="titleCards">
-        <div class="card  mb-3 individualCard" style="margin-left: 0px; background-image: {{colors[0]}}">
-            <img src="../../../../assets//ulbform/lpa.svg" height="12" />
+        <div class="card  mb-3 individualCard" (mouseenter)="onHover1()" (mouseleave)="onUnhover()"
+            style="margin-left: 0px; background-image:linear-gradient(#73C557, #3A632C);">
+
+            <img src="../../../../assets//ulbform/lpa.svg" height="16" width="16" />
             <div class="card-body">
                 <h5 class="card-title">{{cards[0]}}</h5>
             </div>
         </div>
-        <div class="card  mb-3 individualCard" style="background-image: {{colors[1]}}">
-            <img src="../../../../assets//ulbform/gtc.svg" height="12" />
+        <div class="card  mb-3 individualCard" (mouseenter)="onHover2()" (mouseleave)="onUnhover()"
+            style="background-image: linear-gradient(#42C9F6, #21657B);">
+            <img src="../../../../assets//ulbform/gtc.svg" height="16" width="16" />
             <div class="card-body">
                 <h5 class="card-title">{{cards[1]}}</h5>
 
             </div>
         </div>
-        <div class="card  mb-3 individualCard" style="background-image: {{colors[2]}}">
-            <img src="../../../../assets//ulbform/dur.svg" height="12" />
+
+        <div class="card  mb-3 individualCard" (mouseenter)="onHover3()" (mouseleave)="onUnhover()"
+            style="background-image: linear-gradient(#F16831, #793419);">
+            <img src="../../../../assets//ulbform/dur.svg" height="16" width="16" />
             <div class="card-body">
                 <h5 class="card-title">{{cards[2]}}</h5>
             </div>
         </div>
-        <div class="card  mb-3 individualCard" style="background-image: {{colors[3]}}">
-            <img src="../../../../assets//ulbform/aa.svg" height="12" />
+        <div class="card  mb-3 individualCard" (mouseenter)="onHover4()" (mouseleave)="onUnhover()"
+            style="background-image: linear-gradient(#549D5E, #2A4F2F);">
+            <img src="../../../../assets//ulbform/aa.svg" height="16" width="16" />
             <div class="card-body">
                 <h5 class="card-title">{{cards[3]}}</h5>
             </div>
         </div>
-        <div class="card  mb-3 individualCard" style="background-image: {{colors[4]}}">
-            <img src="../../../../assets//ulbform/slb.svg" height="12" />
+        <div class="card  mb-3 individualCard" (mouseenter)="onHover5()" (mouseleave)="onUnhover()"
+            style="background-image:linear-gradient(#FDCB2E, #7F6617);">
+            <img src="../../../../assets//ulbform/slb.svg" height="16" width="16" />
             <div class="card-body">
                 <h5 class="card-title">{{cards[4]}}</h5>
 
             </div>
         </div>
-        <div class="card  mb-3 individualCard" style="background-image: {{colors[5]}}">
-            <img src="../../../../assets//ulbform/mpccf.svg" height="12" />
+        <div class="card  mb-3 individualCard" (mouseenter)="onHover6()" (mouseleave)="onUnhover()"
+            style="background-image: linear-gradient(#E71368, #740A34);">
+            <img src="../../../../assets//ulbform/mpccf.svg" height="16" width="16" />
             <div class="card-body ">
                 <h5 class="card-title">{{cards[5]}}</h5>
             </div>
         </div>
-        <div class="card  mb-3 individualCard" style="background-image: {{colors[6]}}">
-            <img src="../../../../assets//ulbform/plan for water and sanitation.svg" height="12" />
+        <div class="card  mb-3 individualCard" (mouseenter)="onHover7()" (mouseleave)="onUnhover()"
+            style="background-image: linear-gradient(#9D198B, #4F0D46);">
+            <img src="../../../../assets//ulbform/plan for water and sanitation.svg" height="16" width="16" />
             <div class="card-body">
                 <h5 class="card-title">{{cards[6]}}</h5>
             </div>
         </div>
     </div>
     <svg height="42px" width="auto">
-        <line x1="45px" y1="0px" x2="45px" y2="42px" style="stroke:rgb(21, 177, 0);stroke-width:2;" />
+        <line [attr.x1]="p" y1="0px" [attr.x2]="p" y2="42px" style="stroke-width:2;"
+            [ngStyle]="{'stroke':
+        i == 1 ?'#73C557': i ==2 ? '#42C9F6': i==3 ? '#F16831': i==4 ? '#549D5E' : i==5? '#FDCB2E': i==6? '#E71368' : i==7 ? '#9D198B' : '#73C557' }" />
     </svg>
     <svg height="22" width="auto">
-        <circle cx="45px" cy="11" r="8" stroke="white" stroke-width="6" fill="green" style="overflow:visible" />
+        <circle [attr.cx]="p" cy="11" r="8" stroke="white" stroke-width="6"
+            [ngStyle]="{'fill':
+        i == 1 ?'#73C557': i ==2 ? '#42C9F6': i==3 ? '#F16831': i==4 ? '#549D5E' : i==5? '#FDCB2E': i==6? '#E71368' : i==7 ? '#9D198B' : '#73C557' }" />
     </svg>
-    <div class="message">Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021</div>
+    <div class="message"
+        [ngStyle]="{'background-image':
+    i == 1 ?'linear-gradient(#73C557, #3A632C)': i ==2 ? 'linear-gradient(#42C9F6, #21657B)': i==3 ? 'linear-gradient(#F16831, #793419)': i==4 ? 'linear-gradient(#549D5E, #2A4F2F)' : i==5? 'linear-gradient(#FDCB2E, #7F6617)': i==6? 'linear-gradient(#E71368, #740A34)' : i==7 ? 'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)'    }">
+        {{message}}
+    </div>
 </div>
 <div class="header2">
     <div class="h1">Resources</div>
-    <div class="titleCards">
+    <div class="resourceCards">
         <div class="individualResource">
             <img src={{imageUrls[0]}} class="card-img-top" alt="...">
             <div class="card-body">
@@ -95,6 +112,7 @@
                 <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[0]}}</a></h5>
             </div>
         </div>
+
     </div>
 </div>
 <button class="backButton">BACK</button>

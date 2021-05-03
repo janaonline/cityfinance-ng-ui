@@ -289,7 +289,6 @@ export class PasswordComponent implements OnInit {
   }
 
   sendOtp(form) {
-    this.uiType = "forgot";
     this.authService.otpSignIn(form.value).subscribe(
       (res) => {
         this.otpCreads = res;
@@ -307,6 +306,7 @@ export class PasswordComponent implements OnInit {
             this.counter = 60;
           }
         });
+        this.uiType = "forgot";
       },
       (error) => this.onGettingResponseError(error, form)
     );
