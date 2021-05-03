@@ -36,8 +36,8 @@
 
                 <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey">
                 </re-captcha>
-                <span *ngIf="noCodeError" class="text-danger">{{loginSet.loginName }}</span>
-                <span *ngIf="otpVerificationMessage" class="text-primary">{{emailVerificationMessage }}</span>
+                <span *ngIf="noCodeError" class="text-danger pull-left">{{loginSet.loginName }}</span>
+                <span *ngIf="otpVerificationMessage" class="text-primary pull-left">{{emailVerificationMessage }}</span>
                 <p *ngIf="loginError" class="error-message mt-1 text-left">
                   <span [innerHtml]="loginError"></span>
                 </p>
