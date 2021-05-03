@@ -14,9 +14,6 @@
                   <mat-label>{{ loginSet.loginName }}</mat-label>
                   <input matInput type="email" placeholder="{{ loginSet.loginName }}" formControlName="email"
                     [ngClass]="{ 'is-invalid': submitted && lf.email.errors }" />
-                  <i class="fa fa-exclamation-circle"
-                    matTooltip="User ID for ULB is census code/ ULB Code. User ID for state is email id of Nodal officer. In case you are unable to recall the Census Code/ ULB Code please contact Nodal officer of your state."
-                    aria-hidden="true" style="z-index: 9999999; position: absolute; right: 2%"></i>
                 </mat-form-field>
                 <br />
                 <div class="forget-password">
@@ -62,13 +59,14 @@
               </div>
               <a *ngIf="selectedUserType === 'ULB'" [routerLink]="['/ulb-not-registered']"><span>Not
                   Registered?</span></a>
-              <a *ngIf="selectedUserType === 'USER'"  (click)="help = true" mat-raised-button color="primary"
+              <a *ngIf="selectedUserType === 'USER'" (click)="help = true" mat-raised-button color="primary"
                 [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger">
                 Need Help?
               </a>
 
-              <mde-popover mdePopoverOffsetX="19" mdePopoverOffsetY="-55"  #appPopover="mdePopover"  [mdePopoverOverlapTrigger]="false"  >
-                <div class="mat-card" >
+              <mde-popover mdePopoverOffsetX="19" mdePopoverOffsetY="-55" #appPopover="mdePopover"
+                [mdePopoverOverlapTrigger]="false">
+                <div class="mat-card">
                   <div class="mat-card-content" style="max-width: 300px">
                     Please write to us at 15fcgrant@cityfinance.in
                   </div>

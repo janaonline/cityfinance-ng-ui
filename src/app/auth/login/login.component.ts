@@ -208,6 +208,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         return this.loginForm.controls["email"].setValidators([
           Validators.required,
           Validators.pattern("^\\d+\\.{0,1}\\d*$"),
+          Validators.minLength(6),
+          Validators.maxLength(6)
         ]);
       default:
         this.loginForm.controls["email"].setValidators([

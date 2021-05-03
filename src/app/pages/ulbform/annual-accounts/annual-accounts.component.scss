@@ -42,12 +42,6 @@
   color: white;
 }
 
-#checkboxes input[type=radio]:checked + .btn{
-  background-color: #ffc500;
-  color: white;
-}
-
-
 .footerBtn {
   margin-right: 15px;
   width: 135px;
@@ -111,6 +105,21 @@
   background-color: #CFCFCF;
 }
 
+.header1:hover {
+  background-color: #124A55;
+  font-weight: bold;
+  color: white;
+}
+
+
 .allBtn{
   margin-left: 2pc;
+}
+.allupload{
+  margin-left: 2pc;
+  margin-bottom: 1pc;
+}
+
+.xls{
+  color:#007822; vertical-align: sub;
 }
