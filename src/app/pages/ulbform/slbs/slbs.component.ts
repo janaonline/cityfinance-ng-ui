@@ -69,12 +69,13 @@ export class SlbsComponent implements OnInit {
       design_year: "2021-22",
       waterManagement:
         { ...value.waterManagement },
+        water_index : value.water_index,
       waterPotability: {
         documents: {
           waterPotabilityPlan:[
               value.waterPotabilityPlan
             ]
-        }
+          }
       },
       completeness: 'APPROVED', correctness: 'APPROVED',
       "isCompleted": true

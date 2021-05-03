@@ -29,6 +29,7 @@ export class AnnualAccountsComponent implements OnInit {
   fileSelected;
   progressArray;
   fileNameArray;
+  responses = []
 
   response = {
     design_year: "606aadac4dff55e6c075c507",
