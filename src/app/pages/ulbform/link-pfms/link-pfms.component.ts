@@ -14,20 +14,9 @@ export class LinkPFMSComponent implements OnInit {
   }
 
   receivedData = {}
-  account = 'no';
-  linked = 'no';
-  // openModal(template: TemplateRef<any>) {
-  //   this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
-  // }
-
-  // confirm(){
-  //   this.modalRef.hide();
-  //   return this._router.navigate(["ulbform/grant-tra-certi"]);
-  // }
-
-  // decline(): void {
-  //   this.modalRef.hide();
-  // }
+  account = '';
+  linked = '';
+  fd ={};
   ngOnInit() {
     this.LinkPFMSAccount.getData('606aaf854dff55e6c075d219')
       .subscribe((res) => {
@@ -56,7 +45,7 @@ export class LinkPFMSComponent implements OnInit {
 
   ]
   showQuestion2 = false;
-  design_year = '2021-22'
+  design_year = '606aaf854dff55e6c075d219'
   showQuestion1 = true;
   isClicked = false;
 
@@ -81,23 +70,54 @@ export class LinkPFMSComponent implements OnInit {
 
 
   errMessage = '';
+  postData(){
+    this.LinkPFMSAccount.postData(this.fd)
+    .subscribe((res) => {
+      console.log(res);
 
-  saveAndNext() {
-    let fd = {
+    },
+      error => {
+        this.errMessage = error.message;
+        console.log(error, this.errMessage);
+      });
+  }
+  saveAndNext(template) {
+    this.fd = {
       "design_year": this.design_year,
       "account": this.account,
       "linked": this.linked,
+      "isDraft": true
     }
-    console.log('clicked')
-    this.LinkPFMSAccount.postData(fd)
-      .subscribe((res) => {
-        console.log(res);
+    if(this.account != '' && this.linked != ''){
+      this.postData();
+    }else if(this.account != '' || this.linked != ''){
+    this.openModal(template);
+    }else{
+      alert("Please select your answer");
+    }
 
-      },
-        error => {
-          this.errMessage = error.message;
-          console.log(error, this.errMessage);
-        });
+    console.log('clicked')
+
   }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+
+  }
+
+  stay(){
+    this.modalRef.hide();
+
+  }
+
+  proceed(uploadedFiles) {
+
+    this.postData();
+    this.modalRef.hide();
+   // return this._router.navigate(["overview"]);
+  }
+  alertClose(){
+    this.modalRef.hide();
+  }
+
 
 }

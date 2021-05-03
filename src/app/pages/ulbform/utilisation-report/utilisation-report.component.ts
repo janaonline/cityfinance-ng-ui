@@ -21,12 +21,12 @@ import { CommonService } from "src/app/shared/services/common.service";
 import { Router } from "@angular/router";
 import { state } from "@angular/animations";
 import { PreviewUtiFormComponent } from "./preview-uti-form/preview-uti-form.component";
-import { textChangeRangeIsUnchanged } from "typescript";
+//import { textChangeRangeIsUnchanged } from "typescript";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { HttpEventType } from "@angular/common/http";
 import { delay, map, retryWhen } from "rxjs/operators";
 import { ImagePreviewComponent } from "./image-preview/image-preview.component";
-import { url } from "inspector";
+//import { url } from "inspector";
 import { MapDialogComponent } from "../../../shared/components/map-dialog/map-dialog.component";
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 @Component({

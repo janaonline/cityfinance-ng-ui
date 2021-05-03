@@ -212,7 +212,7 @@
                                 <a [routerLink]="['/borrowings/municipal-bond']"> Municipal Bonds</a>
                             </li> -->
                             <li *ngIf="isLoggedIn ? canViewFcGRantModule : true" style="background: #02dd76 !important">
-                                <a routerLinkActive="active" routerLink="fc_grant" (click)="closeSidebarMenu()">
+                                <a routerLinkActive="active" routerLink="/fc-home-page" (click)="closeSidebarMenu()">
                                     <img src="/assets/images/new.png" alt="New" class="new" /> 15
                                     <sup style="text-transform: capitalize">th</sup> FC Grants
                                 </a>

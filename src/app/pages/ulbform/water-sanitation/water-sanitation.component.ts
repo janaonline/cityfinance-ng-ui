@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { from, Observable } from 'rxjs';
+//import { from, Observable } from 'rxjs';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
 import { delay, map, retryWhen } from 'rxjs/operators';
 import { WaterSanitationService } from './water-sanitation.service'
-import { PathLocationStrategy } from '@angular/common';
+//import { PathLocationStrategy } from '@angular/common';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
 @Component({
   selector: 'app-water-sanitation',
   templateUrl: './water-sanitation.component.html',
   styleUrls: ['./water-sanitation.component.scss']
 })
 export class WaterSanitationComponent implements OnInit {
-
+  modalRef: BsModalRef;
   filesToUpload: Array<File> = [];
   waterAndSanitation: FormGroup;
   fileUploadTracker: {
@@ -43,7 +45,7 @@ fileProcessingTracker: {
    */
   filesAlreadyInProcess: number[] = [];
 
-  constructor(private fb: FormBuilder,
+  constructor(private fb: FormBuilder,private modalService: BsModalService, private _router : Router,
     private dataEntryService: DataEntryService, private wsService : WaterSanitationService) { }
     uploadedFiles;
     waterFileUrl ='';
@@ -82,7 +84,26 @@ fileProcessingTracker: {
   onSubmit(){
 
   }
-  saveForm(){
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+
+  }
+
+  stay(){
+    this.modalRef.hide();
+
+  }
+
+  proceed(uploadedFiles) {
+
+    this.postsDataCall(uploadedFiles);
+    this.modalRef.hide();
+   // return this._router.navigate(["overview"]);
+  }
+  alertClose(){
+    this.modalRef.hide();
+  }
+  saveForm(template){
     this.submitted = true;
     this.uploadedFiles = {
       designYear:"5ea036c2d6f1c5ee2e702e9e",
@@ -99,23 +120,28 @@ fileProcessingTracker: {
            remarks: this.fileNameSanitation
         }
       },
-      'isDraft': false
+      'isDraft': true
     };
     if(this.waterFileUrl != '' && this.sanitationFileUrl != ''){
+      this.postsDataCall(this.uploadedFiles);
 
-      this.wsService.sendRequest(this.uploadedFiles)
-          .subscribe((res) => {
-            console.log(res);
-            alert('Files uploaded successfully.')
-         },
-         error =>{
-            alert("An error occured.")
-            this.err = error.message;
-            console.log(this.err);
-         });
-  }else{
-    alert('Please upload the files')
-  }
+    }
+    else{
+      this.openModal(template);
+    }
+}
+postsDataCall(uploadedFiles){
+
+    this.wsService.sendRequest(this.uploadedFiles)
+        .subscribe((res) => {
+          console.log(res);
+          alert('Files uploaded successfully.')
+       },
+       error =>{
+          alert("An error occured.")
+          this.err = error.message;
+          console.log(this.err);
+       });
 }
   clearFiles(fileName){
     if(fileName == 'fileNameWater' )
