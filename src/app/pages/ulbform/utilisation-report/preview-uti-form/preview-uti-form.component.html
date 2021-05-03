@@ -12,9 +12,9 @@
         <label class="listitem_head">
             Utilization report in respect of 15th finance commission tied grants for year</label>
         <label class="listitem_grantYear">2020-21</label>
-        <label class="listitem_subHead" style="margin-bottom: 2px;">
+        <!-- <label class="listitem_subHead" style="margin-bottom: 2px;">
             (To be submitted by State in case of Million Plus Cities/UAS and by cities/ ULBs through State in case of Non Million Plus Cities )
-          </label>
+          </label> -->
 
     </mat-card>
     <div class="text-right dnDiv pdf-hide">
@@ -41,19 +41,19 @@
             <label>4. 15th FC Tied Grant Position during the year :</label>
         </div>
         <div class="c-2-d">
-            <label for="" class="card2">(i) Unutilized from previous installments</label>
+            <label for="" class="card2">(i) Unutilized from previous installments(INR in lakhs)</label>
             <label for="" class="card2">{{data.grantPosition.unUtilizedPrevYr}} </label>
         </div>
         <div class="c-2-d">
-            <label for="" class="card2">(ii) Tied Grant received during the year</label>
+            <label for="" class="card2">(ii) Tied Grant received during the year(INR in lakhs)</label>
             <label for="" class="card2">{{data.grantPosition.receivedDuringYr}}  </label>
         </div>
         <div class="c-2-d">
-            <label for="" class="card2">(iii) Expenditure incurred during the year</label>
+            <label for="" class="card2">(iii) Expenditure incurred during the year(INR in lakhs)</label>
             <label for="" class="card2">{{data.grantPosition.expDuringYr}}  </label>
         </div>
         <div class="crd-ls-div c-2-d">
-            <label for="" class="card3"> <b>(vi) Closing balance at the end of year (2(i)+2(ii)-2(iii))</b> </label>
+            <label for="" class="card3"> <b>(vi) Closing balance at the end of year(INR in lakhs) (2(i)+2(ii)-2(iii))</b> </label>
             <label for="" class="card3"> <b>{{data.grantPosition.closingBal}} </b>  </label>
         </div>
 
@@ -109,7 +109,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><span>Total</span></td>
+                    <td><span>Total(INR in lakhs)</span></td>
                     <td><span>{{data.totalProCost}}</span></td>
                     <td> <span>{{data.totalExpCost}}</span></td>
                     <td></td>

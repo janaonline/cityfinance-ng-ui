@@ -435,13 +435,14 @@ else{
         this.fd.grantType = 'Tied';
         this.fd.grantPosition.closingBal = this.totalclosingBal;
 
-        if (this.utilizationReport.valid) {
+        if (this.utilizationReport.valid && this.totalclosingBal >= 0) {
           this.apiCall(this.fd);
           console.log('form submitted');
           return this._router.navigate(["ulbform/annual_acc"]);
 
 
-        } else {
+        }
+        else {
           this.openModal(template);
         }
 
