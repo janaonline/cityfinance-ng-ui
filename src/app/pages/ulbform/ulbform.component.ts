@@ -23,9 +23,15 @@ export class UlbformComponent implements OnInit {
  constructor(private _commonService: CommonService,private profileService: ProfileService,private _router: Router) {
 
   this.initializeUserType();
-
    this.fetchStateList();
    this.initializeLoggedInUserDataFetch();
+   switch (this.userLoggedInDetails.role) {
+     // case USER_TYPE.STATE:
+      case USER_TYPE.PARTNER:
+      case USER_TYPE.MoHUA:
+      case USER_TYPE.ADMIN:
+        this._router.navigate(["/fc-home-page"]);
+  }
 
  }
 
@@ -47,6 +53,7 @@ export class UlbformComponent implements OnInit {
     //  = this.profileService.getUserLoggedInDetails();
     UserUtility.getUserLoggedInData().subscribe((data) => {
       this.userLoggedInDetails = data;
+      console.log('hi', data)
     });
     if (!this.userLoggedInDetails) {
       return this._router.navigate(["/login"]);

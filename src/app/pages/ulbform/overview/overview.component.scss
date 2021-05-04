@@ -1,0 +1,162 @@
+.demoBtn{
+  margin: 40px 0 5px 0;
+    width: 80px;
+    height: 30px;
+    background-color: #ffd208;
+    color: #FFFFFF;
+    font-weight: bolder;
+    font-size: 12px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    justify-items: center;
+    border: 2px solid transparent;
+    
+}
+
+.header1{
+   margin-top: 40px;
+    // width:100%;
+    background-color:rgb(235, 235, 235);
+    box-shadow: 2px 4px 5px #cecece;
+    border-radius: 4px;
+    padding: 40px 50px;
+    font-weight: bold;
+    color:rgb(0, 87, 80);
+    text-align: center;
+    font-size:17px;
+    line-height: 35px;
+
+}
+
+.header2{
+   margin-top: 20px;
+    // width:100%;
+    background-color:rgb(238, 238, 238);
+    box-shadow: 2px 4px 5px #cecece;
+    border-radius: 4px;
+    padding: 20px 35px;
+  
+}
+
+.h1 {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 14px;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+
+.progressBar{
+    margin: 25px auto;
+    font-weight: bolder;
+}
+
+.titleCards{
+    display:inline-flex;
+margin: auto;
+}
+
+.card-title{
+    font-size: 18px;
+    text-align: left;
+    margin-top: 22px;
+    font-family: 'Roboto', sans-serif;
+}
+.resourceCards{
+    display: inline-flex;
+}
+
+.individualCard{
+    margin: 25px 13px 0px 13px;
+    border-radius: 4px;
+    // border: 2px solid transparent;
+    box-shadow: 0px 3px 6px #00000045;
+    height: 143px;
+    width: 125px;
+    text-align: center;
+   padding: 18px 12px;
+   color:white;
+opacity: 100%;
+cursor:pointer;
+}
+
+.individualCard:hover{
+    
+    margin: 22px 13px 0px 13px;
+   transition-timing-function:linear;
+   box-shadow: 5px 5px 5px #cecece;
+}
+.message{
+    width: 100%;
+    height: auto;
+    background-image:linear-gradient(#73C557, #3A632C);; 
+    // border: 2px solid transparent;
+    box-shadow: 4px 4px 4px #cecece;
+    border-radius: 5px;
+    padding: 20px 30px 20px 30px;
+    color: white;
+    margin-bottom:15px;
+    line-height: 25px;
+    font-weight:normal;
+    text-align: justify;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+}
+
+svg:not(:root){
+    overflow: overlay;
+}
+
+.backButton{
+    background-color: #CFCFCF;
+    color: #FFFFFF;
+    width: 106px;
+    height: 36px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display:inline-block;
+    margin: 15px 48rem 20px 20px
+
+}
+.save{
+    margin: 15px 20px 20px 70px;
+    // margin-right: 15px;
+    width: 135px;
+    height: 36px;
+    background-color: #26A1A1;
+    color: #FFFFFF;
+    font-weight: normal;
+    font-size: 12px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display:inline-block;
+    // margin-bottom: 20px;
+
+}
+
+.individualResource{
+    margin: 25px 15px;
+    border-radius: 3px;
+    border: 2px solid transparent;
+    box-shadow: 3px 2px 2px 2px #cecece;
+    height: 180px;
+    width: 180px;
+    text-align: center;
+   padding: 10px 6px;
+   color:rgb(0, 87, 80);
+   background-color: #f7f7f7;
+}
+
+.individualResource:hover{
+    
+    margin: 22px 15px 25px 15px;
+   transition-timing-function:linear;
+   box-shadow: 5px 5px 5px #cecece;
+}
