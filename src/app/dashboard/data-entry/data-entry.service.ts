@@ -6,7 +6,7 @@ import { HttpUtility } from 'src/app/util/httpUtil';
 
 import { environment } from '../../../environments/environment';
 import { S3FileURLResponse } from '../../models/s3Responses/fileURLResponse';
-
+import { filter, timeout } from 'rxjs/operators';  
 @Injectable({
   providedIn: "root",
 })
@@ -96,7 +96,7 @@ export class DataEntryService {
     return this.http.put(s3URL, file, {
       reportProgress: options.reportProgress,
       observe: "events",
-    });
+    }).pipe(timeout(1000));
   }
 
   /**
