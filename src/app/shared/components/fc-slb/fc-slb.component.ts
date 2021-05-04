@@ -209,8 +209,10 @@ export class FcSlbComponent implements OnInit, OnChanges {
       waterManagement: values,
       waterPotabilityPlan: {name: fileName, url: fileUrl,
       },
-      saveData: next
+      saveData: next,
+      water_index:this.showPublishedUpload
     }
+    
     this.outputValues.emit(outputValues);
   }
 
