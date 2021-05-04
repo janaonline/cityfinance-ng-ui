@@ -21,7 +21,7 @@ export class OverviewComponent implements OnInit {
     'Million Plus City Challenge Fund',
     'Plans for Water and Sanitation'
   ]
-  p = '45';
+  p = 60;
   position = 0;
   resourceNames = ['Testing Manual']
   colors = [
@@ -44,43 +44,43 @@ export class OverviewComponent implements OnInit {
 
   }
   onHover1() {
-    this.p = '45';
+    this.p = 60;
     this.hover = true;
     this.i = 1;
     this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
   }
   onHover2() {
-    this.p = '165';
+    this.p = 215;
     this.hover = true;
     this.i = 2;
     this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
   }
   onHover3() {
-    this.p = '285';
+    this.p = 370;
     this.hover = true;
     this.i = 3;
     this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
   }
   onHover4() {
-    this.p = '405';
+    this.p = 515;
     this.hover = true;
     this.i = 4;
     this.message = "ULBs to upload provisional annual accounts for previous year and audited annual accounts for year previous year w.r.t. award year."
   }
   onHover5() {
-    this.p = '525';
+    this.p = 665;
     this.hover = true;
     this.i = 5;
     this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
   }
   onHover6() {
-    this.p = '645';
+    this.p = 815;
     this.hover = true;
     this.i = 6;
     this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
   }
   onHover7() {
-    this.p = '765';
+    this.p = 967;
     this.hover = true;
     this.i = 7;
     this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."

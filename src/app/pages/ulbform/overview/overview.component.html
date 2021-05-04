@@ -1,3 +1,8 @@
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+</head>
+
 <div class="header1">
     <div>
         {{headertext}}
@@ -18,14 +23,14 @@
         <div class="card  mb-3 individualCard" (mouseenter)="onHover1()" (mouseleave)="onUnhover()"
             style="margin-left: 0px; background-image:linear-gradient(#73C557, #3A632C);">
 
-            <img src="../../../../assets//ulbform/lpa.svg" height="16" width="16" />
+            <img src="../../../../assets//ulbform/lpa.svg" height="22" width="27" />
             <div class="card-body">
                 <h5 class="card-title">{{cards[0]}}</h5>
             </div>
         </div>
         <div class="card  mb-3 individualCard" (mouseenter)="onHover2()" (mouseleave)="onUnhover()"
             style="background-image: linear-gradient(#42C9F6, #21657B);">
-            <img src="../../../../assets//ulbform/gtc.svg" height="16" width="16" />
+            <img src="../../../../assets//ulbform/gtc.svg" height="22" width="27" />
             <div class="card-body">
                 <h5 class="card-title">{{cards[1]}}</h5>
 
@@ -34,21 +39,21 @@
 
         <div class="card  mb-3 individualCard" (mouseenter)="onHover3()" (mouseleave)="onUnhover()"
             style="background-image: linear-gradient(#F16831, #793419);">
-            <img src="../../../../assets//ulbform/dur.svg" height="16" width="16" />
+            <img src="../../../../assets//ulbform/dur.svg" height="22" width="27" />
             <div class="card-body">
                 <h5 class="card-title">{{cards[2]}}</h5>
             </div>
         </div>
         <div class="card  mb-3 individualCard" (mouseenter)="onHover4()" (mouseleave)="onUnhover()"
             style="background-image: linear-gradient(#549D5E, #2A4F2F);">
-            <img src="../../../../assets//ulbform/aa.svg" height="16" width="16" />
+            <img src="../../../../assets//ulbform/aa.svg" height="22" width="27" />
             <div class="card-body">
                 <h5 class="card-title">{{cards[3]}}</h5>
             </div>
         </div>
         <div class="card  mb-3 individualCard" (mouseenter)="onHover5()" (mouseleave)="onUnhover()"
             style="background-image:linear-gradient(#FDCB2E, #7F6617);">
-            <img src="../../../../assets//ulbform/slb.svg" height="16" width="16" />
+            <img src="../../../../assets//ulbform/slb.svg" height="22" width="27" />
             <div class="card-body">
                 <h5 class="card-title">{{cards[4]}}</h5>
 
@@ -56,14 +61,14 @@
         </div>
         <div class="card  mb-3 individualCard" (mouseenter)="onHover6()" (mouseleave)="onUnhover()"
             style="background-image: linear-gradient(#E71368, #740A34);">
-            <img src="../../../../assets//ulbform/mpccf.svg" height="16" width="16" />
+            <img src="../../../../assets//ulbform/mpccf.svg" height="22" width="27" />
             <div class="card-body ">
                 <h5 class="card-title">{{cards[5]}}</h5>
             </div>
         </div>
         <div class="card  mb-3 individualCard" (mouseenter)="onHover7()" (mouseleave)="onUnhover()"
             style="background-image: linear-gradient(#9D198B, #4F0D46);">
-            <img src="../../../../assets//ulbform/plan for water and sanitation.svg" height="16" width="16" />
+            <img src="../../../../assets//ulbform/plan for water and sanitation.svg" height="22" width="27" />
             <div class="card-body">
                 <h5 class="card-title">{{cards[6]}}</h5>
             </div>
@@ -73,12 +78,13 @@
         <line [attr.x1]="p" y1="0px" [attr.x2]="p" y2="42px" style="stroke-width:2;"
             [ngStyle]="{'stroke':
         i == 1 ?'#73C557': i ==2 ? '#42C9F6': i==3 ? '#F16831': i==4 ? '#549D5E' : i==5? '#FDCB2E': i==6? '#E71368' : i==7 ? '#9D198B' : '#73C557' }" />
+        <svg height="30" width="auto">
+            <circle [attr.cx]="p" cy="42" r="12" stroke="white" stroke-width="10"
+                [ngStyle]="{'fill':
+            i == 1 ?'#73C557': i ==2 ? '#42C9F6': i==3 ? '#F16831': i==4 ? '#549D5E' : i==5? '#FDCB2E': i==6? '#E71368' : i==7 ? '#9D198B' : '#73C557' }" />
+        </svg>
     </svg>
-    <svg height="22" width="auto">
-        <circle [attr.cx]="p" cy="11" r="8" stroke="white" stroke-width="6"
-            [ngStyle]="{'fill':
-        i == 1 ?'#73C557': i ==2 ? '#42C9F6': i==3 ? '#F16831': i==4 ? '#549D5E' : i==5? '#FDCB2E': i==6? '#E71368' : i==7 ? '#9D198B' : '#73C557' }" />
-    </svg>
+
     <div class="message"
         [ngStyle]="{'background-image':
     i == 1 ?'linear-gradient(#73C557, #3A632C)': i ==2 ? 'linear-gradient(#42C9F6, #21657B)': i==3 ? 'linear-gradient(#F16831, #793419)': i==4 ? 'linear-gradient(#549D5E, #2A4F2F)' : i==5? 'linear-gradient(#FDCB2E, #7F6617)': i==6? 'linear-gradient(#E71368, #740A34)' : i==7 ? 'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)'    }">
@@ -88,30 +94,12 @@
 <div class="header2">
     <div class="h1">Resources</div>
     <div class="resourceCards">
-        <div class="individualResource">
-            <img src={{imageUrls[0]}} class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[0]}}</a></h5>
-            </div>
-        </div>
-        <div class="individualResource">
-            <img src={{imageUrls[0]}} class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[0]}}</a></h5>
-            </div>
-        </div>
-        <div class="individualResource">
-            <img src={{imageUrls[0]}} class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[0]}}</a></h5>
-            </div>
-        </div>
-        <div class="individualResource">
-            <img src={{imageUrls[0]}} class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[0]}}</a></h5>
-            </div>
-        </div>
+        <img src='../../../../assets/ulbform/overview/Group 13642@2x.png' height="306px" width="284px" />
+        <img src='../../../../assets/ulbform/overview/Group 13643@2x.png' height="306px" width="284px" />
+        <img src='../../../../assets/ulbform/overview/Group 13644@2x.png' height="306px" width="284px" />
+        <img src='../../../../assets/ulbform/overview/Group 13645@2x.png' height="306px" width="284px" />
+        <img src='../../../../assets/ulbform/overview/Group 13647@2x.png' height="306px" width="284px" />
+
 
     </div>
 </div>

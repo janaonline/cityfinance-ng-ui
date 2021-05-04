@@ -59,6 +59,12 @@
 margin: auto;
 }
 
+.card-title{
+    font-size: 18px;
+    text-align: left;
+    margin-top: 22px;
+    font-family: 'Roboto', sans-serif;
+}
 .resourceCards{
     display: inline-flex;
 }
@@ -68,12 +74,12 @@ margin: auto;
     border-radius: 4px;
     // border: 2px solid transparent;
     box-shadow: 0px 3px 6px #00000045;
-    height: 103px;
-    width: 93px;
+    height: 143px;
+    width: 125px;
     text-align: center;
-   padding: 6px 6px;
+   padding: 18px 12px;
    color:white;
-opacity: 1;
+opacity: 100%;
 cursor:pointer;
 }
 
@@ -90,14 +96,20 @@ cursor:pointer;
     // border: 2px solid transparent;
     box-shadow: 4px 4px 4px #cecece;
     border-radius: 5px;
-    padding: 10px 30px 10px 30px;
+    padding: 20px 30px 20px 30px;
     color: white;
     margin-bottom:15px;
-    line-height: 23px;
+    line-height: 25px;
     font-weight:normal;
     text-align: justify;
-    font-size: 15px;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
 }
+
+svg:not(:root){
+    overflow: overlay;
+}
+
 .backButton{
     background-color: #CFCFCF;
     color: #FFFFFF;
