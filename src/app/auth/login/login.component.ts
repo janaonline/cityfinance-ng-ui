@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.otpVerificationMessage = true
         setTimeout(() => {
           this.otpVerificationMessage = false
-        }, 2500);
+        }, 3000);
         this.emailVerificationMessage = param.message;
       }
     });
@@ -208,6 +208,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         return this.loginForm.controls["email"].setValidators([
           Validators.required,
           Validators.pattern("^\\d+\\.{0,1}\\d*$"),
+          Validators.minLength(6),
+          Validators.maxLength(6)
         ]);
       default:
         this.loginForm.controls["email"].setValidators([
@@ -260,8 +262,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     if (form?.controls.email.value === "") {
+      this.loginError = null
       this.noCodeError = true;
-
       setTimeout(() => {
         this.noCodeError = false;
       }, 1500);
