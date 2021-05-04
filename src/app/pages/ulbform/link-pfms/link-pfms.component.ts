@@ -42,7 +42,7 @@ export class LinkPFMSComponent implements OnInit {
 
   ]
   showQuestion2 = false;
-  design_year = '2021-22'
+  design_year = '606aaf854dff55e6c075d219'
   showQuestion1 = true;
   isClicked = false;
 
