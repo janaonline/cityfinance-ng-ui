@@ -96,6 +96,8 @@ export class FinancialUploadsComponent extends UploadDataUtility
     this.initializeCompletedMessage();
   }
 
+  Years = JSON.parse(localStorage.getItem("Years"));
+
   private initializeCompletedMessage() {
     switch (this.loggedInUserDetails.role) {
       case USER_TYPE.ULB:
@@ -460,6 +462,7 @@ export class FinancialUploadsComponent extends UploadDataUtility
         ? this.financialData.waterManagement
         : null,
       isCompleted: false,
+      design_year: this.Years["2020-21"]
     };
 
     return this.financialDataService.uploadXVFcFormData(body).subscribe(
