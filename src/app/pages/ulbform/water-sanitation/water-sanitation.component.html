@@ -17,7 +17,7 @@
                         <label for="" style="color: #022121; font-size: 15px; font-weight: normal;">
                         Plan for Water</label>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 image-upload">
+                    <div class="col-lg-5 col-md-5 col-sm-5 image-upload" style="margin-left: 5rem; margin-top: 2px;">
 
                         <label for="cin">
                       <a class=" btn btnUpload">Upload Pdf
@@ -69,10 +69,10 @@
                         <label for="" style="color: #022121; font-size: 15px; font-weight: normal;">
                         Plan for Sanitation</label>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 image-upload">
+                    <div class="col-lg-5 col-md-5 col-sm-5 image-upload" style="margin-left: 5rem; margin-top: 2px;">
 
                         <label for="cind">
-                    <a class=" btn btnUpload">Upload Pdf
+                    <a class="btn btnUpload">Upload Pdf
                       <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
                     </a>
                   </label>
@@ -120,9 +120,28 @@
                 <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../slbs']">BACK</a>
             </div>
             <div class="col-sm-6  text-right">
-                <button type="button" class="btn saveBtn" (click)="saveForm()">SAVE</button>
+                <button type="button" class="btn saveBtn" (click)="saveForm(template)">SAVE</button>
             </div>
         </div>
 
     </div>
 </div>
+<ng-template #template>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">Some information is pending in this form.<br> Are you sure you want to proceed to next form?</p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Proceed</button>
+        </div>
+
+    </div>
+</ng-template>

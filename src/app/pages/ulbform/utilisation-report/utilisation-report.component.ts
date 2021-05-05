@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef } from "@angular/core";
 
 import { ChangeDetectorRef } from "@angular/core";
 
@@ -21,20 +21,25 @@ import { CommonService } from "src/app/shared/services/common.service";
 import { Router } from "@angular/router";
 import { state } from "@angular/animations";
 import { PreviewUtiFormComponent } from "./preview-uti-form/preview-uti-form.component";
-import { textChangeRangeIsUnchanged } from "typescript";
+//import { textChangeRangeIsUnchanged } from "typescript";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { HttpEventType } from "@angular/common/http";
 import { delay, map, retryWhen } from "rxjs/operators";
 import { ImagePreviewComponent } from "./image-preview/image-preview.component";
-import { url } from "inspector";
+//import { url } from "inspector";
 import { MapDialogComponent } from "../../../shared/components/map-dialog/map-dialog.component";
-
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 @Component({
   selector: "app-utilisation-report",
   templateUrl: "./utilisation-report.component.html",
   styleUrls: ["./utilisation-report.component.scss"],
 })
 export class UtilisationReportComponent implements OnInit {
+  modalRef: BsModalRef;
+
+  utilizationReport: FormGroup;
+  utilizationForm: FormGroup;
+  submitted = false;
   constructor(
     private fb: FormBuilder,
     public dialog: MatDialog,
@@ -43,17 +48,17 @@ export class UtilisationReportComponent implements OnInit {
     private profileService: ProfileService,
     private _router: Router,
     private UtiReportService: UtiReportService,
-    private dataEntryService: DataEntryService
+    private dataEntryService: DataEntryService,
+    private modalService: BsModalService,
   ) {
+
     this.initializeUserType();
 
     // this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
+
   }
 
-  utilizationReport: FormGroup;
-  utilizationForm: FormGroup;
-  submitted = false;
   // tabularProject:any = [{
   //   id : 0
   // }];
@@ -64,6 +69,7 @@ export class UtilisationReportComponent implements OnInit {
    categories;
    editable;
    photoUrl:any =[];
+   fd;
  formDataResponce;
    states: { [staeId: string]: IState };
    userLoggedInDetails: IUserLoggedInDetails;
@@ -78,6 +84,17 @@ export class UtilisationReportComponent implements OnInit {
       res.forEach((state) => (this.states[state._id] = state));
       this.initializeReport();
       this.getResponse();
+      switch (this.userLoggedInDetails.role) {
+         case USER_TYPE.ULB:
+         case USER_TYPE.STATE:
+         case USER_TYPE.PARTNER:
+         case USER_TYPE.MoHUA:
+         case USER_TYPE.ADMIN:
+           this.utilizationReport.disable();
+           this.utiReportFormControl.projects.disable();
+
+
+       }
     });
   }
   // errorShow(){
@@ -88,7 +105,8 @@ export class UtilisationReportComponent implements OnInit {
   ngOnInit() {
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;
-      console.log(resdata);
+    //  console.log('res', resdata);
+       this.categories = this.categories.sort((a,b) => a.name.localeCompare(b.name))
     });
   }
   public getResponse() {
@@ -166,10 +184,11 @@ export class UtilisationReportComponent implements OnInit {
         }),
       ]),
 
-      name: ["", Validators.required],
-      designation: ["", Validators.required],
+      name: ["", [Validators.required, Validators.maxLength(50)]],
+      designation: ["", [Validators.required, Validators.maxLength(50)]]
     });
     // this.utilizationReport.disable();
+
   }
 
   get utiReportFormControl() {
@@ -322,8 +341,8 @@ else{
 
   this.tabelRows.push(this.fb.group({
     category : ['', Validators.required],
-    name: ['',[Validators.required, Validators.maxLength(50)]],
-    description: ['',[Validators.required, Validators.maxLength(200)]],
+    name: ['',[Validators.required, Validators.maxLength(50), Validators.pattern('[a-zA-Z]*')]],
+    description: ['',[Validators.required, Validators.maxLength(200), Validators.pattern('[a-zA-Z]*')]],
     photos:this.fb.array( [
       // this.fb.group({
       //   url: ['']
@@ -406,31 +425,61 @@ else{
   // saveAsDraft(){
   //   console.log(this.utilizationReport);
   // }
+  apiCall(fd){
+    this.UtiReportService.createAndStorePost(fd)
+    .subscribe((res) => {
+     //  console.log(res);
+       alert('Record submitted successfully.')
+    },
+    error =>{
+       alert("An error occured.")
+       this.errMessage = error.message;
+       console.log(this.errMessage);
+    });
+  }
 
-  saveAndNext() {
+  saveAndNext(template) {
     this.submitted = true;
   //  console.log(this.utilizationReport);
   //  console.log(this.utilizationReport.value);
 
-    let fd = this.utilizationReport.value;
-        fd.isDraft = true;
-        fd.financialYear = '5ea036c2d6f1c5ee2e702e9e';
-        fd.designYear ='5ea036c2d6f1c5ee2e702e9e';
-        fd.grantType = 'Tied';
-        fd.grantPosition.closingBal = this.totalclosingBal;
+        this.fd = this.utilizationReport.value;
+        this.fd.isDraft = true;
+        this.fd.financialYear = '5ea036c2d6f1c5ee2e702e9e';
+        this.fd.designYear ='5ea036c2d6f1c5ee2e702e9e';
+        this.fd.grantType = 'Tied';
+        this.fd.grantPosition.closingBal = this.totalclosingBal;
+
+        if (this.utilizationReport.valid && this.totalclosingBal >= 0) {
+          this.apiCall(this.fd);
+          console.log('form submitted');
+          return this._router.navigate(["ulbform/annual_acc"]);
 
 
+        }
+        else {
+          this.openModal(template);
+        }
 
-    this.UtiReportService.createAndStorePost(fd)
-                  .subscribe((res) => {
-                   //  console.log(res);
-                     alert('Record submitted successfully.')
-                  },
-                  error =>{
-                     alert("An error occured.")
-                     this.errMessage = error.message;
-                     console.log(this.errMessage);
-                  });
+
+  }
+   openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+  }
+
+  stay(){
+    this.modalRef.hide();
+
+  }
+
+  proceed() {
+    this.modalRef.hide();
+    console.log(this.fd);
+    this.apiCall(this.fd)
+    return this._router.navigate(["ulbform/annual_acc"]);
+  }
+  alertClose(){
+    this.modalRef.hide();
   }
  // myFiles:string [] = [];
   filesToUpload: Array<File> = [];
@@ -473,6 +522,7 @@ else{
     this.fileProcessingTracker = {};
     this.submitted = false;
     this.fileUploadTracker = {};
+    this.photoUrl = [];
   }
   filterInvalidFilesForUpload(filesSelected: File[]) {
     const validFiles = [];
@@ -496,6 +546,14 @@ else{
     for (let i = 0; i < files.length; i++) {
       if (this.filesAlreadyInProcess.length > i) {
         continue;
+      }
+      console.log('pht', this.photoUrl)
+      const control = <FormArray>this.tabelRows.controls[urlIndex]['controls']['photos'];
+      let fileLength = control.length + this.photoUrl.length;
+      if( fileLength > 4 || files.length > 5){
+
+        alert("Maximum 5 files are allowed")
+        break;
       }
       this.filesAlreadyInProcess.push(i);
       await this.uploadFile(files[i], i, urlIndex);
@@ -648,7 +706,7 @@ else{
     control.clear();
   }
 
-  openDialog(index): void {    
+  openDialog(index): void {
     // console.log(this.tabelRows.value[index].location);
     if(this.tabelRows.value[index].location.lat !== "" && this.tabelRows.value[index].location.long !== ""){
       this.UtiReportService.setLocation(this.tabelRows.value[index].location)

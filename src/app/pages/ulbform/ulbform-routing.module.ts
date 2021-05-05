@@ -6,7 +6,8 @@ import { UlbformComponent } from './ulbform.component';
 import { UtilisationReportComponent } from './utilisation-report/utilisation-report.component';
 import { WaterSanitationComponent } from './water-sanitation/water-sanitation.component';
 import { LinkPFMSComponent } from './link-pfms/link-pfms.component'
-import { OverviewComponent } from './overview/overview.component'
+import { OverviewComponent } from './overview/overview.component';
+
 import { AnnualAccountsComponent } from './annual-accounts/annual-accounts.component';
 const routes: Routes = [
   {
@@ -27,6 +28,9 @@ const routes: Routes = [
       },
       {
         path: "pfms_acc", component: LinkPFMSComponent
+      },
+      {
+        path: "overview", component: OverviewComponent
       },
       {
 

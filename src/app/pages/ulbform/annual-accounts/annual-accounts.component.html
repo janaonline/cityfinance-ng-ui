@@ -5,29 +5,35 @@
 </div>
 
 <div class="row">
-  <div id="checkboxes">
-    <input type="radio" name="rGroup" value="1" id="r1" (change)="changeAudit('Unaudited')"
-      [checked]="(audit_status == 'Unaudited')?true:false" />
-    <label class="col-sm-6 square header1 text-center" for="r1">
-      <span style="vertical-align: sub;">
-        <b>Provisional Accounts for
-          2020-21</b>
-      </span>
-    </label>
-    <input type="radio" name="rGroup" value="2" id="r2" [checked]="(audit_status == 'Audited')?true:false"
-      (change)="changeAudit('Audited')" />
-    <label class="col-sm-6 square header1 text-center" for="r2">
-      <span style="vertical-align: sub;">
-        <b>Audited Accounts for
-          2019-20</b>
-      </span>
-    </label>
+  <div class="col-sm-12" id="checkboxes">
+    <div class="col-sm-6 p-0 ">
+      <input type="radio" name="rGroup" value="1" id="r1" (change)="changeAudit('Unaudited')"
+        [checked]="(audit_status == 'Unaudited')?true:false" />
+      <label class="col-sm-6 square header1 text-center cursor-input" for="r1">
+        <span style="vertical-align: sub;">
+          <b>Provisional Accounts for
+            2020-21</b>
+        </span>
+      </label>
+    </div>
+    <div class="col-sm-6 p-0 ">
+      <input type="radio" name="rGroup" value="2" id="r2" [checked]="(audit_status == 'Audited')?true:false"
+        (change)="changeAudit('Audited')" />
+      <label class="col-sm-6 square header1 text-center cursor-input" for="r2">
+        <span style="vertical-align: sub;">
+          <b>Audited Accounts for
+            2019-20</b>
+        </span>
+      </label>
+    </div>
   </div>
 
   <div *ngIf="audit_status == 'Unaudited'">
     <div class="col-md-12 mat-card card-body">
       <div class="mat-card-content" style="margin-top: 2rem;">
+        <div class="col-sm-12">
         <span><b>(A) Do you wish to submit Provisional Accounts for {{dateShow}} ?</b></span>
+        </div>
         <div class="row center">
           <div id="checkboxes">
             <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit"
@@ -51,18 +57,14 @@
             <button (click)="bs_pdf.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-            <input #bs_pdf style="display: none;"
-            onclick="this.value=null;"
-            onclick="this.value=null;"
+            <input #bs_pdf style="display: none;" onclick="this.value=null;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'unauditResponse.provisional_data.bal_sheet.progress','unauditResponse.provisional_data.bal_sheet.pdfName',true)"
               type="file" accept=".pdf" #file>
             <button (click)="bs_excel.click()" class="col-md-2 btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-            <input #bs_excel style="display: none;"
-            onclick="this.value=null;"
-            onclick="this.value=null;"
+            <input #bs_excel style="display: none;" onclick="this.value=null;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'unauditResponse.provisional_data.bal_sheet.progressExcel','unauditResponse.provisional_data.bal_sheet.excelName')"
               type="file" accept=".xls, .xlsx" #file>
           </div>
@@ -148,8 +150,7 @@
             <button (click)="bss_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-            <input #bss_pdf1 style="display: none;"
-            onclick="this.value=null;"
+            <input #bss_pdf1 style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'unauditResponse.provisional_data.bal_sheet_schedules.progress','unauditResponse.provisional_data.bal_sheet_schedules.pdfName',true)"
               type="file" accept=".pdf" #file>
 
@@ -157,8 +158,7 @@
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-            <input #bss_excel1 style="display: none;"
-            onclick="this.value=null;"
+            <input #bss_excel1 style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'unauditResponse.provisional_data.bal_sheet_schedules.progressExcel','unauditResponse.provisional_data.bal_sheet_schedules.excelName')"
               type="file" accept=".xls, .xlsx" #file>
 
@@ -248,8 +248,7 @@
             <button (click)="ie_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-            <input #ie_pdf1 style="display: none;"
-            onclick="this.value=null;"
+            <input #ie_pdf1 style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'unauditResponse.provisional_data.inc_exp.progress','unauditResponse.provisional_data.inc_exp.pdfName',true)"
               type="file" accept=".pdf" #file>
 
@@ -257,8 +256,7 @@
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-            <input #ie_excel1 style="display: none;"
-            onclick="this.value=null;"
+            <input #ie_excel1 style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'unauditResponse.provisional_data.inc_exp.progressExcel','unauditResponse.provisional_data.inc_exp.excelName')"
               type="file" accept=".xls, .xlsx" #file>
 
@@ -343,8 +341,7 @@
             <button (click)="ies_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-            <input #ies_pdf1 style="display: none;"
-            onclick="this.value=null;"
+            <input #ies_pdf1 style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'unauditResponse.provisional_data.inc_exp_schedules.progress','unauditResponse.provisional_data.inc_exp_schedules.pdfName',true)"
               type="file" accept=".pdf" #file>
 
@@ -352,8 +349,7 @@
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-            <input #ies_excel1 style="display: none;"
-            onclick="this.value=null;"
+            <input #ies_excel1 style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'unauditResponse.provisional_data.inc_exp_schedules.progressExcel','unauditResponse.provisional_data.inc_exp_schedules.excelName')"
               type="file" accept=".xls, .xlsx" #file>
 
@@ -443,8 +439,7 @@
             <button (click)="cfs_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-            <input #cfs_pdf1 style="display: none;"
-            onclick="this.value=null;"
+            <input #cfs_pdf1 style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'unauditResponse.provisional_data.cash_flow.progress','unauditResponse.provisional_data.cash_flow.pdfName',true)"
               type="file" accept=".pdf" #file>
 
@@ -452,8 +447,7 @@
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-            <input #cfs_excel1 style="display: none;"
-            onclick="this.value=null;"
+            <input #cfs_excel1 style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'unauditResponse.provisional_data.cash_flow.progressExcel','unauditResponse.provisional_data.cash_flow.excelName')"
               type="file" accept=".xls, .xlsx" #file>
           </div>
@@ -570,10 +564,20 @@
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-            <input #ques21 style="display: none;"
-            onclick="this.value=null;"
-              (change)="fileChangeEvent($event,'unauditResponse.standardized_data.upload.progressExcel','unauditResponse.standardized_data.upload.excelName')"
+            <input #ques21 style="display: none;" onclick="this.value=null;"
+              (change)="fileChangeEvent($event,'unauditResponse.standardized_data.upload.progressExcel','unauditResponse.standardized_data.upload.excelName',false,true)"
               type="file" accept=".xls, .xlsx" #file>
+          </div>
+          <div class="row allupload">
+            <div class="col-lg-8 col-md-8 col-sm-8" style="margin-top: 5px; padding-right: 2px;">
+              <div class="row">
+                <div class="col-sm-6 col-lg-6 col-md-6">
+                  <label class='text-danger' style="margin-right: 5px; font-weight: normal;"
+                    *ngIf="unauditResponse.standardized_data.upload.excelError">
+                    {{unauditResponse.standardized_data.upload.excelError}}</label>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="row allupload">
             <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
@@ -614,8 +618,7 @@
               Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-            <input #ques22 style="display: none;"
-            onclick="this.value=null;"
+            <input #ques22 style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'unauditResponse.standardized_data.auditor_certificate.progress','unauditResponse.standardized_data.auditor_certificate.name',true)"
               type="file" accept=".pdf" #file>
           </div>
@@ -667,11 +670,12 @@
             <span class="col-md-12"><b>(ii) Auditors’ Registration Number ?</b></span>
             <br>
             <input class="allBtn btn btninput"
-              (input)="unauditResponse.standardized_data.auditor_reg_no = $event.target.value"
+              (input)="unauditResponse.standardized_data.auditor_registration = $event.target.value"
               placeholder="Enter value" />
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-            <button type="button" class="btn2 btn footerBtn" (click)="save()">Submit</button>
+          <div class="row allupload">
+            <span *ngIf="unauditResponse.standardized_data.auditor_registration_error"
+              class="text-danger">{{unauditResponse.standardized_data.auditor_registration_error}}</span>
           </div>
         </div>
       </div>
@@ -705,16 +709,14 @@
             <button (click)="bs_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-            <input #bs_pdf1 style="display: none;"
-            onclick="this.value=null;"
+            <input #bs_pdf1 style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'auditResponse.provisional_data.bal_sheet.progress','auditResponse.provisional_data.bal_sheet.pdfName',true)"
               type="file" accept=".pdf" #file>
             <button (click)="bs_excel1.click()" class="col-md-2 btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-            <input #bs_excel1 style="display: none;"
-            onclick="this.value=null;"
+            <input #bs_excel1 style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'auditResponse.provisional_data.bal_sheet.progressExcel','auditResponse.provisional_data.bal_sheet.excelName')"
               type="file" accept=".xls, .xlsx" #file>
           </div>
@@ -798,8 +800,7 @@
             <button (click)="bss_pdf.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-            <input #bss_pdf style="display: none;"
-            onclick="this.value=null;"
+            <input #bss_pdf style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'auditResponse.provisional_data.bal_sheet_schedules.progress','auditResponse.provisional_data.bal_sheet_schedules.pdfName',true)"
               type="file" accept=".pdf" #file>
 
@@ -807,8 +808,7 @@
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-            <input #bss_excel style="display: none;"
-            onclick="this.value=null;"
+            <input #bss_excel style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'auditResponse.provisional_data.bal_sheet_schedules.progressExcel','auditResponse.provisional_data.bal_sheet_schedules.excelName')"
               type="file" accept=".xls, .xlsx" #file>
 
@@ -898,8 +898,7 @@
             <button (click)="ie_pdf.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-            <input #ie_pdf style="display: none;"
-            onclick="this.value=null;"
+            <input #ie_pdf style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'auditResponse.provisional_data.inc_exp.progress','auditResponse.provisional_data.inc_exp.pdfName',true)"
               type="file" accept=".pdf" #file>
 
@@ -907,8 +906,7 @@
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-            <input #ie_excel style="display: none;"
-            onclick="this.value=null;"
+            <input #ie_excel style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'auditResponse.provisional_data.inc_exp.progressExcel','auditResponse.provisional_data.inc_exp.excelName')"
               type="file" accept=".xls, .xlsx" #file>
 
@@ -993,8 +991,7 @@
             <button (click)="ies_pdf.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-            <input #ies_pdf style="display: none;"
-            onclick="this.value=null;"
+            <input #ies_pdf style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'auditResponse.provisional_data.inc_exp_schedules.progress','auditResponse.provisional_data.inc_exp_schedules.pdfName',true)"
               type="file" accept=".pdf" #file>
 
@@ -1002,8 +999,7 @@
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-            <input #ies_excel style="display: none;"
-            onclick="this.value=null;"
+            <input #ies_excel style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'auditResponse.provisional_data.inc_exp_schedules.progressExcel','auditResponse.provisional_data.inc_exp_schedules.excelName')"
               type="file" accept=".xls, .xlsx" #file>
 
@@ -1093,8 +1089,7 @@
             <button (click)="cfs_pdf.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-            <input #cfs_pdf style="display: none;"
-            onclick="this.value=null;"
+            <input #cfs_pdf style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'auditResponse.provisional_data.cash_flow.progress','auditResponse.provisional_data.cash_flow.pdfName',true)"
               type="file" accept=".pdf" #file>
 
@@ -1102,8 +1097,7 @@
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-            <input #cfs_excel style="display: none;"
-            onclick="this.value=null;"
+            <input #cfs_excel style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'auditResponse.provisional_data.cash_flow.progressExcel','auditResponse.provisional_data.cash_flow.excelName')"
               type="file" accept=".xls, .xlsx" #file>
           </div>
@@ -1187,8 +1181,7 @@
             <button (click)="ar_pdf.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-            <input #ar_pdf style="display: none;"
-            onclick="this.value=null;"
+            <input #ar_pdf style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'auditResponse.provisional_data.auditor_report.progress','auditResponse.provisional_data.auditor_report.pdfName',true)"
               type="file" accept=".pdf" #file>
 
@@ -1196,8 +1189,7 @@
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-            <input #ar_excel style="display: none;"
-            onclick="this.value=null;"
+            <input #ar_excel style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'auditResponse.provisional_data.auditor_report.progressExcel','auditResponse.provisional_data.auditor_report.excelName')"
               type="file" accept=".xls, .xlsx" #file>
 
@@ -1316,9 +1308,8 @@
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-            <input #ques2 style="display: none;"
-            onclick="this.value=null;"
-              (change)="fileChangeEvent($event,'auditResponse.standardized_data.upload.progressExcel','auditResponse.standardized_data.upload.excelName')"
+            <input #ques2 style="display: none;" onclick="this.value=null;"
+              (change)="fileChangeEvent($event,'auditResponse.standardized_data.upload.progressExcel','auditResponse.standardized_data.upload.excelName',false,true)"
               type="file" accept=".xls, .xlsx" #file>
           </div>
           <div class="row allupload">
@@ -1360,8 +1351,7 @@
               Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-            <input #ques223 style="display: none;"
-            onclick="this.value=null;"
+            <input #ques223 style="display: none;" onclick="this.value=null;"
               (change)="fileChangeEvent($event,'auditResponse.standardized_data.auditor_certificate.progress','auditResponse.standardized_data.auditor_certificate.name',true)"
               type="file" accept=".pdf" #file>
           </div>
@@ -1413,11 +1403,8 @@
             <span class="col-md-12"><b>(ii) Auditors’ Registration Number ?</b></span>
             <br>
             <input class="allBtn btn btninput"
-              (input)="auditResponse.standardized_data.auditor_reg_no = $event.target.value"
+              (input)="auditResponse.standardized_data.auditor_registration = $event.target.value"
               placeholder="Enter value" />
-          </div>
-          <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-            <button type="button" class="btn2 btn footerBtn" (click)="save()">Submit</button>
           </div>
         </div>
       </div>
