@@ -17,11 +17,21 @@ export class PreviewUtiFormComponent implements OnInit {
   showLoader;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any ,private _questionnaireService: QuestionnaireService,private _matDialog: MatDialog) { }
   styleForPDF=`<style>
-  .card {
-    background-color: #EBF5F5;
+  .cont {
+    width: 794px;
+    background-color: #FFFFFF;
+    display: inline-block;
+}
 
-    margin-bottom: 10px;
+.container {
+    padding-left: 0;
+    padding-right: 0;
+}
 
+.header {
+    height: 90px;
+    text-align: center;
+    background-color: #047474;
 }
 .header{
   word-break: break-all;
@@ -220,7 +230,7 @@ console.log(this.data)
       this.showLoader = true;
       this._questionnaireService.downloadPDF({ html }).subscribe(
         (res) => {
-          this.downloadFile(res.slice(0), "pdf", "Questionnaire.pdf");
+          this.downloadFile(res.slice(0), "pdf", "utilization-report.pdf");
           this.showLoader = false;
         },
         (err) => {

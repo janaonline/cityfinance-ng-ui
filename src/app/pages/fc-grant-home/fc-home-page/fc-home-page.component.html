@@ -1,4 +1,5 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="
+loggedInUserType || loggedInUserType === USER_TYPE.ULB;">
     <div class="row bg" style="margin-top: 5rem;">
         <div class="col-sm-12 col-md-12 col-lg-12 text-center" style="margin-bottom: 4rem;">
             <h3 class="txt-header" style="opacity: 100%; font-size: 35px;">Welcome to 15th Finance Commission Grant Management System</h3>
