@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { MatDialog } from "@angular/material/dialog";
 import { IUserLoggedInDetails } from '../../models/login/userLoggedInDetails';
 import { USER_TYPE } from '../../models/user/userType';
 import { UserUtility } from '../../util/user/user';
@@ -8,6 +8,8 @@ import { IState } from '../../models/state/state';
 
 import { CommonService } from 'src/app/shared/services/common.service';
 import { Router } from '@angular/router';
+import { UlbformPreviewComponent } from './ulbform-preview/ulbform-preview.component';
+import { WaterSanitationService } from './water-sanitation/water-sanitation.service';
 @Component({
   selector: 'app-ulbform',
   templateUrl: './ulbform.component.html',
@@ -20,18 +22,20 @@ export class UlbformComponent implements OnInit {
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
 
- constructor(private _commonService: CommonService,private profileService: ProfileService,private _router: Router) {
+ constructor(private _commonService: CommonService,
+  private profileService: ProfileService,private _router: Router, private wsService : WaterSanitationService,
+  public dialog: MatDialog) {
 
   this.initializeUserType();
    this.fetchStateList();
    this.initializeLoggedInUserDataFetch();
-   switch (this.userLoggedInDetails.role) {
-     // case USER_TYPE.STATE:
-      case USER_TYPE.PARTNER:
-      case USER_TYPE.MoHUA:
-      case USER_TYPE.ADMIN:
-        this._router.navigate(["/fc-home-page"]);
-  }
+  //  switch (this.userLoggedInDetails.role) {
+
+  //     case USER_TYPE.PARTNER:
+  //     case USER_TYPE.MoHUA:
+  //     case USER_TYPE.ADMIN:
+  //       this._router.navigate(["/fc-home-page"]);
+  // }
 
  }
 
@@ -64,5 +68,32 @@ export class UlbformComponent implements OnInit {
         return this.fetchStateList();
     }
   }
+  dialogData;
+  ulbPreview(){
+
+   console.log("hello", this.dialogData)
+    const dialogRef = this.dialog.open(UlbformPreviewComponent,
+      {
+        data:this.dialogData,
+        width: "85vw",
+  //   maxHeight: "95vh",
+       height: "100%",
+       panelClass: 'no-padding-dialog'
+    } );
+   // this.hidden = false;
+    dialogRef.afterClosed().subscribe(result => {
+    // console.log(`Dialog result: ${result}`);
+  //   this.hidden = true;
+
+   });
+  }
+  // this._matDialog.open(this.previewPopup, {
+  //   width: "85vw",
+  //   maxHeight: "95vh",
+  //   height: "fit-content",
+  //   panelClass: "XVfc-preview",
+
+  //   disableClose: false,
+  // });
 
 }
