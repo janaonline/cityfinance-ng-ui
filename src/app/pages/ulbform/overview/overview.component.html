@@ -11,11 +11,13 @@
 </div>
 <div class="header2">
     <div class="h1">Conditions for 15th FC Grants</div>
-    <div style="margin-top: 20px; font-size:13px; color: rgb(5, 113, 255);">Application Status - In Progress</div>
+    <div style="margin-top: 20px; font-size:15px; font-weight: bolder; color: rgb(5, 113, 255);">Application Status
+        -{{status}}</div>
     <div class="progressBar">
-        <div class="progress" style="height: 30px;">
-            <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="25" aria-valuemin="0"
-                aria-valuemax="100">50%</div>
+        <div class="progress" style="height: 33px;">
+            <div class="progress-bar" role="progressbar"
+                style="width: {{percentage}}%; font-size:18px; line-height:unset;" aria-valuenow="25" aria-valuemin="0"
+                aria-valuemax="100">{{percentage}}%</div>
         </div>
     </div>
 
@@ -91,16 +93,39 @@
         {{message}}
     </div>
 </div>
-<div class="header2">
+<div class="header3">
     <div class="h1">Resources</div>
     <div class="resourceCards">
-        <img src='../../../../assets/ulbform/overview/Group 13642@2x.png' height="306px" width="284px" />
-        <img src='../../../../assets/ulbform/overview/Group 13643@2x.png' height="306px" width="284px" />
-        <img src='../../../../assets/ulbform/overview/Group 13644@2x.png' height="306px" width="284px" />
-        <img src='../../../../assets/ulbform/overview/Group 13645@2x.png' height="306px" width="284px" />
-        <img src='../../../../assets/ulbform/overview/Group 13647@2x.png' height="306px" width="284px" />
-
-
+        <div class="individualResource">
+            <img src={{imageUrls[0]}} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[0]}}</a></h5>
+            </div>
+        </div>
+        <div class="individualResource">
+            <img src={{imageUrls[1]}} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[1]}}</a></h5>
+            </div>
+        </div>
+        <div class="individualResource">
+            <img src={{imageUrls[2]}} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[2]}}</a></h5>
+            </div>
+        </div>
+        <div class="individualResource">
+            <img src={{imageUrls[3]}} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[3]}}</a></h5>
+            </div>
+        </div>
+        <div class="individualResource">
+            <img src={{imageUrls[4]}} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[4]}}</a></h5>
+            </div>
+        </div>
     </div>
 </div>
 <button class="backButton">BACK</button>

@@ -16,7 +16,7 @@
 
 .header1{
    margin-top: 40px;
-    // width:100%;
+    width:100%;
     background-color:rgb(235, 235, 235);
     box-shadow: 2px 4px 5px #cecece;
     border-radius: 4px;
@@ -24,19 +24,28 @@
     font-weight: bold;
     color:rgb(0, 87, 80);
     text-align: center;
-    font-size:17px;
+    font-size:20px;
     line-height: 35px;
 
 }
 
 .header2{
    margin-top: 20px;
-    // width:100%;
+    width:100%;
     background-color:rgb(238, 238, 238);
     box-shadow: 2px 4px 5px #cecece;
     border-radius: 4px;
     padding: 20px 35px;
   
+}
+.header3{
+   margin-top: 20px;
+    width:100%;
+    background-color:rgb(238, 238, 238);
+    box-shadow: 2px 4px 5px #cecece;
+    border-radius: 4px;
+    padding: 20px 35px;
+
 }
 
 .h1 {
@@ -65,9 +74,7 @@ margin: auto;
     margin-top: 22px;
     font-family: 'Roboto', sans-serif;
 }
-.resourceCards{
-    display: inline-flex;
-}
+
 
 .individualCard{
     margin: 25px 13px 0px 13px;
@@ -79,7 +86,7 @@ margin: auto;
     text-align: center;
    padding: 18px 12px;
    color:white;
-opacity: 100%;
+opacity: 1;
 cursor:pointer;
 }
 
@@ -146,10 +153,10 @@ svg:not(:root){
     border-radius: 3px;
     border: 2px solid transparent;
     box-shadow: 3px 2px 2px 2px #cecece;
-    height: 180px;
-    width: 180px;
+    height: 260px;
+    width: 220px;
     text-align: center;
-   padding: 10px 6px;
+   padding: 20px 6px;
    color:rgb(0, 87, 80);
    background-color: #f7f7f7;
 }
@@ -159,4 +166,14 @@ svg:not(:root){
     margin: 22px 15px 25px 15px;
    transition-timing-function:linear;
    box-shadow: 5px 5px 5px #cecece;
+}
+
+.resourceCards{
+    display: flex;
+    justify-content:start;
+    flex-wrap: wrap;
+}
+.card-img-top{
+    height: 170px;
+    width: 190px;
 }
