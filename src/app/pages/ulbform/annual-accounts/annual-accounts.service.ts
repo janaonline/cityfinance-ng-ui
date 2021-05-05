@@ -17,4 +17,12 @@ export class AnnualAccountsService {
   postData(body) {
     return this.http.post(`${environment.api.url}annual-accounts/create`, body);
   }
+
+  processData(body){
+    return this.http.post(`${environment.api.url}processData`, body)
+  }
+
+  getProcessStatus(id){
+    return this.http.get(`${environment.api.url}getProcessStatus/${id}`)
+  }
 }

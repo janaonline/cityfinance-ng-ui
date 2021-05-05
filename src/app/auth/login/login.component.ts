@@ -124,8 +124,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   private onSuccessfullLogin(res) {
     if (res && res["token"]) {
       localStorage.setItem("id_token", JSON.stringify(res["token"]));
+      localStorage.setItem("Years", JSON.stringify(res["allYears"]));
+
       const userUtil = new UserUtility();
       userUtil.updateUserDataInRealTime(res["user"]);
+
       this.routeToProperLocation();
     } else {
       localStorage.removeItem("id_token");

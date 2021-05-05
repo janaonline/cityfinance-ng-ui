@@ -42,6 +42,20 @@
   color: white;
 }
 
+#checkboxes2 input[type=radio]{
+  display: none;
+}
+
+#checkboxes2 input[type=radio]:checked + .square{
+  background-color: #124A55;
+  color: white;
+}
+
+#checkboxes2 input[type=radio]:checked + .btn{
+  background-color: #ffc500;
+  color: white;
+}
+
 .footerBtn {
   margin-right: 15px;
   width: 135px;

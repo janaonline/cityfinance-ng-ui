@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Overview } from './overview.service'
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -7,9 +7,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OverviewComponent implements OnInit {
 
-  constructor() { }
+  errMessage = ''
+  forms = []
+  count = 0
+  percentage = 0;
+  status = 'In Progress'
+  constructor(private Overview: Overview) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.Overview.getData('606aaf854dff55e6c075d219')
+      .subscribe((res) => {
+        console.log(res);
+        this.forms[0] = res['response']['steps']['annualAccounts']['isSubmit']
+        this.forms[1] = res['response']['steps']['pfmsAccount']['isSubmit']
+        this.forms[2] = res['response']['steps']['plans']['isSubmit']
+        this.forms[3] = res['response']['steps']['slbForWaterSupplyAndSanitation']['isSubmit']
+        this.forms[4] = res['response']['steps']['utilReport']['isSubmit']
+
+        for (let key of this.forms) {
+          if (key) {
+            this.count = this.count + key;
+
+          }
+
+        }
+        this.percentage = this.count * 20;
+        if (this.percentage == 100) {
+          this.status = 'Completed'
+        }
+      },
+        error => {
+          this.errMessage = error.error;
+          console.log(this.errMessage);
+        });
   }
   headertext = 'The 15th Finance Commission Grants Management System facilitates seamless submission and flow of required information between Urban Local Bodies, State Governments and Ministry of Housuing and Urban Affairs for the purposes of availaing ULB Grants between 2021-2026.'
   cards = [
@@ -23,7 +53,13 @@ export class OverviewComponent implements OnInit {
   ]
   p = 60;
   position = 0;
-  resourceNames = ['Testing Manual']
+  resourceNames = [
+    '15th Finance Commission Report',
+    'Operational Guidelines',
+    'User Manual for ULBs',
+    'Detailed Utilization Report Format',
+    'National Municipal Accounting Manual'
+  ]
   colors = [
     '#73C557, #3A632C',
     '#42C9F6, #21657B',
@@ -34,10 +70,17 @@ export class OverviewComponent implements OnInit {
     '#9D198B, #4F0D46',
   ]
 
-  imageUrls = ['https://images.unsplash.com/photo-1532375810709-75b1da00537c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1055&q=80']
+  imageUrls = [
+    "../../../../assets/ulbform/overview/Picture1.png",
+    "../../../../assets/ulbform/overview/Picture2.png",
+    "../../../../assets/ulbform/overview/Picture3.png",
+    "../../../../assets/ulbform/overview/Picture4.png",
+    "../../../../assets/ulbform/overview/Picture5.png",
+  ]
   message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
   hover = false
   i = 8098987
+
 
   onUnhover() {
     this.hover = false

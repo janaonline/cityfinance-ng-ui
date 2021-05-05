@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ErrorHandler, OnInit } from "@angular/core";
 
 import { HttpEventType, HttpResponse } from "@angular/common/http";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
@@ -18,24 +18,138 @@ export class AnnualAccountsComponent implements OnInit {
     private annualAccountsService: AnnualAccountsService
   ) {}
   ngOnInit(): void {
+    this.changeAudit("Unaudited");
     this.onLoad();
   }
   quesOneAnswer: boolean = false;
   quesTwoAnswer: boolean = false;
-  audit_status: string = "Unaudited";
+
+  quesOneAnswer1: boolean = false;
+  quesTwoAnswer1: boolean = false;
+  audit_status;
+  Years = JSON.parse(localStorage.getItem("Years"));
   dateShow: string = "2020-21";
 
   isPdf;
   fileSelected;
   progressArray;
   fileNameArray;
-  responses = []
+  response;
 
-  response = {
-    design_year: "606aadac4dff55e6c075c507",
-    audit_status: null,
-    isCompleted: true,
-    year: null,
+  pdfError = "PDF Not Uploaded!";
+  answerError = {
+    Audited: {
+      submit_annual_accounts: false,
+      submit_standardized_data: false,
+    },
+    Unaudited: {
+      submit_annual_accounts: false,
+      submit_standardized_data: false,
+    },
+  };
+
+  auditResponse = {
+    design_year: this.Years["2020-21"],
+    audit_status: "Audited",
+    isCompleted: false,
+    year: this.Years["2019-20"],
+    submit_annual_accounts: {
+      answer: null,
+    },
+    submit_standardized_data: {
+      answer: null,
+    },
+    provisional_data: {
+      bal_sheet: {
+        pdfUrl: null,
+        progress: null,
+        progressExcel: null,
+        pdfName: null,
+        excelUrl: null,
+        excelError: null,
+        pdfError: null,
+        excelName: null,
+        rejectReason: null,
+      },
+      bal_sheet_schedules: {
+        pdfName: null,
+        pdfUrl: null,
+        progress: null,
+        progressExcel: null,
+        excelUrl: null,
+        excelName: null,
+        excelError: null,
+        pdfError: null,
+        rejectReason: null,
+      },
+      inc_exp: {
+        pdfName: null,
+        pdfUrl: null,
+        progress: null,
+        progressExcel: null,
+        excelUrl: null,
+        excelName: null,
+        excelError: null,
+        pdfError: null,
+        rejectReason: null,
+      },
+      inc_exp_schedules: {
+        pdfName: null,
+        pdfUrl: null,
+        progress: null,
+        progressExcel: null,
+        excelUrl: null,
+        excelName: null,
+        excelError: null,
+        pdfError: null,
+        rejectReason: null,
+      },
+      cash_flow: {
+        pdfName: null,
+        pdfUrl: null,
+        progress: null,
+        progressExcel: null,
+        excelUrl: null,
+        excelName: null,
+        excelError: null,
+        pdfError: null,
+        rejectReason: null,
+      },
+      auditor_report: {
+        pdfName: null,
+        pdfUrl: null,
+        progress: null,
+        progressExcel: null,
+        excelUrl: null,
+        excelName: null,
+        excelError: null,
+        pdfError: null,
+        rejectReason: null,
+      },
+    },
+    standardized_data: {
+      upload: {
+        excelUrl: null,
+        excelName: null,
+        progressExcel: null,
+        excelError: null,
+      },
+      auditor_certificate: {
+        pdfUrl: null,
+        pdfError: null,
+        name: null,
+        progress: null,
+      },
+      auditor_registration: null,
+      auditor_registration_error:null
+    },
+  };
+
+  unauditResponse = {
+    design_year: this.Years["2020-21"],
+    audit_status: "Unaudited",
+    isCompleted: false,
+    year: this.Years["2020-21"],
     submit_annual_accounts: {
       answer: null,
     },
@@ -50,6 +164,9 @@ export class AnnualAccountsComponent implements OnInit {
         pdfName: null,
         excelUrl: null,
         excelName: null,
+        excelError: null,
+        pdfError: null,
+        rejectReason: null,
       },
       bal_sheet_schedules: {
         pdfName: null,
@@ -58,6 +175,9 @@ export class AnnualAccountsComponent implements OnInit {
         progressExcel: null,
         excelUrl: null,
         excelName: null,
+        excelError: null,
+        pdfError: null,
+        rejectReason: null,
       },
       inc_exp: {
         pdfName: null,
@@ -66,6 +186,9 @@ export class AnnualAccountsComponent implements OnInit {
         progressExcel: null,
         excelUrl: null,
         excelName: null,
+        excelError: null,
+        pdfError: null,
+        rejectReason: null,
       },
       inc_exp_schedules: {
         pdfName: null,
@@ -74,6 +197,9 @@ export class AnnualAccountsComponent implements OnInit {
         progressExcel: null,
         excelUrl: null,
         excelName: null,
+        excelError: null,
+        pdfError: null,
+        rejectReason: null,
       },
       cash_flow: {
         pdfName: null,
@@ -82,6 +208,9 @@ export class AnnualAccountsComponent implements OnInit {
         progressExcel: null,
         excelUrl: null,
         excelName: null,
+        excelError: null,
+        pdfError: null,
+        rejectReason: null,
       },
       auditor_report: {
         pdfName: null,
@@ -90,6 +219,9 @@ export class AnnualAccountsComponent implements OnInit {
         progressExcel: null,
         excelUrl: null,
         excelName: null,
+        excelError: null,
+        pdfError: null,
+        rejectReason: null,
       },
     },
     standardized_data: {
@@ -97,55 +229,37 @@ export class AnnualAccountsComponent implements OnInit {
         excelUrl: null,
         excelName: null,
         progressExcel: null,
+        excelError: null,
       },
       auditor_certificate: {
+        pdfError: null,
         pdfUrl: null,
         name: null,
         progress: null,
       },
-      auditor_reg_no: null
+      auditor_registration: null,
+      auditor_registration_error:null
     },
   };
 
   onLoad() {
     this.annualAccountsService
       .getData({
-        year: "606aadac4dff55e6c075c507",
-        design_year: "606aadac4dff55e6c075c507",
+        design_year: this.Years["2020-21"],
       })
       .subscribe(
-        (res) => {
-          for (let key in res["data"]) {
-            let value = res["data"][key];
-            if (typeof value === "object" && value !== null) {
-              for (let key2 in value) {
-                let value2 = value[key2];
-                if (typeof value2 === "object" && value2 !== null) {
-                  for (let key3 in value2) {
-                    if (
-                      this.response[key][key2][key3] ||
-                      this.response[key][key2][key3] === null
-                    ) {
-                      this.response[key][key2][key3] =
-                        res["data"][key][key2][key3];
-                    }
-                  }
-                } else if (
-                  this.response[key][key2] ||
-                  this.response[key][key2] === null
-                ) {
-                  this.response[key][key2] = res["data"][key][key2];
-                }
-              }
-            } else if (this.response[key] || this.response[key] === null) {
-              this.response[key] = res["data"][key];
-            }
-          }
-          this.changeAudit(res["data"]["audit_status"]);
-          if (this.response.submit_annual_accounts.answer == "yes")
-            this.answer("q1", true);
-          if (this.response.submit_standardized_data.answer == "yes")
-            this.answer("q2", true);
+        async (res) => {
+          const responseType =
+            res["data"][0]["audit_status"] === "Audited"
+              ? "auditResponse"
+              : "unauditResponse";
+          await this.dataPopulate(res["data"][0], responseType);
+          await this.dataPopulate(
+            res["data"][1],
+            responseType === "auditResponse"
+              ? "unauditResponse"
+              : "auditResponse"
+          );
         },
         (err) => {
           console.error(err.message);
@@ -153,15 +267,54 @@ export class AnnualAccountsComponent implements OnInit {
       );
   }
 
-  async submit() {
-    const form = this.response;
+  dataPopulate(res, type) {
+    return new Promise((resolve, rej) => {
+      for (let key in res) {
+        let value = res[key];
+        if (typeof value === "object" && value !== null) {
+          for (let key2 in value) {
+            let value2 = value[key2];
+            if (typeof value2 === "object" && value2 !== null) {
+              for (let key3 in value2) {
+                if (
+                  this[type][key][key2][key3] ||
+                  this[type][key][key2][key3] === null
+                ) {
+                  this[type][key][key2][key3] = res[key][key2][key3];
+                }
+              }
+            } else if (
+              this[type][key][key2] ||
+              this[type][key][key2] === null
+            ) {
+              this[type][key][key2] = res[key][key2];
+            }
+          }
+        } else if (this[type][key] || this[type][key] === null) {
+          this[type][key] = res[key];
+        }
+      }
+      const isAudit = type === "auditResponse" ? true : null;
+      if (this[type].submit_annual_accounts.answer == "yes")
+        this.answer("q1", true, isAudit);
+      if (this[type].submit_standardized_data.answer == "yes")
+        this.answer("q2", true, isAudit);
+      resolve("success");
+    });
+  }
+
+  submit() {
+    this.save(this.unauditResponse);
+    this.save(this.auditResponse);
+  }
+
+  async save(form) {
     if (
       form.submit_annual_accounts.answer === "no" ||
       form.submit_annual_accounts.answer === null
     ) {
       delete form.provisional_data;
     }
-
     if (
       form.submit_standardized_data.answer === "no" ||
       form.submit_standardized_data.answer === null
@@ -169,23 +322,8 @@ export class AnnualAccountsComponent implements OnInit {
       delete form.standardized_data;
     }
 
-    const errorMessage = this.checkForm(form);
-    console.log(errorMessage);
+    await this.checkForm(form);
 
-    if (errorMessage !== undefined) {
-      const willForward = await swal({
-        title: errorMessage + ", Are you sure?",
-        text: "Form Incomplete, Will Be Saved As Draft",
-        icon: "warning",
-        // buttons: true,
-        dangerMode: true,
-      });
-      if (willForward) {
-        form.isCompleted = !willForward;
-      } else {
-        return;
-      }
-    }
     this.annualAccountsService.postData(form).subscribe(
       (res) => {
         swal("Form Saved", "", "success");
@@ -197,112 +335,115 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   checkForm(form) {
-    if (form.audit_status === null) {
-      return "No Autdit Status";
-    }
-    if (
-      form.submit_annual_accounts.answer === null ||
-      form.submit_standardized_data.answer === null
-    ) {
-      return "Not All Questions Answered";
-    }
-    for (let key in form) {
-      let value = form[key];
-      if (typeof value === "object" && value !== null) {
-        for (let key2 in value) {
-          let value2 = value[key2];
-          if (key2 === "auditor_report" && form.audit_status !== "Audited") {
-            delete form.provisional_data.auditor_report;
-            continue;
-          }
-          if (typeof value2 === "object" && value2 !== null) {
-            for (let key3 in value2) {
-              if (
-                key3 === "progressExcel" ||
-                key3 === "excelUrl" ||
-                key3 === "excelName" ||
-                key3 === "progress"
-              ) {
-                continue;
-              }
-              if (form[key][key2][key3] === null) {
-                return this.returnErrName(key2) + " Not Uploaded";
-              }
+    return new Promise((res, rej) => {
+      let flag = false;
+      for (let key in form) {
+        let value = form[key];
+        if (typeof value === "object" && value !== null) {
+          for (let key2 in value) {
+            let value2 = value[key2];
+            if (key2 === "auditor_report" && form.audit_status !== "Audited") {
+              delete form.provisional_data.auditor_report;
+              continue;
             }
-          } else if (form[key][key2] === null) {
-            return this.returnErrName(key) + " Not Uploaded";
+            if (typeof value2 === "object" && value2 !== null) {
+              for (let key3 in value2) {
+                if (
+                  key3 === "progressExcel" ||
+                  key3 === "excelUrl" ||
+                  key3 === "excelName" ||
+                  key3 === "progress" ||
+                  key3 === "excelError" ||
+                  key3 === "progress" ||
+                  key3 === "pdfName" ||
+                  key3 === "pdfError"
+                ) {
+                  continue;
+                }
+                if (form[key][key2][key3] === null) {
+                  this.errorHandler(form, key, key2, key3);
+                  flag = true;
+                }
+              }
+            } else if (form[key][key2] === null) {
+                this.errorHandler(form, key, key2);
+                flag = true;
+            }
           }
+        } else if (form[key] === null) {
+          flag = true;
         }
-      } else if (form[key] === null) {
-        return this.returnErrName(key) + " Not Uploaded";
       }
-    }
+      if (flag) {
+        form["isCompleted"] = true;
+      } else {
+        form["isCompleted"] = false;
+      }
+      res("sucess");
+    });
   }
 
-  returnErrName(name) {
-    switch (name) {
-      case "bal_sheet":
-        return "Balance Sheet";
-      case "bal_sheet_schedules":
-        return "Balance Sheet Schedules";
-      case "inc_exp":
-        return "Income Expenditure";
-      case "inc_exp_schedules":
-        return "Income Expenditure Schedule";
-      case "cash_flow":
-        return "Cash flow Statement";
-      case "auditor_report":
-        return "Auditor Report";
-      case "upload":
-        return "Financials Upload";
-      case "auditor_certificate":
-        return "Auditors’ Certificate ";
-      case "auditor_reg_no":
-      return "Auditors’ Registration Number"
+  errorHandler(form, key, key2, key3 = null) {
+    if (key3 == "pdfUrl") {
+      form[key][key2]["pdfError"] = this.pdfError;
+    }
+    if (key2 === "answer") {
+      this.answerError[form["audit_status"]][key] = true;
+      setTimeout(() => {
+        this.answerError[form["audit_status"]][key] = false;
+      }, 4000);
+    }
+    if(key2 == "auditor_registration"){
+      form[key]["auditor_registration_error"] = "Field Empty"
     }
   }
-
-  async save() {}
 
   changeAudit(audit) {
     this.audit_status = audit;
     switch (audit) {
       case "Audited":
         this.dateShow = "2019-20";
-        this.response.audit_status = audit;
-        this.response.year = "607697074dff55e6c0be33ba";
+        this.response = "auditResponse";
+        this[this.response].audit_status = audit;
+        this[this.response].year = "607697074dff55e6c0be33ba";
         break;
       default:
         this.dateShow = "2020-21";
-        this.response.audit_status = audit;
-        this.response.year = "606aadac4dff55e6c075c507";
+        this.response = "unauditResponse";
+        this[this.response].audit_status = audit;
+        this[this.response].year = "606aadac4dff55e6c075c507";
         break;
     }
   }
 
-  answer(question, val) {
+  answer(question, val, isAudit = null) {
     switch (question) {
       case "q1":
-        this.quesOneAnswer = val;
+        if (isAudit) this.quesOneAnswer1 = val;
+        else this.quesOneAnswer = val;
         if (val) {
-          this.response.submit_annual_accounts.answer = "yes";
+          this[this.response].submit_annual_accounts.answer = "yes";
         } else {
-          this.response.submit_annual_accounts.answer = "no";
+          this[this.response].submit_annual_accounts.answer = "no";
         }
         break;
       default:
-        this.quesTwoAnswer = val;
-        if (val) {
-          this.response.submit_standardized_data.answer = "yes";
+        if (isAudit) {
+          this.quesTwoAnswer1 = val;
         } else {
-          this.response.submit_standardized_data.answer = "no";
+          this.quesTwoAnswer = val;
+        }
+        if (val) {
+          this[this.response].submit_standardized_data.answer = "yes";
+        } else {
+          this[this.response].submit_standardized_data.answer = "no";
         }
         break;
     }
   }
 
-  clearFile(path, type = null) {
-    const clearPathArray = path.split(".");
+  clearFile(path, type = null, fromUploadExcel = null) {
+    const clearPathArray = fromUploadExcel ? path : path.split(".");
     if (type) {
       this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]][
         "pdfUrl"
@@ -330,30 +471,48 @@ export class AnnualAccountsComponent implements OnInit {
     }
   }
 
-  fileChangeEvent(event, progressType, fileName, type = null) {
+  fileChangeEvent(
+    event,
+    progressType,
+    fileName,
+    type = null,
+    isUploadExcel = null
+  ) {
     this.resetFileTracker();
     this.isPdf = type;
     this.progressArray = progressType.split(".");
     this.fileNameArray = fileName.split(".");
     this.fileSelected = <Array<File>>event.target["files"];
-    this.upload();
+    this.upload(this.progressArray, this.fileNameArray, type, isUploadExcel);
   }
+
   resetFileTracker() {
     this.progressArray = null;
     this.fileNameArray = null;
   }
 
-  async upload() {
-    this[this.fileNameArray[0]][this.fileNameArray[1]][this.fileNameArray[2]][
-      this.fileNameArray[3]
+  async upload(progressArray, fileNameArray, isPdf, isUploadExcel) {
+    this[fileNameArray[0]][fileNameArray[1]][fileNameArray[2]][
+      fileNameArray[3]
     ] = this.fileSelected[0].name;
-    this[this.progressArray[0]][this.progressArray[1]][this.progressArray[2]][
-      this.progressArray[3]
+    this[progressArray[0]][progressArray[1]][progressArray[2]][
+      progressArray[3]
     ] = 10;
     try {
       await this.uploadFile();
+      if (isUploadExcel) {
+        await this.uploadExcel(progressArray);
+        this[fileNameArray[0]][fileNameArray[1]][fileNameArray[2]][
+          "excelError"
+        ] = null;
+      }
     } catch (error) {
-      swal("Upload Failed", error.message, "alert");
+      if (isUploadExcel) {
+        this[fileNameArray[0]][fileNameArray[1]][fileNameArray[2]][
+          "excelError"
+        ] = error?.data?.message || "Upload Error";
+        this.clearFile(fileNameArray, false, true);
+      } else this.clearFile(fileNameArray, isPdf);
     }
   }
 
@@ -365,17 +524,21 @@ export class AnnualAccountsComponent implements OnInit {
           this.fileSelected[0].type
         )
         .subscribe(
-          (s3Response) => {
+          async (s3Response) => {
             const fileAlias = s3Response["data"][0]["file_alias"];
             this[this.progressArray[0]][this.progressArray[1]][
               this.progressArray[2]
             ][this.progressArray[3]] = Math.floor(Math.random() * 90) + 10;
             const s3URL = s3Response["data"][0].url;
-            this.uploadFileToS3(this.fileSelected[0], s3URL, fileAlias);
-            resolve("success");
+            try {
+              await this.uploadFileToS3(this.fileSelected[0], s3URL, fileAlias);
+              resolve("success");
+            } catch (error) {
+              reject(error);
+            }
           },
           (err) => {
-            reject(err.message);
+            reject(err);
           }
         );
     });
@@ -389,11 +552,13 @@ export class AnnualAccountsComponent implements OnInit {
             this[this.progressArray[0]][this.progressArray[1]][
               this.progressArray[2]
             ][this.progressArray[3]] = 100;
-
             if (this.isPdf) {
               this[this.progressArray[0]][this.progressArray[1]][
                 this.progressArray[2]
               ]["pdfUrl"] = fileAlias;
+              this[this.progressArray[0]][this.progressArray[1]][
+                this.progressArray[2]
+              ]["pdfError"] = null;
             } else {
               this[this.progressArray[0]][this.progressArray[1]][
                 this.progressArray[2]
@@ -403,7 +568,54 @@ export class AnnualAccountsComponent implements OnInit {
           }
         },
         (err) => {
-          reject(err.message);
+          reject(err);
+        }
+      );
+    });
+  }
+
+  async uploadExcel(progressArray) {
+    return new Promise((resolve, rej) => {
+      let newObj = {
+        alias: this[progressArray[0]][progressArray[1]][this.progressArray[2]][
+          "excelUrl"
+        ],
+        financialYear: "",
+        design_year: this[progressArray[0]]["design_year"],
+      };
+      if (this[progressArray[0]]["audit_status"] === "Audited") {
+        newObj.financialYear = "2019-20";
+      } else {
+        newObj.financialYear = "2020-21";
+      }
+      this.annualAccountsService.processData(newObj).subscribe(
+        async (res) => {
+          try {
+            await this.checkExcelStatus(res["data"]);
+          } catch (error) {
+            rej(error);
+          }
+          resolve("Success");
+        },
+        (err) => {
+          rej(err);
+        }
+      );
+    });
+  }
+
+  checkExcelStatus(res) {
+    return new Promise((resolve, reject) => {
+      const { _id } = res;
+      this.annualAccountsService.getProcessStatus(_id.toString()).subscribe(
+        (res) => {
+          if (res["data"]["status"] === "FAILED") {
+            reject(res);
+          }
+          resolve("Success");
+        },
+        (err) => {
+          reject(err);
         }
       );
     });
