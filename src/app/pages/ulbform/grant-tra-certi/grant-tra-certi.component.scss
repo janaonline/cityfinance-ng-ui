@@ -30,3 +30,31 @@ h4 {
     height: 196px;
     margin: 0 auto;
 }
+
+.save {
+    // margin-right: 15px;
+    width: 90px;
+    height: 32px;
+    background-color: #26A1A1;
+    color: #FFFFFF;
+    font-weight: normal;
+    font-size: 12px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: inline-block;
+}
+
+.backButton {
+    // margin-right: 48rem;
+    background-color: #CFCFCF;
+    color: #FFFFFF;
+    width: 90px;
+    height: 32px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: inline-block;
+}

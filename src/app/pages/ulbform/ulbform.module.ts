@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UlbformRoutingModule } from './ulbform-routing.module';
 import { UtilisationReportComponent } from './utilisation-report/utilisation-report.component';
@@ -24,8 +25,13 @@ import { OverviewComponent } from './overview/overview.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PreviewSlbComponentComponent } from './preview-slb-component/preview-slb-component.component';
 import { LinkPFMSComponent } from './link-pfms/link-pfms.component';
-
+//ngx-bootstrap
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { AnnualAccountsComponent } from './annual-accounts/annual-accounts.component';
+import { UlbformPreviewComponent } from './ulbform-preview/ulbform-preview.component';
+
+
 
 @NgModule({
   entryComponents: [PreviewUtiFormComponent, ImagePreviewComponent],
@@ -42,7 +48,8 @@ import { AnnualAccountsComponent } from './annual-accounts/annual-accounts.compo
      OverviewComponent,
      PreviewSlbComponentComponent,
      LinkPFMSComponent,
-     AnnualAccountsComponent
+     AnnualAccountsComponent,
+     UlbformPreviewComponent
     ],
   imports: [
     CommonModule,
@@ -55,6 +62,10 @@ import { AnnualAccountsComponent } from './annual-accounts/annual-accounts.compo
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule,
+    MatTooltipModule,
+    ModalModule.forRoot(),
+    TooltipModule.forRoot()
+
 
   ]
 })

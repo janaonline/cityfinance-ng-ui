@@ -115,12 +115,23 @@ export class PreviewSlbComponentComponent implements OnInit {
   .fa-times {
     display: none;
   }
+  .qus-slb {
+    margin-left: 1.5rem;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.ans-slb {
+    margin-left: 1rem;
+    font-weight: normal;
+    font-size: 12px;
+}
 
 
 </style>`;
 
   states: { [stateId: string]: IState };
-
+  water_index_qus='';
   constructor(
     private _questionnaireService: QuestionnaireService,
     private _commonService: CommonService,
@@ -131,6 +142,13 @@ export class PreviewSlbComponentComponent implements OnInit {
 
   ngOnInit() {
     this.data = this.formatResponse(this.data);
+    console.log('hi',this.data);
+    console.log(this.data.water_index)
+    if(this.data.water_index){
+         this.water_index_qus = 'Yes'
+    }else{
+      this.water_index_qus = 'No'
+    }
   }
 
   replaceAllOccurence(

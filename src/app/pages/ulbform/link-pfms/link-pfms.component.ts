@@ -1,19 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,TemplateRef  } from '@angular/core';
 import { LinkPFMSAccount } from './link-pfms.service'
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Router } from "@angular/router";
+import { ProfileService } from 'src/app/users/profile/service/profile.service';
+import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
+import { USER_TYPE } from 'src/app/models/user/userType';
 @Component({
   selector: 'app-link-pfms',
   templateUrl: './link-pfms.component.html',
   styleUrls: ['./link-pfms.component.scss']
 })
-export class LinkPFMSComponent implements OnInit {
+export class LinkPFMSComponent extends BaseComponent implements OnInit {
+  modalRef: BsModalRef;
+  constructor(private LinkPFMSAccount: LinkPFMSAccount,
+    private modalService: BsModalService,private _router: Router,private _profileService: ProfileService) {
+      super();
+      switch (this.loggedInUserType) {
+       // case USER_TYPE.ULB:
+        case USER_TYPE.STATE:
+        case USER_TYPE.PARTNER:
+        case USER_TYPE.MoHUA:
+        case USER_TYPE.ADMIN:
+        //  this._router.navigate(["/fc-home-page"]);
+        //  break;
 
-  constructor(private LinkPFMSAccount: LinkPFMSAccount) {
-
+      }
   }
 
   receivedData = {}
-  account = 'no';
-  linked = 'no';
+  account = '';
+  linked = '';
+  fd ={};
   ngOnInit() {
     this.LinkPFMSAccount.getData('606aaf854dff55e6c075d219')
       .subscribe((res) => {
@@ -42,7 +59,7 @@ export class LinkPFMSComponent implements OnInit {
 
   ]
   showQuestion2 = false;
-  design_year = '2021-22'
+  design_year = '606aaf854dff55e6c075d219'
   showQuestion1 = true;
   isClicked = false;
 
@@ -67,22 +84,54 @@ export class LinkPFMSComponent implements OnInit {
 
 
   errMessage = '';
+  postData(){
+    this.LinkPFMSAccount.postData(this.fd)
+    .subscribe((res) => {
+      console.log(res);
 
-  saveAndNext() {
-    let fd = {
+    },
+      error => {
+        this.errMessage = error.message;
+        console.log(error, this.errMessage);
+      });
+  }
+  saveAndNext(template) {
+    this.fd = {
       "design_year": this.design_year,
       "account": this.account,
       "linked": this.linked,
+      "isDraft": true
     }
-    console.log('clicked')
-    this.LinkPFMSAccount.postData(fd)
-      .subscribe((res) => {
-        console.log(res);
+    if(this.account != '' && this.linked != ''){
+      this.postData();
+    }else if(this.account != '' || this.linked != ''){
+    this.openModal(template);
+    }else{
+      alert("Please select your answer");
+    }
 
-      },
-        error => {
-          this.errMessage = error.message;
-          console.log(error, this.errMessage);
-        });
+    console.log('clicked')
+
   }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+
+  }
+
+  stay(){
+    this.modalRef.hide();
+
+  }
+
+  proceed(uploadedFiles) {
+
+    this.postData();
+    this.modalRef.hide();
+   // return this._router.navigate(["overview"]);
+  }
+  alertClose(){
+    this.modalRef.hide();
+  }
+
+
 }

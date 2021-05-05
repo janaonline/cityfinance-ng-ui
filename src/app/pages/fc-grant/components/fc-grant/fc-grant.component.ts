@@ -34,9 +34,13 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
     private _profileService: ProfileService
   ) {
     super();
+      // if(this.loggedInUserType){
+      //   this._router.navigate(["/fc-home-page"]);
+      // }
     switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
-        this.checkULBProfileCompleteStatus();
+         this.checkULBProfileCompleteStatus();
+
         break;
       case USER_TYPE.STATE:
       case USER_TYPE.PARTNER:
@@ -71,7 +75,9 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   ngOnInit() {}
 
   onClickingLoginButton() {
-    sessionStorage.setItem("postLoginNavigation", this._router.url);
+   let routerUrl = '/fc-home-page'
+    sessionStorage.setItem("postLoginNavigation", routerUrl);
+  //  this._router.navigate(["/fc-home-page"]);
     this._router.navigate(["/login"]);
   }
 
