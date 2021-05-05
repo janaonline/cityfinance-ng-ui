@@ -29,6 +29,7 @@ import { LinkPFMSComponent } from './link-pfms/link-pfms.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { AnnualAccountsComponent } from './annual-accounts/annual-accounts.component';
+import { UlbformPreviewComponent } from './ulbform-preview/ulbform-preview.component';
 
 
 
@@ -47,7 +48,8 @@ import { AnnualAccountsComponent } from './annual-accounts/annual-accounts.compo
      OverviewComponent,
      PreviewSlbComponentComponent,
      LinkPFMSComponent,
-     AnnualAccountsComponent
+     AnnualAccountsComponent,
+     UlbformPreviewComponent
     ],
   imports: [
     CommonModule,

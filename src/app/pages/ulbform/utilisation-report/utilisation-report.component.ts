@@ -36,6 +36,10 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class UtilisationReportComponent implements OnInit {
   modalRef: BsModalRef;
+
+  utilizationReport: FormGroup;
+  utilizationForm: FormGroup;
+  submitted = false;
   constructor(
     private fb: FormBuilder,
     public dialog: MatDialog,
@@ -47,15 +51,14 @@ export class UtilisationReportComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private modalService: BsModalService,
   ) {
+
     this.initializeUserType();
 
     // this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
+
   }
 
-  utilizationReport: FormGroup;
-  utilizationForm: FormGroup;
-  submitted = false;
   // tabularProject:any = [{
   //   id : 0
   // }];
@@ -81,6 +84,17 @@ export class UtilisationReportComponent implements OnInit {
       res.forEach((state) => (this.states[state._id] = state));
       this.initializeReport();
       this.getResponse();
+      switch (this.userLoggedInDetails.role) {
+         case USER_TYPE.ULB:
+         case USER_TYPE.STATE:
+         case USER_TYPE.PARTNER:
+         case USER_TYPE.MoHUA:
+         case USER_TYPE.ADMIN:
+           this.utilizationReport.disable();
+           this.utiReportFormControl.projects.disable();
+
+
+       }
     });
   }
   // errorShow(){
@@ -174,6 +188,7 @@ export class UtilisationReportComponent implements OnInit {
       designation: ["", [Validators.required, Validators.maxLength(50)]]
     });
     // this.utilizationReport.disable();
+
   }
 
   get utiReportFormControl() {
