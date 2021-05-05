@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonService } from 'src/app/shared/services/common.service';
-import {PreviewSlbComponentComponent} from '../preview-slb-component/preview-slb-component.component'
+
 
 @Component({
   selector: 'app-ulbform-preview',

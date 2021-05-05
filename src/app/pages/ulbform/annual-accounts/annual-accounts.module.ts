@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AnnualPreviewComponent } from './annual-preview/annual-preview.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [AnnualPreviewComponent],
   imports: [
     CommonModule
   ]

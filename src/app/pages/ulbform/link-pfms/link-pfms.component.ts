@@ -5,6 +5,8 @@ import { Router } from "@angular/router";
 import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { MatDialog } from "@angular/material/dialog";
+import { PfmsPreviewComponent } from './pfms-preview/pfms-preview.component';
 @Component({
   selector: 'app-link-pfms',
   templateUrl: './link-pfms.component.html',
@@ -12,7 +14,7 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 })
 export class LinkPFMSComponent extends BaseComponent implements OnInit {
   modalRef: BsModalRef;
-  constructor(private LinkPFMSAccount: LinkPFMSAccount,
+  constructor(private LinkPFMSAccount: LinkPFMSAccount,public dialog: MatDialog,
     private modalService: BsModalService,private _router: Router,private _profileService: ProfileService) {
       super();
       switch (this.loggedInUserType) {
@@ -131,6 +133,23 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   }
   alertClose(){
     this.modalRef.hide();
+  }
+  onPreview(){
+    let preData = {
+      'account' : this.account,
+      'linked' : this.linked
+    }
+    console.log('preData', preData)
+    const dialogRef = this.dialog.open(PfmsPreviewComponent,
+      {data: preData,
+     height: '95%', width: '85vw',
+     panelClass: 'no-padding-dialog' } );
+   // this.hidden = false;
+    dialogRef.afterClosed().subscribe(result => {
+    // console.log(`Dialog result: ${result}`);
+  //   this.hidden = true;
+
+   });
   }
 
 
