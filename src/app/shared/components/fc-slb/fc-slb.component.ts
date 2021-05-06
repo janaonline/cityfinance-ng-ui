@@ -169,11 +169,13 @@ export class FcSlbComponent implements OnInit, OnChanges {
   //   this.emitValues(this.form.getRawValue());
   // }
 
-  onBlur(control: AbstractControl) {
+  onBlur(control: AbstractControl, formValue = '', currentControlKey = '', increase = true) {
     this.setFocusTarget()
     if (!control) return;
     const newValue = this.jsonUtil.convert(control.value);
     control.patchValue(newValue);
+    if(formValue)
+    this.onKeyUp(control, formValue, currentControlKey)
     this.emitValues(this.form.getRawValue());
   }
 
@@ -367,6 +369,37 @@ export class FcSlbComponent implements OnInit, OnChanges {
          this.publishedFileName = '';
          this.publishedFileUrl= ''
        }
+  }
+
+  onKeyUp(textValue, formValue, currentControlKey, increase = true){
+    console.log("estblished", textValue, formValue)
+    let controlValue = formValue.value
+    if(this.checkIncreaseValidation(textValue.value, currentControlKey, controlValue, increase)){
+    textValue.errors = true
+    textValue.status = "INVALID"
+    }
+  }
+
+  checkIncreaseValidation(value, controlKey, controlValue, increse = true) {
+    let before = true;
+    let invalid = false;
+    for (let obj in controlValue) {
+
+      if (obj == controlKey) {
+        before = false
+      } else {
+        if (before) {
+          invalid = increse ? !(value > 0 && value < 101 && value > controlValue[obj]) : !(value > 0 && value < 101 && value < controlValue[obj])
+          console.log("if", value, controlValue[obj])
+        } else {
+          invalid = increse ? !(value > 0 && value < 101 && value < controlValue[obj]) : !(value > 0 && value < 101 && value > controlValue[obj])
+          console.log("else", value, controlValue[obj])
+        }
+      }
+
+    }
+    return invalid;
+
   }
 }
 

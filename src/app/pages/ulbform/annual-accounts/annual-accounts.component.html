@@ -34,1170 +34,1222 @@
                     <div id="checkboxes">
                         <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [checked]="(unauditResponse.submit_annual_accounts.answer == 'yes')?true:false" (change)="answer('q1',true)" />
                         <label class="btn qbtn" for="btnUnaudit">
+  <div class="col-sm-12" id="checkboxes">
+    <div class="col-sm-6 p-0 ">
+      <input type="radio" name="rGroup" value="1" id="r1" (change)="changeAudit('Unaudited')"
+        [checked]="(audit_status == 'Unaudited')?true:false" />
+      <label class="col-sm-6 square header1 text-center cursor-input" for="r1">
+        <span style="vertical-align: sub;">
+          <b>Provisional Accounts for
+            2020-21</b>
+        </span>
+      </label>
+                    </div>
+                    <div class="col-sm-6 p-0 ">
+                        <input type="radio" name="rGroup" value="2" id="r2" [checked]="(audit_status == 'Audited')?true:false" (change)="changeAudit('Audited')" />
+                        <label class="col-sm-6 square header1 text-center cursor-input" for="r2">
+        <span style="vertical-align: sub;">
+          <b>Audited Accounts for
+            2019-20</b>
+        </span>
+      </label>
+                    </div>
+                </div>
+
+                <div *ngIf="audit_status == 'Unaudited'">
+                    <div class="col-md-12 mat-card card-body">
+                        <div class="mat-card-content" style="margin-top: 2rem;">
+                            <div class="col-sm-12">
+                                <span><b>(A) Do you wish to submit Provisional Accounts for {{dateShow}} ?</b></span>
+                            </div>
+                            <div class="row center">
+                                <div id="checkboxes">
+                                    <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [checked]="(unauditResponse.submit_annual_accounts.answer == 'yes')?true:false" (change)="answer('q1',true)" />
+                                    <label class="btn qbtn" for="btnUnaudit">
               Yes
             </label>
-                        <input type="radio" name="btnYesNoUnaudit" value="2" id="btnUnaudit2" [checked]="(unauditResponse.submit_annual_accounts.answer == 'no')?true:false" (change)="answer('q1',false)" />
-                        <label class="btn qbtn" style="margin-left: 7pc;" for="btnUnaudit2">
+                                    <input type="radio" name="btnYesNoUnaudit" value="2" id="btnUnaudit2" [checked]="(unauditResponse.submit_annual_accounts.answer == 'no')?true:false" (change)="answer('q1',false)" />
+                                    <label class="btn qbtn" style="margin-left: 7pc;" for="btnUnaudit2">
               No
             </label>
-                    </div>
-                    <span class="text-danger" *ngIf="answerError.Unaudited.submit_standardized_data">Select Yes or No</span>
-                </div>
-                <div *ngIf="quesOneAnswer" class="row center">
-                    <div class="col-md-12">
-                        <span class="col-md-6"><b>Balance Sheet.</b></span>
-                        <button (click)="bs_pdf.click()" class="col-md-2 btn btn2">Upload PDF
+                                </div>
+                                <span class="text-danger" *ngIf="answerError.Unaudited.submit_standardized_data">Select Yes or No</span>
+                            </div>
+                            <div *ngIf="quesOneAnswer" class="row center">
+                                <div class="col-md-12">
+                                    <span class="col-md-6"><b>Balance Sheet.</b></span>
+                                    <button (click)="bs_pdf.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-                        <input #bs_pdf style="display: none;" onclick="this.value=null;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.bal_sheet.progress','unauditResponse.provisional_data.bal_sheet.pdfName',true)" type="file"
-                            accept=".pdf" #file>
-                        <button (click)="bs_excel.click()" class="col-md-2 btn btn2">Upload EXCEL
+                                    <input #bs_pdf style="display: none;" onclick="this.value=null;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.bal_sheet.progress','unauditResponse.provisional_data.bal_sheet.pdfName',true)" type="file"
+                                        accept=".pdf" #file>
+                                    <button (click)="bs_excel.click()" class="col-md-2 btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-                        <input #bs_excel style="display: none;" onclick="this.value=null;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.bal_sheet.progressExcel','unauditResponse.provisional_data.bal_sheet.excelName')" type="file"
-                            accept=".xls, .xlsx" #file>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.bal_sheet.pdfName">
+                                    <input #bs_excel style="display: none;" onclick="this.value=null;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.bal_sheet.progressExcel','unauditResponse.provisional_data.bal_sheet.excelName')" type="file"
+                                        accept=".xls, .xlsx" #file>
+                                </div>
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.bal_sheet.pdfName">
                     {{unauditResponse.provisional_data.bal_sheet.pdfName}}</label>
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                                <div class="progress-bar" *ngIf="unauditResponse.provisional_data.bal_sheet.progress" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.bal_sheet.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.bal_sheet.progress + '%' }">
+                                                    {{ unauditResponse.provisional_data.bal_sheet.progress }}%
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                                <ng-container *ngIf="unauditResponse.provisional_data.bal_sheet.pdfUrl">
+                                                    <a href="{{ unauditResponse.provisional_data.bal_sheet.pdfUrl }}" target="_blank">
+                                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                                    </a>
+                                                    <a (click)="clearFile('unauditResponse.provisional_data.bal_sheet',true)" style="margin-left: 3px;">
+                                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                    </a>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="unauditResponse.provisional_data.bal_sheet.progress" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.bal_sheet.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.bal_sheet.progress + '%' }">
-                                        {{ unauditResponse.provisional_data.bal_sheet.progress }}%
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.bal_sheet.pdfError">
+                    {{pdfError}}</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.bal_sheet.pdfUrl">
-                                        <a href="{{ unauditResponse.provisional_data.bal_sheet.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.bal_sheet',true)" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.bal_sheet.pdfError">
-                    {{pdfError}}</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.bal_sheet.excelName">
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.bal_sheet.excelName">
                     {{unauditResponse.provisional_data.bal_sheet.excelName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="unauditResponse.provisional_data.bal_sheet.progressExcel" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.bal_sheet.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.bal_sheet.progressExcel + '%' }">
-                                        {{ unauditResponse.provisional_data.bal_sheet.progressExcel }}%
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                                <div class="progress-bar" *ngIf="unauditResponse.provisional_data.bal_sheet.progressExcel" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.bal_sheet.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.bal_sheet.progressExcel + '%' }">
+                                                    {{ unauditResponse.provisional_data.bal_sheet.progressExcel }}%
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                                <ng-container *ngIf="unauditResponse.provisional_data.bal_sheet.excelUrl">
+                                                    <a href="{{ unauditResponse.provisional_data.bal_sheet.excelUrl }}" target="_blank">
+                                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                                    </a>
+                                                    <a (click)="clearFile('unauditResponse.provisional_data.bal_sheet')" style="margin-left: 3px;">
+                                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                    </a>
+                                                </ng-container>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.bal_sheet.excelUrl">
-                                        <a href="{{ unauditResponse.provisional_data.bal_sheet.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.bal_sheet')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <span class="col-md-6"><b>Balance Sheet Schedule</b></span>
-                        <button (click)="bss_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
+                                <div class="col-md-12">
+                                    <span class="col-md-6"><b>Balance Sheet Schedule</b></span>
+                                    <button (click)="bss_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-                        <input #bss_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.bal_sheet_schedules.progress','unauditResponse.provisional_data.bal_sheet_schedules.pdfName',true)" type="file" accept=".pdf"
-                            #file>
+                                    <input #bss_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.bal_sheet_schedules.progress','unauditResponse.provisional_data.bal_sheet_schedules.pdfName',true)" type="file" accept=".pdf"
+                                        #file>
 
-                        <button (click)="bss_excel1.click()" class="col-md-2 btn btn2">Upload EXCEL
+                                    <button (click)="bss_excel1.click()" class="col-md-2 btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-                        <input #bss_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.bal_sheet_schedules.progressExcel','unauditResponse.provisional_data.bal_sheet_schedules.excelName')" type="file" accept=".xls, .xlsx"
-                            #file>
+                                    <input #bss_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.bal_sheet_schedules.progressExcel','unauditResponse.provisional_data.bal_sheet_schedules.excelName')" type="file" accept=".xls, .xlsx"
+                                        #file>
 
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.pdfName">
+                                </div>
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.pdfName">
                     {{unauditResponse.provisional_data.bal_sheet_schedules.pdfName}}</label>
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                                <div class="progress-bar" *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.progress" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.bal_sheet_schedules.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.bal_sheet_schedules.progress + '%' }">
+                                                    {{ unauditResponse.provisional_data.bal_sheet_schedules.progress }}%
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                                <ng-container *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.pdfUrl">
+                                                    <a href="{{ unauditResponse.provisional_data.bal_sheet_schedules.pdfUrl }}" target="_blank">
+                                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                                    </a>
+                                                    <a (click)="clearFile('unauditResponse.provisional_data.bal_sheet_schedules',true)" style="margin-left: 3px;">
+                                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                    </a>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.progress" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.bal_sheet_schedules.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.bal_sheet_schedules.progress + '%' }">
-                                        {{ unauditResponse.provisional_data.bal_sheet_schedules.progress }}%
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.pdfError">
+                    {{pdfError}}</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.pdfUrl">
-                                        <a href="{{ unauditResponse.provisional_data.bal_sheet_schedules.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.bal_sheet_schedules',true)" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.pdfError">
-                    {{pdfError}}</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.excelName">
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.excelName">
                     {{unauditResponse.provisional_data.bal_sheet_schedules.excelName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.progressExcel" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.bal_sheet_schedules.progressExcel }}" aria-valuemin="0" aria-valuemax="100"
-                                        [ngStyle]="{ width: unauditResponse.provisional_data.bal_sheet_schedules.progressExcel + '%' }">
-                                        {{ unauditResponse.provisional_data.bal_sheet_schedules.progressExcel }}%
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                                <div class="progress-bar" *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.progressExcel" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.bal_sheet_schedules.progressExcel }}" aria-valuemin="0" aria-valuemax="100"
+                                                    [ngStyle]="{ width: unauditResponse.provisional_data.bal_sheet_schedules.progressExcel + '%' }">
+                                                    {{ unauditResponse.provisional_data.bal_sheet_schedules.progressExcel }}%
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                                <ng-container *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.excelUrl">
+                                                    <a href="{{ unauditResponse.provisional_data.bal_sheet_schedules.excelUrl }}" target="_blank">
+                                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                                    </a>
+                                                    <a (click)="clearFile('unauditResponse.provisional_data.bal_sheet_schedules')" style="margin-left: 3px;">
+                                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                    </a>
+                                                </ng-container>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.excelUrl">
-                                        <a href="{{ unauditResponse.provisional_data.bal_sheet_schedules.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.bal_sheet_schedules')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <span class="col-md-6"><b>Income Expenditure</b></span>
-                        <button (click)="ie_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
+                                <div class="col-md-12">
+                                    <span class="col-md-6"><b>Income Expenditure</b></span>
+                                    <button (click)="ie_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-                        <input #ie_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.inc_exp.progress','unauditResponse.provisional_data.inc_exp.pdfName',true)" type="file" accept=".pdf" #file>
+                                    <input #ie_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.inc_exp.progress','unauditResponse.provisional_data.inc_exp.pdfName',true)" type="file" accept=".pdf" #file>
 
-                        <button (click)="ie_excel1.click()" class="col-md-2 btn btn2">Upload EXCEL
+                                    <button (click)="ie_excel1.click()" class="col-md-2 btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-                        <input #ie_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.inc_exp.progressExcel','unauditResponse.provisional_data.inc_exp.excelName')" type="file" accept=".xls, .xlsx" #file>
+                                    <input #ie_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.inc_exp.progressExcel','unauditResponse.provisional_data.inc_exp.excelName')" type="file" accept=".xls, .xlsx" #file>
 
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.inc_exp.pdfName">
+                                </div>
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.inc_exp.pdfName">
                     {{unauditResponse.provisional_data.inc_exp.pdfName}}</label>
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                                <div class="progress-bar" *ngIf="unauditResponse.provisional_data.inc_exp.progress" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.inc_exp.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.inc_exp.progress + '%' }">
+                                                    {{ unauditResponse.provisional_data.inc_exp.progress }}%
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                                <ng-container *ngIf="unauditResponse.provisional_data.inc_exp.pdfUrl">
+                                                    <a href="{{ unauditResponse.provisional_data.inc_exp.pdfUrl }}" target="_blank">
+                                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                                    </a>
+                                                    <a (click)="clearFile('unauditResponse.provisional_data.inc_exp',true)" style="margin-left: 3px;">
+                                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                    </a>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="unauditResponse.provisional_data.inc_exp.progress" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.inc_exp.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.inc_exp.progress + '%' }">
-                                        {{ unauditResponse.provisional_data.inc_exp.progress }}%
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.inc_exp.pdfError">
+                    {{pdfError}}</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.inc_exp.pdfUrl">
-                                        <a href="{{ unauditResponse.provisional_data.inc_exp.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.inc_exp',true)" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.inc_exp.pdfError">
-                    {{pdfError}}</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.inc_exp.excelName">
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.inc_exp.excelName">
                     {{unauditResponse.provisional_data.inc_exp.excelName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="unauditResponse.provisional_data.inc_exp.progressExcel" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.inc_exp.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.inc_exp.progressExcel + '%' }">
-                                        {{ unauditResponse.provisional_data.inc_exp.progressExcel }}%
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                                <div class="progress-bar" *ngIf="unauditResponse.provisional_data.inc_exp.progressExcel" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.inc_exp.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.inc_exp.progressExcel + '%' }">
+                                                    {{ unauditResponse.provisional_data.inc_exp.progressExcel }}%
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                                <ng-container *ngIf="unauditResponse.provisional_data.inc_exp.excelUrl">
+                                                    <a href="{{ unauditResponse.provisional_data.inc_exp.excelUrl }}" target="_blank">
+                                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                                    </a>
+                                                    <a (click)="clearFile('unauditResponse.provisional_data.inc_exp')" style="margin-left: 3px;">
+                                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                    </a>
+                                                </ng-container>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.inc_exp.excelUrl">
-                                        <a href="{{ unauditResponse.provisional_data.inc_exp.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.inc_exp')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <span class="col-md-6"><b>Income Expenditure Schedule</b></span>
-                        <button (click)="ies_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
+                                <div class="col-md-12">
+                                    <span class="col-md-6"><b>Income Expenditure Schedule</b></span>
+                                    <button (click)="ies_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-                        <input #ies_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.inc_exp_schedules.progress','unauditResponse.provisional_data.inc_exp_schedules.pdfName',true)" type="file" accept=".pdf"
-                            #file>
+                                    <input #ies_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.inc_exp_schedules.progress','unauditResponse.provisional_data.inc_exp_schedules.pdfName',true)" type="file" accept=".pdf"
+                                        #file>
 
-                        <button (click)="ies_excel1.click()" class="col-md-2 btn btn2">Upload EXCEL
+                                    <button (click)="ies_excel1.click()" class="col-md-2 btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-                        <input #ies_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.inc_exp_schedules.progressExcel','unauditResponse.provisional_data.inc_exp_schedules.excelName')" type="file" accept=".xls, .xlsx"
-                            #file>
+                                    <input #ies_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.inc_exp_schedules.progressExcel','unauditResponse.provisional_data.inc_exp_schedules.excelName')" type="file" accept=".xls, .xlsx"
+                                        #file>
 
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.inc_exp_schedules.pdfName">
+                                </div>
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.inc_exp_schedules.pdfName">
                     {{unauditResponse.provisional_data.inc_exp_schedules.pdfName}}</label>
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                                <div class="progress-bar" *ngIf="unauditResponse.provisional_data.inc_exp_schedules.progress" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.inc_exp_schedules.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.inc_exp_schedules.progress + '%' }">
+                                                    {{ unauditResponse.provisional_data.inc_exp_schedules.progress }}%
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                                <ng-container *ngIf="unauditResponse.provisional_data.inc_exp_schedules.pdfUrl">
+                                                    <a href="{{ unauditResponse.provisional_data.inc_exp_schedules.pdfUrl }}" target="_blank">
+                                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                                    </a>
+                                                    <a (click)="clearFile('unauditResponse.provisional_data.inc_exp_schedules',true)" style="margin-left: 3px;">
+                                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                    </a>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="unauditResponse.provisional_data.inc_exp_schedules.progress" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.inc_exp_schedules.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.inc_exp_schedules.progress + '%' }">
-                                        {{ unauditResponse.provisional_data.inc_exp_schedules.progress }}%
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.inc_exp_schedules.pdfError">
+                    {{pdfError}}</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.inc_exp_schedules.pdfUrl">
-                                        <a href="{{ unauditResponse.provisional_data.inc_exp_schedules.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.inc_exp_schedules',true)" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.inc_exp_schedules.pdfError">
-                    {{pdfError}}</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.inc_exp_schedules.excelName">
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.inc_exp_schedules.excelName">
                     {{unauditResponse.provisional_data.inc_exp_schedules.excelName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="unauditResponse.provisional_data.inc_exp_schedules.progressExcel" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.inc_exp_schedules.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.inc_exp_schedules.progressExcel + '%' }">
-                                        {{ unauditResponse.provisional_data.inc_exp_schedules.progressExcel }}%
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                                <div class="progress-bar" *ngIf="unauditResponse.provisional_data.inc_exp_schedules.progressExcel" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.inc_exp_schedules.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.inc_exp_schedules.progressExcel + '%' }">
+                                                    {{ unauditResponse.provisional_data.inc_exp_schedules.progressExcel }}%
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                                <ng-container *ngIf="unauditResponse.provisional_data.inc_exp_schedules.excelUrl">
+                                                    <a href="{{ unauditResponse.provisional_data.inc_exp_schedules.excelUrl }}" target="_blank">
+                                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                                    </a>
+                                                    <a (click)="clearFile('unauditResponse.provisional_data.inc_exp_schedules')" style="margin-left: 3px;">
+                                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                    </a>
+                                                </ng-container>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.inc_exp_schedules.excelUrl">
-                                        <a href="{{ unauditResponse.provisional_data.inc_exp_schedules.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.inc_exp_schedules')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <span class="col-md-6"><b>Cash flow Statement</b></span>
-                        <button (click)="cfs_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
+                                <div class="col-md-12">
+                                    <span class="col-md-6"><b>Cash flow Statement</b></span>
+                                    <button (click)="cfs_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-                        <input #cfs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.cash_flow.progress','unauditResponse.provisional_data.cash_flow.pdfName',true)" type="file" accept=".pdf" #file>
+                                    <input #cfs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.cash_flow.progress','unauditResponse.provisional_data.cash_flow.pdfName',true)" type="file" accept=".pdf" #file>
 
-                        <button (click)="cfs_excel1.click()" class="col-md-2 btn btn2">Upload EXCEL
+                                    <button (click)="cfs_excel1.click()" class="col-md-2 btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-                        <input #cfs_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.cash_flow.progressExcel','unauditResponse.provisional_data.cash_flow.excelName')" type="file" accept=".xls, .xlsx"
-                            #file>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.cash_flow.pdfName">
+                                    <input #cfs_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.provisional_data.cash_flow.progressExcel','unauditResponse.provisional_data.cash_flow.excelName')" type="file" accept=".xls, .xlsx"
+                                        #file>
+                                </div>
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.cash_flow.pdfName">
                     {{unauditResponse.provisional_data.cash_flow.pdfName}}</label>
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                                <div class="progress-bar" *ngIf="unauditResponse.provisional_data.cash_flow.progress" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.cash_flow.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.cash_flow.progress + '%' }">
+                                                    {{ unauditResponse.provisional_data.cash_flow.progress }}%
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                                <ng-container *ngIf="unauditResponse.provisional_data.cash_flow.pdfUrl">
+                                                    <a href="{{ unauditResponse.provisional_data.cash_flow.pdfUrl }}" target="_blank">
+                                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                                    </a>
+                                                    <a (click)="clearFile('unauditResponse.provisional_data.cash_flow',true)" style="margin-left: 3px;">
+                                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                    </a>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="unauditResponse.provisional_data.cash_flow.progress" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.cash_flow.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.cash_flow.progress + '%' }">
-                                        {{ unauditResponse.provisional_data.cash_flow.progress }}%
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.cash_flow.pdfError">
+                    {{pdfError}}</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.cash_flow.pdfUrl">
-                                        <a href="{{ unauditResponse.provisional_data.cash_flow.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.cash_flow',true)" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.cash_flow.pdfError">
-                    {{pdfError}}</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.cash_flow.excelName">
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.provisional_data.cash_flow.excelName">
                     {{unauditResponse.provisional_data.cash_flow.excelName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="unauditResponse.provisional_data.cash_flow.progressExcel" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.cash_flow.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.cash_flow.progressExcel + '%' }">
-                                        {{ unauditResponse.provisional_data.cash_flow.progressExcel }}%
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                                <div class="progress-bar" *ngIf="unauditResponse.provisional_data.cash_flow.progressExcel" role="progressbar" attr.aria-valuenow="{{ unauditResponse.provisional_data.cash_flow.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.provisional_data.cash_flow.progressExcel + '%' }">
+                                                    {{ unauditResponse.provisional_data.cash_flow.progressExcel }}%
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                                <ng-container *ngIf="unauditResponse.provisional_data.cash_flow.excelUrl">
+                                                    <a href="{{ unauditResponse.provisional_data.cash_flow.excelUrl }}" target="_blank">
+                                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                                    </a>
+                                                    <a (click)="clearFile('unauditResponse.provisional_data.cash_flow')" style="margin-left: 3px;">
+                                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                    </a>
+                                                </ng-container>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.cash_flow.excelUrl">
-                                        <a href="{{ unauditResponse.provisional_data.cash_flow.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.cash_flow')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col-md-12 mat-card card-body">
-            <div class="mat-card-content" style="margin-top: 2rem;">
-                <span><b>(B) Do you wish to submit financials in standardized format for {{dateShow}} ?</b></span>
-                <div class="row center">
-                    <div id="checkboxes2">
-                        <input type="radio" name="btnYesNoUnaudit2" value="1" id="btnUnauditB" [checked]="(unauditResponse.submit_standardized_data.answer == 'yes')?true:false" (change)="answer('q2',true)" />
-                        <label class="btn qbtn" for="btnUnauditB">
+                    <div class="col-md-12 mat-card card-body">
+                        <div class="mat-card-content" style="margin-top: 2rem;">
+                            <span><b>(B) Do you wish to submit financials in standardized format for {{dateShow}} ?</b></span>
+                            <div class="row center">
+                                <div id="checkboxes2">
+                                    <input type="radio" name="btnYesNoUnaudit2" value="1" id="btnUnauditB" [checked]="(unauditResponse.submit_standardized_data.answer == 'yes')?true:false" (change)="answer('q2',true)" />
+                                    <label class="btn qbtn" for="btnUnauditB">
               Yes
             </label>
-                        <input type="radio" name="btnYesNoUnaudit2" value="2" [checked]="(unauditResponse.submit_standardized_data.answer == 'no')?true:false" (change)="answer('q2',false)" id="btnUnauditB2" />
-                        <label class="btn qbtn" style="margin-left: 7pc;" for="btnUnauditB2">
+                                    <input type="radio" name="btnYesNoUnaudit2" value="2" [checked]="(unauditResponse.submit_standardized_data.answer == 'no')?true:false" (change)="answer('q2',false)" id="btnUnauditB2" />
+                                    <label class="btn qbtn" style="margin-left: 7pc;" for="btnUnauditB2">
               No
             </label>
-                    </div>
-                    <span class="text-danger" *ngIf="answerError.Unaudited.submit_standardized_data">Select Yes or No</span>
-                </div>
-                <div *ngIf="quesTwoAnswer">
-                    <div class="row">
-                        <button class="allBtn btn btn2">
+                                </div>
+                                <span class="text-danger" *ngIf="answerError.Unaudited.submit_standardized_data">Select Yes or No</span>
+                            </div>
+                            <div *ngIf="quesTwoAnswer">
+                                <div class="row">
+                                    <button class="allBtn btn btn2">
               Download Template
             </button>
-                    </div>
+                                </div>
 
-                    <div class="row">
-                        <button (click)="ques21.click()" class="allBtn btn btn2">Upload EXCEL
+                                <div class="row">
+                                    <button (click)="ques21.click()" class="allBtn btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-                        <input #ques21 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.standardized_data.upload.progressExcel','unauditResponse.standardized_data.upload.excelName',false,true)" type="file" accept=".xls, .xlsx"
-                            #file>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-8 col-md-8 col-sm-8" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-6 col-lg-6 col-md-6">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.standardized_data.upload.excelError">
+                                    <input #ques21 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.standardized_data.upload.progressExcel','unauditResponse.standardized_data.upload.excelName',false,true)" type="file" accept=".xls, .xlsx"
+                                        #file>
+                                </div>
+                                <div class="row allupload">
+                                    <div class="col-lg-8 col-md-8 col-sm-8" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.standardized_data.upload.excelError">
                     {{unauditResponse.standardized_data.upload.excelError}}</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.standardized_data.upload.excelName">
-                    {{unauditResponse.standardized_data.upload.excelName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="unauditResponse.standardized_data.upload.progressExcel" role="progressbar" attr.aria-valuenow="{{ unauditResponse.standardized_data.upload.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.standardized_data.upload.progressExcel + '%' }">
-                                        {{ unauditResponse.standardized_data.upload.progressExcel }}%
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.standardized_data.upload.excelName">
+                    {{unauditResponse.standardized_data.upload.excelName}}</label>
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                                <div class="progress-bar" *ngIf="unauditResponse.standardized_data.upload.progressExcel" role="progressbar" attr.aria-valuenow="{{ unauditResponse.standardized_data.upload.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.standardized_data.upload.progressExcel + '%' }">
+                                                    {{ unauditResponse.standardized_data.upload.progressExcel }}%
+                                                </div>
+                                            </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="unauditResponse.standardized_data.upload.excelUrl">
-                                        <a href="{{ unauditResponse.standardized_data.upload.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                            <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                                <ng-container *ngIf="unauditResponse.standardized_data.upload.excelUrl">
+                                                    <a href="{{ unauditResponse.standardized_data.upload.excelUrl }}" target="_blank">
+                                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a (click)="clearFile('unauditResponse.standardized_data.upload')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
+                                                    </a>
+                                                    <a (click)="clearFile('unauditResponse.standardized_data.upload')" style="margin-left: 3px;">
+                                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                    </a>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <span class="col-md-12"><b>(i) Auditors’ Certificate on Financial Statements ?</b></span>
-                        <br>
-                        <button (click)="ques22.click()" class="allBtn btn btn2">
+                                <div class="row">
+                                    <span class="col-md-12"><b>(i) Auditors’ Certificate on Financial Statements ?</b></span>
+                                    <br>
+                                    <button (click)="ques22.click()" class="allBtn btn btn2">
               Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-                        <input #ques22 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.standardized_data.auditor_certificate.progress','unauditResponse.standardized_data.auditor_certificate.name',true)" type="file" accept=".pdf"
-                            #file>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.standardized_data.auditor_certificate.name">
+                                    <input #ques22 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unauditResponse.standardized_data.auditor_certificate.progress','unauditResponse.standardized_data.auditor_certificate.name',true)" type="file" accept=".pdf"
+                                        #file>
+                                </div>
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.standardized_data.auditor_certificate.name">
                     {{unauditResponse.standardized_data.auditor_certificate.name}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="unauditResponse.standardized_data.auditor_certificate.progress" role="progressbar" attr.aria-valuenow="{{ unauditResponse.standardized_data.auditor_certificate.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.standardized_data.auditor_certificate.progress + '%' }">
-                                        {{ unauditResponse.standardized_data.auditor_certificate.progress }}%
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                                <div class="progress-bar" *ngIf="unauditResponse.standardized_data.auditor_certificate.progress" role="progressbar" attr.aria-valuenow="{{ unauditResponse.standardized_data.auditor_certificate.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: unauditResponse.standardized_data.auditor_certificate.progress + '%' }">
+                                                    {{ unauditResponse.standardized_data.auditor_certificate.progress }}%
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                                <ng-container *ngIf="unauditResponse.standardized_data.auditor_certificate.pdfUrl">
+                                                    <a href="{{ unauditResponse.standardized_data.auditor_certificate.pdfUrl }}" target="_blank">
+                                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                    </a>
+                                                    <a (click)="clearFile('unauditResponse.standardized_data.auditor_certificate',true)" style="margin-left: 3px;">
+                                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                    </a>
+                                                </ng-container>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="unauditResponse.standardized_data.auditor_certificate.pdfUrl">
-                                        <a href="{{ unauditResponse.standardized_data.auditor_certificate.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-                                        </a>
-                                        <a (click)="clearFile('unauditResponse.standardized_data.auditor_certificate',true)" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.standardized_data.auditor_certificate.pdfError">
+                                <div class="row allupload">
+                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                                <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="unauditResponse.standardized_data.auditor_certificate.pdfError">
                     {{pdfError}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <span class="col-md-12"><b>(ii) Auditors’ Registration Number ?</b></span>
+                                    <br>
+                                    <input class="allBtn btn btninput" (input)="unauditResponse.standardized_data.auditor_registration = $event.target.value" placeholder="Enter value" />
+                                </div>
+                                <div class="row allupload">
+                                    <span *ngIf="unauditResponse.standardized_data.auditor_registration_error" class="text-danger">{{unauditResponse.standardized_data.auditor_registration_error}}</span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+                                    <button type="button" class="btn2 btn footerBtn" (click)="save()">Submit</button>
                                 </div>
                             </div>
+                            <<<<<<< HEAD </div>
+                                =======
                         </div>
-                    </div>
-                    <div class="row">
-                        <span class="col-md-12"><b>(ii) Auditors’ Registration Number ?</b></span>
-                        <br>
-                        <input class="allBtn btn btninput" (input)="unauditResponse.standardized_data.auditor_registration = $event.target.value" placeholder="Enter value" />
-                    </div>
-                    <div class="row allupload">
-                        <span *ngIf="unauditResponse.standardized_data.auditor_registration_error" class="text-danger">{{unauditResponse.standardized_data.auditor_registration_error}}</span>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-                        <button type="button" class="btn2 btn footerBtn" (click)="save()">Submit</button>
                     </div>
                 </div>
+                <div class="row">
+                    <span class="col-md-12"><b>(ii) Auditors’ Registration Number ?</b></span>
+                    <br>
+                    <input class="allBtn btn btninput" (input)="unauditResponse.standardized_data.auditor_registration = $event.target.value" placeholder="Enter value" />
+                </div>
+                <div class="row allupload">
+                    <span *ngIf="unauditResponse.standardized_data.auditor_registration_error" class="text-danger">{{unauditResponse.standardized_data.auditor_registration_error}}</span>
+                </div>
+                >>>>>>> 5368f2c4de9743f894aa709289930eb2068aaac7
             </div>
         </div>
-    </div>
 
-    <div *ngIf="audit_status == 'Audited'">
-        <div class="col-md-12 mat-card card-body">
-            <div class="mat-card-content" style="margin-top: 2rem;">
-                <span><b>(A) Do you wish to submit Provisional Accounts for {{dateShow}} ?</b></span>
-                <div class="row center">
-                    <div id="checkboxes2">
-                        <input type="radio" name="btnYesNoAudit" value="1" id="btnAudit" [checked]="(auditResponse.submit_annual_accounts.answer == 'yes')?true:false" (change)="answer('q1',true,true)" />
-                        <label class="btn qbtn" for="btnAudit">
+        <div *ngIf="audit_status == 'Audited'">
+            <div class="col-md-12 mat-card card-body">
+                <div class="mat-card-content" style="margin-top: 2rem;">
+                    <span><b>(A) Do you wish to submit Provisional Accounts for {{dateShow}} ?</b></span>
+                    <div class="row center">
+                        <div id="checkboxes2">
+                            <input type="radio" name="btnYesNoAudit" value="1" id="btnAudit" [checked]="(auditResponse.submit_annual_accounts.answer == 'yes')?true:false" (change)="answer('q1',true,true)" />
+                            <label class="btn qbtn" for="btnAudit">
               Yes
             </label>
-                        <input type="radio" name="btnYesNoAudit" value="2" id="btnAudit2" [checked]="(auditResponse.submit_annual_accounts.answer == 'no')?true:false" (change)="answer('q1',false,true)" />
-                        <label class="btn qbtn" style="margin-left: 7pc;" for="btnAudit2">
+                            <input type="radio" name="btnYesNoAudit" value="2" id="btnAudit2" [checked]="(auditResponse.submit_annual_accounts.answer == 'no')?true:false" (change)="answer('q1',false,true)" />
+                            <label class="btn qbtn" style="margin-left: 7pc;" for="btnAudit2">
               No
             </label>
+                        </div>
+                        <span class="text-danger" *ngIf="answerError.Audited.submit_annual_accounts">Select Yes or No</span>
                     </div>
-                    <span class="text-danger" *ngIf="answerError.Audited.submit_annual_accounts">Select Yes or No</span>
-                </div>
-                <div *ngIf="quesOneAnswer1" class="row center">
-                    <div class="col-md-12">
-                        <span class="col-md-6"><b>Balance Sheet.</b></span>
-                        <button (click)="bs_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
+                    <div *ngIf="quesOneAnswer1" class="row center">
+                        <div class="col-md-12">
+                            <span class="col-md-6"><b>Balance Sheet.</b></span>
+                            <button (click)="bs_pdf1.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-                        <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.bal_sheet.progress','auditResponse.provisional_data.bal_sheet.pdfName',true)" type="file" accept=".pdf" #file>
-                        <button (click)="bs_excel1.click()" class="col-md-2 btn btn2">Upload EXCEL
+                            <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.bal_sheet.progress','auditResponse.provisional_data.bal_sheet.pdfName',true)" type="file" accept=".pdf" #file>
+                            <button (click)="bs_excel1.click()" class="col-md-2 btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-                        <input #bs_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.bal_sheet.progressExcel','auditResponse.provisional_data.bal_sheet.excelName')" type="file" accept=".xls, .xlsx" #file>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.bal_sheet.pdfName">
+                            <input #bs_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.bal_sheet.progressExcel','auditResponse.provisional_data.bal_sheet.excelName')" type="file" accept=".xls, .xlsx" #file>
+                        </div>
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.bal_sheet.pdfName">
                     {{auditResponse.provisional_data.bal_sheet.pdfName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.bal_sheet.progress" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.bal_sheet.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.bal_sheet.progress + '%' }">
-                                        {{ auditResponse.provisional_data.bal_sheet.progress }}%
+                                    </div>
+                                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" *ngIf="auditResponse.provisional_data.bal_sheet.progress" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.bal_sheet.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.bal_sheet.progress + '%' }">
+                                            {{ auditResponse.provisional_data.bal_sheet.progress }}%
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                        <ng-container *ngIf="auditResponse.provisional_data.bal_sheet.pdfUrl">
+                                            <a href="{{ auditResponse.provisional_data.bal_sheet.pdfUrl }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                            </a>
+                                            <a (click)="clearFile('auditResponse.provisional_data.bal_sheet',true)" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </ng-container>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.bal_sheet.pdfUrl">
-                                        <a href="{{ auditResponse.provisional_data.bal_sheet.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.bal_sheet',true)" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.bal_sheet.pdfError">
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.bal_sheet.pdfError">
                     {{pdfError}}</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.bal_sheet.excelName">
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.bal_sheet.excelName">
                     {{auditResponse.provisional_data.bal_sheet.excelName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.bal_sheet.progressExcel" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.bal_sheet.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.bal_sheet.progressExcel + '%' }">
-                                        {{ auditResponse.provisional_data.bal_sheet.progressExcel }}%
                                     </div>
-                                </div>
+                                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" *ngIf="auditResponse.provisional_data.bal_sheet.progressExcel" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.bal_sheet.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.bal_sheet.progressExcel + '%' }">
+                                            {{ auditResponse.provisional_data.bal_sheet.progressExcel }}%
+                                        </div>
+                                    </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.bal_sheet.excelUrl">
-                                        <a href="{{ auditResponse.provisional_data.bal_sheet.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                        <ng-container *ngIf="auditResponse.provisional_data.bal_sheet.excelUrl">
+                                            <a href="{{ auditResponse.provisional_data.bal_sheet.excelUrl }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.bal_sheet')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
+                                            </a>
+                                            <a (click)="clearFile('auditResponse.provisional_data.bal_sheet')" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <span class="col-md-6"><b>Balance Sheet Schedule</b></span>
-                        <button (click)="bss_pdf.click()" class="col-md-2 btn btn2">Upload PDF
+                        <div class="col-md-12">
+                            <span class="col-md-6"><b>Balance Sheet Schedule</b></span>
+                            <button (click)="bss_pdf.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-                        <input #bss_pdf style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.bal_sheet_schedules.progress','auditResponse.provisional_data.bal_sheet_schedules.pdfName',true)" type="file" accept=".pdf"
-                            #file>
+                            <input #bss_pdf style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.bal_sheet_schedules.progress','auditResponse.provisional_data.bal_sheet_schedules.pdfName',true)" type="file" accept=".pdf"
+                                #file>
 
-                        <button (click)="bss_excel.click()" class="col-md-2 btn btn2">Upload EXCEL
+                            <button (click)="bss_excel.click()" class="col-md-2 btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-                        <input #bss_excel style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.bal_sheet_schedules.progressExcel','auditResponse.provisional_data.bal_sheet_schedules.excelName')" type="file" accept=".xls, .xlsx"
-                            #file>
+                            <input #bss_excel style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.bal_sheet_schedules.progressExcel','auditResponse.provisional_data.bal_sheet_schedules.excelName')" type="file" accept=".xls, .xlsx"
+                                #file>
 
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.bal_sheet_schedules.pdfName">
+                        </div>
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.bal_sheet_schedules.pdfName">
                     {{auditResponse.provisional_data.bal_sheet_schedules.pdfName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.bal_sheet_schedules.progress" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.bal_sheet_schedules.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.bal_sheet_schedules.progress + '%' }">
-                                        {{ auditResponse.provisional_data.bal_sheet_schedules.progress }}%
+                                    </div>
+                                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" *ngIf="auditResponse.provisional_data.bal_sheet_schedules.progress" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.bal_sheet_schedules.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.bal_sheet_schedules.progress + '%' }">
+                                            {{ auditResponse.provisional_data.bal_sheet_schedules.progress }}%
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                        <ng-container *ngIf="auditResponse.provisional_data.bal_sheet_schedules.pdfUrl">
+                                            <a href="{{ auditResponse.provisional_data.bal_sheet_schedules.pdfUrl }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                            </a>
+                                            <a (click)="clearFile('auditResponse.provisional_data.bal_sheet_schedules',true)" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </ng-container>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.bal_sheet_schedules.pdfUrl">
-                                        <a href="{{ auditResponse.provisional_data.bal_sheet_schedules.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.bal_sheet_schedules',true)" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.bal_sheet_schedules.pdfError">
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.bal_sheet_schedules.pdfError">
                     {{pdfError}}</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.bal_sheet_schedules.excelName">
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.bal_sheet_schedules.excelName">
                     {{auditResponse.provisional_data.bal_sheet_schedules.excelName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.bal_sheet_schedules.progressExcel" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.bal_sheet_schedules.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.bal_sheet_schedules.progressExcel + '%' }">
-                                        {{ auditResponse.provisional_data.bal_sheet_schedules.progressExcel }}%
                                     </div>
-                                </div>
+                                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" *ngIf="auditResponse.provisional_data.bal_sheet_schedules.progressExcel" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.bal_sheet_schedules.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.bal_sheet_schedules.progressExcel + '%' }">
+                                            {{ auditResponse.provisional_data.bal_sheet_schedules.progressExcel }}%
+                                        </div>
+                                    </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.bal_sheet_schedules.excelUrl">
-                                        <a href="{{ auditResponse.provisional_data.bal_sheet_schedules.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                        <ng-container *ngIf="auditResponse.provisional_data.bal_sheet_schedules.excelUrl">
+                                            <a href="{{ auditResponse.provisional_data.bal_sheet_schedules.excelUrl }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.bal_sheet_schedules')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
+                                            </a>
+                                            <a (click)="clearFile('auditResponse.provisional_data.bal_sheet_schedules')" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <span class="col-md-6"><b>Income Expenditure</b></span>
-                        <button (click)="ie_pdf.click()" class="col-md-2 btn btn2">Upload PDF
+                        <div class="col-md-12">
+                            <span class="col-md-6"><b>Income Expenditure</b></span>
+                            <button (click)="ie_pdf.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-                        <input #ie_pdf style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.inc_exp.progress','auditResponse.provisional_data.inc_exp.pdfName',true)" type="file" accept=".pdf" #file>
+                            <input #ie_pdf style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.inc_exp.progress','auditResponse.provisional_data.inc_exp.pdfName',true)" type="file" accept=".pdf" #file>
 
-                        <button (click)="ie_excel.click()" class="col-md-2 btn btn2">Upload EXCEL
+                            <button (click)="ie_excel.click()" class="col-md-2 btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-                        <input #ie_excel style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.inc_exp.progressExcel','auditResponse.provisional_data.inc_exp.excelName')" type="file" accept=".xls, .xlsx" #file>
+                            <input #ie_excel style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.inc_exp.progressExcel','auditResponse.provisional_data.inc_exp.excelName')" type="file" accept=".xls, .xlsx" #file>
 
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.inc_exp.pdfName">
+                        </div>
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.inc_exp.pdfName">
                     {{auditResponse.provisional_data.inc_exp.pdfName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.inc_exp.progress" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.inc_exp.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.inc_exp.progress + '%' }">
-                                        {{ auditResponse.provisional_data.inc_exp.progress }}%
+                                    </div>
+                                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" *ngIf="auditResponse.provisional_data.inc_exp.progress" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.inc_exp.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.inc_exp.progress + '%' }">
+                                            {{ auditResponse.provisional_data.inc_exp.progress }}%
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                        <ng-container *ngIf="auditResponse.provisional_data.inc_exp.pdfUrl">
+                                            <a href="{{ auditResponse.provisional_data.inc_exp.pdfUrl }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                            </a>
+                                            <a (click)="clearFile('auditResponse.provisional_data.inc_exp',true)" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </ng-container>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.inc_exp.pdfUrl">
-                                        <a href="{{ auditResponse.provisional_data.inc_exp.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.inc_exp',true)" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.inc_exp.pdfError">
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.inc_exp.pdfError">
                     {{pdfError}}</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.inc_exp.excelName">
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.inc_exp.excelName">
                     {{auditResponse.provisional_data.inc_exp.excelName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.inc_exp.progressExcel" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.inc_exp.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.inc_exp.progressExcel + '%' }">
-                                        {{ auditResponse.provisional_data.inc_exp.progressExcel }}%
                                     </div>
-                                </div>
+                                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" *ngIf="auditResponse.provisional_data.inc_exp.progressExcel" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.inc_exp.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.inc_exp.progressExcel + '%' }">
+                                            {{ auditResponse.provisional_data.inc_exp.progressExcel }}%
+                                        </div>
+                                    </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.inc_exp.excelUrl">
-                                        <a href="{{ auditResponse.provisional_data.inc_exp.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                        <ng-container *ngIf="auditResponse.provisional_data.inc_exp.excelUrl">
+                                            <a href="{{ auditResponse.provisional_data.inc_exp.excelUrl }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.inc_exp')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
+                                            </a>
+                                            <a (click)="clearFile('auditResponse.provisional_data.inc_exp')" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <span class="col-md-6"><b>Income Expenditure Schedule</b></span>
-                        <button (click)="ies_pdf.click()" class="col-md-2 btn btn2">Upload PDF
+                        <div class="col-md-12">
+                            <span class="col-md-6"><b>Income Expenditure Schedule</b></span>
+                            <button (click)="ies_pdf.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-                        <input #ies_pdf style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.inc_exp_schedules.progress','auditResponse.provisional_data.inc_exp_schedules.pdfName',true)" type="file" accept=".pdf"
-                            #file>
+                            <input #ies_pdf style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.inc_exp_schedules.progress','auditResponse.provisional_data.inc_exp_schedules.pdfName',true)" type="file" accept=".pdf"
+                                #file>
 
-                        <button (click)="ies_excel.click()" class="col-md-2 btn btn2">Upload EXCEL
+                            <button (click)="ies_excel.click()" class="col-md-2 btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-                        <input #ies_excel style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.inc_exp_schedules.progressExcel','auditResponse.provisional_data.inc_exp_schedules.excelName')" type="file" accept=".xls, .xlsx"
-                            #file>
+                            <input #ies_excel style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.inc_exp_schedules.progressExcel','auditResponse.provisional_data.inc_exp_schedules.excelName')" type="file" accept=".xls, .xlsx"
+                                #file>
 
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.inc_exp_schedules.pdfName">
+                        </div>
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.inc_exp_schedules.pdfName">
                     {{auditResponse.provisional_data.inc_exp_schedules.pdfName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.inc_exp_schedules.progress" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.inc_exp_schedules.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.inc_exp_schedules.progress + '%' }">
-                                        {{ auditResponse.provisional_data.inc_exp_schedules.progress }}%
+                                    </div>
+                                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" *ngIf="auditResponse.provisional_data.inc_exp_schedules.progress" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.inc_exp_schedules.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.inc_exp_schedules.progress + '%' }">
+                                            {{ auditResponse.provisional_data.inc_exp_schedules.progress }}%
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                        <ng-container *ngIf="auditResponse.provisional_data.inc_exp_schedules.pdfUrl">
+                                            <a href="{{ auditResponse.provisional_data.inc_exp_schedules.pdfUrl }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                            </a>
+                                            <a (click)="clearFile('auditResponse.provisional_data.inc_exp_schedules',true)" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </ng-container>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.inc_exp_schedules.pdfUrl">
-                                        <a href="{{ auditResponse.provisional_data.inc_exp_schedules.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.inc_exp_schedules',true)" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.inc_exp_schedules.pdfError">
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.inc_exp_schedules.pdfError">
                     {{pdfError}}</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.inc_exp_schedules.excelName">
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.inc_exp_schedules.excelName">
                     {{auditResponse.provisional_data.inc_exp_schedules.excelName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.inc_exp_schedules.progressExcel" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.inc_exp_schedules.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.inc_exp_schedules.progressExcel + '%' }">
-                                        {{ auditResponse.provisional_data.inc_exp_schedules.progressExcel }}%
                                     </div>
-                                </div>
+                                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" *ngIf="auditResponse.provisional_data.inc_exp_schedules.progressExcel" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.inc_exp_schedules.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.inc_exp_schedules.progressExcel + '%' }">
+                                            {{ auditResponse.provisional_data.inc_exp_schedules.progressExcel }}%
+                                        </div>
+                                    </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.inc_exp_schedules.excelUrl">
-                                        <a href="{{ auditResponse.provisional_data.inc_exp_schedules.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                        <ng-container *ngIf="auditResponse.provisional_data.inc_exp_schedules.excelUrl">
+                                            <a href="{{ auditResponse.provisional_data.inc_exp_schedules.excelUrl }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.inc_exp_schedules')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
+                                            </a>
+                                            <a (click)="clearFile('auditResponse.provisional_data.inc_exp_schedules')" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <span class="col-md-6"><b>Cash flow Statement</b></span>
-                        <button (click)="cfs_pdf.click()" class="col-md-2 btn btn2">Upload PDF
+                        <div class="col-md-12">
+                            <span class="col-md-6"><b>Cash flow Statement</b></span>
+                            <button (click)="cfs_pdf.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-                        <input #cfs_pdf style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.cash_flow.progress','auditResponse.provisional_data.cash_flow.pdfName',true)" type="file" accept=".pdf" #file>
+                            <input #cfs_pdf style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.cash_flow.progress','auditResponse.provisional_data.cash_flow.pdfName',true)" type="file" accept=".pdf" #file>
 
-                        <button (click)="cfs_excel.click()" class="col-md-2 btn btn2">Upload EXCEL
+                            <button (click)="cfs_excel.click()" class="col-md-2 btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-                        <input #cfs_excel style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.cash_flow.progressExcel','auditResponse.provisional_data.cash_flow.excelName')" type="file" accept=".xls, .xlsx" #file>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.cash_flow.pdfName">
+                            <input #cfs_excel style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.cash_flow.progressExcel','auditResponse.provisional_data.cash_flow.excelName')" type="file" accept=".xls, .xlsx" #file>
+                        </div>
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.cash_flow.pdfName">
                     {{auditResponse.provisional_data.cash_flow.pdfName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.cash_flow.progress" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.cash_flow.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.cash_flow.progress + '%' }">
-                                        {{ auditResponse.provisional_data.cash_flow.progress }}%
                                     </div>
-                                </div>
+                                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" *ngIf="auditResponse.provisional_data.cash_flow.progress" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.cash_flow.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.cash_flow.progress + '%' }">
+                                            {{ auditResponse.provisional_data.cash_flow.progress }}%
+                                        </div>
+                                    </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.cash_flow.pdfUrl">
-                                        <a href="{{ auditResponse.provisional_data.cash_flow.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                        <ng-container *ngIf="auditResponse.provisional_data.cash_flow.pdfUrl">
+                                            <a href="{{ auditResponse.provisional_data.cash_flow.pdfUrl }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.cash_flow',true)" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
+                                            </a>
+                                            <a (click)="clearFile('auditResponse.provisional_data.cash_flow',true)" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.cash_flow.pdfError">
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.cash_flow.pdfError">
                     {{pdfError}}</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.cash_flow.excelName">
-                    {{auditResponse.provisional_data.cash_flow.excelName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.cash_flow.progressExcel" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.cash_flow.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.cash_flow.progressExcel + '%' }">
-                                        {{ auditResponse.provisional_data.cash_flow.progressExcel }}%
                                     </div>
                                 </div>
+                            </div>
+                        </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.cash_flow.excelUrl">
-                                        <a href="{{ auditResponse.provisional_data.cash_flow.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.cash_flow.excelName">
+                    {{auditResponse.provisional_data.cash_flow.excelName}}</label>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" *ngIf="auditResponse.provisional_data.cash_flow.progressExcel" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.cash_flow.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.cash_flow.progressExcel + '%' }">
+                                            {{ auditResponse.provisional_data.cash_flow.progressExcel }}%
+                                        </div>
+                                    </div>
 
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.cash_flow')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                        <ng-container *ngIf="auditResponse.provisional_data.cash_flow.excelUrl">
+                                            <a href="{{ auditResponse.provisional_data.cash_flow.excelUrl }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                            </a>
+                                            <a (click)="clearFile('auditResponse.provisional_data.cash_flow')" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div *ngIf="audit_status == 'Audited' " class="col-md-12">
-                        <span class="col-md-6"><b>Auditor Report</b></span>
-                        <button (click)="ar_pdf.click()" class="col-md-2 btn btn2">Upload PDF
+                        <div *ngIf="audit_status == 'Audited' " class="col-md-12">
+                            <span class="col-md-6"><b>Auditor Report</b></span>
+                            <button (click)="ar_pdf.click()" class="col-md-2 btn btn2">Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-                        <input #ar_pdf style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.auditor_report.progress','auditResponse.provisional_data.auditor_report.pdfName',true)" type="file" accept=".pdf" #file>
+                            <input #ar_pdf style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.auditor_report.progress','auditResponse.provisional_data.auditor_report.pdfName',true)" type="file" accept=".pdf" #file>
 
-                        <button (click)="ar_excel.click()" class="col-md-2 btn btn2">Upload EXCEL
+                            <button (click)="ar_excel.click()" class="col-md-2 btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-                        <input #ar_excel style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.auditor_report.progressExcel','auditResponse.provisional_data.auditor_report.excelName')" type="file" accept=".xls, .xlsx"
-                            #file>
+                            <input #ar_excel style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.provisional_data.auditor_report.progressExcel','auditResponse.provisional_data.auditor_report.excelName')" type="file" accept=".xls, .xlsx"
+                                #file>
 
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.auditor_report.pdfName">
+                        </div>
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.auditor_report.pdfName">
                     {{auditResponse.provisional_data.auditor_report.pdfName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.auditor_report.progress" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.auditor_report.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.auditor_report.progress + '%' }">
-                                        {{ auditResponse.provisional_data.auditor_report.progress }}%
                                     </div>
-                                </div>
+                                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" *ngIf="auditResponse.provisional_data.auditor_report.progress" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.auditor_report.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.auditor_report.progress + '%' }">
+                                            {{ auditResponse.provisional_data.auditor_report.progress }}%
+                                        </div>
+                                    </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.auditor_report.pdfUrl">
-                                        <a href="{{ auditResponse.provisional_data.auditor_report.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                        <ng-container *ngIf="auditResponse.provisional_data.auditor_report.pdfUrl">
+                                            <a href="{{ auditResponse.provisional_data.auditor_report.pdfUrl }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.auditor_report',true)" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
+                                            </a>
+                                            <a (click)="clearFile('auditResponse.provisional_data.auditor_report',true)" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.auditor_report.pdfError">
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.auditor_report.pdfError">
                     {{pdfError}}</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.auditor_report.excelName">
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.provisional_data.auditor_report.excelName">
                     {{auditResponse.provisional_data.auditor_report.excelName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.auditor_report.progressExcel" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.auditor_report.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.auditor_report.progressExcel + '%' }">
-                                        {{ auditResponse.provisional_data.auditor_report.progressExcel }}%
                                     </div>
-                                </div>
+                                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" *ngIf="auditResponse.provisional_data.auditor_report.progressExcel" role="progressbar" attr.aria-valuenow="{{ auditResponse.provisional_data.auditor_report.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.provisional_data.auditor_report.progressExcel + '%' }">
+                                            {{ auditResponse.provisional_data.auditor_report.progressExcel }}%
+                                        </div>
+                                    </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.auditor_report.excelUrl">
-                                        <a href="{{ auditResponse.provisional_data.auditor_report.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                        <ng-container *ngIf="auditResponse.provisional_data.auditor_report.excelUrl">
+                                            <a href="{{ auditResponse.provisional_data.auditor_report.excelUrl }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.auditor_report')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
+                                            </a>
+                                            <a (click)="clearFile('auditResponse.provisional_data.auditor_report')" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-12 mat-card card-body">
-            <div class="mat-card-content" style="margin-top: 2rem;">
-                <span><b>(B) Do you wish to submit financials in standardized format for {{dateShow}} ?</b></span>
-                <div class="row center">
-                    <div id="checkboxes">
-                        <input type="radio" name="btnYesNoAudit2" value="1" id="btnAuditB" [checked]="(auditResponse.submit_standardized_data.answer == 'yes')?true:false" (change)="answer('q2',true,true)" />
-                        <label class="btn qbtn" for="btnAuditB">
+            <div class="col-md-12 mat-card card-body">
+                <div class="mat-card-content" style="margin-top: 2rem;">
+                    <span><b>(B) Do you wish to submit financials in standardized format for {{dateShow}} ?</b></span>
+                    <div class="row center">
+                        <div id="checkboxes">
+                            <input type="radio" name="btnYesNoAudit2" value="1" id="btnAuditB" [checked]="(auditResponse.submit_standardized_data.answer == 'yes')?true:false" (change)="answer('q2',true,true)" />
+                            <label class="btn qbtn" for="btnAuditB">
               Yes
             </label>
-                        <input type="radio" name="btnYesNoAudit2" value="2" [checked]="(auditResponse.submit_standardized_data.answer == 'no')?true:false" (change)="answer('q2',false,true)" id="btnAuditB2" />
-                        <label class="btn qbtn" style="margin-left: 7pc;" for="btnAuditB2">
+                            <input type="radio" name="btnYesNoAudit2" value="2" [checked]="(auditResponse.submit_standardized_data.answer == 'no')?true:false" (change)="answer('q2',false,true)" id="btnAuditB2" />
+                            <label class="btn qbtn" style="margin-left: 7pc;" for="btnAuditB2">
               No
             </label>
+                        </div>
+                        <span class="text-danger" *ngIf="answerError.Audited.submit_standardized_data">Select Yes or No</span>
                     </div>
-                    <span class="text-danger" *ngIf="answerError.Audited.submit_standardized_data">Select Yes or No</span>
-                </div>
-                <div *ngIf="quesTwoAnswer1">
-                    <div class="row">
-                        <button class="allBtn btn btn2">
+                    <div *ngIf="quesTwoAnswer1">
+                        <div class="row">
+                            <button class="allBtn btn btn2">
               Download Template
             </button>
-                    </div>
+                        </div>
 
-                    <div class="row">
-                        <button (click)="ques2.click()" class="allBtn btn btn2">Upload EXCEL
+                        <div class="row">
+                            <button (click)="ques2.click()" class="allBtn btn btn2">Upload EXCEL
               <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                 data-height="16"></span>
             </button>
-                        <input #ques2 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.standardized_data.upload.progressExcel','auditResponse.standardized_data.upload.excelName',false,true)" type="file" accept=".xls, .xlsx" #file>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.standardized_data.upload.excelName">
+                            <input #ques2 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.standardized_data.upload.progressExcel','auditResponse.standardized_data.upload.excelName',false,true)" type="file" accept=".xls, .xlsx" #file>
+                        </div>
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.standardized_data.upload.excelName">
                     {{auditResponse.standardized_data.upload.excelName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.standardized_data.upload.progressExcel" role="progressbar" attr.aria-valuenow="{{ auditResponse.standardized_data.upload.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.standardized_data.upload.progressExcel + '%' }">
-                                        {{ auditResponse.standardized_data.upload.progressExcel }}%
                                     </div>
-                                </div>
+                                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" *ngIf="auditResponse.standardized_data.upload.progressExcel" role="progressbar" attr.aria-valuenow="{{ auditResponse.standardized_data.upload.progressExcel }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.standardized_data.upload.progressExcel + '%' }">
+                                            {{ auditResponse.standardized_data.upload.progressExcel }}%
+                                        </div>
+                                    </div>
 
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="auditResponse.standardized_data.upload.excelUrl">
-                                        <a href="{{ auditResponse.standardized_data.upload.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                        <ng-container *ngIf="auditResponse.standardized_data.upload.excelUrl">
+                                            <a href="{{ auditResponse.standardized_data.upload.excelUrl }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.standardized_data.upload')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
+                                            </a>
+                                            <a (click)="clearFile('auditResponse.standardized_data.upload')" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <span class="col-md-12"><b>(i) Auditors’ Certificate on Financial Statements ?</b></span>
-                        <br>
-                        <button (click)="ques223.click()" class="allBtn btn btn2">
+                        <div class="row">
+                            <span class="col-md-12"><b>(i) Auditors’ Certificate on Financial Statements ?</b></span>
+                            <br>
+                            <button (click)="ques223.click()" class="allBtn btn btn2">
               Upload PDF
               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
             </button>
-                        <input #ques223 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.standardized_data.auditor_certificate.progress','auditResponse.standardized_data.auditor_certificate.name',true)" type="file" accept=".pdf"
-                            #file>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.standardized_data.auditor_certificate.name">
+                            <input #ques223 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'auditResponse.standardized_data.auditor_certificate.progress','auditResponse.standardized_data.auditor_certificate.name',true)" type="file" accept=".pdf"
+                                #file>
+                        </div>
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.standardized_data.auditor_certificate.name">
                     {{auditResponse.standardized_data.auditor_certificate.name}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.standardized_data.auditor_certificate.progress" role="progressbar" attr.aria-valuenow="{{ auditResponse.standardized_data.auditor_certificate.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.standardized_data.auditor_certificate.progress + '%' }">
-                                        {{ auditResponse.standardized_data.auditor_certificate.progress }}%
+                                    </div>
+                                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" *ngIf="auditResponse.standardized_data.auditor_certificate.progress" role="progressbar" attr.aria-valuenow="{{ auditResponse.standardized_data.auditor_certificate.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: auditResponse.standardized_data.auditor_certificate.progress + '%' }">
+                                            {{ auditResponse.standardized_data.auditor_certificate.progress }}%
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                                        <ng-container *ngIf="auditResponse.standardized_data.auditor_certificate.pdfUrl">
+                                            <a href="{{ auditResponse.standardized_data.auditor_certificate.pdfUrl }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a (click)="clearFile('auditResponse.standardized_data.auditor_certificate',true)" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </ng-container>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="auditResponse.standardized_data.auditor_certificate.pdfUrl">
-                                        <a href="{{ auditResponse.standardized_data.auditor_certificate.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.standardized_data.auditor_certificate',true)" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row allupload">
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.standardized_data.auditor_certificate.pdfError">
+                        <div class="row allupload">
+                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="auditResponse.standardized_data.auditor_certificate.pdfError">
                     {{pdfError}}</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <span class="col-md-12"><b>(ii) Auditors’ Registration Number ?</b></span>
+                            <br>
+                            <input class="allBtn btn btninput" (input)="auditResponse.standardized_data.auditor_registration = $event.target.value" placeholder="Enter value" />
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+                            <button type="button" class="btn2 btn footerBtn" (click)="save()">Submit</button>
+                        </div>
                     </div>
+                </div>
+                <<<<<<< HEAD=======< /div>
                     <div class="row">
                         <span class="col-md-12"><b>(ii) Auditors’ Registration Number ?</b></span>
                         <br>
                         <input class="allBtn btn btninput" (input)="auditResponse.standardized_data.auditor_registration = $event.target.value" placeholder="Enter value" />
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-                        <button type="button" class="btn2 btn footerBtn" (click)="save()">Submit</button>
-                    </div>
-                </div>
+                    >>>>>>> 5368f2c4de9743f894aa709289930eb2068aaac7
             </div>
         </div>
     </div>
-</div>
 
-<div class="row footerBtnDiv">
-    <div class="col-lg-6 col-md-6 col-sm-6">
-        <a type="button" class="btn btn-secondary backbtn">BACK</a>
+    <div class="row footerBtnDiv">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <a type="button" class="btn btn-secondary backbtn">BACK</a>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+            <button type="button" class="btn footerBtn" (click)="submit()" id="saveNext">SAVE AND NEXT</button>
+        </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-        <button type="button" class="btn footerBtn" (click)="submit()" id="saveNext">SAVE AND NEXT</button>
-    </div>
-</div>
