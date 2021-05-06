@@ -30,6 +30,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { AnnualAccountsComponent } from './annual-accounts/annual-accounts.component';
 import { UlbformPreviewComponent } from './ulbform-preview/ulbform-preview.component';
+import { PfmsPreviewComponent } from './link-pfms/pfms-preview/pfms-preview.component';
+import { WaterSanitationPreviewComponent } from './water-sanitation/water-sanitation-preview/water-sanitation-preview.component';
 
 
 
@@ -49,7 +51,9 @@ import { UlbformPreviewComponent } from './ulbform-preview/ulbform-preview.compo
      PreviewSlbComponentComponent,
      LinkPFMSComponent,
      AnnualAccountsComponent,
-     UlbformPreviewComponent
+     UlbformPreviewComponent,
+     PfmsPreviewComponent,
+     WaterSanitationPreviewComponent
     ],
   imports: [
     CommonModule,

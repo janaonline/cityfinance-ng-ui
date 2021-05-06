@@ -40,6 +40,7 @@ export class UtilisationReportComponent implements OnInit {
   utilizationReport: FormGroup;
   utilizationForm: FormGroup;
   submitted = false;
+  isSumEqual = false;
   constructor(
     private fb: FormBuilder,
     public dialog: MatDialog,
@@ -114,7 +115,7 @@ export class UtilisationReportComponent implements OnInit {
       (res) => {
         //  this.formDataResponce = res;
         this.preFilledData(res);
-        console.log(res);
+        console.log("utiRe",res);
       },
       (error) => {
         console.log(error);
@@ -285,6 +286,11 @@ else{
     this.utilizationReport.controls.projects['controls'][j]['controls']['expenditure'].patchValue('')
   }
     }
+    if(this.projectExp != this.utilizationReport.value.grantPosition.expDuringYr){
+      this.isSumEqual = true;
+    }else{
+      this.isSumEqual = false;
+    }
   }
 
   onSubmit() {
@@ -450,10 +456,10 @@ else{
         this.fd.grantType = 'Tied';
         this.fd.grantPosition.closingBal = this.totalclosingBal;
 
-        if (this.utilizationReport.valid && this.totalclosingBal >= 0) {
+        if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
           this.apiCall(this.fd);
-          console.log('form submitted');
-          return this._router.navigate(["ulbform/annual_acc"]);
+          console.log('form submitted', this.fd);
+         // return this._router.navigate(["ulbform/annual_acc"]);
 
 
         }
@@ -475,8 +481,9 @@ else{
   proceed() {
     this.modalRef.hide();
     console.log(this.fd);
+    console.log('form submitted', this.fd);
     this.apiCall(this.fd)
-    return this._router.navigate(["ulbform/annual_acc"]);
+   // return this._router.navigate(["ulbform/annual_acc"]);
   }
   alertClose(){
     this.modalRef.hide();

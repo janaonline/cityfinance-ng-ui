@@ -1,0 +1,45 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 header">
+            <a mat-dialog-close style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
+                <mat-icon aria-hidden="false">
+                    <img src="../../../../../assets/form-icon/Icon material-close.svg">
+                </mat-icon>
+            </a>
+            <span class="col-sm-12 heading">Plans for Water and Sanitation</span>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1.5rem;">
+        <div class="col-sm-12 text-right">
+            <button id="donwloadButton" style="right: 0%;
+      outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="downloadAsPDF()">
+   Download as PDF
+ </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 2rem; margin-bottom: 20px;">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 qus-h">
+                            (A) Plan for Water
+                        </div>
+                        <div class="col-sm-6 ans-h">
+                            <a href="{{data.waterFileUrl}}" target="_blank">{{data.waterFileName}}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 qus-h">
+                            (B) Plan for Sanitation
+                        </div>
+                        <div class="col-sm-6 ans-h">
+                            <a href="{{data.sanitationFileUrl}}" target="_blank">{{data.sanitationFileName}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

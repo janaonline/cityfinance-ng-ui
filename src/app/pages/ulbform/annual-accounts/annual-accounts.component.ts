@@ -4,6 +4,8 @@ import { HttpEventType, HttpResponse } from "@angular/common/http";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { AnnualAccountsService } from "./annual-accounts.service";
 import { SweetAlert } from "sweetalert/typings/core";
+import { MatDialog } from "@angular/material/dialog";
+import { AnnualPreviewComponent } from "./annual-preview/annual-preview.component";
 
 const swal: SweetAlert = require("sweetalert");
 
@@ -15,7 +17,7 @@ const swal: SweetAlert = require("sweetalert");
 export class AnnualAccountsComponent implements OnInit {
   constructor(
     private dataEntryService: DataEntryService,
-    private annualAccountsService: AnnualAccountsService
+    private annualAccountsService: AnnualAccountsService, public dialog: MatDialog,
   ) {}
   ngOnInit(): void {
     this.changeAudit("Unaudited");
@@ -241,6 +243,23 @@ export class AnnualAccountsComponent implements OnInit {
       auditor_registration_error:null
     },
   };
+  onPreview(){
+    let preData = {
+      'unaudit': this.unauditResponse,
+     'audit': this.auditResponse
+    }
+    console.log('preData', preData)
+    const dialogRef = this.dialog.open(AnnualPreviewComponent,
+      {data: preData,
+     height: '95%', width: '85vw',
+     panelClass: 'no-padding-dialog' } );
+   // this.hidden = false;
+    dialogRef.afterClosed().subscribe(result => {
+    // console.log(`Dialog result: ${result}`);
+  //   this.hidden = true;
+
+   });
+  }
 
   onLoad() {
     this.annualAccountsService

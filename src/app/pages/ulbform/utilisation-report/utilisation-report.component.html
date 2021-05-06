@@ -315,7 +315,16 @@
                                 <td></td>
                                 <td><span><b> Total(INR in lakhs) </b> </span></td>
                                 <td><span> <b> {{projectCost}}</b></span></td>
-                                <td> <span> <b> {{projectExp}}</b> </span></td>
+                                <td isSumEqual>
+                                    <span (mouseover)="errorDisplayProExp=true" (mouseout)="errorDisplayProExp=true">
+                                  <b [ngStyle]="{'border':(isSumEqual == false)? '' : '1px solid red' }"> {{projectExp}}</b>
+                                 </span>
+                                    <div class="bs-tooltip-top" role="tooltip">
+                                        <span class="tooltip-inner" style="margin-left: -39rem;" *ngIf="isSumEqual && errorDisplayProExp">
+                                       Total Expenditure should be equal to (iii) Expenditure incurred during the year
+                                  </span>
+                                    </div>
+                                </td>
                                 <td></td>
                             </tr>
                         </tbody>
