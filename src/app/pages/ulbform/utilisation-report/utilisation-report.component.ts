@@ -84,17 +84,17 @@ export class UtilisationReportComponent implements OnInit {
       res.forEach((state) => (this.states[state._id] = state));
       this.initializeReport();
       this.getResponse();
-      switch (this.userLoggedInDetails.role) {
-         case USER_TYPE.ULB:
-         case USER_TYPE.STATE:
-         case USER_TYPE.PARTNER:
-         case USER_TYPE.MoHUA:
-         case USER_TYPE.ADMIN:
-           this.utilizationReport.disable();
-           this.utiReportFormControl.projects.disable();
+      // switch (this.userLoggedInDetails.role) {
+      //    case USER_TYPE.ULB:
+      //    case USER_TYPE.STATE:
+      //    case USER_TYPE.PARTNER:
+      //    case USER_TYPE.MoHUA:
+      //    case USER_TYPE.ADMIN:
+      //      this.utilizationReport.disable();
+      //      this.utiReportFormControl.projects.disable();
 
 
-       }
+      //  }
     });
   }
   // errorShow(){

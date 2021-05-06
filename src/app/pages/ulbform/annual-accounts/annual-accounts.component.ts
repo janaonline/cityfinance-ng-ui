@@ -512,7 +512,7 @@ export class AnnualAccountsComponent implements OnInit {
           "excelError"
         ] = error?.data?.message || "Upload Error";
         this.clearFile(fileNameArray, false, true);
-      } else this.clearFile(fileNameArray, isPdf);
+      } else this.clearFile(fileNameArray, isPdf,true);
     }
   }
 
