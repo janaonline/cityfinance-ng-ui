@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-annual-preview',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AnnualPreviewComponent implements OnInit {
 
-  constructor() { }
+  constructor(public _matDialog: MatDialog) { }
 
   ngOnInit(): void {
   }
