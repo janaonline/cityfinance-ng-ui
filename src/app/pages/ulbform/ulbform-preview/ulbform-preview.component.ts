@@ -17,7 +17,7 @@ export class UlbformPreviewComponent implements OnInit {
   ) {}
   ulbName = "";
   detailUtil = null;
-  slbWaterSanitaion = null
+  slbWaterSanitaion = null;
 
   ngOnInit(): void {
     this.onLoad();
@@ -26,6 +26,7 @@ export class UlbformPreviewComponent implements OnInit {
   async onLoad() {
     try {
       await this.detailUtilData();
+      await this.getSlbData();
     } catch (error) {
       console.log(error);
     }
@@ -38,12 +39,22 @@ export class UlbformPreviewComponent implements OnInit {
           resolve("Success");
         },
         (err) => {
-          debugger;
           console.log(err);
           reject(err);
         }
       );
     });
   }
-  
+
+  getSlbData() {
+    return new Promise((resolve, reject) => {
+      let designYear = "606aaf854dff55e6c075d219";
+      let params = "design_year=" + designYear;
+      this.commonService.fetchSlbData(params).subscribe((res) => {
+        this.slbWaterSanitaion =
+          res["data"] && res["data"][0] ? res["data"][0] : {};
+        resolve(res);
+      });
+    });
+  }
 }

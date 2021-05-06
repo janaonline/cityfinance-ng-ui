@@ -200,7 +200,6 @@ width: 5% !important;
 
   </style>`;
   ngOnInit(): void {
-    debugger
     console.log(this.data);
     if (this.parentData) {
       this.data = this.parentData;

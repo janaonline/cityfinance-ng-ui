@@ -79,7 +79,7 @@ export class SlbsComponent implements OnInit {
             ]
           }
       },
-      completeness: 'APPROVED', correctness: 'APPROVED',
+      // completeness: 'APPROVED', correctness: 'APPROVED',
       "isCompleted": true
     }
     if(this.slbId){
@@ -115,7 +115,7 @@ export class SlbsComponent implements OnInit {
          this.waterWasteManagementForm.getRawValue(),
          waterPotability: this.waterPotability
     };
-
+debugger
     this._matDialog.open(this.previewPopup, {
       width: "85vw",
       maxHeight: "95vh",
