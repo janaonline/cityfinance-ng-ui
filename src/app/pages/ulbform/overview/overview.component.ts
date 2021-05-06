@@ -18,11 +18,11 @@ export class OverviewComponent implements OnInit {
     this.Overview.getData('606aaf854dff55e6c075d219')
       .subscribe((res) => {
         console.log(res);
-        this.forms[0] = res['response']['steps']['annualAccounts']['isSubmit']
-        this.forms[1] = res['response']['steps']['pfmsAccount']['isSubmit']
-        this.forms[2] = res['response']['steps']['plans']['isSubmit']
-        this.forms[3] = res['response']['steps']['slbForWaterSupplyAndSanitation']['isSubmit']
-        this.forms[4] = res['response']['steps']['utilReport']['isSubmit']
+        this.forms[0] = res['response']?.steps?.annualAccounts?.isSubmit
+        this.forms[1] = res['response']?.steps?.pfmsAccount?.isSubmit
+        this.forms[2] = res['response']?.steps?.plans?.isSubmit
+        this.forms[3] = res['response']?.steps?.slbForWaterSupplyAndSanitation?.isSubmit
+        this.forms[4] = res['response']?.steps?.utilReport?.isSubmit
 
         for (let key of this.forms) {
           if (key) {

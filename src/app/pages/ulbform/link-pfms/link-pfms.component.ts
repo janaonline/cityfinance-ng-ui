@@ -2,15 +2,29 @@ import { Component, OnInit,TemplateRef  } from '@angular/core';
 import { LinkPFMSAccount } from './link-pfms.service'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Router } from "@angular/router";
+import { ProfileService } from 'src/app/users/profile/service/profile.service';
+import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
+import { USER_TYPE } from 'src/app/models/user/userType';
 @Component({
   selector: 'app-link-pfms',
   templateUrl: './link-pfms.component.html',
   styleUrls: ['./link-pfms.component.scss']
 })
-export class LinkPFMSComponent implements OnInit {
+export class LinkPFMSComponent extends BaseComponent implements OnInit {
   modalRef: BsModalRef;
-  constructor(private LinkPFMSAccount: LinkPFMSAccount, private modalService: BsModalService,private _router: Router,) {
+  constructor(private LinkPFMSAccount: LinkPFMSAccount,
+    private modalService: BsModalService,private _router: Router,private _profileService: ProfileService) {
+      super();
+      switch (this.loggedInUserType) {
+       // case USER_TYPE.ULB:
+        case USER_TYPE.STATE:
+        case USER_TYPE.PARTNER:
+        case USER_TYPE.MoHUA:
+        case USER_TYPE.ADMIN:
+        //  this._router.navigate(["/fc-home-page"]);
+        //  break;
 
+      }
   }
 
   receivedData = {}

@@ -5,29 +5,35 @@
 </div>
 
 <div class="row">
-  <div id="checkboxes">
-    <input type="radio" name="rGroup" value="1" id="r1" (change)="changeAudit('Unaudited')"
-      [checked]="(audit_status == 'Unaudited')?true:false" />
-    <label class="col-sm-6 square header1 text-center" for="r1">
-      <span style="vertical-align: sub;">
-        <b>Provisional Accounts for
-          2020-21</b>
-      </span>
-    </label>
-    <input type="radio" name="rGroup" value="2" id="r2" [checked]="(audit_status == 'Audited')?true:false"
-      (change)="changeAudit('Audited')" />
-    <label class="col-sm-6 square header1 text-center" for="r2">
-      <span style="vertical-align: sub;">
-        <b>Audited Accounts for
-          2019-20</b>
-      </span>
-    </label>
+  <div class="col-sm-12" id="checkboxes">
+    <div class="col-sm-6 p-0 ">
+      <input type="radio" name="rGroup" value="1" id="r1" (change)="changeAudit('Unaudited')"
+        [checked]="(audit_status == 'Unaudited')?true:false" />
+      <label class="col-sm-6 square header1 text-center cursor-input" for="r1">
+        <span style="vertical-align: sub;">
+          <b>Provisional Accounts for
+            2020-21</b>
+        </span>
+      </label>
+    </div>
+    <div class="col-sm-6 p-0 ">
+      <input type="radio" name="rGroup" value="2" id="r2" [checked]="(audit_status == 'Audited')?true:false"
+        (change)="changeAudit('Audited')" />
+      <label class="col-sm-6 square header1 text-center cursor-input" for="r2">
+        <span style="vertical-align: sub;">
+          <b>Audited Accounts for
+            2019-20</b>
+        </span>
+      </label>
+    </div>
   </div>
 
   <div *ngIf="audit_status == 'Unaudited'">
     <div class="col-md-12 mat-card card-body">
       <div class="mat-card-content" style="margin-top: 2rem;">
+        <div class="col-sm-12">
         <span><b>(A) Do you wish to submit Provisional Accounts for {{dateShow}} ?</b></span>
+        </div>
         <div class="row center">
           <div id="checkboxes">
             <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit"
@@ -666,12 +672,10 @@
             <input class="allBtn btn btninput"
               (input)="unauditResponse.standardized_data.auditor_registration = $event.target.value"
               placeholder="Enter value" />
-            </div>
-            <div class="row allupload">
-            <span *ngIf="unauditResponse.standardized_data.auditor_registration_error" class="text-danger">{{unauditResponse.standardized_data.auditor_registration_error}}</span>
-            </div>
-          <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-            <button type="button" class="btn2 btn footerBtn" (click)="save()">Submit</button>
+          </div>
+          <div class="row allupload">
+            <span *ngIf="unauditResponse.standardized_data.auditor_registration_error"
+              class="text-danger">{{unauditResponse.standardized_data.auditor_registration_error}}</span>
           </div>
         </div>
       </div>
@@ -1401,9 +1405,6 @@
             <input class="allBtn btn btninput"
               (input)="auditResponse.standardized_data.auditor_registration = $event.target.value"
               placeholder="Enter value" />
-          </div>
-          <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-            <button type="button" class="btn2 btn footerBtn" (click)="save()">Submit</button>
           </div>
         </div>
       </div>

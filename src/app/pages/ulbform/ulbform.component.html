@@ -108,7 +108,8 @@
                     <h5 style="font-size: 14px;">
                         <mat-icon aria-hidden="false">
                             <img src="../../../assets/ulbform/Icon ionic-ios-arrow-back.svg">
-                        </mat-icon>15FC Grants for 2021-22</h5>
+                        </mat-icon>15FC Grants for 2021-22
+                    </h5>
                 </a>
             </ul>
             <ul class="links " routerLinkActive="active">
@@ -116,21 +117,25 @@
                 <a routerLink="ulbform-overview">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/form-icon/Icon feather-grid.svg">
-                    </mat-icon>Overview</a>
+                    </mat-icon>Overview
+                </a>
+                <!-- <img src="../../../assets/ulbform/Group 13549 (1).svg"> -->
             </ul>
 
             <ul class="heading " style="background-color: #124A55; ">
                 <h5>
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Icon open-data-transfer-download (1).svg ">
-                    </mat-icon>Entry Level Conditions</h5>
+                    </mat-icon>Entry Level Conditions
+                </h5>
             </ul>
             <ul class="links " routerLinkActive="active">
 
                 <a routerLink="pfms_acc">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Icon awesome-network-wired.svg">
-                    </mat-icon>Linking of PFMS Account</a>
+                    </mat-icon>Linking of PFMS Account
+                </a>
             </ul>
             <ul class="links" routerLinkActive="active">
 
@@ -139,35 +144,40 @@
 
                         <img src="../../../assets/ulbform/Icon awesome-certificate.svg">
 
-                    </mat-icon> Grant Transfer Certificate</a>
+                    </mat-icon> Grant Transfer Certificate
+                </a>
             </ul>
             <ul class="links" routerLinkActive="active">
 
                 <a routerLink="utilisation-report">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Icon awesome-file-alt.svg">
-                    </mat-icon>Detailed Utilisation Report</a>
+                    </mat-icon>Detailed Utilisation Report
+                </a>
             </ul>
             <ul class="links " routerLinkActive="active">
 
                 <a routerLink="annual_acc">
                     <mat-icon aria-hidden="false">
                         <img src="../../../assets/ulbform/Group 13493.svg">
-                    </mat-icon>Annual Accounts</a>
+                    </mat-icon>Annual Accounts
+                </a>
             </ul>
             <ul class="links" routerLinkActive="active ">
 
                 <a routerLink="entry-list4">
                     <mat-icon aria-hidden="false">
                         <img src="../../../assets/ulbform/Icon material-library-books.svg">
-                    </mat-icon>Service Level Benchmarks (SLBs)</a>
+                    </mat-icon>Service Level Benchmarks (SLBs)
+                </a>
             </ul>
             <ul class="heading" style="background-color: #124A55; ">
 
                 <h5>
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Icon awesome-money-check.svg">
-                    </mat-icon>Municipal Challenge Fund</h5>
+                    </mat-icon>Municipal Challenge Fund
+                </h5>
             </ul>
             <ul class="links" routerLinkActive="active">
 
@@ -175,7 +185,8 @@
                 <a routerLink="slbs">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Group 13409.svg">
-                    </mat-icon>SLBs for Water Supply and Sanitation</a>
+                    </mat-icon>SLBs for Water Supply and Sanitation
+                </a>
 
             </ul>
 
@@ -185,18 +196,20 @@
                 <h5 style="margin-left: 4px;">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Icon feather-upload.svg">
-                    </mat-icon>Upload Plans</h5>
+                    </mat-icon>Upload Plans
+                </h5>
             </ul>
             <ul class="links" routerLinkActive="active">
                 <a routerLink="water-sanitation">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Icon material-note.svg">
-                    </mat-icon>Plans for Water and Sanitation</a>
+                    </mat-icon>Plans for Water and Sanitation
+                </a>
             </ul>
 
             <div class="subBtnDiv text-center" style="margin-bottom: 40px;">
                 <div>
-                    <button mat-raised-button class="subBtn">Preview and download</button>
+                    <button mat-raised-button class="subBtn" (click)="ulbPreview()">Preview and download</button>
 
                 </div>
                 <div>
@@ -218,15 +231,15 @@
             loggedInUserType === userTypes.MoHUA ||
             loggedInUserType === userTypes.PARTNER
           ">
-          {{ userLoggedInDetails.role }}
-        </span>
+                            {{ userLoggedInDetails.role }}
+                        </span>
                         <span *ngIf="
             states &&
             (loggedInUserType === userTypes.STATE ||
               loggedInUserType === userTypes.ULB)
           ">
-          {{ states[userLoggedInDetails["state"]]?.name }}
-        </span>
+                            {{ states[userLoggedInDetails["state"]]?.name }}
+                        </span>
                     </h3>
                     <!-- <h3>
             <ng-template #other_content>Welcome.....</ng-template>

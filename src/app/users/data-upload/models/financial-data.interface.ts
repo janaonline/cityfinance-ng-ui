@@ -15,6 +15,7 @@ export interface IFinancialData {
   ulbName: string;
   customStatusText?: string;
   createdAt: string;
+  design_year: string
 }
 
 export interface MillionPlusCities {
