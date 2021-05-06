@@ -465,7 +465,7 @@
                 onBlur(
                   form.controls[service.key]['controls']['target'].controls[
                     year.key
-                  ]
+                  ], form.controls[service.key].controls['target'], year.key
                 )
               " (mouseover)="setFocusTarget(service.key+year.key)" [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" [ngClass]="{
                 'is-invalid':
@@ -498,6 +498,9 @@
               greater than or equal to 0.
             </span>
                             <span *ngIf="error.max"> {{ error.max }} </span></span>
+                            <span *ngIf="error">
+                              Value is not in increasing manner
+                            </span>
                     </td>
                     <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
                         <div class="actions" [ngClass]="{
