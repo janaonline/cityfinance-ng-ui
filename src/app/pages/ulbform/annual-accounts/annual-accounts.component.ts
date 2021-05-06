@@ -245,7 +245,8 @@ export class AnnualAccountsComponent implements OnInit {
   };
   onPreview(){
     let preData = {
-
+      'unaudit': this.unauditResponse,
+     'audit': this.auditResponse
     }
     console.log('preData', preData)
     const dialogRef = this.dialog.open(AnnualPreviewComponent,
