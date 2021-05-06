@@ -510,12 +510,11 @@ export class CommonService {
     return this.http.get(`${environment.api.url}user/nodal/${state}`);
   }
 
-  fetchSlbData(){
-    let data = {design_year: '606aaf854dff55e6c075d219'}
-    const newData = this.jsonUtil.convert(data);
-      return this.http.post(
-        `${environment.api.url}xv-fc-form`,
-        JSON.stringify(newData)
+  fetchSlbData(params){
+    // let data = {design_year: '606aaf854dff55e6c075d219'}
+    // const newData = this.jsonUtil.convert(data);
+      return this.http.get(
+        `${environment.api.url}xv-fc-form?${params}`
       );
   }
 
