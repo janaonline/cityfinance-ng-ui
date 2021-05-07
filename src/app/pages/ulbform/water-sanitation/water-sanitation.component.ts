@@ -97,7 +97,9 @@ fileProcessingTracker: {
     const dialogRef = this.dialog.open(WaterSanitationPreviewComponent,
       {
         data: preData,
-        height: '95%', width: '85vw',
+        maxHeight: "95vh",
+        height: "fit-content",
+        width: '85vw',
         panelClass: 'no-padding-dialog'
       } );
    // this.hidden = false;

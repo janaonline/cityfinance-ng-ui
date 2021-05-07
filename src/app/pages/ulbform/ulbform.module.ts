@@ -32,7 +32,8 @@ import { AnnualAccountsComponent } from './annual-accounts/annual-accounts.compo
 import { UlbformPreviewComponent } from './ulbform-preview/ulbform-preview.component';
 import { PfmsPreviewComponent } from './link-pfms/pfms-preview/pfms-preview.component';
 import { WaterSanitationPreviewComponent } from './water-sanitation/water-sanitation-preview/water-sanitation-preview.component';
-
+import {PlanGuardGuard } from './water-sanitation/plan-guard.guard'
+import { SlbsGaurdGuard } from './slbs/slbs-gaurd.guard';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { WaterSanitationPreviewComponent } from './water-sanitation/water-sanita
     TooltipModule.forRoot()
 
 
-  ]
+  ],
+  providers: [PlanGuardGuard]
 })
 export class UlbformModule { }
