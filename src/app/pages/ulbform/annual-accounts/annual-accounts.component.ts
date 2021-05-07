@@ -30,7 +30,7 @@ export class AnnualAccountsComponent implements OnInit {
   quesTwoAnswer1: boolean = false;
   audit_status;
   Years = JSON.parse(localStorage.getItem("Years"));
-  dateShow: string = "2020-21";
+  dateShow: string = "2021-22";
 
   isPdf;
   fileSelected;
@@ -51,7 +51,7 @@ export class AnnualAccountsComponent implements OnInit {
   };
 
   auditResponse = {
-    design_year: this.Years["2020-21"],
+    design_year: this.Years["2021-22"],
     audit_status: "Audited",
     isCompleted: false,
     year: this.Years["2019-20"],
@@ -148,7 +148,7 @@ export class AnnualAccountsComponent implements OnInit {
   };
 
   unauditResponse = {
-    design_year: this.Years["2020-21"],
+    design_year: this.Years["2021-22"],
     audit_status: "Unaudited",
     isCompleted: false,
     year: this.Years["2020-21"],
@@ -264,7 +264,7 @@ export class AnnualAccountsComponent implements OnInit {
   onLoad() {
     this.annualAccountsService
       .getData({
-        design_year: this.Years["2020-21"],
+        design_year: this.Years["2021-22"],
       })
       .subscribe(
         async (res) => {
@@ -424,13 +424,13 @@ export class AnnualAccountsComponent implements OnInit {
         this.dateShow = "2019-20";
         this.response = "auditResponse";
         this[this.response].audit_status = audit;
-        this[this.response].year = "607697074dff55e6c0be33ba";
+        // this[this.response].year = this.Years["2019-20"] ;
         break;
       default:
-        this.dateShow = "2020-21";
+        this.dateShow = "2021-22";
         this.response = "unauditResponse";
         this[this.response].audit_status = audit;
-        this[this.response].year = "606aadac4dff55e6c075c507";
+        // this[this.response].year = this.Years["2020-21"];
         break;
     }
   }
@@ -605,7 +605,7 @@ export class AnnualAccountsComponent implements OnInit {
       if (this[progressArray[0]]["audit_status"] === "Audited") {
         newObj.financialYear = "2019-20";
       } else {
-        newObj.financialYear = "2020-21";
+        newObj.financialYear = "2021-22";
       }
       this.annualAccountsService.processData(newObj).subscribe(
         async (res) => {

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -10,8 +10,13 @@ export class PfmsPreviewComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,) { }
 
+  @Input() parentData
+
   ngOnInit(): void {
-    console.log(this.data)
+    
+    if(this.parentData){
+      this.data = this.parentData
+    }
   }
 
   downloadAsPDF(){

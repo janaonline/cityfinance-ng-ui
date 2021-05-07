@@ -581,7 +581,7 @@
     <div *ngIf="audit_status == 'Audited'">
         <div class="col-md-12 mat-card card-body">
             <div class="mat-card-content" style="margin-top: 2rem;">
-                <span><b>(A) Do you wish to submit Provisional Accounts for {{dateShow}} ?</b></span>
+                <span><b>(A) Do you wish to submit Audited Accounts for {{dateShow}} ?</b></span>
                 <div class="row center">
                     <div id="checkboxes2">
                         <input type="radio" name="btnYesNoAudit" value="1" id="btnAudit" [checked]="(auditResponse.submit_annual_accounts.answer == 'yes')?true:false" (change)="answer('q1',true,true)" />

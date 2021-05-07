@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12 header">
-            <a mat-dialog-close style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
+            <a *ngIf="!parentData" mat-dialog-close style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
                 <mat-icon aria-hidden="false">
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
                 </mat-icon>
@@ -11,7 +11,7 @@
     </div>
     <div class="row" style="margin-top: 1.5rem;">
         <div class="col-sm-12 text-right">
-            <button id="donwloadButton" style="right: 0%;
+            <button *ngIf="!parentData" id="donwloadButton" style="right: 0%;
       outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="downloadAsPDF()">
    Download as PDF
  </button>
@@ -27,7 +27,7 @@
                             (A) Plan for Water
                         </div>
                         <div class="col-sm-6 ans-h">
-                            <a href="{{data.waterFileUrl}}" target="_blank">{{data.waterFileName}}</a>
+                            <a href="{{data.waterFileUrl || parentData.sanitation.url}}" target="_blank">{{data.waterFileName || parentData.sanitation.remarks}}</a>
                         </div>
                     </div>
                     <div class="row">
@@ -35,7 +35,7 @@
                             (B) Plan for Sanitation
                         </div>
                         <div class="col-sm-6 ans-h">
-                            <a href="{{data.sanitationFileUrl}}" target="_blank">{{data.sanitationFileName}}</a>
+                            <a href="{{data.sanitationFileUrl || parentData.water.url}}" target="_blank">{{data.sanitationFileName || parentData.water.remarks}}</a>
                         </div>
                     </div>
                 </div>

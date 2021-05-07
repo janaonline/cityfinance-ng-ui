@@ -1,10 +1,49 @@
-<div class="container-fluid">
-  <div *ngIf="detailUtil">
-    <app-preview-uti-form [parentData]="detailUtil">
-    </app-preview-uti-form>
+<div class="mat-card">
+  <div class="mat-card-title text-center">
+    <div class="pull-right">
+      <a mat-dialog-close>
+        <img src="https://img.icons8.com/metro/26/000000/multiply.png" />
+      </a>
+    </div>
+    <h2>15th FC Form</h2>
+    <h3>
+      {{ userData.name }}
+    </h3>
+    <div class="pull-right">
+      <button id="donwloadButton" style="right: 0%;
+      outline: none; margin-right: 2% ;margin-bottom: 1pc" class="btn btn-primary btn-upload">
+        Download as PDF
+      </button>
+    </div>
   </div>
-  <div *ngIf="slbWaterSanitaion">
-    <app-preview-slb-component [data]="slbWaterSanitaion">
-    </app-preview-slb-component>
+  <div class="mat-card-content ">
+    <div *ngIf="pfms">
+      <app-pfms-preview [parentData]="pfms">
+      </app-pfms-preview>
+    </div>
+  </div>
+  <div class="mat-card-content">
+    <div *ngIf="detailUtil">
+      <app-preview-uti-form [parentData]="detailUtil">
+      </app-preview-uti-form>
+    </div>
+  </div>
+  <div class="mat-card-content">
+    <div *ngIf="annualAccount">
+      <app-annual-preview [parentData]="annualAccount">
+      </app-annual-preview>
+    </div>
+  </div>
+  <div class="mat-card-content">
+    <div *ngIf="slbWaterSanitaion">
+      <app-preview-slb-component [data]="slbWaterSanitaion">
+      </app-preview-slb-component>
+    </div>
+  </div>
+  <div class="mat-card-content">
+    <div *ngIf="waterSanitation">
+      <app-water-sanitation-preview [parentData]="waterSanitation">
+      </app-water-sanitation-preview>
+    </div>
   </div>
 </div>

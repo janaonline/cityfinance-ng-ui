@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12 header">
-            <a mat-dialog-close style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
+            <a *ngIf="!parentData" mat-dialog-close style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
 
                 <img src="../../../../../assets/form-icon/Icon material-close.svg">
 
@@ -11,7 +11,7 @@
     </div>
     <div class="row" style="margin-top: 1.5rem;">
         <div class="col-sm-12 text-right">
-            <button id="donwloadButton" style="right: 0%;
+            <button *ngIf="!parentData" id="donwloadButton" style="right: 0%;
     outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="downloadAsPDF()">
  Download as PDF
 </button>
@@ -138,7 +138,7 @@
 
                         <div class="col-sm-9 col-md-9 col-lg-9">
 
-                            <span>(A) Do you wish to submit Provisional Accounts for 2020-21 ?</span>
+                            <span>(A) Do you wish to submit Audited Accounts for 2020-21 ?</span>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             Yes

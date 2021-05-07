@@ -202,8 +202,18 @@ width: 5% !important;
   ngOnInit(): void {
     console.log(this.data);
     if (this.parentData) {
-      this.data = this.parentData;
+      this.genrateParentData();
     }
+  }
+  
+  genrateParentData() {
+    this.parentData.totalProCost = 0;
+    this.parentData.totalExpCost = 0;
+    this.parentData.projects.forEach((element) => {
+      this.parentData.totalProCost += parseFloat(element.cost);
+      this.parentData.totalExpCost += parseFloat(element.expenditure);
+    });
+    this.data = this.parentData;
   }
 
   // makePdf() {

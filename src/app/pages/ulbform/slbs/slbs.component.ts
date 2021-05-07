@@ -115,7 +115,7 @@ export class SlbsComponent implements OnInit {
          this.waterWasteManagementForm.getRawValue(),
          waterPotability: this.waterPotability
     };
-debugger
+
     this._matDialog.open(this.previewPopup, {
       width: "85vw",
       maxHeight: "95vh",

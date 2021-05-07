@@ -3,7 +3,9 @@ import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { CommonService } from "src/app/shared/services/common.service";
 import { PreviewSlbComponentComponent } from "../preview-slb-component/preview-slb-component.component";
 import { UtiReportService } from "../utilisation-report/uti-report.service";
-
+import { LinkPFMSAccount } from "../link-pfms/link-pfms.service";
+import { WaterSanitationService } from "../water-sanitation/water-sanitation.service";
+import { AnnualAccountsService } from "../annual-accounts/annual-accounts.service";
 @Component({
   selector: "app-ulbform-preview",
   templateUrl: "./ulbform-preview.component.html",
@@ -13,20 +15,34 @@ export class UlbformPreviewComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private commonService: CommonService,
-    public utiReportService: UtiReportService
+    public utiReportService: UtiReportService,
+    public linkPFMSAccount: LinkPFMSAccount,
+    public waterSanitationService: WaterSanitationService,
+    public annualAccountsService: AnnualAccountsService
   ) {}
-  ulbName = "";
+
   detailUtil = null;
   slbWaterSanitaion = null;
+  waterSanitation = null;
+  pfms = null;
+  annualAccount = null;
+
+  userData = JSON.parse(localStorage.getItem("userData"));
+  years = JSON.parse(localStorage.getItem("Years"));
+  designYear;
 
   ngOnInit(): void {
+    this.designYear = this.years["2021-22"];
     this.onLoad();
   }
 
   async onLoad() {
     try {
+      await this.getLinkPfms();
       await this.detailUtilData();
+      await this.getAnnualAccount();
       await this.getSlbData();
+      await this.getWaterSanitation();
     } catch (error) {
       console.log(error);
     }
@@ -40,7 +56,6 @@ export class UlbformPreviewComponent implements OnInit {
         },
         (err) => {
           console.log(err);
-          reject(err);
         }
       );
     });
@@ -48,13 +63,56 @@ export class UlbformPreviewComponent implements OnInit {
 
   getSlbData() {
     return new Promise((resolve, reject) => {
-      let designYear = "606aaf854dff55e6c075d219";
-      let params = "design_year=" + designYear;
-      this.commonService.fetchSlbData(params).subscribe((res) => {
-        this.slbWaterSanitaion =
-          res["data"] && res["data"][0] ? res["data"][0] : {};
-        resolve(res);
-      });
+      let params = "design_year=" + this.designYear;
+      this.commonService.fetchSlbData(params).subscribe(
+        (res) => {
+          this.slbWaterSanitaion =
+            res["data"] && res["data"][0] ? res["data"][0] : {};
+          this.slbWaterSanitaion.fromParent = true;
+          resolve(res);
+        },
+        (err) => {}
+      );
+    });
+  }
+
+  getLinkPfms() {
+    return new Promise((resolve, reject) => {
+      this.linkPFMSAccount.getData(this.designYear).subscribe(
+        (res) => {
+          this.pfms = res["response"];
+          resolve("Success");
+        },
+        (err) => {}
+      );
+    });
+  }
+
+  getWaterSanitation() {
+    return new Promise((resolve, reject) => {
+      this.waterSanitationService.getFiles().subscribe(
+        (res) => {
+          this.waterSanitation = res["plans"];
+          resolve("Success");
+        },
+        (err) => {}
+      );
+    });
+  }
+
+  getAnnualAccount() {
+    return new Promise((resolve, reject) => {
+      const param = {
+        design_year: this.designYear,
+      };
+      this.annualAccountsService.getData(param).subscribe(
+        (res) => {
+          this.annualAccount = res["data"];
+          resolve("Sucess")
+        },
+        (err) => {
+        }
+      );
     });
   }
 }
