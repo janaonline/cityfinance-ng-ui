@@ -17,7 +17,8 @@ const swal: SweetAlert = require("sweetalert");
 export class AnnualAccountsComponent implements OnInit {
   constructor(
     private dataEntryService: DataEntryService,
-    private annualAccountsService: AnnualAccountsService, public dialog: MatDialog,
+    private annualAccountsService: AnnualAccountsService,
+    public dialog: MatDialog
   ) {}
   ngOnInit(): void {
     this.changeAudit("Unaudited");
@@ -143,7 +144,7 @@ export class AnnualAccountsComponent implements OnInit {
         progress: null,
       },
       auditor_registration: null,
-      auditor_registration_error:null
+      auditor_registration_error: null,
     },
   };
 
@@ -240,25 +241,20 @@ export class AnnualAccountsComponent implements OnInit {
         progress: null,
       },
       auditor_registration: null,
-      auditor_registration_error:null
+      auditor_registration_error: null,
+      declaration: null,
     },
   };
-  onPreview(){
-    let preData = {
-      'unaudit': this.unauditResponse,
-     'audit': this.auditResponse
-    }
-    console.log('preData', preData)
-    const dialogRef = this.dialog.open(AnnualPreviewComponent,
-      {data: preData,
-     height: '95%', width: '85vw',
-     panelClass: 'no-padding-dialog' } );
-   // this.hidden = false;
-    dialogRef.afterClosed().subscribe(result => {
-    // console.log(`Dialog result: ${result}`);
-  //   this.hidden = true;
-
-   });
+  onPreview() {
+    let preData = [this.unauditResponse, this.auditResponse];
+    console.log("preData", preData);
+    const dialogRef = this.dialog.open(AnnualPreviewComponent, {
+      data: preData,
+      height: "95%",
+      width: "85vw",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   onLoad() {
@@ -385,8 +381,8 @@ export class AnnualAccountsComponent implements OnInit {
                 }
               }
             } else if (form[key][key2] === null) {
-                this.errorHandler(form, key, key2);
-                flag = true;
+              this.errorHandler(form, key, key2);
+              flag = true;
             }
           }
         } else if (form[key] === null) {
@@ -394,9 +390,9 @@ export class AnnualAccountsComponent implements OnInit {
         }
       }
       if (flag) {
-        form["isCompleted"] = true;
-      } else {
         form["isCompleted"] = false;
+      } else {
+        form["isCompleted"] = true;
       }
       res("sucess");
     });
@@ -412,8 +408,8 @@ export class AnnualAccountsComponent implements OnInit {
         this.answerError[form["audit_status"]][key] = false;
       }, 4000);
     }
-    if(key2 == "auditor_registration"){
-      form[key]["auditor_registration_error"] = "Field Empty"
+    if (key2 == "auditor_registration") {
+      form[key]["auditor_registration_error"] = "Field Empty";
     }
   }
 
@@ -531,7 +527,7 @@ export class AnnualAccountsComponent implements OnInit {
           "excelError"
         ] = error?.data?.message || "Upload Error";
         this.clearFile(fileNameArray, false, true);
-      } else this.clearFile(fileNameArray, isPdf,true);
+      } else this.clearFile(fileNameArray, isPdf, true);
     }
   }
 
@@ -638,5 +634,11 @@ export class AnnualAccountsComponent implements OnInit {
         }
       );
     });
+  }
+
+  declareCheck(res) {
+    this[res]["standardized_data"]["declaration"] = !this[res][
+      "standardized_data"
+    ]["declaration"];
   }
 }
