@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid " id="planPre" #planPre>
     <div class="row">
         <div class="col-sm-12 header">
-            <a *ngIf="!parentData" mat-dialog-close style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
+            <a mat-dialog-close class="h-cls" style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
                 <mat-icon aria-hidden="false">
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
                 </mat-icon>
@@ -9,7 +9,7 @@
             <span class="col-sm-12 heading">Plans for Water and Sanitation</span>
         </div>
     </div>
-    <div class="row" style="margin-top: 1.5rem;">
+    <div class="row h-cls" style="margin-top: 1.5rem;">
         <div class="col-sm-12 text-right">
             <button *ngIf="!parentData" id="donwloadButton" style="right: 0%;
       outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="downloadAsPDF()">

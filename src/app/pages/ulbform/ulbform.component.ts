@@ -21,6 +21,8 @@ export class UlbformComponent implements OnInit {
   userLoggedInDetails: IUserLoggedInDetails;
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
+  isMillionPlus;
+  isUA;
 
   constructor(
     private _commonService: CommonService,
@@ -30,6 +32,7 @@ export class UlbformComponent implements OnInit {
     public dialog: MatDialog,
     public ulbformService: UlbformService
   ) {
+    this.accessGrant();
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
@@ -74,6 +77,14 @@ export class UlbformComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  public accessGrant(){
+    let userData = JSON.parse(localStorage.getItem('userData'));
+    this.isMillionPlus =  userData.isMillionPlus;
+    this.isUA = userData.isUA;
+    console.log('milli', this.isMillionPlus)
+    console.log('Ua', this.isUA)
   }
 
   private initializeUserType() {

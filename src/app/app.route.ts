@@ -38,6 +38,13 @@ export const appRouter: Routes = [
       ),
   },
   {
+    path: "ulbAdmin",
+    loadChildren: () =>
+      import("./pages/ulb-admin/ulb-admin.module").then(
+        (m) => m.UlbAdminModule
+      ),
+  },
+  {
     path: "questionnaires",
     loadChildren: () =>
       import("./pages/questionnaires/questionnaires.module").then(

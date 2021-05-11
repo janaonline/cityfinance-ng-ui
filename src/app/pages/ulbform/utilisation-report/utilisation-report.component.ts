@@ -484,27 +484,28 @@ export class UtilisationReportComponent implements OnInit {
 
   saveAndNext(template) {
     this.submitted = true;
-    //  console.log(this.utilizationReport);
-    //  console.log(this.utilizationReport.value);
+  //  console.log(this.utilizationReport);
+  //  console.log(this.utilizationReport.value);
 
-    this.fd = this.utilizationReport.value;
-    this.fd.isDraft = true;
-    this.fd.financialYear = "5ea036c2d6f1c5ee2e702e9e";
-    this.fd.designYear = "5ea036c2d6f1c5ee2e702e9e";
-    this.fd.grantType = "Tied";
-    this.fd.grantPosition.closingBal = this.totalclosingBal;
+        this.fd = this.utilizationReport.value;
+        this.fd.isDraft = true;
+        this.fd.financialYear = '5ea036c2d6f1c5ee2e702e9e';
+        this.fd.designYear ='5ea036c2d6f1c5ee2e702e9e';
+        this.fd.grantType = 'Tied';
+        this.fd.grantPosition.closingBal = this.totalclosingBal;
 
-    if (
-      this.utilizationReport.valid &&
-      this.totalclosingBal >= 0 &&
-      !this.isSumEqual
-    ) {
-      this.apiCall(this.fd);
-      console.log("form submitted", this.fd);
-      // return this._router.navigate(["ulbform/annual_acc"]);
-    } else {
-      this.openModal(template);
-    }
+        if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
+          this.apiCall(this.fd);
+          console.log('form submitted', this.fd);
+          return this._router.navigate(["ulbform/annual_acc"]);
+
+
+        }
+        else {
+          this.openModal(template);
+        }
+
+
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: "modal-md" });
@@ -517,9 +518,9 @@ export class UtilisationReportComponent implements OnInit {
   proceed() {
     this.modalRef.hide();
     console.log(this.fd);
-    console.log("form submitted", this.fd);
-    this.apiCall(this.fd);
-    // return this._router.navigate(["ulbform/annual_acc"]);
+    console.log('form submitted', this.fd);
+    this.apiCall(this.fd)
+    return this._router.navigate(["ulbform/annual_acc"]);
   }
   alertClose() {
     this.modalRef.hide();
