@@ -79,6 +79,7 @@ export class UlbformComponent implements OnInit {
 
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
+    console.log(this._router.url);
   }
   private initializeLoggedInUserDataFetch() {
     //  = this.profileService.getUserLoggedInDetails();
