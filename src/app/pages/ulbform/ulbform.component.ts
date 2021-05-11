@@ -22,36 +22,37 @@ export class UlbformComponent implements OnInit {
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
 
- constructor(private _commonService: CommonService,
-  private profileService: ProfileService,private _router: Router, private wsService : WaterSanitationService,
-  public dialog: MatDialog) {
+  constructor(private _commonService: CommonService,
+    private profileService: ProfileService, private _router: Router, private wsService: WaterSanitationService,
+    public dialog: MatDialog) {
 
-  this.initializeUserType();
-   this.fetchStateList();
-   this.initializeLoggedInUserDataFetch();
-  //  switch (this.userLoggedInDetails.role) {
+    this.initializeUserType();
+    this.fetchStateList();
+    this.initializeLoggedInUserDataFetch();
+    //  switch (this.userLoggedInDetails.role) {
 
-  //     case USER_TYPE.PARTNER:
-  //     case USER_TYPE.MoHUA:
-  //     case USER_TYPE.ADMIN:
-  //       this._router.navigate(["/fc-home-page"]);
-  // }
+    //     case USER_TYPE.PARTNER:
+    //     case USER_TYPE.MoHUA:
+    //     case USER_TYPE.ADMIN:
+    //       this._router.navigate(["/fc-home-page"]);
+    // }
 
- }
+  }
 
 
- private fetchStateList() {
-   this._commonService.fetchStateList().subscribe((res) => {
-     this.states = {};
-     res.forEach((state) => (this.states[state._id] = state));
+  private fetchStateList() {
+    this._commonService.fetchStateList().subscribe((res) => {
+      this.states = {};
+      res.forEach((state) => (this.states[state._id] = state));
 
-   });
- }
+    });
+  }
 
   ngOnInit(): void {
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
+    console.log(this._router.url)
   }
   private initializeLoggedInUserDataFetch() {
     //  = this.profileService.getUserLoggedInDetails();
@@ -69,23 +70,23 @@ export class UlbformComponent implements OnInit {
     }
   }
   dialogData;
-  ulbPreview(){
+  ulbPreview() {
 
-   console.log("hello", this.dialogData)
+    console.log("hello", this.dialogData)
     const dialogRef = this.dialog.open(UlbformPreviewComponent,
       {
-        data:this.dialogData,
+        data: this.dialogData,
         width: "85vw",
-  //   maxHeight: "95vh",
-       height: "100%",
-       panelClass: 'no-padding-dialog'
-    } );
-   // this.hidden = false;
+        //   maxHeight: "95vh",
+        height: "100%",
+        panelClass: 'no-padding-dialog'
+      });
+    // this.hidden = false;
     dialogRef.afterClosed().subscribe(result => {
-    // console.log(`Dialog result: ${result}`);
-  //   this.hidden = true;
+      // console.log(`Dialog result: ${result}`);
+      //   this.hidden = true;
 
-   });
+    });
   }
   // this._matDialog.open(this.previewPopup, {
   //   width: "85vw",
@@ -95,5 +96,11 @@ export class UlbformComponent implements OnInit {
 
   //   disableClose: false,
   // });
+
+
+  compareDataOnClick() {
+    console.log(this._router.url)
+
+  }
 
 }
