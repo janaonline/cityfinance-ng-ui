@@ -13,6 +13,7 @@ export class WaterSanitationPreviewComponent implements OnInit {
 
   @ViewChild("planPre") _html: ElementRef;
   showLoader;
+  parentData: any;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any ,
   private _questionnaireService: QuestionnaireService,private _matDialog: MatDialog) { }
   styleForPDF=`<style>
