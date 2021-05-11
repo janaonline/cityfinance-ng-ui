@@ -1,46 +1,58 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-12 header">
-      <a *ngIf="!parentData" mat-dialog-close
-        style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
-        <mat-icon aria-hidden="false">
-          <img src="../../../../../assets/form-icon/Icon material-close.svg">
-        </mat-icon>
-      </a>
-      <span class="col-sm-12 heading">Linking of PFMS Account</span>
+<div class="container-fluid" id="pfmsPre" #pfmsPre>
+    <div class="row">
+        <div class="col-sm-12 header">
+            <a mat-dialog-close class="h-cls" style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
+                <mat-icon aria-hidden="false">
+                    <img src="../../../../../assets/form-icon/Icon material-close.svg">
+                </mat-icon>
+            </a>
+            <div class="col-sm-12 d-h">
+                <span class="heading">Linking of PFMS Account</span>
+            </div>
+
+        </div>
     </div>
-  </div>
-  <div class="row" style="margin-top: 1.5rem;">
-    <div class="col-sm-12 text-right">
-      <button *ngIf="!parentData" id="donwloadButton" style="right: 0%;
+    <div class="row h-cls" style="margin-top: 1.5rem;">
+        <div class="col-sm-12 text-right">
+            <button id="donwloadButton" style="right: 0%;
         outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="downloadAsPDF()">
         Download as PDF
       </button>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 2rem; margin-bottom: 20px;">
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-sm-6 qus-h">
-              (A) Does the ULB have separate Account for 15th Finance Commission Grants?
-            </div>
-            <div class="col-sm-6 ans-h">
-              {{data.account | uppercase}}
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6 qus-h">
-              (B) Has the ULB linked the account with PFMS?
-            </div>
-            <div class="col-sm-6 ans-h">
-              {{data.linked | uppercase}}
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 2rem; margin-bottom: 20px;">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 qus-h">
+                            (A) Does the ULB have separate Account for 15th Finance Commission Grants?
+                        </div>
+                        <div class="col-sm-6 ans-h">
+                            {{data.account | uppercase}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 qus-h">
+                            (B) Has the ULB linked the account with PFMS?
+                        </div>
+                        <div class="col-sm-6 ans-h" *ngIf="data.linked != ''; else naDiv">
+                            {{data.linked | uppercase}}
+                        </div>
+
+                        <ng-template #naDiv>
+                            <div class="col-sm-6 ans-h">
+                                N/A
+                            </div>
+                        </ng-template>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 </div>

@@ -73,7 +73,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     this.showQuestion2 = false;
     this.isClicked = false;
     this.account = 'no';
-    this.linked = 'no';
+    this.linked = '';
   }
   onClickYES() {
     this.isClicked = true
@@ -141,9 +141,13 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     }
     console.log('preData', preData)
     const dialogRef = this.dialog.open(PfmsPreviewComponent,
-      {data: preData,
-     height: '95%', width: '85vw',
-     panelClass: 'no-padding-dialog' } );
+      {
+        data: preData,
+        maxHeight: "95vh",
+        height: "fit-content",
+        width: '85vw',
+        panelClass: 'no-padding-dialog'
+     } );
    // this.hidden = false;
     dialogRef.afterClosed().subscribe(result => {
     // console.log(`Dialog result: ${result}`);

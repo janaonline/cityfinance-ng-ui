@@ -12,7 +12,11 @@ export class OverviewComponent implements OnInit {
   count = 0
   percentage = 0;
   status = 'In Progress'
-  constructor(private Overview: Overview) { }
+  isMillionPlus;
+  isUA;
+  constructor(private Overview: Overview) {
+    this.accessGrant();
+   }
 
   ngOnInit() {
     this.Overview.getData('606aaf854dff55e6c075d219')
@@ -31,6 +35,9 @@ export class OverviewComponent implements OnInit {
           }
 
         }
+        // if(this.isUA =='No' && this.isMillionPlus == 'Yes' ){
+        //   this.percentage = this.count * 20;
+        // }
         this.percentage = this.count * 20;
         if (this.percentage == 100) {
           this.status = 'Completed'
@@ -81,7 +88,13 @@ export class OverviewComponent implements OnInit {
   hover = false
   i = 8098987
 
-
+  public accessGrant(){
+    let userData = JSON.parse(localStorage.getItem('userData'));
+    this.isMillionPlus =  userData.isMillionPlus;
+    this.isUA = userData.isUA;
+    console.log('milli', this.isMillionPlus)
+    console.log('Ua', this.isUA)
+  }
   onUnhover() {
     this.hover = false
 

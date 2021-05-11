@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment'
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +20,16 @@ export class WaterSanitationService {
     // ulbRecord = ulbRecord.ulb;
     // console.log(ulbRecord)
     let getFilesUrl = environment.api.url + 'plans/5ea036c2d6f1c5ee2e702e9e'
-    return this.http.get(getFilesUrl)
+    return this.http.get(getFilesUrl).pipe(catchError(error => {
+      let errMes = 'An error occured.'
+      console.log(error);
+      if(error.status =='404'){
+        errMes ="No records found."
+        return throwError(errMes)
+      }else{
+        return throwError(errMes)
+      }
+    }));
   }
+
 }

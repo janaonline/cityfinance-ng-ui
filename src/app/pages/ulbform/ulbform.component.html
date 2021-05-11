@@ -102,7 +102,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-2 col-md-2 col-lg-2 sideNav" style="padding: 0 0; margin-left: 2px;">
+        <div class="col-sm-2 col-md-2 col-xs-2 col-lg-2 sideNav" style="padding: 0 0; margin-left: 2px;">
             <ul class="heading" style="background-color: #FFC500; ">
                 <a [routerLink]="['../fc-home-page']" (click)="compareDataOnClick()">
                     <h5 style="font-size: 14px;">
@@ -171,7 +171,7 @@
                     </mat-icon>Service Level Benchmarks (SLBs)
                 </a>
             </ul>
-            <ul class="heading" style="background-color: #124A55; ">
+            <ul class="heading" style="background-color: #124A55;" *ngIf="isUA == 'Yes'">
 
                 <h5>
                     <mat-icon aria-hidden="false ">
@@ -179,7 +179,7 @@
                     </mat-icon>Municipal Challenge Fund
                 </h5>
             </ul>
-            <ul class="links" routerLinkActive="active">
+            <ul class="links" routerLinkActive="active" *ngIf="isUA == 'Yes'">
 
                 <!-- <a routerLink="entry-list5 ">SLB's for Water Supply and Sanitation</a> -->
                 <a routerLink="slbs" (click)="compareDataOnClick()">
@@ -191,7 +191,7 @@
             </ul>
 
 
-            <ul class="heading" style="background-color: #124A55; ">
+            <ul class="heading" style="background-color: #124A55; " *ngIf="isMillionPlus =='No'">
 
                 <h5 style="margin-left: 4px;">
                     <mat-icon aria-hidden="false ">
@@ -199,8 +199,8 @@
                     </mat-icon>Upload Plans
                 </h5>
             </ul>
-            <ul class="links" routerLinkActive="active">
-                <a routerLink="water-sanitation" (click)="compareDataOnClick()">
+            <ul class="links" routerLinkActive="active" *ngIf="isMillionPlus =='No'">
+                <a routerLink="water-sanitation">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Icon material-note.svg">
                     </mat-icon>Plans for Water and Sanitation
@@ -220,7 +220,7 @@
 
 
         </div>
-        <div class="col-sm-9 col-md-9 col-lg-9" style="background-color: #FFFFFF; width: 82%">
+        <div class="col-sm-9 col-md-9 col-xs-9 col-lg-9" style="background-color: #FFFFFF; width: 82%">
 
             <div class="container-fluid">
                 <div class="col header1">

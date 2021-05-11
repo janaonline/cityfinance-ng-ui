@@ -58,4 +58,6 @@ export class AuthService {
   otpVerify(body){
     return this.http.post(`${environment.api.url}verifyOtp`,body)
   }
+
+
 }

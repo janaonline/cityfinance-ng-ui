@@ -459,7 +459,7 @@ else{
         if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
           this.apiCall(this.fd);
           console.log('form submitted', this.fd);
-         // return this._router.navigate(["ulbform/annual_acc"]);
+          return this._router.navigate(["ulbform/annual_acc"]);
 
 
         }
@@ -483,7 +483,7 @@ else{
     console.log(this.fd);
     console.log('form submitted', this.fd);
     this.apiCall(this.fd)
-   // return this._router.navigate(["ulbform/annual_acc"]);
+    return this._router.navigate(["ulbform/annual_acc"]);
   }
   alertClose(){
     this.modalRef.hide();
