@@ -58,14 +58,18 @@ export class UlbformComponent implements OnInit {
     slbForWaterSupplyAndSanitation: { isSubmit: false },
     utilReport: { isSubmit: false },
   };
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.ulbformService.allStatus.subscribe((status) => {
+      this.allStatus = status;
+      sessionStorage.setItem("allStatus", JSON.stringify(this.allStatus));
+    });
     this.getStatus();
   }
 
   getStatus() {
     this.ulbformService.getStatus(this.design_year).subscribe(
       (res) => {
-        this.allStatus = res["response"]["steps"];
+        this.ulbformService.allStatus.next(res["response"]["steps"]);
       },
       (err) => {
         console.log(err);

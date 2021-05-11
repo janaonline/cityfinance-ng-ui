@@ -7,6 +7,7 @@ import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { USER_TYPE } from "src/app/models/user/userType";
 import { MatDialog } from "@angular/material/dialog";
 import { PfmsPreviewComponent } from "./pfms-preview/pfms-preview.component";
+import { UlbformService } from "../ulbform.service";
 @Component({
   selector: "app-link-pfms",
   templateUrl: "./link-pfms.component.html",
@@ -19,7 +20,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     public dialog: MatDialog,
     private modalService: BsModalService,
     private _router: Router,
-    private _profileService: ProfileService
+    private _profileService: ProfileService,
+    private _ulbformService: UlbformService
   ) {
     super();
     switch (this.loggedInUserType) {
@@ -51,7 +53,6 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         console.log(this.errMessage);
       }
     );
-
     // this.account = this.receivedData['response']['account'];
     // this.linked = this.receivedData['response']['linked'];
   }
@@ -91,6 +92,9 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   postData() {
     this.LinkPFMSAccount.postData(this.fd).subscribe(
       (res) => {
+        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        status.pfmsAccount.isSubmit = res["isCompleted"];
+        this._ulbformService.allStatus.next(status);
         console.log(res);
       },
       (error) => {

@@ -28,7 +28,8 @@ import { delay, map, retryWhen } from "rxjs/operators";
 import { ImagePreviewComponent } from "./image-preview/image-preview.component";
 //import { url } from "inspector";
 import { MapDialogComponent } from "../../../shared/components/map-dialog/map-dialog.component";
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { UlbformService } from "../ulbform.service";
 @Component({
   selector: "app-utilisation-report",
   templateUrl: "./utilisation-report.component.html",
@@ -51,35 +52,34 @@ export class UtilisationReportComponent implements OnInit {
     private UtiReportService: UtiReportService,
     private dataEntryService: DataEntryService,
     private modalService: BsModalService,
+    private _ulbformService: UlbformService
   ) {
-
     this.initializeUserType();
 
     // this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
-
   }
 
   // tabularProject:any = [{
   //   id : 0
   // }];
-   totalclosingBal:Number = 0;
-   projectCost = 0;
-   projectExp = 0;
-   selectedFile;
-   categories;
-   editable;
-   photoUrl:any =[];
-   fd;
- formDataResponce;
-   states: { [staeId: string]: IState };
-   userLoggedInDetails: IUserLoggedInDetails;
-   loggedInUserType: USER_TYPE;
-   userTypes = USER_TYPE;
-   errMessage;
-   errorDisplay= false;
-   setLocation;
-   private fetchStateList() {
+  totalclosingBal: Number = 0;
+  projectCost = 0;
+  projectExp = 0;
+  selectedFile;
+  categories;
+  editable;
+  photoUrl: any = [];
+  fd;
+  formDataResponce;
+  states: { [staeId: string]: IState };
+  userLoggedInDetails: IUserLoggedInDetails;
+  loggedInUserType: USER_TYPE;
+  userTypes = USER_TYPE;
+  errMessage;
+  errorDisplay = false;
+  setLocation;
+  private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
       res.forEach((state) => (this.states[state._id] = state));
@@ -94,7 +94,6 @@ export class UtilisationReportComponent implements OnInit {
       //      this.utilizationReport.disable();
       //      this.utiReportFormControl.projects.disable();
 
-
       //  }
     });
   }
@@ -106,8 +105,10 @@ export class UtilisationReportComponent implements OnInit {
   ngOnInit() {
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;
-    //  console.log('res', resdata);
-       this.categories = this.categories.sort((a,b) => a.name.localeCompare(b.name))
+      //  console.log('res', resdata);
+      this.categories = this.categories.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
     });
   }
   public getResponse() {
@@ -115,7 +116,7 @@ export class UtilisationReportComponent implements OnInit {
       (res) => {
         //  this.formDataResponce = res;
         this.preFilledData(res);
-        console.log("utiRe",res);
+        console.log("utiRe", res);
       },
       (error) => {
         console.log(error);
@@ -186,27 +187,26 @@ export class UtilisationReportComponent implements OnInit {
       ]),
 
       name: ["", [Validators.required, Validators.maxLength(50)]],
-      designation: ["", [Validators.required, Validators.maxLength(50)]]
+      designation: ["", [Validators.required, Validators.maxLength(50)]],
     });
     // this.utilizationReport.disable();
-
   }
 
   get utiReportFormControl() {
     return this.utilizationReport.controls;
   }
-  public whiteSpaceRem(controlName){
-    if(controlName == 'name'){
+  public whiteSpaceRem(controlName) {
+    if (controlName == "name") {
       let name = this.utilizationReport.controls.name.value;
       name = name.trim();
       this.utilizationReport.controls.name.patchValue(name);
     }
-    if(controlName == 'designation'){
+    if (controlName == "designation") {
       let designation = this.utilizationReport.controls.designation.value;
-     designation = designation.trim();
+      designation = designation.trim();
       this.utilizationReport.controls.designation.patchValue(designation);
     }
-   // console.log('hi...2',(this.utilizationReport.controls.designation.value).trim());
+    // console.log('hi...2',(this.utilizationReport.controls.designation.value).trim());
   }
 
   private initializeUserType() {
@@ -215,80 +215,93 @@ export class UtilisationReportComponent implements OnInit {
   get tabelRows() {
     return this.utilizationReport.get("projects") as FormArray;
   }
-  calAmount(setFormControl){
-
-    let controlValue = +this.utilizationReport.value.grantPosition[setFormControl]
-    if(!isNaN(controlValue) || controlValue != 0){
+  calAmount(setFormControl) {
+    let controlValue =
+      +this.utilizationReport.value.grantPosition[setFormControl];
+    if (!isNaN(controlValue) || controlValue != 0) {
       controlValue.toFixed(2);
     }
 
-      this.patchValue(controlValue, setFormControl);
+    this.patchValue(controlValue, setFormControl);
 
     this.toatalSum();
-
   }
-  toatalSum(){
-    this.totalclosingBal = Number(this.utilizationReport.value.grantPosition.unUtilizedPrevYr) +
-    Number(this.utilizationReport.value.grantPosition.receivedDuringYr) -
-    Number(this.utilizationReport.value.grantPosition.expDuringYr);
+  toatalSum() {
+    this.totalclosingBal =
+      Number(this.utilizationReport.value.grantPosition.unUtilizedPrevYr) +
+      Number(this.utilizationReport.value.grantPosition.receivedDuringYr) -
+      Number(this.utilizationReport.value.grantPosition.expDuringYr);
   }
 
   patchValue(controlValue, setFormControl) {
-//console.log(controlValue);
-if(  !isNaN(controlValue)) {
-  if(controlValue == 0){
-    this.utilizationReport.controls['grantPosition']['controls'][setFormControl].patchValue('');
-  }else{
-    this.utilizationReport.controls['grantPosition']['controls'][setFormControl].patchValue(controlValue);
-  }
+    //console.log(controlValue);
+    if (!isNaN(controlValue)) {
+      if (controlValue == 0) {
+        this.utilizationReport.controls["grantPosition"]["controls"][
+          setFormControl
+        ].patchValue("");
+      } else {
+        this.utilizationReport.controls["grantPosition"]["controls"][
+          setFormControl
+        ].patchValue(controlValue);
+      }
+    } else {
+      this.utilizationReport.controls["grantPosition"]["controls"][
+        setFormControl
+      ].patchValue("");
+    }
 
-}
-else{
-  this.utilizationReport.controls['grantPosition']['controls'][setFormControl].patchValue('');
-}
-
-  //  this.utilizationReport.controls['grantPosition']['controls']['receivedDuringYr'].setValue(this.recValue);
+    //  this.utilizationReport.controls['grantPosition']['controls']['receivedDuringYr'].setValue(this.recValue);
 
     //  this.utilizationReport.controls['grantPosition']['controls']['receivedDuringYr'].setValue(this.recValue);
   }
 
-
-   totalProCost(i){
-     this.projectCost =0;
-    for(let j=0; j < this.tabelRows.length; j++){
-     // console.log(this.projectCost + +this.utilizationReport.controls.projects.value[j].cost)
-     if(!isNaN(this.utilizationReport.controls.projects.value[j].cost)){
-      this.projectCost = this.projectCost + +this.utilizationReport.controls.projects.value[j].cost;
-     }else{
-      this.projectCost = this.projectCost + 0;
-      console.log(this.utilizationReport)
-     }
-     if( isNaN(this.utilizationReport.controls.projects.value[j].cost)){
-
-      this.utilizationReport.controls.projects['controls'][j]['controls']['cost'].patchValue('')
+  totalProCost(i) {
+    this.projectCost = 0;
+    for (let j = 0; j < this.tabelRows.length; j++) {
+      // console.log(this.projectCost + +this.utilizationReport.controls.projects.value[j].cost)
+      if (!isNaN(this.utilizationReport.controls.projects.value[j].cost)) {
+        this.projectCost =
+          this.projectCost +
+          +this.utilizationReport.controls.projects.value[j].cost;
+      } else {
+        this.projectCost = this.projectCost + 0;
+        console.log(this.utilizationReport);
+      }
+      if (isNaN(this.utilizationReport.controls.projects.value[j].cost)) {
+        this.utilizationReport.controls.projects["controls"][j]["controls"][
+          "cost"
+        ].patchValue("");
+      }
     }
-    }
-
- }
-  totalExpCost(i) {
-    this.projectExp =0;
-    for(let j=0; j < this.tabelRows.length; j++){
-  //  this.projectExp = this.projectExp + Number(this.utilizationReport.controls.projects.value[j].expenditure);
-   // console.log(this.projectExp);
-   if(!isNaN(this.utilizationReport.controls.projects.value[j].expenditure)){
-    this.projectExp = this.projectExp + Number(this.utilizationReport.controls.projects.value[j].expenditure);
-   }else{
-    this.projectExp = this.projectExp + 0;
-
-   }
-   if( isNaN(this.utilizationReport.controls.projects.value[j].expenditure)){
-
-    this.utilizationReport.controls.projects['controls'][j]['controls']['expenditure'].patchValue('')
   }
+  totalExpCost(i) {
+    this.projectExp = 0;
+    for (let j = 0; j < this.tabelRows.length; j++) {
+      //  this.projectExp = this.projectExp + Number(this.utilizationReport.controls.projects.value[j].expenditure);
+      // console.log(this.projectExp);
+      if (
+        !isNaN(this.utilizationReport.controls.projects.value[j].expenditure)
+      ) {
+        this.projectExp =
+          this.projectExp +
+          Number(this.utilizationReport.controls.projects.value[j].expenditure);
+      } else {
+        this.projectExp = this.projectExp + 0;
+      }
+      if (
+        isNaN(this.utilizationReport.controls.projects.value[j].expenditure)
+      ) {
+        this.utilizationReport.controls.projects["controls"][j]["controls"][
+          "expenditure"
+        ].patchValue("");
+      }
     }
-    if(this.projectExp != this.utilizationReport.value.grantPosition.expDuringYr){
+    if (
+      this.projectExp != this.utilizationReport.value.grantPosition.expDuringYr
+    ) {
       this.isSumEqual = true;
-    }else{
+    } else {
       this.isSumEqual = false;
     }
   }
@@ -303,91 +316,111 @@ else{
       ulbName: this.utilizationForm.controls.ulb.value,
       grntType: this.utilizationForm.controls.grantType.value,
       grantPosition: {
-        unUtilizedPrevYr: this.utilizationReport.controls["grantPosition"][
-          "controls"
-        ]["unUtilizedPrevYr"].value,
-        receivedDuringYr: this.utilizationReport.controls["grantPosition"][
-          "controls"
-        ]["receivedDuringYr"].value,
-        expDuringYr: this.utilizationReport.controls["grantPosition"][
-          "controls"
-        ]["expDuringYr"].value,
+        unUtilizedPrevYr:
+          this.utilizationReport.controls["grantPosition"]["controls"][
+            "unUtilizedPrevYr"
+          ].value,
+        receivedDuringYr:
+          this.utilizationReport.controls["grantPosition"]["controls"][
+            "receivedDuringYr"
+          ].value,
+        expDuringYr:
+          this.utilizationReport.controls["grantPosition"]["controls"][
+            "expDuringYr"
+          ].value,
         closingBal: this.totalclosingBal,
       },
       projects: this.utilizationReport.getRawValue().projects,
 
-     name: this.utilizationReport.controls.name.value,
-     designation: this.utilizationReport.controls.designation.value,
-     totalProCost: this.projectCost,
-     totalExpCost: this.projectExp
- }
-// console.log(formdata);
-   for(let i=0; i<formdata.projects.length; i++){
-    // console.log(formdata.projects[i].category);
-     for(let j=0; j< this.categories.length; j++){
-      if(this.categories[j]._id == formdata.projects[i].category){
-        formdata.projects[i].category = this.categories[j].name;
-      //  console.log(formdata.projects[i].category);
-       }
-     }
-   }
-    const dialogRef = this.dialog.open(PreviewUtiFormComponent,
-       {data: formdata,
-      height: '100%', width: '100%',
-      panelClass: 'no-padding-dialog' } );
+      name: this.utilizationReport.controls.name.value,
+      designation: this.utilizationReport.controls.designation.value,
+      totalProCost: this.projectCost,
+      totalExpCost: this.projectExp,
+    };
+    // console.log(formdata);
+    for (let i = 0; i < formdata.projects.length; i++) {
+      // console.log(formdata.projects[i].category);
+      for (let j = 0; j < this.categories.length; j++) {
+        if (this.categories[j]._id == formdata.projects[i].category) {
+          formdata.projects[i].category = this.categories[j].name;
+          //  console.log(formdata.projects[i].category);
+        }
+      }
+    }
+    const dialogRef = this.dialog.open(PreviewUtiFormComponent, {
+      data: formdata,
+      height: "100%",
+      width: "100%",
+      panelClass: "no-padding-dialog",
+    });
     // this.hidden = false;
-     dialogRef.afterClosed().subscribe(result => {
-     // console.log(`Dialog result: ${result}`);
-   //   this.hidden = true;
-
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log(`Dialog result: ${result}`);
+      //   this.hidden = true;
     });
   }
 
- addRow(){
-
-  this.tabelRows.push(this.fb.group({
-    category : ['', Validators.required],
-    name: ['',[Validators.required, Validators.maxLength(50), Validators.pattern('[a-zA-Z]*')]],
-    description: ['',[Validators.required, Validators.maxLength(200), Validators.pattern('[a-zA-Z]*')]],
-    photos:this.fb.array( [
-      // this.fb.group({
-      //   url: ['']
-      // })
-    ]) ,
-    capacity: ['', Validators.required],
-    location: this.fb.group({
-      lat: ['', Validators.required],
-      long : ['', Validators.required],
-    }),
-    cost: ['', Validators.required],
-    expenditure: ['', Validators.required],
-       }));
-
+  addRow() {
+    this.tabelRows.push(
+      this.fb.group({
+        category: ["", Validators.required],
+        name: [
+          "",
+          [
+            Validators.required,
+            Validators.maxLength(50),
+            Validators.pattern("[a-zA-Z]*"),
+          ],
+        ],
+        description: [
+          "",
+          [
+            Validators.required,
+            Validators.maxLength(200),
+            Validators.pattern("[a-zA-Z]*"),
+          ],
+        ],
+        photos: this.fb.array([
+          // this.fb.group({
+          //   url: ['']
+          // })
+        ]),
+        capacity: ["", Validators.required],
+        location: this.fb.group({
+          lat: ["", Validators.required],
+          long: ["", Validators.required],
+        }),
+        cost: ["", Validators.required],
+        expenditure: ["", Validators.required],
+      })
+    );
   }
-  addPreFilledRow(data){
-   // console.log("data", data, data.photos)
-   // console.log(this.tabelRows);
-    this.tabelRows.push(this.fb.group({
-      category : [data.category, Validators.required],
-      name: [data.name,[Validators.required, Validators.maxLength(50)]],
-      description: [data.description,[Validators.required, Validators.maxLength(200)]],
+  addPreFilledRow(data) {
+    // console.log("data", data, data.photos)
+    // console.log(this.tabelRows);
+    this.tabelRows.push(
+      this.fb.group({
+        category: [data.category, Validators.required],
+        name: [data.name, [Validators.required, Validators.maxLength(50)]],
+        description: [
+          data.description,
+          [Validators.required, Validators.maxLength(200)],
+        ],
 
-      photos:this.fb.array( [
-
-      ]),
-      capacity: [data.capacity, Validators.required],
-      location: this.fb.group({
-        lat: [data.location.lat, Validators.required],
-        long : [data.location.long, Validators.required],
-      }),
-      cost: [data.cost, Validators.required],
-      expenditure: [data.expenditure, Validators.required],
-         }));
-         this.totalProCost(this.tabelRows.length);
-         this.totalExpCost(this.tabelRows.length);
-         this.addPhotosUrl(data.photos, this.tabelRows.length-1);
-      if(!this.editable)
-      this.tabelRows.disable();
+        photos: this.fb.array([]),
+        capacity: [data.capacity, Validators.required],
+        location: this.fb.group({
+          lat: [data.location.lat, Validators.required],
+          long: [data.location.long, Validators.required],
+        }),
+        cost: [data.cost, Validators.required],
+        expenditure: [data.expenditure, Validators.required],
+      })
+    );
+    this.totalProCost(this.tabelRows.length);
+    this.totalExpCost(this.tabelRows.length);
+    this.addPhotosUrl(data.photos, this.tabelRows.length - 1);
+    if (!this.editable) this.tabelRows.disable();
   }
   setUrlGroup(url) {
     return this.fb.group({
@@ -431,64 +464,63 @@ else{
   // saveAsDraft(){
   //   console.log(this.utilizationReport);
   // }
-  apiCall(fd){
-    this.UtiReportService.createAndStorePost(fd)
-    .subscribe((res) => {
-     //  console.log(res);
-       alert('Record submitted successfully.')
-    },
-    error =>{
-       alert("An error occured.")
-       this.errMessage = error.message;
-       console.log(this.errMessage);
-    });
+  apiCall(fd) {
+    this.UtiReportService.createAndStorePost(fd).subscribe(
+      (res) => {
+        //  console.log(res);
+        alert("Record submitted successfully.");
+      },
+      (error) => {
+        alert("An error occured.");
+        this.errMessage = error.message;
+        console.log(this.errMessage);
+      }
+    );
   }
 
   saveAndNext(template) {
     this.submitted = true;
-  //  console.log(this.utilizationReport);
-  //  console.log(this.utilizationReport.value);
+    //  console.log(this.utilizationReport);
+    //  console.log(this.utilizationReport.value);
 
-        this.fd = this.utilizationReport.value;
-        this.fd.isDraft = true;
-        this.fd.financialYear = '5ea036c2d6f1c5ee2e702e9e';
-        this.fd.designYear ='5ea036c2d6f1c5ee2e702e9e';
-        this.fd.grantType = 'Tied';
-        this.fd.grantPosition.closingBal = this.totalclosingBal;
+    this.fd = this.utilizationReport.value;
+    this.fd.isDraft = true;
+    this.fd.financialYear = "5ea036c2d6f1c5ee2e702e9e";
+    this.fd.designYear = "5ea036c2d6f1c5ee2e702e9e";
+    this.fd.grantType = "Tied";
+    this.fd.grantPosition.closingBal = this.totalclosingBal;
 
-        if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
-          this.apiCall(this.fd);
-          console.log('form submitted', this.fd);
-         // return this._router.navigate(["ulbform/annual_acc"]);
-
-
-        }
-        else {
-          this.openModal(template);
-        }
-
-
+    if (
+      this.utilizationReport.valid &&
+      this.totalclosingBal >= 0 &&
+      !this.isSumEqual
+    ) {
+      this.apiCall(this.fd);
+      console.log("form submitted", this.fd);
+      // return this._router.navigate(["ulbform/annual_acc"]);
+    } else {
+      this.openModal(template);
+    }
   }
-   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: "modal-md" });
   }
 
-  stay(){
+  stay() {
     this.modalRef.hide();
-
   }
 
   proceed() {
     this.modalRef.hide();
     console.log(this.fd);
-    console.log('form submitted', this.fd);
-    this.apiCall(this.fd)
-   // return this._router.navigate(["ulbform/annual_acc"]);
+    console.log("form submitted", this.fd);
+    this.apiCall(this.fd);
+    // return this._router.navigate(["ulbform/annual_acc"]);
   }
-  alertClose(){
+  alertClose() {
     this.modalRef.hide();
   }
- // myFiles:string [] = [];
+  // myFiles:string [] = [];
   filesToUpload: Array<File> = [];
 
   fileUploadTracker: {
@@ -517,9 +549,9 @@ else{
     //   for (let i = 0; i < event.target.files.length; i++) {
     //     this.filesToUpload.push(event.target.files[i]);
 
-  // }
- // console.log(this.filesToUpload);
- // console.log(projectIndex, i)
+    // }
+    // console.log(this.filesToUpload);
+    // console.log(projectIndex, i)
 
     this.upload(projectIndex);
   }
@@ -536,8 +568,13 @@ else{
     for (let i = 0; i < filesSelected.length; i++) {
       const file = filesSelected[i];
       const fileExtension = file.name.split(`.`).pop();
-      if (fileExtension === "pdf" || fileExtension === "gif" || fileExtension == "png"
-      || fileExtension == "jpg" || fileExtension == "jpeg") {
+      if (
+        fileExtension === "pdf" ||
+        fileExtension === "gif" ||
+        fileExtension == "png" ||
+        fileExtension == "jpg" ||
+        fileExtension == "jpeg"
+      ) {
         validFiles.push(file);
       }
     }
@@ -554,12 +591,13 @@ else{
       if (this.filesAlreadyInProcess.length > i) {
         continue;
       }
-      console.log('pht', this.photoUrl)
-      const control = <FormArray>this.tabelRows.controls[urlIndex]['controls']['photos'];
+      console.log("pht", this.photoUrl);
+      const control = <FormArray>(
+        this.tabelRows.controls[urlIndex]["controls"]["photos"]
+      );
       let fileLength = control.length + this.photoUrl.length;
-      if( fileLength > 4 || files.length > 5){
-
-        alert("Maximum 5 files are allowed")
+      if (fileLength > 4 || files.length > 5) {
+        alert("Maximum 5 files are allowed");
         break;
       }
       this.filesAlreadyInProcess.push(i);
@@ -698,8 +736,8 @@ else{
 
     let mess = window.confirm("Do you want delete all photos");
     if (mess) {
-      let removeUrl = this.tabelRows["controls"][Index]["controls"].photos
-        .value;
+      let removeUrl =
+        this.tabelRows["controls"][Index]["controls"].photos.value;
       console.log(removeUrl);
       removeUrl.forEach((element, i) => {
         this.removePhotos(Index, i);
@@ -715,8 +753,11 @@ else{
 
   openDialog(index): void {
     // console.log(this.tabelRows.value[index].location);
-    if(this.tabelRows.value[index].location.lat !== "" && this.tabelRows.value[index].location.long !== ""){
-      this.UtiReportService.setLocation(this.tabelRows.value[index].location)
+    if (
+      this.tabelRows.value[index].location.lat !== "" &&
+      this.tabelRows.value[index].location.long !== ""
+    ) {
+      this.UtiReportService.setLocation(this.tabelRows.value[index].location);
     }
     const dialogRef = this.dialog.open(MapDialogComponent, {
       width: "60%",
@@ -725,10 +766,14 @@ else{
 
     dialogRef.afterClosed().subscribe((result) => {
       this.setLocation = this.UtiReportService.getLocation();
-      if(this.setLocation !== null){
-        this.tabelRows.controls[index]['controls'].location.controls.lat.patchValue(this.setLocation.lat)
-        this.tabelRows.controls[index]['controls'].location.controls.long.patchValue(this.setLocation.lng)
-        }
+      if (this.setLocation !== null) {
+        this.tabelRows.controls[index][
+          "controls"
+        ].location.controls.lat.patchValue(this.setLocation.lat);
+        this.tabelRows.controls[index][
+          "controls"
+        ].location.controls.long.patchValue(this.setLocation.lng);
+      }
     });
   }
 }
