@@ -13,7 +13,7 @@ export class OverviewComponent implements OnInit {
   percentage = 0;
   status = 'In Progress'
   isMillionPlus;
-    isUA;
+  isUA;
   constructor(private Overview: Overview) {
     this.accessGrant();
    }
@@ -35,6 +35,9 @@ export class OverviewComponent implements OnInit {
           }
 
         }
+        // if(this.isUA =='No' && this.isMillionPlus == 'Yes' ){
+        //   this.percentage = this.count * 20;
+        // }
         this.percentage = this.count * 20;
         if (this.percentage == 100) {
           this.status = 'Completed'

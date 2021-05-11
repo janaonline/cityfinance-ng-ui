@@ -68,21 +68,16 @@ fileProcessingTracker: {
       //  this.waterProgress = 100;
        }
    },
-   error =>{
-      alert("An error occured.")
-      this.err = error.message;
-      console.log(this.err);
-   });
+   errMes => {
+      alert(errMes)
+  //     this.err = error.message;
+       console.log(errMes);
+   }
+   );
 
   }
 
-  // public initializePlanWS(){
 
-  //   this.waterAndSanitation = this.fb.group({
-  //     plan_water :['', Validators.required],
-  //     plan_sanitation: ['', Validators.required]
-  //   })
-  // }
   onSubmit(){
 
   }
