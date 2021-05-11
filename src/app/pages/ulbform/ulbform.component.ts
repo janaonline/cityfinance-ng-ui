@@ -50,9 +50,7 @@ export class UlbformComponent implements OnInit {
 
   design_year = JSON.parse(localStorage.getItem("Years"))["2021-22"];
   allStatus = {
-    annualAccounts: {
-      isSubmit: { isSubmit: false },
-    },
+    annualAccounts: { isSubmit: false },
     pfmsAccount: { isSubmit: false },
     plans: { isSubmit: false },
     slbForWaterSupplyAndSanitation: { isSubmit: false },
@@ -72,6 +70,7 @@ export class UlbformComponent implements OnInit {
         this.ulbformService.allStatus.next(res["response"]["steps"]);
       },
       (err) => {
+        this.ulbformService.allStatus.next(this.allStatus);
         console.log(err);
       }
     );

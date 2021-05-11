@@ -469,6 +469,10 @@ export class UtilisationReportComponent implements OnInit {
       (res) => {
         //  console.log(res);
         alert("Record submitted successfully.");
+        debugger
+        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        status.utilReport.isSubmit = res["isCompleted"];
+        this._ulbformService.allStatus.next(status);
       },
       (error) => {
         alert("An error occured.");

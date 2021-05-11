@@ -6,6 +6,7 @@ import { AnnualAccountsService } from "./annual-accounts.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { MatDialog } from "@angular/material/dialog";
 import { AnnualPreviewComponent } from "./annual-preview/annual-preview.component";
+import { UlbformService } from "../ulbform.service";
 
 const swal: SweetAlert = require("sweetalert");
 
@@ -18,7 +19,8 @@ export class AnnualAccountsComponent implements OnInit {
   constructor(
     private dataEntryService: DataEntryService,
     private annualAccountsService: AnnualAccountsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public _ulbformService:UlbformService
   ) {}
   ngOnInit(): void {
     this.changeAudit("Unaudited");
@@ -303,36 +305,41 @@ export class AnnualAccountsComponent implements OnInit {
     });
   }
 
-  submit() {
-    this.save(this.unauditResponse);
-    this.save(this.auditResponse);
+  async submit() {
+    await this.save(this.unauditResponse);
+    await this.save(this.auditResponse);
   }
 
-  async save(form) {
-    if (
-      form.submit_annual_accounts.answer === "no" ||
-      form.submit_annual_accounts.answer === null
-    ) {
-      delete form.provisional_data;
-    }
-    if (
-      form.submit_standardized_data.answer === "no" ||
-      form.submit_standardized_data.answer === null
-    ) {
-      delete form.standardized_data;
-    }
-
-    await this.checkForm(form);
-
-    this.childComp = true;
-    this.annualAccountsService.postData(form).subscribe(
-      (res) => {
-        swal("Form Saved", "", "success");
-      },
-      (err) => {
-        swal("Failed To Save", "", "error");
+   save(form) {
+    return new Promise(async(resolve,reject)=>{
+      if (
+        form.submit_annual_accounts.answer === "no" ||
+        form.submit_annual_accounts.answer === null
+      ) {
+        delete form.provisional_data;
       }
-    );
+      if (
+        form.submit_standardized_data.answer === "no" ||
+        form.submit_standardized_data.answer === null
+      ) {
+        delete form.standardized_data;
+      }
+  
+      await this.checkForm(form);
+      
+      this.annualAccountsService.postData(form).subscribe(
+        (res) => {
+          const status = JSON.parse(sessionStorage.getItem("allStatus"));
+          status.annualAccounts.isSubmit = res["isCompleted"];
+          this._ulbformService.allStatus.next(status);
+          swal("Form Saved", "", "success");
+          resolve("success")
+        },
+        (err) => {
+          swal("Failed To Save", "", "error");
+        }
+      );
+    })
   }
 
   checkForm(form) {
@@ -506,7 +513,6 @@ export class AnnualAccountsComponent implements OnInit {
         ] = null;
       }
     } catch (error) {
-      debugger;
       if (isUploadExcel) {
         this[fileNameArray[0]][fileNameArray[1]][fileNameArray[2]][
           "excelError"

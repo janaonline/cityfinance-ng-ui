@@ -17,7 +17,7 @@ export class WaterSanitationService {
     // let ulbRecord = JSON.parse(localStorage.getItem('userData'));
     // ulbRecord = ulbRecord.ulb;
     // console.log(ulbRecord)
-    let getFilesUrl = environment.api.url + 'plans/5ea036c2d6f1c5ee2e702e9e'
+    let getFilesUrl = environment.api.url + 'plans/606aaf854dff55e6c075d219'
     return this.http.get(getFilesUrl)
   }
 }
