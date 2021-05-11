@@ -18,7 +18,7 @@ import { HttpEventType } from '@angular/common/http';
 export class FcSlbComponent implements OnInit, OnChanges {
   publishedFileUrl: string = '';
   publishedFileName: string = '';
-  publishedProgress:number;
+  publishedProgress: number;
   constructor(
     protected dataEntryService: DataEntryService,
     protected _dialog: MatDialog
@@ -26,7 +26,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     // super(dataEntryService, _dialog);
   }
 
-  focusTargetKey:any = {}
+  focusTargetKey: any = {}
 
   @Input()
   form: FormGroup;
@@ -55,7 +55,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   showNext = new EventEmitter<any>();
   @Output()
   previous = new EventEmitter<WaterManagement>();
-  @Input() waterPotability: any ={}
+  @Input() waterPotability: any = {}
   uploadQuestion: string = 'Have you published Water Potability Index';
   uploadDocumentText: string = 'Upload the published document';
   USER_TYPE = USER_TYPE;
@@ -101,25 +101,25 @@ export class FcSlbComponent implements OnInit, OnChanges {
   } = {};
   submitted = false;
   showPublishedUpload: boolean = false;
-
+  invalidWhole = false;
   ngOnInit() {
-    
+    this.checkAutoValidCustom();
     this.services.forEach(data => {
-      this.focusTargetKey[data.key+'baseline'] = false
-    this.targets.forEach(item => {
-      this.focusTargetKey[data.key+item.key] = false
+      this.focusTargetKey[data.key + 'baseline'] = false
+      this.targets.forEach(item => {
+        this.focusTargetKey[data.key + item.key] = false
+      })
     })
-  })
-  console.log("tt", this.form, this.focusTargetKey)
+    console.log("tt", this.form, this.focusTargetKey)
   }
 
-  setFocusTarget(focusTarget = ''){
+  setFocusTarget(focusTarget = '') {
     // this.focusTargetKey[focusTarget] =true
-    for(let obj in this.focusTargetKey){
-      this.focusTargetKey[obj] =false;
-      if(obj == focusTarget)
-      this.focusTargetKey[obj] =true;
-  }
+    for (let obj in this.focusTargetKey) {
+      this.focusTargetKey[obj] = false;
+      if (obj == focusTarget)
+        this.focusTargetKey[obj] = true;
+    }
   }
 
   ngOnChanges(changes) {
@@ -127,18 +127,18 @@ export class FcSlbComponent implements OnInit, OnChanges {
     if (this.isDataPrefilled && changes.isDataPrefilled) {
       this.populateFormDatas();
     }
-    if(changes.form && changes.form.currentValue)
-    // this.form = changes.form.currentValue
+    if (changes.form && changes.form.currentValue)
+      // this.form = changes.form.currentValue
 
-    if(changes.waterPotability && changes.waterPotability.currentValue){
-      if(changes.waterPotability.currentValue.hasOwnProperty('name')){
-        this.publishedFileName =changes.waterPotability.currentValue.name;
-        this.publishedFileUrl = changes.waterPotability.currentValue.url;
-        this.showPublishedUpload = true;
-        this.publishedProgress
+      if (changes.waterPotability && changes.waterPotability.currentValue) {
+        if (changes.waterPotability.currentValue.hasOwnProperty('name')) {
+          this.publishedFileName = changes.waterPotability.currentValue.name;
+          this.publishedFileUrl = changes.waterPotability.currentValue.url;
+          this.showPublishedUpload = true;
+          this.publishedProgress
+        }
+        this.publishedFileUrl = changes.waterPotability.currentValue.hasOwnProperty('url') ? changes.waterPotability.currentValue.url : ''
       }
-      this.publishedFileUrl = changes.waterPotability.currentValue.hasOwnProperty('url') ? changes.waterPotability.currentValue.url : ''
-    }
     if (this.form) this.initializeForm();
   }
 
@@ -170,12 +170,24 @@ export class FcSlbComponent implements OnInit, OnChanges {
   // }
 
   onBlur(control: AbstractControl, formValue = '', currentControlKey = '', increase = true) {
+    console.log("onblurcalled", control, formValue, currentControlKey, increase)
     this.setFocusTarget()
     if (!control) return;
     const newValue = this.jsonUtil.convert(control.value);
     control.patchValue(newValue);
-    if(formValue)
-    this.onKeyUp(control, formValue, currentControlKey)
+    if (formValue) {
+      console.log(formValue)
+      for (let key2 in formValue['controls']) {
+        console.log(key2)
+
+        if (formValue['controls'][key2].value)
+          this.onKeyUp(control, formValue, key2, increase)
+      }
+
+
+    }
+
+
     this.emitValues(this.form.getRawValue());
   }
 
@@ -188,14 +200,20 @@ export class FcSlbComponent implements OnInit, OnChanges {
     // };
   }
 
-  saveNext(){
-    this.submitted = true;
-    if(this.showPublishedUpload && !this.publishedFileUrl)
-    return true
-    this.emitValues(this.form.getRawValue(), true);
+  saveNext() {
+    this.invalidWhole = false;
+    this.checkAutoValidCustom();
+    if (!this.invalidWhole) {
+      this.submitted = true;
+      if (this.showPublishedUpload && !this.publishedFileUrl)
+        return true
+      this.emitValues(this.form.getRawValue(), true);
+    }
+
   }
 
   private emitValues(values: IFinancialData["waterManagement"], next = false) {
+    console.log("emitvalues called", values, next)
     // if (values) {
     //   if (
     //     values.documents.wasteWaterPlan &&
@@ -209,12 +227,13 @@ export class FcSlbComponent implements OnInit, OnChanges {
     let fileUrl = this.showPublishedUpload ? this.publishedFileUrl : '';
     let outputValues = {
       waterManagement: values,
-      waterPotabilityPlan: {name: fileName, url: fileUrl,
+      waterPotabilityPlan: {
+        name: fileName, url: fileUrl,
       },
       saveData: next,
-      water_index:this.showPublishedUpload
+      water_index: this.showPublishedUpload
     }
-    
+
     this.outputValues.emit(outputValues);
   }
 
@@ -224,26 +243,26 @@ export class FcSlbComponent implements OnInit, OnChanges {
     //   .subscribe((values) => this.outputValues.emit(values));
   }
 
-  fileChangeEvent(event, progessType, fileName){
+  fileChangeEvent(event, progessType, fileName) {
     this.submitted = false;
     this.resetFileTracker();
     const filesSelected = <Array<File>>event.target["files"];
     this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
-  //   for (let i = 0; i < event.target.files.length; i++) {
-  //     this.filesToUpload.push(event.target.files[i]);
+    //   for (let i = 0; i < event.target.files.length; i++) {
+    //     this.filesToUpload.push(event.target.files[i]);
 
-  // }
+    // }
 
-  console.log(this.filesToUpload);
+    console.log(this.filesToUpload);
 
 
-  this.upload(progessType, fileName);
+    this.upload(progessType, fileName);
   }
   resetFileTracker() {
     this.filesToUpload = [];
     this.filesAlreadyInProcess = [];
     this.fileProcessingTracker = {};
-  //  this.submitted = false;
+    //  this.submitted = false;
     this.fileUploadTracker = {};
   }
   filterInvalidFilesForUpload(filesSelected: File[]) {
@@ -252,7 +271,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
       const file = filesSelected[i];
       const fileExtension = file.name.split(`.`).pop();
       if (fileExtension === "pdf" || fileExtension === "xlsx" || fileExtension == "png"
-      || fileExtension == "jpg" || fileExtension == "jpeg") {
+        || fileExtension == "jpg" || fileExtension == "jpeg") {
         validFiles.push(file);
       }
     }
@@ -260,20 +279,20 @@ export class FcSlbComponent implements OnInit, OnChanges {
   }
 
 
- async upload(progessType, fileName) {
-   // this.submitted = true;
+  async upload(progessType, fileName) {
+    // this.submitted = true;
 
     const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
     this[fileName] = files[0].name;
-     this[progessType] = 10;
+    this[progessType] = 10;
 
     for (let i = 0; i < files.length; i++) {
       if (this.filesAlreadyInProcess.length > i) {
         continue;
       }
       this.filesAlreadyInProcess.push(i);
-    await this.uploadFile(files[i], i, progessType, fileName);
+      await this.uploadFile(files[i], i, progessType, fileName);
     }
 
 
@@ -282,51 +301,51 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
 
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
-   // console.log('percentage',this.fileUploadTracker[''][file.name]?.percentage)
+    // console.log('percentage',this.fileUploadTracker[''][file.name]?.percentage)
     return new Promise((resolve, reject) => {
-    this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
-      (s3Response) => {
-        const fileAlias = s3Response["data"][0]["file_alias"];
+      this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+        (s3Response) => {
+          const fileAlias = s3Response["data"][0]["file_alias"];
 
-       //this.fileName = file.name;
-       this[progessType] =Math.floor(Math.random() * 90) + 10;
+          //this.fileName = file.name;
+          this[progessType] = Math.floor(Math.random() * 90) + 10;
 
-      const s3URL = s3Response["data"][0].url;
+          const s3URL = s3Response["data"][0].url;
 
-        this.uploadFileToS3(
-          file,
-          s3URL,
-          fileAlias,
-          fileIndex,
-          progessType
+          this.uploadFileToS3(
+            file,
+            s3URL,
+            fileAlias,
+            fileIndex,
+            progessType
 
-        );
-        resolve("success")
+          );
+          resolve("success")
 
-        console.log('file url', fileAlias)
+          console.log('file url', fileAlias)
 
 
-      },
-      (err) => {
-        if (!this.fileUploadTracker[fileIndex]) {
-          this.fileUploadTracker[fileIndex] = {
-            status: "FAILED",
-          };
-        } else {
-          this.fileUploadTracker[fileIndex].status = "FAILED";
+        },
+        (err) => {
+          if (!this.fileUploadTracker[fileIndex]) {
+            this.fileUploadTracker[fileIndex] = {
+              status: "FAILED",
+            };
+          } else {
+            this.fileUploadTracker[fileIndex].status = "FAILED";
+          }
         }
-      }
-    );
-  })
+      );
+    })
   }
 
   private uploadFileToS3(
     file: File,
     s3URL: string,
     fileAlias: string,
-  //  financialYear: string,
+    //  financialYear: string,
     fileIndex: number,
-    progressType: string=''
+    progressType: string = ''
   ) {
     this.dataEntryService
       .uploadFileToS3(file, s3URL)
@@ -339,21 +358,21 @@ export class FcSlbComponent implements OnInit, OnChanges {
       .subscribe(
         (res) => {
           if (res.type === HttpEventType.Response) {
-            this[progressType] =100;
+            this[progressType] = 100;
 
-            if(progressType == 'publishedProgress'){
+            if (progressType == 'publishedProgress') {
               this.publishedFileUrl = fileAlias;
             }
-            console.log('hi.....',progressType, this.publishedFileUrl)
+            console.log('hi.....', progressType, this.publishedFileUrl)
             // this.dataEntryService
             //   .sendUploadFileForProcessing(fileAlias)
-              // .subscribe((res) => {
-              //   this.startFileProcessTracking(
-              //     file,
-              //     res["data"]["_id"],
-              //     fileIndex
-              //   );
-              // });
+            // .subscribe((res) => {
+            //   this.startFileProcessTracking(
+            //     file,
+            //     res["data"]["_id"],
+            //     fileIndex
+            //   );
+            // });
           }
         },
         (err) => {
@@ -362,25 +381,28 @@ export class FcSlbComponent implements OnInit, OnChanges {
       );
   }
 
-  clearFiles(fileName){
-    if(fileName == 'publishedFileName' )
-       {
-         this.publishedProgress= 0;
-         this.publishedFileName = '';
-         this.publishedFileUrl= ''
-       }
+  clearFiles(fileName) {
+    if (fileName == 'publishedFileName') {
+      this.publishedProgress = 0;
+      this.publishedFileName = '';
+      this.publishedFileUrl = ''
+    }
   }
 
-  onKeyUp(textValue, formValue, currentControlKey, increase = true){
-    console.log("estblished", textValue, formValue)
+  onKeyUp(textValue, formValue, currentControlKey, increase = true) {
+    console.log("estblished", textValue, formValue, currentControlKey, increase)
     let controlValue = formValue.value
-    if(this.checkIncreaseValidation(textValue.value, currentControlKey, controlValue, increase)){
-    textValue.errors = true
-    textValue.status = "INVALID"
+    if (this.checkIncreaseValidation(textValue.value, currentControlKey, controlValue, increase)) {
+      textValue.errors = true
+      textValue.status = "INVALID"
+    } else {
+
+      textValue.status = "VALID"
     }
   }
 
   checkIncreaseValidation(value, controlKey, controlValue, increse = true) {
+    console.log("increasevalidation called", value, controlKey, controlValue, increse)
     let before = true;
     let invalid = false;
     for (let obj in controlValue) {
@@ -388,18 +410,46 @@ export class FcSlbComponent implements OnInit, OnChanges {
       if (obj == controlKey) {
         before = false
       } else {
+
         if (before) {
-          invalid = increse ? !(value > 0 && value < 101 && value > controlValue[obj]) : !(value > 0 && value < 101 && value < controlValue[obj])
-          console.log("if", value, controlValue[obj])
+          if (controlValue[obj] != "") {
+            invalid = increse ? !(value > 0 && value < 101 && value > controlValue[obj]) : !(value > 0 && value < 101 && value < controlValue[obj])
+            console.log("if", value, controlValue[obj])
+            console.log(invalid)
+          }
+
+
         } else {
-          invalid = increse ? !(value > 0 && value < 101 && value < controlValue[obj]) : !(value > 0 && value < 101 && value > controlValue[obj])
-          console.log("else", value, controlValue[obj])
+          if (controlValue[obj]) {
+
+            invalid = increse ? !(value > 0 && value < 101 && value < controlValue[obj]) : !(value > 0 && value < 101 && value > controlValue[obj])
+            console.log("else", value, controlValue[obj])
+            console.log(invalid)
+          }
+
+
         }
+
+
       }
 
     }
     return invalid;
 
   }
+
+
+  checkAutoValidCustom() {
+    console.log(this.form['controls'])
+    for (let key in this.form['controls']) {
+      for (let key2 in this.form['controls'][key]['controls']['target']['controls']) {
+        if (this.form['controls'][key]['controls']['target']['controls'][key2]['status'] == 'INVALID')
+          this.invalidWhole = true;
+      }
+    }
+  }
 }
+
+
+
 

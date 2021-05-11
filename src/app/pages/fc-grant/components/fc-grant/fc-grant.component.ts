@@ -71,6 +71,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   evidencePercentageCompleted = 0;
 
   isULBMillionPlus: boolean;
+  years = JSON.parse(localStorage.getItem("Years"))
 
   ngOnInit() {}
 
@@ -97,7 +98,7 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   }
 
   fetchFinancialDataUpload() {
-    this._financialService.fetchXVFormDataList().subscribe((res) => {
+    this._financialService.fetchXVFormDataList({design_year:this.years["2020-21"]}).subscribe((res) => {
       try {
         this.financialData = res["data"][0] || null;
         if (!this.financialData) {

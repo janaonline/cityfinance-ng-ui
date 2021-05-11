@@ -1,11 +1,11 @@
 <div id="previewSlb" #previewSlb>
-    <div style="background: #047474; color: white; padding: 2% 0% 1% 0%; position: relative;">
-        <h2 style="text-align: center; margin-top: 0px">15th FC Form</h2>
-
-        <h3 style="text-align: center; margin-top: 3px">
+    <div  style="background: #047474; color: white; padding: 2% 0% 1% 0%; position: relative;">
+        <h2 *ngIf="!data?.fromParent" style="text-align: center; margin-top: 0px">15th FC Form</h2>
+        <h3 *ngIf="data?.fromParent" style="text-align: center">{{slbTitleText}}</h3>
+        <h3 *ngIf="!data?.fromParent" style="text-align: center; margin-top: 3px">
             {{ data?.ulbName || userDetails.name }}
         </h3>
-        <i style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;" class="fa fa-times" aria-hidden="true" (click)="_matDialog.closeAll()"></i>
+        <i *ngIf="!data?.fromParent" style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;" class="fa fa-times" aria-hidden="true" (click)="_matDialog.closeAll()"></i>
     </div>
 
     <div class="d-flex justify-content-between mt-2" style="padding-left: 2%">
@@ -13,12 +13,12 @@
             <b>Application Current Status:</b> {{ data?.customStatusText }}
         </p>
 
-        <button id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="downloadAsPDF()">
+        <button *ngIf="!data?.fromParent" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="downloadAsPDF()">
         Download as PDF
       </button>
     </div>
     <div style="position: relative; padding: 1% 2%" class="scrol">
-        <h3 style="text-align: center">{{slbTitleText}}</h3>
+        <h3 *ngIf="!data?.fromParent" style="text-align: center">{{slbTitleText}}</h3>
 
         <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%; width: 100%; border: 1px solid #dedede" cellspacing="0" cellpadding="0">
             <thead style="color: #047474">

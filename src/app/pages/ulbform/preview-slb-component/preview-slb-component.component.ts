@@ -128,7 +128,7 @@ export class PreviewSlbComponentComponent implements OnInit {
 }
 
 
-</style>`;
+  </style>`;
 
   states: { [stateId: string]: IState };
   water_index_qus='';

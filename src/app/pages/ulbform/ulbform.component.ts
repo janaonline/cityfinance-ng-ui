@@ -32,19 +32,19 @@ export class UlbformComponent implements OnInit {
    this.initializeLoggedInUserDataFetch();
   //  switch (this.userLoggedInDetails.role) {
 
-  //     case USER_TYPE.PARTNER:
-  //     case USER_TYPE.MoHUA:
-  //     case USER_TYPE.ADMIN:
-  //       this._router.navigate(["/fc-home-page"]);
-  // }
+    //     case USER_TYPE.PARTNER:
+    //     case USER_TYPE.MoHUA:
+    //     case USER_TYPE.ADMIN:
+    //       this._router.navigate(["/fc-home-page"]);
+    // }
 
- }
+  }
 
 
- private fetchStateList() {
-   this._commonService.fetchStateList().subscribe((res) => {
-     this.states = {};
-     res.forEach((state) => (this.states[state._id] = state));
+  private fetchStateList() {
+    this._commonService.fetchStateList().subscribe((res) => {
+      this.states = {};
+      res.forEach((state) => (this.states[state._id] = state));
 
    });
  }
@@ -62,7 +62,6 @@ public accessGrant(){
 
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
-
   }
   private initializeLoggedInUserDataFetch() {
     //  = this.profileService.getUserLoggedInDetails();
@@ -80,24 +79,30 @@ public accessGrant(){
     }
   }
   dialogData;
-  ulbPreview(){
+  ulbPreview() {
 
-   console.log("hello", this.dialogData)
+    console.log("hello", this.dialogData)
     const dialogRef = this.dialog.open(UlbformPreviewComponent,
       {
-        data:this.dialogData,
+        data: this.dialogData,
         width: "85vw",
-  //   maxHeight: "95vh",
-       height: "100%",
-       panelClass: 'no-padding-dialog'
-    } );
-   // this.hidden = false;
+        //   maxHeight: "95vh",
+        height: "100%",
+        panelClass: 'no-padding-dialog'
+      });
+    // this.hidden = false;
     dialogRef.afterClosed().subscribe(result => {
-    // console.log(`Dialog result: ${result}`);
-  //   this.hidden = true;
+      // console.log(`Dialog result: ${result}`);
+      //   this.hidden = true;
 
-   });
+    });
   }
 
+
+
+  compareDataOnClick() {
+    console.log(this._router.url)
+
+  }
 
 }

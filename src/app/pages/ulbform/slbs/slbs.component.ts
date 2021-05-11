@@ -79,7 +79,7 @@ export class SlbsComponent implements OnInit {
             ]
           }
       },
-      completeness: 'APPROVED', correctness: 'APPROVED',
+      // completeness: 'APPROVED', correctness: 'APPROVED',
       "isCompleted": true
     }
     if(this.slbId){

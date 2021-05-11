@@ -1,295 +1,49 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
-            <div style="background: #047474; color: white; padding: 2% 0% 1% 0%; position: relative;">
-                <h2 style="text-align: center; margin-top: 0px">15th FC Form</h2>
-
-                <h3 style="text-align: center; margin-top: 3px">
-                    {{ ulbName }}
-                </h3>
-                <!-- <i style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;"
-                class="fa fa-times" aria-hidden="true" (click)="_matDialog.closeAll()"></i> -->
-                <a mat-dialog-close style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
-                    <mat-icon aria-hidden="false">
-                        <img src="../../../../../assets/form-icon/Icon material-close.svg">
-                    </mat-icon>
-                </a>
-            </div>
-            <div class="text-right" style="margin-top: 3px; margin-bottom: 3px;">
-                <button id="donwloadButton" style="right: 0%;
-                 outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="downloadAsPDF()">
-              Download as PDF
-            </button>
-            </div>
-
-            <div class="header">
-                <span class="heading">Linking of PFMS Account</span>
-            </div>
-            <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px; margin-bottom: 20px;">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                (A) Does the ULB have separate Account for 15th Finance Commission Grants?
-                            </div>
-                            <div class="col-sm-6">
-                                Yes
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                (B) Has the ULB linked the account with PFMS?
-                            </div>
-                            <div class="col-sm-6">
-                                Yes
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+<div class="mat-card">
+  <div class="mat-card-title text-center">
+    <div class="pull-right">
+      <a mat-dialog-close>
+        <img src="https://img.icons8.com/metro/26/000000/multiply.png" />
+      </a>
     </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
-            <div class="header">
-                <span class="heading">Utilization Report</span>
-            </div>
-            <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px; margin-bottom: 20px;">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                1. State Name
-                            </div>
-                            <div class="col-sm-6">
-                                Uttar Pradesh
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                2. Name of MPC/UA/NMPC
-                            </div>
-                            <div class="col-sm-6">
-                                Agra Municipalty
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                3. Type of grant
-                            </div>
-                            <div class="col-sm-6">
-                                Tied
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px; margin-bottom: 20px;">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            4. 15th FC Tied Grant Position during the year :
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            (i) Unutilized from previous installments(INR in lakhs)
-                        </div>
-                        <div class="col-sm-6">
-                            2000000
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            (ii) Tied Grant received during the year(INR in lakhs)
-                        </div>
-                        <div class="col-sm-6">
-                            4000000
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            (iii) Expenditure incurred during the year(INR in lakhs)
-                        </div>
-                        <div class="col-sm-6">
-                            2500000
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <b>(vi) Closing balance at the end of year(INR in lakhs) (2(i)+2(ii)-2(iii))</b>
-                        </div>
-                        <div class="col-sm-6">
-                            3500000
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px; margin-bottom: 20px;">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            5. Component Wise Utilization of Tied grants (break-up of expenditure incurred in 2(iii)
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr class="thHeader">
-                                            <th scope="col" class="w-5">S.No</th>
-                                            <th scope="col" class="w-12">Category</th>
-                                            <th scope="col" class="w-12">Project</th>
-                                            <th scope="col" class="w-12">Description</th>
-                                            <th scope="col" class="w-10">Capacity</th>
-                                            <th scope="col" class="w-10">Images</th>
-                                            <th scope="col" class="w-15">Co-ordinates</th>
-                                            <th scope="col" class="w-12">Project Cost</th>
-                                            <th scope="col" class="w-12">Expenditure</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Water</td>
-                                            <td>Abc</td>
-                                            <td>Abcdefgh</td>
-                                            <td>500</td>
-                                            <td>abc.png</td>
-                                            <td>24.225546 || 56.866664</td>
-                                            <td>1000000</td>
-                                            <td>2000000</td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>Total</td>
-                                            <td>1000000</td>
-                                            <td>2000000</td>
-                                        </tr>
-                                    </tbody>
-
-
-                                </table>
-
-                            </div>
-                        </div>
-                        <div style="float: right;margin-top: 2rem;" class="margin-t-1">
-                            <p class="f-d-n font-9"><b>Name : Aakash</b></p>
-                            <p class="f-d-n font-9"><b>Designation : Nodal Officer </b></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <h2>15th FC Form</h2>
+    <h3>
+      {{ userData.name }}
+    </h3>
+    <div class="pull-right">
+      <button id="donwloadButton" style="right: 0%;
+      outline: none; margin-right: 2% ;margin-bottom: 1pc" class="btn btn-primary btn-upload">
+        Download as PDF
+      </button>
     </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
-            <div class="header">
-                <span class="heading">Annual Accounts</span>
-            </div>
-            <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px; margin-bottom: 20px;">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-
-                            </div>
-                            <div class="col-sm-6">
-
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-
-                            </div>
-                            <div class="col-sm-6">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+  </div>
+  <div class="mat-card-content ">
+    <div *ngIf="pfms">
+      <app-pfms-preview [parentData]="pfms">
+      </app-pfms-preview>
     </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
-            <div class="header">
-                <span class="heading">SLB's for Water Supply and Sanitation</span>
-            </div>
-            <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px; margin-bottom: 20px;">
-                <!-- <app-preview-slb-component [data]="previewData"></app-preview-slb-component> -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-
-                            </div>
-                            <div class="col-sm-6">
-
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-
-                            </div>
-                            <div class="col-sm-6">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+  </div>
+  <div class="mat-card-content">
+    <div *ngIf="detailUtil">
+      <app-preview-uti-form [parentData]="detailUtil">
+      </app-preview-uti-form>
     </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
-            <div class="header">
-                <span class="heading">Plans for Water and Sanitation</span>
-            </div>
-            <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px; margin-bottom: 20px;">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                (A) Plan for Water
-                            </div>
-                            <div class="col-sm-6">
-                                <a href="" target="_blank">abc.pdf</a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                (B) Plan for Sanitation
-                            </div>
-                            <div class="col-sm-6" style="margin-bottom: 30px;">
-                                <a href="" target="_blank">xyz.pdf</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+  </div>
+  <div class="mat-card-content">
+    <div *ngIf="annualAccount">
+      <app-annual-preview [parentData]="annualAccount">
+      </app-annual-preview>
     </div>
-
-
+  </div>
+  <div class="mat-card-content">
+    <div *ngIf="slbWaterSanitaion">
+      <app-preview-slb-component [data]="slbWaterSanitaion">
+      </app-preview-slb-component>
+    </div>
+  </div>
+  <div class="mat-card-content">
+    <div *ngIf="waterSanitation">
+      <app-water-sanitation-preview [parentData]="waterSanitation">
+      </app-water-sanitation-preview>
+    </div>
+  </div>
 </div>

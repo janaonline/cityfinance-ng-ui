@@ -5,9 +5,9 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
 import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
 
 @Component({
-  selector: 'app-water-sanitation-preview',
-  templateUrl: './water-sanitation-preview.component.html',
-  styleUrls: ['./water-sanitation-preview.component.scss']
+  selector: "app-water-sanitation-preview",
+  templateUrl: "./water-sanitation-preview.component.html",
+  styleUrls: ["./water-sanitation-preview.component.scss"],
 })
 export class WaterSanitationPreviewComponent implements OnInit {
 

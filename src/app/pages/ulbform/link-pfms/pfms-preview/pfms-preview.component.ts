@@ -51,8 +51,13 @@ export class PfmsPreviewComponent implements OnInit {
 
     </style>`
 
+  @Input() parentData
+
   ngOnInit(): void {
-    console.log(this.data)
+
+    if(this.parentData){
+      this.data = this.parentData
+    }
   }
 
   downloadAsPDF() {

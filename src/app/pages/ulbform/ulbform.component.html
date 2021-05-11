@@ -104,7 +104,7 @@
     <div class="row">
         <div class="col-sm-2 col-md-2 col-xs-2 col-lg-2 sideNav" style="padding: 0 0; margin-left: 2px;">
             <ul class="heading" style="background-color: #FFC500; ">
-                <a [routerLink]="['../fc-home-page']">
+                <a [routerLink]="['../fc-home-page']" (click)="compareDataOnClick()">
                     <h5 style="font-size: 14px;">
                         <mat-icon aria-hidden="false">
                             <img src="../../../assets/ulbform/Icon ionic-ios-arrow-back.svg">
@@ -114,7 +114,7 @@
             </ul>
             <ul class="links " routerLinkActive="active">
 
-                <a routerLink="ulbform-overview">
+                <a routerLink="ulbform-overview" (click)="compareDataOnClick()">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/form-icon/Icon feather-grid.svg">
                     </mat-icon>Overview
@@ -131,7 +131,7 @@
             </ul>
             <ul class="links " routerLinkActive="active">
 
-                <a routerLink="pfms_acc">
+                <a routerLink="pfms_acc" (click)="compareDataOnClick()">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Icon awesome-network-wired.svg">
                     </mat-icon>Linking of PFMS Account
@@ -139,7 +139,7 @@
             </ul>
             <ul class="links" routerLinkActive="active">
 
-                <a routerLink="grant-tra-certi">
+                <a routerLink="grant-tra-certi" (click)="compareDataOnClick()">
                     <mat-icon aria-hidden="false ">
 
                         <img src="../../../assets/ulbform/Icon awesome-certificate.svg">
@@ -149,7 +149,7 @@
             </ul>
             <ul class="links" routerLinkActive="active">
 
-                <a routerLink="utilisation-report">
+                <a routerLink="utilisation-report" (click)="compareDataOnClick()">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Icon awesome-file-alt.svg">
                     </mat-icon>Detailed Utilisation Report
@@ -157,7 +157,7 @@
             </ul>
             <ul class="links " routerLinkActive="active">
 
-                <a routerLink="annual_acc">
+                <a routerLink="annual_acc" (click)="compareDataOnClick()">
                     <mat-icon aria-hidden="false">
                         <img src="../../../assets/ulbform/Group 13493.svg">
                     </mat-icon>Annual Accounts
@@ -165,7 +165,7 @@
             </ul>
             <ul class="links" routerLinkActive="active ">
 
-                <a routerLink="entry-list4">
+                <a routerLink="entry-list4" (click)="compareDataOnClick()">
                     <mat-icon aria-hidden="false">
                         <img src="../../../assets/ulbform/Icon material-library-books.svg">
                     </mat-icon>Service Level Benchmarks (SLBs)
@@ -182,7 +182,7 @@
             <ul class="links" routerLinkActive="active" *ngIf="isUA == 'Yes'">
 
                 <!-- <a routerLink="entry-list5 ">SLB's for Water Supply and Sanitation</a> -->
-                <a routerLink="slbs">
+                <a routerLink="slbs" (click)="compareDataOnClick()">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Group 13409.svg">
                     </mat-icon>SLBs for Water Supply and Sanitation
