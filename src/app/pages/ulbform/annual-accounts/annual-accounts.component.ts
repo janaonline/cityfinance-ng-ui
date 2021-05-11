@@ -32,7 +32,7 @@ export class AnnualAccountsComponent implements OnInit {
   audit_status;
   Years = JSON.parse(localStorage.getItem("Years"));
   dateShow: string = "2021-22";
-
+  childComp = false;
   isPdf;
   fileSelected;
   progressArray;
@@ -137,14 +137,7 @@ export class AnnualAccountsComponent implements OnInit {
         progressExcel: null,
         excelError: null,
       },
-      auditor_certificate: {
-        pdfUrl: null,
-        pdfError: null,
-        name: null,
-        progress: null,
-      },
-      auditor_registration: null,
-      auditor_registration_error: null,
+      declaration: null,
     },
   };
 
@@ -234,14 +227,6 @@ export class AnnualAccountsComponent implements OnInit {
         progressExcel: null,
         excelError: null,
       },
-      auditor_certificate: {
-        pdfError: null,
-        pdfUrl: null,
-        name: null,
-        progress: null,
-      },
-      auditor_registration: null,
-      auditor_registration_error: null,
       declaration: null,
     },
   };
@@ -339,6 +324,7 @@ export class AnnualAccountsComponent implements OnInit {
 
     await this.checkForm(form);
 
+    this.childComp = true;
     this.annualAccountsService.postData(form).subscribe(
       (res) => {
         swal("Form Saved", "", "success");
@@ -460,17 +446,15 @@ export class AnnualAccountsComponent implements OnInit {
   clearFile(path, type = null, fromUploadExcel = null) {
     const clearPathArray = fromUploadExcel ? path : path.split(".");
     if (type) {
-      this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]][
-        "pdfUrl"
-      ] = null;
+      this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]]["pdfUrl"] =
+        null;
 
       this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]][
         "progress"
       ] = null;
 
-      this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]][
-        "pdfName"
-      ] = null;
+      this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]]["pdfName"] =
+        null;
     } else {
       this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]][
         "excelUrl"
@@ -522,6 +506,7 @@ export class AnnualAccountsComponent implements OnInit {
         ] = null;
       }
     } catch (error) {
+      debugger;
       if (isUploadExcel) {
         this[fileNameArray[0]][fileNameArray[1]][fileNameArray[2]][
           "excelError"
@@ -592,9 +577,10 @@ export class AnnualAccountsComponent implements OnInit {
   async uploadExcel(progressArray) {
     return new Promise((resolve, rej) => {
       let newObj = {
-        alias: this[progressArray[0]][progressArray[1]][this.progressArray[2]][
-          "excelUrl"
-        ],
+        alias:
+          this[progressArray[0]][progressArray[1]][this.progressArray[2]][
+            "excelUrl"
+          ],
         financialYear: "",
         design_year: this[progressArray[0]]["design_year"],
       };
@@ -637,8 +623,12 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   declareCheck(res) {
-    this[res]["standardized_data"]["declaration"] = !this[res][
-      "standardized_data"
-    ]["declaration"];
+    if (this[res]["standardized_data"]["declaration"] == null)
+      this[res]["standardized_data"]["declaration"] = true;
+    else
+      this[res]["standardized_data"]["declaration"] =
+        !this[res]["standardized_data"]["declaration"];
+
+    console.log(this.unauditResponse);
   }
 }
