@@ -9,6 +9,8 @@ import { delay, map, retryWhen } from 'rxjs/operators';
 import { WaterSanitationService } from './water-sanitation.service'
 //import { PathLocationStrategy } from '@angular/common';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { WaterSanitationPreviewComponent } from './water-sanitation-preview/water-sanitation-preview.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-water-sanitation',
@@ -46,7 +48,7 @@ fileProcessingTracker: {
   filesAlreadyInProcess: number[] = [];
 
   constructor(private fb: FormBuilder,private modalService: BsModalService, private _router : Router,
-    private dataEntryService: DataEntryService, private wsService : WaterSanitationService) { }
+    private dataEntryService: DataEntryService, private wsService : WaterSanitationService,public dialog: MatDialog,) { }
     uploadedFiles;
     waterFileUrl ='';
     sanitationFileUrl ='';
@@ -83,6 +85,27 @@ fileProcessingTracker: {
   // }
   onSubmit(){
 
+  }
+  onPreview(){
+    let preData = {
+      'waterFileName': this.fileNameWater,
+      'waterFileUrl': this.waterFileUrl,
+      'sanitationFileName': this.fileNameSanitation,
+      'sanitationFileUrl' : this.sanitationFileUrl
+    }
+    console.log('preData', preData)
+    const dialogRef = this.dialog.open(WaterSanitationPreviewComponent,
+      {
+        data: preData,
+        height: '95%', width: '85vw',
+        panelClass: 'no-padding-dialog'
+      } );
+   // this.hidden = false;
+    dialogRef.afterClosed().subscribe(result => {
+    // console.log(`Dialog result: ${result}`);
+  //   this.hidden = true;
+
+   });
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-md'});

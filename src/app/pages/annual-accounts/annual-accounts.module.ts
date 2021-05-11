@@ -16,6 +16,7 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { NgxPaginationModule } from "ngx-pagination";
 
+
 @NgModule({
   imports: [
     CommonModule,
