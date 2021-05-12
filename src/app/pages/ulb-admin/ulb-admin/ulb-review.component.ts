@@ -6,11 +6,11 @@ import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 
 @Component({
-  selector: 'app-ulb-admin',
-  templateUrl: './ulb-admin.component.html',
-  styleUrls: ['./ulb-admin.component.scss']
+  selector: 'app-ulb-review',
+  templateUrl: './ulb-review.component.html',
+  styleUrls: ['./ulb-review.component.scss']
 })
-export class UlbAdminComponent extends BaseComponent implements OnInit {
+export class UlbReviewComponent extends BaseComponent implements OnInit {
 
 
   name ='';

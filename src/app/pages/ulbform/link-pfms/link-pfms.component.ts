@@ -106,6 +106,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     }
     if(this.account != '' && this.linked != ''){
       this.postData();
+      return this._router.navigate(["ulbform/grant-tra-certi"]);
     }else if(this.account != '' || this.linked != ''){
     this.openModal(template);
     }else{
@@ -129,7 +130,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
     this.postData();
     this.modalRef.hide();
-   // return this._router.navigate(["overview"]);
+    return this._router.navigate(["ulbform/grant-tra-certi"]);
   }
   alertClose(){
     this.modalRef.hide();
