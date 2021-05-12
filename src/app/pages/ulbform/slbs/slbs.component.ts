@@ -7,6 +7,7 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { UlbformService } from '../ulbform.service';
 
 @Component({
   selector: 'app-slbs',
@@ -23,7 +24,7 @@ export class SlbsComponent implements OnInit {
   slbTitleText: string = "SLB's for Water Supply and Sanitation"
   preFilledWaterManagement:any = {}
   slbId: string = '';
-  constructor(private _matDialog: MatDialog, private commonService: CommonService) { }
+  constructor(private _matDialog: MatDialog, private commonService: CommonService, public _ulbformService:UlbformService) { }
   protected readonly formBuilder = new FormBuilder();
   @ViewChild("previewPopup") previewPopup: TemplateRef<any>;
   waterPotability: any ={name: '', url: ''}
@@ -84,11 +85,18 @@ export class SlbsComponent implements OnInit {
     }
     if(this.slbId){
       this.commonService.postSlbData(data).subscribe(res => {
+        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        status.slbForWaterSupplyAndSanitation.isSubmit = res["isCompleted"];
+        this._ulbformService.allStatus.next(status);
         console.log("response")
       })
       return true;
     }
      this.commonService.postSlbData(data).subscribe(res => {
+
+      const status = JSON.parse(sessionStorage.getItem("allStatus"));
+      status.slbForWaterSupplyAndSanitation.isSubmit = res["isCompleted"];
+      this._ulbformService.allStatus.next(status);
        console.log("response")
      })
   }

@@ -15,7 +15,6 @@ export class AnnualPreviewComponent implements OnInit {
   year2021;
   year2019;
   ngOnInit(): void {
-    debugger;
     if (this.data) {
       this.parentData = this.data;
     }

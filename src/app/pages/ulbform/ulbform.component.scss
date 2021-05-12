@@ -31,7 +31,6 @@ h5 {
     font-weight: normal;
     font-family: Segoe UI;
     vertical-align: middle;
-    display: flex;
 }
 
 .subBtnDiv {
@@ -66,7 +65,6 @@ ul {
     font-size: 12px;
     padding-left: 8px;
     vertical-align: middle;
-    display: flex;
 }
 
 // ul:hover {
@@ -96,19 +94,17 @@ a {
     color: #000000;
     opacity: 1;
     font-weight: 600;
-    display: flex;
 }
 
 a:hover,
 ul:hover {
     background-color: #ffc500;
-    margin-left: 3px;
+    margin-left: 1px;
     margin-right: 3px;
     padding-top: 3px;
     padding-bottom: 3px;
     padding-left: 8px;
     color: #ffff;
-    display: flex;
 }
 
 .mat-icon {

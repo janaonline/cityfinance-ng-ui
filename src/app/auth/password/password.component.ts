@@ -61,6 +61,10 @@ export class PasswordComponent implements OnInit {
   ) {
     this.initializeForms();
     this.validateUrl();
+
+    this._activatedRoute.queryParams.subscribe((param) => {
+      if (param?.userType) this.onSelectingUserType(param.userType);
+    });
   }
 
   ngOnInit() {
@@ -68,7 +72,7 @@ export class PasswordComponent implements OnInit {
       this.badCredentials = res;
     });
     this.inComingUser = this.commonService.setUser(true);
-    if (this.inComingUser !== null) {
+    if (this.inComingUser !== null && this.inComingUser !== undefined) {
       this.onSelectingUserType(this.inComingUser);
     }
   }

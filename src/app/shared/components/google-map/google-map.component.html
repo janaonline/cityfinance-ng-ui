@@ -1,7 +1,8 @@
-<div>
-  <div class="row" style="width: 16pc">
-    <label style="margin-right: 1pc;"> Search </label>
+<div class="container-fluid">
+  <div class="row">
+    <label class="col-md-1"> Search </label>
     <input
+    class="col-md-5"
       ngx-google-places-autocomplete
       [options]="options"
       #placesRef="ngx-places"
