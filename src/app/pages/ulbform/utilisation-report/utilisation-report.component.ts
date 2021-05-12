@@ -766,7 +766,7 @@ export class UtilisationReportComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(MapDialogComponent, {
       width: "60%",
-      height: "65%",
+      height: "70%",
     });
 
     dialogRef.afterClosed().subscribe((result) => {
