@@ -20,11 +20,12 @@ export class AnnualAccountsComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private annualAccountsService: AnnualAccountsService,
     public dialog: MatDialog,
-    public _ulbformService:UlbformService
+    public _ulbformService: UlbformService
   ) {}
   ngOnInit(): void {
     this.changeAudit("Unaudited");
     this.onLoad();
+    sessionStorage.setItem("changeInAnnualAccount", "false");
   }
   quesOneAnswer: boolean = false;
   quesTwoAnswer: boolean = false;
@@ -262,6 +263,11 @@ export class AnnualAccountsComponent implements OnInit {
               ? "unauditResponse"
               : "auditResponse"
           );
+          const toStoreResponse = [this.auditResponse, this.unauditResponse];
+          sessionStorage.setItem(
+            "annualAccounts",
+            JSON.stringify(toStoreResponse)
+          );
         },
         (err) => {
           console.error(err.message);
@@ -298,9 +304,9 @@ export class AnnualAccountsComponent implements OnInit {
       }
       const isAudit = type === "auditResponse" ? true : null;
       if (this[type].submit_annual_accounts.answer == "yes")
-        this.answer("q1", true, isAudit);
+        this.answer("q1", true, isAudit, true);
       if (this[type].submit_standardized_data.answer == "yes")
-        this.answer("q2", true, isAudit);
+        this.answer("q2", true, isAudit, true);
       resolve("success");
     });
   }
@@ -310,8 +316,8 @@ export class AnnualAccountsComponent implements OnInit {
     await this.save(this.auditResponse);
   }
 
-   save(form) {
-    return new Promise(async(resolve,reject)=>{
+  save(form) {
+    return new Promise(async (resolve, reject) => {
       if (
         form.submit_annual_accounts.answer === "no" ||
         form.submit_annual_accounts.answer === null
@@ -324,22 +330,22 @@ export class AnnualAccountsComponent implements OnInit {
       ) {
         delete form.standardized_data;
       }
-  
+
       await this.checkForm(form);
-      
+
       this.annualAccountsService.postData(form).subscribe(
         (res) => {
           const status = JSON.parse(sessionStorage.getItem("allStatus"));
           status.annualAccounts.isSubmit = res["isCompleted"];
           this._ulbformService.allStatus.next(status);
           swal("Form Saved", "", "success");
-          resolve("success")
+          resolve("success");
         },
         (err) => {
           swal("Failed To Save", "", "error");
         }
       );
-    })
+    });
   }
 
   checkForm(form) {
@@ -419,12 +425,12 @@ export class AnnualAccountsComponent implements OnInit {
         this.dateShow = "2021-22";
         this.response = "unauditResponse";
         this[this.response].audit_status = audit;
-        // this[this.response].year = this.Years["2020-21"];
+        // this[this.resresponseponse].year = this.Years["2020-21"];
         break;
     }
   }
 
-  answer(question, val, isAudit = null) {
+  answer(question, val, isAudit = null, fromStart = false) {
     switch (question) {
       case "q1":
         if (isAudit) this.quesOneAnswer1 = val;
@@ -448,6 +454,8 @@ export class AnnualAccountsComponent implements OnInit {
         }
         break;
     }
+    if (!fromStart)
+      this.checkDiff(isAudit ? "auditResponse" : "unauditResponse");
   }
 
   clearFile(path, type = null, fromUploadExcel = null) {
@@ -512,6 +520,7 @@ export class AnnualAccountsComponent implements OnInit {
           "excelError"
         ] = null;
       }
+      this.checkDiff(fileNameArray[0]);
     } catch (error) {
       if (isUploadExcel) {
         this[fileNameArray[0]][fileNameArray[1]][fileNameArray[2]][
@@ -634,7 +643,44 @@ export class AnnualAccountsComponent implements OnInit {
     else
       this[res]["standardized_data"]["declaration"] =
         !this[res]["standardized_data"]["declaration"];
+    this.checkDiff(res)
+  }
 
-    console.log(this.unauditResponse);
+  checkDiff(status) {
+    const annualAccounts = JSON.parse(sessionStorage.getItem("annualAccounts"));
+    if (
+      annualAccounts[0].audit_status === "Unaudited" &&
+      status === "unauditResponse"
+    ) {
+      const tempResponse = JSON.stringify(this.unauditResponse);
+      const tempResponseLast = JSON.stringify(annualAccounts[0]);
+      if (tempResponse != tempResponseLast) {
+        sessionStorage.setItem("changeInAnnualAccount", "true");
+        annualAccounts[0] = JSON.parse(tempResponse);
+        sessionStorage.setItem(
+          "annualAccounts",
+          JSON.stringify(annualAccounts)
+        );
+      } else {
+        sessionStorage.setItem("changeInAnnualAccount", "false");
+      }
+    } else {
+      const tempResponse = JSON.stringify(
+        annualAccounts[1].audit_status === "Unaudited"
+          ? this.unauditResponse
+          : this.auditResponse
+      );
+      const tempResponseLast = JSON.stringify(annualAccounts[1]);
+      if (tempResponse != tempResponseLast) {
+        sessionStorage.setItem("changeInAnnualAccount", "true");
+        annualAccounts[1] = JSON.parse(tempResponse);
+        sessionStorage.setItem(
+          "annualAccounts",
+          JSON.stringify(annualAccounts)
+        );
+      } else {
+        sessionStorage.setItem("changeInAnnualAccount", "false");
+      }
+    }
   }
 }
