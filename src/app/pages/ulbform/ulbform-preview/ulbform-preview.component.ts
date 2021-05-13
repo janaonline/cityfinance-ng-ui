@@ -38,11 +38,11 @@ export class UlbformPreviewComponent implements OnInit {
 
   async onLoad() {
     try {
-      await this.getLinkPfms();
-      await this.detailUtilData();
-      await this.getAnnualAccount();
-      await this.getSlbData();
-      await this.getWaterSanitation();
+      this.getLinkPfms();
+      this.detailUtilData();
+      this.getAnnualAccount();
+      this.getSlbData();
+      this.getWaterSanitation();
     } catch (error) {
       console.log(error);
     }
@@ -108,10 +108,9 @@ export class UlbformPreviewComponent implements OnInit {
       this.annualAccountsService.getData(param).subscribe(
         (res) => {
           this.annualAccount = res["data"];
-          resolve("Sucess")
+          resolve("Sucess");
         },
-        (err) => {
-        }
+        (err) => {}
       );
     });
   }
