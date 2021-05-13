@@ -1,9 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
+import { UlbadminServiceService } from '../ulbadmin-service.service'
+
 
 @Component({
   selector: 'app-ulb-review',
@@ -12,13 +15,15 @@ import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 })
 export class UlbReviewComponent extends BaseComponent implements OnInit {
 
+tabelData: any;
+state_name: any;
 
-  name ='';
-  role='';
   constructor(
     private _router: Router,
     private modalService: BsModalService,
-    private _profileService: ProfileService
+    private _profileService: ProfileService,
+    private http: HttpClient,
+    public ulbService : UlbadminServiceService
   ) {
     super();
     switch (this.loggedInUserType) {
@@ -43,9 +48,30 @@ export class UlbReviewComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
      let lData = JSON.parse(localStorage.getItem('userData'));
-      this.name = lData.name;
-      this.role = lData.role;
+     this.ulbService.getMasterTabel()
+    .subscribe((res) => {
+      console.log(res)
+      let resData:any = res;
+      this.tabelData = resData.data;
+      console.log('tabelData',this.tabelData)
+      });
+      this.stateName();
 
+  }
+  viewUlbForm(resData){
+     console.log(resData);
+  }
+  stateName(){
+    this.ulbService.getStateName()
+    .subscribe((res) => {
+      console.log(res)
+      let resData:any = res;
+      this.state_name = resData.data;
+      console.log('state',this.state_name)
+      });
+  }
+  stateData(name){
+   console.log(name)
   }
 
 }

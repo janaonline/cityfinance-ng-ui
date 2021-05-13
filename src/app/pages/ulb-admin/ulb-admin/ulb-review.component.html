@@ -1,16 +1,16 @@
-<div class="row" style="margin-top: .5rem;">
-    <div class="col-sm-12">
+<div class="row">
+    <div class="col-sm-12 col-lg-12 col-md-12">
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 col-lg-12 col-md-12" style="text-align: left;">
                         <h5>Review ULB Forms</h5>
                     </div>
                     <div class="col-sm-12">
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
-                                    <tr>
+                                    <tr style="background-color: #047474; color: #FFFFFF;">
                                         <th scope="col">S.No</th>
                                         <th scope="col">State Name</th>
                                         <th scope="col">ULB Name </th>
@@ -22,6 +22,69 @@
                                         <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>
+                                            <!-- <select class="s-th">
+                                             <option>State Name</option>
+                                           </select> -->
+                                            <select class="s-th" *ngIf="state_name">
+                                            <option>State Name</option>
+                                      <option *ngFor="let item of state_name; let j=index;"
+                                       [value]="item._id" (click)=stateData(item.name);>
+                                        {{item.name}}</option>
+                                 </select>
+                                        </th>
+                                        <th>
+                                            <input type="text" class="s-th">
+                                        </th>
+                                        <th>
+                                            <input type="text" class="s-th">
+                                        </th>
+                                        <th>
+                                            <select class="s-th">
+                                            <option>ULB Type</option>
+                                          </select>
+                                        </th>
+                                        <th>
+                                            <select class="s-th" style="width: 135px;">
+                                            <option>Population Type</option>
+                                          </select>
+                                        </th>
+                                        <th>
+                                            <input type="text" class="s-th" style="width: 76px;">
+                                        </th>
+                                        <th>
+                                            <select class="s-th" style="width: 71px;">
+                                          <option>Status</option>
+                                        </select>
+                                        </th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let resData of tabelData; let tabelIndex=index">
+                                        <td>{{tabelIndex+1}}</td>
+                                        <td> {{resData.state.name}}</td>
+                                        <td>{{resData.ulb.name}}</td>
+                                        <td>{{resData.ulb.censusCode || resData.ulb.sbCode }}</td>
+                                        <td>{{resData.ulbType.name}}</td>
+                                        <td>{{resData.populationType}}</td>
+                                        <td>{{resData.UA}}</td>
+                                        <td style="color: blue;">{{resData.status}}</td>
+                                        <td>
+                                            <a (click)="viewUlbForm(resData)" [routerLink]="[
+                                '/ulbform/overview',
+                                row?._id
+                              ]">
+                                                <mat-icon aria-hidden="false">
+                                                    <img src="../../../../assets/ulbform/eye.png">
+                                                </mat-icon>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
 
                             </table>
                         </div>
