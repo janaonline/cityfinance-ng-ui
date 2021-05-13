@@ -137,12 +137,10 @@
                     </mat-icon>Linking of PFMS Account
                 </a>
 
-                <mat-icon *ngIf="allStatus.pfmsAccount.isSubmit" class="pull-right" 
-                    aria-hidden="false">
+                <mat-icon *ngIf="allStatus.pfmsAccount.isSubmit" class="pull-right" aria-hidden="false">
                     <img src="../../../assets/form-icon/checked.svg">
                 </mat-icon>
-                <mat-icon *ngIf="!allStatus.pfmsAccount.isSubmit" class="pull-right" 
-                    aria-hidden="false">
+                <mat-icon *ngIf="!allStatus.pfmsAccount.isSubmit" class="pull-right" aria-hidden="false">
                     <img src="../../../assets/form-icon/cancel.svg">
                 </mat-icon>
             </ul>
@@ -159,7 +157,7 @@
                 <!-- <mat-icon *ngIf="allStatus" class="pull-right"  aria-hidden="false">
                     <img src="../../../assets/form-icon/checked.svg">
                 </mat-icon> -->
-                <mat-icon *ngIf="allStatus" class="pull-right"  aria-hidden="false">
+                <mat-icon *ngIf="allStatus" class="pull-right" aria-hidden="false">
                     <img src="../../../assets/form-icon/cancel.svg">
                 </mat-icon>
             </ul>
@@ -171,32 +169,29 @@
                     </mat-icon>Detailed Utilisation Report
                 </a>
 
-                <mat-icon *ngIf="allStatus.utilReport.isSubmit" class="pull-right" 
-                    aria-hidden="false">
+                <mat-icon *ngIf="allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false">
                     <img src="../../../assets/form-icon/checked.svg">
                 </mat-icon>
-                <mat-icon *ngIf="!allStatus.utilReport.isSubmit" class="pull-right" 
-                    aria-hidden="false">
+                <mat-icon *ngIf="!allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false">
                     <img src="../../../assets/form-icon/cancel.svg">
                 </mat-icon>
             </ul>
-            <ul class="links " routerLinkActive="active"> <a routerLink="annual_acc">
+            <ul class="links " routerLinkActive="active">
+                <a routerLink="annual_acc">
                     <mat-icon aria-hidden="false">
                         <img src="../../../assets/ulbform/Group 13493.svg">
                     </mat-icon>Annual Accounts
                 </a>
-                <mat-icon *ngIf="allStatus.annualAccounts.isSubmit" class="pull-right" 
-                    aria-hidden="false">
+                <mat-icon *ngIf="allStatus.annualAccounts.isSubmit" class="pull-right" aria-hidden="false">
                     <img src="../../../assets/form-icon/checked.svg">
                 </mat-icon>
-                <mat-icon *ngIf="!allStatus.annualAccounts.isSubmit" class="pull-right" 
-                    aria-hidden="false">
+                <mat-icon *ngIf="!allStatus.annualAccounts.isSubmit" class="pull-right" aria-hidden="false">
                     <img src="../../../assets/form-icon/cancel.svg">
                 </mat-icon>
             </ul>
             <ul class="links" routerLinkActive="active ">
 
-                <a routerLink="entry-list4">
+                <a routerLink="service-level" (click)="compareDataOnClick()">
                     <mat-icon aria-hidden="false">
                         <img src="../../../assets/ulbform/Icon material-library-books.svg">
                     </mat-icon>Service Level Benchmarks(SLBs)
@@ -205,7 +200,7 @@
                 <!-- <mat-icon *ngIf="allStatus" class="pull-right"  aria-hidden="false">
                     <img src="../../../assets/form-icon/checked.svg">
                 </mat-icon> -->
-                <mat-icon *ngIf="allStatus" class="pull-right"  aria-hidden="false">
+                <mat-icon *ngIf="allStatus" class="pull-right" aria-hidden="false">
                     <img src="../../../assets/form-icon/cancel.svg">
                 </mat-icon>
             </ul>
@@ -225,12 +220,10 @@
                         <img src="../../../assets/ulbform/Group 13409.svg">
                     </mat-icon>SLBs for Water Supply and Sanitation
                 </a>
-                <mat-icon *ngIf="allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right"
-                     aria-hidden="false">
+                <mat-icon *ngIf="allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right" aria-hidden="false">
                     <img src="../../../assets/form-icon/checked.svg">
                 </mat-icon>
-                <mat-icon *ngIf="!allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right"
-                     aria-hidden="false">
+                <mat-icon *ngIf="!allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right" aria-hidden="false">
                     <img src="../../../assets/form-icon/cancel.svg">
                 </mat-icon>
             </ul>
@@ -251,12 +244,10 @@
                     </mat-icon>Plans for Water and Sanitation
                 </a>
 
-                <mat-icon *ngIf="allStatus.plans.isSubmit" class="pull-right" 
-                    aria-hidden="false">
+                <mat-icon *ngIf="allStatus.plans.isSubmit" class="pull-right" aria-hidden="false">
                     <img src="../../../assets/form-icon/checked.svg">
                 </mat-icon>
-                <mat-icon *ngIf="!allStatus.plans.isSubmit" class="pull-right" 
-                    aria-hidden="false">
+                <mat-icon *ngIf="!allStatus.plans.isSubmit" class="pull-right" aria-hidden="false">
                     <img src="../../../assets/form-icon/cancel.svg">
                 </mat-icon>
             </ul>

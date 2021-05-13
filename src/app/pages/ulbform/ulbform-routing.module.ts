@@ -11,6 +11,7 @@ import {PlanGuardGuard} from './water-sanitation/plan-guard.guard'
 import { AnnualAccountsComponent } from './annual-accounts/annual-accounts.component';
 import { SlbsGaurdGuard } from './slbs/slbs-gaurd.guard';
 import { UlbGaurdGuard } from './ulb-gaurd.guard';
+import { ServiceSlbsComponent } from './service-slbs/service-slbs.component';
 const routes: Routes = [
   {
     path: "",
@@ -43,6 +44,9 @@ const routes: Routes = [
       },
       {
         path: "ulbform-overview", component: OverviewComponent
+      },
+      {
+        path: "service-level", component: ServiceSlbsComponent
       }
 
     ]
