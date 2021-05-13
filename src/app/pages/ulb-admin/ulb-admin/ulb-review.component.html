@@ -29,12 +29,17 @@
                                             <!-- <select class="s-th">
                                              <option>State Name</option>
                                            </select> -->
-                                            <select class="s-th" *ngIf="state_name">
+
+                                            <select class="s-th" *ngIf="state_name" (change)="stateData($event.target.value)">
                                             <option>State Name</option>
                                       <option *ngFor="let item of state_name; let j=index;"
-                                       [value]="item._id" (click)=stateData(item.name);>
+                                       [value]="item.name" >
                                         {{item.name}}</option>
                                  </select>
+
+
+
+
                                         </th>
                                         <th>
                                             <input type="text" class="s-th">
@@ -66,12 +71,12 @@
                                 <tbody>
                                     <tr *ngFor="let resData of tabelData; let tabelIndex=index">
                                         <td>{{tabelIndex+1}}</td>
-                                        <td> {{resData.state.name}}</td>
+                                        <td> {{resData.state}}</td>
                                         <td>{{resData.ulb.name}}</td>
                                         <td>{{resData.ulb.censusCode || resData.ulb.sbCode }}</td>
-                                        <td>{{resData.ulbType.name}}</td>
-                                        <td>{{resData.populationType}}</td>
-                                        <td>{{resData.UA}}</td>
+                                        <td>{{resData.ulb.ulbType}}</td>
+                                        <td>{{resData.ulb.populationType}}</td>
+                                        <td>{{resData.ulb.UA}}</td>
                                         <td style="color: blue;">{{resData.status}}</td>
                                         <td>
                                             <a (click)="viewUlbForm(resData)" [routerLink]="[

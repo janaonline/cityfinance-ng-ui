@@ -6,6 +6,7 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 import { UlbadminServiceService } from '../ulbadmin-service.service'
+import { CommonService } from 'src/app/shared/services/common.service';
 
 
 @Component({
@@ -17,13 +18,20 @@ export class UlbReviewComponent extends BaseComponent implements OnInit {
 
 tabelData: any;
 state_name: any;
+listFetchOption = {
+  filter: null,
+  sort: null,
+  role: null,
+  skip: 0,
+};
 
   constructor(
     private _router: Router,
     private modalService: BsModalService,
     private _profileService: ProfileService,
     private http: HttpClient,
-    public ulbService : UlbadminServiceService
+    public ulbService : UlbadminServiceService,
+    private _commonService: CommonService
   ) {
     super();
     switch (this.loggedInUserType) {
@@ -55,6 +63,7 @@ state_name: any;
       this.tabelData = resData.data;
       console.log('tabelData',this.tabelData)
       });
+
       this.stateName();
 
   }
@@ -70,8 +79,60 @@ state_name: any;
       console.log('state',this.state_name)
       });
   }
-  stateData(name){
-   console.log(name)
+  setLIstFetchOptions(config = {}) {
+    const filterKeys = ["financialYear", "auditStatus"];
+    const filterObject = {
+      filter: {
+        ulbName: '',
+        ulbCode: '',
+        audited: '',
+        censusCode: '',
+        sbCode: '',
+        status: '',
+        stateName: '',
+        ulbType: '',
+        isMillionPlus: '',
+      },
+    };
+    return {
+      ...this.listFetchOption,
+      ...filterObject,
+      ...config,
+    };
+
   }
+
+
+  stateData(name){
+
+    // this.loading = true;
+    // this.listFetchOption.skip = 0;
+    // this.tableDefaultOptions.currentPage = 1;
+    // this.listFetchOption = this.setLIstFetchOptions();
+    // const { skip } = this.listFetchOption;
+    // if (this.fcFormListSubscription) {
+    //   this.fcFormListSubscription.unsubscribe();
+    // }
+
+    // this.fcFormListSubscription = this.financialDataService
+    //   .fetchXVFormDataList({ skip, limit: 10 }, this.listFetchOption)
+    //   .subscribe(
+    //     (result) => this.handleResponseSuccess(result),
+    //     (response: HttpErrorResponse) => {
+    //       this.loading = false;
+    //       this._snackBar.open(
+    //         response.error.errors.message ||
+    //           response.error.message ||
+    //           "Some Error Occurred",
+    //         null,
+    //         { duration: 6600 }
+    //       );
+    //     }
+    //   );
+
+
+  }
+
+
 
 }
