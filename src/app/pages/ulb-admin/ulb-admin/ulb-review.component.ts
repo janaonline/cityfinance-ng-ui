@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -7,6 +7,7 @@ import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 import { UlbadminServiceService } from '../ulbadmin-service.service'
 import { CommonService } from 'src/app/shared/services/common.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -24,6 +25,14 @@ listFetchOption = {
   role: null,
   skip: 0,
 };
+tableDefaultOptions = {
+  itemPerPage: 10,
+  currentPage: 1,
+  totalCount: null,
+};
+loading = false;
+filterObject;
+fcFormListSubscription: Subscription;
 
   constructor(
     private _router: Router,
@@ -79,56 +88,112 @@ listFetchOption = {
       console.log('state',this.state_name)
       });
   }
-  setLIstFetchOptions(config = {}) {
+
+  setLIstFetchOptions(val, type) {
     const filterKeys = ["financialYear", "auditStatus"];
-    const filterObject = {
-      filter: {
-        ulbName: '',
-        ulbCode: '',
-        audited: '',
-        censusCode: '',
-        sbCode: '',
-        status: '',
-        stateName: '',
-        ulbType: '',
-        isMillionPlus: '',
-      },
-    };
+    if(type == 'state'){
+      this.filterObject = {
+        filter: {
+
+        //     ulbName: '',
+        //     censusCode: '',
+        //     sbCode: '',
+        //     ulbType: val,
+        //     populationType: '',
+        //     UA:'',
+
+        // //  audited: '',
+        // //  status: '',
+          state: val,
+
+        },
+      };
+
+    }
+    if(type == 'ulbType'){
+      this.filterObject = {
+        filter: {
+          ulbType: val
+        }
+      }
+    }
+    if(type == 'populationType'){
+      this.filterObject = {
+        filter: {
+          populationType: val
+        }
+      }
+    }
+    if(type == 'ulbName'){
+      this.filterObject = {
+        filter: {
+          ulbName: val,
+        }
+      }
+    }
+    if(type == 'ulbCode'){
+      this.filterObject = {
+        filter: {
+          censusCode: val,
+        }
+      }
+    }
+    if(type == 'UA'){
+      this.filterObject = {
+        filter: {
+          UA: val,
+        }
+      }
+    }
+    if(type == 'Status'){
+      this.filterObject = {
+        filter: {
+          status: val,
+        }
+      }
+    }
+
     return {
       ...this.listFetchOption,
-      ...filterObject,
-      ...config,
+      ...this.filterObject,
+    //  ...config,
     };
+
+
 
   }
 
 
-  stateData(name){
+  stateData(val, type){
+    this.loading = true;
+    this.listFetchOption.skip = 0;
+    this.tableDefaultOptions.currentPage = 1;
+    this.listFetchOption = this.setLIstFetchOptions(val, type);
+    const { skip } = this.listFetchOption;
+    if (this.fcFormListSubscription) {
+      this.fcFormListSubscription.unsubscribe();
+    }
 
-    // this.loading = true;
-    // this.listFetchOption.skip = 0;
-    // this.tableDefaultOptions.currentPage = 1;
-    // this.listFetchOption = this.setLIstFetchOptions();
-    // const { skip } = this.listFetchOption;
-    // if (this.fcFormListSubscription) {
-    //   this.fcFormListSubscription.unsubscribe();
-    // }
-
-    // this.fcFormListSubscription = this.financialDataService
-    //   .fetchXVFormDataList({ skip, limit: 10 }, this.listFetchOption)
-    //   .subscribe(
-    //     (result) => this.handleResponseSuccess(result),
-    //     (response: HttpErrorResponse) => {
-    //       this.loading = false;
-    //       this._snackBar.open(
-    //         response.error.errors.message ||
-    //           response.error.message ||
-    //           "Some Error Occurred",
-    //         null,
-    //         { duration: 6600 }
-    //       );
-    //     }
-    //   );
+    this.fcFormListSubscription = this.ulbService
+      .fetchXVFormDataList({ skip, limit: 10 }, this.listFetchOption)
+      .subscribe(
+        (result) => {
+          let res:any = result;
+          this.tabelData = res.data;
+          console.log(result)
+        },
+        (response: HttpErrorResponse) => {
+          this.loading = false;
+          // this._snackBar.open(
+          //   response.error.errors.message ||
+          //     response.error.message ||
+          //     "Some Error Occurred",
+          //   null,
+          //   { duration: 6600 }
+          alert('Some Error Occurred')
+          // );
+        }
+      );
 
 
   }
