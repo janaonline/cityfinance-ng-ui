@@ -1,4 +1,4 @@
-import { Component, ErrorHandler, OnInit } from "@angular/core";
+import { Component, TemplateRef, OnInit, HostBinding,ViewChild } from "@angular/core";
 
 import { HttpEventType, HttpResponse } from "@angular/common/http";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
@@ -7,7 +7,9 @@ import { SweetAlert } from "sweetalert/typings/core";
 import { MatDialog } from "@angular/material/dialog";
 import { AnnualPreviewComponent } from "./annual-preview/annual-preview.component";
 import { UlbformService } from "../ulbform.service";
-
+import { BsModalService } from "ngx-bootstrap/modal";
+import { Router ,Event} from "@angular/router";
+import { NavigationStart} from '@angular/router';
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -20,8 +22,23 @@ export class AnnualAccountsComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private annualAccountsService: AnnualAccountsService,
     public dialog: MatDialog,
-    public _ulbformService: UlbformService
-  ) {}
+    public _ulbformService: UlbformService,
+    private modalService: BsModalService,
+    public _router: Router
+  ) {
+    this._router.events.subscribe(async (event: Event) => {
+      if (event instanceof NavigationStart) {
+        const change = sessionStorage.getItem("changeInAnnualAccount")
+        if(change === "true" && this.routerNavigate === null){
+          this.routerNavigate = event
+          this.openModal(this.template)       
+          const currentRoute = this._router.routerState;
+          this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
+        }
+        }
+      });
+    }
+  @ViewChild("template") template;
   ngOnInit(): void {
     this.changeAudit("Unaudited");
     this.onLoad();
@@ -40,8 +57,11 @@ export class AnnualAccountsComponent implements OnInit {
   fileSelected;
   progressArray;
   fileNameArray;
+  routerNavigate = null
   response;
-
+  modalRef;
+  temp 
+  @HostBinding("")
   pdfError = "PDF Not Uploaded!";
   answerError = {
     Audited: {
@@ -233,6 +253,7 @@ export class AnnualAccountsComponent implements OnInit {
       declaration: null,
     },
   };
+
   onPreview() {
     let preData = [this.unauditResponse, this.auditResponse];
     console.log("preData", preData);
@@ -311,28 +332,19 @@ export class AnnualAccountsComponent implements OnInit {
     });
   }
 
-  async submit() {
+  async submit(template) {
+    await this.checkForm(this.unauditResponse);
+    await this.checkForm(this.auditResponse);
+    if (this.unauditResponse.isCompleted || this.auditResponse.isCompleted) {
+      this.openModal(template);
+      return;
+    }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
   }
 
   save(form) {
     return new Promise(async (resolve, reject) => {
-      if (
-        form.submit_annual_accounts.answer === "no" ||
-        form.submit_annual_accounts.answer === null
-      ) {
-        delete form.provisional_data;
-      }
-      if (
-        form.submit_standardized_data.answer === "no" ||
-        form.submit_standardized_data.answer === null
-      ) {
-        delete form.standardized_data;
-      }
-
-      await this.checkForm(form);
-
       this.annualAccountsService.postData(form).subscribe(
         (res) => {
           const status = JSON.parse(sessionStorage.getItem("allStatus"));
@@ -350,6 +362,18 @@ export class AnnualAccountsComponent implements OnInit {
 
   checkForm(form) {
     return new Promise((res, rej) => {
+      if (
+        form.submit_annual_accounts.answer === "no" ||
+        form.submit_annual_accounts.answer === null
+      ) {
+        delete form.provisional_data;
+      }
+      if (
+        form.submit_standardized_data.answer === "no" ||
+        form.submit_standardized_data.answer === null
+      ) {
+        delete form.standardized_data;
+      }
       let flag = false;
       for (let key in form) {
         let value = form[key];
@@ -643,7 +667,7 @@ export class AnnualAccountsComponent implements OnInit {
     else
       this[res]["standardized_data"]["declaration"] =
         !this[res]["standardized_data"]["declaration"];
-    this.checkDiff(res)
+    this.checkDiff(res);
   }
 
   checkDiff(status) {
@@ -682,5 +706,28 @@ export class AnnualAccountsComponent implements OnInit {
         sessionStorage.setItem("changeInAnnualAccount", "false");
       }
     }
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: "modal-md" });
+  }
+  stay() {
+    if(this.routerNavigate){
+      this.routerNavigate = null
+    }
+    this.modalRef.hide();
+  }
+  async proceed() {
+    this.modalRef.hide();
+    if(this.routerNavigate){
+      this._router.navigate([this.routerNavigate.url]);
+      return
+    }
+    await this.save(this.unauditResponse);
+    await this.save(this.auditResponse);
+    return this._router.navigate(["ulbform/water-sanitation"]);
+  }
+  alertClose() {
+    this.stay()
   }
 }
