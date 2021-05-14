@@ -1,11 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { UlbAdminComponent } from './ulb-admin/ulb-admin.component';
+import { UlbAdminComponent } from './ulb-admin.component';
+import { UlbReviewComponent } from './ulb-admin/ulb-review.component';
 
 const routes: Routes = [
   {
-    path: 'ulb-admin', component: UlbAdminComponent
+    path: "", component: UlbAdminComponent,
+    children:[
+      {
+        path: 'ulb-review', component: UlbReviewComponent
+      }
+    ]
   }
+
 ];
 
 @NgModule({

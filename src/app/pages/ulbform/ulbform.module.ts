@@ -35,6 +35,7 @@ import { WaterSanitationPreviewComponent } from './water-sanitation/water-sanita
 import {PlanGuardGuard } from './water-sanitation/plan-guard.guard'
 import { SlbsGaurdGuard } from './slbs/slbs-gaurd.guard';
 import { AnnualPreviewComponent } from './annual-accounts/annual-preview/annual-preview.component';
+import { ServiceSlbsComponent } from './service-slbs/service-slbs.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { AnnualPreviewComponent } from './annual-accounts/annual-preview/annual-
      UlbformPreviewComponent,
      PfmsPreviewComponent,
      WaterSanitationPreviewComponent,
-     AnnualPreviewComponent
+     AnnualPreviewComponent,
+     ServiceSlbsComponent
     ],
   imports: [
     CommonModule,

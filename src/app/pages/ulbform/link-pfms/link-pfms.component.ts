@@ -112,9 +112,10 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     };
     if (this.account != "" && this.linked != "") {
       this.postData();
-    } else if (this.account != "" || this.linked != "") {
-      this.openModal(template);
-    } else {
+      return this._router.navigate(["ulbform/grant-tra-certi"]);
+    }else if(this.account != '' || this.linked != ''){
+    this.openModal(template);
+    }else{
       alert("Please select your answer");
     }
 
@@ -131,7 +132,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   proceed(uploadedFiles) {
     this.postData();
     this.modalRef.hide();
-    // return this._router.navigate(["overview"]);
+    return this._router.navigate(["ulbform/grant-tra-certi"]);
   }
   alertClose() {
     this.modalRef.hide();
