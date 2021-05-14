@@ -1,16 +1,18 @@
-<div class="container-fluid" *ngIf="
+<div class="container-fluid" style="background-image: url(../../../../assets/ulbform/landingpage1.png); padding: 0;">
+    <div class="container-fluid" *ngIf="
 loggedInUserType || loggedInUserType === USER_TYPE.ULB;">
-    <div class="row bg" style="margin-top: 5rem;">
-        <div class="col-sm-12 col-md-12 col-lg-12 text-center" style="margin-bottom: 4rem;">
-            <h3 class="txt-header" style="opacity: 100%; font-size: 35px;">Welcome to 15th Finance Commission Grant Management System</h3>
-            <h3 style="opacity: 100%; font-size: 35px;">{{ulbName}}</h3>
+        <div class="row bg" style="margin-top: 5rem;">
+            <div class="col-sm-12 col-md-12 col-lg-12 text-center" style="margin-bottom: 4rem;">
+                <h3 class="txt-header" style="opacity: 100%; font-size: 35px;">Welcome to 15th Finance Commission Grant Management System</h3>
+                <h3 style="opacity: 100%; font-size: 35px;">{{ulbName}}</h3>
 
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+                <h3 style="margin-bottom: 4rem; opacity: 100%; font-size: 35px;">Select Finance Year</h3>
+                <button type="button" class="btn" style="margin-right: 2rem;" routerLink="/fc_grant">2020-21</button>
+                <button type="button" class="btn" routerLink="/ulbAdmin">2021-22</button>
+            </div>
         </div>
-        <div class="col-sm-12 col-md-12 col-lg-12 text-center">
-            <h3 style="margin-bottom: 4rem; opacity: 100%; font-size: 35px;">Select Finance Year</h3>
-            <button type="button" class="btn" style="margin-right: 2rem;" routerLink="/fc_grant">2020-21</button>
-            <button type="button" class="btn" routerLink="/ulbform/overview">2021-22</button>
-        </div>
+
     </div>
-
 </div>

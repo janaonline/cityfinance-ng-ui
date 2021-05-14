@@ -1,6 +1,6 @@
 <mat-dialog-content style="margin-top: 0;" id="previewUti" #previewUti>
-    <mat-card class="header" style="text-align: center; padding: 5px 5px;display: block;">
-        <div class="text-right pdf-hide">
+    <mat-card  class="header" style="text-align: center; padding: 5px 5px;display: block;">
+        <div *ngIf="!parentData" class="text-right pdf-hide">
             <a mat-dialog-close style="margin-right: 4%;">
                 <mat-icon aria-hidden="false">
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
@@ -17,7 +17,7 @@
           </label> -->
 
     </mat-card>
-    <div class="text-right dnDiv pdf-hide">
+    <div *ngIf="!parentData" class="text-right dnDiv pdf-hide">
         <button mat-button class="dnldBtn" (click)="downloadForm()">Download as PDF</button>
     </div>
 

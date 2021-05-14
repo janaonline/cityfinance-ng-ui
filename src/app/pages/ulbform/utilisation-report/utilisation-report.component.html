@@ -17,7 +17,7 @@
             </p>
             <select class="btnYear d-input" style="border-radius: 4px;">
                 <!-- formControlName="grantsYear" -->
-                 <option value="2021-22">2021-22</option>
+                 <option value="2021-22">2020-21</option>
                </select>
 
             <!-- <p>
@@ -76,7 +76,7 @@
 
         <div class="card" style="background-color: #F7F7F7;">
             <div class="card-body" formGroupName="grantPosition">
-                <p style="margin-left: 5px;">15th FC Tied Grant Position during the year</p>
+                <p style="margin-left: 5px;">15th FC Tied Grant Position during the year<span style="color: red;">*</span></p>
 
                 <div class="row">
                     <div class="col-lg-6">
@@ -149,7 +149,7 @@
         <div class="card" style="background-color: #F7F7F7;">
 
             <div class="card-body" style="margin-bottom: 20px;">
-                <p style="margin-left: 5px;">Component Wise Utilization of Tied grants</p>
+                <p style="margin-left: 5px;">Component Wise Utilization of Tied grants <span style="color: red;">*</span></p>
                 <div class="table-responsive">
                     <table class="table custom-position">
                         <thead>
@@ -315,7 +315,16 @@
                                 <td></td>
                                 <td><span><b> Total(INR in lakhs) </b> </span></td>
                                 <td><span> <b> {{projectCost}}</b></span></td>
-                                <td> <span> <b> {{projectExp}}</b> </span></td>
+                                <td isSumEqual>
+                                    <span (mouseover)="errorDisplayProExp=true" (mouseout)="errorDisplayProExp=true">
+                                  <b [ngStyle]="{'border':(isSumEqual == false)? '' : '1px solid red' }"> {{projectExp}}</b>
+                                 </span>
+                                    <div class="bs-tooltip-top" role="tooltip">
+                                        <span class="tooltip-inner" style="margin-left: -39rem;" *ngIf="isSumEqual && errorDisplayProExp">
+                                       Total Expenditure should be equal to (iii) Expenditure incurred during the year
+                                  </span>
+                                    </div>
+                                </td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -334,7 +343,7 @@
                     </span>Add more</button>
                 </div>
                 <div class="form-group row formfooter">
-                    <label for="name" class="col-sm-2 col-form-label" style="margin-top: 10px; ">Name :</label>
+                    <label for="name" class="col-sm-2 col-form-label" style="margin-top: 10px; ">Name<span style="color: red;">*</span> :</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="name" (change)="whiteSpaceRem('name')" formControlName="name">
                         <!-- <div *ngIf="utiReportFormControl.name.invalid &&
@@ -352,7 +361,7 @@
                          Maximum 50 Characters are allowed*</span>
 
                     </div>
-                    <label for="designation" class="col-sm-2 col-form-label" style="margin-top: 10px;">Designation :</label>
+                    <label for="designation" class="col-sm-2 col-form-label" style="margin-top: 10px;">Designation<span style="color: red;">*</span> :</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="designation" (change)="whiteSpaceRem('designation')" formControlName="designation">
                         <span class="text-danger" *ngIf="(utiReportFormControl.designation.touched || submitted) &&

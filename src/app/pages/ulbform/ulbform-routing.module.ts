@@ -7,24 +7,30 @@ import { UtilisationReportComponent } from './utilisation-report/utilisation-rep
 import { WaterSanitationComponent } from './water-sanitation/water-sanitation.component';
 import { LinkPFMSComponent } from './link-pfms/link-pfms.component'
 import { OverviewComponent } from './overview/overview.component';
-
+import {PlanGuardGuard} from './water-sanitation/plan-guard.guard'
 import { AnnualAccountsComponent } from './annual-accounts/annual-accounts.component';
+import { SlbsGaurdGuard } from './slbs/slbs-gaurd.guard';
+import { UlbGaurdGuard } from './ulb-gaurd.guard';
+import { ServiceSlbsComponent } from './service-slbs/service-slbs.component';
 const routes: Routes = [
   {
     path: "",
     component: UlbformComponent,
+    canActivate: [UlbGaurdGuard],
     children: [
       {
         path: "utilisation-report", component: UtilisationReportComponent
       },
       {
-        path: "water-sanitation", component: WaterSanitationComponent
+        path: "water-sanitation", component: WaterSanitationComponent,
+        canActivate: [PlanGuardGuard]
       },
       {
         path: "grant-tra-certi", component: GrantTraCertiComponent
       },
       {
-        path: "slbs", component: SlbsComponent
+        path: "slbs", component: SlbsComponent,
+        canActivate: [SlbsGaurdGuard]
       },
       {
         path: "pfms_acc", component: LinkPFMSComponent
@@ -38,6 +44,9 @@ const routes: Routes = [
       },
       {
         path: "ulbform-overview", component: OverviewComponent
+      },
+      {
+        path: "service-level", component: ServiceSlbsComponent
       }
 
     ]

@@ -4,11 +4,14 @@
     <div class="col-sm-8 col-lg-8 col-md-8 header2">
         Linking of PFMS Account
     </div>
+    <div class="col-sm-4 col-lg-4 col-md-4  text-right">
+        <button type="button" class="btn btn-primary pr-btn" style="margin-top: 1rem;" id="prevBtn" (click)="onPreview()">PREVIEW</button>
+    </div>
 </div>
 <div class="row">
     <div class="col-sm-12 col-lg-12 col-md-12">
         <div class=" question" style="margin-top: 2rem;" *ngIf="showQuestion1">
-            <span>{{questions[0]}}</span>
+            <span>{{questions[0]}}<span style="color: red;">*</span></span>
             <div>
                 <button class="btn" style="margin-left: 2rem;" (click)="onClickYes()" [ngStyle]="{'background-color':
                 account === 'yes' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">Yes</button>
@@ -21,7 +24,7 @@
 <div class="row" style="margin-top: 4rem;">
     <div class="col-sm-12 col-lg-12 col-md-12">
         <div class="question" *ngIf="showQuestion2">
-            <span>{{questions[1]}}</span>
+            <span>{{questions[1]}} <span style="color: red;">*</span></span>
             <div>
                 <button class="btn" style="margin-left: 2rem;" (click)="onClickYES()" [ngStyle]="{'background-color':
            linked ==='yes' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">Yes</button>
@@ -53,7 +56,9 @@
             </div>
         </div>
 
-        <p style="margin-top: 8px;">Some information is pending in this form.<br> Are you sure you want to proceed to next form?</p>
+        <p style="margin-top: 8px;">
+            Some information is pending in this form.<br> Are you sure you want to proceed to next form?
+        </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
             <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Proceed</button>

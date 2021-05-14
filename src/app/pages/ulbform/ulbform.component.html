@@ -102,9 +102,9 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-2 col-md-2 col-lg-2 sideNav" style="padding: 0 0; margin-left: 2px;">
+        <div class="col-sm-2 col-md-2 col-xs-2 col-lg-2 sideNav" style="padding: 0 0; margin-left: 2px;">
             <ul class="heading" style="background-color: #FFC500; ">
-                <a [routerLink]="['../fc-home-page']" (click)="compareDataOnClick()">
+                <a [routerLink]="['../fc-home-page']">
                     <h5 style="font-size: 14px;">
                         <mat-icon aria-hidden="false">
                             <img src="../../../assets/ulbform/Icon ionic-ios-arrow-back.svg">
@@ -114,7 +114,7 @@
             </ul>
             <ul class="links " routerLinkActive="active">
 
-                <a routerLink="ulbform-overview" (click)="compareDataOnClick()">
+                <a routerLink="ulbform-overview">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/form-icon/Icon feather-grid.svg">
                     </mat-icon>Overview
@@ -131,47 +131,80 @@
             </ul>
             <ul class="links " routerLinkActive="active">
 
-                <a routerLink="pfms_acc" (click)="compareDataOnClick()">
+                <a routerLink="pfms_acc">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Icon awesome-network-wired.svg">
                     </mat-icon>Linking of PFMS Account
                 </a>
+
+                <mat-icon *ngIf="allStatus.pfmsAccount.isSubmit" class="pull-right" aria-hidden="false">
+                    <img src="../../../assets/form-icon/checked.svg">
+                </mat-icon>
+                <mat-icon *ngIf="!allStatus.pfmsAccount.isSubmit" class="pull-right" aria-hidden="false">
+                    <img src="../../../assets/form-icon/cancel.svg">
+                </mat-icon>
             </ul>
             <ul class="links" routerLinkActive="active">
 
-                <a routerLink="grant-tra-certi" (click)="compareDataOnClick()">
+                <a routerLink="grant-tra-certi">
                     <mat-icon aria-hidden="false ">
 
                         <img src="../../../assets/ulbform/Icon awesome-certificate.svg">
 
                     </mat-icon> Grant Transfer Certificate
                 </a>
+
+                <!-- <mat-icon *ngIf="allStatus" class="pull-right"  aria-hidden="false">
+                    <img src="../../../assets/form-icon/checked.svg">
+                </mat-icon> -->
+                <mat-icon *ngIf="allStatus" class="pull-right" aria-hidden="false">
+                    <img src="../../../assets/form-icon/cancel.svg">
+                </mat-icon>
             </ul>
             <ul class="links" routerLinkActive="active">
 
-                <a routerLink="utilisation-report" (click)="compareDataOnClick()">
+                <a routerLink="utilisation-report">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Icon awesome-file-alt.svg">
                     </mat-icon>Detailed Utilisation Report
                 </a>
+
+                <mat-icon *ngIf="allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false">
+                    <img src="../../../assets/form-icon/checked.svg">
+                </mat-icon>
+                <mat-icon *ngIf="!allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false">
+                    <img src="../../../assets/form-icon/cancel.svg">
+                </mat-icon>
             </ul>
             <ul class="links " routerLinkActive="active">
-
-                <a routerLink="annual_acc" (click)="compareDataOnClick()">
+                <a routerLink="annual_acc">
                     <mat-icon aria-hidden="false">
                         <img src="../../../assets/ulbform/Group 13493.svg">
                     </mat-icon>Annual Accounts
                 </a>
+                <mat-icon *ngIf="allStatus.annualAccounts.isSubmit" class="pull-right" aria-hidden="false">
+                    <img src="../../../assets/form-icon/checked.svg">
+                </mat-icon>
+                <mat-icon *ngIf="!allStatus.annualAccounts.isSubmit" class="pull-right" aria-hidden="false">
+                    <img src="../../../assets/form-icon/cancel.svg">
+                </mat-icon>
             </ul>
             <ul class="links" routerLinkActive="active ">
 
-                <a routerLink="entry-list4" (click)="compareDataOnClick()">
+                <a routerLink="service-level">
                     <mat-icon aria-hidden="false">
                         <img src="../../../assets/ulbform/Icon material-library-books.svg">
-                    </mat-icon>Service Level Benchmarks (SLBs)
+                    </mat-icon>Service Level Benchmarks(SLBs)
                 </a>
+
+                <!-- <mat-icon *ngIf="allStatus" class="pull-right"  aria-hidden="false">
+                    <img src="../../../assets/form-icon/checked.svg">
+                </mat-icon> -->
+                <mat-icon *ngIf="allStatus" class="pull-right" aria-hidden="false">
+                    <img src="../../../assets/form-icon/cancel.svg">
+                </mat-icon>
             </ul>
-            <ul class="heading" style="background-color: #124A55; ">
+            <ul class="heading" style="background-color: #124A55;" *ngIf="isUA == 'Yes'">
 
                 <h5>
                     <mat-icon aria-hidden="false ">
@@ -179,19 +212,24 @@
                     </mat-icon>Municipal Challenge Fund
                 </h5>
             </ul>
-            <ul class="links" routerLinkActive="active">
+            <ul class="links" routerLinkActive="active" *ngIf="isUA == 'Yes'">
 
                 <!-- <a routerLink="entry-list5 ">SLB's for Water Supply and Sanitation</a> -->
-                <a routerLink="slbs" (click)="compareDataOnClick()">
+                <a routerLink="slbs">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Group 13409.svg">
                     </mat-icon>SLBs for Water Supply and Sanitation
                 </a>
-
+                <mat-icon *ngIf="allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right" aria-hidden="false">
+                    <img src="../../../assets/form-icon/checked.svg">
+                </mat-icon>
+                <mat-icon *ngIf="!allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right" aria-hidden="false">
+                    <img src="../../../assets/form-icon/cancel.svg">
+                </mat-icon>
             </ul>
 
 
-            <ul class="heading" style="background-color: #124A55; ">
+            <ul class="heading" style="background-color: #124A55; " *ngIf="isMillionPlus =='No'">
 
                 <h5 style="margin-left: 4px;">
                     <mat-icon aria-hidden="false ">
@@ -199,12 +237,19 @@
                     </mat-icon>Upload Plans
                 </h5>
             </ul>
-            <ul class="links" routerLinkActive="active">
-                <a routerLink="water-sanitation" (click)="compareDataOnClick()">
+            <ul class="links" routerLinkActive="active" *ngIf="isMillionPlus =='No'">
+                <a routerLink="water-sanitation">
                     <mat-icon aria-hidden="false ">
                         <img src="../../../assets/ulbform/Icon material-note.svg">
                     </mat-icon>Plans for Water and Sanitation
                 </a>
+
+                <mat-icon *ngIf="allStatus.plans.isSubmit" class="pull-right" aria-hidden="false">
+                    <img src="../../../assets/form-icon/checked.svg">
+                </mat-icon>
+                <mat-icon *ngIf="!allStatus.plans.isSubmit" class="pull-right" aria-hidden="false">
+                    <img src="../../../assets/form-icon/cancel.svg">
+                </mat-icon>
             </ul>
 
             <div class="subBtnDiv text-center" style="margin-bottom: 40px;">
@@ -220,7 +265,7 @@
 
 
         </div>
-        <div class="col-sm-9 col-md-9 col-lg-9" style="background-color: #FFFFFF; width: 82%">
+        <div class="col-sm-9 col-md-9 col-xs-9 col-lg-9" style="background-color: #FFFFFF; width: 82%">
 
             <div class="container-fluid">
                 <div class="col header1">

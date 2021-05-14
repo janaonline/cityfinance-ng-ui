@@ -538,6 +538,7 @@ export class FinancialUploadsComponent extends UploadDataUtility
         ...this.waterWasteManagementForm.value,
       },
       isCompleted: true,
+      design_year:this.years["2020-21"]
     };
 
     body = new JSONUtility().filterEmptyValue(body, true) as typeof body;

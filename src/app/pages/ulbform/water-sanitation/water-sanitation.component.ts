@@ -9,6 +9,9 @@ import { delay, map, retryWhen } from 'rxjs/operators';
 import { WaterSanitationService } from './water-sanitation.service'
 //import { PathLocationStrategy } from '@angular/common';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { WaterSanitationPreviewComponent } from './water-sanitation-preview/water-sanitation-preview.component';
+import { MatDialog } from '@angular/material/dialog';
+import { UlbformService } from '../ulbform.service';
 
 @Component({
   selector: 'app-water-sanitation',
@@ -46,7 +49,7 @@ fileProcessingTracker: {
   filesAlreadyInProcess: number[] = [];
 
   constructor(private fb: FormBuilder,private modalService: BsModalService, private _router : Router,
-    private dataEntryService: DataEntryService, private wsService : WaterSanitationService) { }
+    private dataEntryService: DataEntryService, private wsService : WaterSanitationService,public dialog: MatDialog,public _ulbformService:UlbformService) { }
     uploadedFiles;
     waterFileUrl ='';
     sanitationFileUrl ='';
@@ -66,23 +69,41 @@ fileProcessingTracker: {
       //  this.waterProgress = 100;
        }
    },
-   error =>{
-      alert("An error occured.")
-      this.err = error.message;
-      console.log(this.err);
-   });
+   errMes => {
+      alert(errMes)
+  //     this.err = error.message;
+       console.log(errMes);
+   }
+   );
 
   }
 
-  // public initializePlanWS(){
 
-  //   this.waterAndSanitation = this.fb.group({
-  //     plan_water :['', Validators.required],
-  //     plan_sanitation: ['', Validators.required]
-  //   })
-  // }
   onSubmit(){
 
+  }
+  onPreview(){
+    let preData = {
+      'waterFileName': this.fileNameWater,
+      'waterFileUrl': this.waterFileUrl,
+      'sanitationFileName': this.fileNameSanitation,
+      'sanitationFileUrl' : this.sanitationFileUrl
+    }
+    console.log('preData', preData)
+    const dialogRef = this.dialog.open(WaterSanitationPreviewComponent,
+      {
+        data: preData,
+        maxHeight: "95vh",
+        height: "fit-content",
+        width: '85vw',
+        panelClass: 'no-padding-dialog'
+      } );
+   // this.hidden = false;
+    dialogRef.afterClosed().subscribe(result => {
+    // console.log(`Dialog result: ${result}`);
+  //   this.hidden = true;
+
+   });
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-md'});
@@ -106,7 +127,7 @@ fileProcessingTracker: {
   saveForm(template){
     this.submitted = true;
     this.uploadedFiles = {
-      designYear:"5ea036c2d6f1c5ee2e702e9e",
+      designYear:"606aaf854dff55e6c075d219",
       plans:
        {
          water:
@@ -120,7 +141,7 @@ fileProcessingTracker: {
            remarks: this.fileNameSanitation
         }
       },
-      'isDraft': true
+      'isDraft': false
     };
     if(this.waterFileUrl != '' && this.sanitationFileUrl != ''){
       this.postsDataCall(this.uploadedFiles);
@@ -134,6 +155,9 @@ postsDataCall(uploadedFiles){
 
     this.wsService.sendRequest(this.uploadedFiles)
         .subscribe((res) => {
+        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        status.plans.isSubmit = res["isCompleted"];
+        this._ulbformService.allStatus.next(status);
           console.log(res);
           alert('Files uploaded successfully.')
        },

@@ -33,7 +33,7 @@ export class UtiReportService {
   //   );
  }
  fetchPosts(){
-  let utFetchUrl = environment.api.url + 'utilization-report/5ea036c2d6f1c5ee2e702e9e'
+  let utFetchUrl = environment.api.url + 'utilization-report/5ea036c2d6f1c5ee2e702e9e/5ea036c2d6f1c5ee2e702e9e'
   return this.http.get(utFetchUrl);
  // return this.http.get('https://democityfinanceapi.dhwaniris.in/api/v1/utilization-report/5ea036c2d6f1c5ee2e702e9e');
 

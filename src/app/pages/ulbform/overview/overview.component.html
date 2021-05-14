@@ -1,82 +1,90 @@
-<head>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-</head>
-
-<div class="header1">
-    <div>
-        {{headertext}}
-    </div>
-    <!-- <button class="demoBtn">View Demo</button> -->
-</div>
-<div class="header2">
-    <div class="h1">Conditions for 15th FC Grants</div>
-    <div style="margin-top: 20px; font-size:15px; font-weight: bolder; color: rgb(5, 113, 255);">Application Status
-        -{{status}}</div>
-    <div class="progressBar">
-        <div class="progress" style="height: 33px;">
-            <div class="progress-bar" role="progressbar"
-                style="width: {{percentage}}%; font-size:18px; line-height:unset;" aria-valuenow="25" aria-valuemin="0"
-                aria-valuemax="100">{{percentage}}%</div>
+<div class="container-fluid">
+    <div class="row header1">
+        <div>
+            {{headertext}}
         </div>
+        <!-- <button class="demoBtn">View Demo</button> -->
     </div>
 
-    <div class="titleCards">
-        <div class="card  mb-3 individualCard" (mouseenter)="onHover1()" (mouseleave)="onUnhover()"
-            style="margin-left: 0px; background-image:linear-gradient(#73C557, #3A632C);">
 
-            <img src="../../../../assets//ulbform/lpa.svg" height="22" width="27" />
-            <div class="card-body">
-                <h5 class="card-title">{{cards[0]}}</h5>
+    <div class="row header2">
+        <div class="col-sm-12 col-md-12 col-lg-12 h1">Conditions for 15th FC Grants</div>
+        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px; font-size:15px; font-weight: bolder; color: rgb(5, 113, 255);">
+            Application Status -{{status}}
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="progressBar">
+                <div class="progress" style="height: 33px;">
+                    <div class="progress-bar" role="progressbar" style="font-size:18px; line-height:unset;" aria-valuenow="25" aria-valuemin="0" [ngStyle]="{ width: percentage + '%' }" aria-valuemax="100">{{percentage}}%</div>
+                </div>
             </div>
         </div>
-        <div class="card  mb-3 individualCard" (mouseenter)="onHover2()" (mouseleave)="onUnhover()"
-            style="background-image: linear-gradient(#42C9F6, #21657B);">
-            <img src="../../../../assets//ulbform/gtc.svg" height="22" width="27" />
-            <div class="card-body">
-                <h5 class="card-title">{{cards[1]}}</h5>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="titleCards">
+                <a [routerLink]="['../pfms_acc']">
+                    <div class="card  individualCard" (mouseenter)="onHover1()" (mouseleave)="onUnhover()" style="margin-left: 0px; background-image:linear-gradient(#73C557, #3A632C);">
 
-            </div>
-        </div>
+                        <img src="../../../../assets//ulbform/lpa.svg" height="22" width="27" />
+                        <div class="card-body">
 
-        <div class="card  mb-3 individualCard" (mouseenter)="onHover3()" (mouseleave)="onUnhover()"
-            style="background-image: linear-gradient(#F16831, #793419);">
-            <img src="../../../../assets//ulbform/dur.svg" height="22" width="27" />
-            <div class="card-body">
-                <h5 class="card-title">{{cards[2]}}</h5>
-            </div>
-        </div>
-        <div class="card  mb-3 individualCard" (mouseenter)="onHover4()" (mouseleave)="onUnhover()"
-            style="background-image: linear-gradient(#549D5E, #2A4F2F);">
-            <img src="../../../../assets//ulbform/aa.svg" height="22" width="27" />
-            <div class="card-body">
-                <h5 class="card-title">{{cards[3]}}</h5>
-            </div>
-        </div>
-        <div class="card  mb-3 individualCard" (mouseenter)="onHover5()" (mouseleave)="onUnhover()"
-            style="background-image:linear-gradient(#FDCB2E, #7F6617);">
-            <img src="../../../../assets//ulbform/slb.svg" height="22" width="27" />
-            <div class="card-body">
-                <h5 class="card-title">{{cards[4]}}</h5>
+                            <h5 class="card-title">{{cards[0]}}</h5>
 
+                        </div>
+                    </div>
+                </a>
+                <a [routerLink]="['../grant-tra-certi']">
+                    <div class="card  individualCard" (mouseenter)="onHover2()" (mouseleave)="onUnhover()" style="background-image: linear-gradient(#42C9F6, #21657B);">
+                        <img src="../../../../assets//ulbform/gtc.svg" height="22" width="27" />
+                        <div class="card-body">
+                            <h5 class="card-title">{{cards[1]}}</h5>
+
+                        </div>
+                    </div>
+                </a>
+                <a [routerLink]="['../utilisation-report']">
+                    <div class="card  individualCard" (mouseenter)="onHover3()" (mouseleave)="onUnhover()" style="background-image: linear-gradient(#F16831, #793419);">
+                        <img src="../../../../assets//ulbform/dur.svg" height="22" width="27" />
+                        <div class="card-body">
+                            <h5 class="card-title">{{cards[2]}}</h5>
+                        </div>
+                    </div>
+                </a>
+                <a [routerLink]="['../annual_acc']">
+                    <div class="card  mb-3 individualCard" (mouseenter)="onHover4()" (mouseleave)="onUnhover()" style="background-image: linear-gradient(#549D5E, #2A4F2F);">
+                        <img src="../../../../assets//ulbform/aa.svg" height="22" width="27" />
+                        <div class="card-body">
+                            <h5 class="card-title">{{cards[3]}}</h5>
+                        </div>
+                    </div>
+                </a>
+                <a [routerLink]="['../service-level']">
+                    <div class="card individualCard" (mouseenter)="onHover5()" (mouseleave)="onUnhover()" style="background-image:linear-gradient(#FDCB2E, #7F6617);">
+                        <img src="../../../../assets//ulbform/slb.svg" height="22" width="27" />
+                        <div class="card-body">
+                            <h5 class="card-title">{{cards[4]}}</h5>
+
+                        </div>
+                    </div>
+                </a>
+                <a [routerLink]="['../slbs']">
+                    <div class="card individualCard" *ngIf="isUA == 'Yes'" (mouseenter)="onHover6()" (mouseleave)="onUnhover()" style="background-image: linear-gradient(#E71368, #740A34);">
+                        <img src="../../../../assets//ulbform/mpccf.svg" height="22" width="27" />
+                        <div class="card-body ">
+                            <h5 class="card-title">{{cards[5]}}</h5>
+                        </div>
+                    </div>
+                </a>
+                <a [routerLink]="['../water-sanitation']">
+                    <div class="card  individualCard" (mouseenter)="onHover7()" *ngIf="isMillionPlus =='No'" (mouseleave)="onUnhover()" style="background-image: linear-gradient(#9D198B, #4F0D46);">
+                        <img src="../../../../assets//ulbform/plan for water and sanitation.svg" height="22" width="27" />
+                        <div class="card-body">
+                            <h5 class="card-title">{{cards[6]}}</h5>
+                        </div>
+                    </div>
+                </a>
             </div>
         </div>
-        <div class="card  mb-3 individualCard" (mouseenter)="onHover6()" (mouseleave)="onUnhover()"
-            style="background-image: linear-gradient(#E71368, #740A34);">
-            <img src="../../../../assets//ulbform/mpccf.svg" height="22" width="27" />
-            <div class="card-body ">
-                <h5 class="card-title">{{cards[5]}}</h5>
-            </div>
-        </div>
-        <div class="card  mb-3 individualCard" (mouseenter)="onHover7()" (mouseleave)="onUnhover()"
-            style="background-image: linear-gradient(#9D198B, #4F0D46);">
-            <img src="../../../../assets//ulbform/plan for water and sanitation.svg" height="22" width="27" />
-            <div class="card-body">
-                <h5 class="card-title">{{cards[6]}}</h5>
-            </div>
-        </div>
-    </div>
-    <svg height="42px" width="auto">
+        <svg height="42px" width="auto">
         <line [attr.x1]="p" y1="0px" [attr.x2]="p" y2="42px" style="stroke-width:2;"
             [ngStyle]="{'stroke':
         i == 1 ?'#73C557': i ==2 ? '#42C9F6': i==3 ? '#F16831': i==4 ? '#549D5E' : i==5? '#FDCB2E': i==6? '#E71368' : i==7 ? '#9D198B' : '#73C557' }" />
@@ -85,49 +93,62 @@
                 [ngStyle]="{'fill':
             i == 1 ?'#73C557': i ==2 ? '#42C9F6': i==3 ? '#F16831': i==4 ? '#549D5E' : i==5? '#FDCB2E': i==6? '#E71368' : i==7 ? '#9D198B' : '#73C557' }" />
         </svg>
-    </svg>
-
-    <div class="message"
-        [ngStyle]="{'background-image':
+        </svg>
+        <div class="col-sm-12">
+            <div class="message" [ngStyle]="{'background-image':
     i == 1 ?'linear-gradient(#73C557, #3A632C)': i ==2 ? 'linear-gradient(#42C9F6, #21657B)': i==3 ? 'linear-gradient(#F16831, #793419)': i==4 ? 'linear-gradient(#549D5E, #2A4F2F)' : i==5? 'linear-gradient(#FDCB2E, #7F6617)': i==6? 'linear-gradient(#E71368, #740A34)' : i==7 ? 'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)'    }">
-        {{message}}
-    </div>
-</div>
-<div class="header3">
-    <div class="h1">Resources</div>
-    <div class="resourceCards">
-        <div class="individualResource">
-            <img src={{imageUrls[0]}} class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[0]}}</a></h5>
-            </div>
-        </div>
-        <div class="individualResource">
-            <img src={{imageUrls[1]}} class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[1]}}</a></h5>
-            </div>
-        </div>
-        <div class="individualResource">
-            <img src={{imageUrls[2]}} class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[2]}}</a></h5>
-            </div>
-        </div>
-        <div class="individualResource">
-            <img src={{imageUrls[3]}} class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[3]}}</a></h5>
-            </div>
-        </div>
-        <div class="individualResource">
-            <img src={{imageUrls[4]}} class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[4]}}</a></h5>
+                {{message}}
             </div>
         </div>
     </div>
-</div>
-<button class="backButton">BACK</button>
+    <div class="row header3">
+        <div class="col-sm-12">
+            <div class="h1">Resources</div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="resourceCards">
+                <div class="individualResource">
+                    <img src={{imageUrls[0]}} class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[0]}}</a></h5>
+                    </div>
+                </div>
+                <div class="individualResource">
+                    <img src={{imageUrls[1]}} class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[1]}}</a></h5>
+                    </div>
+                </div>
+                <div class="individualResource">
+                    <img src={{imageUrls[2]}} class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[2]}}</a></h5>
+                    </div>
+                </div>
+                <div class="individualResource">
+                    <img src={{imageUrls[3]}} class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[3]}}</a></h5>
+                    </div>
+                </div>
+                <div class="individualResource">
+                    <img src={{imageUrls[4]}} class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[4]}}</a></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin: 0; ">
+        <div class="col-sm-6 co-lg-6 col-md-6">
+            <button class="btn backButton" routerLink="/fc-home-page">BACK</button>
+        </div>
+        <div class="col-sm-6 co-lg-6 col-md-6 text-right">
+            <button class="btn save" [routerLink]="['../pfms_acc']">NEXT</button>
+        </div>
+    </div>
 
-<button class="save">NEXT</button>
+
+
+</div>

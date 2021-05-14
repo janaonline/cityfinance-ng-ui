@@ -29,7 +29,7 @@
                   </mat-form-field>
 
                   <div class="forget text-right">
-                    <a [routerLink]="['../password', 'request']" (click)="passwordUser(selectedUserType)">Forgot
+                    <a [routerLink]="['../password', 'request']" [queryParams]="{userType:selectedUserType}" (click)="passwordUser(selectedUserType)">Forgot
                       password?</a>
                   </div>
                 </div>

@@ -12,7 +12,11 @@ export class OverviewComponent implements OnInit {
   count = 0
   percentage = 0;
   status = 'In Progress'
-  constructor(private Overview: Overview) { }
+  isMillionPlus;
+  isUA;
+  constructor(private Overview: Overview) {
+    this.accessGrant();
+   }
 
   ngOnInit() {
     this.Overview.getData('606aaf854dff55e6c075d219')
@@ -31,6 +35,9 @@ export class OverviewComponent implements OnInit {
           }
 
         }
+        // if(this.isUA =='No' && this.isMillionPlus == 'Yes' ){
+        //   this.percentage = this.count * 20;
+        // }
         this.percentage = this.count * 20;
         if (this.percentage == 100) {
           this.status = 'Completed'
@@ -81,13 +88,19 @@ export class OverviewComponent implements OnInit {
   hover = false
   i = 8098987
 
-
+  public accessGrant(){
+    let userData = JSON.parse(localStorage.getItem('userData'));
+    this.isMillionPlus =  userData.isMillionPlus;
+    this.isUA = userData.isUA;
+    console.log('milli', this.isMillionPlus)
+    console.log('Ua', this.isUA)
+  }
   onUnhover() {
     this.hover = false
 
   }
   onHover1() {
-    this.p = 60;
+    this.p = 80;
     this.hover = true;
     this.i = 1;
     this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
@@ -99,31 +112,31 @@ export class OverviewComponent implements OnInit {
     this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
   }
   onHover3() {
-    this.p = 370;
+    this.p = 355;
     this.hover = true;
     this.i = 3;
     this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
   }
   onHover4() {
-    this.p = 515;
+    this.p = 495;
     this.hover = true;
     this.i = 4;
     this.message = "ULBs to upload provisional annual accounts for previous year and audited annual accounts for year previous year w.r.t. award year."
   }
   onHover5() {
-    this.p = 665;
+    this.p = 630;
     this.hover = true;
     this.i = 5;
     this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
   }
   onHover6() {
-    this.p = 815;
+    this.p = 770;
     this.hover = true;
     this.i = 6;
     this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
   }
   onHover7() {
-    this.p = 967;
+    this.p = 910;
     this.hover = true;
     this.i = 7;
     this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
