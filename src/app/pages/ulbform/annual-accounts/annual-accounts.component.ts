@@ -1,4 +1,10 @@
-import { Component, TemplateRef, OnInit, HostBinding,ViewChild } from "@angular/core";
+import {
+  Component,
+  TemplateRef,
+  OnInit,
+  HostBinding,
+  ViewChild,
+} from "@angular/core";
 
 import { HttpEventType, HttpResponse } from "@angular/common/http";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
@@ -8,8 +14,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { AnnualPreviewComponent } from "./annual-preview/annual-preview.component";
 import { UlbformService } from "../ulbform.service";
 import { BsModalService } from "ngx-bootstrap/modal";
-import { Router ,Event} from "@angular/router";
-import { NavigationStart} from '@angular/router';
+import { Router, Event } from "@angular/router";
+import { NavigationStart } from "@angular/router";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -28,24 +34,28 @@ export class AnnualAccountsComponent implements OnInit {
   ) {
     this._router.events.subscribe(async (event: Event) => {
       if (event instanceof NavigationStart) {
-        const change = sessionStorage.getItem("changeInAnnualAccount")
-        if(change === "true" && this.routerNavigate === null){
-          this.routerNavigate = event
-          this.openModal(this.template)       
+        const canNavigate = sessionStorage.getItem("canNavigate");
+        if (canNavigate === "false" && this.routerNavigate === null) {
+          if (this.modalRef) this.modalRef.hide();
           const currentRoute = this._router.routerState;
-          this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
+          this._router.navigateByUrl(currentRoute.snapshot.url, {
+            skipLocationChange: true,
+          });
+          this.routerNavigate = event;
+          this.openModal(this.template);
         }
-        }
-      });
-    }
+      }
+    });
+  }
   @ViewChild("template") template;
   ngOnInit(): void {
     this.changeAudit("Unaudited");
     this.onLoad();
-    sessionStorage.setItem("changeInAnnualAccount", "false");
+    sessionStorage.setItem("canNavigate", "true");
   }
   quesOneAnswer: boolean = false;
   quesTwoAnswer: boolean = false;
+  fromPreview = null;
 
   quesOneAnswer1: boolean = false;
   quesTwoAnswer1: boolean = false;
@@ -57,10 +67,10 @@ export class AnnualAccountsComponent implements OnInit {
   fileSelected;
   progressArray;
   fileNameArray;
-  routerNavigate = null
+  routerNavigate = null;
   response;
   modalRef;
-  temp 
+  temp;
   @HostBinding("")
   pdfError = "PDF Not Uploaded!";
   answerError = {
@@ -255,10 +265,8 @@ export class AnnualAccountsComponent implements OnInit {
   };
 
   onPreview() {
-    let preData = [this.unauditResponse, this.auditResponse];
-    console.log("preData", preData);
     const dialogRef = this.dialog.open(AnnualPreviewComponent, {
-      data: preData,
+      data: JSON.parse(sessionStorage.getItem("annualAccounts")),
       height: "95%",
       width: "85vw",
       panelClass: "no-padding-dialog",
@@ -341,6 +349,8 @@ export class AnnualAccountsComponent implements OnInit {
     }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
+    const toStoreResponse = [this.auditResponse, this.unauditResponse];
+    sessionStorage.setItem("annualAccounts", JSON.stringify(toStoreResponse));
   }
 
   save(form) {
@@ -350,7 +360,6 @@ export class AnnualAccountsComponent implements OnInit {
           const status = JSON.parse(sessionStorage.getItem("allStatus"));
           status.annualAccounts.isSubmit = res["isCompleted"];
           this._ulbformService.allStatus.next(status);
-          swal("Form Saved", "", "success");
           resolve("success");
         },
         (err) => {
@@ -679,14 +688,7 @@ export class AnnualAccountsComponent implements OnInit {
       const tempResponse = JSON.stringify(this.unauditResponse);
       const tempResponseLast = JSON.stringify(annualAccounts[0]);
       if (tempResponse != tempResponseLast) {
-        sessionStorage.setItem("changeInAnnualAccount", "true");
-        annualAccounts[0] = JSON.parse(tempResponse);
-        sessionStorage.setItem(
-          "annualAccounts",
-          JSON.stringify(annualAccounts)
-        );
-      } else {
-        sessionStorage.setItem("changeInAnnualAccount", "false");
+        sessionStorage.setItem("canNavigate", "false");
       }
     } else {
       const tempResponse = JSON.stringify(
@@ -696,38 +698,40 @@ export class AnnualAccountsComponent implements OnInit {
       );
       const tempResponseLast = JSON.stringify(annualAccounts[1]);
       if (tempResponse != tempResponseLast) {
-        sessionStorage.setItem("changeInAnnualAccount", "true");
-        annualAccounts[1] = JSON.parse(tempResponse);
-        sessionStorage.setItem(
-          "annualAccounts",
-          JSON.stringify(annualAccounts)
-        );
-      } else {
-        sessionStorage.setItem("changeInAnnualAccount", "false");
+        sessionStorage.setItem("canNavigate", "false");
       }
     }
   }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>, fromPreview = null) {
+    this.fromPreview = fromPreview;
+    if (fromPreview && sessionStorage.getItem("canNavigate") === "true") {
+      this.onPreview();
+      return;
+    }
     this.modalRef = this.modalService.show(template, { class: "modal-md" });
   }
   stay() {
-    if(this.routerNavigate){
-      this.routerNavigate = null
+    if (this.modalRef) this.modalRef.hide();
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
     }
-    this.modalRef.hide();
   }
   async proceed() {
-    this.modalRef.hide();
-    if(this.routerNavigate){
+    if (this.modalRef) this.modalRef.hide();
+    if (this.routerNavigate) {
       this._router.navigate([this.routerNavigate.url]);
-      return
+      return;
+    }
+    if (this.fromPreview) {
+      this.onPreview();
+      return;
     }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
     return this._router.navigate(["ulbform/water-sanitation"]);
   }
   alertClose() {
-    this.stay()
+    this.stay();
   }
 }
