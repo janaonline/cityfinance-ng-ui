@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { ProfileService } from 'src/app/users/profile/service/profile.service';
@@ -14,12 +14,20 @@ export class UlbAdminComponent extends BaseComponent implements OnInit {
 
   name ='';
   role='';
+  ds_icon='../../../assets/ulbform/dh.png'
+  ulb_icon;
   constructor(
     private _router: Router,
     private modalService: BsModalService,
-    private _profileService: ProfileService
+    private _profileService: ProfileService,
+    public ActivateRoute: ActivatedRoute
   ) {
     super();
+  if(ActivateRoute){
+    this.ulb_icon='../../../assets/ulbform/d2.png'
+  }else{
+    this.ulb_icon = '../../../assets/ulbform/d2.png'
+  }
     switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
 
@@ -44,6 +52,13 @@ export class UlbAdminComponent extends BaseComponent implements OnInit {
     let lData = JSON.parse(localStorage.getItem('userData'));
       this.name = lData.name;
       this.role = lData.role;
+  }
+  changeIcon(){
+    console.log('pramod');
+    this.ds_icon ='../../../assets/ulbform/eye.png'
+  }
+  remIcon(){
+    this.ds_icon ='../../../assets/ulbform/dh.png'
   }
 
 }

@@ -3,11 +3,12 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-12 col-lg-12 col-md-12" style="text-align: left;">
-                        <h5>Review ULB Forms</h5>
+                    <div class="col-sm-12 col-lg-12 col-md-12 text-right" style="margin-bottom: 1rem;">
+                        <button type="button" class="btn btn-d">DOWNLOAD</button>
+
                     </div>
                     <div class="col-sm-12">
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
                             <table class="table">
                                 <thead>
                                     <tr style="background-color: #047474; color: #FFFFFF;">
@@ -36,16 +37,14 @@
                                        [value]="item.name" >
                                         {{item.name}}</option>
                                  </select>
-
-
-
-
                                         </th>
                                         <th>
-                                            <input type="text" class="s-th" (keyup.enter)="stateData($event.target.value, 'ulbName')">
+                                            <span class="s-s"><img src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" class="s-th p-s" (keyup.enter)="stateData($event.target.value, 'ulbName')">
                                         </th>
                                         <th>
-                                            <input type="text" class="s-th" (keyup.enter)="stateData($event.target.value, 'ulbCode')">
+                                            <span class="s-s"><img src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" class="s-th p-s" (keyup.enter)="stateData($event.target.value, 'ulbCode')">
                                         </th>
                                         <th>
                                             <select class="s-th" (change)="stateData($event.target.value, 'ulbType')">
@@ -69,7 +68,8 @@
                                           </select>
                                         </th>
                                         <th>
-                                            <input type="text" class="s-th" style="width: 76px;" (change)="stateData($event.target.value, 'UA')">
+                                            <span class="s-s"><img src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" class="s-th p-s" style="width: 76px;" (change)="stateData($event.target.value, 'UA')">
                                         </th>
                                         <th>
                                             <select class="s-th" style="width: 71px;" (change)="stateData($event.target.value, 'Status')">
@@ -100,8 +100,8 @@
                                         <td style="color: blue;">{{resData.status}}</td>
                                         <td>
                                             <a (click)="viewUlbForm(resData)" [routerLink]="[
-                                '/ulbform/overview',
-                                row?._id
+                                            '/ulbform/overview',
+                                resData?._id
                               ]">
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/ulbform/eye.png">

@@ -40,6 +40,7 @@ export class AnnualAccountsComponent implements OnInit {
   progressArray;
   fileNameArray;
   response;
+  isDisabled = false;
 
   pdfError = "PDF Not Uploaded!";
   answerError = {
@@ -245,10 +246,14 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   onLoad() {
+    let ulbId = sessionStorage.getItem('ulb_id');
+    if(ulbId != null){
+      this.isDisabled = true;
+    }
     this.annualAccountsService
       .getData({
         design_year: this.Years["2021-22"],
-      })
+      }, ulbId)
       .subscribe(
         async (res) => {
           const responseType =
@@ -324,9 +329,9 @@ export class AnnualAccountsComponent implements OnInit {
       ) {
         delete form.standardized_data;
       }
-  
+
       await this.checkForm(form);
-      
+
       this.annualAccountsService.postData(form).subscribe(
         (res) => {
           const status = JSON.parse(sessionStorage.getItem("allStatus"));

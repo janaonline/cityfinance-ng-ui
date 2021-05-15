@@ -19,6 +19,7 @@ export class UlbReviewComponent extends BaseComponent implements OnInit {
 
 tabelData: any;
 state_name: any;
+
 listFetchOption = {
   filter: null,
   sort: null,
@@ -42,7 +43,9 @@ fcFormListSubscription: Subscription;
     public ulbService : UlbadminServiceService,
     private _commonService: CommonService
   ) {
+
     super();
+
     switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
 

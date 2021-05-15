@@ -15,7 +15,12 @@ export class UlbformService {
 
   constructor(private http: HttpClient) {}
 
-  getStatus(design_year) {
-    return this.http.get(`${environment.api.url}masterForm/get/${design_year}`);
+  getStatus(design_year, rowId) {
+    if(rowId != null){
+      return this.http.get(`${environment.api.url}masterForm/get/${design_year}/${rowId}`);
+    }else{
+      return this.http.get(`${environment.api.url}masterForm/get/${design_year}`);
+    }
+
   }
 }

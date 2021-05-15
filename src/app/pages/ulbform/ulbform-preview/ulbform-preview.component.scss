@@ -13,3 +13,9 @@
 .h-cls {
     display: none;
 }
+
+@media print {
+    .page-break {
+        page-break-before: always;
+    }
+}

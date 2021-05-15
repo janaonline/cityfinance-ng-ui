@@ -33,13 +33,13 @@ export class UlbformPreviewComponent implements OnInit {
   .h-cls{
     display: none;
   }
-  .header {
+  .header-p {
     background-color: #047474;
     height: 70px;
     text-align: center;
 }
 
-.heading {
+.heading-p {
     color: #FFFFFF;
     font-size: 22px;
     padding: 2rem;
@@ -64,6 +64,180 @@ export class UlbformPreviewComponent implements OnInit {
 .m-h{
   text-align: center;
 }
+.cont {
+  width: 794px;
+  background-color: #FFFFFF;
+  display: inline-block;
+}
+
+.container {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.header {
+  height: 90px;
+  text-align: center;
+  background-color: #047474;
+}
+.header{
+word-break: break-all;
+}
+
+td, th{
+word-break: break-all;
+font-size: 9px !important;
+padding: 5px 1px !important;
+}
+
+.header {
+background-color: #047474;
+height: 50px;
+display: inline-block;
+color: #FFFFFF;
+text-align: center;
+font-weight:
+}
+.mat-dialog-content {
+padding: 0 0 0 0;
+max-width: 100vw;
+max-height: 100vw;
+}
+.listitem_head {
+padding: 2px 2px;
+font-size: 12px !important;
+font-family: Roboto;
+font-weight: normal;
+display: inline-block;
+}
+.listitem_grantYear {
+display: inline-block;
+font-weight: normal;
+width: 50px !important;
+height: 10px !important;
+color: #3D3D3D;
+margin-left: 10px;
+background-color: #E5E6E6;
+border-radius: 3px;
+padding: 4px;
+}
+.listitem_subHead {
+margin-top: 5px;
+font-size: 16px;
+font-weight: normal;
+font-family: Roboto;
+padding: 2px 2px;
+display: inline-block;
+}
+.dnDiv {
+margin-top: 10px;
+margin-right: 5%;
+}
+.dnldBtn {
+background-color: #26A1A1;
+color: #FFFFFF;
+font-weight: normal;
+}
+.card2Div {
+margin-top: 5px;
+padding: 2px 2px;
+}
+.mat-dialog-container {
+padding: 0;
+}
+.mat-card2 {
+padding: 5px 2px;
+margin-top: 10px;
+// margin: 10px 40px;
+background-color: #EBF5F5;
+display: block;
+}
+.card2 {
+width: 50%;
+font-weight: normal;
+padding: 2px 5px;
+}
+.crd-ls-div {
+margin-bottom: 15px;
+}
+.c-2-d {
+margin-left: 15px;
+}
+.card3 {
+width: 50%;
+font-weight: 500;
+padding: 2px 5px;
+}
+label {
+font-weight: normal;
+}
+.thHeader {
+background-color: #E9E9E9;
+color: #047474;
+font-size: 15px;
+font-weight: normal;
+}
+th {
+font-weight: normal;
+vertical-align: middle;
+text-align: center;
+}
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+vertical-align: middle;
+padding: 10px 6px;
+}
+.bor-in-l {
+word-break: break-all;
+color: #51504F;
+}
+.tableFooterDiv {
+background-color: #E7E7E7;
+color: #000000;
+font-size: 16px;
+}
+.f-d-n {
+background-color: #CFCFCF;
+width: 235px;
+height: 35px;
+padding: 7px 8px;
+height: 15px !important;
+}
+.d-none {
+display: none;
+}
+label{
+font-size: 9px !important;
+}
+.font-9{
+font-size: 9px !important;
+}
+.pdf-hide{
+display: none;
+}
+.w-5{
+width: 5% !important;
+}
+.w-10{
+width: 10% !important;
+}
+.w-11{
+width: 11% !important;
+}
+.w-12{
+width: 12% !important;
+}
+.w-15{
+width: 15% !important;
+}
+@media print {
+  .page-break {page-break-before: always;}
+}
+
   </style>`
 
   detailUtil = null;
@@ -75,9 +249,11 @@ export class UlbformPreviewComponent implements OnInit {
   userData = JSON.parse(localStorage.getItem("userData"));
   years = JSON.parse(localStorage.getItem("Years"));
   designYear;
+  financialYear;
 
   ngOnInit(): void {
     this.designYear = this.years["2021-22"];
+    this.financialYear = this.years["2021-22"];
     this.onLoad();
   }
 
@@ -94,7 +270,7 @@ export class UlbformPreviewComponent implements OnInit {
   }
   detailUtilData() {
     return new Promise((resolve, reject) => {
-      this.utiReportService.fetchPosts().subscribe(
+      this.utiReportService.fetchPosts(this.designYear, this.financialYear, '').subscribe(
         (res) => {
           this.detailUtil = res;
           resolve("Success");
@@ -123,7 +299,7 @@ export class UlbformPreviewComponent implements OnInit {
 
   getLinkPfms() {
     return new Promise((resolve, reject) => {
-      this.linkPFMSAccount.getData(this.designYear).subscribe(
+      this.linkPFMSAccount.getData(this.designYear, '').subscribe(
         (res) => {
           this.pfms = res["response"];
           resolve("Success");
@@ -150,7 +326,7 @@ export class UlbformPreviewComponent implements OnInit {
       const param = {
         design_year: this.designYear,
       };
-      this.annualAccountsService.getData(param).subscribe(
+      this.annualAccountsService.getData(param, '').subscribe(
         (res) => {
           this.annualAccount = res["data"];
           resolve("Sucess");

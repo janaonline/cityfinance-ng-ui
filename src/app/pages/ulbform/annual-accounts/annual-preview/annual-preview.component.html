@@ -1,13 +1,12 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-12 header">
-            <a *ngIf="!parentData" mat-dialog-close
-                style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
+        <div class="col-sm-12 header-p">
+            <a mat-dialog-close style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
 
                 <img src="../../../../../assets/form-icon/Icon material-close.svg">
 
             </a>
-            <span class="col-sm-12 heading">Annual Accounts</span>
+            <span class="col-sm-12 heading-p">Annual Accounts</span>
         </div>
     </div>
     <div class="row" style="margin-top: 1.5rem;">
@@ -22,8 +21,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 2rem; margin-bottom: 20px;">
             <div class="row">
-                <div class="col-sm-8"
-                    style="margin-left: 1.6rem; background-color: #124A55; color: #FFFFFF; padding: 4px;">
+                <div class="col-sm-8" style="margin-left: 1.6rem; background-color: #124A55; color: #FFFFFF; padding: 4px;">
                     <span>Provisional Accounts for 2020-21</span>
                 </div>
             </div>
@@ -46,10 +44,8 @@
                         <div *ngIf="year2021.provisional_data" class="col-sm-6 ans-h text-center">
                             <a href="{{year2021.provisional_data.bal_sheet.pdfUrl}}">
                                 {{year2021.provisional_data.bal_sheet.pdfName}}</a>
-                            <span
-                                *ngIf="year2021.provisional_data.bal_sheet.excelName && year2021.provisional_data.bal_sheet.pdfName"></span>
-                            <a href="{{year2021.provisional_data.bal_sheet.excelUrl}}"
-                                *ngIf="year2021.provisional_data.bal_sheet.excelName">
+                            <span *ngIf="year2021.provisional_data.bal_sheet.excelName && year2021.provisional_data.bal_sheet.pdfName"></span>
+                            <a href="{{year2021.provisional_data.bal_sheet.excelUrl}}" *ngIf="year2021.provisional_data.bal_sheet.excelName">
                                 {{year2021.provisional_data.bal_sheet.excelName}}</a>
                         </div>
                         <div *ngIf="!year2021.provisional_data" class="col-sm-6 qus-h text-center text-danger">
@@ -63,8 +59,7 @@
                         <div *ngIf="year2021.provisional_data" class="col-sm-6 ans-h text-center">
                             <a href="{{year2021.provisional_data.bal_sheet_schedules.pdfUrl}}">
                                 {{year2021.provisional_data.bal_sheet_schedules.pdfName}}</a>
-                            <a href="{{year2021.provisional_data.bal_sheet_schedules.excelUrl}}"
-                                *ngIf="year2021.provisional_data.bal_sheet_schedules.excelName"> ||
+                            <a href="{{year2021.provisional_data.bal_sheet_schedules.excelUrl}}" *ngIf="year2021.provisional_data.bal_sheet_schedules.excelName"> ||
                                 {{year2021.provisional_data.bal_sheet_schedules.excelName}}</a>
                         </div>
                         <div *ngIf="!year2021.provisional_data" class="col-sm-6 qus-h text-center text-danger">
@@ -78,8 +73,7 @@
                         <div *ngIf="year2021.provisional_data" class="col-sm-6 ans-h">
                             <a href="{{year2021.provisional_data.inc_exp.pdfUrl}}">
                                 {{year2021.provisional_data.inc_exp.pdfName}}</a>
-                            <a href="{{year2021.provisional_data.inc_exp.excelUrl}}"
-                                *ngIf="year2021.provisional_data.inc_exp.excelName"> ||
+                            <a href="{{year2021.provisional_data.inc_exp.excelUrl}}" *ngIf="year2021.provisional_data.inc_exp.excelName"> ||
                                 {{year2021.provisional_data.inc_exp.excelName}}</a>
                         </div>
                         <div *ngIf="!year2021.provisional_data" class="col-sm-6 qus-h text-center text-danger">
@@ -93,8 +87,7 @@
                         <div *ngIf="year2021.provisional_data" class="col-sm-6 ans-h">
                             <a href="{{year2021.provisional_data.inc_exp_schedules.pdfUrl}}">
                                 {{year2021.provisional_data.inc_exp_schedules.pdfName}}</a>
-                            <a href="{{year2021.provisional_data.inc_exp_schedules.excelUrl}}"
-                                *ngIf="year2021.provisional_data.inc_exp_schedules.excelName"> ||
+                            <a href="{{year2021.provisional_data.inc_exp_schedules.excelUrl}}" *ngIf="year2021.provisional_data.inc_exp_schedules.excelName"> ||
                                 {{year2021.provisional_data.inc_exp_schedules.excelName}}</a>
                         </div>
                         <div *ngIf="!year2021.provisional_data" class="col-sm-6 qus-h text-center text-danger">
@@ -108,8 +101,7 @@
                         <div *ngIf="year2021.provisional_data" class="col-sm-6 ans-h">
                             <a href="{{year2021.provisional_data.cash_flow.pdfUrl}}">
                                 {{year2021.provisional_data.cash_flow.pdfName}}</a>
-                            <a href="{{year2021.provisional_data.cash_flow.excelUrl}}"
-                                *ngIf="year2021.provisional_data.cash_flow.excelName"> ||
+                            <a href="{{year2021.provisional_data.cash_flow.excelUrl}}" *ngIf="year2021.provisional_data.cash_flow.excelName"> ||
                                 {{year2021.provisional_data.cash_flow.excelName}}</a>
                         </div>
                         <div *ngIf="!year2021.provisional_data" class="col-sm-6 qus-h text-center text-danger">
@@ -130,13 +122,8 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6 qus-h">
-                            Self declaration by the Executive officer/Municipal Commissioner
-                            of the ULB on the
-                            standardised financial statements uploaded above.
-                            I hereby confirm that I have verified the information uploaded in standardized template
-                            and
-                            it is true and correct. It is confirmed that this information can be made available for
-                            public consumption on the CityFinance portal.
+                            Self declaration by the Executive officer/Municipal Commissioner of the ULB on the standardised financial statements uploaded above. I hereby confirm that I have verified the information uploaded in standardized template and it is true and correct. It
+                            is confirmed that this information can be made available for public consumption on the CityFinance portal.
                         </div>
                         <div class="col-sm-6 ans-h text-center">
                             <span *ngIf="year2021.standardized_data.declaration">Agreed</span>
@@ -148,8 +135,7 @@
                             Uploaded Excel
                         </div>
                         <div class="col-sm-6 ans-h text-center">
-                            <a
-                                href="{{year2021.standardized_data.upload.excelUrl}}">{{year2021.standardized_data.upload.excelName}}</a>
+                            <a href="{{year2021.standardized_data.upload.excelUrl}}">{{year2021.standardized_data.upload.excelName}}</a>
                         </div>
                     </div>
                 </div>
@@ -159,8 +145,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 2rem; margin-bottom: 20px;">
             <div class="row">
-                <div class="col-sm-8"
-                    style="margin-left: 1.6rem; background-color: #124A55; color: #FFFFFF; padding: 4px;">
+                <div class="col-sm-8" style="margin-left: 1.6rem; background-color: #124A55; color: #FFFFFF; padding: 4px;">
                     <span>Audited Accounts for 2019-20</span>
                 </div>
             </div>
@@ -181,8 +166,7 @@
                         <div *ngIf="year2019.provisional_data" class="col-sm-6 ans-h">
                             <a href="{{year2019.provisional_data.bal_sheet.pdfUrl}}">
                                 {{year2019.provisional_data.bal_sheet.pdfName}}</a>
-                            <a href="{{year2019.provisional_data.bal_sheet.excelUrl}}"
-                                *ngIf="year2019.provisional_data.bal_sheet.excelName"> ||
+                            <a href="{{year2019.provisional_data.bal_sheet.excelUrl}}" *ngIf="year2019.provisional_data.bal_sheet.excelName"> ||
                                 {{year2019.provisional_data.bal_sheet.excelName}}</a>
                         </div>
                         <div *ngIf="!year2019.provisional_data" class="col-sm-6 qus-h text-center text-danger">
@@ -196,8 +180,7 @@
                         <div *ngIf="year2019.provisional_data" class="col-sm-6 ans-h">
                             <a href="{{year2019.provisional_data.bal_sheet_schedules.pdfUrl}}">
                                 {{year2019.provisional_data.bal_sheet_schedules.pdfName}}</a>
-                            <a href="{{year2019.provisional_data.bal_sheet_schedules.excelUrl}}"
-                                *ngIf="year2019.provisional_data.bal_sheet_schedules.excelName"> ||
+                            <a href="{{year2019.provisional_data.bal_sheet_schedules.excelUrl}}" *ngIf="year2019.provisional_data.bal_sheet_schedules.excelName"> ||
                                 {{year2019.provisional_data.bal_sheet_schedules.excelName}}</a>
                         </div>
                         <div *ngIf="!year2019.provisional_data" class="col-sm-6 qus-h text-center text-danger">
@@ -211,8 +194,7 @@
                         <div *ngIf="year2019.provisional_data" class="col-sm-6 ans-h">
                             <a href="{{year2019.provisional_data.inc_exp.pdfUrl}}">
                                 {{year2019.provisional_data.inc_exp.pdfName}}</a>
-                            <a href="{{year2019.provisional_data.inc_exp.excelUrl}}"
-                                *ngIf="year2019.provisional_data.inc_exp.excelName"> ||
+                            <a href="{{year2019.provisional_data.inc_exp.excelUrl}}" *ngIf="year2019.provisional_data.inc_exp.excelName"> ||
                                 {{year2019.provisional_data.inc_exp.excelName}}</a>
                         </div>
                         <div *ngIf="!year2019.provisional_data" class="col-sm-6 qus-h text-center text-danger">
@@ -226,8 +208,7 @@
                         <div *ngIf="year2019.provisional_data" class="col-sm-6 ans-h">
                             <a href="{{year2019.provisional_data.inc_exp_schedules.pdfUrl}}">
                                 {{year2019.provisional_data.inc_exp_schedules.pdfName}}</a>
-                            <a href="{{year2019.provisional_data.inc_exp_schedules.excelUrl}}"
-                                *ngIf="year2019.provisional_data.inc_exp_schedules.excelName"> ||
+                            <a href="{{year2019.provisional_data.inc_exp_schedules.excelUrl}}" *ngIf="year2019.provisional_data.inc_exp_schedules.excelName"> ||
                                 {{year2019.provisional_data.inc_exp_schedules.excelName}}</a>
                         </div>
                         <div *ngIf="!year2019.provisional_data" class="col-sm-6 qus-h text-center text-danger">
@@ -241,8 +222,7 @@
                         <div *ngIf="year2019.provisional_data" class="col-sm-6 ans-h">
                             <a href="{{year2019.provisional_data.cash_flow.pdfUrl}}">
                                 {{year2019.provisional_data.cash_flow.pdfName}}</a>
-                            <a href="{{year2019.provisional_data.cash_flow.excelUrl}}"
-                                *ngIf="year2019.provisional_data.cash_flow.excelName"> ||
+                            <a href="{{year2019.provisional_data.cash_flow.excelUrl}}" *ngIf="year2019.provisional_data.cash_flow.excelName"> ||
                                 {{year2019.provisional_data.cash_flow.excelName}}</a>
                         </div>
                         <div *ngIf="!year2019.provisional_data" class="col-sm-6 qus-h text-center text-danger">
@@ -256,8 +236,7 @@
                         <div *ngIf="year2019.provisional_data" class="col-sm-6 ans-h">
                             <a href="{{year2019.provisional_data.auditor_report.pdfUrl}}">
                                 {{year2019.provisional_data.auditor_report.pdfName}}</a>
-                            <a href="{{year2019.provisional_data.auditor_report.excelUrl}}"
-                                *ngIf="year2019.provisional_data.auditor_report.excelName"> ||
+                            <a href="{{year2019.provisional_data.auditor_report.excelUrl}}" *ngIf="year2019.provisional_data.auditor_report.excelName"> ||
                                 {{year2019.provisional_data.auditor_report.excelName}}</a>
                         </div>
                         <div *ngIf="!year2019.provisional_data" class="col-sm-6 qus-h text-center text-danger">
@@ -278,13 +257,8 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6 qus-h">
-                            Self declaration by the Executive officer/Municipal Commissioner
-                            of the ULB on the
-                            standardised financial statements uploaded above.
-                            I hereby confirm that I have verified the information uploaded in standardized template
-                            and
-                            it is true and correct. It is confirmed that this information can be made available for
-                            public consumption on the CityFinance portal.
+                            Self declaration by the Executive officer/Municipal Commissioner of the ULB on the standardised financial statements uploaded above. I hereby confirm that I have verified the information uploaded in standardized template and it is true and correct. It
+                            is confirmed that this information can be made available for public consumption on the CityFinance portal.
                         </div>
                         <div class="col-sm-6 ans-h text-center">
                             <span *ngIf="year2019.standardized_data.declaration">Agreed</span>
@@ -296,8 +270,7 @@
                             Uploaded Excel
                         </div>
                         <div class="col-sm-6 ans-h text-center">
-                            <a
-                                href="{{year2019.standardized_data.upload.excelUrl}}">{{year2019.standardized_data.upload.excelName}}</a>
+                            <a href="{{year2019.standardized_data.upload.excelUrl}}">{{year2019.standardized_data.upload.excelName}}</a>
                         </div>
                     </div>
                 </div>

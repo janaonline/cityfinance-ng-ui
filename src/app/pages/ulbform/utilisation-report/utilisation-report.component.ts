@@ -54,6 +54,9 @@ export class UtilisationReportComponent implements OnInit {
     private modalService: BsModalService,
     private _ulbformService: UlbformService
   ) {
+    let yearId = JSON.parse(localStorage.getItem('Years'));
+    this.designYear = yearId['2021-22']
+    this.financialYear = yearId['2020-21']
     this.initializeUserType();
 
     // this.fetchStateList();
@@ -68,7 +71,7 @@ export class UtilisationReportComponent implements OnInit {
   projectExp = 0;
   selectedFile;
   categories;
-  editable;
+ // editable;
   photoUrl: any = [];
   fd;
   formDataResponce;
@@ -79,22 +82,24 @@ export class UtilisationReportComponent implements OnInit {
   errMessage;
   errorDisplay = false;
   setLocation;
+  designYear;
+  financialYear;
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
       res.forEach((state) => (this.states[state._id] = state));
       this.initializeReport();
       this.getResponse();
-      // switch (this.userLoggedInDetails.role) {
-      //    case USER_TYPE.ULB:
-      //    case USER_TYPE.STATE:
-      //    case USER_TYPE.PARTNER:
-      //    case USER_TYPE.MoHUA:
-      //    case USER_TYPE.ADMIN:
-      //      this.utilizationReport.disable();
-      //      this.utiReportFormControl.projects.disable();
+      switch (this.userLoggedInDetails.role) {
+         case USER_TYPE.ULB:
+         case USER_TYPE.STATE:
+         case USER_TYPE.PARTNER:
+         case USER_TYPE.MoHUA:
+         case USER_TYPE.ADMIN:
+           this.utilizationReport.disable();
+           this.utiReportFormControl.projects.disable();
 
-      //  }
+       }
     });
   }
   // errorShow(){
@@ -103,6 +108,7 @@ export class UtilisationReportComponent implements OnInit {
   // }
 
   ngOnInit() {
+
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;
       //  console.log('res', resdata);
@@ -110,9 +116,12 @@ export class UtilisationReportComponent implements OnInit {
         a.name.localeCompare(b.name)
       );
     });
+
+
   }
   public getResponse() {
-    this.UtiReportService.fetchPosts().subscribe(
+    let ulbId = sessionStorage.getItem('ulb_id');
+    this.UtiReportService.fetchPosts(this.designYear, this.financialYear, ulbId).subscribe(
       (res) => {
         //  this.formDataResponce = res;
         this.preFilledData(res);
@@ -124,7 +133,7 @@ export class UtilisationReportComponent implements OnInit {
     );
   }
   private preFilledData(res) {
-    this.editable = res.isDraft;
+   // this.editable = res.isDraft;
     this.deleteRow(0);
     this.addPreFilledSimple(res);
     res.projects.forEach((project) => {
@@ -143,7 +152,7 @@ export class UtilisationReportComponent implements OnInit {
       },
     });
     this.totalclosingBal = data.grantPosition.closingBal;
-    if (!this.editable) this.utilizationReport.disable();
+   // if (!this.editable) this.utilizationReport.disable();
   }
 
   public initializeReport() {
@@ -420,7 +429,7 @@ export class UtilisationReportComponent implements OnInit {
     this.totalProCost(this.tabelRows.length);
     this.totalExpCost(this.tabelRows.length);
     this.addPhotosUrl(data.photos, this.tabelRows.length - 1);
-    if (!this.editable) this.tabelRows.disable();
+  //  if (!this.editable) this.tabelRows.disable();
   }
   setUrlGroup(url) {
     return this.fb.group({
@@ -469,7 +478,7 @@ export class UtilisationReportComponent implements OnInit {
       (res) => {
         //  console.log(res);
         alert("Record submitted successfully.");
-        debugger
+
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.utilReport.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
@@ -489,8 +498,8 @@ export class UtilisationReportComponent implements OnInit {
 
         this.fd = this.utilizationReport.value;
         this.fd.isDraft = true;
-        this.fd.financialYear = '5ea036c2d6f1c5ee2e702e9e';
-        this.fd.designYear ='5ea036c2d6f1c5ee2e702e9e';
+        this.fd.financialYear = this.financialYear;
+        this.fd.designYear = this.designYear;
         this.fd.grantType = 'Tied';
         this.fd.grantPosition.closingBal = this.totalclosingBal;
 

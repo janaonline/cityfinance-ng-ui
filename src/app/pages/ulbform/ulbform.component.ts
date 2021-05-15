@@ -7,7 +7,8 @@ import { ProfileService } from "../../users/profile/service/profile.service";
 import { IState } from "../../models/state/state";
 
 import { CommonService } from "src/app/shared/services/common.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { UlbformPreviewComponent } from "./ulbform-preview/ulbform-preview.component";
 import { WaterSanitationService } from "./water-sanitation/water-sanitation.service";
 import { UlbformService } from "./ulbform.service";
@@ -23,6 +24,7 @@ export class UlbformComponent implements OnInit {
   userTypes = USER_TYPE;
   isMillionPlus;
   isUA;
+  id = null;
 
   constructor(
     private _commonService: CommonService,
@@ -30,8 +32,19 @@ export class UlbformComponent implements OnInit {
     private _router: Router,
     private wsService: WaterSanitationService,
     public dialog: MatDialog,
-    public ulbformService: UlbformService
+    public ulbformService: UlbformService,
+    public activatedRoute: ActivatedRoute
   ) {
+    this.activatedRoute.params.subscribe((val) => {
+      const { id } = val;
+      if (id) {
+        this.id = id;
+        console.log('stid',id)
+      }
+    else {
+
+          }
+    });
     this.accessGrant();
     this.initializeUserType();
     this.fetchStateList();
@@ -68,7 +81,7 @@ export class UlbformComponent implements OnInit {
   }
 
   getStatus() {
-    this.ulbformService.getStatus(this.design_year).subscribe(
+    this.ulbformService.getStatus(this.design_year, this.id).subscribe(
       (res) => {
         this.ulbformService.allStatus.next(res["response"]["steps"]);
       },
@@ -83,8 +96,7 @@ export class UlbformComponent implements OnInit {
     let userData = JSON.parse(localStorage.getItem('userData'));
     this.isMillionPlus =  userData.isMillionPlus;
     this.isUA = userData.isUA;
-    console.log('milli', this.isMillionPlus)
-    console.log('Ua', this.isUA)
+
   }
 
   private initializeUserType() {
