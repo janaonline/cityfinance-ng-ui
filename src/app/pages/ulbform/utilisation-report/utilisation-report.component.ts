@@ -156,9 +156,9 @@ export class UtilisationReportComponent implements OnInit {
         };
         sessionStorage.setItem("utilReport", JSON.stringify(data));
         this.currentChanges();
-        console.log("utiRe", res);
       },
       (error) => {
+        sessionStorage.setItem("utilReport", JSON.stringify(this.utilizationReport.value));
         console.log(error);
         this.currentChanges();
       }
@@ -496,23 +496,19 @@ export class UtilisationReportComponent implements OnInit {
 
   saveAndNext(template) {
     this.submitted = true;
-    //  console.log(this.utilizationReport);
-    //  console.log(this.utilizationReport.value);
-
     this.fd = this.utilizationReport.value;
     this.fd.isDraft = true;
     this.fd.financialYear = "5ea036c2d6f1c5ee2e702e9e";
     this.fd.designYear = "5ea036c2d6f1c5ee2e702e9e";
     this.fd.grantType = "Tied";
     this.fd.grantPosition.closingBal = this.totalclosingBal;
-
     if (
       this.utilizationReport.valid &&
       this.totalclosingBal >= 0 &&
       !this.isSumEqual
     ) {
       this.apiCall(this.fd);
-      console.log("form submitted", this.fd);
+      sessionStorage.setItem("canNavigate","yes")
       return this._router.navigate(["ulbform/annual_acc"]);
     } else {
       this.openModal(template);
@@ -522,9 +518,8 @@ export class UtilisationReportComponent implements OnInit {
     if (fromPreview && sessionStorage.getItem("canNavigate") === "true") {
       this.onPreview();
       return
-    } else {
-      this.fromPreview = true;
-    }
+    } 
+    this.fromPreview = fromPreview;    
     this.modalRef = this.modalService.show(template, { class: "modal-md" });
   }
 

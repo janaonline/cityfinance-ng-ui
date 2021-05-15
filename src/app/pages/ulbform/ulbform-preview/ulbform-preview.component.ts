@@ -30,6 +30,8 @@ export class UlbformPreviewComponent implements OnInit {
   userData = JSON.parse(localStorage.getItem("userData"));
   years = JSON.parse(localStorage.getItem("Years"));
   designYear;
+  isMillionPlus;
+  isUA;
 
   ngOnInit(): void {
     this.designYear = this.years["2021-22"];
@@ -37,16 +39,20 @@ export class UlbformPreviewComponent implements OnInit {
   }
 
   async onLoad() {
-    try {
-      this.getLinkPfms();
-      this.detailUtilData();
-      this.getAnnualAccount();
-      this.getSlbData();
-      this.getWaterSanitation();
-    } catch (error) {
-      console.log(error);
-    }
+    this.accessGrant();
+    await this.getLinkPfms();
+    await this.detailUtilData();
+    await this.getAnnualAccount();
+    if (this.isUA == "Yes") await this.getSlbData();
+    if (this.isMillionPlus == "No") await this.getWaterSanitation();
   }
+
+  public accessGrant() {
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    this.isMillionPlus = userData.isMillionPlus;
+    this.isUA = userData.isUA;
+  }
+
   detailUtilData() {
     return new Promise((resolve, reject) => {
       this.utiReportService.fetchPosts().subscribe(
@@ -55,7 +61,8 @@ export class UlbformPreviewComponent implements OnInit {
           resolve("Success");
         },
         (err) => {
-          console.log(err);
+          this.detailUtil = true;
+          resolve("Success");
         }
       );
     });
@@ -71,7 +78,10 @@ export class UlbformPreviewComponent implements OnInit {
           this.slbWaterSanitaion.fromParent = true;
           resolve(res);
         },
-        (err) => {}
+        (err) => {
+          this.slbWaterSanitaion = true;
+          resolve("Success");
+        }
       );
     });
   }
@@ -83,7 +93,10 @@ export class UlbformPreviewComponent implements OnInit {
           this.pfms = res["response"];
           resolve("Success");
         },
-        (err) => {}
+        (err) => {
+          this.pfms = true;
+          resolve("Success");
+        }
       );
     });
   }
@@ -95,7 +108,10 @@ export class UlbformPreviewComponent implements OnInit {
           this.waterSanitation = res["plans"];
           resolve("Success");
         },
-        (err) => {}
+        (err) => {
+          this.waterSanitation = true;
+          resolve("Success");
+        }
       );
     });
   }
@@ -110,7 +126,10 @@ export class UlbformPreviewComponent implements OnInit {
           this.annualAccount = res["data"];
           resolve("Sucess");
         },
-        (err) => {}
+        (err) => {
+          this.annualAccount = true;
+          resolve("Success");
+        }
       );
     });
   }

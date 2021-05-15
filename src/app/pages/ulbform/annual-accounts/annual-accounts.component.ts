@@ -281,6 +281,7 @@ export class AnnualAccountsComponent implements OnInit {
       })
       .subscribe(
         async (res) => {
+      
           const responseType =
             res["data"][0]["audit_status"] === "Audited"
               ? "auditResponse"
@@ -299,6 +300,12 @@ export class AnnualAccountsComponent implements OnInit {
           );
         },
         (err) => {
+      
+          const toStoreResponse = [this.auditResponse, this.unauditResponse];
+          sessionStorage.setItem(
+            "annualAccounts",
+            JSON.stringify(toStoreResponse)
+          );
           console.error(err.message);
         }
       );
@@ -343,14 +350,14 @@ export class AnnualAccountsComponent implements OnInit {
   async submit(template) {
     await this.checkForm(this.unauditResponse);
     await this.checkForm(this.auditResponse);
-    if (this.unauditResponse.isCompleted || this.auditResponse.isCompleted) {
+    if (!this.unauditResponse.isCompleted || !this.auditResponse.isCompleted) {
       this.openModal(template);
       return;
     }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
-    const toStoreResponse = [this.auditResponse, this.unauditResponse];
-    sessionStorage.setItem("annualAccounts", JSON.stringify(toStoreResponse));
+    sessionStorage.setItem("canNavigate","yes")
+    return this._router.navigate(["ulbform/service-level"]);
   }
 
   save(form) {
@@ -464,6 +471,7 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   answer(question, val, isAudit = null, fromStart = false) {
+
     switch (question) {
       case "q1":
         if (isAudit) this.quesOneAnswer1 = val;
@@ -680,6 +688,7 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   checkDiff(status) {
+
     const annualAccounts = JSON.parse(sessionStorage.getItem("annualAccounts"));
     if (
       annualAccounts[0].audit_status === "Unaudited" &&
@@ -729,7 +738,7 @@ export class AnnualAccountsComponent implements OnInit {
     }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
-    return this._router.navigate(["ulbform/water-sanitation"]);
+    return this._router.navigate(["ulbform/service-level"]);
   }
   alertClose() {
     this.stay();
