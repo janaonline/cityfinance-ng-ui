@@ -3,7 +3,7 @@
         <span>Annual Accounts</span>
     </div>
     <div class="col-sm-4 col-lg-4 col-md-4  text-right">
-        <button type="button" class="btn btn-primary pr-btn" style="margin-top: 1rem;" id="prevBtn" (click)="onPreview()">PREVIEW</button>
+        <button type="button" class="btn btn-primary pr-btn" style="margin-top: 1rem;" id="prevBtn" (click)="openModal(template,true)">PREVIEW</button>
     </div>
 </div>
 
@@ -476,9 +476,9 @@
                 </div>
                 <div class="col-sm-12" *ngIf="quesTwoAnswer">
                     <div class="col-sm-2 center">
-                        <button class="allBtn btn btn2">
+                        <a class="allBtn btn btn2" href="https://docs.google.com/spreadsheets/d/1AHflpVjDKERShznDaaxf1BYHWK-Xd7pQ/edit#gid=839498159" target="_blank">
                             Download Template
-                        </button>
+                        </a>
                     </div>
 
                     <div class="col-sm-2 center">
@@ -1070,9 +1070,9 @@
                 </div>
                 <div class="col-sm-12" *ngIf="quesTwoAnswer1">
                     <div class="col-sm-2 center">
-                        <button class="allBtn btn btn2">
+                        <a class="allBtn btn btn2" href="https://docs.google.com/spreadsheets/d/1AHflpVjDKERShznDaaxf1BYHWK-Xd7pQ/edit#gid=839498159" target="_blank">
                             Download Template
-                        </button>
+                        </a>
                     </div>
 
                     <div class="col-sm-2 center">
@@ -1144,6 +1144,27 @@
         <a type="button" class="btn btn-secondary backbtn">BACK</a>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-        <button type="button" class="btn footerBtn" (click)="submit()" [disabled]="isDisabled" id="saveNext">SAVE AND NEXT</button>
+        <button type="button" class="btn footerBtn" (click)="submit(template)" [disabled]="isDisabled" id="saveNext">SAVE AND NEXT</button>
     </div>
 </div>
+
+
+<ng-template #template>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">Some information is pending in this form.<br> Are you sure you want to proceed to next form?</p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Proceed</button>
+        </div>
+
+    </div>
+</ng-template>

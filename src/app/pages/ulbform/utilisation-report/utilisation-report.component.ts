@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 
 import { ChangeDetectorRef } from "@angular/core";
 
@@ -18,18 +18,20 @@ import { IState } from "../../../models/state/state";
 import { MatDialog } from "@angular/material/dialog";
 import { UtiReportService } from "./uti-report.service";
 import { CommonService } from "src/app/shared/services/common.service";
-import { Router } from "@angular/router";
+import { Router, Event } from "@angular/router";
 import { state } from "@angular/animations";
 import { PreviewUtiFormComponent } from "./preview-uti-form/preview-uti-form.component";
 //import { textChangeRangeIsUnchanged } from "typescript";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
-import { HttpEventType } from "@angular/common/http";
+import { HttpEventType, JsonpClientBackend } from "@angular/common/http";
 import { delay, map, retryWhen } from "rxjs/operators";
 import { ImagePreviewComponent } from "./image-preview/image-preview.component";
 //import { url } from "inspector";
 import { MapDialogComponent } from "../../../shared/components/map-dialog/map-dialog.component";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { UlbformService } from "../ulbform.service";
+import { NavigationStart } from "@angular/router";
+
 @Component({
   selector: "app-utilisation-report",
   templateUrl: "./utilisation-report.component.html",
@@ -58,14 +60,29 @@ export class UtilisationReportComponent implements OnInit {
     this.designYear = yearId['2021-22']
     this.financialYear = yearId['2020-21']
     this.initializeUserType();
-
     // this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
+    this._router.events.subscribe(async (event: Event) => {
+      if (event instanceof NavigationStart) {
+        const canNavigate = sessionStorage.getItem("canNavigate");
+        if (canNavigate === "false" && this.routerNavigate === null) {
+          if (this.modalRef) this.modalRef.hide();
+          const currentRoute = this._router.routerState;
+          this._router.navigateByUrl(currentRoute.snapshot.url, {
+            skipLocationChange: true,
+          });
+          this.routerNavigate = event;
+          this.openModal(this.template);
+        }
+      }
+    });
   }
 
   // tabularProject:any = [{
   //   id : 0
   // }];
+  @ViewChild("template") template;
+  routerNavigate = null;
   totalclosingBal: Number = 0;
   projectCost = 0;
   projectExp = 0;
@@ -84,6 +101,7 @@ export class UtilisationReportComponent implements OnInit {
   setLocation;
   designYear;
   financialYear;
+  fromPreview = null;
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
@@ -109,6 +127,7 @@ export class UtilisationReportComponent implements OnInit {
 
   ngOnInit() {
 
+    sessionStorage.setItem("canNavigate", "true");
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;
       //  console.log('res', resdata);
@@ -119,16 +138,38 @@ export class UtilisationReportComponent implements OnInit {
 
 
   }
+
+  currentChanges() {
+    this.utilizationReport.valueChanges.subscribe((formChange) => {
+      const oldForm = sessionStorage.getItem("utilReport");
+      const change = JSON.stringify(formChange);
+      if (change !== oldForm) {
+        sessionStorage.setItem("canNavigate", "false");
+      } else {
+        sessionStorage.setItem("canNavigate", "true");
+      }
+    });
+  }
+
   public getResponse() {
     let ulbId = sessionStorage.getItem('ulb_id');
     this.UtiReportService.fetchPosts(this.designYear, this.financialYear, ulbId).subscribe(
       (res) => {
         //  this.formDataResponce = res;
         this.preFilledData(res);
-        console.log("utiRe", res);
+        const data = {
+          designation: res["designation"],
+          grantPosition: res["grantPosition"],
+          name: res["name"],
+          projects: res["projects"],
+        };
+        sessionStorage.setItem("utilReport", JSON.stringify(data));
+        this.currentChanges();
       },
       (error) => {
+        sessionStorage.setItem("utilReport", JSON.stringify(this.utilizationReport.value));
         console.log(error);
+        this.currentChanges();
       }
     );
   }
@@ -320,44 +361,16 @@ export class UtilisationReportComponent implements OnInit {
   }
 
   onPreview() {
-    let formdata = {
-      state_name: this.utilizationForm.controls.stateName.value,
-      ulbName: this.utilizationForm.controls.ulb.value,
-      grntType: this.utilizationForm.controls.grantType.value,
-      grantPosition: {
-        unUtilizedPrevYr:
-          this.utilizationReport.controls["grantPosition"]["controls"][
-            "unUtilizedPrevYr"
-          ].value,
-        receivedDuringYr:
-          this.utilizationReport.controls["grantPosition"]["controls"][
-            "receivedDuringYr"
-          ].value,
-        expDuringYr:
-          this.utilizationReport.controls["grantPosition"]["controls"][
-            "expDuringYr"
-          ].value,
-        closingBal: this.totalclosingBal,
-      },
-      projects: this.utilizationReport.getRawValue().projects,
-
-      name: this.utilizationReport.controls.name.value,
-      designation: this.utilizationReport.controls.designation.value,
-      totalProCost: this.projectCost,
-      totalExpCost: this.projectExp,
-    };
-    // console.log(formdata);
-    for (let i = 0; i < formdata.projects.length; i++) {
-      // console.log(formdata.projects[i].category);
+    const storeResponse = JSON.parse(sessionStorage.getItem("utilReport"));
+    for (let i = 0; i < storeResponse.projects.length; i++) {
       for (let j = 0; j < this.categories.length; j++) {
-        if (this.categories[j]._id == formdata.projects[i].category) {
-          formdata.projects[i].category = this.categories[j].name;
-          //  console.log(formdata.projects[i].category);
+        if (this.categories[j]._id == storeResponse.projects[i].category) {
+          storeResponse.projects[i].category = this.categories[j].name;
         }
       }
     }
     const dialogRef = this.dialog.open(PreviewUtiFormComponent, {
-      data: formdata,
+      data: storeResponse,
       height: "100%",
       width: "100%",
       panelClass: "no-padding-dialog",
@@ -516,23 +529,39 @@ export class UtilisationReportComponent implements OnInit {
 
 
   }
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>, fromPreview = null) {
+    if (fromPreview && sessionStorage.getItem("canNavigate") === "true") {
+      this.onPreview();
+      return
+    }
+    this.fromPreview = fromPreview;
     this.modalRef = this.modalService.show(template, { class: "modal-md" });
   }
 
   stay() {
-    this.modalRef.hide();
+    if (this.modalRef) this.modalRef.hide();
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
   }
 
   proceed() {
-    this.modalRef.hide();
+    if (this.modalRef) this.modalRef.hide();
+    if (this.routerNavigate) {
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+    if (this.fromPreview) {
+      this.onPreview();
+      return;
+    }
     console.log(this.fd);
-    console.log('form submitted', this.fd);
-    this.apiCall(this.fd)
+    console.log("form submitted", this.fd);
+    this.apiCall(this.fd);
     return this._router.navigate(["ulbform/annual_acc"]);
   }
   alertClose() {
-    this.modalRef.hide();
+    this.stay();
   }
   // myFiles:string [] = [];
   filesToUpload: Array<File> = [];

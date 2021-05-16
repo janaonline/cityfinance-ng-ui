@@ -250,6 +250,8 @@ width: 15% !important;
   years = JSON.parse(localStorage.getItem("Years"));
   designYear;
   financialYear;
+  isMillionPlus;
+  isUA;
 
   ngOnInit(): void {
     this.designYear = this.years["2021-22"];
@@ -258,16 +260,20 @@ width: 15% !important;
   }
 
   async onLoad() {
-    try {
-      this.getLinkPfms();
-      this.detailUtilData();
-      this.getAnnualAccount();
-      this.getSlbData();
-      this.getWaterSanitation();
-    } catch (error) {
-      console.log(error);
-    }
+    this.accessGrant();
+    await this.getLinkPfms();
+    await this.detailUtilData();
+    await this.getAnnualAccount();
+    if (this.isUA == "Yes") await this.getSlbData();
+    if (this.isMillionPlus == "No") await this.getWaterSanitation();
   }
+
+  public accessGrant() {
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    this.isMillionPlus = userData.isMillionPlus;
+    this.isUA = userData.isUA;
+  }
+
   detailUtilData() {
     return new Promise((resolve, reject) => {
       this.utiReportService.fetchPosts(this.designYear, this.financialYear, '').subscribe(
@@ -276,7 +282,8 @@ width: 15% !important;
           resolve("Success");
         },
         (err) => {
-          console.log(err);
+          this.detailUtil = true;
+          resolve("Success");
         }
       );
     });
@@ -292,7 +299,10 @@ width: 15% !important;
           this.slbWaterSanitaion.fromParent = true;
           resolve(res);
         },
-        (err) => {}
+        (err) => {
+          this.slbWaterSanitaion = true;
+          resolve("Success");
+        }
       );
     });
   }
@@ -304,7 +314,10 @@ width: 15% !important;
           this.pfms = res["response"];
           resolve("Success");
         },
-        (err) => {}
+        (err) => {
+          this.pfms = true;
+          resolve("Success");
+        }
       );
     });
   }
@@ -316,7 +329,10 @@ width: 15% !important;
           this.waterSanitation = res["plans"];
           resolve("Success");
         },
-        (err) => {}
+        (err) => {
+          this.waterSanitation = true;
+          resolve("Success");
+        }
       );
     });
   }
@@ -331,7 +347,10 @@ width: 15% !important;
           this.annualAccount = res["data"];
           resolve("Sucess");
         },
-        (err) => {}
+        (err) => {
+          this.annualAccount = true;
+          resolve("Success");
+        }
       );
     });
   }
