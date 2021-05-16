@@ -109,7 +109,6 @@ export class UtilisationReportComponent implements OnInit {
       this.initializeReport();
       this.getResponse();
       switch (this.userLoggedInDetails.role) {
-         case USER_TYPE.ULB:
          case USER_TYPE.STATE:
          case USER_TYPE.PARTNER:
          case USER_TYPE.MoHUA:
