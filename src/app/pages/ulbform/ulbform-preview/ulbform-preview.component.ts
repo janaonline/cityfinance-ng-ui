@@ -292,7 +292,7 @@ width: 15% !important;
   getSlbData() {
     return new Promise((resolve, reject) => {
       let params = "design_year=" + this.designYear;
-      this.commonService.fetchSlbData(params).subscribe(
+      this.commonService.fetchSlbData(params, '').subscribe(
         (res) => {
           this.slbWaterSanitaion =
             res["data"] && res["data"][0] ? res["data"][0] : {};

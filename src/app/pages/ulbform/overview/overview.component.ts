@@ -39,7 +39,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
 
     this.Overview.getData('606aaf854dff55e6c075d219' , this.id)
       .subscribe((res) => {
-        console.log('overviewRes', res['response']['ulb']);
+        console.log('overviewRes', res['response']);
         this.sessionUlbId = res['response']['ulb'];
         this.forms[0] = res['response']?.steps?.annualAccounts?.isSubmit
         this.forms[1] = res['response']?.steps?.pfmsAccount?.isSubmit

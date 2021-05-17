@@ -33,7 +33,7 @@ export class UtiReportService {
   //   );
  }
  fetchPosts(d_yr, f_yr, ulbId){
-   console.log('dyr', d_yr, f_yr)
+   console.log('dyr', ulbId)
    let utFetchUrl;
    if(ulbId != null){
     utFetchUrl = `${environment.api.url}/utilization-report/${f_yr}/${d_yr}/${ulbId}`

@@ -50,10 +50,11 @@ export class SlbsComponent implements OnInit {
   }
 
   getSlbData(){
+    let ulbId = sessionStorage.getItem('ulb_id');
     return new Promise((resolve, reject) => {
       let designYear = '606aaf854dff55e6c075d219';
       let params = 'design_year='+designYear;
-      this.commonService.fetchSlbData(params).subscribe(res => {
+      this.commonService.fetchSlbData(params, ulbId).subscribe(res => {
 
         this.preFilledWaterManagement = res['data'] && res['data'][0] ? res['data'][0] : {};
         let waterPotability = res['data'] && res['data'][0] && res['data'][0]['waterPotability']['documents']['waterPotabilityPlan']? res['data'][0]['waterPotability']['documents']['waterPotabilityPlan'][0] : {}

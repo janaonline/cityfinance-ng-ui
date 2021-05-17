@@ -510,12 +510,19 @@ export class CommonService {
     return this.http.get(`${environment.api.url}user/nodal/${state}`);
   }
 
-  fetchSlbData(params){
+  fetchSlbData(params, ulbId){
     // let data = {design_year: '606aaf854dff55e6c075d219'}
     // const newData = this.jsonUtil.convert(data);
+    if(ulbId != null){
+      return this.http.get(
+        `${environment.api.url}xv-fc-form/${ulbId}?${params}`
+      );
+    }else{
       return this.http.get(
         `${environment.api.url}xv-fc-form?${params}`
       );
+    }
+
   }
 
   postSlbData(data: any) {

@@ -50,6 +50,8 @@ export class UlbformComponent implements OnInit {
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
     //  switch (this.userLoggedInDetails.role) {
+    //    case USER_TYPE.ULB:
+
     //     case USER_TYPE.PARTNER:
     //     case USER_TYPE.MoHUA:
     //     case USER_TYPE.ADMIN:
@@ -93,9 +95,16 @@ export class UlbformComponent implements OnInit {
   }
 
   public accessGrant(){
-    let userData = JSON.parse(localStorage.getItem('userData'));
-    this.isMillionPlus =  userData.isMillionPlus;
-    this.isUA = userData.isUA;
+    let ulbId = sessionStorage.getItem('ulb_id');
+    console.log('pk12', ulbId);
+    if(ulbId == null){
+      let userData = JSON.parse(localStorage.getItem('userData'));
+      this.isMillionPlus =  userData.isMillionPlus;
+      this.isUA = userData.isUA;
+    }
+    else{
+
+    }
 
   }
 

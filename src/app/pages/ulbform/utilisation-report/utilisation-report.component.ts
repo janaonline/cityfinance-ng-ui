@@ -56,11 +56,12 @@ export class UtilisationReportComponent implements OnInit {
     private modalService: BsModalService,
     private _ulbformService: UlbformService
   ) {
+
     let yearId = JSON.parse(localStorage.getItem('Years'));
     this.designYear = yearId['2021-22']
     this.financialYear = yearId['2020-21']
     this.initializeUserType();
-    // this.fetchStateList();
+   this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
     this._router.events.subscribe(async (event: Event) => {
       if (event instanceof NavigationStart) {
@@ -102,12 +103,14 @@ export class UtilisationReportComponent implements OnInit {
   designYear;
   financialYear;
   fromPreview = null;
+  isDisabled= false;
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
       res.forEach((state) => (this.states[state._id] = state));
       this.initializeReport();
-      this.getResponse();
+
+
       switch (this.userLoggedInDetails.role) {
          case USER_TYPE.STATE:
          case USER_TYPE.PARTNER:
@@ -117,6 +120,7 @@ export class UtilisationReportComponent implements OnInit {
            this.utiReportFormControl.projects.disable();
 
        }
+       this.getResponse();
     });
   }
   // errorShow(){
@@ -149,10 +153,13 @@ export class UtilisationReportComponent implements OnInit {
       }
     });
   }
-
+ulbId =null;
   public getResponse() {
-    let ulbId = sessionStorage.getItem('ulb_id');
-    this.UtiReportService.fetchPosts(this.designYear, this.financialYear, ulbId).subscribe(
+
+     this.ulbId = sessionStorage.getItem('ulb_id');
+
+    console.log('pk', this.ulbId)
+    this.UtiReportService.fetchPosts(this.designYear, this.financialYear, this.ulbId).subscribe(
       (res) => {
         //  this.formDataResponce = res;
         this.preFilledData(res);
@@ -239,6 +246,10 @@ export class UtilisationReportComponent implements OnInit {
       designation: ["", [Validators.required, Validators.maxLength(50)]],
     });
     // this.utilizationReport.disable();
+    if(this.ulbId != null){
+      this.isDisabled = true;
+      this.tabelRows.disable();
+    }
   }
 
   get utiReportFormControl() {
@@ -441,6 +452,7 @@ export class UtilisationReportComponent implements OnInit {
     this.totalProCost(this.tabelRows.length);
     this.totalExpCost(this.tabelRows.length);
     this.addPhotosUrl(data.photos, this.tabelRows.length - 1);
+
   //  if (!this.editable) this.tabelRows.disable();
   }
   setUrlGroup(url) {
