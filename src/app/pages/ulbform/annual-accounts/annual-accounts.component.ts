@@ -32,27 +32,9 @@ export class AnnualAccountsComponent implements OnInit {
     private modalService: BsModalService,
     public _router: Router
   ) {
-    this._router.events.subscribe(async (event: Event) => {
-      if (event instanceof NavigationStart) {
-        const canNavigate = sessionStorage.getItem("canNavigate");
-        if (canNavigate === "false" && this.routerNavigate === null) {
-          if (this.modalRef) this.modalRef.hide();
-          const currentRoute = this._router.routerState;
-          this._router.navigateByUrl(currentRoute.snapshot.url, {
-            skipLocationChange: true,
-          });
-          this.routerNavigate = event;
-          this.openModal(this.template);
-        }
-      }
-    });
+   this.navigationCheck()
   }
-  @ViewChild("template") template;
-  ngOnInit(): void {
-    this.changeAudit("Unaudited");
-    this.onLoad();
-    sessionStorage.setItem("canNavigate", "true");
-  }
+  @ViewChild("templateAnnual") template;
   quesOneAnswer: boolean = false;
   quesTwoAnswer: boolean = false;
   fromPreview = null;
@@ -263,6 +245,33 @@ export class AnnualAccountsComponent implements OnInit {
       declaration: null,
     },
   };
+
+  ngOnInit(): void {
+    this.changeAudit("Unaudited");
+    this.onLoad();
+    sessionStorage.setItem("canNavigate", "true");
+  }
+  
+  navigationCheck(){
+    this._router.events.subscribe(async (event: Event) => {
+      if (event instanceof NavigationStart) {
+        const canNavigate = sessionStorage.getItem("canNavigate");
+        if(event.url === "/"){
+          sessionStorage.setItem("canNavigate","true")
+          return
+        }
+        if (canNavigate === "false" && this.routerNavigate === null) {
+          if (this.modalRef) this.modalRef.hide();
+          const currentRoute = this._router.routerState;
+          this._router.navigateByUrl(currentRoute.snapshot.url, {
+            skipLocationChange: true,
+          });
+          this.routerNavigate = event;
+          this.openModal(this.template);
+        }
+      }
+    });
+  }
 
   onPreview() {
     const dialogRef = this.dialog.open(AnnualPreviewComponent, {
