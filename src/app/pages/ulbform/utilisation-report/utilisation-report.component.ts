@@ -61,28 +61,15 @@ export class UtilisationReportComponent implements OnInit {
     this.designYear = yearId['2021-22']
     this.financialYear = yearId['2020-21']
     this.initializeUserType();
-   this.fetchStateList();
+    this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
-    this._router.events.subscribe(async (event: Event) => {
-      if (event instanceof NavigationStart) {
-        const canNavigate = sessionStorage.getItem("canNavigate");
-        if (canNavigate === "false" && this.routerNavigate === null) {
-          if (this.modalRef) this.modalRef.hide();
-          const currentRoute = this._router.routerState;
-          this._router.navigateByUrl(currentRoute.snapshot.url, {
-            skipLocationChange: true,
-          });
-          this.routerNavigate = event;
-          this.openModal(this.template);
-        }
-      }
-    });
+    this.navigationCheck();
   }
 
   // tabularProject:any = [{
   //   id : 0
   // }];
-  @ViewChild("template") template;
+  @ViewChild("templateUtil") template;
   routerNavigate = null;
   totalclosingBal: Number = 0;
   projectCost = 0;
@@ -142,6 +129,27 @@ export class UtilisationReportComponent implements OnInit {
 
   }
 
+  navigationCheck(){
+    this._router.events.subscribe(async (event: Event) => {
+      if (event instanceof NavigationStart) {
+        const canNavigate = sessionStorage.getItem("canNavigate");
+        if(event.url === "/"){
+          sessionStorage.setItem("canNavigate","true")
+          return
+        }
+        if (canNavigate === "false" && this.routerNavigate === null) {
+          if (this.modalRef) this.modalRef.hide();
+          const currentRoute = this._router.routerState;
+          this._router.navigateByUrl(currentRoute.snapshot.url, {
+            skipLocationChange: true,
+          });
+          this.routerNavigate = event;
+          this.openModal(this.template);
+        }
+      }
+    });
+  }
+
   currentChanges() {
     this.utilizationReport.valueChanges.subscribe((formChange) => {
       const oldForm = sessionStorage.getItem("utilReport");
@@ -169,8 +177,11 @@ ulbId =null;
           name: res["name"],
           projects: res["projects"],
         };
+        console.log(this.utilizationReport);
         sessionStorage.setItem("utilReport", JSON.stringify(data));
+        setTimeout(() => {
         this.currentChanges();
+        }, 1000);
       },
       (error) => {
         sessionStorage.setItem("utilReport", JSON.stringify(this.utilizationReport.value));

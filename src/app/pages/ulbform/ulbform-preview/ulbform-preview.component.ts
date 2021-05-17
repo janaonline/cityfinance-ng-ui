@@ -24,8 +24,20 @@ export class UlbformPreviewComponent implements OnInit {
     public linkPFMSAccount: LinkPFMSAccount,
     public waterSanitationService: WaterSanitationService,
     public annualAccountsService: AnnualAccountsService,
+    private UtiReportService: UtiReportService,
     private _questionnaireService: QuestionnaireService,private _matDialog: MatDialog
-  ) {}
+  ) {
+
+      this.UtiReportService.getCategory().subscribe((res) => {
+        let obj = {};
+        for (const key in res) {
+          let id=res[key]["_id"]
+          obj[id] = res[key]["name"]
+        }
+        this.categories = obj
+      });
+
+  }
   styleForPDF=`<style>
   .b-hide{
     display: none;
@@ -240,12 +252,341 @@ width: 15% !important;
 
   </style>`
 
-  detailUtil = null;
-  slbWaterSanitaion = null;
-  waterSanitation = null;
-  pfms = null;
-  annualAccount = null;
 
+
+  detailUtilError = {
+    grantPosition: {
+      unUtilizedPrevYr: null,
+      receivedDuringYr: null,
+      expDuringYr: null,
+      closingBal: null,
+    },
+    status: null,
+    remarks: null,
+    modifiedAt: null,
+    createdAt: null,
+    isActive: null,
+    isDraft: null,
+    designYear: null,
+    financialYear: null,
+    ulb: null,
+    actionTakenBy: null,
+    designation: null,
+    grantType: null,
+    name: null,
+    projects: [
+      {
+        location: {
+          lat: null,
+          long: null,
+        },
+        modifiedAt: null,
+        createdAt: null,
+        category: null,
+        name: null,
+        description: null,
+        photos: [],
+        capacity: null,
+        cost: null,
+        expenditure: null,
+      },
+    ],
+  };
+  slbWaterSanitaionError = {
+    ulb: {
+
+      code: null,
+      name: null,
+      state: {
+
+        name: null,
+        code: null
+      }
+    },
+    document: {
+      message: null
+    },
+    millionPlusCities: {
+      documents: {
+        cityPlan: [],
+        serviceLevelPlan: [],
+        solidWastePlan: [],
+        waterBalancePlan: []
+      }
+    },
+    solidWasteManagement: {
+      documents: {
+        garbageFreeCities: [],
+        waterSupplyCoverage: []
+      }
+    },
+    status: null,
+    waterManagement: {
+      serviceLevel: {
+        status: null,
+        rejectReason: null
+      },
+      houseHoldCoveredPipedSupply: {
+        baseline: {
+          2021: null
+        },
+        target: {
+          2122: null,
+          2223: null,
+          2324: null,
+          2425: null
+        },
+        status: null,
+        rejectReason: null
+      },
+      waterSuppliedPerDay: {
+        baseline: {
+          2021: null
+        },
+        target: {
+          2122: null,
+          2223: null,
+          2324: null,
+          2425: null
+        },
+        status: null ,
+        rejectReason: null
+      },
+      reduction: {
+        baseline: {
+          2021: null
+        },
+        target: {
+          2122: null,
+          2223: null,
+          2324: null,
+          2425: null
+        },
+        status: null,
+        rejectReason: null
+      },
+      houseHoldCoveredWithSewerage: {
+        baseline: {
+          2021: null
+        },
+        target: {
+          2122: null,
+          2223: null,
+          2324: null,
+          2425: null
+        },
+        status: null,
+        rejectReason: null
+      },
+      status: null ,
+      rejectReason:null ,
+
+    },
+    waterPotability: {
+      documents: {
+        waterPotabilityPlan: [{
+
+          name: null,
+          url: null
+        }]
+      }
+    },
+    water_index: null,
+    fromParent: null
+  };
+  waterSanitation = null;
+  pfmsError = {
+    response: {
+      account: null,
+      linked: null,
+    },
+  };
+  annualAccountError = [
+    {
+      design_year: null,
+      audit_status: null,
+      isCompleted: false,
+      year: null,
+      submit_annual_accounts: {
+        answer: null,
+      },
+      submit_standardized_data: {
+        answer: null,
+      },
+      provisional_data: {
+        bal_sheet: {
+          pdfUrl: null,
+          progress: null,
+          progressExcel: null,
+          pdfName: null,
+          excelUrl: null,
+          excelError: null,
+          pdfError: null,
+          excelName: null,
+          rejectReason: null,
+        },
+        bal_sheet_schedules: {
+          pdfName: null,
+          pdfUrl: null,
+          progress: null,
+          progressExcel: null,
+          excelUrl: null,
+          excelName: null,
+          excelError: null,
+          pdfError: null,
+          rejectReason: null,
+        },
+        inc_exp: {
+          pdfName: null,
+          pdfUrl: null,
+          progress: null,
+          progressExcel: null,
+          excelUrl: null,
+          excelName: null,
+          excelError: null,
+          pdfError: null,
+          rejectReason: null,
+        },
+        inc_exp_schedules: {
+          pdfName: null,
+          pdfUrl: null,
+          progress: null,
+          progressExcel: null,
+          excelUrl: null,
+          excelName: null,
+          excelError: null,
+          pdfError: null,
+          rejectReason: null,
+        },
+        cash_flow: {
+          pdfName: null,
+          pdfUrl: null,
+          progress: null,
+          progressExcel: null,
+          excelUrl: null,
+          excelName: null,
+          excelError: null,
+          pdfError: null,
+          rejectReason: null,
+        },
+        auditor_report: {
+          pdfName: null,
+          pdfUrl: null,
+          progress: null,
+          progressExcel: null,
+          excelUrl: null,
+          excelName: null,
+          excelError: null,
+          pdfError: null,
+          rejectReason: null,
+        },
+      },
+      standardized_data: {
+        upload: {
+          excelUrl: null,
+          excelName: null,
+          progressExcel: null,
+          excelError: null,
+        },
+        declaration: null,
+      },
+    },
+    {
+      design_year: null,
+      audit_status: null,
+      isCompleted: false,
+      year: null,
+      submit_annual_accounts: {
+        answer: null,
+      },
+      submit_standardized_data: {
+        answer: null,
+      },
+      provisional_data: {
+        bal_sheet: {
+          pdfUrl: null,
+          progress: null,
+          progressExcel: null,
+          pdfName: null,
+          excelUrl: null,
+          excelName: null,
+          excelError: null,
+          pdfError: null,
+          rejectReason: null,
+        },
+        bal_sheet_schedules: {
+          pdfName: null,
+          pdfUrl: null,
+          progress: null,
+          progressExcel: null,
+          excelUrl: null,
+          excelName: null,
+          excelError: null,
+          pdfError: null,
+          rejectReason: null,
+        },
+        inc_exp: {
+          pdfName: null,
+          pdfUrl: null,
+          progress: null,
+          progressExcel: null,
+          excelUrl: null,
+          excelName: null,
+          excelError: null,
+          pdfError: null,
+          rejectReason: null,
+        },
+        inc_exp_schedules: {
+          pdfName: null,
+          pdfUrl: null,
+          progress: null,
+          progressExcel: null,
+          excelUrl: null,
+          excelName: null,
+          excelError: null,
+          pdfError: null,
+          rejectReason: null,
+        },
+        cash_flow: {
+          pdfName: null,
+          pdfUrl: null,
+          progress: null,
+          progressExcel: null,
+          excelUrl: null,
+          excelName: null,
+          excelError: null,
+          pdfError: null,
+          rejectReason: null,
+        },
+        auditor_report: {
+          pdfName: null,
+          pdfUrl: null,
+          progress: null,
+          progressExcel: null,
+          excelUrl: null,
+          excelName: null,
+          excelError: null,
+          pdfError: null,
+          rejectReason: null,
+        },
+      },
+      standardized_data: {
+        upload: {
+          excelUrl: null,
+          excelName: null,
+          progressExcel: null,
+          excelError: null,
+        },
+        declaration: null,
+      },
+    },
+  ];
+
+  categories
+  slbWaterSanitaion = null;
+  detailUtil = null
+  pfms = null
+  annualAccount = null
   userData = JSON.parse(localStorage.getItem("userData"));
   years = JSON.parse(localStorage.getItem("Years"));
   designYear;
@@ -265,7 +606,7 @@ width: 15% !important;
     await this.detailUtilData();
     await this.getAnnualAccount();
     if (this.isUA == "Yes") await this.getSlbData();
-    if (this.isMillionPlus == "No") await this.getWaterSanitation();
+    // if (this.isMillionPlus == "No") await this.getWaterSanitation();
   }
 
   public accessGrant() {
@@ -279,10 +620,13 @@ width: 15% !important;
       this.utiReportService.fetchPosts(this.designYear, this.financialYear, '').subscribe(
         (res) => {
           this.detailUtil = res;
+          this.detailUtil["projects"].forEach(element => {
+            element.category = this.categories[element.category]
+          });
           resolve("Success");
         },
         (err) => {
-          this.detailUtil = true;
+          this.detailUtil = this.detailUtilError
           resolve("Success");
         }
       );
@@ -300,7 +644,7 @@ width: 15% !important;
           resolve(res);
         },
         (err) => {
-          this.slbWaterSanitaion = true;
+          this.slbWaterSanitaion = this.slbWaterSanitaionError
           resolve("Success");
         }
       );
@@ -315,7 +659,7 @@ width: 15% !important;
           resolve("Success");
         },
         (err) => {
-          this.pfms = true;
+          this.pfms = this.pfmsError
           resolve("Success");
         }
       );
@@ -330,7 +674,6 @@ width: 15% !important;
           resolve("Success");
         },
         (err) => {
-          this.waterSanitation = true;
           resolve("Success");
         }
       );
@@ -348,7 +691,7 @@ width: 15% !important;
           resolve("Sucess");
         },
         (err) => {
-          this.annualAccount = true;
+          this.annualAccount = this.annualAccountError
           resolve("Success");
         }
       );
