@@ -1,13 +1,15 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { LinkPFMSAccount } from "./link-pfms.service";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
-import { Router } from "@angular/router";
+import { Router, NavigationStart, Event } from "@angular/router";
+
 import { ProfileService } from "src/app/users/profile/service/profile.service";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { USER_TYPE } from "src/app/models/user/userType";
 import { MatDialog } from "@angular/material/dialog";
 import { PfmsPreviewComponent } from "./pfms-preview/pfms-preview.component";
 import { UlbformService } from "../ulbform.service";
+
 @Component({
   selector: "app-link-pfms",
   templateUrl: "./link-pfms.component.html",
@@ -24,21 +26,34 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     private _ulbformService: UlbformService
   ) {
     super();
-    switch (this.loggedInUserType) {
-      // case USER_TYPE.ULB:
-      case USER_TYPE.STATE:
-      case USER_TYPE.PARTNER:
-      case USER_TYPE.MoHUA:
-      case USER_TYPE.ADMIN:
-      //  this._router.navigate(["/fc-home-page"]);
-      //  break;
+    // switch (this.loggedInUserType) {
+    //   // case USER_TYPE.ULB:
+    //   case USER_TYPE.STATE:
+    //   case USER_TYPE.PARTNER:
+    //   case USER_TYPE.MoHUA:
+    //   case USER_TYPE.ADMIN:
+    //  this._router.navigate(["/fc-home-page"]);
+    //  break;
 
-    }
+    this._router.events.subscribe(async (event: Event) => {
+      if (event instanceof NavigationStart) {
+        const change = sessionStorage.getItem("changeInPFMSAccount")
+        if (change === "true" && this.routerNavigate === null) {
+          this.routerNavigate = event
+          this.openModal(this.template);
+          const currentRoute = this._router.routerState;
+          this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
+        }
+      }
+    });
   }
+
+  @ViewChild("template") template;
 
   receivedData = {}
   account = '';
   linked = '';
+  routerNavigate = null
 
   ngOnInit() {
     this.onLoad();
@@ -61,7 +76,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
   ]
 
-  showQuestion2 = this.account == 'yes' ? true : false;
+  showQuestion2 = false;
+  // this.account === 'yes' ? true : false;
   design_year = this.Years["2021-22"]
   showQuestion1 = true;
   isClicked = false;
@@ -124,7 +140,11 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   }
 
   stay() {
+    if (this.routerNavigate) {
+      this.routerNavigate = null
+    }
     this.modalRef.hide();
+
   }
 
   onLoad() {
@@ -134,7 +154,9 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         this.receivedData = res;
         this.account = (res['response']['account']);
         this.linked = (res['response']['linked']);
-
+        if (this.account === 'yes') {
+          this.showQuestion2 = true;
+        }
         sessionStorage.setItem(
           "pfmsAccounts",
           JSON.stringify(res)
@@ -165,12 +187,18 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   }
 
   proceed(uploadedFiles) {
-    this.postData();
     this.modalRef.hide();
+    if (this.routerNavigate) {
+      this._router.navigate([this.routerNavigate.url]);
+      return
+    }
+    this.postData();
+
+
     return this._router.navigate(["ulbform/grant-tra-certi"]);
   }
   alertClose() {
-    this.modalRef.hide();
+    this.stay();
   }
   onPreview() {
     let preData = {

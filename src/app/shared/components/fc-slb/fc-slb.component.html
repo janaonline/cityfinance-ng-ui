@@ -669,12 +669,12 @@
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 float-left">
       <button class="btn btn-primary btn-upload mr-1 ml-1 col-sm-2"
-        (click)="showPublishedUpload = true; submitted = false;" style="width: 60px; height: 33px;">
+        (click)="showPublishedUpload = true; submitted = false; emitOnDocChange()" style="width: 60px; height: 33px;">
         Yes
       </button>
 
       <button class="btn btn-secondary btn-upload col-sm-2" style="width: 60px; height: 33px;"
-        (click)="showPublishedUpload = false; submitted = false;">
+        (click)="showPublishedUpload = false;  submitted = false; emitOnDocChange()">
         No
       </button>
     </div>

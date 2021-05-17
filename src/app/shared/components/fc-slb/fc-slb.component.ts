@@ -206,9 +206,17 @@ export class FcSlbComponent implements OnInit, OnChanges {
     if (!this.invalidWhole) {
       this.submitted = true;
       if (this.showPublishedUpload && !this.publishedFileUrl)
+
         return true
       this.emitValues(this.form.getRawValue(), true);
+      console.log(this.showPublishedUpload)
+      console.log(this.form.getRawValue())
     }
+
+  }
+
+  emitOnDocChange() {
+    this.emitValues(this.form.getRawValue());
 
   }
 
@@ -228,7 +236,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
     let outputValues = {
       waterManagement: values,
       waterPotabilityPlan: {
-        name: fileName, url: fileUrl,
+        name: fileName,
+        url: fileUrl
       },
       saveData: next,
       water_index: this.showPublishedUpload
@@ -323,7 +332,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
           resolve("success")
 
           console.log('file url', fileAlias)
-
+          this.emitOnDocChange();
 
         },
         (err) => {
@@ -412,7 +421,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
       } else {
 
         if (before) {
-          if (controlValue[obj] != "") {
+          if (controlValue[obj] != "" && obj != controlKey) {
             invalid = increse ? !(value > 0 && value < 101 && value > controlValue[obj]) : !(value > 0 && value < 101 && value < controlValue[obj])
             console.log("if", value, controlValue[obj])
             console.log(invalid)
@@ -420,7 +429,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
 
         } else {
-          if (controlValue[obj]) {
+          if (controlValue[obj] && obj != controlKey) {
 
             invalid = increse ? !(value > 0 && value < 101 && value < controlValue[obj]) : !(value > 0 && value < 101 && value > controlValue[obj])
             console.log("else", value, controlValue[obj])

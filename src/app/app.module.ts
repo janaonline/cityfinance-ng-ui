@@ -35,6 +35,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 
 import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { ClickOutsideModule } from 'ng-click-outside';
 @NgModule({
   entryComponents: [DialogComponent],
   imports: [
@@ -64,6 +65,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatFormFieldModule,
     CarouselModule.forRoot(),
     FlexLayoutModule,
+    ClickOutsideModule,
   ],
   providers: [
     CustomHttpInterceptor,
@@ -89,4 +91,4 @@ import { FlexLayoutModule } from "@angular/flex-layout";
   exports: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
