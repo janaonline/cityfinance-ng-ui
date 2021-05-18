@@ -1,5 +1,5 @@
 <mat-dialog-content style="margin-top: 0;" id="previewUti" #previewUti>
-    <mat-card  class="header" style="text-align: center; padding: 5px 5px;display: block;">
+    <div class="row header" style="text-align: center; padding: 5px 5px;display: block;">
         <div *ngIf="!parentData" class="text-right pdf-hide">
             <a mat-dialog-close style="margin-right: 4%;">
                 <mat-icon aria-hidden="false">
@@ -10,57 +10,54 @@
 
 
         <label class="listitem_head">
-            Utilization report in respect of 15th finance commission tied grants for year</label>
+          Utilization report in respect of 15th finance commission tied grants for year</label>
         <label class="listitem_grantYear">2020-21</label>
-        <!-- <label class="listitem_subHead" style="margin-bottom: 2px;">
-            (To be submitted by State in case of Million Plus Cities/UAS and by cities/ ULBs through State in case of Non Million Plus Cities )
-          </label> -->
+    </div>
 
-    </mat-card>
     <div *ngIf="!parentData" class="text-right dnDiv pdf-hide">
         <button mat-button class="dnldBtn" (click)="downloadForm()">Download as PDF</button>
     </div>
 
     <mat-card class="mat-card2">
         <div class="card2Div">
-            <label for="" class="card2">1. State Name</label>
-            <label for="" class="card2">{{data.state_name}} </label>
+            <label for="" class="card2 qus-ut-s pp">1. State Name</label>
+            <label for="" class="card2 ans-ut-s pp">{{data.state_name}} </label>
         </div>
         <div>
-            <label for="" class="card2">2. Name of MPC/UA/NMPC</label>
-            <label for="" class="card2">{{data.ulbName}}  </label>
+            <label for="" class="card2 qus-ut-u pp">2. Name of MPC/UA/NMPC</label>
+            <label for="" class="card2 ans-ut-u pp">{{data.ulbName}}  </label>
         </div>
         <div>
-            <label for="" class="card2">3. Type of grant</label>
-            <label for="" class="card2">{{data.grntType}}  </label>
+            <label for="" class="card2 qus-ut-t pp">3. Type of grant</label>
+            <label for="" class="card2 ans-ut-t pp">{{data.grntType}}  </label>
         </div>
 
     </mat-card>
     <mat-card class="mat-card2">
-        <div class="card2Div">
-            <label>4. 15th FC Tied Grant Position during the year :</label>
+        <div class="row card2Div">
+            <div class="h-ut">4. 15th FC Tied Grant Position during the year :</div>
         </div>
         <div class="c-2-d">
-            <label for="" class="card2"> (i) Unutilized from previous installments(INR in lakhs) </label>
-            <label for="" class="card2">{{data.grantPosition.unUtilizedPrevYr}} </label>
+            <label for="" class="card2 qus-ut-a"> (i) Unutilized from previous installments(INR in lakhs) </label>
+            <label for="" class="card2 ans-ut-a">{{data.grantPosition.unUtilizedPrevYr}} </label>
         </div>
         <div class="c-2-d">
-            <label for="" class="card2">(ii) Tied Grant received during the year(INR in lakhs) </label>
-            <label for="" class="card2">{{data.grantPosition.receivedDuringYr}}  </label>
+            <label for="" class="card2 qus-ut-b">(ii) Tied Grant received during the year(INR in lakhs) </label>
+            <label for="" class="card2 ans-ut-b">{{data.grantPosition.receivedDuringYr}}  </label>
         </div>
         <div class="c-2-d">
-            <label for="" class="card2"> (iii) Expenditure incurred during the year(INR in lakhs) </label>
-            <label for="" class="card2">{{data.grantPosition.expDuringYr}}  </label>
+            <label for="" class="card2 qus-ut-c"> (iii) Expenditure incurred during the year(INR in lakhs) </label>
+            <label for="" class="card2 ans-ut-c">{{data.grantPosition.expDuringYr}}  </label>
         </div>
         <div class="crd-ls-div c-2-d">
-            <label for="" class="card3"> <b>(vi) Closing balance at the end of year(INR in lakhs) (2(i)+2(ii)-2(iii))</b> </label>
-            <label for="" class="card3"> <b>{{data.grantPosition.closingBal}} </b>  </label>
+            <label for="" class="card3 qus-ut-l"> <b>(vi) Closing balance at the end of year(INR in lakhs) (2(i)+2(ii)-2(iii))</b> </label>
+            <label for="" class="card3 ans-ut-l"> <b>{{data.grantPosition.closingBal}} </b>  </label>
         </div>
 
     </mat-card>
     <mat-card class="mat-card2">
-        <div class="card2Div">
-            <label>5. Component Wise Utilization of Tied grants (break-up of expenditure incurred in 2(iii) :</label>
+        <div class="row card2Div">
+            <div class="h-ut">5. Component Wise Utilization of Tied grants (break-up of expenditure incurred in 2(iii) :</div>
         </div>
 
         <table class="table table-striped">

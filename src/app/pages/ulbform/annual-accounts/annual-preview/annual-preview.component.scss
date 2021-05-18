@@ -12,16 +12,25 @@
 
 .card {
     padding: 5px 10px;
-    // margin: 10px 40px;
     background-color: #EBF5F5;
 }
 
-.qus-h {
+.qus-h-an {
     margin-bottom: 1rem;
     margin-top: 1rem;
 }
 
-.ans-h {
+.ans-h-an {
     margin-bottom: 1rem;
     margin-top: 1rem;
+}
+
+.h-font {
+    font-size: 16px;
+}
+
+@media print {
+    .page-break {
+        page-break-before: always;
+    }
 }

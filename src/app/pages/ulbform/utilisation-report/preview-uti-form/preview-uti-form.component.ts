@@ -37,12 +37,6 @@ export class PreviewUtiFormComponent implements OnInit {
     padding-left: 0;
     padding-right: 0;
 }
-
-.header {
-    height: 90px;
-    text-align: center;
-    background-color: #047474;
-}
 .header{
   word-break: break-all;
 }
@@ -55,11 +49,11 @@ td, th{
 
 .header {
   background-color: #047474;
-  height: 50px;
   display: inline-block;
   color: #FFFFFF;
   text-align: center;
-  font-weight:
+  font-weight: 500;
+  height: 70px;
 }
 .mat-dialog-content {
   padding: 0 0 0 0;
@@ -70,8 +64,9 @@ td, th{
   padding: 2px 2px;
   font-size: 12px !important;
   font-family: Roboto;
-  font-weight: normal;
+  font-weight: 500;
   display: inline-block;
+  margin-top: 1rem;
 }
 .listitem_grantYear {
   display: inline-block;
@@ -82,7 +77,8 @@ td, th{
   margin-left: 10px;
   background-color: #E5E6E6;
   border-radius: 3px;
-  padding: 4px;
+  padding: 2px;
+  margin-top: 1rem;
 }
 .listitem_subHead {
   margin-top: 5px;
@@ -92,6 +88,50 @@ td, th{
   padding: 2px 2px;
   display: inline-block;
 }
+.h-ut{
+  font-size: 12px;
+  padding-bottom: 2px;
+}
+.qus-ut-s {
+  font-size: 12px;
+  margin-left: .9rem;
+}
+.qus-ut-u {
+  font-size: 12px;
+  margin-left: 1rem;
+}
+.qus-ut-t {
+  font-size: 12px;
+  margin-left: 1rem;
+}
+.pp {
+  margin-top: .5rem !important;
+}
+.ans-ut-s {
+  font-size: 12px;
+  margin-left: 5rem;
+}
+.ans-ut-u {
+  font-size: 12px;
+  margin-left: 1.4rem;
+}
+.ans-ut-t {
+  font-size: 12px;
+  margin-left: 4.7rem;
+}
+.ans-ut-a {
+  margin-left: 7.2rem;
+}
+.ans-ut-b {
+  margin-left: 7.5rem;
+}
+.ans-ut-c {
+  margin-left: 6.9rem;
+}
+.ans-ut-l{
+  margin-left: 1rem;
+}
+
 .dnDiv {
   margin-top: 10px;
   margin-right: 5%;
@@ -111,25 +151,15 @@ td, th{
 .mat-card2 {
   padding: 5px 2px;
   margin-top: 10px;
-  // margin: 10px 40px;
   background-color: #EBF5F5;
   display: block;
 }
-.card2 {
-  width: 50%;
-  font-weight: normal;
-  padding: 2px 5px;
-}
+
 .crd-ls-div {
   margin-bottom: 15px;
 }
 .c-2-d {
   margin-left: 15px;
-}
-.card3 {
-  width: 50%;
-  font-weight: 500;
-  padding: 2px 5px;
 }
 label {
   font-weight: normal;
