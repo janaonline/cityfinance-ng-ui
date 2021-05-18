@@ -200,12 +200,12 @@ width: 5% !important;
 
   </style>`;
   ngOnInit(): void {
-    console.log(this.data);
+    console.log('pramod',this.data);
     if (this.parentData) {
       this.genrateParentData();
     }
   }
-  
+
   genrateParentData() {
     this.parentData.totalProCost = 0;
     this.parentData.totalExpCost = 0;

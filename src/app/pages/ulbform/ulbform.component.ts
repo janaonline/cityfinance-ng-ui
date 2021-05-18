@@ -39,7 +39,7 @@ export class UlbformComponent implements OnInit {
       const { id } = val;
       if (id) {
         this.id = id;
-        console.log('stid',id)
+        console.log('pkstid',id)
       }
     else {
 
@@ -101,9 +101,12 @@ export class UlbformComponent implements OnInit {
       let userData = JSON.parse(localStorage.getItem('userData'));
       this.isMillionPlus =  userData.isMillionPlus;
       this.isUA = userData.isUA;
+      console.log('ifbl' , this.isMillionPlus, this.isUA)
     }
     else{
-
+         this.isMillionPlus =sessionStorage.getItem('isMillionPlus');
+         this.isUA = sessionStorage.getItem('isUA')
+         console.log('elseblock' , this.isMillionPlus, this.isUA)
     }
 
   }

@@ -47,20 +47,20 @@ export class UlbformPreviewComponent implements OnInit {
   }
   .header-p {
     background-color: #047474;
-    height: 70px;
+    height: 60px;
     text-align: center;
 }
 
 .heading-p {
     color: #FFFFFF;
     font-size: 22px;
-    padding: 2rem;
-    margin: 2rem auto;
+    padding-top: 1rem;
+    margin-top: 1rem;
+
 }
 
 .card {
     padding: 5px 10px;
-    // margin: 10px 40px;
     background-color: #EBF5F5;
 }
 
@@ -249,6 +249,79 @@ width: 15% !important;
 @media print {
   .page-break {page-break-before: always;}
 }
+:root {
+  font-size: 14px;
+}
+table tbody tr {
+  border: 100px solid black;
+}
+  table tbody tr:nth-child(even) {
+  background: #d7ebeb;
+}
+ table tbody tr:nth-child(even) td {
+  border:1px solid #d7ebeb;
+}
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  h3 {
+    font-size: .9rem;
+  }
+
+   h4 {
+    font-size: .7rem;
+  }
+     h5 {
+    font-size: .5rem;
+  }
+
+  table thead th {
+    font-size: .5rem
+  }
+
+  table tbody td, li {
+    font-size: .5rem
+  }
+
+  .td-width {
+    width: 25%;
+  }
+
+  button {
+    display: none;
+  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}
+
+.form-status {
+  font-size: 10px;
+  margin-top: 10px;
+
+
+}
+
+.fa-times {
+  display: none;
+}
+.qus-slb {
+  margin-left: 1.5rem;
+  font-weight: normal;
+  font-size: 12px;
+}
+
+.ans-slb {
+  margin-left: 1rem;
+  font-weight: normal;
+  font-size: 12px;
+}
+
 
   </style>`
 

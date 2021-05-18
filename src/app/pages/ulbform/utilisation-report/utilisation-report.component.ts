@@ -199,6 +199,7 @@ ulbId =null;
     });
   }
   addPreFilledSimple(data) {
+    console.log('88888', data)
     this.utilizationReport.patchValue({
       name: data.name,
       designation: data.designation,
@@ -214,14 +215,26 @@ ulbId =null;
   }
 
   public initializeReport() {
-    this.utilizationForm = this.fb.group({
-      stateName: new FormControl(
-        this.states[this.userLoggedInDetails.state]?.name,
-        Validators.required
-      ),
-      ulb: new FormControl(this.userLoggedInDetails.name, Validators.required),
-      grantType: new FormControl("Tied", Validators.required),
-    });
+    console.log('12345',this.userLoggedInDetails.role )
+    if(this.userLoggedInDetails.role == 'ULB'){
+      this.utilizationForm = this.fb.group({
+        stateName: new FormControl(
+          this.states[this.userLoggedInDetails.state]?.name,
+          Validators.required
+        ),
+        ulb: new FormControl(this.userLoggedInDetails.name, Validators.required),
+        grantType: new FormControl("Tied", Validators.required),
+      });
+    }else{
+      this.utilizationForm = this.fb.group({
+        stateName: new FormControl(
+          '',
+          Validators.required
+        ),
+        ulb: new FormControl('', Validators.required),
+        grantType: new FormControl("Tied", Validators.required),
+      });
+    }
 
     this.utilizationReport = this.fb.group({
       grantPosition: this.fb.group({

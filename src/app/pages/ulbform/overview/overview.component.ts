@@ -23,7 +23,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   constructor(private Overview: Overview,
     public activatedRoute: ActivatedRoute) {
     super();
-    this.accessGrant();
+
     this.activatedRoute.params.subscribe((val) => {
       const { id } = val;
       if (id) {
@@ -40,12 +40,14 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     this.Overview.getData('606aaf854dff55e6c075d219' , this.id)
       .subscribe((res) => {
         console.log('overviewRes', res['response']);
-        this.sessionUlbId = res['response']['ulb'];
-        this.forms[0] = res['response']?.steps?.annualAccounts?.isSubmit
-        this.forms[1] = res['response']?.steps?.pfmsAccount?.isSubmit
-        this.forms[2] = res['response']?.steps?.plans?.isSubmit
-        this.forms[3] = res['response']?.steps?.slbForWaterSupplyAndSanitation?.isSubmit
-        this.forms[4] = res['response']?.steps?.utilReport?.isSubmit
+        this.sessionUlbId = res['response'][0]['ulb'];
+        this.isMillionPlus = res['response'][0]['isMillionPlus'];
+        this.isUA = res['response'][0]['isUA'];
+        this.forms[0] = res['response'][0]?.steps?.annualAccounts?.isSubmit
+        this.forms[1] = res['response'][0]?.steps?.pfmsAccount?.isSubmit
+        this.forms[2] = res['response'][0]?.steps?.plans?.isSubmit
+        this.forms[3] = res['response'][0]?.steps?.slbForWaterSupplyAndSanitation?.isSubmit
+        this.forms[4] = res['response'][0]?.steps?.utilReport?.isSubmit
         switch (this.loggedInUserType) {
           case USER_TYPE.STATE:
           case USER_TYPE.PARTNER:
@@ -55,6 +57,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
             break;
 
         }
+        this.accessGrant();
         for (let key of this.forms) {
           if (key) {
             this.count = this.count + key;
@@ -117,13 +120,22 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   i = 8098987
 
   public accessGrant(){
-    let userData = JSON.parse(localStorage.getItem('userData'));
-    this.isMillionPlus =  userData.isMillionPlus;
-    this.isUA = userData.isUA;
+    if(this.id == null){
+      let userData = JSON.parse(localStorage.getItem('userData'));
+      this.isMillionPlus =  userData.isMillionPlus;
+      this.isUA = userData.isUA;
+    }else{
+      this.isMillionPlus =sessionStorage.getItem('isMillionPlus');
+      this.isUA = sessionStorage.getItem('isUA')
+      console.log('12elseblock' , this.isMillionPlus, this.isUA)
+    }
+
 
   }
   storeUlbId(){
     sessionStorage.setItem('ulb_id', this.sessionUlbId);
+    sessionStorage.setItem('isMillionPlus', this.isMillionPlus);
+    sessionStorage.setItem('isUA', this.isUA);
     console.log('ulb_id', this.sessionUlbId)
   }
   onUnhover() {

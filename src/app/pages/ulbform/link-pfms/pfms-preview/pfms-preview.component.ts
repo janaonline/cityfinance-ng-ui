@@ -26,8 +26,7 @@ export class PfmsPreviewComponent implements OnInit {
   .heading-p {
       color: #FFFFFF;
       font-size: 22px;
-      padding: 2rem;
-      margin-top: 3rem !importent;
+
   }
 
   .card {
@@ -37,6 +36,7 @@ export class PfmsPreviewComponent implements OnInit {
   }
 
   .qus-h {
+
       margin-bottom: 2rem;
       margin-top: 2rem;
   }
