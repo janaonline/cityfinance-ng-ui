@@ -15,7 +15,7 @@ export class UlbAdminComponent extends BaseComponent implements OnInit {
   name ='';
   role='';
   ds_icon='../../../assets/ulbform/dh.png'
-  ulb_icon;
+  ulb_icon ='../../../assets/ulbform/blue-ulb.png';
   constructor(
     private _router: Router,
     private modalService: BsModalService,
@@ -24,9 +24,9 @@ export class UlbAdminComponent extends BaseComponent implements OnInit {
   ) {
     super();
   if(ActivateRoute){
-    this.ulb_icon='../../../assets/ulbform/d2.png'
+    this.ulb_icon='../../../assets/ulbform/blue-ulb.png'
   }else{
-    this.ulb_icon = '../../../assets/ulbform/d2.png'
+    this.ulb_icon='../../../assets/ulbform/blue-ulb.png'
   }
     switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
@@ -55,7 +55,7 @@ export class UlbAdminComponent extends BaseComponent implements OnInit {
   }
   changeIcon(){
     console.log('pramod');
-    this.ds_icon ='../../../assets/ulbform/eye.png'
+    this.ds_icon ='../../../assets/ulbform/blue-dh.png'
   }
   remIcon(){
     this.ds_icon ='../../../assets/ulbform/dh.png'
