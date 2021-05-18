@@ -155,14 +155,16 @@ export class UtilisationReportComponent implements OnInit {
     this.UtiReportService.fetchPosts().subscribe(
       (res) => {
         //  this.formDataResponce = res;
+        console.log(res);
+        
         this.preFilledData(res);
         const data = {
           designation: res["designation"],
           grantPosition: res["grantPosition"],
           name: res["name"],
           projects: res["projects"],
+          grantType:res["grantType"]
         };
-        console.log(this.utilizationReport);
         sessionStorage.setItem("utilReport", JSON.stringify(data));
         setTimeout(() => {
         this.currentChanges();
@@ -371,8 +373,19 @@ export class UtilisationReportComponent implements OnInit {
         }
       }
     }
+    let formdata = {
+      state_name: this.utilizationForm.controls.stateName.value,
+      ulbName: this.utilizationForm.controls.ulb.value,
+      grntType: storeResponse.grantType,
+      grantPosition: storeResponse.grantPosition,
+      projects: storeResponse.projects,
+      name: storeResponse.name,
+      designation: storeResponse.designation,
+      totalProCost: storeResponse.projectCost,
+      totalExpCost: storeResponse.projectExp,
+    };    
     const dialogRef = this.dialog.open(PreviewUtiFormComponent, {
-      data: storeResponse,
+      data: formdata,
       height: "100%",
       width: "100%",
       panelClass: "no-padding-dialog",

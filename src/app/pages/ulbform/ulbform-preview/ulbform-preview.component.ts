@@ -19,16 +19,24 @@ export class UlbformPreviewComponent implements OnInit {
     public linkPFMSAccount: LinkPFMSAccount,
     public waterSanitationService: WaterSanitationService,
     public annualAccountsService: AnnualAccountsService,
-    private UtiReportService: UtiReportService,
-
+    private UtiReportService: UtiReportService
   ) {
     this.UtiReportService.getCategory().subscribe((res) => {
       let obj = {};
       for (const key in res) {
-        let id=res[key]["_id"] 
-        obj[id] = res[key]["name"]
+        let id = res[key]["_id"];
+        obj[id] = res[key]["name"];
       }
-      this.categories = obj
+      this.categories = obj;
+    });
+    this.commonService.fetchStateList().subscribe((res) => {
+      let stateId = JSON.parse(localStorage.getItem("userData"))["state"];
+      for (const it of res) {
+        if (it._id == stateId) {
+          this.stateName = it.name;
+          break;
+        }
+      }
     });
   }
 
@@ -72,105 +80,103 @@ export class UlbformPreviewComponent implements OnInit {
   };
   slbWaterSanitaionError = {
     ulb: {
-      
       code: null,
       name: null,
       state: {
-        
         name: null,
-        code: null
-      }
+        code: null,
+      },
     },
     document: {
-      message: null
+      message: null,
     },
     millionPlusCities: {
       documents: {
         cityPlan: [],
         serviceLevelPlan: [],
         solidWastePlan: [],
-        waterBalancePlan: []
-      }
+        waterBalancePlan: [],
+      },
     },
     solidWasteManagement: {
       documents: {
         garbageFreeCities: [],
-        waterSupplyCoverage: []
-      }
+        waterSupplyCoverage: [],
+      },
     },
     status: null,
     waterManagement: {
       serviceLevel: {
         status: null,
-        rejectReason: null 
+        rejectReason: null,
       },
       houseHoldCoveredPipedSupply: {
         baseline: {
-          2021: null
+          2021: null,
         },
         target: {
           2122: null,
           2223: null,
           2324: null,
-          2425: null
+          2425: null,
         },
         status: null,
-        rejectReason: null
+        rejectReason: null,
       },
       waterSuppliedPerDay: {
         baseline: {
-          2021: null
+          2021: null,
         },
         target: {
           2122: null,
           2223: null,
           2324: null,
-          2425: null
+          2425: null,
         },
-        status: null ,
-        rejectReason: null 
+        status: null,
+        rejectReason: null,
       },
       reduction: {
         baseline: {
-          2021: null
+          2021: null,
         },
         target: {
           2122: null,
           2223: null,
           2324: null,
-          2425: null
+          2425: null,
         },
         status: null,
-        rejectReason: null
+        rejectReason: null,
       },
       houseHoldCoveredWithSewerage: {
         baseline: {
-          2021: null
+          2021: null,
         },
         target: {
           2122: null,
           2223: null,
           2324: null,
-          2425: null
+          2425: null,
         },
         status: null,
-        rejectReason: null
+        rejectReason: null,
       },
-      status: null ,
-      rejectReason:null ,
-      
+      status: null,
+      rejectReason: null,
     },
     waterPotability: {
       documents: {
-        waterPotabilityPlan: [{
-          
-          name: null,
-          url: null
-        }]
-      }
+        waterPotabilityPlan: [
+          {
+            name: null,
+            url: null,
+          },
+        ],
+      },
     },
     water_index: null,
-    fromParent: null
+    fromParent: null,
   };
   waterSanitation = null;
   pfmsError = {
@@ -360,16 +366,17 @@ export class UlbformPreviewComponent implements OnInit {
     },
   ];
 
-  categories
+  categories;
   slbWaterSanitaion = null;
-  detailUtil = null
-  pfms = null
-  annualAccount = null
+  detailUtil = null;
+  pfms = null;
+  annualAccount = null;
   userData = JSON.parse(localStorage.getItem("userData"));
   years = JSON.parse(localStorage.getItem("Years"));
   designYear;
   isMillionPlus;
   isUA;
+  stateName;
 
   ngOnInit(): void {
     this.designYear = this.years["2021-22"];
@@ -395,14 +402,25 @@ export class UlbformPreviewComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.utiReportService.fetchPosts().subscribe(
         (res) => {
-          this.detailUtil = res;
-          this.detailUtil["projects"].forEach(element => {
-            element.category = this.categories[element.category]
+          res["projects"].forEach((element) => {
+            element.category = this.categories[element.category];
           });
+          let formdata = {
+            state_name: this.stateName,
+            ulbName: JSON.parse(localStorage.getItem("userData"))["name"],
+            grntType: res["grantType"],
+            grantPosition: res["grantPosition"],
+            projects: res["projects"],
+            name: res["name"],
+            designation: res["designation"],
+            totalProCost: res["projectCost"],
+            totalExpCost: res["projectExp"],
+          };
+          this.detailUtil = formdata
           resolve("Success");
         },
         (err) => {
-          this.detailUtil = this.detailUtilError
+          this.detailUtil = this.detailUtilError;
           resolve("Success");
         }
       );
@@ -420,7 +438,7 @@ export class UlbformPreviewComponent implements OnInit {
           resolve(res);
         },
         (err) => {
-          this.slbWaterSanitaion = this.slbWaterSanitaionError
+          this.slbWaterSanitaion = this.slbWaterSanitaionError;
           resolve("Success");
         }
       );
@@ -435,7 +453,7 @@ export class UlbformPreviewComponent implements OnInit {
           resolve("Success");
         },
         (err) => {
-          this.pfms = this.pfmsError
+          this.pfms = this.pfmsError;
           resolve("Success");
         }
       );
@@ -467,7 +485,7 @@ export class UlbformPreviewComponent implements OnInit {
           resolve("Sucess");
         },
         (err) => {
-          this.annualAccount = this.annualAccountError
+          this.annualAccount = this.annualAccountError;
           resolve("Success");
         }
       );

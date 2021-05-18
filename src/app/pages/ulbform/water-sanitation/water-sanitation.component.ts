@@ -145,14 +145,12 @@ fileProcessingTracker: {
     };
     if(this.waterFileUrl != '' && this.sanitationFileUrl != ''){
       this.postsDataCall(this.uploadedFiles);
-
     }
     else{
       this.openModal(template);
     }
 }
 postsDataCall(uploadedFiles){
-
     this.wsService.sendRequest(this.uploadedFiles)
         .subscribe((res) => {
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
