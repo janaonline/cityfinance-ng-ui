@@ -1,13 +1,13 @@
 <div class="container-fluid" id="pfmsPre" #pfmsPre>
     <div class="row">
-        <div class="col-sm-12 header">
+        <div class="col-sm-12 header-p">
             <a *ngIf="!parentData" mat-dialog-close class="h-cls" style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
                 <mat-icon aria-hidden="false">
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
                 </mat-icon>
             </a>
             <div class="col-sm-12 d-h">
-                <span class="heading">Linking of PFMS Account</span>
+                <span class="heading-p"><h3>Linking of PFMS Account</h3> </span>
             </div>
 
         </div>
@@ -15,9 +15,9 @@
     <div class="row h-cls" style="margin-top: 1.5rem;">
         <div *ngIf="!parentData" class="col-sm-12 text-right">
             <button id="donwloadButton" style="right: 0%;
-        outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="downloadAsPDF()">
-        Download as PDF
-      </button>
+      outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="downloadAsPDF()">
+      Download as PDF
+    </button>
         </div>
     </div>
 

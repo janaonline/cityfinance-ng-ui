@@ -2,7 +2,13 @@
     border-radius: 4px;
     width: 96px;
     height: 28px;
-    border-color: #373737;
+    border-color: #00000029;
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.p-s {
+    padding-left: 20px;
 }
 
 .table>tbody>tr>td,
@@ -13,4 +19,14 @@
 .table>thead>tr>th {
     vertical-align: middle;
     text-align: center;
+}
+
+.btn-d {
+    background-color: #059B9A;
+    color: #FFFFFF;
+}
+
+.s-s {
+    position: relative;
+    margin-right: -21px;
 }

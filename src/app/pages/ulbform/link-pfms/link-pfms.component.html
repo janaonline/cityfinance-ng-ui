@@ -13,9 +13,9 @@
         <div class=" question" style="margin-top: 2rem;" *ngIf="showQuestion1">
             <span>{{questions[0]}}<span style="color: red;">*</span></span>
             <div>
-                <button class="btn" style="margin-left: 2rem;" (click)="onClickYes()" [ngStyle]="{'background-color':
+                <button class="btn" style="margin-left: 2rem;" (click)="onClickYes()" [disabled]="isDisabled" [ngStyle]="{'background-color':
                 account === 'yes' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">Yes</button>
-                <button class=" btn" style="margin-left: 5rem;" (click)="onClickNo()" [ngStyle]="{'background-color':
+                <button class=" btn" style="margin-left: 5rem;" (click)="onClickNo()" [disabled]="isDisabled" [ngStyle]="{'background-color':
             account === 'no' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">No</button>
             </div>
         </div>
@@ -26,9 +26,9 @@
         <div class="question" *ngIf="showQuestion2">
             <span>{{questions[1]}} <span style="color: red;">*</span></span>
             <div>
-                <button class="btn" style="margin-left: 2rem;" (click)="onClickYES()" [ngStyle]="{'background-color':
+                <button class="btn" style="margin-left: 2rem;" (click)="onClickYES()" [disabled]="isDisabled" [ngStyle]="{'background-color':
            linked ==='yes' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">Yes</button>
-                <button class=" btn" style="margin-left: 5rem;" (click)="onClickNO()" [ngStyle]="{'background-color':
+                <button class=" btn" style="margin-left: 5rem;" (click)="onClickNO()" [disabled]="isDisabled" [ngStyle]="{'background-color':
             linked === 'no' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">No</button>
             </div>
         </div>
@@ -42,7 +42,7 @@
         <button class="backButton" [routerLink]="['../overview']">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-        <button class="save" (click)="saveAndNext(template)">SAVE AND NEXT</button>
+        <button class="save" (click)="saveAndNext(template)" [disabled]="isDisabled">SAVE AND NEXT</button>
     </div>
 </div>
 <ng-template #template>

@@ -36,7 +36,7 @@ export class FcHomePageComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
      let ulbRecord = JSON.parse(localStorage.getItem('userData'));
-    this.ulbName = ulbRecord.name;
+    this.ulbName = ulbRecord?.name;
      console.log(ulbRecord)
   }
 

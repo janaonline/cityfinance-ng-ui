@@ -51,6 +51,8 @@ export class AnnualAccountsComponent implements OnInit {
   fileNameArray;
   routerNavigate = null;
   response;
+  isDisabled = false;
+
   modalRef;
   temp;
   @HostBinding("")
@@ -284,13 +286,17 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   onLoad() {
+    let ulbId = sessionStorage.getItem('ulb_id');
+    if(ulbId != null){
+      this.isDisabled = true;
+    }
     this.annualAccountsService
       .getData({
         design_year: this.Years["2021-22"],
-      })
+      }, ulbId)
       .subscribe(
         async (res) => {
-      
+
           const responseType =
             res["data"][0]["audit_status"] === "Audited"
               ? "auditResponse"
@@ -309,7 +315,7 @@ export class AnnualAccountsComponent implements OnInit {
           );
         },
         (err) => {
-      
+
           const toStoreResponse = [this.auditResponse, this.unauditResponse];
           sessionStorage.setItem(
             "annualAccounts",

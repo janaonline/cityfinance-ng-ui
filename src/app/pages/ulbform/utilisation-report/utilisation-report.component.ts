@@ -56,6 +56,10 @@ export class UtilisationReportComponent implements OnInit {
     private modalService: BsModalService,
     private _ulbformService: UlbformService
   ) {
+
+    let yearId = JSON.parse(localStorage.getItem('Years'));
+    this.designYear = yearId['2021-22']
+    this.financialYear = yearId['2020-21']
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
@@ -72,7 +76,7 @@ export class UtilisationReportComponent implements OnInit {
   projectExp = 0;
   selectedFile;
   categories;
-  editable;
+ // editable;
   photoUrl: any = [];
   fd;
   formDataResponce;
@@ -83,23 +87,27 @@ export class UtilisationReportComponent implements OnInit {
   errMessage;
   errorDisplay = false;
   setLocation;
+  designYear;
+  financialYear;
   fromPreview = null;
+  isDisabled= false;
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
       res.forEach((state) => (this.states[state._id] = state));
       this.initializeReport();
-      this.getResponse();
-      // switch (this.userLoggedInDetails.role) {
-      //    case USER_TYPE.ULB:
-      //    case USER_TYPE.STATE:
-      //    case USER_TYPE.PARTNER:
-      //    case USER_TYPE.MoHUA:
-      //    case USER_TYPE.ADMIN:
-      //      this.utilizationReport.disable();
-      //      this.utiReportFormControl.projects.disable();
 
-      //  }
+
+      switch (this.userLoggedInDetails.role) {
+         case USER_TYPE.STATE:
+         case USER_TYPE.PARTNER:
+         case USER_TYPE.MoHUA:
+         case USER_TYPE.ADMIN:
+           this.utilizationReport.disable();
+           this.utiReportFormControl.projects.disable();
+
+       }
+       this.getResponse();
     });
   }
   // errorShow(){
@@ -108,6 +116,7 @@ export class UtilisationReportComponent implements OnInit {
   // }
 
   ngOnInit() {
+
     sessionStorage.setItem("canNavigate", "true");
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;
@@ -116,6 +125,8 @@ export class UtilisationReportComponent implements OnInit {
         a.name.localeCompare(b.name)
       );
     });
+
+
   }
 
   navigationCheck(){
@@ -150,9 +161,13 @@ export class UtilisationReportComponent implements OnInit {
       }
     });
   }
-
+ulbId =null;
   public getResponse() {
-    this.UtiReportService.fetchPosts().subscribe(
+
+     this.ulbId = sessionStorage.getItem('ulb_id');
+
+    console.log('pk', this.ulbId)
+    this.UtiReportService.fetchPosts(this.designYear, this.financialYear, this.ulbId).subscribe(
       (res) => {
         //  this.formDataResponce = res;
         console.log(res);
@@ -178,7 +193,7 @@ export class UtilisationReportComponent implements OnInit {
     );
   }
   private preFilledData(res) {
-    this.editable = res.isDraft;
+   // this.editable = res.isDraft;
     this.deleteRow(0);
     this.addPreFilledSimple(res);
     res.projects.forEach((project) => {
@@ -186,6 +201,7 @@ export class UtilisationReportComponent implements OnInit {
     });
   }
   addPreFilledSimple(data) {
+    console.log('88888', data)
     this.utilizationReport.patchValue({
       name: data.name,
       designation: data.designation,
@@ -197,18 +213,32 @@ export class UtilisationReportComponent implements OnInit {
       },
     });
     this.totalclosingBal = data.grantPosition.closingBal;
-    if (!this.editable) this.utilizationReport.disable();
+   // if (!this.editable) this.utilizationReport.disable();
   }
 
   public initializeReport() {
-    this.utilizationForm = this.fb.group({
-      stateName: new FormControl(
-        this.states[this.userLoggedInDetails.state]?.name,
-        Validators.required
-      ),
-      ulb: new FormControl(this.userLoggedInDetails.name, Validators.required),
-      grantType: new FormControl("Tied", Validators.required),
-    });
+    let stName = sessionStorage.getItem('stateName');
+    let ulName = sessionStorage.getItem('ulbName');
+    console.log('12345',this.userLoggedInDetails.role )
+    if(this.userLoggedInDetails.role == 'ULB'){
+      this.utilizationForm = this.fb.group({
+        stateName: new FormControl(
+          this.states[this.userLoggedInDetails.state]?.name,
+          Validators.required
+        ),
+        ulb: new FormControl(this.userLoggedInDetails.name, Validators.required),
+        grantType: new FormControl("Tied", Validators.required),
+      });
+    }else{
+      this.utilizationForm = this.fb.group({
+        stateName: new FormControl(
+          stName,
+          Validators.required
+        ),
+        ulb: new FormControl(ulName, Validators.required),
+        grantType: new FormControl("Tied", Validators.required),
+      });
+    }
 
     this.utilizationReport = this.fb.group({
       grantPosition: this.fb.group({
@@ -244,6 +274,10 @@ export class UtilisationReportComponent implements OnInit {
       designation: ["", [Validators.required, Validators.maxLength(50)]],
     });
     // this.utilizationReport.disable();
+    if(this.ulbId != null){
+      this.isDisabled = true;
+      this.tabelRows.disable();
+    }
   }
 
   get utiReportFormControl() {
@@ -457,7 +491,8 @@ export class UtilisationReportComponent implements OnInit {
     this.totalProCost(this.tabelRows.length);
     this.totalExpCost(this.tabelRows.length);
     this.addPhotosUrl(data.photos, this.tabelRows.length - 1);
-    if (!this.editable) this.tabelRows.disable();
+
+  //  if (!this.editable) this.tabelRows.disable();
   }
   setUrlGroup(url) {
     return this.fb.group({
@@ -506,6 +541,7 @@ export class UtilisationReportComponent implements OnInit {
       (res) => {
         //  console.log(res);
         alert("Record submitted successfully.");
+
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.utilReport.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
@@ -520,30 +556,35 @@ export class UtilisationReportComponent implements OnInit {
 
   saveAndNext(template) {
     this.submitted = true;
-    this.fd = this.utilizationReport.value;
-    this.fd.isDraft = true;
-    this.fd.financialYear = "5ea036c2d6f1c5ee2e702e9e";
-    this.fd.designYear = "5ea036c2d6f1c5ee2e702e9e";
-    this.fd.grantType = "Tied";
-    this.fd.grantPosition.closingBal = this.totalclosingBal;
-    if (
-      this.utilizationReport.valid &&
-      this.totalclosingBal >= 0 &&
-      !this.isSumEqual
-    ) {
-      this.apiCall(this.fd);
-      sessionStorage.setItem("canNavigate","yes")
-      return this._router.navigate(["ulbform/annual_acc"]);
-    } else {
-      this.openModal(template);
-    }
+  //  console.log(this.utilizationReport);
+  //  console.log(this.utilizationReport.value);
+
+        this.fd = this.utilizationReport.value;
+        this.fd.isDraft = true;
+        this.fd.financialYear = this.financialYear;
+        this.fd.designYear = this.designYear;
+        this.fd.grantType = 'Tied';
+        this.fd.grantPosition.closingBal = this.totalclosingBal;
+
+        if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
+          this.apiCall(this.fd);
+          console.log('form submitted', this.fd);
+          return this._router.navigate(["ulbform/annual_acc"]);
+
+
+        }
+        else {
+          this.openModal(template);
+        }
+
+
   }
   openModal(template: TemplateRef<any>, fromPreview = null) {
     if (fromPreview && sessionStorage.getItem("canNavigate") === "true") {
       this.onPreview();
       return
-    } 
-    this.fromPreview = fromPreview;    
+    }
+    this.fromPreview = fromPreview;
     this.modalRef = this.modalService.show(template, { class: "modal-md" });
   }
 
