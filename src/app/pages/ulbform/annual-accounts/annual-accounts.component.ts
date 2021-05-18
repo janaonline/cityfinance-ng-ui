@@ -251,18 +251,17 @@ export class AnnualAccountsComponent implements OnInit {
   ngOnInit(): void {
     this.changeAudit("Unaudited");
     this.onLoad();
-    sessionStorage.setItem("canNavigate", "true");
+    sessionStorage.setItem("changeInAnnual", "true");
   }
-  
   navigationCheck(){
     this._router.events.subscribe(async (event: Event) => {
       if (event instanceof NavigationStart) {
-        const canNavigate = sessionStorage.getItem("canNavigate");
+        const changeInAnnual = sessionStorage.getItem("changeInAnnual");
         if(event.url === "/"){
-          sessionStorage.setItem("canNavigate","true")
+          sessionStorage.setItem("changeInAnnual","true")
           return
         }
-        if (canNavigate === "false" && this.routerNavigate === null) {
+        if (changeInAnnual === "false" && this.routerNavigate === null) {
           if (this.modalRef) this.modalRef.hide();
           const currentRoute = this._router.routerState;
           this._router.navigateByUrl(currentRoute.snapshot.url, {
@@ -371,7 +370,7 @@ export class AnnualAccountsComponent implements OnInit {
     }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
-    sessionStorage.setItem("canNavigate","yes")
+    sessionStorage.setItem("changeInAnnual","yes")
     return this._router.navigate(["ulbform/service-level"]);
   }
 
@@ -712,7 +711,7 @@ export class AnnualAccountsComponent implements OnInit {
       const tempResponse = JSON.stringify(this.unauditResponse);
       const tempResponseLast = JSON.stringify(annualAccounts[0]);
       if (tempResponse != tempResponseLast) {
-        sessionStorage.setItem("canNavigate", "false");
+        sessionStorage.setItem("changeInAnnual", "false");
       }
     } else {
       const tempResponse = JSON.stringify(
@@ -722,14 +721,14 @@ export class AnnualAccountsComponent implements OnInit {
       );
       const tempResponseLast = JSON.stringify(annualAccounts[1]);
       if (tempResponse != tempResponseLast) {
-        sessionStorage.setItem("canNavigate", "false");
+        sessionStorage.setItem("changeInAnnual", "false");
       }
     }
   }
 
   openModal(template: TemplateRef<any>, fromPreview = null) {
     this.fromPreview = fromPreview;
-    if (fromPreview && sessionStorage.getItem("canNavigate") === "true") {
+    if (fromPreview && sessionStorage.getItem("changeInAnnual") === "true") {
       this.onPreview();
       return;
     }
