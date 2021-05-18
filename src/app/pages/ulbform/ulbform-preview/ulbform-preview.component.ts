@@ -47,15 +47,13 @@ export class UlbformPreviewComponent implements OnInit {
   }
   .header-p {
     background-color: #047474;
-    height: 60px;
+    height: 70px;
     text-align: center;
 }
-
 .heading-p {
     color: #FFFFFF;
-    font-size: 22px;
-    padding-top: 1rem;
-    margin-top: 1rem;
+    font-size: 18px;
+    padding-top: 1.5rem !important;
 
 }
 
@@ -67,11 +65,13 @@ export class UlbformPreviewComponent implements OnInit {
 .qus-h {
     margin-bottom: 2rem;
     margin-top: 2rem;
+    font-size: 10px;
 }
 
 .ans-h {
     margin-bottom: 2rem;
     margin-top: 2rem;
+    font-size: 10px;
 }
 .m-h{
   text-align: center;

@@ -58,6 +58,9 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     );
     // this.account = this.receivedData['response']['account'];
     // this.linked = this.receivedData['response']['linked'];
+    if(ulbId != null){
+      this.isDisabled =true;
+    }
   }
   tabHeadings = [
     "Provisional Accounts for 2020-21",

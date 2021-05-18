@@ -97,20 +97,11 @@ fcFormListSubscription: Subscription;
     if(type == 'state'){
       this.filterObject = {
         filter: {
-
-        //     ulbName: '',
-        //     censusCode: '',
-        //     sbCode: '',
-        //     ulbType: val,
-        //     populationType: '',
-        //     UA:'',
-
-        // //  audited: '',
-        // //  status: '',
           state: val,
-
         },
       };
+
+    }else{
 
     }
     if(type == 'ulbType'){
@@ -156,6 +147,7 @@ fcFormListSubscription: Subscription;
       }
     }
 
+
     return {
       ...this.listFetchOption,
       ...this.filterObject,
@@ -168,6 +160,7 @@ fcFormListSubscription: Subscription;
 
 
   stateData(val, type){
+
     this.loading = true;
     this.listFetchOption.skip = 0;
     this.tableDefaultOptions.currentPage = 1;
@@ -183,7 +176,8 @@ fcFormListSubscription: Subscription;
         (result) => {
           let res:any = result;
           this.tabelData = res.data;
-          console.log(result)
+          console.log(result);
+
         },
         (response: HttpErrorResponse) => {
           this.loading = false;
