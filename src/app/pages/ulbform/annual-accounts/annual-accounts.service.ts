@@ -8,10 +8,17 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 export class AnnualAccountsService {
   constructor(private http: HttpClient) {}
 
-  getData(params) {
-    return this.http.get(`${environment.api.url}annual-accounts/get`, {
+  getData(params, ulbId) {
+  if(ulbId != null){
+    return this.http.get(`${environment.api.url}annual-accounts/get/${ulbId}`, {
       params,
     });
+  }else{
+    return this.http.get(`${environment.api.url}annual-accounts/get/`, {
+      params,
+    });
+  }
+
   }
 
   postData(body) {

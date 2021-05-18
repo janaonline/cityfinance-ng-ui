@@ -9,3 +9,13 @@
     font-size: 22px;
     margin-top: 10px !important;
 }
+
+.h-cls {
+    display: none;
+}
+
+@media print {
+    .page-break {
+        page-break-before: always;
+    }
+}

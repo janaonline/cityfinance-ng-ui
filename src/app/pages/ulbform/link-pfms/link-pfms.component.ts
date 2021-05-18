@@ -39,8 +39,11 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   account = "";
   linked = "";
   fd = {};
+  isDisabled = false;
   ngOnInit() {
-    this.LinkPFMSAccount.getData("606aaf854dff55e6c075d219").subscribe(
+    let ulbId = sessionStorage.getItem('ulb_id');
+
+    this.LinkPFMSAccount.getData("606aaf854dff55e6c075d219", ulbId).subscribe(
       (res) => {
         console.log(res);
         this.receivedData = res;
