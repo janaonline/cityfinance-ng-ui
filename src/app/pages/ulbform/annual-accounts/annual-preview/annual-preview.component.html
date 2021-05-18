@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid" #annualPreview id="annualPreview">
     <div class="row">
         <div class="col-sm-12 header-p">
-            <a mat-dialog-close style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
+            <a *ngIf="!fromParent" mat-dialog-close style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
 
                 <img src="../../../../../assets/form-icon/Icon material-close.svg">
 
@@ -9,9 +9,9 @@
             <div class="col-sm-12 heading-p">Annual Accounts</div>
         </div>
     </div>
-    <div class="row" style="margin-top: 1.5rem;">
+    <div class="row hi" style="margin-top: 1.5rem;">
         <div class="col-sm-12 text-right">
-            <button *ngIf="!parentData" id="donwloadButton" style="right: 0%;
+            <button *ngIf="!fromParent" id="donwloadButton" style="right: 0%;
     outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="downloadAsPDF()">
                 Download as PDF
             </button>
@@ -125,8 +125,8 @@
                             is confirmed that this information can be made available for public consumption on the CityFinance portal.
                         </div>
                         <div class="col-sm-6 ans-h text-center">
-                            <span *ngIf="year2021.standardized_data.declaration">Agreed</span>
-                            <span *ngIf="!year2021.standardized_data.declaration">Not Agreed</span>
+                            <span *ngIf="year2021.standardized_data?.declaration">Agreed</span>
+                            <span *ngIf="!year2021.standardized_data?.declaration">Not Agreed</span>
                         </div>
                     </div>
                     <div class="row">
@@ -134,7 +134,7 @@
                             Uploaded Excel
                         </div>
                         <div class="col-sm-6 ans-h text-center">
-                            <a href="{{year2021.standardized_data.upload.excelUrl}}">{{year2021.standardized_data.upload.excelName}}</a>
+                            <a href="{{year2021.standardized_data?.upload.excelUrl}}">{{year2021.standardized_data?.upload.excelName}}</a>
                         </div>
                     </div>
                 </div>
@@ -260,8 +260,8 @@
                             is confirmed that this information can be made available for public consumption on the CityFinance portal.
                         </div>
                         <div class="col-sm-6 ans-h text-center">
-                            <span *ngIf="year2019.standardized_data.declaration">Agreed</span>
-                            <span *ngIf="!year2019.standardized_data.declaration">Not Agreed</span>
+                            <span *ngIf="year2019.standardized_data?.declaration">Agreed</span>
+                            <span *ngIf="!year2019.standardized_data?.declaration">Not Agreed</span>
                         </div>
                     </div>
                     <div class="row">
@@ -269,7 +269,7 @@
                             Uploaded Excel
                         </div>
                         <div class="col-sm-6 ans-h text-center">
-                            <a href="{{year2019.standardized_data.upload.excelUrl}}">{{year2019.standardized_data.upload.excelName}}</a>
+                            <a href="{{year2019.standardized_data?.upload.excelUrl}}">{{year2019.standardized_data?.upload.excelName}}</a>
                         </div>
                     </div>
                 </div>

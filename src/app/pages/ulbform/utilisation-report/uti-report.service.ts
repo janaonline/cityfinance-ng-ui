@@ -33,6 +33,7 @@ export class UtiReportService {
   //   );
  }
  fetchPosts(d_yr, f_yr, ulbId){
+   
    console.log('dyr', ulbId)
    let utFetchUrl;
    if(ulbId != null){
