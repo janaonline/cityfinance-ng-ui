@@ -34,20 +34,23 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     });
 
    }
-
+stateName='';
+ulbName ='';
   ngOnInit() {
 
     this.Overview.getData('606aaf854dff55e6c075d219' , this.id)
       .subscribe((res) => {
         console.log('overviewRes', res['response']);
-        this.sessionUlbId = res['response'][0]['ulb'];
-        this.isMillionPlus = res['response'][0]['isMillionPlus'];
-        this.isUA = res['response'][0]['isUA'];
-        this.forms[0] = res['response'][0]?.steps?.annualAccounts?.isSubmit
-        this.forms[1] = res['response'][0]?.steps?.pfmsAccount?.isSubmit
-        this.forms[2] = res['response'][0]?.steps?.plans?.isSubmit
-        this.forms[3] = res['response'][0]?.steps?.slbForWaterSupplyAndSanitation?.isSubmit
-        this.forms[4] = res['response'][0]?.steps?.utilReport?.isSubmit
+        this.sessionUlbId = res['response']['ulb'];
+        this.isMillionPlus = res['response']['isMillionPlus'];
+        this.isUA = res['response']['isUA'];
+        this.stateName = res['response']['stateName'];
+        this.ulbName = res['response']['ulbName'];
+        this.forms[0] = res['response']?.steps?.annualAccounts?.isSubmit
+        this.forms[1] = res['response']?.steps?.pfmsAccount?.isSubmit
+        this.forms[2] = res['response']?.steps?.plans?.isSubmit
+        this.forms[3] = res['response']?.steps?.slbForWaterSupplyAndSanitation?.isSubmit
+        this.forms[4] = res['response']?.steps?.utilReport?.isSubmit
         switch (this.loggedInUserType) {
           case USER_TYPE.STATE:
           case USER_TYPE.PARTNER:
@@ -136,6 +139,8 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     sessionStorage.setItem('ulb_id', this.sessionUlbId);
     sessionStorage.setItem('isMillionPlus', this.isMillionPlus);
     sessionStorage.setItem('isUA', this.isUA);
+    sessionStorage.setItem('stateName', this.stateName);
+    sessionStorage.setItem('ulbName', this.ulbName);
     console.log('ulb_id', this.sessionUlbId)
   }
   onUnhover() {

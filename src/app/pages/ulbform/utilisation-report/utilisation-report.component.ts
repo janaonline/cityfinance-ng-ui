@@ -215,6 +215,8 @@ ulbId =null;
   }
 
   public initializeReport() {
+    let stName = sessionStorage.getItem('stateName');
+    let ulName = sessionStorage.getItem('ulbName');
     console.log('12345',this.userLoggedInDetails.role )
     if(this.userLoggedInDetails.role == 'ULB'){
       this.utilizationForm = this.fb.group({
@@ -228,10 +230,10 @@ ulbId =null;
     }else{
       this.utilizationForm = this.fb.group({
         stateName: new FormControl(
-          '',
+          stName,
           Validators.required
         ),
-        ulb: new FormControl('', Validators.required),
+        ulb: new FormControl(ulName, Validators.required),
         grantType: new FormControl("Tied", Validators.required),
       });
     }
