@@ -103,14 +103,16 @@ export class FcSlbComponent implements OnInit, OnChanges {
   showPublishedUpload: boolean = false;
   invalidWhole = false;
   ngOnInit() {
-    this.checkAutoValidCustom();
+
     this.services.forEach(data => {
       this.focusTargetKey[data.key + 'baseline'] = false
       this.targets.forEach(item => {
         this.focusTargetKey[data.key + item.key] = false
       })
     })
+
     console.log("tt", this.form, this.focusTargetKey)
+    this.checkAutoValidCustom();
   }
 
   setFocusTarget(focusTarget = '') {
@@ -169,27 +171,6 @@ export class FcSlbComponent implements OnInit, OnChanges {
   //   this.emitValues(this.form.getRawValue());
   // }
 
-  onBlur(control: AbstractControl, formValue = '', currentControlKey = '', increase = true) {
-    console.log("onblurcalled", control, formValue, currentControlKey, increase)
-    this.setFocusTarget()
-    if (!control) return;
-    const newValue = this.jsonUtil.convert(control.value);
-    control.patchValue(newValue);
-    if (formValue) {
-      console.log(formValue)
-      for (let key2 in formValue['controls']) {
-        console.log(key2)
-
-        if (formValue['controls'][key2].value)
-          this.onKeyUp(control, formValue, key2, increase)
-      }
-
-
-    }
-
-
-    this.emitValues(this.form.getRawValue());
-  }
 
   private populateFormDatas() {
     if (!this.isDataPrefilled) return;
@@ -206,9 +187,17 @@ export class FcSlbComponent implements OnInit, OnChanges {
     if (!this.invalidWhole) {
       this.submitted = true;
       if (this.showPublishedUpload && !this.publishedFileUrl)
+
         return true
       this.emitValues(this.form.getRawValue(), true);
+      console.log(this.showPublishedUpload)
+      console.log(this.form.getRawValue())
     }
+
+  }
+
+  emitOnDocChange() {
+    this.emitValues(this.form.getRawValue());
 
   }
 
@@ -228,7 +217,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
     let outputValues = {
       waterManagement: values,
       waterPotabilityPlan: {
-        name: fileName, url: fileUrl,
+        name: fileName,
+        url: fileUrl
       },
       saveData: next,
       water_index: this.showPublishedUpload
@@ -323,7 +313,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
           resolve("success")
 
           console.log('file url', fileAlias)
-
+          this.emitOnDocChange();
 
         },
         (err) => {
@@ -389,15 +379,56 @@ export class FcSlbComponent implements OnInit, OnChanges {
     }
   }
 
-  onKeyUp(textValue, formValue, currentControlKey, increase = true) {
+  previousValue = '';
+  afterValue = '';
+  onBlur(control: AbstractControl, formValue = '', currentControlKey = '', serviceKey = '', increase = true) {
+    console.log("onblurcalled", control, formValue, currentControlKey, increase)
+    console.log(this.form)
+    this.setFocusTarget()
+    this.previousValue = this.form.controls[serviceKey]['controls']['target']?.controls[String(parseInt(currentControlKey) - 101)]?.value ? this.form.controls[serviceKey]['controls']['target'].controls[String(parseInt(currentControlKey) - 101)].value : null
+    this.afterValue = this.form.controls[serviceKey]['controls']['target']?.controls[String(parseInt(currentControlKey) + 101)]?.value ? this.form.controls[serviceKey]['controls']['target'].controls[String(parseInt(currentControlKey) + 101)].value : null
+
+    console.log('previousvalue', this.previousValue)
+    console.log('aftervalue', this.afterValue)
+
+    if (!control) return;
+    const newValue = this.jsonUtil.convert(control.value);
+    control.patchValue(newValue);
+    if (formValue) {
+      console.log(formValue)
+      console.log(this.form.controls[serviceKey]['controls']['target'].controls)
+      // this.form.controls[serviceKey]['controls']['target'].controls.forEach((el) => {
+      //   let currentValue = this.form.controls[serviceKey]['controls']['target'].controls[el];
+      //   this.onKeyUp(currentValue, formValue, el, serviceKey, increase)
+      // })
+
+      for (let el in this.form.controls[serviceKey]['controls']['target'].controls) {
+        this.setFocusTarget(serviceKey + el[currentControlKey])
+        let currentValue = this.form.controls[serviceKey]['controls']['target'].controls[el];
+        this.onKeyUp(currentValue, formValue, el, serviceKey, increase)
+        // console.log(key2)
+        // if (formValue['controls'][key2].value)
+        //   // if (key2 != currentControlKey)
+        //   this.onKeyUp(control, formValue, key2, serviceKey, increase)
+      }
+    }
+    console.log('check this value', this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey]?.errors)
+    this.emitValues(this.form.getRawValue());
+  }
+
+
+  onKeyUp(textValue, formValue, currentControlKey, serviceKey = '', increase = true) {
     console.log("estblished", textValue, formValue, currentControlKey, increase)
     let controlValue = formValue.value
-    if (this.checkIncreaseValidation(textValue.value, currentControlKey, controlValue, increase)) {
-      textValue.errors = true
-      textValue.status = "INVALID"
-    } else {
 
-      textValue.status = "VALID"
+    if (this.checkIncreaseValidation(textValue.value, currentControlKey, controlValue, increase)) {
+
+      // this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].errors = true
+      this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "INVALID"
+
+    } else {
+      this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "VALID"
+
     }
   }
 
@@ -405,32 +436,30 @@ export class FcSlbComponent implements OnInit, OnChanges {
     console.log("increasevalidation called", value, controlKey, controlValue, increse)
     let before = true;
     let invalid = false;
+
     for (let obj in controlValue) {
 
-      if (obj == controlKey) {
+      if (parseInt(obj) == parseInt(controlKey)) {
         before = false
+        // if ((parseInt(obj) > parseInt(controlKey)))
       } else {
 
         if (before) {
-          if (controlValue[obj] != "") {
+          if (controlValue[obj] != "" && !invalid) {
             invalid = increse ? !(value > 0 && value < 101 && value > controlValue[obj]) : !(value > 0 && value < 101 && value < controlValue[obj])
-            console.log("if", value, controlValue[obj])
+            console.log("if", value, controlValue[obj], controlKey, obj)
             console.log(invalid)
           }
 
 
         } else {
-          if (controlValue[obj]) {
-
+          if (controlValue[obj] && !invalid) {
+            console.log('increase', increse);
             invalid = increse ? !(value > 0 && value < 101 && value < controlValue[obj]) : !(value > 0 && value < 101 && value > controlValue[obj])
             console.log("else", value, controlValue[obj])
             console.log(invalid)
           }
-
-
         }
-
-
       }
 
     }
