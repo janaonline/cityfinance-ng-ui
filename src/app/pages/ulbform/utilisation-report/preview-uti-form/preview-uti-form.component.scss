@@ -1,6 +1,6 @@
 .header {
     background-color: #047474;
-    height: 120px;
+    height: 80px;
     display: inline-block;
     color: #FFFFFF;
     text-align: center;
@@ -13,11 +13,11 @@
 }
 
 .listitem_head {
-    padding: 2px 2px;
     font-size: 22px !important;
     font-family: Roboto;
     font-weight: normal;
     display: inline-block;
+    margin-top: 2rem;
 }
 
 .listitem_grantYear {

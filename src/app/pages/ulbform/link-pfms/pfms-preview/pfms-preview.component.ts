@@ -22,29 +22,31 @@ export class PfmsPreviewComponent implements OnInit {
       height: 70px;
       text-align: center;
   }
-
   .heading-p {
       color: #FFFFFF;
-      font-size: 22px;
+      font-size: 18px;
+      padding-top: 1.5rem !important;
 
   }
 
   .card {
       padding: 5px 10px;
-      // margin: 10px 40px;
       background-color: #EBF5F5;
   }
 
   .qus-h {
-
       margin-bottom: 2rem;
       margin-top: 2rem;
+      font-size: 10px;
   }
 
   .ans-h {
       margin-bottom: 2rem;
       margin-top: 2rem;
+      font-size: 10px;
   }
+
+
  .h-cls{
         display: none;
       }
