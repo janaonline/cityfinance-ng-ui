@@ -385,8 +385,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     console.log("onblurcalled", control, formValue, currentControlKey, increase)
     console.log(this.form)
     this.setFocusTarget()
-    this.previousValue = this.form.controls[serviceKey]['controls']['target']?.controls[String(parseInt(currentControlKey) - 101)]?.value ? this.form.controls[serviceKey]['controls']['target'].controls[String(parseInt(currentControlKey) - 101)].value : null
-    this.afterValue = this.form.controls[serviceKey]['controls']['target']?.controls[String(parseInt(currentControlKey) + 101)]?.value ? this.form.controls[serviceKey]['controls']['target'].controls[String(parseInt(currentControlKey) + 101)].value : null
+    
 
     console.log('previousvalue', this.previousValue)
     console.log('aftervalue', this.afterValue)
@@ -394,6 +393,9 @@ export class FcSlbComponent implements OnInit, OnChanges {
     if (!control) return;
     const newValue = this.jsonUtil.convert(control.value);
     control.patchValue(newValue);
+
+    this.previousValue = this.form.controls[serviceKey]['controls']['target']?.controls[String(parseInt(currentControlKey) - 101)]?.value ? this.form.controls[serviceKey]['controls']['target'].controls[String(parseInt(currentControlKey) - 101)].value : null
+    this.afterValue = this.form.controls[serviceKey]['controls']['target']?.controls[String(parseInt(currentControlKey) + 101)]?.value ? this.form.controls[serviceKey]['controls']['target'].controls[String(parseInt(currentControlKey) + 101)].value : null
     if (formValue) {
       console.log(formValue)
       console.log(this.form.controls[serviceKey]['controls']['target'].controls)
@@ -469,7 +471,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
 
   checkAutoValidCustom() {
-    console.log(this.form['controls'])
+    if(this.form && this.form['controls'])
     for (let key in this.form['controls']) {
       for (let key2 in this.form['controls'][key]['controls']['target']['controls']) {
         if (this.form['controls'][key]['controls']['target']['controls'][key2]['status'] == 'INVALID')
