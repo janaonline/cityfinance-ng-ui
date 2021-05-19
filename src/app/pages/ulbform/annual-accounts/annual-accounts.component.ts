@@ -32,7 +32,7 @@ export class AnnualAccountsComponent implements OnInit {
     private modalService: BsModalService,
     public _router: Router
   ) {
-   this.navigationCheck()
+    this.navigationCheck();
   }
   @ViewChild("templateAnnual") template;
   quesOneAnswer: boolean = false;
@@ -229,10 +229,6 @@ export class AnnualAccountsComponent implements OnInit {
         pdfName: null,
         pdfUrl: null,
         progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
         pdfError: null,
         rejectReason: null,
       },
@@ -253,13 +249,13 @@ export class AnnualAccountsComponent implements OnInit {
     this.onLoad();
     sessionStorage.setItem("changeInAnnual", "true");
   }
-  navigationCheck(){
+  navigationCheck() {
     this._router.events.subscribe(async (event: Event) => {
       if (event instanceof NavigationStart) {
         const changeInAnnual = sessionStorage.getItem("changeInAnnual");
-        if(event.url === "/"){
-          sessionStorage.setItem("changeInAnnual","true")
-          return
+        if (event.url === "/") {
+          sessionStorage.setItem("changeInAnnual", "true");
+          return;
         }
         if (changeInAnnual === "false" && this.routerNavigate === null) {
           if (this.modalRef) this.modalRef.hide();
@@ -285,17 +281,19 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   onLoad() {
-    let ulbId = sessionStorage.getItem('ulb_id');
-    if(ulbId != null){
+    let ulbId = sessionStorage.getItem("ulb_id");
+    if (ulbId != null) {
       this.isDisabled = true;
     }
     this.annualAccountsService
-      .getData({
-        design_year: this.Years["2021-22"],
-      }, ulbId)
+      .getData(
+        {
+          design_year: this.Years["2021-22"],
+        },
+        ulbId
+      )
       .subscribe(
         async (res) => {
-
           const responseType =
             res["data"][0]["audit_status"] === "Audited"
               ? "auditResponse"
@@ -314,7 +312,6 @@ export class AnnualAccountsComponent implements OnInit {
           );
         },
         (err) => {
-
           const toStoreResponse = [this.auditResponse, this.unauditResponse];
           sessionStorage.setItem(
             "annualAccounts",
@@ -370,7 +367,7 @@ export class AnnualAccountsComponent implements OnInit {
     }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
-    sessionStorage.setItem("changeInAnnual","yes")
+    sessionStorage.setItem("changeInAnnual", "yes");
     return this._router.navigate(["ulbform/service-level"]);
   }
 
@@ -424,7 +421,8 @@ export class AnnualAccountsComponent implements OnInit {
                   key3 === "excelError" ||
                   key3 === "progress" ||
                   key3 === "pdfName" ||
-                  key3 === "pdfError"
+                  key3 === "pdfError" ||
+                  key3 === "rejectReason"
                 ) {
                   continue;
                 }
@@ -485,7 +483,6 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   answer(question, val, isAudit = null, fromStart = false) {
-
     switch (question) {
       case "q1":
         if (isAudit) this.quesOneAnswer1 = val;
@@ -702,7 +699,6 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   checkDiff(status) {
-
     const annualAccounts = JSON.parse(sessionStorage.getItem("annualAccounts"));
     if (
       annualAccounts[0].audit_status === "Unaudited" &&

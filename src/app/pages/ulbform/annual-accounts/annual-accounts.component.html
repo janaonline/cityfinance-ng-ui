@@ -60,7 +60,7 @@
                 </div>
                 <div *ngIf="quesOneAnswer" class="row center">
                     <div class="col-md-12">
-                        <span class="col-md-6"><b>Balance Sheet.</b></span>
+                        <span class="col-md-6"><b>Balance Sheet <b class="text-danger">*</b></b></span>
                         <button (click)="bs_pdf.click()" [disabled]="isDisabled" class="col-md-2 btn btn2">Upload PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -87,9 +87,9 @@
                                         *ngIf="unauditResponse.provisional_data.bal_sheet.pdfName">
                                         {{unauditResponse.provisional_data.bal_sheet.pdfName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="unauditResponse.provisional_data.bal_sheet.progress" role="progressbar"
+                                <div *ngIf="unauditResponse.provisional_data.bal_sheet.progress"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ unauditResponse.provisional_data.bal_sheet.progress }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: unauditResponse.provisional_data.bal_sheet.progress + '%' }">
@@ -135,10 +135,9 @@
                                         *ngIf="unauditResponse.provisional_data.bal_sheet.excelName">
                                         {{unauditResponse.provisional_data.bal_sheet.excelName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="unauditResponse.provisional_data.bal_sheet.progressExcel"
-                                        role="progressbar"
+                                <div *ngIf="unauditResponse.provisional_data.bal_sheet.progressExcel"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ unauditResponse.provisional_data.bal_sheet.progressExcel }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: unauditResponse.provisional_data.bal_sheet.progressExcel + '%' }">
@@ -165,7 +164,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <span class="col-md-6"><b>Balance Sheet Schedule</b></span>
+                        <span class="col-md-6"><b>Balance Sheet Schedule <b class="text-danger">*</b></b></span>
                         <button (click)="bss_pdf1.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -192,10 +191,9 @@
                                         *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.pdfName">
                                         {{unauditResponse.provisional_data.bal_sheet_schedules.pdfName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.progress"
-                                        role="progressbar"
+                                <div *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.progress"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ unauditResponse.provisional_data.bal_sheet_schedules.progress }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: unauditResponse.provisional_data.bal_sheet_schedules.progress + '%' }">
@@ -241,10 +239,9 @@
                                         *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.excelName">
                                         {{unauditResponse.provisional_data.bal_sheet_schedules.excelName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.progressExcel"
-                                        role="progressbar"
+                                <div *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.progressExcel"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ unauditResponse.provisional_data.bal_sheet_schedules.progressExcel }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: unauditResponse.provisional_data.bal_sheet_schedules.progressExcel + '%' }">
@@ -271,7 +268,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <span class="col-md-6"><b>Income Expenditure</b></span>
+                        <span class="col-md-6"><b>Income Expenditure <b class="text-danger">*</b></b></span>
                         <button (click)="ie_pdf1.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -298,9 +295,9 @@
                                         *ngIf="unauditResponse.provisional_data.inc_exp.pdfName">
                                         {{unauditResponse.provisional_data.inc_exp.pdfName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="unauditResponse.provisional_data.inc_exp.progress"
-                                        role="progressbar"
+                                <div *ngIf="unauditResponse.provisional_data.inc_exp.progress"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ unauditResponse.provisional_data.inc_exp.progress }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: unauditResponse.provisional_data.inc_exp.progress + '%' }">
@@ -345,10 +342,9 @@
                                         *ngIf="unauditResponse.provisional_data.inc_exp.excelName">
                                         {{unauditResponse.provisional_data.inc_exp.excelName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="unauditResponse.provisional_data.inc_exp.progressExcel"
-                                        role="progressbar"
+                                <div *ngIf="unauditResponse.provisional_data.inc_exp.progressExcel"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ unauditResponse.provisional_data.inc_exp.progressExcel }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: unauditResponse.provisional_data.inc_exp.progressExcel + '%' }">
@@ -375,7 +371,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <span class="col-md-6"><b>Income Expenditure Schedule</b></span>
+                        <span class="col-md-6"><b>Income Expenditure Schedule <b class="text-danger">*</b></b></span>
                         <button (click)="ies_pdf1.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -402,10 +398,9 @@
                                         *ngIf="unauditResponse.provisional_data.inc_exp_schedules.pdfName">
                                         {{unauditResponse.provisional_data.inc_exp_schedules.pdfName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="unauditResponse.provisional_data.inc_exp_schedules.progress"
-                                        role="progressbar"
+                                <div *ngIf="unauditResponse.provisional_data.inc_exp_schedules.progress"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ unauditResponse.provisional_data.inc_exp_schedules.progress }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: unauditResponse.provisional_data.inc_exp_schedules.progress + '%' }">
@@ -451,10 +446,9 @@
                                         *ngIf="unauditResponse.provisional_data.inc_exp_schedules.excelName">
                                         {{unauditResponse.provisional_data.inc_exp_schedules.excelName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="unauditResponse.provisional_data.inc_exp_schedules.progressExcel"
-                                        role="progressbar"
+                                <div *ngIf="unauditResponse.provisional_data.inc_exp_schedules.progressExcel"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ unauditResponse.provisional_data.inc_exp_schedules.progressExcel }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: unauditResponse.provisional_data.inc_exp_schedules.progressExcel + '%' }">
@@ -481,7 +475,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <span class="col-md-6"><b>Cash flow Statement</b></span>
+                        <span class="col-md-6"><b>Cash flow Statement <b class="text-danger">*</b></b></span>
                         <button (click)="cfs_pdf1.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -507,9 +501,9 @@
                                         *ngIf="unauditResponse.provisional_data.cash_flow.pdfName">
                                         {{unauditResponse.provisional_data.cash_flow.pdfName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="unauditResponse.provisional_data.cash_flow.progress" role="progressbar"
+                                <div *ngIf="unauditResponse.provisional_data.cash_flow.progress"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ unauditResponse.provisional_data.cash_flow.progress }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: unauditResponse.provisional_data.cash_flow.progress + '%' }">
@@ -555,10 +549,9 @@
                                         *ngIf="unauditResponse.provisional_data.cash_flow.excelName">
                                         {{unauditResponse.provisional_data.cash_flow.excelName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="unauditResponse.provisional_data.cash_flow.progressExcel"
-                                        role="progressbar"
+                                <div *ngIf="unauditResponse.provisional_data.cash_flow.progressExcel"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ unauditResponse.provisional_data.cash_flow.progressExcel }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: unauditResponse.provisional_data.cash_flow.progressExcel + '%' }">
@@ -616,8 +609,8 @@
                         No</span>
                 </div>
                 <div class="col-sm-12" *ngIf="quesTwoAnswer">
-                    <div class="col-sm-2 center">
-                        <a class="allBtn btn btn2"
+                    <div class="col-sm-2 center" style="padding: 0;">
+                        <a class="btn btn22"
                             href="https://docs.google.com/spreadsheets/d/1AHflpVjDKERShznDaaxf1BYHWK-Xd7pQ/edit#gid=839498159"
                             target="_blank">
                             Download Template
@@ -625,7 +618,7 @@
                     </div>
 
                     <div class="col-sm-2 center">
-                        <button (click)="ques21.click()" class="allBtn btn btn2" [disabled]="isDisabled">Upload EXCEL
+                        <button (click)="ques21.click()" class="btn btn2" [disabled]="isDisabled">Upload EXCEL
                             <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                                 data-height="16"></span>
                         </button>
@@ -652,10 +645,9 @@
                                         *ngIf="unauditResponse.standardized_data.upload.excelName">
                                         {{unauditResponse.standardized_data.upload.excelName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="unauditResponse.standardized_data.upload.progressExcel"
-                                        role="progressbar"
+                                <div *ngIf="unauditResponse.standardized_data.upload.progressExcel"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ unauditResponse.standardized_data.upload.progressExcel }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: unauditResponse.standardized_data.upload.progressExcel + '%' }">
@@ -729,7 +721,7 @@
                 </div>
                 <div *ngIf="quesOneAnswer1" class="row center">
                     <div class="col-md-12">
-                        <span class="col-md-6"><b>Balance Sheet.</b></span>
+                        <span class="col-md-6"><b>Balance Sheet <b class="text-danger">*</b></b></span>
                         <button (click)="bs_pdf1.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -754,9 +746,9 @@
                                         *ngIf="auditResponse.provisional_data.bal_sheet.pdfName">
                                         {{auditResponse.provisional_data.bal_sheet.pdfName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.bal_sheet.progress"
-                                        role="progressbar"
+                                <div *ngIf="auditResponse.provisional_data.bal_sheet.progress"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ auditResponse.provisional_data.bal_sheet.progress }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: auditResponse.provisional_data.bal_sheet.progress + '%' }">
@@ -801,10 +793,9 @@
                                         *ngIf="auditResponse.provisional_data.bal_sheet.excelName">
                                         {{auditResponse.provisional_data.bal_sheet.excelName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="auditResponse.provisional_data.bal_sheet.progressExcel"
-                                        role="progressbar"
+                                <div *ngIf="auditResponse.provisional_data.bal_sheet.progressExcel"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ auditResponse.provisional_data.bal_sheet.progressExcel }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: auditResponse.provisional_data.bal_sheet.progressExcel + '%' }">
@@ -831,7 +822,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <span class="col-md-6"><b>Balance Sheet Schedule</b></span>
+                        <span class="col-md-6"><b>Balance Sheet Schedule <b class="text-danger">*</b></b></span>
                         <button (click)="bss_pdf.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -858,10 +849,9 @@
                                         *ngIf="auditResponse.provisional_data.bal_sheet_schedules.pdfName">
                                         {{auditResponse.provisional_data.bal_sheet_schedules.pdfName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="auditResponse.provisional_data.bal_sheet_schedules.progress"
-                                        role="progressbar"
+                                <div *ngIf="auditResponse.provisional_data.bal_sheet_schedules.progress"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ auditResponse.provisional_data.bal_sheet_schedules.progress }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: auditResponse.provisional_data.bal_sheet_schedules.progress + '%' }">
@@ -907,10 +897,9 @@
                                         *ngIf="auditResponse.provisional_data.bal_sheet_schedules.excelName">
                                         {{auditResponse.provisional_data.bal_sheet_schedules.excelName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="auditResponse.provisional_data.bal_sheet_schedules.progressExcel"
-                                        role="progressbar"
+                                <div *ngIf="auditResponse.provisional_data.bal_sheet_schedules.progressExcel"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ auditResponse.provisional_data.bal_sheet_schedules.progressExcel }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: auditResponse.provisional_data.bal_sheet_schedules.progressExcel + '%' }">
@@ -937,7 +926,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <span class="col-md-6"><b>Income Expenditure</b></span>
+                        <span class="col-md-6"><b>Income Expenditure <b class="text-danger">*</b></b></span>
                         <button (click)="ie_pdf.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -964,9 +953,9 @@
                                         *ngIf="auditResponse.provisional_data.inc_exp.pdfName">
                                         {{auditResponse.provisional_data.inc_exp.pdfName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.inc_exp.progress"
-                                        role="progressbar"
+                                <div *ngIf="auditResponse.provisional_data.inc_exp.progress"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ auditResponse.provisional_data.inc_exp.progress }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: auditResponse.provisional_data.inc_exp.progress + '%' }">
@@ -1011,9 +1000,9 @@
                                         *ngIf="auditResponse.provisional_data.inc_exp.excelName">
                                         {{auditResponse.provisional_data.inc_exp.excelName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="auditResponse.provisional_data.inc_exp.progressExcel" role="progressbar"
+                                <div *ngIf="auditResponse.provisional_data.inc_exp.progressExcel"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ auditResponse.provisional_data.inc_exp.progressExcel }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: auditResponse.provisional_data.inc_exp.progressExcel + '%' }">
@@ -1039,7 +1028,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <span class="col-md-6"><b>Income Expenditure Schedule</b></span>
+                        <span class="col-md-6"><b>Income Expenditure Schedule <b class="text-danger">*</b></b></span>
                         <button (click)="ies_pdf.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -1066,10 +1055,9 @@
                                         *ngIf="auditResponse.provisional_data.inc_exp_schedules.pdfName">
                                         {{auditResponse.provisional_data.inc_exp_schedules.pdfName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="auditResponse.provisional_data.inc_exp_schedules.progress"
-                                        role="progressbar"
+                                <div *ngIf="auditResponse.provisional_data.inc_exp_schedules.progress"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ auditResponse.provisional_data.inc_exp_schedules.progress }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: auditResponse.provisional_data.inc_exp_schedules.progress + '%' }">
@@ -1115,10 +1103,9 @@
                                         *ngIf="auditResponse.provisional_data.inc_exp_schedules.excelName">
                                         {{auditResponse.provisional_data.inc_exp_schedules.excelName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="auditResponse.provisional_data.inc_exp_schedules.progressExcel"
-                                        role="progressbar"
+                                <div *ngIf="auditResponse.provisional_data.inc_exp_schedules.progressExcel"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ auditResponse.provisional_data.inc_exp_schedules.progressExcel }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: auditResponse.provisional_data.inc_exp_schedules.progressExcel + '%' }">
@@ -1145,7 +1132,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <span class="col-md-6"><b>Cash flow Statement</b></span>
+                        <span class="col-md-6"><b>Cash flow Statement <b class="text-danger">*</b></b></span>
                         <button (click)="cfs_pdf.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -1171,9 +1158,9 @@
                                         *ngIf="auditResponse.provisional_data.cash_flow.pdfName">
                                         {{auditResponse.provisional_data.cash_flow.pdfName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="auditResponse.provisional_data.cash_flow.progress"
-                                        role="progressbar"
+                                <div *ngIf="auditResponse.provisional_data.cash_flow.progress"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ auditResponse.provisional_data.cash_flow.progress }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: auditResponse.provisional_data.cash_flow.progress + '%' }">
@@ -1218,10 +1205,9 @@
                                         *ngIf="auditResponse.provisional_data.cash_flow.excelName">
                                         {{auditResponse.provisional_data.cash_flow.excelName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="auditResponse.provisional_data.cash_flow.progressExcel"
-                                        role="progressbar"
+                                <div *ngIf="auditResponse.provisional_data.cash_flow.progressExcel"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ auditResponse.provisional_data.cash_flow.progressExcel }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: auditResponse.provisional_data.cash_flow.progressExcel + '%' }">
@@ -1248,7 +1234,7 @@
                         </div>
                     </div>
                     <div *ngIf="audit_status == 'Audited' " class="col-md-12">
-                        <span class="col-md-6"><b>Auditor Report</b></span>
+                        <span class="col-md-6"><b>Auditor Report <b class="text-danger">*</b></b> </span>
                         <button (click)="ar_pdf.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -1256,16 +1242,6 @@
                         <input #ar_pdf style="display: none;" onclick="this.value=null;" [disabled]="isDisabled"
                             (change)="fileChangeEvent($event,'auditResponse.provisional_data.auditor_report.progress','auditResponse.provisional_data.auditor_report.pdfName',true)"
                             type="file" accept=".pdf" #file>
-
-                        <button (click)="ar_excel.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload
-                            EXCEL
-                            <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
-                                data-height="16"></span>
-                        </button>
-                        <input #ar_excel style="display: none;" onclick="this.value=null;"
-                            (change)="fileChangeEvent($event,'auditResponse.provisional_data.auditor_report.progressExcel','auditResponse.provisional_data.auditor_report.excelName')"
-                            type="file" accept=".xls, .xlsx" #file>
-
                     </div>
                     <div class="row allupload">
                         <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
@@ -1275,10 +1251,9 @@
                                         *ngIf="auditResponse.provisional_data.auditor_report.pdfName">
                                         {{auditResponse.provisional_data.auditor_report.pdfName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="auditResponse.provisional_data.auditor_report.progress"
-                                        role="progressbar"
+                                <div *ngIf="auditResponse.provisional_data.auditor_report.progress"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ auditResponse.provisional_data.auditor_report.progress }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: auditResponse.provisional_data.auditor_report.progress + '%' }">
@@ -1315,44 +1290,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="row allupload">
-                        <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
-                            <div class="row">
-                                <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;"
-                                        *ngIf="auditResponse.provisional_data.auditor_report.excelName">
-                                        {{auditResponse.provisional_data.auditor_report.excelName}}</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="auditResponse.provisional_data.auditor_report.progressExcel"
-                                        role="progressbar"
-                                        attr.aria-valuenow="{{ auditResponse.provisional_data.auditor_report.progressExcel }}"
-                                        aria-valuemin="0" aria-valuemax="100"
-                                        [ngStyle]="{ width: auditResponse.provisional_data.auditor_report.progressExcel + '%' }">
-                                        {{ auditResponse.provisional_data.auditor_report.progressExcel }}%
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.auditor_report.excelUrl">
-                                        <a href="{{ auditResponse.provisional_data.auditor_report.excelUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.auditor_report')"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
-                                    </ng-container>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1384,15 +1321,15 @@
                         No</span>
                 </div>
                 <div class="col-sm-12" *ngIf="quesTwoAnswer1">
-                    <div class="col-sm-2 center">
-                        <a class="allBtn btn btn2"
+                    <div class="col-sm-2 center" style="padding: 0;">
+                        <a class="btn btn22"
                             href="https://docs.google.com/spreadsheets/d/1AHflpVjDKERShznDaaxf1BYHWK-Xd7pQ/edit#gid=839498159"
                             target="_blank">
                             Download Template
                         </a>
                     </div>
                     <div class="col-sm-2 center">
-                        <button (click)="ques2.click()" class="allBtn btn btn2" [disabled]="isDisabled">Upload EXCEL
+                        <button (click)="ques2.click()" class="btn btn2" [disabled]="isDisabled">Upload EXCEL
                             <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                                 data-height="16"></span>
                         </button>
@@ -1419,9 +1356,9 @@
                                         *ngIf="auditResponse.standardized_data.upload.excelName">
                                         {{auditResponse.standardized_data.upload.excelName}}</label>
                                 </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar"
-                                        *ngIf="auditResponse.standardized_data.upload.progressExcel" role="progressbar"
+                                <div *ngIf="auditResponse.standardized_data.upload.progressExcel"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
                                         attr.aria-valuenow="{{ auditResponse.standardized_data.upload.progressExcel }}"
                                         aria-valuemin="0" aria-valuemax="100"
                                         [ngStyle]="{ width: auditResponse.standardized_data.upload.progressExcel + '%' }">
