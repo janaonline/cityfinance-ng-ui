@@ -54,9 +54,14 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   account = '';
   linked = '';
   routerNavigate = null
-
+  isDisabled = false;
   ngOnInit() {
-    this.onLoad();
+    let ulb_id = sessionStorage.getItem('ulb_id');
+    if (ulb_id != null) {
+      this.isDisabled = true;
+    }
+    this.onLoad(ulb_id);
+
     sessionStorage.setItem("changeInPFMSAccount", "false");
   }
   Years = JSON.parse(localStorage.getItem("Years"));
@@ -147,8 +152,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
   }
 
-  onLoad() {
-    this.LinkPFMSAccount.getData(this.Years["2021-22"])
+  onLoad(ulb_id) {
+    this.LinkPFMSAccount.getData(this.Years["2021-22"], ulb_id)
       .subscribe((res) => {
         console.log(res);
         this.receivedData = res;
