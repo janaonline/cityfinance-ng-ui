@@ -1,30 +1,41 @@
 <div col-sm-12 mb-2>
-    <h3 style="position: relative; text-align: center">
-        <span class="col-sm-6 text-left">{{slbTitleText}}</span>
-        <span class="col-sm-2" *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
-        ULB: {{ financialData?.ulbName }}</span
-      >
-      
-      <button
-        [style.position]="
-          loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
-        "
-        style="right: 0px; float: right; margin-right: 2.5%; outline: none"
-        class="btn btn-primary btn-upload"
-        (click)="showPreview()"
-      >
-        Preview
-      </button>
-    </h3>
-  </div>
-<app-fc-slb
-      [form]="waterWasteManagementForm"
-      (outputValues)="onWaterWasteManagementEmitValue($event)"
-      [waterPotability]="waterPotability"
-    ></app-fc-slb>
+  <h3 style="position: relative; text-align: center">
+    <span class="col-sm-6 text-left">{{slbTitleText}}</span>
+    <span class="col-sm-2" *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
+      ULB: {{ financialData?.ulbName }}</span>
 
-    <ng-template #previewPopup>
-        <app-preview-slb-component
-          [data]="previewData"
-        ></app-preview-slb-component>
-      </ng-template>
+    <button [style.position]="
+          loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
+        " style="right: 0px; float: right; margin-right: 2.5%; outline: none" class="btn btn-primary btn-upload"
+      (click)="showPreview()">
+      Preview
+    </button>
+  </h3>
+</div>
+<app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)"
+  [waterPotability]="waterPotability"></app-fc-slb>
+
+<ng-template #previewPopup>
+  <app-preview-slb-component [data]="previewData"></app-preview-slb-component>
+</ng-template>
+<ng-template #template>
+  <div class="modal-body text-center">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+      <div class="text-right">
+        <a (click)="alertClose()">
+          <img src="../../../../assets/form-icon/close-red-icon.png">
+        </a>
+      </div>
+    </div>
+
+    <p style="margin-top: 8px;">
+      Some information is pending in this form.<br> Are you sure you want to proceed to next form?
+    </p>
+    <div>
+      <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+      <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Proceed</button>
+    </div>
+
+  </div>
+</ng-template>

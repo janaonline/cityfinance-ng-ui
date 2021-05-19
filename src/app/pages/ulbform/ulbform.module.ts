@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UlbformRoutingModule } from './ulbform-routing.module';
 import { UtilisationReportComponent } from './utilisation-report/utilisation-report.component';
@@ -32,7 +32,7 @@ import { AnnualAccountsComponent } from './annual-accounts/annual-accounts.compo
 import { UlbformPreviewComponent } from './ulbform-preview/ulbform-preview.component';
 import { PfmsPreviewComponent } from './link-pfms/pfms-preview/pfms-preview.component';
 import { WaterSanitationPreviewComponent } from './water-sanitation/water-sanitation-preview/water-sanitation-preview.component';
-import {PlanGuardGuard } from './water-sanitation/plan-guard.guard'
+import { PlanGuardGuard } from './water-sanitation/plan-guard.guard'
 import { SlbsGaurdGuard } from './slbs/slbs-gaurd.guard';
 import { AnnualPreviewComponent } from './annual-accounts/annual-preview/annual-preview.component';
 import { ServiceSlbsComponent } from './service-slbs/service-slbs.component';
@@ -41,25 +41,26 @@ import { ServiceSlbsComponent } from './service-slbs/service-slbs.component';
 @NgModule({
   entryComponents: [PreviewUtiFormComponent, ImagePreviewComponent],
   declarations: [
-     UtilisationReportComponent,
-     UlbformComponent,
-     PreviewUtiFormComponent,
-     WaterSanitationComponent,
-     TwoDigitDecimaNumberDirective,
-     SixDigitDecimaNumberDirective,
-     GrantTraCertiComponent,
-     ImagePreviewComponent,
-     SlbsComponent,
-     OverviewComponent,
-     PreviewSlbComponentComponent,
-     LinkPFMSComponent,
-     AnnualAccountsComponent,
-     UlbformPreviewComponent,
-     PfmsPreviewComponent,
-     WaterSanitationPreviewComponent,
-     AnnualPreviewComponent,
-     ServiceSlbsComponent
-    ],
+    UtilisationReportComponent,
+    UlbformComponent,
+    PreviewUtiFormComponent,
+    WaterSanitationComponent,
+    TwoDigitDecimaNumberDirective,
+    SixDigitDecimaNumberDirective,
+    GrantTraCertiComponent,
+    ImagePreviewComponent,
+    SlbsComponent,
+    OverviewComponent,
+    PreviewSlbComponentComponent,
+    LinkPFMSComponent,
+    AnnualAccountsComponent,
+    UlbformPreviewComponent,
+    PfmsPreviewComponent,
+    WaterSanitationPreviewComponent,
+    AnnualPreviewComponent,
+    ServiceSlbsComponent,
+
+  ],
   imports: [
     CommonModule,
     UlbformRoutingModule,
@@ -70,11 +71,11 @@ import { ServiceSlbsComponent } from './service-slbs/service-slbs.component';
     MatDialogModule,
     ReactiveFormsModule,
     HttpClientModule,
+
     SharedModule,
     MatTooltipModule,
     ModalModule.forRoot(),
     TooltipModule.forRoot()
-
 
   ],
   providers: [PlanGuardGuard]
