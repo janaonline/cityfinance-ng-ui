@@ -31,7 +31,8 @@ import { MapDialogComponent } from "../../../shared/components/map-dialog/map-di
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { UlbformService } from "../ulbform.service";
 import { NavigationStart } from "@angular/router";
-import swal from "sweetalert";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: "app-utilisation-report",

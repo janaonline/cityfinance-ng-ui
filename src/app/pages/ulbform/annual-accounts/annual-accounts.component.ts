@@ -18,6 +18,7 @@ import { Router, Event } from "@angular/router";
 import { NavigationStart } from "@angular/router";
 const swal: SweetAlert = require("sweetalert");
 
+
 @Component({
   selector: "app-annual-accounts",
   templateUrl: "./annual-accounts.component.html",
@@ -253,7 +254,7 @@ export class AnnualAccountsComponent implements OnInit {
     this.onLoad();
     sessionStorage.setItem("canNavigate", "true");
   }
-  
+
   navigationCheck(){
     this._router.events.subscribe(async (event: Event) => {
       if (event instanceof NavigationStart) {

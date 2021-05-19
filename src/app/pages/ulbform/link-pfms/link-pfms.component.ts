@@ -9,7 +9,10 @@ import { USER_TYPE } from "src/app/models/user/userType";
 import { MatDialog } from "@angular/material/dialog";
 import { PfmsPreviewComponent } from "./pfms-preview/pfms-preview.component";
 import { UlbformService } from "../ulbform.service";
-import swal from "sweetalert";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
+
+
 @Component({
   selector: "app-link-pfms",
   templateUrl: "./link-pfms.component.html",
