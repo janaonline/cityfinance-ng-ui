@@ -24,7 +24,7 @@ export class UlbformPreviewComponent implements OnInit {
     public linkPFMSAccount: LinkPFMSAccount,
     public waterSanitationService: WaterSanitationService,
     public annualAccountsService: AnnualAccountsService,
-    
+
     private UtiReportService: UtiReportService,
     private _questionnaireService: QuestionnaireService,private _matDialog: MatDialog
   ) {
@@ -58,12 +58,11 @@ export class UlbformPreviewComponent implements OnInit {
     height: 60px;
     text-align: center;
 }
-
 .heading-p {
     color: #FFFFFF;
-    font-size: 22px;
-    padding-top: 1rem;
-    margin-top: 1rem;
+    font-size: .9rem;
+    padding-top: 1.5rem !important;
+    font-weight: 700;
 
 }
 
@@ -75,11 +74,25 @@ export class UlbformPreviewComponent implements OnInit {
 .qus-h {
     margin-bottom: 2rem;
     margin-top: 2rem;
+    font-size: 10px;
 }
 
 .ans-h {
     margin-bottom: 2rem;
     margin-top: 2rem;
+    font-size: 10px;
+}
+
+.qus-h-an {
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  font-size: 10px;
+}
+
+.ans-h-an {
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  font-size: 10px;
 }
 .m-h{
   text-align: center;
@@ -94,12 +107,6 @@ export class UlbformPreviewComponent implements OnInit {
   padding-left: 0;
   padding-right: 0;
 }
-
-.header {
-  height: 90px;
-  text-align: center;
-  background-color: #047474;
-}
 .header{
 word-break: break-all;
 }
@@ -112,11 +119,11 @@ padding: 5px 1px !important;
 
 .header {
 background-color: #047474;
-height: 50px;
 display: inline-block;
 color: #FFFFFF;
 text-align: center;
-font-weight:
+font-weight: 500;
+height: 60px;
 }
 .mat-dialog-content {
 padding: 0 0 0 0;
@@ -127,8 +134,9 @@ max-height: 100vw;
 padding: 2px 2px;
 font-size: 12px !important;
 font-family: Roboto;
-font-weight: normal;
+font-weight: 500;
 display: inline-block;
+margin-top: 1rem;
 }
 .listitem_grantYear {
 display: inline-block;
@@ -139,7 +147,8 @@ color: #3D3D3D;
 margin-left: 10px;
 background-color: #E5E6E6;
 border-radius: 3px;
-padding: 4px;
+padding: 2px;
+margin-top: 1rem;
 }
 .listitem_subHead {
 margin-top: 5px;
@@ -149,6 +158,50 @@ font-family: Roboto;
 padding: 2px 2px;
 display: inline-block;
 }
+.h-ut{
+font-size: 12px;
+padding-bottom: 2px;
+}
+.qus-ut-s {
+font-size: 12px;
+margin-left: .9rem;
+}
+.qus-ut-u {
+font-size: 12px;
+margin-left: 1rem;
+}
+.qus-ut-t {
+font-size: 12px;
+margin-left: 1rem;
+}
+.pp {
+margin-top: .5rem !important;
+}
+.ans-ut-s {
+font-size: 12px;
+margin-left: 5.5rem;
+}
+.ans-ut-u {
+font-size: 12px;
+margin-left: 1.4rem;
+}
+.ans-ut-t {
+font-size: 12px;
+margin-left: 5rem;
+}
+.ans-ut-a {
+margin-left: 7.8rem;
+}
+.ans-ut-b {
+margin-left: 8.2rem;
+}
+.ans-ut-c {
+margin-left: 7.6rem;
+}
+.ans-ut-l{
+margin-left: 1rem;
+}
+
 .dnDiv {
 margin-top: 10px;
 margin-right: 5%;
@@ -168,25 +221,15 @@ padding: 0;
 .mat-card2 {
 padding: 5px 2px;
 margin-top: 10px;
-// margin: 10px 40px;
 background-color: #EBF5F5;
 display: block;
 }
-.card2 {
-width: 50%;
-font-weight: normal;
-padding: 2px 5px;
-}
+
 .crd-ls-div {
 margin-bottom: 15px;
 }
 .c-2-d {
 margin-left: 15px;
-}
-.card3 {
-width: 50%;
-font-weight: 500;
-padding: 2px 5px;
 }
 label {
 font-weight: normal;
@@ -697,10 +740,10 @@ h6 {
 
   detailUtilData() {
     return new Promise((resolve, reject) => {
-      
+
       this.utiReportService.fetchPosts(this.designYear, this.financialYear, null).subscribe(
         (res) => {
-          
+
           res["projects"].forEach((element) => {
             element.category = this.categories[element.category];
           });
@@ -719,7 +762,7 @@ h6 {
           resolve("Success");
         },
         (err) => {
-          
+
           this.detailUtil = this.detailUtilError;
           resolve("Success");
         }

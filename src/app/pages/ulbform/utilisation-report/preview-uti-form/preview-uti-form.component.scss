@@ -1,9 +1,10 @@
 .header {
     background-color: #047474;
-    height: 120px;
+    height: 96px;
     display: inline-block;
     color: #FFFFFF;
-    text-align: center;
+    width: 93%;
+    margin-left: 4%;
 }
 
 .mat-dialog-content {
@@ -13,7 +14,6 @@
 }
 
 .listitem_head {
-    padding: 2px 2px;
     font-size: 22px !important;
     font-family: Roboto;
     font-weight: normal;
@@ -50,11 +50,6 @@
     font-weight: normal;
 }
 
-.card2Div {
-    margin-top: 5px;
-    padding: 2px 2px;
-}
-
 .mat-dialog-container {
     padding: 0;
 }
@@ -68,11 +63,19 @@
 .card2 {
     width: 50%;
     font-weight: normal;
-    padding: 2px 5px;
+}
+
+.h-ut {
+    font-size: 16px;
 }
 
 .crd-ls-div {
     margin-bottom: 15px;
+}
+
+.mat-card>:first-child,
+.mat-card-content>:first-child {
+    margin-top: 2rem;
 }
 
 .c-2-d {
@@ -82,7 +85,6 @@
 .card3 {
     width: 50%;
     font-weight: 500;
-    padding: 2px 5px;
 }
 
 label {

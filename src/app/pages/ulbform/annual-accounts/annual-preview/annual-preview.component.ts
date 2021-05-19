@@ -18,30 +18,43 @@ export class AnnualPreviewComponent implements OnInit {
   styleForPDF=`<style>
   .header-p {
     background-color: #047474;
-    height: 100px;
+    height: 70px;
     text-align: center;
 }
-
 .heading-p {
     color: #FFFFFF;
-    font-size: 22px;
-    margin-top: 2rem;
+    font-size: 18px;
+    padding-top: 1.5rem !important;
+
 }
 
 .card {
     padding: 5px 10px;
-    // margin: 10px 40px;
     background-color: #EBF5F5;
 }
 
-.qus-h {
-    margin-bottom: 1rem;
-    margin-top: 1rem;
+.qus-h-an {
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    font-size: 10px;
 }
 
-.ans-h {
-    margin-bottom: 1rem;
-    margin-top: 1rem;
+.ans-h-an {
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    font-size: 10px;
+}
+@media print {
+  .page-break {
+      page-break-before: always;
+  }
+}
+.h-font {
+  display: inline-block;
+  font-size: 14px;
+}
+.f-r {
+  margin-left: 30px;
 }
 .hi{
   display:none
