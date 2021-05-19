@@ -1,5 +1,5 @@
 <mat-dialog-content style="margin-top: 0;" id="previewUti" #previewUti>
-    <div class="row header" style="text-align: center; padding: 5px 5px;display: block;">
+    <div class="row header" style="text-align: center; display: block;">
         <div *ngIf="!parentData" class="text-right pdf-hide">
             <a mat-dialog-close style="margin-right: 4%;">
                 <mat-icon aria-hidden="false">
@@ -23,43 +23,50 @@
             <label for="" class="card2 qus-ut-s pp">1. State Name</label>
             <label for="" class="card2 ans-ut-s pp">{{data.state_name}} </label>
         </div>
+        <br>
         <div>
             <label for="" class="card2 qus-ut-u pp">2. Name of MPC/UA/NMPC</label>
             <label for="" class="card2 ans-ut-u pp">{{data.ulbName}}  </label>
         </div>
+        <br>
         <div>
             <label for="" class="card2 qus-ut-t pp">3. Type of grant</label>
             <label for="" class="card2 ans-ut-t pp">{{data.grntType}}  </label>
         </div>
-
+        <br>
     </mat-card>
     <mat-card class="mat-card2">
-        <div class="row card2Div">
+        <div class="row card2Div" style="margin: 0;">
             <div class="h-ut">4. 15th FC Tied Grant Position during the year :</div>
         </div>
+        <br>
         <div class="c-2-d">
             <label for="" class="card2 qus-ut-a"> (i) Unutilized from previous installments(INR in lakhs) </label>
             <label for="" class="card2 ans-ut-a">{{data.grantPosition.unUtilizedPrevYr}} </label>
         </div>
+        <br>
         <div class="c-2-d">
             <label for="" class="card2 qus-ut-b">(ii) Tied Grant received during the year(INR in lakhs) </label>
             <label for="" class="card2 ans-ut-b">{{data.grantPosition.receivedDuringYr}}  </label>
         </div>
+        <br>
         <div class="c-2-d">
             <label for="" class="card2 qus-ut-c"> (iii) Expenditure incurred during the year(INR in lakhs) </label>
             <label for="" class="card2 ans-ut-c">{{data.grantPosition.expDuringYr}}  </label>
         </div>
+        <br>
         <div class="crd-ls-div c-2-d">
             <label for="" class="card3 qus-ut-l"> <b>(vi) Closing balance at the end of year(INR in lakhs) (2(i)+2(ii)-2(iii))</b> </label>
             <label for="" class="card3 ans-ut-l"> <b>{{data.grantPosition.closingBal}} </b>  </label>
         </div>
+        <br>
 
     </mat-card>
     <mat-card class="mat-card2">
-        <div class="row card2Div">
+        <div class="row card2Div" style="margin: 0;">
             <div class="h-ut">5. Component Wise Utilization of Tied grants (break-up of expenditure incurred in 2(iii) :</div>
         </div>
-
+        <br>
         <table class="table table-striped">
             <thead>
                 <tr class="thHeader">

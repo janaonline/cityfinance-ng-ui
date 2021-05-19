@@ -27,16 +27,6 @@ export class PreviewUtiFormComponent implements OnInit {
     private _matDialog: MatDialog
   ) {}
   styleForPDF = `<style>
-  .cont {
-    width: 794px;
-    background-color: #FFFFFF;
-    display: inline-block;
-}
-
-.container {
-    padding-left: 0;
-    padding-right: 0;
-}
 .header{
   word-break: break-all;
 }
@@ -53,7 +43,7 @@ td, th{
   color: #FFFFFF;
   text-align: center;
   font-weight: 500;
-  height: 70px;
+  height: 66px;
 }
 .mat-dialog-content {
   padding: 0 0 0 0;
@@ -66,7 +56,7 @@ td, th{
   font-family: Roboto;
   font-weight: 500;
   display: inline-block;
-  margin-top: 1rem;
+  margin-top: 1.4rem;
 }
 .listitem_grantYear {
   display: inline-block;
