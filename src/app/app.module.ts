@@ -36,6 +36,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { ClickOutsideModule } from 'ng-click-outside';
+
 @NgModule({
   entryComponents: [DialogComponent],
   imports: [
@@ -86,6 +87,7 @@ import { ClickOutsideModule } from 'ng-click-outside';
     MapSectionComponent,
     HeatMapComponent,
     UlbNotRegisteredComponent,
+
     // InrCurrencyPipe,
   ],
   exports: [],

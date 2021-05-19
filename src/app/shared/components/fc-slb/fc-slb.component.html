@@ -60,6 +60,7 @@
                 '2021'
               ]?.errors as error
             ">
+
               <span *ngIf="error.pattern">
                 Only numeric values with 2 decimals digit are allowed and must be
                 greater than or equal to 0.
@@ -78,7 +79,7 @@
                 onBlur(
                   form.controls[service.key]['controls']['target'].controls[
                     year.key
-                  ], form.controls[service.key].controls['target'], year.key
+                  ], form.controls[service.key].controls['target'], year.key, service.key
                 );
               " (mouseover)="setFocusTarget(service.key+year.key)" [id]="service.key + year.key" type="text"
                 class="form-control" [formControlName]="year.key" [ngClass]="{
@@ -103,11 +104,24 @@
                 year.key
               ]?.errors as error
             ">
-              <span *ngIf="error.pattern">
-                Only numeric values with 2 decimals digit are allowed and must be
-                greater than or equal to 0.
-              </span>
-              <span *ngIf="error.max"> {{ error.max }} </span></span>
+
+              <ng-container *ngIf="error.pattern || error.max ">
+                <span *ngIf="error.pattern">
+                  Only numeric values with 2 decimals digit are allowed and must be
+                  greater than or equal to 0.
+                </span>
+                <span *ngIf="error.max"> {{ error.max }} </span>
+              </ng-container>
+            </span>
+            <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
+            year.key
+            ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
+            year.key
+            ]?.errors == null">Value must be greater than
+              {{previousValue}}
+              and less than
+              {{afterValue}}
+            </span>
           </td>
           <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
             <div class="actions" [ngClass]="{
@@ -236,7 +250,7 @@
                 onBlur(
                   form.controls[service.key]['controls']['target'].controls[
                     year.key
-                  ], form.controls[service.key].controls['target'], year.key, false
+                  ], form.controls[service.key].controls['target'], year.key, service.key,false 
                 )
               " (mouseover)="setFocusTarget(service.key+year.key)" [id]="service.key + year.key" type="text"
                 class="form-control" [formControlName]="year.key" [ngClass]="{
@@ -261,11 +275,23 @@
                 year.key
               ]?.errors as error
             ">
-              <span *ngIf="error.pattern">
-                Only numeric values with 2 decimals digit are allowed and must be
-                greater than or equal to 0.
-              </span>
-              <span *ngIf="error.max"> {{ error.max }} </span></span>
+              <ng-container *ngIf="error.pattern || error.max ">
+                <span *ngIf="error.pattern">
+                  Only numeric values with 2 decimals digit are allowed and must be
+                  greater than or equal to 0.
+                </span>
+                <span *ngIf="error.max"> {{ error.max }} </span>
+              </ng-container>
+            </span>
+            <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
+            year.key
+            ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
+            year.key
+            ]?.errors == null">Value must be less than
+              {{previousValue}}
+              and greater than
+              {{afterValue}}
+            </span>
           </td>
           <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
             <div class="actions" [ngClass]="{
@@ -394,7 +420,7 @@
                 onBlur(
                   form.controls[service.key]['controls']['target'].controls[
                     year.key
-                  ], form.controls[service.key].controls['target'], year.key
+                  ], form.controls[service.key].controls['target'], year.key, service.key
                 )
               " (mouseover)="setFocusTarget(service.key+year.key)" [id]="service.key + year.key" type="text"
                 class="form-control" [formControlName]="year.key" [ngClass]="{
@@ -412,20 +438,29 @@
                 </em></span>
             </div>
             <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] &&
-              !form.controls[service.key]['controls']['target'].controls[
-                year.key
-              ]?.errors?.required &&
-              form.controls[service.key]['controls']['target'].controls[
-                year.key
-              ]?.errors as error
+             form.controls[service.key]['controls']['target'].controls[
+            year.key
+          ]?.errors  && 
+          form.controls[service.key]['controls']['target'].controls[
+            year.key
+          ]?.errors as error 
             ">
-              <span *ngIf="error.pattern">
-                Only numeric values with 2 decimals digit are allowed and must be
-                greater than or equal to 0.
-              </span>
-              <span *ngIf="error.max"> {{ error.max }} </span></span>
-            <span *ngIf="error">
-              Value is not in increasing manner
+              <ng-container *ngIf="error.pattern || error.max">
+                <span *ngIf="error.pattern">
+                  Only numeric values with 2 decimals digit are allowed and must be
+                  greater than or equal to 0.
+                </span>
+                <span *ngIf="error.max"> {{ error.max }} </span>
+              </ng-container>
+            </span>
+            <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
+            year.key
+            ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
+            year.key
+            ]?.errors == null">Value must be less than
+              {{previousValue}}
+              and greater than
+              {{afterValue}}
             </span>
           </td>
           <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
@@ -555,7 +590,7 @@
                 onBlur(
                   form.controls[service.key]['controls']['target'].controls[
                     year.key
-                  ], form.controls[service.key].controls['target'], year.key
+                  ], form.controls[service.key].controls['target'], year.key, service.key
                 )
               " (mouseover)="setFocusTarget(service.key+year.key)" [id]="service.key + year.key" type="text"
                 class="form-control" [formControlName]="year.key" [ngClass]="{
@@ -572,21 +607,32 @@
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                 </em></span>
             </div>
-            <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] &&
-              !form.controls[service.key]['controls']['target'].controls[
-                year.key
-              ]?.errors?.required &&
-              form.controls[service.key]['controls']['target'].controls[
-                year.key
-              ]?.errors as error
-            ">
-              <span *ngIf="error.pattern">
+            <span class=" error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
+            year.key
+          ]?.errors  && 
+          form.controls[service.key]['controls']['target'].controls[
+            year.key
+          ]?.errors as error  ">
+              <ng-container *ngIf="error.pattern || error.max ">
+                <span *ngIf="error.pattern">
+                  Only numeric values with 2 decimals digit are allowed and must be
+                  greater than or equal to 0.
+                </span>
+                <!-- !error.patter !error.max error.hasOwn - msg -->
+                <span *ngIf="error.max"> {{ error.max }} </span>
+              </ng-container>
 
-                Only numeric values with 2 decimals digit are allowed and must be
-                greater than or equal to 0.
-              </span>
-              <!-- !error.patter !error.max error.hasOwn - msg -->
-              <span *ngIf="error.max"> {{ error.max }} </span></span>
+            </span>
+            <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
+            year.key
+            ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
+            year.key
+            ]?.errors == null">Value must be greater than
+              {{previousValue}}
+              and less than
+              {{afterValue}}
+            </span>
+
           </td>
           <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
             <div class="actions" [ngClass]="{

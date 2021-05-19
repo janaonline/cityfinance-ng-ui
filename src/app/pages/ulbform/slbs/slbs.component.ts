@@ -38,9 +38,10 @@ export class SlbsComponent implements OnInit {
         const change = sessionStorage.getItem("changeInSLB")
         if (change === "true" && this.routerNavigate === null) {
           this.routerNavigate = event
-          this.openModal(this.template);
+          console.log(this.template);
           const currentRoute = this._router.routerState;
           this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
+          this.openModal(this.template);
         }
       }
     });
@@ -174,10 +175,11 @@ export class SlbsComponent implements OnInit {
   }
 
   stay() {
+    this.modalRef.hide();
     if (this.routerNavigate) {
       this.routerNavigate = null
     }
-    this.modalRef.hide();
+
 
   }
 

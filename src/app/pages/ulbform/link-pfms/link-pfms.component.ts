@@ -40,9 +40,9 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         const change = sessionStorage.getItem("changeInPFMSAccount")
         if (change === "true" && this.routerNavigate === null) {
           this.routerNavigate = event
-          this.openModal(this.template);
           const currentRoute = this._router.routerState;
           this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
+          this.openModal(this.template);
         }
       }
     });
