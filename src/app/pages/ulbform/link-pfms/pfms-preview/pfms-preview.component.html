@@ -30,15 +30,16 @@
                             (A) Does the ULB have separate Account for 15th Finance Commission Grants?
                         </div>
                         <div class="col-sm-6 ans-h">
-                            {{data.account | uppercase}}
+                            {{data.account | titlecase }}
                         </div>
                     </div>
+                    <br>
                     <div class="row">
                         <div class="col-sm-6 qus-h">
                             (B) Has the ULB linked the account with PFMS?
                         </div>
                         <div class="col-sm-6 ans-h" *ngIf="data.linked != ''; else naDiv">
-                            {{data.linked | uppercase}}
+                            {{data.linked | titlecase }}
                         </div>
 
                         <ng-template #naDiv>

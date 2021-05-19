@@ -8,6 +8,7 @@ import { USER_TYPE } from "src/app/models/user/userType";
 import { MatDialog } from "@angular/material/dialog";
 import { PfmsPreviewComponent } from "./pfms-preview/pfms-preview.component";
 import { UlbformService } from "../ulbform.service";
+import swal from "sweetalert";
 @Component({
   selector: "app-link-pfms",
   templateUrl: "./link-pfms.component.html",
@@ -102,6 +103,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         status.pfmsAccount.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
         console.log(res);
+        swal("Record submitted successfully!")
       },
       (error) => {
         this.errMessage = error.message;
@@ -122,7 +124,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     }else if(this.account != '' || this.linked != ''){
     this.openModal(template);
     }else{
-      alert("Please select your answer");
+      swal("Please select your answer");
     }
 
     console.log("clicked");

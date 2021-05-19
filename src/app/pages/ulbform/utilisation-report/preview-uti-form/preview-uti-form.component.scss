@@ -1,10 +1,11 @@
 .header {
     background-color: #047474;
-    height: 96px;
+    height: 110px;
     display: inline-block;
     color: #FFFFFF;
     width: 93%;
     margin-left: 4%;
+    // margin-top: 2rem;
 }
 
 .mat-dialog-content {
@@ -16,8 +17,10 @@
 .listitem_head {
     font-size: 22px !important;
     font-family: Roboto;
-    font-weight: normal;
+    font-weight: 700;
     display: inline-block;
+    margin-top: 1.5rem;
+    white-space: break-spaces;
 }
 
 .listitem_grantYear {
@@ -30,6 +33,7 @@
     background-color: #E5E6E6;
     border-radius: 3px;
     padding: 4px;
+    font-size: 18px;
 }
 
 .listitem_subHead {
@@ -42,6 +46,11 @@
 .dnDiv {
     margin-top: 10px;
     margin-right: 5%;
+}
+
+.card2Div {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
 }
 
 .dnldBtn {
@@ -67,6 +76,14 @@
 
 .h-ut {
     font-size: 16px;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.h-ut-t {
+    font-size: 16px;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .crd-ls-div {
@@ -75,11 +92,12 @@
 
 .mat-card>:first-child,
 .mat-card-content>:first-child {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
 }
 
 .c-2-d {
     margin-left: 15px;
+    margin-bottom: 1rem;
 }
 
 .card3 {

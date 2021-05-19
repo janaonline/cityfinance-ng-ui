@@ -42,8 +42,7 @@ td, th{
   display: inline-block;
   color: #FFFFFF;
   text-align: center;
-  font-weight: 500;
-  height: 66px;
+  height: 90px;
 }
 .mat-dialog-content {
   padding: 0 0 0 0;
@@ -52,23 +51,26 @@ td, th{
 }
 .listitem_head {
   padding: 2px 2px;
-  font-size: 12px !important;
+  font-size: 17px !important;
   font-family: Roboto;
-  font-weight: 500;
+  font-weight: 700;
   display: inline-block;
   margin-top: 1.4rem;
+  white-space: break-spaces;
 }
 .listitem_grantYear {
+  font-size: 14px !important;
   display: inline-block;
-  font-weight: normal;
-  width: 50px !important;
-  height: 10px !important;
+  font-weight: 700;
+  width: 70px !important;
+  height: 15px !important;
   color: #3D3D3D;
   margin-left: 10px;
   background-color: #E5E6E6;
   border-radius: 3px;
-  padding: 2px;
-  margin-top: 1rem;
+  padding: 3px !important;
+  margin-top: .6rem;
+
 }
 .listitem_subHead {
   margin-top: 5px;
@@ -79,35 +81,44 @@ td, th{
   display: inline-block;
 }
 .h-ut{
-  font-size: 12px;
-  padding-bottom: 2px;
+  font-size: 10px !important;
+  margin-top: 1rem !important;
+  margin-bottom: .5rem !important;
+  margin-left: 1rem !important;
+}
+.h-ut-t{
+  font-size: 10px !important;
+  margin-top: 1rem !important;
+  margin-bottom: .5rem !important;
 }
 .qus-ut-s {
-  font-size: 12px;
+  font-size: 10px !important;
   margin-left: .9rem;
 }
 .qus-ut-u {
-  font-size: 12px;
+  font-size: 10px !important;
   margin-left: 1rem;
 }
 .qus-ut-t {
-  font-size: 12px;
+  font-size: 10px !important;
   margin-left: 1rem;
+  margin-bottom: 1rem !important;
 }
 .pp {
   margin-top: .5rem !important;
 }
 .ans-ut-s {
-  font-size: 12px;
-  margin-left: 5rem;
+  font-size: 10px !important;
+  margin-left: 5.4rem;
 }
 .ans-ut-u {
-  font-size: 12px;
-  margin-left: 1.4rem;
+  font-size: 10px !important;
+  margin-left: 1.3rem;
 }
 .ans-ut-t {
-  font-size: 12px;
-  margin-left: 4.7rem;
+  font-size: 10px !important;
+  margin-left: 4.9rem;
+  margin-bottom: 1rem !important;
 }
 .ans-ut-a {
   margin-left: 7.2rem;
@@ -120,6 +131,7 @@ td, th{
 }
 .ans-ut-l{
   margin-left: 1rem;
+
 }
 
 .dnDiv {
@@ -132,8 +144,8 @@ td, th{
   font-weight: normal;
 }
 .card2Div {
-  margin-top: 5px;
-  padding: 2px 2px;
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
 }
 .mat-dialog-container {
   padding: 0;
@@ -149,7 +161,8 @@ td, th{
   margin-bottom: 15px;
 }
 .c-2-d {
-  margin-left: 15px;
+  margin-left: 1.7rem !important;
+  margin-bottom: 1rem !important;
 }
 label {
   font-weight: normal;

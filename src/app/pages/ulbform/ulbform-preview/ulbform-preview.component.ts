@@ -50,38 +50,37 @@ export class UlbformPreviewComponent implements OnInit {
   .b-hide{
     display: none;
   }
-  .h-cls{
-    display: none;
-  }
   .header-p {
     background-color: #047474;
-    height: 60px;
+    height: 70px;
     text-align: center;
 }
 .heading-p {
     color: #FFFFFF;
-    font-size: .9rem;
+    font-size: 18px;
     padding-top: 1.5rem !important;
     font-weight: 700;
-
 }
-
 .card {
     padding: 5px 10px;
     background-color: #EBF5F5;
 }
-
 .qus-h {
-    margin-bottom: 2rem;
-    margin-top: 2rem;
-    font-size: 10px;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+    font-size: 10px !important;
 }
 
 .ans-h {
-    margin-bottom: 2rem;
-    margin-top: 2rem;
-    font-size: 10px;
+    margin-bottom: .5rem;
+    margin-left: 1.2rem;
+    margin-top: .5rem;
+    font-size: 10px !important;
 }
+
+.h-cls{
+      display: none;
+    }
 
 .qus-h-an {
   margin-bottom: 2rem;
@@ -108,142 +107,155 @@ export class UlbformPreviewComponent implements OnInit {
   padding-right: 0;
 }
 .header{
-word-break: break-all;
+  word-break: break-all;
 }
 
 td, th{
-word-break: break-all;
-font-size: 9px !important;
-padding: 5px 1px !important;
+  word-break: break-all;
+  font-size: 9px !important;
+  padding: 5px 1px !important;
 }
 
 .header {
-background-color: #047474;
-display: inline-block;
-color: #FFFFFF;
-text-align: center;
-font-weight: 500;
-height: 60px;
+  background-color: #047474;
+  display: inline-block;
+  color: #FFFFFF;
+  text-align: center;
+  height: 90px;
 }
 .mat-dialog-content {
-padding: 0 0 0 0;
-max-width: 100vw;
-max-height: 100vw;
+  padding: 0 0 0 0;
+  max-width: 100vw;
+  max-height: 100vw;
 }
 .listitem_head {
-padding: 2px 2px;
-font-size: 12px !important;
-font-family: Roboto;
-font-weight: 500;
-display: inline-block;
-margin-top: 1rem;
+  padding: 2px 2px;
+  font-size: 17px !important;
+  font-family: Roboto;
+  font-weight: 700;
+  display: inline-block;
+  margin-top: 1.4rem;
+  white-space: break-spaces;
 }
 .listitem_grantYear {
-display: inline-block;
-font-weight: normal;
-width: 50px !important;
-height: 10px !important;
-color: #3D3D3D;
-margin-left: 10px;
-background-color: #E5E6E6;
-border-radius: 3px;
-padding: 2px;
-margin-top: 1rem;
+  font-size: 14px !important;
+  display: inline-block;
+  font-weight: 700;
+  width: 70px !important;
+  height: 15px !important;
+  color: #3D3D3D;
+  margin-left: 10px;
+  background-color: #E5E6E6;
+  border-radius: 3px;
+  padding: 3px !important;
+  margin-top: .6rem;
+
 }
 .listitem_subHead {
-margin-top: 5px;
-font-size: 16px;
-font-weight: normal;
-font-family: Roboto;
-padding: 2px 2px;
-display: inline-block;
+  margin-top: 5px;
+  font-size: 16px;
+  font-weight: normal;
+  font-family: Roboto;
+  padding: 2px 2px;
+  display: inline-block;
 }
 .h-ut{
-font-size: 12px;
-padding-bottom: 2px;
+  font-size: 10px !important;
+  margin-top: 1rem !important;
+  margin-bottom: .5rem !important;
+  margin-left: 1rem !important;
+}
+.h-ut-t{
+  font-size: 10px !important;
+  margin-top: 1rem !important;
+  margin-bottom: .5rem !important;
 }
 .qus-ut-s {
-font-size: 12px;
-margin-left: .9rem;
+  font-size: 10px !important;
+  margin-left: .9rem;
 }
 .qus-ut-u {
-font-size: 12px;
-margin-left: 1rem;
+  font-size: 10px !important;
+  margin-left: 1rem;
 }
 .qus-ut-t {
-font-size: 12px;
-margin-left: 1rem;
+  font-size: 10px !important;
+  margin-left: 1rem;
+  margin-bottom: 1rem !important;
 }
 .pp {
-margin-top: .5rem !important;
+  margin-top: .5rem !important;
 }
 .ans-ut-s {
-font-size: 12px;
-margin-left: 5.5rem;
+  font-size: 10px !important;
+  margin-left: 6rem;
 }
 .ans-ut-u {
-font-size: 12px;
-margin-left: 1.4rem;
+  font-size: 10px !important;
+  margin-left: 1.3rem;
 }
 .ans-ut-t {
-font-size: 12px;
-margin-left: 5rem;
+  font-size: 10px !important;
+  margin-left: 5.5rem;
+  margin-bottom: 1rem !important;
 }
 .ans-ut-a {
-margin-left: 7.8rem;
+  margin-left: 8rem;
 }
 .ans-ut-b {
-margin-left: 8.2rem;
+  margin-left: 8.3rem;
 }
 .ans-ut-c {
-margin-left: 7.6rem;
+  margin-left: 7.7rem;
 }
 .ans-ut-l{
-margin-left: 1rem;
+  margin-left: 1rem;
+
 }
 
 .dnDiv {
-margin-top: 10px;
-margin-right: 5%;
+  margin-top: 10px;
+  margin-right: 5%;
 }
 .dnldBtn {
-background-color: #26A1A1;
-color: #FFFFFF;
-font-weight: normal;
+  background-color: #26A1A1;
+  color: #FFFFFF;
+  font-weight: normal;
 }
 .card2Div {
-margin-top: 5px;
-padding: 2px 2px;
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
 }
 .mat-dialog-container {
-padding: 0;
+  padding: 0;
 }
 .mat-card2 {
-padding: 5px 2px;
-margin-top: 10px;
-background-color: #EBF5F5;
-display: block;
+  padding: 5px 2px;
+  margin-top: 10px;
+  background-color: #EBF5F5;
+  display: block;
 }
 
 .crd-ls-div {
-margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 .c-2-d {
-margin-left: 15px;
+  margin-left: 1.7rem !important;
+  margin-bottom: 1rem !important;
 }
 label {
-font-weight: normal;
+  font-weight: normal;
 }
 .thHeader {
-background-color: #E9E9E9;
-color: #047474;
-font-size: 15px;
-font-weight: normal;
+  background-color: #E9E9E9;
+  color: #047474;
+  font-size: 15px;
+  font-weight: normal;
 }
 th {
-font-weight: normal;
-vertical-align: middle;
-text-align: center;
+  font-weight: normal;
+  vertical-align: middle;
+  text-align: center;
 }
 .table>tbody>tr>td,
 .table>tbody>tr>th,
@@ -251,52 +263,53 @@ text-align: center;
 .table>tfoot>tr>th,
 .table>thead>tr>td,
 .table>thead>tr>th {
-vertical-align: middle;
-padding: 10px 6px;
+  vertical-align: middle;
+  padding: 10px 6px;
 }
 .bor-in-l {
-word-break: break-all;
-color: #51504F;
+  word-break: break-all;
+  color: #51504F;
 }
 .tableFooterDiv {
-background-color: #E7E7E7;
-color: #000000;
-font-size: 16px;
+  background-color: #E7E7E7;
+  color: #000000;
+  font-size: 16px;
 }
 .f-d-n {
-background-color: #CFCFCF;
-width: 235px;
-height: 35px;
-padding: 7px 8px;
-height: 15px !important;
+  background-color: #CFCFCF;
+  width: 235px;
+  height: 35px;
+  padding: 7px 8px;
+  height: 15px !important;
 }
 .d-none {
-display: none;
+  display: none;
 }
 label{
-font-size: 9px !important;
+  font-size: 9px !important;
 }
 .font-9{
-font-size: 9px !important;
+  font-size: 9px !important;
 }
 .pdf-hide{
-display: none;
+  display: none;
 }
 .w-5{
 width: 5% !important;
 }
 .w-10{
-width: 10% !important;
+  width: 10% !important;
 }
 .w-11{
-width: 11% !important;
+  width: 11% !important;
 }
 .w-12{
-width: 12% !important;
+  width: 12% !important;
 }
 .w-15{
-width: 15% !important;
+  width: 15% !important;
 }
+
 @media print {
   .page-break {page-break-before: always;}
 }

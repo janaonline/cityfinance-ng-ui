@@ -35,15 +35,16 @@ export class PfmsPreviewComponent implements OnInit {
   }
 
   .qus-h {
-      margin-bottom: 2rem;
-      margin-top: 2rem;
-      font-size: 10px;
+      margin-bottom: .5rem;
+      margin-top: .5rem;
+      font-size: 10px !important;
   }
 
   .ans-h {
-      margin-bottom: 2rem;
-      margin-top: 2rem;
-      font-size: 10px;
+      margin-bottom: .5rem;
+      margin-left: 1.2rem;
+      margin-top: .5rem;
+      font-size: 10px !important;
   }
 
 

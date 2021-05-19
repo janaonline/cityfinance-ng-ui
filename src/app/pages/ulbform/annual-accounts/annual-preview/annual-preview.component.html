@@ -56,10 +56,9 @@
                             2.Balance Sheet Schedule
                         </div>
                         <div *ngIf="year2021.provisional_data" class="col-sm-6 ans-h-an text-center">
-                            <a href="{{year2021.provisional_data.bal_sheet_schedules.pdfUrl}}">
-                                {{year2021.provisional_data.bal_sheet_schedules.pdfName}}</a>
-                            <a href="{{year2021.provisional_data.bal_sheet_schedules.excelUrl}}" *ngIf="year2021.provisional_data.bal_sheet_schedules.excelName"> ||
-                                {{year2021.provisional_data.bal_sheet_schedules.excelName}}</a>
+                            Pdf- <a href="{{year2021.provisional_data.bal_sheet_schedules.pdfUrl}}">
+                               {{year2021.provisional_data.bal_sheet_schedules.pdfName}}</a> <br> Excel- <a href="{{year2021.provisional_data.bal_sheet_schedules.excelUrl}}" *ngIf="year2021.provisional_data.bal_sheet_schedules.excelName"> ||
+                               {{year2021.provisional_data.bal_sheet_schedules.excelName}}</a>
                         </div>
                         <div *ngIf="!year2021.provisional_data" class="col-sm-6 qus-h-an text-center text-danger">
                             NA
@@ -71,8 +70,8 @@
                         </div>
                         <div *ngIf="year2021.provisional_data" class="col-sm-6 ans-h-an">
                             <a href="{{year2021.provisional_data.inc_exp.pdfUrl}}">
-                                {{year2021.provisional_data.inc_exp.pdfName}}</a>
-                            <a href="{{year2021.provisional_data.inc_exp.excelUrl}}" *ngIf="year2021.provisional_data.inc_exp.excelName"> ||
+                                {{year2021.provisional_data.inc_exp.pdfName}}</a> <br>
+                            <a href="{{year2021.provisional_data.inc_exp.excelUrl}}" *ngIf="year2021.provisional_data.inc_exp.excelName"> 
                                 {{year2021.provisional_data.inc_exp.excelName}}</a>
                         </div>
                         <div *ngIf="!year2021.provisional_data" class="col-sm-6 qus-h-an text-center text-danger">
