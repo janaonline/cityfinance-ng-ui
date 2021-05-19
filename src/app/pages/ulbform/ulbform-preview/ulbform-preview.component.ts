@@ -179,7 +179,7 @@ margin-top: .5rem !important;
 }
 .ans-ut-s {
 font-size: 12px;
-margin-left: 5rem;
+margin-left: 5.5rem;
 }
 .ans-ut-u {
 font-size: 12px;
@@ -187,16 +187,16 @@ margin-left: 1.4rem;
 }
 .ans-ut-t {
 font-size: 12px;
-margin-left: 4.7rem;
+margin-left: 5rem;
 }
 .ans-ut-a {
-margin-left: 7.2rem;
+margin-left: 7.8rem;
 }
 .ans-ut-b {
-margin-left: 7.5rem;
+margin-left: 8.2rem;
 }
 .ans-ut-c {
-margin-left: 6.9rem;
+margin-left: 7.6rem;
 }
 .ans-ut-l{
 margin-left: 1rem;
