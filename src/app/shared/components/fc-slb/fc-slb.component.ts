@@ -1,25 +1,29 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { UPLOAD_STATUS } from 'src/app/util/enums';
 import { JSONUtility } from 'src/app/util/jsonUtil';
-
+import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { IFinancialData, WaterManagement } from '../../../users/data-upload/models/financial-data.interface';
 import { services, targets } from '../../../users/data-upload/components/configs/water-waste-management';
 import { HttpEventType } from '@angular/common/http';
-
+import { Router, NavigationStart, Event } from "@angular/router";
 @Component({
   selector: 'app-fc-slb',
   templateUrl: './fc-slb.component.html',
   styleUrls: ['./fc-slb.component.scss']
 })
 export class FcSlbComponent implements OnInit, OnChanges {
+  @ViewChild("template1") template1;
+  modalRef: BsModalRef;
   publishedFileUrl: string = '';
   publishedFileName: string = '';
   publishedProgress: number;
   constructor(
+    private _router: Router,
+    private modalService: BsModalService,
     protected dataEntryService: DataEntryService,
     protected _dialog: MatDialog
   ) {
@@ -144,6 +148,19 @@ export class FcSlbComponent implements OnInit, OnChanges {
     if (this.form) this.initializeForm();
   }
 
+  openModal(template1: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template1, { class: "modal-md" });
+  }
+  stay() {
+    this.modalRef.hide();
+  }
+  alertClose() {
+    this.stay();
+  }
+  proceed(uploadedFiles) {
+    this.modalRef.hide();
+    return this._router.navigate(["ulbform/water-sanitation"]);
+  }
   onSaveAsDraftClick() {
     this.saveAsDraft.emit(this.form.value);
   }
@@ -181,8 +198,9 @@ export class FcSlbComponent implements OnInit, OnChanges {
     // };
   }
 
-  saveNext() {
+  saveNext(template1) {
     this.invalidWhole = false;
+
     this.checkAutoValidCustom();
     if (!this.invalidWhole) {
       this.submitted = true;
@@ -192,6 +210,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
       this.emitValues(this.form.getRawValue(), true);
       console.log(this.showPublishedUpload)
       console.log(this.form.getRawValue())
+    } else {
+      this.openModal(template1);
     }
 
   }

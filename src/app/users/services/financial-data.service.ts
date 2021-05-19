@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
   providedIn: "root",
 })
 export class FinancialDataService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
   public selectedFinancialRequest = null;
   public financialYears = null;
 

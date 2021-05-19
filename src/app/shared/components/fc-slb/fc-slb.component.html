@@ -790,7 +790,28 @@
   </div>
   <div class="col-lg-6 col-md-6 col-sm-6 text-right">
     <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
-    <button type="button" class="btn footerBtn" id="saveNext" (click)="saveNext()">SAVE AND NEXT</button>
-    <div *ngIf="invalidWhole">Cannot Submit Form. Please Check the Input</div>
+    <button type="button" class="btn footerBtn" id="saveNext" (click)="saveNext(template1)">SAVE AND NEXT</button>
   </div>
 </div>
+<ng-template #template1>
+  <div class="modal-body text-center">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+      <div class="text-right">
+        <a (click)="alertClose()">
+          <img src="../../../../assets/form-icon/close-red-icon.png">
+        </a>
+      </div>
+    </div>
+
+    <p style="margin-top: 8px;">
+      Cannot Submit the form with Invalid Values. If you choose to Proceed, the entered data will be Lost.
+      Do you still wish to proceed?
+    </p>
+    <div>
+      <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+      <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Proceed</button>
+    </div>
+
+  </div>
+</ng-template>
