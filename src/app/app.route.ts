@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './auth/home/home.component';
 
-import {UlbNotRegisteredComponent} from "./auth/ulb-not-registered/ulb-not-registered.component"
+import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component"
 
 export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -35,6 +35,13 @@ export const appRouter: Routes = [
     loadChildren: () =>
       import("./pages/ulbform/ulbform.module").then(
         (m) => m.UlbformModule
+      ),
+  },
+  {
+    path: "stateform",
+    loadChildren: () =>
+      import("./pages/stateforms/stateforms.module").then(
+        (m) => m.StateformsModule
       ),
   },
   {
@@ -126,9 +133,9 @@ export const appRouter: Routes = [
       import("./pages/ulbs-visualization/ulbs-visualization.module").then(
         (m) => m.UlbsVisualizationModule
       ),
-  },{
+  }, {
     path: "ulb-not-registered",
-    component:UlbNotRegisteredComponent
+    component: UlbNotRegisteredComponent
   },
 
   { path: "**", redirectTo: "" },

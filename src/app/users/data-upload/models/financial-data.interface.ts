@@ -6,6 +6,7 @@ export interface IFinancialData {
   _id?: string;
   ulb: string;
   waterManagement: WaterManagement;
+  waterPotabilityPlan: waterPotabilityPlan;
   solidWasteManagement: SolidWasteManagement;
   millionPlusCities: MillionPlusCities;
   isCompleted?: boolean;
@@ -36,6 +37,7 @@ export interface CityPlan {
   rejectReason?: string;
 }
 
+
 export enum URL {
   Abc = "ABC",
   Xyz = "XYZ",
@@ -45,9 +47,19 @@ export interface SolidWasteManagement {
   documents: SolidWasteManagementDocuments;
 }
 
+
 export interface SolidWasteManagementDocuments {
   garbageFreeCities: CityPlan[];
   waterSupplyCoverage: CityPlan[];
+}
+export interface waterPotabilityPlan {
+  waterPotabilityPlan: WaterPotabilityPlan[];
+}
+
+
+export interface WaterPotabilityPlan {
+  url: string;
+  name: string;
 }
 
 export interface WaterManagement {
