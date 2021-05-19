@@ -17,34 +17,36 @@ export class PfmsPreviewComponent implements OnInit {
     constructor(@Inject(MAT_DIALOG_DATA) public data: any ,
     private _questionnaireService: QuestionnaireService,private _matDialog: MatDialog) { }
     styleForPDF=`<style>
-    .header {
+    .header-p {
       background-color: #047474;
-      height: 100px;
+      height: 70px;
       text-align: center;
   }
-
-  .heading {
+  .heading-p {
       color: #FFFFFF;
-      font-size: 22px;
-      padding: 2rem;
-      margin-top: 3rem !importent;
+      font-size: 18px;
+      padding-top: 1.5rem !important;
+
   }
 
   .card {
       padding: 5px 10px;
-      // margin: 10px 40px;
       background-color: #EBF5F5;
   }
 
   .qus-h {
       margin-bottom: 2rem;
       margin-top: 2rem;
+      font-size: 10px;
   }
 
   .ans-h {
       margin-bottom: 2rem;
       margin-top: 2rem;
+      font-size: 10px;
   }
+
+
  .h-cls{
         display: none;
       }

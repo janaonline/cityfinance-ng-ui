@@ -16,7 +16,8 @@ const routes: Routes = [
   {
     path: "",
     component: UlbformComponent,
-    canActivate: [UlbGaurdGuard],
+   // canActivate: [UlbGaurdGuard],
+
     children: [
       {
         path: "utilisation-report", component: UtilisationReportComponent
@@ -37,6 +38,9 @@ const routes: Routes = [
       },
       {
         path: "overview", component: OverviewComponent
+      },
+      {
+        path: "overview/:id", component: OverviewComponent
       },
       {
 

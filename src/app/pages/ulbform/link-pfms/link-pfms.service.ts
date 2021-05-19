@@ -15,9 +15,15 @@ export class LinkPFMSAccount {
         return this.http.post(catUrl, fd)
     }
 
-    getData(design_year) {
+    getData(design_year, ulbId) {
         console.log('Get API HIt')
-        let catUrl = environment.api.url + `pfmsAccount/get/${design_year}`;
+        let catUrl
+        if(ulbId != null){
+          catUrl = environment.api.url + `pfmsAccount/get/${design_year}/${ulbId}`;
+        }else{
+          catUrl = environment.api.url + `pfmsAccount/get/${design_year}`;
+        }
+
         return this.http.get(catUrl)
     }
 

@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Overview } from './overview.service'
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { ProfileService } from 'src/app/users/profile/service/profile.service';
+import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent extends BaseComponent implements OnInit {
 
   errMessage = ''
   forms = []
@@ -14,20 +18,49 @@ export class OverviewComponent implements OnInit {
   status = 'In Progress'
   isMillionPlus;
   isUA;
-  constructor(private Overview: Overview) {
-    this.accessGrant();
-   }
+  id = null;
+  sessionUlbId = null;
+  constructor(private Overview: Overview,
+    public activatedRoute: ActivatedRoute) {
+    super();
 
+    this.activatedRoute.params.subscribe((val) => {
+      const { id } = val;
+      if (id) {
+        this.id = id;
+        console.log('stid',id)
+        sessionStorage.setItem('row_id', id);
+      }
+    });
+
+   }
+stateName='';
+ulbName ='';
   ngOnInit() {
-    this.Overview.getData('606aaf854dff55e6c075d219')
+
+    this.Overview.getData('606aaf854dff55e6c075d219' , this.id)
       .subscribe((res) => {
-        console.log(res);
+        console.log('overviewRes', res['response']);
+        this.sessionUlbId = res['response']['ulb'];
+        this.isMillionPlus = res['response']['isMillionPlus'];
+        this.isUA = res['response']['isUA'];
+        this.stateName = res['response']['stateName'];
+        this.ulbName = res['response']['ulbName'];
         this.forms[0] = res['response']?.steps?.annualAccounts?.isSubmit
         this.forms[1] = res['response']?.steps?.pfmsAccount?.isSubmit
         this.forms[2] = res['response']?.steps?.plans?.isSubmit
         this.forms[3] = res['response']?.steps?.slbForWaterSupplyAndSanitation?.isSubmit
         this.forms[4] = res['response']?.steps?.utilReport?.isSubmit
+        switch (this.loggedInUserType) {
+          case USER_TYPE.STATE:
+          case USER_TYPE.PARTNER:
+          case USER_TYPE.MoHUA:
+          case USER_TYPE.ADMIN:
+                  this.storeUlbId();
+            break;
 
+        }
+        this.accessGrant();
         for (let key of this.forms) {
           if (key) {
             this.count = this.count + key;
@@ -47,6 +80,7 @@ export class OverviewComponent implements OnInit {
           this.errMessage = error.error;
           console.log(this.errMessage);
         });
+
   }
   headertext = 'The 15th Finance Commission Grants Management System facilitates seamless submission and flow of required information between Urban Local Bodies, State Governments and Ministry of Housuing and Urban Affairs for the purposes of availaing ULB Grants between 2021-2026.'
   cards = [
@@ -89,11 +123,25 @@ export class OverviewComponent implements OnInit {
   i = 8098987
 
   public accessGrant(){
-    let userData = JSON.parse(localStorage.getItem('userData'));
-    this.isMillionPlus =  userData.isMillionPlus;
-    this.isUA = userData.isUA;
-    console.log('milli', this.isMillionPlus)
-    console.log('Ua', this.isUA)
+    if(this.id == null){
+      let userData = JSON.parse(localStorage.getItem('userData'));
+      this.isMillionPlus =  userData.isMillionPlus;
+      this.isUA = userData.isUA;
+    }else{
+      this.isMillionPlus =sessionStorage.getItem('isMillionPlus');
+      this.isUA = sessionStorage.getItem('isUA')
+      console.log('12elseblock' , this.isMillionPlus, this.isUA)
+    }
+
+
+  }
+  storeUlbId(){
+    sessionStorage.setItem('ulb_id', this.sessionUlbId);
+    sessionStorage.setItem('isMillionPlus', this.isMillionPlus);
+    sessionStorage.setItem('isUA', this.isUA);
+    sessionStorage.setItem('stateName', this.stateName);
+    sessionStorage.setItem('ulbName', this.ulbName);
+    console.log('ulb_id', this.sessionUlbId)
   }
   onUnhover() {
     this.hover = false
