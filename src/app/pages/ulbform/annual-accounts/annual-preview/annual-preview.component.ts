@@ -25,6 +25,7 @@ export class AnnualPreviewComponent implements OnInit {
     color: #FFFFFF;
     font-size: 18px;
     padding-top: 1.5rem !important;
+    font-weight: 700;
 
 }
 
@@ -35,7 +36,7 @@ export class AnnualPreviewComponent implements OnInit {
 
 .qus-h-an {
     margin-bottom: .5rem;
-    margin-top: .5rem;
+    margin-top: 1rem;
     font-size: 10px;
 }
 
@@ -51,13 +52,32 @@ export class AnnualPreviewComponent implements OnInit {
 }
 .h-font {
   display: inline-block;
-  font-size: 14px;
+  font-size: 12px !important;
 }
 .f-r {
   margin-left: 30px;
 }
+.ans-h-an{
+  margin-left : .5rem !important;
+}
 .hi{
   display:none
+}
+.qus-h-an-ex {
+  margin-bottom: .5rem;
+  margin-top: .5rem;
+  font-size: 10px;
+  margin-left : .5rem !important;
+}
+.ans-h-an-b {
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+    margin-left : 1rem !important;
+    font-size: 10px;
+}
+.form-status {
+  font-size: 10px;
+  margin-top: 10px;
 }
   </style>`
 
