@@ -60,6 +60,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   uploadDocumentText: string = 'Upload the published document';
   USER_TYPE = USER_TYPE;
 
+
   approveAction = UPLOAD_STATUS.APPROVED;
   rejectAction = UPLOAD_STATUS.REJECTED;
 
@@ -385,7 +386,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     console.log("onblurcalled", control, formValue, currentControlKey, increase)
     console.log(this.form)
     this.setFocusTarget()
-    
+
 
     console.log('previousvalue', this.previousValue)
     console.log('aftervalue', this.afterValue)

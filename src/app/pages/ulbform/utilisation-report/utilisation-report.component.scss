@@ -11,6 +11,10 @@
     margin-bottom: 20px;
 }
 
+a.anDisable {
+    pointer-events: none;
+}
+
 .header2 {
     font-family: Roboto, Medium;
     color: #373737;

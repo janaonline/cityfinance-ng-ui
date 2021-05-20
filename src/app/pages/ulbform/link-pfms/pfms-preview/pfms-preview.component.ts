@@ -26,29 +26,36 @@ export class PfmsPreviewComponent implements OnInit {
       color: #FFFFFF;
       font-size: 18px;
       padding-top: 1.5rem !important;
+      font-weight: 700;
 
   }
 
   .card {
+      margin-top: 10px !important;
       padding: 5px 10px;
       background-color: #EBF5F5;
   }
 
   .qus-h {
-      margin-bottom: 2rem;
-      margin-top: 2rem;
-      font-size: 10px;
+      margin-bottom: .5rem;
+      margin-top: .5rem;
+      font-size: 10px !important;
   }
 
   .ans-h {
-      margin-bottom: 2rem;
-      margin-top: 2rem;
-      font-size: 10px;
+      margin-bottom: .5rem;
+      margin-left: 1.2rem;
+      margin-top: .5rem;
+      font-size: 10px !important;
   }
 
 
  .h-cls{
         display: none;
+      }
+ .form-status {
+        font-size: 10px;
+        margin-top: 10px;
       }
 
     </style>`
