@@ -496,7 +496,6 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
 
   checkAutoValidCustom() {
-<<<<<<< HEAD
 
     for (let key in this.form['controls']) {
       if (this.form['controls'][key]['controls']['baseline']['controls']['2021']['status'] === 'INVALID') {
@@ -505,9 +504,6 @@ export class FcSlbComponent implements OnInit, OnChanges {
       }
     }
 
-=======
-    if(this.form && this.form['controls'])
->>>>>>> a1ede6e4b12c421b2ecc198f4395e25b5ec4f606
     for (let key in this.form['controls']) {
       for (let key2 in this.form['controls'][key]['controls']['target']['controls']) {
         if (this.form['controls'][key]['controls']['target']['controls'][key2]['status'] === 'INVALID')
