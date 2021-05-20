@@ -8,6 +8,7 @@ import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 import { UlbadminServiceService } from '../ulbadmin-service.service'
 import { CommonService } from 'src/app/shared/services/common.service';
 import { Subscription } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -34,6 +35,7 @@ tableDefaultOptions = {
 loading = false;
 filterObject;
 fcFormListSubscription: Subscription;
+nodataFound = false;
 
   constructor(
     private _router: Router,
@@ -65,7 +67,13 @@ fcFormListSubscription: Subscription;
       //   break;
     }
   }
-
+  state_name_s = new FormControl('');
+  ulb_name_s = new FormControl('');
+  ulb_code_s = new FormControl('');
+  ulb_type_s = new FormControl('');
+  population_type_s = new FormControl('');
+  ua_name_s = new FormControl('');
+  status_s = new FormControl('');
   ngOnInit(): void {
      let lData = JSON.parse(localStorage.getItem('userData'));
      this.ulbService.getMasterTabel()
@@ -93,59 +101,84 @@ fcFormListSubscription: Subscription;
   }
 
   setLIstFetchOptions(val, type) {
-    const filterKeys = ["financialYear", "auditStatus"];
-    if(type == 'state'){
-      this.filterObject = {
-        filter: {
-          state: val,
-        },
-      };
+  //  const filterKeys = ["financialYear", "auditStatus"];
+    this.filterObject = {
+          filter: {
+            state: this.state_name_s.value
+            ? this.state_name_s.value.trim()
+            : "",
+            ulbType : this.ulb_type_s.value
+            ? this.ulb_type_s.value.trim()
+            : "",
+            populationType : this.population_type_s.value
+            ? this.population_type_s.value.trim()
+            : "",
+            ulbName : this.ua_name_s.value
+            ? this.ulb_name_s.value.trim()
+            : "",
+            censusCode : this.ulb_code_s.value
+            ? this.ulb_code_s.value.trim()
+            : "",
+            UA : this.ua_name_s.value
+            ? this.ulb_code_s.value.trim()
+            : "",
+            status : this.status_s.value
+            ? this.status_s.value.trim()
+            : "",
+          }
+        }
+    // if(type == 'state'){
+    //   this.filterObject = {
+    //     filter: {
+    //       state: val,
+    //     },
+    //   };
 
-    }else{
+    // }else{
 
-    }
-    if(type == 'ulbType'){
-      this.filterObject = {
-        filter: {
-          ulbType: val
-        }
-      }
-    }
-    if(type == 'populationType'){
-      this.filterObject = {
-        filter: {
-          populationType: val
-        }
-      }
-    }
-    if(type == 'ulbName'){
-      this.filterObject = {
-        filter: {
-          ulbName: val,
-        }
-      }
-    }
-    if(type == 'ulbCode'){
-      this.filterObject = {
-        filter: {
-          censusCode: val,
-        }
-      }
-    }
-    if(type == 'UA'){
-      this.filterObject = {
-        filter: {
-          UA: val,
-        }
-      }
-    }
-    if(type == 'Status'){
-      this.filterObject = {
-        filter: {
-          status: val,
-        }
-      }
-    }
+    // }
+    // if(type == 'ulbType'){
+    //   this.filterObject = {
+    //     filter: {
+    //       ulbType: val
+    //     }
+    //   }
+    // }
+    // if(type == 'populationType'){
+    //   this.filterObject = {
+    //     filter: {
+    //       populationType: val
+    //     }
+    //   }
+    // }
+    // if(type == 'ulbName'){
+    //   this.filterObject = {
+    //     filter: {
+    //       ulbName: val,
+    //     }
+    //   }
+    // }
+    // if(type == 'ulbCode'){
+    //   this.filterObject = {
+    //     filter: {
+    //       censusCode: val,
+    //     }
+    //   }
+    // }
+    // if(type == 'UA'){
+    //   this.filterObject = {
+    //     filter: {
+    //       UA: val,
+    //     }
+    //   }
+    // }
+    // if(type == 'Status'){
+    //   this.filterObject = {
+    //     filter: {
+    //       status: val,
+    //     }
+    //   }
+    // }
 
 
     return {
@@ -160,7 +193,7 @@ fcFormListSubscription: Subscription;
 
 
   stateData(val, type){
-
+   console.log(this.state_name_s)
     this.loading = true;
     this.listFetchOption.skip = 0;
     this.tableDefaultOptions.currentPage = 1;
@@ -176,6 +209,11 @@ fcFormListSubscription: Subscription;
         (result) => {
           let res:any = result;
           this.tabelData = res.data;
+          if(res.data.length == 0){
+            this.nodataFound = true;
+          }else{
+            this.nodataFound = false;
+          }
           console.log(result);
 
         },

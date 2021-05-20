@@ -18,6 +18,7 @@ import { Router, Event } from "@angular/router";
 import { NavigationStart } from "@angular/router";
 const swal: SweetAlert = require("sweetalert");
 
+
 @Component({
   selector: "app-annual-accounts",
   templateUrl: "./annual-accounts.component.html",
