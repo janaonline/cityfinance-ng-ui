@@ -161,7 +161,8 @@ export class SlbsComponent implements OnInit {
       ulbName: this.preFilledWaterManagement ? this.preFilledWaterManagement.ulbName : null,
       waterManagement:
         this.waterWasteManagementForm.getRawValue(),
-      waterPotability: this.waterPotability
+      waterPotability: this.waterPotability,
+
     };
 
     this._matDialog.open(this.previewPopup, {

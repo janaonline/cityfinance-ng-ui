@@ -393,6 +393,47 @@ h6 {
   font-weight: normal;
   font-size: 12px;
 }
+.qus-h-an {
+  margin-bottom: .5rem;
+  margin-top: 1rem;
+  font-size: 10px;
+}
+
+.ans-h-an {
+  margin-bottom: .5rem;
+  margin-top: .5rem;
+  font-size: 10px;
+}
+@media print {
+.page-break {
+    page-break-before: always;
+}
+}
+.h-font {
+display: inline-block;
+font-size: 12px !important;
+}
+.f-r {
+margin-left: 30px;
+}
+.ans-h-an{
+margin-left : .5rem !important;
+}
+.hi{
+display:none
+}
+.qus-h-an-ex {
+margin-bottom: .5rem;
+margin-top: .5rem;
+font-size: 10px;
+margin-left : .5rem !important;
+}
+.ans-h-an-b {
+  margin-bottom: .5rem;
+  margin-top: .5rem;
+  margin-left : 1rem !important;
+  font-size: 10px;
+}
 
 
   </style>`
