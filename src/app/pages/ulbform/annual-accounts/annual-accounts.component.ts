@@ -18,6 +18,7 @@ import { Router, Event } from "@angular/router";
 import { NavigationStart } from "@angular/router";
 const swal: SweetAlert = require("sweetalert");
 
+
 @Component({
   selector: "app-annual-accounts",
   templateUrl: "./annual-accounts.component.html",
@@ -32,7 +33,7 @@ export class AnnualAccountsComponent implements OnInit {
     private modalService: BsModalService,
     public _router: Router
   ) {
-   this.navigationCheck()
+    this.navigationCheck();
   }
   @ViewChild("templateAnnual") template;
   quesOneAnswer: boolean = false;
@@ -229,10 +230,6 @@ export class AnnualAccountsComponent implements OnInit {
         pdfName: null,
         pdfUrl: null,
         progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
         pdfError: null,
         rejectReason: null,
       },
@@ -251,18 +248,17 @@ export class AnnualAccountsComponent implements OnInit {
   ngOnInit(): void {
     this.changeAudit("Unaudited");
     this.onLoad();
-    sessionStorage.setItem("canNavigate", "true");
+    sessionStorage.setItem("changeInAnnual", "true");
   }
-  
-  navigationCheck(){
+  navigationCheck() {
     this._router.events.subscribe(async (event: Event) => {
       if (event instanceof NavigationStart) {
-        const canNavigate = sessionStorage.getItem("canNavigate");
-        if(event.url === "/"){
-          sessionStorage.setItem("canNavigate","true")
-          return
+        const changeInAnnual = sessionStorage.getItem("changeInAnnual");
+        if (event.url === "/") {
+          sessionStorage.setItem("changeInAnnual", "true");
+          return;
         }
-        if (canNavigate === "false" && this.routerNavigate === null) {
+        if (changeInAnnual === "false" && this.routerNavigate === null) {
           if (this.modalRef) this.modalRef.hide();
           const currentRoute = this._router.routerState;
           this._router.navigateByUrl(currentRoute.snapshot.url, {
@@ -286,17 +282,19 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   onLoad() {
-    let ulbId = sessionStorage.getItem('ulb_id');
-    if(ulbId != null){
+    let ulbId = sessionStorage.getItem("ulb_id");
+    if (ulbId != null) {
       this.isDisabled = true;
     }
     this.annualAccountsService
-      .getData({
-        design_year: this.Years["2021-22"],
-      }, ulbId)
+      .getData(
+        {
+          design_year: this.Years["2021-22"],
+        },
+        ulbId
+      )
       .subscribe(
         async (res) => {
-
           const responseType =
             res["data"][0]["audit_status"] === "Audited"
               ? "auditResponse"
@@ -315,7 +313,6 @@ export class AnnualAccountsComponent implements OnInit {
           );
         },
         (err) => {
-
           const toStoreResponse = [this.auditResponse, this.unauditResponse];
           sessionStorage.setItem(
             "annualAccounts",
@@ -371,7 +368,7 @@ export class AnnualAccountsComponent implements OnInit {
     }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
-    sessionStorage.setItem("canNavigate","yes")
+    sessionStorage.setItem("changeInAnnual", "yes");
     return this._router.navigate(["ulbform/service-level"]);
   }
 
@@ -425,7 +422,8 @@ export class AnnualAccountsComponent implements OnInit {
                   key3 === "excelError" ||
                   key3 === "progress" ||
                   key3 === "pdfName" ||
-                  key3 === "pdfError"
+                  key3 === "pdfError" ||
+                  key3 === "rejectReason"
                 ) {
                   continue;
                 }
@@ -486,7 +484,6 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   answer(question, val, isAudit = null, fromStart = false) {
-
     switch (question) {
       case "q1":
         if (isAudit) this.quesOneAnswer1 = val;
@@ -515,6 +512,9 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   clearFile(path, type = null, fromUploadExcel = null) {
+    if(this.isDisabled){
+      return true
+    }
     const clearPathArray = fromUploadExcel ? path : path.split(".");
     if (type) {
       this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]]["pdfUrl"] =
@@ -703,7 +703,6 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   checkDiff(status) {
-
     const annualAccounts = JSON.parse(sessionStorage.getItem("annualAccounts"));
     if (
       annualAccounts[0].audit_status === "Unaudited" &&
@@ -712,7 +711,7 @@ export class AnnualAccountsComponent implements OnInit {
       const tempResponse = JSON.stringify(this.unauditResponse);
       const tempResponseLast = JSON.stringify(annualAccounts[0]);
       if (tempResponse != tempResponseLast) {
-        sessionStorage.setItem("canNavigate", "false");
+        sessionStorage.setItem("changeInAnnual", "false");
       }
     } else {
       const tempResponse = JSON.stringify(
@@ -722,14 +721,14 @@ export class AnnualAccountsComponent implements OnInit {
       );
       const tempResponseLast = JSON.stringify(annualAccounts[1]);
       if (tempResponse != tempResponseLast) {
-        sessionStorage.setItem("canNavigate", "false");
+        sessionStorage.setItem("changeInAnnual", "false");
       }
     }
   }
 
   openModal(template: TemplateRef<any>, fromPreview = null) {
     this.fromPreview = fromPreview;
-    if (fromPreview && sessionStorage.getItem("canNavigate") === "true") {
+    if (fromPreview && sessionStorage.getItem("changeInAnnual") === "true") {
       this.onPreview();
       return;
     }

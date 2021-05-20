@@ -31,6 +31,8 @@ import { MapDialogComponent } from "../../../shared/components/map-dialog/map-di
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { UlbformService } from "../ulbform.service";
 import { NavigationStart } from "@angular/router";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: "app-utilisation-report",
@@ -104,7 +106,8 @@ export class UtilisationReportComponent implements OnInit {
          case USER_TYPE.MoHUA:
          case USER_TYPE.ADMIN:
            this.utilizationReport.disable();
-           this.utiReportFormControl.projects.disable();
+           this.isDisabled = true;
+           this.utilizationReport.controls.projects.disable();
 
        }
        this.getResponse();
@@ -171,7 +174,7 @@ ulbId =null;
       (res) => {
         //  this.formDataResponce = res;
         console.log(res);
-        
+
         this.preFilledData(res);
         const data = {
           designation: res["designation"],
@@ -199,6 +202,16 @@ ulbId =null;
     res.projects.forEach((project) => {
       this.addPreFilledRow(project);
     });
+    switch (this.userLoggedInDetails.role) {
+      case USER_TYPE.STATE:
+      case USER_TYPE.PARTNER:
+      case USER_TYPE.MoHUA:
+      case USER_TYPE.ADMIN:
+        this.utilizationReport.disable();
+        this.isDisabled = true;
+        this.utilizationReport.controls.projects.disable();
+
+    }
   }
   addPreFilledSimple(data) {
     console.log('88888', data)
@@ -214,6 +227,8 @@ ulbId =null;
     });
     this.totalclosingBal = data.grantPosition.closingBal;
    // if (!this.editable) this.utilizationReport.disable();
+
+
   }
 
   public initializeReport() {
@@ -250,7 +265,7 @@ ulbId =null;
       projects: this.fb.array([
         this.fb.group({
           category: ["", Validators.required],
-          name: ["", Validators.required],
+          name: [{value:'', disabled: this.isDisabled },Validators.required],
           description: ["", Validators.required],
           // 'imgUpload' : new FormControl(''),
           photos: this.fb.array([
@@ -274,11 +289,11 @@ ulbId =null;
       designation: ["", [Validators.required, Validators.maxLength(50)]],
     });
     // this.utilizationReport.disable();
-    if(this.ulbId != null){
-      this.isDisabled = true;
-      this.tabelRows.disable();
-    }
-  }
+  //   if(this.ulbId != null){
+  //
+  //     this.tabelRows.disable();
+  //   }
+   }
 
   get utiReportFormControl() {
     return this.utilizationReport.controls;
@@ -386,7 +401,7 @@ ulbId =null;
       }
     }
     if (
-      this.projectExp != this.utilizationReport.value.grantPosition.expDuringYr
+      this.projectExp != this.utilizationReport.controls.grantPosition.value.expDuringYr
     ) {
       this.isSumEqual = true;
     } else {
@@ -415,9 +430,9 @@ ulbId =null;
       projects: storeResponse.projects,
       name: storeResponse.name,
       designation: storeResponse.designation,
-      totalProCost: storeResponse.projectCost,
-      totalExpCost: storeResponse.projectExp,
-    };    
+      totalProCost: this.projectCost,
+      totalExpCost: this.projectExp,
+    };
     const dialogRef = this.dialog.open(PreviewUtiFormComponent, {
       data: formdata,
       height: "100%",
@@ -525,11 +540,11 @@ ulbId =null;
       if (!this.userLoggedInDetails) {
         return this._router.navigate(["/login"]);
       }
-      switch (this.userLoggedInDetails.role) {
-        case USER_TYPE.STATE:
-        case USER_TYPE.ULB:
-          return this.fetchStateList();
-      }
+      // switch (this.userLoggedInDetails.role) {
+      //   case USER_TYPE.STATE:
+      //   case USER_TYPE.ULB:
+      //     return this.fetchStateList();
+      // }
     });
   }
 
@@ -539,15 +554,13 @@ ulbId =null;
   apiCall(fd) {
     this.UtiReportService.createAndStorePost(fd).subscribe(
       (res) => {
-        //  console.log(res);
-        alert("Record submitted successfully.");
-
+        swal("Record submitted successfully!");
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.utilReport.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
       },
       (error) => {
-        alert("An error occured.");
+        swal("An error occured!");
         this.errMessage = error.message;
         console.log(this.errMessage);
       }
@@ -576,6 +589,7 @@ ulbId =null;
         else {
           this.openModal(template);
         }
+
 
 
   }
@@ -690,7 +704,7 @@ ulbId =null;
       );
       let fileLength = control.length + this.photoUrl.length;
       if (fileLength > 4 || files.length > 5) {
-        alert("Maximum 5 files are allowed");
+        swal("Maximum 5 files are allowed!");
         break;
       }
       this.filesAlreadyInProcess.push(i);

@@ -9,6 +9,9 @@ import { USER_TYPE } from "src/app/models/user/userType";
 import { MatDialog } from "@angular/material/dialog";
 import { PfmsPreviewComponent } from "./pfms-preview/pfms-preview.component";
 import { UlbformService } from "../ulbform.service";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
+
 
 @Component({
   selector: "app-link-pfms",
@@ -116,7 +119,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     this.LinkPFMSAccount.postData(this.fd)
       .subscribe((res) => {
         console.log(res);
-
+        swal("Record submitted successfully!")
       },
         error => {
           this.errMessage = error.message;
@@ -132,10 +135,11 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     }
     if (this.account != '' && this.linked != '') {
       this.postData();
-    } else if (this.account != '' || this.linked != '') {
-      this.openModal(template);
-    } else {
-      alert("Please select your answer");
+      return this._router.navigate(["ulbform/grant-tra-certi"]);
+    }else if(this.account != '' || this.linked != ''){
+    this.openModal(template);
+    }else{
+      swal("Please select your answer");
     }
 
     console.log("clicked");

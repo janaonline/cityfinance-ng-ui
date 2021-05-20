@@ -64,6 +64,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   uploadDocumentText: string = 'Upload the published document';
   USER_TYPE = USER_TYPE;
 
+
   approveAction = UPLOAD_STATUS.APPROVED;
   rejectAction = UPLOAD_STATUS.REJECTED;
 

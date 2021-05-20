@@ -34,14 +34,14 @@ export class AnnualPreviewComponent implements OnInit {
 }
 
 .qus-h-an {
-    margin-bottom: 2rem;
-    margin-top: 2rem;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
     font-size: 10px;
 }
 
 .ans-h-an {
-    margin-bottom: 2rem;
-    margin-top: 2rem;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
     font-size: 10px;
 }
 @media print {
