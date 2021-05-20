@@ -218,7 +218,6 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
   emitOnDocChange() {
     this.emitValues(this.form.getRawValue());
-
   }
 
   private emitValues(values: IFinancialData["waterManagement"], next = false) {
@@ -405,8 +404,13 @@ export class FcSlbComponent implements OnInit, OnChanges {
     console.log("onblurcalled", control, formValue, currentControlKey, increase)
     console.log(this.form)
     this.setFocusTarget()
-    this.previousValue = this.form.controls[serviceKey]['controls']['target']?.controls[String(parseInt(currentControlKey) - 101)]?.value ? this.form.controls[serviceKey]['controls']['target'].controls[String(parseInt(currentControlKey) - 101)].value : null
-    this.afterValue = this.form.controls[serviceKey]['controls']['target']?.controls[String(parseInt(currentControlKey) + 101)]?.value ? this.form.controls[serviceKey]['controls']['target'].controls[String(parseInt(currentControlKey) + 101)].value : null
+    if (this.form['controls'][serviceKey]['controls']['baseline']['controls']['2021'].touched === true) {
+      // this.form.controls[serviceKey]['controls']['target'].controls['2021'].status = "INVALID";
+      this.emitValues(this.form.getRawValue());
+    }
+
+    this.previousValue = this.form['controls'][serviceKey]['controls']['target']['controls'][String(parseInt(currentControlKey) - 101)]?.value ? this.form['controls'][serviceKey]['controls']['target']['controls'][String(parseInt(currentControlKey) - 101)].value : null
+    this.afterValue = this.form['controls'][serviceKey]['controls']['target']['controls'][String(parseInt(currentControlKey) + 101)]?.value ? this.form['controls'][serviceKey]['controls']['target']['controls'][String(parseInt(currentControlKey) + 101)].value : null
 
     console.log('previousvalue', this.previousValue)
     console.log('aftervalue', this.afterValue)
@@ -422,9 +426,9 @@ export class FcSlbComponent implements OnInit, OnChanges {
       //   this.onKeyUp(currentValue, formValue, el, serviceKey, increase)
       // })
 
-      for (let el in this.form.controls[serviceKey]['controls']['target'].controls) {
+      for (let el in this.form?.controls[serviceKey]['controls']['target']?.controls) {
         this.setFocusTarget(serviceKey + el[currentControlKey])
-        let currentValue = this.form.controls[serviceKey]['controls']['target'].controls[el];
+        let currentValue = this.form?.controls[serviceKey]['controls']['target']?.controls[el];
         this.onKeyUp(currentValue, formValue, el, serviceKey, increase)
         // console.log(key2)
         // if (formValue['controls'][key2].value)
@@ -489,13 +493,21 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
 
   checkAutoValidCustom() {
-    console.log(this.form['controls'])
+
+    for (let key in this.form['controls']) {
+      if (this.form['controls'][key]['controls']['baseline']['controls']['2021']['status'] === 'INVALID') {
+
+        this.invalidWhole = true;
+      }
+    }
+
     for (let key in this.form['controls']) {
       for (let key2 in this.form['controls'][key]['controls']['target']['controls']) {
-        if (this.form['controls'][key]['controls']['target']['controls'][key2]['status'] == 'INVALID')
+        if (this.form['controls'][key]['controls']['target']['controls'][key2]['status'] === 'INVALID')
           this.invalidWhole = true;
       }
     }
+
   }
 }
 

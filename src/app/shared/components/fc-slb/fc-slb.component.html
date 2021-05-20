@@ -32,11 +32,12 @@
           </td>
           <td formGroupName="baseline">
             <div class="input-group data-input">
+
               <input (blur)="
                 onBlur(
-                  form.controls[service.key]['controls']['baseline'].controls[
+                  form['controls'][service.key]['controls']['baseline']['controls'][
                     '2021'
-                  ]
+                  ], '', '', service.key
                 )
               " (mouseover)="setFocusTarget(service.key+'baseline')" [id]="service.key + 'baseline'" type="text"
                 class="form-control" formControlName="2021" [ngClass]="{
