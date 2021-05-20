@@ -356,7 +356,7 @@
                         </div>
                         <div class="col-sm-4 ans-h-an ">
                             <span *ngIf="year2019.standardized_data?.declaration">Agreed</span>
-                            <span class="text-danger" *ngIf="!year2019.standardized_data?.declaration">Not Agreed</span>
+                            <span class="text-danger" *ngIf="!year2019.standardized_data?.declaration == false">Not Agreed</span>
                             <span class="text-danger" *ngIf="year2019.standardized_data?.declaration == null || year2019.standardized_data?.declaration == undefined">N/A</span>
                         </div>
                     </div>
