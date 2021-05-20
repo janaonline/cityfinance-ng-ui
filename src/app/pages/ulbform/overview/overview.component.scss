@@ -117,10 +117,14 @@ a {
     text-align: justify;
     font-size: 18px;
     font-family: 'Roboto', sans-serif;
+    position: relative;
+    z-index:2;
 }
 
-svg:not(:root) {
+svg {
     overflow: overlay;
+    position : relative;
+    z-index:3;
 }
 
 .backButton {
