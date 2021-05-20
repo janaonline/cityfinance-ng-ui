@@ -13,10 +13,19 @@
           Utilization Report in respect of 15th Finance Commission tied grants for year<label class="listitem_grantYear">2020-21</label></label>
 
     </div>
+    <div class="d-flex justify-content-between mt-2 d-status" style="padding-left: 5%">
+        <p class="form-status-ut">
+            <b>Application Current Status:</b> N/A
+        </p>
 
-    <div *ngIf="!parentData" class="text-right dnDiv pdf-hide">
-        <button mat-button class="dnldBtn" (click)="downloadForm()">Download as PDF</button>
+        <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 3%" class="btn btn-primary btn-upload pdf-hide" (click)="downloadForm()">
+    Download as PDF
+  </button>
     </div>
+
+    <!-- <div *ngIf="!parentData" class="text-right dnDiv pdf-hide">
+        <button mat-button class="dnldBtn" (click)="downloadForm()">Download as PDF</button>
+    </div> -->
 
     <mat-card class="mat-card2">
         <div class="card2Div">

@@ -230,6 +230,15 @@ width: 5% !important;
 .w-15{
   width: 15% !important;
 }
+.form-status-ut {
+  font-size: 10px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+
+}
+.d-status{
+  padding-left: 1% !important;
+}
 
   </style>`;
   ngOnInit(): void {

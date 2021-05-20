@@ -12,14 +12,23 @@
 
         </div>
     </div>
-    <div class="row h-cls" style="margin-top: 1.5rem;">
+    <div class="d-flex justify-content-between mt-2" style="padding-left: 2%">
+        <p class="form-status">
+            <b>Application Current Status:</b> N/A
+        </p>
+
+        <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%" class="btn btn-primary btn-upload h-cls" (click)="downloadAsPDF()">
+      Download as PDF
+    </button>
+    </div>
+    <!-- <div class="row h-cls" style="margin-top: 1.5rem;">
         <div *ngIf="!parentData" class="col-sm-12 text-right">
             <button id="donwloadButton" style="right: 0%;
       outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="downloadAsPDF()">
       Download as PDF
     </button>
         </div>
-    </div>
+    </div> -->
 
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 2rem; margin-bottom: 20px;">

@@ -26,10 +26,12 @@ export class PfmsPreviewComponent implements OnInit {
       color: #FFFFFF;
       font-size: 18px;
       padding-top: 1.5rem !important;
+      font-weight: 700;
 
   }
 
   .card {
+      margin-top: 10px !important;
       padding: 5px 10px;
       background-color: #EBF5F5;
   }
@@ -50,6 +52,10 @@ export class PfmsPreviewComponent implements OnInit {
 
  .h-cls{
         display: none;
+      }
+ .form-status {
+        font-size: 10px;
+        margin-top: 10px;
       }
 
     </style>`

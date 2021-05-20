@@ -184,6 +184,8 @@ export class HomeHeaderComponent extends BaseComponent implements OnInit {
     Login_Logout.getListenToLogoutEvent().subscribe((res) => {
       console.log("res", res);
       localStorage.clear();
+      sessionStorage.removeItem('ulb_id');
+
       this.isLoggedIn = false;
       if (res && res.redirectLink) {
         this.router.navigate([`${res.redirectLink || "/"}`]);

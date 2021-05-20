@@ -430,8 +430,8 @@ ulbId =null;
       projects: storeResponse.projects,
       name: storeResponse.name,
       designation: storeResponse.designation,
-      totalProCost: storeResponse.projectCost,
-      totalExpCost: storeResponse.projectExp,
+      totalProCost: this.projectCost,
+      totalExpCost: this.projectExp,
     };
     const dialogRef = this.dialog.open(PreviewUtiFormComponent, {
       data: formdata,

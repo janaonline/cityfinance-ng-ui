@@ -309,6 +309,15 @@ width: 5% !important;
 .w-15{
   width: 15% !important;
 }
+.form-status-ut {
+  font-size: 10px !important;
+  margin-top: 10px  !important;
+  margin-bottom: 30px  !important;
+
+}
+.d-status{
+  padding-left: 1% !important;
+}
 
 @media print {
   .page-break {page-break-before: always;}
@@ -367,7 +376,6 @@ h6 {
 .form-status {
   font-size: 10px;
   margin-top: 10px;
-
 
 }
 
