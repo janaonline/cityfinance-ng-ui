@@ -511,6 +511,9 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   clearFile(path, type = null, fromUploadExcel = null) {
+    if(this.isDisabled){
+      return true
+    }
     const clearPathArray = fromUploadExcel ? path : path.split(".");
     if (type) {
       this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]]["pdfUrl"] =
