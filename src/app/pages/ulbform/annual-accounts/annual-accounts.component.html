@@ -13,7 +13,7 @@
     <div id="checkboxes" class="col-sm-12">
         <div class="col-sm-6">
             <input type="radio" name="rGroup" value="1" id="r1" (change)="changeAudit('Unaudited')"
-                [checked]="(audit_status == 'Unaudited')?true:false" [disabled]="isDisabled" />
+                [checked]="(audit_status == 'Unaudited')?true:false" />
             <label class="col-sm-6 square header1 text-center" for="r1">
                 <span style="vertical-align: sub;">
                     <b>Provisional Accounts for
@@ -23,7 +23,7 @@
         </div>
         <div class="col-sm-6">
             <input type="radio" name="rGroup" value="2" id="r2" [checked]="(audit_status == 'Audited')?true:false"
-                (change)="changeAudit('Audited')" [disabled]="isDisabled" />
+                (change)="changeAudit('Audited')" />
             <label class="col-sm-6 square header1 text-center" for="r2">
                 <span style="vertical-align: sub;">
                     <b>Audited Accounts for
@@ -41,16 +41,16 @@
                 </div>
                 <div [ngClass]="{'col-sm-6': quesOneAnswer}" style="margin-bottom: 2pc;">
                     <div id="checkboxes">
-                        <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit"
+                        <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [disabled]="isDisabled"
                             [checked]="(unauditResponse.submit_annual_accounts.answer == 'yes')?true:false"
                             (change)="answer('q1',true)" />
-                        <label class="btn" [ngClass]="{'qbtn': !quesOneAnswer, 'qbtn2':quesOneAnswer}" for="btnUnaudit">
+                        <label class="btn" [ngClass]="{'qbtn': !quesOneAnswer, 'qbtn2':quesOneAnswer, 'cross':isDisabled}" for="btnUnaudit">
                             Yes
                         </label>
                         <input type="radio" name="btnYesNoUnaudit" value="2" id="btnUnaudit2"
                             [checked]="(unauditResponse.submit_annual_accounts.answer == 'no')?true:false"
-                            (change)="answer('q1',false)" />
-                        <label class="btn " [ngClass]="{'qbtn': !quesOneAnswer,'qbtn2':quesOneAnswer}"
+                            [disabled]="isDisabled" (change)="answer('q1',false)" />
+                        <label class="btn " [ngClass]="{'qbtn': !quesOneAnswer,'qbtn2':quesOneAnswer, 'cross':isDisabled}"
                             style="margin-left: 7pc;" for="btnUnaudit2">
                             No
                         </label>
@@ -105,7 +105,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.bal_sheet',true)"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('unauditResponse.provisional_data.bal_sheet',true)"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -153,7 +153,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.bal_sheet')"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('unauditResponse.provisional_data.bal_sheet')"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -209,7 +209,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.bal_sheet_schedules',true)"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('unauditResponse.provisional_data.bal_sheet_schedules',true)"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -257,7 +257,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.bal_sheet_schedules')"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('unauditResponse.provisional_data.bal_sheet_schedules')"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -312,7 +312,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.inc_exp',true)"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('unauditResponse.provisional_data.inc_exp',true)"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -360,7 +360,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.inc_exp')"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('unauditResponse.provisional_data.inc_exp')"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -416,7 +416,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.inc_exp_schedules',true)"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('unauditResponse.provisional_data.inc_exp_schedules',true)"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -464,7 +464,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.inc_exp_schedules')"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('unauditResponse.provisional_data.inc_exp_schedules')"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -519,7 +519,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.cash_flow',true)"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('unauditResponse.provisional_data.cash_flow',true)"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -567,7 +567,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('unauditResponse.provisional_data.cash_flow')"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('unauditResponse.provisional_data.cash_flow')"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -590,17 +590,17 @@
                 </div>
                 <div [ngClass]="{'col-sm-6': quesTwoAnswer}" style="margin-bottom: 2pc;">
                     <div id="checkboxes2">
-                        <input type="radio" name="btnYesNoUnaudit2" value="1" id="btnUnauditB"
+                        <input type="radio" name="btnYesNoUnaudit2" value="1" id="btnUnauditB" [disabled]="isDisabled"
                             [checked]="(unauditResponse.submit_standardized_data.answer == 'yes')?true:false"
                             (change)="answer('q2',true)" />
-                        <label class="btn " [ngClass]="{'qbtn': !quesTwoAnswer, 'qbtn2':quesTwoAnswer}"
+                        <label class="btn " [ngClass]="{'qbtn': !quesTwoAnswer, 'qbtn2':quesTwoAnswer, 'cross':isDisabled}"
                             for="btnUnauditB">
                             Yes
                         </label>
-                        <input type="radio" name="btnYesNoUnaudit2" value="2"
+                        <input type="radio" name="btnYesNoUnaudit2" value="2" [disabled]="isDisabled"
                             [checked]="(unauditResponse.submit_standardized_data.answer == 'no')?true:false"
                             (change)="answer('q2',false)" id="btnUnauditB2" />
-                        <label class="btn " [ngClass]="{'qbtn': !quesTwoAnswer, 'qbtn2':quesTwoAnswer}"
+                        <label class="btn " [ngClass]="{'qbtn': !quesTwoAnswer, 'qbtn2':quesTwoAnswer, 'cross':isDisabled}"
                             style="margin-left: 7pc;" for="btnUnauditB2">
                             No
                         </label>
@@ -663,7 +663,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('unauditResponse.standardized_data.upload')"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('unauditResponse.standardized_data.upload')"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -703,16 +703,16 @@
                 </div>
                 <div [ngClass]="{'col-sm-6': quesOneAnswer1}" style="margin-bottom: 2pc;">
                     <div id="checkboxes2">
-                        <input type="radio" name="btnYesNoAudit" value="1" id="btnAudit"
+                        <input type="radio" name="btnYesNoAudit" value="1" id="btnAudit" [disabled]="isDisabled"
                             [checked]="(auditResponse.submit_annual_accounts.answer == 'yes')?true:false"
                             (change)="answer('q1',true,true)" />
-                        <label class="btn" [ngClass]="{'qbtn': !quesOneAnswer1, 'qbtn2':quesOneAnswer1}" for="btnAudit">
+                        <label class="btn" [ngClass]="{'qbtn': !quesOneAnswer1, 'qbtn2':quesOneAnswer1, 'cross':isDisabled}" for="btnAudit">
                             Yes
                         </label>
-                        <input type="radio" name="btnYesNoAudit" value="2" id="btnAudit2"
+                        <input type="radio" name="btnYesNoAudit" value="2" id="btnAudit2" [disabled]="isDisabled"
                             [checked]="(auditResponse.submit_annual_accounts.answer == 'no')?true:false"
                             (change)="answer('q1',false,true)" />
-                        <label class="btn" [ngClass]="{'qbtn': !quesOneAnswer1, 'qbtn2':quesOneAnswer1}"
+                        <label class="btn" [ngClass]="{'qbtn': !quesOneAnswer1, 'qbtn2':quesOneAnswer1, 'cross':isDisabled}"
                             style="margin-left: 7pc;" for="btnAudit2">
                             No
                         </label>
@@ -763,7 +763,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.bal_sheet',true)"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('auditResponse.provisional_data.bal_sheet',true)"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -811,7 +811,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.bal_sheet')"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('auditResponse.provisional_data.bal_sheet')"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -867,7 +867,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.bal_sheet_schedules',true)"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('auditResponse.provisional_data.bal_sheet_schedules',true)"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -915,7 +915,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.bal_sheet_schedules')"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('auditResponse.provisional_data.bal_sheet_schedules')"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -970,7 +970,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.inc_exp',true)"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('auditResponse.provisional_data.inc_exp',true)"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -1017,7 +1017,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.inc_exp')"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('auditResponse.provisional_data.inc_exp')"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -1073,7 +1073,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.inc_exp_schedules',true)"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('auditResponse.provisional_data.inc_exp_schedules',true)"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -1121,7 +1121,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.inc_exp_schedules')"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('auditResponse.provisional_data.inc_exp_schedules')"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -1175,7 +1175,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.cash_flow',true)"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('auditResponse.provisional_data.cash_flow',true)"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -1223,7 +1223,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.cash_flow')"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('auditResponse.provisional_data.cash_flow')"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -1269,7 +1269,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('auditResponse.provisional_data.auditor_report',true)"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('auditResponse.provisional_data.auditor_report',true)"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
@@ -1302,17 +1302,17 @@
                 </div>
                 <div [ngClass]="{'col-sm-6': quesTwoAnswer1}" style="margin-bottom: 2pc;">
                     <div id="checkboxes">
-                        <input type="radio" name="btnYesNoAudit2" value="1" id="btnAuditB"
+                        <input type="radio" name="btnYesNoAudit2" value="1" id="btnAuditB" [disabled]="isDisabled"
                             [checked]="(auditResponse.submit_standardized_data.answer == 'yes')?true:false"
                             (change)="answer('q2',true,true)" />
-                        <label class="btn " [ngClass]="{'qbtn': !quesTwoAnswer1, 'qbtn2':quesTwoAnswer1}"
+                        <label class="btn " [ngClass]="{'qbtn': !quesTwoAnswer1, 'qbtn2':quesTwoAnswer1, 'cross':isDisabled}"
                             for="btnAuditB">
                             Yes
                         </label>
-                        <input type="radio" name="btnYesNoAudit2" value="2"
+                        <input type="radio" name="btnYesNoAudit2" value="2" [disabled]="isDisabled"
                             [checked]="(auditResponse.submit_standardized_data.answer == 'no')?true:false"
                             (change)="answer('q2',false,true)" id="btnAuditB2" />
-                        <label class="btn " [ngClass]="{'qbtn': !quesTwoAnswer1, 'qbtn2':quesTwoAnswer1}"
+                        <label class="btn " [ngClass]="{'qbtn': !quesTwoAnswer1, 'qbtn2':quesTwoAnswer1, 'cross':isDisabled}"
                             style="margin-left: 7pc;" for="btnAuditB2">
                             No
                         </label>
@@ -1373,7 +1373,7 @@
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFile('auditResponse.standardized_data.upload')"
+                                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('auditResponse.standardized_data.upload')"
                                             style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                 style="height: 13px;">
