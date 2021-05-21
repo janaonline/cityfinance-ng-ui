@@ -1,4 +1,3 @@
-
 <div class="row" style="margin-bottom: 10px;">
     <div class="col-sm-8 col-lg-8 col-md-8">
         <label for="" style="color:#373737; font-size: 20px; font-weight: 500; margin-left: 2px;">
@@ -14,119 +13,136 @@
 
 <div class="row">
     <div class="col">
-        <form [formGroup]="waterAndSanitation">
-            <div class="card" style="background-color: #FFFFFF;">
-                <div class="card-body ">
-                    <div class="table-responsive">
-                        <div>
-                            <h4>Details of Proposed Project to Improve Service Level Indicators related to <b class="text-primary">Water Supply</b>
-                            </h4>
-                        </div>
-                        <table class="table custom-position">
-                            <thead>
-                                <tr class="thHeader">
-                                    <th scope="col">Project Name</th>
-                                    <th scope="col">Physical Components</th>
-                                    <th scope="col">Indicator</th>
-                                    <th scope="col">Existing
-                                        (As-is)</th>
-                                    <th scope="col">After
-                                        (To-be)</th>
-                                    <th scope="col">Estimated Cost
-                                        (Amount in INR)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <input type="text" placeholder="Enter Project Name" name="name" formControlName="name" id="">
-                                    </td>
-                                    <td>
-                                        <textarea placeholder="Enter Physical Components" ></textarea>
-                                    </td>
-                                    <td>
-                                        <mat-form-field style="margin-top: 1pc;" >
-                                            <!-- <mat-label>Select</mat-label> -->
-                                            <mat-select>
-                                                <mat-option *ngFor="let Indicator of waterIndicators" [value]="Indicator">
-                                                    {{Indicator}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </td>
-                                    <td>
-                                        <input type="number" placeholder="Enter Existing (As-is)" name="" id="">
-                                    </td>
-                                    <td>
-                                        <input type="number" name="" placeholder="Enter After (To-be)" id="">
-                                    </td>
-                                    <td>
-                                        <input type="number" name="" placeholder="Cost in INR" id="">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div>
-                            <h4>Details of Proposed Project to Improve Service Level Indicators related to <b class="text-primary">Sanitation</b></h4>
-                        </div>
-                        <table class="table custom-position">
-                            <thead>
-                                <tr class="thHeader">
-                                    <th scope="col">Project Name</th>
-                                    <th scope="col">Physical Components</th>
-                                    <th scope="col">Indicator</th>
-                                    <th scope="col">Existing
-                                        (As-is)</th>
-                                    <th scope="col">After
-                                        (To-be)</th>
-                                    <th scope="col">Estimated Cost
-                                        (Amount in INR)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <input type="text" placeholder="Enter Project Name" name="" id="">
-                                    </td>
-                                    <td>
-                                        <textarea placeholder="Enter Physical Components" ></textarea>
-                                    </td>
-                                    <td>
-                                        <mat-form-field style="margin-top: 1pc;" >
-                                            <!-- <mat-label>Select</mat-label> -->
-                                            <mat-select>
-                                                <mat-option *ngFor="let Indicator of sanitationIndicators" [value]="Indicator">
-                                                    {{Indicator}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </td>
-                                    <td>
-                                        <input type="number" placeholder="Enter Existing (As-is)" name="" id="">
-                                    </td>
-                                    <td>
-                                        <input type="number" placeholder="Enter After (To-be)" name="" id="">
-                                    </td>
-                                    <td>
-                                        <input type="number" placeholder="Cost in INR" name="" id="">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+        <div class="card" style="background-color: #FFFFFF;">
+            <div class="card-body ">
+                <div class="table-responsive">
+                    <div>
+                        <h4>Details of Proposed Project to Improve Service Level Indicators related to <b
+                                class="text-primary">Water Supply</b>
+                        </h4>
                     </div>
-    
+                    <table class="table custom-position">
+                        <thead>
+                            <tr class="thHeader">
+                                <th scope="col">Project Name</th>
+                                <th scope="col">Physical Components</th>
+                                <th scope="col">Indicator</th>
+                                <th scope="col">Existing
+                                    (As-is)</th>
+                                <th scope="col">After
+                                    (To-be)</th>
+                                <th scope="col">Estimated Cost
+                                    (Amount in INR)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input [ngClass]="{'error': errors.water.lengthError.text}" [matTooltip]="errors.water.lengthError.text ? 'at Max 25 Characters' : null" type="text" (keyup)="onKey($event,'water.name')"
+                                        placeholder="Enter Project Name" value="{{waterAndSanitation.water.name}}">
+                                </td>
+                                <td>
+                                    <textarea type="textarea" [ngClass]="{'error': errors.water.lengthError.textarea}" [matTooltip]="errors.water.lengthError.textarea ? 'at Max 200 Characters' : null" (keyup)="onKey($event,'water.component')"
+                                        placeholder="Enter Physical Components">{{waterAndSanitation.water.component}}</textarea>
+                                </td>
+                                <td>
+                                    <mat-form-field style="margin-top: 1pc;">
+                                        <!-- <mat-label>Select</mat-label> -->
+                                        <mat-select [(value)]="waterAndSanitation.water.serviceLevel.indicator"
+                                            (selectionChange)="onKey($event,'water.serviceLevel.indicator')">
+                                            <mat-option *ngFor="let Indicator of waterIndicators" [value]="Indicator">
+                                                {{Indicator}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <input type="number" [ngClass]="{'error': errors.water.serviceLvlError}" [matTooltip]="errors.water.serviceLvlError ? waterToolTip : null" (keyup)="onKey($event,'water.serviceLevel.existing')"
+                                        placeholder="Enter Existing (As-is)"
+                                        value="{{waterAndSanitation.water.serviceLevel.existing}}">
+                                </td>
+                                <td>
+                                    <input type="number" [ngClass]="{'error': errors.water.serviceLvlError}" [matTooltip]="errors.water.serviceLvlError ? waterToolTip : null" (keyup)="onKey($event,'water.serviceLevel.after')"
+                                        placeholder="Enter After (To-be)"
+                                        value="{{waterAndSanitation.water.serviceLevel.after}}">
+                                </td>
+                                <td>
+                                    <input type="number" (keyup)="onKey($event,'water.cost')" placeholder="Cost in INR"
+                                        value="{{waterAndSanitation.water.cost}}">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <h4>Details of Proposed Project to Improve Service Level Indicators related to <b
+                                class="text-primary">Sanitation</b></h4>
+                    </div>
+                    <table class="table custom-position">
+                        <thead>
+                            <tr class="thHeader">
+                                <th scope="col">Project Name</th>
+                                <th scope="col">Physical Components</th>
+                                <th scope="col">Indicator</th>
+                                <th scope="col">Existing
+                                    (As-is)</th>
+                                <th scope="col">After
+                                    (To-be)</th>
+                                <th scope="col">Estimated Cost
+                                    (Amount in INR)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="text" [ngClass]="{'error': errors.sanitation.lengthError.text}" [matTooltip]="errors.sanitation.lengthError.text ? 'at Max 25 Characters' : null" (keyup)="onKey($event,'sanitation.name')"
+                                        placeholder="Enter Project Name" value="{{waterAndSanitation.sanitation.name}}">
+                                </td>
+                                <td>
+                                    <textarea type="textarea" [ngClass]="{'error': errors.sanitation.lengthError.textarea}" [matTooltip]="errors.sanitation.lengthError.textarea ? 'at Max 200 Characters' : null" (keyup)="onKey($event,'sanitation.component')"
+                                        placeholder="Enter Physical Components">{{waterAndSanitation.sanitation.component}}</textarea>
+                                </td>
+                                <td>
+                                    <mat-form-field style="margin-top: 1pc;">
+                                        <!-- <mat-label>Select</mat-label> -->
+                                        <mat-select  [(value)]="waterAndSanitation.sanitation.serviceLevel.indicator"
+                                            (selectionChange)="onKey($event,'sanitation.serviceLevel.indicator')">
+                                            <mat-option *ngFor="let Indicator of sanitationIndicators"
+                                                [value]="Indicator">
+                                                {{Indicator}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <input type="number" [ngClass]="{'error': errors.sanitation.serviceLvlError}" [matTooltip]="errors.sanitation.serviceLvlError ? sanitationToolTip : null" (keyup)="onKey($event,'sanitation.serviceLevel.existing')"
+                                        placeholder="Enter Existing (As-is)"
+                                        value="{{waterAndSanitation.sanitation.serviceLevel.existing}}">
+                                </td>
+                                <td>
+                                    <input type="number" [ngClass]="{'error': errors.sanitation.serviceLvlError}" [matTooltip]="errors.sanitation.serviceLvlError ? sanitationToolTip : null" (keyup)="onKey($event,'sanitation.serviceLevel.after')"
+                                        placeholder="Enter After (To-be)"
+                                        value="{{waterAndSanitation.sanitation.serviceLevel.after}}">
+                                </td>
+                                <td>
+                                    <input type="number" (keyup)="onKey($event,'sanitation.cost')"
+                                        placeholder="Cost in INR" value="{{waterAndSanitation.sanitation.cost}}">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-    
+
             </div>
-            <div class="row" style="margin-top: 20px; margin-left: 10px;">
-                <div class="col-sm-6">
-                    <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../slbs']">BACK</a>
-                </div>
-                <div class="col-sm-6  text-right">
-                    <button type="button" class="btn saveBtn" (click)="saveForm(template)">SAVE</button>
-                </div>
+
+        </div>
+        <div class="row" style="margin-top: 20px; margin-left: 10px;">
+            <div class="col-sm-6">
+                <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../slbs']">BACK</a>
             </div>
-        </form>
+            <div class="col-sm-6  text-right">
+                <button type="button" class="btn saveBtn" (click)="saveForm(template)">SAVE</button>
+            </div>
+        </div>
     </div>
 </div>
 <ng-template #template>
@@ -140,8 +156,8 @@
             </div>
         </div>
 
-        <p style="margin-top: 8px;">Some information is pending in this form.<br> Are you sure you want to proceed to
-            next form?</p>
+        <p style="margin-top: 8px;">Some information is pending in this form.<br> Are you sure you want to save form?
+        </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
             <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;"
