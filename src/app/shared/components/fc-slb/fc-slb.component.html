@@ -118,10 +118,12 @@
             year.key
             ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
             year.key
-            ]?.errors == null">Value must be greater than
-              {{previousValue}}
-              and less than
-              {{afterValue}}
+            ]?.errors == null">
+
+              {{
+              year.key=== '2122'? 'Value must be less than ' + afterValue : year.key === '2425' ? 'Value must be greater
+              than ' + previousValue :
+              'Value must be greater than ' + previousValue + ' and less than ' + afterValue }}
             </span>
           </td>
           <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
@@ -288,10 +290,11 @@
             year.key
             ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
             year.key
-            ]?.errors == null">Value must be less than
-              {{previousValue}}
-              and greater than
-              {{afterValue}}
+            ]?.errors == null">
+              {{
+              year.key=== '2122'? 'Value must be less than ' + afterValue : year.key === '2425' ? 'Value must be greater
+              than ' + previousValue :
+              'Value must be greater than ' + previousValue + ' and less than ' + afterValue }}
             </span>
           </td>
           <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
@@ -458,10 +461,11 @@
             year.key
             ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
             year.key
-            ]?.errors == null">Value must be less than
-              {{previousValue}}
-              and greater than
-              {{afterValue}}
+            ]?.errors == null">
+              {{
+              year.key=== '2122'? 'Value must be less than ' + afterValue : year.key === '2425' ? 'Value must be greater
+              than ' + previousValue :
+              'Value must be greater than ' + previousValue + ' and less than ' + afterValue }}
             </span>
           </td>
           <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
@@ -628,10 +632,10 @@
             year.key
             ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
             year.key
-            ]?.errors == null">Value must be greater than
-              {{previousValue}}
-              and less than
-              {{afterValue}}
+            ]?.errors == null">{{
+              year.key=== '2122'? 'Value must be less than ' + afterValue : year.key === '2425' ? 'Value must be greater
+              than ' + previousValue :
+              'Value must be greater than ' + previousValue + ' and less than ' + afterValue }}
             </span>
 
           </td>
