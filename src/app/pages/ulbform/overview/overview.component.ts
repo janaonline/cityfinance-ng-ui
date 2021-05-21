@@ -28,17 +28,17 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       const { id } = val;
       if (id) {
         this.id = id;
-        console.log('stid',id)
+        console.log('stid', id)
         sessionStorage.setItem('row_id', id);
       }
     });
 
-   }
-stateName='';
-ulbName ='';
+  }
+  stateName = '';
+  ulbName = '';
   ngOnInit() {
 
-    this.Overview.getData('606aaf854dff55e6c075d219' , this.id)
+    this.Overview.getData('606aaf854dff55e6c075d219', this.id)
       .subscribe((res) => {
         console.log('overviewRes', res['response']);
         this.sessionUlbId = res['response']['ulb'];
@@ -56,7 +56,7 @@ ulbName ='';
           case USER_TYPE.PARTNER:
           case USER_TYPE.MoHUA:
           case USER_TYPE.ADMIN:
-                  this.storeUlbId();
+            this.storeUlbId();
             break;
 
         }
@@ -122,20 +122,20 @@ ulbName ='';
   hover = false
   i = 8098987
 
-  public accessGrant(){
-    if(this.id == null){
+  public accessGrant() {
+    if (this.id == null) {
       let userData = JSON.parse(localStorage.getItem('userData'));
-      this.isMillionPlus =  userData.isMillionPlus;
+      this.isMillionPlus = userData.isMillionPlus;
       this.isUA = userData.isUA;
-    }else{
-      this.isMillionPlus =sessionStorage.getItem('isMillionPlus');
+    } else {
+      this.isMillionPlus = sessionStorage.getItem('isMillionPlus');
       this.isUA = sessionStorage.getItem('isUA')
-      console.log('12elseblock' , this.isMillionPlus, this.isUA)
+      console.log('12elseblock', this.isMillionPlus, this.isUA)
     }
 
 
   }
-  storeUlbId(){
+  storeUlbId() {
     sessionStorage.setItem('ulb_id', this.sessionUlbId);
     sessionStorage.setItem('isMillionPlus', this.isMillionPlus);
     sessionStorage.setItem('isUA', this.isUA);
@@ -146,6 +146,9 @@ ulbName ='';
   onUnhover() {
     this.hover = false
 
+  }
+  goToLink(url: string) {
+    window.open(url, "_blank");
   }
   onHover1() {
     this.p = 80;

@@ -203,17 +203,17 @@ export class FcSlbComponent implements OnInit, OnChanges {
     this.invalidWhole = false;
 
     this.checkAutoValidCustom();
-    if (!this.invalidWhole) {
-      this.submitted = true;
-      if (this.showPublishedUpload && !this.publishedFileUrl)
+    // if (!this.invalidWhole) {
+    this.submitted = true;
+    if (this.showPublishedUpload && !this.publishedFileUrl)
 
-        return true
-      this.emitValues(this.form.getRawValue(), true);
-      console.log(this.showPublishedUpload)
-      console.log(this.form.getRawValue())
-    } else {
-      this.openModal(template1);
-    }
+      return true
+    this.emitValues(this.form.getRawValue(), true);
+    console.log(this.showPublishedUpload)
+    console.log(this.form.getRawValue())
+    // } else {
+    //   this.openModal(template1);
+    // }
 
   }
 
@@ -511,8 +511,9 @@ export class FcSlbComponent implements OnInit, OnChanges {
           this.invalidWhole = true;
       }
     }
-
+    console.log(this.invalidWhole)
   }
+
 }
 
 
