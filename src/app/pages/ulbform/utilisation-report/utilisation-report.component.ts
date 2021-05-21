@@ -264,7 +264,7 @@ ulbId =null;
       }),
       projects: this.fb.array([
         this.fb.group({
-          category: ["", Validators.required],
+          category: [null, Validators.required],
           name: [{value:'', disabled: this.isDisabled },Validators.required],
           description: ["", Validators.required],
           // 'imgUpload' : new FormControl(''),
@@ -449,7 +449,7 @@ ulbId =null;
   addRow() {
     this.tabelRows.push(
       this.fb.group({
-        category: ["", Validators.required],
+        category: [null, Validators.required],
         name: [
           "",
           [

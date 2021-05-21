@@ -88,7 +88,7 @@ nodataFound = false;
 
   }
   viewUlbForm(resData){
-     console.log(resData);
+     console.log('pk123456',resData);
   }
   stateName(){
     this.ulbService.getStateName()

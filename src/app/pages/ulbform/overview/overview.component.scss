@@ -75,7 +75,7 @@ a {
 .card-title {
     font-size: 17px;
     margin-top: 20px;
-    padding-left: 1.5rem;
+    // padding-left: 1.5rem;
     text-align: left;
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
@@ -117,10 +117,14 @@ a {
     text-align: justify;
     font-size: 18px;
     font-family: 'Roboto', sans-serif;
+    position: relative;
+    z-index:2;
 }
 
-svg:not(:root) {
+svg {
     overflow: overlay;
+    position : relative;
+    z-index:3;
 }
 
 .backButton {
