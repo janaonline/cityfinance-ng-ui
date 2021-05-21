@@ -36,6 +36,8 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   }
   stateName = '';
   ulbName = '';
+  formValue = 0;
+  factor = 0;
   ngOnInit() {
 
     this.Overview.getData('606aaf854dff55e6c075d219', this.id)
@@ -60,18 +62,34 @@ export class OverviewComponent extends BaseComponent implements OnInit {
             break;
 
         }
+
         this.accessGrant();
         for (let key of this.forms) {
           if (key) {
+
             this.count = this.count + key;
 
           }
 
         }
-        // if(this.isUA =='No' && this.isMillionPlus == 'Yes' ){
-        //   this.percentage = this.count * 20;
-        // }
-        this.percentage = this.count * 20;
+        if (this.isUA == 'Yes' && this.isMillionPlus == 'Yes' || this.isMillionPlus == 'No') {
+          this.formValue = 5;
+          this.factor = 100 / this.formValue;
+        }
+        else if (this.isUA == 'No' && this.isMillionPlus == 'No') {
+          this.formValue = 4;
+          this.factor = 100 / this.formValue;
+        }
+        else if (this.isUA == 'No' && this.isMillionPlus == 'Yes') {
+          this.formValue = 3;
+          this.factor = 100 / this.formValue;
+        } else {
+          this.formValue = 5;
+          this.factor = 100 / this.formValue;
+
+        }
+        this.percentage = this.count * this.factor;
+        // this.percentage = this.count * 20;
         if (this.percentage == 100) {
           this.status = 'Completed'
         }
