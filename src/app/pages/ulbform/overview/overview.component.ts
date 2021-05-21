@@ -28,19 +28,19 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       const { id } = val;
       if (id) {
         this.id = id;
-        console.log('stid',id)
+        console.log('stid', id)
         sessionStorage.setItem('row_id', id);
       }
     });
 
-   }
-stateName='';
-ulbName ='';
-formValue = 0;
-factor =0;
+  }
+  stateName = '';
+  ulbName = '';
+  formValue = 0;
+  factor = 0;
   ngOnInit() {
 
-    this.Overview.getData('606aaf854dff55e6c075d219' , this.id)
+    this.Overview.getData('606aaf854dff55e6c075d219', this.id)
       .subscribe((res) => {
         console.log('overviewRes', res['response']);
         this.sessionUlbId = res['response']['ulb'];
@@ -58,7 +58,7 @@ factor =0;
           case USER_TYPE.PARTNER:
           case USER_TYPE.MoHUA:
           case USER_TYPE.ADMIN:
-                  this.storeUlbId();
+            this.storeUlbId();
             break;
 
         }
@@ -72,20 +72,20 @@ factor =0;
           }
 
         }
-        if(this.isUA =='Yes' && this.isMillionPlus == 'Yes' || this.isMillionPlus == 'No' ){
-        this.formValue = 5;
-        this.factor = 100/this.formValue;
-        }
-       else if(this.isUA =='No' && this.isMillionPlus == 'No' ){
-          this.formValue = 4;
-          this.factor = 100/this.formValue;
-        }
-       else if(this.isUA =='No' && this.isMillionPlus == 'Yes' ){
-          this.formValue = 3;
-          this.factor = 100/this.formValue;
-        }else{
+        if (this.isUA == 'Yes' && this.isMillionPlus == 'Yes' || this.isMillionPlus == 'No') {
           this.formValue = 5;
-          this.factor = 100/this.formValue;
+          this.factor = 100 / this.formValue;
+        }
+        else if (this.isUA == 'No' && this.isMillionPlus == 'No') {
+          this.formValue = 4;
+          this.factor = 100 / this.formValue;
+        }
+        else if (this.isUA == 'No' && this.isMillionPlus == 'Yes') {
+          this.formValue = 3;
+          this.factor = 100 / this.formValue;
+        } else {
+          this.formValue = 5;
+          this.factor = 100 / this.formValue;
 
         }
         this.percentage = this.count * this.factor;
@@ -140,20 +140,20 @@ factor =0;
   hover = false
   i = 8098987
 
-  public accessGrant(){
-    if(this.id == null){
+  public accessGrant() {
+    if (this.id == null) {
       let userData = JSON.parse(localStorage.getItem('userData'));
-      this.isMillionPlus =  userData.isMillionPlus;
+      this.isMillionPlus = userData.isMillionPlus;
       this.isUA = userData.isUA;
-    }else{
-      this.isMillionPlus =sessionStorage.getItem('isMillionPlus');
+    } else {
+      this.isMillionPlus = sessionStorage.getItem('isMillionPlus');
       this.isUA = sessionStorage.getItem('isUA')
-      console.log('12elseblock' , this.isMillionPlus, this.isUA)
+      console.log('12elseblock', this.isMillionPlus, this.isUA)
     }
 
 
   }
-  storeUlbId(){
+  storeUlbId() {
     sessionStorage.setItem('ulb_id', this.sessionUlbId);
     sessionStorage.setItem('isMillionPlus', this.isMillionPlus);
     sessionStorage.setItem('isUA', this.isUA);
@@ -164,6 +164,9 @@ factor =0;
   onUnhover() {
     this.hover = false
 
+  }
+  goToLink(url: string) {
+    window.open(url, "_blank");
   }
   onHover1() {
     this.p = 80;
