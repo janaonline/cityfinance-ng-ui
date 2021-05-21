@@ -44,7 +44,7 @@ export class AnnualAccountsComponent implements OnInit {
   quesTwoAnswer1: boolean = false;
   audit_status;
   Years = JSON.parse(localStorage.getItem("Years"));
-  dateShow: string = "2021-22";
+  dateShow: string = "2020-21";
   childComp = false;
   isPdf;
   fileSelected;
@@ -475,7 +475,7 @@ export class AnnualAccountsComponent implements OnInit {
         // this[this.response].year = this.Years["2019-20"] ;
         break;
       default:
-        this.dateShow = "2021-22";
+        this.dateShow = "2020-21";
         this.response = "unauditResponse";
         this[this.response].audit_status = audit;
         // this[this.resresponseponse].year = this.Years["2020-21"];

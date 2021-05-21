@@ -581,7 +581,7 @@
             </div>
         </div>
 
-        <div class="col-sm-12 mat-card card-body">
+        <div *ngIf="quesOneAnswer" class="col-sm-12 mat-card card-body">
             <div class="mat-card-content" style="margin-top: 2rem;">
                 <div [ngClass]="{'col-sm-6 quesLine': quesTwoAnswer}">
                     <span class="quesIn"><b>(B) Do you wish to submit financials in standardized format for {{dateShow}}
@@ -1294,7 +1294,7 @@
             </div>
         </div>
 
-        <div class="col-md-12 mat-card card-body">
+        <div *ngIf="quesOneAnswer1" class="col-md-12 mat-card card-body">
             <div class="mat-card-content" style="margin-top: 2rem;">
                 <div [ngClass]="{'col-sm-6 quesLine': quesTwoAnswer1}">
                     <span class="quesIn"><b>(B) Do you wish to submit financials in standardized format for {{dateShow}}
