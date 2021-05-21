@@ -45,7 +45,7 @@
         <button class="backButton" [routerLink]="['../overview']">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-        <button class="save" (click)=" SAVEANDNEXT(template1)" [disabled]="isDisabled">{{change == true? 'SAVE AND
+        <button class="save" (click)=" saveAndNextValue(template1)" [disabled]="isDisabled">{{change == true? 'SAVE AND
             NEXT': 'NEXT'}}</button>
     </div>
 </div>

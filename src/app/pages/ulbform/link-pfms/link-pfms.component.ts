@@ -104,7 +104,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
 
 
-  SAVEANDNEXT(template1) {
+  saveAndNextValue(template1) {
     this.saveClicked = true;
     this.saveAndNext(template1);
 
