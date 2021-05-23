@@ -1,3 +1,4 @@
+<!-- <div (window:resize)="onResize($event)"></div> -->
 <div class="container-fluid">
     <div class="row header1">
         <div>
@@ -19,21 +20,57 @@
                 </div>
             </div>
         </div>
+
         <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="titleCards">
-                <a [routerLink]="['../pfms_acc']">
+
+            <div class="row titleCards">
+                <div class="col">
+                    <carousel [itemsPerSlide]="itemsPerSlide" style="background-image: none;" [singleSlideOffset]="false" [interval]="false" [noWrap]="noWrap" [showIndicators]="false">
+                        <slide *ngFor="let slide of slides; let index=index">
+                            <a routerLink="{{link[index]}}">
+                                <div class="card  individualCard" (mouseenter)="onHover(index)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
+      index == 0 ?'linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
+      'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#549D5E, #2A4F2F)' :
+      index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(#E71368, #740A34)' : index == 6 ?
+       'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' }">
+
+                                    <img [src]="slide.image" height="22" width="27" />
+                                    <div class="card-body">
+
+                                        <h5 class="card-title"> {{cards[index]}} </h5>
+
+                                    </div>
+                                </div>
+                            </a>
+                            <svg height="42px" width="auto" [style.display]="index == val ? 'block' : 'none'">
+                              <line [attr.x1]="60" y1="0px " [attr.x2]="60" y2="42px " style="stroke-width:2;"
+                                  [ngStyle]="{ 'stroke': index==0 ? '#73C557': index==1 ? '#42C9F6': index==2 ?
+                                  '#F16831': index==3 ? '#549D5E' : index==4? '#FDCB2E': index==5? '#E71368' : index==6 ?
+                                  '#9D198B' : '#73C557' } " />
+                              <svg height="30 " width="auto ">
+                                  <circle [attr.cx]="60" cy="42 " r="12 " stroke="white " stroke-width="10 "
+                                      [ngStyle]="{ 'fill': index==0 ? '#73C557': index==1 ? '#42C9F6': index==2 ? '#F16831':
+                                      index==3 ? '#549D5E' : index==4 ? '#FDCB2E': index==5 ? '#E71368' : index==6 ? '#9D198B' : '#73C557' } " />
+                              </svg>
+                            </svg>
+                        </slide>
+
+                    </carousel>
+
+                    <!-- <a [routerLink]="['../pfms_acc']">
                     <div class="card  individualCard" (mouseenter)="onHover1()" (mouseleave)="onUnhover()" style="margin-left: 0px; background-image:linear-gradient(#73C557, #3A632C);">
 
                         <img src="../../../../assets//ulbform/lpa.svg" height="22" width="27" />
                         <div class="card-body">
 
-                            <h5 class="card-title">{{cards[0]}}</h5>
+                            <h5 class="card-title"> {{cards[0]}} </h5>
 
                         </div>
                     </div>
                 </a>
-                <a [routerLink]="['../grant-tra-certi']">
-                    <div class="card  individualCard" (mouseenter)="onHover2()" (mouseleave)="onUnhover()" style="background-image: linear-gradient(#42C9F6, #21657B);">
+                <a [routerLink]="['../grant-tra-certi' ]">
+                    <div class="card  individualCard" (mouseenter)="onHover2()" (mouseleave)="onUnhover()"
+                    style="background-image: linear-gradient(#42C9F6, #21657B);">
                         <img src="../../../../assets//ulbform/gtc.svg" height="22" width="27" />
                         <div class="card-body">
                             <h5 class="card-title">{{cards[1]}}</h5>
@@ -42,23 +79,26 @@
                     </div>
                 </a>
                 <a [routerLink]="['../utilisation-report']">
-                    <div class="card  individualCard" (mouseenter)="onHover3()" (mouseleave)="onUnhover()" style="background-image: linear-gradient(#F16831, #793419);">
+                    <div class="card  individualCard" (mouseenter)="onHover3()" (mouseleave)="onUnhover()"
+                    style="background-image: linear-gradient(#F16831, #793419);">
                         <img src="../../../../assets//ulbform/dur.svg" height="22" width="27" />
                         <div class="card-body">
                             <h5 class="card-title">{{cards[2]}}</h5>
                         </div>
                     </div>
                 </a>
-                <a [routerLink]="['../annual_acc']">
-                    <div class="card  mb-3 individualCard" (mouseenter)="onHover4()" (mouseleave)="onUnhover()" style="background-image: linear-gradient(#549D5E, #2A4F2F);">
+                <a [routerLink]="['../annual_acc' ]">
+                    <div class="card  mb-3 individualCard" (mouseenter)="onHover4()" (mouseleave)="onUnhover()"
+                    style="background-image: linear-gradient(#549D5E, #2A4F2F);">
                         <img src="../../../../assets//ulbform/aa.svg" height="22" width="27" />
                         <div class="card-body">
                             <h5 class="card-title">{{cards[3]}}</h5>
                         </div>
                     </div>
                 </a>
-                <a [routerLink]="['../service-level']">
-                    <div class="card individualCard" (mouseenter)="onHover5()" (mouseleave)="onUnhover()" style="background-image:linear-gradient(#FDCB2E, #7F6617);">
+                <a [routerLink]="['../service-level' ]">
+                    <div class="card individualCard" (mouseenter)="onHover5()" (mouseleave)="onUnhover()"
+                     style="background-image:linear-gradient(#FDCB2E, #7F6617);">
                         <img src="../../../../assets//ulbform/slb.svg" height="22" width="27" />
                         <div class="card-body">
                             <h5 class="card-title">{{cards[4]}}</h5>
@@ -66,86 +106,82 @@
                         </div>
                     </div>
                 </a>
-                <a [routerLink]="['../slbs']">
-                    <div class="card individualCard" *ngIf="isUA == 'Yes'" (mouseenter)="onHover6()" (mouseleave)="onUnhover()" style="background-image: linear-gradient(#E71368, #740A34);">
+                <a [routerLink]="['../slbs' ]">
+                    <div class="card individualCard" *ngIf="isUA == 'Yes'" (mouseenter)="onHover6()"
+                    (mouseleave)="onUnhover()" style="background-image: linear-gradient(#E71368, #740A34);">
                         <img src="../../../../assets//ulbform/mpccf.svg" height="22" width="27" />
                         <div class="card-body ">
                             <h5 class="card-title">{{cards[5]}}</h5>
                         </div>
                     </div>
                 </a>
-                <a [routerLink]="['../water-sanitation']">
-                    <div class="card  individualCard" (mouseenter)="onHover7()" *ngIf="isMillionPlus =='No'" (mouseleave)="onUnhover()" style="background-image: linear-gradient(#9D198B, #4F0D46);">
+                <a [routerLink]="['../water-sanitation' ]">
+                    <div class="card  individualCard" (mouseenter)="onHover7()" *ngIf="isMillionPlus =='No'"
+                    (mouseleave)="onUnhover()" style="background-image: linear-gradient(#9D198B, #4F0D46);">
                         <img src="../../../../assets//ulbform/plan for water and sanitation.svg" height="22" width="27" />
                         <div class="card-body">
                             <h5 class="card-title">{{cards[6]}}</h5>
                         </div>
                     </div>
-                </a>
+                </a> -->
+
+                </div>
+
             </div>
         </div>
-        <svg height="42px" width="auto">
-        <line [attr.x1]="p" y1="0px" [attr.x2]="p" y2="42px" style="stroke-width:2;"
-            [ngStyle]="{'stroke':
-        i == 1 ?'#73C557': i ==2 ? '#42C9F6': i==3 ? '#F16831': i==4 ? '#549D5E' : i==5? '#FDCB2E': i==6? '#E71368' : i==7 ? '#9D198B' : '#73C557' }" />
-        <svg height="30" width="auto">
-            <circle [attr.cx]="p" cy="42" r="12" stroke="white" stroke-width="10"
-                [ngStyle]="{'fill':
-            i == 1 ?'#73C557': i ==2 ? '#42C9F6': i==3 ? '#F16831': i==4 ? '#549D5E' : i==5? '#FDCB2E': i==6? '#E71368' : i==7 ? '#9D198B' : '#73C557' }" />
-        </svg>
-        </svg>
-        <div class="col-sm-12">
-            <div class="message" [ngStyle]="{'background-image':
-    i == 1 ?'linear-gradient(#73C557, #3A632C)': i ==2 ? 'linear-gradient(#42C9F6, #21657B)': i==3 ? 'linear-gradient(#F16831, #793419)': i==4 ? 'linear-gradient(#549D5E, #2A4F2F)' : i==5? 'linear-gradient(#FDCB2E, #7F6617)': i==6? 'linear-gradient(#E71368, #740A34)' : i==7 ? 'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)'    }">
+
+        <div class="col-sm-12 ">
+            <div class="message " [ngStyle]="{ 'background-image': i==1 ? 'linear-gradient(#73C557, #3A632C)': i==2 ? 'linear-gradient(#42C9F6, #21657B)': i==3 ? 'linear-gradient(#F16831, #793419)': i==4 ? 'linear-gradient(#549D5E, #2A4F2F)' : i==5?
+            'linear-gradient(#FDCB2E, #7F6617)': i==6? 'linear-gradient(#E71368, #740A34)' : i==7 ? 'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' } ">
                 {{message}}
             </div>
         </div>
     </div>
-    <div class="row header3">
-        <div class="col-sm-12">
-            <div class="h1">Resources</div>
+    <div class="row header3 ">
+        <div class="col-sm-12 ">
+            <div class="h1 ">Resources</div>
         </div>
-        <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="resourceCards">
-                <div class="individualResource">
-                    <img src={{imageUrls[0]}} class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[0]}}</a></h5>
+        <div class="col-sm-12 col-md-12 col-lg-12 ">
+            <div class="resourceCards ">
+                <div class="individualResource ">
+                    <img src={{imageUrls[0]}} class="card-img-top " alt="... ">
+                    <div class="card-body ">
+                        <h5 class="card-title " style="text-align: center; "><a href=" ">{{resourceNames[0]}}</a></h5>
                     </div>
                 </div>
-                <div class="individualResource">
-                    <img src={{imageUrls[1]}} class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[1]}}</a></h5>
+                <div class="individualResource ">
+                    <img src={{imageUrls[1]}} class="card-img-top " alt="... ">
+                    <div class="card-body ">
+                        <h5 class="card-title " style="text-align: center; "><a href=" ">{{resourceNames[1]}}</a></h5>
                     </div>
                 </div>
-                <div class="individualResource">
-                    <img src={{imageUrls[2]}} class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[2]}}</a></h5>
+                <div class="individualResource ">
+                    <img src={{imageUrls[2]}} class="card-img-top " alt="... ">
+                    <div class="card-body ">
+                        <h5 class="card-title " style="text-align: center; "><a href=" ">{{resourceNames[2]}}</a></h5>
                     </div>
                 </div>
-                <div class="individualResource">
-                    <img src={{imageUrls[3]}} class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[3]}}</a></h5>
+                <div class="individualResource ">
+                    <img src={{imageUrls[3]}} class="card-img-top " alt="... ">
+                    <div class="card-body ">
+                        <h5 class="card-title " style="text-align: center; "><a href=" ">{{resourceNames[3]}}</a></h5>
                     </div>
                 </div>
-                <div class="individualResource">
-                    <img src={{imageUrls[4]}} class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;"><a href="">{{resourceNames[4]}}</a></h5>
+                <div class="individualResource ">
+                    <img src={{imageUrls[4]}} class="card-img-top " alt="... ">
+                    <div class="card-body ">
+                        <h5 class="card-title " style="text-align: center; "><a href=" ">{{resourceNames[4]}}</a></h5>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row" style="margin: 0; ">
-        <div class="col-sm-6 co-lg-6 col-md-6">
-            <button class="btn backButton" routerLink="/fc-home-page">BACK</button>
+    <div class="row " style="margin: 0; ">
+        <div class="col-sm-6 co-lg-6 col-md-6 ">
+            <button class="btn backButton " routerLink="/fc-home-page ">BACK</button>
         </div>
-        <div class="col-sm-6 co-lg-6 col-md-6 text-right">
-            <button class="btn save" [routerLink]="['../pfms_acc']">NEXT</button>
+        <div class="col-sm-6 co-lg-6 col-md-6 text-right ">
+            <button class="btn save " [routerLink]="[ '../pfms_acc'] ">NEXT</button>
         </div>
     </div>
 

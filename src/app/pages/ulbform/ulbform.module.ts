@@ -36,7 +36,7 @@ import { PlanGuardGuard } from './water-sanitation/plan-guard.guard'
 import { SlbsGaurdGuard } from './slbs/slbs-gaurd.guard';
 import { AnnualPreviewComponent } from './annual-accounts/annual-preview/annual-preview.component';
 import { ServiceSlbsComponent } from './service-slbs/service-slbs.component';
-
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 @NgModule({
   entryComponents: [PreviewUtiFormComponent, ImagePreviewComponent],
@@ -62,6 +62,7 @@ import { ServiceSlbsComponent } from './service-slbs/service-slbs.component';
 
   ],
   imports: [
+    CarouselModule.forRoot(),
     CommonModule,
     UlbformRoutingModule,
     MatInputModule,

@@ -86,6 +86,8 @@ export class SlbsComponent implements OnInit {
       this.commonService.fetchSlbData(params, ulbId).subscribe(res => {
 
         this.preFilledWaterManagement = res['data'] && res['data'][0] ? res['data'][0] : {};
+        this.preFilledWaterManagement.history = null;
+        console.log(JSON.stringify(this.preFilledWaterManagement));
         let waterPotability = res['data'] && res['data'][0] && res['data'][0]['waterPotability']['documents']['waterPotabilityPlan'] ? res['data'][0]['waterPotability']['documents']['waterPotabilityPlan'][0] : {}
 
         this.waterPotability = waterPotability && waterPotability.hasOwnProperty('url') ? waterPotability : { name: '', url: '' }
@@ -95,6 +97,7 @@ export class SlbsComponent implements OnInit {
 
         resolve(res)
         sessionStorage.setItem("slbData", JSON.stringify(res))
+
       })
 
     })
@@ -154,7 +157,13 @@ export class SlbsComponent implements OnInit {
 
 
   showPreview() {
-    console.log(this.waterPotability);
+  let waterValue ={
+    plan: this.data['waterPotabilityPlan'],
+    index: this.data['water_index']
+  }
+
+   console.log('dxhfcgfvkjghgshi',waterValue);
+    console.log('pr', this.waterWasteManagementForm.getRawValue())
     this.previewData = {
       ...this.preFilledWaterManagement,
       ulb: this.loggedInUserDetails.ulb,
@@ -162,6 +171,8 @@ export class SlbsComponent implements OnInit {
       waterManagement:
         this.waterWasteManagementForm.getRawValue(),
       waterPotability: this.waterPotability,
+      preWater: waterValue
+
 
     };
 

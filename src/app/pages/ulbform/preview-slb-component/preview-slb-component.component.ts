@@ -116,7 +116,7 @@ export class PreviewSlbComponentComponent implements OnInit {
     display: none;
   }
   .qus-slb {
-    margin-left: 1.5rem;
+    margin-left: 2%;
     font-weight: normal;
     font-size: 12px;
 }
@@ -126,12 +126,19 @@ export class PreviewSlbComponentComponent implements OnInit {
     font-weight: normal;
     font-size: 12px;
 }
+.ans-slb-a {
+  margin-left: 5.8rem;
+  font-weight: normal !important;
+  font-size: 10px !important;
+}
 
 
   </style>`;
 
   states: { [stateId: string]: IState };
   water_index_qus='';
+  fileUrl ='';
+  fileName ='';
   constructor(
     private _questionnaireService: QuestionnaireService,
     private _commonService: CommonService,
@@ -142,13 +149,27 @@ export class PreviewSlbComponentComponent implements OnInit {
 
   ngOnInit() {
     this.data = this.formatResponse(this.data);
-    console.log('hi',this.data);
-    console.log(this.data.water_index)
-    if(this.data.water_index){
-         this.water_index_qus = 'Yes'
-    }else{
-      this.water_index_qus = 'No'
-    }
+    this.data.history=null;
+    console.log('hi', JSON.stringify(this.data));
+    if(this.data.preWater.index != undefined){
+
+      this.fileName = this.data.preWater.plan.name;
+      this.fileUrl = this.data.preWater.plan.url;
+                if(this.data.preWater.index){
+                            this.water_index_qus = 'Yes'
+                 }else{
+                           this.water_index_qus = 'No'
+                      }
+      }else{
+            this.fileName = this.data.waterPotability.name;
+            this.fileUrl = this.data.waterPotability.url;
+                if(this.data.water_index){
+                     this.water_index_qus = 'Yes'
+                  }else{
+                        this.water_index_qus = 'No'
+                       }
+       }
+
   }
 
   replaceAllOccurence(

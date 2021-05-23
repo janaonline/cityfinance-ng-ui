@@ -324,6 +324,13 @@ ulbId =null;
     if (!isNaN(controlValue) || controlValue != 0) {
       controlValue.toFixed(2);
     }
+    if (
+      this.projectExp != this.utilizationReport.controls.grantPosition.value.expDuringYr
+    ) {
+      this.isSumEqual = true;
+    } else {
+      this.isSumEqual = false;
+    }
 
     this.patchValue(controlValue, setFormControl);
 

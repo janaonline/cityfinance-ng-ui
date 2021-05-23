@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Overview } from './overview.service'
 import { USER_TYPE } from 'src/app/models/user/userType';
@@ -9,6 +9,7 @@ import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
+
 export class OverviewComponent extends BaseComponent implements OnInit {
 
   errMessage = ''
@@ -38,8 +39,58 @@ stateName='';
 ulbName ='';
 formValue = 0;
 factor =0;
-  ngOnInit() {
 
+itemsPerSlide = 5;
+singleSlideOffset = true;
+noWrap = false;
+val = 0;
+slides = [
+  {image: '../../../../assets//ulbform/lpa.svg'},
+  {image: '../../../../assets//ulbform/gtc.svg '},
+  {image: '../../../../assets/ulbform/dur.svg'},
+  {image: '../../../../assets/ulbform/aa.svg'},
+  {image: '../../../../assets/ulbform/slb.svg'},
+  {image: '../../../../assets/ulbform/mpccf.svg'},
+  {image: '../../../../assets/ulbform/plan for water and sanitation.svg'}
+];
+public innerWidth: number;
+
+// @HostListener('window:resize', ['$event'])
+// public onResize(event) {
+//   this.innerWidth = event.target.innerWidth;
+//   console.log('pk agr', this.innerWidth)
+//   if (this.innerWidth < this.mobileBreakpoint) {
+//     console.log('800px')
+//     this.itemsPerSlide = 3;
+//   } else {
+//     this.itemsPerSlide = 5;
+//   }
+//   console.log(this.itemsPerSlide)
+// }
+public onResize() {
+  this.innerWidth = window.innerWidth;
+  console.log('pk agr', this.innerWidth)
+  if (this.innerWidth > 1000) {
+   // console.log('800px')
+    this.itemsPerSlide = 5;
+  }
+  else if(this.innerWidth  > 750){
+    this.itemsPerSlide = 3;
+  }
+  else if(this.innerWidth > 600){
+    this.itemsPerSlide = 2;
+  }
+  else if(this.innerWidth < 500){
+    this.itemsPerSlide = 2;
+  }
+  else {
+    this.itemsPerSlide = 5;
+  }
+  console.log(this.itemsPerSlide)
+}
+
+  ngOnInit() {
+    this.onResize();
     this.Overview.getData('606aaf854dff55e6c075d219' , this.id)
       .subscribe((res) => {
         console.log('overviewRes', res['response']);
@@ -72,13 +123,14 @@ factor =0;
           }
 
         }
-        if(this.isUA =='Yes' && this.isMillionPlus == 'Yes' || this.isMillionPlus == 'No' ){
+        if(this.isUA =='Yes' && (this.isMillionPlus == 'Yes' || this.isMillionPlus == 'No' )){
         this.formValue = 5;
         this.factor = 100/this.formValue;
         }
        else if(this.isUA =='No' && this.isMillionPlus == 'No' ){
           this.formValue = 4;
-          this.factor = 100/this.formValue;
+          this.factor = 100/(+this.formValue);
+          console.log('no. no', this.factor)
         }
        else if(this.isUA =='No' && this.isMillionPlus == 'Yes' ){
           this.formValue = 3;
@@ -142,9 +194,11 @@ factor =0;
 
   public accessGrant(){
     if(this.id == null){
+      console.log('abc', this.id)
       let userData = JSON.parse(localStorage.getItem('userData'));
       this.isMillionPlus =  userData.isMillionPlus;
       this.isUA = userData.isUA;
+      console.log('12if' , this.isMillionPlus, this.isUA)
     }else{
       this.isMillionPlus =sessionStorage.getItem('isMillionPlus');
       this.isUA = sessionStorage.getItem('isUA')
@@ -153,23 +207,91 @@ factor =0;
 
 
   }
+  link =[
+    '../pfms_acc',
+    '../grant-tra-certi',
+    '../utilisation-report',
+    '../annual_acc',
+    '../service-level',
+    '../slbs',
+    '../water-sanitation'
+
+]
   storeUlbId(){
     sessionStorage.setItem('ulb_id', this.sessionUlbId);
-    sessionStorage.setItem('isMillionPlus', this.isMillionPlus);
-    sessionStorage.setItem('isUA', this.isUA);
-    sessionStorage.setItem('stateName', this.stateName);
-    sessionStorage.setItem('ulbName', this.ulbName);
+    // sessionStorage.setItem('isMillionPlus', this.isMillionPlus);
+    // sessionStorage.setItem('isUA', this.isUA);
+    // sessionStorage.setItem('stateName', this.stateName);
+    // sessionStorage.setItem('ulbName', this.ulbName);
     console.log('ulb_id', this.sessionUlbId)
   }
-  onUnhover() {
+  onUnhover(num) {
     this.hover = false
-
+    this.val = num;
   }
-  onHover1() {
-    this.p = 80;
-    this.hover = true;
-    this.i = 1;
-    this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
+  // onHover1() {
+  //  // this.p = 80;
+  //     this.hover = true;
+  //     this.i = 1;
+  //     this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
+  // }
+  onHover(num) {
+    console.log('index-num', num);
+   // this.p = (num+1)*80;
+    if(num == 0){
+   //   this.p = (num+1)*80;
+      this.val = 0;
+      this.hover = true;
+      this.i = 1;
+      this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
+    }
+    if(num == 1){
+    //  this.p = (num+1)*135;
+        this.val=1;
+        this.hover = true;
+        this.i = 2;
+        this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
+    }
+    if(num == 2){
+    //  this.p = (num+2)*120;
+       this.val =2;
+       this.hover = true;
+       this.i = 3;
+       this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
+
+    }
+    if(num == 3){
+   //  this.p = (num+3)*112;
+       this.val = 3;
+       this.hover = true;
+       this.i = 4;
+       this.message = "ULBs to upload provisional annual accounts for previous year and audited annual accounts for year previous year w.r.t. award year."
+
+    }
+    if(num == 4){
+    //  this.p = (num+3)*125;
+       this.val = 4;
+       this.hover = true;
+       this.i = 4;
+       this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
+    }
+    if(num == 5){
+     // this.p = (num+3)*125;
+        this.val =5;
+        this.hover = true;
+        this.i = 6;
+        this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
+
+    }
+    if(num == 6){
+    //  this.p = (num+3)*120;
+       this.val =6;
+       this.hover = true;
+       this.i = 7;
+       this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
+
+    }
+
   }
   onHover2() {
     this.p = 215;
