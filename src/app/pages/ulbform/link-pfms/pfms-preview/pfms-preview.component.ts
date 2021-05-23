@@ -1,9 +1,12 @@
-import { Component, OnInit, Inject, Input, ElementRef, ViewChild} from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, Inject, Input, ElementRef, ViewChild, TemplateRef, Output, EventEmitter } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { QuestionnaireService } from '../../../questionnaires/service/questionnaire.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
-
+import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { SweetAlert } from "sweetalert/typings/core";
+import { LinkPFMSAccount } from "../link-pfms.service";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-pfms-preview',
   templateUrl: './pfms-preview.component.html',
@@ -11,12 +14,18 @@ import { defaultDailogConfiuration } from '../../../questionnaires/state/configs
 })
 export class PfmsPreviewComponent implements OnInit {
 
+  modalRef: BsModalRef;
+  @ViewChild("pfmsPre") _html: ElementRef;
+  showLoader;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+    private _questionnaireService: QuestionnaireService,
+    private LinkPFMSAccount: LinkPFMSAccount,
 
-    @ViewChild("pfmsPre") _html: ElementRef;
-    showLoader;
-    constructor(@Inject(MAT_DIALOG_DATA) public data: any ,
-    private _questionnaireService: QuestionnaireService,private _matDialog: MatDialog) { }
-    styleForPDF=`<style>
+    private _matDialog: MatDialog,
+    private modalService: BsModalService,) { }
+  @ViewChild("template") template;
+
+  styleForPDF = `<style>
     .header-p {
       background-color: #047474;
       height: 70px;
@@ -61,12 +70,38 @@ export class PfmsPreviewComponent implements OnInit {
     </style>`
 
   @Input() parentData
-
+  @Output() change = new EventEmitter<any>();
+  errMessage = ''
   ngOnInit(): void {
-
-    if(this.parentData){
+    this.clicked = false
+    if (this.parentData) {
       this.data = this.parentData
     }
+  }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: "modal-md" });
+  }
+  clicked = false;
+
+
+  clickedDownloadAsPDF(template) {
+    let changeHappen = sessionStorage.getItem("changeInPFMSAccount")
+    this.clicked = true;
+    this.change.emit(this.clicked)
+    //use dialog instead of Modal
+    if (changeHappen === 'true') {
+      this.openDialog(template);
+    } else {
+      this.downloadAsPDF();
+    }
+
+
+    // this.openModal(template)
+  }
+  dialogRef
+  openDialog(template) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this._matDialog.open(template, dialogConfig);
   }
 
   downloadAsPDF() {
@@ -108,5 +143,34 @@ export class PfmsPreviewComponent implements OnInit {
     return url;
   }
 
+  async proceed(uploadedFiles) {
+    // await this.modalRef.hide();
+    this._matDialog.closeAll();
+    // this._matDialog.close(this.clicked);
+    // this._matDialog.closeAll('Hello');
+    // this._matDialog.ngOnDestroy()
+    console.log('Check this value', this.data)
+    sessionStorage.setItem("changeInPFMSAccount", "false");
+    this.LinkPFMSAccount.postData(this.data)
+      .subscribe((res) => {
+        console.log(res);
+        swal("Record submitted successfully!")
+      },
+        error => {
+          this.errMessage = error.message;
+          console.log(error, this.errMessage);
+        });
+
+    this.downloadAsPDF()
+
+
+  }
+  alertClose() {
+    this.stay();
+  }
+
+  stay() {
+    this.dialogRef.close();
+  }
 
 }
