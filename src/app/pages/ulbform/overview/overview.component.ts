@@ -41,10 +41,11 @@ ulbName ='';
 formValue = 0;
 factor =0;
 
-itemsPerSlide = 5;
+itemsPerSlide = 7;
 singleSlideOffset = true;
 noWrap = false;
 val = 0;
+cardFit= false;
 slides = [
   {image: '../../../../assets//ulbform/lpa.svg'},
   {image: '../../../../assets//ulbform/gtc.svg '},
@@ -71,6 +72,11 @@ public innerWidth: number;
 public onResize() {
   this.innerWidth = window.innerWidth;
   console.log('pk agr', this.innerWidth)
+  if (this.innerWidth > 1200) {
+     this.itemsPerSlide = 7;
+     this.cardFit = true;
+
+  }
   if (this.innerWidth > 1000) {
    // console.log('800px')
     this.itemsPerSlide = 5;

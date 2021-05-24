@@ -25,7 +25,7 @@
 
             <div class="row titleCards">
                 <div class="col">
-                    <carousel [itemsPerSlide]="itemsPerSlide" style="background-image: none;" [singleSlideOffset]="false" [interval]="false" [noWrap]="noWrap" [showIndicators]="false">
+                    <carousel [itemsPerSlide]="itemsPerSlide" style="background-image: none;" [ngClass]='{"a-con": cardFit}' [singleSlideOffset]="false" [interval]="false" [noWrap]="noWrap" [showIndicators]="false">
                         <slide *ngFor="let slide of slides; let index=index">
                             <a routerLink="{{link[index]}}">
                                 <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
@@ -47,7 +47,7 @@
                                   [ngStyle]="{ 'stroke': index==0 ? '#73C557': index==1 ? '#42C9F6': index==2 ?
                                   '#F16831': index==3 ? '#549D5E' : index==4? '#FDCB2E': index==5? '#E71368' : index==6 ?
                                   '#9D198B' : '#73C557' } " />
-                              <svg height="30 " width="auto ">
+                              <svg height="30 " width="auto">
                                   <circle [attr.cx]="60" cy="42 " r="12 " stroke="white " stroke-width="10 "
                                       [ngStyle]="{ 'fill': index==0 ? '#73C557': index==1 ? '#42C9F6': index==2 ? '#F16831':
                                       index==3 ? '#549D5E' : index==4 ? '#FDCB2E': index==5 ? '#E71368' : index==6 ? '#9D198B' : '#73C557' } " />

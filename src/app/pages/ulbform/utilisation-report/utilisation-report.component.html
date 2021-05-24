@@ -251,7 +251,7 @@
 
                                   </label>
                                         <input [attr.id]="projectIndex" type="file" [disabled]="isDisabled" accept=".png,.jpg,.jpeg" (change)="onFileChange($event, projectRow,
-                                         projectIndex)" multiple/>
+                                         projectIndex)" required multiple/>
                                     </div>
                                     <a (click)="imgPreview(projectIndex)"> <span class="material-icons" style="font-size: 14px; padding-left:2px; vertical-align: middle;">
                                       collections
