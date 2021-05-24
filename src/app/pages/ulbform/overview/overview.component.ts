@@ -43,7 +43,7 @@ factor =0;
 
 itemsPerSlide = 7;
 singleSlideOffset = true;
-noWrap = false;
+noWrap = true;
 val = 0;
 cardFit= false;
 slides = [
@@ -72,10 +72,9 @@ public innerWidth: number;
 public onResize() {
   this.innerWidth = window.innerWidth;
   console.log('pk agr', this.innerWidth)
-  if (this.innerWidth > 1200) {
+  if (this.innerWidth < 1200) {
      this.itemsPerSlide = 7;
      this.cardFit = true;
-
   }
   if (this.innerWidth > 1000) {
    // console.log('800px')
