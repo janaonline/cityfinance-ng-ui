@@ -254,7 +254,7 @@ export class AnnualAccountsComponent implements OnInit {
     this._router.events.subscribe(async (event: Event) => {
       if (event instanceof NavigationStart) {
         const changeInAnnual = sessionStorage.getItem("changeInAnnual");
-        if (event.url === "/") {
+        if (event.url === "/" || event.url === '/login') {
           sessionStorage.setItem("changeInAnnual", "true");
           return;
         }
