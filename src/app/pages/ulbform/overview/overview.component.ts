@@ -30,7 +30,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       const { id } = val;
       if (id) {
         this.id = id;
-        console.log('stid',id)
+        console.log('stid', id)
         sessionStorage.setItem('row_id', id);
       }
     });
@@ -110,7 +110,7 @@ public onResize() {
           case USER_TYPE.PARTNER:
           case USER_TYPE.MoHUA:
           case USER_TYPE.ADMIN:
-                  this.storeUlbId();
+            this.storeUlbId();
             break;
 
         }
@@ -128,17 +128,17 @@ public onResize() {
         this.formValue = 5;
         this.factor = 100/this.formValue;
         }
-       else if(this.isUA =='No' && this.isMillionPlus == 'No' ){
+        else if (this.isUA == 'No' && this.isMillionPlus == 'No') {
           this.formValue = 4;
           this.factor = 100/(+this.formValue);
           console.log('no. no', this.factor)
         }
-       else if(this.isUA =='No' && this.isMillionPlus == 'Yes' ){
+        else if (this.isUA == 'No' && this.isMillionPlus == 'Yes') {
           this.formValue = 3;
-          this.factor = 100/this.formValue;
-        }else{
+          this.factor = 100 / this.formValue;
+        } else {
           this.formValue = 5;
-          this.factor = 100/this.formValue;
+          this.factor = 100 / this.formValue;
 
         }
         this.percentage = this.count * this.factor;
@@ -197,13 +197,13 @@ public onResize() {
     if(this.id == null){
       console.log('abc', this.id)
       let userData = JSON.parse(localStorage.getItem('userData'));
-      this.isMillionPlus =  userData.isMillionPlus;
+      this.isMillionPlus = userData.isMillionPlus;
       this.isUA = userData.isUA;
       console.log('12if' , this.isMillionPlus, this.isUA)
     }else{
       this.isMillionPlus =sessionStorage.getItem('isMillionPlus');
       this.isUA = sessionStorage.getItem('isUA')
-      console.log('12elseblock' , this.isMillionPlus, this.isUA)
+      console.log('12elseblock', this.isMillionPlus, this.isUA)
     }
 
 

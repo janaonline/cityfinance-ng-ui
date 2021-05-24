@@ -39,21 +39,28 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     //  break;
 
     this._router.events.subscribe(async (event: Event) => {
-      if (event instanceof NavigationStart) {
-        const change = sessionStorage.getItem("changeInPFMSAccount")
-        if (change === "true" && this.routerNavigate === null) {
-          this.routerNavigate = event
-          const currentRoute = this._router.routerState;
-          this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
-          this.openModal(this.template);
+      if (!this.saveClicked) {
+        if (event instanceof NavigationStart) {
+
+          const change = sessionStorage.getItem("changeInPFMSAccount")
+          if (change === "true" && this.routerNavigate === null) {
+            this.routerNavigate = event
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
+            this.openModal(this.template);
+          }
         }
+
       }
     });
   }
 
   @ViewChild("template") template;
-
+  @ViewChild("template1") template1;
+  fromPreview = null;
   receivedData = {}
+  saveClicked = false;
+  previewClicked = false;
   account = '';
   linked = '';
   routerNavigate = null
@@ -62,13 +69,16 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
 
   ngOnInit() {
+    sessionStorage.setItem("changeInPFMSAccount", "false");
+    this.change = false;
+    this.saveClicked = false;
     let ulb_id = sessionStorage.getItem('ulb_id');
     if (ulb_id != null) {
       this.isDisabled = true;
     }
     this.onLoad(ulb_id);
 
-    sessionStorage.setItem("changeInPFMSAccount", "false");
+
   }
   Years = JSON.parse(localStorage.getItem("Years"));
   fd = {
@@ -92,28 +102,46 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   design_year = this.Years["2021-22"]
   showQuestion1 = true;
   isClicked = false;
+  prevState = '';
+
+
+
+
+  saveAndNextValue(template1) {
+    this.saveClicked = true;
+    this.saveAndNext(template1);
+
+
+  }
 
   onClickYes() {
     this.showQuestion2 = true
     this.account = 'yes';
-    this.checkDiff();
+    if (this.prevState === 'no')
+      this.linked = '';
+    if (!this.change)
+      this.checkDiff();
   }
   onClickNo() {
     this.showQuestion2 = false;
     this.isClicked = false;
     this.account = 'no';
-    this.linked = '';
-    this.checkDiff();
+    this.prevState = this.account;
+    this.linked = 'no';
+    if (!this.change)
+      this.checkDiff();
   }
   onClickYES() {
     this.isClicked = true
     this.linked = 'yes';
-    this.checkDiff();
+    if (!this.change)
+      this.checkDiff();
   }
   onClickNO() {
     this.isClicked = false
     this.linked = 'no'
-    this.checkDiff();
+    if (!this.change)
+      this.checkDiff();
   }
 
 
@@ -129,26 +157,47 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
           console.log(error, this.errMessage);
         });
   }
-  saveAndNext(template) {
+  saveAndNext(template1) {
     this.fd = {
       "design_year": this.design_year,
       "account": this.account,
       "linked": this.linked,
       "isDraft": false
     }
-    if (this.account != '' && this.linked != '') {
+    console.log('account and linked values', this.account, this.linked)
+    if (!this.change) {
+      return this._router.navigate(["ulbform/grant-tra-certi"]);
+    }
+    if (this.account != '' && this.linked != '' && this.change == true) {
       this.postData();
       return this._router.navigate(["ulbform/grant-tra-certi"]);
-    }else if(this.account != '' || this.linked != ''){
-    this.openModal(template);
-    }else{
+    } else if ((this.account != '' || this.linked != '') && this.change == true) {
+      this.openModal(template1);
+    } else {
       swal("Please select your answer");
     }
 
     console.log("clicked");
   }
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: "modal-md" });
+  openModal(template: TemplateRef<any>, fromPreview = null) {
+    this.fromPreview = fromPreview;
+
+    if (fromPreview && sessionStorage.getItem("changeInPFMSAccount") === "true") {
+      this.previewClicked = true;
+      console.log('inside fromPreview if')
+      this.modalRef = this.modalService.show(template, { class: "modal-md" });
+      this.previewClicked = false;
+
+      return;
+    }
+    // this.modalRef = this.modalService.show(template, { class: "modal-md" });
+    if (fromPreview && sessionStorage.getItem("changeInPFMSAccount") === "false") {
+      this.onPreview();
+    }
+    else {
+      this.modalRef = this.modalService.show(template, { class: "modal-md" });
+    }
+
   }
 
   stay() {
@@ -169,6 +218,9 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         if (this.account === 'yes') {
           this.showQuestion2 = true;
         }
+        if (this.account === 'no') {
+          this.linked = '';
+        }
         sessionStorage.setItem(
           "pfmsAccounts",
           JSON.stringify(res)
@@ -180,29 +232,48 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         });
   }
 
-
+  pageData = {};
+  gotData = {};
+  change = false;
   checkDiff() {
     let pfmsAccounts = JSON.parse(sessionStorage.getItem("pfmsAccounts"));
-    const tempResponse = JSON.stringify(this.fd);
-    const tempResponseLast = JSON.stringify(pfmsAccounts);
-    if (tempResponse != tempResponseLast) {
+    console.log(this.fd);
+    console.log(JSON.parse(sessionStorage.getItem("pfmsAccounts")))
+    this.pageData = {
+      "account": this.fd.account,
+      "linked": this.fd.linked
+    };
+    this.gotData = {
+      "account": pfmsAccounts.response.account,
+      "linked": pfmsAccounts.response.linked
+    }
+
+    // const tempResponse = JSON.stringify(this.fd);
+    // const tempResponseLast = JSON.stringify(pfmsAccounts);
+    if (this.pageData != this.gotData) {
       sessionStorage.setItem("changeInPFMSAccount", "true");
-      pfmsAccounts = JSON.parse(tempResponse);
-      sessionStorage.setItem(
-        "annualAccounts",
-        JSON.stringify(pfmsAccounts)
-      );
+      this.change = true;
+      pfmsAccounts = (this.pageData);
+      // sessionStorage.setItem(
+      //   "pfmsAccounts",
+      //   JSON.stringify(pfmsAccounts)
+      // );
     } else {
       sessionStorage.setItem("changeInPFMSAccount", "false");
+      this.change = false;
     }
 
   }
 
-  proceed(uploadedFiles) {
-    this.modalRef.hide();
+  async proceed(uploadedFiles) {
+    await this.modalRef.hide();
     if (this.routerNavigate) {
       this._router.navigate([this.routerNavigate.url]);
       return
+    }
+    if (this.fromPreview) {
+      this.onPreview();
+      return;
     }
     this.postData();
 
@@ -212,7 +283,10 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   alertClose() {
     this.stay();
   }
+
+
   onPreview() {
+
     let preData = {
       'account': this.account,
       'linked': this.linked
@@ -221,16 +295,12 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     const dialogRef = this.dialog.open(PfmsPreviewComponent,
       {
         data: preData,
-        maxHeight: "95vh",
-        height: "fit-content",
+        maxHeight: "95%",
         width: '85vw',
         panelClass: 'no-padding-dialog'
       });
+    console.log('dialog ref')
     // this.hidden = false;
-    dialogRef.afterClosed().subscribe(result => {
-      // console.log(`Dialog result: ${result}`);
-      //   this.hidden = true;
-
-    });
+    dialogRef.afterClosed().subscribe(result => { });
   }
 }

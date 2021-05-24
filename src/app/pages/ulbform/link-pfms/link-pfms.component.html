@@ -7,7 +7,8 @@
     </div>
 
     <div class="col-sm-4 col-lg-4 col-md-4  text-right">
-        <button type="button" class="btn btn-primary pr-btn" style="margin-top: 1rem;" id="prevBtn" (click)="onPreview()">PREVIEW</button>
+        <button type="button" class="btn btn-primary pr-btn" style="margin-top: 1rem;" id="prevBtn"
+            (click)="openModal(template,true)">PREVIEW</button>
     </div>
 </div>
 <div class="row">
@@ -16,9 +17,9 @@
             <span>{{questions[0]}} <span style="color: red;">*</span></span>
             <div>
                 <button class="btn" style="margin-left: 2rem;" (click)="onClickYes()" [disabled]="isDisabled" [ngStyle]="{'background-color':
-                account === 'yes' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">Yes</button>
+                account === 'yes' ?'#ffc500': 'rgb(229 230 230)' }">Yes</button>
                 <button class=" btn" style="margin-left: 5rem;" (click)="onClickNo()" [disabled]="isDisabled" [ngStyle]="{'background-color':
-            account === 'no' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">No</button>
+            account === 'no' ?'#ffc500': 'rgb(229 230 230)' }">No</button>
             </div>
         </div>
     </div>
@@ -29,9 +30,9 @@
             <span>{{questions[1]}} <span style="color: red;">*</span></span>
             <div>
                 <button class="btn" style="margin-left: 2rem;" (click)="onClickYES()" [disabled]="isDisabled" [ngStyle]="{'background-color':
-           linked ==='yes' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">Yes</button>
+           linked ==='yes' ?'#ffc500': 'rgb(229 230 230)' }">Yes</button>
                 <button class=" btn" style="margin-left: 5rem;" (click)="onClickNO()" [disabled]="isDisabled" [ngStyle]="{'background-color':
-            linked === 'no' ?'rgb(249 197 70)': 'rgb(229 230 230)' }">No</button>
+            linked === 'no' ?'#ffc500': 'rgb(229 230 230)' }">No</button>
             </div>
         </div>
     </div>
@@ -44,7 +45,8 @@
         <button class="backButton" [routerLink]="['../overview']">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-        <button class="save" (click)="saveAndNext(template)" [disabled]="isDisabled">SAVE AND NEXT</button>
+        <button class="save" (click)=" saveAndNextValue(template1)" [disabled]="isDisabled">{{change == true? 'SAVE AND
+            NEXT': 'NEXT'}}</button>
     </div>
 </div>
 <ng-template #template>
@@ -59,11 +61,35 @@
         </div>
 
         <p style="margin-top: 8px;">
-            Some information is pending in this form.<br> Are you sure you want to proceed to next form?
+            Are you sure you want to proceed further without saving the changes?
+        </p>
+        <div>
+            <button type="button" class="btn btn-primary " (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-danger "
+                style="margin-left: 6px; width: auto; background-color: #bb0000" (click)="proceed()">
+                Proceed</button>
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #template1>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Proceed</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
+                (click)="proceed()">Proceed</button>
         </div>
 
     </div>

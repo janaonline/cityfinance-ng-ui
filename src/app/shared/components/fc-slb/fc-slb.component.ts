@@ -107,6 +107,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   submitted = false;
   showPublishedUpload: boolean = false;
   invalidWhole = false;
+
   ngOnInit() {
 
     this.services.forEach(data => {
@@ -203,17 +204,17 @@ export class FcSlbComponent implements OnInit, OnChanges {
     this.invalidWhole = false;
 
     this.checkAutoValidCustom();
-    if (!this.invalidWhole) {
-      this.submitted = true;
-      if (this.showPublishedUpload && !this.publishedFileUrl)
+    // if (!this.invalidWhole) {
+    this.submitted = true;
+    if (this.showPublishedUpload && !this.publishedFileUrl)
 
-        return true
-      this.emitValues(this.form.getRawValue(), true);
-      console.log(this.showPublishedUpload)
-      console.log(this.form.getRawValue())
-    } else {
-      this.openModal(template1);
-    }
+      return true
+    this.emitValues(this.form.getRawValue(), true);
+    console.log(this.showPublishedUpload)
+    console.log(this.form.getRawValue())
+    // } else {
+    //   this.openModal(template1);
+    // }
 
   }
 
@@ -401,6 +402,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
   previousValue = '';
   afterValue = '';
+
   onBlur(control: AbstractControl, formValue = '', currentControlKey = '', serviceKey = '', increase = true) {
     console.log("onblurcalled", control, formValue, currentControlKey, increase)
     console.log(this.form)
@@ -444,12 +446,16 @@ export class FcSlbComponent implements OnInit, OnChanges {
     this.emitValues(this.form.getRawValue());
   }
 
-
+  messages = [
+    'Value must be less than ' + this.afterValue,
+    'Value must be greater than ' + this.previousValue + ' and less than ' + this.afterValue,
+    'Value must be greater than' + this.previousValue
+  ];
   onKeyUp(textValue, formValue, currentControlKey, serviceKey = '', increase = true) {
     console.log("estblished", textValue, formValue, currentControlKey, increase)
     let controlValue = formValue.value
 
-    if (this.checkIncreaseValidation(textValue.value, currentControlKey, controlValue, increase)) {
+    if (this.checkIncreaseValidation(textValue.value, currentControlKey, controlValue, increase, serviceKey)) {
 
       // this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].errors = true
       this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "INVALID"
@@ -460,11 +466,15 @@ export class FcSlbComponent implements OnInit, OnChanges {
     }
   }
 
-  checkIncreaseValidation(value, controlKey, controlValue, increse = true) {
+  checkIncreaseValidation(value, controlKey, controlValue, increse = true, serviceKey) {
     console.log("increasevalidation called", value, controlKey, controlValue, increse)
     let before = true;
     let invalid = false;
 
+    let upperLimit = 101;
+    if (serviceKey === 'waterSuppliedPerDay') {
+      upperLimit = 136;
+    }
     for (let obj in controlValue) {
 
       if (parseInt(obj) == parseInt(controlKey)) {
@@ -474,7 +484,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
         if (before) {
           if (controlValue[obj] != "" && !invalid) {
-            invalid = increse ? !(value > 0 && value < 101 && value > controlValue[obj]) : !(value > 0 && value < 101 && value < controlValue[obj])
+            invalid = increse ? !(value > 0 && value < upperLimit && value > controlValue[obj]) : !(value > 0 && value < upperLimit && value < controlValue[obj])
             console.log("if", value, controlValue[obj], controlKey, obj)
             console.log(invalid)
           }
@@ -483,7 +493,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
         } else {
           if (controlValue[obj] && !invalid) {
             console.log('increase', increse);
-            invalid = increse ? !(value > 0 && value < 101 && value < controlValue[obj]) : !(value > 0 && value < 101 && value > controlValue[obj])
+            invalid = increse ? !(value > 0 && value < upperLimit && value < controlValue[obj]) : !(value > 0 && value < upperLimit && value > controlValue[obj])
             console.log("else", value, controlValue[obj])
             console.log(invalid)
           }
@@ -511,8 +521,9 @@ export class FcSlbComponent implements OnInit, OnChanges {
           this.invalidWhole = true;
       }
     }
-
+    console.log(this.invalidWhole)
   }
+
 }
 
 
