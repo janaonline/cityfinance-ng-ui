@@ -21,6 +21,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   isUA;
   id = null;
   sessionUlbId = null;
+  checkPos = true;
   constructor(private Overview: Overview,
     public activatedRoute: ActivatedRoute) {
     super();
@@ -228,6 +229,7 @@ public onResize() {
   onUnhover(num) {
     this.hover = false
     this.val = num;
+    console.log('val', this.val, num)
   }
   // onHover1() {
   //  // this.p = 80;
@@ -237,13 +239,14 @@ public onResize() {
   // }
   onHover(num) {
     console.log('index-num', num);
-   // this.p = (num+1)*80;
+
     if(num == 0){
    //   this.p = (num+1)*80;
       this.val = 0;
       this.hover = true;
       this.i = 1;
       this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
+      this.checkPos =true;
     }
     if(num == 1){
     //  this.p = (num+1)*135;
@@ -251,14 +254,15 @@ public onResize() {
         this.hover = true;
         this.i = 2;
         this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
-    }
+        this.checkPos =true;
+      }
     if(num == 2){
     //  this.p = (num+2)*120;
        this.val =2;
        this.hover = true;
        this.i = 3;
        this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
-
+       this.checkPos =true;
     }
     if(num == 3){
    //  this.p = (num+3)*112;
@@ -266,22 +270,23 @@ public onResize() {
        this.hover = true;
        this.i = 4;
        this.message = "ULBs to upload provisional annual accounts for previous year and audited annual accounts for year previous year w.r.t. award year."
-
+       this.checkPos =true;
     }
     if(num == 4){
     //  this.p = (num+3)*125;
        this.val = 4;
        this.hover = true;
-       this.i = 4;
+       this.i = 5;
        this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
-    }
+       this.checkPos =true;
+      }
     if(num == 5){
      // this.p = (num+3)*125;
         this.val =5;
         this.hover = true;
         this.i = 6;
         this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
-
+        this.checkPos =true;
     }
     if(num == 6){
     //  this.p = (num+3)*120;
@@ -289,44 +294,48 @@ public onResize() {
        this.hover = true;
        this.i = 7;
        this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
-
+       this.checkPos =true;
     }
 
+
+    console.log('val', this.val, num)
   }
-  onHover2() {
-    this.p = 215;
-    this.hover = true;
-    this.i = 2;
-    this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
-  }
-  onHover3() {
-    this.p = 355;
-    this.hover = true;
-    this.i = 3;
-    this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
-  }
-  onHover4() {
-    this.p = 495;
-    this.hover = true;
-    this.i = 4;
-    this.message = "ULBs to upload provisional annual accounts for previous year and audited annual accounts for year previous year w.r.t. award year."
-  }
-  onHover5() {
-    this.p = 630;
-    this.hover = true;
-    this.i = 5;
-    this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
-  }
-  onHover6() {
-    this.p = 770;
-    this.hover = true;
-    this.i = 6;
-    this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
-  }
-  onHover7() {
-    this.p = 910;
-    this.hover = true;
-    this.i = 7;
-    this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
-  }
-}
+
+
+//   onHover2() {
+//     this.p = 215;
+//     this.hover = true;
+//     this.i = 2;
+//     this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
+//   }
+//   onHover3() {
+//     this.p = 355;
+//     this.hover = true;
+//     this.i = 3;
+//     this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
+//   }
+//   onHover4() {
+//     this.p = 495;
+//     this.hover = true;
+//     this.i = 4;
+//     this.message = "ULBs to upload provisional annual accounts for previous year and audited annual accounts for year previous year w.r.t. award year."
+//   }
+//   onHover5() {
+//     this.p = 630;
+//     this.hover = true;
+//     this.i = 5;
+//     this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
+//   }
+//   onHover6() {
+//     this.p = 770;
+//     this.hover = true;
+//     this.i = 6;
+//     this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
+//   }
+//   onHover7() {
+//     this.p = 910;
+//     this.hover = true;
+//     this.i = 7;
+//     this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
+//   }
+ }

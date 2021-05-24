@@ -28,7 +28,7 @@
                     <carousel [itemsPerSlide]="itemsPerSlide" style="background-image: none;" [singleSlideOffset]="false" [interval]="false" [noWrap]="noWrap" [showIndicators]="false">
                         <slide *ngFor="let slide of slides; let index=index">
                             <a routerLink="{{link[index]}}">
-                                <div class="card  individualCard" (mouseenter)="onHover(index)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
+                                <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
       index == 0 ?'linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
       'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#549D5E, #2A4F2F)' :
       index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(#E71368, #740A34)' : index == 6 ?
@@ -130,7 +130,8 @@
             </div>
         </div>
 
-        <div class="col-sm-12 ">
+        <div class="col-sm-12" [ngClass]="{'firstClass': (checkPos == true),
+        'secondClass': (checkPos == false) }">
             <div class="message " [ngStyle]="{ 'background-image': i==1 ? 'linear-gradient(#73C557, #3A632C)': i==2 ? 'linear-gradient(#42C9F6, #21657B)': i==3 ? 'linear-gradient(#F16831, #793419)': i==4 ? 'linear-gradient(#549D5E, #2A4F2F)' : i==5?
             'linear-gradient(#FDCB2E, #7F6617)': i==6? 'linear-gradient(#E71368, #740A34)' : i==7 ? 'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' } ">
                 {{message}}

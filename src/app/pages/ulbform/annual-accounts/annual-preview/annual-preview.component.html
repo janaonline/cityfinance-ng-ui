@@ -63,7 +63,7 @@
                                 {{year2021.provisional_data.bal_sheet.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.bal_sheet.pdfUrl" class="col-sm-4 ans-h-an  text-danger">
+                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.bal_sheet.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                             {{year2021.provisional_data.bal_sheet_schedules.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.bal_sheet_schedules.pdfUrl" class="col-sm-4 anss-h-an  text-danger">
+                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.bal_sheet_schedules.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                                 {{year2021.provisional_data.inc_exp.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.inc_exp.pdfUrl" class="col-sm-4 ans-h-an  text-danger">
+                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.inc_exp.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -123,7 +123,7 @@
                                 {{year2021.provisional_data.inc_exp_schedules.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.inc_exp_schedules.pdfUrl" class="col-sm-4 ans-h-an  text-danger">
+                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.inc_exp_schedules.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                             {{year2021.provisional_data.cash_flow.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.cash_flow.pdfUrl" class="col-sm-4 ans-h-an  text-danger">
+                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.cash_flow.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -169,7 +169,7 @@
                             Excel -
                             <a href="{{year2021.standardized_data?.upload.excelUrl}}">{{year2021.standardized_data?.upload.excelName}}</a>
                         </div>
-                        <div *ngIf="!year2021.standardized_data?.upload.excelUrl" class="col-sm-4 ans-h-an text-danger">
+                        <div *ngIf="!year2021.standardized_data?.upload.excelUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -178,11 +178,11 @@
                             Self declaration by the Executive officer/Municipal Commissioner of the ULB on the standardised financial statements uploaded above. I hereby confirm that I have verified the information uploaded in standardized template and it is true and correct. It
                             is confirmed that this information can be made available for public consumption on the CityFinance portal.
                         </div>
-                        <div class="col-sm-4 ans-h-an ">
-                            <span *ngIf="year2021.standardized_data?.declaration == true">Agreed</span>
+                        <div class="col-sm-4">
+                            <span class="ans-h-an" *ngIf="year2021.standardized_data?.declaration == true">Agreed</span>
 
-                            <span class="text-danger" *ngIf="year2021.standardized_data?.declaration == false">Not Agreed</span>
-                            <span class="text-danger" *ngIf="year2021.standardized_data?.declaration == null || year2021.standardized_data?.declaration == undefined">N/A</span>
+                            <span class="ans-h-an" *ngIf="year2021.standardized_data?.declaration == false">Not Agreed</span>
+                            <span class="ans-h-na" *ngIf="year2021.standardized_data?.declaration == null || year2021.standardized_data?.declaration == undefined">N/A</span>
                         </div>
                     </div>
                 </div>
@@ -225,7 +225,7 @@
                                 {{year2019.provisional_data.bal_sheet.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.bal_sheet.pdfUrl" class="col-sm-4 ans-h-an  text-danger">
+                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.bal_sheet.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -245,7 +245,7 @@
                             {{year2019.provisional_data.bal_sheet_schedules.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.bal_sheet_schedules.pdfUrl" class="col-sm-4 ans-h-an  text-danger">
+                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.bal_sheet_schedules.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -265,7 +265,7 @@
                                 {{year2019.provisional_data.inc_exp.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.inc_exp.pdfUrl" class="col-sm-4 ans-h-an  text-danger">
+                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.inc_exp.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -285,7 +285,7 @@
                                 {{year2019.provisional_data.inc_exp_schedules.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.inc_exp_schedules.pdfUrl" class="col-sm-4 ans-h-an  text-danger">
+                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.inc_exp_schedules.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -305,7 +305,7 @@
                             {{year2019.provisional_data.cash_flow.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.cash_flow.pdfUrl" class="col-sm-4 ans-h-an  text-danger">
+                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.cash_flow.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -319,7 +319,7 @@
                                 {{year2019.provisional_data.auditor_report.pdfName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.auditor_report.pdfUrl" class="col-sm-4 ans-h-an  text-danger">
+                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.auditor_report.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -346,7 +346,7 @@
                             Excel -
                             <a href="{{year2019.standardized_data?.upload.excelUrl}}">{{year2019.standardized_data?.upload.excelName}}</a>
                         </div>
-                        <div class="col-sm-4 ans-h-an text-danger" *ngIf="!year2019.standardized_data?.upload.excelUrl">
+                        <div class="col-sm-4 ans-h-na" *ngIf="!year2019.standardized_data?.upload.excelUrl">
                             N/A
                         </div>
                     </div>
@@ -355,10 +355,11 @@
                             Self declaration by the Executive officer/Municipal Commissioner of the ULB on the standardised financial statements uploaded above. I hereby confirm that I have verified the information uploaded in standardized template and it is true and correct. It
                             is confirmed that this information can be made available for public consumption on the CityFinance portal.
                         </div>
-                        <div class="col-sm-4 ans-h-an ">
-                            <span *ngIf="year2019.standardized_data?.declaration == true">Agreed</span>
-                            <span class="text-danger" *ngIf="year2019.standardized_data?.declaration == false">Not Agreed</span>
-                            <span class="text-danger" *ngIf="year2019.standardized_data?.declaration == null || year2019.standardized_data?.declaration == undefined">N/A</span>
+                        <div class="col-sm-4 ">
+                            <span class="ans-h-an" *ngIf="year2019.standardized_data?.declaration == true">Agreed</span>
+                            <span class="ans-h-an" *ngIf="year2019.standardized_data?.declaration == false">Not Agreed</span>
+                            <span class=" ans-h-na" *ngIf="year2019.standardized_data?.declaration == null ||
+                            year2019.standardized_data?.declaration == undefined">N/A</span>
                         </div>
                     </div>
                 </div>
