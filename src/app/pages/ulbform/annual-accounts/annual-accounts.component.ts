@@ -248,7 +248,7 @@ export class AnnualAccountsComponent implements OnInit {
   ngOnInit(): void {
     this.changeAudit("Unaudited");
     this.onLoad();
-    sessionStorage.setItem("changeInAnnual", "true");
+    sessionStorage.setItem("changeInAnnual", "false");
   }
   navigationCheck() {
     this._router.events.subscribe(async (event: Event) => {
@@ -258,7 +258,7 @@ export class AnnualAccountsComponent implements OnInit {
           sessionStorage.setItem("changeInAnnual", "true");
           return;
         }
-        if (changeInAnnual === "false" && this.routerNavigate === null) {
+        if (changeInAnnual === "true" && this.routerNavigate === null) {
           if (this.modalRef) this.modalRef.hide();
           const currentRoute = this._router.routerState;
           this._router.navigateByUrl(currentRoute.snapshot.url, {
@@ -271,6 +271,10 @@ export class AnnualAccountsComponent implements OnInit {
     });
   }
 
+  clickedPreview(template) {
+    this.onPreview();
+  }
+
   onPreview() {
     const dialogRef = this.dialog.open(AnnualPreviewComponent, {
       data: JSON.parse(sessionStorage.getItem("annualAccounts")),
@@ -278,7 +282,7 @@ export class AnnualAccountsComponent implements OnInit {
       width: "85vw",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   onLoad() {
@@ -368,7 +372,7 @@ export class AnnualAccountsComponent implements OnInit {
     }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
-    sessionStorage.setItem("changeInAnnual", "yes");
+    sessionStorage.setItem("changeInAnnual", "true");
     return this._router.navigate(["ulbform/service-level"]);
   }
 
@@ -512,7 +516,7 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   clearFile(path, type = null, fromUploadExcel = null) {
-    if(this.isDisabled){
+    if (this.isDisabled) {
       return true
     }
     const clearPathArray = fromUploadExcel ? path : path.split(".");
@@ -650,7 +654,7 @@ export class AnnualAccountsComponent implements OnInit {
       let newObj = {
         alias:
           this[progressArray[0]][progressArray[1]][this.progressArray[2]][
-            "excelUrl"
+          "excelUrl"
           ],
         financialYear: "",
         design_year: this[progressArray[0]]["design_year"],
@@ -721,7 +725,7 @@ export class AnnualAccountsComponent implements OnInit {
       );
       const tempResponseLast = JSON.stringify(annualAccounts[1]);
       if (tempResponse != tempResponseLast) {
-        sessionStorage.setItem("changeInAnnual", "false");
+        sessionStorage.setItem("changeInAnnual", "true");
       }
     }
   }

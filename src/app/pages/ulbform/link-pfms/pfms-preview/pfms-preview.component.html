@@ -1,13 +1,15 @@
-<div class="container-fluid" id="pfmsPre" #pfmsPre>
+<div class="container-fluid" style="position:relative" [ngStyle]="{'z-index': clicked === true ? '1' : '3'}"
+    id="pfmsPre" #pfmsPre>
     <div class="row">
         <div class="col-sm-12 header-p">
-            <a *ngIf="!parentData" mat-dialog-close class="h-cls" style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
+            <a *ngIf="!parentData" mat-dialog-close class="h-cls"
+                style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
                 <mat-icon aria-hidden="false">
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
                 </mat-icon>
             </a>
             <div class="col-sm-12 heading-p">
-                Linking of PFMS Account
+                Linking of PFMS Account : 2021-22
             </div>
 
         </div>
@@ -17,9 +19,10 @@
             <b>Application Current Status:</b> N/A
         </p>
 
-        <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%" class="btn btn-primary btn-upload h-cls" (click)="downloadAsPDF()">
-      Download as PDF
-    </button>
+        <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%"
+            class="btn btn-primary btn-upload h-cls" (click)="clickedDownloadAsPDF(template)">
+            Download as PDF
+        </button>
     </div>
     <!-- <div class="row h-cls" style="margin-top: 1.5rem;">
         <div *ngIf="!parentData" class="col-sm-12 text-right">
@@ -64,3 +67,26 @@
         </div>
     </div>
 </div>
+<ng-template #template>
+    <div class="modal-body text-center alert">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed further?
+        </p>
+        <div>
+            <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success "
+                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+                Save & Proceed</button>
+        </div>
+
+    </div>
+</ng-template>

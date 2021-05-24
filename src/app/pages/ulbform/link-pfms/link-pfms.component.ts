@@ -78,12 +78,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
   }
   Years = JSON.parse(localStorage.getItem("Years"));
-  fd = {
-    "design_year": this.Years["2021-22"],
-    "account": this.account,
-    "linked": this.linked,
-    "isDraft": false
-  };
+
   tabHeadings = [
     "Provisional Accounts for 2020-21",
     "Audited Accounts for 2019-20",
@@ -103,12 +98,11 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
 
 
+  changeHappen = 'false';
 
   saveAndNextValue(template1) {
     this.saveClicked = true;
     this.saveAndNext(template1);
-
-
   }
 
   onClickYes() {
@@ -141,10 +135,22 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       this.checkDiff();
   }
 
-
+  fd = {
+    "design_year": this.Years["2021-22"],
+    "account": this.account,
+    "linked": this.linked,
+    "isDraft": false
+  };
   errMessage = '';
   postData() {
-    this.LinkPFMSAccount.postData(this.fd)
+    let data = {
+      "design_year": this.Years["2021-22"],
+      "account": this.account,
+      "linked": this.linked,
+      "isDraft": false
+    };
+    console.log((data));
+    this.LinkPFMSAccount.postData(data)
       .subscribe((res) => {
         console.log(res);
         swal("Record submitted successfully!")
@@ -161,6 +167,10 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       "linked": this.linked,
       "isDraft": false
     }
+    this.changeHappen = sessionStorage.getItem("changeInPFMSAccount")
+    if (this.changeHappen === "false") {
+      return this._router.navigate(["ulbform/grant-tra-certi"]);
+    }
     console.log('account and linked values', this.account, this.linked)
     if (!this.change) {
       return this._router.navigate(["ulbform/grant-tra-certi"]);
@@ -168,7 +178,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     if (this.account != '' && this.linked != '' && this.change == true) {
       this.postData();
       return this._router.navigate(["ulbform/grant-tra-certi"]);
-    } else if ((this.account != '' || this.linked != '') && this.change == true) {
+    } else if (((this.account != '' && this.linked === '') || ((this.account === '' && this.linked != ''))) && this.change == true) {
       this.openModal(template1);
     } else {
       swal("Please select your answer");
@@ -179,16 +189,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   openModal(template: TemplateRef<any>, fromPreview = null) {
     this.fromPreview = fromPreview;
 
-    if (fromPreview && sessionStorage.getItem("changeInPFMSAccount") === "true") {
-      this.previewClicked = true;
-      console.log('inside fromPreview if')
-      this.modalRef = this.modalService.show(template, { class: "modal-md" });
-      this.previewClicked = false;
-
-      return;
-    }
-    // this.modalRef = this.modalService.show(template, { class: "modal-md" });
-    if (fromPreview && sessionStorage.getItem("changeInPFMSAccount") === "false") {
+    if (fromPreview) {
       this.onPreview();
     }
     else {
@@ -197,11 +198,11 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
   }
 
-  stay() {
+  async stay() {
     if (this.routerNavigate) {
       this.routerNavigate = null
     }
-    this.modalRef.hide();
+    await this.modalRef.hide();
 
   }
 
@@ -265,6 +266,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   async proceed(uploadedFiles) {
     await this.modalRef.hide();
     if (this.routerNavigate) {
+      await this.postData();
       this._router.navigate([this.routerNavigate.url]);
       return
     }
@@ -286,7 +288,9 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
     let preData = {
       'account': this.account,
-      'linked': this.linked
+      'linked': this.linked,
+      "design_year": this.design_year,
+      "year": '2021-22'
     }
     console.log('preData', preData)
     const dialogRef = this.dialog.open(PfmsPreviewComponent,
@@ -298,6 +302,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       });
     console.log('dialog ref')
     // this.hidden = false;
-    dialogRef.afterClosed().subscribe(result => { });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+    });
   }
 }

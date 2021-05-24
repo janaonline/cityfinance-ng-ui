@@ -207,7 +207,6 @@ export class FcSlbComponent implements OnInit, OnChanges {
     // if (!this.invalidWhole) {
     this.submitted = true;
     if (this.showPublishedUpload && !this.publishedFileUrl)
-
       return true
     this.emitValues(this.form.getRawValue(), true);
     console.log(this.showPublishedUpload)
@@ -242,7 +241,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
         url: fileUrl
       },
       saveData: next,
-      water_index: this.showPublishedUpload
+      water_index: this.showPublishedUpload,
+
     }
 
     this.outputValues.emit(outputValues);
