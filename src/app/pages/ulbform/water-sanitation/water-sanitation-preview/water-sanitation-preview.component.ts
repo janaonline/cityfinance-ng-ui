@@ -93,7 +93,4 @@ private downloadFile(blob: any, type: string, filename: string): string {
   a.click();
   return url;
 }
-
-
-
 }

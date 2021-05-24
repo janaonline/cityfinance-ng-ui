@@ -10,6 +10,8 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { UlbformService } from '../ulbform.service';
 import { Router, NavigationStart, Event } from "@angular/router";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-slbs',
   templateUrl: './slbs.component.html',
@@ -34,14 +36,16 @@ export class SlbsComponent implements OnInit {
     public _ulbformService: UlbformService) {
 
     this._router.events.subscribe(async (event: Event) => {
-      if (event instanceof NavigationStart) {
-        const change = sessionStorage.getItem("changeInSLB")
-        if (change === "true" && this.routerNavigate === null) {
-          this.routerNavigate = event
-          console.log(this.template);
-          const currentRoute = this._router.routerState;
-          this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
-          this.openModal(this.template);
+      if (!this.value?.saveData) {
+        if (event instanceof NavigationStart) {
+          const change = sessionStorage.getItem("changeInSLB")
+          if (change === "true" && this.routerNavigate === null) {
+            this.routerNavigate = event
+            console.log(this.template);
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
+            this.openModal(this.template);
+          }
         }
       }
     });
@@ -55,6 +59,7 @@ export class SlbsComponent implements OnInit {
 
     sessionStorage.setItem("changeInSLB", "false");
     await this.getSlbData()
+
     this.createDataForms(this.preFilledWaterManagement)
     // if (this.preFilledWaterManagement) this.waterWasteManagementForm =this.createWasteWaterUploadForm(this.preFilledWaterManagement);
   }
@@ -104,7 +109,9 @@ export class SlbsComponent implements OnInit {
 
   }
 
+  value
   postSlbData(value) {
+    this.value = value
     let data = {
       design_year: this.Years["2021-22"],
       waterManagement:
@@ -123,10 +130,13 @@ export class SlbsComponent implements OnInit {
     if (this.slbId) {
 
       this.commonService.postSlbData(data).subscribe(res => {
+
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.slbForWaterSupplyAndSanitation.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
         console.log("response")
+        swal("Record submitted successfully!");
+
       })
       return true;
     }
@@ -136,17 +146,21 @@ export class SlbsComponent implements OnInit {
       status.slbForWaterSupplyAndSanitation.isSubmit = res["isCompleted"];
       this._ulbformService.allStatus.next(status);
       console.log("response")
+      swal("(NO SLB ID)Record submitted successfully!");
     })
+
   }
   data = '';
-
+  res
   onWaterWasteManagementEmitValue(value) {
     console.log("value1", value)
     this.data = value
     console.log('onWaterWasteManagementEmitValue', value)
     sessionStorage.setItem("changeInSLB", "true");
-    if (value.saveData)
+    if (value.saveData) {
       this.postSlbData(value)
+      return this._router.navigate(["ulbform/water-sanitation"]);
+    }
   }
 
   onSendEmitValue(value) {
@@ -186,29 +200,31 @@ export class SlbsComponent implements OnInit {
     });
   }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>, formPreview = false) {
+    if (formPreview == true) {
+      this.showPreview();
+      return
+    }
     this.modalRef = this.modalService.show(template, { class: "modal-md" });
   }
 
-  stay() {
-    this.modalRef.hide();
-    if (this.routerNavigate) {
-      this.routerNavigate = null
-    }
 
-
-  }
-
-  proceed(uploadedFiles) {
-    this.modalRef.hide();
-    if (this.routerNavigate) {
+  async proceed() {
+    await this.modalRef.hide();
+    let changeHappen = sessionStorage.getItem("changeInSLB")
+    if (this.routerNavigate && changeHappen === 'true') {
+      console.log('this data is going', this.data)
+      this.data['saveData'] = true;
+      this.onWaterWasteManagementEmitValue(this.data);
       this._router.navigate([this.routerNavigate.url]);
       return
+    } else if (this.routerNavigate == null && changeHappen === 'false') {
+      return this._router.navigate(["ulbform/water-sanitation"]);
     }
-    this.onWaterWasteManagementEmitValue(this.data);
+    // this.onWaterWasteManagementEmitValue(this.data);
 
 
-    return this._router.navigate(["ulbform/grant-tra-certi"]);
+
   }
   alertClose() {
     this.stay();
@@ -216,6 +232,12 @@ export class SlbsComponent implements OnInit {
 
 
 
+  async stay() {
+    await this.modalRef.hide();
+    if (this.routerNavigate) {
+      this.routerNavigate = null
+    }
+  }
 
 
 }

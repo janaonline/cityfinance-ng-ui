@@ -1,6 +1,6 @@
 <div id="previewSlb" #previewSlb>
     <div style="background: #047474; color: white; padding: 2% 0% 2.5% 0%; position: relative;">
-        <h2 *ngIf="!data?.fromParent" style="text-align: center; margin-top: 0px">15th FC Form</h2>
+        <h2 *ngIf="!data?.fromParent" style="text-align: center; margin-top: 0px">15th FC Form: 2021-22</h2>
         <h3 *ngIf="data?.fromParent" style="text-align: center">{{slbTitleText}}</h3>
         <h3 *ngIf="!data?.fromParent" style="text-align: center; margin-top: 3px">
             {{ data?.ulbName || userDetails.name }}
@@ -13,9 +13,9 @@
             <b>Application Current Status:</b> {{ data?.customStatusText }}
         </p>
 
-        <button *ngIf="!data?.fromParent" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="downloadAsPDF()">
-        Download as PDF
-      </button>
+        <button *ngIf="!data?.fromParent" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF(template)">
+      Download as PDF
+    </button>
     </div>
     <div style="position: relative; padding: 1% 2%" class="scrol">
         <h3 *ngIf="!data?.fromParent" style="text-align: center">{{slbTitleText}}</h3>
@@ -42,109 +42,90 @@
                   (data.status === uploadSTATUS.APPROVED &&
                     data.actionTakenBy === USER_TYPES.MoHUA)
                 " xmlns="http://www.w3.org/2000/svg" width="15.932" height="13.936" viewBox="0 0 15.932 13.936">
-                <defs>
-                  <style>
-                    .a {
-                      fill: #00df76;
-                    }
-                    .b {
-                      fill: #00ab5e;
-                    }
-                    .c {
-                      fill: #fff5f5;
-                    }
-                    .d {
-                      fill: #dfebf1;
-                    }
-                  </style>
-                </defs>
-                <g transform="translate(-0.083)">
-                  <g transform="translate(0.083 0)">
-                    <ellipse
-                      class="a"
-                      cx="6.966"
-                      cy="6.968"
-                      rx="6.966"
-                      ry="6.968"
-                      transform="translate(0 0)"
-                    />
-                  </g>
-                  <path
-                    class="b"
-                    d="M255.694,0h-.009V13.936h.009a6.968,6.968,0,0,0,0-13.936Z"
-                    transform="translate(-248.646 0)"
-                  />
-                  <path
-                    class="c"
-                    d="M108.032,147.2l2.817,2.817a.315.315,0,0,0,.445,0l4.625-4.625a.315.315,0,0,0,0-.445l-.842-.842a.315.315,0,0,0-.445,0l-3.364,3.364a.315.315,0,0,1-.445,0l-1.508-1.508a.315.315,0,0,0-.439-.006l-.839.793A.315.315,0,0,0,108.032,147.2Z"
-                    transform="translate(-104.921 -140.093)"
-                  />
-                  <path
-                    class="d"
-                    d="M258.8,144.1a.315.315,0,0,0-.445,0l-2.672,2.672v2.574l3.959-3.959a.315.315,0,0,0,0-.445Z"
-                    transform="translate(-248.646 -140.092)"
-                  />
+              <defs>
+                <style>
+                  .a {
+                    fill: #00df76;
+                  }
+
+                  .b {
+                    fill: #00ab5e;
+                  }
+
+                  .c {
+                    fill: #fff5f5;
+                  }
+
+                  .d {
+                    fill: #dfebf1;
+                  }
+                </style>
+              </defs>
+              <g transform="translate(-0.083)">
+                <g transform="translate(0.083 0)">
+                  <ellipse class="a" cx="6.966" cy="6.968" rx="6.966" ry="6.968" transform="translate(0 0)" />
                 </g>
-              </svg>
+                <path class="b" d="M255.694,0h-.009V13.936h.009a6.968,6.968,0,0,0,0-13.936Z"
+                  transform="translate(-248.646 0)" />
+                <path class="c"
+                  d="M108.032,147.2l2.817,2.817a.315.315,0,0,0,.445,0l4.625-4.625a.315.315,0,0,0,0-.445l-.842-.842a.315.315,0,0,0-.445,0l-3.364,3.364a.315.315,0,0,1-.445,0l-1.508-1.508a.315.315,0,0,0-.439-.006l-.839.793A.315.315,0,0,0,108.032,147.2Z"
+                  transform="translate(-104.921 -140.093)" />
+                <path class="d"
+                  d="M258.8,144.1a.315.315,0,0,0-.445,0l-2.672,2.672v2.574l3.959-3.959a.315.315,0,0,0,0-.445Z"
+                  transform="translate(-248.646 -140.092)" />
+              </g>
+            </svg>
 
                         <svg *ngIf="
                   data?.waterManagement[service.key]?.status ===
                   uploadSTATUS.REJECTED
                 " xmlns="http://www.w3.org/2000/svg" width="15.932" height="13.936" viewBox="0 0 15.932 13.936">
-                <defs>
-                  <style>
-                    .ared {
-                      fill: #e24c4b;
-                    }
-                    .bred {
-                      fill: #d1403f;
-                    }
-                    .c {
-                      fill: #fff;
-                    }
-                  </style>
-                </defs>
-                <circle
-                  class="ared"
-                  cx="7"
-                  cy="7"
-                  r="7"
-                  transform="translate(0 0)"
-                />
-                <path
-                  class="bred"
-                  d="M62.246,55.248a7.021,7.021,0,0,1-7,7,6.888,6.888,0,0,1-5.469-2.625,6.906,6.906,0,0,0,4.375,1.531,7.021,7.021,0,0,0,7-7,6.906,6.906,0,0,0-1.531-4.375A6.888,6.888,0,0,1,62.246,55.248Z"
-                  transform="translate(-48.246 -48.248)"
-                />
-                <path
-                  class="c"
-                  d="M123.919,123.919a.687.687,0,0,1-.963,0l-2.231-2.231-2.231,2.231a.681.681,0,0,1-.963-.963l2.231-2.231-2.231-2.231a.681.681,0,0,1,.963-.963l2.231,2.231,2.231-2.231a.681.681,0,0,1,.963.963l-2.231,2.231,2.231,2.231A.687.687,0,0,1,123.919,123.919Z"
-                  transform="translate(-113.725 -113.725)"
-                />
-              </svg>
+              <defs>
+                <style>
+                  .ared {
+                    fill: #e24c4b;
+                  }
+
+                  .bred {
+                    fill: #d1403f;
+                  }
+
+                  .c {
+                    fill: #fff;
+                  }
+                </style>
+              </defs>
+              <circle class="ared" cx="7" cy="7" r="7" transform="translate(0 0)" />
+              <path class="bred"
+                d="M62.246,55.248a7.021,7.021,0,0,1-7,7,6.888,6.888,0,0,1-5.469-2.625,6.906,6.906,0,0,0,4.375,1.531,7.021,7.021,0,0,0,7-7,6.906,6.906,0,0,0-1.531-4.375A6.888,6.888,0,0,1,62.246,55.248Z"
+                transform="translate(-48.246 -48.248)" />
+              <path class="c"
+                d="M123.919,123.919a.687.687,0,0,1-.963,0l-2.231-2.231-2.231,2.231a.681.681,0,0,1-.963-.963l2.231-2.231-2.231-2.231a.681.681,0,0,1,.963-.963l2.231,2.231,2.231-2.231a.681.681,0,0,1,.963.963l-2.231,2.231,2.231,2.231A.687.687,0,0,1,123.919,123.919Z"
+                transform="translate(-113.725 -113.725)" />
+            </svg>
                     </td>
                     <td style="padding: 1%; text-align: center">
                         <span *ngIf="data?.waterManagement[service.key]?.baseline">
-                {{ data?.waterManagement[service.key]?.baseline["2021"] }}
-              </span>
+              {{ data?.waterManagement[service.key]?.baseline["2021"] }}
+            </span>
                         <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.baseline &&
                   data?.waterManagement[service.key]?.baseline['2021']
                 ">
-                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-              </em>
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em>
                     </td>
                     <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
                         <span *ngIf="data?.waterManagement[service.key]?.target">
-                {{ data?.waterManagement[service.key]?.target[year.key] }}
-              </span>
+              {{ data?.waterManagement[service.key]?.target[year.key] }}
+            </span>
 
                         <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.target &&
                   data?.waterManagement[service.key]?.target[year.key]
                 ">
-                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-              </em>
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em>
                     </td>
                 </tr>
                 <tr *ngIf="
@@ -171,110 +152,91 @@
                   (data.status === uploadSTATUS.APPROVED &&
                     data.actionTakenBy === USER_TYPES.MoHUA)
                 " xmlns="http://www.w3.org/2000/svg" width="15.932" height="13.936" viewBox="0 0 15.932 13.936">
-                <defs>
-                  <style>
-                    .a {
-                      fill: #00df76;
-                    }
-                    .b {
-                      fill: #00ab5e;
-                    }
-                    .c {
-                      fill: #fff5f5;
-                    }
-                    .d {
-                      fill: #dfebf1;
-                    }
-                  </style>
-                </defs>
-                <g transform="translate(-0.083)">
-                  <g transform="translate(0.083 0)">
-                    <ellipse
-                      class="a"
-                      cx="6.966"
-                      cy="6.968"
-                      rx="6.966"
-                      ry="6.968"
-                      transform="translate(0 0)"
-                    />
-                  </g>
-                  <path
-                    class="b"
-                    d="M255.694,0h-.009V13.936h.009a6.968,6.968,0,0,0,0-13.936Z"
-                    transform="translate(-248.646 0)"
-                  />
-                  <path
-                    class="c"
-                    d="M108.032,147.2l2.817,2.817a.315.315,0,0,0,.445,0l4.625-4.625a.315.315,0,0,0,0-.445l-.842-.842a.315.315,0,0,0-.445,0l-3.364,3.364a.315.315,0,0,1-.445,0l-1.508-1.508a.315.315,0,0,0-.439-.006l-.839.793A.315.315,0,0,0,108.032,147.2Z"
-                    transform="translate(-104.921 -140.093)"
-                  />
-                  <path
-                    class="d"
-                    d="M258.8,144.1a.315.315,0,0,0-.445,0l-2.672,2.672v2.574l3.959-3.959a.315.315,0,0,0,0-.445Z"
-                    transform="translate(-248.646 -140.092)"
-                  />
+              <defs>
+                <style>
+                  .a {
+                    fill: #00df76;
+                  }
+
+                  .b {
+                    fill: #00ab5e;
+                  }
+
+                  .c {
+                    fill: #fff5f5;
+                  }
+
+                  .d {
+                    fill: #dfebf1;
+                  }
+                </style>
+              </defs>
+              <g transform="translate(-0.083)">
+                <g transform="translate(0.083 0)">
+                  <ellipse class="a" cx="6.966" cy="6.968" rx="6.966" ry="6.968" transform="translate(0 0)" />
                 </g>
-              </svg>
+                <path class="b" d="M255.694,0h-.009V13.936h.009a6.968,6.968,0,0,0,0-13.936Z"
+                  transform="translate(-248.646 0)" />
+                <path class="c"
+                  d="M108.032,147.2l2.817,2.817a.315.315,0,0,0,.445,0l4.625-4.625a.315.315,0,0,0,0-.445l-.842-.842a.315.315,0,0,0-.445,0l-3.364,3.364a.315.315,0,0,1-.445,0l-1.508-1.508a.315.315,0,0,0-.439-.006l-.839.793A.315.315,0,0,0,108.032,147.2Z"
+                  transform="translate(-104.921 -140.093)" />
+                <path class="d"
+                  d="M258.8,144.1a.315.315,0,0,0-.445,0l-2.672,2.672v2.574l3.959-3.959a.315.315,0,0,0,0-.445Z"
+                  transform="translate(-248.646 -140.092)" />
+              </g>
+            </svg>
 
                         <svg *ngIf="
                   data?.waterManagement[service.key]?.status ===
                   uploadSTATUS.REJECTED
                 " xmlns="http://www.w3.org/2000/svg" width="15.932" height="13.936" viewBox="0 0 15.932 13.936">
-                <defs>
-                  <style>
-                    .ared {
-                      fill: #e24c4b;
-                    }
-                    .bred {
-                      fill: #d1403f;
-                    }
-                    .c {
-                      fill: #fff;
-                    }
-                  </style>
-                </defs>
-                <circle
-                  class="ared"
-                  cx="7"
-                  cy="7"
-                  r="7"
-                  transform="translate(0 0)"
-                />
-                <path
-                  class="bred"
-                  d="M62.246,55.248a7.021,7.021,0,0,1-7,7,6.888,6.888,0,0,1-5.469-2.625,6.906,6.906,0,0,0,4.375,1.531,7.021,7.021,0,0,0,7-7,6.906,6.906,0,0,0-1.531-4.375A6.888,6.888,0,0,1,62.246,55.248Z"
-                  transform="translate(-48.246 -48.248)"
-                />
-                <path
-                  class="c"
-                  d="M123.919,123.919a.687.687,0,0,1-.963,0l-2.231-2.231-2.231,2.231a.681.681,0,0,1-.963-.963l2.231-2.231-2.231-2.231a.681.681,0,0,1,.963-.963l2.231,2.231,2.231-2.231a.681.681,0,0,1,.963.963l-2.231,2.231,2.231,2.231A.687.687,0,0,1,123.919,123.919Z"
-                  transform="translate(-113.725 -113.725)"
-                />
-              </svg>
+              <defs>
+                <style>
+                  .ared {
+                    fill: #e24c4b;
+                  }
+
+                  .bred {
+                    fill: #d1403f;
+                  }
+
+                  .c {
+                    fill: #fff;
+                  }
+                </style>
+              </defs>
+              <circle class="ared" cx="7" cy="7" r="7" transform="translate(0 0)" />
+              <path class="bred"
+                d="M62.246,55.248a7.021,7.021,0,0,1-7,7,6.888,6.888,0,0,1-5.469-2.625,6.906,6.906,0,0,0,4.375,1.531,7.021,7.021,0,0,0,7-7,6.906,6.906,0,0,0-1.531-4.375A6.888,6.888,0,0,1,62.246,55.248Z"
+                transform="translate(-48.246 -48.248)" />
+              <path class="c"
+                d="M123.919,123.919a.687.687,0,0,1-.963,0l-2.231-2.231-2.231,2.231a.681.681,0,0,1-.963-.963l2.231-2.231-2.231-2.231a.681.681,0,0,1,.963-.963l2.231,2.231,2.231-2.231a.681.681,0,0,1,.963.963l-2.231,2.231,2.231,2.231A.687.687,0,0,1,123.919,123.919Z"
+                transform="translate(-113.725 -113.725)" />
+            </svg>
                     </td>
 
                     <td style="padding: 1%; text-align: center">
                         <span *ngIf="data?.waterManagement[service.key]?.baseline">
-                {{ data?.waterManagement[service.key]?.baseline["2021"] }}
-              </span>
+              {{ data?.waterManagement[service.key]?.baseline["2021"] }}
+            </span>
                         <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.baseline &&
                   data?.waterManagement[service.key]?.baseline['2021']
                 ">
-                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-              </em>
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em>
                     </td>
                     <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
                         <span *ngIf="data?.waterManagement[service.key]?.target">
-                {{ data?.waterManagement[service.key]?.target[year.key] }}
-              </span>
+              {{ data?.waterManagement[service.key]?.target[year.key] }}
+            </span>
 
                         <i class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.target &&
                   data?.waterManagement[service.key]?.target[year.key]
                 ">
-                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-              </i>
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </i>
                     </td>
                 </tr>
                 <tr *ngIf="
@@ -300,110 +262,91 @@
                   (data.status === uploadSTATUS.APPROVED &&
                     data.actionTakenBy === USER_TYPES.MoHUA)
                 " xmlns="http://www.w3.org/2000/svg" width="15.932" height="13.936" viewBox="0 0 15.932 13.936">
-                <defs>
-                  <style>
-                    .a {
-                      fill: #00df76;
-                    }
-                    .b {
-                      fill: #00ab5e;
-                    }
-                    .c {
-                      fill: #fff5f5;
-                    }
-                    .d {
-                      fill: #dfebf1;
-                    }
-                  </style>
-                </defs>
-                <g transform="translate(-0.083)">
-                  <g transform="translate(0.083 0)">
-                    <ellipse
-                      class="a"
-                      cx="6.966"
-                      cy="6.968"
-                      rx="6.966"
-                      ry="6.968"
-                      transform="translate(0 0)"
-                    />
-                  </g>
-                  <path
-                    class="b"
-                    d="M255.694,0h-.009V13.936h.009a6.968,6.968,0,0,0,0-13.936Z"
-                    transform="translate(-248.646 0)"
-                  />
-                  <path
-                    class="c"
-                    d="M108.032,147.2l2.817,2.817a.315.315,0,0,0,.445,0l4.625-4.625a.315.315,0,0,0,0-.445l-.842-.842a.315.315,0,0,0-.445,0l-3.364,3.364a.315.315,0,0,1-.445,0l-1.508-1.508a.315.315,0,0,0-.439-.006l-.839.793A.315.315,0,0,0,108.032,147.2Z"
-                    transform="translate(-104.921 -140.093)"
-                  />
-                  <path
-                    class="d"
-                    d="M258.8,144.1a.315.315,0,0,0-.445,0l-2.672,2.672v2.574l3.959-3.959a.315.315,0,0,0,0-.445Z"
-                    transform="translate(-248.646 -140.092)"
-                  />
+              <defs>
+                <style>
+                  .a {
+                    fill: #00df76;
+                  }
+
+                  .b {
+                    fill: #00ab5e;
+                  }
+
+                  .c {
+                    fill: #fff5f5;
+                  }
+
+                  .d {
+                    fill: #dfebf1;
+                  }
+                </style>
+              </defs>
+              <g transform="translate(-0.083)">
+                <g transform="translate(0.083 0)">
+                  <ellipse class="a" cx="6.966" cy="6.968" rx="6.966" ry="6.968" transform="translate(0 0)" />
                 </g>
-              </svg>
+                <path class="b" d="M255.694,0h-.009V13.936h.009a6.968,6.968,0,0,0,0-13.936Z"
+                  transform="translate(-248.646 0)" />
+                <path class="c"
+                  d="M108.032,147.2l2.817,2.817a.315.315,0,0,0,.445,0l4.625-4.625a.315.315,0,0,0,0-.445l-.842-.842a.315.315,0,0,0-.445,0l-3.364,3.364a.315.315,0,0,1-.445,0l-1.508-1.508a.315.315,0,0,0-.439-.006l-.839.793A.315.315,0,0,0,108.032,147.2Z"
+                  transform="translate(-104.921 -140.093)" />
+                <path class="d"
+                  d="M258.8,144.1a.315.315,0,0,0-.445,0l-2.672,2.672v2.574l3.959-3.959a.315.315,0,0,0,0-.445Z"
+                  transform="translate(-248.646 -140.092)" />
+              </g>
+            </svg>
 
                         <svg *ngIf="
                   data?.waterManagement[service.key]?.status ===
                   uploadSTATUS.REJECTED
                 " xmlns="http://www.w3.org/2000/svg" width="15.932" height="13.936" viewBox="0 0 15.932 13.936">
-                <defs>
-                  <style>
-                    .ared {
-                      fill: #e24c4b;
-                    }
-                    .bred {
-                      fill: #d1403f;
-                    }
-                    .c {
-                      fill: #fff;
-                    }
-                  </style>
-                </defs>
-                <circle
-                  class="ared"
-                  cx="7"
-                  cy="7"
-                  r="7"
-                  transform="translate(0 0)"
-                />
-                <path
-                  class="bred"
-                  d="M62.246,55.248a7.021,7.021,0,0,1-7,7,6.888,6.888,0,0,1-5.469-2.625,6.906,6.906,0,0,0,4.375,1.531,7.021,7.021,0,0,0,7-7,6.906,6.906,0,0,0-1.531-4.375A6.888,6.888,0,0,1,62.246,55.248Z"
-                  transform="translate(-48.246 -48.248)"
-                />
-                <path
-                  class="c"
-                  d="M123.919,123.919a.687.687,0,0,1-.963,0l-2.231-2.231-2.231,2.231a.681.681,0,0,1-.963-.963l2.231-2.231-2.231-2.231a.681.681,0,0,1,.963-.963l2.231,2.231,2.231-2.231a.681.681,0,0,1,.963.963l-2.231,2.231,2.231,2.231A.687.687,0,0,1,123.919,123.919Z"
-                  transform="translate(-113.725 -113.725)"
-                />
-              </svg>
+              <defs>
+                <style>
+                  .ared {
+                    fill: #e24c4b;
+                  }
+
+                  .bred {
+                    fill: #d1403f;
+                  }
+
+                  .c {
+                    fill: #fff;
+                  }
+                </style>
+              </defs>
+              <circle class="ared" cx="7" cy="7" r="7" transform="translate(0 0)" />
+              <path class="bred"
+                d="M62.246,55.248a7.021,7.021,0,0,1-7,7,6.888,6.888,0,0,1-5.469-2.625,6.906,6.906,0,0,0,4.375,1.531,7.021,7.021,0,0,0,7-7,6.906,6.906,0,0,0-1.531-4.375A6.888,6.888,0,0,1,62.246,55.248Z"
+                transform="translate(-48.246 -48.248)" />
+              <path class="c"
+                d="M123.919,123.919a.687.687,0,0,1-.963,0l-2.231-2.231-2.231,2.231a.681.681,0,0,1-.963-.963l2.231-2.231-2.231-2.231a.681.681,0,0,1,.963-.963l2.231,2.231,2.231-2.231a.681.681,0,0,1,.963.963l-2.231,2.231,2.231,2.231A.687.687,0,0,1,123.919,123.919Z"
+                transform="translate(-113.725 -113.725)" />
+            </svg>
                     </td>
 
                     <td style="padding: 1%; text-align: center">
                         <span *ngIf="data?.waterManagement[service.key]?.baseline">
-                {{ data?.waterManagement[service.key]?.baseline["2021"] }}
-              </span>
+              {{ data?.waterManagement[service.key]?.baseline["2021"] }}
+            </span>
                         <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.baseline &&
                   data?.waterManagement[service.key]?.baseline['2021']
                 ">
-                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-              </em>
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em>
                     </td>
                     <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
                         <span *ngIf="data?.waterManagement[service.key]?.target">
-                {{ data?.waterManagement[service.key]?.target[year.key] }}
-              </span>
+              {{ data?.waterManagement[service.key]?.target[year.key] }}
+            </span>
 
                         <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.target &&
                   data?.waterManagement[service.key]?.target[year.key]
                 ">
-                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-              </em>
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em>
                     </td>
                 </tr>
                 <tr *ngIf="
@@ -429,110 +372,91 @@
                   (data.status === uploadSTATUS.APPROVED &&
                     data.actionTakenBy === USER_TYPES.MoHUA)
                 " xmlns="http://www.w3.org/2000/svg" width="15.932" height="13.936" viewBox="0 0 15.932 13.936">
-                <defs>
-                  <style>
-                    .a {
-                      fill: #00df76;
-                    }
-                    .b {
-                      fill: #00ab5e;
-                    }
-                    .c {
-                      fill: #fff5f5;
-                    }
-                    .d {
-                      fill: #dfebf1;
-                    }
-                  </style>
-                </defs>
-                <g transform="translate(-0.083)">
-                  <g transform="translate(0.083 0)">
-                    <ellipse
-                      class="a"
-                      cx="6.966"
-                      cy="6.968"
-                      rx="6.966"
-                      ry="6.968"
-                      transform="translate(0 0)"
-                    />
-                  </g>
-                  <path
-                    class="b"
-                    d="M255.694,0h-.009V13.936h.009a6.968,6.968,0,0,0,0-13.936Z"
-                    transform="translate(-248.646 0)"
-                  />
-                  <path
-                    class="c"
-                    d="M108.032,147.2l2.817,2.817a.315.315,0,0,0,.445,0l4.625-4.625a.315.315,0,0,0,0-.445l-.842-.842a.315.315,0,0,0-.445,0l-3.364,3.364a.315.315,0,0,1-.445,0l-1.508-1.508a.315.315,0,0,0-.439-.006l-.839.793A.315.315,0,0,0,108.032,147.2Z"
-                    transform="translate(-104.921 -140.093)"
-                  />
-                  <path
-                    class="d"
-                    d="M258.8,144.1a.315.315,0,0,0-.445,0l-2.672,2.672v2.574l3.959-3.959a.315.315,0,0,0,0-.445Z"
-                    transform="translate(-248.646 -140.092)"
-                  />
+              <defs>
+                <style>
+                  .a {
+                    fill: #00df76;
+                  }
+
+                  .b {
+                    fill: #00ab5e;
+                  }
+
+                  .c {
+                    fill: #fff5f5;
+                  }
+
+                  .d {
+                    fill: #dfebf1;
+                  }
+                </style>
+              </defs>
+              <g transform="translate(-0.083)">
+                <g transform="translate(0.083 0)">
+                  <ellipse class="a" cx="6.966" cy="6.968" rx="6.966" ry="6.968" transform="translate(0 0)" />
                 </g>
-              </svg>
+                <path class="b" d="M255.694,0h-.009V13.936h.009a6.968,6.968,0,0,0,0-13.936Z"
+                  transform="translate(-248.646 0)" />
+                <path class="c"
+                  d="M108.032,147.2l2.817,2.817a.315.315,0,0,0,.445,0l4.625-4.625a.315.315,0,0,0,0-.445l-.842-.842a.315.315,0,0,0-.445,0l-3.364,3.364a.315.315,0,0,1-.445,0l-1.508-1.508a.315.315,0,0,0-.439-.006l-.839.793A.315.315,0,0,0,108.032,147.2Z"
+                  transform="translate(-104.921 -140.093)" />
+                <path class="d"
+                  d="M258.8,144.1a.315.315,0,0,0-.445,0l-2.672,2.672v2.574l3.959-3.959a.315.315,0,0,0,0-.445Z"
+                  transform="translate(-248.646 -140.092)" />
+              </g>
+            </svg>
 
                         <svg *ngIf="
                   data?.waterManagement[service.key]?.status ===
                   uploadSTATUS.REJECTED
                 " xmlns="http://www.w3.org/2000/svg" width="15.932" height="13.936" viewBox="0 0 15.932 13.936">
-                <defs>
-                  <style>
-                    .ared {
-                      fill: #e24c4b;
-                    }
-                    .bred {
-                      fill: #d1403f;
-                    }
-                    .c {
-                      fill: #fff;
-                    }
-                  </style>
-                </defs>
-                <circle
-                  class="ared"
-                  cx="7"
-                  cy="7"
-                  r="7"
-                  transform="translate(0 0)"
-                />
-                <path
-                  class="bred"
-                  d="M62.246,55.248a7.021,7.021,0,0,1-7,7,6.888,6.888,0,0,1-5.469-2.625,6.906,6.906,0,0,0,4.375,1.531,7.021,7.021,0,0,0,7-7,6.906,6.906,0,0,0-1.531-4.375A6.888,6.888,0,0,1,62.246,55.248Z"
-                  transform="translate(-48.246 -48.248)"
-                />
-                <path
-                  class="c"
-                  d="M123.919,123.919a.687.687,0,0,1-.963,0l-2.231-2.231-2.231,2.231a.681.681,0,0,1-.963-.963l2.231-2.231-2.231-2.231a.681.681,0,0,1,.963-.963l2.231,2.231,2.231-2.231a.681.681,0,0,1,.963.963l-2.231,2.231,2.231,2.231A.687.687,0,0,1,123.919,123.919Z"
-                  transform="translate(-113.725 -113.725)"
-                />
-              </svg>
+              <defs>
+                <style>
+                  .ared {
+                    fill: #e24c4b;
+                  }
+
+                  .bred {
+                    fill: #d1403f;
+                  }
+
+                  .c {
+                    fill: #fff;
+                  }
+                </style>
+              </defs>
+              <circle class="ared" cx="7" cy="7" r="7" transform="translate(0 0)" />
+              <path class="bred"
+                d="M62.246,55.248a7.021,7.021,0,0,1-7,7,6.888,6.888,0,0,1-5.469-2.625,6.906,6.906,0,0,0,4.375,1.531,7.021,7.021,0,0,0,7-7,6.906,6.906,0,0,0-1.531-4.375A6.888,6.888,0,0,1,62.246,55.248Z"
+                transform="translate(-48.246 -48.248)" />
+              <path class="c"
+                d="M123.919,123.919a.687.687,0,0,1-.963,0l-2.231-2.231-2.231,2.231a.681.681,0,0,1-.963-.963l2.231-2.231-2.231-2.231a.681.681,0,0,1,.963-.963l2.231,2.231,2.231-2.231a.681.681,0,0,1,.963.963l-2.231,2.231,2.231,2.231A.687.687,0,0,1,123.919,123.919Z"
+                transform="translate(-113.725 -113.725)" />
+            </svg>
                     </td>
 
                     <td style="padding: 1%; text-align: center">
                         <span *ngIf="data?.waterManagement[service.key]?.baseline">
-                {{ data?.waterManagement[service.key]?.baseline["2021"] }}
-              </span>
+              {{ data?.waterManagement[service.key]?.baseline["2021"] }}
+            </span>
                         <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.baseline &&
                   data?.waterManagement[service.key]?.baseline['2021']
                 ">
-                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-              </em>
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em>
                     </td>
                     <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
                         <span *ngIf="data?.waterManagement[service.key]?.target">
-                {{ data?.waterManagement[service.key]?.target[year.key] }}
-              </span>
+              {{ data?.waterManagement[service.key]?.target[year.key] }}
+            </span>
 
                         <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.target &&
                   data?.waterManagement[service.key]?.target[year.key]
                 ">
-                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-              </em>
+              {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+            </em>
                     </td>
                 </tr>
                 <tr *ngIf="
@@ -567,31 +491,28 @@
                 data?.solidWasteManagement?.documents[question.key][0]?.status
               ">
               <span>
-                <svg
-                  *ngIf="
+                <svg *ngIf="
                     (data?.solidWasteManagement?.documents &&
                       data?.solidWasteManagement?.documents[question.key] &&
                       data?.solidWasteManagement?.documents[question.key][0]
                         ?.status === uploadSTATUS.APPROVED) ||
                     (data.status === uploadSTATUS.APPROVED &&
                       data.actionTakenBy === USER_TYPES.MoHUA)
-                  "
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="15.932"
-                  height="13.936"
-                  viewBox="0 0 15.932 13.936"
-                >
+                  " xmlns="http://www.w3.org/2000/svg" width="15.932" height="13.936" viewBox="0 0 15.932 13.936">
                   <defs>
                     <style>
                       .a {
                         fill: #00df76;
                       }
+
                       .b {
                         fill: #00ab5e;
                       }
+
                       .c {
                         fill: #fff5f5;
                       }
+
                       .d {
                         fill: #dfebf1;
                       }
@@ -599,75 +520,47 @@
                   </defs>
                   <g transform="translate(-0.083)">
                     <g transform="translate(0.083 0)">
-                      <ellipse
-                        class="a"
-                        cx="6.966"
-                        cy="6.968"
-                        rx="6.966"
-                        ry="6.968"
-                        transform="translate(0 0)"
-                      />
+                      <ellipse class="a" cx="6.966" cy="6.968" rx="6.966" ry="6.968" transform="translate(0 0)" />
                     </g>
-                    <path
-                      class="b"
-                      d="M255.694,0h-.009V13.936h.009a6.968,6.968,0,0,0,0-13.936Z"
-                      transform="translate(-248.646 0)"
-                    />
-                    <path
-                      class="c"
+                    <path class="b" d="M255.694,0h-.009V13.936h.009a6.968,6.968,0,0,0,0-13.936Z"
+                      transform="translate(-248.646 0)" />
+                    <path class="c"
                       d="M108.032,147.2l2.817,2.817a.315.315,0,0,0,.445,0l4.625-4.625a.315.315,0,0,0,0-.445l-.842-.842a.315.315,0,0,0-.445,0l-3.364,3.364a.315.315,0,0,1-.445,0l-1.508-1.508a.315.315,0,0,0-.439-.006l-.839.793A.315.315,0,0,0,108.032,147.2Z"
-                      transform="translate(-104.921 -140.093)"
-                    />
-                    <path
-                      class="d"
+                      transform="translate(-104.921 -140.093)" />
+                    <path class="d"
                       d="M258.8,144.1a.315.315,0,0,0-.445,0l-2.672,2.672v2.574l3.959-3.959a.315.315,0,0,0,0-.445Z"
-                      transform="translate(-248.646 -140.092)"
-                    />
+                      transform="translate(-248.646 -140.092)" />
                   </g>
                 </svg>
 
-                <svg
-                  *ngIf="
+                <svg *ngIf="
                     data?.solidWasteManagement?.documents &&
                     data?.solidWasteManagement?.documents[question.key] &&
                     data?.solidWasteManagement?.documents[question.key][0]
                       ?.status === uploadSTATUS.REJECTED
-                  "
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="15.932"
-                  height="15.932"
-                  viewBox="0 0 15.932 15.932"
-                >
+                  " xmlns="http://www.w3.org/2000/svg" width="15.932" height="15.932" viewBox="0 0 15.932 15.932">
                   <defs>
                     <style>
                       .ared {
                         fill: #e24c4b;
                       }
+
                       .bred {
                         fill: #d1403f;
                       }
+
                       .c {
                         fill: #fff;
                       }
                     </style>
                   </defs>
-                  <circle
-                    class="ared"
-                    cx="7"
-                    cy="7"
-                    r="7"
-                    transform="translate(0 0)"
-                  />
-                  <path
-                    class="bred"
+                  <circle class="ared" cx="7" cy="7" r="7" transform="translate(0 0)" />
+                  <path class="bred"
                     d="M62.246,55.248a7.021,7.021,0,0,1-7,7,6.888,6.888,0,0,1-5.469-2.625,6.906,6.906,0,0,0,4.375,1.531,7.021,7.021,0,0,0,7-7,6.906,6.906,0,0,0-1.531-4.375A6.888,6.888,0,0,1,62.246,55.248Z"
-                    transform="translate(-48.246 -48.248)"
-                  />
-                  <path
-                    class="c"
+                    transform="translate(-48.246 -48.248)" />
+                  <path class="c"
                     d="M123.919,123.919a.687.687,0,0,1-.963,0l-2.231-2.231-2.231,2.231a.681.681,0,0,1-.963-.963l2.231-2.231-2.231-2.231a.681.681,0,0,1,.963-.963l2.231,2.231,2.231-2.231a.681.681,0,0,1,.963.963l-2.231,2.231,2.231,2.231A.687.687,0,0,1,123.919,123.919Z"
-                    transform="translate(-113.725 -113.725)"
-                  />
+                    transform="translate(-113.725 -113.725)" />
                 </svg>
               </span>
                         <span style="padding-left: 2%; position: relative" *ngIf="
@@ -703,31 +596,28 @@
                   data?.millionPlusCities?.documents[question.key][0]?.status
                 ">
                 <span>
-                  <svg
-                    *ngIf="
+                  <svg *ngIf="
                       (data?.millionPlusCities?.documents &&
                         data?.millionPlusCities?.documents[question.key] &&
                         data?.millionPlusCities?.documents[question.key][0]
                           ?.status === uploadSTATUS.APPROVED) ||
                       (data.status === uploadSTATUS.APPROVED &&
                         data.actionTakenBy === USER_TYPES.MoHUA)
-                    "
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="15.932"
-                    height="13.936"
-                    viewBox="0 0 15.932 13.936"
-                  >
+                    " xmlns="http://www.w3.org/2000/svg" width="15.932" height="13.936" viewBox="0 0 15.932 13.936">
                     <defs>
                       <style>
                         .a {
                           fill: #00df76;
                         }
+
                         .b {
                           fill: #00ab5e;
                         }
+
                         .c {
                           fill: #fff5f5;
                         }
+
                         .d {
                           fill: #dfebf1;
                         }
@@ -735,75 +625,47 @@
                     </defs>
                     <g transform="translate(-0.083)">
                       <g transform="translate(0.083 0)">
-                        <ellipse
-                          class="a"
-                          cx="6.966"
-                          cy="6.968"
-                          rx="6.966"
-                          ry="6.968"
-                          transform="translate(0 0)"
-                        />
+                        <ellipse class="a" cx="6.966" cy="6.968" rx="6.966" ry="6.968" transform="translate(0 0)" />
                       </g>
-                      <path
-                        class="b"
-                        d="M255.694,0h-.009V13.936h.009a6.968,6.968,0,0,0,0-13.936Z"
-                        transform="translate(-248.646 0)"
-                      />
-                      <path
-                        class="c"
+                      <path class="b" d="M255.694,0h-.009V13.936h.009a6.968,6.968,0,0,0,0-13.936Z"
+                        transform="translate(-248.646 0)" />
+                      <path class="c"
                         d="M108.032,147.2l2.817,2.817a.315.315,0,0,0,.445,0l4.625-4.625a.315.315,0,0,0,0-.445l-.842-.842a.315.315,0,0,0-.445,0l-3.364,3.364a.315.315,0,0,1-.445,0l-1.508-1.508a.315.315,0,0,0-.439-.006l-.839.793A.315.315,0,0,0,108.032,147.2Z"
-                        transform="translate(-104.921 -140.093)"
-                      />
-                      <path
-                        class="d"
+                        transform="translate(-104.921 -140.093)" />
+                      <path class="d"
                         d="M258.8,144.1a.315.315,0,0,0-.445,0l-2.672,2.672v2.574l3.959-3.959a.315.315,0,0,0,0-.445Z"
-                        transform="translate(-248.646 -140.092)"
-                      />
+                        transform="translate(-248.646 -140.092)" />
                     </g>
                   </svg>
 
-                  <svg
-                    *ngIf="
+                  <svg *ngIf="
                       data?.millionPlusCities?.documents &&
                       data?.millionPlusCities?.documents[question.key] &&
                       data?.millionPlusCities?.documents[question.key][0]
                         ?.status === uploadSTATUS.REJECTED
-                    "
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="15.932"
-                    height="15.932"
-                    viewBox="0 0 15.932 15.932"
-                  >
+                    " xmlns="http://www.w3.org/2000/svg" width="15.932" height="15.932" viewBox="0 0 15.932 15.932">
                     <defs>
                       <style>
                         .ared {
                           fill: #e24c4b;
                         }
+
                         .bred {
                           fill: #d1403f;
                         }
+
                         .c {
                           fill: #fff;
                         }
                       </style>
                     </defs>
-                    <circle
-                      class="ared"
-                      cx="7"
-                      cy="7"
-                      r="7"
-                      transform="translate(0 0)"
-                    />
-                    <path
-                      class="bred"
+                    <circle class="ared" cx="7" cy="7" r="7" transform="translate(0 0)" />
+                    <path class="bred"
                       d="M62.246,55.248a7.021,7.021,0,0,1-7,7,6.888,6.888,0,0,1-5.469-2.625,6.906,6.906,0,0,0,4.375,1.531,7.021,7.021,0,0,0,7-7,6.906,6.906,0,0,0-1.531-4.375A6.888,6.888,0,0,1,62.246,55.248Z"
-                      transform="translate(-48.246 -48.248)"
-                    />
-                    <path
-                      class="c"
+                      transform="translate(-48.246 -48.248)" />
+                    <path class="c"
                       d="M123.919,123.919a.687.687,0,0,1-.963,0l-2.231-2.231-2.231,2.231a.681.681,0,0,1-.963-.963l2.231-2.231-2.231-2.231a.681.681,0,0,1,.963-.963l2.231,2.231,2.231-2.231a.681.681,0,0,1,.963.963l-2.231,2.231,2.231,2.231A.687.687,0,0,1,123.919,123.919Z"
-                      transform="translate(-113.725 -113.725)"
-                    />
+                      transform="translate(-113.725 -113.725)" />
                   </svg>
                 </span>
                             <span style="padding-left: 2%; position: relative" *ngIf="
@@ -824,35 +686,55 @@
                     Form First Submitted On:
                     <span style="font-weight: normal">
             {{
-              (data["firstSubmitedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
-                "Not Submitted"
-            }}</span
-          >
-        </h5>
-        <h5>
-          Form Last Rejected On:
-          <span style="font-weight: normal">
+            (data["firstSubmitedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
+            "Not Submitted"
+            }}</span>
+                </h5>
+                <h5>
+                    Form Last Rejected On:
+                    <span style="font-weight: normal">
             {{
-              (data["rejectedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
-                "No Reject Found"
-            }}</span
-          >
-        </h5>
-      </div>
-    </div>
+            (data["rejectedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
+            "No Reject Found"
+            }}</span>
+                </h5>
+            </div>
+        </div>
     </div>
     <div>
-      <label class="qus-slb" for="">Have you published Water Potability Index</label>
-      <label class="ans-slb" for="">{{ water_index_qus }}</label>
+        <label class="qus-slb" for="">Have you published Water Potability Index</label>
+        <label class="ans-slb" for="">{{ water_index_qus }}</label>
     </div>
 
     <!-- <div>
       <label for="" style="margin-left: 1.6rem;"><a href="{{fileUrl}}" target="_blank">{{fileName}}</a></label>
     </div> -->
     <div>
-      <p class="form-status m-cl">
-        <label class="qus-slb"  for="">Upload the published document</label>
-        <label class="ans-slb-a" for="" > <a href="{{fileUrl}}" target="_blank">{{fileName}}</a></label>
-      </p>
-  </div>
-  </div>
+        <p class="form-status m-cl">
+            <label class="qus-slb" for="">Upload the published document</label>
+            <label class="ans-slb-a" for=""> <a href="{{fileUrl}}" target="_blank">{{fileName}}</a></label>
+        </p>
+    </div>
+</div>
+<ng-template #template>
+    <div class="modal-body text-center alert">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed further?
+        </p>
+        <div>
+            <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+          Save & Proceed</button>
+        </div>
+
+    </div>
+</ng-template>

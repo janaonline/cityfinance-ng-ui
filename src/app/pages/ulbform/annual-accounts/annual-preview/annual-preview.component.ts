@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, Input, ElementRef, ViewChild} from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, Inject, Input, ElementRef, ViewChild } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { QuestionnaireService } from '../../../questionnaires/service/questionnaire.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
@@ -12,10 +12,11 @@ import { defaultDailogConfiuration } from '../../../questionnaires/state/configs
 export class AnnualPreviewComponent implements OnInit {
 
   @ViewChild("annualPreview") _html: ElementRef;
+  @ViewChild("templateAnnual") template;
   showLoader;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any ,
-  private _questionnaireService: QuestionnaireService,private _matDialog: MatDialog) { }
-  styleForPDF=`<style>
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+    private _questionnaireService: QuestionnaireService, private _matDialog: MatDialog) { }
+  styleForPDF = `<style>
   .header-p {
     background-color: #047474;
     height: 70px;
@@ -110,6 +111,20 @@ export class AnnualPreviewComponent implements OnInit {
       this.year2019 = this.parentData[0];
     }
   }
+  clickedDownloadAsPDF(template) {
+    let changeHappen = sessionStorage.getItem("changeInAnnual");
+    if (changeHappen === 'true') {
+      this.openDialog(template);
+    } else {
+      this.downloadAsPDF();
+    }
+  }
+
+  dialogRef
+  openDialog(template) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this._matDialog.open(template, dialogConfig);
+  }
 
   downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
@@ -148,5 +163,37 @@ export class AnnualPreviewComponent implements OnInit {
     a.download = filename;
     a.click();
     return url;
+  }
+  errMessage = ''
+  async proceed(uploadedFiles) {
+    // await this.modalRef.hide();
+    this._matDialog.closeAll();
+    // this._matDialog.close(this.clicked);
+    // this._matDialog.closeAll('Hello');
+    // this._matDialog.ngOnDestroy()
+    console.log('Check this value', this.data)
+    sessionStorage.setItem("changeInAnnual", "false");
+    console.log(this.parentData)
+    // this.LinkPFMSAccount.postData(this.data)
+    //   .subscribe((res) => {
+    //     console.log(res);
+    //     swal("Record submitted successfully!")
+    //   },
+    //     error => {
+    //       this.errMessage = error.message;
+    //       console.log(error, this.errMessage);
+    //     });
+
+    // this.downloadAsPDF()
+
+
+  }
+
+  alertClose() {
+    this.stay();
+  }
+
+  stay() {
+    this.dialogRef.close();
   }
 }

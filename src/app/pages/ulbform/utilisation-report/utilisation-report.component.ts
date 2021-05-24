@@ -433,7 +433,7 @@ ulbId =null;
     let formdata = {
       state_name: this.utilizationForm.controls.stateName.value,
       ulbName: this.utilizationForm.controls.ulb.value,
-      grntType: storeResponse.grantType,
+      grntType: storeResponse.grantType ?? 'Tied'      ,
       grantPosition: storeResponse.grantPosition,
       projects: storeResponse.projects,
       name: storeResponse.name,

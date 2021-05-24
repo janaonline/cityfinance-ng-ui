@@ -20,16 +20,7 @@ export class WaterSanitationService {
     // ulbRecord = ulbRecord.ulb;
     // console.log(ulbRecord)
     let getFilesUrl = environment.api.url + 'plans/606aaf854dff55e6c075d219'
-    return this.http.get(getFilesUrl).pipe(catchError(error => {
-      let errMes = 'An error occured.'
-      console.log(error);
-      if(error.status =='404'){
-        errMes ="No records found."
-        return throwError(errMes)
-      }else{
-        return throwError(errMes)
-      }
-    }));
+    return this.http.get(getFilesUrl);
   }
 
 }

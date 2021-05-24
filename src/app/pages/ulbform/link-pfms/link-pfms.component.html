@@ -45,7 +45,8 @@
         <button class="backButton" [routerLink]="['../overview']">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-        <button class="save" (click)=" saveAndNextValue(template1)" [disabled]="isDisabled">{{change == true? 'SAVE AND
+        <button class="save" (click)=" saveAndNextValue(template1)" [disabled]="isDisabled">{{change == true?
+            'SAVE AND
             NEXT': 'NEXT'}}</button>
     </div>
 </div>
@@ -61,13 +62,13 @@
         </div>
 
         <p style="margin-top: 8px;">
-            Are you sure you want to proceed further without saving the changes?
+            Are you sure you want to proceed further?
         </p>
         <div>
-            <button type="button" class="btn btn-primary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-danger "
-                style="margin-left: 6px; width: auto; background-color: #bb0000" (click)="proceed()">
-                Proceed</button>
+            <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success "
+                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+                Save & Proceed</button>
         </div>
 
     </div>

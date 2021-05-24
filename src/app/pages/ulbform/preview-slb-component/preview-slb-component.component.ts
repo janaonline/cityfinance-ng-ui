@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { IState } from 'src/app/models/state/state';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
@@ -7,7 +7,7 @@ import { defaultDailogConfiuration } from 'src/app/pages/questionnaires/ulb/conf
 import { CommonService } from 'src/app/shared/services/common.service';
 import { UPLOAD_STATUS } from 'src/app/util/enums';
 import { UserUtility } from 'src/app/util/user/user';
-
+import { UlbformService } from '../ulbform.service';
 import { IFinancialData, WaterManagement } from 'src/app/users/data-upload/models/financial-data.interface';
 import {
   APPROVAL_COMPLETED,
@@ -20,7 +20,9 @@ import {
 import { millionPlusCitiesQuestions } from 'src/app/users/data-upload/components/configs/million-plus-cities';
 import { solidWasterQuestions } from 'src/app/users/data-upload/components/configs/solid-waste-management';
 import { services, targets } from 'src/app/users/data-upload/components/configs/water-waste-management';
-
+import { SlbsComponent } from '../slbs/slbs.component';
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-preview-slb-component',
   templateUrl: './preview-slb-component.component.html',
@@ -33,7 +35,7 @@ export class PreviewSlbComponentComponent implements OnInit {
   @Input()
   isULBMillionPlus = false;
   @ViewChild("previewSlb") _html: ElementRef;
-
+  @ViewChild("template") template;
   targets = targets;
   services: {
     key: keyof WaterManagement;
@@ -50,7 +52,7 @@ export class PreviewSlbComponentComponent implements OnInit {
   showLoader = false;
 
   USER_TYPES = USER_TYPE;
-
+  Years = JSON.parse(localStorage.getItem("Years"));
   userDetails = new UserUtility().getLoggedInUserDetails();
 
   styleForPDF = `<style>
@@ -140,12 +142,15 @@ export class PreviewSlbComponentComponent implements OnInit {
   fileUrl ='';
   fileName ='';
   constructor(
+    private SlbsComponent: SlbsComponent,
+
     private _questionnaireService: QuestionnaireService,
     private _commonService: CommonService,
+    public _ulbformService: UlbformService,
     public _matDialog: MatDialog
-  ) {}
+  ) { }
 
-  ngOnChanges() {}
+  ngOnChanges() { }
 
   ngOnInit() {
     this.data = this.formatResponse(this.data);
@@ -183,7 +188,92 @@ export class PreviewSlbComponentComponent implements OnInit {
     }
     return text;
   }
+  clicked = false
+  clickedDownloadAsPDF(template) {
+    let changeHappen = sessionStorage.getItem("changeInSLB")
+    this.clicked = true;
 
+    //use dialog instead of Modal
+    if (changeHappen === 'true') {
+      this.openDialog(template);
+    } else {
+      this.downloadAsPDF();
+    }
+
+
+    // this.openModal(template)
+  }
+  dialogRef
+  openDialog(template) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this._matDialog.open(template, dialogConfig);
+  }
+
+  errMessage = ''
+  res
+  async proceed(uploadedFiles) {
+    await this._matDialog.closeAll();
+
+    console.log('Check this value', this.data)
+    sessionStorage.setItem("changeInSLB", "false");
+    console.log(this.data)
+    let obj = {
+      "waterManagement": this.data['waterManagement'],
+      "waterPotability": this.data['waterPotability'],
+      "water_index": this.data['water_index'],
+      "saveData": true
+    }
+    this.onWaterWasteManagementEmitValue(obj)
+    sessionStorage.setItem("changeInSLB", "false");
+    this.downloadAsPDF()
+  }
+
+  onWaterWasteManagementEmitValue(value) {
+    console.log("value1", value)
+    this.data = value
+    console.log('onWaterWasteManagementEmitValue', value)
+    sessionStorage.setItem("changeInSLB", "true");
+    if (value.saveData)
+      this.postSlbData(value)
+
+  }
+
+
+  postSlbData(value) {
+    let data = {
+      design_year: this.Years["2021-22"],
+      waterManagement:
+        { ...value.waterManagement },
+      water_index: value.water_index,
+      waterPotability: {
+        documents: {
+          waterPotabilityPlan: [
+            value.waterPotability
+          ]
+        }
+      },
+      // completeness: 'APPROVED', correctness: 'APPROVED',
+      "isCompleted": true
+    }
+    console.log(data)
+    this._commonService.postSlbData(data).subscribe(res => {
+
+      const status = JSON.parse(sessionStorage.getItem("allStatus"));
+      status.slbForWaterSupplyAndSanitation.isSubmit = res["isCompleted"];
+      this._ulbformService.allStatus.next(status);
+      console.log("response")
+      console.log(res)
+      swal("Record submitted successfully!");
+    })
+
+  }
+  alertClose() {
+    this.stay();
+  }
+
+  stay() {
+    this.dialogRef.close();
+  }
   downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
 
@@ -191,14 +281,12 @@ export class PreviewSlbComponentComponent implements OnInit {
     html = this.replaceAllOccurence(html, 'width="15.932"', 'width="7.932"');
     html = this.replaceAllOccurence(html, 'height="15.932"', 'height="7.932"');
     this.showLoader = true;
-    console.log(html);
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
         this.downloadFile(
           res.slice(0),
           "pdf",
-          `XV_FC_Grant ${
-            this.data ? this.data.ulbName : this.userDetails.name
+          `XV_FC_Grant ${this.data ? this.data.ulbName : this.userDetails.name
           }.pdf`
         );
         this.showLoader = false;
@@ -290,5 +378,6 @@ export class PreviewSlbComponentComponent implements OnInit {
     a.click();
     return url;
   }
+
 }
 
