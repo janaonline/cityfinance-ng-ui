@@ -24,8 +24,8 @@
         <div class="col-sm-12 col-md-12 col-lg-12">
 
             <div class="row titleCards">
-                <div class="col">
-                    <carousel [itemsPerSlide]="itemsPerSlide" style="background-image: none;" [ngClass]='{"a-con": cardFit}' [singleSlideOffset]="false" [interval]="false" [noWrap]="noWrap" [showIndicators]="false">
+                <div class="col" *ngIf="cardFit">
+                    <carousel [itemsPerSlide]="itemsPerSlide" style="background-image: none;" [ngClass]='{"a-con": cardFit}' [singleSlideOffset]="singleSlideOffset" [interval]="false" [showIndicators]="false">
                         <slide *ngFor="let slide of slides; let index=index">
                             <a routerLink="{{link[index]}}">
                                 <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
@@ -56,8 +56,41 @@
                         </slide>
 
                     </carousel>
+                </div>
+                <div class="col" *ngIf="!cardFit">
+                    <div class="row" style="display: inline-flex;">
+                        <div class="col" *ngFor="let slide of slides; let index=index">
 
-                    <!-- <a [routerLink]="['../pfms_acc']">
+                            <a routerLink="{{link[index]}}">
+                                <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
+index == 0 ?'linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
+'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#549D5E, #2A4F2F)' :
+index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(#E71368, #740A34)' : index == 6 ?
+'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' }">
+
+                                    <img [src]="slide.image" height="22" width="27" />
+                                    <div class="card-body">
+
+                                        <h5 class="card-title"> {{cards[index]}} </h5>
+
+                                    </div>
+                                </div>
+                            </a>
+                            <svg height="42px" width="auto" [style.display]="index == val ? 'block' : 'none'">
+                  <line [attr.x1]="60" y1="0px " [attr.x2]="60" y2="42px " style="stroke-width:2;"
+                      [ngStyle]="{ 'stroke': index==0 ? '#73C557': index==1 ? '#42C9F6': index==2 ?
+                      '#F16831': index==3 ? '#549D5E' : index==4? '#FDCB2E': index==5? '#E71368' : index==6 ?
+                      '#9D198B' : '#73C557' } " />
+                  <svg height="30 " width="auto">
+                      <circle [attr.cx]="60" cy="42 " r="12 " stroke="white " stroke-width="10 "
+                          [ngStyle]="{ 'fill': index==0 ? '#73C557': index==1 ? '#42C9F6': index==2 ? '#F16831':
+                          index==3 ? '#549D5E' : index==4 ? '#FDCB2E': index==5 ? '#E71368' : index==6 ? '#9D198B' : '#73C557' } " />
+                  </svg>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <!-- <a [routerLink]="['../pfms_acc']">
                     <div class="card  individualCard" (mouseenter)="onHover1()" (mouseleave)="onUnhover()" style="margin-left: 0px; background-image:linear-gradient(#73C557, #3A632C);">
 
                         <img src="../../../../assets//ulbform/lpa.svg" height="22" width="27" />
@@ -125,7 +158,7 @@
                     </div>
                 </a> -->
 
-                </div>
+
 
             </div>
         </div>

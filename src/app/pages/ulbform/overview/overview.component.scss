@@ -79,6 +79,7 @@ a {
     text-align: left;
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
+    margin-left: 1.8rem;
 }
 
 .individualCard {
@@ -119,13 +120,13 @@ a {
     font-size: 18px;
     font-family: 'Roboto', sans-serif;
     position: relative;
-    z-index:2;
+    z-index: 2;
 }
 
 svg {
     overflow: overlay;
-    position : relative;
-    z-index:3;
+    position: relative;
+    z-index: 3;
 }
 
 .backButton {
