@@ -198,11 +198,11 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
   }
 
-  stay() {
+  async stay() {
     if (this.routerNavigate) {
       this.routerNavigate = null
     }
-    this.modalRef.hide();
+    await this.modalRef.hide();
 
   }
 
