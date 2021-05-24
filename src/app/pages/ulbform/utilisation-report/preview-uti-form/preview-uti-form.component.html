@@ -18,7 +18,7 @@
             <b>Application Current Status:</b> N/A
         </p>
 
-        <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 3%" class="btn btn-primary btn-upload pdf-hide" (click)="downloadForm()">
+        <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 5%" class="btn btn-primary btn-upload pdf-hide" (click)="downloadForm()">
     Download as PDF
   </button>
     </div>
@@ -30,15 +30,15 @@
     <mat-card class="mat-card2">
         <div class="card2Div">
             <label for="" class="card2 qus-ut-s pp">1. State Name</label>
-            <label for="" class="card2 ans-ut-s pp">{{data.state_name}} </label>
+            <label for="" class="card2 ans-ut-s pp-l">{{data.state_name}} </label>
         </div>
         <div class="card2Div">
             <label for="" class="card2 qus-ut-u pp">2. Name of MPC/UA/NMPC</label>
-            <label for="" class="card2 ans-ut-u pp">{{data.ulbName}}  </label>
+            <label for="" class="card2 ans-ut-u pp-l">{{data.ulbName}}  </label>
         </div>
         <div class="crd-ls-div">
             <label for="" class="card2 qus-ut-t pp">3. Type of grant</label>
-            <label for="" class="card2 ans-ut-t pp">{{data.grntType}}  </label>
+            <label for="" class="card2 ans-ut-t pp-l">{{data.grntType}}  </label>
         </div>
 
     </mat-card>
@@ -109,20 +109,20 @@
                     <td> <label for="" class="bor-in-l">{{data.projects[i].expenditure}}</label> </td>
                 </tr>
             </tbody>
-            <tbody>
-                <tr class="tableFooterDiv" style="text-align: center; vertical-align: inherit;">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><span>Total(INR in lakhs)</span></td>
-                    <td><span>{{data.totalProCost}}</span></td>
-                    <td> <span>{{data.totalExpCost}}</span></td>
-                    <td></td>
+            <thead>
+                <tr class="thHeader">
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"><span>Total(INR in lakhs)</span></th>
+                    <th scope="col"><span>{{data.totalProCost}}</span></th>
+                    <th scope="col"><span>{{data.totalExpCost}}</span></th>
+
                 </tr>
-            </tbody>
+            </thead>
         </table>
         <div style="float: right;margin-top: 2rem;" class="margin-t-1">
             <p class="f-d-n font-9"><b>Name : {{data.name}} </b></p>

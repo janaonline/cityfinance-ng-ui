@@ -14,7 +14,7 @@
 <div class="row">
     <div class="col-sm-12 col-lg-12 col-md-12">
         <div class=" question" style="margin-top: 2rem;" *ngIf="showQuestion1">
-            <span>{{questions[0]}}<span style="color: red;">*</span></span>
+            <span>{{questions[0]}} <span style="color: red;">*</span></span>
             <div>
                 <button class="btn" style="margin-left: 2rem;" (click)="onClickYes()" [disabled]="isDisabled" [ngStyle]="{'background-color':
                 account === 'yes' ?'#ffc500': 'rgb(229 230 230)' }">Yes</button>

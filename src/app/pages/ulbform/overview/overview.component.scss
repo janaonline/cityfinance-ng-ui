@@ -68,7 +68,7 @@ a {
 }
 
 .titleCards {
-    display: inline-flex;
+    //   display: inline-flex;
     margin: auto;
 }
 
@@ -93,6 +93,7 @@ a {
     color: white;
     opacity: 1;
     cursor: pointer;
+    display: inline-block;
 }
 
 .individualCard:hover {
@@ -183,3 +184,59 @@ svg {
     height: 170px;
     width: 190px;
 }
+
+.item {
+    margin-right: 6rem;
+}
+
+::ng-deep .carousel-control-prev,
+ ::ng-deep .carousel-control-next {
+    // background-color: none;
+    background-image: none !important;
+}
+
+::ng-deep .carousel-control .icon-prev:before,
+::ng-deep .carousel-control .icon-next:before {
+    font-weight: 900 !important;
+    color: red !important;
+}
+
+::ng-deep .carousel-control.left {
+    margin-left: -9rem !important;
+}
+
+::ng-deep .carousel-control.right {
+    margin-right: -8rem !important;
+}
+
+// ::ng-deep .carousel-control .icon-prev:before {
+//     margin-left: -17rem !important;
+// }
+// ::ng-deep .carousel-control .icon-next:before {
+//     margin-right: -16rem !important;
+// }
+::ng-deep .carousel-control-next-icon,
+ ::ng-deep .carousel-control-prev-icon {
+    background-image: none;
+}
+
+.secondClass {
+    margin-top: 3rem;
+}
+
+.firstClass {
+    margin-top: 0;
+}
+
+// div.scrollmenu {
+//     //  background-color: #333;
+//     overflow: auto;
+//     // white-space: nowrap;
+// }
+// div.scrollmenu a {
+//     display: inline-block;
+//     color: white;
+//     text-align: center;
+//     padding: 14px;
+//     text-decoration: none;
+// }

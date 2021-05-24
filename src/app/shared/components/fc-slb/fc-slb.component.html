@@ -1,46 +1,45 @@
 <div class="card col-sm-12 mb-2 mt-1 p-1 box-shadow">
-  <form [formGroup]="form" *ngIf="form; else preloader" [ngClass]="{
+    <form [formGroup]="form" *ngIf="form; else preloader" [ngClass]="{
     'non-ulb-view-table': canSeeApproveActionTaken || canTakeApproveAction,
     'ulb-view-table':
       (canSeeApproveActionTaken || canTakeApproveAction) && canUploadFile
   }">
-    <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%">
-      <thead>
-        <th scope="col">Service Level Indicators</th>
-        <th scope="col">Benchmark</th>
-        <th scope="col">
-          Baseline Indicator <br /> 2020-21
-        </th>
+        <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%">
+            <thead>
+                <th scope="col">Service Level Indicators</th>
+                <th scope="col">Benchmark</th>
+                <th scope="col">
+                    Baseline Indicator <br /> 2020-21
+                </th>
 
-        <th *ngFor="let column of targets" scope="col">
-          <span [innerHTML]="column.name"></span>
-        </th>
-      </thead>
+                <th *ngFor="let column of targets" scope="col">
+                    <span [innerHTML]="column.name"></span>
+                </th>
+            </thead>
 
-      <tbody>
-        <tr *ngIf="services[0] as service" [formGroupName]="service.key" [ngClass]="{
+            <tbody>
+                <tr *ngIf="services[0] as service" [formGroupName]="service.key" [ngClass]="{
           'rejected-row':
             form.controls[service.key]['controls']['status'].value ===
             rejectAction
         }">
-          <td>
-            <span class="service-name">{{ service.name }}
+                    <td>
+                        <span class="service-name">{{ service.name }}
               <span *ngIf="form?.controls[service.key].validator({})['required']" class="mandatory">*</span></span>
-          </td>
-          <td>
-            <span class="benchamark-cell">{{ service.benchmark }}</span>
-          </td>
-          <td formGroupName="baseline">
-            <div class="input-group data-input">
+                    </td>
+                    <td>
+                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                    </td>
+                    <td formGroupName="baseline">
+                        <div class="input-group data-input">
 
-              <input (blur)="
+                            <input (blur)="
                 onBlur(
                   form['controls'][service.key]['controls']['baseline']['controls'][
                     '2021'
                   ], '', '', service.key
                 )
-              " (mouseover)="setFocusTarget(service.key+'baseline')" [id]="service.key + 'baseline'" type="text"
-                class="form-control" formControlName="2021" [ngClass]="{
+              " (mouseover)="setFocusTarget(service.key+'baseline')" [id]="service.key + 'baseline'" type="text" class="form-control" formControlName="2021" [ngClass]="{
                 'is-invalid':
                   (isSubmitButtonClick &&
                     form.controls[service.key].controls['baseline']?.invalid) ||
@@ -48,12 +47,12 @@
                     form.controls[service.key].controls['baseline']?.invalid)
               }" />
 
-              <span class="input-group-addon"><em class="glyphicon">
+                            <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                 </em></span>
-            </div>
+                        </div>
 
-            <span class="error-message" *ngIf="focusTargetKey[service.key+'baseline'] &&
+                        <span class="error-message" *ngIf="focusTargetKey[service.key+'baseline'] &&
               !form.controls[service.key]['controls']['baseline'].controls[
                 '2021'
               ]?.errors?.required &&
@@ -66,24 +65,23 @@
                 Only numeric values with 2 decimals digit are allowed and must be
                 greater than or equal to 0.
               </span>
-              <span *ngIf="error.max"> {{ error.max }} </span>
+                        <span *ngIf="error.max"> {{ error.max }} </span>
 
-              <!-- {{
+                        <!-- {{
             form.controls[service.key].controls["baseline"]
               .controls["2021"].errors | json
           }} -->
-            </span>
-          </td>
-          <td *ngFor="let year of targets" formGroupName="target">
-            <div class="input-group data-input">
-              <input (blur)="
+                        </span>
+                    </td>
+                    <td *ngFor="let year of targets" formGroupName="target">
+                        <div class="input-group data-input">
+                            <input (blur)="
                 onBlur(
                   form.controls[service.key]['controls']['target'].controls[
                     year.key
                   ], form.controls[service.key].controls['target'], year.key, service.key
                 );
-              " (mouseover)="setFocusTarget(service.key+year.key)" [id]="service.key + year.key" type="text"
-                class="form-control" [formControlName]="year.key" [ngClass]="{
+              " (mouseover)="setFocusTarget(service.key+year.key)" [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" [ngClass]="{
                 'is-invalid':
                   (isSubmitButtonClick ||
                     form.controls[service.key].controls['target'].controls[
@@ -93,11 +91,11 @@
                     year.key
                   ].invalid
               }" />
-              <span class="input-group-addon"><em class="glyphicon">
+                            <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                 </em></span>
-            </div>
-            <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] &&
+                        </div>
+                        <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] &&
               !form.controls[service.key]['controls']['target'].controls[
                 year.key
               ]?.errors?.required &&
@@ -111,10 +109,10 @@
                   Only numeric values with 2 decimals digit are allowed and must be
                   greater than or equal to 0.
                 </span>
-                <span *ngIf="error.max"> {{ error.max }} </span>
-              </ng-container>
-            </span>
-            <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
+                        <span *ngIf="error.max"> {{ error.max }} </span>
+                        </ng-container>
+                        </span>
+                        <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
             year.key
             ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
             year.key
@@ -125,19 +123,19 @@
               than ' + previousValue :
               'Value must be greater than ' + previousValue + ' and less than ' + afterValue }}
             </span>
-          </td>
-          <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
-            <div class="actions" [ngClass]="{
+                    </td>
+                    <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
+                        <div class="actions" [ngClass]="{
               'action-required':
                 isSubmitButtonClick &&
                 form.controls[service.key].controls['status'].invalid
             }">
-              <div class="action" *ngIf="
+                            <div class="action" *ngIf="
                 form.controls[service.key]['controls']['status'].enabled ||
                 form.controls[service.key]['controls']['status'].value ===
                   approveAction
               ">
-                <label>
+                                <label>
                   <input type="radio" [value]="approveAction" formControlName="status" />
                   <span>
                     {{
@@ -147,13 +145,13 @@
                     }}
                   </span>
                 </label>
-              </div>
-              <div class="action" *ngIf="
+                            </div>
+                            <div class="action" *ngIf="
                 form.controls[service.key]['controls']['status'].enabled ||
                 form.controls[service.key]['controls']['status'].value ===
                   rejectAction
               ">
-                <label>
+                                <label>
                   <input type="radio" [value]="rejectAction" formControlName="status" />
                   <span>
                     {{
@@ -163,24 +161,23 @@
                     }}
                   </span>
                 </label>
-              </div>
-            </div>
-          </td>
-        </tr>
-        <tr *ngIf="
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="
           form.controls[services[0].key]['controls']['status'].value ===
           rejectAction
         ">
-          <td></td>
-          <td></td>
-          <td colspan="5" style="text-align: left">
-            <span style="font-weight: 700; text-align: left">Reason for rejection</span>
-            <div class="input-group" style="width: 100%">
-              <div *ngIf="form.controls[services[0].key]['controls']['rejectReason']?.disabled">
-                {{form.controls[services[0].key]['controls']['rejectReason'].value}}
-              </div>
-              <textarea *ngIf="form.controls[services[0].key]['controls']['rejectReason'].enabled" rows="3"
-                style="width: 100%" class="form-control" [formControl]="
+                    <td></td>
+                    <td></td>
+                    <td colspan="5" style="text-align: left">
+                        <span style="font-weight: 700; text-align: left">Reason for rejection</span>
+                        <div class="input-group" style="width: 100%">
+                            <div *ngIf="form.controls[services[0].key]['controls']['rejectReason']?.disabled">
+                                {{form.controls[services[0].key]['controls']['rejectReason'].value}}
+                            </div>
+                            <textarea *ngIf="form.controls[services[0].key]['controls']['rejectReason'].enabled" rows="3" style="width: 100%" class="form-control" [formControl]="
                 form.controls[services[0].key]['controls']['rejectReason']
               " [ngClass]="{
                 'is-invalid':
@@ -189,32 +186,31 @@
                     .invalid
               }">
             </textarea>
-            </div>
-          </td>
-        </tr>
+                        </div>
+                    </td>
+                </tr>
 
-        <tr *ngIf="services[1] as service" [formGroupName]="service.key" [ngClass]="{
+                <tr *ngIf="services[1] as service" [formGroupName]="service.key" [ngClass]="{
           'rejected-row':
             form.controls[service.key]['controls']['status'].value ===
             rejectAction
         }">
-          <td>
-            <span class="service-name">{{ service.name }}
+                    <td>
+                        <span class="service-name">{{ service.name }}
               <span *ngIf="form?.controls[service.key].validator({})['required']" class="mandatory">*</span></span>
-          </td>
-          <td>
-            <span class="benchamark-cell">{{ service.benchmark }}</span>
-          </td>
-          <td formGroupName="baseline">
-            <div class="input-group data-input">
-              <input (blur)="
+                    </td>
+                    <td>
+                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                    </td>
+                    <td formGroupName="baseline">
+                        <div class="input-group data-input">
+                            <input (blur)="
                 onBlur(
                   form.controls[service.key]['controls']['baseline'].controls[
                     '2021'
                   ]
                 )
-              " (mouseover)="setFocusTarget(service.key+'baseline')" [id]="service.key + 'baseline'" type="text"
-                class="form-control" formControlName="2021" [ngClass]="{
+              " (mouseover)="setFocusTarget(service.key+'baseline')" [id]="service.key + 'baseline'" type="text" class="form-control" formControlName="2021" [ngClass]="{
                 'is-invalid':
                   (isSubmitButtonClick &&
                     form.controls[service.key].controls['baseline']?.invalid) ||
@@ -222,12 +218,12 @@
                     form.controls[service.key].controls['baseline']?.invalid)
               }" />
 
-              <span class="input-group-addon"><em class="glyphicon">
+                            <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                 </em></span>
-            </div>
+                        </div>
 
-            <span class="error-message" *ngIf="focusTargetKey[service.key+'baseline'] &&
+                        <span class="error-message" *ngIf="focusTargetKey[service.key+'baseline'] &&
               !form.controls[service.key]['controls']['baseline'].controls[
                 '2021'
               ]?.errors?.required &&
@@ -239,24 +235,23 @@
                 Only numeric values with 2 decimals digit are allowed and must be
                 greater than or equal to 0.
               </span>
-              <span *ngIf="error.max"> {{ error.max }} </span>
+                        <span *ngIf="error.max"> {{ error.max }} </span>
 
-              <!-- {{
+                        <!-- {{
             form.controls[service.key].controls["baseline"]
               .controls["2021"].errors | json
           }} -->
-            </span>
-          </td>
-          <td *ngFor="let year of targets" formGroupName="target">
-            <div class="input-group data-input">
-              <input (blur)="
+                        </span>
+                    </td>
+                    <td *ngFor="let year of targets" formGroupName="target">
+                        <div class="input-group data-input">
+                            <input (blur)="
                 onBlur(
                   form.controls[service.key]['controls']['target'].controls[
                     year.key
-                  ], form.controls[service.key].controls['target'], year.key, service.key,false 
+                  ], form.controls[service.key].controls['target'], year.key, service.key,false
                 )
-              " (mouseover)="setFocusTarget(service.key+year.key)" [id]="service.key + year.key" type="text"
-                class="form-control" [formControlName]="year.key" [ngClass]="{
+              " (mouseover)="setFocusTarget(service.key+year.key)" [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" [ngClass]="{
                 'is-invalid':
                   (isSubmitButtonClick ||
                     form.controls[service.key].controls['target'].controls[
@@ -266,11 +261,11 @@
                     year.key
                   ].invalid
               }" />
-              <span class="input-group-addon"><em class="glyphicon">
+                            <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                 </em></span>
-            </div>
-            <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] &&
+                        </div>
+                        <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] &&
               !form.controls[service.key]['controls']['target'].controls[
                 year.key
               ]?.errors?.required &&
@@ -283,10 +278,10 @@
                   Only numeric values with 2 decimals digit are allowed and must be
                   greater than or equal to 0.
                 </span>
-                <span *ngIf="error.max"> {{ error.max }} </span>
-              </ng-container>
-            </span>
-            <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
+                        <span *ngIf="error.max"> {{ error.max }} </span>
+                        </ng-container>
+                        </span>
+                        <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
             year.key
             ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
             year.key
@@ -296,19 +291,19 @@
               than ' + previousValue :
               'Value must be greater than ' + previousValue + ' and less than ' + afterValue }}
             </span>
-          </td>
-          <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
-            <div class="actions" [ngClass]="{
+                    </td>
+                    <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
+                        <div class="actions" [ngClass]="{
               'action-required':
                 isSubmitButtonClick &&
                 form.controls[service.key].controls['status'].invalid
             }">
-              <div class="action" *ngIf="
+                            <div class="action" *ngIf="
                 form.controls[service.key]['controls']['status'].enabled ||
                 form.controls[service.key]['controls']['status'].value ===
                   approveAction
               ">
-                <label>
+                                <label>
                   <input type="radio" [value]="approveAction" formControlName="status" />
                   <span>
                     {{
@@ -318,13 +313,13 @@
                     }}
                   </span>
                 </label>
-              </div>
-              <div class="action" *ngIf="
+                            </div>
+                            <div class="action" *ngIf="
                 form.controls[service.key]['controls']['status'].enabled ||
                 form.controls[service.key]['controls']['status'].value ===
                   rejectAction
               ">
-                <label>
+                                <label>
                   <input type="radio" [value]="rejectAction" formControlName="status" />
                   <span>
                     {{
@@ -334,24 +329,23 @@
                     }}
                   </span>
                 </label>
-              </div>
-            </div>
-          </td>
-        </tr>
-        <tr *ngIf="
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="
           form.controls[services[1].key]['controls']['status'].value ===
           rejectAction
         ">
-          <td></td>
-          <td></td>
-          <td colspan="5" style="text-align: left">
-            <span style="font-weight: 700; text-align: left">Reason for rejection</span>
-            <div class="input-group" style="width: 100%">
-              <div *ngIf="form.controls[services[1].key]['controls']['rejectReason']?.disabled">
-                {{form.controls[services[1].key]['controls']['rejectReason'].value}}
-              </div>
-              <textarea *ngIf="form.controls[services[1].key]['controls']['rejectReason']?.enabled" rows="3"
-                style="width: 100%" class="form-control" [formControl]="
+                    <td></td>
+                    <td></td>
+                    <td colspan="5" style="text-align: left">
+                        <span style="font-weight: 700; text-align: left">Reason for rejection</span>
+                        <div class="input-group" style="width: 100%">
+                            <div *ngIf="form.controls[services[1].key]['controls']['rejectReason']?.disabled">
+                                {{form.controls[services[1].key]['controls']['rejectReason'].value}}
+                            </div>
+                            <textarea *ngIf="form.controls[services[1].key]['controls']['rejectReason']?.enabled" rows="3" style="width: 100%" class="form-control" [formControl]="
                 form.controls[services[1].key]['controls']['rejectReason']
               " placeholder="Reason for Reject" [ngClass]="{
                 'is-invalid':
@@ -360,32 +354,31 @@
                     .invalid
               }">
             </textarea>
-            </div>
-          </td>
-        </tr>
+                        </div>
+                    </td>
+                </tr>
 
-        <tr *ngIf="services[2] as service" [formGroupName]="service.key" [ngClass]="{
+                <tr *ngIf="services[2] as service" [formGroupName]="service.key" [ngClass]="{
           'rejected-row':
             form.controls[service.key]['controls']['status'].value ===
             rejectAction
         }">
-          <td>
-            <span class="service-name">{{ service.name }}
+                    <td>
+                        <span class="service-name">{{ service.name }}
               <span *ngIf="form?.controls[service.key].validator({})['required']" class="mandatory">*</span></span>
-          </td>
-          <td>
-            <span class="benchamark-cell">{{ service.benchmark }}</span>
-          </td>
-          <td formGroupName="baseline">
-            <div class="input-group data-input">
-              <input (blur)="
+                    </td>
+                    <td>
+                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                    </td>
+                    <td formGroupName="baseline">
+                        <div class="input-group data-input">
+                            <input (blur)="
                 onBlur(
                   form.controls[service.key]['controls']['baseline'].controls[
                     '2021'
                   ]
                 )
-              " (mouseover)="setFocusTarget(service.key+'baseline')" [id]="service.key + 'baseline'" type="text"
-                class="form-control" formControlName="2021" [ngClass]="{
+              " (mouseover)="setFocusTarget(service.key+'baseline')" [id]="service.key + 'baseline'" type="text" class="form-control" formControlName="2021" [ngClass]="{
                 'is-invalid':
                   (isSubmitButtonClick &&
                     form.controls[service.key].controls['baseline']?.invalid) ||
@@ -393,12 +386,12 @@
                     form.controls[service.key].controls['baseline']?.invalid)
               }" />
 
-              <span class="input-group-addon"><em class="glyphicon">
+                            <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                 </em></span>
-            </div>
+                        </div>
 
-            <span class="error-message" *ngIf="focusTargetKey[service.key+'baseline'] &&
+                        <span class="error-message" *ngIf="focusTargetKey[service.key+'baseline'] &&
               !form.controls[service.key]['controls']['baseline'].controls[
                 '2021'
               ]?.errors?.required &&
@@ -410,24 +403,23 @@
                 Only numeric values with 2 decimals digit are allowed and must be
                 greater than or equal to 0.
               </span>
-              <span *ngIf="error.max"> {{ error.max }} </span>
+                        <span *ngIf="error.max"> {{ error.max }} </span>
 
-              <!-- {{
+                        <!-- {{
             form.controls[service.key].controls["baseline"]
               .controls["2021"].errors | json
           }} -->
-            </span>
-          </td>
-          <td *ngFor="let year of targets" formGroupName="target">
-            <div class="input-group data-input">
-              <input (blur)="
+                        </span>
+                    </td>
+                    <td *ngFor="let year of targets" formGroupName="target">
+                        <div class="input-group data-input">
+                            <input (blur)="
                 onBlur(
                   form.controls[service.key]['controls']['target'].controls[
                     year.key
                   ], form.controls[service.key].controls['target'], year.key, service.key
                 )
-              " (mouseover)="setFocusTarget(service.key+year.key)" [id]="service.key + year.key" type="text"
-                class="form-control" [formControlName]="year.key" [ngClass]="{
+              " (mouseover)="setFocusTarget(service.key+year.key)" [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" [ngClass]="{
                 'is-invalid':
                   (isSubmitButtonClick ||
                     form.controls[service.key].controls['target'].controls[
@@ -437,27 +429,27 @@
                     year.key
                   ].invalid
               }" />
-              <span class="input-group-addon"><em class="glyphicon">
+                            <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                 </em></span>
-            </div>
-            <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] &&
+                        </div>
+                        <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] &&
              form.controls[service.key]['controls']['target'].controls[
             year.key
-          ]?.errors  && 
+          ]?.errors  &&
           form.controls[service.key]['controls']['target'].controls[
             year.key
-          ]?.errors as error 
+          ]?.errors as error
             ">
               <ng-container *ngIf="error.pattern || error.max">
                 <span *ngIf="error.pattern">
                   Only numeric values with 2 decimals digit are allowed and must be
                   greater than or equal to 0.
                 </span>
-                <span *ngIf="error.max"> {{ error.max }} </span>
-              </ng-container>
-            </span>
-            <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
+                        <span *ngIf="error.max"> {{ error.max }} </span>
+                        </ng-container>
+                        </span>
+                        <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
             year.key
             ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
             year.key
@@ -467,19 +459,19 @@
               than ' + previousValue :
               'Value must be greater than ' + previousValue + ' and less than ' + afterValue }}
             </span>
-          </td>
-          <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
-            <div class="actions" [ngClass]="{
+                    </td>
+                    <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
+                        <div class="actions" [ngClass]="{
               'action-required':
                 isSubmitButtonClick &&
                 form.controls[service.key].controls['status'].invalid
             }">
-              <div class="action" *ngIf="
+                            <div class="action" *ngIf="
                 form.controls[service.key]['controls']['status'].enabled ||
                 form.controls[service.key]['controls']['status'].value ===
                   approveAction
               ">
-                <label>
+                                <label>
                   <input type="radio" [value]="approveAction" formControlName="status" />
                   <span>
                     {{
@@ -489,13 +481,13 @@
                     }}
                   </span>
                 </label>
-              </div>
-              <div class="action" *ngIf="
+                            </div>
+                            <div class="action" *ngIf="
                 form.controls[service.key]['controls']['status'].enabled ||
                 form.controls[service.key]['controls']['status'].value ===
                   rejectAction
               ">
-                <label>
+                                <label>
                   <input type="radio" [value]="rejectAction" formControlName="status" />
                   <span>
                     {{
@@ -505,24 +497,23 @@
                     }}
                   </span>
                 </label>
-              </div>
-            </div>
-          </td>
-        </tr>
-        <tr *ngIf="
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="
           form.controls[services[2].key]['controls']['status'].value ===
           rejectAction
         ">
-          <td></td>
-          <td></td>
-          <td colspan="5" style="text-align: left">
-            <span style="font-weight: 700; text-align: left">Reason for rejection</span>
-            <div class="input-group" style="width: 100%">
-              <div *ngIf="form.controls[services[2].key]['controls']['rejectReason']?.disabled">
-                {{form.controls[services[2].key]['controls']['rejectReason'].value}}
-              </div>
-              <textarea *ngIf="form.controls[services[2].key]['controls']['rejectReason']?.enabled" rows="3"
-                style="width: 100%" class="form-control" [formControl]="
+                    <td></td>
+                    <td></td>
+                    <td colspan="5" style="text-align: left">
+                        <span style="font-weight: 700; text-align: left">Reason for rejection</span>
+                        <div class="input-group" style="width: 100%">
+                            <div *ngIf="form.controls[services[2].key]['controls']['rejectReason']?.disabled">
+                                {{form.controls[services[2].key]['controls']['rejectReason'].value}}
+                            </div>
+                            <textarea *ngIf="form.controls[services[2].key]['controls']['rejectReason']?.enabled" rows="3" style="width: 100%" class="form-control" [formControl]="
                 form.controls[services[2].key]['controls']['rejectReason']
               " placeholder="Reason for Reject" [ngClass]="{
                 'is-invalid':
@@ -531,32 +522,31 @@
                     .invalid
               }">
             </textarea>
-            </div>
-          </td>
-        </tr>
+                        </div>
+                    </td>
+                </tr>
 
-        <tr *ngIf="services[3] as service" [formGroupName]="service.key" [ngClass]="{
+                <tr *ngIf="services[3] as service" [formGroupName]="service.key" [ngClass]="{
           'rejected-row':
             form.controls[service.key]['controls']['status'].value ===
             rejectAction
         }">
-          <td>
-            <span class="service-name">{{ service.name }}
+                    <td>
+                        <span class="service-name">{{ service.name }}
               <span *ngIf="form?.controls[service.key].validator({})['required']" class="mandatory">*</span></span>
-          </td>
-          <td>
-            <span class="benchamark-cell">{{ service.benchmark }}</span>
-          </td>
-          <td formGroupName="baseline">
-            <div class="input-group data-input">
-              <input (blur)="
+                    </td>
+                    <td>
+                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                    </td>
+                    <td formGroupName="baseline">
+                        <div class="input-group data-input">
+                            <input (blur)="
                 onBlur(
                   form.controls[service.key]['controls']['baseline'].controls[
                     '2021'
                   ]
                 )
-              " (mouseover)="setFocusTarget(service.key+'baseline')" [id]="service.key + 'baseline'" type="text"
-                class="form-control" formControlName="2021" [ngClass]="{
+              " (mouseover)="setFocusTarget(service.key+'baseline')" [id]="service.key + 'baseline'" type="text" class="form-control" formControlName="2021" [ngClass]="{
                 'is-invalid':
                   (isSubmitButtonClick &&
                     form.controls[service.key].controls['baseline']?.invalid) ||
@@ -564,12 +554,12 @@
                     form.controls[service.key].controls['baseline']?.invalid)
               }" />
 
-              <span class="input-group-addon"><em class="glyphicon">
+                            <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                 </em></span>
-            </div>
+                        </div>
 
-            <span class="error-message" *ngIf="focusTargetKey[service.key+'baseline'] &&
+                        <span class="error-message" *ngIf="focusTargetKey[service.key+'baseline'] &&
               !form.controls[service.key]['controls']['baseline'].controls[
                 '2021'
               ]?.errors?.required &&
@@ -581,24 +571,23 @@
                 Only numeric values with 2 decimals digit are allowed and must be
                 greater than or equal to 0.
               </span>
-              <span *ngIf="error.max"> {{ error.max }} </span>
+                        <span *ngIf="error.max"> {{ error.max }} </span>
 
-              <!-- {{
+                        <!-- {{
             form.controls[service.key].controls["baseline"]
               .controls["2021"].errors | json
           }} -->
-            </span>
-          </td>
-          <td *ngFor="let year of targets" formGroupName="target">
-            <div class="input-group data-input">
-              <input (blur)="
+                        </span>
+                    </td>
+                    <td *ngFor="let year of targets" formGroupName="target">
+                        <div class="input-group data-input">
+                            <input (blur)="
                 onBlur(
                   form.controls[service.key]['controls']['target'].controls[
                     year.key
                   ], form.controls[service.key].controls['target'], year.key, service.key
                 )
-              " (mouseover)="setFocusTarget(service.key+year.key)" [id]="service.key + year.key" type="text"
-                class="form-control" [formControlName]="year.key" [ngClass]="{
+              " (mouseover)="setFocusTarget(service.key+year.key)" [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" [ngClass]="{
                 'is-invalid':
                   (isSubmitButtonClick ||
                     form.controls[service.key].controls['target'].controls[
@@ -608,13 +597,13 @@
                     year.key
                   ].invalid
               }" />
-              <span class="input-group-addon"><em class="glyphicon">
+                            <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                 </em></span>
-            </div>
-            <span class=" error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
+                        </div>
+                        <span class=" error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
             year.key
-          ]?.errors  && 
+          ]?.errors  &&
           form.controls[service.key]['controls']['target'].controls[
             year.key
           ]?.errors as error  ">
@@ -623,12 +612,12 @@
                   Only numeric values with 2 decimals digit are allowed and must be
                   greater than or equal to 0.
                 </span>
-                <!-- !error.patter !error.max error.hasOwn - msg -->
-                <span *ngIf="error.max"> {{ error.max }} </span>
-              </ng-container>
+                        <!-- !error.patter !error.max error.hasOwn - msg -->
+                        <span *ngIf="error.max"> {{ error.max }} </span>
+                        </ng-container>
 
-            </span>
-            <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
+                        </span>
+                        <span class="error-message" *ngIf="focusTargetKey[service.key+year.key] && form.controls[service.key]['controls']['target'].controls[
             year.key
             ]?.status === 'INVALID' && form.controls[service.key]['controls']['target'].controls[
             year.key
@@ -638,19 +627,19 @@
               'Value must be greater than ' + previousValue + ' and less than ' + afterValue }}
             </span>
 
-          </td>
-          <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
-            <div class="actions" [ngClass]="{
+                    </td>
+                    <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
+                        <div class="actions" [ngClass]="{
               'action-required':
                 isSubmitButtonClick &&
                 form.controls[service.key].controls['status'].invalid
             }">
-              <div class="action" *ngIf="
+                            <div class="action" *ngIf="
                 form.controls[service.key]['controls']['status'].enabled ||
                 form.controls[service.key]['controls']['status'].value ===
                   approveAction
               ">
-                <label>
+                                <label>
                   <input type="radio" [value]="approveAction" formControlName="status" />
                   <span>
                     {{
@@ -660,13 +649,13 @@
                     }}
                   </span>
                 </label>
-              </div>
-              <div class="action" *ngIf="
+                            </div>
+                            <div class="action" *ngIf="
                 form.controls[service.key]['controls']['status'].enabled ||
                 form.controls[service.key]['controls']['status'].value ===
                   rejectAction
               ">
-                <label>
+                                <label>
                   <input type="radio" [value]="rejectAction" formControlName="status" />
                   <span>
                     {{
@@ -676,24 +665,23 @@
                     }}
                   </span>
                 </label>
-              </div>
-            </div>
-          </td>
-        </tr>
-        <tr *ngIf="
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="
           form.controls[services[3].key]['controls']['status'].value ===
           rejectAction
         ">
-          <td></td>
-          <td></td>
-          <td colspan="5" style="text-align: left">
-            <span style="font-weight: 700; text-align: left">Reason for rejection</span>
-            <div class="input-group" style="width: 100%">
-              <div *ngIf="form.controls[services[3].key]['controls']['rejectReason']?.disabled">
-                {{form.controls[services[3].key]['controls']['rejectReason'].value}}
-              </div>
-              <textarea *ngIf="form.controls[services[3].key]['controls']['rejectReason']?.enabled" rows="3"
-                style="width: 100%" class="form-control" [formControl]="
+                    <td></td>
+                    <td></td>
+                    <td colspan="5" style="text-align: left">
+                        <span style="font-weight: 700; text-align: left">Reason for rejection</span>
+                        <div class="input-group" style="width: 100%">
+                            <div *ngIf="form.controls[services[3].key]['controls']['rejectReason']?.disabled">
+                                {{form.controls[services[3].key]['controls']['rejectReason'].value}}
+                            </div>
+                            <textarea *ngIf="form.controls[services[3].key]['controls']['rejectReason']?.enabled" rows="3" style="width: 100%" class="form-control" [formControl]="
                 form.controls[services[3].key]['controls']['rejectReason']
               " placeholder="Reason for Reject" [ngClass]="{
                 'is-invalid':
@@ -702,120 +690,115 @@
                     .invalid
               }">
             </textarea>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-  </form>
-  <ng-template #preloader>
-    <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
-  </ng-template>
+    </form>
+    <ng-template #preloader>
+        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+    </ng-template>
 </div>
 <div class="row" *ngIf="form">
-  <div class="col-sm-12 float-left">
-    <div class="col-lg-6 col-md-6 col-sm-6 float-left">
-      <span class="align-vertical">{{uploadQuestion}}</span>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 float-left">
-      <button class="btn btn-primary btn-upload mr-1 ml-1 col-sm-2" (click)=" showPublishedUpload=true;
+    <div class="col-sm-12 float-left">
+        <div class="col-lg-6 col-md-6 col-sm-6 float-left">
+            <span class="align-vertical">{{uploadQuestion}}</span>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 float-left">
+            <button class="btn btn-primary btn-upload mr-1 ml-1 col-sm-2" (click)=" showPublishedUpload=true;
         submitted=false; emitOnDocChange()" style="width: 60px; height: 33px;">
         Yes
       </button>
 
-      <button class="btn btn-secondary btn-upload col-sm-2" style="width: 60px; height: 33px;"
-        (click)="showPublishedUpload = false;  submitted = false; emitOnDocChange()">
+            <button class="btn btn-secondary btn-upload col-sm-2" style="width: 60px; height: 33px;" (click)="showPublishedUpload = false;  submitted = false; emitOnDocChange()">
         No
       </button>
+        </div>
     </div>
-  </div>
-  <div class="col-sm-12 float-left row" *ngIf="showPublishedUpload" style="margin-top: 2rem;">
-    <div class="col-sm-12">
-      <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 8px;">
-        <label for="" style="color: #06868C">
+    <div class="col-sm-12 float-left row" *ngIf="showPublishedUpload" style="margin-top: 2rem;">
+        <div class="col-sm-12">
+            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 8px;">
+                <label for="">
           {{uploadDocumentText}}</label>
-      </div>
-      <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="margin-left: 2.4rem; margin-top: 5px;">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="margin-left: 2.4rem; margin-top: 5px;">
 
-        <label for="cin">
+                <label for="cin">
           <a class=" btn btn-primary" style="width: 132px; height: 31px;">Upload PDF
             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px; ">
           </a>
         </label>
-        <input id="cin" name="cin" type="file"
-          (change)="fileChangeEvent($event, 'publishedProgress', 'publishedFileName')" accept=".pdf" />
-      </div>
-    </div>
+                <input id="cin" name="cin" type="file" (change)="fileChangeEvent($event, 'publishedProgress', 'publishedFileName')" accept=".pdf" />
+            </div>
+        </div>
 
-    <span class="col-sm-12 pl-2" style="color: red; margin-left: 1.5rem;" *ngIf="publishedFileUrl == '' && submitted">
+        <span class="col-sm-12 pl-2" style="color: red; margin-left: 1.5rem;" *ngIf="publishedFileUrl == '' && submitted">
       Please upload file*
     </span>
 
-    <div class="row p-1">
-      <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
-        <div class="row col-sm-12">
-          <div class="col-sm-4 col-lg-4 col-md-4">
-            <label for="" style="margin-right: 3px; font-weight: normal; margin-left: 3px;"
-              *ngIf="publishedFileName">{{publishedFileName}}</label>
-          </div>
-          <!-- <div class="progress-bar" role="progressbar" [ngStyle]="{
+        <div class="row p-1">
+            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
+                <div class="row col-sm-12">
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <label for="" style="margin-right: 3px; font-weight: normal; margin-left: 4px;" *ngIf="publishedFileName">{{publishedFileName}}</label>
+                    </div>
+                    <!-- <div class="progress-bar" role="progressbar" [ngStyle]="{
           'width.%':
             fileUploadTracker[question.key][file.name].percentage
         }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
             {{ fileUploadTracker[question.key][file.name].percentage }} %
         </div> -->
-          <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                    <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
 
-            <div class="progress-bar" *ngIf="publishedProgress" role="progressbar"
-              attr.aria-valuenow="{{ publishedProgress }}" aria-valuemin="0" aria-valuemax="100"
-              [ngStyle]="{ width: publishedProgress + '%' }">
-              {{ publishedProgress }}%
+                        <div class="progress-bar" *ngIf="publishedProgress" role="progressbar" attr.aria-valuenow="{{ publishedProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: publishedProgress + '%' }">
+                            {{ publishedProgress }}%
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
+                        <ng-container *ngIf="publishedFileUrl">
+                            <a href="{{ publishedFileUrl }}" target="_blank">
+                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
+
+                            </a>
+                            <a (click)="clearFiles('publishedFileName')" style="margin-left: 4px;">
+                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                            </a>
+                        </ng-container>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-            <ng-container *ngIf="publishedFileUrl">
-              <a href="{{ publishedFileUrl }}" target="_blank">
-                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
-
-              </a>
-              <a (click)="clearFiles('publishedFileName')" style="margin-left: 4px;">
-                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-              </a>
-            </ng-container>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 <div class="row footerBtnDiv">
-  <div class="col-lg-6 col-md-6 col-sm-6">
-    <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../grant-tra-certi']">BACK</a>
-  </div>
-  <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-    <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
-    <button type="button" class="btn footerBtn" id="saveNext" (click)="saveNext(template1)">SAVE AND NEXT</button>
-  </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../grant-tra-certi']">BACK</a>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+        <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
+        <button type="button" class="btn footerBtn" id="saveNext" (click)="saveNext(template1)">SAVE AND NEXT</button>
+    </div>
 </div>
 <ng-template #template1>
-  <div class="modal-body text-center">
-    <div class="modal-header">
-      <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
-      <div class="text-right">
-        <a (click)="alertClose()">
-          <img src="../../../../assets/form-icon/close-red-icon.png">
-        </a>
-      </div>
-    </div>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
 
-    <p style="margin-top: 8px;">
-      Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
-    </p>
-    <div>
-      <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-      <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Proceed</button>
-    </div>
+        <p style="margin-top: 8px;">
+            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
+        </p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Proceed</button>
+        </div>
 
-  </div>
+    </div>
 </ng-template>
