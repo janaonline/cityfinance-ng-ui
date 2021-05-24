@@ -9,37 +9,105 @@
             <span class="col-sm-12 heading">Plans for Water and Sanitation</span>
         </div>
     </div>
-    <div class="row h-cls" style="margin-top: 1.5rem;">
-        <div class="col-sm-12 text-right">
-            <button *ngIf="!parentData" id="donwloadButton" style="right: 0%;
-      outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="downloadAsPDF()">
-   Download as PDF
- </button>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 2rem; margin-bottom: 20px;">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6 qus-h">
-                            (A) Plan for Water
-                        </div>
-                        <div class="col-sm-6 ans-h">
-                            <a href="{{data.waterFileUrl || parentData.sanitation.url}}" target="_blank">{{data.waterFileName || parentData.sanitation.remarks}}</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6 qus-h">
-                            (B) Plan for Sanitation
-                        </div>
-                        <div class="col-sm-6 ans-h">
-                            <a href="{{data.sanitationFileUrl || parentData.water.url}}" target="_blank">{{data.sanitationFileName || parentData.water.remarks}}</a>
-                        </div>
-                    </div>
+    <div class="card" style="background-color: #FFFFFF;">
+        <div class="card-body ">
+            <div class="table-responsive">
+                <div>
+                    <h4>Details of Proposed Project to Improve Service Level Indicators related to <b
+                            class="text-primary">Water Supply</b>
+                    </h4>
                 </div>
+                <table class="table custom-position">
+                    <thead>
+                        <tr class="thHeader">
+                            <th scope="col">Project Name</th>
+                            <th scope="col">Physical Components</th>
+                            <th scope="col">Indicator</th>
+                            <th scope="col">Existing
+                                (As-is)</th>
+                            <th scope="col">After
+                                (To-be)</th>
+                            <th scope="col">Estimated Cost
+                                (Amount in INR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{data.water.name}}
+                                <span *ngIf="!data.water.name" class="text-danger">N/A</span>
+                            </td>
+                            <td>
+                                {{data.water.component}}
+                                <span *ngIf="!data.water.component" class="text-danger">N/A</span>
+                            </td>
+                            <td>
+                                {{data.water.serviceLevel.indicator}}
+                                <span *ngIf="!data.water.serviceLevel.indicator" class="text-danger">N/A</span>
+                            </td>
+                            <td>
+                                {{data.water.serviceLevel.existing}}
+                                <span *ngIf="!data.water.serviceLevel.existing" class="text-danger">N/A</span>
+                            </td>
+                            <td>
+                                {{data.water.serviceLevel.after}}
+                                <span *ngIf="!data.water.serviceLevel.after" class="text-danger">N/A</span>
+                            </td>
+                            <td>
+                                {{data.water.cost}}
+                                <span *ngIf="!data.water.cost" class="text-danger">N/A</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <h4>Details of Proposed Project to Improve Service Level Indicators related to <b
+                            class="text-primary">Sanitation</b></h4>
+                </div>
+                <table class="table custom-position">
+                    <thead>
+                        <tr class="thHeader">
+                            <th scope="col">Project Name</th>
+                            <th scope="col">Physical Components</th>
+                            <th scope="col">Indicator</th>
+                            <th scope="col">Existing
+                                (As-is)</th>
+                            <th scope="col">After
+                                (To-be)</th>
+                            <th scope="col">Estimated Cost
+                                (Amount in INR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{data.sanitation.name}}
+                                <span *ngIf="!data.sanitation.name" class="text-danger">N/A</span>
+                            </td>
+                            <td>
+                                {{data.sanitation.component}}
+                                <span *ngIf="!data.sanitation.component" class="text-danger">N/A</span>
+                            </td>
+                            <td>
+                                {{data.sanitation.serviceLevel.indicator}}
+                                <span *ngIf="!data.sanitation.serviceLevel.indicator" class="text-danger">N/A</span>
+                            </td>
+                            <td>
+                                {{data.sanitation.serviceLevel.existing}}
+                                <span *ngIf="!data.sanitation.serviceLevel.existing" class="text-danger">N/A</span>
+                            </td>
+                            <td>
+                                {{data.sanitation.serviceLevel.after}}
+                                <span *ngIf="!data.sanitation.serviceLevel.after" class="text-danger">N/A</span>
+                            </td>
+                            <td>
+                                {{data.sanitation.cost}}
+                                <span *ngIf="!data.sanitation.cost" class="text-danger">N/A</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </div>
+    </div>    
 </div>
