@@ -594,7 +594,7 @@ ulbId =null;
             const control = this.tabelRows.controls[i]["controls"]["photos"];
             console.log('prk', control.length);
             if(control.length[i] >= 0 ){
-              this.fd.isDraft = false;
+              this.fd.isDraft = true;
               break;
             }
 
