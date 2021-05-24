@@ -88,7 +88,10 @@ export class WaterSanitationComponent implements OnInit {
         textarea: false,
       },
       apiError: false,
-      serviceLvlError: false,
+      serviceLvlError: {
+        before: false,
+        after: false,
+      },
       check: this.PERCENTAGE,
     },
     sanitation: {
@@ -97,7 +100,10 @@ export class WaterSanitationComponent implements OnInit {
         textarea: false,
       },
       apiError: false,
-      serviceLvlError: false,
+      serviceLvlError: {
+        before: false,
+        after: false,
+      },
       check: this.PERCENTAGE,
     },
   };
@@ -105,7 +111,7 @@ export class WaterSanitationComponent implements OnInit {
   body = {
     isDraft: this.isDraft,
     plans: null,
-    designYear: JSON.parse(localStorage.getItem('Years'))['2021-22'],
+    designYear: JSON.parse(localStorage.getItem("Years"))["2021-22"],
   };
 
   sanitationIndicators = [
@@ -141,7 +147,10 @@ export class WaterSanitationComponent implements OnInit {
       (res) => {
         console.log(res["plans"]);
         this.waterAndSanitation = res["plans"];
-        sessionStorage.setItem('plansData',JSON.stringify(this.waterAndSanitation))
+        sessionStorage.setItem(
+          "plansData",
+          JSON.stringify(this.waterAndSanitation)
+        );
         this.onLoadDataCheck(this.waterAndSanitation);
         // if (plan) {
         //   this.waterAndSanitation = {
@@ -198,15 +207,9 @@ export class WaterSanitationComponent implements OnInit {
   }
 
   onPreview() {
-    let preData = {
-      // 'waterFileName': this.fileNameWater,
-      // 'waterFileUrl': this.waterFileUrl,
-      // 'sanitationFileName': this.fileNameSanitation,
-      // 'sanitationFileUrl' : this.sanitationFileUrl
-    };
-    console.log("preData", preData);
+    
     const dialogRef = this.dialog.open(WaterSanitationPreviewComponent, {
-      data: preData,
+      data: this.waterAndSanitation,
       maxHeight: "95vh",
       height: "fit-content",
       width: "85vw",
@@ -317,17 +320,21 @@ export class WaterSanitationComponent implements OnInit {
       let val2 = this.waterAndSanitation[path[0]].serviceLevel.after;
       let type = this.errors[path[0]].check;
 
-      if (val1 > type || val2 > type) {
-        this.errors[path[0]].serviceLvlError = true;
-      } else if (val1 && val2) {
-        if (val1 + val2 > type) {
-          this.errors[path[0]].serviceLvlError = true;
-        } else {
-          this.errors[path[0]].serviceLvlError = false;
-        }
+      if (val1 > type) {
+        this.errors[path[0]].serviceLvlError.before = true;
       }
+      if (val2 > type) {
+        this.errors[path[0]].serviceLvlError.after = true;
+      }
+      // else if (val1 && val2) {
+      //   if (val1 + val2 > type) {
+      //     this.errors[path[0]].serviceLvlError = true;
+      //   } else {
+      //     this.errors[path[0]].serviceLvlError = false;
+      //   }
+      // }
     }
-    this.sanitationToolTip = `Existing + after should be ${this.errors.sanitation.check}`;
-    this.waterToolTip = `Existing + after should be ${this.errors.water.check}`;
+    this.sanitationToolTip = `Value at max ${this.errors.sanitation.check}`;
+    this.waterToolTip = `Value at max ${this.errors.water.check}`;
   }
 }
