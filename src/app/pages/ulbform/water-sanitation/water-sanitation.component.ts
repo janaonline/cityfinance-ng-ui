@@ -14,7 +14,7 @@ import { Subject } from "rxjs";
   styleUrls: ["./water-sanitation.component.scss"],
 })
 export class WaterSanitationComponent implements OnInit {
-  modalRef;
+  dialogRefForNavigation;
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
    */
@@ -44,6 +44,10 @@ export class WaterSanitationComponent implements OnInit {
     this._router.events.subscribe(async (event: Event) => {
       if (!this.saveClicked) {
         if (event instanceof NavigationStart) {
+          if (event.url === "/") {
+            sessionStorage.setItem("changeInAnnual", "true");
+            return;
+          }
           const change = sessionStorage.getItem("changeInPlans");
           if (change === "true" && this.routerNavigate === null) {
             this.routerNavigate = event;
@@ -209,10 +213,10 @@ export class WaterSanitationComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    // this.modalRef = this.modalService.show(template, { class: "modal-md" });
+    // this.dialogRefForNavigation = this.modalService.show(template, { class: "modal-md" });
     const dialogConfig = new MatDialogConfig();
-    this.modalRef = this.dialog.open(template, dialogConfig);
-    this.modalRef.afterClosed().subscribe((result) => {
+    this.dialogRefForNavigation = this.dialog.open(template, dialogConfig);
+    this.dialogRefForNavigation.afterClosed().subscribe((result) => {
       if(result === undefined){
         if (this.routerNavigate) {
           this.routerNavigate = null;
@@ -222,26 +226,26 @@ export class WaterSanitationComponent implements OnInit {
   }
 
   stay() {
-    this.modalRef.close(true);
+    this.dialogRefForNavigation.close(true);
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
   }
 
   proceed() {
-    this.modalRef.closeAll(true);
+    this.dialogRefForNavigation.close(true);
     this.saveForm();
   }
 
   alertClose() {
-    this.modalRef.close(true);
+    this.dialogRefForNavigation.close(true);
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
   }
 
   // discard(){
-  //   this.modalRef.close();
+  //   this.dialogRefForNavigation.close();
   //   if (this.routerNavigate) {
   //     this._router.navigate([this.routerNavigate.url]);
   //   }
