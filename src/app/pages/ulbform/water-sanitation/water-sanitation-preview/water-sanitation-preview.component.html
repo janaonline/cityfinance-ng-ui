@@ -9,7 +9,7 @@
             </a>
             <span class="col-sm-12 heading">Plans for Water and Sanitation</span>
         </div>
-        <div *ngIf="!parentData" class="row" style="margin-top: 1.5rem; margin-right: 2pc;">
+        <div *ngIf="!parentData" class="row df" style="margin-top: 1.5rem; margin-right: 2pc;">
             <div class="col-sm-12 text-right p-0">
                 <button id="donwloadButton" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF(template)">
                     Download as PDF
@@ -42,11 +42,15 @@
                     <tbody>
                         <tr>
                             <td>
+                                <p style="line-break: anywhere;">
                                 {{data.water.name}}
+                                </p>
                                 <span *ngIf="!data.water.name" class="text-danger">N/A</span>
                             </td>
                             <td>
-                                {{data.water.component}}
+                                <p style="line-break: anywhere;">
+                                    {{data.water.component}}
+                                </p>
                                 <span *ngIf="!data.water.component" class="text-danger">N/A</span>
                             </td>
                             <td>
@@ -89,11 +93,15 @@
                     <tbody>
                         <tr>
                             <td>
-                                {{data.sanitation.name}}
+                                <p style="line-break: anywhere;">
+                                    {{data.sanitation.name}}
+                                </p>
                                 <span *ngIf="!data.sanitation.name" class="text-danger">N/A</span>
                             </td>
                             <td>
-                                {{data.sanitation.component}}
+                                <p style="line-break: anywhere;">
+                                    {{data.sanitation.component}}
+                                </p>
                                 <span *ngIf="!data.sanitation.component" class="text-danger">N/A</span>
                             </td>
                             <td>

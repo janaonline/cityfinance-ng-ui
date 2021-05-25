@@ -41,35 +41,71 @@ export class WaterSanitationPreviewComponent implements OnInit {
   @Output() change = new EventEmitter<any>();
 
   styleForPDF = `<style>
-  .header {
-    background-color: #047474;
-    height: 100px;
-    text-align: center;
-}
-
-.heading {
-    color: #FFFFFF;
-    font-size: 22px;
-    margin-top: 3rem;
-}
-
-.card {
-    padding: 5px 10px;
-    // margin: 10px 40px;
-    background-color: #EBF5F5;
-}
-
-.qus-h {
-    margin-bottom: 2rem;
-    margin-top: 2rem;
-}
-
-.ans-h {
-    margin-bottom: 2rem;
-    margin-top: 2rem;
-}
-
-.thHeader {
+  .btnUpload {
+    background-color: #0cc5c5;
+    width: 113px;
+    height: 27px;
+    //  padding: 2px;
+    color: #ffffff;
+    font-size: 12px;
+  }
+  
+  .btnUpload:hover {
+    background-color: #ffc500;
+  }
+  
+  .btnUpload:active {
+    background-color: #ffc500;
+  }
+  
+  .card-body {
+    padding: 5px 8px;
+  }
+  
+  .card {
+    border: 1px #00000029;
+    margin-left: 20px;
+    box-shadow: 1px 1px 1px 3px #00000029;
+    padding: 10px 10px;
+  }
+  
+  .image-upload > input {
+    display: none;
+  }
+  
+  .image-upload img {
+    cursor: pointer;
+  }
+  
+  .saveBtn {
+    margin-right: 10px;
+    width: 106px;
+    height: 36px;
+    background-color: #26a1a1;
+    color: #ffffff;
+    font-weight: normal;
+    font-size: 12px;
+  }
+  
+  .backbtn {
+    background-color: #cfcfcf;
+    color: #ffffff;
+    width: 106px;
+    height: 36px;
+    font-weight: normal;
+    font-size: 12px;
+  }
+  
+  .pr-btn {
+    background-color: #cfcfcf;
+    color: #ffffff;
+    width: 106px;
+    height: 36px;
+    font-weight: normal;
+    font-size: 12px;
+  }
+  
+  .thHeader {
     background-color: #058e91;
     font-family: Roboto;
     color: #ffffff;
@@ -94,6 +130,35 @@ export class WaterSanitationPreviewComponent implements OnInit {
     }
   }
   
+  .custom-position {
+    input {
+      position: relative;
+      width: 80%;
+      height: 4ch;
+      text-align: center;
+    }
+  }
+  
+  .custom-position {
+    select {
+      position: relative;
+    }
+  }
+  
+  .custom-position {
+    textarea {
+      height: 2pc;
+      vertical-align: bottom;
+      margin-right: 1pc;
+    }
+
+    .error{
+      border-color: red;
+    }
+  }
+  .df{
+    display:none
+  } 
   </style>`;
   clicked = false;
   errMessage = "";
