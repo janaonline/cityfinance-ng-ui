@@ -6,11 +6,16 @@ import {
   ElementRef,
   ViewChild,
 } from "@angular/core";
-import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialog, MAT_DIALOG_DATA, MatDialogConfig } from "@angular/material/dialog";
 import { QuestionnaireService } from "../../../questionnaires/service/questionnaire.service";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
 import { defaultDailogConfiuration } from "../../../questionnaires/state/configs/common.config";
-
+// 
+import { Router, Event } from "@angular/router";
+import { UlbformService } from "../../ulbform.service";
+import { UtiReportService } from '../uti-report.service';
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 // import * as jspdf from 'jspdf';
 @Component({
   selector: "app-preview-uti-form",
@@ -24,8 +29,11 @@ export class PreviewUtiFormComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _questionnaireService: QuestionnaireService,
-    private _matDialog: MatDialog
-  ) {}
+    private _matDialog: MatDialog,
+    private UtiReportService: UtiReportService,
+    public _ulbformService: UlbformService,
+    public _router: Router,
+  ) { }
   styleForPDF = `<style>
 .header{
   word-break: break-all;
@@ -242,10 +250,18 @@ width: 5% !important;
 
   </style>`;
   ngOnInit(): void {
-    console.log('pramod',this.data);
+    console.log('pramod', this.data);
     if (this.parentData) {
       this.genrateParentData();
     }
+  }
+  clickedDownloadAsPDF(template) {
+    let canNavigate = sessionStorage.getItem("canNavigate")
+    if (canNavigate === "false") {
+      this.openDialog(template)
+      return
+    }
+
   }
 
   genrateParentData() {
@@ -285,7 +301,7 @@ width: 5% !important;
   //   });
 
   //   }
-
+  Years = JSON.parse(localStorage.getItem('Years'));
   downloadForm() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
@@ -323,5 +339,50 @@ width: 5% !important;
     a.download = filename;
     a.click();
     return url;
+  }
+
+  dialogRef
+  openDialog(template) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this._matDialog.open(template, dialogConfig);
+  }
+  alertClose() {
+    this.stay();
+  }
+
+  stay() {
+    this.dialogRef.close();
+  }
+  errMessage = ''
+  copyData
+  async proceed(uploadedFiles) {
+    // await this.modalRef.hide();
+    this._matDialog.closeAll();
+    // this._matDialog.close(this.clicked);
+    // this._matDialog.closeAll('Hello');
+    // this._matDialog.ngOnDestroy()
+
+    sessionStorage.setItem("canNavigate", "true");
+    console.log(this.data)
+    this.copyData = this.data
+    delete this.copyData['totalExpCost'];
+    delete this.copyData['totalProCost'];
+    this.copyData['design_year'] = this.Years["2021-22"]
+
+    this.UtiReportService.createAndStorePost(this.copyData).subscribe(
+      (res) => {
+        swal("Record submitted successfully!");
+        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        status.utilReport.isSubmit = res["isCompleted"];
+        this._ulbformService.allStatus.next(status);
+        this.downloadForm();
+      },
+      (error) => {
+        swal("An error occured!");
+        this.errMessage = error.message;
+        console.log(this.errMessage);
+      }
+    );
+
   }
 }
