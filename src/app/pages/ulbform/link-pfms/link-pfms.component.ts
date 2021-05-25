@@ -65,6 +65,9 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   linked = '';
   routerNavigate = null
   isDisabled = false;
+
+
+
   ngOnInit() {
     sessionStorage.setItem("changeInPFMSAccount", "false");
     this.change = false;
@@ -153,6 +156,9 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     this.LinkPFMSAccount.postData(data)
       .subscribe((res) => {
         console.log(res);
+        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        status.pfmsAccount.isSubmit = res["isCompleted"];
+        this._ulbformService.allStatus.next(status);
         swal("Record submitted successfully!")
       },
         error => {

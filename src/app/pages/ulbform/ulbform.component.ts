@@ -12,6 +12,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UlbformPreviewComponent } from "./ulbform-preview/ulbform-preview.component";
 import { WaterSanitationService } from "./water-sanitation/water-sanitation.service";
 import { UlbformService } from "./ulbform.service";
+import { ConnectionService } from 'ng-connection-service';
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-ulbform",
   templateUrl: "./ulbform.component.html",
@@ -33,8 +36,20 @@ export class UlbformComponent implements OnInit {
     private wsService: WaterSanitationService,
     public dialog: MatDialog,
     public ulbformService: UlbformService,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    private connectionService: ConnectionService
   ) {
+
+    this.connectionService.monitor().subscribe(isConnected => {
+      if(!isConnected){
+        swal({
+          title: "No Internet Connection!",
+          text: "Please connect to internet",
+          icon: "warning",
+        });
+      }
+    })
+
     this.activatedRoute.params.subscribe((val) => {
       const { id } = val;
       if (id) {
@@ -106,7 +121,7 @@ export class UlbformComponent implements OnInit {
     else{
          this.isMillionPlus =sessionStorage.getItem('isMillionPlus');
          this.isUA = sessionStorage.getItem('isUA')
-         console.log('elseblock' , this.isMillionPlus, this.isUA)
+         console.log('pk_elseblock' , this.isMillionPlus, this.isUA)
     }
 
   }

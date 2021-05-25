@@ -76,7 +76,7 @@
 
         <div class="card" style="background-color: #F7F7F7;">
             <div class="card-body" formGroupName="grantPosition">
-                <p style="margin-left: 5px;">15th FC Tied Grant Position during the year<span
+                <p style="margin-left: 5px;">15th FC Tied Grant Position during the year <span
                         style="color: red;">*</span></p>
 
                 <div class="row">
@@ -281,7 +281,7 @@
                                         </label>
                                         <input [attr.id]="projectIndex" type="file" [disabled]="isDisabled"
                                             accept=".png,.jpg,.jpeg" (change)="onFileChange($event, projectRow,
-                                         projectIndex)" multiple />
+                                         projectIndex)" required multiple />
                                     </div>
                                     <a (click)="imgPreview(projectIndex)"> <span class="material-icons"
                                             style="font-size: 14px; padding-left:2px; vertical-align: middle;">

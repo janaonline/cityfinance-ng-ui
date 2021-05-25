@@ -69,6 +69,12 @@ export class AnnualPreviewComponent implements OnInit {
 .ans-h-an{
   margin-left : .5rem !important;
 }
+.ans-h-na{
+  margin-left : 1rem !important;
+  margin-bottom: .5rem;
+  margin-top: .5rem;
+  font-size: 10px !important;
+}
 .hi{
   display:none
 }

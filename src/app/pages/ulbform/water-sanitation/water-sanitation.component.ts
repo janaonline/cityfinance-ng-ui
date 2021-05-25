@@ -4,14 +4,22 @@ import { Router } from "@angular/router";
 import { HttpEventType, HttpResponse } from "@angular/common/http";
 //import { from, Observable } from 'rxjs';
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { delay, map, retryWhen } from "rxjs/operators";
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControlName,
+} from "@angular/forms";
+import { delay, map, max, retryWhen } from "rxjs/operators";
 import { WaterSanitationService } from "./water-sanitation.service";
 //import { PathLocationStrategy } from '@angular/common';
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { WaterSanitationPreviewComponent } from "./water-sanitation-preview/water-sanitation-preview.component";
 import { MatDialog } from "@angular/material/dialog";
 import { UlbformService } from "../ulbform.service";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
+import { Subject } from "rxjs";
 
 @Component({
   selector: "app-water-sanitation",
@@ -20,13 +28,21 @@ import { UlbformService } from "../ulbform.service";
 })
 export class WaterSanitationComponent implements OnInit {
   modalRef: BsModalRef;
-  waterAndSanitation: FormGroup;
-
-  err = "";
-  submitted = false;
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
    */
+  errorSet = new Subject<any>();
+
+  isDraft = true;
+  MIN_LENGTH = 1;
+  MAX_LENGTH = 25;
+  MAX_LENGTH_AREA = 200;
+  LPCD = 135;
+  PERCENTAGE = 100;
+  HRS = 24;
+  sanitationToolTip;
+  waterToolTip;
+
   constructor(
     private fb: FormBuilder,
     private modalService: BsModalService,
@@ -36,19 +52,67 @@ export class WaterSanitationComponent implements OnInit {
     public dialog: MatDialog,
     public _ulbformService: UlbformService
   ) {
-    this.initializeForms()
+    this.errorSet.subscribe((res) => {
+      const { keys, value } = res;
+      this.compareValues(keys, value);
+    });
   }
 
-  ngOnInit(): void {
-    this.wsService.getFiles().subscribe(
-      (res) => {},
-      (errMes) => {
-        // alert(errMes)
-        //     this.err = error.message;
-        console.log(errMes);
-      }
-    );
-  }
+  waterAndSanitation = {
+    water: {
+      name: null,
+      component: null,
+      serviceLevel: {
+        indicator: null,
+        existing: null,
+        after: null,
+      },
+      cost: null,
+    },
+    sanitation: {
+      name: null,
+      component: null,
+      serviceLevel: {
+        indicator: null,
+        existing: null,
+        after: null,
+      },
+      cost: null,
+    },
+  };
+
+  errors = {
+    water: {
+      lengthError: {
+        text: false,
+        textarea: false,
+      },
+      apiError: false,
+      serviceLvlError: {
+        before: false,
+        after: false,
+      },
+      check: this.PERCENTAGE,
+    },
+    sanitation: {
+      lengthError: {
+        text: false,
+        textarea: false,
+      },
+      apiError: false,
+      serviceLvlError: {
+        before: false,
+        after: false,
+      },
+      check: this.PERCENTAGE,
+    },
+  };
+
+  body = {
+    isDraft: this.isDraft,
+    plans: null,
+    designYear: JSON.parse(localStorage.getItem("Years"))["2021-22"],
+  };
 
   sanitationIndicators = [
     "Coverage of Toilets",
@@ -74,17 +138,78 @@ export class WaterSanitationComponent implements OnInit {
     "Efficiency in Collection of Water Charges",
   ];
 
-  onSubmit() {}
+  ngOnInit(): void {
+    this.onLoad();
+  }
+
+  onLoad() {
+    this.wsService.getFiles().subscribe(
+      (res) => {
+        console.log(res["plans"]);
+        this.waterAndSanitation = res["plans"];
+        sessionStorage.setItem(
+          "plansData",
+          JSON.stringify(this.waterAndSanitation)
+        );
+        this.onLoadDataCheck(this.waterAndSanitation);
+        // if (plan) {
+        //   this.waterAndSanitation = {
+        //     water: {
+        //       name: plan.water.name,
+        //       component: plan.water.component,
+        //       serviceLevel: {
+        //         indicator: plan.water.serviceLevel.after,
+        //         existing: plan.water.serviceLevel.existing,
+        //         after: plan.water.serviceLevel.after,
+        //       },
+        //       cost: plan.water.cost,
+        //     },
+        //     sanitation: {
+        //       name: plan.sanitation.name,
+        //       component: plan.sanitation.component,
+        //       serviceLevel: {
+        //         indicator: plan.sanitation.serviceLevel.after,
+        //         existing: plan.sanitation.serviceLevel.existing,
+        //         after: plan.sanitation.serviceLevel.after,
+        //       },
+        //       cost: plan.sanitation.cost,
+        //     },
+        //   };
+        // }
+      },
+      (errMes) => {
+        console.log(errMes);
+      }
+    );
+  }
+
+  onLoadDataCheck(data) {
+    for (const key in data) {
+      for (const key1 in data[key]) {
+        console.log(key1, data[key][key1]);
+        if (key1 === "serviceLevel") {
+          for (const key2 in data[key][key1]) {
+            console.log(key2, data[key][key1][key2]);
+            let value = data[key][key1][key2];
+            let keys = [`${key}`, `${key1}`, `${key2}`];
+            this.errorSet.next({ value, keys });
+          }
+        } else {
+          let value = data[key][key1];
+          if (key1 == "cost") {
+            continue;
+          }
+          let type = key1 == "name" ? "text" : "textarea";
+          this.checkValidation(type, value.length, [`${key}`, `${key1}`]);
+        }
+      }
+    }
+  }
+
   onPreview() {
-    let preData = {
-      // 'waterFileName': this.fileNameWater,
-      // 'waterFileUrl': this.waterFileUrl,
-      // 'sanitationFileName': this.fileNameSanitation,
-      // 'sanitationFileUrl' : this.sanitationFileUrl
-    };
-    console.log("preData", preData);
+    
     const dialogRef = this.dialog.open(WaterSanitationPreviewComponent, {
-      data: preData,
+      data: this.waterAndSanitation,
       maxHeight: "95vh",
       height: "fit-content",
       width: "85vw",
@@ -96,6 +221,7 @@ export class WaterSanitationComponent implements OnInit {
       //   this.hidden = true;
     });
   }
+
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: "modal-md" });
   }
@@ -104,78 +230,111 @@ export class WaterSanitationComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  proceed(uploadedFiles) {
-    this.postsDataCall(uploadedFiles);
+  proceed() {
     this.modalRef.hide();
-    // return this._router.navigate(["overview"]);
+
+    console.log(this.body);
+
+    this.postsDataCall(this.body);
   }
+
   alertClose() {
     this.modalRef.hide();
   }
+
   saveForm(template) {
-    this.submitted = true;
-    // this.uploadedFiles = {
-    //   designYear:"606aaf854dff55e6c075d219",
-    //   plans:
-    //    {
-    //      water:
-    //       {
-    //           // url: this.waterFileUrl,
-    //           //  remarks: this.fileNameWater
-    //        },
-    //   sanitation:
-    //     {
-    //       //  url: this.sanitationFileUrl,
-    //       //  remarks: this.fileNameSanitation
-    //     }
-    //   },
-    //   'isDraft': false
-    // };
-    // if(this.waterFileUrl != '' && this.sanitationFileUrl != ''){
-    // this.postsDataCall(this.uploadedFiles);
-    // }
-    // else{
-    this.openModal(template);
-    // }
-  }
-  postsDataCall(uploadedFiles) {
-    // this.wsService.sendRequest(this.uploadedFiles)
-    //     .subscribe((res) => {
-    //     const status = JSON.parse(sessionStorage.getItem("allStatus"));
-    //     status.plans.isSubmit = res["isCompleted"];
-    //     this._ulbformService.allStatus.next(status);
-    //       console.log(res);
-    //       alert('Files uploaded successfully.')
-    //    },
-    //    error =>{
-    //       alert("An error occured.")
-    //       this.err = error.message;
-    //       console.log(this.err);
-    //    });
+    console.log(this.waterAndSanitation);
+    this.body.plans = this.waterAndSanitation;
+    if (!this.isDraft) {
+      this.postsDataCall(this.body);
+    } else {
+      this.openModal(template);
+    }
   }
 
-  private initializeForms() {
-    this.waterAndSanitation = this.fb.group({
-     water:{
-      name: ["",[Validators.maxLength(25),Validators.maxLength(1)]],
-      component: ["",[Validators.maxLength(200),Validators.maxLength(1)]],
-      serviceLevel: {
-        indicator: [""],
-        existing: [""],
-        after: [""],
+  postsDataCall(body) {
+    this.wsService.sendRequest(body).subscribe(
+      (res) => {
+        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        status.plans.isSubmit = res["isCompleted"];
+        this._ulbformService.allStatus.next(status);
+        swal({
+          title: "Submitted",
+          text: "Record submitted successfully!",
+          icon: "success",
+        });
       },
-      cost: [""],
-     },
-     sanitation:{
-      name: ["",[Validators.maxLength(25),Validators.maxLength(1)]],
-      component: ["",[Validators.maxLength(200),Validators.maxLength(1)]],
-      serviceLevel: {
-        indicator: [""],
-        existing: [""],
-        after: [""],
-      },
-      cost: [""],
-     }
-    });
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  onKey(e, path) {
+    console.log(e);
+    const type = e.target?.type;
+    const value = e.target?.value ? e.target.value : e.value;
+    let keys = path.split(".");
+
+    if (type) this.checkValidation(type, value.length, keys);
+    if (keys.length == 2) {
+      this.waterAndSanitation[keys[0]][keys[1]] = value;
+    } else {
+      if (keys[2] != "indicator") {
+        this.waterAndSanitation[keys[0]][keys[1]][keys[2]] = Number(value);
+      } else this.waterAndSanitation[keys[0]][keys[1]][keys[2]] = value;
+      this.errorSet.next({ value, keys });
+    }
+  }
+
+  checkValidation(type, length, path) {
+    console.log(type, length, path);
+    if (type === "text") {
+      if (length > this.MAX_LENGTH)
+        this.errors[path[0]].lengthError.text = true;
+      else this.errors[path[0]].lengthError.text = false;
+    }
+    if (type === "textarea") {
+      if (length > this.MAX_LENGTH_AREA)
+        this.errors[path[0]].lengthError.textarea = true;
+      else this.errors[path[0]].lengthError.textarea = false;
+    }
+  }
+
+  compareValues(path, value) {
+    if (path[2] == "indicator") {
+      switch (value) {
+        case "Per Capita Supply of Water":
+          this.errors[path[0]].check = this.LPCD;
+          break;
+        case "Continuity of Water supplied":
+          this.errors[path[0]].check = this.HRS;
+          break;
+        default:
+          this.errors[path[0]].check = this.PERCENTAGE;
+          break;
+      }
+    }
+    if (this.waterAndSanitation[path[0]].serviceLevel.indicator) {
+      let val1 = this.waterAndSanitation[path[0]].serviceLevel.existing;
+      let val2 = this.waterAndSanitation[path[0]].serviceLevel.after;
+      let type = this.errors[path[0]].check;
+
+      if (val1 > type) {
+        this.errors[path[0]].serviceLvlError.before = true;
+      }
+      if (val2 > type) {
+        this.errors[path[0]].serviceLvlError.after = true;
+      }
+      // else if (val1 && val2) {
+      //   if (val1 + val2 > type) {
+      //     this.errors[path[0]].serviceLvlError = true;
+      //   } else {
+      //     this.errors[path[0]].serviceLvlError = false;
+      //   }
+      // }
+    }
+    this.sanitationToolTip = `Value at max ${this.errors.sanitation.check}`;
+    this.waterToolTip = `Value at max ${this.errors.water.check}`;
   }
 }

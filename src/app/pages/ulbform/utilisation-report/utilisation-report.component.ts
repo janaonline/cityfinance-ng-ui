@@ -46,6 +46,7 @@ export class UtilisationReportComponent implements OnInit {
   utilizationForm: FormGroup;
   submitted = false;
   isSumEqual = false;
+  draft = true;
   constructor(
     private fb: FormBuilder,
     public dialog: MatDialog,
@@ -272,7 +273,7 @@ export class UtilisationReportComponent implements OnInit {
             // this.fb.group({
             //   url: ['']
             // })
-          ]),
+          ], Validators.required),
           capacity: ["", Validators.required],
           location: this.fb.group({
             lat: ["", Validators.required],
@@ -323,6 +324,13 @@ export class UtilisationReportComponent implements OnInit {
       +this.utilizationReport.value.grantPosition[setFormControl];
     if (!isNaN(controlValue) || controlValue != 0) {
       controlValue.toFixed(2);
+    }
+    if (
+      this.projectExp != this.utilizationReport.controls.grantPosition.value.expDuringYr
+    ) {
+      this.isSumEqual = true;
+    } else {
+      this.isSumEqual = false;
     }
 
     this.patchValue(controlValue, setFormControl);
@@ -489,7 +497,7 @@ export class UtilisationReportComponent implements OnInit {
           // this.fb.group({
           //   url: ['']
           // })
-        ]),
+        ], Validators.required),
         capacity: ["", Validators.required],
         location: this.fb.group({
           lat: ["", Validators.required],
@@ -589,8 +597,9 @@ export class UtilisationReportComponent implements OnInit {
 
   saveAndNext(template) {
     this.submitted = true;
-    //  console.log(this.utilizationReport);
+    console.log(this.utilizationReport);
     //  console.log(this.utilizationReport.value);
+    let user_data = JSON.parse(localStorage.getItem('userData'));
 
     this.fd = this.utilizationReport.value;
     this.fd.isDraft = true;
@@ -598,13 +607,26 @@ export class UtilisationReportComponent implements OnInit {
     this.fd.designYear = this.designYear;
     this.fd.grantType = 'Tied';
     this.fd.grantPosition.closingBal = this.totalclosingBal;
-
+    this.fd.ulb = user_data.ulb;
     if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
+      // this.fd.isDraft = false;
+      console.log(this.fd);
+      let len = this.tabelRows.length;
+      for (let i = 0; i < len; i++) {
+        const control = this.tabelRows.controls[i]["controls"]["photos"];
+        console.log('prk', control.length);
+        if (control.length == 0) {
+          this.fd.isDraft = true;
+          i = len;
+
+        } else {
+          this.fd.isDraft = false;
+        }
+
+      }
       this.apiCall(this.fd);
       console.log('form submitted', this.fd);
       return this._router.navigate(["ulbform/annual_acc"]);
-
-
     }
     else {
       this.openModal(template);
@@ -791,6 +813,7 @@ export class UtilisationReportComponent implements OnInit {
           }
         },
         (err) => {
+          console.log(err)
           this.fileUploadTracker[fileIndex].status = "FAILED";
         }
       );

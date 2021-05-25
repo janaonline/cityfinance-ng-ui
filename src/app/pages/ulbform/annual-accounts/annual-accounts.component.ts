@@ -44,7 +44,7 @@ export class AnnualAccountsComponent implements OnInit {
   quesTwoAnswer1: boolean = false;
   audit_status;
   Years = JSON.parse(localStorage.getItem("Years"));
-  dateShow: string = "2021-22";
+  dateShow: string = "2020-21";
   childComp = false;
   isPdf;
   fileSelected;
@@ -252,6 +252,7 @@ export class AnnualAccountsComponent implements OnInit {
     sessionStorage.setItem("changeInAnnual", "false");
   }
   navigationCheck() {
+<<<<<<< HEAD
     if (!this.save) {
       this._router.events.subscribe(async (event: Event) => {
         if (event instanceof NavigationStart) {
@@ -269,6 +270,23 @@ export class AnnualAccountsComponent implements OnInit {
             this.routerNavigate = event;
             this.openModal(this.template);
           }
+=======
+    this._router.events.subscribe(async (event: Event) => {
+      if (event instanceof NavigationStart) {
+        const changeInAnnual = sessionStorage.getItem("changeInAnnual");
+        if (event.url === "/" || event.url === '/login') {
+          sessionStorage.setItem("changeInAnnual", "true");
+          return;
+        }
+        if (changeInAnnual === "true" && this.routerNavigate === null) {
+          if (this.modalRef) this.modalRef.hide();
+          const currentRoute = this._router.routerState;
+          this._router.navigateByUrl(currentRoute.snapshot.url, {
+            skipLocationChange: true,
+          });
+          this.routerNavigate = event;
+          this.openModal(this.template);
+>>>>>>> 3b081d470bcc0dc0c7fdd77f544127a0c657cd83
         }
       });
     }
@@ -484,7 +502,7 @@ export class AnnualAccountsComponent implements OnInit {
         // this[this.response].year = this.Years["2019-20"] ;
         break;
       default:
-        this.dateShow = "2021-22";
+        this.dateShow = "2020-21";
         this.response = "unauditResponse";
         this[this.response].audit_status = audit;
         // this[this.resresponseponse].year = this.Years["2020-21"];

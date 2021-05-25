@@ -594,7 +594,7 @@
             </div>
         </div>
 
-        <div class="col-sm-12 mat-card card-body">
+        <div *ngIf="quesOneAnswer" class="col-sm-12 mat-card card-body">
             <div class="mat-card-content" style="margin-top: 2rem;">
                 <div [ngClass]="{'col-sm-6 quesLine': quesTwoAnswer}">
                     <span class="quesIn"><b>(B) Do you wish to submit financials in standardized format for {{dateShow}}
@@ -1324,7 +1324,7 @@
             </div>
         </div>
 
-        <div class="col-md-12 mat-card card-body">
+        <div *ngIf="quesOneAnswer1" class="col-md-12 mat-card card-body">
             <div class="mat-card-content" style="margin-top: 2rem;">
                 <div [ngClass]="{'col-sm-6 quesLine': quesTwoAnswer1}">
                     <span class="quesIn"><b>(B) Do you wish to submit financials in standardized format for {{dateShow}}
@@ -1440,7 +1440,7 @@
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 footerBtnDiv">
     <div class="col-lg-6 col-md-6 col-sm-6">
-        <a type="button" class="btn btn-secondary backbtn">BACK</a>
+        <a type="button" [routerLink]="['/ulbform/utilisation-report']" routerLinkActive="router-link-active"  class="btn btn-secondary backbtn">BACK</a>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6">
         <button type="button" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(templateAnnual)"
