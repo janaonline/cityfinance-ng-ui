@@ -13,12 +13,14 @@ import { SlbsGaurdGuard } from './slbs/slbs-gaurd.guard';
 import { UlbGaurdGuard } from './ulb-gaurd.guard';
 import { ServiceSlbsComponent } from './service-slbs/service-slbs.component';
 const routes: Routes = [
+
   {
     path: "",
     component: UlbformComponent,
    // canActivate: [UlbGaurdGuard],
 
     children: [
+
       {
         path: "utilisation-report", component: UtilisationReportComponent
       },
@@ -54,7 +56,12 @@ const routes: Routes = [
       }
 
     ]
+  },
+  {
+    path: "ulbform/:id",
+    component: UlbformComponent,
   }
+
 ]
 
 @NgModule({
