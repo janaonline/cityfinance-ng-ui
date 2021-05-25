@@ -29,13 +29,13 @@ const swal: SweetAlert = require("sweetalert");
 export class WaterSanitationPreviewComponent implements OnInit {
   @ViewChild("planPre") _html: ElementRef;
   showLoader;
+  @Input()
   parentData: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _questionnaireService: QuestionnaireService,
     private _matDialog: MatDialog,
-    private WaterSanitationService: WaterSanitationService,
-
+    private WaterSanitationService: WaterSanitationService
   ) {}
   @ViewChild("template") template;
   @Output() change = new EventEmitter<any>();
@@ -96,7 +96,7 @@ export class WaterSanitationPreviewComponent implements OnInit {
   
   </style>`;
   clicked = false;
-  errMessage = ''
+  errMessage = "";
 
   clickedDownloadAsPDF(template) {
     let changeHappen = sessionStorage.getItem("changeInPlans");
@@ -118,6 +118,9 @@ export class WaterSanitationPreviewComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data);
+    if (this.parentData) {
+      this.data = this.parentData;
+    }
   }
 
   downloadAsPDF() {
@@ -165,28 +168,25 @@ export class WaterSanitationPreviewComponent implements OnInit {
     // this._matDialog.close(this.clicked);
     // this._matDialog.closeAll('Hello');
     // this._matDialog.ngOnDestroy()
-    console.log('Check this value', this.data)
+    console.log("Check this value", this.data);
     sessionStorage.setItem("changeInPlans", "false");
-    this.WaterSanitationService.sendRequest(this.data)
-      .subscribe((res) => {
+    this.WaterSanitationService.sendRequest(this.data).subscribe(
+      (res) => {
         console.log(res);
-        swal("Record submitted successfully!")
+        swal("Record submitted successfully!");
       },
-        error => {
-          this.errMessage = error.message;
-          console.log(error, this.errMessage);
-        });
+      (error) => {
+        this.errMessage = error.message;
+        console.log(error, this.errMessage);
+      }
+    );
 
-    this.downloadAsPDF()
-
-
+    this.downloadAsPDF();
   }
   alertClose() {
     this.stay();
   }
-
   stay() {
     this.dialogRef.close();
   }
-
 }

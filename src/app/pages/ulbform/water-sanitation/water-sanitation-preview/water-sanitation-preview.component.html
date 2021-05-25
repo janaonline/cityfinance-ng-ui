@@ -9,7 +9,7 @@
             </a>
             <span class="col-sm-12 heading">Plans for Water and Sanitation</span>
         </div>
-        <div class="row" style="margin-top: 1.5rem; margin-right: 2pc;">
+        <div *ngIf="!parentData" class="row" style="margin-top: 1.5rem; margin-right: 2pc;">
             <div class="col-sm-12 text-right p-0">
                 <button id="donwloadButton" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF(template)">
                     Download as PDF

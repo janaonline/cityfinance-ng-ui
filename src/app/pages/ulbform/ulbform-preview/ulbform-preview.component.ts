@@ -578,7 +578,7 @@ margin-left : .5rem !important;
     water_index: null,
     fromParent: null,
   };
-  waterSanitation = null;
+  waterSanitation;
   pfmsError = {
     response: {
       account: null,
@@ -791,7 +791,7 @@ margin-left : .5rem !important;
     await this.detailUtilData();
     await this.getAnnualAccount();
     if (this.isUA == "Yes") await this.getSlbData();
-    // if (this.isMillionPlus == "No") await this.getWaterSanitation();
+    if (this.isMillionPlus == "No") await this.getWaterSanitation();
   }
 
   public accessGrant() {
