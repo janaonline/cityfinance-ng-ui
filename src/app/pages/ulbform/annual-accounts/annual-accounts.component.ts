@@ -246,29 +246,33 @@ export class AnnualAccountsComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.clickedSave = false;
     this.changeAudit("Unaudited");
     this.onLoad();
     sessionStorage.setItem("changeInAnnual", "false");
   }
   navigationCheck() {
-    this._router.events.subscribe(async (event: Event) => {
-      if (event instanceof NavigationStart) {
-        const changeInAnnual = sessionStorage.getItem("changeInAnnual");
-        if (event.url === "/") {
-          sessionStorage.setItem("changeInAnnual", "true");
-          return;
+    if (!this.save) {
+      this._router.events.subscribe(async (event: Event) => {
+        if (event instanceof NavigationStart) {
+          const changeInAnnual = sessionStorage.getItem("changeInAnnual");
+          if (event.url === "/") {
+            sessionStorage.setItem("changeInAnnual", "true");
+            return;
+          }
+          if (changeInAnnual === "true" && this.routerNavigate === null) {
+            if (this.modalRef) this.modalRef.hide();
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, {
+              skipLocationChange: true,
+            });
+            this.routerNavigate = event;
+            this.openModal(this.template);
+          }
         }
-        if (changeInAnnual === "true" && this.routerNavigate === null) {
-          if (this.modalRef) this.modalRef.hide();
-          const currentRoute = this._router.routerState;
-          this._router.navigateByUrl(currentRoute.snapshot.url, {
-            skipLocationChange: true,
-          });
-          this.routerNavigate = event;
-          this.openModal(this.template);
-        }
-      }
-    });
+      });
+    }
+
   }
 
   clickedPreview(template) {
@@ -383,6 +387,7 @@ export class AnnualAccountsComponent implements OnInit {
           const status = JSON.parse(sessionStorage.getItem("allStatus"));
           status.annualAccounts.isSubmit = res["isCompleted"];
           this._ulbformService.allStatus.next(status);
+          swal("Record submitted successfully!");
           resolve("success");
         },
         (err) => {
@@ -486,7 +491,21 @@ export class AnnualAccountsComponent implements OnInit {
         break;
     }
   }
+  clickedSave;
+  async clickedSaveAndNext(template) {
+    this.clickedSave = true;
+    let changeHappen = sessionStorage.getItem("changeInAnnual");
+    if (changeHappen === 'true') {
+      await this.submit(template);
+      sessionStorage.setItem("changeInAnnual", "false")
+      this._router.navigate(["ulbform/service-level"]);
+      return;
+    } else {
+      return this._router.navigate(["ulbform/service-level"]);
+    }
 
+
+  }
   answer(question, val, isAudit = null, fromStart = false) {
     switch (question) {
       case "q1":
@@ -730,30 +749,23 @@ export class AnnualAccountsComponent implements OnInit {
     }
   }
 
-  openModal(template: TemplateRef<any>, fromPreview = null) {
-    this.fromPreview = fromPreview;
-    if (fromPreview && sessionStorage.getItem("changeInAnnual") === "true") {
-      this.onPreview();
-      return;
-    }
+  openModal(template: TemplateRef<any>) {
+
     this.modalRef = this.modalService.show(template, { class: "modal-md" });
   }
   stay() {
-    if (this.modalRef) this.modalRef.hide();
+    this.modalRef.hide();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
   }
   async proceed() {
-    if (this.modalRef) this.modalRef.hide();
+    await this.modalRef.hide();
     if (this.routerNavigate) {
       this._router.navigate([this.routerNavigate.url]);
       return;
     }
-    if (this.fromPreview) {
-      this.onPreview();
-      return;
-    }
+
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
     return this._router.navigate(["ulbform/service-level"]);
