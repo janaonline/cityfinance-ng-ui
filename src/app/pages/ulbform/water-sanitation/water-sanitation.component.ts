@@ -1,21 +1,8 @@
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
-
 import { Router, NavigationStart, Event } from "@angular/router";
-import { HttpEventType, HttpResponse } from "@angular/common/http";
-//import { from, Observable } from 'rxjs';
-import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControlName,
-} from "@angular/forms";
-import { delay, map, max, retryWhen } from "rxjs/operators";
 import { WaterSanitationService } from "./water-sanitation.service";
-//import { PathLocationStrategy } from '@angular/common';
-import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { WaterSanitationPreviewComponent } from "./water-sanitation-preview/water-sanitation-preview.component";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { UlbformService } from "../ulbform.service";
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
@@ -27,7 +14,7 @@ import { Subject } from "rxjs";
   styleUrls: ["./water-sanitation.component.scss"],
 })
 export class WaterSanitationComponent implements OnInit {
-  modalRef: BsModalRef;
+  modalRef;
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
    */
@@ -44,10 +31,7 @@ export class WaterSanitationComponent implements OnInit {
   waterToolTip;
 
   constructor(
-    private fb: FormBuilder,
-    private modalService: BsModalService,
     private _router: Router,
-    private dataEntryService: DataEntryService,
     private wsService: WaterSanitationService,
     public dialog: MatDialog,
     public _ulbformService: UlbformService
@@ -225,24 +209,43 @@ export class WaterSanitationComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: "modal-md" });
+    // this.modalRef = this.modalService.show(template, { class: "modal-md" });
+    const dialogConfig = new MatDialogConfig();
+    this.modalRef = this.dialog.open(template, dialogConfig);
+    this.modalRef.afterClosed().subscribe((result) => {
+      if(result === undefined){
+        if (this.routerNavigate) {
+          this.routerNavigate = null;
+        }
+      }
+    });
   }
 
   stay() {
-    this.modalRef.hide();
+    this.modalRef.close(true);
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
   }
 
   proceed() {
-    this.modalRef.hide();
-    this.saveForm()
+    this.modalRef.closeAll(true);
+    this.saveForm();
   }
 
   alertClose() {
-    this.modalRef.hide();
+    this.modalRef.close(true);
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
   }
+
+  // discard(){
+  //   this.modalRef.close();
+  //   if (this.routerNavigate) {
+  //     this._router.navigate([this.routerNavigate.url]);
+  //   }
+  // }
 
   saveForm(template = null) {
     this.body.plans = this.waterAndSanitation;

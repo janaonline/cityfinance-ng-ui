@@ -163,11 +163,7 @@ export class WaterSanitationPreviewComponent implements OnInit {
   }
 
   async proceed(uploadedFiles) {
-    // await this.modalRef.hide();
     this._matDialog.closeAll();
-    // this._matDialog.close(this.clicked);
-    // this._matDialog.closeAll('Hello');
-    // this._matDialog.ngOnDestroy()
     console.log("Check this value", this.data);
     sessionStorage.setItem("changeInPlans", "false");
     this.WaterSanitationService.sendRequest(this.data).subscribe(
