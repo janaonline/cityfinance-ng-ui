@@ -10,7 +10,7 @@
 
 
         <label class="listitem_head">
-          Utilization Report in respect of 15th Finance Commission tied grants for year<label class="listitem_grantYear">2020-21</label></label>
+            15th FC Utilization Report: 2021-22 for year<label class="listitem_grantYear">2020-21</label></label>
 
     </div>
     <div class="d-flex justify-content-between mt-2 d-status" style="padding-left: 5%">
@@ -18,9 +18,10 @@
             <b>Application Current Status:</b> N/A
         </p>
 
-        <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 5%" class="btn btn-primary btn-upload pdf-hide" (click)="downloadForm()">
-    Download as PDF
-  </button>
+        <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 3%"
+            class="btn btn-primary btn-upload pdf-hide" (click)="clickedDownloadAsPDF(template)">
+            Download as PDF
+        </button>
     </div>
 
     <!-- <div *ngIf="!parentData" class="text-right dnDiv pdf-hide">
@@ -34,11 +35,11 @@
         </div>
         <div class="card2Div">
             <label for="" class="card2 qus-ut-u pp">2. Name of MPC/UA/NMPC</label>
-            <label for="" class="card2 ans-ut-u pp-l">{{data.ulbName}}  </label>
+            <label for="" class="card2 ans-ut-u pp-l">{{data.ulbName}} </label>
         </div>
         <div class="crd-ls-div">
             <label for="" class="card2 qus-ut-t pp">3. Type of grant</label>
-            <label for="" class="card2 ans-ut-t pp-l">{{data.grntType}}  </label>
+            <label for="" class="card2 ans-ut-t pp-l">{{data.grntType}} </label>
         </div>
 
     </mat-card>
@@ -54,22 +55,24 @@
 
         <div class="c-2-d">
             <label for="" class="card2 qus-ut-b">(ii) Tied Grant received during the year(INR in lakhs) </label>
-            <label for="" class="card2 ans-ut-b">{{data.grantPosition.receivedDuringYr}}  </label>
+            <label for="" class="card2 ans-ut-b">{{data.grantPosition.receivedDuringYr}} </label>
         </div>
         <div class="c-2-d">
             <label for="" class="card2 qus-ut-c"> (iii) Expenditure incurred during the year(INR in lakhs) </label>
-            <label for="" class="card2 ans-ut-c">{{data.grantPosition.expDuringYr}}  </label>
+            <label for="" class="card2 ans-ut-c">{{data.grantPosition.expDuringYr}} </label>
         </div>
         <div class="crd-ls-div c-2-d">
-            <label for="" class="card3 qus-ut-l"> <b>(vi) Closing balance at the end of year(INR in lakhs) (2(i)+2(ii)-2(iii))</b> </label>
-            <label for="" class="card3 ans-ut-l"> <b>{{data.grantPosition.closingBal}} </b>  </label>
+            <label for="" class="card3 qus-ut-l"> <b>(vi) Closing balance at the end of year(INR in lakhs)
+                    (2(i)+2(ii)-2(iii))</b> </label>
+            <label for="" class="card3 ans-ut-l"> <b>{{data.grantPosition.closingBal}} </b> </label>
         </div>
         <br>
 
     </mat-card>
     <mat-card class="mat-card2">
         <div class="row" style="margin: 0;">
-            <div class="h-ut-t">5. Component Wise Utilization of Tied grants (break-up of expenditure incurred in 2(iii)) :</div>
+            <div class="h-ut-t">5. Component Wise Utilization of Tied grants (break-up of expenditure incurred in
+                2(iii)) :</div>
         </div>
         <table class="table table-striped">
             <thead>
@@ -87,7 +90,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of data.projects; let i=index" style="text-align: center; vertical-align: inherit;">
+                <tr *ngFor="let item of data.projects; let i=index"
+                    style="text-align: center; vertical-align: inherit;">
                     <td>{{1+i}}</td>
                     <td>{{data.projects[i].category}}</td>
                     <td>{{data.projects[i].name}}</td>
@@ -101,8 +105,10 @@
 
                     </td>
                     <td>
-                        <label for="" class="bor-in-l" style="font-size: 10px;">{{data.projects[i].location.lat}}</label>
-                        <label for="" class="bor-in-l" style="margin-left: 5px; font-size: 10px;">{{data.projects[i].location.long}}</label>
+                        <label for="" class="bor-in-l"
+                            style="font-size: 10px;">{{data.projects[i].location.lat}}</label>
+                        <label for="" class="bor-in-l"
+                            style="margin-left: 5px; font-size: 10px;">{{data.projects[i].location.long}}</label>
 
                     </td>
                     <td> <label class="bor-in-l" for="">{{data.projects[i].cost}}</label></td>
@@ -130,3 +136,24 @@
         </div>
     </mat-card>
 </mat-dialog-content>
+<ng-template #template>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed further?
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
+                Proceed</button>
+        </div>
+
+    </div>
+</ng-template>
