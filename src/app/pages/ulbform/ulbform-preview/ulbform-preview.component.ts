@@ -9,6 +9,7 @@ import { AnnualAccountsService } from "../annual-accounts/annual-accounts.servic
 import { QuestionnaireService } from '../../questionnaires/service/questionnaire.service';
 import { defaultDailogConfiuration } from "../../questionnaires/ulb/configs/common.config";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
+import { templateJitUrl } from "@angular/compiler";
 @Component({
   selector: "app-ulbform-preview",
   templateUrl: "./ulbform-preview.component.html",
@@ -383,7 +384,7 @@ h6 {
   display: none;
 }
 .qus-slb {
-  margin-left: 1.5rem;
+  margin-left: 2%;
   font-weight: normal;
   font-size: 12px;
 }
@@ -435,7 +436,11 @@ margin-left : .5rem !important;
   font-size: 10px;
 }
 
-
+.ans-slb-a {
+  margin-left: 5.8rem;
+  font-weight: normal !important;
+  font-size: 10px !important;
+}
   </style>`
 
 
@@ -566,14 +571,8 @@ margin-left : .5rem !important;
       rejectReason: null,
     },
     waterPotability: {
-      documents: {
-        waterPotabilityPlan: [
-          {
             name: null,
             url: null,
-          },
-        ],
-      },
     },
     water_index: null,
     fromParent: null,
@@ -839,10 +838,14 @@ margin-left : .5rem !important;
         (res) => {
           this.slbWaterSanitaion =
             res["data"] && res["data"][0] ? res["data"][0] : {};
+            let tem = this.slbWaterSanitaion.waterPotability.documents.waterPotabilityPlan[0]
+            this.slbWaterSanitaion.waterPotability = tem;
+            console.log('p122', this.slbWaterSanitaion);
           this.slbWaterSanitaion.fromParent = true;
           resolve(res);
         },
         (err) => {
+
           this.slbWaterSanitaion = this.slbWaterSanitaionError;
           resolve("Success");
         }

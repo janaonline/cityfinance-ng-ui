@@ -273,3 +273,7 @@
 .image-upload>input {
     display: none;
 }
+
+a.anDisable {
+    pointer-events: none;
+}

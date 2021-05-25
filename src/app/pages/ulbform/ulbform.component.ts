@@ -107,7 +107,7 @@ export class UlbformComponent implements OnInit {
     else{
          this.isMillionPlus =sessionStorage.getItem('isMillionPlus');
          this.isUA = sessionStorage.getItem('isUA')
-         console.log('elseblock' , this.isMillionPlus, this.isUA)
+         console.log('pk_elseblock' , this.isMillionPlus, this.isUA)
     }
 
   }
