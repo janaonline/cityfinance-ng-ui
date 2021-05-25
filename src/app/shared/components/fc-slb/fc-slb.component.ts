@@ -21,6 +21,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   publishedFileUrl: string = '';
   publishedFileName: string = '';
   publishedProgress: number;
+  isDisabled= false;
   constructor(
     private _router: Router,
     private modalService: BsModalService,
@@ -109,7 +110,10 @@ export class FcSlbComponent implements OnInit, OnChanges {
   invalidWhole = false;
 
   ngOnInit() {
-
+    let ulb_id = sessionStorage.getItem('ulb_id');
+    if (ulb_id != null) {
+      this.isDisabled = true;
+    }
     this.services.forEach(data => {
       this.focusTargetKey[data.key + 'baseline'] = false
       this.targets.forEach(item => {

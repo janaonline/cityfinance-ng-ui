@@ -726,11 +726,11 @@
             <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="margin-left: 2.4rem; margin-top: 5px;">
 
                 <label for="cin">
-          <a class=" btn btn-primary" style="width: 132px; height: 31px;">Upload PDF
+          <a class=" btn btn-primary" style="width: 132px; height: 31px;" [ngClass]="{'anDisable': isDisabled }">Upload PDF
             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px; ">
           </a>
         </label>
-                <input id="cin" name="cin" type="file" (change)="fileChangeEvent($event, 'publishedProgress', 'publishedFileName')" accept=".pdf" />
+                <input id="cin" name="cin" type="file" [disabled]="isDisabled" (change)="fileChangeEvent($event, 'publishedProgress', 'publishedFileName')" accept=".pdf" />
             </div>
         </div>
 
@@ -762,7 +762,7 @@
                                 <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
 
                             </a>
-                            <a (click)="clearFiles('publishedFileName')" style="margin-left: 4px;">
+                            <a (click)="clearFiles('publishedFileName')" style="margin-left: 4px;" [ngClass]="{'anDisable': isDisabled }">
                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                             </a>
                         </ng-container>
@@ -778,7 +778,7 @@
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 text-right">
         <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
-        <button type="button" class="btn footerBtn" id="saveNext" (click)="saveNext(template1)">SAVE AND NEXT</button>
+        <button type="button" class="btn footerBtn" id="saveNext" [disabled]="isDisabled" (click)="saveNext(template1)">SAVE AND NEXT</button>
     </div>
 </div>
 <ng-template #template1>

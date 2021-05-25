@@ -9,7 +9,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class ServiceSlbsComponent implements OnInit {
 
 
-  url: string = " https://pas.org.in/web/ceptpas/dataentry?parameterAutoLoginLogin=ahmedabad&parameterAutoLoginPassword=Ahmedabad@12";
+  url: string = "https://pas.org.in/web/ceptpas/iuppkpi?parameterAutoLoginLogin=ahmedabad&parameterAutoLoginPassword=Ahmedabad@12";
   urlSafe: SafeResourceUrl;
   height;
   constructor(public sanitizer: DomSanitizer) { }
