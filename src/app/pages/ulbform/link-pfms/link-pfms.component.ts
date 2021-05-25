@@ -145,12 +145,20 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     "isDraft": false
   };
   errMessage = '';
+  val
   postData() {
+
+    if (this.account != '' && this.linked != '') {
+      this.val = false;
+    } else {
+      this.val = true;
+    }
+
     let data = {
       "design_year": this.Years["2021-22"],
       "account": this.account,
       "linked": this.linked,
-      "isDraft": false
+      "isDraft": this.val
     };
     console.log((data));
     this.LinkPFMSAccount.postData(data)
@@ -241,6 +249,10 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   change = false;
   checkDiff() {
     let pfmsAccounts = JSON.parse(sessionStorage.getItem("pfmsAccounts"));
+    if (!pfmsAccounts) {
+      sessionStorage.setItem("changeInPFMSAccount", "true");
+      this.change = true;
+    }
     console.log(this.fd);
     console.log(JSON.parse(sessionStorage.getItem("pfmsAccounts")))
     this.pageData = {
@@ -251,6 +263,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       "account": pfmsAccounts.response.account,
       "linked": pfmsAccounts.response.linked
     }
+
 
     // const tempResponse = JSON.stringify(this.fd);
     // const tempResponseLast = JSON.stringify(pfmsAccounts);
