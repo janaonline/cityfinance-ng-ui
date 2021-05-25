@@ -10,7 +10,7 @@ import { HttpEventType, HttpResponse } from "@angular/common/http";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { AnnualAccountsService } from "./annual-accounts.service";
 import { SweetAlert } from "sweetalert/typings/core";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { AnnualPreviewComponent } from "./annual-preview/annual-preview.component";
 import { UlbformService } from "../ulbform.service";
 import { BsModalService } from "ngx-bootstrap/modal";
@@ -31,7 +31,8 @@ export class AnnualAccountsComponent implements OnInit {
     public dialog: MatDialog,
     public _ulbformService: UlbformService,
     private modalService: BsModalService,
-    public _router: Router
+    public _router: Router,
+    private _matDialog: MatDialog
   ) {
     this.navigationCheck();
   }
@@ -261,13 +262,13 @@ export class AnnualAccountsComponent implements OnInit {
             return;
           }
           if (changeInAnnual === "true" && this.routerNavigate === null) {
-            if (this.modalRef) this.modalRef.hide();
+            if (this.dialogRef) this.dialogRef.hide();
             const currentRoute = this._router.routerState;
             this._router.navigateByUrl(currentRoute.snapshot.url, {
               skipLocationChange: true,
             });
             this.routerNavigate = event;
-            this.openModal(this.template);
+            this.openDialog(this.template);
           }
         }
       });
@@ -371,7 +372,7 @@ export class AnnualAccountsComponent implements OnInit {
     await this.checkForm(this.unauditResponse);
     await this.checkForm(this.auditResponse);
     if (!this.unauditResponse.isCompleted || !this.auditResponse.isCompleted) {
-      this.openModal(template);
+      this.openDialog(template);
       return;
     }
     await this.save(this.unauditResponse);
@@ -749,19 +750,23 @@ export class AnnualAccountsComponent implements OnInit {
     }
   }
 
-  openModal(template: TemplateRef<any>) {
 
-    this.modalRef = this.modalService.show(template, { class: "modal-md" });
+  dialogRef
+  openDialog(template) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this._matDialog.open(template, dialogConfig);
   }
-  stay() {
-    this.modalRef.hide();
+  async stay() {
+    await this.dialogRef.close();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
   }
   async proceed() {
-    await this.modalRef.hide();
+    await this.dialogRef.close();
     if (this.routerNavigate) {
+      await this.save(this.unauditResponse);
+      await this.save(this.auditResponse);
       this._router.navigate([this.routerNavigate.url]);
       return;
     }
