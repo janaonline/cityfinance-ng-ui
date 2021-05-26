@@ -62,8 +62,8 @@ export class GoogleMapComponent implements OnInit {
   }
 
   onSubmit() {
-    this.location.lat = this.latitude;
-    this.location.long = this.longitude;
+    this.location.lat = this.latitude.toFixed(5);
+    this.location.long = this.longitude.toFixed(5);
     this.UtiReportService.setLocation(this.location)
     this.locationSelected.emit(true)
   }
