@@ -58,8 +58,8 @@
                     </carousel>
                 </div>
                 <div class="col" *ngIf="!cardFit">
-                    <div class="row" style="display: inline-flex;">
-                        <div class="col" style="width: 15%" *ngFor="let slide of cardsOverview; let index=index">
+                    <div class="row" style="display: inline-flex; position: relative;">
+                        <div class="col" style="width: 15%; position: relative;" *ngFor="let slide of cardsOverview; let index=index">
                             <!-- <div *ngIf="(isMillionPlus =='No') && "> -->
                             <a routerLink="{{slide['link']}}">
                                 <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':

@@ -120,7 +120,6 @@ export class UtilisationReportComponent implements OnInit {
   // }
 
   ngOnInit() {
-
     sessionStorage.setItem("canNavigate", "true");
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;
