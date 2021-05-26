@@ -20,7 +20,6 @@ import {
 import { millionPlusCitiesQuestions } from 'src/app/users/data-upload/components/configs/million-plus-cities';
 import { solidWasterQuestions } from 'src/app/users/data-upload/components/configs/solid-waste-management';
 import { services, targets } from 'src/app/users/data-upload/components/configs/water-waste-management';
-import { SlbsComponent } from '../slbs/slbs.component';
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 @Component({
@@ -142,8 +141,6 @@ export class PreviewSlbComponentComponent implements OnInit {
   fileUrl ='';
   fileName ='';
   constructor(
-    private SlbsComponent: SlbsComponent,
-
     private _questionnaireService: QuestionnaireService,
     private _commonService: CommonService,
     public _ulbformService: UlbformService,
