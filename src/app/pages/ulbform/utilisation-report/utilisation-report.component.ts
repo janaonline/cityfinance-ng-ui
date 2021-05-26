@@ -131,6 +131,16 @@ export class UtilisationReportComponent implements OnInit {
         a.name.localeCompare(b.name)
       );
     });
+    let form_data = JSON.parse(sessionStorage.getItem('allStatus'));
+       console.log('form-data', form_data.utilReport)
+       let form_status = form_data.utilReport.isSubmit;
+       console.log('stat', form_status)
+       if(form_status == null){
+          this.submitted = false;
+        }
+        else if(form_status == false){
+          this.submitted = true;
+        }
 
 
   }
