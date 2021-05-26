@@ -26,8 +26,8 @@
             <div class="row titleCards">
                 <div class="col" *ngIf="cardFit">
                     <carousel [itemsPerSlide]="itemsPerSlide" style="background-image: none;" [ngClass]='{"a-con": cardFit}' [singleSlideOffset]="singleSlideOffset" [interval]="false" [showIndicators]="false">
-                        <slide *ngFor="let slide of slides; let index=index">
-                            <a routerLink="{{link[index]}}">
+                        <slide *ngFor="let slide of cardsOverview; let index=index">
+                            <a routerLink="{{slide['link']}}">
                                 <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
       index == 0 ?'linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
       'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#549D5E, #2A4F2F)' :
@@ -37,7 +37,7 @@
                                     <img [src]="slide.image" height="22" width="27" />
                                     <div class="card-body">
 
-                                        <h5 class="card-title"> {{cards[index]}} </h5>
+                                        <h5 class="card-title"> {{slide['title']}} </h5>
 
                                     </div>
                                 </div>
@@ -59,9 +59,9 @@
                 </div>
                 <div class="col" *ngIf="!cardFit">
                     <div class="row" style="display: inline-flex;">
-                        <div class="col" *ngFor="let slide of slides; let index=index">
-
-                            <a routerLink="{{link[index]}}">
+                        <div class="col" style="width: 15%" *ngFor="let slide of cardsOverview; let index=index">
+                            <!-- <div *ngIf="(isMillionPlus =='No') && "> -->
+                            <a routerLink="{{slide['link']}}">
                                 <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
 index == 0 ?'linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
 'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#549D5E, #2A4F2F)' :
@@ -71,11 +71,13 @@ index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(
                                     <img [src]="slide.image" height="22" width="27" />
                                     <div class="card-body">
 
-                                        <h5 class="card-title"> {{cards[index]}} </h5>
+                                        <h5 class="card-title"> {{slide['title']}} </h5>
 
                                     </div>
                                 </div>
+
                             </a>
+                            <!-- </div> -->
                             <svg height="42px" width="auto" [style.display]="index == val ? 'block' : 'none'">
                   <line [attr.x1]="60" y1="0px " [attr.x2]="60" y2="42px " style="stroke-width:2;"
                       [ngStyle]="{ 'stroke': index==0 ? '#73C557': index==1 ? '#42C9F6': index==2 ?
@@ -163,7 +165,7 @@ index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(
             </div>
         </div>
 
-        <div class="col-sm-12" [ngClass]="{'firstClass': (checkPos == true),
+        <div class="col-sm-12" style="margin-left: -10px;" [ngClass]="{'firstClass': (checkPos == true),
         'secondClass': (checkPos == false) }">
             <div class="message " [ngStyle]="{ 'background-image': i==1 ? 'linear-gradient(#73C557, #3A632C)': i==2 ? 'linear-gradient(#42C9F6, #21657B)': i==3 ? 'linear-gradient(#F16831, #793419)': i==4 ? 'linear-gradient(#549D5E, #2A4F2F)' : i==5?
             'linear-gradient(#FDCB2E, #7F6617)': i==6? 'linear-gradient(#E71368, #740A34)' : i==7 ? 'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' } ">
@@ -171,28 +173,28 @@ index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(
             </div>
         </div>
     </div>
-    <div class="row header3 ">
+    <div class="row header3">
         <div class="col-sm-12 ">
             <div class="h1 ">Resources</div>
         </div>
-        <div class="col-sm-12 col-md-12 col-lg-12 ">
+        <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="resourceCards ">
                 <div class="individualResource ">
                     <img src={{imageUrls[0]}} class="card-img-top " alt="... ">
                     <div class="card-body ">
-                        <h5 class="card-title " style="text-align: center; "><a href=" ">{{resourceNames[0]}}</a></h5>
+                        <h5 class="card-title " style="text-align: center; "><a href="https://democityfinance.dhwaniris.in/assets/files/XV%20FC%20Report.pdf" target="_blank">{{resourceNames[0]}}</a></h5>
                     </div>
                 </div>
                 <div class="individualResource ">
                     <img src={{imageUrls[1]}} class="card-img-top " alt="... ">
                     <div class="card-body ">
-                        <h5 class="card-title " style="text-align: center; "><a href=" ">{{resourceNames[1]}}</a></h5>
+                        <h5 class="card-title " style="text-align: center; "><a href="https://democityfinance.dhwaniris.in/assets/files/XV%20FC%20Operational%20Guidelines.pdf" target="_blank">{{resourceNames[1]}}</a></h5>
                     </div>
                 </div>
                 <div class="individualResource ">
                     <img src={{imageUrls[2]}} class="card-img-top " alt="... ">
                     <div class="card-body ">
-                        <h5 class="card-title " style="text-align: center; "><a href=" ">{{resourceNames[2]}}</a></h5>
+                        <h5 class="card-title " style="text-align: center; "><a href="https://democityfinance.dhwaniris.in/assets/files/15th%20FC%20ULB%20Grants%20-%20User%20Manual%20for%20CityFinance.pdf" target="_blank">{{resourceNames[2]}}</a></h5>
                     </div>
                 </div>
                 <div class="individualResource ">
@@ -210,12 +212,12 @@ index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(
             </div>
         </div>
     </div>
-    <div class="row " style="margin: 0; ">
-        <div class="col-sm-6 co-lg-6 col-md-6 ">
-            <button class="btn backButton " routerLink="/fc-home-page ">BACK</button>
+    <div class="row" style="margin-bottom: 2rem; margin-left: 0; margin-right: 18px; margin-top: 2rem;">
+        <div class="col-sm-6 co-lg-6 col-md-6">
+            <button class="btn backButton " routerLink="/fc-home-page">BACK</button>
         </div>
-        <div class="col-sm-6 co-lg-6 col-md-6 text-right ">
-            <button class="btn save " [routerLink]="[ '../pfms_acc'] ">NEXT</button>
+        <div class="col-sm-6 co-lg-6 col-md-6 text-right" style="padding-right: 27px;">
+            <button class="btn save" [routerLink]="[ '../pfms_acc']">NEXT</button>
         </div>
     </div>
 
