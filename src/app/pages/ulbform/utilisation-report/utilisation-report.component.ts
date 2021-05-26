@@ -141,7 +141,7 @@ export class UtilisationReportComponent implements OnInit {
 
         if (event instanceof NavigationStart) {
           const canNavigate = sessionStorage.getItem("canNavigate");
-          if (event.url === "/") {
+          if (event.url === "/" || event.url === "/login") {
             sessionStorage.setItem("canNavigate", "true")
             return
           }

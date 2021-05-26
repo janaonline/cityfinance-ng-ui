@@ -1,12 +1,12 @@
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { LinkPFMSAccount } from "./link-pfms.service";
-import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { BsModalService } from "ngx-bootstrap/modal";
 import { Router, NavigationStart, Event } from "@angular/router";
 
 import { ProfileService } from "src/app/users/profile/service/profile.service";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { USER_TYPE } from "src/app/models/user/userType";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog,MatDialogConfig } from "@angular/material/dialog";
 import { PfmsPreviewComponent } from "./pfms-preview/pfms-preview.component";
 import { UlbformService } from "../ulbform.service";
 import { SweetAlert } from "sweetalert/typings/core";
@@ -19,7 +19,7 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ["./link-pfms.component.scss"],
 })
 export class LinkPFMSComponent extends BaseComponent implements OnInit {
-  modalRef: BsModalRef;
+  dialogRef;
   constructor(
     private LinkPFMSAccount: LinkPFMSAccount,
     public dialog: MatDialog,
@@ -42,6 +42,10 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       if (!this.saveClicked) {
         if (event instanceof NavigationStart) {
 
+          if (event.url === "/" || event.url === "/login") {
+            sessionStorage.setItem("changeInPFMSAccount", "false");
+            return;
+          }
           const change = sessionStorage.getItem("changeInPFMSAccount")
           if (change === "true" && this.routerNavigate === null) {
             this.routerNavigate = event
@@ -50,7 +54,6 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
             this.openModal(this.template);
           }
         }
-
       }
     });
   }
@@ -207,7 +210,15 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       this.onPreview();
     }
     else {
-      this.modalRef = this.modalService.show(template, { class: "modal-md" });
+      const dialogConfig = new MatDialogConfig();
+      this.dialogRef = this.dialog.open(template, dialogConfig);
+      this.dialogRef.afterClosed().subscribe((result) => {
+        if(result === undefined){
+          if (this.routerNavigate) {
+            this.routerNavigate = null;
+          }
+        }
+      });
     }
 
   }
@@ -216,8 +227,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     if (this.routerNavigate) {
       this.routerNavigate = null
     }
-    await this.modalRef.hide();
-
+    await this.dialogRef.close(true);
   }
 
   onLoad(ulb_id) {
@@ -283,9 +293,10 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   }
 
   async proceed(uploadedFiles) {
-    await this.modalRef.hide();
+    await this.dialogRef.close(true);
     if (this.routerNavigate) {
       await this.postData();
+    sessionStorage.setItem("changeInPFMSAccount", "false");
       this._router.navigate([this.routerNavigate.url]);
       return
     }
@@ -294,8 +305,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       return;
     }
     this.postData();
-
-
+    sessionStorage.setItem("changeInPFMSAccount", "false");
     return this._router.navigate(["ulbform/grant-tra-certi"]);
   }
   alertClose() {

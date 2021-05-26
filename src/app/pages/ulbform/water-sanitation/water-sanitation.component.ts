@@ -44,8 +44,8 @@ export class WaterSanitationComponent implements OnInit {
     this._router.events.subscribe(async (event: Event) => {
       if (!this.saveClicked) {
         if (event instanceof NavigationStart) {
-          if (event.url === "/") {
-            sessionStorage.setItem("changeInAnnual", "true");
+          if (event.url === "/" || event.url === "/login") {
+            sessionStorage.setItem("changeInPlans", "false");
             return;
           }
           const change = sessionStorage.getItem("changeInPlans");
@@ -267,7 +267,7 @@ export class WaterSanitationComponent implements OnInit {
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.plans.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
-        await swal({
+        swal({
           title: "Submitted",
           text: "Record submitted successfully!",
           icon: "success",
