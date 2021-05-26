@@ -807,13 +807,13 @@ margin-left : .5rem !important;
             let formdata = {
               state_name: this.stateName,
               ulbName: JSON.parse(localStorage.getItem("userData"))["name"],
-              grntType: res["grantType"],
+              grantType: res["grantType"] ?? "Tied",
               grantPosition: res["grantPosition"],
               projects: res["projects"],
               name: res["name"],
               designation: res["designation"],
-              totalProCost: res["projectCost"],
-              totalExpCost: res["projectExp"],
+              totalProCost: res["projectCost"] ?? 0,
+              totalExpCost: res["projectExp"] ?? 0,
             };
             this.detailUtil = formdata;
             resolve("Success");
