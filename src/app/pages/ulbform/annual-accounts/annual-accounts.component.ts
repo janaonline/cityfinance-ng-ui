@@ -18,7 +18,6 @@ import { Router, Event } from "@angular/router";
 import { NavigationStart } from "@angular/router";
 const swal: SweetAlert = require("sweetalert");
 
-
 @Component({
   selector: "app-annual-accounts",
   templateUrl: "./annual-accounts.component.html",
@@ -54,7 +53,9 @@ export class AnnualAccountsComponent implements OnInit {
   routerNavigate = null;
   response;
   isDisabled = false;
-
+  clickedSave;
+  alertError = "Are you sure you want to proceed further?";
+  dialogRef;
   modalRef;
   temp;
   @HostBinding("")
@@ -256,13 +257,13 @@ export class AnnualAccountsComponent implements OnInit {
     if (!this.clickedSave) {
       this._router.events.subscribe(async (event: Event) => {
         if (event instanceof NavigationStart) {
+          this.alertError = "Are you sure you want to proceed further?";
           const changeInAnnual = sessionStorage.getItem("changeInAnnual");
-          if (event.url === "/") {
-            sessionStorage.setItem("changeInAnnual", "true");
+          if (event.url === "/" || event.url === "/login") {
+            sessionStorage.setItem("changeInAnnual", "false");
             return;
           }
           if (changeInAnnual === "true" && this.routerNavigate === null) {
-            if (this.dialogRef) this.dialogRef.hide();
             const currentRoute = this._router.routerState;
             this._router.navigateByUrl(currentRoute.snapshot.url, {
               skipLocationChange: true,
@@ -273,7 +274,6 @@ export class AnnualAccountsComponent implements OnInit {
         }
       });
     }
-
   }
 
   clickedPreview(template) {
@@ -287,7 +287,7 @@ export class AnnualAccountsComponent implements OnInit {
       width: "85vw",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => { });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   onLoad() {
@@ -372,12 +372,20 @@ export class AnnualAccountsComponent implements OnInit {
     await this.checkForm(this.unauditResponse);
     await this.checkForm(this.auditResponse);
     if (!this.unauditResponse.isCompleted || !this.auditResponse.isCompleted) {
+      this.alertError =
+        "Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?";
       this.openDialog(template);
       return;
     }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
-    sessionStorage.setItem("changeInAnnual", "true");
+     swal({
+      title: "Submitted",
+      text: "Record submitted successfully!",
+      icon: "success",
+    });
+    
+    sessionStorage.setItem("changeInAnnual", "false");
     return this._router.navigate(["ulbform/service-level"]);
   }
 
@@ -388,7 +396,6 @@ export class AnnualAccountsComponent implements OnInit {
           const status = JSON.parse(sessionStorage.getItem("allStatus"));
           status.annualAccounts.isSubmit = res["isCompleted"];
           this._ulbformService.allStatus.next(status);
-          swal("Record submitted successfully!");
           resolve("success");
         },
         (err) => {
@@ -401,16 +408,17 @@ export class AnnualAccountsComponent implements OnInit {
   checkForm(form) {
     return new Promise((res, rej) => {
       if (
-        form.submit_annual_accounts.answer === "no" ||
-        form.submit_annual_accounts.answer === null
-      ) {
-        delete form.provisional_data;
-      }
-      if (
         form.submit_standardized_data.answer === "no" ||
         form.submit_standardized_data.answer === null
       ) {
         delete form.standardized_data;
+      }
+      if (form.submit_annual_accounts.answer === "no") {
+        delete form.provisional_data;
+        form["isCompleted"] = true;
+        return res("sucess");
+      } else if (form.submit_annual_accounts.answer === null) {
+        delete form.provisional_data;
       }
       let flag = false;
       for (let key in form) {
@@ -492,20 +500,15 @@ export class AnnualAccountsComponent implements OnInit {
         break;
     }
   }
-  clickedSave;
+
   async clickedSaveAndNext(template) {
     this.clickedSave = true;
     let changeHappen = sessionStorage.getItem("changeInAnnual");
-    if (changeHappen === 'true') {
-      await this.submit(template);
-      sessionStorage.setItem("changeInAnnual", "false")
-      this._router.navigate(["ulbform/service-level"]);
-      return;
+    if (changeHappen === "true") {
+      this.submit(template);
     } else {
       return this._router.navigate(["ulbform/service-level"]);
     }
-
-
   }
   answer(question, val, isAudit = null, fromStart = false) {
     switch (question) {
@@ -537,7 +540,7 @@ export class AnnualAccountsComponent implements OnInit {
 
   clearFile(path, type = null, fromUploadExcel = null) {
     if (this.isDisabled) {
-      return true
+      return true;
     }
     const clearPathArray = fromUploadExcel ? path : path.split(".");
     if (type) {
@@ -674,7 +677,7 @@ export class AnnualAccountsComponent implements OnInit {
       let newObj = {
         alias:
           this[progressArray[0]][progressArray[1]][this.progressArray[2]][
-          "excelUrl"
+            "excelUrl"
           ],
         financialYear: "",
         design_year: this[progressArray[0]]["design_year"],
@@ -735,7 +738,7 @@ export class AnnualAccountsComponent implements OnInit {
       const tempResponse = JSON.stringify(this.unauditResponse);
       const tempResponseLast = JSON.stringify(annualAccounts[0]);
       if (tempResponse != tempResponseLast) {
-        sessionStorage.setItem("changeInAnnual", "false");
+        sessionStorage.setItem("changeInAnnual", "true");
       }
     } else {
       const tempResponse = JSON.stringify(
@@ -750,29 +753,47 @@ export class AnnualAccountsComponent implements OnInit {
     }
   }
 
-
-  dialogRef
   openDialog(template) {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this._matDialog.open(template, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      if(result === undefined){
+        if (this.routerNavigate) {
+          this.routerNavigate = null;
+        }
+      }
+    });
   }
   async stay() {
-    await this.dialogRef.close();
+    await this.dialogRef.close(true);
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
   }
   async proceed() {
-    await this.dialogRef.close();
+    await this.dialogRef.close(true);
     if (this.routerNavigate) {
       await this.save(this.unauditResponse);
       await this.save(this.auditResponse);
+       swal({
+        title: "Submitted",
+        text: "Record submitted successfully!",
+        icon: "success",
+      });
+      
+      sessionStorage.setItem("changeInAnnual", "false");
       this._router.navigate([this.routerNavigate.url]);
       return;
     }
-
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
+     swal({
+      title: "Submitted",
+      text: "Record submitted successfully!",
+      icon: "success",
+    });
+    
+    sessionStorage.setItem("changeInAnnual", "false");
     return this._router.navigate(["ulbform/service-level"]);
   }
   alertClose() {
