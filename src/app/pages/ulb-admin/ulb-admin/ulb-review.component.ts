@@ -74,6 +74,7 @@ nodataFound = false;
   population_type_s = new FormControl('');
   ua_name_s = new FormControl('');
   status_s = new FormControl('');
+
   ngOnInit(): void {
      let lData = JSON.parse(localStorage.getItem('userData'));
      this.ulbService.getMasterTabel()
