@@ -250,7 +250,6 @@ width: 5% !important;
 
   </style>`;
   ngOnInit(): void {
-    debugger
     console.log('pramod', this.data);
     if (this.parentData) {
       this.genrateParentData();
