@@ -834,12 +834,10 @@ margin-left : .5rem !important;
           this.slbWaterSanitaion =
             res["data"] && res["data"][0] ? res["data"][0] : {};
 
-          let tem =
-            this.slbWaterSanitaion.waterPotability?.documents
+          let tem = this.slbWaterSanitaion.waterPotability?.documents
               .waterPotabilityPlan[0];
           if (tem) this.slbWaterSanitaion.waterPotability = tem;
           else this.slbWaterSanitaion = this.slbWaterSanitaionError;
-
           this.slbWaterSanitaion.fromParent = true;
           resolve(res);
         },
