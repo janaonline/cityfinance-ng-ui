@@ -278,6 +278,7 @@ export class AnnualPreviewComponent implements OnInit {
     },
   };
   ngOnInit(): void {
+    this.download = false;
     if (this.data) {
       this.parentData = this.data;
       this.fromParent = false
@@ -294,7 +295,9 @@ export class AnnualPreviewComponent implements OnInit {
       this.year2019 = this.parentData[0];
     }
   }
+  download
   clickedDownloadAsPDF(template) {
+    this.download = true
     let changeHappen = sessionStorage.getItem("changeInAnnual");
     if (changeHappen === 'true') {
       this.openDialog(template);
@@ -367,11 +370,9 @@ export class AnnualPreviewComponent implements OnInit {
     // this._matDialog.closeAll('Hello');
     // this._matDialog.ngOnDestroy()
 
-    sessionStorage.setItem("changeInAnnual", "false");
-
     await this.submit()
-
-
+    await this.downloadAsPDF();
+    sessionStorage.setItem("changeInAnnual", "false");
   }
 
 

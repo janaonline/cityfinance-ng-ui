@@ -435,7 +435,7 @@
             <div class="col-lg-6 col-md-6 col-sm-6 text-right">
                 <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
                 <button type="button" class="btn footerBtn" id="saveNext" [disabled]="isDisabled"
-                    (click)="saveAndNext(template)">SAVE AND NEXT</button>
+                    (click)="saveAndNext(template1)">SAVE AND NEXT</button>
             </div>
         </div>
 
@@ -456,8 +456,31 @@
             Are you sure you want to proceed further?
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; width:auto"
+                (click)="proceed()">Save &
                 Proceed</button>
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #template1>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
+        </p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
+                (click)="proceed()">Proceed</button>
         </div>
 
     </div>

@@ -15,7 +15,7 @@ import { USER_TYPE } from "../../../models/user/userType";
 import { UserUtility } from "../../../util/user/user";
 import { ProfileService } from "../../../users/profile/service/profile.service";
 import { IState } from "../../../models/state/state";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { UtiReportService } from "./uti-report.service";
 import { CommonService } from "src/app/shared/services/common.service";
 import { Router, Event } from "@angular/router";
@@ -49,7 +49,8 @@ export class UtilisationReportComponent implements OnInit {
   draft = true;
   constructor(
     private fb: FormBuilder,
-    public dialog: MatDialog,
+    private dialog: MatDialog,
+    private _matDialog: MatDialog,
     private cd: ChangeDetectorRef,
     private _commonService: CommonService,
     private profileService: ProfileService,
@@ -73,6 +74,7 @@ export class UtilisationReportComponent implements OnInit {
   //   id : 0
   // }];
   @ViewChild("templateUtil") template;
+  @ViewChild("template1") template1;
   routerNavigate = null;
   totalclosingBal: Number = 0;
   projectCost = 0;
@@ -120,7 +122,7 @@ export class UtilisationReportComponent implements OnInit {
   // }
 
   ngOnInit() {
-
+    this.clickedSave = false
     sessionStorage.setItem("canNavigate", "true");
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;
@@ -134,24 +136,28 @@ export class UtilisationReportComponent implements OnInit {
   }
 
   navigationCheck() {
-    this._router.events.subscribe(async (event: Event) => {
-      if (event instanceof NavigationStart) {
-        const canNavigate = sessionStorage.getItem("canNavigate");
-        if (event.url === "/") {
-          sessionStorage.setItem("canNavigate", "true")
-          return
+    if (!this.clickedSave) {
+      this._router.events.subscribe(async (event: Event) => {
+
+        if (event instanceof NavigationStart) {
+          const canNavigate = sessionStorage.getItem("canNavigate");
+          if (event.url === "/") {
+            sessionStorage.setItem("canNavigate", "true")
+            return
+          }
+          if (canNavigate === "false" && this.routerNavigate === null) {
+            // this.dialogReference.close();
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, {
+              skipLocationChange: true,
+            });
+            this.routerNavigate = event;
+            this.openDialogBox(this.template);
+          }
         }
-        if (canNavigate === "false" && this.routerNavigate === null) {
-          if (this.modalRef) this.modalRef.hide();
-          const currentRoute = this._router.routerState;
-          this._router.navigateByUrl(currentRoute.snapshot.url, {
-            skipLocationChange: true,
-          });
-          this.routerNavigate = event;
-          this.openModal(this.template);
-        }
-      }
-    });
+      });
+    }
+
   }
 
   currentChanges() {
@@ -416,17 +422,84 @@ export class UtilisationReportComponent implements OnInit {
       this.isSumEqual = false;
     }
   }
+  submitData() {
+    this.submitted = true;
+    console.log(this.utilizationReport);
+    //  console.log(this.utilizationReport.value);
+    let user_data = JSON.parse(localStorage.getItem('userData'));
 
+    this.fd = this.utilizationReport.value;
+    this.fd.isDraft = true;
+    this.fd.financialYear = this.financialYear;
+    this.fd.designYear = this.designYear;
+    this.fd.grantType = 'Tied';
+    this.fd.grantPosition.closingBal = this.totalclosingBal;
+    this.fd.ulb = user_data.ulb;
+    console.log(this.fd);
+    let len = this.tabelRows.length;
+    for (let i = 0; i < len; i++) {
+      const control = this.tabelRows.controls[i]["controls"]["photos"];
+      console.log('prk', control.length);
+      if (control.length == 0) {
+        this.fd.isDraft = true;
+        i = len;
+
+      } else {
+        this.fd.isDraft = false;
+      }
+
+    }
+    if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
+      // this.fd.isDraft = false;
+      console.log('if')
+      console.log('api data', this.fd)
+      this.apiCall(this.fd);
+      console.log('form submitted', this.fd);
+
+    } else {
+      console.log('else')
+      this.fd.isDraft = true;
+      this.apiCall(this.fd);
+    }
+  }
   onSubmit() {
     alert("Submit and Next?");
   }
-
+  helpData
   onPreview() {
+    let user_data = JSON.parse(localStorage.getItem('userData'));
+    this.helpData = this.utilizationReport.value;
+    this.helpData.isDraft = true;
+    this.helpData.financialYear = this.financialYear;
+    this.helpData.designYear = this.designYear;
+    this.helpData.grantType = 'Tied';
+    this.helpData.grantPosition.closingBal = this.totalclosingBal;
+    this.helpData.ulb = user_data.ulb;
+    if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
+      // this.fd.isDraft = false;
+
+      let len = this.tabelRows.length;
+      for (let i = 0; i < len; i++) {
+        const control = this.tabelRows.controls[i]["controls"]["photos"];
+        console.log('prk', control.length);
+        if (control.length == 0) {
+          this.helpData.isDraft = true;
+          i = len;
+
+        } else {
+          this.helpData.isDraft = false;
+        }
+
+      }
+    }
+    console.log(this.utilizationForm)
+    console.log(this.utilizationReport)
     let formdata = {
+      useData: this.helpData,
       state_name: this.utilizationForm.controls.stateName.value,
       ulbName: this.utilizationForm.controls.ulb.value,
 
-      grntType: this.utilizationForm.controls.grantType.value,
+      grantType: this.utilizationForm.controls.grantType.value,
       grantPosition: {
         unUtilizedPrevYr:
           this.utilizationReport.controls["grantPosition"]["controls"][
@@ -441,7 +514,7 @@ export class UtilisationReportComponent implements OnInit {
             "expDuringYr"
           ].value,
         closingBal: this.totalclosingBal,
-        isDraft: true,
+        // isDraft: true,
       },
       projects: this.utilizationReport.getRawValue().projects,
 
@@ -462,6 +535,7 @@ export class UtilisationReportComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(PreviewUtiFormComponent, {
       data: formdata,
+
       height: "100%",
       width: "100%",
       panelClass: "no-padding-dialog",
@@ -594,65 +668,88 @@ export class UtilisationReportComponent implements OnInit {
       }
     );
   }
+  clickedSave = false
+  saveAndNext(template1) {
+    this.clickedSave = true
+    let canNavigate = sessionStorage.getItem("canNavigate")
+    if (canNavigate === "true") {
+      this._router.navigate(["ulbform/annual_acc"]);
+      return;
+    } else {
+      this.submitted = true;
+      console.log(this.utilizationReport);
+      //  console.log(this.utilizationReport.value);
+      let user_data = JSON.parse(localStorage.getItem('userData'));
 
-  saveAndNext(template) {
-    this.submitted = true;
-    console.log(this.utilizationReport);
-    //  console.log(this.utilizationReport.value);
-    let user_data = JSON.parse(localStorage.getItem('userData'));
+      this.fd = this.utilizationReport.value;
+      this.fd.isDraft = true;
+      this.fd.financialYear = this.financialYear;
+      this.fd.designYear = this.designYear;
+      this.fd.grantType = 'Tied';
+      this.fd.grantPosition.closingBal = this.totalclosingBal;
+      this.fd.ulb = user_data.ulb;
+      if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
+        // this.fd.isDraft = false;
+        console.log(this.fd);
+        let len = this.tabelRows.length;
+        for (let i = 0; i < len; i++) {
+          const control = this.tabelRows.controls[i]["controls"]["photos"];
+          console.log('prk', control.length);
+          if (control.length == 0) {
+            this.fd.isDraft = true;
+            i = len;
 
-    this.fd = this.utilizationReport.value;
-    this.fd.isDraft = true;
-    this.fd.financialYear = this.financialYear;
-    this.fd.designYear = this.designYear;
-    this.fd.grantType = 'Tied';
-    this.fd.grantPosition.closingBal = this.totalclosingBal;
-    this.fd.ulb = user_data.ulb;
-    if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
-      // this.fd.isDraft = false;
-      console.log(this.fd);
-      let len = this.tabelRows.length;
-      for (let i = 0; i < len; i++) {
-        const control = this.tabelRows.controls[i]["controls"]["photos"];
-        console.log('prk', control.length);
-        if (control.length == 0) {
-          this.fd.isDraft = true;
-          i = len;
+          } else {
+            this.fd.isDraft = false;
+          }
 
-        } else {
-          this.fd.isDraft = false;
         }
-
+        console.log('api data', this.fd)
+        this.apiCall(this.fd);
+        console.log('form submitted', this.fd);
+        return this._router.navigate(["ulbform/annual_acc"]);
       }
-      this.apiCall(this.fd);
-      console.log('form submitted', this.fd);
-      return this._router.navigate(["ulbform/annual_acc"]);
-    }
-    else {
-      this.openModal(template);
-    }
+      else {
+        this.openDialogBox(template1);
+      }
 
-
+    }
 
   }
 
   previewClicked() {
     this.onPreview();
   }
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: "modal-md" });
+
+  dialogReference
+  openDialogBox(template) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogReference = this._matDialog.open(template, dialogConfig);
   }
 
+
   stay() {
-    if (this.modalRef) this.modalRef.hide();
+    this.dialogReference.close();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
   }
 
-  proceed() {
-    if (this.modalRef) this.modalRef.hide();
-    if (this.routerNavigate) {
+
+  async proceed() {
+    await this.dialogReference.close();
+    let canNavigate = sessionStorage.getItem("canNavigate");
+    if (this.clickedSave) {
+      await this.submitData();
+      sessionStorage.setItem("canNavigate", "true")
+      this._router.navigate(["ulbform/annual_acc"])
+      return;
+    }
+    if (this.routerNavigate && canNavigate === "true") {
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    } else if (this.routerNavigate && canNavigate === "false") {
+      await this.submitData();
       this._router.navigate([this.routerNavigate.url]);
       return;
     }
