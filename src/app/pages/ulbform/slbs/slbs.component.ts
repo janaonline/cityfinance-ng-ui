@@ -104,9 +104,8 @@ export class SlbsComponent implements OnInit {
 
         this.slbId = res['data'] && res['data'][0] ? res['data'][0]._id : ''
 
-        resolve(res)
         sessionStorage.setItem("slbData", JSON.stringify(res))
-
+        resolve(res)
       })
 
     })

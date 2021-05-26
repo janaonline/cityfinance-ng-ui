@@ -36,7 +36,7 @@ export class PfmsPreviewComponent implements OnInit {
   .heading-p {
       color: #FFFFFF;
       font-size: 18px;
-      padding-top: 1.5rem !important;
+      padding-top: 1rem !important;
       font-weight: 700;
 
   }
