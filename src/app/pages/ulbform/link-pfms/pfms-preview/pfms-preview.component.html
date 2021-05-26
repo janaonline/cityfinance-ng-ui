@@ -8,15 +8,18 @@
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
                 </mat-icon>
             </a>
-            <div class="col-sm-12 heading-p">
-                Linking of PFMS Account : 2021-22
+
+            <div class="col-sm-12 heading-p " [ngStyle]="{'margin-top':!parentData  ? '1.5rem' : '2.5rem'}">
+                <span *ngIf="!parentData">15th FC Grants for 2021-22</span>
+                <br *ngIf="!parentData">
+                Linking of PFMS Account
             </div>
 
         </div>
     </div>
     <div class="d-flex justify-content-between mt-2" style="padding-left: 2%">
         <p class="form-status">
-            <b>Application Current Status:</b> N/A
+            <b>Application Current Status:</b> {{ formStatusCheck }}
         </p>
 
         <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%"

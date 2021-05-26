@@ -6,7 +6,7 @@ import { Router, NavigationStart, Event } from "@angular/router";
 import { ProfileService } from "src/app/users/profile/service/profile.service";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { USER_TYPE } from "src/app/models/user/userType";
-import { MatDialog,MatDialogConfig } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { PfmsPreviewComponent } from "./pfms-preview/pfms-preview.component";
 import { UlbformService } from "../ulbform.service";
 import { SweetAlert } from "sweetalert/typings/core";
@@ -116,29 +116,31 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     this.account = 'yes';
     if (this.prevState === 'no')
       this.linked = '';
-    if (!this.change)
-      this.checkDiff();
+    this.checkDiff();
   }
   onClickNo() {
+
     this.showQuestion2 = false;
     this.isClicked = false;
     this.account = 'no';
     this.prevState = this.account;
     this.linked = 'no';
-    if (!this.change)
-      this.checkDiff();
+    // if (!this.change)
+    this.checkDiff();
   }
   onClickYES() {
+
     this.isClicked = true
     this.linked = 'yes';
-    if (!this.change)
-      this.checkDiff();
+    // if (!this.change)
+    this.checkDiff();
   }
   onClickNO() {
+
     this.isClicked = false
     this.linked = 'no'
-    if (!this.change)
-      this.checkDiff();
+    // if (!this.change)
+    this.checkDiff();
   }
 
   fd = {
@@ -213,7 +215,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       this.dialogRef = this.dialog.open(template, dialogConfig);
       this.dialogRef.afterClosed().subscribe((result) => {
-        if(result === undefined){
+        console.log('result', result)
+        if (result === undefined) {
           if (this.routerNavigate) {
             this.routerNavigate = null;
           }
@@ -262,6 +265,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     if (!pfmsAccounts) {
       sessionStorage.setItem("changeInPFMSAccount", "true");
       this.change = true;
+      return;
     }
     console.log(this.fd);
     console.log(JSON.parse(sessionStorage.getItem("pfmsAccounts")))
@@ -296,7 +300,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     await this.dialogRef.close(true);
     if (this.routerNavigate) {
       await this.postData();
-    sessionStorage.setItem("changeInPFMSAccount", "false");
+      sessionStorage.setItem("changeInPFMSAccount", "false");
       this._router.navigate([this.routerNavigate.url]);
       return
     }
@@ -312,14 +316,19 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     this.stay();
   }
 
-
+  value
   onPreview() {
 
+    if (this.account != '' && this.linked != '') {
+      this.value = false;
+    } else {
+      this.value = true;
+    }
     let preData = {
       'account': this.account,
       'linked': this.linked,
       "design_year": this.design_year,
-      "year": '2021-22'
+      "isDraft": this.value
     }
     console.log('preData', preData)
     const dialogRef = this.dialog.open(PfmsPreviewComponent,

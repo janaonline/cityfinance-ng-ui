@@ -6,6 +6,7 @@ import { defaultDailogConfiuration } from '../../../questionnaires/state/configs
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { SweetAlert } from "sweetalert/typings/core";
 import { LinkPFMSAccount } from "../link-pfms.service";
+import { UlbformService } from "../../ulbform.service";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-pfms-preview',
@@ -20,6 +21,7 @@ export class PfmsPreviewComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private _questionnaireService: QuestionnaireService,
     private LinkPFMSAccount: LinkPFMSAccount,
+    private _ulbformService: UlbformService,
 
     private _matDialog: MatDialog,
     private modalService: BsModalService,) { }
@@ -69,10 +71,24 @@ export class PfmsPreviewComponent implements OnInit {
 
     </style>`
 
+  formStatusCheck = ''
+
   @Input() parentData
   @Output() change = new EventEmitter<any>();
   errMessage = ''
   ngOnInit(): void {
+    let getData = JSON.parse(sessionStorage.getItem("pfmsAccounts"));
+    console.log(getData)
+    if (getData['response']['isDraft'] == true) {
+      console.log('1')
+      this.formStatusCheck = 'In Progress'
+    } else if (getData['response']['isDraft'] == false) {
+      console.log('2')
+      this.formStatusCheck = 'Completed'
+    } else {
+      console.log('3')
+      this.formStatusCheck = 'Not Started'
+    }
     this.clicked = false
     if (this.parentData) {
       this.data = this.parentData
@@ -151,9 +167,22 @@ export class PfmsPreviewComponent implements OnInit {
     // this._matDialog.ngOnDestroy()
     console.log('Check this value', this.data)
     sessionStorage.setItem("changeInPFMSAccount", "false");
+    console.log(this.data)
     this.LinkPFMSAccount.postData(this.data)
       .subscribe((res) => {
         console.log(res);
+        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        status.pfmsAccount.isSubmit = res["isCompleted"];
+        this._ulbformService.allStatus.next(status);
+        console.log(res)
+        if (res['isCompleted'] == true) {
+          console.log('true')
+          this.formStatusCheck = 'Completed'
+        }
+        else {
+          console.log('entered else, in progress')
+          this.formStatusCheck = 'In Progress'
+        }
         swal("Record submitted successfully!")
       },
         error => {
