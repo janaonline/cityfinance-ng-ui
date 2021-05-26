@@ -69,11 +69,11 @@ export class UlbformComponent implements OnInit {
 
   design_year = JSON.parse(localStorage.getItem("Years"))["2021-22"];
   allStatus = {
-    annualAccounts: { isSubmit: false },
-    pfmsAccount: { isSubmit: false },
-    plans: { isSubmit: false },
-    slbForWaterSupplyAndSanitation: { isSubmit: false },
-    utilReport: { isSubmit: false },
+    annualAccounts: { isSubmit: null },
+    pfmsAccount: { isSubmit: null },
+    plans: { isSubmit: null },
+    slbForWaterSupplyAndSanitation: { isSubmit: null },
+    utilReport: { isSubmit: null },
   };
   async ngOnInit() {
     this.ulbformService.allStatus.subscribe((status) => {
