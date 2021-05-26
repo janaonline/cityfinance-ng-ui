@@ -250,6 +250,7 @@ width: 5% !important;
 
   </style>`;
   ngOnInit(): void {
+    debugger
     console.log('pramod', this.data);
     if (this.parentData) {
       this.genrateParentData();
@@ -270,8 +271,8 @@ width: 5% !important;
     this.parentData.totalProCost = 0;
     this.parentData.totalExpCost = 0;
     this.parentData.projects.forEach((element) => {
-      this.parentData.totalProCost += parseFloat(element.cost);
-      this.parentData.totalExpCost += parseFloat(element.expenditure);
+      this.parentData.totalProCost += parseFloat(element.cost == '' ? 0 : element.cost);
+      this.parentData.totalExpCost += parseFloat(element.expenditure == '' ? 0 : element.expenditure);
     });
     this.data = this.parentData;
   }
