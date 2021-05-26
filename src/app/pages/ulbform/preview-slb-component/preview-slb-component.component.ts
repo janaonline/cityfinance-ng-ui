@@ -153,7 +153,7 @@ export class PreviewSlbComponentComponent implements OnInit {
     this.data = this.formatResponse(this.data);
     this.data.history=null;
     console.log('hi', JSON.stringify(this.data));
-    if(this.data.preWater.index != undefined){
+    if(this.data.preWater?.index != undefined){
 
       this.fileName = this.data.preWater.plan.name;
       this.fileUrl = this.data.preWater.plan.url;
