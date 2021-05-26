@@ -1,12 +1,18 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { CommonService } from "src/app/shared/services/common.service";
 import { PreviewSlbComponentComponent } from "../preview-slb-component/preview-slb-component.component";
 import { UtiReportService } from "../utilisation-report/uti-report.service";
 import { LinkPFMSAccount } from "../link-pfms/link-pfms.service";
 import { WaterSanitationService } from "../water-sanitation/water-sanitation.service";
 import { AnnualAccountsService } from "../annual-accounts/annual-accounts.service";
-import { QuestionnaireService } from '../../questionnaires/service/questionnaire.service';
+import { QuestionnaireService } from "../../questionnaires/service/questionnaire.service";
 import { defaultDailogConfiuration } from "../../questionnaires/ulb/configs/common.config";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
 import { templateJitUrl } from "@angular/compiler";
@@ -27,27 +33,13 @@ export class UlbformPreviewComponent implements OnInit {
     public annualAccountsService: AnnualAccountsService,
 
     private UtiReportService: UtiReportService,
-    private _questionnaireService: QuestionnaireService,private _matDialog: MatDialog
-  ) {
-    this.UtiReportService.getCategory().subscribe((res) => {
-      let obj = {};
-      for (const key in res) {
-        let id = res[key]["_id"];
-        obj[id] = res[key]["name"];
-      }
-      this.categories = obj;
-    });
-    this.commonService.fetchStateList().subscribe((res) => {
-      let stateId = JSON.parse(localStorage.getItem("userData"))["state"];
-      for (const it of res) {
-        if (it._id == stateId) {
-          this.stateName = it.name;
-          break;
-        }
-      }
-    });
-  }
-  styleForPDF=`<style>
+    private _questionnaireService: QuestionnaireService,
+    private _matDialog: MatDialog
+  ) {}
+
+  
+
+  styleForPDF = `<style>
   .b-hide{
     display: none;
   }
@@ -441,9 +433,7 @@ margin-left : .5rem !important;
   font-weight: normal !important;
   font-size: 10px !important;
 }
-  </style>`
-
-
+  </style>`;
 
   detailUtilError = {
     grantPosition: {
@@ -483,6 +473,7 @@ margin-left : .5rem !important;
       },
     ],
   };
+
   slbWaterSanitaionError = {
     ulb: {
       code: null,
@@ -571,19 +562,22 @@ margin-left : .5rem !important;
       rejectReason: null,
     },
     waterPotability: {
-            name: null,
-            url: null,
+      name: null,
+      url: null,
     },
     water_index: null,
     fromParent: null,
   };
+
   waterSanitation;
+
   pfmsError = {
     response: {
       account: null,
       linked: null,
     },
   };
+
   annualAccountError = [
     {
       design_year: null,
@@ -785,6 +779,8 @@ margin-left : .5rem !important;
   }
 
   async onLoad() {
+    await this.getCat()
+    await this.getsState()
     this.accessGrant();
     await this.getLinkPfms();
     await this.detailUtilData();
@@ -801,33 +797,32 @@ margin-left : .5rem !important;
 
   detailUtilData() {
     return new Promise((resolve, reject) => {
-
-      this.utiReportService.fetchPosts(this.designYear, this.financialYear, null).subscribe(
-        (res) => {
-
-          res["projects"].forEach((element) => {
-            element.category = this.categories[element.category];
-          });
-          let formdata = {
-            state_name: this.stateName,
-            ulbName: JSON.parse(localStorage.getItem("userData"))["name"],
-            grntType: res["grantType"],
-            grantPosition: res["grantPosition"],
-            projects: res["projects"],
-            name: res["name"],
-            designation: res["designation"],
-            totalProCost: res["projectCost"],
-            totalExpCost: res["projectExp"],
-          };
-          this.detailUtil = formdata
-          resolve("Success");
-        },
-        (err) => {
-
-          this.detailUtil = this.detailUtilError;
-          resolve("Success");
-        }
-      );
+      this.utiReportService
+        .fetchPosts(this.designYear, this.financialYear, null)
+        .subscribe(
+          (res) => {
+            res["projects"].forEach((element) => {
+              element.category = this.categories[element.category];
+            });
+            let formdata = {
+              state_name: this.stateName,
+              ulbName: JSON.parse(localStorage.getItem("userData"))["name"],
+              grntType: res["grantType"],
+              grantPosition: res["grantPosition"],
+              projects: res["projects"],
+              name: res["name"],
+              designation: res["designation"],
+              totalProCost: res["projectCost"],
+              totalExpCost: res["projectExp"],
+            };
+            this.detailUtil = formdata;
+            resolve("Success");
+          },
+          (err) => {
+            this.detailUtil = this.detailUtilError;
+            resolve("Success");
+          }
+        );
     });
   }
 
@@ -838,14 +833,17 @@ margin-left : .5rem !important;
         (res) => {
           this.slbWaterSanitaion =
             res["data"] && res["data"][0] ? res["data"][0] : {};
-            let tem = this.slbWaterSanitaion.waterPotability.documents.waterPotabilityPlan[0]
-            this.slbWaterSanitaion.waterPotability = tem;
-            console.log('p122', this.slbWaterSanitaion);
+
+          let tem =
+            this.slbWaterSanitaion.waterPotability?.documents
+              .waterPotabilityPlan[0];
+          if (tem) this.slbWaterSanitaion.waterPotability = tem;
+          else this.slbWaterSanitaion = this.slbWaterSanitaionError;
+
           this.slbWaterSanitaion.fromParent = true;
           resolve(res);
         },
         (err) => {
-
           this.slbWaterSanitaion = this.slbWaterSanitaionError;
           resolve("Success");
         }
@@ -855,7 +853,7 @@ margin-left : .5rem !important;
 
   getLinkPfms() {
     return new Promise((resolve, reject) => {
-      this.linkPFMSAccount.getData(this.designYear, '').subscribe(
+      this.linkPFMSAccount.getData(this.designYear, "").subscribe(
         (res) => {
           this.pfms = res["response"];
           resolve("Success");
@@ -887,7 +885,7 @@ margin-left : .5rem !important;
       const param = {
         design_year: this.designYear,
       };
-      this.annualAccountsService.getData(param, '').subscribe(
+      this.annualAccountsService.getData(param, "").subscribe(
         (res) => {
           this.annualAccount = res["data"];
           resolve("Sucess");
@@ -899,6 +897,7 @@ margin-left : .5rem !important;
       );
     });
   }
+
   downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
@@ -938,4 +937,32 @@ margin-left : .5rem !important;
     return url;
   }
 
+  getCat() {
+    return new Promise((resolve, reject) => {
+      this.UtiReportService.getCategory().subscribe((res) => {
+        let obj = {};
+        for (const key in res) {
+          let id = res[key]["_id"];
+          obj[id] = res[key]["name"];
+        }
+        this.categories = obj;
+        resolve("success");
+      });
+    });
+  }
+
+  getsState() {
+    return new Promise((resolve, reject) => {
+      this.commonService.fetchStateList().subscribe((res) => {
+        let stateId = JSON.parse(localStorage.getItem("userData"))["state"];
+        for (const it of res) {
+          if (it._id == stateId) {
+            this.stateName = it.name;
+            break;
+          }
+        }
+        resolve("success")
+      });
+    });
+  }
 }

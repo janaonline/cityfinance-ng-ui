@@ -45,7 +45,7 @@ export class WaterSanitationComponent implements OnInit {
       if (!this.saveClicked) {
         if (event instanceof NavigationStart) {
           if (event.url === "/" || event.url === "/login") {
-            sessionStorage.setItem("changeInAnnual", "false");
+            sessionStorage.setItem("changeInPlans", "false");
             return;
           }
           const change = sessionStorage.getItem("changeInPlans");

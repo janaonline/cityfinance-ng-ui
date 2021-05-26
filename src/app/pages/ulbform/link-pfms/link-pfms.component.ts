@@ -42,6 +42,10 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       if (!this.saveClicked) {
         if (event instanceof NavigationStart) {
 
+          if (event.url === "/" || event.url === "/login") {
+            sessionStorage.setItem("changeInPFMSAccount", "false");
+            return;
+          }
           const change = sessionStorage.getItem("changeInPFMSAccount")
           if (change === "true" && this.routerNavigate === null) {
             this.routerNavigate = event
@@ -50,7 +54,6 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
             this.openModal(this.template);
           }
         }
-
       }
     });
   }

@@ -5,7 +5,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { JSONUtility } from 'src/app/util/jsonUtil';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog,MatDialogConfig } from '@angular/material/dialog';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { UlbformService } from '../ulbform.service';
 import { Router, NavigationStart, Event } from "@angular/router";
@@ -18,7 +18,7 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./slbs.component.scss']
 })
 export class SlbsComponent implements OnInit {
-  modalRef: BsModalRef;
+  dialogRef;
   waterWasteManagementForm: FormGroup;
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
@@ -38,6 +38,10 @@ export class SlbsComponent implements OnInit {
     this._router.events.subscribe(async (event: Event) => {
       if (!this.value?.saveData) {
         if (event instanceof NavigationStart) {
+          if (event.url === "/" || event.url === "/login") {
+            sessionStorage.setItem("changeInSLB", "false");
+            return;
+          }
           const change = sessionStorage.getItem("changeInSLB")
           if (change === "true" && this.routerNavigate === null) {
             this.routerNavigate = event
@@ -205,12 +209,20 @@ export class SlbsComponent implements OnInit {
       this.showPreview();
       return
     }
-    this.modalRef = this.modalService.show(template, { class: "modal-md" });
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this._matDialog.open(template, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      if(result === undefined){
+        if (this.routerNavigate) {
+          this.routerNavigate = null;
+        }
+      }
+    });
   }
 
 
   async proceed() {
-    await this.modalRef.hide();
+    await this.dialogRef.close(true);
     let changeHappen = sessionStorage.getItem("changeInSLB")
     if (this.routerNavigate && changeHappen === 'true') {
       console.log('this data is going', this.data)
@@ -222,9 +234,6 @@ export class SlbsComponent implements OnInit {
       return this._router.navigate(["ulbform/water-sanitation"]);
     }
     // this.onWaterWasteManagementEmitValue(this.data);
-
-
-
   }
   alertClose() {
     this.stay();
@@ -233,7 +242,7 @@ export class SlbsComponent implements OnInit {
 
 
   async stay() {
-    await this.modalRef.hide();
+    await this.dialogRef.close(true);
     if (this.routerNavigate) {
       this.routerNavigate = null
     }
