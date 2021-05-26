@@ -120,13 +120,13 @@ a {
     font-size: 18px;
     font-family: 'Roboto', sans-serif;
     position: relative;
-    // z-index: 2;
+    z-index: 2;
 }
 
 svg {
     overflow: overlay;
     position: relative;
-    // z-index: 1;
+    z-index: 1;
 }
 
 .save {
