@@ -20,9 +20,14 @@ a.anDisable {
     color: #373737;
     font-size: 20px;
     margin-top: 10px;
-    margin-left: 1.70%;
+    // margin-left: 1.70%;
     margin-bottom: 8px;
     font-weight: 500;
+}
+
+.m-ut-he {
+    margin-left: 0;
+    margin-right: 0;
 }
 
 #mapCon:hover {
@@ -102,6 +107,10 @@ th {
 #prevBtn {
     background-color: #0cc5c5;
     color: #FFFFFF;
+    height: 32px;
+    font-size: 12px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .prevBtnDiv {
@@ -139,26 +148,29 @@ label {
     font-weight: normal;
 }
 
-.footerBtnDiv {
-    margin-right: 10px;
-}
-
+// .footerBtnDiv {
+//     margin-right: -30px;
+//     margin-left: 0;
+// }
 .footerBtn {
-    margin-right: 15px;
-    width: 135px;
-    height: 36px;
+    // margin-right: 15px;
+    height: 32px;
     background-color: #26A1A1;
     color: #FFFFFF;
     font-weight: normal;
     font-size: 12px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .backbtn {
-    margin-right: 48rem;
     background-color: #CFCFCF;
     color: #FFFFFF;
-    width: 106px;
-    height: 36px;
+    width: auto;
+    height: 32px;
+    font-size: 12px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .table>tbody>tr>td,
@@ -195,6 +207,12 @@ label {
     border-color: red;
 }
 
+// input.form-control.ng-invalid {
+//     border-color: red;
+// }
+// select.ng-invalid {
+//     border-color: red;
+// }
 .text-danger {
     color: red;
 }
