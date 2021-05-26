@@ -10,7 +10,7 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogConfig } from "@angular/material/d
 import { QuestionnaireService } from "../../../questionnaires/service/questionnaire.service";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
 import { defaultDailogConfiuration } from "../../../questionnaires/state/configs/common.config";
-// 
+//
 import { Router, Event } from "@angular/router";
 import { UlbformService } from "../../ulbform.service";
 import { UtiReportService } from '../uti-report.service';
@@ -26,6 +26,7 @@ export class PreviewUtiFormComponent implements OnInit {
   @Input() parentData: any;
   @ViewChild("previewUti") _html: ElementRef;
   showLoader;
+  form_Status='';
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _questionnaireService: QuestionnaireService,
@@ -197,7 +198,9 @@ th {
 }
 .bor-in-l {
   word-break: break-all;
-  color: #51504F;
+}
+.long{
+  margin-left: .25rem;
 }
 .tableFooterDiv {
   background-color: #E7E7E7;
@@ -250,8 +253,6 @@ width: 5% !important;
 
   </style>`;
   ngOnInit(): void {
-    debugger
-    console.log('pramod', this.data);
     if (this.parentData) {
       this.genrateParentData();
     }
