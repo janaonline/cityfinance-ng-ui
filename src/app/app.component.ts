@@ -7,6 +7,9 @@ import { GlobalLoaderService } from './shared/services/loaders/global-loader.ser
 import { SessionService } from './shared/services/session/session.service';
 import { ProfileService } from './users/profile/service/profile.service';
 import { UserUtility } from './util/user/user';
+import { ConnectionService } from 'ng-connection-service';
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: "app-root",
@@ -22,7 +25,8 @@ export class AppComponent implements OnDestroy {
   constructor(
     public globalLoader: GlobalLoaderService,
     private sessionService: SessionService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private connectionService: ConnectionService
   ) {
     this.startSession();
     this.globalLoader
@@ -32,6 +36,15 @@ export class AppComponent implements OnDestroy {
         this.showLoader = loadingStatus;
       });
     this.addCustomScripts();
+    this.connectionService.monitor().subscribe(isConnected => {
+      if(!isConnected){
+        swal({
+          title: "No Internet Connection!",
+          text: "Please connect to internet",
+          icon: "warning",
+        });
+      }
+    })
     let userData: any = localStorage.getItem("userData");
     if (!userData) return;
     try {

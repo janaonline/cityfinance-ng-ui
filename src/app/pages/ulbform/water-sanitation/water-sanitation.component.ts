@@ -1,21 +1,8 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
-
-import { Router } from "@angular/router";
-import { HttpEventType, HttpResponse } from "@angular/common/http";
-//import { from, Observable } from 'rxjs';
-import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControlName,
-} from "@angular/forms";
-import { delay, map, max, retryWhen } from "rxjs/operators";
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Router, NavigationStart, Event } from "@angular/router";
 import { WaterSanitationService } from "./water-sanitation.service";
-//import { PathLocationStrategy } from '@angular/common';
-import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { WaterSanitationPreviewComponent } from "./water-sanitation-preview/water-sanitation-preview.component";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { UlbformService } from "../ulbform.service";
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
@@ -27,13 +14,13 @@ import { Subject } from "rxjs";
   styleUrls: ["./water-sanitation.component.scss"],
 })
 export class WaterSanitationComponent implements OnInit {
-  modalRef: BsModalRef;
+  dialogRefForNavigation;
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
    */
   errorSet = new Subject<any>();
 
-  isDraft = true;
+  isDraft = false;
   MIN_LENGTH = 1;
   MAX_LENGTH = 25;
   MAX_LENGTH_AREA = 200;
@@ -44,10 +31,7 @@ export class WaterSanitationComponent implements OnInit {
   waterToolTip;
 
   constructor(
-    private fb: FormBuilder,
-    private modalService: BsModalService,
     private _router: Router,
-    private dataEntryService: DataEntryService,
     private wsService: WaterSanitationService,
     public dialog: MatDialog,
     public _ulbformService: UlbformService
@@ -56,7 +40,32 @@ export class WaterSanitationComponent implements OnInit {
       const { keys, value } = res;
       this.compareValues(keys, value);
     });
+
+    this._router.events.subscribe(async (event: Event) => {
+      if (!this.saveClicked) {
+        if (event instanceof NavigationStart) {
+          if (event.url === "/") {
+            sessionStorage.setItem("changeInAnnual", "true");
+            return;
+          }
+          const change = sessionStorage.getItem("changeInPlans");
+          if (change === "true" && this.routerNavigate === null) {
+            this.routerNavigate = event;
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, {
+              skipLocationChange: true,
+            });
+            this.openModal(this.template);
+          }
+        }
+      }
+    });
   }
+
+  @ViewChild("template") template;
+  @ViewChild("template1") template1;
+  routerNavigate = null;
+  saveClicked = false;
 
   waterAndSanitation = {
     water: {
@@ -92,7 +101,7 @@ export class WaterSanitationComponent implements OnInit {
         before: false,
         after: false,
       },
-      check: this.PERCENTAGE,
+      check: null,
     },
     sanitation: {
       lengthError: {
@@ -104,7 +113,7 @@ export class WaterSanitationComponent implements OnInit {
         before: false,
         after: false,
       },
-      check: this.PERCENTAGE,
+      check: null,
     },
   };
 
@@ -151,34 +160,16 @@ export class WaterSanitationComponent implements OnInit {
           "plansData",
           JSON.stringify(this.waterAndSanitation)
         );
+        this.diffCheck();
         this.onLoadDataCheck(this.waterAndSanitation);
-        // if (plan) {
-        //   this.waterAndSanitation = {
-        //     water: {
-        //       name: plan.water.name,
-        //       component: plan.water.component,
-        //       serviceLevel: {
-        //         indicator: plan.water.serviceLevel.after,
-        //         existing: plan.water.serviceLevel.existing,
-        //         after: plan.water.serviceLevel.after,
-        //       },
-        //       cost: plan.water.cost,
-        //     },
-        //     sanitation: {
-        //       name: plan.sanitation.name,
-        //       component: plan.sanitation.component,
-        //       serviceLevel: {
-        //         indicator: plan.sanitation.serviceLevel.after,
-        //         existing: plan.sanitation.serviceLevel.existing,
-        //         after: plan.sanitation.serviceLevel.after,
-        //       },
-        //       cost: plan.sanitation.cost,
-        //     },
-        //   };
-        // }
       },
       (errMes) => {
         console.log(errMes);
+        sessionStorage.setItem(
+          "plansData",
+          JSON.stringify(this.waterAndSanitation)
+        );
+        this.diffCheck();
       }
     );
   }
@@ -200,14 +191,13 @@ export class WaterSanitationComponent implements OnInit {
             continue;
           }
           let type = key1 == "name" ? "text" : "textarea";
-          this.checkValidation(type, value.length, [`${key}`, `${key1}`]);
+          this.checkValidation(type, value?.length, [`${key}`, `${key1}`]);
         }
       }
     }
   }
 
   onPreview() {
-    
     const dialogRef = this.dialog.open(WaterSanitationPreviewComponent, {
       data: this.waterAndSanitation,
       maxHeight: "95vh",
@@ -223,29 +213,48 @@ export class WaterSanitationComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: "modal-md" });
+    // this.dialogRefForNavigation = this.modalService.show(template, { class: "modal-md" });
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRefForNavigation = this.dialog.open(template, dialogConfig);
+    this.dialogRefForNavigation.afterClosed().subscribe((result) => {
+      if(result === undefined){
+        if (this.routerNavigate) {
+          this.routerNavigate = null;
+        }
+      }
+    });
   }
 
   stay() {
-    this.modalRef.hide();
+    this.dialogRefForNavigation.close(true);
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
   }
 
   proceed() {
-    this.modalRef.hide();
-
-    console.log(this.body);
-
-    this.postsDataCall(this.body);
+    this.dialogRefForNavigation.close(true);
+    this.saveForm();
   }
 
   alertClose() {
-    this.modalRef.hide();
+    this.dialogRefForNavigation.close(true);
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
   }
 
-  saveForm(template) {
-    console.log(this.waterAndSanitation);
+  // discard(){
+  //   this.dialogRefForNavigation.close();
+  //   if (this.routerNavigate) {
+  //     this._router.navigate([this.routerNavigate.url]);
+  //   }
+  // }
+
+  saveForm(template = null) {
     this.body.plans = this.waterAndSanitation;
-    if (!this.isDraft) {
+    this.testForDraft();
+    if (!this.body.isDraft || template === null) {
       this.postsDataCall(this.body);
     } else {
       this.openModal(template);
@@ -254,15 +263,18 @@ export class WaterSanitationComponent implements OnInit {
 
   postsDataCall(body) {
     this.wsService.sendRequest(body).subscribe(
-      (res) => {
+      async (res) => {
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.plans.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
-        swal({
+        await swal({
           title: "Submitted",
           text: "Record submitted successfully!",
           icon: "success",
         });
+        if (this.routerNavigate) {
+          this._router.navigate([this.routerNavigate.url]);
+        }
       },
       (error) => {
         console.log(error);
@@ -276,7 +288,7 @@ export class WaterSanitationComponent implements OnInit {
     const value = e.target?.value ? e.target.value : e.value;
     let keys = path.split(".");
 
-    if (type) this.checkValidation(type, value.length, keys);
+    if (type) this.checkValidation(type, value?.length, keys);
     if (keys.length == 2) {
       this.waterAndSanitation[keys[0]][keys[1]] = value;
     } else {
@@ -285,6 +297,8 @@ export class WaterSanitationComponent implements OnInit {
       } else this.waterAndSanitation[keys[0]][keys[1]][keys[2]] = value;
       this.errorSet.next({ value, keys });
     }
+
+    this.diffCheck();
   }
 
   checkValidation(type, length, path) {
@@ -322,19 +336,73 @@ export class WaterSanitationComponent implements OnInit {
 
       if (val1 > type) {
         this.errors[path[0]].serviceLvlError.before = true;
+      } else {
+        this.errors[path[0]].serviceLvlError.before = false;
       }
       if (val2 > type) {
         this.errors[path[0]].serviceLvlError.after = true;
+      } else {
+        this.errors[path[0]].serviceLvlError.after = false;
       }
-      // else if (val1 && val2) {
-      //   if (val1 + val2 > type) {
-      //     this.errors[path[0]].serviceLvlError = true;
-      //   } else {
-      //     this.errors[path[0]].serviceLvlError = false;
-      //   }
-      // }
     }
     this.sanitationToolTip = `Value at max ${this.errors.sanitation.check}`;
     this.waterToolTip = `Value at max ${this.errors.water.check}`;
+  }
+
+  diffCheck() {
+    if (
+      JSON.stringify(this.waterAndSanitation) !=
+      sessionStorage.getItem("plansData")
+    ) {
+      sessionStorage.setItem("changeInPlans", "true");
+    } else {
+      sessionStorage.setItem("changeInPlans", "false");
+    }
+  }
+
+  testForDraft() {
+    const data = this.waterAndSanitation;
+    for (const key in data) {
+      for (const key1 in data[key]) {
+        if (key1 === "serviceLevel") {
+          for (const key2 in data[key][key1]) {
+            if (
+              data[key][key1][key2] === undefined ||
+              data[key][key1][key2] === null
+            ) {
+              this.body.isDraft = true;
+              return;
+            }
+          }
+        } else {
+          if (data[key][key1] === undefined || data[key][key1] === null) {
+            this.body.isDraft = true;
+            return;
+          }
+        }
+      }
+    }
+
+    const error = this.errors;
+    for (const key in error) {
+      if (error.hasOwnProperty(key)) {
+        for (const key1 in error[key]) {
+          if (key1 == "check") {
+            continue;
+          }
+          if (error[key].hasOwnProperty(key1)) {
+            for (const key2 in error[key][key1]) {
+              if (error[key][key1][key2] != false) {
+                this.body.isDraft = true;
+                return;
+              }
+            }
+          } else if (error[key][key1] != false) {
+            this.body.isDraft = true;
+            return;
+          }
+        }
+      }
+    }
   }
 }
