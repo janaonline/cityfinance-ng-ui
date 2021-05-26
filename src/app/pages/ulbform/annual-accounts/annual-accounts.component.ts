@@ -322,6 +322,7 @@ export class AnnualAccountsComponent implements OnInit {
           );
         },
         (err) => {
+
           const toStoreResponse = [this.auditResponse, this.unauditResponse];
           sessionStorage.setItem(
             "annualAccounts",

@@ -260,6 +260,8 @@ width: 5% !important;
     if (canNavigate === "false") {
       this.openDialog(template)
       return
+    } else {
+      this.downloadForm();
     }
 
   }
@@ -357,18 +359,25 @@ width: 5% !important;
   copyData
   async proceed(uploadedFiles) {
     // await this.modalRef.hide();
-    this._matDialog.closeAll();
+    await this._matDialog.closeAll();
     // this._matDialog.close(this.clicked);
     // this._matDialog.closeAll('Hello');
     // this._matDialog.ngOnDestroy()
 
     sessionStorage.setItem("canNavigate", "true");
-    console.log(this.data)
+    console.log('preview Data', this.data)
     this.copyData = this.data
     delete this.copyData['totalExpCost'];
     delete this.copyData['totalProCost'];
-    this.copyData['design_year'] = this.Years["2021-22"]
+    // delete this.copyData['ulbName'];
+    // delete this.copyData['state_name'];
+    this.copyData['designYear'] = this.Years["2021-22"]
+    this.copyData['financialYear'] = this.data['useData']['financialYear']
+    this.copyData['isDraft'] = this.data['useData']['isDraft']
+    this.copyData['ulb'] = this.data['useData']['ulb']
+    this.copyData['projects'] = this.data['useData']['projects']
 
+    console.log('copy Data', this.copyData)
     this.UtiReportService.createAndStorePost(this.copyData).subscribe(
       (res) => {
         swal("Record submitted successfully!");
@@ -383,6 +392,8 @@ width: 5% !important;
         console.log(this.errMessage);
       }
     );
+
+
 
   }
 }
