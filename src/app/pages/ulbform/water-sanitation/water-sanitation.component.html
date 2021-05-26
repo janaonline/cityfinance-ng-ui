@@ -1,6 +1,6 @@
 <div class="row" style="margin-bottom: 10px;">
     <div class="col-sm-8 col-lg-8 col-md-8">
-        <label for="" style="color:#373737; font-size: 20px; font-weight: 500; margin-left: 2px;">
+        <label for="" style="color:#373737; font-size: 20px !important; font-weight: 500; margin-left: 2px;">
             Plans for Water and Sanitation
         </label>
     </div>
@@ -38,11 +38,11 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input [ngClass]="{'error': errors.water.lengthError.text}" [matTooltip]="errors.water.lengthError.text ? 'at Max 25 Characters' : null" type="text" (keyup)="onKey($event,'water.name')"
+                                    <input [ngClass]="{'error': errors.water.lengthError.text}" matTooltipPosition="above" [matTooltip]="errors.water.lengthError.text ? 'at Max 25 Characters' : null" type="text" (keyup)="onKey($event,'water.name')"
                                         placeholder="Enter Project Name" value="{{waterAndSanitation.water.name}}">
                                 </td>
                                 <td>
-                                    <textarea type="textarea" [ngClass]="{'error': errors.water.lengthError.textarea}" [matTooltip]="errors.water.lengthError.textarea ? 'at Max 200 Characters' : null" (keyup)="onKey($event,'water.component')"
+                                    <textarea type="textarea" [ngClass]="{'error': errors.water.lengthError.textarea}" matTooltipPosition="above" [matTooltip]="errors.water.lengthError.textarea ? 'at Max 200 Characters' : null" (keyup)="onKey($event,'water.component')"
                                         placeholder="Enter Physical Components">{{waterAndSanitation.water.component}}</textarea>
                                 </td>
                                 <td>
@@ -57,12 +57,12 @@
                                     </mat-form-field>
                                 </td>
                                 <td>
-                                    <input type="number" [ngClass]="{'error': errors.water.serviceLvlError.before}" [matTooltip]="errors.water.serviceLvlError.before ? waterToolTip : null" (keyup)="onKey($event,'water.serviceLevel.existing')"
+                                    <input type="number" [ngClass]="{'error': errors.water.serviceLvlError.before}" matTooltipPosition="above" [matTooltip]="errors.water.serviceLvlError.before ? waterToolTip : null" (keyup)="onKey($event,'water.serviceLevel.existing')"
                                         placeholder="Enter Existing (As-is)"
                                         value="{{waterAndSanitation.water.serviceLevel.existing}}">
                                 </td>
                                 <td>
-                                    <input type="number" [ngClass]="{'error': errors.water.serviceLvlError.after}" [matTooltip]="errors.water.serviceLvlError.after ? waterToolTip : null" (keyup)="onKey($event,'water.serviceLevel.after')"
+                                    <input type="number" [ngClass]="{'error': errors.water.serviceLvlError.after}" matTooltipPosition="above" [matTooltip]="errors.water.serviceLvlError.after ? waterToolTip : null" (keyup)="onKey($event,'water.serviceLevel.after')"
                                         placeholder="Enter After (To-be)"
                                         value="{{waterAndSanitation.water.serviceLevel.after}}">
                                 </td>
@@ -94,11 +94,11 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type="text" [ngClass]="{'error': errors.sanitation.lengthError.text}" [matTooltip]="errors.sanitation.lengthError.text ? 'at Max 25 Characters' : null" (keyup)="onKey($event,'sanitation.name')"
+                                    <input type="text" [ngClass]="{'error': errors.sanitation.lengthError.text}" matTooltipPosition="above" [matTooltip]="errors.sanitation.lengthError.text ? 'at Max 25 Characters' : null" (keyup)="onKey($event,'sanitation.name')"
                                         placeholder="Enter Project Name" value="{{waterAndSanitation.sanitation.name}}">
                                 </td>
                                 <td>
-                                    <textarea type="textarea" [ngClass]="{'error': errors.sanitation.lengthError.textarea}" [matTooltip]="errors.sanitation.lengthError.textarea ? 'at Max 200 Characters' : null" (keyup)="onKey($event,'sanitation.component')"
+                                    <textarea type="textarea" [ngClass]="{'error': errors.sanitation.lengthError.textarea}" matTooltipPosition="above" [matTooltip]="errors.sanitation.lengthError.textarea ? 'at Max 200 Characters' : null" (keyup)="onKey($event,'sanitation.component')"
                                         placeholder="Enter Physical Components">{{waterAndSanitation.sanitation.component}}</textarea>
                                 </td>
                                 <td>
@@ -114,12 +114,12 @@
                                     </mat-form-field>
                                 </td>
                                 <td>
-                                    <input type="number" [ngClass]="{'error': errors.sanitation.serviceLvlError.before}" [matTooltip]="errors.sanitation.serviceLvlError.before ? sanitationToolTip : null" (keyup)="onKey($event,'sanitation.serviceLevel.existing')"
+                                    <input type="number" [ngClass]="{'error': errors.sanitation.serviceLvlError.before}" matTooltipPosition="above" [matTooltip]="errors.sanitation.serviceLvlError.before ? sanitationToolTip : null" (keyup)="onKey($event,'sanitation.serviceLevel.existing')"
                                         placeholder="Enter Existing (As-is)"
                                         value="{{waterAndSanitation.sanitation.serviceLevel.existing}}">
                                 </td>
                                 <td>
-                                    <input type="number" [ngClass]="{'error': errors.sanitation.serviceLvlError.after}" [matTooltip]="errors.sanitation.serviceLvlError.after ? sanitationToolTip : null" (keyup)="onKey($event,'sanitation.serviceLevel.after')"
+                                    <input type="number" [ngClass]="{'error': errors.sanitation.serviceLvlError.after}" matTooltipPosition="above" [matTooltip]="errors.sanitation.serviceLvlError.after ? sanitationToolTip : null" (keyup)="onKey($event,'sanitation.serviceLevel.after')"
                                         placeholder="Enter After (To-be)"
                                         value="{{waterAndSanitation.sanitation.serviceLevel.after}}">
                                 </td>
@@ -135,14 +135,15 @@
         </div>
         <div class="row" style="margin-top: 20px; margin-left: 10px;">
             <div class="col-sm-6">
-                <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../slbs']">BACK</a>
+                <button type="button" class="btn btn-secondary backbtn" [routerLink]="['../slbs']">BACK</button>
             </div>
             <div class="col-sm-6  text-right">
-                <button type="button" class="btn saveBtn" (click)="saveForm(template)">SAVE</button>
+                <button type="button" class="btn saveBtn" (click)="saveForm(template1)">SAVE</button>
             </div>
         </div>
     </div>
 </div>
+
 <ng-template #template>
     <div class="modal-body text-center">
         <div class="modal-header">
@@ -154,11 +155,35 @@
             </div>
         </div>
 
-        <p style="margin-top: 8px;">Some information is pending in this form.<br> Are you sure you want to save form?
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed further?
+        </p>
+        <div>
+            <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success "
+                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+                Save & Proceed</button>
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #template1>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;"
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
                 (click)="proceed()">Proceed</button>
         </div>
 
