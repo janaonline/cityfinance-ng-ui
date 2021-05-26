@@ -46,29 +46,73 @@ singleSlideOffset = true;
 noWrap = true;
 val = 0;
 cardFit= false;
-slides = [
-  {image: '../../../../assets//ulbform/lpa.svg'},
-  {image: '../../../../assets//ulbform/gtc.svg '},
-  {image: '../../../../assets/ulbform/dur.svg'},
-  {image: '../../../../assets/ulbform/aa.svg'},
-  {image: '../../../../assets/ulbform/slb.svg'},
-  {image: '../../../../assets/ulbform/mpccf.svg'},
-  {image: '../../../../assets/ulbform/plan for water and sanitation.svg'}
-];
-public innerWidth: number;
+cardsOverview= [{
+  label : "PFMS",
+  link: '../pfms_acc',
+  title: 'Linking PFMS Account',
+  tooltip: "tooltip",
+  image: '../../../../assets//ulbform/lpa.svg',
+  permittedAccounts: [""],
+  display: ['']
+  },
+  {
+  label : "Grant Transfer Certificate",
+  link: '../grant-tra-certi',
+  title: "Grant Transfer Certificate",
+  tooltip: "tooltip",
+  image: '../../../../assets//ulbform/gtc.svg',
+  permittedAccounts: [""],
+  display: ['']
+  },
+  {
+    label : "Utilization Report",
+    link: '../utilisation-report',
+    title: "Detailed Utilization Report",
+    tooltip: "tooltip",
+    image: '../../../../assets/ulbform/dur.svg',
+    permittedAccounts: [""],
+    display: ['']
+  },
+  {
+     label : "Annual Acconts",
+     link: '../annual_acc',
+     title: "Annual Accounts",
+     tooltip: "tooltip",
+     image: '../../../../assets/ulbform/aa.svg',
+     permittedAccounts: [""],
+     display: ['']
+   },
+   {
+     label : "service-level",
+     link: '../service-level',
+     title: "Service Level Benchmarks",
+     tooltip: "tooltip",
+     image:  '../../../../assets/ulbform/slb.svg',
+     permittedAccounts: [""],
+     display: ['']
+   },
+   {
+     label : "slbs",
+     link: '../slbs',
+     title: "Million Plus City Challenge Fund",
+     tooltip: "tooltip",
+     image: '../../../../assets/ulbform/mpccf.svg',
+     permittedAccounts: ["Yes"],
+     display:["None"]
+   },
+   {
+     label : "Plan water sanitation",
+     link: '../water-sanitation',
+     title: "Plans for Water and Sanitation",
+     tooltip: "tooltip",
+     image:  '../../../../assets/ulbform/plan for water and sanitation.svg',
+     permittedAccounts: ["No"],
+     display:["None"]
+     },
+]
 
-// @HostListener('window:resize', ['$event'])
-// public onResize(event) {
-//   this.innerWidth = event.target.innerWidth;
-//   console.log('pk agr', this.innerWidth)
-//   if (this.innerWidth < this.mobileBreakpoint) {
-//     console.log('800px')
-//     this.itemsPerSlide = 3;
-//   } else {
-//     this.itemsPerSlide = 5;
-//   }
-//   console.log(this.itemsPerSlide)
-// }
+
+public innerWidth: number;
 public onResize() {
   this.innerWidth = window.innerWidth;
   console.log('pk agr', this.innerWidth)
@@ -97,12 +141,13 @@ public onResize() {
 
   ngOnInit() {
     this.onResize();
+
     this.Overview.getData('606aaf854dff55e6c075d219' , this.id)
       .subscribe((res) => {
         console.log('overviewRes', res['response']);
         this.sessionUlbId = res['response']['ulb'];
-        this.isMillionPlus = res['response']['isMillionPlus'];
-        this.isUA = res['response']['isUA'];
+        // this.isMillionPlus = res['response']['isMillionPlus'];
+        // this.isUA = res['response']['isUA'];
         this.stateName = res['response']['stateName'];
         this.ulbName = res['response']['ulbName'];
         this.forms[0] = res['response']?.steps?.annualAccounts?.isSubmit
@@ -119,55 +164,21 @@ public onResize() {
             break;
 
         }
-
-        this.accessGrant();
         for (let key of this.forms) {
           if (key) {
-
             this.count = this.count + key;
-
           }
-
         }
-        if(this.isUA =='Yes' && (this.isMillionPlus == 'Yes' || this.isMillionPlus == 'No' )){
-        this.formValue = 5;
-        this.factor = 100/this.formValue;
-        }
-        else if (this.isUA == 'No' && this.isMillionPlus == 'No') {
-          this.formValue = 4;
-          this.factor = 100/(+this.formValue);
-          console.log('no. no', this.factor)
-        }
-        else if (this.isUA == 'No' && this.isMillionPlus == 'Yes') {
-          this.formValue = 3;
-          this.factor = 100 / this.formValue;
-        } else {
-          this.formValue = 5;
-          this.factor = 100 / this.formValue;
-
-        }
-        this.percentage = this.count * this.factor;
-        // this.percentage = this.count * 20;
-        if (this.percentage == 100) {
-          this.status = 'Completed'
-        }
-      },
+             },
         error => {
           this.errMessage = error.error;
           console.log(this.errMessage);
         });
+        this.accessGrant();
 
   }
   headertext = 'The 15th Finance Commission Grants Management System facilitates seamless submission and flow of required information between Urban Local Bodies, State Governments and Ministry of Housuing and Urban Affairs for the purposes of availaing ULB Grants between 2021-2026.'
-  cards = [
-    'Linking PFMS Account',
-    'Grant Transfer Certificate',
-    'Detailed Utilization Report',
-    'Annual Accounts',
-    'Service Level Benchmarks',
-    'Million Plus City Challenge Fund',
-    'Plans for Water and Sanitation'
-  ]
+
   p = 60;
   position = 0;
   resourceNames = [
@@ -210,25 +221,40 @@ public onResize() {
       this.isUA = sessionStorage.getItem('isUA')
       console.log('12elseblock', this.isMillionPlus, this.isUA)
     }
+    console.log('overview', this.isUA, this.isMillionPlus)
+    if(this.isUA =='Yes' && (this.isMillionPlus == 'Yes' || this.isMillionPlus == 'No' )){
+      this.cardsOverview = this.cardsOverview;
+      this.formValue = 5;
+      this.factor = 100/this.formValue;
+    }
+    else if (this.isUA == 'No' && this.isMillionPlus == 'No') {
+      this.formValue = 4;
+      let userType = "Yes";
+      this.cardsOverview =  this.cardsOverview.filter(item => !item.permittedAccounts.includes(userType))
+      this.factor = 100/(+this.formValue);
+      console.log('no. no', this.factor)
+    }
+    else if (this.isUA == 'No' && this.isMillionPlus == 'Yes') {
+      let userType = "None"
 
+      this.cardsOverview =  this.cardsOverview.filter(item => !item.display.includes(userType));
+      this.formValue = 3;
+      this.factor = 100 / this.formValue;
+    } else {
+      this.cardsOverview = this.cardsOverview;
+      this.formValue = 5;
+      this.factor = 100 / this.formValue;
+
+    }
+    this.percentage = this.count * this.factor;
+    // this.percentage = this.count * 20;
+    if (this.percentage == 100) {
+      this.status = 'Completed'
+    }
 
   }
-  link =[
-    '../pfms_acc',
-    '../grant-tra-certi',
-    '../utilisation-report',
-    '../annual_acc',
-    '../service-level',
-    '../slbs',
-    '../water-sanitation'
-
-]
   storeUlbId(){
     sessionStorage.setItem('ulb_id', this.sessionUlbId);
-    // sessionStorage.setItem('isMillionPlus', this.isMillionPlus);
-    // sessionStorage.setItem('isUA', this.isUA);
-    // sessionStorage.setItem('stateName', this.stateName);
-    // sessionStorage.setItem('ulbName', this.ulbName);
     console.log('ulb_id', this.sessionUlbId)
   }
   onUnhover(num) {
@@ -236,12 +262,7 @@ public onResize() {
     this.val = num;
     console.log('val', this.val, num)
   }
-  // onHover1() {
-  //  // this.p = 80;
-  //     this.hover = true;
-  //     this.i = 1;
-  //     this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
-  // }
+
   onHover(num) {
     console.log('index-num', num);
 
@@ -307,40 +328,4 @@ public onResize() {
   }
 
 
-//   onHover2() {
-//     this.p = 215;
-//     this.hover = true;
-//     this.i = 2;
-//     this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
-//   }
-//   onHover3() {
-//     this.p = 355;
-//     this.hover = true;
-//     this.i = 3;
-//     this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
-//   }
-//   onHover4() {
-//     this.p = 495;
-//     this.hover = true;
-//     this.i = 4;
-//     this.message = "ULBs to upload provisional annual accounts for previous year and audited annual accounts for year previous year w.r.t. award year."
-//   }
-//   onHover5() {
-//     this.p = 630;
-//     this.hover = true;
-//     this.i = 5;
-//     this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
-//   }
-//   onHover6() {
-//     this.p = 770;
-//     this.hover = true;
-//     this.i = 6;
-//     this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
-//   }
-//   onHover7() {
-//     this.p = 910;
-//     this.hover = true;
-//     this.i = 7;
-//     this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
-//   }
  }

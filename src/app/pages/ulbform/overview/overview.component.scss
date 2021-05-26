@@ -79,7 +79,7 @@ a {
     text-align: left;
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
-    margin-left: 1.8rem;
+    margin-left: 1rem;
 }
 
 .individualCard {
@@ -129,23 +129,10 @@ svg {
     z-index: 3;
 }
 
-.backButton {
-    background-color: #CFCFCF;
-    color: #FFFFFF;
-    width: 106px;
-    height: 36px;
-    border-radius: 4px;
-    text-align: center;
-    cursor: pointer;
-    margin-top: 15px;
-    margin-bottom: 20px;
-}
-
 .save {
-    margin-top: 15px;
-    margin-right: 1.4rem;
-    width: 106px;
-    height: 36px;
+    // margin-right: 15px;
+    width: auto;
+    height: 32px;
     background-color: #26A1A1;
     color: #FFFFFF;
     font-weight: normal;
@@ -153,7 +140,27 @@ svg {
     border-radius: 4px;
     text-align: center;
     cursor: pointer;
-    margin-bottom: 20px;
+    border: 1px solid transparent;
+    display: inline-block;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+.backButton {
+    // margin-right: 48rem;
+    background-color: #CFCFCF;
+    color: #FFFFFF;
+    width: auto;
+    height: 32px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: inline-block;
+    padding-left: 4%;
+    padding-right: 4%;
+    font-weight: normal;
+    font-size: 12px;
 }
 
 .individualResource {
