@@ -16,7 +16,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   forms = []
   count = 0
   percentage = 0;
-  status = 'In Progress'
+  status = ''
   isMillionPlus;
   isUA;
   id = null;
@@ -169,16 +169,17 @@ public onResize() {
             this.count = this.count + key;
           }
         }
+        this.accessGrant();
              },
         error => {
           this.errMessage = error.error;
           console.log(this.errMessage);
         });
-        this.accessGrant();
+
 
   }
   headertext = 'The 15th Finance Commission Grants Management System facilitates seamless submission and flow of required information between Urban Local Bodies, State Governments and Ministry of Housuing and Urban Affairs for the purposes of availaing ULB Grants between 2021-2026.'
-
+  numcard = 0;
   p = 60;
   position = 0;
   resourceNames = [
@@ -226,30 +227,38 @@ public onResize() {
       this.cardsOverview = this.cardsOverview;
       this.formValue = 5;
       this.factor = 100/this.formValue;
+      this.numcard = 7;
     }
     else if (this.isUA == 'No' && this.isMillionPlus == 'No') {
       this.formValue = 4;
       let userType = "Yes";
       this.cardsOverview =  this.cardsOverview.filter(item => !item.permittedAccounts.includes(userType))
       this.factor = 100/(+this.formValue);
+      this.numcard = 6;
       console.log('no. no', this.factor)
     }
     else if (this.isUA == 'No' && this.isMillionPlus == 'Yes') {
       let userType = "None"
-
       this.cardsOverview =  this.cardsOverview.filter(item => !item.display.includes(userType));
       this.formValue = 3;
-      this.factor = 100 / this.formValue;
+      this.factor =Math.floor(100 / this.formValue);
+      this.numcard = 5;
     } else {
       this.cardsOverview = this.cardsOverview;
       this.formValue = 5;
       this.factor = 100 / this.formValue;
+      this.numcard = 7;
 
     }
     this.percentage = this.count * this.factor;
     // this.percentage = this.count * 20;
     if (this.percentage == 100) {
-      this.status = 'Completed'
+      this.status = ' Completed'
+    }
+    if (this.percentage > 0 && this.percentage < 100) {
+      this.status = ' In Progress'
+    }else{
+      this.status = ' Not Started'
     }
 
   }
