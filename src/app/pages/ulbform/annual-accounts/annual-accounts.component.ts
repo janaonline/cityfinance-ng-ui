@@ -379,6 +379,12 @@ export class AnnualAccountsComponent implements OnInit {
     }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
+     swal({
+      title: "Submitted",
+      text: "Record submitted successfully!",
+      icon: "success",
+    });
+    
     sessionStorage.setItem("changeInAnnual", "false");
     return this._router.navigate(["ulbform/service-level"]);
   }
@@ -769,12 +775,24 @@ export class AnnualAccountsComponent implements OnInit {
     if (this.routerNavigate) {
       await this.save(this.unauditResponse);
       await this.save(this.auditResponse);
+       swal({
+        title: "Submitted",
+        text: "Record submitted successfully!",
+        icon: "success",
+      });
+      
       sessionStorage.setItem("changeInAnnual", "false");
       this._router.navigate([this.routerNavigate.url]);
       return;
     }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
+     swal({
+      title: "Submitted",
+      text: "Record submitted successfully!",
+      icon: "success",
+    });
+    
     sessionStorage.setItem("changeInAnnual", "false");
     return this._router.navigate(["ulbform/service-level"]);
   }
