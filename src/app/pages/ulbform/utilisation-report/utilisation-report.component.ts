@@ -32,6 +32,7 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { UlbformService } from "../ulbform.service";
 import { NavigationStart } from "@angular/router";
 import { SweetAlert } from "sweetalert/typings/core";
+import { invalid } from "@angular/compiler/src/render3/view/util";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -133,16 +134,16 @@ export class UtilisationReportComponent implements OnInit {
       );
     });
     let form_data = JSON.parse(sessionStorage.getItem('allStatus'));
-       console.log('form-data', form_data.utilReport)
-       let form_status = form_data.utilReport.isSubmit;
-       console.log('stat', form_status)
-       if(form_status == null){
-          this.submitted = false;
-        }
-        else if(form_status == false){
-          this.submitted = true;
-          this.isSubmitted = true;
-        }
+    console.log('form-data', form_data.utilReport)
+    let form_status = form_data.utilReport.isSubmit;
+    console.log('stat', form_status)
+    if (form_status == null) {
+      this.submitted = false;
+    }
+    else if (form_status == false) {
+      this.submitted = true;
+      this.isSubmitted = true;
+    }
 
 
   }
@@ -151,26 +152,32 @@ export class UtilisationReportComponent implements OnInit {
     if (!this.clickedSave) {
       this._router.events.subscribe(async (event: Event) => {
 
+        console.log('entered into router', this.routerNavigate)
         if (event instanceof NavigationStart) {
           const canNavigate = sessionStorage.getItem("canNavigate");
+          console.log(canNavigate)
           if (event.url === "/" || event.url === "/login") {
             sessionStorage.setItem("canNavigate", "true")
             return
           }
           if (canNavigate === "false" && this.routerNavigate === null) {
             // this.dialogReference.close();
+
             const currentRoute = this._router.routerState;
             this._router.navigateByUrl(currentRoute.snapshot.url, {
               skipLocationChange: true,
             });
             this.routerNavigate = event;
             this.openDialogBox(this.template);
+            return;
           }
         }
       });
     }
 
   }
+
+
 
   currentChanges() {
     this.utilizationReport.valueChanges.subscribe((formChange) => {
@@ -284,14 +291,14 @@ export class UtilisationReportComponent implements OnInit {
       projects: this.fb.array([
         this.fb.group({
           category: [null, Validators.required],
-          name: [{ value: '', disabled: this.isDisabled }, Validators.required],
-          description: ["", Validators.required],
+          name: ['', [Validators.maxLength(50), Validators.required]],
+          description: ['' , [Validators.maxLength(200),Validators.required]],
           // 'imgUpload' : new FormControl(''),
           photos: this.fb.array([
             // this.fb.group({
             //   url: ['']
             // })
-          ], Validators.required),
+          ]),
           capacity: ["", Validators.required],
           location: this.fb.group({
             lat: ["", Validators.required],
@@ -461,18 +468,18 @@ export class UtilisationReportComponent implements OnInit {
       }
 
     }
-    if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
-      // this.fd.isDraft = false;
-      console.log('if')
-      console.log('api data', this.fd)
-      this.apiCall(this.fd);
-      console.log('form submitted', this.fd);
+    // if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
+    //   // this.fd.isDraft = false;
+    //   console.log('if')
+    //   console.log('api data', this.fd)
+    //   this.apiCall(this.fd);
+    //   console.log('form submitted', this.fd);
 
-    } else {
-      console.log('else')
-      this.fd.isDraft = true;
-      this.apiCall(this.fd);
-    }
+    // } else {
+    console.log('else')
+    this.fd.isDraft = true;
+    this.apiCall(this.fd);
+    // }
   }
   onSubmit() {
     alert("Submit and Next?");
@@ -570,8 +577,8 @@ export class UtilisationReportComponent implements OnInit {
           "",
           [
             Validators.required,
-            Validators.maxLength(50),
-            Validators.pattern("[a-zA-Z]*"),
+            Validators.maxLength(50)
+
           ],
         ],
         description: [
@@ -579,14 +586,14 @@ export class UtilisationReportComponent implements OnInit {
           [
             Validators.required,
             Validators.maxLength(200),
-            Validators.pattern("[a-zA-Z]*"),
+
           ],
         ],
         photos: this.fb.array([
           // this.fb.group({
           //   url: ['']
           // })
-        ], Validators.required),
+        ]),
         capacity: ["", Validators.required],
         location: this.fb.group({
           lat: ["", Validators.required],
@@ -684,10 +691,15 @@ export class UtilisationReportComponent implements OnInit {
     );
   }
   clickedSave = false
-  saveAndNext(template1) {
+  clickedSaveAndNext(template1) {
     this.clickedSave = true
+    sessionStorage.setItem("canNavigate", "true")
+    this.saveAndNext(template1)
+  }
+  saveAndNext(template1) {
+
     let canNavigate = sessionStorage.getItem("canNavigate")
-    if (canNavigate === "true") {
+    if (canNavigate === "true" && this.clickedSave == false) {
       this._router.navigate(["ulbform/annual_acc"]);
       return;
     } else {
@@ -704,6 +716,7 @@ export class UtilisationReportComponent implements OnInit {
       this.fd.grantPosition.closingBal = this.totalclosingBal;
       this.fd.ulb = user_data.ulb;
       if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
+        console.log('entered valid form')
         // this.fd.isDraft = false;
         console.log(this.fd);
         let len = this.tabelRows.length;
@@ -713,19 +726,19 @@ export class UtilisationReportComponent implements OnInit {
           if (control.length == 0) {
             this.fd.isDraft = true;
             i = len;
-
           } else {
             this.fd.isDraft = false;
           }
-
         }
         console.log('api data', this.fd)
         this.apiCall(this.fd);
         console.log('form submitted', this.fd);
-        return this._router.navigate(["ulbform/annual_acc"]);
-      }
-      else {
+        this._router.navigate(["ulbform/annual_acc"]);
+        return;
+      } else {
+        console.log('entered invalid form')
         this.openDialogBox(template1);
+        return
       }
 
     }
