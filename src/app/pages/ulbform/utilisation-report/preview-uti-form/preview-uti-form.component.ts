@@ -249,10 +249,33 @@ width: 5% !important;
 }
 
   </style>`;
+
+  formStatusCheck = ''
   ngOnInit(): void {
-    console.log('pramod', this.data);
+
     if (this.parentData) {
       this.genrateParentData();
+    }
+
+    let getData = this.data
+
+    console.log('getData', getData)
+    console.log('Data', this.data)
+
+    if (!getData) {
+
+      this.formStatusCheck = 'Not Started'
+    }
+    if (getData['useData']['isDraft'] == true) {
+      console.log('1')
+      this.formStatusCheck = 'In Progress'
+    } else if (getData['useData']['isDraft'] == false) {
+      console.log('2')
+      this.formStatusCheck = 'Completed'
+    } else {
+      console.log('3')
+      this.formStatusCheck = 'Not Started'
+
     }
   }
   clickedDownloadAsPDF(template) {
