@@ -10,14 +10,12 @@ import {
   Input,
   ElementRef,
   ViewChild,
-  TemplateRef,
   Output,
   EventEmitter,
 } from "@angular/core";
 import { QuestionnaireService } from "../../../questionnaires/service/questionnaire.service";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
 import { defaultDailogConfiuration } from "../../../questionnaires/state/configs/common.config";
-import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { WaterSanitationService } from "../water-sanitation.service";
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
@@ -41,75 +39,18 @@ export class WaterSanitationPreviewComponent implements OnInit {
   @Output() change = new EventEmitter<any>();
 
   styleForPDF = `<style>
-  .btnUpload {
-    background-color: #0cc5c5;
-    width: 113px;
-    height: 27px;
-    //  padding: 2px;
-    color: #ffffff;
-    font-size: 12px;
-  }
-  
-  .btnUpload:hover {
-    background-color: #ffc500;
-  }
-  
-  .btnUpload:active {
-    background-color: #ffc500;
-  }
-  
-  .card-body {
-    padding: 5px 8px;
-  }
   
   .card {
     border: 1px #00000029;
     margin-left: 20px;
     box-shadow: 1px 1px 1px 3px #00000029;
-    padding: 10px 10px;
   }
-  
-  .image-upload > input {
-    display: none;
-  }
-  
-  .image-upload img {
-    cursor: pointer;
-  }
-  
-  .saveBtn {
-    margin-right: 10px;
-    width: 106px;
-    height: 36px;
-    background-color: #26a1a1;
-    color: #ffffff;
-    font-weight: normal;
-    font-size: 12px;
-  }
-  
-  .backbtn {
-    background-color: #cfcfcf;
-    color: #ffffff;
-    width: 106px;
-    height: 36px;
-    font-weight: normal;
-    font-size: 12px;
-  }
-  
-  .pr-btn {
-    background-color: #cfcfcf;
-    color: #ffffff;
-    width: 106px;
-    height: 36px;
-    font-weight: normal;
-    font-size: 12px;
-  }
-  
+
   .thHeader {
     background-color: #058e91;
     font-family: Roboto;
     color: #ffffff;
-    font-size: 14px;
+    font-size: 1px;
     text-decoration: none;
   }
   
@@ -121,7 +62,6 @@ export class WaterSanitationPreviewComponent implements OnInit {
   .table > thead > tr > th {
     vertical-align: inherit;
     text-align: center;
-    padding: 8px 2px;
   }
   
   .custom-position {
@@ -150,10 +90,6 @@ export class WaterSanitationPreviewComponent implements OnInit {
       height: 2pc;
       vertical-align: bottom;
       margin-right: 1pc;
-    }
-
-    .error{
-      border-color: red;
     }
   }
   .df{

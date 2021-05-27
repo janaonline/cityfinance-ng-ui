@@ -7,7 +7,10 @@ import { AnnualAccountsService } from '../annual-accounts.service'
 import { UlbformService } from "../../ulbform.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { Router, Event } from "@angular/router";
+import {AnnualAccountsComponent} from "../annual-accounts.component"
 const swal: SweetAlert = require("sweetalert");
+import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
+
 @Component({
   selector: "app-annual-preview",
   templateUrl: "./annual-preview.component.html",
@@ -19,6 +22,7 @@ export class AnnualPreviewComponent implements OnInit {
   @ViewChild("templateAnnual") template;
   showLoader;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+  private dataEntryService: DataEntryService,
     private _questionnaireService: QuestionnaireService,
     private annualAccountsService: AnnualAccountsService,
     public _ulbformService: UlbformService,
@@ -102,181 +106,11 @@ export class AnnualPreviewComponent implements OnInit {
   fromParent = true
   year2021;
   year2019;
-  auditResponse = {
-    design_year: this.Years["2021-22"],
-    audit_status: "Audited",
-    isCompleted: false,
-    year: this.Years["2019-20"],
-    submit_annual_accounts: {
-      answer: null,
-    },
-    submit_standardized_data: {
-      answer: null,
-    },
-    provisional_data: {
-      bal_sheet: {
-        pdfUrl: null,
-        progress: null,
-        progressExcel: null,
-        pdfName: null,
-        excelUrl: null,
-        excelError: null,
-        pdfError: null,
-        excelName: null,
-        rejectReason: null,
-      },
-      bal_sheet_schedules: {
-        pdfName: null,
-        pdfUrl: null,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-      },
-      inc_exp: {
-        pdfName: null,
-        pdfUrl: null,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-      },
-      inc_exp_schedules: {
-        pdfName: null,
-        pdfUrl: null,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-      },
-      cash_flow: {
-        pdfName: null,
-        pdfUrl: null,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-      },
-      auditor_report: {
-        pdfName: null,
-        pdfUrl: null,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-      },
-    },
-    standardized_data: {
-      upload: {
-        excelUrl: null,
-        excelName: null,
-        progressExcel: null,
-        excelError: null,
-      },
-      declaration: null,
-    },
-  };
+  dialogRef
+  download
+  previewStatus;
 
-  unauditResponse = {
-    design_year: this.Years["2021-22"],
-    audit_status: "Unaudited",
-    isCompleted: false,
-    year: this.Years["2020-21"],
-    submit_annual_accounts: {
-      answer: null,
-    },
-    submit_standardized_data: {
-      answer: null,
-    },
-    provisional_data: {
-      bal_sheet: {
-        pdfUrl: null,
-        progress: null,
-        progressExcel: null,
-        pdfName: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-      },
-      bal_sheet_schedules: {
-        pdfName: null,
-        pdfUrl: null,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-      },
-      inc_exp: {
-        pdfName: null,
-        pdfUrl: null,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-      },
-      inc_exp_schedules: {
-        pdfName: null,
-        pdfUrl: null,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-      },
-      cash_flow: {
-        pdfName: null,
-        pdfUrl: null,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-      },
-      auditor_report: {
-        pdfName: null,
-        pdfUrl: null,
-        progress: null,
-        pdfError: null,
-        rejectReason: null,
-      },
-    },
-    standardized_data: {
-      upload: {
-        excelUrl: null,
-        excelName: null,
-        progressExcel: null,
-        excelError: null,
-      },
-      declaration: null,
-    },
-  };
+
   ngOnInit(): void {
     this.download = false;
     if (this.data) {
@@ -284,6 +118,7 @@ export class AnnualPreviewComponent implements OnInit {
       this.fromParent = false
     }
     this.setData();
+    this.previewStatuSet();
   }
 
   setData() {
@@ -295,7 +130,6 @@ export class AnnualPreviewComponent implements OnInit {
       this.year2019 = this.parentData[0];
     }
   }
-  download
   clickedDownloadAsPDF(template) {
     this.download = true
     let changeHappen = sessionStorage.getItem("changeInAnnual");
@@ -306,7 +140,6 @@ export class AnnualPreviewComponent implements OnInit {
     }
   }
 
-  dialogRef
   openDialog(template) {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this._matDialog.open(template, dialogConfig);
@@ -350,26 +183,10 @@ export class AnnualPreviewComponent implements OnInit {
     a.click();
     return url;
   }
-  errMessage = ''
-  pdfError = "PDF Not Uploaded!";
-  answerError = {
-    Audited: {
-      submit_annual_accounts: false,
-      submit_standardized_data: false,
-    },
-    Unaudited: {
-      submit_annual_accounts: false,
-      submit_standardized_data: false,
-    },
-  };
 
   async proceed(uploadedFiles) {
-    // await this.modalRef.hide();
     this._matDialog.closeAll();
-    // this._matDialog.close(this.clicked);
-    // this._matDialog.closeAll('Hello');
-    // this._matDialog.ngOnDestroy()
-
+    debugger
     await this.submit()
     await this.downloadAsPDF();
     sessionStorage.setItem("changeInAnnual", "false");
@@ -384,103 +201,22 @@ export class AnnualPreviewComponent implements OnInit {
     await this.checkForm(this.year2019);
     await this.save(this.year2021);
     await this.save(this.year2019);
+
     sessionStorage.setItem("changeInAnnual", "false");
-
   }
 
-  save(form) {
-    return new Promise(async (resolve, reject) => {
-
-      this.annualAccountsService.postData(form).subscribe(
-        (res) => {
-          const status = JSON.parse(sessionStorage.getItem("allStatus"));
-          status.annualAccounts.isSubmit = res["isCompleted"];
-          this._ulbformService.allStatus.next(status);
-          swal("Record submitted successfully!");
-          resolve("success");
-
-        },
-        (err) => {
-          swal("Failed To Save", "", "error");
-        }
-      );
-    });
+  async save(form) {
+    let AnnualAccounts = new AnnualAccountsComponent(this.dataEntryService,this.annualAccountsService,this._matDialog,this._ulbformService,this._router,this._matDialog);
+    await AnnualAccounts.save(form)
   }
-  checkForm(form) {
-    return new Promise((res, rej) => {
-      if (
-        form.submit_annual_accounts.answer === "no" ||
-        form.submit_annual_accounts.answer === null
-      ) {
-        delete form.provisional_data;
-      }
-      if (
-        form.submit_standardized_data.answer === "no" ||
-        form.submit_standardized_data.answer === null
-      ) {
-        delete form.standardized_data;
-      }
-      let flag = false;
-      for (let key in form) {
-        let value = form[key];
-        if (typeof value === "object" && value !== null) {
-          for (let key2 in value) {
-            let value2 = value[key2];
-            if (key2 === "auditor_report" && form.audit_status !== "Audited") {
-              delete form.provisional_data.auditor_report;
-              continue;
-            }
-            if (typeof value2 === "object" && value2 !== null) {
-              for (let key3 in value2) {
-                if (
-                  key3 === "progressExcel" ||
-                  key3 === "excelUrl" ||
-                  key3 === "excelName" ||
-                  key3 === "progress" ||
-                  key3 === "excelError" ||
-                  key3 === "progress" ||
-                  key3 === "pdfName" ||
-                  key3 === "pdfError" ||
-                  key3 === "rejectReason"
-                ) {
-                  continue;
-                }
-                if (form[key][key2][key3] === null) {
-                  this.errorHandler(form, key, key2, key3);
-                  flag = true;
-                }
-              }
-            } else if (form[key][key2] === null) {
-              this.errorHandler(form, key, key2);
-              flag = true;
-            }
-          }
-        } else if (form[key] === null) {
-          flag = true;
-        }
-      }
-      if (flag) {
-        form["isCompleted"] = false;
-      } else {
-        form["isCompleted"] = true;
-      }
-      res("sucess");
-    });
+  async checkForm(form) {
+    let AnnualAccounts = new AnnualAccountsComponent(this.dataEntryService,this.annualAccountsService,this._matDialog,this._ulbformService,this._router,this._matDialog);
+    await AnnualAccounts.checkForm(form)
   }
 
   errorHandler(form, key, key2, key3 = null) {
-    if (key3 == "pdfUrl") {
-      form[key][key2]["pdfError"] = this.pdfError;
-    }
-    if (key2 === "answer") {
-      this.answerError[form["audit_status"]][key] = true;
-      setTimeout(() => {
-        this.answerError[form["audit_status"]][key] = false;
-      }, 4000);
-    }
-    if (key2 == "auditor_registration") {
-      form[key]["auditor_registration_error"] = "Field Empty";
-    }
+    let AnnualAccounts = new AnnualAccountsComponent(this.dataEntryService,this.annualAccountsService,this._matDialog,this._ulbformService,this._router,this._matDialog);
+    AnnualAccounts.errorHandler(form, key, key2, key3)
   }
 
   alertClose() {
@@ -489,5 +225,17 @@ export class AnnualPreviewComponent implements OnInit {
 
   stay() {
     this.dialogRef.close();
+  }
+
+  previewStatuSet(){
+    const annualData = JSON.parse(sessionStorage.getItem("annualAccounts"))
+    if(annualData[0]['isCompleted'] == null && annualData[1]['isCompleted'] == null){
+      this.previewStatus = "Not Started"
+    }else{
+      this.previewStatus = "In progress"
+    }
+    if(annualData[0]['isCompleted'] && annualData[1]['isCompleted']){
+      this.previewStatus = "Completed"
+    }
   }
 }
