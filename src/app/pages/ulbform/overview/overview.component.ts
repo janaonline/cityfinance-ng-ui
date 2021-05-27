@@ -140,9 +140,9 @@ public onResize() {
 }
 
 async  ngOnInit() {
-    this.onResize();
+       this.onResize();
  await this.getData();
-    this.accessGrant();
+       this.accessGrant();
 
 
   }
