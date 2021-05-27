@@ -96,6 +96,7 @@ export class UtilisationReportComponent implements OnInit {
   financialYear;
   fromPreview = null;
   isDisabled = false;
+  isSubmitted = false;
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
@@ -140,6 +141,7 @@ export class UtilisationReportComponent implements OnInit {
         }
         else if(form_status == false){
           this.submitted = true;
+          this.isSubmitted = true;
         }
 
 
@@ -477,6 +479,7 @@ export class UtilisationReportComponent implements OnInit {
   }
   helpData
   onPreview() {
+
     let user_data = JSON.parse(localStorage.getItem('userData'));
     this.helpData = this.utilizationReport.value;
     this.helpData.isDraft = true;
@@ -485,9 +488,10 @@ export class UtilisationReportComponent implements OnInit {
     this.helpData.grantType = 'Tied';
     this.helpData.grantPosition.closingBal = this.totalclosingBal;
     this.helpData.ulb = user_data.ulb;
+    // this.helpData.utilForm = this.utilizationForm
     if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
       // this.fd.isDraft = false;
-
+      console.log(this.utilizationReport)
       let len = this.tabelRows.length;
       for (let i = 0; i < len; i++) {
         const control = this.tabelRows.controls[i]["controls"]["photos"];
@@ -543,6 +547,7 @@ export class UtilisationReportComponent implements OnInit {
         }
       }
     }
+
     const dialogRef = this.dialog.open(PreviewUtiFormComponent, {
       data: formdata,
 
@@ -917,6 +922,7 @@ export class UtilisationReportComponent implements OnInit {
             //     fileIndex
             //   );
             // });
+            swal('Photo uploaded successfully.');
           }
         },
         (err) => {
