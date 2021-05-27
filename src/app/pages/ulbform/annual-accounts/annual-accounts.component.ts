@@ -727,26 +727,12 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   checkDiff(status) {
-    const annualAccounts = JSON.parse(sessionStorage.getItem("annualAccounts"));
-    if (
-      annualAccounts[0].audit_status === "Unaudited" &&
-      status === "unauditResponse"
-    ) {
-      const tempResponse = JSON.stringify(this.unauditResponse);
-      const tempResponseLast = JSON.stringify(annualAccounts[0]);
-      if (tempResponse != tempResponseLast) {
-        sessionStorage.setItem("changeInAnnual", "true");
-      }
-    } else {
-      const tempResponse = JSON.stringify(
-        annualAccounts[1].audit_status === "Unaudited"
-          ? this.unauditResponse
-          : this.auditResponse
-      );
-      const tempResponseLast = JSON.stringify(annualAccounts[1]);
-      if (tempResponse != tempResponseLast) {
-        sessionStorage.setItem("changeInAnnual", "true");
-      }
+    const annualAccounts = sessionStorage.getItem("annualAccounts");
+    const currentAnnualAccounts = JSON.stringify([this.unauditResponse,this.auditResponse])
+    if(annualAccounts != currentAnnualAccounts){
+      sessionStorage.setItem("changeInAnnual","true")
+    }else{
+      sessionStorage.setItem("changeInAnnual","false")
     }
   }
 
