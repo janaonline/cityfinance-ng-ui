@@ -1,10 +1,4 @@
-import {
-  Component,
-  TemplateRef,
-  OnInit,
-  HostBinding,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnInit, HostBinding, ViewChild } from "@angular/core";
 
 import { HttpEventType, HttpResponse } from "@angular/common/http";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
@@ -13,7 +7,6 @@ import { SweetAlert } from "sweetalert/typings/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { AnnualPreviewComponent } from "./annual-preview/annual-preview.component";
 import { UlbformService } from "../ulbform.service";
-import { BsModalService } from "ngx-bootstrap/modal";
 import { Router, Event } from "@angular/router";
 import { NavigationStart } from "@angular/router";
 const swal: SweetAlert = require("sweetalert");
@@ -29,7 +22,6 @@ export class AnnualAccountsComponent implements OnInit {
     private annualAccountsService: AnnualAccountsService,
     public dialog: MatDialog,
     public _ulbformService: UlbformService,
-    private modalService: BsModalService,
     public _router: Router,
     private _matDialog: MatDialog
   ) {
@@ -74,7 +66,7 @@ export class AnnualAccountsComponent implements OnInit {
   auditResponse = {
     design_year: this.Years["2021-22"],
     audit_status: "Audited",
-    isCompleted: false,
+    isCompleted: null,
     year: this.Years["2019-20"],
     submit_annual_accounts: {
       answer: null,
@@ -164,7 +156,7 @@ export class AnnualAccountsComponent implements OnInit {
   unauditResponse = {
     design_year: this.Years["2021-22"],
     audit_status: "Unaudited",
-    isCompleted: false,
+    isCompleted: null,
     year: this.Years["2020-21"],
     submit_annual_accounts: {
       answer: null,
@@ -256,6 +248,7 @@ export class AnnualAccountsComponent implements OnInit {
   navigationCheck() {
     if (!this.clickedSave) {
       this._router.events.subscribe(async (event: Event) => {
+        console.log('entered router')
         if (event instanceof NavigationStart) {
           this.alertError = "Are you sure you want to proceed further?";
           const changeInAnnual = sessionStorage.getItem("changeInAnnual");
@@ -282,12 +275,12 @@ export class AnnualAccountsComponent implements OnInit {
 
   onPreview() {
     const dialogRef = this.dialog.open(AnnualPreviewComponent, {
-      data: JSON.parse(sessionStorage.getItem("annualAccounts")),
+      data: [this.auditResponse, this.unauditResponse],
       height: "95%",
       width: "85vw",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   onLoad() {
@@ -322,7 +315,6 @@ export class AnnualAccountsComponent implements OnInit {
           );
         },
         (err) => {
-
           const toStoreResponse = [this.auditResponse, this.unauditResponse];
           sessionStorage.setItem(
             "annualAccounts",
@@ -380,12 +372,12 @@ export class AnnualAccountsComponent implements OnInit {
     }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
-     swal({
+    swal({
       title: "Submitted",
       text: "Record submitted successfully!",
       icon: "success",
     });
-    
+
     sessionStorage.setItem("changeInAnnual", "false");
     return this._router.navigate(["ulbform/service-level"]);
   }
@@ -397,6 +389,11 @@ export class AnnualAccountsComponent implements OnInit {
           const status = JSON.parse(sessionStorage.getItem("allStatus"));
           status.annualAccounts.isSubmit = res["isCompleted"];
           this._ulbformService.allStatus.next(status);
+          const toStoreResponse = [this.auditResponse, this.unauditResponse];
+          sessionStorage.setItem(
+            "annualAccounts",
+            JSON.stringify(toStoreResponse)
+          );
           resolve("success");
         },
         (err) => {
@@ -678,7 +675,7 @@ export class AnnualAccountsComponent implements OnInit {
       let newObj = {
         alias:
           this[progressArray[0]][progressArray[1]][this.progressArray[2]][
-            "excelUrl"
+          "excelUrl"
           ],
         financialYear: "",
         design_year: this[progressArray[0]]["design_year"],
@@ -758,7 +755,7 @@ export class AnnualAccountsComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this._matDialog.open(template, dialogConfig);
     this.dialogRef.afterClosed().subscribe((result) => {
-      if(result === undefined){
+      if (result === undefined) {
         if (this.routerNavigate) {
           this.routerNavigate = null;
         }
@@ -776,24 +773,24 @@ export class AnnualAccountsComponent implements OnInit {
     if (this.routerNavigate) {
       await this.save(this.unauditResponse);
       await this.save(this.auditResponse);
-       swal({
+      swal({
         title: "Submitted",
         text: "Record submitted successfully!",
         icon: "success",
       });
-      
+
       sessionStorage.setItem("changeInAnnual", "false");
       this._router.navigate([this.routerNavigate.url]);
       return;
     }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
-     swal({
+    swal({
       title: "Submitted",
       text: "Record submitted successfully!",
       icon: "success",
     });
-    
+
     sessionStorage.setItem("changeInAnnual", "false");
     return this._router.navigate(["ulbform/service-level"]);
   }
