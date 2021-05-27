@@ -10,7 +10,7 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogConfig } from "@angular/material/d
 import { QuestionnaireService } from "../../../questionnaires/service/questionnaire.service";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
 import { defaultDailogConfiuration } from "../../../questionnaires/state/configs/common.config";
-// 
+//
 import { Router, Event } from "@angular/router";
 import { UlbformService } from "../../ulbform.service";
 import { UtiReportService } from '../uti-report.service';
@@ -26,6 +26,7 @@ export class PreviewUtiFormComponent implements OnInit {
   @Input() parentData: any;
   @ViewChild("previewUti") _html: ElementRef;
   showLoader;
+  form_Status='';
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _questionnaireService: QuestionnaireService,
@@ -66,18 +67,11 @@ td, th{
   margin-top: 1.4rem;
   white-space: break-spaces;
 }
-.listitem_grantYear {
-  font-size: 14px !important;
-  display: inline-block;
+.heading-p {
+  color: #FFFFFF;
+  font-size: 18px;
+  padding-top: 2rem !important;
   font-weight: 700;
-  width: 70px !important;
-  height: 15px !important;
-  color: #3D3D3D;
-  margin-left: 10px;
-  background-color: #E5E6E6;
-  border-radius: 3px;
-  padding: 3px !important;
-  margin-top: .6rem;
 
 }
 .listitem_subHead {
@@ -197,7 +191,9 @@ th {
 }
 .bor-in-l {
   word-break: break-all;
-  color: #51504F;
+}
+.long{
+  margin-left: .25rem;
 }
 .tableFooterDiv {
   background-color: #E7E7E7;
@@ -234,6 +230,7 @@ width: 5% !important;
 }
 .w-12{
   width: 12% !important;
+  line-break: strict !important;
 }
 .w-15{
   width: 15% !important;
@@ -252,7 +249,6 @@ width: 5% !important;
 
   formStatusCheck = ''
   ngOnInit(): void {
-
     if (this.parentData) {
       this.genrateParentData();
     }

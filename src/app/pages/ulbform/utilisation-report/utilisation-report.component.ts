@@ -96,6 +96,7 @@ export class UtilisationReportComponent implements OnInit {
   financialYear;
   fromPreview = null;
   isDisabled = false;
+  isSubmitted = false;
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
@@ -140,6 +141,7 @@ export class UtilisationReportComponent implements OnInit {
         }
         else if(form_status == false){
           this.submitted = true;
+          this.isSubmitted = true;
         }
 
 
@@ -920,6 +922,7 @@ export class UtilisationReportComponent implements OnInit {
             //     fileIndex
             //   );
             // });
+            swal('Photo uploaded successfully.');
           }
         },
         (err) => {

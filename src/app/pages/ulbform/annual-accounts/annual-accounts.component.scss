@@ -23,7 +23,12 @@
 }
 
 .pr-btn {
-    width: 9rem;
+    width: 135px;
+    height: 36px;
+    background-color: #26A1A1;
+    color: #FFFFFF;
+    font-weight: normal;
+    font-size: 12px;
 }
 
 .square {
@@ -61,7 +66,7 @@
 }
 
 .footerBtn {
-    margin-right: 15px;
+    // margin-left: 15px;
     width: 135px;
     height: 36px;
     background-color: #26A1A1;
@@ -71,7 +76,7 @@
 }
 
 .backbtn {
-    margin-right: 48rem;
+    // margin-right: 48rem;
     background-color: #CFCFCF;
     color: #FFFFFF;
     width: 106px;
@@ -105,8 +110,9 @@
 
 .footerBtnDiv {
     margin-top: 2pc;
-    margin-right: 10px;
+    // margin-right: 10px;
     margin-bottom: 2pc;
+    padding: 0;
 }
 
 .btn2 {
