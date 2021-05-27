@@ -244,13 +244,6 @@ export class WaterSanitationComponent implements OnInit {
     }
   }
 
-  // discard(){
-  //   this.dialogRefForNavigation.close();
-  //   if (this.routerNavigate) {
-  //     this._router.navigate([this.routerNavigate.url]);
-  //   }
-  // }
-
   saveForm(template = null) {
     this.body.plans = this.waterAndSanitation;
     this.testForDraft();
@@ -262,24 +255,28 @@ export class WaterSanitationComponent implements OnInit {
   }
 
   postsDataCall(body) {
-    this.wsService.sendRequest(body).subscribe(
-      async (res) => {
-        const status = JSON.parse(sessionStorage.getItem("allStatus"));
-        status.plans.isSubmit = res["isCompleted"];
-        this._ulbformService.allStatus.next(status);
-        swal({
-          title: "Submitted",
-          text: "Record submitted successfully!",
-          icon: "success",
-        });
-        if (this.routerNavigate) {
-          this._router.navigate([this.routerNavigate.url]);
+    return new Promise ((resolve,reject)=>{
+      this.wsService.sendRequest(body).subscribe(
+        async (res) => {
+          const status = JSON.parse(sessionStorage.getItem("allStatus"));
+          status.plans.isSubmit = res["isCompleted"];
+          this._ulbformService.allStatus.next(status);
+          swal({
+            title: "Submitted",
+            text: "Record submitted successfully!",
+            icon: "success",
+          });
+          if (this.routerNavigate) {
+            this._router.navigate([this.routerNavigate.url]);
+          }
+          resolve("success")
+        },
+        (error) => {
+          resolve(error)
+          console.log(error);
         }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      );
+    })
   }
 
   onKey(e, path) {
