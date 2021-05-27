@@ -7,7 +7,11 @@
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
                 </mat-icon>
             </a>
-            <span class="col-sm-12 heading">Plans for Water and Sanitation</span>
+            <span class="col-sm-12 heading" [ngStyle]="{'margin-top':!parentData  ? '2.5rem' : '3rem'}">
+                <span *ngIf="!parentData">15th FC Grants for 2021-22</span>
+                <br *ngIf="!parentData">
+                Plans for Water and Sanitation
+            </span>
         </div>
         <div *ngIf="!parentData" class="row df" style="margin-top: 1.5rem; margin-right: 2pc;">
             <div class="col-sm-12 text-right p-0">

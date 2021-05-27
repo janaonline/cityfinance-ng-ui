@@ -572,8 +572,8 @@ margin-left : .5rem !important;
 
   pfmsError = {
     response: {
-      account: null,
-      linked: null,
+      account: '',
+      linked: '',
     },
   };
 

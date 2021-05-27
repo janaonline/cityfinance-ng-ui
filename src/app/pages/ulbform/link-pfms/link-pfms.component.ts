@@ -39,7 +39,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     //  break;
 
     this._router.events.subscribe(async (event: Event) => {
-      if (!this.saveClicked) {
+      if (!this.saveClicked && !this.backClicked) {
         if (event instanceof NavigationStart) {
 
           if (event.url === "/" || event.url === "/login") {
@@ -68,12 +68,13 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   linked = '';
   routerNavigate = null
   isDisabled = false;
-
+  backClicked = false;
 
 
   ngOnInit() {
     sessionStorage.setItem("changeInPFMSAccount", "false");
     this.change = false;
+    this.backClicked = false;
     this.saveClicked = false;
     let ulb_id = sessionStorage.getItem('ulb_id');
     if (ulb_id != null) {
@@ -105,6 +106,16 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
 
   changeHappen = 'false';
+
+  clickedBack(template) {
+    this.backClicked = true;
+    let changeHappen = sessionStorage.getItem("changeInPFMS")
+    if (changeHappen === "true") {
+      this.openModal(template)
+    } else {
+      return this._router.navigate(["ulbform/overview"]);
+    }
+  }
 
   saveAndNextValue(template1) {
     this.saveClicked = true;
@@ -298,6 +309,12 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
   async proceed(uploadedFiles) {
     await this.dialogRef.close(true);
+    if (this.backClicked) {
+      await this.postData();
+      sessionStorage.setItem("changeInPFMSAccount", "false");
+      this._router.navigate(["ulbform/overview"]);
+      return
+    }
     if (this.routerNavigate) {
       await this.postData();
       sessionStorage.setItem("changeInPFMSAccount", "false");

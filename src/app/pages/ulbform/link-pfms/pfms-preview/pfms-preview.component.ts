@@ -77,22 +77,31 @@ export class PfmsPreviewComponent implements OnInit {
   @Output() change = new EventEmitter<any>();
   errMessage = ''
   ngOnInit(): void {
-    let getData = JSON.parse(sessionStorage.getItem("pfmsAccounts"));
+    if (this.parentData) {
+      this.data = this.parentData
+    }
+    // let getData = JSON.parse(sessionStorage.getItem("pfmsAccounts"));
+    let getData = this.data
+
     console.log(getData)
-    if (getData['response']['isDraft'] == true) {
+
+    if (!getData) {
+
+      this.formStatusCheck = 'Not Started'
+    }
+    if (getData['isDraft'] == true) {
       console.log('1')
       this.formStatusCheck = 'In Progress'
-    } else if (getData['response']['isDraft'] == false) {
+    } else if (getData['isDraft'] == false) {
       console.log('2')
       this.formStatusCheck = 'Completed'
     } else {
       console.log('3')
       this.formStatusCheck = 'Not Started'
+
     }
     this.clicked = false
-    if (this.parentData) {
-      this.data = this.parentData
-    }
+
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: "modal-md" });

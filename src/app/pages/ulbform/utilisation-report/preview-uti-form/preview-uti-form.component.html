@@ -15,7 +15,7 @@
     </div>
     <div class="d-flex justify-content-between mt-2 d-status" style="padding-left: 3.7%">
         <p class="form-status-ut">
-            <b>Application Current Status:</b>{{form_Status}}
+            <b>Application Current Status:</b> {{formStatusCheck}}
         </p>
 
         <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 3.5%" class="btn btn-primary btn-upload pdf-hide" (click)="clickedDownloadAsPDF(template)">

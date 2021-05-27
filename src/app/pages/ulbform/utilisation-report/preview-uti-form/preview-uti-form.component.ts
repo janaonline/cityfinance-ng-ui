@@ -252,9 +252,32 @@ width: 5% !important;
 }
 
   </style>`;
+
+  formStatusCheck = ''
   ngOnInit(): void {
     if (this.parentData) {
       this.genrateParentData();
+    }
+
+    let getData = this.data
+
+    console.log('getData', getData)
+    console.log('Data', this.data)
+
+    if (!getData) {
+
+      this.formStatusCheck = 'Not Started'
+    }
+    if (getData['useData']['isDraft'] == true) {
+      console.log('1')
+      this.formStatusCheck = 'In Progress'
+    } else if (getData['useData']['isDraft'] == false) {
+      console.log('2')
+      this.formStatusCheck = 'Completed'
+    } else {
+      console.log('3')
+      this.formStatusCheck = 'Not Started'
+
     }
   }
   clickedDownloadAsPDF(template) {
@@ -310,8 +333,10 @@ width: 5% !important;
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
     this.showLoader = true;
+
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
+        console.log('vishu', res)
         this.downloadFile(res.slice(0), "pdf", "utilization-report.pdf");
         this.showLoader = false;
       },
@@ -369,15 +394,19 @@ width: 5% !important;
     sessionStorage.setItem("canNavigate", "true");
     console.log('preview Data', this.data)
     this.copyData = this.data
-    delete this.copyData['totalExpCost'];
-    delete this.copyData['totalProCost'];
+    // delete this.copyData['totalExpCost'];
+    // delete this.copyData['totalProCost'];
     // delete this.copyData['ulbName'];
     // delete this.copyData['state_name'];
     this.copyData['designYear'] = this.Years["2021-22"]
     this.copyData['financialYear'] = this.data['useData']['financialYear']
     this.copyData['isDraft'] = this.data['useData']['isDraft']
     this.copyData['ulb'] = this.data['useData']['ulb']
+    this.copyData['namedProjects'] = this.data['projects']
     this.copyData['projects'] = this.data['useData']['projects']
+    for (let i = 0; i < this.data['projects'].length; i++) {
+      this.copyData['projects'][i]['CatName'] = this.copyData['namedProjects'][i]['category']
+    }
 
     console.log('copy Data', this.copyData)
     this.UtiReportService.createAndStorePost(this.copyData).subscribe(
@@ -386,6 +415,8 @@ width: 5% !important;
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.utilReport.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
+        console.log(res)
+        // this.copyData['projects'] = this.data['projects']
         this.downloadForm();
       },
       (error) => {
