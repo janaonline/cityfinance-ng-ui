@@ -10,7 +10,7 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogConfig } from "@angular/material/d
 import { QuestionnaireService } from "../../../questionnaires/service/questionnaire.service";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
 import { defaultDailogConfiuration } from "../../../questionnaires/state/configs/common.config";
-// 
+//
 import { Router, Event } from "@angular/router";
 import { UlbformService } from "../../ulbform.service";
 import { UtiReportService } from '../uti-report.service';
@@ -26,6 +26,7 @@ export class PreviewUtiFormComponent implements OnInit {
   @Input() parentData: any;
   @ViewChild("previewUti") _html: ElementRef;
   showLoader;
+  form_Status='';
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _questionnaireService: QuestionnaireService,
@@ -66,18 +67,11 @@ td, th{
   margin-top: 1.4rem;
   white-space: break-spaces;
 }
-.listitem_grantYear {
-  font-size: 14px !important;
-  display: inline-block;
+.heading-p {
+  color: #FFFFFF;
+  font-size: 18px;
+  padding-top: 2rem !important;
   font-weight: 700;
-  width: 70px !important;
-  height: 15px !important;
-  color: #3D3D3D;
-  margin-left: 10px;
-  background-color: #E5E6E6;
-  border-radius: 3px;
-  padding: 3px !important;
-  margin-top: .6rem;
 
 }
 .listitem_subHead {
@@ -197,7 +191,9 @@ th {
 }
 .bor-in-l {
   word-break: break-all;
-  color: #51504F;
+}
+.long{
+  margin-left: .25rem;
 }
 .tableFooterDiv {
   background-color: #E7E7E7;
@@ -234,6 +230,7 @@ width: 5% !important;
 }
 .w-12{
   width: 12% !important;
+  line-break: strict !important;
 }
 .w-15{
   width: 15% !important;
@@ -249,10 +246,32 @@ width: 5% !important;
 }
 
   </style>`;
+
+  formStatusCheck = ''
   ngOnInit(): void {
-    console.log('pramod', this.data);
     if (this.parentData) {
       this.genrateParentData();
+    }
+
+    let getData = this.data
+
+    console.log('getData', getData)
+    console.log('Data', this.data)
+
+    if (!getData) {
+
+      this.formStatusCheck = 'Not Started'
+    }
+    if (getData['useData']['isDraft'] == true) {
+      console.log('1')
+      this.formStatusCheck = 'In Progress'
+    } else if (getData['useData']['isDraft'] == false) {
+      console.log('2')
+      this.formStatusCheck = 'Completed'
+    } else {
+      console.log('3')
+      this.formStatusCheck = 'Not Started'
+
     }
   }
   clickedDownloadAsPDF(template) {
@@ -308,8 +327,10 @@ width: 5% !important;
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
     this.showLoader = true;
+
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
+        console.log('vishu', res)
         this.downloadFile(res.slice(0), "pdf", "utilization-report.pdf");
         this.showLoader = false;
       },
@@ -367,15 +388,19 @@ width: 5% !important;
     sessionStorage.setItem("canNavigate", "true");
     console.log('preview Data', this.data)
     this.copyData = this.data
-    delete this.copyData['totalExpCost'];
-    delete this.copyData['totalProCost'];
+    // delete this.copyData['totalExpCost'];
+    // delete this.copyData['totalProCost'];
     // delete this.copyData['ulbName'];
     // delete this.copyData['state_name'];
     this.copyData['designYear'] = this.Years["2021-22"]
     this.copyData['financialYear'] = this.data['useData']['financialYear']
     this.copyData['isDraft'] = this.data['useData']['isDraft']
     this.copyData['ulb'] = this.data['useData']['ulb']
+    this.copyData['namedProjects'] = this.data['projects']
     this.copyData['projects'] = this.data['useData']['projects']
+    for (let i = 0; i < this.data['projects'].length; i++) {
+      this.copyData['projects'][i]['CatName'] = this.copyData['namedProjects'][i]['category']
+    }
 
     console.log('copy Data', this.copyData)
     this.UtiReportService.createAndStorePost(this.copyData).subscribe(
@@ -384,6 +409,8 @@ width: 5% !important;
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.utilReport.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
+        console.log(res)
+        // this.copyData['projects'] = this.data['projects']
         this.downloadForm();
       },
       (error) => {

@@ -8,18 +8,20 @@
             </a>
         </div>
 
+        <div class="col-sm-12 heading-p" [ngStyle]="{'margin-top':!parentData  ? '-1.3rem' : '2.5rem'}">
+            <span *ngIf="!parentData">15th FC Grants for 2021-22</span>
+            <br *ngIf="!parentData"> Utilization Report :2020-21
 
-        <label class="listitem_head">
-            15th FC Utilization Report: 2021-22 for year<label class="listitem_grantYear">2020-21</label></label>
+        </div>
+
 
     </div>
-    <div class="d-flex justify-content-between mt-2 d-status" style="padding-left: 5%">
+    <div class="d-flex justify-content-between mt-2 d-status" style="padding-left: 3.7%">
         <p class="form-status-ut">
-            <b>Application Current Status:</b> N/A
+            <b>Application Current Status:</b> {{formStatusCheck}}
         </p>
 
-        <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 3%"
-            class="btn btn-primary btn-upload pdf-hide" (click)="clickedDownloadAsPDF(template)">
+        <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 3.5%" class="btn btn-primary btn-upload pdf-hide" (click)="clickedDownloadAsPDF(template)">
             Download as PDF
         </button>
     </div>
@@ -71,8 +73,7 @@
     </mat-card>
     <mat-card class="mat-card2">
         <div class="row" style="margin: 0;">
-            <div class="h-ut-t">5. Component Wise Utilization of Tied grants (break-up of expenditure incurred in
-                2(iii)) :</div>
+            <div class="h-ut-t">5. Component Wise Utilization of Tied grants (break-up of expenditure incurred in 2(iii)) :</div>
         </div>
         <table class="table table-striped">
             <thead>
@@ -90,13 +91,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of data.projects; let i=index"
-                    style="text-align: center; vertical-align: inherit;">
-                    <td>{{1+i}}</td>
-                    <td>{{data.projects[i].category}}</td>
-                    <td>{{data.projects[i].name}}</td>
-                    <td>{{data.projects[i].description}}</td>
-                    <td>{{data.projects[i].capacity}}</td>
+                <tr *ngFor="let item of data.projects; let i=index" style="text-align: center; vertical-align: inherit;">
+                    <td><label for="">{{1+i}}</label></td>
+                    <td><label for="">{{data.projects[i].category}}</label></td>
+                    <td> <label for="">{{data.projects[i].name}}</label></td>
+                    <td><label for="">{{data.projects[i].description}}</label></td>
+                    <td><label for="">{{data.projects[i].capacity}}</label></td>
                     <td>
                         <div style="display: grid !important;">
                             <img class="ml-2" [src]="imgUrl.url" alt="" width="40px" height="40px" *ngFor="let imgUrl
@@ -105,10 +105,8 @@
 
                     </td>
                     <td>
-                        <label for="" class="bor-in-l"
-                            style="font-size: 10px;">{{data.projects[i].location.lat}}</label>
-                        <label for="" class="bor-in-l"
-                            style="margin-left: 5px; font-size: 10px;">{{data.projects[i].location.long}}</label>
+                        <label for="" class="bor-in-l">Lat :&nbsp; <span>{{data.projects[i].location.lat}}</span></label> <br>
+                        <label for="" class="bor-in-l long">Long :&nbsp;<span>{{data.projects[i].location.long}}</span> </label>
 
                     </td>
                     <td> <label class="bor-in-l" for="">{{data.projects[i].cost}}</label></td>
@@ -149,11 +147,11 @@
 
         <p style="margin-top: 8px;">
             Are you sure you want to proceed further?
-        <div>
-            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
+            <div>
+                <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
                 Proceed</button>
-        </div>
+            </div>
 
     </div>
 </ng-template>

@@ -37,7 +37,7 @@ export class UlbformPreviewComponent implements OnInit {
     private _matDialog: MatDialog
   ) {}
 
-  
+
 
   styleForPDF = `<style>
   .b-hide{
@@ -261,7 +261,6 @@ th {
 }
 .bor-in-l {
   word-break: break-all;
-  color: #51504F;
 }
 .tableFooterDiv {
   background-color: #E7E7E7;
@@ -573,8 +572,8 @@ margin-left : .5rem !important;
 
   pfmsError = {
     response: {
-      account: null,
-      linked: null,
+      account: '',
+      linked: '',
     },
   };
 

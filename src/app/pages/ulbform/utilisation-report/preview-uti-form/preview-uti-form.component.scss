@@ -23,17 +23,11 @@
     white-space: break-spaces;
 }
 
-.listitem_grantYear {
-    display: inline-block;
-    font-weight: normal;
-    width: 100px;
-    height: 30px;
-    color: #3D3D3D;
-    margin-left: 10px;
-    background-color: #E5E6E6;
-    border-radius: 3px;
-    padding: 4px;
-    font-size: 18px;
+.heading-p {
+    color: #FFFFFF;
+    font-size: 24px;
+    margin-top: 1.5rem;
+    font-weight: 700;
 }
 
 .listitem_subHead {
@@ -41,6 +35,10 @@
     font-weight: normal;
     font-family: Roboto;
     padding: 2px 2px;
+}
+
+.long {
+    margin-left: 11px;
 }
 
 .dnDiv {
@@ -134,13 +132,6 @@ th {
 
 .bor-in-l {
     font-weight: normal;
-    //border: 1px solid #A9A9A9;
-    border-radius: 3px;
-    //  width: 90px;
-    height: 24px;
-    padding: 2px 3px;
-    color: #51504F;
-    font-size: 13px;
     word-break: break-all;
 }
 

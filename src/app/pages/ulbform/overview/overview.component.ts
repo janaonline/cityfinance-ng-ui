@@ -16,7 +16,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   forms = []
   count = 0
   percentage = 0;
-  status = 'In Progress'
+  status = ''
   isMillionPlus;
   isUA;
   id = null;
@@ -139,46 +139,53 @@ public onResize() {
   console.log(this.itemsPerSlide)
 }
 
-  ngOnInit() {
+async  ngOnInit() {
     this.onResize();
+ await this.getData();
+    this.accessGrant();
 
-    this.Overview.getData('606aaf854dff55e6c075d219' , this.id)
-      .subscribe((res) => {
-        console.log('overviewRes', res['response']);
-        this.sessionUlbId = res['response']['ulb'];
-        // this.isMillionPlus = res['response']['isMillionPlus'];
-        // this.isUA = res['response']['isUA'];
-        this.stateName = res['response']['stateName'];
-        this.ulbName = res['response']['ulbName'];
-        this.forms[0] = res['response']?.steps?.annualAccounts?.isSubmit
-        this.forms[1] = res['response']?.steps?.pfmsAccount?.isSubmit
-        this.forms[2] = res['response']?.steps?.plans?.isSubmit
-        this.forms[3] = res['response']?.steps?.slbForWaterSupplyAndSanitation?.isSubmit
-        this.forms[4] = res['response']?.steps?.utilReport?.isSubmit
-        switch (this.loggedInUserType) {
-          case USER_TYPE.STATE:
-          case USER_TYPE.PARTNER:
-          case USER_TYPE.MoHUA:
-          case USER_TYPE.ADMIN:
-            this.storeUlbId();
-            break;
-
-        }
-        for (let key of this.forms) {
-          if (key) {
-            this.count = this.count + key;
-          }
-        }
-             },
-        error => {
-          this.errMessage = error.error;
-          console.log(this.errMessage);
-        });
-        this.accessGrant();
 
   }
-  headertext = 'The 15th Finance Commission Grants Management System facilitates seamless submission and flow of required information between Urban Local Bodies, State Governments and Ministry of Housuing and Urban Affairs for the purposes of availaing ULB Grants between 2021-2026.'
+  getData(){
+       return new Promise ((resolve, reject) => {
+        this.Overview.getData('606aaf854dff55e6c075d219' , this.id)
+        .subscribe((res) => {
+          console.log('overviewRes', res['response']);
+          this.sessionUlbId = res['response']['ulb'];
+          // this.isMillionPlus = res['response']['isMillionPlus'];
+          // this.isUA = res['response']['isUA'];
+          this.stateName = res['response']['stateName'];
+          this.ulbName = res['response']['ulbName'];
+          this.forms[0] = res['response']?.steps?.annualAccounts?.isSubmit
+          this.forms[1] = res['response']?.steps?.pfmsAccount?.isSubmit
+          this.forms[2] = res['response']?.steps?.plans?.isSubmit
+          this.forms[3] = res['response']?.steps?.slbForWaterSupplyAndSanitation?.isSubmit
+          this.forms[4] = res['response']?.steps?.utilReport?.isSubmit
+          switch (this.loggedInUserType) {
+            case USER_TYPE.STATE:
+            case USER_TYPE.PARTNER:
+            case USER_TYPE.MoHUA:
+            case USER_TYPE.ADMIN:
+              this.storeUlbId();
+              break;
 
+          }
+          for (let key of this.forms) {
+            if (key) {
+              this.count = this.count + key;
+            }
+          }
+          resolve('Success')
+               },
+          error => {
+            this.errMessage = error.error;
+            console.log(this.errMessage);
+            resolve('Success')
+          });
+       })
+  }
+  headertext = 'The 15th Finance Commission Grants Management System facilitates seamless submission and flow of required information between Urban Local Bodies, State Governments and Ministry of Housuing and Urban Affairs for the purposes of availaing ULB Grants between 2021-2026.'
+  numcard = 0;
   p = 60;
   position = 0;
   resourceNames = [
@@ -226,30 +233,38 @@ public onResize() {
       this.cardsOverview = this.cardsOverview;
       this.formValue = 5;
       this.factor = 100/this.formValue;
+      this.numcard = 7;
     }
     else if (this.isUA == 'No' && this.isMillionPlus == 'No') {
       this.formValue = 4;
       let userType = "Yes";
       this.cardsOverview =  this.cardsOverview.filter(item => !item.permittedAccounts.includes(userType))
       this.factor = 100/(+this.formValue);
+      this.numcard = 6;
       console.log('no. no', this.factor)
     }
     else if (this.isUA == 'No' && this.isMillionPlus == 'Yes') {
       let userType = "None"
-
       this.cardsOverview =  this.cardsOverview.filter(item => !item.display.includes(userType));
       this.formValue = 3;
-      this.factor = 100 / this.formValue;
+      this.factor =Math.floor(100 / this.formValue);
+      this.numcard = 5;
     } else {
       this.cardsOverview = this.cardsOverview;
       this.formValue = 5;
       this.factor = 100 / this.formValue;
+      this.numcard = 7;
 
     }
     this.percentage = this.count * this.factor;
     // this.percentage = this.count * 20;
     if (this.percentage == 100) {
-      this.status = 'Completed'
+      this.status = ' Completed'
+    }
+    if (this.percentage > 0 && this.percentage < 100) {
+      this.status = ' In Progress'
+    }else{
+      this.status = ' Not Started'
     }
 
   }
