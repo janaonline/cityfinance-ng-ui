@@ -67,18 +67,11 @@ td, th{
   margin-top: 1.4rem;
   white-space: break-spaces;
 }
-.listitem_grantYear {
-  font-size: 14px !important;
-  display: inline-block;
+.heading-p {
+  color: #FFFFFF;
+  font-size: 18px;
+  padding-top: 2rem !important;
   font-weight: 700;
-  width: 70px !important;
-  height: 15px !important;
-  color: #3D3D3D;
-  margin-left: 10px;
-  background-color: #E5E6E6;
-  border-radius: 3px;
-  padding: 3px !important;
-  margin-top: .6rem;
 
 }
 .listitem_subHead {
@@ -237,6 +230,7 @@ width: 5% !important;
 }
 .w-12{
   width: 12% !important;
+  line-break: strict !important;
 }
 .w-15{
   width: 15% !important;
