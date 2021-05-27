@@ -139,44 +139,50 @@ public onResize() {
   console.log(this.itemsPerSlide)
 }
 
-  ngOnInit() {
+async  ngOnInit() {
     this.onResize();
+ await this.getData();
+    this.accessGrant();
 
-    this.Overview.getData('606aaf854dff55e6c075d219' , this.id)
-      .subscribe((res) => {
-        console.log('overviewRes', res['response']);
-        this.sessionUlbId = res['response']['ulb'];
-        // this.isMillionPlus = res['response']['isMillionPlus'];
-        // this.isUA = res['response']['isUA'];
-        this.stateName = res['response']['stateName'];
-        this.ulbName = res['response']['ulbName'];
-        this.forms[0] = res['response']?.steps?.annualAccounts?.isSubmit
-        this.forms[1] = res['response']?.steps?.pfmsAccount?.isSubmit
-        this.forms[2] = res['response']?.steps?.plans?.isSubmit
-        this.forms[3] = res['response']?.steps?.slbForWaterSupplyAndSanitation?.isSubmit
-        this.forms[4] = res['response']?.steps?.utilReport?.isSubmit
-        switch (this.loggedInUserType) {
-          case USER_TYPE.STATE:
-          case USER_TYPE.PARTNER:
-          case USER_TYPE.MoHUA:
-          case USER_TYPE.ADMIN:
-            this.storeUlbId();
-            break;
 
-        }
-        for (let key of this.forms) {
-          if (key) {
-            this.count = this.count + key;
+  }
+  getData(){
+       return new Promise ((resolve, reject) => {
+        this.Overview.getData('606aaf854dff55e6c075d219' , this.id)
+        .subscribe((res) => {
+          console.log('overviewRes', res['response']);
+          this.sessionUlbId = res['response']['ulb'];
+          // this.isMillionPlus = res['response']['isMillionPlus'];
+          // this.isUA = res['response']['isUA'];
+          this.stateName = res['response']['stateName'];
+          this.ulbName = res['response']['ulbName'];
+          this.forms[0] = res['response']?.steps?.annualAccounts?.isSubmit
+          this.forms[1] = res['response']?.steps?.pfmsAccount?.isSubmit
+          this.forms[2] = res['response']?.steps?.plans?.isSubmit
+          this.forms[3] = res['response']?.steps?.slbForWaterSupplyAndSanitation?.isSubmit
+          this.forms[4] = res['response']?.steps?.utilReport?.isSubmit
+          switch (this.loggedInUserType) {
+            case USER_TYPE.STATE:
+            case USER_TYPE.PARTNER:
+            case USER_TYPE.MoHUA:
+            case USER_TYPE.ADMIN:
+              this.storeUlbId();
+              break;
+
           }
-        }
-        this.accessGrant();
-             },
-        error => {
-          this.errMessage = error.error;
-          console.log(this.errMessage);
-        });
-
-
+          for (let key of this.forms) {
+            if (key) {
+              this.count = this.count + key;
+            }
+          }
+          resolve('Success')
+               },
+          error => {
+            this.errMessage = error.error;
+            console.log(this.errMessage);
+            resolve('Success')
+          });
+       })
   }
   headertext = 'The 15th Finance Commission Grants Management System facilitates seamless submission and flow of required information between Urban Local Bodies, State Governments and Ministry of Housuing and Urban Affairs for the purposes of availaing ULB Grants between 2021-2026.'
   numcard = 0;
