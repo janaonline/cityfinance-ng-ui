@@ -360,34 +360,43 @@ export class AnnualAccountsComponent implements OnInit {
     });
   }
 
-  async submit(template) {
+  async submit(template = null) {
     await this.checkForm(this.unauditResponse);
     await this.checkForm(this.auditResponse);
-    if (!this.unauditResponse.isCompleted || !this.auditResponse.isCompleted) {
-      this.alertError =
-        "Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?";
-      this.openDialog(template);
-      return;
+    if (template != null) {
+      if (
+        !this.unauditResponse.isCompleted ||
+        !this.auditResponse.isCompleted
+      ) {
+        this.alertError =
+          "Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?";
+        this.openDialog(template);
+        return;
+      }
     }
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
+    let res = false;
+    if(this.unauditResponse.isCompleted && this.auditResponse.isCompleted){
+      res = true
+    }
+    const status = JSON.parse(sessionStorage.getItem("allStatus"));
+          status.annualAccounts.isSubmit = res;
+          this._ulbformService.allStatus.next(status);
     swal({
       title: "Submitted",
       text: "Record submitted successfully!",
       icon: "success",
     });
-
     sessionStorage.setItem("changeInAnnual", "false");
-    return this._router.navigate(["ulbform/service-level"]);
+    if (template != null)
+      return this._router.navigate(["ulbform/service-level"]);
   }
 
   save(form) {
     return new Promise(async (resolve, reject) => {
       this.annualAccountsService.postData(form).subscribe(
         (res) => {
-          const status = JSON.parse(sessionStorage.getItem("allStatus"));
-          status.annualAccounts.isSubmit = res["isCompleted"];
-          this._ulbformService.allStatus.next(status);
           const toStoreResponse = [this.auditResponse, this.unauditResponse];
           sessionStorage.setItem(
             "annualAccounts",
@@ -728,11 +737,14 @@ export class AnnualAccountsComponent implements OnInit {
 
   checkDiff(status) {
     const annualAccounts = sessionStorage.getItem("annualAccounts");
-    const currentAnnualAccounts = JSON.stringify([this.unauditResponse,this.auditResponse])
-    if(annualAccounts != currentAnnualAccounts){
-      sessionStorage.setItem("changeInAnnual","true")
-    }else{
-      sessionStorage.setItem("changeInAnnual","false")
+    const currentAnnualAccounts = JSON.stringify([
+      this.unauditResponse,
+      this.auditResponse,
+    ]);
+    if (annualAccounts != currentAnnualAccounts) {
+      sessionStorage.setItem("changeInAnnual", "true");
+    } else {
+      sessionStorage.setItem("changeInAnnual", "false");
     }
   }
 
@@ -756,27 +768,11 @@ export class AnnualAccountsComponent implements OnInit {
   async proceed() {
     await this.dialogRef.close(true);
     if (this.routerNavigate) {
-      await this.save(this.unauditResponse);
-      await this.save(this.auditResponse);
-      swal({
-        title: "Submitted",
-        text: "Record submitted successfully!",
-        icon: "success",
-      });
-
-      sessionStorage.setItem("changeInAnnual", "false");
+      await this.submit();
       this._router.navigate([this.routerNavigate.url]);
       return;
     }
-    await this.save(this.unauditResponse);
-    await this.save(this.auditResponse);
-    swal({
-      title: "Submitted",
-      text: "Record submitted successfully!",
-      icon: "success",
-    });
-
-    sessionStorage.setItem("changeInAnnual", "false");
+    await this.submit();
     return this._router.navigate(["ulbform/service-level"]);
   }
   alertClose() {

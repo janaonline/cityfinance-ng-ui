@@ -186,7 +186,6 @@ export class AnnualPreviewComponent implements OnInit {
 
   async proceed(uploadedFiles) {
     this._matDialog.closeAll();
-    debugger
     await this.submit()
     await this.downloadAsPDF();
     sessionStorage.setItem("changeInAnnual", "false");
