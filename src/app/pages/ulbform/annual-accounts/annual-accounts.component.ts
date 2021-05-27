@@ -248,6 +248,7 @@ export class AnnualAccountsComponent implements OnInit {
   navigationCheck() {
     if (!this.clickedSave) {
       this._router.events.subscribe(async (event: Event) => {
+        console.log('entered router')
         if (event instanceof NavigationStart) {
           this.alertError = "Are you sure you want to proceed further?";
           const changeInAnnual = sessionStorage.getItem("changeInAnnual");
@@ -279,7 +280,7 @@ export class AnnualAccountsComponent implements OnInit {
       width: "85vw",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   onLoad() {
@@ -674,7 +675,7 @@ export class AnnualAccountsComponent implements OnInit {
       let newObj = {
         alias:
           this[progressArray[0]][progressArray[1]][this.progressArray[2]][
-            "excelUrl"
+          "excelUrl"
           ],
         financialYear: "",
         design_year: this[progressArray[0]]["design_year"],

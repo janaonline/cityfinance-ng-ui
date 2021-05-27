@@ -193,8 +193,9 @@
                                 </td>
                                 <td class="pos-td">
                                     <input type="text" data-toggle="tooltip" data-placement="top" class="t-i
-                                     form-control" [disabled]="isDisabled" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.projects.controls[projectIndex].controls.name.errors?.required )? '1px solid red' : '' }" placeholder="Max 50 Characters"
-                                        (mouseover)="errorDisplayName=true" (mouseout)="errorDisplayName=false" formControlName="name" style="width: 10rem;" required>
+                                     form-control" [disabled]="isDisabled" [ngStyle]="{'border':(isSubmitted == true &&
+                                      utiReportFormControl.projects.controls[projectIndex].controls.name.errors?.required )? '1px solid red' : '' }" placeholder="Max 50 Characters" (mouseover)="errorDisplayName=true" (mouseout)="errorDisplayName=false"
+                                        formControlName="name" style="width: 10rem;" required>
                                     <div class="bs-tooltip-top" role="tooltip" *ngIf="errorDisplayName &&
                                     utiReportFormControl.projects.controls[projectIndex].controls.name.invalid &&
                               (utiReportFormControl.projects.controls[projectIndex].controls.name.dirty ||
@@ -211,12 +212,20 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <input type="text" class="t-i form-control" [ngStyle]="{'border':(isSubmitted == true &&  utiReportFormControl.projects.controls[projectIndex].controls.description.errors?.required)? '1px solid red' : '' }" [disabled]="isDisabled" (mouseover)="errorDisplayDescription=true"
-                                        (mouseout)="errorDisplayDescription=false" placeholder="Max 200 Characters" formControlName="description" style="width: 14rem;" required>
+                                    <input type="text" class="t-i form-control" [ngStyle]="{'border':(isSubmitted == true &&
+                                      utiReportFormControl.projects.controls[projectIndex].controls.description.errors?.required) ? '1px solid red' : '' }" [disabled]="isDisabled" (mouseover)="errorDisplayDescription=true" (mouseout)="errorDisplayDescription=false"
+                                        placeholder="Max 200 Characters" formControlName="description" style="width: 14rem;" required>
                                     <div class="bs-tooltip-top" role="tooltip" *ngIf="errorDisplayDescription
+                                        &&
+                                        utiReportFormControl.projects.controls[projectIndex].controls.description.invalid &&
+                                  (utiReportFormControl.projects.controls[projectIndex].controls.description.dirty ||
+                                  utiReportFormControl.projects.controls[projectIndex].controls.description.touched || submitted)">
+
+
+                                        <!-- <div class="bs-tooltip-top" role="tooltip" *ngIf="errorDisplayDescription
                                        && utiReportFormControl.projects.controls[projectIndex].controls.description.invalid &&
                                       (utiReportFormControl.projects.controls[projectIndex].controls.description.dirty ||
-                                      utiReportFormControl.projects.controls[projectIndex].controls.description.touched || submitted)">
+                                      utiReportFormControl.projects.controls[projectIndex].controls.description.touched || submitted)"> -->
 
                                         <span class="tooltip-inner" style="font-size: 10px;" *ngIf=" errorDisplayDescription
                            && utiReportFormControl.projects.controls[projectIndex].controls.description.errors.required">
@@ -276,8 +285,8 @@
                                     <div class="bs-tooltip-top" role="tooltip">
                                         <span class="tooltip-inner" style="font-size: 10px; margin-left: 0;" *ngIf="(isSubmitted == true &&
                                       utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.required) && errorDisplayLat">
-                                         Latitude Required*
-                                      </span>
+                                            Latitude Required*
+                                        </span>
                                     </div>
 
 
@@ -287,8 +296,8 @@
                                         <span class="tooltip-inner" style="font-size: 10px;" *ngIf="(isSubmitted == true &&
                 utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.required) &&
                  errorDisplayLong">
-                   Longitude Required*
-                </span>
+                                            Longitude Required*
+                                        </span>
                                     </div>
 
                                     <!-- <span id="mapCon"
@@ -416,7 +425,7 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 text-right">
                 <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
-                <button type="button" class="btn footerBtn" id="saveNext" [disabled]="isDisabled" (click)="saveAndNext(template1)">SAVE AND NEXT</button>
+                <button type="button" class="btn footerBtn" id="saveNext" [disabled]="isDisabled" (click)="clickedSaveAndNext(template1)">SAVE AND NEXT</button>
             </div>
         </div>
 
