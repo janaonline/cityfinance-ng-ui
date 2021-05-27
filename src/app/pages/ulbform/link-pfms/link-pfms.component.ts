@@ -109,7 +109,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
   clickedBack(template) {
     this.backClicked = true;
-    let changeHappen = sessionStorage.getItem("changeInPFMS")
+    let changeHappen = sessionStorage.getItem("changeInPFMSAccount")
     if (changeHappen === "true") {
       this.openModal(template)
     } else {
@@ -125,8 +125,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   onClickYes() {
     this.showQuestion2 = true
     this.account = 'yes';
-    if (this.prevState === 'no')
-      this.linked = '';
+
+    this.linked = '';
     this.checkDiff();
   }
   onClickNo() {
@@ -134,7 +134,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     this.showQuestion2 = false;
     this.isClicked = false;
     this.account = 'no';
-    this.prevState = this.account;
+
     this.linked = 'no';
     // if (!this.change)
     this.checkDiff();
@@ -255,7 +255,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
           this.showQuestion2 = true;
         }
         if (this.account === 'no') {
-          this.linked = '';
+          this.linked = 'no';
         }
         sessionStorage.setItem(
           "pfmsAccounts",
