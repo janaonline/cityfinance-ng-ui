@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Overview } from './overview.service'
 import { USER_TYPE } from 'src/app/models/user/userType';
@@ -110,6 +110,20 @@ cardsOverview= [{
      display:["None"]
      },
 ]
+width;
+row_width;
+messWidth;
+@ViewChild('myIdentifier')
+ myIdentifier: ElementRef;
+ ngAfterViewInit() {
+  this.row_width = this.myIdentifier.nativeElement.offsetWidth;
+  var height = this.myIdentifier.nativeElement.offsetHeight;
+  this.messWidth = this.row_width - 42;
+  console.log('Width:' + this.row_width);
+  console.log('Height: ' + height);
+}
+
+
 
 
 public innerWidth: number;
@@ -138,6 +152,7 @@ public onResize() {
   }
   console.log(this.itemsPerSlide)
 }
+
 
 async  ngOnInit() {
        this.onResize();
@@ -256,6 +271,7 @@ async  ngOnInit() {
       this.numcard = 7;
 
     }
+    this.width = (this.row_width/this.numcard) - 8;
     this.percentage = this.count * this.factor;
     // this.percentage = this.count * 20;
     if (this.percentage == 100) {
