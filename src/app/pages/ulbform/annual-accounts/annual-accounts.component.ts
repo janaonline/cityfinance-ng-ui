@@ -77,6 +77,9 @@ export class AnnualAccountsComponent implements OnInit {
     provisional_data: {
       bal_sheet: {
         pdfUrl: null,
+        excelRetry: false,
+        excelFile: null,
+        retry: false,
         progress: null,
         progressExcel: null,
         pdfName: null,
@@ -85,10 +88,14 @@ export class AnnualAccountsComponent implements OnInit {
         pdfError: null,
         excelName: null,
         rejectReason: null,
+        file: null,
       },
       bal_sheet_schedules: {
         pdfName: null,
         pdfUrl: null,
+        excelRetry: false,
+        excelFile: null,
+        retry: false,
         progress: null,
         progressExcel: null,
         excelUrl: null,
@@ -96,10 +103,14 @@ export class AnnualAccountsComponent implements OnInit {
         excelError: null,
         pdfError: null,
         rejectReason: null,
+        file: null,
       },
       inc_exp: {
         pdfName: null,
         pdfUrl: null,
+        excelRetry: false,
+        excelFile: null,
+        retry: false,
         progress: null,
         progressExcel: null,
         excelUrl: null,
@@ -107,10 +118,14 @@ export class AnnualAccountsComponent implements OnInit {
         excelError: null,
         pdfError: null,
         rejectReason: null,
+        file: null,
       },
       inc_exp_schedules: {
         pdfName: null,
         pdfUrl: null,
+        excelRetry: false,
+        excelFile: null,
+        retry: false,
         progress: null,
         progressExcel: null,
         excelUrl: null,
@@ -118,10 +133,14 @@ export class AnnualAccountsComponent implements OnInit {
         excelError: null,
         pdfError: null,
         rejectReason: null,
+        file: null,
       },
       cash_flow: {
         pdfName: null,
         pdfUrl: null,
+        excelRetry: false,
+        excelFile: null,
+        retry: false,
         progress: null,
         progressExcel: null,
         excelUrl: null,
@@ -129,10 +148,14 @@ export class AnnualAccountsComponent implements OnInit {
         excelError: null,
         pdfError: null,
         rejectReason: null,
+        file: null,
       },
       auditor_report: {
         pdfName: null,
         pdfUrl: null,
+        excelRetry: false,
+        excelFile: null,
+        retry: false,
         progress: null,
         progressExcel: null,
         excelUrl: null,
@@ -140,6 +163,7 @@ export class AnnualAccountsComponent implements OnInit {
         excelError: null,
         pdfError: null,
         rejectReason: null,
+        file: null,
       },
     },
     standardized_data: {
@@ -167,6 +191,9 @@ export class AnnualAccountsComponent implements OnInit {
     provisional_data: {
       bal_sheet: {
         pdfUrl: null,
+        excelRetry: false,
+        excelFile: null,
+        retry: false,
         progress: null,
         progressExcel: null,
         pdfName: null,
@@ -175,10 +202,14 @@ export class AnnualAccountsComponent implements OnInit {
         excelError: null,
         pdfError: null,
         rejectReason: null,
+        file: null,
       },
       bal_sheet_schedules: {
         pdfName: null,
         pdfUrl: null,
+        excelRetry: false,
+        excelFile: null,
+        retry: false,
         progress: null,
         progressExcel: null,
         excelUrl: null,
@@ -186,10 +217,14 @@ export class AnnualAccountsComponent implements OnInit {
         excelError: null,
         pdfError: null,
         rejectReason: null,
+        file: null,
       },
       inc_exp: {
         pdfName: null,
         pdfUrl: null,
+        excelRetry: false,
+        excelFile: null,
+        retry: false,
         progress: null,
         progressExcel: null,
         excelUrl: null,
@@ -197,10 +232,14 @@ export class AnnualAccountsComponent implements OnInit {
         excelError: null,
         pdfError: null,
         rejectReason: null,
+        file: null,
       },
       inc_exp_schedules: {
         pdfName: null,
         pdfUrl: null,
+        excelRetry: false,
+        excelFile: null,
+        retry: false,
         progress: null,
         progressExcel: null,
         excelUrl: null,
@@ -208,10 +247,14 @@ export class AnnualAccountsComponent implements OnInit {
         excelError: null,
         pdfError: null,
         rejectReason: null,
+        file: null,
       },
       cash_flow: {
         pdfName: null,
         pdfUrl: null,
+        excelRetry: false,
+        excelFile: null,
+        retry: false,
         progress: null,
         progressExcel: null,
         excelUrl: null,
@@ -219,13 +262,7 @@ export class AnnualAccountsComponent implements OnInit {
         excelError: null,
         pdfError: null,
         rejectReason: null,
-      },
-      auditor_report: {
-        pdfName: null,
-        pdfUrl: null,
-        progress: null,
-        pdfError: null,
-        rejectReason: null,
+        file: null,
       },
     },
     standardized_data: {
@@ -248,7 +285,7 @@ export class AnnualAccountsComponent implements OnInit {
   navigationCheck() {
     if (!this.clickedSave) {
       this._router.events.subscribe(async (event: Event) => {
-        console.log('entered router')
+        console.log("entered router");
         if (event instanceof NavigationStart) {
           this.alertError = "Are you sure you want to proceed further?";
           const changeInAnnual = sessionStorage.getItem("changeInAnnual");
@@ -280,7 +317,7 @@ export class AnnualAccountsComponent implements OnInit {
       width: "85vw",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => { });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   onLoad() {
@@ -378,12 +415,12 @@ export class AnnualAccountsComponent implements OnInit {
     await this.save(this.unauditResponse);
     await this.save(this.auditResponse);
     let res = false;
-    if(this.unauditResponse.isCompleted && this.auditResponse.isCompleted){
-      res = true
+    if (this.unauditResponse.isCompleted && this.auditResponse.isCompleted) {
+      res = true;
     }
     const status = JSON.parse(sessionStorage.getItem("allStatus"));
-          status.annualAccounts.isSubmit = res;
-          this._ulbformService.allStatus.next(status);
+    status.annualAccounts.isSubmit = res;
+    this._ulbformService.allStatus.next(status);
     swal({
       title: "Submitted",
       text: "Record submitted successfully!",
@@ -448,7 +485,11 @@ export class AnnualAccountsComponent implements OnInit {
                   key3 === "progress" ||
                   key3 === "pdfName" ||
                   key3 === "pdfError" ||
-                  key3 === "rejectReason"
+                  key3 === "rejectReason" ||
+                  key3 === "file" ||
+                  key3 === "retry" ||
+                  key3 === "excelRetry" ||
+                  key3 === "excelFile"
                 ) {
                   continue;
                 }
@@ -586,7 +627,27 @@ export class AnnualAccountsComponent implements OnInit {
     this.isPdf = type;
     this.progressArray = progressType.split(".");
     this.fileNameArray = fileName.split(".");
-    this.fileSelected = <Array<File>>event.target["files"];
+    if (event.target?.files)
+      this.fileSelected = <Array<File>>event.target["files"];
+    else this.fileSelected = [event];
+    if (type) {
+      this[this.fileNameArray[0]][this.fileNameArray[1]][this.fileNameArray[2]][
+        "file"
+      ] = this.fileSelected[0];
+    } else {
+      this[this.fileNameArray[0]][this.fileNameArray[1]][this.fileNameArray[2]][
+        "excelFile"
+      ] = this.fileSelected[0];
+    }
+    if (type) {
+      this[this.progressArray[0]][this.progressArray[1]][this.progressArray[2]][
+        "retry"
+      ] = false;
+    } else {
+      this[this.progressArray[0]][this.progressArray[1]][this.progressArray[2]][
+        "excelRetry"
+      ] = false;
+    }
     this.upload(this.progressArray, this.fileNameArray, type, isUploadExcel);
   }
 
@@ -617,7 +678,8 @@ export class AnnualAccountsComponent implements OnInit {
           "excelError"
         ] = error?.data?.message || "Upload Error";
         this.clearFile(fileNameArray, false, true);
-      } else this.clearFile(fileNameArray, isPdf, true);
+      }
+      //  else this.clearFile(fileNameArray, isPdf, true);
     }
   }
 
@@ -669,10 +731,22 @@ export class AnnualAccountsComponent implements OnInit {
                 this.progressArray[2]
               ]["excelUrl"] = fileAlias;
             }
+            this[this.progressArray[0]][this.progressArray[1]][
+              this.progressArray[2]
+            ]["file"] = null;
             resolve("Success");
           }
         },
         (err) => {
+          if (this.progressArray[3] != "progressExcel")
+            this[this.progressArray[0]][this.progressArray[1]][
+              this.progressArray[2]
+            ]["retry"] = true;
+          else
+            this[this.progressArray[0]][this.progressArray[1]][
+              this.progressArray[2]
+            ]["excelRetry"] = true;
+
           reject(err);
         }
       );
@@ -684,7 +758,7 @@ export class AnnualAccountsComponent implements OnInit {
       let newObj = {
         alias:
           this[progressArray[0]][progressArray[1]][this.progressArray[2]][
-          "excelUrl"
+            "excelUrl"
           ],
         financialYear: "",
         design_year: this[progressArray[0]]["design_year"],

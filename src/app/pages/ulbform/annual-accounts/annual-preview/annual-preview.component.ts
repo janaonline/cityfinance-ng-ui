@@ -266,7 +266,7 @@ export class AnnualPreviewComponent implements OnInit {
     ) {
       this.previewStatus = "Not Started";
     } else {
-      this.previewStatus = "In progress";
+      this.previewStatus = "In Progress";
     }
     if (annualData[0]["isCompleted"] && annualData[1]["isCompleted"]) {
       this.previewStatus = "Completed";

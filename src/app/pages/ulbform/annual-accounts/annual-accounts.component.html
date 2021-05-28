@@ -101,19 +101,33 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.bal_sheet.pdfUrl">
-                                        <a href="{{ unauditResponse.provisional_data.bal_sheet.pdfUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="unauditResponse.provisional_data.bal_sheet.pdfUrl">
+                                            <a href="{{ unauditResponse.provisional_data.bal_sheet.pdfUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('unauditResponse.provisional_data.bal_sheet',true)"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('unauditResponse.provisional_data.bal_sheet',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="unauditResponse.provisional_data.bal_sheet.retry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(unauditResponse.provisional_data.bal_sheet.file,'unauditResponse.provisional_data.bal_sheet.progress','unauditResponse.provisional_data.bal_sheet.pdfName',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
                                     </ng-container>
                                 </div>
                             </div>
@@ -150,19 +164,34 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.bal_sheet.excelUrl">
-                                        <a href="{{ unauditResponse.provisional_data.bal_sheet.excelUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="unauditResponse.provisional_data.bal_sheet.excelUrl">
+                                            <a href="{{ unauditResponse.provisional_data.bal_sheet.excelUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('unauditResponse.provisional_data.bal_sheet')"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('unauditResponse.provisional_data.bal_sheet')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="unauditResponse.provisional_data.bal_sheet.excelRetry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(unauditResponse.provisional_data.bal_sheet.excelFile,'unauditResponse.provisional_data.bal_sheet.progressExcel','unauditResponse.provisional_data.bal_sheet.excelName')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
                                     </ng-container>
                                 </div>
                             </div>
@@ -207,19 +236,33 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.pdfUrl">
-                                        <a href="{{ unauditResponse.provisional_data.bal_sheet_schedules.pdfUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.pdfUrl">
+                                            <a href="{{ unauditResponse.provisional_data.bal_sheet_schedules.pdfUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('unauditResponse.provisional_data.bal_sheet_schedules',true)"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('unauditResponse.provisional_data.bal_sheet_schedules',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.retry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(unauditResponse.provisional_data.bal_sheet_schedules.file,'unauditResponse.provisional_data.bal_sheet_schedules.progress','unauditResponse.provisional_data.bal_sheet_schedules.pdfName',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
                                     </ng-container>
                                 </div>
                             </div>
@@ -256,19 +299,34 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.excelUrl">
-                                        <a href="{{ unauditResponse.provisional_data.bal_sheet_schedules.excelUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.excelUrl">
+                                            <a href="{{ unauditResponse.provisional_data.bal_sheet_schedules.excelUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('unauditResponse.provisional_data.bal_sheet_schedules')"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('unauditResponse.provisional_data.bal_sheet_schedules')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="unauditResponse.provisional_data.bal_sheet_schedules.excelRetry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(unauditResponse.provisional_data.bal_sheet_schedules.excelFile,'unauditResponse.provisional_data.bal_sheet_schedules.progressExcel','unauditResponse.provisional_data.bal_sheet_schedules.excelName')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
                                     </ng-container>
                                 </div>
                             </div>
@@ -313,18 +371,33 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.inc_exp.pdfUrl">
-                                        <a href="{{ unauditResponse.provisional_data.inc_exp.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="unauditResponse.provisional_data.inc_exp.pdfUrl">
+                                            <a href="{{ unauditResponse.provisional_data.inc_exp.pdfUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('unauditResponse.provisional_data.inc_exp',true)"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('unauditResponse.provisional_data.inc_exp',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="unauditResponse.provisional_data.inc_exp.retry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(unauditResponse.provisional_data.inc_exp.file,'unauditResponse.provisional_data.inc_exp.progress','unauditResponse.provisional_data.inc_exp.pdfName',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
                                     </ng-container>
                                 </div>
                             </div>
@@ -361,19 +434,34 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.inc_exp.excelUrl">
-                                        <a href="{{ unauditResponse.provisional_data.inc_exp.excelUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="unauditResponse.provisional_data.inc_exp.excelUrl">
+                                            <a href="{{ unauditResponse.provisional_data.inc_exp.excelUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('unauditResponse.provisional_data.inc_exp')"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('unauditResponse.provisional_data.inc_exp')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="unauditResponse.provisional_data.inc_exp.excelRetry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(unauditResponse.provisional_data.inc_exp.excelFile,'unauditResponse.provisional_data.inc_exp.progressExcel','unauditResponse.provisional_data.inc_exp.excelName')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
                                     </ng-container>
                                 </div>
                             </div>
@@ -418,19 +506,33 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.inc_exp_schedules.pdfUrl">
-                                        <a href="{{ unauditResponse.provisional_data.inc_exp_schedules.pdfUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="unauditResponse.provisional_data.inc_exp_schedules.pdfUrl">
+                                            <a href="{{ unauditResponse.provisional_data.inc_exp_schedules.pdfUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('unauditResponse.provisional_data.inc_exp_schedules',true)"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('unauditResponse.provisional_data.inc_exp_schedules',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="unauditResponse.provisional_data.inc_exp_schedules.retry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(unauditResponse.provisional_data.inc_exp_schedules.file,'unauditResponse.provisional_data.inc_exp_schedules.progress','unauditResponse.provisional_data.inc_exp_schedules.pdfName',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
                                     </ng-container>
                                 </div>
                             </div>
@@ -467,19 +569,34 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.inc_exp_schedules.excelUrl">
-                                        <a href="{{ unauditResponse.provisional_data.inc_exp_schedules.excelUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="unauditResponse.provisional_data.inc_exp_schedules.excelUrl">
+                                            <a href="{{ unauditResponse.provisional_data.inc_exp_schedules.excelUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('unauditResponse.provisional_data.inc_exp_schedules')"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('unauditResponse.provisional_data.inc_exp_schedules')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="unauditResponse.provisional_data.inc_exp_schedules.excelRetry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(unauditResponse.provisional_data.inc_exp_schedules.excelFile,'unauditResponse.provisional_data.inc_exp_schedules.progressExcel','unauditResponse.provisional_data.inc_exp_schedules.excelName')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
                                     </ng-container>
                                 </div>
                             </div>
@@ -523,19 +640,34 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.cash_flow.pdfUrl">
-                                        <a href="{{ unauditResponse.provisional_data.cash_flow.pdfUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="unauditResponse.provisional_data.cash_flow.pdfUrl">
+                                            <a href="{{ unauditResponse.provisional_data.cash_flow.pdfUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('unauditResponse.provisional_data.cash_flow',true)"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('unauditResponse.provisional_data.cash_flow',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="unauditResponse.provisional_data.cash_flow.retry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(unauditResponse.provisional_data.cash_flow.file,'unauditResponse.provisional_data.cash_flow.progress','unauditResponse.provisional_data.cash_flow.pdfName',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
                                     </ng-container>
                                 </div>
                             </div>
@@ -572,19 +704,34 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="unauditResponse.provisional_data.cash_flow.excelUrl">
-                                        <a href="{{ unauditResponse.provisional_data.cash_flow.excelUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="unauditResponse.provisional_data.cash_flow.excelUrl">
+                                            <a href="{{ unauditResponse.provisional_data.cash_flow.excelUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('unauditResponse.provisional_data.cash_flow')"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('unauditResponse.provisional_data.cash_flow')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="unauditResponse.provisional_data.cash_flow.excelRetry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(unauditResponse.provisional_data.cash_flow.excelFile,'unauditResponse.provisional_data.cash_flow.progressExcel','unauditResponse.provisional_data.cash_flow.excelName')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
                                     </ng-container>
                                 </div>
                             </div>
@@ -776,18 +923,34 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.bal_sheet.pdfUrl">
-                                        <a href="{{ auditResponse.provisional_data.bal_sheet.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="auditResponse.provisional_data.bal_sheet.pdfUrl">
+                                            <a href="{{ auditResponse.provisional_data.bal_sheet.pdfUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('auditResponse.provisional_data.bal_sheet',true)"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('auditResponse.provisional_data.bal_sheet',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="auditResponse.provisional_data.bal_sheet.retry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(auditResponse.provisional_data.bal_sheet.file,'auditResponse.provisional_data.bal_sheet.progress','auditResponse.provisional_data.bal_sheet.pdfName',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
                                     </ng-container>
                                 </div>
                             </div>
@@ -824,19 +987,35 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.bal_sheet.excelUrl">
-                                        <a href="{{ auditResponse.provisional_data.bal_sheet.excelUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="auditResponse.provisional_data.bal_sheet.excelUrl">
+                                            <a href="{{ auditResponse.provisional_data.bal_sheet.excelUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('auditResponse.provisional_data.bal_sheet')"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('auditResponse.provisional_data.bal_sheet')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="auditResponse.provisional_data.bal_sheet.excelRetry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(auditResponse.provisional_data.bal_sheet.excelFile,'auditResponse.provisional_data.bal_sheet.progressExcel','auditResponse.provisional_data.bal_sheet.excelName')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
+
                                     </ng-container>
                                 </div>
                             </div>
@@ -881,19 +1060,34 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.bal_sheet_schedules.pdfUrl">
-                                        <a href="{{ auditResponse.provisional_data.bal_sheet_schedules.pdfUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="auditResponse.provisional_data.bal_sheet_schedules.pdfUrl">
+                                            <a href="{{ auditResponse.provisional_data.bal_sheet_schedules.pdfUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('auditResponse.provisional_data.bal_sheet_schedules',true)"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('auditResponse.provisional_data.bal_sheet_schedules',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="auditResponse.provisional_data.bal_sheet_schedules.retry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(auditResponse.provisional_data.bal_sheet_schedules.file,'auditResponse.provisional_data.bal_sheet_schedules.progress','auditResponse.provisional_data.bal_sheet_schedules.pdfName',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
                                     </ng-container>
                                 </div>
                             </div>
@@ -930,19 +1124,33 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.bal_sheet_schedules.excelUrl">
-                                        <a href="{{ auditResponse.provisional_data.bal_sheet_schedules.excelUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="auditResponse.provisional_data.bal_sheet_schedules.excelUrl">
+                                            <a href="{{ auditResponse.provisional_data.bal_sheet_schedules.excelUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('auditResponse.provisional_data.bal_sheet_schedules')"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('auditResponse.provisional_data.bal_sheet_schedules')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="auditResponse.provisional_data.bal_sheet_schedules.excelRetry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(auditResponse.provisional_data.bal_sheet_schedules.excelFile,'auditResponse.provisional_data.bal_sheet_schedules.progressExcel','auditResponse.provisional_data.bal_sheet_schedules.excelName')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
                                     </ng-container>
                                 </div>
                             </div>
@@ -987,18 +1195,33 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.inc_exp.pdfUrl">
-                                        <a href="{{ auditResponse.provisional_data.inc_exp.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="auditResponse.provisional_data.inc_exp.pdfUrl">
+                                            <a href="{{ auditResponse.provisional_data.inc_exp.pdfUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('auditResponse.provisional_data.inc_exp',true)"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('auditResponse.provisional_data.inc_exp',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="auditResponse.provisional_data.inc_exp.retry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(auditResponse.provisional_data.inc_exp.file,'auditResponse.provisional_data.inc_exp.progress','auditResponse.provisional_data.inc_exp.pdfName',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
                                     </ng-container>
                                 </div>
                             </div>
@@ -1035,18 +1258,34 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.inc_exp.excelUrl">
-                                        <a href="{{ auditResponse.provisional_data.inc_exp.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="auditResponse.provisional_data.inc_exp.excelUrl">
+                                            <a href="{{ auditResponse.provisional_data.inc_exp.excelUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('auditResponse.provisional_data.inc_exp')"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('auditResponse.provisional_data.inc_exp')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="auditResponse.provisional_data.inc_exp.excelRetry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(auditResponse.provisional_data.inc_exp.excelFile,'auditResponse.provisional_data.inc_exp.progressExcel','auditResponse.provisional_data.inc_exp.excelName')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
                                     </ng-container>
                                 </div>
                             </div>
@@ -1091,19 +1330,33 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.inc_exp_schedules.pdfUrl">
-                                        <a href="{{ auditResponse.provisional_data.inc_exp_schedules.pdfUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="auditResponse.provisional_data.inc_exp_schedules.pdfUrl">
+                                            <a href="{{ auditResponse.provisional_data.inc_exp_schedules.pdfUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('auditResponse.provisional_data.inc_exp_schedules',true)"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('auditResponse.provisional_data.inc_exp_schedules',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="auditResponse.provisional_data.inc_exp_schedules.retry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(auditResponse.provisional_data.inc_exp_schedules.file,'auditResponse.provisional_data.inc_exp_schedules.progress','auditResponse.provisional_data.inc_exp_schedules.pdfName',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
                                     </ng-container>
                                 </div>
                             </div>
@@ -1140,19 +1393,34 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.inc_exp_schedules.excelUrl">
-                                        <a href="{{ auditResponse.provisional_data.inc_exp_schedules.excelUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="auditResponse.provisional_data.inc_exp_schedules.excelUrl">
+                                            <a href="{{ auditResponse.provisional_data.inc_exp_schedules.excelUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('auditResponse.provisional_data.inc_exp_schedules')"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('auditResponse.provisional_data.inc_exp_schedules')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="auditResponse.provisional_data.inc_exp_schedules.excelRetry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(auditResponse.provisional_data.inc_exp_schedules.excelFile,'auditResponse.provisional_data.inc_exp_schedules.progressExcel','auditResponse.provisional_data.inc_exp_schedules.excelName')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
                                     </ng-container>
                                 </div>
                             </div>
@@ -1196,18 +1464,33 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.cash_flow.pdfUrl">
-                                        <a href="{{ auditResponse.provisional_data.cash_flow.pdfUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="auditResponse.provisional_data.cash_flow.pdfUrl">
+                                            <a href="{{ auditResponse.provisional_data.cash_flow.pdfUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('auditResponse.provisional_data.cash_flow',true)"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('auditResponse.provisional_data.cash_flow',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="auditResponse.provisional_data.cash_flow.retry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(auditResponse.provisional_data.cash_flow.file,'auditResponse.provisional_data.cash_flow.progress','auditResponse.provisional_data.cash_flow.pdfName',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
                                     </ng-container>
                                 </div>
                             </div>
@@ -1244,19 +1527,34 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.cash_flow.excelUrl">
-                                        <a href="{{ auditResponse.provisional_data.cash_flow.excelUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="auditResponse.provisional_data.cash_flow.excelUrl">
+                                            <a href="{{ auditResponse.provisional_data.cash_flow.excelUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('auditResponse.provisional_data.cash_flow')"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('auditResponse.provisional_data.cash_flow')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="auditResponse.provisional_data.cash_flow.excelRetry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(auditResponse.provisional_data.cash_flow.excelFile,'auditResponse.provisional_data.cash_flow.progressExcel','auditResponse.provisional_data.cash_flow.excelName')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
                                     </ng-container>
                                 </div>
                             </div>
@@ -1291,19 +1589,34 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="auditResponse.provisional_data.auditor_report.pdfUrl">
-                                        <a href="{{ auditResponse.provisional_data.auditor_report.pdfUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="auditResponse.provisional_data.auditor_report.pdfUrl">
+                                            <a href="{{ auditResponse.provisional_data.auditor_report.pdfUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('auditResponse.provisional_data.auditor_report',true)"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('auditResponse.provisional_data.auditor_report',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="auditResponse.provisional_data.auditor_report.retry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(auditResponse.provisional_data.auditor_report.file,'auditResponse.provisional_data.auditor_report.progress','auditResponse.provisional_data.auditor_report.pdfName',true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
                                     </ng-container>
                                 </div>
                             </div>
@@ -1440,7 +1753,8 @@
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 footerBtnDiv">
     <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-        <button type="button" [routerLink]="['/ulbform/utilisation-report']" routerLinkActive="router-link-active"  class="btn btn-secondary backbtn">BACK</button>
+        <button type="button" [routerLink]="['/ulbform/utilisation-report']" routerLinkActive="router-link-active"
+            class="btn btn-secondary backbtn">BACK</button>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 p-0">
         <button type="button" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(templateAnnual)"
