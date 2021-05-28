@@ -38,7 +38,8 @@
                   form['controls'][service.key]['controls']['baseline']['controls'][
                     '2021'
                   ], '', 'actual', service.key
-                )" [id]="service.key + 'baseline'" type="text" class="form-control" formControlName="2021" [ngClass]="{
+                )" (mouseover)="setFocusTargetForErrorMessages(service.key+'baseline')" [id]="service.key + 'baseline'"
+                type="text" class="form-control" formControlName="2021" [ngClass]="{
                 'is-invalid':
                   (isSubmitButtonClick &&
                     form.controls[service.key].controls['baseline']?.invalid) ||
@@ -51,21 +52,19 @@
                 </em></span>
             </div>
 
-            <span class="error-message" *ngIf="focusTargetKey[service.key+'baseline'] &&
-              !form.controls[service.key]['controls']['baseline'].controls[
-                '2021'
-              ]?.errors?.required &&
+            <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
               form.controls[service.key]['controls']['baseline'].controls[
                 '2021'
               ]?.errors as error
             ">
-
-              <span *ngIf="error.pattern">
-                Only numeric values with 2 decimals digit are allowed and must be
-                greater than or equal to 0.
-              </span>
-              <span *ngIf="error.max"> {{ error.max }} </span>
-
+              <ng-container *ngIf="error.pattern || error.max || error.required  ">
+                <span *ngIf="error.pattern">
+                  Only numeric values with 2 decimals digit are allowed and must be
+                  greater than or equal to 0.
+                </span>
+                <span *ngIf="error.max"> {{ error.max }} </span>
+                <span *ngIf="error.required"> {{ messages[0] }} </span>
+              </ng-container>
               <!-- {{
             form.controls[service.key].controls["baseline"]
               .controls["2021"].errors | json
@@ -206,7 +205,8 @@
                     '2021'
                   ], '', 'actual', service.key,false
                 )
-              " [id]="service.key + 'baseline'" type="text" class="form-control" formControlName="2021" [ngClass]="{
+              " (mouseover)="setFocusTargetForErrorMessages(service.key+'baseline')" [id]="service.key + 'baseline'"
+                type="text" class="form-control" formControlName="2021" [ngClass]="{
                 'is-invalid':
                   (isSubmitButtonClick &&
                     form.controls[service.key].controls['baseline']?.invalid) ||
@@ -219,19 +219,19 @@
                 </em></span>
             </div>
 
-            <span class="error-message" *ngIf="focusTargetKey[service.key+'baseline'] &&
-              !form.controls[service.key]['controls']['baseline'].controls[
-                '2021'
-              ]?.errors?.required &&
-              form.controls[service.key]['controls']['baseline'].controls[
-                '2021'
-              ]?.errors as error
-            ">
-              <span *ngIf="error.pattern">
-                Only numeric values with 2 decimals digit are allowed and must be
-                greater than or equal to 0.
-              </span>
-              <span *ngIf="error.max"> {{ error.max }} </span>
+            <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
+            form.controls[service.key]['controls']['baseline'].controls[
+              '2021'
+            ]?.errors as error
+          ">
+              <ng-container *ngIf="error.pattern || error.max || error.required  ">
+                <span *ngIf="error.pattern">
+                  Only numeric values with 2 decimals digit are allowed and must be
+                  greater than or equal to 0.
+                </span>
+                <span *ngIf="error.max"> {{ error.max }} </span>
+                <span *ngIf="error.required"> {{ messages[0] }} </span>
+              </ng-container>
 
               <!-- {{
             form.controls[service.key].controls["baseline"]
@@ -371,7 +371,8 @@
                     '2021'
                   ], '', 'actual', service.key
                 )
-              " [id]="service.key + 'baseline'" type="text" class="form-control" formControlName="2021" [ngClass]="{
+              " (mouseover)="setFocusTargetForErrorMessages(service.key+'baseline')" [id]="service.key + 'baseline'"
+                type="text" class="form-control" formControlName="2021" [ngClass]="{
                 'is-invalid':
                   (isSubmitButtonClick &&
                     form.controls[service.key].controls['baseline']?.invalid) ||
@@ -384,19 +385,19 @@
                 </em></span>
             </div>
 
-            <span class="error-message" *ngIf="focusTargetKey[service.key+'baseline'] &&
-              !form.controls[service.key]['controls']['baseline'].controls[
-                '2021'
-              ]?.errors?.required &&
-              form.controls[service.key]['controls']['baseline'].controls[
-                '2021'
-              ]?.errors as error
-            ">
-              <span *ngIf="error.pattern">
-                Only numeric values with 2 decimals digit are allowed and must be
-                greater than or equal to 0.
-              </span>
-              <span *ngIf="error.max"> {{ error.max }} </span>
+            <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
+            form.controls[service.key]['controls']['baseline'].controls[
+              '2021'
+            ]?.errors as error
+          ">
+              <ng-container *ngIf="error.pattern || error.max || error.required  ">
+                <span *ngIf="error.pattern">
+                  Only numeric values with 2 decimals digit are allowed and must be
+                  greater than or equal to 0.
+                </span>
+                <span *ngIf="error.max"> {{ error.max }} </span>
+                <span *ngIf="error.required"> {{ messages[0] }} </span>
+              </ng-container>
 
               <!-- {{
             form.controls[service.key].controls["baseline"]
@@ -536,7 +537,8 @@
                     '2021'
                   ], '', 'actual', service.key
                 )
-              " [id]="service.key + 'baseline'" type="text" class="form-control" formControlName="2021" [ngClass]="{
+              " (mouseover)="setFocusTargetForErrorMessages(service.key+'baseline')" [id]="service.key + 'baseline'"
+                type="text" class="form-control" formControlName="2021" [ngClass]="{
                 'is-invalid':
                   (isSubmitButtonClick &&
                     form.controls[service.key].controls['baseline']?.invalid) ||
@@ -549,19 +551,19 @@
                 </em></span>
             </div>
 
-            <span class="error-message" *ngIf="focusTargetKey[service.key+'baseline'] &&
-              !form.controls[service.key]['controls']['baseline'].controls[
-                '2021'
-              ]?.errors?.required &&
+            <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
               form.controls[service.key]['controls']['baseline'].controls[
                 '2021'
               ]?.errors as error
             ">
-              <span *ngIf="error.pattern">
-                Only numeric values with 2 decimals digit are allowed and must be
-                greater than or equal to 0.
-              </span>
-              <span *ngIf="error.max"> {{ error.max }} </span>
+              <ng-container *ngIf="error.pattern || error.max || error.required  ">
+                <span *ngIf="error.pattern">
+                  Only numeric values with 2 decimals digit are allowed and must be
+                  greater than or equal to 0.
+                </span>
+                <span *ngIf="error.max"> {{ error.max }} </span>
+                <span *ngIf="error.required"> {{ messages[0]}} </span>
+              </ng-container>
 
               <!-- {{
             form.controls[service.key].controls["baseline"]
