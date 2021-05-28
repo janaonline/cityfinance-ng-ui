@@ -19,6 +19,11 @@ import { defaultDailogConfiuration } from "../../../questionnaires/state/configs
 import { WaterSanitationService } from "../water-sanitation.service";
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
+import {WaterSanitationComponent} from '../water-sanitation.component'
+import { Router } from "@angular/router";
+import { UlbformService } from "../../ulbform.service";
+
+
 @Component({
   selector: "app-water-sanitation-preview",
   templateUrl: "./water-sanitation-preview.component.html",
@@ -31,9 +36,12 @@ export class WaterSanitationPreviewComponent implements OnInit {
   parentData: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private _router: Router,
     private _questionnaireService: QuestionnaireService,
     private _matDialog: MatDialog,
-    private WaterSanitationService: WaterSanitationService
+    private WaterSanitationService: WaterSanitationService,
+    public _ulbformService: UlbformService
+
   ) {}
   @ViewChild("template") template;
   @Output() change = new EventEmitter<any>();
@@ -141,6 +149,7 @@ export class WaterSanitationPreviewComponent implements OnInit {
       }
     );
   }
+
   private onGettingError(message: string) {
     const option = { ...defaultDailogConfiuration };
     option.buttons.cancel.text = "OK";
@@ -148,6 +157,7 @@ export class WaterSanitationPreviewComponent implements OnInit {
     this.showLoader = false;
     this._matDialog.open(DialogComponent, { data: option });
   }
+
   private downloadFile(blob: any, type: string, filename: string): string {
     const url = window.URL.createObjectURL(blob); // <-- work with blob directly
 
@@ -167,17 +177,7 @@ export class WaterSanitationPreviewComponent implements OnInit {
     this._matDialog.closeAll();
     console.log("Check this value", this.data);
     sessionStorage.setItem("changeInPlans", "false");
-    this.WaterSanitationService.sendRequest(this.data).subscribe(
-      (res) => {
-        console.log(res);
-        swal("Record submitted successfully!");
-      },
-      (error) => {
-        this.errMessage = error.message;
-        console.log(error, this.errMessage);
-      }
-    );
-
+    await this.saveData(this.data)
     this.downloadAsPDF();
   }
   alertClose() {
@@ -185,5 +185,12 @@ export class WaterSanitationPreviewComponent implements OnInit {
   }
   stay() {
     this.dialogRef.close();
+  }
+
+  async saveData(data){
+    const plans = new WaterSanitationComponent(this._router,this.WaterSanitationService,this._matDialog,this._ulbformService)
+    plans.body.plans = data;
+    plans.testForDraft()
+    await plans.postsDataCall(plans.body)
   }
 }
