@@ -23,12 +23,19 @@
 }
 
 .pr-btn {
-    width: 135px;
-    height: 36px;
+    width: auto;
+    height: 32px;
     background-color: #26A1A1;
     color: #FFFFFF;
     font-weight: normal;
     font-size: 12px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: inline-block;
+    padding-left: 4%;
+    padding-right: 4%;
 }
 
 .square {
@@ -67,20 +74,36 @@
 
 .footerBtn {
     // margin-left: 15px;
-    width: 135px;
-    height: 36px;
+    width: auto;
+    height: 32px;
     background-color: #26A1A1;
     color: #FFFFFF;
     font-weight: normal;
     font-size: 12px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: inline-block;
+    padding-left: 4%;
+    padding-right: 4%;
 }
 
 .backbtn {
     // margin-right: 48rem;
     background-color: #CFCFCF;
     color: #FFFFFF;
-    width: 106px;
-    height: 36px;
+    width: auto;
+    height: 32px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: inline-block;
+    padding-left: 4%;
+    padding-right: 4%;
+    font-weight: normal;
+    font-size: 12px;
 }
 
 .card-body {
