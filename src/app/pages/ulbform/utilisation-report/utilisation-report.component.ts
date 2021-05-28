@@ -291,14 +291,14 @@ export class UtilisationReportComponent implements OnInit {
       projects: this.fb.array([
         this.fb.group({
           category: [null, Validators.required],
-          name: [{ value: '', disabled: this.isDisabled }, Validators.required],
-          description: ["", Validators.required],
+          name: ['', [Validators.maxLength(50), Validators.required]],
+          description: ['' , [Validators.maxLength(200),Validators.required]],
           // 'imgUpload' : new FormControl(''),
           photos: this.fb.array([
             // this.fb.group({
             //   url: ['']
             // })
-          ], Validators.required),
+          ]),
           capacity: ["", Validators.required],
           location: this.fb.group({
             lat: ["", Validators.required],
@@ -577,8 +577,8 @@ export class UtilisationReportComponent implements OnInit {
           "",
           [
             Validators.required,
-            Validators.maxLength(50),
-            Validators.pattern("[a-zA-Z]*"),
+            Validators.maxLength(50)
+
           ],
         ],
         description: [
@@ -586,14 +586,14 @@ export class UtilisationReportComponent implements OnInit {
           [
             Validators.required,
             Validators.maxLength(200),
-            Validators.pattern("[a-zA-Z]*"),
+
           ],
         ],
         photos: this.fb.array([
           // this.fb.group({
           //   url: ['']
           // })
-        ], Validators.required),
+        ]),
         capacity: ["", Validators.required],
         location: this.fb.group({
           lat: ["", Validators.required],

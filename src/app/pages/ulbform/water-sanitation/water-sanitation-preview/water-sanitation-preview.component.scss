@@ -42,14 +42,9 @@
   .table > thead > tr > th {
     vertical-align: inherit;
     padding: 8px 2px;
-  }
-  
-  .table > tbody > tr > th,
-  .table > tfoot > tr > th,
-  .table > thead > tr > th {
     text-align: center;
-  }
 
+  }
   .custom-position {
     td {
       position: relative;

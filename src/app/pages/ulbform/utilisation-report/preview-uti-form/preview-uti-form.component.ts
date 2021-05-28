@@ -26,7 +26,6 @@ export class PreviewUtiFormComponent implements OnInit {
   @Input() parentData: any;
   @ViewChild("previewUti") _html: ElementRef;
   showLoader;
-  form_Status='';
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _questionnaireService: QuestionnaireService,
@@ -247,7 +246,7 @@ width: 5% !important;
 
   </style>`;
 
-  formStatusCheck = ''
+  formStatusCheck = 'Not Started'
   ngOnInit(): void {
     if (this.parentData) {
       this.genrateParentData();
@@ -259,7 +258,6 @@ width: 5% !important;
     console.log('Data', this.data)
 
     if (!getData) {
-
       this.formStatusCheck = 'Not Started'
     }
     if (getData['useData']['isDraft'] == true) {
@@ -381,9 +379,6 @@ width: 5% !important;
   async proceed(uploadedFiles) {
     // await this.modalRef.hide();
     await this._matDialog.closeAll();
-    // this._matDialog.close(this.clicked);
-    // this._matDialog.closeAll('Hello');
-    // this._matDialog.ngOnDestroy()
 
     sessionStorage.setItem("canNavigate", "true");
     console.log('preview Data', this.data)
@@ -392,6 +387,7 @@ width: 5% !important;
     // delete this.copyData['totalProCost'];
     // delete this.copyData['ulbName'];
     // delete this.copyData['state_name'];
+    await this.downloadForm();
     this.copyData['designYear'] = this.Years["2021-22"]
     this.copyData['financialYear'] = this.data['useData']['financialYear']
     this.copyData['isDraft'] = this.data['useData']['isDraft']
@@ -411,7 +407,7 @@ width: 5% !important;
         this._ulbformService.allStatus.next(status);
         console.log(res)
         // this.copyData['projects'] = this.data['projects']
-        this.downloadForm();
+
       },
       (error) => {
         swal("An error occured!");
