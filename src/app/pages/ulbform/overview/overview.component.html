@@ -8,7 +8,7 @@
     </div>
 
 
-    <div class="row header2">
+    <div class="row header2" id="myIdentifier" #myIdentifier>
         <div class="col-sm-12 col-md-12 col-lg-12 h1">Conditions for 15th FC Grants</div>
         <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px; font-size:15px; font-weight: bolder; color: rgb(5, 113, 255);">
             Application Status -{{status}}
@@ -59,8 +59,9 @@
                 </div>
                 <div class="col" *ngIf="!cardFit">
                     <div class="row" style="display: inline-flex; position: relative;">
-                        <div class="col" style="width: 15%; position: relative;" [style.margin-right]="(numcard == 5) ? '9%' : ''" *ngFor="let slide of cardsOverview; let index=index">
+                        <div class="col" style="position: relative;" [ngStyle]="{'width': width+'px'}" *ngFor="let slide of cardsOverview; let index=index">
                             <!-- <div *ngIf="(isMillionPlus =='No') && "> -->
+                            <!-- [style.margin-right]="(numcard == 5) ? '9%' : ''" -->
                             <a routerLink="{{slide['link']}}">
                                 <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
 index == 0 ?'linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
@@ -165,8 +166,7 @@ index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(
             </div>
         </div>
 
-        <div class="col-sm-12" style="margin-left: -10px;" [ngClass]="{'firstClass': (checkPos == true),
-        'secondClass': (checkPos == false) }">
+        <div class="col-sm-12" style="margin-left: -10px;" [ngStyle]="{'width': messWidth +'px'}">
             <div class="message " [ngStyle]="{ 'background-image': i==1 ? 'linear-gradient(#73C557, #3A632C)': i==2 ? 'linear-gradient(#42C9F6, #21657B)': i==3 ? 'linear-gradient(#F16831, #793419)': i==4 ? 'linear-gradient(#549D5E, #2A4F2F)' : i==5?
             'linear-gradient(#FDCB2E, #7F6617)': i==6? 'linear-gradient(#E71368, #740A34)' : i==7 ? 'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' } ">
                 {{message}}
