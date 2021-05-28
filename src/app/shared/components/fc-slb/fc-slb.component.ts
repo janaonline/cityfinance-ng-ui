@@ -112,6 +112,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   invalidWhole = false;
   benchmarks = []
   ngOnInit() {
+    this.showPublishedUpload = false;
     let ulb_id = sessionStorage.getItem('ulb_id');
     if (ulb_id != null) {
       this.isDisabled = true;
@@ -163,7 +164,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
         if (changes.waterPotability.currentValue.hasOwnProperty('name')) {
           this.publishedFileName = changes.waterPotability.currentValue.name;
           this.publishedFileUrl = changes.waterPotability.currentValue.url;
-          this.showPublishedUpload = false;
+          this.showPublishedUpload = true;
           this.publishedProgress
         }
         this.publishedFileUrl = changes.waterPotability.currentValue.hasOwnProperty('url') ? changes.waterPotability.currentValue.url : ''
