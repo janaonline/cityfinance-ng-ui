@@ -24,36 +24,37 @@ const maxValidator = (control: AbstractControl) => {
   return null;
 };
 
+
 const services: {
   key: keyof WaterManagement;
   name: string;
   benchmark: string;
   customValidator?: (control: AbstractControl) => any;
 }[] = [
-  {
-    key: "waterSuppliedPerDay",
-    name: "Water supplied in litre per day(lpcd)",
-    benchmark: "135 LPCD",
-  },
-  {
-    key: "reduction",
-    name: "Reduction in non-water revenue",
-    benchmark: "20%",
-    customValidator: maxValidator,
-  },
-  {
-    key: "houseHoldCoveredWithSewerage",
-    name: "% of households covered with sewerage/septage services",
-    benchmark: "100%",
-    customValidator: maxValidator,
-  },
-  {
-    key: "houseHoldCoveredPipedSupply",
-    name: "% of households covered with piped water supply",
-    benchmark: "100%",
-    customValidator: maxValidator,
-  },
-];
+    {
+      key: "waterSuppliedPerDay",
+      name: "Water supplied in litre per day(lpcd)",
+      benchmark: "135 LPCD",
+    },
+    {
+      key: "reduction",
+      name: "Non Revenue Water",
+      benchmark: "20%",
+      customValidator: maxValidator,
+    },
+    {
+      key: "houseHoldCoveredWithSewerage",
+      name: "% of households covered with sewerage/septage services",
+      benchmark: "100%",
+      customValidator: maxValidator,
+    },
+    {
+      key: "houseHoldCoveredPipedSupply",
+      name: "% of households covered with piped water supply",
+      benchmark: "100%",
+      customValidator: maxValidator,
+    },
+  ];
 
 // Dynamically create and map all the controls for earch service.
 services.forEach((service) => {

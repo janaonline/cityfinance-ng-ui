@@ -468,18 +468,18 @@ export class UtilisationReportComponent implements OnInit {
       }
 
     }
-    // if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
-    //   // this.fd.isDraft = false;
-    //   console.log('if')
-    //   console.log('api data', this.fd)
-    //   this.apiCall(this.fd);
-    //   console.log('form submitted', this.fd);
+    if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
+      // this.fd.isDraft = false;
+      console.log('if')
+      console.log('api data', this.fd)
+      this.apiCall(this.fd);
+      console.log('form submitted', this.fd);
 
-    // } else {
-    console.log('else')
-    this.fd.isDraft = true;
-    this.apiCall(this.fd);
-    // }
+    } else {
+
+      this.fd.isDraft = true;
+      this.apiCall(this.fd);
+    }
   }
   onSubmit() {
     alert("Submit and Next?");
@@ -765,7 +765,7 @@ export class UtilisationReportComponent implements OnInit {
 
 
   async proceed() {
-    await this.dialogReference.close();
+    await this._matDialog.closeAll();
     let canNavigate = sessionStorage.getItem("canNavigate");
     if (this.clickedSave) {
       await this.submitData();
