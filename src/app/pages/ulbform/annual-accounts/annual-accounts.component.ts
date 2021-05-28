@@ -172,6 +172,8 @@ export class AnnualAccountsComponent implements OnInit {
         excelName: null,
         progressExcel: null,
         excelError: null,
+        excelFile:null,
+        secondExcelRetry:false
       },
       declaration: null,
     },
@@ -271,6 +273,8 @@ export class AnnualAccountsComponent implements OnInit {
         excelName: null,
         progressExcel: null,
         excelError: null,
+        excelFile:null,
+        secondExcelRetry:false
       },
       declaration: null,
     },
@@ -285,7 +289,6 @@ export class AnnualAccountsComponent implements OnInit {
   navigationCheck() {
     if (!this.clickedSave) {
       this._router.events.subscribe(async (event: Event) => {
-        console.log("entered router");
         if (event instanceof NavigationStart) {
           this.alertError = "Are you sure you want to proceed further?";
           const changeInAnnual = sessionStorage.getItem("changeInAnnual");
@@ -482,17 +485,30 @@ export class AnnualAccountsComponent implements OnInit {
                   key3 === "excelName" ||
                   key3 === "progress" ||
                   key3 === "excelError" ||
-                  key3 === "progress" ||
                   key3 === "pdfName" ||
                   key3 === "pdfError" ||
                   key3 === "rejectReason" ||
                   key3 === "file" ||
-                  key3 === "retry" ||
-                  key3 === "excelRetry" ||
                   key3 === "excelFile"
                 ) {
                   continue;
                 }
+                if(key3 === "retry"){
+                  if(form[key][key2][key3] == true){
+                    form[key][key2]["pdfName"] = null
+                    form[key][key2]["progress"] = null
+                    form[key][key2][key3] = false
+                  }
+                }
+
+                if(key3 === "excelRetry" || key3 === "secondExcelRetry"){
+                  if(form[key][key2][key3] == true){
+                    form[key][key2]["excelName"] = null
+                    form[key][key2]["progprogressExcelress"] = null
+                    form[key][key2][key3] = false
+                  }
+                }
+
                 if (form[key][key2][key3] === null) {
                   this.errorHandler(form, key, key2, key3);
                   flag = true;
@@ -648,6 +664,12 @@ export class AnnualAccountsComponent implements OnInit {
         "excelRetry"
       ] = false;
     }
+
+    if(isUploadExcel){
+      this[this.progressArray[0]][this.progressArray[1]][this.progressArray[2]][
+        "secondExcelRetry"
+      ] = false;
+    }
     this.upload(this.progressArray, this.fileNameArray, type, isUploadExcel);
   }
 
@@ -677,7 +699,9 @@ export class AnnualAccountsComponent implements OnInit {
         this[fileNameArray[0]][fileNameArray[1]][fileNameArray[2]][
           "excelError"
         ] = error?.data?.message || "Upload Error";
-        this.clearFile(fileNameArray, false, true);
+        this[fileNameArray[0]][fileNameArray[1]][fileNameArray[2]][
+          "secondExcelRetry"
+        ] = true
       }
       //  else this.clearFile(fileNameArray, isPdf, true);
     }

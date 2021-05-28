@@ -818,19 +818,34 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="unauditResponse.standardized_data.upload.excelUrl">
-                                        <a href="{{ unauditResponse.standardized_data.upload.excelUrl }}"
-                                            target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="unauditResponse.standardized_data.upload.excelUrl">
+                                            <a href="{{ unauditResponse.standardized_data.upload.excelUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('unauditResponse.standardized_data.upload')"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('unauditResponse.standardized_data.upload')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
+                                        <div *ngIf="unauditResponse.standardized_data.upload.secondExcelRetry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(unauditResponse.standardized_data.upload.excelFile,'unauditResponse.standardized_data.upload.progressExcel','unauditResponse.standardized_data.upload.excelName',false,true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
                                     </ng-container>
                                 </div>
                             </div>
@@ -1712,18 +1727,34 @@
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                    <ng-container *ngIf="auditResponse.standardized_data.upload.excelUrl">
-                                        <a href="{{ auditResponse.standardized_data.upload.excelUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                    <ng-container>
+                                        <div *ngIf="auditResponse.standardized_data.upload.excelUrl">
+                                            <a href="{{ auditResponse.standardized_data.upload.excelUrl }}"
+                                                target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled}"
-                                            (click)="clearFile('auditResponse.standardized_data.upload')"
-                                            style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
-                                        </a>
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="clearFile('auditResponse.standardized_data.upload')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+                                        <div *ngIf="auditResponse.standardized_data.upload.secondExcelRetry">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(auditResponse.standardized_data.upload.excelFile,'auditResponse.standardized_data.upload.progressExcel','auditResponse.standardized_data.upload.excelName',false,true)"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </div>
+
                                     </ng-container>
                                 </div>
                             </div>
