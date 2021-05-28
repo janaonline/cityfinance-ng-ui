@@ -154,7 +154,7 @@ export class WaterSanitationComponent implements OnInit {
   onLoad() {
     this.wsService.getFiles().subscribe(
       (res) => {
-        console.log(res["plans"]);
+        console.log(res);
         this.waterAndSanitation = res["plans"];
         sessionStorage.setItem(
           "plansData",
@@ -162,6 +162,7 @@ export class WaterSanitationComponent implements OnInit {
         );
         this.diffCheck();
         this.onLoadDataCheck(this.waterAndSanitation);
+        this.isDraft = res['isDraft']
       },
       (errMes) => {
         console.log(errMes);
@@ -169,6 +170,7 @@ export class WaterSanitationComponent implements OnInit {
           "plansData",
           JSON.stringify(this.waterAndSanitation)
         );
+        this.isDraft = null
         this.diffCheck();
       }
     );
@@ -198,8 +200,13 @@ export class WaterSanitationComponent implements OnInit {
   }
 
   onPreview() {
+    let prevData = {
+      water :this.waterAndSanitation.water,
+      sanitation: this.waterAndSanitation.sanitation,
+      isDraft :this.isDraft
+    } 
     const dialogRef = this.dialog.open(WaterSanitationPreviewComponent, {
-      data: this.waterAndSanitation,
+      data: prevData,
       maxHeight: "95vh",
       height: "fit-content",
       width: "85vw",

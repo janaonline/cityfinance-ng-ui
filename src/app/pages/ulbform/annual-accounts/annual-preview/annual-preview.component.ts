@@ -1,13 +1,24 @@
-import { Component, OnInit, Inject, Input, ElementRef, ViewChild } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
-import { QuestionnaireService } from '../../../questionnaires/service/questionnaire.service';
-import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
-import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
-import { AnnualAccountsService } from '../annual-accounts.service'
+import {
+  Component,
+  OnInit,
+  Inject,
+  Input,
+  ElementRef,
+  ViewChild,
+} from "@angular/core";
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogConfig,
+} from "@angular/material/dialog";
+import { QuestionnaireService } from "../../../questionnaires/service/questionnaire.service";
+import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
+import { defaultDailogConfiuration } from "../../../questionnaires/state/configs/common.config";
+import { AnnualAccountsService } from "../annual-accounts.service";
 import { UlbformService } from "../../ulbform.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { Router, Event } from "@angular/router";
-import {AnnualAccountsComponent} from "../annual-accounts.component"
+import { AnnualAccountsComponent } from "../annual-accounts.component";
 const swal: SweetAlert = require("sweetalert");
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 
@@ -17,17 +28,18 @@ import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.servic
   styleUrls: ["./annual-preview.component.scss"],
 })
 export class AnnualPreviewComponent implements OnInit {
-
   @ViewChild("annualPreview") _html: ElementRef;
   @ViewChild("templateAnnual") template;
   showLoader;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-  private dataEntryService: DataEntryService,
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dataEntryService: DataEntryService,
     private _questionnaireService: QuestionnaireService,
     private annualAccountsService: AnnualAccountsService,
     public _ulbformService: UlbformService,
     public _router: Router,
-    private _matDialog: MatDialog) { }
+    private _matDialog: MatDialog
+  ) {}
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -98,24 +110,24 @@ export class AnnualPreviewComponent implements OnInit {
   font-size: 10px;
   margin-top: 10px;
 }
-  </style>`
+  </style>`;
 
   Years = JSON.parse(localStorage.getItem("Years"));
   @Input() parentData;
 
-  fromParent = true
+  fromParent = true;
   year2021;
   year2019;
-  dialogRef
-  download
+  dialogRef;
+  download;
   previewStatus;
-
+  totalStatus;
 
   ngOnInit(): void {
     this.download = false;
     if (this.data) {
       this.parentData = this.data;
-      this.fromParent = false
+      this.fromParent = false;
     }
     this.setData();
     this.previewStatuSet();
@@ -131,9 +143,9 @@ export class AnnualPreviewComponent implements OnInit {
     }
   }
   clickedDownloadAsPDF(template) {
-    this.download = true
+    this.download = true;
     let changeHappen = sessionStorage.getItem("changeInAnnual");
-    if (changeHappen === 'true') {
+    if (changeHappen === "true") {
       this.openDialog(template);
     } else {
       this.downloadAsPDF();
@@ -186,17 +198,15 @@ export class AnnualPreviewComponent implements OnInit {
 
   async proceed(uploadedFiles) {
     this._matDialog.closeAll();
-    debugger
-    await this.submit()
+    await this.submit();
     await this.downloadAsPDF();
     sessionStorage.setItem("changeInAnnual", "false");
   }
 
-
   async submit() {
     this.setData();
-    console.log(this.year2021)
-    console.log(this.year2019)
+    console.log(this.year2021);
+    console.log(this.year2019);
     await this.checkForm(this.year2021);
     await this.checkForm(this.year2019);
     await this.save(this.year2021);
@@ -206,17 +216,38 @@ export class AnnualPreviewComponent implements OnInit {
   }
 
   async save(form) {
-    let AnnualAccounts = new AnnualAccountsComponent(this.dataEntryService,this.annualAccountsService,this._matDialog,this._ulbformService,this._router,this._matDialog);
-    await AnnualAccounts.save(form)
+    let AnnualAccounts = new AnnualAccountsComponent(
+      this.dataEntryService,
+      this.annualAccountsService,
+      this._matDialog,
+      this._ulbformService,
+      this._router,
+      this._matDialog
+    );
+    await AnnualAccounts.save(form);
   }
   async checkForm(form) {
-    let AnnualAccounts = new AnnualAccountsComponent(this.dataEntryService,this.annualAccountsService,this._matDialog,this._ulbformService,this._router,this._matDialog);
-    await AnnualAccounts.checkForm(form)
+    let AnnualAccounts = new AnnualAccountsComponent(
+      this.dataEntryService,
+      this.annualAccountsService,
+      this._matDialog,
+      this._ulbformService,
+      this._router,
+      this._matDialog
+    );
+    await AnnualAccounts.checkForm(form);
   }
 
   errorHandler(form, key, key2, key3 = null) {
-    let AnnualAccounts = new AnnualAccountsComponent(this.dataEntryService,this.annualAccountsService,this._matDialog,this._ulbformService,this._router,this._matDialog);
-    AnnualAccounts.errorHandler(form, key, key2, key3)
+    let AnnualAccounts = new AnnualAccountsComponent(
+      this.dataEntryService,
+      this.annualAccountsService,
+      this._matDialog,
+      this._ulbformService,
+      this._router,
+      this._matDialog
+    );
+    AnnualAccounts.errorHandler(form, key, key2, key3);
   }
 
   alertClose() {
@@ -227,15 +258,32 @@ export class AnnualPreviewComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  previewStatuSet(){
-    const annualData = JSON.parse(sessionStorage.getItem("annualAccounts"))
-    if(annualData[0]['isCompleted'] == null && annualData[1]['isCompleted'] == null){
-      this.previewStatus = "Not Started"
-    }else{
-      this.previewStatus = "In progress"
+  previewStatuSet() {
+    const annualData = JSON.parse(sessionStorage.getItem("annualAccounts"));
+    if (
+      annualData[0]["isCompleted"] == null &&
+      annualData[1]["isCompleted"] == null
+    ) {
+      this.previewStatus = "Not Started";
+    } else {
+      this.previewStatus = "In Progress";
     }
-    if(annualData[0]['isCompleted'] && annualData[1]['isCompleted']){
-      this.previewStatus = "Completed"
+    if (annualData[0]["isCompleted"] && annualData[1]["isCompleted"]) {
+      this.previewStatus = "Completed";
+    }
+
+    if (!this.fromParent) {
+      this.totalStatus = sessionStorage.getItem("masterForm");
+      if (this.totalStatus) {
+        this.totalStatus = JSON.parse(this.totalStatus);
+        if (this.totalStatus["isSubmit"]) {
+          this.totalStatus = "Completed but Not Submitted";
+        } else {
+          this.totalStatus = "In Progress";
+        }
+      } else {
+        this.totalStatus = "Not Started";
+      }
     }
   }
 }
