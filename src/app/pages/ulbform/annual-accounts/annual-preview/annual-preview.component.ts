@@ -259,7 +259,10 @@ export class AnnualPreviewComponent implements OnInit {
   }
 
   previewStatuSet() {
-    const annualData = JSON.parse(sessionStorage.getItem("annualAccounts"));
+    let annualData = JSON.parse(sessionStorage.getItem("annualAccounts"));
+    if(annualData === null){
+      annualData = this.parentData
+    }
     if (
       annualData[0]["isCompleted"] == null &&
       annualData[1]["isCompleted"] == null

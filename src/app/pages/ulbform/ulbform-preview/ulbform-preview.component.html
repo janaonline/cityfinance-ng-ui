@@ -46,7 +46,7 @@
     </div>
     <div class="mat-card-content">
         <div *ngIf="waterSanitation">
-            <app-water-sanitation-preview [parentData]="waterSanitation">
+            <app-water-sanitation-preview [changeFromOutSide]="changeTrigger.changeInPlans" [parentData]="waterSanitation">
             </app-water-sanitation-preview>
         </div>
     </div>
