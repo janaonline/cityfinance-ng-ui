@@ -10,6 +10,7 @@ import { IFinancialData, WaterManagement } from '../../../users/data-upload/mode
 import { services, targets } from '../../../users/data-upload/components/configs/water-waste-management';
 import { HttpEventType } from '@angular/common/http';
 import { Router, NavigationStart, Event } from "@angular/router";
+import { controllers } from 'chart.js';
 @Component({
   selector: 'app-fc-slb',
   templateUrl: './fc-slb.component.html',
@@ -112,6 +113,9 @@ export class FcSlbComponent implements OnInit, OnChanges {
   invalidWhole = false;
   benchmarks = []
   ngOnInit() {
+
+
+
     let ulb_id = sessionStorage.getItem('ulb_id');
     if (ulb_id != null) {
       this.isDisabled = true;
@@ -133,7 +137,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     this.benchmarks = this.services.map((el) => (parseInt(el.benchmark)))
     console.log(this.benchmarks)
     console.log("tt", this.form, this.focusTargetKey)
-    this.checkAutoValidCustom();
+    // this.checkAutoValidCustom();
   }
 
   setFocusTarget(focusTarget = '') {
@@ -152,6 +156,9 @@ export class FcSlbComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes) {
+    console.log('changes', changes)
+    this.invalidWhole = false;
+    this.showPublishedUpload = false;
     // console.log("services", this.services, changes)
     if (this.isDataPrefilled && changes.isDataPrefilled) {
       this.populateFormDatas();
@@ -163,13 +170,54 @@ export class FcSlbComponent implements OnInit, OnChanges {
         if (changes.waterPotability.currentValue.hasOwnProperty('name')) {
           this.publishedFileName = changes.waterPotability.currentValue.name;
           this.publishedFileUrl = changes.waterPotability.currentValue.url;
-          this.showPublishedUpload = false;
+          if (this.publishedFileUrl != "") {
+            this.showPublishedUpload = true;
+          }
+
           this.publishedProgress
         }
         this.publishedFileUrl = changes.waterPotability.currentValue.hasOwnProperty('url') ? changes.waterPotability.currentValue.url : ''
       }
-    if (this.form) this.initializeForm();
+    // if (this.form) this.initializeForm();
+    console.log('onChanges', this.form)
+    let FORM = this.form;
+
+
+    for (let key in this.form['controls']) {
+      console.log(key)
+      for (let key2 in this.form['controls'][key]['controls']['target'].controls) {
+        console.log(key2)
+        let textValue = this.form.controls[key]['controls']['target']['controls'][key2]
+        let currentControlKey = key2
+        let controlValue = this.form.controls[key].value.target
+        let increase;
+        if (key == 'reduction') {
+          increase = false;
+        } else {
+          increase = true;
+        }
+        let serviceKey = key
+        let actualData = parseFloat(this.form.controls[key]['controls']['baseline']['value']['2021'])
+        let control = this.form['controls'][key]['controls']['target'].controls[key2]
+        let formValue = this.form['controls'][key]['controls']['target']
+
+
+
+        console.log(textValue, currentControlKey, controlValue, increase, serviceKey, actualData)
+        if (this.checkIncreaseValidation(textValue.value, currentControlKey, controlValue, increase, serviceKey, actualData)) {
+          this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "INVALID"
+          //true means the entered value is not as per the desired logic
+        } else {
+          this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "VALID"
+        }
+      }
+
+    }
+
+
+    console.log(this.form)
   }
+
 
   openModal(template1: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template1, { class: "modal-md" });
@@ -222,13 +270,12 @@ export class FcSlbComponent implements OnInit, OnChanges {
   }
 
   saveNext(template1) {
-    this.invalidWhole = false;
 
-    this.checkAutoValidCustom();
-    // if (!this.invalidWhole) {
-    this.submitted = true;
-    if (this.showPublishedUpload && !this.publishedFileUrl)
-      return true
+    // if (this.showPublishedUpload && !this.publishedFileUrl)
+    //   return true
+
+
+
     this.emitValues(this.form.getRawValue(), true);
     // console.log(this.showPublishedUpload)
     // console.log(this.form.getRawValue())
@@ -255,6 +302,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
     // console.log("value emitting by waste water", values);
     let fileName = this.showPublishedUpload ? this.publishedFileName : '';
     let fileUrl = this.showPublishedUpload ? this.publishedFileUrl : '';
+    this.invalidWhole = false
+    this.checkAutoValidCustom();
     let outputValues = {
       waterManagement: values,
       waterPotabilityPlan: {
@@ -263,6 +312,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
       },
       saveData: next,
       water_index: this.showPublishedUpload,
+      isFormInvalid: this.invalidWhole
 
     }
 
@@ -508,6 +558,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
     }
     console.log('final Form after validations', this.form)
+    this.checkAutoValidCustom();
+    // this.form['isFormInvalid'] = this.invalidWhole
     this.emitValues(this.form.getRawValue());
   }
 
@@ -583,8 +635,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
   checkAutoValidCustom() {
 
-    for (let key in this.form['controls']) {
-      if (this.form['controls'][key]['controls']['baseline']['controls']['2021']['status'] === 'INVALID') {
+    for (let key in this.form?.controls) {
+      if (this.form?.controls[key]['controls']['baseline']?.controls['2021']['status'] === 'INVALID') {
 
         this.invalidWhole = true;
       }
