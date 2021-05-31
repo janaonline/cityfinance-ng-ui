@@ -125,7 +125,7 @@ export class AnnualPreviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.download = false;
-    if (this.data) {
+    if (this.data && this.parentData === undefined) {
       this.parentData = this.data;
       this.fromParent = false;
     }
@@ -260,8 +260,8 @@ export class AnnualPreviewComponent implements OnInit {
 
   previewStatuSet() {
     let annualData = JSON.parse(sessionStorage.getItem("annualAccounts"));
-    if(annualData === null){
-      annualData = this.parentData
+    if (annualData === null) {
+      annualData = this.parentData;
     }
     if (
       annualData[0]["isCompleted"] == null &&

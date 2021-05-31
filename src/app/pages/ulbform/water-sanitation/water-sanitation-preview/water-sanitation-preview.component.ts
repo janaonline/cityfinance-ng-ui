@@ -12,6 +12,7 @@ import {
   ViewChild,
   Output,
   EventEmitter,
+  OnChanges,
 } from "@angular/core";
 import { QuestionnaireService } from "../../../questionnaires/service/questionnaire.service";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
@@ -19,10 +20,9 @@ import { defaultDailogConfiuration } from "../../../questionnaires/state/configs
 import { WaterSanitationService } from "../water-sanitation.service";
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
-import {WaterSanitationComponent} from '../water-sanitation.component'
+import { WaterSanitationComponent } from "../water-sanitation.component";
 import { Router } from "@angular/router";
 import { UlbformService } from "../../ulbform.service";
-
 
 @Component({
   selector: "app-water-sanitation-preview",
@@ -34,6 +34,8 @@ export class WaterSanitationPreviewComponent implements OnInit {
   showLoader;
   @Input()
   parentData: any;
+  @Input()
+  changeFromOutSide: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _router: Router,
@@ -41,13 +43,12 @@ export class WaterSanitationPreviewComponent implements OnInit {
     private _matDialog: MatDialog,
     private WaterSanitationService: WaterSanitationService,
     public _ulbformService: UlbformService
-
   ) {}
   @ViewChild("template") template;
   @Output() change = new EventEmitter<any>();
   dialogRef;
-  previewStatus
-  totalStatus
+  previewStatus;
+  totalStatus;
 
   styleForPDF = `<style>
   
@@ -129,10 +130,18 @@ export class WaterSanitationPreviewComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data);
+
+    this.WaterSanitationService.OpenModalTrigger.subscribe((change) => {
+      console.log("111");
+      if (this.changeFromOutSide) {
+        this.openDialog(this.template);
+      }
+    });
+
     if (this.parentData) {
       this.data = this.parentData;
     }
-    this.previewStatuSet()
+    this.previewStatuSet();
   }
 
   downloadAsPDF() {
@@ -177,11 +186,13 @@ export class WaterSanitationPreviewComponent implements OnInit {
   }
 
   async proceed(uploadedFiles) {
-    this._matDialog.closeAll();
+    // this._matDialog.closeAll();
+    this.dialogRef.close()
     console.log("Check this value", this.data);
     sessionStorage.setItem("changeInPlans", "false");
-    await this.saveData(this.data)
-    this.downloadAsPDF();
+    await this.saveData(this.data);
+    if (!this.changeFromOutSide) this.downloadAsPDF();
+    else this._ulbformService.initiateDownload.next(true)
   }
   alertClose() {
     this.stay();
@@ -190,19 +201,22 @@ export class WaterSanitationPreviewComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  async saveData(data){
-    const plans = new WaterSanitationComponent(this._router,this.WaterSanitationService,this._matDialog,this._ulbformService)
+  async saveData(data) {
+    const plans = new WaterSanitationComponent(
+      this._router,
+      this.WaterSanitationService,
+      this._matDialog,
+      this._ulbformService
+    );
     plans.body.plans = data;
-    plans.testForDraft()
-    await plans.postsDataCall(plans.body)
+    plans.testForDraft();
+    await plans.postsDataCall(plans.body);
   }
 
   previewStatuSet() {
-    if (
-      this.data["isDraft"] == null
-    ) {
+    if (this.data["isDraft"] == null) {
       this.previewStatus = "Not Started";
-    } else if(this.data["isDraft"]) {
+    } else if (this.data["isDraft"]) {
       this.previewStatus = "In Progress";
     } else {
       this.previewStatus = "Completed";

@@ -9,6 +9,11 @@ import { Subject } from "rxjs";
 export class UlbformService {
   allStatus = new Subject<any>();
 
+  allFormsData = new Subject<any>()
+
+  initiateDownload = new Subject<any>()
+
+
   getObservedStatus() {
     return this.allStatus;
   }

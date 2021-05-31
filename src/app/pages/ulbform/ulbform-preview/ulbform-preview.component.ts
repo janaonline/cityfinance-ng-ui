@@ -24,8 +24,14 @@ import { UlbformService } from "../ulbform.service";
 })
 export class UlbformPreviewComponent implements OnInit {
   @ViewChild("ulbformPre") _html: ElementRef;
-  showLoader;
-  changeTrigger: any = { changeInPFMSAccount: false, changeInSLB: false, canNavigate: false, changeInPlans: false, changeInAnnual:false };
+  showLoader = true;
+  changeTrigger: any = {
+    changeInPFMSAccount: false,
+    changeInSLB: false,
+    canNavigate: false,
+    changeInPlans: false,
+    changeInAnnual: false,
+  };
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private commonService: CommonService,
@@ -569,7 +575,6 @@ margin-left : .5rem !important;
     fromParent: null,
   };
 
-
   pfmsError = {
     response: {
       account: "",
@@ -779,7 +784,7 @@ margin-left : .5rem !important;
       },
       cost: null,
     },
-  }
+  };
 
   categories;
   slbWaterSanitaion = null;
@@ -792,8 +797,14 @@ margin-left : .5rem !important;
   designYear;
   financialYear;
   stateName;
+  canDownload = true;
 
   ngOnInit(): void {
+    this.ulbformService.initiateDownload.subscribe((proceedSelected) => {
+      if (proceedSelected) {
+        this.downloadAsPDF();
+      }
+    });
     this.designYear = this.years["2021-22"];
     this.financialYear = this.years["2020-21"];
     this.onLoad();
@@ -802,26 +813,49 @@ margin-left : .5rem !important;
   async onLoad() {
     await this.getCat();
     await this.getsState();
-    this.getAllForm();
+    this.checkDataChange();
+    if (this.data) {
+      this.setAllData(this.data);
+      this.showLoader = false;
+    } else this.getAllForm();
+  }
+
+  checkDataChange() {
+    const status = [
+      "changeInAnnual",
+      "changeInPFMSAccount",
+      "changeInPlans",
+      "changeInSLB",
+      "canNavigate",
+    ];
+    status.forEach((element) => {
+      if (sessionStorage.getItem(element) == "true") {
+        this.changeTrigger[element] = true;
+        this.canDownload = false;
+      }
+    });
   }
 
   getAllForm() {
     this.ulbformService
-      .getAllForms(this.userData.ulb, this.designYear,this.financialYear)
+      .getAllForms(this.userData.ulb, this.designYear, this.financialYear)
       .subscribe((res) => {
-        console.log(res[0]);
-        this.setLinkPfms(res[0].pfmsAccounts[0]);
-        this.setDetailUtilData(res[0].utilizationReport[0]);
-        this.setAnnualAccount(res[0].annualAccountData);
-        if(res[0].isUA == 'Yes') this.setSlbData(res[0].SLBs[0]);
-        if(res[0].isMillionPlus == 'No') this.setWaterSanitation(res[0].plansData[0]["plans"]);
+        this.showLoader = false;
+        this.setAllData(res[0]);
       });
+  }
+
+  setAllData(data) {
+    this.setLinkPfms(data.pfmsAccounts[0]);
+    this.setDetailUtilData(data.utilizationReport[0]);
+    this.setAnnualAccount(data.annualAccountData);
+    if (data.isUA == "Yes") this.setSlbData(data.SLBs[0]);
+    if (data.isMillionPlus == "No") this.setWaterSanitation(data.plansData[0]);
   }
 
   setDetailUtilData(detailUtilData) {
     if (detailUtilData) {
-
-      const projectsWithId = detailUtilData["projects"] 
+      const projectsWithId = detailUtilData["projects"];
       detailUtilData["projects"].forEach((element) => {
         element.category = this.categories[element.category];
       });
@@ -837,18 +871,20 @@ margin-left : .5rem !important;
         totalExpCost: detailUtilData["projectExp"] ?? 0,
       };
       this.detailUtil = formdata;
-      detailUtilData["projects"] = projectsWithId
-      this.detailUtil.useData = detailUtilData
+      detailUtilData["projects"] = projectsWithId;
+      this.detailUtil.useData = detailUtilData;
     } else this.detailUtil = this.detailUtilError;
   }
 
   setSlbData(slbData) {
     this.slbWaterSanitaion = slbData;
-    let tem =
-      this.slbWaterSanitaion.waterPotability?.documents.waterPotabilityPlan[0];
-    if (tem) this.slbWaterSanitaion.waterPotability = tem;
-    else this.slbWaterSanitaion = this.slbWaterSanitaionError;
-    this.slbWaterSanitaion.fromParent = true;
+    if (this.slbWaterSanitaion) {
+      let tem =
+        this.slbWaterSanitaion.waterPotability.documents
+          ?.waterPotabilityPlan[0];
+      if (tem) this.slbWaterSanitaion.waterPotability = tem;
+      this.slbWaterSanitaion.fromParent = true;
+    } else this.slbWaterSanitaion = this.slbWaterSanitaionError;
   }
 
   setLinkPfms(pfmsData) {
@@ -857,16 +893,22 @@ margin-left : .5rem !important;
   }
 
   setWaterSanitation(plans) {
-    if(plans){
-
-    this.waterSanitation = plans;
-    this.waterSanitation.isDraft = plans["isDraft"];
-    }else this.waterSanitation = this.waterSanitationError
+    if (plans) {
+      this.waterSanitation = plans["plans"];
+      this.waterSanitation.isDraft = plans["isDraft"];
+    } else this.waterSanitation = this.waterSanitationError;
   }
 
   setAnnualAccount(annualAccountData) {
     if (annualAccountData) this.annualAccount = annualAccountData;
     else this.annualAccount = this.annualAccountError;
+  }
+
+  openModal() {
+    console.log("22");
+    
+    if (this.canDownload) this.downloadAsPDF();
+    else this.waterSanitationService.OpenModalTrigger.next(true);
   }
 
   downloadAsPDF() {

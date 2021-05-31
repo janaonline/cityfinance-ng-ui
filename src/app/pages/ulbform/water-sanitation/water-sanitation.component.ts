@@ -359,6 +359,13 @@ export class WaterSanitationComponent implements OnInit {
       sessionStorage.getItem("plansData")
     ) {
       sessionStorage.setItem("changeInPlans", "true");
+      let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
+      if(allFormData){
+        let changes = this.body
+        changes.plans = this.waterAndSanitation
+        allFormData.plansData[0] = changes
+        this._ulbformService.allFormsData.next(allFormData)
+      }
     } else {
       sessionStorage.setItem("changeInPlans", "false");
     }
