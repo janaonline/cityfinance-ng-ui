@@ -35,9 +35,6 @@ export class PreviewUtiFormComponent implements OnInit {
     public _router: Router,
   ) { }
   styleForPDF = `<style>
-.header{
-  word-break: break-all;
-}
 
 td, th{
   word-break: break-all;
@@ -45,42 +42,25 @@ td, th{
   padding: 5px 1px !important;
 }
 
-.header {
-  background-color: #047474;
-  display: inline-block;
-  color: #FFFFFF;
-  text-align: center;
-  height: 90px;
-}
 .mat-dialog-content {
   padding: 0 0 0 0;
   max-width: 100vw;
   max-height: 100vw;
 }
-.listitem_head {
-  padding: 2px 2px;
-  font-size: 17px !important;
-  font-family: Roboto;
-  font-weight: 700;
-  display: inline-block;
-  margin-top: 1.4rem;
-  white-space: break-spaces;
+
+.header-p {
+  background-color: #047474;
+  height: 70px;
+  text-align: center;
 }
 .heading-p {
   color: #FFFFFF;
   font-size: 18px;
-  padding-top: 2rem !important;
+  padding-top: 1rem !important;
   font-weight: 700;
 
 }
-.listitem_subHead {
-  margin-top: 5px;
-  font-size: 16px;
-  font-weight: normal;
-  font-family: Roboto;
-  padding: 2px 2px;
-  display: inline-block;
-}
+
 .h-ut{
   font-size: 10px !important;
   margin-top: 1rem !important;
@@ -247,6 +227,7 @@ width: 5% !important;
   </style>`;
 
   formStatusCheck = 'Not Started'
+  totalStatus;
   ngOnInit(): void {
     if (this.parentData) {
       this.genrateParentData();
@@ -260,16 +241,32 @@ width: 5% !important;
     if (!getData) {
       this.formStatusCheck = 'Not Started'
     }
-    if (getData['useData']['isDraft'] == true) {
+    if (this.data['isDraft'] == true) {
       console.log('1')
       this.formStatusCheck = 'In Progress'
-    } else if (getData['useData']['isDraft'] == false) {
+    } else if (this.data['isDraft'] == false) {
       console.log('2')
       this.formStatusCheck = 'Completed'
     } else {
       console.log('3')
       this.formStatusCheck = 'Not Started'
 
+    }
+    this.setTotalStatus();
+  }
+  setTotalStatus(){
+    if (!this.parentData) {
+      this.totalStatus = sessionStorage.getItem("masterForm");
+      if (this.totalStatus) {
+        this.totalStatus = JSON.parse(this.totalStatus);
+        if (this.totalStatus["isSubmit"]) {
+          this.totalStatus = "Completed but Not Submitted";
+        } else {
+          this.totalStatus = "In Progress";
+        }
+      } else {
+        this.totalStatus = "Not Started";
+      }
     }
   }
   clickedDownloadAsPDF(template) {

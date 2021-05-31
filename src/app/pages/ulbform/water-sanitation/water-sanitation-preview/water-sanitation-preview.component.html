@@ -1,19 +1,18 @@
 <div class="container-fluid " [ngStyle]="{'z-index': clicked === true ? '1' : '3'}" id="planPre" #planPre>
     <div class="row">
-        <div class="col-sm-12 header">
-            <a *ngIf="!parentData" mat-dialog-close class="h-cls"
-                style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
+        <div class="col-sm-12 header-p" style="margin-top: 0px !important;">
+            <a *ngIf="!parentData" mat-dialog-close class="h-cls" style="position: absolute; right: 3%; top: 14%; z-index: 2;
+            transform: scale(1.5);cursor: pointer;">
                 <mat-icon aria-hidden="false">
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
                 </mat-icon>
             </a>
-            <span class="col-sm-12 heading" [ngStyle]="{'margin-top':!parentData  ? '2.5rem' : '3rem'}">
+            <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!parentData  ? '1.5rem' : '2.5rem'}">
                 <span *ngIf="!parentData">15th FC Grants for 2021-22</span>
-                <br *ngIf="!parentData">
-                Plans for Water and Sanitation
-            </span>
+                <br *ngIf="!parentData"> Plans for Water and Sanitation
+            </div>
         </div>
-        <div  class="row df" style="margin-top: 1.5rem;">
+        <div class="row df" style="margin-top: 1.5rem;">
             <div class="col-sm-12">
                 <div class="col-sm-6 p-0">
                     <p class="form-status" style="margin-left: 2pc;">
@@ -21,7 +20,7 @@
                         <br *ngIf="!parentData">
                         <b>Form Current Status:</b> {{previewStatus}}
                     </p>
-                    
+
                 </div>
                 <div *ngIf="!parentData" class="col-sm-6">
                     <button id="donwloadButton" class="btn btn-primary btn-upload pull-right" style="margin-right: 1ch;" (click)="clickedDownloadAsPDF(template)">
@@ -31,12 +30,11 @@
             </div>
         </div>
     </div>
-    <div class="card" style="background-color: #FFFFFF;">
+    <div class="card">
         <div class="card-body ">
             <div class="table-responsive">
                 <div>
-                    <h4>Details of Proposed Project to Improve Service Level Indicators related to <b
-                            class="text-primary">Water Supply</b>
+                    <h4>Details of Proposed Project to Improve Service Level Indicators related to <b class="text-primary">Water Supply</b>
                     </h4>
                 </div>
                 <table class="table custom-position">
@@ -45,50 +43,54 @@
                             <th scope="col">Project Name</th>
                             <th scope="col">Physical Components</th>
                             <th scope="col">Indicator</th>
-                            <th scope="col">Existing
-                                (As-is)</th>
-                            <th scope="col">After
-                                (To-be)</th>
-                            <th scope="col">Estimated Cost
-                                (Amount in INR)</th>
+                            <th scope="col">Existing (As-is)
+                            </th>
+                            <th scope="col">After (To-be)
+                            </th>
+                            <th scope="col">Estimated Cost (Amount in INR)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>
                                 <p style="line-break: anywhere;">
-                                {{data.water.name}}
+                                    {{data.water.name}}
                                 </p>
-                                <span *ngIf="!data.water.name" class="text-danger">N/A</span>
+                                <span *ngIf="!data.water.name">N/A</span>
                             </td>
                             <td>
                                 <p style="line-break: anywhere;">
                                     {{data.water.component}}
                                 </p>
-                                <span *ngIf="!data.water.component" class="text-danger">N/A</span>
+                                <span *ngIf="!data.water.component">N/A</span>
                             </td>
                             <td>
                                 {{data.water.serviceLevel.indicator}}
-                                <span *ngIf="!data.water.serviceLevel.indicator" class="text-danger">N/A</span>
+                                <span *ngIf="!data.water.serviceLevel.indicator">N/A</span>
                             </td>
                             <td>
                                 {{data.water.serviceLevel.existing}}
-                                <span *ngIf="!data.water.serviceLevel.existing" class="text-danger">N/A</span>
+                                <span *ngIf="!data.water.serviceLevel.existing">N/A</span>
                             </td>
                             <td>
                                 {{data.water.serviceLevel.after}}
-                                <span *ngIf="!data.water.serviceLevel.after" class="text-danger">N/A</span>
+                                <span *ngIf="!data.water.serviceLevel.after">N/A</span>
                             </td>
                             <td>
                                 {{data.water.cost}}
-                                <span *ngIf="!data.water.cost" class="text-danger">N/A</span>
+                                <span *ngIf="!data.water.cost">N/A</span>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body ">
+            <div class="table-responsive">
                 <div>
-                    <h4>Details of Proposed Project to Improve Service Level Indicators related to <b
-                            class="text-primary">Sanitation</b></h4>
+                    <h4>Details of Proposed Project to Improve Service Level Indicators related to <b class="text-primary">Sanitation</b></h4>
                 </div>
                 <table class="table custom-position">
                     <thead>
@@ -96,12 +98,11 @@
                             <th scope="col">Project Name</th>
                             <th scope="col">Physical Components</th>
                             <th scope="col">Indicator</th>
-                            <th scope="col">Existing
-                                (As-is)</th>
-                            <th scope="col">After
-                                (To-be)</th>
-                            <th scope="col">Estimated Cost
-                                (Amount in INR)</th>
+                            <th scope="col">Existing (As-is)
+                            </th>
+                            <th scope="col">After (To-be)
+                            </th>
+                            <th scope="col">Estimated Cost (Amount in INR)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -110,29 +111,29 @@
                                 <p style="line-break: anywhere;">
                                     {{data.sanitation.name}}
                                 </p>
-                                <span *ngIf="!data.sanitation.name" class="text-danger">N/A</span>
+                                <span *ngIf="!data.sanitation.name">N/A</span>
                             </td>
                             <td>
                                 <p style="line-break: anywhere;">
                                     {{data.sanitation.component}}
                                 </p>
-                                <span *ngIf="!data.sanitation.component" class="text-danger">N/A</span>
+                                <span *ngIf="!data.sanitation.component">N/A</span>
                             </td>
                             <td>
                                 {{data.sanitation.serviceLevel.indicator}}
-                                <span *ngIf="!data.sanitation.serviceLevel.indicator" class="text-danger">N/A</span>
+                                <span *ngIf="!data.sanitation.serviceLevel.indicator">N/A</span>
                             </td>
                             <td>
                                 {{data.sanitation.serviceLevel.existing}}
-                                <span *ngIf="!data.sanitation.serviceLevel.existing" class="text-danger">N/A</span>
+                                <span *ngIf="!data.sanitation.serviceLevel.existing">N/A</span>
                             </td>
                             <td>
                                 {{data.sanitation.serviceLevel.after}}
-                                <span *ngIf="!data.sanitation.serviceLevel.after" class="text-danger">N/A</span>
+                                <span *ngIf="!data.sanitation.serviceLevel.after">N/A</span>
                             </td>
                             <td>
                                 {{data.sanitation.cost}}
-                                <span *ngIf="!data.sanitation.cost" class="text-danger">N/A</span>
+                                <span *ngIf="!data.sanitation.cost">N/A</span>
                             </td>
                         </tr>
                     </tbody>
@@ -158,8 +159,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success "
-                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
 

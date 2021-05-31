@@ -83,17 +83,58 @@ export class UlbformPreviewComponent implements OnInit,OnDestroy  {
       display: none;
     }
 
-.qus-h-an {
-  margin-bottom: 2rem;
-  margin-top: 2rem;
-  font-size: 10px;
-}
+    .qus-h-an {
+      margin-bottom: .5rem;
+      margin-top: 1rem;
+      font-size: 10px;
+  }
 
-.ans-h-an {
-  margin-bottom: 2rem;
-  margin-top: 2rem;
-  font-size: 10px;
-}
+  .ans-h-an {
+      margin-bottom: .5rem;
+      margin-top: .5rem;
+      font-size: 10px;
+  }
+  @media print {
+    .page-break {
+        page-break-before: always;
+    }
+  }
+  .h-font {
+    display: inline-block;
+    font-size: 12px !important;
+  }
+  .f-r {
+    margin-left: 30px;
+  }
+  .ans-h-an{
+    margin-left : .5rem !important;
+  }
+  .ans-h-na{
+    margin-left : 1rem !important;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+    font-size: 10px !important;
+  }
+  .hi{
+    display:none
+  }
+  .qus-h-an-ex {
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+    font-size: 10px;
+    margin-left : .5rem !important;
+  }
+  .ans-h-an-b {
+      margin-bottom: .5rem;
+      margin-top: .5rem;
+      margin-left : 1rem !important;
+      font-size: 10px;
+  }
+  .form-status {
+    font-size: 10px;
+    margin-top: 10px;
+  }
+
 .m-h{
   text-align: center;
 }
@@ -107,7 +148,7 @@ export class UlbformPreviewComponent implements OnInit,OnDestroy  {
   padding-left: 0;
   padding-right: 0;
 }
-.header{
+.header-p{
   word-break: break-all;
 }
 
@@ -117,49 +158,15 @@ td, th{
   padding: 5px 1px !important;
 }
 
-.header {
-  background-color: #047474;
-  display: inline-block;
-  color: #FFFFFF;
-  text-align: center;
-  height: 90px;
-}
+
 .mat-dialog-content {
   padding: 0 0 0 0;
   max-width: 100vw;
   max-height: 100vw;
 }
-.listitem_head {
-  padding: 2px 2px;
-  font-size: 17px !important;
-  font-family: Roboto;
-  font-weight: 700;
-  display: inline-block;
-  margin-top: 1.4rem;
-  white-space: break-spaces;
-}
-.listitem_grantYear {
-  font-size: 14px !important;
-  display: inline-block;
-  font-weight: 700;
-  width: 70px !important;
-  height: 15px !important;
-  color: #3D3D3D;
-  margin-left: 10px;
-  background-color: #E5E6E6;
-  border-radius: 3px;
-  padding: 3px !important;
-  margin-top: .6rem;
 
-}
-.listitem_subHead {
-  margin-top: 5px;
-  font-size: 16px;
-  font-weight: normal;
-  font-family: Roboto;
-  padding: 2px 2px;
-  display: inline-block;
-}
+
+
 .h-ut{
   font-size: 10px !important;
   margin-top: 1rem !important;
