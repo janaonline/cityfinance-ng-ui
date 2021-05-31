@@ -387,8 +387,7 @@ width: 5% !important;
     // delete this.copyData['totalProCost'];
     // delete this.copyData['ulbName'];
     // delete this.copyData['state_name'];
-    await this.downloadForm();
-    this.copyData['designYear'] = this.Years["2021-22"]
+         this.copyData['designYear'] = this.Years["2021-22"]
     this.copyData['financialYear'] = this.data['useData']['financialYear']
     this.copyData['isDraft'] = this.data['useData']['isDraft']
     this.copyData['ulb'] = this.data['useData']['ulb']
@@ -408,6 +407,7 @@ width: 5% !important;
         console.log(res)
         // this.copyData['projects'] = this.data['projects']
 
+
       },
       (error) => {
         swal("An error occured!");
@@ -416,7 +416,7 @@ width: 5% !important;
       }
     );
 
-
+  await this.downloadForm();
 
   }
 }
