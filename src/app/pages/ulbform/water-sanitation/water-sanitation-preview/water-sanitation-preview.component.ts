@@ -13,6 +13,7 @@ import {
   Output,
   EventEmitter,
   OnChanges,
+  OnDestroy,
 } from "@angular/core";
 import { QuestionnaireService } from "../../../questionnaires/service/questionnaire.service";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
@@ -29,7 +30,7 @@ import { UlbformService } from "../../ulbform.service";
   templateUrl: "./water-sanitation-preview.component.html",
   styleUrls: ["./water-sanitation-preview.component.scss"],
 })
-export class WaterSanitationPreviewComponent implements OnInit {
+export class WaterSanitationPreviewComponent implements OnInit, OnDestroy {
   @ViewChild("planPre") _html: ElementRef;
   showLoader;
   @Input()
@@ -49,7 +50,7 @@ export class WaterSanitationPreviewComponent implements OnInit {
   dialogRef;
   previewStatus;
   totalStatus;
-
+  subParentForModal
   styleForPDF = `<style>
   
   .card {
@@ -131,8 +132,8 @@ export class WaterSanitationPreviewComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.data);
 
-    this.WaterSanitationService.OpenModalTrigger.subscribe((change) => {
-      console.log("111");
+
+    this.subParentForModal = this.WaterSanitationService.OpenModalTrigger.subscribe((change) => {
       if (this.changeFromOutSide) {
         this.openDialog(this.template);
       }
@@ -142,6 +143,10 @@ export class WaterSanitationPreviewComponent implements OnInit {
       this.data = this.parentData;
     }
     this.previewStatuSet();
+  }
+
+  ngOnDestroy(): void {
+    this.subParentForModal.unsubscribe()
   }
 
   downloadAsPDF() {
@@ -187,12 +192,12 @@ export class WaterSanitationPreviewComponent implements OnInit {
 
   async proceed(uploadedFiles) {
     // this._matDialog.closeAll();
-    this.dialogRef.close()
+    this.dialogRef.close();
     console.log("Check this value", this.data);
     sessionStorage.setItem("changeInPlans", "false");
     await this.saveData(this.data);
     if (!this.changeFromOutSide) this.downloadAsPDF();
-    else this._ulbformService.initiateDownload.next(true)
+    else this._ulbformService.initiateDownload.next(true);
   }
   alertClose() {
     this.stay();

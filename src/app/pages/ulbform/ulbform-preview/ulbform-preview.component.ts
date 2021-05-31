@@ -4,6 +4,7 @@ import {
   Inject,
   OnInit,
   ViewChild,
+  OnDestroy
 } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { CommonService } from "src/app/shared/services/common.service";
@@ -22,7 +23,7 @@ import { UlbformService } from "../ulbform.service";
   templateUrl: "./ulbform-preview.component.html",
   styleUrls: ["./ulbform-preview.component.scss"],
 })
-export class UlbformPreviewComponent implements OnInit {
+export class UlbformPreviewComponent implements OnInit,OnDestroy  {
   @ViewChild("ulbformPre") _html: ElementRef;
   showLoader = true;
   changeTrigger: any = {
@@ -798,9 +799,10 @@ margin-left : .5rem !important;
   financialYear;
   stateName;
   canDownload = true;
+  downloadSub
 
   ngOnInit(): void {
-    this.ulbformService.initiateDownload.subscribe((proceedSelected) => {
+    this.downloadSub = this.ulbformService.initiateDownload.subscribe((proceedSelected) => {
       if (proceedSelected) {
         this.downloadAsPDF();
       }
@@ -808,6 +810,10 @@ margin-left : .5rem !important;
     this.designYear = this.years["2021-22"];
     this.financialYear = this.years["2020-21"];
     this.onLoad();
+  }
+
+  ngOnDestroy(){
+    this.downloadSub.unsubscribe()
   }
 
   async onLoad() {
