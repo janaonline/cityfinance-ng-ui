@@ -55,14 +55,16 @@ export class SlbsComponent implements OnInit {
     });
   }
   @ViewChild("template") template;
+  @ViewChild("template1") template1;
   routerNavigate = null
   protected readonly formBuilder = new FormBuilder();
   @ViewChild("previewPopup") previewPopup: TemplateRef<any>;
   waterPotability: any = { name: '', url: '' }
   async ngOnInit() {
-
+    this.clickedSave = false
     sessionStorage.setItem("changeInSLB", "false");
     await this.getSlbData()
+
 
     this.createDataForms(this.preFilledWaterManagement)
     // if (this.preFilledWaterManagement) this.waterWasteManagementForm =this.createWasteWaterUploadForm(this.preFilledWaterManagement);
@@ -117,6 +119,7 @@ export class SlbsComponent implements OnInit {
     this.value = value
     let data = {
       design_year: this.Years["2021-22"],
+      isCompleted: value.isCompleted,
       waterManagement:
         { ...value.waterManagement },
       water_index: value.water_index,
@@ -128,7 +131,6 @@ export class SlbsComponent implements OnInit {
         }
       },
       // completeness: 'APPROVED', correctness: 'APPROVED',
-      "isCompleted": true
     }
     if (this.slbId) {
 
@@ -155,17 +157,65 @@ export class SlbsComponent implements OnInit {
   }
   data = '';
   res
+  clickedSave = false;
   onWaterWasteManagementEmitValue(value) {
     console.log("value which came from fc-slb component", value)
-    this.data = value
 
+    let changeHappen = sessionStorage.getItem("changeInSLB")
+    if (changeHappen == 'false' && value.saveData) {
+      return this._router.navigate(["ulbform/water-sanitation"]);
+    }
     sessionStorage.setItem("changeInSLB", "true");
+    let completed = this.checkIfCompletedOrNot(value)
+    let isCompleted
+    if (value.isFormInvalid || !completed) {
+      isCompleted = false
+    } else {
+      isCompleted = true
+    }
+
+    console.log('isCompleted', isCompleted)
+    value['isCompleted'] = isCompleted
+    this.data = value
+    if (!isCompleted && value.saveData) {
+      this.clickedSave = true;
+      this.openModal(this.template1)
+      return;
+    }
     if (value.saveData) {
       this.postSlbData(value)
+      sessionStorage.setItem("changeInSLB", "false")
       return this._router.navigate(["ulbform/water-sanitation"]);
     }
   }
 
+  checkIfCompletedOrNot(value) {
+    //checking targets values
+    for (let key in value['waterManagement']) {
+      let counter = 0;
+      for (let key2 in value['waterManagement'][key]['target']) {
+        if (value['waterManagement'][key]['target'][key2])
+          counter++;
+
+      }
+      console.log(counter)
+      if (counter != 4) {
+        return false;
+      }
+    }
+
+    //checking baseline values
+    for (let key in value['waterManagement']) {
+      if (value['waterManagement'][key]['baseline']['2021'] == undefined)
+        return false;
+    }
+
+    //checking water potability plan values
+    if (value['water_index'] == true && (value['waterPotabilityPlan']['url'] == "" || null))
+      return false;
+
+    return true;
+  }
   onSendEmitValue(value) {
 
     if (value.next)
@@ -178,9 +228,6 @@ export class SlbsComponent implements OnInit {
       plan: this.data['waterPotabilityPlan'],
       index: this.data['water_index']
     }
-
-
-
     this.previewData = {
       ...this.preFilledWaterManagement,
       ulb: this.loggedInUserDetails.ulb,
@@ -223,7 +270,11 @@ export class SlbsComponent implements OnInit {
   async proceed() {
     await this.dialogRef.close(true);
     let changeHappen = sessionStorage.getItem("changeInSLB")
-    if (this.routerNavigate && changeHappen === 'true') {
+    if (this.clickedSave) {
+      this.postSlbData(this.data)
+      sessionStorage.setItem("changeInSLB", "false")
+      return this._router.navigate(["ulbform/water-sanitation"]);
+    } else if (this.routerNavigate && changeHappen === 'true') {
       console.log('this data is going in POST API', this.data)
       this.data['saveData'] = true;
       this.onWaterWasteManagementEmitValue(this.data);

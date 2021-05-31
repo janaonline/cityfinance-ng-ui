@@ -44,7 +44,7 @@
                   (isSubmitButtonClick &&
                     form.controls[service.key].controls['baseline']?.invalid) ||
                   (form.controls[service.key].controls['baseline']?.touched &&
-                    form.controls[service.key].controls['baseline']?.invalid)
+                    form.controls[service.key].controls['baseline']?.invalid) 
               }" />
 
               <span class="input-group-addon"><em class="glyphicon">
@@ -82,14 +82,13 @@
               " (mouseover)="setFocusTargetForErrorMessages(service.key+year.key)" [id]="service.key + year.key"
                 type="text" class="form-control" [formControlName]="year.key" [ngClass]="{
                 'is-invalid':
-                  (isSubmitButtonClick ||
+                  ((isSubmitButtonClick ||
                     form.controls[service.key].controls['target'].controls[
                       year.key
                     ].dirty) &&
                   form.controls[service.key].controls['target'].controls[
                     year.key
-                  ].invalid
-              }" />
+                  ].invalid) }" />
               <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                 </em></span>
@@ -250,13 +249,13 @@
               " (mouseover)="setFocusTargetForErrorMessages(service.key+year.key)" [id]="service.key + year.key"
                 type="text" class="form-control" [formControlName]="year.key" [ngClass]="{
                 'is-invalid':
-                  (isSubmitButtonClick ||
+                  ((isSubmitButtonClick ||
                     form.controls[service.key].controls['target'].controls[
                       year.key
                     ].dirty) &&
                   form.controls[service.key].controls['target'].controls[
                     year.key
-                  ].invalid
+                  ].invalid) || (form.controls[service.key].controls['target'].controls[year.key].status == 'INVALID')
               }" />
               <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
@@ -697,15 +696,21 @@
       <span class="align-vertical">{{uploadQuestion}}</span>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 float-left">
-      <button class="btn btn-primary btn-upload mr-1 ml-1 col-sm-2" (click)=" showPublishedUpload=true;
-        submitted=false; emitOnDocChange()" style="width: 60px; height: 33px;">
+
+      <button class="btn  btn-upload mr-1 ml-1 col-sm-2" (click)="showPublishedUpload=true;
+        submitted=false; emitOnDocChange()" style="width: 60px; height: 33px; color: white;"
+        [ngStyle]="{'background-color': showPublishedUpload == true ? '#ffc107' : '#059b9a'  }">
         Yes
       </button>
 
-      <button class="btn btn-secondary btn-upload col-sm-2" style="width: 60px; height: 33px;"
-        (click)="showPublishedUpload = false;  submitted = false; emitOnDocChange()">
+      <button class="btn  btn-upload col-sm-2"
+        (click)="showPublishedUpload = false;  submitted = false; emitOnDocChange()"
+        style="width: 60px; height: 33px; color: white"
+        [ngStyle]="{'background-color': showPublishedUpload == true ? '#059b9a'  : '#ffc107'   }">
         No
       </button>
+
+
     </div>
   </div>
   <div class="col-sm-12 float-left row" *ngIf="showPublishedUpload" style="margin-top: 2rem;">
