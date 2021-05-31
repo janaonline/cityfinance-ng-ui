@@ -339,6 +339,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
 
     this.upload(progessType, fileName);
+    // this.emitValues(this.form.getRawValue());
+
   }
   resetFileTracker() {
     this.filesToUpload = [];
@@ -374,7 +376,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
         continue;
       }
       this.filesAlreadyInProcess.push(i);
-      await this.uploadFile(files[i], i, progessType, fileName);
+      this.uploadFile(files[i], i, progessType, fileName);
     }
 
 
@@ -445,6 +447,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
             if (progressType == 'publishedProgress') {
               this.publishedFileUrl = fileAlias;
             }
+
+            this.emitValues(this.form.getRawValue());
             // console.log('hi.....', progressType, this.publishedFileUrl)
             // this.dataEntryService
             //   .sendUploadFileForProcessing(fileAlias)

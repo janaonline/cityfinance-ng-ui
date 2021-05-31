@@ -212,7 +212,7 @@ export class PreviewSlbComponentComponent implements OnInit {
     await this._matDialog.closeAll();
 
     console.log('Check this value', this.data)
-    sessionStorage.setItem("changeInSLB", "false");
+
     console.log(this.data)
     let obj = {
       "waterManagement": this.data['waterManagement'],
