@@ -5,7 +5,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { JSONUtility } from 'src/app/util/jsonUtil';
-import { MatDialog,MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { UlbformService } from '../ulbform.service';
 import { Router, NavigationStart, Event } from "@angular/router";
@@ -45,7 +45,7 @@ export class SlbsComponent implements OnInit {
           const change = sessionStorage.getItem("changeInSLB")
           if (change === "true" && this.routerNavigate === null) {
             this.routerNavigate = event
-            console.log(this.template);
+
             const currentRoute = this._router.routerState;
             this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
             this.openModal(this.template);
@@ -70,7 +70,7 @@ export class SlbsComponent implements OnInit {
   Years = JSON.parse(localStorage.getItem("Years"));
   createDataForms(data?: IFinancialData) {
     this.waterWasteManagementForm = this.createWasteWaterUploadForm(data);
-    console.log("patchValues", data, this.waterWasteManagementForm)
+
   }
   createWasteWaterUploadForm(data?: IFinancialData) {
     const newForm = this.formBuilder.group({
@@ -78,7 +78,7 @@ export class SlbsComponent implements OnInit {
     });
     if (!data) return newForm;
     newForm.patchValue({ ...data.waterManagement });
-    console.log("patch", { ...data.waterManagement }, newForm)
+
     let ulbId = sessionStorage.getItem('ulb_id');
     if (ulbId != null) {
       newForm.disable();
@@ -96,11 +96,11 @@ export class SlbsComponent implements OnInit {
 
         this.preFilledWaterManagement = res['data'] && res['data'][0] ? res['data'][0] : {};
         this.preFilledWaterManagement.history = null;
-        console.log(JSON.stringify(this.preFilledWaterManagement));
+
         let waterPotability = res['data'] && res['data'][0] && res['data'][0]['waterPotability']['documents']['waterPotabilityPlan'] ? res['data'][0]['waterPotability']['documents']['waterPotabilityPlan'][0] : {}
 
         this.waterPotability = waterPotability && waterPotability.hasOwnProperty('url') ? waterPotability : { name: '', url: '' }
-        console.log("derty", res, this.waterPotability, waterPotability)
+
 
         this.slbId = res['data'] && res['data'][0] ? res['data'][0]._id : ''
 
@@ -137,7 +137,7 @@ export class SlbsComponent implements OnInit {
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.slbForWaterSupplyAndSanitation.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
-        console.log("response")
+
         swal("Record submitted successfully!");
 
       })
@@ -148,7 +148,7 @@ export class SlbsComponent implements OnInit {
       const status = JSON.parse(sessionStorage.getItem("allStatus"));
       status.slbForWaterSupplyAndSanitation.isSubmit = res["isCompleted"];
       this._ulbformService.allStatus.next(status);
-      console.log("response")
+
       swal("(NO SLB ID)Record submitted successfully!");
     })
 
@@ -156,9 +156,9 @@ export class SlbsComponent implements OnInit {
   data = '';
   res
   onWaterWasteManagementEmitValue(value) {
-    console.log("value1", value)
+    console.log("value which came from fc-slb component", value)
     this.data = value
-    console.log('onWaterWasteManagementEmitValue', value)
+
     sessionStorage.setItem("changeInSLB", "true");
     if (value.saveData) {
       this.postSlbData(value)
@@ -167,20 +167,20 @@ export class SlbsComponent implements OnInit {
   }
 
   onSendEmitValue(value) {
-    console.log("value", value)
+
     if (value.next)
       this.postSlbData(value)
   }
 
 
   showPreview() {
-  let waterValue ={
-    plan: this.data['waterPotabilityPlan'],
-    index: this.data['water_index']
-  }
+    let waterValue = {
+      plan: this.data['waterPotabilityPlan'],
+      index: this.data['water_index']
+    }
 
-   console.log('dxhfcgfvkjghgshi',waterValue);
-    console.log('pr', this.waterWasteManagementForm.getRawValue())
+
+
     this.previewData = {
       ...this.preFilledWaterManagement,
       ulb: this.loggedInUserDetails.ulb,
@@ -211,7 +211,7 @@ export class SlbsComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this._matDialog.open(template, dialogConfig);
     this.dialogRef.afterClosed().subscribe((result) => {
-      if(result === undefined){
+      if (result === undefined) {
         if (this.routerNavigate) {
           this.routerNavigate = null;
         }
@@ -224,7 +224,7 @@ export class SlbsComponent implements OnInit {
     await this.dialogRef.close(true);
     let changeHappen = sessionStorage.getItem("changeInSLB")
     if (this.routerNavigate && changeHappen === 'true') {
-      console.log('this data is going', this.data)
+      console.log('this data is going in POST API', this.data)
       this.data['saveData'] = true;
       this.onWaterWasteManagementEmitValue(this.data);
       this._router.navigate([this.routerNavigate.url]);

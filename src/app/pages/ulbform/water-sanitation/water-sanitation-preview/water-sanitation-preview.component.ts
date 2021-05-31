@@ -45,6 +45,9 @@ export class WaterSanitationPreviewComponent implements OnInit {
   ) {}
   @ViewChild("template") template;
   @Output() change = new EventEmitter<any>();
+  dialogRef;
+  previewStatus
+  totalStatus
 
   styleForPDF = `<style>
   
@@ -119,7 +122,6 @@ export class WaterSanitationPreviewComponent implements OnInit {
     }
     // this.openModal(template)
   }
-  dialogRef;
   openDialog(template) {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this._matDialog.open(template, dialogConfig);
@@ -130,6 +132,7 @@ export class WaterSanitationPreviewComponent implements OnInit {
     if (this.parentData) {
       this.data = this.parentData;
     }
+    this.previewStatuSet()
   }
 
   downloadAsPDF() {
@@ -192,5 +195,31 @@ export class WaterSanitationPreviewComponent implements OnInit {
     plans.body.plans = data;
     plans.testForDraft()
     await plans.postsDataCall(plans.body)
+  }
+
+  previewStatuSet() {
+    if (
+      this.data["isDraft"] == null
+    ) {
+      this.previewStatus = "Not Started";
+    } else if(this.data["isDraft"]) {
+      this.previewStatus = "In Progress";
+    } else {
+      this.previewStatus = "Completed";
+    }
+
+    if (!this.parentData) {
+      this.totalStatus = sessionStorage.getItem("masterForm");
+      if (this.totalStatus) {
+        this.totalStatus = JSON.parse(this.totalStatus);
+        if (this.totalStatus["isSubmit"]) {
+          this.totalStatus = "Completed but Not Submitted";
+        } else {
+          this.totalStatus = "In Progress";
+        }
+      } else {
+        this.totalStatus = "Not Started";
+      }
+    }
   }
 }

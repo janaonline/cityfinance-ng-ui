@@ -19,10 +19,11 @@
     </div> -->
     <div class="d-flex justify-content-between mt-2" style="padding-left: 2%">
         <p class="form-status">
-            <b>Application Current Status:</b> {{previewStatus}}
+            <b *ngIf="!fromParent">Application Current Status:</b> {{totalStatus}}
+            <br *ngIf="!fromParent">
+            <b>Form Current Status:</b> {{previewStatus}}
         </p>
-
-        <button *ngIf="!fromParent" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%" class="btn btn-primary btn-upload hi" (click)="clickedDownloadAsPDF(templateAnnual)">
+        <button *ngIf="!fromParent" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%; height: 2pc;" class="btn btn-primary btn-upload hi" (click)="clickedDownloadAsPDF(templateAnnual)">
             Download as PDF
         </button>
     </div>

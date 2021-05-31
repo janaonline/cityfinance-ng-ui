@@ -96,7 +96,7 @@ export class DataEntryService {
     return this.http.put(s3URL, file, {
       reportProgress: options.reportProgress,
       observe: "events",
-    }).pipe(timeout(8000));
+    });
   }
 
   /**
