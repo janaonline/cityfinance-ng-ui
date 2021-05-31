@@ -7,7 +7,7 @@
                 </mat-icon>
             </a>
 
-            <div class="col-sm-12 heading-p " [ngStyle]="{'margin-top':!parentData  ? '1.5rem' : '2.5rem'}">
+            <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!parentData  ? '' : '1.5rem'}">
                 <span *ngIf="!parentData">15th FC Grants for 2021-22</span>
                 <br *ngIf="!parentData"> Linking of PFMS Account
             </div>
@@ -16,7 +16,7 @@
     </div>
     <div class="d-flex justify-content-between mt-2" style="padding-left: 2%">
         <p class="form-status">
-            <b>Application Current Status:</b> {{ formStatusCheck }}
+            <b>Form Current Status:</b> {{ formStatusCheck }}
         </p>
 
         <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%" class="btn btn-primary btn-upload h-cls" (click)="clickedDownloadAsPDF(template)">
