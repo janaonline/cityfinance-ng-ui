@@ -48,6 +48,7 @@ export class SlbsComponent implements OnInit {
 
             const currentRoute = this._router.routerState;
             this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
+            console.log("inside router")
             this.openModal(this.template);
           }
         }
@@ -168,6 +169,7 @@ export class SlbsComponent implements OnInit {
     sessionStorage.setItem("changeInSLB", "true");
     let completed = this.checkIfCompletedOrNot(value)
     let isCompleted
+
     if (value.isFormInvalid || !completed) {
       isCompleted = false
     } else {
@@ -177,6 +179,12 @@ export class SlbsComponent implements OnInit {
     console.log('isCompleted', isCompleted)
     value['isCompleted'] = isCompleted
     this.data = value
+    if (this.routerNavigate && value.saveData) {
+      this.postSlbData(value)
+      sessionStorage.setItem("changeInSLB", "false")
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
     if (!isCompleted && value.saveData) {
       this.clickedSave = true;
       this.openModal(this.template1)
@@ -268,7 +276,8 @@ export class SlbsComponent implements OnInit {
 
 
   async proceed() {
-    await this.dialogRef.close(true);
+    await this._matDialog.closeAll();
+    // await this.dialogRef.close(true);
     let changeHappen = sessionStorage.getItem("changeInSLB")
     if (this.clickedSave) {
       this.postSlbData(this.data)
