@@ -236,6 +236,8 @@ export class SlbsComponent implements OnInit {
       plan: this.data['waterPotabilityPlan'],
       index: this.data['water_index']
     }
+
+
     this.previewData = {
       ...this.preFilledWaterManagement,
       ulb: this.loggedInUserDetails.ulb,
@@ -243,11 +245,10 @@ export class SlbsComponent implements OnInit {
       waterManagement:
         this.waterWasteManagementForm.getRawValue(),
       waterPotability: this.waterPotability,
-      preWater: waterValue
-
-
+      preWater: waterValue,
+      isCompleted: this.data['isCompleted']
     };
-
+    console.log(this.previewData)
     this._matDialog.open(this.previewPopup, {
       width: "85vw",
       maxHeight: "95vh",
