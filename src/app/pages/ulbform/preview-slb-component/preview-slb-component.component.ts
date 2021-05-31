@@ -137,9 +137,9 @@ export class PreviewSlbComponentComponent implements OnInit {
   </style>`;
 
   states: { [stateId: string]: IState };
-  water_index_qus='';
-  fileUrl ='';
-  fileName ='';
+  water_index_qus = '';
+  fileUrl = '';
+  fileName = '';
   constructor(
     private _questionnaireService: QuestionnaireService,
     private _commonService: CommonService,
@@ -151,26 +151,26 @@ export class PreviewSlbComponentComponent implements OnInit {
 
   ngOnInit() {
     this.data = this.formatResponse(this.data);
-    this.data.history=null;
+    this.data.history = null;
     console.log('hi', JSON.stringify(this.data));
-    if(this.data.preWater?.index != undefined){
+    if (this.data.preWater?.index != undefined) {
 
       this.fileName = this.data.preWater.plan.name;
       this.fileUrl = this.data.preWater.plan.url;
-                if(this.data.preWater.index){
-                            this.water_index_qus = 'Yes'
-                 }else{
-                           this.water_index_qus = 'No'
-                      }
-      }else{
-            this.fileName = this.data.waterPotability.name;
-            this.fileUrl = this.data.waterPotability.url;
-                if(this.data.water_index){
-                     this.water_index_qus = 'Yes'
-                  }else{
-                        this.water_index_qus = 'No'
-                       }
-       }
+      if (this.data.preWater.index) {
+        this.water_index_qus = 'Yes'
+      } else {
+        this.water_index_qus = 'No'
+      }
+    } else {
+      this.fileName = this.data.waterPotability.name;
+      this.fileUrl = this.data.waterPotability.url;
+      if (this.data.water_index) {
+        this.water_index_qus = 'Yes'
+      } else {
+        this.water_index_qus = 'No'
+      }
+    }
 
   }
 
@@ -218,7 +218,8 @@ export class PreviewSlbComponentComponent implements OnInit {
       "waterManagement": this.data['waterManagement'],
       "waterPotability": this.data['waterPotability'],
       "water_index": this.data['water_index'],
-      "saveData": true
+      "saveData": true,
+      "isCompleted": this.data['isCompleted']
     }
     this.onWaterWasteManagementEmitValue(obj)
     sessionStorage.setItem("changeInSLB", "false");
@@ -249,8 +250,9 @@ export class PreviewSlbComponentComponent implements OnInit {
           ]
         }
       },
+      isCompleted: value.isCompleted
       // completeness: 'APPROVED', correctness: 'APPROVED',
-      "isCompleted": true
+
     }
     console.log(data)
     this._commonService.postSlbData(data).subscribe(res => {
