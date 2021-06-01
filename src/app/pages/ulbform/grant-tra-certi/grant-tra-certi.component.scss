@@ -19,6 +19,32 @@ h4 {
     margin-top: 0;
 }
 
+.individualResource {
+    margin: 25px 15px;
+    border-radius: 3px;
+    border: 2px solid transparent;
+    box-shadow: 3px 2px 2px 2px #cecece;
+    height: 260px;
+    width: 220px;
+    text-align: center;
+    padding: 20px 6px;
+    color: rgb(0, 87, 80);
+    background-color: #f7f7f7;
+}
+.resourceCards {
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+}
+
+
+.individualResource:hover {
+    margin: 22px 15px 25px 15px;
+    transition-timing-function: linear;
+    box-shadow: 5px 5px 5px #cecece;
+}
+
+
 .img1 {
     margin: 0 12%;
     width: 176px;
