@@ -1,18 +1,18 @@
-.header {
+.header-p {
     background-color: #047474;
-    height: 100px;
+    height: 90px;
     text-align: center;
 }
 
-.heading {
+.heading-p {
     color: #FFFFFF;
     font-size: 22px;
-    // margin-top: 3rem;
+    font-weight: 700;
+    //  margin-top: 1.5rem;
 }
 
 .card {
     padding: 5px 10px;
-    // margin: 10px 40px;
     background-color: #EBF5F5;
 }
 
@@ -32,22 +32,21 @@
     color: #ffffff;
     font-size: 14px;
     text-decoration: none;
-  }
-  
-  .table > tbody > tr > td,
-  .table > tbody > tr > th,
-  .table > tfoot > tr > td,
-  .table > tfoot > tr > th,
-  .table > thead > tr > td,
-  .table > thead > tr > th {
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
     vertical-align: inherit;
     padding: 8px 2px;
     text-align: center;
+}
 
-  }
-  .custom-position {
+.custom-position {
     td {
-      position: relative;
+        position: relative;
     }
-  }
-  
+}

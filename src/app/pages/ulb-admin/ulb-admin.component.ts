@@ -30,7 +30,6 @@ export class UlbAdminComponent extends BaseComponent implements OnInit {
   }
     switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
-
         this._router.navigate(["/ulbform/overview"]);
         break;
       // case USER_TYPE.STATE:

@@ -50,21 +50,73 @@ export class WaterSanitationPreviewComponent implements OnInit {
   totalStatus
 
   styleForPDF = `<style>
-  
-  .card {
-    border: 1px #00000029;
-    margin-left: 20px;
-    box-shadow: 1px 1px 1px 3px #00000029;
+  :root {
+    font-size: 14px;
+  }
+    h2 {
+      font-size: 1.25rem;
+    }
+
+    h3 {
+      font-size: .9rem;
+    }
+
+     h4 {
+      font-size: .7rem;
+    }
+       h5 {
+      font-size: .5rem;
+    }
+
+    table thead th {
+      font-size: 10px;
+    }
+
+    table tbody td, li {
+      font-size: 10px;
+    }
+
+    .td-width {
+      width: 16.5%;
+    }
+
+    button {
+      display: none;
+    }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
   }
 
-  .thHeader {
-    background-color: #058e91;
-    font-family: Roboto;
-    color: #ffffff;
-    font-size: 1px;
-    text-decoration: none;
+  .form-status {
+    font-size: 10px;
+    margin-top: 10px;
+
+
   }
-  
+  .header-p {
+    background-color: #047474;
+    height: 70px;
+    text-align: center;
+}
+.heading-p {
+    color: #FFFFFF;
+    font-size: 18px;
+    padding-top: 1rem !important;
+    font-weight: 700;
+
+}
+
+.card {
+    margin-top: 10px !important;
+    padding: 5px 10px;
+    background-color: #EBF5F5;
+}
+
   .table > tbody > tr > td,
   .table > tbody > tr > th,
   .table > tfoot > tr > td,
@@ -74,38 +126,15 @@ export class WaterSanitationPreviewComponent implements OnInit {
     vertical-align: inherit;
     text-align: center;
   }
-  
-  .custom-position {
-    td {
-      position: relative;
-    }
+  .thHeader {
+    background-color: #E9E9E9;
+    color: #047474;
+    font-weight: normal;
   }
-  
-  .custom-position {
-    input {
-      position: relative;
-      width: 80%;
-      height: 4ch;
-      text-align: center;
-    }
-  }
-  
-  .custom-position {
-    select {
-      position: relative;
-    }
-  }
-  
-  .custom-position {
-    textarea {
-      height: 2pc;
-      vertical-align: bottom;
-      margin-right: 1pc;
-    }
-  }
+
   .df{
     display:none
-  } 
+  }
   </style>`;
   clicked = false;
   errMessage = "";

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
 import {MatIconModule} from '@angular/material/icon';
 import { StateformsRoutingModule } from './stateforms-routing.module';
 import { StateformsComponent } from './stateforms.component';
@@ -18,7 +20,9 @@ import { GrantAllocationComponent } from './grant-allocation/grant-allocation.co
   imports: [
     CommonModule,
     StateformsRoutingModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class StateformsModule { }

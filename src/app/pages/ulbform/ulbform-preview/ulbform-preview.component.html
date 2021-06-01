@@ -11,8 +11,7 @@
         </h3>
         <div class="pull-right b-hide">
             <button id="donwloadButton" style="right: 0%;
-      outline: none; margin-right: 2% ;margin-bottom: 1pc; position: relative; z-index:4" (click)="downloadAsPDF()"
-                class="btn btn-primary btn-upload">
+      outline: none; margin-right: 2% ;margin-bottom: 1pc; position: relative; z-index:4" (click)="downloadAsPDF()" class="btn btn-primary btn-upload">
                 Download as PDF
             </button>
         </div>
@@ -44,6 +43,7 @@
             </app-preview-slb-component>
         </div>
     </div>
+    <div class="page-break"></div>
     <div class="mat-card-content">
         <div *ngIf="waterSanitation">
             <app-water-sanitation-preview [parentData]="waterSanitation">

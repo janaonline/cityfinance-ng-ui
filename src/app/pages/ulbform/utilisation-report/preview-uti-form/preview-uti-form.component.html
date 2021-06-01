@@ -1,5 +1,5 @@
 <mat-dialog-content style="margin-top: 0;" id="previewUti" #previewUti>
-    <div class="row header" style="text-align: center; display: block;">
+    <!-- <div class="row header" style="text-align: center; display: block;">
         <div *ngIf="!parentData" class="text-right pdf-hide">
             <a mat-dialog-close style="margin-right: 4%;">
                 <mat-icon aria-hidden="false">
@@ -8,23 +8,39 @@
             </a>
         </div>
 
-        <div class="col-sm-12 heading-p" [ngStyle]="{'margin-top':!parentData  ? '-1.3rem' : '2.5rem'}">
+        <div class="col-sm-12 heading-p" [ngStyle]="{'margin-top':!parentData  ? '-2rem' : '2.7rem'}">
             <span *ngIf="!parentData">15th FC Grants for 2021-22</span>
-            <br *ngIf="!parentData"> Utilization Report :2020-21
+            <br *ngIf="!parentData">
 
         </div>
+    </div> -->
+    <div class="row">
+        <div class="col-sm-12 header-p">
+            <a *ngIf="!parentData" mat-dialog-close class="h-cls" style="position: absolute;z-index:3; right: 4%; top: 14%; cursor: pointer;">
+                <mat-icon aria-hidden="false">
+                    <img src="../../../../../assets/form-icon/Icon material-close.svg">
+                </mat-icon>
+            </a>
 
+            <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!parentData  ? '' : '1.5rem'}">
+                <span *ngIf="!parentData">15th FC Grants for 2021-22</span>
+                <br *ngIf="!parentData"> Utilization Report :2020-21
+            </div>
 
+        </div>
     </div>
+
     <div class="d-flex justify-content-between mt-2 d-status" style="padding-left: 3.7%">
         <p class="form-status-ut">
-            <b>Application Current Status:</b> {{formStatusCheck}}
+            <b *ngIf="!parentData">Application Current Status:</b> {{totalStatus}}
+            <br *ngIf="!parentData">
+            <b>Form Current Status:</b> {{formStatusCheck}}
         </p>
-
-        <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 3.5%" class="btn btn-primary btn-upload pdf-hide" (click)="clickedDownloadAsPDF(template)">
-            Download as PDF
-        </button>
+        <button *ngIf="!parentData" id="donwloadButton" style="height: 32px; right: 0%; outline: none; margin-right: 3.5%" class="btn btn-primary btn-upload pdf-hide" (click)="clickedDownloadAsPDF(template)">
+          Download as PDF
+      </button>
     </div>
+
 
     <!-- <div *ngIf="!parentData" class="text-right dnDiv pdf-hide">
         <button mat-button class="dnldBtn" (click)="downloadForm()">Download as PDF</button>
