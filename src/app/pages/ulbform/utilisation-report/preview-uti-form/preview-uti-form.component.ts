@@ -401,7 +401,6 @@ width: 5% !important;
   async proceed(uploadedFiles) {
     // await this.modalRef.hide();
     this.dialogRef.close();
-
     sessionStorage.setItem("canNavigate", "true");
     console.log("preview Data", this.data);
     this.copyData = this.data;
