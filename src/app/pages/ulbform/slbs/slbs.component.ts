@@ -161,7 +161,7 @@ export class SlbsComponent implements OnInit {
   res
   clickedSave = false;
   onWaterWasteManagementEmitValue(value) {
-    debugger
+
     console.log("value which came from fc-slb component", value)
 
     let changeHappen = sessionStorage.getItem("changeInSLB")
@@ -306,7 +306,6 @@ export class SlbsComponent implements OnInit {
 
 
   async proceed() {
-    
     await this._matDialog.closeAll();
     // await this.dialogRef.close(true);
     let changeHappen = sessionStorage.getItem("changeInSLB")

@@ -153,7 +153,15 @@ export class PreviewSlbComponentComponent implements OnInit {
   ) { }
 
   ngOnChanges() { }
+  formStatus = [
+    'Not Started',
+    'In Progress & Not Submitted',
+    'Completed & Not Submitted',
+    'In Progress & Submitted',
+    'Completed & Submitted',
 
+  ]
+  formStatusCheck = ''
   ngOnInit() {
 
     this.subParentForModal = this._commonService.OpenModalTrigger.subscribe(
@@ -164,9 +172,28 @@ export class PreviewSlbComponentComponent implements OnInit {
       }
     );
 
-
+    let getData = JSON.parse(sessionStorage.getItem("slbData"));
     this.data = this.formatResponse(this.data);
     this.data.history = null;
+    console.log(getData)
+    console.log(this.data)
+
+    if (getData['data'].length == 0 && this.data?.isCompleted == undefined) {
+      this.formStatusCheck = this.formStatus[0]
+    } else if (getData['data'].length == 0 && this.data?.isCompleted) {
+      this.formStatusCheck = this.formStatus[2]
+    } else if (getData['data'].length == 0 && !this.data?.isCompleted) {
+      this.formStatusCheck = this.formStatus[1]
+    }
+    else {
+      if (getData['data'][0]['isCompleted']) {
+        this.formStatusCheck = this.formStatus[4]
+      } else if (!getData['data'][0]['isCompleted']) {
+        this.formStatusCheck = this.formStatus[3]
+      } else {
+        this.formStatusCheck = this.formStatus[0]
+      }
+    }
     console.log('hi', JSON.stringify(this.data));
     if (this.data.preWater?.index != undefined) {
 

@@ -1,4 +1,8 @@
-<div class="container-fluid" style="padding: 0;">
+<div class="container-fluid" *ngIf="
+loggedInUserType === USER_TYPE.ADMIN ||
+loggedInUserType === USER_TYPE.MoHUA ||
+loggedInUserType === USER_TYPE.PARTNER
+" style="padding: 0;">
     <div class="row">
         <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c">
             <div class="m-d">
