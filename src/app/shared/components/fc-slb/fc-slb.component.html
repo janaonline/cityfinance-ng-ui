@@ -697,15 +697,14 @@
     <div class="col-lg-6 col-md-6 col-sm-6 float-left">
 
       <button class="btn  btn-upload mr-1 ml-1 col-sm-2" (click)="showPublishedUpload=true;
-        submitted=false; emitOnDocChange()" style="width: 60px; height: 33px; color: white;"
-        [ngStyle]="{'background-color': showPublishedUpload == true ? '#ffc107' : '#059b9a'  }">
+        submitted=false; emitOnDocChange()" style="width: 60px; height: 33px; "
+        [ngStyle]="{'background-color': showPublishedUpload == true ? '#ffc107' : 'rgb(229, 230, 230)'  }">
         Yes
       </button>
 
       <button class="btn  btn-upload col-sm-2"
-        (click)="showPublishedUpload = false;  submitted = false; emitOnDocChange()"
-        style="width: 60px; height: 33px; color: white"
-        [ngStyle]="{'background-color': showPublishedUpload == true ? '#059b9a'  : '#ffc107'   }">
+        (click)="showPublishedUpload = false;  submitted = false; emitOnDocChange()" style="width: 60px; height: 33px;"
+        [ngStyle]="{'background-color': showPublishedUpload == true ? 'rgb(229, 230, 230)'  : '#ffc107'   }">
         No
       </button>
 

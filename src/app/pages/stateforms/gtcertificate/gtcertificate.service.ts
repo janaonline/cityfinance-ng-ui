@@ -16,9 +16,7 @@ export class GTCertificateService {
 
     }
     getFiles() {
-        // let ulbRecord = JSON.parse(localStorage.getItem('userData'));
-        // ulbRecord = ulbRecord.ulb;
-        // console.log(ulbRecord)
+
         let getFilesUrl = environment.api.url + 'state/gtc/get/606aaf854dff55e6c075d219'
         return this.http.get(getFilesUrl).pipe(catchError(error => {
             let errMes = 'An error occured.'

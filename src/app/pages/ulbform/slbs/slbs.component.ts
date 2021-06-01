@@ -117,6 +117,7 @@ export class SlbsComponent implements OnInit {
 
   value
   postSlbData(value) {
+    console.log(value)
     this.value = value
     let data = {
       design_year: this.Years["2021-22"],
@@ -160,6 +161,7 @@ export class SlbsComponent implements OnInit {
   res
   clickedSave = false;
   onWaterWasteManagementEmitValue(value) {
+
     console.log("value which came from fc-slb component", value)
 
     let changeHappen = sessionStorage.getItem("changeInSLB")
@@ -180,17 +182,21 @@ export class SlbsComponent implements OnInit {
     value['isCompleted'] = isCompleted
     this.data = value
     if (this.routerNavigate && value.saveData) {
+      console.log('1')
+      console.log(value)
       this.postSlbData(value)
       sessionStorage.setItem("changeInSLB", "false")
       this._router.navigate([this.routerNavigate.url]);
       return;
     }
     if (!isCompleted && value.saveData) {
+      console.log('2')
       this.clickedSave = true;
       this.openModal(this.template1)
       return;
     }
     if (value.saveData) {
+      console.log('3')
       this.postSlbData(value)
       sessionStorage.setItem("changeInSLB", "false")
       return this._router.navigate(["ulbform/water-sanitation"]);
@@ -236,6 +242,8 @@ export class SlbsComponent implements OnInit {
       plan: this.data['waterPotabilityPlan'],
       index: this.data['water_index']
     }
+
+
     this.previewData = {
       ...this.preFilledWaterManagement,
       ulb: this.loggedInUserDetails.ulb,
@@ -243,11 +251,10 @@ export class SlbsComponent implements OnInit {
       waterManagement:
         this.waterWasteManagementForm.getRawValue(),
       waterPotability: this.waterPotability,
-      preWater: waterValue
-
-
+      preWater: waterValue,
+      isCompleted: this.data['isCompleted']
     };
-
+    console.log(this.previewData)
     this._matDialog.open(this.previewPopup, {
       width: "85vw",
       maxHeight: "95vh",
@@ -276,6 +283,7 @@ export class SlbsComponent implements OnInit {
 
 
   async proceed() {
+
     await this._matDialog.closeAll();
     // await this.dialogRef.close(true);
     let changeHappen = sessionStorage.getItem("changeInSLB")
