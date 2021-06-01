@@ -114,7 +114,17 @@ export class AnnualPreviewComponent implements OnInit {
 
   Years = JSON.parse(localStorage.getItem("Years"));
   @Input() parentData;
+  @Input()
+  changeFromOutSide: any;
 
+  annualAccountComp = new AnnualAccountsComponent(
+    this.dataEntryService,
+    this.annualAccountsService,
+    this._matDialog,
+    this._ulbformService,
+    this._router,
+    this._matDialog
+  );
   fromParent = true;
   year2021;
   year2019;
@@ -122,16 +132,29 @@ export class AnnualPreviewComponent implements OnInit {
   download;
   previewStatus;
   totalStatus;
+  subParentForModal
 
   ngOnInit(): void {
+
+    this.subParentForModal = this.annualAccountsService.OpenModalTrigger.subscribe((change) => {
+      if (this.changeFromOutSide) {
+        this.openDialog(this.template);
+      }
+    });
+
     this.download = false;
-    if (this.data) {
+    if (this.data && this.parentData === undefined) {
       this.parentData = this.data;
       this.fromParent = false;
     }
     this.setData();
     this.previewStatuSet();
   }
+
+  ngOnDestroy(): void {
+    this.subParentForModal.unsubscribe()
+  }
+
 
   setData() {
     if (this.Years["2020-21"] == this.parentData[0].year) {
@@ -197,10 +220,13 @@ export class AnnualPreviewComponent implements OnInit {
   }
 
   async proceed(uploadedFiles) {
-    this._matDialog.closeAll();
+    this.dialogRef.close();
     await this.submit();
-    await this.downloadAsPDF();
     sessionStorage.setItem("changeInAnnual", "false");
+    if(this.changeFromOutSide)
+    this._ulbformService.initiateDownload.next(true)
+    else
+    await this.downloadAsPDF();
   }
 
   async submit() {
@@ -216,38 +242,15 @@ export class AnnualPreviewComponent implements OnInit {
   }
 
   async save(form) {
-    let AnnualAccounts = new AnnualAccountsComponent(
-      this.dataEntryService,
-      this.annualAccountsService,
-      this._matDialog,
-      this._ulbformService,
-      this._router,
-      this._matDialog
-    );
-    await AnnualAccounts.save(form);
+    await this.annualAccountComp.save(form);
   }
   async checkForm(form) {
-    let AnnualAccounts = new AnnualAccountsComponent(
-      this.dataEntryService,
-      this.annualAccountsService,
-      this._matDialog,
-      this._ulbformService,
-      this._router,
-      this._matDialog
-    );
-    await AnnualAccounts.checkForm(form);
+    await this.annualAccountComp.checkForm(form);
   }
 
   errorHandler(form, key, key2, key3 = null) {
-    let AnnualAccounts = new AnnualAccountsComponent(
-      this.dataEntryService,
-      this.annualAccountsService,
-      this._matDialog,
-      this._ulbformService,
-      this._router,
-      this._matDialog
-    );
-    AnnualAccounts.errorHandler(form, key, key2, key3);
+    
+    this.annualAccountComp.errorHandler(form, key, key2, key3);
   }
 
   alertClose() {
@@ -259,7 +262,10 @@ export class AnnualPreviewComponent implements OnInit {
   }
 
   previewStatuSet() {
-    const annualData = JSON.parse(sessionStorage.getItem("annualAccounts"));
+    let annualData = JSON.parse(sessionStorage.getItem("annualAccounts"));
+    if (annualData === null) {
+      annualData = this.parentData;
+    }
     if (
       annualData[0]["isCompleted"] == null &&
       annualData[1]["isCompleted"] == null

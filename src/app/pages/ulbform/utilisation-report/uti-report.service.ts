@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment'
+import { Subject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class UtiReportService {
     lng: null
   }
   constructor(private http: HttpClient) { }
+
+  OpenModalTrigger = new Subject<any>();
 
   getCategory() {
 

@@ -136,6 +136,11 @@ export class PreviewSlbComponentComponent implements OnInit {
 
   </style>`;
 
+  @Input()
+  changeFromOutSide: any;
+
+  subParentForModal;
+
   states: { [stateId: string]: IState };
   water_index_qus = '';
   fileUrl = '';
@@ -158,8 +163,16 @@ export class PreviewSlbComponentComponent implements OnInit {
   ]
   formStatusCheck = ''
   ngOnInit() {
-    let getData = JSON.parse(sessionStorage.getItem("slbData"));
 
+    this.subParentForModal = this._commonService.OpenModalTrigger.subscribe(
+      (change) => {
+        if (this.changeFromOutSide) {
+          this.openDialog(this.template);
+        }
+      }
+    );
+
+    let getData = JSON.parse(sessionStorage.getItem("slbData"));
     this.data = this.formatResponse(this.data);
     this.data.history = null;
     console.log(getData)
@@ -203,6 +216,10 @@ export class PreviewSlbComponentComponent implements OnInit {
 
   }
 
+  ngOnDestroy(): void {
+    this.subParentForModal.unsubscribe();
+  }
+
   replaceAllOccurence(
     originalText: string,
     textToSearch: string,
@@ -238,7 +255,7 @@ export class PreviewSlbComponentComponent implements OnInit {
   errMessage = ''
   res
   async proceed(uploadedFiles) {
-    await this._matDialog.closeAll();
+    this.dialogRef.close();
 
     console.log('Check this value', this.data)
 
@@ -252,7 +269,10 @@ export class PreviewSlbComponentComponent implements OnInit {
     }
     this.onWaterWasteManagementEmitValue(obj)
     sessionStorage.setItem("changeInSLB", "false");
-    this.downloadAsPDF()
+    if(this.changeFromOutSide){
+      this._ulbformService.initiateDownload.next(true);
+    }
+    else this.downloadAsPDF()
   }
 
   onWaterWasteManagementEmitValue(value) {

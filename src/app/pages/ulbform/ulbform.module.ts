@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 //import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -72,7 +72,8 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     MatDialogModule,
     ReactiveFormsModule,
     HttpClientModule,
-
+    MatProgressSpinnerModule,
+    
     SharedModule,
     MatTooltipModule,
     ModalModule.forRoot(),
