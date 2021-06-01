@@ -5,6 +5,11 @@ h5 {
     font-weight: 500;
 }
 
+h6 {
+    color: #373737;
+    font-weight: 600;
+}
+
 p {
     font-size: 1.2rem;
     color: #3737378F;
@@ -202,13 +207,6 @@ table {
     table thead th:nth-child(1) {
         text-align: left !important;
     }
-    // .actionModeTable {
-    //   table thead th:last-child,
-    //   table tbody td:last-child {
-    //     // background: red;
-    //     width: 17%;
-    //   }
-    // }
     .actions {
         width: 100%;
         display: inline-flex;
