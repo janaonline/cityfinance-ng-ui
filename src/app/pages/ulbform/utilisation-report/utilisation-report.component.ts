@@ -32,7 +32,6 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { UlbformService } from "../ulbform.service";
 import { NavigationStart } from "@angular/router";
 import { SweetAlert } from "sweetalert/typings/core";
-import { invalid } from "@angular/compiler/src/render3/view/util";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -68,6 +67,7 @@ export class UtilisationReportComponent implements OnInit {
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
+
     this.navigationCheck();
   }
 

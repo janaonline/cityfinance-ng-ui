@@ -82,7 +82,7 @@
                 </a>
             </div>
             <div class="row link-div">
-                <a [routerLink]="['../fc-home-page']">
+                <a [routerLink]="['gtCertificate']">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false">
                             <img src="../../../assets/stateform/certificate (1).svg">
@@ -112,7 +112,7 @@
                 </a>
             </div>
             <div class="row link-div-u">
-                <a [routerLink]="['../fc-home-page']">
+                <a [routerLink]="['water-supply']">
                     <div class="col-sm-1 col-xs-1 m-l-u">
                         <mat-icon aria-hidden="false">
                             <img src="../../../assets/stateform/suplywater.png">
@@ -188,20 +188,37 @@
             </div>
         </div>
 
-        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10 text-center" style="margin-top: 1.5rem; width: 79%;">
+        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10" style="margin-top: 1.5rem; width: 79%;">
             <div class="row">
-                <div class="col-sm-12">
-                    <h3>Welcome </h3>
+                <div class="col header1">
+                    <h3 class="text-center" style="text-align: center;" *ngIf="loggedInUserType !== userTypes.USER;">
+                        Welcome {{ userLoggedInDetails.name }},
+                        <span *ngIf="
+        loggedInUserType === userTypes.ADMIN ||
+        loggedInUserType === userTypes.MoHUA ||
+        loggedInUserType === userTypes.PARTNER
+      ">
+                        {{ userLoggedInDetails.role }}
+                    </span>
+                        <span *ngIf="
+        states &&
+        (loggedInUserType === userTypes.STATE ||
+          loggedInUserType === userTypes.ULB)
+      ">
+                        {{ states[userLoggedInDetails["state"]]?.name }}
+                    </span>
+                    </h3>
+
                 </div>
+
+
             </div>
             <div class="row">
                 <div class="col-sm-12">
                     <router-outlet></router-outlet>
                 </div>
             </div>
-
         </div>
+
+
     </div>
-
-
-</div>
