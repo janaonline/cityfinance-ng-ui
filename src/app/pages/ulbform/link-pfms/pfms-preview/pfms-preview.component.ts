@@ -74,9 +74,21 @@ export class PfmsPreviewComponent implements OnInit {
   formStatusCheck = ''
 
   @Input() parentData
+  @Input()
+  changeFromOutSide: any;
   @Output() change = new EventEmitter<any>();
   errMessage = ''
+
+  subParentForModal
+
   ngOnInit(): void {
+
+    this.subParentForModal = this.LinkPFMSAccount.OpenModalTrigger.subscribe((change) => {
+      if (this.changeFromOutSide) {
+        this.openDialog(this.template);
+      }
+    });
+
     if (this.parentData) {
       this.data = this.parentData
     }
@@ -103,6 +115,11 @@ export class PfmsPreviewComponent implements OnInit {
     this.clicked = false
 
   }
+
+  ngOnDestroy(): void {
+    this.subParentForModal.unsubscribe()
+  }
+
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: "modal-md" });
   }
@@ -170,7 +187,7 @@ export class PfmsPreviewComponent implements OnInit {
 
   async proceed(uploadedFiles) {
     // await this.modalRef.hide();
-    this._matDialog.closeAll();
+    this.dialogRef.close();
     // this._matDialog.close(this.clicked);
     // this._matDialog.closeAll('Hello');
     // this._matDialog.ngOnDestroy()
@@ -199,6 +216,10 @@ export class PfmsPreviewComponent implements OnInit {
           console.log(error, this.errMessage);
         });
 
+    if(this.changeFromOutSide){
+      this._ulbformService.initiateDownload.next(true);
+    }
+    else
     this.downloadAsPDF()
 
 

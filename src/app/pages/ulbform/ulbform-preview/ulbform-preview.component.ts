@@ -4,7 +4,7 @@ import {
   Inject,
   OnInit,
   ViewChild,
-  OnDestroy
+  OnDestroy,
 } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { CommonService } from "src/app/shared/services/common.service";
@@ -23,7 +23,7 @@ import { UlbformService } from "../ulbform.service";
   templateUrl: "./ulbform-preview.component.html",
   styleUrls: ["./ulbform-preview.component.scss"],
 })
-export class UlbformPreviewComponent implements OnInit,OnDestroy  {
+export class UlbformPreviewComponent implements OnInit, OnDestroy {
   @ViewChild("ulbformPre") _html: ElementRef;
   showLoader = true;
   changeTrigger: any = {
@@ -806,21 +806,23 @@ margin-left : .5rem !important;
   financialYear;
   stateName;
   canDownload = true;
-  downloadSub
+  downloadSub;
 
   ngOnInit(): void {
-    this.downloadSub = this.ulbformService.initiateDownload.subscribe((proceedSelected) => {
-      if (proceedSelected) {
-        this.downloadAsPDF();
+    this.downloadSub = this.ulbformService.initiateDownload.subscribe(
+      (proceedSelected) => {
+        if (proceedSelected) {
+          this.downloadAsPDF();
+        }
       }
-    });
+    );
     this.designYear = this.years["2021-22"];
     this.financialYear = this.years["2020-21"];
     this.onLoad();
   }
 
-  ngOnDestroy(){
-    this.downloadSub.unsubscribe()
+  ngOnDestroy() {
+    this.downloadSub.unsubscribe();
   }
 
   async onLoad() {
@@ -842,7 +844,8 @@ margin-left : .5rem !important;
       "canNavigate",
     ];
     status.forEach((element) => {
-      if (sessionStorage.getItem(element) == "true") {
+      
+      if (sessionStorage.getItem(element) == "true" || (element === "canNavigate" && sessionStorage.getItem(element) == "false")) {
         this.changeTrigger[element] = true;
         this.canDownload = false;
       }
@@ -918,10 +921,36 @@ margin-left : .5rem !important;
   }
 
   openModal() {
-    console.log("22");
-    
     if (this.canDownload) this.downloadAsPDF();
-    else this.waterSanitationService.OpenModalTrigger.next(true);
+    
+    const status = [
+      "changeInAnnual",
+      "changeInPFMSAccount",
+      "changeInPlans",
+      "changeInSLB",
+      "canNavigate",
+    ];
+    status.forEach((element) => {
+      if (sessionStorage.getItem(element) == "true") {
+        switch (element) {
+          case "changeInAnnual":
+            this.annualAccountsService.OpenModalTrigger.next(true);
+            break;
+          case "changeInPlans":
+            this.waterSanitationService.OpenModalTrigger.next(true);
+            break;
+          case "changeInPFMSAccount":
+            this.linkPFMSAccount.OpenModalTrigger.next(true);
+            break;
+          case "changeInSLB":
+            this.commonService.OpenModalTrigger.next(true)
+            break;
+        }
+      }
+      else if(element == "canNavigate"){
+        this.utiReportService.OpenModalTrigger.next(true);
+      }
+    });
   }
 
   downloadAsPDF() {

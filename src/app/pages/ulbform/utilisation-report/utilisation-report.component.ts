@@ -182,6 +182,9 @@ export class UtilisationReportComponent implements OnInit {
 
   currentChanges() {
     this.utilizationReport.valueChanges.subscribe((formChange) => {
+      this.submitData(true)
+      this.setFormDataToAllForms(this.fd,formChange)
+      
       const oldForm = sessionStorage.getItem("utilReport");
       const change = JSON.stringify(formChange);
       if (change !== oldForm) {
@@ -191,6 +194,15 @@ export class UtilisationReportComponent implements OnInit {
       }
     });
   }
+
+  setFormDataToAllForms(data,formChange){
+    let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
+      if(allFormData){
+        allFormData.utilizationReport[0] = data
+        this._ulbformService.allFormsData.next(allFormData)
+      }
+  }
+
   ulbId = null;
   public getResponse() {
 
@@ -443,7 +455,7 @@ export class UtilisationReportComponent implements OnInit {
       this.isSumEqual = false;
     }
   }
-  submitData() {
+  submitData(fromChange = null) {
     this.submitted = true;
     console.log(this.utilizationReport);
     //  console.log(this.utilizationReport.value);
@@ -470,6 +482,10 @@ export class UtilisationReportComponent implements OnInit {
       }
 
     }
+
+    if(fromChange)
+    return
+
     if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
       // this.fd.isDraft = false;
       console.log('if')
