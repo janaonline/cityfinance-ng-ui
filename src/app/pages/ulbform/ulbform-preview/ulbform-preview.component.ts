@@ -844,8 +844,11 @@ margin-left : .5rem !important;
       "canNavigate",
     ];
     status.forEach((element) => {
-      
-      if (sessionStorage.getItem(element) == "true" || (element === "canNavigate" && sessionStorage.getItem(element) == "false")) {
+      if (
+        sessionStorage.getItem(element) == "true" ||
+        (element === "canNavigate" &&
+          sessionStorage.getItem(element) == "false")
+      ) {
         this.changeTrigger[element] = true;
         this.canDownload = false;
       }
@@ -871,7 +874,6 @@ margin-left : .5rem !important;
 
   setDetailUtilData(detailUtilData) {
     if (detailUtilData) {
-      const projectsWithId = detailUtilData["projects"];
       detailUtilData["projects"].forEach((element) => {
         element.category = this.categories[element.category];
       });
@@ -887,8 +889,11 @@ margin-left : .5rem !important;
         totalExpCost: detailUtilData["projectExp"] ?? 0,
       };
       this.detailUtil = formdata;
-      detailUtilData["projects"] = projectsWithId;
       this.detailUtil.useData = detailUtilData;
+      this.detailUtil.useData.projects.forEach((element) => {
+        element.category = this.categories[element.category];
+      });
+
     } else this.detailUtil = this.detailUtilError;
   }
 
@@ -922,7 +927,7 @@ margin-left : .5rem !important;
 
   openModal() {
     if (this.canDownload) this.downloadAsPDF();
-    
+
     const status = [
       "changeInAnnual",
       "changeInPFMSAccount",
@@ -943,11 +948,10 @@ margin-left : .5rem !important;
             this.linkPFMSAccount.OpenModalTrigger.next(true);
             break;
           case "changeInSLB":
-            this.commonService.OpenModalTrigger.next(true)
+            this.commonService.OpenModalTrigger.next(true);
             break;
         }
-      }
-      else if(element == "canNavigate"){
+      } else if (element == "canNavigate") {
         this.utiReportService.OpenModalTrigger.next(true);
       }
     });
@@ -999,6 +1003,7 @@ margin-left : .5rem !important;
         for (const key in res) {
           let id = res[key]["_id"];
           obj[id] = res[key]["name"];
+          obj[res[key]["name"]] = id;
         }
         this.categories = obj;
         resolve("success");
