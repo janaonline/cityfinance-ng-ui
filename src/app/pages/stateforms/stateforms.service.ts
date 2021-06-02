@@ -18,4 +18,8 @@ export class StateformsService {
     getStatus(design_year) {
         return this.http.get(`${environment.api.url}masterForm/get/${design_year}`);
     }
+
+    getulbProfile(){
+      return this.http.get('https://60b5e300fe923b0017c84d35.mockapi.io/users')
+    }
 }

@@ -44,6 +44,7 @@ export class WaterSupplyComponent implements OnInit {
   numberOfUa = [
     { key: "2122", name: "Kanpur Urban Agglomeration" },
     { key: "2223", name: "Uttar Pradesh Urban Agglomeration" },
+    { key: "2223", name: "Uttar Pradesh Urban Agglomeration" },
 
   ];
   ngOnInit() {

@@ -132,7 +132,7 @@ export class WaterSanitationPreviewComponent implements OnInit {
     font-weight: normal;
   }
 
-  .df{
+  .df {
     display:none
   }
   </style>`;

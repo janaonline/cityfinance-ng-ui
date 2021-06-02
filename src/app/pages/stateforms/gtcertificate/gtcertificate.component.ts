@@ -102,9 +102,9 @@ export class GTCertificateComponent implements OnInit {
 
   postsDataCall(uploadedFiles) {
 
-    this.gtcService.sendRequest(this.uploadedFiles)
-      .subscribe((res) => {
-        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+
+this.gtcService.sendRequest(this.uploadedFiles)
+      .subscribe((res) => {        const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.isCompleted = res["isCompleted"];
         this._stateformsService.allStatus.next(status);
         alert('Files uploaded successfully.')
