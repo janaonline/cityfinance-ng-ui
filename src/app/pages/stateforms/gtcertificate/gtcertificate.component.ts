@@ -9,6 +9,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GTCertificateService } from './gtcertificate.service'
 import { StateformsService } from '../stateforms.service'
+
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 @Component({

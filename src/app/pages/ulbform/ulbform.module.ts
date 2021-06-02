@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 //import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -76,7 +76,8 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     SharedModule,
     MatTooltipModule,
     ModalModule.forRoot(),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    PdfViewerModule
 
   ],
   providers: [PlanGuardGuard]

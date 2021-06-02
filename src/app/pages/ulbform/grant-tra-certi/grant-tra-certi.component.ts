@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GTCertificateService } from './grant-tra-certi.service'
 import { SweetAlert } from "sweetalert/typings/core";
+
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-grant-tra-certi',
@@ -17,21 +18,35 @@ export class GrantTraCertiComponent implements OnInit {
   data = []
   total = 0
   totalCount = []
+  pdfSrc = [];
   ngOnInit(): void {
     this.total = 0;
     this.gtCertificate.getData()
       .subscribe((res) => {
         console.log(res)
         for (let key in res['data']) {
-          if (res['data'][key]['pdfUrl'] != null || undefined || '') {
+          if (res['data'][key]['pdfUrl'] && res['data'][key]['pdfUrl'] != "") {
+            res['data'][key]['type'] = key
             this.data.push(res['data'][key])
+
+
           }
         }
 
-
-        console.log(this.total)
+        this.data.forEach((el) => {
+          if (el['type'] === "million_tied") {
+            el['name'] = "Grant Transfer Certificate for Million Tied Grants"
+          } else if (el['type'] === "nonmillion_tied") {
+            el['name'] = "Grant Transfer Certificate for Non-Million Tied Grants"
+          } else if (el['type'] === "nonmillion_untied") {
+            el['name'] = "Grant Transfer Certificate for Million Untied Grants"
+          }
+        })
         console.log(this.data)
-      },
+      }
+
+
+        ,
         (err) => {
           console.log(err)
           swal('No Documents Uploaded by State Nodal Officer')

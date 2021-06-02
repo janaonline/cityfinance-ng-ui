@@ -3,19 +3,33 @@
     <div class=" col-sm-5 col-lg-4 col-md-4" *ngFor="let number of data">
 
         <div class="resourceCards ">
-            <div class="individualResource ">
-                <img src="../../../../assets/ulbform/overview/Picture2.png" class="card-img-top " alt="... ">
-                <div class="card-body ">
-                    <h5 class="card-title " style="text-align: center; "><a href={{number.pdfUrl}}
-                            target="_blank">{{number.pdfName}}</a></h5>
 
+            <div class="individualResource ">
+                <div style="position:relative; ">
+                    <pdf-viewer [src]="number.pdfUrl" [render-text]="false" [show-all]="false"
+                        style="display: block; height:300px" [page]="1" [zoom-scale]="'page-fit'"
+                        [original-size]="false">
+
+                        <!-- <img src="../../../../assets/ulbform/overview/Picture2.png" class="card-img-top " alt="... "> -->
+                        <!-- <div class="card-body "> -->
+                    </pdf-viewer>
                 </div>
+                <h5 class="card-title " style="text-align: center;  font-size: 18px; "><a href={{number.pdfUrl}}
+                        target="_blank">{{number.name}}</a></h5>
             </div>
+
+
+
+            <!-- <h5 class="card-title " style="text-align: center; "><a href={{number.pdfUrl}}
+                            target="_blank">{{number.pdfName}}</a></h5> -->
+
+            <!-- </div> -->
         </div>
     </div>
-
-
 </div>
+
+
+
 <div class="row" style="margin-top: 4rem;">
     <div class="col-sm-6 col-md-6 col-lg-6">
         <button class="backButton" [routerLink]="['../pfms_acc']">BACK</button>
