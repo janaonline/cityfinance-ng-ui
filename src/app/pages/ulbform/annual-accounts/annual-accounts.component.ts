@@ -173,8 +173,8 @@ export class AnnualAccountsComponent implements OnInit {
         excelName: null,
         progressExcel: null,
         excelError: null,
-        excelFile:null,
-        secondExcelRetry:false
+        excelFile: null,
+        secondExcelRetry: false,
       },
       declaration: null,
     },
@@ -274,8 +274,8 @@ export class AnnualAccountsComponent implements OnInit {
         excelName: null,
         progressExcel: null,
         excelError: null,
-        excelFile:null,
-        secondExcelRetry:false
+        excelFile: null,
+        secondExcelRetry: false,
       },
       declaration: null,
     },
@@ -416,8 +416,13 @@ export class AnnualAccountsComponent implements OnInit {
         return;
       }
     }
-    await this.save(this.unauditResponse);
-    await this.save(this.auditResponse);
+    if (this.unauditResponse.isCompleted == false) {
+      await this.save(this.auditResponse);
+      await this.save(this.unauditResponse);
+    } else {
+      await this.save(this.unauditResponse);
+      await this.save(this.auditResponse);
+    }
     let res = false;
     if (this.unauditResponse.isCompleted && this.auditResponse.isCompleted) {
       res = true;
@@ -494,19 +499,19 @@ export class AnnualAccountsComponent implements OnInit {
                 ) {
                   continue;
                 }
-                if(key3 === "retry"){
-                  if(form[key][key2][key3] == true){
-                    form[key][key2]["pdfName"] = null
-                    form[key][key2]["progress"] = null
-                    form[key][key2][key3] = false
+                if (key3 === "retry") {
+                  if (form[key][key2][key3] == true) {
+                    form[key][key2]["pdfName"] = null;
+                    form[key][key2]["progress"] = null;
+                    form[key][key2][key3] = false;
                   }
                 }
 
-                if(key3 === "excelRetry" || key3 === "secondExcelRetry"){
-                  if(form[key][key2][key3] == true){
-                    form[key][key2]["excelName"] = null
-                    form[key][key2]["progprogressExcelress"] = null
-                    form[key][key2][key3] = false
+                if (key3 === "excelRetry" || key3 === "secondExcelRetry") {
+                  if (form[key][key2][key3] == true) {
+                    form[key][key2]["excelName"] = null;
+                    form[key][key2]["progprogressExcelress"] = null;
+                    form[key][key2][key3] = false;
                   }
                 }
 
@@ -666,7 +671,7 @@ export class AnnualAccountsComponent implements OnInit {
       ] = false;
     }
 
-    if(isUploadExcel){
+    if (isUploadExcel) {
       this[this.progressArray[0]][this.progressArray[1]][this.progressArray[2]][
         "secondExcelRetry"
       ] = false;
@@ -702,7 +707,7 @@ export class AnnualAccountsComponent implements OnInit {
         ] = error?.data?.message || "Upload Error";
         this[fileNameArray[0]][fileNameArray[1]][fileNameArray[2]][
           "secondExcelRetry"
-        ] = true
+        ] = true;
       }
       //  else this.clearFile(fileNameArray, isPdf, true);
     }
@@ -844,10 +849,13 @@ export class AnnualAccountsComponent implements OnInit {
     if (annualAccounts != currentAnnualAccounts) {
       sessionStorage.setItem("changeInAnnual", "true");
 
-      let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
-      if(allFormData){
-        allFormData.annualAccountData = [this.unauditResponse,this.auditResponse]
-        this._ulbformService.allFormsData.next(allFormData)
+      let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"));
+      if (allFormData) {
+        allFormData.annualAccountData = [
+          this.unauditResponse,
+          this.auditResponse,
+        ];
+        this._ulbformService.allFormsData.next(allFormData);
       }
     } else {
       sessionStorage.setItem("changeInAnnual", "false");

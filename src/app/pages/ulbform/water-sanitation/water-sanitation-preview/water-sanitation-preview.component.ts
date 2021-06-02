@@ -243,7 +243,7 @@ export class WaterSanitationPreviewComponent implements OnInit, OnDestroy {
       this._ulbformService
     );
     plans.body.plans = data;
-    plans.testForDraft();
+    plans.testForDraft(data);
     await plans.postsDataCall(plans.body);
   }
 

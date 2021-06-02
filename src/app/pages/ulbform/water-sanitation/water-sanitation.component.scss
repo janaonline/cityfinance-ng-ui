@@ -7,7 +7,7 @@
     font-size: 12px;
   }
   
-  .btnUpload:hover {
+  .btn:hover {
     background-color: #ffc500;
   }
   
@@ -80,7 +80,7 @@
     padding-left: 4%;
     padding-right: 4%;
   }
-  
+
   .thHeader {
     background-color: #058e91;
     font-family: Roboto;
@@ -135,4 +135,5 @@
   
   ::ng-deep .mat-tooltip {
     background-color: black !important;
+    
 }
