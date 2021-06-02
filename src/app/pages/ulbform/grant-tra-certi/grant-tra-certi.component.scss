@@ -18,23 +18,53 @@ h4 {
 .mat-card-image:first-child {
     margin-top: 0;
 }
+.ng2-pdf-viewer-container[_ngcontent-efj-c276]{
+    overflow-x: auto;
+    position: relative;
+    height: 100%;
+    width: 200px;
+    margin-left:0;
+    margin-right:0;
+}
+
+.pdfViewer[_nghost-hjj-c276]{
+    margin-left: 0;
+    margin-right: 0;
+}
+.removePageBorders[_nghost-hjj-c276]{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+
+
 
 .individualResource {
-    margin: 25px 15px;
+    margin: 25px 10px 30px 10px;
     border-radius: 3px;
     border: 2px solid transparent;
     box-shadow: 3px 2px 2px 2px #cecece;
-    height: 260px;
-    width: 220px;
+    height: 380px;
+    width: 260px;
+   
     text-align: center;
-    padding: 20px 6px;
+    padding: 20px 3px 30px 6px;
     color: rgb(0, 87, 80);
     background-color: #f7f7f7;
+    overflow-wrap:unset;
+    justify-content: start
+   
 }
+
+.percent-49 {
+    width: 49%;
+    float: left;
+  }
 .resourceCards {
     display: flex;
     justify-content: start;
     flex-wrap: wrap;
+  
 }
 
 
