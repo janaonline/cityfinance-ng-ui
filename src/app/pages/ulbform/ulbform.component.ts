@@ -7,7 +7,7 @@ import { ProfileService } from "../../users/profile/service/profile.service";
 import { IState } from "../../models/state/state";
 
 import { CommonService } from "src/app/shared/services/common.service";
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from "@angular/router";
 
 import { UlbformPreviewComponent } from "./ulbform-preview/ulbform-preview.component";
 import { WaterSanitationService } from "./water-sanitation/water-sanitation.service";
@@ -33,18 +33,15 @@ export class UlbformComponent implements OnInit {
     private wsService: WaterSanitationService,
     public dialog: MatDialog,
     public ulbformService: UlbformService,
-    public activatedRoute: ActivatedRoute,
+    public activatedRoute: ActivatedRoute
   ) {
-
     this.activatedRoute.params.subscribe((val) => {
       const { id } = val;
       if (id) {
         this.id = id;
-        console.log('pkstid',id)
+        console.log("pkstid", id);
+      } else {
       }
-    else {
-
-          }
     });
     this.accessGrant();
     this.initializeUserType();
@@ -75,12 +72,18 @@ export class UlbformComponent implements OnInit {
     slbForWaterSupplyAndSanitation: { isSubmit: null },
     utilReport: { isSubmit: null },
   };
+
   async ngOnInit() {
     this.ulbformService.allStatus.subscribe((status) => {
       this.allStatus = status;
       sessionStorage.setItem("allStatus", JSON.stringify(this.allStatus));
     });
+    this.ulbformService.allFormsData.subscribe((data) => {
+      this.allFormsData = data;
+      sessionStorage.setItem("allFormsData", JSON.stringify(data));
+    });
     this.getStatus();
+    this.getAllForm();
   }
 
   getStatus() {
@@ -95,21 +98,33 @@ export class UlbformComponent implements OnInit {
     );
   }
 
-  public accessGrant(){
-    let ulbId = sessionStorage.getItem('ulb_id');
-    console.log('pk12', ulbId);
-    if(ulbId == null){
-      let userData = JSON.parse(localStorage.getItem('userData'));
-      this.isMillionPlus =  userData.isMillionPlus;
-      this.isUA = userData.isUA;
-      console.log('ifbl' , this.isMillionPlus, this.isUA)
-    }
-    else{
-         this.isMillionPlus =sessionStorage.getItem('isMillionPlus');
-         this.isUA = sessionStorage.getItem('isUA')
-         console.log('pk_elseblock' , this.isMillionPlus, this.isUA)
-    }
+  getAllForm() {
+    let userData = JSON.parse(localStorage.getItem("userData"));
 
+    this.ulbformService
+      .getAllForms(
+        userData.ulb,
+        "606aaf854dff55e6c075d219",
+        "606aadac4dff55e6c075c507"
+      )
+      .subscribe((res) => {
+        this.ulbformService.allFormsData.next(res[0]);
+      });
+  }
+
+  public accessGrant() {
+    let ulbId = sessionStorage.getItem("ulb_id");
+    console.log("pk12", ulbId);
+    if (ulbId == null) {
+      let userData = JSON.parse(localStorage.getItem("userData"));
+      this.isMillionPlus = userData.isMillionPlus;
+      this.isUA = userData.isUA;
+      console.log("ifbl", this.isMillionPlus, this.isUA);
+    } else {
+      this.isMillionPlus = sessionStorage.getItem("isMillionPlus");
+      this.isUA = sessionStorage.getItem("isUA");
+      console.log("pk_elseblock", this.isMillionPlus, this.isUA);
+    }
   }
 
   private initializeUserType() {
@@ -131,11 +146,12 @@ export class UlbformComponent implements OnInit {
         return this.fetchStateList();
     }
   }
-  dialogData;
+
+  allFormsData;
   ulbPreview() {
-    console.log("hello", this.dialogData);
+    console.log("hello", this.allFormsData);
     const dialogRef = this.dialog.open(UlbformPreviewComponent, {
-      data: this.dialogData,
+      data: this.allFormsData,
       width: "85vw",
       //   maxHeight: "95vh",
       height: "100%",

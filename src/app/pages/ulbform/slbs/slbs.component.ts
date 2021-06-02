@@ -181,6 +181,7 @@ export class SlbsComponent implements OnInit {
     console.log('isCompleted', isCompleted)
     value['isCompleted'] = isCompleted
     this.data = value
+    this.saveDataInAllForm(value)
     if (this.routerNavigate && value.saveData) {
       console.log('1')
       console.log(value)
@@ -200,6 +201,28 @@ export class SlbsComponent implements OnInit {
       this.postSlbData(value)
       sessionStorage.setItem("changeInSLB", "false")
       return this._router.navigate(["ulbform/water-sanitation"]);
+    }
+  }
+
+  saveDataInAllForm(value){
+    let data = {
+      design_year: this.Years["2021-22"],
+      isCompleted: value.isCompleted,
+      waterManagement:
+        { ...value.waterManagement },
+      water_index: value.water_index,
+      waterPotability: {
+        documents: {
+          waterPotabilityPlan: [
+            value.waterPotabilityPlan
+          ]
+        }
+      }
+    }
+    let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
+    if(allFormData){
+      allFormData.SLBs[0] = data
+      this._ulbformService.allFormsData.next(allFormData)
     }
   }
 
@@ -283,7 +306,6 @@ export class SlbsComponent implements OnInit {
 
 
   async proceed() {
-
     await this._matDialog.closeAll();
     // await this.dialogRef.close(true);
     let changeHappen = sessionStorage.getItem("changeInSLB")

@@ -1,65 +1,62 @@
 <div col-sm-12 mb-2>
-  <h3 style="position: relative; text-align: center">
-    <span class="col-sm-6 text-left">{{slbTitleText}}</span>
-    <span class="col-sm-2" *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
+    <h3 style="position: relative; text-align: center">
+        <span class="col-sm-6 text-left">{{slbTitleText}}</span>
+        <span class="col-sm-2" *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
       ULB: {{ financialData?.ulbName }}</span>
 
-    <button [style.position]="
+        <button [style.position]="
           loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
-        " style="right: 0px; float: right; margin-right: 2.5%; outline: none" class="btn btn-primary btn-upload"
-      (click)="openModal(template,true)">
+        " style="right: 0px; float: right; margin-right: 2.5%; outline: none" class="btn btn-primary btn-upload" (click)="openModal(template,true)">
       Preview
     </button>
-  </h3>
+    </h3>
 </div>
-<app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)"
-  [waterPotability]="waterPotability"></app-fc-slb>
+<app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)" [waterPotability]="waterPotability"></app-fc-slb>
 
 <ng-template #previewPopup>
-  <app-preview-slb-component [data]="previewData"></app-preview-slb-component>
+    <app-preview-slb-component [data]="previewData"></app-preview-slb-component>
 </ng-template>
 <ng-template #template>
-  <div class="modal-body text-center">
-    <div class="modal-header">
-      <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
-      <div class="text-right">
-        <a (click)="alertClose()">
-          <img src="../../../../assets/form-icon/close-red-icon.png">
-        </a>
-      </div>
-    </div>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
 
-    <p style="margin-top: 8px;">
-      Are you sure you want to proceed further?
-    </p>
-    <div>
-      <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-      <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed further?
+        </p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save
         &
         Proceed</button>
-    </div>
+        </div>
 
-  </div>
+    </div>
 </ng-template>
 <ng-template #template1>
-  <div class="modal-body text-center">
-    <div class="modal-header">
-      <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
-      <div class="text-right">
-        <a (click)="alertClose()">
-          <img src="../../../../assets/form-icon/close-red-icon.png">
-        </a>
-      </div>
-    </div>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
 
-    <p style="margin-top: 8px;">
-      Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
-    </p>
-    <div>
-      <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-      <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
-        (click)="proceed()">Proceed</button>
-    </div>
+        <p style="margin-top: 8px;">
+            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
+        </p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
+        </div>
 
-  </div>
+    </div>
 </ng-template>

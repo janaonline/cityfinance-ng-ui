@@ -843,6 +843,12 @@ export class AnnualAccountsComponent implements OnInit {
     ]);
     if (annualAccounts != currentAnnualAccounts) {
       sessionStorage.setItem("changeInAnnual", "true");
+
+      let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
+      if(allFormData){
+        allFormData.annualAccountData = [this.unauditResponse,this.auditResponse]
+        this._ulbformService.allFormsData.next(allFormData)
+      }
     } else {
       sessionStorage.setItem("changeInAnnual", "false");
     }

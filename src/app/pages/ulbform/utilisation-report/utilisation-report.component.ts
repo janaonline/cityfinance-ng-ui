@@ -32,7 +32,6 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { UlbformService } from "../ulbform.service";
 import { NavigationStart } from "@angular/router";
 import { SweetAlert } from "sweetalert/typings/core";
-import { invalid } from "@angular/compiler/src/render3/view/util";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -68,6 +67,7 @@ export class UtilisationReportComponent implements OnInit {
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
+
     this.navigationCheck();
   }
 
@@ -98,6 +98,7 @@ export class UtilisationReportComponent implements OnInit {
   fromPreview = null;
   isDisabled = false;
   isSubmitted = false;
+  isDraft = null;
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
@@ -181,6 +182,9 @@ export class UtilisationReportComponent implements OnInit {
 
   currentChanges() {
     this.utilizationReport.valueChanges.subscribe((formChange) => {
+      this.submitData(true)
+      this.setFormDataToAllForms(this.fd,formChange)
+      
       const oldForm = sessionStorage.getItem("utilReport");
       const change = JSON.stringify(formChange);
       if (change !== oldForm) {
@@ -190,6 +194,15 @@ export class UtilisationReportComponent implements OnInit {
       }
     });
   }
+
+  setFormDataToAllForms(data,formChange){
+    let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
+      if(allFormData){
+        allFormData.utilizationReport[0] = data
+        this._ulbformService.allFormsData.next(allFormData)
+      }
+  }
+
   ulbId = null;
   public getResponse() {
 
@@ -218,6 +231,7 @@ export class UtilisationReportComponent implements OnInit {
         sessionStorage.setItem("utilReport", JSON.stringify(this.utilizationReport.value));
         console.log(error);
         this.currentChanges();
+        this.isDraft = 'fail';
       }
     );
   }
@@ -441,7 +455,7 @@ export class UtilisationReportComponent implements OnInit {
       this.isSumEqual = false;
     }
   }
-  submitData() {
+  submitData(fromChange = null) {
     this.submitted = true;
     console.log(this.utilizationReport);
     //  console.log(this.utilizationReport.value);
@@ -468,6 +482,10 @@ export class UtilisationReportComponent implements OnInit {
       }
 
     }
+
+    if(fromChange)
+    return
+
     if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
       // this.fd.isDraft = false;
       console.log('if')
@@ -486,7 +504,14 @@ export class UtilisationReportComponent implements OnInit {
   }
   helpData
   onPreview() {
-
+    if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
+      this.isDraft = false;
+    } else if(this.isDraft == 'fail'){
+          this.isDraft = null;
+    }
+    else{
+      this.isDraft = true;
+    }
     let user_data = JSON.parse(localStorage.getItem('userData'));
     this.helpData = this.utilizationReport.value;
     this.helpData.isDraft = true;
@@ -517,6 +542,7 @@ export class UtilisationReportComponent implements OnInit {
     console.log(this.utilizationReport)
     let formdata = {
       useData: this.helpData,
+      isDraft: this.isDraft,
       state_name: this.utilizationForm.controls.stateName.value,
       ulbName: this.utilizationForm.controls.ulb.value,
 

@@ -12,6 +12,8 @@ import {
   ViewChild,
   Output,
   EventEmitter,
+  OnChanges,
+  OnDestroy,
 } from "@angular/core";
 import { QuestionnaireService } from "../../../questionnaires/service/questionnaire.service";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
@@ -19,21 +21,22 @@ import { defaultDailogConfiuration } from "../../../questionnaires/state/configs
 import { WaterSanitationService } from "../water-sanitation.service";
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
-import {WaterSanitationComponent} from '../water-sanitation.component'
+import { WaterSanitationComponent } from "../water-sanitation.component";
 import { Router } from "@angular/router";
 import { UlbformService } from "../../ulbform.service";
-
 
 @Component({
   selector: "app-water-sanitation-preview",
   templateUrl: "./water-sanitation-preview.component.html",
   styleUrls: ["./water-sanitation-preview.component.scss"],
 })
-export class WaterSanitationPreviewComponent implements OnInit {
+export class WaterSanitationPreviewComponent implements OnInit, OnDestroy {
   @ViewChild("planPre") _html: ElementRef;
   showLoader;
   @Input()
   parentData: any;
+  @Input()
+  changeFromOutSide: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _router: Router,
@@ -41,30 +44,81 @@ export class WaterSanitationPreviewComponent implements OnInit {
     private _matDialog: MatDialog,
     private WaterSanitationService: WaterSanitationService,
     public _ulbformService: UlbformService
-
   ) {}
   @ViewChild("template") template;
   @Output() change = new EventEmitter<any>();
   dialogRef;
-  previewStatus
-  totalStatus
-
+  previewStatus;
+  totalStatus;
+  subParentForModal
   styleForPDF = `<style>
-  
-  .card {
-    border: 1px #00000029;
-    margin-left: 20px;
-    box-shadow: 1px 1px 1px 3px #00000029;
+  :root {
+    font-size: 14px;
+  }
+    h2 {
+      font-size: 1.25rem;
+    }
+
+    h3 {
+      font-size: .9rem;
+    }
+
+     h4 {
+      font-size: .7rem;
+    }
+       h5 {
+      font-size: .5rem;
+    }
+
+    table thead th {
+      font-size: 10px;
+    }
+
+    table tbody td, li {
+      font-size: 10px;
+    }
+
+    .td-width {
+      width: 16.5%;
+    }
+
+    button {
+      display: none;
+    }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
   }
 
-  .thHeader {
-    background-color: #058e91;
-    font-family: Roboto;
-    color: #ffffff;
-    font-size: 1px;
-    text-decoration: none;
+  .form-status {
+    font-size: 10px;
+    margin-top: 10px;
+
+
   }
-  
+  .header-p {
+    background-color: #047474;
+    height: 70px;
+    text-align: center;
+}
+.heading-p {
+    color: #FFFFFF;
+    font-size: 18px;
+    padding-top: 1rem !important;
+    font-weight: 700;
+
+}
+
+.card {
+    margin-top: 10px !important;
+    padding: 5px 10px;
+    background-color: #EBF5F5;
+}
+
   .table > tbody > tr > td,
   .table > tbody > tr > th,
   .table > tfoot > tr > td,
@@ -74,38 +128,15 @@ export class WaterSanitationPreviewComponent implements OnInit {
     vertical-align: inherit;
     text-align: center;
   }
-  
-  .custom-position {
-    td {
-      position: relative;
-    }
+  .thHeader {
+    background-color: #E9E9E9;
+    color: #047474;
+    font-weight: normal;
   }
-  
-  .custom-position {
-    input {
-      position: relative;
-      width: 80%;
-      height: 4ch;
-      text-align: center;
-    }
-  }
-  
-  .custom-position {
-    select {
-      position: relative;
-    }
-  }
-  
-  .custom-position {
-    textarea {
-      height: 2pc;
-      vertical-align: bottom;
-      margin-right: 1pc;
-    }
-  }
+
   .df{
     display:none
-  } 
+  }
   </style>`;
   clicked = false;
   errMessage = "";
@@ -129,10 +160,22 @@ export class WaterSanitationPreviewComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data);
+
+
+    this.subParentForModal = this.WaterSanitationService.OpenModalTrigger.subscribe((change) => {
+      if (this.changeFromOutSide) {
+        this.openDialog(this.template);
+      }
+    });
+
     if (this.parentData) {
       this.data = this.parentData;
     }
-    this.previewStatuSet()
+    this.previewStatuSet();
+  }
+
+  ngOnDestroy(): void {
+    this.subParentForModal.unsubscribe()
   }
 
   downloadAsPDF() {
@@ -177,11 +220,13 @@ export class WaterSanitationPreviewComponent implements OnInit {
   }
 
   async proceed(uploadedFiles) {
-    this._matDialog.closeAll();
+    // this._matDialog.closeAll();
+    this.dialogRef.close();
     console.log("Check this value", this.data);
     sessionStorage.setItem("changeInPlans", "false");
-    await this.saveData(this.data)
-    this.downloadAsPDF();
+    await this.saveData(this.data);
+    if (!this.changeFromOutSide) this.downloadAsPDF();
+    else this._ulbformService.initiateDownload.next(true);
   }
   alertClose() {
     this.stay();
@@ -190,19 +235,22 @@ export class WaterSanitationPreviewComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  async saveData(data){
-    const plans = new WaterSanitationComponent(this._router,this.WaterSanitationService,this._matDialog,this._ulbformService)
+  async saveData(data) {
+    const plans = new WaterSanitationComponent(
+      this._router,
+      this.WaterSanitationService,
+      this._matDialog,
+      this._ulbformService
+    );
     plans.body.plans = data;
-    plans.testForDraft()
-    await plans.postsDataCall(plans.body)
+    plans.testForDraft();
+    await plans.postsDataCall(plans.body);
   }
 
   previewStatuSet() {
-    if (
-      this.data["isDraft"] == null
-    ) {
+    if (this.data["isDraft"] == null) {
       this.previewStatus = "Not Started";
-    } else if(this.data["isDraft"]) {
+    } else if (this.data["isDraft"]) {
       this.previewStatus = "In Progress";
     } else {
       this.previewStatus = "Completed";
