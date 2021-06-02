@@ -47,14 +47,28 @@ export class EditUlbProfileComponent implements OnInit {
     this._stateformsService.getulbProfile()
       .subscribe((res) => {
         console.log('profile', res);
+        let resData:any = res;
+        this.tabelData = res;
+       console.log('tabelData',this.tabelData)
+       this.filledValue()
       })
     this.editableForm = new FormGroup({
-      nodal_officer_name : new FormControl('aasdf'),
-      nodal_officer_email : new FormControl('fsfgb'),
-      nodal_officer_phone : new FormControl('dfsgvf')
+      nodal_officer_name : new FormControl(''),
+      nodal_officer_email : new FormControl(''),
+      nodal_officer_phone : new FormControl('')
     })
     if(this.detailsEdit)
     this.editableForm.disable();
+  }
+  filledValue(){
+    this.tabelData.forEach(res => {
+      this.editableForm.patchValue({
+        nodal_officer_name: res.name,
+        nodal_officer_email: res.email,
+        nodal_officer_phone: res.mobile
+      });
+    });
+
   }
   viewDetails(){
 

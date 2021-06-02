@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { UlbadminServiceService } from '../../ulb-admin/ulbadmin-service.service';
+import { StateformsService } from '../stateforms.service';
 
 @Component({
   selector: 'app-review-ulb-form',
@@ -29,6 +30,7 @@ export class ReviewUlbFormComponent implements OnInit {
   nodataFound = false;
   constructor(
     public ulbService : UlbadminServiceService,
+    public _stateformsService: StateformsService
   ) { }
 
 
@@ -40,13 +42,19 @@ export class ReviewUlbFormComponent implements OnInit {
   status_s = new FormControl('');
 
   ngOnInit() {
-     this.stateData();
+    this._stateformsService.getUlbReview()
+    .subscribe((res) => {
+      console.log('profile', res);
+      this.tabelData = res;
+     console.log('tabelData',this.tabelData)
+
+    })
   }
   setLIstFetchOptions() {
     //  const filterKeys = ["financialYear", "auditStatus"];
       this.filterObject = {
             filter: {
-              state: 'Maharashtra',
+              state: '',
               ulbType : this.ulb_type_s.value
               ? this.ulb_type_s.value.trim()
               : "",

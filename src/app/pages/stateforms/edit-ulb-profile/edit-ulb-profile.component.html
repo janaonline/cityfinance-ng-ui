@@ -56,7 +56,7 @@
 
                                     <tbody>
 
-                                        <tr>
+                                        <tr *ngFor="let resData of tabelData; let tabelIndex=index">
                                             <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">1</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">pp</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">pppp
@@ -64,19 +64,20 @@
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">bhbjn</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">bhmn </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"> mhh</td> -->
-                                            <td>1</td>
-                                            <td>fbgb</td>
-                                            <td>fbgb</td>
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{tabelIndex+1}}</td>
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}</td>
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode}}</td>
 
-                                            <td><input type="text" class="form-control" formControlName="nodal_officer_name">
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                                <input type="text" class="form-control" formControlName="nodal_officer_name">
                                             </td>
-                                            <td><input type="text" class="form-control" formControlName="nodal_officer_email">
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"><input type="text" class="form-control" formControlName="nodal_officer_email">
                                             </td>
-                                            <td><input type="text" class="form-control" formControlName="nodal_officer_phone">
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"><input type="text" class="form-control" formControlName="nodal_officer_phone">
                                             </td>
 
                                             <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"> -->
-                                            <td>
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                                 <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit" (click)="viewDetails()">View</button>
                                                 <!-- <button type="button" class="btn btn-t" (click)="editDetails()">
                                                   {{detailsEdit == true?
@@ -96,6 +97,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row" style="margin-left: 0; margin-right: 0; margin-bottom: 2rem;">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <button type="button" class="btn btn-back">BACK</button>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 text-right">
+            <button type="button" class="btn btn-next">NEXT</button>
         </div>
     </div>
 </div>

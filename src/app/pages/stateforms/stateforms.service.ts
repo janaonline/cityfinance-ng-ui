@@ -22,4 +22,11 @@ export class StateformsService {
     getulbProfile(){
       return this.http.get('https://60b5e300fe923b0017c84d35.mockapi.io/users')
     }
+    getUlbReview(){
+      return this.http.get('https://60b5e300fe923b0017c84d35.mockapi.io/masterForm');
+    }
+
+    getWaterSupplyD(){
+      return
+    }
 }
