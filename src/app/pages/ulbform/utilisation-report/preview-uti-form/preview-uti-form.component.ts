@@ -6,14 +6,18 @@ import {
   ElementRef,
   ViewChild,
 } from "@angular/core";
-import { MatDialog, MAT_DIALOG_DATA, MatDialogConfig } from "@angular/material/dialog";
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogConfig,
+} from "@angular/material/dialog";
 import { QuestionnaireService } from "../../../questionnaires/service/questionnaire.service";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
 import { defaultDailogConfiuration } from "../../../questionnaires/state/configs/common.config";
 //
 import { Router, Event } from "@angular/router";
 import { UlbformService } from "../../ulbform.service";
-import { UtiReportService } from '../uti-report.service';
+import { UtiReportService } from "../uti-report.service";
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 // import * as jspdf from 'jspdf';
@@ -25,6 +29,7 @@ const swal: SweetAlert = require("sweetalert");
 export class PreviewUtiFormComponent implements OnInit {
   @Input() parentData: any;
   @ViewChild("previewUti") _html: ElementRef;
+  @ViewChild("template") template;
   showLoader;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -32,8 +37,8 @@ export class PreviewUtiFormComponent implements OnInit {
     private _matDialog: MatDialog,
     private UtiReportService: UtiReportService,
     public _ulbformService: UlbformService,
-    public _router: Router,
-  ) { }
+    public _router: Router
+  ) {}
   styleForPDF = `<style>
 
 td, th{
@@ -226,35 +231,52 @@ width: 5% !important;
 
   </style>`;
 
-  formStatusCheck = 'Not Started'
+  @Input()
+  changeFromOutSide: any;
+
+  subParentForModal;
+
+  formStatusCheck = "Not Started";
   totalStatus;
   ngOnInit(): void {
+    this.subParentForModal = this.UtiReportService.OpenModalTrigger.subscribe(
+      (change) => {
+        if (this.changeFromOutSide) {
+          this.openDialog(this.template);
+        }
+      }
+    );
+
     if (this.parentData) {
       this.genrateParentData();
     }
 
-    let getData = this.data
+    let getData = this.data;
 
-    console.log('getData', getData)
-    console.log('Data', this.data)
+    console.log("getData", getData);
+    console.log("Data", this.data);
 
     if (!getData) {
-      this.formStatusCheck = 'Not Started'
+      this.formStatusCheck = "Not Started";
     }
-    if (this.data['isDraft'] == true) {
-      console.log('1')
-      this.formStatusCheck = 'In Progress'
-    } else if (this.data['isDraft'] == false) {
-      console.log('2')
-      this.formStatusCheck = 'Completed'
+    if (this.data["isDraft"] == true) {
+      console.log("1");
+      this.formStatusCheck = "In Progress";
+    } else if (this.data["isDraft"] == false) {
+      console.log("2");
+      this.formStatusCheck = "Completed";
     } else {
-      console.log('3')
-      this.formStatusCheck = 'Not Started'
-
+      console.log("3");
+      this.formStatusCheck = "Not Started";
     }
     this.setTotalStatus();
   }
-  setTotalStatus(){
+
+  ngOnDestroy(): void {
+    this.subParentForModal.unsubscribe();
+  }
+
+  setTotalStatus() {
     if (!this.parentData) {
       this.totalStatus = sessionStorage.getItem("masterForm");
       if (this.totalStatus) {
@@ -270,22 +292,25 @@ width: 5% !important;
     }
   }
   clickedDownloadAsPDF(template) {
-    let canNavigate = sessionStorage.getItem("canNavigate")
+    let canNavigate = sessionStorage.getItem("canNavigate");
     if (canNavigate === "false") {
-      this.openDialog(template)
-      return
+      this.openDialog(template);
+      return;
     } else {
       this.downloadForm();
     }
-
   }
 
   genrateParentData() {
     this.parentData.totalProCost = 0;
     this.parentData.totalExpCost = 0;
     this.parentData.projects.forEach((element) => {
-      this.parentData.totalProCost += parseFloat(element.cost == '' ? 0 : element.cost);
-      this.parentData.totalExpCost += parseFloat(element.expenditure == '' ? 0 : element.expenditure);
+      this.parentData.totalProCost += parseFloat(
+        element.cost == "" ? 0 : element.cost
+      );
+      this.parentData.totalExpCost += parseFloat(
+        element.expenditure == "" ? 0 : element.expenditure
+      );
     });
     this.data = this.parentData;
   }
@@ -317,7 +342,7 @@ width: 5% !important;
   //   });
 
   //   }
-  Years = JSON.parse(localStorage.getItem('Years'));
+  Years = JSON.parse(localStorage.getItem("Years"));
   downloadForm() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
@@ -325,7 +350,7 @@ width: 5% !important;
 
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
-        console.log('vishu', res)
+        console.log("vishu", res);
         this.downloadFile(res.slice(0), "pdf", "utilization-report.pdf");
         this.showLoader = false;
       },
@@ -359,7 +384,7 @@ width: 5% !important;
     return url;
   }
 
-  dialogRef
+  dialogRef;
   openDialog(template) {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this._matDialog.open(template, dialogConfig);
@@ -371,40 +396,38 @@ width: 5% !important;
   stay() {
     this.dialogRef.close();
   }
-  errMessage = ''
-  copyData
+  errMessage = "";
+  copyData;
   async proceed(uploadedFiles) {
     // await this.modalRef.hide();
-    await this._matDialog.closeAll();
-
+    this.dialogRef.close();
     sessionStorage.setItem("canNavigate", "true");
-    console.log('preview Data', this.data)
-    this.copyData = this.data
+    console.log("preview Data", this.data);
+    this.copyData = this.data;
     // delete this.copyData['totalExpCost'];
     // delete this.copyData['totalProCost'];
     // delete this.copyData['ulbName'];
     // delete this.copyData['state_name'];
-         this.copyData['designYear'] = this.Years["2021-22"]
-    this.copyData['financialYear'] = this.data['useData']['financialYear']
-    this.copyData['isDraft'] = this.data['useData']['isDraft']
-    this.copyData['ulb'] = this.data['useData']['ulb']
-    this.copyData['namedProjects'] = this.data['projects']
-    this.copyData['projects'] = this.data['useData']['projects']
-    for (let i = 0; i < this.data['projects'].length; i++) {
-      this.copyData['projects'][i]['CatName'] = this.copyData['namedProjects'][i]['category']
+    this.copyData["designYear"] = this.Years["2021-22"];
+    this.copyData["financialYear"] = this.data["useData"]["financialYear"];
+    this.copyData["isDraft"] = this.data["useData"]["isDraft"];
+    this.copyData["ulb"] = this.data["useData"]["ulb"];
+    this.copyData["namedProjects"] = this.data["projects"];
+    this.copyData["projects"] = this.data["useData"]["projects"];
+    for (let i = 0; i < this.data["projects"].length; i++) {
+      this.copyData["projects"][i]["CatName"] =
+        this.copyData["namedProjects"][i]["category"];
     }
 
-    console.log('copy Data', this.copyData)
+    console.log("copy Data", this.copyData);
     this.UtiReportService.createAndStorePost(this.copyData).subscribe(
       (res) => {
         swal("Record submitted successfully!");
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.utilReport.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
-        console.log(res)
+        console.log(res);
         // this.copyData['projects'] = this.data['projects']
-
-
       },
       (error) => {
         swal("An error occured!");
@@ -413,7 +436,8 @@ width: 5% !important;
       }
     );
 
-  await this.downloadForm();
-
+    if (this.changeFromOutSide) {
+      this._ulbformService.initiateDownload.next(true);
+    } else this.downloadForm();
   }
 }

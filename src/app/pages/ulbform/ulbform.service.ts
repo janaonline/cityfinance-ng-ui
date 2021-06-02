@@ -9,6 +9,11 @@ import { Subject } from "rxjs";
 export class UlbformService {
   allStatus = new Subject<any>();
 
+  allFormsData = new Subject<any>()
+
+  initiateDownload = new Subject<any>()
+
+
   getObservedStatus() {
     return this.allStatus;
   }
@@ -21,6 +26,9 @@ export class UlbformService {
     }else{
       return this.http.get(`${environment.api.url}masterForm/get/${design_year}`);
     }
+  }
 
+  getAllForms(ulb,design_year,financialYear){
+    return this.http.get(`${environment.api.url}masterForm/getAllForms?ulb=${ulb}&&design_year=${design_year}&&financialYear=${financialYear}`)
   }
 }

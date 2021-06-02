@@ -3,12 +3,13 @@ import { Component, OnInit, HostBinding, ViewChild } from "@angular/core";
 import { HttpEventType, HttpResponse } from "@angular/common/http";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { AnnualAccountsService } from "./annual-accounts.service";
-import { SweetAlert } from "sweetalert/typings/core";
+
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { AnnualPreviewComponent } from "./annual-preview/annual-preview.component";
 import { UlbformService } from "../ulbform.service";
 import { Router, Event } from "@angular/router";
 import { NavigationStart } from "@angular/router";
+import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -842,6 +843,12 @@ export class AnnualAccountsComponent implements OnInit {
     ]);
     if (annualAccounts != currentAnnualAccounts) {
       sessionStorage.setItem("changeInAnnual", "true");
+
+      let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
+      if(allFormData){
+        allFormData.annualAccountData = [this.unauditResponse,this.auditResponse]
+        this._ulbformService.allFormsData.next(allFormData)
+      }
     } else {
       sessionStorage.setItem("changeInAnnual", "false");
     }

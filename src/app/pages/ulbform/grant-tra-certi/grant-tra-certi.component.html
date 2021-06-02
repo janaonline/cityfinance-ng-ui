@@ -1,35 +1,20 @@
 <h4>Grant Transfer Certificate Uploaded by State Nodal Officer</h4>
 <div class="row">
-    <div class=" col-sm-5 col-lg-4 col-md-4">
-        <mat-card class="list1-card">
-            <!-- <mat-card-header>
-        <div mat-card-avatar class="header-image"></div>
-           <mat-card-title></mat-card-title>
-          <mat-card-subtitle></mat-card-subtitle>
-      </mat-card-header>  -->
-            <img class="img1" mat-card-image src="../../../../assets/form-icon/Capture.png" alt="">
-            <!-- <mat-card-content>
-          <p></p>
-      </mat-card-content> -->
-            <!-- <mat-card-actions>
-          <a>Million Plus Tied Grants</a>
+    <div class=" col-sm-5 col-lg-4 col-md-4" *ngFor="let number of data">
 
-          <a>
-              <mat-icon aria-hidden="false">
-                  <img src="../../../../assets/form-icon/Capture.png">
-              </mat-icon>
-          </a>
-      </mat-card-actions> -->
-        </mat-card>
+        <div class="resourceCards ">
+            <div class="individualResource ">
+                <img src="../../../../assets/ulbform/overview/Picture2.png" class="card-img-top " alt="... ">
+                <div class="card-body ">
+                    <h5 class="card-title " style="text-align: center; "><a href={{number.pdfUrl}}
+                            target="_blank">{{number.pdfName}}</a></h5>
+
+                </div>
+            </div>
+        </div>
     </div>
-    <div class=" col-sm-5 col-lg-4 col-md-4">
-        <mat-card class="list1-card">
 
-            <img class="img2" mat-card-image src="../../../../assets/form-icon/Capture2.png" alt="">
 
-        </mat-card>
-
-    </div>
 </div>
 <div class="row" style="margin-top: 4rem;">
     <div class="col-sm-6 col-md-6 col-lg-6">

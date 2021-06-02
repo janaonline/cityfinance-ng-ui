@@ -4,6 +4,7 @@ import {
   Inject,
   OnInit,
   ViewChild,
+  OnDestroy,
 } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { CommonService } from "src/app/shared/services/common.service";
@@ -16,14 +17,22 @@ import { QuestionnaireService } from "../../questionnaires/service/questionnaire
 import { defaultDailogConfiuration } from "../../questionnaires/ulb/configs/common.config";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
 import { templateJitUrl } from "@angular/compiler";
+import { UlbformService } from "../ulbform.service";
 @Component({
   selector: "app-ulbform-preview",
   templateUrl: "./ulbform-preview.component.html",
   styleUrls: ["./ulbform-preview.component.scss"],
 })
-export class UlbformPreviewComponent implements OnInit {
+export class UlbformPreviewComponent implements OnInit, OnDestroy {
   @ViewChild("ulbformPre") _html: ElementRef;
-  showLoader;
+  showLoader = true;
+  changeTrigger: any = {
+    changeInPFMSAccount: false,
+    changeInSLB: false,
+    canNavigate: false,
+    changeInPlans: false,
+    changeInAnnual: false,
+  };
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private commonService: CommonService,
@@ -34,10 +43,9 @@ export class UlbformPreviewComponent implements OnInit {
 
     private UtiReportService: UtiReportService,
     private _questionnaireService: QuestionnaireService,
-    private _matDialog: MatDialog
+    private _matDialog: MatDialog,
+    public ulbformService: UlbformService
   ) {}
-
-
 
   styleForPDF = `<style>
   .b-hide{
@@ -575,12 +583,10 @@ margin-left : .5rem !important;
     fromParent: null,
   };
 
-  waterSanitation;
-
   pfmsError = {
     response: {
-      account: '',
-      linked: '',
+      account: "",
+      linked: "",
     },
   };
 
@@ -765,141 +771,189 @@ margin-left : .5rem !important;
     },
   ];
 
+  waterSanitationError = {
+    water: {
+      name: null,
+      component: null,
+      serviceLevel: {
+        indicator: null,
+        existing: null,
+        after: null,
+      },
+      cost: null,
+    },
+    sanitation: {
+      name: null,
+      component: null,
+      serviceLevel: {
+        indicator: null,
+        existing: null,
+        after: null,
+      },
+      cost: null,
+    },
+  };
+
   categories;
   slbWaterSanitaion = null;
   detailUtil = null;
   pfms = null;
   annualAccount = null;
+  waterSanitation = null;
   userData = JSON.parse(localStorage.getItem("userData"));
   years = JSON.parse(localStorage.getItem("Years"));
   designYear;
   financialYear;
-  isMillionPlus;
-  isUA;
   stateName;
+  canDownload = true;
+  downloadSub;
 
   ngOnInit(): void {
+    this.downloadSub = this.ulbformService.initiateDownload.subscribe(
+      (proceedSelected) => {
+        if (proceedSelected) {
+          this.downloadAsPDF();
+        }
+      }
+    );
     this.designYear = this.years["2021-22"];
     this.financialYear = this.years["2020-21"];
     this.onLoad();
   }
 
+  ngOnDestroy() {
+    this.downloadSub.unsubscribe();
+  }
+
   async onLoad() {
-    await this.getCat()
-    await this.getsState()
-    this.accessGrant();
-    await this.getLinkPfms();
-    await this.detailUtilData();
-    await this.getAnnualAccount();
-    if (this.isUA == "Yes") await this.getSlbData();
-    if (this.isMillionPlus == "No") await this.getWaterSanitation();
+    await this.getCat();
+    await this.getsState();
+    this.checkDataChange();
+    if (this.data) {
+      this.setAllData(this.data);
+      this.showLoader = false;
+    } else this.getAllForm();
   }
 
-  public accessGrant() {
-    let userData = JSON.parse(localStorage.getItem("userData"));
-    this.isMillionPlus = userData.isMillionPlus;
-    this.isUA = userData.isUA;
-  }
-
-  detailUtilData() {
-    return new Promise((resolve, reject) => {
-      this.utiReportService
-        .fetchPosts(this.designYear, this.financialYear, null)
-        .subscribe(
-          (res) => {
-            res["projects"].forEach((element) => {
-              element.category = this.categories[element.category];
-            });
-            let formdata = {
-              state_name: this.stateName,
-              ulbName: JSON.parse(localStorage.getItem("userData"))["name"],
-              grantType: res["grantType"] ?? "Tied",
-              grantPosition: res["grantPosition"],
-              projects: res["projects"],
-              name: res["name"],
-              designation: res["designation"],
-              totalProCost: res["projectCost"] ?? 0,
-              totalExpCost: res["projectExp"] ?? 0,
-            };
-            this.detailUtil = formdata;
-            resolve("Success");
-          },
-          (err) => {
-            this.detailUtil = this.detailUtilError;
-            resolve("Success");
-          }
-        );
+  checkDataChange() {
+    const status = [
+      "changeInAnnual",
+      "changeInPFMSAccount",
+      "changeInPlans",
+      "changeInSLB",
+      "canNavigate",
+    ];
+    status.forEach((element) => {
+      if (
+        sessionStorage.getItem(element) == "true" ||
+        (element === "canNavigate" &&
+          sessionStorage.getItem(element) == "false")
+      ) {
+        this.changeTrigger[element] = true;
+        this.canDownload = false;
+      }
     });
   }
 
-  getSlbData() {
-    return new Promise((resolve, reject) => {
-      let params = "design_year=" + this.designYear;
-      this.commonService.fetchSlbData(params, null).subscribe(
-        (res) => {
-          this.slbWaterSanitaion =
-            res["data"] && res["data"][0] ? res["data"][0] : {};
-
-          let tem = this.slbWaterSanitaion.waterPotability?.documents
-              .waterPotabilityPlan[0];
-          if (tem) this.slbWaterSanitaion.waterPotability = tem;
-          else this.slbWaterSanitaion = this.slbWaterSanitaionError;
-          this.slbWaterSanitaion.fromParent = true;
-          resolve(res);
-        },
-        (err) => {
-          this.slbWaterSanitaion = this.slbWaterSanitaionError;
-          resolve("Success");
-        }
-      );
-    });
+  getAllForm() {
+    this.ulbformService
+      .getAllForms(this.userData.ulb, this.designYear, this.financialYear)
+      .subscribe((res) => {
+        this.showLoader = false;
+        this.setAllData(res[0]);
+      });
   }
 
-  getLinkPfms() {
-    return new Promise((resolve, reject) => {
-      this.linkPFMSAccount.getData(this.designYear, "").subscribe(
-        (res) => {
-          this.pfms = res["response"];
-          sessionStorage.setItem("pfmsAccounts",JSON.stringify(res))
-          resolve("Success");
-        },
-        (err) => {
-          this.pfms = this.pfmsError;
-          resolve("Success");
-        }
-      );
-    });
+  setAllData(data) {
+    this.setLinkPfms(data.pfmsAccounts[0]);
+    this.setDetailUtilData(data.utilizationReport[0]);
+    this.setAnnualAccount(data.annualAccountData);
+    if (data.isUA == "Yes") this.setSlbData(data.SLBs[0]);
+    if (data.isMillionPlus == "No") this.setWaterSanitation(data.plansData[0]);
   }
 
-  getWaterSanitation() {
-    return new Promise((resolve, reject) => {
-      this.waterSanitationService.getFiles().subscribe(
-        (res) => {
-          this.waterSanitation = res["plans"];
-          resolve("Success");
-        },
-        (err) => {
-          resolve("Success");
-        }
-      );
-    });
-  }
-
-  getAnnualAccount() {
-    return new Promise((resolve, reject) => {
-      const param = {
-        design_year: this.designYear,
+  setDetailUtilData(detailUtilData) {
+    if (detailUtilData) {
+      detailUtilData["projects"].forEach((element) => {
+        element.category = this.categories[element.category];
+      });
+      let formdata = {
+        state_name: this.stateName,
+        ulbName: JSON.parse(localStorage.getItem("userData"))["name"],
+        grantType: detailUtilData["grantType"] ?? "Tied",
+        grantPosition: detailUtilData["grantPosition"],
+        projects: detailUtilData["projects"],
+        name: detailUtilData["name"],
+        designation: detailUtilData["designation"],
+        totalProCost: detailUtilData["projectCost"] ?? 0,
+        totalExpCost: detailUtilData["projectExp"] ?? 0,
       };
-      this.annualAccountsService.getData(param, "").subscribe(
-        (res) => {
-          this.annualAccount = res["data"];
-          resolve("Sucess");
-        },
-        (err) => {
-          this.annualAccount = this.annualAccountError;
-          resolve("Success");
+      this.detailUtil = formdata;
+      this.detailUtil.useData = detailUtilData;
+      this.detailUtil.useData.projects.forEach((element) => {
+        element.category = this.categories[element.category];
+      });
+
+    } else this.detailUtil = this.detailUtilError;
+  }
+
+  setSlbData(slbData) {
+    this.slbWaterSanitaion = slbData;
+    if (this.slbWaterSanitaion) {
+      let tem =
+        this.slbWaterSanitaion.waterPotability.documents
+          ?.waterPotabilityPlan[0];
+      if (tem) this.slbWaterSanitaion.waterPotability = tem;
+      this.slbWaterSanitaion.fromParent = true;
+    } else this.slbWaterSanitaion = this.slbWaterSanitaionError;
+  }
+
+  setLinkPfms(pfmsData) {
+    if (pfmsData) this.pfms = pfmsData;
+    else this.pfms = this.pfmsError;
+  }
+
+  setWaterSanitation(plans) {
+    if (plans) {
+      this.waterSanitation = plans["plans"];
+      this.waterSanitation.isDraft = plans["isDraft"];
+    } else this.waterSanitation = this.waterSanitationError;
+  }
+
+  setAnnualAccount(annualAccountData) {
+    if (annualAccountData) this.annualAccount = annualAccountData;
+    else this.annualAccount = this.annualAccountError;
+  }
+
+  openModal() {
+    if (this.canDownload) this.downloadAsPDF();
+
+    const status = [
+      "changeInAnnual",
+      "changeInPFMSAccount",
+      "changeInPlans",
+      "changeInSLB",
+      "canNavigate",
+    ];
+    status.forEach((element) => {
+      if (sessionStorage.getItem(element) == "true") {
+        switch (element) {
+          case "changeInAnnual":
+            this.annualAccountsService.OpenModalTrigger.next(true);
+            break;
+          case "changeInPlans":
+            this.waterSanitationService.OpenModalTrigger.next(true);
+            break;
+          case "changeInPFMSAccount":
+            this.linkPFMSAccount.OpenModalTrigger.next(true);
+            break;
+          case "changeInSLB":
+            this.commonService.OpenModalTrigger.next(true);
+            break;
         }
-      );
+      } else if (element == "canNavigate") {
+        this.utiReportService.OpenModalTrigger.next(true);
+      }
     });
   }
 
@@ -949,6 +1003,7 @@ margin-left : .5rem !important;
         for (const key in res) {
           let id = res[key]["_id"];
           obj[id] = res[key]["name"];
+          obj[res[key]["name"]] = id;
         }
         this.categories = obj;
         resolve("success");
@@ -966,7 +1021,7 @@ margin-left : .5rem !important;
             break;
           }
         }
-        resolve("success")
+        resolve("success");
       });
     });
   }

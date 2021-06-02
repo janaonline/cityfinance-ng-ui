@@ -136,6 +136,11 @@ export class PreviewSlbComponentComponent implements OnInit {
 
   </style>`;
 
+  @Input()
+  changeFromOutSide: any;
+
+  subParentForModal;
+
   states: { [stateId: string]: IState };
   water_index_qus = '';
   fileUrl = '';
@@ -148,10 +153,47 @@ export class PreviewSlbComponentComponent implements OnInit {
   ) { }
 
   ngOnChanges() { }
+  formStatus = [
+    'Not Started',
+    'In Progress & Not Submitted',
+    'Completed & Not Submitted',
+    'In Progress & Submitted',
+    'Completed & Submitted',
 
+  ]
+  formStatusCheck = ''
   ngOnInit() {
+
+    this.subParentForModal = this._commonService.OpenModalTrigger.subscribe(
+      (change) => {
+        if (this.changeFromOutSide) {
+          this.openDialog(this.template);
+        }
+      }
+    );
+
+    let getData = JSON.parse(sessionStorage.getItem("slbData"));
     this.data = this.formatResponse(this.data);
     this.data.history = null;
+    console.log(getData)
+    console.log(this.data)
+
+    if (getData['data'].length == 0 && this.data?.isCompleted == undefined) {
+      this.formStatusCheck = this.formStatus[0]
+    } else if (getData['data'].length == 0 && this.data?.isCompleted) {
+      this.formStatusCheck = this.formStatus[2]
+    } else if (getData['data'].length == 0 && !this.data?.isCompleted) {
+      this.formStatusCheck = this.formStatus[1]
+    }
+    else {
+      if (getData['data'][0]['isCompleted']) {
+        this.formStatusCheck = this.formStatus[4]
+      } else if (!getData['data'][0]['isCompleted']) {
+        this.formStatusCheck = this.formStatus[3]
+      } else {
+        this.formStatusCheck = this.formStatus[0]
+      }
+    }
     console.log('hi', JSON.stringify(this.data));
     if (this.data.preWater?.index != undefined) {
 
@@ -172,6 +214,10 @@ export class PreviewSlbComponentComponent implements OnInit {
       }
     }
 
+  }
+
+  ngOnDestroy(): void {
+    this.subParentForModal.unsubscribe();
   }
 
   replaceAllOccurence(
@@ -209,10 +255,10 @@ export class PreviewSlbComponentComponent implements OnInit {
   errMessage = ''
   res
   async proceed(uploadedFiles) {
-    await this._matDialog.closeAll();
+    this.dialogRef.close();
 
     console.log('Check this value', this.data)
-    sessionStorage.setItem("changeInSLB", "false");
+
     console.log(this.data)
     let obj = {
       "waterManagement": this.data['waterManagement'],
@@ -223,7 +269,10 @@ export class PreviewSlbComponentComponent implements OnInit {
     }
     this.onWaterWasteManagementEmitValue(obj)
     sessionStorage.setItem("changeInSLB", "false");
-    this.downloadAsPDF()
+    if(this.changeFromOutSide){
+      this._ulbformService.initiateDownload.next(true);
+    }
+    else this.downloadAsPDF()
   }
 
   onWaterWasteManagementEmitValue(value) {

@@ -305,6 +305,19 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       this.change = false;
     }
 
+    let preData = {
+      'account': this.account,
+      'linked': this.linked,
+      "design_year": this.design_year,
+      "isDraft": this.value
+    }
+
+    let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
+      if(allFormData){
+        allFormData.pfmsAccounts[0] = preData
+        this._ulbformService.allFormsData.next(allFormData)
+      }
+
   }
 
   async proceed(uploadedFiles) {

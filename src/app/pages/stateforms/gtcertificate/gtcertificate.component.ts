@@ -1,14 +1,16 @@
 
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Router, NavigationStart, Event } from "@angular/router";
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { delay, map, retryWhen } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GTCertificateService } from './gtcertificate.service'
 import { StateformsService } from '../stateforms.service'
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-gtcertificate',
   templateUrl: './gtcertificate.component.html',
@@ -42,6 +44,7 @@ export class GTCertificateComponent implements OnInit {
   nonMillionUntiedProgress;
   err = '';
   submitted = false;
+  change = false;
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
    */
@@ -55,75 +58,116 @@ export class GTCertificateComponent implements OnInit {
     private gtcService: GTCertificateService,
     public dialog: MatDialog,
     public _stateformsService: StateformsService
-  ) { }
+  ) {
+    this._router.events.subscribe(async (event: Event) => {
+      if (event instanceof NavigationStart) {
+        if (event.url === "/" || event.url === "/login") {
+          sessionStorage.setItem("changeInGTC", "false");
+          return;
+        }
+        const change = sessionStorage.getItem("changeInGTC")
+        if (change === "true" && this.routerNavigate === null) {
+          this.routerNavigate = event
+          const currentRoute = this._router.routerState;
+          this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
+          this.openModal(this.template);
+        }
+      }
+
+    });
+
+  }
+  @ViewChild("template1") template1;
+  @ViewChild("template") template;
 
   uploadedFiles;
   millionTiedFileUrl = '';
   nonMillionTiedFileUrl = '';
   nonMillionUntiedFileUrl = '';
-
+  routerNavigate = null
   ngOnInit(): void {
     this.gtcService.getFiles()
       .subscribe((res) => {
 
-        if (res['million_tied'].pdfUrl != '' && res['million_tied'].pdfName != '') {
-          this.fileName_millionTied = res['million_tied'].pdfName;
-          this.millionTiedFileUrl = res['million_tied'].pdfUrl;
+        if (res['data']['million_tied']['pdfUrl'] != '' && res['data']['million_tied']['pdfName'] != '') {
+          this.fileName_millionTied = res['data']['million_tied']['pdfName'];
+          this.millionTiedFileUrl = res['data']['million_tied']['pdfUrl'];
         }
-        if (res['nonmillion_tied'].pdfUrl != '' && res['nonmillion_tied'].pdfName != '') {
-          this.fileName_nonMillionTied = res['nonmillion_tied'].pdfName;
-          this.nonMillionTiedFileUrl = res['nonmillion_tied'].pdfUrl;
+        if (res['data']['nonmillion_tied']['pdfUrl'] != '' && res['data']['nonmillion_tied']['pdfName'] != '') {
+          this.fileName_nonMillionTied = res['data']['nonmillion_tied']['pdfName'];
+          this.nonMillionTiedFileUrl = res['data']['nonmillion_tied']['pdfUrl'];
         }
-        if (res['nonmillion_untied'].pdfUrl != '' && res['nonmillion_untied'].pdfName != '') {
-          this.fileName_nonMillionUntied = res['nonmillion_untied'].pdfName;
-          this.nonMillionUntiedFileUrl = res['nonmillion_untied'].pdfUrl;
+        if (res['data']['nonmillion_untied']['pdfUrl'] != '' && res['data']['nonmillion_untied']['pdfName'] != '') {
+          this.fileName_nonMillionUntied = res['data']['nonmillion_untied']['pdfName'];
+          this.nonMillionUntiedFileUrl = res['data']['nonmillion_untied']['pdfUrl'];
         }
+
+        console.log(this.fileName_nonMillionUntied, this.fileName_nonMillionTied, this.fileName_millionTied)
       },
         errMes => {
-          alert(errMes)
+          // alert(errMes)
           console.log(errMes);
         }
       );
+
+    sessionStorage.setItem("changeInGTC", "false")
   }
 
+  uploadButtonClicked() {
+    sessionStorage.setItem("changeInGTC", "true")
+  }
+
+  dialogRef
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this.dialog.open(template, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      console.log('result', result)
+      if (result === undefined) {
+        if (this.routerNavigate) {
+          this.routerNavigate = null;
+        }
+      }
+    });
   }
 
   stay() {
-    this.modalRef.hide();
+    this.dialogRef.hide();
   }
 
 
   proceed(uploadedFiles) {
+    this.dialog.closeAll();
     this.postsDataCall(uploadedFiles);
-    this.modalRef.hide();
+    //pending add the route of next page when made
+
   }
 
   postsDataCall(uploadedFiles) {
 
-
-this.gtcService.sendRequest(this.uploadedFiles)
-      .subscribe((res) => {        const status = JSON.parse(sessionStorage.getItem("allStatus"));
-        status.isCompleted = res["isCompleted"];
+    this.gtcService.sendRequest(this.uploadedFiles)
+      .subscribe((res) => {
+        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        status.isCompleted = res['data']["isCompleted"];
         this._stateformsService.allStatus.next(status);
-        alert('Files uploaded successfully.')
+        swal('Record Submitted Successfully!')
       },
         error => {
-          alert("An error occured.")
+          // alert("An error occured.")
           this.err = error.message;
           console.log(this.err);
+          swal(`Error- ${this.err}`)
         });
   }
 
   alertClose() {
-    this.modalRef.hide();
+    this.dialogRef.hide();
   }
 
-  saveForm(template) {
+  saveForm(template1) {
     this.submitted = true;
     this.uploadedFiles = {
-      designYear: "606aaf854dff55e6c075d219",
+      design_year: "606aaf854dff55e6c075d219",
       million_tied:
       {
         pdfUrl: this.millionTiedFileUrl,
@@ -146,10 +190,11 @@ this.gtcService.sendRequest(this.uploadedFiles)
       this.nonMillionTiedFileUrl != '' &&
       this.nonMillionUntiedFileUrl != ''
     ) {
+      this.uploadedFiles.isCompleted = true
       this.postsDataCall(this.uploadedFiles);
     }
     else {
-      this.openModal(template);
+      this.openModal(template1);
     }
   }
 
@@ -321,6 +366,11 @@ this.gtcService.sendRequest(this.uploadedFiles)
         }
       );
   }
+
+  onPreview() {
+
+  }
+
 }
 
 function observableThrowError(arg0: string) {
