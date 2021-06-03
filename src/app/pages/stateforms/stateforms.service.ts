@@ -18,4 +18,14 @@ export class StateformsService {
     getStatus(design_year) {
         return this.http.get(`${environment.api.url}masterForm/get/${design_year}`);
     }
+
+    getulbProfile(){
+      // this.http.get('https://democityfinanceapi.dhwaniris.in/api/v1/user/all?role=ULB&filter=%7B%7D&sort=%7B%7D&skip=0&limit=10')
+      return this.http.get(`${environment.api.url}user/all?role=ULB&filter=%7B%7D&sort=%7B%7D&skip=0&limit=10`);
+    }
+    getUlbReview(){
+    //  this.http.get('https://democityfinanceapi.dhwaniris.in/api/v1/masterForm/getAll/606aaf854dff55e6c075d219');
+      return this.http.get(`${environment.api.url}masterForm/getAll/606aaf854dff55e6c075d219`);
+    }
+
 }

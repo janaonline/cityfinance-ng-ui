@@ -12,10 +12,10 @@
         <p>The below tables denotes the aggregate indicators and targets of ULBs in respective UA</p>
     </div>
 </div>
-<div *ngFor="let uaDetails of numberOfUa; let i=index">
+<div *ngFor="let uaDetails of detailsOfUa; let i=index">
     <div class="row">
         <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
-            <h5 style="margin: 0;">UA{{i+1}}: {{uaDetails.name}}</h5>
+            <h5 style="margin: 0;">UA{{i+1}}: {{uaDetails.uaName}}</h5>
         </div>
     </div>
     <div class="row" style="margin: 10px 0 0 0;">
@@ -24,15 +24,15 @@
                 <div class="row">
                     <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
                         <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">Total Number of ULBs in UA</h6>
-                        <h6 style="display: inline-flex;">30</h6>
+                        <h6 style="display: inline-flex;"> {{uaDetails.data.totalULBsInUA}}</h6>
                     </div>
                     <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
                         <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State</h6>
-                        <h6 style="display: inline-flex; color: #337AB7;">20</h6>
+                        <h6 style="display: inline-flex; color: #337AB7;">{{uaDetails.data.totalCompletedUlb}}</h6>
                     </div>
                     <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
                         <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for Submission/Approval</h6>
-                        <h6 style="display: inline-flex; color: #337AB7;">10</h6>
+                        <h6 style="display: inline-flex; color: #337AB7;">{{uaDetails.data.totalPendingUlb}}</h6>
                     </div>
                 </div>
             </div>
@@ -164,7 +164,10 @@
     </div>
 </div>
 <div class="row" style="margin-left: 0; margin-right: 0; margin-bottom: 2rem;">
-    <div class="col">
-        <button type="button" class="btn btn-next">Next</button>
+    <div class="col-sm-6 col-md-6 col-lg-6">
+        <button type="button" class="btn btn-back">BACK</button>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 text-right">
+        <button type="button" class="btn btn-next">NEXT</button>
     </div>
 </div>

@@ -134,7 +134,7 @@ export class WaterSanitationPreviewComponent implements OnInit, OnDestroy {
     font-weight: normal;
   }
 
-  .df{
+  .df {
     display:none
   }
   </style>`;

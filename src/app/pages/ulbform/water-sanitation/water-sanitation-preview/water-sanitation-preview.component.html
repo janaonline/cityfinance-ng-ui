@@ -12,17 +12,17 @@
                 <br *ngIf="!parentData"> Plans for Water and Sanitation
             </div>
         </div>
-        <div class="row df" style="margin-top: 1.5rem;">
-            <div class="col-sm-12">
-                <div class="col-sm-6 p-0">
-                    <p class="form-status" style="margin-left: 2pc;">
+        <div class="row">
+            <div class="col-sm-12" style="margin-top: 1.5rem;">
+                <div class="col-sm-6 d-flex justify-content-between mt-2">
+                    <p class="form-status">
                         <b *ngIf="!parentData">Application Current Status:</b> {{totalStatus}}
                         <br *ngIf="!parentData">
                         <b>Form Current Status:</b> {{previewStatus}}
                     </p>
 
                 </div>
-                <div *ngIf="!parentData" class="col-sm-6">
+                <div *ngIf="!parentData" class="col-sm-6 df">
                     <button id="donwloadButton" class="btn btn-primary btn-upload pull-right" style="margin-right: 1ch;" (click)="clickedDownloadAsPDF(template)">
                         Download as PDF
                     </button>
