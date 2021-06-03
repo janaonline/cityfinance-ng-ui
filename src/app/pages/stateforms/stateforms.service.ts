@@ -20,13 +20,12 @@ export class StateformsService {
     }
 
     getulbProfile(){
-      return this.http.get('https://60b5e300fe923b0017c84d35.mockapi.io/users')
+      // this.http.get('https://democityfinanceapi.dhwaniris.in/api/v1/user/all?role=ULB&filter=%7B%7D&sort=%7B%7D&skip=0&limit=10')
+      return this.http.get(`${environment.api.url}user/all?role=ULB&filter=%7B%7D&sort=%7B%7D&skip=0&limit=10`);
     }
     getUlbReview(){
-      return this.http.get('https://60b5e300fe923b0017c84d35.mockapi.io/masterForm');
+    //  this.http.get('https://democityfinanceapi.dhwaniris.in/api/v1/masterForm/getAll/606aaf854dff55e6c075d219');
+      return this.http.get(`${environment.api.url}masterForm/getAll/606aaf854dff55e6c075d219`);
     }
 
-    getWaterSupplyD(){
-      return
-    }
 }

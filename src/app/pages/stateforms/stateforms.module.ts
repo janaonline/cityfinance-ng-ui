@@ -13,10 +13,11 @@ import { WaterSupplyComponent } from './water-supply/water-supply.component';
 import { WaterRecyclingComponent } from './water-recycling/water-recycling.component';
 import { ActionPlanUAComponent } from './action-plan-ua/action-plan-ua.component';
 import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
+import { GtcertificatePreviewComponent } from './gtcertificate/gtcertificate-preview/gtcertificate-preview.component';
 
 
 @NgModule({
-  declarations: [StateformsComponent, GTCertificateComponent, StateDashboardComponent, EditUlbProfileComponent, ReviewUlbFormComponent, WaterSupplyComponent, WaterRecyclingComponent, ActionPlanUAComponent, GrantAllocationComponent],
+  declarations: [StateformsComponent, GTCertificateComponent, StateDashboardComponent, EditUlbProfileComponent, ReviewUlbFormComponent, WaterSupplyComponent, WaterRecyclingComponent, ActionPlanUAComponent, GrantAllocationComponent, GtcertificatePreviewComponent],
   imports: [
     CommonModule,
     StateformsRoutingModule,

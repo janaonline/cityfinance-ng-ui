@@ -11,6 +11,7 @@ import { GTCertificateService } from './gtcertificate.service'
 import { StateformsService } from '../stateforms.service'
 
 import { SweetAlert } from "sweetalert/typings/core";
+import { GtcertificatePreviewComponent } from './gtcertificate-preview/gtcertificate-preview.component';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-gtcertificate',
@@ -369,7 +370,36 @@ export class GTCertificateComponent implements OnInit {
   }
 
   onPreview() {
-
+    let PreviewFiles = {
+      design_year: "606aaf854dff55e6c075d219",
+      million_tied:
+      {
+        pdfUrl: this.millionTiedFileUrl,
+        pdfName: this.fileName_millionTied
+      },
+      nonmillion_tied:
+      {
+        pdfUrl: this.nonMillionTiedFileUrl,
+        pdfName: this.fileName_nonMillionTied
+      },
+      nonmillion_untied:
+      {
+        pdfUrl: this.nonMillionUntiedFileUrl,
+        pdfName: this.fileName_nonMillionUntied
+      },
+      isCompleted: false
+    };
+    const dialogRef = this.dialog.open(GtcertificatePreviewComponent,
+      {
+        data: PreviewFiles,
+        maxHeight: "95%",
+        width: '85vw',
+        panelClass: 'no-padding-dialog'
+      });
+    console.log('dialog ref')
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+    });
   }
 
 }

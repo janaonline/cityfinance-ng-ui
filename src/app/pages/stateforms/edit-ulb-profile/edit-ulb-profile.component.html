@@ -54,16 +54,10 @@
 
                                     </thead>
 
-                                    <tbody>
+                                    <tbody formArrayName="editDetailsArray">
 
-                                        <tr *ngFor="let resData of tabelData; let tabelIndex=index">
-                                            <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">1</td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">pp</td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">pppp
-                                        </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">bhbjn</td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">bhmn </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"> mhh</td> -->
+                                        <tr *ngFor="let resData of tabelData; let tabelIndex=index" [formGroupName]="tabelIndex+1">
+
                                             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{tabelIndex+1}}</td>
                                             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}</td>
                                             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode}}</td>
@@ -71,21 +65,24 @@
                                             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                                 <input type="text" class="form-control" formControlName="nodal_officer_name">
                                             </td>
-                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"><input type="text" class="form-control" formControlName="nodal_officer_email">
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                                <input type="text" class="form-control" formControlName="nodal_officer_email">
                                             </td>
-                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"><input type="text" class="form-control" formControlName="nodal_officer_phone">
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                                <input type="text" class="form-control" formControlName="nodal_officer_phone">
                                             </td>
 
                                             <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"> -->
                                             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                                <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit" (click)="viewDetails()">View</button>
+                                                <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)" (click)="viewDetails()">View</button>
                                                 <!-- <button type="button" class="btn btn-t" (click)="editDetails()">
                                                   {{detailsEdit == true?
                                                     'Edit': 'Update'}}</button> -->
-                                                <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit" (click)="editDetails()">Edit</button>
-                                                <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="!detailsEdit" (click)="updateDetails()">Update</button>
-                                                <button type="button" class="btn btn-t" style="margin-bottom: 3px; font-size: 12px; padding-left: 4px; background-color: #177A27;;" *ngIf="!detailsEdit" (click)="updateDetails()">Add more</button>
+                                                <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)" (click)="editDetails(tabelIndex)">Edit</button>
+                                                <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="!detailsEdit && (tabelIndex == row_no)" (click)="updateDetails(tabelIndex)">Update</button>
+                                                <button type="button" class="btn btn-t" style="margin-bottom: 3px; font-size: 12px; padding-left: 4px; background-color: #177A27;;" *ngIf="!detailsEdit && (tabelIndex == row_no)">Edit more</button>
                                             </td>
+
                                         </tr>
 
                                     </tbody>

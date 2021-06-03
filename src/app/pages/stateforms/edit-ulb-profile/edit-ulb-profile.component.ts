@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { UlbadminServiceService } from '../../ulb-admin/ulbadmin-service.service';
 import { StateformsService } from '../stateforms.service';
@@ -31,7 +31,8 @@ export class EditUlbProfileComponent implements OnInit {
   editableForm;
   constructor(
     public ulbService : UlbadminServiceService,
-    public _stateformsService: StateformsService
+    public _stateformsService: StateformsService,
+    private fb: FormBuilder
   ) { }
 
   ulb_name_s = new FormControl('');
@@ -41,51 +42,68 @@ export class EditUlbProfileComponent implements OnInit {
   nodal_of_phn = new FormControl('');
 
   detailsEdit = true;
-
-
+  row_no = null;
+  errMessage='';
   ngOnInit() {
     this._stateformsService.getulbProfile()
       .subscribe((res) => {
         console.log('profile', res);
         let resData:any = res;
-        this.tabelData = res;
+        this.tabelData = resData.data;
        console.log('tabelData',this.tabelData)
-       this.filledValue()
-      })
-    this.editableForm = new FormGroup({
-      nodal_officer_name : new FormControl(''),
-      nodal_officer_email : new FormControl(''),
-      nodal_officer_phone : new FormControl('')
-    })
+       this.tabelData.forEach(data => {
+       this.filledValue(data)
+               })
     if(this.detailsEdit)
     this.editableForm.disable();
-  }
-  filledValue(){
-    this.tabelData.forEach(res => {
-      this.editableForm.patchValue({
-        nodal_officer_name: res.name,
-        nodal_officer_email: res.email,
-        nodal_officer_phone: res.mobile
+      },
+      error => {
+        this.errMessage = error.message;
+        console.log(error, this.errMessage);
       });
-    });
+
+    this.editableForm = this.fb.group({
+      editDetailsArray : this.fb.array([
+        this.fb.group({
+
+        })
+      ])
+
+    })
+
+  }
+  get tabelRows() {
+    return this.editableForm.get("editDetailsArray") as FormArray;
+  }
+  filledValue(data){
+     this.tabelRows.push(
+        this.fb.group({
+          nodal_officer_name : [data.name],
+          nodal_officer_email : [data.email],
+          nodal_officer_phone : [data.mobile]
+
+    })
+   )
 
   }
   viewDetails(){
 
   }
-  editDetails(){
+  editDetails(index){
     this.detailsEdit = false;
+    this.row_no = index;
     console.log('edit')
-    this.editableForm.enable();
+    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_name').enable();
+    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_email').enable();
+    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_phone').enable();
 
   }
-  updateDetails(){
-    console.log(this.editableForm);
-    this.editableForm.patchValue({
-      nodal_officer_name: this.editableForm.value.nodal_officer_name,
-      nodal_officer_email: this.editableForm.value.nodal_officer_email,
-      nodal_officer_phone: this.editableForm.value.nodal_officer_phone
-    });
+  updateDetails(index){
+    console.log('ddd', index, this.editableForm);
+    this.detailsEdit = true;
+    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_name').disable();
+    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_email').disable();
+    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_phone').disable();
   }
 
   setLIstFetchOptions() {

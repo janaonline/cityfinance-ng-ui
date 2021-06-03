@@ -28,6 +28,7 @@ export class ReviewUlbFormComponent implements OnInit {
   filterObject;
   fcFormListSubscription: Subscription;
   nodataFound = false;
+  errMessage ='';
   constructor(
     public ulbService : UlbadminServiceService,
     public _stateformsService: StateformsService
@@ -45,10 +46,16 @@ export class ReviewUlbFormComponent implements OnInit {
     this._stateformsService.getUlbReview()
     .subscribe((res) => {
       console.log('profile', res);
-      this.tabelData = res;
+      let resData:any = res
+      this.tabelData = resData.data;
      console.log('tabelData',this.tabelData)
 
-    })
+    },
+    error => {
+      this.errMessage = error.message;
+      console.log(error, this.errMessage);
+    }
+    )
   }
   setLIstFetchOptions() {
     //  const filterKeys = ["financialYear", "auditStatus"];
