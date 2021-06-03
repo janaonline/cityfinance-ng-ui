@@ -45,7 +45,7 @@ export class WaterSupplyComponent implements OnInit {
   }[] = services;
   detailsOfUa;
   ngOnInit() {
-    console.log(this.services)
+
     this.services.forEach(data => {
       this.focusTargetKey[data.key + 'baseline'] = false
       this.targets.forEach(item => {
@@ -61,7 +61,9 @@ export class WaterSupplyComponent implements OnInit {
 
     this.benchmarks = this.services.map((el) => (parseInt(el.benchmark)))
     console.log(this.benchmarks);
-
+    console.log('target', this.targets)
+    console.log('serv', this.services);
+    console.log('basline',this.focusTargetKey )
     this.getwaterSuppyData()
 
   }
