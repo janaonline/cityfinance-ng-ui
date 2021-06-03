@@ -64,7 +64,7 @@
                     <td>
                         <div class="input-group data-input">
 
-                            <input type="text" [value]="uaDetails.data.waterSuppliedPerDay.baseline['2021']" [id]="service.key + 'baseline'" class="form-control">
+                            <input type="text" disabled [value]="uaDetails.data.waterSuppliedPerDay.baseline['2021']" [id]="service.key + 'baseline'" class="form-control">
                             <span class="input-group-addon"><em class="glyphicon">
                           {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                         </em></span>
@@ -73,7 +73,7 @@
                     <td *ngFor="let year of targets">
 
                         <div class="input-group data-input">
-                            <input type="text" [value]="uaDetails.data.waterSuppliedPerDay.target[year.key]" [id]="service.key + year.key" class="form-control">
+                            <input type="text" disabled [value]="uaDetails.data.waterSuppliedPerDay.target[year.key]" [id]="service.key + year.key" class="form-control">
                             <span class="input-group-addon "><em class="glyphicon ">
                       {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                     </em></span>
@@ -91,7 +91,7 @@
                     </td>
                     <td>
                         <div class="input-group data-input ">
-                            <input type="text" [value]="uaDetails.data.reduction.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
+                            <input type="text" disabled [value]="uaDetails.data.reduction.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
                             <span class="input-group-addon "><em class="glyphicon ">
                         {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                       </em></span>
@@ -99,7 +99,7 @@
                     </td>
                     <td *ngFor="let year of targets ">
                         <div class="input-group data-input ">
-                            <input type="text " [value]="uaDetails.data.reduction.target[year.key]" [id]="service.key + year.key " class="form-control ">
+                            <input type="text " disabled [value]="uaDetails.data.reduction.target[year.key]" [id]="service.key + year.key " class="form-control ">
                             <span class="input-group-addon "><em class="glyphicon ">
                     {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                   </em></span>
@@ -113,11 +113,11 @@
             <span  class="mandatory ">*</span></span>
                     </td>
                     <td>
-                        <span class="benchamark-cell ">{{ service.benchmark }}</span>
+                        <span class="benchamark-cell">{{ service.benchmark }}</span>
                     </td>
                     <td>
                         <div class="input-group data-input ">
-                            <input type="text " [value]="uaDetails.data.houseHoldCoveredWithSewerage.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
+                            <input type="text" disabled [value]="uaDetails.data.houseHoldCoveredWithSewerage.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
                             <span class="input-group-addon "><em class="glyphicon ">
                       {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                     </em></span>
@@ -125,7 +125,7 @@
                     </td>
                     <td *ngFor="let year of targets ">
                         <div class="input-group data-input ">
-                            <input type="text" [value]="uaDetails.data.houseHoldCoveredWithSewerage.target[year.key]" [id]="service.key + year.key " class="form-control ">
+                            <input type="text" disabled [value]="uaDetails.data.houseHoldCoveredWithSewerage.target[year.key]" [id]="service.key + year.key " class="form-control ">
                             <span class="input-group-addon "><em class="glyphicon ">
                   {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                 </em></span>
@@ -143,7 +143,7 @@
                     </td>
                     <td>
                         <div class="input-group data-input ">
-                            <input type="text" [value]="uaDetails.data.houseHoldCoveredPipedSupply.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
+                            <input type="text" disabled [value]="uaDetails.data.houseHoldCoveredPipedSupply.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
                             <span class="input-group-addon "><em class="glyphicon ">
                     {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                   </em></span>
@@ -151,7 +151,7 @@
                     </td>
                     <td *ngFor="let year of targets ">
                         <div class="input-group data-input ">
-                            <input type="text" [value]="uaDetails.data.houseHoldCoveredPipedSupply.target[year.key]" [id]="service.key + year.key " class="form-control ">
+                            <input type="text" disabled [value]="uaDetails.data.houseHoldCoveredPipedSupply.target[year.key]" [id]="service.key + year.key " class="form-control ">
                             <span class="input-group-addon "><em class="glyphicon ">
                 {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
               </em></span>
