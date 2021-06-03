@@ -63,95 +63,97 @@
                     </td>
                     <td>
                         <div class="input-group data-input">
-                            <input type="text" [id]="service.key + 'baseline'" class="form-control">
+
+                            <input type="text" [value]="uaDetails.data.waterSuppliedPerDay.baseline['2021']" [id]="service.key + 'baseline'" class="form-control">
                             <span class="input-group-addon"><em class="glyphicon">
                           {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                         </em></span>
                         </div>
                     </td>
                     <td *ngFor="let year of targets">
+
                         <div class="input-group data-input">
-                            <input type="text" [id]="service.key + year.key" class="form-control">
-                            <span class="input-group-addon"><em class="glyphicon">
-                      {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                            <input type="text" [value]="uaDetails.data.waterSuppliedPerDay.target[year.key]" [id]="service.key + year.key" class="form-control">
+                            <span class="input-group-addon "><em class="glyphicon ">
+                      {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                     </em></span>
                         </div>
 
                     </td>
                 </tr>
-                <tr *ngIf="services[1] as service">
+                <tr *ngIf="services[1] as service ">
                     <td>
-                        <span class="service-name">{{ service.name }}
-              <span  class="mandatory">*</span></span>
+                        <span class="service-name ">{{ service.name }}
+              <span  class="mandatory ">*</span></span>
                     </td>
                     <td>
-                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                        <span class="benchamark-cell ">{{ service.benchmark }}</span>
                     </td>
                     <td>
-                        <div class="input-group data-input">
-                            <input type="text" [id]="service.key + 'baseline'" class="form-control">
-                            <span class="input-group-addon"><em class="glyphicon">
-                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                        <div class="input-group data-input ">
+                            <input type="text" [value]="uaDetails.data.reduction.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
+                            <span class="input-group-addon "><em class="glyphicon ">
+                        {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                       </em></span>
                         </div>
                     </td>
-                    <td *ngFor="let year of targets">
-                        <div class="input-group data-input">
-                            <input type="text" [id]="service.key + year.key" class="form-control">
-                            <span class="input-group-addon"><em class="glyphicon">
-                    {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                    <td *ngFor="let year of targets ">
+                        <div class="input-group data-input ">
+                            <input type="text " [value]="uaDetails.data.reduction.target[year.key]" [id]="service.key + year.key " class="form-control ">
+                            <span class="input-group-addon "><em class="glyphicon ">
+                    {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                   </em></span>
                         </div>
 
                     </td>
                 </tr>
-                <tr *ngIf="services[2] as service">
+                <tr *ngIf="services[2] as service ">
                     <td>
-                        <span class="service-name">{{ service.name }}
-            <span  class="mandatory">*</span></span>
+                        <span class="service-name ">{{ service.name }}
+            <span  class="mandatory ">*</span></span>
                     </td>
                     <td>
-                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                        <span class="benchamark-cell ">{{ service.benchmark }}</span>
                     </td>
                     <td>
-                        <div class="input-group data-input">
-                            <input type="text" [id]="service.key + 'baseline'" class="form-control">
-                            <span class="input-group-addon"><em class="glyphicon">
-                      {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                        <div class="input-group data-input ">
+                            <input type="text " [value]="uaDetails.data.houseHoldCoveredWithSewerage.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
+                            <span class="input-group-addon "><em class="glyphicon ">
+                      {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                     </em></span>
                         </div>
                     </td>
-                    <td *ngFor="let year of targets">
-                        <div class="input-group data-input">
-                            <input type="text" [id]="service.key + year.key" class="form-control">
-                            <span class="input-group-addon"><em class="glyphicon">
-                  {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                    <td *ngFor="let year of targets ">
+                        <div class="input-group data-input ">
+                            <input type="text" [value]="uaDetails.data.houseHoldCoveredWithSewerage.target[year.key]" [id]="service.key + year.key " class="form-control ">
+                            <span class="input-group-addon "><em class="glyphicon ">
+                  {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                 </em></span>
                         </div>
 
                     </td>
                 </tr>
-                <tr *ngIf="services[3] as service">
+                <tr *ngIf="services[3] as service ">
                     <td>
-                        <span class="service-name">{{ service.name }}
-          <span  class="mandatory">*</span></span>
+                        <span class="service-name ">{{ service.name }}
+          <span  class="mandatory ">*</span></span>
                     </td>
                     <td>
-                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                        <span class="benchamark-cell ">{{ service.benchmark }}</span>
                     </td>
                     <td>
-                        <div class="input-group data-input">
-                            <input type="text" [id]="service.key + 'baseline'" class="form-control">
-                            <span class="input-group-addon"><em class="glyphicon">
-                    {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                        <div class="input-group data-input ">
+                            <input type="text" [value]="uaDetails.data.houseHoldCoveredPipedSupply.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
+                            <span class="input-group-addon "><em class="glyphicon ">
+                    {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                   </em></span>
                         </div>
                     </td>
-                    <td *ngFor="let year of targets">
-                        <div class="input-group data-input">
-                            <input type="text" [id]="service.key + year.key" class="form-control">
-                            <span class="input-group-addon"><em class="glyphicon">
-                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                    <td *ngFor="let year of targets ">
+                        <div class="input-group data-input ">
+                            <input type="text" [value]="uaDetails.data.houseHoldCoveredPipedSupply.target[year.key]" [id]="service.key + year.key " class="form-control ">
+                            <span class="input-group-addon "><em class="glyphicon ">
+                {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
               </em></span>
                         </div>
 
@@ -163,11 +165,11 @@
         </table>
     </div>
 </div>
-<div class="row" style="margin-left: 0; margin-right: 0; margin-bottom: 2rem;">
-    <div class="col-sm-6 col-md-6 col-lg-6">
-        <button type="button" class="btn btn-back">BACK</button>
+<div class="row " style="margin-left: 0; margin-right: 0; margin-bottom: 2rem; ">
+    <div class="col-sm-6 col-md-6 col-lg-6 ">
+        <button type="button " class="btn btn-back" [routerLink]="[ '../gtCertificate']">BACK</button>
     </div>
-    <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-        <button type="button" class="btn btn-next">NEXT</button>
+    <div class="col-sm-6 col-md-6 col-lg-6 text-right ">
+        <button type="button " class="btn btn-next" [routerLink]="[ '../gtCertificate']">NEXT</button>
     </div>
 </div>
