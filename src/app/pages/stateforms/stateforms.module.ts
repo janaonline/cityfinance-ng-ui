@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { StateformsRoutingModule } from './stateforms-routing.module';
 import { StateformsComponent } from './stateforms.component';
 import { GTCertificateComponent } from './gtcertificate/gtcertificate.component';
@@ -14,10 +14,21 @@ import { WaterRecyclingComponent } from './water-recycling/water-recycling.compo
 import { ActionPlanUAComponent } from './action-plan-ua/action-plan-ua.component';
 import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
 import { GtcertificatePreviewComponent } from './gtcertificate/gtcertificate-preview/gtcertificate-preview.component';
-
+// import { DoughnutChartArea } from './state-dashboard/donut/donut'
 
 @NgModule({
-  declarations: [StateformsComponent, GTCertificateComponent, StateDashboardComponent, EditUlbProfileComponent, ReviewUlbFormComponent, WaterSupplyComponent, WaterRecyclingComponent, ActionPlanUAComponent, GrantAllocationComponent, GtcertificatePreviewComponent],
+  declarations: [StateformsComponent,
+    GTCertificateComponent,
+    StateDashboardComponent,
+    EditUlbProfileComponent,
+    ReviewUlbFormComponent,
+    WaterSupplyComponent,
+    WaterRecyclingComponent,
+    ActionPlanUAComponent,
+    GrantAllocationComponent,
+    GtcertificatePreviewComponent,
+    // DoughnutChartArea
+  ],
   imports: [
     CommonModule,
     StateformsRoutingModule,

@@ -10,8 +10,9 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GTCertificateService } from './gtcertificate.service'
 import { StateformsService } from '../stateforms.service'
 
-import { SweetAlert } from "sweetalert/typings/core";
+
 import { GtcertificatePreviewComponent } from './gtcertificate-preview/gtcertificate-preview.component';
+import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-gtcertificate',
@@ -46,33 +47,40 @@ export class GTCertificateComponent implements OnInit {
   nonMillionUntiedProgress;
   err = '';
   submitted = false;
-  change = false;
+
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
    */
   filesAlreadyInProcess: number[] = [];
-
+  change = ''
   constructor(
     private fb: FormBuilder,
     private modalService: BsModalService,
     private _router: Router,
     private dataEntryService: DataEntryService,
     private gtcService: GTCertificateService,
-    public dialog: MatDialog,
+    private dialog: MatDialog,
     public _stateformsService: StateformsService
   ) {
+
     this._router.events.subscribe(async (event: Event) => {
       if (event instanceof NavigationStart) {
         if (event.url === "/" || event.url === "/login") {
           sessionStorage.setItem("changeInGTC", "false");
+          this.change = "false"
           return;
         }
-        const change = sessionStorage.getItem("changeInGTC")
-        if (change === "true" && this.routerNavigate === null) {
-          this.routerNavigate = event
+        const changeHappen = sessionStorage.getItem("changeInGTC")
+        if (changeHappen === "true" && this.routerNavigate === null) {
+          this.change = "true"
+
+          console.log('inside router')
           const currentRoute = this._router.routerState;
           this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
+          this.routerNavigate = event
           this.openModal(this.template);
+        } else {
+          this.change = "false"
         }
       }
 
@@ -113,10 +121,12 @@ export class GTCertificateComponent implements OnInit {
       );
 
     sessionStorage.setItem("changeInGTC", "false")
+    this.change = "false"
   }
 
   uploadButtonClicked() {
     sessionStorage.setItem("changeInGTC", "true")
+    this.change = "true";
   }
 
   dialogRef
@@ -133,37 +143,59 @@ export class GTCertificateComponent implements OnInit {
     });
   }
 
-  stay() {
-    this.dialogRef.hide();
+  async stay() {
+    await this.dialogRef.close(true);
+    if (this.routerNavigate) {
+      this.routerNavigate = null
+    }
+
   }
 
 
-  proceed(uploadedFiles) {
-    this.dialog.closeAll();
-    this.postsDataCall(uploadedFiles);
-    //pending add the route of next page when made
+  async proceed(uploadedFiles) {
+    await this.dialog.closeAll();
+
+    if (this.submitted) {
+      this.postsDataCall(uploadedFiles);
+      this._router.navigate(["stateform/water-supply"]);
+      return;
+    } else if (this.routerNavigate) {
+      this.postsDataCall(uploadedFiles);
+      sessionStorage.setItem("changeInGTC", "false")
+      this._router.navigate([this.routerNavigate.url]);
+      return
+    }
+
+
+
 
   }
 
   postsDataCall(uploadedFiles) {
+    return new Promise((resolve, reject) => {
 
-    this.gtcService.sendRequest(this.uploadedFiles)
-      .subscribe((res) => {
-        const status = JSON.parse(sessionStorage.getItem("allStatus"));
-        status.isCompleted = res['data']["isCompleted"];
-        this._stateformsService.allStatus.next(status);
-        swal('Record Submitted Successfully!')
-      },
-        error => {
-          // alert("An error occured.")
-          this.err = error.message;
-          console.log(this.err);
-          swal(`Error- ${this.err}`)
-        });
+      this.gtcService.sendRequest(this.uploadedFiles)
+        .subscribe(async (res) => {
+          // const status = JSON.parse(sessionStorage.getItem("allStatus"));
+          // status.isCompleted = res['data']["isCompleted"];
+          // this._stateformsService.allStatus.next(status);
+          sessionStorage.setItem("changeInGTC", "false")
+          this.change = "false"
+          swal('Record Submitted Successfully!')
+          resolve(res)
+        },
+          error => {
+            this.err = error.message;
+            console.log(this.err);
+            swal(`Error- ${this.err}`)
+            resolve(error)
+          });
+    })
+
   }
 
   alertClose() {
-    this.dialogRef.hide();
+    this.stay();
   }
 
   saveForm(template1) {
@@ -194,6 +226,7 @@ export class GTCertificateComponent implements OnInit {
     ) {
       this.uploadedFiles.isCompleted = true
       this.postsDataCall(this.uploadedFiles);
+
     }
     else {
       this.openModal(template1);
@@ -408,3 +441,4 @@ function observableThrowError(arg0: string) {
   throw new Error('Function not implemented.');
 }
 
+//pending - green and red ticks

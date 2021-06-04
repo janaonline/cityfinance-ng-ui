@@ -200,10 +200,12 @@
         </div>
         <div class="row" style="margin-top: 20px; margin-left: 10px;">
             <div class="col-sm-6" style="text-align: left;">
-                <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../slbs']">BACK</a>
+                <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../review-ulb-form']">BACK</a>
             </div>
             <div class="col-sm-6  text-right">
-                <button type="button" class="btn saveBtn" (click)="saveForm(template1)">SAVE AND NEXT</button>
+                <button type="button" class="btn saveBtn" (click)="saveForm(template1)">{{change == 'true' ?
+                    'SAVE AND
+                    NEXT': 'NEXT'}}</button>
             </div>
         </div>
 
