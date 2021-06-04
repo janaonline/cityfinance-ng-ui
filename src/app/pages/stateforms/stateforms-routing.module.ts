@@ -5,11 +5,15 @@ import { GTCertificateComponent } from './gtcertificate/gtcertificate.component'
 import { WaterSupplyComponent } from './water-supply/water-supply.component';
 import { ReviewUlbFormComponent } from './review-ulb-form/review-ulb-form.component';
 import { EditUlbProfileComponent } from './edit-ulb-profile/edit-ulb-profile.component';
+import { StateDashboardComponent } from './state-dashboard/state-dashboard.component'
 const routes: Routes = [
   {
     path: "",
     component: StateformsComponent,
     children: [
+      {
+        path: "dashboard", component: StateDashboardComponent
+      },
       {
         path: "gtCertificate", component: GTCertificateComponent
       },

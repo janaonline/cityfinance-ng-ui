@@ -1,1 +1,72 @@
-<p>state-dashboard works!</p>
+<div>
+    <div class="container-fluid">
+        <div class="row cards">
+            <div class="col-sm-3 card ">
+                <div class="card-number">4600</div>
+                <div class="card-text">Total ULBs</div>
+                <span></span>
+            </div>
+            <div class="col-sm-3 card">
+                <div class="card-number">4547</div>
+                <div class="card-text">Non Million Cities</div>
+                <span></span>
+            </div>
+            <div class="col-sm-3 card">
+                <div class="card-number">50</div>
+                <div class="card-text">Million-Plus UAs</div>
+                <span></span>
+            </div>
+            <div class="col-sm-3 card">
+                <div class="card-number">600</div>
+                <div class="card-text">ULBs in Million-Plus UAs</div>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <div class="search-bar">
+        Population Category:
+        <select class="dropdown">
+            <option value="all">All ULBs</option>
+        </select>
+
+        <button class="btn btn-primary">SEARCH</button>
+
+    </div>
+    <div class="row statusArea">
+        <div class="col-sm-3 firstColumn">
+            <div style="font-size: 16px; text-align: center;margin-top: 17px; font-weight: 9px;">ULB Form Status
+            </div>
+            //donught chart
+            <!-- <div style="display: block">
+                <canvas mdbChart [chartType]="chartType" [datasets]="chartDatasets" [labels]="chartLabels"
+                    [colors]="chartColors" [options]="chartOptions" [legend]="true" (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)">
+                </canvas>
+            </div> -->
+
+            <!-- <doughnut></doughnut> -->
+        </div>
+        <div class="col-sm-3">column2
+            <div>ULB Annual Account Status</div>
+            <div>Pie charts</div>
+
+        </div>
+        <div class="col-sm-6">column3
+            <div>row1</div>
+            <div>row2</div>
+            <div>row3</div>
+
+        </div>
+    </div>
+
+    <div> bottom part
+        <div>row1</div>
+        <div>row2
+
+            <div>card1</div>
+            <div>card2</div>
+        </div>
+
+    </div>
+
+</div>
