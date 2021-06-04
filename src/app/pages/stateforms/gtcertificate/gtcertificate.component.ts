@@ -47,7 +47,7 @@ export class GTCertificateComponent implements OnInit {
   nonMillionUntiedProgress;
   err = '';
   submitted = false;
-
+  routerDiff = {};
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
    */
@@ -62,29 +62,8 @@ export class GTCertificateComponent implements OnInit {
     private dialog: MatDialog,
     public _stateformsService: StateformsService
   ) {
+    this.navigationCheck()
 
-    this._router.events.subscribe(async (event: Event) => {
-      if (event instanceof NavigationStart) {
-        if (event.url === "/" || event.url === "/login") {
-          sessionStorage.setItem("changeInGTC", "false");
-          this.change = "false"
-          return;
-        }
-        const changeHappen = sessionStorage.getItem("changeInGTC")
-        if (changeHappen === "true" && this.routerNavigate === null) {
-          this.change = "true"
-
-          console.log('inside router')
-          const currentRoute = this._router.routerState;
-          this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
-          this.routerNavigate = event
-          this.openModal(this.template);
-        } else {
-          this.change = "false"
-        }
-      }
-
-    });
 
   }
   @ViewChild("template1") template1;
@@ -95,7 +74,39 @@ export class GTCertificateComponent implements OnInit {
   nonMillionTiedFileUrl = '';
   nonMillionUntiedFileUrl = '';
   routerNavigate = null
+
+  navigationCheck() {
+
+    this._router.events.subscribe(async (event: Event) => {
+      if (!this.submitted) {
+        if (event instanceof NavigationStart) {
+          if (event.url === "/" || event.url === "/login") {
+            sessionStorage.setItem("changeInGTC", "false");
+            this.change = "false"
+            return;
+          }
+          const changeHappen = sessionStorage.getItem("changeInGTC")
+          if (changeHappen === "true" && this.routerNavigate == null) {
+
+            this.change = "true"
+            console.log('inside router')
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
+            this.routerNavigate = event
+            this.openModal(this.template);
+          } else {
+            this.change = "false"
+          }
+        }
+      }
+
+
+    });
+  }
+
+
   ngOnInit(): void {
+
     this.gtcService.getFiles()
       .subscribe((res) => {
 
@@ -122,6 +133,7 @@ export class GTCertificateComponent implements OnInit {
 
     sessionStorage.setItem("changeInGTC", "false")
     this.change = "false"
+    this.submitted = false;
   }
 
   uploadButtonClicked() {
@@ -134,6 +146,8 @@ export class GTCertificateComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this.dialog.open(template, dialogConfig);
     this.dialogRef.afterClosed().subscribe((result) => {
+
+
       console.log('result', result)
       if (result === undefined) {
         if (this.routerNavigate) {
@@ -219,21 +233,30 @@ export class GTCertificateComponent implements OnInit {
       },
       isCompleted: false
     };
-    if (
-      this.millionTiedFileUrl != '' &&
-      this.nonMillionTiedFileUrl != '' &&
-      this.nonMillionUntiedFileUrl != ''
-    ) {
-      this.uploadedFiles.isCompleted = true
-      this.postsDataCall(this.uploadedFiles);
+    let changeHappen = sessionStorage.getItem("changeInGTC")
+    if (changeHappen == "false") {
+      this._router.navigate(["stateform/water-supply"]);
+      return;
+    } else {
+      if (
+        this.millionTiedFileUrl != '' &&
+        this.nonMillionTiedFileUrl != '' &&
+        this.nonMillionUntiedFileUrl != ''
+      ) {
+        this.uploadedFiles.isCompleted = true
+        this.postsDataCall(this.uploadedFiles);
 
+      }
+      else {
+        this.openModal(template1);
+      }
     }
-    else {
-      this.openModal(template1);
-    }
+
   }
 
   clearFiles(fileName) {
+    sessionStorage.setItem("changeInGTC", "true")
+    this.change = "true"
     if (fileName == 'fileName_millionTied') {
       this.millionTiedProgress = '';
       this.fileName_millionTied = '';
@@ -441,4 +464,5 @@ function observableThrowError(arg0: string) {
   throw new Error('Function not implemented.');
 }
 
-//pending - green and red ticks
+//pending - green and red ticks (will be done after master form api made)
+//2 times dialog box on routing alert
