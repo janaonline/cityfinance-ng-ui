@@ -21,7 +21,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 8px;">
                         <label for="" style="color: #022121; font-size: 15px; font-weight: bold; text-align: left;">
-                            Upload Signed Grant Transfer Certificate for Million Tied Grants <span
+                            (A) Upload Signed Grant Transfer Certificate for Million Tied Grants <span
                                 style="color: red;">*</span></label>
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-5 image-upload" style="margin-left: 5rem; margin-top: 2px;">
@@ -82,7 +82,7 @@
                 <div class="row" style="margin-top: 20px;">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <label for="" style="color: #022121; font-size: 15px; font-weight: bold; text-align:left;">
-                            Upload Signed Grant Transfer Certificate for Non-Million Tied Grants<span
+                            (B) Upload Signed Grant Transfer Certificate for Non-Million Tied Grants<span
                                 style="color: red;">*</span></label>
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-5 image-upload" style="margin-left: 5rem; margin-top: 2px;">
@@ -140,7 +140,7 @@
                 <div class="row" style="margin-top: 20px;">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <label for="" style="color: #022121; font-size: 15px; font-weight: bold; text-align: left;">
-                            Upload Signed Grant Transfer Certificate for Million Untied Grants<span
+                            (C) Upload Signed Grant Transfer Certificate for Million Untied Grants<span
                                 style="color: red;">*</span></label>
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-5 image-upload" style="margin-left: 5rem; margin-top: 2px;">
@@ -200,10 +200,12 @@
         </div>
         <div class="row" style="margin-top: 20px; margin-left: 10px;">
             <div class="col-sm-6" style="text-align: left;">
-                <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../slbs']">BACK</a>
+                <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../review-ulb-form']">BACK</a>
             </div>
             <div class="col-sm-6  text-right">
-                <button type="button" class="btn saveBtn" (click)="saveForm(template1)">SAVE AND NEXT</button>
+                <button type="button" class="btn saveBtn" (click)="saveForm(template1)">{{change == 'true' ?
+                    'SAVE AND
+                    NEXT': 'NEXT'}}</button>
             </div>
         </div>
 

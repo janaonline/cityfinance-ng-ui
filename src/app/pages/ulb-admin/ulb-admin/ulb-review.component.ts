@@ -118,14 +118,14 @@ nodataFound = false;
             populationType : this.population_type_s.value
             ? this.population_type_s.value.trim()
             : "",
-            ulbName : this.ua_name_s.value
+            ulbName : this.ulb_name_s.value
             ? this.ulb_name_s.value.trim()
             : "",
             censusCode : this.ulb_code_s.value
             ? this.ulb_code_s.value.trim()
             : "",
             UA : this.ua_name_s.value
-            ? this.ulb_code_s.value.trim()
+            ? this.ua_name_s.value.trim()
             : "",
             status : this.status_s.value
             ? this.status_s.value.trim()

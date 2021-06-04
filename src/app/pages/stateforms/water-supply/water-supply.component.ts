@@ -10,6 +10,7 @@ import { IState } from "../../../models/state/state";
 
 import { CommonService } from "src/app/shared/services/common.service";
 import { Router } from '@angular/router';
+import { WaterSupplyService } from './water-supply.service';
 @Component({
   selector: 'app-water-supply',
   templateUrl: './water-supply.component.html',
@@ -23,7 +24,8 @@ export class WaterSupplyComponent implements OnInit {
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
-    private _router: Router
+    private _router: Router,
+    private _WaterSupplyService : WaterSupplyService
     ) {
       this.initializeUserType();
       this.fetchStateList();
@@ -41,13 +43,9 @@ export class WaterSupplyComponent implements OnInit {
     name: string;
     benchmark: string;
   }[] = services;
-  numberOfUa = [
-    { key: "2122", name: "Kanpur Urban Agglomeration" },
-    { key: "2223", name: "Uttar Pradesh Urban Agglomeration" },
-
-  ];
+  detailsOfUa;
   ngOnInit() {
-    console.log(this.services)
+
     this.services.forEach(data => {
       this.focusTargetKey[data.key + 'baseline'] = false
       this.targets.forEach(item => {
@@ -62,8 +60,19 @@ export class WaterSupplyComponent implements OnInit {
     })
 
     this.benchmarks = this.services.map((el) => (parseInt(el.benchmark)))
-    console.log(this.benchmarks)
+    console.log(this.benchmarks);
+    console.log('target', this.targets)
+    console.log('serv', this.services);
+    console.log('basline',this.focusTargetKey )
+    this.getwaterSuppyData()
 
+  }
+  getwaterSuppyData(){
+    this._WaterSupplyService.getslbsData()
+      .subscribe((res) => {
+         console.log('response', res)
+         this.detailsOfUa = res;
+      })
   }
 
   private fetchStateList() {

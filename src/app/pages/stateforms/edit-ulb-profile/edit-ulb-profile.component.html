@@ -1,1 +1,107 @@
-<p>edit-ulb-profile works!</p>
+<div class="row">
+    <div class="col-sm-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12 col-md-12 text-right" style="margin-bottom: 1rem;">
+                        <button type="button" class="btn btn-d">DOWNLOAD</button>
+
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
+                            <form [formGroup]="editableForm">
+                                <table class="table">
+                                    <thead>
+                                        <tr style="background-color: #047474; color: #FFFFFF;">
+                                            <th scope="col">S.No</th>
+                                            <th scope="col" style="width: 16%;">ULB Name </th>
+                                            <th scope="col" style="width: 14%;">ULB Census Code/ ULB Code </th>
+                                            <th scope="col" style="width: 18%;">ULB Nodal Officer Name</th>
+                                            <th scope="col" style="width: 18%;">ULB Nodal Officer Email ID</th>
+                                            <th scope="col" style="width: 18%;">ULB Nodal Officer Phone Number</th>
+                                            <th scope="col" style="width: 15%;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <thead>
+                                        <tr class="filter">
+                                            <th class="filter"></th>
+
+                                            <th class="filter">
+                                                <span class="s-s"><img src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                                <input type="text" class="s-th p-s" [formControl]="ulb_name_s" (keyup.enter)="stateData()">
+                                            </th>
+                                            <th class="filter">
+                                                <span class="s-s"><img src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                                <input type="text" class="s-th p-s" [formControl]="ulb_code_s" (keyup.enter)="stateData()">
+                                            </th>
+                                            <th class="filter">
+                                                <span class="s-s"><img src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                                <input type="text" class="s-th p-s" [formControl]="nodal_of_name" (keyup.enter)="stateData()">
+                                            </th>
+                                            <th class="filter">
+                                                <span class="s-s"><img src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                                <input type="text" class="s-th p-s" [formControl]="nodal_of_email" (keyup.enter)="stateData()">
+                                            </th>
+
+                                            <th class="filter">
+                                                <span class="s-s"><img src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                                <input type="text" [formControl]="nodal_of_phn" class="s-th p-s" (change)="stateData()">
+                                            </th>
+                                            <th class="filter">
+
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody formArrayName="editDetailsArray">
+
+                                        <tr *ngFor="let resData of tabelData; let tabelIndex=index" [formGroupName]="tabelIndex+1">
+
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{tabelIndex+1}}</td>
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}</td>
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode}}</td>
+
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                                <input type="text" class="form-control" formControlName="nodal_officer_name">
+                                            </td>
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                                <input type="text" class="form-control" formControlName="nodal_officer_email">
+                                            </td>
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                                <input type="text" class="form-control" formControlName="nodal_officer_phone">
+                                            </td>
+
+                                            <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"> -->
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                                <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)" (click)="viewDetails()">View</button>
+                                                <!-- <button type="button" class="btn btn-t" (click)="editDetails()">
+                                                  {{detailsEdit == true?
+                                                    'Edit': 'Update'}}</button> -->
+                                                <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)" (click)="editDetails(tabelIndex)">Edit</button>
+                                                <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="!detailsEdit && (tabelIndex == row_no)" (click)="updateDetails(tabelIndex)">Update</button>
+                                                <button type="button" class="btn btn-t" style="margin-bottom: 3px; font-size: 12px; padding-left: 4px; background-color: #177A27;;" *ngIf="!detailsEdit && (tabelIndex == row_no)">Edit more</button>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+                            </form>
+                            <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-left: 0; margin-right: 0; margin-bottom: 2rem;">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <button type="button" class="btn btn-back">BACK</button>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 text-right">
+            <button type="button" class="btn btn-next">NEXT</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+.s-th {
+    border-radius: 4px;
+    width: 96px;
+    height: 28px;
+    border-color: #00000029;
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.p-s {
+    padding-left: 20px;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.btn-d {
+    background-color: #114551;
+    color: #FFFFFF;
+}
+
+.s-s {
+    position: relative;
+    margin-right: -21px;
+}
+
+.filter {
+    border: none;
+}
+
+.btn-next {
+    background-color: #114551;
+    color: #FFFFFF;
+    border-radius: 5px;
+    height: 32px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.btn-back {
+    background-color: #CFCFCF;
+    color: #FFFFFF;
+    border-radius: 5px;
+    height: 32px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
