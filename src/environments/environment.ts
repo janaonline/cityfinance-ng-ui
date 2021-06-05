@@ -9,14 +9,12 @@ if (
 ) {
   url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
   // url = "http://localhost:8080/api/v1/";
-  // GoogleTagID = "UA-171288029-2";
-  //only for temporary
+  GoogleTagID = "UA-171288029-2";
 } else if (window.location.hostname.includes("staging")) {
   url = "https://staging.cityfinance.in/api/v1/";
 } else {
   url = "https://cityfinance.in/api/v1/";
-  // GoogleTagID = "UA-171288029-1";
-  //only for temporary
+  GoogleTagID = "UA-171288029-1";
 }
 // url = "https://cityfinance.in/api/v1/";
 export const environment = {
