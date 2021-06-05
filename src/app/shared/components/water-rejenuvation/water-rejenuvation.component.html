@@ -50,20 +50,22 @@
                                     </td>
                                     <td>
                                         <div class="image-upload" style="display: inline-block;">
-                                            <label [attr.for]="projectIndex">
+                                            <label class="file" [attr.for]="waterBodiesIndex">
                                                 <img src="../../../../assets/form-icon/Icon feather-upload.svg">
 
                                             </label>
-                                            <input style="display: none;" [attr.id]="projectIndex" type="file"
+                                            <input style="display: none;" [attr.id]="waterBodiesIndex" type="file"
                                                 [disabled]="isDisabled" accept=".png,.jpg,.jpeg"
-                                                (change)="onFileChange($event)" required multiple />
+                                                (change)="onFileChange($event,waterBodiesIndex,projectIndex)" required
+                                                multiple />
                                         </div>
-                                        <a (click)="imgPreview(projectIndex)"> <span class="material-icons"
+                                        <a style="margin-left: 1ch;" (click)="imgPreview(waterBodiesIndex,projectIndex)"> <span
+                                                class="material-icons file"
                                                 style="font-size: 14px; padding-left:2px; vertical-align: middle;">
                                                 collections
                                             </span></a>
-                                        <a (click)="imgDelete(projectIndex)" [ngClass]="{'anDisable': isDisabled }">
-                                            <span class="material-icons"
+                                        <a style="margin-left: 1ch;" (click)="removePhotos(waterBodiesIndex,projectIndex)" [ngClass]="{'anDisable': isDisabled }">
+                                            <span class="material-icons file"
                                                 style="font-size: 14px; padding-left:2px; vertical-align: middle; color: red;">
                                                 delete_forever
                                             </span></a>

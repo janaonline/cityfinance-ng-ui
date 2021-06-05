@@ -38,7 +38,7 @@ export class WaterRejenuvationComponent implements OnInit {
   waterBodies: FormGroup;
   waterRecycle: FormGroup;
   inUaData: FormGroup;
-
+  maxPhotos = 5;
   photosArray = [];
   errorPhotosArray = [];
 
@@ -136,7 +136,7 @@ export class WaterRejenuvationComponent implements OnInit {
           lat: this.fb.control(data.location.lat, [Validators.required]),
           long: this.fb.control(data.location.long, [Validators.required]),
         }),
-        // photos: this.fb.array(this.getPhotos(data.photos)),
+        photos: this.fb.array(this.getPhotos(data.photos)),
         bod: this.fb.control(data.bod, [Validators.required]),
         cod: this.fb.control(data.cod, [Validators.required]),
         do: this.fb.control(data.do, [Validators.required]),
@@ -148,12 +148,12 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   getPhotos(dataArray) {
-    return dataArray.map((data) => {
+    return dataArray.map((data) =>
       this.fb.group({
-        url: this.fb.control(data.url, [Validators.required]),
-        name: this.fb.control(data.name, [Validators.required]),
-      });
-    });
+        url: this.fb.control(data.url),
+        name: this.fb.control(data.name),
+      })
+    );
   }
 
   getReuseWater(dataArray) {
@@ -583,14 +583,16 @@ export class WaterRejenuvationComponent implements OnInit {
     return this.Uas[index].controls.foldCard.value;
   }
 
-  imgPreview(index) {
-    //  console.log(index, this.tabelRows);
-    //  let photographs = this.tabelRows.value[index].photos;
-    //  console.log("phoyos", photographs)
+  imgPreview(waterIndex, uaIndex) {
+    let waterBodies = this.getSubControlsWaterBodies(uaIndex);
+    let imgData = waterBodies[waterIndex].controls.photos.value;
+    if(imgData.length == 0){
+      return swal("No photos added","","warning")
+    }
     let dialogRef = this.dialog.open(ImagePreviewComponent, {
-      data: this.photosArray,
-      height: "400px",
-      width: "500px",
+      data: imgData,
+      height: "auto",
+      width: "auto",
       panelClass: "no-padding-dialog",
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -598,12 +600,18 @@ export class WaterRejenuvationComponent implements OnInit {
     });
   }
 
-  removePhotos(Index, i: number) {
-    alert("clear");
-    // const control = <FormArray>(
-    //   this.tabelRows.controls[Index]["controls"]["photos"]
-    // );
-    // control.clear();
+  removePhotos(waterIndex, uaIndex) {
+    let mess = window.confirm("Do you want delete all photos");
+    let control = this.getSubControlsWaterBodies(uaIndex);
+    let photoControl = control[waterIndex].controls.photos;
+    if (mess) {
+      photoControl.clear();
+      swal(
+        `All photos deleted`,
+        "successfully",
+        "success"
+      );
+    }
   }
 
   openDialog(index): void {
@@ -632,14 +640,53 @@ export class WaterRejenuvationComponent implements OnInit {
     });
   }
 
-  async onFileChange(event) {
+  async onFileChange(event, waterIndex, uaIndex) {
     console.log(event.target.files);
+    this.photosArray = [];
     const files = event.target.files;
+    let msg = "Photo uploaded successfully.";
+    let title = "Success";
+    let status = "success";
+    let control = this.getSubControlsWaterBodies(uaIndex);
+    let photoControl = control[waterIndex].controls.photos;
+    let leftNum = this.checkPhotos(files.length, photoControl);
+
+    if (typeof leftNum === "boolean") {
+      swal(
+        `Max ${this.maxPhotos} photos are allowed`,
+        "Delete saved Photos to Continue.",
+        "error"
+      );
+      return;
+    }
+
+    let size = files.length - leftNum;
     for (const key in files) {
       if (key == "length") break;
+      if (size == 0) {
+        msg = `First ${files.length - leftNum} uploaded successfully`;
+        title = `Max ${this.maxPhotos} photos are allowed`;
+        status = "warning";
+        break;
+      }
       await this.uploadFile(files[key], files[key].name, files[key].type);
+      size--;
     }
-    swal("Photo uploaded successfully.");
+
+    let photo = this.getPhotos(this.photosArray);
+    photo.forEach((element) => {
+      photoControl.push(element);
+    });
+    swal(title, msg, status);
+  }
+
+  checkPhotos(size, photoControl) {
+    let photoControlSize = photoControl.value.length ?? 0;
+    if (photoControlSize == this.maxPhotos) return false;
+    if (this.maxPhotos - photoControlSize - size < 0) {
+      size = size - (this.maxPhotos - photoControlSize);
+    }
+    return size;
   }
 
   uploadFile(file, name, type) {
@@ -650,7 +697,7 @@ export class WaterRejenuvationComponent implements OnInit {
           console.log(s3Response.data[0]);
           const res = s3Response.data[0];
           this.uploadFileToS3(file, res["url"], res["file_alias"]);
-          this.photosArray.push({ url: res["file_alias"] });
+          this.photosArray.push({ url: res["file_alias"], name });
         },
         (err) => {
           console.log(err);

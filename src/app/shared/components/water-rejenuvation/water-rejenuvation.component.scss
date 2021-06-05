@@ -64,8 +64,8 @@
 .saveBtn {
   width: auto;
   height: 32px;
-  background-color: #26A1A1;
-  color: #FFFFFF;
+  background-color: #26a1a1;
+  color: #ffffff;
   font-weight: normal;
   font-size: 12px;
   border-radius: 4px;
@@ -79,4 +79,9 @@
 
 .btn:hover {
   background-color: #ffc500;
+}
+
+.file:hover {
+  cursor: pointer;
+  background-color:#EAECEE;
 }
