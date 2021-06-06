@@ -39,7 +39,7 @@ export class AnnualPreviewComponent implements OnInit {
     public _ulbformService: UlbformService,
     public _router: Router,
     private _matDialog: MatDialog
-  ) {}
+  ) { }
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -275,21 +275,47 @@ export class AnnualPreviewComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  formStatusCheck = ''
+  statusArray = [
+    'Not Started',
+    'Under Review By State',
+    'Completed but Not Submitted',
+    'In Progress'
+  ]
+
   previewStatuSet() {
+    console.log(this.data)
     let annualData = JSON.parse(sessionStorage.getItem("annualAccounts"));
-    if (annualData === null) {
-      annualData = this.parentData;
-    }
-    if (
-      annualData[0]["isCompleted"] == null &&
-      annualData[1]["isCompleted"] == null
-    ) {
-      this.previewStatus = "Not Started";
+
+    if (annualData[0]['isCompleted'] != null && annualData[1]['isCompleted'] != null) {
+      let change = sessionStorage.getItem("changeInAnnual");
+      if (change == "true") {
+        if (this.data[0]['isCompleted'] && this.data[1]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[2]
+        } else if (!this.data[0]['isCompleted'] || !this.data[1]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[3]
+        }
+      } else if (change == "false") {
+        if (this.data[0]['isCompleted'] && this.data[1]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[1]
+        } else if (!this.data[0]['isCompleted'] || !this.data[1]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[3]
+        }
+
+      }
     } else {
-      this.previewStatus = "In Progress";
-    }
-    if (annualData[0]["isCompleted"] && annualData[1]["isCompleted"]) {
-      this.previewStatus = "Completed";
+      let change = sessionStorage.getItem("changeInAnnual");
+      if (change == "true") {
+        if (this.data[0]['isCompleted'] && this.data[1]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[2]
+        } else if (!this.data[0]['isCompleted'] || !this.data[1]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[3]
+        }
+      } else if (change == "false") {
+        this.formStatusCheck = this.statusArray[0]
+
+      }
+
     }
 
     if (!this.fromParent) {
