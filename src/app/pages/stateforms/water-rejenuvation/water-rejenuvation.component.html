@@ -10,9 +10,7 @@
                 <div [formGroupName]="projectIndex" class="card-body ">
                     <div style="display: flex;">
                         <div>
-                            <h4>
-                                UA{{projectIndex+1}}: {{uaIdToName(projectIndex)}}
-                            </h4>
+                            UA{{projectIndex+1}}: {{uaIdToName(projectIndex)}}
                         </div>
                         <div style="margin-left: 85%;">
                             <button class="btn" style="height: 2pc;" [ngClass]="{'selectBtn': checkCard(projectIndex)}"
@@ -84,8 +82,8 @@
                                             </span></a>
                                     </td>
                                     <td style="display: inline-flex;">
-                                        <input formControlName="lat" type="text" appSixDigitDecimaNumber>
-                                        <input formControlName="long" style="margin-left: 1ch;" type="text" appSixDigitDecimaNumber>
+                                        <input formControlName="lat" type="number" appSixDigitDecimaNumber>
+                                        <input formControlName="long" style="margin-left: 1ch;" type="number" appSixDigitDecimaNumber>
                                         <a (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')">
                                             <mat-icon class="file" aria-hidden="false">
                                                 <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
@@ -142,8 +140,8 @@
                                         <input formControlName="treatmentPlant" type="text">
                                     </td>
                                     <td style="display: inline-flex;">
-                                        <input formControlName="lat" type="text" appSixDigitDecimaNumber>
-                                        <input formControlName="long" style="margin-left: 1pc;" type="text" appSixDigitDecimaNumber>
+                                        <input formControlName="lat" type="number" appSixDigitDecimaNumber>
+                                        <input formControlName="long" style="margin-left: 1pc;" type="number" appSixDigitDecimaNumber>
                                         <a (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')">
                                             <mat-icon aria-hidden="false">
                                                 <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">

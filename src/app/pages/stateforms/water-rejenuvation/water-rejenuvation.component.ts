@@ -72,45 +72,8 @@ export class WaterRejenuvationComponent implements OnInit {
 
   userData = JSON.parse(localStorage.getItem("userData"));
   Year = JSON.parse(localStorage.getItem("Years"));
-
+  uasData = JSON.parse(sessionStorage.getItem("UasList"));
   public initializeReport() {
-    // this.waterBodies = this.fb.group({
-    //   name: this.fb.control("", [Validators.required]),
-    //   area: this.fb.control("", [Validators.required]),
-    //   nameOfBody: this.fb.control("", [Validators.required]),
-    //   location: this.fb.group({
-    //     lat: this.fb.control("", [Validators.required]),
-    //     long: this.fb.control("", [Validators.required]),
-    //   }),
-    //   photos: this.fb.array([
-    //     {
-    //       url: this.fb.control("", [Validators.required]),
-    //       name: this.fb.control("", [Validators.required]),
-    //     },
-    //   ]),
-    //   bod: this.fb.control("", [Validators.required]),
-    //   cod: this.fb.control("", [Validators.required]),
-    //   do: this.fb.control("", [Validators.required]),
-    //   tds: this.fb.control("", [Validators.required]),
-    //   turbidity: this.fb.control("", [Validators.required]),
-    //   details: this.fb.control("", [Validators.required]),
-    // });
-
-    // this.waterRecycle = this.fb.group({
-    //   name: this.fb.control("", [Validators.required]),
-    //   treatmentPlant: this.fb.control("", [Validators.required]),
-    //   location: this.fb.group({
-    //     lat: this.fb.control("", [Validators.required]),
-    //     long: this.fb.control("", [Validators.required]),
-    //   }),
-    //   stp: this.fb.control("", [Validators.required]),
-    // });
-
-    // this.inUaData = this.fb.group({
-    //   ua: this.fb.control("", [Validators.required]),
-    //   waterBodies: this.fb.array([]),
-    //   reuseWater: this.fb.array([]),
-    // });
     this.waterRejenuvation = this.fb.group({
       state: this.fb.control(this.userData["state"], [Validators.required]),
       design_year: this.fb.control(this.Year["2021-22"], [Validators.required]),
@@ -126,6 +89,9 @@ export class WaterRejenuvationComponent implements OnInit {
       } else {
         sessionStorage.setItem("changeInWaterRejenuvation", "false");
       }
+    });
+    this.waterRejenuvation.statusChanges.subscribe((change) => {
+      console.log("statusChange", change);
     });
   }
 
@@ -185,8 +151,8 @@ export class WaterRejenuvationComponent implements OnInit {
   getPhotos(dataArray) {
     return dataArray.map((data) =>
       this.fb.group({
-        url: this.fb.control(data.url),
-        name: this.fb.control(data.name),
+        url: this.fb.control(data.url, [Validators.required]),
+        name: this.fb.control(data.name, [Validators.required]),
       })
     );
   }
@@ -220,335 +186,95 @@ export class WaterRejenuvationComponent implements OnInit {
         },
         (err) => {
           console.log(err);
-          this.data = [
-            {
-              ua: "609bbdc86d5b0a40b895b72a",
+          this.showLoader = false;
+          this.data = [];
+          for (const key in this.uasData) {
+            this.data.push({
+              ua: key,
               waterBodies: [
                 {
-                  name: "test",
-                  area: 78,
-                  nameOfBody: "test",
-                  lat: "test",
-                  long: "test",
+                  name: "",
+                  area: "",
+                  nameOfBody: "",
+                  lat: "",
+                  long: "",
                   photos: [
                     {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
+                      url: "",
+                      name: "",
+                    }
                   ],
-                  bod: "test",
-                  cod: "test",
-                  do: "test",
-                  tds: "test",
-                  turbidity: "test",
-                  details: "test",
+                  bod: "",
+                  cod: "",
+                  do: "",
+                  tds: "",
+                  turbidity: "",
+                  details: "",
                 },
                 {
-                  name: "test",
-                  area: 78,
-                  nameOfBody: "test",
-                  lat: "test",
-                  long: "test",
+                  name: "",
+                  area: "",
+                  nameOfBody: "",
+                  lat: "",
+                  long: "",
                   photos: [
                     {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
+                      url: "",
+                      name: "",
                     },
                   ],
-                  bod: "test",
-                  cod: "test",
-                  do: "test",
-                  tds: "test",
-                  turbidity: "test",
-                  details: "test",
+                  bod: "",
+                  cod: "",
+                  do: "",
+                  tds: "",
+                  turbidity: "",
+                  details: "",
                 },
                 {
-                  name: "test",
-                  area: 78,
-                  nameOfBody: "test",
-                  lat: "test",
-                  long: "test",
+                  name: "",
+                  area: "",
+                  nameOfBody: "",
+                  lat: "",
+                  long: "",
                   photos: [
                     {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
+                      url: "",
+                      name: "",
                     },
                   ],
-                  bod: "test",
-                  cod: "test",
-                  do: "test",
-                  tds: "test",
-                  turbidity: "test",
-                  details: "test",
+                  bod: "",
+                  cod: "",
+                  do: "",
+                  tds: "",
+                  turbidity: "",
+                  details: "",
                 },
               ],
               reuseWater: [
                 {
-                  name: "test",
-                  treatmentPlant: "test",
-                  lat: "test",
-                  long: "test",
-                  stp: "test",
+                  name: "",
+                  treatmentPlant: "",
+                  lat: "",
+                  long: "",
+                  stp: "",
                 },
                 {
-                  name: "test",
-                  treatmentPlant: "test",
-                  lat: "test",
-                  long: "test",
-                  stp: "test",
+                  name: "",
+                  treatmentPlant: "",
+                  lat: "",
+                  long: "",
+                  stp: "",
                 },
                 {
-                  name: "test",
-                  treatmentPlant: "test",
-                  lat: "test",
-                  long: "test",
-                  stp: "test",
+                  name: "",
+                  treatmentPlant: "",
+                  lat: "",
+                  long: "",
+                  stp: "",
                 },
               ],
-            },
-            {
-              ua: "609bbdc86d5b0a40b895b72a",
-              waterBodies: [
-                {
-                  name: "test",
-                  area: 78,
-                  nameOfBody: "test",
-                  lat: "test",
-                  long: "test",
-                  photos: [
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                  ],
-                  bod: "test",
-                  cod: "test",
-                  do: "test",
-                  tds: "test",
-                  turbidity: "test",
-                  details: "test",
-                },
-                {
-                  name: "test",
-                  area: 78,
-                  nameOfBody: "test",
-                  lat: "test",
-                  long: "test",
-                  photos: [
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                  ],
-                  bod: "test",
-                  cod: "test",
-                  do: "test",
-                  tds: "test",
-                  turbidity: "test",
-                  details: "test",
-                },
-                {
-                  name: "test",
-                  area: 78,
-                  nameOfBody: "test",
-                  lat: "test",
-                  long: "test",
-                  photos: [
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                  ],
-                  bod: "test",
-                  cod: "test",
-                  do: "test",
-                  tds: "test",
-                  turbidity: "test",
-                  details: "test",
-                },
-              ],
-              reuseWater: [
-                {
-                  name: "test",
-                  treatmentPlant: "test",
-                  lat: "test",
-                  long: "test",
-                  stp: "test",
-                },
-                {
-                  name: "test",
-                  treatmentPlant: "test",
-                  lat: "test",
-                  long: "test",
-                  stp: "test",
-                },
-                {
-                  name: "test",
-                  treatmentPlant: "test",
-                  lat: "test",
-                  long: "test",
-                  stp: "test",
-                },
-              ],
-            },
-            {
-              ua: "609bbdc86d5b0a40b895b72a",
-              waterBodies: [
-                {
-                  name: "test",
-                  area: 78,
-                  nameOfBody: "test",
-                  lat: "test",
-                  long: "test",
-                  photos: [
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                  ],
-                  bod: "test",
-                  cod: "test",
-                  do: "test",
-                  tds: "test",
-                  turbidity: "test",
-                  details: "test",
-                },
-                {
-                  name: "test",
-                  area: 78,
-                  nameOfBody: "test",
-                  lat: "test",
-                  long: "test",
-                  photos: [
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                  ],
-                  bod: "test",
-                  cod: "test",
-                  do: "test",
-                  tds: "test",
-                  turbidity: "test",
-                  details: "test",
-                },
-                {
-                  name: "test",
-                  area: 78,
-                  nameOfBody: "test",
-                  lat: "test",
-                  long: "test",
-                  photos: [
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                    {
-                      url: "test",
-                      name: "test",
-                    },
-                  ],
-                  bod: "test",
-                  cod: "test",
-                  do: "test",
-                  tds: "test",
-                  turbidity: "test",
-                  details: "test",
-                },
-              ],
-              reuseWater: [
-                {
-                  name: "test",
-                  treatmentPlant: "test",
-                  lat: "test",
-                  long: "test",
-                  stp: "test",
-                },
-                {
-                  name: "test",
-                  treatmentPlant: "test",
-                  lat: "test",
-                  long: "test",
-                  stp: "test",
-                },
-                {
-                  name: "test",
-                  treatmentPlant: "test",
-                  lat: "test",
-                  long: "test",
-                  stp: "test",
-                },
-              ],
-            },
-          ];
+            });
+          }
           resolve("ss");
         }
       );
@@ -635,6 +361,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   async onFileChange(event, waterIndex, uaIndex) {
+    debugger
     console.log(event.target.files);
     this.photosArray = [];
     const files = event.target.files;
@@ -716,12 +443,9 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   uaIdToName(index) {
-    let uasData = JSON.parse(sessionStorage.getItem("uasData"));
-    if (uasData) {
-      let uaDataAtIndex = uasData[this.Uas[index]["ua"]];
+    if (this.uasData) {
+      let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
       return uaDataAtIndex.name;
-    } else {
-      return "Sanju";
     }
   }
 
