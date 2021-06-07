@@ -371,8 +371,8 @@ export class WaterSanitationComponent implements OnInit {
     }
   }
 
-  testForDraft() {
-    const data = this.waterAndSanitation;
+  testForDraft(dataFromPrev = null) {
+    const data = dataFromPrev ?? this.waterAndSanitation;
     for (const key in data) {
       for (const key1 in data[key]) {
         if (key1 === "serviceLevel") {
@@ -415,5 +415,6 @@ export class WaterSanitationComponent implements OnInit {
         }
       }
     }
+    this.body.isDraft = false;
   }
 }

@@ -18,7 +18,7 @@ const swal: SweetAlert = require("sweetalert");
 })
 export class AppComponent implements OnDestroy {
   title = "City Finance";
-
+  googleTagId = environment.GoogleTagID;
   showLoader = false;
   sessionId: string;
 
@@ -66,10 +66,10 @@ export class AppComponent implements OnDestroy {
    * as of now.
    */
   private addCustomScripts() {
-    const id = environment.GoogleTagID;
-    if (!id) return false;
+    // const id = environment.GoogleTagID;
+    if (!this.googleTagId) return false;
     const scriptTag = document.createElement("script");
-    scriptTag.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+    scriptTag.src = `https://www.googletagmanager.com/gtag/js?id=${this.googleTagId}`;
     scriptTag.async = true;
     scriptTag.onload = this.onGoogleTagLoad;
     document.getElementsByTagName("head")[0].appendChild(scriptTag);
@@ -82,7 +82,7 @@ export class AppComponent implements OnDestroy {
     }
     gtag("js", new Date());
 
-    gtag("config", "UA-171288029-1");
+    gtag("config", this.googleTagId);
   };
 
   private startSession() {

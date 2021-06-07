@@ -1,0 +1,83 @@
+.card{
+    height:120px;
+    width:267px;
+    background-color:#12505A;
+    border-radius:5px;
+margin-right:20px;
+
+}
+
+.cards{
+    display:flex;
+    justify-content: space-around;
+}
+
+.card-number{
+    color:#ffffff;
+    font-size: 32px;
+    margin-top:30px;
+    margin-right:30px;
+}
+.card-text{
+    color:#ffffff;
+    font-size: 13px;
+    margin-top:15px;
+    margin-left:3px;
+}
+
+.search-bar{
+border: 1px solid #0000001A;
+border-radius: 5px;
+width:inherit;
+height: 63px;
+line-height: 63px;
+  text-align: center;
+margin-top:16px;
+margin-bottom:17px;
+text-align: left;
+padding-left: 30px;
+}
+
+
+.dropdown{
+    border-radius: 4px;
+    width:200px;
+    height: 30px;
+    margin-left: 3px;
+}
+
+.searchButton{
+    height:31px;
+    width: 89px;
+    background-color: #059B9A ;
+    color:#ffffff ;
+    padding: 2px 1px 2px 1px;
+    margin-left: 5px;
+    border-radius: 4px;
+    border:1px solid transparent;
+    
+
+}
+.searchButton:hover{
+background-color: #FFC500;
+}
+
+
+.btn{
+margin-left: 16px;
+margin-bottom: 5px;
+width:100px
+}
+
+.firstColumn{
+    background-color: #12505A ;
+    color:#ffffff;
+    height:100%;
+    border-radius: 4px;
+}
+
+.statusArea{
+    height:500px;
+    width:100%;
+    margin-left:inherit
+}

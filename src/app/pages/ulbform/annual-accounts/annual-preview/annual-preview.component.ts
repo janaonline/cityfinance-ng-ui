@@ -132,15 +132,15 @@ export class AnnualPreviewComponent implements OnInit {
   download;
   previewStatus;
   totalStatus;
-  subParentForModal
+  subParentForModal;
 
   ngOnInit(): void {
-
-    this.subParentForModal = this.annualAccountsService.OpenModalTrigger.subscribe((change) => {
-      if (this.changeFromOutSide) {
-        this.openDialog(this.template);
-      }
-    });
+    this.subParentForModal =
+      this.annualAccountsService.OpenModalTrigger.subscribe((change) => {
+        if (this.changeFromOutSide) {
+          this.openDialog(this.template);
+        }
+      });
 
     this.download = false;
     if (this.data && this.parentData === undefined) {
@@ -152,9 +152,8 @@ export class AnnualPreviewComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.subParentForModal.unsubscribe()
+    this.subParentForModal.unsubscribe();
   }
-
 
   setData() {
     if (this.Years["2020-21"] == this.parentData[0].year) {
@@ -223,10 +222,9 @@ export class AnnualPreviewComponent implements OnInit {
     this.dialogRef.close();
     await this.submit();
     sessionStorage.setItem("changeInAnnual", "false");
-    if(this.changeFromOutSide)
-    this._ulbformService.initiateDownload.next(true)
-    else
-    await this.downloadAsPDF();
+    if (this.changeFromOutSide)
+      this._ulbformService.initiateDownload.next(true);
+    else await this.downloadAsPDF();
   }
 
   async submit() {
@@ -235,9 +233,26 @@ export class AnnualPreviewComponent implements OnInit {
     console.log(this.year2019);
     await this.checkForm(this.year2021);
     await this.checkForm(this.year2019);
-    await this.save(this.year2021);
-    await this.save(this.year2019);
+    if (this.year2021.isCompleted == false) {
+      await this.save(this.year2019);
+      await this.save(this.year2021);
+    } else {
+      await this.save(this.year2021);
+      await this.save(this.year2019);
+    }
 
+    let res = false;
+    if (this.year2021.isCompleted && this.year2019.isCompleted) {
+      res = true;
+    }
+    const status = JSON.parse(sessionStorage.getItem("allStatus"));
+    status.annualAccounts.isSubmit = res;
+    this._ulbformService.allStatus.next(status);
+    swal({
+      title: "Submitted",
+      text: "Record submitted successfully!",
+      icon: "success",
+    });
     sessionStorage.setItem("changeInAnnual", "false");
   }
 
@@ -249,7 +264,6 @@ export class AnnualPreviewComponent implements OnInit {
   }
 
   errorHandler(form, key, key2, key3 = null) {
-    
     this.annualAccountComp.errorHandler(form, key, key2, key3);
   }
 
