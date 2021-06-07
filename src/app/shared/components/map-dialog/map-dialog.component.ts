@@ -22,6 +22,6 @@ export class MapDialogComponent implements OnInit {
     this.dialogRef.close();
   }
   getLocation(e) {
-    this.dialogRef.close();
+    this.dialogRef.close(e);
   }
 }
