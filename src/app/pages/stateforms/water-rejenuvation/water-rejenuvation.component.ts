@@ -85,15 +85,14 @@ export class WaterRejenuvationComponent implements OnInit {
     });
     this.waterRejenuvation.valueChanges.subscribe((change) => {
       console.log("change in waterRejenuvation", change);
-      debugger
+
       let data = sessionStorage.getItem("waterRejenuvationData");
       change.uaData.forEach((element) => {
         delete element.foldCard;
       });
       console.log(JSON.stringify(change));
       console.log(data);
-      
-      
+
       if (JSON.stringify(change) !== data) {
         this.saveBtnText = "SAVE AND NEXT";
         sessionStorage.setItem("changeInWaterRejenuvation", "true");
@@ -380,7 +379,6 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   async onFileChange(event, waterIndex, uaIndex) {
-    debugger;
     console.log(event.target.files);
     this.photosArray = [];
     const files = event.target.files;
