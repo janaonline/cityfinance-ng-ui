@@ -7,10 +7,11 @@ import { USER_TYPE } from "../../../models/user/userType";
 import { UserUtility } from "../../../util/user/user";
 import { ProfileService } from "../../../users/profile/service/profile.service";
 import { IState } from "../../../models/state/state";
-
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { CommonService } from "src/app/shared/services/common.service";
 import { Router } from '@angular/router';
 import { WaterSupplyService } from './water-supply.service';
+import { WaterSupplyPreviewComponent } from './water-supply-preview/water-supply-preview.component';
 @Component({
   selector: 'app-water-supply',
   templateUrl: './water-supply.component.html',
@@ -25,6 +26,7 @@ export class WaterSupplyComponent implements OnInit {
     private _commonService: CommonService,
     private profileService: ProfileService,
     private _router: Router,
+    private dialog: MatDialog,
     private _WaterSupplyService : WaterSupplyService
     ) {
       this.initializeUserType();
@@ -101,25 +103,35 @@ export class WaterSupplyComponent implements OnInit {
         return this.fetchStateList();
     }
  }
- isCollapsed = false;
+ isCollapsed = true;
  message = 'expanded';
 
- collapsed(): void {
+ collapsed(i): void {
    this.message = 'collapsed';
+   console.log('collapsed', i)
  }
 
- collapses(): void {
+ collapses(i): void {
    this.message = 'collapses';
  }
 
- expanded(): void {
+ expanded(i): void {
    this.message = 'expanded';
  }
 
- expands(): void {
+ expands(i): void {
    this.message = 'expands';
  }
-
+ onPreview() {
+  let dialogRef = this.dialog.open(WaterSupplyPreviewComponent, {
+    height: "100%",
+    width: "90%",
+    panelClass: "no-padding-dialog",
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+    console.log(`Dialog result: ${result}`);
+  });
+}
 
   }
 

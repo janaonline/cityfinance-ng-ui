@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" style="margin-bottom: 1rem;">
     <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
         <h5 style="margin: 0;">Name of State: <span *ngIf="
           states &&
@@ -8,31 +8,27 @@
                           {{ states[userLoggedInDetails["state"]]?.name }}
                       </span></h5>
     </div>
-    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+
+    <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10">
         <p>The below tables denotes the aggregate indicators and targets of ULBs in respective UA</p>
     </div>
-</div>
-<!-- <div *ngFor="let uaDetails of detailsOfUa; let i=index">
-    <div class="row">
-        <div class="col-md-3">
-            <pre class="card card-block card-header"><h5 style="margin: 0;">UA{{i+1}}: {{uaDetails.uaName}}</h5></pre>
-        </div>
-        <div class="col-md-9">
-            <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseEvent">Select
-        </button>
-        </div>
+    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right">
+        <button type="button" class="btn  btn-pre" (click)="onPreview()">PREVIEW</button>
     </div>
+</div>
+<div *ngFor="let uaDetails of detailsOfUa; let i=index">
+
     <div class="row">
         <div class="col-sm-9 col-xs-9 col-md-9 col-lg-9">
             <h5 style="margin: 0;">UA{{i+1}}: {{uaDetails.uaName}}</h5>
         </div>
         <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 text-right">
-            <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseEvent">Select
+            <button type="button" class="btn btn-next" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseEvent">Select
         </button>
         </div>
     </div>
     <hr>
-    <div id="collapseEvent" [isAnimated]="true" [collapse]="isCollapsed" (collapses)="collapses()" (expands)="expands()" (collapsed)="collapsed()" (expanded)="expanded()">
+    <div id="collapseEvent" [isAnimated]="true" [collapse]="isCollapsed" (collapses)="collapses(i)" (expands)="expands(i)" (collapsed)="collapsed(i)" (expanded)="expanded()">
         <div class="row" style="margin: 10px 0 0 0;">
             <div class="card">
                 <div class="card-body">
@@ -181,11 +177,11 @@
         </div>
 
     </div>
-</div> -->
+</div>
 
 
 
-<div *ngFor="let uaDetails of detailsOfUa; let i=index">
+<!-- <div *ngFor="let uaDetails of detailsOfUa; let i=index">
     <div class="row">
         <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
             <h5 style="margin: 0;">UA{{i+1}}: {{uaDetails.uaName}}</h5>
@@ -337,12 +333,12 @@
             </tbody>
         </table>
     </div>
-</div>
+</div> -->
 <div class="row " style="margin-left: 0; margin-right: 0; margin-bottom: 2rem; ">
     <div class="col-sm-6 col-md-6 col-lg-6 ">
         <button type="button " class="btn btn-back" [routerLink]="[ '../gtCertificate']">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right ">
-        <button type="button " class="btn btn-next" [routerLink]="[ '../gtCertificate']">NEXT</button>
+        <button type="button " class="btn btn-next" [routerLink]="[ '../water-rejenuvation']">NEXT</button>
     </div>
 </div>

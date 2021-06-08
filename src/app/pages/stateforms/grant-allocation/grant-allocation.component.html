@@ -1,1 +1,46 @@
-<p>grant-allocation works!</p>
+<div class="row" style="margin-bottom: 1rem;">
+    <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10">
+        <h5 style="margin: 0;">Name of State: Uttae Pradesh<span>
+        <!-- *ngIf="
+        states &&
+        (loggedInUserType === userTypes.STATE ||
+          loggedInUserType === userTypes.ULB)
+      " -->
+                        <!-- {{ states[userLoggedInDetails["state"]]?.name }} -->
+                    </span></h5>
+    </div>
+
+    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right">
+        <button type="button" class="btn btn-pre">PREVIEW</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-lg-12 col-md-12">
+        <div class="question" style="margin-top: 2rem;">
+            <span>Do you wish to submit the detailed allocation of grants distributed amongst ULBs in the State?
+              <span style="color: red;">*</span></span>
+            <div>
+                <button class="btn btn-a" style="margin-left: 2rem;" (click)="onClickYes()" [ngStyle]="{'background-color':
+              account === 'yes' ?'#ffc500': 'rgb(229 230 230)' }">Yes</button>
+                <button class="btn btn-a" style="margin-left: 5rem;" (click)="onClickNo()" [ngStyle]="{'background-color':
+          account === 'no' ?'#ffc500': 'rgb(229 230 230)' }">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="account === 'yes'">
+    <div class="col-sm-12 col-lg-12 col-md-12">
+        <button type="button" class="btn btn-pre">Download Sample</button>
+    </div>
+    <div class="row" style="margin-top: 2.5rem;">
+        <div class="col-sm-9 col-lg-9 col-md-9">
+
+            Please fill in the grant amounts in the given template and upload the excel.
+            <span style="color: red;">*</span>
+
+        </div>
+        <div class="col-sm-3 col-lg-3 col-md-3">
+            <button type="button" class="btn btn-pre">Upload File</button>
+        </div>
+    </div>
+</div>
