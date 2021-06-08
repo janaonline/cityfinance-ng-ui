@@ -301,6 +301,8 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   submit(fromPrev = null) {
+    console.log(this.waterRejenuvation.controls);
+    
     if(this.saveBtnText == "NEXT"){
       return // router link
     }
