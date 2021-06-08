@@ -47,6 +47,7 @@ import { GoogleMapComponent } from './components/google-map/google-map.component
 //G-Mpas
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { AgmCoreModule } from "@agm/core";
+import { WaterRejenuvationComponent } from './components/water-rejenuvation/water-rejenuvation.component';
 @NgModule({
   imports: [
     RouterModule,
@@ -94,6 +95,7 @@ import { AgmCoreModule } from "@agm/core";
     FcSlbComponent,
     MapDialogComponent,
     GoogleMapComponent,
+    WaterRejenuvationComponent,
   ],
   exports: [
     PreLoaderComponent,

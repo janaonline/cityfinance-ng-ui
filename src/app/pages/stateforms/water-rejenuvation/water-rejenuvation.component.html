@@ -1,0 +1,216 @@
+<div *ngIf="waterRejenuvation" class="container-fluid" style="margin-bottom: 1pc;">
+    <div class="card-header">
+        <button class="btn saveBtn pull-right" (click)="onPreview()">
+            PREVIEW
+        </button>
+    </div>
+    <form style="margin-top: 3pc;" [formGroup]="waterRejenuvation">
+        <div formArrayName="uaData" *ngFor="let uas of Uas; let projectIndex=index">
+            <div class="card" style="margin-top: 1pc; margin-left: 0pc;">
+                <div [formGroupName]="projectIndex" class="card-body ">
+                    <div style="display: flex;">
+                        <div>
+                            <h5>UA{{projectIndex+1}}: {{uaIdToName(projectIndex)}}</h5>
+                        </div>
+                        <div style="margin-left: 85%;">
+                            <button class="btn" style="height: 2pc;" [ngClass]="{'selectBtn': checkCard(projectIndex)}"
+                                (click)="foldCard(projectIndex)">Select</button>
+                        </div>
+                    </div>
+                    <div *ngIf="checkCard(projectIndex)" class="table-responsive">
+                        <div>
+                            <h5>Fill Details of Project for Rejuvenation of Water Bodies</h5>
+                        </div>
+                        <table class="table custom-position">
+                            <thead>
+                                <tr class="thHeader">
+                                    <th style="width: 4%;" scope="col">S.No</th>
+                                    <th style="width: 10%;" scope="col">Project Name</th>
+                                    <th style="width: 10%;" scope="col">Name Of Water Body</th>
+                                    <th style="width: 7%;" scope="col">Area</th>
+                                    <th style="width: 7%;" scope="col">Upload Photo</th>
+                                    <th style="width: 13%;" scope="col">
+                                        <span>Location</span><br>
+                                        <span>Latitude and Longitude</span>
+                                    </th>
+                                    <th style="width: 7%;" scope="col">BOD in mg/L</th>
+                                    <th style="width: 7%;" scope="col">COD in mg/L</th>
+                                    <th style="width: 7%;" scope="col">DO in mg/L</th>
+                                    <th style="width: 7%;" scope="col">TDS in mg/L</th>
+                                    <th style="width: 7%;" scope="col">Turbidity in NTU</th>
+                                    <th style="width: 14%;" scope="col">Project Details</th>
+                                </tr>
+                            </thead>
+                            <tbody formArrayName="waterBodies"
+                                *ngFor="let projectRow of getSubControlsWaterBodies(projectIndex); let waterBodiesIndex=index">
+                                <tr [formGroupName]="waterBodiesIndex">
+                                    <td class="t-i">
+                                        <span>{{1+waterBodiesIndex}}</span>
+                                    </td>
+                                    <td>
+                                        <input formControlName="name" type="text" />
+                                    </td>
+                                    <td>
+                                        <input formControlName="area" type="text">
+                                    </td>
+                                    <td>
+                                        <input formControlName="nameOfBody" type="number">
+                                    </td>
+                                    <td>
+                                        <div class="image-upload" style="display: inline-block;">
+                                            <label class="file" [attr.for]="waterBodiesIndex">
+                                                <img src="../../../../assets/form-icon/Icon feather-upload.svg">
+
+                                            </label>
+                                            <input style="display: none;" [attr.id]="waterBodiesIndex" type="file"
+                                                [disabled]="isDisabled" accept=".png,.jpg,.jpeg"
+                                                (change)="onFileChange($event,waterBodiesIndex,projectIndex)" required
+                                                multiple />
+                                        </div>
+                                        <a style="margin-left: 1ch;"
+                                            (click)="imgPreview(waterBodiesIndex,projectIndex)"> <span
+                                                class="material-icons file"
+                                                style="font-size: 14px; padding-left:2px; vertical-align: middle;">
+                                                collections
+                                            </span></a>
+                                        <a style="margin-left: 1ch;"
+                                            (click)="removePhotos(waterBodiesIndex,projectIndex)"
+                                            [ngClass]="{'anDisable': isDisabled }">
+                                            <span class="material-icons file"
+                                                style="font-size: 14px; padding-left:2px; vertical-align: middle; color: red;">
+                                                delete_forever
+                                            </span></a>
+                                    </td>
+                                    <td style="display: inline-flex;">
+                                        <input formControlName="lat" type="number" appSixDigitDecimaNumber>
+                                        <input formControlName="long" style="margin-left: 1ch;" type="number" appSixDigitDecimaNumber>
+                                        <a (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')">
+                                            <mat-icon class="file" aria-hidden="false">
+                                                <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
+                                            </mat-icon>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <input formControlName="bod" type="number">
+                                    </td>
+                                    <td>
+                                        <input formControlName="cod" type="number">
+                                    </td>
+                                    <td>
+                                        <input formControlName="do" type="number">
+                                    </td>
+                                    <td>
+                                        <input formControlName="tds" type="number">
+                                    </td>
+                                    <td>
+                                        <input formControlName="turbidity" type="number">
+                                    </td>
+                                    <td>
+                                        <input formControlName="details" type="text">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div>
+                            <h5>Fill Details of Projects for Recycling and Reuse of Water</h5>
+                        </div>
+                        <table class="table custom-position">
+                            <thead>
+                                <tr class="thHeader">
+                                    <th style="width: 5%;" scope="col">S.No</th>
+                                    <th style="width: 23%;" scope="col">Project Name</th>
+                                    <th style="width: 23%;" scope="col">Name of Water Treatment Plant</th>
+                                    <th style="width: 23%;" scope="col">
+                                        <span>Location</span><br>
+                                        <span>Latitude and Longitude</span>
+                                    </th>
+                                    <th style="width: 23%;" scope="col">Proposed capacity</th>
+                                </tr>
+                            </thead>
+                            <tbody formArrayName="reuseWater"
+                                *ngFor="let projectRow of getSubControlsWaterReuse(projectIndex); let reuseWaterIndex=index">
+                                <tr [formGroupName]="reuseWaterIndex">
+                                    <td class="t-i">
+                                        <span>{{1+reuseWaterIndex}}</span>
+                                    </td>
+                                    <td>
+                                        <input formControlName="name" type="text">
+                                    </td>
+                                    <td>
+                                        <input formControlName="treatmentPlant" type="text">
+                                    </td>
+                                    <td style="display: inline-flex;">
+                                        <input formControlName="lat" type="number" appSixDigitDecimaNumber>
+                                        <input formControlName="long" style="margin-left: 1pc;" type="number" appSixDigitDecimaNumber>
+                                        <a (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')">
+                                            <mat-icon aria-hidden="false">
+                                                <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
+                                            </mat-icon>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <input formControlName="stp" type="number">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button class="btn saveBtn pull-right" (click)="submit()" type="button">
+                {{saveBtnText}}
+            </button>
+            <button class="btn back pull-left">
+                Back
+            </button>
+        </div>
+    </form>
+</div>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed further?
+        </p>
+        <div>
+            <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success "
+                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+                Save & Proceed</button>
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #template1>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
+        </p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
+                (click)="proceed()">Save & Proceed</button>
+        </div>
+
+    </div>
+</ng-template>

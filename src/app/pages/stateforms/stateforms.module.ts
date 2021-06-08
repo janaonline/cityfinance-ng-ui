@@ -14,6 +14,8 @@ import { WaterRecyclingComponent } from './water-recycling/water-recycling.compo
 import { ActionPlanUAComponent } from './action-plan-ua/action-plan-ua.component';
 import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
 import { GtcertificatePreviewComponent } from './gtcertificate/gtcertificate-preview/gtcertificate-preview.component';
+import { WaterRejenuvationComponent } from './water-rejenuvation/water-rejenuvation.component';
+import { WaterRejenuvationPreviewComponent } from './water-rejenuvation/water-rejenuvation-preview/water-rejenuvation-preview.component';
 // import { DoughnutChartArea } from './state-dashboard/donut/donut'
 
 @NgModule({
@@ -27,6 +29,8 @@ import { GtcertificatePreviewComponent } from './gtcertificate/gtcertificate-pre
     ActionPlanUAComponent,
     GrantAllocationComponent,
     GtcertificatePreviewComponent,
+    WaterRejenuvationComponent,
+    WaterRejenuvationPreviewComponent,
     // DoughnutChartArea
   ],
   imports: [

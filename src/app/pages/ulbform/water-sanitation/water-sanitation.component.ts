@@ -38,6 +38,10 @@ export class WaterSanitationComponent implements OnInit {
   ) {
     this.errorSet.subscribe((res) => {
       const { keys, value } = res;
+      if (value === undefined) {
+        this.waterAndSanitation[keys[0]][keys[1]][keys[2]] = null;
+        return;
+      }
       this.compareValues(keys, value);
     });
 
@@ -162,7 +166,7 @@ export class WaterSanitationComponent implements OnInit {
         );
         this.diffCheck();
         this.onLoadDataCheck(this.waterAndSanitation);
-        this.isDraft = res['isDraft']
+        this.isDraft = res["isDraft"];
       },
       (errMes) => {
         console.log(errMes);
@@ -170,7 +174,7 @@ export class WaterSanitationComponent implements OnInit {
           "plansData",
           JSON.stringify(this.waterAndSanitation)
         );
-        this.isDraft = null
+        this.isDraft = null;
         this.diffCheck();
       }
     );
@@ -200,13 +204,14 @@ export class WaterSanitationComponent implements OnInit {
   }
 
   onPreview() {
-    this.testForDraft()
+    this.testForDraft();
 
     let prevData = {
       water: this.waterAndSanitation.water,
       sanitation: this.waterAndSanitation.sanitation,
-      isDraft: this.body.isDraft
-    }
+      isDraft: this.body.isDraft,
+    };
+    console.log(prevData);
 
     const dialogRef = this.dialog.open(WaterSanitationPreviewComponent, {
       data: prevData,
@@ -279,14 +284,14 @@ export class WaterSanitationComponent implements OnInit {
           if (this.routerNavigate) {
             this._router.navigate([this.routerNavigate.url]);
           }
-          resolve("success")
+          resolve("success");
         },
         (error) => {
-          resolve(error)
+          resolve(error);
           console.log(error);
         }
       );
-    })
+    });
   }
 
   onKey(e, path) {
@@ -362,12 +367,12 @@ export class WaterSanitationComponent implements OnInit {
       sessionStorage.getItem("plansData")
     ) {
       sessionStorage.setItem("changeInPlans", "true");
-      let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
+      let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"));
       if (allFormData) {
-        let changes = this.body
-        changes.plans = this.waterAndSanitation
-        allFormData.plansData[0] = changes
-        this._ulbformService.allFormsData.next(allFormData)
+        let changes = this.body;
+        changes.plans = this.waterAndSanitation;
+        allFormData.plansData[0] = changes;
+        this._ulbformService.allFormsData.next(allFormData);
       }
     } else {
       sessionStorage.setItem("changeInPlans", "false");
