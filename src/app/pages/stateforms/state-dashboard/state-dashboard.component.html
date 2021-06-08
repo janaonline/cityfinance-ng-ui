@@ -2,24 +2,48 @@
     <div class="container-fluid">
         <div class="row cards">
             <div class="col-sm-3 card ">
-                <div class="card-number">4600</div>
-                <div class="card-text">Total ULBs</div>
-                <span></span>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="card-number">4600</div>
+                        <div class="card-text">Total ULBs</div>
+                    </div>
+                    <div class="col-sm-4 iconImage">
+                        <img src="../../../../assets/stateform/16-location (1).svg" />
+                    </div>
+                </div>
             </div>
             <div class="col-sm-3 card">
-                <div class="card-number">4547</div>
-                <div class="card-text">Non Million Cities</div>
-                <span></span>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="card-number">4547</div>
+                        <div class="card-text">Non Million Cities</div>
+                    </div>
+                    <div class="col-sm-4 iconImage">
+                        <img src="../../../../assets/stateform/XMLID_1248_.svg" />
+                    </div>
+                </div>
             </div>
             <div class="col-sm-3 card">
-                <div class="card-number">50</div>
-                <div class="card-text">Million-Plus UAs</div>
-                <span></span>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="card-number">50</div>
+                        <div class="card-text">Million-Plus UAs</div>
+                    </div>
+                    <div class="col-sm-4 iconImage">
+                        <img src="../../../../assets/stateform/sustainable.svg" />
+                    </div>
+                </div>
             </div>
             <div class="col-sm-3 card">
-                <div class="card-number">600</div>
-                <div class="card-text">ULBs in Million-Plus UAs</div>
-                <span></span>
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="card-number">600</div>
+                        <div class="card-text">ULBs in Million-Plus UAs</div>
+                    </div>
+                    <div class="col-sm-3 iconImage" style="display: contents;">
+                        <img style=" margin-top: 27px;" src=" ../../../../assets/stateform/16-location (1).svg" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -34,33 +58,103 @@
     </div>
     <div class="row statusArea">
         <div class="col-sm-3 firstColumn">
-            <div style="font-size: 16px; text-align: center;margin-top: 17px; font-weight: 9px;">ULB Form Status
+            <div class="row"
+                style="font-size: 18px; text-align: center;line-height: 50px; margin-top:2px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
+                ULB
+                Form
+                Status
             </div>
-            //donught chartl
-            <canvas id="myChart" style="width:200px ; height:200px"></canvas>
-
-
-
+            <div class="row mainDonutChart">
+                <canvas id="myChart" style="width:400px ; height:400px"></canvas>
+            </div>
+            <div class="viewListBtn">
+                <button class="btn btn-primary">VIEW LIST</button>
+            </div>
         </div>
-        <div class="col-sm-3">column2
-            <div>ULB Annual Account Status</div>
-            <div>Pie charts</div>
+        <div class="col-sm-3 secondColumn">
 
+            <div class="row"
+                style="font-size: 18px; text-align: center;font-weight:bold; line-height: 50px; margin-top:2px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
+                ULB Annual Accounts Status
+            </div>
+            <div class="row gauge">
+                <div style="margin-top:7px;text-align: center; font-weight: 450; font-size: 16px;">
+                    Provisional Account: 2020-2021
+                </div>
+                <div class="gaugeSize">
+                    <canvas id="gauge1" style="width:400px ; height:400px"></canvas>
+                </div>
+                <div
+                    style="margin-top:3px;text-align: center; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
+                    Target for 15th FC - 25%
+                </div>
+            </div>
+            <div class="row gauge">
+                <div style="margin-top:20px;text-align: center; font-weight: 450; font-size: 16px;">
+                    Audited Account: 2019-2020
+                </div>
+                <div class="gaugeSize">
+                    <canvas id="gauge2" style="width:400px ; height:400px"></canvas>
+                </div>
+                <div
+                    style="margin-top:3px;text-align: center; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
+                    Target for 15th FC - 25%
+                </div>
+            </div>
+            <div class="row" style="margin-top:23px;text-align: center;">
+                <button class="btn btn-primary">VIEW LIST</button>
+            </div>
         </div>
-        <div class="col-sm-6">column3
-            <div>row1</div>
-            <div>row2</div>
-            <div>row3</div>
+        <div class="col-sm-6 thirdColumn">
+            <div class="row formDonutCharts">
+                <span class="textInThirdColumn">
+                    ULB PFMS STATUS</span>
+                <div class="smallDonuts">
+                    <canvas id="pfms"></canvas>
+                </div>
+            </div>
+            <div class="row formDonutCharts">
+
+                <span class="textInThirdColumn"> ULB Utilization Report Status</span>
+                <div class="smallDonuts">
+                    <canvas id="utilReport"></canvas>
+                </div>
+
+
+            </div>
+            <div class="row formDonutCharts">
+                <span class="textInThirdColumn">
+                    ULB Service Level Benchmark Status
+                </span>
+                <div class="smallDonuts">
+                    <canvas id="slb"></canvas>
+                </div>
+
+            </div>
 
         </div>
     </div>
 
-    <div> bottom part
-        <div>row1</div>
-        <div>row2
+    <div class="bottomPart" style="margin-top:10px">
+        <div class="row header">
+            <div class="col-sm-4" style="font-size:18px;font-weight: 450; padding-left:40px;">
+                Million Plus Cities Challenge Fund
+            </div>
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4" style="font-weight: 450; text-align: right; padding-right:40px;">
+                UA:
+                <select class="dropdown">
+                    <option value="all">Kanpur</option>
+                </select>
+            </div>
+        </div>
+        <div class="container-fluid millionPlus"
+            style="display: flex; justify-content: space-between;text-align: center;">
 
-            <div>card1</div>
-            <div>card2</div>
+            <div class="col-sm-6 Card1" style="color:#000000C4">Water Supply and Sanitation Indicators compiled for 20
+                ULBs</div>
+            <div class="col-sm-6 Card2" style="color:#000000C4">Submission of Water Rejuvenation, Water Recycling and
+                Action Plans</div>
         </div>
 
     </div>
