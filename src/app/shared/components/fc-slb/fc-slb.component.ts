@@ -211,7 +211,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
         } else {
           this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "VALID"
         }
-        FcSlbComponent.bind(this.form)
+
       }
 
     }
