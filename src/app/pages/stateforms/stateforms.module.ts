@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {  ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { StateformsRoutingModule } from './stateforms-routing.module';
@@ -14,6 +14,8 @@ import { WaterRecyclingComponent } from './water-recycling/water-recycling.compo
 import { ActionPlanUAComponent } from './action-plan-ua/action-plan-ua.component';
 import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
 import { GtcertificatePreviewComponent } from './gtcertificate/gtcertificate-preview/gtcertificate-preview.component';
+
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { WaterRejenuvationComponent } from './water-rejenuvation/water-rejenuvation.component';
 import { WaterRejenuvationPreviewComponent } from './water-rejenuvation/water-rejenuvation-preview/water-rejenuvation-preview.component';
 // import { DoughnutChartArea } from './state-dashboard/donut/donut'
@@ -38,7 +40,8 @@ import { WaterRejenuvationPreviewComponent } from './water-rejenuvation/water-re
     StateformsRoutingModule,
     MatIconModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    CollapseModule.forRoot(),
   ]
 })
 export class StateformsModule { }
