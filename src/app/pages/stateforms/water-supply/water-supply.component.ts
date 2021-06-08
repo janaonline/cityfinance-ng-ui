@@ -101,6 +101,24 @@ export class WaterSupplyComponent implements OnInit {
         return this.fetchStateList();
     }
  }
+ isCollapsed = false;
+ message = 'expanded';
+
+ collapsed(): void {
+   this.message = 'collapsed';
+ }
+
+ collapses(): void {
+   this.message = 'collapses';
+ }
+
+ expanded(): void {
+   this.message = 'expanded';
+ }
+
+ expands(): void {
+   this.message = 'expands';
+ }
 
 
   }
