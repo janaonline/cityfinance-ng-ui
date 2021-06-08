@@ -14,6 +14,7 @@ import { MapDialogComponent } from "../../../shared/components/map-dialog/map-di
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { HttpEventType, JsonpClientBackend } from "@angular/common/http";
 import { Router, NavigationStart, Event } from "@angular/router";
+import { WaterRejenuvationPreviewComponent } from "./water-rejenuvation-preview/water-rejenuvation-preview.component";
 
 const swal: SweetAlert = require("sweetalert");
 @Component({
@@ -57,6 +58,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
   @ViewChild("template") template;
 
+  saveBtnText = "NEXT";
   routerNavigate = null;
   saveClicked = false;
   showLoader = true;
@@ -83,15 +85,28 @@ export class WaterRejenuvationComponent implements OnInit {
     });
     this.waterRejenuvation.valueChanges.subscribe((change) => {
       console.log("change in waterRejenuvation", change);
+      debugger
       let data = sessionStorage.getItem("waterRejenuvationData");
-      if (JSON.stringify(change) != data) {
+      change.uaData.forEach((element) => {
+        delete element.foldCard;
+      });
+      console.log(JSON.stringify(change));
+      console.log(data);
+      
+      
+      if (JSON.stringify(change) !== data) {
+        this.saveBtnText = "SAVE AND NEXT";
         sessionStorage.setItem("changeInWaterRejenuvation", "true");
       } else {
+        this.saveBtnText = "NEXT";
         sessionStorage.setItem("changeInWaterRejenuvation", "false");
       }
     });
     this.waterRejenuvation.statusChanges.subscribe((change) => {
       console.log("statusChange", change);
+      if (change != "INVALID") {
+        this.waterRejenuvation.controls.isDraft.patchValue(false);
+      }
     });
   }
 
@@ -137,7 +152,9 @@ export class WaterRejenuvationComponent implements OnInit {
         nameOfBody: this.fb.control(data.nameOfBody, [Validators.required]),
         lat: this.fb.control(data.lat, [Validators.required]),
         long: this.fb.control(data.long, [Validators.required]),
-        photos: this.fb.array(this.getPhotos(data.photos)),
+        photos: this.fb.array(this.getPhotos(data.photos), [
+          Validators.required,
+        ]),
         bod: this.fb.control(data.bod, [Validators.required]),
         cod: this.fb.control(data.cod, [Validators.required]),
         do: this.fb.control(data.do, [Validators.required]),
@@ -176,10 +193,7 @@ export class WaterRejenuvationComponent implements OnInit {
       this.waterRejenuvationService.getData(this.Year["2021-22"]).subscribe(
         (res) => {
           this.data = res["data"]["uaData"];
-          sessionStorage.setItem(
-            "waterRejenuvationData",
-            JSON.stringify(res["data"])
-          );
+          this.storeData(res["data"]);
           console.log(this.data);
           this.showLoader = false;
           resolve("ss");
@@ -193,84 +207,69 @@ export class WaterRejenuvationComponent implements OnInit {
               ua: key,
               waterBodies: [
                 {
-                  name: "",
-                  area: "",
-                  nameOfBody: "",
-                  lat: "",
-                  long: "",
-                  photos: [
-                    {
-                      url: "",
-                      name: "",
-                    }
-                  ],
-                  bod: "",
-                  cod: "",
-                  do: "",
-                  tds: "",
-                  turbidity: "",
-                  details: "",
+                  name: null,
+                  area: null,
+                  nameOfBody: null,
+                  lat: null,
+                  long: null,
+                  photos: [],
+                  bod: null,
+                  cod: null,
+                  do: null,
+                  tds: null,
+                  turbidity: null,
+                  details: null,
                 },
                 {
-                  name: "",
-                  area: "",
-                  nameOfBody: "",
-                  lat: "",
-                  long: "",
-                  photos: [
-                    {
-                      url: "",
-                      name: "",
-                    },
-                  ],
-                  bod: "",
-                  cod: "",
-                  do: "",
-                  tds: "",
-                  turbidity: "",
-                  details: "",
+                  name: null,
+                  area: null,
+                  nameOfBody: null,
+                  lat: null,
+                  long: null,
+                  photos: [],
+                  bod: null,
+                  cod: null,
+                  do: null,
+                  tds: null,
+                  turbidity: null,
+                  details: null,
                 },
                 {
-                  name: "",
-                  area: "",
-                  nameOfBody: "",
-                  lat: "",
-                  long: "",
-                  photos: [
-                    {
-                      url: "",
-                      name: "",
-                    },
-                  ],
-                  bod: "",
-                  cod: "",
-                  do: "",
-                  tds: "",
-                  turbidity: "",
-                  details: "",
+                  name: null,
+                  area: null,
+                  nameOfBody: null,
+                  lat: null,
+                  long: null,
+                  photos: [],
+                  bod: null,
+                  cod: null,
+                  do: null,
+                  tds: null,
+                  turbidity: null,
+                  details: null,
                 },
               ],
               reuseWater: [
                 {
-                  name: "",
-                  treatmentPlant: "",
-                  lat: "",
-                  long: "",
-                  stp: "",
+                  name: null,
+                  treatmentPlant: null,
+                  lat: null,
+                  long: null,
+                  stp: null,
                 },
                 {
-                  name: "",
-                  treatmentPlant: "",
-                  lat: "",
-                  long: "",
-                  stp: "",
+                  name: null,
+                  treatmentPlant: null,
+                  lat: null,
+                  long: null,
+                  stp: null,
                 },
                 {
-                  name: "",
-                  treatmentPlant: "",
-                  lat: "",
-                  long: "",
-                  stp: "",
+                  name: null,
+                  treatmentPlant: null,
+                  lat: null,
+                  long: null,
+                  stp: null,
                 },
               ],
             });
@@ -279,6 +278,26 @@ export class WaterRejenuvationComponent implements OnInit {
         }
       );
     });
+  }
+
+  storeData(data) {
+    data.uaData.forEach((element) => {
+      delete element._id;
+      element.reuseWater.forEach((element) => {
+        delete element._id;
+      });
+      element.waterBodies.forEach((element) => {
+        delete element._id;
+      });
+    });
+    let toStore = {
+      state: data.state,
+      design_year: data.design_year,
+      uaData: data.uaData,
+      status: data.status,
+      isDraft: data.isDraft,
+    };
+    sessionStorage.setItem("waterRejenuvationData", JSON.stringify(toStore));
   }
 
   submit() {
@@ -361,7 +380,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   async onFileChange(event, waterIndex, uaIndex) {
-    debugger
+    debugger;
     console.log(event.target.files);
     this.photosArray = [];
     const files = event.target.files;
@@ -381,7 +400,7 @@ export class WaterRejenuvationComponent implements OnInit {
       return;
     }
 
-    let size = files.length - leftNum;
+    let size = leftNum;
     for (const key in files) {
       if (key == "length") break;
       if (size == 0) {
@@ -404,10 +423,7 @@ export class WaterRejenuvationComponent implements OnInit {
   checkPhotos(size, photoControl) {
     let photoControlSize = photoControl.value.length ?? 0;
     if (photoControlSize == this.maxPhotos) return false;
-    if (this.maxPhotos - photoControlSize - size < 0) {
-      size = size - (this.maxPhotos - photoControlSize);
-    }
-    return size;
+    return this.maxPhotos - photoControlSize;
   }
 
   uploadFile(file, name, type) {
@@ -479,5 +495,22 @@ export class WaterRejenuvationComponent implements OnInit {
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
+  }
+
+  onPreview() {
+    let data = this.waterRejenuvation.value;
+    for (let index = 0; index < data.uaData.length; index++) {
+      data.uaData[index].name = this.uasData[data.uaData[index].ua].name;
+    }
+
+    let dialogRef = this.dialog.open(WaterRejenuvationPreviewComponent, {
+      data: data,
+      height: "80%",
+      width: "90%",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }

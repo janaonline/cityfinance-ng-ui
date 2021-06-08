@@ -1,6 +1,6 @@
 <div class="container-fluid" style="margin-bottom: 1pc;">
     <div class="card-header">
-        <button class="btn saveBtn pull-right">
+        <button class="btn saveBtn pull-right" (click)="onPreview()">
             PREVIEW
         </button>
     </div>
@@ -10,7 +10,7 @@
                 <div [formGroupName]="projectIndex" class="card-body ">
                     <div style="display: flex;">
                         <div>
-                            UA{{projectIndex+1}}: {{uaIdToName(projectIndex)}}
+                            <h5>UA{{projectIndex+1}}: {{uaIdToName(projectIndex)}}</h5>
                         </div>
                         <div style="margin-left: 85%;">
                             <button class="btn" style="height: 2pc;" [ngClass]="{'selectBtn': checkCard(projectIndex)}"
@@ -19,7 +19,7 @@
                     </div>
                     <div *ngIf="checkCard(projectIndex)" class="table-responsive">
                         <div>
-                            <h4>Fill Details of Project for Rejuvenation of Water Bodies</h4>
+                            <h5>Fill Details of Project for Rejuvenation of Water Bodies</h5>
                         </div>
                         <table class="table custom-position">
                             <thead>
@@ -112,7 +112,7 @@
                             </tbody>
                         </table>
                         <div>
-                            <h4>Fill Details of Projects for Recycling and Reuse of Water</h4>
+                            <h5>Fill Details of Projects for Recycling and Reuse of Water</h5>
                         </div>
                         <table class="table custom-position">
                             <thead>
@@ -160,7 +160,7 @@
         </div>
         <div class="card-footer">
             <button class="btn saveBtn pull-right" (click)="submit()" type="button">
-                SAVE AND NEXT
+                {{saveBtnText}}
             </button>
             <button class="btn back pull-left">
                 Back
