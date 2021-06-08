@@ -233,6 +233,7 @@ export class StateDashboardComponent implements OnInit {
       type: 'doughnut',
       data: data,
       options: {
+        maintainAspectRatio: false,
         legend: {
           position: 'bottom',
           align: 'start',
