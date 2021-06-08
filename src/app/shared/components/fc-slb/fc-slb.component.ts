@@ -180,8 +180,9 @@ export class FcSlbComponent implements OnInit, OnChanges {
       }
     // if (this.form) this.initializeForm();
     console.log('onChanges', this.form)
-    let FORM = this.form;
 
+    let FORM = this.form;
+    console.log('this', this)
 
     for (let key in this.form['controls']) {
       console.log(key)
@@ -210,12 +211,14 @@ export class FcSlbComponent implements OnInit, OnChanges {
         } else {
           this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "VALID"
         }
+
       }
 
     }
 
 
     console.log(this.form)
+    console.log('this', this)
   }
 
 
@@ -600,8 +603,21 @@ export class FcSlbComponent implements OnInit, OnChanges {
     let before = true;
     let invalid = false;
     let upperLimit = 101;
+    let benchmarkValue
+    if (serviceKey == 'waterSuppliedPerDay') {
+      benchmarkValue = this.benchmarks[0]
+    } else if (serviceKey == 'reduction') {
+      benchmarkValue = this.benchmarks[1]
+    } else if (serviceKey == 'houseHoldCoveredWithSewerage') {
+      benchmarkValue = this.benchmarks[2]
+    } else if (serviceKey == 'houseHoldCoveredPipedSupply') {
+      benchmarkValue = this.benchmarks[3]
+    }
     if (serviceKey === 'waterSuppliedPerDay') {
       upperLimit = 1000000000000000;
+    }
+    if ((increse && value >= benchmarkValue) || (!increse && value <= benchmarkValue)) {
+      return false;
     }
     for (let obj in controlValue) {
       if ((increse && parseFloat(value) >= actualData && actualData) || (!increse && parseFloat(value) <= actualData && actualData) || !actualData) {
