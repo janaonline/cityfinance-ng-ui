@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { EventEmitter, Output } from "@angular/core";
 
 import { GooglePlaceDirective } from "ngx-google-places-autocomplete";
@@ -14,6 +14,8 @@ export class GoogleMapComponent implements OnInit {
   constructor(private UtiReportService: UtiReportService) {}
   @Output()
   locationSelected  = new EventEmitter();
+  @Input()
+  locationFromOutSide
 
   title = "angular-maps";
   @ViewChild("placesRef") placesRef: GooglePlaceDirective;
@@ -34,10 +36,10 @@ export class GoogleMapComponent implements OnInit {
   getLocation;
 
   ngOnInit() {
-    this.getLocation = this.UtiReportService.getLocation();
+    this.getLocation = this.UtiReportService.getLocation() != null ? this.UtiReportService.getLocation() : this.locationFromOutSide;
     if (this.getLocation !== null) {
       this.latitude = parseFloat (this.getLocation.lat);
-      this.longitude = parseFloat (this.getLocation.lng);
+      this.longitude = parseFloat (this.getLocation?.lng ?? this.getLocation?.long);
       this.zoom = 15;
     } else {
       this.setCurrentLocation();

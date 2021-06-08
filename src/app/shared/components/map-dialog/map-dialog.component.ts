@@ -13,6 +13,7 @@ import { UtiReportService } from "../../../pages/ulbform/utilisation-report/uti-
 })
 export class MapDialogComponent implements OnInit {
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<MapDialogComponent>,
     private UtiReportService: UtiReportService
   ) {}

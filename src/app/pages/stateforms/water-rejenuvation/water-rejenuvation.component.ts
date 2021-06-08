@@ -49,6 +49,7 @@ export class WaterRejenuvationComponent implements OnInit {
         }
       }
     });
+
   }
 
   async ngOnInit() {
@@ -57,6 +58,8 @@ export class WaterRejenuvationComponent implements OnInit {
     this.initializeReport();
   }
   @ViewChild("template") template;
+  @ViewChild("template1") template1;
+  
 
   saveBtnText = "NEXT";
   routerNavigate = null;
@@ -71,27 +74,26 @@ export class WaterRejenuvationComponent implements OnInit {
   photosArray = [];
   errorPhotosArray = [];
   dialogRefForNavigation;
+  isDraft = null
 
   userData = JSON.parse(localStorage.getItem("userData"));
   Year = JSON.parse(localStorage.getItem("Years"));
   uasData = JSON.parse(sessionStorage.getItem("UasList"));
   public initializeReport() {
+    
     this.waterRejenuvation = this.fb.group({
       state: this.fb.control(this.userData["state"], [Validators.required]),
       design_year: this.fb.control(this.Year["2021-22"], [Validators.required]),
       uaData: this.fb.array(this.getUas()),
-      status: this.fb.control(null, []),
-      isDraft: this.fb.control(true, []),
+      status: this.fb.control("NA", []),
+      isDraft: this.fb.control(this.isDraft, []),
     });
     this.waterRejenuvation.valueChanges.subscribe((change) => {
-      console.log("change in waterRejenuvation", change);
 
       let data = sessionStorage.getItem("waterRejenuvationData");
       change.uaData.forEach((element) => {
         delete element.foldCard;
       });
-      console.log(JSON.stringify(change));
-      console.log(data);
 
       if (JSON.stringify(change) !== data) {
         this.saveBtnText = "SAVE AND NEXT";
@@ -102,9 +104,10 @@ export class WaterRejenuvationComponent implements OnInit {
       }
     });
     this.waterRejenuvation.statusChanges.subscribe((change) => {
-      console.log("statusChange", change);
       if (change != "INVALID") {
         this.waterRejenuvation.controls.isDraft.patchValue(false);
+      }else{
+        this.waterRejenuvation.controls.isDraft.patchValue(true);
       }
     });
   }
@@ -121,7 +124,6 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   getSubControlsWaterReuse(index) {
-    // console.log(this.f.uaData["controls"][index]["controls"]["reuseWater"]);
 
     return this.f.uaData["controls"][index]["controls"]["reuseWater"][
       "controls"
@@ -192,13 +194,12 @@ export class WaterRejenuvationComponent implements OnInit {
       this.waterRejenuvationService.getData(this.Year["2021-22"]).subscribe(
         (res) => {
           this.data = res["data"]["uaData"];
+          this.isDraft = res["data"].isDraft
           this.storeData(res["data"]);
-          console.log(this.data);
           this.showLoader = false;
           resolve("ss");
         },
         (err) => {
-          console.log(err);
           this.showLoader = false;
           this.data = [];
           for (const key in this.uasData) {
@@ -299,14 +300,17 @@ export class WaterRejenuvationComponent implements OnInit {
     sessionStorage.setItem("waterRejenuvationData", JSON.stringify(toStore));
   }
 
-  submit() {
-    console.log(this.waterRejenuvation.value);
-
+  submit(fromPrev = null) {
+    if(this.saveBtnText == "NEXT"){
+      return // router link
+    }
+    if(this.waterRejenuvation.value.isDraft){
+      return this.openModal(this.template1)
+    }
     this.waterRejenuvationService
       .postData(this.waterRejenuvation.value)
       .subscribe(
         (res) => {
-          console.log(res);
           swal({
             title: "Submitted",
             text: "Record submitted successfully!",
@@ -323,7 +327,6 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   foldCard(index) {
-    console.log(this.Uas[index].controls.foldCard.value, index);
     this.Uas[index].controls.foldCard.value =
       !this.Uas[index].controls.foldCard.value;
   }
@@ -345,7 +348,6 @@ export class WaterRejenuvationComponent implements OnInit {
       panelClass: "no-padding-dialog",
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -360,13 +362,28 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   openMap(nameIndex, uaIndex, name): void {
+    let data
+    if(name == 'waterBodies'){
+      data = {
+        lat: this.getSubControlsWaterBodies(uaIndex)[nameIndex].controls.lat.value,
+        long: this.getSubControlsWaterBodies(uaIndex)[nameIndex].controls.long.value
+      }
+    }else{
+      data = {
+        lat: this.getSubControlsWaterReuse(uaIndex)[nameIndex].controls.lat.value,
+        long: this.getSubControlsWaterReuse(uaIndex)[nameIndex].controls.long.value
+      }
+    }
+    if(data.lat == null || data.long == null){
+      data = null
+    }
     const dialogRef = this.dialog.open(MapDialogComponent, {
+      data:data,
       width: "auto",
       height: "auto",
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result, "iiiiiiiiiiiiiiiiii", uaIndex);
       let temp;
       if (name == "waterBodies") {
         temp = this.getSubControlsWaterBodies(uaIndex);
@@ -379,7 +396,6 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   async onFileChange(event, waterIndex, uaIndex) {
-    console.log(event.target.files);
     this.photosArray = [];
     const files = event.target.files;
     let msg = "Photo uploaded successfully.";
@@ -429,7 +445,6 @@ export class WaterRejenuvationComponent implements OnInit {
       this.dataEntryService.getURLForFileUpload(name, type).subscribe(
         (s3Response) => {
           resolve();
-          console.log(s3Response.data[0]);
           const res = s3Response.data[0];
           this.uploadFileToS3(file, res["url"], res["file_alias"]);
           this.photosArray.push({ url: res["file_alias"], name });
@@ -446,7 +461,6 @@ export class WaterRejenuvationComponent implements OnInit {
     this.dataEntryService.uploadFileToS3(file, s3URL).subscribe(
       (res) => {
         if (res.type === HttpEventType.Response) {
-          console.log(res);
         }
       },
       (err) => {
@@ -485,7 +499,7 @@ export class WaterRejenuvationComponent implements OnInit {
 
   proceed() {
     this.dialogRefForNavigation.close(true);
-    this.submit();
+    this.submit(true);
   }
 
   alertClose() {
@@ -508,7 +522,6 @@ export class WaterRejenuvationComponent implements OnInit {
       panelClass: "no-padding-dialog",
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 }

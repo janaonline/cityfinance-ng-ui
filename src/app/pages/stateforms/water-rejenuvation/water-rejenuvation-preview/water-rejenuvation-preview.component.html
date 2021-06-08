@@ -12,7 +12,10 @@
         </div>
     </div>
     <div class=" row h-cls" style="margin-top: 1.5rem;">
-        <div class="col-sm-12 text-right">
+        <div class="col-sm-6">
+            Form Current Status: {{status}}
+        </div>
+        <div class="col-sm-6 text-right">
             <button id="donwloadButton" style="right: 0%;
     outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF()">
                 Download as PDF
@@ -20,7 +23,7 @@
         </div>
     </div>
     <div *ngFor="let uas of data.uaData; let projectIndex=index">
-        <div class="card" style="margin-top: 1pc;">
+        <div class="card" style="margin-top: 1pc; margin-left: 0pc;">
             <div class="card-body ">
                 <div style="display: flex;">
                     <div>
