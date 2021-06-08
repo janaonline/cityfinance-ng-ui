@@ -200,11 +200,14 @@ export class WaterSanitationComponent implements OnInit {
   }
 
   onPreview() {
+    this.testForDraft()
+
     let prevData = {
-      water :this.waterAndSanitation.water,
+      water: this.waterAndSanitation.water,
       sanitation: this.waterAndSanitation.sanitation,
-      isDraft :this.isDraft
-    } 
+      isDraft: this.body.isDraft
+    }
+
     const dialogRef = this.dialog.open(WaterSanitationPreviewComponent, {
       data: prevData,
       maxHeight: "95vh",
@@ -224,7 +227,7 @@ export class WaterSanitationComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     this.dialogRefForNavigation = this.dialog.open(template, dialogConfig);
     this.dialogRefForNavigation.afterClosed().subscribe((result) => {
-      if(result === undefined){
+      if (result === undefined) {
         if (this.routerNavigate) {
           this.routerNavigate = null;
         }
@@ -262,7 +265,7 @@ export class WaterSanitationComponent implements OnInit {
   }
 
   postsDataCall(body) {
-    return new Promise ((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
       this.wsService.sendRequest(body).subscribe(
         async (res) => {
           const status = JSON.parse(sessionStorage.getItem("allStatus"));
@@ -360,7 +363,7 @@ export class WaterSanitationComponent implements OnInit {
     ) {
       sessionStorage.setItem("changeInPlans", "true");
       let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
-      if(allFormData){
+      if (allFormData) {
         let changes = this.body
         changes.plans = this.waterAndSanitation
         allFormData.plansData[0] = changes

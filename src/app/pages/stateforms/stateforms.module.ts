@@ -16,6 +16,8 @@ import { GrantAllocationComponent } from './grant-allocation/grant-allocation.co
 import { GtcertificatePreviewComponent } from './gtcertificate/gtcertificate-preview/gtcertificate-preview.component';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { WaterRejenuvationComponent } from './water-rejenuvation/water-rejenuvation.component';
+import { WaterRejenuvationPreviewComponent } from './water-rejenuvation/water-rejenuvation-preview/water-rejenuvation-preview.component';
 // import { DoughnutChartArea } from './state-dashboard/donut/donut'
 
 @NgModule({
@@ -29,6 +31,8 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     ActionPlanUAComponent,
     GrantAllocationComponent,
     GtcertificatePreviewComponent,
+    WaterRejenuvationComponent,
+    WaterRejenuvationPreviewComponent,
     // DoughnutChartArea
   ],
   imports: [

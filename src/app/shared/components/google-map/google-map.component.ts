@@ -13,7 +13,7 @@ import { UtiReportService } from "../../../pages/ulbform/utilisation-report/uti-
 export class GoogleMapComponent implements OnInit {
   constructor(private UtiReportService: UtiReportService) {}
   @Output()
-  locationSelected  = new EventEmitter<boolean>();
+  locationSelected  = new EventEmitter();
 
   title = "angular-maps";
   @ViewChild("placesRef") placesRef: GooglePlaceDirective;
@@ -65,7 +65,7 @@ export class GoogleMapComponent implements OnInit {
     this.location.lat = this.latitude.toFixed(5);
     this.location.long = this.longitude.toFixed(5);
     this.UtiReportService.setLocation(this.location)
-    this.locationSelected.emit(true)
+    this.locationSelected.emit(this.location)
   }
 
   onDrag(e) {

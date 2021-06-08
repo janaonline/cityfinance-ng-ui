@@ -311,6 +311,7 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   clickedPreview(template) {
+
     this.onPreview();
   }
 
@@ -321,7 +322,7 @@ export class AnnualAccountsComponent implements OnInit {
       width: "85vw",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   onLoad() {
@@ -469,7 +470,7 @@ export class AnnualAccountsComponent implements OnInit {
       if (form.submit_annual_accounts.answer === "no") {
         delete form.provisional_data;
         form["isCompleted"] = true;
-        return res("sucess");
+        return res(form);
       } else if (form.submit_annual_accounts.answer === null) {
         delete form.provisional_data;
       }
@@ -534,7 +535,7 @@ export class AnnualAccountsComponent implements OnInit {
       } else {
         form["isCompleted"] = true;
       }
-      res("sucess");
+      res(form);
     });
   }
 
@@ -788,7 +789,7 @@ export class AnnualAccountsComponent implements OnInit {
       let newObj = {
         alias:
           this[progressArray[0]][progressArray[1]][this.progressArray[2]][
-            "excelUrl"
+          "excelUrl"
           ],
         financialYear: "",
         design_year: this[progressArray[0]]["design_year"],

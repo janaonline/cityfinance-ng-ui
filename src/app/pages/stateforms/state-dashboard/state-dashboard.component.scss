@@ -17,10 +17,11 @@ margin-right:20px;
     font-size: 32px;
     margin-top:30px;
     margin-right:30px;
+    font-weight: 450;
 }
 .card-text{
     color:#ffffff;
-    font-size: 13px;
+    font-size: 15px;
     margin-top:15px;
     margin-left:3px;
 }
@@ -74,10 +75,115 @@ width:100px
     color:#ffffff;
     height:100%;
     border-radius: 4px;
+    border: 1px solid #0000001A;
+}
+
+.secondColumn{
+    color:black;
+    background-color:#ffffff;
+    height:100%;
+    border-radius: 4px;
+    border: 1px solid #0000001A;
+}
+.thirdColumn{
+    color:black;
+    background-color:#ffffff;
+    height:100%;
+    border-radius: 4px;
+    border: 1px solid #0000001A;
 }
 
 .statusArea{
     height:500px;
     width:100%;
     margin-left:inherit
+}
+
+.mainDonutChart{
+height:275px;
+width:275px;
+margin-top:40px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.smallDonuts{
+    height:120px;
+    width:100%;
+}
+
+.viewListBtn{
+    margin-top: 90px;
+    text-align: center;
+    margin-right:10px;
+}
+
+.iconImage{
+    margin-top: 30px;
+    text-align: right;
+    padding-right: 25px;
+
+}
+
+.gauge{
+    height:190px;
+
+}
+.formDonutCharts{
+    height:167px;
+    border-bottom:1px solid #0000001A;
+color:black;
+}
+
+.gaugeSize{
+    height:150px;
+    width:100%;
+}
+
+.textInThirdColumn{
+    line-height: 40px; 
+    text-align: left;
+    margin-left: 20px;
+     font-size: 18px; 
+     font-weight: bold; 
+     margin-top:8px;
+}
+
+.bottomPart{
+    border:1px solid #0000001A;
+    border-radius: 4px;
+    width:inherit
+}
+
+.header{
+    border-bottom: 1px solid #0000001A ;
+    line-height: 50px;
+    text-align: left;
+    
+}
+
+.millionPlus{
+   height:120px;
+   border-bottom: 1px solid  #0000001A ; 
+}
+
+.Card1{
+    background-color: #EAF5FC;
+    border: 1px solid #BAE8FF;
+    border-radius: 4px;
+    height: 70px;
+    width:50rem;
+    text-align: center;
+    margin:15px 6px 15px 15px;
+    padding:3px 6px 3px 6px;
+}
+.Card2{
+    background-color: #E4FED8;
+    border: 1px solid #A6F284;
+    border-radius: 4px;
+    height: 70px;
+    width:50rem;
+    text-align: center;
+    margin:15px 6px 15px 15px;
+    padding:3px 6px 3px 6px;
 }

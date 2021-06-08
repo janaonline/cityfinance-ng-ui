@@ -39,7 +39,7 @@ export class AnnualPreviewComponent implements OnInit {
     public _ulbformService: UlbformService,
     public _router: Router,
     private _matDialog: MatDialog
-  ) {}
+  ) { }
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -134,7 +134,7 @@ export class AnnualPreviewComponent implements OnInit {
   totalStatus;
   subParentForModal;
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.subParentForModal =
       this.annualAccountsService.OpenModalTrigger.subscribe((change) => {
         if (this.changeFromOutSide) {
@@ -147,6 +147,10 @@ export class AnnualPreviewComponent implements OnInit {
       this.parentData = this.data;
       this.fromParent = false;
     }
+    // let annualData = JSON.parse(JSON.stringify(this.data));
+    // annualData[0] = await this.annualAccountComp.checkForm(annualData[0])
+    // annualData[1] = await this.annualAccountComp.checkForm(annualData[1])
+    // this.parentData = annualData
     this.setData();
     this.previewStatuSet();
   }
@@ -275,21 +279,53 @@ export class AnnualPreviewComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  previewStatuSet() {
-    let annualData = JSON.parse(sessionStorage.getItem("annualAccounts"));
-    if (annualData === null) {
-      annualData = this.parentData;
+  formStatusCheck = ''
+  statusArray = [
+    'Not Started',
+    'Under Review By State',
+    'Completed but Not Submitted',
+    'In Progress'
+  ]
+
+ async  previewStatuSet() {
+    console.log(this.data)
+    let annualData
+    if(!this.fromParent){
+      annualData = JSON.parse(JSON.stringify(this.data));
+    }else{
+      annualData = this.data.annualAccountData;
     }
-    if (
-      annualData[0]["isCompleted"] == null &&
-      annualData[1]["isCompleted"] == null
-    ) {
-      this.previewStatus = "Not Started";
+    annualData[0] = await this.annualAccountComp.checkForm(annualData[0])
+    annualData[1] = await this.annualAccountComp.checkForm(annualData[1])
+    if (annualData[0]['isCompleted'] != null && annualData[1]['isCompleted'] != null) {
+      let change = sessionStorage.getItem("changeInAnnual");
+      if (change == "true") {
+        if (annualData[0]['isCompleted'] && annualData[1]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[2]
+        } else if (!annualData[0]['isCompleted'] || !annualData[1]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[3]
+        }
+      } else if (change == "false") {
+        if (annualData[0]['isCompleted'] && annualData[1]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[1]
+        } else if (!annualData[0]['isCompleted'] || !annualData[1]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[3]
+        }
+
+      }
     } else {
-      this.previewStatus = "In Progress";
-    }
-    if (annualData[0]["isCompleted"] && annualData[1]["isCompleted"]) {
-      this.previewStatus = "Completed";
+      let change = sessionStorage.getItem("changeInAnnual");
+      if (change == "true") {
+        if (annualData[0]['isCompleted'] && annualData[1]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[2]
+        } else if (!annualData[0]['isCompleted'] || !annualData[1]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[3]
+        }
+      } else if (change == "false") {
+        this.formStatusCheck = this.statusArray[0]
+
+      }
+
     }
 
     if (!this.fromParent) {

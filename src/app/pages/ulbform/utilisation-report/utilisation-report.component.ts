@@ -183,8 +183,8 @@ export class UtilisationReportComponent implements OnInit {
   currentChanges() {
     this.utilizationReport.valueChanges.subscribe((formChange) => {
       this.submitData(true)
-      this.setFormDataToAllForms(this.fd,formChange)
-      
+      this.setFormDataToAllForms(this.fd, formChange)
+
       const oldForm = sessionStorage.getItem("utilReport");
       const change = JSON.stringify(formChange);
       if (change !== oldForm) {
@@ -195,12 +195,12 @@ export class UtilisationReportComponent implements OnInit {
     });
   }
 
-  setFormDataToAllForms(data,formChange){
+  setFormDataToAllForms(data, formChange) {
     let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
-      if(allFormData){
-        allFormData.utilizationReport[0] = data
-        this._ulbformService.allFormsData.next(allFormData)
-      }
+    if (allFormData) {
+      allFormData.utilizationReport[0] = data
+      this._ulbformService.allFormsData.next(allFormData)
+    }
   }
 
   ulbId = null;
@@ -228,6 +228,9 @@ export class UtilisationReportComponent implements OnInit {
         }, 1000);
       },
       (error) => {
+
+        this.utilizationReport.value['blankForm'] = true
+        console.log(this.utilizationReport)
         sessionStorage.setItem("utilReport", JSON.stringify(this.utilizationReport.value));
         console.log(error);
         this.currentChanges();
@@ -306,7 +309,7 @@ export class UtilisationReportComponent implements OnInit {
         this.fb.group({
           category: [null, Validators.required],
           name: ['', [Validators.maxLength(50), Validators.required]],
-          description: ['' , [Validators.maxLength(200),Validators.required]],
+          description: ['', [Validators.maxLength(200), Validators.required]],
           // 'imgUpload' : new FormControl(''),
           photos: this.fb.array([
             // this.fb.group({
@@ -483,8 +486,8 @@ export class UtilisationReportComponent implements OnInit {
 
     }
 
-    if(fromChange)
-    return
+    if (fromChange)
+      return
 
     if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
       // this.fd.isDraft = false;
@@ -506,10 +509,10 @@ export class UtilisationReportComponent implements OnInit {
   onPreview() {
     if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
       this.isDraft = false;
-    } else if(this.isDraft == 'fail'){
-          this.isDraft = null;
+    } else if (this.isDraft == 'fail') {
+      this.isDraft = null;
     }
-    else{
+    else {
       this.isDraft = true;
     }
     let user_data = JSON.parse(localStorage.getItem('userData'));
@@ -1061,19 +1064,19 @@ export class UtilisationReportComponent implements OnInit {
       this.UtiReportService.setLocation(this.tabelRows.value[index].location);
     }
     const dialogRef = this.dialog.open(MapDialogComponent, {
-      width: "60%",
-      height: "70%",
+      width: "auto",
+      height: "auto",
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.setLocation = this.UtiReportService.getLocation();
+      this.setLocation = result
       if (this.setLocation !== null) {
         this.tabelRows.controls[index][
           "controls"
         ].location.controls.lat.patchValue(this.setLocation.lat);
         this.tabelRows.controls[index][
           "controls"
-        ].location.controls.long.patchValue(this.setLocation.lng);
+        ].location.controls.long.patchValue(this.setLocation.long);
       }
     });
   }

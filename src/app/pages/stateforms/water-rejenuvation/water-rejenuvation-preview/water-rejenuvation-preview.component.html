@@ -1,0 +1,161 @@
+<div class="container-fluid" style="margin-bottom: 1pc;">
+    <div class="row">
+        <div class="col-sm-12 header-p">
+            <a (click)="close()" style="position: absolute;z-index:3; right: 2%; top: 14%; cursor: pointer;">
+                <mat-icon aria-hidden="false">
+                    <img src="../../../../../assets/form-icon/Icon material-close.svg">
+                </mat-icon>
+            </a>
+            <div class="col-sm-12 heading-p">
+                Water Rejenuvation and Recycling
+            </div>
+        </div>
+    </div>
+    <div class=" row h-cls" style="margin-top: 1.5rem;">
+        <div class="col-sm-12 text-right">
+            <button id="donwloadButton" style="right: 0%;
+    outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF()">
+                Download as PDF
+            </button>
+        </div>
+    </div>
+    <div *ngFor="let uas of data.uaData; let projectIndex=index">
+        <div class="card" style="margin-top: 1pc;">
+            <div class="card-body ">
+                <div style="display: flex;">
+                    <div>
+                       <h4> UA{{projectIndex+1}}: {{uas.name}}</h4>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <div>
+                        <h5>Fill Details of Project for Rejuvenation of Water Bodies</h5>
+                    </div>
+                    <table class="table custom-position">
+                        <thead>
+                            <tr class="thHeader">
+                                <th style="width: 4%;" scope="col">S.No</th>
+                                <th style="width: 10%;" scope="col">Project Name</th>
+                                <th style="width: 10%;" scope="col">Name Of Water Body</th>
+                                <th style="width: 7%;" scope="col">Area</th>
+                                <th style="width: 7%;" scope="col">Upload Photo</th>
+                                <th style="width: 13%;" scope="col">
+                                    <span>Location</span><br>
+                                    <span>Latitude and Longitude</span>
+                                </th>
+                                <th style="width: 7%;" scope="col">BOD in mg/L</th>
+                                <th style="width: 7%;" scope="col">COD in mg/L</th>
+                                <th style="width: 7%;" scope="col">DO in mg/L</th>
+                                <th style="width: 7%;" scope="col">TDS in mg/L</th>
+                                <th style="width: 7%;" scope="col">Turbidity in NTU</th>
+                                <th style="width: 14%;" scope="col">Project Details</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let waterBodies of uas.waterBodies; let waterBodiesIndex=index">
+                            <tr>
+                                <td class="t-i">
+                                    <span>{{1+waterBodiesIndex}}</span>
+                                </td>
+                                <td>
+                                    {{waterBodies.name}}
+                                </td>
+                                <td>
+                                    {{waterBodies.area}}
+                                </td>
+                                <td>
+                                    {{waterBodies.nameOfBody}}
+                                </td>
+                                <td>
+                                    <div *ngFor="let photo of waterBodies.photos">
+                                        <img [src]="photo.url">
+                                    </div>
+                                </td>
+                                <td>
+                                  Lat-  {{waterBodies.lat}} <br>
+                                  Long- {{waterBodies.long}}
+                                </td>
+                                <td>
+                                    {{waterBodies.bod}}
+                                </td>
+                                <td>
+                                    {{waterBodies.cod}}
+                                </td>
+                                <td>
+                                    {{waterBodies.do}}
+                                </td>
+                                <td>
+                                    {{waterBodies.tds}}
+                                </td>
+                                <td>
+                                    {{waterBodies.turbidity}}
+                                </td>
+                                <td>
+                                    {{waterBodies.details}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <h5>Fill Details of Projects for Recycling and Reuse of Water</h5>
+                    </div>
+                    <table class="table custom-position">
+                        <thead>
+                            <tr class="thHeader">
+                                <th style="width: 5%;" scope="col">S.No</th>
+                                <th style="width: 23%;" scope="col">Project Name</th>
+                                <th style="width: 23%;" scope="col">Name of Water Treatment Plant</th>
+                                <th style="width: 23%;" scope="col">
+                                    <span>Location</span><br>
+                                    <span>Latitude and Longitude</span>
+                                </th>
+                                <th style="width: 23%;" scope="col">Proposed capacity</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let waterReuse of uas.reuseWater; let reuseWaterIndex=index">
+                            <tr>
+                                <td>
+                                    <span>{{1+reuseWaterIndex}}</span>
+                                </td>
+                                <td>
+                                    {{waterReuse.name}}
+                                </td>
+                                <td>
+                                    {{waterReuse.treatmentPlant}}
+                                </td>
+                                <td>
+                                  Lat-  {{waterReuse.lat}} 
+                                  Long-  {{waterReuse.long}}
+                                </td>
+                                <td>
+                                    {{waterReuse.stp}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed?
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
+                Proceed</button>
+        </div>
+
+    </div>
+</ng-template>
