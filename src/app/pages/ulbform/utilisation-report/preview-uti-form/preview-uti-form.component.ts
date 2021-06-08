@@ -38,7 +38,7 @@ export class PreviewUtiFormComponent implements OnInit {
     private UtiReportService: UtiReportService,
     public _ulbformService: UlbformService,
     public _router: Router
-  ) {}
+  ) { }
   styleForPDF = `<style>
 
 td, th{
@@ -236,7 +236,13 @@ width: 5% !important;
 
   subParentForModal;
 
-  formStatusCheck = "Not Started";
+  formStatusCheck = "";
+  statusArray = [
+    'Not Started',
+    'Under Review By State',
+    'Completed but Not Submitted',
+    'In Progress'
+  ]
   totalStatus;
   ngOnInit(): void {
     this.subParentForModal = this.UtiReportService.OpenModalTrigger.subscribe(
@@ -250,25 +256,40 @@ width: 5% !important;
     if (this.parentData) {
       this.genrateParentData();
     }
-
-    let getData = this.data;
-
+    let getData = JSON.parse(sessionStorage.getItem("utilReport"))
     console.log("getData", getData);
     console.log("Data", this.data);
+    if (!getData.hasOwnProperty('blankForm')) {
+      let canNavigate = sessionStorage.getItem("canNavigate");
+      if (canNavigate == "false") {
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[2]
+        }
+      } else if (canNavigate == "true") {
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[1]
+        }
 
-    if (!getData) {
-      this.formStatusCheck = "Not Started";
-    }
-    if (this.data["isDraft"] == true) {
-      console.log("1");
-      this.formStatusCheck = "In Progress";
-    } else if (this.data["isDraft"] == false) {
-      console.log("2");
-      this.formStatusCheck = "Completed";
+      }
     } else {
-      console.log("3");
-      this.formStatusCheck = "Not Started";
+      let canNavigate = sessionStorage.getItem("canNavigate");
+      if (canNavigate == "false") {
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[2]
+        }
+      } else if (canNavigate == "true") {
+        this.formStatusCheck = this.statusArray[0]
+
+      }
+
     }
+
     this.setTotalStatus();
   }
 

@@ -311,17 +311,21 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   clickedPreview(template) {
+
     this.onPreview();
   }
 
   onPreview() {
+    this.checkForm(this.auditResponse)
+    this.checkForm(this.unauditResponse)
+
     const dialogRef = this.dialog.open(AnnualPreviewComponent, {
       data: [this.auditResponse, this.unauditResponse],
       height: "95%",
       width: "85vw",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   onLoad() {
@@ -788,7 +792,7 @@ export class AnnualAccountsComponent implements OnInit {
       let newObj = {
         alias:
           this[progressArray[0]][progressArray[1]][this.progressArray[2]][
-            "excelUrl"
+          "excelUrl"
           ],
         financialYear: "",
         design_year: this[progressArray[0]]["design_year"],

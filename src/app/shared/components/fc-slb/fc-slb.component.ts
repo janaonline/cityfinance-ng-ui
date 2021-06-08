@@ -109,7 +109,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     };
   } = {};
   submitted = false;
-  showPublishedUpload: boolean = false;
+  showPublishedUpload: boolean;
   invalidWhole = false;
   benchmarks = []
   ngOnInit() {
@@ -158,7 +158,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   ngOnChanges(changes) {
     console.log('changes', changes)
     this.invalidWhole = false;
-    this.showPublishedUpload = false;
+    this.showPublishedUpload = null;
     // console.log("services", this.services, changes)
     if (this.isDataPrefilled && changes.isDataPrefilled) {
       this.populateFormDatas();

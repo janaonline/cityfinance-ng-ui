@@ -18,12 +18,13 @@
                     <p class="form-status">
                         <b *ngIf="!parentData">Application Current Status:</b> {{totalStatus}}
                         <br *ngIf="!parentData">
-                        <b>Form Current Status:</b> {{previewStatus}}
+                        <b>Form Current Status:</b> {{formStatusCheck}}
                     </p>
 
                 </div>
                 <div *ngIf="!parentData" class="col-sm-6 df">
-                    <button id="donwloadButton" class="btn btn-primary btn-upload pull-right" style="margin-right: 1ch;" (click)="clickedDownloadAsPDF(template)">
+                    <button id="donwloadButton" class="btn btn-primary btn-upload pull-right" style="margin-right: 1ch;"
+                        (click)="clickedDownloadAsPDF(template)">
                         Download as PDF
                     </button>
                 </div>
@@ -34,7 +35,8 @@
         <div class="card-body ">
             <div class="table-responsive">
                 <div>
-                    <h4>Details of Proposed Project to Improve Service Level Indicators related to <b class="text-primary">Water Supply</b>
+                    <h4>Details of Proposed Project to Improve Service Level Indicators related to <b
+                            class="text-primary">Water Supply</b>
                     </h4>
                 </div>
                 <table class="table custom-position">
@@ -90,7 +92,8 @@
         <div class="card-body ">
             <div class="table-responsive">
                 <div>
-                    <h4>Details of Proposed Project to Improve Service Level Indicators related to <b class="text-primary">Sanitation</b></h4>
+                    <h4>Details of Proposed Project to Improve Service Level Indicators related to <b
+                            class="text-primary">Sanitation</b></h4>
                 </div>
                 <table class="table custom-position">
                     <thead>
@@ -159,7 +162,8 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success "
+                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
 

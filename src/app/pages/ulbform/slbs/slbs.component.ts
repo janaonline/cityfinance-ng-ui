@@ -153,13 +153,14 @@ export class SlbsComponent implements OnInit {
       status.slbForWaterSupplyAndSanitation.isSubmit = res["isCompleted"];
       this._ulbformService.allStatus.next(status);
 
-      swal("(NO SLB ID)Record submitted successfully!");
+      swal("Record submitted successfully!");
     })
 
   }
   data = '';
   res
   clickedSave = false;
+  isCompleted
   onWaterWasteManagementEmitValue(value) {
 
     console.log("value which came from fc-slb component", value)
@@ -170,16 +171,16 @@ export class SlbsComponent implements OnInit {
     }
     sessionStorage.setItem("changeInSLB", "true");
     let completed = this.checkIfCompletedOrNot(value)
-    let isCompleted
+
 
     if (value.isFormInvalid || !completed) {
-      isCompleted = false
+      this.isCompleted = false
     } else {
-      isCompleted = true
+      this.isCompleted = true
     }
 
-    console.log('isCompleted', isCompleted)
-    value['isCompleted'] = isCompleted
+    console.log('isCompleted', this.isCompleted)
+    value['isCompleted'] = this.isCompleted
     this.data = value
     this.saveDataInAllForm(value)
     if (this.routerNavigate && value.saveData) {
@@ -190,7 +191,7 @@ export class SlbsComponent implements OnInit {
       this._router.navigate([this.routerNavigate.url]);
       return;
     }
-    if (!isCompleted && value.saveData) {
+    if (!this.isCompleted && value.saveData) {
       console.log('2')
       this.clickedSave = true;
       this.openModal(this.template1)
@@ -204,7 +205,7 @@ export class SlbsComponent implements OnInit {
     }
   }
 
-  saveDataInAllForm(value){
+  saveDataInAllForm(value) {
     let data = {
       design_year: this.Years["2021-22"],
       isCompleted: value.isCompleted,
@@ -220,7 +221,7 @@ export class SlbsComponent implements OnInit {
       }
     }
     let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
-    if(allFormData){
+    if (allFormData) {
       allFormData.SLBs[0] = data
       this._ulbformService.allFormsData.next(allFormData)
     }
@@ -266,7 +267,7 @@ export class SlbsComponent implements OnInit {
       index: this.data['water_index']
     }
 
-
+    console.log('isCompleted', this.isCompleted)
     this.previewData = {
       ...this.preFilledWaterManagement,
       ulb: this.loggedInUserDetails.ulb,
@@ -275,7 +276,7 @@ export class SlbsComponent implements OnInit {
         this.waterWasteManagementForm.getRawValue(),
       waterPotability: this.waterPotability,
       preWater: waterValue,
-      isCompleted: this.data['isCompleted']
+      isCompleted: this.isCompleted
     };
     console.log(this.previewData)
     this._matDialog.open(this.previewPopup, {

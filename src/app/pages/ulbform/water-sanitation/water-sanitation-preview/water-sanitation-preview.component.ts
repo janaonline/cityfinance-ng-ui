@@ -44,7 +44,7 @@ export class WaterSanitationPreviewComponent implements OnInit, OnDestroy {
     private _matDialog: MatDialog,
     private WaterSanitationService: WaterSanitationService,
     public _ulbformService: UlbformService
-  ) {}
+  ) { }
   @ViewChild("template") template;
   @Output() change = new EventEmitter<any>();
   dialogRef;
@@ -246,14 +246,46 @@ export class WaterSanitationPreviewComponent implements OnInit, OnDestroy {
     plans.testForDraft(data);
     await plans.postsDataCall(plans.body);
   }
+  formStatusCheck = ''
+  statusArray = [
+    'Not Started',
+    'Under Review By State',
+    'Completed but Not Submitted',
+    'In Progress'
+  ]
 
   previewStatuSet() {
-    if (this.data["isDraft"] == null) {
-      this.previewStatus = "Not Started";
-    } else if (this.data["isDraft"]) {
-      this.previewStatus = "In Progress";
+    console.log(this.data)
+    let allFormsData = JSON.parse(sessionStorage.getItem("allFormsData"))
+    if (allFormsData['plansData'].length > 0) {
+      let change = sessionStorage.getItem("changeInPlans");
+      if (change == "true") {
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[2]
+        }
+      } else if (change == "false") {
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[1]
+        }
+
+      }
     } else {
-      this.previewStatus = "Completed";
+      let change = sessionStorage.getItem("changeInPlans");
+      if (change == "true") {
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[2]
+        }
+      } else if (change == "false") {
+        this.formStatusCheck = this.statusArray[0]
+
+      }
+
     }
 
     if (!this.parentData) {
