@@ -99,8 +99,30 @@ export class EditUlbProfileComponent implements OnInit {
 
   }
   updateDetails(index){
-    console.log('ddd', index, this.editableForm);
+    console.log('ddd', index, this.tabelRows['controls'][index+1].value);
     this.detailsEdit = true;
+   let updateData = {
+      "state": this.tabelData[index].state,
+      "ulb" : this.tabelData[index].ulb,
+      "accountantName": this.tabelRows['controls'][index+1].value.nodal_officer_name,
+      "accountantEmail": this.tabelRows['controls'][index+1].value.nodal_officer_email,
+      "accountantConatactNumber": this.tabelRows['controls'][index+1].value.nodal_officer_phone,
+      "designation": this.tabelData[index].designation,
+      "address": this.tabelData[index].address,
+      "departmentName": this.tabelData[index].departmentName,
+      "departmentEmail": this.tabelData[index].departmentEmail,
+      "departmentContactNumber": this.tabelData[index].departmentContactNumber
+    }
+
+    this._stateformsService.updateRequest(updateData)
+    .subscribe((res) => {
+      console.log('profile', res);
+    },
+    error => {
+      this.errMessage = error.message;
+      console.log(error, this.errMessage);
+    });
+    console.log('updateData', updateData)
     this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_name').disable();
     this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_email').disable();
     this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_phone').disable();
