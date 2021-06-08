@@ -315,7 +315,7 @@
             </ul>
 
 
-            <ul class="heading" style="background-color: #124A55; " *ngIf="isMillionPlus =='No'">
+            <ul class="heading" style="background-color: #124A55; " *ngIf="(this.isUA =='Yes' && (this.isMillionPlus == 'Yes' || this.isMillionPlus == 'No' )) || (this.isUA =='No' &&  this.isMillionPlus == 'No') ">
 
                 <h5 style="margin-left: 4px;">
                     <div class="row">
@@ -330,7 +330,9 @@
                     </div>
                 </h5>
             </ul>
-            <ul class="links" routerLinkActive="active" *ngIf="isMillionPlus =='No'">
+            <ul class="links" routerLinkActive="active" *ngIf="(this.isUA =='Yes' && (this.isMillionPlus == 'Yes' || this.isMillionPlus == 'No' )) || (this.isUA =='No' &&  this.isMillionPlus == 'No') ">
+
+
                 <div class="row">
 
                     <a routerLink="water-sanitation">
