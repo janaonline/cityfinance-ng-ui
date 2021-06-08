@@ -14,7 +14,7 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./pfms-preview.component.scss']
 })
 export class PfmsPreviewComponent implements OnInit {
-
+  @Input() parentData: any;
   modalRef: BsModalRef;
   @ViewChild("pfmsPre") _html: ElementRef;
   showLoader;
@@ -72,8 +72,14 @@ export class PfmsPreviewComponent implements OnInit {
     </style>`
 
   formStatusCheck = ''
+  statusArray = [
+    'Not Started',
+    'Under Review By State',
+    'Completed but Not Submitted',
+    'In Progress'
+  ]
+  formData
 
-  @Input() parentData
   @Input()
   changeFromOutSide: any;
   @Output() change = new EventEmitter<any>();
@@ -82,36 +88,51 @@ export class PfmsPreviewComponent implements OnInit {
   subParentForModal
 
   ngOnInit(): void {
-
+    let getData = JSON.parse(sessionStorage.getItem("pfmsAccounts"));
     this.subParentForModal = this.LinkPFMSAccount.OpenModalTrigger.subscribe((change) => {
       if (this.changeFromOutSide) {
         this.openDialog(this.template);
       }
     });
 
+
     if (this.parentData) {
       this.data = this.parentData
     }
-    // let getData = JSON.parse(sessionStorage.getItem("pfmsAccounts"));
-    let getData = this.data
 
+    console.log(this.data)
     console.log(getData)
+    if (getData) {
+      let change = sessionStorage.getItem("changeInPFMSAccount");
+      if (change == "true") {
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[2]
+        }
+      } else if (change == "false") {
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[1]
+        }
 
-    if (!getData) {
-
-      this.formStatusCheck = 'Not Started'
-    }
-    if (getData['isDraft'] == true) {
-      console.log('1')
-      this.formStatusCheck = 'In Progress'
-    } else if (getData['isDraft'] == false) {
-      console.log('2')
-      this.formStatusCheck = 'Completed'
+      }
     } else {
-      console.log('3')
-      this.formStatusCheck = 'Not Started'
+      let change = sessionStorage.getItem("changeInPFMSAccount");
+      if (change == "true") {
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[2]
+        }
+      } else if (change == "false") {
+        this.formStatusCheck = this.statusArray[0]
+
+      }
 
     }
+
     this.clicked = false
 
   }
@@ -216,11 +237,11 @@ export class PfmsPreviewComponent implements OnInit {
           console.log(error, this.errMessage);
         });
 
-    if(this.changeFromOutSide){
+    if (this.changeFromOutSide) {
       this._ulbformService.initiateDownload.next(true);
     }
     else
-    this.downloadAsPDF()
+      this.downloadAsPDF()
 
 
   }

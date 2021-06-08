@@ -153,15 +153,13 @@ export class PreviewSlbComponentComponent implements OnInit {
   ) { }
 
   ngOnChanges() { }
-  formStatus = [
-    'Not Started',
-    'In Progress & Not Submitted',
-    'Completed & Not Submitted',
-    'In Progress & Submitted',
-    'Completed & Submitted',
-
-  ]
   formStatusCheck = ''
+  statusArray = [
+    'Not Started',
+    'Under Review By State',
+    'Completed but Not Submitted',
+    'In Progress'
+  ]
   ngOnInit() {
 
     this.subParentForModal = this._commonService.OpenModalTrigger.subscribe(
@@ -175,25 +173,40 @@ export class PreviewSlbComponentComponent implements OnInit {
     let getData = JSON.parse(sessionStorage.getItem("slbData"));
     this.data = this.formatResponse(this.data);
     this.data.history = null;
-    console.log(getData)
-    console.log(this.data)
+    console.log('getData', getData)
+    console.log('this.data', this.data)
 
-    if (getData['data'].length == 0 && this.data?.isCompleted == undefined) {
-      this.formStatusCheck = this.formStatus[0]
-    } else if (getData['data'].length == 0 && this.data?.isCompleted) {
-      this.formStatusCheck = this.formStatus[2]
-    } else if (getData['data'].length == 0 && !this.data?.isCompleted) {
-      this.formStatusCheck = this.formStatus[1]
-    }
-    else {
-      if (getData['data'][0]['isCompleted']) {
-        this.formStatusCheck = this.formStatus[4]
-      } else if (!getData['data'][0]['isCompleted']) {
-        this.formStatusCheck = this.formStatus[3]
-      } else {
-        this.formStatusCheck = this.formStatus[0]
+    if (getData.data.length > 0) {
+      let change = sessionStorage.getItem("changeInSLB");
+      if (change == "true") {
+        if (this.data['isCompleted']) {
+          this.formStatusCheck = this.statusArray[2]
+        } else if (!this.data['isCompleted']) {
+          this.formStatusCheck = this.statusArray[3]
+        }
+      } else if (change == "false") {
+        if (getData['data'][0]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[1]
+        } else if (!getData['data'][0]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[3]
+        }
+
       }
+    } else {
+      let change = sessionStorage.getItem("changeInSLB");
+      if (change == "true") {
+        if (this.data['isCompleted']) {
+          this.formStatusCheck = this.statusArray[2]
+        } else if (!this.data['isCompleted']) {
+          this.formStatusCheck = this.statusArray[3]
+        }
+      } else if (change == "false") {
+        this.formStatusCheck = this.statusArray[0]
+
+      }
+
     }
+
     console.log('hi', JSON.stringify(this.data));
     if (this.data.preWater?.index != undefined) {
 
@@ -269,7 +282,7 @@ export class PreviewSlbComponentComponent implements OnInit {
     }
     this.onWaterWasteManagementEmitValue(obj)
     sessionStorage.setItem("changeInSLB", "false");
-    if(this.changeFromOutSide){
+    if (this.changeFromOutSide) {
       this._ulbformService.initiateDownload.next(true);
     }
     else this.downloadAsPDF()
