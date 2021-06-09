@@ -1,9 +1,10 @@
-import { ModuleWithProviders } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { ModuleWithProviders } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-import { HomeComponent } from './auth/home/home.component';
+import { HomeComponent } from "./auth/home/home.component";
 
-import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component"
+import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
+import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvation/water-rejenuvation.component";
 
 export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -28,14 +29,14 @@ export const appRouter: Routes = [
   {
     path: "fc-home-page",
     loadChildren: () =>
-      import("./pages/fc-grant-home/fc-grant-home.module").then((m) => m.FcGrantHomeModule),
+      import("./pages/fc-grant-home/fc-grant-home.module").then(
+        (m) => m.FcGrantHomeModule
+      ),
   },
   {
     path: "ulbform",
     loadChildren: () =>
-      import("./pages/ulbform/ulbform.module").then(
-        (m) => m.UlbformModule
-      ),
+      import("./pages/ulbform/ulbform.module").then((m) => m.UlbformModule),
   },
   {
     path: "stateform",
@@ -133,15 +134,18 @@ export const appRouter: Routes = [
       import("./pages/ulbs-visualization/ulbs-visualization.module").then(
         (m) => m.UlbsVisualizationModule
       ),
-  }, {
+  },
+  {
     path: "ulb-not-registered",
-    component: UlbNotRegisteredComponent
+    component: UlbNotRegisteredComponent,
+  },
+  {
+    path:"app-water-rejenuvation",
+    component: WaterRejenuvationComponent
   },
 
   { path: "**", redirectTo: "" },
 ];
 
-export const AppRouter: ModuleWithProviders<RouterModule> = RouterModule.forRoot(
-  appRouter,
-  { relativeLinkResolution: "legacy" }
-);
+export const AppRouter: ModuleWithProviders<RouterModule> =
+  RouterModule.forRoot(appRouter, { relativeLinkResolution: "legacy" });

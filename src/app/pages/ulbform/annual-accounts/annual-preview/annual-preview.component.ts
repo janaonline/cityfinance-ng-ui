@@ -134,7 +134,7 @@ export class AnnualPreviewComponent implements OnInit {
   totalStatus;
   subParentForModal;
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.subParentForModal =
       this.annualAccountsService.OpenModalTrigger.subscribe((change) => {
         if (this.changeFromOutSide) {
@@ -147,6 +147,10 @@ export class AnnualPreviewComponent implements OnInit {
       this.parentData = this.data;
       this.fromParent = false;
     }
+    // let annualData = JSON.parse(JSON.stringify(this.data));
+    // annualData[0] = await this.annualAccountComp.checkForm(annualData[0])
+    // annualData[1] = await this.annualAccountComp.checkForm(annualData[1])
+    // this.parentData = annualData
     this.setData();
     this.previewStatuSet();
   }
@@ -283,16 +287,22 @@ export class AnnualPreviewComponent implements OnInit {
     'In Progress'
   ]
 
-  previewStatuSet() {
+  async previewStatuSet() {
     console.log(this.data)
-    let annualData = JSON.parse(sessionStorage.getItem("annualAccounts"));
-
+    let annualData
+    if (!this.fromParent) {
+      annualData = JSON.parse(JSON.stringify(this.data));
+    } else {
+      annualData = this.data.annualAccountData;
+    }
+    annualData[0] = await this.annualAccountComp.checkForm(annualData[0])
+    annualData[1] = await this.annualAccountComp.checkForm(annualData[1])
     if (annualData[0]['isCompleted'] != null && annualData[1]['isCompleted'] != null) {
       let change = sessionStorage.getItem("changeInAnnual");
       if (change == "true") {
-        if (this.data[0]['isCompleted'] && this.data[1]['isCompleted']) {
+        if (annualData[0]['isCompleted'] && annualData[1]['isCompleted']) {
           this.formStatusCheck = this.statusArray[2]
-        } else if (!this.data[0]['isCompleted'] || !this.data[1]['isCompleted']) {
+        } else if (!annualData[0]['isCompleted'] || !annualData[1]['isCompleted']) {
           this.formStatusCheck = this.statusArray[3]
         }
       } else if (change == "false") {
@@ -306,9 +316,9 @@ export class AnnualPreviewComponent implements OnInit {
     } else {
       let change = sessionStorage.getItem("changeInAnnual");
       if (change == "true") {
-        if (this.data[0]['isCompleted'] && this.data[1]['isCompleted']) {
+        if (annualData[0]['isCompleted'] && annualData[1]['isCompleted']) {
           this.formStatusCheck = this.statusArray[2]
-        } else if (!this.data[0]['isCompleted'] || !this.data[1]['isCompleted']) {
+        } else if (!annualData[0]['isCompleted'] || !annualData[1]['isCompleted']) {
           this.formStatusCheck = this.statusArray[3]
         }
       } else if (change == "false") {

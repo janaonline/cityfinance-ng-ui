@@ -2,19 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import 'chartjs-plugin-labels';
 import { pipe } from 'rxjs';
-import { DashboardService } from './state-dashboard.service'
+import { StateDashboardService } from "./state-dashboard.service";
 @Component({
-  selector: 'app-state-dashboard',
-  templateUrl: './state-dashboard.component.html',
-  styleUrls: ['./state-dashboard.component.scss']
+  selector: "app-state-dashboard",
+  templateUrl: "./state-dashboard.component.html",
+  styleUrls: ["./state-dashboard.component.scss"],
 })
 export class StateDashboardComponent implements OnInit {
+<<<<<<< HEAD
 
 
 
   constructor(
     private DashboardService: DashboardService
   ) { }
+=======
+  constructor(public stateDashboardService: StateDashboardService) {}
+>>>>>>> a348425d29d84fd83262426245cdba929f3a2c8e
 
   ngOnInit(): void {
     this.onLoad();
@@ -35,6 +39,7 @@ export class StateDashboardComponent implements OnInit {
     this.pfmsDonughtChart();
     this.utilReportDonughtChart();
     this.slbDonughtChart();
+    this.getUasList();
 
   }
 
@@ -62,16 +67,6 @@ export class StateDashboardComponent implements OnInit {
         'Not Registered',
         'Pending Response                                                '
       ],
-      datasets: [{
-        label: 'My First Dataset',
-        data: [300, 50, 100],
-        backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)'
-        ],
-        hoverOffset: 4
-      }]
     };
     const canvas = <HTMLCanvasElement>document.getElementById('pfms');
     const ctx = canvas.getContext('2d');
@@ -277,6 +272,20 @@ export class StateDashboardComponent implements OnInit {
 
     });
   }
-
+  getUasList() {
+    this.stateDashboardService.getUasList().subscribe(
+      (res) => {
+        console.log(res["data"]);
+        let newList = {};
+        res["data"]["uaList"].forEach((element) => {
+          newList[element._id] = element;
+        });
+        sessionStorage.setItem("UasList", JSON.stringify(newList));
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
 
 }

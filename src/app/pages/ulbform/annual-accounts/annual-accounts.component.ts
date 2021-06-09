@@ -316,9 +316,6 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   onPreview() {
-    this.checkForm(this.auditResponse)
-    this.checkForm(this.unauditResponse)
-
     const dialogRef = this.dialog.open(AnnualPreviewComponent, {
       data: [this.auditResponse, this.unauditResponse],
       height: "95%",
@@ -473,7 +470,7 @@ export class AnnualAccountsComponent implements OnInit {
       if (form.submit_annual_accounts.answer === "no") {
         delete form.provisional_data;
         form["isCompleted"] = true;
-        return res("sucess");
+        return res(form);
       } else if (form.submit_annual_accounts.answer === null) {
         delete form.provisional_data;
       }
@@ -538,7 +535,7 @@ export class AnnualAccountsComponent implements OnInit {
       } else {
         form["isCompleted"] = true;
       }
-      res("sucess");
+      res(form);
     });
   }
 

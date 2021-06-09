@@ -6,6 +6,7 @@ import { WaterSupplyComponent } from './water-supply/water-supply.component';
 import { ReviewUlbFormComponent } from './review-ulb-form/review-ulb-form.component';
 import { EditUlbProfileComponent } from './edit-ulb-profile/edit-ulb-profile.component';
 import { StateDashboardComponent } from './state-dashboard/state-dashboard.component'
+import {WaterRejenuvationComponent} from "./water-rejenuvation/water-rejenuvation.component"
 const routes: Routes = [
   {
     path: "",
@@ -26,7 +27,9 @@ const routes: Routes = [
       {
         path: "edit-ulb-profile", component: EditUlbProfileComponent
       },
-
+      {
+        path: "water-rejenuvation", component: WaterRejenuvationComponent,
+      }
     ]
   }
 ]

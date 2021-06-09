@@ -1064,19 +1064,19 @@ export class UtilisationReportComponent implements OnInit {
       this.UtiReportService.setLocation(this.tabelRows.value[index].location);
     }
     const dialogRef = this.dialog.open(MapDialogComponent, {
-      width: "60%",
-      height: "70%",
+      width: "auto",
+      height: "auto",
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.setLocation = this.UtiReportService.getLocation();
+      this.setLocation = result
       if (this.setLocation !== null) {
         this.tabelRows.controls[index][
           "controls"
         ].location.controls.lat.patchValue(this.setLocation.lat);
         this.tabelRows.controls[index][
           "controls"
-        ].location.controls.long.patchValue(this.setLocation.lng);
+        ].location.controls.long.patchValue(this.setLocation.long);
       }
     });
   }
