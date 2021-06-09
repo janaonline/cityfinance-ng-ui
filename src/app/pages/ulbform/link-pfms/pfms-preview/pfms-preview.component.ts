@@ -75,8 +75,10 @@ export class PfmsPreviewComponent implements OnInit {
   statusArray = [
     'Not Started',
     'Under Review By State',
-    'Completed but Not Submitted',
-    'In Progress'
+    'Completed',
+    'In Progress',
+    'Registered',
+    'Not Registered'
   ]
   formData
 
@@ -108,13 +110,22 @@ export class PfmsPreviewComponent implements OnInit {
         if (this.data['isDraft']) {
           this.formStatusCheck = this.statusArray[3]
         } else if (!this.data['isDraft']) {
-          this.formStatusCheck = this.statusArray[2]
+          if (this.data['linked'] == "yes") {
+            this.formStatusCheck = this.statusArray[4]
+          } else if (this.data['linked'] == "no") {
+            this.formStatusCheck = this.statusArray[5]
+          }
+
         }
       } else if (change == "false") {
         if (this.data['isDraft']) {
           this.formStatusCheck = this.statusArray[3]
         } else if (!this.data['isDraft']) {
-          this.formStatusCheck = this.statusArray[1]
+          if (this.data['linked'] == "yes") {
+            this.formStatusCheck = this.statusArray[4]
+          } else if (this.data['linked'] == "no") {
+            this.formStatusCheck = this.statusArray[5]
+          }
         }
 
       }

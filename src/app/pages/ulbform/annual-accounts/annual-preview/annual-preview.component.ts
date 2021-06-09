@@ -279,7 +279,7 @@ export class AnnualPreviewComponent implements OnInit {
   statusArray = [
     'Not Started',
     'Under Review By State',
-    'Completed but Not Submitted',
+    'Completed',
     'In Progress'
   ]
 
@@ -297,7 +297,7 @@ export class AnnualPreviewComponent implements OnInit {
         }
       } else if (change == "false") {
         if (this.data[0]['isCompleted'] && this.data[1]['isCompleted']) {
-          this.formStatusCheck = this.statusArray[1]
+          this.formStatusCheck = this.statusArray[2]
         } else if (!this.data[0]['isCompleted'] || !this.data[1]['isCompleted']) {
           this.formStatusCheck = this.statusArray[3]
         }

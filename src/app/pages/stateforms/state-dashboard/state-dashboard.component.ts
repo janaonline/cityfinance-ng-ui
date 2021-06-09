@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import 'chartjs-plugin-labels';
 import { pipe } from 'rxjs';
+import { DashboardService } from './state-dashboard.service'
 @Component({
   selector: 'app-state-dashboard',
   templateUrl: './state-dashboard.component.html',
@@ -12,11 +13,22 @@ export class StateDashboardComponent implements OnInit {
 
 
   constructor(
-
+    private DashboardService: DashboardService
   ) { }
 
   ngOnInit(): void {
+    this.onLoad();
 
+
+  }
+  errMessage = ''
+  totalUlbs = 0;
+  nonMillionCities = 0;
+  millionPlusUAs = 0;
+  UlbInMillionPlusUA = 0;
+  onLoad() {
+
+    this.getData();
     this.mainDonughtChart();
     this.gaugeChart1();
     this.gaugeChart2();
@@ -24,6 +36,23 @@ export class StateDashboardComponent implements OnInit {
     this.utilReportDonughtChart();
     this.slbDonughtChart();
 
+  }
+
+  getData() {
+    this.DashboardService.getCardData()
+      .subscribe((res) => {
+        console.log(res);
+        let data = res[0];
+        this.totalUlbs = data.totalUlbs;
+        this.nonMillionCities = data.nonMillionCities;
+        this.millionPlusUAs = data.millionPlusUAs;
+        this.UlbInMillionPlusUA = data.UlbInMillionPlusUA
+
+      },
+        error => {
+          this.errMessage = error.message;
+          console.log(error, this.errMessage);
+        });
   }
 
   pfmsDonughtChart() {
