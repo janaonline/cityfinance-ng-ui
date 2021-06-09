@@ -9,16 +9,7 @@ import { StateDashboardService } from "./state-dashboard.service";
   styleUrls: ["./state-dashboard.component.scss"],
 })
 export class StateDashboardComponent implements OnInit {
-<<<<<<< HEAD
-
-
-
-  constructor(
-    private DashboardService: DashboardService
-  ) { }
-=======
-  constructor(public stateDashboardService: StateDashboardService) {}
->>>>>>> a348425d29d84fd83262426245cdba929f3a2c8e
+  constructor(public stateDashboardService: StateDashboardService) { }
 
   ngOnInit(): void {
     this.onLoad();
@@ -44,20 +35,20 @@ export class StateDashboardComponent implements OnInit {
   }
 
   getData() {
-    this.DashboardService.getCardData()
-      .subscribe((res) => {
-        console.log(res);
-        let data = res[0];
-        this.totalUlbs = data.totalUlbs;
-        this.nonMillionCities = data.nonMillionCities;
-        this.millionPlusUAs = data.millionPlusUAs;
-        this.UlbInMillionPlusUA = data.UlbInMillionPlusUA
+    // this.DashboardService.getCardData()
+    //   .subscribe((res) => {
+    //     console.log(res);
+    //     let data = res[0];
+    //     this.totalUlbs = data.totalUlbs;
+    //     this.nonMillionCities = data.nonMillionCities;
+    //     this.millionPlusUAs = data.millionPlusUAs;
+    //     this.UlbInMillionPlusUA = data.UlbInMillionPlusUA
 
-      },
-        error => {
-          this.errMessage = error.message;
-          console.log(error, this.errMessage);
-        });
+    //   },
+    //     error => {
+    //       this.errMessage = error.message;
+    //       console.log(error, this.errMessage);
+    //     });
   }
 
   pfmsDonughtChart() {
