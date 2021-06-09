@@ -14,6 +14,8 @@ import { WaterRecyclingComponent } from './water-recycling/water-recycling.compo
 import { ActionPlanUAComponent } from './action-plan-ua/action-plan-ua.component';
 import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
 import { GtcertificatePreviewComponent } from './gtcertificate/gtcertificate-preview/gtcertificate-preview.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { WaterRejenuvationComponent } from './water-rejenuvation/water-rejenuvation.component';
@@ -40,7 +42,9 @@ import { WaterRejenuvationPreviewComponent } from './water-rejenuvation/water-re
     StateformsRoutingModule,
     MatIconModule,
     ReactiveFormsModule,
+    MatTooltipModule,
     SharedModule,
+    TooltipModule.forRoot(),
     CollapseModule.forRoot(),
   ]
 })

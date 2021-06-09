@@ -49,7 +49,6 @@ export class WaterRejenuvationComponent implements OnInit {
         }
       }
     });
-
   }
 
   async ngOnInit() {
@@ -59,7 +58,6 @@ export class WaterRejenuvationComponent implements OnInit {
   }
   @ViewChild("template") template;
   @ViewChild("template1") template1;
-  
 
   saveBtnText = "NEXT";
   routerNavigate = null;
@@ -67,20 +65,18 @@ export class WaterRejenuvationComponent implements OnInit {
   showLoader = true;
   data;
   waterRejenuvation: FormGroup;
-  waterBodies: FormGroup;
-  waterRecycle: FormGroup;
-  inUaData: FormGroup;
   maxPhotos = 5;
   photosArray = [];
   errorPhotosArray = [];
   dialogRefForNavigation;
-  isDraft = null
+  isDraft = null;
+  errorOnload = false
 
   userData = JSON.parse(localStorage.getItem("userData"));
   Year = JSON.parse(localStorage.getItem("Years"));
   uasData = JSON.parse(sessionStorage.getItem("UasList"));
+
   public initializeReport() {
-    
     this.waterRejenuvation = this.fb.group({
       state: this.fb.control(this.userData["state"], [Validators.required]),
       design_year: this.fb.control(this.Year["2021-22"], [Validators.required]),
@@ -89,7 +85,6 @@ export class WaterRejenuvationComponent implements OnInit {
       isDraft: this.fb.control(this.isDraft, []),
     });
     this.waterRejenuvation.valueChanges.subscribe((change) => {
-
       let data = sessionStorage.getItem("waterRejenuvationData");
       change.uaData.forEach((element) => {
         delete element.foldCard;
@@ -106,7 +101,7 @@ export class WaterRejenuvationComponent implements OnInit {
     this.waterRejenuvation.statusChanges.subscribe((change) => {
       if (change != "INVALID") {
         this.waterRejenuvation.controls.isDraft.patchValue(false);
-      }else{
+      } else {
         this.waterRejenuvation.controls.isDraft.patchValue(true);
       }
     });
@@ -124,7 +119,6 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   getSubControlsWaterReuse(index) {
-
     return this.f.uaData["controls"][index]["controls"]["reuseWater"][
       "controls"
     ] as FormArray;
@@ -148,9 +142,9 @@ export class WaterRejenuvationComponent implements OnInit {
   getWaterBodies(dataArray) {
     return dataArray.map((data) =>
       this.fb.group({
-        name: this.fb.control(data.name, [Validators.required]),
+        name: this.fb.control(data.name, [Validators.required,Validators.maxLength(25)]),
         area: this.fb.control(data.area, [Validators.required]),
-        nameOfBody: this.fb.control(data.nameOfBody, [Validators.required]),
+        nameOfBody: this.fb.control(data.nameOfBody, [Validators.required,Validators.maxLength(25)]),
         lat: this.fb.control(data.lat, [Validators.required]),
         long: this.fb.control(data.long, [Validators.required]),
         photos: this.fb.array(this.getPhotos(data.photos), [
@@ -161,7 +155,7 @@ export class WaterRejenuvationComponent implements OnInit {
         do: this.fb.control(data.do, [Validators.required]),
         tds: this.fb.control(data.tds, [Validators.required]),
         turbidity: this.fb.control(data.tds, [Validators.required]),
-        details: this.fb.control(data.details, [Validators.required]),
+        details: this.fb.control(data.details, [Validators.required,Validators.maxLength(200)]),
       })
     );
   }
@@ -178,9 +172,13 @@ export class WaterRejenuvationComponent implements OnInit {
   getReuseWater(dataArray) {
     return dataArray.map((data) =>
       this.fb.group({
-        name: this.fb.control(data.name, [Validators.required]),
+        name: this.fb.control(data.name, [
+          Validators.required,
+          Validators.maxLength(25),
+        ]),
         treatmentPlant: this.fb.control(data.treatmentPlant, [
           Validators.required,
+          Validators.maxLength(25),
         ]),
         lat: this.fb.control(data.lat, [Validators.required]),
         long: this.fb.control(data.long, [Validators.required]),
@@ -193,8 +191,9 @@ export class WaterRejenuvationComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.waterRejenuvationService.getData(this.Year["2021-22"]).subscribe(
         (res) => {
+          this.errorOnload = true
           this.data = res["data"]["uaData"];
-          this.isDraft = res["data"].isDraft
+          this.isDraft = res["data"].isDraft;
           this.storeData(res["data"]);
           this.showLoader = false;
           resolve("ss");
@@ -302,12 +301,11 @@ export class WaterRejenuvationComponent implements OnInit {
 
   submit(fromPrev = null) {
     console.log(this.waterRejenuvation.controls);
-    
-    if(this.saveBtnText == "NEXT"){
-      return // router link
+    if (this.saveBtnText == "NEXT") {
+      return; // router link
     }
-    if(this.waterRejenuvation.value.isDraft){
-      return this.openModal(this.template1)
+    if (this.waterRejenuvation.value.isDraft && fromPrev == null) {
+      return this.openModal(this.template1);
     }
     this.waterRejenuvationService
       .postData(this.waterRejenuvation.value)
@@ -349,8 +347,7 @@ export class WaterRejenuvationComponent implements OnInit {
       width: "500px",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   removePhotos(waterIndex, uaIndex) {
@@ -364,23 +361,27 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   openMap(nameIndex, uaIndex, name): void {
-    let data
-    if(name == 'waterBodies'){
+    let data;
+    if (name == "waterBodies") {
       data = {
-        lat: this.getSubControlsWaterBodies(uaIndex)[nameIndex].controls.lat.value,
-        long: this.getSubControlsWaterBodies(uaIndex)[nameIndex].controls.long.value
-      }
-    }else{
+        lat: this.getSubControlsWaterBodies(uaIndex)[nameIndex].controls.lat
+          .value,
+        long: this.getSubControlsWaterBodies(uaIndex)[nameIndex].controls.long
+          .value,
+      };
+    } else {
       data = {
-        lat: this.getSubControlsWaterReuse(uaIndex)[nameIndex].controls.lat.value,
-        long: this.getSubControlsWaterReuse(uaIndex)[nameIndex].controls.long.value
-      }
+        lat: this.getSubControlsWaterReuse(uaIndex)[nameIndex].controls.lat
+          .value,
+        long: this.getSubControlsWaterReuse(uaIndex)[nameIndex].controls.long
+          .value,
+      };
     }
-    if(data.lat == null || data.long == null){
-      data = null
+    if (data.lat == null || data.long == null) {
+      data = null;
     }
     const dialogRef = this.dialog.open(MapDialogComponent, {
-      data:data,
+      data: data,
       width: "auto",
       height: "auto",
     });
@@ -523,7 +524,13 @@ export class WaterRejenuvationComponent implements OnInit {
       width: "90%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  checkErrorState(projectRow,val){
+    if(this.errorOnload){
+      return projectRow.controls[val].invalid
+    }
+    return projectRow.controls[val].invalid && (projectRow.controls[val].dirty || projectRow.controls[val].touched)
   }
 }

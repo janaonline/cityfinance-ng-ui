@@ -48,13 +48,19 @@
                                         <span>{{1+waterBodiesIndex}}</span>
                                     </td>
                                     <td>
-                                        <input formControlName="name" type="text" />
+                                        <input formControlName="name" matTooltipPosition="above"
+                                            [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}"
+                                            [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null"
+                                            type="text" />
                                     </td>
                                     <td>
-                                        <input formControlName="area" type="text">
+                                        <input formControlName="nameOfBody" matTooltipPosition="above"
+                                            [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}"
+                                            [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-25 Characters' : null"
+                                            type="number" min="0" />
                                     </td>
                                     <td>
-                                        <input formControlName="nameOfBody" type="number">
+                                        <input formControlName="area" type="number">
                                     </td>
                                     <td>
                                         <div class="image-upload" style="display: inline-block;">
@@ -82,8 +88,9 @@
                                             </span></a>
                                     </td>
                                     <td style="display: inline-flex;">
-                                        <input formControlName="lat" type="number" appSixDigitDecimaNumber>
-                                        <input formControlName="long" style="margin-left: 1ch;" type="number" appSixDigitDecimaNumber>
+                                        <input formControlName="lat" type="number" min="0" appSixDigitDecimaNumber>
+                                        <input formControlName="long" style="margin-left: 1ch;" type="number" min="0"
+                                            appSixDigitDecimaNumber>
                                         <a (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')">
                                             <mat-icon class="file" aria-hidden="false">
                                                 <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
@@ -91,22 +98,26 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <input formControlName="bod" type="number">
+                                        <input formControlName="bod" type="number" min="0">
                                     </td>
                                     <td>
-                                        <input formControlName="cod" type="number">
+                                        <input formControlName="cod" type="number" min="0">
                                     </td>
                                     <td>
-                                        <input formControlName="do" type="number">
+                                        <input formControlName="do" type="number" min="0">
                                     </td>
                                     <td>
-                                        <input formControlName="tds" type="number">
+                                        <input formControlName="tds" type="number" min="0">
                                     </td>
                                     <td>
-                                        <input formControlName="turbidity" type="number">
+                                        <input formControlName="turbidity" type="number" min="0">
                                     </td>
                                     <td>
-                                        <input formControlName="details" type="text">
+                                        <input formControlName="details"
+                                            [ngClass]="{'falseVal': checkErrorState(projectRow,'details')}"
+                                            matTooltipPosition="above"
+                                            [matTooltip]="checkErrorState(projectRow,'details') ? 'Enter 1-200 Characters' : null"
+                                            type="text" />
                                     </td>
                                 </tr>
                             </tbody>
@@ -134,14 +145,21 @@
                                         <span>{{1+reuseWaterIndex}}</span>
                                     </td>
                                     <td>
-                                        <input formControlName="name" type="text">
+                                        <input formControlName="name" matTooltipPosition="above"
+                                            [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}"
+                                            [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null"
+                                            type="text" />
                                     </td>
                                     <td>
-                                        <input formControlName="treatmentPlant" type="text">
+                                        <input formControlName="treatmentPlant" matTooltipPosition="above"
+                                            [ngClass]="{'falseVal': checkErrorState(projectRow,'treatmentPlant')}"
+                                            [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'Enter 1-25 Characters' : null"
+                                            type="text">
                                     </td>
                                     <td style="display: inline-flex;">
-                                        <input formControlName="lat" type="number" appSixDigitDecimaNumber>
-                                        <input formControlName="long" style="margin-left: 1pc;" type="number" appSixDigitDecimaNumber>
+                                        <input formControlName="lat" type="number" min="0" appSixDigitDecimaNumber>
+                                        <input formControlName="long" style="margin-left: 1pc;" type="number" min="0"
+                                            appSixDigitDecimaNumber>
                                         <a (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')">
                                             <mat-icon aria-hidden="false">
                                                 <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
@@ -149,7 +167,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <input formControlName="stp" type="number">
+                                        <input formControlName="stp" type="number" min="0">
                                     </td>
                                 </tr>
                             </tbody>
