@@ -276,11 +276,7 @@ export class WaterSanitationComponent implements OnInit {
           const status = JSON.parse(sessionStorage.getItem("allStatus"));
           status.plans.isSubmit = res["isCompleted"];
           this._ulbformService.allStatus.next(status);
-          swal({
-            title: "Submitted",
-            text: "Record submitted successfully!",
-            icon: "success",
-          });
+          swal("Record submitted successfully!");
           if (this.routerNavigate) {
             this._router.navigate([this.routerNavigate.url]);
           }

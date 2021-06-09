@@ -756,7 +756,7 @@
                         <label class="btn "
                             [ngClass]="{'qbtn': !quesTwoAnswer, 'qbtn2':quesTwoAnswer, 'cross':isDisabled}"
                             for="btnUnauditB">
-                            Yes
+                            Yes{{quesTwoAnswer}}
                         </label>
                         <input type="radio" name="btnYesNoUnaudit2" value="2" [disabled]="isDisabled"
                             [checked]="(unauditResponse.submit_standardized_data.answer == 'no')?true:false"
@@ -773,7 +773,7 @@
                 <div class="col-sm-12" *ngIf="quesTwoAnswer">
                     <div class="col-sm-2 center" style="padding: 0;">
                         <a class="btn btn22"
-                            href="https://docs.google.com/spreadsheets/d/1AHflpVjDKERShznDaaxf1BYHWK-Xd7pQ/edit#gid=839498159"
+                            href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx"
                             target="_blank">
                             Download Template
                         </a>
@@ -1666,7 +1666,7 @@
                         <label class="btn "
                             [ngClass]="{'qbtn': !quesTwoAnswer1, 'qbtn2':quesTwoAnswer1, 'cross':isDisabled}"
                             for="btnAuditB">
-                            Yes
+                            Yes{{quesTwoAnswer1}}
                         </label>
                         <input type="radio" name="btnYesNoAudit2" value="2" [disabled]="isDisabled"
                             [checked]="(auditResponse.submit_standardized_data.answer == 'no')?true:false"
@@ -1683,7 +1683,7 @@
                 <div class="col-sm-12" *ngIf="quesTwoAnswer1">
                     <div class="col-sm-2 center" style="padding: 0;">
                         <a class="btn btn22"
-                            href="https://docs.google.com/spreadsheets/d/1AHflpVjDKERShznDaaxf1BYHWK-Xd7pQ/edit#gid=839498159"
+                            href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx"
                             target="_blank">
                             Download Template
                         </a>

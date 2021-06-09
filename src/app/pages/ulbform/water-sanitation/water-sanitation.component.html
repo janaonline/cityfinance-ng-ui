@@ -17,8 +17,8 @@
             <div class="card-body ">
                 <div class="table-responsive">
                     <div>
-                        <h4>Details of Proposed Project to Improve Service Level Indicators related to <b
-                                class="text-primary">Water Supply</b>
+                        <h4>Details of Proposed Project to Improve Service Level Indicators related to Water
+                                Supply
                         </h4>
                     </div>
                     <table class="table custom-position">
@@ -38,11 +38,17 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input [ngClass]="{'error': errors.water.lengthError.text}" matTooltipPosition="above" [matTooltip]="errors.water.lengthError.text ? 'at Max 25 Characters' : null" type="text" (keyup)="onKey($event,'water.name')"
+                                    <input [ngClass]="{'error': errors.water.lengthError.text}"
+                                        matTooltipPosition="above"
+                                        [matTooltip]="errors.water.lengthError.text ? 'at Max 25 Characters' : null"
+                                        type="text" (keyup)="onKey($event,'water.name')"
                                         placeholder="Enter Project Name" value="{{waterAndSanitation.water.name}}">
                                 </td>
                                 <td>
-                                    <textarea type="textarea" [ngClass]="{'error': errors.water.lengthError.textarea}" matTooltipPosition="above" [matTooltip]="errors.water.lengthError.textarea ? 'at Max 200 Characters' : null" (keyup)="onKey($event,'water.component')"
+                                    <textarea type="textarea" [ngClass]="{'error': errors.water.lengthError.textarea}"
+                                        matTooltipPosition="above"
+                                        [matTooltip]="errors.water.lengthError.textarea ? 'at Max 200 Characters' : null"
+                                        (keyup)="onKey($event,'water.component')"
                                         placeholder="Enter Physical Components">{{waterAndSanitation.water.component}}</textarea>
                                 </td>
                                 <td>
@@ -57,25 +63,31 @@
                                     </mat-form-field>
                                 </td>
                                 <td>
-                                    <input type="number" [ngClass]="{'error': errors.water.serviceLvlError.before}" matTooltipPosition="above" [matTooltip]="errors.water.serviceLvlError.before ? waterToolTip : null" (keyup)="onKey($event,'water.serviceLevel.existing')"
+                                    <input  oninput="this.value = Math.abs(this.value)" type="number" [ngClass]="{'error': errors.water.serviceLvlError.before}"
+                                        matTooltipPosition="above"
+                                        [matTooltip]="errors.water.serviceLvlError.before ? waterToolTip : null"
+                                        (keyup)="onKey($event,'water.serviceLevel.existing')"
                                         placeholder="Enter Existing (As-is)"
                                         value="{{waterAndSanitation.water.serviceLevel.existing}}">
                                 </td>
                                 <td>
-                                    <input type="number" [ngClass]="{'error': errors.water.serviceLvlError.after}" matTooltipPosition="above" [matTooltip]="errors.water.serviceLvlError.after ? waterToolTip : null" (keyup)="onKey($event,'water.serviceLevel.after')"
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" [ngClass]="{'error': errors.water.serviceLvlError.after}"
+                                        matTooltipPosition="above"
+                                        [matTooltip]="errors.water.serviceLvlError.after ? waterToolTip : null"
+                                        (keyup)="onKey($event,'water.serviceLevel.after')"
                                         placeholder="Enter After (To-be)"
                                         value="{{waterAndSanitation.water.serviceLevel.after}}">
                                 </td>
                                 <td>
-                                    <input type="number" (keyup)="onKey($event,'water.cost')" placeholder="Cost in INR"
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" (keyup)="onKey($event,'water.cost')" placeholder="Cost in INR"
                                         value="{{waterAndSanitation.water.cost}}">
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div>
-                        <h4>Details of Proposed Project to Improve Service Level Indicators related to <b
-                                class="text-primary">Sanitation</b></h4>
+                        <h4>Details of Proposed Project to Improve Service Level Indicators related to Sanitation
+                        </h4>
                     </div>
                     <table class="table custom-position">
                         <thead>
@@ -94,17 +106,24 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type="text" [ngClass]="{'error': errors.sanitation.lengthError.text}" matTooltipPosition="above" [matTooltip]="errors.sanitation.lengthError.text ? 'at Max 25 Characters' : null" (keyup)="onKey($event,'sanitation.name')"
-                                        placeholder="Enter Project Name" value="{{waterAndSanitation.sanitation.name}}">
+                                    <input type="text" [ngClass]="{'error': errors.sanitation.lengthError.text}"
+                                        matTooltipPosition="above"
+                                        [matTooltip]="errors.sanitation.lengthError.text ? 'at Max 25 Characters' : null"
+                                        (keyup)="onKey($event,'sanitation.name')" placeholder="Enter Project Name"
+                                        value="{{waterAndSanitation.sanitation.name}}">
                                 </td>
                                 <td>
-                                    <textarea type="textarea" [ngClass]="{'error': errors.sanitation.lengthError.textarea}" matTooltipPosition="above" [matTooltip]="errors.sanitation.lengthError.textarea ? 'at Max 200 Characters' : null" (keyup)="onKey($event,'sanitation.component')"
+                                    <textarea type="textarea"
+                                        [ngClass]="{'error': errors.sanitation.lengthError.textarea}"
+                                        matTooltipPosition="above"
+                                        [matTooltip]="errors.sanitation.lengthError.textarea ? 'at Max 200 Characters' : null"
+                                        (keyup)="onKey($event,'sanitation.component')"
                                         placeholder="Enter Physical Components">{{waterAndSanitation.sanitation.component}}</textarea>
                                 </td>
                                 <td>
                                     <mat-form-field style="margin-top: 1pc;">
                                         <!-- <mat-label>Select</mat-label> -->
-                                        <mat-select  [(value)]="waterAndSanitation.sanitation.serviceLevel.indicator"
+                                        <mat-select [(value)]="waterAndSanitation.sanitation.serviceLevel.indicator"
                                             (selectionChange)="onKey($event,'sanitation.serviceLevel.indicator')">
                                             <mat-option *ngFor="let Indicator of sanitationIndicators"
                                                 [value]="Indicator">
@@ -114,17 +133,23 @@
                                     </mat-form-field>
                                 </td>
                                 <td>
-                                    <input type="number" [ngClass]="{'error': errors.sanitation.serviceLvlError.before}" matTooltipPosition="above" [matTooltip]="errors.sanitation.serviceLvlError.before ? sanitationToolTip : null" (keyup)="onKey($event,'sanitation.serviceLevel.existing')"
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" [ngClass]="{'error': errors.sanitation.serviceLvlError.before}"
+                                        matTooltipPosition="above"
+                                        [matTooltip]="errors.sanitation.serviceLvlError.before ? sanitationToolTip : null"
+                                        (keyup)="onKey($event,'sanitation.serviceLevel.existing')"
                                         placeholder="Enter Existing (As-is)"
                                         value="{{waterAndSanitation.sanitation.serviceLevel.existing}}">
                                 </td>
                                 <td>
-                                    <input type="number" [ngClass]="{'error': errors.sanitation.serviceLvlError.after}" matTooltipPosition="above" [matTooltip]="errors.sanitation.serviceLvlError.after ? sanitationToolTip : null" (keyup)="onKey($event,'sanitation.serviceLevel.after')"
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" [ngClass]="{'error': errors.sanitation.serviceLvlError.after}"
+                                        matTooltipPosition="above"
+                                        [matTooltip]="errors.sanitation.serviceLvlError.after ? sanitationToolTip : null"
+                                        (keyup)="onKey($event,'sanitation.serviceLevel.after')"
                                         placeholder="Enter After (To-be)"
                                         value="{{waterAndSanitation.sanitation.serviceLevel.after}}">
                                 </td>
                                 <td>
-                                    <input type="number" (keyup)="onKey($event,'sanitation.cost')"
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" (keyup)="onKey($event,'sanitation.cost')"
                                         placeholder="Cost in INR" value="{{waterAndSanitation.sanitation.cost}}">
                                 </td>
                             </tr>
