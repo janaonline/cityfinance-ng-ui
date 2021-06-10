@@ -16,5 +16,10 @@ export class StateDashboardService {
     getFormData() {
         return this.http.get('https://60b5e300fe923b0017c84d35.mockapi.io/masterData');
     }
+    getPlansData() {
+        return this.http.get('https://60b5e300fe923b0017c84d35.mockapi.io/plansData');
+    }
+
+
 
 }

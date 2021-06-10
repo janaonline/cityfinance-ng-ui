@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
-import 'chartjs-plugin-labels';
 import { pipe } from 'rxjs';
 import { StateDashboardService } from "./state-dashboard.service";
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
+
 @Component({
   selector: "app-state-dashboard",
   templateUrl: "./state-dashboard.component.html",
@@ -14,6 +15,7 @@ export class StateDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.onLoad();
+    this.svgSetter();
   }
   values = {
     overall_approvedByState: 0,
@@ -41,6 +43,13 @@ export class StateDashboardComponent implements OnInit {
   UlbInMillionPlusUA = 0;
   formDataApiRes;
   selectedLevel;
+  selectUa = '';
+  plansDataApiRes;
+  plans = 0;
+  width1 = '';
+  width2 = '';
+  width3 = '';
+  width4 = '';
   UANames = []
   onLoad() {
     this.mainDonughtChart();
@@ -51,11 +60,20 @@ export class StateDashboardComponent implements OnInit {
     this.slbDonughtChart();
     this.getCardData();
     this.getFormData()
-
+    this.getPlansData();
   }
 
 
-
+  getPlansData() {
+    this.stateDashboardService.getPlansData().subscribe(
+      (res) => {
+        console.log(res);
+        this.plansDataApiRes = res
+      },
+      (err) => {
+        console.log(err);
+      })
+  }
   pfmsDonughtChart() {
     const data = {
       labels: [
@@ -328,7 +346,7 @@ export class StateDashboardComponent implements OnInit {
       })
   }
 
-  updateCharts(){
+  updateCharts() {
     this.mainDonughtChart();
     this.gaugeChart1();
     this.gaugeChart2();
@@ -341,7 +359,7 @@ export class StateDashboardComponent implements OnInit {
     console.log(this.selectedLevel)
     if (this.selectedLevel === "allUlbs") {
       let data = this.formDataApiRes[0]
-      
+
       this.mapValues(data);
       this.updateCharts();
     } else if (this.selectedLevel === "ulbsInMillionPlusUa") {
@@ -353,9 +371,45 @@ export class StateDashboardComponent implements OnInit {
       this.mapValues(data);
       this.updateCharts();
     }
-    
+
+  }
+  selectedUA() {
+    console.log('selectedUA', this.selectUa)
+    this.plansDataApiRes.forEach(element => {
+      if (element.UA === this.selectUa)
+        this.plans = element.plans
+    });
+
+    console.log(this.plans)
+
+    this.calculateValue();
   }
 
+  calculateValue() {
+    if (this.plans <= 25) {
+      this.width1 = String(33 - ((16 / 12.5) * this.plans)) + 'px';
+      this.width2 = '33px';
+      this.width3 = '33px';
+      this.width4 = '33px';
+    } else if (this.plans <= 50 && this.plans > 25) {
+      this.width1 = '0px';
+      this.width2 = String(33 - ((16 / 12.5) * (this.plans - 25))) + 'px';
+      this.width3 = '33px';
+      this.width4 = '33px';
+    } else if (this.plans <= 75 && this.plans > 50) {
+      this.width1 = '0px';
+      this.width2 = '0px';
+      this.width3 = String(33 - ((16 / 12.5) * (this.plans - 50))) + 'px';
+      this.width4 = '33px';
+    } else if (this.plans <= 100 && this.plans > 75) {
+      this.width1 = '0px';
+      this.width2 = '0px';
+      this.width3 = '0px';
+      this.width4 = String(33 - ((16 / 12.5) * (this.plans - 75))) + 'px';
+
+    }
+
+  }
   mapValues(data) {
     this.values.overall_approvedByState = data['overallFormStatus']['approvedByState'],
       this.values.overall_pendingForSubmission = data['overallFormStatus']['pendingForSubmission'],
@@ -374,6 +428,9 @@ export class StateDashboardComponent implements OnInit {
       this.values.annualAcc_audited = data['annualAccounts']['audited'],
       this.values.annualAcc_provisional = data['annualAccounts']['provisional']
   }
+
+
+
 
 }
 
