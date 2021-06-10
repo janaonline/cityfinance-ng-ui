@@ -756,7 +756,7 @@
                         <label class="btn "
                             [ngClass]="{'qbtn': !quesTwoAnswer, 'qbtn2':quesTwoAnswer, 'cross':isDisabled}"
                             for="btnUnauditB">
-                            Yes{{quesTwoAnswer}}
+                            Yes
                         </label>
                         <input type="radio" name="btnYesNoUnaudit2" value="2" [disabled]="isDisabled"
                             [checked]="(unauditResponse.submit_standardized_data.answer == 'no')?true:false"
@@ -1666,7 +1666,7 @@
                         <label class="btn "
                             [ngClass]="{'qbtn': !quesTwoAnswer1, 'qbtn2':quesTwoAnswer1, 'cross':isDisabled}"
                             for="btnAuditB">
-                            Yes{{quesTwoAnswer1}}
+                            Yes
                         </label>
                         <input type="radio" name="btnYesNoAudit2" value="2" [disabled]="isDisabled"
                             [checked]="(auditResponse.submit_standardized_data.answer == 'no')?true:false"
