@@ -40,14 +40,14 @@
                                 <td>
                                     <input [ngClass]="{'error': errors.water.lengthError.text}"
                                         matTooltipPosition="above"
-                                        [matTooltip]="errors.water.lengthError.text ? 'at Max 25 Characters' : null"
+                                        [matTooltip]="errors.water.lengthError.text ? 'Name less than 50 char' : null"
                                         type="text" (keyup)="onKey($event,'water.name')"
                                         placeholder="Enter Project Name" value="{{waterAndSanitation.water.name}}">
                                 </td>
                                 <td>
                                     <textarea type="textarea" [ngClass]="{'error': errors.water.lengthError.textarea}"
                                         matTooltipPosition="above"
-                                        [matTooltip]="errors.water.lengthError.textarea ? 'at Max 200 Characters' : null"
+                                        [matTooltip]="errors.water.lengthError.textarea ? 'Description less than 200 char' : null"
                                         (keyup)="onKey($event,'water.component')"
                                         placeholder="Enter Physical Components">{{waterAndSanitation.water.component}}</textarea>
                                 </td>
@@ -108,7 +108,7 @@
                                 <td>
                                     <input type="text" [ngClass]="{'error': errors.sanitation.lengthError.text}"
                                         matTooltipPosition="above"
-                                        [matTooltip]="errors.sanitation.lengthError.text ? 'at Max 25 Characters' : null"
+                                        [matTooltip]="errors.sanitation.lengthError.text ? 'Name less than 50 char' : null"
                                         (keyup)="onKey($event,'sanitation.name')" placeholder="Enter Project Name"
                                         value="{{waterAndSanitation.sanitation.name}}">
                                 </td>
@@ -116,7 +116,7 @@
                                     <textarea type="textarea"
                                         [ngClass]="{'error': errors.sanitation.lengthError.textarea}"
                                         matTooltipPosition="above"
-                                        [matTooltip]="errors.sanitation.lengthError.textarea ? 'at Max 200 Characters' : null"
+                                        [matTooltip]="errors.sanitation.lengthError.textarea ? 'Description less than 200 char' : null"
                                         (keyup)="onKey($event,'sanitation.component')"
                                         placeholder="Enter Physical Components">{{waterAndSanitation.sanitation.component}}</textarea>
                                 </td>

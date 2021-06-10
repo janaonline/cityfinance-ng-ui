@@ -22,7 +22,7 @@ export class WaterSanitationComponent implements OnInit {
 
   isDraft = false;
   MIN_LENGTH = 1;
-  MAX_LENGTH = 25;
+  MAX_LENGTH = 50;
   MAX_LENGTH_AREA = 200;
   LPCD = 135;
   PERCENTAGE = 100;
@@ -128,27 +128,27 @@ export class WaterSanitationComponent implements OnInit {
   };
 
   sanitationIndicators = [
-    "Coverage of Toilets",
-    "Coverage of Sewerage Network",
-    "Collection efficiency of Sewerage Network",
     "Adequacy of Sewage Treatment Capacity",
-    "Quality of Sewage Treatment",
-    "Extent of Reuse and Recycling of Sewage",
-    "Extent of cost recovery in waste water management",
-    "Efficiency in redressal of customer complaints",
+    "Collection efficiency of Sewerage Network",
+    "Coverage of Sewerage Network",
+    "Coverage of Toilets",
     "Efficiency in Collection of Sewage Water Charges",
+    "Efficiency in redressal of customer complaints",
+    "Extent of cost recovery in waste water management",
+    "Extent of Reuse and Recycling of Sewage",
+    "Quality of Sewage Treatment",
   ];
 
   waterIndicators = [
-    "Coverage of Water Supply connections",
-    "Per Capita Supply of Water",
-    "Extent of Non-revenue WaterSanitationComponent",
-    "Extent of Metering",
     "Continuity of Water supplied",
-    "Efficiency in redressal of customer complaints",
-    "Quality of Water Supplied",
     "Cost Recovery",
+    "Coverage of Water Supply connections",
+    "Extent of Metering",
+    "Extent of Non-revenue WaterSanitationComponent",
     "Efficiency in Collection of Water Charges",
+    "Efficiency in redressal of customer complaints",
+    "Per Capita Supply of Water",
+    "Quality of Water Supplied",
   ];
 
   ngOnInit(): void {
