@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {  ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { StateformsRoutingModule } from './stateforms-routing.module';
@@ -41,6 +42,7 @@ import { WaterRejenuvationPreviewComponent } from './water-rejenuvation/water-re
     MatIconModule,
     ReactiveFormsModule,
     SharedModule,
+    FormsModule,
     CollapseModule.forRoot(),
   ]
 })

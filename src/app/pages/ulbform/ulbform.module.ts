@@ -72,6 +72,7 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     MatButtonModule,
     MatDialogModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
     MatProgressSpinnerModule,
 
