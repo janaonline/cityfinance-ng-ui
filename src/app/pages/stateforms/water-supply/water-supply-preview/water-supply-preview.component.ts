@@ -33,6 +33,7 @@ export class WaterSupplyPreviewComponent implements OnInit {
   :root {
     font-size: 14px;
   }
+
   table tbody tr {
     border: 100px solid black;
   }
@@ -84,12 +85,32 @@ export class WaterSupplyPreviewComponent implements OnInit {
   .form-status {
     font-size: 10px;
     margin-top: 10px;
+
+
   }
-  .h-cls{
+
+  .fa-times {
     display: none;
   }
+  .qus-slb {
+    margin-left: 2%;
+    font-weight: normal;
+    font-size: 12px;
+}
 
-
+#donwloadButton{
+  display: none;
+}
+h5{
+  display: inline-flex;
+}
+.d-i{
+  display: inline-flex;
+  width : 33.33%;
+}
+.mr-l{
+  margin-left: 22%;
+}
 
 
   </style>`;
