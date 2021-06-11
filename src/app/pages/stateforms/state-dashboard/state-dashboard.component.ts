@@ -15,7 +15,7 @@ export class StateDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.onLoad();
-    this.svgSetter();
+
   }
   values = {
     overall_approvedByState: 0,
