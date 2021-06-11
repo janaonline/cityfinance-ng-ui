@@ -231,7 +231,17 @@ export class StateDashboardComponent implements OnInit {
         circumference: Math.PI + 1,
         rotation: -Math.PI - 0.5,
         cutoutPercentage: 64,
+        legend: {
+          display: true,
+          align: 'center',
+          labels: {
 
+            fontSize: 13,
+            fontColor: 'black',
+            usePointStyle: true,
+            padding: 15,
+          }
+        },
         onClick(...args) {
           console.log(args);
         }

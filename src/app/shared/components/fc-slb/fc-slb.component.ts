@@ -543,6 +543,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
       console.log('inside if FormValue')
       if (formValue) {
         if ((increase && control.value >= benchmarkValue) || (!increase && control.value <= benchmarkValue)) {
+          this.checkAutoValidCustom();
+          this.emitValues(this.form.getRawValue());
           return
         }
       }
@@ -616,7 +618,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     if (serviceKey === 'waterSuppliedPerDay') {
       upperLimit = 1000000000000000;
     }
-    if ((increse && value >= benchmarkValue) || (!increse && value <= benchmarkValue)) {
+    if ((increse && value >= benchmarkValue && serviceKey === "waterSuppliedPerDay") || (!increse && value <= benchmarkValue)) {
       return false;
     }
     for (let obj in controlValue) {
