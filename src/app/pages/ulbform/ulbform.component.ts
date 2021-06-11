@@ -170,4 +170,12 @@ export class UlbformComponent implements OnInit {
   //   panelClass: "XVfc-preview",
   //   disableClose: false,
   // });
+  finalSubmit() {
+    const allStatus = JSON.parse(sessionStorage.getItem("allStatus"));
+    for (let form in allStatus) {
+
+    }
+
+  }
+
 }
