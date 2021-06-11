@@ -40,6 +40,7 @@
         "chartjs-plugin-labels": "^1.1.0",
         "chartjs-plugin-title-click": "^1.0.0",
         "core-js": "3.8.2",
+        "d3": "^6.7.0",
         "exceljs": "1.7.0",
         "file-saver": "^2.0.5",
         "html2canvas": "^1.0.0-rc.5",
