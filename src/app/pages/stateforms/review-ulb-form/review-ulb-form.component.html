@@ -87,7 +87,10 @@
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="color: blue;">{{resData.status}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            <a>
+                                            <a (click)="viewUlbForm(resData)" [routerLink]="[
+                                          '/ulbform/overview',
+                              resData?._id
+                            ]">
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/ulbform/eye.png">
                                                 </mat-icon>

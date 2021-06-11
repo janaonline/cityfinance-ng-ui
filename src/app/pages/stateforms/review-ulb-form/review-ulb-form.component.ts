@@ -126,6 +126,13 @@ export class ReviewUlbFormComponent implements OnInit {
 
 
     }
+    viewUlbForm(resData){
+      console.log('review',resData);
+      sessionStorage.setItem('isMillionPlus', resData.isMillionPlus);
+      sessionStorage.setItem('isUA', resData.isUA);
+      sessionStorage.setItem('stateName', resData.state);
+      sessionStorage.setItem('ulbName', resData.ulbName);
+    }
 
 
 }

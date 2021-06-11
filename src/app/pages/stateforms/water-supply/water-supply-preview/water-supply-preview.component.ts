@@ -145,7 +145,8 @@ export class WaterSupplyPreviewComponent implements OnInit {
     this._WaterSupplyService.getslbsData()
       .subscribe((res) => {
          console.log('response', res)
-         this.detailsOfUa = res;
+         let ulbdetail: any = res
+         this.detailsOfUa = ulbdetail.data;
       })
   }
 
