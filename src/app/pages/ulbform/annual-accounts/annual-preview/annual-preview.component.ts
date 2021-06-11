@@ -283,16 +283,16 @@ export class AnnualPreviewComponent implements OnInit {
   statusArray = [
     'Not Started',
     'Under Review By State',
-    'Completed but Not Submitted',
+    'Completed',
     'In Progress'
   ]
 
- async  previewStatuSet() {
+  async previewStatuSet() {
     console.log(this.data)
     let annualData
-    if(!this.fromParent){
+    if (!this.fromParent) {
       annualData = JSON.parse(JSON.stringify(this.data));
-    }else{
+    } else {
       annualData = this.data.annualAccountData;
     }
     annualData[0] = await this.annualAccountComp.checkForm(annualData[0])
@@ -306,9 +306,9 @@ export class AnnualPreviewComponent implements OnInit {
           this.formStatusCheck = this.statusArray[3]
         }
       } else if (change == "false") {
-        if (annualData[0]['isCompleted'] && annualData[1]['isCompleted']) {
-          this.formStatusCheck = this.statusArray[1]
-        } else if (!annualData[0]['isCompleted'] || !annualData[1]['isCompleted']) {
+        if (this.data[0]['isCompleted'] && this.data[1]['isCompleted']) {
+          this.formStatusCheck = this.statusArray[2]
+        } else if (!this.data[0]['isCompleted'] || !this.data[1]['isCompleted']) {
           this.formStatusCheck = this.statusArray[3]
         }
 

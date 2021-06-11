@@ -157,7 +157,7 @@ export class PreviewSlbComponentComponent implements OnInit {
   statusArray = [
     'Not Started',
     'Under Review By State',
-    'Completed but Not Submitted',
+    'Completed',
     'In Progress'
   ]
   ngOnInit() {
@@ -186,7 +186,7 @@ export class PreviewSlbComponentComponent implements OnInit {
         }
       } else if (change == "false") {
         if (getData['data'][0]['isCompleted']) {
-          this.formStatusCheck = this.statusArray[1]
+          this.formStatusCheck = this.statusArray[2]
         } else if (!getData['data'][0]['isCompleted']) {
           this.formStatusCheck = this.statusArray[3]
         }

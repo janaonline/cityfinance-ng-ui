@@ -240,7 +240,7 @@ width: 5% !important;
   statusArray = [
     'Not Started',
     'Under Review By State',
-    'Completed but Not Submitted',
+    'Completed',
     'In Progress'
   ]
   totalStatus;
@@ -271,7 +271,7 @@ width: 5% !important;
         if (this.data['isDraft']) {
           this.formStatusCheck = this.statusArray[3]
         } else if (!this.data['isDraft']) {
-          this.formStatusCheck = this.statusArray[1]
+          this.formStatusCheck = this.statusArray[2]
         }
 
       }

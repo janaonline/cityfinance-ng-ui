@@ -33,8 +33,10 @@ export class WaterRejenuvationPreviewComponent implements OnInit {
   @ViewChild("template") template;
   dialogRef;
   err = "";
+  status;
 
   ngOnInit(): void {
+    this.setStatus();
     console.log(this.data);
   }
 
@@ -128,5 +130,15 @@ export class WaterRejenuvationPreviewComponent implements OnInit {
 
   alertClose() {
     this.stay();
+  }
+
+  setStatus() {
+    if (this.data.isDraft == null) {
+      this.status = "Not Started";
+    } else if (this.data.isDraft) {
+      this.status = "In Progress";
+    } else if (!this.data.isDraft) {
+      this.status = "Completed but Not Submitted";
+    }
   }
 }

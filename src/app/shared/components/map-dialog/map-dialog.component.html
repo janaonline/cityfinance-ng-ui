@@ -4,6 +4,7 @@
     </div>
     <app-google-map
     (locationSelected)="getLocation($event)"
+    [locationFromOutSide] = "data"
     >
     </app-google-map>
 </div>
