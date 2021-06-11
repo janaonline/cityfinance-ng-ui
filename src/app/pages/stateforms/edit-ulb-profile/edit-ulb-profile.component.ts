@@ -2,6 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { BaseComponent } from 'src/app/util/baseComponent';
 import { UlbadminServiceService } from '../../ulb-admin/ulbadmin-service.service';
 import { StateformsService } from '../stateforms.service';
 
@@ -10,8 +12,17 @@ import { StateformsService } from '../stateforms.service';
   templateUrl: './edit-ulb-profile.component.html',
   styleUrls: ['./edit-ulb-profile.component.scss']
 })
-export class EditUlbProfileComponent implements OnInit {
+export class EditUlbProfileComponent extends BaseComponent implements OnInit {
 
+  constructor(
+    public ulbService : UlbadminServiceService,
+    public _stateformsService: StateformsService,
+    private fb: FormBuilder
+  ) {
+    super();
+   }
+  userTypes = USER_TYPE;
+  listType: USER_TYPE;
   tabelData: any;
   listFetchOption = {
     filter: null,
@@ -29,11 +40,7 @@ export class EditUlbProfileComponent implements OnInit {
   fcFormListSubscription: Subscription;
   nodataFound = false;
   editableForm;
-  constructor(
-    public ulbService : UlbadminServiceService,
-    public _stateformsService: StateformsService,
-    private fb: FormBuilder
-  ) { }
+
 
   ulb_name_s = new FormControl('');
   ulb_code_s = new FormControl('');
@@ -45,9 +52,9 @@ export class EditUlbProfileComponent implements OnInit {
   row_no = null;
   errMessage='';
   ngOnInit() {
-    this._stateformsService.getulbProfile()
+    this._stateformsService.getulbDetails()
       .subscribe((res) => {
-        console.log('profile', res);
+        console.log('getulbDetails', res);
         let resData:any = res;
         this.tabelData = resData.data;
        console.log('tabelData',this.tabelData)
@@ -78,9 +85,10 @@ export class EditUlbProfileComponent implements OnInit {
   filledValue(data){
      this.tabelRows.push(
         this.fb.group({
-          nodal_officer_name : [data.name],
-          nodal_officer_email : [data.email],
-          nodal_officer_phone : [data.mobile]
+          nodal_officer_name : [data.accountantName],
+          nodal_officer_email : [data.accountantEmail],
+          nodal_officer_phone : [data.
+            accountantConatactNumber]
 
     })
    )
@@ -132,7 +140,7 @@ export class EditUlbProfileComponent implements OnInit {
     //  const filterKeys = ["financialYear", "auditStatus"];
       this.filterObject = {
             filter: {
-            //  state: 'Maharashtra',
+             state: this.tabelData.stateName,
              ulbName : this.ulb_name_s.value
              ? this.ulb_name_s.value.trim()
              : "",
@@ -196,5 +204,11 @@ export class EditUlbProfileComponent implements OnInit {
 
 
     }
+    // setPage(pageNoClick: number) {
+    //   this.tableDefaultOptions.currentPage = pageNoClick;
+    //   this.listFetchOption.skip =
+    //     (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+    //   this.searchUsersBy(this.filterForm.value);
+    // }
 
 }

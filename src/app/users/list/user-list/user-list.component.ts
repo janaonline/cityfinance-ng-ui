@@ -58,9 +58,9 @@ export class UserListComponent extends BaseComponent implements OnInit {
   filterForm: FormGroup;
 
   userTypes = USER_TYPE;
-
-  userTypeList: any[] = [];
   listType: USER_TYPE;
+  userTypeList: any[] = [];
+
 
   loggedInType: USER_TYPE;
   currentSort = 1;
