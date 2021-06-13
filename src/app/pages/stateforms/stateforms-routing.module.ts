@@ -7,6 +7,7 @@ import { ReviewUlbFormComponent } from './review-ulb-form/review-ulb-form.compon
 import { EditUlbProfileComponent } from './edit-ulb-profile/edit-ulb-profile.component';
 import { StateDashboardComponent } from './state-dashboard/state-dashboard.component'
 import {WaterRejenuvationComponent} from "./water-rejenuvation/water-rejenuvation.component"
+import {ActionPlanUAComponent} from "./action-plan-ua/action-plan-ua.component"
 const routes: Routes = [
   {
     path: "",
@@ -29,7 +30,11 @@ const routes: Routes = [
       },
       {
         path: "water-rejenuvation", component: WaterRejenuvationComponent,
-      }
+      },
+      {
+        path: "action-plan", component: ActionPlanUAComponent,
+      },
+      
     ]
   }
 ]

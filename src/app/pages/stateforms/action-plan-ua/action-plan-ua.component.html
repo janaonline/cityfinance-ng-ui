@@ -1,1 +1,29 @@
-<p>action-plan-ua works!</p>
+<div class="container-fluid">
+    <div *ngFor="let item of data?.uaData;  let projectIndex=index">
+        <div class="mat-card">
+            <div class="mat-card-title">
+                <h4 style="height: 3pc;">
+                    <b style="margin-left: 1pc;">UA:{{projectIndex + 1}} {{item.name}}</b>
+                    <button class="btn pull-right btn-primary" style="margin-right: 1pc;"
+                        (click)="foldCard(projectIndex)">Select</button>
+                </h4>
+            </div>
+            <div *ngIf="item.fold">
+                <div style="margin-bottom: 2pc; margin-left: 2pc; margin-right: 2pc;">
+                    <h5>List of Projects to be Executed with 15th FC Grants</h5>
+                    <app-ag-grid [addRow]="test" [dataTemplate]="project" [rowData]="item.projectExcute" [columnDefs]="columnDefs"></app-ag-grid>
+                    <button (click)="addRow()" class="btn pull-right btn-primary">add row</button>
+
+                </div>
+                <div style="margin-bottom: 2pc; margin-left: 2pc; margin-right: 2pc;">
+                    <h5>Project List and Source of Funds</h5>
+                    <app-ag-grid [addRow]="test" [dataTemplate]="fund" [rowData]="item.sourceFund" [columnDefs]="columnDefs1"></app-ag-grid>
+                </div>
+                <div style="margin-bottom: 2pc; margin-left: 2pc; margin-right: 2pc;">
+                    <h5>Year-wise Outlay for 15th FC Grants:</h5>
+                    <app-ag-grid [addRow]="test" [dataTemplate]="year" [rowData]="item.yearOutlay" [columnDefs]="columnDefs2"></app-ag-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

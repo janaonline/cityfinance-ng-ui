@@ -53,6 +53,78 @@ export class AnnualAccountsComponent implements OnInit {
   temp;
   @HostBinding("")
   pdfError = "PDF Not Uploaded!";
+  tt = {
+    ulb: "",
+    design_year: "",
+    status: "",
+    isCompleted: "",
+    audited: {
+      provisional_data: {
+        bal_sheet: {
+          pdfUrl: "",
+          pdfName: "",
+          status: "",
+        },
+        bal_sheet_schedules: { pdfUrl: "", pdfName: "", status: "" },
+        inc_exp: {
+          pdfUrl: "",
+          pdfName: "",
+          status: "",
+        },
+        inc_exp_schedules: { pdfUrl: "", pdfName: "", status: "" },
+        cash_flow: {
+          pdfUrl: "",
+          pdfName: "",
+          status: "",
+        },
+        auditor_report: { pdfUrl: "", pdfName: "", status: "" },
+      },
+      standardized_data: {
+        upload: {
+          excelUrl: "",
+          excelName: "",
+        },
+        declaration: "",
+      },
+      audit_status: "",
+      submit_annual_accounts: { answer: "" },
+      submit_standardized_data: { answer: "" },
+      year: "",
+    },
+    unAudited: {
+      provisional_data: {
+        bal_sheet: {
+          pdfUrl: "",
+          pdfName: "",
+          status: "",
+        },
+        bal_sheet_schedules: { pdfUrl: "", pdfName: "", status: "" },
+        inc_exp: {
+          pdfUrl: "",
+          pdfName: "",
+          status: "",
+        },
+        inc_exp_schedules: { pdfUrl: "", pdfName: "", status: "" },
+        cash_flow: {
+          pdfUrl: "",
+          pdfName: "",
+          status: "",
+        },
+        auditor_report: { pdfUrl: "", pdfName: "", status: "" },
+      },
+      standardized_data: {
+        upload: {
+          excelUrl: "",
+          excelName: "",
+        },
+        declaration: "",
+      },
+      audit_status: "",
+      submit_annual_accounts: { answer: "" },
+      submit_standardized_data: { answer: "" },
+      year: "",
+    },
+  };
   answerError = {
     Audited: {
       submit_annual_accounts: false,
@@ -321,7 +393,7 @@ export class AnnualAccountsComponent implements OnInit {
       width: "85vw",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => "");
   }
 
   onLoad() {

@@ -21,6 +21,8 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { WaterRejenuvationComponent } from './water-rejenuvation/water-rejenuvation.component';
 import { WaterRejenuvationPreviewComponent } from './water-rejenuvation/water-rejenuvation-preview/water-rejenuvation-preview.component';
 // import { DoughnutChartArea } from './state-dashboard/donut/donut'
+import { AgGridModule } from 'ag-grid-angular';
+import {AgGridComponent} from '../../shared/components/ag-grid/ag-grid.component'
 
 @NgModule({
   declarations: [StateformsComponent,
@@ -36,6 +38,7 @@ import { WaterRejenuvationPreviewComponent } from './water-rejenuvation/water-re
     WaterRejenuvationComponent,
     WaterRejenuvationPreviewComponent,
     // DoughnutChartArea
+    AgGridComponent
   ],
   imports: [
     CommonModule,
@@ -46,6 +49,7 @@ import { WaterRejenuvationPreviewComponent } from './water-rejenuvation/water-re
     SharedModule,
     TooltipModule.forRoot(),
     CollapseModule.forRoot(),
+    AgGridModule.withComponents([ActionPlanUAComponent,AgGridComponent])
   ]
 })
 export class StateformsModule { }
