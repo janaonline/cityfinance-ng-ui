@@ -10,27 +10,10 @@ export class ActionPlanUAComponent implements OnInit {
   Year = JSON.parse(localStorage.getItem("Years"));
   userData = JSON.parse(localStorage.getItem("userData"));
 
-  uas = [];
   data = null;
-  test = false;
-  project = projectExcute;
-  fund = sourceFund;
-  year = yearOutlay;
-
-  constructor() {
-    this.fillUas();
-  }
-
-  columnDefs = col1;
-  columnDefs1 = col2;
-  columnDefs2 = col3;
-
-  addRow() {
-    this.test = true;
-    setTimeout(() => {
-      this.test = false;
-    });
-  }
+  template = { projectExcute, sourceFund, yearOutlay };
+  columnDefs = { project, fund, year };
+  constructor() {}
 
   ngOnInit(): void {
     this.load();
@@ -52,12 +35,6 @@ export class ActionPlanUAComponent implements OnInit {
     }
   }
 
-  fillUas() {
-    for (const key in this.uasData) {
-      this.uas.push(this.uasData[key]);
-    }
-  }
-
   foldCard(i) {
     this.data.uaData[i].fold = !this.data.uaData[i].fold;
   }
@@ -68,6 +45,7 @@ const input = {
   name: "",
   projectExcute: [
     {
+      index: 1,
       code: "",
       name: "",
       details: "",
@@ -80,6 +58,7 @@ const input = {
   ],
   sourceFund: [
     {
+      index: 1,
       code: "",
       name: "",
       cost: "",
@@ -96,6 +75,7 @@ const input = {
   ],
   yearOutlay: [
     {
+      index: 1,
       code: "",
       name: "",
       cost: "",
@@ -148,7 +128,7 @@ const yearOutlay = {
   "2025-26": "",
 };
 
-const col1 = [
+const project = [
   {
     headerName: "S No",
     width: 70,
@@ -204,7 +184,7 @@ const col1 = [
     field: "esOutcome",
   },
 ];
-const col2 = [
+const fund = [
   {
     headerName: "S No",
     width: 70,
@@ -249,7 +229,7 @@ const col2 = [
   { headerName: "Other", width: 100, editable: true, field: "other" },
   { headerName: "Total", width: 100, editable: true, field: "total" },
 ];
-const col3 = [
+const year = [
   {
     headerName: "S No",
     width: 70,

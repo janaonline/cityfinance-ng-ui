@@ -9,20 +9,8 @@
                 </h4>
             </div>
             <div *ngIf="item.fold">
-                <div style="margin-bottom: 2pc; margin-left: 2pc; margin-right: 2pc;">
-                    <h5>List of Projects to be Executed with 15th FC Grants</h5>
-                    <app-ag-grid [addRow]="test" [dataTemplate]="project" [rowData]="item.projectExcute" [columnDefs]="columnDefs"></app-ag-grid>
-                    <button (click)="addRow()" class="btn pull-right btn-primary">add row</button>
-
-                </div>
-                <div style="margin-bottom: 2pc; margin-left: 2pc; margin-right: 2pc;">
-                    <h5>Project List and Source of Funds</h5>
-                    <app-ag-grid [addRow]="test" [dataTemplate]="fund" [rowData]="item.sourceFund" [columnDefs]="columnDefs1"></app-ag-grid>
-                </div>
-                <div style="margin-bottom: 2pc; margin-left: 2pc; margin-right: 2pc;">
-                    <h5>Year-wise Outlay for 15th FC Grants:</h5>
-                    <app-ag-grid [addRow]="test" [dataTemplate]="year" [rowData]="item.yearOutlay" [columnDefs]="columnDefs2"></app-ag-grid>
-                </div>
+                <app-ag-grid [dataTemplate]="template" [rowData]="item" [columnDefs]="columnDefs">
+                </app-ag-grid>
             </div>
         </div>
     </div>
