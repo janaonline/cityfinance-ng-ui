@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {  ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { StateformsRoutingModule } from './stateforms-routing.module';
@@ -20,6 +21,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { WaterRejenuvationComponent } from './water-rejenuvation/water-rejenuvation.component';
 import { WaterRejenuvationPreviewComponent } from './water-rejenuvation/water-rejenuvation-preview/water-rejenuvation-preview.component';
+import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview/water-supply-preview.component';
+import { GrantAllPreviewComponent } from './grant-allocation/grant-all-preview/grant-all-preview.component';
 // import { DoughnutChartArea } from './state-dashboard/donut/donut'
 import { AgGridModule } from 'ag-grid-angular';
 import {AgGridComponent} from '../../shared/components/ag-grid/ag-grid.component'
@@ -37,6 +40,8 @@ import {AgGridComponent} from '../../shared/components/ag-grid/ag-grid.component
     GtcertificatePreviewComponent,
     WaterRejenuvationComponent,
     WaterRejenuvationPreviewComponent,
+    WaterSupplyPreviewComponent,
+    GrantAllPreviewComponent,
     // DoughnutChartArea
     AgGridComponent
   ],
@@ -48,6 +53,7 @@ import {AgGridComponent} from '../../shared/components/ag-grid/ag-grid.component
     MatTooltipModule,
     SharedModule,
     TooltipModule.forRoot(),
+    FormsModule,
     CollapseModule.forRoot(),
     AgGridModule.withComponents([ActionPlanUAComponent,AgGridComponent])
   ]

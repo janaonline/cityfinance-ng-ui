@@ -8,6 +8,7 @@ import { EditUlbProfileComponent } from './edit-ulb-profile/edit-ulb-profile.com
 import { StateDashboardComponent } from './state-dashboard/state-dashboard.component'
 import {WaterRejenuvationComponent} from "./water-rejenuvation/water-rejenuvation.component"
 import {ActionPlanUAComponent} from "./action-plan-ua/action-plan-ua.component"
+import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
 const routes: Routes = [
   {
     path: "",
@@ -34,7 +35,9 @@ const routes: Routes = [
       {
         path: "action-plan", component: ActionPlanUAComponent,
       },
-      
+      {
+        path: "grant-allocation", component: GrantAllocationComponent,
+      }
     ]
   }
 ]

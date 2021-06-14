@@ -1,10 +1,11 @@
+<script src="https://d3js.org/d3.v6.min.js"></script>
 <div>
     <div class="container-fluid">
         <div class="row cards">
             <div class="col-sm-3 card ">
                 <div class="row">
                     <div class="col-sm-8">
-                        <div class="card-number">4600</div>
+                        <div class="card-number">{{totalUlbs}}</div>
                         <div class="card-text">Total ULBs</div>
                     </div>
                     <div class="col-sm-4 iconImage">
@@ -15,7 +16,7 @@
             <div class="col-sm-3 card">
                 <div class="row">
                     <div class="col-sm-8">
-                        <div class="card-number">4547</div>
+                        <div class="card-number">{{nonMillionCities}}</div>
                         <div class="card-text">Non Million Cities</div>
                     </div>
                     <div class="col-sm-4 iconImage">
@@ -26,7 +27,7 @@
             <div class="col-sm-3 card">
                 <div class="row">
                     <div class="col-sm-8">
-                        <div class="card-number">50</div>
+                        <div class="card-number">{{millionPlusUAs}}</div>
                         <div class="card-text">Million-Plus UAs</div>
                     </div>
                     <div class="col-sm-4 iconImage">
@@ -37,7 +38,7 @@
             <div class="col-sm-3 card">
                 <div class="row">
                     <div class="col-sm-9">
-                        <div class="card-number">600</div>
+                        <div class="card-number">{{UlbInMillionPlusUA}}</div>
                         <div class="card-text">ULBs in Million-Plus UAs</div>
                     </div>
                     <div class="col-sm-3 iconImage" style="display: contents;">
@@ -49,8 +50,10 @@
     </div>
     <div class="search-bar">
         Population Category:
-        <select class="dropdown">
-            <option value="all">All ULBs</option>
+        <select [(ngModel)]="selectedLevel" (change)="selected()" class="dropdown">
+            <option value="allUlbs" selected>All ULBs</option>
+            <option value="ulbsInMillionPlusUa">ULBs in Million Plus UA</option>
+            <option value="NonMillionPlusULBs">Non Million Plus ULBs</option>
         </select>
 
         <button class="btn btn-primary">SEARCH</button>
@@ -143,18 +146,72 @@
             <div class="col-sm-4"></div>
             <div class="col-sm-4" style="font-weight: 450; text-align: right; padding-right:40px;">
                 UA:
-                <select class="dropdown">
-                    <option value="all">Kanpur</option>
+                <select [(ngModel)]="selectUa" (change)="selectedUA()" class="dropdown">
+                    <option *ngFor="let item of UANames">{{item}}</option>
+
                 </select>
             </div>
         </div>
         <div class="container-fluid millionPlus"
             style="display: flex; justify-content: space-between;text-align: center;">
 
-            <div class="col-sm-6 Card1" style="color:#000000C4">Water Supply and Sanitation Indicators compiled for 20
-                ULBs</div>
-            <div class="col-sm-6 Card2" style="color:#000000C4">Submission of Water Rejuvenation, Water Recycling and
-                Action Plans</div>
+            <div class="col-sm-5 Card1" style="color:#000000C4">
+
+                <div class="row" style="height: 70%;">
+                    <div class="col-sm-7" style="text-align: left; padding-left: 60px;">
+                        <span style="color: #12505A; font-size: 41px;">{{plans}}<small>% </small></span>
+                        <span>ULBs in Million Plus UA</span>
+
+                    </div>
+                    <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
+
+
+                        <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
+
+                        <div class="opacity_div" style=" z-index:3;right:31px;margin-right:147px;"
+                            [style.width]="width1">
+                        </div>
+                        <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
+                        <div class="opacity_div" style=" z-index:4;right:-18px;margin-right:147px;"
+                            [style.width]="width2">
+                        </div>
+                        <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
+                        <div class="opacity_div" style=" z-index:5;right:-67px;margin-right:147px;"
+                            [style.width]="width3"></div>
+                        <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
+                        <div class="opacity_div" style=" z-index:6;right:-116px;margin-right:147px;"
+                            [style.width]="width4"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    Water Supply and Sanitation Indicators compiled for <b> 20
+                        ULBs</b>
+                </div>
+            </div>
+            <!-- <div class="col-sm-2"></div> -->
+            <div class="col-sm-5 Card2" style="color:#000000C4">
+                <div class="row" style="height: 70%;">
+                    <div class="col-sm-7" style="text-align: left; padding-left: 60px;">
+                        <span style="color: #12505A; font-size: 41px;">Yes </span>
+                        <span>ULBs in Million Plus UA</span>
+
+                    </div>
+
+                    <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
+
+                        <img src="../../../../assets/stateform/nature.svg">
+                        <img src="../../../../assets/stateform/nature.svg">
+                        <img src="../../../../assets/stateform/nature.svg">
+                        <img src="../../../../assets/stateform/nature.svg">
+
+
+                    </div>
+                </div>
+                <div class="row">
+                    Submission of Water Rejuvenation, Water Recycling and
+                    Action Plans
+                </div>
+            </div>
         </div>
 
     </div>

@@ -163,7 +163,9 @@ color:black;
 .bottomPart{
     border:1px solid #0000001A;
     border-radius: 4px;
-    width:inherit
+    width:inherit;
+    margin-bottom: 50px;
+    height:181px
 }
 
 .header{
@@ -175,7 +177,7 @@ color:black;
 
 .millionPlus{
    height:120px;
-   border-bottom: 1px solid  #0000001A ; 
+   
 }
 
 .Card1{
@@ -183,18 +185,58 @@ color:black;
     border: 1px solid #BAE8FF;
     border-radius: 4px;
     height: 100px;
-    width:50rem;
+    width:100%;
     text-align: center;
-    margin:15px 6px 15px 15px;
-    padding:3px 6px 3px 6px;
+    margin:15px 6px 15px 12px;
+    padding:3px 16px 3px 16px;
 }
 .Card2{
     background-color: #E4FED8;
     border: 1px solid #A6F284;
     border-radius: 4px;
     height: 100px;
-    width:50rem;
+    width:100%;
     text-align: center;
     margin:15px 6px 15px 15px;
-    padding:3px 6px 3px 6px;
+    padding:3px 16px 3px 16px;
 }
+
+svg {
+    overflow: none;
+    padding: 10px;
+    float: left;
+    width: 350px;
+    height: 350px;
+}
+
+text {
+    fill: orange;
+    text-anchor: left;
+    font-size: 12px;
+    font-family: sans-serif,Helvetica,Arial;
+    font-weight: bold;
+}
+
+rect {
+    fill: #555555;
+}
+
+.parent{
+    position:relative;
+
+ }
+ .opacity_div{
+    background:#fff;
+    height:100%;
+    width:33px;
+    position:absolute;
+//   border:1px solid red;
+    opacity:0.5; /* manipulate to desired opacity */
+ }
+ 
+
+ .tapImage{
+    position:relative;
+    z-index:2;
+ }
+ 
