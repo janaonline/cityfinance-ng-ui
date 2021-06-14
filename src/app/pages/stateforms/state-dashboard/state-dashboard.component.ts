@@ -4,6 +4,10 @@ import { pipe } from 'rxjs';
 import { StateDashboardService } from "./state-dashboard.service";
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
+import * as $ from 'jquery';
+import { constants } from 'buffer';
+import * as JSC from "jscharting";
+
 
 @Component({
   selector: "app-state-dashboard",
@@ -14,6 +18,7 @@ export class StateDashboardComponent implements OnInit {
   constructor(public stateDashboardService: StateDashboardService) { }
 
   ngOnInit(): void {
+
     this.onLoad();
 
   }
@@ -45,6 +50,7 @@ export class StateDashboardComponent implements OnInit {
   selectedLevel;
   selectUa = '';
   plansDataApiRes;
+  rejuvenationPlans;
   plans = 0;
   width1 = '';
   width2 = '';
@@ -210,74 +216,119 @@ export class StateDashboardComponent implements OnInit {
     });
   }
   gaugeChart1() {
-    const canvas = <HTMLCanvasElement>document.getElementById('gauge1');
-    const ctx = canvas.getContext('2d');
-    let gauge1 = new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: [],
-        datasets: [
-          {
-            label: "# of Votes",
-            data: [this.values.annualAcc_provisional, 100 - this.values.annualAcc_provisional],
-            backgroundColor: ["#09C266", "#C6FBE0"],
-            borderColor: ["#09C266"],
-            borderWidth: 1
-          }
-        ]
-      },
-      options: {
-        maintainAspectRatio: false,
-        circumference: Math.PI + 1,
-        rotation: -Math.PI - 0.5,
-        cutoutPercentage: 64,
-        legend: {
-          display: true,
-          align: 'center',
-          labels: {
+    var chart = JSC.chart('chartDiv', {
+      debug: true,
+      legend_visible: false,
+      defaultTooltip_enabled: false,
+      xAxis_spacingPercentage: 0.4,
+      yAxis: [
+        {
+          id: 'ax1',
+          defaultTick: { padding: 10, enabled: false },
+          customTicks: [0, 40, 60, 80, 100],
+          line: {
+            width: 3,
 
-            fontSize: 13,
-            fontColor: 'black',
-            usePointStyle: true,
-            padding: 15,
-          }
+            /*Defining the option will enable it.*/
+            breaks: {},
+
+            /*Palette is defined at series level with an ID referenced here.*/
+            color: 'smartPalette:pal1'
+          },
+          scale_range: [0, 100]
         },
-        onClick(...args) {
-          console.log(args);
+
+      ],
+      defaultSeries: {
+        type: 'gauge column roundcaps',
+        shape: {
+          label: {
+
+            text: '%value%',
+            align: 'center',
+            verticalAlign: 'middle'
+          }
         }
-      }
+      },
+      series: [
+        {
+          type: 'column roundcaps',
+          name: 'Temperatures',
+          yAxis: 'ax1',
+          palette: {
+            id: 'pal1',
+            pointValue: 'ff',
+            ranges: [
+              { value: 0, color: '#FF5353' },
+              { value: 40, color: '#FFD221' },
+              { value: 60, color: '#77E6B4' },
+              { value: [80, 100], color: '#21D683' }
+            ]
+          },
+          shape_label: { style: { fontSize: 28 } },
+          points: [['x', [0, this.values.annualAcc_provisional]]]
+        },
+
+      ]
     });
 
   }
   gaugeChart2() {
-    const canvas = <HTMLCanvasElement>document.getElementById('gauge2');
-    const ctx = canvas.getContext('2d');
-    let gauge2 = new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: [],
-        datasets: [
-          {
-            label: "# of Votes",
-            data: [this.values.annualAcc_audited, 100 - this.values.annualAcc_audited],
-            backgroundColor: ["#09C266", "#C6FBE0"],
-            borderColor: ["#09C266"],
-            borderWidth: 1
+    var chart = JSC.chart('chartDiv2', {
+      debug: true,
+      legend_visible: false,
+      defaultTooltip_enabled: false,
+      xAxis_spacingPercentage: 0.4,
+      yAxis: [
+        {
+          id: 'ax1',
+          defaultTick: { padding: 10, enabled: false },
+          customTicks: [0, 40, 60, 80, 100],
+          line: {
+            width: 3,
+
+            /*Defining the option will enable it.*/
+            breaks: {},
+
+            /*Palette is defined at series level with an ID referenced here.*/
+            color: 'smartPalette:pal1'
+          },
+          scale_range: [0, 100]
+        },
+
+      ],
+      defaultSeries: {
+        type: 'gauge column roundcaps',
+        shape: {
+          label: {
+
+            text: '%value%',
+            align: 'center',
+            verticalAlign: 'middle'
           }
-        ]
-      },
-      options: {
-        maintainAspectRatio: false,
-        circumference: Math.PI + 1,
-        rotation: -Math.PI - 0.5,
-        cutoutPercentage: 64,
-
-        onClick(...args) {
-          console.log(args);
         }
-      }
-    });
+      },
+      series: [
+        {
+          type: 'column roundcaps',
+          name: 'Temperatures',
+          yAxis: 'ax1',
+          palette: {
+            id: 'pal1',
+            pointValue: 'ff',
+            ranges: [
+              { value: 0, color: '#FF5353' },
+              { value: 40, color: '#FFD221' },
+              { value: 60, color: '#77E6B4' },
+              { value: [80, 100], color: '#21D683' }
+            ]
+          },
+          shape_label: { style: { fontSize: 28 } },
+          points: [['x', [0, this.values.annualAcc_audited]]]
+        },
 
+      ]
+    });
   }
   mainDonughtChart() {
     const data = {
@@ -386,11 +437,14 @@ export class StateDashboardComponent implements OnInit {
   selectedUA() {
     console.log('selectedUA', this.selectUa)
     this.plansDataApiRes.forEach(element => {
-      if (element.UA === this.selectUa)
-        this.plans = element.plans
+      if (element.UA === this.selectUa) {
+        this.plans = element.plans;
+        this.rejuvenationPlans = element.submissionOfPlans
+      }
+
     });
 
-    console.log(this.plans)
+
 
     this.calculateValue();
   }

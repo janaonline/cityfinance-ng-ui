@@ -1,4 +1,11 @@
 <script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/highcharts-more.js"></script>
+
+<script src="http://code.highcharts.com/modules/solid-gauge.js"></script>
+
+
+
 <div>
     <div class="container-fluid">
         <div class="row cards">
@@ -84,9 +91,12 @@
                 <div style="margin-top:7px;text-align: center; font-weight: 450; font-size: 16px;">
                     Provisional Account: 2020-2021
                 </div>
+
                 <div class="gaugeSize">
-                    <canvas id="gauge1" style="width:400px ; height:400px"></canvas>
+                    <div id="chartDiv" style="max-width: 740px;height: 180px;margin: 0px auto">
+                    </div>
                 </div>
+
                 <div
                     style="margin-top:3px;text-align: center; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
                     Target for 15th FC - 25%
@@ -97,7 +107,8 @@
                     Audited Account: 2019-2020
                 </div>
                 <div class="gaugeSize">
-                    <canvas id="gauge2" style="width:400px ; height:400px"></canvas>
+                    <div id="chartDiv2" style="max-width: 740px;height: 180px;margin: 0px auto">
+                    </div>
                 </div>
                 <div
                     style="margin-top:3px;text-align: center; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
@@ -192,17 +203,21 @@
             <div class="col-sm-5 Card2" style="color:#000000C4">
                 <div class="row" style="height: 70%;">
                     <div class="col-sm-7" style="text-align: left; padding-left: 60px;">
-                        <span style="color: #12505A; font-size: 41px;">Yes </span>
+                        <span style="color: #12505A; font-size: 41px;">{{rejuvenationPlans ? 'Yes': 'No'}} </span>
                         <span>ULBs in Million Plus UA</span>
 
                     </div>
 
                     <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
 
-                        <img src="../../../../assets/stateform/nature.svg">
-                        <img src="../../../../assets/stateform/nature.svg">
-                        <img src="../../../../assets/stateform/nature.svg">
-                        <img src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                            src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                            src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                            src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                            src="../../../../assets/stateform/nature.svg">
 
 
                     </div>
