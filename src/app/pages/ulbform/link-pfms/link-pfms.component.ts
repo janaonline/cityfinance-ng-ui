@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild, Output, EventEmitter } from "@angular/core";
 import { LinkPFMSAccount } from "./link-pfms.service";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { Router, NavigationStart, Event } from "@angular/router";
@@ -19,6 +19,7 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ["./link-pfms.component.scss"],
 })
 export class LinkPFMSComponent extends BaseComponent implements OnInit {
+
   dialogRef;
   constructor(
     private LinkPFMSAccount: LinkPFMSAccount,
@@ -57,6 +58,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       }
     });
   }
+  message = "Sending Data from Libnking pFMs"
+  @Output() event = new EventEmitter<any>()
 
   @ViewChild("template") template;
   @ViewChild("template1") template1;
@@ -183,6 +186,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.pfmsAccount.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
+        this.event.emit(this.message)
         swal("Record submitted successfully!")
       },
         error => {
@@ -313,10 +317,10 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     }
 
     let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
-      if(allFormData){
-        allFormData.pfmsAccounts[0] = preData
-        this._ulbformService.allFormsData.next(allFormData)
-      }
+    if (allFormData) {
+      allFormData.pfmsAccounts[0] = preData
+      this._ulbformService.allFormsData.next(allFormData)
+    }
 
   }
 

@@ -25,7 +25,7 @@ export class UlbformComponent implements OnInit {
   isMillionPlus;
   isUA;
   id = null;
-
+  validate = true
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
@@ -84,6 +84,7 @@ export class UlbformComponent implements OnInit {
     });
     this.getStatus();
     this.getAllForm();
+    this.checkValidationStatusOfAllForms();
   }
 
   getStatus() {
@@ -171,11 +172,36 @@ export class UlbformComponent implements OnInit {
   //   disableClose: false,
   // });
   finalSubmit() {
+    this.checkValidationStatusOfAllForms();
+    console.log(this.validate)
+
+  }
+
+  checkValidationStatusOfAllForms() {
     const allStatus = JSON.parse(sessionStorage.getItem("allStatus"));
-    for (let form in allStatus) {
-
+    const eligibleForms = JSON.parse(sessionStorage.getItem("eligibleForms"));
+    console.log(allStatus, eligibleForms)
+    let requiredStatus = {}
+    eligibleForms.forEach(element => {
+      for (let key in allStatus) {
+        if (element === 'PFMS' && key === 'pfmsAccount') {
+          requiredStatus[key] = allStatus[key]['isSubmit']
+        } else if (element === 'Utilization Report' && key === 'utilReport') {
+          requiredStatus[key] = allStatus[key]['isSubmit']
+        } else if (element === 'Annual Acconts' && key === 'annualAccounts') {
+          requiredStatus[key] = allStatus[key]['isSubmit']
+        } else if (element === 'slbs' && key === 'slbForWaterSupplyAndSanitation') {
+          requiredStatus[key] = allStatus[key]['isSubmit']
+        } else if (element === 'Plan water sanitation' && key === 'plans') {
+          requiredStatus[key] = allStatus[key]['isSubmit']
+        }
+      }
+    });
+    for (let key in requiredStatus) {
+      if (!requiredStatus[key]) {
+        this.validate = false;
+      }
     }
-
   }
 
 }
