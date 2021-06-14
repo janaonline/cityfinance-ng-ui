@@ -13,8 +13,8 @@ export class GAservicesService {
   constructor(private http: HttpClient) { }
 
   sendRequest(val) {
-      let sendUrl = environment.api.url + 'grantDistribution/upload';
-      return this.http.post(sendUrl, val, {responseType: 'blob'})
+      let sendUrl = environment.api.url + 'grantDistribution/save';
+      return this.http.post(sendUrl, val)
 
   }
   getFiles() {
@@ -30,7 +30,10 @@ export class GAservicesService {
           }
       }));
   }
-
+checkFile(val){
+  let url = environment.api.url + `grantDistribution/upload?url=${val}&&design_year=606aaf854dff55e6c075d219`
+  return this.http.get(url, {responseType: 'blob'})
+}
   downloadFile(): Observable<any>{
 		return this.http.get(environment.api.url + 'grantDistribution/template', {responseType: 'blob'});
   }

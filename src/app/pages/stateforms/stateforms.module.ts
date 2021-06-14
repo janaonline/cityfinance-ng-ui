@@ -15,7 +15,8 @@ import { WaterRecyclingComponent } from './water-recycling/water-recycling.compo
 import { ActionPlanUAComponent } from './action-plan-ua/action-plan-ua.component';
 import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
 import { GtcertificatePreviewComponent } from './gtcertificate/gtcertificate-preview/gtcertificate-preview.component';
-
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { WaterRejenuvationComponent } from './water-rejenuvation/water-rejenuvation.component';
 import { WaterRejenuvationPreviewComponent } from './water-rejenuvation/water-rejenuvation-preview/water-rejenuvation-preview.component';
@@ -48,6 +49,8 @@ import { GrantAllPreviewComponent } from './grant-allocation/grant-all-preview/g
     SharedModule,
     FormsModule,
     CollapseModule.forRoot(),
+    PaginationModule.forRoot(),
+    NgxPaginationModule,
   ]
 })
 export class StateformsModule { }

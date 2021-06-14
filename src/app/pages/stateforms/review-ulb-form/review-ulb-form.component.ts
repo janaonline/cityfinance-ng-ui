@@ -13,16 +13,18 @@ import { StateformsService } from '../stateforms.service';
 export class ReviewUlbFormComponent implements OnInit {
 
   tabelData: any;
-  listFetchOption = {
-    filter: null,
-    sort: null,
-    role: null,
-    skip: 0,
-  };
+  currentSort = 1;
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
     totalCount: null,
+  };
+ listFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0,
+    limit: this.tableDefaultOptions.itemPerPage,
   };
   loading = false;
   filterObject;
@@ -133,6 +135,11 @@ export class ReviewUlbFormComponent implements OnInit {
       sessionStorage.setItem('stateName', resData.state);
       sessionStorage.setItem('ulbName', resData.ulbName);
     }
-
+    setPage(pageNoClick: number) {
+      this.tableDefaultOptions.currentPage = pageNoClick;
+      this.listFetchOption.skip =
+        (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+     // this.searchUsersBy(this.filterForm.value);
+    }
 
 }

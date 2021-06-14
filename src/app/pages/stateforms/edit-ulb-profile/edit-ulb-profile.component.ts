@@ -24,23 +24,30 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
   userTypes = USER_TYPE;
   listType: USER_TYPE;
   tabelData: any;
+
+  currentSort = 1;
+
+  tableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null,
+  };
+
   listFetchOption = {
     filter: null,
     sort: null,
     role: null,
     skip: 0,
-  };
-  tableDefaultOptions = {
-    itemPerPage: 10,
-    currentPage: 1,
-    totalCount: null,
+    limit: this.tableDefaultOptions.itemPerPage,
   };
   loading = false;
   filterObject;
   fcFormListSubscription: Subscription;
   nodataFound = false;
   editableForm;
-
+  totalItems;
+  indexNo: number;
+//  currentPage = 4;
 
   ulb_name_s = new FormControl('');
   ulb_code_s = new FormControl('');
@@ -57,6 +64,7 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
         console.log('getulbDetails', res);
         let resData:any = res;
         this.tabelData = resData.data;
+        this.totalItems = this.tabelData.length;
        console.log('tabelData',this.tabelData)
        this.tabelData.forEach(data => {
        this.filledValue(data)
@@ -100,26 +108,28 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
   editDetails(index){
     this.detailsEdit = false;
     this.row_no = index;
+    this.absoluteIndex(index);
     console.log('edit')
-    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_name').enable();
-    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_email').enable();
-    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_phone').enable();
+    this.editableForm.get('editDetailsArray').at(this.indexNo+1).get('nodal_officer_name').enable();
+    this.editableForm.get('editDetailsArray').at(this.indexNo+1).get('nodal_officer_email').enable();
+    this.editableForm.get('editDetailsArray').at(this.indexNo+1).get('nodal_officer_phone').enable();
 
   }
   updateDetails(index){
-    console.log('ddd', index, this.tabelRows['controls'][index+1].value);
+    this.absoluteIndex(index);
+    console.log('ddd', index, this.tabelRows['controls'][index+1].value, this.indexNo);
     this.detailsEdit = true;
    let updateData = {
-      "state": this.tabelData[index].state,
-      "ulb" : this.tabelData[index].ulb,
-      "accountantName": this.tabelRows['controls'][index+1].value.nodal_officer_name,
-      "accountantEmail": this.tabelRows['controls'][index+1].value.nodal_officer_email,
-      "accountantConatactNumber": this.tabelRows['controls'][index+1].value.nodal_officer_phone,
-      "designation": this.tabelData[index].designation,
-      "address": this.tabelData[index].address,
-      "departmentName": this.tabelData[index].departmentName,
-      "departmentEmail": this.tabelData[index].departmentEmail,
-      "departmentContactNumber": this.tabelData[index].departmentContactNumber
+      "state": this.tabelData[this.indexNo].state,
+      "ulb" : this.tabelData[this.indexNo].ulb,
+      "accountantName": this.tabelRows['controls'][this.indexNo+1].value.nodal_officer_name,
+      "accountantEmail": this.tabelRows['controls'][this.indexNo+1].value.nodal_officer_email,
+      "accountantConatactNumber": this.tabelRows['controls'][this.indexNo+1].value.nodal_officer_phone,
+      "designation": this.tabelData[this.indexNo].designation,
+      "address": this.tabelData[this.indexNo].address,
+      "departmentName": this.tabelData[this.indexNo].departmentName,
+      "departmentEmail": this.tabelData[this.indexNo].departmentEmail,
+      "departmentContactNumber": this.tabelData[this.indexNo].departmentContactNumber
     }
 
     this._stateformsService.updateRequest(updateData)
@@ -204,11 +214,16 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
 
 
     }
-    // setPage(pageNoClick: number) {
-    //   this.tableDefaultOptions.currentPage = pageNoClick;
-    //   this.listFetchOption.skip =
-    //     (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
-    //   this.searchUsersBy(this.filterForm.value);
-    // }
+    setPage(pageNoClick: number) {
+      console.log('pageno', pageNoClick)
+      this.tableDefaultOptions.currentPage = pageNoClick;
+      this.listFetchOption.skip =
+        (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+     // this.searchUsersBy(this.filterForm.value);
+    }
+
+    absoluteIndex(index) {
+      this.indexNo = this.tableDefaultOptions.itemPerPage * (this.tableDefaultOptions.currentPage - 1) + index;
+    }
 
 }
