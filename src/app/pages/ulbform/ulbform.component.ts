@@ -40,11 +40,12 @@ export class UlbformComponent implements OnInit {
       const { id } = val;
       if (id) {
         this.id = id;
-        sessionStorage.setItem('row_id', id);
-        return this._router.navigate(['/ulbform/overview',
-        id]);
         console.log("pkstid", id);
+        // sessionStorage.setItem('row_id', id);
+        // return this._router.navigate(['/ulbform/overview',
+        // id]);
       } else {
+
       }
     });
     this.accessGrant();
