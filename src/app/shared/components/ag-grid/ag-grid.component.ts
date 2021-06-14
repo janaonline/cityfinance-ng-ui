@@ -8,6 +8,7 @@ import {
 } from "@angular/core";
 import { AgGridAngular } from "ag-grid-angular";
 import { EventEmitter } from "@angular/core";
+import { CustomizedCellComponent } from "./customized-cell/customized-cell.component";
 @Component({
   selector: "app-ag-grid",
   templateUrl: "./ag-grid.component.html",
@@ -25,7 +26,12 @@ export class AgGridComponent implements OnInit, OnChanges {
   @Input()
   dataTemplate;
 
+  frameworkComponents;
+
   ngOnInit(): void {
+    this.frameworkComponents = {
+      customizedCell: CustomizedCellComponent,
+    };
     for (let index = 1; index <= this.rowData.length; index++) {
       this.rowData[index - 1]["index"] = index;
     }
@@ -37,6 +43,15 @@ export class AgGridComponent implements OnInit, OnChanges {
       e.colDef.field == "code" ||
       e.colDef.field == "name"
     ) {
+      this.rowData.sourceFund.forEach((element) => {
+        element[e.colDef.field] = e.value;
+      });
+      this.agGrid2.api.applyTransaction({ update: this.rowData.sourceFund });
+
+      this.rowData.yearOutlay.forEach((element) => {
+        element[e.colDef.field] = e.value;
+      });
+      this.agGrid3.api.applyTransaction({ update: this.rowData.yearOutlay });
     }
   }
   ngOnChanges() {}

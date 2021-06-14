@@ -47,6 +47,7 @@ import { GoogleMapComponent } from "./components/google-map/google-map.component
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { AgmCoreModule } from "@agm/core";
 import { WaterRejenuvationComponent } from "./components/water-rejenuvation/water-rejenuvation.component";
+import { CustomizedCellComponent } from './components/ag-grid/customized-cell/customized-cell.component';
 @NgModule({
   imports: [
     RouterModule,
@@ -95,6 +96,7 @@ import { WaterRejenuvationComponent } from "./components/water-rejenuvation/wate
     MapDialogComponent,
     GoogleMapComponent,
     WaterRejenuvationComponent,
+    CustomizedCellComponent,
   ],
   exports: [
     PreLoaderComponent,
