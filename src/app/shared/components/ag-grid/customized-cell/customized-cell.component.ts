@@ -13,10 +13,13 @@ export class CustomizedCellComponent
   constructor() {}
 
   ngOnInit(): void {}
+  noEditable = false;
 
   agInit(params) {
     console.log(params);
-
+    if (!params.colDef.editable) {
+      this.noEditable = true;
+    }
     this.cellvalue = params.value;
   }
   refresh(params): boolean {

@@ -27,22 +27,17 @@ export class AgGridComponent implements OnInit, OnChanges {
   dataTemplate;
 
   frameworkComponents;
-
   ngOnInit(): void {
     this.frameworkComponents = {
       customizedCell: CustomizedCellComponent,
     };
-    for (let index = 1; index <= this.rowData.length; index++) {
-      this.rowData[index - 1]["index"] = index;
-    }
+    // for (let index = 1; index <= this.rowData.length; index++) {
+    //   this.rowData[index - 1]["index"] = index;
+    // }
   }
 
   cellValueChanged(e) {
-    if (
-      e.colDef.field == "cost" ||
-      e.colDef.field == "code" ||
-      e.colDef.field == "name"
-    ) {
+    if (e.colDef.field == "cost" || e.colDef.field == "name") {
       this.rowData.sourceFund.forEach((element) => {
         element[e.colDef.field] = e.value;
       });
@@ -59,16 +54,21 @@ export class AgGridComponent implements OnInit, OnChanges {
     let s = this.agGrid1.api.getDisplayedRowCount();
     let obj = JSON.parse(JSON.stringify(this.dataTemplate.projectExcute));
     obj.index = s + 1;
+    obj.code = this.rowData.code + obj.index;
     this.agGrid1.api.applyTransaction({ add: [obj] });
 
     s = this.agGrid2.api.getDisplayedRowCount();
     obj = JSON.parse(JSON.stringify(this.dataTemplate.sourceFund));
     obj.index = s + 1;
+    obj.code = this.rowData.code + obj.index;
+
     this.agGrid2.api.applyTransaction({ add: [obj] });
 
     s = this.agGrid3.api.getDisplayedRowCount();
     obj = JSON.parse(JSON.stringify(this.dataTemplate.yearOutlay));
     obj.index = s + 1;
+    obj.code = this.rowData.code + obj.index;
+
     this.agGrid3.api.applyTransaction({ add: [obj] });
   }
 }

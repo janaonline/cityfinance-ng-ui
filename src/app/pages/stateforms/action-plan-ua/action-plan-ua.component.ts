@@ -19,6 +19,8 @@ export class ActionPlanUAComponent implements OnInit {
     this.load();
   }
 
+  yearCode = "2021-22";
+
   load() {
     this.data = {
       state: this.userData.state,
@@ -31,6 +33,19 @@ export class ActionPlanUAComponent implements OnInit {
       let temp = JSON.parse(JSON.stringify(input));
       temp.ua = key;
       temp.name = this.uasData[key].name;
+      let code = localStorage.getItem("state_code");
+      code += this.uasData[key]?.code ?? "UA";
+      code += this.yearCode;
+      temp.code = code;
+      for (let index = 1; index <= temp.projectExcute.length; index++) {
+        temp.projectExcute[index - 1].code = code + index;
+      }
+      for (let index = 1; index <= temp.sourceFund.length; index++) {
+        temp.sourceFund[index - 1].code = code + index;
+      }
+      for (let index = 1; index <= temp.yearOutlay.length; index++) {
+        temp.yearOutlay[index - 1].code = code + index;
+      }
       this.data.uaData.push(temp);
     }
   }
@@ -88,6 +103,7 @@ const input = {
     },
   ],
   fold: false,
+  code: "",
 };
 
 const projectExcute = {
@@ -140,7 +156,8 @@ const project = [
     cellRenderer: "customizedCell",
     headerName: "Project Code",
     width: 150,
-    editable: true,
+    editable: false,
+    pinned: true,
     field: "code",
   },
   {
@@ -160,6 +177,7 @@ const project = [
     headerName: "Project Cost",
     width: 150,
     editable: true,
+    pinned: true,
     field: "cost",
     valueParser: "Number(newValue)",
   },
@@ -220,6 +238,7 @@ const fund = [
   {
     cellRenderer: "customizedCell",
     headerName: "Project Code",
+    pinned: true,
     width: 150,
     field: "code",
   },
@@ -238,6 +257,7 @@ const fund = [
     cellRenderer: "customizedCell",
     headerName: "Project Cost",
     width: 150,
+    pinned: true,
     field: "cost",
   },
 
@@ -343,6 +363,7 @@ const year = [
   {
     cellRenderer: "customizedCell",
     headerName: "Project Code",
+    pinned: true,
     width: 150,
     field: "code",
   },
@@ -361,9 +382,9 @@ const year = [
     cellRenderer: "customizedCell",
     headerName: "Project Cost",
     width: 150,
+    pinned: true,
     field: "cost",
   },
-
   {
     cellRenderer: "customizedCell",
     headerName: "% Funding",
