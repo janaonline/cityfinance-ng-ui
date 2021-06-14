@@ -184,8 +184,33 @@ export class GrantAllocationComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res.type === HttpEventType.Response) {
-            this.progessType = 100;
-             this.gtFileUrl = fileAlias;
+          //  this.progessType = 100;
+           // this.gtFileUrl = fileAlias;
+            this._gAservices.checkFile(fileAlias)
+            .subscribe(
+              (response) => {
+              console.log(response);
+               sessionStorage.setItem("changeInGTC", "false")
+               this.progessType = 100;
+               this.gtFileUrl = fileAlias;
+             //  swal('Record Submitted Successfully!')
+             //  resolve(res)
+             },
+               (error) => {
+                 this.err = error;
+
+                 console.log(this.err);
+                // swal(`Error- ${this.err}`)
+                 let blob:any = new Blob([error], { type: 'text/json; charset=utf-8' });
+                 const url = window.URL.createObjectURL(blob);
+                 this.progessType = '';
+                 this.gtFileUrl = '';
+                 this.fileName = '';
+                 fileSaver.saveAs(blob, 'error-sheet.xlsx');
+                 swal('Your file is not correct, Please refer error sheet')
+               }
+               );
+
 
            // console.log('Progress -', progressType, this.millionTiedFileUrl, this.nonMillionTiedFileUrl, this.nonMillionUntiedFileUrl)
           }
@@ -261,13 +286,13 @@ export class GrantAllocationComponent implements OnInit {
         .subscribe((res) => {
          console.log(res);
           sessionStorage.setItem("changeInGTC", "false")
-        //  this.change = "false"
-          swal('Record Submitted Successfully!')
-          let blob:any = new Blob([res], { type: 'text/json; charset=utf-8' });
-		     	const url = window.URL.createObjectURL(blob);
-			//window.open(url);
-			//window.location.href = response.url;
-			fileSaver.saveAs(blob, 'error-sheet.xlsx');
+      //   //  this.change = "false"
+      //     swal('Record Submitted Successfully!')
+      //     let blob:any = new Blob([res], { type: 'text/json; charset=utf-8' });
+		  //    	const url = window.URL.createObjectURL(blob);
+			// //window.open(url);
+			// //window.location.href = response.url;
+			// fileSaver.saveAs(blob, 'error-sheet.xlsx');
         //  resolve(res)
         },
           (error) => {
