@@ -41,9 +41,9 @@ export class UlbformComponent implements OnInit {
       if (id) {
         this.id = id;
         console.log("pkstid", id);
-        sessionStorage.setItem('row_id', id);
-        return this._router.navigate(['/ulbform/overview',
-        id]);
+        // sessionStorage.setItem('row_id', id);
+        // return this._router.navigate(['/ulbform/overview',
+        // id]);
       } else {
 
       }

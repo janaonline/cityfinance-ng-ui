@@ -13,10 +13,10 @@ import { SlbsGaurdGuard } from './slbs/slbs-gaurd.guard';
 import { UlbGaurdGuard } from './ulb-gaurd.guard';
 import { ServiceSlbsComponent } from './service-slbs/service-slbs.component';
 const routes: Routes = [
-  {
-    path: ":id",
-    component: UlbformComponent,
-  },
+  // {
+  //   path: ":id",
+  //   component: UlbformComponent,
+  // },
   {
 
     path: "",
