@@ -12,8 +12,11 @@ export class WaterSupplyService {
 
 
   getslbsData(){
-     // return this.http.get(`${environment.api.url}xv-fc-form/state/606aaf854dff55e6c075d219`);
-     let url ='https://60b5e300fe923b0017c84d35.mockapi.io/slbdataUAWise';
-     return this.http.get(url);
+    return this.http.get(`${environment.api.url}xv-fc-form/state/606aaf854dff55e6c075d219`);
+
+// https://democityfinanceapi.dhwaniris.in/api/v1/xv-fc-form/state/606aaf854dff55e6c075d219
+
+    //  let url ='';
+    //  return this.http.get(url);
     }
 }

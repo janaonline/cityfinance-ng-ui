@@ -25,7 +25,8 @@
         }">
           <td>
             <span class="service-name">{{ service.name }}
-              <span *ngIf="form?.controls[service.key].validator({})['required']" class="mandatory">*</span></span>
+              <span *ngIf="form?.controls[service.key].validator({})['required']" style="color: red;"
+                class="mandatory">*</span></span>
           </td>
           <td>
             <span class="benchamark-cell">{{ service.benchmark }}</span>
@@ -44,7 +45,7 @@
                   (isSubmitButtonClick &&
                     form.controls[service.key].controls['baseline']?.invalid) ||
                   (form.controls[service.key].controls['baseline']?.touched &&
-                    form.controls[service.key].controls['baseline']?.invalid) 
+                    form.controls[service.key].controls['baseline']?.invalid)
               }" />
 
               <span class="input-group-addon"><em class="glyphicon">
@@ -191,7 +192,8 @@
         }">
           <td>
             <span class="service-name">{{ service.name }}
-              <span *ngIf="form?.controls[service.key].validator({})['required']" class="mandatory">*</span></span>
+              <span *ngIf="form?.controls[service.key].validator({})['required']" style="color: red;"
+                class="mandatory">*</span></span>
           </td>
           <td>
             <span class="benchamark-cell">{{ service.benchmark }}</span>
@@ -356,7 +358,8 @@
         }">
           <td>
             <span class="service-name">{{ service.name }}
-              <span *ngIf="form?.controls[service.key].validator({})['required']" class="mandatory">*</span></span>
+              <span *ngIf="form?.controls[service.key].validator({})['required']" style="color: red;"
+                class="mandatory">*</span></span>
           </td>
           <td>
             <span class="benchamark-cell">{{ service.benchmark }}</span>
@@ -522,7 +525,8 @@
         }">
           <td>
             <span class="service-name">{{ service.name }}
-              <span *ngIf="form?.controls[service.key].validator({})['required']" class="mandatory">*</span></span>
+              <span *ngIf="form?.controls[service.key].validator({})['required']" style="color: red;"
+                class="mandatory">*</span></span>
           </td>
           <td>
             <span class="benchamark-cell">{{ service.benchmark }}</span>

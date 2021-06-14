@@ -35,8 +35,10 @@ export class StateformsComponent implements OnInit {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
       res.forEach((state) => (this.states[state._id] = state));
-      console.log('res', res)
+      console.log(this.states[this.userLoggedInDetails["state"]]?.name)
+      localStorage.setItem('state_name',this.states[this.userLoggedInDetails["state"]]?.name)
     });
+
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
@@ -46,7 +48,7 @@ export class StateformsComponent implements OnInit {
     //  = this.profileService.getUserLoggedInDetails();
     UserUtility.getUserLoggedInData().subscribe((data) => {
       this.userLoggedInDetails = data;
-      console.log("hi", data);
+      console.log("h123", data);
     });
     if (!this.userLoggedInDetails) {
       return this._router.navigate(["/login"]);

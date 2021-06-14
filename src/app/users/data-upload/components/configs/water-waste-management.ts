@@ -38,7 +38,7 @@ const services: {
     },
     {
       key: "reduction",
-      name: "% of Non Revenue Water",
+      name: "% of Non revenue water",
       benchmark: "20%",
       customValidator: maxValidator,
     },
