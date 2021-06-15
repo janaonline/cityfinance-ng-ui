@@ -18,6 +18,8 @@ import { GtcertificatePreviewComponent } from './gtcertificate/gtcertificate-pre
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { WaterRejenuvationComponent } from './water-rejenuvation/water-rejenuvation.component';
 import { WaterRejenuvationPreviewComponent } from './water-rejenuvation/water-rejenuvation-preview/water-rejenuvation-preview.component';
@@ -56,7 +58,9 @@ import {CustomTooltipComponent} from '../../shared/components/ag-grid/custom-too
     TooltipModule.forRoot(),
     FormsModule,
     CollapseModule.forRoot(),
-    AgGridModule.withComponents([ActionPlanUAComponent,AgGridComponent,CustomTooltipComponent])
+    AgGridModule.withComponents([ActionPlanUAComponent,AgGridComponent,CustomTooltipComponent]),
+    PaginationModule.forRoot(),
+    NgxPaginationModule,
   ]
 })
 export class StateformsModule { }

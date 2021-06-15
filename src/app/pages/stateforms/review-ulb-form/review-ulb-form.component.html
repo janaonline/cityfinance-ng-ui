@@ -78,7 +78,13 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr *ngFor="let resData of tabelData; let tabelIndex=index">
+                                    <tr *ngFor="let resData of tabelData | paginate
+                                    : {
+                                        id: 'foo',
+                                        itemsPerPage: tableDefaultOptions.itemPerPage,
+                                        currentPage: tableDefaultOptions.currentPage,
+                                        totalItems: tableDefaultOptions.totalCount
+                                      }; let tabelIndex=index">
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{tabelIndex+1}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode || resData.sbCode }}</td>
@@ -91,6 +97,10 @@
                                           '/ulbform/overview',
                               resData?._id
                             ]">
+                                                <!-- <a (click)="viewUlbForm(resData)" [routerLink]="[
+                            '/ulbform',
+                resData?._id
+              ]"> -->
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/ulbform/eye.png">
                                                 </mat-icon>
@@ -101,6 +111,9 @@
 
                             </table>
                             <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!</div>
+                            <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                screenReaderCurrentLabel="You're on page">
+                            </pagination-controls>
                         </div>
                     </div>
                 </div>

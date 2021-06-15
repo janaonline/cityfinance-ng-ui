@@ -36,11 +36,16 @@ export class UlbformComponent implements OnInit {
     public activatedRoute: ActivatedRoute
   ) {
     this.activatedRoute.params.subscribe((val) => {
+      console.log('vallllll', val)
       const { id } = val;
       if (id) {
         this.id = id;
         console.log("pkstid", id);
+        // sessionStorage.setItem('row_id', id);
+        // return this._router.navigate(['/ulbform/overview',
+        // id]);
       } else {
+
       }
     });
     this.accessGrant();
@@ -120,8 +125,12 @@ export class UlbformComponent implements OnInit {
       this.isMillionPlus = userData.isMillionPlus;
       this.isUA = userData.isUA;
       console.log("ifbl", this.isMillionPlus, this.isUA);
-    } else {
+    }
+    else {
       this.isMillionPlus = sessionStorage.getItem("isMillionPlus");
+     if(this.isMillionPlus == null || this.isMillionPlus == undefined){
+
+    }
       this.isUA = sessionStorage.getItem("isUA");
       console.log("pk_elseblock", this.isMillionPlus, this.isUA);
     }
