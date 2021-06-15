@@ -48,6 +48,8 @@ import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { AgmCoreModule } from "@agm/core";
 import { WaterRejenuvationComponent } from "./components/water-rejenuvation/water-rejenuvation.component";
 import { CustomizedCellComponent } from './components/ag-grid/customized-cell/customized-cell.component';
+import { CustomizedHeaderComponent } from './components/ag-grid/customized-header/customized-header.component';
+import { CustomTooltipComponent } from './components/ag-grid/custom-tooltip/custom-tooltip.component';
 @NgModule({
   imports: [
     RouterModule,
@@ -97,6 +99,8 @@ import { CustomizedCellComponent } from './components/ag-grid/customized-cell/cu
     GoogleMapComponent,
     WaterRejenuvationComponent,
     CustomizedCellComponent,
+    CustomizedHeaderComponent,
+    CustomTooltipComponent,
   ],
   exports: [
     PreLoaderComponent,

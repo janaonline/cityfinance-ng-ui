@@ -26,6 +26,7 @@ import { GrantAllPreviewComponent } from './grant-allocation/grant-all-preview/g
 // import { DoughnutChartArea } from './state-dashboard/donut/donut'
 import { AgGridModule } from 'ag-grid-angular';
 import {AgGridComponent} from '../../shared/components/ag-grid/ag-grid.component'
+import {CustomTooltipComponent} from '../../shared/components/ag-grid/custom-tooltip/custom-tooltip.component'
 
 @NgModule({
   declarations: [StateformsComponent,
@@ -55,7 +56,7 @@ import {AgGridComponent} from '../../shared/components/ag-grid/ag-grid.component
     TooltipModule.forRoot(),
     FormsModule,
     CollapseModule.forRoot(),
-    AgGridModule.withComponents([ActionPlanUAComponent,AgGridComponent])
+    AgGridModule.withComponents([ActionPlanUAComponent,AgGridComponent,CustomTooltipComponent])
   ]
 })
 export class StateformsModule { }

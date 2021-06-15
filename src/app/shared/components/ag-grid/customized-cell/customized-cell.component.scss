@@ -1,5 +1,14 @@
-.edit{
-    background-color: #D6DBDF ;
-    color: white;
-    text-align: center;
+.edit {
+  background-color: #d6dbdf;
+}
+
+.error {
+  background-color: red;
+  opacity: 0.5;
+}
+.crop {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100px;
 }

@@ -9,7 +9,7 @@
                 </h4>
             </div>
             <div *ngIf="item.fold">
-                <app-ag-grid [dataTemplate]="template" [rowData]="item" [columnDefs]="columnDefs">
+                <app-ag-grid [ulbList]="item.ulbList" [dataTemplate]="template" [rowData]="item" [columnDefs]="columnDefs">
                 </app-ag-grid>
             </div>
         </div>
