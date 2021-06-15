@@ -62,7 +62,7 @@
                                             itemsPerPage: tableDefaultOptions.itemPerPage,
                                             currentPage: tableDefaultOptions.currentPage,
                                             totalItems: tableDefaultOptions.totalCount
-                                          }; let tabelIndex=index" [formGroupName]="tabelIndex+1">
+                                          }; let tabelIndex=index" [formGroupName]="tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex +1">
 
                                             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                                 {{ tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex + 1}}</td>
@@ -82,14 +82,23 @@
 
 
                                             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                                <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: resData._id, role: 'ULB'}" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)" (click)="viewDetails()">View</a>
+                                                <!-- <a [routerLink]="['/', 'user', 'profile', 'view']"
+                                                 [queryParams]="{ id: resData._id, role: 'ULB'}" class="btn btn-t"
+                                                 style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)"
+                                                 (click)="viewDetails()">View</a> -->
+                                                <a class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)" (click)="viewDetails(resData._id)">View</a>
                                                 <!-- <button type="button" class="btn btn-t" (click)="editDetails()">
                                                   {{detailsEdit == true?
                                                     'Edit': 'Update'}}</button> -->
                                                 <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)" (click)="editDetails(tabelIndex)">Edit</button>
                                                 <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="!detailsEdit && (tabelIndex == row_no)" (click)="updateDetails(tabelIndex)">Update</button>
-                                                <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: resData._id, role: 'ULB', edit: true }" class="btn btn-t" style="margin-bottom: 3px; font-size: 12px;
-                                                 padding-left: 4px; background-color: #177A27;;" *ngIf="!detailsEdit && (tabelIndex == row_no)">Edit more</a>
+                                                <!-- <a [routerLink]="['/', 'user', 'profile', 'view']"
+                                                 [queryParams]="{ id: resData._id, role: 'ULB', edit: true }"
+                                                 class="btn btn-t" style="margin-bottom: 3px; font-size: 12px;
+                                                 padding-left: 4px; background-color: #177A27;;" *ngIf="!detailsEdit && (tabelIndex == row_no)">
+                                                 Edit more</a> -->
+                                                <a class="btn btn-t" style="margin-bottom: 3px; font-size: 12px;
+                                                 padding-left: 4px; background-color: #177A27;;" *ngIf="!detailsEdit && (tabelIndex == row_no)" (click)="editMore(resData._id)">Edit more</a>
                                             </td>
 
                                         </tr>

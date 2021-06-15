@@ -31,7 +31,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       if (id) {
         this.id = id;
         console.log('stid', id)
-       // sessionStorage.setItem('row_id', id);
+        sessionStorage.setItem('row_id', id);
       }
     });
 

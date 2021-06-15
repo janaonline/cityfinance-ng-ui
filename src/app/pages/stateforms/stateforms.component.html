@@ -1,6 +1,6 @@
-<div class="container-fluid" style="padding: 0;">
-    <div class="row">
-        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c">
+<div class="container-fluid" style="padding: 0; overflow-x: hidden;">
+    <div class="row" style="position: relative; display: block;">
+        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c sidebar">
             <div class="row" style="background-color: #FFC500; ">
                 <a [routerLink]="['../fc-home-page']">
                     <h5 class="pd" style="font-size: 14px;">
@@ -19,7 +19,7 @@
                 </a>
             </div>
 
-            <div class="row link-div" style="margin-left: 1%;">
+            <div class="row link-div" style="margin-left: 1%;" routerLinkActive="active">
                 <a [routerLink]="['dashboard']">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false">
@@ -36,8 +36,9 @@
                     </div> -->
                 </a>
             </div>
+
             <div class="row link-div">
-                <a [routerLink]="['../fc-home-page']">
+                <a (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false">
                             <img src="../../../assets/stateform/Icon awesome-handshake.svg">
@@ -51,37 +52,39 @@
                     </div>
                 </a>
             </div>
-            <div class="row link-div-u">
-                <a [routerLink]="['edit-ulb-profile']">
-                    <div class="col-sm-1 col-xs-1 m-l-u">
-                        <mat-icon aria-hidden="false">
-                            <img src="../../../assets/stateform/Icon feather-edit-2.svg">
-                        </mat-icon>
-                    </div>
-                    <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px; padding-left: 2px;">
-                        Edit ULB Profile
-                    </div>
-                    <div class="col-sm-1 col-xs-1">
+            <div id="collapseBasic" [collapse]="isCollapsed">
+                <div class="row link-div-u" routerLinkActive="active">
+                    <a [routerLink]="['edit-ulb-profile']">
+                        <div class="col-sm-1 col-xs-1 m-l-u">
+                            <mat-icon aria-hidden="false">
+                                <img src="../../../assets/stateform/Icon feather-edit-2.svg">
+                            </mat-icon>
+                        </div>
+                        <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px; padding-left: 2px;">
+                            Edit ULB Profile
+                        </div>
+                        <div class="col-sm-1 col-xs-1">
 
-                    </div>
-                </a>
-            </div>
-            <div class="row link-div-u">
-                <a [routerLink]="['review-ulb-form']">
-                    <div class="col-sm-1 col-xs-1 m-l-u">
-                        <mat-icon aria-hidden="false" style="margin-top: 3px;">
-                            <img src="../../../assets/stateform/Icon material-pageview.svg">
-                        </mat-icon>
-                    </div>
-                    <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px;">
-                        Review ULB Forms
-                    </div>
-                    <div class="col-sm-1 col-xs-1">
+                        </div>
+                    </a>
+                </div>
+                <div class="row link-div-u" routerLinkActive="active">
+                    <a [routerLink]="['review-ulb-form']">
+                        <div class="col-sm-1 col-xs-1 m-l-u">
+                            <mat-icon aria-hidden="false" style="margin-top: 3px;">
+                                <img src="../../../assets/stateform/Icon material-pageview.svg">
+                            </mat-icon>
+                        </div>
+                        <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px;">
+                            Review ULB Forms
+                        </div>
+                        <div class="col-sm-1 col-xs-1">
 
-                    </div>
-                </a>
+                        </div>
+                    </a>
+                </div>
             </div>
-            <div class="row link-div">
+            <div class="row link-div" routerLinkActive="active">
                 <a [routerLink]="['gtCertificate']">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false">
@@ -97,7 +100,7 @@
                 </a>
             </div>
             <div class="row link-div">
-                <a [routerLink]="['../fc-home-page']">
+                <a (click)="isCollapsedSer = !isCollapsedSer" [attr.aria-expanded]="!isCollapsedSer" aria-controls="collapseBasicSer">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false" style="margin-top: 3px;">
                             <img src="../../../assets/stateform/technical-support.svg">
@@ -111,40 +114,42 @@
                     </div>
                 </a>
             </div>
-            <div class="row link-div-u">
-                <a [routerLink]="['water-supply']">
-                    <div class="col-sm-1 col-xs-1 m-l-u">
-                        <mat-icon aria-hidden="false">
-                            <img src="../../../assets/stateform/suplywater.png">
-                        </mat-icon>
-                    </div>
-                    <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px;  padding-left: 7px;">
-                        Water Supply and Sanitation
-                    </div>
-                    <div class="col-sm-1 col-xs-1 text-right">
-                        <!-- <mat-icon aria-hidden="false">
+            <div id="collapseBasicSer" [collapse]="isCollapsedSer">
+                <div class="row link-div-u" routerLinkActive="active">
+                    <a [routerLink]="['water-supply']">
+                        <div class="col-sm-1 col-xs-1 m-l-u">
+                            <mat-icon aria-hidden="false">
+                                <img src="../../../assets/stateform/suplywater.png">
+                            </mat-icon>
+                        </div>
+                        <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px;  padding-left: 7px;">
+                            Water Supply and Sanitation
+                        </div>
+                        <div class="col-sm-1 col-xs-1 text-right">
+                            <!-- <mat-icon aria-hidden="false">
                             <img src='../../../assets/ulbform/Icon ionic-ios-close-circle.svg'>
                         </mat-icon> -->
-                    </div>
-                </a>
-            </div>
-            <div class="row link-div-u">
-                <a [routerLink]="['water-rejenuvation']">
-                    <div class="col-sm-1 col-xs-1 m-l-u">
-                        <mat-icon aria-hidden="false" style="margin-top: 4px;">
-                            <img src="../../../assets/stateform/water-cycle.svg">
-                        </mat-icon>
-                    </div>
-                    <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px; padding-left: 6px;">
-                        Water Rejenuvation and Recycling
-                    </div>
-                    <div class="col-sm-1 col-xs-1">
+                        </div>
+                    </a>
+                </div>
+                <div class="row link-div-u" routerLinkActive="active">
+                    <a [routerLink]="['water-rejenuvation']">
+                        <div class="col-sm-1 col-xs-1 m-l-u">
+                            <mat-icon aria-hidden="false" style="margin-top: 4px;">
+                                <img src="../../../assets/stateform/water-cycle.svg">
+                            </mat-icon>
+                        </div>
+                        <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px; padding-left: 6px;">
+                            Water Rejenuvation and Recycling
+                        </div>
+                        <div class="col-sm-1 col-xs-1">
 
-                    </div>
-                </a>
+                        </div>
+                    </a>
+                </div>
             </div>
             <div class="row link-div">
-                <a [routerLink]="['../fc-home-page']">
+                <a [routerLink]="['../stateform']">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false" style="margin-top: 4px;">
                             <img src="../../../assets/stateform/actionPlan.svg">
@@ -160,7 +165,7 @@
                     </div>
                 </a>
             </div>
-            <div class="row link-div">
+            <div class="row link-div" routerLinkActive="active">
                 <a [routerLink]="['grant-allocation']">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false" style="margin-top: 2px;">
@@ -188,7 +193,7 @@
             </div>
         </div>
 
-        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10" style="margin-top: 1.5rem; width: 79%;">
+        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10 main" style="margin-top: 1.5rem; width: 79%;">
             <div class="row">
                 <div class="col header1">
                     <h3 class="text-center" style="text-align: center;" *ngIf="loggedInUserType !== userTypes.USER;">

@@ -1,11 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { BaseComponent } from 'src/app/util/baseComponent';
 import { UlbadminServiceService } from '../../ulb-admin/ulbadmin-service.service';
 import { StateformsService } from '../stateforms.service';
+import { EditViewComponent } from './edit-view/edit-view.component';
+import { EditComponent } from './edit/edit.component';
 
 @Component({
   selector: 'app-edit-ulb-profile',
@@ -17,7 +20,8 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
   constructor(
     public ulbService : UlbadminServiceService,
     public _stateformsService: StateformsService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dialog: MatDialog,
   ) {
     super();
    }
@@ -102,8 +106,27 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
    )
 
   }
-  viewDetails(){
-
+  viewDetails(id){
+    let dialogRef = this.dialog.open(EditViewComponent, {
+      data:{_id : id, role: 'ULB' },
+      height: "100%",
+      width: "90%",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  editMore(id){
+    let dialogRef = this.dialog.open(EditComponent, {
+      data:{_id : id, role: 'ULB' },
+      height: "100%",
+      width: "90%",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
   editDetails(index){
     this.detailsEdit = false;
@@ -141,9 +164,9 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
       console.log(error, this.errMessage);
     });
     console.log('updateData', updateData)
-    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_name').disable();
-    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_email').disable();
-    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_phone').disable();
+    this.editableForm.get('editDetailsArray').at(this.indexNo+1).get('nodal_officer_name').disable();
+    this.editableForm.get('editDetailsArray').at(this.indexNo+1).get('nodal_officer_email').disable();
+    this.editableForm.get('editDetailsArray').at(this.indexNo+1).get('nodal_officer_phone').disable();
   }
 
   setLIstFetchOptions() {

@@ -32,7 +32,11 @@ export class WaterRejenuvationPreviewComponent implements OnInit {
     private _questionnaireService: QuestionnaireService,
     public waterRejenuvationService: WaterRejenuvationService
   ) {}
+
   styleForPDF = `<style>
+  :root {
+    font-size: 14px;
+  }
   .header-p {
     background-color: #047474;
     height: 70px;
@@ -46,37 +50,100 @@ export class WaterRejenuvationPreviewComponent implements OnInit {
 
 }
 
-.card {
-    margin-top: 10px !important;
-    padding: 5px 10px;
-    background-color: #EBF5F5;
-}
+  table tbody tr {
+    border: 100px solid black;
+  }
+    table tbody tr:nth-child(even) {
+    background: #d7ebeb;
+  }
+   table tbody tr:nth-child(even) td {
+    border:1px solid #d7ebeb;
+  }
+    h2 {
+      font-size: 1.25rem;
+    }
 
-.qus-h {
-    margin-bottom: .5rem;
-    margin-top: .5rem;
-    font-size: 10px !important;
-}
+    h3 {
+      font-size: .9rem;
+    }
 
-.ans-h {
-    margin-bottom: .5rem;
-    margin-left: 1.2rem;
-    margin-top: .5rem;
-    font-size: 10px !important;
-}
-.m-r{
-margin-bottom: 1.5rem !important;
-}
+     h4 {
+      font-size: .7rem;
+    }
+       h5 {
+      font-size: .5rem;
+    }
 
-.h-cls{
+    table thead th {
+      font-size: .5rem
+    }
+
+    table tbody td, li {
+      font-size: .5rem
+    }
+
+    .td-width {
+      width: 25%;
+    }
+
+    button {
       display: none;
     }
-.form-status {
-      font-size: 10px;
-      margin-top: 10px;
-    }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+  }
 
-  </style>`
+  .form-status {
+    font-size: 10px;
+    margin-top: 10px;
+
+
+  }
+  .table > tbody > tr > td,
+  .table > tbody > tr > th,
+  .table > tfoot > tr > td,
+  .table > tfoot > tr > th,
+  .table > thead > tr > td,
+  .table > thead > tr > th {
+    vertical-align: inherit;
+    text-align: center;
+  }
+
+  .fa-times {
+    display: none;
+  }
+  .qus-slb {
+    margin-left: 2%;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+#donwloadButton{
+  display: none;
+}
+h5{
+  display: inline-flex;
+}
+.d-i{
+  display: inline-flex;
+  width : 33.33%;
+}
+.mr-l{
+  margin-left: 22%;
+}
+.form-status {
+  font-size: 10px;
+  margin-top: 10px;
+
+}
+
+
+  </style>`;
   @ViewChild("waterRe") _html: ElementRef;
   @ViewChild("template") template;
   showLoader;

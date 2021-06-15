@@ -90,8 +90,10 @@ export class GrantAllocationComponent implements OnInit {
   onClickNo() {
 
     this.account = 'no';
-
     this.linked = 'no';
+    this.fileName = '';
+    this.gtFileUrl ='';
+   // this.progessType =''
     // if (!this.change)
   }
   fileChangeEvent(event) {
