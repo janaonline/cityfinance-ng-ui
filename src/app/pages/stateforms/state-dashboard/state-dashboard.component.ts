@@ -265,7 +265,7 @@ export class StateDashboardComponent implements OnInit {
               { value: [80, 100], color: '#21D683' }
             ]
           },
-          shape_label: { style: { fontSize: 28 } },
+          shape_label: { style: { fontSize: 22 } },
           points: [['x', [0, this.values.annualAcc_provisional]]]
         },
 
@@ -323,7 +323,7 @@ export class StateDashboardComponent implements OnInit {
               { value: [80, 100], color: '#21D683' }
             ]
           },
-          shape_label: { style: { fontSize: 28 } },
+          shape_label: { style: { fontSize: 22 } },
           points: [['x', [0, this.values.annualAcc_audited]]]
         },
 
