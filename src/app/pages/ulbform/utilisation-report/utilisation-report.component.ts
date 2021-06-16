@@ -494,12 +494,14 @@ export class UtilisationReportComponent implements OnInit {
       console.log('if')
       console.log('api data', this.fd)
       this.apiCall(this.fd);
+      sessionStorage.setItem("canNavigate", "true")
       console.log('form submitted', this.fd);
 
     } else {
 
       this.fd.isDraft = true;
       this.apiCall(this.fd);
+      sessionStorage.setItem("canNavigate", "true")
     }
   }
   onSubmit() {
@@ -761,6 +763,7 @@ export class UtilisationReportComponent implements OnInit {
         }
         console.log('api data', this.fd)
         this.apiCall(this.fd);
+        sessionStorage.setItem("canNavigate", "true")
         console.log('form submitted', this.fd);
         this._router.navigate(["ulbform/annual_acc"]);
         return;
@@ -817,6 +820,7 @@ export class UtilisationReportComponent implements OnInit {
     console.log(this.fd);
     console.log("form submitted", this.fd);
     this.apiCall(this.fd);
+    sessionStorage.setItem("canNavigate", "true")
     return this._router.navigate(["ulbform/annual_acc"]);
   }
   alertClose() {

@@ -156,6 +156,7 @@ export class WaterSanitationComponent implements OnInit {
   }
 
   onLoad() {
+    sessionStorage.setItem("changeInPlans", "false")
     this.wsService.getFiles().subscribe(
       (res) => {
         console.log(res);
@@ -264,6 +265,7 @@ export class WaterSanitationComponent implements OnInit {
     this.testForDraft();
     if (!this.body.isDraft || template === null) {
       this.postsDataCall(this.body);
+      sessionStorage.setItem("changeInPlans", "false")
     } else {
       this.openModal(template);
     }

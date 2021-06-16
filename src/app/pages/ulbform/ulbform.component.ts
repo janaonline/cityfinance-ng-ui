@@ -12,6 +12,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { UlbformPreviewComponent } from "./ulbform-preview/ulbform-preview.component";
 import { WaterSanitationService } from "./water-sanitation/water-sanitation.service";
 import { UlbformService } from "./ulbform.service";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-ulbform",
   templateUrl: "./ulbform.component.html",
@@ -25,7 +27,7 @@ export class UlbformComponent implements OnInit {
   isMillionPlus;
   isUA;
   id = null;
-
+  validate = true
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
@@ -33,7 +35,8 @@ export class UlbformComponent implements OnInit {
     private wsService: WaterSanitationService,
     public dialog: MatDialog,
     public ulbformService: UlbformService,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+
   ) {
     this.activatedRoute.params.subscribe((val) => {
       console.log('vallllll', val)
@@ -82,6 +85,8 @@ export class UlbformComponent implements OnInit {
     this.ulbformService.allStatus.subscribe((status) => {
       this.allStatus = status;
       sessionStorage.setItem("allStatus", JSON.stringify(this.allStatus));
+      console.log('red this', this.allStatus)
+      this.checkValidationStatusOfAllForms();
     });
     this.ulbformService.allFormsData.subscribe((data) => {
       this.allFormsData = data;
@@ -89,15 +94,18 @@ export class UlbformComponent implements OnInit {
     });
     this.getStatus();
     this.getAllForm();
+
   }
 
   getStatus() {
     this.ulbformService.getStatus(this.design_year, this.id).subscribe(
       (res) => {
+
         this.ulbformService.allStatus.next(res["response"]["steps"]);
       },
       (err) => {
         this.ulbformService.allStatus.next(this.allStatus);
+
         console.log(err);
       }
     );
@@ -128,9 +136,9 @@ export class UlbformComponent implements OnInit {
     }
     else {
       this.isMillionPlus = sessionStorage.getItem("isMillionPlus");
-     if(this.isMillionPlus == null || this.isMillionPlus == undefined){
+      if (this.isMillionPlus == null || this.isMillionPlus == undefined) {
 
-    }
+      }
       this.isUA = sessionStorage.getItem("isUA");
       console.log("pk_elseblock", this.isMillionPlus, this.isUA);
     }
@@ -179,12 +187,73 @@ export class UlbformComponent implements OnInit {
   //   panelClass: "XVfc-preview",
   //   disableClose: false,
   // });
+  data;
   finalSubmit() {
-    const allStatus = JSON.parse(sessionStorage.getItem("allStatus"));
-    for (let form in allStatus) {
-
+    this.checkValidationStatusOfAllForms();
+    if (!this.validate) {
+      swal("Kindly Fill All the Forms Completely Before Submitting")
+    } else {
+      this.ulbformService.postMasterForm(this.data)
+      swal("Forms Successfully Submitted to be Reviewed by State and MoHUA")
     }
 
+
+  }
+
+
+  checkValidationStatusOfAllForms() {
+
+    const eligibleForms = JSON.parse(sessionStorage.getItem("eligibleForms"));
+    this.validate = true;
+    let requiredStatus = {}
+    //checking the status of each form
+    eligibleForms.forEach(element => {
+      for (let key in this.allStatus) {
+        if (element === 'PFMS' && key === 'pfmsAccount') {
+          let change = sessionStorage.getItem("changeInPFMSAccount")
+          if (change === "true") {
+            this.validate = false;
+            return
+          }
+          requiredStatus[key] = this.allStatus[key]['isSubmit']
+        } else if (element === 'Utilization Report' && key === 'utilReport') {
+          let change = sessionStorage.getItem("canNavigate")
+          if (change === "false") {
+            this.validate = false;
+            return
+          }
+          requiredStatus[key] = this.allStatus[key]['isSubmit']
+        } else if (element === 'Annual Acconts' && key === 'annualAccounts') {
+          let change = sessionStorage.getItem("changeInAnnual")
+          if (change === "true") {
+            this.validate = false;
+            return
+          }
+          requiredStatus[key] = this.allStatus[key]['isSubmit']
+        } else if (element === 'slbs' && key === 'slbForWaterSupplyAndSanitation') {
+          let change = sessionStorage.getItem("changeInSLB")
+          if (change === "true") {
+            this.validate = false;
+            return
+          }
+          requiredStatus[key] = this.allStatus[key]['isSubmit']
+        } else if (element === 'Plan water sanitation' && key === 'plans') {
+          let change = sessionStorage.getItem("changeInPlans")
+          if (change === "true") {
+            this.validate = false;
+            return
+          }
+          requiredStatus[key] = this.allStatus[key]['isSubmit']
+        }
+      }
+    });
+
+    for (let key in requiredStatus) {
+      if (!requiredStatus[key]) {
+        this.validate = false;
+      }
+    }
+    console.log('validate', this.validate)
   }
 
 }
