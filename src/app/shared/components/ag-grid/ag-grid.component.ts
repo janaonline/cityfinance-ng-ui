@@ -364,19 +364,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     },
     {
       cellRenderer: "customizedCell",
-      valueGetter: (params) => {
-        let data = params.data;
-        let val = 0;
-        for (const key in data) {
-          if (fundAutoFill.includes(key)) {
-            if (!isNaN(data[key].value)) {
-              val += data[key].value;
-            }
-          }
-        }
-        syncValidator(val, Total, _onSuccess(params), _onFail(params), params);
-        return val;
-      },
+      valueGetter: (params) => params.data["total"].value,
       valueSetter: syncValueSetter(Total),
       headerName: "Total",
       width: 100,
@@ -391,7 +379,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) => params.data["2021-22"].value,
-      valueSetter: syncValueSetter(number),
+      valueSetter: syncValueSetter(checkYear),
       valueParser: "Number(newValue)",
       headerName: "FY 2021-22",
       width: 150,
@@ -406,7 +394,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) => params.data["2022-23"].value,
-      valueSetter: syncValueSetter(number),
+      valueSetter: syncValueSetter(checkYear),
       valueParser: "Number(newValue)",
       headerName: "FY 2022-23",
       width: 150,
@@ -421,7 +409,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) => params.data["2023-24"].value,
-      valueSetter: syncValueSetter(number),
+      valueSetter: syncValueSetter(checkYear),
       valueParser: "Number(newValue)",
       headerName: "FY 2023-24",
       width: 150,
@@ -436,7 +424,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) => params.data["2024-25"].value,
-      valueSetter: syncValueSetter(number),
+      valueSetter: syncValueSetter(checkYear),
       valueParser: "Number(newValue)",
       headerName: "FY 2024-25",
       width: 150,
@@ -451,7 +439,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) => params.data["2025-26"].value,
-      valueSetter: syncValueSetter(number),
+      valueSetter: syncValueSetter(checkYear),
       valueParser: "Number(newValue)",
       headerName: "FY 2025-26",
       width: 150,
@@ -533,7 +521,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) => params.data["2021-22"].value,
-      valueSetter: syncValueSetter(number),
+      valueSetter: syncValueSetter(checkYear),
       valueParser: "Number(newValue)",
       headerName: "FY 2021-22",
       width: 150,
@@ -548,7 +536,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) => params.data["2022-23"].value,
-      valueSetter: syncValueSetter(number),
+      valueSetter: syncValueSetter(checkYear),
       valueParser: "Number(newValue)",
       headerName: "FY 2022-23",
       width: 150,
@@ -563,7 +551,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) => params.data["2023-24"].value,
-      valueSetter: syncValueSetter(number),
+      valueSetter: syncValueSetter(checkYear),
       valueParser: "Number(newValue)",
       headerName: "FY 2023-24",
       width: 150,
@@ -578,7 +566,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) => params.data["2024-25"].value,
-      valueSetter: syncValueSetter(number),
+      valueSetter: syncValueSetter(checkYear),
       valueParser: "Number(newValue)",
       headerName: "FY 2024-25",
       width: 150,
@@ -593,7 +581,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) => params.data["2025-26"].value,
-      valueSetter: syncValueSetter(number),
+      valueSetter: syncValueSetter(checkYear),
       valueParser: "Number(newValue)",
       headerName: "FY 2025-26",
       width: 150,
@@ -630,7 +618,24 @@ export class AgGridComponent implements OnInit, OnChanges {
     }
   }
 
-  fundValueChanges(e) {}
+  fundValueChanges(e) {
+    if (fundAutoFill.includes(e.colDef.field)) {
+      let data = e.data;
+      let val = 0;
+      for (const key in data) {
+        if (fundAutoFill.includes(key)) {
+          if (!isNaN(data[key].value) && data[key].value != "") {
+            val += data[key].value;
+          }
+        }
+      }
+      if (e.data.cost.value == "") e.data.cost = 0;
+      if (e.data.cost.value < val) e.data.total.lastValidation = val;
+      else e.data.total.lastValidation = true;
+      e.data.total.value = val;
+      e.api.refreshCells({ columns: ["total"] });
+    }
+  }
 
   autoSetNames(e) {
     this.rowData.sourceFund[e.rowIndex][e.colDef.field].value = e.value;
@@ -677,6 +682,8 @@ const fundAutoFill = [
   "ulb",
   "other",
 ];
+
+const years = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"];
 
 const input = {
   ua: { value: "", isValidating: false, lastValidation: true },
@@ -737,12 +744,9 @@ const input = {
 
 const Area = (x) => x.length < 201;
 const Total = (x, param) => {
-  console.log(
-    param.data.cost.value,
-    parseInt(x),
-    param.data.cost >= parseInt(x)
-  );
-
+  if (param.data.cost.value == "") {
+    param.data.cost.value = 0;
+  }
   return param.data.cost.value >= parseInt(x);
 };
 const dropDown = (x) => {
@@ -760,6 +764,26 @@ const number = (x) => {
     return true;
   }
   return false;
+};
+
+const checkYear = (x, param) => {
+  let data = param.data;
+  let val = 0;
+  for (const key in data) {
+    if (years.includes(key)) {
+      if (
+        !isNaN(data[key].value) &&
+        data[key].value != "" &&
+        param.colDef.field != key
+      ) {
+        val += data[key].value;
+      }
+    }
+  }
+  val += x;
+  console.log(val <= (param.data.cost.value == "" ? 0 : param.data.cost.value));
+
+  return val <= (param.data.cost.value == "" ? 0 : param.data.cost.value);
 };
 const _onSuccess = (params) => () => {
   let data = params.data;
@@ -786,7 +810,6 @@ const _onFail = (params) => () => {
 };
 
 const syncValidator = (newValue, validateFn, onSuccess, _onFail, params) => {
-  debugger;
   if (validateFn(newValue, params)) {
     onSuccess();
   } else {
