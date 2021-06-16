@@ -15,6 +15,9 @@ import { WaterRecyclingComponent } from './water-recycling/water-recycling.compo
 import { ActionPlanUAComponent } from './action-plan-ua/action-plan-ua.component';
 import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
 import { GtcertificatePreviewComponent } from './gtcertificate/gtcertificate-preview/gtcertificate-preview.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
@@ -23,6 +26,9 @@ import { WaterRejenuvationPreviewComponent } from './water-rejenuvation/water-re
 import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview/water-supply-preview.component';
 import { GrantAllPreviewComponent } from './grant-allocation/grant-all-preview/grant-all-preview.component';
 // import { DoughnutChartArea } from './state-dashboard/donut/donut'
+import { AgGridModule } from 'ag-grid-angular';
+import {AgGridComponent} from '../../shared/components/ag-grid/ag-grid.component'
+import {CustomTooltipComponent} from '../../shared/components/ag-grid/custom-tooltip/custom-tooltip.component'
 
 @NgModule({
   declarations: [StateformsComponent,
@@ -40,15 +46,19 @@ import { GrantAllPreviewComponent } from './grant-allocation/grant-all-preview/g
     WaterSupplyPreviewComponent,
     GrantAllPreviewComponent,
     // DoughnutChartArea
+    AgGridComponent
   ],
   imports: [
     CommonModule,
     StateformsRoutingModule,
     MatIconModule,
     ReactiveFormsModule,
+    MatTooltipModule,
     SharedModule,
+    TooltipModule.forRoot(),
     FormsModule,
     CollapseModule.forRoot(),
+    AgGridModule.withComponents([ActionPlanUAComponent,AgGridComponent,CustomTooltipComponent]),
     PaginationModule.forRoot(),
     NgxPaginationModule,
   ]

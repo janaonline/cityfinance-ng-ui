@@ -53,6 +53,78 @@ export class AnnualAccountsComponent implements OnInit {
   temp;
   @HostBinding("")
   pdfError = "PDF Not Uploaded!";
+  tt = {
+    ulb: "",
+    design_year: "",
+    status: "",
+    isCompleted: "",
+    audited: {
+      provisional_data: {
+        bal_sheet: {
+          pdfUrl: "",
+          pdfName: "",
+          status: "",
+        },
+        bal_sheet_schedules: { pdfUrl: "", pdfName: "", status: "" },
+        inc_exp: {
+          pdfUrl: "",
+          pdfName: "",
+          status: "",
+        },
+        inc_exp_schedules: { pdfUrl: "", pdfName: "", status: "" },
+        cash_flow: {
+          pdfUrl: "",
+          pdfName: "",
+          status: "",
+        },
+        auditor_report: { pdfUrl: "", pdfName: "", status: "" },
+      },
+      standardized_data: {
+        upload: {
+          excelUrl: "",
+          excelName: "",
+        },
+        declaration: "",
+      },
+      audit_status: "",
+      submit_annual_accounts: { answer: "" },
+      submit_standardized_data: { answer: "" },
+      year: "",
+    },
+    unAudited: {
+      provisional_data: {
+        bal_sheet: {
+          pdfUrl: "",
+          pdfName: "",
+          status: "",
+        },
+        bal_sheet_schedules: { pdfUrl: "", pdfName: "", status: "" },
+        inc_exp: {
+          pdfUrl: "",
+          pdfName: "",
+          status: "",
+        },
+        inc_exp_schedules: { pdfUrl: "", pdfName: "", status: "" },
+        cash_flow: {
+          pdfUrl: "",
+          pdfName: "",
+          status: "",
+        },
+        auditor_report: { pdfUrl: "", pdfName: "", status: "" },
+      },
+      standardized_data: {
+        upload: {
+          excelUrl: "",
+          excelName: "",
+        },
+        declaration: "",
+      },
+      audit_status: "",
+      submit_annual_accounts: { answer: "" },
+      submit_standardized_data: { answer: "" },
+      year: "",
+    },
+  };
   answerError = {
     Audited: {
       submit_annual_accounts: false,
@@ -311,7 +383,6 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   clickedPreview(template) {
-
     this.onPreview();
   }
 
@@ -322,7 +393,7 @@ export class AnnualAccountsComponent implements OnInit {
       width: "85vw",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => { });
+    dialogRef.afterClosed().subscribe((result) => "");
   }
 
   onLoad() {
@@ -339,22 +410,24 @@ export class AnnualAccountsComponent implements OnInit {
       )
       .subscribe(
         async (res) => {
+          console.log(res);
+
           const responseType =
             res["data"][0]["audit_status"] === "Audited"
               ? "auditResponse"
               : "unauditResponse";
           await this.dataPopulate(res["data"][0], responseType);
-          await this.dataPopulate(
-            res["data"][1],
+          let type =
             responseType === "auditResponse"
               ? "unauditResponse"
-              : "auditResponse"
-          );
+              : "auditResponse";
+          await this.dataPopulate(res["data"][1], type);
           const toStoreResponse = [this.auditResponse, this.unauditResponse];
           sessionStorage.setItem(
             "annualAccounts",
             JSON.stringify(toStoreResponse)
           );
+          console.log(toStoreResponse);
         },
         (err) => {
           const toStoreResponse = [this.auditResponse, this.unauditResponse];
@@ -368,6 +441,8 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   dataPopulate(res, type) {
+    console.log("Ssssss");
+
     return new Promise((resolve, rej) => {
       for (let key in res) {
         let value = res[key];
@@ -431,11 +506,7 @@ export class AnnualAccountsComponent implements OnInit {
     const status = JSON.parse(sessionStorage.getItem("allStatus"));
     status.annualAccounts.isSubmit = res;
     this._ulbformService.allStatus.next(status);
-    swal({
-      title: "Submitted",
-      text: "Record submitted successfully!",
-      icon: "success",
-    });
+    swal("Record submitted successfully!");
     sessionStorage.setItem("changeInAnnual", "false");
     if (template != null)
       return this._router.navigate(["ulbform/service-level"]);
@@ -446,6 +517,8 @@ export class AnnualAccountsComponent implements OnInit {
       this.annualAccountsService.postData(form).subscribe(
         (res) => {
           const toStoreResponse = [this.auditResponse, this.unauditResponse];
+          console.log(toStoreResponse);
+
           sessionStorage.setItem(
             "annualAccounts",
             JSON.stringify(toStoreResponse)
@@ -453,7 +526,7 @@ export class AnnualAccountsComponent implements OnInit {
           resolve("success");
         },
         (err) => {
-          swal("Failed To Save", "", "error");
+          swal("Failed To Save");
         }
       );
     });
@@ -468,7 +541,9 @@ export class AnnualAccountsComponent implements OnInit {
         delete form.standardized_data;
       }
       if (form.submit_annual_accounts.answer === "no") {
+        form.submit_standardized_data.answer = null;
         delete form.provisional_data;
+        delete form.standardized_data;
         form["isCompleted"] = true;
         return res(form);
       } else if (form.submit_annual_accounts.answer === null) {
@@ -789,7 +864,7 @@ export class AnnualAccountsComponent implements OnInit {
       let newObj = {
         alias:
           this[progressArray[0]][progressArray[1]][this.progressArray[2]][
-          "excelUrl"
+            "excelUrl"
           ],
         financialYear: "",
         design_year: this[progressArray[0]]["design_year"],
@@ -864,6 +939,7 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   openDialog(template) {
+    if (template == undefined) return;
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this._matDialog.open(template, dialogConfig);
     this.dialogRef.afterClosed().subscribe((result) => {

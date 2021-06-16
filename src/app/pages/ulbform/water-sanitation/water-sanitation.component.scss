@@ -64,6 +64,7 @@
     padding-right: 4%;
     font-weight: normal;
     font-size: 12px;
+    margin-left: 1ch;
   }
   
   .pr-btn {
@@ -136,4 +137,10 @@
   ::ng-deep .mat-tooltip {
     background-color: black !important;
     
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
