@@ -101,6 +101,7 @@ const input = {
       name: { value: "", isValidating: false, lastValidation: true },
       cost: { value: "", isValidating: false, lastValidation: true },
       funding: { value: "", isValidating: false, lastValidation: true },
+      amount: { value: "", isValidating: false, lastValidation: true },
       "2021-22": { value: "", isValidating: false, lastValidation: true },
       "2022-23": { value: "", isValidating: false, lastValidation: true },
       "2023-24": { value: "", isValidating: false, lastValidation: true },
