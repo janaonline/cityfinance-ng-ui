@@ -39,6 +39,7 @@ export class StateformsComponent implements OnInit {
       res.forEach((state) => (this.states[state._id] = state));
       console.log(this.states[this.userLoggedInDetails["state"]]?.name)
       localStorage.setItem('state_name',this.states[this.userLoggedInDetails["state"]]?.name)
+      localStorage.setItem('state_code',this.states[this.userLoggedInDetails["state"]]?.code)
     });
 
   }

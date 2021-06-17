@@ -1,1 +1,17 @@
-<p>action-plan-ua works!</p>
+<div class="container-fluid">
+    <div *ngFor="let item of data?.uaData;  let projectIndex=index">
+        <div class="mat-card">
+            <div class="mat-card-title">
+                <h4 style="height: 3pc;">
+                    <b style="margin-left: 1pc;">UA:{{projectIndex + 1}} {{item.name}}</b>
+                    <button class="btn pull-right btn-primary" style="margin-right: 1pc;"
+                        (click)="foldCard(projectIndex)">Select</button>
+                </h4>
+            </div>
+            <div *ngIf="item.fold">
+                <app-ag-grid [ulbList]="item.ulbList" [dataTemplate]="template" [rowData]="item" [columnDefs]="columnDefs">
+                </app-ag-grid>
+            </div>
+        </div>
+    </div>
+</div>

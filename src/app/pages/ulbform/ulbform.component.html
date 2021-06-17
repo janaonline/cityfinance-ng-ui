@@ -363,7 +363,10 @@
 
                 </div>
                 <div>
-                    <button mat-raised-button class="subBtn" (click)="finalSubmit()">Submit</button>
+                    <div matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
+                        <button mat-raised-button class="subBtn" [disabled]="!validate"
+                            (click)="finalSubmit()">Submit</button>
+                    </div>
                 </div>
             </div>
 

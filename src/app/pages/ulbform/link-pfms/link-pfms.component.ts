@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild, Output, EventEmitter } from "@angular/core";
 import { LinkPFMSAccount } from "./link-pfms.service";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { Router, NavigationStart, Event } from "@angular/router";
@@ -19,6 +19,7 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ["./link-pfms.component.scss"],
 })
 export class LinkPFMSComponent extends BaseComponent implements OnInit {
+
   dialogRef;
   constructor(
     private LinkPFMSAccount: LinkPFMSAccount,
@@ -26,7 +27,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     private modalService: BsModalService,
     private _router: Router,
     private _profileService: ProfileService,
-    private _ulbformService: UlbformService
+    private _ulbformService: UlbformService,
+
   ) {
     super();
     // switch (this.loggedInUserType) {
@@ -58,6 +60,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     });
   }
 
+  message = "Hi from PFMS"
   @ViewChild("template") template;
   @ViewChild("template1") template1;
   fromPreview = null;
@@ -162,7 +165,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   };
   errMessage = '';
   val
-  postData() {
+  async postData() {
 
     if (this.account != '' && this.linked != '') {
       this.val = false;
@@ -179,10 +182,12 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     console.log((data));
     this.LinkPFMSAccount.postData(data)
       .subscribe((res) => {
+        sessionStorage.setItem("changeInPFMSAccount", "false")
         console.log(res);
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.pfmsAccount.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
+
         swal("Record submitted successfully!")
       },
         error => {
@@ -191,6 +196,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         });
   }
   saveAndNext(template1) {
+
     this.fd = {
       "design_year": this.design_year,
       "account": this.account,
@@ -207,6 +213,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     }
     if (this.account != '' && this.linked != '' && this.change == true) {
       this.postData();
+      sessionStorage.setItem("changeInPFMSAccount", "false")
       return this._router.navigate(["ulbform/grant-tra-certi"]);
     } else if (((this.account != '' && this.linked === '') || ((this.account === '' && this.linked != ''))) && this.change == true) {
       this.openModal(template1);
@@ -313,14 +320,15 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     }
 
     let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
-      if(allFormData){
-        allFormData.pfmsAccounts[0] = preData
-        this._ulbformService.allFormsData.next(allFormData)
-      }
+    if (allFormData) {
+      allFormData.pfmsAccounts[0] = preData
+      this._ulbformService.allFormsData.next(allFormData)
+    }
 
   }
 
   async proceed(uploadedFiles) {
+
     await this.dialogRef.close(true);
     if (this.backClicked) {
       await this.postData();
