@@ -58,6 +58,8 @@ export class WaterRejenuvationPreviewComponent implements OnInit {
   }
    table tbody tr:nth-child(even) td {
     border:1px solid #d7ebeb;
+    background-color: #d7ebeb;
+
   }
     h2 {
       font-size: 1.25rem;

@@ -1,9 +1,10 @@
 // .sidebar {
 //     position: fixed;
-//     top: 100px;
+//     // top: 100px;
 //     left: 0;
 //     bottom: 0;
 //     overflow-y: scroll;
+//     //  max-height: 70%;
 // }
 // .main {
 //     position: relative;
@@ -24,11 +25,36 @@ div.active {
         margin-top: 8px;
         color: #212121;
     }
+    .svg-icon {
+        filter: none;
+    }
+    .svg-gt {
+        filter: invert(1);
+    }
 }
 
-// .link-div:hover {
-//     background-color: #FFFFFF;
-// }
+.svg-icon {
+    filter: invert(1);
+}
+
+.mat-icon {
+    color: red;
+}
+
+.link-div:hover {
+    background-color: #FFFFFF;
+    .linktext {
+        margin-top: 8px;
+        color: #212121;
+    }
+    .svg-icon {
+        filter: none;
+    }
+    .svg-gt {
+        filter: invert(1);
+    }
+}
+
 .linktext {
     margin-top: 8px;
     color: #FFFFFF;

@@ -6,6 +6,7 @@ import { UlbAdminRoutingModule } from './ulb-admin-routing.module';
 import { UlbReviewComponent } from './ulb-admin/ulb-review.component';
 import { UlbAdminComponent } from './ulb-admin.component';
 import {MatIconModule} from '@angular/material/icon';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {MatIconModule} from '@angular/material/icon';
     CommonModule,
     UlbAdminRoutingModule,
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
   ]
 })
 export class UlbAdminModule { }

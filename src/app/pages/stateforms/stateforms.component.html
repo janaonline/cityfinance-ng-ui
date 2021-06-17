@@ -1,6 +1,9 @@
 <div class="container-fluid" style="padding: 0; overflow-x: hidden;">
     <div class="row" style="position: relative; display: block;">
-        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c sidebar">
+        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c sidebar sticky-top" style="margin-top: 1px;">
+            <div class="row" style="background-color: #114551; height: 20px;">
+
+            </div>
             <div class="row" style="background-color: #FFC500; ">
                 <a [routerLink]="['../fc-home-page']">
                     <h5 class="pd" style="font-size: 14px;">
@@ -19,11 +22,11 @@
                 </a>
             </div>
 
-            <div class="row link-div" style="margin-left: 1%;" routerLinkActive="active">
+            <div class="row link-div" routerLinkActive="active">
                 <a [routerLink]="['dashboard']">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false">
-                            <img src='../../../assets/ulbform/blue-ulb.png'>
+                            <img src='../../../assets/stateIconSvg/menu (2).svg ' class="svg-icon">
                         </mat-icon>
                     </div>
                     <div class="col-sm-9 col-xs-9 linktext pd">
@@ -41,7 +44,7 @@
                 <a (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false">
-                            <img src="../../../assets/stateform/Icon awesome-handshake.svg">
+                            <img src="../../../assets/stateform/Icon awesome-handshake.svg" class="svg-gt">
                         </mat-icon>
                     </div>
                     <div class="col-sm-9 col-xs-9 linktext pd">
@@ -88,7 +91,7 @@
                 <a [routerLink]="['gtCertificate']">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false">
-                            <img src="../../../assets/stateform/certificate (1).svg">
+                            <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt">
                         </mat-icon>
                     </div>
                     <div class="col-sm-9 col-xs-9 linktext pd">
@@ -103,7 +106,7 @@
                 <a (click)="isCollapsedSer = !isCollapsedSer" [attr.aria-expanded]="!isCollapsedSer" aria-controls="collapseBasicSer">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false" style="margin-top: 3px;">
-                            <img src="../../../assets/stateform/technical-support.svg">
+                            <img src="../../../assets/stateform/technical-support.svg" class="svg-gt">
                         </mat-icon>
                     </div>
                     <div class="col-sm-9 col-xs-9 linktext pd">
@@ -152,7 +155,7 @@
                 <a [routerLink]="['../stateform']">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false" style="margin-top: 4px;">
-                            <img src="../../../assets/stateform/actionPlan.svg">
+                            <img src="../../../assets/stateform/actionPlan.svg" class="svg-gt">
                         </mat-icon>
                     </div>
                     <div class="col-sm-9 col-xs-9 linktext pd">
@@ -168,7 +171,7 @@
             <div class="row link-div" routerLinkActive="active">
                 <a [routerLink]="['grant-allocation']">
                     <div class="col-sm-1 col-xs-1 m-l">
-                        <mat-icon aria-hidden="false" style="margin-top: 2px;">
+                        <mat-icon aria-hidden="false" style="margin-top: 2px;" class="svg-gt">
                             <img src="../../../assets/stateform/surface1 (2).svg">
                         </mat-icon>
                     </div>

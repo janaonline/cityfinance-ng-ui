@@ -92,7 +92,7 @@ export class EditComponent implements OnInit, OnChanges {
   }
   close() {
     this.dialogBox.closeAll();
-    this.window.location.reload();
+   // this.window.location.reload();
   }
 
   onClickingChangePassword(event: Event) {

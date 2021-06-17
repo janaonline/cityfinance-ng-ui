@@ -201,7 +201,10 @@ async  ngOnInit() {
           });
        })
   }
-  headertext = 'The 15th Finance Commission Grants Management System facilitates seamless submission and flow of required information between Urban Local Bodies, State Governments and Ministry of Housuing and Urban Affairs for the purposes of availaing ULB Grants between 2021-2026.'
+  headertext = `The 15th Finance Commission Grants Management System
+  facilitates seamless submission and flow of required information
+   between Urban Local Bodies, State Governments and Ministry
+  of Housing and Urban Affairs for the purposes of availing ULB Grants between 2021-26.`
   numcard = 0;
   p = 60;
   position = 0;

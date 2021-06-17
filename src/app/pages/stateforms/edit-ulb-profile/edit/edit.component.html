@@ -1,7 +1,13 @@
 <div class="wrapper">
-    <button class="back_button" (click)="close()" *ngIf="loggedInUserType !== USER_TYPE.ULB">
+    <!-- <button class="back_button" (click)="close()" *ngIf="loggedInUserType !== USER_TYPE.ULB">
   Close
-</button>
+</button> -->
+    <div style="width: 99%;">
+        <a class="pull-right" (click)="close()" style="padding-top: 1rem;"><span class="material-icons" style="font-size: 32px">
+    close
+    </span>
+  </a>
+    </div>
     <h3 *ngIf="profileData" style="width: 100%">
         <span *ngIf="profile.disabled">View</span>
         <span *ngIf="profile.enabled">Edit</span> Profile
