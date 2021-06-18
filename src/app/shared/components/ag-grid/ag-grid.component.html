@@ -2,7 +2,7 @@
     <h5>List of Projects to be Executed with 15th FC Grants</h5>
     <ag-grid-angular #agGrid1 [tooltipMouseTrack]="true" [tooltipShowDelay]="0"
         (cellEditingStopped)="cellValueChanged($event)" style="width: 100%; height: 300px;" class="ag-theme-alpine"
-        [frameworkComponents]="frameworkComponents" [rowData]="rowData.projectExcute" [columnDefs]="project">
+        [frameworkComponents]="frameworkComponents" [rowData]="rowData.projectExecute" [columnDefs]="project">
     </ag-grid-angular>
     <button (click)="addRow()" class="btn pull-right btn-primary">add row</button>
 
@@ -17,7 +17,7 @@
 <div style="margin-bottom: 2pc; margin-left: 2pc; margin-right: 2pc;">
     <h5>Year-wise Outlay for 15th FC Grants:</h5>
     <ag-grid-angular #agGrid3 [tooltipMouseTrack]="true" [tooltipShowDelay]="0" style="width: 100%; height: 300px;"
-        (cellEditingStopped)="cellValueChanged($event)" class="ag-theme-alpine"
+        (cellEditingStopped)="yearValueChanges($event)" class="ag-theme-alpine"
         [frameworkComponents]="frameworkComponents" [rowData]="rowData.yearOutlay" [columnDefs]="year">
     </ag-grid-angular>
 </div>
