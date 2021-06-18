@@ -24,11 +24,17 @@
 .links:hover {
     background-color: #FFFFFF;
     color: #124A55;
+    .svg-re {
+        filter: invert(1);
+    }
 }
 
 a.active {
     background-color: #FFFFFF;
     color: #124A55;
+    .svg-re {
+        filter: invert(1);
+    }
 }
 
 a:hover {
