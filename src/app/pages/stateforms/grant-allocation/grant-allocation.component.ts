@@ -299,7 +299,6 @@ export class GrantAllocationComponent implements OnInit {
         },
           (error) => {
             this.err = error.message;
-            debugger
             console.log(this.err);
             swal(`Error- ${this.err}`)
           //  resolve(error)

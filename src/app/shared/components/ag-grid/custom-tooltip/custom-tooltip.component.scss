@@ -17,3 +17,11 @@
 .custom-tooltip p:first-of-type {
   font-weight: bold;
 }
+
+
+.crop {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100px;
+}
