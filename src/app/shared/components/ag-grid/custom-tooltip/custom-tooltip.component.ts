@@ -13,6 +13,7 @@ export class CustomTooltipComponent implements IToolPanelAngularComp {
 
   showTootip = false;
   noEditMsg;
+  lastValue;
 
   agInit(params): void {
     console.log(params);
@@ -25,13 +26,12 @@ export class CustomTooltipComponent implements IToolPanelAngularComp {
   }
 
   checkError(params) {
-    if (
-      params.colDef?.cellEditor == "agTextCellEditor" &&
-      params.value.length > 10
-    ) {
-      this.type = "danger"
-      this.noEditMsg = params.colDef.tooltipComponentParams.errorMsg
+    let field = params.colDef.field;
+    if (params.data[field].lastValidation != true) {
+      this.type = "danger";
+      this.noEditMsg = params.colDef.tooltipComponentParams.errorMsg;
       this.showTootip = true;
+      this.lastValue = params.data[field].lastValidation;
     }
   }
 }

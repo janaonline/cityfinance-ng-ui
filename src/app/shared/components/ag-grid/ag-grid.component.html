@@ -1,23 +1,23 @@
 <div style="margin-bottom: 2pc; margin-left: 2pc; margin-right: 2pc;">
     <h5>List of Projects to be Executed with 15th FC Grants</h5>
     <ag-grid-angular #agGrid1 [tooltipMouseTrack]="true" [tooltipShowDelay]="0"
-        (cellValueChanged)="cellValueChanged($event)" style="width: 100%; height: 300px;" class="ag-theme-alpine"
-        [frameworkComponents]="frameworkComponents" [rowData]="rowData.projectExcute" [columnDefs]="columnDefs.project">
+        (cellEditingStopped)="cellValueChanged($event)" style="width: 100%; height: 300px;" class="ag-theme-alpine"
+        [frameworkComponents]="frameworkComponents" [rowData]="rowData.projectExecute" [columnDefs]="project">
     </ag-grid-angular>
     <button (click)="addRow()" class="btn pull-right btn-primary">add row</button>
 
 </div>
-<div style="margin-bottom: 2pc; margin-left: 2pc; margin-right: 2pc;">
+<div  style="margin-bottom: 2pc; margin-left: 2pc; margin-right: 2pc;">
     <h5>Project List and Source of Funds</h5>
     <ag-grid-angular #agGrid2 [tooltipMouseTrack]="true" [tooltipShowDelay]="0" style="width: 100%; height: 300px;"
-        class="ag-theme-alpine" [frameworkComponents]="frameworkComponents" [rowData]="rowData.sourceFund"
-        [columnDefs]="columnDefs.fund">
+        (cellEditingStopped)="fundValueChanges($event)" class="ag-theme-alpine"
+        [frameworkComponents]="frameworkComponents" [rowData]="rowData.sourceFund" [columnDefs]="fund">
     </ag-grid-angular>
 </div>
 <div style="margin-bottom: 2pc; margin-left: 2pc; margin-right: 2pc;">
     <h5>Year-wise Outlay for 15th FC Grants:</h5>
     <ag-grid-angular #agGrid3 [tooltipMouseTrack]="true" [tooltipShowDelay]="0" style="width: 100%; height: 300px;"
-        class="ag-theme-alpine" [frameworkComponents]="frameworkComponents" [rowData]="rowData.yearOutlay"
-        [columnDefs]="columnDefs.year">
+        (cellEditingStopped)="yearValueChanges($event)" class="ag-theme-alpine"
+        [frameworkComponents]="frameworkComponents" [rowData]="rowData.yearOutlay" [columnDefs]="year">
     </ag-grid-angular>
 </div>

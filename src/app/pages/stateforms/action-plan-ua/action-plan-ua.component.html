@@ -1,17 +1,74 @@
 <div class="container-fluid">
+    <div class="header" style="margin-bottom: 3pc;">
+        <button class="btn saveBtn pull-right" (click)="onPreview()">
+            PREVIEW
+        </button>
+    </div>
     <div *ngFor="let item of data?.uaData;  let projectIndex=index">
         <div class="mat-card">
             <div class="mat-card-title">
-                <h4 style="height: 3pc;">
-                    <b style="margin-left: 1pc;">UA:{{projectIndex + 1}} {{item.name}}</b>
+                <h4 style="height: 3pc;margin-left: 1pc;">
+                    <b>UA:{{projectIndex + 1}} {{item.name}}</b>
                     <button class="btn pull-right btn-primary" style="margin-right: 1pc;"
                         (click)="foldCard(projectIndex)">Select</button>
                 </h4>
             </div>
-            <div *ngIf="item.fold">
-                <app-ag-grid [ulbList]="item.ulbList" [dataTemplate]="template" [rowData]="item" [columnDefs]="columnDefs">
-                </app-ag-grid>
-            </div>
+            <app-ag-grid *ngIf="item.fold" (gridData)="getDataFromGrid($event)" [ulbList]="item.ulbList" [rowData]="item">
+            </app-ag-grid>
         </div>
     </div>
+    <div class="footer">
+        <button [routerLink]="[ '../grant-allocation']" class="btn saveBtn pull-right" (click)="submit()" type="button">
+            {{saveBtnText}}
+        </button>
+        <button class="btn back pull-left">
+            Back
+        </button>
+    </div>
 </div>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed further?
+        </p>
+        <div>
+            <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success "
+                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+                Save & Proceed</button>
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #template1>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
+        </p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
+                (click)="proceed()">Save & Proceed</button>
+        </div>
+
+    </div>
+</ng-template>
