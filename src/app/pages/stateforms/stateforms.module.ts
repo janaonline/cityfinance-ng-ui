@@ -25,6 +25,10 @@ import { WaterRejenuvationComponent } from './water-rejenuvation/water-rejenuvat
 import { WaterRejenuvationPreviewComponent } from './water-rejenuvation/water-rejenuvation-preview/water-rejenuvation-preview.component';
 import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview/water-supply-preview.component';
 import { GrantAllPreviewComponent } from './grant-allocation/grant-all-preview/grant-all-preview.component';
+import { EditViewComponent } from './edit-ulb-profile/edit-view/edit-view.component';
+import { EditComponent } from './edit-ulb-profile/edit/edit.component';
+
+
 // import { DoughnutChartArea } from './state-dashboard/donut/donut'
 import { AgGridModule } from 'ag-grid-angular';
 import {AgGridComponent} from '../../shared/components/ag-grid/ag-grid.component'
@@ -45,6 +49,8 @@ import {CustomTooltipComponent} from '../../shared/components/ag-grid/custom-too
     WaterRejenuvationPreviewComponent,
     WaterSupplyPreviewComponent,
     GrantAllPreviewComponent,
+    EditViewComponent,
+    EditComponent,
     // DoughnutChartArea
     AgGridComponent
   ],

@@ -19,6 +19,8 @@ export class StateformsComponent implements OnInit {
   userLoggedInDetails: IUserLoggedInDetails;
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
+  isCollapsed = true;
+  isCollapsedSer = true;
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,

@@ -65,3 +65,28 @@
     padding-left: 2rem;
     padding-right: 2rem;
 }
+
+.custom-position {
+    td {
+        position: relative;
+    }
+}
+
+.custom-position {
+    input {
+        position: relative;
+    }
+}
+
+.custom-position {
+    .bs-tooltip-top {
+        position: absolute;
+        top: -2rem;
+        right: .5rem;
+        width: max-content;
+    }
+}
+
+.tooltip-inner {
+    // margin-left: 1rem;
+}
