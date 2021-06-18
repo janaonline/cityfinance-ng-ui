@@ -29,6 +29,7 @@ import { GrantAllPreviewComponent } from './grant-allocation/grant-all-preview/g
 import { AgGridModule } from 'ag-grid-angular';
 import {AgGridComponent} from '../../shared/components/ag-grid/ag-grid.component'
 import {CustomTooltipComponent} from '../../shared/components/ag-grid/custom-tooltip/custom-tooltip.component'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [StateformsComponent,
@@ -61,6 +62,7 @@ import {CustomTooltipComponent} from '../../shared/components/ag-grid/custom-too
     AgGridModule.withComponents([ActionPlanUAComponent,AgGridComponent,CustomTooltipComponent]),
     PaginationModule.forRoot(),
     NgxPaginationModule,
+    MatProgressSpinnerModule
   ]
 })
 export class StateformsModule { }

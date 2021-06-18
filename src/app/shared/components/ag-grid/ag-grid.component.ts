@@ -704,7 +704,6 @@ export class AgGridComponent implements OnInit, OnChanges {
   ];
 
   ngOnInit(): void {
-
     if (!this.ulbList.includes("Parastatal Agency"))
       this.ulbList.push("Parastatal Agency");
     this.project[5].cellEditorParams.values = this.ulbList;
@@ -899,8 +898,10 @@ const number = (x, params) => {
 };
 
 const checkYear = (x, param) => {
+  debugger;
   let data = param.data;
   let val = 0;
+  let count = 0;
   for (const key in data) {
     if (years.includes(key)) {
       if (
@@ -908,18 +909,23 @@ const checkYear = (x, param) => {
         data[key].value != "" &&
         param.colDef.field != key
       ) {
+        count++;
         val += data[key].value;
       }
     }
   }
   val += x;
   let cost = param.data.cost?.value;
+  if (count == 4) {
+    return cost == val;
+  }
   return val <= (cost ? cost : 0);
 };
 
 const checkYear2 = (x, param) => {
   let data = param.data;
   let val = 0;
+  let count = 0;
   for (const key in data) {
     if (years.includes(key)) {
       if (
@@ -927,12 +933,16 @@ const checkYear2 = (x, param) => {
         data[key].value != "" &&
         param.colDef.field != key
       ) {
+        count++;
         val += data[key].value;
       }
     }
   }
   val += x;
   let cost = param.data.amount.value;
+  if (count == 4) {
+    return cost == val;
+  }
   return val <= (cost ? cost : 0);
 };
 
