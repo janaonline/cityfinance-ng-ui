@@ -315,7 +315,7 @@
             </ul>
 
 
-            <ul class="heading" style="background-color: #124A55; " *ngIf="(this.isUA =='Yes' && (this.isMillionPlus == 'Yes' || this.isMillionPlus == 'No' )) || (this.isUA =='No' &&  this.isMillionPlus == 'No') ">
+            <ul class="heading" style="background-color: #124A55; " *ngIf="this.isMillionPlus == 'No'">
 
                 <h5 style="margin-left: 4px;">
                     <div class="row">
@@ -330,10 +330,9 @@
                     </div>
                 </h5>
             </ul>
-            <ul class="links" routerLinkActive="active" *ngIf="(this.isUA =='Yes' && (this.isMillionPlus == 'Yes' || this.isMillionPlus == 'No' )) ||
-                (this.isUA =='No' &&  this.isMillionPlus == 'No') ">
-
-
+            <ul class="links" routerLinkActive="active" *ngIf="this.isMillionPlus == 'No'">
+                <!-- *ngIf="(this.isUA =='Yes' && (this.isMillionPlus == 'Yes' || this.isMillionPlus == 'No' )) ||
+            (this.isUA =='No' &&  this.isMillionPlus == 'No') " -->
                 <div class="row">
 
                     <a routerLink="water-sanitation">
@@ -364,8 +363,7 @@
                 </div>
                 <div>
                     <div matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
-                        <button mat-raised-button class="subBtn" [disabled]="!validate"
-                            (click)="finalSubmit()">Submit</button>
+                        <button mat-raised-button class="subBtn" [disabled]="!validate" (click)="finalSubmit()">Submit</button>
                     </div>
                 </div>
             </div>

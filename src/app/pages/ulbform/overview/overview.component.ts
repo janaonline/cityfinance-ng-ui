@@ -249,7 +249,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       console.log('12elseblock', this.isMillionPlus, this.isUA)
     }
     console.log('overview', this.isUA, this.isMillionPlus)
-    if (this.isUA == 'Yes' && this.isMillionPlus == 'Yes') {
+    if (this.isUA == 'Yes' && this.isMillionPlus == 'No') {
       this.cardsOverview = this.cardsOverview;
       this.formValue = 5;
       this.factor = 100 / this.formValue;
@@ -269,13 +269,22 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       this.formValue = 3;
       this.factor = Math.floor(100 / this.formValue);
       this.numcard = 5;
-    } else if (this.isUA == 'Yes' && this.isMillionPlus == 'No') {
-      this.cardsOverview = this.cardsOverview;
-      this.formValue = 5;
-      this.factor = 100 / this.formValue;
-      this.numcard = 7;
-
     }
+    else if (this.isUA == 'Yes' && this.isMillionPlus == 'Yes') {
+      this.formValue = 4;
+      let userType = "No";
+      this.cardsOverview = this.cardsOverview.filter(item => !item.permittedAccounts.includes(userType))
+      this.factor = 100 / (+this.formValue);
+      this.numcard = 6;
+      console.log('no. no', this.factor)
+    }
+    // else if (this.isUA == 'Yes' && this.isMillionPlus == 'No') {
+    //   this.cardsOverview = this.cardsOverview;
+    //   this.formValue = 5;
+    //   this.factor = 100 / this.formValue;
+    //   this.numcard = 7;
+
+    //}
     this.width = (this.row_width / this.numcard) - 8;
     this.percentage = this.count * this.factor;
     // this.percentage = this.count * 20;

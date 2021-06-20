@@ -8,8 +8,8 @@
             </a>
 
             <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!parentData  ? '' : '1.5rem'}">
-                <span *ngIf="!parentData">15th FC Grants for 2021-22</span>
-                <br *ngIf="!parentData"> Linking of PFMS Account
+                <span *ngIf="!parentData"> Submissions for 15th FC Grants for FY 2021-22</span>
+                <br *ngIf="!parentData"> Linking of PFMS Account,{{ulbName}},{{stateName}}
             </div>
 
         </div>
@@ -64,6 +64,27 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="mt-4" style="padding-left: 3%; float: right; margin-bottom: 2rem;">
+        <h5>
+            Form First Submitted On:
+            <span style="font-weight: normal; margin-bottom: 0;">
+          {{
+          (data["modifiedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
+          "Not Submitted"
+          }}
+          <!-- {{ (modiDate | date: "MMMM d, y, h:mm a":"+00") ||
+          "Not Submitted" }} -->
+        </span>
+        </h5>
+        <h5 style="margin-top: 0;">
+            Form Last Rejected On:
+            <span style="font-weight: normal">
+          {{
+          (data["rejectedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
+          "No Reject Found"
+          }}</span>
+        </h5>
     </div>
 </div>
 <ng-template #template>

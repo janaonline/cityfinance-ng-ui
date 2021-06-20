@@ -1,7 +1,8 @@
 .header-p {
     background-color: #047474;
-    height: 90px;
+    height: auto;
     text-align: center;
+    padding: 10px;
 }
 
 .heading-p {
@@ -26,8 +27,9 @@
     margin-top: 1rem;
 }
 
-.alert{
+.alert {
     position: relative;
     z-index: 2;
 }
+
 .d-h {}
