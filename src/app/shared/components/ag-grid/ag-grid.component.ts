@@ -40,7 +40,6 @@ export class AgGridComponent implements OnInit, OnChanges {
         params.data["index"].value != null ? params.data["index"].value : "",
       headerName: "S No",
       width: 50,
-      pinned: true,
       field: "index",
     },
     {
@@ -50,7 +49,6 @@ export class AgGridComponent implements OnInit, OnChanges {
       headerName: "Project Code",
       width: 180,
       editable: false,
-      pinned: true,
       tooltipField: "code",
       tooltipComponent: "customTooltip",
       field: "code",
@@ -63,7 +61,6 @@ export class AgGridComponent implements OnInit, OnChanges {
       headerName: "Project Name",
       width: 120,
       editable: true,
-      pinned: true,
       tooltipField: "name",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: { errorMsg: "Name less than 50 char" },
@@ -78,7 +75,6 @@ export class AgGridComponent implements OnInit, OnChanges {
       headerName: "Project Cost",
       width: 100,
       editable: true,
-      pinned: true,
       tooltipField: "cost",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
@@ -96,7 +92,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           : "",
       valueSetter: syncValueSetter(Area),
       headerName: "Project Details",
-      width: 150,
+      width: 117,
       editable: true,
       tooltipField: "details",
       tooltipComponent: "customTooltip",
@@ -151,7 +147,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         params.data["sector"].value != null ? params.data["sector"].value : "",
       valueSetter: syncValueSetter(dropDown),
       headerName: "Sector",
-      width: 200,
+      width: 110,
       editable: true,
       tooltipField: "sector",
       tooltipComponent: "customTooltip",
@@ -173,7 +169,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         params.data["type"].value != null ? params.data["type"].value : "",
       valueSetter: syncValueSetter(Area),
       headerName: "Project Type",
-      width: 150,
+      width: 149,
       editable: true,
       field: "type",
       cellEditor: "agSelectCellEditor",
@@ -194,7 +190,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           : "",
       valueSetter: syncValueSetter(Area),
       headerName: "Estimated Outcome",
-      width: 160,
+      width: 140,
       editable: true,
       tooltipField: "esOutcome",
       tooltipComponent: "customTooltip",
@@ -593,7 +589,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueSetter: syncValueSetter(number),
       valueParser: "Number(newValue)",
       headerName: "% Funding",
-      width: 150,
+      width: 85,
       editable: false,
       tooltipField: "funding",
       tooltipComponent: "customTooltip",
@@ -606,7 +602,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueSetter: syncValueSetter(number),
       valueParser: "Number(newValue)",
       headerName: "Amount",
-      width: 150,
+      width: 78,
       editable: false,
       tooltipField: "amount",
       tooltipComponent: "customTooltip",
@@ -621,7 +617,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueSetter: syncValueSetter(checkYear2),
       valueParser: "Number(newValue)",
       headerName: "FY 2021-22",
-      width: 150,
+      width: 93,
       editable: true,
       tooltipField: "2021-22",
       tooltipComponent: "customTooltip",
@@ -640,7 +636,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueSetter: syncValueSetter(checkYear2),
       valueParser: "Number(newValue)",
       headerName: "FY 2022-23",
-      width: 150,
+      width: 93,
       editable: true,
       tooltipField: "2022-23",
       tooltipComponent: "customTooltip",
@@ -659,7 +655,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueSetter: syncValueSetter(checkYear2),
       valueParser: "Number(newValue)",
       headerName: "FY 2023-24",
-      width: 150,
+      width: 93,
       editable: true,
       tooltipField: "2023-24",
       tooltipComponent: "customTooltip",
@@ -678,7 +674,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueSetter: syncValueSetter(checkYear2),
       valueParser: "Number(newValue)",
       headerName: "FY 2024-25",
-      width: 150,
+      width: 93,
       editable: true,
       tooltipField: "2024-25",
       tooltipComponent: "customTooltip",
@@ -697,7 +693,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueSetter: syncValueSetter(checkYear2),
       valueParser: "Number(newValue)",
       headerName: "FY 2025-26",
-      width: 150,
+      width: 93,
       editable: true,
       tooltipField: "2025-26",
       tooltipComponent: "customTooltip",
@@ -713,7 +709,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     if (!this.ulbList.includes("Parastatal Agency"))
       this.ulbList.push("Parastatal Agency");
     this.project[5].cellEditorParams.values = this.ulbList;
-    
+
     this.project[7].cellEditorParams.values = this.catList;
 
     this.frameworkComponents = {
@@ -749,7 +745,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           }
         }
       }
-      if (e.data.cost.value == "") e.data.cost = 0;
+      if (e.data.cost.value == "") e.data.cost.value = 0;
       if (e.data.cost.value < val) e.data.total.lastValidation = val;
       else e.data.total.lastValidation = true;
       e.data.total.value = val;
@@ -765,12 +761,14 @@ export class AgGridComponent implements OnInit, OnChanges {
   autoSetNames(e, fromFund = null) {
     if (fromFund) {
       this.rowData.yearOutlay[e.rowIndex]["amount"].value = e.value;
-      this.rowData.yearOutlay[e.rowIndex]["funding"].value = parseInt(
-        (
+      if (this.rowData.yearOutlay[e.rowIndex]["cost"].value == "") {
+        this.rowData.yearOutlay[e.rowIndex]["funding"].value = 0;
+      } else {
+        this.rowData.yearOutlay[e.rowIndex]["funding"].value = (
           (e.value / this.rowData.yearOutlay[e.rowIndex]["cost"].value) *
           100
-        ).toFixed(2)
-      );
+        ).toPrecision(2);
+      }
       this.agGrid3.api.applyTransaction({ update: this.rowData.yearOutlay });
     } else {
       this.rowData.sourceFund[e.rowIndex][e.colDef.field].value = e.value;
@@ -805,6 +803,8 @@ export class AgGridComponent implements OnInit, OnChanges {
 
     this.agGrid3.api.applyTransaction({ add: [obj[0]] });
     this.rowData.yearOutlay.push(obj[0]);
+
+    this.gridData.emit(this.rowData);
   }
 }
 
@@ -822,61 +822,61 @@ const fundAutoFill = [
 const years = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"];
 
 const input = {
-  ua: { value: "", isEmpty: false, lastValidation: true },
-  name: { value: "", isEmpty: false, lastValidation: true },
+  ua: { value: "", isEmpty: true, lastValidation: true },
+  name: { value: "", isEmpty: true, lastValidation: true },
   projectExecute: [
     {
-      index: { value: 1, isEmpty: false, lastValidation: true },
-      code: { value: "", isEmpty: false, lastValidation: true },
-      name: { value: "", isEmpty: false, lastValidation: true },
-      details: { value: "", isEmpty: false, lastValidation: true },
-      cost: { value: "", isEmpty: false, lastValidation: true },
-      exAgency: { value: "", isEmpty: false, lastValidation: true },
-      paraAgency: { value: "", isEmpty: false, lastValidation: true },
-      sector: { value: "", isEmpty: false, lastValidation: true },
-      type: { value: "", isEmpty: false, lastValidation: true },
-      esOutcome: { value: "", isEmpty: false, lastValidation: true },
+      index: { value: 1, isEmpty: true, lastValidation: true },
+      code: { value: "", isEmpty: true, lastValidation: true },
+      name: { value: "", isEmpty: true, lastValidation: true },
+      details: { value: "", isEmpty: true, lastValidation: true },
+      cost: { value: "", isEmpty: true, lastValidation: true },
+      exAgency: { value: "", isEmpty: true, lastValidation: true },
+      paraAgency: { value: "", isEmpty: true, lastValidation: true },
+      sector: { value: "", isEmpty: true, lastValidation: true },
+      type: { value: "", isEmpty: true, lastValidation: true },
+      esOutcome: { value: "", isEmpty: true, lastValidation: true },
     },
   ],
   sourceFund: [
     {
-      index: { value: 1, isEmpty: false, lastValidation: true },
-      code: { value: "", isEmpty: false, lastValidation: true },
-      name: { value: "", isEmpty: false, lastValidation: true },
-      cost: { value: "", isEmpty: false, lastValidation: true },
-      fc: { value: "", isEmpty: false, lastValidation: true },
-      jjm: { value: "", isEmpty: false, lastValidation: true },
-      sbm: { value: "", isEmpty: false, lastValidation: true },
-      centalScheme: { value: "", isEmpty: false, lastValidation: true },
-      stateScheme: { value: "", isEmpty: false, lastValidation: true },
-      stateGrant: { value: "", isEmpty: false, lastValidation: true },
-      ulb: { value: "", isEmpty: false, lastValidation: true },
-      other: { value: "", isEmpty: false, lastValidation: true },
-      total: { value: "", isEmpty: false, lastValidation: true },
-      "2021-22": { value: "", isEmpty: false, lastValidation: true },
-      "2022-23": { value: "", isEmpty: false, lastValidation: true },
-      "2023-24": { value: "", isEmpty: false, lastValidation: true },
-      "2024-25": { value: "", isEmpty: false, lastValidation: true },
-      "2025-26": { value: "", isEmpty: false, lastValidation: true },
+      index: { value: 1, isEmpty: true, lastValidation: true },
+      code: { value: "", isEmpty: true, lastValidation: true },
+      name: { value: "", isEmpty: true, lastValidation: true },
+      cost: { value: "", isEmpty: true, lastValidation: true },
+      fc: { value: "", isEmpty: true, lastValidation: true },
+      jjm: { value: "", isEmpty: true, lastValidation: true },
+      sbm: { value: "", isEmpty: true, lastValidation: true },
+      centalScheme: { value: "", isEmpty: true, lastValidation: true },
+      stateScheme: { value: "", isEmpty: true, lastValidation: true },
+      stateGrant: { value: "", isEmpty: true, lastValidation: true },
+      ulb: { value: "", isEmpty: true, lastValidation: true },
+      other: { value: "", isEmpty: true, lastValidation: true },
+      total: { value: "", isEmpty: true, lastValidation: true },
+      "2021-22": { value: "", isEmpty: true, lastValidation: true },
+      "2022-23": { value: "", isEmpty: true, lastValidation: true },
+      "2023-24": { value: "", isEmpty: true, lastValidation: true },
+      "2024-25": { value: "", isEmpty: true, lastValidation: true },
+      "2025-26": { value: "", isEmpty: true, lastValidation: true },
     },
   ],
   yearOutlay: [
     {
-      index: { value: 1, isEmpty: false, lastValidation: true },
-      code: { value: "", isEmpty: false, lastValidation: true },
-      name: { value: "", isEmpty: false, lastValidation: true },
-      cost: { value: "", isEmpty: false, lastValidation: true },
-      funding: { value: "", isEmpty: false, lastValidation: true },
-      amount: { value: "", isEmpty: false, lastValidation: true },
-      "2021-22": { value: "", isEmpty: false, lastValidation: true },
-      "2022-23": { value: "", isEmpty: false, lastValidation: true },
-      "2023-24": { value: "", isEmpty: false, lastValidation: true },
-      "2024-25": { value: "", isEmpty: false, lastValidation: true },
-      "2025-26": { value: "", isEmpty: false, lastValidation: true },
+      index: { value: 1, isEmpty: true, lastValidation: true },
+      code: { value: "", isEmpty: true, lastValidation: true },
+      name: { value: "", isEmpty: true, lastValidation: true },
+      cost: { value: "", isEmpty: true, lastValidation: true },
+      funding: { value: "", isEmpty: true, lastValidation: true },
+      amount: { value: "", isEmpty: true, lastValidation: true },
+      "2021-22": { value: "", isEmpty: true, lastValidation: true },
+      "2022-23": { value: "", isEmpty: true, lastValidation: true },
+      "2023-24": { value: "", isEmpty: true, lastValidation: true },
+      "2024-25": { value: "", isEmpty: true, lastValidation: true },
+      "2025-26": { value: "", isEmpty: true, lastValidation: true },
     },
   ],
   fold: false,
-  code: { value: "", isEmpty: false, lastValidation: true },
+  code: { value: "", isEmpty: true, lastValidation: true },
 };
 
 const Area = (x) => x.length < 201;
@@ -898,7 +898,7 @@ const name = async (x) => {
 };
 
 const number = (x, params) => {
-  if (typeof x == "number" && x > 0 && x < 999999999) {
+  if (typeof x == "number" && x >= 0 && x < 999999999) {
     if (params.colDef.field == "cost") return true;
     return x < params.data.cost.value;
   }
@@ -906,7 +906,6 @@ const number = (x, params) => {
 };
 
 const checkYear = (x, param) => {
-  debugger;
   let data = param.data;
   let val = 0;
   let count = 0;
