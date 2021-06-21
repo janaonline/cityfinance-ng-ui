@@ -5,6 +5,7 @@ import { StateformsService } from "../stateforms.service";
 import { Router, NavigationStart, Event } from "@angular/router";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { SweetAlert } from "sweetalert/typings/core";
+import { ActionplanspreviewComponent } from "./actionplanspreview/actionplanspreview.component";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-action-plan-ua",
@@ -23,6 +24,7 @@ export class ActionPlanUAComponent implements OnInit {
   routerNavigate = null;
   uaCodes = {};
   showLoader = true;
+  projectCategories = [];
   @ViewChild("template") template;
   @ViewChild("template1") template1;
   dialogRefForNavigation;
@@ -55,24 +57,41 @@ export class ActionPlanUAComponent implements OnInit {
 
   ngOnInit(): void {
     sessionStorage.setItem("changeInActionPlans", "false");
-    this.stateformsService.getulbDetails().subscribe(
-      (res) => {
-        console.log(res["data"]);
-        res["data"].forEach((element) => {
-          this.ulbNames[element._id] = element.ulbName;
-          this.ulbNames[element.ulbName] = element._id;
-        });
-        console.log(this.ulbNames);
-        this.load();
-      },
-      (err) => {}
-    );
+    this.getUlbNames();
     for (const key in this.uasData) {
       let code = localStorage.getItem("state_code");
       code += "/" + this.uasData[key]?.UACode ?? "UA";
       code += "/" + this.yearCode;
       this.uaCodes[key] = code;
     }
+  }
+  getUlbNames() {
+    this.actionplanserviceService
+      .getUlbsByState(this.userData.state)
+      .subscribe(
+        (res) => {
+          this.ulbNames = res["data"]
+          this.getCategory();
+          this.load();
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+  }
+
+  getCategory() {
+    this.actionplanserviceService.getCategory().subscribe(
+      (res: Array<object>) => {
+        res.forEach((element) => {
+          this.projectCategories.push(element["name"]);
+        });
+        console.log(this.projectCategories);
+      },
+      (err) => {
+        console.log(err.message);
+      }
+    );
   }
 
   load() {
@@ -158,7 +177,13 @@ export class ActionPlanUAComponent implements OnInit {
       let temp = JSON.parse(JSON.stringify(input));
       temp.ua = key;
       temp.name = this.uasData[key].name;
-      temp.ulbList = this.uasData[key].ulb;
+      let tempList = [];
+      console.log(this.ulbNames, this.uasData[key].ulb);
+
+      this.uasData[key].ulb.forEach((element) => {
+        tempList.push(this.ulbNames[element]);
+      });
+      temp.ulbList = tempList;
       let code = localStorage.getItem("state_code");
       code += "/" + this.uasData[key]?.UACode ?? "UA";
       code += "/" + this.yearCode;
@@ -210,7 +235,7 @@ export class ActionPlanUAComponent implements OnInit {
       Uas.ua = element.ua;
       let temp = [];
       element.projectExecute.forEach((e) => {
-        let pro = JSON.parse(JSON.stringify(Uas.projectExecute[0])) ;
+        let pro = JSON.parse(JSON.stringify(Uas.projectExecute[0]));
         for (const key in e) {
           pro[key] = e[key]["value"];
           if (e[key]["lastValidation"] != true) {
@@ -222,7 +247,7 @@ export class ActionPlanUAComponent implements OnInit {
       Uas.projectExecute = temp;
       temp = [];
       element.sourceFund.forEach((e) => {
-        let pro = JSON.parse(JSON.stringify(Uas.sourceFund[0])) ;
+        let pro = JSON.parse(JSON.stringify(Uas.sourceFund[0]));
         for (const key in e) {
           pro[key] = e[key]["value"];
           if (e[key]["lastValidation"] != true) {
@@ -234,7 +259,7 @@ export class ActionPlanUAComponent implements OnInit {
       Uas.sourceFund = temp;
       temp = [];
       element.yearOutlay.forEach((e) => {
-        let pro = JSON.parse(JSON.stringify(Uas.yearOutlay[0])) ;
+        let pro = JSON.parse(JSON.stringify(Uas.yearOutlay[0]));
         for (const key in e) {
           pro[key] = e[key]["value"];
           if (e[key]["lastValidation"] != true) {
@@ -253,7 +278,7 @@ export class ActionPlanUAComponent implements OnInit {
 
   getDataFromGrid(data, index) {
     let temp = sessionStorage.getItem("actionPlans");
-    let t = this.makeApiData()
+    let t = this.makeApiData();
     if (JSON.stringify(t) != temp) {
       sessionStorage.setItem("changeInActionPlans", "true");
     } else {
@@ -293,19 +318,14 @@ export class ActionPlanUAComponent implements OnInit {
   }
 
   onPreview() {
-    // this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
-    // let data = this.waterRejenuvation.value;
-    // console.log(data);
-    // for (let index = 0; index < data.uaData.length; index++) {
-    //   data.uaData[index].name = this.uasData[data.uaData[index].ua].name;
-    // }
-    // let dialogRef = this.dialog.open(WaterRejenuvationPreviewComponent, {
-    //   data: data,
-    //   height: "80%",
-    //   width: "90%",
-    //   panelClass: "no-padding-dialog",
-    // });
-    // dialogRef.afterClosed().subscribe((result) => {});
+    let data = this.makeApiData();
+    let dialogRef = this.dialog.open(ActionplanspreviewComponent, {
+      data: data,
+      height: "80%",
+      width: "90%",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }
 

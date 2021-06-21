@@ -17,4 +17,12 @@ export class ActionplanserviceService {
     return this.http.post(`${environment.api.url}ActionPlans`, body);
   }
 
+  getCategory() {
+    let catUrl = environment.api.url + "category";
+    return this.http.get(catUrl);
+  }
+
+  getUlbsByState(state) {
+    return this.http.get(`${environment.api.url}state/uas-ulb?state=${state}`);
+  }
 }

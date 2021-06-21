@@ -30,6 +30,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import {AgGridComponent} from '../../shared/components/ag-grid/ag-grid.component'
 import {CustomTooltipComponent} from '../../shared/components/ag-grid/custom-tooltip/custom-tooltip.component'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ActionplanspreviewComponent } from './action-plan-ua/actionplanspreview/actionplanspreview.component';
 
 @NgModule({
   declarations: [StateformsComponent,
@@ -47,7 +48,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     WaterSupplyPreviewComponent,
     GrantAllPreviewComponent,
     // DoughnutChartArea
-    AgGridComponent
+    AgGridComponent,
+    ActionplanspreviewComponent
   ],
   imports: [
     CommonModule,
