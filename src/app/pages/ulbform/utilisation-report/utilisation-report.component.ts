@@ -82,6 +82,7 @@ export class UtilisationReportComponent implements OnInit {
   projectExp = 0;
   selectedFile;
   categories;
+  rejectForm = false;
   // editable;
   photoUrl: any = [];
   fd;
@@ -1083,6 +1084,13 @@ export class UtilisationReportComponent implements OnInit {
         ].location.controls.long.patchValue(this.setLocation.long);
       }
     });
+  }
+  rejectReason(e){
+    this.rejectForm = true;
+    console.log('reject', e)
+  }
+  approveForm(){
+    this.rejectForm = false;
   }
 }
 

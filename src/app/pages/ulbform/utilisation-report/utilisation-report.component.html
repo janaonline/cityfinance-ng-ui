@@ -324,7 +324,8 @@
                                 </td>
                                 <td>
                                     <input class="t-i form-control" [disabled]="isDisabled" [ngStyle]="{'border':(isSubmitted == true
-                                     && utiReportFormControl.projects.controls[projectIndex].controls.expenditure.errors?.required)?
+                                     &&
+                                     utiReportFormControl.projects.controls[projectIndex].controls.expenditure.errors?.required)?
                                      '1px solid red' : '' }" (mouseover)="errorDisplayExp=true" (mouseout)="errorDisplayExp=false" (change)="totalExpCost(projectIndex)" formControlName="expenditure" appTwoDigitDecimaNumber>
                                     <div class="bs-tooltip-top" role="tooltip">
                                         <span class="tooltip-inner" style="font-size: 10px; margin-left: 0;" *ngIf="(utiReportFormControl.projects.controls[projectIndex].controls.cost.touched
@@ -419,18 +420,59 @@
 
             </div>
         </div>
+        <div class="row" *ngIf="loggedInUserType === userTypes.STATE" style="margin-bottom: 1rem;">
+
+            <div class="col-sm-6 col-lg-6 col-md-6">
+                <label><input type="radio" name="action" [value]="approveAction" (click)="approveForm()"/>
+                Approve
+
+                <!-- <span>
+                  {{
+                  form.controls[service.key]["controls"]["status"].disabled
+                  ? "Approved"
+                  : actionNames[approveAction]
+                  }}
+                </span> -->
+              </label>
+                <label style="margin-left: 40%;">
+                <input type="radio" name="action" [value]="rejectAction" (click)="rejectReason($event.target)" />
+                Reject
+
+            <!-- <span>
+              {{
+              form.controls[service.key]["controls"]["status"].disabled
+              ? "Approved"
+              : actionNames[approveAction]
+              }}
+            </span> -->
+          </label>
+            </div>
+
+        </div>
+        <div class="row" *ngIf="rejectForm">
+            <div class="col-sm-6 col-lg-6 col-md-6">
+                <span style="font-weight: 700; text-align: left">Reason for rejection</span>
+                <div class="input-group" style="width: 100%">
+                    <!-- <div *ngIf="form.controls[services[0].key]['controls']['rejectReason']?.disabled">
+              {{form.controls[services[0].key]['controls']['rejectReason'].value}}
+            </div> -->
+                    <textarea rows="3" style="width: 100%" class="form-control">
+          </textarea>
+                </div>
+            </div>
+        </div>
         <div class="row footerBtnDiv">
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../grant-tra-certi']">BACK</a>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 text-right">
                 <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
-                <button type="button" class="btn footerBtn" id="saveNext" [disabled]="isDisabled" (click)="clickedSaveAndNext(template1)">SAVE AND NEXT</button>
+                <button type="button" class="btn footerBtn" id="saveNext" (click)="clickedSaveAndNext(template1)">SAVE AND NEXT</button>
             </div>
         </div>
-
     </div>
 </form>
+
 <ng-template #templateUtil>
     <div class="modal-body text-center">
         <div class="modal-header">

@@ -102,7 +102,7 @@ export class WaterSanitationPreviewComponent implements OnInit, OnDestroy {
   }
   .header-p {
     background-color: #047474;
-    height: 70px;
+    height: 85px;
     text-align: center;
 }
 .heading-p {
@@ -140,6 +140,8 @@ export class WaterSanitationPreviewComponent implements OnInit, OnDestroy {
   </style>`;
   clicked = false;
   errMessage = "";
+  ulbName ='';
+  stateName = '';
 
   clickedDownloadAsPDF(template) {
     let changeHappen = sessionStorage.getItem("changeInPlans");
@@ -160,7 +162,9 @@ export class WaterSanitationPreviewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log(this.data);
-
+    let userData = JSON.parse(localStorage.getItem('userData'));
+    this.ulbName = userData['name'];
+    this.stateName = userData['stateName'];
 
     this.subParentForModal = this.WaterSanitationService.OpenModalTrigger.subscribe((change) => {
       if (this.changeFromOutSide) {

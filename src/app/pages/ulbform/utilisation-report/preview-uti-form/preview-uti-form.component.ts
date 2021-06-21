@@ -55,7 +55,7 @@ td, th{
 
 .header-p {
   background-color: #047474;
-  height: 70px;
+  height: 85px;
   text-align: center;
 }
 .heading-p {

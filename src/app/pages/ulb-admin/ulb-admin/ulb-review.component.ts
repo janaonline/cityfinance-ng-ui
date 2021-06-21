@@ -20,18 +20,22 @@ export class UlbReviewComponent extends BaseComponent implements OnInit {
 
 tabelData: any;
 state_name: any;
+currentSort = 1;
+
+tableDefaultOptions = {
+  itemPerPage: 10,
+  currentPage: 1,
+  totalCount: null,
+};
 
 listFetchOption = {
   filter: null,
   sort: null,
   role: null,
   skip: 0,
+  limit: this.tableDefaultOptions.itemPerPage,
 };
-tableDefaultOptions = {
-  itemPerPage: 10,
-  currentPage: 1,
-  totalCount: null,
-};
+
 loading = false;
 filterObject;
 fcFormListSubscription: Subscription;
@@ -237,6 +241,17 @@ nodataFound = false;
 
 
   }
+  setPage(pageNoClick: number) {
+    console.log('pageno', pageNoClick)
+    this.tableDefaultOptions.currentPage = pageNoClick;
+    this.listFetchOption.skip =
+      (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+   // this.searchUsersBy(this.filterForm.value);
+  }
+
+  // absoluteIndex(index) {
+  //   this.indexNo = this.tableDefaultOptions.itemPerPage * (this.tableDefaultOptions.currentPage - 1) + index;
+  // }
 
 
 
