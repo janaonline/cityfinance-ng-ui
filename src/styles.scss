@@ -6,6 +6,20 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700");
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+
+@import "~ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin";
+
+.ag-theme-alpine {
+    @include ag-theme-alpine((
+        cell-horizontal-border: solid ag-derived(secondary-border-color),
+    ));
+
+    .ag-header-cell {
+        border-right: 1px solid ag-param(secondary-border-color);
+    }
+}
+
 :root {
     --multi-dropdown-color: #059b9a;
 }

@@ -1,7 +1,12 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
 import { AgGridAngular } from "ag-grid-angular";
 import { ActionplanserviceService } from "./actionplanservice.service";
 import { StateformsService } from "../stateforms.service";
+import { Router, NavigationStart, Event } from "@angular/router";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { SweetAlert } from "sweetalert/typings/core";
+import { ActionplanspreviewComponent } from "./actionplanspreview/actionplanspreview.component";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-action-plan-ua",
   templateUrl: "./action-plan-ua.component.html",
@@ -16,25 +21,43 @@ export class ActionPlanUAComponent implements OnInit {
   yearCode = "2021-22";
   ulbNames = {};
   saveBtnText = "NEXT";
+  routerNavigate = null;
   uaCodes = {};
+  showLoader = true;
+  projectCategories = [];
+  @ViewChild("template") template;
+  @ViewChild("template1") template1;
+  dialogRefForNavigation;
+
   constructor(
     public stateformsService: StateformsService,
-    public actionplanserviceService: ActionplanserviceService
-  ) {}
+    public actionplanserviceService: ActionplanserviceService,
+    private _router: Router,
+    private dialog: MatDialog
+  ) {
+    this._router.events.subscribe(async (event: Event) => {
+      if (event instanceof NavigationStart) {
+        if (event.url === "/" || event.url === "/login") {
+          sessionStorage.setItem("changeInActionPlans", "false");
+          return;
+        }
+        const change = sessionStorage.getItem("changeInActionPlans");
+        if (change === "true" && this.routerNavigate === null) {
+          this.dialog.closeAll();
+          this.routerNavigate = event;
+          const currentRoute = this._router.routerState;
+          this._router.navigateByUrl(currentRoute.snapshot.url, {
+            skipLocationChange: true,
+          });
+          this.openModal(this.template);
+        }
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.stateformsService.getulbDetails().subscribe(
-      (res) => {
-        console.log(res["data"]);
-        res["data"].forEach((element) => {
-          this.ulbNames[element._id] = element.ulbName;
-          this.ulbNames[element.ulbName] = element._id;
-        });
-        console.log(this.ulbNames);
-        this.load();
-      },
-      (err) => {}
-    );
+    sessionStorage.setItem("changeInActionPlans", "false");
+    this.getUlbNames();
     for (const key in this.uasData) {
       let code = localStorage.getItem("state_code");
       code += "/" + this.uasData[key]?.UACode ?? "UA";
@@ -42,10 +65,39 @@ export class ActionPlanUAComponent implements OnInit {
       this.uaCodes[key] = code;
     }
   }
+  getUlbNames() {
+    this.actionplanserviceService
+      .getUlbsByState(this.userData.state)
+      .subscribe(
+        (res) => {
+          this.ulbNames = res["data"]
+          this.getCategory();
+          this.load();
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+  }
+
+  getCategory() {
+    this.actionplanserviceService.getCategory().subscribe(
+      (res: Array<object>) => {
+        res.forEach((element) => {
+          this.projectCategories.push(element["name"]);
+        });
+        console.log(this.projectCategories);
+      },
+      (err) => {
+        console.log(err.message);
+      }
+    );
+  }
 
   load() {
     this.actionplanserviceService.getFormData().subscribe(
       (res) => {
+        this.showLoader = false;
         console.log(res["data"], "sss");
         this.data = {
           state: res["data"].state,
@@ -54,9 +106,11 @@ export class ActionPlanUAComponent implements OnInit {
           status: res["data"]["status"],
           isDraft: res["data"]["isDraft"],
         };
+        sessionStorage.setItem("actionPlans", this.data);
         this.addKeys(this.data);
       },
       (err) => {
+        this.showLoader = false;
         this.onFail();
       }
     );
@@ -123,7 +177,13 @@ export class ActionPlanUAComponent implements OnInit {
       let temp = JSON.parse(JSON.stringify(input));
       temp.ua = key;
       temp.name = this.uasData[key].name;
-      temp.ulbList = this.uasData[key].ulb;
+      let tempList = [];
+      console.log(this.ulbNames, this.uasData[key].ulb);
+
+      this.uasData[key].ulb.forEach((element) => {
+        tempList.push(this.ulbNames[element]);
+      });
+      temp.ulbList = tempList;
       let code = localStorage.getItem("state_code");
       code += "/" + this.uasData[key]?.UACode ?? "UA";
       code += "/" + this.yearCode;
@@ -145,45 +205,22 @@ export class ActionPlanUAComponent implements OnInit {
     this.data.uaData[i].fold = !this.data.uaData[i].fold;
   }
 
-  submit() {
-    let newUaData = [];
-    this.data.uaData.forEach((element) => {
-      let Uas = JSON.parse(JSON.stringify(output));
-      Uas.ua = element.ua;
-      let temp = [];
-      element.projectExecute.forEach((e) => {
-        let pro = Uas.projectExecute[0];
-        for (const key in e) {
-          if (pro.hasOwnProperty(key)) pro[key] = e[key]["value"];
-        }
-        temp.push(pro);
-      });
-      Uas.projectExecute = temp;
-      temp = [];
-      element.sourceFund.forEach((e) => {
-        let pro = Uas.sourceFund[0];
-        for (const key in e) {
-          if (pro.hasOwnProperty(key)) pro[key] = e[key]["value"];
-        }
-        temp.push(pro);
-      });
-      Uas.sourceFund = temp;
-      temp = [];
-      element.yearOutlay.forEach((e) => {
-        let pro = Uas.yearOutlay[0];
-        for (const key in e) {
-          if (pro.hasOwnProperty(key)) pro[key] = e[key]["value"];
-        }
-        temp.push(pro);
-      });
-      Uas.yearOutlay = temp;
-      newUaData.push(Uas);
-    });
-    console.log(newUaData);
-    this.data.uaData = newUaData;
-    this.actionplanserviceService.postFormData(this.data).subscribe(
+  submit(fromPrev = null) {
+    if (this.data.isDraft && !fromPrev) {
+      return this.openModal(this.template1);
+    }
+    let data = this.makeApiData();
+    this.actionplanserviceService.postFormData(data).subscribe(
       (res) => {
-        console.log(res);
+        swal({
+          title: "Submitted",
+          text: "Record submitted successfully!",
+          icon: "success",
+        });
+        sessionStorage.setItem("changeInWaterRejenuvation", "false");
+        if (this.routerNavigate) {
+          this._router.navigate([this.routerNavigate.url]);
+        }
       },
       (err) => {
         console.log(err);
@@ -191,11 +228,104 @@ export class ActionPlanUAComponent implements OnInit {
     );
   }
 
-  onPreview() {}
+  makeApiData() {
+    let newUaData = [];
+    this.data.uaData.forEach((element) => {
+      let Uas = JSON.parse(JSON.stringify(output));
+      Uas.ua = element.ua;
+      let temp = [];
+      element.projectExecute.forEach((e) => {
+        let pro = JSON.parse(JSON.stringify(Uas.projectExecute[0]));
+        for (const key in e) {
+          pro[key] = e[key]["value"];
+          if (e[key]["lastValidation"] != true) {
+            this.data.isDraft = true;
+          }
+        }
+        temp.push(pro);
+      });
+      Uas.projectExecute = temp;
+      temp = [];
+      element.sourceFund.forEach((e) => {
+        let pro = JSON.parse(JSON.stringify(Uas.sourceFund[0]));
+        for (const key in e) {
+          pro[key] = e[key]["value"];
+          if (e[key]["lastValidation"] != true) {
+            this.data.isDraft = true;
+          }
+        }
+        temp.push(pro);
+      });
+      Uas.sourceFund = temp;
+      temp = [];
+      element.yearOutlay.forEach((e) => {
+        let pro = JSON.parse(JSON.stringify(Uas.yearOutlay[0]));
+        for (const key in e) {
+          pro[key] = e[key]["value"];
+          if (e[key]["lastValidation"] != true) {
+            this.data.isDraft = true;
+          }
+        }
+        temp.push(pro);
+      });
+      Uas.yearOutlay = temp;
+      newUaData.push(Uas);
+    });
+    let apiData = JSON.parse(JSON.stringify(this.data));
+    apiData.uaData = newUaData;
+    return apiData;
+  }
 
   getDataFromGrid(data, index) {
-    // console.log(this.data, "sssssssssssssssssssss");
-    // this.data.uasData[index] = data;
+    let temp = sessionStorage.getItem("actionPlans");
+    let t = this.makeApiData();
+    if (JSON.stringify(t) != temp) {
+      sessionStorage.setItem("changeInActionPlans", "true");
+    } else {
+      sessionStorage.setItem("changeInActionPlans", "false");
+    }
+  }
+
+  openModal(template: TemplateRef<any>) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRefForNavigation = this.dialog.open(template, dialogConfig);
+    this.dialogRefForNavigation.afterClosed().subscribe((result) => {
+      if (result === undefined) {
+        if (this.routerNavigate) {
+          this.routerNavigate = null;
+        }
+      }
+    });
+  }
+
+  stay() {
+    this.dialogRefForNavigation.close(true);
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+  }
+
+  proceed() {
+    this.dialogRefForNavigation.close(true);
+    this.submit(true);
+  }
+
+  alertClose() {
+    this.dialogRefForNavigation.close(true);
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+  }
+
+  onPreview() {
+    let data = this.makeApiData();
+    let dialogRef = this.dialog.open(ActionplanspreviewComponent, {
+      data: data,
+      height: "80%",
+      width: "90%",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }
 
