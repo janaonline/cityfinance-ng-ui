@@ -31,7 +31,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       if (id) {
         this.id = id;
         console.log('stid', id)
-       // sessionStorage.setItem('row_id', id);
+        // sessionStorage.setItem('row_id', id);
       }
     });
 
@@ -248,7 +248,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     console.log('overview', this.isUA, this.isMillionPlus)
     if (this.isUA == 'Yes' && this.isMillionPlus == 'Yes') {
       this.cardsOverview = this.cardsOverview;
-      this.formValue = 5;
+      this.formValue = 4;
       this.factor = 100 / this.formValue;
       this.numcard = 7;
     }

@@ -367,8 +367,8 @@
                 </div>
                 <div>
                     <div matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
-                        <button mat-raised-button class="subBtn" [disabled]="!validate"
-                            (click)="finalSubmit()">Submit</button>
+                        <button mat-raised-button class="subBtn" [disabled]="!validate || submitted"
+                            (click)="finalSubmit()">{{submitted ? "Submitted" : "Submit"}}</button>
                     </div>
                 </div>
             </div>
